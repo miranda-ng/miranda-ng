@@ -129,5 +129,11 @@ public:
 	std::string m_timestamp;
 	int m_interval;	
 	int m_updateRate;
+};
 
+struct CMPlugin : public ACCPROTOPLUGIN<MinecraftDynmapProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<MinecraftDynmapProto>("MinecraftDynmap")
+	{}
 };

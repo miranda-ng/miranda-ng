@@ -64,52 +64,39 @@ void CIrcProto::InitMainMenus(void)
 
 static HGENMENU hUMenuChanSettings, hUMenuWhois, hUMenuDisconnect, hUMenuIgnore;
 
-static CIrcProto* IrcGetInstanceByHContact(MCONTACT hContact)
+static INT_PTR IrcMenuChanSettings(WPARAM hContact, LPARAM lParam)
 {
-	char* szProto = GetContactProto(hContact);
-	if (szProto == nullptr)
-		return nullptr;
-
-	for (auto &it : g_Instances)
-		if (!mir_strcmp(szProto, it->m_szModuleName))
-			return it;
-
-	return nullptr;
+	CIrcProto *ppro = CMPlugin::getInstance(hContact);
+	return (ppro) ? ppro->OnMenuChanSettings(hContact, lParam) : 0;
 }
 
-static INT_PTR IrcMenuChanSettings(WPARAM wParam, LPARAM lParam)
+static INT_PTR IrcMenuWhois(WPARAM hContact, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
-	return (ppro) ? ppro->OnMenuChanSettings(wParam, lParam) : 0;
+	CIrcProto *ppro = CMPlugin::getInstance(hContact);
+	return (ppro) ? ppro->OnMenuWhois(hContact, lParam) : 0;
 }
 
-static INT_PTR IrcMenuWhois(WPARAM wParam, LPARAM lParam)
+static INT_PTR IrcMenuDisconnect(WPARAM hContact, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
-	return (ppro) ? ppro->OnMenuWhois(wParam, lParam) : 0;
+	CIrcProto *ppro = CMPlugin::getInstance(hContact);
+	return (ppro) ? ppro->OnMenuDisconnect(hContact, lParam) : 0;
 }
 
-static INT_PTR IrcMenuDisconnect(WPARAM wParam, LPARAM lParam)
+static INT_PTR IrcMenuIgnore(WPARAM hContact, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
-	return (ppro) ? ppro->OnMenuDisconnect(wParam, lParam) : 0;
+	CIrcProto *ppro = CMPlugin::getInstance(hContact);
+	return (ppro) ? ppro->OnMenuIgnore(hContact, lParam) : 0;
 }
 
-static INT_PTR IrcMenuIgnore(WPARAM wParam, LPARAM lParam)
-{
-	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
-	return (ppro) ? ppro->OnMenuIgnore(wParam, lParam) : 0;
-}
-
-int IrcPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int IrcPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	Menu_ShowItem(hUMenuChanSettings, false);
 	Menu_ShowItem(hUMenuWhois, false);
 	Menu_ShowItem(hUMenuDisconnect, false);
 	Menu_ShowItem(hUMenuIgnore, false);
 
-	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
-	return (ppro) ? ppro->OnMenuPreBuild(wParam, lParam) : 0;
+	CIrcProto *ppro = CMPlugin::getInstance(hContact);
+	return (ppro) ? ppro->OnMenuPreBuild(hContact, lParam) : 0;
 }
 
 void InitContactMenus(void)

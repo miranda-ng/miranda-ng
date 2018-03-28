@@ -1647,7 +1647,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 	debugLogA("Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom.c_str(), wszMessage.c_str());
 
 	// processing
-	if (dwFlags & (MESSAGE_FLAG_SMS | MESSAGE_SMS_DELIVERY_REPORT)) {// SMS //if (IsPhone(plpsFrom->lpszData, plpsFrom->dwSize))
+	if (dwFlags & (MESSAGE_FLAG_SMS | MESSAGE_SMS_DELIVERY_REPORT)) { // SMS 
 		INTERNET_TIME itTime;
 		InternetTimeGetCurrentTime(&itTime);
 		CMStringA szTime = InternetTimeGetString(&itTime);

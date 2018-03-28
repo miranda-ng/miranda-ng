@@ -25,11 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static ThreadData* FindThreadConn(HNETLIBCONN hConn)
 {
-	ThreadData *res = nullptr;
-	for (int i = 0; i < g_Instances.getCount() && res == nullptr; ++i)
-		res = g_Instances[i].MSN_GetThreadByConnection(hConn);
+	for (auto &it : CMPlugin::g_arInstances) {
+		ThreadData *res = it->MSN_GetThreadByConnection(hConn);
+		if (res != nullptr)
+			return res;
+	}
 
-	return res;
+	return nullptr;
 }
 
 //=======================================================================================

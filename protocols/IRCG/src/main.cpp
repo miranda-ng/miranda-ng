@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "version.h"
 
+CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst = nullptr;
@@ -34,13 +35,6 @@ static int CompareServers( const SERVER_INFO* p1, const SERVER_INFO* p2 )
 }
 
 OBJLIST<SERVER_INFO> g_servers( 20, CompareServers );
-
-static int sttCompareProtocols(const CIrcProto *p1, const CIrcProto *p2)
-{
-	return mir_strcmp(p1->m_szModuleName, p2->m_szModuleName);
-}
-
-LIST<CIrcProto> g_Instances(1, sttCompareProtocols);
 
 void UninitTimers( void );
 
@@ -93,29 +87,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UninitTimers();
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* ircProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	CIrcProto *ppro = new CIrcProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int ircProtoUninit(PROTO_INTERFACE *ppro)
-{
-	g_Instances.remove((CIrcProto*)ppro);
-	delete (CIrcProto*)ppro;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("IRC")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, ircProtoInit, ircProtoUninit);
-	}
-}
-	g_plugin;

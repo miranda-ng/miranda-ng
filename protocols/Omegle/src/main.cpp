@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // TODO: Make following as "globals" structure?
 
+CMPlugin g_plugin;
 CLIST_INTERFACE* pcli;
 int hLangpack;
 
@@ -43,15 +44,6 @@ PLUGININFOEX pluginInfo = {
 	// {9E1D9244-606C-4ef4-99A0-1D7D23CB7601}
 	{ 0x9e1d9244, 0x606c, 0x4ef4, { 0x99, 0xa0, 0x1d, 0x7d, 0x23, 0xcb, 0x76, 0x1 } }
 };
-
-/////////////////////////////////////////////////////////////////////////////
-// Protocol instances
-static int compare_protos(const OmegleProto *p1, const OmegleProto *p2)
-{
-	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
-OBJLIST<OmegleProto> g_Instances(1, compare_protos);
 
 DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {
@@ -117,28 +109,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
-{
-	OmegleProto *proto = new OmegleProto(proto_name, username);
-	g_Instances.insert(proto);
-	return proto;
-}
-
-static int protoUninit(PROTO_INTERFACE* proto)
-{
-	g_Instances.remove((OmegleProto*)proto);
-	return EXIT_SUCCESS;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("Omegle")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
-	}
-}
-	g_plugin;

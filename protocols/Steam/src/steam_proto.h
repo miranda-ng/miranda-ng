@@ -75,12 +75,6 @@ public:
 
 	virtual int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
-	// instances
-	static CSteamProto* InitAccount(const char* protoName, const wchar_t *userName);
-	static int UninitAccount(CSteamProto* ppro);
-
-	static CSteamProto* GetContactAccount(MCONTACT hContact);
-
 	// menus
 	static void InitMenus();
 
@@ -109,10 +103,6 @@ protected:
 	 * may start sooner than steam_history requests so it could possibly break getting history messages from server
 	 */
 	time_t m_lastMessageTS;
-
-	// instances
-	static LIST<CSteamProto> Accounts;
-	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
 
 	// requests
 	void SendRequest(HttpRequest *request);
@@ -282,6 +272,13 @@ protected:
 		mir_snprintf(accountId, "%llu", steamId - 76561197960265728ll);
 		return accountId;
 	}
+};
+
+struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CSteamProto>("STEAM")
+	{}
 };
 
 int OnReloadIcons(WPARAM wParam, LPARAM lParam);

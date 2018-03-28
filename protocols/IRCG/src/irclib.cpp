@@ -1412,7 +1412,7 @@ LBL_Parse:
 		if (iParamCnt != 2)
 			cbLen = mir_snprintf(buf, "%s : ERROR : UNKNOWN-ERROR\r\n", szBuf);
 		else {
-			for (auto &it : g_Instances)
+			for (auto &it : CMPlugin::g_arInstances)
 				if (PeerPortNrRcvd == it->m_info.iPort && LocalPortNrRcvd == it->m_myLocalPort) {
 					cbLen = mir_snprintf(buf, "%s : USERID : %S : %S\r\n",
 						szBuf, it->m_info.sIdentServerType.c_str(), it->m_info.sUserID.c_str());

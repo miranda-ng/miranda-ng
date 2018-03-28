@@ -309,5 +309,11 @@ inline void GaduProto::gg_sleep(DWORD miliseconds, BOOL alterable, char* calling
 #endif
 }
 
+struct CMPlugin : public ACCPROTOPLUGIN<GaduProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<GaduProto>(GGDEF_PROTO)
+	{}
+};
 
 #endif

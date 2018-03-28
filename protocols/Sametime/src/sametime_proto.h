@@ -143,9 +143,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void InitPlaces(mwSession* session);
 	void DeinitPlaces(mwSession* session);
 
-
-
-
 	/* properties */
 
 	char szProtoGroups[128];
@@ -196,7 +193,12 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 
 };
 
-
+struct CMPlugin : public ACCPROTOPLUGIN<CSametimeProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CSametimeProto>("Sametime")
+	{}
+};
 
 typedef struct tag_TFakeAckParams {
 	CSametimeProto* proto;
@@ -226,6 +228,4 @@ struct PopupData {
 	CSametimeProto* proto;
 };
 
-
 #endif //#ifndef _SAMETIME_PROTO_H
-

@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "proto.h"
 #include "theme.h"
 
+CMPlugin g_plugin;
 CLIST_INTERFACE* pcli;
 
 HINSTANCE g_hInstance;
@@ -39,16 +40,6 @@ PLUGININFOEX pluginInfo = {
 	//{BC09A71B-B86E-4d33-B18D-82D30451DD3C}
 	{ 0xbc09a71b, 0xb86e, 0x4d33, { 0xb1, 0x8d, 0x82, 0xd3, 0x4, 0x51, 0xdd, 0x3c } }
 };
-
-/////////////////////////////////////////////////////////////////////////////
-// Protocol instances
-
-static int compare_protos(const TwitterProto *p1, const TwitterProto *p2)
-{
-	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
-OBJLIST<TwitterProto> g_Instances(1, compare_protos);
 
 DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {
@@ -87,28 +78,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
-{
-	TwitterProto *proto = new TwitterProto(proto_name, username);
-	g_Instances.insert(proto);
-	return proto;
-}
-
-static int protoUninit(PROTO_INTERFACE *proto)
-{
-	g_Instances.remove(static_cast<TwitterProto*>(proto));
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("Twitter")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
-	}
-}
-	g_plugin;

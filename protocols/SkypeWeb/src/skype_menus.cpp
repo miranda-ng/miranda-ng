@@ -48,7 +48,7 @@ int CSkypeProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	for (auto &it : ContactMenuItems)
 		Menu_ShowItem(it, false);
-	CSkypeProto *proto = CSkypeProto::GetContactAccount(hContact);
+	CSkypeProto *proto = CMPlugin::getInstance(hContact);
 	return proto ? proto->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 

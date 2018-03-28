@@ -189,3 +189,53 @@ protected:
 		CreateServiceFunctionObjParam(str, (MIRANDASERVICEOBJPARAM)*(void**)&pFunc, this, param);
 	}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Basic class for protocols with accounts
+
+struct CMPlugin;
+
+template<class P> class ACCPROTOPLUGIN : public PLUGIN<CMPlugin>
+{
+	typedef PLUGIN<CMPlugin> CSuper;
+
+protected:
+	ACCPROTOPLUGIN(const char *moduleName) :
+		CSuper(moduleName)
+	{
+		CMPluginBase::RegisterProtocol(PROTOTYPE_PROTOCOL, &fnInit, &fnUninit);
+	}
+
+	static PROTO_INTERFACE* fnInit(const char *szModuleName, const wchar_t *wszAccountName)
+	{
+		P *ppro = new P(szModuleName, wszAccountName);
+		g_arInstances.insert(ppro);
+		return ppro;
+	}
+
+	static int fnUninit(PROTO_INTERFACE *ppro)
+	{
+		g_arInstances.remove((P*)ppro);
+		return 0;
+	}
+
+public:
+	static OBJLIST<P> g_arInstances;
+
+	static P* getInstance(const char *szProto)
+	{
+		for (auto &it : g_arInstances)
+			if (mir_strcmp(szProto, it->m_szModuleName) == 0)
+				return it;
+
+		return nullptr;
+	}
+
+	static P* getInstance(MCONTACT hContact)
+	{
+		return getInstance(::GetContactProto(hContact));
+	}
+};
+
+template<class P>
+OBJLIST<P> ACCPROTOPLUGIN<P>::g_arInstances(1, PtrKeySortT);

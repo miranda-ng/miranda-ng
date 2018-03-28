@@ -81,24 +81,10 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PROTO_INTERFACE* dummyProtoInit(const char* pszProtoName, const wchar_t *tszUserName)
-{
-	CDummyProto *ppro = new CDummyProto(pszProtoName, tszUserName);
-	return ppro;
-}
-
-static int dummyProtoUninit(PROTO_INTERFACE *ppro)
-{
-	delete (CDummyProto*)ppro;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
 {
 	CMPlugin() :
-		CMPluginBase("Dummy")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, dummyProtoInit, dummyProtoUninit);
-	}
+		ACCPROTOPLUGIN<CDummyProto>("Dummy")
+	{}
 }
 	g_plugin;

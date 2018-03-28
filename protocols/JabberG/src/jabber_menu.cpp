@@ -72,74 +72,61 @@ static INT_PTR JabberMenuChooseService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static CJabberProto* JabberGetInstanceByHContact(MCONTACT hContact)
+static INT_PTR JabberMenuConvertChatContact(WPARAM hContact, LPARAM lParam)
 {
-	char *szProto = GetContactProto(hContact);
-	if (szProto == nullptr)
-		return nullptr;
-
-	for (auto &it : g_Instances)
-		if (!mir_strcmp(szProto, it->m_szModuleName))
-			return it;
-
-	return nullptr;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnMenuConvertChatContact(hContact, lParam) : 0;
 }
 
-static INT_PTR JabberMenuConvertChatContact(WPARAM wParam, LPARAM lParam)
+static INT_PTR JabberMenuRosterAdd(WPARAM hContact, LPARAM lParam)
 {
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuConvertChatContact(wParam, lParam) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnMenuRosterAdd(hContact, lParam) : 0;
 }
 
-static INT_PTR JabberMenuRosterAdd(WPARAM wParam, LPARAM lParam)
+static INT_PTR JabberMenuBookmarkAdd(WPARAM hContact, LPARAM lParam)
 {
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuRosterAdd(wParam, lParam) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnMenuBookmarkAdd(hContact, lParam) : 0;
 }
 
-static INT_PTR JabberMenuBookmarkAdd(WPARAM wParam, LPARAM lParam)
+static INT_PTR JabberMenuTransportLogin(WPARAM hContact, LPARAM lParam)
 {
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuBookmarkAdd(wParam, lParam) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnMenuTransportLogin(hContact, lParam) : 0;
 }
 
-static INT_PTR JabberMenuTransportLogin(WPARAM wParam, LPARAM lParam)
+static INT_PTR JabberMenuTransportResolve(WPARAM hContact, LPARAM lParam)
 {
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuTransportLogin(wParam, lParam) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnMenuTransportResolve(hContact, lParam) : 0;
 }
 
-static INT_PTR JabberMenuTransportResolve(WPARAM wParam, LPARAM lParam)
+static INT_PTR JabberContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 {
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuTransportResolve(wParam, lParam) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->ContactMenuRunCommands(hContact, lParam) : 0;
 }
 
-static INT_PTR JabberContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
+static INT_PTR JabberMenuSendNote(WPARAM hContact, LPARAM lParam)
 {
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->ContactMenuRunCommands(wParam, lParam) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnMenuSendNote(hContact, lParam) : 0;
 }
 
-static INT_PTR JabberMenuSendNote(WPARAM wParam, LPARAM lParam)
+static INT_PTR JabberMenuHandleResource(WPARAM hContact, LPARAM lParam, LPARAM lRes)
 {
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuSendNote(wParam, lParam) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnMenuHandleResource(hContact, lParam, lRes) : 0;
 }
 
-static INT_PTR JabberMenuHandleResource(WPARAM wParam, LPARAM lParam, LPARAM lRes)
+static INT_PTR JabberMenuHandleDirectPresence(WPARAM hContact, LPARAM lParam, LPARAM lRes)
 {
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuHandleResource(wParam, lParam, lRes) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnMenuHandleDirectPresence(hContact, lParam, lRes) : 0;
 }
 
-static INT_PTR JabberMenuHandleDirectPresence(WPARAM wParam, LPARAM lParam, LPARAM lRes)
-{
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuHandleDirectPresence(wParam, lParam, lRes) : 0;
-}
-
-static int JabberPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+static int JabberPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	Menu_ShowItem(g_hMenuCommands, FALSE);
 	Menu_ShowItem(g_hMenuSendNote, FALSE);
@@ -151,8 +138,8 @@ static int JabberPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ShowItem(g_hMenuResourcesRoot, FALSE);
 	Menu_ShowItem(g_hMenuDirectPresence[0], FALSE);
 
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	return(ppro) ? ppro->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
 void g_MenuInit(void)
@@ -790,7 +777,7 @@ static INT_PTR g_ToolbarHandleServiceDiscovery(WPARAM w, LPARAM l)
 
 int g_OnToolbarInit(WPARAM, LPARAM)
 {
-	if (g_Instances.getCount() == 0)
+	if (CMPlugin::g_arInstances.getCount() == 0)
 		return 0;
 
 	TTBButton ttb = {};
@@ -1043,25 +1030,26 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 
 CJabberProto* JabberChooseInstance(bool bIsLink)
 {
-	if (g_Instances.getCount() == 0)
+	if (CMPlugin::g_arInstances.getCount() == 0)
 		return nullptr;
 
-	if (g_Instances.getCount() == 1) {
-		if (g_Instances[0]->m_iStatus != ID_STATUS_OFFLINE && g_Instances[0]->m_iStatus != ID_STATUS_CONNECTING)
-			return g_Instances[0];
+	if (CMPlugin::g_arInstances.getCount() == 1) {
+		if (CMPlugin::g_arInstances[0].m_iStatus != ID_STATUS_OFFLINE && CMPlugin::g_arInstances[0].m_iStatus != ID_STATUS_CONNECTING)
+			return &CMPlugin::g_arInstances[0];
+		
 		return nullptr;
 	}
 
 	if (bIsLink)
-		for (auto &it : g_Instances)
+		for (auto &it : CMPlugin::g_arInstances)
 			if (it->m_bProcessXMPPLinks)
 				return it;
 
 	int nItems = 0, lastItemId = 0;
-	for (auto &ppro : g_Instances) {
+	for (auto &ppro : CMPlugin::g_arInstances) {
 		if (ppro->m_iStatus != ID_STATUS_OFFLINE && ppro->m_iStatus != ID_STATUS_CONNECTING) {
 			++nItems;
-			lastItemId = g_Instances.indexOf(&ppro) + 1;
+			lastItemId = CMPlugin::g_arInstances.indexOf(&ppro) + 1;
 			Menu_ModifyItem(ppro->m_hChooseMenuItem, nullptr, Skin_LoadProtoIcon(ppro->m_szModuleName, ppro->m_iStatus));
 		}
 		else Menu_ShowItem(ppro->m_hChooseMenuItem, false);
@@ -1085,5 +1073,5 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 		return nullptr;
 	}
 
-	return lastItemId ? g_Instances[lastItemId - 1] : nullptr;
+	return lastItemId ? &CMPlugin::g_arInstances[lastItemId - 1] : nullptr;
 }

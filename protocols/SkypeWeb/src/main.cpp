@@ -17,6 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CMPlugin g_plugin; 
 int hLangpack;
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
@@ -91,15 +92,3 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 	}
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("SKYPE")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CSkypeProto::InitAccount, (pfnUninitProto)CSkypeProto::UninitAccount);
-	}
-}
-	g_plugin;

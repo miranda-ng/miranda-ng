@@ -146,11 +146,11 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 	if (mir_wstrlen(uri) <= 4)
 		return 1;
 
-	if (Accounts.getCount() == 0)
+	if (CMPlugin::g_arInstances.getCount() == 0)
 		return 1;
 
 	CToxProto *proto = nullptr;
-	for (auto &it : Accounts) {
+	for (auto &it : CMPlugin::g_arInstances) {
 		if (it->IsOnline()) {
 			proto = it;
 			break;

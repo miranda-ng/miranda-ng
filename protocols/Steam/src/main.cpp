@@ -2,6 +2,7 @@
 
 int hLangpack;
 HINSTANCE g_hInstance;
+CMPlugin g_plugin;
 
 HANDLE hExtraXStatus;
 
@@ -52,15 +53,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("STEAM")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CSteamProto::InitAccount, (pfnUninitProto)CSteamProto::UninitAccount);
-	}
-}
-	g_plugin;

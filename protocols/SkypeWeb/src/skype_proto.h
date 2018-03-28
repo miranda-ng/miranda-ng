@@ -55,10 +55,6 @@ public:
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
 	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t *msg);
 
-	// accounts
-	static CSkypeProto* InitAccount(const char *protoName, const wchar_t *userName);
-	static int          UninitAccount(CSkypeProto *proto);
-
 	// icons
 	static void InitIcons();
 
@@ -123,11 +119,6 @@ private:
 
 	static UINT_PTR m_timer;
 
-	//---Accounts
-	static LIST<CSkypeProto> CSkypeProto::Accounts; 
-	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
-	//---/
-
 	RequestQueue *requestQueue;
 
 	bool m_bHistorySynced;
@@ -165,7 +156,6 @@ private:
 
 	EventHandle m_hTrouterHealthEvent;
 
-	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
@@ -427,9 +417,16 @@ private:
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
 	{
-		CSkypeProto *proto = GetContactAccount((MCONTACT)wParam);
+		CSkypeProto *proto = CMPlugin::getInstance((MCONTACT)wParam);
 		return proto ? (proto->*Service)(wParam, lParam) : 0;
 	}
+};
+
+struct CMPlugin : public ACCPROTOPLUGIN<CSkypeProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CSkypeProto>("SKYPE")
+	{}
 };
 
 #endif //_SKYPE_PROTO_H_

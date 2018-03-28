@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HINSTANCE hInst;
 HMODULE hMsftedit;
 
+CMPlugin g_plugin;
 int hLangpack;
 unsigned int g_nTempFileId;
 CHAT_MANAGER *pci;
@@ -70,14 +71,6 @@ void JabberUserInfoUninit(void);
 
 bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
-/////////////////////////////////////////////////////////////////////////////
-// Protocol instances
-static int sttCompareProtocols(const CJabberProto *p1, const CJabberProto *p2)
-{
-	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
-LIST<CJabberProto> g_Instances(1, sttCompareProtocols);
 /////////////////////////////////////////////////////////////////////////////
 
 BOOL WINAPI DllMain(HINSTANCE hModule, DWORD, LPVOID)
@@ -227,29 +220,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	g_MenuUninit();
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* jabberProtoInit(const char* pszProtoName, const wchar_t *tszUserName)
-{
-	CJabberProto *ppro = new CJabberProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int jabberProtoUninit(PROTO_INTERFACE *ppro)
-{
-	g_Instances.remove((CJabberProto*)ppro);
-	delete (CJabberProto*)ppro;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase(GLOBAL_SETTING_MODULE)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, jabberProtoInit, jabberProtoUninit);
-	}
-}
-	g_plugin;

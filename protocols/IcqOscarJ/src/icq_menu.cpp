@@ -30,41 +30,21 @@
 HGENMENU g_hContactMenuItems[3];
 HANDLE   g_hContactMenuSvc[3];
 
-static int sttCompareProtocols(const CIcqProto *p1, const CIcqProto *p2)
-{
-	return mir_strcmp(p1->m_szModuleName, p2->m_szModuleName);
-}
-
-LIST<CIcqProto> g_Instances(1, sttCompareProtocols);
-
-static CIcqProto* IcqGetInstanceByHContact(MCONTACT hContact)
-{
-	char* szProto = GetContactProto(hContact);
-	if (szProto == nullptr)
-		return nullptr;
-
-	for (auto &it : g_Instances)
-		if (!mir_strcmp(szProto, it->m_szModuleName))
-			return it;
-
-	return nullptr;
-}
-
 static INT_PTR IcqMenuHandleAddServContact(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
+	CIcqProto* ppro = CMPlugin::getInstance(wParam);
 	return (ppro) ? ppro->AddServerContact(wParam, lParam) : 0;
 }
 
 static INT_PTR IcqMenuHandleXStatusDetails(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
+	CIcqProto* ppro = CMPlugin::getInstance(wParam);
 	return (ppro) ? ppro->ShowXStatusDetails(wParam, lParam) : 0;
 }
 
 static INT_PTR IcqMenuHandleOpenProfile(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
+	CIcqProto* ppro = CMPlugin::getInstance(wParam);
 	return (ppro) ? ppro->OpenWebProfile(wParam, lParam) : 0;
 }
 
@@ -74,7 +54,7 @@ static int IcqPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], FALSE);
 	Menu_ShowItem(g_hContactMenuItems[ICMI_OPEN_PROFILE], FALSE);
 
-	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
+	CIcqProto* ppro = CMPlugin::getInstance(wParam);
 	return (ppro) ? ppro->OnPreBuildContactMenu(wParam, lParam) : 0;
 }
 

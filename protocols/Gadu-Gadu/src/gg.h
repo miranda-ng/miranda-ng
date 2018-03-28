@@ -260,7 +260,6 @@ struct GaduProto;
 
 extern HINSTANCE hInstance;
 extern CLIST_INTERFACE *pcli;
-extern LIST<GaduProto> g_Instances;
 extern PLUGININFOEX pluginInfo;
 extern IconItem iconList[];
 extern SSL_API sslApi;

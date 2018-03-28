@@ -17,38 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-LIST<CSkypeProto> CSkypeProto::Accounts(1, CSkypeProto::CompareAccounts);
-
-int CSkypeProto::CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2)
-{
-	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
-CSkypeProto* CSkypeProto::InitAccount(const char *protoName, const wchar_t *userName)
-{
-	mir_cslock lck(accountsLock);
-	CSkypeProto *proto = new CSkypeProto(protoName, userName);
-	Accounts.insert(proto);
-	return proto;
-}
-
-int CSkypeProto::UninitAccount(CSkypeProto *proto)
-{
-	mir_cslock lck(accountsLock);
-	Accounts.remove(proto);
-	delete proto;
-	return 0;
-}
-
-CSkypeProto* CSkypeProto::GetContactAccount(MCONTACT hContact)
-{
-	mir_cslock lck(accountsLock);
-	for (auto &it : Accounts)
-		if (mir_strcmpi(GetContactProto(hContact), it->m_szModuleName) == 0)
-			return it;
-	return nullptr;
-}
-
 int CSkypeProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	setAllContactStatuses(ID_STATUS_OFFLINE, true);

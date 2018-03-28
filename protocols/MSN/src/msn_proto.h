@@ -492,6 +492,11 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void   setStringUtf(MCONTACT hContact, const char* name, const char* value);
 };
 
-extern OBJLIST<CMsnProto> g_Instances;
+struct CMPlugin : public ACCPROTOPLUGIN<CMsnProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CMsnProto>("MSN")
+	{}
+};
 
 #endif

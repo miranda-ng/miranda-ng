@@ -48,10 +48,6 @@ public:
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
-	// accounts
-	static CToxProto* InitAccount(const char *protoName, const wchar_t *userName);
-	static int        UninitAccount(CToxProto *proto);
-
 	// icons
 	static void InitIcons();
 
@@ -116,11 +112,6 @@ private:
 	void __cdecl PollingThread(void*);
 
 	// accounts
-	static LIST<CToxProto> Accounts;
-	static int CompareAccounts(const CToxProto *p1, const CToxProto *p2);
-
-	static CToxProto* GetContactAccount(MCONTACT hContact);
-
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
 
@@ -254,6 +245,13 @@ private:
 	static bool IsFileExists(const wchar_t* path);
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob);
+};
+
+struct CMPlugin : public ACCPROTOPLUGIN<CToxProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CToxProto>("TOX")
+	{}
 };
 
 #endif //_TOX_PROTO_H_

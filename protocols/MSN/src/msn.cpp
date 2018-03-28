@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include "version.h"
 
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 HINSTANCE g_hInst, g_hOpenssl = nullptr;
 int hLangpack;
@@ -59,8 +60,6 @@ static int sttCompareProtocols(const CMsnProto *p1, const CMsnProto *p2)
 {
 	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
-
-OBJLIST<CMsnProto> g_Instances(1, sttCompareProtocols);
 
 //	Main DLL function
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
@@ -114,28 +113,3 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 // MirandaInterfaces - returns the protocol interface to the core
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* msnProtoInit(const char *pszProtoName, const wchar_t *tszUserName)
-{
-	CMsnProto *ppro = new CMsnProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int msnProtoUninit(PROTO_INTERFACE *ppro)
-{
-	g_Instances.remove((CMsnProto*)ppro);
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("MSN")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, msnProtoInit, msnProtoUninit);
-	}
-}
-	g_plugin;

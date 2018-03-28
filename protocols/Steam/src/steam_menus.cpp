@@ -4,10 +4,10 @@ int CSteamProto::hChooserMenu;
 HGENMENU CSteamProto::contactMenuItems[CMI_MAX];
 
 template<int(__cdecl CSteamProto::*Service)(WPARAM, LPARAM)>
-INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
+INT_PTR GlobalService(WPARAM hContact, LPARAM lParam)
 {
-	CSteamProto *ppro = CSteamProto::GetContactAccount((MCONTACT)wParam);
-	return ppro ? (ppro->*Service)(wParam, lParam) : 0;
+	CSteamProto *ppro = CMPlugin::getInstance((MCONTACT)hContact);
+	return ppro ? (ppro->*Service)(hContact, lParam) : 0;
 }
 
 INT_PTR CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
@@ -81,9 +81,8 @@ INT_PTR CSteamProto::OpenBlockListCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-int CSteamProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
+int CSteamProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
 	if (!hContact)
 		return 0;
 
@@ -106,13 +105,13 @@ int CSteamProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int CSteamProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int CSteamProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	for (int i = 0; i < CMI_MAX; i++)
 		Menu_ShowItem(CSteamProto::contactMenuItems[i], false);
 
-	CSteamProto* ppro = CSteamProto::GetContactAccount((MCONTACT)wParam);
-	return (ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;
+	CSteamProto* ppro = CMPlugin::getInstance((MCONTACT)hContact);
+	return (ppro) ? ppro->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
 void CSteamProto::OnInitStatusMenu()

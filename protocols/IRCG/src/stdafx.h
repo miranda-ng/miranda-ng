@@ -587,6 +587,13 @@ private:
 	CMStringW sNick4Perform;
 };
 
+struct CMPlugin : public ACCPROTOPLUGIN<CIrcProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CIrcProto>("IRC")
+	{}
+};
+
 // map actual member functions to their associated IRC command.
 // put any number of this macro in the class's constructor.
 #define	IRC_MAP_ENTRY(name, member)	\
@@ -597,8 +604,6 @@ private:
 
 //main.cpp
 extern HINSTANCE hInst;
-
-extern LIST<CIrcProto> g_Instances;
 
 extern OBJLIST<SERVER_INFO> g_servers;
 

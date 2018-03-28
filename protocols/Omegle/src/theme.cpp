@@ -22,8 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-extern OBJLIST<OmegleProto> g_Instances;
-
 static IconItem icons[] =
 {
 	{ LPGEN("Omegle Icon"), "omegle", IDI_OMEGLE },

@@ -38,12 +38,12 @@ PLUGININFOEX pluginInfo = {
 };
 
 // Other variables
+CMPlugin g_plugin;
 HINSTANCE hInstance;
 
 SSL_API sslApi;
 CLIST_INTERFACE *pcli;
 int hLangpack;
-LIST<GaduProto> g_Instances(1, PtrKeySortT);
 
 static unsigned long crc_table[256];
 
@@ -214,27 +214,11 @@ static int gg_modulesloaded(WPARAM, LPARAM)
 }
 
 //////////////////////////////////////////////////////////
-// Gets protocol instance associated with a contact
-//
-static GaduProto* gg_getprotoinstance(MCONTACT hContact)
-{
-	char* szProto = GetContactProto(hContact);
-	if (szProto == nullptr)
-		return nullptr;
-
-	for (auto &it : g_Instances)
-		if (mir_strcmp(szProto, it->m_szModuleName) == 0)
-			return it;
-
-	return nullptr;
-}
-
-//////////////////////////////////////////////////////////
 // Handles PrebuildContactMenu event
 //
 static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 {
-	GaduProto* gg = gg_getprotoinstance(hContact);
+	GaduProto* gg = CMPlugin::getInstance(hContact);
 	if (gg == nullptr)
 		return 0;
 
@@ -437,30 +421,3 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD, LPVOID)
 #endif
 	return TRUE;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* gg_proto_init(const char *pszProtoName, const wchar_t *tszUserName)
-{
-	GaduProto *gg = new GaduProto(pszProtoName, tszUserName);
-	g_Instances.insert(gg);
-	return gg;
-}
-
-static int gg_proto_uninit(PROTO_INTERFACE *proto)
-{
-	GaduProto *gg = (GaduProto*)proto;
-	g_Instances.remove(gg);
-	delete gg;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase(GGDEF_PROTO)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, gg_proto_init, gg_proto_uninit);
-	}
-}
-	g_plugin;

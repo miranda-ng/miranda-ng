@@ -20,8 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "theme.h"
 #include "proto.h"
 
-extern OBJLIST<TwitterProto> g_Instances;
-
 static IconItem icons[] =
 {
 	{ LPGEN("Twitter Icon"), "twitter", IDI_TWITTER },
@@ -57,32 +55,20 @@ HANDLE GetIconHandle(const char *name)
 static HGENMENU g_hMenuItems[2];
 
 // Helper functions
-static TwitterProto* GetInstanceByHContact(MCONTACT hContact)
-{
-	char *proto = GetContactProto(hContact);
-	if (!proto)
-		return nullptr;
-
-	for (auto &it : g_Instances)
-		if (!mir_strcmp(proto, it->m_szModuleName))
-			return it;
-
-	return nullptr;
-}
 
 template<INT_PTR(__cdecl TwitterProto::*Fcn)(WPARAM, LPARAM)>
-INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
+INT_PTR GlobalService(WPARAM hContact, LPARAM lParam)
 {
-	TwitterProto *proto = GetInstanceByHContact(MCONTACT(wParam));
-	return proto ? (proto->*Fcn)(wParam, lParam) : 0;
+	TwitterProto *proto = CMPlugin::getInstance(MCONTACT(hContact));
+	return proto ? (proto->*Fcn)(hContact, lParam) : 0;
 }
 
-static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	ShowContactMenus(false);
 
-	TwitterProto *proto = GetInstanceByHContact(MCONTACT(wParam));
-	return proto ? proto->OnPrebuildContactMenu(wParam, lParam) : 0;
+	TwitterProto *proto = CMPlugin::getInstance(MCONTACT(hContact));
+	return proto ? proto->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
 void InitContactMenus()

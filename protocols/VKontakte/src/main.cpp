@@ -73,24 +73,10 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PROTO_INTERFACE* protoInit(const char *pszProtoName, const wchar_t *wszUserName)
-{
-	CVkProto *ppro = new CVkProto(pszProtoName, wszUserName);
-	return ppro;
-}
-
-static int protoUninit(PROTO_INTERFACE *ppro)
-{
-	delete (CVkProto*)ppro;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public ACCPROTOPLUGIN<CVkProto>
 {
 	CMPlugin() :
-		CMPluginBase("VKontakte")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
-	}
+		ACCPROTOPLUGIN<CVkProto>("VKontakte")
+	{}
 }
 	g_plugin;

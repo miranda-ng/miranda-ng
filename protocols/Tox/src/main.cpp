@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 int hLangpack;
+CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
 HINSTANCE g_hInstance;
@@ -63,15 +64,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("TOX")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CToxProto::InitAccount, (pfnUninitProto)CToxProto::UninitAccount);
-	}
-}
-	g_plugin;

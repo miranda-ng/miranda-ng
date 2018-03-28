@@ -82,24 +82,11 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
-{
-	return new CDiscordProto(proto_name, username);
-}
-
-static int protoUninit(PROTO_INTERFACE *proto)
-{
-	delete (CDiscordProto*)proto;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public ACCPROTOPLUGIN<CDiscordProto>
 {
 	CMPlugin() :
-		CMPluginBase("Discord")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
-	}
+		ACCPROTOPLUGIN<CDiscordProto>("Discord")
+	{}
 }
 	g_plugin;
 

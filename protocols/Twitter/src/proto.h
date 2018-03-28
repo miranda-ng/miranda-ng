@@ -129,6 +129,13 @@ private:
 	wstring AuthorizeUrl;
 };
 
+struct CMPlugin : public ACCPROTOPLUGIN<TwitterProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<TwitterProto>("Twitter")
+	{}
+};
+
 // TODO: remove this
 inline std::string profile_base_url(const std::string &url)
 {

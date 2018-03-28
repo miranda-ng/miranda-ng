@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-LIST<CMraProto> g_Instances(1, PtrKeySortT);
+CMPlugin g_plugin;
 
-CLIST_INTERFACE *pcli;
 int hLangpack;
+CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -78,29 +78,3 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* mraProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	CMraProto *ppro = new CMraProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int mraProtoUninit(PROTO_INTERFACE *ppro)
-{
-	g_Instances.remove((CMraProto*)ppro);
-	delete (CMraProto*)ppro;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("MRA")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, mraProtoInit, mraProtoUninit);
-	}
-}
-	g_plugin;

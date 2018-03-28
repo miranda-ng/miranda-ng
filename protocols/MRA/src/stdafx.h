@@ -169,11 +169,7 @@ extern WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
 /////////////////////////////////////////////////////////////////////////////////////////
 //	External variables
 
-extern LIST<CMraProto> g_Instances;
-
 extern HANDLE hXStatusAdvancedStatusIcons[];
-
-void    InitExtraIcons();
 
 CMStringA MraGetSelfVersionString();
 
@@ -204,12 +200,7 @@ bool      IsContactMraProto(MCONTACT hContact);
 bool      IsEMailMR(const CMStringA& szEmail);
 bool      GetEMailFromString(const CMStringA& szBuff, CMStringA& szEmail);
 
-bool      IsPhone(LPSTR lpszString, size_t dwStringSize);
-bool      IsContactPhone(MCONTACT hContact, LPSTR lpszPhone, size_t dwPhoneSize);
-HANDLE    MraHContactFromPhone(LPSTR lpszPhone, size_t dwPhoneSize, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded);
 void      EnableControlsArray(HWND hWndDlg, WORD *pwControlsList, size_t dwControlsListCount, BOOL bEnabled);
-bool      MraRequestXStatusDetails(DWORD dwXStatus);
-bool      MraSendReplyBlogStatus(MCONTACT hContact);
 DWORD     GetYears(CONST PSYSTEMTIME pcstSystemTime);
 DWORD     FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD dwFileNameLen, LPWSTR lpszRetFilePathName, DWORD dwRetFilePathLen, DWORD *pdwRetFilePathLen);
 

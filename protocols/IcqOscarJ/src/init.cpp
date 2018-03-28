@@ -28,6 +28,7 @@
 #include "m_extraicons.h"
 #include "m_icolib.h"
 
+CMPlugin g_plugin;
 HINSTANCE hInst;
 int hLangpack;
 CLIST_INTERFACE *pcli;
@@ -161,28 +162,3 @@ void CIcqProto::UpdateGlobalSettings()
 	m_bMoodsEnabled = getByte("MoodsEnabled", DEFAULT_MOODS_ENABLED);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* icqProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	CIcqProto *ppro = new CIcqProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int icqProtoUninit(PROTO_INTERFACE* ppro)
-{
-	g_Instances.remove((CIcqProto*)ppro);
-	delete (CIcqProto*)ppro;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase(ICQ_PROTOCOL_NAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, icqProtoInit, icqProtoUninit);
-	}
-}
-	g_plugin;

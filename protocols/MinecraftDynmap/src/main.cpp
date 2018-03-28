@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 CLIST_INTERFACE* pcli;
 int hLangpack;
 
@@ -44,12 +45,6 @@ PLUGININFOEX pluginInfo = {
 
 /////////////////////////////////////////////////////////////////////////////
 // Protocol instances
-static int compare_protos(const MinecraftDynmapProto *p1, const MinecraftDynmapProto *p2)
-{
-	return wcscmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
-OBJLIST<MinecraftDynmapProto> g_Instances(1, compare_protos);
 
 DWORD WINAPI DllMain(HINSTANCE hInstance,DWORD,LPVOID)
 {
@@ -114,27 +109,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
-{
-	MinecraftDynmapProto *proto = new MinecraftDynmapProto(proto_name, username);
-	g_Instances.insert(proto);
-	return proto;
-}
-
-static int protoUninit(PROTO_INTERFACE* proto)
-{
-	g_Instances.remove((MinecraftDynmapProto*)proto);
-	return EXIT_SUCCESS;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("MinecraftDynmap")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
-	}
-}
-	g_plugin;

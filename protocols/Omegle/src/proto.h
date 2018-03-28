@@ -84,11 +84,7 @@ public:
 	void StopChat(bool disconnect = true);
 	void NewChat();
 
-	// Contacts handling
-	//bool    IsMyContact(HANDLE, bool include_chat = false);
-
 	// Chat handling
-	void AddChat(const wchar_t *id, const wchar_t *name);
 	void UpdateChat(const wchar_t *name, const wchar_t *message, bool addtochat = true);
 	void SendChatMessage(std::string message);
 	void AddChatContact(const wchar_t *nick);
@@ -106,4 +102,11 @@ public:
 	HANDLE  events_loop_lock_;
 
 	static void CALLBACK APC_callback(ULONG_PTR p);
+};
+
+struct CMPlugin : public ACCPROTOPLUGIN<OmegleProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<OmegleProto>("Omegle")
+	{}
 };

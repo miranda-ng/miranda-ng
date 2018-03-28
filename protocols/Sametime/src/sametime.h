@@ -107,8 +107,6 @@ struct CSametimeProto;
 
 extern HINSTANCE hInst;
 extern PLUGININFOEX pluginInfo;
-extern LIST<CSametimeProto> g_Instances;
-
 
 #include "sametime_proto.h"
 

@@ -118,6 +118,5 @@
 #include "icq_popups.h"
 #include "icq_proto.h"
 
-extern LIST<CIcqProto> g_Instances;
 extern bool g_bTerminated;
 extern IconItem iconList[];

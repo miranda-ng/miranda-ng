@@ -286,3 +286,10 @@ public:
 	HWND NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url = nullptr, std::string *notification_id = nullptr, const char *icon = nullptr);
 	void ShowNotifications();
 };
+
+struct CMPlugin : public ACCPROTOPLUGIN<FacebookProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<FacebookProto>(FACEBOOK_NAME)
+	{}
+};

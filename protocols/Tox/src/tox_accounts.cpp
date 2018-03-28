@@ -1,35 +1,5 @@
 #include "stdafx.h"
 
-LIST<CToxProto> CToxProto::Accounts(1, CToxProto::CompareAccounts);
-
-int CToxProto::CompareAccounts(const CToxProto *p1, const CToxProto *p2)
-{
-	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
-CToxProto* CToxProto::InitAccount(const char *protoName, const wchar_t *userName)
-{
-	CToxProto *proto = new CToxProto(protoName, userName);
-	Accounts.insert(proto);
-	return proto;
-}
-
-int CToxProto::UninitAccount(CToxProto *proto)
-{
-	Accounts.remove(proto);
-	delete proto;
-	return 0;
-}
-
-CToxProto* CToxProto::GetContactAccount(MCONTACT hContact)
-{
-	for (auto &it : Accounts)
-		if (mir_strcmpi(GetContactProto(hContact), it->m_szModuleName) == 0)
-			return it;
-	
-	return nullptr;
-}
-
 int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	Clist_GroupCreate(0, m_defaultGroup);

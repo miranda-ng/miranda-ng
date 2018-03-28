@@ -31,7 +31,7 @@ void CSkypeProto::ProcessTimer()
 void CALLBACK CSkypeProto::TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	mir_cslock lck(accountsLock);
-	for (auto &it : Accounts)
+	for (auto &it : CMPlugin::g_arInstances)
 		it->ProcessTimer();
 }
 
@@ -45,7 +45,7 @@ void CSkypeProto::SkypeSetTimer()
 void CSkypeProto::SkypeUnsetTimer()
 {
 	mir_cslock lck(timerLock);
-	if (m_timer && Accounts.getCount() == 0)
+	if (m_timer && CMPlugin::g_arInstances.getCount() == 0)
 		KillTimer(nullptr, m_timer);
 	m_timer = 0;
 }

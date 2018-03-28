@@ -895,4 +895,11 @@ struct CIcqProto : public PROTO<CIcqProto>
 	bool   validateStatusMessageRequest(MCONTACT hContact, WORD byMessageType);
 };
 
+struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CIcqProto>(ICQ_PROTOCOL_NAME)
+	{}
+};
+
 #endif

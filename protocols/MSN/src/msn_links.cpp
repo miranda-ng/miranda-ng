@@ -68,10 +68,10 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 
 	arg = NEWWSTR_ALLOCA(arg);
 
-	if (g_Instances.getCount() == 0) return 0;
+	if (CMPlugin::g_arInstances.getCount() == 0) return 0;
 
-	CMsnProto *proto = &g_Instances[0];
-	for (auto &it : g_Instances)
+	CMsnProto *proto = &CMPlugin::g_arInstances[0];
+	for (auto &it : CMPlugin::g_arInstances)
 		if (it->m_iStatus > ID_STATUS_OFFLINE) {
 			proto = it;
 			break;

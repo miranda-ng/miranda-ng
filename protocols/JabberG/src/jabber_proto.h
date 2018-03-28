@@ -933,6 +933,11 @@ private:
 	JabberFeatCapPairDynamic *FindFeature(const wchar_t *szFeature);
 };
 
-extern LIST<CJabberProto> g_Instances;
+struct CMPlugin : public ACCPROTOPLUGIN<CJabberProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CJabberProto>("JABBER")
+	{}
+};
 
 #endif

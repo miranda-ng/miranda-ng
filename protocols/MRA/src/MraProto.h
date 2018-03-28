@@ -339,3 +339,10 @@ struct CMraProto : public PROTO<CMraProto>
 
 	void    __cdecl MraAvatarsThreadProc(LPVOID lpParameter);
 };
+
+struct CMPlugin : public ACCPROTOPLUGIN<CMraProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CMraProto>("MRA")
+	{}
+};

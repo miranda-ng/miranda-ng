@@ -186,42 +186,29 @@ void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-static CMsnProto* GetProtoInstanceByHContact(MCONTACT hContact)
+static INT_PTR MsnMenuBlockCommand(WPARAM hContact, LPARAM lParam)
 {
-	char* szProto = GetContactProto(hContact);
-	if (szProto == nullptr)
-		return nullptr;
-
-	for (auto &it : g_Instances)
-		if (!mir_strcmp(szProto, it->m_szModuleName))
-			return it;
-
-	return nullptr;
+	CMsnProto* ppro = CMPlugin::getInstance(hContact);
+	return (ppro) ? ppro->MsnBlockCommand(hContact, lParam) : 0;
 }
 
-static INT_PTR MsnMenuBlockCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR MsnMenuViewProfile(WPARAM hContact, LPARAM lParam)
 {
-	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
-	return (ppro) ? ppro->MsnBlockCommand(wParam, lParam) : 0;
+	CMsnProto* ppro = CMPlugin::getInstance(hContact);
+	return (ppro) ? ppro->MsnViewProfile(hContact, lParam) : 0;
 }
 
-static INT_PTR MsnMenuViewProfile(WPARAM wParam, LPARAM lParam)
+static INT_PTR MsnMenuSendHotmail(WPARAM hContact, LPARAM lParam)
 {
-	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
-	return (ppro) ? ppro->MsnViewProfile(wParam, lParam) : 0;
+	CMsnProto* ppro = CMPlugin::getInstance(hContact);
+	return (ppro) ? ppro->MsnSendHotmail(hContact, lParam) : 0;
 }
 
-static INT_PTR MsnMenuSendHotmail(WPARAM wParam, LPARAM lParam)
+static int MSN_OnPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
-	return (ppro) ? ppro->MsnSendHotmail(wParam, lParam) : 0;
-}
-
-static int MSN_OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
-{
-	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
+	CMsnProto* ppro = CMPlugin::getInstance(hContact);
 	if (ppro)
-		ppro->OnPrebuildContactMenu(wParam, lParam);
+		ppro->OnPrebuildContactMenu(hContact, lParam);
 	else {
 		Menu_ShowItem(hBlockMenuItem, false);
 		Menu_ShowItem(hLiveSpaceMenuItem, false);

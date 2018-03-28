@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // TODO: Make following as "globals" structure?
 
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 int hLangpack;
 
@@ -44,15 +45,6 @@ PLUGININFOEX pluginInfo = {
 	{ 0x8432b009, 0xff32, 0x4727, { 0xaa, 0xe6, 0xa9, 0x3, 0x50, 0x38, 0xfd, 0x58 } }
 };
 
-/////////////////////////////////////////////////////////////////////////////
-// Protocol instances
-static int compare_protos(const FacebookProto *p1, const FacebookProto *p2)
-{
-	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
-OBJLIST<FacebookProto> g_Instances(1, compare_protos);
-
 DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {
 	g_hInstance = hInstance;
@@ -72,19 +64,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
-
-static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
-{
-	FacebookProto *proto = new FacebookProto(proto_name, username);
-	g_Instances.insert(proto);
-	return proto;
-}
-
-static int protoUninit(PROTO_INTERFACE* proto)
-{
-	g_Instances.remove((FacebookProto*)proto);
-	return EXIT_SUCCESS;
-}
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -120,15 +99,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase(FACEBOOK_NAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
-	}
-}
-	g_plugin;

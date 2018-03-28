@@ -16,6 +16,7 @@ PLUGININFOEX pluginInfo =
 	{ 0xf1b0ba1b, 0xc91, 0x4313, { 0x85, 0xeb, 0x22, 0x50, 0x69, 0xd4, 0x4d, 0x1 } } // {F1B0BA1B-0C91-4313-85EB-225069D44D01}
 };
 
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 LIST<CSametimeProto> g_Instances(1, PtrKeySortT);
@@ -255,33 +256,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload()
 {
-	g_Instances.destroy();
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static PROTO_INTERFACE* sametime_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	CSametimeProto* proto = new CSametimeProto(pszProtoName, tszUserName);
-	g_Instances.insert(proto);
-	return proto;
-}
-
-static int sametime_proto_uninit(PROTO_INTERFACE* ppro)
-{
-	CSametimeProto* proto = (CSametimeProto*)ppro;
-	g_Instances.remove(proto);
-	delete proto;
-	return 0;
-}
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase("Sametime")
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL, sametime_proto_init, sametime_proto_uninit);
-	}
-}
-	g_plugin;

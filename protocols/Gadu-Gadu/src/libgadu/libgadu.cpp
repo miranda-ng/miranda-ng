@@ -565,8 +565,8 @@ void *gg_recv_packet(struct gg_session *sess)
 
 		h.type = gg_fix32(h.type);
 		h.length = gg_fix32(h.length);
-	} else
-		memcpy(&h, sess->recv_buf, sizeof(h));
+	}
+	else memcpy(&h, sess->recv_buf, sizeof(h));
 
 	/* jakieś sensowne limity na rozmiar pakietu */
 	if (h.length > 65535) {

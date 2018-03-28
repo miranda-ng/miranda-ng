@@ -22,8 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-extern OBJLIST<FacebookProto> g_Instances;
-
 // Contact menu items
 HGENMENU g_hContactMenuVisitProfile;
 HGENMENU g_hContactMenuVisitFriendship;
@@ -69,23 +67,10 @@ HANDLE GetIconHandle(const char* name)
 }
 
 // Helper functions
-static FacebookProto * GetInstanceByHContact(MCONTACT hContact)
-{
-	char *proto = GetContactProto(hContact);
-	if (!proto)
-		return nullptr;
-
-	for (auto &it : g_Instances)
-		if (!mir_strcmp(proto, it->m_szModuleName))
-			return it;
-
-	return nullptr;
-}
-
 template<INT_PTR(__cdecl FacebookProto::*Fcn)(WPARAM, LPARAM)>
 INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 {
-	FacebookProto *proto = GetInstanceByHContact(MCONTACT(wParam));
+	FacebookProto *proto = CMPlugin::getInstance(MCONTACT(wParam));
 	return proto ? (proto->*Fcn)(wParam, lParam) : 0;
 }
 
@@ -102,7 +87,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ShowItem(g_hContactMenuLoadHistory, false);
 
 	// Process them in correct account
-	FacebookProto *proto = GetInstanceByHContact(MCONTACT(wParam));
+	FacebookProto *proto = CMPlugin::getInstance(MCONTACT(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam, lParam) : 0;
 }
 

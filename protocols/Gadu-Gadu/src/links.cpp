@@ -41,7 +41,7 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 {
 	char *arg = (char*)lParam;
 
-	if (g_Instances.getCount() == 0)
+	if (CMPlugin::g_arInstances.getCount() == 0)
 		return 0;
 
 	if (arg == nullptr)
@@ -60,7 +60,7 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 
 	GaduProto *gg = nullptr;
 	int items = 0;
-	for (auto &it : g_Instances) {
+	for (auto &it : CMPlugin::g_arInstances) {
 		gg = it;
 		if (it->m_iStatus > ID_STATUS_OFFLINE) {
 			++items;
@@ -117,7 +117,7 @@ void GaduProto::links_instance_init()
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CMenuItem mi;
 		mi.flags = CMIF_UNICODE;
-		mi.position = g_Instances.getCount();
+		mi.position = CMPlugin::g_arInstances.getCount();
 		mi.name.w = m_tszUserName;
 		hInstanceMenuItem = Menu_AddItem(hInstanceMenu, &mi, this);
 	}

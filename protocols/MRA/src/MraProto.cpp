@@ -2,7 +2,7 @@
 
 static int MraExtraIconsApplyAll(WPARAM, LPARAM)
 {
-	for (auto &it : g_Instances)
+	for (auto &it : CMPlugin::g_arInstances)
 		it->MraExtraIconsApply(0, 0);
 	return 0;
 }
