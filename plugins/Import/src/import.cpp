@@ -521,8 +521,6 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 		CopySettings(NULL, p->szSrcAcc, NULL, p->pa->szModuleName);
 		if (bImportSysAll)
 			arSkippedModules.insert(newStr(p->szSrcAcc));
-
-		Proto_ActivateAccount(p->pa);
 	}
 
 	CopySettings(NULL, META_PROTO, NULL, META_PROTO);

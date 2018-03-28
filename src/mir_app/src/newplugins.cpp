@@ -342,7 +342,7 @@ void Plugin_Uninit(pluginEntry *p)
 	pluginList.remove(p);
 }
 
-int Plugin_UnloadDyn(pluginEntry *p, bool bFreeDll)
+int Plugin_UnloadDyn(pluginEntry *p)
 {
 	if (p->bpi.hInst) {
 		if (CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
@@ -374,19 +374,13 @@ int Plugin_UnloadDyn(pluginEntry *p, bool bFreeDll)
 
 	NotifyFastHook(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
 
-	if (bFreeDll) {
-		Plugin_Uninit(p);
+	Plugin_Uninit(p);
 
-		// mark default plugins to be loaded
-		if (!p->bIsCore)
-			for (auto &it : pluginDefault)
-				if (it.pImpl == p)
-					it.pImpl = nullptr;
-	}
-	else if (p->bLoaded) {
-		p->bpi.Unload();
-		p->bLoaded = false;
-	}
+	// mark default plugins to be loaded
+	if (!p->bIsCore)
+		for (auto &it : pluginDefault)
+			if (it.pImpl == p)
+				it.pImpl = nullptr;
 
 	return TRUE;
 }
@@ -772,15 +766,24 @@ void UnloadNewPlugins(void)
 
 int LoadProtocolPlugins(void)
 {
+	wchar_t exe[MAX_PATH];
+	GetModuleFileName(nullptr, exe, _countof(exe));
+	wchar_t* slice = wcsrchr(exe, '\\');
+	if (slice) *slice = 0;
+
 	/* now loop thru and load all the other plugins, do this in one pass */
 	for (int i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
-		if (!p->bIsProtocol)
+		if (!p->bIsProtocol || p->bpi.hInst != nullptr)
 			continue;
 
-		if (!TryLoadPlugin(p, false)) {
-			Plugin_Uninit(p);
-			i--;
+		wchar_t tszFullPath[MAX_PATH];
+		mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, L"Plugins", p->pluginname);
+
+		BASIC_PLUGIN_INFO bpi;
+		if (checkAPI(tszFullPath, &bpi, 0, CHECKAPI_NONE)) {
+			p->bOk = p->bHasBasicApi = true;
+			p->bpi = bpi;
 		}
 	}
 
