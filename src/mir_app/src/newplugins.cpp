@@ -523,47 +523,42 @@ int isPluginOnWhiteList(const wchar_t* pluginname)
 
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 {
-	// if plugin is already loaded, don't ask questions, just mark it as loaded
-	if (p->bpi.hInst != nullptr) {
-		RegisterModule(p->bpi.hInst);
-		p->bLoaded = true;
-		return true;
-	}
-
-	if (!bDynamic && !isPluginOnWhiteList(p->pluginname))
-		return false;
-
-	if (!p->bHasBasicApi) {
-		wchar_t exe[MAX_PATH], tszFullPath[MAX_PATH];
-		GetModuleFileName(nullptr, exe, _countof(exe));
-		wchar_t* slice = wcsrchr(exe, '\\');
-		if (slice)
-			*slice = 0;
-
-		BASIC_PLUGIN_INFO bpi;
-		mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->bIsCore) ? L"Core" : L"Plugins", p->pluginname);
-		if (!checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
-			p->bFailed = true;
+	if (p->bpi.hInst == nullptr) {
+		if (!bDynamic && !isPluginOnWhiteList(p->pluginname))
 			return false;
+
+		if (!p->bHasBasicApi) {
+			wchar_t exe[MAX_PATH], tszFullPath[MAX_PATH];
+			GetModuleFileName(nullptr, exe, _countof(exe));
+			wchar_t* slice = wcsrchr(exe, '\\');
+			if (slice)
+				*slice = 0;
+
+			BASIC_PLUGIN_INFO bpi;
+			mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->bIsCore) ? L"Core" : L"Plugins", p->pluginname);
+			if (!checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+				p->bFailed = true;
+				return false;
+			}
+
+			p->bpi = bpi;
+			p->bOk = p->bHasBasicApi = true;
 		}
 
-		p->bpi = bpi;
-		p->bOk = p->bHasBasicApi = true;
-	}
+		if (p->bpi.Interfaces) {
+			MUUID *piface = p->bpi.Interfaces;
+			for (int i = 0; piface[i] != miid_last; i++) {
+				int idx = getDefaultPluginIdx(piface[i]);
+				if (idx != -1 && pluginDefault[idx].pImpl) {
+					if (!bDynamic) { // this place is already occupied, skip & disable
+						SetPluginOnWhiteList(p->pluginname, 0);
+						return false;
+					}
 
-	if (p->bpi.Interfaces) {
-		MUUID *piface = p->bpi.Interfaces;
-		for (int i = 0; piface[i] != miid_last; i++) {
-			int idx = getDefaultPluginIdx(piface[i]);
-			if (idx != -1 && pluginDefault[idx].pImpl) {
-				if (!bDynamic) { // this place is already occupied, skip & disable
-					SetPluginOnWhiteList(p->pluginname, 0);
-					return false;
+					// we're loading new implementation dynamically, let the old one die
+					if (!p->bIsCore)
+						Plugin_UnloadDyn(pluginDefault[idx].pImpl);
 				}
-
-				// we're loading new implementation dynamically, let the old one die
-				if (!p->bIsCore)
-					Plugin_UnloadDyn(pluginDefault[idx].pImpl);
 			}
 		}
 	}
