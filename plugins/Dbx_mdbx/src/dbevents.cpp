@@ -87,15 +87,15 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	MEVENT dwEventId = InterlockedIncrement(&m_dwMaxEventId);
 	{
-		txn_ptr trnlck(StartTran());
-
-		MDBX_val key = { &dwEventId, sizeof(MEVENT) }, data = { nullptr, sizeof(DBEvent) + dbe.cbBlob };
-		if (mdbx_put(trnlck, m_dbEvents, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
-			return 0;
-
-		DBEvent *pNewEvent = (DBEvent*)data.iov_base;
+		BYTE *recBuf = (BYTE*)_alloca(sizeof(DBEvent) + dbe.cbBlob);
+		DBEvent *pNewEvent = (DBEvent*)recBuf;
 		*pNewEvent = dbe;
 		memcpy(pNewEvent + 1, pBlob, dbe.cbBlob);
+
+		txn_ptr trnlck(StartTran());
+		MDBX_val key = { &dwEventId, sizeof(MEVENT) }, data = { recBuf, sizeof(DBEvent) + dbe.cbBlob };
+		if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
+			return 0;
 
 		// add a sorting key
 		DBEventSortingKey key2 = { contactID, dwEventId, dbe.timestamp };
@@ -106,7 +106,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 		cc->Advance(dwEventId, dbe);
 		if (contactID != 0) {
-				MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
+			MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
 			if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
 				return 0;
 
@@ -319,14 +319,16 @@ STDMETHODIMP_(BOOL) CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		if (cdbe->markedRead())
 			return cdbe->flags;
 
-		DBEventSortingKey keyVal = { contactID, hDbEvent, cdbe->timestamp };
-		if (mdbx_put(trnlck, m_dbEvents, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
-			return -1;
+		void *recBuf = _alloca(data.iov_len);
+		memcpy(recBuf, data.iov_base, data.iov_len);
+		data.iov_base = recBuf;
 
 		DBEvent *pNewEvent = (DBEvent*)data.iov_base;
-		*pNewEvent = *cdbe;
-
 		wRetVal = (pNewEvent->flags |= DBEF_READ);
+
+		DBEventSortingKey keyVal = { contactID, hDbEvent, cdbe->timestamp };
+		if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
+			return -1;
 
 		FindNextUnread(trnlck, cc, keyVal);
 		key.iov_len = sizeof(MCONTACT); key.iov_base = &contactID;

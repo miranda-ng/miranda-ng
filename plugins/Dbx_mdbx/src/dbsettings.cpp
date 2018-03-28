@@ -295,7 +295,6 @@ LBL_WriteString:
 	keyVal->dwModuleId = GetModuleID(dbcws->szModule);
 	memcpy(&keyVal->szSettingName, dbcws->szSetting, settingNameLen + 1);
 
-
 	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
 
 	switch (dbcwWork.value.type) {
@@ -310,33 +309,38 @@ LBL_WriteString:
 	case DBVT_BLOB:
 	case DBVT_ENCRYPTED:
 		data.iov_len = 3 + dbcwWork.value.cpbVal; break;
+
+	default:
+		return 1;
+	}
+
+	data.iov_base = _alloca(data.iov_len);
+
+	BYTE *pBlob = (BYTE*)data.iov_base;
+	*pBlob++ = dbcwWork.value.type;
+	switch (dbcwWork.value.type) {
+	case DBVT_BYTE:  *pBlob = dbcwWork.value.bVal; break;
+	case DBVT_WORD:  *(WORD*)pBlob = dbcwWork.value.wVal; break;
+	case DBVT_DWORD: *(DWORD*)pBlob = dbcwWork.value.dVal; break;
+
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+		*(WORD*)pBlob = dbcwWork.value.cchVal;
+		pBlob += 2;
+		memcpy(pBlob, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
+		break;
+
+	case DBVT_BLOB:
+	case DBVT_ENCRYPTED:
+		*(WORD*)pBlob = dbcwWork.value.cpbVal;
+		pBlob += 2;
+		memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 	}
 
 	{
 		txn_ptr trnlck(StartTran());
-		if (mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
+		if (mdbx_put(trnlck, m_dbSettings, &key, &data, 0) != MDBX_SUCCESS)
 			return 1;
-
-		BYTE *pBlob = (BYTE*)data.iov_base;
-		*pBlob++ = dbcwWork.value.type;
-		switch (dbcwWork.value.type) {
-		case DBVT_BYTE:  *pBlob = dbcwWork.value.bVal; break;
-		case DBVT_WORD:  *(WORD*)pBlob = dbcwWork.value.wVal; break;
-		case DBVT_DWORD: *(DWORD*)pBlob = dbcwWork.value.dVal; break;
-
-		case DBVT_ASCIIZ:
-		case DBVT_UTF8:
-			data.iov_len = *(WORD*)pBlob = dbcwWork.value.cchVal;
-			pBlob += 2;
-			memcpy(pBlob, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
-			break;
-
-		case DBVT_BLOB:
-		case DBVT_ENCRYPTED:
-			data.iov_len = *(WORD*)pBlob = dbcwWork.value.cpbVal;
-			pBlob += 2;
-			memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
-		}
 
 		if (trnlck.commit() != MDBX_SUCCESS)
 			return 1;

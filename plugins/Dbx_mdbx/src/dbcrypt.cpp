@@ -201,16 +201,19 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 					dwNewFlags = dbEvent->flags | DBEF_ENCRYPTED;
 				}
 
-				txn_ptr trnlck(StartTran());
 				data.iov_len = sizeof(DBEvent) + nNewBlob;
-				if (mdbx_put(trnlck, m_dbEvents, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
-					return 1;
+				mir_ptr<BYTE> pData((BYTE*)mir_alloc(data.iov_len));
+				data.iov_base = pData.get();
 
 				DBEvent *pNewDBEvent = (DBEvent *)data.iov_base;
 				*pNewDBEvent = *dbEvent;
 				pNewDBEvent->cbBlob = (uint16_t)nNewBlob;
 				pNewDBEvent->flags = dwNewFlags;
 				memcpy(pNewDBEvent + 1, pNewBlob, nNewBlob);
+
+				txn_ptr trnlck(StartTran());
+				if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
+					return 1;
 
 				if (trnlck.commit() != MDBX_SUCCESS)
 					return 1;
