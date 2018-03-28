@@ -222,6 +222,7 @@ bool CMsnProto::MSN_RefreshContactList(void)
 	Lists_Wipe();
 	Lists_Populate();
 
+	/*
 	if (MyOptions.netId != NETID_SKYPE)
 	{
 		// Get your own profile info (does not work anymore, byrdr died)
@@ -250,7 +251,8 @@ bool CMsnProto::MSN_RefreshContactList(void)
 		// Read my own profile from SOAP AB (does not work anymore, byrdr died)
 		//MSN_StoreGetProfile();
 	}
-	else
+	else 
+	*/
 	{
 		// Refresh Skype contact list
 		MSN_SKYABRefreshClist();

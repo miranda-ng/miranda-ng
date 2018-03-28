@@ -63,7 +63,8 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 	// initialize the netlib request
 	if (!APISkypeComRequest(&nlhr, headers)) return false;
 	nlhr.requestType = REQUEST_GET;
-	nlhr.szUrl = "https://api.skype.com/users/self/contacts";
+	nlhr.szUrl = "https://contacts.skype.com/contacts/v1/users/SELF/contacts";
+	
 
 	// Query addressbook
 	mHttpsTS = clock();
@@ -76,30 +77,37 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 			if (root == nullptr)
 				return false;
 
-			JSONNode *items = json_as_array(root), *item;
+			JSONNode *items = json_get(root, "contacts"), *item, *node;
 			for (size_t i = 0; i < json_size(items); i++) {
-				int lstId = LIST_FL;
-				ptrW nick;
-
+				int lstId = LIST_FL, type = NETID_SKYPE;
 				item = json_at(items, i);
 				if (item == nullptr)
 					break;
 
-				ptrA skypename(mir_u2a(ptrW(json_as_string(json_get(item, "skypename")))));
-				ptrA pszNick(mir_u2a(ptrW(get_json_str(item, "fullname"))));
-				char szWLId[128];
-				mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
-				MCONTACT hContact = MSN_HContactFromEmail(szWLId, pszNick, true, false);
+				ptrW value;
+				ptrA skypename(mir_u2a(ptrW(json_as_string(json_get(item, "id")))));
+				ptrA wlid(mir_u2a(ptrW(json_as_string(json_get(item, "person_id")))));
+				MCONTACT hContact = MSN_HContactFromEmail(wlid, skypename, false, false);
+
 				if (hContact) {
 					if (!json_as_bool(json_get(item, "authorized"))) lstId = LIST_PL;
 					if (!json_as_bool(json_get(item, "blocked"))) lstId = LIST_BL;
-					Lists_Add(lstId, NETID_SKYPE, skypename, NULL, pszNick, nullptr);
-					post.AppendFormat("contacts[]=%s&", skypename);
+					if ((node = json_get(item, "name")) && !node->empty()) {
+						if (value = get_json_str(node, "first")) setWString(hContact, "FirstName", value);
+					}
+					//if (value = get_json_str(item, "lastname")) setWString(hContact, "LastName", value);
+					if ((node = json_get(item, "locations")) && !node->empty()) {
+						if (value = get_json_str(node, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)_T2A(value), 0));
+						if (value = get_json_str(node, "city")) setWString(hContact, "City", value);
+					}
+					if (value = get_json_str(item, "mood")) db_set_ws(hContact, "CList", "StatusMsg", value);
+					if ((value = get_json_str(item, "type")) && mir_wstrcmp(value, L"skype")) type = NETID_MSN;
+					if (value = get_json_str(item, "display_name")) setWString(hContact, "Nick", value);
+					Lists_Add(lstId, type, skypename, NULL, value?ptrA(mir_u2a(value)):skypename, NULL);
 				}
 			}
 			bRet = true;
-			json_delete(items);
-			MSN_SKYABGetProfiles((const char*)post);
+			//MSN_SKYABGetProfiles((const char*)post);
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
@@ -274,7 +282,7 @@ bool CMsnProto::MSN_SKYABDeleteContact(const char *wlid)
 	// initialize the netlib request
 	if (!APISkypeComRequest(&nlhr, headers)) return false;
 	nlhr.requestType = REQUEST_DELETE;
-	mir_snprintf(szURL, sizeof(szURL), "https://api.skype.com/users/self/contacts/%s", wlid);
+	mir_snprintf(szURL, sizeof(szURL), "https://contacts.skype.com/contacts/v2/users/SELF/contacts/%s", wlid);
 	nlhr.szUrl = szURL;
 	nlhr.headers[3].szName = "Content-type";
 	nlhr.headers[3].szValue = "application/x-www-form-urlencoded";
@@ -303,7 +311,7 @@ bool CMsnProto::MSN_SKYABAuthRsp(const char *wlid, const char *pszAction)
 	// initialize the netlib request
 	if (!APISkypeComRequest(&nlhr, headers)) return false;
 	nlhr.requestType = REQUEST_PUT;
-	mir_snprintf(szURL, sizeof(szURL), "https://api.skype.com/users/self/contacts/auth-request/%s/%s", wlid, pszAction);
+	mir_snprintf(szURL, sizeof(szURL),  "https://contacts.skype.com/contacts/v2/users/SELF/invites/%s/%s", wlid, pszAction);
 	nlhr.szUrl = szURL;
 
 	mHttpsTS = clock();
@@ -329,13 +337,16 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 	// initialize the netlib request
 	if (!APISkypeComRequest(&nlhr, headers)) return false;
 	nlhr.requestType = REQUEST_PUT;
-	mir_snprintf(szURL, sizeof(szURL), "https://api.skype.com/users/self/contacts/auth-request/%s", wlid);
-	nlhr.szUrl = szURL;
+	nlhr.szUrl = "https://contacts.skype.com/contacts/v2/users/SELF/contacts";
 	nlhr.headers[3].szName = "Content-type";
 	nlhr.headers[3].szValue = "application/x-www-form-urlencoded";
 	nlhr.headersCount++;
-	post.Format("greeting=%s", pszGreeting);
-	nlhr.dataLength = (int)mir_strlen(post);
+	JSONNode node;
+	node 
+		<< JSONNode("mri", wlid)
+		<< JSONNode("greeting", pszGreeting);
+	post = node.write().c_str();
+	nlhr.dataLength = post.GetLength();
 	nlhr.pData = (char*)(const char*)post;
 
 	mHttpsTS = clock();
