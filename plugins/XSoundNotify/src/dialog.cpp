@@ -24,8 +24,8 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, SETTINGSNAME, "ChangeSoundDlg");
 			char* szProto = GetContactProto(hContact);
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			char* szUniqueId = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-			if ((INT_PTR)szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != nullptr) {
+			const char* szUniqueId = Proto_GetUniqueId(pa->szModuleName);
+			if (szUniqueId != nullptr) {
 				DBVARIANT dbvuid = { 0 };
 				if (!db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid)) {
 					wchar_t uid[MAX_PATH];

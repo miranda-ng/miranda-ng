@@ -65,7 +65,7 @@ static void FillContactList(HWND hList)
 		if (szProto) {
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 
-			char *szField = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+			const char *szField = Proto_GetUniqueId(szProto);
 
 			DBVARIANT dbv;
 			if (!db_get(g_data.hContact[i], szProto, szField, &dbv)) {

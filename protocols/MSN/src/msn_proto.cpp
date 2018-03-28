@@ -649,9 +649,6 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 	case PFLAG_UNIQUEIDTEXT:
 		return (UINT_PTR)Translate("Live ID");
 
-	case PFLAG_UNIQUEIDSETTING:
-		return (UINT_PTR)"wlid";
-
 	case PFLAG_MAXLENOFMESSAGE:
 		return 1202;
 

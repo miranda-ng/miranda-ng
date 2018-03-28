@@ -151,7 +151,6 @@ static __inline unsigned long Proto_Status2Flag(int status)
 
 #define PFLAG_UNIQUEIDTEXT          100 // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 #define PFLAG_MAXCONTACTSPERPACKET  200 // returns the maximum number of contacts which can be sent in a single PSS_CONTACTS, lParam = (LPARAM)hContact.
-#define PFLAG_UNIQUEIDSETTING       300 // returns the setting name of where the unique id is stored
 #define PFLAG_MAXLENOFMESSAGE       400 // return the maximum length of an instant message, lParam = (LPARAM)hContact
 
 ///////////////////////////////////////////////////////////////////////////////

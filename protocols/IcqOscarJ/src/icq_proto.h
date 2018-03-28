@@ -899,7 +899,9 @@ struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
 {
 	CMPlugin() :
 		ACCPROTOPLUGIN<CIcqProto>(ICQ_PROTOCOL_NAME)
-	{}
+	{
+		SetUniqueId(UNIQUEIDSETTING);
+	}
 };
 
 #endif

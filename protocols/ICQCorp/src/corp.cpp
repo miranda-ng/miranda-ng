@@ -88,6 +88,7 @@ struct CMPlugin : public CMPluginBase
 		strncpy_s(protoName, findData.cFileName, _TRUNCATE);
 
 		RegisterProtocol(PROTOTYPE_PROTOCOL);
+		SetUniqueId("UIN");
 	}
 }
 	g_plugin;

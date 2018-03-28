@@ -115,7 +115,7 @@ begin
     end
     else
     begin
-      uid:=pAnsiChar(CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
+      uid:=Proto_GetUniqueId(proto);
       if DBReadSetting(hContact,proto,uid,@cws)=0 then
       begin
         result:=1;

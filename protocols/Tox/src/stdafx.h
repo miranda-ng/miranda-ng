@@ -45,21 +45,6 @@ struct CToxProto;
 
 #define now() time(nullptr)
 
-#include "version.h"
-#include "resource.h"
-#include "tox_menus.h"
-#include "tox_thread.h"
-#include "tox_address.h"
-#include "tox_dialogs.h"
-#include "tox_profile.h"
-#include "tox_options.h"
-#include "tox_transfer.h"
-#include "tox_proto.h"
-
-#include "http_request.h"
-
-extern HINSTANCE g_hInstance;
-
 #define MODULE "Tox"
 
 #define TOX_ERROR -1
@@ -92,6 +77,20 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_MAX_AVATAR_SIZE 1 << 16 // 2 ^ 16 bytes
 
+#include "version.h"
+#include "resource.h"
+#include "tox_menus.h"
+#include "tox_thread.h"
+#include "tox_address.h"
+#include "tox_dialogs.h"
+#include "tox_profile.h"
+#include "tox_options.h"
+#include "tox_transfer.h"
+#include "tox_proto.h"
+
+#include "http_request.h"
+
+extern HINSTANCE g_hInstance;
 extern HANDLE hProfileFolderPath;
 
 #endif //_COMMON_H_

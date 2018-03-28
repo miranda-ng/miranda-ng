@@ -83,8 +83,6 @@ INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM)
 		return PF4_AVATARS;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR) "News Feed";
-	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR) "URL";
 	default:
 		return 0;
 	}

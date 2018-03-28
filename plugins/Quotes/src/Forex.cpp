@@ -241,8 +241,6 @@ INT_PTR QuoteProtoFunc_GetCaps(WPARAM wParam, LPARAM)
 	switch (wParam) {
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("Quote Symbol");
-	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR)DB_STR_QUOTE_SYMBOL;
 	}
 
 	return 0;
@@ -346,6 +344,7 @@ struct CMPlugin : public CMPluginBase
 		CMPluginBase(QUOTES_PROTOCOL_NAME)
 	{
 		RegisterProtocol(PROTOTYPE_VIRTUAL);
+		SetUniqueId(DB_STR_QUOTE_SYMBOL);
 	}
 }
 	g_plugin;

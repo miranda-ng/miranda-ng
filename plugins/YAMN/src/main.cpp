@@ -368,6 +368,7 @@ struct CMPlugin : public CMPluginBase
 		CMPluginBase(YAMN_DBMODULE)
 	{
 		RegisterProtocol(PROTOTYPE_VIRTUAL);
+		SetUniqueId("Id");
 	}
 }
 	g_plugin;

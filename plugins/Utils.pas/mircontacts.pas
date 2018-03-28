@@ -127,8 +127,8 @@ begin
   begin
     if Proto = nil then
       Proto := GetContactProto(hContact);
-    uid := PAnsiChar(CallProtoService(Proto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));
-    if (uid <> PAnsiChar(CALLSERVICE_NOTFOUND)) and (uid <> nil) then
+    uid := Proto_GetUniqueId(Proto);
+    if (uid <> nil) then
     begin
       // db_get_s comparing to DBGetContactSetting don't translate strings
       // when uType=0 (DBVT_ASIS)
@@ -275,8 +275,8 @@ begin
   uid:=nil;
   if not is_chat then
   begin
-    uid:=PAnsiChar(CallProtoService(Proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-    if uid=PAnsiChar(CALLSERVICE_NOTFOUND) then exit;
+    uid:=Proto_GetUniqueId(Proto);
+    if uid=nil then exit;
   end;
 
   hContact:=db_find_first();
@@ -371,8 +371,8 @@ begin
     end
     else
     begin
-      uid:=PAnsiChar(CallProtoService(Proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-      if uid<>PAnsiChar(CALLSERVICE_NOTFOUND) then
+      uid:=Proto_GetUniqueId(Proto);
+      if uid<>nil then
       begin
         if DBReadSetting(hContact,Proto,uid,@cws)=0 then
         begin
@@ -540,8 +540,8 @@ begin
         end
         else
         begin
-          uid:=PAnsiChar(CallProtoService(acc,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-          if uid<>PAnsiChar(CALLSERVICE_NOTFOUND) then
+          uid:=Proto_GetUniqueId(acc);
+          if uid<>nil then
           begin
             if DBReadSetting(hContact,acc,uid,@ldbv)=0 then
             begin

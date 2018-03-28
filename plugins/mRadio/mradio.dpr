@@ -211,5 +211,7 @@ begin
   desc._type :=PROTOTYPE_VIRTUAL;
   Proto_RegisterModule(@desc);
 
+  Proto_SetUniqueId(PluginName,optStationURL);
+
   DisableThreadLibraryCalls(hInstance);
 end.

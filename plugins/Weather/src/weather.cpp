@@ -241,6 +241,7 @@ struct CMPlugin : public CMPluginBase
 	{
 		opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus", true);
 		RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
+		SetUniqueId("ID");
 	}
 }
 	g_plugin;

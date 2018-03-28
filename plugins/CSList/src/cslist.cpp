@@ -70,8 +70,8 @@ static int OnDbChanged(WPARAM hContact, LPARAM lparam)
 
 	// if user changes his UIN or JID on any account
 	if (hContact == NULL) {
-		INT_PTR szUniqueID = CallProtoService(cws->szModule, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if (szUniqueID != CALLSERVICE_NOTFOUND && !mir_strcmp(cws->szSetting, (char*)szUniqueID))
+		const char *szUniqueID = Proto_GetUniqueId(cws->szModule);
+		if (!mir_strcmp(cws->szSetting, szUniqueID))
 			pcli->pfnReloadProtoMenus();
 	}
 	return 0;
@@ -322,7 +322,7 @@ void CSWindow::initIcons()
 	if (pdescr == nullptr)
 		return;
 
-	char *szUniqueID = (char*)CallProtoService(m_protoName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	const char *szUniqueID = Proto_GetUniqueId(m_protoName);
 	if (szUniqueID == nullptr)
 		return;
 
@@ -472,7 +472,7 @@ void CSAMWindow::setCombo()
 	if (pdescr == nullptr)
 		return;
 
-	char *szUniqueID = (char*)CallProtoService(pdescr->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	const char *szUniqueID = Proto_GetUniqueId(pdescr->szModuleName);
 	if (szUniqueID == nullptr)
 		return;
 

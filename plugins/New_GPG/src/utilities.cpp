@@ -1263,9 +1263,9 @@ void ExportGpGKeysFunc(int type)
 				mir_free(k);
 			}
 
-			const char* proto = (const char*)GetContactProto(hContact);
+			const char *proto = GetContactProto(hContact);
 			std::string id = "Comment: login ";
-			const char * uid = (const char*)CallProtoService(proto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
+			const char *uid = Proto_GetUniqueId(proto);
 			DBVARIANT dbv = { 0 };
 			db_get(0, proto, uid, &dbv);
 			switch (dbv.type) {
@@ -1467,7 +1467,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 			for (int i = 0; i < acc_count; i++) {
 				if (acc.length())
 					break;
-				const char * uid = (const char*)CallProtoService(accs[i]->szModuleName, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
+				const char *uid = Proto_GetUniqueId(accs[i]->szModuleName);
 				DBVARIANT dbv = { 0 };
 				db_get(0, accs[i]->szModuleName, uid, &dbv);
 				std::string id;
@@ -1532,7 +1532,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 				}
 			}
 			if (acc.length()) {
-				const char * uid = (const char*)CallProtoService(acc.c_str(), PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
+				const char *uid = Proto_GetUniqueId(acc.c_str());
 				for (auto &hContact : Contacts(acc.c_str())) {
 					DBVARIANT dbv = { 0 };
 					db_get(hContact, acc.c_str(), uid, &dbv);

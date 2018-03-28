@@ -68,9 +68,6 @@ static INT_PTR __cdecl EMPGetCaps(WPARAM wParam, LPARAM)
 		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("User name or '*'");
-	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR)"Nick";
-	case PFLAG_MAXLENOFMESSAGE: //FIXME
 	default:
 		return 0;
 	}
@@ -371,6 +368,7 @@ struct CMPlugin : public CMPluginBase
 		CMPluginBase(PROTONAME)
 	{
 		RegisterProtocol(PROTOTYPE_PROTOCOL);
+		SetUniqueId("Nick");
 	}
 }
 	g_plugin;

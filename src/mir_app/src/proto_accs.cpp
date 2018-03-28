@@ -392,8 +392,10 @@ void UnloadAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 {
 	DeactivateAccount(pa, bIsDynamic, bErase);
 
-	mir_free(pa->tszAccountName);
-	mir_free(pa->szProtoName);
+	replaceStrW(pa->tszAccountName, 0);
+	replaceStr(pa->szProtoName, 0);
+	replaceStr(pa->szUniqueId, 0);
+
 	// szModuleName should be freed only on a program's exit.
 	// otherwise many plugins dependand on static protocol names will crash!
 	// do NOT fix this 'leak', please

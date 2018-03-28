@@ -92,8 +92,6 @@ DWORD_PTR OmegleProto::GetCaps(int type, MCONTACT)
 		return OMEGLE_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("Visible name");
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR) "Nick";
 	}
 	return 0;
 }

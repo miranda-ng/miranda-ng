@@ -496,7 +496,9 @@ struct CMPlugin : public ACCPROTOPLUGIN<CMsnProto>
 {
 	CMPlugin() :
 		ACCPROTOPLUGIN<CMsnProto>("MSN")
-	{}
+	{
+		SetUniqueId("wlid");
+	}
 };
 
 #endif

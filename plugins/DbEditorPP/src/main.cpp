@@ -458,8 +458,8 @@ int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int max
 		case 5: // Unique id
 			if (szProto) {
 				// protocol must define a PFLAG_UNIQUEIDSETTING
-				char *uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
+				const char *uid = Proto_GetUniqueId(szProto);
+				if (uid)
 					GetValue(hContact, szProto, uid, name, _countof(name));
 			}
 			break;

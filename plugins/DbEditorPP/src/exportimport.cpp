@@ -124,8 +124,8 @@ char* NickFromHContact(MCONTACT hContact)
 				mir_strncpy(nick, name, _countof(nick));
 		}
 		else {
-			char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
+			const char *uid = Proto_GetUniqueId(szProto);
+			if (uid) {
 				char szUID[FLD_SIZE];
 				GetValueA(hContact, szProto, uid, szUID, _countof(szUID));
 				mir_snprintf(nick, "%s *(%s)*<%s>*{%s}*", name, szProto, uid, szUID);
@@ -316,13 +316,7 @@ void importSettings(MCONTACT hContact, char *utf8)
 
 						if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < _countof(szProto)) {
 							strncpy(szProto, p1 + 1, p2 - p1 - 3);
-
-							char *protouid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-							if ((INT_PTR)protouid != CALLSERVICE_NOTFOUND) {
-								if (!mir_strcmp(protouid, uid))
-									hContact = CheckNewContact(szProto, uid, szUID);
-							}
-							else hContact = CheckNewContact(szProto, uid, szUID);
+							hContact = CheckNewContact(szProto, uid, szUID);
 						}
 					}
 				}

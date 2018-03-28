@@ -260,9 +260,7 @@ BOOL isMetaContact(MCONTACT hContact)
 void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID, size_t dwIDSize)
 {
 	DBVARIANT dbv_uniqueid;
-	LPSTR uID = (LPSTR)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if (uID == (LPSTR)CALLSERVICE_NOTFOUND)
-		uID = nullptr;
+	LPCSTR uID = Proto_GetUniqueId(szProto);
 
 	szID[0] = 0;
 	if (uID && db_get(hContact, szProto, uID, &dbv_uniqueid) == 0) {

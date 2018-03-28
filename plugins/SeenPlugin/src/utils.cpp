@@ -70,7 +70,7 @@ int IsWatchedProtocol(const char* szProto)
 BOOL isYahoo(char *protoname)
 {
 	if (protoname) {
-		char *pszUniqueSetting = (char*)CallProtoService(protoname, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		const char *pszUniqueSetting = Proto_GetUniqueId(protoname);
 		if (pszUniqueSetting)
 			return !mir_strcmp(pszUniqueSetting, "yahoo_id");
 	}
@@ -80,7 +80,7 @@ BOOL isYahoo(char *protoname)
 BOOL isJabber(char *protoname)
 {
 	if (protoname) {
-		char *pszUniqueSetting = (char*)CallProtoService(protoname, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		const char *pszUniqueSetting = Proto_GetUniqueId(protoname);
 		if (pszUniqueSetting)
 			return !mir_strcmp(pszUniqueSetting, "jid");
 	}
@@ -90,7 +90,7 @@ BOOL isJabber(char *protoname)
 BOOL isICQ(char *protoname)
 {
 	if (protoname) {
-		char *pszUniqueSetting = (char*)CallProtoService(protoname, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		const char *pszUniqueSetting = Proto_GetUniqueId(protoname);
 		if (pszUniqueSetting)
 			return !mir_strcmp(pszUniqueSetting, "UIN");
 	}
@@ -100,7 +100,7 @@ BOOL isICQ(char *protoname)
 BOOL isMSN(char *protoname)
 {
 	if (protoname) {
-		char *pszUniqueSetting = (char*)CallProtoService(protoname, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		const char *pszUniqueSetting = Proto_GetUniqueId(protoname);
 		if (pszUniqueSetting)
 			return !mir_strcmp(pszUniqueSetting, "e-mail");
 	}

@@ -638,9 +638,6 @@ DWORD_PTR __cdecl CIcqProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("User ID");
 
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)UNIQUEIDSETTING;
-
 	case PFLAG_MAXLENOFMESSAGE:
 		return MAX_MESSAGESNACSIZE - 102;
 

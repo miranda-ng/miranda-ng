@@ -313,7 +313,9 @@ struct CMPlugin : public ACCPROTOPLUGIN<GaduProto>
 {
 	CMPlugin() :
 		ACCPROTOPLUGIN<GaduProto>(GGDEF_PROTO)
-	{}
+	{
+		SetUniqueId(GG_KEY_UIN);
+	}
 };
 
 #endif

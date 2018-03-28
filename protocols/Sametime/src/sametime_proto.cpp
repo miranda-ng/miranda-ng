@@ -128,8 +128,6 @@ DWORD_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 		return (DWORD_PTR)Translate("ID");
 	case PFLAG_MAXLENOFMESSAGE:
 		return MAX_MESSAGE_SIZE;
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR) "stid";
 	default:
 		return 0;
 	}

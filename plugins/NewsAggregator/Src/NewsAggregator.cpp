@@ -112,6 +112,7 @@ struct CMPlugin : public CMPluginBase
 		CMPluginBase(MODULE)
 	{
 		RegisterProtocol(PROTOTYPE_VIRTUAL);
+		SetUniqueId("URL");
 	}
 }
 	g_plugin;

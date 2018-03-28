@@ -17,6 +17,10 @@ protected:
 
 	// pass one of PROTOTYPE_* constants as type
 	void RegisterProtocol(int type, pfnInitProto = nullptr, pfnUninitProto = nullptr);
+	__forceinline void SetUniqueId(const char *pszUniqueId)
+	{
+		::Proto_SetUniqueId(m_szModuleName, pszUniqueId);
+	}
 
 public:
 	void debugLogA(LPCSTR szFormat, ...);

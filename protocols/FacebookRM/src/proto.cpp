@@ -150,8 +150,6 @@ DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT)
 		return FACEBOOK_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR) "Facebook ID";
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)FACEBOOK_KEY_ID;
 	}
 	return 0;
 }

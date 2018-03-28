@@ -146,7 +146,7 @@ static MCONTACT HContactFromChatID(char *pszProtoName, const wchar_t *pszChatID)
 	return INVALID_CONTACT_ID;
 }
 
-static MCONTACT HContactFromNumericID(char *pszProtoName, char *pszSetting, DWORD dwID)
+static MCONTACT HContactFromNumericID(char *pszProtoName, const char *pszSetting, DWORD dwID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName))
 		if (db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID)
@@ -155,7 +155,7 @@ static MCONTACT HContactFromNumericID(char *pszProtoName, char *pszSetting, DWOR
 	return INVALID_CONTACT_ID;
 }
 
-static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, wchar_t *pwszID)
+static MCONTACT HContactFromID(char *pszProtoName, const char *pszSetting, wchar_t *pwszID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName)) {
 		ptrW id(db_get_wsa(hContact, pszProtoName, pszSetting));
@@ -401,8 +401,8 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto,
 		if (ptszName && !mir_wstrcmp(pa->tszAccountName, ptszName))
 			return pa;
 
-		char *pszUniqueSetting = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if (!pszUniqueSetting || INT_PTR(pszUniqueSetting) == CALLSERVICE_NOTFOUND) {
+		const char *pszUniqueSetting = Proto_GetUniqueId(pa->szModuleName);
+		if (!pszUniqueSetting) {
 			pProto = pa;
 			continue;
 		}
@@ -542,7 +542,7 @@ static MCONTACT MapContact(MCONTACT hSrc)
 	return (pDestContact == nullptr) ? INVALID_CONTACT_ID : pDestContact->dstID;
 }
 
-static MCONTACT AddContact(char *szProto, char *pszUniqueSetting, DBVARIANT *id, const wchar_t *pszUserID, wchar_t *nick, wchar_t *group)
+static MCONTACT AddContact(char *szProto, const char *pszUniqueSetting, DBVARIANT *id, const wchar_t *pszUserID, wchar_t *nick, wchar_t *group)
 {
 	MCONTACT hContact = db_add_contact();
 	if (Proto_AddToContact(hContact, szProto) != 0) {
@@ -798,14 +798,14 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	// group chat?
-	char *pszUniqueSetting;
+	const char *pszUniqueSetting;
 	bool bIsChat = myGetD(hSrc, cc->szProto, "ChatRoom", 0) != 0;
 	if (bIsChat)
 		pszUniqueSetting = "ChatRoomID";
 	else {
 		// Skip protocols with no unique id setting (some non IM protocols return NULL)
-		pszUniqueSetting = (char*)CallProtoService(pda->pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if (!pszUniqueSetting || (INT_PTR)pszUniqueSetting == CALLSERVICE_NOTFOUND) {
+		pszUniqueSetting = Proto_GetUniqueId(pda->pa->szModuleName);
+		if (!pszUniqueSetting) {
 			AddMessage(LPGENW("Skipping non-IM contact (%S)"), cc->szProto);
 			return NULL;
 		}

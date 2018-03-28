@@ -133,7 +133,6 @@ const
 
   PFLAG_UNIQUEIDTEXT         = 100; // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
   PFLAG_MAXCONTACTSPERPACKET = 200; // v0.1.2.2+: returns the maximum number of contacts which can be sent in a single PSS_CONTACTS. lParam=(LPARAM)hContact.
-  PFLAG_UNIQUEIDSETTING      = 300; // v0.3+: returns the DB setting name (e.g. szProto=ICQ, szSetting=UIN) that has the ID which makes this user unique on that system (0.3a ONLY), the string is statically allocated so no need to free()
   PFLAG_MAXLENOFMESSAGE      = 400; // v0.3.2+: return the maximum length of an instant message, lParam=(LPARAM)hContact
   {
     A protocol might not support this cap, it allows a protocol to say that PFLAGNUM_2 is for

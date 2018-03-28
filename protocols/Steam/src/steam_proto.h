@@ -278,7 +278,9 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>
 {
 	CMPlugin() :
 		ACCPROTOPLUGIN<CSteamProto>("STEAM")
-	{}
+	{
+		SetUniqueId("SteamID");
+	}
 };
 
 int OnReloadIcons(WPARAM wParam, LPARAM lParam);

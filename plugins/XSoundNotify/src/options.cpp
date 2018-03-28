@@ -52,12 +52,12 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)TranslateT("All contacts")), cursel);
 				for (auto &hContact : Contacts()) {
-					char *szUniqueId = nullptr;
+					const char *szUniqueId;
 					if (db_get_b(hContact, pa->szModuleName, "ChatRoom", 0))
 						szUniqueId = "ChatRoomID";
 					else
-						szUniqueId = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-					if ((INT_PTR)szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != nullptr) {
+						szUniqueId = Proto_GetUniqueId(pa->szModuleName);
+					if (szUniqueId != nullptr) {
 						DBVARIANT dbvuid = { 0 };
 						if (!db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid)) {
 							wchar_t uid[MAX_PATH];

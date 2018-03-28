@@ -35,9 +35,6 @@ static INT_PTR icqGetCaps(WPARAM wParam, LPARAM)
 
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("ICQ number:");
-
-	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR)"UIN";
 	}
 	return 0;
 }

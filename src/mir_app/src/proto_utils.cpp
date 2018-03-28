@@ -23,12 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static int CompareProtos(const PROTOCOLDESCRIPTOR *p1, const PROTOCOLDESCRIPTOR *p2)
+static int CompareProtos(const MBaseProto *p1, const MBaseProto *p2)
 {
 	return strcmp(p1->szName, p2->szName);
 }
 
-LIST<PROTOCOLDESCRIPTOR> protos(10, CompareProtos);
+LIST<MBaseProto> protos(10, CompareProtos);
 
 extern HANDLE hAckEvent;
 
@@ -39,7 +39,7 @@ MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 	if (szProtoName == nullptr)
 		return nullptr;
 	
-	PROTOCOLDESCRIPTOR tmp;
+	MBaseProto tmp;
 	tmp.szName = (char*)szProtoName;
 	return protos.find(&tmp);
 }
@@ -49,7 +49,7 @@ MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 MIR_APP_DLL(void) Proto_EnumProtocols(int *nProtos, PROTOCOLDESCRIPTOR ***pProtos)
 {
 	if (nProtos) *nProtos = protos.getCount();
-	if (pProtos) *pProtos = protos.getArray();
+	if (pProtos) *pProtos = (PROTOCOLDESCRIPTOR **)protos.getArray();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

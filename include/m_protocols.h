@@ -211,6 +211,16 @@ EXTERN_C MIR_APP_DLL(void) Proto_EnumProtocols(int *nProtos, PROTOCOLDESCRIPTOR 
 EXTERN_C MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// gets a name of a variable inside a protocol's module that identifies a contact
+
+EXTERN_C MIR_APP_DLL(const char*) Proto_GetUniqueId(const char *szModuleName);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// sets a name of a variable inside a protocol's module that identifies a contact
+
+EXTERN_C MIR_APP_DLL(void) Proto_SetUniqueId(const char *szProtoName, const char *szUniqueId);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets the network-level protocol associated with a contact
 // Returns a char* pointing to the asciiz name of the protocol or NULL if the
 // contact has no protocol. There is no need to free() it or anything.
@@ -283,6 +293,8 @@ typedef struct tagACCOUNT
 
 	int    iOrder;          // account order in various menus & lists
 	PROTO_INTERFACE *ppro;  // pointer to the underlying object
+
+	char*  szUniqueId;      // setting's unique id for any contact in the account
 }
 	PROTOACCOUNT;
 

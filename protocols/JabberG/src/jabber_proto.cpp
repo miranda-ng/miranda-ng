@@ -598,8 +598,6 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, MCONTACT hContact)
 		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_FORCEADDED;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("JID");
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)"jid";
 	case PFLAG_MAXCONTACTSPERPACKET:
 		wchar_t szClientJid[JABBER_MAX_JID_LEN];
 		if (GetClientJID(hContact, szClientJid, _countof(szClientJid))) {

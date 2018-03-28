@@ -81,7 +81,7 @@ static TServiceListItem serviceItems[] =
 
 //------------------------------------------------------------------------------------
 
-static int CompareProtos(const PROTOCOLDESCRIPTOR *p1, const PROTOCOLDESCRIPTOR *p2)
+static int CompareProtos(const MBaseProto *p1, const MBaseProto *p2)
 {
 	if (p1->type != p2->type)
 		return p1->type - p2->type;
@@ -89,7 +89,7 @@ static int CompareProtos(const PROTOCOLDESCRIPTOR *p1, const PROTOCOLDESCRIPTOR 
 	return mir_strcmp(p1->szName, p2->szName);
 }
 
-LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos);
+LIST<MBaseProto> filters(10, CompareProtos);
 
 //------------------------------------------------------------------------------------
 
@@ -108,12 +108,13 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 	if (pd->cbSize != sizeof(PROTOCOLDESCRIPTOR) && pd->cbSize != PROTOCOLDESCRIPTOR_V3_SIZE)
 		return 1;
 
-	PROTOCOLDESCRIPTOR *p = (PROTOCOLDESCRIPTOR*)mir_calloc(sizeof(PROTOCOLDESCRIPTOR));
-	if (!p)
-		return 2;
-
-	memcpy(p, pd, pd->cbSize);
+	MBaseProto *p = (MBaseProto*)mir_calloc(sizeof(MBaseProto));
 	p->szName = mir_strdup(pd->szName);
+	p->type = pd->type;
+	if (pd->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
+		p->fnInit = pd->fnInit;
+		p->fnUninit = pd->fnUninit;
+	}
 	protos.insert(p);
 
 	if (p->fnInit == nullptr && (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL)) {
@@ -143,6 +144,39 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 	if (p->type != PROTOTYPE_PROTOCOL && p->type != PROTOTYPE_VIRTUAL)
 		filters.insert(p);
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) Proto_SetUniqueId(const char *szModuleName, const char *pszUniqueId)
+{
+	PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
+	if (pa != nullptr) {
+		pa->szUniqueId = mir_strdup(pszUniqueId);
+		return;
+	}
+	
+	MBaseProto tmp;
+	tmp.szName = (char*)szModuleName;
+	MBaseProto *pd = protos.find(&tmp);
+	if (pd != nullptr)
+		pd->szUniqueId = mir_strdup(pszUniqueId);
+}
+
+MIR_APP_DLL(const char*) Proto_GetUniqueId(const char *szModuleName)
+{
+	MBaseProto tmp;
+	PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
+	if (pa != nullptr) {
+		if (pa->szUniqueId != nullptr)
+			return pa->szUniqueId;
+
+		tmp.szName = pa->szProtoName;
+	}
+	else tmp.szName = (char*)szModuleName;
+
+	MBaseProto *pd = protos.find(&tmp);
+	return (pd != nullptr) ? pd->szUniqueId : nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -425,6 +459,7 @@ void UnloadProtocolsModule()
 	if (!bModuleInitialized) return;
 
 	for (auto &p : protos) {
+		mir_free(p->szUniqueId);
 		mir_free(p->szName);
 		mir_free(p);
 	}

@@ -1074,26 +1074,19 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 	//
 	// contacts protocol, uin setting, uin value
 	//
-	{
+	LPCSTR uid = Proto_GetUniqueId(_pszBaseProto);
+	if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
 		CHAR szUID[MAXUID];
-		LPCSTR uid;
-
-		uid = (LPCSTR)CallProtoService(_pszBaseProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
-			if (!db_get_static(_hContact, _pszBaseProto, uid, szUID, sizeof(szUID)))
-				fprintf(_pFile, "IM;%s;%s:%s\n", _pszBaseProto, uid, szUID);
-		}
+		if (!db_get_static(_hContact, _pszBaseProto, uid, szUID, sizeof(szUID)))
+			fprintf(_pFile, "IM;%s;%s:%s\n", _pszBaseProto, uid, szUID);
 	}
-	
+
 	//
 	// time of creation
 	//
-	{
-		SYSTEMTIME	st;
-	
-		GetLocalTime(&st);
-		fprintf(_pFile, "REV:%04d%02d%02dD%02d%02d%02dT\n", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
-	}
+	SYSTEMTIME	st;
+	GetLocalTime(&st);
+	fprintf(_pFile, "REV:%04d%02d%02dD%02d%02d%02dT\n", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
 	fputs("END:VCARD", _pFile);
 	return 0;

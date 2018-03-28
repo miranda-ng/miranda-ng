@@ -70,7 +70,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// Get the login of the subcontact
-	char *field = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	const char *field = Proto_GetUniqueId(szProto);
 	DBVARIANT dbv;
 	if (db_get(hSub, szProto, field, &dbv)) {
 		MessageBox(nullptr, TranslateT("Could not get unique ID of contact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);

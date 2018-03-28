@@ -197,7 +197,9 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSametimeProto>
 {
 	CMPlugin() :
 		ACCPROTOPLUGIN<CSametimeProto>("Sametime")
-	{}
+	{
+		SetUniqueId("stid");
+	}
 };
 
 typedef struct tag_TFakeAckParams {

@@ -58,8 +58,8 @@ char* __fastcall null_strdup(const char *string)
 wchar_t* GetContactUID(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if (INT_PTR(uid) == CALLSERVICE_NOTFOUND || uid == nullptr)
+	const char *uid = Proto_GetUniqueId(szProto);
+	if (uid == nullptr)
 		return nullptr;
 
 	DBVARIANT vrUid;

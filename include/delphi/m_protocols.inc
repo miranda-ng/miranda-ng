@@ -186,8 +186,7 @@ const
   NULL if it isn't.
 }
 
-function Proto_IsProtocolLoaded(protoName:PAnsiCHar) : PPROTOCOLDESCRIPTOR; stdcall;
-                 external AppDLL name 'Proto_IsProtocolLoaded';
+function Proto_IsProtocolLoaded(protoName:PAnsiCHar) : PPROTOCOLDESCRIPTOR; stdcall; external AppDLL;
 
 { gets the network-level protocol associated with a contact
   Returns a AnsiChar* pointing to the asciiz name of the protocol or NULL if the
@@ -195,8 +194,7 @@ function Proto_IsProtocolLoaded(protoName:PAnsiCHar) : PPROTOCOLDESCRIPTOR; stdc
   This is the name of the module that actually accesses the network for that
   contact. }
 
-function Proto_GetProtoName(hContact:TMCONTACT) : PAnsiChar; stdcall;
-                 external AppDLL name 'GetContactProto';
+function Proto_GetProtoName(hContact:TMCONTACT) : PAnsiChar; stdcall; external AppDLL name 'GetContactProto';
 
 { determines whether the specified contact has the given protocol in its chain
   wParam=(WPARAM)(HANDLE)hContact
@@ -260,11 +258,9 @@ type
   tagACCOUNT = TPROTOACCOUNT;
 
 //account enumeration service
-procedure Proto_EnumAccounts(var nAccs:int; var pAccs:PPPROTOACCOUNT); stdcall;
-                 external AppDLL name 'Proto_EnumAccounts';
+procedure Proto_EnumAccounts(var nAccs:int; var pAccs:PPPROTOACCOUNT); stdcall; external AppDLL;
 
-procedure Proto_EnumProtocols(var nProtos:int; var pProtos:PPPROTOCOLDESCRIPTOR); stdcall;
-                 external AppDLL name 'Proto_EnumProtocols';
+procedure Proto_EnumProtocols(var nProtos:int; var pProtos:PPPROTOCOLDESCRIPTOR); stdcall; external AppDLL;
 
 type
   PACC_CREATE = ^TACC_CREATE;
@@ -286,8 +282,7 @@ const
 //lParam=(LPARAM)(AnsiChar*)szAccountName
 //return value = PROTOACCOUNT* or NULL
 
-function Proto_GetAccount(proto:PAnsiChar) : PPROTOACCOUNT; stdcall;
-                 external AppDLL name 'Proto_GetAccount';
+function Proto_GetAccount(proto:PAnsiChar) : PPROTOACCOUNT; stdcall; external AppDLL;
 
 (*
 __inline PROTOACCOUNT* ProtoGetAccount( const AnsiChar* accName )
@@ -321,8 +316,7 @@ const
   Returns 1 if an account is valid and enabled, 0 otherwise
 }
 
-function Proto_IsAccountEnabled(proto:PPROTOACCOUNT) : byte; stdcall;
-                 external AppDLL name 'Proto_IsAccountEnabled';
+function Proto_IsAccountEnabled(proto:PPROTOACCOUNT) : byte; stdcall; external AppDLL;
 
 {
   determines if an account is locked or not
@@ -331,8 +325,7 @@ function Proto_IsAccountEnabled(proto:PPROTOACCOUNT) : byte; stdcall;
   Returns 1 if an account is locked and not supposed to change status, 0 otherwise
 }
 
-function Proto_IsAccountLocked(proto:PPROTOACCOUNT) : byte; stdcall;
-                 external AppDLL name 'Proto_IsAccountLocked';
+function Proto_IsAccountLocked(proto:PPROTOACCOUNT) : byte; stdcall; external AppDLL;
 
 {
   gets the account associated with a contact
@@ -341,8 +334,14 @@ function Proto_IsAccountLocked(proto:PPROTOACCOUNT) : byte; stdcall;
   This is the name of the module that actually accesses the network for that contact.
 }
 
-function Proto_GetBaseAccountName(hContact:TMCONTACT) : PAnsiChar; stdcall;
-                 external AppDLL name 'Proto_GetBaseAccountName';
+function Proto_GetBaseAccountName(hContact:TMCONTACT) : PAnsiChar; stdcall; external AppDLL;
+
+{
+  gets and sets unique id name of any contact
+}
+
+function Proto_GetUniqueId(proto:PAnsiChar) : PAnsiChar; stdcall; external AppDLL;
+procedure Proto_SetUniqueId(proto, id:PAnsiChar); stdcall; external AppDLL;
 
 // -------------- avatar support ---------------------
 {

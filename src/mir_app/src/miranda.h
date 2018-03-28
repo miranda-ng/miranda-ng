@@ -134,7 +134,13 @@ extern OBJLIST<CListEvent> g_cliEvents;
 #define OFFSET_NAME     800
 
 extern LIST<PROTOACCOUNT> accounts;
-extern LIST<PROTOCOLDESCRIPTOR> protos;
+
+struct MBaseProto : public PROTOCOLDESCRIPTOR
+{
+	char *szUniqueId;  // name of the unique setting that identifies a contact
+};
+
+extern LIST<MBaseProto> protos, filters;
 
 INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 

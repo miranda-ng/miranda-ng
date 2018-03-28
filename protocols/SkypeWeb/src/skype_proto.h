@@ -426,7 +426,9 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSkypeProto>
 {
 	CMPlugin() :
 		ACCPROTOPLUGIN<CSkypeProto>("SKYPE")
-	{}
+	{
+		SetUniqueId(SKYPE_SETTINGS_ID);
+	}
 };
 
 #endif //_SKYPE_PROTO_H_

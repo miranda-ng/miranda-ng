@@ -528,9 +528,6 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
 
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)"VKontakte ID";
-
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)"ID";
 	}
 	return 0;
 }

@@ -354,8 +354,8 @@ begin
   begin
     if proto = '' then
       proto := GetContactProto(hContact);
-    uid := PAnsiChar(CallProtoService(PAnsiChar(proto), PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));
-    if (uid <> pAnsiChar(CALLSERVICE_NOTFOUND)) and (uid <> nil) then
+    uid := Proto_GetUniqueId(PAnsiChar(proto));
+    if uid <> nil then
     begin
       if db_get(hContact, PAnsiChar(proto), uid, @dbv) = 0 then
       begin

@@ -451,9 +451,6 @@ DWORD_PTR __cdecl CIrcProto::GetCaps(int type, MCONTACT)
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 400;
-
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR) "Nick";
 	}
 
 	return 0;

@@ -106,8 +106,8 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			// something is being written to a protocol module
 			if (!strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
-				char *id = (char *)CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if ((INT_PTR)id != CALLSERVICE_NOTFOUND && id != nullptr && !strcmp(id, cws->szSetting))
+				const char *id = Proto_GetUniqueId(szProto);
+				if (id != nullptr && !strcmp(id, cws->szSetting))
 					Clist_Broadcast(INTM_PROTOCHANGED, hContact, lParam);
 			}
 		}

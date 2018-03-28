@@ -527,3 +527,5 @@ Proto_ActivateAccount @512
 ?setWord@CMPluginBase@@QAEXPBDG@Z @545 NONAME
 ?tryOpenLog@CMPluginBase@@AAEXXZ @546 NONAME
 ?RegisterProtocol@CMPluginBase@@IAEXHP6APAUPROTO_INTERFACE@@PBDPB_W@ZP6AHPAU2@@Z@Z @547 NONAME
+Proto_GetUniqueId @548
+Proto_SetUniqueId @549

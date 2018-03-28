@@ -292,6 +292,7 @@ struct CMPlugin : public CMPluginBase
 		CMPluginBase(MODULENAME)
 	{
 		RegisterProtocol(PROTOTYPE_PROTOCOL);
+		SetUniqueId("PreserveName");
 	}
 }
 	g_plugin;

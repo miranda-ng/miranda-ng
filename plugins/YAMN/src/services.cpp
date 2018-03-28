@@ -8,8 +8,6 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
         return (INT_PTR) Translate("Nick");
 	if (wParam == PFLAG_MAXLENOFMESSAGE)
         return 400;
-	if (wParam == PFLAG_UNIQUEIDSETTING)
-        return (INT_PTR) "Id";
 	if (wParam == PFLAGNUM_2)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	if (wParam == PFLAGNUM_5) {

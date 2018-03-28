@@ -142,8 +142,8 @@ bool Uid(MCONTACT hContact, char *szProto, wchar_t *buff, int bufflen)
 {
 	char *tmpProto = (hContact ? GetContactProto(hContact) : szProto);
 	if (tmpProto) {
-		char *szUid = (char*)CallProtoService(tmpProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if (szUid && (INT_PTR)szUid != CALLSERVICE_NOTFOUND)
+		const char *szUid = Proto_GetUniqueId(tmpProto);
+		if (szUid)
 			return DBGetContactSettingAsString(hContact, tmpProto, szUid, buff, bufflen);
 	}
 

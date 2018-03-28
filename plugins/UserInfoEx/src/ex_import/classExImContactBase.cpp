@@ -113,7 +113,7 @@ BYTE CExImContactBase::fromDB(MCONTACT hContact)
 	}
 	// unique id (normal)
 	else {
-		uidSetting = (LPCSTR)CallProtoService(pszProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		uidSetting = Proto_GetUniqueId(pszProto);
 		// valid
 		if (uidSetting != nullptr && (INT_PTR)uidSetting != CALLSERVICE_NOTFOUND) {
 			_pszUIDKey = mir_strdup(uidSetting);

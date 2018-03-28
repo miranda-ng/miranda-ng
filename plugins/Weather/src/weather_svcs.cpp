@@ -79,10 +79,6 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 	case PFLAG_UNIQUEIDTEXT:
 		ret = (INT_PTR)Translate("Station ID");
 		break;
-
-	case PFLAG_UNIQUEIDSETTING:
-		ret = (INT_PTR)"ID";
-		break;
 	}
 	return ret;
 }

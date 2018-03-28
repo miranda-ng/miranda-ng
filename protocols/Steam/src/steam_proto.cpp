@@ -200,8 +200,6 @@ DWORD_PTR CSteamProto:: GetCaps(int type, MCONTACT)
 		return PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("SteamID");
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)"SteamID";
 	default:
 		return 0;
 	}

@@ -309,7 +309,7 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (szProto == nullptr)
 		return 0;
 
-	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	const char *uid = Proto_GetUniqueId(szProto);
 
 	bool isNick = !strcmp(dbw->szSetting, "Nick");
 	bool isFirstName = !strcmp(dbw->szSetting, "FirstName");

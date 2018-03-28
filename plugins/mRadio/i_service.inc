@@ -13,8 +13,6 @@ begin
       result:=PF4_NOCUSTOMAUTH or PF4_AVATARS;
     PFLAG_UNIQUEIDTEXT:
       result:=int_ptr(Translate('Radio station URL'));
-    PFLAG_UNIQUEIDSETTING:
-      result:=int_ptr(optStationURL)
     else
       result:=0;
   end

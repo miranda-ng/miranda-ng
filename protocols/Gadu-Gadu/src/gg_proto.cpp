@@ -156,8 +156,6 @@ DWORD_PTR GaduProto::GetCaps(int type, MCONTACT)
 		return PF2_LONGAWAY;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("Gadu-Gadu Number");
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)GG_KEY_UIN;
 	}
 	return 0;
 }

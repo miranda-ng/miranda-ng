@@ -343,20 +343,20 @@ static wchar_t* parseProtoInfo(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return nullptr;
 
-	char *szRes = nullptr;
+	const char *szRes = nullptr;
 	wchar_t *tszRes = nullptr;
 	ptrA szProto(mir_u2a(ai->targv[1]));
 
 	if (!mir_wstrcmp(ai->targv[2], _A2W(STR_PINAME)))
 		tszRes = Hlp_GetProtocolName(szProto);
 	else if (!mir_wstrcmp(ai->targv[2], _A2W(STR_PIUIDTEXT))) {
-		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
-		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND)
+		szRes = (const char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
+		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND || szRes == nullptr)
 			return nullptr;
 	}
 	else if (!mir_wstrcmp(ai->targv[2], _A2W(STR_PIUIDSETTING))) {
-		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
-		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND)
+		szRes = Proto_GetUniqueId(szProto);
+		if (szRes == nullptr)
 			return nullptr;
 	}
 	else if (!mir_wstrcmp(ai->targv[2], _A2W(STR_PINICK)))
