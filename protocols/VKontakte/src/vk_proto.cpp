@@ -687,7 +687,7 @@ int CVkProto::OnContactDeleted(WPARAM hContact, LPARAM)
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
 	debugLogW(L"CVkProto::OnContactDeleted %s", pwszNick);
 
-	if (getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
+	if (db_get_b(hContact, "CList", "NotOnList") || getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
 		return 0;
 
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
