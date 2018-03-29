@@ -671,7 +671,6 @@ public:
 		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowX", globals.load_key_rect.left);
 		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowY", globals.load_key_rect.top);
 		edit_p_PubKeyEdit = nullptr;
-		delete this;
 	}
 
 	void onClick_SELECT_EXISTING(CCtrlButton*)

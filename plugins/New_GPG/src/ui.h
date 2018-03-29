@@ -23,7 +23,6 @@ class CDlgEncryptedFileMsgBox : public CDlgBase
 public:
 	CDlgEncryptedFileMsgBox();
 	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
 	void onClick_IGNORE(CCtrlButton*);
 	void onClick_DECRYPT(CCtrlButton*);
 
@@ -37,7 +36,6 @@ class CDlgExportKeysMsgBox : public CDlgBase
 public:
 	CDlgExportKeysMsgBox();
 	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
 	void onClick_OK(CCtrlButton*);
 	void onClick_CANCEL(CCtrlButton*);
 
@@ -50,7 +48,6 @@ class CDlgChangePasswdMsgBox : public CDlgBase //always modal
 {
 public:
 	CDlgChangePasswdMsgBox();
-	virtual void OnDestroy() override;
 	void onClick_OK(CCtrlButton*);
 private:
 	CCtrlButton btn_OK;

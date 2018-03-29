@@ -35,10 +35,6 @@ btn_IGNORE(this, IDC_IGNORE), btn_DECRYPT(this, IDC_DECRYPT)
 	btn_DECRYPT.OnClick = Callback(this, &CDlgEncryptedFileMsgBox::onClick_DECRYPT);
 }
 
-void CDlgEncryptedFileMsgBox::OnDestroy()
-{
-	delete this;
-}
 
 void CDlgEncryptedFileMsgBox::onClick_IGNORE(CCtrlButton*)
 {
@@ -76,10 +72,6 @@ void CDlgExportKeysMsgBox::OnInitDialog()
 {
 	chk_PUBLIC.SetState(1);
 }
-void CDlgExportKeysMsgBox::OnDestroy()
-{
-	delete this;
-}
 void CDlgExportKeysMsgBox::onClick_OK(CCtrlButton*)
 {
 	if (chk_PUBLIC.GetState())
@@ -103,10 +95,7 @@ edit_NEW_PASSWD1(this, IDC_NEW_PASSWD1), edit_NEW_PASSWD2(this, IDC_NEW_PASSWD2)
 {
 	btn_OK.OnClick = Callback(this, &CDlgChangePasswdMsgBox::onClick_OK);
 }
-void CDlgChangePasswdMsgBox::OnDestroy()
-{
-	delete this;
-}
+
 void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 {
 	//TODO: show some prgress
@@ -237,7 +226,7 @@ void CDlgFirstRun::OnInitDialog()
 		lbl_KEY_ID.SetTextA(keyinfo.c_str());
 	}
 	combo_ACCOUNT.OnChange = Callback(this, &CDlgFirstRun::onChange_ACCOUNT);
-	list_KEY_LIST.OnItemChanged = Callback(this, &CDlgFirstRun::onChange_KEY_LIST);
+	list_KEY_LIST.OnClick = Callback(this, &CDlgFirstRun::onChange_KEY_LIST);
 }
 void CDlgFirstRun::onClick_COPY_PUBKEY(CCtrlButton*)
 {
@@ -600,7 +589,6 @@ void CDlgFirstRun::OnDestroy()
 	GetWindowRect(m_hwnd, &globals.firstrun_rect);
 	db_set_dw(NULL, szGPGModuleName, "FirstrunWindowX", globals.firstrun_rect.left);
 	db_set_dw(NULL, szGPGModuleName, "FirstrunWindowY", globals.firstrun_rect.top);
-	delete this;
 }
 
 
@@ -911,7 +899,6 @@ void CDlgGpgBinOpts::OnDestroy()
 {
 	void InitCheck();
 	InitCheck();
-	delete this;
 }
 
 CDlgNewKey::CDlgNewKey(MCONTACT _hContact, wstring _new_key) : CDlgBase(globals.hInst, IDD_NEW_KEY),
@@ -944,7 +931,6 @@ void CDlgNewKey::OnDestroy()
 	GetWindowRect(m_hwnd, &globals.new_key_rect);
 	db_set_dw(NULL, szGPGModuleName, "NewKeyWindowX", globals.new_key_rect.left);
 	db_set_dw(NULL, szGPGModuleName, "NewKeyWindowY", globals.new_key_rect.top);
-	delete this;
 }
 void CDlgNewKey::onClick_IMPORT(CCtrlButton*)
 {
@@ -1158,7 +1144,6 @@ void CDlgKeyGen::OnDestroy()
 	GetWindowRect(m_hwnd, &globals.key_gen_rect);
 	db_set_dw(NULL, szGPGModuleName, "KeyGenWindowX", globals.key_gen_rect.left);
 	db_set_dw(NULL, szGPGModuleName, "KeyGenWindowY", globals.key_gen_rect.top);
-	delete this;
 }
 
 CDlgLoadExistingKey::CDlgLoadExistingKey() : CDlgBase(globals.hInst, IDD_LOAD_EXISTING_KEY),
@@ -1277,14 +1262,13 @@ void CDlgLoadExistingKey::OnInitDialog()
 			}
 		}
 	}
-	list_EXISTING_KEY_LIST.OnItemChanged = Callback(this, &CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST);
+	list_EXISTING_KEY_LIST.OnClick = Callback(this, &CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST);
 }
 void CDlgLoadExistingKey::OnDestroy()
 {
 	GetWindowRect(m_hwnd, &globals.load_existing_key_rect);
 	db_set_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowX", globals.load_existing_key_rect.left);
 	db_set_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowY", globals.load_existing_key_rect.top);
-	delete this;
 }
 void CDlgLoadExistingKey::onClick_OK(CCtrlButton*)
 {
@@ -1338,6 +1322,7 @@ void CDlgLoadExistingKey::onClick_CANCEL(CCtrlButton*)
 {
 	this->Close();
 }
+
 void CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST(CCtrlListView::TEventInfo * /*ev*/) //TODO: check if this work
 {
 	if (list_EXISTING_KEY_LIST.GetSelectionMark() != -1)
@@ -1362,7 +1347,6 @@ void CDlgImportKey::OnDestroy()
 	GetWindowRect(m_hwnd, &globals.import_key_rect);
 	db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowX", globals.import_key_rect.left);
 	db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowY", globals.import_key_rect.top);
-	delete this;
 }
 void CDlgImportKey::onClick_IMPORT(CCtrlButton*)
 {
@@ -1413,7 +1397,6 @@ void CDlgKeyPasswordMsgBox::OnDestroy()
 	GetWindowRect(m_hwnd, &globals.key_password_rect);
 	db_set_dw(NULL, szGPGModuleName, "PasswordWindowX", globals.key_password_rect.left);
 	db_set_dw(NULL, szGPGModuleName, "PasswordWindowY", globals.key_password_rect.top);
-	delete this;
 }
 void CDlgKeyPasswordMsgBox::onClick_OK(CCtrlButton*)
 {
