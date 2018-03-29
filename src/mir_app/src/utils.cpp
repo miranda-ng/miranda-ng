@@ -26,10 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS_SYSTEM_GET_MD5I	"Miranda/System/GetMD5I"
 
-INT_PTR ResizeDialog(WPARAM wParam, LPARAM lParam);
-
 int  InitCrypt(void);
 void UninitCrypt(void);
+
+void InitClistCore(void);
 
 INT_PTR __cdecl svcEnterString(WPARAM, LPARAM lParam);
 
@@ -328,6 +328,7 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_ENTERSTRING, svcEnterString);
 
 	InitCrypt();
+	InitClistCore();
 	return 0;
 }
 

@@ -165,11 +165,13 @@ int PreShutdown(WPARAM, LPARAM)
 
 INT_PTR ServiceMode(WPARAM, LPARAM)
 {
-	IcoLibRegister();
-	g_bServiceMode = true;
+	if (!g_bServiceMode) {
+		g_bServiceMode = true;
 
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
-
+		IcoLibRegister();
+		HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
+	}
+	
 	return SERVICE_ONLYDB;  // load database and then call us
 }
 

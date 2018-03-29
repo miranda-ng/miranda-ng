@@ -84,9 +84,9 @@ int LoadDefaultModules(void)
 {
 	// load order is very important for these
 	if (LoadSystemModule()) return 1;
-	if (LoadLangPackModule()) return 1;		// langpack will be a system module in the new order so this is moved here
+	if (LoadLangPackModule()) return 1; // langpack will be a system module in the new order so this is moved here
 	if (CheckRestart()) return 1;
-	if (LoadUtilsModule()) return 1;		//order not important for this, but no dependencies and no point in pluginising
+	if (LoadUtilsModule()) return 1;
 	if (LoadIcoTabsModule()) return 1;
 	if (LoadHeaderbarModule()) return 1;
 	if (LoadDbintfModule()) return 1;
@@ -119,18 +119,6 @@ int LoadDefaultModules(void)
 	if (LoadIcoLibModule()) return 1;
 	if (LoadSkinIcons()) return 1;
 
-	if (LoadSkinSounds()) return 1;
-	if (LoadSkinHotkeys()) return 1;
-	if (LoadFontserviceModule()) return 1;
-	if (LoadSrmmModule()) return 1;
-	if (LoadChatModule()) return 1;
-	if (LoadSendRecvAuthModule()) return 1;
-	if (LoadDescButtonModule()) return 1;
-	if (LoadOptionsModule()) return 1;
-	if (LoadNetlibModule()) return 1;
-	if (LoadSslModule()) return 1;
-	if (LoadProtocolsModule()) return 1;
-
 	// check if a service plugin is scheduled to execution
 	if (plugin_service != nullptr) {
 		if (LoadProtocolPlugins()) return 1;
@@ -146,9 +134,21 @@ int LoadDefaultModules(void)
 		default:                // smth went wrong, terminating
 			return 1;
 		}
-		
+
 		plugin_service = nullptr;
 	}
+
+	if (LoadSkinSounds()) return 1;
+	if (LoadSkinHotkeys()) return 1;
+	if (LoadFontserviceModule()) return 1;
+	if (LoadSrmmModule()) return 1;
+	if (LoadChatModule()) return 1;
+	if (LoadSendRecvAuthModule()) return 1;
+	if (LoadDescButtonModule()) return 1;
+	if (LoadOptionsModule()) return 1;
+	if (LoadNetlibModule()) return 1;
+	if (LoadSslModule()) return 1;
+	if (LoadProtocolsModule()) return 1;
 
 	LoadDbAccounts();                    // retrieves the account array from a database
 	if (LoadContactsModule()) return 1;
@@ -161,7 +161,7 @@ int LoadDefaultModules(void)
 
 	if (LoadAccountsModule()) return 1;
 
-	//order becomes less important below here
+	// order becomes less important below here
 	if (LoadFindAddModule()) return 1;
 	if (LoadIgnoreModule()) return 1;
 	if (LoadVisibilityModule()) return 1;
