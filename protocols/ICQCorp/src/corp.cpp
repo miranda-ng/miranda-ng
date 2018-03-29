@@ -37,13 +37,34 @@ PLUGININFOEX pluginInfo =
 	UNICODE_AWARE
 };
 
+//////////////////////////////////////////////////////////////////////////
+// Interface information
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
 ///////////////////////////////////////////////////////////////////////////////
 
 BOOL APIENTRY DllMain(HINSTANCE hModule, DWORD reason, LPVOID)
 {
 	hInstance = hModule;
-	if (reason == DLL_PROCESS_ATTACH)
+	if (reason == DLL_PROCESS_ATTACH) {
+		char fileName[MAX_PATH];
+		GetModuleFileNameA(hInstance, fileName, MAX_PATH);
+
+		WIN32_FIND_DATAA findData;
+		FindClose(FindFirstFileA(fileName, &findData));
+		findData.cFileName[strlen(findData.cFileName) - 4] = 0;
+		strncpy_s(protoName, findData.cFileName, _TRUNCATE);
+
+		PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
+		pd.szName = protoName;
+		pd.type = PROTOTYPE_PROTOCOL;
+		Proto_RegisterModule(&pd);
+
+		Proto_SetUniqueId(protoName, "UIN");
+
 		DisableThreadLibraryCalls(hModule);
+	}
 	return TRUE;
 }
 
@@ -71,27 +92,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase(protoName)
-	{
-		char fileName[MAX_PATH];
-		GetModuleFileNameA(hInstance, fileName, MAX_PATH);
-
-		WIN32_FIND_DATAA findData;
-		FindClose(FindFirstFileA(fileName, &findData));
-		findData.cFileName[strlen(findData.cFileName) - 4] = 0;
-		strncpy_s(protoName, findData.cFileName, _TRUNCATE);
-
-		RegisterProtocol(PROTOTYPE_PROTOCOL);
-		SetUniqueId("UIN");
-	}
-}
-	g_plugin;
 
 ///////////////////////////////////////////////////////////////////////////////
 
