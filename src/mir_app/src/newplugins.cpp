@@ -716,18 +716,16 @@ MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName)
 {
 	size_t cbLen = mir_wstrlen(wszPluginName);
 	if (cbLen == 0)
-		return SERVICE_CONTINUE;
+		return 1;
 
 	for (auto &p : servicePlugins) {
 		if (!wcsnicmp(p->pluginname, wszPluginName, cbLen)) {
-			int res = LaunchServicePlugin(p);
-			if (res == SERVICE_ONLYDB) // load it later
-				plugin_service = p;
-			return res;
+			plugin_service = p;
+			return 0;
 		}
 	}
 
-	return SERVICE_CONTINUE;
+	return 2;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -876,7 +874,11 @@ int LoadNewPluginsModuleInfos(void)
 	enumPlugins(scanPluginsDir, 0, 0);
 
 	MuuidReplacement stdCrypt = { MIID_CRYPTO, L"stdcrypt", nullptr };
-	return !LoadCorePlugin(stdCrypt);
+	if (!LoadCorePlugin(stdCrypt))
+		return 1;
+
+	SetServiceModePlugin(CmdLine_GetOption(L"svc"));
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

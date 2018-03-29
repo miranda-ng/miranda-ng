@@ -116,10 +116,7 @@ static int OnExit(WPARAM, LPARAM)
 
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
-	if (!g_bServiceMode) {
-		g_bServiceMode = true;
-		return SERVICE_ONLYDB;
-	}
+	g_bServiceMode = true;
 
 	ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
 	if (!_waccess(wszFullName, 0)) {

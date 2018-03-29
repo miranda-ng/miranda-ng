@@ -101,16 +101,6 @@ int LoadDefaultModules(void)
 			pfn();
 	}
 	
-	switch (SetServiceModePlugin(CmdLine_GetOption(L"svc"))) {
-	case SERVICE_CONTINUE:  // continue loading Miranda normally
-	case SERVICE_ONLYDB:    // load database and go to the message cycle
-		break;
-	case SERVICE_MONOPOLY:  // unload database and go to the message cycle
-		return 0;
-	default:                // smth went wrong, terminating
-		return 1;
-	}
-
 	// the database will select which db plugin to use, or fail if no profile is selected
 	if (LoadDatabaseModule()) return 1;
 

@@ -102,7 +102,7 @@ LBL_Error:
 			return nullptr;
 		}
 
-		if (SetServiceModePlugin(L"import") != SERVICE_ONLYDB) {
+		if (SetServiceModePlugin(L"import") != ERROR_SUCCESS) {
 			if (IDYES == MessageBoxW(nullptr, TranslateT(MISSING_PLUG_MSG), L"Miranda NG", MB_YESNO))
 				Utils_OpenUrl("https://miranda-ng.org/p/Import");
 			goto LBL_Error;
