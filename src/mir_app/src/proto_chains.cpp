@@ -60,8 +60,8 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 	if (iOrder == -1)
 		return 1;
 
-	for (int i = iOrder; i < filters.getCount(); i++) {
-		if ((ret = CallProtoServiceInt(0, filters[i]->szName, ccs->szProtoService, i + 1, LPARAM(ccs))) != CALLSERVICE_NOTFOUND) {
+	for (int i = iOrder; i < g_arFilters.getCount(); i++) {
+		if ((ret = CallProtoServiceInt(0, g_arFilters[i]->szName, ccs->szProtoService, i + 1, LPARAM(ccs))) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
 			return ret;
 		}
@@ -106,12 +106,12 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 		if (GetCurrentThreadId() != hMainThreadId) // restart this function in the main thread
 			return CallServiceSync(MS_PROTO_HIDDENSTUB, iOrder, LPARAM(ccs));
 
-		iOrder = filters.getCount();
+		iOrder = g_arFilters.getCount();
 	}
 	else iOrder--;
 
 	for (int i = iOrder - 1; i >= 0; i--)
-		if ((ret = CallProtoServiceInt(0, filters[i]->szName, ccs->szProtoService, i + 1, (LPARAM)ccs)) != CALLSERVICE_NOTFOUND)
+		if ((ret = CallProtoServiceInt(0, g_arFilters[i]->szName, ccs->szProtoService, i + 1, (LPARAM)ccs)) != CALLSERVICE_NOTFOUND)
 			//chain was started, exit
 			return ret;
 
@@ -168,9 +168,9 @@ MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *szProto)
 		if (!_stricmp(szProto, szContactProto))
 			return -1;
 
-	for (auto &it : filters)
+	for (auto &it : g_arFilters)
 		if (!mir_strcmp(szProto, it->szName))
-			return filters.indexOf(&it) + 1;
+			return g_arFilters.indexOf(&it) + 1;
 
 	return 0;
 }

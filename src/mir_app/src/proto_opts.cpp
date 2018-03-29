@@ -129,16 +129,12 @@ public:
 
 	virtual void OnInitDialog() override
 	{
-		PROTOCOLDESCRIPTOR **proto;
-		int protoCount, i, cnt = 0;
-		Proto_EnumProtocols(&protoCount, &proto);
-		for (i = 0; i < protoCount; i++) {
-			PROTOCOLDESCRIPTOR *pd = proto[i];
-			if (pd->type == PROTOTYPE_PROTOCOL && pd->cbSize == sizeof(*pd)) {
-				m_prototype.AddStringA(proto[i]->szName);
+		int cnt = 0;
+		for (auto &it : g_arProtos)
+			if (it->type == PROTOTYPE_PROTOCOL && it->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
+				m_prototype.AddStringA(it->szName);
 				++cnt;
 			}
-		}
 
 		m_prototype.SetCurSel(0);
 		m_btnOk.Enable(cnt != 0);

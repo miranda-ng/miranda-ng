@@ -89,7 +89,7 @@ static int CompareProtos(const MBaseProto *p1, const MBaseProto *p2)
 	return mir_strcmp(p1->szName, p2->szName);
 }
 
-LIST<MBaseProto> filters(10, CompareProtos);
+LIST<MBaseProto> g_arFilters(10, CompareProtos);
 
 //------------------------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 		p->fnInit = pd->fnInit;
 		p->fnUninit = pd->fnUninit;
 	}
-	protos.insert(p);
+	g_arProtos.insert(p);
 
 	if (p->fnInit == nullptr && (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL)) {
 		// let's create a new container
@@ -143,7 +143,7 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 	}
 
 	if (p->type != PROTOTYPE_PROTOCOL && p->type != PROTOTYPE_VIRTUAL)
-		filters.insert(p);
+		g_arFilters.insert(p);
 	return 0;
 }
 
@@ -159,7 +159,7 @@ MIR_APP_DLL(void) Proto_SetUniqueId(const char *szModuleName, const char *pszUni
 	
 	MBaseProto tmp;
 	tmp.szName = (char*)szModuleName;
-	MBaseProto *pd = protos.find(&tmp);
+	MBaseProto *pd = g_arProtos.find(&tmp);
 	if (pd != nullptr)
 		pd->szUniqueId = mir_strdup(pszUniqueId);
 }
@@ -176,7 +176,7 @@ MIR_APP_DLL(const char*) Proto_GetUniqueId(const char *szModuleName)
 	}
 	else tmp.szName = (char*)szModuleName;
 
-	MBaseProto *pd = protos.find(&tmp);
+	MBaseProto *pd = g_arProtos.find(&tmp);
 	return (pd != nullptr) ? pd->szUniqueId : nullptr;
 }
 
@@ -459,12 +459,12 @@ void UnloadProtocolsModule()
 {
 	if (!bModuleInitialized) return;
 
-	for (auto &p : protos) {
+	for (auto &p : g_arProtos) {
 		mir_free(p->szUniqueId);
 		mir_free(p->szName);
 		mir_free(p);
 	}
-	protos.destroy();
+	g_arProtos.destroy();
 
 	if (hAckEvent) {
 		DestroyHookableEvent(hAckEvent);

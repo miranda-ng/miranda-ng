@@ -140,7 +140,7 @@ struct MBaseProto : public PROTOCOLDESCRIPTOR
 	char *szUniqueId;  // name of the unique setting that identifies a contact
 };
 
-extern LIST<MBaseProto> protos, filters;
+extern LIST<MBaseProto> g_arProtos, g_arFilters;
 
 INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 

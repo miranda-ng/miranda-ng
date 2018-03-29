@@ -28,7 +28,7 @@ static int CompareProtos(const MBaseProto *p1, const MBaseProto *p2)
 	return strcmp(p1->szName, p2->szName);
 }
 
-LIST<MBaseProto> protos(10, CompareProtos);
+LIST<MBaseProto> g_arProtos(10, CompareProtos);
 
 extern HANDLE hAckEvent;
 
@@ -41,15 +41,15 @@ MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 	
 	MBaseProto tmp;
 	tmp.szName = (char*)szProtoName;
-	return protos.find(&tmp);
+	return g_arProtos.find(&tmp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(void) Proto_EnumProtocols(int *nProtos, PROTOCOLDESCRIPTOR ***pProtos)
 {
-	if (nProtos) *nProtos = protos.getCount();
-	if (pProtos) *pProtos = (PROTOCOLDESCRIPTOR **)protos.getArray();
+	if (nProtos) *nProtos = g_arProtos.getCount();
+	if (pProtos) *pProtos = (PROTOCOLDESCRIPTOR **)g_arProtos.getArray();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
