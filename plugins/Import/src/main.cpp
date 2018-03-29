@@ -128,15 +128,14 @@ static INT_PTR ServiceMode(WPARAM, LPARAM)
 
 		WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
 		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
-	}
-	else {
-		g_bSendQuit = true;
-
-		WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
+		return SERVICE_CONTINUE;
 	}
 
-	return SERVICE_CONTINUE;
+	g_bSendQuit = true;
+
+	WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
+	return SERVICE_ONLYDB;
 }
 
 static INT_PTR CustomImport(WPARAM wParam, LPARAM)
