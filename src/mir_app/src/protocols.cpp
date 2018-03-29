@@ -109,6 +109,7 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 		return 1;
 
 	MBaseProto *p = (MBaseProto*)mir_calloc(sizeof(MBaseProto));
+	p->cbSize = pd->cbSize;
 	p->szName = mir_strdup(pd->szName);
 	p->type = pd->type;
 	if (pd->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
