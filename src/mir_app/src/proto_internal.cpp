@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 char** __fastcall Proto_FilesMatrixA(wchar_t **files);
 
-void FreeFilesMatrix(wchar_t ***files)
+static void FreeFilesMatrix(wchar_t ***files)
 {
 	if (*files == nullptr)
 		return;

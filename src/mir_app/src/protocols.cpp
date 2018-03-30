@@ -93,9 +93,7 @@ LIST<MBaseProto> g_arFilters(10, CompareProtos);
 
 //------------------------------------------------------------------------------------
 
-void FreeFilesMatrix(wchar_t ***files);
-
-static PROTO_INTERFACE* defInitProto(const char* szModule, const wchar_t*)
+static PROTO_INTERFACE* defInitProto(const char *szModule, const wchar_t*)
 {
 	return AddDefaultAccount(szModule);
 }
@@ -120,7 +118,7 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 
 	if (p->fnInit == nullptr && (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL)) {
 		// let's create a new container
-		PROTO_INTERFACE* ppi = AddDefaultAccount(pd->szName);
+		PROTO_INTERFACE *ppi = AddDefaultAccount(pd->szName);
 		if (ppi) {
 			ppi->m_iVersion = (pd->cbSize == PROTOCOLDESCRIPTOR_V3_SIZE) ? 1 : 2;
 			PROTOACCOUNT *pa = Proto_GetAccount(pd->szName);
@@ -273,15 +271,16 @@ char** __fastcall Proto_FilesMatrixA(wchar_t **files)
 
 static wchar_t** __fastcall Proto_FilesMatrixU(char **files)
 {
-	if (files == nullptr) return nullptr;
+	if (files == nullptr)
+		return nullptr;
 
 	int count = 0;
-	while (files[count++]);
+	while (files[count++])
+		;
 
-	wchar_t** filesU = (wchar_t**)mir_alloc(count * sizeof(wchar_t*));
+	wchar_t **filesU = (wchar_t**)mir_alloc(count * sizeof(wchar_t*));
 	for (int i = 0; i < count; i++)
 		filesU[i] = mir_a2u(files[i]);
-
 	return filesU;
 }
 
@@ -392,7 +391,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 				case 15: return (INT_PTR)ppi->SearchBasic((wchar_t*)lParam);
 				case 16:	return (INT_PTR)ppi->SearchByEmail((wchar_t*)lParam);
 				case 17: {
-						PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
+						PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME*)lParam;
 						return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
 					}
 				case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
