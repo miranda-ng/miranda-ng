@@ -151,6 +151,9 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 
 MIR_APP_DLL(void) Proto_SetUniqueId(const char *szModuleName, const char *pszUniqueId)
 {
+	if (szModuleName == nullptr || pszUniqueId == nullptr)
+		return;
+
 	PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
 	if (pa != nullptr) {
 		pa->szUniqueId = mir_strdup(pszUniqueId);
@@ -166,6 +169,9 @@ MIR_APP_DLL(void) Proto_SetUniqueId(const char *szModuleName, const char *pszUni
 
 MIR_APP_DLL(const char*) Proto_GetUniqueId(const char *szModuleName)
 {
+	if (szModuleName == nullptr)
+		return nullptr;
+
 	MBaseProto tmp;
 	PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
 	if (pa != nullptr) {
