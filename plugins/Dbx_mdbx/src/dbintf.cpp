@@ -95,6 +95,7 @@ int CDbxMDBX::Load(bool bSkipInit)
 				m_header.dwVersion = DBHEADER_VERSION;
 				data.iov_base = &m_header; data.iov_len = sizeof(m_header);
 				mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
+				DBFlush();
 			}
 
 			keyVal = 2;
@@ -183,6 +184,7 @@ int CDbxMDBX::PrepareCheck()
 STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 {
 	m_safetyMode = bIsSet != 0;
+	DBFlush(true);
 }
 
 int CDbxMDBX::Map()
@@ -202,4 +204,26 @@ int CDbxMDBX::Map()
 
 	int exclusive = (m_bShared) ? 1 : 2;
 	return mdbx_env_open_ex(m_env, _T2A(m_tszProfileName), mode, 0664, &exclusive);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static VOID CALLBACK DoBufferFlushTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
+{
+	KillTimer(nullptr, idEvent);
+
+	for (auto &it : g_Dbs)
+		if (it->m_timerId == idEvent)
+			it->DBFlush(true);
+}
+
+void CDbxMDBX::DBFlush(bool bForce)
+{
+	if (bForce) {
+		mdbx_env_sync(m_env, true);
+	}
+	else if (m_safetyMode) {
+		::KillTimer(nullptr, m_timerId);
+		::SetTimer(nullptr, m_timerId, 50, DoBufferFlushTimerProc);
+	}
 }

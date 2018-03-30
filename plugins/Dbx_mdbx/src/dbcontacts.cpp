@@ -77,6 +77,7 @@ STDMETHODIMP_(LONG) CDbxMDBX::DeleteContact(MCONTACT contactID)
 
 	// free cache item
 	m_cache->FreeCachedContact(contactID);
+	DBFlush();
 
 	InterlockedDecrement(&m_contactCount);
 	return 0;
@@ -98,6 +99,7 @@ STDMETHODIMP_(MCONTACT) CDbxMDBX::AddContact()
 			return 0;
 	}
 
+	DBFlush();
 	InterlockedIncrement(&m_contactCount);
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
 	return dwContactId;
@@ -155,6 +157,8 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		return 1;
 	if (trnlck.commit() != MDBX_SUCCESS)
 		return 1;
+
+	DBFlush();
 	return 0;
 }
 
@@ -185,6 +189,8 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		return 1;
 	if (trnlck.commit() != MDBX_SUCCESS)
 		return 1;
+	
+	DBFlush();
 	return 0;
 }
 

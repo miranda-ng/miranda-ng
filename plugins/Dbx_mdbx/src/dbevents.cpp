@@ -134,6 +134,8 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 			return 0;
 	}
 
+	DBFlush();
+
 	// Notify only in safe mode or on really new events
 	if (m_safetyMode)
 		NotifyEventHooks(hEventAddedEvent, contactNotifyID, dwEventId);
@@ -214,6 +216,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 			return 1;
 	}
 
+	DBFlush();
 	NotifyEventHooks(hEventDeletedEvent, contactID, hDbEvent);
 	return 0;
 }
@@ -340,6 +343,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 			return -1;
 	}
 
+	DBFlush();
 	NotifyEventHooks(hEventMarkedRead, contactID, (LPARAM)hDbEvent);
 	return wRetVal;
 }

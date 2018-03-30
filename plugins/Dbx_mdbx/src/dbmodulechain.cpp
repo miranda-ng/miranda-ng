@@ -52,6 +52,7 @@ uint32_t CDbxMDBX::GetModuleID(const char *szName)
 		}
 
 		m_Modules[iHash] = szName;
+		DBFlush();
 	}
 
 	return iHash;

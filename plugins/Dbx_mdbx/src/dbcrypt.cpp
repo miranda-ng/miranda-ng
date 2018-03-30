@@ -62,6 +62,7 @@ CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
 			return nullptr;
 	}
 
+	DBFlush();
 	return pProv;
 }
 
@@ -137,6 +138,7 @@ void CDbxMDBX::StoreKey()
 	}
 
 	SecureZeroMemory(pKey, iKeyLength);
+	DBFlush();
 }
 
 void CDbxMDBX::SetPassword(const wchar_t *ptszPassword)
@@ -228,6 +230,7 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 	if (trnlck.commit() != MDBX_SUCCESS)
 		return 1;
 
+	DBFlush();
 	m_bEncrypted = bEncrypted;
 	return 0;
 }

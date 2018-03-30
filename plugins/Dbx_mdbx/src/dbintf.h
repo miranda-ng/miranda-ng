@@ -129,16 +129,9 @@ struct EventItem
 	MEVENT eventId;
 };
 
-struct CDbxMDBX : public MDatabaseCommon, public MZeroedObject
+class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 {
 	friend class MDBXEventCursor;
-
-	CDbxMDBX(const TCHAR *tszFileName, int mode);
-	virtual ~CDbxMDBX();
-
-	int Load(bool bSkipInit);
-	int Create(void);
-	int Check(void);
 
 	__forceinline MDBX_txn* StartTran() const
 	{
@@ -150,17 +143,96 @@ struct CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 		return res;
 	}
 
-	void StoreKey(void);
-	void SetPassword(const wchar_t *ptszPassword);
+	void FillContacts(void);
+	int  Map();
+	int  PrepareCheck();
 	void UpdateMenuItem(void);
 
-	int  PrepareCheck();
+	////////////////////////////////////////////////////////////////////////////
+	// database stuff
+
+	TCHAR*   m_tszProfileName;
+	bool     m_safetyMode, m_bReadOnly, m_bShared, m_bEncrypted, m_bUsesPassword;
+
+	MDBX_env *m_env;
+	CMDBX_txn_ro m_txn_ro;
+
+	MDBX_dbi m_dbGlobal;
+	DBHeader m_header;
+	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
+
+	DBCachedContact m_ccDummy; // dummy contact to serve a cache item for MCONTACT = 0
+
+	////////////////////////////////////////////////////////////////////////////
+	// settings
+
+	MDBX_dbi  m_dbSettings;
+	MDBX_cursor *m_curSettings;
+
+	HANDLE   hService, hHook;
+
+	////////////////////////////////////////////////////////////////////////////
+	// contacts
+
+	MDBX_dbi	    m_dbContacts;
+	MDBX_cursor *m_curContacts;
+
+	uint32_t m_contactCount;
+	MCONTACT m_maxContactId;
+
+	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
+
+	////////////////////////////////////////////////////////////////////////////
+	// events
+
+	MDBX_dbi	    m_dbEvents, m_dbEventsSort;
+	MDBX_cursor *m_curEvents, *m_curEventsSort;
+	MEVENT       m_dwMaxEventId;
+
+	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
+
+	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
+
+	////////////////////////////////////////////////////////////////////////////
+	// modules
+
+	MDBX_dbi	m_dbModules;
+	MDBX_cursor *m_curModules;
+
+	std::map<uint32_t, std::string> m_Modules;
+
+	int      InitModules();
+
+	uint32_t GetModuleID(const char *szName);
+	char*    GetModuleName(uint32_t dwId);
+
+	////////////////////////////////////////////////////////////////////////////
+	// encryption
+
+	MDBX_dbi  m_dbCrypto;
+
+	int      InitCrypt(void);
+	CRYPTO_PROVIDER* SelectProvider();
+
+	void     InitDialogs();
+
+public:
+	CDbxMDBX(const TCHAR *tszFileName, int mode);
+	virtual ~CDbxMDBX();
+
+	int  Check(void);
+	int  Create(void);
+	void DBFlush(bool bForce = false);
+	int  EnableEncryption(bool bEnable);
+	int  Load(bool bSkipInit);
+	void StoreKey(void);
+	void SetPassword(const wchar_t *ptszPassword);
 
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
 
 	__forceinline bool isEncrypted() const { return m_bEncrypted; }
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
-	int      EnableEncryption(bool bEnable);
+
 public:
 	STDMETHODIMP_(BOOL)     IsRelational(void) { return TRUE; }
 	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
@@ -194,81 +266,7 @@ public:
 	STDMETHODIMP_(BOOL)     MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 
-protected:
-
-	void  FillContacts(void);
-
-	int   Map();
-
-protected:
-	TCHAR*   m_tszProfileName;
-	bool     m_safetyMode, m_bReadOnly, m_bShared, m_bEncrypted, m_bUsesPassword;
-
-	////////////////////////////////////////////////////////////////////////////
-	// database stuff
 public:
 	MICryptoEngine *m_crypto;
-
-protected:
-	MDBX_env *m_env;
-	CMDBX_txn_ro m_txn_ro;
-
-	MDBX_dbi m_dbGlobal;
-	DBHeader m_header;
-	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
-
-	DBCachedContact m_ccDummy; // dummy contact to serve a cache item for MCONTACT = 0
-
-	////////////////////////////////////////////////////////////////////////////
-	// settings
-
-	MDBX_dbi  m_dbSettings;
-	MDBX_cursor *m_curSettings;
-
-	HANDLE   hService, hHook;
-
-	////////////////////////////////////////////////////////////////////////////
-	// contacts
-
-	MDBX_dbi	    m_dbContacts;
-	MDBX_cursor *m_curContacts;
-
-	uint32_t m_contactCount;
-	MCONTACT m_maxContactId;
-
-	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
-
-	////////////////////////////////////////////////////////////////////////////
-	// events
-
-	MDBX_dbi	    m_dbEvents,   m_dbEventsSort;
-	MDBX_cursor *m_curEvents, *m_curEventsSort;
-	MEVENT       m_dwMaxEventId;
-
-	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
-
-	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
-
-	////////////////////////////////////////////////////////////////////////////
-	// modules
-
-	MDBX_dbi	m_dbModules;
-	MDBX_cursor *m_curModules;
-	
-	std::map<uint32_t, std::string> m_Modules;
-
-	int      InitModules();
-	
-	uint32_t GetModuleID(const char *szName);
-	char*    GetModuleName(uint32_t dwId);
-
-	////////////////////////////////////////////////////////////////////////////
-	// encryption
-
-	MDBX_dbi  m_dbCrypto;
-
-	int      InitCrypt(void);
-	CRYPTO_PROVIDER* SelectProvider();
-
-	void     InitDialogs();
+	UINT_PTR m_timerId; // timer to flush unsaved data
 };

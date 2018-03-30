@@ -348,6 +348,8 @@ LBL_WriteString:
 
 	// notify
 	lck.unlock();
+
+	DBFlush();
 	NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwNotif);
 	return 0;
 }
@@ -380,6 +382,8 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 
 		m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 	}
+
+	DBFlush();
 
 	// notify
 	DBCONTACTWRITESETTING dbcws = { 0 };
