@@ -58,6 +58,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 	}
 
 	HReadBuffer buf(info, 0);
+	buf.surelyRead(atol(data.strMsgBytes));
 	debugLogA("Server error:%s", cmdString);
 
 	switch (errorCode) {
