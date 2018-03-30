@@ -80,6 +80,7 @@ int LoadMetacontacts(void)
 	for (auto &hContact : Contacts(META_PROTO)) {
 		db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
 		db_set_dw(hContact, META_PROTO, "IdleTS", 0);
+		db_unset(hContact, META_PROTO, "MirVer");
 	}	
 
 	Meta_ReadOptions();
