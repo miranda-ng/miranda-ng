@@ -22,21 +22,16 @@ void __noreturn usage(void) {
 
 //-----------------------------------------------------------------------------
 
-void actor_params::set_defaults(void) {
+void actor_params::set_defaults(const std::string &tmpdir) {
   pathname_log = "";
   loglevel =
 #ifdef NDEBUG
-      logging::notice;
+      logging::info;
 #else
       logging::trace;
 #endif
 
-  pathname_db =
-#ifdef __linux__
-      "/dev/shm/test_tmpdb.mdbx";
-#else
-      "test_tmpdb.mdbx";
-#endif
+  pathname_db = tmpdir + "mdbx-test.db";
   mode_flags = MDBX_NOSUBDIR | MDBX_WRITEMAP | MDBX_MAPASYNC | MDBX_NORDAHEAD |
                MDBX_NOMEMINIT | MDBX_COALESCE | MDBX_LIFORECLAIM;
   table_flags = MDBX_DUPSORT;
@@ -65,6 +60,7 @@ void actor_params::set_defaults(void) {
 
   delaystart = 0;
   waitfor_nops = 0;
+  inject_writefaultn = 0;
 
   drop_table = false;
 
@@ -135,7 +131,7 @@ int main(int argc, char *const argv[]) {
                : EXIT_FAILURE;
 
   actor_params params;
-  params.set_defaults();
+  params.set_defaults(osal_tempdir());
   global::config::dump_config = true;
   logging::setup((logging::loglevel)params.loglevel, "main");
   unsigned last_space_id = 0;
@@ -218,6 +214,9 @@ int main(int argc, char *const argv[]) {
       continue;
     if (config::parse_option(argc, argv, narg, "wait4ops", params.waitfor_nops,
                              config::decimal))
+      continue;
+    if (config::parse_option(argc, argv, narg, "inject-writefault",
+                             params.inject_writefaultn, config::decimal))
       continue;
     if (config::parse_option(argc, argv, narg, "drop", params.drop_table))
       continue;

@@ -23,23 +23,21 @@ suffix	?=
 
 CC	?= gcc
 CXX	?= g++
-XCFLAGS	?= -DNDEBUG=1 -DMDBX_DEBUG=0 -DLIBMDBX_EXPORTS=1
+ifeq ($(shell (export LC_ALL=C; ($(CC) --version 2>&1; $(CC) -v 2>&1) | grep -q -i 'e2k' && echo yes)),yes)
+CFLAGS	?= -O3 -g3 -Wall -Werror -Wextra -ffunction-sections -fPIC -fvisibility=hidden
+else
 CFLAGS	?= -O2 -g3 -Wall -Werror -Wextra -ffunction-sections -fPIC -fvisibility=hidden
-CFLAGS	+= -D_GNU_SOURCE=1 -std=gnu11 -pthread $(XCFLAGS)
-
-# temporary workaround for lcc's bug
-TARGET_ARCH_e2k = $(shell (export LC_ALL=C; ($(CC) --version 2>&1; $(CC) -v 2>&1) | grep -q -i 'e2k' && echo yes || echo no))
-ifeq ($(TARGET_ARCH_e2k),yes)
-TARGET_ARCH := e2k
-CFLAGS += -mtune=native -Wno-alignment-reduction-ignored
 endif
 
+XCFLAGS	?= -DNDEBUG=1 -DMDBX_DEBUG=0 -DLIBMDBX_EXPORTS=1
+CFLAGS	+= -D_GNU_SOURCE=1 -std=gnu11 -pthread $(XCFLAGS)
 CXXFLAGS = -std=c++11 $(filter-out -std=gnu11,$(CFLAGS))
-TESTDB	?= $(shell [ -d /dev/shm ] && echo /dev/shm || echo /tmp)/mdbx-check.db
-TESTLOG ?= $(shell [ -d /dev/shm ] && echo /dev/shm || echo /tmp)/mdbx-check.log
+TESTDB	?= $(shell [ -d /dev/shm ] && echo /dev/shm || echo /tmp)/mdbx-test.db
+TESTLOG ?= $(shell [ -d /dev/shm ] && echo /dev/shm || echo /tmp)/mdbx-test.log
 
 # LY: '--no-as-needed,-lrt' for ability to built with modern glibc, but then run with the old
 LDFLAGS	?= -Wl,--gc-sections,-z,relro,-O,--no-as-needed,-lrt
+EXE_LDFLAGS ?= $(LDFLAGS) -static
 
 # LY: just for benchmarking
 IOARENA ?= $(shell \
@@ -90,6 +88,12 @@ clean:
 check:	all
 	rm -f $(TESTDB) $(TESTLOG) && (set -o pipefail; test/test --pathname=$(TESTDB) --dont-cleanup-after basic | tee -a $(TESTLOG) | tail -n 42) && ./mdbx_chk -vvn $(TESTDB)
 
+check-singleprocess:	all
+	rm -f $(TESTDB) $(TESTLOG) && (set -o pipefail; test/test --pathname=$(TESTDB) --dont-cleanup-after --hill | tee -a $(TESTLOG) | tail -n 42) && ./mdbx_chk -vvn $(TESTDB)
+
+check-fault:	all
+	rm -f $(TESTDB) $(TESTLOG) && (set -o pipefail; test/test --pathname=$(TESTDB) --inject-writefault=42 --dump-config --dont-cleanup-after basic | tee -a $(TESTLOG) | tail -n 42) && ./mdbx_chk -vvn $(TESTDB)
+
 define core-rule
 $(patsubst %.c,%.o,$(1)): $(1) $(CORE_INC) mdbx.h Makefile
 	$(CC) $(CFLAGS) -c $(1) -o $$@
@@ -111,10 +115,12 @@ libmdbx.so: $(CORE_OBJ)
 	$(CC) $(CFLAGS) -save-temps $^ -pthread -shared $(LDFLAGS) -o $@
 
 mdbx_%:	src/tools/mdbx_%.c libmdbx.a
-	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	$(CC) $(CFLAGS) $^ $(EXE_LDFLAGS) -o $@
 
 test/test: $(TEST_OBJ) libmdbx.a
-	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
+	$(CXX) $(CXXFLAGS) $^ $(EXE_LDFLAGS) -o $@
+
+###############################################################################
 
 ifneq ($(wildcard $(IOARENA)),)
 
@@ -163,6 +169,8 @@ bench-quartet: bench-mdbx_$(NN).txt bench-lmdb_$(NN).txt bench-rocksdb_$(NN).txt
 
 endif
 
+###############################################################################
+
 ci-rule = ( CC=$$(which $1); if [ -n "$$CC" ]; then \
 		echo -n "probe by $2 ($$(readlink -f $$(which $$CC))): " && \
 		$(MAKE) clean >$1.log 2>$1.err && \
@@ -178,3 +186,36 @@ ci:
 	@$(call ci-rule,gcc,GCC)
 	@$(call ci-rule,clang,clang LLVM)
 	@$(call ci-rule,icc,Intel C)
+
+###############################################################################
+
+CROSS_LIST = alpha-linux-gnu-gcc mips-linux-gnu-gcc \
+	powerpc64-linux-gnu-gcc powerpc-linux-gnu-gcc \
+	arm-linux-gnueabihf-gcc aarch64-linux-gnu-gcc
+
+# hppa-linux-gnu-gcc		- don't supported by current qemu release
+# s390x-linux-gnu-gcc		- qemu troubles (hang/abort)
+# sh4-linux-gnu-gcc		- qemu troubles (pread syscall, etc)
+# mips64-linux-gnuabi64-gcc	- qemu troubles (pread syscall, etc)
+# sparc64-linux-gnu-gcc		- qemu troubles (fcntl for F_SETLK/F_GETLK)
+CROSS_LIST_NOQEMU = hppa-linux-gnu-gcc s390x-linux-gnu-gcc \
+	sh4-linux-gnu-gcc mips64-linux-gnuabi64-gcc sparc64-linux-gnu-gcc
+
+cross-gcc:
+	@echo "CORRESPONDING CROSS-COMPILERs ARE REQUIRED."
+	@echo "FOR INSTANCE: apt install g++-aarch64-linux-gnu g++-alpha-linux-gnu g++-arm-linux-gnueabihf g++-hppa-linux-gnu g++-mips-linux-gnu g++-mips64-linux-gnuabi64 g++-powerpc-linux-gnu g++-powerpc64-linux-gnu g++-s390x-linux-gnu g++-sh4-linux-gnu"
+	@for CC in $(CROSS_LIST_NOQEMU) $(CROSS_LIST); do \
+		echo "===================== $$CC"; \
+		$(MAKE) clean && CC=$$CC CXX=$$(echo $$CC | sed 's/-gcc/-g++/') EXE_LDFLAGS=-static $(MAKE) all || exit $$?; \
+	done
+
+#
+# Unfortunately qemu don't provide robust support for futexes.
+# Therefore it is impossible to run full multi-process tests.
+cross-qemu:
+	@echo "CORRESPONDING CROSS-COMPILERs AND QEMUs ARE REQUIRED."
+	@echo "FOR INSTANCE: apt install binfmt-support qemu-user-static qemu-user qemu-system-arm qemu-system-mips qemu-system-misc qemu-system-ppc qemu-system-sparc g++-aarch64-linux-gnu g++-alpha-linux-gnu g++-arm-linux-gnueabihf g++-hppa-linux-gnu g++-mips-linux-gnu g++-mips64-linux-gnuabi64 g++-powerpc-linux-gnu g++-powerpc64-linux-gnu g++-s390x-linux-gnu g++-sh4-linux-gnu"
+	@for CC in $(CROSS_LIST); do \
+		echo "===================== $$CC + qemu"; \
+		$(MAKE) clean && CC=$$CC CXX=$$(echo $$CC | sed 's/-gcc/-g++/') EXE_LDFLAGS=-static $(MAKE) check-singleprocess || exit $$?; \
+	done

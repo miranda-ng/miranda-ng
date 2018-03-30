@@ -278,8 +278,6 @@ void dump(const char *title) {
   logging::local_suffix indent(title);
 
   for (auto i = global::actors.begin(); i != global::actors.end(); ++i) {
-    const std::string tableid =
-        i->space_id ? "MAINDB" : ("SUB#" + std::to_string(i->space_id));
     log_info("#%u, testcase %s, space_id/table %u\n", i->actor_id,
              testcase2str(i->testcase), i->space_id);
     indent.push();
@@ -325,6 +323,11 @@ void dump(const char *title) {
       dump_duration("delay", i->params.delaystart);
     else
       log_info("no-delay\n");
+
+    if (i->params.inject_writefaultn)
+      log_info("inject-writefault on %u ops\n", i->params.inject_writefaultn);
+    else
+      log_info("no-inject-writefault\n");
 
     log_info("limits: readers %u, tables %u\n", i->params.max_readers,
              i->params.max_tables);

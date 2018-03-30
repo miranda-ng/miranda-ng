@@ -9,9 +9,17 @@ libmdbx
 
 ### Project Status
 
-**MDBX is under _active development_**, database format and API aren't stable
-at least until 2018Q2. New version won't be backwards compatible.
-Main focus of the rework is to provide clear and robust API and new features.
+**MDBX is under _active development_**, database format and
+API aren't stable at least until 2018Q3. New version won't be
+backwards compatible. Main focus of the rework is to provide
+clear and robust API and new features.
+
+Nowadays MDBX intended for Linux and support Windows (since
+Windows Server 2008) as complementary platform. Support for
+other OS could be implemented on commercial basis. However such
+enhancements (i.e. pull requests) could be accepted in
+mainstream only when corresponding public and free Countinious
+Integration service will be available.
 
 ## Contents
 
@@ -34,7 +42,7 @@ Main focus of the rework is to provide clear and robust API and new features.
 
 ## Overview
 
-_libmdbx_ is an embedded lightweight key-value database engine oriented for performance.
+_libmdbx_ is an embedded lightweight key-value database engine oriented for performance under Linux and Windows.
 
 _libmdbx_ allows multiple processes to read and update several key-value tables concurrently,
 while being [ACID](https://en.wikipedia.org/wiki/ACID)-compliant, with minimal overhead and operation cost of Olog(N).
@@ -233,7 +241,7 @@ scanning data directory.
    Because of this syncing data to disk might be quite resource intensive and be main performance bottleneck
    during intensive write workload.
    > As compromise _libmdbx_ allows several modes of lazy and/or periodic syncing, including `MAPASYNC` mode, which modificate
-   > data in memory and asynchronously syncs data to disc, moment to sync is picked by OS.
+   > data in memory and asynchronously syncs data to disk, moment to sync is picked by OS.
    >
    > Although this should be used with care, synchronous transactions in a DB with transaction journal will require 2 IOPS
    > minimum (probably 3-4 in practice) because of filesystem overhead, overhead depends on filesystem, not on record
@@ -339,7 +347,7 @@ Improvements over LMDB
 	This allows to minimize reclaim loop and make it execution time independent from total page count.
 
 	This results in OS kernel cache mechanisms working with maximum efficiency.
-	In case of using disc controllers or storages with
+	In case of using disk controllers or storages with
 	[BBWC](https://en.wikipedia.org/wiki/Disk_buffer#Write_acceleration) this may greatly improve
 	write performance.
 
@@ -378,7 +386,7 @@ Improvements over LMDB
 
 9. Check if there is a row with data after current cursor position via `mdbx_cursor_eof()`.
 
-10. Ability to explicitly request update of current record without creating new record. Implemented as `MDBX_CURRENT` flag
+10. Ability to explicitly request update of present record without creating new record. Implemented as `MDBX_CURRENT` flag
     for `mdbx_put()`.
 
 11. Ability to update or delete record and get previous value via `mdbx_replace()` Also can update specific multi-value.
@@ -419,7 +427,7 @@ Improvements over LMDB
 22. Additional error code `MDBX_EMULTIVAL`, which is returned by `mdbx_put()` and
     `mdbx_replace()` in case is ambiguous update or delete.
 
-23. Ability to get value by key and duplicates count by `mdbx_get_ex()`
+23. Ability to get value by key and duplicates count by `mdbx_get_ex()`.
 
 24. Functions `mdbx_cursor_on_first() and mdbx_cursor_on_last(), which allows to know if cursor is currently on first or
     last position respectively.
