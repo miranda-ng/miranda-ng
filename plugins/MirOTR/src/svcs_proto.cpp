@@ -139,7 +139,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 		CMStringA tmp = options.prefix;
 		tmp.Append(newmessage);
 		msg_free(newmessage);
-		newmessage = mir_strdup(tmp);
+		replaceStr(newmessage, tmp.Detach());
 		msg_free = mir_free;
 	}
 	pre->szMessage = newmessage;
