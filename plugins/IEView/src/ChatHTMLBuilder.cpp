@@ -74,9 +74,9 @@ void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%d", i);
 		if (db_get(NULL, CHATFONTMOD, str, &dbv))
-			mir_strcpy(lf->lfFaceName, "Verdana");
+			strncpy_s(lf->lfFaceName, "Verdana", _TRUNCATE);
 		else {
-			mir_strncpy(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
+			strncpy_s(lf->lfFaceName, dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
 		}
 	}

@@ -57,7 +57,7 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 			//wchar_t *ext = wcsrchr(dbv.ptszVal, '.');
 			if (result == nullptr) {
 				/* relative -> absolute */
-				mir_wstrcpy(tmpPath, dbv.ptszVal);
+				wcsncpy_s(tmpPath, dbv.ptszVal, _TRUNCATE);
 				if (wcsncmp(tmpPath, L"http://", 7))
 					PathToAbsoluteW(dbv.ptszVal, tmpPath);
 				result = tmpPath;
@@ -133,7 +133,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 
 	char tempBase[1024] = { 0 };
 
-	mir_strcpy(tempBase, "file://");
+	strncpy_s(tempBase, "file://", _TRUNCATE);
 	mir_strncat(tempBase, tmpm->getFilename(), _countof(tempBase) - mir_strlen(tempBase));
 	char *pathrun = tempBase + mir_strlen(tempBase);
 	while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase))
@@ -296,7 +296,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
 	if (tmpm != nullptr) {
-		mir_strcpy(tempBase, "file://");
+		strncpy_s(tempBase, "file://", _TRUNCATE);
 		mir_strcat(tempBase, tmpm->getFilename());
 
 		char* pathrun = nullptr;

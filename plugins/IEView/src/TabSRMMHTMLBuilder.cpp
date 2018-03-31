@@ -143,9 +143,9 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%d", i);
 		if (db_get(NULL, TABSRMM_FONTMODULE, str, &dbv))
-			mir_strcpy(lf->lfFaceName, "Verdana");
+			strncpy_s(lf->lfFaceName, "Verdana", _TRUNCATE);
 		else {
-			mir_strncpy(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
+			strncpy_s(lf->lfFaceName, dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
 		}
 	}
@@ -173,12 +173,12 @@ char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 
 		if (dwFlags & MWF_LOG_USERELATIVEDATES && check >= today) {
 			szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "s" : "t";
-			mir_strcpy(szResult, Translate("Today"));
+			strncpy_s(szResult, Translate("Today"), _TRUNCATE);
 			mir_strcat(szResult, ", ");
 		}
 		else if (dwFlags & MWF_LOG_USERELATIVEDATES && check > (today - 86400)) {
 			szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "s" : "t";
-			mir_strcpy(szResult, Translate("Yesterday"));
+			strncpy_s(szResult, Translate("Yesterday"), _TRUNCATE);
 			mir_strcat(szResult, ", ");
 		}
 		else {
