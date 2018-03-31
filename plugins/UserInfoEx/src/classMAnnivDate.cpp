@@ -573,8 +573,7 @@ int MAnnivDate::DBWriteBirthDate(MCONTACT hContact)
 				// only delete values from current contact's custom modules
 				!(_wFlags & (MADF_HASPROTO|MADF_HASMETA)) &&
 				// check whether user wants this feature
-				db_get_b(NULL, MODNAME, SET_REMIND_SECUREBIRTHDAY, TRUE) &&
-				!myGlobals.UseDbxTree)
+				db_get_b(NULL, MODNAME, SET_REMIND_SECUREBIRTHDAY, TRUE))
 		{
 			// keep the database clean
 

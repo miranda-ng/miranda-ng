@@ -843,7 +843,7 @@ void SvcReminderEnable(BYTE bEnable)
 		if (!ghCListIA)
 			ghCListIA = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcon);
 
-		if (!ghSettingsChanged && !myGlobals.UseDbxTree)
+		if (!ghSettingsChanged)
 			ghSettingsChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
 
 		// reinit reminder options

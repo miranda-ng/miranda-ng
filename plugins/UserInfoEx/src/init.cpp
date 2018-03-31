@@ -175,9 +175,6 @@ extern "C" int __declspec(dllexport) Load(void)
 			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
 	}
 
-	// check for dbx_tree
-	myGlobals.UseDbxTree = ServiceExists("DBT/Entity/GetRoot");
-
 	// load icon library
 	IcoLib_LoadModule();
 

@@ -581,7 +581,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		ShowWindow(GetDlgItem(hDlg, CHECK_REMIND_SECURED), myGlobals.UseDbxTree ? SW_HIDE : SW_SHOW);
+		ShowWindow(GetDlgItem(hDlg, CHECK_REMIND_SECURED), SW_SHOW);
 
 		SendDlgItemMessage(hDlg, ICO_BIRTHDAY, STM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_DLG_ANNIVERSARY, TRUE));
 
