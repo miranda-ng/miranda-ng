@@ -30,12 +30,6 @@ UINT_PTR hCheckTimer = NULL;
 UINT_PTR hReconnectTimer = NULL;
 UINT_PTR hFirstCheckTimer = NULL;
 
-#define HOST "http://eblis.tla.ro/projects"
-
-#define EXCHANGE_VERSION_URL HOST "/miranda/Exchange/updater/Exchange.html"
-#define EXCHANGE_UPDATE_URL HOST "/miranda/Exchange/updater/Exchange.zip"
-#define EXCHANGE_VERSION_PREFIX "Exchange notifier plugin version "
-
 int HookEvents()
 {
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
