@@ -50,7 +50,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 static int AssocMgrModulesLoaded(WPARAM,LPARAM)
 {
-	InitTest();
 	return 0;
 }
 
@@ -72,7 +71,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UninitTest();
 	UninitDde();
 	UninitAssocList();
 	UnhookEvent(hHookModulesLoaded);

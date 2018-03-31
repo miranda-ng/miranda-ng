@@ -36,14 +36,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_clist.h>
 #include "win2k.h"
 
-#define ASSOCMGR_NOHELPERFUNCTIONS
-
 #include "m_assocmgr.h"
 
 #include "utils.h"
 #include "reg.h"
 #include "assoclist.h"
 #include "dde.h"
-#include "test.h"
 #include "resource.h"
 #include "version.h"

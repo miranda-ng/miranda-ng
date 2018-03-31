@@ -43,7 +43,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CreateServiceFunction(MODULE "/ParseUri", CToxProto::ParseToxUri);
-		AssocMgr_AddNewUrlTypeT("tox:", TranslateT("Tox URI scheme"), g_hInstance, IDI_TOX, MODULE "/ParseUri", 0);
+		AssocMgr_AddNewUrlTypeW("tox:", TranslateT("Tox URI scheme"), g_hInstance, IDI_TOX, MODULE "/ParseUri", 0);
 	}
 
 	return 0;

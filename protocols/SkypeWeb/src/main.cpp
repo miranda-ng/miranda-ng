@@ -88,7 +88,7 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 	{
 		CreateServiceFunction(MODULE "/ParseUri", CSkypeProto::GlobalParseSkypeUriService);
-		AssocMgr_AddNewUrlTypeT("skype:", TranslateT("Skype Link Protocol"), g_hInstance, IDI_SKYPE, MODULE "/ParseUri", 0);
+		AssocMgr_AddNewUrlTypeW("skype:", TranslateT("Skype Link Protocol"), g_hInstance, IDI_SKYPE, MODULE "/ParseUri", 0);
 	}
 	return 0;
 }

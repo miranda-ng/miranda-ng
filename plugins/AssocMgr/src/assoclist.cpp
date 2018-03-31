@@ -484,7 +484,7 @@ static INT_PTR ServiceAddNewFileType(WPARAM, LPARAM lParam)
 	char *pszFileExt = mir_strdup(ftd->pszFileExt);
 	char *pszClassName = MakeFileClassName(ftd->pszFileExt);
 	if (pszFileExt != nullptr && pszClassName != nullptr) {
-		wchar_t *pszVerbDesc = s2t(ftd->ptszVerbDesc, ftd->flags&FTDF_UNICODE, TRUE); // does NULL check
+		wchar_t *pszVerbDesc = s2t(ftd->pwszVerbDesc, ftd->flags&FTDF_UNICODE, TRUE); // does NULL check
 		char *pszMimeType = mir_strdup(ftd->pszMimeType); // does NULL check
 		if (AddNewAssocItem_Worker(pszClassName, (TYPEDESCHEAD*)ftd, pszFileExt, pszVerbDesc, pszMimeType))
 			// no need to free pszClassName,  pszFileExt, pszVerbDesc and pszMimeType, 
@@ -981,9 +981,9 @@ void InitAssocList(void)
 		ftd.pwszDescription = TranslateT("Miranda NG database");
 		ftd.hInstance = hInst;
 		ftd.nIconResID = IDI_MIRANDAFILE;
-		ftd.ptszVerbDesc = nullptr;
+		ftd.pwszVerbDesc = nullptr;
 		ftd.pszService = nullptr;
-		ftd.flags = FTDF_DEFAULTDISABLED | FTDF_TCHAR;
+		ftd.flags = FTDF_DEFAULTDISABLED | FTDF_UNICODE;
 		ServiceAddNewFileType(0, (LPARAM)&ftd);
 	}
 }
