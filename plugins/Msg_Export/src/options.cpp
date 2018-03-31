@@ -1043,7 +1043,7 @@ BOOL bApplyChanges2(HWND hwndDlg)
 		enDeleteAction = eDANothing;
 
 	char szTemp[500];
-	mir_strcpy(szTemp, "DisableProt_");
+	strncpy_s(szTemp, "DisableProt_", _TRUNCATE);
 
 	HWND hMapUser = GetDlgItem(hwndDlg, IDC_EXPORT_PROTOS);
 	int nCount = ListView_GetItemCount(hMapUser);

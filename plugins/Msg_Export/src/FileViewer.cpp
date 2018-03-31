@@ -908,7 +908,7 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL)
 	ncf.dwMask = CFM_BOLD | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_UNDERLINE;
 	ncf.dwEffects = db_get_dw(NULL, MODULE, szFileViewDB "TEffects", 0);
 	ncf.yHeight = db_get_dw(NULL, MODULE, szFileViewDB "THeight", 165);
-	mir_wstrcpy(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str());
+	wcsncpy_s(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
 
 	if (!bUseSyntaxHL) {
 		ncf.dwMask |= CFM_COLOR;
@@ -1036,7 +1036,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
 			lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
 
-			mir_wstrcpy(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str());
+			wcsncpy_s(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
 			CHOOSEFONT cf = { 0 };
 			cf.lStructSize = sizeof(cf);
 			cf.hwndOwner = hwndDlg;

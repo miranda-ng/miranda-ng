@@ -464,7 +464,7 @@ bool bWriteHexToFile(HANDLE hFile, void * pData, int nSize)
 bool bReadMirandaDirAndPath()
 {
 	wchar_t szDBPath[MAX_PATH], tmp[MAX_PATH];
-	mir_wstrcpy(szDBPath, pszDbPathError);
+	wcsncpy_s(szDBPath, pszDbPathError, _TRUNCATE);
 	PathToAbsoluteW(L"miranda32.exe", tmp);
 	sMirandaPath = tmp;
 	sMirandaPath.erase(sMirandaPath.find_last_of(L"\\"));
@@ -821,7 +821,7 @@ void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO
 	if (MessageBox(nullptr, sError.c_str(), MSG_BOX_TITEL, MB_YESNO) == IDYES) {
 		OPENFILENAME ofn;       // common dialog box structure
 		wchar_t szFile[260];       // buffer for file name
-		mir_wstrcpy(szFile, L"DebugInfo.txt");
+		wcsncpy_s(szFile, L"DebugInfo.txt", _TRUNCATE);
 
 		// Initialize OPENFILENAME
 		memset(&ofn, 0, sizeof(OPENFILENAME));
