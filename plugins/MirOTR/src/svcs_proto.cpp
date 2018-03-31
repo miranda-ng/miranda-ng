@@ -136,12 +136,10 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 		msg_free = mir_free;
 	}
 	if (options.prefix_messages) {
-		size_t len = (mir_strlen(options.prefix)+mir_strlen(newmessage)+1)*sizeof(char);
-		char* tmp = (char*)mir_alloc( len );
-		mir_strcpy(tmp, options.prefix);
-		mir_strcat(tmp, newmessage);
+		CMStringA tmp = options.prefix;
+		tmp.Append(newmessage);
 		msg_free(newmessage);
-		newmessage = tmp;
+		newmessage = mir_strdup(tmp);
 		msg_free = mir_free;
 	}
 	pre->szMessage = newmessage;
