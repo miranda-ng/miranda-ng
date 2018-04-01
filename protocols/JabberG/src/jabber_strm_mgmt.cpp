@@ -25,7 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 strm_mgmt::strm_mgmt(CJabberProto *_proto) : proto(_proto), m_bStrmMgmtPendingEnable(false),
 m_bStrmMgmtEnabled(false),
-m_bStrmMgmtResumeSupported(false)
+m_bStrmMgmtResumeSupported(false),
+bSessionResumed(false)
 {
 
 }
@@ -34,23 +35,35 @@ void strm_mgmt::OnProcessEnabled(HXML node, ThreadData * /*info*/)
 {
 	m_bStrmMgmtEnabled = true;
 	auto val = XmlGetAttrValue(node, L"max");
-	m_nStrmMgmtResumeMaxSeconds = _wtoi(val);
+	if(val)
+		m_nStrmMgmtResumeMaxSeconds = _wtoi(val);
 	val = XmlGetAttrValue(node, L"resume");
-	if (mir_wstrcmp(val, L"true") || mir_wstrcmp(val, L"1"))
-		m_bStrmMgmtResumeSupported = true;
-
-	m_sStrmMgmtResumeId = XmlGetAttrValue(node, L"id");
+	if (val)
+	{
+		if (mir_wstrcmp(val, L"true") || mir_wstrcmp(val, L"1"))
+		{
+			m_bStrmMgmtResumeSupported = true;
+			m_sStrmMgmtResumeId = XmlGetAttrValue(node, L"id");
+		}
+	}
 	m_nStrmMgmtLocalHCount = 0;
 	m_nStrmMgmtSrvHCount = 0;
 }
 
-void strm_mgmt::OnProcessSMa(HXML node)
+void strm_mgmt::OnProcessResumed(HXML node, ThreadData * /*info*/)
 {
 	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
-		auto val = XmlGetAttrValue(node, L"h");
-		uint32_t iVal = _wtoi(val);
-		m_nStrmMgmtSrvHCount = iVal;
+		auto var = XmlGetAttrValue(node, L"previd");
+		if (!var)
+			return;
+		if (m_sStrmMgmtResumeId != var)
+			return; //TODO: unknown session, what we should do ?
+		var = XmlGetAttrValue(node, L"h");
+		if (!var)
+			return;
+		bSessionResumed = true;
+		m_nStrmMgmtSrvHCount = _wtoi(var);
 		int size = m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount;
 		if (size < 0)
 		{
@@ -58,37 +71,7 @@ void strm_mgmt::OnProcessSMa(HXML node)
 			//TODO: once our client side implementation good enough, abort stream in this case, noop for now
 		}
 		else if (size > 0 && !NodeCache.empty()) //TODO: NodeCache cannot be empty if size >0, it's a bug
-		{
-			if (size <= NodeCache.size()) //TODO: size should not be larger than NodeCache.size(), another bug
-			{
-				const size_t diff = NodeCache.size() - size;
-				if (diff)
-				{
-					size_t diff_tmp = diff;
-					for (auto i : NodeCache)
-					{
-						if (diff_tmp > 0)
-						{
-							xmlFree(i);
-							diff_tmp--;
-						}
-					}
-					diff_tmp = diff;
-					while (diff_tmp)
-					{
-						NodeCache.pop_front();
-						diff_tmp--;
-					}
-				}
-			}
-			std::list<HXML> tmp_list = NodeCache;
-			NodeCache.clear();
-			for (auto i : tmp_list)
-			{
-				proto->m_ThreadInfo->send_no_strm_mgmt(i); //freed by send ?
-				//xmlFree(i);
-			}
-		}
+			ResendNodes(size);
 		else
 		{
 			for (auto i : NodeCache)
@@ -96,6 +79,63 @@ void strm_mgmt::OnProcessSMa(HXML node)
 			NodeCache.clear();
 		}
 	}
+}
+
+void strm_mgmt::OnProcessSMa(HXML node)
+{
+	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	{
+		auto val = XmlGetAttrValue(node, L"h");
+		m_nStrmMgmtSrvHCount = _wtoi(val);
+		int size = m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount;
+		if (size < 0)
+		{
+			//TODO: this should never happen, indicates server side bug
+			//TODO: once our client side implementation good enough, abort stream in this case, noop for now
+		}
+		else if (size > 0 && !NodeCache.empty()) //TODO: NodeCache cannot be empty if size >0, it's a bug
+			ResendNodes(size);
+		else
+		{
+			for (auto i : NodeCache)
+				xmlFree(i);
+			NodeCache.clear();
+		}
+	}
+}
+
+void strm_mgmt::ResendNodes(uint32_t size)
+{
+	if (size > NodeCache.size()) //TODO: size should not be larger than NodeCache.size(), another bug
+	{
+		const size_t diff = NodeCache.size() - size;
+		if (diff)
+		{
+			size_t diff_tmp = diff;
+			for (auto i : NodeCache)
+			{
+				if (diff_tmp > 0)
+				{
+					xmlFree(i);
+					diff_tmp--;
+				}
+			}
+			diff_tmp = diff;
+			while (diff_tmp)
+			{
+				NodeCache.pop_front();
+				diff_tmp--;
+			}
+		}
+	}
+	std::list<HXML> tmp_list = NodeCache;
+	NodeCache.clear();
+	for (auto i : tmp_list)
+	{
+		proto->m_ThreadInfo->send_no_strm_mgmt(i); //freed by send ?
+												   //xmlFree(i);
+	}
+
 }
 
 void strm_mgmt::OnProcessSMr(HXML node)
@@ -169,11 +209,22 @@ void strm_mgmt::HandleIncommingNode(HXML node)
 
 void strm_mgmt::EnableStrmMgmt()
 {
-	XmlNode enable_sm(L"enable");
-	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-	XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
-	proto->m_ThreadInfo->send(enable_sm);
-	m_nStrmMgmtLocalSCount = 1; //TODO: this MUST be 0, i have bug somewhere.
+	if (m_sStrmMgmtResumeId.empty())
+	{
+		XmlNode enable_sm(L"enable");
+		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+		XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
+		proto->m_ThreadInfo->send(enable_sm);
+		m_nStrmMgmtLocalSCount = 1; //TODO: this MUST be 0, i have bug somewhere.
+	}
+	else
+	{
+		XmlNode enable_sm(L"resume");
+		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+		xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
+		XmlAddAttr(enable_sm, L"previd", m_sStrmMgmtResumeId.c_str());
+		proto->m_ThreadInfo->send(enable_sm);
+	}
 }
 
 void strm_mgmt::SendAck()

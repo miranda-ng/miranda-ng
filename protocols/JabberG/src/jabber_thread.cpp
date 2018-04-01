@@ -900,6 +900,8 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData *info)
 			OnProcessFailed(node, info);
 		else if (!mir_wstrcmp(XmlGetName(node), L"enabled"))
 			OnProcessEnabled(node, info);
+		else if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetName(node), L"resumed"))
+			m_StrmMgmt.OnProcessResumed(node, info);
 		else
 			debugLogA("Invalid top-level tag (only <message/> <presence/> and <iq/> allowed)");
 	}

@@ -31,12 +31,13 @@ class strm_mgmt
 {
 	void OnProcessSMa(HXML node);
 	void OnProcessSMr(HXML node);
+	void ResendNodes(uint32_t count);
 
 
 	CJabberProto *proto;
 	uint32_t m_nStrmMgmtSrvHCount, m_nStrmMgmtLocalHCount, m_nStrmMgmtLocalSCount, m_nStrmMgmtResumeMaxSeconds;
 	const uint32_t m_nStrmMgmtCacheSize = 10;
-	bool m_bStrmMgmtPendingEnable, m_bStrmMgmtEnabled, m_bStrmMgmtResumeSupported;
+	bool m_bStrmMgmtPendingEnable, m_bStrmMgmtEnabled, m_bStrmMgmtResumeSupported, bSessionResumed;
 	std::wstring m_sStrmMgmtResumeId;
 	std::list<HXML> NodeCache;
 
@@ -46,6 +47,7 @@ public:
 	void HandleOutgoingNode(HXML node);
 	void HandleIncommingNode(HXML node);
 	void OnProcessEnabled(HXML node, ThreadData *info);
+	void OnProcessResumed(HXML node, ThreadData *info);
 	void OnProcessFailed(HXML node, ThreadData * info);
 	void CheckStreamFeatures(HXML node);
 	void CheckState();
