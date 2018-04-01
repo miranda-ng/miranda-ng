@@ -5,7 +5,55 @@
 ;  Version: 0.95.8.6
 ;  Authors: Miranda-NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів тощо.
 [Cancel]
 Скасувати
+[Login to Miranda NG]
+Вхід у Miranda NG
+[New password]
+Новий пароль
+[Please enter your new password]
+Будь ласка, введіть новий пароль
+[Enter password]
+Введіть пароль
+[Change password]
+Змінити пароль
+[Change]
+Змінити
 [Remove]
 Очистити
+[Old password]
+Старий пароль
+[Database encryption mode]
+Режим шифрування бази
+[Standard]
+Стандартний
+[Total]
+Повний
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
+Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в профілі в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
+[Set password]
+Встановити пароль
+[Change/remove password]
+Змінити/видалити пароль
+[Wrong old password entered!]
+Введено помилковий старий пароль!
+[Password is too short!]
+Пароль занадто короткий!
+[Passwords do not match!]
+Паролі не збігаються!
+[Database]
+База даних
+[Logo]
+Профіль
+[Password]
+Пароль
+[Too many errors!]
+Дуже багато помилок!
+[Password is not correct!]
+Неправильний пароль!
+[Please type in your password]
+Будь ласка, введіть пароль
