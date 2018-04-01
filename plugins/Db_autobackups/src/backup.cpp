@@ -253,7 +253,7 @@ int Backup(wchar_t *backup_filename)
 				L"Backups"
 			};
 			if (CallService(MS_CLOUDFILE_UPLOAD, (LPARAM)&ui))
-				ShowPopup(TranslateT("Uploading to Dropbox failed"), TranslateT("Error"), nullptr);
+				ShowPopup(TranslateT("Uploading to cloud failed"), TranslateT("Error"), nullptr);
 		}
 
 		if (!options.disable_popups) {
