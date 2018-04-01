@@ -161,6 +161,8 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	DBHeader m_header;
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 
+	HWND     m_hwndTimer; // for flushing database
+
 	DBCachedContact m_ccDummy; // dummy contact to serve a cache item for MCONTACT = 0
 
 	////////////////////////////////////////////////////////////////////////////
@@ -268,5 +270,4 @@ public:
 
 public:
 	MICryptoEngine *m_crypto;
-	UINT_PTR m_timerId; // timer to flush unsaved data
 };

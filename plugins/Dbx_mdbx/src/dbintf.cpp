@@ -31,6 +31,9 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 {
 	m_tszProfileName = mir_wstrdup(tszFileName);
 
+	m_hwndTimer = CreateWindowExW(0, L"STATIC", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
+	::SetWindowLongPtr(m_hwndTimer, GWLP_USERDATA, (LONG_PTR)this);
+
 	mdbx_env_create(&m_env);
 	mdbx_env_set_maxdbs(m_env, 10);
 	mdbx_env_set_maxreaders(m_env, 244);
@@ -41,6 +44,8 @@ CDbxMDBX::~CDbxMDBX()
 {
 	g_Dbs.remove(this);
 	mdbx_env_close(m_env);
+
+	::DestroyWindow(m_hwndTimer);
 
 	DestroyServiceFunction(hService);
 	UnhookEvent(hHook);
@@ -198,6 +203,7 @@ int CDbxMDBX::Map()
 		-1 /* default page size */);
 	if (rc != MDBX_SUCCESS)
 		return rc;
+
 	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
@@ -208,13 +214,13 @@ int CDbxMDBX::Map()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static VOID CALLBACK DoBufferFlushTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
+static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 {
-	KillTimer(nullptr, idEvent);
+	KillTimer(hwnd, idEvent);
 
-	for (auto &it : g_Dbs)
-		if (it->m_timerId == idEvent)
-			it->DBFlush(true);
+	CDbxMDBX *pDb = (CDbxMDBX *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (pDb)
+		pDb->DBFlush(true);
 }
 
 void CDbxMDBX::DBFlush(bool bForce)
@@ -223,7 +229,7 @@ void CDbxMDBX::DBFlush(bool bForce)
 		mdbx_env_sync(m_env, true);
 	}
 	else if (m_safetyMode) {
-		::KillTimer(nullptr, m_timerId);
-		::SetTimer(nullptr, m_timerId, 50, DoBufferFlushTimerProc);
+		::KillTimer(m_hwndTimer, 1);
+		::SetTimer(m_hwndTimer, 1, 50, DoBufferFlushTimerProc);
 	}
 }
