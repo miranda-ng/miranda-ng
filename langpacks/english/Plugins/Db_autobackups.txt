@@ -27,7 +27,7 @@
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Backup in progress]
 [Copying database file...]
-[Uploading to Dropbox failed]
+[Uploading to cloud failed]
 [Error]
 [Database backed up]
 [Database back up in process...]

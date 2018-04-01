@@ -90,6 +90,7 @@
 [Enable/Disable Quotes Auto Update]
 [Quotes Auto Update Enabled]
 [Quotes Auto Update Disabled]
+[Quote Symbol]
 [Network]
 ;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
@@ -114,7 +115,6 @@
 [Error occurred during HTML parsing.]
 [Error occurred during site access.]
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
-[Quote Symbol]
 [Quote Name]
 [From Currency Full Name]
 [From Currency Short Name]

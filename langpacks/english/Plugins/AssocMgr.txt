@@ -35,10 +35,3 @@
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 [Registry warning]
-;file \plugins\AssocMgr\src\test.cpp
-[ICQ link shortcut]
-[&Add to contact list...]
-[Yahoo link protocol]
-[MSN link protocol]
-[Gadu-Gadu link protocol]
-[Jabber link protocol]
