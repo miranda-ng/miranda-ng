@@ -125,6 +125,5 @@
 [<mixed>]
 [<Unknown format>]
 [&Convert]
-[Convert database]
 [Account name must be filled.]
 [Add group]

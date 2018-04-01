@@ -4,7 +4,6 @@
 [Enable local network peer discovery]
 [Remove password]
 [Old password:]
-[Tox URI scheme]
 [Unable to initialize Tox core]
 [Action icon]
 [Correction icon]

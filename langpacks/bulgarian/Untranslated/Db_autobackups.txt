@@ -1,7 +1,7 @@
 [Database autobackuper plugin.]
 [Backup profile folder]
 [Use CloudFile]
-[Uploading to Dropbox failed]
+[Uploading to cloud failed]
 [Database backups]
 [Backup folder]
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]

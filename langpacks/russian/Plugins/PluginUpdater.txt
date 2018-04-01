@@ -154,7 +154,7 @@
 [Update checking already started!]
 Обновление уже запущено!
 [Plugin updater URI scheme]
-URI cхема
+Установка компонентов
 [Close popup]
 Закрыть всплывающее окно
 [Do nothing]
@@ -168,7 +168,7 @@ URI cхема
 [days]
 дней
 [Change platform to 64-bit]
-Перейти на 64-битную версию
+Перейти на 64-разрядную версию
 [Test]
 Тест
 [Services]

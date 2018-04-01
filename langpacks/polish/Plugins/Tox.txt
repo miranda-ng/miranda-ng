@@ -83,8 +83,8 @@ Potwierdź hasło:
 ;file \protocols\Tox\src\main.cpp
 [Profiles folder]
 Folder profili
-[Tox URI scheme]
-Schemat URI Tox
+[Tox link protocol]
+Powiązanie protokołu Tox
 ;file \protocols\Tox\src\tox_connection.cpp
 [Unable to initialize Tox core]
 Nie można uruchomić rdzenia Tox

@@ -380,7 +380,7 @@ XML Кансоль
 [Send]
 Адправіць
 [Jabber Link Protocol]
-Пратакол Jabber
+Спасылка Jabber
 [Frame title]
 Загаловак фрэйма
 [Frame text]
@@ -1381,7 +1381,7 @@ Jabber Рэсурс
 Уключыць гісторыю на серверы (XEP-0136)
 [Receive conversations from other devices (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
+[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
 
 [Server options]
 Налады сервера
@@ -1417,7 +1417,7 @@ Jabber Рэсурс
 Дазваляць перадачу файлаў толькі унутры струменя (не расчыняць свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Прымаць запыты аўтэнтыфікацыі HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
 
 [General]
 Агульнае

@@ -170,6 +170,8 @@ Automatische Aktualisierung der Kurse (de-)aktivieren
 Automatische Aktualisierung der Kurse aktiviert
 [Quotes Auto Update Disabled]
 Automatische Aktualisierung der Kurse deaktiviert
+[Quote Symbol]
+Kurssymbol
 [Network]
 Netzwerk
 ;file \plugins\Quotes\src\HTTPSession.cpp
@@ -211,8 +213,6 @@ Fehler während des HTML-Parsens.
 [Error occurred during site access.]
 Fehler während des Seitenzugriffs.
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
-[Quote Symbol]
-Kurssymbol
 [Quote Name]
 Kursname
 [From Currency Full Name]

@@ -45,8 +45,6 @@
 Резервування в процесі
 [Copying database file...]
 Копіювання файлу бази даних...
-[Uploading to Dropbox failed]
-Не вдалося завантажити в Dropbox
 [Error]
 Помилка
 [Database backed up]

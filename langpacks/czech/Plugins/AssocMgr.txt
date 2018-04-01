@@ -61,16 +61,3 @@ Miranda NG nemohla otevřít "%S".\n\nZadaná URL je neplatná a nemůže být p
 Selhání přístupu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Varování registrů
-;file \plugins\AssocMgr\src\test.cpp
-[ICQ link shortcut]
-Odkaz protokolu ICQ
-[&Add to contact list...]
-&Přidat do seznamu kontaktů...
-[Yahoo link protocol]
-Odkaz protokolu Yahoo
-[MSN link protocol]
-Odkaz protokolu MSN
-[Gadu-Gadu link protocol]
-Odkaz protokolu Gadu-Gadu
-[Jabber link protocol]
-Odkaz protokolu Jabber

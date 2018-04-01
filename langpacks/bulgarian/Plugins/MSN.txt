@@ -124,7 +124,7 @@ MSN уведовяване
 [RESULT]
 РЕЗУЛТАТ
 [MSN Link Protocol]
-MSN Link Protocol
+Протокол за MSN връзки
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контактът %s е премахнат от сървъра.\nЖелаете ли да бъде запазен като "Локален контакт" за да се съхрани историята на разговорите?
 [%s protocol]

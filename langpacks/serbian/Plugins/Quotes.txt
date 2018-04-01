@@ -170,6 +170,8 @@ sekundi
 
 [Quotes Auto Update Disabled]
 
+[Quote Symbol]
+
 [Network]
 Mreža
 ;file \plugins\Quotes\src\HTTPSession.cpp
@@ -211,8 +213,6 @@ Mreža
 [Error occurred during site access.]
 
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
-[Quote Symbol]
-
 [Quote Name]
 
 [From Currency Full Name]

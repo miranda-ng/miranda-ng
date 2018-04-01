@@ -47,8 +47,8 @@ Abbrechen
 Sicherheitskopie wird erstellt
 [Copying database file...]
 Kopiere Datenbank...
-[Uploading to Dropbox failed]
-Hochladen auf Dropbox fehlgeschlagen
+[Uploading to cloud failed]
+
 [Error]
 Fehler
 [Database backed up]

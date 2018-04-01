@@ -1403,8 +1403,6 @@ xHTML-формат повідомлень чату
 Дозволяти передачу файлів тільки всередині потоку (не розкривати свій IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Приймати запити аутентифікації HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
-Шифрувати повідомлення за допомогою OMEMO (якщо можливо) (Експериментально!)
 [General]
 Загальне
 [Autoaccept multiuser chat invitations]

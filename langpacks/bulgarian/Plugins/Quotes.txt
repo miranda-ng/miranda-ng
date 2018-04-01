@@ -153,6 +153,8 @@ Quote\\Инф. за курса
 Диаграма...
 [Edit Settings...]
 Редактиране на настройките...
+[Quote Symbol]
+Символ на стойността
 [Network]
 Мрежа
 [Quotes HTTP connections]
@@ -181,8 +183,6 @@ XML файлове (*.xml)
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft XML parser.
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft HTML parser.
-[Quote Symbol]
-Символ на стойността
 [Quote Name]
 Име на стойността
 [From Currency Full Name]

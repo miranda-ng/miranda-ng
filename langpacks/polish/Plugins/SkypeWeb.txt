@@ -48,7 +48,7 @@ Zapisz hasło
 Wprowadź hasło, by kontynuować.
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
-Protokół Powiązania Skype
+Powiązanie protokołu Skype
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 Admin

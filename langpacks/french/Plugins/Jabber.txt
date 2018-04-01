@@ -1405,7 +1405,7 @@ Envoi de message
 
 [Receive conversations from other devices (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
+[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
 
 [Server options]
 Options du serveur
@@ -1441,7 +1441,7 @@ Sécurité
 
 [Accept HTTP Authentication requests (XEP-0070)]
 
-[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
 
 [General]
 Général

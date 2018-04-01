@@ -28,7 +28,7 @@
 [New password:]
 [Confirm password:]
 [Profiles folder]
-[Tox URI scheme]
+[Tox link protocol]
 [Unable to initialize Tox core]
 [Protocol icon]
 [Action icon]

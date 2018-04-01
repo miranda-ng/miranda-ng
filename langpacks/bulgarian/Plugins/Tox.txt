@@ -1,4 +1,4 @@
-#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
@@ -61,6 +61,8 @@ IPv4 адрес/ Хост
 IPv6 адрес (незадължително)
 [Port]
 Порт
+[Tox link protocol]
+Протокол за Tox връзки
 [Public key]
 Публичен ключ
 [New password:]

@@ -49,15 +49,3 @@ Miranda NG не може да отвори "%S".\n\nНяма програма а
 Miranda NG не може да отвори "%S".\n\nНяма програма асоциирана с този тип URL адрес.
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 Miranda NG не може да отвори "%S".\n\nURL адресът е невалиден и не може да се обработи.
-[ICQ link shortcut]
-Протокол за ICQ връзки
-[&Add to contact list...]
-Добавяне към списъка с контакти...
-[Yahoo link protocol]
-Протокол за Yahoo връзки
-[MSN link protocol]
-MSN Link Protocol
-[Gadu-Gadu link protocol]
-Протокол за Gadu-Gadu връзки
-[Jabber link protocol]
-Протокол за Jabber връзки

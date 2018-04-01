@@ -61,16 +61,3 @@ Miranda NG konnte "%S" nicht öffnen.\n\nDer angegebene URL ist ungültig und ka
 Zugriff fehlgeschlagen:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Registrierungswarnung
-;file \plugins\AssocMgr\src\test.cpp
-[ICQ link shortcut]
-ICQ-Link-Verknüpfung
-[&Add to contact list...]
-Zu Kont&aktliste hinzufügen...
-[Yahoo link protocol]
-Yahoo-Link-Protokoll
-[MSN link protocol]
-MSN-Link-Protokoll
-[Gadu-Gadu link protocol]
-Gadu-Gadu-Link-Protokoll
-[Jabber link protocol]
-Jabber-Link-Protokoll

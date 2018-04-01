@@ -61,16 +61,3 @@ Miranda-IM ne peut ouvrir cet URL
 
 [Registry warning]
 
-;file \plugins\AssocMgr\src\test.cpp
-[ICQ link shortcut]
-Raccourci du protocole ICQ
-[&Add to contact list...]
-&Ajouter à la liste de contacts...
-[Yahoo link protocol]
-Raccourci du protocole Yahoo
-[MSN link protocol]
-Raccourci du protocole MSN
-[Gadu-Gadu link protocol]
-Raccourci du protocole Gadu-Gadu
-[Jabber link protocol]
-Raccourci du protocole Jabber

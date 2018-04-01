@@ -47,8 +47,8 @@ Zrušit
 Probíhá zálohování
 [Copying database file...]
 Kopírování souborů s profilem...
-[Uploading to Dropbox failed]
-Nahrávání na Dropbox selhalo
+[Uploading to cloud failed]
+
 [Error]
 Chyba
 [Database backed up]

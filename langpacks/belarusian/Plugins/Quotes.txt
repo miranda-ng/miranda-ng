@@ -165,6 +165,8 @@
 
 [Quotes Auto Update Disabled]
 
+[Quote Symbol]
+Знак каціроўкі
 [Network]
 Сеціва
 [Quotes HTTP connections]
@@ -199,8 +201,6 @@ HTTP далучэнне Quotes
 Памылка падчас парсінгу HTML.
 [Error occurred during site access.]
 Памылка пры доступе да сайта.
-[Quote Symbol]
-Знак каціроўкі
 [Quote Name]
 Назва каціроўкі
 [From Currency Full Name]

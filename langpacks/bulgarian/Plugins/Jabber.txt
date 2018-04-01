@@ -370,7 +370,7 @@ XML конзола
 [Send]
 Изпращане
 [Jabber Link Protocol]
-Jabber Link Protocol
+Протокол за Jabber връзки
 [Frame title]
 Заглавие на рамката
 [Frame text]

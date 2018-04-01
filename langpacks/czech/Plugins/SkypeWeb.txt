@@ -48,7 +48,7 @@ Uložit heslo
 Zadejte heslo pro pokračování.
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
-Skype Link protokol
+Odkaz protokolu Skype
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 Admin

@@ -48,7 +48,7 @@ Enregistrer le passe
 
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
-
+Raccourci du protocole Skype
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 

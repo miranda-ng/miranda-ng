@@ -1405,7 +1405,7 @@ Automaticky uložit obdržené poznámky
 Povolit historii na serveru
 [Receive conversations from other devices (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
+[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
 
 [Server options]
 Možnosti serveru
@@ -1441,7 +1441,7 @@ S verzí zobrazit zároveň i informace o operačním systému
 Povolit přenos dat pouze přes server (pomalejší, ale anonymní)
 [Accept HTTP Authentication requests (XEP-0070)]
 Povolit ověření pomocí HTTP a XMPP (XEP-0070)
-[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
 
 [General]
 Obecné

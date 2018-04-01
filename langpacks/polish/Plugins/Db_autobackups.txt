@@ -47,8 +47,8 @@ Anuluj
 Tworzenie kopii zapasowej...
 [Copying database file...]
 Kopiowanie pliku profilu...
-[Uploading to Dropbox failed]
-Nieudane załadowanie do Dropbox'a
+[Uploading to cloud failed]
+
 [Error]
 Błąd
 [Database backed up]

@@ -1,4 +1,3 @@
-[Adds a menu item to change or load a different profile of Miranda NG or restart.]
 [Load profile]
 [Change profile]
 [Restart]

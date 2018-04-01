@@ -24,7 +24,7 @@
 [Show chat state events (i.e., user closed chat session)]
 
 [Connection]
-
+Далучэнне
 [Error limit before logout:]
 
 [Captcha]

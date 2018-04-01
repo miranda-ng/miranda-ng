@@ -170,6 +170,8 @@ Actualiser
 
 [Quotes Auto Update Disabled]
 
+[Quote Symbol]
+
 [Network]
 Réseau
 ;file \plugins\Quotes\src\HTTPSession.cpp
@@ -211,8 +213,6 @@ Tous les fichiers (*.*)
 [Error occurred during site access.]
 
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
-[Quote Symbol]
-
 [Quote Name]
 
 [From Currency Full Name]

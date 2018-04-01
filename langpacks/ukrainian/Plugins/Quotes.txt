@@ -163,6 +163,8 @@
 Автооновлення котувань увімкнено
 [Quotes Auto Update Disabled]
 Автооновлення котувань вимкнено
+[Quote Symbol]
+Символ котування
 [Network]
 Мережа
 [Quotes HTTP connections]
@@ -197,8 +199,6 @@ HTTP-з'єднання Quotes
 Помилка під час аналізу html.
 [Error occurred during site access.]
 Помилка при доступі до сайту.
-[Quote Symbol]
-Символ котування
 [Quote Name]
 Назва котування
 [From Currency Full Name]

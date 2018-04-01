@@ -6,7 +6,7 @@
 [Backup profile folder]
 [Use CloudFile]
 [Backup progress]
-[Uploading to Dropbox failed]
+[Uploading to cloud failed]
 [Database backed up]
 [Database back up in process...]
 [Miranda NG databases]

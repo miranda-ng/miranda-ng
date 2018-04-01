@@ -374,7 +374,7 @@ HTTP невядомая памылка
 [Gadu-Gadu account chooser]
 Выбар конта Gadu-Gadu
 [Gadu-Gadu Link Protocol]
-Пратакол Gadu-Gadu
+Спасылка Gadu-Gadu
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Пароль немагчыма нагадаць з-за памылкі:\n\t%s (Памылка: %d)
 [Password was sent to your e-mail.]

@@ -1379,7 +1379,7 @@ OMEMO: Новая сессия
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
 [Receive conversations from other devices (XEP-0280)]
 Синхронизировать сообщения между включёнными устройствами (XEP-0280)
-[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
+[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
 Включить Stream Management (XEP-0198), если возможно (ЗАГЛУШКА)
 [Server options]
 Настройки сервера
@@ -1415,8 +1415,8 @@ OMEMO: Новая сессия
 Разрешать передачу файлов только внутри потока (не раскрывать свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Принимать запросы аутентификации HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
-Шифровать сообщения с помощью OMEMO (если возможно) (Экспериментально!)
+[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+Шифровать сообщения с помощью OMEMO, если возможно (XEP-0384) (Начальная поддержка, нет интерфейса)
 [General]
 Общее
 [Autoaccept multiuser chat invitations]

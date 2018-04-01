@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.4.3
+;  Version: 0.1.4.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Please authorize me to add you to my friend list.]

@@ -16,7 +16,7 @@
 [Backup progress]
 [Backup in progress]
 [Copying database file...]
-[Uploading to Dropbox failed]
+[Uploading to cloud failed]
 [Database backed up]
 [Database back up in process...]
 [Miranda NG databases]

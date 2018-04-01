@@ -46,7 +46,7 @@
 [Enter the password to continue.]
 
 [Skype Link Protocol]
-Пратакол Skype
+Спасылка Skype
 [Admin]
 Адмін
 [User]

@@ -61,16 +61,3 @@ Nepoznati
 
 [Registry warning]
 
-;file \plugins\AssocMgr\src\test.cpp
-[ICQ link shortcut]
-
-[&Add to contact list...]
-
-[Yahoo link protocol]
-
-[MSN link protocol]
-
-[Gadu-Gadu link protocol]
-
-[Jabber link protocol]
-

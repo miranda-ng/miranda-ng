@@ -1405,7 +1405,7 @@ Automatycznie zapisuj otrzymane notatki
 Włącz historię po stronie serwera
 [Receive conversations from other devices (XEP-0280)]
 Otrzymuj konwersacje z innych urządzeń (XEP-0280)
-[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
+[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
 
 [Server options]
 Opcje serwera
@@ -1441,8 +1441,8 @@ Wyświetlaj informacje o systemie w odpowiedzi nt. wersji
 Akceptuj tylko wewnętrzne transfery plików (nie ujawniaj adresu IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Akceptuj prośby o autoryzację HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (Experimental! WIP!)]
-Używaj jeżeli możliwe szyfrowania OMEMO dla wiadomości (Eksperymentalne!!!)
+[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+
 [General]
 Ogólne
 [Autoaccept multiuser chat invitations]

@@ -83,7 +83,7 @@
 ;file \protocols\Tox\src\main.cpp
 [Profiles folder]
 
-[Tox URI scheme]
+[Tox link protocol]
 
 ;file \protocols\Tox\src\tox_connection.cpp
 [Unable to initialize Tox core]

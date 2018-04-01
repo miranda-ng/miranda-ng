@@ -83,8 +83,8 @@ Passwort bestätigen:
 ;file \protocols\Tox\src\main.cpp
 [Profiles folder]
 Profilverzeichnis
-[Tox URI scheme]
-Tox URI-Schema
+[Tox link protocol]
+Tox-Link-Protokoll
 ;file \protocols\Tox\src\tox_connection.cpp
 [Unable to initialize Tox core]
 Konnte Tox-Core nicht initialisieren.

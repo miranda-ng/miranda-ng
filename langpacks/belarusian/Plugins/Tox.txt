@@ -81,8 +81,8 @@
 Пацвердзіць пароль:
 [Profiles folder]
 
-[Tox URI scheme]
-
+[Tox link protocol]
+Спасылка Tox
 [Unable to initialize Tox core]
 
 [Protocol icon]

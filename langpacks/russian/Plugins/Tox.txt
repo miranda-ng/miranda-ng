@@ -79,8 +79,8 @@ IPv6 адрес (необязательно)
 Подтверждение пароля:
 [Profiles folder]
 Папка профилей
-[Tox URI scheme]
-Схема Tox URI
+[Tox link protocol]
+Протокол Tox
 [Unable to initialize Tox core]
 Невозможно инициализировать ядро Tox
 [Protocol icon]

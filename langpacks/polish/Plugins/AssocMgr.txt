@@ -61,16 +61,3 @@ Miranda NG nie była w stanie otworzyć "%S".\n\nPodany adres jest nieprawidłow
 Brak dostępu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Ostrzeżenie rejestru
-;file \plugins\AssocMgr\src\test.cpp
-[ICQ link shortcut]
-Powiązanie protokołu ICQ
-[&Add to contact list...]
-&Dodaj do listy kontaktów...
-[Yahoo link protocol]
-Powiązanie protokołu Yahoo
-[MSN link protocol]
-Powiązanie protokołu MSN
-[Gadu-Gadu link protocol]
-Powiązanie protokołu Gadu-Gadu
-[Jabber link protocol]
-Powiązanie protokołu Jabbera

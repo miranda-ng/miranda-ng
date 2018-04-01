@@ -170,6 +170,8 @@ Włącz/Wyłącz Automatyczną Aktualizację Notowań Giełdowych
 Autoaktualizacja notowań włączona
 [Quotes Auto Update Disabled]
 Autoaktualziacja notowań wyłączona
+[Quote Symbol]
+Symbol notowania
 [Network]
 Protokoły
 ;file \plugins\Quotes\src\HTTPSession.cpp
@@ -211,8 +213,6 @@ Wystąpił błąd podczas przetwarzania HTML.
 [Error occurred during site access.]
 Wystąpił błąd podczas uzyskiwania dostępu do strony.
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
-[Quote Symbol]
-Symbol notowania
 [Quote Name]
 Nazwa notowania
 [From Currency Full Name]

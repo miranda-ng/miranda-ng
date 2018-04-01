@@ -24,7 +24,6 @@
 [Public key]
 [Old password:]
 [Profiles folder]
-[Tox URI scheme]
 [Unable to initialize Tox core]
 [Protocol icon]
 [Action icon]

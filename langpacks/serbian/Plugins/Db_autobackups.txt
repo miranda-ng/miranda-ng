@@ -47,7 +47,7 @@ Otkazivanje
 
 [Copying database file...]
 
-[Uploading to Dropbox failed]
+[Uploading to cloud failed]
 
 [Error]
 Greška

@@ -19,6 +19,8 @@
 Ползване на по-големи аватари
 [Message sessions]
 Разговори
+[Connection]
+Връзка
 [Cancel]
 Отказ
 [Block]

@@ -170,6 +170,8 @@ Upravit nastavení...
 
 [Quotes Auto Update Disabled]
 
+[Quote Symbol]
+
 [Network]
 Sítě
 ;file \plugins\Quotes\src\HTTPSession.cpp
@@ -211,8 +213,6 @@ Miranda nemůže načíst doplněk Quotes. Microsoft HTML parser nebyl nalezen.
 [Error occurred during site access.]
 
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
-[Quote Symbol]
-
 [Quote Name]
 
 [From Currency Full Name]

@@ -45,7 +45,7 @@
 Рэзерваванне падчас
 [Copying database file...]
 Капіяванне файла базы...
-[Uploading to Dropbox failed]
+[Uploading to cloud failed]
 
 [Error]
 Памылка

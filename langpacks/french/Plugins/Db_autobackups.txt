@@ -47,7 +47,7 @@ Annuler
 Sauvegarde en cours
 [Copying database file...]
 Copie de la base de données...
-[Uploading to Dropbox failed]
+[Uploading to cloud failed]
 
 [Error]
 Erreur
