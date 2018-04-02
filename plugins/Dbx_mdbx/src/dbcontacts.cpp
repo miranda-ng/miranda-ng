@@ -26,7 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 STDMETHODIMP_(LONG) CDbxMDBX::GetContactCount(void)
 {
 	MDBX_stat st;
-	mdbx_dbi_stat(m_txn_ro, m_dbContacts, &st, sizeof(st));
+	txn_ptr_ro trnlck(m_txn_ro);
+	mdbx_dbi_stat(trnlck, m_dbContacts, &st, sizeof(st));
 	return st.ms_entries;
 }
 
