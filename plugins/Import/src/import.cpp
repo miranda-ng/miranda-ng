@@ -567,16 +567,17 @@ struct ImportContactData
 {
 	MCONTACT from, to;
 	const char *szSrcProto, *szDstProto;
+	bool bSkipProto;
 };
 
 int ModulesEnumProc(const char *szModuleName, void *pParam)
 {
 	ImportContactData *icd = (ImportContactData*)pParam;
-	if (!mir_strcmp(icd->szSrcProto, szModuleName))
-		CopySettings(icd->from, szModuleName, icd->to, icd->szDstProto);
-	else if (!mir_strcmp(szModuleName, "Protocol"))
-		return 0;
-	else
+	if (!mir_strcmp(icd->szSrcProto, szModuleName)) {
+		if (!icd->bSkipProto)
+			CopySettings(icd->from, szModuleName, icd->to, icd->szDstProto);
+	}
+	else if (0 != mir_strcmp(szModuleName, "Protocol"))
 		CopySettings(icd->from, szModuleName, icd->to, szModuleName);
 	return 0;
 }
@@ -586,7 +587,7 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 	if (pda->pa == nullptr)
 		return;
 
-	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc, pda->pa->szModuleName };
+	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc, pda->pa->szModuleName, false };
 	db_enum_modules(ModulesEnumProc, &icd);
 }
 
@@ -615,21 +616,15 @@ static int ImportGroups()
 	OBJLIST<MImportGroup> arGroups(10, NumericKeySortT);
 	srcDb->EnumContactSettings(NULL, ImportGroup, "CListGroups", &arGroups);
 
-	int nGroups = 0;
 	for (auto &it : arGroups) {
-		if (Clist_GroupExists(it->wszName.get() + 1))
+		MGROUP group_id = Clist_GroupCreate(0, it->wszName.get() + 1);
+		if (group_id <= 0)
 			continue;
 
-		MGROUP group_id = Clist_GroupCreate(0, it->wszName.get() + 1);
-		if (group_id > 0) {
-			char szSetting[20];
-			_itoa_s(group_id - 1, szSetting, 10);
-			db_set_ws(0, "CListGroups", szSetting, it->wszName);
-			nGroups++;
-		}
+		Clist_GroupSetExpanded(group_id, (it->wszName[0] & GROUPF_EXPANDED));
 	}
 
-	return nGroups;
+	return arGroups.getCount();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -759,11 +754,8 @@ void ImportMeta(DBCachedContact *ccSrc)
 		else AddMessage(LPGENW("Added metacontact"));
 	}
 
-	PROTOACCOUNT *pa = Proto_GetAccount(META_PROTO);
-	if (pa) {
-		AccountMap pda(META_PROTO, 0, META_PROTOW);
-		ImportContactSettings(&pda, ccSrc->contactID, ccDst->contactID);
-	}
+	ImportContactData icd = { ccSrc->contactID, ccDst->contactID, META_PROTO, META_PROTO, true };
+	db_enum_modules(ModulesEnumProc, &icd);
 
 	arContactMap.insert(new ContactMap(ccSrc->contactID, ccDst->contactID));
 }
