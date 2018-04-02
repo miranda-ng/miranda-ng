@@ -43,10 +43,11 @@ public:
 	void Retract();
 	void ResetPublish();
 
-	virtual void InitGui() {}
-	virtual void RebuildMenu() {}
-	virtual void ResetExtraIcon(MCONTACT) {}
+	virtual void InitGui() = 0;
+	virtual void RebuildMenu() = 0;
+	virtual void ResetExtraIcon(MCONTACT) = 0;
 	virtual bool LaunchSetGui() { return false; }
+	virtual void UpdateMenuView(void) = 0;
 
 protected:
 	CJabberProto *m_proto;
@@ -156,8 +157,10 @@ public:
 	int m_mode;
 
 protected:
+	void ShowSetDialog(BYTE bQuiet) override;
+	void UpdateMenuView(void) override;
+
 	void CreateData(HXML);
-	void ShowSetDialog(BYTE bQuiet);
 	void SetExtraIcon(MCONTACT hContact, char *szMood);
 
 	void SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *szText);
@@ -176,8 +179,10 @@ protected:
 	wchar_t *m_text;
 	int m_mode;
 
+	void ShowSetDialog(BYTE bQuiet) override;
+	void UpdateMenuView(void) override;
+
 	void CreateData(HXML);
-	void ShowSetDialog(BYTE bQuiet);
 	void SetExtraIcon(MCONTACT hContact, char *szActivity);
 
 	void SetActivity(MCONTACT hContact, const wchar_t *szFirst, const wchar_t *szSecond, const wchar_t *szText);

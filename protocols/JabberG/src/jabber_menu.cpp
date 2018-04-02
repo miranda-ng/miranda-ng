@@ -128,15 +128,15 @@ static INT_PTR JabberMenuHandleDirectPresence(WPARAM hContact, LPARAM lParam, LP
 
 static int JabberPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	Menu_ShowItem(g_hMenuCommands, FALSE);
-	Menu_ShowItem(g_hMenuSendNote, FALSE);
-	Menu_ShowItem(g_hMenuConvert, FALSE);
-	Menu_ShowItem(g_hMenuRosterAdd, FALSE);
-	Menu_ShowItem(g_hMenuLogin, FALSE);
-	Menu_ShowItem(g_hMenuRefresh, FALSE);
-	Menu_ShowItem(g_hMenuAddBookmark, FALSE);
-	Menu_ShowItem(g_hMenuResourcesRoot, FALSE);
-	Menu_ShowItem(g_hMenuDirectPresence[0], FALSE);
+	Menu_ShowItem(g_hMenuCommands, false);
+	Menu_ShowItem(g_hMenuSendNote, false);
+	Menu_ShowItem(g_hMenuConvert, false);
+	Menu_ShowItem(g_hMenuRosterAdd, false);
+	Menu_ShowItem(g_hMenuLogin, false);
+	Menu_ShowItem(g_hMenuRefresh, false);
+	Menu_ShowItem(g_hMenuAddBookmark, false);
+	Menu_ShowItem(g_hMenuResourcesRoot, false);
+	Menu_ShowItem(g_hMenuDirectPresence[0], false);
 
 	CJabberProto *ppro = CMPlugin::getInstance(hContact);
 	return(ppro) ? ppro->OnPrebuildContactMenu(hContact, lParam) : 0;
@@ -624,18 +624,53 @@ void CJabberProto::MenuInit()
 	//////////////////////////////////////////////////////////////////////////////////////
 	// build priority menu
 
+	BuildPriorityMenu();
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// finalize status menu
+
+	m_pepServices.RebuildMenu();
+	CheckMenuItems();
+
+	NotifyFastHook(hStatusMenuInit, (WPARAM)m_hMenuRoot, (LPARAM)(IJabberInterface*)this);
+}
+
+//////////////////////////////////////////////////////////////////////////
+// priority popup in status menu
+
+INT_PTR CJabberProto::OnMenuSetPriority(WPARAM, LPARAM, LPARAM dwDelta)
+{
+	int iDelta = (int)dwDelta;
+	int priority = getDword("Priority", 0) + iDelta;
+	if (priority > 127)
+		priority = 127;
+	else if (priority < -128)
+		priority = -128;
+	setDword("Priority", priority);
+	SendPresence(m_iStatus, true);
+	return 0;
+}
+
+void CJabberProto::BuildPriorityMenu()
+{
 	m_priorityMenuVal = 0;
 	m_priorityMenuValSet = false;
 
+	if (m_hMenuPriorityRoot)
+		Menu_RemoveItem(m_hMenuPriorityRoot);
+
+	CMenuItem mi;
 	mi.pszService = nullptr;
 	mi.position = 200006;
 	mi.root = m_hMenuRoot;
 	mi.name.a = LPGEN("Resource priority");
 	mi.flags = CMIF_UNMOVABLE | CMIF_HIDDEN;
 	m_hMenuPriorityRoot = Menu_AddProtoMenuItem(&mi);
+	Menu_ShowItem(m_hMenuPriorityRoot, m_menuItemsStatus != 0);
 
 	wchar_t szName[128];
 	char srvFce[MAX_PATH + 64];
+
 	mi.pszService = srvFce;
 	mi.name.w = szName;
 	mi.position = 2000040000;
@@ -672,30 +707,6 @@ void CJabberProto::MenuInit()
 	}
 
 	UpdatePriorityMenu(getDword("Priority", 0));
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	// finalize status menu
-
-	m_pepServices.RebuildMenu();
-	CheckMenuItems();
-
-	NotifyFastHook(hStatusMenuInit, (WPARAM)m_hMenuRoot, (LPARAM)(IJabberInterface*)this);
-}
-
-//////////////////////////////////////////////////////////////////////////
-// priority popup in status menu
-
-INT_PTR CJabberProto::OnMenuSetPriority(WPARAM, LPARAM, LPARAM dwDelta)
-{
-	int iDelta = (int)dwDelta;
-	int priority = getDword("Priority", 0) + iDelta;
-	if (priority > 127)
-		priority = 127;
-	else if (priority < -128)
-		priority = -128;
-	setDword("Priority", priority);
-	SendPresence(m_iStatus, true);
-	return 0;
 }
 
 void CJabberProto::UpdatePriorityMenu(int priority)
@@ -818,6 +829,15 @@ void CJabberProto::EnableMenuItems(bool bEnable)
 {
 	m_menuItemsStatus = bEnable;
 	CheckMenuItems();
+}
+
+int CJabberProto::OnLangChanged(WPARAM, LPARAM)
+{
+	BuildPriorityMenu();
+
+	for (auto &it : m_pepServices)
+		it->UpdateMenuView();
+	return 0;
 }
 
 void CJabberProto::CheckMenuItems()

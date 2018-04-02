@@ -181,6 +181,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	// XMPP URI parser service for "File Association Manager" plugin
 	CreateProtoService(JS_PARSE_XMPP_URI, &CJabberProto::JabberServiceParseXmppURI);
 
+	HookProtoEvent(ME_LANGPACK_CHANGED, &CJabberProto::OnLangChanged);
 	HookProtoEvent(ME_OPT_INITIALISE, &CJabberProto::OnOptionsInit);
 	HookProtoEvent(ME_SKIN2_ICONSCHANGED, &CJabberProto::OnReloadIcons);
 

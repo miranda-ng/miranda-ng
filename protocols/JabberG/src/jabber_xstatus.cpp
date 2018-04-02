@@ -342,7 +342,7 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 	if (!mode->m_subitem || (lpdis->itemState & ODS_COMBOBOXEDIT)) {
 		wchar_t text[128];
 		if (mode->m_subitem) {
-			for (int i = lpdis->itemData; i >= 0; --i)
+			for (int i = mode->m_id; i >= 0; --i)
 				if (!m_modes[i].m_subitem) {
 					mir_snwprintf(text, L"%s [%s]", m_modes[i].m_title, mode->m_title);
 					break;
@@ -693,20 +693,7 @@ void CPepMood::SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *
 		m_mode = mood;
 		replaceStrW(m_text, szText);
 
-		HANDLE hIcon;
-		wchar_t title[128];
-		if (mood >= 0) {
-			mir_snwprintf(title, TranslateT("Mood: %s"), TranslateW(g_arrMoods[mood].szName));
-			hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag);
-		}
-		else {
-			mir_wstrcpy(title, TranslateT("Set mood..."));
-			hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
-		}
-
-		UpdateMenuItem(hIcon, title);
-		if (m_proto->m_pInfoFrame)
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", hIcon, title);
+		UpdateMenuView();
 	}
 	else SetExtraIcon(hContact, mood < 0 ? nullptr : g_arrMoods[mood].szTag);
 
@@ -747,20 +734,26 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 		replaceStrW(m_text, dlg.GetStatusText());
 	}
 
+	UpdateMenuView();
+}
+
+void CPepMood::UpdateMenuView()
+{
 	HANDLE hIcon;
-	wchar_t *ptszTitle;
+	wchar_t title[128];
 	if (m_mode >= 0) {
-		Publish();
-		hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag); ptszTitle = TranslateW(g_arrMoods[m_mode].szName);
+		mir_snwprintf(title, TranslateT("Mood: %s"), TranslateW(g_arrMoods[m_mode].szName));
+		hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag);
 	}
 	else {
-		Retract();
-		hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT); ptszTitle = TranslateT("Set mood...");
+		mir_wstrcpy(title, TranslateT("Set mood..."));
+		hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
 	}
 
-	UpdateMenuItem(hIcon, ptszTitle);
+	UpdateMenuItem(hIcon, title);
+
 	if (m_proto->m_pInfoFrame)
-		m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", hIcon, ptszTitle);
+		m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", hIcon, title);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1074,35 +1067,18 @@ void CPepActivity::SetActivity(MCONTACT hContact, const wchar_t *szFirst, const 
 			return;
 	}
 
-	wchar_t activityTitle[128];
-	ActivityBuildTitle(activity, activityTitle, _countof(activityTitle));
-
 	if (!hContact) {
 		m_mode = activity;
 		replaceStrW(m_text, szText);
 
-		HANDLE hIcon;
-		wchar_t title[128];
-
-		if (activity >= 0) {
-			mir_snwprintf(title, TranslateT("Activity: %s"), activityTitle);
-			hIcon = g_ActivityIcons.GetIcolibHandle(returnActivity(activity));
-		}
-		else {
-			mir_wstrcpy(title, TranslateT("Set activity..."));
-			hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
-		}
-
-		UpdateMenuItem(hIcon, title);
-		if (m_proto->m_pInfoFrame)
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", hIcon, title);
+		UpdateMenuView();
 	}
 	else SetExtraIcon(hContact, activity < 0 ? nullptr : returnActivity(activity));
 
 	if (activity >= 0) {
-		wchar_t *p = mir_a2u(ActivityGetId(activity));
-		m_proto->WriteAdvStatus(hContact, ADVSTATUS_ACTIVITY, p, g_ActivityIcons.GetIcolibName(returnActivity(activity)), activityTitle, szText);
-		mir_free(p);
+		wchar_t activityTitle[128];
+		ActivityBuildTitle(activity, activityTitle, _countof(activityTitle));
+		m_proto->WriteAdvStatus(hContact, ADVSTATUS_ACTIVITY, _A2T(ActivityGetId(activity)), g_ActivityIcons.GetIcolibName(returnActivity(activity)), activityTitle, szText);
 	}
 	else m_proto->ResetAdvStatus(hContact, ADVSTATUS_ACTIVITY);
 }
@@ -1123,17 +1099,31 @@ void CPepActivity::ShowSetDialog(BYTE)
 	if (m_mode >= 0) {
 		replaceStrW(m_text, dlg.GetStatusText());
 		Publish();
+	}
+	else Retract();
 
-		UpdateMenuItem(g_ActivityIcons.GetIcolibHandle(returnActivity(m_mode)), g_arrActivities[m_mode].szTitle);
-		if (m_proto->m_pInfoFrame)
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", g_ActivityIcons.GetIcolibHandle(returnActivity(m_mode)), TranslateW(g_arrActivities[m_mode].szTitle));
+	UpdateMenuView();
+}
+
+void CPepActivity::UpdateMenuView()
+{
+	HANDLE hIcon;
+	wchar_t title[128];
+
+	if (m_mode >= 0) {
+		wchar_t activityTitle[128];
+		ActivityBuildTitle(m_mode, activityTitle, _countof(activityTitle));
+		mir_snwprintf(title, TranslateT("Activity: %s"), activityTitle);
+		hIcon = g_ActivityIcons.GetIcolibHandle(returnActivity(m_mode));
 	}
 	else {
-		Retract();
-		UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENW("Set activity..."));
-		if (m_proto->m_pInfoFrame)
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set activity..."));
+		mir_wstrcpy(title, TranslateT("Set activity..."));
+		hIcon = Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
 	}
+
+	UpdateMenuItem(hIcon, title);
+	if (m_proto->m_pInfoFrame)
+		m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", hIcon, title);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

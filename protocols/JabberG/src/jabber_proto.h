@@ -121,6 +121,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int  __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
+	int  __cdecl OnLangChanged(WPARAM, LPARAM);
 	int  __cdecl OnModulesLoadedEx(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
@@ -634,6 +635,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   MenuInit(void);
 	void   MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item);
 
+	void   BuildPriorityMenu(void);
 	void   UpdatePriorityMenu(int priority);
 
 	HGENMENU m_hMenuPriorityRoot;
