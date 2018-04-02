@@ -50,7 +50,7 @@ int BaseExtraIcon::getID() const
 
 const wchar_t* BaseExtraIcon::getDescription() const
 {
-	return m_tszDescription;
+	return TranslateW_LP(m_tszDescription, m_hLangpack);
 }
 
 void BaseExtraIcon::setDescription(const wchar_t *desc)

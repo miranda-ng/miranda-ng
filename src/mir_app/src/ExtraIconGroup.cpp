@@ -120,14 +120,14 @@ int ExtraIconGroup::setIconByName(int id, MCONTACT hContact, const char *value)
 	return internalSetIcon(id, hContact, (void*)value, true);
 }
 
-int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, void *value, bool bByName)
+int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, HANDLE value, bool bByName)
 {
 	if (m_insideApply) {
 		for (auto &p : m_items)
 			if (p->getID() == id) {
 				if (bByName)
 					return p->setIconByName(id, hContact, (const char*)value);
-				return p->setIcon(id, hContact, (HANDLE)value);
+				return p->setIcon(id, hContact, value);
 			}
 
 		return -1;

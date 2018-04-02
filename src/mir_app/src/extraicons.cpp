@@ -318,7 +318,7 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 ///////////////////////////////////////////////////////////////////////////////
 // external functions
 
-static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags, int _hLang)
+static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags)
 {
 	char setting[512];
 	mir_snprintf(setting, "Position_%s", name);
@@ -336,8 +336,6 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags, int
 		else slot = 1;
 	}
 	extra->setSlot(slot);
-
-	extra->m_hLangpack = _hLang;
 
 	registeredExtraIcons.insert(extra);
 	extraIconsByHandle.insert(extra);
@@ -389,11 +387,11 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 		return nullptr;
 
 	ptrW tszDesc(mir_a2u(description));
-	wchar_t *desc = TranslateW_LP(tszDesc, _hLang);
 
 	int id = registeredExtraIcons.getCount() + 1;
-	BaseExtraIcon *extra = new CallbackExtraIcon(id, name, desc, descIcon == nullptr ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
-	EI_PostCreate(extra, name, flags, _hLang);
+	BaseExtraIcon *extra = new CallbackExtraIcon(id, name, tszDesc, descIcon == nullptr ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
+	extra->m_hLangpack = _hLang;
+	EI_PostCreate(extra, name, flags);
 	return (HANDLE)id;
 }
 
@@ -404,7 +402,6 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 		return nullptr;
 
 	ptrW tszDesc(mir_a2u(description));
-	wchar_t *desc = TranslateW_LP(tszDesc, _hLang);
 
 	BaseExtraIcon *extra = GetExtraIconByName(name);
 	if (extra != nullptr) {
@@ -412,13 +409,6 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 			return nullptr;
 
 		// Found one, now merge it
-		if (mir_wstrcmpi(extra->getDescription(), desc)) {
-			CMStringW newDesc = extra->getDescription();
-			newDesc += L" / ";
-			newDesc += desc;
-			extra->setDescription(newDesc.c_str());
-		}
-
 		if (!IsEmpty(descIcon))
 			extra->setDescIcon(descIcon);
 
@@ -436,8 +426,9 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 	}
 
 	int id = registeredExtraIcons.getCount() + 1;
-	extra = new IcolibExtraIcon(id, name, desc, descIcon == nullptr ? "" : descIcon, OnClick, onClickParam);
-	EI_PostCreate(extra, name, flags, _hLang);
+	extra = new IcolibExtraIcon(id, name, tszDesc, descIcon == nullptr ? "" : descIcon, OnClick, onClickParam);
+	extra->m_hLangpack = _hLang;
+	EI_PostCreate(extra, name, flags);
 	return (HANDLE)id;
 }
 
