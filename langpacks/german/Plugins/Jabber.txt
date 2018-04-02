@@ -525,7 +525,7 @@ Unterstützt direkte Chateinladungen (XEP-0249)
 [Receives information about OMEMO devices]
 Empfängt Informationen über OMEMO-Geräte
 [Supports message carbons (XEP-0280)]
-
+Unterstützt Nachrichtendurchschläge (XEP-0280)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -1402,11 +1402,11 @@ Notizen empfangen
 [Automatically save received notes]
 Empfangene Notizen automatisch speichern
 [Enable server-side history (XEP-0136)]
-Server-seitigen Verlauf aktivieren
+Serverseitigen Verlauf aktivieren (XEP-0136)
 [Receive conversations from other devices (XEP-0280)]
-
+Unterhaltungen von anderen Geräten empfangen (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
-
+Stream-Management (XEP-0198) verwenden wenn möglich (In Arbeit! noch keine Wiederaufnahme) 
 [Server options]
 Servereinstellungen
 [Disable SASL authentication (for old servers)]
@@ -1428,7 +1428,7 @@ Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Disable frame]
 Frame deaktivieren
 [Enable XMPP link processing (requires AssocMgr)]
-XMPP-Linkverarbeitung aktivieren (benötigt File AssocMgr)
+XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
 [Keep contacts assigned to local groups (ignore roster group)]
 Kontakte in ihren lokalen Gruppen belassen (Gruppen auf Server ignorieren)
 [Security]
@@ -1442,7 +1442,7 @@ Nur "In-Band"-Dateitransfers akzeptieren (enthüllt nicht die eigene IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP-Authentifizierungs-Anfragen akzeptieren (XEP-0070)
 [Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
-
+OMEMO-Verschlüsselung für Nachrichten verwenden wenn möglich (XEP-0384) (Basis-Unterstützung ohne GUI)
 [General]
 Allgemein
 [Autoaccept multiuser chat invitations]
