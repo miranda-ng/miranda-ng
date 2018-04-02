@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>
+#include <malloc.h>
 
 #include <win2k.h>
 #include <newpluginapi.h>
@@ -79,15 +80,23 @@ struct CacheNode : public AVATARCACHEENTRY, public MZeroedObject
 };
 
 // The same fields as AVATARCACHEENTRY + proto name
+#define PCE_TYPE_GLOBAL  0
+#define PCE_TYPE_PROTO   1
+#define PCE_TYPE_ACCOUNT 2
+
 struct protoPicCacheEntry : public AVATARCACHEENTRY, public MZeroedObject
 {
-	protoPicCacheEntry() { memset(this, 0, sizeof(*this)); };
+	protoPicCacheEntry(int _type) : cacheType(_type) {}
 	~protoPicCacheEntry();
 
 	void clear();
 
 	char*  szProtoname;
-	wchar_t* tszAccName;
+	int    cacheType = 0;
+	union {
+		PROTOCOLDESCRIPTOR *pd;
+		PROTOACCOUNT *pa;
+	};
 };
 
 extern OBJLIST<protoPicCacheEntry> g_ProtoPictures, g_MyAvatars;

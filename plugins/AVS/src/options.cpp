@@ -44,14 +44,15 @@ struct WindowData
 	HANDLE hHook;
 };
 
-static void RemoveProtoPic(const char *szProto)
+static void RemoveProtoPic(protoPicCacheEntry *pce)
 {
-	if (szProto == nullptr)
+	if (pce == nullptr)
 		return;
 
-	db_unset(NULL, PPICT_MODULE, szProto);
+	db_unset(NULL, PPICT_MODULE, pce->szProtoname);
 
-	if (!mir_strcmp(AVS_DEFAULT, szProto)) {
+	// common for all accounts
+	if (pce->cacheType == PCE_TYPE_GLOBAL) {
 		for (auto &p : g_ProtoPictures) {
 			if (p->szProtoname == nullptr)
 				continue;
@@ -63,19 +64,17 @@ static void RemoveProtoPic(const char *szProto)
 		return;
 	}
 
-	if (strstr(szProto, "Global avatar for")) {
-		CMStringA szProtoname;
-		szProtoname = szProto;
-		szProtoname.Delete(0, mir_strlen("Global avatar for "));
-		szProtoname.Delete(mir_strlen(szProtoname) - mir_strlen(" accounts"), mir_strlen(" accounts"));
+	// common for all accounts of this proto
+	if (pce->cacheType == PCE_TYPE_PROTO) {
 		for (auto &p : g_ProtoPictures) {
 			if (p->szProtoname == nullptr)
 				continue;
+
 			PROTOACCOUNT *pdescr = Proto_GetAccount(p->szProtoname);
-			if (pdescr == nullptr && mir_strcmp(p->szProtoname, szProto))
+			if (pdescr == nullptr && mir_strcmp(p->szProtoname, pce->szProtoname))
 				continue;
 
-			if (!mir_strcmp(p->szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
+			if (!mir_strcmp(p->szProtoname, pce->szProtoname) || !mir_strcmp(pdescr->szProtoName, pce->pd->szName)) {
 				p->clear();
 				CreateAvatarInCache(0, p, p->szProtoname);
 				NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
@@ -85,14 +84,14 @@ static void RemoveProtoPic(const char *szProto)
 	}
 
 	for (auto &p : g_ProtoPictures) {
-		if (!mir_strcmp(p->szProtoname, szProto)) {
+		if (!mir_strcmp(p->szProtoname, pce->szProtoname)) {
 			p->clear();
 			NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 		}
 	}
 }
 
-static void SetProtoPic(char *szProto)
+static void SetProtoPic(protoPicCacheEntry *pce)
 {
 	wchar_t FileName[MAX_PATH], filter[256];
 	Bitmap_GetFilter(filter, _countof(filter));
@@ -116,49 +115,48 @@ static void SetProtoPic(char *szProto)
 
 	wchar_t szNewPath[MAX_PATH];
 	PathToRelativeW(FileName, szNewPath, g_szDataPath);
-	db_set_ws(NULL, PPICT_MODULE, szProto, szNewPath);
+	db_set_ws(NULL, PPICT_MODULE, pce->szProtoname, szNewPath);
 
-	if (!mir_strcmp(AVS_DEFAULT, szProto)) {
+	switch(pce->cacheType) {
+	case PCE_TYPE_GLOBAL:
 		for (auto &p : g_ProtoPictures) {
 			if (mir_strlen(p->szProtoname) == 0)
 				continue;
 
 			if (p->hbmPic == nullptr || !mir_strcmp(p->szProtoname, AVS_DEFAULT)) {
-				CreateAvatarInCache(0, p, szProto);
+				CreateAvatarInCache(0, p, pce->szProtoname);
 				NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 			}
 		}
-	}
-	else if (strstr(szProto, "Global avatar for")) {
-		CMStringA szProtoname;
-		szProtoname = szProto;
-		szProtoname.Delete(0, mir_strlen("Global avatar for "));
-		szProtoname.Delete(mir_strlen(szProtoname) - mir_strlen(" accounts"), mir_strlen(" accounts"));
+		break;
+	
+	case PCE_TYPE_PROTO:
 		for (auto &p : g_ProtoPictures) {
 			PROTOACCOUNT* pdescr = Proto_GetAccount(p->szProtoname);
-			if (pdescr == nullptr && mir_strcmp(p->szProtoname, szProto))
+			if (pdescr == nullptr && mir_strcmp(p->szProtoname, pce->szProtoname))
 				continue;
 
-			if (!mir_strcmp(p->szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
+			if (!mir_strcmp(p->szProtoname, pce->szProtoname) || !mir_strcmp(pdescr->szProtoName, pce->pd->szName)) {
 				if (mir_strlen(p->szProtoname) != 0) {
 					if (p->hbmPic == nullptr) {
-						CreateAvatarInCache(0, p, szProto);
+						CreateAvatarInCache(0, p, pce->szProtoname);
 						NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 					}
 				}
 			}
 		}
-	}
-	else {
+		break;
+
+	default:
 		for (auto &p : g_ProtoPictures) {
 			if (mir_strlen(p->szProtoname) == 0)
 				break;
 
-			if (!mir_strcmp(p->szProtoname, szProto) && mir_strlen(p->szProtoname) == mir_strlen(szProto)) {
+			if (!mir_strcmp(p->szProtoname, pce->szProtoname) && mir_strlen(p->szProtoname) == mir_strlen(pce->szProtoname)) {
 				if (p->hbmPic != nullptr)
 					DeleteObject(p->hbmPic);
 				memset(p, 0, sizeof(AVATARCACHEENTRY));
-				CreateAvatarInCache(0, p, szProto);
+				CreateAvatarInCache(0, p, pce->szProtoname);
 				NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 				break;
 			}
@@ -166,7 +164,7 @@ static void SetProtoPic(char *szProto)
 	}
 }
 
-static char* g_selectedProto;
+static protoPicCacheEntry *g_selectedProto;
 
 static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -265,7 +263,7 @@ static INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 	return FALSE;
 }
 
-static char* GetProtoFromList(HWND hwndDlg, int iItem)
+static protoPicCacheEntry* GetProtoFromList(HWND hwndDlg, int iItem)
 {
 	LVITEM item;
 	item.mask = LVIF_PARAM;
@@ -273,8 +271,7 @@ static char* GetProtoFromList(HWND hwndDlg, int iItem)
 	if (!ListView_GetItem(GetDlgItem(hwndDlg, IDC_PROTOCOLS), &item))
 		return nullptr;
 
-	protoPicCacheEntry *pce = (protoPicCacheEntry *)item.lParam;
-	return (pce == nullptr) ? nullptr : pce->szProtoname;
+	return (protoPicCacheEntry*)item.lParam;
 }
 
 static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -295,12 +292,25 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 			lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 			ListView_InsertColumn(hwndList, 0, &lvc);
 
+			CMStringW tmp;
+
 			LVITEM item = { 0 };
 			item.mask = LVIF_TEXT | LVIF_PARAM;
 			item.iItem = 1000;
 			for (auto &p : g_ProtoPictures) {
+				switch (p->cacheType) {
+				case PCE_TYPE_ACCOUNT:
+					item.pszText = p->pa->tszAccountName;
+					break;
+				case PCE_TYPE_PROTO:
+					tmp.Format(TranslateT("Global avatar for %s accounts"), _A2T(p->pd->szName).get());
+					item.pszText = tmp.GetBuffer();
+					break;
+				default:
+					item.pszText = TranslateT("Global avatar");
+					break;
+				}
 				item.lParam = (LPARAM)p;
-				item.pszText = p->tszAccName;
 				int newItem = ListView_InsertItem(hwndList, &item);
 				if (newItem >= 0)
 					ListView_SetCheckState(hwndList, newItem,
@@ -319,12 +329,12 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_SETPROTOPIC:
 		case IDC_REMOVEPROTOPIC:
 			int iItem = ListView_GetSelectionMark(hwndList);
-			char *szProto = GetProtoFromList(hwndDlg, iItem);
-			if (szProto) {
+			auto *pce = GetProtoFromList(hwndDlg, iItem);
+			if (pce) {
 				if (LOWORD(wParam) == IDC_SETPROTOPIC)
-					SetProtoPic(szProto);
+					SetProtoPic(pce);
 				else
-					RemoveProtoPic(szProto);
+					RemoveProtoPic(pce);
 
 				NMHDR nm = { hwndList, IDC_PROTOCOLS, NM_CLICK };
 				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nm);
@@ -340,7 +350,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				avdrq.cbSize = sizeof(avdrq);
 				avdrq.hTargetDC = dis->hDC;
 				avdrq.dwFlags |= AVDRQ_PROTOPICT;
-				avdrq.szProto = g_selectedProto;
+				avdrq.szProto = (g_selectedProto) ? g_selectedProto->szProtoname : 0;
 				GetClientRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), &avdrq.rcDraw);
 				CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq);
 			}
@@ -378,7 +388,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				g_selectedProto = GetProtoFromList(hwndDlg, iItem);
 				if (g_selectedProto) {
 					DBVARIANT dbv;
-					if (!db_get_ws(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
+					if (!db_get_ws(NULL, PPICT_MODULE, g_selectedProto->szProtoname, &dbv)) {
 						if (!PathIsAbsoluteW(VARSW(dbv.ptszVal))) {
 							wchar_t szFinalPath[MAX_PATH];
 							mir_snwprintf(szFinalPath, L"%%miranda_path%%\\%s", dbv.ptszVal);
@@ -400,19 +410,19 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 				for (int i = 0; i < ListView_GetItemCount(hwndList); i++) {
-					char *szProto = GetProtoFromList(hwndDlg, i);
+					auto *pce = GetProtoFromList(hwndDlg, i);
 
-					BOOL oldVal = db_get_b(NULL, AVS_MODULE, szProto, 1);
+					BOOL oldVal = db_get_b(NULL, AVS_MODULE, pce->szProtoname, 1);
 					BOOL newVal = ListView_GetCheckState(hwndList, i);
 
 					if (oldVal && !newVal)
-						for (auto &hContact : Contacts(szProto))
+						for (auto &hContact : Contacts(pce->szProtoname))
 							DeleteAvatarFromCache(hContact, TRUE);
 
 					if (newVal)
-						db_set_b(NULL, AVS_MODULE, szProto, 1);
+						db_set_b(NULL, AVS_MODULE, pce->szProtoname, 1);
 					else
-						db_set_b(NULL, AVS_MODULE, szProto, 0);
+						db_set_b(NULL, AVS_MODULE, pce->szProtoname, 0);
 				}
 			}
 		}

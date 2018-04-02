@@ -272,7 +272,6 @@ protoPicCacheEntry::~protoPicCacheEntry()
 	if (hbmPic != nullptr)
 		DeleteObject(hbmPic);
 	mir_free(szProtoname);
-	mir_free(tszAccName);
 }
 
 void protoPicCacheEntry::clear()

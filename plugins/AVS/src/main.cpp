@@ -32,7 +32,7 @@ bool g_shutDown = false;
 
 int hLangpack;
 
-wchar_t  g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
+wchar_t g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
 BOOL   g_AvatarHistoryAvail = FALSE;
 HWND   hwndSetMyAvatar = nullptr;
 
@@ -45,10 +45,9 @@ void   InitServices();
 
 static int ComparePicture(const protoPicCacheEntry *p1, const protoPicCacheEntry *p2)
 {
-	if ((mir_strcmp(p1->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
-		return -1;
-	if ((mir_strcmp(p2->szProtoname, "Global avatar") == 0) || strstr(p2->szProtoname, "Global avatar"))
-		return 1;
+	if (p1->cacheType != p2->cacheType)
+		return p1->cacheType - p2->cacheType;
+
 	return mir_strcmp(p1->szProtoname, p2->szProtoname);
 }
 
@@ -122,12 +121,11 @@ static int MetaChanged(WPARAM hMeta, LPARAM hSubContact)
 
 static void LoadDefaultInfo()
 {
-	protoPicCacheEntry *pce = new protoPicCacheEntry;
+	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_GLOBAL);
 	if (CreateAvatarInCache(0, pce, AVS_DEFAULT) != 1)
 		db_unset(0, PPICT_MODULE, AVS_DEFAULT);
 
 	pce->szProtoname = mir_strdup(AVS_DEFAULT);
-	pce->tszAccName = mir_wstrdup(TranslateT("Global avatar"));
 	g_ProtoPictures.insert(pce);
 }
 
@@ -139,31 +137,28 @@ static void LoadProtoInfo(PROTOCOLDESCRIPTOR *proto)
 	char protoName[MAX_PATH];
 	mir_snprintf(protoName, "Global avatar for %s accounts", proto->szName);
 
-	wchar_t protoNameTmp[MAX_PATH];
-	mir_snwprintf(protoNameTmp, TranslateT("Global avatar for %s accounts"), _A2T(proto->szName));
-	protoPicCacheEntry *pce = new protoPicCacheEntry;
+	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_PROTO);
 	if (CreateAvatarInCache(0, pce, protoName) != 1)
 		db_unset(0, PPICT_MODULE, protoName);
 
+	pce->pd = proto;
 	pce->szProtoname = mir_strdup(protoName);
-	pce->tszAccName = mir_wstrdup(protoNameTmp);
 	g_ProtoPictures.insert(pce);
 }
 
 static void LoadAccountInfo(PROTOACCOUNT *acc)
 {
-	protoPicCacheEntry *pce = new protoPicCacheEntry;
+	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_ACCOUNT);
 	if (CreateAvatarInCache(0, pce, acc->szModuleName) != 1)
 		db_unset(0, PPICT_MODULE, acc->szModuleName);
 
+	pce->pa = acc;
 	pce->szProtoname = mir_strdup(acc->szModuleName);
-	pce->tszAccName = mir_wstrdup(acc->tszAccountName);
 	g_ProtoPictures.insert(pce);
 
-	pce = new protoPicCacheEntry;
+	pce = new protoPicCacheEntry(PCE_TYPE_ACCOUNT);
 	CreateAvatarInCache(INVALID_CONTACT_ID, pce, acc->szModuleName);
 	pce->szProtoname = mir_strdup(acc->szModuleName);
-	pce->tszAccName = mir_wstrdup(acc->tszAccountName);
 	g_MyAvatars.insert(pce);
 }
 
@@ -178,8 +173,8 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_REMOVED:
 		int idx;
-		protoPicCacheEntry tmp;
-		tmp.szProtoname = mir_strdup(pa->szModuleName);
+		protoPicCacheEntry tmp(PCE_TYPE_ACCOUNT);
+		tmp.szProtoname = pa->szModuleName;
 		if ((idx = g_ProtoPictures.getIndex(&tmp)) != -1)
 			g_ProtoPictures.remove(idx);
 		if ((idx = g_MyAvatars.getIndex(&tmp)) != -1)
@@ -344,7 +339,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		LoadAccountInfo(accs[i]);
 
 	// Load global avatar
-	protoPicCacheEntry *pce = new protoPicCacheEntry;
+	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_GLOBAL);
 	CreateAvatarInCache(INVALID_CONTACT_ID, pce, "");
 	pce->szProtoname = mir_strdup("");
 	g_MyAvatars.insert(pce);
