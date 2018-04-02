@@ -40,6 +40,9 @@ int CDbxMDBX::InitModules()
 // will create the offset if it needs to
 uint32_t CDbxMDBX::GetModuleID(const char *szName)
 {
+	if (szName == nullptr)
+		return 0;
+
 	uint32_t iHash = mir_hashstr(szName);
 	if (m_Modules.find(iHash) == m_Modules.end()) {
 		MDBX_val key = { &iHash, sizeof(iHash) }, data = { (void*)szName, strlen(szName) + 1 };
