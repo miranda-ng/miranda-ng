@@ -43,15 +43,13 @@ static PLUGININFOEX pluginInfo =
 
 HINSTANCE g_hInst = nullptr;
 
-LIST<CDbxMDBX> g_Dbs(1, HandleKeySortT);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile)
 {
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, 0));
-	return db->Create();
+	return (db->Map() == MDBX_SUCCESS) ? 0 : EGROKPRF_CANTREAD;
 }
 
 // returns 0 if the given profile has a valid header
@@ -68,10 +66,12 @@ static MDatabaseCommon* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 	mir_getLP(&pluginInfo);
 
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, (bReadOnly) ? DBMODE_READONLY : 0));
-	if (db->Load(false) != ERROR_SUCCESS)
+	if (db->Map() != ERROR_SUCCESS)
 		return nullptr;
 
-	g_Dbs.insert(db.get());
+	if (db->Load() != ERROR_SUCCESS)
+		return nullptr;
+
 	return db.release();
 }
 

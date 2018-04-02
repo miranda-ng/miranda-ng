@@ -162,6 +162,5 @@ public:
 #include "version.h"
 
 extern HINSTANCE g_hInst;
-extern LIST<CDbxMDBX> g_Dbs;
 
 #include "ui.h"

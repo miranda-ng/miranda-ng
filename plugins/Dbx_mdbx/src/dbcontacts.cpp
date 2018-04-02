@@ -25,7 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 STDMETHODIMP_(LONG) CDbxMDBX::GetContactCount(void)
 {
-	return m_contactCount;
+	MDBX_stat st;
+	mdbx_dbi_stat(m_txn_ro, m_dbContacts, &st, sizeof(st));
+	return st.ms_entries;
 }
 
 STDMETHODIMP_(LONG) CDbxMDBX::GetContactSize(void)
@@ -78,8 +80,6 @@ STDMETHODIMP_(LONG) CDbxMDBX::DeleteContact(MCONTACT contactID)
 	// free cache item
 	m_cache->FreeCachedContact(contactID);
 	DBFlush();
-
-	InterlockedDecrement(&m_contactCount);
 	return 0;
 }
 
@@ -100,7 +100,7 @@ STDMETHODIMP_(MCONTACT) CDbxMDBX::AddContact()
 	}
 
 	DBFlush();
-	InterlockedIncrement(&m_contactCount);
+
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
 	return dwContactId;
 }

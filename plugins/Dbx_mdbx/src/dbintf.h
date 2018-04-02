@@ -144,8 +144,8 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	}
 
 	void FillContacts(void);
-	int  Map();
-	int  PrepareCheck();
+	int  PrepareCheck(void);
+	void TouchFile(void);
 	void UpdateMenuItem(void);
 
 	////////////////////////////////////////////////////////////////////////////
@@ -179,7 +179,6 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	MDBX_dbi	    m_dbContacts;
 	MDBX_cursor *m_curContacts;
 
-	uint32_t m_contactCount;
 	MCONTACT m_maxContactId;
 
 	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
@@ -223,10 +222,10 @@ public:
 	virtual ~CDbxMDBX();
 
 	int  Check(void);
-	int  Create(void);
 	void DBFlush(bool bForce = false);
 	int  EnableEncryption(bool bEnable);
-	int  Load(bool bSkipInit);
+	int  Load();
+	int  Map();
 	void StoreKey(void);
 	void SetPassword(const wchar_t *ptszPassword);
 

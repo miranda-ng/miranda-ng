@@ -31,8 +31,10 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 {
 	m_tszProfileName = mir_wstrdup(tszFileName);
 
-	m_hwndTimer = CreateWindowExW(0, L"STATIC", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
-	::SetWindowLongPtr(m_hwndTimer, GWLP_USERDATA, (LONG_PTR)this);
+	if (!m_bReadOnly) {
+		m_hwndTimer = CreateWindowExW(0, L"STATIC", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
+		::SetWindowLongPtr(m_hwndTimer, GWLP_USERDATA, (LONG_PTR)this);
+	}
 
 	mdbx_env_create(&m_env);
 	mdbx_env_set_maxdbs(m_env, 10);
@@ -42,10 +44,13 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 
 CDbxMDBX::~CDbxMDBX()
 {
-	g_Dbs.remove(this);
 	mdbx_env_close(m_env);
 
-	::DestroyWindow(m_hwndTimer);
+	if (!m_bReadOnly)
+		TouchFile();
+
+	if (m_hwndTimer != nullptr)
+		::DestroyWindow(m_hwndTimer);
 
 	DestroyServiceFunction(hService);
 	UnhookEvent(hHook);
@@ -65,16 +70,13 @@ CDbxMDBX::~CDbxMDBX()
 	mir_free(m_tszProfileName);
 }
 
-int CDbxMDBX::Load(bool bSkipInit)
+int CDbxMDBX::Load()
 {
-	if (Map() != MDBX_SUCCESS)
-		return EGROKPRF_CANTREAD;
+	TouchFile();
 
-	if (!bSkipInit) {
+	unsigned int defFlags = MDBX_CREATE;
+	{
 		txn_ptr trnlck(StartTran());
-
-		unsigned int defFlags = MDBX_CREATE;
-
 		mdbx_dbi_open(trnlck, "global", defFlags | MDBX_INTEGERKEY, &m_dbGlobal);
 		mdbx_dbi_open(trnlck, "crypto", defFlags, &m_dbCrypto);
 		mdbx_dbi_open(trnlck, "contacts", defFlags | MDBX_INTEGERKEY, &m_dbContacts);
@@ -83,82 +85,67 @@ int CDbxMDBX::Load(bool bSkipInit)
 
 		mdbx_dbi_open_ex(trnlck, "eventsrt", defFlags, &m_dbEventsSort, DBEventSortingKey::Compare, nullptr);
 		mdbx_dbi_open_ex(trnlck, "settings", defFlags, &m_dbSettings, DBSettingKey::Compare, nullptr);
-		{
-			uint32_t keyVal = 1;
-			MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
-			if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS) {
-				const DBHeader *hdr = (const DBHeader*)data.iov_base;
-				if (hdr->dwSignature != DBHEADER_SIGNATURE)
-					return EGROKPRF_DAMAGED;
-				if (hdr->dwVersion != DBHEADER_VERSION)
-					return EGROKPRF_OBSOLETE;
 
-				m_header = *hdr;
-			}
-			else {
-				m_header.dwSignature = DBHEADER_SIGNATURE;
-				m_header.dwVersion = DBHEADER_VERSION;
-				data.iov_base = &m_header; data.iov_len = sizeof(m_header);
-				mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
-				DBFlush();
-			}
+		uint32_t keyVal = 1;
+		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
+		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS) {
+			const DBHeader *hdr = (const DBHeader*)data.iov_base;
+			if (hdr->dwSignature != DBHEADER_SIGNATURE)
+				return EGROKPRF_DAMAGED;
+			if (hdr->dwVersion != DBHEADER_VERSION)
+				return EGROKPRF_OBSOLETE;
 
-			keyVal = 2;
-			if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS)
-				m_ccDummy.dbc = *(const DBContact*)data.iov_base;
-
-			trnlck.commit();
+			m_header = *hdr;
 		}
-		{
-			MDBX_val key, val;
-
-			mdbx_txn_begin(m_env, nullptr, MDBX_RDONLY, &m_txn_ro);
-
-			mdbx_cursor_open(m_txn_ro, m_dbEvents, &m_curEvents);
-			if (mdbx_cursor_get(m_curEvents, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
-				m_dwMaxEventId = *(MEVENT*)key.iov_base;
-
-			mdbx_cursor_open(m_txn_ro, m_dbEventsSort, &m_curEventsSort);
-			mdbx_cursor_open(m_txn_ro, m_dbSettings, &m_curSettings);
-			mdbx_cursor_open(m_txn_ro, m_dbModules, &m_curModules);
-
-			mdbx_cursor_open(m_txn_ro, m_dbContacts, &m_curContacts);
-			if (mdbx_cursor_get(m_curContacts, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
-				m_maxContactId = *(MCONTACT*)key.iov_base;
-
-			MDBX_stat st;
-			mdbx_dbi_stat(m_txn_ro, m_dbContacts, &st, sizeof(st));
-			m_contactCount = st.ms_entries;
-
-			mdbx_txn_reset(m_txn_ro);
+		else {
+			m_header.dwSignature = DBHEADER_SIGNATURE;
+			m_header.dwVersion = DBHEADER_VERSION;
+			data.iov_base = &m_header; data.iov_len = sizeof(m_header);
+			mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
+			DBFlush();
 		}
 
+		keyVal = 2;
+		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS)
+			m_ccDummy.dbc = *(const DBContact*)data.iov_base;
 
-		if (InitModules()) return EGROKPRF_DAMAGED;
-		if (InitCrypt())   return EGROKPRF_DAMAGED;
-
-		// everything is ok, go on
-		if (!m_bReadOnly) {
-			// retrieve the event handles
-			hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
-			hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
-			hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-			hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
-
-			hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-			hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
-			hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
-		}
-
-		FillContacts();
+		trnlck.commit();
 	}
 
-	return EGROKPRF_NOERROR;
-}
+	mdbx_txn_begin(m_env, nullptr, MDBX_RDONLY, &m_txn_ro);
+	mdbx_cursor_open(m_txn_ro, m_dbEvents, &m_curEvents);
+	mdbx_cursor_open(m_txn_ro, m_dbEventsSort, &m_curEventsSort);
+	mdbx_cursor_open(m_txn_ro, m_dbSettings, &m_curSettings);
+	mdbx_cursor_open(m_txn_ro, m_dbModules, &m_curModules);
+	mdbx_cursor_open(m_txn_ro, m_dbContacts, &m_curContacts);
 
-int CDbxMDBX::Create(void)
-{
-	return (Map() == MDBX_SUCCESS) ? 0 : EGROKPRF_CANTREAD;
+	MDBX_val key, val;
+	if (mdbx_cursor_get(m_curEvents, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
+		m_dwMaxEventId = *(MEVENT*)key.iov_base;
+	if (mdbx_cursor_get(m_curContacts, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
+		m_maxContactId = *(MCONTACT*)key.iov_base;
+
+	mdbx_txn_reset(m_txn_ro);
+
+	if (InitModules()) return EGROKPRF_DAMAGED;
+	if (InitCrypt())   return EGROKPRF_DAMAGED;
+
+	// everything is ok, go on
+	if (!m_bReadOnly) {
+		// retrieve the event handles
+		hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
+		hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
+		hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+		hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
+
+		hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
+		hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
+		hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+	}
+
+	FillContacts();
+
+	return EGROKPRF_NOERROR;
 }
 
 size_t iDefHeaderOffset = 0;
@@ -210,6 +197,23 @@ int CDbxMDBX::Map()
 
 	int exclusive = (m_bShared) ? 1 : 2;
 	return mdbx_env_open_ex(m_env, _T2A(m_tszProfileName), mode, 0664, &exclusive);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDbxMDBX::TouchFile()
+{
+	SYSTEMTIME st;
+	::GetLocalTime(&st);
+
+	FILETIME ft;
+	SystemTimeToFileTime(&st, &ft);
+
+	HANDLE hFile = CreateFileW(m_tszProfileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (hFile) {
+		SetFileTime(hFile, nullptr, &ft, &ft);
+		CloseHandle(hFile);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
