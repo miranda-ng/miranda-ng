@@ -165,8 +165,13 @@ public:
 
 	virtual void OnApply() override
 	{
+		// assume all accounts are disabled
+		for (auto &it : accounts)
+			it->iOrder = -1;
+
 		int idx = 0;
 
+		// scan chosen accounts and apply the order
 		TVITEMEX tvi;
 		tvi.hItem = m_order.GetRoot();
 		tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
@@ -177,8 +182,6 @@ public:
 				ProtocolData *ppd = (ProtocolData*)tvi.lParam;
 				PROTOACCOUNT *pa = Proto_GetAccount(ppd->RealName);
 				if (pa != nullptr) {
-					while (idx < accounts.getCount() && !ProtoToInclude(accounts[idx]))
-						idx++;
 					pa->iOrder = idx++;
 					if (ppd->enabled)
 						pa->bIsVisible = tvi.iImage != 0;
@@ -187,6 +190,11 @@ public:
 
 			tvi.hItem = m_order.GetNextSibling(tvi.hItem);
 		}
+
+		// all accounts in the rest are disabled, so order doesn't matter
+		for (auto &it : accounts)
+			if (it->iOrder == -1)
+				it->iOrder = idx++;
 
 		WriteDbAccounts();
 		cli.pfnReloadProtoMenus();
