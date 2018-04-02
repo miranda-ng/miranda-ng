@@ -1153,6 +1153,7 @@ void InitCustomMenus(void)
 	}
 
 	HookEvent(ME_HOTKEYS_CHANGED, sttRebuildHotkeys);
+	HookEvent(ME_LANGPACK_CHANGED, sttRebuildHotkeys);
 
 	// add exit command to menu
 	CMenuItem mi;
