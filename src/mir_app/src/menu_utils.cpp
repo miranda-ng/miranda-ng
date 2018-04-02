@@ -1207,7 +1207,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 
 static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 {
-	wchar_t *descr = GetMenuItemText(pmi);
+	wchar_t *descr = pmi->mi.name.w;
 	if (!descr || pmi->hIcolibItem != nullptr || pmi->mi.uid == miid_last)
 		return FALSE;
 
