@@ -492,7 +492,7 @@ public:
 
 		AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
 
-		if (Proto_IsAccountEnabled(pa))
+		if (pa->IsEnabled())
 			AppendMenu(hMenu, MF_STRING, 4, TranslateT("Configure"));
 
 		if (pa->bOldProto || pa->bDynDisabled)

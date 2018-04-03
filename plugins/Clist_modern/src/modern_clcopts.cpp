@@ -470,14 +470,14 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 static int _GetNetVisibleProtoCount()
 {
-	int i, count, netProtoCount;
+	int count, netProtoCount;
 	PROTOACCOUNT **accs;
 	Proto_EnumAccounts(&count, &accs);
-	for (i = 0, netProtoCount = 0; i < count; i++) {
-		if (pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0)
-			continue;
-		netProtoCount++;
-	}
+
+	for (int i = 0, netProtoCount = 0; i < count; i++)
+		if (accs[i]->IsVisible())
+			netProtoCount++;
+
 	return netProtoCount;
 }
 

@@ -98,7 +98,7 @@ bool CheckProtocolOrder(void)
 
 static bool ProtoToInclude(PROTOACCOUNT *pa)
 {
-	if (!Proto_IsAccountEnabled(pa))
+	if (!pa->IsEnabled())
 		return false;
 
 	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
@@ -129,7 +129,7 @@ class CProtocolOrderOpts : public CDlgBase
 
 			ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 			PD->RealName = pa->szModuleName;
-			PD->enabled = Proto_IsAccountEnabled(pa) && isProtoSuitable(pa->ppro);
+			PD->enabled = pa->IsEnabled() && isProtoSuitable(pa->ppro);
 
 			tvis.item.lParam = (LPARAM)PD;
 			tvis.item.pszText = pa->tszAccountName;

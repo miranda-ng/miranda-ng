@@ -179,10 +179,10 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		if (i == -1)
 			continue;
 
-		char *szProto = accs[i]->szModuleName;
-		if (!pcli->pfnGetProtocolVisibility(szProto))
+		if (!accs[i]->IsVisible())
 			continue;
 
+		char *szProto = accs[i]->szModuleName;
 		char buf[256];
 		mir_snprintf(buf, "SBarAccountIsCustom_%s", szProto);
 

@@ -90,7 +90,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 	int connectingCount = 0;
 	for (int i = 0; i < pcli->hClcProtoCount; i++) {
 		ClcProtoStatus &p = pcli->clcProto[i];
-		if (!pcli->pfnGetProtocolVisibility(p.szProto))
+		if (!Clist_GetProtocolVisibility(p.szProto))
 			continue;
 
 		if (IsStatusConnecting(p.dwStatus)) {
@@ -285,7 +285,7 @@ static int GetGoodAccNum(bool *bDiffers, bool *bConn = nullptr)
 	int iPrevStatus = 0, res = 0;
 	while (AccNum--) {
 		PROTOACCOUNT *pa = acc[AccNum];
-		if (!pcli->pfnGetProtocolVisibility(pa->szModuleName))
+		if (!pa->IsVisible())
 			continue;
 
 		res++;
@@ -379,7 +379,7 @@ int cliTrayIconInit(HWND hwnd)
 
 		for (int i = AccNum; i--;) {
 			PROTOACCOUNT *pa = acc[i];
-			if (pcli->pfnGetProtocolVisibility(pa->szModuleName) && pa->ppro != nullptr)
+			if (pa->IsVisible() && pa->ppro != nullptr)
 				pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
 		}
 		break;
@@ -396,7 +396,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 	if (!pcli->trayIconCount)
 		return -1;
 
-	if (!pcli->pfnGetProtocolVisibility(szChangedProto))
+	if (!Clist_GetProtocolVisibility(szChangedProto))
 		return -1;
 
 	bool bDiffers, bConn;

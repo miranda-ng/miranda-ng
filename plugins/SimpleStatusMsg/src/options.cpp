@@ -143,13 +143,14 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						for (j = 0; j < accounts->count; j++)
 						{
-							if (!Proto_IsAccountEnabled(accounts->pa[j]) || !CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+							auto *pa = accounts->pa[j];
+							if (!pa->IsEnabled() || !CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 								continue;
 
-							mir_snprintf(setting, "%sFlags", accounts->pa[j]->szModuleName);
+							mir_snprintf(setting, "%sFlags", pa->szModuleName);
 							val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, setting), STATUS_DEFAULT);
 							data->status_msg[j+1].flags[i-ID_STATUS_ONLINE] = val;
-							mir_snprintf(setting, "%sDefault", accounts->pa[j]->szModuleName);
+							mir_snprintf(setting, "%sDefault", pa->szModuleName);
 							text = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i, setting));
 							mir_wstrncpy(data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 						}
@@ -190,26 +191,27 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				for (i = 0; i < accounts->count; ++i)
 				{
-					if (!Proto_IsAccountEnabled(accounts->pa[i])
-						|| !CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0)
-						|| !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+					auto *pa = accounts->pa[i];
+					if (!pa->IsEnabled()
+						|| !CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0)
+						|| !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 					{
 						data->proto_msg[i+1].msg = nullptr;
 						continue;
 					}
 
-					index = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_ADDSTRING, 0, (LPARAM)accounts->pa[i]->tszAccountName);
+					index = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
 					// SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, index, (LPARAM)i + 1);
 					if (index != CB_ERR && index != CB_ERRSPACE)
 					{
-						mir_snprintf(setting, "Proto%sDefault", accounts->pa[i]->szModuleName);
+						mir_snprintf(setting, "Proto%sDefault", pa->szModuleName);
 						data->proto_msg[i+1].msg = db_get_wsa(NULL, "SimpleStatusMsg", setting);
 
-						mir_snprintf(setting, "Proto%sFlags", accounts->pa[i]->szModuleName);
+						mir_snprintf(setting, "Proto%sFlags", pa->szModuleName);
 						val = db_get_b(NULL, "SimpleStatusMsg", setting, PROTO_DEFAULT);
 						data->proto_msg[i+1].flags = val;
 
-						mir_snprintf(setting, "Proto%sMaxLen", accounts->pa[i]->szModuleName);
+						mir_snprintf(setting, "Proto%sMaxLen", pa->szModuleName);
 						val = db_get_w(NULL, "SimpleStatusMsg", setting, 1024);
 						data->proto_msg[i+1].max_length = val;
 						SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i + 1);
@@ -918,7 +920,8 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				for (int k = 0; k < accounts->count; k++)
 				{
-					if (!Proto_IsAccountEnabled(accounts->pa[k]) || !CallProtoService(accounts->pa[k]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(accounts->pa[k]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+					auto *pa = accounts->pa[k];
+					if (!pa->IsEnabled() || !CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 						continue;
 
 					if (k != j - 1)
@@ -953,7 +956,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						{
 							for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 							{
-								if (CallProtoService(accounts->pa[k]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i))
+								if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i))
 								{
 									data->status_msg[k + 1].flags[i - ID_STATUS_ONLINE] = data->status_msg[j].flags[i - ID_STATUS_ONLINE];
 									if (data->status_msg[j].flags[i - ID_STATUS_ONLINE] & STATUS_THIS_MSG)
@@ -1004,18 +1007,19 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					for (int j = 0; j < accounts->count; j++)
 					{
-						if (!Proto_IsAccountEnabled(accounts->pa[j]))
+						auto *pa = accounts->pa[j];
+						if (!pa->IsEnabled())
 							continue;
 
-						if (!(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+						if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 							continue;
 
-						if (CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i))
+						if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i))
 						{
-							mir_snprintf(szSetting, "%sDefault", accounts->pa[j]->szModuleName);
+							mir_snprintf(szSetting, "%sDefault", pa->szModuleName);
 							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
 
-							mir_snprintf(szSetting, "%sFlags", accounts->pa[j]->szModuleName);
+							mir_snprintf(szSetting, "%sFlags", pa->szModuleName);
 							db_set_b(NULL, "SimpleStatusMsg", StatusModeToDbSetting(i, szSetting), (BYTE)data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE]);
 						}
 					}
@@ -1030,25 +1034,26 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				for (int i = 0; i < accounts->count; i++)
 				{
-					if (!Proto_IsAccountEnabled(accounts->pa[i]))
+					auto *pa = accounts->pa[i];
+					if (!pa->IsEnabled())
 						continue;
 
-					if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+					if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 						continue;
 
-					if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+					if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 						continue;
 
-					mir_snprintf(szSetting, "Proto%sDefault", accounts->pa[i]->szModuleName);
+					mir_snprintf(szSetting, "Proto%sDefault", pa->szModuleName);
 					if (data->proto_msg[i+1].msg && (data->proto_msg[i+1].flags & PROTO_THIS_MSG))
 						db_set_ws(NULL, "SimpleStatusMsg", szSetting, data->proto_msg[i+1].msg);
 					//						else
 					//							db_unset(NULL, "SimpleStatusMsg", szSetting);
 
-					mir_snprintf(szSetting, "Proto%sMaxLen", accounts->pa[i]->szModuleName);
+					mir_snprintf(szSetting, "Proto%sMaxLen", pa->szModuleName);
 					db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)data->proto_msg[i+1].max_length);
 
-					mir_snprintf(szSetting, "Proto%sFlags", accounts->pa[i]->szModuleName);
+					mir_snprintf(szSetting, "Proto%sFlags", pa->szModuleName);
 					db_set_b(NULL, "SimpleStatusMsg", szSetting, (BYTE)data->proto_msg[i+1].flags);
 				}
 			}
@@ -1336,17 +1341,18 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
 
 				for (int i = 0; i < accounts->count; i++) {
-					if (!Proto_IsAccountEnabled(accounts->pa[i]))
+					auto *pa = accounts->pa[i];
+					if (!pa->IsEnabled())
 						continue;
 
-					if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+					if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 						continue;
 
-					if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+					if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 						continue;
 
 					char setting[80];
-					mir_snprintf(setting, "Last%sMsg", accounts->pa[i]->szModuleName);
+					mir_snprintf(setting, "Last%sMsg", pa->szModuleName);
 					db_set_s(NULL, "SimpleStatusMsg", setting, "");
 				}
 				db_set_w(NULL, "SimpleStatusMsg", "LMMsg", (WORD)max_hist_msgs);
@@ -1433,16 +1439,17 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			data->setdelay = (int *)mir_alloc(sizeof(int) * accounts->count);
 			for (int i = 0; i < accounts->count; ++i)
 			{
-				if (!Proto_IsAccountEnabled(accounts->pa[i]) || !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				auto *pa = accounts->pa[i];
+				if (!pa->IsEnabled() || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
-				int index = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_ADDSTRING, 0, (LPARAM)accounts->pa[i]->tszAccountName);
+				int index = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
 				if (index != LB_ERR && index != LB_ERRSPACE)
 				{
 					char setting[80];
-					mir_snprintf(setting, "Startup%sStatus", accounts->pa[i]->szModuleName);
+					mir_snprintf(setting, "Startup%sStatus", pa->szModuleName);
 					data->status[i] = db_get_w(NULL, "SimpleStatusMsg", setting, ID_STATUS_CURRENT);
-					mir_snprintf(setting, "Set%sStatusDelay", accounts->pa[i]->szModuleName);
+					mir_snprintf(setting, "Set%sStatusDelay", pa->szModuleName);
 					data->setdelay[i] = db_get_w(NULL, "SimpleStatusMsg", setting, 300);
 					SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 				}
@@ -1565,7 +1572,8 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					int newindex = 0;
 
 					int i = SendMessage((HWND)lParam, LB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, LB_GETCURSEL, 0, 0), 0);
-					int status_modes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
+					auto *pa = accounts->pa[i];
+					int status_modes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
 
 					SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_RESETCONTENT, 0, 0);
 					for (int l = ID_STATUS_OFFLINE; l <= ID_STATUS_OUTTOLUNCH; l++)
@@ -1618,14 +1626,15 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 		{
 			for (int i = 0; i < accounts->count; i++)
 			{
-				if (!Proto_IsAccountEnabled(accounts->pa[i]) || !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				auto *pa = accounts->pa[i];
+				if (!pa->IsEnabled() || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
 				char szSetting[80];
-				mir_snprintf(szSetting, "Startup%sStatus", accounts->pa[i]->szModuleName);
+				mir_snprintf(szSetting, "Startup%sStatus", pa->szModuleName);
 				db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)data->status[i]);
 
-				mir_snprintf(szSetting, "Set%sStatusDelay", accounts->pa[i]->szModuleName);
+				mir_snprintf(szSetting, "Set%sStatusDelay", pa->szModuleName);
 				db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)data->setdelay[i]);
 			}
 			db_set_w(NULL, "SimpleStatusMsg", "SetStatusDelay", (WORD)data->setglobaldelay);

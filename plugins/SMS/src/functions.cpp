@@ -499,7 +499,7 @@ int RefreshAccountList(WPARAM, LPARAM)
 	ssSMSSettings.ppaSMSAccounts = (PROTOACCOUNT**)MEMALLOC((dwAccCount*sizeof(LPVOID)));
 	if (ssSMSSettings.ppaSMSAccounts)
 		for (int i = 0; i < dwAccCount; i++)
-			if (Proto_IsAccountEnabled(ppaAccounts[i]))
+			if (ppaAccounts[i]->IsEnabled())
 				if (ProtoServiceExists(ppaAccounts[i]->szModuleName, MS_ICQ_SENDSMS))
 					ssSMSSettings.ppaSMSAccounts[dwSMSAccountsCount++] = ppaAccounts[i];
 

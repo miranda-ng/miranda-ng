@@ -124,8 +124,6 @@ GetPluginLangId @129
 Proto_GetAccount @130
 Proto_EnumProtocols @131
 Proto_EnumAccounts @132
-Proto_IsAccountEnabled @133
-Proto_IsAccountLocked @134
 Proto_GetBaseAccountName @135
 GetContactProto @136
 Proto_AddToContact @137
@@ -529,3 +527,10 @@ Proto_ActivateAccount @512
 ?RegisterProtocol@CMPluginBase@@IAEXHP6APAUPROTO_INTERFACE@@PBDPB_W@ZP6AHPAU2@@Z@Z @547 NONAME
 Proto_GetUniqueId @548
 Proto_SetUniqueId @549
+??4PROTOACCOUNT@@QAEAAU0@$$QAU0@@Z @550 NONAME
+??4PROTOACCOUNT@@QAEAAU0@ABU0@@Z @551 NONAME
+?IsEnabled@PROTOACCOUNT@@QBE_NXZ @552 NONAME
+?IsLocked@PROTOACCOUNT@@QBE_NXZ @553 NONAME
+?IsVisible@PROTOACCOUNT@@QBE_NXZ @554 NONAME
+?SetUniqueId@CMPluginBase@@IAEXPBD@Z @555 NONAME
+Clist_GetProtocolVisibility @556

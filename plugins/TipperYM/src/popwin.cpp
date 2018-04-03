@@ -72,14 +72,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				pwd->iSidebarWidth = opt.iSidebarWidth;
 
 				PROTOACCOUNT *pa = Proto_GetAccount(pwd->clcit.szProto);
-				if (pa)
+				if (pa) {
 					mir_wstrcpy(pwd->swzTitle, pa->tszAccountName);
-
-				if (mir_wstrlen(pwd->swzTitle) == 0)
-					a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
-
-				if (Proto_IsAccountLocked(pa))
-					mir_snwprintf(pwd->swzTitle, TranslateT("%s (locked)"), pwd->swzTitle);
+					if (pa->IsLocked())
+						mir_snwprintf(pwd->swzTitle, TranslateT("%s (locked)"), pwd->swzTitle);
+				}
+				else a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
 
 				// protocol status
 				WORD wStatus = (WORD)CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
@@ -1465,7 +1463,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (opt.bHideOffline && wStatus == ID_STATUS_OFFLINE)
 				continue;
 
-			if (!Proto_IsAccountEnabled(pa) || !IsTrayProto(pa->tszAccountName, (BOOL)wParam))
+			if (!pa->IsEnabled() || !IsTrayProto(pa->tszAccountName, (BOOL)wParam))
 				continue;
 
 			if (dwItems & TRAYTIP_NUMCONTACTS) {
@@ -1482,7 +1480,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			wchar_t swzProto[256];
 			mir_wstrcpy(swzProto, pa->tszAccountName);
 			if (dwItems & TRAYTIP_LOCKSTATUS)
-				if (Proto_IsAccountLocked(pa))
+				if (pa->IsLocked())
 					mir_snwprintf(swzProto, TranslateT("%s (locked)"), pa->tszAccountName);
 
 			AddRow(pwd, swzProto, buff, nullptr, false, false, !bFirstItem, true, Skin_LoadProtoIcon(pa->szModuleName, wStatus));

@@ -285,7 +285,6 @@ struct CLIST_INTERFACE
 
 	/* clc.h */
 	void  (*pfnClcOptionsChanged)(void);
-	void  (*pfnUnused1)();
 	HMENU (*pfnBuildGroupPopupMenu)(struct ClcGroup*); // unused
 
 	LRESULT (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -409,11 +408,6 @@ struct CLIST_INTERFACE
 	/* docking.c */
 	int (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
 
-	int   (*blablabla1)();
-	int   (*blablabla2)();
-	int   (*blablabla3)();
-	int   (*blablabla4)();
-
 	/*************************************************************************************
 	 * version 2 - events processing
 	 *************************************************************************************/
@@ -439,16 +433,13 @@ struct CLIST_INTERFACE
 	MenuProto* menuProtos;
 	int        menuProtoCount;
 
-	HANDLE hPreBuildStatusMenuEvent;
-	int    currentStatusMenuItem, currentDesiredStatusMode;
-	BOOL   bDisplayLocked, bAutoRebuild;
+	HANDLE   hPreBuildStatusMenuEvent;
+	int      currentStatusMenuItem, currentDesiredStatusMode;
+	BOOL     bDisplayLocked, bAutoRebuild;
 
 	HGENMENU (*pfnGetProtocolMenu)(const char*);
-	int      (*pfnStub2)(int);
-
-	int    (*pfnGetProtocolVisibility)(const char*);
-	int    (*pfnGetProtoIndexByPos)(PROTOCOLDESCRIPTOR** proto, int protoCnt, int Pos);
-	void   (*pfnReloadProtoMenus)(void);
+	int      (*pfnGetProtoIndexByPos)(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);
+	void     (*pfnReloadProtoMenus)(void);
 
 	/*************************************************************************************
 	 * version 5 additions (0.7.0.x) - tray icons
@@ -459,44 +450,44 @@ struct CLIST_INTERFACE
 	int      shellVersion;
 	UINT_PTR cycleTimerId;
 	int      cycleStep;
-	wchar_t*   szTip;
+	wchar_t* szTip;
 	BOOL     bTrayMenuOnScreen;
 
-	HICON  (*pfnGetIconFromStatusMode)(MCONTACT hContact, const char *szProto, int status);
+	HICON    (*pfnGetIconFromStatusMode)(MCONTACT hContact, const char *szProto, int status);
 
-	void   (*pfnInitTray)(void);
-	void   (*pfnUninitTray)(void);
+	void     (*pfnInitTray)(void);
+	void     (*pfnUninitTray)(void);
 
-	int    (*pfnTrayIconAdd)(HWND hwnd, const char *szProto, const char *szIconProto, int status);
-	int    (*pfnTrayIconDestroy)(HWND hwnd);
-	int    (*pfnTrayIconInit)(HWND hwnd);
+	int      (*pfnTrayIconAdd)(HWND hwnd, const char *szProto, const char *szIconProto, int status);
+	int      (*pfnTrayIconDestroy)(HWND hwnd);
+	int      (*pfnTrayIconInit)(HWND hwnd);
 	wchar_t* (*pfnTrayIconMakeTooltip)(const wchar_t *szPrefix, const char *szProto);
-	void   (*pfnTrayIconRemove)(HWND hwnd, const char *szProto);
-	int    (*pfnTrayIconSetBaseInfo)(HICON hIcon, const char *szPreferredProto);
-	void   (*pfnTrayIconTaskbarCreated)(HWND hwnd);
-	int    (*pfnTrayIconUpdate)(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
+	void     (*pfnTrayIconRemove)(HWND hwnd, const char *szProto);
+	int      (*pfnTrayIconSetBaseInfo)(HICON hIcon, const char *szPreferredProto);
+	void     (*pfnTrayIconTaskbarCreated)(HWND hwnd);
+	int      (*pfnTrayIconUpdate)(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
 
-	VOID   (CALLBACK *pfnTrayCycleTimerProc)(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
+	VOID     (CALLBACK *pfnTrayCycleTimerProc)(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 
 	/*************************************************************************************
 	 * version 6 additions (0.8.0.x) - accounts
 	 *************************************************************************************/
-	int    (*pfnGetAccountIndexByPos)(int pos);
+	int      (*pfnGetAccountIndexByPos)(int pos);
 
 	/*************************************************************************************
 	 * version 7 additions (0.11.0.x) - extra images
 	 *************************************************************************************/
-	void   (*pfnReloadExtraIcons)(void);
-	void   (*pfnSetAllExtraIcons)(MCONTACT hContact);
+	void     (*pfnReloadExtraIcons)(void);
+	void     (*pfnSetAllExtraIcons)(MCONTACT hContact);
 
 	/*************************************************************************************
 	 * Miranda NG additions
 	 *************************************************************************************/
-	int    (*pfnGetContactIcon)(MCONTACT hContact);
-	int    (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
-	int    (*pfnGetAverageMode)(int *pNetProtoCount);
-	void   (*pfnInitAutoRebuild)(HWND hwnd);
-	void   (*pfnSetContactCheckboxes)(ClcContact *cc, int checked);
+	int      (*pfnGetContactIcon)(MCONTACT hContact);
+	int      (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
+	int      (*pfnGetAverageMode)(int *pNetProtoCount);
+	void     (*pfnInitAutoRebuild)(HWND hwnd);
+	void     (*pfnSetContactCheckboxes)(ClcContact *cc, int checked);
 };
 
 // retrieves the pointer to a CLIST_INTERFACE structure

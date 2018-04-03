@@ -263,7 +263,7 @@ static void InitIcoLib()
 	int p_count = 0;
 	Proto_EnumAccounts(&p_count, &accs);
 	for (int k = 0; k < p_count; k++) {
-		if (!Proto_IsAccountEnabled(accs[k]) || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+		if (!accs[k]->IsEnabled() || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 			continue;
 
 		wchar_t szDescr[128];

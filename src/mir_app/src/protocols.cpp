@@ -303,7 +303,6 @@ HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// 0.8.0+ - accounts
 
 MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *accName)
 {
@@ -325,14 +324,29 @@ MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs)
 	if (pAccs) *pAccs = accounts.getArray();
 }
 
-MIR_APP_DLL(bool) Proto_IsAccountEnabled(const PROTOACCOUNT *pa)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool PROTOACCOUNT::IsEnabled() const
 {
-	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
+	return (this != nullptr) && ((bIsEnabled && !bDynDisabled) || bOldProto);
 }
 
-MIR_APP_DLL(bool) Proto_IsAccountLocked(const PROTOACCOUNT *pa)
+bool PROTOACCOUNT::IsLocked() const
 {
-	return pa && db_get_b(0, pa->szModuleName, "LockMainStatus", 0) != 0;
+	return (this != nullptr) && db_get_b(0, szModuleName, "LockMainStatus", 0) != 0;
+}
+
+bool PROTOACCOUNT::IsVisible() const
+{
+	if (this != nullptr && bIsVisible && IsEnabled() && ppro) {
+		PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(szProtoName);
+		if (pd == nullptr || pd->type != PROTOTYPE_PROTOCOL)
+			return false;
+
+		return (ppro->GetCaps(PFLAGNUM_2, 0) & ~ppro->GetCaps(PFLAGNUM_5, 0));
+	}
+
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

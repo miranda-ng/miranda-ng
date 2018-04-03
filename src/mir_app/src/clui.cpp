@@ -963,7 +963,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
 						g_IconWidth, g_IconHeight, 0, nullptr, DI_NORMAL);
 					IcoLib_ReleaseIcon(hIcon);
-					if (Proto_IsAccountLocked(Proto_GetAccount(szProto))) {
+					if (Proto_GetAccount(szProto)->IsLocked()) {
 						hIcon = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hIcon != nullptr) {
 							DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,

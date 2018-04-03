@@ -276,27 +276,30 @@ EXTERN_C MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *
 
 // -------------- accounts support --------------------- 0.8.0+
 
-typedef struct tagACCOUNT
+struct MIR_APP_EXPORT PROTOACCOUNT
 {
-	int    cbSize;          // sizeof this structure
-	char*  szModuleName;    // unique physical account name (matches database module name)
+	int      cbSize;          // sizeof this structure
+	char*    szModuleName;    // unique physical account name (matches database module name)
 	wchar_t* tszAccountName;  // user-defined account name
-	char*  szProtoName;     // physical protocol name
-	bool   bIsEnabled;      // is account enabled?
-	bool   bIsVisible;      // is account visible?
-	bool   bIsVirtual;      // is account virtual?
-	bool   bOldProto;       // old-styled account (one instance per dll)
-	bool   bDynDisabled;    // dynamic disable flag, is never written to db
+	char*    szProtoName;     // physical protocol name
+	bool     bIsEnabled;      // is account enabled?
+	bool     bIsVisible;      // is account visible?
+	bool     bIsVirtual;      // is account virtual?
+	bool     bOldProto;       // old-styled account (one instance per dll)
+	bool     bDynDisabled;    // dynamic disable flag, is never written to db
 
-	bool   bAccMgrUIChanged;
-	HWND   hwndAccMgrUI;
+	bool     bAccMgrUIChanged;
+	HWND     hwndAccMgrUI;
 
-	int    iOrder;          // account order in various menus & lists
+	int      iOrder;          // account order in various menus & lists
 	PROTO_INTERFACE *ppro;  // pointer to the underlying object
 
-	char*  szUniqueId;      // setting's unique id for any contact in the account
-}
-	PROTOACCOUNT;
+	char*    szUniqueId;      // setting's unique id for any contact in the account
+
+	bool     IsEnabled(void) const;
+	bool     IsLocked(void) const;
+	bool     IsVisible(void) const;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // account enumeration service
@@ -342,22 +345,6 @@ EXTERN_C MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *pszModuleName);
 // lParam = 0
 
 #define MS_PROTO_SHOWACCMGR "Protos/ShowAccountManager"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// determines if an account is enabled or not
-// wParam = 0
-// lParam = (LPARAM)(PROTOACCOUNT*)
-// Returns 1 if an account is valid and enabled, 0 otherwise
-
-EXTERN_C MIR_APP_DLL(bool) Proto_IsAccountEnabled(const PROTOACCOUNT *pa);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// determines if an account is locked or not
-// wParam = 0
-// lParam = (LPARAM)(char*)szAccountName
-// Returns 1 if an account is locked and not supposed to change status, 0 otherwise
-
-EXTERN_C MIR_APP_DLL(bool) Proto_IsAccountLocked(const PROTOACCOUNT *pa);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets the account associated with a contact

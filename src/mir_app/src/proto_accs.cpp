@@ -192,7 +192,7 @@ static int OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact) {
 		PROTOACCOUNT *pa = Proto_GetAccount(hContact);
-		if (Proto_IsAccountEnabled(pa) && pa->ppro)
+		if (pa->IsEnabled() && pa->ppro)
 			pa->ppro->OnEvent(EV_PROTO_ONCONTACTDELETED, hContact, lParam);
 	}
 	return 0;
@@ -202,7 +202,7 @@ static int OnDbSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact) {
 		PROTOACCOUNT *pa = Proto_GetAccount(hContact);
-		if (Proto_IsAccountEnabled(pa) && pa->ppro)
+		if (pa->IsEnabled() && pa->ppro)
 			pa->ppro->OnEvent(EV_PROTO_DBSETTINGSCHANGED, hContact, lParam);
 	}
 	return 0;
@@ -213,7 +213,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 	int count = 0;
 
 	for (auto &pa : accounts) {
-		if (!pa->ppro || !Proto_IsAccountEnabled(pa))
+		if (!pa->ppro || !pa->IsEnabled())
 			continue;
 
 		pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
@@ -240,13 +240,13 @@ static int UninitializeStaticAccounts(WPARAM, LPARAM)
 {
 	// request permission to exit first
 	for (auto &pa : accounts)
-		if (pa->ppro && Proto_IsAccountEnabled(pa))
+		if (pa->ppro && pa->IsEnabled())
 			if (pa->ppro->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != TRUE)
 				return 1;
 
 	// okay, all protocols are ready, exiting
 	for (auto &pa : accounts)
-		if (pa->ppro && Proto_IsAccountEnabled(pa))
+		if (pa->ppro && pa->IsEnabled())
 			pa->ppro->OnEvent(EV_PROTO_ONEXIT, 0, 0);
 
 	return 0;
@@ -261,7 +261,7 @@ int LoadAccountsModule(void)
 		if (pa->ppro)
 			continue;
 
-		if (!Proto_IsAccountEnabled(pa))
+		if (!pa->IsEnabled())
 			continue;
 
 		if (!Proto_ActivateAccount(pa))
@@ -425,7 +425,7 @@ void UnloadAccountsModule()
 void BuildProtoMenus()
 {
 	for (auto &pa : accounts) {
-		if (cli.pfnGetProtocolVisibility(pa->szModuleName) == 0)
+		if (!pa->IsVisible())
 			continue;
 
 		if (pa->ppro)

@@ -495,7 +495,7 @@ int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int max
 	else mir_wstrncpy(value, name, maxlen);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-	if (!Proto_IsAccountEnabled(pa)) {
+	if (!pa->IsEnabled()) {
 		mir_wstrncat(value, L" ", maxlen);
 		mir_wstrncat(value, TranslateT("[UNLOADED]"), maxlen);
 	}

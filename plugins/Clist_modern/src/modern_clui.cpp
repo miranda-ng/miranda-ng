@@ -1058,7 +1058,7 @@ void CLUI_DisconnectAll()
 	Proto_EnumAccounts(&nProtoCount, &accs);
 
 	for (int nProto = 0; nProto < nProtoCount; nProto++)
-		if (Proto_IsAccountEnabled(accs[nProto]))
+		if (accs[nProto]->IsEnabled())
 			CallProtoService(accs[nProto]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 }
 

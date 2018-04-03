@@ -178,10 +178,10 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, wchar_t *msg)
 
 		for (int i = 0; i < nAccounts; i++) {
 			PROTOACCOUNT *pa = accounts[i];
-			if (!Proto_IsAccountEnabled(pa))
+			if (!pa->IsEnabled())
 				continue;
 
-			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && !Proto_IsAccountLocked(pa))
+			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && !pa->IsLocked())
 				CallProtoService(pa->szModuleName, PS_SETAWAYMSG, statusMode, (LPARAM)msg);
 		}
 	}
@@ -540,7 +540,7 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 	PROTOACCOUNT **accounts;
 	Proto_EnumAccounts(&nAccounts, &accounts);
 	for (int i = 0; i < nAccounts; i++) {
-		if (!Proto_IsAccountEnabled(accounts[i]))
+		if (!accounts[i]->IsEnabled())
 			continue;
 
 		protoModeMsgFlags |= CallProtoService(accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);

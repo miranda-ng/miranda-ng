@@ -814,8 +814,8 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 	}
 	else Menu_ShowItem(hmenuProto, false);
 
-	Menu_ShowItem(hmenuAdded, (bShowAll || (flags & VF_ADD)) && bIsOnline && Proto_IsAccountEnabled(pa));
-	Menu_ShowItem(hmenuAuthReq, (bShowAll || (flags & VF_REQ)) && bIsOnline && Proto_IsAccountEnabled(pa));
+	Menu_ShowItem(hmenuAdded, (bShowAll || (flags & VF_ADD)) && bIsOnline && pa->IsEnabled());
+	Menu_ShowItem(hmenuAuthReq, (bShowAll || (flags & VF_REQ)) && bIsOnline && pa->IsEnabled());
 
 	bEnabled = bShowAll || (flags & VF_CID);
 	Menu_ShowItem(hmenuCopyID, bEnabled);

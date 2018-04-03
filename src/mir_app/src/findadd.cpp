@@ -370,7 +370,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			int index = 0, cbwidth = 0, netProtoCount = 0;
 			for (auto &pa : accounts) {
-				if (!Proto_IsAccountEnabled(pa))
+				if (!pa->IsEnabled())
 					continue;
 
 				DWORD caps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -397,7 +397,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 			for (auto &pa : accounts) {
-				if (!Proto_IsAccountEnabled(pa))
+				if (!pa->IsEnabled())
 					continue;
 
 				DWORD caps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -473,7 +473,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				break;
 			if (szProto == nullptr) {
 				for (auto &pa : accounts) {
-					if (Proto_IsAccountEnabled(pa)) {
+					if (pa->IsEnabled()) {
 						DWORD protoCaps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 						if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
 						if (protoCaps & PF1_SEARCHBYNAME) dat->showName = 1;
@@ -980,7 +980,7 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 		// protocols loaded but that would delay the creation until MODULE_LOADED and
 		// that is not good either...
 		for (auto &pa : accounts) {
-			if (!Proto_IsAccountEnabled(pa))
+			if (!pa->IsEnabled())
 				continue;
 
 			int protoCaps = CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);

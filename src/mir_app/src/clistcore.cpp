@@ -188,7 +188,6 @@ void InitClistCore()
 	cli.pfnShowHide = fnShowHide;
 	cli.pfnGetStatusModeDescription = fnGetStatusModeDescription;
 
-	cli.pfnGetProtocolVisibility = fnGetProtocolVisibility;
 	cli.pfnGetProtoIndexByPos = fnGetProtoIndexByPos;
 	cli.pfnReloadProtoMenus = fnReloadProtoMenus;
 	cli.pfnGetAccountIndexByPos = fnGetAccountIndexByPos;

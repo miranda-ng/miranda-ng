@@ -121,7 +121,7 @@ public:
 
 		for (int i = 0; i < n; i++) {
 			PROTOACCOUNT *p = pa[i];
-			if (!Proto_IsAccountEnabled(p) || p->bIsVirtual)
+			if (!p->IsEnabled() || p->bIsVirtual)
 				continue;
 
 			item.lParam = (LPARAM)p->szModuleName;

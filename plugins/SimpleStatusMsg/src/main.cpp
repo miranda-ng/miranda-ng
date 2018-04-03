@@ -460,22 +460,23 @@ void SaveMessageToDB(const char *szProto, wchar_t *tszMsg, BOOL bIsFormat)
 	{
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!Proto_IsAccountEnabled(accounts->pa[i]))
+			auto *pa = accounts->pa[i];
+			if (!pa->IsEnabled())
 				continue;
 
-			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+			if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 				continue;
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 				continue;
 
-			mir_snprintf(szSetting, bIsFormat ? "FCur%sMsg" : "Cur%sMsg", accounts->pa[i]->szModuleName);
+			mir_snprintf(szSetting, bIsFormat ? "FCur%sMsg" : "Cur%sMsg", pa->szModuleName);
 			DBWriteMessage(szSetting, tszMsg);
 #ifdef _DEBUG
 			if (bIsFormat)
-				log2file("SaveMessageToDB(): Set \"%S\" status message (without inserted vars) for %s.", tszMsg, accounts->pa[i]->szModuleName);
+				log2file("SaveMessageToDB(): Set \"%S\" status message (without inserted vars) for %s.", tszMsg, pa->szModuleName);
 			else
-				log2file("SaveMessageToDB(): Set \"%S\" status message for %s.", tszMsg, accounts->pa[i]->szModuleName);
+				log2file("SaveMessageToDB(): Set \"%S\" status message for %s.", tszMsg, pa->szModuleName);
 #endif
 		}
 	}
@@ -655,43 +656,44 @@ INT_PTR SetStatusModeFromExtern(WPARAM wParam, LPARAM lParam)
 
 	for (int i = 0; i < accounts->count; ++i)
 	{
-		if (!Proto_IsAccountEnabled(accounts->pa[i]))
+		auto *pa = accounts->pa[i];
+		if (!pa->IsEnabled())
 			continue;
 
-		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 			continue;
 
-		if (db_get_b(NULL, accounts->pa[i]->szModuleName, "LockMainStatus", 0))
+		if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
 			continue;
 
 		if (wParam == ID_STATUS_CURRENT || wParam == 0)
-			newStatus = GetCurrentStatus(accounts->pa[i]->szModuleName);
+			newStatus = GetCurrentStatus(pa->szModuleName);
 
-		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 		{
-			CallProtoService(accounts->pa[i]->szModuleName, PS_SETSTATUS, newStatus, 0);
+			CallProtoService(pa->szModuleName, PS_SETSTATUS, newStatus, 0);
 			continue;
 		}
 
-		int status_modes_msg = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+		int status_modes_msg = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 
 		if ((Proto_Status2Flag(newStatus) & status_modes_msg) || (newStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & status_modes_msg)))
 		{
 			wchar_t *msg = nullptr;
 
-			if (HasProtoStaticStatusMsg(accounts->pa[i]->szModuleName, GetCurrentStatus(accounts->pa[i]->szModuleName), newStatus))
+			if (HasProtoStaticStatusMsg(pa->szModuleName, GetCurrentStatus(pa->szModuleName), newStatus))
 				continue;
 
 			if (lParam)
-				msg = InsertVarsIntoMsg((wchar_t *)lParam, accounts->pa[i]->szModuleName, newStatus, NULL);
+				msg = InsertVarsIntoMsg((wchar_t *)lParam, pa->szModuleName, newStatus, NULL);
 
-			SaveMessageToDB(accounts->pa[i]->szModuleName, (wchar_t *)lParam, TRUE);
-			SaveMessageToDB(accounts->pa[i]->szModuleName, msg, FALSE);
-			Proto_SetStatus(accounts->pa[i]->szModuleName, GetCurrentStatus(accounts->pa[i]->szModuleName), newStatus, msg /*? msg : L""*/);
+			SaveMessageToDB(pa->szModuleName, (wchar_t *)lParam, TRUE);
+			SaveMessageToDB(pa->szModuleName, msg, FALSE);
+			Proto_SetStatus(pa->szModuleName, GetCurrentStatus(pa->szModuleName), newStatus, msg /*? msg : L""*/);
 			mir_free(msg);
 		}
 		else
-			CallProtoService(accounts->pa[i]->szModuleName, PS_SETSTATUS, newStatus, 0);
+			CallProtoService(pa->szModuleName, PS_SETSTATUS, newStatus, 0);
 	}
 
 	return 0;
@@ -712,19 +714,20 @@ void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, wcha
 			int status;
 			for (int i = 0; i < accounts->count; ++i)
 			{
-				if (!Proto_IsAccountEnabled(accounts->pa[i]))
+				auto *pa = accounts->pa[i];
+				if (!pa->IsEnabled())
 					continue;
 
-				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
-				status = iStatus == ID_STATUS_CURRENT ? GetStartupStatus(accounts->pa[i]->szModuleName) : iStatus;
+				status = iStatus == ID_STATUS_CURRENT ? GetStartupStatus(pa->szModuleName) : iStatus;
 
-				if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) ||
-					!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+				if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) ||
+					!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 				{
-					if (!(bOnStartup && status == ID_STATUS_OFFLINE) && GetCurrentStatus(accounts->pa[i]->szModuleName) != status)
-						CallProtoService(accounts->pa[i]->szModuleName, PS_SETSTATUS, (WPARAM)status, 0);
+					if (!(bOnStartup && status == ID_STATUS_OFFLINE) && GetCurrentStatus(pa->szModuleName) != status)
+						CallProtoService(pa->szModuleName, PS_SETSTATUS, (WPARAM)status, 0);
 				}
 			}
 		}
@@ -749,59 +752,60 @@ void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, wcha
 
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!Proto_IsAccountEnabled(accounts->pa[i]))
+			auto *pa = accounts->pa[i];
+			if (!pa->IsEnabled())
 				continue;
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 				continue;
 
-			if (!bOnStartup && db_get_b(NULL, accounts->pa[i]->szModuleName, "LockMainStatus", 0))
+			if (!bOnStartup && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
 				continue;
 
 			if (iProfileStatus)
 			{
 				int iProfileNumber = iStatus - 40083;
 				char szSetting[128];
-				mir_snprintf(szSetting, "%d_%s", iProfileNumber, accounts->pa[i]->szModuleName);
+				mir_snprintf(szSetting, "%d_%s", iProfileNumber, pa->szModuleName);
 				iStatus = db_get_w(NULL, "StartupStatus", szSetting, ID_STATUS_OFFLINE);
 				if (iStatus == ID_STATUS_IDLE) // the same as ID_STATUS_LAST in StartupStatus
 				{
-					mir_snprintf(szSetting, "last_%s", accounts->pa[i]->szModuleName);
+					mir_snprintf(szSetting, "last_%s", pa->szModuleName);
 					iStatus = db_get_w(NULL, "StartupStatus", szSetting, ID_STATUS_OFFLINE);
 				}
 				else if (iStatus == ID_STATUS_CURRENT)
-					iStatus = GetCurrentStatus(accounts->pa[i]->szModuleName);
+					iStatus = GetCurrentStatus(pa->szModuleName);
 			}
 
 			if (bIsStatusCurrent)
-				iStatus = bOnStartup ? GetStartupStatus(accounts->pa[i]->szModuleName) : GetCurrentStatus(accounts->pa[i]->szModuleName);
+				iStatus = bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
 
 			if (bIsInitialStatusCurrent)
-				iInitialStatus = bOnStartup ? ID_STATUS_OFFLINE : GetCurrentStatus(accounts->pa[i]->szModuleName);
+				iInitialStatus = bOnStartup ? ID_STATUS_OFFLINE : GetCurrentStatus(pa->szModuleName);
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus)) ||
-				!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus)) ||
+				!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 			{
-				if (!(bOnStartup && iStatus == ID_STATUS_OFFLINE) && GetCurrentStatus(accounts->pa[i]->szModuleName) != iStatus && iStatus != iInitialStatus)
+				if (!(bOnStartup && iStatus == ID_STATUS_OFFLINE) && GetCurrentStatus(pa->szModuleName) != iStatus && iStatus != iInitialStatus)
 				{
-					CallProtoService(accounts->pa[i]->szModuleName, PS_SETSTATUS, (WPARAM)iStatus, 0);
+					CallProtoService(pa->szModuleName, PS_SETSTATUS, (WPARAM)iStatus, 0);
 #ifdef _DEBUG
-					log2file("SetStatusMessage(): Set %s status for %s.", StatusModeToDbSetting(iStatus, ""), accounts->pa[i]->szModuleName);
+					log2file("SetStatusMessage(): Set %s status for %s.", StatusModeToDbSetting(iStatus, ""), pa->szModuleName);
 #endif
 				}
 				continue;
 			}
 
-			if (HasProtoStaticStatusMsg(accounts->pa[i]->szModuleName, iInitialStatus, iStatus))
+			if (HasProtoStaticStatusMsg(pa->szModuleName, iInitialStatus, iStatus))
 				continue;
 
 			if (message)
-				msg = InsertVarsIntoMsg(message, accounts->pa[i]->szModuleName, iStatus, NULL);
+				msg = InsertVarsIntoMsg(message, pa->szModuleName, iStatus, NULL);
 
-			SaveMessageToDB(accounts->pa[i]->szModuleName, message, TRUE);
-			SaveMessageToDB(accounts->pa[i]->szModuleName, msg, FALSE);
+			SaveMessageToDB(pa->szModuleName, message, TRUE);
+			SaveMessageToDB(pa->szModuleName, msg, FALSE);
 
-			Proto_SetStatus(accounts->pa[i]->szModuleName, iInitialStatus, iStatus, msg);
+			Proto_SetStatus(pa->szModuleName, iInitialStatus, iStatus, msg);
 			mir_free(msg);
 		}
 
@@ -833,18 +837,19 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM, LPARAM lParam)
 	{
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!Proto_IsAccountEnabled(accounts->pa[i]))
+			auto *pa = accounts->pa[i];
+			if (!pa->IsEnabled())
 				continue;
 
-			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+			if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 				continue;
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 				continue;
 
-			box_data->m_szProto = accounts->pa[i]->szModuleName;
-			box_data->m_iStatusModes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
-			box_data->m_iStatusMsgModes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+			box_data->m_szProto = pa->szModuleName;
+			box_data->m_iStatusModes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
+			box_data->m_iStatusMsgModes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 			break;
 		}
 	}
@@ -852,23 +857,24 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM, LPARAM lParam)
 	{
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!Proto_IsAccountEnabled(accounts->pa[i]))
+			auto *pa = accounts->pa[i];
+			if (!pa->IsEnabled())
 				continue;
 
-			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+			if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 				continue;
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 				continue;
 
-			if (!accounts->pa[i]->bIsVisible)
+			if (!pa->bIsVisible)
 				continue;
 
 			if (hProtoStatusMenuItem[i] == (HANDLE)lParam)
 			{
-				box_data->m_szProto = accounts->pa[i]->szModuleName;
-				box_data->m_iStatusModes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
-				box_data->m_iStatusMsgModes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+				box_data->m_szProto = pa->szModuleName;
+				box_data->m_iStatusModes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
+				box_data->m_iStatusMsgModes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 
 				idvstatusmsg = TRUE;
 				break;
@@ -902,23 +908,24 @@ INT_PTR ShowStatusMessageDialog(WPARAM, LPARAM lParam)
 
 	for (int i = 0; i < accounts->count; ++i)
 	{
-		if (!Proto_IsAccountEnabled(accounts->pa[i]))
+		auto *pa = accounts->pa[i];
+		if (!pa->IsEnabled())
 			continue;
 
-		if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+		if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 			continue;
 
-		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 			continue;
 
-		if (!accounts->pa[i]->bIsVisible)
+		if (!pa->bIsVisible)
 			continue;
 
-		if (!mir_strcmp(accounts->pa[i]->szModuleName, (char *)lParam))
+		if (!mir_strcmp(pa->szModuleName, (char *)lParam))
 		{
-			box_data->m_szProto = accounts->pa[i]->szModuleName;
-			box_data->m_iStatusModes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
-			box_data->m_iStatusMsgModes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+			box_data->m_szProto = pa->szModuleName;
+			box_data->m_iStatusModes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
+			box_data->m_iStatusMsgModes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 
 			idvstatusmsg = TRUE;
 			break;
@@ -958,18 +965,19 @@ int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 
 	if (accounts->statusMsgCount == 1 && !szProto) {
 		for (int i = 0; i < accounts->count; ++i) {
-			if (!Proto_IsAccountEnabled(accounts->pa[i]))
+			auto *pa = accounts->pa[i];
+			if (!pa->IsEnabled())
 				continue;
 
-			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+			if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 				continue;
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 				continue;
 
-			szProto = accounts->pa[i]->szModuleName;
+			szProto = pa->szModuleName;
 			if (bOnStartup && iStatus == ID_STATUS_CURRENT) {
-				iStatus = GetStartupStatus(accounts->pa[i]->szModuleName);
+				iStatus = GetStartupStatus(pa->szModuleName);
 				bGlobalStartupStatus = FALSE;
 			}
 			break;
@@ -1058,30 +1066,31 @@ int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 		int iProtoFlags = db_get_b(NULL, "SimpleStatusMsg", "ProtoFlags", PROTO_DEFAULT);
 		if (!bShowDlg || bScreenSaverRunning || (iProtoFlags & PROTO_NOCHANGE && !bOnStartup)) {
 			for (int i = 0; i < accounts->count; ++i) {
-				if (!Proto_IsAccountEnabled(accounts->pa[i]))
+				auto *pa = accounts->pa[i];
+				if (!pa->IsEnabled())
 					continue;
 
-				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
-				if (db_get_b(NULL, accounts->pa[i]->szModuleName, "LockMainStatus", 0))
+				if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
 					continue;
 
-				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus)) ||
-					!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+				if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus)) ||
+					!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 					continue;
 
 				wchar_t *msg;
 				if (iProtoFlags & PROTO_NOCHANGE) {
-					mir_snprintf(szSetting, "FCur%sMsg", accounts->pa[i]->szModuleName);
+					mir_snprintf(szSetting, "FCur%sMsg", pa->szModuleName);
 					msg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 				}
 				else
 					msg = GetAwayMessageFormat(iStatus, nullptr);
 #ifdef _DEBUG
-				log2file("ChangeStatusMessage(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, accounts->pa[i]->szModuleName);
+				log2file("ChangeStatusMessage(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, pa->szModuleName);
 #endif
-				SetStatusMessage(accounts->pa[i]->szModuleName, iStatus, iStatus, msg, FALSE);
+				SetStatusMessage(pa->szModuleName, iStatus, iStatus, msg, FALSE);
 				if (msg)
 					mir_free(msg);
 			}
@@ -1133,49 +1142,51 @@ int SetStartupStatus(int i)
 {
 	char szSetting[80];
 	wchar_t *fmsg, *msg = nullptr;
-	int iStatus = GetStartupStatus(accounts->pa[i]->szModuleName);
+
+	auto *pa = accounts->pa[i];
+	int iStatus = GetStartupStatus(pa->szModuleName);
 
 	if (iStatus == ID_STATUS_OFFLINE)
 		return -1;
 
-	if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) ||
-		!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+	if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) ||
+		!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 	{
-		CallProtoService(accounts->pa[i]->szModuleName, PS_SETSTATUS, (WPARAM)iStatus, 0);
+		CallProtoService(pa->szModuleName, PS_SETSTATUS, (WPARAM)iStatus, 0);
 		return -1;
 	}
 
-	mir_snprintf(szSetting, "Proto%sFlags", accounts->pa[i]->szModuleName);
+	mir_snprintf(szSetting, "Proto%sFlags", pa->szModuleName);
 	int flags = db_get_b(NULL, "SimpleStatusMsg", szSetting, PROTO_DEFAULT);
 	if (flags & PROTO_NO_MSG || flags & PROTO_THIS_MSG)
 	{
-		if (HasProtoStaticStatusMsg(accounts->pa[i]->szModuleName, ID_STATUS_OFFLINE, iStatus))
+		if (HasProtoStaticStatusMsg(pa->szModuleName, ID_STATUS_OFFLINE, iStatus))
 			return 0;
 		else
 			fmsg = nullptr;
 	}
 	else if (flags & PROTO_NOCHANGE)
 	{
-		mir_snprintf(szSetting, "FCur%sMsg", accounts->pa[i]->szModuleName);
+		mir_snprintf(szSetting, "FCur%sMsg", pa->szModuleName);
 		fmsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 	}
 	else
-		fmsg = GetAwayMessageFormat(iStatus, accounts->pa[i]->szModuleName);
+		fmsg = GetAwayMessageFormat(iStatus, pa->szModuleName);
 
 #ifdef _DEBUG
-	log2file("SetStartupStatus(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), fmsg, accounts->pa[i]->szModuleName);
+	log2file("SetStartupStatus(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), fmsg, pa->szModuleName);
 #endif
 
 	if (fmsg)
-		msg = InsertVarsIntoMsg(fmsg, accounts->pa[i]->szModuleName, iStatus, NULL);
+		msg = InsertVarsIntoMsg(fmsg, pa->szModuleName, iStatus, NULL);
 
-	SaveMessageToDB(accounts->pa[i]->szModuleName, fmsg, TRUE);
-	SaveMessageToDB(accounts->pa[i]->szModuleName, msg, FALSE);
+	SaveMessageToDB(pa->szModuleName, fmsg, TRUE);
+	SaveMessageToDB(pa->szModuleName, msg, FALSE);
 
 	if (fmsg)
 		mir_free(fmsg);
 
-	Proto_SetStatus(accounts->pa[i]->szModuleName, ID_STATUS_OFFLINE, iStatus, msg /*? msg : L""*/);
+	Proto_SetStatus(pa->szModuleName, ID_STATUS_OFFLINE, iStatus, msg /*? msg : L""*/);
 	mir_free(msg);
 
 	return 0;
@@ -1191,13 +1202,14 @@ VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 	// is global status mode going to be set?
 	for (int i = 0; i < accounts->count; ++i)
 	{
-		if (!Proto_IsAccountEnabled(accounts->pa[i]))
+		auto *pa = accounts->pa[i];
+		if (!pa->IsEnabled())
 			continue;
 
-		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 			continue;
 
-		status_mode = GetStartupStatus(accounts->pa[i]->szModuleName);
+		status_mode = GetStartupStatus(pa->szModuleName);
 
 		if (status_mode != ID_STATUS_OFFLINE)
 			temp_status_mode = status_mode;
@@ -1226,10 +1238,11 @@ VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 
 	for (int i = 0; i < accounts->count; ++i)
 	{
-		if (!Proto_IsAccountEnabled(accounts->pa[i]))
+		auto *pa = accounts->pa[i];
+		if (!pa->IsEnabled())
 			continue;
 
-		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 			continue;
 
 		SetStartupStatus(i);
@@ -1243,10 +1256,11 @@ VOID CALLBACK SetStartupStatusProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 
 	for (; i < accounts->count; ++i)
 	{
-		if (!Proto_IsAccountEnabled(accounts->pa[i]))
+		auto *pa = accounts->pa[i];
+		if (!pa->IsEnabled())
 			continue;
 
-		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 			continue;
 
 		if (g_uSetStatusTimer[i] == idEvent)
@@ -1279,28 +1293,29 @@ VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!Proto_IsAccountEnabled(accounts->pa[i]))
+			auto *pa = accounts->pa[i];
+			if (!pa->IsEnabled())
 				continue;
 
-			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+			if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 				continue;
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 				continue;
 
-			iCurrentStatus = CallProtoService(accounts->pa[i]->szModuleName, PS_GETSTATUS, 0, 0);
+			iCurrentStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 			if (iCurrentStatus < ID_STATUS_ONLINE)
 				continue;
 
-			mir_snprintf(szBuffer, "FCur%sMsg", accounts->pa[i]->szModuleName);
+			mir_snprintf(szBuffer, "FCur%sMsg", pa->szModuleName);
 			wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szBuffer);
 			if (tszStatusMsg == nullptr)
 				continue;
 
-			tszMsg = InsertVarsIntoMsg(tszStatusMsg, accounts->pa[i]->szModuleName, iCurrentStatus, NULL);
+			tszMsg = InsertVarsIntoMsg(tszStatusMsg, pa->szModuleName, iCurrentStatus, NULL);
 			mir_free(tszStatusMsg);
 
-			mir_snprintf(szBuffer, "Cur%sMsg", accounts->pa[i]->szModuleName);
+			mir_snprintf(szBuffer, "Cur%sMsg", pa->szModuleName);
 
 			tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szBuffer);
 			if ((tszMsg && tszStatusMsg && !mir_wstrcmp(tszMsg, tszStatusMsg)) || (!tszMsg && !tszStatusMsg))
@@ -1315,10 +1330,10 @@ VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 			if (tszMsg && mir_wstrlen(tszMsg))
 			{
 #ifdef _DEBUG
-				log2file("UpdateMsgTimerProc(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iCurrentStatus, ""), tszMsg, accounts->pa[i]->szModuleName);
+				log2file("UpdateMsgTimerProc(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iCurrentStatus, ""), tszMsg, pa->szModuleName);
 #endif
-				Proto_SetStatus(accounts->pa[i]->szModuleName, iCurrentStatus, iCurrentStatus, tszMsg);
-				SaveMessageToDB(accounts->pa[i]->szModuleName, tszMsg, FALSE);
+				Proto_SetStatus(pa->szModuleName, iCurrentStatus, iCurrentStatus, tszMsg);
+				SaveMessageToDB(pa->szModuleName, tszMsg, FALSE);
 			}
 			mir_free(tszMsg);
 		}
@@ -1363,7 +1378,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 	hProtoStatusMenuItem = (HANDLE *)mir_realloc(hProtoStatusMenuItem, sizeof(HANDLE) * count);
 	for (int i = 0; i < count; ++i)
 	{
-		if (!Proto_IsAccountEnabled(pa[i]))
+		if (!pa[i]->IsEnabled())
 			continue;
 
 		if (CallProtoService(pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)
@@ -1393,7 +1408,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 
 	for (int i = 0; i < count; ++i)
 	{
-		if (!Proto_IsAccountEnabled(pa[i]))
+		if (!pa[i]->IsEnabled())
 			continue;
 
 		if (!CallProtoService(pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1411,7 +1426,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 		if (iProtoFlags & PROTO_NO_MSG || iProtoFlags & PROTO_THIS_MSG)
 			continue;
 
-		if (Proto_IsAccountLocked(pa[i]))
+		if (pa[i]->IsLocked())
 		{
 			wchar_t szBuffer[256];
 			mir_snwprintf(szBuffer, TranslateT("%s (locked)"), pa[i]->tszAccountName);
@@ -1446,13 +1461,14 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 
 	for (int i = 0; i < accounts->count; ++i)
 	{
-		if (!Proto_IsAccountEnabled(accounts->pa[i]))
+		auto *pa = accounts->pa[i];
+		if (!pa->IsEnabled())
 			continue;
 
-		if (db_get_b(NULL, accounts->pa[i]->szModuleName, "LockMainStatus", 0))
+		if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
 			continue;
 
-		int iStatusBits = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+		int iStatusBits = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 		int iStatus = mii.aaStatus;
 		if (!(iStatusBits & Proto_Status2Flag(iStatus)))
 		{
@@ -1462,20 +1478,20 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 				continue;
 		}
 
-		int iCurrentStatus = CallProtoService(accounts->pa[i]->szModuleName, PS_GETSTATUS, 0, 0);
+		int iCurrentStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		if (iCurrentStatus < ID_STATUS_ONLINE || iCurrentStatus == ID_STATUS_INVISIBLE)
 			continue;
 
-		if ((lParam & IDF_ISIDLE && (db_get_b(NULL, "AutoAway", accounts->pa[i]->szModuleName, 0) ||
+		if ((lParam & IDF_ISIDLE && (db_get_b(NULL, "AutoAway", pa->szModuleName, 0) ||
 			iCurrentStatus == ID_STATUS_ONLINE || iCurrentStatus == ID_STATUS_FREECHAT)) ||
 			(!(lParam & IDF_ISIDLE) && !mii.aaLock))
 		{
 			if (!(lParam & IDF_ISIDLE))
 				iStatus = ID_STATUS_ONLINE;
-			wchar_t *tszMsg = GetAwayMessage(iStatus, accounts->pa[i]->szModuleName, FALSE, NULL);
-			wchar_t *tszVarsMsg = InsertVarsIntoMsg(tszMsg, accounts->pa[i]->szModuleName, iStatus, NULL);
-			SaveMessageToDB(accounts->pa[i]->szModuleName, tszMsg, TRUE);
-			SaveMessageToDB(accounts->pa[i]->szModuleName, tszVarsMsg, FALSE);
+			wchar_t *tszMsg = GetAwayMessage(iStatus, pa->szModuleName, FALSE, NULL);
+			wchar_t *tszVarsMsg = InsertVarsIntoMsg(tszMsg, pa->szModuleName, iStatus, NULL);
+			SaveMessageToDB(pa->szModuleName, tszMsg, TRUE);
+			SaveMessageToDB(pa->szModuleName, tszVarsMsg, FALSE);
 			mir_free(tszMsg);
 			mir_free(tszVarsMsg);
 		}
@@ -1646,23 +1662,24 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 	Proto_EnumAccounts(&accounts->count, &accounts->pa);
 	for (int i = 0; i < accounts->count; ++i) {
-		if (!Proto_IsAccountEnabled(accounts->pa[i]))
+		auto *pa = accounts->pa[i];
+		if (!pa->IsEnabled())
 			continue;
 
-		if (!mir_strcmp(accounts->pa[i]->szProtoName, "ICQ"))
-			HookProtoEvent(accounts->pa[i]->szModuleName, ME_ICQ_STATUSMSGREQ, OnICQStatusMsgRequest);
+		if (!mir_strcmp(pa->szProtoName, "ICQ"))
+			HookProtoEvent(pa->szModuleName, ME_ICQ_STATUSMSGREQ, OnICQStatusMsgRequest);
 
-		accounts->statusFlags |= (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0));
+		accounts->statusFlags |= (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0));
 
-		if (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0))
+		if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0))
 			accounts->statusCount++;
 
-		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 			continue;
 
-		accounts->statusMsgFlags |= CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3,0);
+		accounts->statusMsgFlags |= CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3,0);
 
-		if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+		if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 			continue;
 
 		accounts->statusMsgCount++;
@@ -1729,14 +1746,15 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		else {
 			g_uSetStatusTimer = (UINT_PTR *)mir_alloc(sizeof(UINT_PTR) * accounts->count);
 			for (int i = 0; i < accounts->count; ++i) {
-				if (!Proto_IsAccountEnabled(accounts->pa[i]))
+				auto *pa = accounts->pa[i];
+				if (!pa->IsEnabled())
 					continue;
 
-				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
 				char szSetting[80];
-				mir_snprintf(szSetting, "Set%sStatusDelay", accounts->pa[i]->szModuleName);
+				mir_snprintf(szSetting, "Set%sStatusDelay", pa->szModuleName);
 				g_uSetStatusTimer[i] = SetTimer(nullptr, 0, db_get_w(NULL, "SimpleStatusMsg", szSetting, 300), SetStartupStatusProc);
 			}
 		}
@@ -1751,14 +1769,15 @@ static int OnOkToExit(WPARAM, LPARAM)
 		char szSetting[80];
 
 		for (int i = 0; i < accounts->count; ++i) {
-			if (!Proto_IsAccountEnabled(accounts->pa[i]))
+			auto *pa = accounts->pa[i];
+			if (!pa->IsEnabled())
 				continue;
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 				continue;
 
-			mir_snprintf(szSetting, "Last%sStatus", accounts->pa[i]->szModuleName);
-			db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)CallProtoService(accounts->pa[i]->szModuleName, PS_GETSTATUS, 0, 0));
+			mir_snprintf(szSetting, "Last%sStatus", pa->szModuleName);
+			db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
 		}
 
 		if (g_ptszWinampSong && mir_wstrcmp(g_ptszWinampSong, L"SimpleStatusMsg") /*&& db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1)*/)

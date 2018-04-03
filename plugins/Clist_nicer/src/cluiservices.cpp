@@ -79,12 +79,12 @@ void CluiProtocolStatusChanged(int, const char*)
 		rc.right -= borders[0] * 2;
 		int toshow = 0;
 		for (int i = 0; i < protoCount; i++)
-			if (pcli->pfnGetProtocolVisibility(accs[i]->szModuleName))
+			if (accs[i]->IsVisible())
 				toshow++;
 
 		if (toshow > 0) {
 			for (int part = 0, i = 0; i < protoCount; i++) {
-				if (!pcli->pfnGetProtocolVisibility(accs[i]->szModuleName))
+				if (!accs[i]->IsVisible())
 					continue;
 
 				partWidths[part] = ((rc.right - rc.left - rdelta) / toshow)*(part + 1) + cfg::dat.bCLeft;
@@ -112,7 +112,7 @@ void CluiProtocolStatusChanged(int, const char*)
 				continue;
 
 			PROTOACCOUNT *pa = accs[idx];
-			if (!pcli->pfnGetProtocolVisibility(pa->szModuleName))
+			if (!pa->IsVisible())
 				continue;
 
 			int x = 2;
@@ -157,7 +157,7 @@ void CluiProtocolStatusChanged(int, const char*)
 			continue;
 
 		PROTOACCOUNT *pa = accs[idx];
-		if (!pcli->pfnGetProtocolVisibility(pa->szModuleName))
+		if (!pa->IsVisible())
 			continue;
 
 		int status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);

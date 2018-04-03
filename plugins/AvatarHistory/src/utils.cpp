@@ -26,7 +26,7 @@ Avatar History Plugin
 
 bool ProtocolEnabled(const char *proto)
 {
-	return Proto_IsAccountEnabled(Proto_GetAccount(proto));
+	return Proto_GetAccount(proto)->IsEnabled();
 }
 
 bool ContactEnabled(MCONTACT hContact, char *setting, int def)

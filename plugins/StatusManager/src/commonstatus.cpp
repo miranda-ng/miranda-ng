@@ -308,7 +308,7 @@ static INT_PTR GetProtocolCountService(WPARAM, LPARAM)
 
 bool IsSuitableProto(PROTOACCOUNT *pa)
 {
-	return (pa == nullptr) ? false : (pcli->pfnGetProtocolVisibility(pa->szModuleName) != 0);
+	return (pa == nullptr) ? false : pa->IsVisible();
 }
 
 static int CreateServices()

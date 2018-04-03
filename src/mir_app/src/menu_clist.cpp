@@ -118,7 +118,7 @@ int fnGetAverageMode(int *pNetProtoCount)
 	int netProtoCount = 0, averageMode = 0;
 
 	for (auto &pa : accounts) {
-		if (cli.pfnGetProtocolVisibility(pa->szModuleName) == 0 || Proto_IsAccountLocked(pa))
+		if (!pa->IsVisible() || pa->IsLocked())
 			continue;
 
 		netProtoCount++;
@@ -570,7 +570,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		char *prot = smep->szProto;
 		char szHumanName[64] = { 0 };
 		PROTOACCOUNT *acc = Proto_GetAccount(smep->szProto);
-		bool bIsLocked = !Proto_IsAccountLocked(acc);
+		bool bIsLocked = !acc->IsLocked();
 		db_set_b(0, prot, "LockMainStatus", bIsLocked);
 
 		CallProtoServiceInt(0, smep->szProto, PS_GETNAME, _countof(szHumanName), (LPARAM)szHumanName);
@@ -610,15 +610,15 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 	int MenusProtoCount = 0;
 
 	for (auto &pa : accounts)
-		if (cli.pfnGetProtocolVisibility(pa->szModuleName))
+		if (pa->IsVisible())
 			MenusProtoCount++;
 
 	cli.currentDesiredStatusMode = smep->status;
 
 	for (auto &pa : accounts) {
-		if (!Proto_IsAccountEnabled(pa))
+		if (!pa->IsEnabled())
 			continue;
-		if (MenusProtoCount > 1 && Proto_IsAccountLocked(pa))
+		if (MenusProtoCount > 1 && pa->IsLocked())
 			continue;
 
 		Proto_SetStatus(pa->szModuleName, cli.currentDesiredStatusMode);
@@ -728,20 +728,13 @@ MIR_APP_DLL(void) Clist_SetStatusMode(int iStatus)
 	prochotkey = false;
 }
 
-int fnGetProtocolVisibility(const char *accName)
+MIR_APP_DLL(bool) Clist_GetProtocolVisibility(const char *szModuleName)
 {
-	if (accName) {
-		PROTOACCOUNT *pa = Proto_GetAccount(accName);
-		if (pa && pa->bIsVisible && Proto_IsAccountEnabled(pa) && pa->ppro) {
-			PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
-			if (pd == nullptr || pd->type != PROTOTYPE_PROTOCOL)
-				return FALSE;
+	if (szModuleName == nullptr)
+		return false;
 
-			return (pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0));
-		}
-	}
-
-	return FALSE;
+	PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
+	return (pa) ? pa->IsVisible() : false;
 }
 
 int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos)
@@ -805,7 +798,7 @@ void RebuildMenuOrder(void)
 
 		PROTOACCOUNT *pa = accounts[i];
 		int pos = 0;
-		if (!bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
+		if (!bHideStatusMenu && !pa->IsVisible())
 			continue;
 
 		DWORD flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
@@ -818,7 +811,7 @@ void RebuildMenuOrder(void)
 		mi.position = pos++;
 		mi.hIcon = ic = (HICON)CallProtoServiceInt(0, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
-		if (Proto_IsAccountLocked(pa) && cli.bDisplayLocked) {
+		if (pa->IsLocked() && cli.bDisplayLocked) {
 			mir_snwprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
 			mi.name.w = tbuf;
 		}
@@ -839,7 +832,7 @@ void RebuildMenuOrder(void)
 		smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 		smep->szProto = mir_strdup(pa->szModuleName);
 
-		if (Proto_IsAccountLocked(pa))
+		if (pa->IsLocked())
 			mi.flags |= CMIF_CHECKED;
 
 		if ((mi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
@@ -903,7 +896,7 @@ void RebuildMenuOrder(void)
 	// add to root menu
 	for (int j = 0; j < _countof(statusModeList); j++) {
 		for (auto &pa : accounts) {
-			if (!bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
+			if (!bHideStatusMenu && !pa->IsVisible())
 				continue;
 
 			DWORD flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
@@ -981,7 +974,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type != ACKTYPE_STATUS) return 0;
 	if (ack->result != ACKRESULT_SUCCESS) return 0;
 	if (hStatusMainMenuHandles == nullptr) return 0;
-	if (cli.pfnGetProtocolVisibility(ack->szModule) == 0) return 0;
+	if (Clist_GetProtocolVisibility(ack->szModule) == 0) return 0;
 
 	int overallStatus = cli.pfnGetAverageMode(nullptr);
 

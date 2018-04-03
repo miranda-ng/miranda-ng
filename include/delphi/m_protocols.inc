@@ -312,22 +312,6 @@ const
   MS_PROTO_SHOWACCMGR:PAnsiChar = 'Protos/ShowAccountManager';
 
 {
-  determines if an account is enabled or not
-  Returns 1 if an account is valid and enabled, 0 otherwise
-}
-
-function Proto_IsAccountEnabled(proto:PPROTOACCOUNT) : byte; stdcall; external AppDLL;
-
-{
-  determines if an account is locked or not
-  wParam = 0
-  lParam = PAnsiChar szAccountName
-  Returns 1 if an account is locked and not supposed to change status, 0 otherwise
-}
-
-function Proto_IsAccountLocked(proto:PPROTOACCOUNT) : byte; stdcall; external AppDLL;
-
-{
   gets the account associated with a contact
   Returns a PAnsiChar pointing to the asciiz name of the protocol or NULL if the
   contact has no protocol. There is no need to mir_free() it or anything.

@@ -63,7 +63,7 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 
 	for (int i = 0; i < numAccounts; i++) {
 		PROTOACCOUNT *pa = accounts[i];
-		if (!Proto_IsAccountEnabled(pa) || Proto_IsAccountLocked(pa))
+		if (!pa->IsEnabled() || pa->IsLocked())
 			continue;
 
 		int currentstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);

@@ -303,7 +303,7 @@ static void GetProtocolStrings(CMStringW &buffer)
 		for (int i = 0; i < protoCountMy; i++)
 			if (!mir_strcmp(protoListMy[i], accList[j]->szProtoName)) {
 				protos[i].nloaded = accList[j]->bDynDisabled != 0;
-				if (Proto_IsAccountEnabled(accList[j]))
+				if (accList[j]->IsEnabled())
 					++protos[i].countse;
 				else
 					++protos[i].countsd;

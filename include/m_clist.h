@@ -49,9 +49,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // force a change of status mode
-// wParam = new status, from statusmodes.h
+// iStatus = new status, from statusmodes.h
 
 EXTERN_C MIR_APP_DLL(void) Clist_SetStatusMode(int iStatus);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// detects whether a protocol is visible or not
+
+EXTERN_C MIR_APP_DLL(bool) Clist_GetProtocolVisibility(const char *szModuleName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // get the current status mode

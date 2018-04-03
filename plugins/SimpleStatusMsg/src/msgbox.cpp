@@ -644,16 +644,17 @@ void ClearHistory(struct MsgBoxData *data, int cur_sel)
 	}
 	db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
 	for (i = 0; i < accounts->count; i++) {
-		if (!Proto_IsAccountEnabled(accounts->pa[i]))
+		auto *pa = accounts->pa[i];
+		if (!pa->IsEnabled())
 			continue;
 
-		if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+		if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 			continue;
 
-		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 			continue;
 
-		mir_snprintf(buff2, "Last%sMsg", accounts->pa[i]->szModuleName);
+		mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
 		db_set_s(NULL, "SimpleStatusMsg", buff2, "");
 	}
 	db_set_w(NULL, "SimpleStatusMsg", "LMMsg", (WORD)data->max_hist_msgs);
@@ -1136,23 +1137,24 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						else {
 							db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
 							for (int j = 0; j < accounts->count; j++) {
-								if (!Proto_IsAccountEnabled(accounts->pa[j]))
+								auto *pa = accounts->pa[j];
+								if (!pa->IsEnabled())
 									continue;
 
-								if (!CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+								if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 									continue;
 
-								if (db_get_b(NULL, accounts->pa[j]->szModuleName, "LockMainStatus", 0))
+								if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
 									continue;
 
-								if (!(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+								if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 									continue;
 
-								mir_snprintf(szSetting, "Last%sMsg", accounts->pa[j]->szModuleName);
+								mir_snprintf(szSetting, "Last%sMsg", pa->szModuleName);
 								db_set_s(NULL, "SimpleStatusMsg", szSetting, "");
 
-								mir_snprintf(szSetting, "%sMsg", accounts->pa[j]->szModuleName);
-								iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(accounts->pa[j]->szModuleName) : GetCurrentStatus(accounts->pa[j]->szModuleName);
+								mir_snprintf(szSetting, "%sMsg", pa->szModuleName);
+								iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
 								db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, szSetting), L"");
 							}
 
@@ -1186,23 +1188,24 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 									else {
 										db_set_s(NULL, "SimpleStatusMsg", "LastMsg", buff);
 										for (int j = 0; j < accounts->count; j++) {
-											if (!Proto_IsAccountEnabled(accounts->pa[j]))
+											auto *pa = accounts->pa[j];
+											if (!pa->IsEnabled())
 												continue;
 
-											if (!CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+											if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 												continue;
 
-											if (db_get_b(NULL, accounts->pa[j]->szModuleName, "LockMainStatus", 0))
+											if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
 												continue;
 
-											if (!(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+											if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 												continue;
 
-											mir_snprintf(buff2, "Last%sMsg", accounts->pa[j]->szModuleName);
+											mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
 											db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
 
-											mir_snprintf(buff2, "%sMsg", accounts->pa[j]->szModuleName);
-											iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(accounts->pa[j]->szModuleName) : GetCurrentStatus(accounts->pa[j]->szModuleName);
+											mir_snprintf(buff2, "%sMsg", pa->szModuleName);
+											iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
 											db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
 										}
 									}
@@ -1234,23 +1237,24 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							else {
 								db_set_s(NULL, "SimpleStatusMsg", "LastMsg", buff);
 								for (int j = 0; j < accounts->count; j++) {
-									if (!Proto_IsAccountEnabled(accounts->pa[j]))
+									auto *pa = accounts->pa[j];
+									if (!pa->IsEnabled())
 										continue;
 
-									if (!CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+									if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 										continue;
 
-									if (db_get_b(NULL, accounts->pa[j]->szModuleName, "LockMainStatus", 0))
+									if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
 										continue;
 
-									if (!(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+									if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 										continue;
 
-									mir_snprintf(buff2, "Last%sMsg", accounts->pa[j]->szModuleName);
+									mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
 									db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
 
-									mir_snprintf(buff2, "%sMsg", accounts->pa[j]->szModuleName);
-									iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(accounts->pa[j]->szModuleName) : GetCurrentStatus(accounts->pa[j]->szModuleName);
+									mir_snprintf(buff2, "%sMsg", pa->szModuleName);
+									iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
 									db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
 								}
 							}

@@ -97,7 +97,7 @@ wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto)
 				continue;
 
 			PROTOACCOUNT *pa = accounts[i];
-			if (!cli.pfnGetProtocolVisibility(pa->szModuleName))
+			if (!pa->IsVisible())
 				continue;
 
 			wchar_t *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0), 0);
@@ -252,7 +252,7 @@ int fnTrayIconInit(HWND hwnd)
 				int j = cli.pfnGetAccountIndexByPos(i);
 				if (j >= 0) {
 					PROTOACCOUNT *pa = accounts[j];
-					if (cli.pfnGetProtocolVisibility(pa->szModuleName))
+					if (pa->IsVisible())
 						cli.pfnTrayIconAdd(hwnd, pa->szModuleName, nullptr, CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0));
 				}
 			}
@@ -407,7 +407,7 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 			cli.trayIcon[i].hBaseIcon = hIcon;
 			return i;
 		}
-		if ((cli.pfnGetProtocolVisibility(szPreferredProto)) &&
+		if ((Clist_GetProtocolVisibility(szPreferredProto)) &&
 			(cli.pfnGetAverageMode(nullptr) == -1) &&
 			(db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) &&
 			!(db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
@@ -442,7 +442,7 @@ VOID CALLBACK fnTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 	int i;
 	for (i = accounts.getCount() + 1; --i;) {
 		cli.cycleStep = (cli.cycleStep + 1) % accounts.getCount();
-		if (cli.pfnGetProtocolVisibility(accounts[cli.cycleStep]->szModuleName))
+		if (accounts[cli.cycleStep]->IsVisible())
 			break;
 	}
 
@@ -459,7 +459,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 {
 	initcheck;
 	if (szChangedProto == nullptr) return;
-	if (!cli.pfnGetProtocolVisibility(szChangedProto)) return;
+	if (!Clist_GetProtocolVisibility(szChangedProto)) return;
 
 	int netProtoCount;
 	mir_cslock lck(trayLockCS);
@@ -693,7 +693,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 									break;
 								}
 
-								if (cli.pfnGetProtocolVisibility(accounts[k]->szModuleName))
+								if (accounts[k]->IsVisible())
 									++ind;
 							}
 						}

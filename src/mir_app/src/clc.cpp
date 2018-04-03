@@ -128,7 +128,7 @@ static int ClcAccountsChanged(WPARAM, LPARAM)
 {
 	int cnt = 0;
 	for (auto &pa : accounts)
-		if (Proto_IsAccountEnabled(pa))
+		if (pa->IsEnabled())
 			cnt++;
 
 	cli.hClcProtoCount = cnt;
@@ -136,7 +136,7 @@ static int ClcAccountsChanged(WPARAM, LPARAM)
 
 	cnt = 0;
 	for (auto &pa : accounts) {
-		if (Proto_IsAccountEnabled(pa)) {
+		if (pa->IsEnabled()) {
 			cli.clcProto[cnt].szProto = pa->szModuleName;
 			cli.clcProto[cnt].dwStatus = CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0);
 			++cnt;

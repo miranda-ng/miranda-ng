@@ -298,7 +298,6 @@ type
 
   (* clc.h *)
     pfnClcOptionsChanged   : procedure; cdecl;
-    unused3                : procedure; cdecl;
     pfnBuildGroupPopupMenu : function  (_para1:PClcGroup):HMENU; cdecl;
 
     pfnContactListControlWndProc:function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;
@@ -423,11 +422,6 @@ type
   (* docking.c *)
     pfnDocking_ProcessWindowMessage : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
 
-    blablabla1 : procedure; cdecl;
-    blablabla2 : procedure; cdecl;
-    blablabla3 : procedure; cdecl;
-    blablabla4 : procedure; cdecl;
-
   (*************************************************************************************
   * version 2 - events processing
   *************************************************************************************)
@@ -459,10 +453,7 @@ type
     bDisplayLocked           : bool;
     bAutoRebuild             : bool;
 
-    pfnGetProtocolMenu : function (_para1:PAnsiChar):HGENMENU; cdecl;
-    pfnStub2           : function (_para1:int):int; cdecl;
-
-    pfnGetProtocolVisibility : function (_para1:PAnsiChar):int; cdecl;
+    pfnGetProtocolMenu       : function (_para1:PAnsiChar):HGENMENU; cdecl;
     pfnGetProtoIndexByPos    : function (var proto:PPROTOCOLDESCRIPTOR; protoCnt:int; Pos:int):int; cdecl;
     pfnReloadProtoMenus      : procedure ; cdecl;
 

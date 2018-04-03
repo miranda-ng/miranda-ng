@@ -681,7 +681,7 @@ bool SmileyCategoryListType::DeleteCustomCategory(int index)
 
 void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStringW &defaultFile)
 {
-	if (Proto_IsAccountEnabled(acc) && acc->szProtoName && IsSmileyProto(acc->szModuleName)) {
+	if (acc->IsEnabled() && acc->szProtoName && IsSmileyProto(acc->szModuleName)) {
 		CMStringW displayName(acc->tszAccountName ? acc->tszAccountName : _A2T(acc->szModuleName));
 		CMStringW PhysProtoName, paths;
 		DBVARIANT dbv;

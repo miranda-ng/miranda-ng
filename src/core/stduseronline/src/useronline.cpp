@@ -90,7 +90,7 @@ static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 
 	// reset the counter
 	for (int i = 0; i < numAccounts; i++)
-		if (Proto_IsAccountEnabled(accounts[i]))
+		if (accounts[i]->IsEnabled())
 			db_set_dw(NULL, "UserOnline", accounts[i]->szModuleName, GetTickCount());
 
 	return 0;
@@ -104,7 +104,7 @@ static int UserOnlineAccountsChanged(WPARAM eventCode, LPARAM lParam)
 	case PRAC_ADDED:
 	case PRAC_CHECKED:
 		// reset the counter
-		if (Proto_IsAccountEnabled(pa))
+		if (pa->IsEnabled())
 			db_set_dw(NULL, "UserOnline", pa->szModuleName, GetTickCount());
 		break;
 	}
