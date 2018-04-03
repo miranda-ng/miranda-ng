@@ -89,7 +89,7 @@ static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 		int errorCode;
 		CMStringW wszBackupName(profile);
 		wszBackupName.Append(L".bak");
-		if (!MoveFileExW(profile, wszBackupName, MOVEFILE_WRITE_THROUGH | MOVEFILE_REPLACE_EXISTING)) {
+		if (!MoveFileW(profile, wszBackupName)) {
 			Netlib_LogfW(nullptr, L"Cannot move old profile '%s' to '%s': error %d", profile, wszBackupName.c_str(), GetLastError());
 			return nullptr;
 		}
