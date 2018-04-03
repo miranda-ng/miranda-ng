@@ -434,6 +434,7 @@ static void CB_ReInitCustomButtons()
 	}
 	qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
 
+	WindowList_Broadcast(g_hWindowList, WM_CBD_RECREATE, 0, 0);
 	WindowList_Broadcast(g_hWindowList, WM_CBD_UPDATED, 0, 0);
 	WindowList_Broadcast(g_hWindowList, WM_CBD_LOADICONS, 0, 0);
 }

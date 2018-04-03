@@ -95,4 +95,8 @@ EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, 
 // lParam = 0 (ignored)
 #define WM_CBD_LOADICONS (WM_CBD_FIRST+3)
 
+// wParam = 0 (ignored)
+// lParam = 0 (ignored)
+#define WM_CBD_RECREATE (WM_CBD_FIRST+4)
+
 #endif // M_MESSAGE_H__

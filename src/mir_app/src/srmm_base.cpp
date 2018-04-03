@@ -677,6 +677,10 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_CBD_RECREATE:
+		Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
+		break;
+
 	case WM_NOTIFY:
 		LPNMHDR hdr = (LPNMHDR)lParam;
 		if (hdr->hwndFrom == m_log.GetHwnd() && hdr->code == EN_LINK) {
