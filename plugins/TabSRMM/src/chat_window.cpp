@@ -475,7 +475,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 {
 	m_szProto = GetContactProto(m_hContact);
 	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
-	Chat_SetFilters(m_si);
 
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_OK);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
@@ -510,7 +509,9 @@ void CChatRoomDlg::OnInitDialog()
 	CTabBaseDlg::OnInitDialog();
 
 	m_si->pDlg = this;
-	
+
+	Chat_SetFilters(m_si);
+
 	m_iSplitterY = m_pContainer->settings->iSplitterY;
 	if (m_bIsAutosizingInput)
 		m_iSplitterY = GetDefaultMinimumInputHeight();
