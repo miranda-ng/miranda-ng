@@ -272,36 +272,35 @@ void SettingsMigrate(void)
 // calculates number of accounts to be displayed 
 // and the number of the most active account
 
-int GetGoodAccNum(bool *bDiffers, bool *bConn)
+static int GetGoodAccNum(bool *bDiffers, bool *bConn = nullptr)
 {
 	PROTOACCOUNT **acc;
-	int AccNum, i;
+	int AccNum;
 	Proto_EnumAccounts(&AccNum, &acc);
 
+	*bDiffers = false;
 	if (bConn)
-		*bConn = FALSE;
+		*bConn = false;
 
-	WORD s = 0;
-	BYTE d = 0;
-	for (i = AccNum, AccNum = 0; i--;) {
-		PROTOACCOUNT *pa = acc[i];
-		if (pcli->pfnGetProtocolVisibility(pa->szModuleName) && pa->ppro) {
-			AccNum++;
-			if (!d) {
-				s = pa->ppro->m_iStatus;
-				d = 1;
-			}
-			else if (s != pa->ppro->m_iStatus)
-				d = 2;
+	int iPrevStatus = 0, res = 0;
+	while (AccNum--) {
+		PROTOACCOUNT *pa = acc[AccNum];
+		if (!pcli->pfnGetProtocolVisibility(pa->szModuleName))
+			continue;
 
-			if (bConn)
-				if (IsStatusConnecting(pa->ppro->m_iStatus))
-					*bConn = TRUE;
-		}
+		res++;
+		int iStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+		if (!iPrevStatus)
+			iPrevStatus = iStatus;
+		else if (iPrevStatus != iStatus)
+			*bDiffers = true;
+
+		if (bConn)
+			if (IsStatusConnecting(iStatus))
+				*bConn = true;
 	}
 
-	*bDiffers = d == 2;
-	return AccNum;
+	return res;
 }
 
 BYTE OldMode; //
@@ -323,7 +322,7 @@ int cliTrayIconInit(HWND hwnd)
 
 	// Нужно узнать количество годных аккаунтов и неодинаковость их статусов.
 	bool bDiffers;
-	pcli->trayIconCount = GetGoodAccNum(&bDiffers, nullptr);
+	pcli->trayIconCount = GetGoodAccNum(&bDiffers);
 	// Если таковых аккаунтов не нашлось вообще, то будем показывать основную иконку Миранды.
 	if (!pcli->trayIconCount) {
 		pcli->trayIconCount = 1;
