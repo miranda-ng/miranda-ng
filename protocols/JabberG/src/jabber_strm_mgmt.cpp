@@ -106,7 +106,7 @@ void strm_mgmt::OnProcessSMa(HXML node)
 
 void strm_mgmt::ResendNodes(uint32_t size)
 {
-	if (size > NodeCache.size())
+	if (size < NodeCache.size())
 	{
 		const size_t diff = NodeCache.size() - size;
 		if (diff)
