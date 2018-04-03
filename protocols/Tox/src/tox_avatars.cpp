@@ -225,7 +225,7 @@ void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.format = PA_FORMAT_PNG;
 	ai.hContact = transfer->pfts.hContact;
-	mir_wstrcpy(ai.filename, transfer->pfts.tszCurrentFile);
+	mir_wstrcpy(ai.filename, transfer->pfts.szCurrentFile.w);
 
 	fclose(transfer->hFile);
 	transfer->hFile = nullptr;

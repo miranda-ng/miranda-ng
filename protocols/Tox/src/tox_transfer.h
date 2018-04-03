@@ -22,24 +22,23 @@ struct FileTransferParam
 		pfts.flags = PFTS_UNICODE;
 		pfts.hContact = NULL;
 		pfts.totalFiles = 1;
-		pfts.ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(pfts.totalFiles + 1));
-		pfts.ptszFiles[0] = pfts.tszCurrentFile = mir_wstrdup(fileName);
-		pfts.ptszFiles[pfts.totalFiles] = nullptr;
+		pfts.pszFiles.w = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(pfts.totalFiles + 1));
+		pfts.pszFiles.w[0] = pfts.szCurrentFile.w = mir_wstrdup(fileName);
+		pfts.pszFiles.w[pfts.totalFiles] = nullptr;
 		pfts.totalBytes = pfts.currentFileSize = fileSize;
 		pfts.totalProgress = pfts.currentFileProgress = 0;
 		pfts.currentFileNumber = 0;
 		pfts.currentFileTime = now();
-		pfts.tszWorkingDir = nullptr;
+		pfts.szWorkingDir.w = nullptr;
 
 		transferType = TOX_FILE_KIND_DATA;
 	}
 
 	~FileTransferParam()
 	{
-		if (pfts.tszWorkingDir)
-			mir_free(pfts.tszWorkingDir);
-		mir_free(pfts.pszFiles[0]);
-		mir_free(pfts.pszFiles);
+		mir_free(pfts.szWorkingDir.w);
+		mir_free(pfts.pszFiles.w[0]);
+		mir_free(pfts.pszFiles.w);
 		if (hFile) {
 			fclose(hFile);
 			hFile = nullptr;
@@ -50,7 +49,7 @@ struct FileTransferParam
 	{
 		if (hFile)
 			return true;
-		hFile = _wfopen(pfts.tszCurrentFile, L"wb+");
+		hFile = _wfopen(pfts.szCurrentFile.w, L"wb+");
 		if (hFile)
 			_chsize_s(_fileno(hFile), pfts.currentFileSize);
 		return hFile != nullptr;
@@ -66,7 +65,7 @@ struct FileTransferParam
 
 	void ChangeName(const wchar_t *fileName)
 	{
-		pfts.ptszFiles[0] = replaceStrW(pfts.tszCurrentFile, fileName);
+		pfts.pszFiles.w[0] = replaceStrW(pfts.szCurrentFile.w, fileName);
 	}
 
 	uint8_t GetDirection() const

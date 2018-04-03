@@ -1105,8 +1105,8 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 	fts.totalBytes = rcTotalSize;
 	fts.totalFiles = rcTotalFiles;
 	fts.totalProgress = 0;
-	fts.wszWorkingDir = conn->m_szDir;
-	fts.pwszFiles = conn->m_szFiles;
+	fts.szWorkingDir.w = conn->m_szDir;
+	fts.pszFiles.w = conn->m_szFiles;
 
 	bool err = false;
 
@@ -1118,7 +1118,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 		}
 		EMLOG("Ok");
 
-		fts.szCurrentFile = fts.pszFiles[fileNo];
+		fts.szCurrentFile.a = fts.pszFiles.a[fileNo];
 		fts.currentFileNumber = fileNo;
 		fts.currentFileProgress = 0;
 		fts.currentFileSize = *((int*)(conn->m_buf + 1));
@@ -1310,8 +1310,8 @@ void CMLan::OnOutTCPConnection(u_long, SOCKET out_socket, LPVOID lpParameter)
 	fts.totalBytes = size;
 	fts.totalFiles = filecount;
 	fts.totalProgress = 0;
-	fts.wszWorkingDir = conn->m_szDir;
-	fts.pwszFiles = conn->m_szFiles;
+	fts.szWorkingDir.w = conn->m_szDir;
+	fts.pszFiles.w = conn->m_szFiles;
 
 	EMLOG("Sending file size");
 	if (conn->Send(buf, len)) {
@@ -1371,7 +1371,7 @@ void CMLan::OnOutTCPConnection(u_long, SOCKET out_socket, LPVOID lpParameter)
 			int filepos = *((int*)(conn->m_buf + 1));
 			SetFilePointer(hFile, filepos, nullptr, FILE_BEGIN);
 
-			fts.szCurrentFile = fts.pszFiles[fileNo];
+			fts.szCurrentFile.a = fts.pszFiles.a[fileNo];
 			fts.currentFileTime = get_time();
 			fts.currentFileNumber = fileNo;
 			fts.currentFileProgress = filepos;

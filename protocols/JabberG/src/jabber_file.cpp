@@ -118,8 +118,8 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 						s++;
 					else
 						s = ft->httpPath;
-					ft->std.tszCurrentFile = mir_wstrdup(s);
-					JabberHttpUrlDecode(ft->std.tszCurrentFile);
+					ft->std.szCurrentFile.w = mir_wstrdup(s);
+					JabberHttpUrlDecode(ft->std.szCurrentFile.w);
 					if (ft->create() == -1) {
 						ft->state = FT_ERROR;
 						break;
@@ -274,10 +274,10 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			ft->httpPath = nullptr;
 
 			wchar_t *p;
-			if ((p = wcschr(ft->std.ptszFiles[i], '\\')) != nullptr)
+			if ((p = wcschr(ft->std.pszFiles.w[i], '\\')) != nullptr)
 				p++;
 			else
-				p = ft->std.ptszFiles[i];
+				p = ft->std.pszFiles.w[i];
 
 			ptrA pFileName(mir_urlEncode(T2Utf(p)));
 			if (pFileName != nullptr) {
@@ -384,11 +384,11 @@ int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, i
 				num += 2;
 
 				currentFile = ft->std.currentFileNumber;
-				wchar_t *t = wcsrchr(ft->std.ptszFiles[currentFile], '\\');
+				wchar_t *t = wcsrchr(ft->std.pszFiles.w[currentFile], '\\');
 				if (t != nullptr)
 					t++;
 				else
-					t = ft->std.ptszFiles[currentFile];
+					t = ft->std.pszFiles.w[currentFile];
 
 				if (ft->httpPath == nullptr || mir_wstrcmp(ft->httpPath, t)) {
 					if (ft->httpPath == nullptr)
@@ -398,9 +398,9 @@ int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, i
 					ft->state = FT_ERROR;
 					break;
 				}
-				debugLogW(L"Sending [%s]", ft->std.ptszFiles[currentFile]);
-				_wstat64(ft->std.ptszFiles[currentFile], &statbuf);	// file size in statbuf.st_size
-				if ((fileId = _wopen(ft->std.ptszFiles[currentFile], _O_BINARY | _O_RDONLY)) < 0) {
+				debugLogW(L"Sending [%s]", ft->std.pszFiles.w[currentFile]);
+				_wstat64(ft->std.pszFiles.w[currentFile], &statbuf);	// file size in statbuf.st_size
+				if ((fileId = _wopen(ft->std.pszFiles.w[currentFile], _O_BINARY | _O_RDONLY)) < 0) {
 					debugLogA("File cannot be opened");
 					ft->state = FT_ERROR;
 					mir_free(ft->httpPath);
@@ -475,13 +475,13 @@ filetransfer::~filetransfer()
 	mir_free(httpPath);
 	mir_free(szDescription);
 
-	mir_free(std.tszWorkingDir);
-	mir_free(std.tszCurrentFile);
+	mir_free(std.szWorkingDir.w);
+	mir_free(std.szCurrentFile.w);
 
-	if (std.ptszFiles) {
+	if (std.pszFiles.w) {
 		for (int i = 0; i < std.totalFiles; i++)
-			mir_free(std.ptszFiles[i]);
-		mir_free(std.ptszFiles);
+			mir_free(std.pszFiles.w[i]);
+		mir_free(std.pszFiles.w);
 }	}
 
 void filetransfer::close()
@@ -505,8 +505,8 @@ int filetransfer::create()
 		return fileId;
 
 	wchar_t filefull[MAX_PATH];
-	mir_snwprintf(filefull, L"%s\\%s", std.tszWorkingDir, std.tszCurrentFile);
-	replaceStrW(std.tszCurrentFile, filefull);
+	mir_snwprintf(filefull, L"%s\\%s", std.szWorkingDir.w, std.szCurrentFile.w);
+	replaceStrW(std.szCurrentFile.w, filefull);
 
 	if (hWaitEvent != INVALID_HANDLE_VALUE)
 		CloseHandle(hWaitEvent);
@@ -516,8 +516,8 @@ int filetransfer::create()
 		WaitForSingleObject(hWaitEvent, INFINITE);
 
 	if (fileId == -1) {
-		ppro->debugLogW(L"Saving to [%s]", std.tszCurrentFile);
-		fileId = _wopen(std.tszCurrentFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+		ppro->debugLogW(L"Saving to [%s]", std.szCurrentFile.w);
+		fileId = _wopen(std.szCurrentFile.w, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 	}
 
 	if (fileId == -1)

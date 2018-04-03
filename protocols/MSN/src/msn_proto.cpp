@@ -452,8 +452,8 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	filetransfer* ft = (filetransfer*)arg;
 
 	wchar_t filefull[MAX_PATH];
-	mir_snwprintf(filefull, L"%s\\%s", ft->std.tszWorkingDir, ft->std.tszCurrentFile);
-	replaceStrW(ft->std.tszCurrentFile, filefull);
+	mir_snwprintf(filefull, L"%s\\%s", ft->std.szWorkingDir.w, ft->std.szCurrentFile.w);
+	replaceStrW(ft->std.szCurrentFile.w, filefull);
 
 	ResetEvent(ft->hResumeEvt);
 	if (ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->std))
@@ -527,15 +527,15 @@ HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* s
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
-	if ((ft->std.tszWorkingDir = mir_wstrdup(szPath)) == nullptr) {
+	if ((ft->std.szWorkingDir.w = mir_wstrdup(szPath)) == nullptr) {
 		wchar_t szCurrDir[MAX_PATH];
 		GetCurrentDirectory(_countof(szCurrDir), szCurrDir);
-		ft->std.tszWorkingDir = mir_wstrdup(szCurrDir);
+		ft->std.szWorkingDir.w = mir_wstrdup(szCurrDir);
 	}
 	else {
-		size_t len = mir_wstrlen(ft->std.tszWorkingDir) - 1;
-		if (ft->std.tszWorkingDir[len] == '\\')
-			ft->std.tszWorkingDir[len] = 0;
+		size_t len = mir_wstrlen(ft->std.szWorkingDir.w) - 1;
+		if (ft->std.szWorkingDir.w[len] == '\\')
+			ft->std.szWorkingDir.w[len] = 0;
 	}
 
 	ForkThread(&CMsnProto::MsnFileAckThread, ft);
@@ -575,7 +575,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 				ft->bCanceled = true;
 				break;
 			case FILERESUME_RENAME:
-				replaceStrW(ft->std.tszCurrentFile, *szFilename);
+				replaceStrW(ft->std.szCurrentFile.w, *szFilename);
 				break;
 			case FILERESUME_OVERWRITE:
 				ft->std.currentFileProgress = 0;
@@ -583,7 +583,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 			case FILERESUME_RESUME:
 				{
 					struct _stati64 statbuf;
-					_wstat64(ft->std.tszCurrentFile, &statbuf);
+					_wstat64(ft->std.szCurrentFile.w, &statbuf);
 					ft->std.currentFileProgress = statbuf.st_size;
 				}
 				break;

@@ -736,7 +736,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 		//pfts.currentFileNumber = 0;
 		pfts.totalBytes = dat->dwFilesTotalSize;
 		//pfts.totalProgress = 0;
-		pfts.wszWorkingDir = dat->lpwszPath;
+		pfts.szWorkingDir.w = dat->lpwszPath;
 		//pfts.currentFile;
 		//pfts.currentFileSize;
 		//pfts.currentFileProgress;
@@ -766,7 +766,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 			bFailed = FALSE;
 			for (i = 0; i < dat->dwFilesCount; i++) {// receiving files
 				pfts.currentFileNumber = (int)i;
-				pfts.wszCurrentFile = wszFileName;
+				pfts.szCurrentFile.w = wszFileName;
 				pfts.currentFileSize = dat->pmfqfFiles[i].dwSize;
 				pfts.currentFileProgress = 0;
 				//pfts.currentFileTime;  //as seconds since 1970
@@ -987,7 +987,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	pfts.flags = (PFTS_SENDING | PFTS_UNICODE);// pfts.sending = dat->bSending;	//true if sending, false if receiving
 	pfts.totalFiles = dat->dwFilesCount;
 	pfts.totalBytes = dat->dwFilesTotalSize;
-	pfts.wszWorkingDir = dat->lpwszPath;
+	pfts.szWorkingDir.w = dat->lpwszPath;
 
 	dwSendBlockSize = getDword("FileSendBlockSize", MRA_DEFAULT_FILE_SEND_BLOCK_SIZE);
 	if (dwSendBlockSize > _countof(btBuff)) dwSendBlockSize = _countof(btBuff);
@@ -1056,7 +1056,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 							bOK = FALSE;
 							dwUpdateTimeNext = GetTickCount();
 							pfts.currentFileNumber = (int)i;
-							pfts.wszCurrentFile = dat->pmfqfFiles[j].lpwszName;
+							pfts.szCurrentFile.w = dat->pmfqfFiles[j].lpwszName;
 							pfts.currentFileSize = dat->pmfqfFiles[j].dwSize;
 							pfts.currentFileProgress = 0;
 							//pfts.currentFileTime;  //as seconds since 1970

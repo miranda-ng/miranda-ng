@@ -429,7 +429,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				ft->std.hContact = hContact;
 				ft->tType = SERVER_HTTP;
 				ft->p2p_appID = MSN_APPID_FILE;
-				mir_free(ft->std.tszCurrentFile);
+				mir_free(ft->std.szCurrentFile.w);
 				if (!((originalName = ezxml_child(xmli, "OriginalName")) && (pszFile = (char*)ezxml_attr(originalName, "v")))) {
 					if ((originalName = ezxml_child(xmli, "meta")))
 						pszFile = (char*)ezxml_attr(originalName, "originalName");
@@ -440,7 +440,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 					}
 					if (!pszFile || !*pszFile) pszFile="file";
 				}
-				ft->std.tszCurrentFile = mir_utf8decodeW(pszFile);
+				ft->std.szCurrentFile.w = mir_utf8decodeW(pszFile);
 				ft->std.totalBytes = ft->std.currentFileSize = fileSize;
 				ft->std.totalFiles = 1;
 				ft->szInvcookie = (char*)mir_calloc(strlen(uri)+16);
@@ -457,7 +457,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				pre.fileCount = 1;
 				pre.timestamp = time(nullptr);
 				pre.descr.w = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeW(desc->txt):tComment;
-				pre.files.w = &ft->std.tszCurrentFile;
+				pre.files.w = &ft->std.szCurrentFile.w;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(ft->std.hContact, &pre);
 				if (desc) mir_free(pre.descr.w);

@@ -492,10 +492,10 @@ HANDLE __cdecl CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, 
 		return nullptr;
 
 	filetransfer *ft = (filetransfer*)hTransfer;
-	ft->std.tszWorkingDir = mir_wstrdup(szPath);
-	size_t len = mir_wstrlen(ft->std.tszWorkingDir)-1;
-	if (ft->std.tszWorkingDir[len] == '/' || ft->std.tszWorkingDir[len] == '\\')
-		ft->std.tszWorkingDir[len] = 0;
+	ft->std.szWorkingDir.w = mir_wstrdup(szPath);
+	size_t len = mir_wstrlen(ft->std.szWorkingDir.w)-1;
+	if (ft->std.szWorkingDir.w[len] == '/' || ft->std.szWorkingDir.w[len] == '\\')
+		ft->std.szWorkingDir.w[len] = 0;
 
 	switch (ft->type) {
 	case FT_OOB:
@@ -577,7 +577,7 @@ int __cdecl CJabberProto::FileResume(HANDLE hTransfer, int *action, const wchar_
 		return 1;
 
 	if (*action == FILERESUME_RENAME)
-		replaceStrW(ft->std.tszCurrentFile, *szFilename);
+		replaceStrW(ft->std.szCurrentFile.w, *szFilename);
 
 	SetEvent(ft->hWaitEvent);
 	return 0;
@@ -902,7 +902,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 	while (ppszFiles[ft->std.totalFiles] != nullptr)
 		ft->std.totalFiles++;
 
-	ft->std.ptszFiles = (wchar_t**)mir_calloc(sizeof(wchar_t*)* ft->std.totalFiles);
+	ft->std.pszFiles.w = (wchar_t**)mir_calloc(sizeof(wchar_t*)* ft->std.totalFiles);
 	ft->fileSize = (unsigned __int64*)mir_calloc(sizeof(unsigned __int64)* ft->std.totalFiles);
 
 	int i, j;
@@ -910,7 +910,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 		if (_wstat64(ppszFiles[i], &statbuf))
 			debugLogW(L"'%s' is an invalid filename", ppszFiles[i]);
 		else {
-			ft->std.ptszFiles[j] = mir_wstrdup(ppszFiles[i]);
+			ft->std.pszFiles.w[j] = mir_wstrdup(ppszFiles[i]);
 			ft->fileSize[j] = statbuf.st_size;
 			j++;
 			ft->std.totalBytes += statbuf.st_size;
@@ -921,7 +921,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 		return nullptr;
 	}
 
-	ft->std.tszCurrentFile = mir_wstrdup(ppszFiles[0]);
+	ft->std.szCurrentFile.w = mir_wstrdup(ppszFiles[0]);
 	ft->szDescription = mir_wstrdup(szDescription);
 	ft->jid = mir_wstrdup(jid);
 

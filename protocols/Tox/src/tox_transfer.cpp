@@ -74,11 +74,11 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 HANDLE CToxProto::OnFileAllow(Tox *tox, MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
-	transfer->pfts.tszWorkingDir = mir_wstrdup(tszPath);
+	transfer->pfts.szWorkingDir.w = mir_wstrdup(tszPath);
 
 	// stupid fix
 	wchar_t fullPath[MAX_PATH];
-	mir_snwprintf(fullPath, L"%s\\%s", transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
+	mir_snwprintf(fullPath, L"%s\\%s", transfer->pfts.szWorkingDir.w, transfer->pfts.szCurrentFile.w);
 	transfer->ChangeName(fullPath);
 
 	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts)) {
@@ -279,7 +279,7 @@ HANDLE CToxProto::OnSendFile(Tox *tox, MCONTACT hContact, const wchar_t*, wchar_
 	FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, fileName, fileSize);
 	transfer->pfts.flags |= PFTS_SENDING;
 	transfer->pfts.hContact = hContact;
-	transfer->pfts.tszWorkingDir = fileDir;
+	transfer->pfts.szWorkingDir.w = fileDir;
 	transfer->hFile = hFile;
 	transfers.Add(transfer);
 

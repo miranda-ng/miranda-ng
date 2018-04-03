@@ -309,13 +309,13 @@ void ICQTransfer::ack(unsigned int result)
 	fts.cbSize = sizeof(fts);
 	fts.flags = PFTS_UNICODE;
 	fts.hContact = hContact;
-	fts.pwszFiles = files;
+	fts.pszFiles.w = files;
 	fts.totalFiles = count;
 	fts.currentFileNumber = current;
 	fts.totalBytes = totalSize;
 	fts.totalProgress = totalProgress;
-	fts.wszWorkingDir = path;
-	fts.wszCurrentFile = fileName;
+	fts.szWorkingDir.w = path;
+	fts.szCurrentFile.w = fileName;
 	fts.currentFileSize = fileSize;
 	fts.currentFileProgress = fileProgress;
 	fts.currentFileTime = TimeZone_ToLocal(fileDate);

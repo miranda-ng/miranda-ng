@@ -273,14 +273,14 @@ int onProtoAck(WPARAM, LPARAM l)
 				if ((f->flags & PFTS_SENDING) != PFTS_SENDING) {
 					wchar_t *filename = nullptr;
 					if (f->flags & PFTS_UNICODE) {
-						if (f->tszCurrentFile && f->tszCurrentFile[0])
-							filename = mir_wstrdup(f->tszCurrentFile);
+						if (f->szCurrentFile.w && f->szCurrentFile.w[0])
+							filename = mir_wstrdup(f->szCurrentFile.w);
 						if (!filename)
 							return 0;
 					}
 					else {
-						if (f->szCurrentFile && f->szCurrentFile[0])
-							filename = mir_utf8decodeW(f->szCurrentFile);
+						if (f->szCurrentFile.a && f->szCurrentFile.a[0])
+							filename = mir_utf8decodeW(f->szCurrentFile.a);
 						if (!filename)
 							return 0;
 					}
@@ -295,7 +295,7 @@ int onProtoAck(WPARAM, LPARAM l)
 						if (!globals.bDecryptFiles)
 							return 0;
 						HistoryLog(ack->hContact, db_event("Received encrypted file, trying to decrypt", 0, 0, 0));
-						if (!boost::filesystem::exists(f->tszCurrentFile))
+						if (!boost::filesystem::exists(f->szCurrentFile.w))
 							return 0;
 						string out;
 						DWORD code;

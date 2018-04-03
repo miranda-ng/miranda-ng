@@ -915,7 +915,7 @@ filetransfer::~filetransfer(void)
 		_close(fileId);
 
 	if (!bCompleted && p2p_appID == MSN_APPID_FILE) {
-		std.ptszFiles = nullptr;
+		std.pszFiles.w = nullptr;
 		std.totalFiles = 0;
 		proto->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this, 0);
 	}
@@ -925,12 +925,12 @@ filetransfer::~filetransfer(void)
 	mir_free(p2p_dest);
 	mir_free(p2p_object);
 
-	mir_free(std.tszCurrentFile);
-	mir_free(std.tszWorkingDir);
-	if (std.ptszFiles != nullptr) {
-		for (int i = 0; std.ptszFiles[i]; i++)
-			mir_free(std.ptszFiles[i]);
-		mir_free(std.ptszFiles);
+	mir_free(std.szCurrentFile.w);
+	mir_free(std.szWorkingDir.w);
+	if (std.pszFiles.w != nullptr) {
+		for (int i = 0; std.pszFiles.w[i]; i++)
+			mir_free(std.pszFiles.w[i]);
+		mir_free(std.pszFiles.w);
 	}
 
 	mir_free(szInvcookie);
@@ -955,10 +955,10 @@ int filetransfer::create(void)
 	int flags = _O_BINARY | _O_CREAT | _O_WRONLY | _O_APPEND;
 
 	if (std.currentFileProgress == 0) flags |= _O_TRUNC;
-	fileId = _wopen(std.tszCurrentFile, flags, _S_IREAD | _S_IWRITE);
+	fileId = _wopen(std.szCurrentFile.w, flags, _S_IREAD | _S_IWRITE);
 
 	if (fileId == -1)
-		proto->MSN_ShowError("Cannot create file '%s' during a file transfer", std.tszCurrentFile);
+		proto->MSN_ShowError("Cannot create file '%s' during a file transfer", std.szCurrentFile.w);
 	//	else if (std.currentFileSize != 0)
 	//		_chsize(fileId, std.currentFileSize);
 
@@ -973,18 +973,18 @@ int filetransfer::openNext(void)
 		++cf;
 	}
 
-	while (std.ptszFiles && std.ptszFiles[cf]) {
+	while (std.pszFiles.w && std.pszFiles.w[cf]) {
 		struct _stati64 statbuf;
-		if (_wstat64(std.ptszFiles[cf], &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
+		if (_wstat64(std.pszFiles.w[cf], &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
 			break;
 
 		++cf;
 	}
 
-	if (std.ptszFiles && std.ptszFiles[cf]) {
+	if (std.pszFiles.w && std.pszFiles.w[cf]) {
 		bCompleted = false;
-		replaceStrW(std.tszCurrentFile, std.ptszFiles[cf]);
-		fileId = _wopen(std.tszCurrentFile, _O_BINARY | _O_RDONLY, _S_IREAD);
+		replaceStrW(std.szCurrentFile.w, std.pszFiles.w[cf]);
+		fileId = _wopen(std.szCurrentFile.w, _O_BINARY | _O_RDONLY, _S_IREAD);
 		if (fileId != -1) {
 			std.currentFileSize = _filelengthi64(fileId);
 			std.currentFileProgress = 0;
@@ -998,7 +998,7 @@ int filetransfer::openNext(void)
 			mir_free(p2p_callID); p2p_callID = nullptr;
 		}
 		else
-			proto->MSN_ShowError("Unable to open file '%s' for the file transfer, error %d", std.tszCurrentFile, errno);
+			proto->MSN_ShowError("Unable to open file '%s' for the file transfer, error %d", std.szCurrentFile.w, errno);
 	}
 
 	return fileId;

@@ -30,7 +30,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct PROTO_INTERFACE;
 
 #include "statusmodes.h"
+
 #include <m_core.h>
+#include <m_system_cpp.h>
 
 typedef struct {
 	MCONTACT hContact;
@@ -81,7 +83,8 @@ typedef struct {
 #define ACKRESULT_CONNECTPROXY 110  // connecting to file proxy
 #define ACKRESULT_SEARCHRESULT 111  // result of extended search
 
-typedef struct {
+struct ACKDATA
+{
 	int cbSize;
 	const char *szModule;  // the name of the protocol module which initiated this ack
 	MCONTACT hContact;
@@ -89,7 +92,7 @@ typedef struct {
 	int result; 	// an ACKRESULT_ constant
 	HANDLE hProcess;   // a caller-defined process code
 	LPARAM lParam;	   // caller-defined extra info
-} ACKDATA;
+};
 
 #define ME_PROTO_ACK "Proto/Ack"
 
@@ -106,40 +109,22 @@ typedef struct {
 #define PFTS_UNICODE   2
 #define PFTS_UTF       4
 
-typedef struct tagPROTOFILETRANSFERSTATUS
+struct PROTOFILETRANSFERSTATUS
 {
-	size_t cbSize;
-	MCONTACT hContact;
-	DWORD  flags;      // one of PFTS_* constants
-
-	union {
-		char **pszFiles;
-		wchar_t **ptszFiles;
-		wchar_t **pwszFiles;
-	};
-
-	int totalFiles;
-	int currentFileNumber;
-	unsigned __int64 totalBytes;
-	unsigned __int64 totalProgress;
-
-	union {
-		char *szWorkingDir;
-		wchar_t *tszWorkingDir;
-		wchar_t *wszWorkingDir;
-	};
-
-	union {
-		char *szCurrentFile;
-		wchar_t *tszCurrentFile;
-		wchar_t *wszCurrentFile;
-	};
-
-	unsigned __int64 currentFileSize;
-	unsigned __int64 currentFileProgress;
-	unsigned __int64 currentFileTime;  // as seconds since 1970
-}
-	PROTOFILETRANSFERSTATUS;
+	size_t          cbSize;
+	MCONTACT        hContact;
+	DWORD           flags;      // one of PFTS_* constants
+	MAllStringArray pszFiles;
+	int             totalFiles;
+	int             currentFileNumber;
+	uint64_t        totalBytes;
+	uint64_t        totalProgress;
+	MAllStrings     szWorkingDir;
+	MAllStrings     szCurrentFile;
+	uint64_t        currentFileSize;
+	uint64_t        currentFileProgress;
+	uint64_t        currentFileTime;  // as seconds since 1970
+};
 
 #define PROTOCOLDESCRIPTOR_V3_SIZE (sizeof(size_t)+sizeof(INT_PTR)+sizeof(char*))
 
@@ -306,19 +291,19 @@ struct MIR_APP_EXPORT PROTOACCOUNT
 // wParam = (WPARAM)(int*)piNumAccounts
 // lParam = (LPARAM)(PROTOACCOUNT**)paAccounts
 
-MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs);
+EXTERN_C MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // creates new account
 // return value = PROTOACCOUNT* or NULL
 
-MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const char *pszBaseProto, const wchar_t *ptszAccountName);
+EXTERN_C MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const char *pszBaseProto, const wchar_t *ptszAccountName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // constructs the appropriate PROTOACCOUNT::ppro member if needed
 // returns true if succeeded
 
-MIR_APP_DLL(bool) Proto_ActivateAccount(PROTOACCOUNT *pAccount);
+EXTERN_C MIR_APP_DLL(bool) Proto_ActivateAccount(PROTOACCOUNT *pAccount);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves an account's interface by its physical name (database module)

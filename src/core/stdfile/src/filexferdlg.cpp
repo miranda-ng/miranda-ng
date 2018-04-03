@@ -128,8 +128,8 @@ static void SetFilenameControls(HWND hwndDlg, FileDlgData *dat, PROTOFILETRANSFE
 	wchar_t *fnbuf = nullptr, *fn = nullptr;
 	SHFILEINFO shfi = {};
 
-	if (fts->tszCurrentFile) {
-		fnbuf = mir_wstrdup(fts->tszCurrentFile);
+	if (fts->szCurrentFile.w) {
+		fnbuf = mir_wstrdup(fts->szCurrentFile.w);
 		if ((fn = wcsrchr(fnbuf, '\\')) == nullptr)
 			fn = fnbuf;
 		else fn++;
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		else {	//recv
 			CreateDirectoryTreeW(dat->szSavePath);
 			dat->fs = (HANDLE)ProtoChainSend(dat->hContact, PSS_FILEALLOW, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
-			dat->transferStatus.tszWorkingDir = mir_wstrdup(dat->szSavePath);
+			dat->transferStatus.szWorkingDir.w = mir_wstrdup(dat->szSavePath);
 			if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) dat->resumeBehaviour = FILERESUME_ASK;
 			else dat->resumeBehaviour = db_get_b(NULL, "SRFile", "IfExists", FILERESUME_ASK);
 			SetFtStatus(hwndDlg, LPGENW("Waiting for connection..."), FTS_TEXT);
@@ -371,9 +371,9 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_OPENFOLDER:
 			{
-				wchar_t *path = dat->transferStatus.tszWorkingDir;
+				wchar_t *path = dat->transferStatus.szWorkingDir.w;
 				if (!path || !path[0]) {
-					path = NEWWSTR_ALLOCA(dat->transferStatus.tszCurrentFile);
+					path = NEWWSTR_ALLOCA(dat->transferStatus.szCurrentFile.w);
 					wchar_t *p = wcsrchr(path, '\\'); if (p) *p = 0;
 				}
 
@@ -385,7 +385,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			wchar_t **files;
 			if (dat->send) {
 				if (dat->files == nullptr)
-					files = dat->transferStatus.ptszFiles;
+					files = dat->transferStatus.pszFiles.w;
 				else
 					files = dat->files;
 			}
@@ -437,9 +437,9 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			DestroyMenu(hMenu);
 
 			if (ret == 1) {
-				wchar_t *path = dat->transferStatus.tszWorkingDir;
+				wchar_t *path = dat->transferStatus.szWorkingDir.w;
 				if (!path || !path[0]) {
-					path = NEWWSTR_ALLOCA(dat->transferStatus.tszCurrentFile);
+					path = NEWWSTR_ALLOCA(dat->transferStatus.szCurrentFile.w);
 					wchar_t *p = wcsrchr(path, '\\');
 					if (p)
 						*p = 0;
@@ -539,7 +539,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 					PROTOFILETRANSFERSTATUS *fts = &dat->transferStatus;
 					SetFilenameControls(hwndDlg, dat, fts);
-					if (_waccess(fts->tszCurrentFile, 0))
+					if (_waccess(fts->szCurrentFile.w, 0))
 						break;
 
 					SetFtStatus(hwndDlg, LPGENW("File already exists"), FTS_TEXT);
@@ -553,7 +553,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						PROTOFILERESUME *pfr = (PROTOFILERESUME*)mir_alloc(sizeof(PROTOFILERESUME));
 						pfr->action = dat->resumeBehaviour;
 						pfr->szFilename = nullptr;
-						PostMessage(hwndDlg, M_FILEEXISTSDLGREPLY, (WPARAM)mir_wstrdup(fts->tszCurrentFile), (LPARAM)pfr);
+						PostMessage(hwndDlg, M_FILEEXISTSDLGREPLY, (WPARAM)mir_wstrdup(fts->szCurrentFile.w), (LPARAM)pfr);
 					}
 				}
 				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, 1);
@@ -572,7 +572,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						if (dat->files == nullptr)
 							dat->files = (wchar_t**)mir_calloc((fts->totalFiles + 1) * sizeof(wchar_t*));
 						if (fts->currentFileNumber < fts->totalFiles && dat->files[fts->currentFileNumber] == nullptr)
-							dat->files[fts->currentFileNumber] = PFTS_StringToTchar(fts->flags, fts->tszCurrentFile);
+							dat->files[fts->currentFileNumber] = PFTS_StringToTchar(fts->flags, fts->szCurrentFile.w);
 					}
 
 					/* HACK: for 0.3.3, limit updates to around 1.1 ack per second */
@@ -667,7 +667,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 								else vstsi->szFile = mir_wstrdup(dat->files[dat->transferStatus.currentFileNumber]);
 							}
 							else {
-								vstsi->szFile = mir_wstrdup(dat->transferStatus.tszWorkingDir);
+								vstsi->szFile = mir_wstrdup(dat->transferStatus.szWorkingDir.w);
 								vstsi->returnCode = -1;
 							}
 							SetFtStatus(hwndDlg, LPGENW("Scanning for viruses..."), FTS_TEXT);

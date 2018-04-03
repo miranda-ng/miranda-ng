@@ -193,24 +193,24 @@ void FreeFilesMatrix(wchar_t ***files)
 
 void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts)
 {
-	mir_free(fts->tszCurrentFile);
-	if (fts->ptszFiles) {
-		for (int i = 0; i < fts->totalFiles; i++) mir_free(fts->ptszFiles[i]);
-		mir_free(fts->ptszFiles);
+	mir_free(fts->szCurrentFile.w);
+	if (fts->pszFiles.w) {
+		for (int i = 0; i < fts->totalFiles; i++) mir_free(fts->pszFiles.w[i]);
+		mir_free(fts->pszFiles.w);
 	}
-	mir_free(fts->tszWorkingDir);
+	mir_free(fts->szWorkingDir.w);
 }
 
 void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src)
 {
 	*dest = *src;
-	if (src->tszCurrentFile) dest->tszCurrentFile = PFTS_StringToTchar(src->flags, src->tszCurrentFile);
-	if (src->ptszFiles) {
-		dest->ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*)*src->totalFiles);
+	if (src->szCurrentFile.w) dest->szCurrentFile.w = PFTS_StringToTchar(src->flags, src->szCurrentFile.w);
+	if (src->pszFiles.w) {
+		dest->pszFiles.w = (wchar_t**)mir_alloc(sizeof(wchar_t*)*src->totalFiles);
 		for (int i = 0; i < src->totalFiles; i++)
-			dest->ptszFiles[i] = PFTS_StringToTchar(src->flags, src->ptszFiles[i]);
+			dest->pszFiles.w[i] = PFTS_StringToTchar(src->flags, src->pszFiles.w[i]);
 	}
-	if (src->tszWorkingDir) dest->tszWorkingDir = PFTS_StringToTchar(src->flags, src->tszWorkingDir);
+	if (src->szWorkingDir.w) dest->szWorkingDir.w = PFTS_StringToTchar(src->flags, src->szWorkingDir.w);
 	dest->flags &= ~PFTS_UTF;
 	dest->flags |= PFTS_UNICODE;
 }
@@ -220,47 +220,47 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	dest->hContact = src->hContact;
 	dest->flags = src->flags;
 	if (dest->totalFiles != src->totalFiles) {
-		for (int i = 0; i < dest->totalFiles; i++) mir_free(dest->ptszFiles[i]);
-		mir_free(dest->ptszFiles);
-		dest->ptszFiles = nullptr;
+		for (int i = 0; i < dest->totalFiles; i++) mir_free(dest->pszFiles.w[i]);
+		mir_free(dest->pszFiles.w);
+		dest->pszFiles.w = nullptr;
 		dest->totalFiles = src->totalFiles;
 	}
-	if (src->ptszFiles) {
-		if (!dest->ptszFiles)
-			dest->ptszFiles = (wchar_t**)mir_calloc(sizeof(wchar_t*)*src->totalFiles);
+	if (src->pszFiles.w) {
+		if (!dest->pszFiles.w)
+			dest->pszFiles.w = (wchar_t**)mir_calloc(sizeof(wchar_t*)*src->totalFiles);
 		for (int i = 0; i < src->totalFiles; i++)
-			if (!dest->ptszFiles[i] || !src->ptszFiles[i] || PFTS_CompareWithTchar(src, src->ptszFiles[i], dest->ptszFiles[i])) {
-				mir_free(dest->ptszFiles[i]);
-				if (src->ptszFiles[i])
-					dest->ptszFiles[i] = PFTS_StringToTchar(src->flags, src->ptszFiles[i]);
+			if (!dest->pszFiles.w[i] || !src->pszFiles.w[i] || PFTS_CompareWithTchar(src, src->pszFiles.w[i], dest->pszFiles.w[i])) {
+				mir_free(dest->pszFiles.w[i]);
+				if (src->pszFiles.w[i])
+					dest->pszFiles.w[i] = PFTS_StringToTchar(src->flags, src->pszFiles.w[i]);
 				else
-					dest->ptszFiles[i] = nullptr;
+					dest->pszFiles.w[i] = nullptr;
 			}
 	}
-	else if (dest->ptszFiles) {
+	else if (dest->pszFiles.w) {
 		for (int i = 0; i < dest->totalFiles; i++)
-			mir_free(dest->ptszFiles[i]);
-		mir_free(dest->ptszFiles);
-		dest->ptszFiles = nullptr;
+			mir_free(dest->pszFiles.w[i]);
+		mir_free(dest->pszFiles.w);
+		dest->pszFiles.w = nullptr;
 	}
 
 	dest->currentFileNumber = src->currentFileNumber;
 	dest->totalBytes = src->totalBytes;
 	dest->totalProgress = src->totalProgress;
-	if (src->tszWorkingDir && (!dest->tszWorkingDir || PFTS_CompareWithTchar(src, src->tszWorkingDir, dest->tszWorkingDir))) {
-		mir_free(dest->tszWorkingDir);
-		if (src->tszWorkingDir)
-			dest->tszWorkingDir = PFTS_StringToTchar(src->flags, src->tszWorkingDir);
+	if (src->szWorkingDir.w && (!dest->szWorkingDir.w || PFTS_CompareWithTchar(src, src->szWorkingDir.w, dest->szWorkingDir.w))) {
+		mir_free(dest->szWorkingDir.w);
+		if (src->szWorkingDir.w)
+			dest->szWorkingDir.w = PFTS_StringToTchar(src->flags, src->szWorkingDir.w);
 		else
-			dest->tszWorkingDir = nullptr;
+			dest->szWorkingDir.w = nullptr;
 	}
 
-	if (!dest->tszCurrentFile || !src->tszCurrentFile || PFTS_CompareWithTchar(src, src->tszCurrentFile, dest->tszCurrentFile)) {
-		mir_free(dest->tszCurrentFile);
-		if (src->tszCurrentFile)
-			dest->tszCurrentFile = PFTS_StringToTchar(src->flags, src->tszCurrentFile);
+	if (!dest->szCurrentFile.w || !src->szCurrentFile.w || PFTS_CompareWithTchar(src, src->szCurrentFile.w, dest->szCurrentFile.w)) {
+		mir_free(dest->szCurrentFile.w);
+		if (src->szCurrentFile.w)
+			dest->szCurrentFile.w = PFTS_StringToTchar(src->flags, src->szCurrentFile.w);
 		else
-			dest->tszCurrentFile = nullptr;
+			dest->szCurrentFile.w = nullptr;
 	}
 	dest->currentFileSize = src->currentFileSize;
 	dest->currentFileProgress = src->currentFileProgress;

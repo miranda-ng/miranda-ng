@@ -89,15 +89,15 @@ void __cdecl SendThread(LPVOID param) {
 	if (ftcd->sending == 1)
 		pfts.flags |= PFTS_SENDING;
 
-	pfts.pszFiles = nullptr;
+	pfts.pszFiles.a = nullptr;
 	pfts.totalFiles = ftcd->first->ft_count;
 	pfts.totalBytes = ftcd->first->totalSize;
 
 	while(SendFileChunk(proto, ft, ftcd) && !Miranda_IsTerminated()) {
 		pfts.currentFileNumber = ftcd->ft_number;
 		pfts.totalProgress = ftcd->sizeToHere + mwFileTransfer_getSent(ft);
-		pfts.szWorkingDir = ftcd->save_path;
-		pfts.szCurrentFile = (char*)mwFileTransfer_getFileName(ft);
+		pfts.szWorkingDir.a = ftcd->save_path;
+		pfts.szCurrentFile.a = (char*)mwFileTransfer_getFileName(ft);
 		pfts.currentFileSize = mwFileTransfer_getFileSize(ft);
 		pfts.currentFileProgress = mwFileTransfer_getSent(ft);
 		pfts.currentFileTime = 0; //?
@@ -236,13 +236,13 @@ void mwFileTransfer_recv(mwFileTransfer* ft, struct mwOpaque* data)
 		if (ftcd->sending == 1) {
 			pfts.flags |= PFTS_SENDING;
 		}
-		pfts.pszFiles = nullptr;
+		pfts.pszFiles.a = nullptr;
 		pfts.totalFiles = 1;
 		pfts.currentFileNumber = 0;
 		pfts.totalBytes = mwFileTransfer_getFileSize(ft);
 		pfts.totalProgress = mwFileTransfer_getSent(ft);
-		pfts.szWorkingDir = ftcd->save_path;
-		pfts.szCurrentFile = (char*)mwFileTransfer_getFileName(ft);
+		pfts.szWorkingDir.a = ftcd->save_path;
+		pfts.szCurrentFile.a = (char*)mwFileTransfer_getFileName(ft);
 		pfts.currentFileSize = mwFileTransfer_getFileSize(ft);
 		pfts.currentFileProgress = mwFileTransfer_getSent(ft);
 		pfts.currentFileTime = 0; //?

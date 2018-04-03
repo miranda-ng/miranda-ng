@@ -42,10 +42,10 @@ public:
 		pfts.totalBytes = 0;
 		pfts.totalFiles = 0;
 		pfts.totalProgress = 0;
-		pfts.ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (pfts.totalFiles + 1));
-		pfts.ptszFiles[pfts.totalFiles] = NULL;
-		pfts.tszWorkingDir = NULL;
-		pfts.tszCurrentFile = NULL;
+		pfts.pszFiles.w = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (pfts.totalFiles + 1));
+		pfts.pszFiles.w[pfts.totalFiles] = NULL;
+		pfts.szWorkingDir.w = NULL;
+		pfts.szCurrentFile.w = NULL;
 
 		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)id, 0);
 	}
@@ -54,13 +54,13 @@ public:
 	{
 		CloseCurrentFile();
 
-		if (pfts.tszWorkingDir)
-			mir_free(pfts.tszWorkingDir);
+		if (pfts.szWorkingDir.w)
+			mir_free(pfts.szWorkingDir.w);
 
-		if (pfts.pszFiles) {
-			for (int i = 0; pfts.pszFiles[i]; i++)
-				if (pfts.pszFiles[i]) mir_free(pfts.pszFiles[i]);
-			mir_free(pfts.pszFiles);
+		if (pfts.pszFiles.a) {
+			for (int i = 0; pfts.pszFiles.a[i]; i++)
+				mir_free(pfts.pszFiles.a[i]);
+			mir_free(pfts.pszFiles.a);
 		}
 
 		for (auto &link : m_links)
@@ -115,8 +115,8 @@ public:
 	void SetWorkingDirectory(const wchar_t *path)
 	{
 		relativePathStart = wcsrchr(path, '\\') - path + 1;
-		pfts.tszWorkingDir = (wchar_t*)mir_calloc(sizeof(wchar_t) * relativePathStart);
-		mir_wstrncpy(pfts.tszWorkingDir, path, relativePathStart);
+		pfts.szWorkingDir.w = (wchar_t*)mir_calloc(sizeof(wchar_t) * relativePathStart);
+		mir_wstrncpy(pfts.szWorkingDir.w, path, relativePathStart);
 		if (PathIsDirectory(path))
 			folderName = wcsrchr(path, '\\') + 1;
 	}
@@ -133,9 +133,9 @@ public:
 
 	void AddFile(const wchar_t *path)
 	{
-		pfts.ptszFiles = (wchar_t**)mir_realloc(pfts.ptszFiles, sizeof(wchar_t*) * (pfts.totalFiles + 2));
-		pfts.ptszFiles[pfts.totalFiles++] = mir_wstrdup(path);
-		pfts.ptszFiles[pfts.totalFiles] = NULL;
+		pfts.pszFiles.w = (wchar_t**)mir_realloc(pfts.pszFiles.w, sizeof(wchar_t*) * (pfts.totalFiles + 2));
+		pfts.pszFiles.w[pfts.totalFiles++] = mir_wstrdup(path);
+		pfts.pszFiles.w[pfts.totalFiles] = NULL;
 
 		FILE *file = _wfopen(path, L"rb");
 		if (file != NULL) {
@@ -152,7 +152,7 @@ public:
 
 	const wchar_t* GetCurrentFilePath() const
 	{
-		return pfts.ptszFiles[pfts.currentFileNumber];
+		return pfts.pszFiles.w[pfts.currentFileNumber];
 	}
 
 	const wchar_t* GetCurrentRelativeFilePath() const
@@ -162,7 +162,7 @@ public:
 
 	const wchar_t* GetCurrentFileName() const
 	{
-		return wcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+		return wcsrchr(pfts.pszFiles.w[pfts.currentFileNumber], '\\') + 1;
 	}
 
 	void OpenCurrentFile()
@@ -227,7 +227,7 @@ public:
 
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
-		pfts.tszCurrentFile = wcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+		pfts.szCurrentFile.w = wcsrchr(pfts.pszFiles.w[pfts.currentFileNumber], '\\') + 1;
 		if (pfts.hContact)
 			ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&pfts);
 
@@ -243,7 +243,7 @@ public:
 			return false;
 
 		pfts.currentFileProgress = 0;
-		pfts.tszCurrentFile = wcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+		pfts.szCurrentFile.w = wcsrchr(pfts.pszFiles.w[pfts.currentFileNumber], '\\') + 1;
 		if (pfts.hContact)
 			ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)id, 0);
 

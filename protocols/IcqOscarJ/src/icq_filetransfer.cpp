@@ -32,15 +32,15 @@ static void file_buildProtoFileTransferStatus(filetransfer* ft, PROTOFILETRANSFE
 	pfts->hContact = ft->hContact;
 	pfts->flags = PFTS_UTF | (ft->sending ? PFTS_SENDING : PFTS_RECEIVING); /* Standard FT is Ansi only */
 	if (ft->sending)
-		pfts->pszFiles = ft->pszFiles;
+		pfts->pszFiles.a = ft->pszFiles;
 	else
-		pfts->pszFiles = nullptr;  /* FIXME */
+		pfts->pszFiles.a = nullptr;  /* FIXME */
 	pfts->totalFiles = ft->dwFileCount;
 	pfts->currentFileNumber = ft->iCurrentFile;
 	pfts->totalBytes = ft->dwTotalSize;
 	pfts->totalProgress = ft->dwBytesDone;
-	pfts->szWorkingDir = ft->szSavePath;
-	pfts->szCurrentFile = ft->szThisFile;
+	pfts->szWorkingDir.a = ft->szSavePath;
+	pfts->szCurrentFile.a = ft->szThisFile;
 	pfts->currentFileSize = ft->dwThisFileSize;
 	pfts->currentFileTime = ft->dwThisFileDate;
 	pfts->currentFileProgress = ft->dwFileBytesDone;

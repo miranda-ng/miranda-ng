@@ -1010,15 +1010,15 @@ static void oft_buildProtoFileTransferStatus(oscar_filetransfer* ft, PROTOFILETR
 	pfts->hContact = ft->hContact;
 	pfts->flags = PFTS_UTF + ((ft->flags & OFTF_SENDING) ? PFTS_SENDING : PFTS_RECEIVING);
 	if (ft->flags & OFTF_SENDING)
-		pfts->pszFiles = ft->files_list;
+		pfts->pszFiles.a = ft->files_list;
 	else
-		pfts->pszFiles = nullptr;  /* FIXME */
+		pfts->pszFiles.a = nullptr;  /* FIXME */
 	pfts->totalFiles = ft->wFilesCount;
 	pfts->currentFileNumber = ft->iCurrentFile;
 	pfts->totalBytes = ft->qwTotalSize;
 	pfts->totalProgress = ft->qwBytesDone;
-	pfts->szWorkingDir = ft->szThisPath;
-	pfts->szCurrentFile = ft->szThisFile;
+	pfts->szWorkingDir.a = ft->szThisPath;
+	pfts->szCurrentFile.a = ft->szThisFile;
 	pfts->currentFileSize = ft->qwThisFileSize;
 	pfts->currentFileTime = ft->dwThisFileDate;
 	pfts->currentFileProgress = ft->qwFileBytesDone;

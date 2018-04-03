@@ -95,7 +95,7 @@ void CJabberProto::FtInitiate(wchar_t* jid, filetransfer *ft)
 	sid[8] = '\0';
 	if (ft->sid != nullptr) mir_free(ft->sid);
 	ft->sid = mir_wstrdup(sid);
-	filename = ft->std.ptszFiles[ft->std.currentFileNumber];
+	filename = ft->std.pszFiles.w[ft->std.currentFileNumber];
 	if ((p = wcsrchr(filename, '\\')) != nullptr)
 		filename = p + 1;
 
@@ -187,9 +187,9 @@ BOOL CJabberProto::FtSend(HNETLIBCONN hConn, filetransfer *ft)
 	char* buffer;
 	int numRead;
 
-	debugLogW(L"Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
-	_wstat64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
-	if ((fd = _wopen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY)) < 0) {
+	debugLogW(L"Sending [%s]", ft->std.pszFiles.w[ft->std.currentFileNumber]);
+	_wstat64(ft->std.pszFiles.w[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
+	if ((fd = _wopen(ft->std.pszFiles.w[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY)) < 0) {
 		debugLogW(L"File cannot be opened");
 		return FALSE;
 	}
@@ -217,12 +217,12 @@ BOOL CJabberProto::FtSend(HNETLIBCONN hConn, filetransfer *ft)
 
 BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 {
-	debugLogW(L"Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
+	debugLogW(L"Sending [%s]", ft->std.pszFiles.w[ft->std.currentFileNumber]);
 
 	struct _stati64 statbuf;
-	_wstat64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
+	_wstat64(ft->std.pszFiles.w[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 
-	int fd = _wopen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY);
+	int fd = _wopen(ft->std.pszFiles.w[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY);
 	if (fd < 0) {
 		debugLogA("File cannot be opened");
 		return FALSE;
@@ -284,7 +284,7 @@ void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 	else {
 		if (ft->std.currentFileNumber < ft->std.totalFiles - 1) {
 			ft->std.currentFileNumber++;
-			replaceStrW(ft->std.tszCurrentFile, ft->std.ptszFiles[ft->std.currentFileNumber]);
+			replaceStrW(ft->std.szCurrentFile.w, ft->std.pszFiles.w[ft->std.currentFileNumber]);
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 			FtInitiate(ft->jid, ft);
 			return;
@@ -371,7 +371,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				ft->szId = mir_wstrdup(szId);
 				ft->type = ftType;
 				ft->std.totalFiles = 1;
-				ft->std.tszCurrentFile = mir_wstrdup(filename);
+				ft->std.szCurrentFile.w = mir_wstrdup(filename);
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
 				PROTORECVFILE pre = { 0 };
