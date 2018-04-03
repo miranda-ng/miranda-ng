@@ -864,11 +864,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			HTREEITEM hSelItem;
 			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, Skin_LoadProtoIcon(nullptr, g_ProtoStates[(char*)nullptr].m_status));
-			int numAccs;
-			PROTOACCOUNT **accs;
-			Proto_EnumAccounts(&numAccs, &accs);
-			for (int i = 0; i < numAccs; i++) {
-				PROTOACCOUNT *p = accs[i];
+			for (auto &p : Accounts())
 				// don't forget to change Recent Message Save loop in the UM_SAM_APPLYANDCLOSE if you're changing something here
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 					PROTOACCOUNT * acc = Proto_GetAccount(p->szModuleName);
@@ -876,7 +872,6 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					if (dat->szProtocol && !mir_strcmp(p->szModuleName, dat->szProtocol))
 						hSelItem = hItem;
 				}
-			}
 
 			CList->SetRedraw(false);
 			for (auto &hContact : Contacts()) {
@@ -918,18 +913,14 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		MsgTree->Save();
 		{
 			// save Recent Messages
-			int numAccs;
-			PROTOACCOUNT **accs;
-			Proto_EnumAccounts(&numAccs, &accs);
-			for (int i = 0; i < numAccs; i++) {
-				PROTOACCOUNT *p = accs[i];
+			for (auto &p : Accounts())
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 					TCString Message(CProtoSettings(p->szModuleName).GetMsgFormat(GMF_PERSONAL)); // yes, we don't specify GMF_TEMPORARY here, because we don't need to save it
 					if (Message != nullptr)
 						CProtoSettings(p->szModuleName).SetMsgFormat(SMF_LAST, Message); // if the user set a message for this protocol, save it to the recent messages
 					ChangeProtoMessages(p->szModuleName, g_ProtoStates[p->szModuleName].m_status, TCString(nullptr)); // and actual setting of a status message for the protocol
 				}
-			}
+
 			TCString Message(CProtoSettings().GetMsgFormat(GMF_PERSONAL));
 			if (Message != nullptr)
 				CProtoSettings().SetMsgFormat(SMF_LAST, Message); // save the global message to the recent messages

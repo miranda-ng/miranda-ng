@@ -81,23 +81,18 @@ bool CAppletManager::Initialize(tstring strAppletName)
 	m_hMIHookChatEvent = HookEvent(ME_GC_HOOK_EVENT, CAppletManager::HookChatInbound);
 
 	// enumerate protocols
-	int iCount;
 	int iProtoCount = 0;
-	PROTOACCOUNT **ppAccounts;
 	CProtocolData *pProtoData = nullptr;
 	CIRCConnection *pIRCConnection = nullptr;
 
-	Proto_EnumAccounts(&iCount, &ppAccounts);
-	for (int i = 0; i < iCount; i++) {
-		/**if(ppProtocolDescriptor[i]->type != PROTOTYPE_PROTOCOL)
-			continue;**/
-		if (ppAccounts[i]->bIsEnabled == 0)
+	for (auto &pa : Accounts()) {
+		if (pa->bIsEnabled == 0)
 			continue;
 
 		iProtoCount++;
 		pProtoData = new CProtocolData();
 		pProtoData->iStatus = ID_STATUS_OFFLINE;
-		pProtoData->strProtocol = toTstring(ppAccounts[i]->szModuleName);
+		pProtoData->strProtocol = toTstring(pa->szModuleName);
 		pProtoData->lTimeStamp = 0;
 
 		// try to create an irc connection for that protocol (will fail if it is no irc protocol)

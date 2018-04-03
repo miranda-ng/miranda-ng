@@ -1367,24 +1367,19 @@ void RegisterHotkey(void)
 
 static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 {
-#ifdef _DEBUG
-	log2file("ChangeStatusMsgPrebuild()");
-#endif
-	PROTOACCOUNT **pa;
-	int iStatusMenuItemCount = 0, count;
+	int iStatusMenuItemCount = 0;
 	DWORD iStatusMsgFlags = 0;
 
-	Proto_EnumAccounts(&count, &pa);
-	hProtoStatusMenuItem = (HANDLE *)mir_realloc(hProtoStatusMenuItem, sizeof(HANDLE) * count);
-	for (int i = 0; i < count; ++i)
-	{
-		if (!pa[i]->IsEnabled())
+	auto &accs = Accounts();
+	hProtoStatusMenuItem = (HANDLE *)mir_realloc(hProtoStatusMenuItem, sizeof(HANDLE) * accs.getCount());
+	for (auto &pa : accs) { 
+		if (!pa->IsEnabled())
 			continue;
 
-		if (CallProtoService(pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)
-			iStatusMsgFlags |= CallProtoService(pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3,0);
+		if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)
+			iStatusMsgFlags |= CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 
-		if (!pa[i]->bIsVisible)
+		if (!pa->bIsVisible)
 			continue;
 
 		iStatusMenuItemCount++;
@@ -1406,35 +1401,34 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 	// mi.popupPosition = 500084000; !!!!!!!!!!!!!!!!!!!!!!!
 	mi.position = 2000040000;
 
-	for (int i = 0; i < count; ++i)
-	{
-		if (!pa[i]->IsEnabled())
+	int i = 0;
+	for (auto &pa : accs) {
+		if (!pa->IsEnabled())
 			continue;
 
-		if (!CallProtoService(pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+		if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 			continue;
 
-		if (!(CallProtoService(pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 			continue;
 
-		if (!pa[i]->bIsVisible)
+		if (!pa->bIsVisible)
 			continue;
 
 		char szSetting[80];
-		mir_snprintf(szSetting, "Proto%sFlags", pa[i]->szModuleName);
+		mir_snprintf(szSetting, "Proto%sFlags", pa->szModuleName);
 		int iProtoFlags = db_get_b(NULL, "SimpleStatusMsg", szSetting, PROTO_DEFAULT);
 		if (iProtoFlags & PROTO_NO_MSG || iProtoFlags & PROTO_THIS_MSG)
 			continue;
 
-		if (pa[i]->IsLocked())
-		{
+		if (pa->IsLocked()) {
 			wchar_t szBuffer[256];
-			mir_snwprintf(szBuffer, TranslateT("%s (locked)"), pa[i]->tszAccountName);
+			mir_snwprintf(szBuffer, TranslateT("%s (locked)"), pa->tszAccountName);
 			mi.root = Menu_CreateRoot(MO_STATUS, szBuffer, mi.position);
 		}
-		else mi.root = Menu_CreateRoot(MO_STATUS, pa[i]->tszAccountName, mi.position);
+		else mi.root = Menu_CreateRoot(MO_STATUS, pa->tszAccountName, mi.position);
 		
-		hProtoStatusMenuItem[i] = Menu_AddStatusMenuItem(&mi);
+		hProtoStatusMenuItem[i++] = Menu_AddStatusMenuItem(&mi);
 	}
 
 	return 0;

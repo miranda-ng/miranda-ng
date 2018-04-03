@@ -220,13 +220,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 	proto_items[0].old_xstatus_message[0] = '\0';
 
 	// Add each proto
-	PROTOACCOUNT **protos;
-	int count;
-	Proto_EnumAccounts(&count, &protos);
-
-	for (int i = 0; i < count; i++)
-		if (protos[i]->bIsEnabled)
-			RegisterProtocol(protos[i]->szModuleName, protos[i]->tszAccountName);
+	for (auto &pa : Accounts())
+		if (pa->bIsEnabled)
+			RegisterProtocol(pa->szModuleName, pa->tszAccountName);
 
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged);
 

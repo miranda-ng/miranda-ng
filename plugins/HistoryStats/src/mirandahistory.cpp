@@ -11,13 +11,9 @@ void MirandaHistory::populateProtocols()
 {
 	m_Protocols.clear();
 
-	PROTOACCOUNT **protoList;
-	int protoCount;
-	Proto_EnumAccounts(&protoCount, &protoList);
-	upto_each_(i, protoCount) 
-	{
-		ext::a::string protoName = protoList[i]->szModuleName;
-		m_Protocols[protoName] = protoList[i]->tszAccountName;
+	for (auto &pa : Accounts()) {
+		ext::a::string protoName = pa->szModuleName;
+		m_Protocols[protoName] = pa->tszAccountName;
 	}
 
 	m_DefaultProtocol = TranslateT("(Unknown)");

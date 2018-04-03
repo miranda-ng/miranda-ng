@@ -57,12 +57,7 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 	if (mii.aaStatus == 0)
 		return 0;
 
-	int numAccounts;
-	PROTOACCOUNT** accounts;
-	Proto_EnumAccounts(&numAccounts, &accounts);
-
-	for (int i = 0; i < numAccounts; i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	for (auto &pa : Accounts()) {
 		if (!pa->IsEnabled() || pa->IsLocked())
 			continue;
 

@@ -261,14 +261,12 @@ static LRESULT CALLBACK ListWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 		SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("<New account>"));
 		SendMessage(hwndCombo, CB_SETITEMDATA, 0, lvitem.lParam);
 
-		int protoCount, iSel = 0;
-		PROTOACCOUNT **accs;
-		Proto_EnumAccounts(&protoCount, &accs);
-		for (int i = 0; i < protoCount; i++) {
-			int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
-			SendMessage(hwndCombo, CB_SETITEMDATA, idx, (LPARAM)accs[i]);
+		int iSel = 0;
+		for (auto &it : Accounts()) {
+			int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)it->tszAccountName);
+			SendMessage(hwndCombo, CB_SETITEMDATA, idx, (LPARAM)it);
 
-			if (!mir_wstrcmpi(accs[i]->tszAccountName, tszText))
+			if (!mir_wstrcmpi(it->tszAccountName, tszText))
 				iSel = idx;
 		}
 
@@ -379,13 +377,8 @@ static bool FindDestAccount(const char *szProto)
 
 static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto, const wchar_t *ptszName, bool bStrict)
 {
-	int destProtoCount;
-	PROTOACCOUNT **destAccs;
-	Proto_EnumAccounts(&destProtoCount, &destAccs);
-
 	PROTOACCOUNT *pProto = nullptr;
-	for (int i = 0; i < destProtoCount; i++) {
-		PROTOACCOUNT *pa = destAccs[i];
+	for (auto &pa : Accounts()) {
 		// already used? skip
 		if (FindDestAccount(pa->szModuleName))
 			continue;

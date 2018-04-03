@@ -263,7 +263,6 @@ EXTERN_C MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *
 
 struct MIR_APP_EXPORT PROTOACCOUNT
 {
-	int      cbSize;          // sizeof this structure
 	char*    szModuleName;    // unique physical account name (matches database module name)
 	wchar_t* tszAccountName;  // user-defined account name
 	char*    szProtoName;     // physical protocol name
@@ -292,6 +291,8 @@ struct MIR_APP_EXPORT PROTOACCOUNT
 // lParam = (LPARAM)(PROTOACCOUNT**)paAccounts
 
 EXTERN_C MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs);
+
+MIR_APP_DLL(LIST<PROTOACCOUNT>&) Accounts(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // creates new account

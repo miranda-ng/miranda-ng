@@ -160,8 +160,6 @@ static int FillDialog(HWND hwnd)
 	LVCOLUMN lvc = { 0 };
 	HWND hwndList = GetDlgItem(hwnd, IDC_PROTOCOLS);
 	LVITEM item = { 0 };
-	int protoCount = 0, i;
-	PROTOACCOUNT **accs = nullptr;
 
 	CLVM_EnumModes(FillModes);
 	ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES);
@@ -170,13 +168,11 @@ static int FillDialog(HWND hwnd)
 	ListView_InsertColumn(hwndList, 0, &lvc);
 
 	// fill protocols...
-
-	Proto_EnumAccounts(&protoCount, &accs);
 	item.mask = LVIF_TEXT | LVIF_PARAM;
 	item.iItem = 1000;
-	for (i = 0; i < protoCount; i++) {
-		item.lParam = (LPARAM)accs[i]->szModuleName;
-		item.pszText = accs[i]->tszAccountName;
+	for (auto &pa : Accounts()) {
+		item.lParam = (LPARAM)pa->szModuleName;
+		item.pszText = pa->tszAccountName;
 		ListView_InsertItem(hwndList, &item);
 	}
 
@@ -195,7 +191,7 @@ static int FillDialog(HWND hwnd)
 	SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
 	wchar_t *grpName;
-	for (i = 1; (grpName = Clist_GroupGetName(i, nullptr)) != nullptr; i++) {
+	for (int i = 1; (grpName = Clist_GroupGetName(i, nullptr)) != nullptr; i++) {
 		item.pszText = grpName;
 		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	}
@@ -209,7 +205,7 @@ static int FillDialog(HWND hwnd)
 	lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 	ListView_InsertColumn(hwndList, 0, &lvc);
 
-	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		item.pszText = TranslateW(pcli->pfnGetStatusModeDescription(i, 0));
 		item.iItem = i - ID_STATUS_OFFLINE;
 		ListView_InsertItem(hwndList, &item);

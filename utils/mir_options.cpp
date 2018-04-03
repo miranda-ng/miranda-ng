@@ -207,25 +207,20 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					lvi.iSubItem = 0;
 					lvi.iItem = 1000;
 
-					int count;
-					PROTOACCOUNT **protos;
-					Proto_EnumAccounts(&count, &protos);
-
-					for (int k = 0; k < count; k++) {
-						PROTOACCOUNT *p = protos[k];
-						if (p->szModuleName == nullptr || p->szModuleName[0] == '\0')
+					for (auto &pa : Accounts()) {
+						if (pa->szModuleName == nullptr || pa->szModuleName[0] == '\0')
 							continue;
 
-						if (ctrl->allowProtocol != nullptr && !ctrl->allowProtocol(p->szModuleName))
+						if (ctrl->allowProtocol != nullptr && !ctrl->allowProtocol(pa->szModuleName))
 							continue;
 
 						char *setting = (char *)mir_alloc(128 * sizeof(char));
-						mir_snprintf(setting, 128, ctrl->setting, p->szModuleName);
+						mir_snprintf(setting, 128, ctrl->setting, pa->szModuleName);
 
 						BOOL show = (BOOL)db_get_b(NULL, module, setting, ctrl->dwDefValue);
 
 						lvi.lParam = (LPARAM)setting;
-						lvi.pszText = p->tszAccountName;
+						lvi.pszText = pa->tszAccountName;
 						lvi.iItem = ListView_InsertItem(hwndProtocols, &lvi);
 						ListView_SetItemState(hwndProtocols, lvi.iItem, INDEXTOSTATEIMAGEMASK(show ? 2 : 1), LVIS_STATEIMAGEMASK);
 					}

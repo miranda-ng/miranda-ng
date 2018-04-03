@@ -97,19 +97,17 @@ void InitCheck()
 		mir_free(home_dir);
 		tmp_dir += L"\\tmp";
 		_wmkdir(tmp_dir.c_str());
-		int count = 0;
-		PROTOACCOUNT **accounts;
-		Proto_EnumAccounts(&count, &accounts);
+
 		string question;
 		char *keyid = nullptr;
-		for (int i = 0; i < count; i++) {
-			if (StriStr(accounts[i]->szModuleName, "metacontacts"))
+		for (auto &pa : Accounts()) {
+			if (StriStr(pa->szModuleName, "metacontacts"))
 				continue;
-			if (StriStr(accounts[i]->szModuleName, "weather"))
+			if (StriStr(pa->szModuleName, "weather"))
 				continue;
-			std::string acc = toUTF8(accounts[i]->tszAccountName);
+			std::string acc = toUTF8(pa->tszAccountName);
 			acc += "(";
-			acc += accounts[i]->szModuleName;
+			acc += pa->szModuleName;
 			acc += ")";
 			acc += "_KeyID";
 			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc.c_str(), "");
@@ -120,7 +118,7 @@ void InitCheck()
 				if ((p = out.find(keyid)) == string::npos) {
 					question += keyid;
 					question += Translate(" for account ");
-					question += toUTF8(accounts[i]->tszAccountName);
+					question += toUTF8(pa->tszAccountName);
 					question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
 					if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 					{
@@ -161,7 +159,7 @@ void InitCheck()
 					if (expired) {
 						question += keyid;
 						question += Translate(" for account ");
-						question += toUTF8(accounts[i]->tszAccountName);
+						question += toUTF8(pa->tszAccountName);
 						question += Translate(" expired and will not work.\nDo you want to set another key?");
 						if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 						{
@@ -252,32 +250,26 @@ void InitCheck()
 		mir_free(path);
 	}
 	if (globals.bAutoExchange) {
-		int count = 0;
-		PROTOACCOUNT **accounts;
-		Proto_EnumAccounts(&count, &accounts);
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = nullptr;
 		strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME);
 		strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
 
-		for (int i = 0; i < count; i++)
-			if (ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
-				CallProtoService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
+		for (auto &pa : Accounts())
+			if (ProtoServiceExists(pa->szProtoName, PS_ICQ_ADDCAPABILITY))
+				CallProtoService(pa->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
 	}
 	if (globals.bFileTransfers) {
-		int count = 0;
-		PROTOACCOUNT **accounts;
-		Proto_EnumAccounts(&count, &accounts);
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = nullptr;
 		strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME);
 		strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
 
-		for (int i = 0; i < count; i++)
-			if (ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
-				CallProtoService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
+		for (auto &pa : Accounts())
+			if (ProtoServiceExists(pa->szProtoName, PS_ICQ_ADDCAPABILITY))
+				CallProtoService(pa->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
 	}
 }
 

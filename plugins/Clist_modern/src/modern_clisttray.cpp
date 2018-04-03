@@ -274,17 +274,12 @@ void SettingsMigrate(void)
 
 static int GetGoodAccNum(bool *bDiffers, bool *bConn = nullptr)
 {
-	PROTOACCOUNT **acc;
-	int AccNum;
-	Proto_EnumAccounts(&AccNum, &acc);
-
 	*bDiffers = false;
 	if (bConn)
 		*bConn = false;
 
 	int iPrevStatus = 0, res = 0;
-	while (AccNum--) {
-		PROTOACCOUNT *pa = acc[AccNum];
+	for (auto &pa : Accounts()) {
 		if (!pa->IsVisible())
 			continue;
 
@@ -373,15 +368,9 @@ int cliTrayIconInit(HWND hwnd)
 		break;
 
 	case TRAY_ICON_MODE_ALL:
-		PROTOACCOUNT **acc;
-		int AccNum;
-		Proto_EnumAccounts(&AccNum, &acc);
-
-		for (int i = AccNum; i--;) {
-			PROTOACCOUNT *pa = acc[i];
+		for (auto &pa : Accounts().rev_iter())
 			if (pa->IsVisible() && pa->ppro != nullptr)
 				pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
-		}
 		break;
 	}
 

@@ -76,15 +76,10 @@ DWORD CompareContacts2_getLMTime(MCONTACT hContact)
 
 int GetProtoIndex(char * szName)
 {
-	if (szName) {
-		PROTOACCOUNT **accs = nullptr;
-		int accCount = 0;
-		Proto_EnumAccounts(&accCount, &accs);
-
-		for (int i = 0; i < accCount; i++)
-			if (!mir_strcmpi(szName, accs[i]->szModuleName))
-				return accs[i]->iOrder;
-	}
+	if (szName)
+		for (auto &pa : Accounts())
+			if (!mir_strcmpi(szName, pa->szModuleName))
+				return pa->iOrder;
 
 	return -1;
 }

@@ -84,14 +84,9 @@ static int UserOnlineAck(WPARAM, LPARAM lParam)
 
 static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 {
-	int numAccounts;
-	PROTOACCOUNT** accounts;
-	Proto_EnumAccounts(&numAccounts, &accounts);
-
-	// reset the counter
-	for (int i = 0; i < numAccounts; i++)
-		if (accounts[i]->IsEnabled())
-			db_set_dw(NULL, "UserOnline", accounts[i]->szModuleName, GetTickCount());
+	for (auto &pa : Accounts())
+		if (pa->IsEnabled())
+			db_set_dw(NULL, "UserOnline", pa->szModuleName, GetTickCount());
 
 	return 0;
 }

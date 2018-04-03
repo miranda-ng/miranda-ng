@@ -1136,12 +1136,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
 		nullptr, hInst, nullptr);
 
-	int count = 0;
-	PROTOACCOUNT **accounts = nullptr;
-	Proto_EnumAccounts(&count, &accounts);
-	for (int i = 0; i < count; i++)
-		if (accounts[i]->IsEnabled())
-			db_set_b(NULL, MODULE, accounts[i]->szModuleName, 0);
+	for (auto &pa : Accounts())
+		if (pa->IsEnabled())
+			db_set_b(NULL, MODULE, pa->szModuleName, 0);
 
 	return 0;
 }

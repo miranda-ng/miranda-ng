@@ -19,16 +19,12 @@ void loadSupportedProtocols()
 		db_set_s(0, MODULENAME, "protos", szNames);
 	}
 
-	int numberOfProtocols;
-	PROTOACCOUNT **protos;
-	Proto_EnumAccounts(&numberOfProtocols, &protos);
-
-	for (int i = 0; i < numberOfProtocols; i++) {
-		if (!protos[i]->szModuleName || !CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0))
+	for (auto &pa : Accounts()) {
+		if (!pa->szModuleName || !CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0))
 			continue;
 
 		SupPro *p = (SupPro*)mir_calloc(sizeof(SupPro));
-		p->name = mir_strdup(protos[i]->szModuleName);
+		p->name = mir_strdup(pa->szModuleName);
 		if (szNames && p->name) {
 			char tmp[128]; strncpy(tmp, p->name, sizeof(tmp) - 1); mir_strncat(tmp, ":", _countof(tmp) - mir_strlen(tmp));
 			LPSTR szName = strstr(szNames, tmp);

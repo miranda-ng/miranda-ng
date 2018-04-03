@@ -58,12 +58,8 @@ void set_list_changed(bool f)
 void SetProtoStatus(wchar_t *pszLabel, char *pszProto, int if_status, int new_status)
 {
 	if (mir_strcmp(pszProto, Translate("<all>")) == 0) {
-		int num_protocols;
-		PROTOACCOUNT **pppDesc;
-
-		Proto_EnumAccounts(&num_protocols, &pppDesc);
-		for (int i = 0; i < num_protocols; i++)
-			SetProtoStatus(pszLabel, pppDesc[i]->szModuleName, if_status, new_status);
+		for (auto &pa : Accounts())
+			SetProtoStatus(pszLabel, pa->szModuleName, if_status, new_status);
 	}
 	else {
 		if (ProtoServiceExists(pszProto, PS_GETSTATUS)) {

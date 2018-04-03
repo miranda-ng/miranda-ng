@@ -115,19 +115,14 @@ public:
 		item.mask = LVIF_TEXT | LVIF_PARAM;
 		item.iItem = 1000;
 
-		int n;
-		PROTOACCOUNT **pa;
-		Proto_EnumAccounts(&n, &pa);
-
-		for (int i = 0; i < n; i++) {
-			PROTOACCOUNT *p = pa[i];
-			if (!p->IsEnabled() || p->bIsVirtual)
+		for (auto &pa : Accounts()) {
+			if (!pa->IsEnabled() || pa->bIsVirtual)
 				continue;
 
-			item.lParam = (LPARAM)p->szModuleName;
-			item.pszText = p->tszAccountName;
+			item.lParam = (LPARAM)pa->szModuleName;
+			item.pszText = pa->tszAccountName;
 			int idx = m_accounts.InsertItem(&item);
-			m_accounts.SetCheckState(idx, g_sets.ProtoDisabled(p->szModuleName));
+			m_accounts.SetCheckState(idx, g_sets.ProtoDisabled(pa->szModuleName));
 		}
 	}
 

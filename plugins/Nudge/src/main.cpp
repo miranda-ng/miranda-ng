@@ -207,11 +207,8 @@ void LoadProtocols(void)
 
 	GlobalNudge.Load();
 
-	int numberOfProtocols = 0;
-	PROTOACCOUNT **ppProtocolDescriptors;
-	Proto_EnumAccounts(&numberOfProtocols, &ppProtocolDescriptors);
-	for (int i = 0; i < numberOfProtocols; i++)
-		Nudge_AddAccount(ppProtocolDescriptors[i]);
+	for (auto &pa : Accounts())
+		Nudge_AddAccount(pa);
 
 	shake.Load();
 }

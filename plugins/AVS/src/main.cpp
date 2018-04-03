@@ -324,10 +324,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	g_AvatarHistoryAvail = ServiceExists(MS_AVATARHISTORY_ENABLED);
 
-	int accCount;
-	PROTOACCOUNT **accs = nullptr;
-	Proto_EnumAccounts(&accCount, &accs);
-
 	LoadDefaultInfo();
 
 	int protoCount;
@@ -335,8 +331,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	Proto_EnumProtocols(&protoCount, &proto);
 	for (int i = 0; i < protoCount; i++)
 		LoadProtoInfo(proto[i]);
-	for (int i = 0; i < accCount; i++)
-		LoadAccountInfo(accs[i]);
+	
+	for (auto &it : Accounts())
+		LoadAccountInfo(it);
 
 	// Load global avatar
 	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_GLOBAL);

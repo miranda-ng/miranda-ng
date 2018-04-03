@@ -221,12 +221,7 @@ static void CALLBACK SetStatusTimed(HWND, UINT, UINT_PTR, DWORD)
 static int OnOkToExit(WPARAM, LPARAM)
 {
 	// save last protocolstatus
-	int count;
-	PROTOACCOUNT** protos;
-	Proto_EnumAccounts(&count, &protos);
-
-	for (int i = 0; i < count; i++) {
-		PROTOACCOUNT *pa = protos[i];
+	for (auto &pa : Accounts()) {
 		if (!IsSuitableProto(pa))
 			continue;
 

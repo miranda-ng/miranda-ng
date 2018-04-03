@@ -287,17 +287,13 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 			tvis.item.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 
-			PROTOACCOUNT **protos;
-			int numberOfProtocols;
-			Proto_EnumAccounts(&numberOfProtocols, &protos);
-
-			for (int i = 0; i < numberOfProtocols; i++) {
-				if (CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+			for (auto &pa : Accounts()) {
+				if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 					continue;
 
-				tvis.item.pszText = protos[i]->tszAccountName;
-				tvis.item.lParam = (LPARAM)mir_strdup(protos[i]->szModuleName);
-				tvis.item.state = INDEXTOSTATEIMAGEMASK(IsWatchedProtocol(protos[i]->szModuleName) + 1);
+				tvis.item.pszText = pa->tszAccountName;
+				tvis.item.lParam = (LPARAM)mir_strdup(pa->szModuleName);
+				tvis.item.state = INDEXTOSTATEIMAGEMASK(IsWatchedProtocol(pa->szModuleName) + 1);
 				TreeView_InsertItem(GetDlgItem(hdlg, IDC_PROTOCOLLIST), &tvis);
 			}
 		}

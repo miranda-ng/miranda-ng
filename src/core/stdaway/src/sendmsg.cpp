@@ -172,12 +172,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 void ChangeAllProtoMessages(char *szProto, int statusMode, wchar_t *msg)
 {
 	if (szProto == nullptr) {
-		int nAccounts;
-		PROTOACCOUNT **accounts;
-		Proto_EnumAccounts(&nAccounts, &accounts);
-
-		for (int i = 0; i < nAccounts; i++) {
-			PROTOACCOUNT *pa = accounts[i];
+		for (auto &pa : Accounts()) {
 			if (!pa->IsEnabled())
 				continue;
 
@@ -536,15 +531,9 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 {
 	protoModeMsgFlags = 0;
 
-	int nAccounts;
-	PROTOACCOUNT **accounts;
-	Proto_EnumAccounts(&nAccounts, &accounts);
-	for (int i = 0; i < nAccounts; i++) {
-		if (!accounts[i]->IsEnabled())
-			continue;
-
-		protoModeMsgFlags |= CallProtoService(accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
-	}
+	for (auto &pa : Accounts())
+		if (pa->IsEnabled())
+			protoModeMsgFlags |= CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 
 	return 0;
 }

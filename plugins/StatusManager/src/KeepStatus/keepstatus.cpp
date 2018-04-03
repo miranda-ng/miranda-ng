@@ -726,27 +726,25 @@ static void CheckContinuouslyFunction(void *)
 	if (((!ping) && (!InternetGetConnectedState(nullptr, 0))) || ((ping) && (!bLastPingResult) && (pingFailures >= db_get_w(0, KSMODULENAME, SETTING_PINGCOUNT, DEFAULT_PINGCOUNT)))) {
 		pingFailures = 0;
 
-		int count;
-		PROTOACCOUNT** protos;
-		Proto_EnumAccounts(&count, &protos);
-
-		for (int i = 0; i < count; i++) {
-			if (!IsSuitableProto(protos[i]))
+		for (auto &pa : Accounts()) {
+			if (!IsSuitableProto(pa))
 				continue;
 
-			if (IsStatusConnecting(CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0))) {
-				log_debugA("CheckContinuouslyFunction: %s is connecting", protos[i]->szModuleName);
+			if (IsStatusConnecting(CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0))) {
+				log_debugA("CheckContinuouslyFunction: %s is connecting", pa->szModuleName);
 				continue; // connecting, leave alone
 			}
-			if (IsProtocolEnabledService(0, (LPARAM)protos[i]->szModuleName)) {
-				log_debugA("CheckContinuouslyFunction: forcing %s offline", protos[i]->szModuleName);
-				CallProtoService(protos[i]->szModuleName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
+			if (IsProtocolEnabledService(0, (LPARAM)pa->szModuleName)) {
+				log_debugA("CheckContinuouslyFunction: forcing %s offline", pa->szModuleName);
+				CallProtoService(pa->szModuleName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 			}
 		}
+
 		if (StartTimer(IDT_CHECKCONN | IDT_PROCESSACK, -1, FALSE)) {// are our 'set offlines' noticed?
 			log_debugA("CheckContinuouslyFunction: currently checking");
 			return;
 		}
+
 		log_infoA("KeepStatus: connection lost! (continuesly check)");
 		NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, 0);
 		ProcessPopup(KS_CONN_STATE_LOST, 0);

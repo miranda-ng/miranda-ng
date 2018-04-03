@@ -83,13 +83,9 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	int count;
-	PROTOACCOUNT** protos;
-	Proto_EnumAccounts(&count, &protos);
-
-	for (int i = 0; i < count; i++)
-		if (IsSuitableProto(protos[i]))
-			protoList.insert(new SMProto(protos[i]));
+	for (auto &pa : Accounts())
+		if (IsSuitableProto(pa))
+			protoList.insert(new SMProto(pa));
 
 	return 0;
 }

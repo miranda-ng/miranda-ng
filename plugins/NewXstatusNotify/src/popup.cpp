@@ -35,8 +35,7 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar
 			buf.AppendFormat(L" (%s)", tszGroup);
 	}
 	wcsncpy_s(ppd.lptzContactName, buf, _TRUNCATE);
-
-	wcsncpy(ppd.lptzText, stzText, _countof(ppd.lptzText));
+	wcsncpy_s(ppd.lptzText, stzText, _TRUNCATE);
 
 	switch (opt.Colors) {
 	case POPUP_COLOR_OWN:

@@ -836,10 +836,8 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 			AddProtoAsCategory(pd->szName, defaultFile);
 	}
 
-	PROTOACCOUNT **accList;
-	Proto_EnumAccounts(&protoCount, &accList);
-	for (int i = 0; i < protoCount; i++)
-		AddAccountAsCategory(accList[i], defaultFile);
+	for (auto &pa : Accounts())
+		AddAccountAsCategory(pa, defaultFile);
 
 	for (auto &hContact : Contacts())
 		AddContactTransportAsCategory(hContact, defaultFile);

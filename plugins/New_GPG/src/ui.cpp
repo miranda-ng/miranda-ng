@@ -200,31 +200,28 @@ void CDlgFirstRun::OnInitDialog()
 
 	refresh_key_list();
 
-	{
-		combo_ACCOUNT.AddString(TranslateT("Default"));
-		int count = 0;
-		PROTOACCOUNT **accounts;
-		Proto_EnumAccounts(&count, &accounts);
-		for (int n = 0; n < count; n++) {
-			if (StriStr(accounts[n]->szModuleName, "metacontacts"))
-				continue;
-			if (StriStr(accounts[n]->szModuleName, "weather"))
-				continue;
-			std::string acc = toUTF8(accounts[n]->tszAccountName);
-			acc += "(";
-			acc += accounts[n]->szModuleName;
-			acc += ")";
-			//acc += "_KeyID";
-			combo_ACCOUNT.AddStringA(acc.c_str());
-		}
-		combo_ACCOUNT.SelectString(TranslateT("Default"));
-		string keyinfo = Translate("key ID");
-		keyinfo += ": ";
-		char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-		keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
-		mir_free(keyid);
-		lbl_KEY_ID.SetTextA(keyinfo.c_str());
+	combo_ACCOUNT.AddString(TranslateT("Default"));
+
+	for (auto &pa : Accounts()) {
+		if (StriStr(pa->szModuleName, "metacontacts"))
+			continue;
+		if (StriStr(pa->szModuleName, "weather"))
+			continue;
+		std::string acc = toUTF8(pa->tszAccountName);
+		acc += "(";
+		acc += pa->szModuleName;
+		acc += ")";
+		//acc += "_KeyID";
+		combo_ACCOUNT.AddStringA(acc.c_str());
 	}
+	combo_ACCOUNT.SelectString(TranslateT("Default"));
+	string keyinfo = Translate("key ID");
+	keyinfo += ": ";
+	char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
+	keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
+	mir_free(keyid);
+	lbl_KEY_ID.SetTextA(keyinfo.c_str());
+
 	combo_ACCOUNT.OnChange = Callback(this, &CDlgFirstRun::onChange_ACCOUNT);
 	list_KEY_LIST.OnClick = Callback(this, &CDlgFirstRun::onChange_KEY_LIST);
 }
@@ -706,21 +703,18 @@ void CDlgFirstRun::refresh_key_list()
 				list_KEY_LIST.SetItemText(row, 1, (wchar_t*)tmp.c_str());
 
 				// get accounts
-				int count = 0;
-				PROTOACCOUNT **accounts;
-				Proto_EnumAccounts(&count, &accounts);
 				std::wstring accs;
-				for (int n = 0; n < count; n++) {
-					std::string setting = toUTF8(accounts[n]->tszAccountName);
+				for (auto &pa : Accounts()) {
+					std::string setting = toUTF8(pa->tszAccountName);
 					setting += "(";
-					setting += accounts[n]->szModuleName;
+					setting += pa->szModuleName;
 					setting += ")";
 					setting += "_KeyID";
 					wchar_t *str = UniGetContactSettingUtf(NULL, szGPGModuleName, setting.c_str(), L"");
 					if (key_id == str) {
 						if (!accs.empty())
 							accs += L",";
-						accs += accounts[n]->tszAccountName;
+						accs += pa->tszAccountName;
 					}
 					mir_free(str);
 				}

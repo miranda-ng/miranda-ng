@@ -213,19 +213,15 @@ static int InternalRemoveMyAvatar(char *protocol)
 		}
 	}
 	else {
-		PROTOACCOUNT **accs;
-		int i, count;
-
-		Proto_EnumAccounts(&count, &accs);
-		for (i = 0; i < count; i++) {
-			if (!ProtoServiceExists(accs[i]->szModuleName, PS_SETMYAVATAR))
+		for (auto &it : Accounts()) {
+			if (!ProtoServiceExists(it->szModuleName, PS_SETMYAVATAR))
 				continue;
 
-			if (!Proto_IsAvatarsEnabled(accs[i]->szModuleName))
+			if (!Proto_IsAvatarsEnabled(it->szModuleName))
 				continue;
 
 			// Found a protocol
-			int retTmp = SaveAvatar(accs[i]->szModuleName, nullptr);
+			int retTmp = SaveAvatar(it->szModuleName, nullptr);
 			if (retTmp != 0)
 				ret = retTmp;
 		}
@@ -510,17 +506,14 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 		}
 	}
 	else {
-		int count;
-		PROTOACCOUNT **accs;
-		Proto_EnumAccounts(&count, &accs);
-		for (int i = 0; i < count; i++) {
-			if (!ProtoServiceExists(accs[i]->szModuleName, PS_SETMYAVATAR))
+		for (auto &it : Accounts()) {
+			if (!ProtoServiceExists(it->szModuleName, PS_SETMYAVATAR))
 				continue;
 
-			if (!Proto_IsAvatarsEnabled(accs[i]->szModuleName))
+			if (!Proto_IsAvatarsEnabled(it->szModuleName))
 				continue;
 
-			int retTmp = SetProtoMyAvatar(accs[i]->szModuleName, hBmp, szFinalName, format, data.square, data.grow);
+			int retTmp = SetProtoMyAvatar(it->szModuleName, hBmp, szFinalName, format, data.square, data.grow);
 			if (retTmp != 0)
 				ret = retTmp;
 		}
@@ -610,18 +603,15 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		allAcceptXML = TRUE;
 		allAcceptSWF = TRUE;
 
-		int count;
-		PROTOACCOUNT **accs;
-		Proto_EnumAccounts(&count, &accs);
-		for (int i = 0; i < count; i++) {
-			if (!ProtoServiceExists(accs[i]->szModuleName, PS_SETMYAVATAR))
+		for (auto &it : Accounts()) {
+			if (!ProtoServiceExists(it->szModuleName, PS_SETMYAVATAR))
 				continue;
 
-			if (!Proto_IsAvatarsEnabled(accs[i]->szModuleName))
+			if (!Proto_IsAvatarsEnabled(it->szModuleName))
 				continue;
 
-			allAcceptXML = allAcceptXML && Proto_IsAvatarFormatSupported(accs[i]->szModuleName, PA_FORMAT_XML);
-			allAcceptSWF = allAcceptSWF && Proto_IsAvatarFormatSupported(accs[i]->szModuleName, PA_FORMAT_SWF);
+			allAcceptXML = allAcceptXML && Proto_IsAvatarFormatSupported(it->szModuleName, PA_FORMAT_XML);
+			allAcceptSWF = allAcceptSWF && Proto_IsAvatarFormatSupported(it->szModuleName, PA_FORMAT_SWF);
 		}
 
 		data.square = db_get_b(0, AVS_MODULE, "SetAllwaysMakeSquare", 0);

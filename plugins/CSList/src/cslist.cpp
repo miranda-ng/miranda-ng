@@ -93,13 +93,9 @@ static int OnInitOptions(WPARAM wparam, LPARAM)
 
 static int OnCreateMenuItems(WPARAM, LPARAM)
 {
-	int protoCount;
-	PROTOACCOUNT** pdesc;
-	Proto_EnumAccounts(&protoCount, &pdesc);
-
-	for (int i = 0; i < protoCount; i++)
-		if (ProtoServiceExists(pdesc[i]->szModuleName, PS_SETCUSTOMSTATUSEX))
-			addProtoStatusMenuItem(pdesc[i]->szModuleName);
+	for (auto &pa : Accounts())
+		if (ProtoServiceExists(pa->szModuleName, PS_SETCUSTOMSTATUSEX))
+			addProtoStatusMenuItem(pa->szModuleName);
 
 	return 0;
 }

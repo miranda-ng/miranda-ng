@@ -365,24 +365,21 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 		{
 			LV_ITEM item = { 0 };
 
-			int num_protocols;
-			PROTOACCOUNT **pppDesc;
-			Proto_EnumAccounts(&num_protocols, &pppDesc);
-			for (int i = 0; i < num_protocols; i++) {
-				if (!mir_strcmp(pppDesc[i]->szModuleName, META_PROTO))
+			for (auto &pa : Accounts()) {
+				if (!mir_strcmp(pa->szModuleName, META_PROTO))
 					continue;
-				if ((CallProtoService(pppDesc[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0)
+				if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0)
 					continue;
 
 				item.mask = LVIF_TEXT | LVIF_PARAM;
-				item.pszText = pppDesc[i]->tszAccountName;
-				item.lParam = (LPARAM)pppDesc[i]->szModuleName;
+				item.pszText = pa->tszAccountName;
+				item.lParam = (LPARAM)pa->szModuleName;
 				int ilvItem = ListView_InsertItem(lv, &item);
 
-				ListView_SetItemText(lv, ilvItem, 1, (wchar_t*)policy_to_string(db_get_dw(0, MODULENAME"_ProtoPol", pppDesc[i]->szModuleName, CONTACT_DEFAULT_POLICY)));
+				ListView_SetItemText(lv, ilvItem, 1, (wchar_t*)policy_to_string(db_get_dw(0, MODULENAME"_ProtoPol", pa->szModuleName, CONTACT_DEFAULT_POLICY)));
 
 				char fprint[45];
-				if (otrl_privkey_fingerprint(otr_user_state, fprint, pppDesc[i]->szModuleName, pppDesc[i]->szModuleName)) {
+				if (otrl_privkey_fingerprint(otr_user_state, fprint, pa->szModuleName, pa->szModuleName)) {
 					wchar_t *temp = mir_a2u(fprint);
 					ListView_SetItemText(lv, ilvItem, 2, temp);
 					mir_free(temp);

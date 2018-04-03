@@ -485,16 +485,12 @@ void MirandaUtils::translateOldDBNames() {
 		db_free(&opt2Dbv);
 	}
 
-	//account's settings		"ACCOUNTSTATE_"
-	int accountsTmpCount = 0;
-	PROTOACCOUNT **accountsTmp;
-	Proto_EnumAccounts(&accountsTmpCount, &accountsTmp);
-
-	for(int i=0; i<accountsTmpCount; i++) {
-		logger->log_p(L"TranslateOldDBNames: found ACCOUNT: [%s]  protocol: [%S]", accountsTmp[i]->tszAccountName, accountsTmp[i]->szProtoName);
+	// account's settings		"ACCOUNTSTATE_"
+	for (auto &pa : Accounts()) {
+		logger->log_p(L"TranslateOldDBNames: found ACCOUNT: [%s]  protocol: [%S]", pa->tszAccountName, pa->szProtoName);
 
 		std::string mirandaAccountDBKey("ACCOUNTSTATE_");
-		mirandaAccountDBKey += accountsTmp[i]->szModuleName;
+		mirandaAccountDBKey += pa->szModuleName;
 		int keyValue = db_get_b(0, OLD_PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 0);
 		if (keyValue != 0){
 			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), keyValue);

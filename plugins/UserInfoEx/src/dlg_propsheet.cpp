@@ -562,15 +562,12 @@ void DlgContactInfoInitTreeIcons()
 			psh._dwFlags |= PSF_PROTOPAGESONLY_INIT;
 			
 			// enumerate all protocols
-			PROTOACCOUNT **pd;
-			int ProtoCount = 0;
-			Proto_EnumAccounts(&ProtoCount, &pd);
-			for (int i = 0; i < ProtoCount; i++) {
+			for (auto &pa : Accounts()) {
 				// enumerate all contacts
 				for (psh._hContact = db_find_first(); psh._hContact != NULL; psh._hContact = db_find_next(psh._hContact)) {
 					// compare contact's protocol to the current one, to add
 					LPCSTR pszContactProto = Proto_GetBaseAccountName(psh._hContact);
-					if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pd[i]->szModuleName, pszContactProto)) {
+					if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pa->szModuleName, pszContactProto)) {
 						// call a notification for the contact to retrieve all protocol specific tree items
 						NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 						if (psh._pPages) {
@@ -630,12 +627,10 @@ void DlgContactInfoLoadModule()
 	// check whether changing my details via UserInfoEx is basically possible
 	myGlobals.CanChangeDetails = FALSE;
 
-	PROTOACCOUNT **pAcc;
-	int nAccCount;
-	Proto_EnumAccounts(&nAccCount, &pAcc);
-	for (int i = 0; (i < nAccCount) && !myGlobals.CanChangeDetails; i++)
-		if (IsProtoAccountEnabled(pAcc[i])) // update my contact information on icq server
-			myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pAcc[i]->szModuleName, PS_CHANGEINFOEX, NULL, NULL));
+	for (auto &pa : Accounts())
+		if (IsProtoAccountEnabled(pa)) // update my contact information on icq server
+			if (myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pa->szModuleName, PS_CHANGEINFOEX, NULL, NULL)))
+				break;
 }
 
 static void ResetUpdateInfo(LPPS pPs)

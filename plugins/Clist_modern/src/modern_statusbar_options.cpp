@@ -158,22 +158,18 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			// populate per-proto list box.
 			SendMessage(hwndComboBox, CB_RESETCONTENT, 0, 0);
 
-			int count;
-			PROTOACCOUNT **accs;
-			Proto_EnumAccounts(&count, &accs);
-
 			SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT("<<Global>>"));
 			SendMessage(hwndComboBox, CB_SETITEMDATA, 0, 0);
 
-			for (int i = 0; i < count; i++) {
-				if (accs[i]->bIsVirtual)
+			for (auto &pa : Accounts()) {
+				if (pa->bIsVirtual)
 					continue;
 
-				char *szName = accs[i]->szModuleName;
+				char *szName = pa->szModuleName;
 				dat = (StatusBarProtocolOptions *)mir_calloc(sizeof(StatusBarProtocolOptions));
 				dat->szName = szName;
 
-				DWORD dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
+				DWORD dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
 				SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)dat);
 
 				char buf[256];
@@ -205,8 +201,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				dat->PaddingRight = db_get_dw(0, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
 			}
 
-			if (count)
-				SendMessage(hwndComboBox, CB_SETCURSEL, 0, 0);
+			SendMessage(hwndComboBox, CB_SETCURSEL, 0, 0);
 		}
 
 		_GlobalOptions.AccountIsCustomized = TRUE;

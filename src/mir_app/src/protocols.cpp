@@ -124,7 +124,6 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 			PROTOACCOUNT *pa = Proto_GetAccount(pd->szName);
 			if (pa == nullptr) {
 				pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-				pa->cbSize = sizeof(PROTOACCOUNT);
 				pa->szModuleName = mir_strdup(pd->szName);
 				pa->szProtoName = mir_strdup(pd->szName);
 				pa->tszAccountName = mir_a2u(pd->szName);
@@ -322,6 +321,11 @@ MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs)
 {
 	if (nAccs) *nAccs = accounts.getCount();
 	if (pAccs) *pAccs = accounts.getArray();
+}
+
+MIR_APP_DLL(LIST<PROTOACCOUNT>&) Accounts(void)
+{
+	return accounts;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -633,31 +633,25 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 			ListView_SetExtendedListViewStyle(GetDlgItem(hDlg, IDC_PROTOS), LVS_EX_CHECKBOXES);
 
 			// enum protocols currently running						
-			int iProtoCount = 0;
-			PROTOACCOUNT **ppProtos = nullptr;
-			Proto_EnumAccounts(&iProtoCount, &ppProtos);
-
-			// and fill in the list
-			for (int i = 0; i < iProtoCount; i++) {
+			auto &accs = Accounts();
+			for (auto &pa : accs) {
 				LV_ITEM lvi;
 
 				lvi.mask = LVIF_TEXT;
 				lvi.iSubItem = 0;
-				lvi.iItem = i;
-				lvi.lParam = i;
+				lvi.iItem = lvi.lParam = accs.indexOf(&pa);
 
 				WCHAR wszProto[128];
-				long lLen = MultiByteToWideChar(CP_ACP, 0, ppProtos[i]->szModuleName,
-					(int)mir_strlen(ppProtos[i]->szModuleName), wszProto, _countof(wszProto));
+				long lLen = MultiByteToWideChar(CP_ACP, 0, pa->szModuleName, (int)mir_strlen(pa->szModuleName), wszProto, _countof(wszProto));
 				wszProto[lLen] = L'\0';
 
 				lvi.pszText = wszProto;
 
 				ListView_InsertItem(GetDlgItem(hDlg, IDC_PROTOS), &lvi);
 
-				BYTE bProtoState = db_get_b(NULL, MODULENAME, ppProtos[i]->szModuleName, ProtoUserBit | ProtoIntBit);
-				BOOL bProtoEnabled = (bProtoState & ProtoUserBit) != 0;
-				ListView_SetCheckState(GetDlgItem(hDlg, IDC_PROTOS), i, bProtoEnabled);
+				BYTE bProtoState = db_get_b(NULL, MODULENAME, pa->szModuleName, ProtoUserBit | ProtoIntBit);
+				BOOL bProtoEnabled = (bProtoState & ProtoUserBit) != 0; 
+				ListView_SetCheckState(GetDlgItem(hDlg, IDC_PROTOS), lvi.iItem, bProtoEnabled);
 			}
 		}
 		return TRUE;

@@ -725,7 +725,6 @@ public:
 		RemoveAll();
 		ContinueWithNext();
 	}
-
 };
 
 static CContactUpdater	*ContactUpdater = nullptr;
@@ -744,15 +743,11 @@ static CContactUpdater	*ContactUpdater = nullptr;
  **/
 static BOOL IsMirandaOnline()
 {
-	BOOL bIsOnline = FALSE;
-	PROTOACCOUNT **pAcc;
-	int nAccCount;
-	Proto_EnumAccounts(&nAccCount, &pAcc);
+	for (auto &pa : Accounts())
+		if (IsProtoAccountEnabled(pa) && IsProtoOnline(pa->szModuleName))
+			return true;
 
-	for (int i = 0; (i < nAccCount) && !bIsOnline; i++) 
-		bIsOnline |= (IsProtoAccountEnabled(pAcc[i]) && IsProtoOnline(pAcc[i]->szModuleName));
-
-	return bIsOnline;
+	return false;
 }
 
 /***********************************************************************************************************

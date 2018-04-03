@@ -470,12 +470,9 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 static int _GetNetVisibleProtoCount()
 {
-	int count, netProtoCount;
-	PROTOACCOUNT **accs;
-	Proto_EnumAccounts(&count, &accs);
-
-	for (int i = 0, netProtoCount = 0; i < count; i++)
-		if (accs[i]->IsVisible())
+	int netProtoCount = 0;
+	for (auto &pa : Accounts())
+		if (pa->IsVisible())
 			netProtoCount++;
 
 	return netProtoCount;
@@ -606,22 +603,19 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		// == Tray icon mode ==
 		// preparing account list.
 		{
-			int AccNum, i, siS, siV, item;
-			PROTOACCOUNT **acc;
-			Proto_EnumAccounts(&AccNum, &acc);
+			int siS = -1, siV = -1;
+			for (auto &pa : Accounts()) {
+				if (!pa->bIsVirtual && pa->bIsVisible && !pa->bDynDisabled && pa->bIsEnabled) {
+					int item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
+					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_SETITEMDATA, item, (LPARAM)pa);
 
-			for (siS = siV = -1, i = 0; i < AccNum; i++) {
-				if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && !acc[i]->bDynDisabled && acc[i]->bIsEnabled) {
-					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_ADDSTRING, 0, (LPARAM)acc[i]->tszAccountName);
-					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_SETITEMDATA, item, (LPARAM)acc[i]);
-
-					if (!mir_strcmp(acc[i]->szModuleName, db_get_sa(0, "CList", "tiAccS")))
+					if (!mir_strcmp(pa->szModuleName, db_get_sa(0, "CList", "tiAccS")))
 						siS = item;
 
-					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_ADDSTRING, 0, (LPARAM)acc[i]->tszAccountName);
-					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_SETITEMDATA, item, (LPARAM)acc[i]);
+					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
+					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_SETITEMDATA, item, (LPARAM)pa);
 
-					if (!mir_strcmp(acc[i]->szModuleName, db_get_sa(0, "CList", "tiAccV")))
+					if (!mir_strcmp(pa->szModuleName, db_get_sa(0, "CList", "tiAccV")))
 						siV = item;
 
 				}

@@ -107,15 +107,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 	InitOptions();
 
 	// Get number of protocols
-	int pcount = 0;
-	PROTOACCOUNT** pdesc;
-
-	Proto_EnumAccounts(&pcount, &pdesc);
-
-	opts.num_protos = pcount;
+	Proto_EnumAccounts(&opts.num_protos, nullptr);
 
 	// Add hotkey to multiple services
-
 	hasNewHotkeyModule = TRUE;
 
 	HOTKEYDESC hkd = {};

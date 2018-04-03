@@ -66,20 +66,15 @@ int Get2StateValue(wchar_t *state)
 
 int AccountName2Protocol(const wchar_t *accountName, OUT char *uniqueProtocolName, size_t length)
 {
-	int count;
-	PROTOACCOUNT **accounts = nullptr;
-	Proto_EnumAccounts(&count, &accounts);
-
 	strncpy_s(uniqueProtocolName, length, _T2A(accountName), _TRUNCATE);
 
-	for (int i = 0; i < count; i++) {
-		if (accounts[i]->bIsEnabled) {
-			if (_wcsicmp(accountName, accounts[i]->tszAccountName) == 0) {
-				strncpy_s(uniqueProtocolName, length, accounts[i]->szModuleName, _TRUNCATE);
+	for (auto &pa : Accounts())
+		if (pa->bIsEnabled) {
+			if (_wcsicmp(accountName, pa->tszAccountName) == 0) {
+				strncpy_s(uniqueProtocolName, length, pa->szModuleName, _TRUNCATE);
 				return 0;
 			}
 		}
-	}
 
 	return 1;
 }
@@ -203,20 +198,15 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 			PrettyStatusMode(status, pretty, _countof(pretty));
 
 			CMStringW perAccountStatus;
-
-			int count;
-			PROTOACCOUNT **accounts = nullptr;
-			Proto_EnumAccounts(&count, &accounts);
-
 			wchar_t pn[128];
 
-			for (int i = 0; i < count; i++) {
-				if (accounts[i]->bIsEnabled) {
-					status = CallProtoService(accounts[i]->szModuleName, PS_GETSTATUS, 0, 0);
+			for (auto &pa : Accounts()) {
+				if (pa->bIsEnabled) {
+					status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 					PrettyStatusMode(status, pn, _countof(pn));
 
 					perAccountStatus.AppendChar('\n');
-					perAccountStatus.Append(accounts[i]->tszAccountName);
+					perAccountStatus.Append(pa->tszAccountName);
 					perAccountStatus.Append(L": ");
 					perAccountStatus.Append(pn);
 				}
@@ -233,9 +223,8 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 			if (status) {
 				INT_PTR old = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 				wchar_t po[128];
-				if (ServiceExists(MS_KS_ANNOUNCESTATUSCHANGE)) {
+				if (ServiceExists(MS_KS_ANNOUNCESTATUSCHANGE))
 					announce_status_change(nullptr, status, nullptr);
-				}
 
 				PrettyStatusMode(old, po, _countof(po));
 				Clist_SetStatusMode(status);
@@ -300,19 +289,16 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 	case 3:
 		{
 			wchar_t *awayMsg = argv[2];
-			int count = 0;
-			PROTOACCOUNT **accounts = nullptr;
-			Proto_EnumAccounts(&count, &accounts);
 
 			CMStringW szReply;
-			for (int i = 0; i < count; i++) {
-				if (!accounts[i]->bIsEnabled)
+			for (auto &pa : Accounts()) {
+				if (!pa->bIsEnabled)
 					continue;
 
-				if (i != 0)
+				if (!szReply.IsEmpty())
 					szReply.AppendChar('\n');
 
-				char *protocol = accounts[i]->szModuleName;
+				char *protocol = pa->szModuleName;
 				if ((CallProtoService(protocol, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) != 0) { //if the protocol supports away messages
 					INT_PTR status = CallProtoService(protocol, PS_GETSTATUS, 0, 0);
 					INT_PTR res = CallProtoService(protocol, PS_SETAWAYMSG, status, (LPARAM)awayMsg);
@@ -320,11 +306,11 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 					wchar_t pn[128];
 					PrettyStatusMode(status, pn, _countof(pn));
 					if (res)
-						szReply.AppendFormat(TranslateT("Failed to set '%s' status message to '%s' (status is '%s')."), accounts[i]->tszAccountName, awayMsg, pn);
+						szReply.AppendFormat(TranslateT("Failed to set '%s' status message to '%s' (status is '%s')."), pa->tszAccountName, awayMsg, pn);
 					else
-						szReply.AppendFormat(TranslateT("Successfully set '%s' status message to '%s' (status is '%s')."), accounts[i]->tszAccountName, awayMsg, pn);
+						szReply.AppendFormat(TranslateT("Successfully set '%s' status message to '%s' (status is '%s')."), pa->tszAccountName, awayMsg, pn);
 				}
-				else szReply.AppendFormat(TranslateT("Account '%s' does not support away messages, skipping."), accounts[i]->tszAccountName);
+				else szReply.AppendFormat(TranslateT("Account '%s' does not support away messages, skipping."), pa->tszAccountName);
 			}
 			wcsncpy_s(reply->message, szReply, _TRUNCATE);
 			reply->code = MIMRES_SUCCESS;
@@ -1107,11 +1093,6 @@ void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply repl
 		char protocol[128];
 		AccountName2Protocol(account, protocol, _countof(protocol));
 
-		int count = 0;
-		PROTOACCOUNT **accounts = nullptr;
-		Proto_EnumAccounts(&count, &accounts);
-
-		int i;
 		int global = (mir_strcmp(protocol, "GLOBAL") == 0);
 
 		reply->message[0] = 0;
@@ -1124,15 +1105,14 @@ void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply repl
 
 		char *match;
 
-		for (i = 0; i < count; i++) {
-			if (accounts[i]->bIsEnabled) {
-				match = accounts[i]->szModuleName;
+		for (auto &pa : Accounts())
+			if (pa->bIsEnabled) {
+				match = pa->szModuleName;
 				if ((global) || (mir_strcmp(protocol, match) == 0)) {
 					HandleProtocolProxyCommand(command, argv, argc, reply, match, match);
 					found = 1;
 				}
 			}
-		}
 
 		if (!found) {
 			reply->code = MIMRES_FAILURE;

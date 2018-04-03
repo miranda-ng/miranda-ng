@@ -196,8 +196,7 @@ void SaveOptions()
 
 INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -224,9 +223,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		return TRUE;
 	case WM_COMMAND:
-	{
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_CONFIGUREAUTODISABLE:
 			CreateDialog(hInst, MAKEINTRESOURCE(IDD_AUTODISABLE), hwndDlg, DlgProcAutoDisableOpts);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -244,36 +241,35 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ShowLog(opt.LogFilePath);
 			break;
 		case IDC_BT_CHOOSELOGFILE:
-		{
-			wchar_t buff[MAX_PATH];
-			OPENFILENAME ofn = { 0 };
+			{
+				wchar_t buff[MAX_PATH];
+				OPENFILENAME ofn = { 0 };
 
-			GetDlgItemText(hwndDlg, IDC_LOGFILE, buff, _countof(buff));
+				GetDlgItemText(hwndDlg, IDC_LOGFILE, buff, _countof(buff));
 
-			ofn.lStructSize = sizeof(OPENFILENAME);
-			ofn.lpstrFile = buff;
-			ofn.nMaxFile = MAX_PATH;
-			ofn.hwndOwner = hwndDlg;
-			wchar_t filter[MAX_PATH];
-			mir_snwprintf(filter, L"%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c", TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
-			ofn.lpstrFilter = filter;
-			ofn.nFilterIndex = 2;
-			ofn.lpstrInitialDir = buff;
-			ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
-			ofn.lpstrDefExt = L"log";
-			if (GetSaveFileName(&ofn)) {
-				SetDlgItemText(hwndDlg, IDC_LOGFILE, buff);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				ofn.lStructSize = sizeof(OPENFILENAME);
+				ofn.lpstrFile = buff;
+				ofn.nMaxFile = MAX_PATH;
+				ofn.hwndOwner = hwndDlg;
+				wchar_t filter[MAX_PATH];
+				mir_snwprintf(filter, L"%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c", TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
+				ofn.lpstrFilter = filter;
+				ofn.nFilterIndex = 2;
+				ofn.lpstrInitialDir = buff;
+				ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
+				ofn.lpstrDefExt = L"log";
+				if (GetSaveFileName(&ofn)) {
+					SetDlgItemText(hwndDlg, IDC_LOGFILE, buff);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				}
+				break;
 			}
-			break;
-		}
 		default:
 			if (HIWORD(wParam) == BN_CLICKED || (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
-
 		break;
-	}
+
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			opt.AutoDisable = IsDlgButtonChecked(hwndDlg, IDC_AUTODISABLE);
@@ -303,10 +299,8 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 
 		CheckDlgButton(hwndDlg, IDC_USEOWNCOLORS, (opt.Colors == POPUP_COLOR_OWN) ? BST_CHECKED : BST_UNCHECKED);
@@ -344,83 +338,78 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_SETCURSEL, opt.RightClickAction, 0);
 
 		SendMessage(hwndDlg, WM_USER + 1, (WPARAM)opt.ShowStatus, 0);
-
 		return TRUE;
-	}
+
 	case WM_COMMAND:
-	{
-		WORD idCtrl = LOWORD(wParam);
-		if (HIWORD(wParam) == CPN_COLOURCHANGED) {
-			if (idCtrl >= IDC_CHK_OFFLINE) {
-				COLORREF colour = SendDlgItemMessage(hwndDlg, idCtrl, CPM_GETCOLOUR, 0, 0);
-				if ((idCtrl >= IDC_OFFLINE_TX) && (idCtrl <= IDC_ONTHEPHONE_TX)) //Text colour
-					StatusList[Index(idCtrl - 1000)].colorText = colour;
-				else //Background colour
-					StatusList[Index(idCtrl - 2000)].colorBack = colour;
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				return TRUE;
-			}
-		}
-
-		if (HIWORD(wParam) == BN_CLICKED) {
-			switch (idCtrl)
-			{
-			case IDC_USEOWNCOLORS:
-			case IDC_USEWINCOLORS:
-			case IDC_USEPOPUPCOLORS:
-				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
-					EnableWindow(GetDlgItem(hwndDlg, (i + 2000)), idCtrl == IDC_USEOWNCOLORS); //Background
-					EnableWindow(GetDlgItem(hwndDlg, (i + 1000)), idCtrl == IDC_USEOWNCOLORS); //Text
+		{
+			WORD idCtrl = LOWORD(wParam);
+			if (HIWORD(wParam) == CPN_COLOURCHANGED) {
+				if (idCtrl >= IDC_CHK_OFFLINE) {
+					COLORREF colour = SendDlgItemMessage(hwndDlg, idCtrl, CPM_GETCOLOUR, 0, 0);
+					if ((idCtrl >= IDC_OFFLINE_TX) && (idCtrl <= IDC_ONTHEPHONE_TX)) //Text colour
+						StatusList[Index(idCtrl - 1000)].colorText = colour;
+					else //Background colour
+						StatusList[Index(idCtrl - 2000)].colorBack = colour;
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					return TRUE;
 				}
-				break;
-			case IDC_SHOWSTATUS:
-				SendMessage(hwndDlg, WM_USER + 1, (WPARAM)IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUS), 0);
-				break;
-			case IDC_PREVIEW:
-			{
-				wchar_t str[MAX_SECONDLINE] = { 0 };
-				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
-					wcsncpy(str, L"", _countof(str));
+			}
 
-					if (opt.ShowStatus) {
-						if (opt.UseAlternativeText == 1)
-							wcsncpy(str, StatusList[Index(i)].lpzUStatusText, _countof(str));
-						else
-							wcsncpy(str, StatusList[Index(i)].lpzStandardText, _countof(str));
+			if (HIWORD(wParam) == BN_CLICKED) {
+				switch (idCtrl) {
+				case IDC_USEOWNCOLORS:
+				case IDC_USEWINCOLORS:
+				case IDC_USEPOPUPCOLORS:
+					for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
+						EnableWindow(GetDlgItem(hwndDlg, (i + 2000)), idCtrl == IDC_USEOWNCOLORS); //Background
+						EnableWindow(GetDlgItem(hwndDlg, (i + 1000)), idCtrl == IDC_USEOWNCOLORS); //Text
+					}
+					break;
 
-						if (opt.ShowPreviousStatus) {
-							wchar_t buff[MAX_STATUSTEXT];
-							mir_snwprintf(buff, TranslateW(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
-							mir_wstrcat(str, L" ");
-							mir_wstrcat(str, buff);
+				case IDC_SHOWSTATUS:
+					SendMessage(hwndDlg, WM_USER + 1, (WPARAM)IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUS), 0);
+					break;
+
+				case IDC_PREVIEW:
+					wchar_t str[MAX_SECONDLINE];
+					for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
+						str[0] = 0;
+
+						if (opt.ShowStatus) {
+							if (opt.UseAlternativeText == 1)
+								wcsncpy(str, StatusList[Index(i)].lpzUStatusText, _countof(str));
+							else
+								wcsncpy(str, StatusList[Index(i)].lpzStandardText, _countof(str));
+
+							if (opt.ShowPreviousStatus) {
+								wchar_t buff[MAX_STATUSTEXT];
+								mir_snwprintf(buff, TranslateW(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
+								mir_wstrcat(str, L" ");
+								mir_wstrcat(str, buff);
+							}
 						}
+
+						if (opt.ReadAwayMsg) {
+							if (str[0])
+								mir_wstrcat(str, L"\n");
+							mir_wstrcat(str, TranslateT("This is status message"));
+						}
+
+						ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, i), i, str);
 					}
 
-					if (opt.ReadAwayMsg) {
-						if (str[0])
-							mir_wstrcat(str, L"\n");
-						mir_wstrcat(str, TranslateT("This is status message"));
-					}
-
-					ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, i), i, str);
+					ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, TranslateT("This is extra status"));
+					ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, TranslateT("This is status message"));
+					return FALSE;
 				}
-				wcsncpy(str, TranslateT("This is extra status"), _countof(str));
-				ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
-				wcsncpy(str, TranslateT("This is status message"), _countof(str));
-				ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
+			}
 
-				return FALSE;
-			}
-			}
+			if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+
+			break;
 		}
-
-		if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-
-		break;
-	}
 	case WM_NOTIFY:
-	{
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			char str[8];
 			DWORD ctlColour = 0;
@@ -458,7 +447,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 		break;
-	}
+
 	case WM_USER + 1:
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWALTDESCS), wParam);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWPREVIOUSSTATUS), wParam);
@@ -528,7 +517,6 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 
 		SendDlgItemMessage(hwndDlg, IDC_ED_MSGLEN, EM_LIMITTEXT, 3, 0);
@@ -561,11 +549,9 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset all templates to default"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[0].hIcolib));
-
 		return TRUE;
-	}
+
 	case WM_COMMAND:
-	{
 		switch (HIWORD(wParam)) {
 		case BN_CLICKED:
 			switch (LOWORD(wParam)) {
@@ -609,9 +595,8 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 
 		return TRUE;
-	}
+
 	case WM_NOTIFY:
-	{
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			opt.PXOnConnect = IsDlgButtonChecked(hwndDlg, IDC_XONCONNECT);
 			opt.PXDisableForMusic = IsDlgButtonChecked(hwndDlg, IDC_CHK_DISABLEMUSIC);
@@ -636,7 +621,7 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 
 		return TRUE;
-	}
+
 	case WM_USER + 1:
 		SetDlgItemText(hwndDlg, IDC_ED_TCHANGE, DEFAULT_POPUP_CHANGED);
 		SetDlgItemText(hwndDlg, IDC_ED_TREMOVE, DEFAULT_POPUP_REMOVED);
@@ -668,7 +653,6 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 
 		SendDlgItemMessage(hwndDlg, IDC_ED_SMSGLEN, EM_LIMITTEXT, 3, 0);
@@ -693,69 +677,65 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[0].hIcolib));
 
 		// proto list
-		HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
-		SendMessage(hList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
-		LVCOLUMN lvCol = { 0 };
-		lvCol.mask = LVCF_WIDTH | LVCF_TEXT;
-		lvCol.pszText = TranslateT("Account");
-		lvCol.cx = 118;
-		ListView_InsertColumn(hList, 0, &lvCol);
-		// fill the list
-		LVITEM lvItem = { 0 };
-		lvItem.mask = LVIF_TEXT | LVIF_PARAM;
-		lvItem.iItem = 0;
-		lvItem.iSubItem = 0;
-
-		int count;
-		PROTOACCOUNT **protos;
-		Proto_EnumAccounts(&count, &protos);
-
-		for (int i = 0; i < count; i++) {
-			if (IsSuitableProto(protos[i])) {
-				UpdateListFlag = TRUE;
-				lvItem.pszText = protos[i]->tszAccountName;
-				lvItem.lParam = (LPARAM)protos[i]->szModuleName;
-				PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)mir_alloc(sizeof(PROTOTEMPLATE));
-				prototemplate->ProtoName = protos[i]->szModuleName;
-
-				DBVARIANT dbVar = { 0 };
-				char protoname[MAX_PATH] = { 0 };
-				mir_snprintf(protoname, "%s_TPopupSMsgChanged", protos[i]->szModuleName);
-				if (db_get_ws(NULL, MODULE, protoname, &dbVar))
-					wcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
-				else {
-					wcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateMsg));
-					db_free(&dbVar);
-				}
-
-				mir_snprintf(protoname, "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
-				if (db_get_ws(NULL, MODULE, protoname, &dbVar))
-					wcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
-				else {
-					wcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateRemoved));
-					db_free(&dbVar);
-				}
-
-				ListView_InsertItem(hList, &lvItem);
-				ProtoTemplates.insert(prototemplate, ProtoTemplates.getCount());
-
-				char dbSetting[128];
-				mir_snprintf(dbSetting, "%s_enabled", protos[i]->szModuleName);
-				ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULE, dbSetting, TRUE));
-				lvItem.iItem++;
-			}
-		}
-
-		if (lvItem.iItem)
 		{
-			ListView_SetItemState(hList, 0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-			PROTOTEMPLATE *prototemplate = ProtoTemplates[0];
-			SetDlgItemText(hwndDlg, IDC_ED_TNEWSMSG, prototemplate->ProtoTemplateMsg);
-			SetDlgItemText(hwndDlg, IDC_ED_TSMSGREMOVE, prototemplate->ProtoTemplateRemoved);
+			HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
+			SendMessage(hList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+			LVCOLUMN lvCol = { 0 };
+			lvCol.mask = LVCF_WIDTH | LVCF_TEXT;
+			lvCol.pszText = TranslateT("Account");
+			lvCol.cx = 118;
+			ListView_InsertColumn(hList, 0, &lvCol);
+			// fill the list
+			LVITEM lvItem = { 0 };
+			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
+			lvItem.iItem = 0;
+			lvItem.iSubItem = 0;
+
+			for (auto &pa : Accounts()) {
+				if (IsSuitableProto(pa)) {
+					UpdateListFlag = TRUE;
+					lvItem.pszText = pa->tszAccountName;
+					lvItem.lParam = (LPARAM)pa->szModuleName;
+					PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)mir_alloc(sizeof(PROTOTEMPLATE));
+					prototemplate->ProtoName = pa->szModuleName;
+
+					DBVARIANT dbVar = { 0 };
+					char protoname[MAX_PATH] = { 0 };
+					mir_snprintf(protoname, "%s_TPopupSMsgChanged", pa->szModuleName);
+					if (db_get_ws(NULL, MODULE, protoname, &dbVar))
+						wcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
+					else {
+						wcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateMsg));
+						db_free(&dbVar);
+					}
+
+					mir_snprintf(protoname, "%s_TPopupSMsgRemoved", pa->szModuleName);
+					if (db_get_ws(NULL, MODULE, protoname, &dbVar))
+						wcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
+					else {
+						wcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateRemoved));
+						db_free(&dbVar);
+					}
+
+					ListView_InsertItem(hList, &lvItem);
+					ProtoTemplates.insert(prototemplate, ProtoTemplates.getCount());
+
+					char dbSetting[128];
+					mir_snprintf(dbSetting, "%s_enabled", pa->szModuleName);
+					ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULE, dbSetting, TRUE));
+					lvItem.iItem++;
+				}
+			}
+
+			if (lvItem.iItem) {
+				ListView_SetItemState(hList, 0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+				PROTOTEMPLATE *prototemplate = ProtoTemplates[0];
+				SetDlgItemText(hwndDlg, IDC_ED_TNEWSMSG, prototemplate->ProtoTemplateMsg);
+				SetDlgItemText(hwndDlg, IDC_ED_TSMSGREMOVE, prototemplate->ProtoTemplateRemoved);
+			}
+			UpdateListFlag = FALSE;
 		}
-		UpdateListFlag = FALSE;
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_COMMAND:
 		switch (HIWORD(wParam)) {
@@ -799,10 +779,8 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if (((NMHDR *)lParam)->idFrom == IDC_PROTOCOLLIST) {
 			switch (((NMHDR *)lParam)->code) {
 			case LVN_ITEMCHANGED:
-			{
 				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-				if (nmlv->uNewState == 3 && !UpdateListFlag)
-				{
+				if (nmlv->uNewState == 3 && !UpdateListFlag) {
 					HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
 					PROTOTEMPLATE *prototemplate;
 					if (ListView_GetHotItem(hList) != ListView_GetSelectionMark(hList)) {
@@ -820,8 +798,6 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 				if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK && !UpdateListFlag)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}
-			break;
 			}
 		}
 
@@ -883,7 +859,6 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 
 		CheckDlgButton(hwndDlg, IDC_XLOGTOFILE, opt.XLogToFile ? BST_CHECKED : BST_UNCHECKED);
@@ -913,11 +888,9 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[0].hIcolib));
 
 		SendMessage(hwndDlg, WM_USER + 2, (WPARAM)opt.XLogToFile || opt.XLogToDB, 0);
-
 		return TRUE;
-	}
+
 	case WM_COMMAND:
-	{
 		switch (HIWORD(wParam)) {
 		case BN_CLICKED:
 			switch (LOWORD(wParam)) {
@@ -968,9 +941,8 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			break;
 		}
 		return TRUE;
-	}
+
 	case WM_NOTIFY:
-	{
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			opt.XLogToFile = IsDlgButtonChecked(hwndDlg, IDC_XLOGTOFILE);
 			opt.XLogToDB = IsDlgButtonChecked(hwndDlg, IDC_XLOGTODB);
@@ -996,7 +968,7 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SaveTemplates();
 		}
 		return TRUE;
-	}
+
 	case WM_USER + 1:
 		CheckDlgButton(hwndDlg, IDC_CHK_XSTATUSCHANGED, BST_CHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_XSTATUSREMOVED, BST_CHECKED);
@@ -1015,8 +987,8 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TMSGCHANGED), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TMSGREMOVED), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TXSTATUSOPENING), TRUE);
-
 		return TRUE;
+
 	case WM_USER + 2:
 		EnableWindow(GetDlgItem(hwndDlg, IDC_XLOGTODB_WINOPEN), IsDlgButtonChecked(hwndDlg, IDC_XLOGTODB));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_XLOGTODB_REMOVE), IsDlgButtonChecked(hwndDlg, IDC_XLOGTODB) && IsDlgButtonChecked(hwndDlg, IDC_XLOGTODB_WINOPEN));
@@ -1035,7 +1007,6 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BT_VARIABLES), wParam);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BT_RESET), wParam);
-
 		return TRUE;
 	}
 
@@ -1046,7 +1017,6 @@ INT_PTR CALLBACK DlgProcLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 
 		CheckDlgButton(hwndDlg, IDC_LOGTOFILE, opt.LogToFile ? BST_CHECKED : BST_UNCHECKED);
@@ -1077,11 +1047,9 @@ INT_PTR CALLBACK DlgProcLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		SendMessage(hwndDlg, WM_USER + 2, (WPARAM)opt.LogToFile || opt.LogToDB, 0);
 		SendMessage(hwndDlg, WM_USER + 3, (WPARAM)opt.SMsgLogToFile || opt.SMsgLogToDB, 0);
-
 		return TRUE;
-	}
+
 	case WM_COMMAND:
-	{
 		switch (HIWORD(wParam)) {
 		case BN_CLICKED:
 			switch (LOWORD(wParam)) {
@@ -1133,9 +1101,8 @@ INT_PTR CALLBACK DlgProcLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			break;
 		}
 		return TRUE;
-	}
+
 	case WM_NOTIFY:
-	{
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			opt.LogToFile = IsDlgButtonChecked(hwndDlg, IDC_LOGTOFILE);
 			opt.LogToDB = IsDlgButtonChecked(hwndDlg, IDC_LOGTODB);
@@ -1161,7 +1128,7 @@ INT_PTR CALLBACK DlgProcLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SaveTemplates();
 		}
 		return TRUE;
-	}
+
 	case WM_USER + 1:
 		CheckDlgButton(hwndDlg, IDC_LOG_SMSGCHANGED, BST_CHECKED);
 		CheckDlgButton(hwndDlg, IDC_LOG_SMSGREMOVED, BST_CHECKED);

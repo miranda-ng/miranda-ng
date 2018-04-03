@@ -25,19 +25,14 @@ ProtocolArray *protocols = nullptr;
 
 void InitProtocolData()
 {
-	PROTOACCOUNT **protos;
-	int count;
-	Proto_EnumAccounts(&count, &protos);
+	protocols = new ProtocolArray(10);
 
-	protocols = new ProtocolArray(count);
-
-	for (int i = 0; i < count; i++) {
-		PROTOACCOUNT *acc = protos[i];
-		if (acc->szModuleName == nullptr || acc->szModuleName[0] == '\0' || acc->bIsVirtual)
+	for (auto &pa : Accounts()) {
+		if (pa->szModuleName == nullptr || pa->szModuleName[0] == '\0' || pa->bIsVirtual)
 			continue;
 
 		// Found a protocol
-		Protocol *p = new Protocol(acc->szModuleName, acc->tszAccountName);
+		Protocol *p = new Protocol(pa->szModuleName, pa->tszAccountName);
 		if (p->IsValid())
 			protocols->Add(p);
 		else
@@ -144,21 +139,13 @@ int Protocol::GetStatus()
 void Protocol::SetStatus(int aStatus)
 {
 	if (ServiceExists(MS_CS_SETSTATUSEX)) {
-		// BEGIN From commomstatus.cpp (KeepStatus)
-		int i, count, pCount;
-		PROTOACCOUNT **accs;
-
-		pCount = 0;
-		Proto_EnumAccounts(&count, &accs);
-		for (i = 0; i < count; i++) {
-			if (CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
-				continue;
-			pCount++;
-		}
-		// END From commomstatus.cpp (KeepStatus)
-
+		int pCount = 0;
+		for (auto &pa : Accounts())
+			if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) != 0)
+				pCount++;
+	
 		PROTOCOLSETTINGEX **pse = (PROTOCOLSETTINGEX **)mir_calloc(pCount * sizeof(PROTOCOLSETTINGEX *));
-		for (i = 0; i < pCount; i++) {
+		for (int i = 0; i < pCount; i++) {
 			pse[i] = (PROTOCOLSETTINGEX *)mir_calloc(sizeof(PROTOCOLSETTINGEX));
 			pse[i]->m_szName = "";
 		}
@@ -172,7 +159,7 @@ void Protocol::SetStatus(int aStatus)
 
 		CallService(MS_CS_SETSTATUSEX, (WPARAM)&pse, 0);
 
-		for (i = 0; i < pCount; i++)
+		for (int i = 0; i < pCount; i++)
 			mir_free(pse[i]);
 		mir_free(pse);
 	}

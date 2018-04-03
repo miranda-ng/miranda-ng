@@ -49,7 +49,6 @@ static int EnumDbModules(const char *szModuleName, void*)
 	if (szProtoName) {
 		if (!Proto_GetAccount(szModuleName)) {
 			PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-			pa->cbSize = sizeof(*pa);
 			pa->szModuleName = mir_strdup(szModuleName);
 			pa->szProtoName = szProtoName.detach();
 			pa->tszAccountName = mir_a2u(szModuleName);
@@ -77,7 +76,6 @@ void LoadDbAccounts(void)
 		PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
 		if (pa == nullptr) {
 			pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-			pa->cbSize = sizeof(*pa);
 			pa->szModuleName = szModuleName;
 			accounts.insert(pa);
 		}

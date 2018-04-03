@@ -110,22 +110,17 @@ void CConfig::LoadSettings()
 		LoadFontSettings(i);
 
 	// Load protocol specific settings
-	int iCount;
 	int iProtoCount = 0;
-	PROTOACCOUNT **ppAccounts;
 	CProtoFilter *pProtoFilter;
 	tstring strSetting;
 
-	Proto_EnumAccounts(&iCount, &ppAccounts);
-	for (int i = 0; i < iCount; i++) {
-		/*if(ppProtocolDescriptor[i]->type != PROTOTYPE_PROTOCOL)
-			continue;*/
-		if (ppAccounts[i]->bIsEnabled == 0)
+	for (auto &pa : Accounts()) {
+		if (pa->bIsEnabled == 0)
 			continue;
 
 		iProtoCount++;
 		pProtoFilter = new CProtoFilter();
-		pProtoFilter->strName = toTstring(ppAccounts[i]->szModuleName);
+		pProtoFilter->strName = toTstring(pa->szModuleName);
 
 		strSetting = L"ProtoFilter_" + pProtoFilter->strName;
 		pProtoFilter->bNotificationFilter = db_get_dw(NULL, "MirandaG15", toNarrowString(strSetting).c_str(), 1) != 0;

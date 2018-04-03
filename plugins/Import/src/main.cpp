@@ -94,10 +94,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	if (!db_get_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 0)) {
 		// Only autorun import wizard if at least one protocol is installed
-		int nProtocols = 0;
-		PROTOACCOUNT **ppProtos = nullptr;
-		Proto_EnumAccounts(&nProtocols, &ppProtos);
-		if (nProtocols > 0) {
+		if (Accounts().getCount() > 0) {
 			CallService(IMPORT_SERVICE, 0, 0);
 			db_set_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
 		}

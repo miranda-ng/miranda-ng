@@ -151,25 +151,21 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 		if (it->m_szMsg != nullptr && GetActualStatus(it) != ID_STATUS_OFFLINE)
 			return 0;
 
-	int count;
-	PROTOACCOUNT **protos;
-	Proto_EnumAccounts(&count, &protos);
-
-	for (int i = 0; i < count; i++) {
-		if (!IsSuitableProto(protos[i]))
+	for (auto &pa : Accounts()) {
+		if (!IsSuitableProto(pa))
 			continue;
 
 		pstatus = 0;
 		for (j = 0; j < protoList.getCount(); j++)
-			if (!mir_strcmp(protos[i]->szModuleName, ps[j]->m_szName))
+			if (!mir_strcmp(pa->szModuleName, ps[j]->m_szName))
 				pstatus = GetActualStatus(ps[j]);
 
 		if (pstatus == 0)
-			pstatus = CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0);
+			pstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 
-		if (db_get_b(0, protos[i]->szModuleName, "LockMainStatus", 0)) {
+		if (db_get_b(0, pa->szModuleName, "LockMainStatus", 0)) {
 			// if proto is locked, pstatus must be the current status
-			if (pstatus != CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0))
+			if (pstatus != CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0))
 				return 0;
 		}
 		else {
@@ -295,12 +291,10 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 
 static INT_PTR GetProtocolCountService(WPARAM, LPARAM)
 {
-	int pCount = 0, count;
-	PROTOACCOUNT **accs;
-	Proto_EnumAccounts(&count, &accs);
+	int pCount = 0;
 
-	for (int i = 0; i < count; i++)
-		if (IsSuitableProto(accs[i]))
+	for (auto &pa : Accounts())
+		if (IsSuitableProto(pa))
 			pCount++;
 
 	return pCount;

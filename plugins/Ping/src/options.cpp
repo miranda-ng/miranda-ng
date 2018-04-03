@@ -191,15 +191,8 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)TranslateT("<none>"));
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)TranslateT("<all>"));
 
-		{
-			int num_protocols = 0;
-			PROTOACCOUNT **pppDesc;
-
-			Proto_EnumAccounts(&num_protocols, &pppDesc);
-			for (int i = 0; i < num_protocols; i++)
-				SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->tszAccountName);
-
-		}
+		for (auto &pa : Accounts())
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pa->tszAccountName);
 
 		if (add_edit_addr.pszProto[0] == '\0') {
 			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_SETCURSEL, 0, 0);

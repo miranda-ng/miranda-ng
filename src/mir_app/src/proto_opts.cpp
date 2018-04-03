@@ -62,7 +62,6 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const ch
 		return nullptr;
 
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-	pa->cbSize = sizeof(PROTOACCOUNT);
 	pa->bIsEnabled = pa->bIsVisible = true;
 	pa->iOrder = accounts.getCount();
 	pa->szProtoName = mir_strdup(pszBaseProto);

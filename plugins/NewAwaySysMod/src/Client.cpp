@@ -32,14 +32,9 @@ void __cdecl UpdateMsgsThreadProc(void *)
 {
 	Thread_SetName("NewAwaySysMod: UpdateMsgsThreadProc");
 
-	int numAccs;
-	PROTOACCOUNT **accs;
-	Proto_EnumAccounts(&numAccs, &accs);
-
 	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_IsTerminated()) {
 		DWORD MinUpdateTimeDifference = (DWORD)g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
-		for (int i = 0; i < numAccs; i++) {
-			PROTOACCOUNT *p = accs[i];
+		for (auto &p : Accounts()) {
 			if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND && !IsAnICQProto(p->szModuleName)) {
 				int Status = CallProtoService(p->szModuleName, PS_GETSTATUS, 0, 0);
 				if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_OUTTOLUNCH) {
@@ -92,17 +87,13 @@ void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 		g_ProtoStates[szProto].CurStatusMsg = CurMsg;
 	}
 	else { // change message of all protocols
-		int numAccs;
-		PROTOACCOUNT **accs;
-		Proto_EnumAccounts(&numAccs, &accs);
-		for (int i = 0; i < numAccs; i++) {
-			PROTOACCOUNT *p = accs[i];
-			if (!db_get_b(NULL, p->szModuleName, "LockMainStatus", 0)) {
+		for (auto &pa : Accounts()) {
+			if (!db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0)) {
 				if (Msg == nullptr)
-					CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, p->szModuleName);
+					CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, pa->szModuleName);
 
-				CallAllowedPS_SETAWAYMSG(p->szModuleName, iMode, CurMsg);
-				g_ProtoStates[p->szModuleName].CurStatusMsg = CurMsg;
+				CallAllowedPS_SETAWAYMSG(pa->szModuleName, iMode, CurMsg);
+				g_ProtoStates[pa->szModuleName].CurStatusMsg = CurMsg;
 			}
 		}
 	}

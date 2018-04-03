@@ -229,12 +229,9 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 		Flag3 = CallProtoService((char*)lParam, PS_GETCAPS, PFLAGNUM_3, 0);
 	}
 	else {
-		PROTOACCOUNT **accs;
-		int numAccs = 0;
-		Proto_EnumAccounts(&numAccs, &accs);
-		for (int i = 0; i < numAccs; i++) {
-			Flag1 |= CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-			Flag3 |= CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+		for (auto &pa : Accounts()) {
+			Flag1 |= CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			Flag3 |= CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 		}
 	}
 
@@ -585,14 +582,13 @@ int MirandaLoaded(WPARAM, LPARAM)
 	InitUpdateMsgs();
 	g_IconList.ReloadIcons();
 
-	int numAccs = 0;
-	PROTOACCOUNT **accs;
-	Proto_EnumAccounts(&numAccs, &accs);
-	for (int i = 0, CurProtoIndex = 0; i < numAccs && CurProtoIndex < MAXICQACCOUNTS; i++) {
-		HANDLE hHook = HookEvent(CString(accs[i]->szModuleName) + ME_ICQ_STATUSMSGREQ, StatusMsgReqHooks[CurProtoIndex]);
+	int CurProtoIndex = 0;
+	for (auto &pa : Accounts()) {
+		HANDLE hHook = HookEvent(CString(pa->szModuleName) + ME_ICQ_STATUSMSGREQ, StatusMsgReqHooks[CurProtoIndex]);
 		if (hHook) {
-			ICQProtoList[CurProtoIndex] = accs[i]->szModuleName;
-			CurProtoIndex++;
+			ICQProtoList[CurProtoIndex++] = pa->szModuleName;
+			if (CurProtoIndex >= MAXICQACCOUNTS)
+				break;
 		}
 	}
 	

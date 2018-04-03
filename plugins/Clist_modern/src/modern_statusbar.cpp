@@ -167,14 +167,12 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 	ProtosData.destroy();
 
-	int protoCount;
-	PROTOACCOUNT **accs;
-	Proto_EnumAccounts(&protoCount, &accs);
-	if (protoCount == 0)
+	auto &accs = Accounts();
+	if (accs.getCount() == 0)
 		return 0;
 
 	int iProtoInStatusMenu = 0;
-	for (int j = 0; j < protoCount; j++) {
+	for (int j = 0; j < accs.getCount(); j++) {
 		int i = pcli->pfnGetAccountIndexByPos(j);
 		if (i == -1)
 			continue;
@@ -266,7 +264,6 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		return 0;
 
 	// START MULTILINE HERE 
-	int orig_protoCount = protoCount;
 	int orig_visProtoCount = ProtosData.getCount();
 	int protosperline = 0;
 
@@ -274,9 +271,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		protosperline = g_StatusBarData.nProtosPerLine;
 	else if (orig_visProtoCount)
 		protosperline = orig_visProtoCount;
-	else if (protoCount) {
-		protosperline = protoCount;
-		orig_visProtoCount = protoCount;
+	else if (accs.getCount()) {
+		protosperline = accs.getCount();
+		orig_visProtoCount = accs.getCount();
 	}
 	else {
 		protosperline = 1;
@@ -287,7 +284,6 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	int linecount = protosperline ? (orig_visProtoCount + (protosperline - 1)) / protosperline : 1; // divide with rounding to up
 	for (int line = 0; line < linecount; line++) {
 		int rowheight = 2 + max(textSize.cy, iconHeight);
-		protoCount = min(protosperline, (orig_protoCount - line*protosperline));
 		int visProtoCount = min(protosperline, (orig_visProtoCount - line*protosperline));
 		GetClientRect(hWnd, &rc);
 

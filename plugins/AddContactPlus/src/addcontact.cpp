@@ -79,15 +79,13 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 
 bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 {
-	PROTOACCOUNT** pAccounts;
-	int iRealAccCount, iAccCount = 0;
+	int iAccCount = 0;
 
-	Proto_EnumAccounts(&iRealAccCount, &pAccounts);
-	for (int i = 0; i < iRealAccCount; i++) {
-		if (!pAccounts[i]->IsEnabled())
+	for (auto &pa : Accounts()) {
+		if (!pa->IsEnabled())
 			continue;
 		
-		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		DWORD dwCaps = (DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (dwCaps & PF1_BASICSEARCH || dwCaps & PF1_EXTSEARCH || dwCaps & PF1_SEARCHBYEMAIL || dwCaps & PF1_SEARCHBYNAME)
 			iAccCount++;
 	}
@@ -112,23 +110,26 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 	cbei.mask = CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_TEXT | CBEIF_LPARAM;
 	HDC hdc = GetDC(hdlg);
 	SelectObject(hdc, (HFONT)SendDlgItemMessage(hdlg, IDC_PROTO, WM_GETFONT, 0, 0));
-	for (int i = 0; i < iRealAccCount; i++) {
-		if (!pAccounts[i]->IsEnabled()) continue;
-		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+
+	for (auto &pa : Accounts()) {
+		if (!pa->IsEnabled())
+			continue;
+		
+		DWORD dwCaps = (DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (!(dwCaps & PF1_BASICSEARCH) && !(dwCaps & PF1_EXTSEARCH) && !(dwCaps & PF1_SEARCHBYEMAIL) && !(dwCaps & PF1_SEARCHBYNAME))
 			continue;
 
-		cbei.pszText = pAccounts[i]->tszAccountName;
+		cbei.pszText = pa->tszAccountName;
 		GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_wstrlen(cbei.pszText), &textSize);
 		if (textSize.cx > cbWidth)
 			cbWidth = textSize.cx;
 		
-		HICON hIcon = (HICON)CallProtoService(pAccounts[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+		HICON hIcon = (HICON)CallProtoService(pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 		cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon(hIml, hIcon);
 		DestroyIcon(hIcon);
-		cbei.lParam = (LPARAM)pAccounts[i]->szModuleName;
+		cbei.lParam = (LPARAM)pa->szModuleName;
 		SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
-		if (cbei.lParam && !mir_strcmp(acs->proto, pAccounts[i]->szModuleName))
+		if (cbei.lParam && !mir_strcmp(acs->proto, pa->szModuleName))
 			iIndex = cbei.iItem;
 		cbei.iItem++;
 	}

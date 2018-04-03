@@ -1134,17 +1134,13 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 			ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_TICK));
 			ListView_SetImageList(hMapUser, hIml, LVSIL_SMALL);
 
-			PROTOACCOUNT **proto;
-			int nCount;
-			Proto_EnumAccounts(&nCount, &proto);
-
 			LVITEMA sItem = { 0 };
 			sItem.mask = LVIF_TEXT | LVIF_IMAGE;
 			char szTemp[500];
 
-			for (int i = 0; i < nCount; i++) {
-				mir_snprintf(szTemp, "DisableProt_%s", proto[i]->szModuleName);
-				sItem.pszText = proto[i]->szModuleName;
+			for (auto &pa : Accounts()) {
+				mir_snprintf(szTemp, "DisableProt_%s", pa->szModuleName);
+				sItem.pszText = pa->szModuleName;
 				sItem.iImage = db_get_b(NULL, MODULE, szTemp, 1);
 				::SendMessage(hMapUser, LVM_INSERTITEMA, 0, (LPARAM)&sItem);
 				sItem.iItem++;

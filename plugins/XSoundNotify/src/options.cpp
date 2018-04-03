@@ -28,12 +28,10 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		int count;
-		PROTOACCOUNT **protos;
-		Proto_EnumAccounts(&count, &protos);
-		for (int i = 0; i < count; i++)
-			if (IsSuitableProto(protos[i]))
-				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_ADDSTRING, 0, (LPARAM)protos[i]->tszAccountName), (LPARAM)protos[i]);
+
+		for (auto &pa : Accounts())
+			if (IsSuitableProto(pa))
+				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName), (LPARAM)pa);
 		return TRUE;
 
 	case WM_COMMAND:

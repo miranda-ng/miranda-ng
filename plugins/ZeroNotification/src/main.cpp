@@ -113,17 +113,12 @@ static int SetNotify(const long status)
 //Called whenever a change in status is detected
 static int ProtoAck(WPARAM, LPARAM lParam)
 {
+	// quit if not status event
 	ACKDATA *ack = (ACKDATA*)lParam;
-	PROTOACCOUNT **protos;
-
-	//quit if not status event
 	if (ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
 		long status = 0;
-		int count;
-		Proto_EnumAccounts(&count, &protos);
-
-		for (int i = 0; i < count; i++)
-			status = status | Proto_Status2Flag(CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0));
+		for (auto &pa : Accounts())
+			status = status | Proto_Status2Flag(CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
 
 		SetNotify(status);
 	}

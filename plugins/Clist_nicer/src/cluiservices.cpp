@@ -57,10 +57,8 @@ void CluiProtocolStatusChanged(int, const char*)
 	if (pcli->hwndStatus == nullptr || cfg::shutDown)
 		return;
 
-	int protoCount;
-	PROTOACCOUNT **accs;
-	Proto_EnumAccounts(&protoCount, &accs);
-	if (protoCount == 0)
+	auto &accs = Accounts();
+	if (accs.getCount() == 0)
 		return;
 
 	FreeProtocolData();
@@ -70,7 +68,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	int borders[3];
 	SendMessage(pcli->hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 
-	int *partWidths = (int*)_alloca((protoCount + 1)*sizeof(int));
+	int *partWidths = (int*)_alloca((accs.getCount() + 1)*sizeof(int));
 
 	int partCount;
 	if (cfg::dat.bEqualSections) {
@@ -78,13 +76,14 @@ void CluiProtocolStatusChanged(int, const char*)
 		GetClientRect(pcli->hwndStatus, &rc);
 		rc.right -= borders[0] * 2;
 		int toshow = 0;
-		for (int i = 0; i < protoCount; i++)
-			if (accs[i]->IsVisible())
+		for (auto &pa : accs)
+			if (pa->IsVisible())
 				toshow++;
 
 		if (toshow > 0) {
-			for (int part = 0, i = 0; i < protoCount; i++) {
-				if (!accs[i]->IsVisible())
+			int part = 0;
+			for (auto &pa : accs) {
+				if (!pa->IsVisible())
 					continue;
 
 				partWidths[part] = ((rc.right - rc.left - rdelta) / toshow)*(part + 1) + cfg::dat.bCLeft;
@@ -106,7 +105,7 @@ void CluiProtocolStatusChanged(int, const char*)
 
 		// count down since built in ones tend to go at the end
 		partCount = 0;
-		for (int i = 0; i < protoCount; i++) {
+		for (int i = 0; i < accs.getCount(); i++) {
 			int idx = pcli->pfnGetAccountIndexByPos(i);
 			if (idx == -1)
 				continue;
@@ -151,7 +150,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	// count down since built in ones tend to go at the end
 	char *szMaxProto = nullptr;
 	partCount = 0;
-	for (int i = 0; i < protoCount; i++) {
+	for (int i = 0; i < accs.getCount(); i++) {
 		int idx = pcli->pfnGetAccountIndexByPos(i);
 		if (idx == -1)
 			continue;

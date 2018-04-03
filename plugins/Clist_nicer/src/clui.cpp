@@ -259,17 +259,14 @@ static void InitIcoLib()
 		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Overlay icons"), &icon, 1);
 	}
 
-	PROTOACCOUNT **accs = nullptr;
-	int p_count = 0;
-	Proto_EnumAccounts(&p_count, &accs);
-	for (int k = 0; k < p_count; k++) {
-		if (!accs[k]->IsEnabled() || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+	for (auto &pa : Accounts()) {
+		if (!pa->IsEnabled() || CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 			continue;
 
 		wchar_t szDescr[128];
-		mir_snwprintf(szDescr, TranslateT("%s connecting"), accs[k]->tszAccountName);
+		mir_snwprintf(szDescr, TranslateT("%s connecting"), pa->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Connecting icons"), &icon, 1, accs[k]->szModuleName);
+		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Connecting icons"), &icon, 1, pa->szModuleName);
 	}
 }
 

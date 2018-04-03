@@ -275,16 +275,13 @@ HICON CPsTreeItem::ProtoIcon()
 	if (!_pszName)
 		return nullptr;
 
-	PROTOACCOUNT **pa;
-	int ProtoCount;
-	Proto_EnumAccounts(&ProtoCount, &pa);
-	for (int i = 0; i < ProtoCount; i++) {
-		if (!mir_wstrncmpi(pa[i]->tszAccountName, _A2T(_pszName), mir_wstrlen(pa[i]->tszAccountName))) {
+	for (auto &pa : Accounts()) {
+		if (!mir_wstrncmpi(pa->tszAccountName, _A2T(_pszName), mir_wstrlen(pa->tszAccountName))) {
 			CHAR szIconID[MAX_PATH];
-			mir_snprintf(szIconID, "core_status_%s1", pa[i]->szModuleName);
+			mir_snprintf(szIconID, "core_status_%s1", pa->szModuleName);
 			HICON hIco = IcoLib_GetIcon(szIconID);
 			if (!hIco)
-				hIco = (HICON)CallProtoService(pa[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL, NULL);
+				hIco = (HICON)CallProtoService(pa->szModuleName, PS_LOADICON, PLI_PROTOCOL, NULL);
 
 			return hIco;
 		}

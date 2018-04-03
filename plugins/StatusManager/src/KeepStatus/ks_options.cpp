@@ -58,20 +58,16 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			lvItem.iItem = 0;
 			lvItem.iSubItem = 0;
 
-			int count;
-			PROTOACCOUNT** protos;
-			Proto_EnumAccounts(&count, &protos);
-
-			for (int i = 0; i < count; i++) {
-				if (!IsSuitableProto(protos[i]))
+			for (auto &pa : Accounts()) {
+				if (!IsSuitableProto(pa))
 					continue;
 
-				lvItem.pszText = protos[i]->tszAccountName;
-				lvItem.lParam = (LPARAM)protos[i]->szModuleName;
+				lvItem.pszText = pa->tszAccountName;
+				lvItem.lParam = (LPARAM)pa->szModuleName;
 				ListView_InsertItem(hList, &lvItem);
 
 				char dbSetting[128];
-				mir_snprintf(dbSetting, "%s_enabled", protos[i]->szModuleName);
+				mir_snprintf(dbSetting, "%s_enabled", pa->szModuleName);
 				ListView_SetCheckState(hList, lvItem.iItem, db_get_b(0, KSMODULENAME, dbSetting, TRUE));
 				lvItem.iItem++;
 			}

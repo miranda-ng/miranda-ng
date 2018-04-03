@@ -1053,13 +1053,9 @@ int CLUI_ReloadCLUIOptions()
 
 void CLUI_DisconnectAll()
 {
-	PROTOACCOUNT **accs;
-	int nProtoCount;
-	Proto_EnumAccounts(&nProtoCount, &accs);
-
-	for (int nProto = 0; nProto < nProtoCount; nProto++)
-		if (accs[nProto]->IsEnabled())
-			CallProtoService(accs[nProto]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
+	for (auto &pa : Accounts())
+		if (pa->IsEnabled())
+			CallProtoService(pa->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 }
 
 static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)

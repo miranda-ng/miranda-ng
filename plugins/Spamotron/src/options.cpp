@@ -91,8 +91,7 @@ extern HINSTANCE hInst;
 
 INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static int bInitializing = 0, i, j, numProtocols;
-	PROTOACCOUNT **pd;
+	static int bInitializing = 0, i, j;
 	wchar_t pName[256] = {0};
 	char protoOption[256] = {0};
 	HWND hProtocolsList = GetDlgItem(optDlg, IDC_OPT_PROTOCOLS);
@@ -125,18 +124,17 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 		lvc.cx = 120;
 		ListView_InsertColumn(hProtocolsList, 0, &lvc);
 		lvi.mask = LVIF_TEXT | LVIF_STATE;
-		Proto_EnumAccounts(&numProtocols, &pd);
-		for (i = 0, j = 0; i < numProtocols; i++)
-		{
+
+		for (auto &pa : Accounts()) {
 			lvi.iItem = i;
-			_getMOptS(pName, 200*sizeof(wchar_t), pd[i]->szModuleName, "AM_BaseProto", L"");
+			_getMOptS(pName, 200*sizeof(wchar_t), pa->szModuleName, "AM_BaseProto", L"");
 			if (mir_wstrcmp(pName, L"ICQ") != 0)
 				continue;
-			lvi.pszText = mir_a2u(pd[i]->szModuleName);
+			lvi.pszText = mir_a2u(pa->szModuleName);
 			ListView_InsertItem(hProtocolsList, &lvi);
 			memset(protoOption, 0, sizeof(protoOption));
 			mir_strcat(protoOption, "proto_");
-			mir_strcat(protoOption, pd[i]->szModuleName);
+			mir_strcat(protoOption, pa->szModuleName);
 			ListView_SetCheckState(hProtocolsList, j++, _getOptB(protoOption, 0));
 		}
 
@@ -196,7 +194,8 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 			_saveDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, "DontReplyMsgWordlist");
 			_saveDlgItemInt(optDlg, IDC_OPT_MAX_MSG_CONTACT, "MaxMsgContactCountPerDay");
 			_saveDlgItemInt(optDlg, IDC_OPT_MAX_SAME_MSG, "MaxSameMsgCountPerDay");
-			numProtocols = ListView_GetItemCount(hProtocolsList);
+			
+			int numProtocols = ListView_GetItemCount(hProtocolsList);
 			for (i = 0; i < numProtocols; i++) {
 				ListView_GetItemText(hProtocolsList, i, 0, buf, _countof(buf));
 				//wcstombs(protoName, buf, _countof(buf));

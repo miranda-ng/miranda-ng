@@ -595,26 +595,23 @@ int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, DWORD data)
 int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, options later
 {
 	void AddHandlers();
-	int count = 0;
-	PROTOACCOUNT **accounts;
-	Proto_EnumAccounts(&count, &accounts);
+	
 	list <JabberAccount*>::iterator p;
 	globals.Accounts.clear();
 	globals.Accounts.push_back(new JabberAccount);
 	p = globals.Accounts.begin();
 	(*p)->setAccountNumber(0);
-	for (int i = 0; i < count; i++) //get only jabber accounts from all accounts
-	{
-		IJabberInterface *JIftmp = getJabberApi(accounts[i]->szModuleName);
+	for (auto &pa : Accounts()) {
+		IJabberInterface *JIftmp = getJabberApi(pa->szModuleName);
 		int a = 0;
 		if (JIftmp) {
 			(*p)->setJabberInterface(JIftmp);
-			if (accounts[i]->tszAccountName) {
-				wchar_t* tmp = mir_wstrdup(accounts[i]->tszAccountName);
+			if (pa->tszAccountName) {
+				wchar_t* tmp = mir_wstrdup(pa->tszAccountName);
 				(*p)->setAccountName(tmp);
 			}
 			else {
-				wchar_t *tmp = mir_a2u(accounts[i]->szModuleName);
+				wchar_t *tmp = mir_a2u(pa->szModuleName);
 				(*p)->setAccountName(tmp);
 			}
 			(*p)->setAccountNumber(a);
@@ -1434,9 +1431,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 	if (!file.is_open())
 		return 1; //TODO: handle error
 
-	PROTOACCOUNT **accs;
-	int acc_count = 0, processed_keys = 0, processed_private_keys = 0;
-	Proto_EnumAccounts(&acc_count, &accs);
+	int processed_keys = 0, processed_private_keys = 0;
 
 	char line[256];
 	file.getline(line, 255);
@@ -1464,52 +1459,48 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 			p2++;
 			key.erase(p1, p2 - p1);
 			std::string acc;
-			for (int i = 0; i < acc_count; i++) {
+
+			for (auto &pa : Accounts()) {
 				if (acc.length())
 					break;
-				const char *uid = Proto_GetUniqueId(accs[i]->szModuleName);
+				const char *uid = Proto_GetUniqueId(pa->szModuleName);
 				DBVARIANT dbv = { 0 };
-				db_get(0, accs[i]->szModuleName, uid, &dbv);
+				db_get(0, pa->szModuleName, uid, &dbv);
 				std::string id;
 				switch (dbv.type) {
 				case DBVT_DELETED:
 					continue;
 					break;
+
 				case DBVT_BYTE:
-					{
-						char _id[64];
-						mir_snprintf(_id, "%d", dbv.bVal);
-						id += _id;
-						if (id == login)
-							acc = accs[i]->szModuleName;
-					}
+					char _id[64];
+					mir_snprintf(_id, "%d", dbv.bVal);
+					id += _id;
+					if (id == login)
+						acc = pa->szModuleName;
 					break;
+
 				case DBVT_WORD:
-					{
-						char _id[64];
-						mir_snprintf(_id, "%d", dbv.wVal);
-						id += _id;
-						if (id == login)
-							acc = accs[i]->szModuleName;
-					}
+					mir_snprintf(_id, "%d", dbv.wVal);
+					id += _id;
+					if (id == login)
+						acc = pa->szModuleName;
 					break;
+
 				case DBVT_DWORD:
-					{
-						char _id[64];
-						mir_snprintf(_id, "%d", dbv.dVal);
-						id += _id;
-						if (id == login)
-							acc = accs[i]->szModuleName;
-					}
+					mir_snprintf(_id, "%d", dbv.dVal);
+					id += _id;
+					if (id == login)
+						acc = pa->szModuleName;
 					break;
+
 				case DBVT_ASCIIZ:
-					{
-						id += dbv.pszVal;
-						db_free(&dbv);
-						if (id == login)
-							acc = accs[i]->szModuleName;
-					}
+					id += dbv.pszVal;
+					db_free(&dbv);
+					if (id == login)
+						acc = pa->szModuleName;
 					break;
+
 				case DBVT_UTF8:
 					{
 						char *tmp = mir_utf8decodeA(dbv.pszVal);
@@ -1518,19 +1509,22 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 						mir_free(tmp);
 						db_free(&dbv);
 						if (id == login)
-							acc = accs[i]->szModuleName;
+							acc = pa->szModuleName;
 					}
 					break;
+	
 				case DBVT_BLOB:
 					//TODO
 					db_free(&dbv);
 					break;
+				
 				case DBVT_WCHAR:
 					//TODO
 					db_free(&dbv);
 					break;
 				}
 			}
+			
 			if (acc.length()) {
 				const char *uid = Proto_GetUniqueId(acc.c_str());
 				for (auto &hContact : Contacts(acc.c_str())) {

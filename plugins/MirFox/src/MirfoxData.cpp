@@ -582,39 +582,27 @@ MirfoxData::initializeMirandaAccounts()
 	clearMirandaAccounts();
 
 	//get accounts from Miranda by CallService MS_PROTO_ENUMACCOUNTS
-	int accountsCount = 0;
-	PROTOACCOUNT **accounts;
-	Proto_EnumAccounts(&accountsCount, &accounts);
-
-	for(int i=0; i<accountsCount; i++) {
-
-		//checking account
-		if(accounts[i]->bIsEnabled == 0){
+	for (auto &pa : Accounts()) {
+		// checking account
+		if (pa->bIsEnabled == 0)
 			continue;
-		}
-		if(accounts[i]->bDynDisabled != 0){
+
+		if (pa->bDynDisabled != 0)
 			continue;
-		}
 
 		//add to list
-		MirandaAccount* mirandaAccountItemPtr = new MirandaAccount(
-			mirfoxAccountIdPool,
-			accounts[i]->szModuleName,
-			accounts[i]->tszAccountName,
-			accounts[i]->szProtoName,
-			accounts[i]->iOrder
-		  );
+		MirandaAccount* mirandaAccountItemPtr = new MirandaAccount(mirfoxAccountIdPool, pa->szModuleName, pa->tszAccountName, pa->szProtoName, pa->iOrder);
 
 		MFLogger* logger = MFLogger::getInstance();
-		logger->log_p(L"initializeMirandaAccounts: tszAccountName: [%s]   protocol: [%S]", accounts[i]->tszAccountName, accounts[i]->szProtoName );
+		logger->log_p(L"initializeMirandaAccounts: tszAccountName: [%s]   protocol: [%S]", pa->tszAccountName, pa->szProtoName);
 
 		mirfoxAccountIdPool++;
-		if (accounts[i]->iOrder > maxAccountIOrder) maxAccountIOrder = accounts[i]->iOrder;
+		if (pa->iOrder > maxAccountIOrder)
+			maxAccountIOrder = pa->iOrder;
 
 		mirandaAccountItemPtr->accountState = createOrGetAccountStateFromDB(mirandaAccountItemPtr);
 
 		addMirandaAccount(mirandaAccountItemPtr);
-
 	}
 
 	//TODO - sort by mirandaAccount.displayOrder

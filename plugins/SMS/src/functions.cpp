@@ -492,7 +492,6 @@ int RefreshAccountList(WPARAM, LPARAM)
 {
 	int dwAccCount = 0, dwSMSAccountsCount = 0;
 	PROTOACCOUNT **ppaAccounts;
-
 	Proto_EnumAccounts((int*)&dwAccCount, &ppaAccounts);
 
 	FreeAccountList();

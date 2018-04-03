@@ -305,12 +305,9 @@ void __cdecl CleanProtocolExclThread(void *param)
 void __cdecl CleanThread(void*)
 {
 	std::list<std::string> protocols;
-	int count = 0;
-	PROTOACCOUNT **accounts;
-	Proto_EnumAccounts(&count, &accounts);
-	for (int i = 0; i < count; i++)
-		if (!strstr(accounts[i]->szModuleName, "MetaContacts") && !strstr(accounts[i]->szModuleName, "Weather")) //not real protocols
-			protocols.push_back(accounts[i]->szModuleName);
+	for (auto &pa : Accounts())
+		if (!strstr(pa->szModuleName, "MetaContacts") && !strstr(pa->szModuleName, "Weather")) //not real protocols
+			protocols.push_back(pa->szModuleName);
 
 	std::list<std::string>::iterator end = protocols.end();
 	for (std::list<std::string>::iterator i = protocols.begin(); i != end; ++i) {

@@ -1916,17 +1916,13 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 
-			int count = 0;
-			PROTOACCOUNT **accs;
-			Proto_EnumAccounts(&count, &accs);
-
-			for (int i = 0; i < count; i++) {
-				if (CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) != 0) {
-					tvi.item.pszText = accs[i]->tszAccountName;
+			for (auto &pa : Accounts()) {
+				if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) != 0) {
+					tvi.item.pszText = pa->tszAccountName;
 					tvi.item.stateMask = TVIS_STATEIMAGEMASK;
-					tvi.item.state = INDEXTOSTATEIMAGEMASK(IsTrayProto(accs[i]->tszAccountName, false) ? 2 : 1);
+					tvi.item.state = INDEXTOSTATEIMAGEMASK(IsTrayProto(pa->tszAccountName, false) ? 2 : 1);
 					TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), &tvi);
-					tvi.item.state = INDEXTOSTATEIMAGEMASK(IsTrayProto(accs[i]->tszAccountName, true) ? 2 : 1);
+					tvi.item.state = INDEXTOSTATEIMAGEMASK(IsTrayProto(pa->tszAccountName, true) ? 2 : 1);
 					TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), &tvi);
 				}
 			}

@@ -41,15 +41,9 @@ HTREEITEM tree_insert_item(HWND hwndTree, wchar_t *pName, HTREEITEM htiParent, E
 
 void InitProtocolTree(HWND hwndTreeCtrl)
 {
-	int cAccounts = 0;
-	PROTOACCOUNT** ppAccount;
-
 	enum{OFFLINE_STATUS_INDEX = 5};
 
-	Proto_EnumAccounts(&cAccounts, &ppAccount);
-	for(int i = 0; i < cAccounts;++i)
-	{
-		PROTOACCOUNT* pAccount = ppAccount[i];
+	for (auto &pAccount : Accounts()) {
 		CTreeItemData* pItemData = new CTreeItemData;
 		pItemData->m_nType = CTreeItemData::Protocol;
 		pItemData->m_pszModule = pAccount->szModuleName;

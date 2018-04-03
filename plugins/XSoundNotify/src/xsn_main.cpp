@@ -66,17 +66,13 @@ static selfSounds[] =
 void InitSelfSounds()
 {
 	// initializing self sounds for protocols
-	int protoCount = 0;
-	PROTOACCOUNT** protos = nullptr;
-
-	Proto_EnumAccounts(&protoCount, &protos);
-	for (int i = 0; i < protoCount; i++) {
+	for (auto &pa : Accounts()) {
 		for (int j = 0; j < _countof(selfSounds); j++) {
 			char namebuf[128];
-			mir_snprintf(namebuf, "%s%s", protos[i]->szModuleName, selfSounds[j].szName);
+			mir_snprintf(namebuf, "%s%s", pa->szModuleName, selfSounds[j].szName);
 
 			wchar_t infobuf[256];
-			mir_snwprintf(infobuf, L"%s [%s]", TranslateT("Self status"), protos[i]->tszAccountName);
+			mir_snwprintf(infobuf, L"%s [%s]", TranslateT("Self status"), pa->tszAccountName);
 			Skin_AddSound(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
 		}
 	}

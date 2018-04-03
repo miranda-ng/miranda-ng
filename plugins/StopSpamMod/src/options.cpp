@@ -123,18 +123,16 @@ public:
 		btn_ADDALL.OnClick = Callback(this, &COptProtoDlg::onClick_ADDALL);
 		btn_REMOVEALL.OnClick = Callback(this, &COptProtoDlg::onClick_REMOVEALL);
 	}
+	
 	virtual void OnInitDialog() override
 	{
-		int nAccs;
-		PROTOACCOUNT **pppd;
-		Proto_EnumAccounts(&nAccs, &pppd);
-		for (int i = 0; i < nAccs; ++i)
-		{
-			wchar_t *str = mir_utf8decodeW(pppd[i]->szModuleName);
-			ProtoInList(pppd[i]->szModuleName) ? list_USEDPROTO.AddString(str) : list_ALLPROTO.AddString(str);
+		for (auto &pa : Accounts()) {
+			wchar_t *str = mir_utf8decodeW(pa->szModuleName);
+			ProtoInList(pa->szModuleName) ? list_USEDPROTO.AddString(str) : list_ALLPROTO.AddString(str);
 			mir_free(str);
 		}
 	}
+	
 	virtual void OnApply() override
 	{
 		

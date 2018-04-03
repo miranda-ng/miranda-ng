@@ -164,20 +164,14 @@ INT_PTR RemoveAllService(WPARAM, LPARAM)
 void SetProtocolsOffline()
 {
 	if ( GetSettingBool("GlobalSettings", "SetProtocolsOffline", TRUE) ) {
-		PROTOACCOUNT **accounts;
-		int count;
-		Proto_EnumAccounts(&count, &accounts);
-
-		for (int i = 0; i < count; i++) {
-			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
-				continue;*/
-			if (!accounts[i]->bIsEnabled)
+		for (auto &pa : Accounts()) {
+			if (!pa->bIsEnabled)
 				continue;
 
-			if (accounts[i]->szModuleName == nullptr || accounts[i]->szModuleName[0] == '\0')
+			if (pa->szModuleName == nullptr || pa->szModuleName[0] == '\0')
 				continue;
 
-			CallProtoService(accounts[i]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
+			CallProtoService(pa->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 		}
 
 		// Give some time to make it really offline
@@ -288,24 +282,18 @@ void RemoveSettings()
 
 	// Delete protocol settings
 	if ( GetSettingBool("GlobalSettings", "RemoveProtocolSettings", TRUE) ) {
-		PROTOACCOUNT **accounts;
-		int i,count;
-		Proto_EnumAccounts(&count, &accounts);
-
-		for (i = 0; i < count; i++) {
-			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
-				continue;*/
-			if (!accounts[i]->bIsEnabled)
+		for (auto &pa : Accounts()) {
+			if (!pa->bIsEnabled)
 				continue;
 
-			if (accounts[i]->szModuleName == nullptr || accounts[i]->szModuleName[0] == '\0')
+			if (pa->szModuleName == nullptr || pa->szModuleName[0] == '\0')
 				continue;
 
-			RemoveProtocolSettings(accounts[i]->szModuleName);
+			RemoveProtocolSettings(pa->szModuleName);
 		}
 
 		// Get disabled protocols
-		if ( GetSettings("DisabledProtocols", buffer, sizeof(buffer)) ) {
+		if (GetSettings("DisabledProtocols", buffer, sizeof(buffer))) {
 			char *name;
 			char *value;
 
@@ -397,20 +385,14 @@ void RemoveDirectories()
 
 	// Remove protocol folders
 	if (GetSettingBool("GlobalSettings", "RemoveProtocolFolders", TRUE)) {
-		PROTOACCOUNT **accounts;
-		int count;
-		Proto_EnumAccounts(&count, &accounts);
-
-		for (int i = 0; i < count; i++) {
-			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
-				continue;*/
-			if (!accounts[i]->bIsEnabled)
+		for (auto &pa : Accounts()) {
+			if (!pa->bIsEnabled)
 				continue;
 
-			if (accounts[i]->szModuleName == nullptr || accounts[i]->szModuleName[0] == '\0')
+			if (pa->szModuleName == nullptr || pa->szModuleName[0] == '\0')
 				continue;
 
-			mir_snprintf(dir, "%s%s", gMirandaDir, accounts[i]->szModuleName);
+			mir_snprintf(dir, "%s%s", gMirandaDir, pa->szModuleName);
 			DeleteFileOrFolder(dir);
 		}
 	}

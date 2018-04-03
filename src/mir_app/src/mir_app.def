@@ -534,3 +534,4 @@ Proto_SetUniqueId @549
 ?IsVisible@PROTOACCOUNT@@QBE_NXZ @554 NONAME
 ?SetUniqueId@CMPluginBase@@IAEXPBD@Z @555 NONAME
 Clist_GetProtocolVisibility @556
+?Accounts@@YGAAU?$LIST@UPROTOACCOUNT@@@@XZ @557 NONAME

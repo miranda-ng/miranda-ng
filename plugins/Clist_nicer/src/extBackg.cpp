@@ -277,20 +277,17 @@ void LoadExtBkSettingsFromDB()
 		arStatusItems.insert(p);
 	}
 
-	int protoCount;
-	PROTOACCOUNT **accs;
-	Proto_EnumAccounts(&protoCount, &accs);
-
-	for (int i = 0; i < protoCount; i++) {
+	auto &accs = Accounts();
+	for (auto &pa : accs) {
 		StatusItems_t *p = (StatusItems_t*)mir_alloc(sizeof(StatusItems_t));
 		*p = _StatusItems[0];
 		ID_EXTBK_LAST++;
 
-		mir_snprintf(p->szDBname, "EXBK_%s", accs[i]->szModuleName);
-		if (i == 0)
-			mir_snprintf(p->szName, "{-}%s", accs[i]->szModuleName);
+		mir_snprintf(p->szDBname, "EXBK_%s", pa->szModuleName);
+		if (accs.indexOf(&pa) == 0)
+			mir_snprintf(p->szName, "{-}%s", pa->szModuleName);
 		else
-			strncpy_s(p->szName, accs[i]->szModuleName, _TRUNCATE);
+			strncpy_s(p->szName, pa->szModuleName, _TRUNCATE);
 		p->statusID = ID_EXTBK_LAST;
 		arStatusItems.insert(p);
 	}

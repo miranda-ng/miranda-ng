@@ -72,14 +72,10 @@ HIMAGELIST LoadIcons()
 	for (auto &it : dbeIcons)
 		ImageList_AddIcon(hil, LoadSkinnedDBEIcon(it));
 
-	int protoCount = 0;
-	PROTOACCOUNT **protocols = nullptr;
-	Proto_EnumAccounts(&protoCount, &protocols);
-
-	for (int i = 0; i < protoCount; i++) {
-		if (!Proto_GetAccount(protocols[i]->szModuleName))
+	for (auto &pa : Accounts()) {
+		if (!Proto_GetAccount(pa->szModuleName))
 			ImageList_AddIcon(hil, LoadSkinnedDBEIcon(ICO_OFFLINE));
-		else if (hIcon = Skin_LoadProtoIcon(protocols[i]->szModuleName, ID_STATUS_ONLINE))
+		else if (hIcon = Skin_LoadProtoIcon(pa->szModuleName, ID_STATUS_ONLINE))
 			ImageList_AddIcon(hil, hIcon);
 		else
 			ImageList_AddIcon(hil, LoadSkinnedDBEIcon(ICO_ONLINE));
@@ -91,13 +87,10 @@ HIMAGELIST LoadIcons()
 int GetProtoIconIndex(const char *szProto)
 {
 	if (szProto && szProto[0]) {
-		int protoCount = 0;
-		PROTOACCOUNT **protocols = nullptr;
-		Proto_EnumAccounts(&protoCount, &protocols);
-
-		for (int i = 0; i < protoCount; i++)
-			if (!mir_strcmp(protocols[i]->szModuleName, szProto))
-				return i + _countof(dbeIcons);
+		auto &accs = Accounts();
+		for (auto &pa : accs)
+			if (!mir_strcmp(pa->szModuleName, szProto))
+				return accs.indexOf(&pa) + _countof(dbeIcons);
 
 		if (Proto_GetAccount(szProto))
 			return _countof(dbeIcons) - 2; // ICO_ONLINE;

@@ -257,13 +257,10 @@ public:
 				return ProtoStates[i];
 
 		// we need to be sure that we have _all_ protocols in the list, before dealing with global status, so we're adding them here.
-		if (!szProto) { 
-			int numAccs;
-			PROTOACCOUNT **accs;
-			Proto_EnumAccounts(&numAccs, &accs);
-			for (int i = 0; i < numAccs; i++)
-				(*this)[accs[i]->szModuleName]; // add a protocol if it isn't in the list yet
-		}
+		if (!szProto)
+			for (auto &pa : Accounts())
+				(*this)[pa->szModuleName]; // add a protocol if it isn't in the list yet
+
 		return ProtoStates[ProtoStates.AddElem(CProtoState(szProto, this))];
 	}
 

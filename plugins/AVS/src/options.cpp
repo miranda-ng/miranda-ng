@@ -1008,21 +1008,18 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 			item.iItem = 1000;
 
 			// List protocols
-			PROTOACCOUNT **accs;
-			int count, num = 0;
-
-			Proto_EnumAccounts(&count, &accs);
-			for (int i = 0; i < count; i++) {
-				if (!ProtoServiceExists(accs[i]->szModuleName, PS_GETMYAVATAR))
+			int num = 0;
+			for (auto &it : Accounts()) {
+				if (!ProtoServiceExists(it->szModuleName, PS_GETMYAVATAR))
 					continue;
 
-				if (!Proto_IsAvatarsEnabled(accs[i]->szModuleName))
+				if (!Proto_IsAvatarsEnabled(it->szModuleName))
 					continue;
 
-				ImageList_AddIcon(hIml, Skin_LoadProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE));
-				item.pszText = accs[i]->tszAccountName;
+				ImageList_AddIcon(hIml, Skin_LoadProtoIcon(it->szModuleName, ID_STATUS_ONLINE));
+				item.pszText = it->tszAccountName;
 				item.iImage = num;
-				item.lParam = (LPARAM)accs[i]->szModuleName;
+				item.lParam = (LPARAM)it->szModuleName;
 
 				ListView_InsertItem(hwndList, &item);
 				num++;
