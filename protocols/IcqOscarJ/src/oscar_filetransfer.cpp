@@ -1006,7 +1006,6 @@ void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const wchar_t 
 static void oft_buildProtoFileTransferStatus(oscar_filetransfer* ft, PROTOFILETRANSFERSTATUS* pfts)
 {
 	memset(pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-	pfts->cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 	pfts->hContact = ft->hContact;
 	pfts->flags = PFTS_UTF + ((ft->flags & OFTF_SENDING) ? PFTS_SENDING : PFTS_RECEIVING);
 	if (ft->flags & OFTF_SENDING)
@@ -1539,9 +1538,9 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, size_t len)
 	ft->qwBytesDone += dwLen;
 	ft->qwFileBytesDone += dwLen;
 
-	if (GetTickCount() > ft->dwLastNotify + 700 || ft->qwFileBytesDone == ft->qwThisFileSize) { // notify FT UI of our progress, at most every 700ms - do not be faster than Miranda
+	// notify FT UI of our progress, at most every 700ms - do not be faster than Miranda
+	if (GetTickCount() > ft->dwLastNotify + 700 || ft->qwFileBytesDone == ft->qwThisFileSize) {
 		PROTOFILETRANSFERSTATUS pfts;
-
 		oft_buildProtoFileTransferStatus(ft, &pfts);
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&pfts);
 		ft->dwLastNotify = GetTickCount();
@@ -1743,32 +1742,30 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 
 		ft->qwFileBytesDone = 0;
 
-		{
-			/* file resume */
-			PROTOFILETRANSFERSTATUS pfts;
-
-			oft_buildProtoFileTransferStatus(ft, &pfts);
-			if (ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&pfts)) {
-				oc->status = OCS_WAITING;
-				break; /* UI supports resume: it will call PS_FILERESUME */
-			}
-
-			ft->fileId = OpenFileUtf(ft->szThisFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
-#ifdef _DEBUG
-			NetLog_Direct("OFT: OpenFileUtf(%s, %u) returned %u", ft->szThisFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, ft->fileId);
-#endif
-			if (ft->fileId == -1) {
-#ifdef _DEBUG
-				NetLog_Direct("OFT: errno=%d", errno);
-#endif
-				icq_LogMessage(LOG_ERROR, LPGEN("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."));
-
-				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
-				// Release transfer
-				SafeReleaseFileTransfer((basic_filetransfer**)&oc->ft);
-				return;
-			}
+		/* file resume */
+		PROTOFILETRANSFERSTATUS pfts;
+		oft_buildProtoFileTransferStatus(ft, &pfts);
+		if (ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&pfts)) {
+			oc->status = OCS_WAITING;
+			break; /* UI supports resume: it will call PS_FILERESUME */
 		}
+
+		ft->fileId = OpenFileUtf(ft->szThisFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+#ifdef _DEBUG
+		NetLog_Direct("OFT: OpenFileUtf(%s, %u) returned %u", ft->szThisFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, ft->fileId);
+#endif
+		if (ft->fileId == -1) {
+#ifdef _DEBUG
+			NetLog_Direct("OFT: errno=%d", errno);
+#endif
+			icq_LogMessage(LOG_ERROR, LPGEN("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."));
+
+			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+			// Release transfer
+			SafeReleaseFileTransfer((basic_filetransfer**)&oc->ft);
+			return;
+		}
+
 		// Send "we are ready"
 		oc->status = OCS_DATA;
 		ft->flags |= OFTF_FILE_RECEIVING;

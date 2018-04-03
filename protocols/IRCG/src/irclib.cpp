@@ -724,7 +724,6 @@ CDccSession::CDccSession(CIrcProto* _pro, DCCINFO *pdci) :
 	di = pdci; // Setup values passed to the constructor
 
 	memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-	pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 
 	if (di->iType == DCC_SEND && di->bSender == false)
 		hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);

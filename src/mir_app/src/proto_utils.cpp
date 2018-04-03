@@ -56,7 +56,7 @@ MIR_APP_DLL(void) Proto_EnumProtocols(int *nProtos, PROTOCOLDESCRIPTOR ***pProto
 
 MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	ACKDATA ack = { sizeof(ACKDATA), szModule, hContact, type, result, hProcess, lParam };
+	ACKDATA ack = { szModule, hContact, type, result, hProcess, lParam };
 	return NotifyEventHooks(hAckEvent, 0, (LPARAM)&ack);
 }
 

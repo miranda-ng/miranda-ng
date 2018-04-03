@@ -306,7 +306,6 @@ void ICQTransfer::ack(unsigned int result)
 		return;
 
 	PROTOFILETRANSFERSTATUS fts;
-	fts.cbSize = sizeof(fts);
 	fts.flags = PFTS_UNICODE;
 	fts.hContact = hContact;
 	fts.pszFiles.w = files;

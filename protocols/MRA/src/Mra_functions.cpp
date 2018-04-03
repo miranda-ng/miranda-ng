@@ -885,7 +885,6 @@ static void FakeThread(void* param)
 DWORD CMraProto::ProtoBroadcastAckAsync(MCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)::mir_calloc(sizeof(ACKDATA));
-	ack->cbSize = sizeof(ACKDATA);
 	ack->szModule = m_szModuleName;
 	ack->hContact = hContact;
 	ack->type = type;

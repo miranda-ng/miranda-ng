@@ -1099,7 +1099,6 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 	ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)conn->m_cid, 0);
 
 	PROTOFILETRANSFERSTATUS fts;
-	fts.cbSize = sizeof(fts);
 	fts.flags = PFTS_UNICODE;
 	fts.hContact = conn->m_hContact;
 	fts.totalBytes = rcTotalSize;
@@ -1304,7 +1303,6 @@ void CMLan::OnOutTCPConnection(u_long, SOCKET out_socket, LPVOID lpParameter)
 	conn->m_szDir = mir_wstrdup(name);
 
 	PROTOFILETRANSFERSTATUS fts;
-	fts.cbSize = sizeof(fts);
 	fts.flags = PFTS_SENDING | PFTS_UNICODE;
 	fts.hContact = conn->m_hContact;
 	fts.totalBytes = size;

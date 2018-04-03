@@ -894,7 +894,6 @@ filetransfer::filetransfer(CMsnProto* prt)
 {
 	memset(this, 0, sizeof(filetransfer));
 	fileId = -1;
-	std.cbSize = sizeof(std);
 	std.flags = PFTS_UNICODE;
 	proto = prt;
 

@@ -465,7 +465,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			SendJob *job = sendQueue->getJobByIndex((int)wParam);
 
-			ACKDATA ack = { 0 };
+			ACKDATA ack = {};
 			ack.hContact = job->hContact;
 			ack.hProcess = (HANDLE)job->iSendId;
 			ack.type = ACKTYPE_MESSAGE;

@@ -28,7 +28,6 @@
 static void file_buildProtoFileTransferStatus(filetransfer* ft, PROTOFILETRANSFERSTATUS* pfts)
 {
 	memset(pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-	pfts->cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 	pfts->hContact = ft->hContact;
 	pfts->flags = PFTS_UTF | (ft->sending ? PFTS_SENDING : PFTS_RECEIVING); /* Standard FT is Ansi only */
 	if (ft->sending)
@@ -394,7 +393,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wL
 			}
 			else {
 				/* file resume */
-				PROTOFILETRANSFERSTATUS pfts = { 0 };
+				PROTOFILETRANSFERSTATUS pfts = {};
 
 				file_buildProtoFileTransferStatus(dc->ft, &pfts);
 				if (ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, dc->ft, (LPARAM)&pfts))

@@ -47,7 +47,6 @@ type
 type
   PACKDATA = ^TACKDATA;
   TACKDATA = record
-    cbSize  : int;
     szModule: PAnsiChar; // the name of the protocol module which initiated this ack
     hContact: TMCONTACT;
     _type   : int;       // an ACKTYPE_* constant
@@ -119,7 +118,6 @@ type
   // especially for Miranda 9.0+
   PPROTOFILETRANSFERSTATUS = ^TPROTOFILETRANSFERSTATUS;
   TPROTOFILETRANSFERSTATUS = record
-    cbSize             : size_t;
     hContact           : TMCONTACT;
     flags              : dword;     // one of PFTS_* constants
     files              : ^TCHAR;
@@ -241,7 +239,6 @@ type
   PPROTOACCOUNT = ^TPROTOACCOUNT;
   PPPROTOACCOUNT = ^PPROTOACCOUNT;
   TPROTOACCOUNT = record
-    cbSize          :int;              // sizeof this structure
     szModuleName    :PAnsiChar;        // unique physical account name (matches database module name)
     tszAccountName  :TChar;            // user-defined account name
     szProtoName     :PAnsiChar;        // physical protocol name

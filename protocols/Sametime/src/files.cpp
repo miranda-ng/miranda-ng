@@ -81,9 +81,7 @@ void __cdecl SendThread(LPVOID param) {
 
 	proto->debugLogW(L"SendThread() start");
 
-	PROTOFILETRANSFERSTATUS pfts = {0};
-
-	pfts.cbSize = sizeof(pfts);
+	PROTOFILETRANSFERSTATUS pfts = {};
 	pfts.flags = PFTS_UTF;
 	pfts.hContact = ftcd->hContact;
 	if (ftcd->sending == 1)
@@ -230,7 +228,6 @@ void mwFileTransfer_recv(mwFileTransfer* ft, struct mwOpaque* data)
 		mwFileTransfer_ack(ft); // acknowledge chunk
 
 		PROTOFILETRANSFERSTATUS pfts = { 0 };
-		pfts.cbSize = sizeof(pfts);
 		pfts.flags = PFTS_UTF;
 		pfts.hContact = ftcd->hContact;
 		if (ftcd->sending == 1) {

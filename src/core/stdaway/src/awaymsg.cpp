@@ -73,7 +73,6 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 		if (dat->hSeq == nullptr) {
 			ACKDATA ack = { 0 };
-			ack.cbSize = sizeof(ack);
 			ack.hContact = dat->hContact;
 			ack.type = ACKTYPE_AWAYMSG;
 			ack.result = ACKRESULT_SUCCESS;

@@ -32,7 +32,6 @@ public:
 		folderName = NULL;
 		relativePathStart = 0;
 
-		pfts.cbSize = sizeof(this->pfts);
 		pfts.flags = PFTS_UNICODE | PFTS_SENDING;
 		pfts.hContact = hContact;
 		pfts.currentFileNumber = -1;

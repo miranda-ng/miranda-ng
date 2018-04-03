@@ -541,27 +541,19 @@ class CContactUpdater : public CContactQueue
 	 **/
 	int __cdecl OnProtoAck(WPARAM, ACKDATA *ack)
 	{
-		if (ack && ack->cbSize == sizeof(ACKDATA) && ack->hContact == _hContact && ack->type == ACKTYPE_GETINFO)
-		{
-			if (ack->hProcess || ack->lParam) 
-			{
-				if (!_hContactAcks)
-				{
+		if (ack && ack->hContact == _hContact && ack->type == ACKTYPE_GETINFO) {
+			if (ack->hProcess || ack->lParam) {
+				if (!_hContactAcks) {
 					_nContactAcks = (INT_PTR)ack->hProcess;
 					_hContactAcks = (PBYTE)mir_calloc(sizeof(BYTE) * (INT_PTR)ack->hProcess);
 				}
+				
 				if (ack->result == ACKRESULT_SUCCESS || ack->result == ACKRESULT_FAILED)
-				{
 					_hContactAcks[ack->lParam] = 1;
-				}
 
 				for (int i = 0; i < _nContactAcks; i++)
-				{
 					if (_hContactAcks[i] == 0)
-					{
 						return 0;
-					}
-				}
 			}
 			// don't wait the full time, but continue immitiatly
 			ContinueWithNext();

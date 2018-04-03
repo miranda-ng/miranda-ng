@@ -451,7 +451,6 @@ filetransfer::filetransfer(CJabberProto *proto)
 	memset(this, 0, sizeof(filetransfer));
 	ppro = proto;
 	fileId = -1;
-	std.cbSize = sizeof(std);
 	std.flags = PFTS_UNICODE;
 }
 

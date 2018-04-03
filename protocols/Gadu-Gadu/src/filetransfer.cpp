@@ -279,7 +279,6 @@ void __cdecl GaduProto::dccmainthread(void*)
 						local_dcc->tick = tick;
 						mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc->file_info.filename);
 						memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-						pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 						pfts.hContact = (UINT_PTR)local_dcc->contact;
 						pfts.flags = (local_dcc->type == GG_SESSION_DCC_SEND);
 						pfts.pszFiles.a = nullptr;
@@ -309,7 +308,6 @@ void __cdecl GaduProto::dccmainthread(void*)
 						PROTOFILETRANSFERSTATUS pfts;
 						mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc->file_info.filename);
 						memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-						pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 						pfts.hContact = (UINT_PTR)local_dcc->contact;
 						pfts.flags = (local_dcc->type == GG_SESSION_DCC_SEND);
 						pfts.pszFiles.a = nullptr;
@@ -508,7 +506,6 @@ void __cdecl GaduProto::dccmainthread(void*)
 						local_dcc7->tick = tick;
 						mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc7->filename);
 						memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-						pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 						pfts.hContact = (UINT_PTR)local_dcc7->contact;
 						pfts.flags = (local_dcc7->type == GG_SESSION_DCC7_SEND);
 						pfts.pszFiles.a = nullptr;
@@ -538,7 +535,6 @@ void __cdecl GaduProto::dccmainthread(void*)
 						PROTOFILETRANSFERSTATUS pfts;
 						mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc7->filename);
 						memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-						pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 						pfts.hContact = (UINT_PTR)local_dcc7->contact;
 						pfts.flags = (local_dcc7->type == GG_SESSION_DCC7_SEND);
 						pfts.pszFiles.a = nullptr;

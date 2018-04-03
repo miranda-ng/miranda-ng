@@ -282,7 +282,7 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 		m_jobs[iEntry].iSendId = ProtoChainSend(dat->m_hContact, PSS_MESSAGE, m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
 
 		if (dat->m_sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
-			ACKDATA ack = { 0 };
+			ACKDATA ack = {};
 			ack.hContact = dat->m_hContact;
 			ack.hProcess = (HANDLE)m_jobs[iEntry].iSendId;
 			ack.type = ACKTYPE_MESSAGE;

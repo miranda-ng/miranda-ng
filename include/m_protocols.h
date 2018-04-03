@@ -34,12 +34,13 @@ struct PROTO_INTERFACE;
 #include <m_core.h>
 #include <m_system_cpp.h>
 
-typedef struct {
+struct CCSDATA
+{
 	MCONTACT hContact;
 	const char *szProtoService;   // a PS_ constant
 	WPARAM wParam;
 	LPARAM lParam;
-} CCSDATA;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // a general network 'ack'
@@ -85,7 +86,6 @@ typedef struct {
 
 struct ACKDATA
 {
-	int cbSize;
 	const char *szModule;  // the name of the protocol module which initiated this ack
 	MCONTACT hContact;
 	int type;     // an ACKTYPE_ constant
@@ -111,7 +111,6 @@ struct ACKDATA
 
 struct PROTOFILETRANSFERSTATUS
 {
-	size_t          cbSize;
 	MCONTACT        hContact;
 	DWORD           flags;      // one of PFTS_* constants
 	MAllStringArray pszFiles;

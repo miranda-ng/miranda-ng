@@ -722,13 +722,12 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 		size_t i, dwBuffSizeUsed;
 		LARGE_INTEGER liFileSize;
 		NETLIBSELECT nls = { 0 };
-		PROTOFILETRANSFERSTATUS pfts = { 0 };
+		PROTOFILETRANSFERSTATUS pfts = {};
 
 		mir_free(lpParameter);
 
 		bFailed = TRUE;
 		bConnected = FALSE;
-		pfts.cbSize = sizeof(pfts);
 		pfts.hContact = dat->hContact;
 		pfts.flags = (PFTS_RECEIVING | PFTS_UNICODE);//		pfts.sending = dat->bSending;	//true if sending, false if receiving
 		//pfts.files;
@@ -981,8 +980,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	size_t i, j, dwBuffSizeUsed = 0;
 	LPWSTR lpwszFileName;
 
-	PROTOFILETRANSFERSTATUS pfts = { 0 };
-	pfts.cbSize = sizeof(pfts);
+	PROTOFILETRANSFERSTATUS pfts = {};
 	pfts.hContact = dat->hContact;
 	pfts.flags = (PFTS_SENDING | PFTS_UNICODE);// pfts.sending = dat->bSending;	//true if sending, false if receiving
 	pfts.totalFiles = dat->dwFilesCount;

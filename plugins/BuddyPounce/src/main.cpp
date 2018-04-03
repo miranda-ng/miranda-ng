@@ -57,7 +57,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 { 
 	ACKDATA *ack=(ACKDATA*)lParam; 
 
-	if (ack && ack->cbSize == sizeof(ACKDATA) && ack->type == ACKTYPE_MESSAGE) {
+	if (ack && ack->type == ACKTYPE_MESSAGE) {
 		if (ack->hProcess == (HANDLE)WindowList_Find(hWindowList,ack->hContact)) { 
 			if (db_get_b(NULL, modname, "ShowDeliveryMessages", 1))
 				CreateMessageAcknowlegedWindow(ack->hContact,ack->result == ACKRESULT_SUCCESS);
