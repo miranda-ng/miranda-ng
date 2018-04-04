@@ -229,7 +229,7 @@ void PROTO_INTERFACE::WindowSubscribe(HWND hwnd)
 	if (m_hWindowList == nullptr)
 		m_hWindowList = WindowList_Create();
 
-	WindowList_Add(m_hWindowList, hwnd, 0);
+	WindowList_Add(m_hWindowList, hwnd);
 }
 
 void PROTO_INTERFACE::WindowUnsubscribe(HWND hwnd)

@@ -138,7 +138,7 @@ EXTERN_C MIR_CORE_DLL(void) WindowList_Destroy(MWindowList &hList);
 // adds a window to the specified window list
 // returns 0 on success, nonzero on failure
 
-EXTERN_C MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, MCONTACT hContact);
+EXTERN_C MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, UINT_PTR param = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // removes a window from the specified window list
@@ -147,10 +147,10 @@ EXTERN_C MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, MCONTACT
 EXTERN_C MIR_CORE_DLL(int) WindowList_Remove(MWindowList hList, HWND hwnd);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// finds a window given the hContact
+// finds a window by associated parameter's value
 // returns the window handle on success, or NULL on failure
 
-EXTERN_C MIR_CORE_DLL(HWND) WindowList_Find(MWindowList hList, MCONTACT hContact);
+EXTERN_C MIR_CORE_DLL(HWND) WindowList_Find(MWindowList hList, UINT_PTR param);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all windows in a list using SendMessage

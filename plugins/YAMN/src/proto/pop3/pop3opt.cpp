@@ -665,7 +665,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 			WindowList_Remove(pYAMNVar->MessageWnds, hDlg);
 			SendMessage(GetParent(hDlg), PSM_UNCHANGED, (WPARAM)hDlg, 0);
 		}
-		else WindowList_Add(pYAMNVar->MessageWnds, hDlg, NULL);
+		else WindowList_Add(pYAMNVar->MessageWnds, hDlg);
 		return TRUE;
 
 	case WM_YAMN_CHANGESTATUS:
@@ -1177,7 +1177,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			SendMessage(GetParent(hDlg), PSM_UNCHANGED, (WPARAM)hDlg, 0);
 		}
 		else {
-			WindowList_Add(pYAMNVar->MessageWnds, hDlg, NULL);
+			WindowList_Add(pYAMNVar->MessageWnds, hDlg);
 
 			int index = SendDlgItemMessage(hDlg, IDC_COMBOACCOUNT, CB_GETCURSEL, 0, 0);
 			HPOP3ACCOUNT temp = ActualAccount;

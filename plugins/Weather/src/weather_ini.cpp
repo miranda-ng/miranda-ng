@@ -165,7 +165,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		// set icons
 		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("main"));
 
-		WindowList_Add(hWindowList, hwndDlg, NULL);
+		WindowList_Add(hWindowList, hwndDlg);
 		ShowWindow(hwndDlg, SW_SHOW);
 		break;
 

@@ -87,7 +87,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 		{
 			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, false);
 			assert(hWL);
-			WindowList_Add(hWL, hDlg, NULL);
+			WindowList_Add(hWL, hDlg);
 
 			Window_SetIcon_IcoLib(hDlg, Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER));
 

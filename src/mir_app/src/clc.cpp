@@ -254,7 +254,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	switch (uMsg) {
 	case WM_CREATE:
-		WindowList_Add(hClcWindowList, hwnd, 0);
+		WindowList_Add(hClcWindowList, hwnd);
 		cli.pfnRegisterFileDropping(hwnd);
 		if (dat == nullptr) {
 			dat = new ClcData();

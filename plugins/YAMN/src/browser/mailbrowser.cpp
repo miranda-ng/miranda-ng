@@ -857,7 +857,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		}
 	case UM_INITPOPUP:
 		//This is the equivalent to WM_INITDIALOG you'd get if you were the maker of dialog popups.
-		WindowList_Add(YAMNVar.MessageWnds, hWnd, NULL);
+		WindowList_Add(YAMNVar.MessageWnds, hWnd);
 		break;
 	case UM_DESTROYPOPUP:
 		WindowList_Remove(YAMNVar.MessageWnds, hWnd);
@@ -949,7 +949,7 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		return FALSE;
 	case UM_INITPOPUP:
 		//This is the equivalent to WM_INITDIALOG you'd get if you were the maker of dialog popups.
-		WindowList_Add(YAMNVar.MessageWnds, hWnd, NULL);
+		WindowList_Add(YAMNVar.MessageWnds, hWnd);
 		break;
 	case UM_DESTROYPOPUP:
 		WindowList_Remove(YAMNVar.MessageWnds, hWnd);
@@ -1282,8 +1282,6 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			if (nullptr != iValueW)
 				delete[] iValueW;
 
-			//WindowList_Add(YAMNVar.MessageWnds,hDlg,NULL);
-			//WindowList_Add(YAMNVar.NewMailAccountWnd,hDlg,ActualAccount);
 			SendMessage(hDlg, WM_YAMN_CHANGECONTENT, 0, (LPARAM)MailParam);
 			MoveWindow(hDlg, HeadPosX, HeadPosY, HeadSizeX, HeadSizeY, 0);
 			ShowWindow(hDlg, SW_SHOWNORMAL);
@@ -1607,7 +1605,7 @@ void __cdecl ShowEmailThread(void *Param)
 	else {
 CREADTEVIEWMESSAGEWINDOW:
 		MyParam.mail->MsgWindow = CreateDialogParamW(YAMNVar.hInst, MAKEINTRESOURCEW(IDD_DLGSHOWMESSAGE), nullptr, DlgProcYAMNShowMessage, (LPARAM)&MyParam);
-		WindowList_Add(YAMNVar.MessageWnds, MyParam.mail->MsgWindow, NULL);
+		WindowList_Add(YAMNVar.MessageWnds, MyParam.mail->MsgWindow);
 		MSG msg;
 		while (GetMessage(&msg, nullptr, 0, 0)) {
 			if (MyParam.mail->MsgWindow == nullptr || !IsDialogMessage(MyParam.mail->MsgWindow, &msg)) { /* Wine fix. */
@@ -1673,7 +1671,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 
-			WindowList_Add(YAMNVar.MessageWnds, hDlg, NULL);
+			WindowList_Add(YAMNVar.MessageWnds, hDlg);
 			WindowList_Add(YAMNVar.NewMailAccountWnd, hDlg, (UINT_PTR)ActualAccount);
 
 			{

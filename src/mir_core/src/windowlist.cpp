@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct TWindowListItem
 {
-	TWindowListItem(MCONTACT _contact, HWND _wnd) :
-		hContact(_contact),
+	TWindowListItem(UINT_PTR _param, HWND _wnd) :
+		param(_param),
 		hWnd(_wnd)
 		{}
 
-	MCONTACT hContact;
+	UINT_PTR param;
 	HWND hWnd;
 };
 
@@ -53,12 +53,12 @@ MIR_CORE_DLL(void) WindowList_Destroy(MWindowList &hList)
 	hList = nullptr;
 }
 
-MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, MCONTACT hContact)
+MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, UINT_PTR param)
 {
 	if (hList == nullptr)
 		return 1;
 
-	hList->insert(new TWindowListItem(hContact, hwnd));
+	hList->insert(new TWindowListItem(param, hwnd));
 	return 0;
 }
 
@@ -75,12 +75,12 @@ MIR_CORE_DLL(int) WindowList_Remove(MWindowList hList, HWND hwnd)
 	return 1;
 }
 
-MIR_CORE_DLL(HWND) WindowList_Find(MWindowList hList, MCONTACT hContact)
+MIR_CORE_DLL(HWND) WindowList_Find(MWindowList hList, UINT_PTR param)
 {
 	if (hList == nullptr)
 		return nullptr;
 
-	TWindowListItem *p = hList->find((TWindowListItem*)&hContact);
+	TWindowListItem *p = hList->find((TWindowListItem*)&param);
 	return (p == nullptr) ? nullptr : p->hWnd;
 }
 

@@ -465,7 +465,7 @@ void MakeButtonSkinned(HWND hWnd)
 	p->nFontID = -1;
 	p->hThemeButton = xpt_AddThemeHandle(p->hwnd, L"BUTTON");
 	p->hThemeToolbar = xpt_AddThemeHandle(p->hwnd, L"TOOLBAR");
-	WindowList_Add(hButtonWindowList, hWnd, 0);
+	WindowList_Add(hButtonWindowList, hWnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
