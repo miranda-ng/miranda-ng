@@ -419,7 +419,7 @@ HRESULT CLUI::CreateCLC()
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)CLCPaint::PaintCallbackProc);
 	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrameContactTree), (LPARAM)Translate("My Contacts"));
 
-	pcli->pfnReloadExtraIcons();
+	ExtraIcon_Reload();
 
 	nLastRequiredHeight = 0;
 	if (g_CluiData.current_viewmode[0] == '\0') {
@@ -1209,8 +1209,8 @@ int CLUI_IconsChanged(WPARAM, LPARAM)
 		return 0;
 
 	DrawMenuBar(pcli->hwndContactList);
-	pcli->pfnReloadExtraIcons();
-	pcli->pfnSetAllExtraIcons(0);
+	ExtraIcon_Reload();
+	ExtraIcon_SetAll();
 	// need to update tray cause it use combined icons
 	pcli->pfnTrayIconIconsChanged();  // TODO: remove as soon as core will include icolib
 	ske_RedrawCompleteWindow();

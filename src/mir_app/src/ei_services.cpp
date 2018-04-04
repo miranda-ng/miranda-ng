@@ -275,7 +275,7 @@ MIR_APP_DLL(HANDLE) ExtraIcon_AddIcon(HICON hIcon)
 	return (res > 0xFFFE) ? INVALID_HANDLE_VALUE : (HANDLE)res;
 }
 
-void fnReloadExtraIcons()
+MIR_APP_DLL(void) ExtraIcon_Reload()
 {
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRASPACE, db_get_b(0, "CLUI", "ExtraColumnSpace", 18), 0);
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, 0);
@@ -291,7 +291,7 @@ void fnReloadExtraIcons()
 	bImageCreated = true;
 }
 
-void fnSetAllExtraIcons(MCONTACT hContact)
+MIR_APP_DLL(void) ExtraIcon_SetAll(MCONTACT hContact)
 {
 	if (cli.hwndContactTree == nullptr)
 		return;
@@ -299,7 +299,7 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 	bool hcontgiven = (hContact != 0);
 
 	if (!bImageCreated)
-		cli.pfnReloadExtraIcons();
+		ExtraIcon_Reload();
 
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
 

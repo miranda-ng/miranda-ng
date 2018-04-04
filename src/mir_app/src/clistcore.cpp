@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 #include "genmenu.h"
-#include "extraicons.h"
 
 int LoadContactListModule2(void);
 int LoadCLCModule(void);
@@ -175,9 +174,6 @@ void InitClistCore()
 	cli.pfnIconFromStatusMode = fnIconFromStatusMode;
 	cli.pfnShowHide = fnShowHide;
 	cli.pfnGetStatusModeDescription = fnGetStatusModeDescription;
-
-	cli.pfnReloadExtraIcons = fnReloadExtraIcons;
-	cli.pfnSetAllExtraIcons = fnSetAllExtraIcons;
 
 	cli.pfnTrayCalcChanged = fnTrayCalcChanged;
 	cli.pfnSetContactCheckboxes = fnSetContactCheckboxes;

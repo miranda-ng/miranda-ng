@@ -470,12 +470,6 @@ struct CLIST_INTERFACE
 	VOID     (CALLBACK *pfnTrayCycleTimerProc)(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 
 	/*************************************************************************************
-	 * version 7 additions (0.11.0.x) - extra images
-	 *************************************************************************************/
-	void     (*pfnReloadExtraIcons)(void);
-	void     (*pfnSetAllExtraIcons)(MCONTACT hContact);
-
-	/*************************************************************************************
 	 * Miranda NG additions
 	 *************************************************************************************/
 	int      (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);

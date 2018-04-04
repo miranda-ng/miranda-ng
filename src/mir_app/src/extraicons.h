@@ -197,9 +197,6 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage);
 
 void DefaultExtraIcons_Load();
 
-void fnReloadExtraIcons();
-void fnSetAllExtraIcons(MCONTACT hContact);
-
 static inline BOOL IsEmpty(const char *str)
 {
 	return str == nullptr || str[0] == 0;

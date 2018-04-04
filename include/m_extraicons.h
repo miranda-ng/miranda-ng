@@ -123,9 +123,19 @@ EXTERN_C MIR_APP_DLL(int) ExtraIcon_SetIconByName(HANDLE hExtraIcon, MCONTACT hC
 EXTERN_C MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Adding icon to extra image list.
+// Adds an icon to extra image list.
 // Used for EXTRAICON_TYPE_CALLBACK extra icons
 
 EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_AddIcon(HICON hIcon);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Reloads all extra icons from their sources
+
+EXTERN_C MIR_APP_DLL(void) ExtraIcon_Reload();
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Sets all extra icons for the specified contact or for all contacts by default
+
+EXTERN_C MIR_APP_DLL(void) ExtraIcon_SetAll(MCONTACT hContact = 0);
 
 #endif // __M_EXTRAICONS_H__

@@ -428,7 +428,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 	}
 
 	cli.pfnSortCLC(hwnd, dat, 0);
-	cli.pfnSetAllExtraIcons(0);
+	ExtraIcon_SetAll();
 }
 
 int fnGetGroupContentsCount(ClcGroup *group, int visibleOnly)

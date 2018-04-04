@@ -778,11 +778,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			case CLN_NEWCONTACT:
 				if (nmc != nullptr)
-					cli.pfnSetAllExtraIcons((UINT_PTR)nmc->hItem);
+					ExtraIcon_SetAll((UINT_PTR)nmc->hItem);
 				return TRUE;
 
 			case CLN_LISTREBUILT:
-				cli.pfnSetAllExtraIcons(0);
+				ExtraIcon_SetAll();
 				return FALSE;
 
 			case NM_KEYDOWN:

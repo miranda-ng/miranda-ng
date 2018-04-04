@@ -175,7 +175,7 @@ static HWND PreCreateCLC(HWND parent)
 // create internal frames, including the last frame (actual CLC control)
 static int CreateCLC()
 {
-	pcli->pfnReloadExtraIcons();
+	ExtraIcon_Reload();
 	pcli->pfnSetHideOffline(oldhideoffline);
 	disableautoupd = 0;
 	{
@@ -333,8 +333,8 @@ void ConfigureFrame()
 void IcoLibReloadIcons()
 {
 	CacheClientIcons();
-	pcli->pfnReloadExtraIcons();
-	pcli->pfnSetAllExtraIcons(NULL);
+	ExtraIcon_Reload();
+	ExtraIcon_SetAll();
 
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	SendMessage(g_hwndViewModeFrame, WM_USER + 100, 0, 0);
