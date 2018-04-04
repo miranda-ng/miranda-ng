@@ -398,7 +398,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr))
 			break;
 		if (lParam == 0)
-			pcli->pfnInitAutoRebuild(hwnd);
+			Clist_InitAutoRebuild(hwnd);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_NAMECHANGED:

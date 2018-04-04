@@ -197,7 +197,6 @@ void InitClistCore()
 	cli.pfnSetAllExtraIcons = fnSetAllExtraIcons;
 
 	cli.pfnGetContactIcon = fnGetContactIcon;
-	cli.pfnInitAutoRebuild = fnInitAutoRebuild;
 }
 
 MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)

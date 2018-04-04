@@ -253,6 +253,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam
 EXTERN_C MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
 
 EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CLIST_INTERFACE structure definition
@@ -485,7 +486,6 @@ struct CLIST_INTERFACE
 	 *************************************************************************************/
 	int      (*pfnGetContactIcon)(MCONTACT hContact);
 	int      (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
-	void     (*pfnInitAutoRebuild)(HWND hwnd);
 	void     (*pfnSetContactCheckboxes)(ClcContact *cc, int checked);
 };
 

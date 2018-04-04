@@ -1894,7 +1894,7 @@ LRESULT CLUI::OnCreateClc(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 	CreateCLC();
 	if (db_get_b(0, "CList", "ShowOnStart", SETTING_SHOWONSTART_DEFAULT))
 		cliShowHide(true);
-	pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
+	Clist_InitAutoRebuild(pcli->hwndContactTree);
 	return FALSE;
 }
 
@@ -2231,7 +2231,7 @@ LRESULT CLUI::OnSysCommand(UINT msg, WPARAM wParam, LPARAM lParam)
 LRESULT CLUI::OnKeyDown(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == VK_F5)
-		pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
+		Clist_InitAutoRebuild(pcli->hwndContactTree);
 	return DefCluiWndProc(msg, wParam, lParam);
 }
 

@@ -42,7 +42,6 @@ extern HIMAGELIST hCListImages;
 extern bool g_bReadyToInitClist;
 
 void fnClcOptionsChanged(void);
-void fnInitAutoRebuild(HWND hWnd);
 
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

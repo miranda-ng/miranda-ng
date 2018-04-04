@@ -1514,7 +1514,7 @@ buttons_done:
 				break;
 			case POPUP_SHOWMETAICONS:
 				cfg::dat.dwFlags ^= CLUI_USEMETAICONS;
-				pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
+				Clist_InitAutoRebuild(pcli->hwndContactTree);
 				break;
 			case POPUP_FRAME:
 				cfg::dat.dwFlags ^= CLUI_FRAME_CLISTSUNKEN;

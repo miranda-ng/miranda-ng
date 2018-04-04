@@ -74,7 +74,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 
 	if (bRebuild) {
 		SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, dwStyle);
-		cli.pfnInitAutoRebuild(cli.hwndContactTree);
+		Clist_InitAutoRebuild(cli.hwndContactTree);
 	}
 }
 

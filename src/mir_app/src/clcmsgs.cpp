@@ -382,17 +382,17 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
 		else
 			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-		cli.pfnInitAutoRebuild(hwnd);
+		Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case CLM_SETHIDEOFFLINEROOT:
 		db_set_b(0, "CLC", "HideOfflineRoot", (BYTE)wParam);
-		cli.pfnInitAutoRebuild(hwnd);
+		Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case CLM_SETINDENT:
 		dat->groupIndent = wParam;
-		cli.pfnInitAutoRebuild(hwnd);
+		Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case CLM_SETITEMTEXT:
@@ -410,7 +410,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 	case CLM_SETOFFLINEMODES:
 		dat->offlineModes = wParam;
-		cli.pfnInitAutoRebuild(hwnd);
+		Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case CLM_SETSCROLLTIME:
@@ -428,7 +428,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
 		else
 			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_USEGROUPS);
-		cli.pfnInitAutoRebuild(hwnd);
+		Clist_InitAutoRebuild(hwnd);
 		break;
 	}
 	return 0;

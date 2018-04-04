@@ -40,7 +40,7 @@ int g_IconWidth, g_IconHeight;
 
 void FreeDisplayNameCache(void);
 
-void fnInitAutoRebuild(HWND hWnd)
+MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd)
 {
 	if (!cli.bAutoRebuild && hWnd) {
 		cli.bAutoRebuild = true;
@@ -419,7 +419,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case INTM_NAMEORDERCHANGED:
-		cli.pfnInitAutoRebuild(hwnd);
+		Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case INTM_CONTACTADDED:

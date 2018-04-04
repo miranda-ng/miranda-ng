@@ -68,7 +68,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) &~CLS_HIDEEMPTYGROUPS);
 			BOOL newval = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
 			if (newval != old)
-				pcli->pfnInitAutoRebuild(hwnd);
+				Clist_InitAutoRebuild(hwnd);
 		}
 		return 0;
 

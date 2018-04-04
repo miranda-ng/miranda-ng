@@ -535,3 +535,4 @@ Proto_SetUniqueId @549
 ?SetUniqueId@CMPluginBase@@IEAAXPEBD@Z @555 NONAME
 Clist_GetProtocolVisibility @556
 ?Accounts@@YAAEAU?$LIST@UPROTOACCOUNT@@@@XZ @557 NONAME
+Clist_InitAutoRebuild @558

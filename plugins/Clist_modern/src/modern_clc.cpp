@@ -1310,7 +1310,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 		SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 		dat->bNeedsResort = true;
 	}
-	pcli->pfnInitAutoRebuild(hwnd);
+	Clist_InitAutoRebuild(hwnd);
 	return 0;
 }
 

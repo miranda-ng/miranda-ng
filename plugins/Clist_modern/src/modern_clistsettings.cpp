@@ -141,7 +141,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		else if (!strcmp(cws->szModule, META_PROTO) && !memcmp(cws->szSetting, "Status", 6)) { // Status0..N for metacontacts
 			if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
-				pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
+				Clist_InitAutoRebuild(pcli->hwndContactTree);
 
 			if ((db_get_w(0, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
@@ -152,7 +152,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			pdnce->IdleTS = cws->value.dVal;
 		else if (!strcmp(cws->szSetting, "IsSubcontact")) {
 			pdnce->m_bIsSub = (cws->value.type == DBVT_DELETED) ? false : cws->value.bVal != 0;
-			pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
+			Clist_InitAutoRebuild(pcli->hwndContactTree);
 		}
 	}
 
