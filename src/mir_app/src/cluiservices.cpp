@@ -83,7 +83,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 
 void fnCluiProtocolStatusChanged(int, const char*)
 {
-	if (cli.menuProtoCount == 0) {
+	if (g_menuProtos.getCount() == 0) {
 		SendMessage(cli.hwndStatus, SB_SETPARTS, 0, 0);
 		SendMessage(cli.hwndStatus, SB_SETTEXT, SBT_OWNERDRAW, 0);
 		return;
@@ -92,13 +92,13 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	int borders[3];
 	SendMessage(cli.hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 
-	int *partWidths = (int*)alloca(cli.menuProtoCount * sizeof(int));
+	int *partWidths = (int*)alloca(g_menuProtos.getCount() * sizeof(int));
 	if (db_get_b(0, "CLUI", "EqualSections", 0)) {
 		RECT rc;
 		GetClientRect(cli.hwndStatus, &rc);
 		rc.right -= borders[0] * 2 + (db_get_b(0, "CLUI", "ShowGrip", 1) ? GetSystemMetrics(SM_CXVSCROLL) : 0);
-		for (int i = 0; i < cli.menuProtoCount; i++)
-			partWidths[i] = (i + 1) * rc.right / cli.menuProtoCount - (borders[2] >> 1);
+		for (int i = 0; i < g_menuProtos.getCount(); i++)
+			partWidths[i] = (i + 1) * rc.right / g_menuProtos.getCount() - (borders[2] >> 1);
 	}
 	else {
 		SIZE textSize;
@@ -106,13 +106,13 @@ void fnCluiProtocolStatusChanged(int, const char*)
 
 		HDC hdc = GetDC(nullptr);
 		HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendMessage(cli.hwndStatus, WM_GETFONT, 0, 0));
-		for (int i = 0; i < cli.menuProtoCount; i++) {  //count down since built in ones tend to go at the end
+		for (int i = 0; i < g_menuProtos.getCount(); i++) {  //count down since built in ones tend to go at the end
 			int x = 2;
 			if (showOpts & 1)
 				x += g_IconWidth;
 			if (showOpts & 2) {
 				wchar_t tszName[64];
-				PROTOACCOUNT *pa = Proto_GetAccount(cli.menuProtos[i].szProto);
+				PROTOACCOUNT *pa = Proto_GetAccount(g_menuProtos[i].szProto);
 				if (pa)
 					mir_snwprintf(tszName, L"%s ", pa->tszAccountName);
 				else
@@ -125,7 +125,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
-				wchar_t* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(0, cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
+				wchar_t* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(0, g_menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
 				GetTextExtentPoint32(hdc, modeDescr, (int)mir_wstrlen(modeDescr), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
@@ -136,14 +136,14 @@ void fnCluiProtocolStatusChanged(int, const char*)
 		ReleaseDC(nullptr, hdc);
 	}
 
-	partWidths[cli.menuProtoCount - 1] = -1;
+	partWidths[g_menuProtos.getCount()-1] = -1;
 	SendMessage(cli.hwndStatus, SB_SETMINHEIGHT, g_IconHeight, 0);
-	SendMessage(cli.hwndStatus, SB_SETPARTS, cli.menuProtoCount, (LPARAM)partWidths);
+	SendMessage(cli.hwndStatus, SB_SETPARTS, g_menuProtos.getCount(), (LPARAM)partWidths);
 	
 	int flags = SBT_OWNERDRAW;
 	if (db_get_b(0, "CLUI", "SBarBevel", 1) == 0)
 		flags |= SBT_NOBORDERS;
 	
-	for (int i = 0; i < cli.menuProtoCount; i++)
-		SendMessage(cli.hwndStatus, SB_SETTEXT, i | flags, (LPARAM)cli.menuProtos[i].szProto);
+	for (int i = 0; i < g_menuProtos.getCount(); i++)
+		SendMessage(cli.hwndStatus, SB_SETTEXT, i | flags, (LPARAM)g_menuProtos[i].szProto);
 }

@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadContactListModule2(void);
 int LoadCLCModule(void);
 
-CLIST_INTERFACE cli = { 0 };
+CLIST_INTERFACE cli;
 
 static wchar_t szTip[MAX_TIP_SIZE+1];
 
@@ -60,6 +60,7 @@ void InitClistCore()
 {
 	cli.version = 6;
 	cli.bDisplayLocked = true;
+	cli.menuProtos = &g_menuProtos;
 
 	cli.pfnClcOptionsChanged = fnClcOptionsChanged;
 	cli.pfnContactListControlWndProc = fnContactListControlWndProc;

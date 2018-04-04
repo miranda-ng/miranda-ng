@@ -484,18 +484,16 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 	const BYTE mItems = 3;				// menuitems to create
 	BYTE item = 0;
 
-	int mProtoCount = pcli->menuProtoCount;
-
 	// on call by hook or first start
 	if (!lParam || !hMenuItemAccount) {
-		size_t sizeNew = mItems * mProtoCount * sizeof(HGENMENU);
+		size_t sizeNew = mItems * pcli->menuProtos->getCount() * sizeof(HGENMENU);
 		hMenuItemAccount = (HGENMENU*)mir_realloc(hMenuItemAccount, sizeNew);
 		// set all bytes 0 to avoid problems
 		memset(hMenuItemAccount, 0, sizeNew);
 	}
 	// on options change
 	else // delete all MenuItems backward (first item second group)
-		RemoveMenuItems(hMenuItemAccount, mItems * mProtoCount);
+		RemoveMenuItems(hMenuItemAccount, mItems * pcli->menuProtos->getCount());
 
 	// load options
 	int flag = db_get_b(NULL, MODNAME, SET_MI_ACCOUNT, MCAS_NOTINITIATED);
@@ -505,19 +503,19 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 	}
 
 	// loop for all account names
-	for (int i = 0; i < mProtoCount; i++) {
+	for (auto &it : *pcli->menuProtos) {
 		// set all bytes 0 to avoid problems
 		item = 0;
 
-		HGENMENU mhRoot = pcli->menuProtos[i].pMenu, mhExIm;
+		HGENMENU mhRoot = it->pMenu, mhExIm;
 		if (mhRoot == nullptr)
 			break;
 
-		PROTOACCOUNT *pa = Proto_GetAccount(pcli->menuProtos[i].szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(it->szProto);
 
 		// create service name main (account module name) and set pointer to end it
 		char text[200];
-		mir_strcpy(text, pcli->menuProtos[i].szProto);
+		mir_strcpy(text, it->szProto);
 
 		CMenuItem mi;
 		mi.pszService = text;
@@ -526,6 +524,7 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 		// support new genmenu style
 		mi.root = mhRoot;
 
+		int i = pcli->menuProtos->indexOf(&it);
 		switch (flag) {
 		case 3:
 			// cascade off

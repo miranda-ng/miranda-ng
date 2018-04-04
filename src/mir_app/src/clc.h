@@ -40,6 +40,7 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 extern int g_IconWidth, g_IconHeight;
 extern HIMAGELIST hCListImages;
 extern bool g_bReadyToInitClist;
+extern OBJLIST<MenuProto> g_menuProtos;
 
 void fnClcOptionsChanged(void);
 

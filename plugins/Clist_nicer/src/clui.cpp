@@ -827,8 +827,6 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			if (db_get_b(NULL, "CLUI", "useskin", 0))
 				IMG_LoadItems();
 			CreateButtonBar(hwnd);
-			//FYR: to be checked: otherwise it raises double xStatus items
-			//NotifyEventHooks(pcli->hPreBuildStatusMenuEvent, 0, 0);
 			SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 			{
 				LONG style;

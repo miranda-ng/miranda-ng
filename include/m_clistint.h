@@ -189,9 +189,9 @@ struct trayIconInfo_t
 
 struct MenuProto
 {
-	char *szProto; //This is DLL-based unique name
+	ptrA     szProto; 
 	HGENMENU pMenu;
-	HICON hIcon;
+	HICON    hIcon;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -434,11 +434,9 @@ struct CLIST_INTERFACE
 	 * version 4 additions (0.7.0.x) - genmenu
 	 *************************************************************************************/
 
-	MenuProto* menuProtos;
-	int        menuProtoCount;
+	OBJLIST<MenuProto> *menuProtos;
 
-	HANDLE   hPreBuildStatusMenuEvent;
-	int      currentStatusMenuItem, currentDesiredStatusMode;
+	int      currentDesiredStatusMode;
 	BOOL     bDisplayLocked, bAutoRebuild;
 
 	/*************************************************************************************
