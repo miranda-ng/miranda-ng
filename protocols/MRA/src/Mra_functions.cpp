@@ -1342,7 +1342,7 @@ bool CMraProto::GetPassDB(CMStringA &res)
 							SHA1GetDigest(pDecoded, dwDecodedSize, btRandomData);
 							if (0 != memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE))
 								return false;
-							res = CMStringA((LPSTR)(PBYTE)pDecoded, dwDecodedSize);
+							res = CMStringA((LPSTR)(PBYTE)pDecoded, (int)dwDecodedSize);
 						}
 						else return false;
 					}

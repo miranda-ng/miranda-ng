@@ -218,7 +218,7 @@ void CMSimpleStringT<BaseType>::UnlockBuffer()
 }
 
 template<typename BaseType>
-void CMSimpleStringT<BaseType>::ReleaseBuffer(int nNewLength = -1)
+void CMSimpleStringT<BaseType>::ReleaseBuffer(int nNewLength)
 {
 	if (nNewLength == -1) {
 		int nAlloc = GetData()->nAllocLength;
@@ -503,7 +503,7 @@ CMStringT<BaseType, StringTraits>::CMStringT(const unsigned char* pszSrc) :
 }
 
 template< typename BaseType, class StringTraits >
-CMStringT<BaseType, StringTraits>::CMStringT(char ch, int nLength = 1) :
+CMStringT<BaseType, StringTraits>::CMStringT(char ch, int nLength) :
 	CThisSimpleString()
 {
 	if (nLength > 0) {
@@ -514,7 +514,7 @@ CMStringT<BaseType, StringTraits>::CMStringT(char ch, int nLength = 1) :
 }
 
 template< typename BaseType, class StringTraits >
-CMStringT<BaseType, StringTraits>::CMStringT(wchar_t ch, int nLength = 1) :
+CMStringT<BaseType, StringTraits>::CMStringT(wchar_t ch, int nLength) :
 	CThisSimpleString()
 {
 	if (nLength > 0) {
@@ -698,7 +698,7 @@ int CMStringT<BaseType, StringTraits>::CollateNoCase(PCXSTR psz) const
 
 // Delete 'nCount' characters, starting at index 'iIndex'
 template< typename BaseType, class StringTraits >
-int CMStringT<BaseType, StringTraits>::Delete(int iIndex, int nCount = 1)
+int CMStringT<BaseType, StringTraits>::Delete(int iIndex, int nCount)
 {
 	if (iIndex < 0)
 		iIndex = 0;
@@ -946,7 +946,7 @@ CMStringT<BaseType, StringTraits> CMStringT<BaseType, StringTraits>::Tokenize(PC
 
 // Find the first occurrence of character 'ch', starting at index 'iStart'
 template< typename BaseType, class StringTraits >
-int CMStringT<BaseType, StringTraits>::Find(XCHAR ch, int iStart = 0) const
+int CMStringT<BaseType, StringTraits>::Find(XCHAR ch, int iStart) const
 {
 	// nLength is in XCHARs
 	int nLength = this->GetLength();
@@ -964,7 +964,7 @@ int CMStringT<BaseType, StringTraits>::Find(XCHAR ch, int iStart = 0) const
 
 // Find the first occurrence of string 'pszSub', starting at index 'iStart'
 template< typename BaseType, class StringTraits >
-int CMStringT<BaseType, StringTraits>::Find(PCXSTR pszSub, int iStart = 0) const
+int CMStringT<BaseType, StringTraits>::Find(PCXSTR pszSub, int iStart) const
 {
 	// iStart is in XCHARs
 	if (pszSub == nullptr)
