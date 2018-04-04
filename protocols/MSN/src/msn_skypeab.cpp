@@ -331,7 +331,6 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPHEADER headers[4];
 	bool bRet = false;
-	char szURL[256];
 	CMStringA post;
 
 	// initialize the netlib request
