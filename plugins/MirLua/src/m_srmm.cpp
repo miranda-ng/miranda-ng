@@ -48,10 +48,10 @@ static int lua_AddButton(lua_State *L)
 	MakeBBButton(L, bbb);
 
 	int hScriptLangpack = CMLuaEnvironment::GetEnvironmentId(L);
-	INT_PTR res = Srmm_AddButton(&bbb, hScriptLangpack);
+	HANDLE res = Srmm_AddButton(&bbb, hScriptLangpack);
 	CleanBBButton(bbb);
 	
-	if (res)
+	if (!res)
 	{
 		lua_pushnil(L);
 		return 1;

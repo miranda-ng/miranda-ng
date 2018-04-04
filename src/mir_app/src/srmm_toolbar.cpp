@@ -79,17 +79,12 @@ MIR_APP_DLL(int) Srmm_GetButtonCount(void)
 	return arButtonsList.getCount();
 }
 
-MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
+MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 {
 	if (bbdi == nullptr)
-		return 1;
+		return nullptr;
 
 	CustomButtonData *cbd = new CustomButtonData();
-	if (bbdi->bbbFlags & BBBF_ISARROWBUTTON)
-		cbd->m_iButtonWidth = DPISCALEX_S(34);
-	else
-		cbd->m_iButtonWidth = DPISCALEX_S(22);
-
 	cbd->m_pszModuleName = mir_strdup(bbdi->pszModuleName);
 	cbd->m_pwszText = mir_wstrdup(bbdi->pwszText);
 	cbd->m_pwszTooltip = mir_wstrdup(bbdi->pwszTooltip);
@@ -110,6 +105,13 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	cbd->m_dwOrigFlags.bit2 = cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0; 
 	cbd->m_dwOrigFlags.bit3 = cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
 	cbd->m_dwOrigFlags.bit4 = cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
+
+	if (cbd->m_bSeparator)
+		cbd->m_iButtonWidth = DPISCALEX_S(10);
+	else if (bbdi->bbbFlags & BBBF_ISARROWBUTTON)
+		cbd->m_iButtonWidth = DPISCALEX_S(34);
+	else
+		cbd->m_iButtonWidth = DPISCALEX_S(22);
 
 	if (bbdi->pszHotkey) {
 		for (auto &p : hotkeys) {
@@ -150,7 +152,7 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 		LastCID++;
 
 	WindowList_Broadcast(g_hWindowList, WM_CBD_UPDATED, 0, 0);
-	return 0;
+	return cbd;
 }
 
 MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi)
@@ -678,19 +680,17 @@ public:
 		if (!hItem)
 			hItem = TVI_FIRST;
 
-		CustomButtonData *cbd = new CustomButtonData();
-		cbd->m_bSeparator = cbd->m_bHidden = cbd->m_bIMButton = true;
-		cbd->m_dwButtonID = ++dwSepCount;
-		cbd->m_pszModuleName = "Tabsrmm_sep";
-		cbd->m_iButtonWidth = 22;
-		cbd->m_opFlags = BBSF_NTBDESTRUCT;
-		arButtonsList.insert(cbd);
+		BBButton bbd = {};
+		bbd.pszModuleName = "Tabsrmm_sep";
+		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
+		bbd.dwButtonID = ++dwSepCount;
+
+		CustomButtonData *cbd = (CustomButtonData*)Srmm_AddButton(&bbd);
 
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
 		tvis.hInsertAfter = hItem;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-
 		tvis.item.pszText = TranslateT("<Separator>");
 		tvis.item.iImage = tvis.item.iSelectedImage = -1;
 		tvis.item.lParam = (LPARAM)cbd;

@@ -240,8 +240,8 @@ struct BBButton
 };
 
 // adds a new toolbar button
-// returns 0 on success and nonzero value otherwise
-EXTERN_C MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int = hLangpack);
+// returns button's handle on success or NULL otherwise
+EXTERN_C MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, int = hLangpack);
 
 // modifies the existing toolbar button
 // returns 0 on success and nonzero value otherwise
