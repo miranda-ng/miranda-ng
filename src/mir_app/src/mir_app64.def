@@ -537,3 +537,4 @@ Clist_GetProtocolVisibility @556
 ?Accounts@@YAAEAU?$LIST@UPROTOACCOUNT@@@@XZ @557 NONAME
 Clist_InitAutoRebuild @558
 Clist_GetContactIcon @559
+Clist_GetAccountIndex @560

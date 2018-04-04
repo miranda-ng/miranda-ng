@@ -173,7 +173,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 	int iProtoInStatusMenu = 0;
 	for (int j = 0; j < accs.getCount(); j++) {
-		int i = pcli->pfnGetAccountIndexByPos(j);
+		int i = Clist_GetAccountIndex(j);
 		if (i == -1)
 			continue;
 
@@ -795,7 +795,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 						bool first = true;
 						for (int pos = 0; pos < protoCount; pos++) {
-							int k = pcli->pfnGetAccountIndexByPos(pos);
+							int k = Clist_GetAccountIndex(pos);
 							if (k < 0 || k >= protoCount)
 								continue;
 

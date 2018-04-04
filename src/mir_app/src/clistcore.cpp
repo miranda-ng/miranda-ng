@@ -188,7 +188,7 @@ void InitClistCore()
 
 	cli.pfnGetProtoIndexByPos = fnGetProtoIndexByPos;
 	cli.pfnReloadProtoMenus = fnReloadProtoMenus;
-	cli.pfnGetAccountIndexByPos = fnGetAccountIndexByPos;
+
 	cli.pfnGetProtocolMenu = fnGetProtocolMenu;
 
 	cli.pfnReloadExtraIcons = fnReloadExtraIcons;

@@ -119,7 +119,7 @@ class CProtocolOrderOpts : public CDlgBase
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
 		for (int i = 0; i < accounts.getCount(); i++) {
-			int idx = cli.pfnGetAccountIndexByPos(i);
+			int idx = Clist_GetAccountIndex(i);
 			if (idx == -1)
 				continue;
 

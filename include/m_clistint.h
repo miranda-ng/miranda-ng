@@ -255,6 +255,9 @@ EXTERN_C MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM l
 EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 
+// calculates account's index by its position in status bar
+EXTERN_C MIR_APP_DLL(int) Clist_GetAccountIndex(int iPos);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CLIST_INTERFACE structure definition
 
@@ -469,11 +472,6 @@ struct CLIST_INTERFACE
 	int      (*pfnTrayIconUpdate)(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
 
 	VOID     (CALLBACK *pfnTrayCycleTimerProc)(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
-
-	/*************************************************************************************
-	 * version 6 additions (0.8.0.x) - accounts
-	 *************************************************************************************/
-	int      (*pfnGetAccountIndexByPos)(int pos);
 
 	/*************************************************************************************
 	 * version 7 additions (0.11.0.x) - extra images

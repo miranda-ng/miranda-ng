@@ -714,6 +714,15 @@ MIR_APP_DLL(bool) Clist_GetProtocolVisibility(const char *szModuleName)
 	return (pa) ? pa->IsVisible() : false;
 }
 
+MIR_APP_DLL(int) Clist_GetAccountIndex(int Pos)
+{
+	for (auto &it : accounts)
+		if (it->iOrder == Pos)
+			return accounts.indexOf(&it);
+
+	return -1;
+}
+
 int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos)
 {
 	char buf[10];
@@ -730,15 +739,6 @@ int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos)
 
 		db_free(&dbv);
 	}
-
-	return -1;
-}
-
-int fnGetAccountIndexByPos(int Pos)
-{
-	for (auto &it : accounts)
-		if (it->iOrder == Pos)
-			return accounts.indexOf(&it);
 
 	return -1;
 }
@@ -769,7 +769,7 @@ void RebuildMenuOrder(void)
 	FreeMenuProtos();
 
 	for (int s = 0; s < accounts.getCount(); s++) {
-		int i = cli.pfnGetAccountIndexByPos(s);
+		int i = Clist_GetAccountIndex(s);
 		if (i == -1)
 			continue;
 

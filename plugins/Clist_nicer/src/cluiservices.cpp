@@ -106,7 +106,7 @@ void CluiProtocolStatusChanged(int, const char*)
 		// count down since built in ones tend to go at the end
 		partCount = 0;
 		for (int i = 0; i < accs.getCount(); i++) {
-			int idx = pcli->pfnGetAccountIndexByPos(i);
+			int idx = Clist_GetAccountIndex(i);
 			if (idx == -1)
 				continue;
 
@@ -151,7 +151,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	char *szMaxProto = nullptr;
 	partCount = 0;
 	for (int i = 0; i < accs.getCount(); i++) {
-		int idx = pcli->pfnGetAccountIndexByPos(i);
+		int idx = Clist_GetAccountIndex(i);
 		if (idx == -1)
 			continue;
 

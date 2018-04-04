@@ -92,7 +92,7 @@ wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto)
 		}
 
 		for (int t = 0; t < accounts.getCount(); t++) {
-			int i = cli.pfnGetAccountIndexByPos(t);
+			int i = Clist_GetAccountIndex(t);
 			if (i == -1)
 				continue;
 
@@ -249,7 +249,7 @@ int fnTrayIconInit(HWND hwnd)
 		else if (trayIconSetting == SETTING_TRAYICON_MULTI && (averageMode < 0 || db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))) {
 			cli.trayIconCount = netProtoCount;
 			for (int i = 0; i < accounts.getCount(); i++) {
-				int j = cli.pfnGetAccountIndexByPos(i);
+				int j = Clist_GetAccountIndex(i);
 				if (j >= 0) {
 					PROTOACCOUNT *pa = accounts[j];
 					if (pa->IsVisible())
@@ -685,7 +685,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 						int ind = 0;
 						for (int j = 0; j < accounts.getCount(); j++) {
-							int k = cli.pfnGetAccountIndexByPos(j);
+							int k = Clist_GetAccountIndex(j);
 							if (k >= 0) {
 								if (!mir_strcmp(cli.trayIcon[i].szProto, accounts[k]->szModuleName)) {
 									HMENU hm = GetSubMenu(hMenu, ind);
