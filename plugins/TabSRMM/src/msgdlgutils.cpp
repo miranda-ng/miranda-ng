@@ -1228,8 +1228,6 @@ void CTabBaseDlg::PlayIncomingSound() const
 // reads send format and configures the toolbar buttons
 // if mode == 0, int only configures the buttons and does not change send format
 
-static UINT controls[] = { IDC_SRMM_BOLD, IDC_SRMM_ITALICS, IDC_SRMM_UNDERLINE, IDC_FONTSTRIKEOUT };
-
 void CTabBaseDlg::GetSendFormat()
 {
 	m_SendFormat = M.GetDword(m_hContact, "sendformat", PluginConfig.m_SendFormat);
@@ -1237,10 +1235,6 @@ void CTabBaseDlg::GetSendFormat()
 		m_SendFormat = 0;
 	else if (m_SendFormat == 0)
 		m_SendFormat = PluginConfig.m_SendFormat ? 1 : 0;
-
-	for (auto &it : controls)
-		Utils::enableDlgControl(m_hwnd, it, m_SendFormat != 0);
-	return;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
