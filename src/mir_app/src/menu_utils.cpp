@@ -227,7 +227,7 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 			Menu_RemoveItem(pThis->m_hmiMainMenu);
 			pThis->m_hmiMainMenu = nullptr;
 		}
-		return cli.pfnGetProtocolMenu(pThis->m_szModuleName);
+		return Menu_GetProtocolMenu(pThis->m_szModuleName);
 	}
 
 	TIntMenuObject *pmo = GetMenuObjbyId(hMainMenuObject);
@@ -1199,7 +1199,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 				MO_RecursiveWalkMenu(p->m_items.first, MO_ReloadIcon, nullptr);
 	}
 
-	cli.pfnReloadProtoMenus();
+	Menu_ReloadProtoMenus();
 	return 0;
 }
 

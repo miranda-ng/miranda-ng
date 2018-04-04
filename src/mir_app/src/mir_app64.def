@@ -538,3 +538,5 @@ Clist_GetProtocolVisibility @556
 Clist_InitAutoRebuild @558
 Clist_GetContactIcon @559
 Clist_GetAccountIndex @560
+Menu_ReloadProtoMenus @561
+Menu_GetProtocolMenu @562

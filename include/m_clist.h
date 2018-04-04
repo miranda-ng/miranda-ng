@@ -125,8 +125,13 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const c
 // PROTOCOL MENU
 
 // adds an item to status or main menu, according to the option
-
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *pmi, const char *pszProto = nullptr);
+
+// returns root protocol menu for an account (either in main menu or in status bar)
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolMenu(const char *szModuleName);
+
+// rebuilds all protocol menus
+EXTERN_C MIR_APP_DLL(void) Menu_ReloadProtoMenus(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GROUP MENU

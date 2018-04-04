@@ -22,7 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 static void RebuildStatusMenu(void)
 {
-	pcli->pfnReloadProtoMenus();
+	Menu_ReloadProtoMenus();
 }
 
 static LRESULT CALLBACK OptEditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)

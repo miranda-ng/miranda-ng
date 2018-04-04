@@ -723,26 +723,6 @@ MIR_APP_DLL(int) Clist_GetAccountIndex(int Pos)
 	return -1;
 }
 
-int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos)
-{
-	char buf[10];
-	_itoa(Pos, buf, 10);
-
-	DBVARIANT dbv;
-	if (!db_get_s(0, "Protocols", buf, &dbv)) {
-		for (int p = 0; p < protoCnt; p++) {
-			if (mir_strcmp(proto[p]->szName, dbv.pszVal) == 0) {
-				db_free(&dbv);
-				return p;
-			}
-		}
-
-		db_free(&dbv);
-	}
-
-	return -1;
-}
-
 void RebuildMenuOrder(void)
 {
 	BYTE bHideStatusMenu = db_get_b(0, "CLUI", "DontHideStatusMenu", 0); // cool perversion, though
@@ -933,6 +913,14 @@ void RebuildProtoMenus()
 	BuildProtoMenus();
 }
 
+MIR_APP_DLL(void) Menu_ReloadProtoMenus(void)
+{
+	RebuildMenuOrder();
+	if (db_get_b(0, "CList", "MoveProtoMenus", true))
+		BuildProtoMenus();
+	cli.pfnCluiProtocolStatusChanged(0, nullptr);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int sttRebuildHotkeys(WPARAM, LPARAM)
@@ -1037,7 +1025,7 @@ static MenuProto* FindProtocolMenu(const char *proto)
 	return nullptr;
 }
 
-HGENMENU fnGetProtocolMenu(const char* proto)
+MIR_APP_DLL(HGENMENU) Menu_GetProtocolMenu(const char *proto)
 {
 	MenuProto *mp = FindProtocolMenu(proto);
 	return (mp) ? mp->pMenu : nullptr;

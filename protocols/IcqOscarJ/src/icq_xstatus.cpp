@@ -855,7 +855,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 		mir_snwprintf(szItem, TranslateT("%s Custom Status"), m_tszUserName);
 
 		CMenuItem mi;
-		mi.root = pcli->pfnGetProtocolMenu(m_szModuleName);
+		mi.root = Menu_GetProtocolMenu(m_szModuleName);
 		mi.name.w = szItem;
 		mi.position = 10001;
 		hRoot = Menu_AddStatusMenuItem(&mi, m_szModuleName);

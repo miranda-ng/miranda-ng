@@ -441,10 +441,6 @@ struct CLIST_INTERFACE
 	int      currentStatusMenuItem, currentDesiredStatusMode;
 	BOOL     bDisplayLocked, bAutoRebuild;
 
-	HGENMENU (*pfnGetProtocolMenu)(const char*);
-	int      (*pfnGetProtoIndexByPos)(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);
-	void     (*pfnReloadProtoMenus)(void);
-
 	/*************************************************************************************
 	 * version 5 additions (0.7.0.x) - tray icons
 	 *************************************************************************************/

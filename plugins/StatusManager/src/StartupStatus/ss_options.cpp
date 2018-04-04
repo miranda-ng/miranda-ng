@@ -718,7 +718,7 @@ public:
 
 		// Rebuild status menu
 		if (bNeedRebuildMenu)
-			pcli->pfnReloadProtoMenus();
+			Menu_ReloadProtoMenus();
 	}
 
 	// add a profile

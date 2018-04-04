@@ -213,7 +213,7 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 		RemoveProtoIconIndex((PROTOACCOUNT*)lParam);
 		break;
 	}
-	cli.pfnReloadProtoMenus();
+	Menu_ReloadProtoMenus();
 	cli.pfnTrayIconIconsChanged();
 	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 	Clist_Broadcast(INTM_INVALIDATE, 0, 0);

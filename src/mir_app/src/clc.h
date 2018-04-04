@@ -111,9 +111,6 @@ int fnRowHitTest(struct ClcData *dat, int y);
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
 
 /* clistmenus.c */
-HGENMENU fnGetProtocolMenu(const char*);
-
-int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);
 void RebuildMenuOrder(void);
 
 /* clistsettings.c */

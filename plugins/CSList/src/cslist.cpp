@@ -72,7 +72,7 @@ static int OnDbChanged(WPARAM hContact, LPARAM lparam)
 	if (hContact == NULL) {
 		const char *szUniqueID = Proto_GetUniqueId(cws->szModule);
 		if (!mir_strcmp(cws->szSetting, szUniqueID))
-			pcli->pfnReloadProtoMenus();
+			Menu_ReloadProtoMenus();
 	}
 	return 0;
 }
@@ -1020,7 +1020,7 @@ INT_PTR CALLBACK CSOptionsProc(HWND hwnd, UINT message, WPARAM, LPARAM lparam)
 			setByte("DeleteAfterImport", IsDlgButtonChecked(hwnd, IDC_DELETE_AFTER_IMPORT) ? 1 : 0);
 			setByte("RememberWindowPosition", IsDlgButtonChecked(hwnd, IDC_REMEMBER_POSITION) ? 1 : 0);
 
-			pcli->pfnReloadProtoMenus();
+			Menu_ReloadProtoMenus();
 			break;
 		}
 		return TRUE;

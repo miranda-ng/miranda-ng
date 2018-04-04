@@ -197,7 +197,7 @@ public:
 				it->iOrder = idx++;
 
 		WriteDbAccounts();
-		cli.pfnReloadProtoMenus();
+		Menu_ReloadProtoMenus();
 		cli.pfnTrayIconIconsChanged();
 		Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 		Clist_Broadcast(INTM_INVALIDATE, 0, 0);

@@ -34,8 +34,6 @@ CLIST_INTERFACE cli = { 0 };
 
 static wchar_t szTip[MAX_TIP_SIZE+1];
 
-void BuildProtoMenus(void);
-
 static void fnPaintClc(HWND, ClcData*, HDC, RECT*)
 {
 }
@@ -59,18 +57,10 @@ static int fnIsVisibleContact(ClcCacheEntry*, ClcGroup*)
 	return false;
 }
 
-static void fnReloadProtoMenus(void)
-{
-	RebuildMenuOrder();
-	if (db_get_b(0, "CList", "MoveProtoMenus", TRUE))
-		BuildProtoMenus();
-	cli.pfnCluiProtocolStatusChanged(0, nullptr);
-}
-
 void InitClistCore()
 {
 	cli.version = 6;
-	cli.bDisplayLocked = TRUE;
+	cli.bDisplayLocked = true;
 
 	cli.pfnClcOptionsChanged = fnClcOptionsChanged;
 	cli.pfnContactListControlWndProc = fnContactListControlWndProc;
@@ -185,11 +175,6 @@ void InitClistCore()
 	cli.pfnIconFromStatusMode = fnIconFromStatusMode;
 	cli.pfnShowHide = fnShowHide;
 	cli.pfnGetStatusModeDescription = fnGetStatusModeDescription;
-
-	cli.pfnGetProtoIndexByPos = fnGetProtoIndexByPos;
-	cli.pfnReloadProtoMenus = fnReloadProtoMenus;
-
-	cli.pfnGetProtocolMenu = fnGetProtocolMenu;
 
 	cli.pfnReloadExtraIcons = fnReloadExtraIcons;
 	cli.pfnSetAllExtraIcons = fnSetAllExtraIcons;
