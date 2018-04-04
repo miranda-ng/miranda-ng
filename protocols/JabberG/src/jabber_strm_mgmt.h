@@ -53,6 +53,7 @@ public:
 	void CheckState();
 	void OnDisconnect();
 	void SendAck();
+	bool IsSessionResumed();
 };
 
 #endif //JABBER_STRM_MGMT_H

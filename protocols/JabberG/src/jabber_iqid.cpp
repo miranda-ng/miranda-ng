@@ -179,24 +179,27 @@ void CJabberProto::OnLoggedIn()
 	m_ThreadInfo->dwLoginRqs = 0;
 
 	// XEP-0083 support
+	if (!(m_StrmMgmt.IsSessionResumed()))
 	{
-		CJabberIqInfo *pIqInfo = AddIQ(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
-		// ugly hack to prevent hangup during login process
-		pIqInfo->SetTimeout(30000);
-		m_ThreadInfo->send(
-			XmlNodeIq(pIqInfo) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
+		{
+			CJabberIqInfo *pIqInfo = AddIQ(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
+			// ugly hack to prevent hangup during login process
+			pIqInfo->SetTimeout(30000);
+			m_ThreadInfo->send(
+				XmlNodeIq(pIqInfo) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
 				<< XCHILDNS(L"roster", JABBER_FEAT_NESTED_ROSTER_GROUPS));
-	}
+		}
 
-	// Server-side notes
-	m_ThreadInfo->send(
-		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultNotes, JABBER_IQ_TYPE_GET))
+		// Server-side notes
+		m_ThreadInfo->send(
+			XmlNodeIq(AddIQ(&CJabberProto::OnIqResultNotes, JABBER_IQ_TYPE_GET))
 			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
 			<< XCHILDNS(L"storage", JABBER_FEAT_MIRANDA_NOTES));
-	
-	m_ThreadInfo->send(
-		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
+
+		m_ThreadInfo->send(
+			XmlNodeIq(AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
 			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(L"storage", L"storage:bookmarks"));
+	}
 
 	m_bPepSupported = false;
 	m_ThreadInfo->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;

@@ -46,6 +46,7 @@ void strm_mgmt::OnProcessEnabled(HXML node, ThreadData * /*info*/)
 			m_sStrmMgmtResumeId = XmlGetAttrValue(node, L"id");
 		}
 	}
+	//TODO: handle 'location'
 	m_nStrmMgmtLocalHCount = 0;
 	m_nStrmMgmtSrvHCount = 0;
 }
@@ -240,4 +241,9 @@ void strm_mgmt::SendAck()
 	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
 	xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
 	proto->m_ThreadInfo->send_no_strm_mgmt(enable_sm);
+}
+
+bool strm_mgmt::IsSessionResumed()
+{
+	return bSessionResumed;
 }
