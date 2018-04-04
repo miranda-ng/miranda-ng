@@ -297,130 +297,123 @@ type
     clcProto        : PClcProtoStatus;
 
   (* clc.h *)
-    pfnClcOptionsChanged   : procedure; cdecl;
-    pfnBuildGroupPopupMenu : function  (_para1:PClcGroup):HMENU; cdecl;
+    pfnClcOptionsChanged               : procedure; cdecl;
+    pfnBuildGroupPopupMenu             : function  (_para1:PClcGroup):HMENU; cdecl;
 
-    pfnContactListControlWndProc:function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;
+    pfnContactListControlWndProc       : function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;
 
   (* clcfiledrop.c *)
-    pfnRegisterFileDropping   : procedure (hwnd:HWND); cdecl;
-    pfnUnregisterFileDropping : procedure (hwnd:HWND); cdecl;
+    pfnRegisterFileDropping            : procedure (hwnd:HWND); cdecl;
+    pfnUnregisterFileDropping          : procedure (hwnd:HWND); cdecl;
 
   (* clcidents.c *)
-    blablabla6 : procedure; cdecl;
+    blablabla6                         : procedure; cdecl;
 
-    pfnGetRowsPriorTo      : function (var group:TClcGroup; var subgroup:TClcGroup;
-                             contactIndex:int):int; cdecl;
-    pfnGetRowByIndex       : function (var dat:TClcData; testindex:int;
-                             var contact:PClcContact; var subgroup:PClcGroup):int; cdecl;
-    unused1                : function (var contact:TClcContact):THANDLE;cdecl;
-    unused2                : function (var contact:TClcContact; var nmFlags:dword):THANDLE; cdecl;
+    pfnGetRowsPriorTo                  : function (var group:TClcGroup; var subgroup:TClcGroup; contactIndex:int):int; cdecl;
+    pfnGetRowByIndex                   : function (var dat:TClcData; testindex:int; var contact:PClcContact; var subgroup:PClcGroup):int; cdecl;
+    unused1                            : function (var contact:TClcContact):THANDLE;cdecl;
+    unused2                            : function (var contact:TClcContact; var nmFlags:dword):THANDLE; cdecl;
 
   (* clcitems.c *)
-    pfnCreateClcContact    : function :PClcContact; cdecl;
-    pfnAddGroup            : function (hwnd:HWND; var dat:TClcData; szName:TChar;
-                             flags:dword; groupId:int; calcTotalMembers:int):PClcGroup; cdecl;
-    pfnRemoveItemFromGroup : function (hwnd:HWND; var group:TClcGroup;
-                             var contact:TClcContact; updateTotalCount:int):PClcGroup; cdecl;
+    pfnCreateClcContact                : function :PClcContact; cdecl;
+    pfnAddGroup                        : function (hwnd:HWND; var dat:TClcData; szName:TChar; flags:dword; groupId:int; calcTotalMembers:int):PClcGroup; cdecl;
+    pfnRemoveItemFromGroup             : function (hwnd:HWND; var group:TClcGroup; var contact:TClcContact; updateTotalCount:int):PClcGroup; cdecl;
 
-    pfnFreeContact : procedure (var contact:TClcContact); cdecl;
-    pfnFreeGroup   : procedure (var group:TClcGroup); cdecl;
+    pfnFreeContact                     : procedure (var contact:TClcContact); cdecl;
+    pfnFreeGroup                       : procedure (var group:TClcGroup); cdecl;
 
-    pfnAddInfoItemToGroup      : function  (var group:TClcGroup; flags:int; pszText:TChar):PClcContact; cdecl;
-    pfnAddItemToGroup          : function  (var group:TClcGroup; iAboveItem:int):PClcContact; cdecl;
-    pfnAddContactToGroup       : function  (var dat:TClcData; var group:TClcGroup; hContact:TMCONTACT):PClcContact; cdecl;
-    pfnAddContactToTree        : procedure (hwnd:HWND; var dat:TClcData; hContact:TMCONTACT; updateTotalCount:int; checkHideOffline:int); cdecl;
-    pfnDeleteItemFromTree      : procedure (hwnd:HWND; hItem:TMCONTACT); cdecl;
-    pfnRebuildEntireList       : procedure (hwnd:HWND; var dat:TClcData); cdecl;
-    pfnGetGroupContentsCount   : function  (var group:TClcGroup; visibleOnly:int):int; cdecl;
-    pfnSortCLC                 : procedure (hwnd:HWND; var dat:TClcData; useInsertionSort:int); cdecl;
-    pfnSaveStateAndRebuildList : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnAddInfoItemToGroup              : function  (var group:TClcGroup; flags:int; pszText:TChar):PClcContact; cdecl;
+    pfnAddItemToGroup                  : function  (var group:TClcGroup; iAboveItem:int):PClcContact; cdecl;
+    pfnAddContactToGroup               : function  (var dat:TClcData; var group:TClcGroup; hContact:TMCONTACT):PClcContact; cdecl;
+    pfnAddContactToTree                : procedure (hwnd:HWND; var dat:TClcData; hContact:TMCONTACT; updateTotalCount:int; checkHideOffline:int); cdecl;
+    pfnDeleteItemFromTree              : procedure (hwnd:HWND; hItem:TMCONTACT); cdecl;
+    pfnRebuildEntireList               : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnGetGroupContentsCount           : function  (var group:TClcGroup; visibleOnly:int):int; cdecl;
+    pfnSortCLC                         : procedure (hwnd:HWND; var dat:TClcData; useInsertionSort:int); cdecl;
+    pfnSaveStateAndRebuildList         : procedure (hwnd:HWND; var dat:TClcData); cdecl;
 
   (* clcmsgs.c *)
-    pfnProcessExternalMessages : function (hwnd:HWND; var dat:TClcData; msg:uint;
-                                 wParam:WPARAM; lParam:LPARAM):LRESULT; cdecl;
+    pfnProcessExternalMessages         : function (hwnd:HWND; var dat:TClcData; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; cdecl;
 
   (* clcpaint.c *)
-    pfnPaintClc : procedure (hwnd:HWND; var dat:TClcData; hdc:HDC; var rcPaint:TRECT);  cdecl;
+    pfnPaintClc                        : procedure (hwnd:HWND; var dat:TClcData; hdc:HDC; var rcPaint:TRECT);  cdecl;
 
   (* clcutils.c *)
-    pfnGetGroupCountsText         : function (var dat:TClcData; var contact:TClcContact):PAnsiChar; cdecl;
-    pfnHitTest                    : function (hwnd:HWND; var dat:TClcData; testx:int;
-                                    testy:int; var contact:PClcContact;
-                                    var group:PClcGroup; var flags:dword):int; cdecl;
-    pfnScrollTo                   : procedure (hwnd:HWND; var dat:TClcData; desty:int; noSmooth:int); cdecl;
-    pfnEnsureVisible              : procedure (hwnd:HWND; var dat:TClcData; iItem:int; partialOk:int); cdecl;
-    pfnRecalcScrollBar            : procedure (hwnd:HWND; var dat:TClcData); cdecl;
-    pfnSetGroupExpand             : procedure (hwnd:HWND; var dat:TClcData; var group:TClcGroup; newState:int); cdecl;
-    pfnDoSelectionDefaultAction   : procedure (hwnd:HWND; var dat:TClcData); cdecl;
-    pfnFindRowByText              : function  (hwnd:HWND; var dat:TClcData; text:TChar; prefixOk:int):int; cdecl;
-    pfnEndRename                  : procedure (hwnd:HWND; var dat:TClcData; save:int); cdecl;
-    pfnDeleteFromContactList      : procedure (hwnd:HWND; var dat:TClcData); cdecl;
-    pfnBeginRenameSelection       : procedure (hwnd:HWND; var dat:TClcData); cdecl;
-    pfnCalcEipPosition            : procedure (var dat:TClcData; var contact:TClcContact; var group:TClcGroup; var result:TPOINT); cdecl;
-    pfnGetDropTargetInformation   : function  (hwnd:HWND; var dat:TClcData; pt:TPOINT):int; cdecl;
-    pfnClcStatusToPf2             : function  (status:int):int; cdecl;
-    pfnIsHiddenMode               : function  (var dat:TClcData; status:int):int; cdecl;
-    pfnHideInfoTip                : procedure (hwnd:HWND; var dat:TClcData); cdecl;
-    pfnNotifyNewContact           : procedure (hwnd:HWND; hContact:TMCONTACT); cdecl;
-    pfnGetDefaultExStyle          : function  :dword; cdecl;
-    pfnGetDefaultFontSetting      : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
-    pfnGetFontSetting             : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
-    pfnLoadClcOptions             : procedure (hwnd:HWND; var dat:TClcData; bFirst: int); cdecl;
-    pfnRecalculateGroupCheckboxes : procedure (hwnd:HWND; var dat:TClcData); cdecl;
-    pfnSetGroupChildCheckboxes    : procedure (var group:TClcGroup; checked:int); cdecl;
-    pfnInvalidateItem             : procedure (hwnd:HWND; var dat:TClcData; iItem:int); cdecl;
+    pfnGetGroupCountsText              : function (var dat:TClcData; var contact:TClcContact):PAnsiChar; cdecl;
+    pfnHitTest                         : function (hwnd:HWND; var dat:TClcData; testx:int; testy:int; var contact:PClcContact; var group:PClcGroup; var flags:dword):int; cdecl;
+    pfnScrollTo                        : procedure (hwnd:HWND; var dat:TClcData; desty:int; noSmooth:int); cdecl;
+    pfnEnsureVisible                   : procedure (hwnd:HWND; var dat:TClcData; iItem:int; partialOk:int); cdecl;
+    pfnRecalcScrollBar                 : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnSetGroupExpand                  : procedure (hwnd:HWND; var dat:TClcData; var group:TClcGroup; newState:int); cdecl;
+    pfnDoSelectionDefaultAction        : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnFindRowByText                   : function  (hwnd:HWND; var dat:TClcData; text:TChar; prefixOk:int):int; cdecl;
+    pfnEndRename                       : procedure (hwnd:HWND; var dat:TClcData; save:int); cdecl;
+    pfnDeleteFromContactList           : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnBeginRenameSelection            : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnCalcEipPosition                 : procedure (var dat:TClcData; var contact:TClcContact; var group:TClcGroup; var result:TPOINT); cdecl;
+    pfnGetDropTargetInformation        : function  (hwnd:HWND; var dat:TClcData; pt:TPOINT):int; cdecl;
+    pfnClcStatusToPf2                  : function  (status:int):int; cdecl;
+    pfnIsHiddenMode                    : function  (var dat:TClcData; status:int):int; cdecl;
+    pfnHideInfoTip                     : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnNotifyNewContact                : procedure (hwnd:HWND; hContact:TMCONTACT); cdecl;
+    pfnGetDefaultExStyle               : function  :dword; cdecl;
+    pfnGetDefaultFontSetting           : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
+    pfnGetFontSetting                  : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
+    pfnLoadClcOptions                  : procedure (hwnd:HWND; var dat:TClcData; bFirst: int); cdecl;
+    pfnRecalculateGroupCheckboxes      : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnSetGroupChildCheckboxes         : procedure (var group:TClcGroup; checked:int); cdecl;
+    pfnInvalidateItem                  : procedure (hwnd:HWND; var dat:TClcData; iItem:int); cdecl;
 
-    pfnGetRowBottomY     : function (var dat:TClcData; item:int):int; cdecl;
-    pfnGetRowHeight      : function (var dat:TClcData; item:int):int; cdecl;
-    pfnGetRowTopY        : function (var dat:TClcData; item:int):int; cdecl;
-    pfnGetRowTotalHeight : function (var dat:TClcData):int; cdecl;
-    pfnRowHitTest        : function (var dat:TClcData; y:int):int; cdecl;
+    pfnGetRowBottomY                   : function (var dat:TClcData; item:int):int; cdecl;
+    pfnGetRowHeight                    : function (var dat:TClcData; item:int):int; cdecl;
+    pfnGetRowTopY                      : function (var dat:TClcData; item:int):int; cdecl;
+    pfnGetRowTotalHeight               : function (var dat:TClcData):int; cdecl;
+    pfnRowHitTest                      : function (var dat:TClcData; y:int):int; cdecl;
 
   (* clistevents.c *)
     pfnEventsProcessContactDoubleClick : function (hContact:TMCONTACT):int; cdecl;
     pfnEventsProcessTrayDoubleClick    : function (_para1:int):int; cdecl;
 
   (* clistmod.c *)
-    pfnIconFromStatusMode       : function (szProto:PAnsiChar; status:int; hContact:TMCONTACT):int; cdecl;
-    pfnShowHide                 : function :int; cdecl;
-    pfnGetStatusModeDescription : function (mode:int; flags:int) : PWideChar; cdecl;
-
+    pfnIconFromStatusMode              : function (szProto:PAnsiChar; status:int; hContact:TMCONTACT):int; cdecl;
+    pfnShowHide                        : function :int; cdecl;
+    pfnGetStatusModeDescription        : function (mode:int; flags:int) : PWideChar; cdecl;
+                                       
   (* clistsettings.c *)
-    pfnGetCacheEntry   : function (hContact:TMCONTACT):PClcCacheEntry; cdecl;
-    pfnCreateCacheItem : function (hContact:TMCONTACT):PClcCacheEntry; cdecl;
-    pfnCheckCacheItem  : procedure (_para1:PClcCacheEntry); cdecl;
-    pfnFreeCacheItem   : procedure (_para1:PClcCacheEntry); cdecl;
+    pfnGetCacheEntry                   : function (hContact:TMCONTACT):PClcCacheEntry; cdecl;
+    pfnCreateCacheItem                 : function (hContact:TMCONTACT):PClcCacheEntry; cdecl;
+    pfnCheckCacheItem                  : procedure (_para1:PClcCacheEntry); cdecl;
+    pfnFreeCacheItem                   : procedure (_para1:PClcCacheEntry); cdecl;
 
     pfnGetContactDisplayName           : function  (hContact:TMCONTACT; mode:int):PWideChar; cdecl;
     pfnInvalidateDisplayNameCacheEntry : procedure (hContact:TMCONTACT); cdecl;
 
   (* clisttray.c *)
-    pfnTrayIconUpdateWithImageList : procedure (iImage:int; szNewTip:TChar; szPreferredProto:PAnsiChar); cdecl;
-    pfnTrayIconUpdateBase          : procedure (szChangedProto:PAnsiChar); cdecl;
-    pfnTrayIconSetToBase           : procedure (szPreferredProto:PAnsiChar); cdecl;
-    pfnTrayIconIconsChanged        : procedure ; cdecl;
-    pfnTrayIconPauseAutoHide       : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
-    pfnTrayIconProcessMessage      : function (wParam:WPARAM; lParam:LPARAM):int_ptr; cdecl;
-    blablabla5 : procedure; cdecl;
-
-  (* clui.c *)
-    pfnContactListWndProc:function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):int; stdcall;
-
-    pfnCluiProtocolStatusChanged : procedure (status:int; szProto:PAnsiChar); cdecl;
-    pfnDrawMenuItem              : procedure (_para1:PDRAWITEMSTRUCT; _para2:HICON; _para3:HICON); cdecl;
-    pfnLoadCluiGlobalOpts        : procedure ; cdecl;
-    pfnInvalidateRect            : function (hwnd:HWND; var lpRect:TRECT; bErase:bool):bool; cdecl;
-    pfnOnCreateClc               : procedure ; cdecl;
-
-  (* contact.c *)
-    pfnChangeContactIcon : procedure (hContact:TMCONTACT; iIcon:int; add:int); cdecl;
-    pfnLoadContactTree   : procedure ; cdecl;
-    pfnCompareContacts   : function (var contact1:TClcContact; var contact2:TClcContact):int; cdecl;
-    pfnSetHideOffline    : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
-
-  (* docking.c *)
-    pfnDocking_ProcessWindowMessage : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
+    pfnTrayIconUpdateWithImageList     : procedure (iImage:int; szNewTip:TChar; szPreferredProto:PAnsiChar); cdecl;
+    pfnTrayIconUpdateBase              : procedure (szChangedProto:PAnsiChar); cdecl;
+    pfnTrayIconSetToBase               : procedure (szPreferredProto:PAnsiChar); cdecl;
+    pfnTrayIconIconsChanged            : procedure ; cdecl;
+    pfnTrayIconPauseAutoHide           : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
+    pfnTrayIconProcessMessage          : function (wParam:WPARAM; lParam:LPARAM):int_ptr; cdecl;
+    blablabla5                         : procedure; cdecl;
+                                       
+  (* clui.c *)                         
+    pfnContactListWndProc              : function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):int; stdcall;
+                                       
+    pfnCluiProtocolStatusChanged       : procedure (status:int; szProto:PAnsiChar); cdecl;
+    pfnDrawMenuItem                    : procedure (_para1:PDRAWITEMSTRUCT; _para2:HICON; _para3:HICON); cdecl;
+    pfnLoadCluiGlobalOpts              : procedure ; cdecl;
+    pfnInvalidateRect                  : function (hwnd:HWND; var lpRect:TRECT; bErase:bool):bool; cdecl;
+    pfnOnCreateClc                     : procedure ; cdecl;
+                                       
+  (* contact.c *)                      
+    pfnChangeContactIcon               : procedure (hContact:TMCONTACT; iIcon:int; add:int); cdecl;
+    pfnLoadContactTree                 : procedure ; cdecl;
+    pfnCompareContacts                 : function (var contact1:TClcContact; var contact2:TClcContact):int; cdecl;
+    pfnSetHideOffline                  : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
+                                      
+  (* docking.c *)                     
+    pfnDocking_ProcessWindowMessage    : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
 
   (*************************************************************************************
   * version 2 - events processing
@@ -432,76 +425,6 @@ type
     pfnGetEvent : function (hContact:TMCONTACT; idx:int):PCLISTEVENT; cdecl;
 
     pfnRemoveEvent     : function (hContact:TMCONTACT; hDbEvent:TMEVENT):int; cdecl;
-    pfnGetImlIconIndex : function (hIcon:HICON):int; cdecl;
-
-  (*************************************************************************************
-  * version 3 additions
-  *************************************************************************************)
-
-    pfnGetWindowVisibleState : function (hWnd:HWND; iStepX:int; iStepY:int):int; cdecl;
-
-  (*************************************************************************************
-  * version 4 additions (0.7.0.x) - genmenu
-  *************************************************************************************)
-
-    menuProtos     : PMenuProto;
-    menuProtoCount : int;
-
-    hPreBuildStatusMenuEvent : THANDLE;
-    currentStatusMenuItem    : int;
-    currentDesiredStatusMode : int;
-    bDisplayLocked           : bool;
-    bAutoRebuild             : bool;
-
-    pfnGetProtocolMenu       : function (_para1:PAnsiChar):HGENMENU; cdecl;
-    pfnGetProtoIndexByPos    : function (var proto:PPROTOCOLDESCRIPTOR; protoCnt:int; Pos:int):int; cdecl;
-    pfnReloadProtoMenus      : procedure ; cdecl;
-
-  (*************************************************************************************
-  * version 5 additions (0.7.0.x) - tray icons
-  *************************************************************************************)
-
-    trayIcon          : PtrayIconInfo_t;
-    trayIconCount     : int;
-    shellVersion      : int;
-    cycleTimerId      : uint_ptr;
-    cycleStep         : int;
-    szTip             : TChar;
-    bTrayMenuOnScreen : bool;
-
-    pfnGetIconFromStatusMode  : function  (hContact:TMCONTACT; szProto:PAnsiChar; status:int):HICON; cdecl;
-
-    pfnInitTray               : procedure ; cdecl;
-    pfnUninitTray             : procedure ; cdecl;
-
-    pfnTrayIconAdd            : function  (hwnd:HWND; szProto:PAnsiChar; szIconProto:PAnsiChar; status:int):int; cdecl;
-    pfnTrayIconDestroy        : function  (hwnd:HWND):int; cdecl;
-    pfnTrayIconInit           : function  (hwnd:HWND):int; cdecl;
-    pfnTrayIconMakeTooltip    : function  (szPrefix:TChar; szProto:PAnsiChar):TChar; cdecl;
-    pfnTrayIconRemove         : procedure (hwnd:HWND; szProto:PAnsiChar); cdecl;
-    pfnTrayIconSetBaseInfo    : function  (hIcon:HICON; szPreferredProto:PAnsiChar):int; cdecl;
-    pfnTrayIconTaskbarCreated : procedure (hwnd:HWND); cdecl;
-    pfnTrayIconUpdate         : function  (hNewIcon:HICON; szNewTip:TChar;
-                                szPreferredProto:PAnsiChar; isBase:int):int; cdecl;
-
-    pfnTrayCycleTimerProc : procedure(hwnd:HWND;message:uint;idEvent:uint_ptr;dwTime:dword); stdcall;
-
-  (*************************************************************************************
-  * version 6 additions (0.8.0.x) - accounts
-  *************************************************************************************)
-    pfnGetAccountIndexByPos : function (pos:int):int; cdecl;
-
-	(*************************************************************************************
-	 * version 7 additions (0.11.0.x) - extra images
-	 *************************************************************************************)
-    pfnReloadExtraIcons: procedure; cdecl;
-    pfnSetAllExtraIcons: procedure(hContact:TMCONTACT); cdecl;
-
-	(*************************************************************************************
-	 * Miranda NG additions
-	 *************************************************************************************)
-
-    pfnGetContactIcon: function (hContact:TMCONTACT):int; cdecl;
   end;
 
 function Clist_GetInterface : PCLIST_INTERFACE; stdcall; external AppDll;

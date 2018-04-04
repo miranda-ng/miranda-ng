@@ -118,7 +118,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				if (GetMenuItemInfoA(cfg::dat.hMenuNotify, (UINT)dis->itemID, FALSE, &mii) != 0) {
 					nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 					if (nmi) {
-						iIcon = pcli->pfnGetContactIcon(nmi->hContact);
+						iIcon = Clist_GetContactIcon(nmi->hContact);
 						hIcon = ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
 						pcli->pfnDrawMenuItem(dis, hIcon, nmi->hIcon);
 						return TRUE;

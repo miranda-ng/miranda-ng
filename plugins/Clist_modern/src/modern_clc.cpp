@@ -1317,7 +1317,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
 	bool needRepaint = false;
-	int contacticon = corecli.pfnGetContactIcon(wParam);
+	int contacticon = Clist_GetContactIcon(wParam);
 	MCONTACT hSelItem = 0;
 
 	ClcGroup *selgroup;
@@ -1333,7 +1333,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	bool isVisiblebyFilter = (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus);
 	bool ifVisibleByClui = !pcli->pfnIsHiddenMode(dat, status);
 	bool isVisible = (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) ? TRUE : ifVisibleByClui;
-	bool isIconChanged = cli_GetContactIcon(wParam) != LOWORD(lParam);
+	bool isIconChanged = Clist_GetContactIcon(wParam) != LOWORD(lParam);
 
 	int shouldShow = isVisiblebyFilter && (isVisible || isIconChanged);
 
@@ -1513,11 +1513,11 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 					Cache_GetNthLineText(dat, pdnce, 3);
 				}
 
-				SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));
+				SendMessage(hwnd, INTM_ICONCHANGED, wParam, Clist_GetContactIcon(wParam));
 
 				if (contact->type == CLCIT_CONTACT) {
 					if (!contact->bImageIsSpecial && pdnce->getStatus() > ID_STATUS_OFFLINE)
-						contact->iImage = corecli.pfnGetContactIcon(wParam);
+						contact->iImage = Clist_GetContactIcon(wParam);
 					if (contact->iSubNumber && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
 						Clist_Broadcast(INTM_STATUSCHANGED, contact->subcontacts->hContact, 0); //forward status changing to host meta contact
 				}

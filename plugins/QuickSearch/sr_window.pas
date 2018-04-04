@@ -123,7 +123,7 @@ begin
   FillChar(li,SizeOf(li),0);
   li.iItem :=100000; //!! need append
   li.mask  :=LVIF_IMAGE or LVIF_PARAM;
-  li.iImage:=cli^.pfnGetContactIcon(hContact);
+  li.iImage:=Clist_GetContactIcon(hContact);
   li.lParam:=num;
   li.iItem :=SendMessageW(grid,LVM_INSERTITEMW,0,lparam(@li));
 

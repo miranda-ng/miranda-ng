@@ -282,7 +282,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 			}
 			else ptszName = cli.pfnGetContactDisplayName(hContact, 0);
 
-			HICON hIcon = ImageList_GetIcon(hCListImages, cli.pfnGetContactIcon(hContact), 0);
+			HICON hIcon = ImageList_GetIcon(hCListImages, Clist_GetContactIcon(hContact), 0);
 			Menu_ModifyItem(hMenuContact[i], ptszName, hIcon, 0);
 			DestroyIcon(hIcon);
 			

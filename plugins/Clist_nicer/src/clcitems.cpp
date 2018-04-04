@@ -108,10 +108,10 @@ ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hCo
 	if (p->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		p->hSubContact = db_mc_getMostOnline(hContact);
 		p->metaProto = GetContactProto(p->hSubContact);
-		p->iImage = pcli->pfnGetContactIcon(p->hSubContact);
+		p->iImage = Clist_GetContactIcon(p->hSubContact);
 	}
 	else {
-		p->iImage = pcli->pfnGetContactIcon(hContact);
+		p->iImage = Clist_GetContactIcon(hContact);
 		p->metaProto = nullptr;
 	}
 

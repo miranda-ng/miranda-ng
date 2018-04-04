@@ -248,7 +248,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					str = _A2T(strtim);
 					str += cname;
 					lvi.pszText = (LPTSTR)str.c_str();
-					lvi.iImage = pcli->pfnGetContactIcon(curContact->second);
+					lvi.iImage = Clist_GetContactIcon(curContact->second);
 					ListView_InsertItem(hList, &lvi);
 					i++;
 

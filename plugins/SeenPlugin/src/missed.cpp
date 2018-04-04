@@ -52,7 +52,7 @@ int ResetMissed(void)
 int CheckIfOnline(void)
 {
 	for (auto &hContact : Contacts())
-		if (pcli->pfnGetContactIcon(hContact) != ICON_OFFLINE)
+		if (Clist_GetContactIcon(hContact) != ICON_OFFLINE)
 			db_set_b(hContact, S_MOD, "Missed", 2);
 
 	return 0;

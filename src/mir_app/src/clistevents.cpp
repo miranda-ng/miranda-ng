@@ -212,7 +212,7 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 
 	// Update contact's icon
 	char *szProto = GetContactProto(hContact);
-	cli.pfnChangeContactIcon(pEvent->hContact, cli.pfnGetContactIcon(pEvent->hContact));
+	cli.pfnChangeContactIcon(pEvent->hContact, Clist_GetContactIcon(pEvent->hContact));
 
 	// Free any memory allocated to the event
 	g_cliEvents.remove(pEvent);

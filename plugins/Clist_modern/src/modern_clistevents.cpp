@@ -288,7 +288,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	rc.left += 26;
 	if (g_CluiData.hUpdateContact != 0) {
 		wchar_t *szName = pcli->pfnGetContactDisplayName(g_CluiData.hUpdateContact, 0);
-		int iIcon = cli_GetContactIcon(g_CluiData.hUpdateContact);
+		int iIcon = Clist_GetContactIcon(g_CluiData.hUpdateContact);
 
 		ske_ImageList_DrawEx(g_himlCListClc, iIcon, hDC, rc.left, (rc.bottom + rc.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
 		rc.left += 18;
@@ -303,7 +303,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 
 		NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 		wchar_t *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
-		int iIcon = cli_GetContactIcon(nmi->hContact);
+		int iIcon = Clist_GetContactIcon(nmi->hContact);
 		ske_ImageList_DrawEx(g_himlCListClc, iIcon, hDC, rc.left, (rc.bottom + rc.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
 		rc.left += 18;
 		ske_ImageList_DrawEx(g_himlCListClc, nmi->iIcon, hDC, 4, (rc.bottom + rc.top) / 2 - 8, 16, 16, CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -366,7 +366,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				if (GetMenuItemInfoA(g_CluiData.hMenuNotify, (UINT)dis->itemID, FALSE, &mii) != 0) {
 					NotifyMenuItemExData *nmi = (NotifyMenuItemExData *)mii.dwItemData;
 					if (nmi) {
-						int iIcon = cli_GetContactIcon(nmi->hContact);
+						int iIcon = Clist_GetContactIcon(nmi->hContact);
 						ske_ImageList_DrawEx(g_himlCListClc, nmi->iIcon, dis->hDC, 2, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
 						ske_ImageList_DrawEx(g_himlCListClc, iIcon, dis->hDC, 2 + GetSystemMetrics(SM_CXSMICON) + 2, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
 						return TRUE;

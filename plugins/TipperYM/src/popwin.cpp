@@ -298,7 +298,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				pwd->iIndent = opt.iTextIndent;
 				pwd->iSidebarWidth = opt.iSidebarWidth;
 				pwd->hContact = (DWORD_PTR)pwd->clcit.hItem;
-				pwd->iIconIndex = pcli->pfnGetContactIcon(pwd->hContact);
+				pwd->iIconIndex = Clist_GetContactIcon(pwd->hContact);
 
 				// don't use stored status message
 				if (!opt.bWaitForContent)

@@ -126,7 +126,6 @@ void InitClistCore()
 	cli.pfnLoadClcOptions = fnLoadClcOptions;
 	cli.pfnRecalculateGroupCheckboxes = fnRecalculateGroupCheckboxes;
 	cli.pfnSetGroupChildCheckboxes = fnSetGroupChildCheckboxes;
-	cli.pfnSetContactCheckboxes = fnSetContactCheckboxes;
 	cli.pfnInvalidateItem = fnInvalidateItem;
 	cli.pfnGetRowBottomY = fnGetRowBottomY;
 	cli.pfnGetRowHeight = fnGetRowHeight;
@@ -166,7 +165,6 @@ void InitClistCore()
 	cli.pfnTrayIconTaskbarCreated = fnTrayIconTaskbarCreated;
 	cli.pfnTrayIconUpdate = fnTrayIconUpdate;
 	cli.pfnTrayIconUpdateBase = fnTrayIconUpdateBase;
-	cli.pfnTrayCalcChanged = fnTrayCalcChanged;
 	cli.pfnTrayIconUpdateWithImageList = fnTrayIconUpdateWithImageList;
 
 	cli.pfnContactListWndProc = fnContactListWndProc;
@@ -196,7 +194,8 @@ void InitClistCore()
 	cli.pfnReloadExtraIcons = fnReloadExtraIcons;
 	cli.pfnSetAllExtraIcons = fnSetAllExtraIcons;
 
-	cli.pfnGetContactIcon = fnGetContactIcon;
+	cli.pfnTrayCalcChanged = fnTrayCalcChanged;
+	cli.pfnSetContactCheckboxes = fnSetContactCheckboxes;
 }
 
 MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)

@@ -186,7 +186,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 
 	ClcContact *cc = cli.pfnAddItemToGroup(group, index + 1);
 	cc->type = CLCIT_CONTACT;
-	cc->iImage = cli.pfnGetContactIcon(hContact);
+	cc->iImage = Clist_GetContactIcon(hContact);
 	cc->hContact = hContact;
 	cc->proto = szProto;
 	cc->pce = pce;

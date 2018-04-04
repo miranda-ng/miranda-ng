@@ -450,9 +450,14 @@ EXTERN_C MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(void);
 EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// do the message processing associated with double clicking a contact
+// does the message processing associated with double clicking a contact
 
 EXTERN_C MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// returns the icon's index of specified contact in the internal image list or -1
+
+EXTERN_C MIR_APP_DLL(int) Clist_GetContactIcon(MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // change the group a contact belongs to

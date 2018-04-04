@@ -300,8 +300,8 @@ void ThumbInfo::ResizeThumb()
 
 void ThumbInfo::RefreshContactIcon(int _iIcon)
 {
-	if (_iIcon == 0xFFFFFFFF || ImageList_GetImageCount(himlMiranda) <= _iIcon)
-		iIcon = pcli->pfnGetContactIcon(hContact);
+	if (_iIcon == -1 || ImageList_GetImageCount(himlMiranda) <= _iIcon)
+		iIcon = Clist_GetContactIcon(hContact);
 	else
 		iIcon = _iIcon;
 

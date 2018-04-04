@@ -151,13 +151,13 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 		return index + 1;
 
 	for (auto &it : protoIconIndex)
-		if (mir_strcmp(szProto, it->szProto) == 0)
+		if (!mir_strcmp(szProto, it->szProto))
 			return it->iIconBase + index;
 
 	return 1;
 }
 
-int fnGetContactIcon(MCONTACT hContact)
+MIR_APP_DLL(int) Clist_GetContactIcon(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	return cli.pfnIconFromStatusMode(szProto,

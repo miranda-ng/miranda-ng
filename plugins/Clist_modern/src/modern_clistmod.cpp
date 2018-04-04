@@ -105,14 +105,6 @@ int cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact)
 	return corecli.pfnIconFromStatusMode(szProto, nStatus, 0);
 }
 
-int cli_GetContactIcon(MCONTACT hContact)
-{
-	int res = corecli.pfnGetContactIcon(hContact);
-	if (res != -1)
-		res &= 0xFFFF;
-	return res;
-}
-
 int GetContactIconC(ClcCacheEntry *p)
 {
 	return pcli->pfnIconFromStatusMode(p->szProto, p->szProto == nullptr ? ID_STATUS_OFFLINE : p->m_iStatus, p->hContact);

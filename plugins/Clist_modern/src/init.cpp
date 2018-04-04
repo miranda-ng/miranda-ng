@@ -174,7 +174,6 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
 
 	// partialy overloaded - call default handlers from inside
-	pcli->pfnGetContactIcon = cli_GetContactIcon;
 	pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
 	pcli->pfnLoadCluiGlobalOpts = CLUI_cli_LoadCluiGlobalOpts;
 	pcli->pfnLoadClcOptions = cli_LoadCLCOptions;

@@ -484,7 +484,6 @@ struct CLIST_INTERFACE
 	/*************************************************************************************
 	 * Miranda NG additions
 	 *************************************************************************************/
-	int      (*pfnGetContactIcon)(MCONTACT hContact);
 	int      (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 	void     (*pfnSetContactCheckboxes)(ClcContact *cc, int checked);
 };

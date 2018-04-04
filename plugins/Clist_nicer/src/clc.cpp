@@ -320,7 +320,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			int shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN ||
 				!CLVM_GetContactHiddenStatus(hContact, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) ||
-				pcli->pfnGetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
+				Clist_GetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
 			if (!Clist_FindItem(hwnd, dat, hContact, &contact, &group, nullptr)) {
 				if (shouldShow && db_is_contact(wParam)) {
@@ -377,7 +377,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		if (contact->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 			contact->hSubContact = db_mc_getMostOnline(contact->hContact);
 			contact->metaProto = GetContactProto(contact->hSubContact);
-			contact->iImage = pcli->pfnGetContactIcon(contact->hSubContact);
+			contact->iImage = Clist_GetContactIcon(contact->hSubContact);
 			if (contact->pExtra) {
 				TExtraCache *pSub = cfg::getCache(contact->hSubContact, contact->metaProto);
 				ClcContact *subContact;

@@ -242,7 +242,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = nullp
 	char *proto = GetContactProto(hContact);
 
 	HIMAGELIST hIml = Clist_GetImageList();
-	int iIcon = pcli->pfnGetContactIcon(hContact);
+	int iIcon = Clist_GetContactIcon(hContact);
 
 	if (db_get_dw(hContact, proto, "IdleTS", 0)) {
 		ImageList_DrawDimmed(hIml, iIcon, hdcTemp,

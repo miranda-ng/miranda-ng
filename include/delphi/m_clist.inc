@@ -149,6 +149,11 @@ const
   }
   function Clist_MenuProcessHotkey(virtKey:uint) : integer; stdcall; external AppDll;
 
+  { 
+    returns the icon's index of specified contact in the internal image list or -1
+  }
+  function Clist_GetContactIcon(hContact:TMCONTACT) : integer; stdcall; external AppDll;
+
   {
     wParam : 0
     lParam : 0

@@ -532,7 +532,7 @@ begin
       li.Caption := LastAddedContact.Name;
       Inc(ContactsFound);
     end;
-    li.ImageIndex := cli^.pfnGetContactIcon(CurContact);
+    li.ImageIndex := Clist_GetContactIcon(CurContact);
     li.Data := Pointer(CurContact);
   end;
 

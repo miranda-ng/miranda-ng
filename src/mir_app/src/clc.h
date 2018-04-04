@@ -143,7 +143,6 @@ int    fnGetImlIconIndex(HICON hIcon);
 int    fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent);
 
 /* clistmod.c */
-int    fnGetContactIcon(MCONTACT hContact);
 int    fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);
 int    fnShowHide(void);
 HICON  fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);
