@@ -197,7 +197,6 @@ void InitClistCore()
 	cli.pfnSetAllExtraIcons = fnSetAllExtraIcons;
 
 	cli.pfnGetContactIcon = fnGetContactIcon;
-	cli.pfnGetAverageMode = fnGetAverageMode;
 	cli.pfnInitAutoRebuild = fnInitAutoRebuild;
 }
 

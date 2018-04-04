@@ -113,29 +113,6 @@ void FreeMenuProtos(void)
 
 //////////////////////////////////////////////////////////////////////////
 
-int fnGetAverageMode(int *pNetProtoCount)
-{
-	int netProtoCount = 0, averageMode = 0;
-
-	for (auto &pa : accounts) {
-		if (!pa->IsVisible() || pa->IsLocked())
-			continue;
-
-		netProtoCount++;
-
-		if (averageMode == 0)
-			averageMode = CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0);
-		else if (averageMode > 0 && averageMode != CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0)) {
-			averageMode = -1;
-			if (pNetProtoCount == nullptr)
-				break;
-		}
-	}
-
-	if (pNetProtoCount) *pNetProtoCount = netProtoCount;
-	return averageMode;
-}
-
 static int RecursiveDeleteMenu(HMENU hMenu)
 {
 	int cnt = GetMenuItemCount(hMenu);
@@ -504,7 +481,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 		}
 	}
 	else if (smep && smep->status && !smep->custom) {
-		int curProtoStatus = (smep->szProto) ? CallProtoServiceInt(0, smep->szProto, PS_GETSTATUS, 0, 0) : cli.pfnGetAverageMode(nullptr);
+		int curProtoStatus = (smep->szProto) ? CallProtoServiceInt(0, smep->szProto, PS_GETSTATUS, 0, 0) : Proto_GetAverageStatus();
 		if (smep->status == curProtoStatus)
 			pimi->mi.flags |= CMIF_CHECKED;
 		else
@@ -939,6 +916,25 @@ void RebuildMenuOrder(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void BuildProtoMenus()
+{
+	for (auto &pa : accounts) {
+		if (!pa->IsVisible())
+			continue;
+
+		if (pa->ppro)
+			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
+	}
+}
+
+void RebuildProtoMenus()
+{
+	RebuildMenuOrder();
+	BuildProtoMenus();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int sttRebuildHotkeys(WPARAM, LPARAM)
 {
 	for (int j = 0; j < _countof(statusModeList); j++) {
@@ -976,8 +972,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	if (hStatusMainMenuHandles == nullptr) return 0;
 	if (Clist_GetProtocolVisibility(ack->szModule) == 0) return 0;
 
-	int overallStatus = cli.pfnGetAverageMode(nullptr);
-
+	int overallStatus = Proto_GetAverageStatus();
 	if (overallStatus >= ID_STATUS_OFFLINE) {
 		int pos = statustopos(cli.currentStatusMenuItem);
 		if (pos == -1)

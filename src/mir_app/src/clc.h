@@ -113,7 +113,6 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam);
 
 /* clistmenus.c */
 HGENMENU fnGetProtocolMenu(const char*);
-int fnGetAverageMode(int *pNetProtoCount);
 
 int fnGetAccountIndexByPos(int Pos);
 int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);

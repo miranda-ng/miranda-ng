@@ -222,7 +222,7 @@ int fnTrayIconInit(HWND hwnd)
 	mir_cslock lck(trayLockCS);
 
 	int netProtoCount = 0;
-	int averageMode = cli.pfnGetAverageMode(&netProtoCount);
+	int averageMode = Proto_GetAverageStatus(&netProtoCount);
 
 	if (cli.cycleTimerId) {
 		KillTimer(nullptr, cli.cycleTimerId);
@@ -408,7 +408,7 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 			return i;
 		}
 		if ((Clist_GetProtocolVisibility(szPreferredProto)) &&
-			(cli.pfnGetAverageMode(nullptr) == -1) &&
+			(Proto_GetAverageStatus(nullptr) == -1) &&
 			(db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) &&
 			!(db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
 			goto LBL_Error;
@@ -463,7 +463,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 
 	int netProtoCount;
 	mir_cslock lck(trayLockCS);
-	int averageMode = cli.pfnGetAverageMode(&netProtoCount);
+	int averageMode = Proto_GetAverageStatus(&netProtoCount);
 
 	if (cli.cycleTimerId) {
 		KillTimer(nullptr, cli.cycleTimerId);

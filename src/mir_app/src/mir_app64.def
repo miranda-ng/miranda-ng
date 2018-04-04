@@ -489,7 +489,7 @@ GetDatabasePlugin @508
 ?AccContacts@PROTO_INTERFACE@@QEBA?AVContacts@@XZ @509 NONAME
 SetServiceModePlugin @510
 Proto_CreateAccount @511
-Proto_ActivateAccount @512
+Proto_GetAverageStatus @512
 ??0CMPluginBase@@IEAA@PEBD@Z @513 NONAME
 ??1CMPluginBase@@IEAA@XZ @514 NONAME
 ??4CMPluginBase@@QEAAAEAV0@AEBV0@@Z @515 NONAME

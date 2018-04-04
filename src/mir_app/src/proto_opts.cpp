@@ -201,7 +201,7 @@ public:
 			rtrim(buf);
 
 			m_pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
-			if (Proto_ActivateAccount(m_pa)) {
+			if (ActivateAccount(m_pa)) {
 				if (bModulesLoadedFired)
 					m_pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
 				if (!db_get_b(0, "CList", "MoveProtoMenus", true))
@@ -541,7 +541,7 @@ public:
 
 		pa->bIsEnabled = !pa->bIsEnabled;
 		if (pa->bIsEnabled) {
-			if (Proto_ActivateAccount(pa)) {
+			if (ActivateAccount(pa)) {
 				if (bModulesLoadedFired)
 					pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
 				if (!db_get_b(0, "CList", "MoveProtoMenus", TRUE))

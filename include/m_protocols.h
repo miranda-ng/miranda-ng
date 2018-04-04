@@ -300,10 +300,10 @@ MIR_APP_DLL(LIST<PROTOACCOUNT>&) Accounts(void);
 EXTERN_C MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const char *pszBaseProto, const wchar_t *ptszAccountName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// constructs the appropriate PROTOACCOUNT::ppro member if needed
-// returns true if succeeded
+// calculates the average protocol status among all visible & active accounts
+// returns the common status or -1 if statuses differ
 
-EXTERN_C MIR_APP_DLL(bool) Proto_ActivateAccount(PROTOACCOUNT *pAccount);
+EXTERN_C MIR_APP_DLL(int) Proto_GetAverageStatus(int *pAccountNumber = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves an account's interface by its physical name (database module)

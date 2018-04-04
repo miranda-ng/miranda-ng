@@ -262,7 +262,7 @@ int LoadAccountsModule(void)
 		if (!pa->IsEnabled())
 			continue;
 
-		if (!Proto_ActivateAccount(pa))
+		if (!ActivateAccount(pa))
 			pa->bDynDisabled = true;
 	}
 
@@ -282,7 +282,7 @@ static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, 
 	return CreateServiceFunctionObj(tmp, pFunc, param);
 }
 
-MIR_APP_DLL(bool) Proto_ActivateAccount(PROTOACCOUNT *pa)
+bool ActivateAccount(PROTOACCOUNT *pa)
 {
 	PROTOCOLDESCRIPTOR* ppd = Proto_IsProtocolLoaded(pa->szProtoName);
 	if (ppd == nullptr)
@@ -298,6 +298,29 @@ MIR_APP_DLL(bool) Proto_ActivateAccount(PROTOACCOUNT *pa)
 	pa->ppro = ppi;
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
 	return true;
+}
+
+MIR_APP_DLL(int) Proto_GetAverageStatus(int *pAccountNumber)
+{
+	int netProtoCount = 0, averageMode = 0;
+
+	for (auto &pa : accounts) {
+		if (!pa->IsVisible() || pa->IsLocked())
+			continue;
+
+		netProtoCount++;
+		if (averageMode == 0)
+			averageMode = CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0);
+		else if (averageMode > 0 && averageMode != CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0)) {
+			averageMode = -1;
+			if (pAccountNumber == nullptr)
+				break;
+		}
+	}
+
+	if (pAccountNumber)
+		*pAccountNumber = netProtoCount;
+	return averageMode;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -416,23 +439,4 @@ void UnloadAccountsModule()
 
 	for (auto &it : hHooks)
 		UnhookEvent(it);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void BuildProtoMenus()
-{
-	for (auto &pa : accounts) {
-		if (!pa->IsVisible())
-			continue;
-
-		if (pa->ppro)
-			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
-	}
-}
-
-void RebuildProtoMenus()
-{
-	RebuildMenuOrder();
-	BuildProtoMenus();
 }
