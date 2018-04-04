@@ -148,7 +148,12 @@ void strm_mgmt::OnProcessFailed(HXML node, ThreadData * /*info*/) //used failed 
 {
 	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
-		//TODO: handle failure
+		m_bStrmMgmtEnabled = false;
+		if (XmlGetChild(node, L"item-not-found")) //session timeout
+		{
+			bSessionResumed = false;
+			EnableStrmMgmt(); //resume failed, try to enable strm_mgmt instead
+		}
 	}
 }
 
