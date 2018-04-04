@@ -328,13 +328,12 @@ bool CMsnProto::MSN_SKYABAuthRsp(const char *wlid, const char *pszAction)
 
 bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 {
-	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPHEADER headers[4];
-	bool bRet = false;
-	CMStringA post;
-
 	// initialize the netlib request
-	if (!APISkypeComRequest(&nlhr, headers)) return false;
+	NETLIBHTTPHEADER headers[4];
+	NETLIBHTTPREQUEST nlhr = { 0 };
+	if (!APISkypeComRequest(&nlhr, headers))
+		return false;
+	
 	nlhr.requestType = REQUEST_PUT;
 	nlhr.szUrl = "https://contacts.skype.com/contacts/v2/users/SELF/contacts";
 	nlhr.headers[3].szName = "Content-type";
@@ -344,7 +343,8 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 	node 
 		<< JSONNode("mri", wlid)
 		<< JSONNode("greeting", pszGreeting);
-	post = node.write().c_str();
+
+	CMStringA post = node.write().c_str();
 	nlhr.dataLength = post.GetLength();
 	nlhr.pData = (char*)(const char*)post;
 
@@ -354,10 +354,11 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		Netlib_FreeHttpRequest(nlhrReply);
-		bRet = true;
+		return true;
 	}
-	else hHttpsConnection = nullptr;
-	return bRet;
+	
+	hHttpsConnection = nullptr;
+	return false;
 }
 
 bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
@@ -365,15 +366,17 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPHEADER headers[4];
 	bool bRet = false;
-	char szURL[256];
 
 	// initialize the netlib request
 	if (!APISkypeComRequest(&nlhr, headers)) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
 		return false;
 	}
-	nlhr.requestType = REQUEST_GET;
+
+	char szURL[256];
 	mir_snprintf(szURL, sizeof(szURL), "https://api.skype.com/search/users/any?keyWord=%s&contactTypes[]=skype", keyWord);
+
+	nlhr.requestType = REQUEST_GET;
 	nlhr.szUrl = szURL;
 	nlhr.headers[3].szName = "Connection";
 	nlhr.headers[3].szValue = "keep-alive";
