@@ -401,8 +401,8 @@ type
     pfnContactListWndProc              : function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):int; stdcall;
                                        
     pfnCluiProtocolStatusChanged       : procedure (status:int; szProto:PAnsiChar); cdecl;
-    pfnDrawMenuItem                    : procedure (_para1:PDRAWITEMSTRUCT; _para2:HICON; _para3:HICON); cdecl;
-    pfnLoadCluiGlobalOpts              : procedure ; cdecl;
+    blablablabla4                      : procedure; cdecl;
+    pfnLoadCluiGlobalOpts              : procedure; cdecl;
     pfnInvalidateRect                  : function (hwnd:HWND; var lpRect:TRECT; bErase:bool):bool; cdecl;
     pfnOnCreateClc                     : procedure ; cdecl;
                                        

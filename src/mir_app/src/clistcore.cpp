@@ -160,7 +160,6 @@ void InitClistCore()
 	cli.pfnContactListWndProc = fnContactListWndProc;
 	cli.pfnLoadCluiGlobalOpts = fnLoadCluiGlobalOpts;
 	cli.pfnCluiProtocolStatusChanged = fnCluiProtocolStatusChanged;
-	cli.pfnDrawMenuItem = fnDrawMenuItem;
 	cli.pfnInvalidateRect = fnInvalidateRect;
 	cli.pfnOnCreateClc = fnOnCreateClc;
 

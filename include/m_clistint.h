@@ -253,6 +253,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam
 EXTERN_C MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
 
 EXTERN_C MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
+EXTERN_C MIR_APP_DLL(void) Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
@@ -403,7 +404,7 @@ struct CLIST_INTERFACE
 	LRESULT (CALLBACK *pfnContactListWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void (*pfnCluiProtocolStatusChanged)(int status, const char *szProto);
-	void (*pfnDrawMenuItem)(LPDRAWITEMSTRUCT, HICON, HICON);
+	int  (*blablabla4)();
 	void (*pfnLoadCluiGlobalOpts)(void);
 	BOOL (*pfnInvalidateRect)(HWND hwnd, CONST RECT* lpRect, BOOL bErase);
 	void (*pfnOnCreateClc)(void);

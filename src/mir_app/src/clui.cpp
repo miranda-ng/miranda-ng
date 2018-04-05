@@ -350,7 +350,7 @@ int LoadCLUIModule(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // default contact list window procedure
 
-void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
+MIR_APP_DLL(void) Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 {
 	HBRUSH hBr;
 	BOOL bfm = FALSE;
@@ -999,7 +999,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			else if (dis->CtlType == ODT_MENU) {
 				if (dis->itemData == MENU_MIRANDAMENU) {
 					HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_MAINMENU);
-					fnDrawMenuItem(dis, CopyIcon(hIcon), nullptr);
+					Clist_DrawMenuItem(dis, CopyIcon(hIcon), nullptr);
 					IcoLib_ReleaseIcon(hIcon);
 					return TRUE;
 				}

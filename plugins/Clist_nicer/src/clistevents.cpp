@@ -120,7 +120,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					if (nmi) {
 						iIcon = Clist_GetContactIcon(nmi->hContact);
 						hIcon = ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
-						pcli->pfnDrawMenuItem(dis, hIcon, nmi->hIcon);
+						Clist_DrawMenuItem(dis, hIcon, nmi->hIcon);
 						return TRUE;
 					}
 				}
