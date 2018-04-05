@@ -600,7 +600,9 @@ struct MImportGroup
 static int ImportGroup(const char* szSettingName, void *param)
 {
 	OBJLIST<MImportGroup> *pArray = (OBJLIST<MImportGroup>*)param;
-	pArray->insert(new MImportGroup(atoi(szSettingName), myGetWs(NULL, "CListGroups", szSettingName)));
+	wchar_t *wszGroupName = myGetWs(NULL, "CListGroups", szSettingName);
+	if (wszGroupName != nullptr)
+		pArray->insert(new MImportGroup(atoi(szSettingName), wszGroupName));
 	return 0;
 }
 
