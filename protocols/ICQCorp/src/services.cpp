@@ -66,7 +66,7 @@ static INT_PTR icqSetStatus(WPARAM wParam, LPARAM)
 {
 	unsigned short desiredStatus = (unsigned short)wParam;
 
-	T("[   ] set status\n");
+	Netlib_Logf(hNetlibUser, "[   ] set status\n");
 
 	// on change status to online set away msg not calling
 	if (desiredStatus == ID_STATUS_ONLINE)
@@ -113,7 +113,7 @@ static INT_PTR icqAuthDeny(WPARAM, LPARAM)
 
 static INT_PTR icqBasicSearch(WPARAM, LPARAM lParam)
 {
-	T("[   ] basic search\n");
+	Netlib_Logf(hNetlibUser, "[   ] basic search\n");
 	icq.startSearch(0, 0, (char*)lParam, 0);
 	return 1;
 }
@@ -122,7 +122,7 @@ static INT_PTR icqBasicSearch(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSearchByEmail(WPARAM, LPARAM lParam)
 {
-	T("[   ] search by e-mail\n");
+	Netlib_Logf(hNetlibUser, "[   ] search by e-mail\n");
 	icq.startSearch(4, 0, (char*)lParam, 0);
 	return 1;
 }
@@ -131,7 +131,7 @@ static INT_PTR icqSearchByEmail(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSearchByName(WPARAM, LPARAM lParam)
 {
-	T("[   ] search by name\n");
+	Netlib_Logf(hNetlibUser, "[   ] search by name\n");
 
 	PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME*)lParam;
 	icq.startSearch(1, 0, (char*)psbn->pszNick, 0);
@@ -142,7 +142,7 @@ static INT_PTR icqSearchByName(WPARAM, LPARAM lParam)
 
 static INT_PTR icqAddToList(WPARAM wParam, LPARAM lParam)
 {
-	T("[   ] add user to list\n");
+	Netlib_Logf(hNetlibUser, "[   ] add user to list\n");
 
 	ICQSEARCHRESULT *isr = (ICQSEARCHRESULT *)lParam;
 	if (isr->hdr.cbSize != sizeof(ICQSEARCHRESULT) || isr->uin == icq.dwUIN)
@@ -156,7 +156,7 @@ static INT_PTR icqAddToList(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR icqGetInfo(WPARAM, LPARAM lParam)
 {
-	T("[   ] get user info\n");
+	Netlib_Logf(hNetlibUser, "[   ] get user info\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
@@ -171,7 +171,7 @@ static INT_PTR icqGetInfo(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 {
-	T("[   ] send message\n");
+	Netlib_Logf(hNetlibUser, "[   ] send message\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
@@ -186,7 +186,7 @@ static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 {
-	T("[   ] receive message\n");
+	Netlib_Logf(hNetlibUser, "[   ] receive message\n");
 
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	db_unset(ccs->hContact, "CList", "Hidden");
@@ -211,7 +211,7 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
 {
-	T("[   ] send url\n");
+	Netlib_Logf(hNetlibUser, "[   ] send url\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
@@ -226,7 +226,7 @@ static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvUrl(WPARAM, LPARAM lParam)
 {
-	T("[   ] receive url\n");
+	Netlib_Logf(hNetlibUser, "[   ] receive url\n");
 
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
@@ -249,7 +249,7 @@ static INT_PTR icqRecvUrl(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSetAwayMsg(WPARAM, LPARAM lParam)
 {
-	T("[   ] set away msg\n");
+	Netlib_Logf(hNetlibUser, "[   ] set away msg\n");
 
 	if (lParam == NULL) return 0;
 
@@ -264,7 +264,7 @@ static INT_PTR icqSetAwayMsg(WPARAM, LPARAM lParam)
 
 static INT_PTR icqGetAwayMsg(WPARAM, LPARAM lParam)
 {
-	T("[   ] send get away msg\n");
+	Netlib_Logf(hNetlibUser, "[   ] send get away msg\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
@@ -278,7 +278,7 @@ static INT_PTR icqGetAwayMsg(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvAwayMsg(WPARAM, LPARAM lParam)
 {
-	T("[   ] receive away message\n");
+	Netlib_Logf(hNetlibUser, "[   ] receive away message\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
@@ -290,7 +290,7 @@ static INT_PTR icqRecvAwayMsg(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 {
-	T("[   ] send file\n");
+	Netlib_Logf(hNetlibUser, "[   ] send file\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
@@ -328,7 +328,7 @@ static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 
 static INT_PTR icqFileAllow(WPARAM, LPARAM lParam)
 {
-	T("[   ] send accept file request\n");
+	Netlib_Logf(hNetlibUser, "[   ] send accept file request\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
@@ -346,7 +346,7 @@ static INT_PTR icqFileAllow(WPARAM, LPARAM lParam)
 
 static INT_PTR icqFileDeny(WPARAM, LPARAM lParam)
 {
-	T("[   ] send refuse file request\n");
+	Netlib_Logf(hNetlibUser, "[   ] send refuse file request\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
@@ -372,7 +372,7 @@ static INT_PTR icqFileDeny(WPARAM, LPARAM lParam)
 
 static INT_PTR icqFileCancel(WPARAM, LPARAM lParam)
 {
-	T("[   ] file cancel\n");
+	Netlib_Logf(hNetlibUser, "[   ] file cancel\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
@@ -397,7 +397,7 @@ static INT_PTR icqFileCancel(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 {
-	T("[   ] receive file\n");
+	Netlib_Logf(hNetlibUser, "[   ] receive file\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	db_unset(ccs->hContact, "CList", "Hidden");
@@ -422,7 +422,7 @@ static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 
 static INT_PTR icqFileResume(WPARAM wParam, LPARAM lParam)
 {
-	T("[   ] send file resume\n");
+	Netlib_Logf(hNetlibUser, "[   ] send file resume\n");
 
 	PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
 	ICQTransfer *t = (ICQTransfer *)wParam;
@@ -445,7 +445,7 @@ static INT_PTR icqSetApparentMode(WPARAM, LPARAM)
 	oldMode = db_get_w(u->hContact, ICQCORP_PROTONAME, "ApparentMode", 0);
 	if (newMode == oldMode) return 1;
 
-	T("[   ] set apparent mode\n");
+	Netlib_Logf(hNetlibUser, "[   ] set apparent mode\n");
 
 	if (newMode == ID_STATUS_ONLINE || newMode == ID_STATUS_OFFLINE) db_set_w(u->hContact, ICQCORP_PROTONAME, "ApparentMode", (WORD)newMode);
 	else db_unset(u->hContact, ICQCORP_PROTONAME, "ApparentMode");
@@ -462,7 +462,7 @@ static INT_PTR icqSetApparentMode(WPARAM, LPARAM)
 
 static int icqContactDeleted(WPARAM hContact, LPARAM)
 {
-	T("[   ] contact deleted\n");
+	Netlib_Logf(hNetlibUser, "[   ] contact deleted\n");
 
 	ICQUser *u = icq.getUserByContact(hContact);
 	if (u != nullptr)

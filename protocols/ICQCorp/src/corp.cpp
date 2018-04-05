@@ -21,9 +21,10 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-HINSTANCE hInstance;
-char protoName[64];
 int hLangpack;
+char protoName[64];
+HINSTANCE hInstance;
+HNETLIBUSER hNetlibUser;
 
 PLUGININFOEX pluginInfo =
 {
@@ -36,6 +37,11 @@ PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE
 };
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
 
 //////////////////////////////////////////////////////////////////////////
 // Interface information
@@ -70,17 +76,16 @@ BOOL APIENTRY DllMain(HINSTANCE hModule, DWORD reason, LPVOID)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload()
-{
-	UnloadServices();
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
+
+	CMStringA szDescr(FORMAT, "%s connection", protoName);
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING;
+	nlu.szSettingsModule = protoName;
+	nlu.szDescriptiveName.a = szDescr.GetBuffer();
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	LoadServices();
 	return 0;
@@ -88,37 +93,8 @@ extern "C" __declspec(dllexport) int Load()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+extern "C" __declspec(dllexport) int Unload()
 {
-	return &pluginInfo;
+	UnloadServices();
+	return 0;
 }
-
-///////////////////////////////////////////////////////////////////////////////
-
-#ifdef _DEBUG
-void T(char *format, ...)
-{
-	char buffer[8196], bufferTime[64];
-	va_list list;
-	SYSTEMTIME t;
-
-	va_start(list, format);
-	vsprintf(buffer, format, list);
-	va_end(list);
-
-	GetLocalTime(&t);
-	sprintf(bufferTime, "%.2d:%.2d:%.2d.%.3d ", t.wHour, t.wMinute, t.wSecond, t.wMilliseconds);
-
-	static HANDLE hFile = INVALID_HANDLE_VALUE;
-	if (hFile == INVALID_HANDLE_VALUE) {
-		hFile = CreateFileW(L"ICQ Corp.log", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_ALWAYS, 0, nullptr);
-		SetFilePointer(hFile, 0, nullptr, FILE_END);
-	}
-
-	DWORD result;
-	WriteFile(hFile, bufferTime, (DWORD)mir_strlen(bufferTime), &result, nullptr);
-	WriteFile(hFile, buffer, (DWORD)mir_strlen(buffer), &result, nullptr);
-}
-#endif
-
-///////////////////////////////////////////////////////////////////////////////

@@ -75,7 +75,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 	packet >> cmd;
 	switch (cmd) {
 	case 0x00:
-		T("[tcp] receive initialising file transfer\n");
+		Netlib_Logf(hNetlibUser, "[tcp] receive initialising file transfer\n");
 		packet >> junkLong
 			>> count
 			>> totalSize
@@ -90,7 +90,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	case 0x01:
-		T("[tcp] ack initialising\n");
+		Netlib_Logf(hNetlibUser, "[tcp] ack initialising\n");
 		packet >> speed >> name;
 
 		ack(ACKRESULT_INITIALISING);
@@ -98,7 +98,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	case 0x02:
-		T("[tcp] receive next file\n");
+		Netlib_Logf(hNetlibUser, "[tcp] receive next file\n");
 		packet >> directory
 			>> szFileName
 			>> directoryName
@@ -125,7 +125,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	case 0x03:
-		T("[tcp] ack next file\n");
+		Netlib_Logf(hNetlibUser, "[tcp] ack next file\n");
 		packet >> fileProgress >> status >> speed;
 
 		totalProgress += fileProgress;
@@ -143,7 +143,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	case 0x04:
-		T("[tcp] receive stop file\n");
+		Netlib_Logf(hNetlibUser, "[tcp] receive stop file\n");
 		packet >> junkLong;
 
 		totalProgress += fileSize - fileProgress;
@@ -153,7 +153,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	case 0x05:
-		T("[tcp] receive new speed\n");
+		Netlib_Logf(hNetlibUser, "[tcp] receive new speed\n");
 		packet >> speed;
 		break;
 
@@ -170,7 +170,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	default:
-		T("[tcp] unknown packet:\n%s", packet.print());
+		Netlib_Logf(hNetlibUser, "[tcp] unknown packet:\n%s", packet.print());
 		packet.reset();
 	}
 
@@ -194,7 +194,7 @@ void ICQTransfer::sendPacket0x00()
 		<< speed
 		<< nick;
 
-	T("[tcp] send packet 0x00\n");
+	Netlib_Logf(hNetlibUser, "[tcp] send packet 0x00\n");
 	socket.sendPacket(packet);
 }
 
@@ -209,7 +209,7 @@ void ICQTransfer::sendPacket0x01()
 		<< speed
 		<< nick;
 
-	T("[tcp] send packet 0x01\n");
+	Netlib_Logf(hNetlibUser, "[tcp] send packet 0x01\n");
 	socket.sendPacket(packet);
 }
 
@@ -234,7 +234,7 @@ void ICQTransfer::sendPacket0x02()
 		<< fileDate
 		<< speed;
 
-	T("[tcp] send packet 0x02\n");
+	Netlib_Logf(hNetlibUser, "[tcp] send packet 0x02\n");
 	socket.sendPacket(packet);
 	ack(ACKRESULT_NEXTFILE);
 
@@ -253,7 +253,7 @@ void ICQTransfer::sendPacket0x03()
 
 	setFilePosition();
 
-	T("[tcp] send packet 0x03\n");
+	Netlib_Logf(hNetlibUser, "[tcp] send packet 0x03\n");
 	socket.sendPacket(packet);
 }
 
@@ -261,7 +261,7 @@ void ICQTransfer::sendPacket0x03()
 
 void ICQTransfer::sendPacket0x04()
 {
-	T("[tcp] send packet 0x04\n");
+	Netlib_Logf(hNetlibUser, "[tcp] send packet 0x04\n");
 	// icq_PacketAppend8(p, 0x04);
 	// icq_PacketAppend32(p, filenum);
 }
@@ -270,7 +270,7 @@ void ICQTransfer::sendPacket0x04()
 
 void ICQTransfer::sendPacket0x05()
 {
-	T("[tcp] send packet 0x05\n");
+	Netlib_Logf(hNetlibUser, "[tcp] send packet 0x05\n");
 	// icq_PacketAppend8(p, 0x05);
 	// icq_PacketAppend32(p, speed);
 }
@@ -364,16 +364,16 @@ void ICQTransfer::resume(int action, const wchar_t*)
 {
 	switch (action) {
 	case FILERESUME_OVERWRITE:
-		T("[   ] overwrite existing file\n");
+		Netlib_Logf(hNetlibUser, "[   ] overwrite existing file\n");
 		fileProgress = 0;
 		break;
 
 	case FILERESUME_RESUME:
-		T("[   ] file resume\n");
+		Netlib_Logf(hNetlibUser, "[   ] file resume\n");
 		break;
 
 	case FILERESUME_RENAME:
-		T("[   ] rename file\n");
+		Netlib_Logf(hNetlibUser, "[   ] rename file\n");
 		
 		replaceStrW(fileName, fileName);
 
@@ -382,7 +382,7 @@ void ICQTransfer::resume(int action, const wchar_t*)
 		break;
 
 	case FILERESUME_SKIP:
-		T("[   ] skip file\n");
+		Netlib_Logf(hNetlibUser, "[   ] skip file\n");
 		fileProgress = fileSize;
 		break;
 	}
@@ -412,7 +412,7 @@ void ICQTransfer::openFile()
 	if (hFind != INVALID_HANDLE_VALUE) {
 		FindClose(hFind);
 		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-			T("open directory %S\n", fileName);
+			Netlib_Logf(hNetlibUser, "open directory %S\n", fileName);
 			directory = 1;
 			fileProgress = 0;
 			fileSize = 0;
@@ -426,7 +426,7 @@ void ICQTransfer::openFile()
 	if (hFile == INVALID_HANDLE_VALUE) {
 		wchar_t msg[2048];
 
-		T("can't open file %S\n", fileName);
+		Netlib_Logf(hNetlibUser, "can't open file %S\n", fileName);
 		mir_snwprintf(msg, L"%s\n%s", sending ? 
 			TranslateT("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.") : 
 			TranslateT("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."), 

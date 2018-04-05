@@ -89,7 +89,7 @@ LRESULT WINAPI messageWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			unsigned int i;
 			for (i = 0; i < icqUsers.size(); i++) {
 				if (hSocket == icqUsers[i]->socket.handleVal) {
-					T("[tcp] user %d is aborted connection\n", icqUsers[i]->dwUIN);
+					Netlib_Logf(hNetlibUser, "[tcp] user %d is aborted connection\n", icqUsers[i]->dwUIN);
 					icqUsers[i]->socket.closeConnection();
 					break;
 				}
@@ -106,7 +106,7 @@ LRESULT WINAPI messageWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		if (netEvents & FD_CLOSE) {
 			for (size_t i = 0; i < icqTransfers.size(); i++) {
 				if (hSocket == icqTransfers[i]->socket.handleVal) {
-					T("[tcp] user %d is aborted file connection\n", icqTransfers[i]->uin);
+					Netlib_Logf(hNetlibUser, "[tcp] user %d is aborted file connection\n", icqTransfers[i]->uin);
 					ProtoBroadcastAck(protoName, icqTransfers[i]->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, icqTransfers[i], 0);
 					delete icqTransfers[i];
 					icqTransfers[i] = icqTransfers[icqTransfers.size() - 1];
@@ -248,7 +248,7 @@ bool ICQ::logon(unsigned short logonStatus)
 		<< (unsigned short)0x13
 		<< (unsigned short)0x7A;
 
-	T("[udp] requesting logon (%d)...\n", sequenceVal);
+	Netlib_Logf(hNetlibUser, "[udp] requesting logon (%d)...\n", sequenceVal);
 	sendICQ(udpSocket, loginPacket, ICQ_CMDxSND_LOGON, sequenceVal);
 
 	desiredStatus = logonStatus;
@@ -275,7 +275,7 @@ void ICQ::logoff(bool reconnect)
 			<< "B_USER_DISCONNECTED"
 			<< (unsigned short)0x0005;
 
-		T("[udp] logging off.\n");
+		Netlib_Logf(hNetlibUser, "[udp] logging off.\n");
 		udpSocket.sendPacket(logoffPacket);
 		//		udpSocket.closeConnection();
 
@@ -309,7 +309,7 @@ void ICQ::ping()
 			<< dwUIN
 			<< (unsigned int)0x00;
 
-		T("[udp] keep alive (%d)\n", sequenceVal);
+		Netlib_Logf(hNetlibUser, "[udp] keep alive (%d)\n", sequenceVal);
 		sendICQ(udpSocket, pingPacket, ICQ_CMDxSND_PING, sequenceVal);
 	}
 
@@ -358,7 +358,7 @@ void ICQ::doneEvent(bool gotAck, int hSocket, int sequence)
 		icqEvents.pop_back();
 	}
 
-	if (!gotAck) T("[   ] sending failed (%d)\n", sequence);
+	if (!gotAck) Netlib_Logf(hNetlibUser, "[   ] sending failed (%d)\n", sequence);
 
 	switch (e->cmd) {
 	case ICQ_CMDxTCP_START:
@@ -455,18 +455,18 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		>> junkl;
 
 	if (version != ICQ_VERSION) {
-		T("[udp] bad version number %d\n", version);
+		Netlib_Logf(hNetlibUser, "[udp] bad version number %d\n", version);
 		return 0xFFFF;
 	}
 
 	switch (command) {
 	case ICQ_CMDxRCV_LOGIN_ERR:
-		T("[udp] error loging to server.\n");
+		Netlib_Logf(hNetlibUser, "[udp] error loging to server.\n");
 		ackUDP(theSequence);
 
 		packet >> message;
 
-		T("%s\n", message);
+		Netlib_Logf(hNetlibUser, "%s\n", message);
 		MessageBoxA(nullptr, message, protoName, MB_ICONERROR | MB_OK);
 		delete[] message;
 		break;
@@ -474,7 +474,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 	case ICQ_CMDxRCV_USERxONLINE: // initial user status packet
 		packet >> checkUin;
 
-		T("[udp] user %d is online\n", checkUin);
+		Netlib_Logf(hNetlibUser, "[udp] user %d is online\n", checkUin);
 		ackUDP(theSequence);
 
 		if ((u = getUserByUIN(checkUin, false)) == nullptr) break;
@@ -496,7 +496,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 	case ICQ_CMDxRCV_USERxOFFLINE: // user just went offline packet
 		packet >> checkUin;
 
-		T("[udp] user %d is offline\n", checkUin);
+		Netlib_Logf(hNetlibUser, "[udp] user %d is offline\n", checkUin);
 		ackUDP(theSequence);
 
 		if ((u = getUserByUIN(checkUin, false)) == nullptr) break;
@@ -511,7 +511,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 	case ICQ_CMDxRCV_USERxWORKxPAGE:
 	case ICQ_CMDxRCV_USERxHOMExINFO:
 	case ICQ_CMDxRCV_USERxHOMExPAGE:
-		T("[udp] user information packet (%d)\n", theSequence);
+		Netlib_Logf(hNetlibUser, "[udp] user information packet (%d)\n", theSequence);
 		ackUDP(theSequence);
 
 		if ((e = getEvent(udpSocket.handleVal, theSequence1)) == nullptr) break;
@@ -609,19 +609,19 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_USERxINVALIDxUIN: // not a good uin
-		T("[udp] invalid uin\n");
+		Netlib_Logf(hNetlibUser, "[udp] invalid uin\n");
 		ackUDP(theSequence);
 
 		if ((e = getEvent(udpSocket.handleVal, theSequence1)) == nullptr) break;
 
 		checkUin = e->uin;
-		T("invalid uin: %d\n", checkUin);
+		Netlib_Logf(hNetlibUser, "invalid uin: %d\n", checkUin);
 		break;
 
 	case ICQ_CMDxRCV_USERxSTATUS: // user changed status packet
 		packet >> checkUin;
 
-		T("[udp] user %d changed status\n", checkUin);
+		Netlib_Logf(hNetlibUser, "[udp] user %d changed status\n", checkUin);
 		ackUDP(theSequence);
 
 		packet >> newStatus;
@@ -631,12 +631,12 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_USERxLISTxDONE: // end of user list
-		T("[udp] end of user list.\n");
+		Netlib_Logf(hNetlibUser, "[udp] end of user list.\n");
 		ackUDP(theSequence);
 		break;
 
 	case ICQ_CMDxRCV_SEARCHxFOUND: // user found in search
-		T("[udp] search found user\n");
+		Netlib_Logf(hNetlibUser, "[udp] search found user\n");
 		ackUDP(theSequence);
 
 		char *alias, *firstName, *lastName, *email;
@@ -666,7 +666,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_SEARCHxDONE:
-		T("[udp] search finished.\n");
+		Netlib_Logf(hNetlibUser, "[udp] search finished.\n");
 		ackUDP(theSequence);
 
 		packet >> searchSequence;
@@ -676,7 +676,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_SYSxMSGxOFFLINE: // offline system message, now have to check the sub-command
-		T("[udp] offline system message\n");
+		Netlib_Logf(hNetlibUser, "[udp] offline system message\n");
 		ackUDP(theSequence);
 
 		packet >> checkUin
@@ -690,7 +690,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_SYSxMSGxONLINE: // online system message, now have to check the sub-command
-		T("[udp] online system message\n");
+		Netlib_Logf(hNetlibUser, "[udp] online system message\n");
 		ackUDP(theSequence);
 
 		packet >> checkUin
@@ -700,7 +700,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_SYSxMSGxDONE: // end of system messages
-		T("[udp] end of system messages.\n");
+		Netlib_Logf(hNetlibUser, "[udp] end of system messages.\n");
 		ackUDP(theSequence);
 
 		if (timeStampLastMessage) {
@@ -710,7 +710,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_BROADCASTxMULTI:
-		T("[udp] broadcast multi-packet (%d)\n", theSequence);
+		Netlib_Logf(hNetlibUser, "[udp] broadcast multi-packet (%d)\n", theSequence);
 		ackUDP(theSequence);
 
 		unsigned int i;
@@ -757,7 +757,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_BROADCASTxOFFLINE:
-		T("[udp] offline broadcast message (%d)\n", theSequence);
+		Netlib_Logf(hNetlibUser, "[udp] offline broadcast message (%d)\n", theSequence);
 		ackUDP(theSequence);
 
 		packet >> checkUin
@@ -771,7 +771,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_BROADCASTxONLINE:
-		T("[udp] online broadcast message (%d)\n", theSequence);
+		Netlib_Logf(hNetlibUser, "[udp] online broadcast message (%d)\n", theSequence);
 		ackUDP(theSequence);
 
 		packet >> checkUin
@@ -781,27 +781,27 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_BROADCASTxDONE:
-		T("[udp] end of broadcast messages.\n");
+		Netlib_Logf(hNetlibUser, "[udp] end of broadcast messages.\n");
 		ackUDP(theSequence);
 		break;
 
 	case ICQ_CMDxRCV_SETxOFFLINE: // we got put offline by mirabilis for some reason
-		T("[udp] kicked offline.\n");
+		Netlib_Logf(hNetlibUser, "[udp] kicked offline.\n");
 		logoff(true);
 		break;
 
 	case ICQ_CMDxRCV_ACK: // icq acknowledgement
-		T("[udp] received ack (%d)\n", theSequence);
+		Netlib_Logf(hNetlibUser, "[udp] received ack (%d)\n", theSequence);
 		doneEvent(true, udpSocket.handleVal, theSequence);
 		break;
 
 	case ICQ_CMDxRCV_ERROR: // icq says go away
-		T("[udp] server says bugger off.\n");
+		Netlib_Logf(hNetlibUser, "[udp] server says bugger off.\n");
 		logoff(true);
 		break;
 
 	case ICQ_CMDxRCV_HELLO: // hello packet from mirabilis received on logon
-		T("[udp] received hello.\n");
+		Netlib_Logf(hNetlibUser, "[udp] received hello.\n");
 		ackUDP(theSequence);
 
 		int oldStatus;
@@ -820,17 +820,17 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		break;
 
 	case ICQ_CMDxRCV_WRONGxPASSWD: // incorrect password sent in logon
-		T("[udp] incorrect password.\n");
+		Netlib_Logf(hNetlibUser, "[udp] incorrect password.\n");
 		ProtoBroadcastAck(protoName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPASSWORD);
 		MessageBox(nullptr, TranslateT("Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again."), _A2T(protoName), MB_ICONERROR | MB_OK);
 		break;
 
 	case ICQ_CMDxRCV_BUSY: // server too busy to respond
-		T("[udp] server busy, try again in a few minutes.\n");
+		Netlib_Logf(hNetlibUser, "[udp] server busy, try again in a few minutes.\n");
 		break;
 
 	default: // what the heck is this packet?
-		T("[udp] unknown packet:\n%s", packet.print());
+		Netlib_Logf(hNetlibUser, "[udp] unknown packet:\n%s", packet.print());
 		ackUDP(theSequence);
 		break;
 	}
@@ -853,17 +853,17 @@ void ICQ::processSystemMessage(Packet &packet, unsigned long checkUin, unsigned 
 
 	switch (newCommand) {
 	case ICQ_CMDxRCV_SYSxMSG:
-		T("message through server from %d\n", checkUin);
+		Netlib_Logf(hNetlibUser, "message through server from %d\n", checkUin);
 		addMessage(u, message, timeSent);
 		break;
 
 	case ICQ_CMDxRCV_SYSxURL:
-		T("url through server from %d\n", checkUin);
+		Netlib_Logf(hNetlibUser, "url through server from %d\n", checkUin);
 		addUrl(u, message, timeSent);
 		break;
 
 	case ICQ_CMDxRCV_SYSxBROADCAST:
-		T("broadcast message from %d\n", checkUin);
+		Netlib_Logf(hNetlibUser, "broadcast message from %d\n", checkUin);
 
 		messageLen = (unsigned int)mir_strlen(message);
 		for (i = 0; i < messageLen; i++)
@@ -878,7 +878,7 @@ void ICQ::processSystemMessage(Packet &packet, unsigned long checkUin, unsigned 
 			// FE 47 72 61 68 61 6D FE 52 6F 66 66 FE 67 72 6F 66 66 40 75 77 61 74 65
 			// 72 6C 6F 6F 2E 63 61 FE 31 FE 50 6C 65 61 73 65 20 61 75 74 68 6F 72 69
 			// 7A 65 20 6D 65 2E 00
-			T("authorization request from %ld.\n", checkUin);
+			Netlib_Logf(hNetlibUser, "authorization request from %ld.\n", checkUin);
 			packet >> messageLen;
 			message = new char[messageLen + 1];
 			for (i=0; i<=messageLen; i++)
@@ -965,7 +965,7 @@ void ICQ::processSystemMessage(Packet &packet, unsigned long checkUin, unsigned 
 				  */
 
 	default:
-		T("[udp] unknown system packet:\n%s", packet.print());
+		Netlib_Logf(hNetlibUser, "[udp] unknown system packet:\n%s", packet.print());
 		break;
 	}
 
@@ -984,7 +984,7 @@ void ICQ::ackUDP(unsigned short theSequence)
 		<< dwUIN
 		<< (unsigned int)0x00;
 
-	T("[udp] sending ack (%d)\n", theSequence);
+	Netlib_Logf(hNetlibUser, "[udp] sending ack (%d)\n", theSequence);
 	udpSocket.sendPacket(packet);
 }
 
@@ -1001,7 +1001,7 @@ void ICQ::ackSYS(unsigned int timeStamp)
 		<< (unsigned int)0x00
 		<< timeStamp;
 
-	T("[udp] sending system message ack (%d)\n", sequenceVal);
+	Netlib_Logf(hNetlibUser, "[udp] sending system message ack (%d)\n", sequenceVal);
 	sendICQ(udpSocket, packet, ICQ_CMDxSND_SYSxMSGxDONExACK, sequenceVal);
 }
 
@@ -1019,11 +1019,11 @@ ICQUser *ICQ::getUserByUIN(unsigned long _uin, bool allowAdd)
 	}
 
 	if (allowAdd) {
-		T("unknown user %d, adding them to your list\n", _uin);
+		Netlib_Logf(hNetlibUser, "unknown user %d, adding them to your list\n", _uin);
 		return addUser(_uin, false);
 	}
 
-	T("ICQ sent unknown user %d\n", _uin);
+	Netlib_Logf(hNetlibUser, "ICQ sent unknown user %d\n", _uin);
 	return nullptr;
 }
 
@@ -1054,7 +1054,7 @@ void ICQ::requestSystemMsg()
 		<< dwUIN
 		<< (unsigned int)0x00;
 
-	T("[udp] sending offline system messages request (%d)...\n", sequenceVal);
+	Netlib_Logf(hNetlibUser, "[udp] sending offline system messages request (%d)...\n", sequenceVal);
 	sendICQ(udpSocket, packet, ICQ_CMDxSND_SYSxMSGxREQ, sequenceVal);
 }
 
@@ -1074,7 +1074,7 @@ void ICQ::requestBroadcastMsg()
 		<< timeStamp
 		<< (unsigned int)0x00;
 
-	T("[udp] sending offline broadcast messages request (%d)...\n", sequenceVal);
+	Netlib_Logf(hNetlibUser, "[udp] sending offline broadcast messages request (%d)...\n", sequenceVal);
 	sendICQ(udpSocket, packet, ICQ_CMDxSND_SYSxMSGxREQ, sequenceVal);
 }
 
@@ -1094,7 +1094,7 @@ bool ICQ::setStatus(unsigned short newStatus)
 		<< (unsigned int)0x00
 		<< toIcqStatus(newStatus);
 
-	T("[udp] sending set status packet (%d)\n", sequenceVal);
+	Netlib_Logf(hNetlibUser, "[udp] sending set status packet (%d)\n", sequenceVal);
 	sendICQ(udpSocket, packet, ICQ_CMDxSND_SETxSTATUS, sequenceVal);
 
 	desiredStatus = newStatus;
@@ -1148,7 +1148,7 @@ void ICQ::updateContactList()
 		for (; userCount > 0; userCount--) userPacket << icqUsers[i++]->dwUIN;
 
 		// send user info packet
-		T("[udp] sending contact list (%d)...\n", sequenceVal);
+		Netlib_Logf(hNetlibUser, "[udp] sending contact list (%d)...\n", sequenceVal);
 		sendICQ(udpSocket, userPacket, ICQ_CMDxSND_USERxLIST, sequenceVal);
 	}
 }
@@ -1188,7 +1188,7 @@ void ICQ::sendVisibleList()
 		userPacket << icqUsers[i]->uin;
 		}
 
-		T("[udp] sending visible list (%d)\n", sequenceVal);
+		Netlib_Logf(hNetlibUser, "[udp] sending visible list (%d)\n", sequenceVal);
 		sendICQ(udpSocket, userPacket, ICQ_CMDxSND_VISxLIST, sequenceVal);
 		*/
 }
@@ -1223,7 +1223,7 @@ void ICQ::sendInvisibleList()
 		userPacket << icqUsers[i]->uin;
 		}
 
-		T("[udp] sending invisible list (%d)\n", sequenceVal);
+		Netlib_Logf(hNetlibUser, "[udp] sending invisible list (%d)\n", sequenceVal);
 		sendICQ(udpSocket, userPacket, ICQ_CMDxSND_INVISxLIST, sequenceVal);
 		*/
 }
@@ -1244,7 +1244,7 @@ void ICQ::updateUserList(ICQUser* /*u*/, char /*list*/, char /*add*/)
 		<< list
 		<< add;
 
-		T("[udp] update user list (%d)\n", sequenceVal);
+		Netlib_Logf(hNetlibUser, "[udp] update user list (%d)\n", sequenceVal);
 		sendICQ(udpSocket, userPacket, ICQ_CMDxSND_UPDATExLIST, sequenceVal);
 		*/
 }
@@ -1304,7 +1304,7 @@ void ICQ::addNewUser(ICQUser*)
 		<< (unsigned int)0x00
 		<< u->uin;
 
-		T("[udp] alerting server to new user (%d)...\n", sequenceVal);
+		Netlib_Logf(hNetlibUser, "[udp] alerting server to new user (%d)...\n", sequenceVal);
 		sendICQ(udpSocket, packet, ICQ_CMDxSND_USERxADD, sequenceVal);
 
 		//	  getUserInfo(u);
@@ -1346,7 +1346,7 @@ void ICQ::startSearch(unsigned char skrit, unsigned char smode, char *sstring, u
 		<< smode
 		<< sstring;
 
-	T("[udp] starting search for user (%d)...\n", s);
+	Netlib_Logf(hNetlibUser, "[udp] starting search for user (%d)...\n", s);
 	sendICQ(udpSocket, packet, ICQ_CMDxSND_SEARCHxSTART, sequenceVal);
 }
 
@@ -1364,15 +1364,15 @@ ICQEvent *ICQ::send(ICQUser *u, unsigned short cmd, char *cmdStr, char *m)
 
 bool ICQ::openConnection(TCPSocket &socket)
 {
-	T("[tcp] connecting to %s on port %d...\n", inet_ntoa(*(in_addr*)&socket.remoteIPVal), socket.remotePortVal);
+	Netlib_Logf(hNetlibUser, "[tcp] connecting to %s on port %d...\n", inet_ntoa(*(in_addr*)&socket.remoteIPVal), socket.remotePortVal);
 	socket.openConnection();
 
 	if (!socket.connected()) {
-		T("[tcp] connect failed\n");
+		Netlib_Logf(hNetlibUser, "[tcp] connect failed\n");
 		return false;
 	}
 
-	T("[tcp] connection successful\n");
+	Netlib_Logf(hNetlibUser, "[tcp] connection successful\n");
 
 	Packet packet;
 	//	packet << ICQ_CMDxTCP_HANDSHAKE3
@@ -1387,13 +1387,13 @@ bool ICQ::openConnection(TCPSocket &socket)
 		<< (unsigned int)0x00;
 	//		   << (unsigned long)tcpSocket.localPortVal;
 
-	T("[tcp] sending handshake\n");
+	Netlib_Logf(hNetlibUser, "[tcp] sending handshake\n");
 	if (!socket.sendPacket(packet)) {
-		T("[tcp] send failed\n");
+		Netlib_Logf(hNetlibUser, "[tcp] send failed\n");
 		return false;
 	}
 
-	T("[tcp] setup completed\n");
+	Netlib_Logf(hNetlibUser, "[tcp] setup completed\n");
 	return true;
 }
 
@@ -1431,7 +1431,7 @@ ICQEvent *ICQ::sendTCP(ICQUser *u, unsigned short cmd, char *cmdStr, char *m)
 		<< status
 		<< tcpSequenceVal--;
 
-	T("[tcp] sending %s (%d)\n", cmdStr, tcpSequenceVal + 1);
+	Netlib_Logf(hNetlibUser, "[tcp] sending %s (%d)\n", cmdStr, tcpSequenceVal + 1);
 	return sendICQ(u->socket, packet, ICQ_CMDxTCP_START, tcpSequenceVal + 1, u->dwUIN, cmd);
 }
 
@@ -1480,14 +1480,14 @@ ICQEvent *ICQ::sendUDP(ICQUser *u, unsigned short cmd, char *cmdStr, char *m)
 		frame << c;
 		}
 
-		T("[udp] sending %s through server, part %d of %d (%d)\n", cmdStr, frameNo, frameSize, sequenceVal);
+		Netlib_Logf(hNetlibUser, "[udp] sending %s through server, part %d of %d (%d)\n", cmdStr, frameNo, frameSize, sequenceVal);
 		sendICQ(udpSocket, packet, ICQ_CMDxSND_THRUxSERVER, sequenceVal, u->uin, cmd);
 		}
 		}
 		else
 		*/
 	{
-		T("[udp] sending %s through server (%d)\n", cmdStr, sequenceVal);
+		Netlib_Logf(hNetlibUser, "[udp] sending %s through server (%d)\n", cmdStr, sequenceVal);
 		return sendICQ(udpSocket, packet, ICQ_CMDxSND_THRUxSERVER, sequenceVal, u->dwUIN, cmd);
 	}
 }
@@ -1605,7 +1605,7 @@ ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsign
 
 	packet << tcpSequenceVal--;
 
-	T("[tcp] sending file request (%d)\n", tcpSequenceVal + 1);
+	Netlib_Logf(hNetlibUser, "[tcp] sending file request (%d)\n", tcpSequenceVal + 1);
 	sendICQ(u->socket, packet, ICQ_CMDxTCP_START, tcpSequenceVal + 1, u->dwUIN, cmd);
 	return transfer;
 }
@@ -1651,7 +1651,7 @@ void ICQ::acceptFile(ICQUser *u, unsigned long hTransfer, char*)
 
 	packet << theSequence;
 
-	T("[tcp] sending accept file ack (%d)\n", theSequence);
+	Netlib_Logf(hNetlibUser, "[tcp] sending accept file ack (%d)\n", theSequence);
 	u->socket.sendPacket(packet);
 }
 
@@ -1696,7 +1696,7 @@ void ICQ::refuseFile(ICQUser *u, unsigned long hTransfer, char *reason)
 
 	packet << theSequence;
 
-	T("[tcp] sending refuse file ack (%d)\n", theSequence);
+	Netlib_Logf(hNetlibUser, "[tcp] sending refuse file ack (%d)\n", theSequence);
 	u->socket.sendPacket(packet);
 }
 
@@ -1715,7 +1715,7 @@ bool ICQ::getUserInfo(ICQUser *u, bool basicInfo)
 		<< (unsigned int)0x00
 		<< u->dwUIN;
 
-	T("[udp] sending user %s info request (%d)...\n", basicInfo ? "basic" : "details", sequenceVal);
+	Netlib_Logf(hNetlibUser, "[udp] sending user %s info request (%d)...\n", basicInfo ? "basic" : "details", sequenceVal);
 	sendICQ(udpSocket, request, cmd, sequenceVal, u->dwUIN, 0, basicInfo ? 1 : 5);
 	return true;
 }
@@ -1735,7 +1735,7 @@ void ICQ::authorize(unsigned int uinToAuthorize)
 		<< (unsigned int)0x00010008   // who knows, seems to be constant
 		<< (unsigned char)0x00;
 
-	T("[udp] sending authorization (%d)\n", sequenceVal);
+	Netlib_Logf(hNetlibUser, "[udp] sending authorization (%d)\n", sequenceVal);
 	sendICQ(udpSocket, packet, ICQ_CMDxSND_AUTHORIZE, sequenceVal);
 }
 
@@ -1768,7 +1768,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 	case ICQ_CMDxTCP_START: // incoming tcp packet containing one of many possible things
 		switch (newCommand) { // do a switch on what it could be
 		case ICQ_CMDxTCP_MSG:  // straight message from a user
-			T("[tcp] message from %d.\n", checkUin);
+			Netlib_Logf(hNetlibUser, "[tcp] message from %d.\n", checkUin);
 
 			packet >> theTCPSequence;
 
@@ -1777,7 +1777,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 			break;
 
 		case ICQ_CMDxTCP_CHAT:
-			T("[tcp] chat request from %d.\n", checkUin);
+			Netlib_Logf(hNetlibUser, "[tcp] chat request from %d.\n", checkUin);
 
 			packet >> junkLong
 				>> junkLong
@@ -1789,7 +1789,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 			break;
 
 		case ICQ_CMDxTCP_URL:  // url sent
-			T("[tcp] url from %d.\n", checkUin);
+			Netlib_Logf(hNetlibUser, "[tcp] url from %d.\n", checkUin);
 
 			packet >> theTCPSequence;
 
@@ -1808,7 +1808,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 				>> junkLong
 				>> theTCPSequence;
 
-			T("[tcp] file transfer request from %d (%d)\n", checkUin, theTCPSequence);
+			Netlib_Logf(hNetlibUser, "[tcp] file transfer request from %d (%d)\n", checkUin, theTCPSequence);
 
 			addFileReq(u, message, fileName, size, theTCPSequence, time(nullptr));
 			delete[] fileName;
@@ -1819,7 +1819,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 		case ICQ_CMDxTCP_READxNAxMSG:
 		case ICQ_CMDxTCP_READxDNDxMSG:
 		case ICQ_CMDxTCP_READxFREECHATxMSG:
-			T("[tcp] %d requested read of away message.\n", checkUin);
+			Netlib_Logf(hNetlibUser, "[tcp] %d requested read of away message.\n", checkUin);
 
 			packet >> theTCPSequence;
 			ackTCP(packet, u, newCommand, theTCPSequence);
@@ -1859,14 +1859,14 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 				>> thePort
 				>> theTCPSequence;
 
-			T("[tcp] file transfer ack from %d (%d)\n", u->dwUIN, theTCPSequence);
+			Netlib_Logf(hNetlibUser, "[tcp] file transfer ack from %d (%d)\n", u->dwUIN, theTCPSequence);
 
 			ICQTransfer *t;
 			for (i = 0; i < icqTransfers.size(); i++) {
 				t = icqTransfers[i];
 				if (t->uin == checkUin && !t->socket.connected()) {
 					if (userStatus != 0) {
-						T("[tcp] file transfer denied by %d\n", checkUin);
+						Netlib_Logf(hNetlibUser, "[tcp] file transfer denied by %d\n", checkUin);
 						ProtoBroadcastAck(protoName, t->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, t, 0);
 						delete t;
 						icqTransfers[i] = icqTransfers[icqTransfers.size() - 1];
@@ -1875,7 +1875,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 					}
 
 					if (!t->socket.setDestination(u->socket.remoteIPVal, thePort)) {
-						T("[tcp] can't set destination\n");
+						Netlib_Logf(hNetlibUser, "[tcp] can't set destination\n");
 						break;
 					}
 					t->ack(ACKRESULT_CONNECTING);
@@ -1900,13 +1900,13 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 
 		// output the away message if there is one (ie if user status is not online)
 		if (userStatus == 0x0000)
-			T("[tcp] ack from %d (%d).\n", u->dwUIN, theTCPSequence);
+			Netlib_Logf(hNetlibUser, "[tcp] ack from %d (%d).\n", u->dwUIN, theTCPSequence);
 		else if (userStatus == 0x0001)
-			T("[tcp] refusal from %d (%d): %s\n", u->dwUIN, theTCPSequence, message);
+			Netlib_Logf(hNetlibUser, "[tcp] refusal from %d (%d): %s\n", u->dwUIN, theTCPSequence, message);
 		else {
 			// u->setAwayMessage(message);
-			T("[tcp] ack from %d (%d).\n", u->dwUIN, theTCPSequence);
-			// T("[tcp] ack from %d (%ld): %s\n", u->uin, theTCPSequence, message);
+			Netlib_Logf(hNetlibUser, "[tcp] ack from %d (%d).\n", u->dwUIN, theTCPSequence);
+			// Netlib_Logf(hNetlibUser, "[tcp] ack from %d (%ld): %s\n", u->uin, theTCPSequence, message);
 		}
 
 		doneEvent(true, hSocket, theTCPSequence);
@@ -1915,19 +1915,19 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 	case ICQ_CMDxTCP_CANCEL:
 		switch (newCommand) {
 		case ICQ_CMDxTCP_CHAT:
-			T("[tcp] chat request from %d (%d) cancelled.\n", checkUin, theTCPSequence);
+			Netlib_Logf(hNetlibUser, "[tcp] chat request from %d (%d) cancelled.\n", checkUin, theTCPSequence);
 			// u->addMessage(chatReq, 0);
 			break;
 
 		case ICQ_CMDxTCP_FILE:
-			T("[tcp] file transfer request from %d (%d) cancelled.\n", u->dwUIN, theTCPSequence);
+			Netlib_Logf(hNetlibUser, "[tcp] file transfer request from %d (%d) cancelled.\n", u->dwUIN, theTCPSequence);
 			// u->addMessage(fileReq, 0);
 			break;
 		}
 		break;
 
 	default:
-		T("[tcp] unknown packet:\n%s", packet.print());
+		Netlib_Logf(hNetlibUser, "[tcp] unknown packet:\n%s", packet.print());
 		packet.reset();
 	}
 	delete[] message;
@@ -1965,7 +1965,7 @@ void ICQ::ackTCP(Packet &packet, ICQUser *u, unsigned short newCommand, unsigned
 		<< status
 		<< theSequence;
 
-	T("[tcp] sending ack (%d)\n", theSequence);
+	Netlib_Logf(hNetlibUser, "[tcp] sending ack (%d)\n", theSequence);
 	u->socket.sendPacket(packet);
 }
 
@@ -1998,7 +1998,7 @@ void ICQ::recvNewTCP(int)
 	handshake >> command;
 
 	if (command != ICQ_CMDxTCP_HANDSHAKE && command != ICQ_CMDxTCP_HANDSHAKE2 && command != ICQ_CMDxTCP_HANDSHAKE3) {
-		T("[tcp] garbage packet:\n%s", handshake.print());
+		Netlib_Logf(hNetlibUser, "[tcp] garbage packet:\n%s", handshake.print());
 		handshake.reset();
 	}
 	else {
@@ -2013,14 +2013,14 @@ void ICQ::recvNewTCP(int)
 
 		u = getUserByUIN(newUin);
 		if (!u->socket.connected()) {
-			T("[tcp] connection from uin %d.\n", newUin);
+			Netlib_Logf(hNetlibUser, "[tcp] connection from uin %d.\n", newUin);
 			u->socket.transferConnectionFrom(newSocket);
 		}
 		else {
 			unsigned int i;
 			ICQTransfer *t;
 
-			T("[tcp] file direct connection from uin %d.\n", newUin);
+			Netlib_Logf(hNetlibUser, "[tcp] file direct connection from uin %d.\n", newUin);
 			for (i = 0; i < icqTransfers.size(); i++) {
 				t = icqTransfers[i];
 				if (t->uin == newUin && !t->socket.connected())
@@ -2039,7 +2039,7 @@ void ICQ::recvTCP(SOCKET hSocket)
 		if (u->socket.handleVal == hSocket) {
 			Packet packet;
 			if (!u->socket.receivePacket(packet)) {
-				T("[tcp] connection to %d lost.\n", u->dwUIN);
+				Netlib_Logf(hNetlibUser, "[tcp] connection to %d lost.\n", u->dwUIN);
 				return;
 			}
 			processTcpPacket(packet, hSocket);
@@ -2057,7 +2057,7 @@ void ICQ::recvTransferTCP(SOCKET hSocket)
 		if (transfer->socket.handleVal == hSocket) {
 			Packet packet;
 			if (!transfer->socket.receivePacket(packet)) {
-				// T("[tcp] connection to %d lost.\n", s->uin);
+				// Netlib_Logf(hNetlibUser, "[tcp] connection to %d lost.\n", s->uin);
 				return;
 			}
 			transfer->processTcpPacket(packet);
@@ -2070,7 +2070,7 @@ void ICQ::recvTransferTCP(SOCKET hSocket)
 
 void ICQ::addMessage(ICQUser *u, char *m, time_t t)
 {
-	T("message: %s\n", m);
+	Netlib_Logf(hNetlibUser, "message: %s\n", m);
 
 	PROTORECVEVENT pre;
 	pre.flags = 0;
@@ -2122,7 +2122,7 @@ void ICQ::addUrl(ICQUser *u, char *m, time_t t)
 
 void ICQ::addAwayMsg(ICQUser *u, char *m, unsigned long theSequence, time_t t)
 {
-	T("away msg: %s\n", m);
+	Netlib_Logf(hNetlibUser, "away msg: %s\n", m);
 
 	PROTORECVEVENT pre;
 	pre.flags = 0;

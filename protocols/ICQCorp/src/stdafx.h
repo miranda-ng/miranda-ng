@@ -38,6 +38,7 @@
 #include <m_userinfo.h>
 #include <m_timezones.h>
 #include <m_plugin.h>
+#include <m_netlib.h>
 
 #include "user.h"
 #include "transfer.h"
@@ -51,14 +52,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+extern HNETLIBUSER hNetlibUser;
 extern HINSTANCE hInstance;
 extern char protoName[64];
 
 extern int LoadServices();
 extern int UnloadServices();
-
-#ifdef _DEBUG
-extern void T(char *, ...);
-#else
-inline void T(char *, ...) {};
-#endif
