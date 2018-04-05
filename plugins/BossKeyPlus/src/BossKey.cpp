@@ -338,7 +338,6 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		}
 
 		Clist_TrayIconDestroy(pcli->hwndContactList);
-		pcli->pfnUninitTray();
 
 		if (g_wMask & OPT_TRAYICON)
 			CreateTrayIcon(true);
@@ -414,7 +413,6 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		if (g_TrayIcon) CreateTrayIcon(false);
 
-		pcli->pfnInitTray();
 		pcli->pfnTrayIconInit(pcli->hwndContactList);
 
 		// force a redraw
