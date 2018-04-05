@@ -175,7 +175,6 @@ void fnCluiProtocolStatusChanged(int, const char*);
 void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 
 /* contact.c */
-void fnChangeContactIcon(MCONTACT hContact, int iIcon);
 int  fnSetHideOffline(int iValue);
 
 /* docking.c */

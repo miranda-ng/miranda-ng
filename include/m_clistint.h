@@ -252,6 +252,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *contact, DWOR
 EXTERN_C MIR_APP_DLL(void) Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
 EXTERN_C MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
 
+EXTERN_C MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
 EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
@@ -408,8 +409,8 @@ struct CLIST_INTERFACE
 	void (*pfnOnCreateClc)(void);
 
 	/* contact.c */
-	void (*pfnChangeContactIcon)(MCONTACT hContact, int iIcon);
-	int (*blablabla2)();
+	int  (*blablabla2)();
+	int  (*blablabla3)();
 	int  (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
 	int  (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
 

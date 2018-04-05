@@ -132,7 +132,7 @@ wchar_t* fnGetContactDisplayName(MCONTACT hContact, int mode)
 
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, 0));
+	Clist_ChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, 0));
 	return 0;
 }
 
@@ -197,13 +197,13 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		else if (!strcmp(cws->szSetting, "Status")) {
 			if (!db_get_b(hContact, "CList", "Hidden", 0))
-				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact));
+				Clist_ChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact));
 		}
 	}
 	else if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "Hidden")) {
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0)
-				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact));
+				Clist_ChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact));
 		}
 		else if (!strcmp(cws->szSetting, "MyHandle")) {
 			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
@@ -221,7 +221,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				szProto = nullptr;
 			else
 				szProto = cws->value.pszVal;
-			cli.pfnChangeContactIcon(hContact,
+			Clist_ChangeContactIcon(hContact,
 				cli.pfnIconFromStatusMode(szProto, szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact));
 		}
 	}

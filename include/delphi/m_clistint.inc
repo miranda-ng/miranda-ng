@@ -407,8 +407,8 @@ type
     pfnOnCreateClc                     : procedure ; cdecl;
                                        
   (* contact.c *)                      
-    pfnChangeContactIcon               : procedure (hContact:TMCONTACT; iIcon:int; add:int); cdecl;
     blablablabla2                      : procedure; cdecl;
+    blablablabla3                      : procedure; cdecl;
     pfnCompareContacts                 : function (var contact1:TClcContact; var contact2:TClcContact):int; cdecl;
     pfnSetHideOffline                  : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
                                       

@@ -164,7 +164,6 @@ void InitClistCore()
 	cli.pfnInvalidateRect = fnInvalidateRect;
 	cli.pfnOnCreateClc = fnOnCreateClc;
 
-	cli.pfnChangeContactIcon = fnChangeContactIcon;
 	cli.pfnSetHideOffline = fnSetHideOffline;
 
 	cli.pfnDocking_ProcessWindowMessage = fnDocking_ProcessWindowMessage;
