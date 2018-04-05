@@ -542,3 +542,4 @@ Menu_ReloadProtoMenus @561
 Menu_GetProtocolMenu @562
 ExtraIcon_Reload @563
 ExtraIcon_SetAll @564
+Clist_GetStatusModeDescription @565

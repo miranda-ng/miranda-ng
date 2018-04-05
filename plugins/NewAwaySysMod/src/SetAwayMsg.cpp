@@ -755,7 +755,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					SetDlgItemText(hwndDlg, IDC_OK, BtnTitle);
 					TCString WindowTitle(TranslateT("Set message for"));
 					WindowTitle += L" \"";
-					WindowTitle += Status ? pcli->pfnGetStatusModeDescription(Status, 0) : TranslateT("Statuses");
+					WindowTitle += Status ? Clist_GetStatusModeDescription(Status, 0) : TranslateT("Statuses");
 					if (nNewContacts == 1) {
 						WindowTitle += TCString(TranslateT("\" ("));
 						MCONTACT hContact = NULL;

@@ -316,7 +316,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	for (int i = 0; i < ID_STATUS_ONTHEPHONE - ID_STATUS_OFFLINE; i++) {
 		BOOL needFree;
 		int n = skinStatusToJabberStatus[i];
-		wchar_t *descr = pcli->pfnGetStatusModeDescription(n + ID_STATUS_OFFLINE, 0);
+		wchar_t *descr = Clist_GetStatusModeDescription(n + ID_STATUS_OFFLINE, 0);
 		mir_snprintf(Uname, "%s_Transport_%s_%d", m_szModuleName, proto, n);
 		HICON hicon = LoadTransportIcon(defFile, -skinIconStatusToResourceId[i], Uname, Group, descr, -(n + ID_STATUS_OFFLINE), &needFree);
 		int index = (m_transportProtoTableStartIndex[iID] == -1) ? -1 : m_transportProtoTableStartIndex[iID] + n;

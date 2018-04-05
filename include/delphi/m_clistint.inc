@@ -377,7 +377,7 @@ type
   (* clistmod.c *)
     pfnIconFromStatusMode              : function (szProto:PAnsiChar; status:int; hContact:TMCONTACT):int; cdecl;
     pfnShowHide                        : function :int; cdecl;
-    pfnGetStatusModeDescription        : function (mode:int; flags:int) : PWideChar; cdecl;
+    blablablabla1                      : procedure; cdecl;
                                        
   (* clistsettings.c *)
     pfnGetCacheEntry                   : function (hContact:TMCONTACT):PClcCacheEntry; cdecl;

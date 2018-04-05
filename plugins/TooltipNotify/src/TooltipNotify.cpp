@@ -786,7 +786,7 @@ BOOL CTooltipNotify::ContactsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 wchar_t* CTooltipNotify::StatusToString(int iStatus, wchar_t *szStatus, int iBufSize)
 {
 	if (iStatus >= ID_STATUS_OFFLINE && iStatus <= ID_STATUS_OUTTOLUNCH)
-		mir_wstrncpy(szStatus, pcli->pfnGetStatusModeDescription(iStatus, 0), iBufSize);
+		mir_wstrncpy(szStatus, Clist_GetStatusModeDescription(iStatus, 0), iBufSize);
 	else {
 		switch (iStatus) {
 		case ID_TTNTF_STATUS_TYPING:

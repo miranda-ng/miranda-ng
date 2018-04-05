@@ -245,7 +245,7 @@ void g_MenuInit(void)
 		char buf[] = "Jabber/DirectPresenceX";
 		buf[_countof(buf) - 2] = '0' + i;
 		mi.pszService = buf;
-		mi.name.w = pcli->pfnGetStatusModeDescription(PresenceModeArray[i].mode, 0);
+		mi.name.w = Clist_GetStatusModeDescription(PresenceModeArray[i].mode, 0);
 		mi.position = -1999901000;
 		mi.hIcolibItem = Skin_LoadIcon(PresenceModeArray[i].icon);
 		g_hMenuDirectPresence[i + 1] = Menu_AddContactMenuItem(&mi);
@@ -394,7 +394,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 				FormatMirVer(r, szTmp);
 				hIcon = Finger_GetClientIcon(szTmp, 0);
 			}
-			szTmp.Format(L"%s [%s, %d]", r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
+			szTmp.Format(L"%s [%s, %d]", r->m_tszResourceName, Clist_GetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
 			Menu_ModifyItem(m_phMenuResourceItems[i], szTmp, hIcon);
 			DestroyIcon(hIcon);
 		}

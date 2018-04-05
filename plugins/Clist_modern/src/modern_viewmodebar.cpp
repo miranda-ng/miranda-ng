@@ -251,7 +251,7 @@ static int FillDialog(HWND hwnd)
 	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT;
-		item.pszText = pcli->pfnGetStatusModeDescription(i, 0);
+		item.pszText = Clist_GetStatusModeDescription(i, 0);
 		item.iItem = i - ID_STATUS_OFFLINE;
 		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	}

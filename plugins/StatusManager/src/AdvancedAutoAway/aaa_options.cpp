@@ -181,7 +181,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				lvItem.iSubItem = 0;
 				for (int i = 0; i < _countof(statusModeList); i++) {
 					if ((flags & statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE) || (bSettingSame)) {
-						lvItem.pszText = pcli->pfnGetStatusModeDescription(statusModeList[i], 0);
+						lvItem.pszText = Clist_GetStatusModeDescription(statusModeList[i], 0);
 						lvItem.lParam = (LPARAM)statusModePf2List[i];
 						ListView_InsertItem(hList, &lvItem);
 						ListView_SetCheckState(hList, lvItem.iItem, setting->statusFlags & statusModePf2List[i] ? TRUE : FALSE);
@@ -201,7 +201,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_RESETCONTENT, 0, 0);
 				for (int i = 0; i < _countof(statusModeList); i++) {
 					if ((flags & statusModePf2List[i]) || statusModePf2List[i] == PF2_OFFLINE || bSettingSame) {
-						wchar_t *statusMode = pcli->pfnGetStatusModeDescription(statusModeList[i], 0);
+						wchar_t *statusMode = Clist_GetStatusModeDescription(statusModeList[i], 0);
 						int item = SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
 						SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_SETITEMDATA, item, (LPARAM)statusModeList[i]);
 						item = SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
@@ -223,7 +223,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 			setting->lv1Status = (int)SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_GETCURSEL, 0, 0), 0);
-			SetDlgItemText(hwndDlg, IDC_SETNASTR, CMStringW(FORMAT, TranslateT("minutes of %s mode"), pcli->pfnGetStatusModeDescription(setting->lv1Status, 0)));
+			SetDlgItemText(hwndDlg, IDC_SETNASTR, CMStringW(FORMAT, TranslateT("minutes of %s mode"), Clist_GetStatusModeDescription(setting->lv1Status, 0)));
 			break;
 
 		case IDC_LV2STATUS:

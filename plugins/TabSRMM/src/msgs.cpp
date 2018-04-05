@@ -590,7 +590,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
 
-	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+	wchar_t *szStatus = Clist_GetStatusModeDescription(szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (PluginConfig.m_bStatusOnTabs)
 		mir_snwprintf(tabtitle, L"%s (%s)", newcontactname, szStatus);

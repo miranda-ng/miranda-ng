@@ -181,7 +181,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 
 	case INFO_STATUS:
 		if (m_bGcLogStatuses) {
-			wchar_t *ptszDescr = pcli->pfnGetStatusModeDescription(user->m_iStatus, 0);
+			wchar_t *ptszDescr = Clist_GetStatusModeDescription(user->m_iStatus, 0);
 			if (user->m_tszStatusMessage)
 				buf.Format(TranslateT("User %s changed status to %s with message: %s"),
 				user->m_tszResourceName, ptszDescr, user->m_tszStatusMessage);

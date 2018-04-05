@@ -965,7 +965,7 @@ void CChatRoomDlg::UpdateTitle()
 	m_hTabStatusIcon = hIcon;
 
 	if (m_cache->getStatus() != m_cache->getOldStatus()) {
-		wcsncpy_s(m_wszStatus, pcli->pfnGetStatusModeDescription(m_wStatus, 0), _TRUNCATE);
+		wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_wStatus, 0), _TRUNCATE);
 
 		TCITEM item = {};
 		item.mask = TCIF_TEXT;

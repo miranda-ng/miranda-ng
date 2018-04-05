@@ -319,11 +319,11 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 		// the protocol supports status message sending for current status, or autoreplying
 		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || 
 			((Flag1 & PF1_IM) == PF1_IM && (i < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[i].DisableReplyCtlID))))
-			mir_snwprintf(szSetStr, TranslateT("Set %s message for the contact"), pcli->pfnGetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_snwprintf(szSetStr, TranslateT("Set %s message for the contact"), Clist_GetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		// the protocol supports status message reading for contact's status
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode)) {
-			mir_snwprintf(szReadStr, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
+			mir_snwprintf(szReadStr, TranslateT("Re&ad %s message"), Clist_GetStatusModeDescription(iContactMode, 0));
 			hReadMsgIcon = Skin_LoadProtoIcon(szProto, iContactMode);
 		}
 	}
@@ -491,7 +491,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_STATDESC)) {
-		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : pcli->pfnGetStatusModeDescription(g_ProtoStates[VarParseData.szProto].m_status, 0);
+		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : Clist_GetStatusModeDescription(g_ProtoStates[VarParseData.szProto].m_status, 0);
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)

@@ -83,7 +83,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			wchar_t *contactName = (wchar_t *)pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			char *szProto = GetContactProto(dat->hContact);
 			WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			wchar_t *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
+			wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);
 
 			GetWindowText(hwndDlg, format, _countof(format));
 			mir_snwprintf(str, format, status, contactName);
@@ -344,17 +344,17 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 			HICON hIcon = Skin_LoadProtoIcon(szProto, iStatus);
-			mir_snwprintf(str, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+			mir_snwprintf(str, TranslateT("Re&ad %s message"), Clist_GetStatusModeDescription(iStatus, 0));
 			Menu_ModifyItem(hAwayMsgMenuItem, str, hIcon, 0);
 			IcoLib_ReleaseIcon(hIcon);
 
 			ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
 			if (szMsg != NULL) {
-				mir_snwprintf(str, TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+				mir_snwprintf(str, TranslateT("Copy %s message"), Clist_GetStatusModeDescription(iStatus, 0));
 				Menu_ModifyItem(hCopyMsgMenuItem, str);
 
 				if (StrFindURL(szMsg) != nullptr) {
-					mir_snwprintf(str, TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+					mir_snwprintf(str, TranslateT("&Go to URL in %s message"), Clist_GetStatusModeDescription(iStatus, 0));
 					Menu_ModifyItem(hGoToURLMenuItem, str);
 				}
 			}

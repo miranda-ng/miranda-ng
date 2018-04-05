@@ -148,7 +148,7 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 
 	for (int i = 0; i < 10; ++i) {
 		if ((Proto_Status2Flag(ID_STATUS_OFFLINE + i) & data->m_iStatusModes) || i == 0) {
-			status_desc = pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
+			status_desc = Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
 			cbei.iItem = j;
 			cbei.pszText = (LPTSTR)status_desc;
 			if (data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS) {
@@ -797,7 +797,7 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 		mir_snwprintf(szTitle, TranslateT("%s message (%s)"), buff, szProtoName);
 	}
 	else
-		mir_snwprintf(szTitle, TranslateT("%s message (%s)"), pcli->pfnGetStatusModeDescription(iStatus, 0), szProtoName);
+		mir_snwprintf(szTitle, TranslateT("%s message (%s)"), Clist_GetStatusModeDescription(iStatus, 0), szProtoName);
 	SetWindowText(hwndDlg, szTitle);
 
 	if (iStatus == ID_STATUS_CURRENT)
@@ -914,7 +914,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					mir_snwprintf(szTitle, szFormat, TranslateT("<current>"), szProtoName);
 			}
 			else
-				mir_snwprintf(szTitle, szFormat, pcli->pfnGetStatusModeDescription(init_data->m_iStatus, 0), szProtoName);
+				mir_snwprintf(szTitle, szFormat, Clist_GetStatusModeDescription(init_data->m_iStatus, 0), szProtoName);
 			SetWindowText(hwndDlg, szTitle);
 
 			int icoStatus = ID_STATUS_OFFLINE;

@@ -73,7 +73,7 @@ void InitSelfSounds()
 
 			wchar_t infobuf[256];
 			mir_snwprintf(infobuf, L"%s [%s]", TranslateT("Self status"), pa->tszAccountName);
-			Skin_AddSound(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
+			Skin_AddSound(namebuf, infobuf, Clist_GetStatusModeDescription(selfSounds[j].iStatus, 0));
 		}
 	}
 }

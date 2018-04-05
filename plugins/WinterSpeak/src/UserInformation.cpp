@@ -46,7 +46,7 @@ std::wstring UserInformation::statusString(MCONTACT user)
 //------------------------------------------------------------------------------
 std::wstring UserInformation::statusModeString(MCONTACT user)
 {
-	WCHAR *status = pcli->pfnGetStatusModeDescription(m_status_info[user], 0);
+	WCHAR *status = Clist_GetStatusModeDescription(m_status_info[user], 0);
 	if (nullptr == status)
 		return L"";
 

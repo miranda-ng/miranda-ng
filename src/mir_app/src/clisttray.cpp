@@ -100,7 +100,7 @@ wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto)
 			if (!pa->IsVisible())
 				continue;
 
-			wchar_t *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0), 0);
+			wchar_t *szStatus = Clist_GetStatusModeDescription(CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0), 0);
 			if (!szStatus)
 				continue;
 
@@ -125,7 +125,7 @@ wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto)
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa != nullptr) {
 			ptrW ProtoXStatus(sttGetXStatus(szProto));
-			wchar_t *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(0, szProto, PS_GETSTATUS, 0, 0), 0);
+			wchar_t *szStatus = Clist_GetStatusModeDescription(CallProtoServiceInt(0, szProto, PS_GETSTATUS, 0, 0), 0);
 			if (szPrefix && szPrefix[0]) {
 				if (db_get_b(0, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
 					if (hasTips()) {

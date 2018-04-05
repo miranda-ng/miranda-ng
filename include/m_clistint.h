@@ -258,6 +258,9 @@ EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 // calculates account's index by its position in status bar
 EXTERN_C MIR_APP_DLL(int) Clist_GetAccountIndex(int iPos);
 
+#define GSMDF_UNTRANSLATED 4 // don't tranlate the result
+EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int iStatus, int iFlags /*GSMDF_*/);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CLIST_INTERFACE structure definition
 
@@ -370,8 +373,7 @@ struct CLIST_INTERFACE
 	int    (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
 	int    (*pfnShowHide)(void);
 	
-	#define GSMDF_UNTRANSLATED 4 // don't tranlate the result
-	wchar_t* (*pfnGetStatusModeDescription)(int mode, int flags);
+	void   (*blablablabla1)(void);
 
 	/* clistsettings.c */
 	ClcCacheEntry* (*pfnGetCacheEntry)(MCONTACT hContact);

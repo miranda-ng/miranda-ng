@@ -52,7 +52,7 @@ struct ProtoIconIndex
 
 OBJLIST<ProtoIconIndex> protoIconIndex(5, PtrKeySortT);
 
-wchar_t* fnGetStatusModeDescription(int mode, int flags)
+MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int mode, int flags)
 {
 	static wchar_t szMode[64];
 	wchar_t* descr;

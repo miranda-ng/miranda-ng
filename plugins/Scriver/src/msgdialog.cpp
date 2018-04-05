@@ -791,7 +791,7 @@ void CSrmmWindow::UpdateTitle()
 
 	if (m_hContact && m_szProto) {
 		wszTitle.Replace(L"%name%", pcli->pfnGetContactDisplayName(m_hContact, 0));
-		wszTitle.Replace(L"%status%", pcli->pfnGetStatusModeDescription(db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0));
+		wszTitle.Replace(L"%status%", Clist_GetStatusModeDescription(db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0));
 
 		CMStringW tszStatus = ptrW(db_get_wsa(m_hContact, "CList", "StatusMsg"));
 		tszStatus.Replace(L"\r\n", L" ");

@@ -817,7 +817,7 @@ void RebuildMenuOrder(void)
 				mi.flags |= CMIF_CHECKED;
 			mi.root = rootmenu;
 			mi.position = pos++;
-			mi.name.w = cli.pfnGetStatusModeDescription(statusModeList[j], GSMDF_UNTRANSLATED);
+			mi.name.w = Clist_GetStatusModeDescription(statusModeList[j], GSMDF_UNTRANSLATED);
 			mi.hIcon = Skin_LoadProtoIcon(pa->szModuleName, statusModeList[j]);
 
 			// owner data
@@ -866,7 +866,7 @@ void RebuildMenuOrder(void)
 				wchar_t buf[256], hotkeyName[100];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-				mir_snwprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+				mir_snwprintf(buf, L"%s\t%s", Clist_GetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 				mi.name.w = buf;
 				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 				
@@ -923,7 +923,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 		wchar_t buf[256], hotkeyName[100];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-		mir_snwprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+		mir_snwprintf(buf, L"%s\t%s", Clist_GetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 		Menu_ModifyItem(hStatusMainMenuHandles[j], buf);
 
 		hStatusMainMenuHandles[j]->hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
@@ -1113,7 +1113,7 @@ void InitCustomMenus(void)
 		mir_snprintf(szName, "StatusHotKey_%d", i);
 		hkd.pszName = szName;
 		hkd.lParam = statusModeList[i];
-		hkd.szDescription.w = fnGetStatusModeDescription(hkd.lParam, 0);
+		hkd.szDescription.w = Clist_GetStatusModeDescription(hkd.lParam, 0);
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '0' + i) | HKF_MIRANDA_LOCAL;
 		hkd.pszService = MS_CLIST_HKSTATUS;
 		statusHotkeys[i] = Hotkey_Register(&hkd);

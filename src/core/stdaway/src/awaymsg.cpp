@@ -58,7 +58,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			char *szProto = GetContactProto(dat->hContact);
 			WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			wchar_t *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
+			wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);
 
 			GetWindowText(hwndDlg, format, _countof(format));
 			mir_snwprintf(str, format, status, contactName);
@@ -140,7 +140,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
 					wchar_t str[128];
-					mir_snwprintf(str, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
+					mir_snwprintf(str, TranslateT("Re&ad %s message"), Clist_GetStatusModeDescription(status, 0));
 					Menu_ModifyItem(hAwayMsgMenuItem, str, Skin_LoadProtoIcon(szProto, status), CMIF_NOTOFFLINE);
 					return 0;
 				}

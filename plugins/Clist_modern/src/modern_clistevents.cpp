@@ -114,7 +114,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 			NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) malloc(sizeof(struct NotifyMenuItemExData));
 			if (nmi) {
 				wchar_t szBuffer[128];
-				wchar_t* szStatus = pcli->pfnGetStatusModeDescription(db_get_w(p->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+				wchar_t* szStatus = Clist_GetStatusModeDescription(db_get_w(p->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 				wchar_t szwProto[64];
 				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 				szwProto[63] = 0;

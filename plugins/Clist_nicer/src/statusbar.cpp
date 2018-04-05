@@ -161,7 +161,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 							wchar_t szTipText[256];
 							mir_snwprintf(szTipText, L"<b>%s</b>: %s%s",
-								PD->RealName, pcli->pfnGetStatusModeDescription(wStatus, 0), isLocked ? L"  (LOCKED)" : L"");
+								PD->RealName, Clist_GetStatusModeDescription(wStatus, 0), isLocked ? L"  (LOCKED)" : L"");
 
 							CLCINFOTIP ti = { sizeof(ti) };
 							ti.isTreeFocused = (GetFocus() == pcli->hwndContactList);

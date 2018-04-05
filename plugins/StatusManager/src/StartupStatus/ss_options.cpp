@@ -116,7 +116,7 @@ static wchar_t* GetLinkDescription(TProtoSettings& protoSettings)
 		else if (p->m_status == ID_STATUS_CURRENT)
 			status = TranslateT("<current>");
 		else if (p->m_status >= MIN_STATUS && p->m_status <= MAX_STATUS)
-			status = pcli->pfnGetStatusModeDescription(p->m_status, 0);
+			status = Clist_GetStatusModeDescription(p->m_status, 0);
 		else
 			status = nullptr;
 		if (status == nullptr)
@@ -541,7 +541,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 			lstStatus.ResetContent();
 			for (int i = 0; i < _countof(statusModeList); i++) {
 				if ((flags & statusModePf2List[i]) || (statusModeList[i] == ID_STATUS_OFFLINE)) {
-					int item = lstStatus.AddString(pcli->pfnGetStatusModeDescription(statusModeList[i], 0), statusModeList[i]);
+					int item = lstStatus.AddString(Clist_GetStatusModeDescription(statusModeList[i], 0), statusModeList[i]);
 					if (ps->m_status == statusModeList[i])
 						lstStatus.SetCurSel(item);
 				}

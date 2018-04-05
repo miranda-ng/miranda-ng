@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#include "clc.h"
 #include "metacontacts.h"
 
 HANDLE invisiGroup;
@@ -140,7 +141,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	// write status string
 	mir_snprintf(buffer, "StatusString%d", ccDest->nSubs);
 
-	wchar_t *szStatus = cli.pfnGetStatusModeDescription(status, 0);
+	wchar_t *szStatus = Clist_GetStatusModeDescription(status, 0);
 	db_set_ws(hMeta, META_PROTO, buffer, szStatus);
 
 	// Write the link in the contact

@@ -1022,7 +1022,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 			wchar_t *contactName = pcli->pfnGetContactDisplayName(m_hContact, 0);
 
-			wchar_t *szStatus = pcli->pfnGetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
+			wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
 			if (g_dat.bUseStatusWinIcon)
 				mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
 			else

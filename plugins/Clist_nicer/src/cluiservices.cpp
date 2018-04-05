@@ -126,7 +126,7 @@ void CluiProtocolStatusChanged(int, const char*)
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
-				wchar_t* modeDescr = pcli->pfnGetStatusModeDescription(CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0), 0);
+				wchar_t* modeDescr = Clist_GetStatusModeDescription(CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0), 0);
 				GetTextExtentPoint32(hdc, modeDescr, (int)mir_wstrlen(modeDescr), &textSize);
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
@@ -206,7 +206,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	* and uses timer based sort and redraw handling. This can improve performance
 	* when connecting multiple protocols significantly.
 	*/
-	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
+	wchar_t *szStatus = Clist_GetStatusModeDescription(wStatus, 0);
 
 	/*
 	* set the global status icon and display the global (most online) status mode on the

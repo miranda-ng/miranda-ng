@@ -178,7 +178,7 @@ void CChatScreen::UpdateLabels()
 		m_iStatus = db_get_w(m_hContact,szProto,"Status",ID_STATUS_OFFLINE);
 	}
 	
-	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(m_iStatus, 0);
+	wchar_t *szStatus = Clist_GetStatusModeDescription(m_iStatus, 0);
 	if(szStatus != nullptr)
 		strStatus = toTstring(szStatus);
 

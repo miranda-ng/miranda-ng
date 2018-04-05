@@ -141,7 +141,7 @@ wchar_t *SecondsToTimeDifference(MCONTACT hContact, const char *szModuleName, co
 wchar_t *WordToStatusDesc(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
 	WORD wStatus = db_get_w(hContact, szModuleName, szSettingName, ID_STATUS_OFFLINE);
-	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
+	wchar_t *szStatus = Clist_GetStatusModeDescription(wStatus, 0);
 	wcsncpy_s(buff, bufflen, szStatus, _TRUNCATE);
 	return buff;
 }

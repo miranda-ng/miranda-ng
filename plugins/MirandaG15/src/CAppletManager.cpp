@@ -1431,7 +1431,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 	tstring strName = CAppletManager::GetContactDisplayname(Event.hContact, true);
 
 	// Get status String
-	Event.strValue = toTstring(pcli->pfnGetStatusModeDescription(iStatus, 0));
+	Event.strValue = toTstring(Clist_GetStatusModeDescription(iStatus, 0));
 
 	// check if this is an irc protocol
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(strProto);
@@ -1577,7 +1577,7 @@ int CAppletManager::HookProtoAck(WPARAM, LPARAM lParam)
 		Event.strValue = strProto;
 
 		// set the event description / summary
-		tstring strStatus = toTstring(pcli->pfnGetStatusModeDescription(iNewStatus, 0));
+		tstring strStatus = toTstring(Clist_GetStatusModeDescription(iNewStatus, 0));
 		Event.strDescription = L"(" + Event.strValue + L") " + TranslateString(L"You are now %s", strStatus.c_str());
 		Event.strSummary = TranslateString(L"Protocol status change");
 

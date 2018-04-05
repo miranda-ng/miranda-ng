@@ -219,7 +219,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			{
 				wchar_t str[256], format[128];
 				GetWindowText(hwndDlg, format, _countof(format));
-				mir_snwprintf(str, format, pcli->pfnGetStatusModeDescription(dat->statusMode, 0));
+				mir_snwprintf(str, format, Clist_GetStatusModeDescription(dat->statusMode, 0));
 				SetWindowText(hwndDlg, str);
 			}
 			GetDlgItemText(hwndDlg, IDOK, dat->okButtonFormat, _countof(dat->okButtonFormat));
@@ -375,11 +375,11 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				int j;
 				if (hLst) {
-					j = SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(it, 0));
+					j = SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_ADDSTRING, 0, (LPARAM)Clist_GetStatusModeDescription(it, 0));
 					SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_SETITEMDATA, j, it);
 				}
 				else {
-					j = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(it, 0));
+					j = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)Clist_GetStatusModeDescription(it, 0));
 					SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, j, it);
 				}
 

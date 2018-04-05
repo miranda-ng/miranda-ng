@@ -255,7 +255,7 @@ static void InitIcoLib()
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
-		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
+		IconItemT icon = { Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
 		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Overlay icons"), &icon, 1);
 	}
 
@@ -798,7 +798,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		CluiProtocolStatusChanged(0, nullptr);
 
 		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-			statusNames[i - ID_STATUS_OFFLINE] = pcli->pfnGetStatusModeDescription(i, 0);
+			statusNames[i - ID_STATUS_OFFLINE] = Clist_GetStatusModeDescription(i, 0);
 
 		//delay creation of CLC so that it can get the status icons right the first time (needs protocol modules loaded)
 		if (cfg::dat.bLayeredHack) {
@@ -1708,7 +1708,7 @@ buttons_done:
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
-					wchar_t *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
+					wchar_t *szStatus = Clist_GetStatusModeDescription(status, 0);
 					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_wstrlen(szStatus), &textSize);
 					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_wstrlen(szStatus));
 				}

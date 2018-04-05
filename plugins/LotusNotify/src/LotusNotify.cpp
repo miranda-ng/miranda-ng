@@ -1350,7 +1350,7 @@ static INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARA
 		// Initialize LVITEM members that are common to all items.
 		lvI.mask = LVIF_TEXT;
 		for (int i = 0; i < STATUS_COUNT; i++) {
-			lvI.pszText = pcli->pfnGetStatusModeDescription(ID_STATUS_ONLINE + i, 0);
+			lvI.pszText = Clist_GetStatusModeDescription(ID_STATUS_ONLINE + i, 0);
 			lvI.iItem = i;
 			ListView_InsertItem(hwndList, &lvI);
 			ListView_SetCheckState(hwndList, i, settingStatus[i]);

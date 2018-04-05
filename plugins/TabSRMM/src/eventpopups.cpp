@@ -695,7 +695,7 @@ int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szPro
 		return 0;
 
 	WORD wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
-	const wchar_t	*szMyStatus = (szStatus == nullptr) ? pcli->pfnGetStatusModeDescription(wMyStatus, 0) : szStatus;
+	const wchar_t	*szMyStatus = (szStatus == nullptr) ? Clist_GetStatusModeDescription(wMyStatus, 0) : szStatus;
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);

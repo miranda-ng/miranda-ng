@@ -425,7 +425,7 @@ wchar_t* GetStatusName(struct ClcContact *item)
 
 	// Get status name
 	status = db_get_w(item->hContact, item->proto, "Status", ID_STATUS_OFFLINE);
-	mir_wstrncpy(status_name, pcli->pfnGetStatusModeDescription(status, 0), _countof(status_name));
+	mir_wstrncpy(status_name, Clist_GetStatusModeDescription(status, 0), _countof(status_name));
 
 	return status_name;
 }

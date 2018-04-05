@@ -174,7 +174,6 @@ void InitClistCore()
 	cli.pfnGetWindowVisibleState = fnGetWindowVisibleState;
 	cli.pfnIconFromStatusMode = fnIconFromStatusMode;
 	cli.pfnShowHide = fnShowHide;
-	cli.pfnGetStatusModeDescription = fnGetStatusModeDescription;
 
 	cli.pfnTrayCalcChanged = fnTrayCalcChanged;
 	cli.pfnSetContactCheckboxes = fnSetContactCheckboxes;

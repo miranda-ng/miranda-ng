@@ -179,7 +179,7 @@ int ParseStatusParam(const wchar_t *status)
 
 wchar_t* PrettyStatusMode(int status, wchar_t *buffer, size_t size)
 {
-	wchar_t *data = pcli->pfnGetStatusModeDescription(status, 0);
+	wchar_t *data = Clist_GetStatusModeDescription(status, 0);
 	if (data)
 		wcsncpy_s(buffer, size, data, _TRUNCATE);
 	else

@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 				Window_SetProtoIcon_IcoLib(hwndDlg, nullptr, data->status);
 
 				wchar_t title[256];
-				mir_snwprintf(title, TranslateT("Set my status message for %s"), pcli->pfnGetStatusModeDescription(data->status, 0));
+				mir_snwprintf(title, TranslateT("Set my status message for %s"), Clist_GetStatusModeDescription(data->status, 0));
 				SetWindowText(hwndDlg, title);
 
 				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, protocols->GetDefaultStatusMsg(data->status));

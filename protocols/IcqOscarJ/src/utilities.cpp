@@ -207,7 +207,7 @@ int MirandaStatusToSupported(int nMirandaStatus)
 
 char* MirandaStatusToStringUtf(int mirandaStatus)
 { // return miranda status description in utf-8, use unicode service is possible
-	return make_utf8_string(pcli->pfnGetStatusModeDescription(mirandaStatus, 0));
+	return make_utf8_string(Clist_GetStatusModeDescription(mirandaStatus, 0));
 }
 
 char** CIcqProto::MirandaStatusToAwayMsg(int nStatus)

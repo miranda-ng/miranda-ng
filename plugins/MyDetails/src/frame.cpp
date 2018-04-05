@@ -1823,7 +1823,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 
 				// Add this to menu
-				mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
+				mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), Clist_GetStatusModeDescription(proto->status, 0));
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
@@ -1902,7 +1902,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
 				// Add this to menu
-				mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
+				mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), Clist_GetStatusModeDescription(proto->status, 0));
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);

@@ -206,7 +206,7 @@ static int FillDialog(HWND hwnd)
 	ListView_InsertColumn(hwndList, 0, &lvc);
 
 	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-		item.pszText = TranslateW(pcli->pfnGetStatusModeDescription(i, 0));
+		item.pszText = TranslateW(Clist_GetStatusModeDescription(i, 0));
 		item.iItem = i - ID_STATUS_OFFLINE;
 		ListView_InsertItem(hwndList, &item);
 	}

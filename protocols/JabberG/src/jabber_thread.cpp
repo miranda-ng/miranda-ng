@@ -1685,7 +1685,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 		if (wcschr(from, '@') == nullptr) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		debugLogW(L"%s (%s) online, set contact status to %s", nick, from, pcli->pfnGetStatusModeDescription(status, 0));
+		debugLogW(L"%s (%s) online, set contact status to %s", nick, from, Clist_GetStatusModeDescription(status, 0));
 
 		HXML xNode;
 		if (m_bEnableAvatars) {

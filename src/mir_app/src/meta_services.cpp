@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_nudge.h>
 
+#include "clc.h"
 #include "metacontacts.h"
 
 extern "C" MIR_CORE_DLL(void) db_mc_notifyDefChange(WPARAM wParam, LPARAM lParam);
@@ -424,7 +425,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, dcws->value.wVal);
 
 		mir_snprintf(buffer, "StatusString%d", contact_number);
-		db_set_ws(ccMeta->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
+		db_set_ws(ccMeta->contactID, META_PROTO, buffer, Clist_GetStatusModeDescription(dcws->value.wVal, 0));
 
 		// set status to that of most online contact
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);

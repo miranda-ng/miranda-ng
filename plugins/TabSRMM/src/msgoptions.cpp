@@ -1527,7 +1527,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		SetWindowText(hwndDlg, TranslateT("Choose status modes"));
 		{
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-				SetDlgItemText(hwndDlg, i, pcli->pfnGetStatusModeDescription(i, 0));
+				SetDlgItemText(hwndDlg, i, Clist_GetStatusModeDescription(i, 0));
 				if (dwStatusMask != -1 && (dwStatusMask & (1 << (i - ID_STATUS_ONLINE))))
 					CheckDlgButton(hwndDlg, i, BST_CHECKED);
 				Utils::enableDlgControl(hwndDlg, i, dwStatusMask != -1);

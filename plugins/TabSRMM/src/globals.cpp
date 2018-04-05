@@ -557,8 +557,8 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	if (wStatus == wOldStatus)
 		return;
 
-	wchar_t *szOldStatus = pcli->pfnGetStatusModeDescription(wOldStatus, 0);
-	wchar_t *szNewStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
+	wchar_t *szOldStatus = Clist_GetStatusModeDescription(wOldStatus, 0);
+	wchar_t *szNewStatus = Clist_GetStatusModeDescription(wStatus, 0);
 	if (szOldStatus == nullptr || szNewStatus == nullptr)
 		return;
 

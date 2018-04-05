@@ -989,7 +989,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
-					wchar_t* szStatus = cli.pfnGetStatusModeDescription(status, 0);
+					wchar_t* szStatus = Clist_GetStatusModeDescription(status, 0);
 					if (!szStatus)
 						szStatus = L"";
 					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_wstrlen(szStatus), &textSize);

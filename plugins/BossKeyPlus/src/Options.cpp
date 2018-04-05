@@ -55,7 +55,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			CheckDlgButton(hwndDlg, IDC_MAINOPT_TRAYICON, (g_wMask & OPT_TRAYICON) ? BST_CHECKED : BST_UNCHECKED);
 
 			for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-				SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(i, 0));
+				SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_INSERTSTRING, -1, (LPARAM)Clist_GetStatusModeDescription(i, 0));
 
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_SETCURSEL, db_get_b(NULL, MOD_NAME, "stattype", 2), 0);
 

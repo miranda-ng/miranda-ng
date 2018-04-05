@@ -630,7 +630,7 @@ retry:
 						wchar_t strFmt1[64];
 						wchar_t strFmt2[64];
 
-						wcsncpy_s(strFmt2, pcli->pfnGetStatusModeDescription(status_gg2m(atoi(__status)), 0), _TRUNCATE);
+						wcsncpy_s(strFmt2, Clist_GetStatusModeDescription(status_gg2m(atoi(__status)), 0), _TRUNCATE);
 						if (__city) {
 							mir_snwprintf(strFmt1, L", %s %s", TranslateT("City:"), __city);
 							mir_wstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_wstrlen(strFmt2));

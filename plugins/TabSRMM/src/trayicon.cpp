@@ -204,7 +204,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 		wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
 	if (szStatus == nullptr)
-		szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
+		szStatus = Clist_GetStatusModeDescription(wStatus, 0);
 
 	if (hIcon == nullptr)
 		hIcon = Skin_LoadProtoIcon(szProto, wStatus);

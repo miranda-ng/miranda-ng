@@ -289,7 +289,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 
 		case 's':
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "StatusTriger" : courProtoName, 0)) {
-				wcsncpy(szdbsetting, pcli->pfnGetStatusModeDescription(isetting | 0x8000, 0), _countof(szdbsetting));
+				wcsncpy(szdbsetting, Clist_GetStatusModeDescription(isetting | 0x8000, 0), _countof(szdbsetting));
 				if (!(isetting & 0x8000)) {
 					mir_wstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_wstrlen(szdbsetting));
 					mir_wstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_wstrlen(szdbsetting));
@@ -309,7 +309,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 
 		case 'o':
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "OldStatus" : courProtoName, 0)) {
-				wcsncpy(szdbsetting, pcli->pfnGetStatusModeDescription(isetting, 0), _countof(szdbsetting));
+				wcsncpy(szdbsetting, Clist_GetStatusModeDescription(isetting, 0), _countof(szdbsetting));
 				if (includeIdle && hcontact && db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
 					mir_wstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_wstrlen(szdbsetting));
 					mir_wstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_wstrlen(szdbsetting));

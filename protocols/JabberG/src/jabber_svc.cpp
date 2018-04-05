@@ -369,7 +369,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 
 	// status
 	if (info->m_iStatus >= ID_STATUS_OFFLINE && info->m_iStatus <= ID_STATUS_IDLE )
-		appendString(bIsTipper, LPGENW("Status:"), pcli->pfnGetStatusModeDescription(info->m_iStatus, 0), outBuf);
+		appendString(bIsTipper, LPGENW("Status:"), Clist_GetStatusModeDescription(info->m_iStatus, 0), outBuf);
 
 	// status text
 	if (info->m_tszStatusMessage)

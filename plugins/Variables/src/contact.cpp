@@ -135,7 +135,7 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 		return mir_a2u(protoname);
 
 	case CCNF_STATUS:
-		return mir_wstrdup(pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));
+		return mir_wstrdup(Clist_GetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));
 
 	case CCNF_INTERNALIP:
 	case CCNF_EXTERNALIP:

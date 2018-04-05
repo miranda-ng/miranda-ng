@@ -632,7 +632,7 @@ void CSrmmWindow::OnInitDialog()
 
 	if (m_hContact && m_szProto != nullptr) {
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
-		wcsncpy_s(m_wszStatus, pcli->pfnGetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
+		wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
 	}
 	else m_wStatus = ID_STATUS_OFFLINE;
 
@@ -993,7 +993,7 @@ void CSrmmWindow::UpdateTitle()
 			m_dwFlagsEx = m_idle ? m_dwFlagsEx | MWF_SHOW_ISIDLE : m_dwFlagsEx & ~MWF_SHOW_ISIDLE;
 
 			m_wStatus = m_cache->getStatus();
-			wcsncpy_s(m_wszStatus, pcli->pfnGetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
+			wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
 
 			wchar_t newcontactname[128]; newcontactname[0] = 0;
 			if (PluginConfig.m_bCutContactNameOnTabs)

@@ -867,7 +867,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 				
 				if (mir_wstrlen(p->m_tszAccName) > 0)
 					if (db_get_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE))
-						wszText.AppendFormat(TranslateT("%s\t(will be set to %s)\r\n"), p->m_tszAccName, pcli->pfnGetStatusModeDescription(p->m_status, 0));
+						wszText.AppendFormat(TranslateT("%s\t(will be set to %s)\r\n"), p->m_tszAccName, Clist_GetStatusModeDescription(p->m_status, 0));
 			}
 
 			hIcon = Skin_LoadProtoIcon(ps[0]->m_szName, SKINICON_STATUS_OFFLINE);

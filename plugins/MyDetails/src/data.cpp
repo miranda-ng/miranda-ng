@@ -122,7 +122,7 @@ int Protocol::GetStatus()
 		custom_status = 0;
 
 	if (custom_status == 0) {
-		wchar_t *tmp = pcli->pfnGetStatusModeDescription(status, 0);
+		wchar_t *tmp = Clist_GetStatusModeDescription(status, 0);
 		lcopystr(status_name, tmp, _countof(status_name));
 	}
 	else {

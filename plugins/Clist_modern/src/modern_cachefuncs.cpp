@@ -293,7 +293,7 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	}
 
 	// Get Status name
-	wchar_t *tmp = pcli->pfnGetStatusModeDescription(nStatus, 0);
+	wchar_t *tmp = Clist_GetStatusModeDescription(nStatus, 0);
 	if (tmp && *tmp) {
 		mir_wstrncpy(text, tmp, text_size);
 		return 1;

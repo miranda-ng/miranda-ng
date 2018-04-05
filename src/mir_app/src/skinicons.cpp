@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include <io.h>
 
+#include "clc.h"
+
 struct StandardIconDescription
 {
 	int    id;
@@ -317,7 +319,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 					// format: core_%s%d
 					mir_snprintf(iconName, "%s%s%d", statusIconsFmt, szProto, i);
 					sid.pszName = iconName;
-					sid.description.w = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
+					sid.description.w = Clist_GetStatusModeDescription(statusIcons[i].id, 0);
 					sid.iDefaultIndex = statusIcons[i].resource_id;
 					IcoLib_AddIcon(&sid, 0);
 				}

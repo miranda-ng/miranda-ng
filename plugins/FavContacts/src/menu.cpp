@@ -75,7 +75,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 		if (title == nullptr) {
 			char *proto = GetContactProto(hContact);
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
-			title = pcli->pfnGetStatusModeDescription(status, 0);
+			title = Clist_GetStatusModeDescription(status, 0);
 		}
 		else bFree = true;
 
@@ -318,7 +318,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = nullp
 		wchar_t *title = db_get_wsa(hContact, "CList", "StatusMsg");
 		if (title == nullptr) {
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
-			title = pcli->pfnGetStatusModeDescription(status, 0);
+			title = Clist_GetStatusModeDescription(status, 0);
 		}
 		else bFree = true;
 

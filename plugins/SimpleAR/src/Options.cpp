@@ -22,7 +22,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 			for (INT c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++) {
 				mir_snprintf(tszStatus, "%d", c);
-				wchar_t *pszStatus = pcli->pfnGetStatusModeDescription(c, 0);
+				wchar_t *pszStatus = Clist_GetStatusModeDescription(c, 0);
 				if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 					continue;
 				else {

@@ -503,7 +503,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 		}
 	}
 
-	LPCTSTR ptszStatus = pcli->pfnGetStatusModeDescription(IcqStatusToMiranda(wStatus), 0);
+	LPCTSTR ptszStatus = Clist_GetStatusModeDescription(IcqStatusToMiranda(wStatus), 0);
 	if (wOldStatus != IcqStatusToMiranda(wStatus)) {
 		// And a small log notice... if status was changed
 		if (nIsICQ)

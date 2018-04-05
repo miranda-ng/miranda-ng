@@ -143,7 +143,6 @@ int    fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent);
 int    fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);
 int    fnShowHide(void);
 HICON  fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);
-wchar_t* fnGetStatusModeDescription(int wParam, int lParam);
 int    fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
 
 /* clisttray.c */

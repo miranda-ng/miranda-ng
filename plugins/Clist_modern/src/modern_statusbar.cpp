@@ -247,7 +247,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		p->tszProtoHumanName = mir_wstrdup(accs[i]->tszAccountName);
 		p->szAccountName = mir_strdup(szProto);
 		p->szProtoName = mir_strdup(accs[i]->szProtoName);
-		p->tszProtoStatusText = mir_wstrdup(pcli->pfnGetStatusModeDescription(p->iProtoStatus, 0));
+		p->tszProtoStatusText = mir_wstrdup(Clist_GetStatusModeDescription(p->iProtoStatus, 0));
 		p->iProtoPos = iProtoInStatusMenu++;
 
 		p->bIsDimmed = 0;
