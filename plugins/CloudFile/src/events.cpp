@@ -36,7 +36,8 @@ static int OnFileDialogCanceled(WPARAM hContact, LPARAM)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	
+	InitializeMenus();
+
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 
 	// options
@@ -51,6 +52,5 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MSG_BUTTONPRESSED, OnSrmmButtonPressed);
 
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, OnSrmmToolbarLoaded);
-
 	return 0;
 }

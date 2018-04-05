@@ -52,24 +52,4 @@ public:
 	virtual UINT Upload(FileTransferParam *ftp) = 0;
 };
 
-class CCloudServiceSearch : public CCloudService
-{
-protected:
-	void HandleJsonError(JSONNode&) override { }
-
-public:
-	CCloudServiceSearch(const char *search)
-		: CCloudService(search, nullptr) { }
-
-	const char* GetModuleName() const override { return nullptr; }
-
-	int GetIconId() const override { return NULL; }
-
-	bool IsLoggedIn() override { return false; }
-	void Login() override { }
-	void Logout() override { }
-
-	UINT Upload(FileTransferParam*) override { return 0; }
-};
-
 #endif //_CLOUD_SERVICE_H_

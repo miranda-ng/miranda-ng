@@ -113,4 +113,6 @@ void PasteToInputArea(MCONTACT hContact, const wchar_t *data);
 void PasteToClipboard(const wchar_t *data);
 void Report(MCONTACT hContact, const wchar_t *data);
 
+CCloudService* FindService(const char *szProto);
+
 #endif //_COMMON_H_

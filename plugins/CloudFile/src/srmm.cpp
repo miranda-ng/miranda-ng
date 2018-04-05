@@ -45,8 +45,7 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 	if (cbc->flags != BBCF_ARROWCLICKED) {
 		ptrA defaultService(db_get_sa(NULL, MODULE, "DefaultService"));
 		if (defaultService) {
-			CCloudServiceSearch search(defaultService);
-			CCloudService *service = Services.find(&search);
+			CCloudService *service = FindService(defaultService);
 			if (service)
 				service->OpenUploadDialog(cbc->hContact);
 			return 0;

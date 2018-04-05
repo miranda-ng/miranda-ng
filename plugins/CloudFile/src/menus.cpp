@@ -17,8 +17,7 @@ void InitializeMenus()
 
 	ptrA defaultService(db_get_sa(NULL, MODULE, "DefaultService"));
 	if (defaultService) {
-		CCloudServiceSearch search(defaultService);
-		CCloudService *service = Services.find(&search);
+		CCloudService *service = FindService(defaultService);
 		if (service) {
 			mi.name.a = LPGEN("Upload");
 			mi.pszService = MODULE "/Default/Upload";

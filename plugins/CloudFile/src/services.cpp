@@ -7,6 +7,15 @@ static int CompareServices(const CCloudService *p1, const CCloudService *p2)
 
 LIST<CCloudService> Services(10, CompareServices);
 
+CCloudService* FindService(const char *szProto)
+{
+	for (auto &it : Services)
+		if (!mir_strcmp(it->GetAccountName(), szProto))
+			return it;
+	
+	return nullptr;
+}
+
 static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 {
 	ptrA accountName(mir_strdup((char*)wParam));
@@ -15,8 +24,7 @@ static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 	if (accountName == nullptr)
 		return 2;
 
-	CCloudServiceSearch search(accountName);
-	CCloudService *service = Services.find(&search);
+	CCloudService *service = FindService(accountName);
 	if (service == nullptr)
 		return 3;
 
@@ -58,8 +66,7 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 	if (accountName == nullptr)
 		return 2;
 
-	CCloudServiceSearch search(uploadData->accountName);
-	CCloudService *service = Services.find(&search);
+	CCloudService *service = FindService(uploadData->accountName);
 	if (service == nullptr)
 		return 3;
 
