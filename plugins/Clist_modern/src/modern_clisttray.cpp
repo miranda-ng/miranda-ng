@@ -322,7 +322,7 @@ int cliTrayIconInit(HWND hwnd)
 	if (!pcli->trayIconCount) {
 		pcli->trayIconCount = 1;
 		pcli->trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * pcli->trayIconCount);
-		pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
+		Clist_TrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
 		OldMode = TRAY_ICON_MODE_GLOBAL;
 		return 0;
 	}
@@ -342,7 +342,7 @@ int cliTrayIconInit(HWND hwnd)
 	// Добавляем иконки.
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
-		pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
+		Clist_TrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
 		break;
 
 	case TRAY_ICON_MODE_ACC:
@@ -353,14 +353,14 @@ int cliTrayIconInit(HWND hwnd)
 
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			if (!pa || !pa->ppro)
-				pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
+				Clist_TrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
 			else
-				pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
+				Clist_TrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
 		}
 		break;
 
 	case TRAY_ICON_MODE_CYCLE:
-		pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
+		Clist_TrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
 		pcli->cycleStep = 0;
 		cliTrayCycleTimerProc(nullptr, 0, 0, 0); // force icon update
 		// Не сохраняем ID таймера в pcli, чтобы fnTrayIconUpdateBase не убивала его.
@@ -370,7 +370,7 @@ int cliTrayIconInit(HWND hwnd)
 	case TRAY_ICON_MODE_ALL:
 		for (auto &pa : Accounts().rev_iter())
 			if (pa->IsVisible() && pa->ppro != nullptr)
-				pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
+				Clist_TrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
 		break;
 	}
 
@@ -395,7 +395,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 	BYTE Mode = db_get_b(0, "CList", (!bDiffers) ? "tiModeS" : "tiModeV", TRAY_ICON_MODE_GLOBAL);
 	if (Mode != OldMode) {
 		OldMode = Mode;
-		pcli->pfnTrayIconIconsChanged();
+		Clist_TrayIconIconsChanged();
 	}
 
 	HICON hIcon = nullptr;
@@ -404,7 +404,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
 		hIcon = pcli->pfnGetIconFromStatusMode(0, nullptr, CListTray_GetGlobalStatus(0, 0));
-		pcli->pfnTrayIconMakeTooltip(nullptr, nullptr);
+		Clist_TrayIconMakeTooltip(nullptr, nullptr);
 		break;
 
 	case TRAY_ICON_MODE_ACC:
@@ -420,7 +420,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			else
 				hIcon = pcli->pfnGetIconFromStatusMode(0, szProto, CallProtoService(szProto, PS_GETSTATUS, 0, 0));
 
-			pcli->pfnTrayIconMakeTooltip(nullptr, szProto);
+			Clist_TrayIconMakeTooltip(nullptr, szProto);
 		}
 		break;
 
@@ -430,7 +430,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else if (!bConn)
 			hIcon = pcli->pfnGetIconFromStatusMode(0, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0));
-		pcli->pfnTrayIconMakeTooltip(nullptr, nullptr);
+		Clist_TrayIconMakeTooltip(nullptr, nullptr);
 		break;
 
 	case TRAY_ICON_MODE_ALL:
@@ -444,7 +444,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
 			hIcon = pcli->pfnGetIconFromStatusMode(0, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0));
-		pcli->pfnTrayIconMakeTooltip(nullptr, pcli->trayIcon[i].szProto);
+		Clist_TrayIconMakeTooltip(nullptr, pcli->trayIcon[i].szProto);
 		break;
 	}
 

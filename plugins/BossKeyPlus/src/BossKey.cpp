@@ -337,7 +337,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 		}
 
-		pcli->pfnTrayIconDestroy(pcli->hwndContactList);
+		Clist_TrayIconDestroy(pcli->hwndContactList);
 		pcli->pfnUninitTray();
 
 		if (g_wMask & OPT_TRAYICON)

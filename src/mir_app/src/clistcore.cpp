@@ -138,24 +138,10 @@ void InitClistCore()
 	cli.pfnGetCacheEntry = fnGetCacheEntry;
 
 	cli.szTip = szTip;
-	cli.pfnInitTray = fnInitTray;
-	cli.pfnUninitTray = fnUninitTray;
 
-	cli.pfnTrayCycleTimerProc = fnTrayCycleTimerProc;
-	cli.pfnTrayIconAdd = fnTrayIconAdd;
-	cli.pfnTrayIconDestroy = fnTrayIconDestroy;
-	cli.pfnTrayIconIconsChanged = fnTrayIconIconsChanged;
 	cli.pfnTrayIconInit = fnTrayIconInit;
-	cli.pfnTrayIconMakeTooltip = fnTrayIconMakeTooltip;
 	cli.pfnTrayIconPauseAutoHide = fnTrayIconPauseAutoHide;
 	cli.pfnTrayIconProcessMessage = fnTrayIconProcessMessage;
-	cli.pfnTrayIconRemove = fnTrayIconRemove;
-	cli.pfnTrayIconSetBaseInfo = fnTrayIconSetBaseInfo;
-	cli.pfnTrayIconSetToBase = fnTrayIconSetToBase;
-	cli.pfnTrayIconTaskbarCreated = fnTrayIconTaskbarCreated;
-	cli.pfnTrayIconUpdate = fnTrayIconUpdate;
-	cli.pfnTrayIconUpdateBase = fnTrayIconUpdateBase;
-	cli.pfnTrayIconUpdateWithImageList = fnTrayIconUpdateWithImageList;
 
 	cli.pfnContactListWndProc = fnContactListWndProc;
 	cli.pfnLoadCluiGlobalOpts = fnLoadCluiGlobalOpts;

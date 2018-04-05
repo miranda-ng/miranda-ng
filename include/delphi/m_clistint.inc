@@ -377,7 +377,6 @@ type
   (* clistmod.c *)
     pfnIconFromStatusMode              : function (szProto:PAnsiChar; status:int; hContact:TMCONTACT):int; cdecl;
     pfnShowHide                        : function :int; cdecl;
-    blablablabla1                      : procedure; cdecl;
                                        
   (* clistsettings.c *)
     pfnGetCacheEntry                   : function (hContact:TMCONTACT):PClcCacheEntry; cdecl;
@@ -389,26 +388,18 @@ type
     pfnInvalidateDisplayNameCacheEntry : procedure (hContact:TMCONTACT); cdecl;
 
   (* clisttray.c *)
-    pfnTrayIconUpdateWithImageList     : procedure (iImage:int; szNewTip:TChar; szPreferredProto:PAnsiChar); cdecl;
-    pfnTrayIconUpdateBase              : procedure (szChangedProto:PAnsiChar); cdecl;
-    pfnTrayIconSetToBase               : procedure (szPreferredProto:PAnsiChar); cdecl;
-    pfnTrayIconIconsChanged            : procedure ; cdecl;
     pfnTrayIconPauseAutoHide           : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
     pfnTrayIconProcessMessage          : function (wParam:WPARAM; lParam:LPARAM):int_ptr; cdecl;
-    blablabla5                         : procedure; cdecl;
                                        
   (* clui.c *)                         
     pfnContactListWndProc              : function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):int; stdcall;
                                        
     pfnCluiProtocolStatusChanged       : procedure (status:int; szProto:PAnsiChar); cdecl;
-    blablablabla4                      : procedure; cdecl;
     pfnLoadCluiGlobalOpts              : procedure; cdecl;
     pfnInvalidateRect                  : function (hwnd:HWND; var lpRect:TRECT; bErase:bool):bool; cdecl;
     pfnOnCreateClc                     : procedure ; cdecl;
                                        
   (* contact.c *)                      
-    blablablabla2                      : procedure; cdecl;
-    blablablabla3                      : procedure; cdecl;
     pfnCompareContacts                 : function (var contact1:TClcContact; var contact2:TClcContact):int; cdecl;
     pfnSetHideOffline                  : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
                                       

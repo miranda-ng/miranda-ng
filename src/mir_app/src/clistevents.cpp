@@ -93,7 +93,7 @@ int fnGetImlIconIndex(HICON hIcon)
 
 static void ShowOneEventInTray(int idx)
 {
-	cli.pfnTrayIconUpdateWithImageList((iconsOn || disableTrayFlash) ? g_cliEvents[idx].imlIconIndex : 0, g_cliEvents[idx].szTooltip.w, GetEventProtocol(idx));
+	TrayIconUpdateWithImageList((iconsOn || disableTrayFlash) ? g_cliEvents[idx].imlIconIndex : 0, g_cliEvents[idx].szTooltip.w, GetEventProtocol(idx));
 }
 
 static void ShowEventsInTray()
@@ -152,7 +152,7 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 	if (g_cliEvents.getCount() == 0) {
 		KillTimer(nullptr, idEvent);
-		cli.pfnTrayIconSetToBase(nullptr);
+		TrayIconSetToBase(nullptr);
 	}
 
 	iconsOn = !iconsOn;
@@ -187,7 +187,7 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 
 		iconsOn = 1;
 		flashTimerId = SetTimer(nullptr, 0, db_get_w(0, "CList", "IconFlashTime", 550), IconFlashTimer);
-		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->szTooltip.w, szProto);
+		TrayIconUpdateWithImageList(p->imlIconIndex, p->szTooltip.w, szProto);
 	}
 	Clist_ChangeContactIcon(cle->hContact, p->imlIconIndex);
 	return p;
@@ -234,14 +234,14 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 	if (g_cliEvents.getCount() == 0 || nSameProto == 0) {
 		if (g_cliEvents.getCount() == 0)
 			KillTimer(nullptr, flashTimerId);
-		cli.pfnTrayIconSetToBase(hContact == 0 ? nullptr : szProto);
+		TrayIconSetToBase(hContact == 0 ? nullptr : szProto);
 	}
 	else {
 		if (g_cliEvents[0].hContact == 0)
 			szProto = nullptr;
 		else
 			szProto = GetContactProto(g_cliEvents[0].hContact);
-		cli.pfnTrayIconUpdateWithImageList(iconsOn ? g_cliEvents[0].imlIconIndex : 0, g_cliEvents[0].szTooltip.w, szProto);
+		TrayIconUpdateWithImageList(iconsOn ? g_cliEvents[0].imlIconIndex : 0, g_cliEvents[0].szTooltip.w, szProto);
 	}
 
 	return 0;

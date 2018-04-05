@@ -1211,8 +1211,9 @@ int CLUI_IconsChanged(WPARAM, LPARAM)
 	DrawMenuBar(pcli->hwndContactList);
 	ExtraIcon_Reload();
 	ExtraIcon_SetAll();
+	
 	// need to update tray cause it use combined icons
-	pcli->pfnTrayIconIconsChanged();  // TODO: remove as soon as core will include icolib
+	Clist_TrayIconIconsChanged();  // TODO: remove as soon as core will include icolib
 	ske_RedrawCompleteWindow();
 	return 0;
 }
@@ -1961,9 +1962,9 @@ LRESULT CLUI::OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	if (IsWindowVisible(pcli->hwndStatus))
 		pcli->pfnInvalidateRect(pcli->hwndStatus, nullptr, 0);
 	if (pt->bGlobal)
-		pcli->pfnTrayIconUpdateBase(g_szConnectingProto);
+		Clist_TrayIconUpdateBase(g_szConnectingProto);
 	else
-		pcli->pfnTrayIconUpdateBase(pt->szProto);
+		Clist_TrayIconUpdateBase(pt->szProto);
 
 	pcli->pfnInvalidateRect(pcli->hwndStatus, nullptr, TRUE);
 	return DefCluiWndProc(msg, wParam, lParam);
@@ -2523,7 +2524,7 @@ LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)
 	RemoveMenu(g_hMenuMain, 0, MF_BYPOSITION);
 	DestroyMenu(g_hMenuMain);
 
-	pcli->pfnTrayIconDestroy(m_hWnd);
+	Clist_TrayIconDestroy(m_hWnd);
 	mutex_bAnimationInProgress = 0;
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)hFrameContactTree, 0);
 	TRACE("CLUI.c: WM_DESTROY - hFrameContactTree removed\n");

@@ -1647,7 +1647,7 @@ int ClcDoProtoAck(ACKDATA *ack)
 				if (!mir_strcmp(pcli->clcProto[i].szProto, ack->szModule)) {
 					pcli->clcProto[i].dwStatus = (WORD)ack->lParam;
 					if (pcli->clcProto[i].dwStatus >= ID_STATUS_OFFLINE)
-						pcli->pfnTrayIconUpdateBase(pcli->clcProto[i].szProto);
+						Clist_TrayIconUpdateBase(pcli->clcProto[i].szProto);
 					return 0;
 				}
 			}

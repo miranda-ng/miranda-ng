@@ -148,25 +148,16 @@ int    fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
 /* clisttray.c */
 extern mir_cs trayLockCS;
 
-void   fnInitTray(void);
-void   fnUninitTray(void);
-int    fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
-int    fnTrayIconDestroy(HWND hwnd);
-void   fnTrayIconIconsChanged(void);
 int    fnTrayIconInit(HWND hwnd);
-wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto);
 int    fnTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
-INT_PTR    fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
-void   fnTrayIconRemove(HWND hwnd, const char *szProto);
-int    fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto);
-void   fnTrayIconSetToBase(char *szPreferredProto);
-void   fnTrayIconTaskbarCreated(HWND hwnd);
-int    fnTrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
-void   fnTrayIconUpdateBase(const char *szChangedProto);
+INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
 int    fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
-void   fnTrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, char *szPreferredProto);
 
-VOID CALLBACK fnTrayCycleTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
+void   InitTray(void);
+void   TrayIconSetToBase(char *szPreferredProto);
+void   TrayIconTaskbarCreated(HWND hwnd);
+int    TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
+void   TrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, char *szPreferredProto);
 
 /* clui.c */
 LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

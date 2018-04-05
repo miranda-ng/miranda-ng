@@ -162,7 +162,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						db_set_s(NULL, "CList", "PrimaryStatus", pa->szModuleName);
 				}
 
-				pcli->pfnTrayIconIconsChanged();
+				Clist_TrayIconIconsChanged();
 				Clist_LoadContactTree();  /* this won't do job properly since it only really works when changes happen */
 				pcli->pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);        /* force reshuffle */
 				return TRUE;

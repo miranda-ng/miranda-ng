@@ -165,7 +165,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					else
 						db_set_s(NULL, "CList", "PrimaryStatus", pa->szModuleName);
 				}
-				pcli->pfnTrayIconIconsChanged();
+				Clist_TrayIconIconsChanged();
 				db_set_dw(NULL, "CLUI", "Frameflags", cfg::dat.dwFlags);
 				ConfigureFrame();
 				ConfigureCLUIGeometry(1);

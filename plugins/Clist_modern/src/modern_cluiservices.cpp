@@ -36,7 +36,7 @@ void cliCluiProtocolStatusChanged(int, const char * proto)
 {
 	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)pcli->hwndStatus, 0);
 	if (proto)
-		pcli->pfnTrayIconUpdateBase(proto);
+		Clist_TrayIconUpdateBase(proto);
 }
 
 int CLUIServices_LoadModule(void)

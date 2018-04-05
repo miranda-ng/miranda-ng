@@ -129,7 +129,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 		}
 	}
 
-	cli.pfnTrayIconUpdateBase(ack->szModule);
+	Clist_TrayIconUpdateBase(ack->szModule);
 	return 0;
 }
 
@@ -214,7 +214,7 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 		break;
 	}
 	Menu_ReloadProtoMenus();
-	cli.pfnTrayIconIconsChanged();
+	Clist_TrayIconIconsChanged();
 	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 	Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 	return 0;
@@ -255,7 +255,7 @@ static int CListIconsChanged(WPARAM, LPARAM)
 	for (auto &it : protoIconIndex)
 		for (int j = 0; j < _countof(statusModeList); j++)
 			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, it->iIconBase + j, Skin_LoadProtoIcon(it->szProto, statusModeList[j]));
-	cli.pfnTrayIconIconsChanged();
+	Clist_TrayIconIconsChanged();
 	cli.pfnInvalidateRect(cli.hwndContactList, nullptr, TRUE);
 	return 0;
 }
@@ -425,7 +425,7 @@ int LoadContactListModule2(void)
 
 	InitCListEvents();
 	InitGroupServices();
-	cli.pfnInitTray();
+	InitTray();
 
 	HookEvent(ME_SKIN_ICONSCHANGED, CListIconsChanged);
 	return 0;

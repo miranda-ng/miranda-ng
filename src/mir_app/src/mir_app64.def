@@ -546,3 +546,11 @@ Clist_GetStatusModeDescription @565
 Clist_LoadContactTree @566
 Clist_ChangeContactIcon @567
 Clist_DrawMenuItem @568
+Clist_TrayIconUpdateBase @569
+Clist_TrayIconSetBaseInfo @570
+Clist_TrayIconRemove @571
+Clist_TrayIconMakeTooltip @572
+Clist_TrayIconIconsChanged @573
+Clist_TrayIconDestroy @574
+Clist_TrayIconAdd @575
+Clist_TraySetTimer @576

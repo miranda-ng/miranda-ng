@@ -739,7 +739,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					| IsDlgButtonChecked(hwndDlg, IDC_ICON_CYCLE_V) << 2
 					| IsDlgButtonChecked(hwndDlg, IDC_ICON_ALL_V) << 3);
 
-				pcli->pfnTrayIconIconsChanged();
+				Clist_TrayIconIconsChanged();
 				Clist_LoadContactTree(); /* this won't do job properly since it only really works when changes happen */
 				Clist_InitAutoRebuild(pcli->hwndContactTree); /* force reshuffle */
 				ClcOptionsChanged(); // Used to force loading avatar an list height related options

@@ -258,6 +258,14 @@ EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem,
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
 
+EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
+EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconDestroy(HWND hwnd);
+EXTERN_C MIR_APP_DLL(void) Clist_TrayIconIconsChanged(void);
+EXTERN_C MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto);
+EXTERN_C MIR_APP_DLL(void) Clist_TrayIconRemove(HWND hwnd, const char *szProto);
+EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto);
+EXTERN_C MIR_APP_DLL(void) Clist_TrayIconUpdateBase(const char *szChangedProto);
+EXTERN_C MIR_APP_DLL(void) Clist_TraySetTimer();
 
 // calculates account's index by its position in status bar
 EXTERN_C MIR_APP_DLL(int) Clist_GetAccountIndex(int iPos);
@@ -377,8 +385,6 @@ struct CLIST_INTERFACE
 	int    (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
 	int    (*pfnShowHide)(void);
 	
-	void   (*blablablabla1)(void);
-
 	/* clistsettings.c */
 	ClcCacheEntry* (*pfnGetCacheEntry)(MCONTACT hContact);
 	ClcCacheEntry* (*pfnCreateCacheItem)(MCONTACT hContact);
@@ -389,34 +395,26 @@ struct CLIST_INTERFACE
 	#define GCDNF_NOCACHE    4 // will not use the cache
 
 	wchar_t* (*pfnGetContactDisplayName)(MCONTACT hContact, int mode);
-	void   (*pfnInvalidateDisplayNameCacheEntry)(MCONTACT hContact);
+	void     (*pfnInvalidateDisplayNameCacheEntry)(MCONTACT hContact);
 
 	/* clisttray.c */
-	void (*pfnTrayIconUpdateWithImageList)(int iImage, const wchar_t *szNewTip, char *szPreferredProto);
-	void (*pfnTrayIconUpdateBase)(const char *szChangedProto);
-	void (*pfnTrayIconSetToBase)(char *szPreferredProto);
-	void (*pfnTrayIconIconsChanged)(void);
-	int  (*pfnTrayIconPauseAutoHide)(WPARAM wParam, LPARAM lParam);
-	INT_PTR (*pfnTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
-	int (*blablabla5)();
+	int      (*pfnTrayIconPauseAutoHide)(WPARAM wParam, LPARAM lParam);
+	INT_PTR  (*pfnTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
 
 	/* clui.c */
-	LRESULT (CALLBACK *pfnContactListWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT  (CALLBACK *pfnContactListWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	void (*pfnCluiProtocolStatusChanged)(int status, const char *szProto);
-	int  (*blablabla4)();
-	void (*pfnLoadCluiGlobalOpts)(void);
-	BOOL (*pfnInvalidateRect)(HWND hwnd, CONST RECT* lpRect, BOOL bErase);
-	void (*pfnOnCreateClc)(void);
+	void     (*pfnCluiProtocolStatusChanged)(int status, const char *szProto);
+	void     (*pfnLoadCluiGlobalOpts)(void);
+	BOOL     (*pfnInvalidateRect)(HWND hwnd, CONST RECT* lpRect, BOOL bErase);
+	void     (*pfnOnCreateClc)(void);
 
 	/* contact.c */
-	int  (*blablabla2)();
-	int  (*blablabla3)();
-	int  (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
-	int  (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
+	int      (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
+	int      (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
 
 	/* docking.c */
-	int (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
+	int      (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
 
 	/*************************************************************************************
 	 * version 2 - events processing
@@ -451,32 +449,18 @@ struct CLIST_INTERFACE
 
 	struct   trayIconInfo_t* trayIcon;
 	int      trayIconCount;
-	int      shellVersion;
-	UINT_PTR cycleTimerId;
 	int      cycleStep;
 	wchar_t* szTip;
 	BOOL     bTrayMenuOnScreen;
 
 	HICON    (*pfnGetIconFromStatusMode)(MCONTACT hContact, const char *szProto, int status);
 
-	void     (*pfnInitTray)(void);
-	void     (*pfnUninitTray)(void);
-
-	int      (*pfnTrayIconAdd)(HWND hwnd, const char *szProto, const char *szIconProto, int status);
-	int      (*pfnTrayIconDestroy)(HWND hwnd);
+	int      (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 	int      (*pfnTrayIconInit)(HWND hwnd);
-	wchar_t* (*pfnTrayIconMakeTooltip)(const wchar_t *szPrefix, const char *szProto);
-	void     (*pfnTrayIconRemove)(HWND hwnd, const char *szProto);
-	int      (*pfnTrayIconSetBaseInfo)(HICON hIcon, const char *szPreferredProto);
-	void     (*pfnTrayIconTaskbarCreated)(HWND hwnd);
-	int      (*pfnTrayIconUpdate)(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
-
-	VOID     (CALLBACK *pfnTrayCycleTimerProc)(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 
 	/*************************************************************************************
 	 * Miranda NG additions
 	 *************************************************************************************/
-	int      (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 	void     (*pfnSetContactCheckboxes)(ClcContact *cc, int checked);
 };
 
