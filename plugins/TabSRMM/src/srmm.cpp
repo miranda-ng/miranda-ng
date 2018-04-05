@@ -150,7 +150,7 @@ int _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...)
 
 	wchar_t	szTitle[128];
 	mir_snwprintf(szTitle, TranslateT("TabSRMM message (%s)"),
-		(hContact != 0) ? pcli->pfnGetContactDisplayName(hContact, 0) : TranslateT("Global"));
+		(hContact != 0) ? Clist_GetContactDisplayName(hContact) : TranslateT("Global"));
 
 	Clist_TrayNotifyW(nullptr, szTitle, debug, NIIF_INFO, 1000 * 4);
 	return 0;

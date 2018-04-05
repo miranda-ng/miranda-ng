@@ -109,7 +109,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		}
 
 		char *szProto = GetContactProto(p->hContact);
-		wchar_t *szName = pcli->pfnGetContactDisplayName(p->hContact, 0);
+		wchar_t *szName = Clist_GetContactDisplayName(p->hContact);
 		if (szProto && szName) {
 			NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) malloc(sizeof(struct NotifyMenuItemExData));
 			if (nmi) {
@@ -287,7 +287,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	int iCount = GetMenuItemCount(g_CluiData.hMenuNotify);
 	rc.left += 26;
 	if (g_CluiData.hUpdateContact != 0) {
-		wchar_t *szName = pcli->pfnGetContactDisplayName(g_CluiData.hUpdateContact, 0);
+		wchar_t *szName = Clist_GetContactDisplayName(g_CluiData.hUpdateContact);
 		int iIcon = Clist_GetContactIcon(g_CluiData.hUpdateContact);
 
 		ske_ImageList_DrawEx(g_himlCListClc, iIcon, hDC, rc.left, (rc.bottom + rc.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -302,7 +302,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 		GetMenuItemInfo(g_CluiData.hMenuNotify, iCount - 1, TRUE, &mii);
 
 		NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-		wchar_t *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
+		wchar_t *szName = Clist_GetContactDisplayName(nmi->hContact);
 		int iIcon = Clist_GetContactIcon(nmi->hContact);
 		ske_ImageList_DrawEx(g_himlCListClc, iIcon, hDC, rc.left, (rc.bottom + rc.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
 		rc.left += 18;

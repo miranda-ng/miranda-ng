@@ -94,13 +94,13 @@ char* contact_get_id(MCONTACT hContact, bool bNameOnError)
 {
 	ptrW pszUniqueID(Contact_GetInfo(CNF_UNIQUEID, hContact));
 	if (!pszUniqueID && bNameOnError)
-		pszUniqueID = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
+		pszUniqueID = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 
 	return mir_u2a(pszUniqueID);
 }
 
 __inline const wchar_t* contact_get_nameT(MCONTACT hContact) {
-	return pcli->pfnGetContactDisplayName(hContact, 0);
+	return Clist_GetContactDisplayName(hContact);
 }
 
 wchar_t* ProtoGetNickname(const char* proto)

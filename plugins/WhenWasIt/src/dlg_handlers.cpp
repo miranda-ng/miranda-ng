@@ -417,7 +417,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			char *szProto = GetContactProto(hContact);
 
 			wchar_t buffer[2048];
-			mir_snwprintf(buffer, TranslateT("Set birthday for %s:"), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_snwprintf(buffer, TranslateT("Set birthday for %s:"), Clist_GetContactDisplayName(hContact));
 			SetWindowText(hWnd, buffer);
 
 			HWND hDate = GetDlgItem(hWnd, IDC_DATE);
@@ -605,7 +605,7 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 		else
 			ListView_SetItemText(hList, entry, 0, ptszAccName);
 
-		ListView_SetItemText(hList, entry, 1, pcli->pfnGetContactDisplayName(hContact, 0));
+		ListView_SetItemText(hList, entry, 1, Clist_GetContactDisplayName(hContact));
 
 		wchar_t buffer[2048];
 		if ((dtb <= 366) && (dtb >= 0))

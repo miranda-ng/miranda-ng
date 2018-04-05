@@ -557,7 +557,7 @@ HWND SendSMSWindowAdd(MCONTACT hContact)
 		ListMTItemAdd(&ssSMSSettings.lmtSendSMSWindowsListMT, &psswdWindowData->lmtListMTItem, psswdWindowData);
 		ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 
-		LPTSTR lptszContactDisplayName = pcli->pfnGetContactDisplayName(hContact, 0);
+		LPTSTR lptszContactDisplayName = Clist_GetContactDisplayName(hContact);
 		wchar_t tszTitle[MAX_PATH];
 		mir_snwprintf(tszTitle, L"%s - %s", lptszContactDisplayName, TranslateT("Send SMS"));
 		SetWindowText(psswdWindowData->hWnd, tszTitle);
@@ -1016,7 +1016,7 @@ void AddContactPhonesToTreeViewParam(MCONTACT hContact, LPSTR lpszModule, LPSTR 
 		dwPhoneSize = CopyNumberW(tszPhone + 1, tszPhoneRaw, dwPhoneSize);
 		if (IsPhoneW(tszPhone, dwPhoneSize)) {
 			if (tvis.hParent == nullptr) {
-				tvis.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
+				tvis.item.pszText = Clist_GetContactDisplayName(hContact);
 				tvis.hParent = TreeView_InsertItem(hWndList, &tvis);
 			}
 			tvis.item.pszText = tszPhone;
@@ -1031,7 +1031,7 @@ void AddContactPhonesToTreeViewParam(MCONTACT hContact, LPSTR lpszModule, LPSTR 
 			dwPhoneSize = CopyNumberW(tszPhone + 1, tszPhoneRaw, dwPhoneSize);
 			if (IsPhoneW(tszPhone, dwPhoneSize)) {
 				if (tvis.hParent == nullptr) {
-					tvis.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
+					tvis.item.pszText = Clist_GetContactDisplayName(hContact);
 					tvis.hParent = TreeView_InsertItem(hWndList, &tvis);
 				}
 				tvis.item.pszText = tszPhone;

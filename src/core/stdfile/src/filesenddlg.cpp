@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				SetFileListAndSizeControls(hwndDlg, dat);
 			}
 
-			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
 			SetDlgItemText(hwndDlg, IDC_TO, contactName);
 
 			ptrW id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));

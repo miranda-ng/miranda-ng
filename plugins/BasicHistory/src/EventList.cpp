@@ -343,7 +343,7 @@ void HistoryEventList::InitNames()
 {
 	wchar_t str[200];
 	if (m_hContact) {
-		wcscpy_s(m_contactName, pcli->pfnGetContactDisplayName(m_hContact, 0));
+		wcscpy_s(m_contactName, Clist_GetContactDisplayName(m_hContact));
 		mir_snwprintf(str, TranslateT("History for %s"), m_contactName);
 	}
 	else {
@@ -389,7 +389,7 @@ void HistoryEventList::AddGroup(const EventIndex& ev)
 std::wstring HistoryEventList::GetContactName()
 {
 	if (m_hContact)
-		return pcli->pfnGetContactDisplayName(m_hContact, 0);
+		return Clist_GetContactDisplayName(m_hContact);
 
 	return TranslateT("System");
 }

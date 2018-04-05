@@ -280,7 +280,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 				Meta_GetSubNick(hMeta, i, tszNick);
 				ptszName = tszNick.GetBuffer();
 			}
-			else ptszName = cli.pfnGetContactDisplayName(hContact, 0);
+			else ptszName = Clist_GetContactDisplayName(hContact);
 
 			HICON hIcon = ImageList_GetIcon(hCListImages, Clist_GetContactIcon(hContact), 0);
 			Menu_ModifyItem(hMenuContact[i], ptszName, hIcon, 0);

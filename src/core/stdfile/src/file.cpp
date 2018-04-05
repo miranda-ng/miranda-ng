@@ -108,7 +108,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 		Skin_PlaySound("RecvFile");
 
 		wchar_t szTooltip[256];
-		mir_snwprintf(szTooltip, TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_snwprintf(szTooltip, TranslateT("File from %s"), Clist_GetContactDisplayName(hContact));
 		cle.szTooltip.w = szTooltip;
 
 		cle.flags |= CLEF_UNICODE;

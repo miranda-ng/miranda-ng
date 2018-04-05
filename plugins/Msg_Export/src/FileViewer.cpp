@@ -982,7 +982,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			wchar_t szFormat[200];
 			wchar_t szTitle[200];
 			if (GetWindowText(hwndDlg, szFormat, _countof(szFormat))) {
-				const wchar_t *pszNick = pcli->pfnGetContactDisplayName(pclDlg->hContact, 0);
+				const wchar_t *pszNick = Clist_GetContactDisplayName(pclDlg->hContact);
 				tstring sPath = pclDlg->sPath;
 				string::size_type n = sPath.find_last_of('\\');
 				if (n != sPath.npos)

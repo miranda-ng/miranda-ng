@@ -111,7 +111,7 @@ bool CContactCache::updateNick()
 {
 	bool fChanged = false;
 	if (m_isValid) {
-		wchar_t *tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
+		wchar_t *tszNick = Clist_GetContactDisplayName(getActiveContact());
 		if (tszNick && mir_wstrcmp(m_szNick, tszNick))
 			fChanged = true;
 		wcsncpy_s(m_szNick, (tszNick ? tszNick : L"<undef>"), _TRUNCATE);

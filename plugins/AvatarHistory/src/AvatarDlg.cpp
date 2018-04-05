@@ -125,7 +125,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 			else
 				FillAvatarListFromFiles(hwndList, data->hContact);
 
-			wchar_t *displayName = pcli->pfnGetContactDisplayName(data->hContact, 0);
+			wchar_t *displayName = Clist_GetContactDisplayName(data->hContact);
 			if (displayName) {
 				wchar_t title[MAX_PATH];
 				mir_snwprintf(title, TranslateT("Avatar history for %s"), displayName);
@@ -530,7 +530,7 @@ int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 	wcsncpy_s(file, (wcsrchr(fn, '\\') + 1), _TRUNCATE);
 	ofn.lpstrFile = file;
 
-	wchar_t *displayName = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *displayName = Clist_GetContactDisplayName(hContact);
 	wchar_t title[MAX_PATH];
 	if (displayName) {
 		mir_snwprintf(title, TranslateT("Save avatar for %s"), displayName);

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 int hLangpack;
 HINSTANCE hInst;
 MWindowList hWindowList;
@@ -231,7 +230,6 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UserOnlineSettingChanged); 

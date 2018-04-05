@@ -1224,7 +1224,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 			}
 			else {
 				evData.dwFlags = IEEDF_UNICODE_NICK;
-				evData.ptszNick = pcli->pfnGetContactDisplayName(m_hContact, 0);
+				evData.ptszNick = Clist_GetContactDisplayName(m_hContact);
 			}
 			switch (dbei_s->eventType) {
 				case EVENTTYPE_STATUSCHANGE: evData.iType = IEED_EVENT_STATUSCHANGE; break;

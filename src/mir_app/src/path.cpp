@@ -57,10 +57,10 @@ static __forceinline char *mir_a2x(const char*, const char *s) { return mir_strd
 
 static __forceinline char *GetContactNickX(const char*, MCONTACT hContact)
 {
-	return mir_u2a(cli.pfnGetContactDisplayName(hContact, 0));
+	return mir_u2a(Clist_GetContactDisplayName(hContact));
 }
 
-static __forceinline char *GetContactIDX(const char*, MCONTACT hContact)
+static __forceinline char* GetContactIDX(const char*, MCONTACT hContact)
 {
 	wchar_t *id = GetContactID(hContact);
 	char* res = mir_u2a(id);
@@ -68,7 +68,7 @@ static __forceinline char *GetContactIDX(const char*, MCONTACT hContact)
 	return res;
 }
 
-static __forceinline char *GetEnvironmentVariableX(const char *variable)
+static __forceinline char* GetEnvironmentVariableX(const char *variable)
 {
 	char result[512];
 	if (GetEnvironmentVariableA(variable, result, _countof(result)))
@@ -76,12 +76,12 @@ static __forceinline char *GetEnvironmentVariableX(const char *variable)
 	return nullptr;
 }
 
-static __forceinline char *GetProfileDirX(const char*)
+static __forceinline char* GetProfileDirX(const char*)
 {
 	return mir_u2a(g_profileDir);
 }
 
-static __forceinline char *SHGetSpecialFolderPathX(int iCSIDL, char*)
+static __forceinline char* SHGetSpecialFolderPathX(int iCSIDL, char*)
 {
 	char result[512];
 	if (SHGetSpecialFolderPathA(nullptr, result, iCSIDL, FALSE))
@@ -89,7 +89,7 @@ static __forceinline char *SHGetSpecialFolderPathX(int iCSIDL, char*)
 	return nullptr;
 }
 
-static __forceinline char *GetModulePathX(const char*, HMODULE hModule)
+static __forceinline char* GetModulePathX(const char*, HMODULE hModule)
 {
 	char result[MAX_PATH];
 	GetModuleFileNameA(hModule, result, sizeof(result));
@@ -98,7 +98,7 @@ static __forceinline char *GetModulePathX(const char*, HMODULE hModule)
 	return mir_strdup(result);
 }
 
-static __forceinline char *GetUserNameX(const char*)
+static __forceinline char* GetUserNameX(const char*)
 {
 	char result[128];
 	DWORD size = _countof(result);
@@ -107,7 +107,7 @@ static __forceinline char *GetUserNameX(const char*)
 	return nullptr;
 }
 
-static __forceinline char *GetProfileNameX(const char*)
+static __forceinline char* GetProfileNameX(const char*)
 {
 	return mir_u2a(g_shortProfileName);
 }
@@ -144,7 +144,7 @@ static __forceinline wchar_t* mir_a2x(const wchar_t *, const char *s) { return m
 
 static __forceinline wchar_t* GetContactNickX(const wchar_t*, MCONTACT hContact)
 {
-	return mir_wstrdup(cli.pfnGetContactDisplayName(hContact, 0));
+	return mir_wstrdup(Clist_GetContactDisplayName(hContact));
 }
 
 static __forceinline wchar_t* GetContactIDX(const wchar_t*, MCONTACT hContact)

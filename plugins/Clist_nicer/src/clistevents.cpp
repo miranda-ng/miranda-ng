@@ -253,7 +253,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 		}
 
 		char *szProto = GetContactProto(p->hContact);
-		wchar_t *szName = pcli->pfnGetContactDisplayName(p->hContact, 0);
+		wchar_t *szName = Clist_GetContactDisplayName(p->hContact);
 		if (szProto && szName) {
 			NotifyMenuItemExData *nmi = (NotifyMenuItemExData*)malloc(sizeof(NotifyMenuItemExData));
 			if (nmi) {

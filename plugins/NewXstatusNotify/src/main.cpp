@@ -211,7 +211,7 @@ wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt)
 				if (n->hContact == NULL)
 					res.Append(TranslateT("Contact"));
 				else
-					res.Append(pcli->pfnGetContactDisplayName(n->hContact, 0));
+					res.Append(Clist_GetContactDisplayName(n->hContact));
 				break;
 
 			case 's':
@@ -438,7 +438,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	if (opt.BlinkIcon && !opt.TempDisabled) {
 		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, newStatus) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 		wchar_t str[256];
-		mir_snwprintf(str, TranslateT("%s is now %s"), pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText);
+		mir_snwprintf(str, TranslateT("%s is now %s"), Clist_GetContactDisplayName(hContact), StatusList[Index(newStatus)].lpzStandardText);
 		BlinkIcon(hContact, hIcon, str);
 	}
 
@@ -455,7 +455,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", stzTime, _countof(stzTime));
 		GetDateFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"dd/MM/yyyy", stzDate, _countof(stzDate));
 		mir_snwprintf(stzText, TranslateT("%s, %s. %s changed status to %s (was %s)\r\n"),
-			stzDate, stzTime, pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText,
+			stzDate, stzTime, Clist_GetContactDisplayName(hContact), StatusList[Index(newStatus)].lpzStandardText,
 			StatusList[Index(oldStatus)].lpzStandardText);
 		LogToFile(stzText);
 	}
@@ -728,7 +728,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && !opt.TempDisabled) {
 		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 		wchar_t str[256];
-		mir_snwprintf(str, TranslateT("%s changed status message to %s"), pcli->pfnGetContactDisplayName(hContact, 0), smi.newstatusmsg);
+		mir_snwprintf(str, TranslateT("%s changed status message to %s"), Clist_GetContactDisplayName(hContact), smi.newstatusmsg);
 		BlinkIcon(hContact, hIcon, str);
 	}
 
@@ -755,7 +755,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		else
 			str = GetStr(&smi, templates.LogSMsgChanged);
 
-		mir_snwprintf(stzText, L"%s, %s. %s %s\r\n", stzDate, stzTime, pcli->pfnGetContactDisplayName(hContact, 0), str);
+		mir_snwprintf(stzText, L"%s, %s. %s %s\r\n", stzDate, stzTime, Clist_GetContactDisplayName(hContact), str);
 
 		LogToFile(stzText);
 		mir_free(str);

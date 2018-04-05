@@ -164,7 +164,7 @@ static int OnContactDrag(WPARAM hContact, LPARAM)
 		int idStatus = GetContactStatus(hContact);
 
 		if (!fcOpt.bHideAll && !HideOnFullScreen() && (!fcOpt.bHideOffline || IsStatusVisible(idStatus)) && (!fcOpt.bHideWhenCListShow || !bIsCListShow)) {
-			CreateThumbWnd(pcli->pfnGetContactDisplayName(hContact, 0), hContact, pt.x, pt.y);
+			CreateThumbWnd(Clist_GetContactDisplayName(hContact), hContact, pt.x, pt.y);
 			ThumbInfo *pNewThumb = thumbList.FindThumbByContact(hContact);
 			ShowWindow(pNewThumb->hwnd, SW_SHOWNA);
 			hNewContact = hContact;
@@ -412,7 +412,7 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 	case WM_REFRESH_CONTACT:
 		if (pThumb) {
-			wcsncpy(pThumb->ptszName, pcli->pfnGetContactDisplayName(pThumb->hContact, 0), USERNAME_LEN - 1);
+			wcsncpy(pThumb->ptszName, Clist_GetContactDisplayName(pThumb->hContact), USERNAME_LEN - 1);
 			pThumb->RefreshContactStatus((int)lParam);
 			pThumb->ResizeThumb();
 		}
@@ -763,7 +763,7 @@ static void LoadContact(MCONTACT hContact)
 
 	DWORD	dwPos = db_get_dw(hContact, MODULE, "ThumbsPos", (DWORD)-1);
 	if (dwPos != -1) {
-		wchar_t	*ptName = pcli->pfnGetContactDisplayName(hContact, 0);
+		wchar_t	*ptName = Clist_GetContactDisplayName(hContact);
 		if (ptName != nullptr) {
 			int nX = DB_POS_GETX(dwPos);
 			int nY = DB_POS_GETY(dwPos);

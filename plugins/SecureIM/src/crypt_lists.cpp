@@ -186,13 +186,13 @@ void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 
 void getContactNameA(MCONTACT hContact, LPSTR szName)
 {
-	ptrA dn(mir_u2a((LPWSTR)pcli->pfnGetContactDisplayName(hContact, 0)));
+	ptrA dn(mir_u2a(Clist_GetContactDisplayName(hContact)));
 	mir_strcpy(szName, dn);
 }
 
 void getContactName(MCONTACT hContact, LPSTR szName)
 {
-	mir_wstrcpy((LPWSTR)szName, (LPWSTR)pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_wstrcpy((LPWSTR)szName, Clist_GetContactDisplayName(hContact));
 }
 
 void getContactUinA(MCONTACT hContact, LPSTR szUIN)

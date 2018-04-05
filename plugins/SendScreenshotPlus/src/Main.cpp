@@ -31,7 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 CHAT_MANAGER    *pci;
-CLIST_INTERFACE *pcli;
 HINSTANCE g_hSendSS;
 MGLOBAL g_myGlobals;
 HNETLIBUSER g_hNetlibUser=nullptr;//!< Netlib Register User
@@ -267,7 +266,6 @@ DLL_EXPORT int Load(void)
 {
 	mir_getLP(&pluginInfo);
 	pci = Chat_GetInterface();
-	pcli = Clist_GetInterface();
 
 	/// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);

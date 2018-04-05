@@ -43,7 +43,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 
 	if (pdnce->hContact == 0) { //selfcontact
 		if (!pdnce->tszName)
-			pdnce->tszName = pcli->pfnGetContactDisplayName(0, GCDNF_NOCACHE);
+			pdnce->tszName = Clist_GetContactDisplayName(0, GCDNF_NOCACHE);
 		return;
 	}
 
@@ -54,7 +54,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	}
 
 	if (pdnce->tszName == nullptr) {
-		pdnce->tszName = pcli->pfnGetContactDisplayName(pdnce->hContact, GCDNF_NOCACHE);
+		pdnce->tszName = Clist_GetContactDisplayName(pdnce->hContact, GCDNF_NOCACHE);
 		pdnce->m_bIsUnknown = !mir_wstrcmp(pdnce->tszName, UnknownConctactTranslatedName);
 	}
 

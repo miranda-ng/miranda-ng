@@ -606,7 +606,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 
 		CMStringW tszNick;
 		if (g_metaOptions.menu_contact_label == DNT_DID)
-			tszNick = cli.pfnGetContactDisplayName(cc->pSubs[i], 0);
+			tszNick = Clist_GetContactDisplayName(cc->pSubs[i]);
 		else
 			Meta_GetSubNick(hMeta, i, tszNick);
 		tszNick.AppendFormat(L" [%s]", pa->tszAccountName);

@@ -282,7 +282,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 					unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))))
 		{
 			wchar_t *senderName = unknownSender ?
-				TranslateT("Unknown") : pcli->pfnGetContactDisplayName(getcontact(sender, 0, 0, nullptr), 0);
+				TranslateT("Unknown") : Clist_GetContactDisplayName(getcontact(sender, 0, 0, nullptr));
 			wchar_t error[256];
 			mir_snwprintf(error, TranslateT("%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?"),
 				senderName, recipients_count + 1, unknown);
@@ -309,7 +309,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 	wchar_t *senderName;
 	if (sender)
 	{
-		senderName = pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, nullptr), 0);
+		senderName = Clist_GetContactDisplayName(getcontact(sender, 1, 0, nullptr));
 		mir_snwprintf(status, TranslateT("%s initiated the conference."), senderName);
 	}
 	else
@@ -365,7 +365,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 		MCONTACT hContact = getcontact(chat->recipients[i], 1, 0, nullptr);
 		UIN2IDT(chat->recipients[i], id);
 		if (hContact)
-			gce.ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+			gce.ptszNick = Clist_GetContactDisplayName(hContact);
 		else
 			gce.ptszNick = TranslateT("'Unknown'");
 		gce.bIsMe = 0;

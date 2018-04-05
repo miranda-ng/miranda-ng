@@ -140,7 +140,7 @@ CTabbedWindow* CTabbedWindow::AddPage(MCONTACT hContact, wchar_t *pwszText, int 
 		pDlg->m_bNoActivate = iNoActivate != 0;
 
 	if (g_Settings.bTabsEnable) {
-		m_tab.AddPage(pcli->pfnGetContactDisplayName(hContact, 0), nullptr, pDlg);
+		m_tab.AddPage(Clist_GetContactDisplayName(hContact), nullptr, pDlg);
 		FixTabIcons(pDlg);
 
 		m_tab.ActivatePage(m_tab.GetCount() - 1);

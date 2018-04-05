@@ -1091,7 +1091,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		else if (pdbcws && pdbcws->value.type == DBVT_WCHAR)
 			pszName = pdbcws->value.ptszVal;
 		else
-			pszName = DB::Contact::DisplayName(pPs->hContact);
+			pszName = Clist_GetContactDisplayName(pPs->hContact);
 
 		HWND hName = GetDlgItem(hDlg, TXT_NAME);
 		SetWindowText(hName, pszName);

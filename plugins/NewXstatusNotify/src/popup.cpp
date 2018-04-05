@@ -26,7 +26,7 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = hIcon;
-	CMStringW buf(pcli->pfnGetContactDisplayName(hContact, 0));
+	CMStringW buf(Clist_GetContactDisplayName(hContact));
 
 	// add group name to popup title
 	if (opt.ShowGroup) {

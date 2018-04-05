@@ -511,7 +511,7 @@ begin
     begin
       StrCopyW(buf,format);
       if lName then
-        StrReplaceW(buf,'%name%', cli^.pfnGetContactDisplayName(hContact,0));
+        StrReplaceW(buf,'%name%', Clist_GetContactDisplayName(hContact,0));
 
       if lGroup then
       begin

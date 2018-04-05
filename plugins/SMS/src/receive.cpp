@@ -231,7 +231,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 			}
 			else {
 				memcpy(pszServiceFunctionName, SMS_READ, sizeof(SMS_READ));
-				mir_snwprintf(szToolTip, TranslateT("SMS Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				mir_snwprintf(szToolTip, TranslateT("SMS Message from %s"), Clist_GetContactDisplayName(hContact));
 
 				CLISTEVENT cle = {};
 				cle.flags = CLEF_UNICODE;
@@ -254,7 +254,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 			UINT iIcon;
 			if (GetDataFromMessage((LPSTR)dbei.pBlob, dbei.cbBlob, nullptr, nullptr, 0, nullptr, &iIcon)) {
 				memcpy(pszServiceFunctionName, SMS_READ_ACK, sizeof(SMS_READ_ACK));
-				mir_snwprintf(szToolTip, TranslateT("SMS Confirmation from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				mir_snwprintf(szToolTip, TranslateT("SMS Confirmation from %s"), Clist_GetContactDisplayName(hContact));
 
 				CLISTEVENT cle = {};
 				cle.flags = CLEF_UNICODE;

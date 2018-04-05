@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "shlcom.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 bool bIsVistaPlus;
@@ -161,7 +160,6 @@ STDAPI DllUnregisterServer()
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	pcli = Clist_GetInterface();
 
 	InvokeThreadServer();
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);

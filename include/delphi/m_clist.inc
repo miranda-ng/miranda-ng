@@ -155,6 +155,11 @@ const
   function Clist_GetContactIcon(hContact:TMCONTACT) : integer; stdcall; external AppDll;
 
   {
+    returns a static display name for a contact
+  }
+  function Clist_GetContactDisplayName(hContact:TMCONTACT; mode:int):PWideChar; stdcall; external AppDll;
+
+  {
     wParam : 0
     lParam : 0
     Affect : Toggles the show/hide status of the contact list

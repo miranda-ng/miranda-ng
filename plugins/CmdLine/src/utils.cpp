@@ -175,7 +175,7 @@ MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
 		ptrW szHandle(GetContactID(hContact, cProtocol));
 
-		wchar_t *tmp = pcli->pfnGetContactDisplayName(hContact, 0);
+		wchar_t *tmp = Clist_GetContactDisplayName(hContact);
 		wcsncpy_s(dispName, tmp, _TRUNCATE);
 
 		if ((szHandle) && ((mir_wstrcmpi(szHandle, szID) == 0) || (mir_wstrcmpi(dispName, szID) == 0)) && ((szProto == nullptr) || (_stricmp(szProto, cProtocol) == 0)))

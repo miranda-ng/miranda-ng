@@ -205,7 +205,7 @@ static void ShowPopup(char* szText, wchar_t* tszText, MCONTACT hContact)
 
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	ppd.lchContact = hContact;
-	wcsncpy(ppd.lptzContactName, pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME - 1);
+	wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME - 1);
 	wcsncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
 	ppd.iSeconds = -1;
 

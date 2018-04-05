@@ -140,10 +140,10 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			ptrW tszReason(dbei->getString(blob.get_reason()));
 			text.Format(TranslateT("Authorization request from %s%s: %s"), 
-				(tszNick == nullptr) ? cli.pfnGetContactDisplayName(blob.get_contact(), 0) : tszNick, nick.c_str(), tszReason);
+				(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick, nick.c_str(), tszReason);
 		}
 		else text.Format(TranslateT("You were added by %s%s"),
-			(tszNick == nullptr) ? cli.pfnGetContactDisplayName(blob.get_contact(), 0) : tszNick, nick.c_str());
+			(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick, nick.c_str());
 		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
 

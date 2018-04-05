@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE g_hInst;
 int hLangpack;
 DWORD g_mirandaVersion;
@@ -105,7 +104,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	if (!g_speak_config)
 	{

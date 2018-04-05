@@ -819,7 +819,7 @@ retry:
 						gce.ptszUID = id;
 						wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
 						gce.ptszText = messageT;
-						gce.ptszNick = (wchar_t*)pcli->pfnGetContactDisplayName(getcontact(e->event.msg.sender, 1, 0, nullptr), 0);
+						gce.ptszNick = (wchar_t*)Clist_GetContactDisplayName(getcontact(e->event.msg.sender, 1, 0, nullptr));
 						gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 						gce.dwFlags = GCEF_ADDTOLOG;
 						debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);

@@ -2438,7 +2438,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
 				return;
 
-	wchar_t *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *contactName = Clist_GetContactDisplayName(hContact);
 
 	// cut nickname if larger than x chars...
 	wchar_t newcontactname[128];

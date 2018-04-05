@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "http_api.h"
 
-CLIST_INTERFACE *pcli;
-
 HINSTANCE g_hInst;
 
 int hLangpack;
@@ -67,7 +65,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	g_contactCache = new CContactCache;
 

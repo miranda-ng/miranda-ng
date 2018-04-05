@@ -423,7 +423,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// Set main window image
 		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_IMAGE));
 
-		wchar_t *szName = pcli->pfnGetContactDisplayName(dat->hContact, 0), szTitle[128];
+		wchar_t *szName = Clist_GetContactDisplayName(dat->hContact), szTitle[128];
 		if (dat->bReceiving)
 			mir_snwprintf(szTitle, TranslateT("Image from %s"), szName);
 		else

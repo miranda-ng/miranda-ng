@@ -436,7 +436,7 @@ void fnEndRename(HWND, ClcData *dat, int save)
 				}
 				else if (contact->type == CLCIT_CONTACT) {
 					cli.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
-					wchar_t* otherName = cli.pfnGetContactDisplayName(contact->hContact, GCDNF_NOMYHANDLE);
+					wchar_t* otherName = Clist_GetContactDisplayName(contact->hContact, GCDNF_NOMYHANDLE);
 					if (!text[0] || !mir_wstrcmp(otherName, text))
 						db_unset(contact->hContact, "CList", "MyHandle");
 					else

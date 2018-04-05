@@ -17,9 +17,7 @@
 #include "stdafx.h"
 
 //global variables
-CLIST_INTERFACE *pcli;
 int hLangpack = 0;
-
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -154,7 +152,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 

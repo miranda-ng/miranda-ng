@@ -304,7 +304,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (!opt.bWaitForContent)
 					db_unset(pwd->hContact, MODULE, "TempStatusMsg");
 
-				wcsncpy_s(pwd->swzTitle, pcli->pfnGetContactDisplayName(pwd->hContact, 0), _TRUNCATE);
+				wcsncpy_s(pwd->swzTitle, Clist_GetContactDisplayName(pwd->hContact), _TRUNCATE);
 
 				char *szProto = GetContactProto(pwd->hContact);
 				pwd->spiTitle = Smileys_PreParse(pwd->swzTitle, -1, szProto);
@@ -1607,7 +1607,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								bTitlePainted = true;
 							}
 
-							wchar_t *swzNick = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
+							wchar_t *swzNick = Clist_GetContactDisplayName(hContact);
 							if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
 								wchar_t *swzProto = a2t(proto);
 								mir_snwprintf(swzName, L"%s (%s)", swzNick, swzProto);

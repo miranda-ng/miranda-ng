@@ -1020,7 +1020,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		wchar_t newtitle[256];
 		if (m_hContact && m_szProto) {
 			m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
-			wchar_t *contactName = pcli->pfnGetContactDisplayName(m_hContact, 0);
+			wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
 
 			wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
 			if (g_dat.bUseStatusWinIcon)
@@ -1221,7 +1221,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			else {
 				if (m_nTypeSecs) {
 					wchar_t szBuf[256];
-					wchar_t* szContactName = pcli->pfnGetContactDisplayName(m_hContact, 0);
+					wchar_t* szContactName = Clist_GetContactDisplayName(m_hContact);
 					HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
 					mir_snwprintf(szBuf, TranslateT("%s is typing a message..."), szContactName);

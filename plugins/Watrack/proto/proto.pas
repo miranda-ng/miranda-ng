@@ -251,7 +251,7 @@ begin
 //  Action
 
     StrCopyW(buf,TranslateW('Music Info from '));
-    StrCatW(buf,cli^.pfnGetContactDisplayName(ccs^.hContact,0));
+    StrCatW(buf,Clist_GetContactDisplayName(ccs^.hContact,0));
 
     MessageBoxW(0,TranslateW(pos_template),buf,MB_ICONINFORMATION);
 

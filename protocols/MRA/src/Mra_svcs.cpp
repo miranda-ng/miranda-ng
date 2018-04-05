@@ -202,7 +202,7 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 				// always store custom nick
 				CMStringW wszNick;
 				if (cws->value.type == DBVT_DELETED) {
-					wszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+					wszNick = Clist_GetContactDisplayName(hContact);
 					db_set_ws(hContact, "CList", "MyHandle", wszNick);
 				}
 				else if (cws->value.pszVal) {

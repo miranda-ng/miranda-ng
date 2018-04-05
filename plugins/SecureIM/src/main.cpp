@@ -1,6 +1,5 @@
 #include "commonheaders.h"
 
-CLIST_INTERFACE *pcli;
 int hLangpack = 0;
 
 PLUGININFOEX pluginInfoEx = {
@@ -288,7 +287,6 @@ static int onShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int __cdecl Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	pcli = Clist_GetInterface();
 
 	DisableThreadLibraryCalls(g_hInst);
 

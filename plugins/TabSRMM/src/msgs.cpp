@@ -576,7 +576,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	char *szProto = GetContactProto(hContact);
 
 	// obtain various status information about the contact
-	wchar_t *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *contactName = Clist_GetContactDisplayName(hContact);
 
 	// cut nickname if larger than x chars...
 	wchar_t newcontactname[128], tabtitle[128];

@@ -116,7 +116,7 @@ CSendLaterJob::~CSendLaterJob()
 			 * show a popup notification, unless they are disabled
 			 */
 			if (PluginConfig.g_bPopupAvail && fShowPopup) {
-				wchar_t	*tszName = pcli->pfnGetContactDisplayName(hContact, 0);
+				wchar_t	*tszName = Clist_GetContactDisplayName(hContact);
 
 				POPUPDATAT ppd = { 0 };
 				ppd.lchContact = hContact;

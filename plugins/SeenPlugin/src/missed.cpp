@@ -107,7 +107,7 @@ int ShowMissed(void)
 
 	CMStringW buf;
 	for (int loop = 0; loop < mcs.count; loop++) {
-		buf.Append(pcli->pfnGetContactDisplayName(mcs.wpcontact[loop], 0));
+		buf.Append(Clist_GetContactDisplayName(mcs.wpcontact[loop]));
 		if (db_get_b(NULL, S_MOD, "MissedOnes_Count", 0))
 			buf.AppendFormat(L" [%i]", mcs.times[loop]);
 

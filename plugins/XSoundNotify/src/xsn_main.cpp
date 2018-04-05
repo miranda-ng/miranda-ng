@@ -16,7 +16,6 @@ HGENMENU hChangeSound = nullptr;
 MWindowList hChangeSoundDlgList = nullptr;
 BYTE isIgnoreSound = 0, isOwnSound = 0, isIgnoreAccSound = 0, isAccSound = 0;
 
-CLIST_INTERFACE *pcli;
 CHAT_MANAGER *pci;
 
 PLUGININFOEX pluginInfo = {
@@ -240,7 +239,6 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 	pci = Chat_GetInterface();
-	pcli = Clist_GetInterface();
 
 	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog);
 

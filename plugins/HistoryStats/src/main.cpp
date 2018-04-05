@@ -11,7 +11,6 @@
 #include "iconlib.h"
 #include "dlgconfigure.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE g_hInst;
 int hLangpack;
 
@@ -402,7 +401,6 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&g_pluginInfoEx);
-	pcli = Clist_GetInterface();
 
 	// init COM, needed for GUID generation
 	CoInitialize(nullptr);

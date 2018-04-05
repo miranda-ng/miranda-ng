@@ -528,7 +528,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	cle.szTooltip.w = toolTip;
 
 	for (auto &e : arEvents) {
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e->hContact, 0));
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(e->hContact));
 		cle.hContact = e->hContact;
 		cle.hDbEvent = e->hEvent;
 		pcli->pfnAddEvent(&cle);

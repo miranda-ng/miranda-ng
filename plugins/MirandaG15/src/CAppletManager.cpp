@@ -431,7 +431,7 @@ bool CAppletManager::ActivateChatScreen(MCONTACT hContact)
 tstring CAppletManager::GetContactDisplayname(MCONTACT hContact, bool bShortened)
 {
 	if (!bShortened || !CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF))
-		return pcli->pfnGetContactDisplayName(hContact, 0);
+		return Clist_GetContactDisplayName(hContact);
 
 	tstring strNick = GetContactDisplayname(hContact, false);
 	if (strNick.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))

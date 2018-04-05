@@ -425,7 +425,7 @@ static void ReplaceVars(Buffer<wchar_t> *buffer, MCONTACT hContact, wchar_t **va
 			if (buffer->str[j] == '%') {
 				size_t foundLen = i - j + 1;
 				if (foundLen == 9 && wcsncmp(&buffer->str[j], L"%contact%", 9) == 0) {
-					buffer->replace(j, i + 1, pcli->pfnGetContactDisplayName(hContact, 0));
+					buffer->replace(j, i + 1, Clist_GetContactDisplayName(hContact));
 				}
 				else if (foundLen == 6 && wcsncmp(&buffer->str[j], L"%date%", 6) == 0) {
 					wchar_t tmp[128];

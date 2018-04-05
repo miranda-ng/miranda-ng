@@ -2,8 +2,6 @@
 #include "version.h"
 #include "mirandaInterface.h"
 
-CLIST_INTERFACE *pcli;
-
 //Miranda - handle from DllMain
 HINSTANCE hInst;
 
@@ -148,7 +146,6 @@ static int OnShutdown(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);

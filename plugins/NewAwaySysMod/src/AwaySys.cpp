@@ -42,7 +42,6 @@
 #include "version.h"
 
 HINSTANCE g_hInstance;
-CLIST_INTERFACE *pcli;
 
 int hLangpack;
 HANDLE g_hTopToolbarbutton;
@@ -319,7 +318,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 		// the protocol supports status message sending for current status, or autoreplying
 		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || 
 			((Flag1 & PF1_IM) == PF1_IM && (i < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[i].DisableReplyCtlID))))
-			mir_snwprintf(szSetStr, TranslateT("Set %s message for the contact"), Clist_GetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_snwprintf(szSetStr, TranslateT("Set %s message for the contact"), Clist_GetStatusModeDescription(iMode, 0), Clist_GetContactDisplayName(hContact));
 
 		// the protocol supports status message reading for contact's status
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode)) {
@@ -498,7 +497,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (wchar_t*)nullptr);
 
 		if (Result == nullptr)
-			Result = pcli->pfnGetContactDisplayName(NULL, 0);
+			Result = Clist_GetContactDisplayName(0);
 
 		if (Result == nullptr)
 			Result = TranslateT("Stranger");
@@ -708,7 +707,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 

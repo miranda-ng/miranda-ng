@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE hinstance;
 int hLangpack;
 
@@ -289,7 +288,6 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);

@@ -471,7 +471,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			break;
 
 		case 'n':
-			ptszName = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
+			ptszName = Clist_GetContactDisplayName(hContact);
 			NameLenght = (int)mir_wstrlen(ptszName);
 			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p)

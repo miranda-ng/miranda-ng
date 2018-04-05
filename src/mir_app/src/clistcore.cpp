@@ -130,7 +130,6 @@ void InitClistCore()
 	cli.pfnGetImlIconIndex = fnGetImlIconIndex;
 	cli.pfnRemoveEvent = fnRemoveEvent;
 
-	cli.pfnGetContactDisplayName = fnGetContactDisplayName;
 	cli.pfnInvalidateDisplayNameCacheEntry = fnInvalidateDisplayNameCacheEntry;
 	cli.pfnCreateCacheItem = fnCreateCacheItem;
 	cli.pfnCheckCacheItem = fnCheckCacheItem;

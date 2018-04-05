@@ -17,7 +17,7 @@ void SettingsSerializer::readFromDB()
 {
 	clearColumns();
 
-	ext::string defaultNick = pcli->pfnGetContactDisplayName(0, 0);
+	ext::string defaultNick = Clist_GetContactDisplayName(0);
 	SettingsTree settingsTree;
 
 	// read version tag

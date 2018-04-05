@@ -605,7 +605,7 @@ static wchar_t *parseContactNameString(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	ai->flags |= AIF_DONTPARSE;
-	wchar_t *ret = (wchar_t*)pcli->pfnGetContactDisplayName(ai->fi->hContact, 0);
+	wchar_t *ret = Clist_GetContactDisplayName(ai->fi->hContact);
 	return (ret == nullptr) ? nullptr : mir_wstrdup(ret);
 }
 

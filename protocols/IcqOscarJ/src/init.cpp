@@ -31,7 +31,6 @@
 CMPlugin g_plugin;
 HINSTANCE hInst;
 int hLangpack;
-CLIST_INTERFACE *pcli;
 bool g_bTerminated;
 
 BOOL bPopupService = FALSE;
@@ -85,7 +84,6 @@ IconItem iconList[] =
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	srand(time(nullptr));
 	_tzset();

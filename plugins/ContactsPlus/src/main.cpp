@@ -73,7 +73,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	{
 		//add event to the contact list
 		wchar_t caToolTip[128];
-		mir_snwprintf(caToolTip, L"%s %s", TranslateT("Contacts received from"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_snwprintf(caToolTip, L"%s %s", TranslateT("Contacts received from"), Clist_GetContactDisplayName(hContact));
 
 		CLISTEVENT cle = {};
 		cle.hContact = hContact;

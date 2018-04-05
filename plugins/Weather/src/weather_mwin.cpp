@@ -189,7 +189,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				HFONT hfnt = CreateFontIndirect(&lfnt1);
 				HFONT hfntold = (HFONT)SelectObject(hdc, hfnt);
 
-				wchar_t *nick = (wchar_t*)pcli->pfnGetContactDisplayName(data->hContact, 0);
+				wchar_t *nick = Clist_GetContactDisplayName(data->hContact);
 
 				SIZE fontSize;
 				GetTextExtentPoint32(hdc, L"|", 1, &fontSize);

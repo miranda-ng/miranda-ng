@@ -39,13 +39,11 @@ CSkypeInviteDlg::CSkypeInviteDlg(CSkypeProto *proto) :
 
 void CSkypeInviteDlg::OnInitDialog()
 {
-	for (auto &hContact : m_proto->AccContacts()) {
-		if (!m_proto->isChatRoom(hContact)) {
-			wchar_t *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
-			m_combo.AddString(ptszNick, hContact);
-		}
-	}
+	for (auto &hContact : m_proto->AccContacts())
+		if (!m_proto->isChatRoom(hContact))
+			m_combo.AddString(Clist_GetContactDisplayName(hContact), hContact);
 }
+
 void CSkypeInviteDlg::btnOk_OnOk(CCtrlButton*)
 {
 	m_hContact = m_combo.GetItemData(m_combo.GetCurSel());

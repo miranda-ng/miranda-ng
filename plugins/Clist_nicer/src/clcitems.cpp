@@ -271,7 +271,7 @@ void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 	memset(infoTypeC2, 0, sizeof(infoTypeC2));
 
 	if (contact == nullptr) {
-		szText = pcli->pfnGetContactDisplayName(hContact, 0);
+		szText = Clist_GetContactDisplayName(hContact);
 		p = cfg::getCache(hContact, nullptr);
 	}
 	else {

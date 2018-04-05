@@ -103,7 +103,7 @@ void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 	}
 }
 
-wchar_t* fnGetContactDisplayName(MCONTACT hContact, int mode)
+MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 {
 	if (hContact == 0)
 		return TranslateT("(Unknown contact)");

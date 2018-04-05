@@ -369,7 +369,7 @@ begin
         end;
 
         QSTO_DISPLAYNAME: begin
-          StrDupW(res.text,cli^.pfnGetContactDisplayName(hContact, 0));
+          StrDupW(res.text,Clist_GetContactDisplayName(hContact, 0));
         end;
 
         QSTO_LASTEVENT: begin

@@ -63,7 +63,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			WindowList_Add(g_hReadWndList, hwndDlg, awayData->hContact);
 
 			wchar_t str[256], format[128];
-			wchar_t *contactName = pcli->pfnGetContactDisplayName(awayData->hContact, 0);
+			wchar_t *contactName = Clist_GetContactDisplayName(awayData->hContact);
 			char *szProto = GetContactProto(awayData->hContact);
 			wchar_t *status = Clist_GetStatusModeDescription(db_get_w(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 			GetWindowText(hwndDlg, format, _countof(format));

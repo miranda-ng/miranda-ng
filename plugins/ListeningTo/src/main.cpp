@@ -20,7 +20,6 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 HINSTANCE hInst;
-CLIST_INTERFACE *pcli;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -56,7 +55,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	CoInitialize(nullptr);
 

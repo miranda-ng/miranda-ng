@@ -229,7 +229,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			for (auto curContact = DlgDat->Contacts->begin(); curContact != DlgDat->Contacts->end(); curContact++) {
 				if (curContact->second != NULL && db_get_b(curContact->second, MODULENAME, dbLastUC_IgnoreContact, 0) == 0) {
-					wchar_t *cname = (wchar_t*)pcli->pfnGetContactDisplayName(curContact->second, 0);
+					wchar_t *cname = Clist_GetContactDisplayName(curContact->second);
 					if (cname == nullptr)
 						continue;
 

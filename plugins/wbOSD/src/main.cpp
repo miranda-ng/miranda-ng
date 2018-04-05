@@ -13,7 +13,6 @@ HINSTANCE hI;
 
 HWND g_hWnd = nullptr;
 int hLangpack = 0;
-CLIST_INTERFACE *pcli;
 HANDLE hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;
 
 void logmsg2(char *str);
@@ -44,7 +43,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	logmsg("Load");
 	hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);

@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
-
 HINSTANCE g_hInst = nullptr;
 HICON g_hIcon = nullptr;
 bool g_shutDown = false;
@@ -385,7 +383,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	pcli = Clist_GetInterface();
 
 	LoadACC();
 	return LoadAvatarModule();

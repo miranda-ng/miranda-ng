@@ -88,7 +88,7 @@ void CSrmmWindow::RefreshInfobar()
 		wcsncpy_s(szText, TranslateW(szXStatusName), _TRUNCATE);
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
-	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)pcli->pfnGetContactDisplayName(m_hContact, 0));
+	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)Clist_GetContactDisplayName(m_hContact));
 	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_STATUS, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)szContactStatusMsg);
 	hIcon = (HICON)SendDlgItemMessage(m_hwndInfo, IDC_XSTATUSICON, STM_SETICON, (WPARAM)hIcon, 0);
 	if (hIcon)

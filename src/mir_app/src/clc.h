@@ -115,7 +115,6 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam);
 void RebuildMenuOrder(void);
 
 /* clistsettings.c */
-wchar_t* fnGetContactDisplayName(MCONTACT hContact, int mode);
 void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF * colour);
 void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 

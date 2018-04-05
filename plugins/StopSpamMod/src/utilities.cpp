@@ -224,7 +224,7 @@ void LogSpamToFile(MCONTACT hContact, wstring message)
 
 	// Name, UID and Protocol Log line
 	LogProtocol = DBGetContactSettingStringPAN(hContact, "Protocol", "p", L"");
-	LogContactName = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
+	LogContactName = (wchar_t*)Clist_GetContactDisplayName(hContact);
 	LogContactId = (LogProtocol == L"") ? L"" : GetContactUid(hContact, LogProtocol);
 	// Name, UID  and Protocol Log line
 
@@ -339,7 +339,7 @@ void HistoryLogFunc(MCONTACT hContact, std::string message)
 		std::string msg = message;
 		msg.append("\n");
 		msg.append("Protocol: ").append(GetContactProto(hContact)).append(" Contact: ");
-		msg.append(toUTF8(pcli->pfnGetContactDisplayName(hContact, 0))).append(" ID: ");
+		msg.append(toUTF8(Clist_GetContactDisplayName(hContact))).append(" ID: ");
 		msg.append(toUTF8(GetContactUid(hContact, toUTF16(GetContactProto(hContact)))));
 		HistoryLog(NULL, (char*)msg.c_str(), EVENTTYPE_MESSAGE, DBEF_READ);
 	}

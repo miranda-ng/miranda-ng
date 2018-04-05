@@ -76,7 +76,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 								mir_wstrcpy(uid, TranslateT("(Unknown contact)"));
 							}
 
-							wchar_t *nick = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
+							wchar_t *nick = Clist_GetContactDisplayName(hContact);
 							size_t value_max_len = (mir_wstrlen(uid) + mir_wstrlen(nick) + 4);
 							wchar_t *value = (wchar_t *)mir_alloc(sizeof(wchar_t) * value_max_len);
 							mir_snwprintf(value, value_max_len, L"%s (%s)", nick, uid);

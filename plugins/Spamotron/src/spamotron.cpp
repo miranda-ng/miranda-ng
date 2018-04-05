@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 HANDLE hOptInitialize, hModulesLoaded, hDBContactAdded, hDBEventAdded, hDBEventFilterAdd;
 time_t last_queue_check = 0;
@@ -507,7 +506,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	srand((unsigned)time(nullptr));
 	bayesdb = nullptr;

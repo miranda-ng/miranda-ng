@@ -819,7 +819,7 @@ wchar_t* CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, wchar
 	const wchar_t* szIs = TranslateT("is");
 
 	const char* szProto = hContact == 0 ? "Proto" : ::GetContactProto(hContact);
-	const wchar_t* szContactName = ::pcli->pfnGetContactDisplayName(hContact, 0);
+	const wchar_t* szContactName = ::Clist_GetContactDisplayName(hContact);
 
 	memset(szString, 0, iBufSize*sizeof(wchar_t));
 

@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE g_hInst = nullptr;
 
 HGENMENU hmSaveCurrentSession;
@@ -817,7 +816,6 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	CreateServiceFunction(MS_SESSIONS_SHOWFAVORITESMENU, BuildFavMenu);
 	CreateServiceFunction(MS_SESSIONS_OPENMANAGER, OpenSessionsManagerWindow);

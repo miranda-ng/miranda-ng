@@ -695,7 +695,7 @@ class CAnnivList
 					}
 
 					// second column: contact name
-					AddSubItem(iItem, COLUMN_CONTACT, DB::Contact::DisplayName(hContact));
+					AddSubItem(iItem, COLUMN_CONTACT, Clist_GetContactDisplayName(hContact));
 
 					// third column: protocol
 					wchar_t *ptszProto = mir_a2u(pszProto);

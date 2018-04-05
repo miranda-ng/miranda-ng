@@ -145,7 +145,7 @@ EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
 	if (evt->dwFlags & IEEDF_SENT)
 		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, 0, dat->m_szProto);
 	else
-		evt->pszNickT = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
+		evt->pszNickT = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 
 	if (evt->eventType == EVENTTYPE_FILE) {
 		char *filename = ((char*)dbei.pBlob) + sizeof(DWORD);

@@ -76,7 +76,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		SetClassLongPtr(hDlg, GCLP_HICON, (LONG_PTR)LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON)));
 		WindowList_Add(hWindowList, hDlg, DlgParam->hContact);
-		mir_snwprintf(title, L"%s [%s]", TranslateT("Linklist plugin"), pcli->pfnGetContactDisplayName(DlgParam->hContact, 0));
+		mir_snwprintf(title, L"%s [%s]", TranslateT("Linklist plugin"), Clist_GetContactDisplayName(DlgParam->hContact));
 		SetWindowText(hDlg, title);
 		GetFilterText(listMenu, filter, _countof(filter));
 		SetDlgItemText(hDlg, IDC_STATUS, filter);

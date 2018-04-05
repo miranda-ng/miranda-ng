@@ -201,7 +201,7 @@ wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
 	if (str != nullptr)
 		return str;
 
-	str = pcli->pfnGetContactDisplayName(hContact, 0);
+	str = Clist_GetContactDisplayName(hContact);
 	if (str != nullptr)
 		return mir_wstrdup(str);
 

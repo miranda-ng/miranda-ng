@@ -271,7 +271,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 
 	if (mode) {
 		wchar_t szTip[256];
-		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
 		if (fShowOnClist && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0))
 			Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 
@@ -515,7 +515,7 @@ nowindowcreate:
 			cle.flags = CLEF_UNICODE;
 			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = MS_MSG_READMESSAGE;
-			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
+			contactName = Clist_GetContactDisplayName(hContact);
 			mir_snwprintf(toolTip, TranslateT("Message from %s"), contactName);
 			cle.szTooltip.w = toolTip;
 			pcli->pfnAddEvent(&cle);

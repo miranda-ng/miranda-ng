@@ -537,7 +537,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 
 			// Here we will try to avoide the (Unknown Contact) in cases where the protocol for 
 			// this user has been removed.
-			if (bNickUsed && (wcsstr(pcli->pfnGetContactDisplayName(hContact, 0), LPGENW("(Unknown Contact)")) != nullptr))
+			if (bNickUsed && (wcsstr(Clist_GetContactDisplayName(hContact), LPGENW("(Unknown Contact)")) != nullptr))
 				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown Contact)
 
 			// file name has changed
@@ -561,7 +561,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 					bool bTryRename;
 
 					if (enRenameAction != eDAAutomatic) {
-						tstring sRemoteUser = pcli->pfnGetContactDisplayName(hContact, 0);
+						tstring sRemoteUser = Clist_GetContactDisplayName(hContact);
 						mir_snwprintf(szTemp,
 							TranslateT("File name for the user \"%s\" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?"),
 							sRemoteUser.c_str(),
@@ -617,7 +617,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 
 tstring FileNickFromHandle(MCONTACT hContact)
 {
-	tstring ret = pcli->pfnGetContactDisplayName(hContact, 0);
+	tstring ret = Clist_GetContactDisplayName(hContact);
 	string::size_type nCur = 0;
 	while ((nCur = ret.find_first_of(L":\\", nCur)) != ret.npos)
 		ret[nCur] = cBadCharReplace;
@@ -788,7 +788,7 @@ void UpdateFileToColWidth()
 	clFileTo1ColWidth.clear();
 
 	for (auto &hContact : Contacts()) {
-		tstring sNick = pcli->pfnGetContactDisplayName(hContact, 0);
+		tstring sNick = Clist_GetContactDisplayName(hContact);
 		string::size_type &rnValue = clFileTo1ColWidth[GetFilePathFromUser(hContact)];
 		if (rnValue < sNick.size())
 			rnValue = sNick.size();
@@ -892,7 +892,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 	}
 	else {
 		sLocalUser = ptrW(GetMyOwnNick(hContact));
-		sRemoteUser = pcli->pfnGetContactDisplayName(hContact, 0);
+		sRemoteUser = Clist_GetContactDisplayName(hContact);
 		nFirstColumnWidth = max(sRemoteUser.size(), clFileTo1ColWidth[sFilePath]);
 		nFirstColumnWidth = max(sLocalUser.size(), nFirstColumnWidth);
 		nFirstColumnWidth += 2;

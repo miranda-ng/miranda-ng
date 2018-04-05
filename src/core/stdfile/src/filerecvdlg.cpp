@@ -136,7 +136,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 
 		REPLACEVARSARRAY rvaVarsToReplace[4];
 		rvaVarsToReplace[0].key.w = L"nick";
-		rvaVarsToReplace[0].value.w = mir_wstrdup((wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0));
+		rvaVarsToReplace[0].value.w = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 		rvaVarsToReplace[1].key.w = L"userid";
 		rvaVarsToReplace[1].value.w = GetContactID(hContact);
 		rvaVarsToReplace[2].key.w = L"proto";
@@ -203,7 +203,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Button_SetIcon_IcoLib(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View user's history"));
 			Button_SetIcon_IcoLib(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User menu"));
 
-			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
 			SetDlgItemText(hwndDlg, IDC_FROM, contactName);
 			GetContactReceivedFilesDir(dat->hContact, szPath, _countof(szPath), TRUE);
 			SetDlgItemText(hwndDlg, IDC_FILEDIR, szPath);

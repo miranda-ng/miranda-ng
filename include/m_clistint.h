@@ -391,10 +391,6 @@ struct CLIST_INTERFACE
 	void           (*pfnCheckCacheItem)(ClcCacheEntry*);
 	void           (*pfnFreeCacheItem)(ClcCacheEntry*);
 
-	#define GCDNF_NOMYHANDLE 1 // will never return the user's custom name
-	#define GCDNF_NOCACHE    4 // will not use the cache
-
-	wchar_t* (*pfnGetContactDisplayName)(MCONTACT hContact, int mode);
 	void     (*pfnInvalidateDisplayNameCacheEntry)(MCONTACT hContact);
 
 	/* clisttray.c */

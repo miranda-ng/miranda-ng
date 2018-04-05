@@ -157,12 +157,9 @@ CVkInviteChatForm::CVkInviteChatForm(CVkProto *proto) :
 
 void CVkInviteChatForm::OnInitDialog()
 {
-	for (auto &hContact : m_proto->AccContacts()) {
-		if (!m_proto->isChatRoom(hContact)) {
-			wchar_t *pwszNick = pcli->pfnGetContactDisplayName(hContact, 0);
-			m_cbxCombo.AddString(pwszNick, hContact);
-		}
-	}
+	for (auto &hContact : m_proto->AccContacts())
+		if (!m_proto->isChatRoom(hContact))
+			m_cbxCombo.AddString(Clist_GetContactDisplayName(hContact), hContact);
 }
 
 void CVkInviteChatForm::btnOk_OnOk(CCtrlButton*)

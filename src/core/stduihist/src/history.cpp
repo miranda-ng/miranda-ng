@@ -207,7 +207,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		Utils_RestoreWindowPosition(hwndDlg, hContact, "History", "");
 		{
 			wchar_t* contactName, str[200];
-			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
+			contactName = Clist_GetContactDisplayName(hContact);
 			mir_snwprintf(str, TranslateT("History for %s"), contactName);
 			SetWindowText(hwndDlg, str);
 		}

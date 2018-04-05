@@ -301,7 +301,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 
 	// create an IPC slot for each contact and store display name, etc
 	for (i = 0; i < dwContacts; i++) {
-		ptrA szContact(mir_u2a(pcli->pfnGetContactDisplayName(pContacts[i].hContact, 0)));
+		ptrA szContact(mir_u2a(Clist_GetContactDisplayName(pContacts[i].hContact)));
 		if (szContact != NULL) {
 			ptrA szGroup;
 			if (bGroupMode)

@@ -368,7 +368,7 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 	TVINSERTSTRUCT tvIns;
 	memset(&tvIns, 0, sizeof(tvIns));
 	tvIns.hParent = AddGroup(db_get_s(hContact, "CList", "Group", L""));
-	tvIns.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
+	tvIns.item.pszText = Clist_GetContactDisplayName(hContact);
 	tvIns.hInsertAfter = TVI_ROOT;
 	tvIns.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 	tvIns.item.iImage = tvIns.item.iSelectedImage = Clist_GetContactIcon(hContact);

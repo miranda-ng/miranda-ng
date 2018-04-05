@@ -138,21 +138,19 @@ static void SetFilenameControls(HWND hwndDlg, FileDlgData *dat, PROTOFILETRANSFE
 	if (dat->hIcon) DestroyIcon(dat->hIcon); dat->hIcon = nullptr;
 
 	if (fn && (fts->totalFiles > 1)) {
-		mir_snwprintf(msg, L"%s: %s (%d %s %d)",
-			pcli->pfnGetContactDisplayName(fts->hContact, 0),
-			fn, fts->currentFileNumber + 1, TranslateT("of"), fts->totalFiles);
+		mir_snwprintf(msg, L"%s: %s (%d %s %d)", Clist_GetContactDisplayName(fts->hContact), fn, fts->currentFileNumber + 1, TranslateT("of"), fts->totalFiles);
 
 		SHGetFileInfo(fn, FILE_ATTRIBUTE_DIRECTORY, &shfi, sizeof(shfi), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_SMALLICON);
 		dat->hIcon = shfi.hIcon;
 	}
 	else if (fn) {
-		mir_snwprintf(msg, L"%s: %s", pcli->pfnGetContactDisplayName(fts->hContact, 0), fn);
+		mir_snwprintf(msg, L"%s: %s", Clist_GetContactDisplayName(fts->hContact), fn);
 
 		SHGetFileInfo(fn, FILE_ATTRIBUTE_NORMAL, &shfi, sizeof(shfi), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_SMALLICON);
 		dat->hIcon = shfi.hIcon;
 	}
 	else {
-		mir_wstrncpy(msg, pcli->pfnGetContactDisplayName(fts->hContact, 0), _countof(msg));
+		mir_wstrncpy(msg, Clist_GetContactDisplayName(fts->hContact), _countof(msg));
 		HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_DOWNARROW);
 		dat->hIcon = CopyIcon(hIcon);
 		IcoLib_ReleaseIcon(hIcon, NULL);
@@ -288,7 +286,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		Button_SetIcon_IcoLib(hwndDlg, IDCANCEL, SKINICON_OTHER_DELETE, LPGEN("Cancel"));
 
-		SetDlgItemText(hwndDlg, IDC_CONTACTNAME, pcli->pfnGetContactDisplayName(dat->hContact, 0));
+		SetDlgItemText(hwndDlg, IDC_CONTACTNAME, Clist_GetContactDisplayName(dat->hContact));
 
 		if (!dat->waitingForAcceptance) SetTimer(hwndDlg, 1, 1000, nullptr);
 		return TRUE;

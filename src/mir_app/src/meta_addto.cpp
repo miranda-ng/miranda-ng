@@ -50,7 +50,7 @@ static int FillList(HWND list, BOOL sort)
 			continue;
 
 		// get contact display name from clist
-		wchar_t *swzContactDisplayName = cli.pfnGetContactDisplayName(hMetaUser, 0);
+		wchar_t *swzContactDisplayName = Clist_GetContactDisplayName(hMetaUser);
 		// don't insert huge strings that we have to compare with later
 		if (mir_wstrlen(swzContactDisplayName) > 1023)
 			swzContactDisplayName[1024] = 0;
@@ -173,7 +173,7 @@ void CMetaSelectDlg::OnInitDialog()
 	else
 	{
 		// get contact display name from clist
-		wchar_t *ptszCDN = cli.pfnGetContactDisplayName(m_hContact, 0);
+		wchar_t *ptszCDN = Clist_GetContactDisplayName(m_hContact);
 		if (!ptszCDN)
 			ptszCDN = TranslateT("a contact");
 

@@ -178,7 +178,7 @@ MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, HWND hwndParent)
 		CAddByContact(MCONTACT hContact)			
 		{	
 			m_hContact = hContact;
-			m_szName = cli.pfnGetContactDisplayName(hContact, 0);
+			m_szName = Clist_GetContactDisplayName(hContact);
 			m_szProto = GetContactProto(hContact);
 		}
 	};
@@ -209,7 +209,7 @@ MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, HWND hwndParent)
 
 			m_hContact = dwData[1];
 			if (m_hContact != INVALID_CONTACT_ID)
-				m_szName = cli.pfnGetContactDisplayName(m_hContact, 0);
+				m_szName = Clist_GetContactDisplayName(m_hContact);
 
 			m_szProto = dbei.szModule;
 		}

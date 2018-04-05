@@ -204,7 +204,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	DWORD idleMode = szProto != nullptr ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)
 		cc->flags |= CONTACTF_IDLE;
-	mir_wstrncpy(cc->szText, cli.pfnGetContactDisplayName(hContact, 0), _countof(cc->szText));
+	mir_wstrncpy(cc->szText, Clist_GetContactDisplayName(hContact), _countof(cc->szText));
 	return cc;
 }
 
@@ -380,7 +380,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 				group->totalMembers++;
 
 				if (dat->bFilterSearch && dat->szQuickSearch[0] != '\0') {
-					wchar_t *name = cli.pfnGetContactDisplayName(hContact, 0);
+					wchar_t *name = Clist_GetContactDisplayName(hContact);
 					wchar_t *lowered_name = CharLowerW(NEWWSTR_ALLOCA(name));
 					wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
 

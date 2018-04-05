@@ -546,7 +546,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr))
 			break;
 
-		mir_wstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
+		mir_wstrncpy(contact->szText, Clist_GetContactDisplayName(wParam), _countof(contact->szText));
 		dat->bNeedsResort = true;
 		SortClcByTimer(hwnd);
 		break;
@@ -557,7 +557,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 		contact->proto = GetContactProto(wParam);
 		cli.pfnInvalidateDisplayNameCacheEntry(wParam);
-		mir_wstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
+		mir_wstrncpy(contact->szText, Clist_GetContactDisplayName(wParam), _countof(contact->szText));
 		SortClcByTimer(hwnd);
 		break;
 

@@ -43,7 +43,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 						break;
 					}
 
-					wchar_t *nick = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
+					wchar_t *nick = Clist_GetContactDisplayName(hContact);
 					wchar_t value[100];
 					mir_snwprintf(value, TranslateT("Custom sound for %s (%s)"), nick, uid);
 					SetWindowText(hwndDlg, value);

@@ -208,7 +208,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 							name = TranslateT("Owner");
 						}
 						else {
-							name = DB::Contact::DisplayName(pDat->ExImContact->hContact);
+							name = Clist_GetContactDisplayName(pDat->ExImContact->hContact);
 						}
 						break;
 					case EXIM_SUBGROUP:

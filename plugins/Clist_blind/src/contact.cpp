@@ -84,10 +84,10 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 	}
 
 	wchar_t namea[128];
-	wchar_t *nameb = pcli->pfnGetContactDisplayName(a, 0);
+	wchar_t *nameb = Clist_GetContactDisplayName(a);
 	wcsncpy_s(namea, nameb, _TRUNCATE);
 	namea[ _countof(namea)-1 ] = 0;
-	nameb = pcli->pfnGetContactDisplayName(b, 0);
+	nameb = Clist_GetContactDisplayName(b);
 
 	//otherwise just compare names
 	return mir_wstrcmpi(namea, nameb);

@@ -199,11 +199,11 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 				CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
 				cle.pszService = service.GetBuffer();
 
-				CMStringW tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				CMStringW tooltip(FORMAT, TranslateT("Incoming call from %s"), Clist_GetContactDisplayName(hContact));
 				cle.szTooltip.w = tooltip.GetBuffer();
 				pcli->pfnAddEvent(&cle);
 
-				ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
+				ShowNotification(Clist_GetContactDisplayName(hContact), TranslateT("Incoming call"), hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
 			}
 		}
 		break;

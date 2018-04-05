@@ -55,7 +55,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 		WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 		{
 			wchar_t str[256], format[128];
-			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
 			char *szProto = GetContactProto(dat->hContact);
 			WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);

@@ -255,7 +255,7 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 
 	if (hContact) {
 		ppd.lchContact = hContact;
-		mir_snwprintf(ppd.lptzContactName, L"%s - %s", TranslateW(pszDesc), DB::Contact::DisplayName(hContact));
+		mir_snwprintf(ppd.lptzContactName, L"%s - %s", TranslateW(pszDesc), Clist_GetContactDisplayName(hContact));
 	}
 	else mir_wstrncpy(ppd.lptzContactName, TranslateT("Reminder"), _countof(ppd.lptzContactName));
 
@@ -317,12 +317,12 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 
 	switch (evt._eType) {
 	case CEvent::BIRTHDAY:
-		mir_snwprintf(szMsg, TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("Birthday"));
+		mir_snwprintf(szMsg, TranslateT("%s has %s today."), Clist_GetContactDisplayName(hContact), TranslateT("Birthday"));
 		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
 		break;
 
 	case CEvent::ANNIVERSARY:
-		mir_snwprintf(szMsg, TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("an anniversary"));
+		mir_snwprintf(szMsg, TranslateT("%s has %s today."), Clist_GetContactDisplayName(hContact), TranslateT("an anniversary"));
 		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
 		break;
 
@@ -481,13 +481,13 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 
 						switch (Diff) {
 						case 0:
-							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday today."), DB::Contact::DisplayName(hContact));
+							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday today."), Clist_GetContactDisplayName(hContact));
 							break;
 						case 1:
-							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday tomorrow."), DB::Contact::DisplayName(hContact));
+							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday tomorrow."), Clist_GetContactDisplayName(hContact));
 							break;
 						default:
-							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday in %d days."), DB::Contact::DisplayName(hContact), Diff);
+							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday in %d days."), Clist_GetContactDisplayName(hContact), Diff);
 						}
 						int age = mtb.Age(&Now);
 						if (age > 0)

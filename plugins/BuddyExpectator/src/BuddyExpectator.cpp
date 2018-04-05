@@ -229,7 +229,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 				ppd.lchContact = hContact;
 				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
-				mir_snwprintf(ppd.lptzContactName, TranslateT("Hiding %s (%S)"), pcli->pfnGetContactDisplayName(hContact, 0), GetContactProto(hContact));
+				mir_snwprintf(ppd.lptzContactName, TranslateT("Hiding %s (%S)"), Clist_GetContactDisplayName(hContact), GetContactProto(hContact));
 				mir_snwprintf(ppd.lptzText, TranslateT("%d days since last message"), daysSinceMessage);
 
 				if (!options.iUsePopupColors) {
@@ -263,7 +263,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		wcsncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
+		wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
 		wcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
@@ -282,7 +282,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 		cle.pszService = "BuddyExpectator/actionReturned";
 		cle.flags = CLEF_UNICODE;
 
-		wchar_t* nick = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
+		wchar_t* nick = Clist_GetContactDisplayName(hContact);
 		wchar_t tmpMsg[512];
 		mir_snwprintf(tmpMsg, L"%s %s", nick, message);
 		cle.szTooltip.w = tmpMsg;
@@ -300,7 +300,7 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		wcsncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
+		wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
 		wcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
@@ -319,7 +319,7 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 		cle.hIcon = hIcon;
 		cle.pszService = "BuddyExpectator/actionStillAbsent";
 
-		wchar_t* nick = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
+		wchar_t* nick = Clist_GetContactDisplayName(hContact);
 		wchar_t tmpMsg[512];
 		mir_snwprintf(tmpMsg, L"%s %s", nick, message);
 		cle.szTooltip.w = tmpMsg;
@@ -483,7 +483,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 
 			ppd.lchContact = hContact;
 			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
-			wcsncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
+			wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
 			wcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			if (!options.iUsePopupColors) {
 				ppd.colorBack = options.iPopupColorBack;

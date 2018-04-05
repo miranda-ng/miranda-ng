@@ -200,7 +200,7 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 	rc->left += 26;
 	int iCount = GetMenuItemCount(cfg::dat.hMenuNotify);
 	if (cfg::dat.hUpdateContact != 0) {
-		wchar_t *szName = pcli->pfnGetContactDisplayName(cfg::dat.hUpdateContact, 0);
+		wchar_t *szName = Clist_GetContactDisplayName(cfg::dat.hUpdateContact);
 		int iIcon = Clist_GetContactIcon(cfg::dat.hUpdateContact);
 
 		ImageList_DrawEx(hCListImages, iIcon, hDC, rc->left, (rc->bottom + rc->top - g_cysmIcon) / 2, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -215,7 +215,7 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 		GetMenuItemInfo(cfg::dat.hMenuNotify, iCount - 1, TRUE, &mii);
 
 		NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-		wchar_t *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
+		wchar_t *szName = Clist_GetContactDisplayName(nmi->hContact);
 		int iIcon = Clist_GetContactIcon(nmi->hContact);
 		ImageList_DrawEx(hCListImages, iIcon, hDC, rc->left, (rc->bottom + rc->top - g_cysmIcon) / 2, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 		rc->left += 18;

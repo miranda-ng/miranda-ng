@@ -19,7 +19,6 @@
 
 // Global variables
 HINSTANCE hInst;
-CLIST_INTERFACE *pcli;
 
 MWindowList hWindowList;
 HCURSOR splitCursor;
@@ -47,7 +46,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 

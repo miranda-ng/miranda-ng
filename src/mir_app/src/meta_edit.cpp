@@ -52,7 +52,7 @@ static void FillContactList(HWND hList)
 	for (int i = 0; i < g_data.num_contacts; i++) {
 		LvItem.iItem = i;
 
-		wchar_t *ptszCDN = cli.pfnGetContactDisplayName(g_data.hContact[i], 0);
+		wchar_t *ptszCDN = Clist_GetContactDisplayName(g_data.hContact[i]);
 		if (ptszCDN == nullptr)
 			ptszCDN = TranslateT("(Unknown contact)");
 
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 	case WMU_SETTITLE:
 		{
-			wchar_t *ptszCDN = cli.pfnGetContactDisplayName(lParam, 0);
+			wchar_t *ptszCDN = Clist_GetContactDisplayName(lParam);
 			if (ptszCDN == nullptr)
 				ptszCDN = TranslateT("(Unknown contact)");
 
@@ -366,7 +366,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				if (g_data.hDefaultContact == g_data.hContact[sel]) {
 					if (g_data.num_contacts > 0) {
 						g_data.hDefaultContact = g_data.hContact[0];
-						SetDlgItemText(hwndDlg, IDC_ED_DEFAULT, cli.pfnGetContactDisplayName(g_data.hDefaultContact, 0));
+						SetDlgItemText(hwndDlg, IDC_ED_DEFAULT, Clist_GetContactDisplayName(g_data.hDefaultContact));
 					}
 					else {
 						g_data.hDefaultContact = 0;

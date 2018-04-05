@@ -104,8 +104,7 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 		if (title != nullptr)
 			mir_wstrncpy(ppd.lptzContactName, title, _countof(ppd.lptzContactName));
 		else if (hContact != NULL)
-			mir_wstrncpy(ppd.lptzContactName, (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
-				_countof(ppd.lptzContactName));
+			mir_wstrncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), _countof(ppd.lptzContactName));
 
 		if (description != nullptr)
 			mir_wstrncpy(ppd.lptzText, description, _countof(ppd.lptzText));
@@ -163,8 +162,7 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 		PUAddPopupT(&ppd);
 	}
 	else {
-		MessageBox(nullptr, description, title ? title : (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
-			MB_OK);
+		MessageBox(nullptr, description, title ? title : Clist_GetContactDisplayName(hContact), MB_OK);
 	}
 
 }

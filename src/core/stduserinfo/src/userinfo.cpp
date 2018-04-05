@@ -249,7 +249,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (dat->hContact == NULL)
 				name = TranslateT("Owner");
 			else
-				name = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+				name = Clist_GetContactDisplayName(dat->hContact);
 
 			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
 			mir_snwprintf(newTitle, oldTitle, name);

@@ -209,7 +209,7 @@ HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, s
 				dwPhoneSize++;
 			}
 
-			lpwszContactDisplayName = pcli->pfnGetContactDisplayName(hContact, 0);
+			lpwszContactDisplayName = Clist_GetContactDisplayName(hContact);
 			mir_snwprintf(wszTitle, L"%s - %s", lpwszContactDisplayName, lpwszTitlepart);
 			MultiByteToWideChar(CP_UTF8, 0, lpszMessage, (int)dwMessageSize, lpwszMessage, (int)dwMessageSize + MAX_PATH);
 

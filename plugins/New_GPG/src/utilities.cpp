@@ -320,12 +320,12 @@ int onProtoAck(WPARAM, LPARAM l)
 								dbsetting += "_Password";
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
 								if (mir_wstrlen(pass) > 0 && globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid + ", trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
+									globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
 							}
 							else {
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
 								if (mir_wstrlen(pass) > 0 && globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
+									globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
 							}
 							if (mir_wstrlen(pass) > 0) {
 								cmd.push_back(L"--passphrase");
@@ -333,12 +333,12 @@ int onProtoAck(WPARAM, LPARAM l)
 							}
 							else if (globals.password) {
 								if (globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
+									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
 								cmd.push_back(L"--passphrase");
 								cmd.push_back(globals.password);
 							}
 							else if (globals.bDebugLog)
-								globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with out password");
+								globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with out password");
 							mir_free(pass);
 							mir_free(keyid);
 						}
@@ -352,7 +352,7 @@ int onProtoAck(WPARAM, LPARAM l)
 							return 0;
 						while (out.find("public key decryption failed: bad passphrase") != string::npos) {
 							if (globals.bDebugLog)
-								globals.debuglog << std::string(time_str() + ": info: failed to decrypt messaage from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " password needed, trying to get one");
+								globals.debuglog << std::string(time_str() + ": info: failed to decrypt messaage from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " password needed, trying to get one");
 							if (globals._terminate)
 								break;
 							{ //save inkey id
@@ -370,7 +370,7 @@ int onProtoAck(WPARAM, LPARAM l)
 							std::vector<wstring> cmd2 = cmd;
 							if (globals.password) {
 								if (globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)));
+									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)));
 								std::vector<wstring> tmp;
 								tmp.push_back(L"--passphrase");
 								tmp.push_back(globals.password);
@@ -945,7 +945,7 @@ bool isContactSecured(MCONTACT hContact)
 	BYTE gpg_enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if (!gpg_enc) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
+			globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact)));
 		return false;
 	}
 	if (!db_mc_isMeta(hContact)) {
@@ -953,13 +953,13 @@ bool isContactSecured(MCONTACT hContact)
 		if (!key[0]) {
 			mir_free(key);
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
+				globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact)));
 			return false;
 		}
 		mir_free(key);
 	}
 	if (globals.bDebugLog)
-		globals.debuglog << std::string(time_str() + ": encryption is turned on for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
+		globals.debuglog << std::string(time_str() + ": encryption is turned on for " + toUTF8(Clist_GetContactDisplayName(hContact)));
 	return true;
 }
 

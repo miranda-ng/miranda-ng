@@ -516,7 +516,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 	if (ListGetItemPtr(LIST_BOOKMARK, roomID) == nullptr) {
 		JABBER_LIST_ITEM *item = new JABBER_LIST_ITEM();
 		item->jid = mir_wstrdup(roomID);
-		item->name = pcli->pfnGetContactDisplayName(hContact, 0);
+		item->name = Clist_GetContactDisplayName(hContact);
 		item->type = L"conference";
 		item->nick = getWStringA(hContact, "MyNick");
 		AddEditBookmark(item);

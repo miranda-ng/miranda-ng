@@ -384,7 +384,6 @@ type
     pfnCheckCacheItem                  : procedure (_para1:PClcCacheEntry); cdecl;
     pfnFreeCacheItem                   : procedure (_para1:PClcCacheEntry); cdecl;
 
-    pfnGetContactDisplayName           : function  (hContact:TMCONTACT; mode:int):PWideChar; cdecl;
     pfnInvalidateDisplayNameCacheEntry : procedure (hContact:TMCONTACT); cdecl;
 
   (* clisttray.c *)

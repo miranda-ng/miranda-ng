@@ -184,7 +184,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 	/// Taskbar and Window icon
 	Window_SetIcon_IcoLib(m_hWnd, GetIconHandle(ICO_MAIN));
 
-	wchar_t *pt = mir_wstrdup(pcli->pfnGetContactDisplayName(m_hContact, 0));
+	wchar_t *pt = mir_wstrdup(Clist_GetContactDisplayName(m_hContact));
 	if (pt && (m_hContact != 0)) {
 		CMStringW string;
 		string.AppendFormat(TranslateT("Send screenshot to %s"), pt);

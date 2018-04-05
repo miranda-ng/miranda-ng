@@ -28,9 +28,6 @@ namespace DB {
  * or modify contacts in the database.
  **/
 namespace Contact {
-	__forceinline LPTSTR DisplayName(MCONTACT hContact)
-	{	return pcli->pfnGetContactDisplayName(hContact, 0);
-	}
 
 	DWORD   WhenAdded(DWORD dwUIN, LPCSTR szBaseProto);
 } /* namespace Contact */

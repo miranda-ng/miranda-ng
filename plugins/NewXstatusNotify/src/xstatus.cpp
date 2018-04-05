@@ -122,7 +122,7 @@ CMStringW ReplaceVars(XSTATUSCHANGE *xsc, const wchar_t *tmplt)
 				if (xsc->hContact == NULL)
 					res.Append(TranslateT("Contact"));
 				else
-					res.Append(pcli->pfnGetContactDisplayName(xsc->hContact, 0));
+					res.Append(Clist_GetContactDisplayName(xsc->hContact));
 				break;
 
 			default:
@@ -223,7 +223,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 	HICON hIcon = nullptr;
 	wchar_t str[256] = { 0 };
 	wchar_t stzType[32];
-	mir_snwprintf(str, TranslateT("%s changed %s"), pcli->pfnGetContactDisplayName(xsc->hContact, 0), GetStatusTypeAsString(xsc->type, stzType));
+	mir_snwprintf(str, TranslateT("%s changed %s"), Clist_GetContactDisplayName(xsc->hContact), GetStatusTypeAsString(xsc->type, stzType));
 
 	if (opt.BlinkIcon_Status) {
 		DBVARIANT dbv;
@@ -334,7 +334,7 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 	}
 
 	mir_snwprintf(stzText, L"%s, %s. %s %s\r\n", stzDate, stzTime, 
-		pcli->pfnGetContactDisplayName(xsc->hContact, 0), ReplaceVars(xsc, Template).GetString());
+		Clist_GetContactDisplayName(xsc->hContact), ReplaceVars(xsc, Template).GetString());
 
 	LogToFile(stzText);
 }

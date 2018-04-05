@@ -61,7 +61,7 @@ public:
 		int i = 1;
 		for (auto &hContact : Contacts()) {
 			if (isContactHaveKey(hContact)) {
-				wchar_t *name = pcli->pfnGetContactDisplayName(hContact, 0);
+				wchar_t *name = Clist_GetContactDisplayName(hContact);
 
 				int row = list_USERLIST.AddItem(L"", 0);
 				list_USERLIST.SetItemText(row, 0, name);
@@ -589,7 +589,7 @@ public:
 		MCONTACT hcnt = db_mc_tryMeta(hContact);
 		{
 			wstring msg = TranslateT("Load Public GPG Key for ");
-			msg += pcli->pfnGetContactDisplayName(hcnt, 0);
+			msg += Clist_GetContactDisplayName(hcnt, 0);
 			this->SetCaption(msg.c_str());
 		}
 		if (!hcnt) {
@@ -642,7 +642,7 @@ public:
 						str.append(tmp3);
 						mir_free(tmp3);
 						string msg = Translate("Load Public GPG Key for ");
-						msg += _T2A(pcli->pfnGetContactDisplayName(hcnt, 0));
+						msg += _T2A(Clist_GetContactDisplayName(hcnt));
 						msg += " (Key ID: ";
 						msg += globals.hcontact_data[hcnt].key_in_prescense;
 						msg += Translate(" found in presence, and exists in keyring.)");

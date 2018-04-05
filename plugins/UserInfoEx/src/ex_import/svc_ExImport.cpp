@@ -53,7 +53,7 @@ static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WO
 				return;
 			}
 			
-			disp = temp = mir_u2a(pcli->pfnGetContactDisplayName(ExImContact->hContact, NULL));
+			disp = temp = mir_u2a(Clist_GetContactDisplayName(ExImContact->hContact));
 			break;
 
 		case EXIM_SUBGROUP:

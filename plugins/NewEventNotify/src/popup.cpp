@@ -469,7 +469,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 		wcsncpy(pudw.lptzText, TranslateW(sampleEvent), MAX_SECONDLINE);
 	}
 	else { // get the needed event data
-		wcsncpy(pudw.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
+		wcsncpy(pudw.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
 		wcsncpy(pudw.lptzText, ptrW(GetEventPreview(&dbe)), MAX_SECONDLINE);
 	}
 

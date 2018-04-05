@@ -24,7 +24,7 @@ int inline _DebugPopup(MCONTACT hContact, wchar_t *fmt, ...)
 		ppd.lchContact = hContact;
 		ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		if(hContact != 0)
-			mir_wstrncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
+			mir_wstrncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
 		else
 			mir_wstrncpy(ppd.lptzContactName, _A2W(PlugName), MAX_CONTACTNAME);
 		mir_wstrncpy(ppd.lptzText, debug, MAX_SECONDLINE - 20);

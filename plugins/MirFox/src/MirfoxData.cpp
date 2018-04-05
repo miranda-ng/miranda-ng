@@ -135,7 +135,7 @@ MirfoxData::setContactDisplayName(MirandaContact* mirandaContact){
 		}
 	} else {
 		// standard miranda way for another protocols
-		mirandaContact->contactNameW = pcli->pfnGetContactDisplayName(mirandaContact->contactHandle, 0);
+		mirandaContact->contactNameW = Clist_GetContactDisplayName(mirandaContact->contactHandle);
 	}
 
 	if (getAddAccountToContactNameCheckbox()){

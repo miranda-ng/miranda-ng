@@ -18,7 +18,6 @@
 */
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack = 0;
 
@@ -56,7 +55,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	pcli = Clist_GetInterface();
 
 	LoadVarModule();
 	return 0;

@@ -283,7 +283,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 	if (contact->type == CLCIT_GROUP)
 		dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, nullptr, g_hInst, nullptr);
 	else
-		dat->hwndRenameEdit = CreateWindow(L"EDIT", pcli->pfnGetContactDisplayName(contact->hContact, 0), WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, nullptr, g_hInst, nullptr);
+		dat->hwndRenameEdit = CreateWindow(L"EDIT", Clist_GetContactDisplayName(contact->hContact), WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, nullptr, g_hInst, nullptr);
 
 	SetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE, GetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE)&(~WS_CAPTION) | WS_BORDER);
 	SetWindowLongPtr(dat->hwndRenameEdit, GWLP_USERDATA, (LONG_PTR)dat);

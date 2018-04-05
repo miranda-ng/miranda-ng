@@ -21,7 +21,6 @@ Features:
 
 #include "../../utils/mir_buffer.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -144,7 +143,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		switch(*++p) {
 		case 'u':
 		case 'U':
-			szUtfMsg.append(T2Utf(pcli->pfnGetContactDisplayName(hContact, 0)));
+			szUtfMsg.append(T2Utf(Clist_GetContactDisplayName(hContact)));
 			break;
 
 		case 'i':
@@ -221,7 +220,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
-	pcli = Clist_GetInterface();
 
 	// Load plugin options from DB
 	hForwardFrom = (MCONTACT)db_get_dw(NULL, "yaRelay", "ForwardFrom", 0);

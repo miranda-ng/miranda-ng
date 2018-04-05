@@ -23,7 +23,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 int LoadHistoryModule(void);
 
-CLIST_INTERFACE* pcli;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -56,7 +55,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHIST
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	LoadHistoryModule();
 	return 0;

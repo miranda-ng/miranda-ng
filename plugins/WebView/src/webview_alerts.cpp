@@ -186,7 +186,7 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 	if (db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0))
 		return 0;
 
-	wchar_t *ptszContactName = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *ptszContactName = Clist_GetContactDisplayName(hContact);
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
 		mir_snwprintf(newdisplaytext, L"%s\n%s", ptszContactName, displaytext);
 		PUShowMessageT(newdisplaytext, SM_WARNING);

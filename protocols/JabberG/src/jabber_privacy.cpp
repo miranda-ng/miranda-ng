@@ -1158,7 +1158,7 @@ void CJabberDlgPrivacyLists::DrawRulesList(LPDRAWITEMSTRUCT lpdis)
 				DrawNextRulePart(lpdis->hDC, clLine2, TranslateT("'"), &rc);
 
 				if (MCONTACT hContact = m_proto->HContactFromJID(pRule->GetValue())) {
-					wchar_t *szName = pcli->pfnGetContactDisplayName(hContact, 0);
+					wchar_t *szName = Clist_GetContactDisplayName(hContact);
 					if (szName) {
 						DrawNextRulePart(lpdis->hDC, clLine2, TranslateT(" (nickname: "), &rc);
 						DrawNextRulePart(lpdis->hDC, clLine1, szName, &rc);

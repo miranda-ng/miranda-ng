@@ -112,7 +112,7 @@ void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, wchar_t *pszTitleStart)
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
 			ptrW uid(GetContactUID(hContact));
-			wchar_t *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
+			wchar_t *contactName = Clist_GetContactDisplayName(hContact);
 
 			wchar_t oldTitle[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_NAME, oldTitle, _countof(oldTitle));

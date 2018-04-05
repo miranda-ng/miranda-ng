@@ -728,7 +728,7 @@ void CSrmmWindow::UpdateStatusBar()
 		else if (m_nTypeSecs) {
 			sbd.hIcon = GetCachedIcon("scriver_TYPING");
 			sbd.pszText = szText;
-			mir_snwprintf(szText, TranslateT("%s is typing a message..."), pcli->pfnGetContactDisplayName(m_hContact, 0));
+			mir_snwprintf(szText, TranslateT("%s is typing a message..."), Clist_GetContactDisplayName(m_hContact));
 			m_nTypeSecs--;
 		}
 		else if (m_lastMessage) {
@@ -790,7 +790,7 @@ void CSrmmWindow::UpdateTitle()
 		wszTitle = L"%name% (%status%) : ";
 
 	if (m_hContact && m_szProto) {
-		wszTitle.Replace(L"%name%", pcli->pfnGetContactDisplayName(m_hContact, 0));
+		wszTitle.Replace(L"%name%", Clist_GetContactDisplayName(m_hContact));
 		wszTitle.Replace(L"%status%", Clist_GetStatusModeDescription(db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0));
 
 		CMStringW tszStatus = ptrW(db_get_wsa(m_hContact, "CList", "StatusMsg"));
@@ -1160,7 +1160,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		TabControlData tcd;
 		tcd.iFlags = TCDF_TEXT | TCDF_ICON;
 		tcd.hIcon = GetTabIcon();
-		tcd.pszText = pcli->pfnGetContactDisplayName(m_hContact, 0);
+		tcd.pszText = Clist_GetContactDisplayName(m_hContact);
 		SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
 		break;
 

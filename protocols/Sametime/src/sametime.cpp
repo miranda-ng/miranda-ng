@@ -17,7 +17,6 @@ PLUGININFOEX pluginInfo =
 };
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 LIST<CSametimeProto> g_Instances(1, PtrKeySortT);
 int hLangpack;
@@ -250,7 +249,6 @@ void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 	return 0;
 }
 

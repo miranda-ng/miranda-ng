@@ -125,7 +125,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 
 	// write the display name
 	mir_snprintf(buffer, "CListName%d", ccDest->nSubs);
-	db_set_ws(hMeta, META_PROTO, buffer, cli.pfnGetContactDisplayName(hSub, 0));
+	db_set_ws(hMeta, META_PROTO, buffer, Clist_GetContactDisplayName(hSub));
 
 	// Get the status
 	WORD status = db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
@@ -439,7 +439,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 		}
 	}
 	else if (g_metaOptions.clist_contact_name == CNNT_DISPLAYNAME) {
-		wchar_t *name = cli.pfnGetContactDisplayName(hContact, 0);
+		wchar_t *name = Clist_GetContactDisplayName(hContact);
 		if (name && mir_wstrcmp(name, TranslateT("(Unknown contact)")) != 0) {
 			db_set_ws(ccMeta->contactID, META_PROTO, "Nick", name);
 			return 0;

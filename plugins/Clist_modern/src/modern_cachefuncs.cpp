@@ -474,7 +474,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 		return;
 
 	ClcCacheEntry *pdnce = contact->pce;
-	wchar_t *name = pcli->pfnGetContactDisplayName(contact->hContact, 0);
+	wchar_t *name = Clist_GetContactDisplayName(contact->hContact);
 	if (dat->first_line_append_nick && !dat->bForceInDialog) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "Nick", &dbv)) {

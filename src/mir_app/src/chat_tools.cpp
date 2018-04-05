@@ -184,7 +184,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == nullptr) ? _A2T(pszProtoName) : pa->tszAccountName, cli.pfnGetContactDisplayName(hContact, 0));
+	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == nullptr) ? _A2T(pszProtoName) : pa->tszAccountName, Clist_GetContactDisplayName(hContact));
 	mir_wstrncpy(pd.lptzText, TranslateW(szBuf), _countof(pd.lptzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 

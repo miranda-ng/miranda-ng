@@ -28,7 +28,6 @@ HNETLIBUSER hNetlibUser;
 HANDLE hHookDisplayDataAlert, hHookAlertPopup, hHookAlertWPopup, hHookErrorPopup, hHookAlertOSD;
 
 int    hLangpack = 0;
-CLIST_INTERFACE *pcli;
 static HMODULE hRichEd = nullptr;
 
 PLUGININFOEX pluginInfoEx = {
@@ -126,7 +125,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
-	pcli = Clist_GetInterface();
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, Doubleclick);
    

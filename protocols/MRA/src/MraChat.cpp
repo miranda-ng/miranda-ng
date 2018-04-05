@@ -28,7 +28,7 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 	CMStringW wszEMail;
 	mraGetStringW(hContact, "e-mail", wszEMail);
 
-	if (Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, pcli->pfnGetContactDisplayName(hContact, 0), (void*)hContact))
+	if (Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, Clist_GetContactDisplayName(hContact), (void*)hContact))
 		return 1;
 
 	for (auto &it : lpwszStatuses)
@@ -90,7 +90,7 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession,
 		MCONTACT hContactSender = MraHContactFromEmail(lpszUID, FALSE, TRUE, nullptr);
 		wszUID = lpszUID;
 		if (hContactSender)
-			gce.ptszNick = pcli->pfnGetContactDisplayName(hContactSender, 0);
+			gce.ptszNick = Clist_GetContactDisplayName(hContactSender);
 		else
 			gce.ptszNick = wszUID;
 	}

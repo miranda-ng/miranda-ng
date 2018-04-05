@@ -33,7 +33,7 @@ CErrorDlg::CErrorDlg(const wchar_t *pwszDescr, HWND hWnd, MessageSendQueueItem *
 	m_btnOk(this, IDOK),
 	m_btnCancel(this, IDCANCEL)
 {
-	const wchar_t *pwszName = pcli->pfnGetContactDisplayName(pItem->hContact, 0);
+	const wchar_t *pwszName = Clist_GetContactDisplayName(pItem->hContact);
 	if (pwszName)
 		m_wszName.Format(L"%s - %s", TranslateT("Send error"), pwszName);
 	else

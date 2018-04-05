@@ -261,7 +261,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			goto LBL_2DigNum;
 
 		case 'n':
-			charPtr = hcontact ? (wchar_t*)pcli->pfnGetContactDisplayName(hcontact, 0) : (wantempty ? L"" : L"---");
+			charPtr = hcontact ? Clist_GetContactDisplayName(hcontact) : (wantempty ? L"" : L"---");
 			goto LBL_charPtr;
 
 		case 'N':

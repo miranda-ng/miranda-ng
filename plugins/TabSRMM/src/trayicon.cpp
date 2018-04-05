@@ -191,7 +191,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 	wchar_t szFinalNick[100];
 
 	if (szNickname == nullptr)
-		wcsncpy_s(szFinalNick, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
+		wcsncpy_s(szFinalNick, Clist_GetContactDisplayName(hContact), _TRUNCATE);
 	else
 		wcsncpy_s(szFinalNick, szNickname, _TRUNCATE);
 

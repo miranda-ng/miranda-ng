@@ -23,7 +23,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 HINSTANCE g_hInst;
 
 int hLangpack;
-CLIST_INTERFACE *pcli;
 PROTOACCOUNTS *accounts;
 
 static int g_iIdleTime = -1;
@@ -1805,7 +1804,6 @@ static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	hwndSAMsgDialog = nullptr;
 	accounts = (PROTOACCOUNTS *)mir_alloc(sizeof(PROTOACCOUNTS));

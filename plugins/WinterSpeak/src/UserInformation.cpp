@@ -61,9 +61,9 @@ void UserInformation::insertName(std::wstring &str, MCONTACT user) const
 }
 
 //------------------------------------------------------------------------------
-std::wstring UserInformation::nameString(MCONTACT user) const
+std::wstring UserInformation::nameString(MCONTACT hContact) const
 {
-	WCHAR *ret = pcli->pfnGetContactDisplayName(user, 0);
+	WCHAR *ret = Clist_GetContactDisplayName(hContact);
 	if (nullptr == ret)
 		return L"";
 

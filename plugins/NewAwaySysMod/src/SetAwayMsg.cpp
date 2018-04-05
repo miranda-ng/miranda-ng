@@ -789,7 +789,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								WindowTitle += L" ";
 							}
 
-							WindowTitle += pcli->pfnGetContactDisplayName(hContact, 0);
+							WindowTitle += Clist_GetContactDisplayName(hContact);
 							if (!IsAnICQProto(GetContactProto(hContact))) {
 								WindowTitle += L" ";
 								WindowTitle += TranslateT("available autoreply only");

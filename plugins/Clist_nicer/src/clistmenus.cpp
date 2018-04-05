@@ -101,7 +101,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					DWORD dwFlags = db_get_dw(hContact, "CList", "CLN_Flags", 0);
 					BYTE bSecondLine = db_get_b(hContact, "CList", "CLN_2ndline", -1);
 
-					mir_snwprintf(szTitle, TranslateT("Contact list display and ignore options for %s"), contact ? contact->szText : pcli->pfnGetContactDisplayName(hContact, 0));
+					mir_snwprintf(szTitle, TranslateT("Contact list display and ignore options for %s"), contact ? contact->szText : Clist_GetContactDisplayName(hContact));
 
 					SetWindowText(hWnd, szTitle);
 					Window_SetSkinIcon_IcoLib(hWnd, SKINICON_OTHER_MIRANDA);

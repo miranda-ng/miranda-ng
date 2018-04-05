@@ -103,7 +103,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				case MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD:
 					{
 						CMStringA szUrl;
-						szUrl.Format("http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", _T2A(pcli->pfnGetContactDisplayName(dat->hContact, 0)), szEmail.c_str());
+						szUrl.Format("http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", _T2A(Clist_GetContactDisplayName(dat->hContact)), szEmail.c_str());
 						dat->ppro->MraMPopSessionQueueAddUrl(dat->ppro->hMPopSessionQueue, szUrl);
 					}
 					break;

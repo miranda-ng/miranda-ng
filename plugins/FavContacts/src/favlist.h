@@ -17,7 +17,7 @@ public:
 		bManual(_bManual),
 		fRate(_fRate)
 	{
-		name = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
+		name = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 
 		if (g_Options.bUseGroups) {
 			if ((group = db_get_wsa(hContact, "CList", "Group")) == nullptr)

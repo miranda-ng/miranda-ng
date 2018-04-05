@@ -114,7 +114,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	}
 	if (hwnd == nullptr || !IsWindowVisible(GetParent(hwnd))) {
 		wchar_t toolTip[256];
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
 
 		CLISTEVENT cle = {};
 		cle.flags = CLEF_UNICODE;
@@ -195,7 +195,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
 		wchar_t szTip[256];
-		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
 		if (g_dat.flags2 & SMF2_SHOWTYPINGCLIST) {
 			pcli->pfnRemoveEvent(hContact, 1);
 
@@ -277,7 +277,7 @@ static void RestoreUnreadMessageAlerts(void)
 	cle.szTooltip.w = toolTip;
 
 	for (auto &e : arEvents) {
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e->hContact, 0));
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(e->hContact));
 		cle.hContact = e->hContact;
 		cle.hDbEvent = e->hEvent;
 		pcli->pfnAddEvent(&cle);

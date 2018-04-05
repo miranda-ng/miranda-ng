@@ -34,7 +34,7 @@ HANDLE hReloadFonts = nullptr;
 HANDLE hFolderChanged, hSkinFolder;
 wchar_t SKIN_FOLDER[256];
 
-CLIST_INTERFACE *pcli = nullptr;
+CLIST_INTERFACE *pcli;
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx =

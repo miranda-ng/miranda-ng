@@ -127,7 +127,7 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 
 			wchar_t szFormat[256], szFinal[256];
 			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, _countof(szFormat));
-			mir_snwprintf(szFinal, szFormat, cli.pfnGetContactDisplayName(lParam, 0));
+			mir_snwprintf(szFinal, szFormat, Clist_GetContactDisplayName(lParam));
 			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
 		}
 		SetFocus(GetDlgItem(hWnd, IDNO));

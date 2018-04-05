@@ -916,7 +916,7 @@ void CDlgNewKey::OnInitDialog()
 	btn_IMPORT.SetText(tmp[0] ? TranslateT("Replace") : TranslateT("Accept"));
 	mir_free(tmp);
 	tmp = new wchar_t[256];
-	mir_snwprintf(tmp, 255 * sizeof(wchar_t), TranslateT("Received key from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_snwprintf(tmp, 255 * sizeof(wchar_t), TranslateT("Received key from %s"), Clist_GetContactDisplayName(hContact));
 	lbl_KEY_FROM.SetText(tmp);
 	mir_free(tmp);
 }

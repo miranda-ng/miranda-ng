@@ -613,7 +613,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	pud.PluginData = pdata;
 
 	if (hContact)
-		wcsncpy_s(pud.lptzContactName, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
+		wcsncpy_s(pud.lptzContactName, Clist_GetContactDisplayName(hContact), _TRUNCATE);
 	else
 		wcsncpy_s(pud.lptzContactName, _A2T(dbe.szModule), _TRUNCATE);
 
@@ -720,7 +720,7 @@ int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szPro
 		SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
 	}
 	else {
-		szNick = pcli->pfnGetContactDisplayName(hContact, 0);
+		szNick = Clist_GetContactDisplayName(hContact);
 		if (CheckMenuItem(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == -1) {
 			mir_snwprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszFinalProto, szNick, szMyStatus, fromEvent ? 1 : 0);
 			AppendMenu(PluginConfig.g_hMenuTrayUnread, MF_BYCOMMAND | MF_STRING, (UINT_PTR)hContact, szMenuEntry);

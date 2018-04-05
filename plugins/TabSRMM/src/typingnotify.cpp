@@ -88,7 +88,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (!PluginConfig.g_bPopupAvail || Disabled)
 		return;
 
-	wchar_t *szContactName = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *szContactName = Clist_GetContactDisplayName(hContact);
 
 	if (OnePopup) {
 		HWND hPopupWnd = WindowList_Find(hPopupsList, hContact);

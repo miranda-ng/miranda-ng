@@ -69,7 +69,7 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	if (commonData.bIgnoreSubcontacts && db_mc_isSub(hContact))
 		return 0;
 
-	wchar_t *name = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *name = Clist_GetContactDisplayName(hContact);
 
 	wchar_t text[1024];
 	BuildDTBText(dtb, name, text, _countof(text));
@@ -113,7 +113,7 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	if (commonData.bIgnoreSubcontacts && db_mc_isSub(hContact))
 		return 0;
 
-	wchar_t *name = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *name = Clist_GetContactDisplayName(hContact);
 
 	wchar_t text[1024];
 	BuildDABText(dab, name, text, _countof(text));
@@ -149,7 +149,7 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 
 int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
 {
-	wchar_t *name = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *name = Clist_GetContactDisplayName(hContact);
 
 	wchar_t text[1024];
 	BuildDTBText(dtb, name, text, _countof(text));
@@ -171,7 +171,7 @@ int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
 
 int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 {
-	wchar_t *name = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *name = Clist_GetContactDisplayName(hContact);
 
 	wchar_t text[1024];
 	BuildDABText(dab, name, text, _countof(text));

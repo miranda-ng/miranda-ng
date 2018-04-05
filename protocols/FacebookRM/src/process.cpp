@@ -103,7 +103,7 @@ void FacebookProto::ProcessFriendList(void*)
 						// Notify it, if user wants to be notified
 						if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
 							std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
-							NotifyEvent(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Contact is back on server-list."), hContact, EVENT_FRIENDSHIP, &url);
+							NotifyEvent(Clist_GetContactDisplayName(hContact), TranslateT("Contact is back on server-list."), hContact, EVENT_FRIENDSHIP, &url);
 						}
 					}
 
@@ -127,7 +127,7 @@ void FacebookProto::ProcessFriendList(void*)
 							// Notify it, if user wants to be notified
 							if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
 								std::string url = FACEBOOK_URL_PROFILE + std::string(id);
-								NotifyEvent(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
+								NotifyEvent(Clist_GetContactDisplayName(hContact), TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
 							}
 						}
 					}

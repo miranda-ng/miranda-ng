@@ -29,8 +29,6 @@ int hLangpack;
 
 CommonData commonData = { 0 };
 
-CLIST_INTERFACE *pcli;
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -54,7 +52,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	Log("%s", "Entering function " __FUNCTION__);
 
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	INITCOMMONCONTROLSEX icex;
 	icex.dwSize = sizeof(icex);

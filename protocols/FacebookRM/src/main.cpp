@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // TODO: Make following as "globals" structure?
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 int hLangpack;
 
 HINSTANCE g_hInstance;
@@ -68,7 +67,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	InitIcons();
 	InitContactMenus();

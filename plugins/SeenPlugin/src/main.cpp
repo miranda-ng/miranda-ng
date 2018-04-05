@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 HINSTANCE hInstance;
 HANDLE ehmissed = nullptr, ehuserinfo = nullptr, ehmissed_proto = nullptr;
 HANDLE g_hShutdownEvent;
@@ -85,7 +84,6 @@ static int OnShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
 
 	g_pUserInfo = WindowList_Create();
 	g_hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);

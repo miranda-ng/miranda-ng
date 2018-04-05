@@ -274,7 +274,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 			else
 				szName = TranslateT("Me");
 		}
-		else szName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+		else szName = Clist_GetContactDisplayName(dat->hContact);
 
 		SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME, buf);
 		AppendToBufferWithRTF(buf, szName);
@@ -295,7 +295,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 			}
 			else szName = L"";
 		}
-		else szName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+		else szName = Clist_GetContactDisplayName(dat->hContact);
 
 		SetToStyle(MSGFONTID_NOTICE, buf);
 		AppendToBufferWithRTF(buf, szName);

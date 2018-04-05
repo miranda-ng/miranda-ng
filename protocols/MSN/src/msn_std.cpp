@@ -46,7 +46,7 @@ void CMsnProto::setStringUtf(MCONTACT hContact, const char *name, const char *va
 wchar_t* CMsnProto::GetContactNameT(MCONTACT hContact)
 {
 	if (hContact)
-		return (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
+		return (wchar_t*)Clist_GetContactDisplayName(hContact);
 
 	wchar_t *str = Contact_GetInfo(CNF_DISPLAY, NULL, m_szModuleName);
 	if (str != nullptr) {

@@ -434,7 +434,7 @@ int Preview()
 void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, wchar_t * Message)
 {
 	hContact = db_mc_tryMeta(hContact);
-	wchar_t *lpzContactName = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *lpzContactName = Clist_GetContactDisplayName(hContact);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		POPUPDATACLASS NudgePopup = { 0 };

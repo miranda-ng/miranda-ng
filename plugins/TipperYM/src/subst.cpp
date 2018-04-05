@@ -305,7 +305,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 		if (!hSubContact)
 			return false;
 		
-		wchar_t *swzNick = pcli->pfnGetContactDisplayName(hSubContact, 0);
+		wchar_t *swzNick = Clist_GetContactDisplayName(hSubContact);
 		if (swzNick)
 			wcsncpy(buff, swzNick, bufflen);
 		return true;

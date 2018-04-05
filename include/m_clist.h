@@ -480,6 +480,14 @@ EXTERN_C MIR_APP_DLL(int) Clist_ContactChangeGroup(MCONTACT hContact, MGROUP hGr
 EXTERN_C MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hContact2);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// returns a static display name for a contact
+
+#define GCDNF_NOMYHANDLE 1 // will never return the user's custom name
+#define GCDNF_NOCACHE    4 // will not use the cache
+
+EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode = 0);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // DRAG-N-DROP SUPPORT
 /////////////////////////////////////////////////////////////////////////////////////////
 // a contact is being dragged outside the main window
