@@ -252,7 +252,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	}
 
 	SetCursor(LoadCursor(nullptr, IDC_ARROW));
-	cli.pfnLoadContactTree();
+	Clist_LoadContactTree();
 
 	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), pGroup->groupName+1, nullptr };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
@@ -421,7 +421,7 @@ MIR_APP_DLL(int) Clist_GroupSetFlags(MGROUP hGroup, LPARAM iNewFlags)
 	pGroup->save();
 
 	if ((oldval & GROUPF_HIDEOFFLINE) != (pGroup->groupName[0] & GROUPF_HIDEOFFLINE))
-		cli.pfnLoadContactTree();
+		Clist_LoadContactTree();
 	return 0;
 }
 

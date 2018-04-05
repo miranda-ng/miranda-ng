@@ -173,7 +173,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				HideShowNotifyFrame();
 				SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 				SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
-				pcli->pfnLoadContactTree(); /* this won't do job properly since it only really works when changes happen */
+				Clist_LoadContactTree(); /* this won't do job properly since it only really works when changes happen */
 				Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 

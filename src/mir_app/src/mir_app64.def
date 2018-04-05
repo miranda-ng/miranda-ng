@@ -543,3 +543,4 @@ Menu_GetProtocolMenu @562
 ExtraIcon_Reload @563
 ExtraIcon_SetAll @564
 Clist_GetStatusModeDescription @565
+Clist_LoadContactTree @566

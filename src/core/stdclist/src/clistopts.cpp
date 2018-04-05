@@ -180,7 +180,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 
 				pcli->pfnTrayIconIconsChanged();
-				pcli->pfnLoadContactTree();  /* this won't do job properly since it only really works when changes happen */
+				Clist_LoadContactTree();  /* this won't do job properly since it only really works when changes happen */
 				pcli->pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);        /* force reshuffle */
 				return TRUE;
 			}

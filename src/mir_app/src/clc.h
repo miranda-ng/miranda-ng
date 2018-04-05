@@ -176,7 +176,6 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 
 /* contact.c */
 void fnChangeContactIcon(MCONTACT hContact, int iIcon);
-void fnLoadContactTree(void);
 int  fnSetHideOffline(int iValue);
 
 /* docking.c */

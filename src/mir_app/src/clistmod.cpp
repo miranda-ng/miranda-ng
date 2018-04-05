@@ -193,7 +193,7 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 	for (auto &it : accounts)
 		AddProtoIconIndex(it);
 
-	cli.pfnLoadContactTree();
+	Clist_LoadContactTree();
 
 	LoadCLUIModule();
 

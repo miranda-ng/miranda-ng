@@ -35,7 +35,7 @@ static int GetContactStatus(MCONTACT hContact)
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
 
-void fnLoadContactTree(void)
+MIR_APP_DLL(void) Clist_LoadContactTree(void)
 {
 	int hideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (auto &hContact : Contacts()) {
@@ -75,6 +75,6 @@ int fnSetHideOffline(int iValue)
 	default:
 		return -1;
 	}
-	cli.pfnLoadContactTree();
+	Clist_LoadContactTree();
 	return iValue;
 }

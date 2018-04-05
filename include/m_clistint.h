@@ -254,6 +254,8 @@ EXTERN_C MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM l
 
 EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
+EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
+
 
 // calculates account's index by its position in status bar
 EXTERN_C MIR_APP_DLL(int) Clist_GetAccountIndex(int iPos);
@@ -407,7 +409,7 @@ struct CLIST_INTERFACE
 
 	/* contact.c */
 	void (*pfnChangeContactIcon)(MCONTACT hContact, int iIcon);
-	void (*pfnLoadContactTree)(void);
+	int (*blablabla2)();
 	int  (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
 	int  (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
 
