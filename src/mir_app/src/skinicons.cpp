@@ -102,7 +102,7 @@ static struct StandardIconDescription mainIcons[] =
 
 static struct StandardIconDescription statusIcons[] =
 {
-	{ ID_STATUS_OFFLINE,         LPGEN("Offline"),          -IDI_OFFLINE,       0xFFFFFFFF     },
+	{ ID_STATUS_OFFLINE,         LPGEN("Offline"),          -IDI_OFFLINE,       0x0FFFFFFF     },
 	{ ID_STATUS_ONLINE,          LPGEN("Online"),           -IDI_ONLINE,        PF2_ONLINE     },
 	{ ID_STATUS_AWAY,            LPGEN("Away"),             -IDI_AWAY,          PF2_SHORTAWAY  },
 	{ ID_STATUS_NA,              LPGEN("Not available"),    -IDI_NA,            PF2_LONGAWAY   },

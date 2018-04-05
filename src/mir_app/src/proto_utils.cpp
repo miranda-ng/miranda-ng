@@ -152,7 +152,6 @@ PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszU
 	m_iVersion = 2;
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 	m_szModuleName = mir_strdup(pszModuleName);
-	m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pszModuleName, ID_STATUS_ONLINE));
 	m_tszUserName = mir_wstrdup(ptszUserName);
 	db_set_resident(m_szModuleName, "Status");
 

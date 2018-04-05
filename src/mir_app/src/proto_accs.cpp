@@ -296,6 +296,8 @@ bool ActivateAccount(PROTOACCOUNT *pa)
 		return false;
 
 	pa->ppro = ppi;
+	if (ppi->m_hProtoIcon == nullptr)
+		ppi->m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pa->szModuleName, ID_STATUS_ONLINE));
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
 	return true;
 }
