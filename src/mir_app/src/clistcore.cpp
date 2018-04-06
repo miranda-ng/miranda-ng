@@ -58,8 +58,6 @@ static int fnIsVisibleContact(ClcCacheEntry*, ClcGroup*)
 
 void InitClistCore()
 {
-	cli.version = 6;
-	cli.bDisplayLocked = true;
 	cli.menuProtos = &g_menuProtos;
 
 	cli.pfnContactListControlWndProc = fnContactListControlWndProc;

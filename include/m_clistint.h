@@ -312,8 +312,6 @@ struct ClcCacheEntryBase
 
 struct CLIST_INTERFACE
 {
-	int version;
-
 	HWND hwndContactList, hwndContactTree, hwndStatus;
 	HMENU hMenuMain;
 	HMODULE hInst;
@@ -424,7 +422,7 @@ struct CLIST_INTERFACE
 	OBJLIST<MenuProto> *menuProtos;
 
 	int      currentDesiredStatusMode;
-	BOOL     bDisplayLocked, bAutoRebuild;
+	BOOL     bAutoRebuild;
 
 	/*************************************************************************************
 	 * version 5 additions (0.7.0.x) - tray icons

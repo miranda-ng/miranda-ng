@@ -551,11 +551,8 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		wchar_t buf[256], *ptszName;
 		if (bIsLocked) {
 			pimi->mi.flags |= CMIF_CHECKED;
-			if (cli.bDisplayLocked) {
-				mir_snwprintf(buf, TranslateT("%s (locked)"), acc->tszAccountName);
-				ptszName = buf;
-			}
-			else ptszName = acc->tszAccountName;
+			mir_snwprintf(buf, TranslateT("%s (locked)"), acc->tszAccountName);
+			ptszName = buf;
 		}
 		else {
 			ptszName = acc->tszAccountName;
@@ -759,7 +756,7 @@ void RebuildMenuOrder(void)
 		mi.position = pos++;
 		mi.hIcon = ic = (HICON)CallProtoServiceInt(0, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
-		if (pa->IsLocked() && cli.bDisplayLocked) {
+		if (pa->IsLocked()) {
 			mir_snwprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
 			mi.name.w = tbuf;
 		}
@@ -783,7 +780,7 @@ void RebuildMenuOrder(void)
 		if (pa->IsLocked())
 			mi.flags |= CMIF_CHECKED;
 
-		if ((mi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
+		if ((mi.flags & CMIF_CHECKED)) {
 			mir_snwprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
 			mi.name.w = tbuf;
 		}

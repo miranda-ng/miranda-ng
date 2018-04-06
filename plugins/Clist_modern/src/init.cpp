@@ -135,7 +135,6 @@ static HRESULT SubclassClistInterface()
 	corecli = *pcli;
 
 	pcli->hInst = g_hInst;
-	pcli->bDisplayLocked = true;
 
 	pcli->pfnCreateCacheItem = cliCreateCacheItem;
 	pcli->pfnCheckCacheItem = cliCheckCacheItem;

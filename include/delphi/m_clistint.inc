@@ -287,7 +287,6 @@ type
 type
   PCLIST_INTERFACE = ^TCLIST_INTERFACE;
   TCLIST_INTERFACE = record
-    version         : int;
     hwndContactList : HWND;
     hwndContactTree : HWND;
     hwndStatus      : HWND;
