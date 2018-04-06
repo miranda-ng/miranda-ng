@@ -129,7 +129,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
 			int i;
-			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
+			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 			for (i = 0; i < _countof(checkBoxToStyleEx); i++)
 				CheckDlgButton(hwndDlg, checkBoxToStyleEx[i].id,
 					(exStyle & checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag *
