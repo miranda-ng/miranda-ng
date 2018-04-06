@@ -520,7 +520,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
-					cli.pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
+					Clist_RemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 				}
 				else {
 					contact->iImage = (WORD)lParam;
@@ -1278,7 +1278,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			DestroyWindow(dat->hwndRenameEdit);
 		if (dat->hBmpBackground)
 			DeleteObject(dat->hBmpBackground);
-		cli.pfnFreeGroup(&dat->list);
+		FreeGroup(&dat->list);
 		delete dat;
 		cli.pfnUnregisterFileDropping(hwnd);
 		WindowList_Remove(hClcWindowList, hwnd);

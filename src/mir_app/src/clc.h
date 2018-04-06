@@ -54,14 +54,14 @@ ClcContact* fnFindItem(DWORD dwItem, ClcContact *contact);
 
 /* clcitems.c */
 ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
-ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 
 ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
 ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem);
 ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 
 void fnFreeContact(ClcContact *p);
-void fnFreeGroup(ClcGroup *group);
+
+void FreeGroup(ClcGroup *group);
 
 void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 void fnRebuildEntireList(HWND hwnd, ClcData *dat);

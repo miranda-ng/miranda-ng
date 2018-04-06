@@ -246,44 +246,45 @@ struct MenuProto
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions
 
-EXTERN_C MIR_APP_DLL(DWORD)    Clist_ContactToHItem(ClcContact *contact);
-EXTERN_C MIR_APP_DLL(HANDLE)   Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
-
-EXTERN_C MIR_APP_DLL(void)     Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
-EXTERN_C MIR_APP_DLL(void)     Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
-								       
-EXTERN_C MIR_APP_DLL(void)     Clist_CalcEipPosition(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
-EXTERN_C MIR_APP_DLL(void)     Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
-EXTERN_C MIR_APP_DLL(int)      Clist_ClcStatusToPf2(int status);
-EXTERN_C MIR_APP_DLL(void)     Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
-EXTERN_C MIR_APP_DLL(void)     Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
-EXTERN_C MIR_APP_DLL(void)     Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat);
-EXTERN_C MIR_APP_DLL(void)     Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
-EXTERN_C MIR_APP_DLL(void)     Clist_EndRename(ClcData *dat, int save);
-EXTERN_C MIR_APP_DLL(void)     Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
-EXTERN_C MIR_APP_DLL(int)      Clist_EventsProcessTrayDoubleClick(int index);
-EXTERN_C MIR_APP_DLL(bool)     Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
-EXTERN_C MIR_APP_DLL(DWORD)    Clist_GetDefaultExStyle(void);
-EXTERN_C MIR_APP_DLL(void)     Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
-EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetGroupCountsText(ClcData *dat, ClcContact *contact);
-EXTERN_C MIR_APP_DLL(void)     Clist_HideInfoTip(ClcData *dat);
-EXTERN_C MIR_APP_DLL(void)     Clist_InitAutoRebuild(HWND hWnd);
-EXTERN_C MIR_APP_DLL(void)     Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
-EXTERN_C MIR_APP_DLL(int)      Clist_IsHiddenMode(ClcData *dat, int status);
-EXTERN_C MIR_APP_DLL(void)     Clist_LoadContactTree(void);
-EXTERN_C MIR_APP_DLL(void)     Clist_NotifyNewContact(HWND hwnd, MCONTACT hContact);
-EXTERN_C MIR_APP_DLL(void)     Clist_RecalculateGroupCheckboxes(ClcData *dat);
-EXTERN_C MIR_APP_DLL(void)     Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
-EXTERN_C MIR_APP_DLL(void)     Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
-								       
-EXTERN_C MIR_APP_DLL(int)      Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
-EXTERN_C MIR_APP_DLL(int)      Clist_TrayIconDestroy(HWND hwnd);
-EXTERN_C MIR_APP_DLL(void)     Clist_TrayIconIconsChanged(void);
-EXTERN_C MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto);
-EXTERN_C MIR_APP_DLL(void)     Clist_TrayIconRemove(HWND hwnd, const char *szProto);
-EXTERN_C MIR_APP_DLL(int)      Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto);
-EXTERN_C MIR_APP_DLL(void)     Clist_TrayIconUpdateBase(const char *szChangedProto);
-EXTERN_C MIR_APP_DLL(void)     Clist_TraySetTimer();
+EXTERN_C MIR_APP_DLL(DWORD)     Clist_ContactToHItem(ClcContact *contact);
+EXTERN_C MIR_APP_DLL(HANDLE)    Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
+										  
+EXTERN_C MIR_APP_DLL(void)      Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
+EXTERN_C MIR_APP_DLL(void)      Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
+								        
+EXTERN_C MIR_APP_DLL(void)      Clist_CalcEipPosition(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
+EXTERN_C MIR_APP_DLL(void)      Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
+EXTERN_C MIR_APP_DLL(int)       Clist_ClcStatusToPf2(int status);
+EXTERN_C MIR_APP_DLL(void)      Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
+EXTERN_C MIR_APP_DLL(void)      Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
+EXTERN_C MIR_APP_DLL(void)      Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat);
+EXTERN_C MIR_APP_DLL(void)      Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
+EXTERN_C MIR_APP_DLL(void)      Clist_EndRename(ClcData *dat, int save);
+EXTERN_C MIR_APP_DLL(void)      Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
+EXTERN_C MIR_APP_DLL(int)       Clist_EventsProcessTrayDoubleClick(int index);
+EXTERN_C MIR_APP_DLL(bool)      Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+EXTERN_C MIR_APP_DLL(DWORD)     Clist_GetDefaultExStyle(void);
+EXTERN_C MIR_APP_DLL(void)      Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
+EXTERN_C MIR_APP_DLL(wchar_t*)  Clist_GetGroupCountsText(ClcData *dat, ClcContact *contact);
+EXTERN_C MIR_APP_DLL(void)      Clist_HideInfoTip(ClcData *dat);
+EXTERN_C MIR_APP_DLL(void)      Clist_InitAutoRebuild(HWND hWnd);
+EXTERN_C MIR_APP_DLL(void)      Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
+EXTERN_C MIR_APP_DLL(int)       Clist_IsHiddenMode(ClcData *dat, int status);
+EXTERN_C MIR_APP_DLL(void)      Clist_LoadContactTree(void);
+EXTERN_C MIR_APP_DLL(void)      Clist_NotifyNewContact(HWND hwnd, MCONTACT hContact);
+EXTERN_C MIR_APP_DLL(void)      Clist_RecalculateGroupCheckboxes(ClcData *dat);
+EXTERN_C MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
+EXTERN_C MIR_APP_DLL(void)      Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
+EXTERN_C MIR_APP_DLL(void)      Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
+								        
+EXTERN_C MIR_APP_DLL(int)       Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
+EXTERN_C MIR_APP_DLL(int)       Clist_TrayIconDestroy(HWND hwnd);
+EXTERN_C MIR_APP_DLL(void)      Clist_TrayIconIconsChanged(void);
+EXTERN_C MIR_APP_DLL(wchar_t*)  Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto);
+EXTERN_C MIR_APP_DLL(void)      Clist_TrayIconRemove(HWND hwnd, const char *szProto);
+EXTERN_C MIR_APP_DLL(int)       Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto);
+EXTERN_C MIR_APP_DLL(void)      Clist_TrayIconUpdateBase(const char *szChangedProto);
+EXTERN_C MIR_APP_DLL(void)      Clist_TraySetTimer();
 
 EXTERN_C MIR_APP_DLL(ClcCacheEntry*) Clist_GetCacheEntry(MCONTACT hContact);
 
@@ -340,10 +341,10 @@ struct CLIST_INTERFACE
 	/* clcitems.c */
 	ClcContact*    (*pfnCreateClcContact)(void);
 	ClcGroup*      (*pfnAddGroup)(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
-	ClcGroup*      (*pfnRemoveItemFromGroup)(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
-				      
+	void           (*blablablabla23)();
+	
 	void           (*pfnFreeContact)(ClcContact *contact);
-	void           (*pfnFreeGroup)(ClcGroup *group);
+	void           (*blablablabla22)();
 				      
 	ClcContact*    (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const wchar_t *pszText);
 	ClcContact*    (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);

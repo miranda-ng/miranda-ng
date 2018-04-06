@@ -317,10 +317,10 @@ type
   (* clcitems.c *)
     pfnCreateClcContact                : function :PClcContact; cdecl;
     pfnAddGroup                        : function (hwnd:HWND; var dat:TClcData; szName:TChar; flags:dword; groupId:int; calcTotalMembers:int):PClcGroup; cdecl;
-    pfnRemoveItemFromGroup             : function (hwnd:HWND; var group:TClcGroup; var contact:TClcContact; updateTotalCount:int):PClcGroup; cdecl;
+    blablablabla23                     : procedure; cdecl;
 
     pfnFreeContact                     : procedure (var contact:TClcContact); cdecl;
-    pfnFreeGroup                       : procedure (var group:TClcGroup); cdecl;
+    blablablabla22                     : procedure; cdecl;
 
     pfnAddInfoItemToGroup              : function  (var group:TClcGroup; flags:int; pszText:TChar):PClcContact; cdecl;
     pfnAddItemToGroup                  : function  (var group:TClcGroup; iAboveItem:int):PClcContact; cdecl;

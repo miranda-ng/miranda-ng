@@ -119,12 +119,12 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags
 void fnFreeContact(ClcContact* p)
 {
 	if (p->type == CLCIT_GROUP) {
-		cli.pfnFreeGroup(p->group);
+		FreeGroup(p->group);
 		delete p->group; p->group = nullptr;
 	}
 }
 
-void fnFreeGroup(ClcGroup *group)
+void FreeGroup(ClcGroup *group)
 {
 	if (!group)
 		return;
@@ -273,7 +273,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 		group->totalMembers++;
 }
 
-ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount)
+MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount)
 {
 	int iContact = group->cl.indexOf(contact);
 	if (iContact == -1)
@@ -293,7 +293,7 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 	if ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) && group->cl.getCount() == 0 && group->parent != nullptr)
 		for (auto &cc : group->parent->cl)
 			if (cc->type == CLCIT_GROUP && cc->groupId == group->groupId)
-				return cli.pfnRemoveItemFromGroup(hwnd, group->parent, cc, 0);
+				return Clist_RemoveItemFromGroup(hwnd, group->parent, cc, 0);
 
 	return group;
 }
@@ -333,7 +333,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 		}
 		mir_free(dbv.ptszVal);
 	}
-	else cli.pfnRemoveItemFromGroup(hwnd, group, contact, 1);
+	else Clist_RemoveItemFromGroup(hwnd, group, contact, 1);
 }
 
 int fnGetContactHiddenStatus(MCONTACT hContact, char*, ClcData*)
@@ -415,7 +415,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 			ClcContact *cc = group->cl[group->scanIndex];
 			if (cc->type == CLCIT_GROUP) {
 				if (cc->group->cl.getCount() == 0) {
-					group = cli.pfnRemoveItemFromGroup(hwnd, group, cc, 0);
+					group = Clist_RemoveItemFromGroup(hwnd, group, cc, 0);
 				}
 				else {
 					group = cc->group;
@@ -662,7 +662,7 @@ MIR_APP_DLL(void) Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		group->scanIndex++;
 	}
 
-	cli.pfnFreeGroup(&dat->list);
+	FreeGroup(&dat->list);
 	cli.pfnRebuildEntireList(hwnd, dat);
 
 	group = &dat->list;

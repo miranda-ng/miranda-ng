@@ -574,3 +574,4 @@ Clist_EnsureVisible @593
 Clist_GetGroupCountsText @594
 Clist_SaveStateAndRebuildList @595
 Clist_DeleteItemFromTree @596
+Clist_RemoveItemFromGroup @597

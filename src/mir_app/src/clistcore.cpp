@@ -76,13 +76,11 @@ void InitClistCore()
 	cli.pfnAddGroup = fnAddGroup;
 	cli.pfnAddItemToGroup = fnAddItemToGroup;
 	cli.pfnCreateClcContact = fnCreateClcContact;
-	cli.pfnRemoveItemFromGroup = fnRemoveItemFromGroup;
-	cli.pfnFreeContact = fnFreeContact;
-	cli.pfnFreeGroup = fnFreeGroup;
-	cli.pfnAddInfoItemToGroup = fnAddInfoItemToGroup;
-	cli.pfnAddContactToGroup = fnAddContactToGroup;
-	cli.pfnAddContactToTree = fnAddContactToTree;
 	
+	cli.pfnFreeContact = fnFreeContact;	
+	cli.pfnAddInfoItemToGroup = fnAddInfoItemToGroup;	
+	cli.pfnAddContactToGroup = fnAddContactToGroup;	
+	cli.pfnAddContactToTree = fnAddContactToTree;	
 	cli.pfnRebuildEntireList = fnRebuildEntireList;	
 	cli.pfnGetGroupContentsCount = fnGetGroupContentsCount;
 	cli.pfnSortCLC = fnSortCLC;
