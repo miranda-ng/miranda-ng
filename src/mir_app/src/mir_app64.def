@@ -562,3 +562,4 @@ Clist_SetGroupChildCheckboxes @581
 Clist_RecalculateGroupCheckboxes @582
 Clist_GetFontSetting @583
 Clist_GetDefaultExStyle @584
+Clist_NotifyNewContact @585

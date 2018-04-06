@@ -91,7 +91,6 @@ int  fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 int  fnClcStatusToPf2(int status);
 int  fnIsHiddenMode(struct ClcData *dat, int status);
 void fnHideInfoTip(HWND hwnd, struct ClcData *dat);
-void fnNotifyNewContact(HWND hwnd, MCONTACT hContact);
 void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
 void fnSetContactCheckboxes(ClcContact *cc, int checked);

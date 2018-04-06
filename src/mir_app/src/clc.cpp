@@ -424,7 +424,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case INTM_CONTACTADDED:
 		cli.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
-		cli.pfnNotifyNewContact(hwnd, wParam);
+		Clist_NotifyNewContact(hwnd, wParam);
 		SortClcByTimer(hwnd);
 		break;
 
@@ -442,7 +442,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (Clist_FindItem(hwnd, dat, wParam, nullptr, nullptr, nullptr))
 					break;
 				cli.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
-				cli.pfnNotifyNewContact(hwnd, wParam);
+				Clist_NotifyNewContact(hwnd, wParam);
 			}
 			else cli.pfnDeleteItemFromTree(hwnd, wParam);
 
@@ -509,7 +509,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr);
 					if (contact) {
 						contact->iImage = (WORD)lParam;
-						cli.pfnNotifyNewContact(hwnd, wParam);
+						Clist_NotifyNewContact(hwnd, wParam);
 						dat->bNeedsResort = true;
 					}
 				}

@@ -648,7 +648,7 @@ void fnHideInfoTip(HWND, ClcData *dat)
 	NotifyEventHooks(hHideInfoTipEvent, 0, (LPARAM)&it);
 }
 
-void fnNotifyNewContact(HWND hwnd, MCONTACT hContact)
+MIR_APP_DLL(void) Clist_NotifyNewContact(HWND hwnd, MCONTACT hContact)
 {
 	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_NEWCONTACT;

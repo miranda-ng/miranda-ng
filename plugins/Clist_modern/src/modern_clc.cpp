@@ -1351,7 +1351,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 			if (contact) {
 				contact->iImage = lParam;
 				contact->bImageIsSpecial = bImageIsSpecial;
-				pcli->pfnNotifyNewContact(hwnd, wParam);
+				Clist_NotifyNewContact(hwnd, wParam);
 				dat->bNeedsResort = true;
 			}
 		}

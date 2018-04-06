@@ -109,7 +109,6 @@ void InitClistCore()
 	cli.pfnIsHiddenMode = fnIsHiddenMode;
 	cli.pfnIsVisibleContact = fnIsVisibleContact;
 	cli.pfnHideInfoTip = fnHideInfoTip;
-	cli.pfnNotifyNewContact = fnNotifyNewContact;
 	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;
 	cli.pfnLoadClcOptions = fnLoadClcOptions;
 	cli.pfnGetRowBottomY = fnGetRowBottomY;

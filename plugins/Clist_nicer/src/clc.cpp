@@ -331,7 +331,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					Clist_FindItem(hwnd, dat, hContact, &contact, nullptr, nullptr);
 					if (contact) {
 						contact->iImage = (WORD)lParam;
-						pcli->pfnNotifyNewContact(hwnd, hContact);
+						Clist_NotifyNewContact(hwnd, hContact);
 					}
 				}
 			}
