@@ -1517,7 +1517,7 @@ int CLCPaint::_DetermineDrawMode(HWND hWnd, ClcData *dat)
 
 	LONG lStyle = GetWindowLongPtr(hWnd, GWL_STYLE);
 	int  nStatus = _GetGeneralisedStatus();
-	if ((lStyle & WS_DISABLED) || (dat->greyoutFlags & pcli->pfnClcStatusToPf2(nStatus)) || ((dat->greyoutFlags & GREYF_UNFOCUS) && (GetFocus() != hWnd)))
+	if ((lStyle & WS_DISABLED) || (dat->greyoutFlags & Clist_ClcStatusToPf2(nStatus)) || ((dat->greyoutFlags & GREYF_UNFOCUS) && (GetFocus() != hWnd)))
 		paintMode |= DM_GRAY;
 
 	if (lStyle&CLS_GREYALTERNATE)

@@ -1295,7 +1295,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	g_center = db_get_b(NULL, "CLCExt", "EXBK_CenterGroupnames", 0) && !dat->bisEmbedded;
 	g_ignoreselforgroups = db_get_b(NULL, "CLC", "IgnoreSelforGroups", 0);
 
-	if (dat->greyoutFlags & pcli->pfnClcStatusToPf2(my_status) || style & WS_DISABLED)
+	if (dat->greyoutFlags & Clist_ClcStatusToPf2(my_status) || style & WS_DISABLED)
 		grey = 1;
 	else if (GetFocus() != hwnd && dat->greyoutFlags & GREYF_UNFOCUS)
 		grey = 1;

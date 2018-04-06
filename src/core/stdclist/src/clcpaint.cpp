@@ -153,7 +153,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		dat->rowHeight = minHeight;
 
 	int grey;
-	if (dat->greyoutFlags & pcli->pfnClcStatusToPf2(status) || style & WS_DISABLED)
+	if (dat->greyoutFlags & Clist_ClcStatusToPf2(status) || style & WS_DISABLED)
 		grey = 1;
 	else if (GetFocus() != hwnd && dat->greyoutFlags & GREYF_UNFOCUS)
 		grey = 1;

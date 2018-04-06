@@ -253,6 +253,7 @@ EXTERN_C MIR_APP_DLL(void)     Clist_Broadcast(int msg, WPARAM wParam, LPARAM lP
 EXTERN_C MIR_APP_DLL(void)     Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
 								       
 EXTERN_C MIR_APP_DLL(void)     Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
+EXTERN_C MIR_APP_DLL(int)      Clist_ClcStatusToPf2(int status);
 EXTERN_C MIR_APP_DLL(void)     Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 EXTERN_C MIR_APP_DLL(int)      Clist_EventsProcessTrayDoubleClick(int index);
 EXTERN_C MIR_APP_DLL(bool)     Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
@@ -367,7 +368,7 @@ struct CLIST_INTERFACE
 	void           (*pfnBeginRenameSelection)(HWND hwnd, ClcData *dat);
 	void           (*pfnCalcEipPosition)(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 	int            (*pfnGetDropTargetInformation)(HWND hwnd, ClcData *dat, POINT pt);
-	int            (*pfnClcStatusToPf2)(int status);
+	void           (*blablablabla12)();
 	void           (*blablablabla11)();
 	void           (*blablablabla10)();
 	void           (*blablablabla9)();

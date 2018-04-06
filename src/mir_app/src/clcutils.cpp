@@ -613,7 +613,7 @@ int fnGetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 	return DROPTARGET_ONCONTACT;
 }
 
-int fnClcStatusToPf2(int status)
+MIR_APP_DLL(int) Clist_ClcStatusToPf2(int status)
 {
 	switch(status) {
 		case ID_STATUS_ONLINE: return PF2_ONLINE;
@@ -632,7 +632,7 @@ int fnClcStatusToPf2(int status)
 
 MIR_APP_DLL(int) Clist_IsHiddenMode(ClcData *dat, int status)
 {
-	return dat->offlineModes & cli.pfnClcStatusToPf2(status);
+	return dat->offlineModes & Clist_ClcStatusToPf2(status);
 }
 
 MIR_APP_DLL(void) Clist_HideInfoTip(ClcData *dat)

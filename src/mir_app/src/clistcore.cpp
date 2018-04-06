@@ -105,7 +105,6 @@ void InitClistCore()
 	cli.pfnBeginRenameSelection = fnBeginRenameSelection;
 	cli.pfnCalcEipPosition = fnCalcEipPosition;
 	cli.pfnGetDropTargetInformation = fnGetDropTargetInformation;
-	cli.pfnClcStatusToPf2 = fnClcStatusToPf2;
 
 	cli.pfnIsVisibleContact = fnIsVisibleContact;
 	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;
