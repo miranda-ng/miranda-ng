@@ -1885,7 +1885,7 @@ void FS_RegisterFonts()
 	HDC hdc = GetDC(nullptr);
 	for (int i = 0; i < _countof(clistFontDescr); i++) {
 		LOGFONT lf;
-		pcli->pfnGetFontSetting(i, &lf, &fid.deffontsettings.colour);
+		Clist_GetFontSetting(i, &lf, &fid.deffontsettings.colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
 		wcsncpy_s(fid.deffontsettings.szFace, lf.lfFaceName, _TRUNCATE);

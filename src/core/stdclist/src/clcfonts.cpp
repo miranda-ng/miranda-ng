@@ -59,7 +59,7 @@ void RegisterCListFonts()
 	HDC hdc = GetDC(nullptr);
 	for (int i = 0; i < _countof(clistFontDescr); i++) {
 		LOGFONT lf;
-		pcli->pfnGetFontSetting(i, &lf, &fontid.deffontsettings.colour);
+		Clist_GetFontSetting(i, &lf, &fontid.deffontsettings.colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
 		wcsncpy_s(fontid.deffontsettings.szFace, lf.lfFaceName, _TRUNCATE);
@@ -121,7 +121,7 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 			DeleteObject(dat->fontInfo[i].hFont);
 
 		LOGFONT lf;
-		pcli->pfnGetFontSetting(i, &lf, &dat->fontInfo[i].colour);
+		Clist_GetFontSetting(i, &lf, &dat->fontInfo[i].colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
 		dat->fontInfo[i].hFont = CreateFontIndirect(&lf);

@@ -112,7 +112,6 @@ void InitClistCore()
 	cli.pfnNotifyNewContact = fnNotifyNewContact;
 	cli.pfnGetDefaultExStyle = fnGetDefaultExStyle;
 	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;
-	cli.pfnGetFontSetting = fnGetFontSetting;
 	cli.pfnLoadClcOptions = fnLoadClcOptions;
 	cli.pfnGetRowBottomY = fnGetRowBottomY;
 	cli.pfnGetRowHeight = fnGetRowHeight;

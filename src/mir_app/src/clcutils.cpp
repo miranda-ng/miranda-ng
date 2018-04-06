@@ -698,7 +698,7 @@ void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 	}
 }
 
-void fnGetFontSetting(int i, LOGFONT *lf, COLORREF *colour)
+MIR_APP_DLL(void) Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 {
 	cli.pfnGetDefaultFontSetting(i, lf, colour);
 

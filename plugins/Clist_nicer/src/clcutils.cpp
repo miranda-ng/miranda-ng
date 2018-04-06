@@ -567,7 +567,7 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 			DeleteObject(dat->fontInfo[i].hFont);
 
 		LOGFONT lf;
-		pcli->pfnGetFontSetting(i, &lf, &dat->fontInfo[i].colour);
+		Clist_GetFontSetting(i, &lf, &dat->fontInfo[i].colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
 		dat->fontInfo[i].hFont = CreateFontIndirect(&lf);

@@ -256,6 +256,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon)
 EXTERN_C MIR_APP_DLL(void) Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 EXTERN_C MIR_APP_DLL(int)  Clist_EventsProcessTrayDoubleClick(int index);
 EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+EXTERN_C MIR_APP_DLL(void) Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void) Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
 EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
@@ -368,8 +369,8 @@ struct CLIST_INTERFACE
 	void           (*pfnNotifyNewContact)(HWND hwnd, MCONTACT hContact);
 	DWORD          (*pfnGetDefaultExStyle)(void);
 	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
-	void           (*pfnGetFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
 	void           (*pfnLoadClcOptions)(HWND hwnd, ClcData *dat, BOOL bFirst);
+	void           (*blablablabla7)();
 	void           (*blablablabla6)();
 	void           (*blablablabla5)();
 	void           (*blablablabla4)();

@@ -124,7 +124,7 @@ static LONG CalcMinRowHeight()
 	for (int i = 0; i < FONTID_LAST; i++) {
 		LOGFONT lf;
 		COLORREF color;
-		pcli->pfnGetFontSetting(i, &lf, &color);
+		Clist_GetFontSetting(i, &lf, &color);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		HFONT hFont = CreateFontIndirect(&lf);
 		hFont = (HFONT)SelectObject(hdc, hFont);
