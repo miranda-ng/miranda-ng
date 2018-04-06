@@ -151,7 +151,7 @@ static int FS_FontsChanged(WPARAM, LPARAM)
 		DeleteObject(g_hPenCLUIFrames);
 	g_hPenCLUIFrames = CreatePen(PS_SOLID, 1, clr_cluiframes);
 
-	pcli->pfnClcOptionsChanged();
+	Clist_ClcOptionsChanged();
 	RedrawWindow(pcli->hwndContactList, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
 	return 0;
 }

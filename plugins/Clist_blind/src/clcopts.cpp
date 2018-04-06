@@ -234,7 +234,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				GetDlgItemText(hwndDlg, IDC_T_INFO, tmp, _countof(tmp));
 				db_set_ws(NULL, "CLC", "TemplateInfo", tmp);
 
-				pcli->pfnClcOptionsChanged();
+				Clist_ClcOptionsChanged();
 				return TRUE;
 			}
 			break;

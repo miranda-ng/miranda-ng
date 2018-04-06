@@ -261,7 +261,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
 				db_set_b(NULL, "CLC", "RowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(NULL, "CLC", "GammaCorrect", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_GAMMACORRECT));
-				pcli->pfnClcOptionsChanged();
+				Clist_ClcOptionsChanged();
 				return TRUE;
 			}
 			break;
@@ -409,7 +409,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						flags |= CLBF_PROPORTIONAL;
 					db_set_w(NULL, "CLC", "BkBmpUse", flags);
 				}
-				pcli->pfnClcOptionsChanged();
+				Clist_ClcOptionsChanged();
 				return TRUE;
 			}
 			break;

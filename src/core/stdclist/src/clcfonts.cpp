@@ -45,7 +45,7 @@ static clistFontDescr[] =
 
 static int FS_FontsChanged(WPARAM, LPARAM)
 {
-	pcli->pfnClcOptionsChanged();
+	Clist_ClcOptionsChanged();
 	return 0;
 }
 

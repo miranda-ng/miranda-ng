@@ -683,7 +683,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				cfg::dat.bDblClkAvatars = IsDlgButtonChecked(hwndDlg, IDC_DBLCLKAVATARS) ? TRUE : FALSE;
 				db_set_b(NULL, "CLC", "dblclkav", (BYTE)cfg::dat.bDblClkAvatars);
 
-				pcli->pfnClcOptionsChanged();
+				Clist_ClcOptionsChanged();
 				CoolSB_SetupScrollBar();
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 				opt_clc_main_changed = 0;
@@ -809,7 +809,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				cfg::dat.bWallpaperMode = IsDlgButtonChecked(hwndDlg, IDC_SKINMODE) ? 1 : 0;
 				db_set_b(NULL, "CLUI", "UseBkSkin", (BYTE)cfg::dat.bWallpaperMode);
 
-				pcli->pfnClcOptionsChanged();
+				Clist_ClcOptionsChanged();
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 				opt_clc_bkg_changed = 0;
 				return TRUE;

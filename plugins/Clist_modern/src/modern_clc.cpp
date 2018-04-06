@@ -171,7 +171,7 @@ static int clcHookDbEventAdded(WPARAM hContact, LPARAM lParam)
 
 static int clcHookBkgndConfigChanged(WPARAM, LPARAM)
 {
-	pcli->pfnClcOptionsChanged();
+	Clist_ClcOptionsChanged();
 	return 0;
 }
 

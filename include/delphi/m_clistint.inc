@@ -297,14 +297,14 @@ type
     clcProto        : PClcProtoStatus;
 
   (* clc.h *)
-    pfnClcOptionsChanged               : procedure; cdecl;
-    pfnBuildGroupPopupMenu             : function  (_para1:PClcGroup):HMENU; cdecl;
+    blablablabla27                     : procedure; cdecl;
+    blablablabla26                     : procedure; cdecl;
 
     pfnContactListControlWndProc       : function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;
 
   (* clcfiledrop.c *)
-    pfnRegisterFileDropping            : procedure (hwnd:HWND); cdecl;
-    pfnUnregisterFileDropping          : procedure (hwnd:HWND); cdecl;
+    blablablabla25                     : procedure; cdecl;
+    blablablabla24                     : procedure; cdecl;
 
   (* clcidents.c *)
     blablabla6                         : procedure; cdecl;

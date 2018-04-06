@@ -62,11 +62,7 @@ void InitClistCore()
 	cli.bDisplayLocked = true;
 	cli.menuProtos = &g_menuProtos;
 
-	cli.pfnClcOptionsChanged = fnClcOptionsChanged;
 	cli.pfnContactListControlWndProc = fnContactListControlWndProc;
-
-	cli.pfnRegisterFileDropping = fnRegisterFileDropping;
-	cli.pfnUnregisterFileDropping = fnUnregisterFileDropping;
 
 	cli.pfnGetRowsPriorTo = fnGetRowsPriorTo;
 	cli.pfnFindItem = fnFindItem;

@@ -297,7 +297,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			cfg::dat.fadeinout = oldFading;
 			opt_clui_changed = 0;
 
-			pcli->pfnClcOptionsChanged();
+			Clist_ClcOptionsChanged();
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			return TRUE;
 		}

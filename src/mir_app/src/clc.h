@@ -42,8 +42,6 @@ extern HIMAGELIST hCListImages;
 extern bool g_bReadyToInitClist;
 extern OBJLIST<MenuProto> g_menuProtos;
 
-void fnClcOptionsChanged(void);
-
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcidents.c */
@@ -107,10 +105,8 @@ void fnCheckCacheItem(ClcCacheEntry *p);
 void fnFreeCacheItem(ClcCacheEntry *p);
 
 /* clcfiledrop.c */
-void InitFileDropping(void);
-
-void   fnRegisterFileDropping(HWND hwnd);
-void   fnUnregisterFileDropping(HWND hwnd);
+void   RegisterFileDropping(HWND hwnd);
+void   UnregisterFileDropping(HWND hwnd);
 
 /* clistevents.c */
 struct CListEvent* fnAddEvent(CLISTEVENT *cle);

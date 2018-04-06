@@ -246,28 +246,12 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 	return S_OK;
 }
 
-static VOID CALLBACK CreateDropTargetHelperTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
-{
-	KillTimer(hwnd, idEvent);
-	//This is a ludicrously slow function (~200ms) so we delay load it a bit.
-	if (S_OK != CoCreateInstance(CLSID_DragDropHelper, nullptr, CLSCTX_INPROC_SERVER,
-		IID_IDropTargetHelper, (LPVOID*)&dropTarget.pDropTargetHelper))
-		dropTarget.pDropTargetHelper = nullptr;
-}
-
-void InitFileDropping(void)
-{
-	// Disabled as this function loads tons of dlls for no apparenet reason
-	// we will se what the reaction will be
-//	SetTimer(nullptr, 1, 1000, CreateDropTargetHelperTimerProc);
-}
-
-void fnRegisterFileDropping(HWND hwnd)
+void RegisterFileDropping(HWND hwnd)
 {
 	RegisterDragDrop(hwnd, (IDropTarget *) & dropTarget);
 }
 
-void fnUnregisterFileDropping(HWND hwnd)
+void UnregisterFileDropping(HWND hwnd)
 {
 	RevokeDragDrop(hwnd);
 }

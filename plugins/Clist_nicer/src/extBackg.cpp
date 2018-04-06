@@ -1449,7 +1449,7 @@ void extbk_import(char *file, HWND hwndDlg)
 	// refresh
 	if (hwndDlg && ServiceExists(MS_CLNSE_FILLBYCURRENTSEL))
 		CallService(MS_CLNSE_FILLBYCURRENTSEL, (WPARAM)hwndDlg, 0);
-	pcli->pfnClcOptionsChanged();
+	Clist_ClcOptionsChanged();
 	ConfigureCLUIGeometry(1);
 	SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 	RedrawWindow(pcli->hwndContactList, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
@@ -1608,7 +1608,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				SaveNonStatusItemsSettings(hwndDlg);
-				pcli->pfnClcOptionsChanged();
+				Clist_ClcOptionsChanged();
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 				return TRUE;
 			}
@@ -1653,7 +1653,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				sd.pfnSaveCompleteStruct = SaveCompleteStructToDB;
 				sd.lastItem = ID_STATUS_OFFLINE + arStatusItems.getCount();
 				sd.firstItem = ID_STATUS_OFFLINE;
-				sd.pfnClcOptionsChanged = pcli->pfnClcOptionsChanged;
+				sd.pfnClcOptionsChanged = Clist_ClcOptionsChanged;
 				sd.hwndCLUI = pcli->hwndContactList;
 				hwndSkinEdit = (HWND)CallService(MS_CLNSE_INVOKE, 0, (LPARAM)&sd);
 			}

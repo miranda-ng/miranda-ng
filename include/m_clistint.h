@@ -254,6 +254,7 @@ EXTERN_C MIR_APP_DLL(void)      Clist_BroadcastAsync(int msg, WPARAM wParam, LPA
 								        
 EXTERN_C MIR_APP_DLL(void)      Clist_CalcEipPosition(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 EXTERN_C MIR_APP_DLL(void)      Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
+EXTERN_C MIR_APP_DLL(void)      Clist_ClcOptionsChanged(void);
 EXTERN_C MIR_APP_DLL(int)       Clist_ClcStatusToPf2(int status);
 EXTERN_C MIR_APP_DLL(void)      Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)      Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
@@ -321,14 +322,14 @@ struct CLIST_INTERFACE
 	ClcProtoStatus *clcProto;
 
 	/* clc.h */
-	void           (*pfnClcOptionsChanged)(void);
-	HMENU          (*pfnBuildGroupPopupMenu)(struct ClcGroup*); // unused
+	void           (*blablablabla27)();
+	void           (*blablablabla26)();
 				     
 	LRESULT        (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	/* clcfiledrop.c */
-	void           (*pfnRegisterFileDropping)(HWND hwnd);
-	void           (*pfnUnregisterFileDropping)(HWND hwnd);
+	void           (*blablablabla25)();
+	void           (*blablablabla24)();
 
 	/* clcidents.c */
 	ClcContact*    (*pfnFindItem)(DWORD dwItem, ClcContact *contact);

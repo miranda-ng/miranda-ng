@@ -58,7 +58,7 @@ MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam)
 	WindowList_BroadcastAsync(hClcWindowList, msg, wParam, lParam);
 }
 
-void fnClcOptionsChanged(void)
+MIR_APP_DLL(void) Clist_ClcOptionsChanged(void)
 {
 	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 }
@@ -211,8 +211,6 @@ int LoadCLCModule(void)
 	CreateServiceFunction(MS_CLC_SETINFOTIPHOVERTIME, SetInfoTipHoverTime);
 	CreateServiceFunction(MS_CLC_GETINFOTIPHOVERTIME, GetInfoTipHoverTime);
 
-	InitFileDropping();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, ClcAccountsChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
@@ -255,7 +253,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_CREATE:
 		WindowList_Add(hClcWindowList, hwnd);
-		cli.pfnRegisterFileDropping(hwnd);
+		RegisterFileDropping(hwnd);
 		if (dat == nullptr) {
 			dat = new ClcData();
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
@@ -1280,7 +1278,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			DeleteObject(dat->hBmpBackground);
 		FreeGroup(&dat->list);
 		delete dat;
-		cli.pfnUnregisterFileDropping(hwnd);
+		UnregisterFileDropping(hwnd);
 		WindowList_Remove(hClcWindowList, hwnd);
 	}
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
