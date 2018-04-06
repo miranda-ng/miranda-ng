@@ -81,7 +81,6 @@ void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
 void fnEnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
 void fnRecalcScrollBar(HWND hwnd, ClcData *dat);
 void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
-void fnDoSelectionDefaultAction(HWND hwnd, ClcData *dat);
 int  fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
 
 void fnBeginRenameSelection(HWND hwnd, ClcData *dat);

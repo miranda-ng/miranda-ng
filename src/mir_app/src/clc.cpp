@@ -702,7 +702,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			case VK_RIGHT:  changeGroupExpand = 2; break;
 
 			case VK_RETURN:
-				cli.pfnDoSelectionDefaultAction(hwnd, dat);
+				Clist_DoSelectionDefaultAction(hwnd, dat);
 				return 0;
 
 			case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
@@ -1175,7 +1175,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 		if (hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL)) {
 			UpdateWindow(hwnd);
-			cli.pfnDoSelectionDefaultAction(hwnd, dat);
+			Clist_DoSelectionDefaultAction(hwnd, dat);
 		}
 		break;
 

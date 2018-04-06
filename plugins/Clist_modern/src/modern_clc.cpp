@@ -447,7 +447,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 	case VK_LEFT: changeGroupExpand = 1; break;
 	case VK_RIGHT: changeGroupExpand = 2; break;
 	case VK_RETURN:
-		pcli->pfnDoSelectionDefaultAction(hwnd, dat);
+		Clist_DoSelectionDefaultAction(hwnd, dat);
 		SetCapture(hwnd);
 		return 0;
 

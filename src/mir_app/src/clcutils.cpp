@@ -345,7 +345,7 @@ void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState)
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
-void fnDoSelectionDefaultAction(HWND hwnd, ClcData *dat)
+MIR_APP_DLL(void) Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 {
 	if (dat->selection == -1)
 		return;

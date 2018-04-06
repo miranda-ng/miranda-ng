@@ -98,9 +98,8 @@ void InitClistCore()
 	cli.pfnEnsureVisible = fnEnsureVisible;
 	cli.pfnRecalcScrollBar = fnRecalcScrollBar;
 	cli.pfnSetGroupExpand = fnSetGroupExpand;
-	cli.pfnDoSelectionDefaultAction = fnDoSelectionDefaultAction;
-	cli.pfnFindRowByText = fnFindRowByText;
 	
+	cli.pfnFindRowByText = fnFindRowByText;	
 	cli.pfnBeginRenameSelection = fnBeginRenameSelection;
 	cli.pfnIsVisibleContact = fnIsVisibleContact;
 	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;

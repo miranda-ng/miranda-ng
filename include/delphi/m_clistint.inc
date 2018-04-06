@@ -345,7 +345,7 @@ type
     pfnEnsureVisible                   : procedure (hwnd:HWND; var dat:TClcData; iItem:int; partialOk:int); cdecl;
     pfnRecalcScrollBar                 : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnSetGroupExpand                  : procedure (hwnd:HWND; var dat:TClcData; var group:TClcGroup; newState:int); cdecl;
-    pfnDoSelectionDefaultAction        : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    blablablabla17                     : procedure; cdecl;
     pfnFindRowByText                   : function  (hwnd:HWND; var dat:TClcData; text:TChar; prefixOk:int):int; cdecl;
     blablablabla16                     : procedure; cdecl;
     blablablabla15                     : procedure; cdecl;

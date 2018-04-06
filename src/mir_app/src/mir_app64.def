@@ -569,3 +569,4 @@ Clist_ClcStatusToPf2 @588
 Clist_CalcEipPosition @589
 Clist_DeleteFromContactList @590
 Clist_EndRename @591
+Clist_DoSelectionDefaultAction @592

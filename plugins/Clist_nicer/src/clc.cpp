@@ -627,7 +627,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		}
 		if (hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL | CLCHT_ONITEMSPACE)) {
 			UpdateWindow(hwnd);
-			pcli->pfnDoSelectionDefaultAction(hwnd, dat);
+			Clist_DoSelectionDefaultAction(hwnd, dat);
 		}
 		return TRUE;
 
