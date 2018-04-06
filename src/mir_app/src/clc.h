@@ -98,7 +98,6 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
 void fnRecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
 void fnSetGroupChildCheckboxes(ClcGroup *group, int checked);
 void fnSetContactCheckboxes(ClcContact *cc, int checked);
-void fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem);
 
 DWORD fnGetDefaultExStyle(void);
 

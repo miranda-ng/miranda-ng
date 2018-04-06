@@ -984,8 +984,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				else if (dat->iHotTrack == -1)
 					ReleaseCapture();
 				if (dat->exStyle & CLS_EX_TRACKSELECT) {
-					cli.pfnInvalidateItem(hwnd, dat, iOldHotTrack);
-					cli.pfnInvalidateItem(hwnd, dat, dat->iHotTrack);
+					Clist_InvalidateItem(hwnd, dat, iOldHotTrack);
+					Clist_InvalidateItem(hwnd, dat, dat->iHotTrack);
 				}
 				cli.pfnHideInfoTip(hwnd, dat);
 			}

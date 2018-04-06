@@ -362,7 +362,7 @@ type
     pfnLoadClcOptions                  : procedure (hwnd:HWND; var dat:TClcData; bFirst: int); cdecl;
     pfnRecalculateGroupCheckboxes      : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnSetGroupChildCheckboxes         : procedure (var group:TClcGroup; checked:int); cdecl;
-    pfnInvalidateItem                  : procedure (hwnd:HWND; var dat:TClcData; iItem:int); cdecl;
+    blablablabla4                      : procedure; cdecl;
 
     pfnGetRowBottomY                   : function (var dat:TClcData; item:int):int; cdecl;
     pfnGetRowHeight                    : function (var dat:TClcData; item:int):int; cdecl;

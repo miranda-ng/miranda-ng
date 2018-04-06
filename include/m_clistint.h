@@ -47,22 +47,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_TIP_SIZE 2048
 
-#define INTM_NAMECHANGED     (WM_USER+10)
-#define INTM_ICONCHANGED     (WM_USER+11)
-#define INTM_GROUPCHANGED    (WM_USER+12)
-#define INTM_GROUPSCHANGED   (WM_USER+13)
-#define INTM_CONTACTADDED    (WM_USER+14)
-#define INTM_CONTACTDELETED  (WM_USER+15)
-#define INTM_HIDDENCHANGED   (WM_USER+16)
-#define INTM_INVALIDATE      (WM_USER+17)
+#define INTM_NAMECHANGED         (WM_USER+10)
+#define INTM_ICONCHANGED         (WM_USER+11)
+#define INTM_GROUPCHANGED        (WM_USER+12)
+#define INTM_GROUPSCHANGED       (WM_USER+13)
+#define INTM_CONTACTADDED        (WM_USER+14)
+#define INTM_CONTACTDELETED      (WM_USER+15)
+#define INTM_HIDDENCHANGED       (WM_USER+16)
+#define INTM_INVALIDATE          (WM_USER+17)
 #define INTM_APPARENTMODECHANGED (WM_USER+18)
 #define INTM_SETINFOTIPHOVERTIME (WM_USER+19)
-#define INTM_NOTONLISTCHANGED   (WM_USER+20)
-#define INTM_RELOADOPTIONS   (WM_USER+21)
-#define INTM_NAMEORDERCHANGED (WM_USER+22)
+#define INTM_NOTONLISTCHANGED    (WM_USER+20)
+#define INTM_RELOADOPTIONS       (WM_USER+21)
+#define INTM_NAMEORDERCHANGED    (WM_USER+22)
 #define INTM_IDLECHANGED         (WM_USER+23)
-#define INTM_SCROLLBARCHANGED (WM_USER+24)
-#define INTM_PROTOCHANGED (WM_USER+25)
+#define INTM_SCROLLBARCHANGED    (WM_USER+24)
+#define INTM_PROTOCHANGED        (WM_USER+25)
 
 #define TIMERID_RENAME           10
 #define TIMERID_DRAGAUTOSCROLL   11
@@ -197,25 +197,25 @@ struct MenuProto
 /////////////////////////////////////////////////////////////////////////////////////////
 // constants
 
-#define DRAGSTAGE_NOTMOVED  0
-#define DRAGSTAGE_ACTIVE    1
-#define DRAGSTAGEM_STAGE    0x00FF
-#define DRAGSTAGEF_MAYBERENAME  0x8000
-#define DRAGSTAGEF_OUTSIDE      0x4000
+#define DRAGSTAGE_NOTMOVED       0
+#define DRAGSTAGE_ACTIVE         1
+#define DRAGSTAGEM_STAGE         0x00FF
+#define DRAGSTAGEF_MAYBERENAME   0x8000
+#define DRAGSTAGEF_OUTSIDE       0x4000
 
-#define CONTACTF_ONLINE    1
-#define CONTACTF_INVISTO   2
-#define CONTACTF_VISTO     4
-#define CONTACTF_NOTONLIST 8
-#define CONTACTF_CHECKED   16
-#define CONTACTF_IDLE      32
+#define CONTACTF_ONLINE          1
+#define CONTACTF_INVISTO         2
+#define CONTACTF_VISTO           4
+#define CONTACTF_NOTONLIST       8
+#define CONTACTF_CHECKED         16
+#define CONTACTF_IDLE            32
 
-#define DROPTARGET_OUTSIDE    0
-#define DROPTARGET_ONSELF     1
-#define DROPTARGET_ONNOTHING  2
-#define DROPTARGET_ONGROUP    3
-#define DROPTARGET_ONCONTACT  4
-#define DROPTARGET_INSERTION  5
+#define DROPTARGET_OUTSIDE       0
+#define DROPTARGET_ONSELF        1
+#define DROPTARGET_ONNOTHING     2
+#define DROPTARGET_ONGROUP       3
+#define DROPTARGET_ONCONTACT     4
+#define DROPTARGET_INSERTION     5
 
 #define CLCDEFAULT_ROWHEIGHT     16
 #define CLCDEFAULT_EXSTYLE       (CLS_EX_EDITLABELS|CLS_EX_TRACKSELECT|CLS_EX_SHOWGROUPCOUNTS|CLS_EX_HIDECOUNTSWHENEMPTY|CLS_EX_TRACKSELECT|CLS_EX_NOTRANSLUCENTSEL)  //plus CLS_EX_NOSMOOTHSCROLL is got from the system
@@ -257,6 +257,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, 
 EXTERN_C MIR_APP_DLL(int)  Clist_EventsProcessTrayDoubleClick(int index);
 EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
+EXTERN_C MIR_APP_DLL(void) Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
 EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
 
 EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
@@ -367,12 +368,12 @@ struct CLIST_INTERFACE
 	void           (*pfnHideInfoTip)(HWND hwnd, ClcData *dat);
 	void           (*pfnNotifyNewContact)(HWND hwnd, MCONTACT hContact);
 	DWORD          (*pfnGetDefaultExStyle)(void);
-	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
-	void           (*pfnGetFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
+	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
+	void           (*pfnGetFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
 	void           (*pfnLoadClcOptions)(HWND hwnd, ClcData *dat, BOOL bFirst);
 	void           (*pfnRecalculateGroupCheckboxes)(HWND hwnd, ClcData *dat);
 	void           (*pfnSetGroupChildCheckboxes)(ClcGroup *group, int checked);
-	void           (*pfnInvalidateItem)(HWND hwnd, ClcData *dat, int iItem);
+	void           (*blablablabla4)();
 				      
 	int            (*pfnGetRowBottomY)(ClcData *dat, int item);
 	int            (*pfnGetRowHeight)(ClcData *dat, int item);

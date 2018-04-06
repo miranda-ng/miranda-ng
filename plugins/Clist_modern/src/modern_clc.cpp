@@ -679,7 +679,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 		int io = dat->iHotTrack;
 		dat->iHotTrack = 0;
 		if (dat->exStyle & CLS_EX_TRACKSELECT)
-			pcli->pfnInvalidateItem(hwnd, dat, io);
+			Clist_InvalidateItem(hwnd, dat, io);
 
 		if (k && GetCapture() == hwnd)
 			SendMessage(GetParent(hwnd), WM_PARENTNOTIFY, WM_LBUTTONDOWN, lParam);
@@ -814,7 +814,7 @@ static LRESULT clcOnCaptureChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM
 			int i;
 			i = dat->iHotTrack;
 			dat->iHotTrack = -1;
-			pcli->pfnInvalidateItem(hwnd, dat, i);
+			Clist_InvalidateItem(hwnd, dat, i);
 			pcli->pfnHideInfoTip(hwnd, dat);
 		}
 	}
@@ -888,8 +888,8 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 				ReleaseCapture();
 
 			if (dat->exStyle & CLS_EX_TRACKSELECT) {
-				pcli->pfnInvalidateItem(hwnd, dat, iOldHotTrack);
-				pcli->pfnInvalidateItem(hwnd, dat, dat->iHotTrack);
+				Clist_InvalidateItem(hwnd, dat, iOldHotTrack);
+				Clist_InvalidateItem(hwnd, dat, dat->iHotTrack);
 			}
 
 			pcli->pfnHideInfoTip(hwnd, dat);

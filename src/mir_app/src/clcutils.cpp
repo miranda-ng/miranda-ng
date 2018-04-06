@@ -198,7 +198,7 @@ void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 	int oldy = dat->yScroll;
 
 	if (dat->iHotTrack != -1 && dat->yScroll != desty) {
-		cli.pfnInvalidateItem(hwnd, dat, dat->iHotTrack);
+		Clist_InvalidateItem(hwnd, dat, dat->iHotTrack);
 		dat->iHotTrack = -1;
 		ReleaseCapture();
 	}
@@ -847,7 +847,7 @@ void fnSetGroupChildCheckboxes(ClcGroup *group, int checked)
 	}
 }
 
-void fnInvalidateItem(HWND hwnd, ClcData *dat, int iItem)
+MIR_APP_DLL(void) Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem)
 {
 	if (iItem == -1)
 		return;

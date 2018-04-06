@@ -120,7 +120,7 @@ void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 	int maxy, previousy;
 
 	if (dat->iHotTrack != -1 && dat->yScroll != desty) {
-		pcli->pfnInvalidateItem(hwnd, dat, dat->iHotTrack);
+		Clist_InvalidateItem(hwnd, dat, dat->iHotTrack);
 		dat->iHotTrack = -1;
 		ReleaseCapture();
 	}

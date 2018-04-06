@@ -342,7 +342,7 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 	RECT clRect, rcInvalidate;
 
 	if (dat->iHotTrack != -1 && dat->yScroll != desty) {
-		pcli->pfnInvalidateItem(hwnd, dat, dat->iHotTrack);
+		Clist_InvalidateItem(hwnd, dat, dat->iHotTrack);
 		dat->iHotTrack = -1;
 		ReleaseCapture();
 	}
