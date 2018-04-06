@@ -95,7 +95,6 @@ void fnNotifyNewContact(HWND hwnd, MCONTACT hContact);
 void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 void fnGetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
-void fnRecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
 void fnSetContactCheckboxes(ClcContact *cc, int checked);
 
 DWORD fnGetDefaultExStyle(void);

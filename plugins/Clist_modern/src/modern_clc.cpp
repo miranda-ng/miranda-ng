@@ -761,7 +761,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 				Clist_SetGroupChildCheckboxes(contact->group, bNewState);
 			else
 				pcli->pfnSetContactCheckboxes(contact, bNewState);
-			pcli->pfnRecalculateGroupCheckboxes(hwnd, dat);
+			Clist_RecalculateGroupCheckboxes(dat);
 			cliInvalidateRect(hwnd, nullptr, FALSE);
 
 			NMCLISTCONTROL nm;

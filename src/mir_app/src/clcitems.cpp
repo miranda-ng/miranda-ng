@@ -714,7 +714,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	}
 
 	dat->bLockScrollbar = false;
-	cli.pfnRecalculateGroupCheckboxes(hwnd, dat);
+	Clist_RecalculateGroupCheckboxes(dat);
 
 	cli.pfnRecalcScrollBar(hwnd, dat);
 

@@ -769,7 +769,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (contact->type != CLCIT_CONTACT)
 				break;
 			contact->flags ^= CONTACTF_CHECKED;
-			cli.pfnRecalculateGroupCheckboxes(hwnd, dat);
+			Clist_RecalculateGroupCheckboxes(dat);
 			cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 			nm.hdr.code = CLN_CHECKCHANGED;
 			nm.hdr.hwndFrom = hwnd;
@@ -932,7 +932,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			contact->flags ^= CONTACTF_CHECKED;
 			if (contact->type == CLCIT_GROUP)
 				Clist_SetGroupChildCheckboxes(contact->group, contact->flags & CONTACTF_CHECKED);
-			cli.pfnRecalculateGroupCheckboxes(hwnd, dat);
+			Clist_RecalculateGroupCheckboxes(dat);
 			cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 			nm.hdr.code = CLN_CHECKCHANGED;
 			nm.hdr.hwndFrom = hwnd;

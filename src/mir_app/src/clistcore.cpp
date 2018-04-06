@@ -114,7 +114,6 @@ void InitClistCore()
 	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;
 	cli.pfnGetFontSetting = fnGetFontSetting;
 	cli.pfnLoadClcOptions = fnLoadClcOptions;
-	cli.pfnRecalculateGroupCheckboxes = fnRecalculateGroupCheckboxes;
 	cli.pfnGetRowBottomY = fnGetRowBottomY;
 	cli.pfnGetRowHeight = fnGetRowHeight;
 	cli.pfnGetRowTopY = fnGetRowTopY;

@@ -559,3 +559,4 @@ Clist_GetCacheEntry @578
 Clist_EventsProcessTrayDoubleClick @579
 Clist_InvalidateItem @580
 Clist_SetGroupChildCheckboxes @581
+Clist_RecalculateGroupCheckboxes @582

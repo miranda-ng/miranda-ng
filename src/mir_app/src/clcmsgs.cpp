@@ -325,7 +325,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			contact->flags |= CONTACTF_CHECKED;
 		else
 			contact->flags &= ~CONTACTF_CHECKED;
-		cli.pfnRecalculateGroupCheckboxes(hwnd, dat);
+		Clist_RecalculateGroupCheckboxes(dat);
 		cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		break;
 

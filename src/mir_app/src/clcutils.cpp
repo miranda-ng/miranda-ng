@@ -795,7 +795,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 #define GSIF_ALLCHECKED   0x40000000
 #define GSIF_INDEXMASK    0x3FFFFFFF
 
-void fnRecalculateGroupCheckboxes(HWND, ClcData *dat)
+MIR_APP_DLL(void) Clist_RecalculateGroupCheckboxes(ClcData *dat)
 {
 	ClcGroup *group = &dat->list;
 	group->scanIndex = GSIF_ALLCHECKED;

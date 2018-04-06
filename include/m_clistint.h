@@ -259,6 +259,7 @@ EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem,
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void) Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
 EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
+EXTERN_C MIR_APP_DLL(void) Clist_RecalculateGroupCheckboxes(ClcData *dat);
 EXTERN_C MIR_APP_DLL(void) Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
 
 EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
@@ -369,7 +370,7 @@ struct CLIST_INTERFACE
 	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
 	void           (*pfnGetFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
 	void           (*pfnLoadClcOptions)(HWND hwnd, ClcData *dat, BOOL bFirst);
-	void           (*pfnRecalculateGroupCheckboxes)(HWND hwnd, ClcData *dat);
+	void           (*blablablabla6)();
 	void           (*blablablabla5)();
 	void           (*blablablabla4)();
 				      
