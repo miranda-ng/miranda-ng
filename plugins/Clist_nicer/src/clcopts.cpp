@@ -155,7 +155,7 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always right"));
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Automatic (RTL)"));
 
-			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
+			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 			for (auto &it : checkBoxToGroupStyleEx)
 				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not_t) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -193,7 +193,7 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
+				DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 
 				for (auto &it : checkBoxToGroupStyleEx) {
 					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.not_t)
@@ -596,7 +596,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		opt_clc_main_changed = 0;
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
+			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 			UDACCEL accel[2] = { { 0, 10 }, { 2, 50 } };
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)&accel);

@@ -246,31 +246,32 @@ struct MenuProto
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions
 
-EXTERN_C MIR_APP_DLL(DWORD) Clist_ContactToHItem(ClcContact *contact);
-EXTERN_C MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
+EXTERN_C MIR_APP_DLL(DWORD)    Clist_ContactToHItem(ClcContact *contact);
+EXTERN_C MIR_APP_DLL(HANDLE)   Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
-EXTERN_C MIR_APP_DLL(void) Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
-EXTERN_C MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
-
-EXTERN_C MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
-EXTERN_C MIR_APP_DLL(void) Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
-EXTERN_C MIR_APP_DLL(int)  Clist_EventsProcessTrayDoubleClick(int index);
-EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
-EXTERN_C MIR_APP_DLL(void) Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
-EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
-EXTERN_C MIR_APP_DLL(void) Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
-EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
-EXTERN_C MIR_APP_DLL(void) Clist_RecalculateGroupCheckboxes(ClcData *dat);
-EXTERN_C MIR_APP_DLL(void) Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
-
-EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
-EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconDestroy(HWND hwnd);
-EXTERN_C MIR_APP_DLL(void) Clist_TrayIconIconsChanged(void);
+EXTERN_C MIR_APP_DLL(void)     Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
+EXTERN_C MIR_APP_DLL(void)     Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
+								       
+EXTERN_C MIR_APP_DLL(void)     Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
+EXTERN_C MIR_APP_DLL(void)     Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
+EXTERN_C MIR_APP_DLL(int)      Clist_EventsProcessTrayDoubleClick(int index);
+EXTERN_C MIR_APP_DLL(bool)     Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+EXTERN_C MIR_APP_DLL(DWORD)    Clist_GetDefaultExStyle(void);
+EXTERN_C MIR_APP_DLL(void)     Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
+EXTERN_C MIR_APP_DLL(void)     Clist_InitAutoRebuild(HWND hWnd);
+EXTERN_C MIR_APP_DLL(void)     Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
+EXTERN_C MIR_APP_DLL(void)     Clist_LoadContactTree(void);
+EXTERN_C MIR_APP_DLL(void)     Clist_RecalculateGroupCheckboxes(ClcData *dat);
+EXTERN_C MIR_APP_DLL(void)     Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
+								       
+EXTERN_C MIR_APP_DLL(int)      Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
+EXTERN_C MIR_APP_DLL(int)      Clist_TrayIconDestroy(HWND hwnd);
+EXTERN_C MIR_APP_DLL(void)     Clist_TrayIconIconsChanged(void);
 EXTERN_C MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto);
-EXTERN_C MIR_APP_DLL(void) Clist_TrayIconRemove(HWND hwnd, const char *szProto);
-EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto);
-EXTERN_C MIR_APP_DLL(void) Clist_TrayIconUpdateBase(const char *szChangedProto);
-EXTERN_C MIR_APP_DLL(void) Clist_TraySetTimer();
+EXTERN_C MIR_APP_DLL(void)     Clist_TrayIconRemove(HWND hwnd, const char *szProto);
+EXTERN_C MIR_APP_DLL(int)      Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto);
+EXTERN_C MIR_APP_DLL(void)     Clist_TrayIconUpdateBase(const char *szChangedProto);
+EXTERN_C MIR_APP_DLL(void)     Clist_TraySetTimer();
 
 EXTERN_C MIR_APP_DLL(ClcCacheEntry*) Clist_GetCacheEntry(MCONTACT hContact);
 
@@ -367,7 +368,7 @@ struct CLIST_INTERFACE
 	int            (*pfnIsHiddenMode)(ClcData *dat, int status);
 	void           (*pfnHideInfoTip)(HWND hwnd, ClcData *dat);
 	void           (*pfnNotifyNewContact)(HWND hwnd, MCONTACT hContact);
-	DWORD          (*pfnGetDefaultExStyle)(void);
+	void           (*blablablabla8)();
 	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
 	void           (*pfnLoadClcOptions)(HWND hwnd, ClcData *dat, BOOL bFirst);
 	void           (*blablablabla7)();

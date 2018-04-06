@@ -356,7 +356,7 @@ type
     pfnIsHiddenMode                    : function  (var dat:TClcData; status:int):int; cdecl;
     pfnHideInfoTip                     : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnNotifyNewContact                : procedure (hwnd:HWND; hContact:TMCONTACT); cdecl;
-    pfnGetDefaultExStyle               : function  :dword; cdecl;
+    blablablabla8                      : procedure; cdecl;
     pfnGetDefaultFontSetting           : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
     pfnLoadClcOptions                  : procedure (hwnd:HWND; var dat:TClcData; bFirst: int); cdecl;
     blablablabla7                      : procedure; cdecl;

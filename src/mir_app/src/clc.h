@@ -96,8 +96,6 @@ void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
 void fnSetContactCheckboxes(ClcContact *cc, int checked);
 
-DWORD fnGetDefaultExStyle(void);
-
 int fnGetRowBottomY(struct ClcData *dat, int item);
 int fnGetRowHeight(struct ClcData *dat, int item);
 int fnGetRowTopY(struct ClcData *dat, int item);

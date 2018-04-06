@@ -659,7 +659,7 @@ void fnNotifyNewContact(HWND hwnd, MCONTACT hContact)
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
-DWORD fnGetDefaultExStyle(void)
+MIR_APP_DLL(DWORD) Clist_GetDefaultExStyle(void)
 {
 	BOOL param;
 	DWORD ret = CLCDEFAULT_EXSTYLE;
@@ -734,7 +734,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
 	dat->rowHeight = db_get_b(0, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
 	dat->leftMargin = db_get_b(0, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
-	dat->exStyle = db_get_dw(0, "CLC", "ExStyle", cli.pfnGetDefaultExStyle());
+	dat->exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 	dat->scrollTime = db_get_w(0, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);
 	dat->groupIndent = db_get_b(0, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT);
 	dat->gammaCorrection = db_get_b(0, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);

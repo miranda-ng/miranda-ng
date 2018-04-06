@@ -561,3 +561,4 @@ Clist_InvalidateItem @580
 Clist_SetGroupChildCheckboxes @581
 Clist_RecalculateGroupCheckboxes @582
 Clist_GetFontSetting @583
+Clist_GetDefaultExStyle @584
