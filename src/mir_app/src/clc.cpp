@@ -307,7 +307,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case WM_SIZE:
-		cli.pfnEndRename(hwnd, dat, 1);
+		Clist_EndRename(dat, 1);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		cli.pfnRecalcScrollBar(hwnd, dat);
@@ -646,7 +646,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case WM_VSCROLL:
-		cli.pfnEndRename(hwnd, dat, 1);
+		Clist_EndRename(dat, 1);
 		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
@@ -670,7 +670,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case WM_MOUSEWHEEL:
-		cli.pfnEndRename(hwnd, dat, 1);
+		Clist_EndRename(dat, 1);
 		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
@@ -810,7 +810,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case WM_SYSKEYDOWN:
-		cli.pfnEndRename(hwnd, dat, 1);
+		Clist_EndRename(dat, 1);
 		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
@@ -893,7 +893,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
-		cli.pfnEndRename(hwnd, dat, 1);
+		Clist_EndRename(dat, 1);
 		dat->ptDragStart.x = (short)LOWORD(lParam);
 		dat->ptDragStart.y = (short)HIWORD(lParam);
 		if (!dat->bFilterSearch)
@@ -1180,7 +1180,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case WM_CONTEXTMENU:
-		cli.pfnEndRename(hwnd, dat, 1);
+		Clist_EndRename(dat, 1);
 		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);

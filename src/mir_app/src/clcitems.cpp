@@ -616,7 +616,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	Clist_HideInfoTip(dat);
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
-	cli.pfnEndRename(hwnd, dat, 1);
+	Clist_EndRename(dat, 1);
 
 	dat->bLockScrollbar = true;
 

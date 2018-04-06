@@ -410,7 +410,7 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 	return -1;
 }
 
-void fnEndRename(HWND, ClcData *dat, int save)
+MIR_APP_DLL(void) Clist_EndRename(ClcData *dat, int save)
 {
 	HWND hwndEdit = dat->hwndRenameEdit;
 	if (hwndEdit == nullptr)
@@ -475,13 +475,14 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
-			cli.pfnEndRename(GetParent(hwnd), (ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
+			Clist_EndRename((ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
 			return 0;
 		case VK_ESCAPE:
-			cli.pfnEndRename(GetParent(hwnd), (ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 0);
+			Clist_EndRename((ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 0);
 			return 0;
 		}
 		break;
+	
 	case WM_GETDLGCODE:
 		if (lParam) {
 			MSG *msg = (MSG*)lParam;
@@ -491,8 +492,9 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 				return 0;
 		}
 		return DLGC_WANTMESSAGE;
+	
 	case WM_KILLFOCUS:
-		cli.pfnEndRename(GetParent(hwnd), (ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
+		Clist_EndRename((ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
 		return 0;
 	}
 	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, uMsg, wParam, lParam);

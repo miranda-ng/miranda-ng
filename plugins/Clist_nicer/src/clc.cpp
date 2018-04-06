@@ -256,7 +256,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		break;
 
 	case WM_SIZE:
-		pcli->pfnEndRename(hwnd, dat, 1);
+		Clist_EndRename(dat, 1);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		pcli->pfnRecalcScrollBar(hwnd, dat);
@@ -632,7 +632,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		return TRUE;
 
 	case WM_CONTEXTMENU:
-		pcli->pfnEndRename(hwnd, dat, 1);
+		Clist_EndRename(dat, 1);
 		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);

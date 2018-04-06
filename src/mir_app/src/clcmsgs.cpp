@@ -92,7 +92,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		break;
 
 	case CLM_ENDEDITLABELNOW:
-		cli.pfnEndRename(hwnd, dat, wParam);
+		Clist_EndRename(dat, wParam);
 		break;
 
 	case CLM_ENSUREVISIBLE:

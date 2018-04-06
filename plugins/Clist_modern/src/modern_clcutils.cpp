@@ -216,13 +216,14 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
-			pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1);
+			Clist_EndRename((ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1);
 			return 0;
 		case VK_ESCAPE:
-			pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 0);
+			Clist_EndRename((ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 0);
 			return 0;
 		}
 		break;
+	
 	case WM_GETDLGCODE:
 		if (lParam) {
 			MSG *msg = (MSG*)lParam;
@@ -230,8 +231,9 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 			if (msg->message == WM_CHAR && msg->wParam == '\t') return 0;
 		}
 		return DLGC_WANTMESSAGE;
+	
 	case WM_KILLFOCUS:
-		pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1);
+		Clist_EndRename((ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1);
 		SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 		return 0;
 	}

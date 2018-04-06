@@ -347,7 +347,7 @@ type
     pfnSetGroupExpand                  : procedure (hwnd:HWND; var dat:TClcData; var group:TClcGroup; newState:int); cdecl;
     pfnDoSelectionDefaultAction        : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnFindRowByText                   : function  (hwnd:HWND; var dat:TClcData; text:TChar; prefixOk:int):int; cdecl;
-    pfnEndRename                       : procedure (hwnd:HWND; var dat:TClcData; save:int); cdecl;
+    blablablabla16                     : procedure; cdecl;
     blablablabla15                     : procedure; cdecl;
     pfnBeginRenameSelection            : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     blablablabla14                     : procedure; cdecl;

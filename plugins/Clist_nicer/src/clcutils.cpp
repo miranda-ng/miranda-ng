@@ -483,13 +483,14 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
-			pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 1);
+			Clist_EndRename((ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 1);
 			return 0;
 		case VK_ESCAPE:
-			pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 0);
+			Clist_EndRename((ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 0);
 			return 0;
 		}
 		break;
+	
 	case WM_GETDLGCODE:
 		if (lParam) {
 			MSG *msg = (MSG *)lParam;
@@ -499,8 +500,9 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wPar
 				return 0;
 		}
 		return DLGC_WANTMESSAGE;
+	
 	case WM_KILLFOCUS:
-		pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 1);
+		Clist_EndRename((ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 1);
 		return 0;
 	}
 	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, uMsg, wParam, lParam);

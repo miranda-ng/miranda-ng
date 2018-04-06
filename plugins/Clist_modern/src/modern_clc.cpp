@@ -328,7 +328,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 
 static LRESULT clcOnSize(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	pcli->pfnEndRename(hwnd, dat, 1);
+	Clist_EndRename(dat, 1);
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
 	cliRecalcScrollBar(hwnd, dat);
@@ -699,7 +699,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 	KillTimer(hwnd, TIMERID_RENAME);
 	KillTimer(hwnd, TIMERID_SUBEXPAND);
 
-	pcli->pfnEndRename(hwnd, dat, 1);
+	Clist_EndRename(dat, 1);
 	dat->ptDragStart.x = (short)LOWORD(lParam);
 	dat->ptDragStart.y = (short)HIWORD(lParam);
 

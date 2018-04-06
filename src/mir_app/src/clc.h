@@ -83,7 +83,6 @@ void fnRecalcScrollBar(HWND hwnd, ClcData *dat);
 void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
 void fnDoSelectionDefaultAction(HWND hwnd, ClcData *dat);
 int  fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
-void fnEndRename(HWND hwnd, ClcData *dat, int save);
 
 void fnBeginRenameSelection(HWND hwnd, ClcData *dat);
 void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);

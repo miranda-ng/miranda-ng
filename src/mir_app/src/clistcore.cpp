@@ -100,7 +100,6 @@ void InitClistCore()
 	cli.pfnSetGroupExpand = fnSetGroupExpand;
 	cli.pfnDoSelectionDefaultAction = fnDoSelectionDefaultAction;
 	cli.pfnFindRowByText = fnFindRowByText;
-	cli.pfnEndRename = fnEndRename;
 	
 	cli.pfnBeginRenameSelection = fnBeginRenameSelection;
 	cli.pfnIsVisibleContact = fnIsVisibleContact;
