@@ -795,7 +795,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Automatically save received notes"), m_proto->m_bAutosaveNotes);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive conversations from other devices (XEP-0280)"), m_proto->m_bEnableCarbons);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)"), m_proto->m_bEnableStreamMgmt);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Use Stream Management (XEP-0198) if possible (Testing)"), m_proto->m_bEnableStreamMgmt);
 
 		m_otvOptions.AddOption(LPGENW("Server options") L"/" LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
 		m_otvOptions.AddOption(LPGENW("Server options") L"/" LPGENW("Enable stream compression (if possible)"), m_proto->m_bEnableZlib);
