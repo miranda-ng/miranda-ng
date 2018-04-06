@@ -104,7 +104,7 @@ typedef struct _tagSkinDescription {
     HWND            hwndImageEdit;                      /* out param */
     HMENU           hMenuItems;
     void            (*pfnSaveCompleteStruct)(void);
-    void            (*pfnClcOptionsChanged )(void);
+    void            (CALLBACK *pfnClcOptionsChanged )(void);
     void*           (*pfnMalloc)(unsigned int);
     void            (*pfnFree)(void);
     void*           (*pfnRealloc)(void *, unsigned int);

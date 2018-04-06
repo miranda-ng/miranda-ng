@@ -321,17 +321,10 @@ struct CLIST_INTERFACE
 	int hClcProtoCount;
 	ClcProtoStatus *clcProto;
 
-	/* clc.h */
-	void           (*blablablabla27)();
-	void           (*blablablabla26)();
-				     
+	// clc.h
 	LRESULT        (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	/* clcfiledrop.c */
-	void           (*blablablabla25)();
-	void           (*blablablabla24)();
-
-	/* clcidents.c */
+	// clcidents.c
 	ClcContact*    (*pfnFindItem)(DWORD dwItem, ClcContact *contact);
 				      
 	int            (*pfnGetRowsPriorTo)(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
@@ -342,21 +335,17 @@ struct CLIST_INTERFACE
 	/* clcitems.c */
 	ClcContact*    (*pfnCreateClcContact)(void);
 	ClcGroup*      (*pfnAddGroup)(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
-	void           (*blablablabla23)();
 	
 	void           (*pfnFreeContact)(ClcContact *contact);
-	void           (*blablablabla22)();
 				      
 	ClcContact*    (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const wchar_t *pszText);
 	ClcContact*    (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);
 	ClcContact*    (*pfnAddContactToGroup)(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 				      
 	void           (*pfnAddContactToTree)(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
-	void           (*blablablabla21)();
 	void           (*pfnRebuildEntireList)(HWND hwnd, ClcData *dat);
 	int            (*pfnGetGroupContentsCount)(ClcGroup *group, int visibleOnly);
 	void           (*pfnSortCLC)(HWND hwnd, ClcData *dat, int useInsertionSort);
-	void           (*blablablabla20)();
 
 	/* clcmsgs.c */
 	LRESULT        (*pfnProcessExternalMessages)(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -365,30 +354,14 @@ struct CLIST_INTERFACE
 	void           (*pfnPaintClc)(HWND hwnd, ClcData *dat, HDC hdc, RECT * rcPaint);
 
 	/* clcutils.c */
-	void           (*blablablabla19)();
 	int            (*pfnHitTest)(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
 	void           (*pfnScrollTo)(HWND hwnd, ClcData *dat, int desty, int noSmooth);
-	void           (*blablablabla18)();
 	void           (*pfnRecalcScrollBar)(HWND hwnd, ClcData *dat);
 	void           (*pfnSetGroupExpand)(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
-	void           (*blablablabla17)();
 	int            (*pfnFindRowByText)(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
-	void           (*blablablabla16)();
-	void           (*blablablabla15)();
 	void           (*pfnBeginRenameSelection)(HWND hwnd, ClcData *dat);
-	void           (*blablablabla14)();
-	void           (*blablablabla13)();
-	void           (*blablablabla12)();
-	void           (*blablablabla11)();
-	void           (*blablablabla10)();
-	void           (*blablablabla9)();
-	void           (*blablablabla8)();
 	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
 	void           (*pfnLoadClcOptions)(HWND hwnd, ClcData *dat, BOOL bFirst);
-	void           (*blablablabla7)();
-	void           (*blablablabla6)();
-	void           (*blablablabla5)();
-	void           (*blablablabla4)();
 				      
 	int            (*pfnGetRowBottomY)(ClcData *dat, int item);
 	int            (*pfnGetRowHeight)(ClcData *dat, int item);
@@ -396,16 +369,11 @@ struct CLIST_INTERFACE
 	int            (*pfnGetRowTotalHeight)(ClcData *dat);
 	int            (*pfnRowHitTest)(ClcData *dat, int y);
 		  
-	/* clistevents.c */
-	void           (*blablablabla2)();
-	void           (*blablablabla3)();
-
 	/* clistmod.c */
 	int            (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
 	int            (*pfnShowHide)(void);
 	
 	/* clistsettings.c */
-	void           (*blablablabla1)();
 	ClcCacheEntry* (*pfnCreateCacheItem)(MCONTACT hContact);
 	void           (*pfnCheckCacheItem)(ClcCacheEntry*);
 	void           (*pfnFreeCacheItem)(ClcCacheEntry*);
@@ -437,17 +405,17 @@ struct CLIST_INTERFACE
 
 	OBJLIST<CListEvent> *events;
 
-	struct CListEvent* (*pfnAddEvent)(CLISTEVENT*);
-	CLISTEVENT* (*pfnGetEvent)(MCONTACT hContact, int idx);
+	CListEvent*    (*pfnAddEvent)(CLISTEVENT*);
+	CLISTEVENT*    (*pfnGetEvent)(MCONTACT hContact, int idx);
 
-	int   (*pfnRemoveEvent)(MCONTACT hContact, MEVENT hDbEvent);
-	int   (*pfnGetImlIconIndex)(HICON hIcon);
+	int            (*pfnRemoveEvent)(MCONTACT hContact, MEVENT hDbEvent);
+	int            (*pfnGetImlIconIndex)(HICON hIcon);
 
 	/*************************************************************************************
 	 * version 3 additions
 	 *************************************************************************************/
 
-	int   (*pfnGetWindowVisibleState)(HWND hWnd, int iStepX, int iStepY);
+	int            (*pfnGetWindowVisibleState)(HWND hWnd, int iStepX, int iStepY);
 
 	/*************************************************************************************
 	 * version 4 additions (0.7.0.x) - genmenu

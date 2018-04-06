@@ -1653,7 +1653,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				sd.pfnSaveCompleteStruct = SaveCompleteStructToDB;
 				sd.lastItem = ID_STATUS_OFFLINE + arStatusItems.getCount();
 				sd.firstItem = ID_STATUS_OFFLINE;
-				sd.pfnClcOptionsChanged = Clist_ClcOptionsChanged;
+				sd.pfnClcOptionsChanged = &Clist_ClcOptionsChanged;
 				sd.hwndCLUI = pcli->hwndContactList;
 				hwndSkinEdit = (HWND)CallService(MS_CLNSE_INVOKE, 0, (LPARAM)&sd);
 			}
