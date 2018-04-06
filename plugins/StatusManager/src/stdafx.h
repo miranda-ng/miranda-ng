@@ -13,7 +13,7 @@
 
 #include <m_core.h>
 #include <m_skin.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_utils.h>
 #include <m_icolib.h>
 #include <m_options.h>

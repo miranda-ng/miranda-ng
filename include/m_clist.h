@@ -54,6 +54,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 EXTERN_C MIR_APP_DLL(void) Clist_SetStatusMode(int iStatus);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// returns the text associated with the given status
+
+#define GSMDF_UNTRANSLATED 4 // don't tranlate the result
+EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int iStatus, int iFlags /*GSMDF_*/);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // detects whether a protocol is visible or not
 
 EXTERN_C MIR_APP_DLL(bool) Clist_GetProtocolVisibility(const char *szModuleName);
@@ -563,9 +569,5 @@ EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *
 #define SETTING_STATE_NORMAL          2
 
 #define SETTING_BRINGTOFRONT_DEFAULT 0
-
-#ifndef M_CLISTINT_H__
-#include <m_clistint.h>
-#endif
 
 #endif // M_CLIST_H__

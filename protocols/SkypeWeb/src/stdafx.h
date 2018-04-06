@@ -34,7 +34,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_options.h>
 #include <m_netlib.h>
 #include <m_popup.h>

@@ -18,7 +18,7 @@
 #include <m_database.h>
 #include <m_message.h>
 #include <m_options.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_hotkeys.h>
 #include <m_imgsrvc.h>
 #include <win2k.h>

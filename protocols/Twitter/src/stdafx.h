@@ -40,7 +40,7 @@ typedef std::basic_string<wchar_t> wstring;
 #include <m_avatars.h>
 #include <m_button.h>
 #include <m_chat.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_database.h>
 #include <m_folders.h>
 #include <m_history.h>

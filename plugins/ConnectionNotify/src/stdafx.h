@@ -8,7 +8,7 @@
 
 #include <newpluginapi.h>
 #include <m_core.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_skin.h>
 #include <m_langpack.h>
 #include <m_options.h>

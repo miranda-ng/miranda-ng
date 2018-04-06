@@ -53,7 +53,7 @@
 #include <m_skin.h>
 #include <m_utils.h>
 #include <m_ignore.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_options.h>
 #include <m_userinfo.h>
 #include <m_button.h>

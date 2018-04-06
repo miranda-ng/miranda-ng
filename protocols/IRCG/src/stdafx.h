@@ -46,7 +46,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_protocols.h"
 #include "m_protosvc.h"
 #include "m_protoint.h"
-#include "m_clist.h"
+#include <m_clistint.h>
 #include "m_options.h"
 #include "m_database.h"
 #include "m_utils.h"

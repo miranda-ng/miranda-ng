@@ -20,7 +20,7 @@
 #include <m_netlib.h>
 #include <m_database.h>
 #include <m_protosvc.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_cluiframes.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>

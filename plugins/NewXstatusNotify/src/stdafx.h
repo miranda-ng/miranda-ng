@@ -53,7 +53,7 @@
 #include <m_xstatus.h>
 #include <m_extraicons.h>
 #include <m_string.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 
 #include <m_metacontacts.h>
 #include <m_toptoolbar.h>

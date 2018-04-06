@@ -23,7 +23,7 @@
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_protocols.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_cluiframes.h>
 #include <m_genmenu.h>
 #include <m_ignore.h>
