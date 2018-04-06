@@ -835,11 +835,11 @@ void fnSetContactCheckboxes(ClcContact *cc, int checked)
 		cc->flags &= ~CONTACTF_CHECKED;
 }
 
-void fnSetGroupChildCheckboxes(ClcGroup *group, int checked)
+MIR_APP_DLL(void) Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked)
 {
 	for (auto &cc : group->cl) {
 		if (cc->type == CLCIT_GROUP) {
-			cli.pfnSetGroupChildCheckboxes(cc->group, checked);
+			Clist_SetGroupChildCheckboxes(cc->group, checked);
 			cli.pfnSetContactCheckboxes(cc, checked);
 		}
 		else if (cc->type == CLCIT_CONTACT)

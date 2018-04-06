@@ -931,7 +931,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			NMCLISTCONTROL nm;
 			contact->flags ^= CONTACTF_CHECKED;
 			if (contact->type == CLCIT_GROUP)
-				cli.pfnSetGroupChildCheckboxes(contact->group, contact->flags & CONTACTF_CHECKED);
+				Clist_SetGroupChildCheckboxes(contact->group, contact->flags & CONTACTF_CHECKED);
 			cli.pfnRecalculateGroupCheckboxes(hwnd, dat);
 			cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 			nm.hdr.code = CLN_CHECKCHANGED;

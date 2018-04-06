@@ -758,7 +758,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			int bNewState = (contact->flags & CONTACTF_CHECKED) == 0; // inversion
 
 			if (contact->type == CLCIT_GROUP)
-				pcli->pfnSetGroupChildCheckboxes(contact->group, bNewState);
+				Clist_SetGroupChildCheckboxes(contact->group, bNewState);
 			else
 				pcli->pfnSetContactCheckboxes(contact, bNewState);
 			pcli->pfnRecalculateGroupCheckboxes(hwnd, dat);

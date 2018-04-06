@@ -259,6 +259,7 @@ EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem,
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void) Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
 EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);
+EXTERN_C MIR_APP_DLL(void) Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
 
 EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
 EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconDestroy(HWND hwnd);
@@ -273,9 +274,6 @@ EXTERN_C MIR_APP_DLL(ClcCacheEntry*) Clist_GetCacheEntry(MCONTACT hContact);
 
 // calculates account's index by its position in status bar
 EXTERN_C MIR_APP_DLL(int) Clist_GetAccountIndex(int iPos);
-
-#define GSMDF_UNTRANSLATED 4 // don't tranlate the result
-EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int iStatus, int iFlags /*GSMDF_*/);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CLIST_INTERFACE structure definition
@@ -372,7 +370,7 @@ struct CLIST_INTERFACE
 	void           (*pfnGetFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
 	void           (*pfnLoadClcOptions)(HWND hwnd, ClcData *dat, BOOL bFirst);
 	void           (*pfnRecalculateGroupCheckboxes)(HWND hwnd, ClcData *dat);
-	void           (*pfnSetGroupChildCheckboxes)(ClcGroup *group, int checked);
+	void           (*blablablabla5)();
 	void           (*blablablabla4)();
 				      
 	int            (*pfnGetRowBottomY)(ClcData *dat, int item);
