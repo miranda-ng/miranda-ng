@@ -168,7 +168,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
 		wchar_t *szCounts;
-		szCounts = pcli->pfnGetGroupCountsText(dat, hitcontact);
+		szCounts = Clist_GetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;
@@ -309,7 +309,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
 		wchar_t *szCounts;
-		szCounts = pcli->pfnGetGroupCountsText(dat, hitcontact);
+		szCounts = Clist_GetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;

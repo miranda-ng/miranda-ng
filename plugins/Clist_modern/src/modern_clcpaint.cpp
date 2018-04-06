@@ -780,7 +780,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				RECT count_rc = { 0 };
 				SIZE count_size = { 0 };
 				int space_width = 0;
-				szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+				szCounts = Clist_GetGroupCountsText(dat, Drawing);
 				// Has to draw the count?
 				if (szCounts && mir_wstrlen(szCounts) > 0) {
 					// calc width and height
@@ -852,7 +852,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				return;
 			}
 			else if (Drawing->type == CLCIT_GROUP) {
-				szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+				szCounts = Clist_GetGroupCountsText(dat, Drawing);
 				// Has to draw the count?
 				if (szCounts && szCounts[0]) {
 					RECT space_rc = fr_rc;
@@ -1001,7 +1001,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						RECT count_rc = { 0 };
 						SIZE count_size = { 0 };
 						int space_width = 0;
-						wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+						wchar_t *szCounts = Clist_GetGroupCountsText(dat, Drawing);
 						// Has to draw the count?
 						if (szCounts && mir_wstrlen(szCounts) > 0) {
 							// calc width and height
@@ -2197,7 +2197,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 		if (Drawing->type == CLCIT_GROUP) {
 			int full_text_width = text_size.cx;
 			// Has to draw the count?
-			wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+			wchar_t *szCounts = Clist_GetGroupCountsText(dat, Drawing);
 			if (szCounts && szCounts[0]) {
 				RECT space_rc = free_row_rc;
 				RECT counts_rc = free_row_rc;
@@ -2683,7 +2683,7 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 void CLCPaint::_DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT *prcItem, UINT uTextFormat, BYTE itemType)
 {
 	if (Drawing->type == CLCIT_GROUP) {
-		wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+		wchar_t *szCounts = Clist_GetGroupCountsText(dat, Drawing);
 
 		// Has to draw the count?
 		if (szCounts && szCounts[0]) {

@@ -212,7 +212,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			}
 
 			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, group, index);
-			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		}
 		return 0;
 	}

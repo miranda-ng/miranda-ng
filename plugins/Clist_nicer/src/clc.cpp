@@ -620,7 +620,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		InvalidateRect(hwnd, nullptr, FALSE);
 		if (dat->selection != -1)
-			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		if (hitFlags & CLCHT_ONAVATAR && cfg::dat.bDblClkAvatars) {
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)contact->hContact, 0);
 			return TRUE;
@@ -645,7 +645,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
 				if (dat->selection != -1)
-					pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+					Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 				pt.x = dat->iconXSpace + 15;
 				pt.y = RowHeight::getItemTopY(dat, dat->selection) - dat->yScroll + (int)(dat->row_heights[dat->selection] * .7);
 				hitFlags = dat->selection == -1 ? CLCHT_NOWHERE : CLCHT_ONITEMLABEL;
@@ -656,7 +656,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 			InvalidateRect(hwnd, nullptr, FALSE);
 			if (dat->selection != -1)
-				pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+				Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 			UpdateWindow(hwnd);
 
 			HMENU hMenu = nullptr;

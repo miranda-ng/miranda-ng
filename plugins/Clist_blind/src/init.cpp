@@ -396,7 +396,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		KillTimer(hwnd, TIMERID_RENAME);
 		dat->szQuickSearch[0] = 0;
 		pcli->pfnInvalidateRect(hwnd, nullptr, FALSE);
-		pcli->pfnEnsureVisible(hwnd, (ClcData*)dat, dat->selection, 0);
+		Clist_EnsureVisible(hwnd, (ClcData*)dat, dat->selection, 0);
 		UpdateWindow(hwnd);
 		break;
 
@@ -528,7 +528,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 		switch (item->type) {
 		case CLCIT_GROUP:
 			{
-				wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, item);
+				wchar_t *szCounts = Clist_GetGroupCountsText(dat, item);
 				const wchar_t *t[] = {
 					L"%name%",
 					L"%count%",

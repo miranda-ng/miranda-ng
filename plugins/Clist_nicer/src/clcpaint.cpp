@@ -503,7 +503,7 @@ set_bg_l:
 	if (type == CLCIT_GROUP) {
 		GetTextExtentPoint32(hdcMem, contact->szText, (int)mir_wstrlen(contact->szText), &textSize);
 		int width = textSize.cx;
-		szCounts = pcli->pfnGetGroupCountsText(dat, contact);
+		szCounts = Clist_GetGroupCountsText(dat, contact);
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdcMem, L" ", 1, &spaceSize);
 			ChangeToFont(hdcMem, dat, FONTID_GROUPCOUNTS, &fontHeight);

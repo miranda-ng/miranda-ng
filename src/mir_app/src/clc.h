@@ -75,10 +75,8 @@ int  fnGetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat);
 LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcutils.c */
-wchar_t* fnGetGroupCountsText(ClcData *dat, ClcContact *contact);
 int  fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
 void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
-void fnEnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
 void fnRecalcScrollBar(HWND hwnd, ClcData *dat);
 void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
 int  fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);

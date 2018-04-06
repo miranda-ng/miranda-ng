@@ -570,3 +570,5 @@ Clist_CalcEipPosition @589
 Clist_DeleteFromContactList @590
 Clist_EndRename @591
 Clist_DoSelectionDefaultAction @592
+Clist_EnsureVisible @593
+Clist_GetGroupCountsText @594

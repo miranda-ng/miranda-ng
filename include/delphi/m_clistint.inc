@@ -339,10 +339,10 @@ type
     pfnPaintClc                        : procedure (hwnd:HWND; var dat:TClcData; hdc:HDC; var rcPaint:TRECT);  cdecl;
 
   (* clcutils.c *)
-    pfnGetGroupCountsText              : function (var dat:TClcData; var contact:TClcContact):PAnsiChar; cdecl;
+    blablablabla19                     : procedure; cdecl;
     pfnHitTest                         : function (hwnd:HWND; var dat:TClcData; testx:int; testy:int; var contact:PClcContact; var group:PClcGroup; var flags:dword):int; cdecl;
     pfnScrollTo                        : procedure (hwnd:HWND; var dat:TClcData; desty:int; noSmooth:int); cdecl;
-    pfnEnsureVisible                   : procedure (hwnd:HWND; var dat:TClcData; iItem:int; partialOk:int); cdecl;
+    blablablabla18                     : procedure; cdecl;
     pfnRecalcScrollBar                 : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnSetGroupExpand                  : procedure (hwnd:HWND; var dat:TClcData; var group:TClcGroup; newState:int); cdecl;
     blablablabla17                     : procedure; cdecl;

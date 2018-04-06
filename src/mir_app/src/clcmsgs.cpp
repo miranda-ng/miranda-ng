@@ -101,7 +101,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 		for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
 			cli.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
-		cli.pfnEnsureVisible(hwnd, dat, cli.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact)), 0);
+		Clist_EnsureVisible(hwnd, dat, cli.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact)), 0);
 		break;
 
 	case CLM_EXPAND:
@@ -294,7 +294,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
 			cli.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
 		dat->selection = cli.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact));
-		cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+		Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		break;
 
 	case CLM_SETBKBITMAP:

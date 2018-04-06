@@ -252,17 +252,19 @@ EXTERN_C MIR_APP_DLL(HANDLE)   Clist_ContactToItemHandle(ClcContact *contact, DW
 EXTERN_C MIR_APP_DLL(void)     Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
 EXTERN_C MIR_APP_DLL(void)     Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
 								       
+EXTERN_C MIR_APP_DLL(void)     Clist_CalcEipPosition(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 EXTERN_C MIR_APP_DLL(void)     Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
 EXTERN_C MIR_APP_DLL(int)      Clist_ClcStatusToPf2(int status);
 EXTERN_C MIR_APP_DLL(void)     Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)     Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)     Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 EXTERN_C MIR_APP_DLL(void)     Clist_EndRename(ClcData *dat, int save);
+EXTERN_C MIR_APP_DLL(void)     Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
 EXTERN_C MIR_APP_DLL(int)      Clist_EventsProcessTrayDoubleClick(int index);
 EXTERN_C MIR_APP_DLL(bool)     Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(DWORD)    Clist_GetDefaultExStyle(void);
-EXTERN_C MIR_APP_DLL(void)     Clist_CalcEipPosition(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 EXTERN_C MIR_APP_DLL(void)     Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
+EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetGroupCountsText(ClcData *dat, ClcContact *contact);
 EXTERN_C MIR_APP_DLL(void)     Clist_HideInfoTip(ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)     Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void)     Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
@@ -359,10 +361,10 @@ struct CLIST_INTERFACE
 	void           (*pfnPaintClc)(HWND hwnd, ClcData *dat, HDC hdc, RECT * rcPaint);
 
 	/* clcutils.c */
-	wchar_t*       (*pfnGetGroupCountsText)(ClcData *dat, ClcContact *contact);
+	void           (*blablablabla19)();
 	int            (*pfnHitTest)(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
 	void           (*pfnScrollTo)(HWND hwnd, ClcData *dat, int desty, int noSmooth);
-	void           (*pfnEnsureVisible)(HWND hwnd, ClcData *dat, int iItem, int partialOk);
+	void           (*blablablabla18)();
 	void           (*pfnRecalcScrollBar)(HWND hwnd, ClcData *dat);
 	void           (*pfnSetGroupExpand)(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
 	void           (*blablablabla17)();

@@ -92,13 +92,10 @@ void InitClistCore()
 
 	cli.pfnPaintClc = fnPaintClc;
 
-	cli.pfnGetGroupCountsText = fnGetGroupCountsText;
-	cli.pfnHitTest = fnHitTest;
-	cli.pfnScrollTo = fnScrollTo;
-	cli.pfnEnsureVisible = fnEnsureVisible;
-	cli.pfnRecalcScrollBar = fnRecalcScrollBar;
+	cli.pfnHitTest = fnHitTest;	
+	cli.pfnScrollTo = fnScrollTo;	
+	cli.pfnRecalcScrollBar = fnRecalcScrollBar;	
 	cli.pfnSetGroupExpand = fnSetGroupExpand;
-	
 	cli.pfnFindRowByText = fnFindRowByText;	
 	cli.pfnBeginRenameSelection = fnBeginRenameSelection;
 	cli.pfnIsVisibleContact = fnIsVisibleContact;

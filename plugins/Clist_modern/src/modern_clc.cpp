@@ -431,7 +431,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 
 			dat->selection = index;
 			pcli->pfnInvalidateRect(hwnd, nullptr, FALSE);
-			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 			return 0;
 		}
 
@@ -532,7 +532,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 						ClcGroup *group2;
 						if (Clist_FindItem(hwnd, dat, contact->hContact, &contact2, &group2, nullptr)) {
 							int i = cliGetRowsPriorTo(&dat->list, group2, group2->cl.indexOf(contact2));
-							pcli->pfnEnsureVisible(hwnd, dat, i + contact->iSubAllocated, 0);
+							Clist_EnsureVisible(hwnd, dat, i + contact->iSubAllocated, 0);
 						}
 					}
 					hitcontact = nullptr;
@@ -571,7 +571,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 		if (dat->bCompactMode)
 			SendMessage(hwnd, WM_SIZE, 0, 0);
 		cliInvalidateRect(hwnd, nullptr, FALSE);
-		pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+		Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		UpdateWindow(hwnd);
 	}
 	SetCapture(hwnd);
@@ -626,7 +626,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				ClcGroup *group;
 				if (Clist_FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, nullptr)) {
 					i = cliGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact));
-					pcli->pfnEnsureVisible(hwnd, dat, i + hitcontact->iSubAllocated, 0);
+					Clist_EnsureVisible(hwnd, dat, i + hitcontact->iSubAllocated, 0);
 				}
 			}
 			hitcontact = nullptr;
@@ -810,7 +810,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			SendMessage(hwnd, WM_SIZE, 0, 0);
 
 		if (dat->selection != -1)
-			pcli->pfnEnsureVisible(hwnd, dat, hit, 0);
+			Clist_EnsureVisible(hwnd, dat, hit, 0);
 		return TRUE;
 }
 

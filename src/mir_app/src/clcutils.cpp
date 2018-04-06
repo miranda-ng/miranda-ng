@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hHideInfoTipEvent;
 
-wchar_t* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
+MIR_APP_DLL(wchar_t*) Clist_GetGroupCountsText(ClcData *dat, ClcContact *contact)
 {
 	if (contact->type != CLCIT_GROUP || !(dat->exStyle & CLS_EX_SHOWGROUPCOUNTS))
 		return L"";
@@ -171,8 +171,7 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_wstrlen(hitcontact->szText), &textSize);
 	int width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
-		wchar_t *szCounts;
-		szCounts = cli.pfnGetGroupCountsText(dat, hitcontact);
+		wchar_t *szCounts = Clist_GetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;
@@ -243,7 +242,7 @@ void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 	SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
 }
 
-void fnEnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk)
+MIR_APP_DLL(void) Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk)
 {
 	int itemy = cli.pfnGetRowTopY(dat, iItem), itemh = cli.pfnGetRowHeight(dat, iItem), newY = 0;
 	int moved = 0;

@@ -745,7 +745,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (dat->selection < 0)
 					dat->selection = 0;
 				cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
-				cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+				Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 				UpdateWindow(hwnd);
 				return 0;
 			}
@@ -803,7 +803,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				cli.pfnSaveStateAndRebuildList(hwnd, dat);
 			}
 			cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
-			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		}
 		else
 			cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
@@ -960,7 +960,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		dat->selection = hit;
 		cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		if (dat->selection != -1)
-			cli.pfnEnsureVisible(hwnd, dat, hit, 0);
+			Clist_EnsureVisible(hwnd, dat, hit, 0);
 		UpdateWindow(hwnd);
 		if (dat->selection != -1 && (contact->type == CLCIT_CONTACT || contact->type == CLCIT_GROUP) && !(hitFlags & (CLCHT_ONITEMEXTRA | CLCHT_ONITEMCHECK))) {
 			SetCapture(hwnd);
@@ -1171,7 +1171,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		dat->selection = cli.pfnHitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, nullptr, &hitFlags);
 		cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		if (dat->selection != -1)
-			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 
 		if (hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL)) {
 			UpdateWindow(hwnd);
@@ -1194,7 +1194,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = cli.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
 				if (dat->selection != -1)
-					cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+					Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 				pt.x = dat->iconXSpace + 15;
 				pt.y = cli.pfnGetRowTopY(dat, dat->selection) - dat->yScroll + (int)(cli.pfnGetRowHeight(dat, dat->selection) * .7);
 				hitFlags = (dat->selection == -1) ? CLCHT_NOWHERE : CLCHT_ONITEMLABEL;
@@ -1205,7 +1205,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			}
 			cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 			if (dat->selection != -1)
-				cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+				Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 			UpdateWindow(hwnd);
 
 			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
