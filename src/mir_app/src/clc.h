@@ -118,7 +118,6 @@ void RebuildMenuOrder(void);
 void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF * colour);
 void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 
-ClcCacheEntry* fnGetCacheEntry(MCONTACT hContact);
 ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact);
 void fnCheckCacheItem(ClcCacheEntry *p);
 void fnFreeCacheItem(ClcCacheEntry *p);
@@ -137,7 +136,6 @@ int    fnGetImlIconIndex(HICON hIcon);
 int    fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent);
 
 int    EventsProcessContactDoubleClick(MCONTACT hContact);
-int    EventsProcessTrayDoubleClick(int);
 
 /* clistmod.c */
 int    fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);

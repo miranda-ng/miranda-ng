@@ -254,6 +254,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM l
 
 EXTERN_C MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
 EXTERN_C MIR_APP_DLL(void) Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
+EXTERN_C MIR_APP_DLL(int)  Clist_EventsProcessTrayDoubleClick(int index);
 EXTERN_C MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(void) Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void) Clist_LoadContactTree(void);

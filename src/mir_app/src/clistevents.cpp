@@ -277,7 +277,7 @@ int EventsProcessContactDoubleClick(MCONTACT hContact)
 	return 1;
 }
 
-int EventsProcessTrayDoubleClick(int index)
+MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 {
 	BOOL click_in_first_icon = FALSE;
 	if (g_cliEvents.getCount() == 0)

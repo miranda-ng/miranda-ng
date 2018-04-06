@@ -34,7 +34,7 @@ static INT_PTR hkHideShow(WPARAM, LPARAM)
 
 static INT_PTR hkRead(WPARAM, LPARAM)
 {
-	if (EventsProcessTrayDoubleClick(0) == 0)
+	if (Clist_EventsProcessTrayDoubleClick(0) == 0)
 		return true;
 	
 	SetForegroundWindow(cli.hwndContactList);
