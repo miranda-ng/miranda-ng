@@ -421,15 +421,22 @@ LBL_FatalError:
 				int nSelRes = Netlib_Select(&nls);
 				if (nSelRes == -1) // error
 					break;
-				else if (nSelRes == 0 && m_bSendKeepAlive) {
-					if (info.jabberServerCaps & JABBER_CAPS_PING) {
-						CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, nullptr, 0, -1, this);
-						pInfo->SetTimeout(m_iConnectionKeepAliveTimeout);
-						info.send(XmlNodeIq(pInfo) << XATTR(L"from", info.fullJID) << XCHILDNS(L"ping", JABBER_FEAT_PING));
+				else if (nSelRes == 0)
+				{
+					if (m_bSendKeepAlive)
+					{
+						if (info.jabberServerCaps & JABBER_CAPS_PING) {
+							CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, nullptr, 0, -1, this);
+							pInfo->SetTimeout(m_iConnectionKeepAliveTimeout);
+							info.send(XmlNodeIq(pInfo) << XATTR(L"from", info.fullJID) << XCHILDNS(L"ping", JABBER_FEAT_PING));
+						}
 					}
-					else info.send(" \t ");
-					continue;
-			}	}
+					else
+						info.send(" \t "); //TODO: why do we need this ?
+					if (m_bEnableStreamMgmt)
+						m_StrmMgmt.RequestAck();
+				}
+			}
 
 			int recvResult = info.recv(info.buffer + datalen, jabberNetworkBufferSize - datalen);
 			debugLogA("recvResult = %d", recvResult);

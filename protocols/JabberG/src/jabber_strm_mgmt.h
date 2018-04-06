@@ -53,6 +53,7 @@ public:
 	void CheckState();
 	void OnDisconnect();
 	void SendAck();
+	void RequestAck();
 	bool IsSessionResumed();
 };
 

@@ -150,11 +150,9 @@ void strm_mgmt::OnProcessFailed(HXML node, ThreadData * /*info*/) //used failed 
 	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
 		m_bStrmMgmtEnabled = false;
-		if (XmlGetChild(node, L"item-not-found")) //session timeout
-		{
-			bSessionResumed = false;
-			EnableStrmMgmt(); //resume failed, try to enable strm_mgmt instead
-		}
+		bSessionResumed = false;
+		m_sStrmMgmtResumeId.clear();
+		EnableStrmMgmt(); //resume failed, try to enable strm_mgmt instead
 	}
 }
 
@@ -186,11 +184,7 @@ void strm_mgmt::HandleOutgoingNode(HXML node)
 	m_nStrmMgmtLocalSCount++;
 	NodeCache.push_back(xmlCopyNode(node));
 	if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) >= m_nStrmMgmtCacheSize)
-	{
-		XmlNode enable_sm(L"r");
-		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-		proto->m_ThreadInfo->send_no_strm_mgmt(enable_sm);
-	}
+		RequestAck();
 }
 
 void strm_mgmt::OnDisconnect()
@@ -223,7 +217,7 @@ void strm_mgmt::EnableStrmMgmt()
 		proto->m_ThreadInfo->send(enable_sm);
 		m_nStrmMgmtLocalSCount = 1; //TODO: this MUST be 0, i have bug somewhere.
 	}
-	else
+	else //resume session
 	{
 		XmlNode enable_sm(L"resume");
 		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
@@ -241,6 +235,16 @@ void strm_mgmt::SendAck()
 	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
 	xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
 	proto->m_ThreadInfo->send_no_strm_mgmt(enable_sm);
+}
+
+void strm_mgmt::RequestAck()
+{
+	if (m_bStrmMgmtEnabled)
+	{
+		XmlNode enable_sm(L"r");
+		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+		proto->m_ThreadInfo->send_no_strm_mgmt(enable_sm);
+	}
 }
 
 bool strm_mgmt::IsSessionResumed()
