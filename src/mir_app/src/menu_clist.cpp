@@ -1030,6 +1030,12 @@ static INT_PTR HotkeySetStatus(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR ShowHide(WPARAM, LPARAM)
+{
+	cli.pfnShowHide();
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // PROTOCOL MENU
 
@@ -1104,6 +1110,7 @@ void InitCustomMenus(void)
 
 	// initialize hotkeys
 	CreateServiceFunction(MS_CLIST_HKSTATUS, HotkeySetStatus);
+	CreateServiceFunction(MS_CLIST_SHOWHIDE, ShowHide);
 
 	HOTKEYDESC hkd = {};
 	hkd.szSection.w = L"Status";

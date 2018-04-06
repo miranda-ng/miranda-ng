@@ -121,7 +121,7 @@ void InitTrayMenus(void)
 	SET_UID(mi, 0x6c202553, 0xb4d5, 0x403c, 0xa6, 0x82, 0x2, 0xd8, 0x2b, 0x42, 0xba, 0x9e);
 	mi.flags = CMIF_DEFAULT;
 	mi.position = 100000;
-	mi.pszService = "CList/ShowHide";
+	mi.pszService = MS_CLIST_SHOWHIDE;
 	mi.name.a = LPGEN("&Hide/show");
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	Menu_AddTrayMenuItem(&mi);

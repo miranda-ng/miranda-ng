@@ -360,6 +360,12 @@ EXTERN_C MIR_APP_DLL(BOOL) Clist_IsDocked(void);
 #define MS_CLIST_TOGGLEHIDEOFFLINEROOT "CList/ToggleHideOfflineRoot"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// toggles contact list visibility
+// wParam = lParam = 0
+
+#define MS_CLIST_SHOWHIDE "CList/ShowHide"
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // sent when the group get modified (created, renamed or deleted)
 // or contact is moving from group to group
 // wParam = hContact - NULL if operation on group
