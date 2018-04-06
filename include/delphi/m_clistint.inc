@@ -354,7 +354,7 @@ type
     pfnGetDropTargetInformation        : function  (hwnd:HWND; var dat:TClcData; pt:TPOINT):int; cdecl;
     pfnClcStatusToPf2                  : function  (status:int):int; cdecl;
     pfnIsHiddenMode                    : function  (var dat:TClcData; status:int):int; cdecl;
-    pfnHideInfoTip                     : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    blablablabla10                     : procedure; cdecl;
     blablablabla9                      : procedure; cdecl;
     blablablabla8                      : procedure; cdecl;
     pfnGetDefaultFontSetting           : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;

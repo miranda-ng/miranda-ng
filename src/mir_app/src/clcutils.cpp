@@ -635,7 +635,7 @@ int fnIsHiddenMode(ClcData *dat, int status)
 	return dat->offlineModes & cli.pfnClcStatusToPf2(status);
 }
 
-void fnHideInfoTip(HWND, ClcData *dat)
+MIR_APP_DLL(void) Clist_HideInfoTip(ClcData *dat)
 {
 	if (dat->hInfoTipItem == 0)
 		return;

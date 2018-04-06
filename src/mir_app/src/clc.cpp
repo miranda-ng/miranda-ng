@@ -647,7 +647,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case WM_VSCROLL:
 		cli.pfnEndRename(hwnd, dat, 1);
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		{
@@ -671,7 +671,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case WM_MOUSEWHEEL:
 		cli.pfnEndRename(hwnd, dat, 1);
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 
@@ -682,7 +682,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		return 0;
 
 	case WM_KEYDOWN:
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		if (!Clist_MenuProcessHotkey(wParam)) {
@@ -753,7 +753,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case WM_CHAR:
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		if (wParam == 27) //escape
@@ -811,7 +811,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case WM_SYSKEYDOWN:
 		cli.pfnEndRename(hwnd, dat, 1);
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		dat->iHotTrack = -1;
@@ -890,7 +890,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		if (GetFocus() != hwnd)
 			SetFocus(hwnd);
 
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		cli.pfnEndRename(hwnd, dat, 1);
@@ -987,7 +987,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					Clist_InvalidateItem(hwnd, dat, iOldHotTrack);
 					Clist_InvalidateItem(hwnd, dat, dat->iHotTrack);
 				}
-				cli.pfnHideInfoTip(hwnd, dat);
+				Clist_HideInfoTip(dat);
 			}
 			KillTimer(hwnd, TIMERID_INFOTIP);
 			if (wParam == 0 && dat->hInfoTipItem == 0) {
@@ -1164,7 +1164,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	case WM_LBUTTONDBLCLK:
 		ReleaseCapture();
 		dat->iHotTrack = -1;
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 
@@ -1181,7 +1181,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case WM_CONTEXTMENU:
 		cli.pfnEndRename(hwnd, dat, 1);
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		if (GetFocus() != hwnd)
@@ -1264,7 +1264,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		break;
 
 	case WM_DESTROY:
-		cli.pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 
 		for (int i = 0; i <= FONTID_MAX; i++)
 			if (!dat->fontInfo[i].changed)

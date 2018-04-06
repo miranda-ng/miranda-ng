@@ -405,7 +405,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 	if (wParam == VK_CONTROL)
 		return 0;
 
-	pcli->pfnHideInfoTip(hwnd, dat);
+	Clist_HideInfoTip(dat);
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
 
@@ -687,7 +687,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 	}
 
 	fMouseUpped = FALSE;
-	pcli->pfnHideInfoTip(hwnd, dat);
+	Clist_HideInfoTip(dat);
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
 	KillTimer(hwnd, TIMERID_SUBEXPAND);
@@ -815,7 +815,7 @@ static LRESULT clcOnCaptureChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM
 			i = dat->iHotTrack;
 			dat->iHotTrack = -1;
 			Clist_InvalidateItem(hwnd, dat, i);
-			pcli->pfnHideInfoTip(hwnd, dat);
+			Clist_HideInfoTip(dat);
 		}
 	}
 	return 0;
@@ -892,7 +892,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 				Clist_InvalidateItem(hwnd, dat, dat->iHotTrack);
 			}
 
-			pcli->pfnHideInfoTip(hwnd, dat);
+			Clist_HideInfoTip(dat);
 		}
 
 		KillTimer(hwnd, TIMERID_INFOTIP);

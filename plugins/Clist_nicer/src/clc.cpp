@@ -609,7 +609,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case WM_LBUTTONDBLCLK:
 		ReleaseCapture();
 		dat->iHotTrack = -1;
-		pcli->pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 
@@ -633,7 +633,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	case WM_CONTEXTMENU:
 		pcli->pfnEndRename(hwnd, dat, 1);
-		pcli->pfnHideInfoTip(hwnd, dat);
+		Clist_HideInfoTip(dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		if (GetFocus() != hwnd)

@@ -613,7 +613,7 @@ struct SavedInfoState_t
 
 void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 {
-	cli.pfnHideInfoTip(hwnd, dat);
+	Clist_HideInfoTip(dat);
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
 	cli.pfnEndRename(hwnd, dat, 1);

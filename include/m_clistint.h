@@ -258,6 +258,7 @@ EXTERN_C MIR_APP_DLL(int)      Clist_EventsProcessTrayDoubleClick(int index);
 EXTERN_C MIR_APP_DLL(bool)     Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(DWORD)    Clist_GetDefaultExStyle(void);
 EXTERN_C MIR_APP_DLL(void)     Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
+EXTERN_C MIR_APP_DLL(void)     Clist_HideInfoTip(ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)     Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void)     Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
 EXTERN_C MIR_APP_DLL(void)     Clist_LoadContactTree(void);
@@ -367,7 +368,7 @@ struct CLIST_INTERFACE
 	int            (*pfnGetDropTargetInformation)(HWND hwnd, ClcData *dat, POINT pt);
 	int            (*pfnClcStatusToPf2)(int status);
 	int            (*pfnIsHiddenMode)(ClcData *dat, int status);
-	void           (*pfnHideInfoTip)(HWND hwnd, ClcData *dat);
+	void           (*blablablabla10)();
 	void           (*blablablabla9)();
 	void           (*blablablabla8)();
 	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT *lf, COLORREF *colour);
