@@ -1016,7 +1016,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				KillTimer(hwnd, TIMERID_DRAGAUTOSCROLL);
 				dat->dragAutoScrolling = 0;
 			}
-			int target = cli.pfnGetDropTargetInformation(hwnd, dat, pt);
+			int target = GetDropTargetInformation(hwnd, dat, pt);
 			if (dat->dragStage & DRAGSTAGEF_OUTSIDE && target != DROPTARGET_OUTSIDE) {
 				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, nullptr);
 
@@ -1094,7 +1094,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			SetTimer(hwnd, TIMERID_RENAME, GetDoubleClickTime(), nullptr);
 		else if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
 			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			int target = cli.pfnGetDropTargetInformation(hwnd, dat, pt);
+			int target = GetDropTargetInformation(hwnd, dat, pt);
 			switch (target) {
 			case DROPTARGET_ONSELF:
 			case DROPTARGET_ONCONTACT:

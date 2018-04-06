@@ -256,7 +256,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 	GetClientRect(hwnd, &clRect);
 
 	POINT pt;
-	pcli->pfnCalcEipPosition(dat, contact, group, &pt);
+	Clist_CalcEipPosition(dat, contact, group, &pt);
 
 	int x = pt.x + subindent, y = pt.y;
 	int w = clRect.right - x;

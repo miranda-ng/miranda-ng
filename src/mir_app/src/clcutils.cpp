@@ -512,7 +512,7 @@ void fnBeginRenameSelection(HWND hwnd, ClcData *dat)
 	GetClientRect(hwnd, &clRect);
 
 	POINT pt;
-	cli.pfnCalcEipPosition(dat, contact, group, &pt);
+	Clist_CalcEipPosition(dat, contact, group, &pt);
 	int h = cli.pfnGetRowHeight(dat, dat->selection);
 	dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, pt.x, pt.y, clRect.right - pt.x, h, hwnd, nullptr, cli.hInst, nullptr);
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
@@ -523,7 +523,7 @@ void fnBeginRenameSelection(HWND hwnd, ClcData *dat)
 	SetFocus(dat->hwndRenameEdit);
 }
 
-void fnCalcEipPosition(ClcData *dat, ClcContact *, ClcGroup *group, POINT *result)
+MIR_APP_DLL(void) Clist_CalcEipPosition(ClcData *dat, ClcContact *, ClcGroup *group, POINT *result)
 {
 	int indent;
 	for (indent = 0; group->parent; indent++, group = group->parent);
@@ -531,7 +531,7 @@ void fnCalcEipPosition(ClcData *dat, ClcContact *, ClcGroup *group, POINT *resul
 	result->y = cli.pfnGetRowTopY(dat, dat->selection) - dat->yScroll;
 }
 
-int fnGetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
+int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 {
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);

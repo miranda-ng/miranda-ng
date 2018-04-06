@@ -350,8 +350,8 @@ type
     pfnEndRename                       : procedure (hwnd:HWND; var dat:TClcData; save:int); cdecl;
     pfnDeleteFromContactList           : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnBeginRenameSelection            : procedure (hwnd:HWND; var dat:TClcData); cdecl;
-    pfnCalcEipPosition                 : procedure (var dat:TClcData; var contact:TClcContact; var group:TClcGroup; var result:TPOINT); cdecl;
-    pfnGetDropTargetInformation        : function  (hwnd:HWND; var dat:TClcData; pt:TPOINT):int; cdecl;
+    blablablabla14                     : procedure; cdecl;
+    blablablabla13                     : procedure; cdecl;
     blablablabla12                     : procedure; cdecl;
     blablablabla11                     : procedure; cdecl;
     blablablabla10                     : procedure; cdecl;

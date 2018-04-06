@@ -103,8 +103,6 @@ void InitClistCore()
 	cli.pfnEndRename = fnEndRename;
 	cli.pfnDeleteFromContactList = fnDeleteFromContactList;
 	cli.pfnBeginRenameSelection = fnBeginRenameSelection;
-	cli.pfnCalcEipPosition = fnCalcEipPosition;
-	cli.pfnGetDropTargetInformation = fnGetDropTargetInformation;
 
 	cli.pfnIsVisibleContact = fnIsVisibleContact;
 	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;

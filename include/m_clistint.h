@@ -258,6 +258,7 @@ EXTERN_C MIR_APP_DLL(void)     Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIc
 EXTERN_C MIR_APP_DLL(int)      Clist_EventsProcessTrayDoubleClick(int index);
 EXTERN_C MIR_APP_DLL(bool)     Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(DWORD)    Clist_GetDefaultExStyle(void);
+EXTERN_C MIR_APP_DLL(void)     Clist_CalcEipPosition(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 EXTERN_C MIR_APP_DLL(void)     Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 EXTERN_C MIR_APP_DLL(void)     Clist_HideInfoTip(ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)     Clist_InitAutoRebuild(HWND hWnd);
@@ -366,8 +367,8 @@ struct CLIST_INTERFACE
 	void           (*pfnEndRename)(HWND hwnd, ClcData *dat, int save);
 	void           (*pfnDeleteFromContactList)(HWND hwnd, ClcData *dat);
 	void           (*pfnBeginRenameSelection)(HWND hwnd, ClcData *dat);
-	void           (*pfnCalcEipPosition)(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
-	int            (*pfnGetDropTargetInformation)(HWND hwnd, ClcData *dat, POINT pt);
+	void           (*blablablabla14)();
+	void           (*blablablabla13)();
 	void           (*blablablabla12)();
 	void           (*blablablabla11)();
 	void           (*blablablabla10)();
