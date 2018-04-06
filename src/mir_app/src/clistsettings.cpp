@@ -72,7 +72,7 @@ void fnFreeCacheItem(ClcCacheEntry *p)
 	p->bIsHidden = -1;
 }
 
-ClcCacheEntry* fnGetCacheEntry(MCONTACT hContact)
+MIR_APP_DLL(ClcCacheEntry*) Clist_GetCacheEntry(MCONTACT hContact)
 {
 	ClcCacheEntry *p;
 	int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
@@ -112,7 +112,7 @@ MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 	if (mode & GCDNF_NOCACHE)
 		mode &= ~GCDNF_NOCACHE;
 	else if (mode != GCDNF_NOMYHANDLE) {
-		cacheEntry = cli.pfnGetCacheEntry(hContact);
+		cacheEntry = Clist_GetCacheEntry(hContact);
 		if (cacheEntry && cacheEntry->tszName)
 			return cacheEntry->tszName;
 	}
@@ -191,7 +191,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	char *szProto = GetContactProto(hContact);
 	if (!mir_strcmp(cws->szModule, szProto)) {
 		if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail")) {
-			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
+			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			replaceStrW(pdnce->tszName, nullptr);
 			cli.pfnCheckCacheItem(pdnce);
 		}
@@ -206,12 +206,12 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				Clist_ChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact));
 		}
 		else if (!strcmp(cws->szSetting, "MyHandle")) {
-			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
+			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			replaceStrW(pdnce->tszName, nullptr);
 			cli.pfnCheckCacheItem(pdnce);
 		}
 		else if (!strcmp(cws->szSetting, "Group")) {
-			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
+			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			Dbwcs2tstr(cws, pdnce->tszGroup);
 		}
 	}

@@ -133,10 +133,11 @@ void   fnUnregisterFileDropping(HWND hwnd);
 struct CListEvent* fnAddEvent(CLISTEVENT *cle);
 CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx);
 
-int    fnEventsProcessContactDoubleClick(MCONTACT hContact);
-int    fnEventsProcessTrayDoubleClick(int);
 int    fnGetImlIconIndex(HICON hIcon);
 int    fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent);
+
+int    EventsProcessContactDoubleClick(MCONTACT hContact);
+int    EventsProcessTrayDoubleClick(int);
 
 /* clistmod.c */
 int    fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);

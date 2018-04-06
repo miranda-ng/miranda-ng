@@ -223,7 +223,7 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact)
 {
 	// Try to process event myself
-	if (cli.pfnEventsProcessContactDoubleClick(hContact) == 0)
+	if (EventsProcessContactDoubleClick(hContact) == 0)
 		return;
 
 	// Allow third-party plugins to process a dblclick

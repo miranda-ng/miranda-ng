@@ -263,7 +263,7 @@ CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 	return nullptr;
 }
 
-int fnEventsProcessContactDoubleClick(MCONTACT hContact)
+int EventsProcessContactDoubleClick(MCONTACT hContact)
 {
 	for (auto &it : g_cliEvents) {
 		if (it->hContact == hContact) {
@@ -277,7 +277,7 @@ int fnEventsProcessContactDoubleClick(MCONTACT hContact)
 	return 1;
 }
 
-int fnEventsProcessTrayDoubleClick(int index)
+int EventsProcessTrayDoubleClick(int index)
 {
 	BOOL click_in_first_icon = FALSE;
 	if (g_cliEvents.getCount() == 0)

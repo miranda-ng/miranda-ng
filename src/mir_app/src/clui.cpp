@@ -832,7 +832,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					if (hItem) {
 						if (hitFlags & CLCHT_ONITEMEXTRA) {
 							if (!IsHContactGroup((UINT_PTR)hItem) && !IsHContactInfo((UINT_PTR)hItem))
-								if (cli.pfnGetCacheEntry((UINT_PTR)nmc->hItem))
+								if (Clist_GetCacheEntry((UINT_PTR)nmc->hItem))
 									NotifyEventHooks(hEventExtraClick, (WPARAM)nmc->hItem, nmc->iColumn + 1);
 						}
 						break;

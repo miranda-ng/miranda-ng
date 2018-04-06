@@ -88,7 +88,7 @@ static void amThreadProc(void *)
 					goto LBL_Exit;
 			}
 
-			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
+			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 
 			HANDLE ACK = nullptr;
 			if (pdnce->ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)

@@ -46,7 +46,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		if (hsub == -1)
 			continue;
 
-		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hsub);
+		ClcCacheEntry *pdnce = Clist_GetCacheEntry(hsub);
 		if (pdnce->szProto == nullptr)
 			continue;
 
@@ -169,7 +169,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 
 ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
 {
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 	if (pdnce->m_iStatus == ID_STATUS_OFFLINE && dat->bPlaceOfflineToRoot)
 		group = &dat->list;
 
@@ -180,7 +180,7 @@ ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hConta
 
 void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 	if (dat->IsMetaContactsEnabled && pdnce->m_bIsSub)
 		return;		//contact should not be added
 
@@ -344,7 +344,7 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 void cliInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 {
 	if (hContact != INVALID_CONTACT_ID) {
-		ClcCacheEntry *p = pcli->pfnGetCacheEntry(hContact);
+		ClcCacheEntry *p = Clist_GetCacheEntry(hContact);
 		if (p)
 			p->m_iStatus = 0;
 	}
@@ -400,7 +400,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
 	int filterResult = 1;
 	int searchResult = 0;
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 
 	// always hide subcontacts (but show them on embedded contact lists)
 	if (dat != nullptr && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))

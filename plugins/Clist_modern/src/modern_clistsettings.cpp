@@ -78,7 +78,7 @@ int GetStatusForContact(MCONTACT hContact, char *szProto)
 
 int GetContactInfosForSort(MCONTACT hContact, char **Proto, wchar_t **Name, int *Status)
 {
-	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *cacheEntry = Clist_GetCacheEntry(hContact);
 	if (cacheEntry != nullptr) {
 		if (Proto != nullptr)  *Proto = cacheEntry->szProto;
 		if (Name != nullptr)   *Name = cacheEntry->tszName;
@@ -89,7 +89,7 @@ int GetContactInfosForSort(MCONTACT hContact, char **Proto, wchar_t **Name, int 
 
 int GetContactCachedStatus(MCONTACT hContact)
 {
-	return pcli->pfnGetCacheEntry(hContact)->getStatus();
+	return Clist_GetCacheEntry(hContact)->getStatus();
 }
 
 int ContactAdded(WPARAM hContact, LPARAM)
@@ -102,7 +102,7 @@ int ContactAdded(WPARAM hContact, LPARAM)
 
 int MetaStatusChanged(WPARAM hMeta, LPARAM)
 {
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hMeta);
+	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hMeta);
 	if (pdnce)
 		Clist_Broadcast(INTM_STATUSCHANGED, hMeta, 0);
 
@@ -114,7 +114,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (MirandaExiting() || !pcli || !hContact)
 		return 0;
 
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 	if (pdnce == nullptr) {
 		TRACE("!!! Very bad pdnce not found.");
 		return 0;

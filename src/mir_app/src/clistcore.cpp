@@ -124,8 +124,6 @@ void InitClistCore()
 	cli.pfnRowHitTest = fnRowHitTest;
 
 	cli.pfnAddEvent = fnAddEvent;
-	cli.pfnEventsProcessContactDoubleClick = fnEventsProcessContactDoubleClick;
-	cli.pfnEventsProcessTrayDoubleClick = fnEventsProcessTrayDoubleClick;
 	cli.pfnGetEvent = fnGetEvent;
 	cli.pfnGetImlIconIndex = fnGetImlIconIndex;
 	cli.pfnRemoveEvent = fnRemoveEvent;
@@ -134,7 +132,6 @@ void InitClistCore()
 	cli.pfnCreateCacheItem = fnCreateCacheItem;
 	cli.pfnCheckCacheItem = fnCheckCacheItem;
 	cli.pfnFreeCacheItem = fnFreeCacheItem;
-	cli.pfnGetCacheEntry = fnGetCacheEntry;
 
 	cli.szTip = szTip;
 

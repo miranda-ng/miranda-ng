@@ -78,7 +78,7 @@ int cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact)
 			// substitute params by mostonline contact datas
 			MCONTACT hMostOnlineContact = db_mc_getMostOnline(hActContact);
 			if (hMostOnlineContact) {
-				ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hMostOnlineContact);
+				ClcCacheEntry *cacheEntry = Clist_GetCacheEntry(hMostOnlineContact);
 				if (cacheEntry && cacheEntry->szProto) {
 					szActProto = cacheEntry->szProto;
 					nActStatus = cacheEntry->m_iStatus;

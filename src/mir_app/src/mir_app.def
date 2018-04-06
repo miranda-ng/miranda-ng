@@ -555,3 +555,4 @@ Clist_TrayIconDestroy @574
 Clist_TrayIconAdd @575
 Clist_TraySetTimer @576
 Clist_GetContactDisplayName @577
+Clist_GetCacheEntry @578

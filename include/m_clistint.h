@@ -267,6 +267,8 @@ EXTERN_C MIR_APP_DLL(int)  Clist_TrayIconSetBaseInfo(HICON hIcon, const char *sz
 EXTERN_C MIR_APP_DLL(void) Clist_TrayIconUpdateBase(const char *szChangedProto);
 EXTERN_C MIR_APP_DLL(void) Clist_TraySetTimer();
 
+EXTERN_C MIR_APP_DLL(ClcCacheEntry*) Clist_GetCacheEntry(MCONTACT hContact);
+
 // calculates account's index by its position in status bar
 EXTERN_C MIR_APP_DLL(int) Clist_GetAccountIndex(int iPos);
 
@@ -303,114 +305,114 @@ struct CLIST_INTERFACE
 	ClcProtoStatus *clcProto;
 
 	/* clc.h */
-	void  (*pfnClcOptionsChanged)(void);
-	HMENU (*pfnBuildGroupPopupMenu)(struct ClcGroup*); // unused
-
-	LRESULT (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	void           (*pfnClcOptionsChanged)(void);
+	HMENU          (*pfnBuildGroupPopupMenu)(struct ClcGroup*); // unused
+				     
+	LRESULT        (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	/* clcfiledrop.c */
-	void (*pfnRegisterFileDropping)(HWND hwnd);
-	void (*pfnUnregisterFileDropping)(HWND hwnd);
+	void           (*pfnRegisterFileDropping)(HWND hwnd);
+	void           (*pfnUnregisterFileDropping)(HWND hwnd);
 
 	/* clcidents.c */
-	ClcContact* (*pfnFindItem)(DWORD dwItem, ClcContact *contact);
-
-	int (*pfnGetRowsPriorTo)(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
-	int (*pfnGetRowByIndex)(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
-	int (*pfnGetContactHiddenStatus)(MCONTACT hContact, char *szProto, ClcData *dat);
-	int (*pfnIsVisibleContact)(ClcCacheEntry *pce, ClcGroup *group);
+	ClcContact*    (*pfnFindItem)(DWORD dwItem, ClcContact *contact);
+				      
+	int            (*pfnGetRowsPriorTo)(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+	int            (*pfnGetRowByIndex)(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
+	int            (*pfnGetContactHiddenStatus)(MCONTACT hContact, char *szProto, ClcData *dat);
+	int            (*pfnIsVisibleContact)(ClcCacheEntry *pce, ClcGroup *group);
 
 	/* clcitems.c */
-	ClcContact* (*pfnCreateClcContact)(void);
-	struct ClcGroup* (*pfnAddGroup)(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
-	struct ClcGroup* (*pfnRemoveItemFromGroup)(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
-
-	void (*pfnFreeContact)(ClcContact *contact);
-	void (*pfnFreeGroup)(ClcGroup *group);
-
-	ClcContact* (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const wchar_t *pszText);
-	ClcContact* (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);
-	ClcContact* (*pfnAddContactToGroup)(ClcData *dat, ClcGroup *group, MCONTACT hContact);
-	
-	void (*pfnAddContactToTree)(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
-	void (*pfnDeleteItemFromTree)(HWND hwnd, MCONTACT hItem);
-	void (*pfnRebuildEntireList)(HWND hwnd, ClcData *dat);
-	int  (*pfnGetGroupContentsCount)(ClcGroup *group, int visibleOnly);
-	void (*pfnSortCLC)(HWND hwnd, ClcData *dat, int useInsertionSort);
-	void (*pfnSaveStateAndRebuildList)(HWND hwnd, ClcData *dat);
+	ClcContact*    (*pfnCreateClcContact)(void);
+	ClcGroup*      (*pfnAddGroup)(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
+	ClcGroup*      (*pfnRemoveItemFromGroup)(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
+				      
+	void           (*pfnFreeContact)(ClcContact *contact);
+	void           (*pfnFreeGroup)(ClcGroup *group);
+				      
+	ClcContact*    (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const wchar_t *pszText);
+	ClcContact*    (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);
+	ClcContact*    (*pfnAddContactToGroup)(ClcData *dat, ClcGroup *group, MCONTACT hContact);
+				      
+	void           (*pfnAddContactToTree)(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
+	void           (*pfnDeleteItemFromTree)(HWND hwnd, MCONTACT hItem);
+	void           (*pfnRebuildEntireList)(HWND hwnd, ClcData *dat);
+	int            (*pfnGetGroupContentsCount)(ClcGroup *group, int visibleOnly);
+	void           (*pfnSortCLC)(HWND hwnd, ClcData *dat, int useInsertionSort);
+	void           (*pfnSaveStateAndRebuildList)(HWND hwnd, ClcData *dat);
 
 	/* clcmsgs.c */
-	LRESULT (*pfnProcessExternalMessages)(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT        (*pfnProcessExternalMessages)(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	/* clcpaint.c */
-	void  (*pfnPaintClc)(HWND hwnd, ClcData *dat, HDC hdc, RECT * rcPaint);
+	void           (*pfnPaintClc)(HWND hwnd, ClcData *dat, HDC hdc, RECT * rcPaint);
 
 	/* clcutils.c */
-	wchar_t* (*pfnGetGroupCountsText)(ClcData *dat, ClcContact *contact);
-	int   (*pfnHitTest)(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
-	void  (*pfnScrollTo)(HWND hwnd, ClcData *dat, int desty, int noSmooth);
-	void  (*pfnEnsureVisible)(HWND hwnd, ClcData *dat, int iItem, int partialOk);
-	void  (*pfnRecalcScrollBar)(HWND hwnd, ClcData *dat);
-	void  (*pfnSetGroupExpand)(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
-	void  (*pfnDoSelectionDefaultAction)(HWND hwnd, ClcData *dat);
-	int   (*pfnFindRowByText)(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
-	void  (*pfnEndRename)(HWND hwnd, ClcData *dat, int save);
-	void  (*pfnDeleteFromContactList)(HWND hwnd, ClcData *dat);
-	void  (*pfnBeginRenameSelection)(HWND hwnd, ClcData *dat);
-	void  (*pfnCalcEipPosition)(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
-	int   (*pfnGetDropTargetInformation)(HWND hwnd, ClcData *dat, POINT pt);
-	int   (*pfnClcStatusToPf2)(int status);
-	int   (*pfnIsHiddenMode)(ClcData *dat, int status);
-	void  (*pfnHideInfoTip)(HWND hwnd, ClcData *dat);
-	void  (*pfnNotifyNewContact)(HWND hwnd, MCONTACT hContact);
-	DWORD (*pfnGetDefaultExStyle)(void);
-	void  (*pfnGetDefaultFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
-	void  (*pfnGetFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
-	void  (*pfnLoadClcOptions)(HWND hwnd, ClcData *dat, BOOL bFirst);
-	void  (*pfnRecalculateGroupCheckboxes)(HWND hwnd, ClcData *dat);
-	void  (*pfnSetGroupChildCheckboxes)(ClcGroup *group, int checked);
-	void  (*pfnInvalidateItem)(HWND hwnd, ClcData *dat, int iItem);
-
-	int   (*pfnGetRowBottomY)(ClcData *dat, int item);
-	int   (*pfnGetRowHeight)(ClcData *dat, int item);
-	int   (*pfnGetRowTopY)(ClcData *dat, int item);
-	int   (*pfnGetRowTotalHeight)(ClcData *dat);
-	int   (*pfnRowHitTest)(ClcData *dat, int y);
-
+	wchar_t*       (*pfnGetGroupCountsText)(ClcData *dat, ClcContact *contact);
+	int            (*pfnHitTest)(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
+	void           (*pfnScrollTo)(HWND hwnd, ClcData *dat, int desty, int noSmooth);
+	void           (*pfnEnsureVisible)(HWND hwnd, ClcData *dat, int iItem, int partialOk);
+	void           (*pfnRecalcScrollBar)(HWND hwnd, ClcData *dat);
+	void           (*pfnSetGroupExpand)(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
+	void           (*pfnDoSelectionDefaultAction)(HWND hwnd, ClcData *dat);
+	int            (*pfnFindRowByText)(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
+	void           (*pfnEndRename)(HWND hwnd, ClcData *dat, int save);
+	void           (*pfnDeleteFromContactList)(HWND hwnd, ClcData *dat);
+	void           (*pfnBeginRenameSelection)(HWND hwnd, ClcData *dat);
+	void           (*pfnCalcEipPosition)(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
+	int            (*pfnGetDropTargetInformation)(HWND hwnd, ClcData *dat, POINT pt);
+	int            (*pfnClcStatusToPf2)(int status);
+	int            (*pfnIsHiddenMode)(ClcData *dat, int status);
+	void           (*pfnHideInfoTip)(HWND hwnd, ClcData *dat);
+	void           (*pfnNotifyNewContact)(HWND hwnd, MCONTACT hContact);
+	DWORD          (*pfnGetDefaultExStyle)(void);
+	void           (*pfnGetDefaultFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
+	void           (*pfnGetFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
+	void           (*pfnLoadClcOptions)(HWND hwnd, ClcData *dat, BOOL bFirst);
+	void           (*pfnRecalculateGroupCheckboxes)(HWND hwnd, ClcData *dat);
+	void           (*pfnSetGroupChildCheckboxes)(ClcGroup *group, int checked);
+	void           (*pfnInvalidateItem)(HWND hwnd, ClcData *dat, int iItem);
+				      
+	int            (*pfnGetRowBottomY)(ClcData *dat, int item);
+	int            (*pfnGetRowHeight)(ClcData *dat, int item);
+	int            (*pfnGetRowTopY)(ClcData *dat, int item);
+	int            (*pfnGetRowTotalHeight)(ClcData *dat);
+	int            (*pfnRowHitTest)(ClcData *dat, int y);
+		  
 	/* clistevents.c */
-	int   (*pfnEventsProcessContactDoubleClick)(MCONTACT hContact);
-	int   (*pfnEventsProcessTrayDoubleClick)(int);
+	void           (*blablablabla2)();
+	void           (*blablablabla3)();
 
 	/* clistmod.c */
-	int    (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
-	int    (*pfnShowHide)(void);
+	int            (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
+	int            (*pfnShowHide)(void);
 	
 	/* clistsettings.c */
-	ClcCacheEntry* (*pfnGetCacheEntry)(MCONTACT hContact);
+	void           (*blablablabla1)();
 	ClcCacheEntry* (*pfnCreateCacheItem)(MCONTACT hContact);
 	void           (*pfnCheckCacheItem)(ClcCacheEntry*);
 	void           (*pfnFreeCacheItem)(ClcCacheEntry*);
-
-	void     (*pfnInvalidateDisplayNameCacheEntry)(MCONTACT hContact);
+				     
+	void           (*pfnInvalidateDisplayNameCacheEntry)(MCONTACT hContact);
 
 	/* clisttray.c */
-	int      (*pfnTrayIconPauseAutoHide)(WPARAM wParam, LPARAM lParam);
-	INT_PTR  (*pfnTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
+	int            (*pfnTrayIconPauseAutoHide)(WPARAM wParam, LPARAM lParam);
+	INT_PTR        (*pfnTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
 
 	/* clui.c */
-	LRESULT  (CALLBACK *pfnContactListWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-	void     (*pfnCluiProtocolStatusChanged)(int status, const char *szProto);
-	void     (*pfnLoadCluiGlobalOpts)(void);
-	BOOL     (*pfnInvalidateRect)(HWND hwnd, CONST RECT* lpRect, BOOL bErase);
-	void     (*pfnOnCreateClc)(void);
+	LRESULT        (CALLBACK *pfnContactListWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+				      
+	void           (*pfnCluiProtocolStatusChanged)(int status, const char *szProto);
+	void           (*pfnLoadCluiGlobalOpts)(void);
+	BOOL           (*pfnInvalidateRect)(HWND hwnd, CONST RECT* lpRect, BOOL bErase);
+	void           (*pfnOnCreateClc)(void);
 
 	/* contact.c */
-	int      (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
-	int      (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
+	int            (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
+	int            (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
 
 	/* docking.c */
-	int      (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
+	int            (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
 
 	/*************************************************************************************
 	 * version 2 - events processing

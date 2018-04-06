@@ -343,7 +343,7 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 
 	// must rename setting in all child contacts too
 	for (auto &hContact : Contacts()) {
-		ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
+		ClcCacheEntry *cache = Clist_GetCacheEntry(hContact);
 		if (!mir_wstrcmp(cache->tszGroup, oldName)) {
 			db_set_ws(hContact, "CList", "Group", szName);
 			replaceStrW(cache->tszGroup, szName);

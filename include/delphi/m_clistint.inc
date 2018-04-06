@@ -371,15 +371,15 @@ type
     pfnRowHitTest                      : function (var dat:TClcData; y:int):int; cdecl;
 
   (* clistevents.c *)
-    pfnEventsProcessContactDoubleClick : function (hContact:TMCONTACT):int; cdecl;
-    pfnEventsProcessTrayDoubleClick    : function (_para1:int):int; cdecl;
+    blablablabla2                      : procedure; cdecl;
+    blablablabla3                      : procedure; cdecl;
 
   (* clistmod.c *)
     pfnIconFromStatusMode              : function (szProto:PAnsiChar; status:int; hContact:TMCONTACT):int; cdecl;
     pfnShowHide                        : function :int; cdecl;
                                        
   (* clistsettings.c *)
-    pfnGetCacheEntry                   : function (hContact:TMCONTACT):PClcCacheEntry; cdecl;
+    blablablabla1                      : procedure; cdecl;
     pfnCreateCacheItem                 : function (hContact:TMCONTACT):PClcCacheEntry; cdecl;
     pfnCheckCacheItem                  : procedure (_para1:PClcCacheEntry); cdecl;
     pfnFreeCacheItem                   : procedure (_para1:PClcCacheEntry); cdecl;

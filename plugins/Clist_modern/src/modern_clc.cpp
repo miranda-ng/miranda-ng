@@ -161,7 +161,7 @@ static int clcHookDbEventAdded(WPARAM hContact, LPARAM lParam)
 		db_event_get(lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 			db_set_dw(hContact, "CList", "mf_lastmsg", dbei.timestamp);
-			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
+			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			if (pdnce)
 				pdnce->dwLastMsgTime = dbei.timestamp;
 		}

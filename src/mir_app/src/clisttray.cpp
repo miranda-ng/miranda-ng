@@ -711,7 +711,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				GetCursorPos(&pt);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, nullptr);
 			}
-			else if (cli.pfnEventsProcessTrayDoubleClick(msg->wParam))
+			else if (EventsProcessTrayDoubleClick(msg->wParam))
 				cli.pfnShowHide();
 		}
 		else if (msg->lParam == WM_RBUTTONUP) {

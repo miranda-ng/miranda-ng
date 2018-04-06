@@ -46,7 +46,7 @@ static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFun
 //
 void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 {
-	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 	if (dat == nullptr && pcli->hwndContactTree)
 		dat = (ClcData *)GetWindowLongPtr(pcli->hwndContactTree, 0);
 
