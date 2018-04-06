@@ -95,11 +95,9 @@ void CCtrlBase::NotifyChange()
 	if (!m_parentWnd || m_parentWnd->IsInitialized())
 		m_bChanged = true;
 
-	if (m_parentWnd && !m_bSilent) {
-		m_parentWnd->OnChange(this);
+	if (m_parentWnd && !m_bSilent)
 		if (m_parentWnd->IsInitialized())
 			::SendMessage(::GetParent(m_parentWnd->GetHwnd()), PSM_CHANGED, 0, 0);
-	}
 
 	OnChange(this);
 }

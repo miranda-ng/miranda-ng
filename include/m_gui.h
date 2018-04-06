@@ -449,7 +449,7 @@ protected:
 	virtual int Resizer(UTILRESIZECONTROL *urc);
 	virtual void OnApply() {}
 	virtual void OnReset() {}
-	virtual void OnChange(CCtrlBase*) {}
+	virtual void OnChange() {}
 
 	// main dialog procedure
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);

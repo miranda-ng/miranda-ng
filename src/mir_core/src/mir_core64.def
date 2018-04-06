@@ -747,7 +747,7 @@ mir_wstrcmpi                  @280
 ?OnApply@CCtrlCombo@@UEAAXXZ @914 NONAME
 ?OnApply@CCtrlEdit@@UEAAXXZ @915 NONAME
 ?OnApply@CDlgBase@@MEAAXXZ @916 NONAME
-?OnChange@CDlgBase@@MEAAXPEAVCCtrlBase@@@Z @917 NONAME
+?OnChange@CDlgBase@@MEAAXXZ @917 NONAME
 ?OnClose@CDlgBase@@MEAAXXZ @918 NONAME
 ?OnCommand@CCtrlBase@@UEAAHPEAUHWND__@@GG@Z @919 NONAME
 ?OnCommand@CCtrlButton@@UEAAHPEAUHWND__@@GG@Z @920 NONAME

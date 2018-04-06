@@ -274,6 +274,11 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return FALSE;
 
+	case PSM_CHANGED:
+		if (m_initialized)
+			OnChange();
+		break;
+
 	case WM_CONTEXTMENU:
 		if (CCtrlBase *ctrl = FindControl(HWND(wParam)))
 			ctrl->OnBuildMenu(ctrl);
