@@ -158,7 +158,7 @@ class CAccountManagerDlg : public CDlgBase
 	HFONT m_hfntTitle, m_hfntText;
 	int m_titleHeight, m_textHeight;
 	int m_selectedHeight, m_normalHeight;
-	int m_iSelected;
+	int m_iSelected, m_iPrevSel = -1;
 
 	CAccountListCtrl m_accList;
 	CCtrlHyperlink m_link;
@@ -425,8 +425,13 @@ public:
 
 	void OnListSelChange(void*)
 	{
+		int iSel = m_accList.GetCurSel();
+		if (iSel == m_iPrevSel)
+			return;
+
+		m_iPrevSel = iSel;
 		UpdateAccountInfo();
-		SelectItem(m_accList.GetCurSel());
+		SelectItem(iSel);
 		::SetFocus(m_accList.GetHwnd());
 	}
 
