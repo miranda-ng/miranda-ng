@@ -567,3 +567,4 @@ Clist_HideInfoTip @586
 Clist_IsHiddenMode @587
 Clist_ClcStatusToPf2 @588
 Clist_CalcEipPosition @589
+Clist_DeleteFromContactList @590

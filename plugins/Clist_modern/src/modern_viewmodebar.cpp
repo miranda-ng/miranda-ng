@@ -208,12 +208,14 @@ static int FillDialog(HWND hwnd)
 	ListView_InsertColumn(GetDlgItem(hwnd, IDC_PROTOCOLS), 0, &lvc);
 
 	// fill protocols...
-	LVITEMA item = { 0 };
-	item.mask = LVIF_TEXT;
-	item.iItem = 1000;
-	for (auto &pa : Accounts()) {
-		item.pszText = pa->szModuleName;
-		SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+	{
+		LVITEMA item = { 0 };
+		item.mask = LVIF_TEXT;
+		item.iItem = 1000;
+		for (auto &pa : Accounts()) {
+			item.pszText = pa->szModuleName;
+			SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+		}
 	}
 
 	ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);

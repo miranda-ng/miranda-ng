@@ -449,14 +449,16 @@ void fnEndRename(HWND, ClcData *dat, int save)
 	DestroyWindow(hwndEdit);
 }
 
-void fnDeleteFromContactList(HWND hwnd, ClcData *dat)
+MIR_APP_DLL(void) Clist_DeleteFromContactList(HWND hwnd, ClcData *dat)
 {
 	ClcContact *contact;
 	if (dat->selection == -1)
 		return;
+	
 	dat->szQuickSearch[0] = 0;
 	if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) == -1)
 		return;
+	
 	switch (contact->type) {
 	case CLCIT_GROUP:
 		Clist_GroupDelete(contact->groupId);

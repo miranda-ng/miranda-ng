@@ -706,7 +706,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				return 0;
 
 			case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
-			case VK_DELETE: cli.pfnDeleteFromContactList(hwnd, dat); return 0;
+			case VK_DELETE: Clist_DeleteFromContactList(hwnd, dat); return 0;
 
 			default:
 				NMKEY nmkey;

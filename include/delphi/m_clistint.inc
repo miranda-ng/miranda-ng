@@ -348,7 +348,7 @@ type
     pfnDoSelectionDefaultAction        : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnFindRowByText                   : function  (hwnd:HWND; var dat:TClcData; text:TChar; prefixOk:int):int; cdecl;
     pfnEndRename                       : procedure (hwnd:HWND; var dat:TClcData; save:int); cdecl;
-    pfnDeleteFromContactList           : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    blablablabla15                     : procedure; cdecl;
     pfnBeginRenameSelection            : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     blablablabla14                     : procedure; cdecl;
     blablablabla13                     : procedure; cdecl;

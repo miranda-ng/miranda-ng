@@ -451,8 +451,15 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 		SetCapture(hwnd);
 		return 0;
 
-	case VK_F2: cliBeginRenameSelection(hwnd, dat); /*SetCapture(hwnd);*/ return 0;
-	case VK_DELETE: pcli->pfnDeleteFromContactList(hwnd, dat); SetCapture(hwnd); return 0;
+	case VK_F2:
+		cliBeginRenameSelection(hwnd, dat); 
+		return 0;
+	
+	case VK_DELETE:
+		Clist_DeleteFromContactList(hwnd, dat);
+		SetCapture(hwnd);
+		return 0;
+	
 	case VK_ESCAPE:
 		if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
 			dat->iDragItem = -1;

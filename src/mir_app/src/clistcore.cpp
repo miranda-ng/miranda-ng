@@ -101,9 +101,8 @@ void InitClistCore()
 	cli.pfnDoSelectionDefaultAction = fnDoSelectionDefaultAction;
 	cli.pfnFindRowByText = fnFindRowByText;
 	cli.pfnEndRename = fnEndRename;
-	cli.pfnDeleteFromContactList = fnDeleteFromContactList;
+	
 	cli.pfnBeginRenameSelection = fnBeginRenameSelection;
-
 	cli.pfnIsVisibleContact = fnIsVisibleContact;
 	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;
 	cli.pfnLoadClcOptions = fnLoadClcOptions;
