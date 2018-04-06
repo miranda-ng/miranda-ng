@@ -64,7 +64,6 @@ void fnFreeContact(ClcContact *p);
 void fnFreeGroup(ClcGroup *group);
 
 void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
-void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void fnRebuildEntireList(HWND hwnd, ClcData *dat);
 int  fnGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);

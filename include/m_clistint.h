@@ -256,6 +256,7 @@ EXTERN_C MIR_APP_DLL(void)     Clist_CalcEipPosition(ClcData *dat, ClcContact *c
 EXTERN_C MIR_APP_DLL(void)     Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
 EXTERN_C MIR_APP_DLL(int)      Clist_ClcStatusToPf2(int status);
 EXTERN_C MIR_APP_DLL(void)     Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
+EXTERN_C MIR_APP_DLL(void)     Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 EXTERN_C MIR_APP_DLL(void)     Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)     Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 EXTERN_C MIR_APP_DLL(void)     Clist_EndRename(ClcData *dat, int save);
@@ -349,7 +350,7 @@ struct CLIST_INTERFACE
 	ClcContact*    (*pfnAddContactToGroup)(ClcData *dat, ClcGroup *group, MCONTACT hContact);
 				      
 	void           (*pfnAddContactToTree)(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
-	void           (*pfnDeleteItemFromTree)(HWND hwnd, MCONTACT hItem);
+	void           (*blablablabla21)();
 	void           (*pfnRebuildEntireList)(HWND hwnd, ClcData *dat);
 	int            (*pfnGetGroupContentsCount)(ClcGroup *group, int visibleOnly);
 	void           (*pfnSortCLC)(HWND hwnd, ClcData *dat, int useInsertionSort);

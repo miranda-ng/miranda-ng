@@ -1300,7 +1300,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 		memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 		flags = contact->flags;
 	}
-	pcli->pfnDeleteItemFromTree(hwnd, wParam);
+	Clist_DeleteItemFromTree(hwnd, wParam);
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0)) {
 		NMCLISTCONTROL nm;
 		pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);

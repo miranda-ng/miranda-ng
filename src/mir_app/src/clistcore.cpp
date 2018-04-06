@@ -82,8 +82,8 @@ void InitClistCore()
 	cli.pfnAddInfoItemToGroup = fnAddInfoItemToGroup;
 	cli.pfnAddContactToGroup = fnAddContactToGroup;
 	cli.pfnAddContactToTree = fnAddContactToTree;
-	cli.pfnDeleteItemFromTree = fnDeleteItemFromTree;
-	cli.pfnRebuildEntireList = fnRebuildEntireList;
+	
+	cli.pfnRebuildEntireList = fnRebuildEntireList;	
 	cli.pfnGetGroupContentsCount = fnGetGroupContentsCount;
 	cli.pfnSortCLC = fnSortCLC;
 

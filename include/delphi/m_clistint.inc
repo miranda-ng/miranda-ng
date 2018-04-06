@@ -326,7 +326,7 @@ type
     pfnAddItemToGroup                  : function  (var group:TClcGroup; iAboveItem:int):PClcContact; cdecl;
     pfnAddContactToGroup               : function  (var dat:TClcData; var group:TClcGroup; hContact:TMCONTACT):PClcContact; cdecl;
     pfnAddContactToTree                : procedure (hwnd:HWND; var dat:TClcData; hContact:TMCONTACT; updateTotalCount:int; checkHideOffline:int); cdecl;
-    pfnDeleteItemFromTree              : procedure (hwnd:HWND; hItem:TMCONTACT); cdecl;
+    blablablabla21                     : procedure; cdecl;
     pfnRebuildEntireList               : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnGetGroupContentsCount           : function  (var group:TClcGroup; visibleOnly:int):int; cdecl;
     pfnSortCLC                         : procedure (hwnd:HWND; var dat:TClcData; useInsertionSort:int); cdecl;

@@ -298,7 +298,7 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 	return group;
 }
 
-void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
+MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 {
 	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
 	dat->bNeedsResort = true;

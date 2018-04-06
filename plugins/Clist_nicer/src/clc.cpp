@@ -281,7 +281,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 				flags = contact->flags;
 			}
-			pcli->pfnDeleteItemFromTree(hwnd, wParam);
+			Clist_DeleteItemFromTree(hwnd, wParam);
 			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, nullptr, dat)) {
 				pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 				if (Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr)) {
