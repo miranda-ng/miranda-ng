@@ -362,7 +362,7 @@ MIR_APP_DLL(void) Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 		Clist_ContactDoubleClicked(contact->hContact);
 
 	if (dat->bFilterSearch && bSearchExisted)
-		cli.pfnSaveStateAndRebuildList(hwnd, dat);
+		Clist_SaveStateAndRebuildList(hwnd, dat);
 }
 
 int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)

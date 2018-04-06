@@ -68,7 +68,6 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void fnRebuildEntireList(HWND hwnd, ClcData *dat);
 int  fnGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
-void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 int  fnGetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat);
 
 /* clcmsgs.c */

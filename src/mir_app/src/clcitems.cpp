@@ -611,7 +611,7 @@ struct SavedInfoState_t
 	ClcContact contact;
 };
 
-void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
+MIR_APP_DLL(void) Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 {
 	Clist_HideInfoTip(dat);
 	KillTimer(hwnd, TIMERID_INFOTIP);

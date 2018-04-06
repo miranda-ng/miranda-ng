@@ -86,7 +86,6 @@ void InitClistCore()
 	cli.pfnRebuildEntireList = fnRebuildEntireList;
 	cli.pfnGetGroupContentsCount = fnGetGroupContentsCount;
 	cli.pfnSortCLC = fnSortCLC;
-	cli.pfnSaveStateAndRebuildList = fnSaveStateAndRebuildList;
 
 	cli.pfnProcessExternalMessages = fnProcessExternalMessages;
 

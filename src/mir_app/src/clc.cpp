@@ -299,7 +299,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case INTM_RELOADOPTIONS:
 		cli.pfnLoadClcOptions(hwnd, dat, FALSE);
-		cli.pfnSaveStateAndRebuildList(hwnd, dat);
+		Clist_SaveStateAndRebuildList(hwnd, dat);
 		break;
 
 	case WM_THEMECHANGED:
@@ -414,7 +414,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 						break;  //only expanded has changed: no action reqd
 				}
 			}
-			cli.pfnSaveStateAndRebuildList(hwnd, dat);
+			Clist_SaveStateAndRebuildList(hwnd, dat);
 		}
 		break;
 
@@ -790,7 +790,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		}
 
 		if (dat->bFilterSearch)
-			cli.pfnSaveStateAndRebuildList(hwnd, dat);
+			Clist_SaveStateAndRebuildList(hwnd, dat);
 
 		if (dat->szQuickSearch[0]) {
 			int index;
@@ -800,7 +800,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			else {
 				MessageBeep(MB_OK);
 				dat->szQuickSearch[mir_wstrlen(dat->szQuickSearch) - 1] = '\0';
-				cli.pfnSaveStateAndRebuildList(hwnd, dat);
+				Clist_SaveStateAndRebuildList(hwnd, dat);
 			}
 			cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
@@ -872,7 +872,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		case TIMERID_REBUILDAFTER:
 			KillTimer(hwnd, TIMERID_REBUILDAFTER);
 			cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
-			cli.pfnSaveStateAndRebuildList(hwnd, dat);
+			Clist_SaveStateAndRebuildList(hwnd, dat);
 			cli.bAutoRebuild = false;
 			break;
 

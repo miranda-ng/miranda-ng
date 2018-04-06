@@ -41,7 +41,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 
 	case CLM_AUTOREBUILD:
 		if (dat->bForceInDialog) {
-			pcli->pfnSaveStateAndRebuildList(hwnd, dat);
+			Clist_SaveStateAndRebuildList(hwnd, dat);
 			pcli->bAutoRebuild = false;
 		}
 		else clcSetDelayTimer(TIMERID_REBUILDAFTER, hwnd);

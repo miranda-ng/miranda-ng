@@ -1539,7 +1539,7 @@ static LRESULT clcOnIntmReloadOptions(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 {
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	pcli->pfnLoadClcOptions(hwnd, dat, FALSE);
-	pcli->pfnSaveStateAndRebuildList(hwnd, dat);
+	Clist_SaveStateAndRebuildList(hwnd, dat);
 	pcli->pfnSortCLC(hwnd, dat, 1);
 	if (IsWindowVisible(hwnd))
 		pcli->pfnInvalidateRect(GetParent(hwnd), nullptr, FALSE);

@@ -330,7 +330,7 @@ type
     pfnRebuildEntireList               : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnGetGroupContentsCount           : function  (var group:TClcGroup; visibleOnly:int):int; cdecl;
     pfnSortCLC                         : procedure (hwnd:HWND; var dat:TClcData; useInsertionSort:int); cdecl;
-    pfnSaveStateAndRebuildList         : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    blablablabla20                     : procedure; cdecl;
 
   (* clcmsgs.c *)
     pfnProcessExternalMessages         : function (hwnd:HWND; var dat:TClcData; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; cdecl;

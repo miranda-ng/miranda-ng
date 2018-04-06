@@ -272,6 +272,7 @@ EXTERN_C MIR_APP_DLL(int)      Clist_IsHiddenMode(ClcData *dat, int status);
 EXTERN_C MIR_APP_DLL(void)     Clist_LoadContactTree(void);
 EXTERN_C MIR_APP_DLL(void)     Clist_NotifyNewContact(HWND hwnd, MCONTACT hContact);
 EXTERN_C MIR_APP_DLL(void)     Clist_RecalculateGroupCheckboxes(ClcData *dat);
+EXTERN_C MIR_APP_DLL(void)     Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)     Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
 								       
 EXTERN_C MIR_APP_DLL(int)      Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
@@ -352,7 +353,7 @@ struct CLIST_INTERFACE
 	void           (*pfnRebuildEntireList)(HWND hwnd, ClcData *dat);
 	int            (*pfnGetGroupContentsCount)(ClcGroup *group, int visibleOnly);
 	void           (*pfnSortCLC)(HWND hwnd, ClcData *dat, int useInsertionSort);
-	void           (*pfnSaveStateAndRebuildList)(HWND hwnd, ClcData *dat);
+	void           (*blablablabla20)();
 
 	/* clcmsgs.c */
 	LRESULT        (*pfnProcessExternalMessages)(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
