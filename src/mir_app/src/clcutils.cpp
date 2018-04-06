@@ -630,7 +630,7 @@ int fnClcStatusToPf2(int status)
 	return 0;
 }
 
-int fnIsHiddenMode(ClcData *dat, int status)
+MIR_APP_DLL(int) Clist_IsHiddenMode(ClcData *dat, int status)
 {
 	return dat->offlineModes & cli.pfnClcStatusToPf2(status);
 }

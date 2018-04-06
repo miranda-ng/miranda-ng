@@ -74,7 +74,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		Cache_GetText(dat, &p);
 
 		char *szProto = pdnce->szProto;
-		if (szProto != nullptr && !pcli->pfnIsHiddenMode(dat, wStatus))
+		if (szProto != nullptr && !Clist_IsHiddenMode(dat, wStatus))
 			p.flags |= CONTACTF_ONLINE;
 		int apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;
 		if (apparentMode == ID_STATUS_OFFLINE)	p.flags |= CONTACTF_INVISTO;
@@ -131,7 +131,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	cont->hContact = hContact;
 	cont->proto = szProto;
 
-	if (szProto != nullptr && !pcli->pfnIsHiddenMode(dat, pdnce->m_iStatus))
+	if (szProto != nullptr && !Clist_IsHiddenMode(dat, pdnce->m_iStatus))
 		cont->flags |= CONTACTF_ONLINE;
 
 	WORD apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;

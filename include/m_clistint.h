@@ -261,6 +261,7 @@ EXTERN_C MIR_APP_DLL(void)     Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF
 EXTERN_C MIR_APP_DLL(void)     Clist_HideInfoTip(ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)     Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void)     Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);
+EXTERN_C MIR_APP_DLL(int)      Clist_IsHiddenMode(ClcData *dat, int status);
 EXTERN_C MIR_APP_DLL(void)     Clist_LoadContactTree(void);
 EXTERN_C MIR_APP_DLL(void)     Clist_NotifyNewContact(HWND hwnd, MCONTACT hContact);
 EXTERN_C MIR_APP_DLL(void)     Clist_RecalculateGroupCheckboxes(ClcData *dat);
@@ -367,7 +368,7 @@ struct CLIST_INTERFACE
 	void           (*pfnCalcEipPosition)(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 	int            (*pfnGetDropTargetInformation)(HWND hwnd, ClcData *dat, POINT pt);
 	int            (*pfnClcStatusToPf2)(int status);
-	int            (*pfnIsHiddenMode)(ClcData *dat, int status);
+	void           (*blablablabla11)();
 	void           (*blablablabla10)();
 	void           (*blablablabla9)();
 	void           (*blablablabla8)();

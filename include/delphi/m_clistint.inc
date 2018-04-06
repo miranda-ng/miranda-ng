@@ -353,7 +353,7 @@ type
     pfnCalcEipPosition                 : procedure (var dat:TClcData; var contact:TClcContact; var group:TClcGroup; var result:TPOINT); cdecl;
     pfnGetDropTargetInformation        : function  (hwnd:HWND; var dat:TClcData; pt:TPOINT):int; cdecl;
     pfnClcStatusToPf2                  : function  (status:int):int; cdecl;
-    pfnIsHiddenMode                    : function  (var dat:TClcData; status:int):int; cdecl;
+    blablablabla11                     : procedure; cdecl;
     blablablabla10                     : procedure; cdecl;
     blablablabla9                      : procedure; cdecl;
     blablablabla8                      : procedure; cdecl;

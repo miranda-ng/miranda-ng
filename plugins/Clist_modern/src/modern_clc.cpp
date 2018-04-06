@@ -1331,7 +1331,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	bool isVisiblebyFilter = (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus);
-	bool ifVisibleByClui = !pcli->pfnIsHiddenMode(dat, status);
+	bool ifVisibleByClui = !Clist_IsHiddenMode(dat, status);
 	bool isVisible = (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) ? TRUE : ifVisibleByClui;
 	bool isIconChanged = Clist_GetContactIcon(wParam) != LOWORD(lParam);
 
@@ -1373,7 +1373,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 		}
 		else if (contact) {
 			contact->iImage = lParam;
-			if (!pcli->pfnIsHiddenMode(dat, status))
+			if (!Clist_IsHiddenMode(dat, status))
 				contact->flags |= CONTACTF_ONLINE;
 			else
 				contact->flags &= ~CONTACTF_ONLINE;

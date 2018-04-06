@@ -106,9 +106,8 @@ void InitClistCore()
 	cli.pfnCalcEipPosition = fnCalcEipPosition;
 	cli.pfnGetDropTargetInformation = fnGetDropTargetInformation;
 	cli.pfnClcStatusToPf2 = fnClcStatusToPf2;
-	cli.pfnIsHiddenMode = fnIsHiddenMode;
-	cli.pfnIsVisibleContact = fnIsVisibleContact;
 
+	cli.pfnIsVisibleContact = fnIsVisibleContact;
 	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;
 	cli.pfnLoadClcOptions = fnLoadClcOptions;
 	cli.pfnGetRowBottomY = fnGetRowBottomY;

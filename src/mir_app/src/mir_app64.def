@@ -564,3 +564,4 @@ Clist_GetFontSetting @583
 Clist_GetDefaultExStyle @584
 Clist_NotifyNewContact @585
 Clist_HideInfoTip @586
+Clist_IsHiddenMode @587

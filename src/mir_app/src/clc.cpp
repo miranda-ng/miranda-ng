@@ -497,7 +497,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			// this means an offline msg is flashing, so the contact should be shown
 			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 			int shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0))
-				&& (!cli.pfnIsHiddenMode(dat, status) || Clist_GetContactIcon(wParam) != lParam);
+				&& (!Clist_IsHiddenMode(dat, status) || Clist_GetContactIcon(wParam) != lParam);
 
 			contact = nullptr;
 			group = nullptr;
@@ -524,7 +524,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				}
 				else {
 					contact->iImage = (WORD)lParam;
-					if (!cli.pfnIsHiddenMode(dat, status))
+					if (!Clist_IsHiddenMode(dat, status))
 						contact->flags |= CONTACTF_ONLINE;
 					else
 						contact->flags &= ~CONTACTF_ONLINE;

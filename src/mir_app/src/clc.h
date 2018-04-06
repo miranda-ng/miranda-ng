@@ -89,7 +89,6 @@ void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat);
 void fnCalcEipPosition(struct ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 int  fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 int  fnClcStatusToPf2(int status);
-int  fnIsHiddenMode(struct ClcData *dat, int status);
 
 void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);

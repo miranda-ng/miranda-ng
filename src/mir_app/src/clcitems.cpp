@@ -190,7 +190,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	cc->hContact = hContact;
 	cc->proto = szProto;
 	cc->pce = pce;
-	if (szProto != nullptr && !cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
+	if (szProto != nullptr && !Clist_IsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 		cc->flags |= CONTACTF_ONLINE;
 	WORD apparentMode = szProto != nullptr ? db_get_w(hContact, szProto, "ApparentMode", 0) : 0;
 	if (apparentMode == ID_STATUS_OFFLINE)
@@ -233,7 +233,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 			if (!(style & CLS_HIDEEMPTYGROUPS))
 				return;
 
-			if (checkHideOffline && cli.pfnIsHiddenMode(dat, status)) {
+			if (checkHideOffline && Clist_IsHiddenMode(dat, status)) {
 				for (i = 1;; i++) {
 					wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
 					if (szGroupName == nullptr)
@@ -262,7 +262,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 	}
 
 	if (checkHideOffline) {
-		if (cli.pfnIsHiddenMode(dat, status) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+		if (Clist_IsHiddenMode(dat, status) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 			if (updateTotalCount)
 				group->totalMembers++;
 			return;
@@ -390,10 +390,10 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 				else if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					char *szProto = GetContactProto(hContact);
 					if (szProto == nullptr) {
-						if (!cli.pfnIsHiddenMode(dat, ID_STATUS_OFFLINE) || cli.pfnIsVisibleContact(pce, group))
+						if (!Clist_IsHiddenMode(dat, ID_STATUS_OFFLINE) || cli.pfnIsVisibleContact(pce, group))
 							cli.pfnAddContactToGroup(dat, group, hContact);
 					}
-					else if (!cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)) || cli.pfnIsVisibleContact(pce, group))
+					else if (!Clist_IsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)) || cli.pfnIsVisibleContact(pce, group))
 						cli.pfnAddContactToGroup(dat, group, hContact);
 				}
 				else cli.pfnAddContactToGroup(dat, group, hContact);
