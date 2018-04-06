@@ -24,10 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define LBN_MY_RENAME	0x1000
-
-#define WM_MY_REFRESH	(WM_USER+0x1000)
-
 bool CheckProtocolOrder(void);
 
 #define errMsg \
@@ -107,115 +103,18 @@ class CAccountFormDlg : public CDlgBase
 {
 	int m_action;
 	PROTOACCOUNT *m_pa;
+	class CAccountManagerDlg *m_pParent;
 
 	CCtrlEdit m_accName, m_internalName;
 	CCtrlCombo m_prototype;
 	CCtrlButton m_btnOk;
 
 public:
-	CAccountFormDlg(CDlgBase *pParent, int action, PROTOACCOUNT *pa) :
-		CDlgBase(g_hInst, IDD_ACCFORM),
-		m_btnOk(this, IDOK),
-		m_accName(this, IDC_ACCNAME),
-		m_prototype(this, IDC_PROTOTYPECOMBO),
-		m_internalName(this, IDC_ACCINTERNALNAME),
-		m_pa(pa),
-		m_action(action)
-	{
-		m_hwndParent = pParent->GetHwnd();
-		m_btnOk.OnClick = Callback(this, &CAccountFormDlg::OnOk);
-	}
+	CAccountFormDlg(CAccountManagerDlg *pParent, int action, PROTOACCOUNT *pa);
 
-	virtual void OnInitDialog() override
-	{
-		int cnt = 0;
-		for (auto &it : g_arProtos)
-			if (it->type == PROTOTYPE_PROTOCOL && it->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
-				m_prototype.AddStringA(it->szName);
-				++cnt;
-			}
+	virtual void OnInitDialog() override;
 
-		m_prototype.SetCurSel(0);
-		m_btnOk.Enable(cnt != 0);
-
-		if (m_action == PRAC_ADDED) // new account
-			SetCaption(TranslateT("Create new account"));
-		else {
-			wchar_t str[200];
-			if (m_action == PRAC_CHANGED) { // update
-				m_prototype.Disable();
-				mir_snwprintf(str, L"%s: %s", TranslateT("Editing account"), m_pa->tszAccountName);
-			}
-			else mir_snwprintf(str, L"%s: %s", TranslateT("Upgrading account"), m_pa->tszAccountName);
-
-			SetCaption(str);
-			m_accName.SetText(m_pa->tszAccountName);
-			m_internalName.SetTextA(m_pa->szModuleName);
-			m_internalName.Disable();
-			m_prototype.SelectString(_A2T(m_pa->szProtoName));
-		}
-
-		m_internalName.SendMsg(EM_LIMITTEXT, 40, 0);
-	}
-
-	void OnOk(CCtrlButton*)
-	{
-		wchar_t tszAccName[256];
-		m_accName.GetText(tszAccName, _countof(tszAccName));
-		rtrimw(tszAccName);
-		if (tszAccName[0] == 0) {
-			MessageBox(m_hwnd, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
-			return;
-		}
-
-		if (m_action == PRAC_ADDED) {
-			char buf[200];
-			m_internalName.GetTextA(buf, _countof(buf));
-			if (FindAccountByName(rtrim(buf))) {
-				MessageBox(m_hwnd, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
-				return;
-			}
-		}
-
-		if (m_action == PRAC_UPGRADED) {
-			BOOL oldProto = m_pa->bOldProto;
-			wchar_t szPlugin[MAX_PATH];
-			mir_snwprintf(szPlugin, L"%s.dll", _A2T(m_pa->szProtoName));
-			int idx = accounts.getIndex(m_pa);
-			UnloadAccount(m_pa, false, false);
-			accounts.remove(idx);
-			if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
-				wchar_t szNewName[MAX_PATH];
-				mir_snwprintf(szNewName, L"%s~", szPlugin);
-				MoveFile(szPlugin, szNewName);
-			}
-			m_action = PRAC_ADDED;
-		}
-
-		if (m_action == PRAC_ADDED) {
-			char buf[200];
-			GetDlgItemTextA(m_hwnd, IDC_PROTOTYPECOMBO, buf, _countof(buf));
-			char *szBaseProto = NEWSTR_ALLOCA(buf);
-
-			m_internalName.GetTextA(buf, _countof(buf));
-			rtrim(buf);
-
-			m_pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
-			if (ActivateAccount(m_pa)) {
-				if (bModulesLoadedFired)
-					m_pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-				if (!db_get_b(0, "CList", "MoveProtoMenus", true))
-					m_pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
-			}
-		}
-		else replaceStrW(m_pa->tszAccountName, tszAccName);
-
-		WriteDbAccounts();
-		NotifyEventHooks(hAccListChanged, m_action, (LPARAM)m_pa);
-
-		SendMessage(GetParent(m_hwnd), WM_MY_REFRESH, 0, 0);
-		EndModal(IDOK);
-	}
+	void OnOk(CCtrlButton*);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -262,6 +161,7 @@ class CAccountManagerDlg : public CDlgBase
 	int m_iSelected;
 
 	CAccountListCtrl m_accList;
+	CCtrlHyperlink m_link;
 	CCtrlButton m_btnAdd, m_btnEdit, m_btnUpgrade, m_btnRemove, m_btnOptions, m_btnNetwork;
 	CCtrlButton m_btnOk, m_btnCancel;
 	CCtrlBase m_name;
@@ -343,6 +243,7 @@ public:
 		CDlgBase(g_hInst, IDD_ACCMGR),
 		m_accList(this, IDC_ACCLIST),
 		m_name(this, IDC_NAME),
+		m_link(this, IDC_LNK_ADDONS),
 		m_btnOk(this, IDOK),
 		m_btnAdd(this, IDC_ADD),
 		m_btnEdit(this, IDC_EDIT),
@@ -353,6 +254,7 @@ public:
 		m_btnNetwork(this, IDC_LNK_NETWORK)
 	{
 		m_name.UseSystemColors();
+		m_link.SetUrl("https://miranda-ng.org/");
 
 		m_accList.OnDblClick = Callback(this, &CAccountManagerDlg::OnListDblClick);
 		m_accList.OnSelChange = Callback(this, &CAccountManagerDlg::OnListSelChange);
@@ -412,7 +314,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_TXT_ADDITIONAL, WM_SETFONT, (WPARAM)m_hfntTitle, 0);
 
 		m_iSelected = -1;
-		SendMessage(m_hwnd, WM_MY_REFRESH, 0, 0);
+		Refresh();
 
 		Utils_RestoreWindowPositionNoSize(m_hwnd, 0, "AccMgr", "");
 	}
@@ -588,7 +490,7 @@ public:
 	void OnAdd(CCtrlButton*)
 	{
 		if (IDOK == CAccountFormDlg(this, PRAC_ADDED, nullptr).DoModal())
-			SendMessage(m_hwnd, WM_MY_REFRESH, 0, 0);
+			Refresh();
 	}
 
 	void OnEdit(CCtrlButton*)
@@ -651,7 +553,7 @@ public:
 			NotifyEventHooks(hAccListChanged, PRAC_REMOVED, (LPARAM)pa);
 
 			UnloadAccount(pa, true, true);
-			SendMessage(m_hwnd, WM_MY_REFRESH, 0, 0);
+			Refresh();
 
 			m_accList.Enable();
 			m_btnAdd.Enable();
@@ -665,80 +567,65 @@ public:
 			CAccountFormDlg(this, PRAC_UPGRADED, (PROTOACCOUNT*)m_accList.GetItemData(idx)).DoModal();
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	void Rename(wchar_t *pStr)
 	{
-		switch (msg) {
-		case WM_MY_REFRESH:
-			m_iSelected = -1;
-			{
-				int i = m_accList.GetCurSel();
-				PROTOACCOUNT *acc = (i == LB_ERR) ? nullptr : (PROTOACCOUNT *)m_accList.GetItemData(i);
+		int iItem = m_accList.GetCurSel();
+		PROTOACCOUNT *pa = (PROTOACCOUNT*)m_accList.GetItemData(iItem);
+		if (pa) {
+			mir_free(pa->tszAccountName);
+			pa->tszAccountName = pStr;
+			WriteDbAccounts();
+			NotifyEventHooks(hAccListChanged, PRAC_CHANGED, (LPARAM)pa);
 
-				m_accList.ResetContent();
-				for (auto &p : accounts) {
-					PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(p->szProtoName);
-					if (pd != nullptr && pd->type != PROTOTYPE_PROTOCOL)
-						continue;
+			m_accList.DeleteString(iItem);
+			iItem = m_accList.AddString(pa->tszAccountName, (LPARAM)pa);
+			m_accList.SetCurSel(iItem);
 
-					int iItem = m_accList.AddString(p->tszAccountName);
-					m_accList.SetItemData(iItem, (LPARAM)p);
+			SelectItem(iItem);
+			RedrawWindow(m_accList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+		}
+		else mir_free(pStr);
+	}
 
-					if (p == acc)
-						m_accList.SetCurSel(iItem);
-				}
+	void Refresh()
+	{
+		m_iSelected = -1;
 
-				m_iSelected = m_accList.GetCurSel(); // -1 if error = > nothing selected in our case
-				if (m_iSelected >= 0)
-					SelectItem(m_iSelected);
-				else if (acc && acc->hwndAccMgrUI)
-					ShowWindow(acc->hwndAccMgrUI, SW_HIDE);
-			}
-			UpdateAccountInfo();
-			break;
+		int i = m_accList.GetCurSel();
+		PROTOACCOUNT *acc = (i == LB_ERR) ? nullptr : (PROTOACCOUNT *)m_accList.GetItemData(i);
 
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-			case IDC_ACCLIST:
-				switch (HIWORD(wParam)) {
-				case LBN_MY_RENAME:
-					int iItem = m_accList.GetCurSel();
-					PROTOACCOUNT *pa = (PROTOACCOUNT *)m_accList.GetItemData(iItem);
-					if (pa) {
-						mir_free(pa->tszAccountName);
-						pa->tszAccountName = (wchar_t*)lParam;
-						WriteDbAccounts();
-						NotifyEventHooks(hAccListChanged, PRAC_CHANGED, (LPARAM)pa);
+		m_accList.ResetContent();
+		for (auto &p : accounts) {
+			PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(p->szProtoName);
+			if (pd != nullptr && pd->type != PROTOTYPE_PROTOCOL)
+				continue;
 
-						m_accList.DeleteString(iItem);
-						iItem = m_accList.AddString(pa->tszAccountName, (LPARAM)pa);
-						m_accList.SetCurSel(iItem);
+			int iItem = m_accList.AddString(p->tszAccountName);
+			m_accList.SetItemData(iItem, (LPARAM)p);
 
-						SelectItem(iItem);
-						RedrawWindow(m_accList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-					}
-					else mir_free((wchar_t*)lParam);
-				}
-				break;
-
-			case IDC_LNK_ADDONS:
-				Utils_OpenUrl("https://miranda-ng.org/");
-				break;
-			}
-			break;
-
-		case PSM_CHANGED:
-			int idx = m_accList.GetCurSel();
-			if (idx != -1) {
-				PROTOACCOUNT *pa = (PROTOACCOUNT *)m_accList.GetItemData(idx);
-				if (pa) {
-					pa->bAccMgrUIChanged = TRUE;
-					SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
-				}
-			}
-			break;
+			if (p == acc)
+				m_accList.SetCurSel(iItem);
 		}
 
-		return CDlgBase::DlgProc(msg, wParam, lParam);
+		m_iSelected = m_accList.GetCurSel(); // -1 if error = > nothing selected in our case
+		if (m_iSelected >= 0)
+			SelectItem(m_iSelected);
+		else if (acc && acc->hwndAccMgrUI)
+			ShowWindow(acc->hwndAccMgrUI, SW_HIDE);
+
+		UpdateAccountInfo();
+	}
+
+	virtual void OnChange() override
+	{
+		int idx = m_accList.GetCurSel();
+		if (idx != -1) {
+			PROTOACCOUNT *pa = (PROTOACCOUNT*)m_accList.GetItemData(idx);
+			if (pa) {
+				pa->bAccMgrUIChanged = true;
+				NotifyChange();
+			}
+		}
 	}
 };
 
@@ -916,17 +803,120 @@ LRESULT CAccountListCtrl::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CAccountFormDlg::CAccountFormDlg(CAccountManagerDlg *pParent, int action, PROTOACCOUNT *pa) :
+	CDlgBase(g_hInst, IDD_ACCFORM),
+	m_btnOk(this, IDOK),
+	m_accName(this, IDC_ACCNAME),
+	m_prototype(this, IDC_PROTOTYPECOMBO),
+	m_internalName(this, IDC_ACCINTERNALNAME),
+	m_pa(pa),
+	m_action(action),
+	m_pParent(pParent)
+{
+	m_hwndParent = pParent->GetHwnd();
+	m_btnOk.OnClick = Callback(this, &CAccountFormDlg::OnOk);
+}
+
+void CAccountFormDlg::OnInitDialog()
+{
+	int cnt = 0;
+	for (auto &it : g_arProtos)
+		if (it->type == PROTOTYPE_PROTOCOL && it->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
+			m_prototype.AddStringA(it->szName);
+			++cnt;
+		}
+
+	m_prototype.SetCurSel(0);
+	m_btnOk.Enable(cnt != 0);
+
+	if (m_action == PRAC_ADDED) // new account
+		SetCaption(TranslateT("Create new account"));
+	else {
+		wchar_t str[200];
+		if (m_action == PRAC_CHANGED) { // update
+			m_prototype.Disable();
+			mir_snwprintf(str, L"%s: %s", TranslateT("Editing account"), m_pa->tszAccountName);
+		}
+		else mir_snwprintf(str, L"%s: %s", TranslateT("Upgrading account"), m_pa->tszAccountName);
+
+		SetCaption(str);
+		m_accName.SetText(m_pa->tszAccountName);
+		m_internalName.SetTextA(m_pa->szModuleName);
+		m_internalName.Disable();
+		m_prototype.SelectString(_A2T(m_pa->szProtoName));
+	}
+
+	m_internalName.SendMsg(EM_LIMITTEXT, 40, 0);
+}
+
+void CAccountFormDlg::OnOk(CCtrlButton*)
+{
+	wchar_t tszAccName[256];
+	m_accName.GetText(tszAccName, _countof(tszAccName));
+	rtrimw(tszAccName);
+	if (tszAccName[0] == 0) {
+		MessageBox(m_hwnd, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+		return;
+	}
+
+	if (m_action == PRAC_ADDED) {
+		char buf[200];
+		m_internalName.GetTextA(buf, _countof(buf));
+		if (FindAccountByName(rtrim(buf))) {
+			MessageBox(m_hwnd, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+			return;
+		}
+	}
+
+	if (m_action == PRAC_UPGRADED) {
+		BOOL oldProto = m_pa->bOldProto;
+		wchar_t szPlugin[MAX_PATH];
+		mir_snwprintf(szPlugin, L"%s.dll", _A2T(m_pa->szProtoName));
+		int idx = accounts.getIndex(m_pa);
+		UnloadAccount(m_pa, false, false);
+		accounts.remove(idx);
+		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
+			wchar_t szNewName[MAX_PATH];
+			mir_snwprintf(szNewName, L"%s~", szPlugin);
+			MoveFile(szPlugin, szNewName);
+		}
+		m_action = PRAC_ADDED;
+	}
+
+	if (m_action == PRAC_ADDED) {
+		char buf[200];
+		GetDlgItemTextA(m_hwnd, IDC_PROTOTYPECOMBO, buf, _countof(buf));
+		char *szBaseProto = NEWSTR_ALLOCA(buf);
+
+		m_internalName.GetTextA(buf, _countof(buf));
+		rtrim(buf);
+
+		m_pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
+		if (ActivateAccount(m_pa)) {
+			if (bModulesLoadedFired)
+				m_pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
+			if (!db_get_b(0, "CList", "MoveProtoMenus", true))
+				m_pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
+		}
+	}
+	else replaceStrW(m_pa->tszAccountName, tszAccName);
+
+	WriteDbAccounts();
+	NotifyEventHooks(hAccListChanged, m_action, (LPARAM)m_pa);
+
+	m_pParent->Refresh();
+	EndModal(IDOK);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
-			DestroyWindow(hwnd);
-			return 0;
-
 		case VK_ESCAPE:
-			SetWindowLongPtr(hwnd, GWLP_WNDPROC, GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			DestroyWindow(hwnd);
 			return 0;
 		}
@@ -941,7 +931,10 @@ static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		int length = GetWindowTextLength(hwnd) + 1;
 		wchar_t *str = (wchar_t*)mir_alloc(sizeof(wchar_t) * length);
 		GetWindowText(hwnd, str, length);
-		SendMessage(GetParent(GetParent(hwnd)), WM_COMMAND, MAKEWPARAM(GetWindowLongPtr(GetParent(hwnd), GWL_ID), LBN_MY_RENAME), (LPARAM)str);
+
+		CAccountManagerDlg *pDlg = (CAccountManagerDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		pDlg->Rename(str);
+
 		DestroyWindow(hwnd);
 		return 0;
 	}
@@ -961,6 +954,7 @@ void CAccountListCtrl::InitRename()
 	++rc.top; --rc.right;
 
 	m_hwndEdit = ::CreateWindow(L"EDIT", pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, m_hwnd, nullptr, g_hInst, nullptr);
+	SetWindowLongPtr(m_hwndEdit, GWLP_USERDATA, (LPARAM)m_parentWnd);
 	mir_subclassWindow(m_hwndEdit, sttEditSubclassProc);
 	SendMessage(m_hwndEdit, WM_SETFONT, (WPARAM)PARENT()->m_hfntTitle, 0);
 	SendMessage(m_hwndEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
