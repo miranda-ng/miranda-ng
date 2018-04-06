@@ -215,6 +215,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bSyncReadMessageStatusFromServer(proto, "SyncReadMessageStatusFromServer", false),
 	bLoadFullCList(proto, "LoadFullCList", false),
 	bShowVkDeactivateEvents(proto, "ShowVkDeactivateEvents", true),
+	bStickerBackground(proto, "StickerBackground", false),
 
 	bShowProtoMenuItem0(proto, "ShowProtoMenuItem0", true),
 	bShowProtoMenuItem1(proto, "ShowProtoMenuItem1", true),
@@ -236,6 +237,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	iNewsAutoClearHistoryInterval(proto, "NewsAutoClearHistoryInterval", 60 * 60 * 24 * 3),
 	iInvisibleInterval(proto, "InvisibleInterval", 10),
 	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
+	iStickerSize(proto, "StickerSize", 128),
 
 	pwszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
 	pwszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I'm back")),

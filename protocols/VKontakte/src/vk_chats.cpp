@@ -348,6 +348,10 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 			if (!bIsHistory)
 				SetChatTitle(cc, wszTitle);
 		}
+		else if (wszAction == L"chat_pin_message")
+			wszBody = TranslateT("pin message");
+		else if (wszAction == L"chat_unpin_message")
+			wszBody = TranslateT("unpin message");
 		else if (wszAction == L"chat_photo_update")
 			wszBody.Replace(TranslateT("Attachments:"), TranslateT("changed chat cover:"));
 		else if (wszAction == L"chat_photo_remove")

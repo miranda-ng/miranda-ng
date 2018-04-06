@@ -310,6 +310,7 @@ struct CVKOptions {
 	CMOption<BYTE> bSendVKLinksAsAttachments;
 	CMOption<BYTE> bLoadSentAttachments;
 	CMOption<BYTE> bShowVkDeactivateEvents;
+	CMOption<BYTE> bStickerBackground;
 
 	CMOption<BYTE> bShowProtoMenuItem0;
 	CMOption<BYTE> bShowProtoMenuItem1;
@@ -324,6 +325,7 @@ struct CVKOptions {
 	CMOption<DWORD> iNewsAutoClearHistoryInterval;
 	CMOption<DWORD> iInvisibleInterval;
 	CMOption<DWORD> iMaxFriendsCount;
+	CMOption<DWORD> iStickerSize;
 
 	CMOption<wchar_t*> pwszDefaultGroup;
 	CMOption<wchar_t*> pwszReturnChatMessage;

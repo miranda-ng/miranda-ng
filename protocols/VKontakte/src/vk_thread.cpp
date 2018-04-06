@@ -645,7 +645,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		LONG userid = it.as_int();
 		if (userid == 0)
 			break;
-		
+
 		MCONTACT hContact = FindUser(userid, true);
 		if (!getBool(hContact, "ReqAuth")) {
 			RetrieveUserInfo(userid);

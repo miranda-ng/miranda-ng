@@ -1172,23 +1172,28 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			res.Empty(); // sticker is not really an attachment, so we don't want all that heading info
 
 			if (m_vkOptions.bStikersAsSmyles) {
-				int id = jnSticker["id"].as_int();
+				int id = jnSticker["sticker_id"].as_int();
 				res.AppendFormat(L"[sticker:%d]", id);
 			}
 			else {
-				CMStringW wszLink;
-				for (auto &it : szImageTypes) {
-					const JSONNode &n = jnSticker[it];
-					if (n) {
-						wszLink = n.as_mstring();
+				CMStringW wszLink, wszLink128, wszLinkLast;
+				const JSONNode &jnImages = jnSticker[m_vkOptions.bStickerBackground ? "images_with_background" : "images"];
+				for (auto & jnImage : jnImages) {
+					if (jnImage["width"].as_int() == (int) m_vkOptions.iStickerSize) {
+						wszLink = jnImage["url"].as_mstring();
 						break;
 					}
+
+					if (jnImage["width"].as_int() == 128) // default size
+						wszLink128 = jnImage["url"].as_mstring();
+
+					wszLinkLast = jnImage["url"].as_mstring();
 				}
-				res.AppendFormat(L"%s", wszLink.c_str());
 
 				if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
-					res += SetBBCString(wszLink, iBBC, vkbbcImg);
+					res += SetBBCString(wszLink.IsEmpty() ? (wszLink128.IsEmpty() ? wszLinkLast : wszLink128) : wszLink, iBBC, vkbbcImg);
 			}
+
 		}
 		else if (wszType == L"link") {
 			const JSONNode &jnLink = jnAttach["link"];
