@@ -609,7 +609,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = nullptr)
 		}
 	}
 	else if (db_get_b(0, MODULE_NAME, "UseStatusMessage", 1) && ProtoServiceExists(proto, PS_SETAWAYMSG)) {
-		int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
+		int status = Proto_GetStatus(proto);
 		if (lti == nullptr)
 			CallProtoService(proto, PS_SETAWAYMSG, status, 0);
 		else {

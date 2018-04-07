@@ -118,7 +118,7 @@ static int ProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
 		long status = 0;
 		for (auto &pa : Accounts())
-			status = status | Proto_Status2Flag(CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
+			status = status | Proto_Status2Flag(Proto_GetStatus(pa->szModuleName));
 
 		SetNotify(status);
 	}

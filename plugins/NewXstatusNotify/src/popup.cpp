@@ -188,7 +188,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		if (pdp != nullptr) {
 			char *szProto = GetContactProto(PUGetContact(hwnd));
 			if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus)) {
-				WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+				int myStatus = Proto_GetStatus(szProto);
 				if (myStatus != ID_STATUS_INVISIBLE)
 					QueryAwayMessage(hwnd, pdp);
 			}

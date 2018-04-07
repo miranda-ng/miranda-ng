@@ -302,7 +302,7 @@ static int IdleChangeEvent(WPARAM, LPARAM lParam)
 int PreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
-	int iMode = szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : 0;
+	int iMode = szProto ? Proto_GetStatus(szProto) : 0;
 	int Flag1 = szProto ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
 	int iContactMode = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 	wchar_t szSetStr[256], szReadStr[256];

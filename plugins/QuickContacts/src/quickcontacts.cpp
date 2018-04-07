@@ -345,8 +345,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 					continue;
 
 				// Check if proto offline
-				else if (opts.hide_from_offline_proto
-					&& CallProtoService(pszProto, PS_GETSTATUS, 0, 0) <= ID_STATUS_OFFLINE)
+				else if (opts.hide_from_offline_proto && Proto_GetStatus(pszProto) <= ID_STATUS_OFFLINE)
 					continue;
 
 			}

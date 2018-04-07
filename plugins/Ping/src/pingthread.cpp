@@ -62,15 +62,13 @@ void SetProtoStatus(wchar_t *pszLabel, char *pszProto, int if_status, int new_st
 			SetProtoStatus(pszLabel, pa->szModuleName, if_status, new_status);
 	}
 	else {
-		if (ProtoServiceExists(pszProto, PS_GETSTATUS)) {
-			if (CallProtoService(pszProto, PS_GETSTATUS, 0, 0) == if_status) {
-				if (options.logging) {
-					wchar_t buf[1024];
-					mir_snwprintf(buf, TranslateT("%s - setting status of protocol '%S' (%d)"), pszLabel, pszProto, new_status);
-					CallService(PLUG "/Log", (WPARAM)buf, 0);
-				}
-				CallProtoService(pszProto, PS_SETSTATUS, new_status, 0);
+		if (Proto_GetStatus(pszProto) == if_status) {
+			if (options.logging) {
+				wchar_t buf[1024];
+				mir_snwprintf(buf, TranslateT("%s - setting status of protocol '%S' (%d)"), pszLabel, pszProto, new_status);
+				CallService(PLUG "/Log", (WPARAM)buf, 0);
 			}
+			CallProtoService(pszProto, PS_SETSTATUS, new_status, 0);
 		}
 	}
 }

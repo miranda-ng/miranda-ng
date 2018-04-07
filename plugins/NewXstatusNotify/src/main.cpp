@@ -369,7 +369,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 	bool bEnablePopup = true, bEnableSound = true;
 	char *szProto = GetContactProto(hContact);
-	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	int myStatus = Proto_GetStatus(szProto);
 
 	if (!mir_strcmp(szProto, META_PROTO)) { //this contact is Meta
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
@@ -419,7 +419,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	}
 
 	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled) {
-		WORD wStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+		int wStatus = Proto_GetStatus(szProto);
 		wchar_t str[MAX_SECONDLINE] = { 0 };
 		if (opt.ShowStatus)
 			GetStatusText(hContact, newStatus, oldStatus, str);
@@ -641,7 +641,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		bEnableSound = bEnablePopup = false;
 
 	// we're offline or just connecting
-	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	int myStatus = Proto_GetStatus(szProto);
 	if (myStatus == ID_STATUS_OFFLINE)
 		goto skip_notify;
 

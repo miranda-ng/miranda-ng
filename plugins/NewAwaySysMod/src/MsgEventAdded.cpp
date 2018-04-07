@@ -165,7 +165,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	int iMode = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	int iMode = Proto_GetStatus(szProto);
 	int i;
 	for (i = _countof(StatusModeList) - 1; i >= 0; i--)
 		if (iMode == StatusModeList[i].Status)

@@ -168,7 +168,7 @@ int SMProto::GetStatus() const
 {
 	switch (m_status) {
 	case ID_STATUS_CURRENT:
-		return CallProtoService(m_szName, PS_GETSTATUS, 0, 0);
+		return Proto_GetStatus(m_szName);
 	case ID_STATUS_LAST:
 		return m_lastStatus;
 	default:
@@ -180,7 +180,7 @@ static int SetCurrentStatus()
 {
 	TProtoSettings ps(protoList);
 	for (auto &p : ps) {
-		int realStatus = CallProtoService(p->m_szName, PS_GETSTATUS, 0, 0);
+		int realStatus = Proto_GetStatus(p->m_szName);
 		int curStatus = p->GetStatus();
 		if (curStatus == ID_STATUS_DISABLED)
 			continue;
@@ -523,7 +523,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 	StopTimer(IDT_PROCESSACK);
 	for (auto &it : protoList) {
 		int curStatus = it->GetStatus();
-		int newStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+		int newStatus = Proto_GetStatus(it->m_szName);
 		// ok, np
 		if (curStatus == ID_STATUS_CURRENT || curStatus == ID_STATUS_DISABLED || curStatus == newStatus || newStatus > MAX_STATUS)
 			continue;
@@ -558,7 +558,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 	bool setStatus = false;
 
 	for (auto &it : protoList) {
-		int realStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+		int realStatus = Proto_GetStatus(it->m_szName);
 		int shouldBeStatus = it->GetStatus();
 		if (shouldBeStatus == ID_STATUS_LAST)
 			shouldBeStatus = it->m_lastStatus;
@@ -601,7 +601,7 @@ static int StopChecking()
 	BOOL isOk = TRUE;
 	for (auto &it : protoList) {
 		int curStatus = it->GetStatus();
-		int newStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+		int newStatus = Proto_GetStatus(it->m_szName);
 		if (newStatus != curStatus) {
 			it->AssignStatus(newStatus);
 			isOk = FALSE;
@@ -626,7 +626,7 @@ static VOID CALLBACK AfterCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 	bool setStatus = false;
 
 	for (auto &it : protoList) {
-		int realStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+		int realStatus = Proto_GetStatus(it->m_szName);
 		int shouldBeStatus = it->GetStatus();
 		if (shouldBeStatus == ID_STATUS_LAST) // this should never happen
 			shouldBeStatus = it->m_lastStatus;
@@ -953,7 +953,7 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 	for (auto &it : protoList) {
 		if (!mir_strcmp(szProto, it->m_szName)) {
 			if (wParam)
-				it->AssignStatus(CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0));
+				it->AssignStatus(Proto_GetStatus(it->m_szName));
 			else
 				it->AssignStatus(ID_STATUS_DISABLED);
 

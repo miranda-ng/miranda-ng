@@ -405,7 +405,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (szProto == nullptr)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 			else {
-				if (CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE)
+				if (Proto_GetStatus(szProto) < ID_STATUS_ONLINE)
 					EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 				else
 					EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), !IsWindowVisible(GetDlgItem(hwndDlg, IDC_UPDATING)));

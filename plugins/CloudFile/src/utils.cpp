@@ -49,7 +49,7 @@ bool CanSendToContact(MCONTACT hContact)
 	if (!canSend)
 		return false;
 
-	bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;
+	bool isProtoOnline = Proto_GetStatus(proto) > ID_STATUS_OFFLINE;
 	if (isProtoOnline)
 		return true;
 

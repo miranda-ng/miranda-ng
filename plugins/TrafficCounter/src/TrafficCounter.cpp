@@ -471,7 +471,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				// Изображаем иконку аккаунта.
 				if (unOptions.DrawProtoIcon) {
 					TC_DrawIconEx(hdc, rect.left, rect.top,
-						Skin_LoadProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name, PS_GETSTATUS, 0, 0)), b, ClistModernPresent);
+						Skin_LoadProtoIcon(ProtoList[i].name, Proto_GetStatus(ProtoList[i].name)), b, ClistModernPresent);
 					dx = 19;
 				}
 				// Изображаем имя аккаунта
@@ -638,7 +638,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
 
 				ExtraText[RowsNumber] = mir_a2u(ProtoList[i].name);
-				ahIcon[RowsNumber++] = Skin_LoadProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name, PS_GETSTATUS, 0, 0));
+				ahIcon[RowsNumber++] = Skin_LoadProtoIcon(ProtoList[i].name, Proto_GetStatus(ProtoList[i].name));
 			}
 		}
 		// Ещё 2 особых элемента.

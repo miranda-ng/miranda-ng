@@ -463,7 +463,7 @@ void CSrmmWindow::NotifyTyping(int mode)
 	if (!m_szProto)
 		return;
 
-	DWORD protoStatus = CallProtoService(m_szProto, PS_GETSTATUS, 0, 0);
+	int protoStatus = Proto_GetStatus(m_szProto);
 	DWORD protoCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	DWORD typeCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 

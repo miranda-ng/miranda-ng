@@ -1734,7 +1734,7 @@ void CTabBaseDlg::SendHBitmapAsFile(HBITMAP hbmp) const
 	bool fSend = true;
 
 	const char *szProto = m_cache->getActiveProto();
-	WORD  wMyStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	int wMyStatus = Proto_GetStatus(szProto);
 
 	DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	DWORD typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);

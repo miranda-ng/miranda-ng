@@ -1946,7 +1946,7 @@ LRESULT CLUI::OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (pt->bGlobal)
 			status = g_bMultiConnectionMode ? ID_STATUS_CONNECTING : 0;
 		else
-			status = CallProtoService(pt->szProto, PS_GETSTATUS, 0, 0);
+			status = Proto_GetStatus(pt->szProto);
 
 		if (!IsStatusConnecting(status)) {
 			pt->nCycleStartTick = 0;

@@ -52,7 +52,7 @@ bool SpeakConfig::say(const std::wstring &sentence, MCONTACT user, bool message)
 		// get the status of the protocol of this user
 		const char *protocol = GetContactProto(user);
 		
-		switch (CallProtoService(protocol, PS_GETSTATUS, 0, 0)) {
+		switch (Proto_GetStatus(protocol)) {
 		case ID_STATUS_ONLINE:
 			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Online);
 			break;

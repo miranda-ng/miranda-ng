@@ -145,7 +145,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 		return FALSE;	/// unspecifyed error
 
 	char* pszProto = GetContactProto(hContact);
-	int status = CallProtoService(pszProto, PS_GETSTATUS, 0, 0);
+	int status = Proto_GetStatus(pszProto);
 	if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT || status == ID_STATUS_INVISIBLE)
 		return FALSE;
 

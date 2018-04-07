@@ -104,7 +104,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 					if (p->useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
 						return 0;
 
-					DWORD Status = CallProtoService(protoName, PS_GETSTATUS, 0, 0);
+					int Status = Proto_GetStatus(protoName);
 
 					if (((p->statusFlags & NUDGE_ACC_ST0) && (Status <= ID_STATUS_OFFLINE)) ||
 						((p->statusFlags & NUDGE_ACC_ST1) && (Status == ID_STATUS_ONLINE)) ||

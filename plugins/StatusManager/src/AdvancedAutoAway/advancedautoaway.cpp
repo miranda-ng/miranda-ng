@@ -222,7 +222,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		int sts1Time = it->awayTime * SECS_PER_MINUTE;
 		int sts2Time = it->naTime * SECS_PER_MINUTE;
 		int sts1setTime = it->sts1setTimer == 0 ? 0 : (GetTickCount() - it->sts1setTimer) / 1000;
-		int currentMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+		int currentMode = Proto_GetStatus(it->m_szName);
 
 		if (it->optionFlags & FLAG_ONSAVER)
 			bTrigger |= IsScreenSaverRunning();
@@ -235,7 +235,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		if (it->curState == ACTIVE) {
 			if (((mouseStationaryTimer >= sts1Time && (it->optionFlags & FLAG_ONMOUSE)) || bTrigger) && currentMode != it->lv1Status && it->statusFlags&StatusModeToProtoFlag(currentMode)) {
 				/* from ACTIVE to STATUS1_SET */
-				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_lastStatus = it->originalStatusMode = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv1Status;
 				it->sts1setTimer = GetTickCount();
 				sts1setTime = 0;
@@ -244,7 +244,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			}
 			else if (mouseStationaryTimer >= sts2Time && currentMode == it->lv1Status && currentMode != it->lv2Status && (it->optionFlags & FLAG_SETNA) && (it->statusFlags & StatusModeToProtoFlag(currentMode))) {
 				/* from ACTIVE to STATUS2_SET */
-				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_lastStatus = it->originalStatusMode = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
 				it->bStatusChanged = statusChanged = true;
 				changeState(*it, STATUS2_SET);
@@ -255,7 +255,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			if ((mouseStationaryTimer < sts1Time && !bTrigger) && !(it->optionFlags & FLAG_RESET)) {
 				/* from STATUS1_SET to HIDDEN_ACTIVE */
 				changeState(*it, HIDDEN_ACTIVE);
-				it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_lastStatus = Proto_GetStatus(it->m_szName);
 			}
 			else if (((mouseStationaryTimer < sts1Time) && !bTrigger) &&
 				((it->optionFlags & FLAG_LV2ONINACTIVE) || (!(it->optionFlags&FLAG_SETNA))) &&
@@ -266,7 +266,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			else if ((it->optionFlags & FLAG_SETNA) && sts1setTime >= sts2Time) {
 				/* when set STATUS2, currentMode doesn't have to be in the selected status list (statusFlags) */
 				/* from STATUS1_SET to STATUS2_SET */
-				it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_lastStatus = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
 				it->bStatusChanged = statusChanged = true;
 				changeState(*it, STATUS2_SET);
@@ -282,7 +282,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				/* from STATUS2_SET to HIDDEN_ACTIVE */
 				/* Remember: after status1 is set, and "only on inactive" is NOT set, it implies !reset. */
 				changeState(*it, HIDDEN_ACTIVE);
-				it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_lastStatus = Proto_GetStatus(it->m_szName);
 			}
 		}
 
@@ -298,7 +298,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				currentMode != it->lv2Status && (it->statusFlags & StatusModeToProtoFlag(currentMode)) &&
 				(mouseStationaryTimer >= sts2Time || (sts1setTime >= sts2Time && !(it->optionFlags & FLAG_LV2ONINACTIVE)))) {
 				/* HIDDEN_ACTIVE to STATUS2_SET */
-				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_lastStatus = it->originalStatusMode = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
 				it->bStatusChanged = statusChanged = true;
 				changeState(*it, STATUS2_SET);
@@ -306,7 +306,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		}
 		if (it->curState == SET_ORGSTATUS) {
 			/* SET_ORGSTATUS to ACTIVE */
-			it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+			it->m_lastStatus = Proto_GetStatus(it->m_szName);
 			it->aaaStatus = it->originalStatusMode;
 			confirm = (it->optionFlags & FLAG_CONFIRM) ? TRUE : confirm;
 			it->bStatusChanged = statusChanged = true;

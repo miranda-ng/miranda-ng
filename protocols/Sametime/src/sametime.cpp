@@ -47,14 +47,6 @@ INT_PTR CSametimeProto::GetName(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*
- * Returns the current status
- */
-INT_PTR CSametimeProto::GetStatus(WPARAM wParam, LPARAM lParam)
-{
-	return m_iStatus;
-}
-
 
 /** Loads the icon corresponding to the status
 * Called by the CList when the status changes.

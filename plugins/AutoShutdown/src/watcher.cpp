@@ -178,7 +178,7 @@ static BOOL CheckAllContactsOffline(void)
 	fSmartCheck = db_get_b(NULL, "AutoShutdown", "SmartOfflineCheck", SETTING_SMARTOFFLINECHECK_DEFAULT);
 	for (auto &hContact : Contacts()) {
 		char *pszProto = GetContactProto(hContact);
-		if (pszProto != nullptr && CallProtoService(pszProto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE) {
+		if (pszProto != nullptr && Proto_GetStatus(pszProto) != ID_STATUS_OFFLINE) {
 			if (db_get_b(hContact, pszProto, "ChatRoom", 0)) continue;
 			if (db_get_w(hContact, pszProto, "Status", 0) != ID_STATUS_OFFLINE) {
 				if (fSmartCheck) {
@@ -235,7 +235,7 @@ static BOOL CALLBACK CpuUsageWatcherProc(BYTE nCpuUsage, LPARAM lParam)
 static int WeatherUpdated(WPARAM wParam, LPARAM lParam)
 {
 	char *pszProto = GetContactProto(wParam);
-	if ((BOOL)lParam && pszProto != nullptr && CallProtoService(pszProto, PS_GETSTATUS, 0, 0) == THUNDER)
+	if ((BOOL)lParam && pszProto != nullptr && Proto_GetStatus(pszProto) == THUNDER)
 		if (db_get_b(NULL, "AutoShutdown", "WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT))
 			ServiceShutdown(SDSDT_SHUTDOWN, TRUE);
 	return 0;

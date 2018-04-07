@@ -351,7 +351,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	if ((db_get_b(0, MODULE, buff, 1) == 0)
 		|| (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		|| (!opt.HiddenContactsToo && (db_get_b(xsc->hContact, "CList", "Hidden", 0) == 1))
-		|| (CallProtoService(xsc->szProto, PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE))
+		|| (Proto_GetStatus(xsc->szProto) == ID_STATUS_OFFLINE))
 	{
 		FreeXSC(xsc);
 		return;
@@ -364,7 +364,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	// check if our status isn't on autodisable list
 	if (opt.AutoDisable) {
 		char statusIDs[12], statusIDp[12];
-		WORD myStatus = (WORD)CallProtoService(xsc->szProto, PS_GETSTATUS, 0, 0);
+		int myStatus = Proto_GetStatus(xsc->szProto);
 		mir_snprintf(statusIDs, "s%d", myStatus);
 		mir_snprintf(statusIDp, "p%d", myStatus);
 		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : bEnableSound;

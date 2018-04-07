@@ -472,7 +472,7 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 		}
 	}
 	else if (smep && smep->status && !smep->custom) {
-		int curProtoStatus = (smep->szProto) ? CallProtoServiceInt(0, smep->szProto, PS_GETSTATUS, 0, 0) : Proto_GetAverageStatus();
+		int curProtoStatus = (smep->szProto) ? Proto_GetStatus(smep->szProto) : Proto_GetAverageStatus();
 		if (smep->status == curProtoStatus)
 			pimi->mi.flags |= CMIF_CHECKED;
 		else

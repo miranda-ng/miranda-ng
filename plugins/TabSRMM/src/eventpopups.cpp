@@ -765,7 +765,7 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 
 	if (nen_options.dwStatusMask != -1) {
 		if (szProto != nullptr) {
-			DWORD dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			int dwStatus = Proto_GetStatus(szProto);
 			if (!(dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & nen_options.dwStatusMask)))           // should never happen, but...
 				return 0;
 		}

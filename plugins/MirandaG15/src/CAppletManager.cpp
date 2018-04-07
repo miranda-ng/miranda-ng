@@ -722,7 +722,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return;
 
-	DWORD protoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	DWORD protoStatus = Proto_GetStatus(szProto);
 	if (protoStatus < ID_STATUS_ONLINE)
 		return;
 

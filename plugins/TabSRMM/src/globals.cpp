@@ -549,7 +549,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		return;
 
 	// don't log them if WE are logging off
-	if (CallProtoService(c->getProto(), PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE)
+	if (Proto_GetStatus(c->getProto()) == ID_STATUS_OFFLINE)
 		return;
 
 	WORD wStatus = LOWORD(wParam);

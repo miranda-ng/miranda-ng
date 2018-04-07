@@ -54,7 +54,7 @@ int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 					mir_free(EventText);
 				}
 				if (gbInvisDisable) {
-					if (CallProtoService(dbei.szModule, PS_GETSTATUS, 0, 0) == ID_STATUS_INVISIBLE)
+					if (Proto_GetStatus(dbei.szModule) == ID_STATUS_INVISIBLE)
 						msg = 0;
 					else if (db_get_w(hContact, dbei.szModule, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 						msg = 0; //is it useful ?
@@ -128,7 +128,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 	bool bSendMsg = true;
 	if (gbInvisDisable) {
-		if (CallProtoService(dbei->szModule, PS_GETSTATUS, 0, 0) == ID_STATUS_INVISIBLE)
+		if (Proto_GetStatus(dbei->szModule) == ID_STATUS_INVISIBLE)
 			bSendMsg = false;
 		else if (db_get_w(hContact, dbei->szModule, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 			bSendMsg = false; //is it useful ?

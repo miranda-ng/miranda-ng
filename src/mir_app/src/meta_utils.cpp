@@ -234,7 +234,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 	int most_online_status = ID_STATUS_OFFLINE;
 	MCONTACT most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
 	char *szProto = GetContactProto(most_online_contact);
-	if (szProto && CallProtoService(szProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_ONLINE) {
+	if (szProto && Proto_GetStatus(szProto) >= ID_STATUS_ONLINE) {
 		DWORD caps = CallProtoService(szProto, PS_GETCAPS, pflagnum, 0);
 		if (capability == -1 || (caps & capability) == capability) {
 			most_online_status = db_get_w(most_online_contact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -256,7 +256,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 		MCONTACT hContact = Meta_GetContactHandle(cc, i);
 		szProto = GetContactProto(hContact);
-		if (szProto == nullptr || CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // szProto offline or connecting
+		if (szProto == nullptr || Proto_GetStatus(szProto) < ID_STATUS_ONLINE) // szProto offline or connecting
 			continue;
 
 		DWORD caps = CallProtoService(szProto, PS_GETCAPS, pflagnum, 0);

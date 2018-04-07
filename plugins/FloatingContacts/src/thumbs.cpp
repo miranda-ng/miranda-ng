@@ -247,7 +247,7 @@ void ThumbInfo::ResizeThumb()
 	if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
 		char *szProto = GetContactProto(hContact);
 		if (nullptr != szProto) {
-			int nStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			int nStatus = Proto_GetStatus(szProto);
 			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			int nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 
@@ -575,7 +575,7 @@ void ThumbInfo::UpdateContent()
 	if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
 		char *szProto = GetContactProto(hContact);
 		if (nullptr != szProto) {
-			int nStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			int nStatus = Proto_GetStatus(szProto);
 			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			int nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 

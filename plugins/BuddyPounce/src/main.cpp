@@ -159,7 +159,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 			DBVARIANT dbv;
 			if (!db_get_ws(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
 				// check my status
-				if (statusCheck(db_get_w(hContact, modname, "SendIfMyStatusIsFLAG", 0), CallProtoService(szProto, PS_GETSTATUS,0,0)) 
+				if (statusCheck(db_get_w(hContact, modname, "SendIfMyStatusIsFLAG", 0), Proto_GetStatus(szProto))
 				// check the contacts status
 				&& statusCheck(db_get_w(hContact, modname, "SendIfTheirStatusIsFLAG", 0), newStatus)) {
 					// check if we r giving up after x days

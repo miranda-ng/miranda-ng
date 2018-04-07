@@ -98,7 +98,7 @@ int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (!g_Options.IsProtocolExcluded(pAckData->szModule)) {
-		int nStatus = CallProtoService(pAckData->szModule, PS_GETSTATUS, 0, 0);
+		int nStatus = Proto_GetStatus(pAckData->szModule);
 		for (size_t i = 0; i < _countof(g_aStatusCode); ++i) {
 			const CMirandaStatus2SkypeStatus& ms = g_aStatusCode[i];
 			if (ms.m_nMirandaStatus == nStatus) {

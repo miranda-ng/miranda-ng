@@ -147,9 +147,9 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if (proto) {
 			char prefix[128];
 			mir_snprintf(prefix, LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
-			if (db_get_dw(NULL, MODULNAME, prefix, 0) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
+			if (db_get_dw(NULL, MODULNAME, prefix, 0) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
 				return -1;
-			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
+			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
 				return -1;
 		}
 	}

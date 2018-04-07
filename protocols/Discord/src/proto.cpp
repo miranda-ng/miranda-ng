@@ -50,7 +50,6 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	arUsers(10, compareUsers)
 {
 	// Services
-	CreateProtoService(PS_GETSTATUS, &CDiscordProto::GetStatus);
 	CreateProtoService(PS_CREATEACCMGRUI, &CDiscordProto::SvcCreateAccMgrUI);
 
 	CreateProtoService(PS_GETAVATARINFO, &CDiscordProto::GetAvatarInfo);
@@ -119,11 +118,6 @@ DWORD_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 		return (DWORD_PTR)Translate("User ID");
 	}
 	return 0;
-}
-
-INT_PTR CDiscordProto::GetStatus(WPARAM, LPARAM)
-{
-	return m_iStatus;
 }
 
 int CDiscordProto::SetStatus(int iNewStatus)

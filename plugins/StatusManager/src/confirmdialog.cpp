@@ -120,7 +120,7 @@ static int SetStatusList(HWND hwndDlg)
 		int actualStatus;
 		switch (it->m_status) {
 			case ID_STATUS_LAST:    actualStatus = it->m_lastStatus;   break;
-			case ID_STATUS_CURRENT: actualStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0); break;
+			case ID_STATUS_CURRENT: actualStatus = Proto_GetStatus(it->m_szName); break;
 			default:                actualStatus = it->m_status;
 		}
 		wchar_t *status = Clist_GetStatusModeDescription(actualStatus, 0);
@@ -272,7 +272,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					// CURRENT STATUS
 					else if (proto->m_status == ID_STATUS_CURRENT) {
-						int currentStatus = CallProtoService(proto->m_szName, PS_GETSTATUS, 0, 0);
+						int currentStatus = Proto_GetStatus(proto->m_szName);
 						wchar_t current[80];
 						mir_snwprintf(current, L"%s (%s)", TranslateT("<current>"), Clist_GetStatusModeDescription(currentStatus, 0));
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_STARTUPLIST), lvItem.iItem, 1, current);
@@ -349,7 +349,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 
 				// current
-				int currentStatus = CallProtoService(proto->m_szName, PS_GETSTATUS, 0, 0);
+				int currentStatus = Proto_GetStatus(proto->m_szName);
 				mir_snwprintf(buf, L"%s (%s)", TranslateT("<current>"), Clist_GetStatusModeDescription(currentStatus, 0));
 				item = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)buf);
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, ID_STATUS_CURRENT);

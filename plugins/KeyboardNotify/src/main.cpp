@@ -366,7 +366,7 @@ BOOL checkStatus(char *szProto)
 	if (!szProto)
 		return checkGlobalStatus();
 
-	return isStatusEnabled(CallProtoService(szProto, PS_GETSTATUS, 0, 0));
+	return isStatusEnabled(Proto_GetStatus(szProto));
 }
 
 

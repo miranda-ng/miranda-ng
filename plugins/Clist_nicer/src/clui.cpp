@@ -1638,7 +1638,7 @@ buttons_done:
 				SIZE textSize;
 				BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
 				char *szProto = pd->RealName;
-				int status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+				int status = Proto_GetStatus(szProto);
 				SetBkMode(dis->hDC, TRANSPARENT);
 				int x = dis->rcItem.left;
 

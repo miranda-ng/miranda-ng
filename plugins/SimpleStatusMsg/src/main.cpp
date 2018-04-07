@@ -1302,7 +1302,7 @@ VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 			if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 				continue;
 
-			iCurrentStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+			iCurrentStatus = Proto_GetStatus(pa->szModuleName);
 			if (iCurrentStatus < ID_STATUS_ONLINE)
 				continue;
 
@@ -1471,7 +1471,7 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 				continue;
 		}
 
-		int iCurrentStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+		int iCurrentStatus = Proto_GetStatus(pa->szModuleName);
 		if (iCurrentStatus < ID_STATUS_ONLINE || iCurrentStatus == ID_STATUS_INVISIBLE)
 			continue;
 
@@ -1509,7 +1509,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 		if (ps[i]->m_status == ID_STATUS_IDLE)
 			status_mode = ps[i]->m_lastStatus;
 		else if (ps[i]->m_status == ID_STATUS_CURRENT)
-			status_mode = CallProtoService(ps[i]->m_szName, PS_GETSTATUS, 0, 0);
+			status_mode = Proto_GetStatus(ps[i]->m_szName);
 		else
 			status_mode = ps[i]->m_status;
 
@@ -1770,7 +1770,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 				continue;
 
 			mir_snprintf(szSetting, "Last%sStatus", pa->szModuleName);
-			db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
+			db_set_w(NULL, "SimpleStatusMsg", szSetting, Proto_GetStatus(pa->szModuleName));
 		}
 
 		if (g_ptszWinampSong && mir_wstrcmp(g_ptszWinampSong, L"SimpleStatusMsg") /*&& db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1)*/)

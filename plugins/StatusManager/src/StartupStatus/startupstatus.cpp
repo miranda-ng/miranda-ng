@@ -230,7 +230,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 
 		char lastName[128], lastMsg[128];
 		mir_snprintf(lastName, "%s%s", PREFIX_LAST, pa->szModuleName);
-		db_set_w(0, SSMODULENAME, lastName, (WORD)CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
+		db_set_w(0, SSMODULENAME, lastName, pa->iRealStatus);
 		mir_snprintf(lastMsg, "%s%s", PREFIX_LASTMSG, pa->szModuleName);
 		db_unset(0, SSMODULENAME, lastMsg);
 

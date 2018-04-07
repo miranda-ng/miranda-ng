@@ -155,12 +155,11 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						if (NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event
 							tooltip_active = TRUE;
 						else if (db_get_dw(NULL, "mToolTip", "ShowStatusTip", 0)) {
-							WORD wStatus = (WORD)CallProtoService(PD->RealName, PS_GETSTATUS, 0, 0);
+							int wStatus = Proto_GetStatus(PD->RealName);
 							BYTE isLocked = db_get_b(NULL, PD->RealName, "LockMainStatus", 0);
 
 							wchar_t szTipText[256];
-							mir_snwprintf(szTipText, L"<b>%s</b>: %s%s",
-								PD->RealName, Clist_GetStatusModeDescription(wStatus, 0), isLocked ? L"  (LOCKED)" : L"");
+							mir_snwprintf(szTipText, L"<b>%s</b>: %s%s", PD->RealName, Clist_GetStatusModeDescription(wStatus, 0), isLocked ? L"  (LOCKED)" : L"");
 
 							CLCINFOTIP ti = { sizeof(ti) };
 							ti.isTreeFocused = (GetFocus() == pcli->hwndContactList);

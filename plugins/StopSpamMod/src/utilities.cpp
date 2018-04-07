@@ -248,7 +248,7 @@ void __cdecl CleanProtocolTmpThread(void *param)
 	const char *szProto = (const char*)param;
 
 	while (true) {
-		UINT status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+		int status = Proto_GetStatus(szProto);
 		if (status > ID_STATUS_OFFLINE)
 			break;
 		Sleep(2000);
@@ -278,7 +278,7 @@ void __cdecl CleanProtocolExclThread(void *param)
 	const char *szProto = (const char*)param;
 
 	while (true) {
-		UINT status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+		int status = Proto_GetStatus(szProto);
 		if (status > ID_STATUS_OFFLINE)
 			break;
 		Sleep(2000);

@@ -117,12 +117,13 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 {
 	if (protoSetting->m_status == ID_STATUS_LAST) {
 		if ((protoSetting->m_lastStatus < MIN_STATUS) || (protoSetting->m_lastStatus > MAX_STATUS))
-			return CallProtoService(protoSetting->m_szName, PS_GETSTATUS, 0, 0);
+			return Proto_GetStatus(protoSetting->m_szName);
+		
 		return protoSetting->m_lastStatus;
 	}
 	
 	if (protoSetting->m_status == ID_STATUS_CURRENT)
-		return CallProtoService(protoSetting->m_szName, PS_GETSTATUS, 0, 0);
+		return Proto_GetStatus(protoSetting->m_szName);
 
 	if ((protoSetting->m_status < ID_STATUS_OFFLINE) || (protoSetting->m_status > ID_STATUS_OUTTOLUNCH)) {
 		log_debugA("invalid status detected: %d", protoSetting->m_status);
@@ -243,7 +244,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 			log_debugA("CommonStatus: incorrect status for %s (%d)", p->m_szName, p->m_status);
 			continue;
 		}
-		int oldstatus = CallProtoService(p->m_szName, PS_GETSTATUS, 0, 0);
+		int oldstatus = Proto_GetStatus(p->m_szName);
 		// set last status
 		p->m_lastStatus = oldstatus;
 		if (IsStatusConnecting(oldstatus)) {

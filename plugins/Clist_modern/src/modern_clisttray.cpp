@@ -405,22 +405,22 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			if (szProto == nullptr)
 				break;
 
-			iStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			iStatus = Proto_GetStatus(szProto);
 			if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 				hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
 			else
-				hIcon = pcli->pfnGetIconFromStatusMode(0, szProto, CallProtoService(szProto, PS_GETSTATUS, 0, 0));
+				hIcon = pcli->pfnGetIconFromStatusMode(0, szProto, Proto_GetStatus(szProto));
 
 			Clist_TrayIconMakeTooltip(nullptr, szProto);
 		}
 		break;
 
 	case TRAY_ICON_MODE_CYCLE:
-		iStatus = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
+		iStatus = Proto_GetStatus(szChangedProto);
 		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else if (!bConn)
-			hIcon = pcli->pfnGetIconFromStatusMode(0, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0));
+			hIcon = pcli->pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto));
 		Clist_TrayIconMakeTooltip(nullptr, nullptr);
 		break;
 
@@ -430,11 +430,11 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			if (!mir_strcmp(pcli->trayIcon[i].szProto, szChangedProto))
 				break;
 
-		iStatus = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
+		iStatus = Proto_GetStatus(szChangedProto);
 		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
-			hIcon = pcli->pfnGetIconFromStatusMode(0, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0));
+			hIcon = pcli->pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto));
 		Clist_TrayIconMakeTooltip(nullptr, pcli->trayIcon[i].szProto);
 		break;
 	}

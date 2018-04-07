@@ -232,7 +232,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			p->PaddingRight = 0;
 		}
 
-		p->iProtoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+		p->iProtoStatus = Proto_GetStatus(szProto);
 
 		if (p->iProtoStatus > ID_STATUS_OFFLINE)
 			if (p->bShowProtoEmails == 1 && ProtoServiceExists(szProto, PS_GETUNREADEMAILCOUNT)) {

@@ -80,7 +80,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				else a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
 
 				// protocol status
-				WORD wStatus = (WORD)CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
+				int wStatus = Proto_GetStatus(pwd->clcit.szProto);
 
 				// get status icon
 				if (pwd->bIsIconVisible[0]) {

@@ -183,7 +183,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 			// Check if protocol uses server side lists
 			DWORD caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (caps & PF1_SERVERCLIST) {
-				int status = CallProtoServiceInt(0, szProto, PS_GETSTATUS, 0, 0);
+				int status = Proto_GetStatus(szProto);
 				if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
 					// Set a flag so we remember to delete the contact when the protocol goes online the next time
 					db_set_b(wParam, "CList", "Delete", 1);
@@ -955,7 +955,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				int status, x;
 				SIZE textSize;
 				BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
-				status = CallProtoServiceInt(0, szProto, PS_GETSTATUS, 0, 0);
+				status = Proto_GetStatus(szProto);
 				SetBkMode(dis->hDC, TRANSPARENT);
 				x = dis->rcItem.left;
 				if (showOpts & 1) {

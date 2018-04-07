@@ -163,7 +163,7 @@ int ModeChange_mo(WPARAM, LPARAM lparam)
 	if (ack->type != ACKTYPE_STATUS || ack->result != ACKRESULT_SUCCESS || ack->hContact != NULL)
 		return 0;
 
-	int isetting = CallProtoService(ack->szModule, PS_GETSTATUS, 0, 0);
+	int isetting = Proto_GetStatus(ack->szModule);
 	switch (isetting) {
 	case ID_STATUS_AWAY:
 	case ID_STATUS_DND:

@@ -48,7 +48,6 @@ public:
 
 	// Services
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM,LPARAM);
-	INT_PTR __cdecl GetStatus(WPARAM,LPARAM);
 	INT_PTR __cdecl ReplyToTweet(WPARAM,LPARAM);
 	INT_PTR __cdecl VisitHomepage(WPARAM,LPARAM);
 	INT_PTR __cdecl GetAvatar(WPARAM,LPARAM);

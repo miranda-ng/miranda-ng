@@ -194,7 +194,7 @@ bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto)
 			iFlags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & (PF1_VISLIST | PF1_INVISLIST);
 			if (opt.bDisableIfInvisible && iFlags) {
 				int iVisMode = db_get_w(hContact, szProto, "ApparentMode", 0);
-				int wProtoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+				int wProtoStatus = Proto_GetStatus(szProto);
 				if ((iVisMode == ID_STATUS_OFFLINE) || (wProtoStatus == ID_STATUS_INVISIBLE && iVisMode != ID_STATUS_ONLINE))
 					return false;
 				return true;
@@ -216,7 +216,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 		if (!mir_strcmp(szProto, META_PROTO))
 			hContact = db_mc_getMostOnline(hContact);
 		else {
-			WORD wStatus = (int)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			WORD wStatus = Proto_GetStatus(szProto);
 			if (wStatus == ID_STATUS_OFFLINE)
 				return nullptr;
 

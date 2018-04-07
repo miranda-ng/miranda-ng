@@ -209,7 +209,7 @@ static int ChangeAllProtoStatuses(unsigned statusMode, wchar_t *msg)
 {
 	for (int i = 0; i < protoCount; i++)
 	{
-		unsigned status = CallProtoService(proto[i]->szModuleName, PS_GETSTATUS, 0, 0);
+		unsigned status = Proto_GetStatus(proto[i]->szModuleName);
 		if (
 			(g_wMask & OPT_ONLINEONLY) ? // check "Change only if current status is Online" option
 			((status == ID_STATUS_ONLINE) || (status == ID_STATUS_FREECHAT)) // process only "online" and "free for chat"

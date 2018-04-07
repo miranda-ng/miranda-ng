@@ -606,7 +606,7 @@ void CImportFeed::OnOk(CCtrlBase*)
 						db_set_b(hContact, MODULE, "CheckState", 1);
 						db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
 						db_set_ws(hContact, MODULE, "MsgFormat", TAGSDEFAULT);
-						db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
+						db_set_w(hContact, MODULE, "Status", Proto_GetStatus(MODULE));
 
 						if (m_list != nullptr) {
 							int iItem = m_list->AddItem(text, -1);
@@ -835,7 +835,7 @@ void CFeedEditor::OnOk(CCtrlBase*)
 	db_set_ws(hContact, MODULE, "URL", strfeedurl);
 	db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)m_checktime.GetInt());
 	db_set_ws(hContact, MODULE, "MsgFormat", strtagedit);
-	db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
+	db_set_w(hContact, MODULE, "Status", Proto_GetStatus(MODULE));
 	if (m_useauth.IsChecked()) {
 		db_set_b(hContact, MODULE, "UseAuth", 1);
 		db_set_ws(hContact, MODULE, "Login", m_login.GetText());

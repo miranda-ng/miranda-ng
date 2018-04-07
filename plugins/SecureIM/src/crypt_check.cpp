@@ -105,7 +105,7 @@ bool isContactInvisible(MCONTACT hContact)
 
 	switch (db_get_w(hContact, p->proto->name, "ApparentMode", 0)) {
 	case 0:
-		return CallProtoService(p->proto->name, PS_GETSTATUS, 0, 0) == ID_STATUS_INVISIBLE;
+		return Proto_GetStatus(p->proto->name) == ID_STATUS_INVISIBLE;
 	case ID_STATUS_ONLINE:
 		return false;
 	case ID_STATUS_OFFLINE:

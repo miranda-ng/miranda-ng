@@ -66,7 +66,7 @@ int IsAutoPopup(MCONTACT hContact) {
 		if (hContact != 0)
 			szProto = GetContactProto(hContact);
 
-		if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
+		if (szProto && (g_dat.openFlags & SRMMStatusToPf2(Proto_GetStatus(szProto))))
 			return 1;
 	}
 	return 0;

@@ -47,7 +47,7 @@ static bool fTrayInited;
 
 static wchar_t* sttGetXStatus(const char *szProto)
 {
-	if (CallProtoServiceInt(0, szProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
+	if (Proto_GetStatus(szProto) > ID_STATUS_OFFLINE) {
 		wchar_t tszStatus[512];
 		CUSTOM_STATUS cs = { sizeof(cs) };
 		cs.flags = CSSF_MASK_MESSAGE | CSSF_UNICODE;
@@ -241,7 +241,7 @@ int fnTrayIconInit(HWND hwnd)
 			else
 				szProto = nullptr;
 
-			Clist_TrayIconAdd(hwnd, nullptr, szProto, szProto ? CallProtoServiceInt(0, szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
+			Clist_TrayIconAdd(hwnd, nullptr, szProto, szProto ? Proto_GetStatus(szProto) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
 			db_free(&dbv);
 		}
 		else if (trayIconSetting == SETTING_TRAYICON_MULTI && (averageMode < 0 || db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))) {
@@ -495,7 +495,7 @@ int fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoC
 			return Clist_TrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(0, nullptr, averageMode), nullptr);
 
 		if (db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
-			return Clist_TrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(0, szChangedProto, CallProtoServiceInt(0, szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
+			return Clist_TrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto)), (char*)szChangedProto);
 
 		if (cli.trayIcon == nullptr || cli.trayIcon[0].szProto == nullptr)
 			return Clist_TrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(0, nullptr, averageMode), nullptr);
@@ -507,13 +507,13 @@ int fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoC
 		switch (trayIconSetting) {
 		case SETTING_TRAYICON_CYCLE:
 			Clist_TraySetTimer();
-			return Clist_TrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, cli.pfnIconFromStatusMode(szChangedProto, CallProtoServiceInt(0, szChangedProto, PS_GETSTATUS, 0, 0), 0), ILD_NORMAL), nullptr);
+			return Clist_TrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, cli.pfnIconFromStatusMode(szChangedProto, Proto_GetStatus(szChangedProto), 0), ILD_NORMAL), nullptr);
 
 		case SETTING_TRAYICON_MULTI:
 			if (!cli.trayIcon)
 				Clist_TrayIconRemove(nullptr, nullptr);
 			else if ((cli.trayIconCount > 1 || netProtoCount == 1) || db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
-				return Clist_TrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(0, szChangedProto, CallProtoServiceInt(0, szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
+				return Clist_TrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto)), (char*)szChangedProto);
 			else {
 				Clist_TrayIconDestroy(cli.hwndContactList);
 				cli.pfnTrayIconInit(cli.hwndContactList);
@@ -522,7 +522,7 @@ int fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoC
 
 		case SETTING_TRAYICON_SINGLE:
 			ptrA szProto(db_get_sa(0, "CList", "PrimaryStatus"));
-			return Clist_TrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(0, szProto, szProto ? CallProtoServiceInt(0, szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
+			return Clist_TrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(0, szProto, szProto ? Proto_GetStatus(szProto) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
 		}
 	}
 

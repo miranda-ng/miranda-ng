@@ -595,7 +595,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 					FileWrite(hContact);
 
 				char *sProto = GetContactProto(hContact);
-				if (CallProtoService(sProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
+				if (Proto_GetStatus(sProto) > ID_STATUS_OFFLINE) {
 					myPlaySound(hContact, ID_STATUS_OFFLINE, prevStatus);
 					if (db_get_b(NULL, S_MOD, "UsePopups", 0))
 						ShowPopup(hContact, sProto, ID_STATUS_OFFLINE);
@@ -628,7 +628,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 	}
 	else if (hContact && IsWatchedProtocol(cws->szModule) && !db_get_b(hContact, cws->szModule, "ChatRoom", false)) {
 		// here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
-		if (CallProtoService(cws->szModule, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
+		if (Proto_GetStatus(cws->szModule) > ID_STATUS_OFFLINE) {
 			mir_cslock lck(csContacts);
 			logthread_info *p = arContacts.find((logthread_info*)&hContact);
 			if (p == nullptr) {

@@ -50,7 +50,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	// sametime.cpp
 	int __cdecl OnSametimeContactDeleted(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl GetName(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl GetStatus(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SametimeLoadIcon(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnWindowEvent(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnModulesLoaded(WPARAM wParam, LPARAM lParam);

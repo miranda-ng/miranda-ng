@@ -462,7 +462,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			szProto = GetContactProto(db_mc_getSrmmSub(hContact));
 
 		if (szProto) {
-			DWORD dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			int dwStatus = Proto_GetStatus(szProto);
 			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & dwStatusMask))           // should never happen, but...
 				bAllowAutoCreate = true;
 		}

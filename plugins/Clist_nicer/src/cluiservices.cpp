@@ -167,10 +167,10 @@ void CluiProtocolStatusChanged(int, const char*)
 	}
 	// update the clui button
 
-	WORD wStatus = 0;
+	int wStatus = 0;
 	if (!db_get(NULL, "CList", "PrimaryStatus", &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ && mir_strlen(dbv.pszVal) > 1) {
-			wStatus = (WORD)CallProtoService(dbv.pszVal, PS_GETSTATUS, 0, 0);
+			wStatus = Proto_GetStatus(dbv.pszVal);
 			iIcon = IconFromStatusMode(dbv.pszVal, (int)wStatus, 0, &hIcon);
 		}
 		mir_free(dbv.pszVal);

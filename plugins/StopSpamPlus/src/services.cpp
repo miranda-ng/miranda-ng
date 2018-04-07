@@ -33,7 +33,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 				// Check if protocol uses server side lists
 				DWORD caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_SERVERCLIST) {
-					int status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+					int status = Proto_GetStatus(szProto);
 					if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status))
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
 						db_set_b(hContact, "CList", "Delete", 1);

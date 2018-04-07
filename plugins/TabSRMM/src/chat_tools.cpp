@@ -151,9 +151,8 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 	char *szProto = dat ? dat->m_szProto : si->pszModule;
 	if (nen_options.dwStatusMask != -1) {
-		DWORD dwStatus = 0;
 		if (szProto != nullptr) {
-			dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			int dwStatus = Proto_GetStatus(szProto);
 			if (!(dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & nen_options.dwStatusMask)))            // should never happen, but...
 				return 0;
 		}

@@ -202,7 +202,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 
 			for (auto &pa : Accounts()) {
 				if (pa->bIsEnabled) {
-					status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+					status = Proto_GetStatus(pa->szModuleName);
 					PrettyStatusMode(status, pn, _countof(pn));
 
 					perAccountStatus.AppendChar('\n');
@@ -246,7 +246,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				wchar_t *account = argv[3];
 				AccountName2Protocol(account, protocol, _countof(protocol));
 
-				INT_PTR old = CallProtoService(protocol, PS_GETSTATUS, 0, 0);
+				int old = Proto_GetStatus(protocol);
 				wchar_t po[128];
 				if (ServiceExists(MS_KS_ANNOUNCESTATUSCHANGE)) {
 					announce_status_change(protocol, status, nullptr);
@@ -300,7 +300,7 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 				char *protocol = pa->szModuleName;
 				if ((CallProtoService(protocol, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) != 0) { //if the protocol supports away messages
-					INT_PTR status = CallProtoService(protocol, PS_GETSTATUS, 0, 0);
+					int status = Proto_GetStatus(protocol);
 					INT_PTR res = CallProtoService(protocol, PS_SETAWAYMSG, status, (LPARAM)awayMsg);
 					
 					wchar_t pn[128];
@@ -328,13 +328,10 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 			INT_PTR res = CallProtoService(protocol, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ((res & PF1_MODEMSGSEND) != 0) //if the protocol supports away messages
 			{
-				INT_PTR status = CallProtoService(protocol, PS_GETSTATUS, 0, 0);
+				int status = Proto_GetStatus(protocol);
 				res = CallProtoService(protocol, PS_SETAWAYMSG, status, (LPARAM)awayMsg);
 
 				PrettyStatusMode(status, pn, _countof(pn));
-			}
-			else if (CallProtoService(protocol, PS_GETSTATUS, 0, 0) == CALLSERVICE_NOTFOUND) {
-				res = CALLSERVICE_NOTFOUND;
 			}
 			else {
 				res = -2;
@@ -344,11 +341,6 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 			case 0:
 				reply->code = MIMRES_SUCCESS;
 				mir_snwprintf(reply->message, TranslateT("Changed '%s' status message to '%s' (status is '%s')."), account, awayMsg, pn);
-				return;
-
-			case CALLSERVICE_NOTFOUND:
-				reply->code = MIMRES_FAILURE;
-				mir_snwprintf(reply->message, TranslateT("'%s' doesn't seem to be a valid account."), account);
 				return;
 
 			case -2:

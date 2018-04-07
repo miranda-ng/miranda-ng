@@ -86,7 +86,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	Skin_PlaySound("AlertMsg");
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
+	if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))) {
 		GetContainer()->AddPage(hContact);
 		return 0;
 	}
@@ -255,7 +255,7 @@ static void RestoreUnreadMessageAlerts(void)
 					continue;
 
 				char *szProto = GetContactProto(hContact);
-				if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
+				if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto))))
 					autoPopup = true;
 
 				if (autoPopup && !windowAlreadyExists)

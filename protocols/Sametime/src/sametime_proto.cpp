@@ -29,7 +29,6 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserN
 	SametimeInitIcons();
 
 	CreateProtoService(PS_GETNAME, &CSametimeProto::GetName);
-	CreateProtoService(PS_GETSTATUS, &CSametimeProto::GetStatus);
 	CreateProtoService(PS_LOADICON, &CSametimeProto::SametimeLoadIcon);
 
 	HookProtoEvent(ME_SYSTEM_MODULESLOADED, &CSametimeProto::OnModulesLoaded);

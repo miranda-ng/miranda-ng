@@ -372,7 +372,7 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 {
 	logger->log(L"MirandaUtils::setStatusOnAccount: start");
-	int status = CallProtoService(args->accountSzModuleName, PS_GETSTATUS, 0, 0);
+	int status = Proto_GetStatus(args->accountSzModuleName);
 	logger->log_p(L"SSOA: on account: [%S]  targetHandle = [" SCNuPTR L"]   at status = [%d]", args->accountSzModuleName, args->targetHandle, status);
 
 	INT_PTR result = -1;

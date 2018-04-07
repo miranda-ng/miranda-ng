@@ -44,13 +44,12 @@ void LoadOptions()
 
 static int StatusChangeGetMessage(WPARAM, LPARAM hDbEvent)
 {
-	int status;
 	BOOL read, send, change_status;
 
 	DBEVENTINFO dbe = {};
 	db_event_get(hDbEvent, &dbe);
 
-	status = (int)CallProtoService(dbe.szModule, PS_GETSTATUS, 0, 0);
+	int status = Proto_GetStatus(dbe.szModule);
 	if(!status)
 		status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 

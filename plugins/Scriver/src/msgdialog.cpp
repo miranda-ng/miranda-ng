@@ -624,7 +624,7 @@ bool CSrmmWindow::IsTypingNotificationEnabled()
 	if (!db_get_b(m_hContact, SRMM_MODULE, SRMSGSET_TYPING, db_get_b(0, SRMM_MODULE, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
 		return FALSE;
 
-	DWORD protoStatus = CallProtoService(m_szProto, PS_GETSTATUS, 0, 0);
+	DWORD protoStatus = Proto_GetStatus(m_szProto);
 	if (protoStatus < ID_STATUS_ONLINE)
 		return FALSE;
 

@@ -165,7 +165,7 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 		// display this menu item only for chats
 		if (db_get_b(hContact, szProto, "ChatRoom", 0)) {
 			// still hide it for offline protos
-			if (CallProtoService(szProto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE) {
+			if (Proto_GetStatus(szProto) != ID_STATUS_OFFLINE) {
 				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE) {
 					if (ProtoServiceExists(szProto, PS_JOINCHAT)) {
 						bEnabledJoin = true;

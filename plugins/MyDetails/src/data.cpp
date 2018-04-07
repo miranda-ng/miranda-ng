@@ -93,14 +93,11 @@ bool Protocol::IsValid()
 
 int Protocol::GetStatus()
 {
-	INT_PTR iStatus = CallProtoService(name, PS_GETSTATUS, 0, 0);
-	if (iStatus == CALLSERVICE_NOTFOUND)
-		return status = ID_STATUS_OFFLINE;
-
+	int iStatus = Proto_GetStatus(name);
 	if (iStatus != status)
 		data_changed = true;
 
-	status = (int)iStatus;
+	status = iStatus;
 
 	// check if protocol supports custom status
 	CUSTOM_STATUS css = { sizeof(css) };

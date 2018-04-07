@@ -332,7 +332,7 @@ static wchar_t* parseMyStatus(ARGUMENTSINFO *ai)
 	if (ai->argc == 1 || mir_wstrlen(ai->targv[1]) == 0)
 		status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 	else
-		status = CallProtoService(_T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
+		status = Proto_GetStatus(_T2A(ai->targv[1]));
 
 	wchar_t *szStatus = Clist_GetStatusModeDescription(status, 0);
 	return (szStatus != nullptr) ? mir_wstrdup(szStatus) : nullptr;

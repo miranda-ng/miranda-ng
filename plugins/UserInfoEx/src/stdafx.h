@@ -208,7 +208,7 @@ DWORD	hashSetting(LPCSTR szStr);					//old miranda hash
 
 static FORCEINLINE BOOL IsProtoOnline(LPSTR pszProto)
 {
-	return pszProto && pszProto[0] && CallProtoService(pszProto, PS_GETSTATUS, NULL, NULL) >= ID_STATUS_ONLINE;
+	return pszProto && pszProto[0] && Proto_GetStatus(pszProto) >= ID_STATUS_ONLINE;
 }
 
 static FORCEINLINE BOOL IsProtoAccountEnabled(PROTOACCOUNT *pAcc)

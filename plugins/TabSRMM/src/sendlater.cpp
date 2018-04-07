@@ -376,7 +376,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	if (!hContact || szProto == nullptr)
 		return 0;
 
-	WORD wMyStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	int wMyStatus = Proto_GetStatus(szProto);
 
 	// status mode checks
 	if (wMyStatus == ID_STATUS_OFFLINE) {

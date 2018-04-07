@@ -36,7 +36,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 		DWORD MinUpdateTimeDifference = (DWORD)g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
 		for (auto &p : Accounts()) {
 			if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND && !IsAnICQProto(p->szModuleName)) {
-				int Status = CallProtoService(p->szModuleName, PS_GETSTATUS, 0, 0);
+				int Status = Proto_GetStatus(p->szModuleName);
 				if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_OUTTOLUNCH) {
 					Status = g_ProtoStates[p->szModuleName].m_status;
 				}

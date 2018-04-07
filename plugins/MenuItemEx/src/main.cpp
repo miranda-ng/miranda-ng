@@ -406,7 +406,7 @@ static INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARA
 
 static BOOL isProtoOnline(char *szProto)
 {
-	DWORD protoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	int protoStatus = Proto_GetStatus(szProto);
 	return (protoStatus > ID_STATUS_OFFLINE && protoStatus < ID_STATUS_IDLE);
 }
 
