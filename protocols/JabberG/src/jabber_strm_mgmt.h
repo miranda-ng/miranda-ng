@@ -55,6 +55,7 @@ public:
 	void SendAck();
 	void RequestAck();
 	bool IsSessionResumed();
+	bool IsResumeIdPresent();
 };
 
 #endif //JABBER_STRM_MGMT_H

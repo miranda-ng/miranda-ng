@@ -164,6 +164,8 @@ void strm_mgmt::CheckStreamFeatures(HXML node)
 
 void strm_mgmt::CheckState()
 {
+	if (m_bStrmMgmtEnabled)
+		return;
 	if (!m_bStrmMgmtPendingEnable)
 		return;
 	EnableStrmMgmt();
@@ -201,6 +203,8 @@ void strm_mgmt::HandleIncommingNode(HXML node)
 
 void strm_mgmt::EnableStrmMgmt()
 {
+	if (m_bStrmMgmtEnabled)
+		return;
 	if (m_sStrmMgmtResumeId.empty())
 	{
 		XmlNode enable_sm(L"enable");
@@ -241,4 +245,9 @@ void strm_mgmt::RequestAck()
 bool strm_mgmt::IsSessionResumed()
 {
 	return bSessionResumed;
+}
+
+bool strm_mgmt::IsResumeIdPresent()
+{
+	return !m_sStrmMgmtResumeId.empty();
 }

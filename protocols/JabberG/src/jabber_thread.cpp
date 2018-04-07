@@ -760,6 +760,12 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData *info)
 		return;
 	}
 
+	if (m_bEnableStreamMgmt) //resume should be done here
+	{
+		if (m_StrmMgmt.IsResumeIdPresent())
+			m_StrmMgmt.CheckState();
+	}
+
 	// mechanisms are not defined.
 	if (info->auth) { //We are already logged-in
 		info->send(
