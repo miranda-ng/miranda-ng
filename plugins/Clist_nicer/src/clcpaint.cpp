@@ -111,66 +111,7 @@ static void __inline SetHotTrackColour(HDC hdc, struct ClcData *dat)
 	else SetTextColor(hdc, dat->hotTextColour);
 }
 
-int __fastcall GetStatusOnlineness(int status)
-{
-	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE)
-		return 120;
-
-	switch (status) {
-	case ID_STATUS_FREECHAT:
-		return 110;
-	case ID_STATUS_ONLINE:
-		return 100;
-	case ID_STATUS_OCCUPIED:
-		return 60;
-	case ID_STATUS_ONTHEPHONE:
-		return 50;
-	case ID_STATUS_DND:
-		return 40;
-	case ID_STATUS_AWAY:
-		return 30;
-	case ID_STATUS_OUTTOLUNCH:
-		return 20;
-	case ID_STATUS_NA:
-		return 10;
-	case ID_STATUS_INVISIBLE:
-		return 5;
-	}
-	return 0;
-}
-
-static int __fastcall GetGeneralisedStatus(void)
-{
-	int status = ID_STATUS_OFFLINE, statusOnlineness = 0;
-
-	for (int i = 0; i < pcli->hClcProtoCount; i++) {
-		int thisStatus = pcli->clcProto[i].dwStatus;
-		if (thisStatus == ID_STATUS_INVISIBLE)
-			return ID_STATUS_INVISIBLE;
-
-		int thisOnlineness = GetStatusOnlineness(thisStatus);
-		if (thisOnlineness > statusOnlineness) {
-			status = thisStatus;
-			statusOnlineness = thisOnlineness;
-		}
-	}
-	return status;
-}
-
-static int __fastcall GetRealStatus(ClcContact *contact, int status)
-{
-	char *szProto = contact->proto;
-	if (!szProto)
-		return status;
-
-	for (int i = 0; i < pcli->hClcProtoCount; i++)
-		if (!mir_strcmp(pcli->clcProto[i].szProto, szProto))
-			return pcli->clcProto[i].dwStatus;
-
-	return status;
-}
-
-int GetBasicFontID(ClcContact * contact)
+int GetBasicFontID(ClcContact *contact)
 {
 	switch (contact->type) {
 	case CLCIT_GROUP:
@@ -186,8 +127,8 @@ int GetBasicFontID(ClcContact * contact)
 		if (contact->flags & CONTACTF_NOTONLIST)
 			return FONTID_NOTONLIST;
 
-		if ((contact->flags&CONTACTF_INVISTO && GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE)
-			|| (contact->flags&CONTACTF_VISTO && GetRealStatus(contact, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE))
+		if ((contact->flags & CONTACTF_INVISTO && Clist_GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE)
+			|| (contact->flags & CONTACTF_VISTO && Clist_GetRealStatus(contact, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE))
 			return contact->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS;
 
 		return contact->flags & CONTACTF_ONLINE ? FONTID_CONTACTS : FONTID_OFFLINE;
@@ -489,7 +430,7 @@ set_bg_l:
 	}
 	else if (type == CLCIT_CONTACT && flags & CONTACTF_NOTONLIST)
 		ChangeToFont(hdcMem, dat, FONTID_NOTONLIST, &fontHeight);
-	else if (type == CLCIT_CONTACT && ((flags & CONTACTF_INVISTO && GetRealStatus(contact, my_status) != ID_STATUS_INVISIBLE) || (flags & CONTACTF_VISTO && GetRealStatus(contact, my_status) == ID_STATUS_INVISIBLE))) {
+	else if (type == CLCIT_CONTACT && ((flags & CONTACTF_INVISTO && Clist_GetRealStatus(contact, my_status) != ID_STATUS_INVISIBLE) || (flags & CONTACTF_VISTO && Clist_GetRealStatus(contact, my_status) == ID_STATUS_INVISIBLE))) {
 		// the contact is in the always visible list and the proto is invisible
 		// the contact is in the always invisible and the proto is in any other mode
 		ChangeToFont(hdcMem, dat, flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
@@ -1264,7 +1205,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	selBlend = db_get_b(NULL, "CLCExt", "EXBK_SelBlend", 1);
 	g_inCLCpaint = TRUE;
 	g_focusWnd = GetFocus();
-	my_status = GetGeneralisedStatus();
+	my_status = Clist_GetGeneralizedStatus();
 	g_HDC = hdc;
 
 	/*

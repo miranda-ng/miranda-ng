@@ -42,11 +42,10 @@ void FreeProtocolData(void)
 }
 
 int g_maxStatus = ID_STATUS_OFFLINE;
-char g_maxProto[100] = "";
 
 void CluiProtocolStatusChanged(int, const char*)
 {
-	int maxOnline = 0, onlineness = 0;
+	int maxOnline = 0;
 	WORD maxStatus = ID_STATUS_OFFLINE;
 	DBVARIANT dbv = { 0 };
 	int iIcon = 0;
@@ -63,7 +62,6 @@ void CluiProtocolStatusChanged(int, const char*)
 
 	FreeProtocolData();
 	g_maxStatus = ID_STATUS_OFFLINE;
-	g_maxProto[0] = 0;
 
 	int borders[3];
 	SendMessage(pcli->hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
@@ -148,7 +146,6 @@ void CluiProtocolStatusChanged(int, const char*)
 	SendMessage(pcli->hwndStatus, SB_SETPARTS, partCount, (LPARAM)partWidths);
 
 	// count down since built in ones tend to go at the end
-	char *szMaxProto = nullptr;
 	partCount = 0;
 	for (int i = 0; i < accs.getCount(); i++) {
 		int idx = Clist_GetAccountIndex(i);
@@ -163,23 +160,12 @@ void CluiProtocolStatusChanged(int, const char*)
 		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 		PD->RealName = mir_strdup(pa->szModuleName);
 		PD->protopos = partCount;
-		{
-			int flags;
-			flags = SBT_OWNERDRAW;
-			if (db_get_b(NULL, "CLUI", "SBarBevel", 1) == 0)
-				flags |= SBT_NOBORDERS;
-			SendMessageA(pcli->hwndStatus, SB_SETTEXTA, partCount | flags, (LPARAM)PD);
-		}
-		int caps2 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-		int caps1 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-		if ((caps1 & PF1_IM) && (caps2 & (PF2_LONGAWAY | PF2_SHORTAWAY))) {
-			onlineness = GetStatusOnlineness(status);
-			if (onlineness > maxOnline) {
-				maxStatus = status;
-				maxOnline = onlineness;
-				szMaxProto = pa->szModuleName;
-			}
-		}
+
+		int flags = SBT_OWNERDRAW;
+		if (db_get_b(NULL, "CLUI", "SBarBevel", 1) == 0)
+			flags |= SBT_NOBORDERS;
+		SendMessageA(pcli->hwndStatus, SB_SETTEXTA, partCount | flags, (LPARAM)PD);
+		
 		partCount++;
 	}
 	// update the clui button
@@ -193,11 +179,10 @@ void CluiProtocolStatusChanged(int, const char*)
 		mir_free(dbv.pszVal);
 	}
 	else {
-		wStatus = maxStatus;
-		iIcon = IconFromStatusMode((wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE) ? szMaxProto : nullptr, (int)wStatus, 0, &hIcon);
+		char *szMaxProto = nullptr;
+		wStatus = Clist_GetGeneralizedStatus(&szMaxProto);
+		iIcon = IconFromStatusMode(szMaxProto, wStatus, 0, &hIcon);
 		g_maxStatus = (int)wStatus;
-		if (szMaxProto)
-			strncpy_s(g_maxProto, _countof(g_maxProto), szMaxProto, _TRUNCATE);
 	}
 
 	/*

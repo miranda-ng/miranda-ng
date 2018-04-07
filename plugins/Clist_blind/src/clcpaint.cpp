@@ -90,63 +90,10 @@ static void __inline SetHotTrackColour(HDC hdc, struct ClcData *dat)
 		SetTextColor(hdc, dat->hotTextColour);
 }
 
-static int GetStatusOnlineness(int status)
-{
-	switch (status) {
-	case ID_STATUS_FREECHAT:    return 110;
-	case ID_STATUS_ONLINE:      return 100;
-	case ID_STATUS_OCCUPIED:    return 60;
-	case ID_STATUS_ONTHEPHONE:  return 50;
-	case ID_STATUS_DND:         return 40;
-	case ID_STATUS_AWAY:        return 30;
-	case ID_STATUS_OUTTOLUNCH:  return 20;
-	case ID_STATUS_NA:          return 10;
-	case ID_STATUS_INVISIBLE:   return 5;
-	}
-	return 0;
-}
-
-static int GetGeneralisedStatus(void)
-{
-	int i, status, thisStatus, statusOnlineness, thisOnlineness;
-
-	status = ID_STATUS_OFFLINE;
-	statusOnlineness = 0;
-
-	for (i = 0; i < pcli->hClcProtoCount; i++) {
-		thisStatus = pcli->clcProto[i].dwStatus;
-		if (thisStatus == ID_STATUS_INVISIBLE)
-			return ID_STATUS_INVISIBLE;
-		thisOnlineness = GetStatusOnlineness(thisStatus);
-		if (thisOnlineness > statusOnlineness) {
-			status = thisStatus;
-			statusOnlineness = thisOnlineness;
-		}
-	}
-	return status;
-}
-
-static int GetRealStatus(struct ClcContact *contact, int status)
-{
-	char *szProto = contact->proto;
-	if (!szProto)
-		return status;
-	for (int i = 0; i < pcli->hClcProtoCount; i++) {
-		if (!mir_strcmp(pcli->clcProto[i].szProto, szProto)) {
-			return pcli->clcProto[i].dwStatus;
-		}
-	}
-	return status;
-}
-
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 {
-	RECT clRect;
-	int indent, index, fontHeight;
-	struct ClcGroup *group;
-	HFONT hOldFont;
 	LONG_PTR style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	int status = GetGeneralisedStatus();
+	int status = Clist_GetGeneralizedStatus();
 	int grey = 0, groupCountsFontTopShift;
 	HBRUSH hBrushAlternateGrey = nullptr;
 	// yes I know about GetSysColorBrush()
@@ -156,6 +103,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		grey = 1;
 	else if (GetFocus() != hwnd && dat->greyoutFlags & GREYF_UNFOCUS)
 		grey = 1;
+
+	RECT clRect;
 	GetClientRect(hwnd, &clRect);
 	if (rcPaint == nullptr)
 		rcPaint = &clRect;
@@ -165,19 +114,19 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), nullptr);
 	HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
-	{
-		TEXTMETRIC tm;
-		hOldFont = (HFONT)SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPS].hFont);
-		GetTextMetrics(hdcMem, &tm);
-		groupCountsFontTopShift = tm.tmAscent;
-		SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
-		GetTextMetrics(hdcMem, &tm);
-		groupCountsFontTopShift -= tm.tmAscent;
-	}
-	if (style & CLS_GREYALTERNATE)
-		hBrushAlternateGrey =
-		CreateSolidBrush(GetNearestColor(hdcMem, RGB(GetRValue(tmpbkcolour) - 10, GetGValue(tmpbkcolour) - 10, GetBValue(tmpbkcolour) - 10)));
 
+	TEXTMETRIC tm;
+	HFONT hOldFont = (HFONT)SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPS].hFont);
+	GetTextMetrics(hdcMem, &tm);
+	groupCountsFontTopShift = tm.tmAscent;
+	SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
+	GetTextMetrics(hdcMem, &tm);
+	groupCountsFontTopShift -= tm.tmAscent;
+
+	if (style & CLS_GREYALTERNATE)
+		hBrushAlternateGrey = CreateSolidBrush(GetNearestColor(hdcMem, RGB(GetRValue(tmpbkcolour) - 10, GetGValue(tmpbkcolour) - 10, GetBValue(tmpbkcolour) - 10)));
+
+	int fontHeight;
 	ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 	SetBkMode(hdcMem, TRANSPARENT);
 	{
@@ -249,10 +198,10 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	}
 
 	int y = -dat->yScroll;
-	group = &dat->list;
+	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
-	indent = 0;
-	for (index = 0; y < rcPaint->bottom;) {
+	int indent = 0;
+	for (int index = 0; y < rcPaint->bottom;) {
 		if (group->scanIndex == group->cl.getCount()) {
 			group = group->parent;
 			indent--;
@@ -295,7 +244,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			else if (cc->type == CLCIT_CONTACT && cc->flags & CONTACTF_NOTONLIST)
 				ChangeToFont(hdcMem, dat, FONTID_NOTONLIST, &fontHeight);
 			else if (cc->type == CLCIT_CONTACT &&
-				((cc->flags & CONTACTF_INVISTO && GetRealStatus(cc, status) != ID_STATUS_INVISIBLE) || (cc->flags & CONTACTF_VISTO && GetRealStatus(cc, status) == ID_STATUS_INVISIBLE))) {
+				((cc->flags & CONTACTF_INVISTO && Clist_GetRealStatus(cc, status) != ID_STATUS_INVISIBLE) || (cc->flags & CONTACTF_VISTO && Clist_GetRealStatus(cc, status) == ID_STATUS_INVISIBLE))) {
 				// the contact is in the always visible list and the proto is invisible
 				// the contact is in the always invisible and the proto is in any other mode
 				ChangeToFont(hdcMem, dat, cc->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
@@ -359,10 +308,9 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 					mode = ILD_BLEND50;
 				}
-				if (cc->type == CLCIT_CONTACT && dat->bShowIdle && (cc->flags & CONTACTF_IDLE) && GetRealStatus(cc, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+				if (cc->type == CLCIT_CONTACT && dat->bShowIdle && (cc->flags & CONTACTF_IDLE) && Clist_GetRealStatus(cc, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 					mode = ILD_SELECTED;
-				ImageList_DrawEx(himlCListClc, iImage, hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth,
-					y + ((dat->rowHeight - 16) >> 1), 0, 0, CLR_NONE, colourFg, mode);
+				ImageList_DrawEx(himlCListClc, iImage, hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth, y + ((dat->rowHeight - 16) >> 1), 0, 0, CLR_NONE, colourFg, mode);
 			}
 
 			// text

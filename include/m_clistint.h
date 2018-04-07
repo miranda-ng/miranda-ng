@@ -246,16 +246,14 @@ struct MenuProto
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions
 
-EXTERN_C MIR_APP_DLL(DWORD)     Clist_ContactToHItem(ClcContact *contact);
-EXTERN_C MIR_APP_DLL(HANDLE)    Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
-										  
 EXTERN_C MIR_APP_DLL(void)      Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
 EXTERN_C MIR_APP_DLL(void)      Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
-								        
 EXTERN_C MIR_APP_DLL(void)      Clist_CalcEipPosition(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 EXTERN_C MIR_APP_DLL(void)      Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
 EXTERN_C MIR_APP_DLL(void)      Clist_ClcOptionsChanged(void);
 EXTERN_C MIR_APP_DLL(int)       Clist_ClcStatusToPf2(int status);
+EXTERN_C MIR_APP_DLL(DWORD)     Clist_ContactToHItem(ClcContact *contact);
+EXTERN_C MIR_APP_DLL(HANDLE)    Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 EXTERN_C MIR_APP_DLL(void)      Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)      Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 EXTERN_C MIR_APP_DLL(void)      Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat);
@@ -266,7 +264,9 @@ EXTERN_C MIR_APP_DLL(int)       Clist_EventsProcessTrayDoubleClick(int index);
 EXTERN_C MIR_APP_DLL(bool)      Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 EXTERN_C MIR_APP_DLL(DWORD)     Clist_GetDefaultExStyle(void);
 EXTERN_C MIR_APP_DLL(void)      Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
+EXTERN_C MIR_APP_DLL(int)       Clist_GetGeneralizedStatus(char **szProto = nullptr);
 EXTERN_C MIR_APP_DLL(wchar_t*)  Clist_GetGroupCountsText(ClcData *dat, ClcContact *contact);
+EXTERN_C MIR_APP_DLL(int)       Clist_GetRealStatus(ClcContact *cc, int iDefaultValue);
 EXTERN_C MIR_APP_DLL(void)      Clist_HideInfoTip(ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)      Clist_InitAutoRebuild(HWND hWnd);
 EXTERN_C MIR_APP_DLL(void)      Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem);

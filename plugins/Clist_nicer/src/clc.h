@@ -383,7 +383,6 @@ size_t MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut);
 int    GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 void   LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
 BYTE   GetCachedStatusMsg(TExtraCache* p, char *szProto);
-int    __fastcall GetStatusOnlineness(int status);
 void   GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
 LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void   HideShowNotifyFrame();

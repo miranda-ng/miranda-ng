@@ -160,8 +160,8 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 	case CLCIT_CONTACT:
 		if (contact->flags & CONTACTF_NOTONLIST)
 			return FONTID_NOTONLIST;
-		if (((contact->flags & CONTACTF_INVISTO) && _GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE) ||
-			((contact->flags & CONTACTF_VISTO && _GetRealStatus(contact, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE))) {
+		if (((contact->flags & CONTACTF_INVISTO) && Clist_GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE) ||
+			((contact->flags & CONTACTF_VISTO && Clist_GetRealStatus(contact, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE))) {
 			// the contact is in the always visible list and the proto is invisible
 			// the contact is in the always invisible and the proto is in any other mode
 			return (contact->flags & CONTACTF_ONLINE) ? FONTID_INVIS : FONTID_OFFINVIS;
@@ -311,54 +311,6 @@ void CLCPaint::_SetHotTrackColour(HDC hdc, ClcData *dat)
 	else
 		SetTextColor(hdc, dat->hotTextColour);
 }
-
-int   CLCPaint::_GetStatusOnlineness(int status)
-{
-	switch (status) {
-	case ID_STATUS_FREECHAT:   return 110;
-	case ID_STATUS_ONLINE:     return 100;
-	case ID_STATUS_OCCUPIED:   return 60;
-	case ID_STATUS_ONTHEPHONE: return 50;
-	case ID_STATUS_DND:        return 40;
-	case ID_STATUS_AWAY:       return 30;
-	case ID_STATUS_OUTTOLUNCH: return 20;
-	case ID_STATUS_NA:         return 10;
-	case ID_STATUS_INVISIBLE:  return 5;
-	}
-	return 0;
-}
-
-int   CLCPaint::_GetGeneralisedStatus()
-{
-	int status = ID_STATUS_OFFLINE;
-	int statusOnlineness = 0;
-
-	for (int i = 0; i < pcli->hClcProtoCount; i++) {
-		int thisStatus = pcli->clcProto[i].dwStatus;
-		if (thisStatus == ID_STATUS_INVISIBLE)
-			return ID_STATUS_INVISIBLE;
-
-		int thisOnlineness = _GetStatusOnlineness(thisStatus);
-		if (thisOnlineness > statusOnlineness) {
-			status = thisStatus;
-			statusOnlineness = thisOnlineness;
-		}
-	}
-	return status;
-}
-
-int   CLCPaint::_GetRealStatus(ClcContact *pContact, int nStatus)
-{
-	if (!pContact->proto)
-		return nStatus;
-
-	for (int i = 0; i < pcli->hClcProtoCount; i++) {
-		if (!mir_strcmp(pcli->clcProto[i].szProto, pContact->proto))
-			return pcli->clcProto[i].dwStatus;
-	}
-	return nStatus;
-}
-
 
 RECT  CLCPaint::_GetRectangle(ClcData *dat, RECT *row_rc, RECT *free_row_rc, int *left_pos, int *right_pos, BOOL left, int real_width, int width, int height, int horizontal_space)
 {
@@ -705,7 +657,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				}
 
 				if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
-					_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+					Clist_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 					mode = ILD_SELECTED;
 				}
 				_DrawStatusIcon(Drawing, dat, iImage, hdcMem, p_rect.left, p_rect.top, 0, 0, CLR_NONE, colourFg, mode);
@@ -1158,7 +1110,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						}
 
 						if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
-							_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+							Clist_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 							mode = ILD_SELECTED;
 						}
 
@@ -1175,8 +1127,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						blendmode = 255;
 					else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST)
 						blendmode = 128;
-					if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
-						_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+					if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) && Clist_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 						blendmode = 128;
 					if (!hasAvatar) { // if no avatar then paint icon image
 						int iImage = Drawing->iImage;
@@ -1198,13 +1149,10 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 								mode = ILD_NORMAL;
 							}
 
-							if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
-								_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+							if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) && Clist_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 								mode = ILD_SELECTED;
-							}
 
 							_DrawStatusIcon(Drawing, dat, iImage, hdcMem, p_rect.left, p_rect.top, 0, 0, CLR_NONE, colourFg, mode);
-
 						}
 					}
 					else {
@@ -1515,8 +1463,8 @@ int CLCPaint::_DetermineDrawMode(HWND hWnd, ClcData *dat)
 	if (!(paintMode&DM_CONTROL) && !CLUI_IsInMainWindow(hWnd))
 		paintMode |= DM_FLOAT;
 
+	int nStatus = Clist_GetGeneralizedStatus();
 	LONG lStyle = GetWindowLongPtr(hWnd, GWL_STYLE);
-	int  nStatus = _GetGeneralisedStatus();
 	if ((lStyle & WS_DISABLED) || (dat->greyoutFlags & Clist_ClcStatusToPf2(nStatus)) || ((dat->greyoutFlags & GREYF_UNFOCUS) && (GetFocus() != hWnd)))
 		paintMode |= DM_GRAY;
 
@@ -2499,7 +2447,7 @@ void CLCPaint::_GetBlendMode(IN ClcData *dat, IN ClcContact *Drawing, IN BOOL se
 		mode = ILD_NORMAL;
 	}
 	if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags&CONTACTF_IDLE) &&
-		_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE &&
+		Clist_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE &&
 		(bFlag & GIM_IDLE_AFFECT))
 		mode = ILD_SELECTED;
 	if (OutColourFg) *OutColourFg = colourFg;

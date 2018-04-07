@@ -189,32 +189,81 @@ int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup 
 	return -1;
 }
 
-MIR_APP_DLL(DWORD) Clist_ContactToHItem(ClcContact *contact)
+MIR_APP_DLL(DWORD) Clist_ContactToHItem(ClcContact *cc)
 {
-	switch (contact->type) {
+	switch (cc->type) {
 	case CLCIT_CONTACT:
-		return contact->hContact;
+		return cc->hContact;
 	case CLCIT_GROUP:
-		return contact->groupId | HCONTACT_ISGROUP;
+		return cc->groupId | HCONTACT_ISGROUP;
 	case CLCIT_INFO:
-		return contact->hContact | HCONTACT_ISINFO;
+		return cc->hContact | HCONTACT_ISINFO;
 	}
 	return 0;
 }
 
-MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags)
+MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *cc, DWORD *nmFlags)
 {
-	switch (contact->type) {
+	switch (cc->type) {
 	case CLCIT_CONTACT:
-		return (HANDLE)contact->hContact;
+		return (HANDLE)cc->hContact;
 	case CLCIT_GROUP:
 		if (nmFlags)
 			*nmFlags |= CLNF_ISGROUP;
-		return (HANDLE)contact->groupId;
+		return (HANDLE)cc->groupId;
 	case CLCIT_INFO:
 		if (nmFlags)
 			*nmFlags |= CLNF_ISINFO;
-		return (HANDLE)((UINT_PTR)contact->hContact | HCONTACT_ISINFO);
+		return (HANDLE)((UINT_PTR)cc->hContact | HCONTACT_ISINFO);
 	}
 	return nullptr;
+}
+
+MIR_APP_DLL(int) Clist_GetRealStatus(ClcContact *cc, int iDefaultValue)
+{
+	char *szProto = cc->proto;
+	if (szProto != nullptr)
+		for (int i = 0; i < cli.hClcProtoCount; i++)
+			if (!mir_strcmp(cli.clcProto[i].szProto, szProto))
+				return cli.clcProto[i].dwStatus;
+
+	return iDefaultValue;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Clist_GetGeneralizedStatus(char **szProto)
+{
+	int status = ID_STATUS_OFFLINE;
+	int statusOnlineness = 0;
+
+	for (int i = 0; i < cli.hClcProtoCount; i++) {
+		int thisStatus = cli.clcProto[i].dwStatus;
+		if (thisStatus == ID_STATUS_INVISIBLE)
+			return ID_STATUS_INVISIBLE;
+
+		int iStatusWeight;
+		switch (thisStatus) {
+		case ID_STATUS_FREECHAT:    iStatusWeight = 110; break;
+		case ID_STATUS_ONLINE:      iStatusWeight = 100; break;
+		case ID_STATUS_OCCUPIED:    iStatusWeight = 60;  break;
+		case ID_STATUS_ONTHEPHONE:  iStatusWeight = 50;  break;
+		case ID_STATUS_DND:         iStatusWeight = 40;  break;
+		case ID_STATUS_AWAY:        iStatusWeight = 30;  break;
+		case ID_STATUS_OUTTOLUNCH:  iStatusWeight = 20;  break;
+		case ID_STATUS_NA:          iStatusWeight = 10;  break;
+		case ID_STATUS_INVISIBLE:   iStatusWeight = 5;   break;
+		default:                    
+			iStatusWeight = IsStatusConnecting(thisStatus) ? 120 : 0;
+			break;
+		}
+
+		if (iStatusWeight > statusOnlineness) {
+			if (szProto != nullptr)
+				*szProto = cli.clcProto[i].szProto;
+			status = thisStatus;
+			statusOnlineness = iStatusWeight;
+		}
+	}
+	return status;
 }

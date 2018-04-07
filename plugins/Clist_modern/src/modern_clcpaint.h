@@ -97,9 +97,6 @@ private:
 
 	void _FillQuickHash();
 	void _SetHotTrackColour(HDC hdc, ClcData *dat);
-	int  _GetStatusOnlineness(int status);
-	int  _GetGeneralisedStatus();
-	int  _GetRealStatus(ClcContact *pContact, int nStatus);
 	RECT _GetRectangle(ClcData *dat, RECT *row_rc, RECT *free_row_rc, int *left_pos, int *right_pos, BOOL left, int real_width, int width, int height, int horizontal_space);
 	void _DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, wchar_t *szText, int start, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley);
 	void _AddParameter(MODERNMASK *mpModernMask, MASKPARAM * lpParam);
