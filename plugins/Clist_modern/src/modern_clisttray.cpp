@@ -57,29 +57,23 @@ char* g_szConnectingProto = nullptr;
 
 int GetStatusVal(int status)
 {
+	if (IsStatusConnecting(status)) // 'connecting' status has the top priority
+		return 600;
+
 	switch (status) {
-	case ID_STATUS_OFFLINE:               return 50;
-	case ID_STATUS_ONLINE:                return 100;
-	case ID_STATUS_FREECHAT:              return 110;
-	case ID_STATUS_INVISIBLE:             return 120;
-	case ID_STATUS_AWAY:                  return 200;
-	case ID_STATUS_DND:                   return 210;
-	case ID_STATUS_NA:                    return 220;
-	case ID_STATUS_OCCUPIED:              return 230;
-	case ID_STATUS_ONTHEPHONE:            return 400;
-	case ID_STATUS_OUTTOLUNCH:            return 410;
+	case ID_STATUS_OFFLINE:    return 50;
+	case ID_STATUS_ONLINE:     return 100;
+	case ID_STATUS_FREECHAT:   return 110;
+	case ID_STATUS_INVISIBLE:  return 120;
+	case ID_STATUS_AWAY:       return 200;
+	case ID_STATUS_DND:        return 210;
+	case ID_STATUS_NA:         return 220;
+	case ID_STATUS_OCCUPIED:   return 230;
+	case ID_STATUS_ONTHEPHONE: return 400;
+	case ID_STATUS_OUTTOLUNCH: return 410;
 	}
 
-	if (status > 0 && status < ID_STATUS_OFFLINE)
-		return 600; // 'connecting' status has the top priority
 	return 0;
-}
-
-int GetStatusOrder(int currentStatus, int newStatus)
-{
-	int current = GetStatusVal(currentStatus);
-	int newstat = GetStatusVal(newStatus);
-	return (current > newstat) ? currentStatus : newStatus;
 }
 
 INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
@@ -88,6 +82,8 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 
 	int curstatus = 0;
 	int connectingCount = 0;
+	g_bMultiConnectionMode = false;
+
 	for (int i = 0; i < pcli->hClcProtoCount; i++) {
 		ClcProtoStatus &p = pcli->clcProto[i];
 		if (!Clist_GetProtocolVisibility(p.szProto))
@@ -97,16 +93,13 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 			connectingCount++;
 			if (connectingCount == 1)
 				g_szConnectingProto = p.szProto;
+			else 
+				g_bMultiConnectionMode = true;
 		}
-		else curstatus = GetStatusOrder(curstatus, p.dwStatus);
+		else if (GetStatusVal(p.dwStatus) > GetStatusVal(curstatus))
+			curstatus = p.dwStatus;
 	}
 
-	if (connectingCount == 0)
-		g_bMultiConnectionMode = FALSE;
-	else if (connectingCount > 1)
-		g_bMultiConnectionMode = TRUE;
-	else
-		g_bMultiConnectionMode = FALSE;
 	return curstatus ? curstatus : ID_STATUS_OFFLINE;
 }
 

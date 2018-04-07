@@ -87,7 +87,6 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HDC hdc = BeginPaint(hwnd, &ps);
 			HDC hdcMem = CreateCompatibleDC(hdc);
 			RECT rcClient, rcWindow;
-			DRAWITEMSTRUCT dis = { 0 };
 			BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			LONG b_offset = cfg::dat.bClipBorder + (windowStyle == SETTING_WINDOWSTYLE_NOBORDER ? 2 : (windowStyle == SETTING_WINDOWSTYLE_THINBORDER ? 1 : 0));
 
@@ -113,9 +112,9 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					item->CORNER, item->BORDERSTYLE, item->imageItem);
 				SetTextColor(hdcMem, item->TEXTCOLOR);
 			}
-			else
-				SetTextColor(hdcMem, GetSysColor(COLOR_BTNTEXT));
+			else SetTextColor(hdcMem, GetSysColor(COLOR_BTNTEXT));
 
+			DRAWITEMSTRUCT dis = { 0 };
 			dis.hwndItem = hwnd;
 			dis.hDC = hdcMem;
 			dis.CtlType = 0;

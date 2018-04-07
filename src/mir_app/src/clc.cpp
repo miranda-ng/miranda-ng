@@ -156,11 +156,28 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 	if (ack->type == ACKTYPE_STATUS) {
+		cli.pfnCluiProtocolStatusChanged(lParam, ack->szModule);
+
+		if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
+			// if we're going offline, kill all contacts scheduled for deletion
+			DWORD caps = (DWORD)CallProtoServiceInt(0, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
+			if (caps & PF1_SERVERCLIST) {
+				for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
+					MCONTACT hNext = db_find_next(hContact, ack->szModule);
+					if (db_get_b(hContact, "CList", "Delete", 0))
+						db_delete_contact(hContact);
+					hContact = hNext;
+				}
+			}
+		}
+
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
+
 		if (ack->result == ACKRESULT_SUCCESS) {
 			for (int i = 0; i < cli.hClcProtoCount; i++) {
 				if (!mir_strcmp(cli.clcProto[i].szProto, ack->szModule)) {
 					cli.clcProto[i].dwStatus = (WORD)ack->lParam;
+					Clist_TrayIconUpdateBase(ack->szModule);
 					break;
 				}
 			}

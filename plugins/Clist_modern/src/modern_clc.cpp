@@ -1648,19 +1648,8 @@ int ClcUnloadModule()
 int ClcDoProtoAck(ACKDATA *ack)
 {
 	if (MirandaExiting()) return 0;
-	if (ack->type == ACKTYPE_STATUS) {
-		if (ack->result == ACKRESULT_SUCCESS) {
-			for (int i = 0; i < pcli->hClcProtoCount; i++) {
-				if (!mir_strcmp(pcli->clcProto[i].szProto, ack->szModule)) {
-					pcli->clcProto[i].dwStatus = (WORD)ack->lParam;
-					if (pcli->clcProto[i].dwStatus >= ID_STATUS_OFFLINE)
-						Clist_TrayIconUpdateBase(pcli->clcProto[i].szProto);
-					return 0;
-				}
-			}
-		}
-	}
-	else if (ack->type == ACKTYPE_AWAYMSG) {
+
+	if (ack->type == ACKTYPE_AWAYMSG) {
 		if (ack->result == ACKRESULT_SUCCESS && ack->lParam) {
 			if (ack->szModule != nullptr)
 				if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0)

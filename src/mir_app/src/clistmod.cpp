@@ -109,30 +109,6 @@ MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int mode, int flags)
 	return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateW(descr);
 }
 
-static int ProtocolAck(WPARAM, LPARAM lParam)
-{
-	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack->type != ACKTYPE_STATUS)
-		return 0;
-
-	cli.pfnCluiProtocolStatusChanged(lParam, ack->szModule);
-
-	if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
-		DWORD caps = (DWORD)CallProtoServiceInt(0, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
-		if (caps & PF1_SERVERCLIST) {
-			for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
-				MCONTACT hNext = db_find_next(hContact, ack->szModule);
-				if (db_get_b(hContact, "CList", "Delete", 0))
-					db_delete_contact(hContact);
-				hContact = hNext;
-			}
-		}
-	}
-
-	Clist_TrayIconUpdateBase(ack->szModule);
-	return 0;
-}
-
 HICON fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status)
 {
 	return ImageList_GetIcon(hCListImages, cli.pfnIconFromStatusMode(szProto, status, hContact), ILD_NORMAL);
@@ -418,7 +394,6 @@ int LoadContactListModule2(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
-	HookEvent(ME_PROTO_ACK, ProtocolAck);
 
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);
 	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
