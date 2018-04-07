@@ -281,6 +281,9 @@ const
 
 function Proto_GetAccount(proto:PAnsiChar) : PPROTOACCOUNT; stdcall; external AppDLL;
 
+// retrieves protocol status
+function Proto_GetStatus(proto:PAnsiChar) : int; stdcall; external AppDLL;
+
 (*
 __inline PROTOACCOUNT* ProtoGetAccount( const AnsiChar* accName )
 {  return (PROTOACCOUNT* )CallService( MS_PROTO_GETACCOUNT, 0, (LPARAM)accName );

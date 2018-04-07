@@ -113,9 +113,8 @@ begin
   begin
     StrCopy(PAnsiChar(buf),Proto_GetProtoName(ccs^.hContact));
     i:=DBReadWord(ccs^.hContact,PAnsiChar(buf),'ApparentMode');
-    StrCat(PAnsiChar(buf),PS_GETSTATUS);
     if (i=ID_STATUS_OFFLINE) or
-       ((i=0) and (CallService(PAnsiChar(buf),0,0)=ID_STATUS_INVISIBLE)) then
+       ((i=0) and (Proto_GetStatus(PAnsiChar(buf))=ID_STATUS_INVISIBLE)) then
     begin
       result:=Proto_ChainRecv(wParam,ccs);
     end

@@ -101,7 +101,7 @@ end;
 
 function Check(wnd:HWND;flags:integer):HWND;cdecl;
 begin
-  if CallProtoService(playername,PS_GETSTATUS,0,0)=ID_STATUS_ONLINE then
+  if Proto_GetStatus(playername)=ID_STATUS_ONLINE then
   begin
     result:=InitmRadio
   end

@@ -184,7 +184,7 @@ end;
 function GetProtoStatus(ProtoNum:uint_ptr):integer;
 begin
   ProtoNum:=FindProto(PAnsiChar(ProtoNum));
-  result:=CallProtoService(protos^[ProtoNum].name,PS_GETSTATUS,0,0);
+  result:=Proto_GetStatus(protos^[ProtoNum].name);
 end;
 
 function GetProtoStatusNum(ProtoNum:uint_ptr):integer;

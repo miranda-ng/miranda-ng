@@ -455,8 +455,7 @@ begin
       begin
         if not anystatus then
         begin
-          StrCat(pc,PS_GETSTATUS);
-          anystatus:=(CallService(pc,0,0)<>ID_STATUS_OFFLINE);
+          anystatus:=(Proto_GetStatus(pc)<>ID_STATUS_OFFLINE);
         end;
         if anystatus then
         begin

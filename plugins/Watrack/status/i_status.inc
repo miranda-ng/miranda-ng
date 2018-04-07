@@ -82,7 +82,7 @@ begin
 
       if (UseStatus<>BST_UNCHECKED) or (UseExtStatus<>BST_UNCHECKED) then
       begin
-        status:=CallProtoService(proto,PS_GETSTATUS,0,0);
+        status:=Proto_GetStatus(proto);
         todo  :=(SimpleMode<>BST_UNCHECKED) or IsOurStatus(mask,status);
       end
       else
