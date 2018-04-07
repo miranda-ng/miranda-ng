@@ -2,8 +2,7 @@
 
 void luaM_pushdbvt(lua_State *L, const DBVARIANT &value)
 {
-	switch (value.type)
-	{
+	switch (value.type) {
 	case DBVT_BYTE:
 		lua_pushinteger(L, value.bVal);
 		break;
@@ -25,8 +24,7 @@ void luaM_pushdbvt(lua_State *L, const DBVARIANT &value)
 	case DBVT_BLOB:
 	{
 		lua_createtable(L, value.cpbVal, 0);
-		for (int i = 0; i < value.cpbVal; i++)
-		{
+		for (int i = 0; i < value.cpbVal; i++) {
 			lua_pushinteger(L, value.pbVal[i]);
 			lua_rawseti(L, -2, i + 1);
 		}
@@ -39,31 +37,6 @@ void luaM_pushdbvt(lua_State *L, const DBVARIANT &value)
 
 /***********************************************/
 
-static int db_FindFirstContact(lua_State *L)
-{
-	ObsoleteMethod(L, "Use Contacts method");
-
-	const char *szProto = lua_tostring(L, 1);
-
-	MCONTACT res = db_find_first(szProto);
-	lua_pushinteger(L, res);
-
-	return 1;
-}
-
-static int db_FindNextContact(lua_State *L)
-{
-	ObsoleteMethod(L, "Use Contacts method");
-
-	MCONTACT hContact = luaL_checkinteger(L, 1);
-	const char *szProto = lua_tostring(L, 2);
-
-	MCONTACT res = db_find_next(hContact, szProto);
-	lua_pushinteger(L, res);
-
-	return 1;
-}
-
 static int db_ContactIterator(lua_State *L)
 {
 	MCONTACT hContact = lua_tointeger(L, lua_upvalueindex(1));
@@ -73,8 +46,7 @@ static int db_ContactIterator(lua_State *L)
 		? db_find_first(szModule)
 		: db_find_next(hContact, szModule);
 
-	if (hContact)
-	{
+	if (hContact) {
 		lua_pushinteger(L, hContact);
 		lua_pushvalue(L, -1);
 		lua_replace(L, lua_upvalueindex(1));
@@ -89,8 +61,7 @@ static int db_Contacts(lua_State *L)
 {
 	const char *szModule = nullptr;
 
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TNONE:
 		break;
 	case LUA_TSTRING:
@@ -139,8 +110,7 @@ static int db_GetContactInfo(lua_State *L)
 	MCONTACT hContact = luaL_checkinteger(L, 1);
 
 	int type = 0;
-	switch (lua_type(L, 2))
-	{
+	switch (lua_type(L, 2)) {
 	case LUA_TNUMBER:
 		type = luaL_checkinteger(L, 2);
 		break;
@@ -155,10 +125,7 @@ static int db_GetContactInfo(lua_State *L)
 	if (value)
 		lua_pushstring(L, ptrA(mir_utf8encodeW(value)));
 	else
-	{
 		lua_pushnil(L);
-		return 1;
-	}
 
 	return 1;
 }
@@ -236,8 +203,7 @@ static int db_EventIterator(lua_State *L)
 		? db_event_first(hContact)
 		: db_event_next(hContact, hDbEvent);
 
-	if (hDbEvent)
-	{
+	if (hDbEvent) {
 		lua_pushinteger(L, hDbEvent);
 		lua_pushvalue(L, -1);
 		lua_replace(L, lua_upvalueindex(2));
@@ -268,8 +234,7 @@ static int db_EventReverseIterator(lua_State *L)
 		? db_event_last(hContact)
 		: db_event_prev(hContact, hDbEvent);
 
-	if (hDbEvent)
-	{
+	if (hDbEvent) {
 		lua_pushinteger(L, hDbEvent);
 		lua_pushvalue(L, -1);
 		lua_replace(L, lua_upvalueindex(2));
@@ -298,8 +263,7 @@ static int db_UnreadEventIterator(lua_State *L)
 
 	hDbEvent = db_event_firstUnread(hContact);
 
-	if (hDbEvent)
-	{
+	if (hDbEvent) {
 		lua_pushinteger(L, hDbEvent);
 		lua_pushvalue(L, -1);
 		lua_replace(L, lua_upvalueindex(2));
@@ -340,13 +304,11 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Blob");
-	switch (lua_type(L, -1))
-	{
+	switch (lua_type(L, -1)) {
 	case LUA_TTABLE:
 		dbei.cbBlob = (DWORD)lua_rawlen(L, 4);
 		dbei.pBlob = (BYTE*)mir_calloc(dbei.cbBlob);
-		for (DWORD i = 0; i < dbei.cbBlob; i++)
-		{
+		for (DWORD i = 0; i < dbei.cbBlob; i++) {
 			lua_geti(L, 4, i + 1);
 			dbei.pBlob[i] = lua_tointeger(L, -1);
 			lua_pop(L, 1);
@@ -394,8 +356,7 @@ static int db_MarkReadEvent(lua_State *L)
 
 static int ModulesEnumProc(const char *szModuleName, void *lParam)
 {
-	if (szModuleName)
-	{
+	if (szModuleName) {
 		LIST<char>* p = (LIST<char>*)lParam;
 		p->insert(mir_strdup(szModuleName));
 	}
@@ -408,15 +369,13 @@ static int db_ModulesIterator(lua_State *L)
 	int i = lua_tointeger(L, lua_upvalueindex(1));
 	LIST<char> &param = *(LIST<char>*)lua_touserdata(L, lua_upvalueindex(2));
 
-	if (i < param.getCount())
-	{
+	if (i < param.getCount()) {
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
 		lua_pushstring(L, ptrA(mir_utf8encode(param[i])));
 		mir_free(param[i]);
 	}
-	else
-	{
+	else {
 		lua_pushnil(L);
 		delete &param;
 	}
@@ -450,8 +409,7 @@ static int db_DeleteModule(lua_State *L)
 
 static int SettingsEnumProc(const char* szSetting, void *lParam)
 {
-	if (szSetting)
-	{
+	if (szSetting ) {
 		LIST<char>* p = (LIST<char>*)lParam;
 		p->insert(mir_strdup(szSetting));
 	}
@@ -463,15 +421,13 @@ static int db_SettingIterator(lua_State *L)
 	int i = lua_tointeger(L, lua_upvalueindex(1));
 	LIST<char> &param = *(LIST<char>*)lua_touserdata(L, lua_upvalueindex(2));
 
-	if (i < param.getCount())
-	{
+	if (i < param.getCount()) {
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
 		lua_pushstring(L, ptrA(mir_utf8encode(param[i])));
 		mir_free(param[i]);
 	}
-	else
-	{
+	else {
 		lua_pushnil(L);
 		delete &param;
 	}
@@ -501,8 +457,7 @@ static int db_GetSetting(lua_State *L)
 	const char *szSetting = luaL_checkstring(L, 3);
 
 	DBVARIANT dbv;
-	if (db_get(hContact, szModule, szSetting, &dbv))
-	{
+	if (db_get(hContact, szModule, szSetting, &dbv)) {
 		lua_pushvalue(L, 4);
 		return 1;
 	}
@@ -510,8 +465,7 @@ static int db_GetSetting(lua_State *L)
 	luaM_pushdbvt(L, dbv);
 	db_free(&dbv);
 
-	if (lua_isnil(L, -1) && !lua_isnoneornil(L, 4))
-	{
+	if (lua_isnil(L, -1) && !lua_isnoneornil(L, 4)) {
 		lua_pop(L, 1);
 		lua_pushvalue(L, 4);
 	}
@@ -527,11 +481,9 @@ static int db_WriteSetting(lua_State *L)
 	luaL_checkany(L, 4);
 
 	DBVARIANT dbv;
-	if (lua_isnoneornil(L, 5))
-	{
+	if (lua_isnoneornil(L, 5)) {
 		int type = lua_type(L, 4);
-		switch (type)
-		{
+		switch (type) {
 		case LUA_TBOOLEAN:
 			dbv.type = DBVT_BYTE;
 			break;
@@ -552,8 +504,7 @@ static int db_WriteSetting(lua_State *L)
 	else
 		dbv.type = luaL_checkinteger(L, 5);
 
-	switch (dbv.type)
-	{
+	switch (dbv.type) {
 	case DBVT_BYTE:
 		dbv.bVal = lua_isboolean(L, 4)
 			? lua_toboolean(L, 4)
@@ -578,8 +529,7 @@ static int db_WriteSetting(lua_State *L)
 	{
 		dbv.cpbVal = (WORD)lua_rawlen(L, 4);
 		dbv.pbVal = (BYTE*)mir_calloc(dbv.cpbVal);
-		for (int i = 0; i < dbv.cpbVal; i++)
-		{
+		for (int i = 0; i < dbv.cpbVal; i++) {
 			lua_geti(L, 4, i + 1);
 			dbv.pbVal[i] = lua_tointeger(L, -1);
 			lua_pop(L, 1);
@@ -613,8 +563,6 @@ static int db_DeleteSetting(lua_State *L)
 
 static luaL_Reg databaseApi[] =
 {
-	{ "FindFirstContact", db_FindFirstContact },
-	{ "FindNextContact", db_FindNextContact },
 	{ "Contacts", db_Contacts },
 	{ "GetContactInfo", db_GetContactInfo },
 
@@ -690,11 +638,9 @@ int MT<DBEVENTINFO>::Get(lua_State *L, DBEVENTINFO *dbei)
 {
 	const char *key = luaL_checkstring(L, 2);
 
-	if (mir_strcmpi(key, "Blob") == 0)
-	{
+	if (mir_strcmpi(key, "Blob") == 0) {
 		lua_createtable(L, dbei->cbBlob, 0);
-		for (DWORD i = 0; i < dbei->cbBlob; i++)
-		{
+		for (DWORD i = 0; i < dbei->cbBlob; i++) {
 			lua_pushinteger(L, dbei->pBlob[i]);
 			lua_rawseti(L, -2, i + 1);
 		}
