@@ -237,8 +237,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG))
 			continue;
 
-		int status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(pa->iRealStatus)))
 			continue;
 
 		// NewAwaySys

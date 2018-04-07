@@ -55,6 +55,8 @@ static int EnumDbModules(const char *szModuleName, void*)
 			pa->bIsVisible = true;
 			pa->bIsEnabled = false;
 			pa->iOrder = accounts.getCount();
+			pa->iIconBase = -1;
+			pa->iRealStatus = ID_STATUS_OFFLINE;
 			accounts.insert(pa);
 		}
 	}
@@ -77,6 +79,8 @@ void LoadDbAccounts(void)
 		if (pa == nullptr) {
 			pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 			pa->szModuleName = szModuleName;
+			pa->iIconBase = -1;
+			pa->iRealStatus = ID_STATUS_OFFLINE;
 			accounts.insert(pa);
 		}
 		else {
@@ -312,8 +316,8 @@ MIR_APP_DLL(int) Proto_GetAverageStatus(int *pAccountNumber)
 
 		netProtoCount++;
 		if (averageMode == 0)
-			averageMode = CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0);
-		else if (averageMode > 0 && averageMode != CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0)) {
+			averageMode = pa->iRealStatus;
+		else if (averageMode > 0 && averageMode != pa->iRealStatus) {
 			averageMode = -1;
 			if (pAccountNumber == nullptr)
 				break;

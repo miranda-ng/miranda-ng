@@ -730,7 +730,7 @@ static void CheckContinuouslyFunction(void *)
 			if (!IsSuitableProto(pa))
 				continue;
 
-			if (IsStatusConnecting(CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0))) {
+			if (IsStatusConnecting(pa->iRealStatus)) {
 				log_debugA("CheckContinuouslyFunction: %s is connecting", pa->szModuleName);
 				continue; // connecting, leave alone
 			}

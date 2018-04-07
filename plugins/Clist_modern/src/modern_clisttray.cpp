@@ -84,19 +84,19 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 	int connectingCount = 0;
 	g_bMultiConnectionMode = false;
 
-	for (auto &it : *pcli->menuProtos) {
-		if (!Clist_GetProtocolVisibility(it->szProto))
+	for (auto &it : Accounts()) {
+		if (!it->IsVisible())
 			continue;
 
-		if (IsStatusConnecting(it->iStatus)) {
+		if (IsStatusConnecting(it->iRealStatus)) {
 			connectingCount++;
 			if (connectingCount == 1)
-				g_szConnectingProto = it->szProto;
+				g_szConnectingProto = it->szModuleName;
 			else 
 				g_bMultiConnectionMode = true;
 		}
-		else if (GetStatusVal(it->iStatus) > GetStatusVal(curstatus))
-			curstatus = it->iStatus;
+		else if (GetStatusVal(it->iRealStatus) > GetStatusVal(curstatus))
+			curstatus = it->iRealStatus;
 	}
 
 	return curstatus ? curstatus : ID_STATUS_OFFLINE;
@@ -276,14 +276,13 @@ static int GetGoodAccNum(bool *bDiffers, bool *bConn = nullptr)
 			continue;
 
 		res++;
-		int iStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		if (!iPrevStatus)
-			iPrevStatus = iStatus;
-		else if (iPrevStatus != iStatus)
+			iPrevStatus = pa->iRealStatus;
+		else if (iPrevStatus != pa->iRealStatus)
 			*bDiffers = true;
 
 		if (bConn)
-			if (IsStatusConnecting(iStatus))
+			if (IsStatusConnecting(pa->iRealStatus))
 				*bConn = true;
 	}
 

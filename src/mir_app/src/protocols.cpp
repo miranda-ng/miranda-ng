@@ -130,6 +130,7 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 				pa->bIsVisible = pa->bIsEnabled = true;
 				pa->iOrder = accounts.getCount();
 				pa->iIconBase = -1;
+				pa->iRealStatus = ID_STATUS_OFFLINE;
 				accounts.insert(pa);
 			}
 			pa->bOldProto = true;

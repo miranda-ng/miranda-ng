@@ -683,10 +683,10 @@ int ModeChange(WPARAM, LPARAM lparam)
 
 	DBWriteTimeTS(time(nullptr), NULL);
 
-	//	isetting=CallProtoService(ack->szModule,PS_GETSTATUS,0,0);
 	WORD isetting = (WORD)ack->lParam;
-	if (isetting < ID_STATUS_OFFLINE) isetting = ID_STATUS_OFFLINE;
-	if ((isetting > ID_STATUS_OFFLINE) && ((WORD)ack->hProcess <= ID_STATUS_OFFLINE)) {
+	if (isetting < ID_STATUS_OFFLINE)
+		isetting = ID_STATUS_OFFLINE;
+	if ((isetting > ID_STATUS_OFFLINE) && ((UINT_PTR)ack->hProcess <= ID_STATUS_OFFLINE)) {
 		//we have just loged-in
 		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
 		if (!Miranda_IsTerminated() && IsWatchedProtocol(ack->szModule)) {
@@ -698,7 +698,7 @@ int ModeChange(WPARAM, LPARAM lparam)
 			mir_forkthread(cleanThread, info);
 		}
 	}
-	else if ((isetting == ID_STATUS_OFFLINE) && ((WORD)ack->hProcess > ID_STATUS_OFFLINE)) {
+	else if ((isetting == ID_STATUS_OFFLINE) && ((UINT_PTR)ack->hProcess > ID_STATUS_OFFLINE)) {
 		//we have just loged-off
 		if (IsWatchedProtocol(ack->szModule)) {
 			char str[MAXMODULELABELLENGTH + 9];

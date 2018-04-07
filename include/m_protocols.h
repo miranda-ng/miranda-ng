@@ -279,6 +279,7 @@ struct MIR_APP_EXPORT PROTOACCOUNT
 
 	char*    szUniqueId;      // setting's unique id for any contact in the account
 	int      iIconBase;       // index of the first icon in ClistImages
+	int      iRealStatus;     // last status reported by protocol
 
 	bool     IsEnabled(void) const;
 	bool     IsLocked(void) const;

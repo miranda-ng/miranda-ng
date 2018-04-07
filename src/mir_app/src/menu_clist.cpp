@@ -479,7 +479,6 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			pimi->mi.flags &= ~CMIF_CHECKED;
 	}
 	else if ((!smep || smep->szProto) && pimi->mi.name.a) {
-		int curProtoStatus = 0;
 		BOOL IconNeedDestroy = FALSE;
 		char* prot;
 		if (smep)
@@ -489,14 +488,12 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			prot = NEWSTR_ALLOCA(prn);
 			if (prn) mir_free(prn);
 		}
-		if (Proto_GetAccount(prot) == nullptr)
+		PROTOACCOUNT *pa = Proto_GetAccount(prot);
+		if (pa == nullptr)
 			return TRUE;
 
-		if ((curProtoStatus = CallProtoServiceInt(0, prot, PS_GETSTATUS, 0, 0)) == CALLSERVICE_NOTFOUND)
-			curProtoStatus = 0;
-
-		if (curProtoStatus >= ID_STATUS_OFFLINE && curProtoStatus < ID_STATUS_IDLE)
-			pimi->mi.hIcolibItem = Skin_LoadProtoIcon(prot, curProtoStatus);
+		if (pa->iRealStatus >= ID_STATUS_OFFLINE && pa->iRealStatus < ID_STATUS_IDLE)
+			pimi->mi.hIcolibItem = Skin_LoadProtoIcon(prot, pa->iRealStatus);
 		else {
 			pimi->mi.hIcolibItem = (HICON)CallProtoServiceInt(0, prot, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 			if (pimi->mi.hIcolibItem == (HICON)CALLSERVICE_NOTFOUND)
@@ -792,7 +789,6 @@ void RebuildMenuOrder(void)
 		pMenu->hIcon = nullptr;
 		pMenu->pMenu = rootmenu;
 		pMenu->szProto = mir_strdup(pa->szModuleName);
-		pMenu->iStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		g_menuProtos.insert(pMenu);
 
 		char buf[256];

@@ -45,8 +45,6 @@ int g_maxStatus = ID_STATUS_OFFLINE;
 
 void CluiProtocolStatusChanged(int, const char*)
 {
-	int maxOnline = 0;
-	WORD maxStatus = ID_STATUS_OFFLINE;
 	DBVARIANT dbv = { 0 };
 	int iIcon = 0;
 	HICON hIcon = nullptr;
@@ -124,7 +122,7 @@ void CluiProtocolStatusChanged(int, const char*)
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
-				wchar_t* modeDescr = Clist_GetStatusModeDescription(CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0), 0);
+				wchar_t* modeDescr = Clist_GetStatusModeDescription(accs[i]->iRealStatus, 0);
 				GetTextExtentPoint32(hdc, modeDescr, (int)mir_wstrlen(modeDescr), &textSize);
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
@@ -156,7 +154,6 @@ void CluiProtocolStatusChanged(int, const char*)
 		if (!pa->IsVisible())
 			continue;
 
-		int status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 		PD->RealName = mir_strdup(pa->szModuleName);
 		PD->protopos = partCount;

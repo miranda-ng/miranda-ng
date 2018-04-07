@@ -61,7 +61,6 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 		if (!pa->IsEnabled() || pa->IsLocked())
 			continue;
 
-		int currentstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		int statusbits = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 		int status = mii.aaStatus;
 		if (!(statusbits & Proto_Status2Flag(status))) {
@@ -70,11 +69,11 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 				status = ID_STATUS_AWAY;
 		}
 		if (lParam & IDF_ISIDLE) {
-			if (currentstatus != ID_STATUS_ONLINE && currentstatus != ID_STATUS_FREECHAT)
+			if (pa->iRealStatus != ID_STATUS_ONLINE && pa->iRealStatus != ID_STATUS_FREECHAT)
 				continue;
 
 			// save old status of account and set to given status
-			db_set_w(NULL, AA_MODULE, pa->szModuleName, currentstatus);
+			db_set_w(NULL, AA_MODULE, pa->szModuleName, pa->iRealStatus);
 			Proto_SetStatus(pa->szModuleName, status);
 		}
 		else {

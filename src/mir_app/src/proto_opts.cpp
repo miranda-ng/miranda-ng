@@ -61,6 +61,8 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const ch
 	pa->bIsEnabled = pa->bIsVisible = true;
 	pa->iOrder = accounts.getCount();
 	pa->szProtoName = mir_strdup(pszBaseProto);
+	pa->iRealStatus = ID_STATUS_OFFLINE;
+	pa->iIconBase = -1;
 
 	// if the internal name is empty, generate new one
 	if (mir_strlen(pszInternal) == 0) {
@@ -456,8 +458,7 @@ public:
 			}
 		}
 		else {
-			DWORD dwStatus = CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0);
-			if (dwStatus >= ID_STATUS_ONLINE) {
+			if (pa->iRealStatus >= ID_STATUS_ONLINE) {
 				wchar_t buf[200];
 				mir_snwprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
 				if (IDNO == ::MessageBox(m_hwnd, TranslateT("Account is online. Disable account?"), buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO))

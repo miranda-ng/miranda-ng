@@ -1459,8 +1459,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			oldOrder = pa->iOrder;
 
-			WORD wStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-			if (opt.bHideOffline && wStatus == ID_STATUS_OFFLINE)
+			if (opt.bHideOffline && pa->iRealStatus == ID_STATUS_OFFLINE)
 				continue;
 
 			if (!pa->IsEnabled() || !IsTrayProto(pa->tszAccountName, (BOOL)wParam))
@@ -1483,7 +1482,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (pa->IsLocked())
 					mir_snwprintf(swzProto, TranslateT("%s (locked)"), pa->tszAccountName);
 
-			AddRow(pwd, swzProto, buff, nullptr, false, false, !bFirstItem, true, Skin_LoadProtoIcon(pa->szModuleName, wStatus));
+			AddRow(pwd, swzProto, buff, nullptr, false, false, !bFirstItem, true, Skin_LoadProtoIcon(pa->szModuleName, pa->iRealStatus));
 			bFirstItem = false;
 
 			if (dwItems & TRAYTIP_LOGON) {
@@ -1503,14 +1502,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			if (dwItems & TRAYTIP_STATUS) {
-				wchar_t *swzText = Clist_GetStatusModeDescription(wStatus, 0);
+				wchar_t *swzText = Clist_GetStatusModeDescription(pa->iRealStatus, 0);
 				if (swzText)
 					AddRow(pwd, TranslateT("Status:"), swzText, nullptr, false, false, false);
 			}
 
-			if (wStatus >= ID_STATUS_ONLINE && wStatus <= ID_STATUS_OUTTOLUNCH) {
+			if (pa->iRealStatus >= ID_STATUS_ONLINE && pa->iRealStatus <= ID_STATUS_OUTTOLUNCH) {
 				if (dwItems & TRAYTIP_STATUS_MSG) {
-					wchar_t *swzText = GetProtoStatusMessage(pa->szModuleName, wStatus);
+					wchar_t *swzText = GetProtoStatusMessage(pa->szModuleName, pa->iRealStatus);
 					if (swzText) {
 						StripBBCodesInPlace(swzText);
 						AddRow(pwd, TranslateT("Status message:"), swzText, pa->szModuleName, true, true, false);

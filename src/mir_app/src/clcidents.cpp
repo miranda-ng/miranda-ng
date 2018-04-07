@@ -221,11 +221,9 @@ MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *cc, DWORD *nmFlags)
 
 MIR_APP_DLL(int) Clist_GetRealStatus(ClcContact *cc, int iDefaultValue)
 {
-	char *szProto = cc->proto;
-	if (szProto != nullptr)
-		for (auto &it : g_menuProtos)
-			if (!mir_strcmp(it->szProto, szProto))
-				return it->iStatus;
+	PROTOACCOUNT *pa = Proto_GetAccount(cc->proto);
+	if (pa)
+		return pa->iRealStatus;
 
 	return iDefaultValue;
 }
@@ -237,12 +235,15 @@ MIR_APP_DLL(int) Clist_GetGeneralizedStatus(char **szProto)
 	int status = ID_STATUS_OFFLINE;
 	int statusOnlineness = 0;
 
-	for (auto &it : g_menuProtos) {
-		if (it->iStatus == ID_STATUS_INVISIBLE)
+	for (auto &pa : accounts) {
+		if (!pa->IsVisible())
+			continue;
+
+		if (pa->iRealStatus == ID_STATUS_INVISIBLE)
 			return ID_STATUS_INVISIBLE;
 
 		int iStatusWeight;
-		switch (it->iStatus) {
+		switch (pa->iRealStatus) {
 		case ID_STATUS_FREECHAT:    iStatusWeight = 110; break;
 		case ID_STATUS_ONLINE:      iStatusWeight = 100; break;
 		case ID_STATUS_OCCUPIED:    iStatusWeight = 60;  break;
@@ -253,14 +254,14 @@ MIR_APP_DLL(int) Clist_GetGeneralizedStatus(char **szProto)
 		case ID_STATUS_NA:          iStatusWeight = 10;  break;
 		case ID_STATUS_INVISIBLE:   iStatusWeight = 5;   break;
 		default:                    
-			iStatusWeight = IsStatusConnecting(it->iStatus) ? 120 : 0;
+			iStatusWeight = IsStatusConnecting(pa->iRealStatus) ? 120 : 0;
 			break;
 		}
 
 		if (iStatusWeight > statusOnlineness) {
 			if (szProto != nullptr)
-				*szProto = it->szProto;
-			status = it->iStatus;
+				*szProto = pa->szModuleName;
+			status = pa->iRealStatus;
 			statusOnlineness = iStatusWeight;
 		}
 	}

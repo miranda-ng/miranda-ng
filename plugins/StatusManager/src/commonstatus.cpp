@@ -37,7 +37,7 @@ SMProto::SMProto(PROTOACCOUNT *pa)
 {
 	m_szName = pa->szModuleName;
 	m_tszAccName = pa->tszAccountName;
-	m_status = m_lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+	m_status = m_lastStatus = pa->iRealStatus;
 }
 
 SMProto::SMProto(const SMProto &p)
@@ -161,11 +161,11 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 				pstatus = GetActualStatus(ps[j]);
 
 		if (pstatus == 0)
-			pstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+			pstatus = pa->iRealStatus;
 
 		if (db_get_b(0, pa->szModuleName, "LockMainStatus", 0)) {
 			// if proto is locked, pstatus must be the current status
-			if (pstatus != CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0))
+			if (pstatus != pa->iRealStatus)
 				return 0;
 		}
 		else {

@@ -101,7 +101,7 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 			if (!pa->IsVisible())
 				continue;
 
-			wchar_t *szStatus = Clist_GetStatusModeDescription(CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0), 0);
+			wchar_t *szStatus = Clist_GetStatusModeDescription(pa->iRealStatus, 0);
 			if (!szStatus)
 				continue;
 
@@ -126,7 +126,7 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa != nullptr) {
 			ptrW ProtoXStatus(sttGetXStatus(szProto));
-			wchar_t *szStatus = Clist_GetStatusModeDescription(CallProtoServiceInt(0, szProto, PS_GETSTATUS, 0, 0), 0);
+			wchar_t *szStatus = Clist_GetStatusModeDescription(pa->iRealStatus, 0);
 			if (szPrefix && szPrefix[0]) {
 				if (db_get_b(0, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
 					if (hasTips()) {
@@ -251,7 +251,7 @@ int fnTrayIconInit(HWND hwnd)
 				if (j >= 0) {
 					PROTOACCOUNT *pa = accounts[j];
 					if (pa->IsVisible())
-						Clist_TrayIconAdd(hwnd, pa->szModuleName, nullptr, CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0));
+						Clist_TrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->iRealStatus);
 				}
 			}
 		}
@@ -446,8 +446,7 @@ static VOID CALLBACK TrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 	if (i) {
 		DestroyIcon(cli.trayIcon[0].hBaseIcon);
-		cli.trayIcon[0].hBaseIcon = cli.pfnGetIconFromStatusMode(0, accounts[cli.cycleStep]->szModuleName,
-			CallProtoServiceInt(0, accounts[cli.cycleStep]->szModuleName, PS_GETSTATUS, 0, 0));
+		cli.trayIcon[0].hBaseIcon = cli.pfnGetIconFromStatusMode(0, accounts[cli.cycleStep]->szModuleName, accounts[cli.cycleStep]->iRealStatus);
 		if (cli.trayIcon[0].isBase)
 			TrayIconUpdate(cli.trayIcon[0].hBaseIcon, nullptr, nullptr, 1);
 	}

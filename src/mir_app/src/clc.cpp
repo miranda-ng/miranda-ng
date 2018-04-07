@@ -152,12 +152,10 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 
 		if (ack->result == ACKRESULT_SUCCESS) {
-			for (auto &it : g_menuProtos) {
-				if (!mir_strcmp(it->szProto, ack->szModule)) {
-					it->iStatus = (WORD)ack->lParam;
-					Clist_TrayIconUpdateBase(ack->szModule);
-					break;
-				}
+			PROTOACCOUNT *pa = Proto_GetAccount(ack->szModule);
+			if (pa) {
+				pa->iRealStatus = ack->lParam;
+				Clist_TrayIconUpdateBase(ack->szModule);
 			}
 		}
 	}
