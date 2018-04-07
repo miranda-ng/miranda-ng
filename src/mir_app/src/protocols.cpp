@@ -129,6 +129,7 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 				pa->tszAccountName = mir_a2u(pd->szName);
 				pa->bIsVisible = pa->bIsEnabled = true;
 				pa->iOrder = accounts.getCount();
+				pa->iIconBase = -1;
 				accounts.insert(pa);
 			}
 			pa->bOldProto = true;

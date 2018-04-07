@@ -275,9 +275,10 @@ struct MIR_APP_EXPORT PROTOACCOUNT
 	HWND     hwndAccMgrUI;
 
 	int      iOrder;          // account order in various menus & lists
-	PROTO_INTERFACE *ppro;  // pointer to the underlying object
+	PROTO_INTERFACE *ppro;    // pointer to the underlying object
 
 	char*    szUniqueId;      // setting's unique id for any contact in the account
+	int      iIconBase;       // index of the first icon in ClistImages
 
 	bool     IsEnabled(void) const;
 	bool     IsLocked(void) const;
