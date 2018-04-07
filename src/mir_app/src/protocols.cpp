@@ -310,14 +310,19 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *accName)
 	if (accName == nullptr)
 		return nullptr;
 
-	int idx;
-	PROTOACCOUNT temp;
-	temp.szModuleName = (char*)accName;
-	if ((idx = accounts.getIndex(&temp)) == -1)
-		return nullptr;
-
-	return accounts[idx];
+	return accounts.find((PROTOACCOUNT*)&accName);
 }
+
+MIR_APP_DLL(int) Proto_GetStatus(const char *accName)
+{
+	if (accName == nullptr)
+		return ID_STATUS_OFFLINE;
+
+	PROTOACCOUNT *pa = accounts.find((PROTOACCOUNT*)&accName);
+	return (pa) ? pa->iRealStatus : ID_STATUS_OFFLINE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs)
 {

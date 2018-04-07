@@ -578,3 +578,4 @@ Clist_RemoveItemFromGroup @597
 Clist_ClcOptionsChanged @598
 Clist_GetRealStatus @599
 Clist_GetGeneralizedStatus @600
+Proto_GetStatus @601

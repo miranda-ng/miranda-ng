@@ -314,6 +314,11 @@ EXTERN_C MIR_APP_DLL(int) Proto_GetAverageStatus(int *pAccountNumber = nullptr);
 EXTERN_C MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *pszModuleName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// returns last status reported by a protocol
+
+EXTERN_C MIR_APP_DLL(int) Proto_GetStatus(const char *pszModuleName);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // this event is fired when the accounts list gets changed
 // wParam = event type (1 - added, 2 - changed, 3 - deleted, 4 - upgraded, 5 - enabled/disabled)
 // lParam = (LPARAM)(PROTOACCOUNT*) - account being changed
