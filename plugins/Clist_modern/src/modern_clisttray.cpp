@@ -84,20 +84,19 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 	int connectingCount = 0;
 	g_bMultiConnectionMode = false;
 
-	for (int i = 0; i < pcli->hClcProtoCount; i++) {
-		ClcProtoStatus &p = pcli->clcProto[i];
-		if (!Clist_GetProtocolVisibility(p.szProto))
+	for (auto &it : *pcli->menuProtos) {
+		if (!Clist_GetProtocolVisibility(it->szProto))
 			continue;
 
-		if (IsStatusConnecting(p.dwStatus)) {
+		if (IsStatusConnecting(it->iStatus)) {
 			connectingCount++;
 			if (connectingCount == 1)
-				g_szConnectingProto = p.szProto;
+				g_szConnectingProto = it->szProto;
 			else 
 				g_bMultiConnectionMode = true;
 		}
-		else if (GetStatusVal(p.dwStatus) > GetStatusVal(curstatus))
-			curstatus = p.dwStatus;
+		else if (GetStatusVal(it->iStatus) > GetStatusVal(curstatus))
+			curstatus = it->iStatus;
 	}
 
 	return curstatus ? curstatus : ID_STATUS_OFFLINE;

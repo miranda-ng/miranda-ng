@@ -713,8 +713,6 @@ MIR_APP_DLL(int) Clist_GetAccountIndex(int Pos)
 
 void RebuildMenuOrder(void)
 {
-	BYTE bHideStatusMenu = db_get_b(0, "CLUI", "DontHideStatusMenu", 0); // cool perversion, though
-
 	// clear statusmenu
 	RecursiveDeleteMenu(hStatusMenu);
 
@@ -742,13 +740,13 @@ void RebuildMenuOrder(void)
 			continue;
 
 		PROTOACCOUNT *pa = accounts[i];
-		int pos = 0;
-		if (!bHideStatusMenu && !pa->IsVisible())
+		if (!pa->IsVisible())
 			continue;
 
 		DWORD flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
 		HICON ic;
 		wchar_t tbuf[256];
+		int pos = 0;
 
 		// adding root
 		CMenuItem mi;
@@ -794,6 +792,7 @@ void RebuildMenuOrder(void)
 		pMenu->hIcon = nullptr;
 		pMenu->pMenu = rootmenu;
 		pMenu->szProto = mir_strdup(pa->szModuleName);
+		pMenu->iStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		g_menuProtos.insert(pMenu);
 
 		char buf[256];
@@ -841,7 +840,7 @@ void RebuildMenuOrder(void)
 	// add to root menu
 	for (int j = 0; j < _countof(statusModeList); j++) {
 		for (auto &pa : accounts) {
-			if (!bHideStatusMenu && !pa->IsVisible())
+			if (!pa->IsVisible())
 				continue;
 
 			DWORD flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);

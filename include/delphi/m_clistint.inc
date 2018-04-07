@@ -292,8 +292,6 @@ type
     hwndStatus      : HWND;
     hMenuMain       : HMENU;
     hInst           : HMODULE;
-    hClcProtoCount  : int;
-    clcProto        : PClcProtoStatus;
 
   (* clc.h *)
     pfnContactListControlWndProc       : function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;

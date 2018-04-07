@@ -124,30 +124,8 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int ClcAccountsChanged(WPARAM, LPARAM)
-{
-	int cnt = 0;
-	for (auto &pa : accounts)
-		if (pa->IsEnabled())
-			cnt++;
-
-	cli.hClcProtoCount = cnt;
-	cli.clcProto = (ClcProtoStatus *)mir_realloc(cli.clcProto, sizeof(ClcProtoStatus) * cli.hClcProtoCount);
-
-	cnt = 0;
-	for (auto &pa : accounts) {
-		if (pa->IsEnabled()) {
-			cli.clcProto[cnt].szProto = pa->szModuleName;
-			cli.clcProto[cnt].dwStatus = CallProtoServiceInt(0, pa->szModuleName, PS_GETSTATUS, 0, 0);
-			++cnt;
-		}
-	}
-	return 0;
-}
-
 static int ClcModulesLoaded(WPARAM, LPARAM)
 {
-	ClcAccountsChanged(0, 0);
 	MTG_OnmodulesLoad();
 	return 0;
 }
@@ -174,9 +152,9 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 
 		if (ack->result == ACKRESULT_SUCCESS) {
-			for (int i = 0; i < cli.hClcProtoCount; i++) {
-				if (!mir_strcmp(cli.clcProto[i].szProto, ack->szModule)) {
-					cli.clcProto[i].dwStatus = (WORD)ack->lParam;
+			for (auto &it : g_menuProtos) {
+				if (!mir_strcmp(it->szProto, ack->szModule)) {
+					it->iStatus = (WORD)ack->lParam;
 					Clist_TrayIconUpdateBase(ack->szModule);
 					break;
 				}
@@ -229,7 +207,6 @@ int LoadCLCModule(void)
 	CreateServiceFunction(MS_CLC_GETINFOTIPHOVERTIME, GetInfoTipHoverTime);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded);
-	HookEvent(ME_PROTO_ACCLISTCHANGED, ClcAccountsChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, ClcContactAdded);
 	HookEvent(ME_SKIN_ICONSCHANGED, ClcIconsChanged);
@@ -244,7 +221,6 @@ void UnloadClcModule()
 	if (!bModuleInitialized)
 		return;
 
-	mir_free(cli.clcProto);
 	WindowList_Destroy(hClcWindowList); hClcWindowList = nullptr;
 
 	FreeDisplayNameCache();

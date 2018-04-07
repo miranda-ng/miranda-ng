@@ -192,6 +192,7 @@ struct MenuProto
 	ptrA     szProto; 
 	HGENMENU pMenu;
 	HICON    hIcon;
+	int      iStatus;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -295,12 +296,6 @@ EXTERN_C MIR_APP_DLL(int) Clist_GetAccountIndex(int iPos);
 /////////////////////////////////////////////////////////////////////////////////////////
 // CLIST_INTERFACE structure definition
 
-struct ClcProtoStatus
-{
-	char *szProto;
-	DWORD dwStatus;
-};
-
 struct ClcCacheEntryBase
 {
 	MCONTACT hContact;
@@ -315,9 +310,6 @@ struct CLIST_INTERFACE
 	HWND hwndContactList, hwndContactTree, hwndStatus;
 	HMENU hMenuMain;
 	HMODULE hInst;
-
-	int hClcProtoCount;
-	ClcProtoStatus *clcProto;
 
 	// clc.h
 	LRESULT        (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
