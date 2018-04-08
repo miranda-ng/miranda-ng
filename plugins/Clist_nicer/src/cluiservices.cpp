@@ -45,12 +45,6 @@ int g_maxStatus = ID_STATUS_OFFLINE;
 
 void CluiProtocolStatusChanged(int, const char*)
 {
-	DBVARIANT dbv = { 0 };
-	int iIcon = 0;
-	HICON hIcon = nullptr;
-	int rdelta = cfg::dat.bCLeft + cfg::dat.bCRight;
-	BYTE windowStyle;
-
 	if (pcli->hwndStatus == nullptr || cfg::shutDown)
 		return;
 
@@ -66,6 +60,7 @@ void CluiProtocolStatusChanged(int, const char*)
 
 	int *partWidths = (int*)_alloca((accs.getCount() + 1)*sizeof(int));
 
+	int rdelta = cfg::dat.bCLeft + cfg::dat.bCRight;
 	int partCount;
 	if (cfg::dat.bEqualSections) {
 		RECT rc;
@@ -92,7 +87,6 @@ void CluiProtocolStatusChanged(int, const char*)
 		partCount = toshow;
 	}
 	else {
-		SIZE textSize;
 		BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
 		wchar_t szName[32];
 
@@ -110,6 +104,7 @@ void CluiProtocolStatusChanged(int, const char*)
 			if (!pa->IsVisible())
 				continue;
 
+			SIZE textSize;
 			int x = 2;
 			if (showOpts & 1)
 				x += 16;
@@ -139,7 +134,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	SendMessage(pcli->hwndStatus, SB_SIMPLE, FALSE, 0);
 
 	partWidths[partCount - 1] = -1;
-	windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", 0);
+	BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", 0);
 	SendMessage(pcli->hwndStatus, SB_SETMINHEIGHT, 18 + cfg::dat.bClipBorder + ((windowStyle == SETTING_WINDOWSTYLE_THINBORDER || windowStyle == SETTING_WINDOWSTYLE_NOBORDER) ? 3 : 0), 0);
 	SendMessage(pcli->hwndStatus, SB_SETPARTS, partCount, (LPARAM)partWidths);
 
@@ -167,18 +162,17 @@ void CluiProtocolStatusChanged(int, const char*)
 	}
 	// update the clui button
 
+	int iIcon = 0;
 	int wStatus = 0;
-	if (!db_get(NULL, "CList", "PrimaryStatus", &dbv)) {
-		if (dbv.type == DBVT_ASCIIZ && mir_strlen(dbv.pszVal) > 1) {
-			wStatus = Proto_GetStatus(dbv.pszVal);
-			iIcon = IconFromStatusMode(dbv.pszVal, (int)wStatus, 0, &hIcon);
-		}
-		mir_free(dbv.pszVal);
+	ptrA szPrimaryStatus(db_get_sa(NULL, "CList", "PrimaryStatus"));
+	if (szPrimaryStatus != nullptr) {
+		wStatus = Proto_GetStatus(szPrimaryStatus);
+		iIcon = IconFromStatusMode(szPrimaryStatus, (int)wStatus, 0);
 	}
 	else {
 		char *szMaxProto = nullptr;
 		wStatus = Clist_GetGeneralizedStatus(&szMaxProto);
-		iIcon = IconFromStatusMode(szMaxProto, wStatus, 0, &hIcon);
+		iIcon = IconFromStatusMode(szMaxProto, wStatus, 0);
 		g_maxStatus = (int)wStatus;
 	}
 
@@ -198,21 +192,15 @@ void CluiProtocolStatusChanged(int, const char*)
 		HWND hwndClistBtn = GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS);
 		if (IsWindow(hwndClistBtn)) {
 			SetWindowText(hwndClistBtn, szStatus);
-			if (!hIcon)
-				SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
-			else
-				SendMessage(hwndClistBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+			SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
 			InvalidateRect(hwndClistBtn, nullptr, TRUE);
 		}
 
 		HWND hwndTtbStatus = ClcGetButtonWindow(IDC_TBTOPSTATUS);
 		if (IsWindow(hwndTtbStatus)) {
-			if (g_ButtonItems == nullptr) {
-				if (!hIcon)
-					SendMessage(hwndTtbStatus, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
-				else
-					SendMessage(hwndTtbStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-			}
+			if (g_ButtonItems == nullptr)
+				SendMessage(hwndTtbStatus, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
+
 			InvalidateRect(hwndTtbStatus, nullptr, TRUE);
 		}
 	}

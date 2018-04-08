@@ -41,7 +41,6 @@ int SetHideOffline(int iValue);
 
 ClcContact *CreateClcContact(void);
 void ReloadThemedOptions();
-int TrayCalcChanged(const char *szChangedProto, int averageMode, int iProtoCount);
 void LoadButtonModule();
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
@@ -110,11 +109,6 @@ static int systemModulesLoaded(WPARAM, LPARAM)
 
 	CLN_LoadAllIcons(1);
 	return 0;
-}
-
-static int fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact)
-{
-	return IconFromStatusMode(szProto, status, hContact, nullptr);
 }
 
 extern "C" int __declspec(dllexport) CListInitialise()
@@ -202,7 +196,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnRebuildEntireList = RebuildEntireList;
 	pcli->pfnRowHitTest = RowHeight::hitTest;
 	pcli->pfnScrollTo = ScrollTo;
-	pcli->pfnTrayCalcChanged = TrayCalcChanged;
 	pcli->pfnSetHideOffline = SetHideOffline;
 	pcli->pfnShowHide = ShowHide;
 
@@ -215,7 +208,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnAddInfoItemToGroup = AddInfoItemToGroup;
 	pcli->pfnContactListControlWndProc = ContactListControlWndProc;
 	pcli->pfnContactListWndProc = ContactListWndProc;
-	pcli->pfnIconFromStatusMode = fnIconFromStatusMode;
+	pcli->pfnIconFromStatusMode = IconFromStatusMode;
 	pcli->pfnLoadClcOptions = LoadClcOptions;
 	pcli->pfnProcessExternalMessages = ProcessExternalMessages;
 	pcli->pfnRecalcScrollBar = RecalcScrollBar;

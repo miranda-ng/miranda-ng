@@ -38,31 +38,20 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 	return(g_maxStatus == ID_STATUS_OFFLINE ? pcli->currentDesiredStatusMode : g_maxStatus);
 }
 
-int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON *phIcon)
+int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact)
 {
-	if (phIcon != nullptr)
-		*phIcon = nullptr;
-
 	char *szFinalProto;
 	int finalStatus;
 
 	if (szProto != nullptr && !mir_strcmp(szProto, META_PROTO) && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		szFinalProto = GetContactProto(hSubContact);
-		finalStatus = (status == 0) ? (WORD)db_get_w(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
+		finalStatus = (status == 0) ? db_get_w(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
 		hContact = hSubContact;
 	}
 	else {
 		szFinalProto = (char*)szProto;
 		finalStatus = status;
-	}
-
-	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE && phIcon != nullptr) {
-		if (szProto) {
-			char szBuf[128];
-			mir_snprintf(szBuf, "%s_conn", szProto);
-			*phIcon = IcoLib_GetIcon(szBuf);
-		}
 	}
 
 	return coreCli.pfnIconFromStatusMode(szFinalProto, finalStatus, hContact);

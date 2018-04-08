@@ -125,7 +125,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 					szProto_s = nullptr;
 				else
 					szProto_s = cws->value.pszVal;
-				Clist_ChangeContactIcon(hContact, IconFromStatusMode(szProto_s, szProto_s == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto_s, "Status", ID_STATUS_OFFLINE), hContact, nullptr));
+				Clist_ChangeContactIcon(hContact, IconFromStatusMode(szProto_s, szProto_s == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto_s, "Status", ID_STATUS_OFFLINE), hContact));
 			}
 			// something is being written to a protocol module
 			if (!__strcmp(szProto, cws->szModule)) {
