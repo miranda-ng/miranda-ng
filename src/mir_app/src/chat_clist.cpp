@@ -114,8 +114,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 
 	SESSION_INFO *si = SM_FindSession(roomid, szProto);
 	if (si) {
-		// is the "toggle visibility option set, so we need to close the window?
-		if (si->pDlg != nullptr && db_get_b(0, CHAT_MODULE, "ToggleVisibility", 0) == 1 && !cli.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
+		if (si->pDlg != nullptr && !cli.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
 			si->pDlg->CloseTab();
 			return 1;
 		}

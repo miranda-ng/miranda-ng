@@ -43,7 +43,6 @@ static branch_t branch1[] = {
 	{ LPGENW("Show the topic of the room on your contact list (if supported)"), "TopicOnClist", 0, false },
 	{ LPGENW("Do not play sounds when the chat room is focused"), "SoundsFocus", 0, false },
 	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, false },
-	{ LPGENW("Toggle the visible state when double clicking in the contact list"), "ToggleVisibility", 0, false },
 	{ LPGENW("Show contact statuses if protocol supports them"), "ShowContactStatus", 0, false },
 	{ LPGENW("Display contact status icon before user role icon"), "ContactStatusFirst", 0, false },
 };

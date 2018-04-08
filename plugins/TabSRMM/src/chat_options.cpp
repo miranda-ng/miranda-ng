@@ -146,7 +146,6 @@ static branch_t branch1[] = {
 	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 1, nullptr },
 	{ LPGENW("Show topic as status message on the contact list"), "TopicOnClist", 0, 1, nullptr },
 	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, nullptr },
-	{ LPGENW("Hide or show the window by double click in the contact list"), "ToggleVisibility", 0, 0, nullptr },
 	{ LPGENW("Sync splitter position with standard IM sessions"), "SyncSplitter", 0, 0, nullptr },
 	{ LPGENW("Show contact's status modes if supported by the protocol"), "ShowContactStatus", 0, 1, nullptr },
 	{ LPGENW("Display contact's status icon before user role icon"), "ContactStatusFirst", 0, 0, nullptr },
