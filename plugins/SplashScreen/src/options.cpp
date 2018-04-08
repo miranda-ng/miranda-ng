@@ -235,8 +235,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				return 0;
 			else
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
 		}
+		break;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == 0) {
