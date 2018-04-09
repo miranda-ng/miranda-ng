@@ -965,24 +965,27 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 					nSkippedEvents++;
 			}
 
-			if (!bSkipThis) {
-				// check for duplicate entries
-				if (!IsDuplicateEvent(hDst, dbei)) {
-					// no need to display all these dialogs again
-					if (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_ADDED)
-						dbei.flags |= DBEF_READ;
+			if (bSkipThis)
+				continue;
 
-					// add dbevent
-					MCONTACT hOwner = (bIsMeta) ? MapContact(srcDb->GetEventContact(hEvent)) : hDst;
-					if (hOwner != INVALID_CONTACT_ID) {
-						// add dbevent 
-						if (dstDb->AddEvent(hOwner, &dbei) != NULL)
-							nMessagesCount++;
-						else
-							AddMessage(LPGENW("Failed to add message"));
-					}
-				}
-				else nDupes++;
+			// check for duplicate entries
+			if (nImportOptions != IOPT_COMPLETE && IsDuplicateEvent(hDst, dbei)) {
+				nDupes++;
+				continue;
+			}
+					
+			// no need to display all these dialogs again
+			if (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_ADDED)
+				dbei.flags |= DBEF_READ;
+
+			// add dbevent
+			MCONTACT hOwner = (bIsMeta) ? MapContact(srcDb->GetEventContact(hEvent)) : hDst;
+			if (hOwner != INVALID_CONTACT_ID) {
+				// add dbevent 
+				if (dstDb->AddEvent(hOwner, &dbei) != NULL)
+					nMessagesCount++;
+				else
+					AddMessage(LPGENW("Failed to add message"));
 			}
 		}
 
