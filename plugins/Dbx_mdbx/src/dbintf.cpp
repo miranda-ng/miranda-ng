@@ -195,8 +195,7 @@ int CDbxMDBX::Map()
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
 
-	int exclusive = (m_bShared) ? 1 : 2;
-	return mdbx_env_open_ex(m_env, _T2A(m_tszProfileName), mode, 0664, &exclusive);
+	return mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
