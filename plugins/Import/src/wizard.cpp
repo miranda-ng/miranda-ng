@@ -165,6 +165,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_DESTROY:
+		hwndWizard = nullptr;
 		if (g_bSendQuit)
 			PostQuitMessage(0);
 	}

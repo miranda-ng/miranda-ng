@@ -82,6 +82,15 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const ch
 	db_set_s(0, pa->szModuleName, "AM_BaseProto", pszBaseProto);
 	accounts.insert(pa);
 
+	if (ActivateAccount(pa)) {
+		if (bModulesLoadedFired)
+			pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
+		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
+			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
+	}
+	
+	WriteDbAccounts();
+	NotifyEventHooks(hAccListChanged, PRAC_ADDED, (LPARAM)pa);
 	return pa;
 }
 
@@ -898,17 +907,13 @@ void CAccountFormDlg::OnOk(CCtrlButton*)
 		rtrim(buf);
 
 		m_pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
-		if (ActivateAccount(m_pa)) {
-			if (bModulesLoadedFired)
-				m_pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-			if (!db_get_b(0, "CList", "MoveProtoMenus", true))
-				m_pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
-		}
 	}
-	else replaceStrW(m_pa->tszAccountName, tszAccName);
+	else {
+		replaceStrW(m_pa->tszAccountName, tszAccName);
 
-	WriteDbAccounts();
-	NotifyEventHooks(hAccListChanged, m_action, (LPARAM)m_pa);
+		WriteDbAccounts();
+		NotifyEventHooks(hAccListChanged, m_action, (LPARAM)m_pa);
+	}
 
 	m_pParent->Refresh();
 	EndModal(IDOK);

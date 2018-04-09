@@ -485,12 +485,15 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 			if (!Proto_GetAccount(p->szSrcAcc))
 				szNewInternalName = p->szSrcAcc; // but if the original internal name is available, keep it
 
+			CopySettings(NULL, p->szSrcAcc, NULL, szNewInternalName);
+
 			p->pa = Proto_CreateAccount(szNewInternalName, p->szBaseProto, p->tszSrcName);
 			if (p->pa == nullptr) {
 				AddMessage(LPGENW("Unable to create an account %s of protocol %S"), p->tszSrcName, p->szBaseProto);
 				continue;
 			}
 		}
+		else CopySettings(NULL, p->szSrcAcc, NULL, p->pa->szModuleName);
 
 		char szSetting[100];
 		itoa(400 + p->iSrcIndex, szSetting, 10);
@@ -511,7 +514,6 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 			db_set_ws(NULL, "Protocols", szSetting, p->pa->tszAccountName);
 		}
 
-		CopySettings(NULL, p->szSrcAcc, NULL, p->pa->szModuleName);
 		if (bImportSysAll)
 			arSkippedModules.insert(newStr(p->szSrcAcc));
 	}
