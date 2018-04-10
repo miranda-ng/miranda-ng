@@ -1112,7 +1112,7 @@ void InitCustomMenus(void)
 		mir_snprintf(szName, "StatusHotKey_%d", i);
 		hkd.pszName = szName;
 		hkd.lParam = statusModeList[i];
-		hkd.szDescription.w = Clist_GetStatusModeDescription(hkd.lParam, 0);
+		hkd.szDescription.w = Clist_GetStatusModeDescription(hkd.lParam, GSMDF_UNTRANSLATED);
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '0' + i) | HKF_MIRANDA_LOCAL;
 		hkd.pszService = MS_CLIST_HKSTATUS;
 		statusHotkeys[i] = Hotkey_Register(&hkd);
