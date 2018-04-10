@@ -160,8 +160,14 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		dbe = *(DBEvent*)data.iov_base;
 	}
 
+	// if we removing the sub's event using metacontact's contactID
+	// we also need to remove this event from sub's history
 	if (contactID != dbe.contactID)
 		cc2 = m_cache->GetCachedContact(dbe.contactID);
+	// or, if we removing the sub's event using sub's contactID
+	// we also need to remove it from meta's history
+	else if (cc->IsSub())
+		cc2 = m_cache->GetCachedContact(cc->parentID);
 
 	{
 		txn_ptr trnlck(StartTran());
@@ -172,13 +178,13 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 			return 1;
 
 		if (contactID != 0) {
-			key.iov_len = sizeof(MCONTACT); key.iov_base = &contactID;
 			cc->dbc.dwEventCount--;
 			if (cc->dbc.evFirstUnread == hDbEvent)
 				FindNextUnread(trnlck, cc, key2);
 
+			MDBX_val keyc = { &contactID, sizeof(MCONTACT) };
 			data.iov_len = sizeof(DBContact); data.iov_base = &cc->dbc;
-			if (mdbx_put(trnlck, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
+			if (mdbx_put(trnlck, m_dbContacts, &keyc, &data, 0) != MDBX_SUCCESS)
 				return 1;
 		}
 		else {
@@ -193,7 +199,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		}
 
 		if (cc2) {
-			key2.hContact = dbe.contactID;
+			key2.hContact = cc2->contactID;
 			if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 				return 1;
 
@@ -202,8 +208,9 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 			if (cc2->dbc.evFirstUnread == hDbEvent)
 				FindNextUnread(trnlck, cc2, key2);
 
+			MDBX_val keyc = { &cc2->contactID, sizeof(MCONTACT) };
 			data.iov_len = sizeof(DBContact); data.iov_base = &cc2->dbc;
-			if (mdbx_put(trnlck, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
+			if (mdbx_put(trnlck, m_dbContacts, &keyc, &data, 0) != MDBX_SUCCESS)
 				return 1;
 		}
 
