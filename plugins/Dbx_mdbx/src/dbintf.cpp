@@ -182,12 +182,12 @@ STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 int CDbxMDBX::Map()
 {
 	int rc = mdbx_env_set_geometry(m_env,
-		-1 /* minimal lower limit */,
-		64ul << 10 /* atleast 64K for now */,
-		256ul << 20 /* 256M upper limit */,
-		256ul << 10 /* 256K growth step */,
-		512ul << 10 /* 512K shrink threshold */,
-		-1 /* default page size */);
+		         -1,   // minimal lower limit
+		  1ul << 20,   // at least 1M for now
+		512ul << 20,	// 512M upper size
+		  1ul << 20,   // 1M growth step
+		512ul << 10,   // 512K shrink threshold
+		         -1);  // default page size
 	if (rc != MDBX_SUCCESS)
 		return rc;
 
