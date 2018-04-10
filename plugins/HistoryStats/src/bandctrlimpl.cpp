@@ -46,10 +46,13 @@ LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 		return 0;
 
 	case WM_GETFONT:
-		return reinterpret_cast<LRESULT>(pCtrl->m_hFont);
+		if (pCtrl)
+			return reinterpret_cast<LRESULT>(pCtrl->m_hFont);
+		break;
 
 	case WM_SETFONT:
-		pCtrl->m_hFont = reinterpret_cast<HFONT>(wParam);
+		if (pCtrl)
+			pCtrl->m_hFont = reinterpret_cast<HFONT>(wParam);
 		return 0;
 
 	case WM_WINDOWPOSCHANGED:
@@ -132,7 +135,8 @@ LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 		return BOOL_(pCtrl->m_Items[wParam - 1].bVisible);
 
 	case BCM_SHOWBUTTON:
-		pCtrl->onBCMShowButton(wParam - 1, bool_(lParam));
+		if (pCtrl)
+			pCtrl->onBCMShowButton(wParam - 1, bool_(lParam));
 		return 0;
 
 	case BCM_SETLAYOUT:
