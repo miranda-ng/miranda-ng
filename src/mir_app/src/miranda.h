@@ -120,11 +120,19 @@ extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
 extern HANDLE hShutdownEvent, hPreShutdownEvent;
 extern HMENU hMainMenu, hStatusMenu;
 
-extern const int statusModeList[MAX_STATUS_COUNT];
-extern const int skinIconStatusList[MAX_STATUS_COUNT];
-extern const int skinIconStatusFlags[MAX_STATUS_COUNT];
-
 extern OBJLIST<CListEvent> g_cliEvents;
+
+struct MStatus
+{
+	int iStatus;
+	int iSkinIcon;
+	int Pf2flag;
+
+	INT_PTR iHotKey;
+	HGENMENU hStatusMenu;
+};
+
+extern MStatus g_statuses[MAX_STATUS_COUNT];
 
 /**** protocols.cpp *********************************************************************/
 

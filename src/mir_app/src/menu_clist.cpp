@@ -56,27 +56,19 @@ HANDLE hPreBuildMainMenuEvent, hStatusModeChangeEvent, hPreBuildContactMenuEvent
 
 HMENU hMainMenu, hStatusMenu;
 
-const int statusModeList[MAX_STATUS_COUNT] =
+MStatus g_statuses[MAX_STATUS_COUNT] =
 {
-	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED,
-	ID_STATUS_DND, ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_ONTHEPHONE, ID_STATUS_OUTTOLUNCH
+	{ ID_STATUS_OFFLINE, SKINICON_STATUS_OFFLINE, -1 },
+	{ ID_STATUS_ONLINE, SKINICON_STATUS_ONLINE, PF2_ONLINE },
+	{ ID_STATUS_AWAY, SKINICON_STATUS_AWAY, PF2_SHORTAWAY },
+	{ ID_STATUS_NA, SKINICON_STATUS_NA, PF2_LONGAWAY },
+	{ ID_STATUS_OCCUPIED, SKINICON_STATUS_OCCUPIED, PF2_LIGHTDND },
+	{ ID_STATUS_DND, SKINICON_STATUS_DND, PF2_HEAVYDND },
+	{ ID_STATUS_FREECHAT, SKINICON_STATUS_FREE4CHAT, PF2_FREECHAT },
+	{ ID_STATUS_INVISIBLE, SKINICON_STATUS_INVISIBLE, PF2_INVISIBLE },
+	{ ID_STATUS_ONTHEPHONE, SKINICON_STATUS_ONTHEPHONE, PF2_ONTHEPHONE },
+	{ ID_STATUS_OUTTOLUNCH, SKINICON_STATUS_OUTTOLUNCH, PF2_OUTTOLUNCH },
 };
-
-const int skinIconStatusList[MAX_STATUS_COUNT] =
-{
-	SKINICON_STATUS_OFFLINE, SKINICON_STATUS_ONLINE, SKINICON_STATUS_AWAY, SKINICON_STATUS_NA, SKINICON_STATUS_OCCUPIED,
-	SKINICON_STATUS_DND, SKINICON_STATUS_FREE4CHAT, SKINICON_STATUS_INVISIBLE, SKINICON_STATUS_ONTHEPHONE, SKINICON_STATUS_OUTTOLUNCH
-};
-
-static const int statusModePf2List[MAX_STATUS_COUNT] =
-{
-	-1, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND,
-	PF2_HEAVYDND, PF2_FREECHAT, PF2_INVISIBLE, PF2_ONTHEPHONE, PF2_OUTTOLUNCH
-};
-
-static INT_PTR statusHotkeys[MAX_STATUS_COUNT];
-
-static HGENMENU hStatusMainMenuHandles[MAX_STATUS_COUNT];
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // service functions
@@ -600,8 +592,8 @@ MIR_APP_DLL(BOOL) Clist_MenuProcessCommand(int menu_id, int flags, MCONTACT hCon
 	if (flags & MPCF_MAINMENU) {
 		if (menu_id >= ID_STATUS_OFFLINE && menu_id <= ID_STATUS_OUTTOLUNCH) {
 			int pos = statustopos(menu_id);
-			if (pos != -1 && hStatusMainMenuHandles != nullptr)
-				return Menu_ProcessCommand(hStatusMainMenuHandles[pos], hContact);
+			if (pos != -1)
+				return Menu_ProcessCommand(g_statuses[pos].hStatusMenu, hContact);
 		}
 	}
 
@@ -779,29 +771,29 @@ void RebuildMenuOrder(void)
 		DestroyIcon(ic);
 		pos += 500000;
 
-		for (int j = 0; j < _countof(statusModeList); j++) {
-			if (!(flags & statusModePf2List[j]))
+		for (int j = 0; j < _countof(g_statuses); j++) {
+			if (!(flags & g_statuses[j].Pf2flag))
 				continue;
 
 			// adding
 			memset(&mi, 0, sizeof(mi));
 			mi.flags = CMIF_UNICODE;
-			if (statusModeList[j] == ID_STATUS_OFFLINE)
+			if (g_statuses[j].iStatus == ID_STATUS_OFFLINE)
 				mi.flags |= CMIF_CHECKED;
 			mi.root = rootmenu;
 			mi.position = pos++;
-			mi.name.w = Clist_GetStatusModeDescription(statusModeList[j], GSMDF_UNTRANSLATED);
-			mi.hIcon = Skin_LoadProtoIcon(pa->szModuleName, statusModeList[j]);
+			mi.name.w = Clist_GetStatusModeDescription(g_statuses[j].iStatus, GSMDF_UNTRANSLATED);
+			mi.hIcon = Skin_LoadProtoIcon(pa->szModuleName, g_statuses[j].iStatus);
 
 			// owner data
 			smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 			smep->custom = FALSE;
-			smep->status = statusModeList[j];
+			smep->status = g_statuses[j].iStatus;
 			smep->pimi = (HGENMENU)i;
 			smep->szProto = mir_strdup(pa->szModuleName);
 
 			pa->protoindex = i;
-			pa->protostatus[j] = statusModeList[j];
+			pa->protostatus[j] = g_statuses[j].iStatus;
 			pa->menuhandle[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 
 			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, mi.name.a);
@@ -815,40 +807,40 @@ void RebuildMenuOrder(void)
 	int pos = 200000;
 
 	// add to root menu
-	for (int j = 0; j < _countof(statusModeList); j++) {
+	for (auto &it : g_statuses) {
 		for (auto &pa : accounts) {
 			if (!pa->IsVisible())
 				continue;
 
 			DWORD flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
-			if (!(flags & statusModePf2List[j]))
+			if (!(flags & it.Pf2flag))
 				continue;
 
 			CMenuItem mi;
 			mi.flags = CMIF_UNICODE;
-			if (statusModeList[j] == ID_STATUS_OFFLINE)
+			if (it.iStatus == ID_STATUS_OFFLINE)
 				mi.flags |= CMIF_CHECKED;
 
-			mi.hIcon = Skin_LoadIcon(skinIconStatusList[j]);
+			mi.hIcon = Skin_LoadIcon(it.iSkinIcon);
 			mi.position = pos++;
 
 			// owner data
 			StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
-			smep->status = statusModeList[j];
+			smep->status = it.iStatus;
 			{
 				wchar_t buf[256], hotkeyName[100];
-				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
+				WORD hotKey = GetHotkeyValue(it.iHotKey);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-				mir_snwprintf(buf, L"%s\t%s", Clist_GetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+				mir_snwprintf(buf, L"%s\t%s", Clist_GetStatusModeDescription(it.iStatus, 0), hotkeyName);
 				mi.name.w = buf;
-				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
+				it.hStatusMenu = Menu_AddItem(hStatusMenuObject, &mi, smep);
 				
-				hStatusMainMenuHandles[j]->hotKey = hotKey;
+				it.hStatusMenu->hotKey = hotKey;
 			}
 
 			char buf[256];
 			mir_snprintf(buf, "Root2ProtocolIcon_%s_%s", pa->szModuleName, mi.name.a);
-			Menu_ConfigureItem(hStatusMainMenuHandles[j], MCI_OPT_UNIQUENAME, buf);
+			Menu_ConfigureItem(it.hStatusMenu, MCI_OPT_UNIQUENAME, buf);
 
 			IcoLib_ReleaseIcon(mi.hIcon);
 			break;
@@ -889,17 +881,17 @@ MIR_APP_DLL(void) Menu_ReloadProtoMenus(void)
 
 static int sttRebuildHotkeys(WPARAM, LPARAM)
 {
-	for (int j = 0; j < _countof(statusModeList); j++) {
-		if (hStatusMainMenuHandles[j] == nullptr)
+	for (auto &it : g_statuses) {
+		if (it.hStatusMenu == nullptr)
 			continue;
 
 		wchar_t buf[256], hotkeyName[100];
-		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
+		WORD hotKey = GetHotkeyValue(it.iHotKey);
 		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-		mir_snwprintf(buf, L"%s\t%s", Clist_GetStatusModeDescription(statusModeList[j], 0), hotkeyName);
-		Menu_ModifyItem(hStatusMainMenuHandles[j], buf);
+		mir_snwprintf(buf, L"%s\t%s", Clist_GetStatusModeDescription(it.iStatus, 0), hotkeyName);
+		Menu_ModifyItem(it.hStatusMenu, buf);
 
-		hStatusMainMenuHandles[j]->hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
+		it.hStatusMenu->hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
 	}
 
 	return 0;
@@ -909,8 +901,8 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 
 int statustopos(int status)
 {
-	for (int j = 0; j < _countof(statusModeList); j++)
-		if (status == statusModeList[j])
+	for (int j = 0; j < _countof(g_statuses); j++)
+		if (status == g_statuses[j].iStatus)
 			return j;
 
 	return -1;
@@ -930,21 +922,21 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 			pos = 0;
 
 		// reset all current possible checked statuses
-		for (auto &it : hStatusMainMenuHandles)
-			Menu_ModifyItem(it, nullptr, INVALID_HANDLE_VALUE, 0);
+		for (auto &it : g_statuses)
+			Menu_ModifyItem(it.hStatusMenu, nullptr, INVALID_HANDLE_VALUE, 0);
 
 		currentStatusMenuItem = overallStatus;
 		pos = statustopos(currentStatusMenuItem);
-		if (pos >= 0 && pos < _countof(hStatusMainMenuHandles))
-			Menu_SetChecked(hStatusMainMenuHandles[pos], true);
+		if (pos >= 0 && pos < _countof(g_statuses))
+			Menu_SetChecked(g_statuses[pos].hStatusMenu, true);
 	}
 	else {
 		int pos = statustopos(currentStatusMenuItem);
 		if (pos == -1)
 			pos = 0;
 
-		if (pos >= 0 && pos < _countof(hStatusMainMenuHandles))
-			Menu_ModifyItem(hStatusMainMenuHandles[pos], nullptr, INVALID_HANDLE_VALUE, 0);
+		if (pos >= 0 && pos < _countof(g_statuses))
+			Menu_ModifyItem(g_statuses[pos].hStatusMenu, nullptr, INVALID_HANDLE_VALUE, 0);
 
 		currentStatusMenuItem = 0;
 	}
@@ -952,17 +944,17 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	for (auto &pa : accounts) {
 		if (!mir_strcmp(pa->szModuleName, ack->szModule)) {
 			int iOldStatus = (INT_PTR)ack->hProcess;
-			if ((iOldStatus >= ID_STATUS_OFFLINE || iOldStatus == 0) && iOldStatus < ID_STATUS_OFFLINE + _countof(statusModeList)) {
+			if ((iOldStatus >= ID_STATUS_OFFLINE || iOldStatus == 0) && iOldStatus < ID_STATUS_OFFLINE + _countof(g_statuses)) {
 				int pos = statustopos(iOldStatus);
 				if (pos == -1)
 					pos = 0;
-				for (pos = 0; pos < _countof(statusModeList); pos++)
+				for (pos = 0; pos < _countof(g_statuses); pos++)
 					Menu_ModifyItem(pa->menuhandle[pos], nullptr, INVALID_HANDLE_VALUE, 0);
 			}
 
-			if (ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + _countof(statusModeList)) {
+			if (ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + _countof(g_statuses)) {
 				int pos = statustopos((int)ack->lParam);
-				if (pos >= 0 && pos < _countof(statusModeList))
+				if (pos >= 0 && pos < _countof(g_statuses))
 					Menu_SetChecked(pa->menuhandle[pos], true);
 			}
 			break;
@@ -1080,15 +1072,15 @@ void InitCustomMenus(void)
 	HOTKEYDESC hkd = {};
 	hkd.szSection.w = L"Status";
 	hkd.dwFlags = HKD_UNICODE;
-	for (int i = 0; i < _countof(statusHotkeys); i++) {
+	for (int i = 0; i < _countof(g_statuses); i++) {
 		char szName[30];
 		mir_snprintf(szName, "StatusHotKey_%d", i);
 		hkd.pszName = szName;
-		hkd.lParam = statusModeList[i];
+		hkd.lParam = g_statuses[i].iStatus;
 		hkd.szDescription.w = Clist_GetStatusModeDescription(hkd.lParam, GSMDF_UNTRANSLATED);
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '0' + i) | HKF_MIRANDA_LOCAL;
 		hkd.pszService = MS_CLIST_HKSTATUS;
-		statusHotkeys[i] = Hotkey_Register(&hkd);
+		g_statuses[i].iHotKey = Hotkey_Register(&hkd);
 	}
 
 	HookEvent(ME_HOTKEYS_CHANGED, sttRebuildHotkeys);

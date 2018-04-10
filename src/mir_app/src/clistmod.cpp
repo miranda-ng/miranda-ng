@@ -109,11 +109,11 @@ HICON fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status
 int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 {
 	int index;
-	for (index = 0; index < _countof(statusModeList); index++)
-		if (status == statusModeList[index])
+	for (index = 0; index < _countof(g_statuses); index++)
+		if (status == g_statuses[index].iStatus)
 			break;
 
-	if (index == _countof(statusModeList))
+	if (index == _countof(g_statuses))
 		index = 0;
 	if (szProto == nullptr)
 		return index + 1;
@@ -134,9 +134,9 @@ MIR_APP_DLL(int) Clist_GetContactIcon(MCONTACT hContact)
 
 static void AddProtoIconIndex(PROTOACCOUNT *pa)
 {
-	for (auto &it : statusModeList) {
-		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, it);
-		if (it == ID_STATUS_OFFLINE)
+	for (auto &it : g_statuses) {
+		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, it.iStatus);
+		if (it.iStatus == ID_STATUS_OFFLINE)
 			pa->iIconBase = iImg;
 	}
 }
@@ -212,8 +212,8 @@ MIR_APP_DLL(HIMAGELIST) Clist_GetImageList(void)
 
 static int CListIconsChanged(WPARAM, LPARAM)
 {
-	for (int i = 0; i < _countof(statusModeList); i++)
-		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, Skin_LoadIcon(skinIconStatusList[i]));
+	for (int i = 0; i < _countof(g_statuses); i++)
+		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, Skin_LoadIcon(g_statuses[i].iSkinIcon));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
 
@@ -221,8 +221,8 @@ static int CListIconsChanged(WPARAM, LPARAM)
 		if (it->iIconBase == -1)
 			continue;
 
-		for (int j = 0; j < _countof(statusModeList); j++)
-			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, it->iIconBase + j, Skin_LoadProtoIcon(it->szModuleName, statusModeList[j]));
+		for (int j = 0; j < _countof(g_statuses); j++)
+			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, it->iIconBase + j, Skin_LoadProtoIcon(it->szModuleName, g_statuses[j].iStatus));
 	}
 
 	Clist_TrayIconIconsChanged();
