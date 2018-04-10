@@ -111,14 +111,14 @@ typedef struct tagMNNOTIFYLINK
 		if (dbv.type != DBVT_DWORD) return defValue;
 		return dbv.dVal;
 	}
-	static __inline const char *MNotifyGetString(HANDLE notifyORtype, const char *name, const char *defValue)
+	static __inline const char* MNotifyGetString(HANDLE notifyORtype, const char *name, const char *defValue)
 	{
 		DBVARIANT dbv;
 		MNotifyGet(notifyORtype, name, &dbv);
 		if (dbv.type != DBVT_ASCIIZ) return defValue;
 		return dbv.pszVal;
 	}
-	static __inline const WCHAR *MNotifyGetWString(HANDLE notifyORtype, const char *name, const WCHAR *defValue)
+	static __inline const WCHAR* MNotifyGetWString(HANDLE notifyORtype, const char *name, const WCHAR *defValue)
 	{
 		DBVARIANT dbv;
 		MNotifyGet(notifyORtype, name, &dbv);

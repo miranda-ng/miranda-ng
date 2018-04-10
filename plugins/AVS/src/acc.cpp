@@ -573,7 +573,6 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			else {
 				// Draw avatar
 				AVATARDRAWREQUEST avdrq = { 0 };
-				avdrq.cbSize = sizeof(avdrq);
 				avdrq.rcDraw = rc;
 				avdrq.hContact = data->hContact;
 				avdrq.szProto = data->proto;

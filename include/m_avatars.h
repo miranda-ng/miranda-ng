@@ -72,7 +72,6 @@ unless AF_FETCHIFPROTONOTVISIBLE is set.
 
 struct AVATARCACHEENTRY
 {
-	DWORD cbSize;                    // set to sizeof(struct)
 	MCONTACT hContact;               // contacts handle, 0, if it is a protocol avatar
 	HBITMAP hbmPic;                  // bitmap handle of the picutre itself
 	DWORD dwFlags;                   // see above for flag values
@@ -81,7 +80,7 @@ struct AVATARCACHEENTRY
                                     // use it whenever they access the avatar. may be used in the future
 	                                 // to implement cache expiration
 	LPVOID lpDIBSection;             // unused field
-	wchar_t szFilename[MAX_PATH];      // filename of the avatar (absolute path)
+	wchar_t szFilename[MAX_PATH];    // filename of the avatar (absolute path)
 };
 
 #define AVDRQ_FALLBACKPROTO            0x0001        // use the protocol picture as fallback (currently not used)
@@ -90,18 +89,17 @@ struct AVATARCACHEENTRY
 #define AVDRQ_DRAWBORDER               0x0008        // draw a border around the picture
 #define AVDRQ_PROTOPICT                0x0010        // draw a protocol picture (if available).
 #define AVDRQ_HIDEBORDERONTRANSPARENCY 0x0020        // hide border if bitmap has transparency
-#define AVDRQ_OWNPIC	               0x0040        // draw own avatar (szProto is valid - use "" for global avatar)
+#define AVDRQ_OWNPIC                   0x0040        // draw own avatar (szProto is valid - use "" for global avatar)
 #define AVDRQ_RESPECTHIDDEN            0x0080        // don't draw images marked as hidden
 #define AVDRQ_DONTRESIZEIFSMALLER      0x0100        // don't resize images that are smaller then the draw area
 #define AVDRQ_FORCEFASTALPHA           0x0200        // force rendering with simple AlphaBlend (will use FI_Resample otherwise)
 #define AVDRQ_FORCEALPHA               0x0400        // force with simple AlphaBlend (may use StretchBlt otherwise)
-#define AVDRQ_AERO					   0x0800		 // draw on aero surface
+#define AVDRQ_AERO                     0x0800		  // draw on aero surface
 
 // request to draw a contacts picture. See MS_AV_DRAWAVATAR service description
 
-typedef struct _avatarDrawRequest
+struct AVATARDRAWREQUEST
 {
-	DWORD    cbSize;                 // set this to sizeof(AVATARDRAWREQUEST) - mandatory, service will return failure code if cbSize is wrong
 	MCONTACT hContact;               // the contact for which the avatar should be drawn. set it to 0 to draw a protocol picture
 	HDC      hTargetDC;              // target device context
 	RECT     rcDraw;                 // target rectangle. The avatar will be centered within the rectangle and scaled to fit.
@@ -113,8 +111,7 @@ typedef struct _avatarDrawRequest
 	UCHAR    alpha;                  // alpha value for semi-transparent avatars (valid values form 1 to 255, if it is set to 0
 	                                 // the avatar won't be transparent.
 	char    *szProto;                // only used when AVDRQ_PROTOPICT or AVDRQ_OWNPIC is set
-}
-	AVATARDRAWREQUEST;
+};
 
 #define CACHE_BLOCKSIZE 20
 
@@ -210,7 +207,6 @@ typedef struct _avatarDrawRequest
 
 struct CONTACTAVATARCHANGEDNOTIFICATION
 {
-	int      cbSize;             // sizeof()
 	MCONTACT hContact;           // this might have to be set by the caller too
 	int      format;             // PA_FORMAT_*
 	wchar_t  filename[MAX_PATH]; // full path to filename which contains the avatar

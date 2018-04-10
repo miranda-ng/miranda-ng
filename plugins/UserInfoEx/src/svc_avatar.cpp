@@ -79,10 +79,8 @@ namespace NServices
 			if (hContact) {
 				// check valid parameters
 				if (ace) {
-					if (// check for correct structure
-						ace->cbSize == sizeof(AVATARCACHEENTRY) &&
-						// set zodiac as avatar either if the desired avatar is invalid or a general protocol picture
-						((ace->dwFlags & AVS_PROTOPIC) || !(ace->dwFlags & AVS_BITMAP_VALID))) {
+					// set zodiac as avatar either if the desired avatar is invalid or a general protocol picture
+					if (((ace->dwFlags & AVS_PROTOPIC) || !(ace->dwFlags & AVS_BITMAP_VALID))) {
 						if (!db_get_b(hContact, "ContactPhoto", "IsZodiac", 0))
 							SetZodiacAvatar(hContact);
 					}

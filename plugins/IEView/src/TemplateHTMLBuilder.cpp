@@ -45,12 +45,8 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 		else
 			ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 
-		if (ace != nullptr) {
-			if (ace->cbSize == sizeof(AVATARCACHEENTRY))
-				result = ace->szFilename;
-			else // compatibility: in M0.9 it will always be char*
-				MultiByteToWideChar(CP_ACP, 0, (char*)ace->szFilename, -1, tmpPath, _countof(tmpPath));
-		}
+		if (ace != nullptr)
+			result = ace->szFilename;
 	}
 	if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
 		if (mir_wstrlen(dbv.ptszVal) > 0) {

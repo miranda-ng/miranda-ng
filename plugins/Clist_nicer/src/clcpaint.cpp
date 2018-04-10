@@ -203,7 +203,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 	if (!cfg::dat.bAvatarServiceAvail || dat->bisEmbedded)
 		return 0;
 
-	if (contact->ace != nullptr && contact->ace->cbSize == sizeof(struct AVATARCACHEENTRY)) {
+	if (contact->ace != nullptr) {
 		if (contact->ace->dwFlags & AVS_HIDEONCLIST)
 			return (cfg::dat.dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? avatar_size + 2 : 0;
 

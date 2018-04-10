@@ -719,7 +719,7 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 
 	if (dat->avatars_show && !db_get_b(contact->hContact, "CList", "HideContactAvatar", 0)) {
 		contact->avatar_data = (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, contact->hContact, 0);
-		if (contact->avatar_data == nullptr || contact->avatar_data->cbSize != sizeof(AVATARCACHEENTRY) || contact->avatar_data->dwFlags == AVS_BITMAP_EXPIRED)
+		if (contact->avatar_data == nullptr || contact->avatar_data->dwFlags == AVS_BITMAP_EXPIRED)
 			contact->avatar_data = nullptr;
 
 		if (contact->avatar_data != nullptr)

@@ -126,7 +126,6 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 		node->dwFlags &= ~AVH_MUSTNOTIFY;
 		if (node->szFilename[0] != '\0') {
 			CONTACTAVATARCHANGEDNOTIFICATION cacn = {};
-			cacn.cbSize = sizeof(CONTACTAVATARCHANGEDNOTIFICATION);
 			cacn.hContact = hContact;
 			cacn.format = node->pa_format;
 			wcsncpy_s(cacn.filename, node->szFilename, _TRUNCATE);

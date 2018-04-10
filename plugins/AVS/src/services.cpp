@@ -695,9 +695,6 @@ INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 	if (r == nullptr || IsBadReadPtr((void *)r, sizeof(AVATARDRAWREQUEST)))
 		return 0;
 
-	if (r->cbSize != sizeof(AVATARDRAWREQUEST))
-		return 0;
-
 	if (r->dwFlags & AVDRQ_PROTOPICT) {
 		if (r->szProto == nullptr)
 			return 0;

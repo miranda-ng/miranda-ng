@@ -43,7 +43,6 @@ ACKRESULT_STATUS. This thread only requests the avatar (and maybe add it to the 
 static void RequestThread(void *vParam);
 
 extern HANDLE hShutdownEvent;
-extern int DeleteAvatar(MCONTACT hContact);
 extern void MakePathRelative(MCONTACT hContact, wchar_t *path);
 int Proto_GetDelayAfterFail(const char *proto);
 BOOL Proto_IsFetchingWhenProtoNotVisibleAllowed(const char *proto);

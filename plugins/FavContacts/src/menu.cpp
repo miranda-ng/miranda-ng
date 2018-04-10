@@ -271,7 +271,6 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = nullp
 				avatarWidth = (lpdis->rcItem.bottom - lpdis->rcItem.top) * ace->bmWidth / ace->bmHeight;
 
 			AVATARDRAWREQUEST avdr = { 0 };
-			avdr.cbSize = sizeof(avdr);
 			avdr.hContact = hContact;
 			avdr.hTargetDC = hdcTemp;
 			avdr.rcDraw = lpdis->rcItem;

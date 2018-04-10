@@ -413,8 +413,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 					avr.bottom = avr.top + pwd->real_av_height;
 
-					AVATARDRAWREQUEST adr = {0};
-					adr.cbSize = sizeof(adr);
+					AVATARDRAWREQUEST adr = {};
 					adr.hContact = pd->hContact;
 					adr.hTargetDC = ps.hdc;
 					adr.rcDraw = avr;

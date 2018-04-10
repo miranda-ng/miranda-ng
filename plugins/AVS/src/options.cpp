@@ -347,7 +347,6 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->CtlType == ODT_BUTTON && dis->CtlID == IDC_PROTOPIC) {
 				AVATARDRAWREQUEST avdrq = { 0 };
-				avdrq.cbSize = sizeof(avdrq);
 				avdrq.hTargetDC = dis->hDC;
 				avdrq.dwFlags |= AVDRQ_PROTOPICT;
 				avdrq.szProto = (g_selectedProto) ? g_selectedProto->szProtoname : 0;
@@ -631,7 +630,6 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				FillRect(dis->hDC, &avdrq.rcDraw, GetSysColorBrush(COLOR_BTNFACE));
 
 				avdrq.hContact = hContact;
-				avdrq.cbSize = sizeof(avdrq);
 				avdrq.hTargetDC = dis->hDC;
 				avdrq.dwFlags |= AVDRQ_DRAWBORDER;
 				avdrq.clrBorder = GetSysColor(COLOR_BTNTEXT);
