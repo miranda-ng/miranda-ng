@@ -76,7 +76,7 @@ static builtinCnfs[] =
 /* contact cache entry */
 struct CONTACTCE
 {
-	int flags;
+	DWORD    flags;
 	wchar_t* tszContact;
 	MCONTACT hContact;
 }; 
@@ -333,7 +333,7 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 		{
 			/* remove from cache */
 			mir_free(it->tszContact);
-			arContactCache.remove(it);
+			arContactCache.remove(arContactCache.indexOf(&it));
 			break;
 		}
 	}
