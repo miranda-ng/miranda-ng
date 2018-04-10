@@ -45,7 +45,6 @@ void InitTrayMenus(void);
 int hMainMenuObject = 0, hContactMenuObject = 0, hStatusMenuObject = 0;
 int currentStatusMenuItem;
 
-int statustopos(int status);
 void Proto_SetStatus(const char *szProto, unsigned status);
 
 OBJLIST<MenuProto> g_menuProtos(1);
@@ -69,6 +68,15 @@ MStatus g_statuses[MAX_STATUS_COUNT] =
 	{ ID_STATUS_ONTHEPHONE, SKINICON_STATUS_ONTHEPHONE, PF2_ONTHEPHONE },
 	{ ID_STATUS_OUTTOLUNCH, SKINICON_STATUS_OUTTOLUNCH, PF2_OUTTOLUNCH },
 };
+
+static int statustopos(int status)
+{
+	for (auto &it : g_statuses)
+		if (status == it.iStatus)
+			return int(&it - g_statuses);
+
+	return -1;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // service functions
@@ -898,15 +906,6 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-int statustopos(int status)
-{
-	for (int j = 0; j < _countof(g_statuses); j++)
-		if (status == g_statuses[j].iStatus)
-			return j;
-
-	return -1;
-}
 
 static int MenuProtoAck(WPARAM, LPARAM lParam)
 {
