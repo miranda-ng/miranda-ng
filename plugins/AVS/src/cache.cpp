@@ -75,12 +75,8 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 	if (szProto == nullptr || !db_get_b(NULL, AVS_MODULE, szProto, 1))
 		return nullptr;
 
-	AVATARCACHEENTRY tmp;
-	tmp.hContact = hContact;
-
 	mir_cslock lck(cachecs);
-
-	CacheNode *cc = arCache.find((CacheNode*)&tmp);
+	CacheNode *cc = arCache.find((CacheNode*)&hContact);
 	if (cc) {
 		cc->t_lastAccess = time(nullptr);
 		return (cc->loaded || findAny) ? cc : nullptr;
@@ -166,15 +162,14 @@ void DeleteAvatarFromCache(MCONTACT hContact, bool bForever)
 	if (g_shutDown)
 		return;
 
-	AVATARCACHEENTRY tmp;
-	tmp.hContact = GetContactThatHaveTheAvatar(hContact);
+	MCONTACT tmp = GetContactThatHaveTheAvatar(hContact);
 
 	mir_cslock lck(cachecs);
 	int idx = arCache.getIndex((CacheNode*)&tmp);
 	if (idx == -1) {
 		CacheNode temp_node;
 		memset(&temp_node, 0, sizeof(temp_node));
-		NotifyMetaAware(hContact, &temp_node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
+		NotifyMetaAware(hContact, &temp_node, (AVATARCACHEENTRY*)GetProtoDefaultAvatar(hContact));
 	}
 	else {
 		NotifyMetaAware(hContact, &arCache[idx], (AVATARCACHEENTRY*)GetProtoDefaultAvatar(hContact));
@@ -192,11 +187,8 @@ int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 	if (g_shutDown)
 		return 0;
 
-	AVATARCACHEENTRY tmp;
-	tmp.hContact = hContact;
-
 	mir_cslock lck(cachecs);
-	CacheNode *cc = arCache.find((CacheNode*)&tmp);
+	CacheNode *cc = arCache.find((CacheNode*)&hContact);
 	if (cc != nullptr) {
 		DWORD dwFlags = cc->dwFlags;
 		cc->dwFlags = mode ? (cc->dwFlags | attrib) : (cc->dwFlags & ~attrib);
