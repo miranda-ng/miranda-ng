@@ -32,6 +32,7 @@ struct PROTO_INTERFACE;
 #include "statusmodes.h"
 
 #include <m_core.h>
+#include <m_genmenu.h>
 #include <m_system_cpp.h>
 
 struct CCSDATA
@@ -280,6 +281,10 @@ struct MIR_APP_EXPORT PROTOACCOUNT
 	char*    szUniqueId;      // setting's unique id for any contact in the account
 	int      iIconBase;       // index of the first icon in ClistImages
 	int      iRealStatus;     // last status reported by protocol
+
+	int      protoindex;
+	int      protostatus[MAX_STATUS_COUNT];
+	HGENMENU menuhandle[MAX_STATUS_COUNT];
 
 	bool     IsEnabled(void) const;
 	bool     IsLocked(void) const;

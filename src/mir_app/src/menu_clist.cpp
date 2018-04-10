@@ -55,6 +55,7 @@ bool prochotkey;
 HANDLE hPreBuildMainMenuEvent, hStatusModeChangeEvent, hPreBuildContactMenuEvent, hPreBuildStatusMenuEvent;
 
 HMENU hMainMenu, hStatusMenu;
+
 const int statusModeList[MAX_STATUS_COUNT] =
 {
 	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED,
@@ -75,31 +76,7 @@ static const int statusModePf2List[MAX_STATUS_COUNT] =
 
 static INT_PTR statusHotkeys[MAX_STATUS_COUNT];
 
-TMO_IntMenuItem **hStatusMainMenuHandles;
-int  hStatusMainMenuHandlesCnt;
-
-struct tStatusMenuHandles
-{
-	int protoindex;
-	int protostatus[MAX_STATUS_COUNT];
-	TMO_IntMenuItem *menuhandle[MAX_STATUS_COUNT];
-};
-
-tStatusMenuHandles *hStatusMenuHandles;
-int hStatusMenuHandlesCnt;
-
-struct BuildContactParam
-{
-	char *szProto;
-	int isOnList;
-	int isOnline;
-};
-
-struct MenuItemData
-{
-	HMENU OwnerMenu;
-	int position;
-};
+static HGENMENU hStatusMainMenuHandles[MAX_STATUS_COUNT];
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // service functions
@@ -239,6 +216,13 @@ MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *psz
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct BuildContactParam
+{
+	char *szProto;
+	int isOnList;
+	int isOnline;
+};
+
 EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact)
 {
 	NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
@@ -368,6 +352,12 @@ MIR_APP_DLL(HMENU) Menu_GetStatusMenu()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+struct MenuItemData
+{
+	HMENU OwnerMenu;
+	int position;
+};
 
 static BOOL FindMenuHandleByGlobalID(HMENU hMenu, TMO_IntMenuItem *id, MenuItemData* itdat)
 {
@@ -714,20 +704,11 @@ void RebuildMenuOrder(void)
 	RecursiveDeleteMenu(hStatusMenu);
 
 	// status menu
-	if (hStatusMenuObject != 0) {
+	if (hStatusMenuObject != 0)
 		Menu_RemoveObject(hStatusMenuObject);
-		mir_free(hStatusMainMenuHandles);
-		mir_free(hStatusMenuHandles);
-	}
 
 	hStatusMenuObject = Menu_AddObject("StatusMenu", LPGEN("Status menu"), "StatusMenuCheckService", "StatusMenuExecService");
 	Menu_ConfigureObject(hStatusMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataStatusMenu");
-
-	hStatusMainMenuHandles = (TMO_IntMenuItem**)mir_calloc(_countof(statusModeList) * sizeof(TMO_IntMenuItem*));
-	hStatusMainMenuHandlesCnt = _countof(statusModeList);
-
-	hStatusMenuHandles = (tStatusMenuHandles*)mir_calloc(sizeof(tStatusMenuHandles)*accounts.getCount());
-	hStatusMenuHandlesCnt = accounts.getCount();
 
 	g_menuProtos.destroy();
 
@@ -819,12 +800,12 @@ void RebuildMenuOrder(void)
 			smep->pimi = (HGENMENU)i;
 			smep->szProto = mir_strdup(pa->szModuleName);
 
-			hStatusMenuHandles[i].protoindex = i;
-			hStatusMenuHandles[i].protostatus[j] = statusModeList[j];
-			hStatusMenuHandles[i].menuhandle[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
+			pa->protoindex = i;
+			pa->protostatus[j] = statusModeList[j];
+			pa->menuhandle[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 
 			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, mi.name.a);
-			Menu_ConfigureItem(hStatusMenuHandles[i].menuhandle[j], MCI_OPT_UNIQUENAME, buf);
+			Menu_ConfigureItem(pa->menuhandle[j], MCI_OPT_UNIQUENAME, buf);
 
 			IcoLib_ReleaseIcon(mi.hIcon);
 		}
@@ -940,7 +921,6 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type != ACKTYPE_STATUS) return 0;
 	if (ack->result != ACKRESULT_SUCCESS) return 0;
-	if (hStatusMainMenuHandles == nullptr) return 0;
 	if (Clist_GetProtocolVisibility(ack->szModule) == 0) return 0;
 
 	int overallStatus = Proto_GetAverageStatus();
@@ -950,13 +930,12 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 			pos = 0;
 
 		// reset all current possible checked statuses
-		for (int pos2 = 0; pos2 < hStatusMainMenuHandlesCnt; pos2++)
-			if (pos2 >= 0 && pos2 < hStatusMainMenuHandlesCnt)
-				Menu_ModifyItem(hStatusMainMenuHandles[pos2], nullptr, INVALID_HANDLE_VALUE, 0);
+		for (auto &it : hStatusMainMenuHandles)
+			Menu_ModifyItem(it, nullptr, INVALID_HANDLE_VALUE, 0);
 
 		currentStatusMenuItem = overallStatus;
 		pos = statustopos(currentStatusMenuItem);
-		if (pos >= 0 && pos < hStatusMainMenuHandlesCnt)
+		if (pos >= 0 && pos < _countof(hStatusMainMenuHandles))
 			Menu_SetChecked(hStatusMainMenuHandles[pos], true);
 	}
 	else {
@@ -964,27 +943,27 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 		if (pos == -1)
 			pos = 0;
 
-		if (pos >= 0 && pos < hStatusMainMenuHandlesCnt)
+		if (pos >= 0 && pos < _countof(hStatusMainMenuHandles))
 			Menu_ModifyItem(hStatusMainMenuHandles[pos], nullptr, INVALID_HANDLE_VALUE, 0);
 
 		currentStatusMenuItem = 0;
 	}
 
-	for (int i = 0; i < accounts.getCount(); i++) {
-		if (!mir_strcmp(accounts[i]->szModuleName, ack->szModule)) {
+	for (auto &pa : accounts) {
+		if (!mir_strcmp(pa->szModuleName, ack->szModule)) {
 			int iOldStatus = (INT_PTR)ack->hProcess;
 			if ((iOldStatus >= ID_STATUS_OFFLINE || iOldStatus == 0) && iOldStatus < ID_STATUS_OFFLINE + _countof(statusModeList)) {
 				int pos = statustopos(iOldStatus);
 				if (pos == -1)
 					pos = 0;
 				for (pos = 0; pos < _countof(statusModeList); pos++)
-					Menu_ModifyItem(hStatusMenuHandles[i].menuhandle[pos], nullptr, INVALID_HANDLE_VALUE, 0);
+					Menu_ModifyItem(pa->menuhandle[pos], nullptr, INVALID_HANDLE_VALUE, 0);
 			}
 
 			if (ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + _countof(statusModeList)) {
 				int pos = statustopos((int)ack->lParam);
 				if (pos >= 0 && pos < _countof(statusModeList))
-					Menu_SetChecked(hStatusMenuHandles[i].menuhandle[pos], true);
+					Menu_SetChecked(pa->menuhandle[pos], true);
 			}
 			break;
 		}
@@ -1075,12 +1054,6 @@ void InitCustomMenus(void)
 	hMainMenu = CreatePopupMenu();
 	hStatusMenu = CreatePopupMenu();
 
-	hStatusMainMenuHandles = nullptr;
-	hStatusMainMenuHandlesCnt = 0;
-
-	hStatusMenuHandles = nullptr;
-	hStatusMenuHandlesCnt = 0;
-
 	// new menu sys
 	InitGenMenu();
 
@@ -1138,12 +1111,6 @@ void InitCustomMenus(void)
 
 void UninitCustomMenus(void)
 {
-	mir_free(hStatusMainMenuHandles);
-	hStatusMainMenuHandles = nullptr;
-
-	mir_free(hStatusMenuHandles);
-	hStatusMenuHandles = nullptr;
-
 	Menu_RemoveObject(hMainMenuObject);
 	Menu_RemoveObject(hStatusMenuObject);
 
