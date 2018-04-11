@@ -226,7 +226,7 @@ struct OptionsPageData : public MZeroedObject
 	
 	~OptionsPageData()
 	{
-		delete pDialog;
+		pDialog->Close();
 	}
 
 	CDlgBase *pDialog;
