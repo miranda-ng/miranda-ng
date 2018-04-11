@@ -748,12 +748,11 @@ void CThumbIM::update()
 void CThumbIM::renderContent()
 {
 	double dNewWidth = 0.0, dNewHeight = 0.0;
-	bool fFree = false;
 
 	HBITMAP hbmAvatar = (m_dat->m_ace && m_dat->m_ace->hbmPic) ? m_dat->m_ace->hbmPic : PluginConfig.g_hbmUnknown;
 	Utils::scaleAvatarHeightLimited(hbmAvatar, dNewWidth, dNewHeight, m_rcIcon.bottom - m_rcIcon.top);
 
-	HBITMAP hbmResized = CSkin::ResizeBitmap(hbmAvatar, dNewWidth, dNewHeight, fFree);
+	HBITMAP hbmResized = ::Image_Resize(hbmAvatar, RESIZEBITMAP_STRETCH, dNewWidth, dNewHeight);
 
 	HDC	dc = CreateCompatibleDC(m_hdc);
 	HBITMAP hbmOldAv = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmResized));
@@ -773,7 +772,7 @@ void CThumbIM::renderContent()
 	if (hbmResized != hbmAvatar)
 		::DeleteObject(hbmResized);
 
-	::DeleteDC(dc);
+ 	::DeleteDC(dc);
 	m_rcBottom.bottom -= 16;
 
 	/*

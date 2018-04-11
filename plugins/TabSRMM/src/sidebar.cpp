@@ -1063,11 +1063,10 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 		if (dat->m_ace && dat->m_ace->hbmPic) {		// we have an avatar
 			double dNewHeight, dNewWidth;
 			LONG maxHeight = cy - 8;
-			bool fFree = false;
 
 			Utils::scaleAvatarHeightLimited(dat->m_ace->hbmPic, dNewWidth, dNewHeight, maxHeight);
 
-			HBITMAP hbmResized = CSkin::ResizeBitmap(dat->m_ace->hbmPic, dNewWidth, dNewHeight, fFree);
+			HBITMAP hbmResized = ::Image_Resize(dat->m_ace->hbmPic, RESIZEBITMAP_STRETCH, dNewWidth, dNewHeight);
 			HDC dc = CreateCompatibleDC(hdc);
 			HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmResized));
 

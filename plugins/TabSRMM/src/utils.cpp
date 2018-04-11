@@ -657,8 +657,7 @@ HICON CTabBaseDlg::IconFromAvatar() const
 
 	// resize picture to fit it on the task bar, use an image list for converting it to
 	// 32bpp icon format. hTaskbarIcon will cache it until avatar is changed
-	bool fFree = false;
-	HBITMAP hbmResized = CSkin::ResizeBitmap(ace->hbmPic, (LONG)dNewWidth, (LONG)dNewHeight, fFree);
+	HBITMAP hbmResized = ::Image_Resize(ace->hbmPic, RESIZEBITMAP_STRETCH, dNewWidth, dNewHeight);
 	HIMAGELIST hIml_c = ::ImageList_Create(lIconSize, lIconSize, ILC_COLOR32 | ILC_MASK, 1, 0);
 
 	RECT rc = { 0, 0, lIconSize, lIconSize };

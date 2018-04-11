@@ -394,7 +394,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilen
 	do {
 		// Lets do it
 		int fit = (grow ? 0 : RESIZEBITMAP_FLAG_DONT_GROW) | (square ? RESIZEBITMAP_MAKE_SQUARE : RESIZEBITMAP_KEEP_PROPORTIONS);
-		d.hBmpProto = Image_Resize(hBmp, fit, d.height, d.width);
+		d.hBmpProto = Image_Resize(hBmp, fit, d.width, d.height);
 
 		if (d.hBmpProto == nullptr) {
 			if (d.temp_file[0] != '\0')

@@ -1590,7 +1590,6 @@ void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
 			return;
 	}
 
-	bool fFree = false;
 	RECT rc = { 0, 0, 20, 20 };
 	HDC  dc = ::GetDC(PluginConfig.g_hwndHotkeyHandler);
 	m_tabCloseHDC = ::CreateCompatibleDC(dc);
@@ -1621,9 +1620,12 @@ void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
 	::DrawIconEx(m_tabCloseHDC, 2, 2, PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL], 16, 16, 0, nullptr, DI_NORMAL);
 	::SelectObject(m_tabCloseHDC, m_tabCloseOldBitmap);
 
-	HBITMAP hbmTemp = ResizeBitmap(m_tabCloseBitmap, 16, 16, fFree);
-	::DeleteObject(m_tabCloseBitmap);
-	m_tabCloseBitmap = hbmTemp;
+	HBITMAP hbmTemp = ::Image_Resize(m_tabCloseBitmap, RESIZEBITMAP_STRETCH, 16, 16);
+	if (hbmTemp != m_tabCloseBitmap) {
+		::DeleteObject(m_tabCloseBitmap);
+		m_tabCloseBitmap = hbmTemp;
+	}
+	
 	CImageItem::PreMultiply(m_tabCloseBitmap, 1);
 	m_tabCloseOldBitmap = reinterpret_cast<HBITMAP>(::SelectObject(m_tabCloseHDC, m_tabCloseBitmap));
 
@@ -2057,36 +2059,6 @@ int CSkin::RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, D
 
 	::SetTextColor(hdc, clr);
 	return(::DrawText(hdc, szText, -1, rc, dtFlags));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Resize a bitmap using image service. The function does not care about the image aspect ratio.
-// The caller is responsible to submit proper values for the desired height and width.
-//
-// @param hBmpSrc  HBITMAP: the source bitmap
-// @param width    LONG: width of the destination bitmap
-// @param height   LONG: height of the new bitmap
-// @param mustFree bool: indicates that the new bitmap had been
-//resized and either the source or destination
-//bitmap should be freed.
-//
-// @return HBTIAMP: handle to a bitmap with the desired size.
-
-HBITMAP CSkin::ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &mustFree)
-{
-	BITMAP	bm;
-
-	GetObject(hBmpSrc, sizeof(bm), &bm);
-	if (bm.bmHeight != height || bm.bmWidth != width) {
-		HBITMAP hbmNew = Image_Resize(hBmpSrc, RESIZEBITMAP_STRETCH, height, width);
-		if (hbmNew != hBmpSrc)
-			mustFree = true;
-		return(hbmNew);
-	}
-	else {
-		mustFree = false;
-		return(hBmpSrc);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
