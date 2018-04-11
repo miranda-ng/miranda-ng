@@ -90,10 +90,23 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 	cc->hContact = hContact;
 	arCache.insert(cc);
 
-	PushAvatarRequest(cc);
+	switch (CreateAvatarInCache(hContact, cc, nullptr)) {
+	case -2:  // no avatar data in settings, retrieve
+		PushAvatarRequest(cc);
+		SetEvent(hLoaderEvent);    // wake him up
+		break;
+			
+	case 1: // loaded, everything is ok
+		if (cc->hbmPic != nullptr)
+			cc->loaded = true;
+		break;
+		
+	default:
+		cc->loaded = false;
+		break;
+	}
 
-	SetEvent(hLoaderEvent);    // wake him up
-	return nullptr;
+	return cc;
 }
 
 // output a notification message.
