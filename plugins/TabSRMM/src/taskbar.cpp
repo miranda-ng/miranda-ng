@@ -87,23 +87,23 @@ bool CTaskbarInteract::haveLargeIcons()
 	m_fHaveLargeicons = false;
 
 	if (m_pTaskbarInterface && m_isEnabled) {
-		HKEY 	hKey;
-		DWORD 	val = 1;
-		DWORD	valGrouping = 2;
-		DWORD	size = 4;
-		DWORD	dwType = REG_DWORD;
+		DWORD val = 0;
+		DWORD valGrouping = 2;
 		/*
 		 * check whether the taskbar is set to show large icons. This is necessary, because the method SetOverlayIcon()
 		 * always returns S_OK, but the icon is simply ignored when using small taskbar icons.
 		 * also, figure out the button grouping mode.
 		 */
+		HKEY hKey;
 		if (::RegOpenKey(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", &hKey) == ERROR_SUCCESS) {
+			DWORD size = sizeof(val), dwType = REG_DWORD;
 			::RegQueryValueEx(hKey, L"TaskbarSmallIcons", nullptr, &dwType, (LPBYTE)&val, &size);
 			size = 4;
 			dwType = REG_DWORD;
 			/*
 			 * this is the "grouping mode" setting for the task bar. 0 = always combine, no labels
 			 */
+			size = sizeof(valGrouping);
 			::RegQueryValueEx(hKey, L"TaskbarGlomLevel", nullptr, &dwType, (LPBYTE)&valGrouping, &size);
 			::RegCloseKey(hKey);
 		}
