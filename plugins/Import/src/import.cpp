@@ -567,13 +567,16 @@ struct ImportContactData
 
 int ModulesEnumProc(const char *szModuleName, void *pParam)
 {
+	if (!mir_strcmp(szModuleName, "Protocol"))
+		return 0;
+
 	ImportContactData *icd = (ImportContactData*)pParam;
 	if (!mir_strcmp(icd->szSrcProto, szModuleName)) {
 		if (!icd->bSkipProto)
 			CopySettings(icd->from, szModuleName, icd->to, icd->szDstProto);
 	}
-	else if (0 != mir_strcmp(szModuleName, "Protocol"))
-		CopySettings(icd->from, szModuleName, icd->to, szModuleName);
+	else CopySettings(icd->from, szModuleName, icd->to, szModuleName);
+	
 	return 0;
 }
 
@@ -583,7 +586,7 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 		return;
 
 	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc, pda->pa->szModuleName, false };
-	db_enum_modules(ModulesEnumProc, &icd);
+	srcDb->EnumModuleNames(ModulesEnumProc, &icd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
