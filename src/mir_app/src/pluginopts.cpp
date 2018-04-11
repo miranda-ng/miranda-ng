@@ -31,10 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE hevLoadModule, hevUnloadModule;
 
-static bool bOldMode = false;
-static CMStringW szFilter;
-static UINT_PTR timerID;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Plugins options page dialog
 
@@ -205,84 +201,6 @@ static bool UnloadPluginDynamically(PluginListItemData *dat)
 	return true;
 }
 
-static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_CHAR:
-		if (wParam == '\b') {
-			if (szFilter.GetLength() > 0)
-				szFilter.Truncate(szFilter.GetLength() - 1);
-		}
-		else {
-			szFilter.AppendChar(wParam);
-
-			for (auto &p : arPluginList) {
-				if (!wcsnicmp(szFilter, p->fileName, szFilter.GetLength())) {
-					LVFINDINFO lvfi;
-					lvfi.flags = LVFI_PARAM;
-					lvfi.lParam = (LPARAM)p;
-					int idx = ListView_FindItem(hwnd, 0, &lvfi);
-					if (idx != -1) {
-						ListView_SetItemState(hwnd, idx, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-						ListView_EnsureVisible(hwnd, idx, FALSE);
-						if (timerID != 0)
-							KillTimer(hwnd, timerID);
-						timerID = SetTimer(hwnd, 1, 1500, nullptr);
-						return TRUE;
-					}
-				}
-			}
-
-			szFilter.Truncate(szFilter.GetLength() - 1);
-			MessageBeep((UINT)-1);
-		}
-		return TRUE;
-
-	case WM_TIMER:
-		if (wParam == 1) {
-			KillTimer(hwnd, timerID);
-			timerID = 0;
-			szFilter.Empty();
-		}
-		break;
-
-	case WM_LBUTTONDOWN:
-		LVHITTESTINFO hi;
-		hi.pt.x = LOWORD(lParam);
-		hi.pt.y = HIWORD(lParam);
-		ListView_SubItemHitTest(hwnd, &hi);
-		// Dynamically load/unload a plugin
-		if ((hi.iSubItem == 0) && (hi.flags & LVHT_ONITEMICON)) {
-			LVITEM lvi = { 0 };
-			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
-			lvi.stateMask = -1;
-			lvi.iItem = hi.iItem;
-			lvi.iSubItem = 0;
-			if (ListView_GetItem(hwnd, &lvi)) {
-				lvi.mask = LVIF_IMAGE;
-				PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
-				if (lvi.iImage == 3) {
-					// load plugin
-					if (LoadPluginDynamically(dat)) {
-						lvi.iImage = 2;
-						ListView_SetItem(hwnd, &lvi);
-					}
-				}
-				else if (lvi.iImage == 2) {
-					// unload plugin
-					if (UnloadPluginDynamically(dat)) {
-						lvi.iImage = 3;
-						ListView_SetItem(hwnd, &lvi);
-					}
-				}
-				LoadStdPlugins();
-			}
-		}
-	}
-
-	return mir_callNextSubclass(hwnd, PluginListWndProc, msg, wParam, lParam);
-}
-
 static int CALLBACK SortPlugins(LPARAM i1, LPARAM i2, LPARAM)
 {
 	PluginListItemData *p1 = (PluginListItemData*)i1, *p2 = (PluginListItemData*)i2;
@@ -291,8 +209,11 @@ static int CALLBACK SortPlugins(LPARAM i1, LPARAM i2, LPARAM)
 
 class CPluginOptDlg : public CDlgBase
 {
+	CTimer m_timer;
 	CCtrlListView m_plugList;
 	CCtrlHyperlink m_link, m_plugUrl;
+
+	CMStringW m_szFilter;
 
 	bool needRestart = false;
 	CMStringW wszMsgRestart;
@@ -303,19 +224,20 @@ public:
 		CDlgBase(g_hInst, IDD_OPT_PLUGINS),
 		m_link(this, IDC_GETMOREPLUGINS),
 		m_plugUrl(this, IDC_PLUGINURL),
-		m_plugList(this, IDC_PLUGLIST)
+		m_plugList(this, IDC_PLUGLIST),
+		m_timer(this, 1)
 	{
 		m_link.SetUrl("https://miranda-ng.org/downloads/");
 
+		m_timer.OnEvent = Callback(this, &CPluginOptDlg::onTimer);
+
 		m_plugList.OnItemChanged = Callback(this, &CPluginOptDlg::list_ItemChanged);
+		m_plugList.OnClick = Callback(this, &CPluginOptDlg::list_OnClick);
+		m_plugList.OnKeyDown = Callback(this, &CPluginOptDlg::list_OnKeyDown);
 	}
 
 	virtual void OnInitDialog() override
 	{
-		timerID = 0;
-
-		mir_subclassWindow(m_plugList.GetHwnd(), PluginListWndProc);
-
 		HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNICODE);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ANSI);
@@ -347,7 +269,7 @@ public:
 
 		// scan the plugin dir for plugins, cos
 		arPluginList.destroy();
-		szFilter.Empty();
+		m_szFilter.Empty();
 		enumPlugins(dialogListPlugins, (WPARAM)m_hwnd, (LPARAM)m_plugList.GetHwnd());
 
 		// sort out the headers
@@ -377,7 +299,7 @@ public:
 			int iState = m_plugList.GetItemState(iRow, LVIS_STATEIMAGEMASK);
 			SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
 
-			if (!bOldMode && iState != 0x3000) {
+			if (iState != 0x3000) {
 				LVITEM lvi = { 0 };
 				lvi.mask = LVIF_IMAGE | LVIF_PARAM;
 				lvi.stateMask = -1;
@@ -453,6 +375,81 @@ public:
 		}
 	}
 
+	void list_OnClick(CCtrlListView::TEventInfo *evt)
+	{
+		auto hdr = evt->nmlv;
+
+		LVHITTESTINFO hi;
+		hi.pt.x = hdr->ptAction.x;
+		hi.pt.y = hdr->ptAction.y;
+		m_plugList.SubItemHitTest(&hi);
+		// Dynamically load/unload a plugin
+		if (hi.iSubItem == 0 && (hi.flags & LVHT_ONITEMICON)) {
+			LVITEM lvi = { 0 };
+			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
+			lvi.stateMask = -1;
+			lvi.iItem = hi.iItem;
+			lvi.iSubItem = 0;
+			if (m_plugList.GetItem(&lvi)) {
+				lvi.mask = LVIF_IMAGE;
+				PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
+				if (lvi.iImage == 3) {
+					// load plugin
+					if (LoadPluginDynamically(dat)) {
+						lvi.iImage = 2;
+						m_plugList.SetItem(&lvi);
+					}
+				}
+				else if (lvi.iImage == 2) {
+					// unload plugin
+					if (UnloadPluginDynamically(dat)) {
+						lvi.iImage = 3;
+						m_plugList.SetItem(&lvi);
+					}
+				}
+				LoadStdPlugins();
+			}
+		}
+	}
+
+	void onTimer(CTimer*)
+	{
+		m_timer.Stop();
+		m_szFilter.Empty();
+	}
+
+	void list_OnKeyDown(CCtrlListView::TEventInfo *evt)
+	{
+		if (evt->nmlvkey->wVKey == VK_BACK) {
+			if (m_szFilter.GetLength() > 0)
+				m_szFilter.Truncate(m_szFilter.GetLength() - 1);
+			return;
+		}
+
+		if (evt->nmlvkey->wVKey < '0' || evt->nmlvkey->wVKey > 'Z')
+			return;
+
+		m_szFilter.AppendChar(evt->nmlvkey->wVKey);
+
+		for (auto &p : arPluginList) {
+			if (!wcsnicmp(m_szFilter, p->fileName, m_szFilter.GetLength())) {
+				LVFINDINFO lvfi;
+				lvfi.flags = LVFI_PARAM;
+				lvfi.lParam = (LPARAM)p;
+				int idx = m_plugList.FindItem(0, &lvfi);
+				if (idx != -1) {
+					m_plugList.SetItemState(idx, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+					m_plugList.EnsureVisible(idx, FALSE);
+					m_timer.Start(1500);
+					return;
+				}
+			}
+		}
+
+		m_szFilter.Truncate(m_szFilter.GetLength() - 1);
+		MessageBeep((UINT)-1);
+	}
+
 	void list_ItemChanged(CCtrlListView::TEventInfo *evt)
 	{
 		auto hdr = evt->nmlv;
@@ -471,6 +468,7 @@ public:
 				m_plugList.SetItemState(hdr->iItem, 0x3000, LVIS_STATEIMAGEMASK);
 				return;
 			}
+			
 			// find all another standard plugins by mask and disable them
 			if ((hdr->uNewState == 0x2000) && dat->stdPlugin != 0) {
 				for (int iRow = 0; iRow != -1; iRow = m_plugList.GetNextItem(iRow, LVNI_ALL)) {
@@ -492,8 +490,6 @@ public:
 				}
 			}
 
-			if (bOldMode)
-				ShowWindow(GetDlgItem(m_hwnd, IDC_RESTART), TRUE); // this here only in "ghazan mode"
 			NotifyChange();
 			return;
 		}
@@ -545,8 +541,6 @@ int PluginOptionsInit(WPARAM wParam, LPARAM)
 
 void LoadPluginOptions()
 {
-	bOldMode = db_get_b(0, "Options", "OldPluginSettings", false) != 0;
-
 	hevLoadModule = CreateHookableEvent(ME_SYSTEM_MODULELOAD);
 	hevUnloadModule = CreateHookableEvent(ME_SYSTEM_MODULEUNLOAD);
 }
