@@ -36,6 +36,9 @@
 
 #include "version.h"
 #include "resource.h"
+
+class CCloudService;
+
 #include "options.h"
 
 extern HINSTANCE hInstance;

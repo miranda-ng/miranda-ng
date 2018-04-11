@@ -41,7 +41,7 @@ bool COneDriveService::IsLoggedIn()
 	return now < expiresIn;
 }
 
-void COneDriveService::Login()
+void COneDriveService::Login(HWND owner)
 {
 	ptrA refreshToken(getStringA("RefreshToken"));
 	if (refreshToken && refreshToken[0]) {
@@ -61,6 +61,7 @@ void COneDriveService::Login()
 	}
 
 	COAuthDlg dlg(this, MICROSOFT_AUTH, RequestAccessTokenThread);
+	dlg.SetParent(owner);
 	dlg.DoModal();
 }
 

@@ -14,6 +14,8 @@ protected:
 	int m_hLangpack;
 	HNETLIBUSER m_hConnection;
 
+	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
+
 	// utils
 	std::string PreparePath(const char *path);
 
@@ -44,7 +46,7 @@ public:
 	virtual int GetIconId() const = 0;
 
 	virtual bool IsLoggedIn() = 0;
-	virtual void Login() = 0;
+	virtual void Login(HWND owner = nullptr) = 0;
 	virtual void Logout() = 0;
 
 	void OpenUploadDialog(MCONTACT hContact);

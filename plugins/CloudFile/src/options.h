@@ -1,7 +1,7 @@
 #ifndef _OPTIONS_H_
 #define _OPTIONS_H_
 
-class COptionsMain : public CPluginDlgBase
+class COptionsMainDlg : public CPluginDlgBase
 {
 private:
 	CCtrlCombo m_defaultService;
@@ -19,7 +19,25 @@ protected:
 	void OnApply();
 
 public:
-	COptionsMain();
+	COptionsMainDlg();
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+
+class CAccountManagerDlg : public CProtoDlgBase<CCloudService>
+{
+private:
+	CCtrlButton m_requestAccess;
+	CCtrlButton m_revokeAccess;
+
+protected:
+	void OnInitDialog();
+
+	void RequestAccess_OnClick(CCtrlButton*);
+	void RevokeAccess_OnClick(CCtrlButton*);
+
+public:
+	CAccountManagerDlg(CCloudService *service);
 };
 
 #endif //_OPTIONS_H_

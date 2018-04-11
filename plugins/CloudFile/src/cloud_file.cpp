@@ -11,6 +11,8 @@ CCloudService::CCloudService(const char *protoName, const wchar_t *userName)
 	nlu.szSettingsModule = (char*)protoName;
 	nlu.szDescriptiveName.w = (wchar_t*)userName;
 	m_hConnection = Netlib_RegisterUser(&nlu);
+
+	CreateProtoService(PS_CREATEACCMGRUI, &CCloudService::OnAccountManagerInit);
 }
 
 CCloudService::~CCloudService()
@@ -98,6 +100,14 @@ int CCloudService::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
 		return 0;
 	}
 	return 1;
+}
+
+INT_PTR CCloudService::OnAccountManagerInit(WPARAM, LPARAM lParam)
+{
+	CAccountManagerDlg *page = new CAccountManagerDlg(this);
+	page->SetParent((HWND)lParam);
+	page->Show();
+	return (INT_PTR)page->GetHwnd();
 }
 
 std::string CCloudService::PreparePath(const char *path)

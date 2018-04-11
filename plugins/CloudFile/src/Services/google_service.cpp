@@ -41,7 +41,7 @@ bool CGDriveService::IsLoggedIn()
 	return now < expiresIn;
 }
 
-void CGDriveService::Login()
+void CGDriveService::Login(HWND owner)
 {
 	ptrA token(getStringA("TokenSecret"));
 	ptrA refreshToken(getStringA("RefreshToken"));
@@ -62,6 +62,7 @@ void CGDriveService::Login()
 	}
 
 	COAuthDlg dlg(this, GOOGLE_AUTH, RequestAccessTokenThread);
+	dlg.SetParent(owner);
 	dlg.DoModal();
 }
 
@@ -136,6 +137,10 @@ unsigned CGDriveService::RevokeAccessTokenThread(void *param)
 	ptrA token(db_get_sa(NULL, service->GetAccountName(), "TokenSecret"));
 	GDriveAPI::RevokeAccessTokenRequest request(token);
 	NLHR_PTR response(request.Send(service->m_hConnection));
+
+	service->delSetting("ExpiresIn");
+	service->delSetting("TokenSecret");
+	service->delSetting("RefreshToken");
 
 	return 0;
 }

@@ -113,6 +113,15 @@ BEGIN
     CONTROL         "Go to this link",IDC_OAUTH_AUTHORIZE,"Hyperlink",WS_GROUP | WS_TABSTOP | 0x1,7,18,179,8
 END
 
+IDD_ACCMGR DIALOGEX 0, 0, 188, 126
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Request access",IDC_REQUESTACCESS,15,19,73,14
+    PUSHBUTTON      "Revoke access",IDC_REVOKEACCESS,100,19,73,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -125,6 +134,11 @@ BEGIN
 END
 
 IDD_OAUTH AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ACCMGR AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
@@ -156,6 +170,15 @@ BEGIN
         RIGHTMARGIN, 186
         TOPMARGIN, 7
         BOTTOMMARGIN, 76
+    END
+
+    IDD_ACCMGR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 181
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 119
+        HORZGUIDE, 33
     END
 END
 #endif    // APSTUDIO_INVOKED

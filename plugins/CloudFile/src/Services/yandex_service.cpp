@@ -41,7 +41,7 @@ bool CYandexService::IsLoggedIn()
 	return now < expiresIn;
 }
 
-void CYandexService::Login()
+void CYandexService::Login(HWND owner)
 {
 	ptrA token(getStringA("TokenSecret"));
 	ptrA refreshToken(getStringA("RefreshToken"));
@@ -65,6 +65,7 @@ void CYandexService::Login()
 	}
 
 	COAuthDlg dlg(this, YANDEX_AUTH, RequestAccessTokenThread);
+	dlg.SetParent(owner);
 	dlg.DoModal();
 }
 
@@ -138,6 +139,10 @@ unsigned CYandexService::RevokeAccessTokenThread(void *param)
 	ptrA token(db_get_sa(NULL, service->GetAccountName(), "TokenSecret"));
 	YandexAPI::RevokeAccessTokenRequest request(token);
 	NLHR_PTR response(request.Send(service->m_hConnection));
+
+	service->delSetting("ExpiresIn");
+	service->delSetting("TokenSecret");
+	service->delSetting("RefreshToken");
 
 	return 0;
 }

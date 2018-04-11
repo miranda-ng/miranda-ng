@@ -25,7 +25,7 @@ public:
 	int GetIconId() const override;
 
 	bool IsLoggedIn() override;
-	void Login() override;
+	void Login(HWND owner = nullptr) override;
 	void Logout() override;
 
 	UINT Upload(FileTransferParam *ftp) override;

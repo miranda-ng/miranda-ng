@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-COptionsMain::COptionsMain()
+COptionsMainDlg::COptionsMainDlg()
 	: CPluginDlgBase(hInstance, IDD_OPTIONS_MAIN, MODULE),
 	m_defaultService(this, IDC_DEFAULTSERVICE),
 	m_doNothingOnConflict(this, IDC_DONOTHINGONCONFLICT),
@@ -17,7 +17,7 @@ COptionsMain::COptionsMain()
 	CreateLink(m_urlCopyToClipboard, "UrlCopyToClipboard", DBVT_BYTE, 0);
 }
 
-void COptionsMain::OnInitDialog()
+void COptionsMainDlg::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
@@ -52,7 +52,7 @@ void COptionsMain::OnInitDialog()
 	}
 }
 
-void COptionsMain::OnApply()
+void COptionsMainDlg::OnApply()
 {
 	int iItem = m_defaultService.GetCurSel();
 	CCloudService *service = (CCloudService*)m_defaultService.GetItemData(iItem);
@@ -79,8 +79,43 @@ int OnOptionsInitialized(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Services");
 
 	//odp.szTab.w = LPGENW("General");
-	odp.pDialog = new COptionsMain();
+	odp.pDialog = new COptionsMainDlg();
 	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+CAccountManagerDlg::CAccountManagerDlg(CCloudService *service)
+	: CProtoDlgBase(service, IDD_ACCMGR),
+	m_requestAccess(this, IDC_REQUESTACCESS),
+	m_revokeAccess(this, IDC_REVOKEACCESS)
+{
+	m_requestAccess.OnClick = Callback(this, &CAccountManagerDlg::RequestAccess_OnClick);
+	m_revokeAccess.OnClick = Callback(this, &CAccountManagerDlg::RevokeAccess_OnClick);
+}
+
+void CAccountManagerDlg::OnInitDialog()
+{
+	ptrA token(m_proto->getStringA("TokenSecret"));
+	m_requestAccess.Enable(!token);
+	m_revokeAccess.Enable(token);
+}
+
+void CAccountManagerDlg::RequestAccess_OnClick(CCtrlButton*)
+{
+	m_proto->Login(m_hwnd);
+	ptrA token(m_proto->getStringA("TokenSecret"));
+	m_requestAccess.Enable(!token);
+	m_revokeAccess.Enable(token);
+}
+
+void CAccountManagerDlg::RevokeAccess_OnClick(CCtrlButton*)
+{
+	m_proto->Logout();
+	m_requestAccess.Enable();
+	m_revokeAccess.Disable();
+}
+
+/////////////////////////////////////////////////////////////////////////////////

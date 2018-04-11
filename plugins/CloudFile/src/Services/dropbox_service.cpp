@@ -39,9 +39,11 @@ bool CDropboxService::IsLoggedIn()
 	return true;
 }
 
-void CDropboxService::Login()
+void CDropboxService::Login(HWND owner)
 {
-	COAuthDlg(this, DROPBOX_API_AUTH, RequestAccessTokenThread).DoModal();
+	COAuthDlg dlg(this, DROPBOX_API_AUTH, RequestAccessTokenThread);
+	dlg.SetParent(owner);
+	dlg.DoModal();
 }
 
 void CDropboxService::Logout()
@@ -103,6 +105,10 @@ unsigned CDropboxService::RevokeAccessTokenThread(void *param)
 	ptrA token(service->getStringA("TokenSecret"));
 	DropboxAPI::RevokeAccessTokenRequest request(token);
 	NLHR_PTR response(request.Send(service->m_hConnection));
+
+	service->delSetting("ExpiresIn");
+	service->delSetting("TokenSecret");
+	service->delSetting("RefreshToken");
 
 	return 0;
 }
