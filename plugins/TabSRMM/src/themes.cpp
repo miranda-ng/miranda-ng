@@ -2027,7 +2027,7 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID, 
 //
 // @return COLORREF representation of the string value.
 
-DWORD __fastcall CSkin::HexStringToLong(const wchar_t *szSource)
+DWORD CSkin::HexStringToLong(const wchar_t *szSource)
 {
 	wchar_t *stopped;
 	COLORREF clr = wcstol(szSource, &stopped, 16);
@@ -2071,7 +2071,7 @@ int CSkin::RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, D
 // @return bool: true if the item has been painted, false if not
 //  	   (only reason: the ignore flag in the item is set).
 
-bool __fastcall CSkin::DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item)
+bool CSkin::DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item)
 {
 	if (!item->IGNORED) {
 		::DrawAlpha(hdc, const_cast<RECT *>(rc), item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT,
