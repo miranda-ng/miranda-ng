@@ -2472,15 +2472,17 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
+		// fall through
 
-		//fall through
 	case WM_MOUSEACTIVATE:
 		MsgWindowUpdateState(WM_ACTIVATE);
 		return 1;
 
 	case DM_UPDATEPICLAYOUT:
-		LoadContactAvatar();
-		Resize();
+		if (wParam == 0 || wParam == m_hContact) {
+			LoadContactAvatar();
+			Resize();
+		}
 		return 0;
 
 	case DM_SPLITTERMOVED:

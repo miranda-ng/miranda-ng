@@ -494,6 +494,16 @@ int SplitmsgShutdown(void)
 	return 0;
 }
 
+int AvatarChanged(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == 0)
+		return 0;
+
+	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
+		BroadCastContainer(p, DM_UPDATEPICLAYOUT, wParam, lParam);
+	return 0;
+}
+
 int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == 0 || IsBadReadPtr((void*)wParam, 4))

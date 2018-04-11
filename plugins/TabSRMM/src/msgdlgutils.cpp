@@ -1329,6 +1329,9 @@ void CSrmmWindow::LoadContactAvatar()
 	}
 	else if (m_pPanel.isActive())
 		GetAvatarVisibility();
+
+	if (m_pWnd != nullptr)
+		m_pWnd->verifyDwmState();
 }
 
 void CSrmmWindow::LoadOwnAvatar()
