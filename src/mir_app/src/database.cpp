@@ -487,6 +487,10 @@ int LoadDatabaseModule(void)
 		return 1;
 	}
 
+	// if this profile is already opened in another miranda, silently return
+	if (FindMirandaForProfile(szProfile))
+		return 1;
+
 	// find a driver to support the given profile
 	bool retry;
 	int rc;
@@ -504,10 +508,6 @@ int LoadDatabaseModule(void)
 				TranslateT("Miranda can't open that profile"), MB_OK | MB_ICONERROR);
 		}
 		else if (rc > 0) {
-			// if there were drivers but they all failed cos the file is locked, try and find the miranda which locked it
-			if (FindMirandaForProfile(szProfile))
-				break;
-
 			if (fileExist(szProfile)) {
 				// file isn't locked, just no driver could open it.
 				MessageBox(nullptr,
