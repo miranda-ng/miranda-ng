@@ -3,7 +3,7 @@
 <Provider>
   <name>Google</name>
   <ref>http://www.google.com</ref>
-  <url>http://finance.google.com/finance/converter</url>  
+  <url>https://finance.google.co.uk/bctzjpnsun/converter</url>  
 
 <section>
 	<name>Currencies</name>
