@@ -69,7 +69,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Nudge.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Sounds\nudge.wav")
 	if /I "%%a"=="Omegle.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Omegle.dll")
 	if /I "%%a"=="PluginUpdater.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "pu_stub.exe")
-	if /I "%%a"=="Quotes.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Quotes.dll" "Plugins\Quotes\*.xml")
+	if /I "%%a"=="Quotes.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Quotes.dll" "Plugins\Quotes\*.xml" "Plugins\Quotes\QuotesChart.exe")
 	if /I "%%a"=="RemovePersonalSettings.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "RemovePersonalSettings.ini")
 	if /I "%%a"=="Sametime.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Sametime.dll")
 	if /I "%%a"=="SecureIM.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\CryptoPP.dll" "Icons\SecureIM_icons.dll")

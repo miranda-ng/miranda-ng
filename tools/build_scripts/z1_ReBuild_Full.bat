@@ -80,6 +80,7 @@ copy /V /Y ..\plugins\FavContacts\gadget\favcontacts.gadget "Release%tp%\Gadgets
 copy /V /Y ..\plugins\Nudge\docs\Sounds\*.wav "Release%tp%\Sounds\"
 copy /V /Y ..\plugins\ListeningTo\listeningto\*.dll "Release%tp%\Plugins\Listeningto\"
 copy /V /Y ..\plugins\Quotes\docs\Utility\*.xml "Release%tp%\Plugins\Quotes\"
+copy /V /Y ..\plugins\Quotes\QuotesChart\bin\%tp%\QuotesChart.exe "Release%tp%\Plugins\Quotes\"
 copy /V /Y ..\plugins\Weather\docs\weather\*.ini "Release%tp%\Plugins\Weather\"
 copy /V /Y ..\plugins\Actman\services.ini "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\Boltun\src\Engine\boltun.mindw "Release%tp%\Plugins\"

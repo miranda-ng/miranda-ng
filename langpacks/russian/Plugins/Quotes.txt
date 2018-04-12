@@ -1,4 +1,4 @@
-#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
@@ -241,3 +241,19 @@ HTTP подключение Quotes
 Журналы (*.txt,*.log)
 [Enter integer value]
 Введите целочисленное значение
+[Do not add to popup's history]
+Не добавлять в историю всплывающих окон
+[There is nothing to show]
+Нечего показывать
+[Enter text to display in contact list.]
+Введите текст для отображения в списке контактов.
+[Error occurred during HTML parsing.]
+Ошибка в процессе обработки HTML.
+[Enter log file name.]
+Введите имя лог-файла.
+[Enter log file format.]
+Введите формат лог-файла.
+[Enter history format.]
+Введите формат истории.
+[Enter popup window format.]
+Введите формат всплывающего окна.
