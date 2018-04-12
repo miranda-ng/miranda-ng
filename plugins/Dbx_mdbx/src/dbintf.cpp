@@ -167,6 +167,39 @@ int CDbxMDBX::Check(void)
 	return (memcmp(buf, bDefHeader, _countof(bDefHeader))) ? EGROKPRF_UNKHEADER : 0;
 }
 
+BOOL CDbxMDBX::Compact()
+{
+	CMStringW wszTmpFile(FORMAT, L"%s.tmp", m_tszProfileName);
+
+	HANDLE pFile = ::CreateFile(wszTmpFile, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (pFile == nullptr) {
+		Netlib_Logf(0, "Temporary file <%S> cannot be created", wszTmpFile.c_str());
+		return 1;
+	}
+
+	mir_cslock lck(m_csDbAccess);
+	int res = mdbx_env_copy2fd(m_env, pFile, MDBX_CP_COMPACT);
+	CloseHandle(pFile);
+
+	if (res == MDBX_SUCCESS) {
+		mdbx_env_close(m_env);
+
+		DeleteFileW(m_tszProfileName);
+		MoveFileW(wszTmpFile, m_tszProfileName);
+
+		mdbx_env_create(&m_env);
+		mdbx_env_set_maxdbs(m_env, 10);
+		mdbx_env_set_maxreaders(m_env, 244);
+		mdbx_env_set_userctx(m_env, this);
+
+		Map();
+		Load();
+	}
+	else DeleteFileW(wszTmpFile);
+
+	return 0;
+}
+
 int CDbxMDBX::PrepareCheck()
 {
 	InitModules();

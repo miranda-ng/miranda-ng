@@ -82,6 +82,11 @@ BOOL MDatabaseCommon::DeleteModule(MCONTACT hContact, LPCSTR szModule)
 	return 0;
 }
 
+BOOL MDatabaseCommon::Compact(void)
+{
+	return ERROR_NOT_SUPPORTED;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contacts
 

@@ -255,7 +255,7 @@ class CChooseProfileDlg : public CDlgBase
 		if (p != nullptr) *p = 0;
 
 		LVITEM item = { 0 };
-		item.mask = LVIF_TEXT | LVIF_IMAGE;
+		item.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 		item.pszText = profile;
 		item.iItem = 0;
 
@@ -286,6 +286,8 @@ class CChooseProfileDlg : public CDlgBase
 			item.iImage = 3;
 		}
 
+		item.lParam = (LPARAM)dblink;
+
 		int iItem = list.InsertItem(&item);
 		if (mir_wstrcmpi(ped->szProfile, tszFullPath) == 0)
 			list.SetItemState(iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
@@ -303,33 +305,32 @@ class CChooseProfileDlg : public CDlgBase
 		return TRUE;
 	}
 
-	void DeleteProfile(int iItem)
+	void DeleteProfile(const LVITEM &item)
 	{
-		if (iItem < 0)
+		CMStringW wszMessage(FORMAT, TranslateT("Are you sure you want to remove profile \"%s\"?"), item.pszText);
+		if (IDYES != MessageBox(nullptr, wszMessage, L"Miranda NG", MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 			return;
 
-		wchar_t profile[MAX_PATH], profilef[MAX_PATH * 2];
-
-		LVITEM item = { 0 };
-		item.mask = LVIF_TEXT;
-		item.iItem = iItem;
-		item.pszText = profile;
-		item.cchTextMax = _countof(profile);
-		if (!m_profileList.GetItem(&item))
-			return;
-
-		mir_snwprintf(profilef, TranslateT("Are you sure you want to remove profile \"%s\"?"), profile);
-		if (IDYES != MessageBox(nullptr, profilef, L"Miranda NG", MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
-			return;
-
-		mir_snwprintf(profilef, L"%s\\%s%c", m_pd->ptszProfileDir, profile, 0);
+		wszMessage.Format(L"%s\\%s%c", m_pd->ptszProfileDir, item.pszText, 0);
 
 		SHFILEOPSTRUCT sf = {};
 		sf.wFunc = FO_DELETE;
-		sf.pFrom = profilef;
+		sf.pFrom = wszMessage;
 		sf.fFlags = FOF_NOCONFIRMATION | FOF_SILENT | FOF_ALLOWUNDO;
 		SHFileOperation(&sf);
+		
 		m_profileList.DeleteItem(item.iItem);
+	}
+
+	void CompactProfile(DATABASELINK *dblink, const wchar_t *profile)
+	{
+		CMStringW wszFullName(FORMAT, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
+
+		MDatabaseCommon *db = dblink->Load(wszFullName, false);
+		if (db != nullptr) {
+			db->Compact();
+			delete db;
+		}
 	}
 
 	void CheckRun()
@@ -383,18 +384,27 @@ class CChooseProfileDlg : public CDlgBase
 		if (lvht.iItem == -1)
 			return;
 
-		LVITEM tvi = { 0 };
-		tvi.mask = LVIF_IMAGE;
-		tvi.iItem = lvht.iItem;
-		if (!m_profileList.GetItem(&tvi))
+		wchar_t profile[MAX_PATH];
+		LVITEM item = { 0 };
+		item.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_TEXT;
+		item.iItem = lvht.iItem;
+		item.pszText = profile;
+		item.cchTextMax = _countof(profile);
+		if (!m_profileList.GetItem(&item))
 			return;
 
 		lvht.pt.x = GET_X_LPARAM(lParam);
 		lvht.pt.y = GET_Y_LPARAM(lParam);
 
 		HMENU hMenu = CreatePopupMenu();
-		if (tvi.iImage < 2) {
+		if (item.iImage < 2) {
 			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
+			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
+		}
+
+		DATABASELINK *dblink = (DATABASELINK*)item.lParam;
+		if (dblink != nullptr && dblink->capabilities & MDB_CAPS_COMPACT) {
+			AppendMenu(hMenu, MF_STRING, 3, TranslateT("Compact"));
 			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 		}
 
@@ -406,7 +416,11 @@ class CChooseProfileDlg : public CDlgBase
 			break;
 
 		case 2:
-			DeleteProfile(lvht.iItem);
+			DeleteProfile(item);
+			break;
+
+		case 3:
+			CompactProfile(dblink, profile);
 			break;
 		}
 		DestroyMenu(hMenu);
@@ -478,8 +492,16 @@ public:
 
 	void list_OnKeyDown(CCtrlListView::TEventInfo *evt)
 	{
-		if (evt->nmlvkey->wVKey == VK_DELETE)
-			DeleteProfile(m_profileList.GetNextItem(-1, LVNI_SELECTED | LVNI_ALL));
+		if (evt->nmlvkey->wVKey == VK_DELETE) {
+			wchar_t profile[MAX_PATH];
+			LVITEM item = { 0 };
+			item.mask = LVIF_TEXT;
+			item.iItem = m_profileList.GetNextItem(-1, LVNI_SELECTED | LVNI_ALL);
+			item.pszText = profile;
+			item.cchTextMax = _countof(profile);
+			if (m_profileList.GetItem(&item))
+				DeleteProfile(item);
+		}
 	}
 
 	void list_OnGetTip(CCtrlListView::TEventInfo *evt)

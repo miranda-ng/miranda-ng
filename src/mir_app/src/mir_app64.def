@@ -580,3 +580,4 @@ Clist_GetRealStatus @599
 Clist_GetGeneralizedStatus @600
 Proto_GetStatus @601
 ?getCache@MDatabaseCommon@@QEBAPEAUMIDatabaseCache@@XZ @602 NONAME
+?Compact@MDatabaseCommon@@UEAAHXZ @603 NONAME

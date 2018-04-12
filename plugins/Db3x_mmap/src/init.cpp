@@ -121,7 +121,7 @@ LBL_Error:
 
 static DATABASELINK dblink =
 {
-	sizeof(DATABASELINK),
+	0,
 	"dbx_mmap",
 	L"dbx mmap driver",
 	makeDatabase,

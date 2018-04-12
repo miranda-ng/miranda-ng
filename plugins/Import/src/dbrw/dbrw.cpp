@@ -86,7 +86,7 @@ static MDatabaseCommon* dbrw_Load(const wchar_t *profile, BOOL)
 
 static DATABASELINK dblink =
 {
-	sizeof(DATABASELINK),
+	0,
 	"dbrw",
 	L"dbx SQLite driver",
 	dbrw_makeDatabase,

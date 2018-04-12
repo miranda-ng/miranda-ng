@@ -125,7 +125,11 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(BOOL, MetaSetDefault)(DBCachedContact*) PURE;
 	STDMETHOD_(BOOL, MetaMergeHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
 	STDMETHOD_(BOOL, MetaSplitHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
+
+	STDMETHOD_(BOOL, Compact)(void) PURE;
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 class MIR_APP_EXPORT MDatabaseCommon : public MIDatabase
 {
@@ -164,6 +168,8 @@ public:
 	
 	STDMETHODIMP_(BOOL) EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
 	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName);
+	
+	STDMETHODIMP_(BOOL) Compact(void);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -184,9 +190,11 @@ public:
 // makeDatabase() error codes
 #define EMKPRF_CREATEFAILED 1   // for some reason CreateFile() didnt like something
 
+#define MDB_CAPS_COMPACT 0x0001 // database can be compacted
+
 struct DATABASELINK
 {
-	int cbSize;
+	int capabilities;
 	char* szShortName;  // uniqie short database name
 	wchar_t* szFullName;  // in English, auto-translated by the core
 
