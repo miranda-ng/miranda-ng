@@ -542,6 +542,7 @@ static renameTable[] =
 	{ L"newnr.dll",                      L"Plugins\\notesreminders.dll" },
 	{ L"dbtool.exe",                     nullptr },
 	{ L"dbtool_sa.exe",                  nullptr },
+	{ L"dbchecker.bat",                  nullptr },
 	{ L"clist_mw.dll",                   L"Plugins\\clist_nicer.dll" },
 	{ L"bclist.dll",                     L"Plugins\\clist_blind.dll" },
 	{ L"otr.dll",                        L"Plugins\\mirotr.dll" },
@@ -584,7 +585,6 @@ static renameTable[] =
 
 	{ L"advaimg.dll",                    nullptr },
 	{ L"aim.dll",                        nullptr },
-	{ L"dbchecker.bat",                  nullptr },
 	{ L"dbchecker.dll",                  nullptr },
 	{ L"dbx_sqlite.dll",                 nullptr },
 	{ L"extraicons.dll",                 nullptr },
@@ -629,12 +629,12 @@ static bool CheckFileRename(const wchar_t *ptszOldName, wchar_t *pNewName)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// We only update ".dll", ".exe" and ".ico"
+// We only update ".dll", ".exe", ".txt" and ".bat"
 static bool isValidExtension(const wchar_t *ptszFileName)
 {
 	const wchar_t *pExt = wcsrchr(ptszFileName, '.');
 
-	return (pExt != nullptr) && (!_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt"));
+	return (pExt != nullptr) && (!_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt") || !_wcsicmp(pExt, L".bat"));
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
