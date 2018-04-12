@@ -9,12 +9,10 @@
 
 	#include "config.h"
 
-	#ifdef USE_PRECOMPILED_HEADERS
-		#include "simple.h"
-		#include "secblock.h"
-		#include "misc.h"
-		#include "smartptr.h"
-	#endif
+	#include "simple.h"
+	#include "secblock.h"
+	#include "misc.h"
+	#include "smartptr.h"
 
 #endif
 
