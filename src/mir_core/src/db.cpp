@@ -40,7 +40,7 @@ MIR_CORE_DLL(int) db_get_contact_count(void)
 	return (currDb) ? currDb->GetContactCount() : 0;
 }
 
-MIR_CORE_DLL(MIDatabase*) db_get_current()
+MIR_CORE_DLL(MDatabaseCommon*) db_get_current()
 {
 	return currDb;
 }

@@ -226,7 +226,7 @@ EXTERN_C MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT);
 ///////////////////////////////////////////////////////////////////////////////
 // Database list's functions
 
-EXTERN_C MIR_CORE_DLL(MIDatabase*) db_get_current(void);
+EXTERN_C MIR_CORE_DLL(MDatabaseCommon*) db_get_current(void);
 
 // registers a database plugin
 EXTERN_C MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr);

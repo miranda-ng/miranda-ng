@@ -67,11 +67,11 @@ class TFavContacts : public LIST < TContactInfo >
 private:
 	int nGroups;
 	wchar_t *prevGroup;
-	MIDatabase *db;
+	MDatabaseCommon *db;
 
 	int addContact(MCONTACT hContact, bool bManual)
 	{
-		DBCachedContact *cc = db->m_cache->GetCachedContact(hContact);
+		DBCachedContact *cc = db->getCache()->GetCachedContact(hContact);
 		if (cc == nullptr)
 			return 0;
 
