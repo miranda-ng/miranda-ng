@@ -422,7 +422,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 		return;
 
 	// Check user's log settings
-	if (!(logOptions.toOutputDebugString || GetSubscribersCount(hLogEvent) != 0 || (logOptions.toFile && !logOptions.tszFile.IsEmpty())))
+	if (!(logOptions.toOutputDebugString || GetSubscribersCount((THook*)hLogEvent) != 0 || (logOptions.toFile && !logOptions.tszFile.IsEmpty())))
 		return;
 	if ((sent && !logOptions.dumpSent) || (!sent && !logOptions.dumpRecv))
 		return;

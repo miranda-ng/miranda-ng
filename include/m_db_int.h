@@ -82,8 +82,6 @@ interface MIDatabaseCache : public MZeroedObject
 
 interface MIR_APP_EXPORT MIDatabase
 {
-	MIDatabaseCache* m_cache;
-
 	STDMETHOD_(BOOL, IsRelational)(void) PURE;
 	STDMETHOD_(void, SetCacheSafetyMode)(BOOL) PURE;
 
@@ -137,6 +135,7 @@ protected:
 	
 	mir_cs m_csDbAccess;
 	LIST<char> m_lResidentSettings;
+	MIDatabaseCache* m_cache;
 
 protected:
 	int CheckProto(DBCachedContact *cc, const char *proto);
@@ -146,6 +145,8 @@ protected:
 public:
 	MDatabaseCommon();
 	virtual ~MDatabaseCommon();
+
+	__forceinline MIDatabaseCache* getCache() const { return m_cache; }
 
 	STDMETHODIMP_(BOOL) DeleteModule(MCONTACT contactID, LPCSTR szModule);
 

@@ -128,7 +128,7 @@ static void Meta_SetSrmmSub(MCONTACT hMeta, MCONTACT hSub)
 static INT_PTR MetaFilter_RecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(ccs->hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(ccs->hContact);
 	if (cc && cc->IsSub())
 		Meta_SetSrmmSub(cc->parentID, cc->contactID);
 
@@ -329,11 +329,11 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact == 0)
 		return 0;
 
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 	if (cc == nullptr || !cc->IsSub())
 		return 0;
 
-	DBCachedContact *ccMeta = currDb->m_cache->GetCachedContact(cc->parentID);
+	DBCachedContact *ccMeta = currDb->getCache()->GetCachedContact(cc->parentID);
 	if (ccMeta == nullptr || !ccMeta->IsMeta())
 		return 0;
 
@@ -455,7 +455,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 
 int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 {
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 	if (cc == nullptr)
 		return 0;
 
@@ -540,7 +540,7 @@ static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 	if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
-		DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
+		DBCachedContact *cc = currDb->getCache()->GetCachedContact(mwed->hContact);
 		if (cc != nullptr) {
 			Meta_UpdateSrmmIcon(cc, db_get_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE));
 			if (cc->IsMeta()) {

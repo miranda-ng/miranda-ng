@@ -56,7 +56,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	if (hMetaContact == 0)
 		return 0;
 
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMetaContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hMetaContact);
 	if (cc == nullptr)
 		return 0;
 
@@ -93,7 +93,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 		return;
 
 	// make sure this contact thinks it's part of this metacontact
-	DBCachedContact *ccSub = currDb->m_cache->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
+	DBCachedContact *ccSub = currDb->getCache()->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
 	if (ccSub != nullptr) {
 		if (ccSub->parentID == ccMeta->contactID) {
 			db_unset(ccSub->contactID, "CList", "Hidden");
@@ -183,7 +183,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 
 INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 {
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 	if (cc == nullptr)
 		return 1;
 
@@ -203,7 +203,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 		db_delete_contact(hContact);
 	}
 	else if (cc->IsSub()) {
-		if ((cc = currDb->m_cache->GetCachedContact(cc->parentID)) == nullptr)
+		if ((cc = currDb->getCache()->GetCachedContact(cc->parentID)) == nullptr)
 			return 2;
 
 		if (cc->nSubs == 1) {
@@ -229,7 +229,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 
 INT_PTR Meta_Default(WPARAM hSub, LPARAM)
 {
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(db_mc_getMeta(hSub));
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(db_mc_getMeta(hSub));
 	if (cc && cc->IsMeta())
 		db_mc_setDefault(cc->contactID, hSub, true);
 	return 0;
@@ -246,7 +246,7 @@ INT_PTR Meta_Default(WPARAM hSub, LPARAM)
 
 int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 {
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hMeta);
 	if (cc == nullptr)
 		return 0;
 		

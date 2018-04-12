@@ -73,8 +73,7 @@ static LIST<DBCachedContact> arMetas(10);
 
 static HWND hdlgProgress;
 static DWORD nDupes, nContactsCount, nMessagesCount, nGroupsCount, nSkippedEvents, nSkippedContacts;
-static MDatabaseCommon *srcDb;
-static MIDatabase *dstDb;
+static MDatabaseCommon *srcDb, *dstDb;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -632,7 +631,7 @@ static int ImportGroups()
 DBCachedContact* FindDestMeta(DBCachedContact *ccSrc)
 {
 	for (MCONTACT hMeta = dstDb->FindFirstContact(META_PROTO); hMeta != 0; hMeta = dstDb->FindNextContact(hMeta, META_PROTO)) {
-		DBCachedContact *cc = dstDb->m_cache->GetCachedContact(hMeta);
+		DBCachedContact *cc = dstDb->getCache()->GetCachedContact(hMeta);
 		if (cc->nSubs != ccSrc->nSubs)
 			continue;
 
@@ -660,7 +659,7 @@ MCONTACT FindExistingMeta(DBCachedContact *ccSrc)
 		if (hDestSub == INVALID_CONTACT_ID)
 			continue;
 
-		DBCachedContact *cc = dstDb->m_cache->GetCachedContact(hDestSub);
+		DBCachedContact *cc = dstDb->getCache()->GetCachedContact(hDestSub);
 		if (cc == nullptr || !cc->IsSub()) // check if it's a sub
 			continue;
 
@@ -697,7 +696,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 			db_set_s(hDest, "Protocol", "p", META_PROTO);
 			CopySettings(ccSrc->contactID, META_PROTO, hDest, META_PROTO);
 
-			ccDst = dstDb->m_cache->GetCachedContact(hDest);
+			ccDst = dstDb->getCache()->GetCachedContact(hDest);
 			if (ccDst == nullptr) // normally it shouldn't happen
 				return;
 
@@ -710,7 +709,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 					if (hSub == INVALID_CONTACT_ID) {
 						hSub = db_add_contact();
 
-						DBCachedContact *ccSub = srcDb->m_cache->GetCachedContact(ccSrc->pSubs[i]);
+						DBCachedContact *ccSub = srcDb->getCache()->GetCachedContact(ccSrc->pSubs[i]);
 						if (ccSub && ccSub->szProto) {
 							Proto_AddToContact(hDest, ccSub->szProto);
 							CopySettings(ccSrc->contactID, ccSub->szProto, hSub, ccSub->szProto);
@@ -726,14 +725,14 @@ void ImportMeta(DBCachedContact *ccSrc)
 					db_set_b(hSub, META_PROTO, "IsSubcontact", 1);
 					db_set_dw(hSub, META_PROTO, "ParentMeta", hDest);
 
-					DBCachedContact *ccSub = dstDb->m_cache->GetCachedContact(hSub);
+					DBCachedContact *ccSub = dstDb->getCache()->GetCachedContact(hSub);
 					if (ccSub)
 						ccSub->parentID = hDest;
 				}
 			}
 		}
 		else { // add missing subs
-			ccDst = dstDb->m_cache->GetCachedContact(hDest);
+			ccDst = dstDb->getCache()->GetCachedContact(hDest);
 			if (ccDst == nullptr) // normally it shouldn't happen
 				return;
 
@@ -765,7 +764,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 static MCONTACT ImportContact(MCONTACT hSrc)
 {
 	// Check what protocol this contact belongs to
-	DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hSrc);
+	DBCachedContact *cc = srcDb->getCache()->GetCachedContact(hSrc);
 	if (cc == nullptr || cc->szProto == nullptr) {
 		AddMessage(LPGENW("Skipping contact with no protocol"));
 		return NULL;
@@ -879,7 +878,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 	if (hContact) {
 		// we ignore history import for metacontacts
 		// the metahistory will be generated automatically by gathering subs' histories
-		DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hContact);
+		DBCachedContact *cc = srcDb->getCache()->GetCachedContact(hContact);
 		if (cc == nullptr)
 			return;
 
@@ -1020,7 +1019,7 @@ void MirandaImport(HWND hdlg)
 {
 	hdlgProgress = hdlg;
 
-	if ((dstDb = db_get_current()) == nullptr) {
+	if ((dstDb = (MDatabaseCommon*)db_get_current()) == nullptr) {
 		AddMessage(LPGENW("Error retrieving current profile, exiting."));
 		return;
 	}

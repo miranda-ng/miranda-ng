@@ -60,7 +60,7 @@ int Meta_SetNick(char *szProto)
 
 BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 {
-	DBCachedContact *ccDest = CheckMeta(hMeta), *ccSub = currDb->m_cache->GetCachedContact(hSub);
+	DBCachedContact *ccDest = CheckMeta(hMeta), *ccSub = currDb->getCache()->GetCachedContact(hSub);
 	if (ccDest == nullptr || ccSub == nullptr)
 		return FALSE;
 
@@ -290,7 +290,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 DBCachedContact* CheckMeta(MCONTACT hMeta)
 {
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hMeta);
 	return (cc == nullptr || cc->nSubs == -1) ? nullptr : cc;
 }
 
@@ -323,7 +323,7 @@ int Meta_HideLinkedContacts(void)
 	char buffer[512];
 
 	for (auto &hContact : Contacts()) {
-		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+		DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 		if (cc == nullptr || cc->parentID == 0)
 			continue;
 
@@ -388,7 +388,7 @@ int Meta_HideMetaContacts(bool bHide)
 
 	for (auto &hContact : Contacts()) {
 		bool bSet;
-		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+		DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 		if (cc->IsSub()) { // show on hide, reverse flag
 			bSet = !bHide;
 			CallService(bSuppress ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_USERONLINE);

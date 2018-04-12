@@ -29,7 +29,7 @@ static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 	if (currDb == nullptr)
 		return 1;
 
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 	if (cc && cc->szProto != nullptr) {
 		strncpy(szBuf, cc->szProto, cbLen);
 		szBuf[cbLen - 1] = 0;
@@ -44,9 +44,9 @@ static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 	int res = currDb->GetContactSettingStatic(hContact, "Protocol", "p", &dbv);
 	if (res == 0) {
 		if (cc == nullptr)
-			cc = currDb->m_cache->AddContactToCache(hContact);
+			cc = currDb->getCache()->AddContactToCache(hContact);
 
-		cc->szProto = currDb->m_cache->GetCachedSetting(nullptr, szBuf, 0, mir_strlen(szBuf));
+		cc->szProto = currDb->getCache()->GetCachedSetting(nullptr, szBuf, 0, mir_strlen(szBuf));
 	}
 	return res;
 }

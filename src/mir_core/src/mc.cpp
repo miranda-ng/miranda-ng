@@ -38,7 +38,7 @@ DBCachedContact* CheckMeta(MCONTACT hMeta)
 	if (!g_bEnabled)
 		return nullptr;
 
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hMeta);
 	return (cc == nullptr || cc->nSubs == -1) ? nullptr : cc;
 }
 
@@ -79,7 +79,7 @@ MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
 {
 	if (currDb == nullptr || !g_bEnabled) return FALSE;
 
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 	return (cc == nullptr) ? FALSE : cc->nSubs != -1;
 }
 
@@ -87,7 +87,7 @@ MIR_CORE_DLL(BOOL) db_mc_isSub(MCONTACT hContact)
 {
 	if (currDb == nullptr || !g_bEnabled) return FALSE;
 
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 	return (cc == nullptr) ? FALSE : cc->parentID != 0;
 }
 
@@ -120,7 +120,7 @@ MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
 {
 	if (currDb == nullptr) return NULL;
 
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hSubContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hSubContact);
 	return (cc == nullptr) ? NULL : cc->parentID;
 }
 
@@ -129,7 +129,7 @@ MIR_CORE_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact)
 {
 	if (currDb == nullptr) return hContact;
 
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
 	if (cc == nullptr) return hContact;
 
 	return (cc->IsSub()) ? cc->parentID : hContact;

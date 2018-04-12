@@ -133,7 +133,7 @@ CMetaSelectDlg::CMetaSelectDlg(MCONTACT hContact)
 
 void CMetaSelectDlg::OnInitDialog()
 {
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(m_hContact);
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(m_hContact);
 	if (cc == nullptr)
 	{
 		Close();

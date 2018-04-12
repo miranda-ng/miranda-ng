@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-MIDatabase *currDb = nullptr;
+MDatabaseCommon *currDb = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // database functions
@@ -400,7 +400,7 @@ MIR_CORE_DLL(INT_PTR) db_unset(MCONTACT hContact, const char *szModule, const ch
 
 MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT hContact)
 {
-	return (currDb == nullptr) ? nullptr : currDb->m_cache->GetCachedContact(hContact);
+	return (currDb == nullptr) ? nullptr : currDb->getCache()->GetCachedContact(hContact);
 }
 
 MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto)
@@ -413,7 +413,7 @@ MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto)
 	return (currDb == nullptr) ? NULL : currDb->FindNextContact(hContact, szProto);
 }
 
-extern "C" MIR_CORE_DLL(void) db_setCurrent(MIDatabase *_db)
+extern "C" MIR_CORE_DLL(void) db_setCurrent(MDatabaseCommon *_db)
 {
 	currDb = _db;
 

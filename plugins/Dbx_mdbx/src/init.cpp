@@ -25,7 +25,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 EXTERN_C void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved);
 
+HINSTANCE g_hInst = nullptr;
 int hLangpack;
+
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID reserved)
+{
+	g_hInst = hInstDLL;
+	tls_callback(hInstDLL, reason, reserved);
+	return TRUE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfo =
 {
@@ -41,7 +51,13 @@ static PLUGININFOEX pluginInfo =
 	{ 0x7c3d0a33, 0x2646, 0x4001, { 0x91, 0x7, 0xf3, 0x5e, 0xa2, 0x99, 0xd2, 0x92 } }
 };
 
-HINSTANCE g_hInst = nullptr;
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_DATABASE, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,7 +76,7 @@ static int grokHeader(const TCHAR *profile)
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static MDatabaseCommon* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
+static MDatabaseCommon* loadDatabase(const TCHAR *profile, BOOL bReadOnly)
 {
 	// set the memory, lists & UTF8 manager
 	mir_getLP(&pluginInfo);
@@ -82,17 +98,8 @@ static DATABASELINK dblink =
 	L"MDBX database driver",
 	makeDatabase,
 	grokHeader,
-	LoadDatabase
+	loadDatabase
 };
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_DATABASE, MIID_LAST };
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -100,14 +107,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID reserved)
-{
-	g_hInst = hInstDLL;
-	tls_callback(hInstDLL, reason, reserved);
-	return TRUE;
 }

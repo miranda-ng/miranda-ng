@@ -183,6 +183,6 @@ HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId);
 extern "C"
 {
 	MIR_CORE_DLL(int)  Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
-	MIR_CORE_DLL(int)  GetSubscribersCount(HANDLE hHook);
-	MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
+	MIR_CORE_DLL(int)  GetSubscribersCount(struct THook *hHook);
+	MIR_CORE_DLL(void) db_setCurrent(MDatabaseCommon *_db);
 };
