@@ -10,6 +10,7 @@
 #define IDD_CHANGEPASS                  104
 #define IDD_OPTIONS                     105
 #define IDD_SELECT_CRYPTOPROVIDER       106
+#define IDI_COMPACT                     107
 #define IDC_HEADERBAR                   1001
 #define IDC_LANG                        1002
 #define IDC_USERPASS                    1003

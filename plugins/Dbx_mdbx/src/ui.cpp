@@ -152,6 +152,13 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static INT_PTR CompactMe(void* obj, WPARAM, LPARAM)
+{
+	CDbxMDBX *db = (CDbxMDBX*)obj;
+	return db->Compact();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 {
@@ -186,9 +193,17 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
 
 	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
+	mi.position = 1000000001;
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.a = db->GetMenuTitle();
 	mi.pszService = MS_DB_CHANGEPASSWORD;
+	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
+
+	SET_UID(mi, 0x98c0caf3, 0xBfe5, 0x4e31, 0xac, 0xf0, 0xab, 0x95, 0xb2, 0x9b, 0x9f, 0x73);
+	mi.position++;
+	mi.hIcolibItem = iconList[2].hIcolib;
+	mi.name.a = LPGEN("Compact");
+	mi.pszService = MS_DB_COMPACT;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;
 }
@@ -197,6 +212,8 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 void CDbxMDBX::InitDialogs()
 {
-	hService = CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
+	hService[0] = CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
+	hService[1] = CreateServiceFunctionObj(MS_DB_COMPACT, CompactMe, this);
+
 	hHook = HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
 }

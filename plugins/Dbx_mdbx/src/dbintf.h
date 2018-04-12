@@ -171,7 +171,7 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	MDBX_dbi  m_dbSettings;
 	MDBX_cursor *m_curSettings;
 
-	HANDLE   hService, hHook;
+	HANDLE   hService[2], hHook;
 
 	////////////////////////////////////////////////////////////////////////////
 	// contacts

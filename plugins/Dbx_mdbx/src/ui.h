@@ -3,10 +3,12 @@
 static IconItem iconList[] =
 {
 	{ LPGEN("Logo"), "logo", IDI_LOGO },
-	{ LPGEN("Password"), "password", IDI_ICONPASS }
+	{ LPGEN("Password"), "password", IDI_ICONPASS },
+	{ LPGEN("Compact"), "compact", IDI_COMPACT }
 };
 
 #define MS_DB_CHANGEPASSWORD "DB/UI/ChangePassword"
+#define MS_DB_COMPACT        "DB/UI/Compact"
 
 class COptionsDialog : public CDlgBase
 {

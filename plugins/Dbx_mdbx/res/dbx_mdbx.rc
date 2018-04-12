@@ -108,6 +108,7 @@ END
 // remains consistent on all systems.
 IDI_ICONPASS            ICON                    "pass.ico"
 IDI_LOGO                ICON                    "logo.ico"
+IDI_COMPACT             ICON                    "compact.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

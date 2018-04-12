@@ -52,7 +52,8 @@ CDbxMDBX::~CDbxMDBX()
 	if (m_hwndTimer != nullptr)
 		::DestroyWindow(m_hwndTimer);
 
-	DestroyServiceFunction(hService);
+	for (auto &it : hService)
+		DestroyServiceFunction(it);
 	UnhookEvent(hHook);
 
 	if (m_crypto)
