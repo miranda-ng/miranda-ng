@@ -215,10 +215,16 @@ STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 
 int CDbxMDBX::Map()
 {
+	#ifdef _WIN64
+		__int64 upperLimit = 0x400000000ul;
+	#else
+		intptr_t upperLimit = 512ul << 20;
+	#endif
+
 	int rc = mdbx_env_set_geometry(m_env,
 		         -1,   // minimal lower limit
 		  1ul << 20,   // at least 1M for now
-		512ul << 20,	// 512M upper size
+		 upperLimit,	// 512M upper size
 		  1ul << 20,   // 1M growth step
 		512ul << 10,   // 512K shrink threshold
 		         -1);  // default page size
