@@ -135,6 +135,11 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 			ofn.nMaxFile = _countof(str);
 			ofn.lpstrInitialDir = pfd;
 			if (GetOpenFileName(&ofn)) {
+				if (!mir_wstrcmpi(str, VARSW(L"%miranda_userdata%\\%miranda_profilename%.dat"))) {
+					MessageBoxW(nullptr, TranslateT("You cannot import your current profile into itself"), L"Miranda NG", MB_OK | MB_ICONERROR);
+					break;
+				}
+
 				SetDlgItemText(hwndDlg, IDC_FILENAME, str);
 				SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, -1, 0);
 				SendMessage(GetParent(hwndDlg), WIZM_ENABLEBUTTON, 1, 0);
