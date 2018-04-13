@@ -29,7 +29,6 @@ COptionsDlg::COptionsDlg()
 	m_cloudFileService(this, IDC_CLOUDFILESEVICE)
 {
 	CreateLink(m_period, options.period);
-	CreateLink(m_periodType, options.period_type);
 	CreateLink(m_numBackups, options.num_backups);
 	CreateLink(m_disableProgress, options.disable_progress);
 	CreateLink(m_disablePopups, options.disable_popups);
@@ -118,6 +117,8 @@ void COptionsDlg::OnApply()
 	options.backup_types = backupTypes;
 
 	SetBackupTimer();
+
+	options.period_type = m_periodType.GetCurSel();
 
 	ptrW folder(m_folder.GetText());
 	{
