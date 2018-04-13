@@ -75,20 +75,23 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 	if (szProto == nullptr || !db_get_b(NULL, AVS_MODULE, szProto, 1))
 		return nullptr;
 
-	mir_cslock lck(cachecs);
-	CacheNode *cc = arCache.find((CacheNode*)&hContact);
-	if (cc) {
-		cc->t_lastAccess = time(nullptr);
-		return (cc->loaded || findAny) ? cc : nullptr;
+	CacheNode *cc;
+	{
+		mir_cslock lck(cachecs);
+		cc = arCache.find((CacheNode*)&hContact);
+		if (cc) {
+			cc->t_lastAccess = time(nullptr);
+			return (cc->loaded || findAny) ? cc : nullptr;
+		}
+
+		// not found
+		if (!add)
+			return nullptr;
+
+		cc = new CacheNode();
+		cc->hContact = hContact;
+		arCache.insert(cc);
 	}
-
-	// not found
-	if (!add)
-		return nullptr;
-
-	cc = new CacheNode();
-	cc->hContact = hContact;
-	arCache.insert(cc);
 
 	switch (CreateAvatarInCache(hContact, cc, nullptr)) {
 	case -2:  // no avatar data in settings, retrieve
