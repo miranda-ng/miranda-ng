@@ -53,7 +53,9 @@ void COptionsDlg::OnInitDialog()
 	m_backupPeriodic.SetState(options.backup_types & BT_PERIODIC ? TRUE : FALSE);
 
 	m_period.SetRange(60, 1);
+
 	m_numBackups.SetRange(9999, 1);
+	m_numBackups.SetPosition(options.num_backups);
 
 	m_periodType.AddString(TranslateT("days"));
 	m_periodType.AddString(TranslateT("hours"));
