@@ -187,10 +187,10 @@ auto CGDriveService::UploadFileChunk(const std::string &uploadUri, const char *c
 	GDriveAPI::UploadFileChunkRequest request(uploadUri.c_str(), chunk, chunkSize, offset, fileSize);
 	NLHR_PTR response(request.Send(m_hConnection));
 
-	HandleHttpError(response);
-
 	if (response->resultCode == HTTP_CODE_PERMANENT_REDIRECT)
 		return std::string();
+
+	HandleHttpError(response);
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		JSONNode root = GetJsonResponse(response);
