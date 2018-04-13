@@ -64,17 +64,6 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	// database
 	db_set_resident(m_szModuleName, "XStatusMsg");
 
-	// Fill users list
-	for (auto &hContact : AccContacts()) {
-		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
-		pNew->hContact = hContact;
-		pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
-		pNew->lastMsg.id = getId(hContact, DB_KEY_LASTMSGID);
-		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
-		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
-		arUsers.insert(pNew);
-	}
-
 	// Network initialization
 	CMStringW descr;
 	NETLIBUSER nlu = {};
@@ -562,6 +551,17 @@ HANDLE CDiscordProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, 
 
 int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	// Fill users list
+	for (auto &hContact : AccContacts()) {
+		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
+		pNew->hContact = hContact;
+		pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
+		pNew->lastMsg.id = getId(hContact, DB_KEY_LASTMSGID);
+		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
+		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
+		arUsers.insert(pNew);
+	}
+
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.ptszDispName = m_tszUserName;
