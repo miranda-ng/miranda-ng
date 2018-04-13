@@ -111,13 +111,11 @@ void CToxProto::SaveToxProfile(Tox *tox)
 	tox_get_savedata(tox, data);
 
 	pass_ptrA password(mir_utf8encodeW(pass_ptrW(getWStringA(TOX_SETTINGS_PASSWORD))));
-	if (password && mir_strlen(password))
-	{
+	if (password && mir_strlen(password)) {
 		TOX_ERR_ENCRYPTION coreEncryptError;
 		size_t encryptedSize = size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
 		uint8_t *encryptedData = (uint8_t*)mir_calloc(encryptedSize);
-		if (!tox_pass_encrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreEncryptError))
-		{
+		if (!tox_pass_encrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreEncryptError)) {
 			debugLogA(__FUNCTION__": failed to encrypt tox profile");
 			mir_free(data);
 			mir_free(encryptedData);

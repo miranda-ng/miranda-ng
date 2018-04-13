@@ -36,6 +36,9 @@ Tox_Options* CToxProto::GetToxOptions()
 		}
 	}
 
+	options->log_callback = CToxProto::OnToxLog;
+	options->log_user_data = this;
+
 	if (LoadToxProfile(options))
 		return options;
 
@@ -92,4 +95,12 @@ void CToxProto::UninitToxCore(Tox *tox)
 {
 	CancelAllTransfers(tox);
 	SaveToxProfile(tox);
+}
+
+void CToxProto::OnToxLog(Tox*, TOX_LOG_LEVEL level, const char *file, uint32_t line, const char *func, const char *message, void *user_data)
+{
+	CToxProto *proto = (CToxProto*)user_data;
+
+	if (level > TOX_LOG_LEVEL_INFO)
+		proto->debugLogA("TOXCORE: %s at %s(...) in %s:%u", message, func, file, line);
 }

@@ -91,6 +91,8 @@ private:
 	void InitToxCore(Tox *tox);
 	void UninitToxCore(Tox *tox);
 
+	static void OnToxLog(Tox *tox, TOX_LOG_LEVEL level, const char *file, uint32_t line, const char *func, const char *message, void *user_data);
+
 	// tox bootstrap
 	void BootstrapUdpNode(Tox *tox, const char *address, int port, const char *pubKey);
 	void BootstrapTcpRelay(Tox *tox, const char *address, int port, const char *pubKey);

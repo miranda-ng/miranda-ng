@@ -2,9 +2,6 @@
 
 void CToxProto::BootstrapUdpNode(Tox *tox, const char *address, int port, const char *hexKey)
 {
-	if (!m_toxThread)
-		return;
-
 	if (address == nullptr || hexKey == nullptr)
 		return;
 
@@ -16,9 +13,6 @@ void CToxProto::BootstrapUdpNode(Tox *tox, const char *address, int port, const 
 
 void CToxProto::BootstrapTcpRelay(Tox *tox, const char *address, int port, const char *hexKey)
 {
-	if (!m_toxThread)
-		return;
-
 	if (address == nullptr || hexKey == nullptr)
 		return;
 
@@ -63,11 +57,30 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 		UpdateNodes();
 
 	JSONNode nodes = ParseNodes();
-	for (const auto &node : nodes) {
+	auto nodeCount = nodes.size();
+	if (nodeCount == 0)
+		return;
+
+	static int j = rand() % nodeCount;
+
+	int i = 0;
+	while (i < 2) {
+		JSONNode node = nodes[j % nodeCount];
+
+		bool udpStatus = node.at("status_udp").as_bool();
+		bool tcpStatus = node.at("status_tcp").as_bool();
+		if (!udpStatus && !tcpStatus) {
+			nodeCount = j - 1;
+			j = rand() % nodeCount;
+			if (j == 0)
+				return;
+			continue;
+		}
+
 		JSONNode address = node.at("ipv4");
 		JSONNode pubKey = node.at("public_key");
 
-		if (node.at("status_udp").as_bool()) {
+		if (udpStatus) {
 			int port = node.at("port").as_int();
 			BootstrapUdpNode(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
 			if (isIPv6) {
@@ -76,7 +89,7 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 			}
 		}
 
-		if (node.at("status_tcp").as_bool()) {
+		if (tcpStatus) {
 			JSONNode tcpPorts = node.at("tcp_ports").as_array();
 			for (size_t k = 0; k < tcpPorts.size(); k++) {
 				int port = tcpPorts[k].as_int();
@@ -87,6 +100,9 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 				}
 			}
 		}
+
+		j++;
+		i++;
 	}
 }
 
