@@ -84,11 +84,6 @@ void COptionsDlg::OnInitDialog()
 
 	m_disablePopups.Show(ServiceExists(MS_POPUP_ADDPOPUPT));
 
-	m_periodType.AddString(TranslateT("days"));
-	m_periodType.AddString(TranslateT("hours"));
-	m_periodType.AddString(TranslateT("minutes"));
-	m_periodType.SetCurSel(options.period_type);
-	
 	m_useCloudFile.Show(ServiceExists(MS_CLOUDFILE_UPLOAD));
 	m_cloudFileService.Show(ServiceExists(MS_CLOUDFILE_ENUMSERVICES));
 	if (ServiceExists(MS_CLOUDFILE_ENUMSERVICES)) {
