@@ -225,7 +225,7 @@ int CDbxMDBX::Map()
 	if (rc != MDBX_SUCCESS)
 		return rc;
 
-	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC;
+	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC | MDBX_COALESCE;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
 
