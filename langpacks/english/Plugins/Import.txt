@@ -89,6 +89,7 @@
 [Miranda Import]
 [Miranda NG database]
 [All Files]
+[You cannot import your current profile into itself]
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 [Import...]
