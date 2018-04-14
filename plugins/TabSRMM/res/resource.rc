@@ -211,7 +211,7 @@ BEGIN
     EDITTEXT        IDC_TITLEFORMAT,105,81,260,13,ES_AUTOHSCROLL
     CONTROL         "Available formats",IDC_O_HELP_TITLEFORMAT,"Hyperlink",WS_TABSTOP,136,98,200,12
     EDITTEXT        IDC_THEME,105,44,123,13,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_SELECTTHEME,263,42,27,13
+    PUSHBUTTON      "...",IDC_SELECTTHEME,233,44,27,13
     LTEXT           "Use this to specify a private message log theme for this container. This will have no effect when using IEView or another message log viewer and should NOT be confused with skins.",IDC_TSLABEL_EXPLAINTHEME,110,63,310,40
     CONTROL         "Use global container size and position",IDC_USEGLOBALSIZE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,107,310,11
