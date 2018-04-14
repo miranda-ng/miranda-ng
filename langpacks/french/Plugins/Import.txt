@@ -169,6 +169,8 @@ Le fichier donné n'existe pas. Veuillez vérifier que vous avez entré correcte
 Profil Miranda-IM
 [All Files]
 Tous les fichiers
+[You cannot import your current profile into itself]
+
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 

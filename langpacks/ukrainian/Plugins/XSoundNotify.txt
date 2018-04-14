@@ -31,6 +31,8 @@
 Звукові файли
 [WAV files]
 Файли WAV
+[All contacts]
+Усі контакти
 [(Unknown contact)]
 Невідомий контакт
 [Sounds]

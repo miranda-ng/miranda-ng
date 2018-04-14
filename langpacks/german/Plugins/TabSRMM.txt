@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.8
+;  Version: 3.5.0.9
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -970,8 +970,6 @@ Buttonmenü bei Rechtsklick auf Button anzeigen
 Thema als Statusnachricht in der Kontaktliste anzeigen
 [Do not pop up the window when joining a chat room]
 Fenster beim Betreten eines Chatraumes nicht automatisch erzeugen
-[Hide or show the window by double click in the contact list]
-Fenster bei Doppelklick in der Kontaktliste anzeigen oder verstecken
 [Sync splitter position with standard IM sessions]
 Splitterposition mit Standard-Nachrichtensitzungen synchronisieren
 [Show contact's status modes if supported by the protocol]

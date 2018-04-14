@@ -37,6 +37,10 @@
 
 [Go to this link]
 
+[Request access]
+
+[Revoke access]
+
 [Upload file(s)]
 Загрузіць файл(ы)
 [Dropbox]

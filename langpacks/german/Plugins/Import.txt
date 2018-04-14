@@ -169,6 +169,8 @@ Miranda-Import
 Miranda-NG-Datenbank
 [All Files]
 Alle Dateien
+[You cannot import your current profile into itself]
+
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Duplizierte Gruppe %s überspringen

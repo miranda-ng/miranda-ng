@@ -2013,6 +2013,8 @@ Popups за изобразяване
 Домашна страница
 [Chat activity]
 Чат активност
+[Extra icons]
+Допълнителни икони
 [You haven't filled in the search field. Please enter a search term and try again.]
 Не сте попълнили полето за търсене. Моля, въведете израз и опитайте отново.
 [Search]
@@ -2277,8 +2279,6 @@ Win +\s
 %s настройки
 [Miranda NG options]
 Настройки на Miranda NG
-[Extra icons]
-Допълнителни икони
 [Avatars]
 Аватари
 [Avatars root folder]
@@ -2335,16 +2335,6 @@ Win +\s
 Акаунтът изисква много стара приставка за протокола. Променете настройките на акаунта през прозореца с настройки на Miranda NG.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Добре дошли в диспечера на акаунти в Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
-[Create new account]
-Създаване на акаунт
-[Editing account]
-Редактиране на акаунта
-[Upgrading account]
-Надграждане на акаунт
-[Account error]
-Грешка в акаунт
-[Account name has to be unique. Please enter unique name.]
-Името на акаунта трябва да бъде уникално.
 [Account is disabled. Please activate it to access options.]
 Акаунтът е изключен. За достъп до настройките е необходимо да бъде включен.
 [New account]
@@ -2375,6 +2365,16 @@ ID на акаунта
 <неизвестно>
 [Protocol is not loaded.]
 Протоколът не е зареден.
+[Create new account]
+Създаване на акаунт
+[Editing account]
+Редактиране на акаунта
+[Upgrading account]
+Надграждане на акаунт
+[Account error]
+Грешка в акаунт
+[Account name has to be unique. Please enter unique name.]
+Името на акаунта трябва да бъде уникално.
 [&Accounts...]
 Акаунти...
 [Account]

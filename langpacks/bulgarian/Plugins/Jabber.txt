@@ -1835,10 +1835,10 @@ Jabber vCard: Редактиране на телефонен номер
 Слаб
 [Worried]
 Разтревожен
-[Mood: %s]
-Настроение: %s
 [Set Mood]
 Избор на настроение
+[Mood: %s]
+Настроение: %s
 [Doing chores]
 Домакинства
 [buying groceries]
@@ -1977,10 +1977,10 @@ Jabber vCard: Редактиране на телефонен номер
 учи
 [writing]
 пише
-[Activity: %s]
-Дейност: %s
 [Set Activity]
 Избор на дейност
+[Activity: %s]
+Дейност: %s
 [Listening To]
 Слуша...
 [Moods]

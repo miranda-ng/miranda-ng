@@ -125,5 +125,6 @@
 [<mixed>]
 [<Unknown format>]
 [&Convert]
+[Compact]
 [Account name must be filled.]
 [Add group]

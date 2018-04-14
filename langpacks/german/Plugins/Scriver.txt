@@ -302,8 +302,6 @@ Thema in Kontaktliste zeigen (falls unterstützt)
 Keine Klänge abspielen, wenn im Vordergrund
 [Do not pop up when joining]
 Beim Betreten nicht in den Vordergrund holen
-[Show and hide by double clicking in the contact list]
-Zeigen und Verstecken via Doppelklick in der Kontaktliste
 [Show contact statuses (if supported)]
 Kontaktstatus zeigen (falls unterstützt)
 [Display contact status icon before role icon]

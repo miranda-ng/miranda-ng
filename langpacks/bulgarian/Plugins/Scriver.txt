@@ -299,8 +299,6 @@ Google Translate
 Без звук, когато е фокусиран
 [Do not pop up when joining]
 Без изскачане при влизане
-[Show and hide by double clicking in the contact list]
-Показване/Скриване на прозореца чрез двукратно натискане върху контакта/стаята
 [Show contact statuses (if supported)]
 Показване на състояние (ако се поддържа)
 [Display contact status icon before role icon]

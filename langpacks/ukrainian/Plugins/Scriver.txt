@@ -297,8 +297,6 @@
 Без звуків, якщо вікно чату активне
 [Do not pop up when joining]
 Не відкривати вікно чату при вході до кімнати
-[Show and hide by double clicking in the contact list]
-Показувати та ховати вікно чату за подвійним клацанням у списку контактів
 [Show contact statuses (if supported)]
 Показувати значки статусів (якщо підтримується протоколом)
 [Display contact status icon before role icon]

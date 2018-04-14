@@ -169,6 +169,8 @@ drugo
 
 [All Files]
 sve datoteke
+[You cannot import your current profile into itself]
+
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 

@@ -1,2 +1,4 @@
 [To allow Miranda NG access to %s:]
+[Request access]
+[Revoke access]
 [Server does not respond]

@@ -1401,8 +1401,6 @@ UIN, E-mail і г.д.
 Не ўключаць гук, калі чат на пярэднім плане
 [Do not pop up the window when joining a chat room]
 Не адчыняць вакно чата пры ўваходзе
-[Toggle the visible state when double clicking in the contact list]
-Пераключыць бачнасць па падвойнай пстрычцы ў спісе кантактаў
 [Show contact statuses if protocol supports them]
 Паказваць статусы, калі есць падтрымка ў пратаколе
 [Display contact status icon before user role icon]
@@ -2073,6 +2071,8 @@ Miranda не можа распазнаць гэты профіль
 
 [Chat activity]
 Актыўнасць у чаце
+[Extra icons]
+Экстра абразкі
 [You haven't filled in the search field. Please enter a search term and try again.]
 Вы не запоўнілі поле для пошуку. Калі ласка, увядзіце запыт для пошуку і паспрабуйце яшчэ раз.
 [Search]
@@ -2389,8 +2389,6 @@ xСтатус
 %s налады
 [Miranda NG options]
 Налады Miranda
-[Extra icons]
-Экстра абразкі
 [Avatars]
 Аватары
 [Avatars root folder]
@@ -2429,6 +2427,8 @@ xСтатус
 &Канвертаваць
 [Run]
 Запусціць
+[Compact]
+
 [Size]
 Памер
 [Created]
@@ -2447,18 +2447,6 @@ xСтатус
 Гэты конт выкарыстоўвае стары пратакол. Змена налад карыстача робіцца праз асноўныя налады.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Вас вітае менеджэр контаў Міранды НГ!\nТут вы можаце наладзіць свае конты.\n\nАбярыце конт з спісу злева, каб убачыць даступныя опцыі. Ці проста націсніце на кнопку "Стварыць" пад спісам, каб стварыць новы конт.
-[Create new account]
-Новы ўліковы запіс
-[Editing account]
-Кіраваць ўліковым запісам
-[Upgrading account]
-Аднавіць ўліковы запіс
-[Account name must be filled.]
-Неабходна ўвесці імя ўліковага запісу
-[Account error]
-Памылка ўліковага запісу
-[Account name has to be unique. Please enter unique name.]
-Імя ўліковага запісу павінна быць унікальным. Калі ласка, увядзіце іншае імя.
 [Account is disabled. Please activate it to access options.]
 Уліковы запіс адключаны. Уключыце для кіравання.
 [New account]
@@ -2489,6 +2477,18 @@ ID конта
 <невядома>
 [Protocol is not loaded.]
 Пратакол не загружаны.
+[Create new account]
+Новы ўліковы запіс
+[Editing account]
+Кіраваць ўліковым запісам
+[Upgrading account]
+Аднавіць ўліковы запіс
+[Account name must be filled.]
+Неабходна ўвесці імя ўліковага запісу
+[Account error]
+Памылка ўліковага запісу
+[Account name has to be unique. Please enter unique name.]
+Імя ўліковага запісу павінна быць унікальным. Калі ласка, увядзіце іншае імя.
 [&Accounts...]
 Уліковыя запісы...
 [Account]

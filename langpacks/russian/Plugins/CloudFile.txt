@@ -37,6 +37,10 @@
 Разрешить Miranda NG доступ к %s:
 [Go to this link]
 Перейти по этой ссылке
+[Request access]
+Предоставить доступ
+[Revoke access]
+Отозвать доступ
 [Upload file(s)]
 Загрузить файл(ы)
 [Yandex.Disk]

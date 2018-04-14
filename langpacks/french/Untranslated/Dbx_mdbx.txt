@@ -14,5 +14,6 @@
 [Wrong old password entered!]
 [Password is too short!]
 [Database]
+[Compact]
 [Logo]
 [Too many errors!]

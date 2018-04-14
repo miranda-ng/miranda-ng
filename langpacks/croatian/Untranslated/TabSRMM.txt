@@ -441,7 +441,6 @@
 [Show button menus when right clicking the buttons]
 [Show topic as status message on the contact list]
 [Do not pop up the window when joining a chat room]
-[Hide or show the window by double click in the contact list]
 [Sync splitter position with standard IM sessions]
 [Show contact's status modes if supported by the protocol]
 [Display contact's status icon before user role icon]

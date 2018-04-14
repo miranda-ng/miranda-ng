@@ -1,2 +1,3 @@
 [View user's history (CTRL+H)]
 [In a civil union]
+[Compact]

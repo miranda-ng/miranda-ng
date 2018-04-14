@@ -68,6 +68,7 @@
 [The given file does not exist. Please check that you have entered the name correctly.]
 [Miranda Import]
 [Miranda NG database]
+[You cannot import your current profile into itself]
 [Skipping duplicate group %s.]
 [Import...]
 [Finish]

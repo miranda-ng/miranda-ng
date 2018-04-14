@@ -1405,7 +1405,7 @@ Envoi de message
 
 [Receive conversations from other devices (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
+[Use Stream Management (XEP-0198) if possible (Testing)]
 
 [Server options]
 Options du serveur
@@ -2069,9 +2069,9 @@ Non défini
 Faible
 [Worried]
 Inquiet
-[Mood: %s]
-
 [Set Mood]
+
+[Mood: %s]
 
 [Doing chores]
 
@@ -2227,10 +2227,10 @@ en réunion
 Étudie
 [writing]
 écrit
-[Activity: %s]
-Activité : %s
 [Set Activity]
 Definir
+[Activity: %s]
+Activité : %s
 [Listening To]
 Écoute
 [Moods]

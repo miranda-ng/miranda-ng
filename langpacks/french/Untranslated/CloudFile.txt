@@ -11,6 +11,8 @@
 [Enter authorization code:]
 [To allow Miranda NG access to %s:]
 [Go to this link]
+[Request access]
+[Revoke access]
 [Dropbox]
 [Google Drive]
 [OneDrive]

@@ -21,6 +21,7 @@
 [Password is too short!]
 [Passwords do not match!]
 [Database]
+[Compact]
 [Logo]
 [Password]
 [Too many errors!]

@@ -299,8 +299,6 @@ Google Карты
 Не воспроизводить звук, когда окно чата на переднем плане
 [Do not pop up when joining]
 Не раскрывать окно при входе в комнату
-[Show and hide by double clicking in the contact list]
-Показывать и скрывать окно чата по двойному щелчку в списке контактов
 [Show contact statuses (if supported)]
 Показывать статусы (если поддерживается)
 [Display contact status icon before role icon]

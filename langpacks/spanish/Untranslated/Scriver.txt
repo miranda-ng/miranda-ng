@@ -65,7 +65,6 @@
 [Show topic on your contact list (if supported)]
 [Do not play sounds when focused]
 [Do not pop up when joining]
-[Show and hide by double clicking in the contact list]
 [Show contact statuses (if supported)]
 [Display contact status icon before role icon]
 [Add ':' to auto-completed names]

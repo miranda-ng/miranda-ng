@@ -302,8 +302,6 @@ Pokaż temat na liście kontaktów (jeśli obsługiwane)
 Nie odtwarzaj dźwięków, jeśli okno jest aktywne
 [Do not pop up when joining]
 Nie aktywuj okna przy dołączaniu
-[Show and hide by double clicking in the contact list]
-Pokaż/Ukryj okno przy podwójnym kliknięciu na liście kontaktów
 [Show contact statuses (if supported)]
 Pokaż statusy kontaktów (jeśli obsługiwane)
 [Display contact status icon before role icon]

@@ -5,6 +5,8 @@
 [On conflict when upload]
 [Enter authorization code:]
 [To allow Miranda NG access to %s:]
+[Request access]
+[Revoke access]
 [Dropbox]
 [Google Drive]
 [OneDrive]

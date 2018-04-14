@@ -169,6 +169,8 @@ Import Mirandy
 Profil Mirandy NG
 [All Files]
 Wszystkie pliki
+[You cannot import your current profile into itself]
+
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Pomijanie zduplikowanej grupy %s.

@@ -1405,7 +1405,7 @@ Automatycznie zapisuj otrzymane notatki
 Włącz historię po stronie serwera
 [Receive conversations from other devices (XEP-0280)]
 Otrzymuj konwersacje z innych urządzeń (XEP-0280)
-[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
+[Use Stream Management (XEP-0198) if possible (Testing)]
 
 [Server options]
 Opcje serwera
@@ -2069,10 +2069,10 @@ Nieokreślony
 Słaby
 [Worried]
 Zmartwiony
-[Mood: %s]
-Nastrój: %s
 [Set Mood]
 Wybierz nastrój
+[Mood: %s]
+Nastrój: %s
 [Doing chores]
 Czynności domowe
 [buying groceries]
@@ -2227,10 +2227,10 @@ na spotkaniu
 studiowanie
 [writing]
 pisanie
-[Activity: %s]
-Aktywność: %s
 [Set Activity]
 Wybierz aktywność
+[Activity: %s]
+Aktywność: %s
 [Listening To]
 Obecnie Słucham
 [Moods]

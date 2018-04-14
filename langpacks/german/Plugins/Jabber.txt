@@ -1405,8 +1405,8 @@ Empfangene Notizen automatisch speichern
 Serverseitigen Verlauf aktivieren (XEP-0136)
 [Receive conversations from other devices (XEP-0280)]
 Unterhaltungen von anderen Geräten empfangen (XEP-0280)
-[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
-Stream-Management (XEP-0198) verwenden wenn möglich (In Arbeit! noch keine Wiederaufnahme) 
+[Use Stream Management (XEP-0198) if possible (Testing)]
+
 [Server options]
 Servereinstellungen
 [Disable SASL authentication (for old servers)]
@@ -2069,10 +2069,10 @@ Irgendwie anders
 Kraftlos
 [Worried]
 Besorgt
-[Mood: %s]
-Stimmung: %s
 [Set Mood]
 Stimmung setzen
+[Mood: %s]
+Stimmung: %s
 [Doing chores]
 Hausarbeiten
 [buying groceries]
@@ -2227,10 +2227,10 @@ In einer Besprechung
 Lernen
 [writing]
 Schreiben
-[Activity: %s]
-Aktivität: %s
 [Set Activity]
 Aktivität setzen
+[Activity: %s]
+Aktivität: %s
 [Listening To]
 Hört gerade
 [Moods]

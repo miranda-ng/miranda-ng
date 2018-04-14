@@ -1331,8 +1331,6 @@ Mostrar el tema de la sala en su lista de contactos (si es compatible)
 No reproducir sonidos cuando la sala de chat esta enfocada
 [Do not pop up the window when joining a chat room]
 No abrir la ventana al unirse a una sala de chat
-[Toggle the visible state when double clicking in the contact list]
-Alternar el estado visible cuando se hace doble clic en la lista de contactos
 [Show contact statuses if protocol supports them]
 Mostrar estados de contacto si el protocolo lo soporta
 [Display contact status icon before user role icon]
@@ -1961,6 +1959,8 @@ Este cambio no se sabe que es seguro
 Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h o n.
 [Chat activity]
 Actividad de chat
+[Extra icons]
+Iconos adicionales
 [You haven't filled in the search field. Please enter a search term and try again.]
 No ha rellenado el campo de búsqueda. Por favor, introduzca un término de búsqueda y vuelva a intentarlo.
 [Search]
@@ -2139,8 +2139,6 @@ Cargando... %d%%
 %s opciones
 [Miranda NG options]
 Miranda NG opciones
-[Extra icons]
-Iconos adicionales
 [Avatars]
 Avatares
 [Avatars root folder]
@@ -2193,16 +2191,6 @@ Tu cuenta ha sido actualizada correctamente. Para activarla, es necesario reinic
 Esta cuenta utiliza protocolo heredado de plugin. Use diálogos de opciones de Miranda NG para cambiar sus preferencias.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 ¡Bienvenido al gestor de cuentas de Miranda NG!\nAquí usted puede configurar sus cuentas de mensajería instantánea.\n\nSeleccione una cuenta de la lista de la izquierda para ver las opciones disponibles. Alternativamente, haga clic en el signo más debajo de la lista para configurar una nueva cuenta de MI.
-[Create new account]
-Crear nueva cuenta
-[Editing account]
-Editar cuenta
-[Upgrading account]
-Actualizar cuenta
-[Account error]
-Error de cuenta
-[Account name has to be unique. Please enter unique name.]
-El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
 [Account is disabled. Please activate it to access options.]
 Cuenta deshabilitada. Active para acceder a las opciones.
 [New account]
@@ -2233,6 +2221,16 @@ ID de la cuenta
 <desconocido>
 [Protocol is not loaded.]
 Protocolo no está cargado.
+[Create new account]
+Crear nueva cuenta
+[Editing account]
+Editar cuenta
+[Upgrading account]
+Actualizar cuenta
+[Account error]
+Error de cuenta
+[Account name has to be unique. Please enter unique name.]
+El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
 [&Accounts...]
 &Cuentas...
 [Account]

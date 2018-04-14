@@ -302,8 +302,6 @@ Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
 Nepřehrávat zvuky, je-li okno místnosti aktivní
 [Do not pop up when joining]
 Neaktivovat okno po příchodu do místnosti
-[Show and hide by double clicking in the contact list]
-Přepnout viditelnost při dvojím kliknutí na uživatele v seznamu
 [Show contact statuses (if supported)]
 Zobrazit stav účastníků (je-li to podporováno)
 [Display contact status icon before role icon]

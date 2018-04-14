@@ -302,8 +302,6 @@ Groupe chats
 
 [Do not pop up when joining]
 
-[Show and hide by double clicking in the contact list]
-
 [Show contact statuses (if supported)]
 
 [Display contact status icon before role icon]

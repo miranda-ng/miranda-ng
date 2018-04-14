@@ -55,6 +55,7 @@
 [New submenu]
 [Tray menu]
 [&About]
+[Compact]
 [Account]
 [Add group]
 [Toolbar]

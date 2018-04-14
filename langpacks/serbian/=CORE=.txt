@@ -1427,8 +1427,6 @@ Prikaz teme (pričaonica) u spisku kontakata (ako je podržano)
 Bez zvučnih upozorenja u aktivnom prozoru pričaonice
 [Do not pop up the window when joining a chat room]
 Ne prikazuj prozor pričaonice odmah po ulasku
-[Toggle the visible state when double clicking in the contact list]
-Vidljivost / nevidljivost dvoklikom na spisak kontakata
 [Show contact statuses if protocol supports them]
 Prikaz statusa kontakata (u zavisnosti od protokola)
 [Display contact status icon before user role icon]
@@ -2124,14 +2122,17 @@ Ova izmena ume da bude vrlo štetna.
 Ova izmena može biti štetna.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nedozvoljen tip podešavanja za: '%s'. Prvi znak svake vrednosti mora biti b, w, d, l, s, e, u, g, h ili n.
-;file \src\mir_app\src\DefaultExtraIcons.cpp
+;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 
 [Phone/SMS]
 
 [Chat activity]
 Aktivnosti razgovora
-;file \src\mir_app\src\extraicons.cpp
+;file \src\mir_app\src\ei_options.cpp
+[Extra icons]
+Dodatne ikonice
+;file \src\mir_app\src\ei_services.cpp
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Polje za pretragu je prazno. Pokušajte ponovo unosom odgovarajućih reči.
@@ -2475,9 +2476,6 @@ Učitavam... %d%%
 %s podešavanja
 [Miranda NG options]
 Miranda NG podešavanja
-;file \src\mir_app\src\options_ei.cpp
-[Extra icons]
-Dodatne ikonice
 ;file \src\mir_app\src\path.cpp
 [Avatars]
 Avatari
@@ -2519,6 +2517,8 @@ Potvrda uklanjanja profila "%s" :
 &Konvertuj
 [Run]
 Pokreni
+[Compact]
+
 [Size]
 Veličina
 [Created]
@@ -2538,18 +2538,6 @@ Nalog je uspešno nadograđen. Miranda mora biti ponovo pokrenuta za njegovu akt
 Odabrani nalog koristi zastareli plug-in protokola. Izmene podešavanja su moguće putem opcija Mirande NG.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Dobrodošli u izbornik naloga Mirande NG!\nPodešavanja svakog od naloga se nalaze ovde.\nOdabir naloga levo omogućava dalja podešavanja. Ukoliko želite, klikom na znak 'plus' možete napraviti nov IM nalog.
-[Create new account]
-Otvaranje naloga
-[Editing account]
-Izmena naloga
-[Upgrading account]
-Nadogradnja naloga
-[Account name must be filled.]
-Morate uneti naziv naloga
-[Account error]
-Greška s nalogom
-[Account name has to be unique. Please enter unique name.]
-Naziv naloga mora biti jedinstven. Molim unesite ponovo.
 [Account is disabled. Please activate it to access options.]
 Nalog je isključen. Podešavanja će biti omogućena po uključivanju.
 [New account]
@@ -2580,6 +2568,18 @@ Jedinstveni broj (ID) naloga
 <nepoznato>
 [Protocol is not loaded.]
 Protokol nije učitan.
+[Create new account]
+Otvaranje naloga
+[Editing account]
+Izmena naloga
+[Upgrading account]
+Nadogradnja naloga
+[Account name must be filled.]
+Morate uneti naziv naloga
+[Account error]
+Greška s nalogom
+[Account name has to be unique. Please enter unique name.]
+Naziv naloga mora biti jedinstven. Molim unesite ponovo.
 [&Accounts...]
 &Nalozi...
 ;file \src\mir_app\src\proto_order.cpp

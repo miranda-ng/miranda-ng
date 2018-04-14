@@ -44,6 +44,7 @@
 [Skipped %d contacts.]
 [Skipped %d duplicates and %d filtered events.]
 [Miranda Import]
+[You cannot import your current profile into itself]
 [Skipping duplicate group %s.]
 [Import...]
 [Finish]

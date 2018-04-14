@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.95.3.4
+;  Version: 0.98.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -77,16 +77,16 @@
 Різні аватари протоколів
 [Protocols have different avatars]
 У всіх протоколів різні аватари
-[Global avatar]
-Глобальний аватар
-[Global avatar for %s accounts]
-Аватар для всіх облікових записів %s
 [Avatars]
 Аватари
 [My Avatars]
 Мої аватари
 [My Global Avatar Cache]
 Мій глобальний кеш аватарів
+[Global avatar for %s accounts]
+Аватар для всіх облікових записів %s
+[Global avatar]
+Глобальний аватар
 [Set avatar options for %s]
 Налаштування аватара для %s
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]

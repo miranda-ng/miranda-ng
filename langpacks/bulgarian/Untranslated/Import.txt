@@ -22,3 +22,4 @@
 [There's no database driver to open the input file, exiting.]
 [Error loading source file, exiting.]
 [Error mapping accounts, exiting.]
+[You cannot import your current profile into itself]

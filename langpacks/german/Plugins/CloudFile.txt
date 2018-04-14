@@ -38,6 +38,10 @@ Autorisierungscode eingeben:
 
 [Go to this link]
 Gehen Sie auf diesen Link
+[Request access]
+
+[Revoke access]
+
 ;file \plugins\CloudFile\src\icons.cpp
 [Upload file(s)]
 Datei(en) hochladen

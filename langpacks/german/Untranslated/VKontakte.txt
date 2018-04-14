@@ -1,2 +1,4 @@
+[pin message]
+[unpin message]
 [%x at %X]
 [Edited message (updated %s):\n]

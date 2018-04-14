@@ -299,8 +299,6 @@ KB
 Не груць гук, калі на пярэднім плане
 [Do not pop up when joining]
 Не паказваць усплывальныя вокны, калі хтосьці заходзіць
-[Show and hide by double clicking in the contact list]
-Паказваць і хаваць спіс кантактаў па падвойнай пстрычцы
 [Show contact statuses (if supported)]
 Паказваць статусы (калі падтрымліваецца)
 [Display contact status icon before role icon]

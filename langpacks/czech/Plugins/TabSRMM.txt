@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.8
+;  Version: 3.5.0.9
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -970,8 +970,6 @@ Zobrazit kontextové menu u tlačítek
 Zobrazit téma jako zprávu stavu v seznamu kontaktů
 [Do not pop up the window when joining a chat room]
 Neaktivovat okno po příchodu do místnosti
-[Hide or show the window by double click in the contact list]
-Zobrazit nebo skrýt okno dvojím kliknutím v seznamu kontaktů
 [Sync splitter position with standard IM sessions]
 Sdílet pozici oddělovače se standardními rozhovory
 [Show contact's status modes if supported by the protocol]

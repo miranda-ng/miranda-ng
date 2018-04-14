@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.4.4
+;  Version: 0.1.4.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -356,6 +356,10 @@ Benutzer eingeladen
 ist ins Chat zurückgekehrt
 [change chat title to]
 Chatthema geändert zu
+[pin message]
+
+[unpin message]
+
 [changed chat cover:]
 hat Chatcover geändert:
 [deleted chat cover]

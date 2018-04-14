@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mdbx.dll
 ;  Plugin: Miranda NG MDBX database driver
-;  Version: 0.95.8.6
+;  Version: 0.95.8.7
 ;  Authors: Miranda-NG project
 ;============================================================
 [Cancel]

@@ -1427,8 +1427,6 @@ Afficher le topic du salon sur votre liste de contact (si supporté)
 Couper les sons si la fenêtre de message visible
 [Do not pop up the window when joining a chat room]
 Ne pas afficher automatiquement la fenêtre en joignant un salon
-[Toggle the visible state when double clicking in the contact list]
-Mettre en mode visible quand je double clique sur la liste de contacts
 [Show contact statuses if protocol supports them]
 Afficher l'état du contact (si le protocole le supporte)
 [Display contact status icon before user role icon]
@@ -2124,14 +2122,17 @@ Ce changement est connu pour être potentiellement dangereux.
 
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 
-;file \src\mir_app\src\DefaultExtraIcons.cpp
+;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 
 [Phone/SMS]
 
 [Chat activity]
 
-;file \src\mir_app\src\extraicons.cpp
+;file \src\mir_app\src\ei_options.cpp
+[Extra icons]
+Icônes d'accès rapide
+;file \src\mir_app\src\ei_services.cpp
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Vous n’avez rempli aucun champ de recherche. Veuillez entrer un terme recherché et réessayer.
@@ -2475,9 +2476,6 @@ Aucun plugin de liste de contact chargés. S'il vous plaît installer/activer l'
 %s options
 [Miranda NG options]
 Options de Miranda NG
-;file \src\mir_app\src\options_ei.cpp
-[Extra icons]
-Icônes d'accès rapide
 ;file \src\mir_app\src\path.cpp
 [Avatars]
 Avatars
@@ -2519,6 +2517,8 @@ Souci à la création de profil
 
 [Run]
 Lancer
+[Compact]
+
 [Size]
 Taille
 [Created]
@@ -2538,18 +2538,6 @@ Votre compte a été mis à jour. Pour l'activer, un redémarrage de Miranda est
 
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez configurer tous vos comptes.\n\nSélectionnez un compte parmi ceux présent à gauche afin de voir les options disponible. Vous pouvez également créer un nouveau en cliquant sur le bouton approprié sous la liste.
-[Create new account]
-Créer un compte
-[Editing account]
-Modifier ce compte
-[Upgrading account]
-Mise à jour du compte
-[Account name must be filled.]
-
-[Account error]
-
-[Account name has to be unique. Please enter unique name.]
-Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
 [Account is disabled. Please activate it to access options.]
 Ce compte a été désactivé; Vous devez le réactiver afin d'accéder à ses options.
 [New account]
@@ -2580,6 +2568,18 @@ ID du compte
 <inconnu>
 [Protocol is not loaded.]
 Le protocole n'a pas été chargé.
+[Create new account]
+Créer un compte
+[Editing account]
+Modifier ce compte
+[Upgrading account]
+Mise à jour du compte
+[Account name must be filled.]
+
+[Account error]
+
+[Account name has to be unique. Please enter unique name.]
+Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
 [&Accounts...]
 &Comptes...
 ;file \src\mir_app\src\proto_order.cpp

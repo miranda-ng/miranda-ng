@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.4.4
+;  Version: 0.1.4.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -351,6 +351,10 @@ E-mail или номер телефона:
 вернулся
 [change chat title to]
 установил(а) тему
+[pin message]
+прикрепить сообщение
+[unpin message]
+открепить сообщение
 [changed chat cover:]
 изменил обложку чата:
 [deleted chat cover]

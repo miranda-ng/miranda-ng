@@ -23,6 +23,8 @@
 Бесіди
 [Show chat state events (i.e., user closed chat session)]
 Показувати зміни стану чату (наприклад, користувач закрив вікно)
+[Connection]
+Підключення
 [Captcha]
 Перевірочний код
 [Cancel]

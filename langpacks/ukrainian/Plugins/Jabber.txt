@@ -795,6 +795,8 @@ xHTML-формат повідомлень чату
 Запит OpenID
 [Add contact]
 Додати контакт
+[Open]
+Відкрити
 [Discovery succeeded]
 Визначення завершено
 [Discovery failed]
@@ -2003,10 +2005,10 @@ Jabber vCard: редагування телефону
 Нерішучий
 [Worried]
 Стурбований
-[Mood: %s]
-Настрій: %s
 [Set Mood]
 Настрій
+[Mood: %s]
+Настрій: %s
 [Doing chores]
 Пораюся
 [buying groceries]
@@ -2161,10 +2163,10 @@ Jabber vCard: редагування телефону
 навчаюсь
 [writing]
 пишу
-[Activity: %s]
-Заняття: %s
 [Set Activity]
 Заняття
+[Activity: %s]
+Заняття: %s
 [Listening To]
 Слухаю
 [Moods]

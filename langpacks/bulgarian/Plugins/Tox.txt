@@ -1,8 +1,8 @@
-﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.1
+;  Version: 0.11.3.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -61,8 +61,6 @@ IPv4 адрес/ Хост
 IPv6 адрес (незадължително)
 [Port]
 Порт
-[Tox link protocol]
-Протокол за Tox връзки
 [Public key]
 Публичен ключ
 [New password:]
@@ -71,6 +69,8 @@ IPv6 адрес (незадължително)
 Потвърдете паролата:
 [Profiles folder]
 Папка на профилите
+[Tox link protocol]
+Протокол за Tox връзки
 [Protocol icon]
 Икона на протокола
 [Protocols]

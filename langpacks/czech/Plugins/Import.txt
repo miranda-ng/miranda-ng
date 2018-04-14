@@ -169,6 +169,8 @@ Miranda - import dat
 Databáze Mirandy NG
 [All Files]
 Všechny soubory
+[You cannot import your current profile into itself]
+
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Přeskakování duplicitní skupiny %s.

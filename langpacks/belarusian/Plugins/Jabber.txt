@@ -1381,7 +1381,7 @@ Jabber Рэсурс
 Уключыць гісторыю на серверы (XEP-0136)
 [Receive conversations from other devices (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (WIP! no resumption yet)]
+[Use Stream Management (XEP-0198) if possible (Testing)]
 
 [Server options]
 Налады сервера
@@ -2033,10 +2033,10 @@ Jabber vCard: рэдагаванне тэлефона
 Нерашучы
 [Worried]
 Заклапочаны
-[Mood: %s]
-Настрой: %s
 [Set Mood]
 Настрой
+[Mood: %s]
+Настрой: %s
 [Doing chores]
 Гаспадару
 [buying groceries]
@@ -2191,10 +2191,10 @@ Jabber vCard: рэдагаванне тэлефона
 вучуся
 [writing]
 пішу
-[Activity: %s]
-Занятак: %s
 [Set Activity]
 Занятак
+[Activity: %s]
+Занятак: %s
 [Listening To]
 Слухаю
 [Moods]

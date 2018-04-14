@@ -1,2 +1,3 @@
 [Select crypto provider]
 [Total encryption (Recommended only for paranoid users)]
+[Compact]

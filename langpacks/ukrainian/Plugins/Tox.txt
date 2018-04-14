@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.1
+;  Version: 0.11.3.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -35,6 +35,10 @@
 Увімкнути UDP (інакше примусово використовувати TCP)
 [Enable IPv6]
 Увімкнути IPv6
+[Change password]
+Змінити пароль
+[Set password]
+Встановити пароль
 [If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою toxme.io.
 [DNS name:]
@@ -57,6 +61,10 @@ IPv6 адреса (необов'язково)
 Порт
 [Public key]
 Відкритий ключ
+[New password:]
+Новий пароль:
+[Confirm password:]
+Підтвердити пароль:
 [Profiles folder]
 Папка профілів
 [Tox link protocol]
@@ -65,8 +73,12 @@ IPv6 адреса (необов'язково)
 Неможливо ініціалізувати ядро Tox
 [Protocol icon]
 Значок протоколу
+[Action icon]
+Дія
 [Protocols]
 Протоколи
+[Password]
+Пароль
 [Action]
 Дія
 [You cannot send when you are offline.]

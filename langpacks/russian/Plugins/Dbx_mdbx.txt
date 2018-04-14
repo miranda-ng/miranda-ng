@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mdbx.dll
 ;  Plugin: Miranda NG MDBX database driver
-;  Version: 0.95.8.6
+;  Version: 0.95.8.7
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -51,6 +51,8 @@
 Пароли не совпадают!
 [Database]
 База данных
+[Compact]
+Сжать
 [Logo]
 Логотип
 [Password]

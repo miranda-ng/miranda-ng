@@ -165,6 +165,8 @@ Miranda знайшла наступныя профілі. Абярыце про�
 База Miranda NG/IM
 [All Files]
 Усе файлы
+[You cannot import your current profile into itself]
+
 [Skipping duplicate group %s.]
 Пропуск дубліката гурта %s
 [Import...]

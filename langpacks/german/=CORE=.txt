@@ -1427,8 +1427,6 @@ Thema des Raumes in der Kontaktliste anzeigen (falls unterstützt)
 Keine Klänge abspielen, wenn Chatfenster den Eingabefokus hat
 [Do not pop up the window when joining a chat room]
 Fenster nicht automatisch anzeigen, wenn man einen Raum betritt
-[Toggle the visible state when double clicking in the contact list]
-Anzeigestatus bei einem Doppelklick in der Kontaktliste umschalten
 [Show contact statuses if protocol supports them]
 Statusicons der Kontakte anzeigen, falls das Protokoll das unterstützt
 [Display contact status icon before user role icon]
@@ -2124,14 +2122,17 @@ Diese Änderung ist bekannt dafür, dass sie potenziell gefährlich ist.
 Diese Veränderung ist nicht bekannt dafür, sicher zu sein.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss b, w, d, l, s, e, u, g, h oder n sein.
-;file \src\mir_app\src\DefaultExtraIcons.cpp
+;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 Homepage
 [Phone/SMS]
 Telefon/SMS
 [Chat activity]
 Chat-Aktivität
-;file \src\mir_app\src\extraicons.cpp
+;file \src\mir_app\src\ei_options.cpp
+[Extra icons]
+Extraicons
+;file \src\mir_app\src\ei_services.cpp
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Sie haben keinen Suchbegriff eingegeben, bitte einen Text eingeben und erneut versuchen.
@@ -2475,9 +2476,6 @@ Lade... %d%%
 %s-Einstellungen
 [Miranda NG options]
 Miranda-NG-Einstellungen
-;file \src\mir_app\src\options_ei.cpp
-[Extra icons]
-Extraicons
 ;file \src\mir_app\src\path.cpp
 [Avatars]
 Avatare
@@ -2519,6 +2517,8 @@ Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
 &Umwandeln
 [Run]
 Starten
+[Compact]
+
 [Size]
 Größe
 [Created]
@@ -2538,18 +2538,6 @@ Dieses Konto wurde erfolgreich aktualisiert. Um es zu aktivieren, muss Miranda n
 Dieses Konto verwendet ein Protokoll, welches die Kontenverwaltung nicht unterstützt. Verwenden Sie bitte die Miranda NG Einstellungen, um die zugehörigen Einstellungen zu ändern.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Willkommen in der Miranda-NG-Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen.\nAnsonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.
-[Create new account]
-Neues Konto erstellen...
-[Editing account]
-Bearbeite Konto
-[Upgrading account]
-Aktualisiere Konto
-[Account name must be filled.]
-Kontenname muss ausgefüllt werden.
-[Account error]
-Konto-Fehler
-[Account name has to be unique. Please enter unique name.]
-Kontenname muss einmalig sein. Bitte geben Sie einen einmaligen Namen ein.
 [Account is disabled. Please activate it to access options.]
 Konto ist deaktiviert. Bitte aktivieren Sie es, um auf die Kontoeinstellungen zugreifen zu können.
 [New account]
@@ -2580,6 +2568,18 @@ Konto-ID
 <unbekannt>
 [Protocol is not loaded.]
 Protokoll ist nicht geladen.
+[Create new account]
+Neues Konto erstellen...
+[Editing account]
+Bearbeite Konto
+[Upgrading account]
+Aktualisiere Konto
+[Account name must be filled.]
+Kontenname muss ausgefüllt werden.
+[Account error]
+Konto-Fehler
+[Account name has to be unique. Please enter unique name.]
+Kontenname muss einmalig sein. Bitte geben Sie einen einmaligen Namen ein.
 [&Accounts...]
 &Konten...
 ;file \src\mir_app\src\proto_order.cpp

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.95.3.4
+;  Version: 0.98.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -80,10 +80,6 @@ Un avatar par protocole
 [Protocols have different avatars]
 Les protocoles ont différents avatars
 ;file \plugins\AVS\src\main.cpp
-[Global avatar]
-Avatar général
-[Global avatar for %s accounts]
-
 [Avatars]
 Avatars
 [My Avatars]
@@ -91,6 +87,10 @@ Mon avatar
 [My Global Avatar Cache]
 Cache de l'avatar général
 ;file \plugins\AVS\src\options.cpp
+[Global avatar for %s accounts]
+
+[Global avatar]
+Avatar général
 [Set avatar options for %s]
 Définir les options d'avatar pour %s
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]

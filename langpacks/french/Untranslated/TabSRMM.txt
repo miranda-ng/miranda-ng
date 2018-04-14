@@ -179,7 +179,6 @@
 [Activate chat window on highlight]
 [Colorize nicknames in member list]
 [Show topic as status message on the contact list]
-[Hide or show the window by double click in the contact list]
 [Show contact's status modes if supported by the protocol]
 [Display contact's status icon before user role icon]
 [Use IRC style status indicators in the nick list]

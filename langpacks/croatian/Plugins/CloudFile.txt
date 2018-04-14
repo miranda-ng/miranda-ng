@@ -38,6 +38,10 @@
 
 [Go to this link]
 
+[Request access]
+
+[Revoke access]
+
 ;file \plugins\CloudFile\src\icons.cpp
 [Upload file(s)]
 
