@@ -985,7 +985,6 @@ COtherPrefsDlg::COtherPrefsDlg(CIrcProto* _pro)
 	m_delete(this, IDC_DELETE, LoadIconEx(IDI_DELETE), LPGEN("Click to delete the commands for this event")),
 	m_performlistModified(false)
 {
-	m_url.OnClick = Callback(this, &COtherPrefsDlg::OnUrl);
 	m_performCombo.OnChange = Callback(this, &COtherPrefsDlg::OnPerformCombo);
 	m_codepage.OnChange = Callback(this, &COtherPrefsDlg::OnCodePage);
 	m_pertormEdit.OnChange = Callback(this, &COtherPrefsDlg::OnPerformEdit);
@@ -1040,11 +1039,6 @@ void COtherPrefsDlg::OnInitDialog()
 	m_performCombo.SetCurSel(0);
 	OnPerformCombo(nullptr);
 	m_autodetect.SetState(m_proto->m_utfAutodetect);
-}
-
-void COtherPrefsDlg::OnUrl(CCtrlButton*)
-{
-	Utils_OpenUrl("http://members.chello.se/matrix/index.html");
 }
 
 void COtherPrefsDlg::OnPerformCombo(CCtrlData*)

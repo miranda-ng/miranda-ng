@@ -223,12 +223,10 @@ public:
 	CPluginOptDlg() :
 		CDlgBase(g_hInst, IDD_OPT_PLUGINS),
 		m_link(this, IDC_GETMOREPLUGINS),
-		m_plugUrl(this, IDC_PLUGINURL),
+		m_plugUrl(this, IDC_PLUGINURL, "https://miranda-ng.org/downloads/"),
 		m_plugList(this, IDC_PLUGLIST),
 		m_timer(this, 1)
 	{
-		m_link.SetUrl("https://miranda-ng.org/downloads/");
-
 		m_timer.OnEvent = Callback(this, &CPluginOptDlg::onTimer);
 
 		m_plugList.OnItemChanged = Callback(this, &CPluginOptDlg::list_ItemChanged);

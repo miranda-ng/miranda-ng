@@ -261,7 +261,6 @@ struct COtherPrefsDlg : public CProtoDlgBase < CIrcProto >
 	virtual void OnApply();
 	virtual void OnDestroy();
 
-	void OnUrl(CCtrlButton*);
 	void OnPerformCombo(CCtrlData*);
 	void OnCodePage(CCtrlData*);
 	void OnPerformEdit(CCtrlData*);

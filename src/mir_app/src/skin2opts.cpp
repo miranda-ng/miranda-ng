@@ -153,29 +153,26 @@ static wchar_t* OpenFileDlg(HWND hParent, const wchar_t *szFile, BOOL bAll)
 class CIconImportDlg : public CDlgBase
 {
 	HWND m_hwndDragOver;
-	int  m_iDragItem, m_iDropHiLite;
-	bool m_bDragging;
+	int  m_iDragItem = 0, m_iDropHiLite = 0;
+	bool m_bDragging = false;
 
 	class CIcoLibOptsDlg *m_pParent;
 
+	CCtrlHyperlink m_urlGetMore;
 	CCtrlListView m_preview;
-	CCtrlButton m_btnGetMore, m_btnBrowse;
+	CCtrlButton m_btnBrowse;
 	CCtrlEdit m_iconSet;
 
 public:
 	CIconImportDlg(CIcoLibOptsDlg *_parent) :
 		CDlgBase(g_hInst, IDD_ICOLIB_IMPORT),
+		m_pParent(_parent),
 		m_preview(this, IDC_PREVIEW),
 		m_iconSet(this, IDC_ICONSET),
 		m_btnBrowse(this, IDC_BROWSE),
-		m_btnGetMore(this, IDC_GETMORE),
-		m_pParent(_parent),
-		m_bDragging(false),
-		m_iDragItem(0),
-		m_iDropHiLite(0)
+		m_urlGetMore(this, IDC_GETMORE, "https://miranda-ng.org/")
 	{
 		m_btnBrowse.OnClick = Callback(this, &CIconImportDlg::OnBrowseClick);
-		m_btnGetMore.OnClick = Callback(this, &CIconImportDlg::OnGetMoreClick);
 		m_iconSet.OnChange = Callback(this, &CIconImportDlg::OnEditChange);
 		m_preview.OnBeginDrag = Callback(this, &CIconImportDlg::OnBeginDragPreview);
 	}
@@ -204,11 +201,6 @@ public:
 	void OnEditChange(void*)
 	{
 		RebuildIconsPreview();
-	}
-
-	void OnGetMoreClick(void*)
-	{
-		Utils_OpenUrl("https://miranda-ng.org/");
 	}
 
 	void OnBrowseClick(void*)
@@ -340,12 +332,13 @@ class CIcoLibOptsDlg : public CDlgBase
 {
 	friend class CIconImportDlg;
 
-	CIconImportDlg *m_pDialog;
-	HTREEITEM m_hPrevItem;
+	CIconImportDlg *m_pDialog = nullptr;
+	HTREEITEM m_hPrevItem = nullptr;
 
+	CCtrlButton m_btnImport, m_btnLoadIcons;
 	CCtrlTreeView m_categoryList;
 	CCtrlListView m_preview;
-	CCtrlButton m_btnGetMore, m_btnImport, m_btnLoadIcons;
+	CCtrlHyperlink m_urlGetMore;
 
 	HTREEITEM FindNamedTreeItemAt(HTREEITEM hItem, const wchar_t *name)
 	{
@@ -555,14 +548,11 @@ public:
 		CDlgBase(g_hInst, IDD_OPT_ICOLIB),
 		m_preview(this, IDC_PREVIEW),
 		m_btnImport(this, IDC_IMPORT),
-		m_btnGetMore(this, IDC_GETMORE),
+		m_urlGetMore(this, IDC_GETMORE, "https://miranda-ng.org/"),
 		m_btnLoadIcons(this, IDC_LOADICONS),
-		m_categoryList(this, IDC_CATEGORYLIST),
-		m_hPrevItem(nullptr),
-		m_pDialog(nullptr)
+		m_categoryList(this, IDC_CATEGORYLIST)
 	{
 		m_btnImport.OnClick = Callback(this, &CIcoLibOptsDlg::OnImport);
-		m_btnGetMore.OnClick = Callback(this, &CIcoLibOptsDlg::OnGetMore);
 		m_btnLoadIcons.OnClick = Callback(this, &CIcoLibOptsDlg::OnLoadIcons);
 
 		m_preview.OnGetInfoTip = Callback(this, &CIcoLibOptsDlg::OnGetInfoTip);
@@ -615,11 +605,6 @@ public:
 		m_pDialog = new CIconImportDlg(this);
 		m_pDialog->Show();
 		m_btnImport.Disable();
-	}
-
-	void OnGetMore(void*)
-	{
-		Utils_OpenUrl("https://miranda-ng.org/");
 	}
 
 	void OnLoadIcons(void*)

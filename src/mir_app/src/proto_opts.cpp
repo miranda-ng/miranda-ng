@@ -254,7 +254,7 @@ public:
 		CDlgBase(g_hInst, IDD_ACCMGR),
 		m_accList(this, IDC_ACCLIST),
 		m_name(this, IDC_NAME),
-		m_link(this, IDC_LNK_ADDONS),
+		m_link(this, IDC_LNK_ADDONS, "https://miranda-ng.org/"),
 		m_btnOk(this, IDOK),
 		m_btnAdd(this, IDC_ADD),
 		m_btnEdit(this, IDC_EDIT),
@@ -265,7 +265,6 @@ public:
 		m_btnNetwork(this, IDC_LNK_NETWORK)
 	{
 		m_name.UseSystemColors();
-		m_link.SetUrl("https://miranda-ng.org/");
 
 		m_accList.OnDblClick = Callback(this, &CAccountManagerDlg::OnListDblClick);
 		m_accList.OnSelChange = Callback(this, &CAccountManagerDlg::OnListSelChange);

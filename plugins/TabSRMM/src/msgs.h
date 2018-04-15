@@ -568,8 +568,9 @@ class CTemplateEditDlg : public CTabBaseDlg
 	TTemplateSet *tSet;
 
 	CCtrlEdit edtText;
-	CCtrlButton btnResetAll, btnHelp, btnSave, btnForget, btnRevert, btnPreview;
+	CCtrlButton btnResetAll, btnSave, btnForget, btnRevert, btnPreview;
 	CCtrlListBox listTemplates;
+	CCtrlHyperlink urlHelp;
 
 	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const override { return nullptr; }
 	virtual void tabClearLog() override {}
@@ -586,7 +587,6 @@ public:
 	void onChange_Text(CCtrlEdit*);
 
 	void onClick_Forget(CCtrlButton*);
-	void onClick_Help(CCtrlButton*);
 	void onClick_Preview(CCtrlButton*);
 	void onClick_Reset(CCtrlButton*);
 	void onClick_Revert(CCtrlButton*);

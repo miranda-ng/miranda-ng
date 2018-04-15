@@ -43,18 +43,13 @@ static fontOptionsList[] = {
 	{ RGB(0, 0, 0), "Tahoma", 0, -10 }
 };
 
-
-
 HIMAGELIST CreateStateImageList()
 {
-	HIMAGELIST himlStates;
-
-	himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 4, 0);
+	HIMAGELIST himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 4, 0);
 	ImageList_AddIcon(himlStates, PluginConfig.g_IconUnchecked); /* IMG_NOCHECK */
 	ImageList_AddIcon(himlStates, PluginConfig.g_IconChecked); /* IMG_CHECK */
 	ImageList_AddIcon(himlStates, PluginConfig.g_IconGroupOpen); /* IMG_GRPOPEN */
 	ImageList_AddIcon(himlStates, PluginConfig.g_IconGroupClose); /* IMG_GRPCLOSED */
-
 	return himlStates;
 }
 
@@ -574,19 +569,19 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 
 class COptMainDlg : public CDlgBase
 {
-	CCtrlSpin   spnAvaSize;
-	CCtrlButton btnHelp, btnReset;
-	CCtrlCheck  chkAvaPreserve;
+	CCtrlSpin spnAvaSize;
+	CCtrlCheck chkAvaPreserve;
+	CCtrlButton btnReset;
+	CCtrlHyperlink urlHelp;
 
 public:
-	COptMainDlg()
-		: CDlgBase(g_hInst, IDD_OPT_MSGDLG),
-		btnHelp(this, IDC_HELP_GENERAL),
+	COptMainDlg() :
+		CDlgBase(g_hInst, IDD_OPT_MSGDLG),
+		urlHelp(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings"),
 		btnReset(this, IDC_RESETWARNINGS),
 		spnAvaSize(this, IDC_AVATARSPIN),
 		chkAvaPreserve(this, IDC_PRESERVEAVATARSIZE)
 	{
-		btnHelp.OnClick = Callback(this, &COptMainDlg::onClick_Help);
 		btnReset.OnClick = Callback(this, &COptMainDlg::onClick_Reset);
 	}
 
@@ -616,11 +611,6 @@ public:
 		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS));
 	}
 
-	void onClick_Help(CCtrlButton*)
-	{
-		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings");
-	}
-
 	void onClick_Reset(CCtrlButton*)
 	{
 		db_set_dw(0, SRMSGMOD_T, "cWarningsL", 0);
@@ -642,10 +632,10 @@ static UINT __ctrls[] = { IDC_INDENTSPIN, IDC_RINDENTSPIN, IDC_INDENTAMOUNT, IDC
 
 class COptLogDlg : public CDlgBase
 {
+	CCtrlSpin spnLeft, spnRight, spnLoadCount, spnLoadTime, spnTrim;
+	CCtrlCheck chkAlwaysTrim, chkLoadUnread, chkLoadCount, chkLoadTime;
+	CCtrlCombo cmbLogDisplay;
 	CCtrlButton btnModify, btnRtlModify;
-	CCtrlCheck  chkAlwaysTrim, chkLoadUnread, chkLoadCount, chkLoadTime;
-	CCtrlSpin   spnLeft, spnRight, spnLoadCount, spnLoadTime, spnTrim;
-	CCtrlCombo 	cmbLogDisplay;
 
 	bool have_ieview, have_hpp;
 
@@ -861,7 +851,7 @@ class COptTypingDlg : public CDlgBase
 
 	CCtrlCheck chkWin, chkNoWin;
 	CCtrlCheck chkNotifyPopup, chkNotifyTray, chkShowNotify;
-	CCtrlButton btnHelp;
+	CCtrlHyperlink urlHelp;
 
 	void ResetCList()
 	{
@@ -906,15 +896,13 @@ class COptTypingDlg : public CDlgBase
 public:
 	COptTypingDlg()
 		: CDlgBase(g_hInst, IDD_OPT_MSGTYPE),
-		btnHelp(this, IDC_MTN_HELP),
+		urlHelp(this, IDC_MTN_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Advanced_tweaks"),
 		chkWin(this, IDC_TYPEWIN),
 		chkNoWin(this, IDC_TYPENOWIN),
 		chkNotifyTray(this, IDC_NOTIFYTRAY),
 		chkShowNotify(this, IDC_SHOWNOTIFY),
 		chkNotifyPopup(this, IDC_NOTIFYPOPUP)
 	{
-		btnHelp.OnClick = Callback(this, &COptTypingDlg::onClick_Help);
-
 		chkWin.OnChange = chkNoWin.OnChange = Callback(this, &COptTypingDlg::onCheck_Win);
 
 		chkNotifyTray.OnChange = Callback(this, &COptTypingDlg::onCheck_NotifyTray);
@@ -1020,11 +1008,6 @@ public:
 		Utils::enableDlgControl(m_hwnd, IDC_NOTIFYBALLOON, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) &&
 			(IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN) || IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN)));
 	}
-
-	void onClick_Help(CCtrlButton*)
-	{
-		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications");
-	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1032,15 +1015,15 @@ public:
 
 class COptTabbedDlg : public CDlgBase
 {
-	CCtrlEdit  	edtLimit;
-	CCtrlCheck  chkLimit;
-	CCtrlSpin   spnLimit;
-	CCtrlCombo  cmbEscMode;
+	CCtrlEdit edtLimit;
+	CCtrlSpin spnLimit;
+	CCtrlCombo cmbEscMode;
+	CCtrlCheck chkLimit;
 	CCtrlButton btnSetup;
 
 public:
-	COptTabbedDlg()
-		: CDlgBase(g_hInst, IDD_OPT_TABBEDMSG),
+	COptTabbedDlg() :
+		CDlgBase(g_hInst, IDD_OPT_TABBEDMSG),
 		chkLimit(this, IDC_CUT_TABTITLE),
 		edtLimit(this, IDC_CUT_TITLEMAX),
 		spnLimit(this, IDC_CUT_TITLEMAXSPIN),
@@ -1114,15 +1097,10 @@ public:
 
 class COptContainersDlg : public CDlgBase
 {
-	CCtrlButton btnHelp;
-	CCtrlCombo  cmbAeroEffect;
-	CCtrlCheck  chkUseAero, chkUseAeroPeek, chkLimits, chkSingle, chkGroup, chkDefault;
-	CCtrlSpin   spnNumFlash, spnTabLimit, spnFlashDelay;
-
-	void onHelp(CCtrlButton*)
-	{
-		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers");
-	}
+	CCtrlSpin spnNumFlash, spnTabLimit, spnFlashDelay;
+	CCtrlCombo cmbAeroEffect;
+	CCtrlCheck chkUseAero, chkUseAeroPeek, chkLimits, chkSingle, chkGroup, chkDefault;
+	CCtrlHyperlink urlHelp;
 
 	void onChangeAero(CCtrlCheck*)
 	{
@@ -1137,7 +1115,7 @@ class COptContainersDlg : public CDlgBase
 public:
 	COptContainersDlg()
 		: CDlgBase(g_hInst, IDD_OPT_CONTAINERS),
-		btnHelp(this, IDC_HELP_CONTAINERS),
+		urlHelp(this, IDC_HELP_CONTAINERS, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers"),
 		spnNumFlash(this, IDC_NRFLASHSPIN),
 		spnTabLimit(this, IDC_TABLIMITSPIN),
 		spnFlashDelay(this, IDC_FLASHINTERVALSPIN),
@@ -1149,8 +1127,6 @@ public:
 		chkGroup(this, IDC_CONTAINERGROUPMODE),
 		chkDefault(this, IDC_DEFAULTCONTAINERMODE)
 	{
-		btnHelp.OnClick = Callback(this, &COptContainersDlg::onHelp);
-
 		chkUseAero.OnChange = Callback(this, &COptContainersDlg::onChangeAero);
 		chkLimits.OnChange = chkSingle.OnChange = chkGroup.OnChange = chkDefault.OnChange = Callback(this, &COptContainersDlg::onChangeLimits);
 	}
@@ -1215,17 +1191,17 @@ public:
 class COptAdvancedDlg : public CDlgBase
 {
 	CCtrlSpin spnTimeout, spnHistSize;
-	CCtrlButton btnHelp, btnRevert;
+	CCtrlButton btnRevert;
+	CCtrlHyperlink urlHelp;
 
 public:
-	COptAdvancedDlg()
-		: CDlgBase(g_hInst, IDD_OPTIONS_PLUS),
-		btnHelp(this, IDC_PLUS_HELP),
+	COptAdvancedDlg() :
+		CDlgBase(g_hInst, IDD_OPTIONS_PLUS),
+		urlHelp(this, IDC_PLUS_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications"),
 		btnRevert(this, IDC_PLUS_REVERT),
 		spnTimeout(this, IDC_TIMEOUTSPIN),
 		spnHistSize(this, IDC_HISTORYSIZESPIN)
 	{
-		btnHelp.OnClick = Callback(this, &COptAdvancedDlg::onClick_Help);
 		btnRevert.OnClick = Callback(this, &COptAdvancedDlg::onClick_Revert);
 	}
 
@@ -1263,11 +1239,6 @@ public:
 			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
-	}
-
-	void onClick_Help(CCtrlButton*)
-	{
-		Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Advanced_tweaks");
 	}
 
 	void onClick_Revert(CCtrlButton*)

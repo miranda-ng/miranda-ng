@@ -117,7 +117,7 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 	CSuper(IDD_TEMPLATEEDIT),
 	rtl(_rtl),
 	edtText(this, IDC_EDITTEMPLATE),
-	btnHelp(this, IDC_VARIABLESHELP),
+	urlHelp(this, IDC_VARIABLESHELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Templates"),
 	btnSave(this, IDC_SAVETEMPLATE),
 	btnForget(this, IDC_FORGET),
 	btnRevert(this, IDC_REVERT),
@@ -136,7 +136,6 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 
 	edtText.OnChange = Callback(this, &CTemplateEditDlg::onChange_Text);
 	
-	btnHelp.OnClick = Callback(this, &CTemplateEditDlg::onClick_Help);
 	btnSave.OnClick = Callback(this, &CTemplateEditDlg::onClick_Save);
 	btnForget.OnClick = Callback(this, &CTemplateEditDlg::onClick_Forget);
 	btnRevert.OnClick = Callback(this, &CTemplateEditDlg::onClick_Revert);
@@ -228,11 +227,6 @@ void CTemplateEditDlg::onClick_Forget(CCtrlButton*)
 	Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
 	selchanging = FALSE;
 	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
-}
-
-void CTemplateEditDlg::onClick_Help(CCtrlButton*)
-{
-	Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Templates");
 }
 
 void CTemplateEditDlg::onClick_Preview(CCtrlButton*)
