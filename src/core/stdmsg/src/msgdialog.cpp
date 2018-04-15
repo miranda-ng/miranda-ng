@@ -703,33 +703,36 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 								 
-		if (wParam == VK_UP && isCtrl && g_dat.bCtrlSupport && !g_dat.bAutoClose) {
-			if (m_cmdList.getCount()) {
-				if (m_cmdListInd < 0) {
-					m_cmdListInd = m_cmdList.getCount() - 1;
-					SetEditorText(m_message.GetHwnd(), m_cmdList[m_cmdListInd]);
+		if (isCtrl && g_dat.bCtrlSupport && !g_dat.bAutoClose) {
+			if (wParam == VK_UP) {
+				if (m_cmdList.getCount()) {
+					if (m_cmdListInd < 0) {
+						m_cmdListInd = m_cmdList.getCount() - 1;
+						SetEditorText(m_message.GetHwnd(), m_cmdList[m_cmdListInd]);
+					}
+					else if (m_cmdListInd > 0) {
+						SetEditorText(m_message.GetHwnd(), m_cmdList[--m_cmdListInd]);
+					}
 				}
-				else if (m_cmdListInd > 0) {
-					SetEditorText(m_message.GetHwnd(), m_cmdList[--m_cmdListInd]);
-				}
-			}
-			m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
-			UpdateReadChars();
-			return 0;
-		}
-
-		if (wParam == VK_DOWN && isCtrl && g_dat.bCtrlSupport && !g_dat.bAutoClose) {
-			if (m_cmdList.getCount() && m_cmdListInd >= 0) {
-				if (m_cmdListInd < m_cmdList.getCount() - 1)
-					SetEditorText(m_message.GetHwnd(), m_cmdList[++m_cmdListInd]);
-				else {
-					m_cmdListInd = -1;
-					SetEditorText(m_message.GetHwnd(), m_cmdList[m_cmdList.getCount() - 1]);
-				}
+				m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
+				UpdateReadChars();
+				return 0;
 			}
 
-			m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
-			UpdateReadChars();
+			if (wParam == VK_DOWN) {
+				if (m_cmdList.getCount() && m_cmdListInd >= 0) {
+					if (m_cmdListInd < m_cmdList.getCount() - 1)
+						SetEditorText(m_message.GetHwnd(), m_cmdList[++m_cmdListInd]);
+					else {
+						m_cmdListInd = -1;
+						SetEditorText(m_message.GetHwnd(), m_cmdList[m_cmdList.getCount() - 1]);
+					}
+				}
+
+				m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
+				UpdateReadChars();
+				return 0;
+			}
 		}
 
 		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))

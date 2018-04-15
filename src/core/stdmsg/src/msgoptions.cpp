@@ -238,6 +238,7 @@ public:
 		CreateLink(chkCharCount, g_dat.bShowReadChar);
 		CreateLink(chkStatusWin, g_dat.bUseStatusWinIcon);
 		CreateLink(chkShowButtons, g_dat.bShowButtons);
+		CreateLink(chkCtrlSupport, g_dat.bCtrlSupport);
 		CreateLink(chkSendOnEnter, g_dat.bSendOnEnter);
 		CreateLink(chkSendOnDblEnter, g_dat.bSendOnDblEnter);
 		CreateLink(chkSavePerContact, g_dat.bSavePerContact);
