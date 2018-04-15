@@ -834,6 +834,10 @@ int LoadNewPluginsModule(void)
 		}
 	}
 
+	for (auto &it : servicePlugins.rev_iter())
+		if (!isPluginOnWhiteList(it->pluginname))
+			Plugin_Uninit(it);
+
 	HookEvent(ME_OPT_INITIALISE, PluginOptionsInit);
 	return 0;
 }
