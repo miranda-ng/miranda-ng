@@ -26,7 +26,9 @@ class COptionsDialog : public CDlgBase
 
 	void OnApply()
 	{
+		SetCursor(LoadCursor(nullptr, IDC_WAIT));
 		m_db->EnableEncryption(m_chkTotal.GetState() != 0);
+		SetCursor(LoadCursor(nullptr, IDC_ARROW));
 		m_chkStandart.SetState(!m_db->isEncrypted());
 		m_chkTotal.SetState(m_db->isEncrypted());
 	}

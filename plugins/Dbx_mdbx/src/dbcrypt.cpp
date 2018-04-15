@@ -169,7 +169,6 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 
 		std::vector<MEVENT> lstEvents;
 		lstEvents.reserve(st.ms_entries);
-
 		{
 			cursor_ptr_ro cursor(m_curEvents);
 			MDBX_val key, data;
@@ -178,49 +177,56 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 				lstEvents.push_back(hDbEvent);
 			}
 		}
-		for (auto it = lstEvents.begin(); it != lstEvents.end(); ++it) {
-			MEVENT &hDbEvent = *it;
-			MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-			int rc = mdbx_get(txnro, m_dbEvents, &key, &data);
-			/* FIXME: throw an exception */
-			assert(rc == MDBX_SUCCESS);
-			(void)rc;
 
-			const DBEvent *dbEvent = (const DBEvent*)data.iov_base;
-			const BYTE    *pBlob = (BYTE*)(dbEvent + 1);
+		do {
+			size_t portion = min(lstEvents.size(), 1000);
 
-			if (((dbEvent->flags & DBEF_ENCRYPTED) != 0) != bEncrypted) {
-				mir_ptr<BYTE> pNewBlob;
-				size_t nNewBlob;
-				uint32_t dwNewFlags;
+			txn_ptr trnlck(StartTran());
+			for (size_t i = 0; i < portion; i++) {
+				MEVENT &hDbEvent = lstEvents[i];
+				MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
+				int rc = mdbx_get(txnro, m_dbEvents, &key, &data);
+				/* FIXME: throw an exception */
+				assert(rc == MDBX_SUCCESS);
+				(void)rc;
 
-				if (dbEvent->flags & DBEF_ENCRYPTED) {
-					pNewBlob = (BYTE*)m_crypto->decodeBuffer(pBlob, dbEvent->cbBlob, &nNewBlob);
-					dwNewFlags = dbEvent->flags & (~DBEF_ENCRYPTED);
+				const DBEvent *dbEvent = (const DBEvent*)data.iov_base;
+				const BYTE    *pBlob = (BYTE*)(dbEvent + 1);
+
+				if (((dbEvent->flags & DBEF_ENCRYPTED) != 0) != bEncrypted) {
+					mir_ptr<BYTE> pNewBlob;
+					size_t nNewBlob;
+					uint32_t dwNewFlags;
+
+					if (dbEvent->flags & DBEF_ENCRYPTED) {
+						pNewBlob = (BYTE*)m_crypto->decodeBuffer(pBlob, dbEvent->cbBlob, &nNewBlob);
+						dwNewFlags = dbEvent->flags & (~DBEF_ENCRYPTED);
+					}
+					else {
+						pNewBlob = m_crypto->encodeBuffer(pBlob, dbEvent->cbBlob, &nNewBlob);
+						dwNewFlags = dbEvent->flags | DBEF_ENCRYPTED;
+					}
+
+					data.iov_len = sizeof(DBEvent) + nNewBlob;
+					mir_ptr<BYTE> pData((BYTE*)mir_alloc(data.iov_len));
+					data.iov_base = pData.get();
+
+					DBEvent *pNewDBEvent = (DBEvent *)data.iov_base;
+					*pNewDBEvent = *dbEvent;
+					pNewDBEvent->cbBlob = (uint16_t)nNewBlob;
+					pNewDBEvent->flags = dwNewFlags;
+					memcpy(pNewDBEvent + 1, pNewBlob, nNewBlob);
+
+					if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
+						return 1;
 				}
-				else {
-					pNewBlob = m_crypto->encodeBuffer(pBlob, dbEvent->cbBlob, &nNewBlob);
-					dwNewFlags = dbEvent->flags | DBEF_ENCRYPTED;
-				}
-
-				data.iov_len = sizeof(DBEvent) + nNewBlob;
-				mir_ptr<BYTE> pData((BYTE*)mir_alloc(data.iov_len));
-				data.iov_base = pData.get();
-
-				DBEvent *pNewDBEvent = (DBEvent *)data.iov_base;
-				*pNewDBEvent = *dbEvent;
-				pNewDBEvent->cbBlob = (uint16_t)nNewBlob;
-				pNewDBEvent->flags = dwNewFlags;
-				memcpy(pNewDBEvent + 1, pNewBlob, nNewBlob);
-
-				txn_ptr trnlck(StartTran());
-				if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
-					return 1;
-
-				if (trnlck.commit() != MDBX_SUCCESS)
-					return 1;
 			}
+
+			lstEvents.erase(lstEvents.begin(), lstEvents.begin()+portion);
+			if (trnlck.commit() != MDBX_SUCCESS)
+				return 1;
 		}
+			while (lstEvents.size() > 0);
 	}
 
 	txn_ptr trnlck(StartTran());
