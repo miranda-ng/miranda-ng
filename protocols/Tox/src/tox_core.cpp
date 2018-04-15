@@ -101,6 +101,12 @@ void CToxProto::OnToxLog(Tox*, TOX_LOG_LEVEL level, const char *file, uint32_t l
 {
 	CToxProto *proto = (CToxProto*)user_data;
 
-	if (level > TOX_LOG_LEVEL_INFO)
-		proto->debugLogA("TOXCORE: %s at %s(...) in %s:%u", message, func, file, line);
+#ifdef _DEBUG
+	if (level < TOX_LOG_LEVEL_INFO)
+#else
+	if (level < TOX_LOG_LEVEL_ERROR)
+#endif
+		return;
+
+	proto->debugLogA("TOXCORE: %s at %s(...) in %s:%u", message, func, file, line);
 }
