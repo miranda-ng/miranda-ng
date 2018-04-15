@@ -101,7 +101,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
 
-	if (isPluginOnWhiteList(fd->cFileName))
+	if (bNoCheckbox || isPluginOnWhiteList(fd->cFileName))
 		ListView_SetItemState(hwndList, iRow, bNoCheckbox ? 0x3000 : 0x2000, LVIS_STATEIMAGEMASK);
 
 	if (iRow != -1) {
