@@ -25,4 +25,3 @@
 [Alt + ]
 [Shift + ]
 [Win + ]
-[Compact]
