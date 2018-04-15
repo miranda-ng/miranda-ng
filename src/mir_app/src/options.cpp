@@ -226,20 +226,20 @@ struct OptionsPageData : public MZeroedObject
 	
 	~OptionsPageData()
 	{
-		pDialog->Close();
+		if (pDialog != nullptr)
+			pDialog->Close();
 	}
 
 	CDlgBase *pDialog;
 	int hLangpack;
 	ptrW ptszTitle, ptszGroup, ptszTab;
 	HTREEITEM hTreeItem;
-	int changed;
+	bool bChanged, bInsideTab;
 	int height;
 	int width;
 	DWORD flags;
-	BOOL insideTab;
 
-	__forceinline HWND getHwnd() const { return pDialog->GetHwnd(); }
+	__forceinline HWND getHwnd() const { return (pDialog == nullptr) ? nullptr : pDialog->GetHwnd(); }
 	__forceinline HINSTANCE getInst() const { return pDialog->GetInst(); }
 
 	__forceinline wchar_t* getString(wchar_t *ptszStr)
@@ -485,8 +485,8 @@ class COptionsDlg : public CDlgBase
 		RECT rc;
 		GetWindowRect(opd->getHwnd(), &rc);
 
-		opd->insideTab = IsInsideTab(m_currentPage);
-		if (opd->insideTab) {
+		opd->bInsideTab = IsInsideTab(m_currentPage);
+		if (opd->bInsideTab) {
 			SetWindowPos(opd->getHwnd(), HWND_TOP, (m_rcTab.left + m_rcTab.right - w) >> 1, m_rcTab.top, w, h, 0);
 			::ThemeDialogBackground(opd->getHwnd(), TRUE);
 		}
@@ -545,7 +545,7 @@ class COptionsDlg : public CDlgBase
 		OptionsPageData *opd = getCurrent();
 		if (opd != nullptr) {
 			oldWnd = opd->getHwnd();
-			if (opd->insideTab)
+			if (opd->bInsideTab)
 				oldTab = GetDlgItem(m_hwnd, IDC_TAB);
 		}
 
@@ -645,7 +645,7 @@ class COptionsDlg : public CDlgBase
 			opd = getCurrent();
 			if (opd && oldWnd != opd->getHwnd()) {
 				ShowWindow(oldWnd, SW_HIDE);
-				if (oldTab && (opd == nullptr || !opd->insideTab))
+				if (oldTab && (opd == nullptr || !opd->bInsideTab))
 					ShowWindow(oldTab, SW_HIDE);
 			}
 		}
@@ -661,7 +661,7 @@ class COptionsDlg : public CDlgBase
 		m_pageTree.EnsureVisible(m_hCurrentPage);
 	}
 
-	BOOL IsInsideTab(int i)
+	bool IsInsideTab(int i)
 	{
 		OptionsPageData *opd = m_arOpd[i];
 		int pages = 0;
@@ -842,11 +842,11 @@ public:
 		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
 		for (auto &p : m_arOpd) {
-			if (p->getHwnd() == nullptr || !p->changed)
+			if (p->getHwnd() == nullptr || !p->bChanged)
 				continue;
 
 			arChanged.insert(p);
-			p->changed = 0;
+			p->bChanged = false;
 			pshn.hdr.hwndFrom = p->getHwnd();
 			if (SendMessage(p->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
 				m_hCurrentPage = p->hTreeItem;
@@ -863,7 +863,7 @@ public:
 		pshn.hdr.code = PSN_WIZFINISH;
 		for (int i = 0; i < arChanged.getCount(); i++) {
 			OptionsPageData *p = arChanged[i];
-			if (p->ptszTab == nullptr)
+			if (p->ptszTab == nullptr || p->pDialog == nullptr)
 				continue;
 
 			// calculate last changed tab
@@ -897,7 +897,7 @@ public:
 		pshn.lParam = 0;
 		pshn.hdr.code = PSN_RESET;
 		for (auto &p : m_arOpd) {
-			if (p->getHwnd() == nullptr || !p->changed)
+			if (p->getHwnd() == nullptr || !p->bChanged)
 				continue;
 			pshn.hdr.hwndFrom = p->getHwnd();
 			SendMessage(p->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -954,8 +954,8 @@ public:
 		if (opd->getHwnd() == nullptr)
 			CreateOptionWindowEx(opd);
 
-		opd->insideTab = IsInsideTab(m_currentPage);
-		if (opd->insideTab) {
+		opd->bInsideTab = IsInsideTab(m_currentPage);
+		if (opd->bInsideTab) {
 			// Make tabbed pane
 			int pages = 0, sel = 0;
 			HWND hwndTab = GetDlgItem(m_hwnd, IDC_TAB);
@@ -980,10 +980,10 @@ public:
 				pages++;
 			}
 			TabCtrl_SetCurSel(hwndTab, sel);
-			ShowWindow(hwndTab, opd->insideTab ? SW_SHOW : SW_HIDE);
+			ShowWindow(hwndTab, opd->bInsideTab ? SW_SHOW : SW_HIDE);
 		}
 
-		::ThemeDialogBackground(opd->getHwnd(), opd->insideTab);
+		::ThemeDialogBackground(opd->getHwnd(), opd->bInsideTab);
 
 		ShowWindow(opd->getHwnd(), SW_SHOW);
 		if (evt->nmtv->action == TVC_BYMOUSE) {
@@ -1033,7 +1033,7 @@ public:
 			{
 				OptionsPageData *opd = getCurrent();
 				if (opd)
-					opd->changed = 1;
+					opd->bChanged = true;
 			}
 			return TRUE;
 
@@ -1126,6 +1126,11 @@ public:
 		for (auto &opd : m_arOpd) {
 			if (opd->hLangpack != _hLang)
 				continue;
+
+			if (opd->pDialog != nullptr) {
+				opd->pDialog->Close();
+				opd->pDialog = nullptr;
+			}
 
 			m_arDeleted.insert(opd);
 			m_timerRebuild.Start(50);
