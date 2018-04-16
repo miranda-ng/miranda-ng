@@ -131,7 +131,7 @@ static BOOL myGetS(MCONTACT hContact, const char *szModule, const char *szSettin
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static MCONTACT HContactFromChatID(char *pszProtoName, const wchar_t *pszChatID)
+static MCONTACT HContactFromChatID(const char *pszProtoName, const wchar_t *pszChatID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName)) {
 		if (!db_get_b(hContact, pszProtoName, "ChatRoom", 0))
@@ -145,7 +145,7 @@ static MCONTACT HContactFromChatID(char *pszProtoName, const wchar_t *pszChatID)
 	return INVALID_CONTACT_ID;
 }
 
-static MCONTACT HContactFromNumericID(char *pszProtoName, const char *pszSetting, DWORD dwID)
+static MCONTACT HContactFromNumericID(const char *pszProtoName, const char *pszSetting, DWORD dwID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName))
 		if (db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID)
@@ -154,7 +154,7 @@ static MCONTACT HContactFromNumericID(char *pszProtoName, const char *pszSetting
 	return INVALID_CONTACT_ID;
 }
 
-static MCONTACT HContactFromID(char *pszProtoName, const char *pszSetting, wchar_t *pwszID)
+static MCONTACT HContactFromID(const char *pszProtoName, const char *pszSetting, wchar_t *pwszID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName)) {
 		ptrW id(db_get_wsa(hContact, pszProtoName, pszSetting));
@@ -534,29 +534,6 @@ static MCONTACT MapContact(MCONTACT hSrc)
 	return (pDestContact == nullptr) ? INVALID_CONTACT_ID : pDestContact->dstID;
 }
 
-static MCONTACT AddContact(char *szProto, const char *pszUniqueSetting, DBVARIANT *id, const wchar_t *pszUserID, wchar_t *nick, wchar_t *group)
-{
-	MCONTACT hContact = db_add_contact();
-	if (Proto_AddToContact(hContact, szProto) != 0) {
-		db_delete_contact(hContact);
-		AddMessage(LPGENW("Failed to add %S contact %s"), szProto, pszUserID);
-		return INVALID_CONTACT_ID;
-	}
-
-	db_set(hContact, szProto, pszUniqueSetting, id);
-
-	CreateGroup(group, hContact);
-
-	if (nick && *nick) {
-		db_set_ws(hContact, "CList", "MyHandle", nick);
-		AddMessage(LPGENW("Added %S contact %s, '%s'"), szProto, pszUserID, nick);
-	}
-	else AddMessage(LPGENW("Added %S contact %s"), szProto, pszUserID);
-
-	srcDb->FreeVariant(id);
-	return hContact;
-}
-
 struct ImportContactData
 {
 	MCONTACT from, to;
@@ -577,15 +554,6 @@ int ModulesEnumProc(const char *szModuleName, void *pParam)
 	else CopySettings(icd->from, szModuleName, icd->to, szModuleName);
 	
 	return 0;
-}
-
-void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
-{
-	if (pda->pa == nullptr)
-		return;
-
-	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc, pda->pa->szModuleName, false };
-	srcDb->EnumModuleNames(ModulesEnumProc, &icd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -767,23 +735,37 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	DBCachedContact *cc = srcDb->getCache()->GetCachedContact(hSrc);
 	if (cc == nullptr || cc->szProto == nullptr) {
 		AddMessage(LPGENW("Skipping contact with no protocol"));
-		return NULL;
+		return 0;
 	}
 
 	if (cc->IsMeta()) {
 		arMetas.insert(cc);
-		return NULL;
+		return 0;
 	}
 
-	AccountMap *pda = arAccountMap.find((AccountMap*)&cc->szProto);
-	if (pda == nullptr || pda->pa == nullptr) {
-		AddMessage(LPGENW("Skipping contact, account %S cannot be mapped."), cc->szProto);
-		return NULL;
+	const char *szSrcModuleName, *szDstModuleName;
+	{
+		AccountMap *pda = arAccountMap.find((AccountMap*)&cc->szProto);
+		if (pda == nullptr || pda->pa == nullptr) {
+			// it might be a virtual protocol not included into the general account map
+			PROTOACCOUNT *pa = Proto_GetAccount(cc->szProto);
+			if (pa == nullptr) {
+				AddMessage(LPGENW("Skipping contact, account %S cannot be mapped."), cc->szProto);
+				return 0;
+			}
+
+			// virtual protocols have no accounts and cannot change modul
+			szSrcModuleName = szDstModuleName = pa->szModuleName;
+		}
+		else {
+			szSrcModuleName = pda->szSrcAcc;
+			szDstModuleName = pda->pa->szModuleName;
+		}
 	}
 
-	if (!Proto_GetAccount(pda->pa->szModuleName)) {
+	if (!Proto_GetAccount(szDstModuleName)) {
 		AddMessage(LPGENW("Skipping contact, %S not installed."), cc->szProto);
-		return NULL;
+		return 0;
 	}
 
 	// group chat?
@@ -792,18 +774,18 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	if (bIsChat)
 		pszUniqueSetting = "ChatRoomID";
 	else {
-		// Skip protocols with no unique id setting (some non IM protocols return NULL)
-		pszUniqueSetting = Proto_GetUniqueId(pda->pa->szModuleName);
+		// Skip protocols with no unique id setting (some non IM protocols return 0)
+		pszUniqueSetting = Proto_GetUniqueId(szDstModuleName);
 		if (!pszUniqueSetting) {
 			AddMessage(LPGENW("Skipping non-IM contact (%S)"), cc->szProto);
-			return NULL;
+			return 0;
 		}
 	}
 
 	DBVARIANT dbv;
 	if (myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
 		AddMessage(LPGENW("Skipping %S contact, ID not found"), cc->szProto);
-		return NULL;
+		return 0;
 	}
 
 	// Does the contact already exist?
@@ -812,16 +794,16 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	switch (dbv.type) {
 	case DBVT_DWORD:
 		pszUniqueID = _ltow(dbv.dVal, id, 10);
-		hDst = HContactFromNumericID(pda->pa->szModuleName, pszUniqueSetting, dbv.dVal);
+		hDst = HContactFromNumericID(szDstModuleName, pszUniqueSetting, dbv.dVal);
 		break;
 
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
 		pszUniqueID = NEWWSTR_ALLOCA(_A2T(dbv.pszVal));
 		if (bIsChat)
-			hDst = HContactFromChatID(pda->pa->szModuleName, pszUniqueID);
+			hDst = HContactFromChatID(szDstModuleName, pszUniqueID);
 		else
-			hDst = HContactFromID(pda->pa->szModuleName, pszUniqueSetting, pszUniqueID);
+			hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
 		break;
 
 	default:
@@ -833,24 +815,41 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		AddMessage(LPGENW("Skipping duplicate %S contact %s"), cc->szProto, pszUniqueID);
 		srcDb->FreeVariant(&dbv);
 		arContactMap.insert(new ContactMap(hSrc, hDst));
-		return NULL;
+		return 0;
 	}
 
 	ptrW tszGroup(myGetWs(hSrc, "CList", "Group")), tszNick(myGetWs(hSrc, "CList", "MyHandle"));
 	if (tszNick == NULL)
 		tszNick = myGetWs(hSrc, cc->szProto, "Nick");
 
-	hDst = AddContact(pda->pa->szModuleName, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
-	if (hDst == INVALID_CONTACT_ID) {
-		AddMessage(LPGENW("Unknown error while adding %S contact %s"), pda->pa->szModuleName, pszUniqueID);
+	// adding missing contact
+	hDst = db_add_contact();
+	if (Proto_AddToContact(hDst, szDstModuleName) != 0) {
+		db_delete_contact(hDst);
+		AddMessage(LPGENW("Failed to add %S contact %s"), szDstModuleName, pszUniqueID);
 		return INVALID_CONTACT_ID;
 	}
 
+	db_set(hDst, szDstModuleName, pszUniqueSetting, &dbv);
+
+	CreateGroup(tszGroup, hDst);
+
+	if (tszNick && *tszNick) {
+		db_set_ws(hDst, "CList", "MyHandle", tszNick);
+		AddMessage(LPGENW("Added %S contact %s, '%s'"), szDstModuleName, pszUniqueID, tszNick);
+	}
+	else AddMessage(LPGENW("Added %S contact %s"), szDstModuleName, pszUniqueID);
+
+	srcDb->FreeVariant(&dbv);
+
 	if (bIsChat)
-		db_set_b(hDst, pda->pa->szModuleName, "ChatRoom", 1);
+		db_set_b(hDst, szDstModuleName, "ChatRoom", 1);
 
 	arContactMap.insert(new ContactMap(hSrc, hDst));
-	ImportContactSettings(pda, hSrc, hDst);
+
+	// also copy settings
+	ImportContactData icd = { hSrc, hDst, szSrcModuleName, szDstModuleName, false };
+	srcDb->EnumModuleNames(ModulesEnumProc, &icd);
 	return hDst;
 }
 
