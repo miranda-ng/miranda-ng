@@ -50,8 +50,10 @@ int CJabberProto::OnContactDeleted(WPARAM hContact, LPARAM)
 		}
 
 		// Remove from roster, server also handles the presence unsubscription process.
-		m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext()) << XQUERY(JABBER_FEAT_IQ_ROSTER)
-			<< XCHILD(L"item") << XATTR(L"jid", jid) << XATTR(L"subscription", L"remove"));
+		m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext()) 
+			<< XQUERY(JABBER_FEAT_IQ_ROSTER) << XCHILD(L"item") << XATTR(L"jid", jid) << XATTR(L"subscription", L"remove"));
+
+		ListRemove(LIST_ROSTER, jid);
 	}
 	return 0;
 }
