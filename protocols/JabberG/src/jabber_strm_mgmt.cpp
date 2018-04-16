@@ -68,6 +68,7 @@ void strm_mgmt::OnProcessResumed(HXML node, ThreadData * /*info*/)
 	int size = m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount;
 	if (size < 0)
 	{
+		proto->debugLogA("strm_mgmt: error: locally sent nodes count %d, server side received count %d", m_nStrmMgmtLocalSCount, m_nStrmMgmtSrvHCount);
 		//TODO: this should never happen, indicates server side bug
 		//TODO: once our client side implementation good enough, abort stream in this case, noop for now
 	}
@@ -87,9 +88,11 @@ void strm_mgmt::OnProcessSMa(HXML node)
 		return;
 	auto val = XmlGetAttrValue(node, L"h");
 	m_nStrmMgmtSrvHCount = _wtoi(val);
+	proto->debugLogA("strm_mgmt: info: locally sent nodes count %d, server side received count %d", m_nStrmMgmtLocalSCount, m_nStrmMgmtSrvHCount);
 	int size = m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount;
 	if (size < 0)
 	{
+		proto->debugLogA("strm_mgmt: error: locally sent nodes count %d, server side received count %d", m_nStrmMgmtLocalSCount, m_nStrmMgmtSrvHCount);
 		//TODO: this should never happen, indicates server side bug
 		//TODO: once our client side implementation good enough, abort stream in this case, noop for now
 	}
@@ -105,8 +108,10 @@ void strm_mgmt::OnProcessSMa(HXML node)
 
 void strm_mgmt::ResendNodes(uint32_t size)
 {
+	proto->debugLogA("strm_mgmt: info: resending  %d missed nodes", size);
 	if (size < NodeCache.size())
 	{
+		proto->debugLogA("strm_mgmt: info: resending nodes: need to resend %d nodes, nodes in cache %d, cleaning cache to match resending node count", size, NodeCache.size());
 		const size_t diff = NodeCache.size() - size;
 		if (diff)
 		{
@@ -146,6 +151,7 @@ void strm_mgmt::OnProcessFailed(HXML node, ThreadData * /*info*/) //used failed 
 {
 	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 		return;
+	proto->debugLogW(L"strm_mgmt: error: Failed to resume session %s", m_sStrmMgmtResumeId.c_str());
 	m_bStrmMgmtEnabled = false;
 	bSessionResumed = false;
 	m_sStrmMgmtResumeId.clear();
@@ -227,6 +233,7 @@ void strm_mgmt::SendAck()
 {
 	if (!m_bStrmMgmtEnabled)
 		return;
+	proto->debugLogA("strm_mgmt: info: sending ack: locally received node count %d", m_nStrmMgmtLocalHCount);
 	XmlNode enable_sm(L"a");
 	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
 	xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
