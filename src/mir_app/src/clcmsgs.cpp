@@ -188,6 +188,13 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 	case CLM_GETLEFTMARGIN:
 		return dat->leftMargin;
 
+	case CLM_GETEXSTYLE:
+		return dat->exStyle;
+
+	case CLM_SETEXSTYLE:
+		dat->exStyle |= wParam;
+		break;
+
 	case CLM_GETNEXTITEM:
 		if (wParam == CLGN_ROOT) {
 			if (dat->list.cl.getCount())

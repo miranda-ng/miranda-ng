@@ -25,7 +25,6 @@ static void	LoadContacts(void);
 static void LoadContact(MCONTACT hContact);
 
 // Internal funcs
-static void	RepaintWindow(HWND hwnd, HDC hdc);
 static void	CreateThumbWnd(wchar_t *ptszName, MCONTACT hContact, int nX, int nY);
 static void	RegisterWindowClass(void);
 static void	UnregisterWindowClass(void);
@@ -355,7 +354,6 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 		if (pThumb) {
 			HDC hdc = GetWindowDC(hwnd);
 			BitBlt(hdc, 0, 0, pThumb->bmpContent.getWidth(), pThumb->bmpContent.getHeight(), pThumb->bmpContent.getDC(), 0, 0, SRCCOPY);
-			//RepaintWindow( hwnd, hdc );
 			ReleaseDC(hwnd, hdc);
 			ValidateRect(hwnd, nullptr);
 			return 0;
@@ -366,7 +364,6 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
 			BitBlt(hdc, 0, 0, pThumb->bmpContent.getWidth(), pThumb->bmpContent.getHeight(), pThumb->bmpContent.getDC(), 0, 0, SRCCOPY);
-			//RepaintWindow( hwnd, hdc );
 			EndPaint(hwnd, &ps);
 			break;
 		}
@@ -375,7 +372,6 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 	case WM_PRINTCLIENT:
 		if (pThumb) {
 			BitBlt((HDC)wParam, 0, 0, pThumb->bmpContent.getWidth(), pThumb->bmpContent.getHeight(), pThumb->bmpContent.getDC(), 0, 0, SRCCOPY);
-			//RepaintWindow(hwnd, (HDC)wParam);
 			break;
 		}
 
@@ -388,15 +384,18 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_LBUTTONDOWN:
-		if (pThumb) pThumb->OnLButtonDown();
+		if (pThumb)
+			pThumb->OnLButtonDown();
 		break;
 
 	case WM_MOUSEMOVE:
-		if (pThumb) pThumb->OnMouseMove(LOWORD(lParam), HIWORD(lParam));
+		if (pThumb)
+			pThumb->OnMouseMove(LOWORD(lParam), HIWORD(lParam));
 		break;
 
 	case WM_LBUTTONUP:
-		if (pThumb) pThumb->OnLButtonUp();
+		if (pThumb)
+			pThumb->OnLButtonUp();
 		break;
 
 	case WM_LBUTTONDBLCLK:
@@ -878,6 +877,12 @@ static int OnModulesLoded(WPARAM, LPARAM)
 
 	hwndMiranda = pcli->hwndContactList;
 	mir_subclassWindow(hwndMiranda, newMirandaWndProc);
+
+	UINT_PTR dwStyle = SendMessageW(pcli->hwndContactTree, CLM_GETEXSTYLE, 0, 0);
+	if (dwStyle & CLS_EX_DISABLEDRAGDROP)
+		MessageBox(hwndMiranda,
+			TranslateT("Floating contacts plugin won't work until you uncheck the \"Disable drag and drop of items\" option in Options - Contact list"),
+			TranslateT("Floating contacts"), MB_ICONWARNING | MB_OK);
 
 	// No thumbs yet
 	bEnableTip = ServiceExists("mToolTip/ShowTip");
