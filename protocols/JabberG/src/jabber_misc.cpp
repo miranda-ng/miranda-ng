@@ -250,13 +250,14 @@ struct
 }
 static sttCapsNodeToName_Map[] =
 {
-	{ L"http://miranda-im.org",  L"Miranda IM Jabber" },
-	{ L"http://miranda-ng.org",  L"Miranda NG Jabber" },
-	{ L"http://www.google.com",  L"GTalk" },
-	{ L"http://mail.google.com", L"GMail" },
-	{ L"http://www.android.com", L"Android" },
-	{ L"http://qip.ru",          L"QIP 2012" },
-	{ L"http://2010.qip.ru",     L"QIP 2010"}
+	{ L"http://miranda-im.org",   L"Miranda IM Jabber" },
+	{ L"http://miranda-ng.org",   L"Miranda NG Jabber" },
+	{ L"http://www.google.com",   L"GTalk" },
+	{ L"http://mail.google.com",  L"GMail" },
+	{ L"http://www.android.com",  L"Android" },
+	{ L"http://qip.ru",           L"QIP 2012" },
+	{ L"http://2010.qip.ru",      L"QIP 2010"},
+	{ L"http://conversations.im", L"Conversations IM" }
 };
 
 const wchar_t* CJabberProto::GetSoftName(const wchar_t *wszName)
@@ -302,8 +303,9 @@ void CJabberProto::FormatMirVer(const pResourceStatus &resource, CMStringW &res)
 
 		// unknown software
 		const wchar_t *szDefaultName = GetSoftName(pCaps->GetNode());
-		res.Format(L"%s %s", (szDefaultName == nullptr) ? pCaps->GetSoft() : szDefaultName, pCaps->GetSoftVer());
-
+		res = (szDefaultName == nullptr) ? pCaps->GetSoft() : szDefaultName;
+		if (pCaps->GetSoftVer())
+			res.AppendFormat(L" %s", pCaps->GetSoftVer());
 		if (pCaps->GetSoftMir())
 			res.AppendFormat(L" %s", pCaps->GetSoftMir());
 	}
