@@ -177,7 +177,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 
 		T2Utf pszText_utf8(gch->ptszText);
 		gg_EnterCriticalSection(&sess_mutex, "gc_event", 57, "sess_mutex", 1);
-		gg_send_message_confer(sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, pszText_utf8);
+		gg_send_message_confer(m_sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, pszText_utf8);
 		gg_LeaveCriticalSection(&sess_mutex, "gc_event", 57, 1, "sess_mutex", 1);
 		return 1;
 	}

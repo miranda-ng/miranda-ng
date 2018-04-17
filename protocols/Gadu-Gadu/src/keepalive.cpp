@@ -44,7 +44,7 @@ static VOID CALLBACK gg_keepalive(HWND, UINT, UINT_PTR idEvent, DWORD)
 			gg->debugLogA("gg_keepalive(): Sending keep-alive");
 #endif
 			gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_keepalive", 68, "sess_mutex", 1);
-			gg_ping(gg->sess);
+			gg_ping(gg->m_sess);
 			gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_keepalive", 68, 1, "sess_mutex", 1);
 		}
 	}

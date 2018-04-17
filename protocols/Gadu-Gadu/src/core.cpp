@@ -44,7 +44,7 @@ int GaduProto::isonline()
 	int isonline;
 
 	gg_EnterCriticalSection(&sess_mutex, "isonline", 76, "sess_mutex", 1);
-	isonline = (sess != nullptr);
+	isonline = (m_sess != nullptr);
 	gg_LeaveCriticalSection(&sess_mutex, "isonline", 76, 1, "sess_mutex", 1);
 
 	return isonline;
@@ -132,15 +132,15 @@ void GaduProto::disconnect()
 		// Check if it has message
 		if (szMsg)
 		{
-			gg_change_status_descr(sess, GG_STATUS_NOT_AVAIL_DESCR, szMsg);
+			gg_change_status_descr(m_sess, GG_STATUS_NOT_AVAIL_DESCR, szMsg);
 			mir_free(szMsg);
 			// Wait for disconnection acknowledge
 		}
 		else
 		{
-			gg_change_status(sess, GG_STATUS_NOT_AVAIL);
+			gg_change_status(m_sess, GG_STATUS_NOT_AVAIL);
 			// Send logoff immediately
-			gg_logoff(sess);
+			gg_logoff(m_sess);
 		}
 		gg_LeaveCriticalSection(&sess_mutex, "disconnect", 12, 1, "sess_mutex", 1);
 	}
@@ -341,7 +341,7 @@ void __cdecl GaduProto::mainthread(void *)
 
 	////////////////////////////// DCC STARTUP /////////////////////////////
 	// Uin is ok so startup dcc if not started already
-	if (!dcc) {
+	if (!m_dcc) {
 		hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 		dccstart();
 
@@ -354,7 +354,7 @@ void __cdecl GaduProto::mainthread(void *)
 	}
 
 	// Check if dcc is running and setup forwarding port
-	if (dcc && m_gaduOptions.useForwarding) {
+	if (m_dcc && m_gaduOptions.useForwarding) {
 		CMStringW forwardHost = m_gaduOptions.forwardHost;
 		ptrA pHost(mir_u2a(forwardHost.c_str()));
 		if (!forwardHost.IsEmpty()) {
@@ -370,8 +370,8 @@ void __cdecl GaduProto::mainthread(void *)
 		}
 	}
 	// Setup client port
-	if (dcc)
-		p.client_port = dcc->port;
+	if (m_dcc)
+		p.client_port = m_dcc->port;
 
 	int hostnum = 0;
 
@@ -470,7 +470,7 @@ retry:
 		logonTime = time(nullptr);
 		setDword(GG_KEY_LOGONTIME, logonTime);
 		gg_EnterCriticalSection(&sess_mutex, "mainthread", 15, "sess_mutex", 1);
-		sess = local_sess;
+		m_sess = local_sess;
 		gg_LeaveCriticalSection(&sess_mutex, "mainthread", 15, 1, "sess_mutex", 1);
 		// Subscribe users status notifications
 		notifyall();
@@ -505,14 +505,14 @@ retry:
 #ifdef DEBUGMODE
 		debugLogA("mainthread(): waiting for gg_watch_fd");
 #endif
-		if (!(e = gg_watch_fd(sess))) {
+		if (!(e = gg_watch_fd(m_sess))) {
 #ifdef DEBUGMODE
 			debugLogA("mainthread(): waiting for gg_watch_fd - DONE error");
 #endif
 			debugLogA("mainthread() (%x): Connection closed.", this);
 			gg_EnterCriticalSection(&sess_mutex, "mainthread", 16, "sess_mutex", 1);
-			gg_free_session(sess);
-			sess = nullptr;
+			gg_free_session(m_sess);
+			m_sess = nullptr;
 			gg_LeaveCriticalSection(&sess_mutex, "mainthread", 16, 1, "sess_mutex", 1);
 			break;
 		}
@@ -533,15 +533,15 @@ retry:
 		case GG_EVENT_CONN_FAILED:
 		case GG_EVENT_DISCONNECT:
 			gg_EnterCriticalSection(&sess_mutex, "mainthread", 17, "sess_mutex", 1);
-			gg_free_session(sess);
-			sess = nullptr;
+			gg_free_session(m_sess);
+			m_sess = nullptr;
 			gg_LeaveCriticalSection(&sess_mutex, "mainthread", 17, 1, "sess_mutex", 1);
 			break;
 
 			// Client allowed to disconnect
 		case GG_EVENT_DISCONNECT_ACK:
 			// Send logoff
-			gg_logoff(sess);
+			gg_logoff(m_sess);
 			break;
 
 			// Received ackowledge
@@ -850,7 +850,7 @@ retry:
 						if (((struct gg_msg_richtext_format*)formats)->font & GG_FONT_IMAGE) {
 							struct gg_msg_richtext_image *image = (struct gg_msg_richtext_image *)(formats + add_ptr);
 							gg_EnterCriticalSection(&sess_mutex, "mainthread", 18, "sess_mutex", 1);
-							gg_image_request(sess, e->event.msg.sender, image->size, image->crc32);
+							gg_image_request(m_sess, e->event.msg.sender, image->size, image->crc32);
 							gg_LeaveCriticalSection(&sess_mutex, "mainthread", 18, 1, "sess_mutex", 1);
 
 							debugLogA("mainthread(): image request sent!");
@@ -1266,7 +1266,7 @@ int GaduProto::contactdeleted(WPARAM hContact, LPARAM)
 	if (uin && isonline())
 	{
 		gg_EnterCriticalSection(&sess_mutex, "contactdeleted", 25, "sess_mutex", 1);
-		gg_remove_notify_ex(sess, uin, GG_USER_NORMAL);
+		gg_remove_notify_ex(m_sess, uin, GG_USER_NORMAL);
 		gg_LeaveCriticalSection(&sess_mutex, "contactdeleted", 25, 1, "sess_mutex", 1);
 	}
 
@@ -1406,28 +1406,28 @@ void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 		{
 			gg_EnterCriticalSection(&sess_mutex, "notifyuser", 77, "sess_mutex", 1);
 			if (refresh) {
-				gg_remove_notify_ex(sess, uin, GG_USER_NORMAL);
-				gg_remove_notify_ex(sess, uin, GG_USER_BLOCKED);
+				gg_remove_notify_ex(m_sess, uin, GG_USER_NORMAL);
+				gg_remove_notify_ex(m_sess, uin, GG_USER_BLOCKED);
 			}
 
-			gg_add_notify_ex(sess, uin, GG_USER_OFFLINE);
+			gg_add_notify_ex(m_sess, uin, GG_USER_OFFLINE);
 			gg_LeaveCriticalSection(&sess_mutex, "notifyuser", 77, 1, "sess_mutex", 1);
 		}
 		else if (getByte(hContact, GG_KEY_BLOCK, 0))
 		{
 			gg_EnterCriticalSection(&sess_mutex, "notifyuser", 78, "sess_mutex", 1);
 			if (refresh)
-				gg_remove_notify_ex(sess, uin, GG_USER_OFFLINE);
+				gg_remove_notify_ex(m_sess, uin, GG_USER_OFFLINE);
 
-			gg_add_notify_ex(sess, uin, GG_USER_BLOCKED);
+			gg_add_notify_ex(m_sess, uin, GG_USER_BLOCKED);
 			gg_LeaveCriticalSection(&sess_mutex, "notifyuser", 78, 1, "sess_mutex", 1);
 		}
 		else {
 			gg_EnterCriticalSection(&sess_mutex, "notifyuser", 79, "sess_mutex", 1);
 			if (refresh)
-				gg_remove_notify_ex(sess, uin, GG_USER_BLOCKED);
+				gg_remove_notify_ex(m_sess, uin, GG_USER_BLOCKED);
 
-			gg_add_notify_ex(sess, uin, GG_USER_NORMAL);
+			gg_add_notify_ex(m_sess, uin, GG_USER_NORMAL);
 			gg_LeaveCriticalSection(&sess_mutex, "notifyuser", 79, 1, "sess_mutex", 1);
 		}
 	}
@@ -1446,7 +1446,7 @@ void GaduProto::notifyall()
 	if (count == 0) {
 		if (isonline()) {
 			gg_EnterCriticalSection(&sess_mutex, "notifyall", 29, "sess_mutex", 1);
-			gg_notify_ex(sess, nullptr, nullptr, 0);
+			gg_notify_ex(m_sess, nullptr, nullptr, 0);
 			gg_LeaveCriticalSection(&sess_mutex, "notifyall", 29, 1, "sess_mutex", 1);
 		}
 		return;
@@ -1473,7 +1473,7 @@ void GaduProto::notifyall()
 	// Send notification
 	if (isonline()) {
 		gg_EnterCriticalSection(&sess_mutex, "notifyall", 30, "sess_mutex", 1);
-		gg_notify_ex(sess, uins, types, count);
+		gg_notify_ex(m_sess, uins, types, count);
 		gg_LeaveCriticalSection(&sess_mutex, "notifyall", 30, 1, "sess_mutex", 1);
 	}
 
@@ -1534,7 +1534,7 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 			gg_pubdir50_add(req, GG_PUBDIR50_UIN, ditoa(uin));
 			gg_pubdir50_seq_set(req, GG_SEQ_GETNICK);
 			gg_EnterCriticalSection(&sess_mutex, "getcontact", 31, "sess_mutex", 1);
-			gg_pubdir50(sess, req);
+			gg_pubdir50(m_sess, req);
 			gg_LeaveCriticalSection(&sess_mutex, "getcontact", 31, 1, "sess_mutex", 1);
 			gg_pubdir50_free(req);
 			wchar_t* uinT = mir_a2u(ditoa(uin));
@@ -1547,7 +1547,7 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 	// Add to notify list and pull avatar for the new contact
 	if (isonline()) {
 		gg_EnterCriticalSection(&sess_mutex, "getcontact", 32, "sess_mutex", 1);
-		gg_add_notify_ex(sess, uin, (char)(inlist ? GG_USER_NORMAL : GG_USER_OFFLINE));
+		gg_add_notify_ex(m_sess, uin, (char)(inlist ? GG_USER_NORMAL : GG_USER_OFFLINE));
 		gg_LeaveCriticalSection(&sess_mutex, "getcontact", 32, 1, "sess_mutex", 1);
 
 		PROTO_AVATAR_INFORMATION ai = { 0 };

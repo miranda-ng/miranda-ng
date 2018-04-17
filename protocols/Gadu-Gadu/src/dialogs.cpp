@@ -450,7 +450,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS))
 				status_flags |= GG_STATUS_FLAG_SPAM;
 			gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, "sess_mutex", 1);
-			gg_change_status_flags(gg->sess, status_flags);
+			gg_change_status_flags(gg->m_sess, status_flags);
 			gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, 1, "sess_mutex", 1);
 			gg->setByte(GG_KEY_ENABLEAVATARS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLEAVATARS));
 
@@ -733,7 +733,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					// Run update
 					gg_pubdir50_seq_set(req, GG_SEQ_CHINFO);
 					gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_detailsdlgproc", 35, "sess_mutex", 1);
-					gg_pubdir50(gg->sess, req);
+					gg_pubdir50(gg->m_sess, req);
 					gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 35, 1, "sess_mutex", 1);
 					dat->updating = TRUE;
 

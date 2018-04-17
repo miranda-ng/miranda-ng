@@ -286,7 +286,7 @@ INT_PTR GaduProto::import_server(WPARAM, LPARAM)
 
 	// Making contacts list
 	gg_EnterCriticalSection(&sess_mutex, "import_server", 65, "sess_mutex", 1);
-	if (gg_userlist_request(sess, GG_USERLIST_GET, nullptr) == -1)
+	if (gg_userlist_request(m_sess, GG_USERLIST_GET, nullptr) == -1)
 	{
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 1, "sess_mutex", 1);
@@ -324,7 +324,7 @@ INT_PTR GaduProto::remove_server(WPARAM, LPARAM)
 
 	// Making contacts list
 	gg_EnterCriticalSection(&sess_mutex, "remove_server", 66, "sess_mutex", 1);
-	if (gg_userlist_request(sess, GG_USERLIST_PUT, nullptr) == -1)
+	if (gg_userlist_request(m_sess, GG_USERLIST_PUT, nullptr) == -1)
 	{
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
@@ -513,7 +513,7 @@ INT_PTR GaduProto::export_server(WPARAM, LPARAM)
 #endif
 
 	gg_EnterCriticalSection(&sess_mutex, "export_server", 67, "sess_mutex", 1);
-	if (gg_userlist_request(sess, GG_USERLIST_PUT, contacts) == -1)
+	if (gg_userlist_request(m_sess, GG_USERLIST_PUT, contacts) == -1)
 	{
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 1, "sess_mutex", 1);

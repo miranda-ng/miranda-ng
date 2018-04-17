@@ -134,12 +134,6 @@ struct GaduProto : public PROTO<GaduProto>
 	void     __cdecl setavatarthread(void*);
 
 	/* File transfer functions */
-	HANDLE fileallow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
-	int filecancel(MCONTACT hContact, HANDLE hTransfer);
-	int filedeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
-	int recvfile(MCONTACT hContact, PROTORECVFILE* pre);
-	HANDLE sendfile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles);
-
 	HANDLE dccfileallow(HANDLE hTransfer, const wchar_t* szPath);
 	HANDLE dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath);
 
@@ -226,8 +220,8 @@ struct GaduProto : public PROTO<GaduProto>
 	GGTHREAD pth_dcc;
 	GGTHREAD pth_sess;
 	GGTHREAD pth_avatar;
-	struct gg_session *sess;
-	struct gg_dcc *dcc;
+	struct gg_session *m_sess;
+	struct gg_dcc *m_dcc;
 	HANDLE hEvent;
 	HANDLE hConnStopEvent;
 	SOCKET sock;

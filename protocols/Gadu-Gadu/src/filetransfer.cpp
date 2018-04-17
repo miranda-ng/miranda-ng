@@ -27,7 +27,7 @@ void GaduProto::dccstart()
 {
 	DWORD exitCode = 0;
 
-	if (dcc)
+	if (m_dcc)
 		return;
 
 	// Startup dcc thread
@@ -150,7 +150,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 	}
 
 	// Create listen socket on config direct port
-	if (!(dcc = gg_dcc_socket_create(uin, static_cast<uint16_t>(m_gaduOptions.directConnectionPort))))
+	if (!(m_dcc = gg_dcc_socket_create(uin, static_cast<uint16_t>(m_gaduOptions.directConnectionPort))))
 	{
 		debugLogA("dccmainthread(): Cannot create DCC listen socket. Exiting.");
 		// Signalize mainthread we haven't start
@@ -161,7 +161,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 		return;
 	}
 
-	gg_dcc_port = dcc->port;
+	gg_dcc_port = m_dcc->port;
 	gg_dcc_ip = inet_addr("255.255.255.255");
 	debugLogA("dccmainthread(): Listening on port %d.", gg_dcc_port);
 
@@ -170,7 +170,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 		SetEvent(hEvent);
 
 	// Add main dcc handler to watches
-	list_add(&watches, dcc, 0);
+	list_add(&watches, m_dcc, 0);
 
 	// Do while we are in the main server thread
 	gg_event *e;
@@ -181,7 +181,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 	DWORD tick;
 	char szFilename[MAX_PATH];
 
-	while (pth_dcc.dwThreadId && dcc)
+	while (pth_dcc.dwThreadId && m_dcc)
 	{
 		// Timeouts
 		tv.tv_sec = 1;
@@ -254,7 +254,8 @@ void __cdecl GaduProto::dccmainthread(void*)
 					gg_dcc_socket_free(local_dcc);
 
 					// Check if it's main socket
-					if (local_dcc == dcc) dcc = nullptr;
+					if (local_dcc == m_dcc)
+						m_dcc = nullptr;
 					continue;
 				}
 				else {
@@ -299,7 +300,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 
 					// Connection was successfuly ended
 				case GG_EVENT_DCC_DONE:
-					debugLogA("dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
+					debugLogA("dccmainthread(): Client: %d, Transfer done ! Closing connection.", m_dcc->peer_uin);
 					// Remove from watches
 					list_remove(&watches, local_dcc, 0);
 					// Close file & success
@@ -329,7 +330,9 @@ void __cdecl GaduProto::dccmainthread(void*)
 						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 					}
 					// Free dcc
-					gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
+					gg_free_dcc(local_dcc); 
+					if (local_dcc == m_dcc)
+						m_dcc = nullptr;
 					break;
 
 					// Client error
@@ -355,7 +358,8 @@ void __cdecl GaduProto::dccmainthread(void*)
 						debugLogA("dccmainthread(): Client: %d, Unknown error.", local_dcc->peer_uin);
 					}
 					// Don't do anything if it's main socket
-					if (local_dcc == dcc) break;
+					if (local_dcc == m_dcc)
+						break;
 
 					// Remove from watches
 					list_remove(&watches, local_dcc, 0);
@@ -369,7 +373,9 @@ void __cdecl GaduProto::dccmainthread(void*)
 						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 					}
 					// Free dcc
-					gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
+					gg_free_dcc(local_dcc);
+					if (local_dcc == m_dcc)
+						m_dcc = nullptr;
 					break;
 
 					// Need file acknowledgement
@@ -386,7 +392,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 					{
 						// Make new ggtransfer struct
 						local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
-						wchar_t* filenameT = mir_utf8decodeW((char*)dcc->file_info.filename);
+						wchar_t* filenameT = mir_utf8decodeW((char*)m_dcc->file_info.filename);
 
 						PROTORECVFILE pre = { 0 };
 						pre.dwFlags = PRFF_UNICODE;
@@ -413,8 +419,10 @@ void __cdecl GaduProto::dccmainthread(void*)
 						break;
 
 					// Kill unauthorized dcc
-					list_remove(&watches, dcc, 0);
-					gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
+					list_remove(&watches, m_dcc, 0);
+					gg_free_dcc(local_dcc);
+					if (local_dcc == m_dcc)
+						m_dcc = nullptr;
 					break;
 
 					// Client connected as we wished to (callback)
@@ -459,7 +467,9 @@ void __cdecl GaduProto::dccmainthread(void*)
 						debugLogA("dccmainthread(): Unknown request to client %d.", local_dcc->peer_uin);
 						// Kill unauthorized dcc
 						list_remove(&watches, local_dcc, 0);
-						gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
+						gg_free_dcc(local_dcc);
+						if (local_dcc == m_dcc)
+							m_dcc = nullptr;
 					}
 					break;
 				}
@@ -526,7 +536,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 
 					// Connection was successfuly ended
 				case GG_EVENT_DCC7_DONE:
-					debugLogA("dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
+					debugLogA("dccmainthread(): Client: %d, Transfer done ! Closing connection.", m_dcc->peer_uin);
 					// Remove from watches
 					list_remove(&watches, local_dcc7, 0);
 					// Close file & success
@@ -629,7 +639,8 @@ void __cdecl GaduProto::dccmainthread(void*)
 			gg_dcc_socket_free(local_dcc);
 
 			// Check if it's main socket
-			if (local_dcc == dcc) dcc = nullptr;
+			if (local_dcc == m_dcc)
+				m_dcc = nullptr;
 		}
 	}
 	// Close all waiting for aknowledgle transfers
@@ -943,7 +954,7 @@ HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFil
 	// Use DCC7 if a contact is using at least version 7.6 or unknown version
 	if ((ver & 0x00ffffff) >= 0x29 || !ver) {
 		gg_EnterCriticalSection(&sess_mutex, "SendFile", 46, "sess_mutex", 1);
-		struct gg_dcc7 *dcc7 = gg_dcc7_send_file(sess, uin, filename, nullptr, nullptr);
+		struct gg_dcc7 *dcc7 = gg_dcc7_send_file(m_sess, uin, filename, nullptr, nullptr);
 		if (!dcc7) {
 			gg_LeaveCriticalSection(&sess_mutex, "SendFile", 46, 1, "sess_mutex", 1);
 			debugLogA("SendFile(): Failed to send file \"%s\".", filename);
@@ -998,7 +1009,7 @@ HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFil
 		dcc->type = GG_SESSION_DCC_SEND;
 		debugLogA("SendFile(): Requesting user to connect us and scheduling gg_dcc struct for a later use.");
 		gg_EnterCriticalSection(&sess_mutex, "SendFile", 47, "sess_mutex", 1);
-		gg_dcc_request(sess, uin);
+		gg_dcc_request(m_sess, uin);
 		gg_LeaveCriticalSection(&sess_mutex, "SendFile", 47, 1, "sess_mutex", 1);
 		list_add(&requests, dcc, 0);
 	}

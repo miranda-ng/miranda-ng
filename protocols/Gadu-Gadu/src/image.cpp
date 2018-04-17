@@ -534,8 +534,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_IMG_CANCEL:
 			EndDialog(hwndDlg, 0);
 			return TRUE;
@@ -605,7 +604,6 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_IMG_SEND:
 		{
 			unsigned char format[20];
-			char *msg = "\xA0\0";
 			GaduProto *gg = dat->gg;
 
 			if (dat->lpImages && gg->isonline())
@@ -627,7 +625,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				uin_t uin = (uin_t)gg->getDword(dat->hContact, GG_KEY_UIN, 0);
 				gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_img_dlgproc", 59, "sess_mutex", 1);
-				gg_send_message_richtext(gg->sess, GG_CLASS_CHAT, uin, (unsigned char*)msg, format, len + sizeof(struct gg_msg_richtext));
+				gg_send_message_richtext(gg->m_sess, GG_CLASS_CHAT, uin, (unsigned char*)"\xA0\0", format, len + sizeof(struct gg_msg_richtext));
 				gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_img_dlgproc", 59, 1, "sess_mutex", 1);
 
 				// Protect dat from releasing
@@ -749,7 +747,7 @@ int gg_img_isexists(wchar_t *szPath, GGIMAGEENTRY *dat)
 	if (_wstat(szPath, &st) != 0)
 		return 0;
 
-	if (st.st_size == dat->nSize)
+	if ((long)st.st_size == dat->nSize)
 	{
 		FILE *fp = _wfopen(szPath, L"rb");
 		if (!fp) return 0;
@@ -1169,7 +1167,7 @@ BOOL GaduProto::img_sendonrequest(gg_event* e)
 
 	char* lpszFileNameA = mir_u2a(dat->lpImages->lpszFileName);
 	gg_EnterCriticalSection(&sess_mutex, "img_sendonrequest", 63, "sess_mutex", 1);
-	gg_image_reply(sess, e->event.image_request.sender, lpszFileNameA, dat->lpImages->lpData, dat->lpImages->nSize);
+	gg_image_reply(m_sess, e->event.image_request.sender, lpszFileNameA, dat->lpImages->lpData, dat->lpImages->nSize);
 	gg_LeaveCriticalSection(&sess_mutex, "img_sendonrequest", 63, 1, "sess_mutex", 1);
 	mir_free(lpszFileNameA);
 

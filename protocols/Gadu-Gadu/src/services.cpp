@@ -109,13 +109,13 @@ int GaduProto::refreshstatus(int status)
 		if (szMsg_utf8) {
 			debugLogA("refreshstatus(): Setting status and away message.");
 			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 70, "sess_mutex", 1);
-			gg_change_status_descr(sess, status_m2gg(status, szMsg_utf8 != NULL), szMsg_utf8);
+			gg_change_status_descr(m_sess, status_m2gg(status, szMsg_utf8 != NULL), szMsg_utf8);
 			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 70, 1, "sess_mutex", 1);
 		}
 		else {
 			debugLogA("refreshstatus(): Setting just status.");
 			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 71, "sess_mutex", 1);
-			gg_change_status(sess, status_m2gg(status, 0));
+			gg_change_status(m_sess, status_m2gg(status, 0));
 			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 71, 1, "sess_mutex", 1);
 		}
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)

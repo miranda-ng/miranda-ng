@@ -192,7 +192,7 @@ int GaduProto::GetInfo(MCONTACT hContact, int)
 		debugLogA("GetInfo(): Requesting user info.", req->seq);
 		if (isonline()) {
 			gg_EnterCriticalSection(&sess_mutex, "GetInfo", 48, "sess_mutex", 1);
-			if (!gg_pubdir50(sess, req)) {
+			if (!gg_pubdir50(m_sess, req)) {
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 7 GaduProto::cmdgetinfothread");
@@ -219,7 +219,7 @@ int GaduProto::GetInfo(MCONTACT hContact, int)
 		debugLogA("GetInfo(): Requesting owner info.", req->seq);
 		if (isonline()) {
 			gg_EnterCriticalSection(&sess_mutex, "GetInfo", 49, "sess_mutex", 1);
-			if (!gg_pubdir50(sess, req)) {
+			if (!gg_pubdir50(m_sess, req)) {
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 9 GaduProto::cmdgetinfothread");
@@ -269,7 +269,7 @@ HANDLE GaduProto::SearchBasic(const wchar_t *id)
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
 
 	gg_EnterCriticalSection(&sess_mutex, "SearchBasic", 50, "sess_mutex", 1);
-	if (!gg_pubdir50(sess, req)) {
+	if (!gg_pubdir50(m_sess, req)) {
 		gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 11 GaduProto::searchthread");
@@ -337,7 +337,7 @@ HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, co
 
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
 	gg_EnterCriticalSection(&sess_mutex, "SearchByName", 51, "sess_mutex", 1);
-	if (!gg_pubdir50(sess, req)) {
+	if (!gg_pubdir50(m_sess, req)) {
 		gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 13 GaduProto::searchthread");
@@ -473,7 +473,7 @@ HWND GaduProto::SearchAdvanced(HWND hwndDlg)
 
 	if (isonline()) {
 		gg_EnterCriticalSection(&sess_mutex, "SearchAdvanced", 52, "sess_mutex", 1);
-		if (!gg_pubdir50(sess, req)) {
+		if (!gg_pubdir50(m_sess, req)) {
 			gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
 			debugLogA("SearchAdvanced(): ForkThread 15 GaduProto::searchthread");
@@ -538,7 +538,7 @@ int GaduProto::SendMsg(MCONTACT hContact, int, const char *msg)
 		return 0;
 
 	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
-	int seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
+	int seq = gg_send_message(m_sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
 	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
 	if (!m_gaduOptions.useMsgDeliveryAcknowledge) {
 		// Auto-ack message without waiting for server ack
@@ -689,7 +689,7 @@ int GaduProto::UserIsTyping(MCONTACT hContact, int type)
 
 	if (type == PROTOTYPE_SELFTYPING_ON || type == PROTOTYPE_SELFTYPING_OFF) {
 		gg_EnterCriticalSection(&sess_mutex, "UserIsTyping", 56, "sess_mutex", 1);
-		gg_typing_notification(sess, uin, (type == PROTOTYPE_SELFTYPING_ON));
+		gg_typing_notification(m_sess, uin, (type == PROTOTYPE_SELFTYPING_ON));
 		gg_LeaveCriticalSection(&sess_mutex, "UserIsTyping", 56, 1, "sess_mutex", 1);
 	}
 

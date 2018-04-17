@@ -214,7 +214,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 				lvi.iItem = i;
 				ListView_GetItem(hList, &lvi);
 				gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_sessions_viewdlg", 74, "sess_mutex", 1);
-				gg_multilogon_disconnect(gg->sess, *((gg_multilogon_id_t*)lvi.lParam));
+				gg_multilogon_disconnect(gg->m_sess, *((gg_multilogon_id_t*)lvi.lParam));
 				gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_sessions_viewdlg", 74, 1, "sess_mutex", 1);
 			}
 			break;
@@ -288,7 +288,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 					lvi.iItem = nm->iItem;
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
 					gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_sessions_viewdlg", 75, "sess_mutex", 1);
-					gg_multilogon_disconnect(gg->sess, *((gg_multilogon_id_t*)lvi.lParam));
+					gg_multilogon_disconnect(gg->m_sess, *((gg_multilogon_id_t*)lvi.lParam));
 					gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_sessions_viewdlg", 75, 1, "sess_mutex", 1);
 				}
 				break;
