@@ -217,11 +217,13 @@ begin
   if ServiceExists(MS_TTB_ADDBUTTON) then
   begin
     ZeroMemory(@ttbopt,sizeof(ttbopt));
-    ttbopt.pszService:=QS_SHOWSERVICE;
-    ttbopt.hIconUp   :=IcoLib_GetIcon(QS_QS,0);
-    ttbopt.hIconDn   :=ttbopt.hIconUp;
-    ttbopt.dwFlags   :=TTBBF_VISIBLE;
-    ttbopt.name      :=qs_module;
+    ttbopt.pszService   := QS_SHOWSERVICE;
+    ttbopt.hIconUp      := IcoLib_GetIcon(QS_QS,0);
+    ttbopt.hIconDn      := ttbopt.hIconUp;
+    ttbopt.dwFlags      := TTBBF_VISIBLE;
+    ttbopt.name         := qs_module;
+    ttbopt.pszTooltipUp := qs_name;
+    ttbopt.pszTooltipDn := qs_name;
     hTTBButton:=TopToolbar_AddButton(@ttbopt);
     if hTTBButton=THANDLE(-1) then
       hTTBButton:=0;
