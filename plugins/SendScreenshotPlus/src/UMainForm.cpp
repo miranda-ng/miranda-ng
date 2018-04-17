@@ -328,7 +328,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (30m)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)1));
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)4));
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)5));
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"imgur"), new UPLOAD_INFO(SS_IMGUR));
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"Imgur"), new UPLOAD_INFO(SS_IMGUR));
 		ComboBox_SelectItemData(hCtrl, m_opt_cboxSendBy);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
 	/// init footer options
