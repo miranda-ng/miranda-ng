@@ -214,6 +214,10 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 	if (TextRange->GetText(&btxt) != S_OK)
 		return;
 
+	HDC hdc = GetDC(hwnd);
+	if (hdc == nullptr)
+		return;
+
 	SmileysQueueType smllist;
 	LookupAllSmileys(smp, smcp, btxt, smllist, false);
 
@@ -230,7 +234,8 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 		SetRichCallback(hwnd, NULL, false, true);
 
 		bool rdo = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) != 0;
-		if (rdo) SendMessage(hwnd, EM_SETREADONLY, FALSE, 0);
+		if (rdo)
+			SendMessage(hwnd, EM_SETREADONLY, FALSE, 0);
 
 		CComPtr<ITextSelection> TextSelection;
 		TextDocument->GetSelection(&TextSelection);
@@ -257,16 +262,15 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 			SendMessage(hwnd, EM_SETBKGNDCOLOR, 0, bkgColor);
 		}
 
-		HDC hdc = GetDC(hwnd);
 		int sclX = GetDeviceCaps(hdc, LOGPIXELSX);
-		int sclY = GetDeviceCaps(hdc, LOGPIXELSY); 
+		int sclY = GetDeviceCaps(hdc, LOGPIXELSY);
 
 		unsigned numBTBSm = 0;
 
 		BSTR spaceb = SysAllocString(L" ");
 
 		// Replace smileys specified in the list in RichEdit 
-		for (int j = smllist.getCount()-1; j >= 0; j--) {
+		for (int j = smllist.getCount() - 1; j >= 0; j--) {
 			CHARRANGE &smlpos = smllist[j].loc;
 			if (ignoreLast && oldSel.cpMax == smlpos.cpMax)
 				continue;
@@ -316,12 +320,12 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 
 				//do not look for smileys in hyperlinks
 				if ((chf.dwEffects & (CFE_LINK | CFE_HIDDEN)) != 0)
-					continue;   
+					continue;
 
 				SIZE osize;
-				if (sml) 
-					sml->GetSize(osize); 
-				else 
+				if (sml)
+					sml->GetSize(osize);
+				else
 					smlc->GetSize(osize);
 
 				if (osize.cx == 0 || osize.cy == 0)
@@ -367,8 +371,8 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 
 				// Convert pixel to HIMETRIC
 				SIZEL sizehm;
-				sizehm.cx = (2540 * (sizeX+1) + (sclX >> 1)) / sclX;
-				sizehm.cy = (2540 * (sizeY+1) + (sclY >> 1)) / sclY;
+				sizehm.cx = (2540 * (sizeX + 1) + (sclX >> 1)) / sclX;
+				sizehm.cy = (2540 * (sizeY + 1) + (sclY >> 1)) / sclY;
 
 				// If font does not have designated background use control background
 				if (chf.dwEffects & CFE_AUTOBACKCOLOR) chf.crBackColor = bkgColor;
@@ -377,7 +381,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 				if (!smllist[j].trspace && useHidden) {
 					TextSelection->SetStart(smlpos.cpMax);
 					TextSelection->TypeText(spaceb);
-					UpdateSelection(oldSel, smlpos.cpMax , 1);
+					UpdateSelection(oldSel, smlpos.cpMax, 1);
 
 					// Restore selection
 					TextSelection->SetRange(smlpos.cpMin, smlpos.cpMax);
@@ -386,9 +390,9 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 				if (g_HiddenTextSupported && useHidden) {
 					TextFont->SetHidden(tomTrue);
 					TextSelection->SetEnd(smlpos.cpMin);
-					UpdateSelection(oldSel, smlpos.cpMin , 1);
+					UpdateSelection(oldSel, smlpos.cpMin, 1);
 				}
-				else UpdateSelection(oldSel, smlpos.cpMin, -(int)SysStringLen(bstrText)+1);
+				else UpdateSelection(oldSel, smlpos.cpMin, -(int)SysStringLen(bstrText) + 1);
 
 				ISmileyBase *smileyBase = CreateAniSmileyObject(smlc ? smlc : sml, chf.crBackColor, ishpp);
 				if (smileyBase == nullptr)
@@ -400,7 +404,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 				smileyBase->SetPosition(hwnd, nullptr);
 
 				// Get the RichEdit container site
-				IOleClientSite *pOleClientSite; 
+				IOleClientSite *pOleClientSite;
 				RichEditOle->GetClientSite(&pOleClientSite);
 
 				// Now Add the object to the RichEdit 
@@ -421,7 +425,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 				if (!smllist[j].ldspace && useHidden) {
 					TextSelection->SetRange(smlpos.cpMin, smlpos.cpMin);
 					TextSelection->TypeText(spaceb);
-					UpdateSelection(oldSel, smlpos.cpMin , 1);
+					UpdateSelection(oldSel, smlpos.cpMin, 1);
 				}
 			}
 			SysFreeString(bstrText);
@@ -432,12 +436,13 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 		if (rdo)
 			SendMessage(hwnd, EM_SETREADONLY, TRUE, 0);
 
-		ReleaseDC(hwnd, hdc); 
+		ReleaseDC(hwnd, hdc);
 
 		TextDocument->Unfreeze(&cnt);
 		if (cnt == 0)
 			UpdateWindow(hwnd);
 	}
+	else ReleaseDC(hwnd, hdc);
 
 	if (unFreeze) {
 		TextDocument->Unfreeze(&cnt);
