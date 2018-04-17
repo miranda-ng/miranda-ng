@@ -64,11 +64,19 @@ void strm_mgmt::OnProcessResumed(HXML node, ThreadData * /*info*/)
 	if (!var)
 		return;
 	bSessionResumed = true;
+	m_bStrmMgmtEnabled = true;
+	m_bStrmMgmtPendingEnable = false;
 	m_nStrmMgmtSrvHCount = _wtoi(var);
 	int size = m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount;
+
+	//FinishLoginProcess(info);
+	proto->OnLoggedIn();
+	proto->ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)proto->m_iStatus, proto->m_iDesiredStatus);
+
 	if (size < 0)
 	{
 		proto->debugLogA("strm_mgmt: error: locally sent nodes count %d, server side received count %d", m_nStrmMgmtLocalSCount, m_nStrmMgmtSrvHCount);
+		m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount; //temporary workaround
 		//TODO: this should never happen, indicates server side bug
 		//TODO: once our client side implementation good enough, abort stream in this case, noop for now
 	}
@@ -93,6 +101,7 @@ void strm_mgmt::OnProcessSMa(HXML node)
 	if (size < 0)
 	{
 		proto->debugLogA("strm_mgmt: error: locally sent nodes count %d, server side received count %d", m_nStrmMgmtLocalSCount, m_nStrmMgmtSrvHCount);
+		m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount; //temporary workaround
 		//TODO: this should never happen, indicates server side bug
 		//TODO: once our client side implementation good enough, abort stream in this case, noop for now
 	}
@@ -134,9 +143,11 @@ void strm_mgmt::ResendNodes(uint32_t size)
 	}
 	std::list<HXML> tmp_list = NodeCache;
 	NodeCache.clear();
+	m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount; //we have handled missed nodes, set our counter to match server side value
 	for (auto i : tmp_list)
 	{
-		proto->m_ThreadInfo->send_no_strm_mgmt(i); //freed by send ?
+		proto->m_ThreadInfo->send(i);
+		//proto->m_ThreadInfo->send_no_strm_mgmt(i); //freed by send ?
 												   //xmlFree(i);
 	}
 }
@@ -147,15 +158,25 @@ void strm_mgmt::OnProcessSMr(HXML node)
 		SendAck();
 }
 
-void strm_mgmt::OnProcessFailed(HXML node, ThreadData * /*info*/) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
+void strm_mgmt::OnProcessFailed(HXML node, ThreadData * info) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
 {
 	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 		return;
 	proto->debugLogW(L"strm_mgmt: error: Failed to resume session %s", m_sStrmMgmtResumeId.c_str());
+
 	m_bStrmMgmtEnabled = false;
 	bSessionResumed = false;
 	m_sStrmMgmtResumeId.clear();
-	EnableStrmMgmt(); //resume failed, try to enable strm_mgmt instead
+	{
+		HXML subnode = XmlGetChild(node, L"item-not-found");
+		if (subnode)
+		{
+			m_bStrmMgmtPendingEnable = true;
+			FinishLoginProcess(info);
+		}
+		else
+			EnableStrmMgmt(); //resume failed, try to enable strm_mgmt instead
+	}
 }
 
 void strm_mgmt::CheckStreamFeatures(HXML node)
@@ -257,4 +278,25 @@ bool strm_mgmt::IsSessionResumed()
 bool strm_mgmt::IsResumeIdPresent()
 {
 	return !m_sStrmMgmtResumeId.empty();
+}
+
+void strm_mgmt::FinishLoginProcess(ThreadData *info)
+{
+
+	if (info->auth) 
+	{ //We are already logged-in
+		info->send(
+			XmlNodeIq(proto->AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
+			<< XCHILDNS(L"bind", L"urn:ietf:params:xml:ns:xmpp-bind")
+			<< XCHILD(L"resource", info->resource));
+
+		if (proto->m_AuthMechs.isSessionAvailable)
+			info->bIsSessionAvailable = TRUE;
+
+		return;
+	}
+
+	//mechanisms not available and we are not logged in
+	proto->PerformIqAuth(info);
+
 }

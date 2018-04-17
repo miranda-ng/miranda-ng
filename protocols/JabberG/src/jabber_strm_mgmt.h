@@ -32,6 +32,7 @@ class strm_mgmt
 	void OnProcessSMa(HXML node);
 	void OnProcessSMr(HXML node);
 	void ResendNodes(uint32_t count);
+	void FinishLoginProcess(ThreadData *info);
 
 
 	CJabberProto *proto;

@@ -760,27 +760,26 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData *info)
 		return;
 	}
 
-	if (m_bEnableStreamMgmt) //resume should be done here
+	if (m_bEnableStreamMgmt && m_StrmMgmt.IsResumeIdPresent()) //resume should be done here
+		m_StrmMgmt.CheckState();
+	else
 	{
-		if (m_StrmMgmt.IsResumeIdPresent())
-			m_StrmMgmt.CheckState();
-	}
-
-	// mechanisms are not defined.
-	if (info->auth) { //We are already logged-in
-		info->send(
-			XmlNodeIq(AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
+		// mechanisms are not defined.
+		if (info->auth) { //We are already logged-in
+			info->send(
+				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS(L"bind", L"urn:ietf:params:xml:ns:xmpp-bind")
 				<< XCHILD(L"resource", info->resource));
 
-		if (m_AuthMechs.isSessionAvailable)
-			info->bIsSessionAvailable = TRUE;
+			if (m_AuthMechs.isSessionAvailable)
+				info->bIsSessionAvailable = TRUE;
 
-		return;
+			return;
+		}
+
+		//mechanisms not available and we are not logged in
+		PerformIqAuth(info);
 	}
-
-	//mechanisms not available and we are not logged in
-	PerformIqAuth(info);
 }
 
 void CJabberProto::OnProcessFailure(HXML node, ThreadData *info)
@@ -2132,10 +2131,12 @@ int ThreadData::send(HXML node)
 	while (HXML parent = xmlGetParent(node))
 		node = parent;
 
-	int result = send_no_strm_mgmt(node);
-
 	if (proto->m_bEnableStreamMgmt)
 		proto->m_StrmMgmt.HandleOutgoingNode(node); //TODO: is this a correct place ?, looks like some nodes does not goes here...
+
+
+	int result = send_no_strm_mgmt(node);
+
 
 	return result;
 }
