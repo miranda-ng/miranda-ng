@@ -450,7 +450,7 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 	return TRUE;
 }
 
-static int FindMirandaForProfile(wchar_t *szProfile)
+int findMirandaForProfile(wchar_t *szProfile)
 {
 	ENUMMIRANDAWINDOW x = {};
 	x.profile = szProfile;
@@ -488,7 +488,7 @@ int LoadDatabaseModule(void)
 	}
 
 	// if this profile is already opened in another miranda, silently return
-	if (FindMirandaForProfile(szProfile))
+	if (findMirandaForProfile(szProfile))
 		return 1;
 
 	// find a driver to support the given profile

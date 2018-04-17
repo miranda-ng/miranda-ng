@@ -248,7 +248,7 @@ class CChooseProfileDlg : public CDlgBase
 		CCtrlListView &list = ped->list;
 
 		wchar_t sizeBuf[64];
-		bool bFileLocked = true;
+		bool bFileLocked;
 
 		wchar_t *p = wcsrchr(profile, '.');
 		mir_wstrcpy(sizeBuf, L"0 KB");
@@ -269,8 +269,9 @@ class CChooseProfileDlg : public CDlgBase
 				mir_snwprintf(sizeBuf, L"%.3lf", (double)statbuf.st_size / 1024.0);
 				mir_wstrcpy(sizeBuf + 5, L" KB");
 			}
-			bFileLocked = !fileExist(tszFullPath);
+			bFileLocked = findMirandaForProfile(tszFullPath) != 0;
 		}
+		else bFileLocked = true;
 
 		DATABASELINK *dblink;
 		switch (touchDatabase(tszFullPath, &dblink)) {

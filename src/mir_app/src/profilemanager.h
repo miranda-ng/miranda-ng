@@ -35,6 +35,7 @@ struct PROFILEMANAGERDATA
 	DATABASELINK *dblink; // out
 };
 
+int findMirandaForProfile(wchar_t *szProfile);
 char* makeFileName(const wchar_t *tszOriginalName);
 int touchDatabase(const wchar_t *tszProfile, DATABASELINK **pDblink);
 int getProfileManager(PROFILEMANAGERDATA *pd);
