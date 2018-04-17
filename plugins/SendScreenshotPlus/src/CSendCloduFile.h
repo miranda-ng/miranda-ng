@@ -26,8 +26,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef _CSEND_DROPBOX_FILE_H
-#define _CSEND_DROPBOX_FILE_H
+#ifndef _CSEND_CLOUD_FILE_H
+#define _CSEND_CLOUD_FILE_H
 
 #include "Utils.h"
 
@@ -45,7 +45,6 @@ protected:
 
 	void SendThread();
 	static void SendThreadWrapper(void *Obj);
-	static int OnDropAck(void*, WPARAM, LPARAM);
 };
 
 #endif
