@@ -36,18 +36,6 @@ void FacebookProto::ChangeStatus(void*)
 
 		SetEvent(update_loop_event);
 
-		// Shutdown and close channel handle
-		Netlib_Shutdown(facy.hChannelCon);
-		if (facy.hChannelCon)
-			Netlib_CloseHandle(facy.hChannelCon);
-		facy.hChannelCon = nullptr;
-
-		// Shutdown and close messages handle
-		Netlib_Shutdown(facy.hMessagesCon);
-		if (facy.hMessagesCon)
-			Netlib_CloseHandle(facy.hMessagesCon);
-		facy.hMessagesCon = nullptr;
-
 		// Turn off chat on Facebook
 		if (getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT))
 			facy.chat_state(false);
@@ -73,11 +61,6 @@ void FacebookProto::ChangeStatus(void*)
 		facy.messages_timestamp.clear();
 		facy.pages.clear();
 		facy.typers.clear();
-
-		// Close connection handle
-		if (facy.hFcbCon)
-			Netlib_CloseHandle(facy.hFcbCon);
-		facy.hFcbCon = nullptr;
 
 		m_iStatus = facy.self_.status_id = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -134,10 +117,6 @@ void FacebookProto::ChangeStatus(void*)
 		}
 		else {
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
-
-			if (facy.hFcbCon)
-				Netlib_CloseHandle(facy.hFcbCon);
-			facy.hFcbCon = nullptr;
 
 			facy.clear_cookies();
 

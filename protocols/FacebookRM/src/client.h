@@ -36,30 +36,15 @@ public:
 
 	facebook_client()
 	{
-		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = chat_req_ = 0;
-
-		hChannelCon = nullptr;
-		hMessagesCon = nullptr;
-		hFcbCon = nullptr;
-		handle_ = nullptr;
-		parent = nullptr;
-
-		mbasicWorks = true;
-		loading_history = false;
 	}
-
-	HNETLIBCONN hChannelCon;
-	HNETLIBCONN hMessagesCon;
-	HNETLIBCONN hFcbCon;
-	mir_cs fcb_conn_lock_;
 
 	// Random generator value for this client
 
-	unsigned int random_;
+	unsigned int random_ = 0;
 
 	// Parent handle
 
-	FacebookProto *parent;
+	FacebookProto *parent = nullptr;
 
 	// User data
 
@@ -81,13 +66,13 @@ public:
 	std::string chat_conn_num_;
 	std::string chat_clientid_;
 	std::string chat_traceid_;
-	time_t last_feeds_update_;
-	time_t last_notification_time_;
-	volatile unsigned int msgid_;
-	int chat_msgs_recv_;
-	volatile unsigned int chat_req_;
+	time_t last_feeds_update_ = 0;
+	time_t last_notification_time_ = 0;
+	volatile unsigned int msgid_ = 0;
+	int chat_msgs_recv_ = 0;
+	volatile unsigned int chat_req_ = 0;
 
-	bool mbasicWorks;
+	bool mbasicWorks = true;
 
 	////////////////////////////////////////////////////////////
 	// Client vs protocol communication
@@ -130,7 +115,7 @@ public:
 
 	// Connection handling
 
-	unsigned int error_count_;
+	unsigned int error_count_ = 0;
 
 	bool handle_entry(const std::string &method);
 	bool handle_success(const std::string &method);
@@ -186,7 +171,7 @@ public:
 	std::map<std::string, int> messages_ignore;
 	std::map<int, time_t> messages_timestamp;
 	
-	bool loading_history;
+	bool loading_history = false;
 	mir_cs loading_history_lock_;
 
 	bool channel();
@@ -272,7 +257,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// Netlib handle
 
-	HNETLIBUSER handle_;
+	HNETLIBUSER handle_ = nullptr;
 	void set_handle(HNETLIBUSER h)
 	{
 		handle_ = h;
