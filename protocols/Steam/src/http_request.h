@@ -4,7 +4,7 @@
 class HttpRequest;
 class HttpResponse;
 
-class HttpUri
+class HttpUri : private MNonCopyable
 {
 	friend class HttpRequest;
 
@@ -53,8 +53,6 @@ private:
 	}
 
 public:
-	HttpUri& operator=(const HttpUri&); // to prevent copying;
-
 	operator const char*() const
 	{
 		return m_request
@@ -87,7 +85,7 @@ public:
 	}
 };
 
-class HttpHeaders
+class HttpHeaders : private MNonCopyable
 {
 	friend class HttpContent;
 	friend class HttpRequest;
@@ -119,8 +117,6 @@ private:
 	}
 
 public:
-	HttpHeaders& operator=(const HttpHeaders&); // to prevent copying;
-
 	const NETLIBHTTPHEADER* operator[](size_t idx) const
 	{
 		return m_request
@@ -158,7 +154,7 @@ public:
 	}
 };
 
-class HttpContent
+class HttpContent : private MNonCopyable
 {
 	friend class HttpRequest;
 	friend class HttpResponse;
@@ -182,8 +178,6 @@ protected:
 	}
 
 public:
-	HttpContent& operator=(const HttpContent&); // to prevent copying;
-
 	operator bool() const
 	{
 		return m_request && m_request->pData && m_request->dataLength;

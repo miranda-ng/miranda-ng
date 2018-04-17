@@ -104,13 +104,13 @@ template<class T> struct SMOBJLIST : public OBJLIST<T>
 {
 	SMOBJLIST() : OBJLIST<T>(5) {};
 
-	SMOBJLIST<T>& operator = (const SMOBJLIST<T>& lst)
+	SMOBJLIST<T>& operator=(const SMOBJLIST<T>& lst)
 	{
 		OBJLIST<T>::destroy();
-		return operator += (lst);
+		return operator+=(lst);
 	}
 
-	SMOBJLIST<T>& operator += (const SMOBJLIST<T>& lst)
+	SMOBJLIST<T>& operator+=(const SMOBJLIST<T>& lst)
 	{
 		for (auto &it : lst)
 			insert(new T(*it));

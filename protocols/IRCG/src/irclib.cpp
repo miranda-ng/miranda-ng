@@ -75,7 +75,7 @@ void CIrcMessage::Reset()
 	parameters.destroy();
 }
 
-CIrcMessage& CIrcMessage::operator = (const CIrcMessage& m)
+CIrcMessage& CIrcMessage::operator=(const CIrcMessage& m)
 {
 	if (&m != this) {
 		sCommand = m.sCommand;
@@ -89,7 +89,7 @@ CIrcMessage& CIrcMessage::operator = (const CIrcMessage& m)
 	return *this;
 }
 
-CIrcMessage& CIrcMessage::operator = (const wchar_t* lpszCmdLine)
+CIrcMessage& CIrcMessage::operator=(const wchar_t* lpszCmdLine)
 {
 	Reset();
 	ParseIrcCommand(lpszCmdLine);

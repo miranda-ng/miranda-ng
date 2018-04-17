@@ -317,7 +317,7 @@ public:
 
 	~XMLNode();
 	XMLNode(const XMLNode &A);                                     ///< to allow shallow/fast copy:
-	XMLNode& operator = (const XMLNode& A);                        ///< to allow shallow/fast copy:
+	XMLNode& operator=(const XMLNode& A);                        ///< to allow shallow/fast copy:
 
 	XMLNode(): d(nullptr) {};
 	static XMLNode emptyXMLNode;

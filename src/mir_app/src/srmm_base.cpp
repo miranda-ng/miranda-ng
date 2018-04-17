@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "skin.h"
 #include <m_history.h>
 
-CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si)
-	: CDlgBase(hInst, idDialog),
+CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si) :
+	CDlgBase(hInst, idDialog),
 	m_log(this, IDC_SRMM_LOG),
 	m_message(this, IDC_SRMM_MESSAGE),
 	m_nickList(this, IDC_SRMM_NICKLIST),
@@ -78,20 +78,6 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 			}
 		}
 	}
-}
-
-CSrmmBaseDialog::CSrmmBaseDialog(const CSrmmBaseDialog&) :
-	CDlgBase(nullptr, 0),
-	m_btnColor(nullptr, 0), m_btnBkColor(nullptr, 0),
-	m_btnBold(nullptr, 0), m_btnItalic(nullptr, 0), m_btnUnderline(nullptr, 0),
-	m_btnFilter(nullptr, 0), m_btnChannelMgr(nullptr, 0), m_btnHistory(nullptr, 0), m_btnNickList(nullptr, 0),
-	m_nickList(nullptr, 0), m_log(nullptr, 0), m_message(nullptr, 0)
-{
-}
-
-CSrmmBaseDialog& CSrmmBaseDialog::operator=(const CSrmmBaseDialog&)
-{
-	return *this;
 }
 
 void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)

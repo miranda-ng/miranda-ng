@@ -7,8 +7,6 @@ class TextToSpeech;
 
 class DialogConfigEngine : public MirandaDialog
 {
-	DialogConfigEngine& operator=(const DialogConfigEngine&);
-
 public:
 	DialogConfigEngine(ConfigDatabase &db);
 	virtual ~DialogConfigEngine();

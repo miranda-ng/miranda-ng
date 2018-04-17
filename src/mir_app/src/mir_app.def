@@ -387,9 +387,7 @@ ProtoGetAvatarFormatByMimeType @400
 ProtoGetAvatarMimeType @401
 ?set_uin@DB_AUTH_BLOB@@QAEXK@Z @402 NONAME
 ??0CSrmmBaseDialog@@IAE@PAUHINSTANCE__@@HPAUSESSION_INFO@@@Z @403 NONAME
-??0CSrmmBaseDialog@@AAE@ABV0@@Z @404 NONAME
 ??1CSrmmBaseDialog@@UAE@XZ @405 NONAME
-??4CSrmmBaseDialog@@AAEAAV0@ABV0@@Z @406 NONAME
 ??_7CSrmmBaseDialog@@6B@ @407 NONAME
 ?DlgProc@CSrmmBaseDialog@@MAEHIIJ@Z @408 NONAME
 ??2CSrmmBaseDialog@@SAPAXI@Z @409 NONAME

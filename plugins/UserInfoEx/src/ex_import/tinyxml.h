@@ -151,7 +151,7 @@ const TiXmlEncoding TIXML_DEFAULT_ENCODING = TIXML_ENCODING_UNKNOWN;
 #include "ticpprc.h"
 class TiXmlBase : public TiCppRC
 #else
-class TiXmlBase
+class TiXmlBase : private MNonCopyable
 #endif
 {
 	friend class TiXmlNode;
@@ -366,9 +366,6 @@ protected:
 	static void ConvertUTF32ToUTF8(unsigned long input, char* output, int* length);
 
 private:
-	TiXmlBase(const TiXmlBase&);				// not implemented.
-	void operator=(const TiXmlBase& base);	// not allowed.
-
 	struct Entity
 	{
 		const char*		 str;
@@ -392,7 +389,7 @@ private:
 	in a document, or stand on its own. The type of a TiXmlNode
 	can be queried, and it can be cast to its more defined type.
 */
-class TiXmlNode : public TiXmlBase
+class TiXmlNode : public TiXmlBase, private MNonCopyable
 {
 	friend class TiXmlDocument;
 	friend class TiXmlElement;
@@ -686,10 +683,6 @@ protected:
 
 	TiXmlNode*		prev;
 	TiXmlNode*		next;
-
-private:
-	TiXmlNode(const TiXmlNode&);				// not implemented.
-	void operator=(const TiXmlNode& base);	// not allowed.
 };
 
 /** An attribute is a name-value pair. Elements have an arbitrary
@@ -699,7 +692,7 @@ private:
 			part of the tinyXML document object model. There are other
 			suggested ways to look at this problem.
 */
-class TiXmlAttribute : public TiXmlBase
+class TiXmlAttribute : public TiXmlBase, private MNonCopyable
 {
 	friend class TiXmlAttributeSet;
 
@@ -795,9 +788,6 @@ public:
 	void SetDocument(TiXmlDocument* doc)	{ document = doc; }
 
 private:
-	TiXmlAttribute(const TiXmlAttribute&);				// not implemented.
-	void operator=(const TiXmlAttribute& base);	// not allowed.
-
 	TiXmlDocument*	document;	// A pointer back to a document, for error reporting.
 	TIXML_STRING name;
 	TIXML_STRING value;
@@ -818,7 +808,7 @@ private:
 		- I like circular lists
 		- it demonstrates some independence from the (typical) doubly linked list.
 */
-class TiXmlAttributeSet
+class TiXmlAttributeSet : private MNonCopyable
 {
 public:
 	TiXmlAttributeSet();
@@ -836,11 +826,6 @@ public:
 	TiXmlAttribute*	Find(const TIXML_STRING& name);
 
 private:
-	//*ME:	Because of hidden/disabled copy-construktor in TiXmlAttribute (sentinel-element),
-	//*ME:	this class must be also use a hidden/disabled copy-constructor !!!
-	TiXmlAttributeSet(const TiXmlAttributeSet&);	// not allowed
-	void operator=(const TiXmlAttributeSet&);	// not allowed (as TiXmlAttribute)
-
 	TiXmlAttribute sentinel;
 };
 

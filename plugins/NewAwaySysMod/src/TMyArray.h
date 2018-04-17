@@ -49,8 +49,8 @@ public:
 	void RemoveAll();
 	const T& operator[](int nIndex) const;
 	T& operator[](int nIndex);
-	TMyArray<T, ARG_T, GrowBy, FreeThreshold>& operator = (const TMyArray<T, ARG_T, GrowBy, FreeThreshold> &A);
-	TMyArray<T, ARG_T, GrowBy, FreeThreshold>& operator += (const TMyArray<T, ARG_T, GrowBy, FreeThreshold> &A);
+	TMyArray<T, ARG_T, GrowBy, FreeThreshold>& operator=(const TMyArray<T, ARG_T, GrowBy, FreeThreshold> &A);
+	TMyArray<T, ARG_T, GrowBy, FreeThreshold>& operator+=(const TMyArray<T, ARG_T, GrowBy, FreeThreshold> &A);
 
 private:
 	int SetAllocNum(int nNewAllocNum);
@@ -328,7 +328,7 @@ __forceinline T& TMyArray<T, ARG_T, GrowBy, FreeThreshold>::operator[](int nInde
 }
 
 template <class T, class ARG_T, int GrowBy, int FreeThreshold>
-__forceinline TMyArray<T, ARG_T, GrowBy, FreeThreshold>& TMyArray<T, ARG_T, GrowBy, FreeThreshold>::operator = (const TMyArray<T, ARG_T, GrowBy, FreeThreshold> &A)
+__forceinline TMyArray<T, ARG_T, GrowBy, FreeThreshold>& TMyArray<T, ARG_T, GrowBy, FreeThreshold>::operator=(const TMyArray<T, ARG_T, GrowBy, FreeThreshold> &A)
 {
 	RemoveAll();
 	int I;
@@ -340,7 +340,7 @@ __forceinline TMyArray<T, ARG_T, GrowBy, FreeThreshold>& TMyArray<T, ARG_T, Grow
 }
 
 template <class T, class ARG_T, int GrowBy, int FreeThreshold>
-__forceinline TMyArray<T, ARG_T, GrowBy, FreeThreshold>& TMyArray<T, ARG_T, GrowBy, FreeThreshold>::operator += (const TMyArray<T, ARG_T, GrowBy, FreeThreshold> &A)
+__forceinline TMyArray<T, ARG_T, GrowBy, FreeThreshold>& TMyArray<T, ARG_T, GrowBy, FreeThreshold>::operator+=(const TMyArray<T, ARG_T, GrowBy, FreeThreshold> &A)
 {
 	int I;
 	for (I = 0; I < A.GetSize(); I++)

@@ -26,9 +26,8 @@
 #include "PerContactData.h"
 #include "UnrecentChooser.h"
 
-class TalkBot
+class TalkBot : private MNonCopyable
 {
-	TalkBot& operator=(const TalkBot&);
 
 public:
 	struct MessageInfo

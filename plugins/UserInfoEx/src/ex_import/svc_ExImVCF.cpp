@@ -113,7 +113,7 @@ BYTE CLineBuffer::_resizeBuf(const size_t cbReq)
  *
  * return:	length of the string, added
  **/
-size_t CLineBuffer::operator = (const CHAR *szVal)
+size_t CLineBuffer::operator=(const CHAR *szVal)
 {
 	if (szVal) {
 		size_t cbLength = mir_strlen(szVal);

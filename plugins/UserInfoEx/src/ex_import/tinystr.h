@@ -100,32 +100,32 @@ class TiXmlString
 	}
 
 	// = operator
-	TiXmlString& operator = (const char * copy)
+	TiXmlString& operator=(const char * copy)
 	{
 		return assign(copy, (size_type)mir_strlen(copy));
 	}
 
 	// = operator
-	TiXmlString& operator = (const TiXmlString & copy)
+	TiXmlString& operator=(const TiXmlString & copy)
 	{
 		return assign(copy.start(), copy.length());
 	}
 
 
 	// += operator. Maps to append
-	TiXmlString& operator += (const char * suffix)
+	TiXmlString& operator+=(const char * suffix)
 	{
 		return append(suffix, static_cast<size_type>(mir_strlen(suffix)));
 	}
 
 	// += operator. Maps to append
-	TiXmlString& operator += (char single)
+	TiXmlString& operator+=(char single)
 	{
 		return append(&single, 1);
 	}
 
 	// += operator. Maps to append
-	TiXmlString& operator += (const TiXmlString & suffix)
+	TiXmlString& operator+=(const TiXmlString & suffix)
 	{
 		return append(suffix.data(), suffix.length());
 	}

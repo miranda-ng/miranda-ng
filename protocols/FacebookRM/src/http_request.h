@@ -18,15 +18,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
-class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject, private MNonCopyable
 {
-	HttpRequest& operator=(const HttpRequest&); // to prevent copying;
-
 	va_list formatArgs;
 	CMStringA url;
 
 protected:
-	class HttpRequestUrl 
+	class HttpRequestUrl : private MNonCopyable
 	{
 		friend HttpRequest;
 
@@ -45,8 +43,6 @@ protected:
 			request.szUrl = request.url.GetBuffer();
 		}
 
-		HttpRequestUrl& operator=(const HttpRequestUrl&); // to prevent copying;
-
 	public:
 		HttpRequestUrl& operator<<(const char *param);
 		HttpRequestUrl& operator<<(const BOOL_PARAM &param);
@@ -60,10 +56,8 @@ protected:
 		}
 	};
 
-	class HttpRequestHeaders
+	class HttpRequestHeaders : private MNonCopyable
 	{
-		HttpRequestHeaders& operator=(const HttpRequestHeaders&); // to prevent copying;
-
 		HttpRequest &request;
 
 		void Add(LPCSTR szName)

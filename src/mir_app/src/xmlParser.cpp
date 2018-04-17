@@ -2260,7 +2260,7 @@ void XMLNode::invalidateInnerText()
 	d->pInnerText = nullptr;
 }
 
-XMLNode& XMLNode::operator = (const XMLNode& A)
+XMLNode& XMLNode::operator=(const XMLNode& A)
 {
 	// shallow copy
 	if (this != &A)

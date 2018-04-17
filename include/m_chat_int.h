@@ -399,8 +399,8 @@ EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPA
 
 class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 {
-	CSrmmBaseDialog(const CSrmmBaseDialog&);
-	CSrmmBaseDialog& operator=(const CSrmmBaseDialog&);
+	CSrmmBaseDialog(const CSrmmBaseDialog&) = delete;
+	CSrmmBaseDialog& operator=(const CSrmmBaseDialog&) = delete;
 
 protected:
 	CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si = nullptr);

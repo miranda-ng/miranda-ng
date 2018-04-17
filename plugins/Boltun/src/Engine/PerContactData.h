@@ -24,10 +24,8 @@
 static std::map<unsigned, void*> perContactDataObjects;
 
 template <class Source, class Data, class ContactHandle>
-class PerContactData
+class PerContactData : private MNonCopyable
 {
-	PerContactData& operator=(const PerContactData&);
-
 	template <class Source, class Data>
 	struct InternalData
 	{

@@ -45,7 +45,7 @@ public:
 	__inline explicit mir_ptr(T *_p) : data(_p) {}
 	__inline ~mir_ptr() { mir_free(data); }
 	__inline T* get() const { return data; }
-	__inline T* operator = (T *_p) { if (data) mir_free(data); data = _p; return data; }
+	__inline T* operator=(T *_p) { if (data) mir_free(data); data = _p; return data; }
 	__inline T* operator->() const { return data; }
 	__inline operator T*() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
@@ -75,7 +75,7 @@ public:
 class mir_cslock
 {
 	CRITICAL_SECTION &cs;
-	__inline mir_cslock& operator = (const mir_cslock&) { return *this; }
+	__inline mir_cslock& operator=(const mir_cslock&) { return *this; }
 
 public:
 	__inline mir_cslock(CRITICAL_SECTION &_cs) : cs(_cs) { ::EnterCriticalSection(&cs); }
@@ -91,7 +91,7 @@ public:
 	__inline explicit pass_ptrA() : mir_ptr(){}
 	__inline explicit pass_ptrA(char *_p) : mir_ptr(_p) {}
 	__inline ~pass_ptrA() { zero(); }
-	__inline char* operator = (char *_p){ zero(); return mir_ptr::operator=(_p); }
+	__inline char* operator=(char *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() {
 		if (data) SecureZeroMemory(data, mir_strlen(data));
 	}
@@ -103,7 +103,7 @@ public:
 	__inline explicit pass_ptrW() : mir_ptr(){}
 	__inline explicit pass_ptrW(wchar_t *_p) : mir_ptr(_p) {}
 	__inline ~pass_ptrW() { zero(); }
-	__inline wchar_t* operator = (wchar_t *_p){ zero(); return mir_ptr::operator=(_p); }
+	__inline wchar_t* operator=(wchar_t *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() {
 		if (data) SecureZeroMemory(data, mir_wstrlen(data)*sizeof(wchar_t));
 	}
@@ -141,6 +141,17 @@ public:
 	{
 		free( p );
 	}
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// general lists' templates
+
+struct MNonCopyable
+{
+	MNonCopyable() {}
+
+	MNonCopyable(const MNonCopyable&) = delete;
+	MNonCopyable& operator=(const MNonCopyable&) = delete;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -24,7 +24,7 @@
 class BoltunConfig;
 
 template <class T, class BaseClass>
-class Property
+class Property : private MNonCopyable
 {
 public:
 	typedef const T(__thiscall BaseClass::*Getter)();
@@ -36,8 +36,6 @@ private:
 	BaseClass* owner;
 	bool cacheValid;
 	T cached;
-
-	Property& operator=(const Property&);
 
 public:
 	Property(Getter g, Setter s)
@@ -67,7 +65,7 @@ public:
 };
 
 template <class T, class BaseClass>
-class PtrProperty
+class PtrProperty : private MNonCopyable
 {
 public:
 	typedef const T* (__thiscall BaseClass::*Getter)();
@@ -79,8 +77,6 @@ private:
 	BaseClass* owner;
 	bool cacheValid;
 	const T* cached;
-
-	PtrProperty& operator=(const PtrProperty&);
 
 public:
 	PtrProperty(Getter g, Setter s)

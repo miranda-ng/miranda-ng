@@ -67,7 +67,7 @@ public:
 	internalJSONNode(const json_string & unparsed);
 	internalJSONNode(const json_string & name_t, const json_string & value_t);
 	internalJSONNode(const internalJSONNode & orig);  
-	internalJSONNode & operator = (const internalJSONNode &);
+	internalJSONNode & operator=(const internalJSONNode &);
 	~internalJSONNode(void);
 
 	static internalJSONNode * newInternal(char mytype = JSON_NULL);

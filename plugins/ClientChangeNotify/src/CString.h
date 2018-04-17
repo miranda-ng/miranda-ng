@@ -68,16 +68,16 @@ public:
 	T& operator [] (int nIndex) {_ASSERT(nIndex >= 0 && nIndex <= GetLen()); return pBuf[nIndex];}
 	operator const T*() const {return pBuf;}
 	operator T*() {return pBuf;}
-	TString<T>& operator = (const T *pStr);
-	TString<T>& operator = (const TString<T> &Str) {return *this = Str.pBuf;}
+	TString<T>& operator=(const T *pStr);
+	TString<T>& operator=(const TString<T> &Str) {return *this = Str.pBuf;}
 //	TCString& operator + (const char *pStr)
 //		{_ASSERT(pBuf && pStr); TCString Result(*this); return Result.Cat(pStr);}
 	friend TString<T> operator + (const TString<T> &Str1, const T *Str2)
 		{_ASSERT(Str1.pBuf && Str2); TString<T> Result(Str1); return Result.Cat(Str2);}
 /*	friend TCString operator + (const char *Str1, const TCString &Str2)
 		{_ASSERT(Str1 && Str2.pBuf); TCString Result(Str1); return Result.Cat(Str2);}*/
-	TString<T>& operator += (const T *pStr) {_ASSERT(pBuf && pStr); return this->Cat(pStr);}
-	TString<T>& operator += (const T c) {_ASSERT(pBuf); return this->Cat(c);}
+	TString<T>& operator+=(const T *pStr) {_ASSERT(pBuf && pStr); return this->Cat(pStr);}
+	TString<T>& operator+=(const T c) {_ASSERT(pBuf); return this->Cat(c);}
 	int operator == (const T *pStr) const {return (!pBuf || !pStr) ? (pBuf == pStr) : !My_lstrcmp(pBuf, pStr);}
 	int operator != (const T *pStr) const {return (!pBuf || !pStr) ? (pBuf != pStr) : My_lstrcmp(pBuf, pStr);}
 	int operator < (const T *pStr) const {_ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) > 0;}

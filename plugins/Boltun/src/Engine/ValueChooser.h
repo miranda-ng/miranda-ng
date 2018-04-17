@@ -22,15 +22,13 @@
 #define StringChooserH
 
 template<class container = std::vector<std::wstring> >
-class ValueChooser
+class ValueChooser : private MNonCopyable
 {
 private:
 	int freeNumbers;
 	bool *numbers;
 	const container data;
 	bool notifyOnReset;
-
-	ValueChooser& operator=(const ValueChooser&);
 
 public:
 	ValueChooser(const container& vec, bool NotifyOnReset = false)

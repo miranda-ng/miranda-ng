@@ -81,7 +81,7 @@ public:
 	int		LoadXmlElemnt(TiXmlElement *xContact);
 	int		Import(BYTE keepMetaSubContact = FALSE);
 
-	BYTE operator = (TiXmlElement* xmlContact)	{
+	BYTE operator=(TiXmlElement* xmlContact)	{
 		return LoadXmlElemnt(xmlContact) == ERROR_OK;	
 	}
 };

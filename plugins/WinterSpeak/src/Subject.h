@@ -3,7 +3,7 @@
 #include "Observer.h"
 
 #include <list>
-class Subject
+class Subject : private MNonCopyable
 {
 public:
     Subject();
@@ -27,12 +27,6 @@ public:
     void detach(const Observer &observer);
 
   private:
-    //--------------------------------------------------------------------------
-    // Description : Disallow assignment operator and copy constructor
-    //--------------------------------------------------------------------------
-    Subject(const Subject &rhs);
-    const Subject & operator=(const Subject &rhs);
-
     std::list<Observer *> m_observer_list;
 };
 

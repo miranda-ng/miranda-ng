@@ -172,10 +172,9 @@ extern IconItemT iconList[];
 void UninitCheck(void);
 void UninitListNew(void);
 
-class AutoHandle
+class AutoHandle : private MNonCopyable
 {
 	HANDLE &m_handle;
-	AutoHandle& operator=(const AutoHandle&) { return *this; }
 
 public:
 	AutoHandle(HANDLE &_handle) : m_handle(_handle) {}

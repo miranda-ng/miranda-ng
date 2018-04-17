@@ -101,7 +101,7 @@ COptItem *COptPage::Find(int m_dlgItemID)
 	return nullptr;
 }
 
-COptPage& COptPage::operator = (const COptPage& Page)
+COptPage& COptPage::operator=(const COptPage& Page)
 {
 	hWnd = Page.hWnd;
 	sModule = Page.sModule;

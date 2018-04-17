@@ -61,7 +61,6 @@ public:
 	int GetParam() { return lParam; }
 	int GetID() { return m_dlgItemID; }
 
-	//	virtual COptItem& operator = (const COptItem& Item) {return *this;};
 	virtual COptItem* Copy() { _ASSERT(0); return NULL; } // Attention! Free Copy() result when it's not needed anymore!
 
 	CString sDBSetting;
@@ -107,7 +106,6 @@ public:
 	virtual INT_PTR GetValue() { return (INT_PTR)&sValue; }
 	virtual INT_PTR GetDefValue() { return (INT_PTR)&sDefValue; }
 
-	//	COptItem_Edit& operator = (const COptItem_Edit& Item) {return *this;};
 	virtual COptItem* Copy() { return new COptItem_Edit(*this); }
 
 	TCString sDefValue;
@@ -524,7 +522,7 @@ public:
 	bool GetModified();
 	void SetModified(bool m_bModified);
 
-	COptPage& operator = (const COptPage& Page);
+	COptPage& operator=(const COptPage& Page);
 
 	HWND hWnd;
 	CString sModule, sDBSettingPrefix;

@@ -58,17 +58,15 @@ struct FORMAT_VALUE : public VALUE
 	}
 };
 
-class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject, private MNonCopyable
 {
-	HttpRequest& operator=(const HttpRequest&); // to prevent copying;
-
 	va_list formatArgs;
 	CMStringA url;
 
 protected:
 	enum HttpRequestUrlFormat { FORMAT };
 
-	class HttpRequestUrl
+	class HttpRequestUrl : private MNonCopyable
 	{
 		friend HttpRequest;
 
@@ -86,8 +84,6 @@ protected:
 			request.url.AppendFormatV(urlFormat, args);
 			request.szUrl = request.url.GetBuffer();
 		}
-
-		HttpRequestUrl& operator=(const HttpRequestUrl&); // to prevent copying;
 
 	public:
 		HttpRequestUrl &operator<<(const VALUE &param)
@@ -120,10 +116,8 @@ protected:
 		}
 	};
 
-	class HttpRequestHeaders
+	class HttpRequestHeaders : private MNonCopyable
 	{
-		HttpRequestHeaders& operator=(const HttpRequestHeaders&); // to prevent copying;
-
 		HttpRequest &request;
 
 		void Add(LPCSTR szName)

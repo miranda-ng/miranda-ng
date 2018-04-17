@@ -118,6 +118,6 @@ public:
 	BYTE operator == (const SYSTEMTIME &st) { return IsEqual(st); };
 	BYTE operator == (const MAnnivDate &mda) { return IsEqual(mda); };
 
-	void operator = (SYSTEMTIME &st) { SetDate(st); };
-	void operator = (MAnnivDate &mda) { SetDate(mda); };
+	void operator=(SYSTEMTIME &st) { SetDate(st); };
+	void operator=(MAnnivDate &mda) { SetDate(mda); };
 };

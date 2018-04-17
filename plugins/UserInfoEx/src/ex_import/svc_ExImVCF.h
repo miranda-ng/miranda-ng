@@ -35,7 +35,7 @@ public:
 	CLineBuffer();
 	~CLineBuffer();
 	
-	size_t operator = (const CHAR *szVal);
+	size_t operator=(const CHAR *szVal);
 
 	size_t operator + (const CHAR *szVal);
 	size_t operator + (const WCHAR *wszVal);

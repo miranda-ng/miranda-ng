@@ -1,5 +1,5 @@
 #pragma once
-class MirandaDialog
+class MirandaDialog : private MNonCopyable
 {
 public:
 	MirandaDialog(void);

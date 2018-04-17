@@ -83,5 +83,5 @@ public:
 	MCONTACT toDB();
 	void toIni(FILE* file, int modCount);
 
-	BYTE operator = (MCONTACT hContact)	{ return fromDB(hContact);	}
+	BYTE operator=(MCONTACT hContact)	{ return fromDB(hContact);	}
 };

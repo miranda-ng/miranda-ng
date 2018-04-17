@@ -4,8 +4,6 @@
 
 class AnnounceDialog : public MirandaDialog
 {
-	AnnounceDialog& operator=(const AnnounceDialog&);
-
 public:
 	AnnounceDialog(AnnounceDatabase &db);
 	~AnnounceDialog();

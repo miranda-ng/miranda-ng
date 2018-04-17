@@ -385,7 +385,7 @@ class COptionsDlg : public CDlgBase
 	CCtrlCombo m_keywordFilter;
 	CCtrlButton m_btnApply, m_btnCancel;
 
-	COptionsDlg& operator=(const COptionsDlg&);
+	COptionsDlg& operator=(const COptionsDlg&) = delete;
 
 	HTREEITEM FindNamedTreeItem(HTREEITEM hParent, const wchar_t *name)
 	{

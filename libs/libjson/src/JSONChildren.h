@@ -120,7 +120,7 @@ public:
 		}
 	private:
 		iteratorKeeper(const iteratorKeeper &);
-		iteratorKeeper & operator = (const iteratorKeeper &);
+		iteratorKeeper & operator=(const iteratorKeeper &);
 
 		jsonChildren * myChildren;
 		JSONNode ** & myPos;
@@ -218,7 +218,7 @@ public:
 JSON_PRIVATE
 	//to make sure it's not copyable
 	jsonChildren(const jsonChildren &);
-	jsonChildren & operator = (const jsonChildren &);
+	jsonChildren & operator=(const jsonChildren &);
 
 	void deleteAll(void);  //implemented in JSONNode.cpp
 	void doerase(JSONNode ** position, json_index_t number);

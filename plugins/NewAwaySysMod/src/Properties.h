@@ -153,7 +153,7 @@ public:
 	{
 	public:
 		CStatus(const char* szProto, CProtoStates* GrandParent): m_szProto(szProto), m_grandParent(GrandParent), m_status(ID_STATUS_OFFLINE) {}
-		CStatus& operator = (int Status);
+		CStatus& operator=(int Status);
 		operator int() {return m_status;}
 		friend class CProtoState;
 	private:
@@ -179,7 +179,7 @@ public:
 	{
 	public:
 		CCurStatusMsg() {*this = nullptr;}
-		CCurStatusMsg& operator = (TCString Msg)
+		CCurStatusMsg& operator=(TCString Msg)
 		{
 			CurStatusMsg = Msg;
 			SYSTEMTIME st;
@@ -205,7 +205,7 @@ public:
 	{ // we use temporary messages to keep user-defined per-protocol messages intact, when changing messages through MS_NAS_SETSTATE, or when autoaway becomes active etc.. temporary messages are automatically resetted when protocol status changes
 	public:
 		CTempMsg(): iIsSet(0) {}
-		CTempMsg& operator = (TCString _Msg) {this->Msg = _Msg; iIsSet = true; return *this;}
+		CTempMsg& operator=(TCString _Msg) {this->Msg = _Msg; iIsSet = true; return *this;}
 		operator TCString()
 		{
 			_ASSERT(iIsSet);
@@ -242,7 +242,7 @@ public:
 	CProtoStates() {}
 
 	CProtoStates(const CProtoStates &States) {*this = States;}
-	CProtoStates& operator = (const CProtoStates& States)
+	CProtoStates& operator=(const CProtoStates& States)
 	{
 		ProtoStates = States.ProtoStates;
 		for (int i = 0; i < ProtoStates.GetSize(); i++)
@@ -323,7 +323,7 @@ public:
 	class CAutoreply
 	{
 	public:
-		CAutoreply& operator = (const int m_value)
+		CAutoreply& operator=(const int m_value)
 		{
 			CString Setting(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY);
 			if (db_get_b(NULL, MOD_NAME, Setting, VAL_USEDEFAULT) == m_value)
@@ -357,7 +357,7 @@ public:
 	{
 	public:
 		CStatus(int iStatus = 0, const char *szProto = nullptr): Status(iStatus), szProto(szProto) {}
-		CStatus& operator = (int _Status) {this->Status = _Status; return *this;}
+		CStatus& operator=(int _Status) {this->Status = _Status; return *this;}
 		operator int()
 		{
 			if (!Status)
@@ -416,7 +416,7 @@ public:
 	class CIgnore
 	{
 	public:
-		CIgnore& operator = (const int m_value)
+		CIgnore& operator=(const int m_value)
 		{
       CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
@@ -441,7 +441,7 @@ public:
 	class CAutoreply
 	{
 	public:
-		CAutoreply& operator = (const int m_value)
+		CAutoreply& operator=(const int m_value)
 		{
 			CString Setting(Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
@@ -483,7 +483,7 @@ public:
 	{
 	public:
 		CStatus(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus), m_hContact(_hContact) {}
-		CStatus& operator = (int _Status) {this->Status = _Status; return *this;}
+		CStatus& operator=(int _Status) {this->Status = _Status; return *this;}
 		operator int()
 		{
 			if (!Status) {

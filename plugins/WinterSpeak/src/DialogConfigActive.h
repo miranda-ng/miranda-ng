@@ -3,8 +3,6 @@
 
 class DialogConfigActive : public MirandaDialog
 {
-	DialogConfigActive& operator=(const DialogConfigActive&);
-
 public:
 	//--------------------------------------------------------------------------
 	// Description : Initialise

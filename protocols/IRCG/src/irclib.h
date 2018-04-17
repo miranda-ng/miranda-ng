@@ -81,8 +81,8 @@ public :
 
 	void Reset();
 
-	CIrcMessage& operator = (const CIrcMessage& m);
-	CIrcMessage& operator = (const wchar_t* lpszCmdLine);
+	CIrcMessage& operator=(const CIrcMessage& m);
+	CIrcMessage& operator=(const wchar_t* lpszCmdLine);
 
 private :
 	void ParseIrcCommand(const wchar_t* lpszCmdLine);

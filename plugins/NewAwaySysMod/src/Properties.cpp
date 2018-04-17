@@ -45,7 +45,7 @@ void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPerson
 }
 
 
-CProtoState::CStatus& CProtoState::CStatus::operator = (int Status)
+CProtoState::CStatus& CProtoState::CStatus::operator=(int Status)
 {
 	_ASSERT(Status >= ID_STATUS_OFFLINE && Status <= ID_STATUS_OUTTOLUNCH);
 	if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_OUTTOLUNCH)

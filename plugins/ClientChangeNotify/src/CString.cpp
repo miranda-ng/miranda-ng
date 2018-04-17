@@ -253,7 +253,7 @@ TString<T> TString<T>::ToLower() const
 
 
 template <class T>
-TString<T>& TString<T>::operator = (const T *pStr)
+TString<T>& TString<T>::operator=(const T *pStr)
 {
 	if (pStr)
 	{

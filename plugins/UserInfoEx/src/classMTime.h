@@ -105,11 +105,11 @@ public:
 	int DBWriteStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
 
 	// operatoren
-	void operator = (DWORD& dwTimeStamp)			{ FromStampAsUTC(dwTimeStamp); };
-	void operator = (FILETIME &ftFileTime)			{ Set(ftFileTime, FALSE); };
-	void operator = (LARGE_INTEGER &liFileTime)		{ Set(liFileTime, FALSE); };
-	void operator = (SYSTEMTIME &st)				{ Set(st, FALSE); };
-	void operator = (const MTime &mt)				{ Set(mt); };
+	void operator=(DWORD& dwTimeStamp)			{ FromStampAsUTC(dwTimeStamp); };
+	void operator=(FILETIME &ftFileTime)			{ Set(ftFileTime, FALSE); };
+	void operator=(LARGE_INTEGER &liFileTime)		{ Set(liFileTime, FALSE); };
+	void operator=(SYSTEMTIME &st)				{ Set(st, FALSE); };
+	void operator=(const MTime &mt)				{ Set(mt); };
 };
 
 /**
