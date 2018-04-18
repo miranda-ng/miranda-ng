@@ -157,7 +157,7 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
 PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName);
 int  FreeDefaultAccount(PROTO_INTERFACE* ppi);
 
-bool ActivateAccount(PROTOACCOUNT *pa);
+bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic);
 void EraseAccount(const char *pszProtoName);
 void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase);
 void UnloadAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase);
@@ -165,6 +165,8 @@ void OpenAccountOptions(PROTOACCOUNT *pa);
 
 void LoadDbAccounts(void);
 void WriteDbAccounts(void);
+
+void KillModuleAccounts(HINSTANCE);
 
 INT_PTR CallProtoServiceInt(MCONTACT hContact, const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam);
 

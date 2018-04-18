@@ -266,7 +266,7 @@ int LoadAccountsModule(void)
 		if (!pa->IsEnabled())
 			continue;
 
-		if (!ActivateAccount(pa))
+		if (!ActivateAccount(pa, false))
 			pa->bDynDisabled = true;
 	}
 
@@ -286,7 +286,7 @@ static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, 
 	return CreateServiceFunctionObj(tmp, pFunc, param);
 }
 
-bool ActivateAccount(PROTOACCOUNT *pa)
+bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 {
 	PROTOCOLDESCRIPTOR* ppd = Proto_IsProtocolLoaded(pa->szProtoName);
 	if (ppd == nullptr)
@@ -303,6 +303,14 @@ bool ActivateAccount(PROTOACCOUNT *pa)
 	if (ppi->m_hProtoIcon == nullptr)
 		ppi->m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pa->szModuleName, ID_STATUS_ONLINE));
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
+
+	if (bIsDynamic) {
+		if (bModulesLoadedFired)
+			pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
+		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
+			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
+		pa->bDynDisabled = false;
+	}
 	return true;
 }
 
@@ -374,16 +382,18 @@ static int DeactivationThread(DeactivationThreadParam* param)
 
 void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 {
-	if (pa->ppro == nullptr) {
-		if (bErase)
-			EraseAccount(pa->szModuleName);
-		return;
-	}
-
 	if (pa->hwndAccMgrUI) {
 		DestroyWindow(pa->hwndAccMgrUI);
 		pa->hwndAccMgrUI = nullptr;
 		pa->bAccMgrUIChanged = FALSE;
+	}
+
+	pa->iIconBase = -1;
+
+	if (pa->ppro == nullptr) {
+		if (bErase)
+			EraseAccount(pa->szModuleName);
+		return;
 	}
 
 	DeactivationThreadParam *param = new DeactivationThreadParam;
@@ -396,6 +406,23 @@ void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 		mir_forkthread((pThreadFunc)DeactivationThread, param);
 	else
 		DeactivationThread(param);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void KillModuleAccounts(HINSTANCE hInst)
+{
+	for (auto &pd : g_arProtos.rev_iter()) {
+		if (pd->hInst != hInst)
+			continue;
+
+		for (auto &pa : accounts.rev_iter()) {
+			if (!mir_strcmp(pa->szProtoName, pd->szName)) {
+				DeactivateAccount(pa, false, false);
+				pa->bDynDisabled = true;
+			}
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -82,13 +82,7 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const ch
 	db_set_s(0, pa->szModuleName, "AM_BaseProto", pszBaseProto);
 	accounts.insert(pa);
 
-	if (ActivateAccount(pa)) {
-		if (bModulesLoadedFired)
-			pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
-			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
-	}
-	
+	ActivateAccount(pa, true);	
 	WriteDbAccounts();
 	NotifyEventHooks(hAccListChanged, PRAC_ADDED, (LPARAM)pa);
 	return pa;
@@ -457,14 +451,8 @@ public:
 			return;
 
 		pa->bIsEnabled = !pa->bIsEnabled;
-		if (pa->bIsEnabled) {
-			if (ActivateAccount(pa)) {
-				if (bModulesLoadedFired)
-					pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-				if (!db_get_b(0, "CList", "MoveProtoMenus", TRUE))
-					pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
-			}
-		}
+		if (pa->bIsEnabled)
+			ActivateAccount(pa, true);
 		else {
 			if (pa->iRealStatus >= ID_STATUS_ONLINE) {
 				wchar_t buf[200];

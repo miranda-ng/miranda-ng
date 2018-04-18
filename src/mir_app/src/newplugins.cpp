@@ -349,6 +349,7 @@ int Plugin_UnloadDyn(pluginEntry *p)
 		if (CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
 			return FALSE;
 
+		KillModuleAccounts(p->bpi.hInst);
 		KillModuleSubclassing(p->bpi.hInst);
 
 		CallPluginEventHook(p->bpi.hInst, hPreShutdownEvent, 0, 0);

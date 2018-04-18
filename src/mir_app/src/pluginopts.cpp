@@ -184,6 +184,16 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 	if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
 		goto LBL_Error;
 
+	// if dynamically loaded plugin contains protocols, initialize the corresponding accounts
+	for (auto &pd : g_arProtos) {
+		if (pd->hInst != pPlug->bpi.hInst)
+			continue;
+
+		for (auto &pa : accounts)
+			if (pa->ppro == nullptr && !mir_strcmp(pa->szProtoName, pd->szName))
+				ActivateAccount(pa, true);
+	}
+
 	dat->hInst = pPlug->bpi.hInst;
 	NotifyFastHook(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
 	return true;

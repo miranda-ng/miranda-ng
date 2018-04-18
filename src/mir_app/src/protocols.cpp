@@ -106,16 +106,24 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 	if (pd->cbSize != sizeof(PROTOCOLDESCRIPTOR) && pd->cbSize != PROTOCOLDESCRIPTOR_V3_SIZE)
 		return 1;
 
-	MBaseProto *p = (MBaseProto*)mir_calloc(sizeof(MBaseProto));
-	p->cbSize = pd->cbSize;
-	p->szName = mir_strdup(pd->szName);
+	bool bTryActivate = false;
+	MBaseProto tmp;
+	tmp.szName = (char*)pd->szName;
+	MBaseProto *p = g_arProtos.find(&tmp);
+	if (p == nullptr) {
+		p = (MBaseProto*)mir_calloc(sizeof(MBaseProto));
+		p->cbSize = pd->cbSize;
+		p->szName = mir_strdup(pd->szName);
+		g_arProtos.insert(p);
+	}
+	else bTryActivate = true;
+
 	p->type = pd->type;
 	p->hInst = pd->hInst;
 	if (pd->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
 		p->fnInit = pd->fnInit;
 		p->fnUninit = pd->fnUninit;
 	}
-	g_arProtos.insert(p);
 
 	if (p->fnInit == nullptr && (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL)) {
 		// let's create a new container
