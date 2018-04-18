@@ -220,6 +220,7 @@ static int CALLBACK SortPlugins(LPARAM i1, LPARAM i2, LPARAM)
 class CPluginOptDlg : public CDlgBase
 {
 	CTimer m_timer;
+	CCtrlBase m_author, m_plugPid, m_plugInfo, m_copyright;
 	CCtrlListView m_plugList;
 	CCtrlHyperlink m_link, m_plugUrl;
 
@@ -234,6 +235,10 @@ public:
 		CDlgBase(g_hInst, IDD_OPT_PLUGINS),
 		m_link(this, IDC_GETMOREPLUGINS),
 		m_plugUrl(this, IDC_PLUGINURL, "https://miranda-ng.org/downloads/"),
+		m_author(this, IDC_PLUGINAUTHOR),
+		m_plugPid(this, IDC_PLUGINPID),
+		m_plugInfo(this, IDC_PLUGINLONGINFO),
+		m_copyright(this, IDC_PLUGINCPYR),
 		m_plugList(this, IDC_PLUGLIST),
 		m_timer(this, 1)
 	{
@@ -514,9 +519,9 @@ public:
 				wchar_t buf[1024];
 				m_plugList.GetItemText(hdr->iItem, 2, buf, _countof(buf));
 				SetDlgItemText(m_hwnd, IDC_PLUGININFOFRAME, sel ? buf : L"");
-				SetDlgItemText(m_hwnd, IDC_PLUGINAUTHOR, sel ? dat->author : L"");
-				SetDlgItemText(m_hwnd, IDC_PLUGINLONGINFO, sel ? TranslateW_LP(dat->description, GetPluginLangByInstance(dat->hInst)) : L"");
-				SetDlgItemText(m_hwnd, IDC_PLUGINCPYR, sel ? dat->copyright : L"");
+				m_author.SetText(sel ? dat->author : L"");
+				m_plugInfo.SetText(sel ? TranslateW_LP(dat->description, GetPluginLangByInstance(dat->hInst)) : L"");
+				m_copyright.SetText(sel ? dat->copyright : L"");
 
 				szUrl = sel ? _T2A(dat->homepage) : "";
 				m_plugUrl.SetUrl(szUrl);
@@ -525,9 +530,9 @@ public:
 				if (dat->uuid != miid_last) {
 					char szUID[128];
 					uuidToString(dat->uuid, szUID, sizeof(szUID));
-					SetDlgItemTextA(m_hwnd, IDC_PLUGINPID, sel ? szUID : "");
+					m_plugPid.SetTextA(sel ? szUID : "");
 				}
-				else SetDlgItemText(m_hwnd, IDC_PLUGINPID, sel ? TranslateT("<none>") : L"");
+				else m_plugPid.SetText(sel ? TranslateT("<none>") : L"");
 			}
 		}
 	}
