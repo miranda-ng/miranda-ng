@@ -621,7 +621,7 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 /////////////////////////////////////////////////////////////////////////////////
 
 CFacebookGuardDialog::CFacebookGuardDialog(FacebookProto *proto, const char *fb_dtsg)
-	: CFacebookDlgBase(proto, IDD_GUARD, false),
+	: CFacebookDlgBase(proto, IDD_GUARD),
 	m_ok(this, IDOK),
 	m_sms(this, IDC_SEND_SMS),
 	m_text(this, IDC_TEXT),

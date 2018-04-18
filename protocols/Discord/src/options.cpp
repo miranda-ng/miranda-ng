@@ -27,7 +27,7 @@ class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 
 public:
 	CDiscardAccountOptions(CDiscordProto *ppro, int iDlgID) :
-		CProtoDlgBase<CDiscordProto>(ppro, iDlgID, false),
+		CProtoDlgBase<CDiscordProto>(ppro, iDlgID),
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
 		m_edPassword(this, IDC_PASSWORD),

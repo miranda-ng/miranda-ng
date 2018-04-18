@@ -689,7 +689,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 public:
 	CGroupchatInviteDlg(CJabberProto *ppro, const wchar_t *room) :
-		CSuper(ppro, IDD_GROUPCHAT_INVITE, nullptr),
+		CSuper(ppro, IDD_GROUPCHAT_INVITE),
 		m_newJids(1),
 		m_btnInvite(this, IDC_INVITE),
 		m_txtNewJid(this, IDC_NEWJID),

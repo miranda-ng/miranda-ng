@@ -29,7 +29,7 @@ INT_PTR CVkProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 //////////////////////////////////////////////////////////////////////////////
 
 CVkAccMgrForm::CVkAccMgrForm(CVkProto *proto, HWND hwndParent) :
-	CVkDlgBase(proto, IDD_ACCMGRUI, false),
+	CVkDlgBase(proto, IDD_ACCMGRUI),
 	m_edtLogin(this, IDC_LOGIN),
 	m_edtPassword(this, IDC_PASSWORD),
 	m_hlLink(this, IDC_URL, "https://vk.com/")
@@ -136,7 +136,7 @@ static CVKMarkMsgRead vkMarkMsgAsReadMethods[] =
 };
 
 CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_OPT_MAIN, false),
+	CVkDlgBase(proto, IDD_OPT_MAIN),
 	m_edtLogin(this, IDC_LOGIN),
 	m_edtPassword(this, IDC_PASSWORD),
 	m_hlLink(this, IDC_URL, "https://vk.com/"),
@@ -225,7 +225,7 @@ void CVkOptionAccountForm::OnApply()
 ////////////////////// Advanced page /////////////////////////////////////////
 
 CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_OPT_ADV, false),
+	CVkDlgBase(proto, IDD_OPT_ADV),
 	m_cbHideChats(this, IDC_HIDECHATS),
 	m_cbSyncReadMessageStatusFromServer(this, IDC_SYNC_MSG_STATUS),
 	m_cbMesAsUnread(this, IDC_MESASUREAD),
@@ -308,7 +308,7 @@ void CVkOptionAdvancedForm::On_cbSendVKLinksAsAttachmentsChange(CCtrlCheck *)
 ////////////////////// News and notifications ////////////////////////////////
 
 CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_OPT_FEEDS, false),
+	CVkDlgBase(proto, IDD_OPT_FEEDS),
 	m_cbNewsEnabled(this, IDC_NEWS_ENBL),
 	m_edtNewsInterval(this, IDC_ED_INT_NEWS),
 	m_spNewsInterval(this, IDC_SPIN_INT_NEWS),
@@ -412,7 +412,7 @@ void CVkOptionFeedsForm::On_cbNotificationsEnabledChange(CCtrlCheck*)
 ////////////////////// View page /////////////////////////////////////////////
 
 CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_OPT_VIEW, false),
+	CVkDlgBase(proto, IDD_OPT_VIEW),
 	m_cbIMGBBCSupportOff(this, IDC_IMG_OFF),
 	m_cbIMGBBCSupportFullSize(this, IDC_IMG_FULLSIZE),
 	m_cbIMGBBCSupport130(this, IDC_IMG_130),
@@ -481,7 +481,7 @@ void CVkOptionViewForm::OnApply()
 ////////////////////// Menu page /////////////////////////////////////////////
 
 CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_OPT_MENU, false),
+	CVkDlgBase(proto, IDD_OPT_MENU),
 	m_cbMenuEnabled0(this, IDC_SHOW_MENU0),
 	m_cbMenuEnabled1(this, IDC_SHOW_MENU1),
 	m_cbMenuEnabled2(this, IDC_SHOW_MENU2),

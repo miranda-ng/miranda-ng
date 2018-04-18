@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////// IDD_CAPTCHAFORM ////////////////////////////////////////
 
 CVkCaptchaForm::CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS *param) :
-	CVkDlgBase(proto, IDD_CAPTCHAFORM, false),
+	CVkDlgBase(proto, IDD_CAPTCHAFORM),
 	m_instruction(this, IDC_INSTRUCTION),
 	m_edtValue(this, IDC_VALUE),
 	m_btnOpenInBrowser(this, IDOPENBROWSER),
@@ -103,7 +103,7 @@ void CVkCaptchaForm::On_edtValue_Change(CCtrlEdit*)
 ////////////////////////////////// IDD_WALLPOST ///////////////////////////////////////////
 
 CVkWallPostForm::CVkWallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS *param) :
-	CVkDlgBase(proto, IDD_WALLPOST, false),
+	CVkDlgBase(proto, IDD_WALLPOST),
 	m_edtMsg(this, IDC_ED_MSG),
 	m_edtUrl(this, IDC_ED_URL),
 	m_cbOnlyForFriends(this, IDC_ONLY_FRIENDS),
@@ -147,7 +147,7 @@ void CVkWallPostForm::On_edtValue_Change(CCtrlEdit*)
 ////////////////////////////////// IDD_INVITE /////////////////////////////////////////////
 
 CVkInviteChatForm::CVkInviteChatForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_INVITE, false),
+	CVkDlgBase(proto, IDD_INVITE),
 	m_btnOk(this, IDOK),
 	m_cbxCombo(this, IDC_CONTACT),
 	m_hContact(0)
@@ -171,7 +171,7 @@ void CVkInviteChatForm::btnOk_OnOk(CCtrlButton*)
 ////////////////////////////////// IDD_GC_CREATE //////////////////////////////////////////
 
 CVkGCCreateForm::CVkGCCreateForm(CVkProto *proto) :
-	CVkDlgBase(proto, IDD_GC_CREATE, false),
+	CVkDlgBase(proto, IDD_GC_CREATE),
 	m_btnOk(this, IDOK),
 	m_clCList(this, IDC_CLIST),
 	m_edtTitle(this, IDC_TITLE)
@@ -243,7 +243,7 @@ void CVkGCCreateForm::ResetListOptions(CCtrlClc *clCList)
 ////////////////////////////////// IDD_CONTACTDELETE //////////////////////////////////////
 
 CVkContactDeleteForm::CVkContactDeleteForm(CVkProto *proto, CONTACTDELETE_FORM_PARAMS *param) :
-	CVkDlgBase(proto, IDD_CONTACTDELETE, false),
+	CVkDlgBase(proto, IDD_CONTACTDELETE),
 	m_btnOk(this, IDOK),
 	m_stText(this, IDC_STATIC_TXT),
 	m_cbDeleteFromFriendlist(this, IDC_CH_REMOVE_FROM_FRIEND),

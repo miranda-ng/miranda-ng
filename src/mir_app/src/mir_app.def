@@ -24,7 +24,7 @@ IcoLib_Release             @22
 IcoLib_AddRef              @23
 Skin_GetIconName           @24
 ??0CProtoIntDlgBase@@QAE@ABV0@@Z @25 NONAME
-??0CProtoIntDlgBase@@QAE@PAUPROTO_INTERFACE@@H_N@Z @26 NONAME
+??0CProtoIntDlgBase@@QAE@PAUPROTO_INTERFACE@@H@Z @26 NONAME
 ??0PROTO_INTERFACE@@QAE@ABU0@@Z @27 NONAME
 ??1CProtoIntDlgBase@@UAE@XZ @29 NONAME
 ??4CProtoIntDlgBase@@QAEAAV0@ABV0@@Z @30 NONAME
@@ -71,7 +71,6 @@ Skin_GetIconName           @24
 ?SetAwayMsg@PROTO_INTERFACE@@UAAHHPB_W@Z @71 NONAME
 ?SetStatus@PROTO_INTERFACE@@UAAHH@Z @72 NONAME
 ?SetStatusText@CProtoIntDlgBase@@QAEXPB_W@Z @73 NONAME
-?UpdateProtoTitle@CProtoIntDlgBase@@AAEXPB_W@Z @74 NONAME
 ?UpdateStatusBar@CProtoIntDlgBase@@AAEXXZ @75 NONAME
 ?UserIsTyping@PROTO_INTERFACE@@UAAHIH@Z @76 NONAME
 ?WindowSubscribe@PROTO_INTERFACE@@QAEXPAUHWND__@@@Z @77 NONAME

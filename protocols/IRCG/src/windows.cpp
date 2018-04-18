@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Message Box
 
 CMessageBoxDlg::CMessageBoxDlg(CIrcProto *_pro, DCCINFO *_dci)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_MESSAGEBOX, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_MESSAGEBOX),
 	pdci(_dci),
 	m_Ok(this, IDOK)
 {
@@ -251,7 +251,7 @@ void CNickDlg::OnOk(CCtrlButton*)
 #define LIST_TIMER 10
 
 CListDlg::CListDlg(CIrcProto *_pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_LIST, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_LIST),
 	m_Join(this, IDC_JOIN),
 	m_list(this, IDC_INFO_LISTVIEW),
 	m_list2(this, IDC_INFO_LISTVIEW2),
@@ -1370,7 +1370,7 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 // 'cool' dialog
 
 CCoolIrcDlg::CCoolIrcDlg(CIrcProto* _pro, int dlgId)
-	: CProtoDlgBase<CIrcProto>(_pro, dlgId, false)
+	: CProtoDlgBase<CIrcProto>(_pro, dlgId)
 {}
 
 void CCoolIrcDlg::OnInitDialog()

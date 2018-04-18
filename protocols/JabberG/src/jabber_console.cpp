@@ -328,7 +328,7 @@ protected:
 };
 
 CJabberDlgConsole::CJabberDlgConsole(CJabberProto *proto):
-	CJabberDlgBase(proto, IDD_CONSOLE, nullptr)
+	CJabberDlgBase(proto, IDD_CONSOLE)
 {
 }
 

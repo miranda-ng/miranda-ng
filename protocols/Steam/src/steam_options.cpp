@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent)
-	: CSteamDlgBase(proto, idDialog, false),
+	: CSteamDlgBase(proto, idDialog),
 	m_username(this, IDC_USERNAME), m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS),
 	m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS), m_pollingErrorLimit(this, IDC_POLLINGERRORLIMITSPIN)
@@ -51,7 +51,7 @@ void CSteamOptionsMain::OnApply()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamOptionsBlockList::CSteamOptionsBlockList(CSteamProto *proto)
-	: CSuper(proto, IDD_OPT_BLOCK_LIST, false),
+	: CSuper(proto, IDD_OPT_BLOCK_LIST),
 	m_list(this, IDC_LIST),
 	m_contacts(this, IDC_CONTACTS),
 	m_add(this, IDC_BLOCK)

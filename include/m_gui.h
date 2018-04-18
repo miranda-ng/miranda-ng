@@ -1440,7 +1440,7 @@ class MIR_APP_EXPORT CProtoIntDlgBase : public CDlgBase
 	typedef CDlgBase CSuper;
 
 public:
-	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, bool show_label = true);
+	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog);
 
 	void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue);
 	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
@@ -1457,7 +1457,6 @@ public:
 
 protected:
 	PROTO_INTERFACE *m_proto_interface;
-	bool m_show_label;
 	HWND m_hwndStatus;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
@@ -1467,7 +1466,6 @@ protected:
 	virtual void OnProtoCheckOnline(WPARAM, LPARAM);
 
 private:
-	void UpdateProtoTitle(const wchar_t *szText = nullptr);
 	void UpdateStatusBar();
 };
 
@@ -1477,8 +1475,8 @@ class CProtoDlgBase : public CProtoIntDlgBase
 	typedef CProtoIntDlgBase CSuper;
 
 public:
-	__inline CProtoDlgBase<TProto>(TProto *proto, int idDialog, bool show_label=true) :
-		CProtoIntDlgBase(proto, idDialog, show_label),
+	__inline CProtoDlgBase<TProto>(TProto *proto, int idDialog) :
+		CProtoIntDlgBase(proto, idDialog),
 		m_proto(proto)
 	{
 	}

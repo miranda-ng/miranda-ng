@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
-	: CToxDlgBase(proto, idDialog, false),
+	: CToxDlgBase(proto, idDialog),
 	m_toxAddress(this, IDC_TOXID), m_toxAddressCopy(this, IDC_CLIPBOARD),
 	m_profileCreate(this, IDC_PROFILE_NEW), m_profileImport(this, IDC_PROFILE_IMPORT),
 	m_profileExport(this, IDC_PROFILE_EXPORT), m_nickname(this, IDC_NAME),
@@ -334,7 +334,7 @@ void CToxNodeEditor::OnClose()
 /****************************************/
 
 CToxOptionsNodeList::CToxOptionsNodeList(CToxProto *proto)
-	: CSuper(proto, IDD_OPTIONS_NODES, false),
+	: CSuper(proto, IDD_OPTIONS_NODES),
 	m_nodes(this, IDC_NODESLIST), m_addNode(this, IDC_ADDNODE),
 	m_updateNodes(this, IDC_UPDATENODES)
 {

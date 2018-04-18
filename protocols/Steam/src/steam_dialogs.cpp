@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto)
-	: CSteamDlgBase(proto, IDD_PASSWORD_EDITOR, false), m_ok(this, IDOK),
+	: CSteamDlgBase(proto, IDD_PASSWORD_EDITOR), m_ok(this, IDOK),
 	m_password(this, IDC_PASSWORD), m_savePermanently(this, IDC_SAVEPERMANENTLY)
 {
 	m_ok.OnClick = Callback(this, &CSteamPasswordEditor::OnOk);
@@ -35,7 +35,7 @@ void CSteamPasswordEditor::OnClose()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, const char *domain)
-	: CSteamDlgBase(proto, IDD_GUARD, false),
+	: CSteamDlgBase(proto, IDD_GUARD),
 	m_ok(this, IDOK),
 	m_text(this, IDC_TEXT),
 	m_link(this, IDC_GETDOMAIN, domain)
@@ -75,7 +75,7 @@ const char* CSteamGuardDialog::GetGuardCode()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamTwoFactorDialog::CSteamTwoFactorDialog(CSteamProto *proto)
-: CSteamDlgBase(proto, IDD_TWOFACTOR, false),
+: CSteamDlgBase(proto, IDD_TWOFACTOR),
 m_ok(this, IDOK),
 m_text(this, IDC_TEXT)
 {
@@ -113,7 +113,7 @@ const char* CSteamTwoFactorDialog::GetTwoFactorCode()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, int captchaImageSize)
-	: CSteamDlgBase(proto, IDD_CAPTCHA, false),
+	: CSteamDlgBase(proto, IDD_CAPTCHA),
 	m_ok(this, IDOK), m_text(this, IDC_TEXT),
 	m_captchaImage(nullptr)
 {

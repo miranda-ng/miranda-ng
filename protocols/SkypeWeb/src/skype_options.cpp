@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
-	: CSkypeDlgBase(proto, idDialog, false),
+	: CSkypeDlgBase(proto, idDialog),
 	m_skypename(this, IDC_SKYPENAME),
 	m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP),

@@ -609,7 +609,7 @@ private:
 };
 
 CJabberDlgDiscovery::CJabberDlgDiscovery(CJabberProto *proto, wchar_t *jid) :
-	CJabberDlgBase(proto, IDD_SERVICE_DISCOVERY, nullptr),
+	CJabberDlgBase(proto, IDD_SERVICE_DISCOVERY),
 	m_jid(jid),
 	m_btnViewAsTree(this, IDC_BTN_VIEWTREE, proto->LoadIconEx("sd_view_tree"), "View as tree"),
 	m_btnViewAsList(this, IDC_BTN_VIEWLIST, proto->LoadIconEx("sd_view_list"), "View as list"),

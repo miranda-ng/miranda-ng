@@ -88,7 +88,7 @@ int OnOptionsInitialized(WPARAM wParam, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////
 
 CAccountManagerDlg::CAccountManagerDlg(CCloudService *service)
-	: CProtoDlgBase(service, IDD_ACCMGR, false),
+	: CProtoDlgBase(service, IDD_ACCMGR),
 	m_requestAccess(this, IDC_REQUESTACCESS),
 	m_revokeAccess(this, IDC_REVOKEACCESS)
 {

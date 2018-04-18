@@ -35,7 +35,7 @@ class CAgentRegProgressDlg : public CJabberDlgBase
 
 public:
 	CAgentRegProgressDlg(CJabberProto *_ppro, HWND _owner) :
-		CJabberDlgBase(_ppro, IDD_OPT_REGISTER, false),
+		CJabberDlgBase(_ppro, IDD_OPT_REGISTER),
 		m_ok(this, IDOK)
 	{
 		SetParent(_owner);
@@ -88,7 +88,7 @@ class CAgentRegDlg : public CJabberDlgBase
 
 public:
 	CAgentRegDlg(CJabberProto *_ppro, wchar_t *_jid) :
-		CJabberDlgBase(_ppro, IDD_FORM, false),
+		CJabberDlgBase(_ppro, IDD_FORM),
 		m_submit(this, IDC_SUBMIT),
 		m_jid(_jid),
 		m_agentRegIqNode(nullptr)

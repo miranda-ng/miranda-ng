@@ -18,7 +18,7 @@ GaduOptions::GaduOptions(PROTO_INTERFACE *proto) :
 
 
 GaduOptionsDlgAdvanced::GaduOptionsDlgAdvanced(GaduProto * proto) :
-	GaduDlgBase(proto, IDD_OPT_GG_ADVANCED, false),
+	GaduDlgBase(proto, IDD_OPT_GG_ADVANCED),
 	chkAutoReconnect(this, IDC_ARECONNECT),
 	chkKeepConnectionAlive(this, IDC_KEEPALIVE),
 	chkMsgAcknowledge(this, IDC_MSGACK),

@@ -54,7 +54,7 @@ private:
 };
 
 CJabberDlgPepBase::CJabberDlgPepBase(CJabberProto *proto, int id) :
-	CJabberDlgBase(proto, id, nullptr),
+	CJabberDlgBase(proto, id),
 	m_btnOk(this, IDOK),
 	m_btnCancel(this, IDCANCEL),
 	m_time(5)

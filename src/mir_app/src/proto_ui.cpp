@@ -36,12 +36,11 @@ HINSTANCE ProtoGetInstance(const char *szModuleName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Base protocol dialog
 
-CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, bool show_label)
-	: CDlgBase(::ProtoGetInstance(proto->m_szModuleName), idDialog),
-	m_proto_interface(proto),
-	m_show_label(show_label),
-	m_hwndStatus(nullptr)
-{}
+CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog) :
+	CDlgBase(::ProtoGetInstance(proto->m_szModuleName), idDialog),
+	m_proto_interface(proto)
+{
+}
 
 void CProtoIntDlgBase::CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue)
 {
@@ -59,8 +58,13 @@ void CProtoIntDlgBase::OnProtoCheckOnline(WPARAM, LPARAM) {}
 
 void CProtoIntDlgBase::SetStatusText(const wchar_t *statusText)
 {
-	if (m_hwndStatus)
-		SendMessage(m_hwndStatus, SB_SETTEXT, 0, (LPARAM)statusText);
+	if (m_hwndStatus == nullptr) {
+		m_hwndStatus = CreateStatusWindow(WS_CHILD | WS_VISIBLE, nullptr, m_hwnd, 999);
+		SetWindowPos(m_hwndStatus, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		UpdateStatusBar();
+	}
+
+	SendMessage(m_hwndStatus, SB_SETTEXT, 0, (LPARAM)statusText);
 }
 
 INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -71,27 +75,11 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG: // call inherited init code first
 		result = CSuper::DlgProc(msg, wParam, lParam);
 		m_proto_interface->WindowSubscribe(m_hwnd);
-		if (m_show_label) {
-			m_hwndStatus = CreateStatusWindow(WS_CHILD | WS_VISIBLE, nullptr, m_hwnd, 999);
-			SetWindowPos(m_hwndStatus, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			UpdateStatusBar();
-			UpdateProtoTitle();
-		}
 		return result;
 
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(m_hwnd);
 		m_proto_interface->WindowUnsubscribe(m_hwnd);
-		break;
-
-	case WM_SETTEXT:
-		if (m_show_label && IsWindowUnicode(m_hwnd)) {
-			wchar_t *szTitle = (wchar_t *)lParam;
-			if (!wcsstr(szTitle, m_proto_interface->m_tszUserName)) {
-				UpdateProtoTitle(szTitle);
-				return TRUE;
-			}
-		}
 		break;
 
 	case WM_SIZE:
@@ -103,7 +91,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-		// Protocol events
+	// Protocol events
 	case WM_PROTO_ACTIVATE:
 		OnProtoActivate(wParam, lParam);
 		return m_lresult;
@@ -121,34 +109,6 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	return CSuper::DlgProc(msg, wParam, lParam);
 }
-
-void CProtoIntDlgBase::UpdateProtoTitle(const wchar_t *szText)
-{
-	if (!m_show_label)
-		return;
-
-	int curLength;
-	const wchar_t *curText;
-
-	if (szText) {
-		curText = szText;
-		curLength = (int)mir_wstrlen(curText);
-	}
-	else {
-		curLength = GetWindowTextLength(m_hwnd) + 1;
-		wchar_t *tmp = (wchar_t *)_alloca(curLength * sizeof(wchar_t));
-		GetWindowText(m_hwnd, tmp, curLength);
-		curText = tmp;
-	}
-
-	if (!wcsstr(curText, m_proto_interface->m_tszUserName)) {
-		size_t length = curLength + mir_wstrlen(m_proto_interface->m_tszUserName) + 256;
-		wchar_t *text = (wchar_t *)_alloca(length * sizeof(wchar_t));
-		mir_snwprintf(text, length, L"%s [%s: %s]", curText, TranslateT("Account"), m_proto_interface->m_tszUserName);
-		SetWindowText(m_hwnd, text);
-	}
-}
-
 void CProtoIntDlgBase::UpdateStatusBar()
 {
 	SIZE sz;

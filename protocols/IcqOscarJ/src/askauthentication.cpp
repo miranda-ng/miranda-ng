@@ -34,7 +34,7 @@ class AskAuthProcDlg : public CProtoDlgBase<CIcqProto>
 
 public:
 	AskAuthProcDlg(CIcqProto *_ppro, MCONTACT _hContact) :
-		CProtoDlgBase<CIcqProto>(_ppro, IDD_ASKAUTH, false),
+		CProtoDlgBase<CIcqProto>(_ppro, IDD_ASKAUTH),
 		m_hContact(_hContact),
 		m_auth(this, IDC_EDITAUTH),
 		m_btnOk(this, IDOK)

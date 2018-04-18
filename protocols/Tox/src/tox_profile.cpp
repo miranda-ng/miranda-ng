@@ -193,7 +193,7 @@ INT_PTR CToxProto::OnRemovePassword(WPARAM, LPARAM)
 /* ENTER PASSWORD */
 
 CToxEnterPasswordDlg::CToxEnterPasswordDlg(CToxProto *proto)
-	: CToxDlgBase(proto, IDD_PASSWORD_ENTER, false),
+	: CToxDlgBase(proto, IDD_PASSWORD_ENTER),
 	m_password(this, IDC_PASSWORD),
 	m_ok(this, IDOK)
 {
@@ -220,7 +220,7 @@ void CToxEnterPasswordDlg::OnOk(CCtrlButton*)
 /* CREATE PASSWORD */
 
 CToxCreatePasswordDlg::CToxCreatePasswordDlg(CToxProto *proto)
-	: CToxDlgBase(proto, IDD_PASSWORD_CREATE, false),
+	: CToxDlgBase(proto, IDD_PASSWORD_CREATE),
 	m_newPassword(this, IDC_PASSWORD_NEW),
 	m_confirmPassword(this, IDC_PASSWORD_CONFIRM),
 	m_passwordValidation(this, IDC_PASSWORD_VALIDATION),
@@ -272,7 +272,7 @@ void CToxCreatePasswordDlg::OnOk(CCtrlButton*)
 /* CHANGE PASSWORD */
 
 CToxChangePasswordDlg::CToxChangePasswordDlg(CToxProto *proto)
-	: CToxDlgBase(proto, IDD_PASSWORD_CHANGE, false),
+	: CToxDlgBase(proto, IDD_PASSWORD_CHANGE),
 	m_oldPassword(this, IDC_PASSWORD),
 	m_newPassword(this, IDC_PASSWORD_NEW),
 	m_confirmPassword(this, IDC_PASSWORD_CONFIRM),

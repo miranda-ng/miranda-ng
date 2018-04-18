@@ -229,7 +229,7 @@ class CJabberDlgRegister : public CJabberDlgBase
 	typedef CJabberDlgBase CSuper;
 public:
 	CJabberDlgRegister(CJabberProto *proto, HWND hwndParent, JABBER_CONN_DATA *regInfo) :
-		CJabberDlgBase(proto, IDD_OPT_REGISTER, false),
+		CJabberDlgBase(proto, IDD_OPT_REGISTER),
 		m_bProcessStarted(false),
 		m_regInfo(regInfo),
 		m_btnOk(this, IDOK)
@@ -363,7 +363,7 @@ class CDlgOptAccount : public CJabberDlgBase
 
 public:
 	CDlgOptAccount(CJabberProto *proto) :
-		CJabberDlgBase(proto, IDD_OPT_JABBER, false),
+		CJabberDlgBase(proto, IDD_OPT_JABBER),
 		m_txtUsername(this, IDC_EDIT_USERNAME),
 		m_txtPassword(this, IDC_EDIT_PASSWORD),
 		m_txtPriority(this, IDC_PRIORITY),
@@ -764,7 +764,7 @@ class CDlgOptAdvanced : public CJabberDlgBase
 
 public:
 	CDlgOptAdvanced(CJabberProto *proto) :
-		CJabberDlgBase(proto, IDD_OPT_JABBER2, false),
+		CJabberDlgBase(proto, IDD_OPT_JABBER2),
 		m_chkDirect(this, IDC_DIRECT),
 		m_chkDirectManual(this, IDC_DIRECT_MANUAL),
 		m_chkProxy(this, IDC_PROXY_MANUAL),
@@ -897,7 +897,7 @@ class CDlgOptGc : public CJabberDlgBase
 
 public:
 	CDlgOptGc(CJabberProto *proto) :
-		CJabberDlgBase(proto, IDD_OPT_JABBER4, false),
+		CJabberDlgBase(proto, IDD_OPT_JABBER4),
 		m_txtAltNick(this, IDC_TXT_ALTNICK),
 		m_txtSlap(this, IDC_TXT_SLAP),
 		m_txtQuit(this, IDC_TXT_QUIT),
@@ -1537,7 +1537,7 @@ class CJabberDlgAccMgrUI : public CJabberDlgBase
 
 public:
 	CJabberDlgAccMgrUI(CJabberProto *proto, HWND hwndParent) :
-		CJabberDlgBase(proto, IDD_ACCMGRUI, false),
+		CJabberDlgBase(proto, IDD_ACCMGRUI),
 		m_cbType(this, IDC_CB_TYPE),
 		m_txtUsername(this, IDC_EDIT_USERNAME),
 		m_txtPassword(this, IDC_EDIT_PASSWORD),

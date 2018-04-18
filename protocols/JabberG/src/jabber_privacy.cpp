@@ -301,7 +301,7 @@ public:
 	wchar_t szLine[512];
 
 	CJabberDlgPrivacyAddList(CJabberProto *proto, HWND hwndParent):
-		CJabberDlgBase(proto, IDD_PRIVACY_ADD_LIST, false),
+		CJabberDlgBase(proto, IDD_PRIVACY_ADD_LIST),
 		m_txtName(this, IDC_EDIT_NAME),
 		m_btnOk(this, IDOK),
 		m_btnCancel(this, IDCANCEL)
@@ -343,7 +343,7 @@ public:
 	CPrivacyListRule *m_pRule;
 
 	CJabberDlgPrivacyRule(CJabberProto *proto, HWND hwndParent, CPrivacyListRule *pRule):
-		CJabberDlgBase(proto, IDD_PRIVACY_RULE, false),
+		CJabberDlgBase(proto, IDD_PRIVACY_RULE),
 		m_btnOk(this, IDOK),
 		m_btnCancel(this, IDCANCEL),
 		m_cbType(this, IDC_COMBO_TYPE)
@@ -713,7 +713,7 @@ int CJabberDlgPrivacyLists::idAdvancedControls[] =
 };
 
 CJabberDlgPrivacyLists::CJabberDlgPrivacyLists(CJabberProto *proto):
-	CSuper(proto, IDD_PRIVACY_LISTS, nullptr),
+	CSuper(proto, IDD_PRIVACY_LISTS),
 	m_btnSimple(this,     IDC_BTN_SIMPLE,   proto->LoadIconEx("group"),           LPGEN("Simple mode")),
 	m_btnAdvanced(this,   IDC_BTN_ADVANCED, proto->LoadIconEx("sd_view_list"),    LPGEN("Advanced mode")),
 	m_btnAddJid(this,     IDC_ADDJID,       proto->LoadIconEx("addroster"),       LPGEN("Add JID")),

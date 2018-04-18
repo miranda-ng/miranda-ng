@@ -401,7 +401,7 @@ protected:
 };
 
 CJabberDlgGcJoin::CJabberDlgGcJoin(CJabberProto *proto, wchar_t *jid) :
-	CSuper(proto, IDD_GROUPCHAT_JOIN, nullptr),
+	CSuper(proto, IDD_GROUPCHAT_JOIN),
 	btnOk(this, IDOK),
 	m_jid(mir_wstrdup(jid))
 {
@@ -1140,7 +1140,7 @@ class CGroupchatInviteAcceptDlg : public CJabberDlgBase
 
 public:
 	CGroupchatInviteAcceptDlg(CJabberProto *ppro, const wchar_t *roomJid, const wchar_t *from, const wchar_t *reason, const wchar_t *password) :
-		CSuper(ppro, IDD_GROUPCHAT_INVITE_ACCEPT, nullptr),
+		CSuper(ppro, IDD_GROUPCHAT_INVITE_ACCEPT),
 		m_roomJid(roomJid), m_from(from), m_reason(reason), m_password(password),
 		m_accept(this, IDC_ACCEPT)
 	{

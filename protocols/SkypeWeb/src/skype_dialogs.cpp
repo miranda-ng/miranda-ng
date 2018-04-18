@@ -32,7 +32,7 @@ void CSkypeProto::CloseDialogs()
 
 //CSkypeInvideDlg
 CSkypeInviteDlg::CSkypeInviteDlg(CSkypeProto *proto) :
-	CSkypeDlgBase(proto, IDD_GC_INVITE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_combo(this, IDC_CONTACT), m_hContact(NULL)
+	CSkypeDlgBase(proto, IDD_GC_INVITE), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_combo(this, IDC_CONTACT), m_hContact(NULL)
 {
 	m_ok.OnClick = Callback(this, &CSkypeInviteDlg::btnOk_OnOk);
 }
@@ -52,7 +52,7 @@ void CSkypeInviteDlg::btnOk_OnOk(CCtrlButton*)
 
 //CSkypeGCCreateDlg
 CSkypeGCCreateDlg::CSkypeGCCreateDlg(CSkypeProto *proto) :
-	CSkypeDlgBase(proto, IDD_GC_CREATE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_clc(this, IDC_CLIST), m_ContactsList(1)
+	CSkypeDlgBase(proto, IDD_GC_CREATE), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_clc(this, IDC_CLIST), m_ContactsList(1)
 {
 	m_ok.OnClick = Callback(this, &CSkypeGCCreateDlg::btnOk_OnOk);
 	m_clc.OnListRebuilt = Callback(this, &CSkypeGCCreateDlg::FilterList);

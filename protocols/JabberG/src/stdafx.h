@@ -115,8 +115,8 @@ class CJabberDlgBase : public CProtoDlgBase<CJabberProto>
 {
 	typedef CProtoDlgBase<CJabberProto> CSuper;
 protected:
-	__inline CJabberDlgBase(CJabberProto *proto, int idDialog, bool show_label=true) :
-		CSuper(proto, idDialog, show_label)
+	__inline CJabberDlgBase(CJabberProto *proto, int idDialog) :
+		CSuper(proto, idDialog)
 	{
 	}
 

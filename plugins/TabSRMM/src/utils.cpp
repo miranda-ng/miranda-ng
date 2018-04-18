@@ -123,7 +123,7 @@ search_again:
 invalid_code:
 						if (endmark != -1)
 							msg.Delete(endmark, 8);
-						if (closing != -1 && closing < (size_t)endmark)
+						if (closing != -1 && closing < endmark)
 							msg.Delete(beginmark, (closing - beginmark) + 1);
 						else
 							msg.SetAt(beginmark, ' ');

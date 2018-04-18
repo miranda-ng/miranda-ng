@@ -285,7 +285,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 	CCtrlCombo m_groupCombo;
 
 	CServerDlg(CIrcProto* _pro, CConnectPrefsDlg* _owner, int _action)
-		: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDSERVER, false),
+		: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDSERVER),
 		m_owner(_owner),
 		m_action(_action),
 		m_OK(this, IDOK),
@@ -431,7 +431,7 @@ static TDbSetting ConnectSettings[] =
 };
 
 CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CONNECT, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CONNECT),
 	m_serverCombo(this, IDC_SERVERCOMBO),
 	m_server(this, IDC_SERVER),
 	m_port(this, IDC_PORT),
@@ -792,7 +792,7 @@ static TDbSetting CtcpSettings[] =
 };
 
 CCtcpPrefsDlg::CCtcpPrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CTCP, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CTCP),
 	m_enableIP(this, IDC_ENABLEIP),
 	m_fromServer(this, IDC_FROMSERVER),
 	m_combo(this, IDC_COMBO),
@@ -971,7 +971,7 @@ static LRESULT CALLBACK EditSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 }
 
 COtherPrefsDlg::COtherPrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_OTHER, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_OTHER),
 	m_url(this, IDC_CUSTOM),
 	m_performCombo(this, IDC_PERFORMCOMBO),
 	m_codepage(this, IDC_CODEPAGE),
@@ -1180,7 +1180,7 @@ void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 // 'add ignore' preferences dialog
 
 CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const wchar_t* mask, CIgnorePrefsDlg* _owner)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDIGNORE, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDIGNORE),
 	m_Ok(this, IDOK),
 	m_owner(_owner)
 {
@@ -1381,7 +1381,7 @@ void CIrcProto::RewriteIgnoreSettings(void)
 }
 
 CIgnorePrefsDlg::CIgnorePrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_IGNORE, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_IGNORE),
 	m_list(this, IDC_LIST),
 	m_add(this, IDC_ADD, LoadIconEx(IDI_ADD), LPGEN("Add new ignore")),
 	m_edit(this, IDC_EDIT, LoadIconEx(IDI_EDIT), LPGEN("Edit this ignore")),
@@ -1725,7 +1725,7 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 	CCtrlEdit  m_server, m_port, m_port2, m_pass, m_nick, m_nick2, m_name, m_userID, m_ssl;
 
 	CDlgAccMgrUI(CIrcProto* _pro, HWND _owner)
-		: CProtoDlgBase<CIrcProto>(_pro, IDD_ACCMGRUI, false),
+		: CProtoDlgBase<CIrcProto>(_pro, IDD_ACCMGRUI),
 		m_serverCombo(this, IDC_SERVERCOMBO),
 		m_server(this, IDC_SERVER),
 		m_port(this, IDC_PORT),
