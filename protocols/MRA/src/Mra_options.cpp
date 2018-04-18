@@ -215,7 +215,7 @@ int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.dwInitParam = (LPARAM)this;
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.w = m_tszUserName;
 	odp.szGroup.w = LPGENW("Network");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;

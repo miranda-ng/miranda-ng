@@ -90,7 +90,6 @@ struct CToxProto;
 
 #include "http_request.h"
 
-extern HINSTANCE g_hInstance;
 extern HANDLE hProfileFolderPath;
 
 #endif //_COMMON_H_

@@ -200,8 +200,6 @@ using namespace irc;
 // Functions
 
 // main.cpp
-extern HINSTANCE g_hInstance;
-
 extern OBJLIST<SERVER_INFO> g_servers;
 
 CIrcProto* GetTimerOwner(UINT_PTR eventId);

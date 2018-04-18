@@ -22,10 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "version.h"
 
-CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInstance;
 
 int hLangpack;
 
@@ -49,15 +47,22 @@ PLUGININFOEX pluginInfo =
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-    {0x92382b4d, 0x5572, 0x48a0, {0xb0, 0xb9, 0x13, 0x36, 0xa6, 0x1, 0xd6, 0x89}} // {92382B4D-5572-48a0-B0B9-1336A601D689}
+	// {92382B4D-5572-48a0-B0B9-1336A601D689}
+	{ 0x92382b4d, 0x5572, 0x48a0, {0xb0, 0xb9, 0x13, 0x36, 0xa6, 0x1, 0xd6, 0x89 }}
 };
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 

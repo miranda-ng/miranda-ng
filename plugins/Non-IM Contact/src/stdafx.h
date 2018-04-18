@@ -68,12 +68,12 @@ struct DLGTEMPLATEEX
 //=======================================================
 //	Defines
 //=======================================================
-//General
-extern HINSTANCE g_hInstance;
+// General
+
 extern int LCStatus;
 extern IconItem icoList[];
 
-//Services.c
+// Services.c
 INT_PTR GetLCCaps(WPARAM wParam,LPARAM lParam);
 INT_PTR GetLCName(WPARAM wParam,LPARAM lParam);
 INT_PTR LoadLCIcon(WPARAM wParam,LPARAM lParam); 
@@ -108,16 +108,24 @@ void replaceAllStrings(MCONTACT hContact);
 void WriteSetting(MCONTACT hContact, char* module1, char* setting1 , char* module12, char* setting2);
 
 //timer.c
-void CALLBACK timerProc();
 int startTimer(int interval);
 int killTimer();
 
 // http.c
 void NetlibInit();
-int InternetDownloadFile (CHAR *szUrl);
+int InternetDownloadFile (char *szUrl);
 extern char *szInfo;
 extern char *szData;
 extern HNETLIBUSER hNetlibUser;
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODNAME)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+	}
+};
 
 #endif
 

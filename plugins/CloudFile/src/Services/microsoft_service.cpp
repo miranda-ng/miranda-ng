@@ -280,8 +280,10 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 struct CMPluginOnedrive : public CMPluginBase
 {
 	CMPluginOnedrive() :
-		CMPluginBase(g_hInstance, MODULE "/OneDrive")
+		CMPluginBase(MODULE "/OneDrive")
 	{
+		m_hInst = g_plugin.getInst();
+
 		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)COneDriveService::Init, (pfnUninitProto)COneDriveService::UnInit);
 	}
 }

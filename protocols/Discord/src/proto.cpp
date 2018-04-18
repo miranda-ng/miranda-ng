@@ -164,7 +164,7 @@ static INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 HWND CDiscordProto::CreateExtendedSearchUI(HWND hwndParent)
 {
 	if (hwndParent)
-		return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_EXTSEARCH), hwndParent, AdvancedSearchDlgProc, 0);
+		return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXTSEARCH), hwndParent, AdvancedSearchDlgProc, 0);
 
 	return nullptr;
 }

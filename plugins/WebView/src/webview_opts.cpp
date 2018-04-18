@@ -207,7 +207,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 				ppd.lchContact = NULL;
 				mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));
-				ppd.lchIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SITE));
+				ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
 				mir_wstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
 				ppd.colorBack = BGColour;
 				ppd.colorText = TextColour;
@@ -279,7 +279,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		SetWindowText(hwndDlg, TranslateT("Alert options"));
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ALERT)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ALERT)));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_APPLY), 0);
 
@@ -819,7 +819,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		SetWindowText(hwndDlg, TranslateT("Contact options"));
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_OPTIONS)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_OPTIONS)));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 0);
 

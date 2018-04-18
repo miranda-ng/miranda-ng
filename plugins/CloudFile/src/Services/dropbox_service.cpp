@@ -313,9 +313,9 @@ struct CMPluginDropbox : public PLUGIN<CMPluginDropbox>
 	CMPluginDropbox() :
 		PLUGIN<CMPluginDropbox>(MODULE "/Dropbox")
 	{
+		m_hInst = g_plugin.getInst();
+
 		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
 	}
 }
 	g_pluginDropbox;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPluginDropbox::RawDllMain;

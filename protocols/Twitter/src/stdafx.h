@@ -65,8 +65,6 @@ typedef std::basic_string<wchar_t> wstring;
 
 #include "StringUtil.h"
 
-extern HINSTANCE g_hInstance;
-
 #define TWITTER_KEY_NICK		   "Nick"  // we need one called Nick for the chat thingo to work
 #define TWITTER_KEY_UN             "Username"
 #define TWITTER_KEY_PASS           "Password"

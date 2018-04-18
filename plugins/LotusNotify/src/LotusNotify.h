@@ -27,3 +27,12 @@ __declspec(dllexport) STATUS LNPUBLIC MainEntryPoint (void);
 void ErMsgT(wchar_t* msg);
 
 void checkthread(void*);
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PLUGINNAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL);
+	}
+};

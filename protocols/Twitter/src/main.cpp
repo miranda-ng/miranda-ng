@@ -22,10 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "proto.h"
 #include "theme.h"
 
-CMPlugin g_plugin;
-CLIST_INTERFACE* pcli;
+CLIST_INTERFACE *pcli;
 
-HINSTANCE g_hInstance;
 int hLangpack = 0;
 
 PLUGININFOEX pluginInfo = {
@@ -41,15 +39,18 @@ PLUGININFOEX pluginInfo = {
 	{ 0xbc09a71b, 0xb86e, 0x4d33, { 0xb1, 0x8d, 0x82, 0xd3, 0x4, 0x51, 0xdd, 0x3c } }
 };
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Interface information
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 

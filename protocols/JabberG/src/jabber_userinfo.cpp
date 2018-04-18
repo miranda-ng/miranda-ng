@@ -822,7 +822,7 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	char *szProto = GetContactProto(hContact);
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.hInstance = g_hInstance;
+		odp.hInstance = g_plugin.getInst();
 		odp.dwInitParam = (LPARAM)this;
 
 		odp.pfnDlgProc = JabberUserInfoDlgProc;

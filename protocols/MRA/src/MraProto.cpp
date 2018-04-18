@@ -75,7 +75,7 @@ CMraProto::~CMraProto()
 
 INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MRAACCOUNT),
+	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MRAACCOUNT),
 		(HWND)lParam, DlgProcAccount, LPARAM(this));
 }
 

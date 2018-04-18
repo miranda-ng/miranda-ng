@@ -191,14 +191,14 @@ int TwitterProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 
 INT_PTR TwitterProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWITTERACCOUNT), (HWND)lParam, first_run_dialog, (LPARAM)this);
+	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TWITTERACCOUNT), (HWND)lParam, first_run_dialog, (LPARAM)this);
 }
 
 INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT) wParam;
 	// TODO: support replying to tweets instead of just users
-	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWEET), nullptr, tweet_proc, reinterpret_cast<LPARAM>(this));
+	HWND hDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TWEET), nullptr, tweet_proc, reinterpret_cast<LPARAM>(this));
 
 	DBVARIANT dbv;
 	if (!getString(hContact, TWITTER_KEY_UN, &dbv)) {
@@ -252,7 +252,7 @@ int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 271828;
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
@@ -277,7 +277,7 @@ INT_PTR TwitterProto::OnTweet(WPARAM, LPARAM)
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 1;
 
-	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWEET), nullptr, tweet_proc, reinterpret_cast<LPARAM>(this));
+	HWND hDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TWEET), nullptr, tweet_proc, reinterpret_cast<LPARAM>(this));
 	ShowWindow(hDlg, SW_SHOW);
 	return 0;
 }
@@ -343,7 +343,7 @@ int TwitterProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 int TwitterProto::ShowPinDialog()
 {
-	HWND hDlg = (HWND)DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_TWITTERPIN), nullptr, pin_proc, reinterpret_cast<LPARAM>(this));
+	HWND hDlg = (HWND)DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TWITTERPIN), nullptr, pin_proc, reinterpret_cast<LPARAM>(this));
 	ShowWindow(hDlg, SW_SHOW);
 	return 0;
 }

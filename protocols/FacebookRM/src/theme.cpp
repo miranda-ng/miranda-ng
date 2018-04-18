@@ -54,7 +54,7 @@ static IconItem icons[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/Facebook", icons, _countof(icons), "Facebook");
+	Icon_Register(g_plugin.getInst(), "Protocols/Facebook", icons, _countof(icons), "Facebook");
 }
 
 HANDLE GetIconHandle(const char* name)

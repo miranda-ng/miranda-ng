@@ -339,7 +339,7 @@ int CJabberProto::AdHoc_AddCommandRadio(HWND hFrame, wchar_t * labelStr, int id,
 	ctrlWidth = min(ctrlWidth, strRect.right - strRect.left + 20);
 	ReleaseDC(hFrame, hdc);
 
-	HWND hCtrl = CreateWindowEx(0, L"button", labelStr, WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_AUTORADIOBUTTON, ctrlOffset, ypos, ctrlWidth, labelHeight, hFrame, (HMENU)id, g_hInstance, nullptr);
+	HWND hCtrl = CreateWindowEx(0, L"button", labelStr, WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_AUTORADIOBUTTON, ctrlOffset, ypos, ctrlWidth, labelHeight, hFrame, (HMENU)id, g_plugin.getInst(), nullptr);
 	SendMessage(hCtrl, WM_SETFONT, (WPARAM)SendMessage(GetParent(hFrame), WM_GETFONT, 0, 0), 0);
 	SendMessage(hCtrl, BM_SETCHECK, value, 0);
 	return (ypos + labelHeight + verticalStep);
@@ -527,7 +527,7 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 						HMENU hMenu = CreatePopupMenu();
 						for (int i = 0; i < item->arResources.getCount(); i++)
 							AppendMenu(hMenu, MF_STRING, i + 1, item->arResources[i]->m_tszResourceName);
-						HWND hwndTemp = CreateWindowEx(WS_EX_TOOLWINDOW, L"button", L"PopupMenuHost", 0, 0, 0, 10, 10, nullptr, nullptr, g_hInstance, nullptr);
+						HWND hwndTemp = CreateWindowEx(WS_EX_TOOLWINDOW, L"button", L"PopupMenuHost", 0, 0, 0, 10, 10, nullptr, nullptr, g_plugin.getInst(), nullptr);
 						SetForegroundWindow(hwndTemp);
 						RECT rc;
 						POINT pt;
@@ -551,11 +551,11 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 
 			if (item == nullptr || selected) {
 				CJabberAdhocStartupParams* pStartupParams = new CJabberAdhocStartupParams(this, jid, nullptr);
-				CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_FORM), nullptr, JabberAdHoc_CommandDlgProc, (LPARAM)pStartupParams);
+				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FORM), nullptr, JabberAdHoc_CommandDlgProc, (LPARAM)pStartupParams);
 			}
 		}
 		else if (lParam != 0)
-			CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_FORM), nullptr, JabberAdHoc_CommandDlgProc, lParam);
+			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FORM), nullptr, JabberAdHoc_CommandDlgProc, lParam);
 	}
 	return res;
 }
@@ -563,5 +563,5 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 void CJabberProto::ContactMenuAdhocCommands(CJabberAdhocStartupParams* param)
 {
 	if (param)
-		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_FORM), nullptr, JabberAdHoc_CommandDlgProc, (LPARAM)param);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FORM), nullptr, JabberAdHoc_CommandDlgProc, (LPARAM)param);
 }

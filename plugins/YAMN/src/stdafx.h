@@ -43,8 +43,17 @@
 #include "proto/pop3/pop3comm.h"
 #include "proto/pop3/pop3opt.h"
 
-
-//From services.cpp
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(YAMN_DBMODULE)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+		SetUniqueId("Id");
+	}
+};
+ 
+// From services.cpp
 void CreateServiceFunctions(void);
 void HookEvents(void);
 void RefreshContact(void);

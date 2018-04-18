@@ -18,8 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 struct CDummyProto;
-extern LIST<CDummyProto> dummy_Instances;
-extern HINSTANCE g_hInstance;
 
 #define DUMMY_ID_TEMPLATE "Template"
 #define DUMMY_ID_TEXT "UniqueIdText"
@@ -34,36 +32,51 @@ struct message_data
 	int msgid;
 };
 
-typedef struct {
+struct ttemplate
+{
 	const char *name;
 	const char *setting;
 	const char *text;
-} ttemplate;
+};
 
-static const ttemplate templates[] = {
-		{ LPGEN("Custom"), "", "" },
-		{ "AIM", "SN", LPGEN("Screen name") },
-		{ "EmLAN", "Nick", LPGEN("User name") },
-		{ "Facebook", "ID", LPGEN("Facebook ID") },
-		{ "GG", "UIN", LPGEN("Gadu-Gadu number") },
-		{ "ICQ", "UIN", LPGEN("User ID") },
-		{ "ICQCorp", "UIN", LPGEN("ICQ number") },
-		{ "IRC", "Nick", LPGEN("Nickname") },
-		{ "Jabber", "jid", LPGEN("JID") },
-		{ "MinecraftDynmap", "Nick", LPGEN("Visible name") },
-		{ "MRA", "e-mail", LPGEN("E-mail address") },
-		{ "MSN", "e-mail", LPGEN("Live ID") },
-		{ "Omegle", "nick", LPGEN("Visible name") },
-		{ "Sametime", "stid", LPGEN("ID") },
-		{ "Skype (SkypeKit)", "sid", LPGEN("Skype name") },
-		{ "Skype (Classic)", "Username", LPGEN("Skype name") },
-		{ "Skype (Web)", "Username", LPGEN("Skype name") },
-		{ "Steam", "SteamID", LPGEN("Steam ID") },
-		{ "Tlen", "jid", LPGEN("Tlen login") },
-		{ "Tox", "ToxID", LPGEN("Tox ID") },
-		{ "Twitter", "Username", LPGEN("Username") },
-		{ "VK", "ID", LPGEN("VKontakte ID") },
-		{ "WhatsApp", "ID", LPGEN("WhatsApp ID") },
-		{ "XFire", "Username", LPGEN("Username") },
-		{ "Yahoo", "yahoo_id", LPGEN("ID") },
+static const ttemplate templates[] =
+{
+	{ LPGEN("Custom"), "", "" },
+	{ "AIM", "SN", LPGEN("Screen name") },
+	{ "EmLAN", "Nick", LPGEN("User name") },
+	{ "Facebook", "ID", LPGEN("Facebook ID") },
+	{ "GG", "UIN", LPGEN("Gadu-Gadu number") },
+	{ "ICQ", "UIN", LPGEN("User ID") },
+	{ "ICQCorp", "UIN", LPGEN("ICQ number") },
+	{ "IRC", "Nick", LPGEN("Nickname") },
+	{ "Jabber", "jid", LPGEN("JID") },
+	{ "MinecraftDynmap", "Nick", LPGEN("Visible name") },
+	{ "MRA", "e-mail", LPGEN("E-mail address") },
+	{ "MSN", "e-mail", LPGEN("Live ID") },
+	{ "Omegle", "nick", LPGEN("Visible name") },
+	{ "Sametime", "stid", LPGEN("ID") },
+	{ "Skype (SkypeKit)", "sid", LPGEN("Skype name") },
+	{ "Skype (Classic)", "Username", LPGEN("Skype name") },
+	{ "Skype (Web)", "Username", LPGEN("Skype name") },
+	{ "Steam", "SteamID", LPGEN("Steam ID") },
+	{ "Tlen", "jid", LPGEN("Tlen login") },
+	{ "Tox", "ToxID", LPGEN("Tox ID") },
+	{ "Twitter", "Username", LPGEN("Username") },
+	{ "VK", "ID", LPGEN("VKontakte ID") },
+	{ "WhatsApp", "ID", LPGEN("WhatsApp ID") },
+	{ "XFire", "Username", LPGEN("Username") },
+	{ "Yahoo", "yahoo_id", LPGEN("ID") },
+};
+
+struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CDummyProto>("Dummy")
+	{
+		int id = db_get_b(0, m_szModuleName, DUMMY_ID_TEMPLATE, -1);
+		if (id < 0 || id >= _countof(templates))
+			SetUniqueId(ptrA(db_get_sa(0, m_szModuleName, DUMMY_ID_SETTING)));
+		else
+			SetUniqueId(templates[id].setting);
+	}
 };

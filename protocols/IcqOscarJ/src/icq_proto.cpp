@@ -808,8 +808,8 @@ HANDLE __cdecl CIcqProto::SearchByName(const wchar_t *nick, const wchar_t *first
 
 HWND __cdecl CIcqProto::CreateExtendedSearchUI(HWND parent)
 {
-	if (parent && g_hInstance)
-		return CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_ICQADVANCEDSEARCH), parent, AdvancedSearchDlgProc);
+	if (parent && g_plugin.getInst())
+		return CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ICQADVANCEDSEARCH), parent, AdvancedSearchDlgProc);
 
 	return nullptr; // Failure
 }

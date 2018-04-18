@@ -43,7 +43,13 @@ PLUGININFOEX pluginInfoEx = {
 	{0xcd5427fb, 0x5320, 0x4f65, {0xb4, 0xbf, 0x86, 0xb7, 0xcf, 0x7b, 0x50, 0x87}}
 };
 
-/*****************************************************************************/
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void InitServices()
 {
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
@@ -56,7 +62,8 @@ void InitServices()
 	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, GetInfo);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void ChangeContactStatus(int con_stat)
 {
    WORD status_code = 0;
@@ -73,55 +80,25 @@ void ChangeContactStatus(int con_stat)
 		db_set_w(hContact, MODULENAME, "Status", status_code);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-/*****************************************************************************/
-extern "C" int __declspec(dllexport) Unload(void)
-{
-   ChangeContactStatus(0);
+CMPlugin g_plugin;
 
-   KillTimer(nullptr, timerId);
-   KillTimer(nullptr, Countdown);
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
-   db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 0);
-   SavewinSettings();
-   if (hRichEd)
-		FreeLibrary(hRichEd);
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	if (hNetlibUser) {
-		Netlib_CloseHandle(hNetlibUser);
-		hNetlibUser = nullptr;
-	}
-	
-	if (hHookDisplayDataAlert)
-		DestroyHookableEvent(hHookDisplayDataAlert);
-	if (hHookAlertPopup)
-		DestroyHookableEvent(hHookAlertPopup);
-	if (hHookAlertWPopup)
-		DestroyHookableEvent(hHookAlertWPopup);
-	
-	if (h_font != nullptr)
-		DeleteObject(h_font);
-	if (hMenu)
-		DestroyMenu(hMenu);    
-	WindowList_Destroy(hWindowList);
-	return 0;
-}
-
-/*****************************************************************************/
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, Doubleclick);
    
-	hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_CONTEXT));
+	hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 	hRichEd = LoadLibrary(L"Msftedit.dll");
 
 	/*TIMERS*/
@@ -164,7 +141,7 @@ extern "C" int __declspec(dllexport) Load()
 		/*DISABLE WEBVIEW*/
 		SET_UID(mi, 0xdedeb697, 0xfc10, 0x4622, 0x8b, 0x97, 0x74, 0x39, 0x32, 0x68, 0xa7, 0x7b);
 		CreateServiceFunction("DisableWebview", AutoUpdateMCmd);
-		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SITE));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
 		if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
 			mi.name.w = LPGENW("Auto update disabled");
 		else
@@ -176,7 +153,7 @@ extern "C" int __declspec(dllexport) Load()
 		SET_UID(mi, 0xf324ede, 0xfdf, 0x498a, 0x8f, 0x49, 0x6d, 0x2a, 0x9f, 0xda, 0x58, 0x6);
 		CreateServiceFunction("UpdateAll", UpdateAllMenuCommand);
 		mi.position = 500090002;
-		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_UPDATEALL));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.name.w = LPGENW("Update all Webview sites");
 		mi.pszService = "UpdateAll";
 		Menu_AddMainMenuItem(&mi);
@@ -185,7 +162,7 @@ extern "C" int __declspec(dllexport) Load()
 		SET_UID(mi, 0x1fa5fa21, 0x2ee1, 0x4372, 0xae, 0x3e, 0x3b, 0x96, 0xac, 0xd, 0xe8, 0x49);
 		CreateServiceFunction("MarkAllSitesRead", MarkAllReadMenuCommand);
 		mi.position = 500090099;
-		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_MARKALLREAD));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MARKALLREAD));
 		mi.name.w = LPGENW("Mark all Webview sites as read");
 		mi.pszService = "MarkAllSitesRead";
 		Menu_AddMainMenuItem(&mi);
@@ -194,7 +171,7 @@ extern "C" int __declspec(dllexport) Load()
 		SET_UID(mi, 0xfed046a8, 0xaae5, 0x4cbe, 0xa8, 0xc, 0x3c, 0x50, 0x3e, 0x3e, 0x9b, 0x15);
 		CreateServiceFunction("OpenCacheFolder", OpenCacheDir);
 		mi.position = 500090099;
-		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_FOLDER));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_FOLDER));
 		mi.name.w = LPGENW("Open cache folder");
 		mi.pszService = "OpenCacheFolder";
 		Menu_AddMainMenuItem(&mi);
@@ -206,7 +183,7 @@ extern "C" int __declspec(dllexport) Load()
 		wchar_t countername[100];
 		mir_snwprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 		mi.position = 600090099;
-		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_UPDATEALL));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.name.w = countername;
 		mi.pszService = "Countdown";
 		hMenuItemCountdown = Menu_AddMainMenuItem(&mi);
@@ -218,7 +195,7 @@ extern "C" int __declspec(dllexport) Load()
 	SET_UID(mi, 0xadc6a9a4, 0xdf7, 0x4f63, 0x89, 0x11, 0x8e, 0x42, 0x1d, 0xd6, 0x29, 0x31);
 	CreateServiceFunction("Open web page", WebsiteMenuCommand);
 	mi.position = 100;
-	mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_URL));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_URL));
 	mi.pszService = "Open web page";
 	mi.name.w = LPGENW("Open web page");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -226,42 +203,42 @@ extern "C" int __declspec(dllexport) Load()
 	SET_UID(mi, 0x9d803e61, 0xc929, 0x4c6e, 0x9e, 0x7, 0x93, 0x0, 0xab, 0x14, 0x13, 0x50);
 	CreateServiceFunction("OpenClose Window", DataWndMenuCommand);
 	mi.pszService = "OpenClose Window";
-	mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SHOW_HIDE));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHOW_HIDE));
 	mi.name.w = LPGENW("Open/Close window");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x3840cc71, 0xcc85, 0x448d, 0xb5, 0xc8, 0x1a, 0x7d, 0xfe, 0xf0, 0x8, 0x85);
 	mi.position = 2222220;
 	mi.pszService = "UpdateData";
-	mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_UPDATE));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATE));
 	mi.name.w = LPGENW("Update data");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0xd1ab586c, 0x2c71, 0x429c, 0xb1, 0x79, 0x7b, 0x3a, 0x1d, 0x4a, 0xc1, 0x7d);
 	CreateServiceFunction("ContactOptions", CntOptionsMenuCommand);
 	mi.pszService = "ContactOptions";
-	mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_OPTIONS));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_OPTIONS));
 	mi.name.w = LPGENW("Contact options");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0xe4cda597, 0x9def, 0x4f54, 0x8a, 0xc6, 0x69, 0x3b, 0x5a, 0x7d, 0x77, 0xb6);
 	CreateServiceFunction("ContactAlertOpts", CntAlertMenuCommand);
 	mi.pszService = "ContactAlertOpts";
-	mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ALERT));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ALERT));
 	mi.name.w = LPGENW("Contact alert options");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x63fdeed8, 0xf880, 0x423f, 0x95, 0xae, 0x20, 0x8c, 0x86, 0x3c, 0x5, 0xd8);
 	CreateServiceFunction("PingWebsite", PingWebsiteMenuCommand);
 	mi.pszService = "PingWebsite";
-	mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_PING));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_PING));
 	mi.name.w = LPGENW("Ping web site");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x28fd36de, 0x6ce1, 0x43d0, 0xa1, 0x6e, 0x98, 0x71, 0x53, 0xe8, 0xc9, 0xf4);
 	CreateServiceFunction("StopDataProcessing", StpPrcssMenuCommand);
 	mi.pszService = "StopDataProcessing";
-	mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_STOP));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STOP));
 	mi.name.w = LPGENW("Stop data processing");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
@@ -277,15 +254,34 @@ extern "C" int __declspec(dllexport) Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public PLUGIN<CMPlugin>
+extern "C" int __declspec(dllexport) Unload(void)
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL);
-		SetUniqueId("PreserveName");
-	}
-}
-	g_plugin;
+	ChangeContactStatus(0);
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+	KillTimer(nullptr, timerId);
+	KillTimer(nullptr, Countdown);
+
+	db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 0);
+	SavewinSettings();
+	if (hRichEd)
+		FreeLibrary(hRichEd);
+
+	if (hNetlibUser) {
+		Netlib_CloseHandle(hNetlibUser);
+		hNetlibUser = nullptr;
+	}
+
+	if (hHookDisplayDataAlert)
+		DestroyHookableEvent(hHookDisplayDataAlert);
+	if (hHookAlertPopup)
+		DestroyHookableEvent(hHookAlertPopup);
+	if (hHookAlertWPopup)
+		DestroyHookableEvent(hHookAlertWPopup);
+
+	if (h_font != nullptr)
+		DeleteObject(h_font);
+	if (hMenu)
+		DestroyMenu(hMenu);
+	WindowList_Destroy(hWindowList);
+	return 0;
+}

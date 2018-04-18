@@ -17,19 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CMPlugin g_plugin;
 CHAT_MANAGER *pci;
-HINSTANCE g_hInstance;
 int hLangpack = 0;
 HWND g_hwndHeartbeat;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
-IconItem g_iconList[] = 
-{
-	{ LPGEN("Main icon"),   "main",      IDI_MAIN      },
-	{ LPGEN("Group chats"), "groupchat", IDI_GROUPCHAT }
-};
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -44,10 +34,16 @@ PLUGININFOEX pluginInfo = {
 	{ 0x88928401, 0x2ce8, 0x4568, { 0xaa, 0xa7, 0x22, 0x61, 0x41, 0x87, 0x0c, 0xbf } }
 };
 
-	extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
@@ -57,6 +53,12 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
+IconItem g_iconList[] =
+{
+	{ LPGEN("Main icon"),   "main",      IDI_MAIN },
+	{ LPGEN("Group chats"), "groupchat", IDI_GROUPCHAT }
+};
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -64,7 +66,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 
-	Icon_Register(g_hInstance, "Discord", g_iconList, _countof(g_iconList));
+	Icon_Register(g_plugin.getInst(), "Discord", g_iconList, _countof(g_iconList));
 	return 0;
 }
 

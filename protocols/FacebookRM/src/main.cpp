@@ -22,12 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-// TODO: Make following as "globals" structure?
-
-CMPlugin g_plugin;
 int hLangpack;
 
-HINSTANCE g_hInstance;
 std::string g_strUserAgent;
 DWORD g_mirandaVersion;
 
@@ -49,6 +45,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	g_mirandaVersion = mirandaVersion;
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
@@ -91,5 +93,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

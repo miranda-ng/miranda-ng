@@ -154,7 +154,7 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 int YAMNOptInitSvc(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Network");
 	odp.szTitle.a = LPGEN("YAMN");
 	odp.flags = ODPF_BOLDGROUPS;
@@ -809,7 +809,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 			break;
 
 		case IDC_BTNSTATUS:
-			DialogBoxParamW(g_hInstance, MAKEINTRESOURCEW(IDD_CHOOSESTATUSMODES), hDlg, DlgProcPOP3AccStatusOpt, NULL);
+			DialogBoxParamW(g_plugin.getInst(), MAKEINTRESOURCEW(IDD_CHOOSESTATUSMODES), hDlg, DlgProcPOP3AccStatusOpt, NULL);
 			break;
 
 		case IDC_BTNADD:

@@ -31,7 +31,6 @@ belong to any other file.
 WIDATALIST *WIHead;
 WIDATALIST *WITail;
 
-HINSTANCE g_hInstance;
 HWND hPopupWindow;
 
 HANDLE hHookWeatherUpdated;
@@ -57,6 +56,12 @@ BOOL ThreadRunning;
 BOOL ModuleLoaded;
 
 HANDLE hTBButton = nullptr;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin info
@@ -204,7 +209,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	wchar_t SvcFunc[100];
 	mir_snwprintf(SvcFunc, L"%s__PopupWindow", _A2W(WEATHERPROTONAME));
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInstance, nullptr);
+		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
 	return 0;
 }
@@ -233,19 +238,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	CloseHandle(hUpdateMutex);
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(WEATHERPROTONAME)
-	{
-		opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus", true);
-		RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
-		SetUniqueId("ID");
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

@@ -23,7 +23,6 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);
 
 char PLUGINNAME[64] = {0}; //init at init_pluginname();
 int hLangpack = 0;
-HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 
 HINSTANCE hLotusDll;
@@ -65,6 +64,7 @@ wchar_t *startuperrors[] = {
 		LPGENW("In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout\".dll\"")
 	};
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -78,9 +78,27 @@ PLUGININFOEX pluginInfo = {
 	{ 0x23eacc0d, 0xbab0, 0x49c0, { 0x8f, 0x37, 0x5e, 0x25, 0x9e, 0xce, 0x52, 0x7f } } // {23EACC0D-BAB0-49c0-8F37-5E259ECE527F}
 };
 
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
+{
+#ifdef _WIN64
+#error LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)
+#endif
+	return &pluginInfo;
+}
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // authentication callback futnction from extension manager  called by nnotes.dll
+
 STATUS LNPUBLIC __stdcall EMCallBack (EMRECORD * pData)
 {
 	VARARG_PTR pArgs;
@@ -209,7 +227,7 @@ void init_pluginname()
     WIN32_FIND_DATAA ffd;
 
     // Try to find name of the file having original letter sizes
-	GetModuleFileNameA(g_hInstance, text, sizeof(text));
+	GetModuleFileNameA(g_plugin.getInst(), text, sizeof(text));
 
     HANDLE hFind = FindFirstFileA(text, &ffd);
     if(hFind != INVALID_HANDLE_VALUE) {
@@ -450,7 +468,7 @@ void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
 	POPUPATT * mpd = (POPUPATT*)malloc(sizeof(POPUPATT));
 	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
 	ppd.lchContact = NULL; //(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
-	ppd.lchIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ICON1));
+	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON1));
 	wcscpy_s(ppd.lptzContactName, _countof(ppd.lptzContactName), sender);
 	wcscpy_s(ppd.lptzText, _countof(ppd.lptzText), text);
 	if(settingSetColours)
@@ -1453,7 +1471,7 @@ static INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARA
 int LotusNotifyOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Plugins");
 	odp.szTitle.w = _A2W(__PLUGIN_NAME);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
@@ -1509,7 +1527,7 @@ INT_PTR TMLoadIcon(WPARAM wParam, LPARAM)
 	default:
 		return 0;
 	}
-	return (INT_PTR)LoadImage(g_hInstance, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
+	return (INT_PTR)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
 
@@ -1700,7 +1718,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		SET_UID(mi, 0x4519458, 0xb55a, 0x4e22, 0xac, 0x95, 0x5e, 0xa4, 0x4d, 0x92, 0x65, 0x65);
 		mi.position = -0x7FFFFFFF; //on top menu position
 		mi.flags = CMIF_UNICODE;
-		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ICON1));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON1));
 		mi.name.w = LPGENW("&Check Lotus");
 		mi.pszService = "LotusNotify/MenuCommand"; //service name thet listning for menu call
 		hMenuHandle = Menu_AddMainMenuItem(&mi); //create menu pos.
@@ -1730,6 +1748,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Unload()
 {
 	log(L"Unload: start");
@@ -1741,45 +1761,6 @@ extern "C" int __declspec(dllexport) Unload()
 	log(L"Unload: ok");
 	logUnregister();
 
+	ExtClear();
 	return 0;
 }
-
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
-{
-#ifdef _WIN64
-#error LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)
-#endif
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID )
-{
-	switch (dwReason) {
-	case DLL_PROCESS_ATTACH:
-		/* Save the instance handle */
-		Plugin_Terminated = false;
-		break;
-	case DLL_PROCESS_DETACH:
-		/* Deregister extension manager callbacks */
-		Plugin_Terminated = true;
-		ExtClear();
-		break;
-	}
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLUGINNAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL);
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

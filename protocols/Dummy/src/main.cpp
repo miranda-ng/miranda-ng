@@ -18,7 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "version.h"
 
-HINSTANCE g_hInstance;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -75,18 +74,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
-{
-	CMPlugin() :
-		ACCPROTOPLUGIN<CDummyProto>("Dummy")
-	{
-		int id = db_get_b(0, m_szModuleName, DUMMY_ID_TEMPLATE, -1);
-		if (id < 0 || id >= _countof(templates))
-			SetUniqueId(ptrA(db_get_sa(0, m_szModuleName, DUMMY_ID_SETTING)));
-		else
-			SetUniqueId(templates[id].setting);
-	}
-}
-	g_plugin;
+CMPlugin	g_plugin;
 
 extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

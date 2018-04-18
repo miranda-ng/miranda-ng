@@ -52,7 +52,7 @@ void CVkProto::ConnectionFailed(int iReason)
 static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	mir_cslock lck(csInstances);
-	for (auto &it : vk_Instances)
+	for (auto &it : g_plugin.g_arInstances)
 		if (it->IsOnline()) {
 			it->debugLogA("Tic timer for %s", it->m_szModuleName);
 			it->OnTimerTic();
@@ -124,7 +124,7 @@ void CVkProto::OnLoggedOut()
 	bool bOnline = false;
 	{
 		mir_cslock lck(csInstances);
-		for (auto &it : vk_Instances)
+		for (auto &it : g_plugin.g_arInstances)
 			bOnline = bOnline || it->IsOnline();
 	}
 	if (!bOnline)

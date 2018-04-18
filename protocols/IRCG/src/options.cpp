@@ -204,7 +204,7 @@ static IconItem iconList[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/IRC", iconList, _countof(iconList), "IRC");
+	Icon_Register(g_plugin.getInst(), "Protocols/IRC", iconList, _countof(iconList), "IRC");
 }
 
 HICON LoadIconEx(int iconId, bool big)
@@ -1848,7 +1848,7 @@ void InitServers()
 		wchar_t *szIniFile = Utils_ReplaceVarsW(L"%temp%\\default_servers.ini");
 		FILE *serverFile = _wfopen(szIniFile, L"a");
 		if (serverFile) {
-			char* pszSvrs = (char*)LockResource(LoadResource(g_hInstance, FindResource(g_hInstance, MAKEINTRESOURCE(IDR_SERVERS), L"TEXT")));
+			char* pszSvrs = (char*)LockResource(LoadResource(g_plugin.getInst(), FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SERVERS), L"TEXT")));
 			if (pszSvrs)
 				fwrite(pszSvrs, 1, mir_strlen(pszSvrs) + 1, serverFile);
 			fclose(serverFile);

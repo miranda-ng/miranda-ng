@@ -35,10 +35,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma comment(lib, "Dnsapi.lib")
 #pragma comment(lib, "Secur32.lib")
 
-HINSTANCE g_hInstance;
 HMODULE hMsftedit;
 
-CMPlugin g_plugin;
 int hLangpack;
 unsigned int g_nTempFileId;
 CHAT_MANAGER *pci;
@@ -47,18 +45,6 @@ int g_cbCountries;
 CountryListEntry *g_countries;
 
 wchar_t szCoreVersion[100];
-
-PLUGININFOEX pluginInfo = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-    {0x144e80a2, 0xd198, 0x428b, {0xac, 0xbe, 0x9d, 0x55, 0xda, 0xcc, 0x7f, 0xde}} // {144E80A2-D198-428b-ACBE-9D55DACC7FDE}
-};
 
 CLIST_INTERFACE* pcli;
 
@@ -71,14 +57,32 @@ void JabberUserInfoUninit(void);
 
 bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
-/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
 
 extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	{ 0x144e80a2, 0xd198, 0x428b, {0xac, 0xbe, 0x9d, 0x55, 0xda, 0xcc, 0x7f, 0xde }} // {144E80A2-D198-428b-ACBE-9D55DACC7FDE}
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
@@ -108,7 +112,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	// file associations manager plugin support
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CreateServiceFunction("JABBER/*" JS_PARSE_XMPP_URI, g_SvcParseXmppUri);
-		AssocMgr_AddNewUrlTypeW("xmpp:", TranslateT("Jabber Link Protocol"), g_hInstance, IDI_JABBER, "JABBER/*" JS_PARSE_XMPP_URI, 0);
+		AssocMgr_AddNewUrlTypeW("xmpp:", TranslateT("Jabber Link Protocol"), g_plugin.getInst(), IDI_JABBER, "JABBER/*" JS_PARSE_XMPP_URI, 0);
 	}
 
 	// init fontservice for info frame

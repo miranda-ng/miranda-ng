@@ -31,7 +31,7 @@ static IconItem icons[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/Omegle", icons, _countof(icons), "Omegle");
+	Icon_Register(g_plugin.getInst(), "Protocols/Omegle", icons, _countof(icons), "Omegle");
 }
 
 HANDLE GetIconHandle(const char* name)

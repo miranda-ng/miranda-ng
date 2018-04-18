@@ -306,8 +306,8 @@ HWND CMraProto::SearchAdvanced(HWND hWndDlg)
 
 HWND CMraProto::CreateExtendedSearchUI(HWND owner)
 {
-	if (g_hInstance && owner)
-		return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MRAADVANCEDSEARCH), owner, AdvancedSearchDlgProc, (LPARAM)this);
+	if (g_plugin.getInst() && owner)
+		return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MRAADVANCEDSEARCH), owner, AdvancedSearchDlgProc, (LPARAM)this);
 
 	return nullptr;
 }

@@ -440,7 +440,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		if (IsIconic(hwndDlg))
 			break;
 		
-		Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO), ChangeInfoDlg_Resize);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO), ChangeInfoDlg_Resize);
 		{
 			RECT rc; // update listview column widths
 			GetClientRect(dat->hwndList, &rc);

@@ -397,7 +397,7 @@ static void SaveListItem(MCONTACT hContact, const char* szEmail, int list, int i
 	if (iNewValue == 0) {
 		if (list & LIST_FL) {
 			DeleteParam param = { proto, hContact };
-			DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_DELETECONTACT), nullptr, DlgDeleteContactUI, (LPARAM)&param);
+			DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DELETECONTACT), nullptr, DlgDeleteContactUI, (LPARAM)&param);
 			return;
 		}
 

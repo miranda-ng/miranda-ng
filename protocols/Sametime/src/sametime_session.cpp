@@ -563,7 +563,7 @@ INT_PTR CSametimeProto::SessionAnnounce(WPARAM wParam, LPARAM lParam)
 	SessionAnnounceDialogProc_arg* sadpArg = (SessionAnnounceDialogProc_arg*)mir_calloc(sizeof(SessionAnnounceDialogProc_arg));
 	sadpArg->proto = this;
 	sadpArg->sendAnnouncementFunc = SendAnnouncement;
-	CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SESSIONANNOUNCE), GetDesktopWindow(), SessionAnnounceDialogProc, (LPARAM)sadpArg);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SESSIONANNOUNCE), GetDesktopWindow(), SessionAnnounceDialogProc, (LPARAM)sadpArg);
 	return 0;
 }
 

@@ -17,9 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CMPlugin g_plugin; 
 int hLangpack;
-HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 char g_szMirVer[100];
 HANDLE g_hCallEvent;
@@ -39,14 +37,31 @@ PLUGININFOEX pluginInfo =
 	{ 0x57e90ac6, 0x1067, 0x423b, { 0x8c, 0xa3, 0x70, 0xa3, 0x9d, 0x20, 0xd, 0x4f } }
 };
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
+{
+	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
+		CreateServiceFunction(MODULE "/ParseUri", CSkypeProto::GlobalParseSkypeUriService);
+		AssocMgr_AddNewUrlTypeW("skype:", TranslateT("Skype Link Protocol"), g_plugin.getInst(), IDI_SKYPE, MODULE "/ParseUri", 0);
+	}
+	return 0;
+}
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -69,21 +84,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Unload(void)
 {
-
 	DestroyHookableEvent(g_hCallEvent);
-
-	return 0;
-}
-
-
-int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
-{
-	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
-	{
-		CreateServiceFunction(MODULE "/ParseUri", CSkypeProto::GlobalParseSkypeUriService);
-		AssocMgr_AddNewUrlTypeW("skype:", TranslateT("Skype Link Protocol"), g_hInstance, IDI_SKYPE, MODULE "/ParseUri", 0);
-	}
 	return 0;
 }

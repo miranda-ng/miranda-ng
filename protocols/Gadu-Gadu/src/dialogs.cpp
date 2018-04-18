@@ -357,19 +357,19 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				dat.gg = gg;
 				if (LOWORD(wParam) == IDC_CREATEACCOUNT) {
 					dat.mode = GG_USERUTIL_CREATE;
-					ret = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CREATEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+					ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CREATEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
 				}
 				else if (LOWORD(wParam) == IDC_CHPASS) {
 					dat.mode = GG_USERUTIL_PASS;
-					ret = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHPASS), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+					ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHPASS), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
 				}
 				else if (LOWORD(wParam) == IDC_CHEMAIL) {
 					dat.mode = GG_USERUTIL_EMAIL;
-					ret = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHEMAIL), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+					ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHEMAIL), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
 				}
 				else {
 					dat.mode = GG_USERUTIL_REMOVE;
-					ret = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_REMOVEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+					ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_REMOVEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
 				}
 
 				if (ret == IDOK) {
@@ -759,7 +759,7 @@ int GaduProto::options_init(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_UNICODE;
 	odp.position = 1003000;
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
@@ -809,7 +809,7 @@ int GaduProto::details_init(WPARAM wParam, LPARAM lParam)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_DONTTRANSLATE | ODPF_UNICODE;
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pfnDlgProc = gg_detailsdlgproc;
 	odp.position = -1900000000;
 	odp.pszTemplate = pszTemplate;
@@ -867,7 +867,7 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				dat.email = email;
 				dat.gg = gg;
 				dat.mode = GG_USERUTIL_CREATE;
-				int ret = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CREATEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+				int ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CREATEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
 
 				if (ret == IDOK) {
 					DBVARIANT dbv;

@@ -282,7 +282,7 @@ void JabberFormLayoutSingleControl(TJabberFormControlInfo *item, TJabberFormLayo
 
 #define JabberFormCreateLabel()	\
 	CreateWindow(L"static", labelStr, WS_CHILD|WS_VISIBLE|SS_CENTERIMAGE, \
-		0, 0, 0, 0, hwndStatic, (HMENU)-1, g_hInstance, nullptr)
+		0, 0, 0, 0, hwndStatic, (HMENU)-1, g_plugin.getInst(), nullptr)
 
 TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayoutInfo *layout_info, TJabberFormControlType type, const wchar_t *labelStr, const wchar_t *valueStr)
 {
@@ -302,7 +302,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", valueStr,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | ES_AUTOHSCROLL | ES_PASSWORD,
 			0, 0, 0, 0,
-			hwndStatic, (HMENU)layout_info->id, g_hInstance, nullptr);
+			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
 		++layout_info->id;
 		break;
 
@@ -311,7 +311,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", valueStr,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
 			0, 0, 0, 0,
-			hwndStatic, (HMENU)layout_info->id, g_hInstance, nullptr);
+			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
 		mir_subclassWindow(item->hCtrl, JabberFormMultiLineWndProc);
 		++layout_info->id;
 		break;
@@ -320,7 +320,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		item->hCtrl = CreateWindowEx(0, L"button", labelStr,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_AUTOCHECKBOX | BS_MULTILINE,
 			0, 0, 0, 0,
-			hwndStatic, (HMENU)layout_info->id, g_hInstance, nullptr);
+			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
 		if (valueStr && !mir_wstrcmp(valueStr, L"1"))
 			SendMessage(item->hCtrl, BM_SETCHECK, 1, 0);
 		++layout_info->id;
@@ -331,7 +331,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		item->hCtrl = CreateWindowExA(WS_EX_CLIENTEDGE, "combobox", nullptr,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | CBS_DROPDOWNLIST,
 			0, 0, 0, 0,
-			hwndStatic, (HMENU)layout_info->id, g_hInstance, nullptr);
+			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
 		++layout_info->id;
 		break;
 
@@ -340,7 +340,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		item->hCtrl = CreateWindowExA(WS_EX_CLIENTEDGE, "listbox",
 			nullptr, WS_CHILD | WS_VISIBLE | WS_TABSTOP | LBS_MULTIPLESEL,
 			0, 0, 0, 0,
-			hwndStatic, (HMENU)layout_info->id, g_hInstance, nullptr);
+			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
 		++layout_info->id;
 		break;
 
@@ -348,7 +348,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		item->hCtrl = CreateWindow(L"edit", valueStr,
 			WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_READONLY | ES_AUTOHSCROLL,
 			0, 0, 0, 0,
-			hwndStatic, (HMENU)-1, g_hInstance, nullptr);
+			hwndStatic, (HMENU)-1, g_plugin.getInst(), nullptr);
 		break;
 
 	case JFORM_CTYPE_HIDDEN:
@@ -359,7 +359,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", valueStr,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | ES_AUTOHSCROLL,
 			0, 0, 0, 0,
-			hwndStatic, (HMENU)layout_info->id, g_hInstance, nullptr);
+			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
 		++layout_info->id;
 		break;
 	}
@@ -849,7 +849,7 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static VOID CALLBACK JabberFormCreateDialogApcProc(void* param)
 {
-	CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_FORM), nullptr, JabberFormDlgProc, (LPARAM)param);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FORM), nullptr, JabberFormDlgProc, (LPARAM)param);
 }
 
 void CJabberProto::FormCreateDialog(HXML xNode, wchar_t* defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata)

@@ -842,9 +842,9 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 						EditDlgParam param = { -1, ppro };
 						int res;
 						if (nm->hdr.idFrom == IDC_PHONES)
-							res = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), hwndDlg, EditPhoneDlgProc, (LPARAM)&param);
+							res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), hwndDlg, EditPhoneDlgProc, (LPARAM)&param);
 						else
-							res = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_VCARD_ADDEMAIL), hwndDlg, EditEmailDlgProc, (LPARAM)&param);
+							res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDEMAIL), hwndDlg, EditEmailDlgProc, (LPARAM)&param);
 						if (res != IDOK)
 							break;
 						SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
@@ -882,9 +882,9 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 						EditDlgParam param = { (int)lvi.lParam, ppro };
 						int res;
 						if (nm->hdr.idFrom == IDC_PHONES)
-							res = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), hwndDlg, EditPhoneDlgProc, (LPARAM)&param);
+							res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), hwndDlg, EditPhoneDlgProc, (LPARAM)&param);
 						else
-							res = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_VCARD_ADDEMAIL), hwndDlg, EditEmailDlgProc, (LPARAM)&param);
+							res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDEMAIL), hwndDlg, EditEmailDlgProc, (LPARAM)&param);
 						if (res != IDOK)
 							break;
 						SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
@@ -1178,7 +1178,7 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	m_szPhotoFileName[0] = 0;
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
 	odp.szTitle.w = m_tszUserName;

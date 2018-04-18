@@ -49,7 +49,6 @@
 #define STEAM_API_POLLING_ERRORS_LIMIT 5
 
 class CSteamProto;
-extern HINSTANCE g_hInstance;
 
 extern HANDLE hExtraXStatus;
 

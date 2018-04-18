@@ -807,7 +807,7 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 			init.bXStatus = bXStatus;
 			init.szXStatusName = szName;
 			init.szXStatusMsg = szMsg;
-			CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)&init);
+			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)&init);
 		}
 		else {
 			setByte(DBSETTING_XSTATUS_ID, bXStatus);
@@ -916,7 +916,7 @@ INT_PTR CIcqProto::ShowXStatusDetails(WPARAM hContact, LPARAM)
 	init.ppro = this;
 	init.bAction = 1; // retrieve
 	init.hContact = hContact;
-	CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)&init);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)&init);
 
 	return 0;
 }

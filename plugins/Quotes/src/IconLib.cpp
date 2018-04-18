@@ -18,7 +18,7 @@ static IconItem iconList[] =
 
 void Quotes_IconsInit()
 {
-	::Icon_Register(g_hInstance, QUOTES_PROTOCOL_NAME, iconList, _countof(iconList), QUOTES_PROTOCOL_NAME);
+	::Icon_Register(g_plugin.getInst(), QUOTES_PROTOCOL_NAME, iconList, _countof(iconList), QUOTES_PROTOCOL_NAME);
 }
 
 HICON Quotes_LoadIconEx(int iconId, bool bBig /*= false*/)

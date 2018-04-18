@@ -58,7 +58,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CSkypeProto;
 
-extern HINSTANCE g_hInstance;
 extern char g_szMirVer[];
 extern HANDLE g_hCallEvent;
 

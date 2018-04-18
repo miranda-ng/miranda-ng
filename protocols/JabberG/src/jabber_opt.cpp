@@ -1357,7 +1357,7 @@ static LRESULT CALLBACK _RosterNewListProc(HWND hList, UINT msg, WPARAM wParam, 
 			wchar_t buff[260];
 			ListView_GetSubItemRect(hList, lvhti.iItem, lvhti.iSubItem, LVIR_BOUNDS, &rc);
 			ListView_GetItemText(hList, lvhti.iItem, lvhti.iSubItem, buff, _countof(buff));
-			HWND hEditor = CreateWindow(TEXT("EDIT"), buff, WS_CHILD | ES_AUTOHSCROLL, rc.left + 3, rc.top + 2, rc.right - rc.left - 3, rc.bottom - rc.top - 3, hList, nullptr, g_hInstance, nullptr);
+			HWND hEditor = CreateWindow(TEXT("EDIT"), buff, WS_CHILD | ES_AUTOHSCROLL, rc.left + 3, rc.top + 2, rc.right - rc.left - 3, rc.bottom - rc.top - 3, hList, nullptr, g_plugin.getInst(), nullptr);
 			SendMessage(hEditor, WM_SETFONT, (WPARAM)SendMessage(hList, WM_GETFONT, 0, 0), 0);
 			ShowWindow(hEditor, SW_SHOW);
 			SetWindowText(hEditor, buff);
@@ -1448,7 +1448,7 @@ static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		}
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_OPT_JABBER3), sttRosterEditorResizer);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_OPT_JABBER3), sttRosterEditorResizer);
 		break;
 
 	case WM_COMMAND:
@@ -1486,7 +1486,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRosterControl(WPARAM, LPARAM)
 	if (rrud.hwndDlg && IsWindow(rrud.hwndDlg))
 		SetForegroundWindow(rrud.hwndDlg);
 	else
-		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_OPT_JABBER3), nullptr, JabberRosterOptDlgProc, (LPARAM)this);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_OPT_JABBER3), nullptr, JabberRosterOptDlgProc, (LPARAM)this);
 
 	return 0;
 }

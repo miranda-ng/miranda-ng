@@ -23,7 +23,6 @@ int YAMN_STATUS;
 BOOL UninstallPlugins;
 
 HANDLE hAccountFolder;
-HINSTANCE g_hInstance;
 
 HINSTANCE *hDllPlugins;
 static int iDllPlugins = 0;
@@ -67,6 +66,12 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 
 	wcsncpy(szPath, ptszNewPath, cbPath);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -163,7 +168,7 @@ static IconItem iconList[] =
 
 void LoadIcons()
 {
-	Icon_Register(g_hInstance, "YAMN", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "YAMN", iconList, _countof(iconList));
 }
 
 HANDLE WINAPI g_GetIconHandle(int idx)
@@ -354,18 +359,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	delete[] CodePageNamesSupp;
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(YAMN_DBMODULE)
-	{
-		RegisterProtocol(PROTOTYPE_VIRTUAL);
-		SetUniqueId("Id");
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

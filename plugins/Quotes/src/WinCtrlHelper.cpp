@@ -32,7 +32,7 @@ static INT_PTR CALLBACK VariableListDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPAR
 
 void show_variable_list(HWND hwndParent, const IQuotesProvider* pProvider)
 {
-	::DialogBoxParam(g_hInstance,
+	::DialogBoxParam(g_plugin.getInst(),
 		MAKEINTRESOURCE(IDD_DIALOG_VARIABLE_LIST),
 		hwndParent,
 		VariableListDlgProc,

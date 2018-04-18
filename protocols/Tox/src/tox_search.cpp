@@ -112,5 +112,5 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 
 HWND CToxProto::OnCreateExtendedSearchUI(HWND owner)
 {
-	return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SEARCH), owner, SearchDlgProc, (LPARAM)this);
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCH), owner, SearchDlgProc, (LPARAM)this);
 }

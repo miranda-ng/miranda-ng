@@ -24,9 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include "version.h"
 
-CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInstance;
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -55,33 +53,36 @@ static const PLUGININFOEX pluginInfo =
 	{0x97724af9, 0xf3fb, 0x47d3, {0xa3, 0xbf, 0xea, 0xa9, 0x35, 0xc7, 0x4e, 0x6d}}
 };
 
-// Protocol instances
-static int sttCompareProtocols(const CMsnProto *p1, const CMsnProto *p2)
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return &pluginInfo;
 }
 
-//	Main DLL function
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
-{
-	if (fdwReason == DLL_PROCESS_ATTACH) {
-		g_hInstance = hinstDLL;
-		DisableThreadLibraryCalls(hinstDLL);
-	}
-	return TRUE;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// MirandaInterfaces - returns the protocol interface to the core
 
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //	OnModulesLoaded - finalizes plugin's configuration on load
+
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	avsPresent = ServiceExists(MS_AV_SETMYAVATARW) != 0;
 
 	MsnLinks_Init();
-
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -94,19 +95,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Unload a plugin
+
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	MSN_RemoveContactMenus();
 	MsnLinks_Destroy();
 	return 0;
 }
-
-// MirandaPluginInfoEx - returns an information about a plugin
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-// MirandaInterfaces - returns the protocol interface to the core
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };

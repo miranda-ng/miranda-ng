@@ -4,7 +4,6 @@
 #include "stdafx.h"
 
 int hLangpack;
-HINSTANCE g_hInstance = nullptr;
 HANDLE g_hEventWorkThreadStop;
 //int g_nStatus = ID_STATUS_OFFLINE;
 bool g_bAutoUpdate = true;
@@ -24,20 +23,6 @@ HANDLE g_hTBButton;
 
 LPSTR g_pszAutoUpdateCmd = "Quotes/Enable-Disable Auto Update";
 LPSTR g_pszCurrencyConverter = "Quotes/CurrencyConverter";
-
-PLUGININFOEX Global_pluginInfo =
-{
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {E882056D-0D1D-4131-9A98-404CBAEA6A9C}
-	{ 0xe882056d, 0xd1d, 0x4131, { 0x9a, 0x98, 0x40, 0x4c, 0xba, 0xea, 0x6a, 0x9c } }
-};
 
 void UpdateMenu(bool bAutoUpdate)
 {
@@ -276,7 +261,7 @@ int QuotesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.w = _T(QUOTES_PROTOCOL_NAME);
 	odp.szGroup.w = LPGENW("Network");
 	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
@@ -290,12 +275,38 @@ inline int Quotes_UnhookEvent(HANDLE h)
 	return UnhookEvent(h);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 EXTERN_C __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX Global_pluginInfo =
+{
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {E882056D-0D1D-4131-9A98-404CBAEA6A9C}
+	{ 0xe882056d, 0xd1d, 0x4131, { 0x9a, 0x98, 0x40, 0x4c, 0xba, 0xea, 0x6a, 0x9c } }
+};
 
 EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &Global_pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 EXTERN_C int __declspec(dllexport) Load(void)
 {
@@ -321,26 +332,12 @@ EXTERN_C int __declspec(dllexport) Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 EXTERN_C __declspec(dllexport) int Unload(void)
 {
 	WaitForWorkingThreads();
 
 	::CloseHandle(g_hEventWorkThreadStop);
-
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(QUOTES_PROTOCOL_NAME)
-	{
-		RegisterProtocol(PROTOTYPE_VIRTUAL);
-		SetUniqueId(DB_STR_QUOTE_SYMBOL);
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

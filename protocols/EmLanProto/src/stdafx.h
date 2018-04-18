@@ -26,13 +26,15 @@
 
 #define PROTONAME "EM_LAN_PROTO"
 
-//#define ME_ICQ_STATUSMSGREQ "ICQ/StatusMsgReq"
-//
-//#define ICQ_MSGTYPE_GETAWAYMSG  0xE8
-//#define ICQ_MSGTYPE_GETOCCUMSG  0xE9
-//#define ICQ_MSGTYPE_GETNAMSG    0xEA
-//#define ICQ_MSGTYPE_GETDNDMSG   0xEB
-//#define ICQ_MSGTYPE_GETFFCMSG   0xEC
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PROTONAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL);
+		SetUniqueId("Nick");
+	}
+};
 
 //#define VERBOSE
 

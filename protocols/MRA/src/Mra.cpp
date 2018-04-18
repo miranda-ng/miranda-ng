@@ -1,9 +1,17 @@
 #include "stdafx.h"
 
-CMPlugin g_plugin;
-
 int hLangpack;
 CLIST_INTERFACE *pcli;
+
+HMODULE   g_hDLLXStatusIcons;
+HICON     g_hMainIcon;
+
+bool      g_bChatExist, g_bShutdown = false;
+
+size_t    g_dwMirWorkDirPathLen;
+WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
+
+void IconsLoad();
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -18,25 +26,20 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0xe7c48bab, 0x8ace, 0x4cb3, { 0x84, 0x46, 0xd4, 0xb7, 0x34, 0x81, 0xf4, 0x97 } }
 };
 
-HINSTANCE g_hInstance;
-HMODULE   g_hDLLXStatusIcons;
-HICON     g_hMainIcon;
-
-bool      g_bChatExist, g_bShutdown = false;
-
-size_t    g_dwMirWorkDirPathLen;
-WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
-
-void IconsLoad();
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -57,6 +60,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

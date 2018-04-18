@@ -126,7 +126,7 @@ bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 	GetObject(param.bmp, sizeof(bmp), &bmp);
 	param.w = bmp.bmWidth;
 	param.h = bmp.bmHeight;
-	int res = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CAPTCHAFORM), nullptr, CaptchaFormDlgProc, (LPARAM)&param);
+	int res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CAPTCHAFORM), nullptr, CaptchaFormDlgProc, (LPARAM)&param);
 	if (res == 0)
 		return false;
 

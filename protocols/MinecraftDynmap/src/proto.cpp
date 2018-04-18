@@ -153,7 +153,7 @@ int MinecraftDynmapProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lPar
 
 INT_PTR MinecraftDynmapProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_MinecraftDynmapACCOUNT), (HWND)lParam, MinecraftDynmapAccountProc, (LPARAM)this);
+	return (INT_PTR)CreateDialogParam(g_plugin.getInst(),MAKEINTRESOURCE(IDD_MinecraftDynmapACCOUNT), (HWND)lParam, MinecraftDynmapAccountProc, (LPARAM)this);
 }
 
 int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
@@ -170,7 +170,7 @@ int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
 /*int MinecraftDynmapProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance   = g_hInstance;
+	odp.hInstance   = g_plugin.getInst();
 	odp.szTitle.w   = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags       = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;

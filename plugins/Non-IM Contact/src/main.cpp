@@ -7,21 +7,7 @@
 #include "Version.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInstance;
 int hLangpack;
-
-PLUGININFOEX pluginInfoEx = {
-	sizeof(pluginInfoEx),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	//2e0d2ae3-e123-4607-8539-d4448d675ddb
-	{ 0x2e0d2ae3, 0xe123, 0x4607, {0x85, 0x39, 0xd4, 0x44, 0x8d, 0x67, 0x5d, 0xdb} }
-};
 
 INT_PTR doubleClick(WPARAM wParam, LPARAM)
 {
@@ -63,7 +49,7 @@ int LCStatus = ID_STATUS_OFFLINE;
 int NimcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.szTitle.a = LPGEN("Non-IM Contacts");
@@ -77,11 +63,32 @@ int NimcOptInit(WPARAM wParam, LPARAM)
 // Returns :
 // Description : Sets plugin info
 //=====================================================
-//
+
+PLUGININFOEX pluginInfoEx = {
+	sizeof(pluginInfoEx),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	//2e0d2ae3-e123-4607-8539-d4448d675ddb
+	{ 0x2e0d2ae3, 0xe123, 0x4607, {0x85, 0x39, 0xd4, 0x44, 0x8d, 0x67, 0x5d, 0xdb} }
+};
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
@@ -91,12 +98,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 // Returns : BOOL
 // Description :
 //=====================================================
-//
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
-{
-	g_hInstance = hinst;
-	return TRUE;
-}
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
@@ -104,24 +105,24 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-IconItem icoList[] =
-{
-	{ LPGEN("Main Icon"), MODNAME, IDI_MAIN },
-};
-
 //=====================================================
 // Name : Load
 // Parameters: PLUGINLINK *link
 // Returns : int
 // Description : Called when plugin is loaded into Miranda
 //=====================================================
-//
+
+IconItem icoList[] =
+{
+	{ LPGEN("Main Icon"), MODNAME, IDI_MAIN },
+};
+
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Icon_Register(g_hInstance, LPGEN("Non-IM Contact"), icoList, _countof(icoList));
+	Icon_Register(g_plugin.getInst(), LPGEN("Non-IM Contact"), icoList, _countof(icoList));
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, (MIRANDAHOOK)doubleClick);
 	HookEvent(ME_OPT_INITIALISE, NimcOptInit);
@@ -195,23 +196,9 @@ extern "C" __declspec(dllexport) int Load()
 // Returns :
 // Description : Unloads plugin
 //=====================================================
-//
+
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	killTimer();
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODNAME)
-	{
-		RegisterProtocol(PROTOTYPE_VIRTUAL);
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

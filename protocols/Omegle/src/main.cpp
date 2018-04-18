@@ -24,11 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // TODO: Make following as "globals" structure?
 
-CMPlugin g_plugin;
 CLIST_INTERFACE* pcli;
 int hLangpack;
 
-HINSTANCE g_hInstance;
 std::string g_strUserAgent;
 DWORD g_mirandaVersion;
 
@@ -45,17 +43,17 @@ PLUGININFOEX pluginInfo = {
 	{ 0x9e1d9244, 0x606c, 0x4ef4, { 0x99, 0xa0, 0x1d, 0x7d, 0x23, 0xcb, 0x76, 0x1 } }
 };
 
-DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
-{
-	g_hInstance = hInstance;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	g_mirandaVersion = mirandaVersion;
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
@@ -65,15 +63,12 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static HANDLE g_hEvents[1];
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
 	InitIcons();
-	//InitContactMenus();
 
 	// Init native User-Agent
 	{
@@ -103,9 +98,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	//UninitContactMenus();
-	for (size_t i = 0; i < _countof(g_hEvents); i++)
-		UnhookEvent(g_hEvents[i]);
-
 	return 0;
 }

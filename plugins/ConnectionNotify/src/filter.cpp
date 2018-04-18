@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 HWND filterAddDlg = nullptr;
-extern HINSTANCE g_hInstance;
 extern struct CONNECTION *connExceptions;
 extern HANDLE hFilterOptionsThread;
 extern DWORD FilterOptionsThreadId;
@@ -27,7 +26,7 @@ static unsigned __stdcall filterQueue(void *)
 		if (msg.message == WM_ADD_FILTER)
 		{
 			struct CONNECTION *conn = (struct CONNECTION *)msg.lParam;
-			filterAddDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_FILTER_DIALOG), nullptr, ConnectionFilterEditProc, (LPARAM)conn);
+			filterAddDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER_DIALOG), nullptr, ConnectionFilterEditProc, (LPARAM)conn);
 			ShowWindow(filterAddDlg, SW_SHOW);
 
 		}

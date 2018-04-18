@@ -174,7 +174,7 @@ HWND CSametimeProto::SearchAdvanced(HWND owner)
 HWND CSametimeProto::CreateExtendedSearchUI(HWND owner)
 {
 	debugLogW(L"CSametimeProto::CreateExtendedSearchUI() start");
-	return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_USERSEARCH), owner, SearchDialogFunc, (LPARAM)this);
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERSEARCH), owner, SearchDialogFunc, (LPARAM)this);
 }
 
 

@@ -143,7 +143,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			GetWindowRect(hList, &rc);
 			ListView_SetColumnWidth(hList, 1, ListView_GetColumnWidth(hList, 1) + (int)LOWORD(lParam) - (rc.right - rc.left));
 
-			Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_BRIEF), BriefDlgResizer);
+			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_BRIEF), BriefDlgResizer);
 		}
 		break;
 
@@ -294,7 +294,7 @@ static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_MOREDETAIL:
 			HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
 			if (hMoreDataDlg == nullptr)
-				hMoreDataDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, hContact);
+				hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, hContact);
 			else {
 				SetForegroundWindow(hMoreDataDlg);
 				SetFocus(hMoreDataDlg);
@@ -314,7 +314,7 @@ static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 int UserInfoInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.position = 100000000;
 	odp.szTitle.a = WEATHERPROTONAME;
 
@@ -348,7 +348,7 @@ int BriefInfo(WPARAM wParam, LPARAM)
 			SetForegroundWindow(hMoreDataDlg);
 			SetFocus(hMoreDataDlg);
 		}
-		else hMoreDataDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, (LPARAM)wParam);
+		else hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, (LPARAM)wParam);
 
 		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 0);
 		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 1);

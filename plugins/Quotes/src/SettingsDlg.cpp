@@ -110,7 +110,7 @@ void select_log_file(HWND hDlg)
 	ofn.nMaxFile = (DWORD)aFileBuffer.size();
 	ofn.lpstrFilter = pszFilter;
 	ofn.nFilterIndex = 1;
-	ofn.hInstance = g_hInstance;
+	ofn.hInstance = g_plugin.getInst();
 	ofn.lpstrDefExt = L"log";
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER;
 
@@ -351,7 +351,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 					pParam->m_pPopupSettings->InitForContact(pParam->m_hContact);
 				}
 
-				DialogBoxParam(g_hInstance,
+				DialogBoxParam(g_plugin.getInst(),
 					MAKEINTRESOURCE(IDD_DIALOG_POPUP),
 					hWnd,
 					EditPopupSettingsDlgProc, reinterpret_cast<LPARAM>(pParam->m_pPopupSettings));
@@ -470,7 +470,7 @@ void ShowSettingsDlg(MCONTACT hContact)
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 	}
-	else CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CONTACT_SETTINGS), nullptr, EditSettingsPerContactDlgProc, LPARAM(hContact));
+	else CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACT_SETTINGS), nullptr, EditSettingsPerContactDlgProc, LPARAM(hContact));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -623,7 +623,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 		
 		case IDC_BUTTON_POPUP_SETTINGS:
 			const CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-			DialogBoxParam(g_hInstance,
+			DialogBoxParam(g_plugin.getInst(),
 				MAKEINTRESOURCE(IDD_DIALOG_POPUP),
 				hWnd,
 				EditPopupSettingsDlgProc, reinterpret_cast<LPARAM>(pAdvSettings->GetPopupSettingsPtr()));
@@ -948,7 +948,7 @@ bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings* pAdvSettings)
 {
 	assert(pAdvSettings);
 
-	return (IDOK == DialogBoxParam(g_hInstance,
+	return (IDOK == DialogBoxParam(g_plugin.getInst(),
 		MAKEINTRESOURCE(IDD_PROVIDER_ADV_SETTINGS),
 		hWndParent,
 		EditSettingsPerProviderDlgProc,

@@ -122,7 +122,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	else mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));
 
 	ppd.lchContact = wParam;
-	ppd.lchIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SITE));
+	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
 
 	wchar_t *displaytext = (wchar_t*)lParam;
 	if ((mir_wstrlen(displaytext) == MAX_SECONDLINE) ||  (mir_wstrlen(displaytext) > MAX_SECONDLINE))
@@ -413,7 +413,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 		else if (eventIndex == 1) { // webpage changed
 			// TEST GET NAME FOR CACHE
 			wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
-			GetModuleFileName(g_hInstance, cachepath, _countof(cachepath));
+			GetModuleFileName(g_plugin.getInst(), cachepath, _countof(cachepath));
 			wchar_t *cacheend = wcsrchr(cachepath, '\\');
 			cacheend++;
 			*cacheend = '\0';
@@ -625,7 +625,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			if (((strstr(tempraw, Alerttempstring)) != nullptr) && ((strstr(tempraw, Alerttempstring2)) != nullptr)) {
 				// TEST GET NAME FOR CACHE
 				wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
-				GetModuleFileName(g_hInstance, cachepath, _countof(cachepath));
+				GetModuleFileName(g_plugin.getInst(), cachepath, _countof(cachepath));
 				wchar_t *cacheend = wcsrchr(cachepath, '\\');
 				cacheend++;
 				*cacheend = '\0';
@@ -763,9 +763,9 @@ int DataWndAlertCommand(WPARAM wParam, LPARAM)
 	if ( WindowList_Find(hWindowList, hContact))
 		return 0;
 
-	HWND hwndDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, hContact);
+	HWND hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, hContact);
 	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
-	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
+	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 	if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
 			db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,

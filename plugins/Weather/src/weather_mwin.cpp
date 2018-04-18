@@ -48,7 +48,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 		data->hContact = (DWORD_PTR)((LPCREATESTRUCT)lParam)->lpCreateParams;
 		data->hAvt = CreateWindow(AVATAR_CONTROL_CLASS, TEXT(""), WS_CHILD,
-			0, 0, opt.AvatarSize, opt.AvatarSize, hwnd, nullptr, g_hInstance, nullptr);
+			0, 0, opt.AvatarSize, opt.AvatarSize, hwnd, nullptr, g_plugin.getInst(), nullptr);
 		if (data->hAvt) SendMessage(data->hAvt, AVATAR_SETCONTACT, 0, (LPARAM)data->hContact);
 		break;
 
@@ -238,7 +238,7 @@ static void addWindow(MCONTACT hContact)
 	db_free(&dbv);
 
 	HWND hWnd = CreateWindow(L"WeatherFrame", L"", WS_CHILD | WS_VISIBLE,
-		0, 0, 10, 10, pcli->hwndContactList, nullptr, g_hInstance, (void*)hContact);
+		0, 0, 10, 10, pcli->hwndContactList, nullptr, g_plugin.getInst(), (void*)hContact);
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
 	CLISTFrame Frame = { 0 };
@@ -308,7 +308,7 @@ void InitMwin(void)
 	wndclass.lpfnWndProc = wndProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = g_hInstance;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hIcon = nullptr;
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = nullptr; //(HBRUSH)(COLOR_3DFACE+1);
@@ -362,7 +362,7 @@ void DestroyMwin(void)
 		if (frameId)
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 	}
-	UnregisterClass(L"WeatherFrame", g_hInstance);
+	UnregisterClass(L"WeatherFrame", g_plugin.getInst());
 	WindowList_Destroy(hMwinWindowList);
 	UnhookEvent(hFontHook);
 }

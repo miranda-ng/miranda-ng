@@ -1066,7 +1066,7 @@ bool CMraProto::MraRequestXStatusDetails(DWORD dwXStatus)
 		SetXStatusData *dat = (SetXStatusData*)mir_calloc(sizeof(SetXStatusData));
 		dat->dwXStatus = dwXStatus;
 		dat->ppro = this;
-		return DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)dat) != -1;
+		return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)dat) != -1;
 	}
 
 	return false;
@@ -1182,7 +1182,7 @@ bool CMraProto::MraSendReplyBlogStatus(MCONTACT hContact)
 	SetBlogStatusData* dat = (SetBlogStatusData*)mir_calloc(sizeof(SetBlogStatusData));
 	dat->ppro = this;
 	dat->hContact = hContact;
-	return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MINIBLOG), nullptr, SendReplyBlogStatusDlgProc, (LPARAM)dat) != nullptr;
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MINIBLOG), nullptr, SendReplyBlogStatusDlgProc, (LPARAM)dat) != nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

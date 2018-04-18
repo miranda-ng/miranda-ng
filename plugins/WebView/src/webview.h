@@ -101,7 +101,6 @@
 #define RCLK_WINDOW_KEY  "RightClkWindow"
 #define RCLK_WEB_PGE_KEY "RightClkWebPage"
 #define RCLK_DISMISS_KEY "RightClkDismiss"
-//#define INBUILTPOP_KEY   "UseInbuiltPopupAlert"
 
 #define TIME  60
 #define Def_color_bg     0x00ffffff
@@ -117,7 +116,9 @@
 #define Def_win_height   152
 #define Def_win_width    250
 
-//lets get rid of some warnings
+/////////////////////////////////////////////////////////////////////////////////////////
+// lets get rid of some warnings
+
 void CodetoSymbol(char *truncated);
 void GetData(void *param);
 void FillFontListThread(void *);
@@ -133,9 +134,8 @@ int OSDAlert(WPARAM wParam, LPARAM lParam);
 
 void ReadFromFile(void *hContact);
 
-/*
- * some globals for window settings
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// some globals for window settings
 
 extern int Xposition, Yposition, WindowHeight, WindowWidth;
 extern COLORREF BackgoundClr, TextClr;
@@ -150,7 +150,9 @@ extern MWindowList hWindowList;
 extern HGENMENU hMenuItem1, hMenuItemCountdown;
 extern char optionsname[80];
 
-//lets get rid of some warnings
+/////////////////////////////////////////////////////////////////////////////////////////
+// lets get rid of some warnings
+
 void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD);
 void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD);
 void SavewinSettings(void);
@@ -164,7 +166,9 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam);
 
 int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgbBack);
 
-//Services
+/////////////////////////////////////////////////////////////////////////////////////////
+// Services
+
 INT_PTR GetCaps(WPARAM wParam, LPARAM lParam);
 INT_PTR GetName(WPARAM wParam, LPARAM lParam);
 INT_PTR BPLoadIcon(WPARAM wParam, LPARAM lParam); // BPLoadIcon
@@ -183,23 +187,21 @@ INT_PTR CountdownMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR MarkAllReadMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR AddContactMenuCommand(WPARAM wParam, LPARAM lParam);
-INT_PTR ContactOptionsMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM lParam);
-INT_PTR ShowHideContactCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM lParam);
 
 int  UpdateMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact);
 int  OnTopMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact);
 
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 void ChangeContactStatus(int con_stat);
 void InitialiseGlobals(void);
 void FontSettings(void);
 
-///
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void Removewhitespace(char *truncated);
 void RemoveInvis(char *truncated, int AmountWspcRem);
@@ -227,7 +229,7 @@ int  SiteDeleted(WPARAM wParam, LPARAM lParam);
 int  WErrorPopup(MCONTACT hContact, wchar_t *textdisplay);
 int  WAlertPopup(MCONTACT hContact, wchar_t *displaytext);
 
-//////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // wrappers
 
 extern HANDLE hHookDisplayDataAlert;
@@ -241,3 +243,16 @@ extern HANDLE hHookErrorPopup;
 
 extern HANDLE hHookAlertOSD;
 #define ME_OSD_ALERT	"Miranda/ALERT/OSD"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL);
+		SetUniqueId("PreserveName");
+	}
+};
+

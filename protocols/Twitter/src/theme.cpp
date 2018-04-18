@@ -38,7 +38,7 @@ void TwitterInitSounds(void)
 // TODO: uninit
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/Twitter", icons, _countof(icons), "Twitter");
+	Icon_Register(g_plugin.getInst(), "Protocols/Twitter", icons, _countof(icons), "Twitter");
 	icons[_countof(icons) - 1].hIcolib = Skin_GetIconHandle(SKINICON_EVENT_URL);
 }
 

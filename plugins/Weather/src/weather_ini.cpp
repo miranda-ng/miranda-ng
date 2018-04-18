@@ -518,7 +518,7 @@ bool LoadWIData(bool dial)
 	if (WIHead == nullptr) {
 		// no ini found, display an error message box.
 		if (dial)
-			hWndSetup = CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_SETUP), nullptr, DlgProcSetup);
+			hWndSetup = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETUP), nullptr, DlgProcSetup);
 		else
 			MessageBox(nullptr,
 				TranslateT("No update data file is found. Please check your Plugins\\Weather directory."),

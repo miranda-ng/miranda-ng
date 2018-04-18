@@ -3,6 +3,9 @@
 #include "version.h"
 
 // plugin stuff
+
+int hLangpack;
+
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
@@ -13,23 +16,26 @@ PLUGININFOEX pluginInfo =
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0xf1b0ba1b, 0xc91, 0x4313, { 0x85, 0xeb, 0x22, 0x50, 0x69, 0xd4, 0x4d, 0x1 } } // {F1B0BA1B-0C91-4313-85EB-225069D44D01}
+	// {F1B0BA1B-0C91-4313-85EB-225069D44D01}
+	{ 0xf1b0ba1b, 0xc91, 0x4313, { 0x85, 0xeb, 0x22, 0x50, 0x69, 0xd4, 0x4d, 0x1 } } 
 };
-
-CMPlugin g_plugin;
-HINSTANCE g_hInstance;
-LIST<CSametimeProto> g_Instances(1, PtrKeySortT);
-int hLangpack;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+/////////////////////////////////////////////////////////////////////////////////////////
 
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // protocol related services
 
 /** Copy the name of the protocol into lParam
@@ -60,7 +66,7 @@ INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM lParam)
 		return NULL;
 	}
 
-	return (INT_PTR) LoadImage(g_hInstance, MAKEINTRESOURCE(id), IMAGE_ICON,
+	return (INT_PTR) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(id), IMAGE_ICON,
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON),
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
@@ -79,7 +85,7 @@ static IconItem iconList[] =
 
 void SametimeInitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/Sametime", iconList, _countof(iconList), "SAMETIME");
+	Icon_Register(g_plugin.getInst(), "Protocols/Sametime", iconList, _countof(iconList), "SAMETIME");
 }
 
 HANDLE GetIconHandle(int iconId)

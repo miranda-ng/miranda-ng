@@ -22,11 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CMPlugin g_plugin;
 CLIST_INTERFACE* pcli;
 int hLangpack;
 
-HINSTANCE g_hInstance;
 std::string g_strUserAgent;
 DWORD g_mirandaVersion;
 
@@ -44,13 +42,12 @@ PLUGININFOEX pluginInfo = {
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// Protocol instances
 
-DWORD WINAPI DllMain(HINSTANCE hInstance,DWORD,LPVOID)
-{
-	g_hInstance = hInstance;
-	return TRUE;
-}
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {

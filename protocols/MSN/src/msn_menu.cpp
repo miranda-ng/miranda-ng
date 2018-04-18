@@ -100,7 +100,7 @@ INT_PTR CMsnProto::MsnEditProfile(WPARAM, LPARAM)
 // MsnInviteCommand - invite command callback function
 INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 {
-	DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
 		LPARAM(new InviteChatParam(nullptr, NULL, this)));
 	return 0;
 }

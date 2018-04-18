@@ -19,8 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE g_hInstance = nullptr;
-
 int hLangpack;
 HANDLE hPrebuildMenuHook = nullptr;
 CDlgBase *pAddFeedDialog = nullptr, *pImportDialog = nullptr, *pExportDialog = nullptr;
@@ -48,6 +46,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -105,18 +109,3 @@ extern "C" __declspec(dllexport) int Unload(void)
 	CloseHandle(hUpdateMutex);
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{
-		RegisterProtocol(PROTOTYPE_VIRTUAL);
-		SetUniqueId("URL");
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

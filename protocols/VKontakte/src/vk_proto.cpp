@@ -29,7 +29,6 @@ static int sttCompareAsyncHttpRequest(const AsyncHttpRequest *p1, const AsyncHtt
 	return (int)p2->m_priority - (int)p1->m_priority;
 }
 
-LIST<CVkProto> vk_Instances(1, sttCompareProtocols);
 mir_cs csInstances;
 
 CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
@@ -78,10 +77,6 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
-	{
-		mir_cslock lck(csInstances);
-		vk_Instances.insert(this);
-	}
 }
 
 CVkProto::~CVkProto()
@@ -95,10 +90,6 @@ CVkProto::~CVkProto()
 		Popup_UnregisterClass(m_hPopupClassError);
 	if (m_hPopupClassNotification)
 		Popup_UnregisterClass(m_hPopupClassNotification);
-	{
-		mir_cslock lck(csInstances);
-		vk_Instances.remove(this);
-	}
 }
 
 int CVkProto::OnModulesLoaded(WPARAM, LPARAM)

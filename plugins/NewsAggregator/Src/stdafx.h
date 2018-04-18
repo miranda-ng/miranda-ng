@@ -60,7 +60,6 @@ Boston, MA 02111-1307, USA.
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
 #define DEFAULT_UPDATE_TIME 60
 
-extern HINSTANCE g_hInstance;
 extern CDlgBase *pAddFeedDialog, *pImportDialog, *pExportDialog;
 extern HNETLIBUSER hNetlibUser;
 extern UINT_PTR timerId;
@@ -69,6 +68,16 @@ extern LIST<CFeedEditor> g_arFeeds;
 extern bool ThreadRunning;
 extern bool UpdateListFlag;
 extern wchar_t tszRoot[MAX_PATH];
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+		SetUniqueId("URL");
+	}
+};
 
 //============  STRUCT USED TO MAKE AN UPDATE LIST  ============
 

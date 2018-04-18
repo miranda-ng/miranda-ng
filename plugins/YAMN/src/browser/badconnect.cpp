@@ -220,7 +220,7 @@ void __cdecl BadConnection(void *Param)
 	SetEvent(MyParam.ThreadRunningEV);
 
 	__try {
-		hBadConnect = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
+		hBadConnect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
 		Window_SetIcon_IcoLib(hBadConnect, g_GetIconHandle(3));
 
 #ifdef DEBUG_SYNCHRO

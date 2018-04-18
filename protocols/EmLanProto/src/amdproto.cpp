@@ -3,6 +3,21 @@
 
 #include "stdafx.h"
 
+CMPlugin	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+//////////////////////////////////////////////////////////////////////////
+
+CMLan* g_lan = nullptr;
+
+int hLangpack;
+bool g_InitOptions = false;
+
+#ifdef VERBOSE
+std::fstream emlanLog("EmLanLog.txt", std::ios::out|std::ios::app);
+#endif
+
 //////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
@@ -18,22 +33,12 @@ PLUGININFOEX pluginInfo = {
 	{ 0xe08ce7c4, 0x9eeb, 0x4272, { 0xb5, 0x44, 0xd, 0x32, 0xe1, 0x8d, 0x90, 0xde } }
 };
 
-HINSTANCE g_hInstance = nullptr;
-CMLan* g_lan = nullptr;
-
-int hLangpack;
-bool g_InitOptions = false;
-
-#ifdef VERBOSE
-std::fstream emlanLog("EmLanLog.txt", std::ios::out|std::ios::app);
-#endif
-
 extern "C" __declspec(dllexport)  PLUGININFOEX* __cdecl MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-//////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
@@ -42,7 +47,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 BOOL APIENTRY DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID)
 {
-	g_hInstance = hInstDLL;
 	if (reason == DLL_PROCESS_ATTACH) {
 		EMLOG("EmLan Started");
 		DisableThreadLibraryCalls(hInstDLL);
@@ -84,7 +88,7 @@ static INT_PTR __cdecl EMPLoadIcon(WPARAM wParam, LPARAM)
 	if ((wParam & 0xFFFF) != PLI_PROTOCOL)
 		return 0;
 	
-	return (INT_PTR)LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ICON_ONLINE));
+	return (INT_PTR)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON_ONLINE));
 }
 
 static INT_PTR __cdecl EMPGetStatus(WPARAM, LPARAM)
@@ -272,7 +276,7 @@ int __cdecl EMPCreateOptionsDlg(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_EMP_FORM_OPT);
 	odp.szTitle.a = LPGEN("E-mage LAN protocol");
 	odp.szGroup.a = LPGEN("Network");
@@ -359,18 +363,3 @@ extern "C" int __declspec(dllexport) __cdecl Unload()
 	delete g_lan;
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PROTONAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL);
-		SetUniqueId("Nick");
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

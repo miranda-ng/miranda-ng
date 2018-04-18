@@ -39,7 +39,7 @@ static IconItem iconList[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, WEATHERPROTONAME, iconList, _countof(iconList), WEATHERPROTONAME);
+	Icon_Register(g_plugin.getInst(), WEATHERPROTONAME, iconList, _countof(iconList), WEATHERPROTONAME);
 }
 
 HICON LoadIconEx(const char* name, bool big)

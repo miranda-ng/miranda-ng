@@ -259,7 +259,7 @@ INT_PTR QuotesMenu_CurrencyConverter(WPARAM, LPARAM)
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 	}
-	else CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CURRENCY_CONVERTER), nullptr, CurrencyConverterDlgProc, 0);
+	else CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CURRENCY_CONVERTER), nullptr, CurrencyConverterDlgProc, 0);
 
 	return 0;
 }

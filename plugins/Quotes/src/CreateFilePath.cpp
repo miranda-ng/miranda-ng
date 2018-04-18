@@ -19,7 +19,7 @@ void prepare_name(tstring& rsName)
 tstring CreateFilePath(const tstring& rsName)
 {
 	wchar_t szPath[_MAX_PATH];
-	::GetModuleFileName(g_hInstance, szPath, _MAX_PATH);
+	::GetModuleFileName(g_plugin.getInst(), szPath, _MAX_PATH);
 
 	wchar_t* p = wcsrchr(szPath, '\\');
 	if (p)

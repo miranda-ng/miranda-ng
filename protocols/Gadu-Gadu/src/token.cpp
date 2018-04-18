@@ -145,7 +145,7 @@ int GaduProto::gettoken(GGTOKEN *token)
 	}
 
 	// Load token dialog
-	if (DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_TOKEN), nullptr, gg_tokendlgproc, (LPARAM)&dat) == IDCANCEL)
+	if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TOKEN), nullptr, gg_tokendlgproc, (LPARAM)&dat) == IDCANCEL)
 		return FALSE;
 
 	// Fillup patterns

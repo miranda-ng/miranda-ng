@@ -415,7 +415,7 @@ int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 
 INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
+	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
 		(HWND)lParam, FBAccountProc, (LPARAM)this);
 }
 
@@ -442,7 +442,7 @@ int FacebookProto::OnPreShutdown(WPARAM, LPARAM)
 int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
@@ -516,7 +516,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM)
 		for (auto &iter : facy.pages)
 			data->walls.push_back(new wall_data(iter.first, mir_utf8decodeW(iter.second.c_str()), true));
 
-	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)nullptr, FBMindProc, reinterpret_cast<LPARAM>(data));
+	HWND hDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MIND), (HWND)nullptr, FBMindProc, reinterpret_cast<LPARAM>(data));
 	ShowWindow(hDlg, SW_SHOW);
 
 	return 0;

@@ -71,6 +71,5 @@ class MinecraftDynmapProto;
 #include "dialogs.h"
 #include "resource.h"
 
-extern HINSTANCE g_hInstance;
 extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;

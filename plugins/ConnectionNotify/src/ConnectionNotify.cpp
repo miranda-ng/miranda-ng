@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 
 //PLUGINLINK *pluginLink=NULL;
@@ -54,12 +53,23 @@ PLUGININFOEX pluginInfo = {
 	{ 0x4bb5b4aa, 0xc364, 0x4f23, { 0x97, 0x46, 0xd5, 0xb7, 0x8, 0xa2, 0x86, 0xa5 } }
 };
 
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // authentication callback futnction from extension manager
-// ======================================
-//=========================================================================================
-
 
 BOOL strrep(wchar_t *src, wchar_t *needle, wchar_t *newstring)
 {
@@ -81,11 +91,6 @@ BOOL strrep(wchar_t *src, wchar_t *needle, wchar_t *newstring)
 
 	pos = mir_snwprintf(src, mir_wstrlen(src), L"%s%s%s", begining, newstring, tail);
 	return TRUE;
-}
-
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
 }
 
 void saveSettingsConnections(struct CONNECTION *connHead)
@@ -319,10 +324,10 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
 				EnableWindow(hwnd, FALSE);
 			}
-			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ICON6), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ICON3), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ICON4), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ICON5), IMAGE_ICON, 16, 16, 0));
+			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON6), IMAGE_ICON, 16, 16, 0));
+			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON3), IMAGE_ICON, 16, 16, 0));
+			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON4), IMAGE_ICON, 16, 16, 0));
+			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON5), IMAGE_ICON, 16, 16, 0));
 			// initialise and fill listbox
 			hwndList = GetDlgItem(hwndDlg, IDC_STATUS);
 			ListView_DeleteAllItems(hwndList);
@@ -388,7 +393,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				cur->strExtIp[0] = '*';
 				cur->strIntIp[0] = '*';
 
-				if (DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur) == IDCANCEL) {
+				if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur) == IDCANCEL) {
 					mir_free(cur);
 					cur = nullptr;
 				}
@@ -552,7 +557,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					while (pos--) {
 						cur = cur->next;
 					}
-					DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur);
+					DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur);
 					fillExceptionsListView(hwndDlg);
 					ListView_SetItemState(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), pos1, LVNI_FOCUSED | LVIS_SELECTED, LVNI_FOCUSED | LVIS_SELECTED);
 					SetFocus(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS));
@@ -585,7 +590,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 int ConnectionNotifyOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
 	odp.szTitle.w = _A2W(PLUGINNAME);
 	odp.szGroup.w = LPGENW("Plugins");
@@ -626,7 +631,7 @@ INT_PTR TMLoadIcon(WPARAM wParam, LPARAM)
 	default:
 		return 0;
 	}
-	return (INT_PTR)LoadImage(g_hInstance, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
+	return (INT_PTR)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 //=======================================================
 //SetStatus
@@ -775,7 +780,7 @@ void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intP
 	//MessageBox(NULL,"aaa","aaa",1);
 	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
 	ppd.lchContact = NULL;//(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
-	ppd.lchIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ICON1));
+	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON1));
 	if (settingResolveIp) {
 		wchar_t hostName[128];
 		getDnsName(extIp, hostName, _countof(hostName));
@@ -839,12 +844,6 @@ static int preshutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInstance = hinstDLL;
-	return TRUE;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	#ifdef _DEBUG
@@ -878,6 +877,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	WaitForSingleObjectEx(hConnectionCheckThread, INFINITE, FALSE);
@@ -897,17 +898,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	#endif
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLUGINNAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL);
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

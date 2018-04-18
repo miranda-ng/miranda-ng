@@ -1604,7 +1604,7 @@ void __cdecl ShowEmailThread(void *Param)
 	}
 	else {
 CREADTEVIEWMESSAGEWINDOW:
-		MyParam.mail->MsgWindow = CreateDialogParamW(g_hInstance, MAKEINTRESOURCEW(IDD_DLGSHOWMESSAGE), nullptr, DlgProcYAMNShowMessage, (LPARAM)&MyParam);
+		MyParam.mail->MsgWindow = CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCEW(IDD_DLGSHOWMESSAGE), nullptr, DlgProcYAMNShowMessage, (LPARAM)&MyParam);
 		WindowList_Add(YAMNVar.MessageWnds, MyParam.mail->MsgWindow);
 		MSG msg;
 		while (GetMessage(&msg, nullptr, 0, 0)) {
@@ -2318,7 +2318,7 @@ void __cdecl MailBrowser(void *Param)
 			WndFound = TRUE;
 
 		if ((hMailBrowser == nullptr) && ((MyParam.nflags & YAMN_ACC_MSG) || (MyParam.nflags & YAMN_ACC_ICO) || (MyParam.nnflags & YAMN_ACC_MSG))) {
-			hMailBrowser = CreateDialogParamW(g_hInstance, MAKEINTRESOURCEW(IDD_DLGVIEWMESSAGES), nullptr, DlgProcYAMNMailBrowser, (LPARAM)&MyParam);
+			hMailBrowser = CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCEW(IDD_DLGVIEWMESSAGES), nullptr, DlgProcYAMNMailBrowser, (LPARAM)&MyParam);
 			Window_SetIcon_IcoLib(hMailBrowser, g_GetIconHandle(2));
 			MoveWindow(hMailBrowser, PosX, PosY, SizeX, SizeY, TRUE);
 		}

@@ -19,7 +19,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 
 	// icons
 	wchar_t filePath[MAX_PATH];
-	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
+	GetModuleFileName(g_plugin.getInst(), filePath, MAX_PATH);
 
 	wchar_t sectionName[100];
 	mir_snwprintf(sectionName, L"%s/%s", LPGENW("Protocols"), _A2W(MODULE));

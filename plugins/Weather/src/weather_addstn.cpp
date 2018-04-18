@@ -200,7 +200,7 @@ INT_PTR WeatherCreateAdvancedSearchUI(WPARAM, LPARAM lParam)
 {
 	HWND parent = (HWND)lParam;
 	if (parent)
-		return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SEARCHCITY), parent, WeatherSearchAdvancedDlgProc, 0);
+		return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCHCITY), parent, WeatherSearchAdvancedDlgProc, 0);
 
 	return 0;
 }

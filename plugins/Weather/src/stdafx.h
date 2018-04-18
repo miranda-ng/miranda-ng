@@ -351,7 +351,6 @@ typedef struct DATALIST WIDATALIST;
 
 extern WIDATALIST *WIHead, *WITail;
 
-extern HINSTANCE g_hInstance;
 extern HWND hPopupWindow, hWndSetup;
 
 extern MYOPTIONS opt;
@@ -518,3 +517,17 @@ void InitIcons(void);
 HICON  LoadIconEx(const char* name, bool big);
 HANDLE GetIconHandle(const char* name);
 void   ReleaseIconEx(HICON hIcon);
+
+//============  Plugin Class ============
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(WEATHERPROTONAME)
+	{
+		opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus", true);
+		RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
+		SetUniqueId("ID");
+	}
+};
+

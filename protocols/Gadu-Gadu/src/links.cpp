@@ -108,7 +108,7 @@ void gg_links_init()
 {
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CreateServiceFunction(GGS_PARSELINK, gg_parselink);
-		AssocMgr_AddNewUrlTypeW("gg:", TranslateT("Gadu-Gadu Link Protocol"), g_hInstance, IDI_GG, GGS_PARSELINK, 0);
+		AssocMgr_AddNewUrlTypeW("gg:", TranslateT("Gadu-Gadu Link Protocol"), g_plugin.getInst(), IDI_GG, GGS_PARSELINK, 0);
 	}
 }
 

@@ -38,14 +38,15 @@ PLUGININFOEX pluginInfo = {
 };
 
 // Other variables
-CMPlugin g_plugin;
-HINSTANCE g_hInstance;
-
 SSL_API sslApi;
 CLIST_INTERFACE *pcli;
 int hLangpack;
 
 static unsigned long crc_table[256];
+
+//////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
 
 extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 

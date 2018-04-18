@@ -38,7 +38,6 @@ UINT_PTR  Countdown;
 LOGFONT   g_lf;
 HFONT     h_font;
 HWND      ContactHwnd;
-HINSTANCE g_hInstance;
 HMENU     hMenu;
 int       bpStatus;
 HGENMENU  hMenuItem1;
@@ -54,14 +53,14 @@ void ChangeMenuItem1()
 	else
 		ptszName = LPGENW("Auto update disabled");
 
-	Menu_ModifyItem(hMenuItem1, ptszName, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SITE)));
+	Menu_ModifyItem(hMenuItem1, ptszName, LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE)));
 }
 
 /*****************************************************************************/
 void ChangeMenuItemCountdown()
 {
 	// countdown
-	HICON hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_UPDATEALL));
+	HICON hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
 
 	wchar_t countername[100];
 	mir_snwprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
@@ -185,9 +184,9 @@ int Doubleclick(WPARAM wParam, LPARAM)
 			SetFocus(hwndDlg);
 		}
 		else {
-			hwndDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
+			hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
 			HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
-			SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
+			SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 
 			if (db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
 				SetWindowPos(hwndDlg, hTopmost,
@@ -293,7 +292,7 @@ void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 static int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.szGroup.a = LPGEN("Network");
 	odp.szTitle.a = MODULENAME;
@@ -368,8 +367,8 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 	}
 
 	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
-	hwndDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
-	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+	hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
+	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 	if (db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
 			db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
@@ -474,7 +473,7 @@ INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	hwndDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CONTACT_OPT), nullptr, DlgProcContactOpt, (LPARAM)wParam);
+	hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACT_OPT), nullptr, DlgProcContactOpt, (LPARAM)wParam);
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 	return 0;
@@ -489,7 +488,7 @@ INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	hwndDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ALRT_OPT), nullptr, DlgProcAlertOpt, (LPARAM)wParam);
+	hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALRT_OPT), nullptr, DlgProcAlertOpt, (LPARAM)wParam);
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 	return 0;

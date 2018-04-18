@@ -69,10 +69,10 @@ HICON IconLibGetIconEx(HANDLE hIcon, DWORD dwFlags)
 
 void IconsLoad()
 {
-	Icon_Register(g_hInstance, LPGEN("Protocols") "/" LPGEN("MRA"), gdiMainIcon, 1, "MRA_");
-	Icon_Register(g_hInstance, LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Main Menu"), gdiMenuItems, MAIN_MENU_ITEMS_COUNT, "MRA_");
-	Icon_Register(g_hInstance, LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Contact Menu"), gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, "MRA_");
-	Icon_Register(g_hInstance, LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Extra status"), gdiExtraStatusIconsItems, ADV_ICON_MAX, "MRA_");
+	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("MRA"), gdiMainIcon, 1, "MRA_");
+	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Main Menu"), gdiMenuItems, MAIN_MENU_ITEMS_COUNT, "MRA_");
+	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Contact Menu"), gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, "MRA_");
+	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Extra status"), gdiExtraStatusIconsItems, ADV_ICON_MAX, "MRA_");
 
 	g_hMainIcon = IconLibGetIcon(gdiMainIcon[0].hIcolib);
 }
@@ -104,7 +104,7 @@ void InitXStatusIcons()
 		}
 	}
 
-	GetModuleFileName((g_hDLLXStatusIcons != nullptr) ? g_hDLLXStatusIcons : g_hInstance, szBuff, _countof(szBuff));
+	GetModuleFileName((g_hDLLXStatusIcons != nullptr) ? g_hDLLXStatusIcons : g_plugin.getInst(), szBuff, _countof(szBuff));
 
 	SKINICONDESC sid = {};
 	sid.section.w = LPGENW("Protocols")L"/" LPGENW("MRA") L"/" LPGENW("Custom Status");

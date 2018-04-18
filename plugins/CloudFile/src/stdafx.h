@@ -41,7 +41,6 @@ class CCloudService;
 
 #include "options.h"
 
-extern HINSTANCE g_hInstance;
 extern HNETLIBUSER hNetlibConnection;
 
 class Exception
@@ -117,5 +116,12 @@ void PasteToClipboard(const wchar_t *data);
 void Report(MCONTACT hContact, const wchar_t *data);
 
 CCloudService* FindService(const char *szProto);
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
 #endif //_COMMON_H_

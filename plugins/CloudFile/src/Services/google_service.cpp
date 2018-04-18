@@ -295,8 +295,10 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 struct CMPluginGoogle : public CMPluginBase
 {
 	CMPluginGoogle() :
-		CMPluginBase(g_hInstance, MODULE "/GDrive")
+		CMPluginBase(MODULE "/GDrive")
 	{
+		m_hInst = g_plugin.getInst();
+
 		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CGDriveService::Init, (pfnUninitProto)CGDriveService::UnInit);
 	}
 }

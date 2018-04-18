@@ -28,8 +28,6 @@
 #include "m_extraicons.h"
 #include "m_icolib.h"
 
-CMPlugin g_plugin;
-HINSTANCE g_hInstance;
 int hLangpack;
 bool g_bTerminated;
 
@@ -54,7 +52,13 @@ extern "C" PLUGININFOEX __declspec(dllexport) *MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
 
 extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
@@ -101,7 +105,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hExtraXStatus = ExtraIcon_RegisterIcolib("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
 
-	Icon_Register(g_hInstance, "ICQ", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "ICQ", iconList, _countof(iconList));
 
 	g_MenuInit();
 	return 0;

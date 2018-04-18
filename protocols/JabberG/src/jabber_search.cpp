@@ -105,8 +105,8 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 
 	int Order = (FieldDat->bHidden) ? -1 : FieldDat->Order;
 
-	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (const wchar_t *)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, nullptr, g_hInstance, nullptr);
-	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (const wchar_t *)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, nullptr, g_hInstance, nullptr);
+	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (const wchar_t *)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, nullptr, g_plugin.getInst(), nullptr);
+	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (const wchar_t *)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, nullptr, g_plugin.getInst(), nullptr);
 	SendMessage(hwndLabel, WM_SETFONT, (WPARAM)hFont, 0);
 	SendMessage(hwndVar, WM_SETFONT, (WPARAM)hFont, 0);
 	if (!FieldDat->bHidden) {
@@ -707,10 +707,10 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 {
-	if (parent && g_hInstance) {
+	if (parent && g_plugin.getInst()) {
 		ptrW szServer(getWStringA("LoginServer"));
 		if (szServer == nullptr || mir_wstrcmpi(szServer, L"S.ms"))
-			return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, JabberSearchAdvancedDlgProc, (LPARAM)this);
+			return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCHUSER), parent, JabberSearchAdvancedDlgProc, (LPARAM)this);
 	}
 
 	return nullptr; // Failure

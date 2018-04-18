@@ -290,8 +290,10 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 struct CMPluginYandex : public CMPluginBase
 {
 	CMPluginYandex() :
-		CMPluginBase(g_hInstance, MODULE "/YandexDisk")
+		CMPluginBase(MODULE "/YandexDisk")
 	{
+		m_hInst = g_plugin.getInst();
+
 		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CYandexService::Init, (pfnUninitProto)CYandexService::UnInit);
 	}
 }

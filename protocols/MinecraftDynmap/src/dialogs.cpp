@@ -24,8 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Icons
 
-extern HINSTANCE g_hInstance;
-
 static IconItem icons[] = {
 	{ "proto", LPGEN("Protocol icon"), IDI_PROTO },
 };
@@ -33,7 +31,7 @@ static IconItem icons[] = {
 static HANDLE hIconLibItem[_countof(icons)];
 
 void InitIcons(void) {
-	Icon_Register(g_hInstance, "Protocols/MinecraftDynmap", icons, _countof(icons), "MinecraftDynmap");
+	Icon_Register(g_plugin.getInst(), "Protocols/MinecraftDynmap", icons, _countof(icons), "MinecraftDynmap");
 }
 
 HANDLE GetIconHandle(const char* name) {

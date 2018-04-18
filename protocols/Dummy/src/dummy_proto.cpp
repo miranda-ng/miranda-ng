@@ -52,8 +52,6 @@ static int sttCompareProtocols(const CDummyProto *p1, const CDummyProto *p2)
 	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
-LIST<CDummyProto> dummy_Instances(1, sttCompareProtocols);
-
 CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	PROTO<CDummyProto>(szModuleName, ptszUserName)
 {
@@ -70,14 +68,12 @@ CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) 
 	else uniqueIdText[0] = '\0';
 
 	uniqueIdSetting[0] = '\0';
-
-	dummy_Instances.insert(this);
 }
 
 CDummyProto::~CDummyProto()
 {
-	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = nullptr;
-	dummy_Instances.remove(this);
+	Netlib_CloseHandle(m_hNetlibUser);
+	m_hNetlibUser = nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -18,8 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "version.h"
 
-CMPlugin g_plugin;
-HINSTANCE g_hInstance;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -37,14 +35,18 @@ PLUGININFOEX pluginInfo =
 	{ 0x32579908, 0x724b, 0x467f, {0xad, 0xad, 0x22, 0xb6, 0x35, 0x9a, 0x74, 0x9a}}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 

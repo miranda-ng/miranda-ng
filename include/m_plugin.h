@@ -4,8 +4,6 @@
 #include <m_database.h>
 #include <m_protocols.h>
 
-extern HINSTANCE g_hInstance;
-
 class MIR_APP_EXPORT CMPluginBase
 {
 	void tryOpenLog();
@@ -15,7 +13,7 @@ protected:
 	HANDLE m_hLogger = nullptr;
 	HINSTANCE m_hInst;
 
-	CMPluginBase(HINSTANCE, const char *moduleName);
+	CMPluginBase(const char *moduleName);
 	~CMPluginBase();
 
 	// pass one of PROTOTYPE_* constants as type
@@ -30,6 +28,7 @@ public:
 	void debugLogW(LPCWSTR wszFormat, ...);
 
 	__forceinline HINSTANCE getInst() const { return m_hInst; }
+	__forceinline void setInst(HINSTANCE hInst) { m_hInst = hInst; }
 
 	__forceinline INT_PTR delSetting(const char *name)
 	{
@@ -172,13 +171,13 @@ template<class T> class PLUGIN : public CMPluginBase
 public:
 	static BOOL WINAPI RawDllMain(HINSTANCE hInstance, DWORD, LPVOID)
 	{
-		g_hInstance = hInstance;
+		g_plugin.setInst(hInstance);
 		return TRUE;
 	}
 
 protected:
 	PLUGIN(const char *moduleName)
-		: CSuper(g_hInstance, moduleName)
+		: CSuper(moduleName)
 	{}
 
 	__forceinline HANDLE CreatePluginEvent(const char *name)

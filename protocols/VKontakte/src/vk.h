@@ -101,9 +101,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 struct CVkProto;
-extern LIST<CVkProto> vk_Instances;
 extern mir_cs csInstances;
-extern HINSTANCE g_hInstance;
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
 bool wlstrstr(wchar_t *_s1, wchar_t *_s2);

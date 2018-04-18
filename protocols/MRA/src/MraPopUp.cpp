@@ -129,7 +129,7 @@ int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM)
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.dwInitParam = (LPARAM)this;
 		odp.position = 100000000;
-		odp.hInstance = g_hInstance;
+		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.szTitle.w = m_tszUserName;
 		odp.szGroup.w = LPGENW("Popups");
@@ -242,7 +242,7 @@ void CMraProto::MraPopupShowW(MCONTACT hContact, DWORD dwType, LPWSTR lpszTitle,
 			ppd.lchIcon = (HICON)LoadImage(nullptr, IDI_ERROR, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_EMAIL_STATUS:
-			ppd.lchIcon = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_MAIL_NOTIFY), IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MAIL_NOTIFY), IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		}
 

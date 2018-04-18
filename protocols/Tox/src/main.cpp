@@ -1,10 +1,8 @@
 #include "stdafx.h"
 
 int hLangpack;
-CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInstance;
 HANDLE hProfileFolderPath;
 
 PLUGININFOEX pluginInfo =
@@ -21,14 +19,22 @@ PLUGININFOEX pluginInfo =
 	{0x272a3e, 0xf5fa, 0x4090, {0x8b, 0x67, 0x3e, 0x62, 0xac, 0x1e, 0xe0, 0xb4}}
 };
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
@@ -38,7 +44,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CreateServiceFunction(MODULE "/ParseUri", CToxProto::ParseToxUri);
-		AssocMgr_AddNewUrlTypeW("tox:", TranslateT("Tox link protocol"), g_hInstance, IDI_TOX, MODULE "/ParseUri", 0);
+		AssocMgr_AddNewUrlTypeW("tox:", TranslateT("Tox link protocol"), g_plugin.getInst(), IDI_TOX, MODULE "/ParseUri", 0);
 	}
 
 	return 0;
@@ -54,6 +60,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
