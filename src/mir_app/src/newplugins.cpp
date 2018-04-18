@@ -57,7 +57,6 @@ static BOOL bModuleInitialized = FALSE;
 wchar_t  mirandabootini[MAX_PATH];
 static DWORD mirandaVersion;
 static int sttFakeID = -100;
-static HANDLE hPluginListHeap = nullptr;
 static int askAboutIgnoredPlugins;
 
 pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
@@ -339,7 +338,9 @@ void Plugin_Uninit(pluginEntry *p)
 
 	if (p == plugin_crshdmp)
 		plugin_crshdmp = nullptr;
+
 	pluginList.remove(p);
+	mir_free(p);
 }
 
 int Plugin_UnloadDyn(pluginEntry *p)
@@ -374,14 +375,13 @@ int Plugin_UnloadDyn(pluginEntry *p)
 
 	NotifyFastHook(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
 
-	Plugin_Uninit(p);
-
 	// mark default plugins to be loaded
 	if (!p->bIsCore)
 		for (auto &it : pluginDefault)
 			if (it.pImpl == p)
 				it.pImpl = nullptr;
 
+	Plugin_Uninit(p);
 	return TRUE;
 }
 
@@ -422,7 +422,7 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 
 pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 {
-	pluginEntry *p = (pluginEntry*)HeapAlloc(hPluginListHeap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, sizeof(pluginEntry));
+	pluginEntry *p = (pluginEntry*)mir_calloc(sizeof(pluginEntry));
 	wcsncpy_s(p->pluginname, tszFileName, _TRUNCATE);
 
 	// add it to the list anyway
@@ -866,7 +866,6 @@ int LoadNewPluginsModuleInfos(void)
 
 	LoadPluginOptions();
 
-	hPluginListHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0);
 	mirandaVersion = Miranda_GetVersion();
 
 	RegisterModule(g_hInst);
@@ -920,8 +919,4 @@ void UnloadNewPluginsModule(void)
 
 	for (auto &it : pluginList.rev_iter())
 		Plugin_Uninit(it);
-
-	if (hPluginListHeap)
-		HeapDestroy(hPluginListHeap);
-	hPluginListHeap = nullptr;
 }

@@ -31,24 +31,21 @@ struct BASIC_PLUGIN_INFO
 struct pluginEntry
 {
 	wchar_t pluginname[64];
-	union {
-		unsigned int pclass;
-		struct {
-			bool bFailed : 1;      // not a valid plugin, or API is invalid, pluginname is valid
-			bool bOk : 1;			  // plugin should be loaded, if DB means nothing
-			bool bLoaded : 1;      // Load(void) has been called, Unload() should be called.
-			bool bStopped : 1;     // wasn't loaded cos plugin name not on white list
+	struct {
+		bool bFailed : 1;      // not a valid plugin, or API is invalid, pluginname is valid
+		bool bOk : 1;			  // plugin should be loaded, if DB means nothing
+		bool bLoaded : 1;      // Load(void) has been called, Unload() should be called.
+		bool bStopped : 1;     // wasn't loaded cos plugin name not on white list
 
-			bool bIsCore : 1;		  // a plugin from the /Core directory
-			bool bIsService : 1;	  // has Service Mode implementation
-			bool bIsLast : 1;		  // this plugin should be unloaded after everything else
+		bool bIsCore : 1;		  // a plugin from the /Core directory
+		bool bIsService : 1;	  // has Service Mode implementation
+		bool bIsLast : 1;		  // this plugin should be unloaded after everything else
 
-			bool bHasBasicApi : 1; // has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
-			bool bIsProtocol : 1;  // protocol module
-			bool bIsDatabase : 1;  // has DatabasePluginInfo() and is valid as can be, and PCLASS_BASICAPI has to be set too
-			bool bIsClist : 1;	  // a CList implementation
-			bool bIsCrypto : 1;	  // crypto provider
-		};
+		bool bHasBasicApi : 1; // has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
+		bool bIsProtocol : 1;  // protocol module
+		bool bIsDatabase : 1;  // has DatabasePluginInfo() and is valid as can be, and PCLASS_BASICAPI has to be set too
+		bool bIsClist : 1;	  // a CList implementation
+		bool bIsCrypto : 1;	  // crypto provider
 	};
 		
 	int hLangpack;
