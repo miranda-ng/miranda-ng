@@ -80,7 +80,7 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 
 	dataListEdit = this;
 	hwndListEdit = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, L"LISTBOX", L"", WS_POPUP | WS_BORDER | WS_VSCROLL,
-											rc->left, rc->bottom, rc->right - rc->left, 150, nullptr, nullptr, hInst, nullptr);
+											rc->left, rc->bottom, rc->right - rc->left, 150, nullptr, nullptr, g_hInstance, nullptr);
 	SendMessage(hwndListEdit, WM_SETFONT, (WPARAM)hListFont, 0);
 	int itemHeight = SendMessage(hwndListEdit, LB_GETITEMHEIGHT, 0, 0);
 

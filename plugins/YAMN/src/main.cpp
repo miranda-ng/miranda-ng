@@ -23,6 +23,7 @@ int YAMN_STATUS;
 BOOL UninstallPlugins;
 
 HANDLE hAccountFolder;
+HINSTANCE g_hInstance;
 
 HINSTANCE *hDllPlugins;
 static int iDllPlugins = 0;
@@ -31,19 +32,6 @@ YAMN_VARIABLES YAMNVar;
 
 CLIST_INTERFACE *pcli;
 int hLangpack;
-
-PLUGININFOEX pluginInfo = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {B047A7E5-027A-4CFC-8B18-EDA8345D2790}
-	{0xb047a7e5, 0x27a, 0x4cfc, {0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90}}
-};
 
 HANDLE hNewMailHook;
 HANDLE NoWriterEV;
@@ -82,15 +70,22 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	YAMNVar.hInst = hinstDLL;
-	return TRUE;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+PLUGININFOEX pluginInfo = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {B047A7E5-027A-4CFC-8B18-EDA8345D2790}
+	{0xb047a7e5, 0x27a, 0x4cfc, {0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90}}
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -98,8 +93,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
 // The callback function
+
 BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 {
 	// Convert code page string to number
@@ -168,7 +163,7 @@ static IconItem iconList[] =
 
 void LoadIcons()
 {
-	Icon_Register(YAMNVar.hInst, "YAMN", iconList, _countof(iconList));
+	Icon_Register(g_hInstance, "YAMN", iconList, _countof(iconList));
 }
 
 HANDLE WINAPI g_GetIconHandle(int idx)
@@ -362,13 +357,15 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
-		CMPluginBase(YAMN_DBMODULE)
+		PLUGIN<CMPlugin>(YAMN_DBMODULE)
 	{
 		RegisterProtocol(PROTOTYPE_VIRTUAL);
 		SetUniqueId("Id");
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

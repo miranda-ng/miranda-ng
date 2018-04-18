@@ -495,7 +495,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_CHANMGR:
-		DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
+		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
 			LPARAM(new InviteChatParam(gch->ptszID, NULL, this)));
 		break;
 
@@ -506,7 +506,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_LOGMENU:
 		switch (gch->dwData) {
 		case 10:
-			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
+			DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
 				LPARAM(new InviteChatParam(gch->ptszID, NULL, this)));
 			break;
 

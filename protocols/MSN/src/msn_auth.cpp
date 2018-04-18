@@ -886,14 +886,14 @@ void __cdecl CMsnProto::msn_IEAuthThread(void *pParam)
 
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.cbWndExtra = sizeof(void*);
-	wc.hInstance = g_hInst;
+	wc.hInstance = g_hInstance;
 	wc.lpfnWndProc = AuthWindowProc;
 	wc.lpszClassName = ClassName;
 	RegisterClassEx(&wc);
 
 	if ((hWnd = CreateWindowEx(0, ClassName, L"MSN Login", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, 640, 480,
-		HWND_DESKTOP, nullptr, g_hInst, pParam))) {
+		HWND_DESKTOP, nullptr, g_hInstance, pParam))) {
 		ShowWindow(hWnd, SW_SHOW);
 		UpdateWindow(hWnd);
 
@@ -903,7 +903,7 @@ void __cdecl CMsnProto::msn_IEAuthThread(void *pParam)
 		}
 	}
 
-	UnregisterClass(ClassName, g_hInst);
+	UnregisterClass(ClassName, g_hInstance);
 	CoUninitialize();
 }
 

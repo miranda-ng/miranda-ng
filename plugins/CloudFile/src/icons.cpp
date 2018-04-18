@@ -11,7 +11,7 @@ static IconItem iconList[] =
 
 void InitializeIcons()
 {
-	Icon_Register(hInstance, "Protocols/" MODULE, iconList, _countof(iconList), MODULE);
+	Icon_Register(g_hInstance, "Protocols/" MODULE, iconList, _countof(iconList), MODULE);
 }
 
 HANDLE GetIconHandle(int iconId)

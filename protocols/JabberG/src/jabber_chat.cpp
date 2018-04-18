@@ -1036,7 +1036,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			dat->him = him;
 			dat->item = item;
 			dat->ppro = ppro;
-			HWND hwndInfo = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), nullptr, sttUserInfoDlgProc, (LPARAM)dat);
+			HWND hwndInfo = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), nullptr, sttUserInfoDlgProc, (LPARAM)dat);
 			ShowWindow(hwndInfo, SW_SHOW);
 		}
 		break;

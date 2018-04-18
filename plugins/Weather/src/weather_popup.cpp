@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SaveOptions();
 
 		// click actions
-		hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+		hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_PMENU));
 		hMenu1 = GetSubMenu(hMenu, 0);
 		GetMenuString(hMenu1, opt.LeftClickAction, str, _countof(str), MF_BYCOMMAND);
 		SetDlgItemText(hdlg, IDC_LeftClick, TranslateW(str));
@@ -330,7 +330,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			button = GetDlgItem(hdlg, IDC_RightClick);
 			GetWindowRect(button, &pos);
 
-			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+			hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
 			SelectMenuItem(hMenu1, opt.RightClickAction);
@@ -339,7 +339,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				opt.RightClickAction = ID;
 			DestroyMenu(hMenu);
 
-			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+			hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			GetMenuString(hMenu1, opt.RightClickAction, str, _countof(str), MF_BYCOMMAND);
 			SetDlgItemText(hdlg, IDC_RightClick, TranslateW(str));
@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			button = GetDlgItem(hdlg, IDC_LeftClick);
 			GetWindowRect(button, &pos);
 
-			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+			hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
 			SelectMenuItem(hMenu1, opt.LeftClickAction);
@@ -359,7 +359,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (ID)   opt.LeftClickAction = ID;
 			DestroyMenu(hMenu);
 
-			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+			hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			GetMenuString(hMenu1, opt.LeftClickAction, str, _countof(str), MF_BYCOMMAND);
 			SetDlgItemText(hdlg, IDC_LeftClick, TranslateW(str));

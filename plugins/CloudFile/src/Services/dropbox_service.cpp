@@ -308,12 +308,14 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPluginDropbox : public CMPluginBase
+struct CMPluginDropbox : public PLUGIN<CMPluginDropbox>
 {
 	CMPluginDropbox() :
-		CMPluginBase(MODULE "/Dropbox")
+		PLUGIN<CMPluginDropbox>(MODULE "/Dropbox")
 	{
 		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
 	}
 }
 	g_pluginDropbox;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPluginDropbox::RawDllMain;

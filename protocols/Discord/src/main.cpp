@@ -17,10 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 HINSTANCE g_hInstance;
 int hLangpack = 0;
 HWND g_hwndHeartbeat;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 IconItem g_iconList[] = 
 {
@@ -41,13 +44,7 @@ PLUGININFOEX pluginInfo = {
 	{ 0x88928401, 0x2ce8, 0x4568, { 0xaa, 0xa7, 0x22, 0x61, 0x41, 0x87, 0x0c, 0xbf } }
 };
 
-DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
-{
-	g_hInstance = hInstance;
-	return TRUE;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+	extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -79,16 +76,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyWindow(g_hwndHeartbeat);
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public ACCPROTOPLUGIN<CDiscordProto>
-{
-	CMPlugin() :
-		ACCPROTOPLUGIN<CDiscordProto>("Discord")
-	{
-		SetUniqueId(DB_KEY_ID);
-	}
-}
-	g_plugin;
-

@@ -57,7 +57,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "win2k.h"
 
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInstance;
 
 #include "resource.h"
 #include "vk.h"

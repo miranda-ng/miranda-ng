@@ -303,11 +303,14 @@ inline void GaduProto::gg_sleep(DWORD miliseconds, BOOL alterable, char* calling
 #endif
 }
 
+void crc_gentable(void);
+
 struct CMPlugin : public ACCPROTOPLUGIN<GaduProto>
 {
 	CMPlugin() :
 		ACCPROTOPLUGIN<GaduProto>(GGDEF_PROTO)
 	{
+		crc_gentable();
 		SetUniqueId(GG_KEY_UIN);
 	}
 };

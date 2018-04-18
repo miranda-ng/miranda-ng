@@ -483,7 +483,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 			// display the menu
 			button = GetDlgItem(hdlg, LOWORD(wParam));
 			GetWindowRect(button, &pos);
-			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_TMMENU));
+			hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_TMMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
 			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr)) {
@@ -511,7 +511,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 			// left click action selection menu
 			button = GetDlgItem(hdlg, IDC_RESET);
 			GetWindowRect(button, &pos);
-			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_TMENU));
+			hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_TMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
 			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr)) {
@@ -571,7 +571,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 
 	// plugin options
 	odp.position = 95600;

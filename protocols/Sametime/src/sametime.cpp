@@ -17,16 +17,11 @@ PLUGININFOEX pluginInfo =
 };
 
 CMPlugin g_plugin;
-HINSTANCE hInst;
+HINSTANCE g_hInstance;
 LIST<CSametimeProto> g_Instances(1, PtrKeySortT);
 int hLangpack;
 
-// sametime.cpp: Defines the entry point for the DLL application.
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
@@ -65,7 +60,7 @@ INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM lParam)
 		return NULL;
 	}
 
-	return (INT_PTR) LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON,
+	return (INT_PTR) LoadImage(g_hInstance, MAKEINTRESOURCE(id), IMAGE_ICON,
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON),
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
@@ -84,7 +79,7 @@ static IconItem iconList[] =
 
 void SametimeInitIcons(void)
 {
-	Icon_Register(hInst, "Protocols/Sametime", iconList, _countof(iconList), "SAMETIME");
+	Icon_Register(g_hInstance, "Protocols/Sametime", iconList, _countof(iconList), "SAMETIME");
 }
 
 HANDLE GetIconHandle(int iconId)

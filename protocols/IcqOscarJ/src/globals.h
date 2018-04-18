@@ -36,7 +36,6 @@
 typedef char uid_str[MAX_PATH];
 
 // from init.cpp
-extern HINSTANCE hInst;
 extern DWORD MIRANDA_VERSION;
 
 extern HANDLE   hExtraXStatus;

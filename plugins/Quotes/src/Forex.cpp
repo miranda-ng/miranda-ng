@@ -290,12 +290,6 @@ inline int Quotes_UnhookEvent(HANDLE h)
 	return UnhookEvent(h);
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInstance = hinstDLL;
-	return TRUE;
-}
-
 EXTERN_C __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
@@ -338,13 +332,15 @@ EXTERN_C __declspec(dllexport) int Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
-		CMPluginBase(QUOTES_PROTOCOL_NAME)
+		PLUGIN<CMPlugin>(QUOTES_PROTOCOL_NAME)
 	{
 		RegisterProtocol(PROTOTYPE_VIRTUAL);
 		SetUniqueId(DB_STR_QUOTE_SYMBOL);
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

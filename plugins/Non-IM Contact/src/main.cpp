@@ -7,7 +7,7 @@
 #include "Version.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInst;
+HINSTANCE g_hInstance;
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx = {
@@ -63,7 +63,7 @@ int LCStatus = ID_STATUS_OFFLINE;
 int NimcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.szTitle.a = LPGEN("Non-IM Contacts");
@@ -94,7 +94,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 //
 BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 {
-	g_hInst = hinst;
+	g_hInstance = hinst;
 	return TRUE;
 }
 
@@ -121,7 +121,7 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Icon_Register(g_hInst, LPGEN("Non-IM Contact"), icoList, _countof(icoList));
+	Icon_Register(g_hInstance, LPGEN("Non-IM Contact"), icoList, _countof(icoList));
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, (MIRANDAHOOK)doubleClick);
 	HookEvent(ME_OPT_INITIALISE, NimcOptInit);
@@ -204,12 +204,14 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
-		CMPluginBase(MODNAME)
+		PLUGIN<CMPlugin>(MODNAME)
 	{
 		RegisterProtocol(PROTOTYPE_VIRTUAL);
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

@@ -116,7 +116,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 static VOID CALLBACK JabberPasswordCreateDialogApcProc(void* param)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_PASSWORD), nullptr, JabberPasswordDlgProc, (LPARAM)param);
+	CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_PASSWORD), nullptr, JabberPasswordDlgProc, (LPARAM)param);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

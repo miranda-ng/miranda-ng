@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst = nullptr;
+HINSTANCE g_hInstance = nullptr;
 
 int hLangpack;
 HANDLE hPrebuildMenuHook = nullptr;
@@ -28,6 +28,8 @@ wchar_t tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;
 
 LIST<CFeedEditor> g_arFeeds(1, PtrKeySortT);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -42,18 +44,16 @@ PLUGININFOEX pluginInfoEx = {
 	{0x56cc3f29, 0xccbf, 0x4546, {0xa8, 0xba, 0x98, 0x56, 0x24, 0x8a, 0x41, 0x2a}}
 };
 
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -97,6 +97,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	DestroyUpdateList();
@@ -106,13 +108,15 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
-		CMPluginBase(MODULE)
+		PLUGIN<CMPlugin>(MODULE)
 	{
 		RegisterProtocol(PROTOTYPE_VIRTUAL);
 		SetUniqueId("URL");
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

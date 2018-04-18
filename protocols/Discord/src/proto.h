@@ -350,3 +350,14 @@ public:
 	static void CALLBACK HeartbeatTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
 	static void CALLBACK MarkReadTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public ACCPROTOPLUGIN<CDiscordProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CDiscordProto>("Discord")
+	{
+		SetUniqueId(DB_KEY_ID);
+	}
+};

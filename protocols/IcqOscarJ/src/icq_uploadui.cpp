@@ -866,7 +866,7 @@ void CIcqProto::ShowUploadContactsDialog(void)
 {
 	if (hwndUploadContacts == nullptr) {
 		hItemAll = nullptr;
-		hwndUploadContacts = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ICQUPLOADLIST), nullptr, DlgProcUploadList, LPARAM(this));
+		hwndUploadContacts = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ICQUPLOADLIST), nullptr, DlgProcUploadList, LPARAM(this));
 	}
 
 	SetForegroundWindow(hwndUploadContacts);

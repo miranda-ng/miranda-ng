@@ -212,7 +212,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		return TRUE;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_JIDLIST), sttJidListResizer);
+		Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_JIDLIST), sttJidListResizer);
 
 		RECT listrc;
 		LVCOLUMN lvc;
@@ -472,7 +472,7 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 		SetForegroundWindow(*pHwndJidList);
 		SendMessage(*pHwndJidList, WM_JABBER_REFRESH, 0, (LPARAM)jidListInfo);
 	}
-	else *pHwndJidList = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_JIDLIST), GetForegroundWindow(), JabberMucJidListDlgProc, (LPARAM)jidListInfo);
+	else *pHwndJidList = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_JIDLIST), GetForegroundWindow(), JabberMucJidListDlgProc, (LPARAM)jidListInfo);
 }
 
 void CJabberProto::OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE listType)

@@ -105,7 +105,7 @@ typedef struct FileTransferClientData_tag {
 // Global variables
 struct CSametimeProto;
 
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInstance;
 extern PLUGININFOEX pluginInfo;
 
 #include "sametime_proto.h"

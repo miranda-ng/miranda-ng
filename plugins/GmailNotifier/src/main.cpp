@@ -11,7 +11,7 @@ There is no warranty.
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
+HINSTANCE g_hInstance;
 int hLangpack;
 UINT hTimer;
 HANDLE hMirandaStarted, hOptionsInitial;
@@ -54,12 +54,6 @@ INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 {
 	mir_strncpy((char*)lParam, MODULE_NAME, wParam);
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
 }
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
@@ -170,12 +164,14 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
-		CMPluginBase(MODULE_NAME)
+		PLUGIN<CMPlugin>(MODULE_NAME)
 	{
 		RegisterProtocol(PROTOTYPE_VIRTUAL);
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

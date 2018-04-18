@@ -31,7 +31,7 @@ belong to any other file.
 WIDATALIST *WIHead;
 WIDATALIST *WITail;
 
-HINSTANCE hInst;
+HINSTANCE g_hInstance;
 HWND hPopupWindow;
 
 HANDLE hHookWeatherUpdated;
@@ -58,7 +58,9 @@ BOOL ModuleLoaded;
 
 HANDLE hTBButton = nullptr;
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // plugin info
+
 static const PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
@@ -73,18 +75,16 @@ static const PLUGININFOEX pluginInfoEx =
 	{0x6b612a34, 0xdcf2, 0x4e32, {0x85, 0xcf, 0xb6, 0xfd, 0x0, 0x6b, 0x74, 0x5e}}
 };
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int WeatherShutdown(WPARAM, LPARAM)
 {
@@ -152,29 +152,6 @@ void InitVar()
 	ModuleLoaded = FALSE;
 }
 
-// unload function
-extern "C" int __declspec(dllexport) Unload(void)
-{
-	DestroyMwin();
-	DestroyWindow(hPopupWindow);
-
-	DestroyHookableEvent(hHookWeatherUpdated);
-	DestroyHookableEvent(hHookWeatherError);
-
-	NetlibHttpDisconnect();
-	Netlib_CloseHandle(hNetlibUser);
-
-	DestroyUpdateList();
-	DestroyOptions();
-	DestroyWIList();				// unload all ini data from memory
-
-	WindowList_Destroy(hDataWindowList);
-	WindowList_Destroy(hWindowList);
-
-	CloseHandle(hUpdateMutex);
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
@@ -227,17 +204,42 @@ extern "C" int __declspec(dllexport) Load(void)
 	wchar_t SvcFunc[100];
 	mir_snwprintf(SvcFunc, L"%s__PopupWindow", _A2W(WEATHERPROTONAME));
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, hInst, nullptr);
+		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInstance, nullptr);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// unload function
 
-struct CMPlugin : public CMPluginBase
+extern "C" int __declspec(dllexport) Unload(void)
+{
+	DestroyMwin();
+	DestroyWindow(hPopupWindow);
+
+	DestroyHookableEvent(hHookWeatherUpdated);
+	DestroyHookableEvent(hHookWeatherError);
+
+	NetlibHttpDisconnect();
+	Netlib_CloseHandle(hNetlibUser);
+
+	DestroyUpdateList();
+	DestroyOptions();
+	DestroyWIList();				// unload all ini data from memory
+
+	WindowList_Destroy(hDataWindowList);
+	WindowList_Destroy(hWindowList);
+
+	CloseHandle(hUpdateMutex);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
-		CMPluginBase(WEATHERPROTONAME)
+		PLUGIN<CMPlugin>(WEATHERPROTONAME)
 	{
 		opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus", true);
 		RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
@@ -245,3 +247,5 @@ struct CMPlugin : public CMPluginBase
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

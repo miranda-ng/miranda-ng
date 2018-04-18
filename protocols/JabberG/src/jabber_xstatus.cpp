@@ -1496,7 +1496,7 @@ wchar_t* CJabberProto::ReadAdvStatusT(MCONTACT hContact, const char *pszSlot, co
 void g_XstatusIconsInit()
 {
 	wchar_t szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, _countof(szFile));
+	GetModuleFileName(g_hInstance, szFile, _countof(szFile));
 	if (wchar_t *p = wcsrchr(szFile, '\\'))
 		mir_wstrcpy(p + 1, L"..\\Icons\\xstatus_jabber.dll");
 

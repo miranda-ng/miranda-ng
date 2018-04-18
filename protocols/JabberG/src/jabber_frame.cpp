@@ -79,7 +79,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 
 	CLISTFrame frame = { sizeof(frame) };
 	HWND hwndClist = pcli->hwndContactList;
-	frame.hWnd = CreateWindowEx(0, L"JabberInfoFrameClass", nullptr, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, nullptr, hInst, this);
+	frame.hWnd = CreateWindowEx(0, L"JabberInfoFrameClass", nullptr, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, nullptr, g_hInstance, this);
 	frame.align = alBottom;
 	frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
 	frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_UNICODE;
@@ -98,7 +98,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr,
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		m_hwnd, nullptr, hInst, nullptr);
+		m_hwnd, nullptr, g_hInstance, nullptr);
 	SetWindowPos(m_hwndToolTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	CreateInfoItem("$", true);
@@ -136,7 +136,7 @@ void CJabberInfoFrame::InitClass()
 	wcx.cbSize = sizeof(wcx);
 	wcx.style = CS_DBLCLKS|CS_HREDRAW|CS_VREDRAW;
 	wcx.lpfnWndProc = GlobalWndProc;
-	wcx.hInstance = hInst;
+	wcx.hInstance = g_hInstance;
 	wcx.lpszClassName = L"JabberInfoFrameClass";
 	wcx.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	RegisterClassEx(&wcx);
@@ -297,7 +297,7 @@ void CJabberInfoFrame::SetToolTip(int id, RECT *rc, wchar_t *pszText)
 	ti.uFlags = TTF_SUBCLASS;
 	ti.hwnd = m_hwnd;
 	ti.uId = id;
-	ti.hinst = hInst;
+	ti.hinst = g_hInstance;
 	ti.lpszText = pszText;
 	ti.rect = *rc;
 	SendMessage(m_hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);

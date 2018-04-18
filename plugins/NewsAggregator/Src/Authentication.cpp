@@ -43,7 +43,7 @@ void CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg)
 }
 
 CAuthRequest::CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact)
-	: CSuper(hInst, IDD_AUTHENTICATION),
+	: CSuper(g_hInstance, IDD_AUTHENTICATION),
 	m_feedname(this, IDC_FEEDNAME), m_username(this, IDC_FEEDUSERNAME),
 	m_password(this, IDC_FEEDPASSWORD), m_ok(this, IDOK)
 {

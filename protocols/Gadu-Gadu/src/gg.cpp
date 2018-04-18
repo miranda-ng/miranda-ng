@@ -39,13 +39,15 @@ PLUGININFOEX pluginInfo = {
 
 // Other variables
 CMPlugin g_plugin;
-HINSTANCE hInstance;
+HINSTANCE g_hInstance;
 
 SSL_API sslApi;
 CLIST_INTERFACE *pcli;
 int hLangpack;
 
 static unsigned long crc_table[256];
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 //////////////////////////////////////////////////////////
 // Extra winsock function for error description
@@ -407,17 +409,3 @@ void gg_debughandler(int level, const char *format, va_list ap)
 	free(szFormat);
 }
 #endif
-
-//////////////////////////////////////////////////////////
-// main DLL function
-//
-BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD, LPVOID)
-{
-	crc_gentable();
-	hInstance = hInst;
-#ifdef DEBUGMODE
-	gg_debug_level = GG_DEBUG_FUNCTION;
-	gg_debug_handler = gg_debughandler;
-#endif
-	return TRUE;
-}

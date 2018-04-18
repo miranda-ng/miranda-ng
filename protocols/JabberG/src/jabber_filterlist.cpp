@@ -183,7 +183,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 			fdat->m_hwndEditBox = CreateWindow(L"edit", fdat->m_filterText,
 				WS_CHILD|WS_VISIBLE|WS_TABSTOP|ES_LEFT|ES_AUTOHSCROLL,
 				0, 0, 0, 0,
-				::GetParent(m_hwnd), (HMENU)-1, hInst, nullptr);
+				::GetParent(m_hwnd), (HMENU)-1, g_hInstance, nullptr);
 
 			SendMessage(fdat->m_hwndEditBox, WM_SETFONT, (WPARAM)fdat->m_hfntNormal, 0);
 

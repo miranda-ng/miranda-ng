@@ -39,7 +39,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		SetWindowText(hwndDlg, TranslateT("Find"));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(hInst, MAKEINTRESOURCE(IDI_FIND)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_FIND)));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -175,36 +175,36 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			else preservename[0] = 0;
 			SetWindowTextA(hwndDlg, preservename);
 
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE)));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SITE)));
 
 			// //////
 			COLORREF colour = BackgoundClr;
 			COLORREF txtcolor;
 			SendDlgItemMessage(hwndDlg, IDC_DATA, EM_SETBKGNDCOLOR, 0, colour);
 
-			SendDlgItemMessage(hwndDlg, IDC_UPDATE_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_UPDATE), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_UPDATE_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_UPDATE), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 			SendDlgItemMessage(hwndDlg, IDC_UPDATE_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Update data"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_FIND_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_FIND), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_FIND_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_FIND), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 			SendDlgItemMessage(hwndDlg, IDC_FIND_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Find"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_OPTIONS_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_OPTIONS), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_OPTIONS_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_OPTIONS), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 			SendDlgItemMessage(hwndDlg, IDC_OPTIONS_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Contact options"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_ALERT_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_ALERT), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_ALERT_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ALERT), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 			SendDlgItemMessage(hwndDlg, IDC_ALERT_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Alert options"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_STOP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_STOP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 			SendDlgItemMessage(hwndDlg, IDC_STOP, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Stop processing"), BATF_UNICODE);
 
 			SendDlgItemMessage(hwndDlg, IDC_OPEN_URL, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Click here to open this URL in a browser window."), BATF_UNICODE);
 
 			if (!db_get_b(hContact2, MODULENAME, ON_TOP_KEY, 0)) {
-				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Stick to the front"), BATF_UNICODE);
 			}
 			else {
-				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Disable stick to the front"), BATF_UNICODE);
 			}
 
@@ -368,7 +368,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					hTopmost = HWND_TOPMOST;
 					ptszToolTip = TranslateT("Disable stick to the front");
 				}
-				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM)ptszToolTip, BATF_UNICODE);
 				SetWindowPos(hwndDlg, hTopmost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			}
@@ -376,7 +376,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_FIND_BUTTON:
 			{
-				HWND hwndFind = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FIND), hwndDlg, DlgProcFind, (LPARAM) wParam);
+				HWND hwndFind = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_FIND), hwndDlg, DlgProcFind, (LPARAM) wParam);
 				ShowWindow(hwndFind, SW_SHOW);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_FIND_BUTTON), 0);
 			}
@@ -384,7 +384,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_OPTIONS_BUTTON:
 			if (hContact = FindContactByUrl(hwndDlg)) {
-				ContactHwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT), hwndDlg, DlgProcContactOpt, (LPARAM) hContact);
+				ContactHwnd = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CONTACT_OPT), hwndDlg, DlgProcContactOpt, (LPARAM) hContact);
 				ShowWindow(ContactHwnd, SW_SHOW);
 				SetActiveWindow(ContactHwnd);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS_BUTTON), 0);
@@ -394,7 +394,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_ALERT_BUTTON:
 			if (hContact = FindContactByUrl(hwndDlg)) {
-				HWND hwndAlertOpt = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), hwndDlg, DlgProcAlertOpt, (LPARAM) hContact);
+				HWND hwndAlertOpt = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ALRT_OPT), hwndDlg, DlgProcAlertOpt, (LPARAM) hContact);
 				ShowWindow(hwndAlertOpt, SW_SHOW);
 				SetActiveWindow(hwndAlertOpt);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_BUTTON), 0);
@@ -431,7 +431,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		return 0;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_DISPLAY_DATA), DataDialogResize);
+		Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_DISPLAY_DATA), DataDialogResize);
 		InvalidateRect(hwndDlg, nullptr, TRUE);
 
 		// global

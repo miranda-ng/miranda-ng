@@ -123,7 +123,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_HELPMSG:
-			CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_HELP), nullptr, HelpWindowDlgProc);
+			CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_HELP), nullptr, HelpWindowDlgProc);
 			break;
 
 		case IDCANCEL:
@@ -205,13 +205,13 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 
 INT_PTR testStringReplacer(WPARAM, LPARAM)
 {
-	CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_TEST_LINE), nullptr, TestWindowDlgProc);
+	CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_TEST_LINE), nullptr, TestWindowDlgProc);
 	return 0;
 }
 
 INT_PTR LoadFilesDlg(WPARAM, LPARAM)
 {
-	CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_ADD_FILE), nullptr, DlgProcFiles);
+	CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_ADD_FILE), nullptr, DlgProcFiles);
 	return 0;
 }
 
@@ -241,7 +241,7 @@ void DoPropertySheet(MCONTACT hContact)
 	/* contact info */
 	psp[0].dwSize = sizeof(PROPSHEETPAGE);
 	psp[0].dwFlags = PSP_USEICONID | PSP_USETITLE;
-	psp[0].hInstance = g_hInst;
+	psp[0].hInstance = g_hInstance;
 	psp[0].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_INFO);
 	psp[0].pszIcon = nullptr;
 	psp[0].pfnDlgProc = DlgProcContactInfo;
@@ -252,7 +252,7 @@ void DoPropertySheet(MCONTACT hContact)
 	/* other settings */
 	psp[1].dwSize = sizeof(PROPSHEETPAGE);
 	psp[1].dwFlags = PSP_USEICONID | PSP_USETITLE;
-	psp[1].hInstance = g_hInst;
+	psp[1].hInstance = g_hInstance;
 	psp[1].pszTemplate = MAKEINTRESOURCEA(IDD_OTHER_STUFF);
 	psp[1].pszIcon = nullptr;
 	psp[1].pfnDlgProc = DlgProcOtherStuff;
@@ -263,7 +263,7 @@ void DoPropertySheet(MCONTACT hContact)
 	/* copy contact */
 	psp[2].dwSize = sizeof(PROPSHEETPAGE);
 	psp[2].dwFlags = PSP_USEICONID | PSP_USETITLE;
-	psp[2].hInstance = g_hInst;
+	psp[2].hInstance = g_hInstance;
 	psp[2].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COPYEXPORT);
 	psp[2].pszIcon = nullptr;
 	psp[2].pfnDlgProc = DlgProcCopy;
@@ -274,7 +274,7 @@ void DoPropertySheet(MCONTACT hContact)
 	/* files */
 	psp[3].dwSize = sizeof(PROPSHEETPAGE);
 	psp[3].dwFlags = PSP_USEICONID | PSP_USETITLE;
-	psp[3].hInstance = g_hInst;
+	psp[3].hInstance = g_hInstance;
 	psp[3].pszTemplate = MAKEINTRESOURCEA(IDD_ADD_FILE);
 	psp[3].pszIcon = nullptr;
 	psp[3].pfnDlgProc = DlgProcFiles;
@@ -285,7 +285,7 @@ void DoPropertySheet(MCONTACT hContact)
 	/* propery sheet header.. dont touch !!!! */
 	PROPSHEETHEADERA psh = { sizeof(psh) };
 	psh.dwFlags = PSH_USEICONID | PSH_PROPSHEETPAGE | PSH_USECALLBACK;
-	psh.hInstance = g_hInst;
+	psh.hInstance = g_hInstance;
 	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
 	if (!db_get_static(hContact, MODNAME, "Nick", nick, _countof(nick))) {
 		char title[256];

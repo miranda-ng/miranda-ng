@@ -379,7 +379,7 @@ extern INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwnd, UINT msg, WPARAM wParam
 //
 INT_PTR GaduProto::get_acc_mgr_gui(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, gg_acc_mgr_guidlgproc, (LPARAM)this);
+	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, gg_acc_mgr_guidlgproc, (LPARAM)this);
 }
 
 //////////////////////////////////////////////////////////

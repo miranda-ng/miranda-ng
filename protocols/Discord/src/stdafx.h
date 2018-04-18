@@ -47,9 +47,6 @@ extern IconItem g_iconList[];
 extern HINSTANCE g_hInstance;
 extern HWND g_hwndHeartbeat;
 
-#include "version.h"
-#include "proto.h"
-
 #define DB_KEY_ID        "id"
 #define DB_KEY_EMAIL     "Email"
 #define DB_KEY_PASSWORD  "Password"
@@ -64,6 +61,9 @@ extern HWND g_hwndHeartbeat;
 
 #define DB_KEY_GROUP    "GroupName"
 #define DB_KEYVAL_GROUP L"Discord"
+
+#include "version.h"
+#include "proto.h"
 
 SnowFlake getId(const JSONNode &pNode);
 CMStringW PrepareMessageText(const JSONNode &pRoot);

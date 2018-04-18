@@ -212,7 +212,7 @@ int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_DONTTRANSLATE;
 	odp.szTitle.a = m_szModuleName;
 	odp.dwInitParam = (LPARAM)this;
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 	odp.position = -1900000000;
 	odp.pfnDlgProc = UserDetailsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);

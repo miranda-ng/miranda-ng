@@ -362,13 +362,15 @@ extern "C" int __declspec(dllexport) __cdecl Unload()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
-		CMPluginBase(PROTONAME)
+		PLUGIN<CMPlugin>(PROTONAME)
 	{
 		RegisterProtocol(PROTOTYPE_PROTOCOL);
 		SetUniqueId("Nick");
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

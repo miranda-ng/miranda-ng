@@ -197,7 +197,7 @@ private:
 		JabberAddBookmarkDlgParam param;
 		param.ppro = m_proto;
 		param.m_item = nullptr;
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
+		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
 	void btnEdit_OnClick(CCtrlFilterListView *)
@@ -216,7 +216,7 @@ private:
 		JabberAddBookmarkDlgParam param;
 		param.ppro = m_proto;
 		param.m_item = item;
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
+		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
 	void btnRemove_OnClick(CCtrlFilterListView *)
@@ -443,7 +443,7 @@ int CJabberProto::AddEditBookmark(JABBER_LIST_ITEM *item)
 		JabberAddBookmarkDlgParam param;
 		param.ppro = this;
 		param.m_item = item;//(JABBER_LIST_ITEM*)lParam;
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), nullptr, JabberAddBookmarkDlgProc, (LPARAM)&param);
+		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), nullptr, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 	return 0;
 }

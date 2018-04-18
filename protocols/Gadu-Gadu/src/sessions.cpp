@@ -360,7 +360,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 		return 0;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, hInstance, MAKEINTRESOURCEA(IDD_SESSIONS), sttSessionsDlgResizer);
+		Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_SESSIONS), sttSessionsDlgResizer);
 		return 0;
 
 	case WM_SETCURSOR:
@@ -397,7 +397,7 @@ INT_PTR GaduProto::sessions_view(WPARAM, LPARAM)
 		SetFocus(hwndSessionsDlg);
 	}
 	else
-		CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_SESSIONS), nullptr, gg_sessions_viewdlg, (LPARAM)this);
+		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SESSIONS), nullptr, gg_sessions_viewdlg, (LPARAM)this);
 
 	return 0;
 }

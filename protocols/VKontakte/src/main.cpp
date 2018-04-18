@@ -18,7 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "version.h"
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
+HINSTANCE g_hInstance;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -38,11 +39,7 @@ PLUGININFOEX pluginInfo =
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hModule, DWORD, LPVOID)
-{
-	hInst = hModule;
-	return TRUE;
-}
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -70,15 +67,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public ACCPROTOPLUGIN<CVkProto>
-{
-	CMPlugin() :
-		ACCPROTOPLUGIN<CVkProto>("VKontakte")
-	{
-		SetUniqueId("ID");
-	}
-}
-	g_plugin;

@@ -33,7 +33,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleChangePassword(WPARAM, LPARAM)
 	if (IsWindow(m_hwndJabberChangePassword))
 		SetForegroundWindow(m_hwndJabberChangePassword);
 	else
-		m_hwndJabberChangePassword = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CHANGEPASSWORD), nullptr, JabberChangePasswordDlgProc, (LPARAM)this);
+		m_hwndJabberChangePassword = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CHANGEPASSWORD), nullptr, JabberChangePasswordDlgProc, (LPARAM)this);
 
 	return 0;
 }

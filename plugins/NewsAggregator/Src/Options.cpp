@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 CExportFeed::CExportFeed()
-	: CSuper(hInst, IDD_FEEDEXPORT),
+	: CSuper(g_hInstance, IDD_FEEDEXPORT),
 	m_feedslist(this, IDC_FEEDSLIST), m_feedsexportlist(this, IDC_FEEDSEXPORTLIST),
 	m_addfeed(this, IDC_ADDFEED), m_removefeed(this, IDC_REMOVEFEED), 
 	m_addallfeeds(this, IDC_ADDALLFEEDS), m_removeallfeeds(this, IDC_REMOVEALLFEEDS),
@@ -251,7 +251,7 @@ void CExportFeed::OnClose()
 }
 
 CImportFeed::CImportFeed(CCtrlListView *m_feeds)
-	: CSuper(hInst, IDD_FEEDIMPORT),
+	: CSuper(g_hInstance, IDD_FEEDIMPORT),
 	m_importfile(this, IDC_IMPORTFILEPATH), m_browsefile(this, IDC_BROWSEIMPORTFILE),
 	m_feedslist(this, IDC_FEEDSLIST), m_feedsimportlist(this, IDC_FEEDSIMPORTLIST),
 	m_addfeed(this, IDC_ADDFEED), m_removefeed(this, IDC_REMOVEFEED),
@@ -661,7 +661,7 @@ void CImportFeed::OnClose()
 }
 
 CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact)
-	: CSuper(hInst, IDD_ADDFEED),
+	: CSuper(g_hInstance, IDD_ADDFEED),
 	m_feedtitle(this, IDC_FEEDTITLE), m_feedurl(this, IDC_FEEDURL),
 	m_checktime(this, IDC_CHECKTIME), m_checktimespin(this, IDC_TIMEOUT_VALUE_SPIN),
 	m_checkfeed(this, IDC_DISCOVERY), m_useauth(this, IDC_USEAUTH),
@@ -893,7 +893,7 @@ void COptionsMain::UpdateList()
 }
 
 COptionsMain::COptionsMain()
-	: CPluginDlgBase(hInst, IDD_OPTIONS, MODULE),
+	: CPluginDlgBase(g_hInstance, IDD_OPTIONS, MODULE),
 	m_feeds(this, IDC_FEEDLIST),
 	m_add(this, IDC_ADD),
 	m_change(this, IDC_CHANGE),
@@ -1064,7 +1064,7 @@ void COptionsMain::OnFeedListDoubleClick(CCtrlBase*)
 int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = LPGENW("News Aggregator");

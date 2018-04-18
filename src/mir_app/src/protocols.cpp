@@ -110,6 +110,7 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 	p->cbSize = pd->cbSize;
 	p->szName = mir_strdup(pd->szName);
 	p->type = pd->type;
+	p->hInst = pd->hInst;
 	if (pd->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
 		p->fnInit = pd->fnInit;
 		p->fnUninit = pd->fnUninit;

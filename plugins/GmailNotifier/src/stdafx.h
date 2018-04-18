@@ -73,7 +73,7 @@ struct optionSettings
 
 extern OBJLIST<Account> g_accs;
 extern optionSettings opt;
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInstance;
 extern HNETLIBUSER hNetlibUser;
 extern UINT hTimer;
 extern short ID_STATUS_NONEW;

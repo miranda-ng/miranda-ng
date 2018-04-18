@@ -600,7 +600,7 @@ INT_PTR GaduProto::gc_openconf(WPARAM, LPARAM)
 		return 0;
 	}
 
-	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_CONFERENCE), nullptr, gg_gc_openconfdlg, (LPARAM)this);
+	CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CONFERENCE), nullptr, gg_gc_openconfdlg, (LPARAM)this);
 	return 1;
 }
 

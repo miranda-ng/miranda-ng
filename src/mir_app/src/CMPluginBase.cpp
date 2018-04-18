@@ -24,8 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CMPluginBase::CMPluginBase(const char *moduleName) :
-	m_szModuleName(moduleName)
+CMPluginBase::CMPluginBase(HINSTANCE hInst, const char *moduleName) :
+	m_szModuleName(moduleName),
+	m_hInst(hInst)
 {
 }
 
@@ -74,5 +75,6 @@ void CMPluginBase::RegisterProtocol(int type, pfnInitProto fnInit, pfnUninitProt
 	pd.type = type;
 	pd.fnInit = fnInit;
 	pd.fnUninit = fnUninit;
+	pd.hInst = m_hInst;
 	Proto_RegisterModule(&pd);
 }

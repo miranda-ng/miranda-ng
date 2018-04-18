@@ -507,7 +507,7 @@ static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg, UINT message, WPA
 
 HWND GaduProto::CreateExtendedSearchUI(HWND owner)
 {
-	return CreateDialogParam(hInstance,
+	return CreateDialogParam(g_hInstance,
 		MAKEINTRESOURCE(IDD_GGADVANCEDSEARCH), owner, gg_advancedsearchdlgproc, (LPARAM)this);
 }
 

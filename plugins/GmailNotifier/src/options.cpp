@@ -272,7 +272,7 @@ int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.szTitle.a = LPGEN("GmailNotifier");
 	odp.szGroup.a = LPGEN("Network");

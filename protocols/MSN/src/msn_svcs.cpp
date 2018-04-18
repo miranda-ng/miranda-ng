@@ -267,7 +267,7 @@ int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM)
 
 			if (Lists_IsInList(LIST_FL, szEmail)) {
 				DeleteParam param = { this, MCONTACT(hContact) };
-				DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), nullptr, DlgDeleteContactUI, (LPARAM)&param);
+				DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_DELETECONTACT), nullptr, DlgDeleteContactUI, (LPARAM)&param);
 
 				MsnContact *msc = Lists_Get(szEmail);
 				if (msc)
@@ -406,7 +406,7 @@ int CMsnProto::OnWindowPopup(WPARAM, LPARAM lParam)
 
 	case MSG_WINDOWPOPUP_SELECTED:
 		if (mwpd->selection == 13465)
-			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat, LPARAM(new InviteChatParam(nullptr, mwpd->hContact, this)));
+			DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat, LPARAM(new InviteChatParam(nullptr, mwpd->hContact, this)));
 		break;
 	}
 

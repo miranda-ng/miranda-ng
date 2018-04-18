@@ -41,7 +41,7 @@ class CCloudService;
 
 #include "options.h"
 
-extern HINSTANCE hInstance;
+extern HINSTANCE g_hInstance;
 extern HNETLIBUSER hNetlibConnection;
 
 class Exception

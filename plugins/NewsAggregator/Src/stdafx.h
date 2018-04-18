@@ -60,7 +60,7 @@ Boston, MA 02111-1307, USA.
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
 #define DEFAULT_UPDATE_TIME 60
 
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInstance;
 extern CDlgBase *pAddFeedDialog, *pImportDialog, *pExportDialog;
 extern HNETLIBUSER hNetlibUser;
 extern UINT_PTR timerId;

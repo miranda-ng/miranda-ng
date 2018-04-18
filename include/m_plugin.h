@@ -4,6 +4,8 @@
 #include <m_database.h>
 #include <m_protocols.h>
 
+extern HINSTANCE g_hInstance;
+
 class MIR_APP_EXPORT CMPluginBase
 {
 	void tryOpenLog();
@@ -11,8 +13,9 @@ class MIR_APP_EXPORT CMPluginBase
 protected:
 	const char *m_szModuleName;
 	HANDLE m_hLogger = nullptr;
+	HINSTANCE m_hInst;
 
-	CMPluginBase(const char *moduleName);
+	CMPluginBase(HINSTANCE, const char *moduleName);
 	~CMPluginBase();
 
 	// pass one of PROTOTYPE_* constants as type
@@ -25,6 +28,8 @@ protected:
 public:
 	void debugLogA(LPCSTR szFormat, ...);
 	void debugLogW(LPCWSTR wszFormat, ...);
+
+	__forceinline HINSTANCE getInst() const { return m_hInst; }
 
 	__forceinline INT_PTR delSetting(const char *name)
 	{
@@ -158,13 +163,22 @@ extern struct CMPlugin g_plugin;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic class for plugins (not protocols) written in C++
 
+typedef BOOL(WINAPI * const _pfnCrtInit)(HINSTANCE, DWORD, LPVOID);
+
 template<class T> class PLUGIN : public CMPluginBase
 {
 	typedef CMPluginBase CSuper;
 
+public:
+	static BOOL WINAPI RawDllMain(HINSTANCE hInstance, DWORD, LPVOID)
+	{
+		g_hInstance = hInstance;
+		return TRUE;
+	}
+
 protected:
 	PLUGIN(const char *moduleName)
-		: CSuper(moduleName)
+		: CSuper(g_hInstance, moduleName)
 	{}
 
 	__forceinline HANDLE CreatePluginEvent(const char *name)

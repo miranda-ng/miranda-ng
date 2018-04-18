@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CDummyProto;
 extern LIST<CDummyProto> dummy_Instances;
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInstance;
 
 #define DUMMY_ID_TEMPLATE "Template"
 #define DUMMY_ID_TEXT "UniqueIdText"

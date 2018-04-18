@@ -418,7 +418,7 @@ INT_PTR EditSettings(WPARAM wParam, LPARAM)
 	else {
 		// if the dialog box is not opened, open a new one
 		if (IsMyContact(wParam))
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT), nullptr, DlgProcChange, (LPARAM)wParam);
+			CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_EDIT), nullptr, DlgProcChange, (LPARAM)wParam);
 	}
 
 	return 0;

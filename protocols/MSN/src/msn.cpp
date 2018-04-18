@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInst, g_hOpenssl = nullptr;
+HINSTANCE g_hInstance;
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ static int sttCompareProtocols(const CMsnProto *p1, const CMsnProto *p2)
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
-		g_hInst = hinstDLL;
+		g_hInstance = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
 	}
 	return TRUE;
@@ -97,9 +97,6 @@ extern "C" int __declspec(dllexport) Load(void)
 // Unload a plugin
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (g_hOpenssl)
-		FreeLibrary(g_hOpenssl);
-
 	MSN_RemoveContactMenus();
 	MsnLinks_Destroy();
 	return 0;

@@ -151,20 +151,17 @@ typedef struct PROTO_INTERFACE* (*pfnInitProto)(const char* szModuleName, const 
 // deallocates an account instance
 typedef int (*pfnUninitProto)(PROTO_INTERFACE*);
 
-// removes an account from the database
-typedef int (*pfnDestroyProto)(PROTO_INTERFACE*);
-
-typedef struct {
+struct PROTOCOLDESCRIPTOR
+{
 	size_t cbSize;
 	char *szName;        // unique name of the module
 	int   type;          // module type, see PROTOTYPE_ constants
 
-	// 0.8.0+ additions
-	pfnInitProto fnInit; // initializes an empty account
-	pfnUninitProto fnUninit; // deallocates an account instance
-	pfnDestroyProto fnDestroy; // removes an account
-}
-	PROTOCOLDESCRIPTOR;
+	// these fields should be filled only for protos with accounts 
+	pfnInitProto fnInit;       // initializes an empty account
+	pfnUninitProto fnUninit;   // deallocates an account instance
+	HINSTANCE hInst;				// module to which that proto belongs to
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Enumerate the currently running protocols

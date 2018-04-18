@@ -351,7 +351,7 @@ typedef struct DATALIST WIDATALIST;
 
 extern WIDATALIST *WIHead, *WITail;
 
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInstance;
 extern HWND hPopupWindow, hWndSetup;
 
 extern MYOPTIONS opt;

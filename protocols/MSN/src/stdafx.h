@@ -919,7 +919,7 @@ const char msnStoreAppId[] = "Skype";
 const char msnProductVer[] = "0/6.16.0.105/259/";
 const char msnProtID[] = "MSNP24";
 
-extern HINSTANCE g_hInst;
+extern HINSTANCE g_hInstance;
 extern bool g_bTerminated;
 
 ///////////////////////////////////////////////////////////////////////////////

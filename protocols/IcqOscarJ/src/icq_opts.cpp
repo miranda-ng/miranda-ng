@@ -506,7 +506,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -800000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 	odp.szGroup.w = LPGENW("Network");
 	odp.dwInitParam = LPARAM(this);
 	odp.szTitle.w = m_tszUserName;

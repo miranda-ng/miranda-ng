@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-HINSTANCE hInst;
+HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 
 //PLUGINLINK *pluginLink=NULL;
@@ -319,10 +319,10 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
 				EnableWindow(hwnd, FALSE);
 			}
-			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON6), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON3), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON4), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON5), IMAGE_ICON, 16, 16, 0));
+			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ICON6), IMAGE_ICON, 16, 16, 0));
+			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ICON3), IMAGE_ICON, 16, 16, 0));
+			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ICON4), IMAGE_ICON, 16, 16, 0));
+			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_ICON5), IMAGE_ICON, 16, 16, 0));
 			// initialise and fill listbox
 			hwndList = GetDlgItem(hwndDlg, IDC_STATUS);
 			ListView_DeleteAllItems(hwndList);
@@ -388,7 +388,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				cur->strExtIp[0] = '*';
 				cur->strIntIp[0] = '*';
 
-				if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur) == IDCANCEL) {
+				if (DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur) == IDCANCEL) {
 					mir_free(cur);
 					cur = nullptr;
 				}
@@ -552,7 +552,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					while (pos--) {
 						cur = cur->next;
 					}
-					DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur);
+					DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur);
 					fillExceptionsListView(hwndDlg);
 					ListView_SetItemState(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), pos1, LVNI_FOCUSED | LVIS_SELECTED, LVNI_FOCUSED | LVIS_SELECTED);
 					SetFocus(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS));
@@ -585,7 +585,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 int ConnectionNotifyOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
 	odp.szTitle.w = _A2W(PLUGINNAME);
 	odp.szGroup.w = LPGENW("Plugins");
@@ -626,7 +626,7 @@ INT_PTR TMLoadIcon(WPARAM wParam, LPARAM)
 	default:
 		return 0;
 	}
-	return (INT_PTR)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
+	return (INT_PTR)LoadImage(g_hInstance, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 //=======================================================
 //SetStatus
@@ -775,7 +775,7 @@ void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intP
 	//MessageBox(NULL,"aaa","aaa",1);
 	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
 	ppd.lchContact = NULL;//(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
-	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
+	ppd.lchIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	if (settingResolveIp) {
 		wchar_t hostName[128];
 		getDnsName(extIp, hostName, _countof(hostName));
@@ -841,7 +841,7 @@ static int preshutdown(WPARAM, LPARAM)
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
-	hInst = hinstDLL;
+	g_hInstance = hinstDLL;
 	return TRUE;
 }
 
@@ -900,12 +900,14 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public CMPluginBase
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
-		CMPluginBase(PLUGINNAME)
+		PLUGIN<CMPlugin>(PLUGINNAME)
 	{
 		RegisterProtocol(PROTOTYPE_PROTOCOL);
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

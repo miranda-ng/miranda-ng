@@ -80,7 +80,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 
 			// TEST GET NAME FOR CACHE
 			wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH];
-			GetModuleFileName(hInst, cachepath, _countof(cachepath));
+			GetModuleFileName(g_hInstance, cachepath, _countof(cachepath));
 			wchar_t *cacheend = wcsrchr(cachepath, '\\');
 			cacheend++;
 			*cacheend = '\0';
@@ -118,7 +118,7 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 
 	// TEST GET NAME FOR CACHE
 	wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
-	GetModuleFileName(hInst, cachepath, _countof(cachepath));
+	GetModuleFileName(g_hInstance, cachepath, _countof(cachepath));
 	wchar_t *cacheend = wcsrchr(cachepath, '\\');
 	cacheend++;
 	*cacheend = '\0';
@@ -143,7 +143,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 {
 	//GET NAME FOR CACHE
 	wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH];
-	GetModuleFileName(hInst, cachepath, _countof(cachepath));
+	GetModuleFileName(g_hInstance, cachepath, _countof(cachepath));
 	wchar_t *cacheend = wcsrchr(cachepath, '\\');
 	cacheend++;
 	*cacheend = '\0';
@@ -292,7 +292,7 @@ INT_PTR BPLoadIcon(WPARAM wParam, LPARAM)
 	default:
 		return 0;
 	}
-	return (INT_PTR)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON,
+	return (INT_PTR)LoadImage(g_hInstance, MAKEINTRESOURCE(id), IMAGE_ICON,
 		GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON),
 		GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }

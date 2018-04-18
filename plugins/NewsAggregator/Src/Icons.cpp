@@ -33,7 +33,7 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(hInst, LPGEN("News Aggregator"), iconList, _countof(iconList), MODULE);
+	Icon_Register(g_hInstance, LPGEN("News Aggregator"), iconList, _countof(iconList), MODULE);
 }
 
 HICON LoadIconEx(const char *name, bool big)

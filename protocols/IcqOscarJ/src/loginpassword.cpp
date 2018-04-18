@@ -84,5 +84,5 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 void CIcqProto::RequestPassword()
 {
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_LOGINPW), nullptr, LoginPasswdDlgProc, LPARAM(this));
+	DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_LOGINPW), nullptr, LoginPasswdDlgProc, LPARAM(this));
 }

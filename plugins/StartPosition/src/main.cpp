@@ -23,10 +23,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-
-HINSTANCE g_hInst;
+CMPlugin g_plugin;
+HINSTANCE g_hInstance;
 int hLangpack;
-StartPositionPlugin* startposition;
 
 PLUGININFOEX pluginInfo = {
     sizeof(PLUGININFOEX),
@@ -41,31 +40,23 @@ PLUGININFOEX pluginInfo = {
     {0x211f6277, 0x6f9b, 0x4b77, {0xa9, 0x39, 0x84, 0xd0, 0x4b, 0x26, 0xb3, 0x8c}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-    g_hInst = hinstDLL;
-    return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-    return &pluginInfo;
+	return &pluginInfo;
 }
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-    mir_getLP(&pluginInfo);
-    startposition = new StartPositionPlugin;
+	mir_getLP(&pluginInfo);
 
-    startposition->positionClist();
+	g_plugin.positionClist();
 
-    return 0;
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-    delete startposition;
-    startposition = nullptr;
-
-    return 0;
+	return 0;
 }

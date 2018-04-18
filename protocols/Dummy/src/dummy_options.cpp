@@ -116,5 +116,5 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 
 INT_PTR CDummyProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, DummyAccountProc, (LPARAM)this);
+	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, DummyAccountProc, (LPARAM)this);
 }

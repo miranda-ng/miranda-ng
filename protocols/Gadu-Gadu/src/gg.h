@@ -258,7 +258,7 @@ struct GGGETAVATARDATA
 
 struct GaduProto;
 
-extern HINSTANCE hInstance;
+extern HINSTANCE g_hInstance;
 extern CLIST_INTERFACE *pcli;
 extern PLUGININFOEX pluginInfo;
 extern IconItem iconList[];

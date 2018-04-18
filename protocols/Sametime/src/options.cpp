@@ -343,7 +343,7 @@ int CSametimeProto::OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTNET);
 	odp.szTitle.w = m_tszUserName;
 	odp.szGroup.w = LPGENW("Network");

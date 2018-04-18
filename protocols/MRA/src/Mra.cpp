@@ -29,17 +29,7 @@ WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
 
 void IconsLoad();
 
-BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
-{
-	switch (dwReason) {
-	case DLL_PROCESS_ATTACH:
-		g_hInstance = hInstance;
-		DisableThreadLibraryCalls(hInstance);
-		break;
-	}
-
-	return TRUE;
-}
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 

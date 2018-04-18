@@ -43,7 +43,7 @@ extern IconItem iconList[] =
 
 void gg_icolib_init()
 {
-	Icon_Register(hInstance, "Protocols/" GGDEF_PROTO, iconList, _countof(iconList), GGDEF_PROTO);
+	Icon_Register(g_hInstance, "Protocols/" GGDEF_PROTO, iconList, _countof(iconList), GGDEF_PROTO);
 }
 
 HICON LoadIconEx(const char* name, bool big)

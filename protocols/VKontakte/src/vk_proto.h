@@ -400,3 +400,12 @@ private:
 	CVkChatInfo* GetChatById(LPCWSTR pwszId);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 };
+
+struct CMPlugin : public ACCPROTOPLUGIN<CVkProto>
+{
+	CMPlugin() :
+		ACCPROTOPLUGIN<CVkProto>("VKontakte")
+	{
+		SetUniqueId("ID");
+	}
+};

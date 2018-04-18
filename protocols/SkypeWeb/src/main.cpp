@@ -39,12 +39,7 @@ PLUGININFOEX pluginInfo =
 	{ 0x57e90ac6, 0x1067, 0x423b, { 0x8c, 0xa3, 0x70, 0xa3, 0x9d, 0x20, 0xd, 0x4f } }
 };
 
-DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
-{
-	g_hInstance = hInstance;
-
-	return TRUE;
-}
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

@@ -143,7 +143,6 @@ extern UINT_PTR timerId, Countdown;
 extern LOGFONT g_lf;
 extern HFONT h_font;
 extern HWND ContactHwnd;
-extern HINSTANCE hInst;
 extern HMENU hMenu;
 extern int bpStatus;
 extern HNETLIBUSER hNetlibUser;
@@ -157,7 +156,6 @@ void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD);
 void SavewinSettings(void);
 void ValidatePosition(HWND hwndDlg);
 int  ModulesLoaded(WPARAM wParam, LPARAM lParam);
-void ChangeMenuItem3();
 wchar_t* FixButtonText(wchar_t *url, size_t len);
 int  ContactMenuItemUpdateData (WPARAM wParam, LPARAM lParam);
 

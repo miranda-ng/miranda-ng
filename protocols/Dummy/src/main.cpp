@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "version.h"
 
-HINSTANCE hInst;
+HINSTANCE g_hInstance;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -36,18 +36,12 @@ PLUGININFOEX pluginInfo =
 	{ 0x2a1081d1, 0xaee3, 0x4091, {0xb7, 0xd, 0xae, 0x46, 0xd0, 0x9f, 0x9a, 0x7f}}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hModule, DWORD, LPVOID)
-{
-	hInst = hModule;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
@@ -94,3 +88,5 @@ struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

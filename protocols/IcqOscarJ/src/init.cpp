@@ -29,7 +29,7 @@
 #include "m_icolib.h"
 
 CMPlugin g_plugin;
-HINSTANCE hInst;
+HINSTANCE g_hInstance;
 int hLangpack;
 bool g_bTerminated;
 
@@ -56,11 +56,7 @@ extern "C" PLUGININFOEX __declspec(dllexport) *MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -105,7 +101,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hExtraXStatus = ExtraIcon_RegisterIcolib("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
 
-	Icon_Register(hInst, "ICQ", iconList, _countof(iconList));
+	Icon_Register(g_hInstance, "ICQ", iconList, _countof(iconList));
 
 	g_MenuInit();
 	return 0;
@@ -159,4 +155,3 @@ void CIcqProto::UpdateGlobalSettings()
 	m_bXStatusEnabled = getByte("XStatusEnabled", DEFAULT_XSTATUS_ENABLED);
 	m_bMoodsEnabled = getByte("MoodsEnabled", DEFAULT_MOODS_ENABLED);
 }
-

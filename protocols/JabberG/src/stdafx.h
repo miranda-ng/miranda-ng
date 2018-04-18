@@ -577,7 +577,7 @@ private:
 /*******************************************************************
  * Global variables
  *******************************************************************/
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInstance;
 
 extern HANDLE hExtraMood;
 extern HANDLE hExtraActivity;

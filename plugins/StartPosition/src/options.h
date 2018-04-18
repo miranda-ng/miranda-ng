@@ -77,7 +77,7 @@ class COptionsDlg : public CPluginDlgBase
     CCtrlCheck chkStartState, chkStartHidden, chkStartNormal;
 
 public:
-    COptionsDlg(StartPositionPlugin* instance);
+    COptionsDlg();
 
     void OnInitDialog() override;
     void OnApply() override;
@@ -90,6 +90,4 @@ private:
     void onCheck_PositionSide(CCtrlCheck*);
     void onCheck_Width(CCtrlCheck*);
     void onCheck_StartState(CCtrlCheck*);
-
-    StartPositionPlugin* m_plugin;
 };

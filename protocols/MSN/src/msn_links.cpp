@@ -135,7 +135,7 @@ void MsnLinks_Init(void)
 	static const char szService[] = "MSN/ParseMsnimLink";
 
 	CreateServiceFunction(szService, ServiceParseMsnimLink);
-	AssocMgr_AddNewUrlTypeW("msnim:", TranslateT("MSN Link Protocol"), g_hInst, IDI_MSN, szService, 0);
+	AssocMgr_AddNewUrlTypeW("msnim:", TranslateT("MSN Link Protocol"), g_hInstance, IDI_MSN, szService, 0);
 }
 
 void MsnLinks_Destroy(void)

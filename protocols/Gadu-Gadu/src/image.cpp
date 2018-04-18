@@ -256,7 +256,7 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hwnd;
-	ofn.hInstance = hInstance;
+	ofn.hInstance = g_hInstance;
 	ofn.lpstrFile = szFileName;
 	ofn.lpstrFilter = szFilter;
 	ofn.nMaxFile = MAX_PATH;
@@ -439,7 +439,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return TRUE;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, hInstance, dat->bReceiving ? MAKEINTRESOURCEA(IDD_IMAGE_RECV) : MAKEINTRESOURCEA(IDD_IMAGE_SEND), sttImageDlgResizer);
+		Utils_ResizeDialog(hwndDlg, g_hInstance, dat->bReceiving ? MAKEINTRESOURCEA(IDD_IMAGE_RECV) : MAKEINTRESOURCEA(IDD_IMAGE_SEND), sttImageDlgResizer);
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED)
 			InvalidateRect(hwndDlg, nullptr, FALSE);
 		return 0;
@@ -669,7 +669,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		*szFileName = 0;
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 		ofn.hwndOwner = hwndDlg;
-		ofn.hInstance = hInstance;
+		ofn.hInstance = g_hInstance;
 		ofn.lpstrFilter = szFilter;
 		ofn.lpstrFile = szFileName;
 		ofn.nMaxFile = MAX_PATH;
@@ -708,7 +708,7 @@ void __cdecl GaduProto::img_dlgcallthread(void *param)
 
 	HWND hMIWnd = nullptr;
 	GGIMAGEDLGDATA *dat = (GGIMAGEDLGDATA *)param;
-	DialogBoxParam(hInstance, dat->bReceiving ? MAKEINTRESOURCE(IDD_IMAGE_RECV) : MAKEINTRESOURCE(IDD_IMAGE_SEND),
+	DialogBoxParam(g_hInstance, dat->bReceiving ? MAKEINTRESOURCE(IDD_IMAGE_RECV) : MAKEINTRESOURCE(IDD_IMAGE_SEND),
 		hMIWnd, gg_img_dlgproc, (LPARAM)dat);
 
 #ifdef DEBUGMODE
@@ -747,7 +747,7 @@ int gg_img_isexists(wchar_t *szPath, GGIMAGEENTRY *dat)
 	if (_wstat(szPath, &st) != 0)
 		return 0;
 
-	if ((long)st.st_size == dat->nSize)
+	if (st.st_size == (long)dat->nSize)
 	{
 		FILE *fp = _wfopen(szPath, L"rb");
 		if (!fp) return 0;

@@ -270,7 +270,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 	odp.dwInitParam = LPARAM(this);
 	odp.pfnDlgProc = IcqDlgProc;
 	odp.position = -1900000000;

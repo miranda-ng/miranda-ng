@@ -10,7 +10,6 @@
 typedef struct CYAMNVariables
 {
 #define YAMN_VARIABLESVERSION	3
-	HINSTANCE hInst;
 	MWindowList MessageWnds;
 	MWindowList NewMailAccountWnd;
 	int Shutdown;

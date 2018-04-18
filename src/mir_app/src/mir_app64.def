@@ -487,7 +487,7 @@ GetDatabasePlugin @508
 SetServiceModePlugin @510
 Proto_CreateAccount @511
 Proto_GetAverageStatus @512
-??0CMPluginBase@@IEAA@PEBD@Z @513 NONAME
+??0CMPluginBase@@IEAA@PEAUHINSTANCE__@@PEBD@Z @513 NONAME
 ??1CMPluginBase@@IEAA@XZ @514 NONAME
 ??4CMPluginBase@@QEAAAEAV0@AEBV0@@Z @515 NONAME
 ?debugLogA@CMPluginBase@@QEAAXPEBDZZ @516 NONAME
@@ -578,3 +578,4 @@ Clist_GetGeneralizedStatus @600
 Proto_GetStatus @601
 ?getCache@MDatabaseCommon@@QEBAPEAUMIDatabaseCache@@XZ @602 NONAME
 ?Compact@MDatabaseCommon@@UEAAHXZ @603 NONAME
+?getInst@CMPluginBase@@QEBAPEAUHINSTANCE__@@XZ @604 NONAME

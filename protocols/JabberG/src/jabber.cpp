@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma comment(lib, "Dnsapi.lib")
 #pragma comment(lib, "Secur32.lib")
 
-HINSTANCE hInst;
+HINSTANCE g_hInstance;
 HMODULE hMsftedit;
 
 CMPlugin g_plugin;
@@ -73,11 +73,7 @@ bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hModule, DWORD, LPVOID)
-{
-	hInst = hModule;
-	return TRUE;
-}
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -112,7 +108,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	// file associations manager plugin support
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CreateServiceFunction("JABBER/*" JS_PARSE_XMPP_URI, g_SvcParseXmppUri);
-		AssocMgr_AddNewUrlTypeW("xmpp:", TranslateT("Jabber Link Protocol"), hInst, IDI_JABBER, "JABBER/*" JS_PARSE_XMPP_URI, 0);
+		AssocMgr_AddNewUrlTypeW("xmpp:", TranslateT("Jabber Link Protocol"), g_hInstance, IDI_JABBER, "JABBER/*" JS_PARSE_XMPP_URI, 0);
 	}
 
 	// init fontservice for info frame

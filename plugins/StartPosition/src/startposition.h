@@ -19,16 +19,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-
-class StartPositionPlugin : public PLUGIN<StartPositionPlugin>
+class CMPlugin : public PLUGIN<CMPlugin>
 {
-    friend COptionsDlg;
+	friend COptionsDlg;
 
 public:
-    StartPositionPlugin();
+	CMPlugin();
 
-    int __cdecl OnOptionsInit(WPARAM, LPARAM);
-    void positionClist();
+	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	void positionClist();
 
-    StartPositionOptions spOptions;
+	StartPositionOptions spOptions;
 };
