@@ -389,7 +389,7 @@ private:
 	in a document, or stand on its own. The type of a TiXmlNode
 	can be queried, and it can be cast to its more defined type.
 */
-class TiXmlNode : public TiXmlBase, private MNonCopyable
+class TiXmlNode : public TiXmlBase
 {
 	friend class TiXmlDocument;
 	friend class TiXmlElement;
@@ -692,7 +692,7 @@ protected:
 			part of the tinyXML document object model. There are other
 			suggested ways to look at this problem.
 */
-class TiXmlAttribute : public TiXmlBase, private MNonCopyable
+class TiXmlAttribute : public TiXmlBase
 {
 	friend class TiXmlAttributeSet;
 
