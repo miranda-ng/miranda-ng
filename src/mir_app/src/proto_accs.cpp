@@ -288,7 +288,7 @@ static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, 
 
 bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 {
-	PROTOCOLDESCRIPTOR* ppd = Proto_IsProtocolLoaded(pa->szProtoName);
+	MBaseProto *ppd = Proto_GetProto(pa->szProtoName);
 	if (ppd == nullptr)
 		return false;
 

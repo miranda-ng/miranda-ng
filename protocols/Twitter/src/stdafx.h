@@ -58,7 +58,6 @@ typedef std::basic_string<wchar_t> wstring;
 #include <m_icolib.h>
 #include <m_utils.h>
 #include <m_hotkeys.h>
-#include <m_plugin.h>
 #include <m_json.h>
 #include <win2k.h>
 #pragma warning(pop)

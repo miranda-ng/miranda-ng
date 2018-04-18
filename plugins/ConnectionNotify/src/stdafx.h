@@ -16,7 +16,6 @@
 #include <m_utils.h>
 #include <m_protosvc.h>
 #include <m_system.h>
-#include <m_plugin.h>
 
 #ifdef _DEBUG
 #include "debug.h"

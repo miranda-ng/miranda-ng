@@ -20,7 +20,6 @@
 #include "m_clc.h"
 #include "m_popup.h"
 #include "m_netlib.h"
-#include <m_plugin.h>
 
 #define WM_SHELLNOTIFY 	WM_USER+5
 #define IDI_TRAY		WM_USER+6
@@ -73,7 +72,6 @@ struct optionSettings
 
 extern OBJLIST<Account> g_accs;
 extern optionSettings opt;
-extern HINSTANCE g_hInstance;
 extern HNETLIBUSER hNetlibUser;
 extern UINT hTimer;
 extern short ID_STATUS_NONEW;
@@ -93,3 +91,12 @@ void DeleteResults(resultLink *);
 void BuildList(void);
 
 Account* GetAccountByContact(MCONTACT hContact);
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+	}
+};

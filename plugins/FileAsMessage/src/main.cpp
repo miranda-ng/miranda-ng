@@ -202,11 +202,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(SERVICE_NAME "/FESendFile", OnSendFile);
 	CreateServiceFunction(SERVICE_NAME "/FERecvFile", OnRecvFile);
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = SERVICE_NAME;
-	pd.type = PROTOTYPE_FILTER;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_FILTER, SERVICE_NAME);
 
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

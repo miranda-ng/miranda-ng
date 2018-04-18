@@ -29,7 +29,7 @@ HINSTANCE ProtoGetInstance(const char *szModuleName)
 	if (pa == nullptr)
 		return nullptr;
 
-	PROTOCOLDESCRIPTOR *p = Proto_IsProtocolLoaded(pa->szProtoName);
+	MBaseProto *p = Proto_GetProto(pa->szProtoName);
 	return (p == nullptr) ? nullptr : GetInstByAddress(p->fnInit);
 }
 

@@ -48,7 +48,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_userinfo.h>
 #include <m_proto_listeningto.h>
 #include <m_gui.h>
-#include <m_plugin.h>
 
 #include <m_messagestate.h>
 #include <m_popup.h>

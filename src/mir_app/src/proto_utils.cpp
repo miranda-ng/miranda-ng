@@ -34,14 +34,20 @@ extern HANDLE hAckEvent;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MBaseProto* Proto_GetProto(const char *szProtoName)
+{
+	if (szProtoName == nullptr)
+		return nullptr;
+
+	return g_arProtos.find((MBaseProto*)&szProtoName);
+}
+
 MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 {
 	if (szProtoName == nullptr)
 		return nullptr;
 	
-	MBaseProto tmp;
-	tmp.szName = (char*)szProtoName;
-	return g_arProtos.find(&tmp);
+	return g_arProtos.find((MBaseProto*)&szProtoName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

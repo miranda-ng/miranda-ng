@@ -52,11 +52,7 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfoEx);
 
 	// register plugin module
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = (char*)szModuleName;
-	pd.type = PROTOTYPE_ENCRYPTION;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_ENCRYPTION, szModuleName);
 
 	// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);

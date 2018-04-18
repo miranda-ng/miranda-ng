@@ -11,7 +11,6 @@ There is no warranty.
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInstance;
 int hLangpack;
 UINT hTimer;
 HANDLE hMirandaStarted, hOptionsInitial;
@@ -36,6 +35,19 @@ static PLUGININFOEX pluginInfoEx =
 	// {243955E0-75D9-4CC3-9B28-6F9C5AF4532D}
 	{ 0x243955e0, 0x75d9, 0x4cc3, { 0x9b, 0x28, 0x6f, 0x9c, 0x5a, 0xf4, 0x53, 0x2d } }
 };
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMPlugin	g_plugin;
+
+extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
@@ -73,11 +85,6 @@ static int OnMirandaStart(WPARAM, LPARAM)
 {
 	PluginMenuCommand(0, 0);
 	return 0;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
 }
 
 extern "C" int __declspec(dllexport) Load()
@@ -146,6 +153,8 @@ extern "C" int __declspec(dllexport) Load()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	if (hTimer)
@@ -161,17 +170,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UnhookEvent(hOptionsInitial);
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE_NAME)
-	{
-		RegisterProtocol(PROTOTYPE_VIRTUAL);
-	}
-}
-	g_plugin;
-
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;

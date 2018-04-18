@@ -95,10 +95,7 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 
 void InitializeServices()
 {
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.type = PROTOTYPE_FILTER;
-	pd.szName = MODULE;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_FILTER, MODULE);
 
 	CreateServiceFunction(MODULE PSS_FILE, SendFileInterceptor);
 

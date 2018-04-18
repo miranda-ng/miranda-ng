@@ -57,15 +57,8 @@ void UnloadMetacontacts(void)
 
 static int RegisterMeta(WPARAM, LPARAM)
 {
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = META_FILTER;
-	pd.type = PROTOTYPE_FILTER;
-	Proto_RegisterModule(&pd);
-
-	pd.szName = META_PROTO;
-	pd.type = PROTOTYPE_VIRTUAL;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_FILTER, META_FILTER);
+	Proto_RegisterModule(PROTOTYPE_VIRTUAL, META_PROTO);
 	return 0;
 }
 

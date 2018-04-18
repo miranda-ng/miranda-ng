@@ -599,7 +599,7 @@ public:
 		m_accList.ResetContent();
 		for (auto &p : accounts) {
 			PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(p->szProtoName);
-			if (pd != nullptr && pd->type != PROTOTYPE_PROTOCOL)
+			if (pd != nullptr && pd->type != PROTOTYPE_PROTOWITHACCS && pd->type != PROTOTYPE_PROTOCOL)
 				continue;
 
 			int iItem = m_accList.AddString(p->tszAccountName);
@@ -823,7 +823,7 @@ void CAccountFormDlg::OnInitDialog()
 {
 	int cnt = 0;
 	for (auto &it : g_arProtos)
-		if (it->type == PROTOTYPE_PROTOCOL && it->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
+		if (it->type == PROTOTYPE_PROTOWITHACCS) {
 			m_prototype.AddStringA(it->szName);
 			++cnt;
 		}

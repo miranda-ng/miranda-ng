@@ -294,7 +294,7 @@ struct CMPluginYandex : public CMPluginBase
 	{
 		m_hInst = g_plugin.getInst();
 
-		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CYandexService::Init, (pfnUninitProto)CYandexService::UnInit);
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CYandexService::Init, (pfnUninitProto)CYandexService::UnInit);
 	}
 }
 	g_pluginYandex;

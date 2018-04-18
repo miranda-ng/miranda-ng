@@ -98,44 +98,33 @@ static PROTO_INTERFACE* defInitProto(const char *szModule, const wchar_t*)
 	return AddDefaultAccount(szModule);
 }
 
-MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
+MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(int type, const char *szName)
 {
-	if (pd == nullptr)
-		return 1;
-
-	if (pd->cbSize != sizeof(PROTOCOLDESCRIPTOR) && pd->cbSize != PROTOCOLDESCRIPTOR_V3_SIZE)
-		return 1;
+	if (szName == nullptr)
+		return nullptr;
 
 	bool bTryActivate = false;
-	MBaseProto tmp;
-	tmp.szName = (char*)pd->szName;
-	MBaseProto *p = g_arProtos.find(&tmp);
-	if (p == nullptr) {
-		p = (MBaseProto*)mir_calloc(sizeof(MBaseProto));
-		p->cbSize = pd->cbSize;
-		p->szName = mir_strdup(pd->szName);
-		g_arProtos.insert(p);
+	MBaseProto *pd = Proto_GetProto(szName);
+	if (pd == nullptr) {
+		pd = (MBaseProto*)mir_calloc(sizeof(MBaseProto));
+		pd->szName = mir_strdup(szName);
+		g_arProtos.insert(pd);
 	}
 	else bTryActivate = true;
 
-	p->type = pd->type;
-	p->hInst = pd->hInst;
-	if (pd->cbSize == sizeof(PROTOCOLDESCRIPTOR)) {
-		p->fnInit = pd->fnInit;
-		p->fnUninit = pd->fnUninit;
-	}
+	pd->type = type;
 
-	if (p->fnInit == nullptr && (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL)) {
+	if (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_VIRTUAL) {
 		// let's create a new container
-		PROTO_INTERFACE *ppi = AddDefaultAccount(pd->szName);
+		PROTO_INTERFACE *ppi = AddDefaultAccount(szName);
 		if (ppi) {
-			ppi->m_iVersion = (pd->cbSize == PROTOCOLDESCRIPTOR_V3_SIZE) ? 1 : 2;
+			ppi->m_iVersion = 1;
 			PROTOACCOUNT *pa = Proto_GetAccount(pd->szName);
 			if (pa == nullptr) {
 				pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-				pa->szModuleName = mir_strdup(pd->szName);
-				pa->szProtoName = mir_strdup(pd->szName);
-				pa->tszAccountName = mir_a2u(pd->szName);
+				pa->szModuleName = mir_strdup(szName);
+				pa->szProtoName = mir_strdup(szName);
+				pa->tszAccountName = mir_a2u(szName);
 				pa->bIsVisible = pa->bIsEnabled = true;
 				pa->iOrder = accounts.getCount();
 				pa->iIconBase = -1;
@@ -143,16 +132,16 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 				accounts.insert(pa);
 			}
 			pa->bOldProto = true;
-			pa->bIsVirtual = (p->type == PROTOTYPE_VIRTUAL);
+			pa->bIsVirtual = (pd->type == PROTOTYPE_VIRTUAL);
 			pa->ppro = ppi;
-			p->fnInit = defInitProto;
-			p->fnUninit = FreeDefaultAccount;
+			pd->fnInit = defInitProto;
+			pd->fnUninit = FreeDefaultAccount;
 		}
 	}
 
-	if (p->type != PROTOTYPE_PROTOCOL && p->type != PROTOTYPE_VIRTUAL)
-		g_arFilters.insert(p);
-	return 0;
+	if (pd->type != PROTOTYPE_PROTOCOL && pd->type != PROTOTYPE_VIRTUAL && pd->type != PROTOTYPE_PROTOWITHACCS)
+		g_arFilters.insert(pd);
+	return pd;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -360,7 +349,7 @@ bool PROTOACCOUNT::IsVisible() const
 {
 	if (this != nullptr && bIsVisible && IsEnabled() && ppro) {
 		PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(szProtoName);
-		if (pd == nullptr || pd->type != PROTOTYPE_PROTOCOL)
+		if (pd == nullptr || (pd->type != PROTOTYPE_PROTOCOL && pd->type != PROTOTYPE_PROTOWITHACCS))
 			return false;
 
 		return (ppro->GetCaps(PFLAGNUM_2, 0) & ~ppro->GetCaps(PFLAGNUM_5, 0));
@@ -520,6 +509,6 @@ void UnloadProtocolsModule()
 
 pfnUninitProto GetProtocolDestructor(char *szProto)
 {
-	PROTOCOLDESCRIPTOR *p = Proto_IsProtocolLoaded(szProto);
+	MBaseProto *p = Proto_GetProto(szProto);
 	return (p == nullptr) ? nullptr : p->fnUninit;
 }

@@ -23,24 +23,6 @@
 {$IFNDEF M_CLISTINT}
 {$DEFINE M_CLISTINT}
 
-{Type
-  P_menuProto           = ^_menuProto;
-  PClcCacheEntryBase    = ^ClcCacheEntryBase;
-  PClcContact           = ^ClcContact;
-  PClcData              = ^ClcData;
-  PClcFontInfo          = ^ClcFontInfo;
-  PClcGroup             = ^ClcGroup;
-  PClcProtoStatus       = ^ClcProtoStatus;
-  PCLIST_INTERFACE      = ^CLIST_INTERFACE;
-  PCListEvent           = ^CListEvent;
-  PCLCCacheEntry        = ^CLCCacheEntry;
-  PContactList          = ^ContactList;
-  PEventList            = ^EventList;
-  PMenuProto            = ^MenuProto;
-  PMIRANDASYSTRAYNOTIFY = ^MIRANDASYSTRAYNOTIFY;
-  PPROTOCOLDESCRIPTOR   = ^PROTOCOLDESCRIPTOR;
-  PtrayIconInfo_t       = ^trayIconInfo_t;
-}
 const
   HCONTACT_ISGROUP = $80000000;
   HCONTACT_ISINFO  = $FFFF0000;

@@ -102,7 +102,7 @@ static bool ProtoToInclude(PROTOACCOUNT *pa)
 		return false;
 
 	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
-	return (pd != nullptr && pd->type == PROTOTYPE_PROTOCOL);
+	return (pd != nullptr && pd->type == PROTOTYPE_PROTOWITHACCS);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -62,11 +62,7 @@ BOOL APIENTRY DllMain(HINSTANCE hModule, DWORD reason, LPVOID)
 		findData.cFileName[strlen(findData.cFileName) - 4] = 0;
 		strncpy_s(protoName, findData.cFileName, _TRUNCATE);
 
-		PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
-		pd.szName = protoName;
-		pd.type = PROTOTYPE_PROTOCOL;
-		Proto_RegisterModule(&pd);
-
+		Proto_RegisterModule(PROTOTYPE_PROTOCOL, protoName);
 		Proto_SetUniqueId(protoName, "UIN");
 
 		DisableThreadLibraryCalls(hModule);

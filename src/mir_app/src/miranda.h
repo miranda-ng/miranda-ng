@@ -145,6 +145,10 @@ extern LIST<PROTOACCOUNT> accounts;
 
 struct MBaseProto : public PROTOCOLDESCRIPTOR
 {
+	pfnInitProto fnInit;
+	pfnUninitProto fnUninit;
+
+	HINSTANCE hInst;
 	char *szUniqueId;  // name of the unique setting that identifies a contact
 };
 
@@ -179,6 +183,7 @@ void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key);
 WORD GetHotkeyValue(INT_PTR idHotkey);
 
 HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId);
+MBaseProto* Proto_GetProto(const char *szProtoName);
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -35,7 +35,6 @@
 #include <m_gui.h>
 #include <m_http.h>
 #include <m_system.h>
-#include <m_plugin.h>
 
 #include "resource.h"
 #include "version.h"

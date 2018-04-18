@@ -126,8 +126,6 @@ struct PROTOFILETRANSFERSTATUS
 	uint64_t        currentFileTime;  // as seconds since 1970
 };
 
-#define PROTOCOLDESCRIPTOR_V3_SIZE (sizeof(size_t)+sizeof(INT_PTR)+sizeof(char*))
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // For recv, it will go from lower to higher, so in this case:
 // check ignore, decrypt (encryption), translate
@@ -137,30 +135,19 @@ struct PROTOFILETRANSFERSTATUS
 // The DB will store higher numbers here, LOWER in the protocol chain, and lower numbers
 // here HIGHER in the protocol chain
 
-#define PROTOTYPE_IGNORE         50    // added during v0.3.3
-#define PROTOTYPE_PROTOCOL     1000
-#define PROTOTYPE_VIRTUAL      1001    // virtual protocol (has no accounts)
-#define PROTOTYPE_ENCRYPTION   2000
-#define PROTOTYPE_FILTER       3000
-#define PROTOTYPE_TRANSLATION  4000
-#define PROTOTYPE_OTHER       10000    // avoid using this if at all possible
-
- // initializes an empty account
-typedef struct PROTO_INTERFACE* (*pfnInitProto)(const char* szModuleName, const wchar_t* szUserName);
-
-// deallocates an account instance
-typedef int (*pfnUninitProto)(PROTO_INTERFACE*);
+#define PROTOTYPE_IGNORE          50    // added during v0.3.3
+#define PROTOTYPE_PROTOCOL      1000	 // old style protocol
+#define PROTOTYPE_VIRTUAL       1001    // virtual protocol (has no accounts)
+#define PROTOTYPE_PROTOWITHACCS 1002	 // new style protocol
+#define PROTOTYPE_ENCRYPTION    2000
+#define PROTOTYPE_FILTER        3000
+#define PROTOTYPE_TRANSLATION   4000
+#define PROTOTYPE_OTHER        10000    // avoid using this if at all possible
 
 struct PROTOCOLDESCRIPTOR
 {
-	size_t cbSize;
 	char *szName;        // unique name of the module
 	int   type;          // module type, see PROTOTYPE_ constants
-
-	// these fields should be filled only for protos with accounts 
-	pfnInitProto fnInit;       // initializes an empty account
-	pfnUninitProto fnUninit;   // deallocates an account instance
-	HINSTANCE hInst;				// module to which that proto belongs to
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -428,7 +415,7 @@ typedef struct {
 // PROTOTYPE_PROTOCOL modules must not do this. The value must be exact.
 // See MS_PROTO_ENUMPROTOCOLS for more notes.
 
-EXTERN_C MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR*);
+EXTERN_C MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(int type, const char *szName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // adds the specified protocol module to the chain for a contact

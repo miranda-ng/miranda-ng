@@ -136,11 +136,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MSG_WINDOWEVENT, onWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, onIconPressed);
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = szGPGModuleName;
-	pd.type = PROTOTYPE_ENCRYPTION;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_ENCRYPTION, szGPGModuleName);
 	
 	CreateProtoServiceFunction(szGPGModuleName, PSR_MESSAGE, RecvMsgSvc);
 	CreateProtoServiceFunction(szGPGModuleName, PSS_MESSAGE, SendMsgSvc);

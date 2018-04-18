@@ -63,7 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_nudge.h>
 #include <m_string.h>
 #include <m_json.h>
-#include <m_plugin.h>
 
 #include "m_proto_listeningto.h"
 #include "m_folders.h"

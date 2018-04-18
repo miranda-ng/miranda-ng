@@ -326,11 +326,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	}
 
 	// register plugin module
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = (char*)MODULENAME;
-	pd.type = PROTOTYPE_ENCRYPTION;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_ENCRYPTION, MODULENAME);
 
 	// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);

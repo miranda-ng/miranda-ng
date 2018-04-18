@@ -832,7 +832,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 
 	for (int i = 0; i < protoCount; i++) {
 		PROTOCOLDESCRIPTOR *pd = proto[i];
-		if (pd->type == PROTOTYPE_PROTOCOL && pd->cbSize == sizeof(*pd))
+		if (pd->type == PROTOTYPE_PROTOWITHACCS)
 			AddProtoAsCategory(pd->szName, defaultFile);
 	}
 

@@ -299,7 +299,7 @@ struct CMPluginGoogle : public CMPluginBase
 	{
 		m_hInst = g_plugin.getInst();
 
-		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CGDriveService::Init, (pfnUninitProto)CGDriveService::UnInit);
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CGDriveService::Init, (pfnUninitProto)CGDriveService::UnInit);
 	}
 }
 	g_pluginGoogle;

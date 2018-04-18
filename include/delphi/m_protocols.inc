@@ -157,7 +157,6 @@ type
   PPROTOCOLDESCRIPTOR = ^TPROTOCOLDESCRIPTOR;
   PPPROTOCOLDESCRIPTOR = ^PPROTOCOLDESCRIPTOR;
   TPROTOCOLDESCRIPTOR = record
-    cbSize : size_t;
     szName : PAnsiChar; // unique name of the module
     _type  : int;   // module type, see PROTOTYPE_ constants
   end;

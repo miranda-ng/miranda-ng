@@ -39,8 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
            be done for PROTOTYPE_PROTOCOL.
 }
 
-function Proto_RegisterModule(descr:pPROTOCOLDESCRIPTOR) : int; stdcall;
-                 external AppDLL name 'Proto_RegisterModule';
+function Proto_RegisterModule(iType:int; name:PAnsiChar) : int; stdcall; external AppDLL;
 
 {
   Affect : Add the given protocol module to the chain for a contact, see notes
@@ -49,16 +48,14 @@ function Proto_RegisterModule(descr:pPROTOCOLDESCRIPTOR) : int; stdcall;
            registered type.
 }
 
-function Proto_AddToContact(hContact:TMCONTACT; proto:PAnsiChar) : int; stdcall;
-                 external AppDLL name 'Proto_AddToContact';
+function Proto_AddToContact(hContact:TMCONTACT; proto:PAnsiChar) : int; stdcall; external AppDLL;
 
 {
   Affect : Remove the given protocol name from the chain for the given contact
   Returns: 0 on success, [non zero] on failure
 }
 
-function Proto_RemoveFromContact(hContact:TMCONTACT; proto:PAnsiChar) : int; stdcall;
-                 external AppDLL name 'Proto_RemoveFromContact';
+function Proto_RemoveFromContact(hContact:TMCONTACT; proto:PAnsiChar) : int; stdcall; external AppDLL;
 
 {
   Affect : Call the next service in the chain for the send operation, see notes
@@ -69,8 +66,7 @@ function Proto_RemoveFromContact(hContact:TMCONTACT; proto:PAnsiChar) : int; std
            typically your service should return ASAP.
 }
 
-function Proto_ChainSend(order:int; ccs:pCCSDATA) : INT_PTR; stdcall;
-                 external AppDLL name 'Proto_ChainSend';
+function Proto_ChainSend(order:int; ccs:pCCSDATA) : INT_PTR; stdcall; external AppDLL;
 
 {
   Affect : Call the next service in the chain in this receive operation, see notes
@@ -84,7 +80,6 @@ function Proto_ChainSend(order:int; ccs:pCCSDATA) : INT_PTR; stdcall;
            are translated to the main thread and passed from there.
 }
 
-function Proto_ChainRecv(order:int; ccs:pCCSDATA) : INT_PTR; stdcall;
-                 external AppDLL name 'Proto_ChainRecv';
+function Proto_ChainRecv(order:int; ccs:pCCSDATA) : INT_PTR; stdcall; external AppDLL;
 
 {$ENDIF}

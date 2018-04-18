@@ -72,11 +72,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	////////////////////////////////////////////////////////////////////////////
 	// init plugin
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = MODULENAME;
-	pd.type = PROTOTYPE_ENCRYPTION;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_ENCRYPTION, MODULENAME);
 
 	// remove us as a filter to all contacts - fix filter type problem
 	if(db_get_b(0, MODULENAME, "FilterOrderFix", 0) != 2) {

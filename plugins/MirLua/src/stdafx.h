@@ -26,7 +26,6 @@
 #include <m_toptoolbar.h>
 #include <m_json.h>
 #include <m_gui.h>
-#include <m_plugin.h>
 
 #include <m_lua.h>
 #include <mirlua.h>

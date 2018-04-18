@@ -74,11 +74,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	nlu.szSettingsModule = MODULE;
 	hNetlib = Netlib_RegisterUser(&nlu);
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = MODULE;
-	pd.type = PROTOTYPE_FILTER;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_FILTER, MODULE);
 
 	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);

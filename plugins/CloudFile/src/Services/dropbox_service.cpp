@@ -315,7 +315,7 @@ struct CMPluginDropbox : public PLUGIN<CMPluginDropbox>
 	{
 		m_hInst = g_plugin.getInst();
 
-		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
 	}
 }
 	g_pluginDropbox;

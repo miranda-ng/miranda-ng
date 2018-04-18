@@ -22,7 +22,6 @@
 #include <m_protosvc.h>
 #include <m_system.h>
 #include <m_netlib.h>
-#include <m_plugin.h>
 
 // Notesapi headers
 #define W32

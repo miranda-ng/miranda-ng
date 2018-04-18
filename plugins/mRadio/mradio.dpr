@@ -201,16 +201,9 @@ exports
   Load, Unload,
   MirandaPluginInfoEx;
 
-var
-  desc:TPROTOCOLDESCRIPTOR;
-
 begin
   // register protocol
-  desc.cbSize:=SizeOf(desc);
-  desc.szName:=PluginName;
-  desc._type :=PROTOTYPE_VIRTUAL;
-  Proto_RegisterModule(@desc);
-
+  Proto_RegisterModule(PROTOTYPE_VIRTUAL,PluginName);
   Proto_SetUniqueId(PluginName,optStationURL);
 
   DisableThreadLibraryCalls(hInstance);

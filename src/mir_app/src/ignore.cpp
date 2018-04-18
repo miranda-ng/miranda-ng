@@ -418,11 +418,7 @@ static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 
 int LoadIgnoreModule(void)
 {
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "Ignore";
-	pd.type = PROTOTYPE_IGNORE;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_IGNORE, "Ignore");
 
 	CreateProtoServiceFunction("Ignore", PSR_MESSAGE, IgnoreRecvMessage);
 	CreateProtoServiceFunction("Ignore", PSR_URL, IgnoreRecvUrl);

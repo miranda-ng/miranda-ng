@@ -28,11 +28,7 @@ char *TransliterationProtocol::MODULE_NAME = "ProtoCyrTranslitByIKR";
 
 void TransliterationProtocol::initialize()
 {
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = MODULE_NAME;
-	pd.type = PROTOTYPE_TRANSLATION;
-	Proto_RegisterModule(&pd);
+	Proto_RegisterModule(PROTOTYPE_TRANSLATION, MODULE_NAME);
 
 	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE, sendMessage);
 }

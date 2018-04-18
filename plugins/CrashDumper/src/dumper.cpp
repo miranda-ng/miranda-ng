@@ -283,8 +283,11 @@ static void GetProtocolStrings(CMStringW &buffer)
 	char **protoListMy = (char**)alloca((protoCount + accCount) * sizeof(char*));
 
 	for (int i = 0; i < protoCount; i++)
-		if (protoList[i]->type == PROTOTYPE_PROTOCOL)
+		switch (protoList[i]->type) {
+		case PROTOTYPE_PROTOCOL:
+		case PROTOTYPE_PROTOWITHACCS:
 			protoListMy[protoCountMy++] = protoList[i]->szName;
+		}
 
 	for (int j = 0; j < accCount; j++) {
 		int i;

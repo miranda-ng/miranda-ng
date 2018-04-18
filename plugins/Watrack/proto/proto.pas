@@ -318,13 +318,8 @@ begin
 end;
 
 procedure SetProtocol;
-var
-  desc:TPROTOCOLDESCRIPTOR;
 begin
-  desc.cbSize:=SizeOf(desc);
-  desc.szName:=PluginShort;
-  desc._type :=PROTOTYPE_TRANSLATION;
-  Proto_RegisterModule(@desc);
+  Proto_RegisterModule(PROTOTYPE_TRANSLATION,PluginShort);
 
   hSRM:=CreateProtoServiceFunction(PluginShort,PSR_MESSAGE ,@ReceiveMessageProcW);
 end;

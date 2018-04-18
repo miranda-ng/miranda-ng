@@ -29,7 +29,6 @@
 #include <m_netlib.h>
 #include <m_popup.h>
 #include <m_userinfo.h>
-#include <m_plugin.h>
 
 #include <m_variables.h>
 #include <m_Quotes.h>

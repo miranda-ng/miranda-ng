@@ -129,7 +129,7 @@ static void LoadDefaultInfo()
 
 static void LoadProtoInfo(PROTOCOLDESCRIPTOR *proto)
 {
-	if (proto->type != PROTOTYPE_PROTOCOL || proto->cbSize != sizeof(*proto))
+	if (proto->type != PROTOTYPE_PROTOWITHACCS)
 		return;
 
 	char protoName[MAX_PATH];

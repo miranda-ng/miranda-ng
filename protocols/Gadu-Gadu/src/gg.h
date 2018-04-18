@@ -69,7 +69,6 @@
 #include <win2k.h>
 #include <m_folders.h>
 #include <m_gui.h>
-#include <m_plugin.h>
 
 // libgadu headers
 #include "libgadu.h"

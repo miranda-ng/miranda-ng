@@ -187,7 +187,7 @@ MIR_APP_DLL(int) Proto_AddToContact(MCONTACT hContact, const char *szProto)
 		return 1;
 	}
 
-	if (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_VIRTUAL)
+	if (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_VIRTUAL || pd->type == PROTOTYPE_PROTOWITHACCS)
 		db_set_s(hContact, "Protocol", "p", szProto);
 
 	return 0;

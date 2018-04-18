@@ -38,7 +38,6 @@
 #include <m_hotkeys.h>
 #include <m_json.h>
 #include <m_avatars.h>
-#include <m_plugin.h>
 #include <win2k.h>
 
 #include "../../libs/zlib/src/zlib.h"

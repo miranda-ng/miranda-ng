@@ -68,12 +68,18 @@ void CMPluginBase::debugLogW(LPCWSTR wszFormat, ...)
 
 void CMPluginBase::RegisterProtocol(int type, pfnInitProto fnInit, pfnUninitProto fnUninit)
 {
-	PROTOCOLDESCRIPTOR pd = {};
-	pd.cbSize = (fnInit == nullptr) ? PROTOCOLDESCRIPTOR_V3_SIZE : sizeof(pd);
-	pd.szName = (char*)m_szModuleName;
-	pd.type = type;
-	pd.fnInit = fnInit;
-	pd.fnUninit = fnUninit;
-	pd.hInst = m_hInst;
-	Proto_RegisterModule(&pd);
+	if (type == PROTOTYPE_PROTOCOL && fnInit != nullptr)
+		type = PROTOTYPE_PROTOWITHACCS;
+
+	MBaseProto *pd = (MBaseProto*)Proto_RegisterModule(type, m_szModuleName);
+	if (pd) {
+		pd->fnInit = fnInit;
+		pd->fnUninit = fnUninit;
+		pd->hInst = m_hInst;
+	}
+}
+
+void CMPluginBase::SetUniqueId(const char *pszUniqueId)
+{
+	::Proto_SetUniqueId(m_szModuleName, pszUniqueId);
 }

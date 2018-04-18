@@ -284,7 +284,7 @@ struct CMPluginOnedrive : public CMPluginBase
 	{
 		m_hInst = g_plugin.getInst();
 
-		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)COneDriveService::Init, (pfnUninitProto)COneDriveService::UnInit);
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)COneDriveService::Init, (pfnUninitProto)COneDriveService::UnInit);
 	}
 }
 	g_pluginOnedrive;
