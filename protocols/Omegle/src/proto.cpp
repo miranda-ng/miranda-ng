@@ -141,9 +141,6 @@ int OmegleProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 	case EV_PROTO_ONEXIT:
 		return OnPreShutdown(wParam, lParam);
 
-	case EV_PROTO_ONOPTIONS:
-		return OnOptionsInit(wParam, lParam);
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 	}

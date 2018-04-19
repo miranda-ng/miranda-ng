@@ -295,13 +295,6 @@ int CSametimeProto::UserIsTyping(MCONTACT hContact, int type)
 
 int CSametimeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
-	switch (iEventType) {
-	case EV_PROTO_ONOPTIONS:
-		debugLogW(L"CSametimeProto::OnEvent() EV_PROTO_ONOPTIONS");
-		OptInit(wParam, lParam);
-		break;
-	}
-
 	return TRUE;
 }
 
