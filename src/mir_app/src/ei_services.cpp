@@ -194,23 +194,23 @@ void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 
 MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 {
-	LIST<ExtraIcon> arDeleted(1);
+	LIST<ExtraIcon> arIcons(1);
 
 	auto T = registeredExtraIcons.rev_iter();
 	for (auto &it : T)
 		if (it->m_hLangpack == _hLang) {
-			arDeleted.insert(it);
+			arIcons.insert(it);
 			registeredExtraIcons.remove(T.indexOf(&it));
 		}
 
-	if (arDeleted.getCount() == 0)
+	if (arIcons.getCount() == 0)
 		return;
 
 	LIST<ExtraIconGroup> groups(1);
 	LoadGroups(groups);
 	RebuildListsBasedOnGroups(groups);
 
-	for (auto &it : arDeleted)
+	for (auto &it : arIcons)
 		delete it;
 }
 
