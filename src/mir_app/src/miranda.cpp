@@ -50,11 +50,10 @@ ITaskbarList3 *pTaskbarInterface;
 
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
 HANDLE hShutdownEvent, hPreShutdownEvent;
-HANDLE hMirandaShutdown;
 HINSTANCE g_hInst;
 DWORD hMainThreadId;
 int hLangpack = 0;
-bool bModulesLoadedFired = false;
+bool bModulesLoadedFired = false, bMirandaTerminated = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -297,7 +296,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 	int result = 0;
 	if (LoadDefaultModules()) {
-		SetEvent(hMirandaShutdown);
+		bMirandaTerminated = true;
 		NotifyEventHooks(hPreShutdownEvent, 0, 0);
 		NotifyEventHooks(hShutdownEvent, 0, 0);
 		UnloadDefaultModules();
@@ -345,7 +344,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 				}
 				else if (!dying) {
 					dying++;
-					SetEvent(hMirandaShutdown);
+					bMirandaTerminated = true;
 					NotifyEventHooks(hPreShutdownEvent, 0, 0);
 
 					// this spins and processes the msg loop, objects and APC.
@@ -362,7 +361,6 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 	UnloadNewPluginsModule();
 	UnloadCoreModule();
-	CloseHandle(hMirandaShutdown);
 	FreeLibrary(hDwmApi);
 	FreeLibrary(hThemeAPI);
 
@@ -380,7 +378,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 MIR_APP_DLL(bool) Miranda_IsTerminated()
 {
-	return WaitForSingleObject(hMirandaShutdown, 0) == WAIT_OBJECT_0;
+	return bMirandaTerminated;
 }
 
 MIR_APP_DLL(bool) Miranda_OkToExit()
@@ -449,8 +447,6 @@ MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
 
 int LoadSystemModule(void)
 {
-	hMirandaShutdown = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-
 	hShutdownEvent = CreateHookableEvent(ME_SYSTEM_SHUTDOWN);
 	hPreShutdownEvent = CreateHookableEvent(ME_SYSTEM_PRESHUTDOWN);
 	hModulesLoadedEvent = CreateHookableEvent(ME_SYSTEM_MODULESLOADED);
