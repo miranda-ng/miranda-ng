@@ -1172,7 +1172,7 @@ void CSkin::Unload()
 			::DestroyIcon(*(m_skinIcons[i].phIcon));
 	mir_free(m_skinIcons);
 
-	if (!g_bShutdown) {
+	if (!Miranda_IsTerminated()) {
 		M.getAeroState();				// refresh after unload
 		::FreeTabConfig();
 		::ReloadTabConfig();

@@ -105,7 +105,7 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hQueue)
 DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hQueue, DWORD dwFlags, MCONTACT hContact, DWORD *pdwAvatarsQueueID)
 {
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hQueue;
-	if (pmraaqAvatarsQueue == nullptr || g_bShutdown)
+	if (pmraaqAvatarsQueue == nullptr || Miranda_IsTerminated())
 		return ERROR_INVALID_HANDLE;
 
 	MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem = (MRA_AVATARS_QUEUE_ITEM*)mir_calloc(sizeof(MRA_AVATARS_QUEUE_ITEM));
@@ -152,7 +152,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 		pmraaqAvatarsQueue->hThreadEvents[pmraaqAvatarsQueue->iThreadsRunning++] = hThreadEvent;
 	}
 
-	while (!g_bShutdown) {
+	while (!Miranda_IsTerminated()) {
 		if (FifoMTItemPop(pmraaqAvatarsQueue, nullptr, (LPVOID*)&pmraaqiAvatarsQueueItem) != NO_ERROR) { // waiting until service stop or new task
 			NETLIB_CLOSEHANDLE(hConnection);
 			WaitForSingleObjectEx(hThreadEvent, INFINITE, FALSE);

@@ -25,7 +25,6 @@ int hLangpack;
 WNDPROC mainProc;
 
 int g_iButtonsCount=0;
-int g_bShutDown=0;
 int g_bStartup=0;
 BOOL g_bRClickAuto=0;
 BOOL g_bLClickAuto=0;
@@ -46,7 +45,6 @@ PLUGININFOEX pluginInfo = {
 
 int PreShutdown(WPARAM, LPARAM)
 {
-	g_bShutDown = 1;
 	DestructButtonsList();
 	return 0;
 }

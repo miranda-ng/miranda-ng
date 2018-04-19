@@ -32,8 +32,6 @@
 void Chat_ModulesLoaded();
 void CB_InitCustomButtons();
 
-bool g_bShutdown = false;
-
 CGlobals PluginConfig;
 
 static TContainerSettings _cnt_default = { CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, 60, L"%n (%s)", 1, 0 };
@@ -450,8 +448,6 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM)
 
 int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 {
-	g_bShutdown = true;
-
 	::TN_ModuleDeInit();
 	::CloseAllContainers();
 

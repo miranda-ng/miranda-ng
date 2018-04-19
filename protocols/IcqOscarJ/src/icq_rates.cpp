@@ -318,7 +318,7 @@ void rates_queue::handleDelay()
 {
 	SleepEx(scheduledDelay, TRUE);
 
-	if (!g_bTerminated)
+	if (!Miranda_IsTerminated())
 		processQueue();
 }
 

@@ -29,7 +29,6 @@
 #include "m_icolib.h"
 
 int hLangpack;
-bool g_bTerminated;
 
 BOOL bPopupService = FALSE;
 
@@ -70,12 +69,6 @@ int ModuleLoad(WPARAM, LPARAM)
 	return 0;
 }
 
-static int OnPreShutdown(WPARAM, LPARAM)
-{
-	g_bTerminated = true;
-	return 0;
-}
-
 IconItem iconList[] =
 {
 	{ LPGEN("Expand string edit"), "ICO_EXPANDSTRINGEDIT", IDI_EXPANDSTRINGEDIT }
@@ -100,8 +93,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
-
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	hExtraXStatus = ExtraIcon_RegisterIcolib("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
 

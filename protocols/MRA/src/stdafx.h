@@ -159,7 +159,7 @@ extern IconItem gdiExtraStatusIconsItems[];
 extern HMODULE g_hDLLXStatusIcons;
 extern HICON   g_hMainIcon;
 
-extern bool    g_bChatExist, g_bShutdown;
+extern bool    g_bChatExist;
 
 extern size_t  g_dwMirWorkDirPathLen;
 extern WCHAR   g_szMirWorkDirPath[MAX_FILEPATH];

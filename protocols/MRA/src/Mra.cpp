@@ -6,7 +6,7 @@ CLIST_INTERFACE *pcli;
 HMODULE   g_hDLLXStatusIcons;
 HICON     g_hMainIcon;
 
-bool      g_bChatExist, g_bShutdown = false;
+bool      g_bChatExist;
 
 size_t    g_dwMirWorkDirPathLen;
 WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
@@ -43,12 +43,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int __cdecl OnPreShutdown(WPARAM, LPARAM)
-{
-	g_bShutdown = true;
-	return 0;
-}
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
@@ -56,8 +50,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	IconsLoad();
 	InitXStatusIcons();
-
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	return 0;
 }
 
