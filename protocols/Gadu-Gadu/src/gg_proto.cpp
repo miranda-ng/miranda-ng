@@ -729,9 +729,6 @@ int GaduProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 		sessions_closedlg();
 		break;
 
-	case EV_PROTO_ONOPTIONS:
-		return options_init(wParam, lParam);
-
 	case EV_PROTO_ONMENU:
 		menus_init();
 		break;

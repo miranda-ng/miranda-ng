@@ -180,8 +180,8 @@ int TwitterProto::SetStatus(int new_status)
 int TwitterProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
-	case EV_PROTO_ONLOAD:    return OnModulesLoaded(wParam, lParam);
-	case EV_PROTO_ONOPTIONS: return OnOptionsInit(wParam, lParam);
+	case EV_PROTO_ONLOAD:
+		return OnModulesLoaded(wParam, lParam);
 	}
 
 	return 1;

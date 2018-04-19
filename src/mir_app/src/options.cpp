@@ -1144,7 +1144,7 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 		return;
 
 	OptionsPageList arPages(1);
-	pa->ppro->OnEvent(EV_PROTO_ONOPTIONS, (WPARAM)&arPages, 0);
+	CallObjectEventHook(pa->ppro, hOptionsInitEvent, (WPARAM)&arPages, 0);
 	if (arPages.getCount() == 0)
 		return;
 
