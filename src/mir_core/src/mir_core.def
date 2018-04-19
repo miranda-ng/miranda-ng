@@ -1066,3 +1066,4 @@ IsTerminalDisconnected @1245
 ??0CCtrlLabel@@QAE@PAVCDlgBase@@H@Z @1256 NONAME
 ??1CCtrlLabel@@UAE@XZ @1257 NONAME
 ??_7CCtrlLabel@@6B@ @1258 NONAME
+CallObjectEventHook @1259

@@ -191,6 +191,34 @@ MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wPa
 	return 0;
 }
 
+MIR_CORE_DLL(int) CallObjectEventHook(void *pObject, HANDLE hEvent, WPARAM wParam, LPARAM lParam)
+{
+	THook *p = (THook*)hEvent;
+	if (p == nullptr || pObject == nullptr)
+		return -1;
+
+	mir_cslock lck(p->csHook);
+	for (int i = 0; i < p->subscriberCount; i++) {
+		THookSubscriber* s = &p->subscriber[i];
+		if (s->object != pObject)
+			continue;
+
+		int returnVal;
+		switch (s->type) {
+		case 3:	returnVal = s->pfnHookObj(s->object, wParam, lParam); break;
+		case 4:	returnVal = s->pfnHookObjParam(s->object, wParam, lParam, s->lParam); break;
+		default: continue;
+		}
+		if (returnVal)
+			return returnVal;
+	}
+
+	if (p->subscriberCount == 0 && p->pfnHook != nullptr)
+		return p->pfnHook(wParam, lParam);
+
+	return 0;
+}
+
 static int CallHookSubscribers(THook *p, WPARAM wParam, LPARAM lParam)
 {
 	if (p == nullptr)
