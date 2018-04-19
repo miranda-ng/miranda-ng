@@ -227,7 +227,6 @@ class CPluginOptDlg : public CDlgBase
 	CMStringW m_szFilter;
 
 	bool needRestart = false;
-	CMStringW wszMsgRestart;
 	CMStringA szUrl;
 
 public:
@@ -356,16 +355,10 @@ public:
 		LoadStdPlugins();
 
 		ShowWindow(GetDlgItem(m_hwnd, IDC_RESTART), needRestart);
-		if (needRestart)
-			wszMsgRestart = bufRestart;
-	}
-
-	virtual void OnClose() override
-	{
 		if (needRestart) {
-			wszMsgRestart.AppendChar('\n');
-			wszMsgRestart.Append(TranslateT("Do you want to restart it now?"));
-			if (MessageBox(m_hwnd, wszMsgRestart, L"Miranda NG", MB_ICONWARNING | MB_YESNO) == IDYES)
+			bufRestart.AppendChar('\n');
+			bufRestart.Append(TranslateT("Do you want to restart it now?"));
+			if (MessageBox(m_hwnd, bufRestart, L"Miranda NG", MB_ICONWARNING | MB_YESNO) == IDYES)
 				CallService(MS_SYSTEM_RESTART, 1, 0);
 		}
 	}

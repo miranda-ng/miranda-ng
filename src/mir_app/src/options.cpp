@@ -842,6 +842,9 @@ public:
 		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
 		for (auto &p : m_arOpd) {
+			if (p == nullptr)
+				continue;
+
 			if (p->getHwnd() == nullptr || !p->bChanged)
 				continue;
 
@@ -1087,7 +1090,6 @@ public:
 			delete it;
 			m_arOpd.remove(idx);
 		}
-		m_arDeleted.destroy();
 
 		RebuildPageTree();
 	}
@@ -1133,8 +1135,10 @@ public:
 			}
 
 			m_arDeleted.insert(opd);
-			m_timerRebuild.Start(50);
 		}
+
+		if (m_arDeleted.getCount())
+			m_timerRebuild.Start(50);
 	}
 };
 
