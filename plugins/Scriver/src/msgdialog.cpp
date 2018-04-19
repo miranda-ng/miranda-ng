@@ -910,7 +910,6 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 
 LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static BOOL inMenu = FALSE;
 	switch (msg) {
 	case WM_MEASUREITEM:
 		MeasureMenuItem(wParam, lParam);
@@ -918,13 +917,6 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DRAWITEM:
 		return DrawMenuItem(wParam, lParam);
-
-	case WM_SETCURSOR:
-		if (inMenu) {
-			SetCursor(LoadCursor(nullptr, IDC_ARROW));
-			return TRUE;
-		}
-		break;
 
 	case WM_CONTEXTMENU:
 		HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
@@ -957,9 +949,9 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		else ModifyMenu(hSubMenu, 5, MF_STRING | MF_GRAYED | MF_BYPOSITION, 5, TranslateT("No word to look up"));
 
-		inMenu = TRUE;
+		m_bInMenu = true;
 		int uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_log.GetHwnd(), nullptr);
-		inMenu = FALSE;
+		m_bInMenu = false;
 
 		switch (uID) {
 		case IDM_COPY:

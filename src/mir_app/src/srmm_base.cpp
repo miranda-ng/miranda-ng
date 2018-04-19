@@ -160,6 +160,13 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_SETCURSOR:
+		if (m_bInMenu) {
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
+			return TRUE;
+		}
+		break;
+
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 		if (!(GetKeyState(VK_RMENU) & 0x8000)) {
@@ -231,7 +238,9 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			CHARRANGE all = { 0, -1 };
 			HMENU hMenu = GetSubMenu(g_hMenu, 1);
+			m_bInMenu = true;
 			UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
+			m_bInMenu = false;
 			switch (uID) {
 			case 0:
 				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);

@@ -440,6 +440,7 @@ public:
 	int m_iLogFilterFlags;
 	bool m_bFilterEnabled, m_bNicklistEnabled;
 	bool m_bFGSet, m_bBGSet;
+	bool m_bInMenu;
 	COLORREF m_iFG, m_iBG;
 
 	void ClearLog();
