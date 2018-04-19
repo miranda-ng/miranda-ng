@@ -391,10 +391,9 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNick, ENF_NAMESMILEYS, true);
 
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
-				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszTextW, eventData->iType == IEED_EVENT_MESSAGE ? ENF_ALL : 0, isSent);
+				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszTextW, ENF_ALL, isSent);
 			else
-				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszText, event->codepage, eventData->iType == IEED_EVENT_MESSAGE ? ENF_ALL : 0, isSent);
-
+				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszText, event->codepage, ENF_ALL, isSent);
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT2)
 				szFileDesc = encodeUTF8(event->hContact, szRealProto, eventData->pszText2W, 0, isSent);
 			else
