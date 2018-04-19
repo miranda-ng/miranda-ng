@@ -183,9 +183,18 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 	}
 
 	json_string error = root["error"].as_string();
-	if (error == "Timeout")
+	if (error == "Timeout") {
+		// too low timeout?
+		int timeout = root["sectimeout"].as_int();
+		if (timeout < STEAM_API_TIMEOUT) {
+			debugLogA(__FUNCTION__ ": Timeout is too low (%d)", timeout);
+			// perhaps it will break connection
+			Sleep(STEAM_API_TIMEOUT * 1000);
+		}
+
 		// do nothing as this is not necessarily an error
 		return;
+	}
 
 	if (error == "OK") {
 		// remember last message timestamp
@@ -223,11 +232,6 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 
 	// something wrong
 	debugLogA(__FUNCTION__ ": %s (%d)", error.c_str(), response.GetStatusCode());
-
-	// too low timeout?
-	int timeout = root["sectimeout"].as_int();
-	if (timeout < STEAM_API_TIMEOUT)
-		debugLogA(__FUNCTION__ ": Timeout is too low (%d)", timeout);
 
 	// let it jump out of further processing
 	param->errors = param->errorsLimit;
