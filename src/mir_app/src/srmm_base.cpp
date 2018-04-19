@@ -332,7 +332,15 @@ EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPAR
 
 LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_CHAR) {
+	switch (msg) {
+	case WM_SETCURSOR:
+		if (m_bInMenu) {
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
+			return TRUE;
+		}
+		break;
+
+	case WM_CHAR:
 		switch (wParam) {
 		case 0x02:
 			if (m_btnBold.Enabled())

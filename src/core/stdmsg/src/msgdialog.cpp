@@ -818,8 +818,9 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// Someone added items?
 			if (GetMenuItemCount(mwpd.hMenu) > 0) {
-				SetCursor(LoadCursor(nullptr, IDC_ARROW));
+				m_bInMenu = true;
 				mwpd.selection = TrackPopupMenu(mwpd.hMenu, TPM_RETURNCMD, mwpd.pt.x, mwpd.pt.y, 0, m_message.GetHwnd(), nullptr);
+				m_bInMenu = false;
 			}
 
 			// Second notification
