@@ -284,7 +284,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (!gce || !si || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	BOOL bInactive = si->pDlg == nullptr || ContainsWindow(GetForegroundWindow(), si->pDlg->GetHwnd());
+	BOOL bInactive = si->pDlg == nullptr || !ContainsWindow(GetForegroundWindow(), si->pDlg->GetHwnd());
 
 	int iEvent = gce->iType;
 
