@@ -61,6 +61,108 @@ CTabbedWindow* GetContainer()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CTabbedWindow *pOwner = (CTabbedWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	TCHITTESTINFO tci = {};
+
+	static bool bDragging = false;
+	static int iBeginIndex = 0;
+	switch (msg) {
+	case WM_LBUTTONDOWN:
+		tci.pt.x = (short)LOWORD(GetMessagePos());
+		tci.pt.y = (short)HIWORD(GetMessagePos());
+		if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
+			tci.flags = TCHT_ONITEM;
+			ScreenToClient(hwnd, &tci.pt);
+			int idx = TabCtrl_HitTest(hwnd, &tci);
+			if (idx != -1) {
+				CMsgDialog *pDlg = (CMsgDialog*)pOwner->m_tab.GetNthPage(idx);
+				if (pDlg) {
+					SESSION_INFO *si = pDlg->getChat();
+					if (si != nullptr) {
+						bool bOnline = db_get_w(si->hContact, si->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE;
+						MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+						bDragging = true;
+						iBeginIndex = idx;
+						ImageList_BeginDrag(hIconsList, bOnline ? mi->OnlineIconIndex : mi->OfflineIconIndex, 8, 8);
+						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
+						SetCapture(hwnd);
+					}
+				}
+				return TRUE;
+			}
+		}
+		else pOwner->TabClicked();
+		break;
+
+	case WM_CAPTURECHANGED:
+		bDragging = false;
+		ImageList_DragLeave(hwnd);
+		ImageList_EndDrag();
+		break;
+
+	case WM_MOUSEMOVE:
+		if (bDragging) {
+			tci.pt.x = (short)LOWORD(GetMessagePos());
+			tci.pt.y = (short)HIWORD(GetMessagePos());
+			ScreenToClient(hwnd, &tci.pt);
+			ImageList_DragMove(tci.pt.x, tci.pt.y);
+		}
+		break;
+
+	case WM_LBUTTONUP:
+		if (bDragging && ReleaseCapture()) {
+			tci.pt.x = (short)LOWORD(GetMessagePos());
+			tci.pt.y = (short)HIWORD(GetMessagePos());
+			tci.flags = TCHT_ONITEM;
+			bDragging = false;
+			ImageList_DragLeave(hwnd);
+			ImageList_EndDrag();
+
+			ScreenToClient(hwnd, &tci.pt);
+			int idx = TabCtrl_HitTest(hwnd, &tci);
+			if (idx != -1 && idx != iBeginIndex)
+				SendMessage(GetParent(hwnd), GC_DROPPEDTAB, idx, iBeginIndex);
+		}
+		break;
+
+	case WM_LBUTTONDBLCLK:
+		if (g_Settings.bTabCloseOnDblClick) {
+			tci.pt.x = (short)LOWORD(GetMessagePos());
+			tci.pt.y = (short)HIWORD(GetMessagePos());
+			ScreenToClient(hwnd, &tci.pt);
+
+			tci.flags = TCHT_ONITEM;
+			int idx = TabCtrl_HitTest(hwnd, &tci);
+			if (idx != -1) {
+				CMsgDialog *pDlg = (CMsgDialog*)pOwner->m_tab.GetNthPage(idx);
+				if (pDlg)
+					pDlg->CloseTab();
+			}
+		}
+		break;
+
+	case WM_MBUTTONUP:
+		tci.pt.x = (short)LOWORD(GetMessagePos());
+		tci.pt.y = (short)HIWORD(GetMessagePos());
+		tci.flags = TCHT_ONITEM;
+
+		ScreenToClient(hwnd, &tci.pt);
+		int idx = TabCtrl_HitTest(hwnd, &tci);
+		if (idx != -1) {
+			CMsgDialog *pDlg = (CMsgDialog*)pOwner->m_tab.GetNthPage(idx);
+			if (pDlg)
+				pDlg->CloseTab();
+		}
+		break;
+	}
+
+	return mir_callNextSubclass(hwnd, TabSubclassProc, msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CTabbedWindow::CTabbedWindow() :
 	CDlgBase(g_hInst, IDD_CONTAINER),
 	m_tab(this, IDC_TAB),
@@ -72,7 +174,7 @@ CTabbedWindow::CTabbedWindow() :
 void CTabbedWindow::OnInitDialog()
 {
 	SetWindowLongPtr(m_tab.GetHwnd(), GWLP_USERDATA, LPARAM(this));
-	mir_subclassWindow(m_tab.GetHwnd(), &CSrmmWindow::TabSubclassProc);
+	mir_subclassWindow(m_tab.GetHwnd(), ::TabSubclassProc);
 
 	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, nullptr, g_hInst, nullptr);
 	SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
@@ -318,105 +420,6 @@ void CTabbedWindow::TabClicked()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-LRESULT CALLBACK CSrmmWindow::TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CTabbedWindow *pOwner = (CTabbedWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	TCHITTESTINFO tci = {};
-	int idx;
-
-	static bool bDragging = false;
-	static int iBeginIndex = 0;
-	switch (msg) {
-	case WM_LBUTTONDOWN:
-		tci.pt.x = (short)LOWORD(GetMessagePos());
-		tci.pt.y = (short)HIWORD(GetMessagePos());
-		if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-			tci.flags = TCHT_ONITEM;
-			ScreenToClient(hwnd, &tci.pt);
-			idx = TabCtrl_HitTest(hwnd, &tci);
-			if (idx != -1) {
-				CSrmmWindow *pDlg = (CSrmmWindow*)pOwner->m_tab.GetNthPage(idx);
-				if (pDlg) {
-					SESSION_INFO *si = pDlg->m_si;
-					if (si != nullptr) {
-						bool bOnline = db_get_w(si->hContact, si->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE;
-						MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-						bDragging = true;
-						iBeginIndex = idx;
-						ImageList_BeginDrag(hIconsList, bOnline ? mi->OnlineIconIndex : mi->OfflineIconIndex, 8, 8);
-						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
-						SetCapture(hwnd);
-					}
-				}
-				return TRUE;
-			}
-		}
-		else pOwner->TabClicked();
-		break;
-
-	case WM_CAPTURECHANGED:
-		bDragging = false;
-		ImageList_DragLeave(hwnd);
-		ImageList_EndDrag();
-		break;
-
-	case WM_MOUSEMOVE:
-		if (bDragging) {
-			tci.pt.x = (short)LOWORD(GetMessagePos());
-			tci.pt.y = (short)HIWORD(GetMessagePos());
-			ScreenToClient(hwnd, &tci.pt);
-			ImageList_DragMove(tci.pt.x, tci.pt.y);
-		}
-		break;
-
-	case WM_LBUTTONUP:
-		if (bDragging && ReleaseCapture()) {
-			tci.pt.x = (short)LOWORD(GetMessagePos());
-			tci.pt.y = (short)HIWORD(GetMessagePos());
-			tci.flags = TCHT_ONITEM;
-			bDragging = false;
-			ImageList_DragLeave(hwnd);
-			ImageList_EndDrag();
-
-			ScreenToClient(hwnd, &tci.pt);
-			idx = TabCtrl_HitTest(hwnd, &tci);
-			if (idx != -1 && idx != iBeginIndex)
-				SendMessage(GetParent(hwnd), GC_DROPPEDTAB, idx, iBeginIndex);
-		}
-		break;
-
-	case WM_LBUTTONDBLCLK:
-		tci.pt.x = (short)LOWORD(GetMessagePos());
-		tci.pt.y = (short)HIWORD(GetMessagePos());
-		tci.flags = TCHT_ONITEM;
-
-		ScreenToClient(hwnd, &tci.pt);
-		idx = TabCtrl_HitTest(hwnd, &tci);
-		if (idx != -1 && g_Settings.bTabCloseOnDblClick) {
-			CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)pOwner->m_tab.GetNthPage(idx);
-			if (pDlg)
-				pDlg->CloseTab();
-		}
-		break;
-
-	case WM_MBUTTONUP:
-		tci.pt.x = (short)LOWORD(GetMessagePos());
-		tci.pt.y = (short)HIWORD(GetMessagePos());
-		tci.flags = TCHT_ONITEM;
-
-		ScreenToClient(hwnd, &tci.pt);
-		idx = TabCtrl_HitTest(hwnd, &tci);
-		if (idx != -1) {
-			CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)pOwner->m_tab.GetNthPage(idx);
-			if (pDlg)
-				pDlg->CloseTab();
-		}
-		break;
-	}
-
-	return mir_callNextSubclass(hwnd, TabSubclassProc, msg, wParam, lParam);
-}
 
 INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {

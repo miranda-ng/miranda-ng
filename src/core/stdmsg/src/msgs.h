@@ -22,9 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_MSGS_H
 #define SRMM_MSGS_H
 
-#include <richedit.h>
-#include <richole.h>
-
 #define DM_REMAKELOG         (WM_USER+11)
 #define HM_DBEVENTADDED      (WM_USER+12)
 #define DM_CASCADENEWWINDOW  (WM_USER+13)
@@ -57,16 +54,16 @@ protected:
 
 	CMsgDialog(int idDialog, SESSION_INFO *si = nullptr);
 
+public:
 	virtual void CloseTab() override;
+
+	__forceinline SESSION_INFO* getChat() const { return m_si; }
 };
 
 class CSrmmWindow : public CMsgDialog
 {
-	friend class CTabbedWindow;
 	typedef CMsgDialog CSuper;
 	
-	static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -139,6 +136,62 @@ public:
 	__forceinline MCONTACT getActiveContact() const
 	{	return (m_bIsMeta) ? db_mc_getSrmmSub(m_hContact) : m_hContact;
 	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define GC_ADDTAB		  (WM_USER+200)
+#define GC_REMOVETAB   (WM_USER+201)
+#define GC_DROPPEDTAB  (WM_USER+202)
+#define GC_RENAMETAB   (WM_USER+203)
+
+class CChatRoomDlg : public CMsgDialog
+{
+	typedef CMsgDialog CSuper;
+	friend class CTabbedWindow;
+
+	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	wchar_t szTabSave[20];
+
+	CCtrlButton m_btnOk;
+	CSplitter m_splitterX, m_splitterY;
+	CTabbedWindow *m_pOwner;
+
+	int m_iSplitterX, m_iSplitterY;
+
+	void onActivate(void);
+
+public:
+	CChatRoomDlg(CTabbedWindow*, SESSION_INFO*);
+
+	virtual void OnInitDialog() override;
+	virtual void OnDestroy() override;
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+
+	virtual void LoadSettings() override;
+	virtual void RedrawLog() override;
+	virtual void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
+	virtual void ScrollToBottom() override;
+	virtual void ShowFilterMenu() override;
+	virtual void UpdateNickList() override;
+	virtual void UpdateOptions() override;
+	virtual void UpdateStatusBar() override;
+	virtual void UpdateTitle() override;
+
+	void onClick_Ok(CCtrlButton*);
+
+	void onClick_Filter(CCtrlButton*);
+	void onClick_NickList(CCtrlButton*);
+
+	void onSplitterX(CSplitter*);
+	void onSplitterY(CSplitter*);
 };
 
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
