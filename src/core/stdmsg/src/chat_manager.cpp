@@ -216,6 +216,8 @@ static void ShowRoom(SESSION_INFO *si)
 		si->pDlg->RedrawLog();
 		si->pDlg->UpdateStatusBar();
 	}
+	else if (g_Settings.bTabsEnable && g_pTabDialog)
+		g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(si->pDlg));
 
 	SetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(si->pDlg->GetHwnd(), GWL_EXSTYLE) | WS_EX_APPWINDOW);
 
