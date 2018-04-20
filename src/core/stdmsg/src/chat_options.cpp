@@ -342,6 +342,8 @@ public:
 
 	virtual void OnInitDialog() override
 	{
+		SetWindowLongPtr(checkBoxes.GetHwnd(), GWL_STYLE, GetWindowLongPtr(checkBoxes.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+
 		hListHeading1 = InsertBranch(LPGEN("Appearance and functionality of chat room windows"), db_get_b(0, CHAT_MODULE, "Branch1Exp", 0) ? TRUE : FALSE);
 		hListHeading2 = InsertBranch(LPGEN("Appearance of the message log"), db_get_b(0, CHAT_MODULE, "Branch2Exp", 0) ? TRUE : FALSE);
 		hListHeading3 = InsertBranch(LPGEN("Default events to show in new chat rooms if the 'event filter' is enabled"), db_get_b(0, CHAT_MODULE, "Branch3Exp", 0) ? TRUE : FALSE);
