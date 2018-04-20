@@ -51,12 +51,13 @@ void CCtrlCheck::OnReset()
 
 int CCtrlCheck::GetState()
 {
-	return SendMessage(m_hwnd, BM_GETCHECK, 0, 0);
+	return ::SendMessage(m_hwnd, BM_GETCHECK, 0, 0);
 }
 
 void CCtrlCheck::SetState(int state)
 {
-	SendMessage(m_hwnd, BM_SETCHECK, state, 0);
+	::SendMessage(m_hwnd, BM_SETCHECK, state, 0);
+	NotifyChange();
 }
 
 bool CCtrlCheck::IsChecked()
