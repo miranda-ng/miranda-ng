@@ -571,7 +571,8 @@ public:
 		pci->ReloadSettings();
 
 		if (bOldValue != db_get_b(0, CHAT_MODULE, "Tabs", 1)) {
-			pci->SM_BroadcastMessage(nullptr, WM_CLOSE, 0, 1, FALSE);
+			if (pDialog != nullptr)
+				pDialog->Close();
 			g_Settings.bTabsEnable = db_get_b(0, CHAT_MODULE, "Tabs", 1) != 0;
 		}
 		else Chat_UpdateOptions();
