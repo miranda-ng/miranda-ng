@@ -268,12 +268,23 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
+static bool ContainsWindow(HWND hwndOwner, HWND hwndChild)
+{
+	while (hwndChild != nullptr) {
+		if (hwndChild == hwndOwner)
+			return true;
+
+		hwndChild = GetParent(hwndChild);
+	}
+	return false;
+}
+
 BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix)
 {
 	if (!gce || !si || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	BOOL bInactive = si->pDlg == nullptr || GetForegroundWindow() != si->pDlg->GetHwnd();
+	BOOL bInactive = si->pDlg == nullptr || ContainsWindow(GetForegroundWindow(), si->pDlg->GetHwnd());
 
 	int iEvent = gce->iType;
 
@@ -303,31 +314,20 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			chatApi.DoPopup(si, gce);
 
 		// do sounds and flashing
+		const char *szSound = nullptr;
 		switch (iEvent) {
-		case GC_EVENT_JOIN:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatJoin");
-			break;
-		case GC_EVENT_PART:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatPart");
-			break;
-		case GC_EVENT_QUIT:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatQuit");
-			break;
+		case GC_EVENT_JOIN:           szSound = "ChatJoin";   break;
+		case GC_EVENT_PART:           szSound = "ChatPart";   break;
+		case GC_EVENT_QUIT:           szSound = "ChatQuit";   break;
 		case GC_EVENT_ADDSTATUS:
-		case GC_EVENT_REMOVESTATUS:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatMode");
-			break;
-		case GC_EVENT_KICK:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatKick");
-			break;
+		case GC_EVENT_REMOVESTATUS:   szSound = "ChatMode";   break;
+		case GC_EVENT_KICK:           szSound = "ChatKick";   break;
+		case GC_EVENT_ACTION:         szSound = "ChatAction"; break;
+		case GC_EVENT_NICK:           szSound = "ChatNick";   break;
+		case GC_EVENT_NOTICE:         szSound = "ChatNotice"; break;
+		case GC_EVENT_TOPIC:          szSound = "ChatTopic";  break;
 		case GC_EVENT_MESSAGE:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatMessage");
+			szSound = "ChatMessage";
 
 			if (bInactive && !(si->wState & STATE_TALK)) {
 				si->wState |= STATE_TALK;
@@ -336,23 +336,10 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			if (chatApi.OnFlashWindow)
 				chatApi.OnFlashWindow(si, bInactive);
 			break;
-		case GC_EVENT_ACTION:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatAction");
-			break;
-		case GC_EVENT_NICK:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatNick");
-			break;
-		case GC_EVENT_NOTICE:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatNotice");
-			break;
-		case GC_EVENT_TOPIC:
-			if (bInactive || !g_Settings->bSoundsFocus)
-				Skin_PlaySound("ChatTopic");
-			break;
 		}
+
+		if (szSound && (bInactive || !g_Settings->bSoundsFocus))
+			Skin_PlaySound(szSound);
 	}
 
 	return TRUE;
