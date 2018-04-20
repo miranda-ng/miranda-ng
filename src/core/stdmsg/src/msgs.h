@@ -76,6 +76,7 @@ class CSrmmWindow : public CMsgDialog
 	void ShowTime(void);
 	void SetupStatusBar(void);
 	void StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend);
+	void UpdateIcon(WPARAM wParam);
 
 	char *m_szProto;
 	HICON m_hStatusIcon = nullptr;
@@ -123,7 +124,7 @@ public:
 	virtual void LoadSettings() override {}
 	virtual void ScrollToBottom() override;
 	virtual void SetStatusText(const wchar_t*, HICON) override;
-	virtual void UpdateTitle() override {}
+	virtual void UpdateTitle() override;
 
 	void OnSplitterMoved(CSplitter*);
 

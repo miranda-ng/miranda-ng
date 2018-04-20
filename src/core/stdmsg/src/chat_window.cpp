@@ -96,7 +96,7 @@ void CChatRoomDlg::onActivate()
 	g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
 	g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
 
-	SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
+	UpdateTitle();
 	pci->SetActiveSession(m_si);
 	UpdateStatusBar();
 
@@ -1166,6 +1166,10 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetFocus(m_message.GetHwnd());
 		break;
 
+	case DM_UPDATETITLE:
+		UpdateTitle();
+		break;
+	
 	case DM_CLOSETAB:
 		CloseTab();
 		break;

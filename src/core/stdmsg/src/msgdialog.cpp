@@ -372,7 +372,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
 	if (m_avatarPic == nullptr || !g_dat.bShowAvatar)
 		m_avatar.Hide();
-	SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
+	UpdateTitle();
 	Resize();
 
 	if (m_hBkgBrush)
@@ -576,6 +576,27 @@ void CSrmmWindow::SetStatusText(const wchar_t *wszText, HICON hIcon)
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)(wszText == nullptr ? L"" : wszText));
 }
 
+void CSrmmWindow::UpdateIcon(WPARAM wParam)
+{
+	if (!m_hContact || !m_szProto)
+		return;
+
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
+	if (!cws || (!mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
+		if (m_szProto) {
+			HICON hIcon = Skin_LoadProtoIcon(m_szProto, m_wStatus);
+			if (hIcon) {
+				if (m_hStatusIcon)
+					IcoLib_ReleaseIcon(m_hStatusIcon);
+				m_hStatusIcon = hIcon;
+				SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+			}
+		}
+		if (g_dat.bUseStatusWinIcon)
+			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+	}
+}
+
 void CSrmmWindow::UpdateReadChars()
 {
 	if (g_dat.bShowReadChar) {
@@ -584,6 +605,31 @@ void CSrmmWindow::UpdateReadChars()
 
 		mir_snwprintf(buf, L"%d", len);
 		SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
+	}
+}
+
+void CSrmmWindow::UpdateTitle()
+{
+	wchar_t newtitle[256];
+	if (m_hContact && m_szProto) {
+		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
+		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
+
+		wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
+		if (g_dat.bUseStatusWinIcon)
+			mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
+		else
+			mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
+
+		m_wOldStatus = m_wStatus;
+	}
+	else mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
+
+	wchar_t oldtitle[256];
+	GetWindowText(m_hwnd, oldtitle, _countof(oldtitle));
+	if (mir_wstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
+		SetWindowText(m_pOwner->GetHwnd(), newtitle);
+		Resize();
 	}
 }
 
@@ -1011,45 +1057,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		OnOptionsApplied(wParam != 0);
 		break;
 
-	case DM_UPDATETITLE:
-		wchar_t newtitle[256];
-		if (m_hContact && m_szProto) {
-			m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
-			wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
-
-			wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
-			if (g_dat.bUseStatusWinIcon)
-				mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
-			else
-				mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
-
-			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
-			if (!cws || (!mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
-				if (m_szProto) {
-					HICON hIcon = Skin_LoadProtoIcon(m_szProto, m_wStatus);
-					if (hIcon) {
-						if (m_hStatusIcon)
-							IcoLib_ReleaseIcon(m_hStatusIcon);
-						m_hStatusIcon = hIcon;
-						SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-					}
-				}
-				if (g_dat.bUseStatusWinIcon)
-					SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
-			}
-
-			m_wOldStatus = m_wStatus;
-		}
-		else mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
-
-		wchar_t oldtitle[256];
-		GetWindowText(m_hwnd, oldtitle, _countof(oldtitle));
-		if (mir_wstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
-			SetWindowText(m_pOwner->GetHwnd(), newtitle);
-			Resize();
-		}
-		break;
-
 	case DM_NEWTIMEZONE:
 		m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 		m_wMinute = 61;
@@ -1076,7 +1083,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetFocus(m_message.GetHwnd());
 		// fall through
 	case WM_MOUSEACTIVATE:
-		SendMessage(m_hwnd, DM_UPDATETITLE, 0, 0);
+		UpdateTitle();
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
 			FlashWindow(m_pOwner->GetHwnd(), FALSE);
 		break;
@@ -1387,6 +1394,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 		}
+		break;
+
+	case DM_UPDATETITLE:
+		if (wParam)
+			UpdateIcon(wParam);
+		UpdateTitle();
 		break;
 
 	case DM_CLOSETAB:
