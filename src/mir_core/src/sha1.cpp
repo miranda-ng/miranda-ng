@@ -98,7 +98,7 @@ MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const BYTE *dataIn, size_t
 {
 	/* Read the data into W and process blocks as they get full
 	*/
-	for (int i = 0; i < len; i++) {
+	for (size_t i = 0; i < len; i++) {
 		ctx->W[ctx->lenW / 4] <<= 8;
 		ctx->W[ctx->lenW / 4] |= (unsigned long)dataIn[i];
 		if ((++ctx->lenW) % 64 == 0) {
