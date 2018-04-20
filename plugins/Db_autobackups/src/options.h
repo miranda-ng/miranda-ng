@@ -85,6 +85,7 @@ protected:
 	void OnDestroy() override;
 
 	void Disable_OnChange(CCtrlBase*);
+	void BackupType_OnChange(CCtrlBase*);
 	void UseCloudFile_OnChange(CCtrlBase*);
 
 	void Backup_OnClick(CCtrlButton*);

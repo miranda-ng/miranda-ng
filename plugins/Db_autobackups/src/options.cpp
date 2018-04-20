@@ -37,6 +37,9 @@ COptionsDlg::COptionsDlg()
 	CreateLink(m_useCloudFile, options.use_cloudfile);
 
 	m_disable.OnChange = Callback(this, &COptionsDlg::Disable_OnChange);
+	m_backupOnStart.OnChange = Callback(this, &COptionsDlg::BackupType_OnChange);
+	m_backupOnExit.OnChange = Callback(this, &COptionsDlg::BackupType_OnChange);
+	m_backupPeriodic.OnChange = Callback(this, &COptionsDlg::BackupType_OnChange);
 	m_useCloudFile.OnChange = Callback(this, &COptionsDlg::UseCloudFile_OnChange);
 
 	m_backup.OnClick = Callback(this, &COptionsDlg::Backup_OnClick);
@@ -85,8 +88,7 @@ void COptionsDlg::OnInitDialog()
 
 	m_disablePopups.Show(ServiceExists(MS_POPUP_ADDPOPUPT));
 
-	m_useCloudFile.Show(ServiceExists(MS_CLOUDFILE_UPLOAD));
-	m_cloudFileService.Show(ServiceExists(MS_CLOUDFILE_ENUMSERVICES));
+	m_useCloudFile.Enable(ServiceExists(MS_CLOUDFILE_UPLOAD));
 	if (ServiceExists(MS_CLOUDFILE_ENUMSERVICES)) {
 		m_cloudFileService.Enable();
 		CallService(MS_CLOUDFILE_ENUMSERVICES, (WPARAM)&COptionsDlg::EnumCloudFileServices, (LPARAM)&m_cloudFileService);
@@ -158,6 +160,14 @@ void COptionsDlg::OnDestroy()
 void COptionsDlg::Disable_OnChange(CCtrlBase*)
 {
 	SetDialogState();
+}
+
+void COptionsDlg::BackupType_OnChange(CCtrlBase*)
+{
+	if (!m_backupOnStart.IsChecked() &&
+		!m_backupOnExit.IsChecked() &&
+		!m_backupPeriodic.IsChecked())
+		m_disable.SetState(TRUE);
 }
 
 void COptionsDlg::UseCloudFile_OnChange(CCtrlBase*)
@@ -247,9 +257,12 @@ void COptionsDlg::SetDialogState()
 		m_cloudFileService.Enable(m_useCloudFile.IsChecked());
 
 		m_disable.SetState(FALSE);
-		m_backupOnStart.SetState(options.backup_types & BT_START ? TRUE : FALSE);
-		m_backupOnExit.SetState(options.backup_types & BT_EXIT ? TRUE : FALSE);
-		m_backupPeriodic.SetState(options.backup_types & BT_PERIODIC ? TRUE : FALSE);
+		BYTE backupTypes = options.backup_types;
+		if (backupTypes == BT_DISABLED)
+			backupTypes = options.backup_types.Default();
+		m_backupOnStart.SetState(backupTypes & BT_START ? TRUE : FALSE);
+		m_backupOnExit.SetState(backupTypes & BT_EXIT ? TRUE : FALSE);
+		m_backupPeriodic.SetState(backupTypes & BT_PERIODIC ? TRUE : FALSE);
 	}
 }
 
@@ -264,14 +277,13 @@ void COptionsDlg::CreateToolTip(LPTSTR ptszText, LPTSTR ptszTitle)
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		hwndFolder, nullptr, g_hInstance, nullptr);
 
-	if (m_hPathTip == nullptr)
-	{
+	if (m_hPathTip == nullptr) {
 		return;
 	}
 
 	SetWindowPos(m_hPathTip, HWND_TOPMOST, 0, 0, 0, 0, (SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE));
 
-	TOOLINFO ti = { 0 };
+	TOOLINFO ti = { };
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
 	ti.hwnd = hwndFolder;
@@ -289,8 +301,7 @@ void COptionsDlg::CreateToolTip(LPTSTR ptszText, LPTSTR ptszTitle)
 
 int CALLBACK COptionsDlg::BrowseProc(HWND hwnd, UINT uMsg, LPARAM, LPARAM)
 {
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case BFFM_INITIALIZED:
 		wchar_t backupfolder[MAX_PATH];
 		PathToAbsoluteW(VARSW(options.folder), backupfolder);
