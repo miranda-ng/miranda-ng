@@ -639,13 +639,14 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case ID_CLOSEOTHER:
-					int tabCount = m_tab.GetCount() - 1;
-					if (tabCount > 0) {
-						for (tabCount; tabCount >= 0; tabCount--) {
+					int tabCount = m_tab.GetCount();
+					if (tabCount > 1) {
+						while (tabCount--) {
 							if (tabCount == i)
 								continue;
 
-							m_tab.RemovePage(tabCount);
+							if (pDlg = (CMsgDialog*)m_tab.GetNthPage(tabCount))
+								pDlg->CloseTab();
 						}
 						m_tab.ActivatePage(0);
 					}
