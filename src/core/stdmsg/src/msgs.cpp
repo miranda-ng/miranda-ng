@@ -32,6 +32,15 @@ CMsgDialog::CMsgDialog(int iDialogId, SESSION_INFO *si)
 	m_forceResizable = true;
 }
 
+void CMsgDialog::CloseTab()
+{
+	if (g_Settings.bTabsEnable) {
+		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
+		Close();
+	}
+	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int OnCheckPlugins(WPARAM, LPARAM);

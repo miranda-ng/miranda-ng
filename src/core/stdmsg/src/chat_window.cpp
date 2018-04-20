@@ -197,15 +197,6 @@ void CChatRoomDlg::onSplitterY(CSplitter *pSplitter)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CChatRoomDlg::CloseTab()
-{
-	if (g_Settings.bTabsEnable) {
-		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
-		Close();
-	}
-	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
-}
-
 void CChatRoomDlg::LoadSettings()
 {
 	m_clrInputBG = db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));

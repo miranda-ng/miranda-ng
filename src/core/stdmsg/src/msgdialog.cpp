@@ -438,15 +438,6 @@ void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CSrmmWindow::CloseTab()
-{
-	if (g_Settings.bTabsEnable) {
-		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
-		Close();
-	}
-	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
-}
-
 void CSrmmWindow::NotifyTyping(int mode)
 {
 	if (!m_hContact)

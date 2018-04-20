@@ -217,7 +217,6 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 	
-	virtual void CloseTab() override;
 	virtual void LoadSettings() override;
 	virtual void RedrawLog() override;
 	virtual void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
