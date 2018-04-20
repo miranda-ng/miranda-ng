@@ -420,6 +420,8 @@ LRESULT CALLBACK CSrmmWindow::TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam
 
 INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int idx;
+
 	switch (msg) {
 	case GC_ADDTAB:
 		AddPage((SESSION_INFO*)lParam);
@@ -467,19 +469,17 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case GC_REMOVETAB:
-		{
-			int idx = (lParam) ? m_tab.GetDlgIndex((CDlgBase*)lParam) : TabCtrl_GetCurSel(m_tab.GetHwnd());
-			if (idx == -1)
-				break;
+		idx = (lParam) ? m_tab.GetDlgIndex((CDlgBase*)lParam) : TabCtrl_GetCurSel(m_tab.GetHwnd());
+		if (idx == -1)
+			break;
 
-			m_tab.RemovePage(idx);
-			if (m_tab.GetCount() == 0)
-				PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-			else {
-				if (m_tab.GetNthPage(idx) == nullptr)
-					idx--;
-				m_tab.ActivatePage(idx);
-			}
+		m_tab.RemovePage(idx);
+		if (m_tab.GetCount() == 0)
+			PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+		else {
+			if (m_tab.GetNthPage(idx) == nullptr)
+				idx--;
+			m_tab.ActivatePage(idx);
 		}
 		break;
 
@@ -519,7 +519,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case GC_RENAMETAB:
 		if (CChatRoomDlg *pDlg = (CChatRoomDlg*)lParam) {
-			int idx = m_tab.GetDlgIndex(pDlg);
+			idx = m_tab.GetDlgIndex(pDlg);
 			if (idx == -1)
 				break;
 
@@ -559,6 +559,15 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 		}
+		break;
+
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE)
+			break;
+
+		idx = TabCtrl_GetCurSel(m_tab.GetHwnd());
+		if (idx != -1)
+			m_tab.ActivatePage(idx);
 		break;
 
 	case WM_NOTIFY:
