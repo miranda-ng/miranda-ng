@@ -552,10 +552,10 @@ public:
 
 	virtual void OnInitDialog() override
 	{
-		m_chkTabs.SetState(db_get_b(0, CHAT_MODULE, "Tabs", 1));
-		m_chkTabsBottom.SetState(db_get_b(0, CHAT_MODULE, "TabBottom", 1));
-		m_chkTabsClose.SetState(db_get_b(0, CHAT_MODULE, "TabCloseOnDblClick", 1));
-		m_chkTabsRestore.SetState(db_get_b(0, CHAT_MODULE, "TabRestore", 1));
+		m_chkTabs.SetState(g_Settings.bTabsEnable);
+		m_chkTabsBottom.SetState(g_Settings.bTabsAtBottom);
+		m_chkTabsClose.SetState(g_Settings.bTabCloseOnDblClick);
+		m_chkTabsRestore.SetState(g_Settings.bTabRestore);
 		onChange_Tabs(&m_chkTabs);
 	}
 
