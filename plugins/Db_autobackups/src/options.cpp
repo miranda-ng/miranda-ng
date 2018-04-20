@@ -166,8 +166,10 @@ void COptionsDlg::BackupType_OnChange(CCtrlBase*)
 {
 	if (!m_backupOnStart.IsChecked() &&
 		!m_backupOnExit.IsChecked() &&
-		!m_backupPeriodic.IsChecked())
+		!m_backupPeriodic.IsChecked()) {
 		m_disable.SetState(TRUE);
+		SetDialogState();
+	}
 }
 
 void COptionsDlg::UseCloudFile_OnChange(CCtrlBase*)
