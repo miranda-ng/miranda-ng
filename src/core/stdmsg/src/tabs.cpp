@@ -607,13 +607,14 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				if ((i = TabCtrl_HitTest(((LPNMHDR)lParam)->hwndFrom, &tci)) == -1)
 					break;
 
-				SESSION_INFO *si = ((CChatRoomDlg*)m_tab.GetNthPage(i))->m_si;
+				CMsgDialog *pDlg = (CMsgDialog*)m_tab.GetNthPage(i);
+				SESSION_INFO *si = pDlg->m_si;
 
 				ClientToScreen(GetDlgItem(m_hwnd, IDC_TAB), &tci.pt);
 				HMENU hSubMenu = GetSubMenu(g_hMenu, 1);
 				TranslateMenu(hSubMenu);
 
-				if (si) {
+				if (si != nullptr) {
 					WORD w = db_get_w(si->hContact, si->pszModule, "TabPosition", 0);
 					if (w == 0)
 						CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
@@ -624,7 +625,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, m_hwnd, nullptr)) {
 				case ID_CLOSE:
-					SendMessage(m_hwnd, GC_REMOVETAB, 0, (LPARAM)m_tab.GetNthPage(i));
+					pDlg->CloseTab();
 					break;
 
 				case ID_LOCKPOSITION:
