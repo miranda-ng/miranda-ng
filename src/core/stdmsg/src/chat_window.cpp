@@ -288,7 +288,7 @@ void CChatRoomDlg::UpdateOptions()
 	}
 
 	if (g_Settings.bTabsEnable)
-		pDialog->FixTabIcons(nullptr);
+		g_pTabDialog->FixTabIcons(nullptr);
 
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 
@@ -344,7 +344,7 @@ void CChatRoomDlg::UpdateStatusBar()
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 
 	if (g_Settings.bTabsEnable)
-		pDialog->FixTabIcons(nullptr);
+		g_pTabDialog->FixTabIcons(nullptr);
 
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
@@ -1111,7 +1111,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (g_Settings.bTabsEnable) {
 				m_si->wState &= ~GC_EVENT_HIGHLIGHT;
 				m_si->wState &= ~STATE_TALK;
-				pDialog->FixTabIcons(nullptr);
+				g_pTabDialog->FixTabIcons(nullptr);
 			}
 			break;
 		}

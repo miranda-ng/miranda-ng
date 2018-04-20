@@ -103,7 +103,7 @@ static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindowHighlight)
 		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, nullptr);
 	if (g_Settings.bTabsEnable && si->pDlg)
-		pDialog->SetMessageHighlight(si->pDlg);
+		g_pTabDialog->SetMessageHighlight(si->pDlg);
 }
 
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
@@ -114,7 +114,7 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindow)
 		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, nullptr);
 	if (g_Settings.bTabsEnable && si->pDlg)
-		pDialog->SetTabHighlight(si->pDlg);
+		g_pTabDialog->SetTabHighlight(si->pDlg);
 }
 
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)

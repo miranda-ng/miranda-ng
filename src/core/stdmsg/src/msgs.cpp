@@ -139,7 +139,7 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 		}
 		else {
 			CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			pDialog->m_tab.ActivatePage(pDialog->m_tab.GetDlgIndex(pDlg));
+			g_pTabDialog->m_tab.ActivatePage(g_pTabDialog->m_tab.GetDlgIndex(pDlg));
 		}
 	}
 	else GetContainer()->AddPage(hContact, pwszInitialText, false);

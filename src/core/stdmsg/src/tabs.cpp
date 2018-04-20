@@ -41,7 +41,7 @@ void TB_SaveSession(SESSION_INFO *si)
 		arSavedTabs.insert(new CSavedTab(si->pszModule, si->ptszID));
 }
 
-CTabbedWindow *pDialog = nullptr;
+CTabbedWindow *g_pTabDialog = nullptr;
 int g_iMessageIconIndex;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -49,11 +49,11 @@ int g_iMessageIconIndex;
 CTabbedWindow* GetContainer()
 {
 	if (g_Settings.bTabsEnable) {
-		if (pDialog == nullptr) {
-			pDialog = new CTabbedWindow();
-			pDialog->Show();
+		if (g_pTabDialog == nullptr) {
+			g_pTabDialog = new CTabbedWindow();
+			g_pTabDialog->Show();
 		}
-		return pDialog;
+		return g_pTabDialog;
 	}
 
 	return new CTabbedWindow();
@@ -114,7 +114,7 @@ void CTabbedWindow::OnDestroy()
 	Utils_SaveWindowPosition(m_hwnd, g_dat.bSavePerContact ? ((m_pEmbed == nullptr) ? 0 : m_pEmbed->m_hContact) : 0, CHAT_MODULE, "room");
 
 	if (m_pEmbed == nullptr)
-		pDialog = nullptr;
+		g_pTabDialog = nullptr;
 }
 
 int CTabbedWindow::Resizer(UTILRESIZECONTROL *urc)
@@ -661,9 +661,9 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void UninitTabs()
 {
-	if (pDialog != nullptr) {
-		pDialog->Close();
-		pDialog = nullptr;
+	if (g_pTabDialog != nullptr) {
+		g_pTabDialog->Close();
+		g_pTabDialog = nullptr;
 	}
 
 	arSavedTabs.destroy();

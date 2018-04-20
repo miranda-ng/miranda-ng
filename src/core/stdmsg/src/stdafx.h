@@ -171,7 +171,7 @@ public:
 	virtual int Resizer(UTILRESIZECONTROL *urc) override;
 };
 
-extern CTabbedWindow *pDialog;
+extern CTabbedWindow *g_pTabDialog;
 
 void UninitTabs(void);
 CTabbedWindow* GetContainer();
