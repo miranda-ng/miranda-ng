@@ -1,6 +1,7 @@
 #ifndef _ONEDRIVESERVICE_API_H_
 #define _ONEDRIVESERVICE_API_H_
 
+// https://docs.microsoft.com/onedrive/developer/rest-api/
 namespace OneDriveAPI
 {
 #define MICROSOFT_OAUTH "https://login.microsoftonline.com/common/oauth2/v2.0"
@@ -49,6 +50,8 @@ namespace OneDriveAPI
 		UploadFileRequest(const char *token, const char *name, const char *data, size_t size, OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/special/approot:/%s:/content", ptrA(mir_urlEncode(name)))
 		{
+			AddUrlParameter("select=id");
+
 			if (strategy == OnConflict::RENAME)
 				AddUrlParameter("@microsoft.graph.conflictBehavior=rename");
 			else if (strategy == OnConflict::REPLACE)
@@ -60,8 +63,10 @@ namespace OneDriveAPI
 		}
 
 		UploadFileRequest(const char *token, const char *parentId, const char *name, const char *data, size_t size, OnConflict strategy = NONE) :
-			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/items/{parent-id}:/{filename}:/content", parentId, ptrA(mir_urlEncode(name)))
+			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/items/%s:/%s:/content", parentId, ptrA(mir_urlEncode(name)))
 		{
+			AddUrlParameter("select=id");
+
 			if (strategy == OnConflict::RENAME)
 				AddUrlParameter("@microsoft.graph.conflictBehavior=rename");
 			else if (strategy == OnConflict::REPLACE)
@@ -76,7 +81,7 @@ namespace OneDriveAPI
 	class CreateUploadSessionRequest : public HttpRequest
 	{
 	public:
-		CreateUploadSessionRequest(const char *token, const char *name,  OnConflict strategy = NONE) :
+		CreateUploadSessionRequest(const char *token, const char *name, OnConflict strategy = NONE) :
 			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/special/approot:/%s:/createUploadSession", ptrA(mir_urlEncode(name)))
 		{
 			AddBearerAuthHeader(token);
@@ -97,7 +102,7 @@ namespace OneDriveAPI
 		}
 
 		CreateUploadSessionRequest(const char *token, const char *parentId, const char *name, OnConflict strategy = NONE) :
-			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/items/%s:/%s:/createUploadSession", parentId, name)
+			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/items/%s:/%s:/createUploadSession", parentId, ptrA(mir_urlEncode(name)))
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
@@ -123,6 +128,8 @@ namespace OneDriveAPI
 		UploadFileChunkRequest(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize) :
 			HttpRequest(REQUEST_PUT, uploadUri)
 		{
+			AddUrlParameter("select=id");
+
 			uint64_t rangeMin = offset;
 			uint64_t rangeMax = offset + chunkSize - 1;
 			CMStringA range(CMStringDataFormat::FORMAT, "bytes %I64u-%I64u/%I64u", rangeMin, rangeMax, fileSize);
@@ -136,14 +143,15 @@ namespace OneDriveAPI
 	{
 	public:
 		CreateFolderRequest(const char *token, const char *path) :
-			HttpRequest(REQUEST_PUT, ONEDRIVE_API "/special/approot/children")
+			HttpRequest(REQUEST_POST, ONEDRIVE_API "/special/approot/children")
 		{
+			AddUrlParameter("select=id");
+
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
 			JSONNode folder(JSON_NODE);
 			folder.set_name("folder");
-			folder << JSONNode(JSON_NODE);
 
 			JSONNode params(JSON_NODE);
 			params
@@ -161,6 +169,8 @@ namespace OneDriveAPI
 		CreateSharedLinkRequest(const char *token, const char *itemId) :
 			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/items/%s/createLink", itemId)
 		{
+			AddUrlParameter("select=link");
+
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 

@@ -1,6 +1,7 @@
 #ifndef _YANDEXSERVICE_API_H_
 #define _YANDEXSERVICE_API_H_
 
+// https://tech.yandex.ru/disk/api/concepts/about-docpage/
 namespace YandexAPI
 {
 #define YANDEX_OAUTH "https://oauth.yandex.ru"
@@ -60,6 +61,7 @@ namespace YandexAPI
 		{
 			AddOAuthHeader(token);
 			AddUrlParameter("path=app:%s", ptrA(mir_urlEncode(path)));
+			AddUrlParameter("fields=href");
 			if (strategy == OnConflict::REPLACE)
 				AddUrlParameter("overwrite=true");
 		}
@@ -98,6 +100,7 @@ namespace YandexAPI
 		{
 			AddOAuthHeader(token);
 			AddUrlParameter("path=app:%s", ptrA(mir_urlEncode(path)));
+			AddUrlParameter("fields=href");
 		}
 	};
 
@@ -120,6 +123,7 @@ namespace YandexAPI
 		{
 			AddOAuthHeader(token);
 			AddUrlParameter("path=app:%s", ptrA(mir_urlEncode(path)));
+			AddUrlParameter("fields=public_url");
 		}
 	};
 };

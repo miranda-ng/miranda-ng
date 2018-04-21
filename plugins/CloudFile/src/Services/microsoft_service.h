@@ -11,8 +11,10 @@ private:
 	auto UploadFile(const std::string &parentId, const std::string &fileName, const char *data, size_t size);
 	auto CreateUploadSession(const std::string &parentId, const std::string &fileName);
 	auto UploadFileChunk(const std::string &uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize);
-	auto CreateFolder(const std::string &path);
+	auto CreateFolder(const std::string &name);
 	auto CreateSharedLink(const std::string &itemId);
+
+	void Upload(FileTransferParam *ftp) override;
 
 public:
 	COneDriveService(const char *protoName, const wchar_t *userName);
@@ -27,8 +29,6 @@ public:
 	bool IsLoggedIn() override;
 	void Login(HWND owner = nullptr) override;
 	void Logout() override;
-
-	UINT Upload(FileTransferParam *ftp) override;
 };
 
 #endif //_CLOUDFILE_ONEDRIVE_H_

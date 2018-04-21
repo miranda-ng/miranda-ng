@@ -57,26 +57,16 @@ void CSendCloudFile::SendThread()
 	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
 
 	CFUPLOADDATA ud = { m_service, m_pszFile, L"SendSS" };
-	CFUPLOADRESULT ur = { };
 
-	if (CallService(MS_CLOUDFILE_UPLOAD, (WPARAM)&ud, (LPARAM)&ur))
-	{
+	if (CallService(MS_CLOUDFILE_UPLOAD, (WPARAM)&ud, (LPARAM)m_URL)) {
 		Error(LPGENW("%s (%i):\nCould not add a share to the CloudFile plugin."), TranslateW(m_pszSendTyp), 0);
 		Exit(ACKRESULT_FAILED); return;
 	}
 
-	CMStringA message;
-	for (size_t i = 0; i < ur.linkCount; i++)
-		message.AppendFormat("%s\r\n", ur.links[i]);
-	message.Delete(message.GetLength() - 2, 2);
-
-	m_URL = mir_strdup(message.GetString());
 	if (m_URL)
 		svcSendMsgExit(m_URL);
 	else
 		Exit(ACKRESULT_FAILED);
-
-	cfur_free(&ur);
 }
 
 void CSendCloudFile::SendThreadWrapper(void * Obj)

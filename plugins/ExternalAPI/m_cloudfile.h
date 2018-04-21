@@ -9,7 +9,7 @@ struct CFSERVICEINFO
 
 // get cloud file service info by account name
 // wParam = (WPARAM)(const char*)accountName (can be NULL)
-// lParam = (LPARAM)(CFSERVICEINFO*)serviceInfo (can be NULL)
+// lParam = (LPARAM)(CFSERVICEINFO*)serviceInfo
 // returns 0 on success, nonzero on failure
 #define MS_CLOUDFILE_GETSERVICE "CloudFile/GetService"
 
@@ -24,30 +24,14 @@ typedef int(*enumCFServiceFunc)(const CFSERVICEINFO *serviceInfo, void *param);
 
 struct CFUPLOADDATA
 {
-	const char *accountName; // cloud service to upload (can be NULL)
-	const wchar_t *localPath; // local path
-	const wchar_t *serverFolder; // server folder in witch file will be placed (can be NULL)
+	const char *accountName;		// cloud service to upload (can be NULL)
+	const wchar_t *localPath;		// local path to file
+	const wchar_t *serverFolder;	// server folder in witch file will be placed (can be NULL)
 };
-
-struct CFUPLOADRESULT
-{
-	char **links; // need to be freed manually or by calling cfur_free
-	size_t linkCount;
-	wchar_t *description; // need to be freed manually or by calling cfur_free
-};
-
-// frees allocated fields of CFUPLOADRESULT
-__inline void cfur_free(CFUPLOADRESULT *ur)
-{
-	for (size_t i = 0; i < ur->linkCount; i++)
-		mir_free(ur->links[0]);
-	mir_free(ur->links);
-	mir_free(ur->description);
-}
 
 // upload file on cloud service
 // wParam = (WPARAM)(const CFUPLOADDATA*)uploadData
-// lParam = (LPARAM)(char CFUPLOADRESULT*)uploadResult (can be NULL)
+// lParam = (LPARAM)(char*)link to file in cloud service (needs to be freed) (can be NULL)
 // returns 0 on success, nonzero on failure
 #define MS_CLOUDFILE_UPLOAD "CloudFile/Upload"
 

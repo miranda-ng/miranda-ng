@@ -106,7 +106,7 @@ INT_PTR CCloudService::OnAccountManagerInit(WPARAM, LPARAM lParam)
 	return (INT_PTR)page->GetHwnd();
 }
 
-std::string CCloudService::PreparePath(const char *path)
+std::string CCloudService::PreparePath(const std::string &path) const
 {
 	std::string newPath = path;
 	if (newPath[0] != '/')
@@ -146,6 +146,8 @@ char* CCloudService::HttpStatusToError(int status)
 
 void CCloudService::HttpResponseToError(NETLIBHTTPREQUEST *response)
 {
+	if (response == nullptr)
+		throw Exception(HttpStatusToError());
 	if (response->dataLength)
 		throw Exception(response->pData);
 	throw Exception(HttpStatusToError(response->resultCode));
@@ -176,4 +178,27 @@ JSONNode CCloudService::GetJsonResponse(NETLIBHTTPREQUEST *response)
 	HandleJsonError(root);
 
 	return root;
+}
+
+UINT CCloudService::Upload(CCloudService *service, FileTransferParam *ftp)
+{
+	try {
+		if (!service->IsLoggedIn())
+			service->Login();
+
+		if (!service->IsLoggedIn()) {
+			ftp->SetStatus(ACKRESULT_FAILED);
+			return ACKRESULT_FAILED;
+		}
+
+		service->Upload(ftp);
+	}
+	catch (Exception &ex) {
+		service->debugLogA("%s: %s", service->GetModuleName(), ex.what());
+		ftp->SetStatus(ACKRESULT_FAILED);
+		return ACKRESULT_FAILED;
+	}
+
+	ftp->SetStatus(ACKRESULT_SUCCESS);
+	return ACKRESULT_SUCCESS;
 }

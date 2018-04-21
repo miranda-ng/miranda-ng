@@ -180,6 +180,8 @@ auto CGDriveService::CreateUploadSession(const std::string &parentId, const std:
 	}
 
 	HttpResponseToError(response);
+
+	return std::string();
 }
 
 auto CGDriveService::UploadFileChunk(const std::string &uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize)
@@ -198,15 +200,25 @@ auto CGDriveService::UploadFileChunk(const std::string &uploadUri, const char *c
 	}
 
 	HttpResponseToError(response);
+
+	return std::string();
 }
 
-auto CGDriveService::CreateFolder(const char *path)
+auto CGDriveService::CreateFolder(const std::string &parentId, const std::string &name)
 {
 	ptrA token(getStringA("TokenSecret"));
-	GDriveAPI::CreateFolderRequest request(token, path);
-	NLHR_PTR response(request.Send(m_hConnection));
+	GDriveAPI::GetFolderRequest getFolderRequest(token, parentId.c_str(), name.c_str());
+	NLHR_PTR response(getFolderRequest.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
+	JSONNode files = root["files"].as_array();
+	if (files.size() > 0)
+		return files[(size_t)0]["id"].as_string();
+
+	GDriveAPI::CreateFolderRequest createFolderRequest(token, parentId.c_str(), name.c_str());
+	response = createFolderRequest.Send(m_hConnection);
+
+	root = GetJsonResponse(response);
 	return root["id"].as_string();
 }
 
@@ -225,69 +237,54 @@ auto CGDriveService::CreateSharedLink(const std::string &itemId)
 	}
 
 	HttpResponseToError(response);
+
+	return std::string();
 }
 
-UINT CGDriveService::Upload(FileTransferParam *ftp)
+void CGDriveService::Upload(FileTransferParam *ftp)
 {
-	try {
-		if (!IsLoggedIn())
-			Login();
+	std::string folderId;
+	std::string serverFolder = T2Utf(ftp->GetServerDirectory());
+	if (!serverFolder.empty()) {
+		folderId = CreateFolder(folderId, serverFolder);
+		auto link = CreateSharedLink(folderId);
+		ftp->AddSharedLink(link.c_str());
+	}
 
-		if (!IsLoggedIn()) {
-			ftp->SetStatus(ACKRESULT_FAILED);
-			return ACKRESULT_FAILED;
+	ftp->FirstFile();
+	do {
+		std::string fileName = T2Utf(ftp->GetCurrentRelativeFilePath());
+		uint64_t fileSize = ftp->GetCurrentFileSize();
+
+		size_t chunkSize = ftp->GetCurrentFileChunkSize();
+		mir_ptr<char> chunk((char*)mir_calloc(chunkSize));
+
+		std::string fileId;
+		if (chunkSize == fileSize) {
+			ftp->CheckCurrentFile();
+			size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+			fileId = UploadFile(folderId, fileName, chunk, size);
+			ftp->Progress(size);
 		}
+		else {
+			auto uploadUri = CreateUploadSession(folderId, fileName);
 
-		std::string folderId;
-		if (ftp->IsFolder()) {
-			folderId = CreateFolder(T2Utf(ftp->GetFolderName()));
-			auto link = CreateSharedLink(folderId);
-			ftp->AddSharedLink(link.c_str());
-		}
-
-		ftp->FirstFile();
-		do {
-			std::string fileName = T2Utf(ftp->GetCurrentRelativeFilePath()).get();
-			uint64_t fileSize = ftp->GetCurrentFileSize();
-
-			size_t chunkSize = ftp->GetCurrentFileChunkSize();
-			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
-
-			std::string fileId;
-			if (chunkSize == fileSize) {
+			uint64_t offset = 0;
+			double chunkCount = ceil(double(fileSize) / chunkSize);
+			for (size_t i = 0; i < chunkCount; i++) {
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-				fileId = UploadFile(folderId, fileName, chunk, size);
+				fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
+				offset += size;
 				ftp->Progress(size);
 			}
-			else {
-				auto uploadUri = CreateUploadSession(folderId, fileName);
+		}
 
-				uint64_t offset = 0;
-				double chunkCount = ceil(double(fileSize) / chunkSize);
-				for (size_t i = 0; i < chunkCount; i++) {
-					ftp->CheckCurrentFile();
-					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-					fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
-					offset += size;
-					ftp->Progress(size);
-				}
-			}
-
-			if (!ftp->IsFolder()) {
-				auto link = CreateSharedLink(fileId);
-				ftp->AddSharedLink(link.c_str());
-			}
-		} while (ftp->NextFile());
-	}
-	catch (Exception &ex) {
-		debugLogA("%s: %s", GetAccountName(), ex.what());
-		ftp->SetStatus(ACKRESULT_FAILED);
-		return ACKRESULT_FAILED;
-	}
-
-	ftp->SetStatus(ACKRESULT_SUCCESS);
-	return ACKRESULT_SUCCESS;
+		if (!ftp->IsCurrentFileInSubDirectory()) {
+			auto link = CreateSharedLink(fileId);
+			ftp->AddSharedLink(link.c_str());
+		}
+	} while (ftp->NextFile());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -302,4 +299,4 @@ struct CMPluginGoogle : public CMPluginBase
 		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CGDriveService::Init, (pfnUninitProto)CGDriveService::UnInit);
 	}
 }
-	g_pluginGoogle;
+g_pluginGoogle;

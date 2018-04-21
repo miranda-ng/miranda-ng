@@ -184,6 +184,8 @@ auto COneDriveService::UploadFileChunk(const std::string &uploadUri, const char 
 	}
 
 	HttpResponseToError(response);
+
+	return std::string();
 }
 
 auto COneDriveService::CreateFolder(const std::string &path)
@@ -206,73 +208,54 @@ auto COneDriveService::CreateSharedLink(const std::string &itemId)
 	return root["link"]["webUrl"].as_string();
 }
 
-UINT COneDriveService::Upload(FileTransferParam *ftp)
+void COneDriveService::Upload(FileTransferParam *ftp)
 {
-	try {
-		if (!IsLoggedIn())
-			Login();
+	std::string folderId;
+	std::string serverFolder = T2Utf(ftp->GetServerDirectory());
+	if (!serverFolder.empty()) {
+		auto path = PreparePath(serverFolder);
+		folderId = CreateFolder(path);
 
-		if (!IsLoggedIn()) {
-			ftp->SetStatus(ACKRESULT_FAILED);
-			return ACKRESULT_FAILED;
+		auto link = CreateSharedLink(path);
+		ftp->AddSharedLink(link.c_str());
+	}
+
+	ftp->FirstFile();
+	do {
+		std::string fileName = T2Utf(ftp->GetCurrentRelativeFilePath());
+		uint64_t fileSize = ftp->GetCurrentFileSize();
+
+		size_t chunkSize = ftp->GetCurrentFileChunkSize();
+		mir_ptr<char> chunk((char*)mir_calloc(chunkSize));
+
+		std::string fileId;
+		if (chunkSize == fileSize) {
+			ftp->CheckCurrentFile();
+			size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+
+			fileId = UploadFile(folderId, fileName, chunk, size);
+
+			ftp->Progress(size);
 		}
+		else {
+			auto uploadUri = CreateUploadSession(folderId, fileName);
 
-		std::string folderId;
-		if (ftp->IsFolder()) {
-			T2Utf folderName(ftp->GetFolderName());
-
-			auto path = PreparePath(folderName);
-			folderId = CreateFolder(path);
-
-			auto link = CreateSharedLink(path);
-			ftp->AddSharedLink(link.c_str());
-		}
-
-		ftp->FirstFile();
-		do {
-			std::string fileName = T2Utf(ftp->GetCurrentRelativeFilePath());
-			uint64_t fileSize = ftp->GetCurrentFileSize();
-
-			size_t chunkSize = ftp->GetCurrentFileChunkSize();
-			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
-
-			std::string fileId;
-			if (chunkSize == fileSize) {
+			uint64_t offset = 0;
+			double chunkCount = ceil(double(fileSize) / chunkSize);
+			for (size_t i = 0; i < chunkCount; i++) {
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-
-				fileId = UploadFile(folderId, fileName, chunk, size);
-
+				fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
+				offset += size;
 				ftp->Progress(size);
 			}
-			else {
-				auto uploadUri = CreateUploadSession(folderId, fileName);
+		}
 
-				uint64_t offset = 0;
-				double chunkCount = ceil(double(fileSize) / chunkSize);
-				for (size_t i = 0; i < chunkCount; i++) {
-					ftp->CheckCurrentFile();
-					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-					fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
-					offset += size;
-					ftp->Progress(size);
-				}
-			}
-
-			if (!ftp->IsFolder()) {
-				auto link = CreateSharedLink(fileId);
-				ftp->AddSharedLink(link.c_str());
-			}
-		} while (ftp->NextFile());
-	}
-	catch (Exception &ex) {
-		debugLogA("%s: %s", GetAccountName(), ex.what());
-		ftp->SetStatus(ACKRESULT_FAILED);
-		return ACKRESULT_FAILED;
-	}
-
-	ftp->SetStatus(ACKRESULT_SUCCESS);
-	return ACKRESULT_SUCCESS;
+		if (!ftp->IsCurrentFileInSubDirectory()) {
+			auto link = CreateSharedLink(fileId);
+			ftp->AddSharedLink(link.c_str());
+		}
+	} while (ftp->NextFile());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -287,4 +270,4 @@ struct CMPluginOnedrive : public CMPluginBase
 		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)COneDriveService::Init, (pfnUninitProto)COneDriveService::UnInit);
 	}
 }
-	g_pluginOnedrive;
+g_pluginOnedrive;

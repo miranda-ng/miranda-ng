@@ -25,6 +25,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
 void ShowPopup(wchar_t* ptszText, wchar_t* ptszHeader, wchar_t* ptszPath)
 {
 	POPUPDATAT ppd = { 0 };

@@ -1,6 +1,7 @@
 #ifndef _GDRIVESERVICE_API_H_
 #define _GDRIVESERVICE_API_H_
 
+// https://developers.google.com/drive/v3/reference/
 namespace GDriveAPI
 {
 #define GOOGLE_OAUTH "https://accounts.google.com/o/oauth2/v2"
@@ -62,6 +63,8 @@ namespace GDriveAPI
 		UploadFileRequest(const char *token, const char *parentId, const char *name, const char *data, size_t size) :
 			HttpRequest(REQUEST_POST, GDRIVE_UPLOAD)
 		{
+			AddUrlParameter("fields=id");
+
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "multipart/related; boundary=upload");
 
@@ -73,7 +76,7 @@ namespace GDriveAPI
 			body.Append("{");
 			body.AppendFormat("\"name\": \"%s\"", name);
 			if (mir_strlen(parentId))
-				body.AppendFormat("\"parents\": [\"%s\"]", parentId);
+				body.AppendFormat(", \"parents\": [\"%s\"]", parentId);
 			body.Append("}");
 			body.AppendChar(0x0A);
 			body.AppendChar(0x0A);
@@ -121,6 +124,8 @@ namespace GDriveAPI
 		UploadFileChunkRequest(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize):
 			HttpRequest(REQUEST_PUT, uploadUri)
 		{
+			AddUrlParameter("fields=id");
+
 			uint64_t rangeMin = offset;
 			uint64_t rangeMax = offset + chunkSize - 1;
 			CMStringA range(CMStringDataFormat::FORMAT, "bytes %I64u-%I64u/%I64u", rangeMin, rangeMax, fileSize);
@@ -130,19 +135,39 @@ namespace GDriveAPI
 		}
 	};
 
+	class GetFolderRequest : public HttpRequest
+	{
+	public:
+		GetFolderRequest(const char *token, const char *parentId, const char *name) :
+			HttpRequest(REQUEST_GET, GDRIVE_API)
+		{
+			AddUrlParameterWithEncode("q", "mimeType = 'application/vnd.google-apps.folder' and trashed = false and '%s' in parents and name = '%s'", mir_strlen(parentId) ? parentId : "root", name);
+			AddUrlParameterWithEncode("fields", "files(id)");
+
+			AddBearerAuthHeader(token);
+		}
+	};
+
 	class CreateFolderRequest : public HttpRequest
 	{
 	public:
-		CreateFolderRequest(const char *token, const char *path) :
-			HttpRequest(REQUEST_PUT, GDRIVE_API)
+		CreateFolderRequest(const char *token, const char *parentId, const char *name) :
+			HttpRequest(REQUEST_POST, GDRIVE_API)
 		{
+			AddUrlParameter("fields=id");
+
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 
+			JSONNode parents(JSON_ARRAY);
+			parents.set_name("parents");
+			parents.push_back(JSONNode("", parentId));
+
 			JSONNode params(JSON_NODE);
 			params
-				<< JSONNode("name", path)
-				<< JSONNode("mimeType", "application/vnd.google-apps.folder");
+				<< JSONNode("name", name)
+				<< JSONNode("mimeType", "application/vnd.google-apps.folder")
+				<< parents;
 
 			json_string data = params.write();
 			SetData(data.c_str(), data.length());
@@ -155,6 +180,8 @@ namespace GDriveAPI
 		GrantPermissionsRequest(const char *token, const char *fileId) :
 			HttpRequest(REQUEST_POST, FORMAT, GDRIVE_API "/%s/permissions", fileId)
 		{
+			AddUrlParameter("fields=id");
+
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
 

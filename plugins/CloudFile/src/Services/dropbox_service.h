@@ -16,6 +16,8 @@ private:
 	void CreateFolder(const std::string &path);
 	auto CreateSharedLink(const std::string &path);
 
+	void Upload(FileTransferParam *ftp) override;
+
 public:
 	CDropboxService(const char *protoName, const wchar_t *userName);
 
@@ -29,8 +31,6 @@ public:
 	bool IsLoggedIn() override;
 	void Login(HWND owner = nullptr) override;
 	void Logout() override;
-
-	UINT Upload(FileTransferParam *ftp) override;
 };
 
 #endif //_CLOUDSERVICE_DROPBOX_H_

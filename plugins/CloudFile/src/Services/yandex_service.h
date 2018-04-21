@@ -15,6 +15,8 @@ private:
 	void CreateFolder(const std::string &path);
 	auto CreateSharedLink(const std::string &path);
 
+	void Upload(FileTransferParam *ftp) override;
+
 public:
 	CYandexService(const char *protoName, const wchar_t *userName);
 
@@ -28,8 +30,6 @@ public:
 	bool IsLoggedIn() override;
 	void Login(HWND owner = nullptr) override;
 	void Logout() override;
-
-	UINT Upload(FileTransferParam *ftp) override;
 };
 
 #endif //_CLOUDFILE_YANDEX_H_

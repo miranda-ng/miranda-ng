@@ -218,71 +218,57 @@ auto CYandexService::CreateSharedLink(const std::string &path)
 	return root["public_url"].as_string();
 }
 
-UINT CYandexService::Upload(FileTransferParam *ftp)
+void CYandexService::Upload(FileTransferParam *ftp)
 {
-	try {
-		if (!IsLoggedIn())
-			Login();
+	std::string serverFolder = T2Utf(ftp->GetServerDirectory());
+	if (!serverFolder.empty()) {
+		auto path = PreparePath(serverFolder);
+		CreateFolder(path);
 
-		if (!IsLoggedIn()) {
-			ftp->SetStatus(ACKRESULT_FAILED);
-			return ACKRESULT_FAILED;
+		auto link = CreateSharedLink(path);
+		ftp->AddSharedLink(link.c_str());
+	}
+
+	ftp->FirstFile();
+	do
+	{
+		std::string fileName = T2Utf(ftp->GetCurrentRelativeFilePath());
+		uint64_t fileSize = ftp->GetCurrentFileSize();
+
+		size_t chunkSize = ftp->GetCurrentFileChunkSize();
+		mir_ptr<char> chunk((char*)mir_calloc(chunkSize));
+
+		std::string path;
+		if (!serverFolder.empty())
+			path = "/" + serverFolder + "/" + fileName;
+		else
+			path = PreparePath(fileName);
+
+		auto uploadUri = CreateUploadSession(path);
+
+		if (chunkSize == fileSize) {
+			ftp->CheckCurrentFile();
+			size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+			UploadFile(uploadUri, chunk, size);
+			ftp->Progress(size);
+		}
+		else {
+			uint64_t offset = 0;
+			double chunkCount = ceil(double(fileSize) / chunkSize);
+			for (size_t i = 0; i < chunkCount; i++) {
+				ftp->CheckCurrentFile();
+				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+				UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
+				offset += size;
+				ftp->Progress(size);
+			}
 		}
 
-		if (ftp->IsFolder()) {
-			T2Utf folderName(ftp->GetFolderName());
-
-			auto path = PreparePath(folderName);
-			CreateFolder(path);
-
+		if (!ftp->IsCurrentFileInSubDirectory()) {
 			auto link = CreateSharedLink(path);
 			ftp->AddSharedLink(link.c_str());
 		}
-
-		ftp->FirstFile();
-		do
-		{
-			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
-			uint64_t fileSize = ftp->GetCurrentFileSize();
-
-			auto path = PreparePath(fileName);
-			auto uploadUri = CreateUploadSession(path);
-
-			size_t chunkSize = ftp->GetCurrentFileChunkSize();
-			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
-
-			if (chunkSize == fileSize) {
-				ftp->CheckCurrentFile();
-				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-				UploadFile(uploadUri, chunk, size);
-				ftp->Progress(size);
-			}
-			else {
-				uint64_t offset = 0;
-				double chunkCount = ceil(double(fileSize) / chunkSize);
-				for (size_t i = 0; i < chunkCount; i++) {
-					ftp->CheckCurrentFile();
-					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-					UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
-					offset += size;
-					ftp->Progress(size);
-				}
-			}
-
-			if (!ftp->IsFolder()) {
-				auto link = CreateSharedLink(path);
-				ftp->AddSharedLink(link.c_str());
-			}
-		} while (ftp->NextFile());
-	}
-	catch (Exception &ex) {
-		debugLogA("%s: %s", GetAccountName(), ex.what());
-		ftp->SetStatus(ACKRESULT_FAILED);
-		return ACKRESULT_FAILED;
-	}
-
-	ftp->SetStatus(ACKRESULT_SUCCESS);
-	return ACKRESULT_SUCCESS;
+	} while (ftp->NextFile());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -297,4 +283,4 @@ struct CMPluginYandex : public CMPluginBase
 		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CYandexService::Init, (pfnUninitProto)CYandexService::UnInit);
 	}
 }
-	g_pluginYandex;
+g_pluginYandex;

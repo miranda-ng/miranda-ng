@@ -168,13 +168,17 @@ void CDropboxService::CreateFolder(const std::string &path)
 	DropboxAPI::CreateFolderRequest request(token, path.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
-	HandleHttpError(response);
-
-	// forder exists on server 
-	if (response->resultCode == HTTP_CODE_FORBIDDEN)
+	if (HTTP_CODE_SUCCESS(response->resultCode)) {
+		GetJsonResponse(response);
 		return;
+	}
 
-	GetJsonResponse(response);
+	// forder exists on server
+	if (response->resultCode == HTTP_CODE_CONFLICT) {
+		return;
+	}
+
+	HttpResponseToError(response);
 }
 
 auto CDropboxService::CreateSharedLink(const std::string &path)
@@ -183,15 +187,13 @@ auto CDropboxService::CreateSharedLink(const std::string &path)
 	DropboxAPI::CreateSharedLinkRequest shareRequest(token, path.c_str());
 	NLHR_PTR response(shareRequest.Send(m_hConnection));
 
-	if (response == nullptr)
-		throw Exception(HttpStatusToError());
-
-	if (!HTTP_CODE_SUCCESS(response->resultCode) &&
-		response->resultCode != HTTP_CODE_CONFLICT) {
-		if (response->dataLength)
-			throw Exception(response->pData);
-		throw Exception(HttpStatusToError(response->resultCode));
+	if (response && HTTP_CODE_SUCCESS(response->resultCode)) {
+		JSONNode root = GetJsonResponse(response);
+		return root["url"].as_string();
 	}
+
+	if (!response || response->resultCode != HTTP_CODE_CONFLICT)
+		HttpResponseToError(response);
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.isnull())
@@ -217,93 +219,73 @@ auto CDropboxService::CreateSharedLink(const std::string &path)
 	return link.as_string();
 }
 
-UINT CDropboxService::Upload(FileTransferParam *ftp)
+void CDropboxService::Upload(FileTransferParam *ftp)
 {
-	if (!IsLoggedIn())
-		Login();
+	std::string serverFolder = T2Utf(ftp->GetServerDirectory());
+	if (!serverFolder.empty()) {
+		auto path = PreparePath(serverFolder);
+		auto link = CreateSharedLink(path);
+		ftp->AddSharedLink(link.c_str());
+	}
 
-	try {
-		if (ftp->IsFolder()) {
-			T2Utf folderName(ftp->GetFolderName());
+	ftp->FirstFile();
+	do
+	{
+		std::string fileName = T2Utf(ftp->GetCurrentRelativeFilePath());
+		uint64_t fileSize = ftp->GetCurrentFileSize();
 
-			auto path = PreparePath(folderName);
-			CreateFolder(path);
+		size_t chunkSize = ftp->GetCurrentFileChunkSize();
+		mir_ptr<char> chunk((char*)mir_calloc(chunkSize));
 
+		std::string path;
+		if (!serverFolder.empty())
+			path = "/" + serverFolder + "/" + fileName;
+		else
+			path = PreparePath(fileName);
+
+		if (chunkSize == fileSize) {
+			ftp->CheckCurrentFile();
+			size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+
+			path = UploadFile(chunk, size, path);
+
+			ftp->Progress(size);
+		}
+		else {
+			ftp->CheckCurrentFile();
+			size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
+
+			auto sessionId = CreateUploadSession(chunk, size);
+
+			ftp->Progress(size);
+
+			size_t offset = size;
+			double chunkCount = ceil(double(fileSize) / chunkSize) - 2;
+			for (size_t i = 0; i < chunkCount; i++) {
+				ftp->CheckCurrentFile();
+
+				size = ftp->ReadCurrentFile(chunk, chunkSize);
+				UploadFileChunk(sessionId, chunk, size, offset);
+
+				offset += size;
+				ftp->Progress(size);
+			}
+
+			ftp->CheckCurrentFile();
+			size = offset < fileSize
+				? ftp->ReadCurrentFile(chunk, fileSize - offset)
+				: 0;
+
+			path = CommitUploadSession(sessionId, chunk, size, offset, path);
+
+			ftp->Progress(size);
+		}
+
+		if (!ftp->IsCurrentFileInSubDirectory()) {
 			auto link = CreateSharedLink(path);
 			ftp->AddSharedLink(link.c_str());
 		}
-
-		ftp->FirstFile();
-		do
-		{
-			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
-			uint64_t fileSize = ftp->GetCurrentFileSize();
-
-			size_t chunkSize = ftp->GetCurrentFileChunkSize();
-			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
-
-			std::string path;
-			auto serverFolder = ftp->GetServerFolder();
-			if (serverFolder) {
-				char serverPath[MAX_PATH] = { 0 };
-				mir_snprintf(serverPath, "%s\\%s", T2Utf(serverFolder), fileName);
-				path = PreparePath(serverPath);
-			}
-			else
-				path = PreparePath(fileName);
-
-			if (chunkSize == fileSize) {
-				ftp->CheckCurrentFile();
-				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-
-				path = UploadFile(chunk, size, path);
-
-				ftp->Progress(size);
-			}
-			else {
-				ftp->CheckCurrentFile();
-				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-
-				auto sessionId = CreateUploadSession(chunk, size);
-
-				ftp->Progress(size);
-
-				size_t offset = size;
-				double chunkCount = ceil(double(fileSize) / chunkSize) - 2;
-				for (size_t i = 0; i < chunkCount; i++) {
-					ftp->CheckCurrentFile();
-
-					size = ftp->ReadCurrentFile(chunk, chunkSize);
-					UploadFileChunk(sessionId, chunk, size, offset);
-
-					offset += size;
-					ftp->Progress(size);
-				}
-
-				ftp->CheckCurrentFile();
-				size = offset < fileSize
-					? ftp->ReadCurrentFile(chunk, fileSize - offset)
-					: 0;
-
-				path = CommitUploadSession(sessionId, chunk, size, offset, path);
-
-				ftp->Progress(size);
-			}
-
-			if (!ftp->IsFolder()) {
-				auto link = CreateSharedLink(path);
-				ftp->AddSharedLink(link.c_str());
-			}
-		} while (ftp->NextFile());
-	}
-	catch (Exception &ex) {
-		debugLogA("%s: %s", GetModuleName(), ex.what());
-		ftp->SetStatus(ACKRESULT_FAILED);
-		return ACKRESULT_FAILED;
-	}
-
-	ftp->SetStatus(ACKRESULT_SUCCESS);
-	return ACKRESULT_SUCCESS;
+	} while (ftp->NextFile());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -318,4 +300,4 @@ struct CMPluginDropbox : public PLUGIN<CMPluginDropbox>
 		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
 	}
 }
-	g_pluginDropbox;
+g_pluginDropbox;

@@ -18,6 +18,10 @@ CCloudService* FindService(const char *szProto)
 
 static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 {
+	CFSERVICEINFO *info = (CFSERVICEINFO*)lParam;
+	if (info == nullptr)
+		return 1;
+
 	ptrA accountName(mir_strdup((char*)wParam));
 	if (!accountName || !mir_strlen(accountName))
 		accountName = db_get_sa(NULL, MODULE, "DefaultService");
@@ -28,11 +32,8 @@ static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 	if (service == nullptr)
 		return 3;
 
-	CFSERVICEINFO *info = (CFSERVICEINFO*)lParam;
-	if (info != nullptr) {
-		info->accountName = service->GetAccountName();
-		info->userName = service->GetUserName();
-	}
+	info->accountName = service->GetAccountName();
+	info->userName = service->GetUserName();
 
 	return 0;
 }
@@ -77,17 +78,15 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 
 	FileTransferParam ftp(0);
 	ftp.SetWorkingDirectory(uploadData->localPath);
-	ftp.SetServerFolder(uploadData->serverFolder);
+	ftp.SetServerDirectory(uploadData->serverFolder);
 	ftp.AddFile(uploadData->localPath);
 
-	int res = service->Upload(&ftp);
+	int res = CCloudService::Upload(service, &ftp);
 	if (res == ACKRESULT_SUCCESS && lParam) {
-		CFUPLOADRESULT *result = (CFUPLOADRESULT*)lParam;
-		const char **links = ftp.GetSharedLinks(result->linkCount);
-		result->links = (char**)mir_calloc(sizeof(char*) * result->linkCount);
-		for (size_t i = 0; i < result->linkCount; i++)
-			result->links[i] = mir_strdup(links[i]);
-		result->description = mir_wstrdup(ftp.GetDescription());
+		size_t linkCount = 0;
+		const char **links = ftp.GetSharedLinks(linkCount);
+		if (linkCount > 0)
+			lParam = (LPARAM)mir_strdup(links[linkCount - 1]);
 	}
 
 	return res;

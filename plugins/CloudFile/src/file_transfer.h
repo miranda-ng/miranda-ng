@@ -12,10 +12,8 @@ private:
 
 	bool isTerminated;
 
-	CMStringW serverFolder;
-
-	const wchar_t* folderName;
-	int relativePathStart;
+	CMStringW m_serverDirectory;
+	int m_relativePathStart;
 	
 	LIST<char> m_links;
 	CMStringW m_description;
@@ -29,8 +27,7 @@ public:
 
 		isTerminated = false;
 
-		folderName = NULL;
-		relativePathStart = 0;
+		m_relativePathStart = 0;
 
 		pfts.flags = PFTS_UNICODE | PFTS_SENDING;
 		pfts.hContact = hContact;
@@ -93,19 +90,6 @@ public:
 		isTerminated = true;
 	}
 
-	void SetServerFolder(const wchar_t *path)
-	{
-		if (path)
-			serverFolder = path;
-	}
-
-	const wchar_t* GetServerFolder() const
-	{
-		if (serverFolder.IsEmpty())
-			return NULL;
-		return serverFolder;
-	}
-
 	void SetDescription(const wchar_t *description)
 	{
 		m_description = description;
@@ -113,21 +97,24 @@ public:
 
 	void SetWorkingDirectory(const wchar_t *path)
 	{
-		relativePathStart = wcsrchr(path, '\\') - path + 1;
-		pfts.szWorkingDir.w = (wchar_t*)mir_calloc(sizeof(wchar_t) * relativePathStart);
-		mir_wstrncpy(pfts.szWorkingDir.w, path, relativePathStart);
+		m_relativePathStart = wcsrchr(path, '\\') - path + 1;
+		pfts.szWorkingDir.w = (wchar_t*)mir_calloc(sizeof(wchar_t) * m_relativePathStart);
+		mir_wstrncpy(pfts.szWorkingDir.w, path, m_relativePathStart);
 		if (PathIsDirectory(path))
-			folderName = wcsrchr(path, '\\') + 1;
+			m_serverDirectory = wcsrchr(path, '\\') + 1;
 	}
 
-	const wchar_t* IsFolder() const
+	void SetServerDirectory(const wchar_t *name)
 	{
-		return folderName;
+		if (name)
+			m_serverDirectory = name;
 	}
 
-	const wchar_t* GetFolderName() const
+	const wchar_t* GetServerDirectory() const
 	{
-		return folderName;
+		if (m_serverDirectory.IsEmpty())
+			return nullptr;
+		return m_serverDirectory.GetString();
 	}
 
 	void AddFile(const wchar_t *path)
@@ -149,6 +136,12 @@ public:
 		m_links.insert(mir_strdup(url));
 	}
 
+	const bool IsCurrentFileInSubDirectory() const
+	{
+		const wchar_t *backslash = wcschr(GetCurrentFilePath(), L'\\');
+		return backslash != nullptr;
+	}
+
 	const wchar_t* GetCurrentFilePath() const
 	{
 		return pfts.pszFiles.w[pfts.currentFileNumber];
@@ -156,12 +149,12 @@ public:
 
 	const wchar_t* GetCurrentRelativeFilePath() const
 	{
-		return &GetCurrentFilePath()[relativePathStart];
+		return &GetCurrentFilePath()[m_relativePathStart];
 	}
 
 	const wchar_t* GetCurrentFileName() const
 	{
-		return wcsrchr(pfts.pszFiles.w[pfts.currentFileNumber], '\\') + 1;
+		return wcsrchr(GetCurrentFilePath(), '\\') + 1;
 	}
 
 	void OpenCurrentFile()

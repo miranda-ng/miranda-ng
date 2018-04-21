@@ -20,7 +20,7 @@ UINT UploadAndReportProgressThread(void *owner, void *arg)
 	CCloudService *service = (CCloudService*)owner;
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
-	int res = service->Upload(ftp);
+	int res = CCloudService::Upload(service, ftp);
 	if (res == ACKRESULT_SUCCESS) {
 		CMStringW data = ftp->GetDescription();
 		size_t linkCount;

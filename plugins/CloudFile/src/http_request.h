@@ -117,6 +117,18 @@ protected:
 		va_end(urlArgs);
 	}
 
+	void AddUrlParameterWithEncode(const char *name, const char *valueFormat, ...)
+	{
+		va_list valueArgs;
+		va_start(valueArgs, valueFormat);
+		m_szUrl += m_szUrl.Find('?') == -1 ? '?' : '&';
+		m_szUrl.AppendFormat("%s=", name);
+		CMStringA value;
+		value.AppendFormatV(valueFormat, valueArgs);
+		m_szUrl.Append(ptrA(mir_urlEncode(value)));
+		va_end(valueArgs);
+	}
+
 	void SetData(const char *data, size_t size)
 	{
 		if (pData != NULL)

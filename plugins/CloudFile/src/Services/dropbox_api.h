@@ -1,6 +1,7 @@
 #ifndef _DROPBOXSERVICE_API_H_
 #define _DROPBOXSERVICE_API_H_
 
+// https://www.dropbox.com/developers/documentation/http/documentation
 namespace DropboxAPI
 {
 #define DROPBOX_API_VER "/2"

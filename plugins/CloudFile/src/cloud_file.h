@@ -17,7 +17,7 @@ protected:
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
 	// utils
-	std::string PreparePath(const char *path);
+	std::string PreparePath(const std::string &path) const;
 
 	virtual char* HttpStatusToError(int status = 0);
 	virtual void HttpResponseToError(NETLIBHTTPREQUEST *response);
@@ -27,6 +27,8 @@ protected:
 	void OnModulesLoaded() override;
 
 	JSONNode GetJsonResponse(NETLIBHTTPREQUEST *response);
+
+	virtual void Upload(FileTransferParam *ftp) = 0;
 
 public:
 	std::map<MCONTACT, HWND> InterceptedContacts;
@@ -53,7 +55,7 @@ public:
 
 	void OpenUploadDialog(MCONTACT hContact);
 
-	virtual UINT Upload(FileTransferParam *ftp) = 0;
+	static UINT Upload(CCloudService *service, FileTransferParam *ftp);
 };
 
 #endif //_CLOUD_SERVICE_H_

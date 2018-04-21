@@ -49,9 +49,9 @@ bool CanSendToContact(MCONTACT hContact)
 	if (!canSend)
 		return false;
 
-	bool isProtoOnline = Proto_GetStatus(proto) > ID_STATUS_OFFLINE;
-	if (isProtoOnline)
-		return true;
+	bool isProtoOffline = Proto_GetStatus(proto) <= ID_STATUS_OFFLINE;
+	if (isProtoOffline)
+		return false;
 
 	bool isContactOnline = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE) > ID_STATUS_OFFLINE;
 	if (isContactOnline)
