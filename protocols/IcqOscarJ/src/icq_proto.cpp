@@ -85,6 +85,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	// Initialize server lists
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::ServListCListGroupChange);
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CIcqProto::ServListDbSettingChanged);
 
 	// Initialize status message struct
 	memset(&m_modeMsgs, 0, sizeof(icq_mode_messages));
@@ -1823,9 +1824,6 @@ int CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return ServListDbContactDeleted(wParam, lParam);
-
-	case EV_PROTO_DBSETTINGSCHANGED:
-		return ServListDbSettingChanged(wParam, lParam);
 	}
 	return 1;
 }

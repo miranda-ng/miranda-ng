@@ -61,6 +61,8 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 
 	CreateProtoService(PS_LEAVECHAT, &GaduProto::leavechat);
 
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &GaduProto::dbsettingchanged);
+
 	// Offline contacts and clear logon time
 	setalloffline();
 	setDword(GG_KEY_LOGONTIME, 0);
@@ -738,9 +740,6 @@ int GaduProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return contactdeleted(wParam, lParam);
-
-	case EV_PROTO_DBSETTINGSCHANGED:
-		return dbsettingchanged(wParam, lParam);
 	}
 
 	return TRUE;

@@ -32,7 +32,7 @@ void BuildProtoMenus();
 HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex);
 
 static bool bModuleInitialized = false;
-static HANDLE hHooks[4];
+static HANDLE hHooks[3];
 
 static int CompareAccounts(const PROTOACCOUNT* p1, const PROTOACCOUNT* p2)
 {
@@ -200,16 +200,6 @@ static int OnContactDeleted(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int OnDbSettingsChanged(WPARAM hContact, LPARAM lParam)
-{
-	if (hContact) {
-		PROTOACCOUNT *pa = Proto_GetAccount(hContact);
-		if (pa->IsEnabled() && pa->ppro)
-			pa->ppro->OnEvent(EV_PROTO_DBSETTINGSCHANGED, hContact, lParam);
-	}
-	return 0;
-}
-
 static int InitializeStaticAccounts(WPARAM, LPARAM)
 {
 	int count = 0;
@@ -273,7 +263,6 @@ int LoadAccountsModule(void)
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);
 	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
 	hHooks[2] = HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
-	hHooks[3] = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbSettingsChanged);
 	return 0;
 }
 

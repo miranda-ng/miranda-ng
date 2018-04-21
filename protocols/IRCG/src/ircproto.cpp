@@ -64,6 +64,9 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 	CreateProtoService("/InsertGuiOut", &CIrcProto::Scripting_InsertGuiOut);
 	CreateProtoService("/GetIrcData", &CIrcProto::Scripting_GetIrcData);
 
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CIrcProto::OnDbSettingChanged);
+	HookProtoEvent(ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages);
+
 	codepage = CP_ACP;
 
 	InitPrefs();
@@ -258,8 +261,7 @@ void CIrcProto::OnModulesLoaded()
 	InitIgnore();
 
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIrcProto::OnInitUserInfo);
-	HookProtoEvent(ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages);
-
+	
 	if (m_nick[0]) {
 		wchar_t szBuf[40];
 		if (mir_wstrlen(m_alternativeNick) == 0) {
@@ -819,9 +821,6 @@ int CIrcProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
-
-	case EV_PROTO_DBSETTINGSCHANGED:
-		return OnDbSettingChanged(wParam, lParam);
 	}
 	return 1;
 }

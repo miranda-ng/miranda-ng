@@ -85,6 +85,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CMsnProto::OnGroupChange);
 	HookProtoEvent(ME_OPT_INITIALISE, &CMsnProto::OnOptionsInit);
 	HookProtoEvent(ME_CLIST_DOUBLECLICKED, &CMsnProto::OnContactDoubleClicked);
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CMsnProto::OnDbSettingChanged);
 
 	LoadOptions();
 
@@ -968,9 +969,6 @@ int CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
-
-	case EV_PROTO_DBSETTINGSCHANGED:
-		return OnDbSettingChanged(wParam, lParam);
 	}
 	return 1;
 }

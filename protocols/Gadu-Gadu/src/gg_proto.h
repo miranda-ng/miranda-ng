@@ -61,20 +61,29 @@ struct GaduProto : public PROTO<GaduProto>
 	void     OnShutdown() override;
 
 	//////////////////////////////////////////////////////////////////////////////////////
-	//  Services
+	// Services
 
 	INT_PTR  __cdecl blockuser(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl getmyawaymsg(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl get_acc_mgr_gui(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl leavechat(WPARAM wParam, LPARAM lParam);
 
-	void     __cdecl sendackthread(void *);
-	void     __cdecl searchthread(void *);
-	void     __cdecl cmdgetinfothread(void *hContact);
-	void     __cdecl getawaymsgthread(void *hContact);
-	void     __cdecl dccmainthread(void *);
-	void     __cdecl ftfailthread(void *param);
-	void     __cdecl remindpasswordthread(void *param);
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Threads
+
+	void __cdecl mainthread(void *empty);
+	void __cdecl sendackthread(void *);
+	void __cdecl searchthread(void *);
+	void __cdecl cmdgetinfothread(void *hContact);
+	void __cdecl getawaymsgthread(void *hContact);
+	void __cdecl dccmainthread(void *);
+	void __cdecl ftfailthread(void *param);
+	void __cdecl remindpasswordthread(void *param);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Events
+
+	int __cdecl dbsettingchanged(WPARAM wParam, LPARAM lParam);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,14 +107,12 @@ struct GaduProto : public PROTO<GaduProto>
 	void setalloffline();
 	void disconnect();
 	MCONTACT getcontact(uin_t uin, int create, int inlist, wchar_t *nick);
-	void __cdecl mainthread(void *empty);
 	int isonline();
 	int refreshstatus(int status);
 
 	void broadcastnewstatus(int newStatus);
 	void cleanuplastplugin(DWORD version);
 	int contactdeleted(WPARAM wParam, LPARAM lParam);
-	int dbsettingchanged(WPARAM wParam, LPARAM lParam);
 	void notifyall();
 	void changecontactstatus(uin_t uin, int status, const wchar_t *idescr, int time, uint32_t remote_ip, uint16_t remote_port, uint32_t version);
 	wchar_t *getstatusmsg(int status);
@@ -124,16 +131,16 @@ struct GaduProto : public PROTO<GaduProto>
 	void setAvatar(const wchar_t *szFilename);
 	bool getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts);
 
-	INT_PTR  __cdecl getavatarcaps(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl getavatarinfo(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl getmyavatar(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl setmyavatar(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl getavatarcaps(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl getavatarinfo(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl getmyavatar(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl setmyavatar(WPARAM wParam, LPARAM lParam);
 
 	void initavatarrequestthread();
 
-	void     __cdecl avatarrequestthread(void*);
-	void     __cdecl getOwnAvatarThread(void*);
-	void     __cdecl setavatarthread(void*);
+	void __cdecl avatarrequestthread(void*);
+	void __cdecl getOwnAvatarThread(void*);
+	void __cdecl setavatarthread(void*);
 
 	/* File transfer functions */
 	HANDLE dccfileallow(HANDLE hTransfer, const wchar_t* szPath);

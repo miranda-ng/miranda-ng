@@ -184,6 +184,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	HookProtoEvent(ME_LANGPACK_CHANGED, &CJabberProto::OnLangChanged);
 	HookProtoEvent(ME_OPT_INITIALISE, &CJabberProto::OnOptionsInit);
 	HookProtoEvent(ME_SKIN2_ICONSCHANGED, &CJabberProto::OnReloadIcons);
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CJabberProto::OnDbSettingChanged);
 
 	m_iqManager.FillPermanentHandlers();
 	m_messageManager.FillPermanentHandlers();
@@ -425,7 +426,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", newJid) << XATTR(L"type", L"subscribed"));
 
 	// Automatically add this user to my roster if option is enabled
-	if (m_bAutoAdd == true) {
+	if (m_bAutoAdd) {
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, newJid);
 		if (item == nullptr || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
 			debugLogW(L"Try adding contact automatically jid = %s", blob.get_email());
@@ -1332,9 +1333,6 @@ int CJabberProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
-
-	case EV_PROTO_DBSETTINGSCHANGED:
-		return OnDbSettingChanged(wParam, lParam);
 	}
 	return 1;
 }
