@@ -38,8 +38,7 @@ typedef enum
 {
 	EV_PROTO_ONRENAME,
 	EV_PROTO_ONERASE,
-	EV_PROTO_ONMENU,
-	EV_PROTO_ONCONTACTDELETED
+	EV_PROTO_ONMENU
 }
 	PROTOEVENTTYPE;
 
@@ -226,6 +225,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// events
 
+	virtual	void     OnContactDeleted(MCONTACT);
 	virtual	void     OnModulesLoaded(void); // the analog of ME_SYSTEM_MODULESLOADED for an account
 	virtual	void     OnShutdown(void);      // same for ME_SYSTEM_SHUTDOWN
 	virtual	bool     IsReadyToExit(void);   // same for ME_SYSTEM_OKTOEXIT

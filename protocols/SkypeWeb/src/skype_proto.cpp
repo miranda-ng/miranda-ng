@@ -301,9 +301,6 @@ int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (iEventType) {
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
-
 	case EV_PROTO_ONMENU:
 		return OnInitStatusMenu();
 	}

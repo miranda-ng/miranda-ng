@@ -966,9 +966,6 @@ int CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 		mir_snprintf(szDbsettings, "%s_HTTPS", m_szModuleName);
 		db_delete_module(0, szDbsettings);
 		break;
-
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
 	}
 	return 1;
 }

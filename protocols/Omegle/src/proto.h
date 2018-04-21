@@ -51,7 +51,7 @@ public:
 
 	int     UserIsTyping(MCONTACT hContact, int type) override;
 
-	int     OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
+	void    OnContactDeleted(MCONTACT) override;
 	void    OnModulesLoaded() override;
 	void    OnShutdown() override;
 
@@ -60,7 +60,6 @@ public:
 
 	// Events
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int  __cdecl OnContactDeleted(WPARAM, LPARAM);
 
 	// Chat handling
 	int     __cdecl OnChatEvent(WPARAM, LPARAM);

@@ -172,11 +172,10 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
+void CIrcProto::OnContactDeleted(MCONTACT hContact)
 {
-	MCONTACT hContact = (MCONTACT)wp;
 	if (!hContact)
-		return 0;
+		return;
 
 	DBVARIANT dbv;
 	if (!getWString(hContact, "Nick", &dbv)) {
@@ -192,9 +191,9 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 				PostIrcMessage(L"/PART %s %s", dbv.ptszVal, m_userInfo);
 		}
 		else {
-			BYTE bDCC = getByte((MCONTACT)wp, "DCC", 0);
+			BYTE bDCC = getByte(hContact, "DCC", 0);
 			if (bDCC) {
-				CDccSession *dcc = FindDCCSession((MCONTACT)wp);
+				CDccSession *dcc = FindDCCSession(hContact);
 				if (dcc)
 					dcc->Disconnect();
 			}
@@ -202,7 +201,6 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 
 		db_free(&dbv);
 	}
-	return 0;
 }
 
 INT_PTR __cdecl CIrcProto::OnJoinChat(WPARAM wp, LPARAM)

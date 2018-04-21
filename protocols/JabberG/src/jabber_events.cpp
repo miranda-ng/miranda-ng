@@ -31,14 +31,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnContactDeleted - processes a contact deletion
 
-int CJabberProto::OnContactDeleted(WPARAM hContact, LPARAM)
+void CJabberProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (!m_bJabberOnline)	// should never happen
-		return 0;
+		return;
 
 	ptrW jid(getWStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
 	if (jid == nullptr)
-		return 0;
+		return;
 
 	if (ListGetItemPtr(LIST_ROSTER, jid)) {
 		if (!wcschr(jid, '@')) {
@@ -55,7 +55,6 @@ int CJabberProto::OnContactDeleted(WPARAM hContact, LPARAM)
 
 		ListRemove(LIST_ROSTER, jid);
 	}
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

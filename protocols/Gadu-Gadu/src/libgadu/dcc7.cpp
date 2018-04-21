@@ -1643,8 +1643,6 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 			return e;
 		}
 	}
-
-	return e;
 }
 
 /**

@@ -92,6 +92,49 @@ CDiscordProto::~CDiscordProto()
 	::CloseHandle(m_evRequestsQueue);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::OnModulesLoaded()
+{
+	// Fill users list
+	for (auto &hContact : AccContacts()) {
+		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
+		pNew->hContact = hContact;
+		pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
+		pNew->lastMsg.id = getId(hContact, DB_KEY_LASTMSGID);
+		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
+		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
+		arUsers.insert(pNew);
+	}
+
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
+
+	// Clist
+	Clist_GroupCreate(0, m_wszDefaultGroup);
+
+	HookProtoEvent(ME_GC_EVENT, &CDiscordProto::GroupchatEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
+
+	InitMenus();
+}
+
+void CDiscordProto::OnShutdown()
+{
+	debugLogA("CDiscordProto::OnPreShutdown");
+
+	m_bTerminated = true;
+	SetEvent(m_evRequestsQueue);
+
+	if (m_hGatewayConnection)
+		Netlib_Shutdown(m_hGatewayConnection);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
@@ -422,19 +465,17 @@ int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CDiscordProto::OnDeleteContact(MCONTACT hContact)
+void CDiscordProto::OnContactDeleted(MCONTACT hContact)
 {
 	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
 	if (pUser == nullptr || !m_bOnline)
-		return 0;
+		return;
 
 	if (pUser->channelId)
 		Push(new AsyncHttpRequest(this, REQUEST_DELETE, CMStringA(FORMAT, "/channels/%lld", pUser->channelId), nullptr));
 
 	if (pUser->id)
 		RemoveFriend(pUser->id);
-
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -545,57 +586,4 @@ HANDLE CDiscordProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, 
 	SendFileThreadParam *param = new SendFileThreadParam(hContact, ppszFiles[0], szDescription);
 	ForkThread(&CDiscordProto::SendFileThread, param);
 	return param;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CDiscordProto::OnModulesLoaded()
-{
-	// Fill users list
-	for (auto &hContact : AccContacts()) {
-		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
-		pNew->hContact = hContact;
-		pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
-		pNew->lastMsg.id = getId(hContact, DB_KEY_LASTMSGID);
-		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
-		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
-		arUsers.insert(pNew);
-	}
-
-	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.pszModule = m_szModuleName;
-	Chat_Register(&gcr);
-
-	// Clist
-	Clist_GroupCreate(0, m_wszDefaultGroup);
-
-	HookProtoEvent(ME_GC_EVENT, &CDiscordProto::GroupchatEventHook);
-	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
-
-	InitMenus();
-}
-
-void CDiscordProto::OnShutdown()
-{
-	debugLogA("CDiscordProto::OnPreShutdown");
-
-	m_bTerminated = true;
-	SetEvent(m_evRequestsQueue);
-
-	if (m_hGatewayConnection)
-		Netlib_Shutdown(m_hGatewayConnection);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int CDiscordProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM)
-{
-	switch (event) {
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnDeleteContact((MCONTACT)wParam);
-	}
-
-	return 1;
 }

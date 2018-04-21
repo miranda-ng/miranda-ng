@@ -230,9 +230,6 @@ int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 	case EV_PROTO_ONRENAME:
 		return OnAccountRenamed(wParam, lParam);
 
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
-
 	case EV_PROTO_ONMENU:
 		return OnInitStatusMenu();
 

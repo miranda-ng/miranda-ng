@@ -818,9 +818,6 @@ int CIrcProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 	case EV_PROTO_ONMENU:
 		InitMainMenus();
 		break;
-
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
 	}
 	return 1;
 }

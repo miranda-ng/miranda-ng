@@ -341,23 +341,14 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-int CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM)
+void CSteamProto::OnContactDeleted(MCONTACT hContact)
 {
-	switch (eventType) {
-	case EV_PROTO_ONCONTACTDELETED:
-		if (IsOnline()) {
-			MCONTACT hContact = (MCONTACT)wParam;
-			// remove only authorized contacts
-			if (!getByte(hContact, "Auth", 0)) {
-				ptrA token(getStringA("TokenSecret"));
-				ptrA sessionId(getStringA("SessionID"));
-				ptrA steamId(getStringA("SteamID"));
-				char *who = getStringA(hContact, "SteamID");
-				PushRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
-			}
-		}
-		return 0;
+	// remove only authorized contacts
+	if (!getByte(hContact, "Auth", 0)) {
+		ptrA token(getStringA("TokenSecret"));
+		ptrA sessionId(getStringA("SessionID"));
+		ptrA steamId(getStringA("SteamID"));
+		char *who = getStringA(hContact, "SteamID");
+		PushRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
 	}
-
-	return 1;
 }

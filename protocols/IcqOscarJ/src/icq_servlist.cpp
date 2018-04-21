@@ -2259,7 +2259,7 @@ int CIcqProto::ServListDbSettingChanged(WPARAM hContact, LPARAM lParam)
 }
 
 
-int CIcqProto::ServListDbContactDeleted(WPARAM hContact, LPARAM)
+void CIcqProto::OnContactDeleted(MCONTACT hContact)
 {
 	DeleteFromContactsCache(hContact);
 
@@ -2268,13 +2268,13 @@ int CIcqProto::ServListDbContactDeleted(WPARAM hContact, LPARAM)
 		setWord(hContact, "SrvRecordCount", 0);
 
 	if (!icqOnline() || !m_bSsiEnabled)
-		return 0;
+		return;
 
 	// we need all server contacts on local buddy list
 	DWORD dwUIN;
 	uid_str szUID;
 	if (getContactUid(hContact, &dwUIN, &szUID))
-		return 0;
+		return;
 
 	WORD wContactID = getWord(hContact, DBSETTING_SERVLIST_ID, 0);
 	WORD wGroupID = getWord(hContact, DBSETTING_SERVLIST_GROUP, 0);
@@ -2301,8 +2301,6 @@ int CIcqProto::ServListDbContactDeleted(WPARAM hContact, LPARAM)
 		if (wIgnoreID) // delete ignore record
 			icq_removeServerPrivacyItem(hContact, dwUIN, szUID, wIgnoreID, SSI_ITEM_IGNORE);
 	}
-
-	return 0;
 }
 
 

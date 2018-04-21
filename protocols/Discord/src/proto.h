@@ -257,7 +257,9 @@ public:
 	CDiscordProto(const char*,const wchar_t*);
 	~CDiscordProto();
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
+
 	INT_PTR GetCaps(int, MCONTACT = 0) override;
 
 	HWND CreateExtendedSearchUI(HWND owner) override;
@@ -279,12 +281,14 @@ public:
 	int UserIsTyping(MCONTACT hContact, int type) override;
 
 	int SetStatus(int iNewStatus) override;
-	int OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
 
+	void OnContactDeleted(MCONTACT) override;
 	void OnModulesLoaded() override;
 	void OnShutdown() override;
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Services
+
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
@@ -292,11 +296,15 @@ public:
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Events
+
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	
+	//////////////////////////////////////////////////////////////////////////////////////
 	// dispatch commands
+
 	void OnCommandChannelCreated(const JSONNode&);
 	void OnCommandChannelDeleted(const JSONNode&);
 	void OnCommandChannelUpdated(const JSONNode&);
@@ -321,8 +329,6 @@ public:
 	void OnLoggedIn();
 	void OnLoggedOut();
 	
-	int  OnDeleteContact(MCONTACT hContact);
-
 	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -339,7 +345,9 @@ public:
 	bool RetrieveAvatar(MCONTACT hContact);
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Misc
+
 	void SetServerStatus(int iStatus);
 	void RemoveFriend(SnowFlake id);
 

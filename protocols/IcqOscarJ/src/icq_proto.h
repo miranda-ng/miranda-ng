@@ -94,6 +94,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -664,7 +665,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 	DWORD  icq_addServerPrivacyItem(MCONTACT hContact, DWORD dwUin, char *szUid, WORD wItemId, WORD wType);
 
 	int __cdecl ServListDbSettingChanged(WPARAM wParam, LPARAM lParam);
-	int __cdecl ServListDbContactDeleted(WPARAM wParam, LPARAM lParam);
 	int __cdecl ServListCListGroupChange(WPARAM wParam, LPARAM lParam);
 
 	//----| stdpackets.cpp |----------------------------------------------------------

@@ -70,6 +70,8 @@ struct CIrcProto : public PROTO<CIrcProto>
 	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 			   
 	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+
+	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -91,7 +93,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	INT_PTR __cdecl OnShowServerMenuCommand(WPARAM, LPARAM);
 
 	// Events
-	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int __cdecl OnInitOptionsPages(WPARAM, LPARAM);
 	int __cdecl OnInitUserInfo(WPARAM, LPARAM);
 	int __cdecl OnMenuPreBuild(WPARAM, LPARAM);

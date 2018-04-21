@@ -66,10 +66,13 @@ struct CMsnProto : public PROTO<CMsnProto>
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+
+	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
 	//====| Services |====================================================================
+
 	INT_PTR  __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
 
 	INT_PTR  __cdecl GetAvatarInfo(WPARAM wParam, LPARAM lParam);
@@ -87,7 +90,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	INT_PTR  __cdecl OnLeaveChat(WPARAM wParam, LPARAM lParam);
 
 	//====| Events |======================================================================
-	int  __cdecl OnContactDeleted(WPARAM wParam, LPARAM lParam);
+
 	int  __cdecl OnIdleChanged(WPARAM wParam, LPARAM lParam);
 	int  __cdecl OnGroupChange(WPARAM wParam, LPARAM lParam);
 	int  __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);

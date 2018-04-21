@@ -1330,9 +1330,6 @@ int CJabberProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam
 	case EV_PROTO_ONMENU:
 		MenuInit();
 		break;
-
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
 	}
 	return 1;
 }

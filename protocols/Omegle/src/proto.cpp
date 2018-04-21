@@ -131,18 +131,6 @@ int OmegleProto::SetStatus(int new_status)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
-int OmegleProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
-{
-	switch (event) {
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
-	}
-
-	return 1;
-}
-
-//////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
 INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
@@ -184,10 +172,9 @@ int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int OmegleProto::OnContactDeleted(WPARAM, LPARAM)
+void OmegleProto::OnContactDeleted(MCONTACT)
 {
 	OnLeaveChat(NULL, NULL);
-	return 0;
 }
 
 int OmegleProto::UserIsTyping(MCONTACT hContact, int type)

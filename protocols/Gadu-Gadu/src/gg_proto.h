@@ -57,6 +57,7 @@ struct GaduProto : public PROTO<GaduProto>
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 				
 	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -112,7 +113,6 @@ struct GaduProto : public PROTO<GaduProto>
 
 	void broadcastnewstatus(int newStatus);
 	void cleanuplastplugin(DWORD version);
-	int contactdeleted(WPARAM wParam, LPARAM lParam);
 	void notifyall();
 	void changecontactstatus(uin_t uin, int status, const wchar_t *idescr, int time, uint32_t remote_ip, uint16_t remote_port, uint32_t version);
 	wchar_t *getstatusmsg(int status);

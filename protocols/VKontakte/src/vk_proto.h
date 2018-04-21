@@ -66,14 +66,13 @@ struct CVkProto : public PROTO<CVkProto>
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 	
-	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
 	//==== Events ========================================================================
 
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 

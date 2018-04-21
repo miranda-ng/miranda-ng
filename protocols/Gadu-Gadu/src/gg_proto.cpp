@@ -737,9 +737,6 @@ int GaduProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 	case EV_PROTO_ONMENU:
 		menus_init();
 		break;
-
-	case EV_PROTO_ONCONTACTDELETED:
-		return contactdeleted(wParam, lParam);
 	}
 
 	return TRUE;

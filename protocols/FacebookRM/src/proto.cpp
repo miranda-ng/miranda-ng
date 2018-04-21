@@ -390,9 +390,6 @@ INT_PTR FacebookProto::GetNotificationsCount(WPARAM, LPARAM)
 int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
-
 	case EV_PROTO_ONMENU:
 		InitMenu();
 		break;

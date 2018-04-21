@@ -553,7 +553,7 @@ HANDLE FacebookProto::GetAwayMsg(MCONTACT)
 	return nullptr; // Status messages are disabled
 }
 
-int FacebookProto::OnContactDeleted(WPARAM hContact, LPARAM)
+void FacebookProto::OnContactDeleted(MCONTACT hContact)
 {
 	// Remove this contact from caches
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
@@ -572,7 +572,6 @@ int FacebookProto::OnContactDeleted(WPARAM hContact, LPARAM)
 
 	// Cancel friendship (with confirmation)
 	CancelFriendship(hContact, 1);
-	return 0;
 }
 
 

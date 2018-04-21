@@ -55,6 +55,7 @@ public:
 	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 
 	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -287,8 +288,6 @@ private:
 	void LoadContactsAuth(const NETLIBHTTPREQUEST *response);
 	void LoadContactsInfo(const NETLIBHTTPREQUEST *response);
 	void LoadContactList(const NETLIBHTTPREQUEST *response);
-
-	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	void OnBlockContact(const NETLIBHTTPREQUEST *response, void *p);
 	void OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p);

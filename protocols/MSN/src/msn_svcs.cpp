@@ -245,10 +245,10 @@ INT_PTR CMsnProto::SendNudge(WPARAM hContact, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnContactDeleted - called when a contact is deleted from list
 
-int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM)
+void CMsnProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (!msnLoggedIn)  //should never happen for MSN contacts
-		return 0;
+		return;
 
 	if (isChatRoom(hContact)) {
 		DBVARIANT dbv;
@@ -278,8 +278,6 @@ int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM)
 				MSN_AddUser(hContact, szEmail, 0, LIST_LL | LIST_REMOVE);
 		}
 	}
-
-	return 0;
 }
 
 

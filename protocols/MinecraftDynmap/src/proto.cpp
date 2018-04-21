@@ -128,18 +128,6 @@ int MinecraftDynmapProto::SetStatus(int new_status)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
-int MinecraftDynmapProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
-{
-	switch(event) {
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
-	}
-
-	return 1;
-}
-
-//////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
 INT_PTR MinecraftDynmapProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
@@ -162,10 +150,9 @@ void MinecraftDynmapProto::OnShutdown()
 	SetStatus(ID_STATUS_OFFLINE);
 }
 
-int MinecraftDynmapProto::OnContactDeleted(WPARAM, LPARAM)
+void MinecraftDynmapProto::OnContactDeleted(MCONTACT)
 {
 	OnLeaveChat(NULL, NULL);
-	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////

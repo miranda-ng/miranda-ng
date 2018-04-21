@@ -47,6 +47,7 @@ public:
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 
 	// icons
@@ -165,8 +166,6 @@ private:
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
-
-	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, size_t length, void *arg);
 	static void OnFriendNameChange(Tox *tox, uint32_t friendNumber, const uint8_t *name, size_t length, void *arg);

@@ -1821,9 +1821,6 @@ int CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 		mir_snprintf(szDbSetting, "%sGroups", m_szModuleName);
 		db_delete_module(0, szDbSetting);
 		break;
-
-	case EV_PROTO_ONCONTACTDELETED:
-		return ServListDbContactDeleted(wParam, lParam);
 	}
 	return 1;
 }

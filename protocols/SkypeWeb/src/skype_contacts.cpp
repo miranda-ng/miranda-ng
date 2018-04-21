@@ -282,13 +282,11 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
+void CSkypeProto::OnContactDeleted(MCONTACT hContact)
 {
-	if (!IsOnline()) return 1;
-
-	if (hContact && !isChatRoom(hContact))
-		PushRequest(new DeleteContactRequest(li, Contacts[hContact]));
-	return 0;
+	if (IsOnline())
+		if (hContact && !isChatRoom(hContact))
+			PushRequest(new DeleteContactRequest(li, Contacts[hContact]));
 }
 
 INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)

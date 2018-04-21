@@ -190,12 +190,12 @@ void WriteDbAccounts()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnContactDeleted(WPARAM hContact, LPARAM lParam)
+static int OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	if (hContact) {
 		PROTOACCOUNT *pa = Proto_GetAccount(hContact);
 		if (pa->IsEnabled() && pa->ppro)
-			pa->ppro->OnEvent(EV_PROTO_ONCONTACTDELETED, hContact, lParam);
+			pa->ppro->OnContactDeleted(hContact);
 	}
 	return 0;
 }

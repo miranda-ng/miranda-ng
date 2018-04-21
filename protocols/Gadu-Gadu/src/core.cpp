@@ -1241,7 +1241,8 @@ void GaduProto::broadcastnewstatus(int newStatus)
 
 ////////////////////////////////////////////////////////////
 // When contact is deleted
-int GaduProto::contactdeleted(WPARAM hContact, LPARAM)
+
+void GaduProto::OnContactDeleted(MCONTACT hContact)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 
@@ -1260,7 +1261,7 @@ int GaduProto::contactdeleted(WPARAM hContact, LPARAM)
 			Chat_Control(m_szModuleName, wszRoomId, SESSION_OFFLINE);
 			Chat_Terminate(m_szModuleName, wszRoomId);
 		}
-		return 0;
+		return;
 	}
 
 	if (uin && isonline())
@@ -1269,8 +1270,6 @@ int GaduProto::contactdeleted(WPARAM hContact, LPARAM)
 		gg_remove_notify_ex(m_sess, uin, GG_USER_NORMAL);
 		gg_LeaveCriticalSection(&sess_mutex, "contactdeleted", 25, 1, "sess_mutex", 1);
 	}
-
-	return 0;
 }
 
 ////////////////////////////////////////////////////////////

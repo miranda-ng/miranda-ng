@@ -44,15 +44,12 @@ public:
 	INT_PTR GetCaps(int type, MCONTACT hContact = NULL) override;
 	int     SetStatus(int iNewStatus) override;
 
-	int     OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void    OnContactDeleted(MCONTACT) override;
 	void    OnModulesLoaded() override;
 	void    OnShutdown() override;
 
 	// Services
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
-
-	// Events
-	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
 
 	// Chat handling
 	int     __cdecl OnChatEvent(WPARAM,LPARAM);
