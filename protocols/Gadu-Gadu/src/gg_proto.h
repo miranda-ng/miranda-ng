@@ -31,32 +31,34 @@ struct GaduProto : public PROTO<GaduProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-
-	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
-	virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
-
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
-
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
-	virtual	HANDLE    __cdecl SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
-	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
-	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
-
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles);
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
-
-	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
-	virtual	int       __cdecl SetStatus(int iNewStatus);
-
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t* msg);
-
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
-
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+				 
+	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath) override;
+	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason) override;
+				 
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	int      GetInfo(MCONTACT hContact, int infoType) override;
+				
+	HANDLE   SearchBasic(const wchar_t* id) override;
+	HANDLE   SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName) override;
+	HWND     SearchAdvanced(HWND owner) override;
+	HWND     CreateExtendedSearchUI(HWND owner) override;
+				
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
+				
+	int      SetApparentMode(MCONTACT hContact, int mode) override;
+	int      SetStatus(int iNewStatus) override;
+				
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+	int      SetAwayMsg(int m_iStatus, const wchar_t* msg) override;
+				
+	int      UserIsTyping(MCONTACT hContact, int type) override;
+				
+	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//  Services

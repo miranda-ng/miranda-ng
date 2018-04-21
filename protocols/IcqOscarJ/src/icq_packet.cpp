@@ -443,8 +443,8 @@ void packLETLVLNTS(PBYTE *buf, size_t *bufpos, const char *str, WORD wType)
 	size_t len = mir_strlen(str) + 1;
 
 	*(PWORD)(*buf + *bufpos) = wType;
-	*(PWORD)(*buf + *bufpos + 2) = DWORD(len + 2);
-	*(PWORD)(*buf + *bufpos + 4) = DWORD(len);
+	*(PWORD)(*buf + *bufpos + 2) = WORD(len + 2);
+	*(PWORD)(*buf + *bufpos + 4) = WORD(len);
 	memcpy(*buf + *bufpos + 6, str, len);
 	*bufpos += len + 6;
 }
@@ -469,9 +469,9 @@ void ppackLETLVWordLNTS(PBYTE *buf, size_t *buflen, WORD w, const char *str, WOR
 
 	*buf = (PBYTE)SAFE_REALLOC(*buf, 8 + *buflen + len);
 	*(PWORD)(*buf + *buflen) = wType;
-	*(PWORD)(*buf + *buflen + 2) = DWORD(len + 4);
+	*(PWORD)(*buf + *buflen + 2) = WORD(len + 4);
 	*(PWORD)(*buf + *buflen + 4) = w;
-	*(PWORD)(*buf + *buflen + 6) = DWORD(len);
+	*(PWORD)(*buf + *buflen + 6) = WORD(len);
 	memcpy(*buf + *buflen + 8, str, len);
 	*buflen += len + 8;
 }
@@ -483,8 +483,8 @@ void ppackLETLVLNTSByte(PBYTE *buf, size_t *buflen, const char *str, BYTE b, WOR
 
 	*buf = (PBYTE)SAFE_REALLOC(*buf, 7 + *buflen + len);
 	*(PWORD)(*buf + *buflen) = wType;
-	*(PWORD)(*buf + *buflen + 2) = DWORD(len + 3);
-	*(PWORD)(*buf + *buflen + 4) = DWORD(len);
+	*(PWORD)(*buf + *buflen + 2) = WORD(len + 3);
+	*(PWORD)(*buf + *buflen + 4) = WORD(len);
 	memcpy(*buf + *buflen + 6, str, len);
 	*(*buf + *buflen + 6 + len) = b;
 	*buflen += len + 7;

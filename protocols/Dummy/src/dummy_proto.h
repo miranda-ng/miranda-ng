@@ -28,21 +28,15 @@ struct CDummyProto : public PROTO<CDummyProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
+	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
 
-	virtual	int       __cdecl SetStatus(int iNewStatus);
+	int      SetStatus(int iNewStatus) override;
 
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
+	HANDLE   SearchBasic(const wchar_t* id) override;
 
-	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-
-	//==== Events ========================================================================
-
-	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
-	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
 
 	//==== Services ======================================================================
 

@@ -123,7 +123,7 @@ FacebookProto::~FacebookProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT)
+INT_PTR FacebookProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -149,7 +149,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT)
 	case PFLAG_MAXLENOFMESSAGE:
 		return FACEBOOK_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR) "Facebook ID";
+		return (INT_PTR) "Facebook ID";
 	}
 	return 0;
 }
@@ -390,12 +390,6 @@ INT_PTR FacebookProto::GetNotificationsCount(WPARAM, LPARAM)
 int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam, lParam);
-
-	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(wParam, lParam);
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 
@@ -416,7 +410,7 @@ INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 		(HWND)lParam, FBAccountProc, (LPARAM)this);
 }
 
-int FacebookProto::OnModulesLoaded(WPARAM, LPARAM)
+void FacebookProto::OnModulesLoaded()
 {
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &FacebookProto::OnProcessSrmmEvent);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &FacebookProto::OnPreCreateEvent);
@@ -427,13 +421,11 @@ int FacebookProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = FACEBOOK_MESSAGE_LIMIT;
 	Chat_Register(&gcr);
-	return 0;
 }
 
-int FacebookProto::OnPreShutdown(WPARAM, LPARAM)
+void FacebookProto::OnShutdown()
 {
 	SetStatus(ID_STATUS_OFFLINE);
-	return 0;
 }
 
 int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)

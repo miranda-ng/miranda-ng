@@ -218,7 +218,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 		if (!pa->ppro || !pa->IsEnabled())
 			continue;
 
-		pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
+		pa->ppro->OnModulesLoaded();
 
 		if (!pa->bOldProto)
 			count++;
@@ -243,13 +243,13 @@ static int UninitializeStaticAccounts(WPARAM, LPARAM)
 	// request permission to exit first
 	for (auto &pa : accounts)
 		if (pa->ppro && pa->IsEnabled())
-			if (pa->ppro->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != TRUE)
+			if (!pa->ppro->IsReadyToExit())
 				return 1;
 
 	// okay, all protocols are ready, exiting
 	for (auto &pa : accounts)
 		if (pa->ppro && pa->IsEnabled())
-			pa->ppro->OnEvent(EV_PROTO_ONEXIT, 0, 0);
+			pa->ppro->OnShutdown();
 
 	return 0;
 }
@@ -306,7 +306,7 @@ bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 
 	if (bIsDynamic) {
 		if (bModulesLoadedFired)
-			pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
+			pa->ppro->OnModulesLoaded();
 		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
 			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 		pa->bDynDisabled = false;
@@ -356,10 +356,10 @@ static int DeactivationThread(DeactivationThreadParam* param)
 	char *szModuleName = NEWSTR_ALLOCA(p->m_szModuleName);
 
 	if (param->bIsDynamic) {
-		while (p->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != TRUE)
+		while (!p->IsReadyToExit())
 			SleepEx(100, TRUE);
 
-		p->OnEvent(EV_PROTO_ONEXIT, 0, 0);
+		p->OnShutdown();
 	}
 
 	KillObjectThreads(p); // waits for them before terminating

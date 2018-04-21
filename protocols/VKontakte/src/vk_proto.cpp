@@ -17,11 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static int sttCompareProtocols(const CVkProto *p1, const CVkProto *p2)
-{
-	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
 static int sttCompareAsyncHttpRequest(const AsyncHttpRequest *p1, const AsyncHttpRequest *p2)
 {
 	if (p1->m_priority == p2->m_priority)
@@ -92,7 +87,7 @@ CVkProto::~CVkProto()
 		Popup_UnregisterClass(m_hPopupClassNotification);
 }
 
-int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
+void CVkProto::OnModulesLoaded()
 {
 	Clist_GroupCreate(0, m_vkOptions.pwszDefaultGroup);
 
@@ -118,7 +113,6 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 	InitPopups();
 	InitMenus();
 	InitDBCustomEvents();
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -483,18 +477,17 @@ void  CVkProto::InitDBCustomEvents()
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::OnPreShutdown(WPARAM, LPARAM)
+void CVkProto::OnShutdown()
 {
 	debugLogA("CVkProto::OnPreShutdown");
 
 	m_bTerminated = true;
 	SetEvent(m_evRequestsQueue);
-	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
+INT_PTR CVkProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -518,7 +511,7 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
 		return 4096;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)"VKontakte ID";
+		return (INT_PTR)"VKontakte ID";
 	}
 	return 0;
 }
@@ -528,12 +521,6 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
 int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam, lParam);
-
-	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(wParam, lParam);
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 	}

@@ -179,7 +179,7 @@ CMsnProto::~CMsnProto()
 	FreeAuthTokens();
 }
 
-int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
+void CMsnProto::OnModulesLoaded()
 {
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
@@ -193,11 +193,10 @@ int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	HookProtoEvent(ME_IDLE_CHANGED, &CMsnProto::OnIdleChanged);
 	InitPopups();
-	return 0;
 }
 
 // OnPreShutdown - prepare a global Miranda shutdown
-int CMsnProto::OnPreShutdown(WPARAM, LPARAM)
+void CMsnProto::OnShutdown()
 {
 	g_bTerminated = true;
 	ReleaseSemaphore(hevAvatarQueue, 1, nullptr);
@@ -205,7 +204,6 @@ int CMsnProto::OnPreShutdown(WPARAM, LPARAM)
 	Popup_UnregisterClass(hPopupError);
 	Popup_UnregisterClass(hPopupHotmail);
 	Popup_UnregisterClass(hPopupNotify);
-	return 0;
 }
 
 // MsnAddToList - adds contact to the server list
@@ -236,7 +234,7 @@ MCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD 
 	return hContact;
 }
 
-MCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	wchar_t *id = psr->id.w ? psr->id.w : psr->email.w;
 	return AddToListByEmail(
@@ -245,7 +243,7 @@ MCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		flags);
 }
 
-MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
+MCONTACT CMsnProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
@@ -266,7 +264,7 @@ int CMsnProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 }
 
 // PSS_AUTHREQUEST
-int __cdecl CMsnProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
+int CMsnProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	if (msnLoggedIn) {
 		char email[MSN_MAX_EMAIL_LEN];
@@ -407,7 +405,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 }
 
 
-HANDLE __cdecl CMsnProto::SearchBasic(const wchar_t* id)
+HANDLE CMsnProto::SearchBasic(const wchar_t* id)
 {
 	if (!msnLoggedIn) return nullptr;
 
@@ -417,7 +415,7 @@ HANDLE __cdecl CMsnProto::SearchBasic(const wchar_t* id)
 	return email;
 }
 
-HANDLE __cdecl CMsnProto::SearchByEmail(const wchar_t* email)
+HANDLE CMsnProto::SearchByEmail(const wchar_t* email)
 {
 	return SearchBasic(email);
 }
@@ -523,7 +521,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 }
 
 // MsnFileAllow - starts the file transfer
-HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
+HANDLE CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -544,7 +542,7 @@ HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* s
 }
 
 // MsnFileCancel - cancels the active file transfer
-int __cdecl CMsnProto::FileCancel(MCONTACT, HANDLE hTransfer)
+int CMsnProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -554,7 +552,7 @@ int __cdecl CMsnProto::FileCancel(MCONTACT, HANDLE hTransfer)
 }
 
 // MsnFileDeny - rejects the file transfer request
-int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t* /*szReason*/)
+int CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t* /*szReason*/)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 	if (ft->tType == SERVER_HTTP)
@@ -564,7 +562,7 @@ int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t* /*szR
 }
 
 // MsnFileResume - renames a file
-int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
+int CMsnProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -615,7 +613,7 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 	mir_free(inf);
 }
 
-HANDLE __cdecl CMsnProto::GetAwayMsg(MCONTACT hContact)
+HANDLE CMsnProto::GetAwayMsg(MCONTACT hContact)
 {
 	AwayMsgInfo* inf = (AwayMsgInfo*)mir_alloc(sizeof(AwayMsgInfo));
 	inf->hContact = hContact;
@@ -626,7 +624,7 @@ HANDLE __cdecl CMsnProto::GetAwayMsg(MCONTACT hContact)
 }
 
 // MsnGetCaps - obtain the protocol capabilities
-DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
+INT_PTR CMsnProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -647,7 +645,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 		return PF2_ONTHEPHONE;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (UINT_PTR)Translate("Live ID");
+		return (INT_PTR)Translate("Live ID");
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 1202;
@@ -660,7 +658,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 }
 
 // MsnRecvMessage - creates a database event from the message been received
-int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
+int CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (!db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail))
@@ -744,7 +742,7 @@ void CMsnProto::MsnFakeAck(void* arg)
 }
 
 // MsnSendMessage - sends the message to a server
-int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
+int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 {
 	const char *errMsg = nullptr;
 
@@ -827,7 +825,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 }
 
 // MsnSendContacts - sends contacts to a certain user
-int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
+int CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
 {
 	if (!msnLoggedIn)
 		return 0;
@@ -851,7 +849,7 @@ int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 }
 
 // MsnSetAwayMsg - sets the current status message for a user
-int __cdecl CMsnProto::SetAwayMsg(int status, const wchar_t* msg)
+int CMsnProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	char** msgptr = GetStatusMsgLoc(status);
 
@@ -880,7 +878,7 @@ int __cdecl CMsnProto::SetAwayMsg(int status, const wchar_t* msg)
 }
 
 // MsnSetStatus - set the plugin's connection status
-int __cdecl CMsnProto::SetStatus(int iNewStatus)
+int CMsnProto::SetStatus(int iNewStatus)
 {
 	if (m_iDesiredStatus == iNewStatus) return 0;
 
@@ -926,7 +924,7 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 }
 
 // MsnUserIsTyping - notify another contact that we're typing a message
-int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
+int CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (!msnLoggedIn) return 0;
 
@@ -943,7 +941,7 @@ int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 }
 
 //	MsnSetApparentMode - controls contact visibility
-int __cdecl CMsnProto::SetApparentMode(MCONTACT hContact, int mode)
+int CMsnProto::SetApparentMode(MCONTACT hContact, int mode)
 {
 	if (mode && mode != ID_STATUS_OFFLINE)
 		return 1;
@@ -955,15 +953,9 @@ int __cdecl CMsnProto::SetApparentMode(MCONTACT hContact, int mode)
 	return 1;
 }
 
-int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (eventType) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(0, 0);
-
-	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(0, 0);
-
 	case EV_PROTO_ONMENU:
 		MsnInitMainMenu();
 		break;

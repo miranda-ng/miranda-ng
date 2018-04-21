@@ -28,21 +28,21 @@ public:
 
 	//PROTO_INTERFACE
 
-	virtual	MCONTACT  __cdecl AddToList(int,PROTOSEARCHRESULT *);
+	MCONTACT AddToList(int,PROTOSEARCHRESULT *) override;
 
-	virtual	DWORD_PTR __cdecl GetCaps(int, MCONTACT = 0);
-	virtual	int       __cdecl GetInfo(MCONTACT, int);
+	INT_PTR  GetCaps(int, MCONTACT = 0) override;
+	int      GetInfo(MCONTACT, int) override;
 
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *);
-	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t *);
+	HANDLE   SearchBasic(const wchar_t *) override;
+	HANDLE   SearchByEmail(const wchar_t *) override;
 
-	virtual	int       __cdecl SendMsg(MCONTACT, int, const char *);
+	int      SendMsg(MCONTACT, int, const char *) override;
 
-	virtual	int       __cdecl SetStatus(int);
+	int      SetStatus(int) override;
 
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT);
+	HANDLE   GetAwayMsg(MCONTACT) override;
 
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE,WPARAM,LPARAM);
+	void     OnModulesLoaded() override;
 
 	void UpdateSettings();
 
@@ -62,7 +62,6 @@ public:
 	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
 	int  __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM,LPARAM);
-	int  __cdecl OnModulesLoaded(WPARAM,LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 	int  __cdecl OnChatOutgoing(WPARAM,LPARAM);
 

@@ -43,7 +43,18 @@ CToxProto::~CToxProto()
 	UninitNetlib();
 }
 
-DWORD_PTR CToxProto::GetCaps(int type, MCONTACT)
+void CToxProto::OnModulesLoaded()
+{
+	Clist_GroupCreate(0, m_defaultGroup);
+
+	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
+
+	InitCustomDbEvents();
+}
+
+INT_PTR CToxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -216,9 +227,6 @@ int CToxProto::UserIsTyping(MCONTACT hContact, int type)
 int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (iEventType) {
-	case EV_PROTO_ONLOAD:
-		return OnAccountLoaded(wParam, lParam);
-
 	case EV_PROTO_ONRENAME:
 		return OnAccountRenamed(wParam, lParam);
 

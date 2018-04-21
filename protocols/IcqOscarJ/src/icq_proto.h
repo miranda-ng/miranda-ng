@@ -54,46 +54,48 @@ struct CIcqProto : public PROTO<CIcqProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT *psr);
-	virtual	MCONTACT  __cdecl AddToListByEvent( int flags, int iContact, MEVENT hDbEvent);
+	MCONTACT AddToList( int flags, PROTOSEARCHRESULT *psr) override;
+	MCONTACT AddToListByEvent( int flags, int iContact, MEVENT hDbEvent) override;
 
-	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
-	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
+	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT*) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
-	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason);
-	virtual	int       __cdecl FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename);
+	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
+	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
+	int      FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	int      GetInfo(MCONTACT hContact, int infoType) override;
 
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *id);
-	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t *email);
-	virtual	HANDLE    __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
-	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
-	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
+	HANDLE   SearchBasic(const wchar_t *id) override;
+	HANDLE   SearchByEmail(const wchar_t *email) override;
+	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
+	HWND     SearchAdvanced(HWND owner) override;
+	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
+	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;
+	int      RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 
-	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
-	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char *url);
+	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
+	int      SendUrl(MCONTACT hContact, int flags, const char *url) override;
 
-	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
-	virtual	int       __cdecl SetStatus(int iNewStatus);
+	int      SetApparentMode(MCONTACT hContact, int mode) override;
+	int      SetStatus(int iNewStatus) override;
 
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t *msg);
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt) override;
+	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	//====| Services |====================================================================
 	INT_PTR  __cdecl AddServerContact(WPARAM wParam, LPARAM lParam);
@@ -123,9 +125,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
     //====| Events |======================================================================
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
-	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnPreBuildContactMenu(WPARAM, LPARAM);
 	int  __cdecl OnUserInfoInit(WPARAM, LPARAM);
 

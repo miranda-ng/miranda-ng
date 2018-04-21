@@ -36,9 +36,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef enum
 {
-	EV_PROTO_ONLOAD,
-	EV_PROTO_ONREADYTOEXIT,
-	EV_PROTO_ONEXIT,
 	EV_PROTO_ONRENAME,
 	EV_PROTO_ONERASE,
 	EV_PROTO_ONMENU,
@@ -184,48 +181,55 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
-	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
-						    
-	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
-	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
-						    
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
-	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
-	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename);
+	virtual	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
+						   
+	virtual	int      Authorize(MEVENT hDbEvent);
+	virtual	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
+	virtual	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int      AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
+						   
+	virtual	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
+	virtual	int      FileCancel(MCONTACT hContact, HANDLE hTransfer);
+	virtual	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
+	virtual	int      FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename);
+						   
+	virtual	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL);
+	virtual	int      GetInfo(MCONTACT hContact, int infoType);
+						   
+	virtual	HANDLE   SearchBasic(const wchar_t* id);
+	virtual	HANDLE   SearchByEmail(const wchar_t* email);
+	virtual	HANDLE   SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
+	virtual	HWND     SearchAdvanced(HWND owner);
+	virtual	HWND     CreateExtendedSearchUI(HWND owner);
+						   
+	virtual	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int      RecvFile(MCONTACT hContact, PROTORECVFILE*);
+	virtual	int      RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int      RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
+						   
+	virtual	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
+	virtual	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
+	virtual	int      SendMsg(MCONTACT hContact, int flags, const char *msg);
+	virtual	int      SendUrl(MCONTACT hContact, int flags, const char *url);
+						   
+	virtual	int      SetApparentMode(MCONTACT hContact, int mode);
+	virtual	int      SetStatus(int iNewStatus);
+						   
+	virtual	HANDLE   GetAwayMsg(MCONTACT hContact);
+	virtual	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt);
+	virtual	int      SetAwayMsg(int iStatus, const wchar_t* msg);
+						   
+	virtual	int      UserIsTyping(MCONTACT hContact, int type);
+						   
+	virtual	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
+	//////////////////////////////////////////////////////////////////////////////////////
+	// events
 
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
-	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t* email);
-	virtual	HANDLE    __cdecl SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
-	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
-	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
-
-	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILE*);
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
-
-	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
-	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char *url);
-
-	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
-	virtual	int       __cdecl SetStatus(int iNewStatus);
-
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const wchar_t* msg);
-
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
-
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
+	virtual	void     OnModulesLoaded(void); // the analog of ME_SYSTEM_MODULESLOADED for an account
+	virtual	void     OnShutdown(void);      // same for ME_SYSTEM_SHUTDOWN
+	virtual	bool     IsReadyToExit(void);   // same for ME_SYSTEM_OKTOEXIT
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
+void CSteamProto::OnModulesLoaded()
 {
 	Clist_GroupCreate(0, m_defaultGroup);
 
@@ -16,7 +16,6 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 	dbEventType.eventType = EVENTTYPE_STEAM_CHATSTATES;
 	dbEventType.descr = "Chat state notifications";
 	DbEvent_RegisterType(&dbEventType);
-	return 0;
 }
 
 INT_PTR CSteamProto::OnAccountManagerInit(WPARAM, LPARAM lParam)

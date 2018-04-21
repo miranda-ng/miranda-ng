@@ -79,7 +79,7 @@ OmegleProto::~OmegleProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR OmegleProto::GetCaps(int type, MCONTACT)
+INT_PTR OmegleProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -91,7 +91,7 @@ DWORD_PTR OmegleProto::GetCaps(int type, MCONTACT)
 	case PFLAG_MAXLENOFMESSAGE:
 		return OMEGLE_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("Visible name");
+		return (INT_PTR)Translate("Visible name");
 	}
 	return 0;
 }
@@ -135,12 +135,6 @@ int OmegleProto::SetStatus(int new_status)
 int OmegleProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam, lParam);
-
-	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(wParam, lParam);
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 	}
@@ -157,7 +151,7 @@ INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 		(HWND)lParam, OmegleAccountProc, (LPARAM)this);
 }
 
-int OmegleProto::OnModulesLoaded(WPARAM, LPARAM)
+void OmegleProto::OnModulesLoaded()
 {
 	// Register group chat
 	GCREGISTER gcr = {};
@@ -166,8 +160,11 @@ int OmegleProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = OMEGLE_MESSAGE_LIMIT;
 	Chat_Register(&gcr);
+}
 
-	return 0;
+void OmegleProto::OnShutdown()
+{
+	SetStatus(ID_STATUS_OFFLINE);
 }
 
 int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
@@ -184,12 +181,6 @@ int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = OmegleOptionsProc;
 	Options_AddPage(wParam, &odp);
-	return 0;
-}
-
-int OmegleProto::OnPreShutdown(WPARAM, LPARAM)
-{
-	SetStatus(ID_STATUS_OFFLINE);
 	return 0;
 }
 

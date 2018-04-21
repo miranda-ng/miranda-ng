@@ -187,7 +187,7 @@ int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 	return 1;
 }
 
-DWORD_PTR CSteamProto:: GetCaps(int type, MCONTACT)
+INT_PTR CSteamProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -199,7 +199,7 @@ DWORD_PTR CSteamProto:: GetCaps(int type, MCONTACT)
 	case PFLAGNUM_5:
 		return PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("SteamID");
+		return (INT_PTR)Translate("SteamID");
 	default:
 		return 0;
 	}
@@ -341,12 +341,9 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-int CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM)
 {
 	switch (eventType) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam, lParam);
-
 	case EV_PROTO_ONCONTACTDELETED:
 		if (IsOnline()) {
 			MCONTACT hContact = (MCONTACT)wParam;
@@ -356,17 +353,10 @@ int CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 				ptrA sessionId(getStringA("SessionID"));
 				ptrA steamId(getStringA("SteamID"));
 				char *who = getStringA(hContact, "SteamID");
-				PushRequest(
-					new RemoveFriendRequest(token, sessionId, steamId, who),
-					&CSteamProto::OnFriendRemoved,
-					(void*)who);
+				PushRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
 			}
 		}
 		return 0;
-
-	case EV_PROTO_ONMENU:
-		//OnInitStatusMenu();
-		break;
 	}
 
 	return 1;

@@ -31,8 +31,6 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserN
 	CreateProtoService(PS_GETNAME, &CSametimeProto::GetName);
 	CreateProtoService(PS_LOADICON, &CSametimeProto::SametimeLoadIcon);
 
-	HookProtoEvent(ME_SYSTEM_MODULESLOADED, &CSametimeProto::OnModulesLoaded);
-	HookProtoEvent(ME_SYSTEM_PRESHUTDOWN, &CSametimeProto::OnPreShutdown);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CSametimeProto::OnWindowEvent);
 	HookProtoEvent(ME_IDLE_CHANGED, &CSametimeProto::OnIdleChanged);
 	HookProtoEvent(ME_DB_CONTACT_DELETED, &CSametimeProto::OnSametimeContactDeleted);
@@ -112,7 +110,7 @@ int CSametimeProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** sz
 }
 
 
-DWORD_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
+INT_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -124,7 +122,7 @@ DWORD_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_4:
 		return PF4_SUPPORTTYPING;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("ID");
+		return (INT_PTR)Translate("ID");
 	case PFLAG_MAXLENOFMESSAGE:
 		return MAX_MESSAGE_SIZE;
 	default:

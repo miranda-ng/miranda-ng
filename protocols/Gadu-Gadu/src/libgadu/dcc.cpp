@@ -1329,8 +1329,6 @@ struct gg_event *gg_dcc_watch_fd(struct gg_dcc *h)
 				return e;
 		}
 	}
-
-	return e;
 }
 
 /**

@@ -87,7 +87,7 @@ int CDummyProto::getTemplateId()
 	return id;
 }
 
-DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
+INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -115,7 +115,7 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
 			if (setting != NULL)
 				strncpy_s(uniqueIdSetting, setting, _TRUNCATE);
 		}
-		return (DWORD_PTR)uniqueIdSetting;
+		return (INT_PTR)uniqueIdSetting;
 	}
 	return 0;
 }

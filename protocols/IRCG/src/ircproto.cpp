@@ -175,7 +175,7 @@ static int sttCheckPerform(const char *szSetting, void *lParam)
 	return 0;
 }
 
-int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
+void CIrcProto::OnModulesLoaded()
 {
 	wchar_t name[128];
 	mir_snwprintf(name, TranslateT("%s server connection"), m_tszUserName);
@@ -274,14 +274,12 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 			mir_wstrncpy(m_name, szBuf, 200);
 		}
 	}
-
-	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
+MCONTACT CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
 	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
@@ -322,7 +320,7 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthAllow - processes the successful authorization
 
-int __cdecl CIrcProto::Authorize(MEVENT)
+int CIrcProto::Authorize(MEVENT)
 {
 	return 0;
 }
@@ -330,7 +328,7 @@ int __cdecl CIrcProto::Authorize(MEVENT)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthDeny - handles the unsuccessful authorization
 
-int __cdecl CIrcProto::AuthDeny(MEVENT, const wchar_t*)
+int CIrcProto::AuthDeny(MEVENT, const wchar_t*)
 {
 	return 0;
 }
@@ -338,7 +336,7 @@ int __cdecl CIrcProto::AuthDeny(MEVENT, const wchar_t*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CIrcProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
+HANDLE CIrcProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
@@ -359,7 +357,7 @@ HANDLE __cdecl CIrcProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* s
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileCancel - cancels a file transfer
 
-int __cdecl CIrcProto::FileCancel(MCONTACT, HANDLE hTransfer)
+int CIrcProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
@@ -375,7 +373,7 @@ int __cdecl CIrcProto::FileCancel(MCONTACT, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CIrcProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t*)
+int CIrcProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t*)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 	delete di;
@@ -385,7 +383,7 @@ int __cdecl CIrcProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileResume - processes file renaming etc
 
-int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
+int CIrcProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
@@ -431,7 +429,7 @@ int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CIrcProto::GetCaps(int type, MCONTACT)
+INT_PTR CIrcProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -447,7 +445,7 @@ DWORD_PTR __cdecl CIrcProto::GetCaps(int type, MCONTACT)
 		return PF4_NOAUTHDENYREASON | PF4_NOCUSTOMAUTH;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("Nickname");
+		return (INT_PTR)Translate("Nickname");
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 400;
@@ -477,7 +475,7 @@ void __cdecl CIrcProto::AckBasicSearch(void *arg)
 	delete param;
 }
 
-HANDLE __cdecl CIrcProto::SearchBasic(const wchar_t* szId)
+HANDLE CIrcProto::SearchBasic(const wchar_t* szId)
 {
 	if (szId) {
 		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
@@ -495,7 +493,7 @@ HANDLE __cdecl CIrcProto::SearchBasic(const wchar_t* szId)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFiles)
+HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFiles)
 {
 	DCCINFO* dci = nullptr;
 	int iPort = 0;
@@ -664,7 +662,7 @@ void __cdecl CIrcProto::AckMessageSuccess(void *info)
 	delete param;
 }
 
-int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
+int CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	BYTE bDcc = getByte(hContact, "DCC", 0);
 	WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -691,7 +689,7 @@ int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetStatus - sets the protocol status
 
-int __cdecl CIrcProto::SetStatus(int iNewStatus)
+int CIrcProto::SetStatus(int iNewStatus)
 {
 	return SetStatusInternal(iNewStatus, false);
 }
@@ -758,7 +756,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetAwayMsg - returns a contact's away message
 
-HANDLE __cdecl CIrcProto::GetAwayMsg(MCONTACT hContact)
+HANDLE CIrcProto::GetAwayMsg(MCONTACT hContact)
 {
 	WhoisAwayReply = L"";
 	DBVARIANT dbv;
@@ -785,7 +783,7 @@ HANDLE __cdecl CIrcProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
-int __cdecl CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
+int CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	switch (status) {
 	case ID_STATUS_ONLINE:     case ID_STATUS_INVISIBLE:   case ID_STATUS_FREECHAT:
@@ -812,12 +810,9 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnEvent - maintain protocol events
 
-int __cdecl CIrcProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int CIrcProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (eventType) {
-	case EV_PROTO_ONLOAD:    return OnModulesLoaded(0, 0);
-	case EV_PROTO_ONEXIT:    return OnPreShutdown(0, 0);
-
 	case EV_PROTO_ONMENU:
 		InitMainMenus();
 		break;

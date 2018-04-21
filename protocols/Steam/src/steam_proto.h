@@ -55,25 +55,27 @@ public:
 	~CSteamProto();
 
 	// PROTO_INTERFACE
-	virtual MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 
-	virtual int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual int       __cdecl AuthRecv(MCONTACT, PROTORECVEVENT*);
-	virtual int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
-	virtual int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthRecv(MCONTACT, PROTORECVEVENT*) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
-	virtual DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 
-	virtual HANDLE    __cdecl SearchBasic(const wchar_t *id);
-	virtual HANDLE    __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
+	HANDLE   SearchBasic(const wchar_t *id) override;
+	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
 
-	virtual int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
+	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
 
-	virtual int       __cdecl SetStatus(int iNewStatus);
+	int      SetStatus(int iNewStatus) override;
 
-	virtual int       __cdecl UserIsTyping(MCONTACT hContact, int type);
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	virtual int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
 
 	// menus
 	static void InitMenus();
@@ -223,11 +225,9 @@ protected:
 	HICON GetXStatusIcon(int status, UINT flags);
 	int GetContactXStatus(MCONTACT hContact);
 
-	HANDLE __cdecl GetAwayMsg(MCONTACT hContact);
 	void __cdecl GetAwayMsgThread(void *arg);
 
 	// events
-	int OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);

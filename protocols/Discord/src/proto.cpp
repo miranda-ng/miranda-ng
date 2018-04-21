@@ -92,7 +92,7 @@ CDiscordProto::~CDiscordProto()
 	::CloseHandle(m_evRequestsQueue);
 }
 
-DWORD_PTR CDiscordProto::GetCaps(int type, MCONTACT)
+INT_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -104,7 +104,7 @@ DWORD_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_4:
 		return PF4_FORCEADDED | PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_SUPPORTIDLE | PF4_AVATARS | PF4_IMSENDOFFLINE;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("User ID");
+		return (INT_PTR)Translate("User ID");
 	}
 	return 0;
 }
@@ -549,7 +549,7 @@ HANDLE CDiscordProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
+void CDiscordProto::OnModulesLoaded()
 {
 	// Fill users list
 	for (auto &hContact : AccContacts()) {
@@ -575,10 +575,9 @@ int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
 
 	InitMenus();
-	return 0;
 }
 
-int CDiscordProto::OnPreShutdown(WPARAM, LPARAM)
+void CDiscordProto::OnShutdown()
 {
 	debugLogA("CDiscordProto::OnPreShutdown");
 
@@ -587,20 +586,13 @@ int CDiscordProto::OnPreShutdown(WPARAM, LPARAM)
 
 	if (m_hGatewayConnection)
 		Netlib_Shutdown(m_hGatewayConnection);
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CDiscordProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
+int CDiscordProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM)
 {
 	switch (event) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam, lParam);
-
-	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(wParam, lParam);
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnDeleteContact((MCONTACT)wParam);
 	}

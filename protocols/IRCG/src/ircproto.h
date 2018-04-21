@@ -47,30 +47,31 @@ struct CIrcProto : public PROTO<CIrcProto>
 	~CIrcProto();
 
 	// Protocol interface
-
-	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-
-	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
-
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
-	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason);
-	virtual	int       __cdecl FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename);
-
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
-
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
-
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
-
-	virtual	int       __cdecl SetStatus(int iNewStatus);
-
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t *msg);
-
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+			   
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
+			   
+	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
+	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
+	int      FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
+			   
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+			   
+	HANDLE   SearchBasic(const wchar_t* id) override;
+			   
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
+			   
+	int      SetStatus(int iNewStatus) override;
+			   
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
+			   
+	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	// Services
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
@@ -93,9 +94,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int __cdecl OnInitOptionsPages(WPARAM, LPARAM);
 	int __cdecl OnInitUserInfo(WPARAM, LPARAM);
-	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnMenuPreBuild(WPARAM, LPARAM);
-	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 
 	int __cdecl GCEventHook(WPARAM, LPARAM);

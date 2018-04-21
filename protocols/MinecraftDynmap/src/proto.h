@@ -41,19 +41,18 @@ public:
 	}
 
 	// PROTO_INTERFACE
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
-	virtual	int       __cdecl SetStatus(int iNewStatus);
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
+	INT_PTR GetCaps(int type, MCONTACT hContact = NULL) override;
+	int     SetStatus(int iNewStatus) override;
+
+	int     OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void    OnModulesLoaded() override;
+	void    OnShutdown() override;
 
 	// Services
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
 	// Events
-	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
-	// int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
-	int  __cdecl OnPreShutdown(WPARAM,LPARAM);
-	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 
 	// Chat handling
 	int     __cdecl OnChatEvent(WPARAM,LPARAM);

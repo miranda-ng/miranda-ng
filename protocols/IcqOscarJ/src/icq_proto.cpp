@@ -232,7 +232,7 @@ CIcqProto::~CIcqProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoadedEx - performs hook registration
 
-int CIcqProto::OnModulesLoaded(WPARAM, LPARAM)
+void CIcqProto::OnModulesLoaded()
 {
 	char pszP2PName[MAX_PATH];
 	char pszGroupsName[MAX_PATH];
@@ -264,17 +264,15 @@ int CIcqProto::OnModulesLoaded(WPARAM, LPARAM)
 		if (bXStatus > 0)
 			setContactExtraIcon(hContact, bXStatus);
 	}
-	return 0;
 }
 
-int CIcqProto::OnPreShutdown(WPARAM, LPARAM)
+void CIcqProto::OnShutdown()
 {
 	// signal info update thread to stop
 	icq_InfoUpdateCleanup();
 
 	// Make sure all connections are closed
 	CloseContactDirectConns(NULL);
-	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -311,7 +309,7 @@ MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return AddToListByUID(szUid, flags);
 }
 
-MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
+MCONTACT CIcqProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 {
 	DWORD uin = 0;
 	uid_str uid = { 0 };
@@ -427,7 +425,7 @@ int CIcqProto::AuthDeny(MEVENT hDbEvent, const wchar_t* szReason)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int __cdecl CIcqProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
+int CIcqProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	setContactHidden(hContact, 0);
 	ICQAddRecvEvent(NULL, EVENTTYPE_AUTHREQUEST, pre, pre->lParam, (PBYTE)pre->szMessage, 0);
@@ -437,7 +435,7 @@ int __cdecl CIcqProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
+int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	if (!icqOnline())
 		return 1;
@@ -463,7 +461,7 @@ int __cdecl CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileAllow - starts a file transfer
 
-HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath)
+HANDLE CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -504,7 +502,7 @@ HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const w
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileCancel - cancels a file transfer
 
-int __cdecl CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+int CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -533,7 +531,7 @@ int __cdecl CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileDeny - denies a file transfer
 
-int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason)
+int CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason)
 {
 	int nReturnValue = 1;
 	basic_filetransfer *bft = (basic_filetransfer*)hTransfer;
@@ -573,7 +571,7 @@ int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileResume - processes file renaming etc
 
-int __cdecl CIcqProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
+int CIcqProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
 {
 	if (icqOnline() && hTransfer) {
 		basic_filetransfer *ft = (basic_filetransfer *)hTransfer;
@@ -602,9 +600,9 @@ int __cdecl CIcqProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CIcqProto::GetCaps(int type, MCONTACT hContact)
+INT_PTR CIcqProto::GetCaps(int type, MCONTACT hContact)
 {
-	DWORD_PTR nReturn = 0;
+	INT_PTR nReturn = 0;
 
 	switch (type) {
 
@@ -636,7 +634,7 @@ DWORD_PTR __cdecl CIcqProto::GetCaps(int type, MCONTACT hContact)
 		return PF2_FREECHAT | PF2_ONTHEPHONE;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("User ID");
+		return (INT_PTR)Translate("User ID");
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return MAX_MESSAGESNACSIZE - 102;
@@ -666,7 +664,7 @@ DWORD_PTR __cdecl CIcqProto::GetCaps(int type, MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-int __cdecl CIcqProto::GetInfo(MCONTACT hContact, int infoType)
+int CIcqProto::GetInfo(MCONTACT hContact, int infoType)
 {
 	if (icqOnline()) {
 		DWORD dwUin;
@@ -712,7 +710,7 @@ void CIcqProto::CheekySearchThread(void*)
 }
 
 
-HANDLE __cdecl CIcqProto::SearchBasic(const wchar_t *pszSearch)
+HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 {
 	if (mir_wstrlen(pszSearch) == 0)
 		return nullptr;
@@ -760,7 +758,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const wchar_t *pszSearch)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SearchByEmail - searches the contact by its e-mail
 
-HANDLE __cdecl CIcqProto::SearchByEmail(const wchar_t *email)
+HANDLE CIcqProto::SearchByEmail(const wchar_t *email)
 {
 	if (email && icqOnline() && mir_wstrlen(email) > 0) {
 		char *szEmail = unicode_to_ansi(email);
@@ -783,7 +781,7 @@ HANDLE __cdecl CIcqProto::SearchByEmail(const wchar_t *email)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SearchByName - searches the contact by its first or last name, or by a nickname
 
-HANDLE __cdecl CIcqProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
+HANDLE CIcqProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	if (icqOnline()) {
 		if (nick || firstName || lastName) {
@@ -806,7 +804,7 @@ HANDLE __cdecl CIcqProto::SearchByName(const wchar_t *nick, const wchar_t *first
 }
 
 
-HWND __cdecl CIcqProto::CreateExtendedSearchUI(HWND parent)
+HWND CIcqProto::CreateExtendedSearchUI(HWND parent)
 {
 	if (parent && g_plugin.getInst())
 		return CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ICQADVANCEDSEARCH), parent, AdvancedSearchDlgProc);
@@ -814,7 +812,7 @@ HWND __cdecl CIcqProto::CreateExtendedSearchUI(HWND parent)
 	return nullptr; // Failure
 }
 
-HWND __cdecl CIcqProto::SearchAdvanced(HWND hwndDlg)
+HWND CIcqProto::SearchAdvanced(HWND hwndDlg)
 {
 	if (icqOnline() && IsWindow(hwndDlg)) {
 		size_t nDataLen;
@@ -834,7 +832,7 @@ HWND __cdecl CIcqProto::SearchAdvanced(HWND hwndDlg)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
+int CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	ICQSEARCHRESULT **isrList = (ICQSEARCHRESULT**)pre->szMessage;
 	int i;
@@ -871,7 +869,7 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
+int CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	size_t cbBlob = mir_strlen(pre->szMessage) + 1;
 	ICQAddRecvEvent(hContact, EVENTTYPE_MESSAGE, pre, cbBlob, (PBYTE)pre->szMessage, DBEF_UTF);
@@ -887,7 +885,7 @@ int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
+int CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
 {
 	if (hContact && hContactsList) {
 		DWORD dwUin;
@@ -1126,7 +1124,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
+HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
 {
 	if (!icqOnline())
 		return nullptr;
@@ -1222,7 +1220,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SendMessage - sends a message
 
-int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
+int CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	if (hContact == NULL || pszSrc == nullptr)
 		return NULL;
@@ -1341,7 +1339,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
+int CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 {
 	if (hContact == NULL || url == nullptr)
 		return 0;
@@ -1406,7 +1404,7 @@ int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetApparentMode - sets the visibility status
 
-int __cdecl CIcqProto::SetApparentMode(MCONTACT hContact, int mode)
+int CIcqProto::SetApparentMode(MCONTACT hContact, int mode)
 {
 	DWORD uin;
 	uid_str uid;
@@ -1481,7 +1479,7 @@ char* CIcqProto::PrepareStatusNote(int nStatus)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetStatus - sets the protocol status
 
-int __cdecl CIcqProto::SetStatus(int iNewStatus)
+int CIcqProto::SetStatus(int iNewStatus)
 {
 	int nNewStatus = MirandaStatusToSupported(iNewStatus);
 
@@ -1621,7 +1619,7 @@ void __cdecl CIcqProto::GetAwayMsgThread(void *pStatusData)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_GetAwayMsg - returns a contact's away message
 
-HANDLE __cdecl CIcqProto::GetAwayMsg(MCONTACT hContact)
+HANDLE CIcqProto::GetAwayMsg(MCONTACT hContact)
 {
 	DWORD dwUin;
 	uid_str szUID;
@@ -1704,7 +1702,7 @@ HANDLE __cdecl CIcqProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG - processes received status mode message
 
-int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
+int CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 {
 	setStatusMsgVar(hContact, evt->szMessage, false);
 
@@ -1718,7 +1716,7 @@ int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetAwayMsg - sets the away status message
 
-int __cdecl CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
+int CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	mir_cslock l(m_modeMsgsMutex);
 
@@ -1787,7 +1785,7 @@ INT_PTR CIcqProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // PS_UserIsTyping - sends a UTN notification
 
-int __cdecl CIcqProto::UserIsTyping(MCONTACT hContact, int type)
+int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (hContact && icqOnline()) {
 		if (CheckContactCapabilities(hContact, CAPF_TYPING)) {
@@ -1810,25 +1808,17 @@ int __cdecl CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnEvent - maintain protocol events
 
-int __cdecl CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (eventType) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(0, 0);
-
-	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(0, 0);
-
 	case EV_PROTO_ONERASE:
-		{
-			char szDbSetting[MAX_PATH];
-			mir_snprintf(szDbSetting, "%sP2P", m_szModuleName);
-			db_delete_module(0, szDbSetting);
-			mir_snprintf(szDbSetting, "%sSrvGroups", m_szModuleName);
-			db_delete_module(0, szDbSetting);
-			mir_snprintf(szDbSetting, "%sGroups", m_szModuleName);
-			db_delete_module(0, szDbSetting);
-		}
+		char szDbSetting[MAX_PATH];
+		mir_snprintf(szDbSetting, "%sP2P", m_szModuleName);
+		db_delete_module(0, szDbSetting);
+		mir_snprintf(szDbSetting, "%sSrvGroups", m_szModuleName);
+		db_delete_module(0, szDbSetting);
+		mir_snprintf(szDbSetting, "%sGroups", m_szModuleName);
+		db_delete_module(0, szDbSetting);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

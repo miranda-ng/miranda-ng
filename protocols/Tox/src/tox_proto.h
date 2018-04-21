@@ -19,34 +19,35 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
-	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
 
-	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT*) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t* szMessage) override;
 
-	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* tszPath);
-	virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* tszReason);
-	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const wchar_t** tszFilename);
+	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* tszPath) override;
+	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* tszReason) override;
+	int      FileResume(HANDLE hTransfer, int* action, const wchar_t** tszFilename) override;
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 	
-	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
-	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
+	HWND     SearchAdvanced(HWND owner) override;
+	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
+	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles);
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles) override;
 
-	virtual	int       __cdecl SetStatus(int iNewStatus);
+	int      SetStatus(int iNewStatus) override;
 
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const wchar_t* msg);
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+	int      SetAwayMsg(int iStatus, const wchar_t* msg) override;
 
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
+	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
 
 	// icons
 	static void InitIcons();
@@ -114,7 +115,6 @@ private:
 	void __cdecl PollingThread(void*);
 
 	// accounts
-	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);

@@ -176,6 +176,17 @@ PROTO_INTERFACE::~PROTO_INTERFACE()
 	WindowList_Destroy(m_hWindowList);
 }
 
+void PROTO_INTERFACE::OnModulesLoaded()
+{}
+
+bool PROTO_INTERFACE::IsReadyToExit()
+{
+	return true;
+}
+
+void PROTO_INTERFACE::OnShutdown()
+{}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol services
 
@@ -427,7 +438,7 @@ int PROTO_INTERFACE::FileResume(HANDLE, int*, const wchar_t**)
 	return 1; // error
 }
 
-DWORD_PTR PROTO_INTERFACE::GetCaps(int, MCONTACT)
+INT_PTR PROTO_INTERFACE::GetCaps(int, MCONTACT)
 {
 	return 0; // empty value
 }

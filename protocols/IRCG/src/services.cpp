@@ -839,7 +839,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
+void CIrcProto::OnShutdown()
 {
 	mir_cslock lock(cs);
 
@@ -857,7 +857,6 @@ int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
 		m_nickDlg->Close();
 	if (m_joinDlg)
 		m_joinDlg->Close();
-	return 0;
 }
 
 int __cdecl CIrcProto::OnMenuPreBuild(WPARAM hContact, LPARAM)

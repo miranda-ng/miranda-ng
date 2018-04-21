@@ -37,23 +37,26 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
-	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
-	virtual int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
-	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
-	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
-	virtual	int       __cdecl SetStatus(int iNewStatus);
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
-	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t *msg);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t* szMessage) override;
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
+	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT*) override;
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	int      GetInfo(MCONTACT hContact, int infoType) override;
+	HANDLE   SearchBasic(const wchar_t* id) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
+	int      SetStatus(int iNewStatus) override;
+	int      UserIsTyping(MCONTACT hContact, int type) override;
+	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
+
+	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	// icons
 	static void InitIcons();
@@ -71,8 +74,8 @@ public:
 	// events
 	static int	OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnDbEventRead(WPARAM, LPARAM);
-	int __cdecl OnExit();
-	//search
+
+	// search
 	void __cdecl SearchBasicThread(void* id);
 
 	////////////////////////////////////////////
@@ -155,8 +158,6 @@ private:
 	EventHandle m_hTrouterEvent;
 
 	EventHandle m_hTrouterHealthEvent;
-
-	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 

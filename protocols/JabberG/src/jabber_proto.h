@@ -76,41 +76,43 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override;
 
-	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
-	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason);
-	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename);
+	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
+	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
+	int      FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename) override;
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = 0);
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
+	INT_PTR  GetCaps(int type, MCONTACT hContact = 0) override;
+	int      GetInfo(MCONTACT hContact, int infoType) override;
 
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *id);
-	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t *email);
-	virtual	HANDLE    __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
-	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
-	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
+	HANDLE   SearchBasic(const wchar_t *id) override;
+	HANDLE   SearchByEmail(const wchar_t *email) override;
+	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
+	HWND     SearchAdvanced(HWND owner) override;
+	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
+	int      RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 
-	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
+	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
 
-	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
-	virtual	int       __cdecl SetStatus(int iNewStatus);
+	int      SetApparentMode(MCONTACT hContact, int mode) override;
+	int      SetStatus(int iNewStatus) override;
 
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t *msg);
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	//====| Services |====================================================================
 	INT_PTR  __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
@@ -122,9 +124,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int  __cdecl OnLangChanged(WPARAM, LPARAM);
-	int  __cdecl OnModulesLoadedEx(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM, LPARAM);
 	int  __cdecl OnProcessSrmmIconClick(WPARAM, LPARAM);
 	int  __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);

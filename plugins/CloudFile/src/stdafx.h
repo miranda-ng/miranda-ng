@@ -87,7 +87,6 @@ HICON LoadIconEx(int iconId, bool big = false);
 // menus
 extern HGENMENU hContactMenu;
 void InitializeMenus();
-void AddServiceMenuItem(const CCloudService *service);
 int OnPrebuildContactMenu(WPARAM, LPARAM);
 
 // srmm

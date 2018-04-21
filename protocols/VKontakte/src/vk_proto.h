@@ -52,26 +52,27 @@ struct CVkProto : public PROTO<CVkProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
-	virtual	int __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
-	virtual	int __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = 0);
-	virtual	int __cdecl GetInfo(MCONTACT hContact, int infoType);
-	virtual	HANDLE __cdecl SearchBasic(const wchar_t *id);
-	virtual	HANDLE __cdecl SearchByEmail(const wchar_t *email);
-	virtual	HANDLE __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
-	virtual	int __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
-	virtual	HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
-	virtual	int __cdecl SetStatus(int iNewStatus);
-	virtual	int __cdecl UserIsTyping(MCONTACT hContact, int type);
-	virtual	int __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
+	INT_PTR  GetCaps(int type, MCONTACT hContact = 0) override;
+	int      GetInfo(MCONTACT hContact, int infoType) override;
+	HANDLE   SearchBasic(const wchar_t *id) override;
+	HANDLE   SearchByEmail(const wchar_t *email) override;
+	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	int      SetStatus(int iNewStatus) override;
+	int      UserIsTyping(MCONTACT hContact, int type) override;
+	
+	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	//==== Events ========================================================================
 
-	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

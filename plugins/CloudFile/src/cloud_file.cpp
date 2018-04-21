@@ -36,7 +36,7 @@ const wchar_t* CCloudService::GetUserName() const
 	return m_tszUserName;
 }
 
-DWORD_PTR CCloudService::GetCaps(int type, MCONTACT)
+INT_PTR CCloudService::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -91,10 +91,6 @@ void CCloudService::OpenUploadDialog(MCONTACT hContact)
 int CCloudService::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
 {
 	switch (iEventType) {
-	case EV_PROTO_ONLOAD:
-		AddServiceMenuItem(this);
-		return 0;
-
 	case EV_PROTO_ONERASE:
 		KillModuleMenus(m_hLangpack);
 		return 0;

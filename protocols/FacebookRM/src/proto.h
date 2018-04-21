@@ -100,32 +100,35 @@ public:
 	__forceinline void setStringUtf(const char *name, const char* value) { db_set_utf(0, m_szModuleName, name, value); }
 	__forceinline void setStringUtf(MCONTACT hContact, const char *name, const char* value) { db_set_utf(hContact, m_szModuleName, name, value); }
 
-	//PROTO_INTERFACE
+	////////////////////////////////////////////////////////////////////////////////////////
+	// PROTO_INTERFACE
 
-	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-
-	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
-	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
-
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = 0);
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
-
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
-	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t* email);
-	virtual	HANDLE    __cdecl SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
-
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
-
-	virtual	int       __cdecl SetStatus(int iNewStatus);
-
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const wchar_t* msg);
-
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
-
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+				 
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t* szMessage) override;
+				 
+	INT_PTR  GetCaps(int type, MCONTACT hContact = 0) override;
+	int      GetInfo(MCONTACT hContact, int infoType) override;
+				 
+	HANDLE   SearchBasic(const wchar_t* id) override;
+	HANDLE   SearchByEmail(const wchar_t* email) override;
+	HANDLE   SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName) override;
+				 
+	int      RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
+				 
+	int      SetStatus(int iNewStatus) override;
+				 
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+	int      SetAwayMsg(int iStatus, const wchar_t* msg) override;
+				 
+	int      UserIsTyping(MCONTACT hContact, int type) override;
+				 
+	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	////////////////////////
 
@@ -164,12 +167,10 @@ public:
 	void InitMenu();
 
 	// Events
-	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnToolbarInit(WPARAM, LPARAM);
 	int  __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
 	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
-	int  __cdecl OnPreShutdown(WPARAM,LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM,LPARAM);
 	int  __cdecl OnGCEvent(WPARAM,LPARAM);

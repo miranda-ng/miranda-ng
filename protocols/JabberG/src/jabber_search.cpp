@@ -705,7 +705,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 	return FALSE;
 }
 
-HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
+HWND CJabberProto::CreateExtendedSearchUI(HWND parent)
 {
 	if (parent && g_plugin.getInst()) {
 		ptrW szServer(getWStringA("LoginServer"));
@@ -719,7 +719,7 @@ HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 //////////////////////////////////////////////////////////////////////////
 // The function formats request to server
 
-HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
+HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 {
 	if (!m_bJabberOnline || !hwndDlg)
 		return nullptr;	//error

@@ -24,6 +24,8 @@ protected:
 	virtual void HandleHttpError(NETLIBHTTPREQUEST *response);
 	virtual void HandleJsonError(JSONNode &node) = 0;
 
+	void OnModulesLoaded() override;
+
 	JSONNode GetJsonResponse(NETLIBHTTPREQUEST *response);
 
 public:
@@ -32,11 +34,11 @@ public:
 	CCloudService(const char *protoName, const wchar_t *userName);
 	virtual ~CCloudService();
 
-	DWORD_PTR __cdecl GetCaps(int type, MCONTACT) override;
-	int __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM) override;
+	INT_PTR GetCaps(int type, MCONTACT) override;
+	int OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM) override;
 
-	int __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
-	HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles) override;
+	int FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	HANDLE SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles) override;
 
 	int GetId() const;
 	virtual const char* GetModuleName() const = 0;

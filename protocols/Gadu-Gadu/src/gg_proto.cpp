@@ -139,7 +139,7 @@ MCONTACT GaduProto::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 //////////////////////////////////////////////////////////
 // checks proto capabilities
 //
-DWORD_PTR GaduProto::GetCaps(int type, MCONTACT)
+INT_PTR GaduProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -155,7 +155,7 @@ DWORD_PTR GaduProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_5:
 		return PF2_LONGAWAY;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("Gadu-Gadu Number");
+		return (INT_PTR)Translate("Gadu-Gadu Number");
 	}
 	return 0;
 }
@@ -699,36 +699,39 @@ int GaduProto::UserIsTyping(MCONTACT hContact, int type)
 //////////////////////////////////////////////////////////
 // Custom protocol event
 //
+
+void GaduProto::OnModulesLoaded()
+{
+	HookProtoEvent(ME_OPT_INITIALISE, &GaduProto::options_init);
+	HookProtoEvent(ME_USERINFO_INITIALISE, &GaduProto::details_init);
+
+	// Init misc stuff
+	gg_icolib_init();
+	initpopups();
+	gc_init();
+	keepalive_init();
+	img_init();
+	block_init();
+
+	// Try to fetch user avatar
+	getOwnAvatar();
+}
+
+void GaduProto::OnShutdown()
+{
+	// Stop avatar request thread
+	pth_avatar.dwThreadId = 0;
+
+	// Stop main connection session thread
+	pth_sess.dwThreadId = 0;
+
+	img_shutdown();
+	sessions_closedlg();
+}
+
 int GaduProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (eventType) {
-	case EV_PROTO_ONLOAD:
-		HookProtoEvent(ME_OPT_INITIALISE, &GaduProto::options_init);
-		HookProtoEvent(ME_USERINFO_INITIALISE, &GaduProto::details_init);
-
-		// Init misc stuff
-		gg_icolib_init();
-		initpopups();
-		gc_init();
-		keepalive_init();
-		img_init();
-		block_init();
-
-		// Try to fetch user avatar
-		getOwnAvatar();
-		break;
-
-	case EV_PROTO_ONEXIT:
-		// Stop avatar request thread
-		pth_avatar.dwThreadId = 0;
-
-		// Stop main connection session thread
-		pth_sess.dwThreadId = 0;
-
-		img_shutdown();
-		sessions_closedlg();
-		break;
-
 	case EV_PROTO_ONMENU:
 		menus_init();
 		break;

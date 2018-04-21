@@ -73,7 +73,7 @@ TwitterProto::~TwitterProto()
 
 // *************************
 
-DWORD_PTR TwitterProto::GetCaps(int type, MCONTACT)
+INT_PTR TwitterProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -88,7 +88,7 @@ DWORD_PTR TwitterProto::GetCaps(int type, MCONTACT)
 	case PFLAG_MAXLENOFMESSAGE:
 		return 159; // 140 + <max length of a users name (15 apparently)> + 4 ("RT @").  this allows for the new style retweets
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR) "Username";
+		return (INT_PTR) "Username";
 	}
 	return 0;
 }
@@ -173,18 +173,6 @@ int TwitterProto::SetStatus(int new_status)
 	}
 
 	return 0;
-}
-
-// *************************
-
-int TwitterProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
-{
-	switch (event) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam, lParam);
-	}
-
-	return 1;
 }
 
 // *************************
@@ -282,7 +270,7 @@ INT_PTR TwitterProto::OnTweet(WPARAM, LPARAM)
 	return 0;
 }
 
-int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
+void TwitterProto::OnModulesLoaded()
 {
 	wchar_t descr[512];
 	NETLIBUSER nlu = {};
@@ -329,7 +317,6 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	setAllContactStatuses(ID_STATUS_OFFLINE); // In case we crashed last time
 	SetChatStatus(ID_STATUS_OFFLINE);
-	return 0;
 }
 
 int TwitterProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)

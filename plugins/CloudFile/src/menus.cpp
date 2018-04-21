@@ -30,19 +30,20 @@ void InitializeMenus()
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 }
 
-void AddServiceMenuItem(const CCloudService *service)
+void CCloudService::OnModulesLoaded()
 {
 	CMenuItem mi;
 	mi.root = hContactMenu;
-	CMStringA serviceName(FORMAT, "/%s/Upload", service->GetAccountName());
+	CMStringA serviceName(FORMAT, "/%s/Upload", GetAccountName());
 	mi.pszService = serviceName.GetBuffer();
-	mi.hLangpack = service->GetId();
+	mi.hLangpack = GetId();
 	mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
-	mi.name.w = (wchar_t*)service->GetUserName();
+	mi.name.w = (wchar_t*)GetUserName();
 	mi.position = Services.getCount();
-	mi.hIcolibItem = GetIconHandle(service->GetIconId());
+	mi.hIcolibItem = GetIconHandle(GetIconId());
 	Menu_AddContactMenuItem(&mi);
-	CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, (void*)service);
+
+	CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, this);
 }
 
 int OnPrebuildContactMenu(WPARAM hContact, LPARAM)

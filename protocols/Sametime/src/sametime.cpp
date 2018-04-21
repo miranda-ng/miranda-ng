@@ -186,7 +186,7 @@ int CSametimeProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int CSametimeProto::OnModulesLoaded(WPARAM, LPARAM)
+void CSametimeProto::OnModulesLoaded()
 {
 	// register with chat module
 	GCREGISTER gcr = {};
@@ -194,15 +194,12 @@ int CSametimeProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = MAX_MESSAGE_SIZE;
 	Chat_Register(&gcr);
-	return 0;
 }
 
-int CSametimeProto::OnPreShutdown(WPARAM, LPARAM)
+void CSametimeProto::OnShutdown()
 {
 	if (m_iStatus != ID_STATUS_OFFLINE)
 		LogOut();
-
-	return 0;
 }
 
 int CSametimeProto::OnSametimeContactDeleted(WPARAM hContact, LPARAM)

@@ -79,7 +79,7 @@ INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM, LPARAM lParam)
 		(HWND)lParam, DlgProcAccount, LPARAM(this));
 }
 
-int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
+void CMraProto::OnModulesLoaded()
 {
 	HookProtoEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &CMraProto::MraExtraIconsApply);
 	HookProtoEvent(ME_OPT_INITIALISE, &CMraProto::OnOptionsInit);
@@ -110,15 +110,13 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	// destroy all chat sessions
 	bChatExists = MraChatRegister();
-	return 0;
 }
 
-int CMraProto::OnShutdown(WPARAM, LPARAM)
+void CMraProto::OnShutdown()
 {
 	m_bShutdown = true;
 	SetStatus(ID_STATUS_OFFLINE);
 	MraAvatarsQueueSuspend(hAvatarsQueueHandle);
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -245,7 +243,7 @@ int CMraProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR CMraProto::GetCaps(int type, MCONTACT)
+INT_PTR CMraProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -554,12 +552,9 @@ int CMraProto::UserIsTyping(MCONTACT hContact, int type)
 	return 1;
 }
 
-int CMraProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int CMraProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM, LPARAM)
 {
 	switch (eventType) {
-	case EV_PROTO_ONLOAD:    return OnModulesLoaded(0, 0);
-	case EV_PROTO_ONEXIT:    return OnShutdown(0, 0);
-
 	case EV_PROTO_ONMENU:
 		CListCreateMenu(2000060000, 500085000, TRUE, gdiMenuItems, MAIN_MENU_ITEMS_COUNT, hMainMenuItems);
 		break;

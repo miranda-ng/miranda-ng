@@ -79,7 +79,7 @@ MinecraftDynmapProto::~MinecraftDynmapProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR MinecraftDynmapProto::GetCaps(int type, MCONTACT)
+INT_PTR MinecraftDynmapProto::GetCaps(int type, MCONTACT)
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -89,7 +89,7 @@ DWORD_PTR MinecraftDynmapProto::GetCaps(int type, MCONTACT)
 	case PFLAG_MAXLENOFMESSAGE:
 		return MINECRAFTDYNMAP_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR) Translate("Visible name");
+		return (INT_PTR) Translate("Visible name");
 	}
 	return 0;
 }
@@ -132,12 +132,6 @@ int MinecraftDynmapProto::SetStatus(int new_status)
 int MinecraftDynmapProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 {
 	switch(event) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam, lParam);
-
-	case EV_PROTO_ONEXIT:
-		return OnPreShutdown  (wParam, lParam);
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 	}
@@ -153,7 +147,7 @@ INT_PTR MinecraftDynmapProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 	return (INT_PTR)CreateDialogParam(g_plugin.getInst(),MAKEINTRESOURCE(IDD_MinecraftDynmapACCOUNT), (HWND)lParam, MinecraftDynmapAccountProc, (LPARAM)this);
 }
 
-int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
+void MinecraftDynmapProto::OnModulesLoaded()
 {
 	// Register group chat
 	GCREGISTER gcr = {};
@@ -161,30 +155,11 @@ int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = MINECRAFTDYNMAP_MESSAGE_LIMIT;
 	Chat_Register(&gcr);
-	return 0;
 }
 
-/*int MinecraftDynmapProto::OnOptionsInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance   = g_plugin.getInst();
-	odp.szTitle.w   = m_tszUserName;
-	odp.dwInitParam = LPARAM(this);
-	odp.flags       = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-
-	odp.position    = 271828;
-	odp.szGroup.w   = LPGENW("Network");
-	odp.szTab.w     = LPGENW("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pfnDlgProc  = MinecraftDynmapOptionsProc;
-	Options_AddPage(wParam, &odp);
-	return 0;
-}*/
-
-int MinecraftDynmapProto::OnPreShutdown(WPARAM, LPARAM)
+void MinecraftDynmapProto::OnShutdown()
 {
 	SetStatus(ID_STATUS_OFFLINE);
-	return 0;
 }
 
 int MinecraftDynmapProto::OnContactDeleted(WPARAM, LPARAM)

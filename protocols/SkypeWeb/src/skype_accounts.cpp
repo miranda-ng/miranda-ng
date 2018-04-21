@@ -17,21 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-int CSkypeProto::OnAccountLoaded(WPARAM, LPARAM)
-{
-	setAllContactStatuses(ID_STATUS_OFFLINE, true);
-
-	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
-	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnPreCreateMessage);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CSkypeProto::OnDbEventRead);
-
-	InitDBEvents();
-	InitPopups();
-	InitGroupChatModule();
-
-	return 0;
-}
-
 INT_PTR CSkypeProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)(CSkypeOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();

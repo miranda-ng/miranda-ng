@@ -81,7 +81,20 @@ CSkypeProto::~CSkypeProto()
 	SkypeUnsetTimer();
 }
 
-int CSkypeProto::OnExit()
+void CSkypeProto::OnModulesLoaded()
+{
+	setAllContactStatuses(ID_STATUS_OFFLINE, true);
+
+	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnPreCreateMessage);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CSkypeProto::OnDbEventRead);
+
+	InitDBEvents();
+	InitPopups();
+	InitGroupChatModule();
+}
+
+void CSkypeProto::OnShutdown()
 {
 	debugLogA(__FUNCTION__);
 
@@ -91,11 +104,9 @@ int CSkypeProto::OnExit()
 
 	m_hPollingEvent.Set();
 	m_hTrouterEvent.Set();
-
-	return 0;
 }
 
-DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
+INT_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -107,7 +118,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_4:
 		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)Translate("Skypename");
+		return (INT_PTR)Translate("Skypename");
 	}
 	return 0;
 }
@@ -290,17 +301,11 @@ int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (iEventType) {
-	case EV_PROTO_ONLOAD:
-		return OnAccountLoaded(wParam, lParam);
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 
 	case EV_PROTO_ONMENU:
 		return OnInitStatusMenu();
-
-	case EV_PROTO_ONEXIT:
-		return OnExit();
 	}
 
 	return 1;

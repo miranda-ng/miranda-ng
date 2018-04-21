@@ -258,28 +258,31 @@ public:
 	~CDiscordProto();
 
 	// PROTO_INTERFACE
-	virtual DWORD_PTR __cdecl GetCaps(int, MCONTACT = 0) override;
+	INT_PTR GetCaps(int, MCONTACT = 0) override;
 
-	virtual HWND __cdecl CreateExtendedSearchUI(HWND owner) override;
-	virtual HWND __cdecl SearchAdvanced(HWND owner) override;
+	HWND CreateExtendedSearchUI(HWND owner) override;
+	HWND SearchAdvanced(HWND owner) override;
 
-	virtual HANDLE __cdecl SearchBasic(const wchar_t* id) override;
-	virtual MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+	HANDLE SearchBasic(const wchar_t* id) override;
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
 	
-	virtual int __cdecl AuthRecv(MCONTACT, PROTORECVEVENT* pre) override;
-	virtual int __cdecl Authorize(MEVENT hDbEvent) override;
-	virtual int __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
-	virtual int __cdecl AuthRequest(MCONTACT hContact, const wchar_t*) override;
+	int AuthRecv(MCONTACT, PROTORECVEVENT* pre) override;
+	int Authorize(MEVENT hDbEvent) override;
+	int AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
+	int AuthRequest(MCONTACT hContact, const wchar_t*) override;
 
-	virtual int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt) override;
-	virtual int __cdecl SendMsg(MCONTACT hContact, int flags, const char* pszSrc) override;
+	int RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt) override;
+	int SendMsg(MCONTACT hContact, int flags, const char* pszSrc) override;
 
-	virtual HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	HANDLE SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 
-	virtual	int __cdecl UserIsTyping(MCONTACT hContact, int type) override;
+	int UserIsTyping(MCONTACT hContact, int type) override;
 
-	virtual int __cdecl SetStatus(int iNewStatus) override;
-	virtual int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
+	int SetStatus(int iNewStatus) override;
+	int OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
+
+	void OnModulesLoaded() override;
+	void OnShutdown() override;
 
 	// Services
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
@@ -290,8 +293,6 @@ public:
 	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	// Events
-	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
-	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	
