@@ -79,6 +79,8 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Contact_GetInfo(
 	MCONTACT hContact,           // contact id or NULL for the global data
 	const char *szProto = nullptr); // protocol for global data. if skipped, grabbed from hContact
 
+EXTERN_C MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Add contact's dialog
 
@@ -86,6 +88,6 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Contact_GetInfo(
 
 EXTERN_C MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, HWND hwndParent = nullptr);
 EXTERN_C MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, HWND hwndParent = nullptr);
-EXTERN_C MIR_APP_DLL(void) Contact_AddBySearch(const char *m_szProto, struct PROTOSEARCHRESULT *m_psr, HWND hwndParent = nullptr);
+EXTERN_C MIR_APP_DLL(void) Contact_AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, HWND hwndParent = nullptr);
 
 #endif // M_CONTACTS_H__

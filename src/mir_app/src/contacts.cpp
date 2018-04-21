@@ -285,6 +285,19 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 	return nullptr;
 }
 
+MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact)
+{
+	if (hContact == 0)
+		return ID_STATUS_OFFLINE;
+
+	const char *szProto = GetContactProto(hContact);
+	if (szProto == nullptr)
+		return ID_STATUS_OFFLINE;
+
+	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Options dialog
 

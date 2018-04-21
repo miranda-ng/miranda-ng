@@ -30,6 +30,7 @@
 #include <m_metacontacts.h>
 #include <m_protoint.h>
 #include <m_protosvc.h>
+#include <m_contacts.h>
 
 #include <m_cloudfile.h>
 

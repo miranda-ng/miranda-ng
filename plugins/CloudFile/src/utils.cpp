@@ -49,11 +49,11 @@ bool CanSendToContact(MCONTACT hContact)
 	if (!canSend)
 		return false;
 
-	bool isProtoOffline = Proto_GetStatus(proto) <= ID_STATUS_OFFLINE;
-	if (isProtoOffline)
+	bool isProtoOnline = Proto_GetStatus(proto) > ID_STATUS_OFFLINE;
+	if (!isProtoOnline)
 		return false;
 
-	bool isContactOnline = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE) > ID_STATUS_OFFLINE;
+	bool isContactOnline = Contact_GetStatus(hContact) > ID_STATUS_OFFLINE;
 	if (isContactOnline)
 		return true;
 
