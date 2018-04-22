@@ -28,6 +28,11 @@ CMPlugin g_plugin;
 extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Interface information
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load(void)
 {
