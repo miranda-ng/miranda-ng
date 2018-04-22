@@ -34,6 +34,7 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	CreateServiceFunction(MODULE "/GetEventIcon", &CToxProto::EventGetIcon);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::OnPrebuildContactMenu);
+	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CToxProto::OnAccountRenamed);
 
 	hTerminateEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }
@@ -224,12 +225,9 @@ int CToxProto::UserIsTyping(MCONTACT hContact, int type)
 	return OnUserIsTyping(hContact, type);
 }
 
-int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
+int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
 {
 	switch (iEventType) {
-	case EV_PROTO_ONRENAME:
-		return OnAccountRenamed(wParam, lParam);
-
 	case EV_PROTO_ONMENU:
 		return OnInitStatusMenu();
 
