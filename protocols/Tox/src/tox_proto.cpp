@@ -224,13 +224,3 @@ int CToxProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	return OnUserIsTyping(hContact, type);
 }
-
-int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
-{
-	switch (iEventType) {
-	case EV_PROTO_ONERASE:
-		return OnDeleteToxProfile();
-	}
-
-	return 1;
-}

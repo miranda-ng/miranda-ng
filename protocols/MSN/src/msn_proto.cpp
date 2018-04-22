@@ -954,14 +954,9 @@ int CMsnProto::SetApparentMode(MCONTACT hContact, int mode)
 	return 1;
 }
 
-int CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM, LPARAM)
+void CMsnProto::OnErase()
 {
-	switch (eventType) {
-	case EV_PROTO_ONERASE:
-		char szDbsettings[64];
-		mir_snprintf(szDbsettings, "%s_HTTPS", m_szModuleName);
-		db_delete_module(0, szDbsettings);
-		break;
-	}
-	return 1;
+	char szDbsettings[64];
+	mir_snprintf(szDbsettings, "%s_HTTPS", m_szModuleName);
+	db_delete_module(0, szDbsettings);
 }

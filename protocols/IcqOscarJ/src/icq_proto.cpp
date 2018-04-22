@@ -1809,18 +1809,13 @@ int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnEvent - maintain protocol events
 
-int CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+void CIcqProto::OnErase()
 {
-	switch (eventType) {
-	case EV_PROTO_ONERASE:
-		char szDbSetting[MAX_PATH];
-		mir_snprintf(szDbSetting, "%sP2P", m_szModuleName);
-		db_delete_module(0, szDbSetting);
-		mir_snprintf(szDbSetting, "%sSrvGroups", m_szModuleName);
-		db_delete_module(0, szDbSetting);
-		mir_snprintf(szDbSetting, "%sGroups", m_szModuleName);
-		db_delete_module(0, szDbSetting);
-		break;
-	}
-	return 1;
+	char szDbSetting[MAX_PATH];
+	mir_snprintf(szDbSetting, "%sP2P", m_szModuleName);
+	db_delete_module(0, szDbSetting);
+	mir_snprintf(szDbSetting, "%sSrvGroups", m_szModuleName);
+	db_delete_module(0, szDbSetting);
+	mir_snprintf(szDbSetting, "%sGroups", m_szModuleName);
+	db_delete_module(0, szDbSetting);
 }

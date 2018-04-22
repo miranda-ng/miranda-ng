@@ -21,6 +21,11 @@ CCloudService::~CCloudService()
 	m_hConnection = nullptr;
 }
 
+void CCloudService::OnErase()
+{
+	KillModuleMenus(m_hLangpack);
+}
+
 int CCloudService::GetId() const
 {
 	return m_hLangpack;
@@ -86,16 +91,6 @@ void CCloudService::OpenUploadDialog(MCONTACT hContact)
 	}
 	else
 		SetActiveWindow(it->second);
-}
-
-int CCloudService::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
-{
-	switch (iEventType) {
-	case EV_PROTO_ONERASE:
-		KillModuleMenus(m_hLangpack);
-		return 0;
-	}
-	return 1;
 }
 
 INT_PTR CCloudService::OnAccountManagerInit(WPARAM, LPARAM lParam)

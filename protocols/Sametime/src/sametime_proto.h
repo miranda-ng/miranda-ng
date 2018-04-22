@@ -43,7 +43,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 

@@ -24,6 +24,7 @@ protected:
 	virtual void HandleHttpError(NETLIBHTTPREQUEST *response);
 	virtual void HandleJsonError(JSONNode &node) = 0;
 
+	void OnErase() override;
 	void OnModulesLoaded() override;
 
 	JSONNode GetJsonResponse(NETLIBHTTPREQUEST *response);
@@ -37,7 +38,6 @@ public:
 	virtual ~CCloudService();
 
 	INT_PTR GetCaps(int type, MCONTACT) override;
-	int OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM) override;
 
 	int FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
 	HANDLE SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles) override;

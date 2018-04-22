@@ -46,9 +46,9 @@ public:
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
+	void     OnErase() override;
 	void     OnModulesLoaded() override;
 
 	// icons
@@ -82,7 +82,6 @@ private:
 
 	bool LoadToxProfile(Tox_Options *options);
 	void SaveToxProfile(Tox *tox);
-	int OnDeleteToxProfile();
 
 	INT_PTR __cdecl OnCopyToxID(WPARAM, LPARAM);
 	INT_PTR __cdecl OnCreatePassword(WPARAM, LPARAM);

@@ -280,11 +280,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		CCSDATA ccs = { hContact, PSS_USERISTYPING, hContact, type };
 		return ProtoCallService(m_szModuleName, PSS_USERISTYPING, 0, (LPARAM)&ccs);
 	}
-
-	virtual int OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override
-	{
-		return 1;
-	}
 };
 
 // creates the default protocol container for compatibility with the old plugins

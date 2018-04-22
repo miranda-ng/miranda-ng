@@ -93,8 +93,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
 	void     OnContactDeleted(MCONTACT) override;
+	void     OnErase() override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 

@@ -142,11 +142,10 @@ void CToxProto::SaveToxProfile(Tox *tox)
 	mir_free(data);
 }
 
-int CToxProto::OnDeleteToxProfile()
+void CToxProto::OnErase()
 {
 	ptrW profilePath(GetToxProfilePath());
 	_wunlink(profilePath);
-	return 0;
 }
 
 INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)

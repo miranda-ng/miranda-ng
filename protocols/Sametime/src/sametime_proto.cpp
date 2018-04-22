@@ -290,9 +290,3 @@ int CSametimeProto::UserIsTyping(MCONTACT hContact, int type)
 	SendTyping(hContact, type == PROTOTYPE_SELFTYPING_ON);
 	return 0;
 }
-
-int CSametimeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
-{
-	return TRUE;
-}
-

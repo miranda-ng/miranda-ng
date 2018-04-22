@@ -32,15 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_utils.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// data types
-
-typedef enum
-{
-	EV_PROTO_ONERASE,
-}
-	PROTOEVENTTYPE;
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // protocol helpers
 
 struct PROTO_INTERFACE;
@@ -218,16 +209,26 @@ public:
 						   
 	virtual	int      UserIsTyping(MCONTACT hContact, int type);
 						   
-	virtual	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// events
 
-	virtual	void     OnBuildProtoMenu(void);
-	virtual	void     OnContactDeleted(MCONTACT);
-	virtual	void     OnModulesLoaded(void); // the analog of ME_SYSTEM_MODULESLOADED for an account
-	virtual	void     OnShutdown(void);      // same for ME_SYSTEM_SHUTDOWN
-	virtual	bool     IsReadyToExit(void);   // same for ME_SYSTEM_OKTOEXIT
+	// builds the account's protocol menu
+	virtual void OnBuildProtoMenu(void);
+
+	// called when an account's contact is deleted
+	virtual void OnContactDeleted(MCONTACT);
+
+	// called when an account gets physically removed from the database
+	virtual void OnErase();
+
+	// the analog of ME_SYSTEM_MODULESLOADED for an account
+	virtual void OnModulesLoaded(void);
+
+	// same for ME_SYSTEM_SHUTDOWN
+	virtual void OnShutdown(void);
+
+	// same for ME_SYSTEM_OKTOEXIT
+	virtual bool IsReadyToExit(void);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

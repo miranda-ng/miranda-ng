@@ -355,7 +355,7 @@ static int DeactivationThread(DeactivationThreadParam* param)
 	KillObjectEventHooks(p); // untie an object from the outside world
 
 	if (param->bErase)
-		p->OnEvent(EV_PROTO_ONERASE, 0, 0);
+		p->OnErase();
 
 	if (param->fnUninit)
 		param->fnUninit(p);

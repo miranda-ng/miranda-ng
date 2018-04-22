@@ -182,6 +182,9 @@ void PROTO_INTERFACE::OnBuildProtoMenu()
 void PROTO_INTERFACE::OnContactDeleted(MCONTACT)
 {}
 
+void PROTO_INTERFACE::OnErase()
+{}
+
 void PROTO_INTERFACE::OnModulesLoaded()
 {}
 
@@ -575,9 +578,4 @@ int PROTO_INTERFACE::SetAwayMsg(int, const wchar_t*)
 int PROTO_INTERFACE::UserIsTyping(MCONTACT, int)
 {
 	return 1; // error
-}
-
-int PROTO_INTERFACE::OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM)
-{
-	return 1; // not an error, vitally important
 }
