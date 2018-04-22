@@ -67,6 +67,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
 
+	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
@@ -222,19 +223,10 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void __cdecl msn_storeProfileThread(void*);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
-	// MSN Connection properties detection
-
-	void		DecryptEchoPacket(UDPProbePkt& pkt);
-	void		MSNatDetect(void);
-
-	void __cdecl MSNConnDetectThread(void*);
-
-	/////////////////////////////////////////////////////////////////////////////////////////
 	// MSN menus
 
 	HGENMENU menuItemsMain[4];
 
-	void MsnInitMainMenu(void);
 	void MSN_EnableMenuItems(bool parEnable);
 	void MsnInvokeMyURL(bool ismail, const char* url);
 
@@ -262,12 +254,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	void __cdecl MsnGetAwayMsgThread(void* arg);
 
-	void __cdecl p2p_sendFeedThread(void* arg);
-	void __cdecl p2p_fileActiveThread(void* arg);
-	void __cdecl p2p_filePassiveThread(void* arg);
-
-	void __cdecl MsgQueue_AllClearThread(void* arg);
-
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MSN thread support
 
@@ -277,19 +263,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 	GCThreadData* MSN_GetThreadByChatId(const wchar_t* chatId);
 
 	void __cdecl ThreadStub(void* arg);
-
-	/////////////////////////////////////////////////////////////////////////////////////////
-	// MSN message queue support
-
-	int         MsgQueue_Add(const char* wlid, int msgType, const char* msg, int msglen, filetransfer* ft = nullptr, int flags = 0, STRLIST *cnt = nullptr);
-	const char* MsgQueue_CheckContact(const char* wlid, time_t tsc = 0);
-	const char* MsgQueue_GetNextRecipient(void);
-	bool        MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal);
-	int         MsgQueue_NumMsg(const char* wlid);
-	void        MsgQueue_Clear(const char* wlid = nullptr, bool msg = false);
-
-	void MsgQueue_Init(void);
-	void MsgQueue_Uninit(void);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MSN message reassembly support
@@ -311,7 +284,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void MSN_KillChatSession(const wchar_t* id);
 	void MSN_Kickuser(GCHOOK *gch);
 	void MSN_Promoteuser(GCHOOK *gch, const char *pszRole);
-	const wchar_t *MSN_GCGetRole(GCThreadData* thread, const char *pszWLID);
+	const wchar_t* MSN_GCGetRole(GCThreadData* thread, const char *pszWLID);
 	void MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID);
 	void MSN_GCAddMessage(wchar_t *mChatID, MCONTACT hContact, char *email, time_t ts, bool sentMsg, char *msgBody);
 	void MSN_GCRefreshThreadsInfo(void);

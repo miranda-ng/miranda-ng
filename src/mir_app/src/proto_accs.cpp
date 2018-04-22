@@ -297,7 +297,7 @@ bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 		if (bModulesLoadedFired)
 			pa->ppro->OnModulesLoaded();
 		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
-			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
+			pa->ppro->OnBuildProtoMenu();
 		pa->bDynDisabled = false;
 	}
 	return true;

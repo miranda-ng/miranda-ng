@@ -551,13 +551,3 @@ int CMraProto::UserIsTyping(MCONTACT hContact, int type)
 
 	return 1;
 }
-
-int CMraProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM, LPARAM)
-{
-	switch (eventType) {
-	case EV_PROTO_ONMENU:
-		CListCreateMenu(2000060000, 500085000, TRUE, gdiMenuItems, MAIN_MENU_ITEMS_COUNT, hMainMenuItems);
-		break;
-	}
-	return 1;
-}

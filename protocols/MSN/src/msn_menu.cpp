@@ -139,7 +139,7 @@ int CMsnProto::OnContactDoubleClicked(WPARAM hContact, LPARAM)
 }
 
 // Menus initialization
-void CMsnProto::MsnInitMainMenu(void)
+void CMsnProto::OnBuildProtoMenu(void)
 {
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);

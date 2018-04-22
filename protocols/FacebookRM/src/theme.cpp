@@ -191,7 +191,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void FacebookProto::InitMenu()
+void FacebookProto::OnBuildProtoMenu()
 {
 	CMenuItem mi;
 	mi.position = 201001;

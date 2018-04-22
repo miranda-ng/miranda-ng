@@ -56,7 +56,7 @@ struct GaduProto : public PROTO<GaduProto>
 				
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 				
-	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
@@ -121,7 +121,6 @@ struct GaduProto : public PROTO<GaduProto>
 	int gettoken(GGTOKEN *token);
 	void parsecontacts(char *contacts);
 	void remindpassword(uin_t uin, const char *email);
-	void menus_init();
 
 	/* Avatar functions */
 	void getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen);

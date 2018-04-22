@@ -176,6 +176,9 @@ PROTO_INTERFACE::~PROTO_INTERFACE()
 	WindowList_Destroy(m_hWindowList);
 }
 
+void PROTO_INTERFACE::OnBuildProtoMenu()
+{}
+
 void PROTO_INTERFACE::OnContactDeleted(MCONTACT)
 {}
 

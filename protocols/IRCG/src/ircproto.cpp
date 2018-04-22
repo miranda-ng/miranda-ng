@@ -808,16 +808,3 @@ int CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
 
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// OnEvent - maintain protocol events
-
-int CIrcProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
-{
-	switch (eventType) {
-	case EV_PROTO_ONMENU:
-		InitMainMenus();
-		break;
-	}
-	return 1;
-}

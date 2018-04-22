@@ -528,7 +528,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // status menu
 
-void CJabberProto::MenuInit()
+void CJabberProto::OnBuildProtoMenu()
 {
 	CMenuItem mi;
 	mi.root = m_hMenuRoot = Menu_GetProtocolRoot(this);

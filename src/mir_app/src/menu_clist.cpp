@@ -867,7 +867,7 @@ void BuildProtoMenus()
 			continue;
 
 		if (pa->ppro)
-			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
+			pa->ppro->OnBuildProtoMenu();
 	}
 }
 

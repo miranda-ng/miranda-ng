@@ -37,7 +37,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef enum
 {
 	EV_PROTO_ONERASE,
-	EV_PROTO_ONMENU
 }
 	PROTOEVENTTYPE;
 
@@ -224,6 +223,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// events
 
+	virtual	void     OnBuildProtoMenu(void);
 	virtual	void     OnContactDeleted(MCONTACT);
 	virtual	void     OnModulesLoaded(void); // the analog of ME_SYSTEM_MODULESLOADED for an account
 	virtual	void     OnShutdown(void);      // same for ME_SYSTEM_SHUTDOWN

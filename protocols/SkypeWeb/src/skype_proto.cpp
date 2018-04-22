@@ -298,16 +298,6 @@ int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 	return 0;
 }
 
-int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
-{
-	switch (iEventType) {
-	case EV_PROTO_ONMENU:
-		return OnInitStatusMenu();
-	}
-
-	return 1;
-}
-
 int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	PROTOSEARCHRESULT **isrList = (PROTOSEARCHRESULT**)pre->szMessage;

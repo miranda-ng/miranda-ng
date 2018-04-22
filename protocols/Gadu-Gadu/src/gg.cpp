@@ -273,7 +273,7 @@ void GaduProto::block_uninit()
 //////////////////////////////////////////////////////////
 // Menus initialization
 //
-void GaduProto::menus_init()
+void GaduProto::OnBuildProtoMenu()
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(this);
 

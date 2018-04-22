@@ -1320,16 +1320,3 @@ void CJabberProto::InfoFrame_OnTransport(CJabberInfoFrame_Event *evt)
 		Clist_MenuProcessCommand(res, MPCF_CONTACTMENU, hContact);
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// OnEvent - maintain protocol events
-
-int CJabberProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
-{
-	switch (eventType) {
-	case EV_PROTO_ONMENU:
-		MenuInit();
-		break;
-	}
-	return 1;
-}

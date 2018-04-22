@@ -49,6 +49,13 @@ IconItem gdiExtraStatusIconsItems[ADV_ICON_MAX] =
 
 //////////////////////////////////////////////////////////////////////////////////////
 
+void CMraProto::OnBuildProtoMenu()
+{
+	CListCreateMenu(2000060000, 500085000, TRUE, gdiMenuItems, MAIN_MENU_ITEMS_COUNT, hMainMenuItems);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
 HICON IconLibGetIcon(HANDLE hIcon)
 {
 	return IconLibGetIconEx(hIcon, LR_SHARED);

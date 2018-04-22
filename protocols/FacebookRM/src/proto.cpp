@@ -386,19 +386,6 @@ INT_PTR FacebookProto::GetNotificationsCount(WPARAM, LPARAM)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
-int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
-{
-	switch (event) {
-	case EV_PROTO_ONMENU:
-		InitMenu();
-		break;
-	}
-
-	return 1;
-}
-
-//////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
 INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)

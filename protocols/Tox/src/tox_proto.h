@@ -47,6 +47,7 @@ public:
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 
@@ -134,7 +135,6 @@ private:
 	int __cdecl OnPrebuildContactMenu(WPARAM hContact, LPARAM);
 
 	HGENMENU StatusMenuItems[SMI_MAX];
-	int OnInitStatusMenu();
 	int __cdecl UpdateStatusMenu(WPARAM, LPARAM);
 
 	//services

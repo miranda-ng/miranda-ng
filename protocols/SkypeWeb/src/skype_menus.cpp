@@ -86,7 +86,7 @@ void CSkypeProto::InitMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::UnblockContact>);
 }
 
-int CSkypeProto::OnInitStatusMenu()
+void CSkypeProto::OnBuildProtoMenu()
 {
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);
@@ -97,5 +97,4 @@ int CSkypeProto::OnInitStatusMenu()
 	mi.position = SMI_POSITION + SMI_CREATECHAT;
 	mi.hIcolibItem = GetIconHandle(IDI_CONFERENCE);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
-	return 0;
 }

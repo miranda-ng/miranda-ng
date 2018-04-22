@@ -44,10 +44,8 @@ int CToxProto::UpdateStatusMenu(WPARAM, LPARAM)
 	return 0;
 }
 
-int CToxProto::OnInitStatusMenu()
+void CToxProto::OnBuildProtoMenu()
 {
-	//HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CToxProto::UpdateStatusMenu);
-
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
 	mi.root = Menu_GetProtocolRoot(this);
@@ -87,6 +85,4 @@ int CToxProto::OnInitStatusMenu()
 	StatusMenuItems[SMI_PASSWORD_REMOVE] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	UpdateStatusMenu(NULL, NULL);
-
-	return 0;
 }

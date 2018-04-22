@@ -126,8 +126,7 @@ public:
 				 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 				 
-	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
-	
+	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
@@ -166,7 +165,6 @@ public:
 	void InitPopups();
 	void InitHotkeys();
 	void InitSounds();
-	void InitMenu();
 
 	// Events
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);

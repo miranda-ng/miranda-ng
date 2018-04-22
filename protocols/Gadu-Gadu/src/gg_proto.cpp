@@ -730,14 +730,3 @@ void GaduProto::OnShutdown()
 	img_shutdown();
 	sessions_closedlg();
 }
-
-int GaduProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
-{
-	switch (eventType) {
-	case EV_PROTO_ONMENU:
-		menus_init();
-		break;
-	}
-
-	return TRUE;
-}

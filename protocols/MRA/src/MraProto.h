@@ -71,7 +71,7 @@ struct CMraProto : public PROTO<CMraProto>
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnBuildProtoMenu(void) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 

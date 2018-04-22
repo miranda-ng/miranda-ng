@@ -954,13 +954,9 @@ int CMsnProto::SetApparentMode(MCONTACT hContact, int mode)
 	return 1;
 }
 
-int CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM, LPARAM)
 {
 	switch (eventType) {
-	case EV_PROTO_ONMENU:
-		MsnInitMainMenu();
-		break;
-
 	case EV_PROTO_ONERASE:
 		char szDbsettings[64];
 		mir_snprintf(szDbsettings, "%s_HTTPS", m_szModuleName);

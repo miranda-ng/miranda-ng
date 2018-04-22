@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-void CIrcProto::InitMainMenus(void)
+void CIrcProto::OnBuildProtoMenu()
 {
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);

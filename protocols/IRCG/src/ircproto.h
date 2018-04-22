@@ -69,8 +69,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 			   
-	int      OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam) override;
-
+	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
@@ -275,7 +274,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	// services.cpp
 	void   ConnectToServer(void);
 	void   DisconnectFromServer(void);
-	void   InitMainMenus(void);
 
 	void __cdecl ConnectServerThread(void*);
 	void __cdecl DisconnectServerThread(void*);

@@ -228,9 +228,6 @@ int CToxProto::UserIsTyping(MCONTACT hContact, int type)
 int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
 {
 	switch (iEventType) {
-	case EV_PROTO_ONMENU:
-		return OnInitStatusMenu();
-
 	case EV_PROTO_ONERASE:
 		return OnDeleteToxProfile();
 	}

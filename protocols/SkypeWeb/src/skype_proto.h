@@ -54,7 +54,7 @@ public:
 	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 
-	int      OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) override;
+	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
@@ -208,8 +208,6 @@ private:
 	static HGENMENU ContactMenuItems[CMI_MAX];
 	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
 	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
-
-	int OnInitStatusMenu();
 
 	// options
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
