@@ -252,7 +252,8 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 	DWORD dwTicks = GetTickCount() + 6000;
 	HANDLE hThread = mir_forkthread(KillObjectThreadsWorker, owner);
 	while (GetTickCount() < dwTicks) {
-		if (WAIT_OBJECT_0 == MsgWaitForMultipleObjectsEx(1, &hThread, 50, QS_ALLPOSTMESSAGE | QS_ALLINPUT, MWMO_ALERTABLE))
+		int res = MsgWaitForMultipleObjectsEx(1, &hThread, 50, QS_ALLPOSTMESSAGE | QS_ALLINPUT, MWMO_ALERTABLE);
+		if (res == WAIT_OBJECT_0 || res == WAIT_FAILED)
 			break;
 
 		MSG msg;
