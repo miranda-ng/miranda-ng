@@ -341,11 +341,11 @@ public:
 	CDbLink(const char *szModule, const char *szSetting, BYTE type, wchar_t *szValue);
 	~CDbLink();
 
-	DWORD LoadInt();
-	void  SaveInt(DWORD value);
+	DWORD LoadInt() override;
+	void  SaveInt(DWORD value) override;
 
-	wchar_t* LoadText();
-	void   SaveText(wchar_t *value);
+	wchar_t* LoadText() override;
+	void   SaveText(wchar_t *value) override;
 };
 
 template<class T>
@@ -359,11 +359,11 @@ public:
 		CDataLink(CMDBTraits<sizeof(T)>::DBTypeId), m_option(&option)
 	{}
 
-	__forceinline DWORD LoadInt() { return (DWORD)(T)*m_option; }
-	__forceinline void  SaveInt(DWORD value) { *m_option = (T)value; }
+	__forceinline DWORD LoadInt() override { return (DWORD)(T)*m_option; }
+	__forceinline void  SaveInt(DWORD value) override { *m_option = (T)value; }
 
-	__forceinline wchar_t* LoadText() { return nullptr; }
-	__forceinline void   SaveText(wchar_t*) {}
+	__forceinline wchar_t* LoadText() override { return nullptr; }
+	__forceinline void   SaveText(wchar_t*) override {}
 };
 
 template<>
@@ -378,11 +378,11 @@ public:
 		CDataLink(DBVT_WCHAR), m_option(&option)
 	{}
 
-	__forceinline DWORD LoadInt() { return 0; }
-	__forceinline void  SaveInt(DWORD) { }
+	__forceinline DWORD LoadInt() override { return 0; }
+	__forceinline void  SaveInt(DWORD) override { }
 
-	__forceinline wchar_t* LoadText() { return *m_option; }
-	__forceinline void   SaveText(wchar_t *value) { *m_option = value; }
+	__forceinline wchar_t* LoadText() override { return *m_option; }
+	__forceinline void   SaveText(wchar_t *value) override { *m_option = value; }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -599,7 +599,7 @@ class MIR_CORE_EXPORT CCtrlButton : public CCtrlBase
 public:
 	CCtrlButton(CDlgBase *dlg, int ctrlId);
 
-	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
+	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
 
 	CCallback<CCtrlButton> OnClick;
 
@@ -623,7 +623,7 @@ public:
 	void MakeFlat();
 	void MakePush();
 
-	virtual void OnInit() override;
+	void OnInit() override;
 
 protected:
 	HICON m_hIcon;
@@ -643,8 +643,8 @@ public:
 	__forceinline int GetPos() const { return m_iPosition; }
 
 protected:
-	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual void OnInit() override;
+	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	void OnInit() override;
 
 	int m_iPosition;
 };
@@ -659,7 +659,7 @@ class MIR_CORE_EXPORT CCtrlHyperlink : public CCtrlBase
 public:
 	CCtrlHyperlink(CDlgBase *dlg, int ctrlId, const char* url = nullptr);
 
-	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
+	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
 
 	CCallback<CCtrlHyperlink> OnClick;
 
@@ -767,7 +767,7 @@ public:
 	CCallback<TEventInfo>	OnClick;
 
 protected:
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
+	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -779,13 +779,13 @@ class MIR_CORE_EXPORT CCtrlData : public CCtrlBase
 
 public:
 	CCtrlData(CDlgBase *dlg, int ctrlId);
-	virtual ~CCtrlData();
+	~CCtrlData();
 
 	void CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue);
 	void CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue);
 	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
 
-	virtual void OnInit() override;
+	void OnInit() override;
 
 protected:
 	CDataLink *m_dbLink;
@@ -806,10 +806,10 @@ class MIR_CORE_EXPORT CCtrlCheck : public CCtrlData
 
 public:
 	CCtrlCheck(CDlgBase *dlg, int ctrlId);
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) override;
+	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) override;
 
-	virtual void OnApply() override;
-	virtual void OnReset() override;
+	void OnApply() override;
+	void OnReset() override;
 
 	int GetState();
 	void SetState(int state);
@@ -826,10 +826,10 @@ class MIR_CORE_EXPORT CCtrlEdit : public CCtrlData
 
 public:
 	CCtrlEdit(CDlgBase *dlg, int ctrlId);
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
+	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
 
-	virtual void OnApply() override;
-	virtual void OnReset() override;
+	void OnApply() override;
+	void OnReset() override;
 
 	void SetMaxLength(unsigned int len);
 };
@@ -866,13 +866,13 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
-	virtual BOOL OnNotify(int, NMHDR*) override;
+	BOOL OnNotify(int, NMHDR*) override;
 
 public:
 	CCtrlSpin(CDlgBase *dlg, int ctrlId);
 
-	virtual void OnApply() override;
-	virtual void OnReset() override;
+	void OnApply() override;
+	void OnReset() override;
 
 	WORD GetPosition();
 	void SetPosition(WORD pos);
@@ -929,10 +929,10 @@ class MIR_CORE_EXPORT CCtrlCombo : public CCtrlData
 public:
 	CCtrlCombo(CDlgBase *dlg, int ctrlId);
 
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
-	virtual void OnInit() override;
-	virtual void OnApply() override;
-	virtual void OnReset() override;
+	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
+	void OnInit() override;
+	void OnApply() override;
+	void OnReset() override;
 
 	// Control interface
 	int    AddString(const wchar_t *text, LPARAM data = 0);
@@ -1139,7 +1139,7 @@ public:
 	CCallback<TEventInfo> OnSetDispInfo;
 
 protected:
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
+	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1276,11 +1276,11 @@ public:
 	CCallback<TEventInfo> OnSingleExpand;
 
 protected:
-	virtual void OnInit() override;
-	virtual void OnDestroy() override;
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
+	void OnInit() override;
+	void OnDestroy() override;
+	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	
-	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	union {
 		uint32_t m_dwFlags;
@@ -1323,15 +1323,15 @@ public:
 	}
 
 protected:
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
+	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	
-	virtual void OnInit() override;
-	virtual void OnDestroy() override;
+	void OnInit() override;
+	void OnDestroy() override;
 
-	virtual void OnApply() override;
-	virtual void OnReset() override;
+	void OnApply() override;
+	void OnReset() override;
 
-	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 private:
 	HIMAGELIST m_hIml;
@@ -1377,7 +1377,7 @@ public:
 		m_pfnOnDeleteItem	= pfnOnDeleteItem;
 	}
 
-	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override
+	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override
 	{
 		if (m_parentWnd && m_pfnOnCommand) {
 			m_parentWnd->m_lresult = 0;
@@ -1386,7 +1386,8 @@ public:
 		}
 		return FALSE;
 	}
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override
+
+	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override
 	{
 		if (m_parentWnd && m_pfnOnNotify) {
 			m_parentWnd->m_lresult = 0;
@@ -1396,7 +1397,7 @@ public:
 		return FALSE;
 	}
 
-	virtual BOOL OnMeasureItem(MEASUREITEMSTRUCT *param) override
+	BOOL OnMeasureItem(MEASUREITEMSTRUCT *param) override
 	{
 		if (m_parentWnd && m_pfnOnMeasureItem) {
 			m_parentWnd->m_lresult = 0;
@@ -1405,7 +1406,8 @@ public:
 		}
 		return FALSE;
 	}
-	virtual BOOL OnDrawItem(DRAWITEMSTRUCT *param) override
+	
+	BOOL OnDrawItem(DRAWITEMSTRUCT *param) override
 	{
 		if (m_parentWnd && m_pfnOnDrawItem) {
 			m_parentWnd->m_lresult = 0;
@@ -1414,7 +1416,8 @@ public:
 		}
 		return FALSE;
 	}
-	virtual BOOL OnDeleteItem(DELETEITEMSTRUCT *param) override
+	
+	BOOL OnDeleteItem(DELETEITEMSTRUCT *param) override
 	{
 		if (m_parentWnd && m_pfnOnDeleteItem) {
 			m_parentWnd->m_lresult = 0;
@@ -1459,7 +1462,7 @@ protected:
 	PROTO_INTERFACE *m_proto_interface;
 	HWND m_hwndStatus;
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	virtual void OnProtoRefresh(WPARAM, LPARAM);
 	virtual void OnProtoActivate(WPARAM, LPARAM);
