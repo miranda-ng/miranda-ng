@@ -481,6 +481,9 @@ void RebuildSubGroup()
  **/
 INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 {
+	if (Miranda_IsTerminated())
+		return 0;
+
 	const BYTE mItems = 3;				// menuitems to create
 	BYTE item = 0;
 
