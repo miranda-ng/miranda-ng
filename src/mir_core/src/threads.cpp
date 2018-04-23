@@ -208,12 +208,9 @@ MIR_CORE_DLL(HANDLE) mir_forkthreadowner(pThreadFuncOwner aFunc, void *owner, vo
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(void) KillObjectThreads(void* owner)
+static void __cdecl KillObjectThreadsWorker(void* owner)
 {
-	if (owner == nullptr)
-		return;
-
-	HANDLE *threadPool = (HANDLE*)alloca(threads.getCount()*sizeof(HANDLE));
+	HANDLE *threadPool = (HANDLE*)alloca(threads.getCount() * sizeof(HANDLE));
 	int threadCount = 0;
 	{
 		mir_cslock lck(csThreads);
@@ -224,22 +221,44 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 	}
 
 	// is there anything to kill?
-	if (threadCount > 0) {
-		if (WaitForMultipleObjects(threadCount, threadPool, TRUE, 5000) == WAIT_TIMEOUT) {
-			// forcibly kill all remaining threads after 5 secs
-			mir_cslock lck(csThreads);
-			auto T = threads.rev_iter();
-			for (auto &it : T) {
-				if (it->pObject == owner) {
-					char szModuleName[MAX_PATH];
-					GetModuleFileNameA(it->hOwner, szModuleName, sizeof(szModuleName));
-					Netlib_Logf(nullptr, "Killing object thread %s:%p", szModuleName, it->dwThreadId);
-					TerminateThread(it->hThread, 9999);
-					CloseHandle(it->hThread);
-					mir_free(it);
-					threads.remove(T.indexOf(&it));
-				}
-			}
+	if (threadCount == 0)
+		return;
+
+	// wait'em all
+	if (WaitForMultipleObjects(threadCount, threadPool, TRUE, 5000) != WAIT_TIMEOUT)
+		return;
+
+	// forcibly kill all remaining threads after 5 secs
+	mir_cslock lck(csThreads);
+	auto T = threads.rev_iter();
+	for (auto &it : T) {
+		if (it->pObject == owner) {
+			char szModuleName[MAX_PATH];
+			GetModuleFileNameA(it->hOwner, szModuleName, sizeof(szModuleName));
+			Netlib_Logf(nullptr, "Killing object thread %s:%p", szModuleName, it->dwThreadId);
+			TerminateThread(it->hThread, 9999);
+			CloseHandle(it->hThread);
+			mir_free(it);
+			threads.remove(T.indexOf(&it));
+		}
+	}
+}
+
+MIR_CORE_DLL(void) KillObjectThreads(void* owner)
+{
+	if (owner == nullptr)
+		return;
+
+	DWORD dwTicks = GetTickCount() + 6000;
+	HANDLE hThread = mir_forkthread(KillObjectThreadsWorker, owner);
+	while (GetTickCount() < dwTicks) {
+		if (WAIT_OBJECT_0 == MsgWaitForMultipleObjectsEx(1, &hThread, 50, QS_ALLPOSTMESSAGE | QS_ALLINPUT, MWMO_ALERTABLE))
+			break;
+
+		MSG msg;
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 	}
 }

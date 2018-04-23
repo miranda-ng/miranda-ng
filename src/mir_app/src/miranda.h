@@ -66,6 +66,7 @@ void UninitIni(void);
 extern HINSTANCE g_hInst;
 extern DWORD hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
+extern HANDLE hAccListChanged;
 extern wchar_t mirandabootini[MAX_PATH];
 extern struct pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
 extern bool bModulesLoadedFired;
@@ -163,9 +164,18 @@ int  FreeDefaultAccount(PROTO_INTERFACE* ppi);
 
 bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic);
 void EraseAccount(const char *pszProtoName);
-void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase);
-void UnloadAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase);
 void OpenAccountOptions(PROTOACCOUNT *pa);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define DAF_DYNAMIC 0x0001
+#define DAF_ERASE   0x0002
+#define DAF_FORK    0x0004
+
+void DeactivateAccount(PROTOACCOUNT *pa, int flags);
+void UnloadAccount(PROTOACCOUNT *pa, int flags);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void LoadDbAccounts(void);
 void WriteDbAccounts(void);

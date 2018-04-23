@@ -371,10 +371,11 @@ class COptionsDlg : public CDlgBase
 {
 	int m_currentPage;
 	HTREEITEM m_hCurrentPage;
-	LIST<OptionsPageData> m_arOpd, m_arDeleted;
+	LIST<OptionsPageData> m_arOpd, m_arDeleted, m_arInserted;
 	RECT m_rcDisplay;
 	RECT m_rcTab;
 	HFONT m_hBoldFont;
+	bool m_bInsideApply = false;
 	wchar_t m_szFilterString[1024];
 
 	const wchar_t *m_szCaption, *m_szGroup, *m_szPage, *m_szTab;
@@ -693,6 +694,7 @@ public:
 		m_timerRebuild(this, NEW_PAGE_TIMER),
 		m_arOpd(10),
 		m_arDeleted(1),
+		m_arInserted(1),
 		m_szCaption(pszCaption),
 		m_szGroup(pszGroup),
 		m_szPage(pszPage),
@@ -838,6 +840,7 @@ public:
 		}
 
 		LIST<OptionsPageData> arChanged(10, CompareOPD);
+		m_bInsideApply = true;
 
 		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
@@ -859,10 +862,17 @@ public:
 				m_currentPage = m_arOpd.indexOf(&p);
 				if (opd)
 					opd->pDialog->Show();
+				m_bInsideApply = false;
 				return;
 			}
 		}
+		m_bInsideApply = false;
 
+		for (auto &it : m_arInserted)
+			m_arOpd.insert(it);
+		m_arInserted.destroy();
+
+		// send PSN_WIZFINISH once to last changed tab that belongs to the same group
 		pshn.hdr.code = PSN_WIZFINISH;
 		for (int i = 0; i < arChanged.getCount(); i++) {
 			OptionsPageData *p = arChanged[i];
@@ -1118,7 +1128,10 @@ public:
 		if (opd->pDialog == nullptr) // smth went wrong
 			delete opd;
 		else {
-			m_arOpd.insert(opd);
+			if (m_bInsideApply)
+				m_arInserted.insert(opd);
+			else
+				m_arOpd.insert(opd);
 			m_timerRebuild.Start(50);
 		}
 	}

@@ -48,8 +48,6 @@ Alternatively, just click on the Plus sign underneath the list to set up a new I
 
 static class CAccountManagerDlg *pAccMgr = nullptr;
 
-extern HANDLE hAccListChanged;
-
 int UnloadPlugin(wchar_t* buf, int bufLen);
 
 MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const char *pszBaseProto, const wchar_t *tszAccountName)
@@ -462,7 +460,7 @@ public:
 			}
 
 			if (!pa->bIsEnabled)
-				DeactivateAccount(pa, true, false);
+				DeactivateAccount(pa, DAF_DYNAMIC | DAF_FORK);
 		}
 
 		WriteDbAccounts();
@@ -554,7 +552,7 @@ public:
 			WriteDbAccounts();
 			NotifyEventHooks(hAccListChanged, PRAC_REMOVED, (LPARAM)pa);
 
-			UnloadAccount(pa, true, true);
+			UnloadAccount(pa, DAF_DYNAMIC | DAF_FORK | DAF_ERASE);
 			Refresh();
 
 			m_accList.Enable();
@@ -875,7 +873,7 @@ void CAccountFormDlg::OnOk(CCtrlButton*)
 		wchar_t szPlugin[MAX_PATH];
 		mir_snwprintf(szPlugin, L"%s.dll", _A2T(m_pa->szProtoName));
 		int idx = accounts.getIndex(m_pa);
-		UnloadAccount(m_pa, false, false);
+		UnloadAccount(m_pa, 0);
 		accounts.remove(idx);
 		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
 			wchar_t szNewName[MAX_PATH];

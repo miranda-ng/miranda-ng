@@ -332,7 +332,7 @@ struct DeactivationThreadParam
 {
 	PROTO_INTERFACE *ppro;
 	pfnUninitProto fnUninit;
-	bool bIsDynamic, bErase;
+	int flags;
 };
 
 pfnUninitProto GetProtocolDestructor(char *szProto);
@@ -344,7 +344,7 @@ static int DeactivationThread(DeactivationThreadParam* param)
 
 	char *szModuleName = NEWSTR_ALLOCA(p->m_szModuleName);
 
-	if (param->bIsDynamic) {
+	if (param->flags & DAF_DYNAMIC) {
 		while (!p->IsReadyToExit())
 			SleepEx(100, TRUE);
 
@@ -354,7 +354,7 @@ static int DeactivationThread(DeactivationThreadParam* param)
 	KillObjectThreads(p); // waits for them before terminating
 	KillObjectEventHooks(p); // untie an object from the outside world
 
-	if (param->bErase)
+	if (param->flags & DAF_ERASE)
 		p->OnErase();
 
 	if (param->fnUninit)
@@ -362,14 +362,14 @@ static int DeactivationThread(DeactivationThreadParam* param)
 
 	KillObjectServices(p);
 
-	if (param->bErase)
+	if (param->flags & DAF_ERASE)
 		EraseAccount(szModuleName);
 
 	delete param;
 	return 0;
 }
 
-void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
+void DeactivateAccount(PROTOACCOUNT *pa, int flags)
 {
 	if (pa->hwndAccMgrUI) {
 		DestroyWindow(pa->hwndAccMgrUI);
@@ -377,10 +377,13 @@ void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 		pa->bAccMgrUIChanged = FALSE;
 	}
 
-	pa->iIconBase = -1;
+	if (flags & DAF_DYNAMIC)
+		pa->bDynDisabled = true;
+
+	NotifyEventHooks(hAccListChanged, PRAC_REMOVED, (LPARAM)pa);
 
 	if (pa->ppro == nullptr) {
-		if (bErase)
+		if (flags & DAF_ERASE)
 			EraseAccount(pa->szModuleName);
 		return;
 	}
@@ -388,10 +391,9 @@ void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 	DeactivationThreadParam *param = new DeactivationThreadParam;
 	param->ppro = pa->ppro;
 	param->fnUninit = GetProtocolDestructor(pa->szProtoName);
-	param->bIsDynamic = bIsDynamic;
-	param->bErase = bErase;
+	param->flags = flags;
 	pa->ppro = nullptr;
-	if (bIsDynamic)
+	if (flags & DAF_FORK)
 		mir_forkthread((pThreadFunc)DeactivationThread, param);
 	else
 		DeactivationThread(param);
@@ -405,12 +407,9 @@ void KillModuleAccounts(HINSTANCE hInst)
 		if (pd->hInst != hInst)
 			continue;
 
-		for (auto &pa : accounts.rev_iter()) {
-			if (!mir_strcmp(pa->szProtoName, pd->szName)) {
-				DeactivateAccount(pa, false, false);
-				pa->bDynDisabled = true;
-			}
-		}
+		for (auto &pa : accounts.rev_iter())
+			if (!mir_strcmp(pa->szProtoName, pd->szName))
+				DeactivateAccount(pa, DAF_DYNAMIC);
 	}
 }
 
@@ -431,9 +430,9 @@ void EraseAccount(const char *pszModuleName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void UnloadAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
+void UnloadAccount(PROTOACCOUNT *pa, int flags)
 {
-	DeactivateAccount(pa, bIsDynamic, bErase);
+	DeactivateAccount(pa, flags);
 
 	replaceStrW(pa->tszAccountName, 0);
 	replaceStr(pa->szProtoName, 0);
@@ -442,7 +441,7 @@ void UnloadAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 	// szModuleName should be freed only on a program's exit.
 	// otherwise many plugins dependand on static protocol names will crash!
 	// do NOT fix this 'leak', please
-	if (!bIsDynamic) {
+	if (!(flags & DAF_DYNAMIC)) {
 		mir_free(pa->szModuleName);
 		mir_free(pa);
 	}
@@ -454,7 +453,7 @@ void UnloadAccountsModule()
 
 	auto T = accounts.rev_iter();
 	for (auto &it : T) {
-		UnloadAccount(it, false, false);
+		UnloadAccount(it, 0);
 		accounts.remove(T.indexOf(&it));
 	}
 	accounts.destroy();
