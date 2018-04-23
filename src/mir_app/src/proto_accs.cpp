@@ -377,10 +377,11 @@ void DeactivateAccount(PROTOACCOUNT *pa, int flags)
 		pa->bAccMgrUIChanged = FALSE;
 	}
 
-	if (flags & DAF_DYNAMIC)
+	if (flags & DAF_DYNAMIC) {
 		pa->bDynDisabled = true;
-
-	NotifyEventHooks(hAccListChanged, PRAC_REMOVED, (LPARAM)pa);
+		NotifyEventHooks(hAccListChanged, PRAC_REMOVED, (LPARAM)pa);
+	}
+	else pa->iIconBase = -1;
 
 	if (pa->ppro == nullptr) {
 		if (flags & DAF_ERASE)
