@@ -170,12 +170,15 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case PRAC_REMOVED:
+		// little perversion not to call the object's destructor
+		protoPicCacheEntry *tmp = (protoPicCacheEntry *)_alloca(sizeof(protoPicCacheEntry));
+		tmp->cacheType = PCE_TYPE_ACCOUNT;
+		tmp->szProtoname = pa->szModuleName;
+
 		int idx;
-		protoPicCacheEntry tmp(PCE_TYPE_ACCOUNT);
-		tmp.szProtoname = pa->szModuleName;
-		if ((idx = g_ProtoPictures.getIndex(&tmp)) != -1)
+		if ((idx = g_ProtoPictures.getIndex(tmp)) != -1)
 			g_ProtoPictures.remove(idx);
-		if ((idx = g_MyAvatars.getIndex(&tmp)) != -1)
+		if ((idx = g_MyAvatars.getIndex(tmp)) != -1)
 			g_MyAvatars.remove(idx);
 		break;
 	}
