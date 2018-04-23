@@ -456,7 +456,7 @@ public:
 				wchar_t buf[200];
 				mir_snwprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
 				if (IDNO == ::MessageBox(m_hwnd, TranslateT("Account is online. Disable account?"), buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO))
-					pa->bIsEnabled = 1; // stay enabled
+					pa->bIsEnabled = true; // stay enabled
 			}
 
 			if (!pa->bIsEnabled)

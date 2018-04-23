@@ -189,10 +189,15 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 		if (pd->hInst != pPlug->bpi.hInst)
 			continue;
 
-		for (auto &pa : accounts) 
-			if (pa->ppro == nullptr && !mir_strcmp(pa->szProtoName, pd->szName) && pa->bIsEnabled)
-				if (ActivateAccount(pa, true))
-					NotifyEventHooks(hAccListChanged, PRAC_ADDED, (LPARAM)pa);
+		for (auto &pa : accounts) {
+			if (pa->ppro == nullptr && !mir_strcmp(pa->szProtoName, pd->szName)) {
+				if (pa->bIsEnabled) {
+					if (ActivateAccount(pa, true))
+						NotifyEventHooks(hAccListChanged, PRAC_ADDED, (LPARAM)pa);
+				}
+				else pa->bDynDisabled = false;
+			}
+		}
 	}
 
 	dat->hInst = pPlug->bpi.hInst;
