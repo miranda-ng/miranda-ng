@@ -45,6 +45,10 @@ bool CanSendToContact(MCONTACT hContact)
 	if (!proto)
 		return false;
 
+	bool isCtrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+	if (isCtrlPressed)
+		return true;
+
 	bool canSend = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) != 0;
 	if (!canSend)
 		return false;
