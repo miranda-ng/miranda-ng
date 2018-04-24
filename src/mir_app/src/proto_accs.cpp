@@ -377,11 +377,10 @@ void DeactivateAccount(PROTOACCOUNT *pa, int flags)
 		pa->bAccMgrUIChanged = FALSE;
 	}
 
-	if (flags & DAF_DYNAMIC) {
-		pa->bDynDisabled = true;
+	if (flags & DAF_DYNAMIC)
 		NotifyEventHooks(hAccListChanged, PRAC_REMOVED, (LPARAM)pa);
-	}
-	else pa->iIconBase = -1;
+	else
+		pa->iIconBase = -1;
 
 	if (pa->ppro == nullptr) {
 		if (flags & DAF_ERASE)
@@ -408,9 +407,12 @@ void KillModuleAccounts(HINSTANCE hInst)
 		if (pd->hInst != hInst)
 			continue;
 
-		for (auto &pa : accounts.rev_iter())
-			if (!mir_strcmp(pa->szProtoName, pd->szName))
+		for (auto &pa : accounts.rev_iter()) {
+			if (!mir_strcmp(pa->szProtoName, pd->szName)) {
 				DeactivateAccount(pa, DAF_DYNAMIC);
+				pa->bDynDisabled = true;
+			}
+		}
 	}
 }
 
