@@ -1880,13 +1880,13 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	bool own_jid = false;
 	if (wcsstr(m_ThreadInfo->fullJID, jid))
 		own_jid = true;
-	DWORD current_id;
+	uint32_t current_id;
 	const wchar_t *current_id_str;
 	if (own_jid)
 	{
 		//check if our device exist
 		bool own_device_listed = false;
-		unsigned int own_id = m_omemo.GetOwnDeviceId();
+		uint32_t own_id = m_omemo.GetOwnDeviceId();
 		char setting_name[64];
 		HXML list_item;
 		int i = 0;
