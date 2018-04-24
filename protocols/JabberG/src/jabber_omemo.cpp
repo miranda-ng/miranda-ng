@@ -512,7 +512,7 @@ namespace omemo {
 
 	struct omemo_device
 	{
-		unsigned int id;
+		uint32_t id;
 		ratchet_identity_key_pair *device_key;
 	};
 
@@ -523,6 +523,7 @@ namespace omemo {
 		{
 			Utils_GetRandom((void*)&(dev->id), 4);
 		}
+		dev->id &= ~0x80000000;
 		
 		if (signal_protocol_key_helper_generate_identity_key_pair(&(dev->device_key), global_context))
 		{
@@ -656,7 +657,7 @@ namespace omemo {
 		unsigned int device_id;
 		CJabberProto *proto;
 	};
-	int load_session_func(signal_buffer **record, const signal_protocol_address *address, void *user_data)
+	int load_session_func(signal_buffer **record, signal_buffer ** /*user_data_storage*/, const signal_protocol_address *address, void *user_data)
 	{
 		/**
 		* Returns a copy of the serialized session record corresponding to the
@@ -771,7 +772,7 @@ namespace omemo {
 		return array_size;
 	}
 
-	int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, void *user_data)
+	int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, uint8_t * /*user_record*/, size_t /*user_record_len*/, void *user_data)
 	{
 		/**
 		* Commit to storage the session record for a given
@@ -2193,7 +2194,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	const wchar_t *signedPreKeyId = XmlGetAttrValue(XmlGetChild(bundle, L"signedPreKeyPublic"), L"signedPreKeyId");
 	if (!signedPreKeyId)
 	{
-		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
+		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyId attr");
 		return;
 	}
 	const wchar_t *signedPreKeySignature = XmlGetText(XmlGetChild(bundle, L"signedPreKeySignature"));

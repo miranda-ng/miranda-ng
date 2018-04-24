@@ -51,5 +51,8 @@
     <ClCompile Include="src\curve25519\ed25519\additions\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
+    <ClCompile Include="src\curve25519\ed25519\additions\generalized\*.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+   </ItemGroup>
 </Project>
