@@ -68,42 +68,39 @@ namespace omemo {
 		return 0;
 	}
 
-	struct hmac_sha256_ctx {
-		uint8_t *key, *data;
-		size_t key_len, data_len;
-	};
-
 	int hmac_sha256_init_func(void **hmac_context, const uint8_t *key, size_t key_len, void * /*user_data*/)
 	{
-		hmac_sha256_ctx *ctx = (hmac_sha256_ctx*)mir_alloc(sizeof(hmac_sha256_ctx));
-		ctx->key = (uint8_t*)mir_alloc(key_len);
-		memcpy(ctx->key, key, key_len);
-		ctx->key_len = key_len;
+		
+		HMAC_CTX *ctx = (HMAC_CTX*)mir_alloc(sizeof(HMAC_CTX));
+		HMAC_CTX_init(ctx);
+		HMAC_Init_ex(ctx, key, (int)key_len, EVP_sha256(), NULL);
 		*hmac_context = ctx;
+		//TODO: handle errors
 		return 0;
 	}
 	int hmac_sha256_update_func(void *hmac_context, const uint8_t *data, size_t data_len, void * /*user_data*/)
 	{
-		hmac_sha256_ctx *ctx = (hmac_sha256_ctx*)hmac_context;
-		ctx->data = (uint8_t*)mir_alloc(data_len);
-		memcpy(ctx->data, data, data_len);
-		ctx->data_len = data_len;
+		HMAC_CTX *ctx = (HMAC_CTX*)hmac_context;
+		HMAC_Update(ctx, data, data_len);
+		//TODO: handle errors
 		return 0;
 	}
 	int hmac_sha256_final_func(void *hmac_context, signal_buffer **output, void * /*user_data*/)
 	{
-		hmac_sha256_ctx *ctx = (hmac_sha256_ctx*)hmac_context;
-		BYTE hashout[MIR_SHA256_HASH_SIZE];
-		mir_hmac_sha256(hashout, ctx->key, ctx->key_len, ctx->data, ctx->data_len);
-		signal_buffer *output_buffer = signal_buffer_create(hashout, MIR_SHA256_HASH_SIZE);
+		HMAC_CTX *ctx = (HMAC_CTX*)hmac_context;
+		unsigned char buf[128];
+		unsigned int len = 0;
+		HMAC_Final(ctx, buf, &len);
+		signal_buffer *output_buffer = signal_buffer_create(buf, len);
 		*output = output_buffer;
+		//TODO: handle errors
 		return 0;
 	}
 	void hmac_sha256_cleanup_func(void * hmac_context, void * /*user_data*/)
 	{
-		hmac_sha256_ctx *ctx = (hmac_sha256_ctx*)hmac_context;
-		mir_free(ctx->key);
-		mir_free(ctx->data);
+		HMAC_CTX *ctx = (HMAC_CTX*)hmac_context;
+		HMAC_CTX_cleanup(ctx);
+		mir_free(ctx);
 	}
 
 	int sha512_digest_init_func(void **digest_context, void * /*user_data*/)
@@ -1799,23 +1796,27 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	{
 		int dec_success = 0;
 		size_t payload_len = 0;
-		int outl = 0, round_len = 0;
+		int outl = 0, round_len = 0, tag_len = 0;
 		char *payload_base64 = mir_u2a(payload_base64w);
 		unsigned char *payload = (unsigned char*)mir_base64_decode(payload_base64, &payload_len);
 		mir_free(payload_base64);
-		unsigned char key[16], tag[16];
+		unsigned char key[16], *tag;
 		{
-			unsigned char tmp[32];
-			memcpy(tmp, signal_buffer_data(decrypted_key), 32);
+			size_t buf_len = signal_buffer_len(decrypted_key);
+			unsigned char *tmp = (unsigned char*)mir_alloc(buf_len);
+			memcpy(tmp, signal_buffer_data(decrypted_key), buf_len);
 			memcpy(key, tmp, 16);
 			unsigned char *ptr = tmp + 16;
-			memcpy(tag, ptr, 16);
+			tag_len = (int)buf_len - 16;
+			tag = (unsigned char*)mir_alloc(tag_len);
+			memcpy(tag, ptr, tag_len);
+			mir_free(tmp);
 		}
 		out = (char*)mir_alloc(payload_len + 1); //TODO: check this
 		const EVP_CIPHER *cipher = EVP_aes_128_gcm();
 		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 		EVP_DecryptInit(ctx, cipher, key, iv);
-		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag);
+		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, tag_len, tag);
 		EVP_DecryptInit(ctx, nullptr, key, iv);
 		//EVP_DecryptUpdate(ctx, nullptr, &howmany, AAD, aad_len);
 
@@ -1832,7 +1833,8 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		mir_free(payload);
 		dec_success = EVP_DecryptFinal(ctx, tag, &round_len);
 		EVP_CIPHER_CTX_free(ctx);
-		if (dec_success <= 0) //TODO: check this... omemo xep have no info about tag
+		mir_free(tag);
+		if (dec_success <= 0)
 		{
 			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed");
 			return true;
@@ -1850,7 +1852,7 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	pResourceStatus pFromResource(ResourceInfoFromJID(jid));
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = (DWORD)msgTime;
-	recv.szMessage = mir_utf8encode(out);
+	recv.szMessage = mir_strdup(out);
 	recv.lParam = (LPARAM)((pFromResource != nullptr && m_bEnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
 	ProtoChainRecvMsg(hContact, &recv);
 	mir_free(out);
@@ -2298,7 +2300,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof_portable(iv), nullptr);
 	EVP_EncryptInit(ctx, cipher, key, iv);
-	char *in = mir_u2a(msg_text), *out;
+	char *in = mir_utf8encodeW(msg_text), *out;
 	const size_t inl = strlen(in);
 	int tmp_len = 0, outl;
 	//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof_portable(aad));

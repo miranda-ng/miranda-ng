@@ -1282,7 +1282,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 					{
 						if (!OmemoHandleMessage(xNode, (wchar_t*)jid, msgTime))
 							OmemoPutMessageToIncommingQueue(xNode, (wchar_t*)jid, msgTime);
-						continue;
+						return; //we do not want any additional processing
 					}
 				}
 			}
