@@ -630,7 +630,7 @@ void CSrmmWindow::UpdateTitle()
 	else mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
 
 	wchar_t oldtitle[256];
-	GetWindowText(m_hwnd, oldtitle, _countof(oldtitle));
+	GetWindowText(m_pOwner->GetHwnd(), oldtitle, _countof(oldtitle));
 	if (mir_wstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
 		SetWindowText(m_pOwner->GetHwnd(), newtitle);
 		Resize();
