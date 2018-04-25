@@ -179,7 +179,9 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 
 	Menu_ReloadProtoMenus();
 	Clist_TrayIconIconsChanged();
-	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
+
+	cli.bAutoRebuild = true;
+	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 	return 0;
 }
