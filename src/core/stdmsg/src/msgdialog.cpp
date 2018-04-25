@@ -368,10 +368,14 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 
 	ShowWindow(GetDlgItem(m_hwnd, IDCANCEL), SW_HIDE);
 	m_splitter.Show();
+	
 	m_btnOk.Show(g_dat.bSendButton);
 	m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
+	
 	if (m_avatarPic == nullptr || !g_dat.bShowAvatar)
 		m_avatar.Hide();
+	
+	UpdateIcon(0);
 	UpdateTitle();
 	Resize();
 
@@ -1397,8 +1401,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_UPDATETITLE:
-		if (wParam)
-			UpdateIcon(wParam);
+		UpdateIcon(wParam);
 		UpdateTitle();
 		break;
 
