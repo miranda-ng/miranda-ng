@@ -79,17 +79,17 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,104,91,61,14
 END
 
-IDD_MSG DIALOGEX 0, 0, 185, 79
+IDD_MSG DIALOGEX 0, 0, 252, 140
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_SRMM_MESSAGE,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x1144,1,49,141,29,WS_EX_ACCEPTFILES | WS_EX_STATICEDGE
-    DEFPUSHBUTTON   "&Send",IDOK,143,49,39,29
-    PUSHBUTTON      "Close",IDCANCEL,129,0,54,15,NOT WS_VISIBLE
-    CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x844,1,18,183,26,WS_EX_STATICEDGE
-    CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE,0,45,183,2
-    CONTROL         "",IDC_AVATAR,"Button",BS_OWNERDRAW | NOT WS_VISIBLE,1,66,1,13
+    CONTROL         "",IDC_SRMM_MESSAGE,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x1144,2,111,208,29,WS_EX_ACCEPTFILES | WS_EX_STATICEDGE
+    DEFPUSHBUTTON   "&Send",IDOK,212,111,39,29
+    PUSHBUTTON      "Close",IDCANCEL,197,0,54,15,NOT WS_VISIBLE
+    CONTROL         "",IDC_SRMM_LOG,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x844,1,16,250,91,WS_EX_STATICEDGE
+    CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE,0,108,251,2
+    CONTROL         "",IDC_AVATAR,"Button",BS_OWNERDRAW | NOT WS_VISIBLE,1,127,6,13
 END
 
 IDD_OPT_MSGLOG DIALOGEX 0, 0, 311, 164
@@ -158,11 +158,11 @@ BEGIN
     LISTBOX         IDC_SRMM_NICKLIST,182,2,69,94,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | LBS_NODATA | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
 END
 
-IDD_CONTAINER DIALOGEX 0, 0, 252, 140
+IDD_CONTAINER DIALOGEX 0, 0, 275, 200
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Tab1",IDC_TAB,"SysTabControl32",TCS_MULTILINE,0,0,251,140
+    CONTROL         "Tab1",IDC_TAB,"SysTabControl32",TCS_MULTILINE,0,0,275,200
 END
 
 IDD_FILTER DIALOGEX 0, 0, 83, 125
@@ -278,7 +278,7 @@ BEGIN
 
     IDD_MSG, DIALOG
     BEGIN
-        RIGHTMARGIN, 183
+        RIGHTMARGIN, 251
         TOPMARGIN, 5
         HORZGUIDE, 16
         HORZGUIDE, 53
@@ -410,46 +410,87 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_BUNDERLINE          ICON                    "underline.ico"
+
 IDI_INCOMING            ICON                    "incoming.ico"
+
 IDI_OUTGOING            ICON                    "outgoing.ico"
+
 IDI_NOTICE              ICON                    "notice.ico"
+
 IDI_TAG1                ICON                    "tag1.ico"
+
 IDI_TAG2                ICON                    "tag2.ico"
+
 IDI_BBOLD               ICON                    "bold.ico"
+
 IDI_BITALICS            ICON                    "italics.ico"
+
 IDI_BSMILEY             ICON                    "smiley.ico"
+
 IDI_JOIN                ICON                    "join.ico"
+
 IDI_TOPIC               ICON                    "topic.ico"
+
 IDI_ADDSTATUS           ICON                    "addmode.ico"
+
 IDI_INFO                ICON                    "info.ico"
+
 IDI_KICK                ICON                    "kick.ico"
+
 IDI_MESSAGE             ICON                    "message.ico"
+
 IDI_NICK                ICON                    "nick.ico"
+
 IDI_EXCL                ICON                    "excl.ico"
+
 IDI_PART                ICON                    "part.ico"
+
 IDI_QUIT                ICON                    "quit.ico"
+
 IDI_REMSTATUS           ICON                    "removestatus.ico"
+
 IDI_HIGHLIGHT           ICON                    "highlight.ico"
+
 IDI_MESSAGEOUT          ICON                    "messageout.ico"
+
 IDI_ACTION              ICON                    "action.ico"
+
 IDI_TOPICBUT            ICON                    "topicbut.ico"
+
 IDI_BKGCOLOR            ICON                    "bkgcolor.ico"
+
 IDI_CHANMGR             ICON                    "window.ico"
+
 IDI_COLOR               ICON                    "color.ico"
+
 IDI_FILTER              ICON                    "filter.ico"
+
 IDI_HISTORY             ICON                    "history.ico"
+
 IDI_NICKLIST            ICON                    "nicklist.ico"
+
 IDI_BLANK               ICON                    "blank.ico"
+
 IDI_STATUS3             ICON                    "4.ico"
+
 IDI_STATUS2             ICON                    "3.ico"
+
 IDI_STATUS4             ICON                    "5.ico"
+
 IDI_STATUS1             ICON                    "2.ico"
+
 IDI_STATUS0             ICON                    "1.ico"
+
 IDI_STATUS5             ICON                    "6.ico"
+
 IDI_CLOSE               ICON                    "close.ico"
+
 IDI_OVERLAY             ICON                    "overlay.ico"
+
 IDI_NICKLIST2           ICON                    "nicklist2.ico"
+
 IDI_FILTER2             ICON                    "filter2.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -457,8 +498,11 @@ IDI_FILTER2             ICON                    "filter2.ico"
 //
 
 IDC_HYPERLINKHAND       CURSOR                  "hyperlin.cur"
+
 IDC_DROP                CURSOR                  "dragcopy.cur"
+
 IDC_DROPUSER            CURSOR                  "dropuser.cur"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -523,6 +567,11 @@ END
 //
 
 IDD_OPTIONS2 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_MSG AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

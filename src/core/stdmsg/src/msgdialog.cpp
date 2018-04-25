@@ -125,20 +125,12 @@ void CSrmmWindow::OnInitDialog()
 	else
 		m_wStatus = ID_STATUS_OFFLINE;
 	m_wOldStatus = m_wStatus;
-	m_splitterPos = (int)db_get_dw(g_dat.bSavePerContact ? m_hContact : 0, SRMMMOD, "splitterPos", (DWORD)-1);
 	m_cmdListInd = -1;
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 	SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
 
-	RECT rc;
-	GetWindowRect(GetDlgItem(m_hwnd, IDC_SPLITTERY), &rc);
-	POINT pt = { 0, (rc.top + rc.bottom) / 2 };
-	ScreenToClient(m_hwnd, &pt);
-	m_originalSplitterPos = pt.y;
-	if (m_splitterPos == -1)
-		m_splitterPos = m_originalSplitterPos;
-
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
+	m_iSplitterY = (int)db_get_dw(g_dat.bSavePerContact ? m_hContact : 0, SRMMMOD, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
 	SendMessage(m_hwnd, DM_UPDATESIZEBAR, 0, 0);
 
 	m_avatar.Enable(false);
@@ -283,7 +275,7 @@ void CSrmmWindow::OnDestroy()
 	m_cmdList.destroy();
 
 	MCONTACT hContact = (g_dat.bSavePerContact) ? m_hContact : 0;
-	db_set_dw(hContact ? m_hContact : 0, SRMMMOD, "splitterPos", m_splitterPos);
+	db_set_dw(hContact ? m_hContact : 0, SRMMMOD, "splitterPos", m_iSplitterY);
 
 	if (m_hFont) {
 		DeleteObject(m_hFont);
@@ -429,15 +421,18 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 
 void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
 {
-	RECT rc, rcLog;
+	RECT rc;
 	GetClientRect(m_hwnd, &rc);
-	GetWindowRect(m_log.GetHwnd(), &rcLog);
+	m_iSplitterY = rc.bottom - pSplitter->GetPos();
 
-	int oldSplitterY = m_splitterPos;
-	m_splitterPos = rc.bottom - pSplitter->GetPos() + 23;
-	GetWindowRect(m_message.GetHwnd(), &rc);
-	if (rc.bottom - rc.top + (m_splitterPos - oldSplitterY) < m_minEditBoxSize.cy)
-		m_splitterPos = oldSplitterY + m_minEditBoxSize.cy - (rc.bottom - rc.top);
+	int toplimit = 63;
+	if (!g_dat.bShowButtons)
+		toplimit += 22;
+
+	if (m_iSplitterY < m_minEditBoxSize.cy)
+		m_iSplitterY = m_minEditBoxSize.cy;
+	if (m_iSplitterY > rc.bottom - rc.top - toplimit)
+		m_iSplitterY = rc.bottom - rc.top - toplimit;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -644,30 +639,29 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 	switch (urc->wId) {
 	case IDC_SRMM_LOG:
 		if (!g_dat.bShowButtons)
-			urc->rcItem.top -= m_lineHeight;
-		urc->rcItem.bottom -= m_splitterPos - m_originalSplitterPos;
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+			urc->rcItem.top = 22;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
 	case IDC_SPLITTERY:
-		urc->rcItem.top -= m_splitterPos - m_originalSplitterPos;
-		urc->rcItem.bottom -= m_splitterPos - m_originalSplitterPos;
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY;
+		urc->rcItem.bottom = urc->rcItem.top + 3;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_SRMM_MESSAGE:
-		if (!g_dat.bSendButton)
-			urc->rcItem.right = urc->dlgNewSize.cx - urc->rcItem.left;
+		urc->rcItem.right = (g_dat.bSendButton) ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
 		if (g_dat.bShowAvatar && m_avatarPic)
 			urc->rcItem.left = m_avatarWidth + 4;
 
-		urc->rcItem.top -= m_splitterPos - m_originalSplitterPos;
-		if (!g_dat.bSendButton)
-			return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDCANCEL:
 	case IDOK:
-		urc->rcItem.top -= m_splitterPos - m_originalSplitterPos;
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
 
 	case IDC_AVATAR:
 		urc->rcItem.top = urc->rcItem.bottom - (m_avatarHeight + 2);
@@ -986,16 +980,18 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_minEditBoxSize.cy = m_minEditInit.bottom - m_minEditInit.top;
 		if (g_dat.bShowAvatar) {
 			SendMessage(m_hwnd, DM_AVATARCALCSIZE, 0, 0);
-			if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight)
-				m_minEditBoxSize.cy = m_avatarHeight;
+			if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight) {
+				m_minEditBoxSize.cy = m_avatarHeight + 8;
+				if (m_iSplitterY < m_minEditBoxSize.cy) {
+					m_iSplitterY = m_minEditBoxSize.cy;
+					Resize();
+				}
+			}
 		}
 		break;
 
 	case DM_AVATARSIZECHANGE:
 		GetWindowRect(m_message.GetHwnd(), &rc);
-		if (rc.bottom - rc.top < m_minEditBoxSize.cy)
-			m_splitter.OnChange(&m_splitter);
-
 		Resize();
 		break;
 
@@ -1095,11 +1091,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_GETMINMAXINFO:
 		{
 			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-			RECT rcWindow, rcLog;
-			GetWindowRect(m_hwnd, &rcWindow);
-			GetWindowRect(m_log.GetHwnd(), &rcLog);
-			mmi->ptMinTrackSize.x = rcWindow.right - rcWindow.left - ((rcLog.right - rcLog.left) - m_minEditBoxSize.cx);
-			mmi->ptMinTrackSize.y = rcWindow.bottom - rcWindow.top - ((rcLog.bottom - rcLog.top) - m_minEditBoxSize.cy);
+			if (mmi->ptMinTrackSize.x < 350)
+				mmi->ptMinTrackSize.x = 350;
+
+			mmi->ptMinTrackSize.y = m_iSplitterY + 80;
 		}
 		return 0;
 

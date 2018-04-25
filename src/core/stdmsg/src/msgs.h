@@ -102,8 +102,7 @@ public:
 	MEVENT m_hDbEventFirst, m_hDbEventLast;
 
 	int m_avatarWidth, m_avatarHeight;
-	int m_splitterPos, m_originalSplitterPos;
-	int m_lineHeight;
+	int m_iSplitterY;
 
 	int m_cmdListInd;
 	LIST<wchar_t> m_cmdList;
