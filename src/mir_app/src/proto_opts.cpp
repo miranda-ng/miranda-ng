@@ -448,19 +448,20 @@ public:
 		if (pa == nullptr || pa->bOldProto || pa->bDynDisabled)
 			return;
 
-		pa->bIsEnabled = !pa->bIsEnabled;
-		if (pa->bIsEnabled)
+		if (!pa->bIsEnabled) {
+			pa->bIsEnabled = true;
 			ActivateAccount(pa, true);
+		}
 		else {
 			if (pa->iRealStatus >= ID_STATUS_ONLINE) {
 				wchar_t buf[200];
 				mir_snwprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
 				if (IDNO == ::MessageBox(m_hwnd, TranslateT("Account is online. Disable account?"), buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO))
-					pa->bIsEnabled = true; // stay enabled
+					return; // stay enabled
 			}
 
-			if (!pa->bIsEnabled)
-				DeactivateAccount(pa, DAF_DYNAMIC | DAF_FORK);
+			pa->bIsEnabled = false;
+			DeactivateAccount(pa, DAF_DYNAMIC | DAF_FORK);
 		}
 
 		WriteDbAccounts();
