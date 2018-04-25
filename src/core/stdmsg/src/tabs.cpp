@@ -542,6 +542,14 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SaveWindowPosition(false);
 		break;
 
+	case WM_GETMINMAXINFO:
+		{
+			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+			mmi->ptMinTrackSize.x = 450;
+			mmi->ptMinTrackSize.y = 350;
+		}
+		return 0;
+
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;

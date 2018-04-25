@@ -1187,17 +1187,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = m_iSplitterX + 43;
-			if (mmi->ptMinTrackSize.x < 350)
-				mmi->ptMinTrackSize.x = 350;
-
-			mmi->ptMinTrackSize.y = m_iSplitterY + 80;
-		}
-		break;
-
 	case WM_LBUTTONDBLCLK:
 		if (LOWORD(lParam) < 30)
 			ScrollToBottom();

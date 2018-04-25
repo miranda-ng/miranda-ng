@@ -1088,16 +1088,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			FlashWindow(m_pOwner->GetHwnd(), FALSE);
 		break;
 
-	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-			if (mmi->ptMinTrackSize.x < 350)
-				mmi->ptMinTrackSize.x = 350;
-
-			mmi->ptMinTrackSize.y = m_iSplitterY + 80;
-		}
-		return 0;
-
 	case WM_CBD_LOADICONS:
 		Srmm_UpdateToolbarIcons(m_hwnd);
 		break;
