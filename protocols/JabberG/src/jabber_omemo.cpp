@@ -1783,7 +1783,6 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 			default:
 				debugLogA("Jabber OMEMO: error: session_cipher_decrypt_signal_message failed with unknown error");
 				break;
-
 			}
 		}
 	}
@@ -1811,6 +1810,7 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 			tag = (unsigned char*)mir_alloc(tag_len);
 			memcpy(tag, ptr, tag_len);
 			mir_free(tmp);
+			signal_buffer_free(decrypted_key);
 		}
 		out = (char*)mir_alloc(payload_len + 1); //TODO: check this
 		const EVP_CIPHER *cipher = EVP_aes_128_gcm();
@@ -1839,7 +1839,6 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed");
 			return true;
 		}
-
 	}
 
 	time_t now = time(nullptr);
