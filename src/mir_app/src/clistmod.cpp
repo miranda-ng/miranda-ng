@@ -173,6 +173,7 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 		break;
 
 	case PRAC_REMOVED:
+		InvalidateProtoInCache(pa->szModuleName);
 		pa->iIconBase = -1;
 		break;
 	}

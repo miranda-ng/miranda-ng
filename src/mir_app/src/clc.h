@@ -97,6 +97,8 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam);
 void RebuildMenuOrder(void);
 
 /* clistsettings.c */
+void InvalidateProtoInCache(const char *szModuleName);
+
 void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF * colour);
 void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 

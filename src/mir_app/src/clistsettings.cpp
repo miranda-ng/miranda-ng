@@ -37,6 +37,13 @@ void FreeDisplayNameCache(void)
 	clistCache.destroy();
 }
 
+void InvalidateProtoInCache(const char *szModuleName)
+{
+	for (auto &it : clistCache)
+		if (!mir_strcmp(it->szProto, szModuleName))
+			it->szProto = nullptr;
+}
+
 // default handlers for the cache item creation and destruction
 
 ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
