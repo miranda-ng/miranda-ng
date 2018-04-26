@@ -200,7 +200,17 @@ void CYandexService::CreateFolder(const std::string &path)
 	YandexAPI::CreateFolderRequest request(token, path.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
-	GetJsonResponse(response);
+	if (HTTP_CODE_SUCCESS(response->resultCode)) {
+		GetJsonResponse(response);
+		return;
+	}
+
+	// forder exists on server
+	if (response->resultCode == HTTP_CODE_CONFLICT) {
+		return;
+	}
+
+	HttpResponseToError(response);
 }
 
 auto CYandexService::CreateSharedLink(const std::string &path)

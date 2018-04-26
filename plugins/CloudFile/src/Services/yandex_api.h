@@ -99,7 +99,7 @@ namespace YandexAPI
 			HttpRequest(REQUEST_PUT, YADISK_API)
 		{
 			AddOAuthHeader(token);
-			AddUrlParameter("path=app:%s", ptrA(mir_urlEncode(path)));
+			AddUrlParameterWithEncode("path", "app:%s", path);
 			AddUrlParameter("fields=href");
 		}
 	};

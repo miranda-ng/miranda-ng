@@ -14,7 +14,7 @@ private:
 
 	CMStringW m_serverDirectory;
 	int m_relativePathStart;
-	
+
 	LIST<char> m_links;
 	CMStringW m_description;
 
@@ -138,7 +138,7 @@ public:
 
 	const bool IsCurrentFileInSubDirectory() const
 	{
-		const wchar_t *backslash = wcschr(GetCurrentFilePath(), L'\\');
+		const wchar_t *backslash = wcschr(GetCurrentRelativeFilePath(), L'\\');
 		return backslash != nullptr;
 	}
 
