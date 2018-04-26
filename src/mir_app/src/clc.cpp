@@ -134,6 +134,14 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 	if (ack->type == ACKTYPE_STATUS) {
+		if (ack->result == ACKRESULT_SUCCESS) {
+			PROTOACCOUNT *pa = Proto_GetAccount(ack->szModule);
+			if (pa) {
+				pa->iRealStatus = ack->lParam;
+				Clist_TrayIconUpdateBase(ack->szModule);
+			}
+		}
+
 		cli.pfnCluiProtocolStatusChanged(lParam, ack->szModule);
 
 		if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
@@ -150,14 +158,6 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 		}
 
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
-
-		if (ack->result == ACKRESULT_SUCCESS) {
-			PROTOACCOUNT *pa = Proto_GetAccount(ack->szModule);
-			if (pa) {
-				pa->iRealStatus = ack->lParam;
-				Clist_TrayIconUpdateBase(ack->szModule);
-			}
-		}
 	}
 	return 0;
 }
