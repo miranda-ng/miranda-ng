@@ -181,6 +181,30 @@ MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, const char *szModule, const
 	return currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? nullptr : dbv.pwszVal;
 }
 
+MIR_CORE_DLL(CMStringA) db_get_sm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting)
+{
+	if (currDb == nullptr)
+		return CMStringA();
+
+	DBVARIANT dbv = { DBVT_ASCIIZ };
+	if (currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
+		return CMStringA();
+
+	return CMStringA(ptrA(dbv.pszVal));
+}
+
+MIR_CORE_DLL(CMStringW) db_get_wsm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting)
+{
+	if (currDb == nullptr)
+		return CMStringW();
+
+	DBVARIANT dbv = { DBVT_WCHAR };
+	if (currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
+		return CMStringW();
+
+	return CMStringW(ptrW(dbv.pwszVal));
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // getting static data
 

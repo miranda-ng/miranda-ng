@@ -586,3 +586,11 @@ Contact_GetStatus @609
 ?OnContactDeleted@PROTO_INTERFACE@@UAEXI@Z @610 NONAME
 ?OnBuildProtoMenu@PROTO_INTERFACE@@UAEXXZ @611 NONAME
 ?OnErase@PROTO_INTERFACE@@UAEXXZ @612 NONAME
+?getMStringA@CMPluginBase@@QAE?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPBD@Z @613 NONAME
+?getMStringA@CMPluginBase@@QAE?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@PBD@Z @614 NONAME
+?getMStringA@PROTO_INTERFACE@@QAE?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPBD@Z @615 NONAME
+?getMStringA@PROTO_INTERFACE@@QAE?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@PBD@Z @616 NONAME
+?getMStringW@CMPluginBase@@QAE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@IPBD@Z @617 NONAME
+?getMStringW@CMPluginBase@@QAE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@PBD@Z @618 NONAME
+?getMStringW@PROTO_INTERFACE@@QAE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@IPBD@Z @619 NONAME
+?getMStringW@PROTO_INTERFACE@@QAE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@PBD@Z @620 NONAME

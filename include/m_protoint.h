@@ -137,6 +137,16 @@ public:
 	__forceinline wchar_t* getWStringA(MCONTACT hContact, const char *name) {
 		return db_get_wsa(hContact, m_szModuleName, name); }
 
+	__forceinline CMStringA getMStringA(const char *name) {
+		return db_get_sm(NULL, m_szModuleName, name); }
+	__forceinline CMStringA getMStringA(MCONTACT hContact, const char *name) {
+		return db_get_sm(hContact, m_szModuleName, name); }
+	
+	__forceinline CMStringW getMStringW(const char *name) {
+		return db_get_wsm(NULL, m_szModuleName, name); }
+	__forceinline CMStringW getMStringW(MCONTACT hContact, const char *name) {
+		return db_get_wsm(hContact, m_szModuleName, name); }
+
 	__forceinline void setByte(const char *name, BYTE value) { db_set_b(NULL, m_szModuleName, name, value); }
 	__forceinline void setByte(MCONTACT hContact, const char *name, BYTE value) { db_set_b(hContact, m_szModuleName, name, value); }
 
