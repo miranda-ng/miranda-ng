@@ -1798,6 +1798,7 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		int outl = 0, round_len = 0, tag_len = 0;
 		char *payload_base64 = mir_u2a(payload_base64w);
 		unsigned char *payload = (unsigned char*)mir_base64_decode(payload_base64, &payload_len);
+		out = (char*)mir_alloc(payload_len + 32); //TODO: check this
 		mir_free(payload_base64);
 		unsigned char key[16], *tag;
 		{
@@ -1812,26 +1813,52 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 			mir_free(tmp);
 			signal_buffer_free(decrypted_key);
 		}
-		out = (char*)mir_alloc(payload_len + 1); //TODO: check this
-		const EVP_CIPHER *cipher = EVP_aes_128_gcm();
+		
 		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-		EVP_DecryptInit(ctx, cipher, key, iv);
-		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, tag_len, tag);
-		EVP_DecryptInit(ctx, nullptr, key, iv);
-		//EVP_DecryptUpdate(ctx, nullptr, &howmany, AAD, aad_len);
-
-		for (;;)
+		EVP_DecryptInit_ex(ctx, EVP_aes_128_gcm(), NULL, NULL, NULL);
+		if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, (int)iv_len, NULL))
 		{
-			EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int((payload_len >= 128) ? 128 : payload_len));
+			debugLogA("Jabber OMEMO: error: EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, (int)iv_len, NULL) failed");
+			mir_free(tag);
+			return true;
+		}
+		if (!EVP_DecryptInit_ex(ctx, NULL, NULL, key, iv))
+		{
+			debugLogA("Jabber OMEMO: error: EVP_DecryptInit_ex(ctx, NULL, NULL, key, iv) failed");
+			mir_free(tag);
+			return true;
+		}
+		if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, tag_len, tag))
+		{
+			debugLogA("Jabber OMEMO: error: EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, tag_len, tag) failed");
+			mir_free(tag);
+			return true;
+		}
+		if (!EVP_DecryptUpdate(ctx, (unsigned char*)out, &outl, payload, int(payload_len)))
+		{
+			debugLogA("Jabber OMEMO: error: EVP_DecryptUpdate(ctx, (unsigned char*)out, &outl, payload, int(payload_len)) failed");
+			mir_free(tag);
+			return true;
+		}
+/*		for (;;)
+		{
+			if (!EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int((payload_len >= 128) ? 128 : payload_len)))
+			{
+				debugLogA("Jabber OMEMO: error: EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int((payload_len >= 128) ? 128 : payload_len)) failed");
+				mir_free(tag);
+				return true;
+			}
 			outl += round_len;
 			if (outl >= (int)payload_len - 128)
 				break;
 		}
 		EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int(payload_len - outl));
+		outl += round_len; */
+		
+		dec_success = EVP_DecryptFinal_ex(ctx, (unsigned char*)out + outl, &round_len);
 		outl += round_len;
 		out[outl] = 0;
 		mir_free(payload);
-		dec_success = EVP_DecryptFinal(ctx, tag, &round_len);
 		EVP_CIPHER_CTX_free(ctx);
 		mir_free(tag);
 		if (dec_success <= 0)
