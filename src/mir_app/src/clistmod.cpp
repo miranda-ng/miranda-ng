@@ -169,12 +169,12 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 
 	switch (eventCode) {
 	case PRAC_ADDED:
-		AddProtoIconIndex(pa);
+		if (pa->iIconBase == -1)
+			AddProtoIconIndex(pa);
 		break;
 
 	case PRAC_REMOVED:
 		InvalidateProtoInCache(pa->szModuleName);
-		pa->iIconBase = -1;
 		break;
 	}
 
