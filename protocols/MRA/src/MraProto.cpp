@@ -116,7 +116,9 @@ void CMraProto::OnShutdown()
 {
 	m_bShutdown = true;
 	SetStatus(ID_STATUS_OFFLINE);
-	MraAvatarsQueueSuspend(hAvatarsQueueHandle);
+
+	if (hAvatarsQueueHandle != nullptr)
+		MraAvatarsQueueSuspend(hAvatarsQueueHandle);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
