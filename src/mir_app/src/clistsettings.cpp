@@ -68,6 +68,9 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 			p->tszGroup = mir_wstrdup(L"");
 	}
 
+	if (p->szProto == nullptr)
+		p->szProto = GetContactProto(p->hContact);
+
 	if (p->bIsHidden == -1)
 		p->bIsHidden = db_get_b(p->hContact, "CList", "Hidden", 0);
 }
