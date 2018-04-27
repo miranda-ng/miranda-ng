@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C52E0221-B079-406D-B426-7B5131D48675}</ProjectGuid>
+    <ProjectGuid>{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}</ProjectGuid>
     <ProjectName>Telegram</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
