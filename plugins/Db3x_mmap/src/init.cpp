@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-EXTERN_C MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
-
 int hLangpack;
 
 static PLUGININFOEX pluginInfo =

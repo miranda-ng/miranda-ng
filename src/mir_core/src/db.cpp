@@ -437,9 +437,11 @@ MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto)
 	return (currDb == nullptr) ? NULL : currDb->FindNextContact(hContact, szProto);
 }
 
-extern "C" MIR_CORE_DLL(void) db_setCurrent(MDatabaseCommon *_db)
+MIR_CORE_DLL(void) db_setCurrent(MDatabaseCommon *_db)
 {
 	currDb = _db;
+	if (currDb == nullptr)
+		return;
 
 	// try to get the langpack's name from a profile
 	ptrW langpack(db_get_wsa(NULL, "Langpack", "Current"));

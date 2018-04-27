@@ -1137,6 +1137,7 @@ void MirandaImport(HWND hdlg)
 
 	// Restore database writing mode
 	dstDb->SetCacheSafetyMode(TRUE);
+	db_setCurrent(dstDb);
 
 	// Clean up before exit
 	delete srcDb;
