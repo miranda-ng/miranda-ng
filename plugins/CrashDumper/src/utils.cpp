@@ -363,11 +363,9 @@ void GetLanguagePackString(CMStringW &buffer)
 			else
 				buffer.Append(lang);
 		}
-		else
-			buffer.Append(L"Locale id invalid");
+		else buffer.Append(L"Locale id invalid");
 	}
-	else
-		buffer.Append(L"No language pack installed");
+	else buffer.Append(L"No language pack installed");
 }
 
 void GetWow64String(CMStringW &buffer)

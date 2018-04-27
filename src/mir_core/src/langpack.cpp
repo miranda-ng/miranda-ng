@@ -388,6 +388,10 @@ MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 	if (g_entryCount)
 		UnloadLangPackModule();
 
+	langPack.Locale = 0;
+	langPack.codepage = CP_ACP;
+	langPack.flags = 0;
+
 	// exists & not a directory?
 	DWORD dwAttrib = GetFileAttributes(tszFullPath);
 	if (dwAttrib == INVALID_FILE_ATTRIBUTES || (dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
