@@ -438,11 +438,10 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 			if (!p->fSuccess) {
 				DBEVENTINFO dbei = {};
 				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.flags = DBEF_SENT;
+				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.szModule = GetContactProto((p->hContact));
 				dbei.timestamp = time(nullptr);
 				dbei.cbBlob = (int)mir_strlen(p->sendBuffer) + 1;
-				dbei.flags |= DBEF_UTF;
 				dbei.pBlob = (PBYTE)(p->sendBuffer);
 				db_event_add(p->hContact, &dbei);
 

@@ -227,7 +227,7 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, const wchar_t *msg)
 	dbei.szModule = m_szModuleName;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.timestamp = (DWORD)time(nullptr);
-	dbei.flags = DBEF_SENT + DBEF_UTF;
+	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.pBlob = (PBYTE)mir_utf8encodeW(S);
 	dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob) + 1;
 	db_event_add(hContact, &dbei);

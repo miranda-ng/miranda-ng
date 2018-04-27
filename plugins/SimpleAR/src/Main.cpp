@@ -216,7 +216,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						ProtoChainSend(hContact, PSS_MESSAGE, 0, pszUtf);
 
 						dbei.eventType = EVENTTYPE_MESSAGE;
-						dbei.flags = DBEF_UTF | DBEF_SENT; //DBEF_READ;
+						dbei.flags = DBEF_UTF | DBEF_SENT;
 						dbei.szModule = pszProto;
 						dbei.timestamp = time(nullptr);
 						dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;

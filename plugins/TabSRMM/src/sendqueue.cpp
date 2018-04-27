@@ -460,7 +460,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 
 	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT;
+	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = GetContactProto(job.hContact);
 	dbei.timestamp = time(nullptr);
 	dbei.cbBlob = (int)mir_strlen(job.szSendBuffer) + 1;
@@ -474,7 +474,6 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 
 	if (job.dwFlags & PREF_RTL)
 		dbei.flags |= DBEF_RTL;
-	dbei.flags |= DBEF_UTF;
 	dbei.pBlob = (PBYTE)job.szSendBuffer;
 
 	MessageWindowEvent evt = { job.iSendId, job.hContact, &dbei };
