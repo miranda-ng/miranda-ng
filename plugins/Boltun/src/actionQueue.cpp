@@ -84,15 +84,13 @@ static bool NotifyTyping(MCONTACT hContact)
 static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 {
 	T2Utf msg(info->Answer.c_str());
-	size_t bufsize = mir_strlen(msg);
-
 	ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)msg);
 
 	DBEVENTINFO dbei = {};
-	dbei.cbBlob = (int)bufsize;
-	dbei.pBlob = (PBYTE)(char*)msg;
+	dbei.cbBlob = (int)mir_strlen(msg);
+	dbei.pBlob = msg;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT;
+	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = BOLTUN_NAME;
 	dbei.timestamp = (DWORD)time(nullptr);
 
