@@ -132,10 +132,20 @@ public:
 	__forceinline char* getStringA(MCONTACT hContact, const char *name) {
 		return db_get_sa(hContact, m_szModuleName, name); }
 
+	__forceinline CMStringA getMStringA(const char *name) {
+		return CMStringA(ptrA(db_get_sa(NULL, m_szModuleName, name))); }
+	__forceinline CMStringA getMStringA(MCONTACT hContact, const char *name) {
+		return CMStringA(ptrA(db_get_sa(hContact, m_szModuleName, name))); }
+
 	__forceinline wchar_t* getWStringA(const char *name) {
 		return db_get_wsa(NULL, m_szModuleName, name); }
 	__forceinline wchar_t* getWStringA(MCONTACT hContact, const char *name) {
 		return db_get_wsa(hContact, m_szModuleName, name); }
+
+	__forceinline CMStringW getMStringW(const char *name) {
+		return CMStringW(ptrW(db_get_wsa(NULL, m_szModuleName, name))); }
+	__forceinline CMStringW getMStringW(MCONTACT hContact, const char *name) {
+		return CMStringW(ptrW(db_get_wsa(hContact, m_szModuleName, name))); }
 
 	__forceinline void setByte(const char *name, BYTE value) { db_set_b(NULL, m_szModuleName, name, value); }
 	__forceinline void setByte(MCONTACT hContact, const char *name, BYTE value) { db_set_b(hContact, m_szModuleName, name, value); }
