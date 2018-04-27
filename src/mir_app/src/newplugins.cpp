@@ -518,10 +518,10 @@ int isPluginOnWhiteList(const wchar_t* pluginname)
 
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 {
-	if (p->bpi.hInst == nullptr) {
-		if (!bDynamic && !isPluginOnWhiteList(p->pluginname))
-			return false;
+	if (!bDynamic && !isPluginOnWhiteList(p->pluginname))
+		return false;
 
+	if (p->bpi.hInst == nullptr) {
 		if (!p->bHasBasicApi) {
 			wchar_t exe[MAX_PATH], tszFullPath[MAX_PATH];
 			GetModuleFileName(nullptr, exe, _countof(exe));
