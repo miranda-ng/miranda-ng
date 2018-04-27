@@ -278,15 +278,15 @@ int TreeReadEnum(const char *szSetting, void *lParam)
 		char Flags = (pData->TreeCtrl->TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL && !(pData->TreeCtrl->TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES)) ? 0 : db_get_b(NULL, pData->sModule,
 			pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + TREEITEM_DBSTR_FLAGS + (szSetting + Len), 0);
 		if (ParentID >= 0 && Order >= 0) {
+			CString tmp(pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + pData->TreeCtrl->User_Str1_DBName + CString(szSetting + Len));
+
 			CTreeItem &pItem = pData->TreeCtrl->m_value.SetAtGrow(Order);
 			pItem.ID = ID;
 			pItem.ParentID = ParentID;
 			pItem.Flags = Flags;
 			pItem.hItem = nullptr;
 			pItem.Title = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, L"");
-			pItem.User_Str1 = (pData->TreeCtrl->User_Str1_DBName == nullptr) ? nullptr :
-				db_get_s(NULL, pData->sModule,
-				*pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + pData->TreeCtrl->User_Str1_DBName + (szSetting + Len), (wchar_t*)nullptr);
+			pItem.User_Str1 = (pData->TreeCtrl->User_Str1_DBName == nullptr) ? nullptr : db_get_s(NULL, pData->sModule, tmp, (wchar_t*)nullptr);
 		}
 	}
 	return 0;

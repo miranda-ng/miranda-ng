@@ -47,7 +47,7 @@ __inline void ShowLog(TCString &LogFilePath)
 	{
 		wchar_t szError[64];
 		mir_snwprintf(szError, TranslateT("Error #%d"), Result);
-		ShowMsg(szError, TranslateT("Can't open log file ") + LogFilePath, true);
+		ShowMsg(szError, TCString(TranslateT("Can't open log file ")) + LogFilePath, true);
 	}
 }
 
