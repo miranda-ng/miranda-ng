@@ -11,10 +11,16 @@
 Обновлять каждые
 [minutes]
 минут
+[Delay update on start]
+Задержка обновления при запуске
 [seconds]
 секунд
+[Hide icon on status bar]
+Скрыть значок в панели статусов
 [Disable main menu items]
 Откл. пункты главного меню
+[Update data on startup]
+Обновлять данные при запуске
 [Window appearance]
 Внешний вид окна
 [Background color:]

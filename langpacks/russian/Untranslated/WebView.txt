@@ -1,8 +1,5 @@
 [Webview]
-[Delay update on start]
-[Hide icon on status bar]
 [Load page on window open]
-[Update data on startup]
 [Only update window on alert]
 [Disable download protection]
 [Display data in popup on alert]

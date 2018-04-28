@@ -161,8 +161,6 @@
 Проверить &почту
 [Launch application]
 Запустить приложение
-[YAMN]
-Почта
 [YAMN Account Folder]
 Папка учётных записей YAMN
 [Check mail]
