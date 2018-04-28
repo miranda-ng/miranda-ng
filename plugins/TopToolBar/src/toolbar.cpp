@@ -61,52 +61,60 @@ void LoadAllSButs()
 //----- Launch buttons -----
 INT_PTR LaunchService(WPARAM, LPARAM lParam)
 {
-	PROCESS_INFORMATION pi;
-	STARTUPINFO si = {0};
-	si.cb = sizeof(si);
+	for (auto &it : Buttons) {
+		if (!(it->dwFlags & TTBBF_ISLBUTTON) || it->wParamDown != (WPARAM)lParam)
+			continue;
 
-	if (CreateProcess(nullptr, Buttons[lParam]->ptszProgram, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
-		CloseHandle(pi.hProcess);
-		CloseHandle(pi.hThread);
+		PROCESS_INFORMATION pi;
+		STARTUPINFO si = { 0 };
+		si.cb = sizeof(si);
+
+		if (CreateProcess(nullptr, it->ptszProgram, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+			CloseHandle(pi.hProcess);
+			CloseHandle(pi.hThread);
+		}
+		break;
 	}
 
 	return 0;
 }
 
-void InsertLBut(int i)
-{
-	TTBButton ttb = {};
-	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL;
-	ttb.name = LPGEN("Default");
-	ttb.program = L"Execute Path";
-	ttb.wParamDown = i;
-	TTBAddButton((WPARAM)&ttb, 0);
-}
-
 void LoadAllLButs()
 {
-	//must be locked
+	TTBButton ttb = {};
+
 	int cnt = db_get_b(0, TTB_OPTDIR, "LaunchCnt", 0);
-	for (int i = 0; i < cnt; i++)
-		InsertLBut(i);
+	for (int i = 0; i < cnt; i++) {
+		char buf[255], buf1[10], buf2[100];
+		_itoa(i, buf1, 10);
+		AS(buf2, "Launch", buf1);
+
+		ptrA szName(db_get_sa(0, TTB_OPTDIR, AS(buf, buf2, "_name")));
+		ptrW wszProgram(db_get_wsa(0, TTB_OPTDIR, AS(buf, buf2, "_lpath")));
+		if (szName == nullptr || wszProgram == nullptr)
+			continue;
+
+		ttb.hIconHandleDn = ttb.hIconHandleUp = iconList[0].hIcolib;
+		ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL;
+		ttb.name = szName;
+		ttb.program = wszProgram;
+		ttb.wParamDown = i;
+		TTBAddButton((WPARAM)&ttb, 0);
+	}
 }
 
 //----- Separators -----
-void InsertSeparator(int i)
-{
-	TTBButton ttb = {};
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR | TTBBF_INTERNAL;
-	ttb.wParamDown = i;
-	TTBAddButton((WPARAM)&ttb, 0);
-}
 
 void LoadAllSeparators()
 {
-	//must be locked
+	TTBButton ttb = {};
+
 	int cnt = db_get_b(0, TTB_OPTDIR, "SepCnt", 0);
-	for (int i = 0; i < cnt; i++)
-		InsertSeparator(i);
+	for (int i = 0; i < cnt; i++) {
+		ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR | TTBBF_INTERNAL;
+		ttb.wParamDown = i;
+		TTBAddButton((WPARAM)&ttb, 0);
+	}
 }
 
 int SaveAllButtonsOptions()
@@ -161,7 +169,7 @@ static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsU
 	hIcon = IcoLib_GetIconByHandle(hIcoLib);
 }
 
-TopButtonInt *CreateButton(TTBButton *but)
+TopButtonInt* CreateButton(TTBButton *but)
 {
 	TopButtonInt *b = new TopButtonInt;
 	b->id = nextButtonId++;
@@ -569,9 +577,6 @@ int OnPluginUnload(WPARAM, LPARAM lParam)
 
 static int OnModulesLoad(WPARAM, LPARAM)
 {
-	LoadAllSeparators();
-	LoadAllLButs();
-
 	ArrangeButtons();
 
 	Miranda_WaitOnHandle(OnEventFire);

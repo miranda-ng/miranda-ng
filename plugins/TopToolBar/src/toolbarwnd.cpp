@@ -46,7 +46,7 @@ static void PaintToolbar(HWND hwnd)
 		int destw, desth;
 		switch(backgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
-			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
+			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
 				if (clRect.right * bmp.bmHeight < clRect.bottom * bmp.bmWidth) {
 					desth = clRect.bottom;
 					destw = desth * bmp.bmWidth/bmp.bmHeight;
@@ -260,6 +260,7 @@ void CALLBACK OnEventFire()
 	SetWindowLongPtr(g_ctrl->hWnd, 0, (LONG_PTR)g_ctrl);
 
 	LoadBackgroundOptions();
+	LoadAllSeparators();	LoadAllLButs();
 
 	// if we're working in skinned clist, receive the standard buttons & customizations
 	if (g_CustomProc && g_ctrl->hWnd)

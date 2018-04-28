@@ -135,14 +135,8 @@ void InitInternalButtons(void);
 int  LoadToolbarModule(void);
 int  UnloadToolbarModule(void);
 
-void SetAllBitmaps(void);
-int  SaveAllLButs(void);
 int  SaveAllButtonsOptions(void);
 
-void InsertSeparator( int i );
-void DeleteSeparator(int i);
-void DeleteLBut(int i);
-void InsertLBut(int i);
-
+void LoadAllSeparators();void LoadAllLButs();
 
 #endif

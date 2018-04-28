@@ -35,7 +35,7 @@ IconItem iconList[] =
 	{ LPGEN("Enable sounds"),         "sounds_on",    IDI_SOUNDSON    },
 	{ LPGEN("Disable metacontacts"),  "meta_off",     IDI_METAON      },
 	{ LPGEN("Enable metacontacts"),   "meta_on",      IDI_METAOFF     },
-    { LPGEN("Separator"),             "separator",    IDI_SEPARATOR   }
+	{ LPGEN("Separator"),             "separator",    IDI_SEPARATOR   }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
