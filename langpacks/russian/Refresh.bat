@@ -2,9 +2,9 @@
 
 REM ====== VARIABLES ========
 
-set "language=serbian"
-set "oldLangpackPath="
-set "mirandaPath=C:\Program files\Miranda NG"
+set "language=russian"
+set "oldLangpackPath=Deprecated\langpack_russian_old.txt"
+set "mirandaPath="
 
 REM =========================
 

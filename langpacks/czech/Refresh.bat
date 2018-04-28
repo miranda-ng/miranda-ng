@@ -4,7 +4,7 @@ REM ====== VARIABLES ========
 
 set "language=czech"
 set "oldLangpackPath=Deprecated\old langpack\langpack_czech2.txt"
-REM set "mirandaPath=D:\Programy\Miranda NG"
+set "mirandaPath=D:\Programy\Miranda NG"
 
 REM =========================
 
@@ -14,5 +14,5 @@ call refresher.bat %language% "%oldLangpackPath%"
 REM if previous command failed, exit
 if %ERRORLEVEL% NEQ 0 exit /B 1
 
-REM copy and reload langpack in your Miranda (uncoment next line + enable cmdline.dll plugin to use it)
+REM copy and reload langpack in your Miranda (uncomment next line + enable cmdline.dll plugin to use it)
 REM call installer.bat %language% "%mirandaPath%"

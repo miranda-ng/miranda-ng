@@ -11,5 +11,8 @@ REM =========================
 cd "..\..\tools\lpgen\"
 call refresher.bat %language% "%oldLangpackPath%"
 
-REM copy and reload langpack in your Miranda (uncoment next line + enable cmdline.dll plugin to use it)
+REM if previous command failed, exit
+if %ERRORLEVEL% NEQ 0 exit /B 1
+
+REM copy and reload langpack in your Miranda (uncomment next line + enable cmdline.dll plugin to use it)
 REM call installer.bat %language% "%mirandaPath%"
