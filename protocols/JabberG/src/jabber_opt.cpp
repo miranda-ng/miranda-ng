@@ -1569,7 +1569,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_HIPCHAT, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS };
 
 	void OnInitDialog()
 	{
@@ -1608,6 +1608,7 @@ protected:
 		m_cbType.AddString(TranslateT("Secure XMPP Network"), ACC_TLS);
 		m_cbType.AddString(TranslateT("Secure XMPP Network (old style)"), ACC_SSL);
 		m_cbType.AddString(TranslateT("Google Talk!"), ACC_GTALK);
+		m_cbType.AddString(TranslateT("Hipchat"), ACC_HIPCHAT);
 		m_cbType.AddString(TranslateT("LiveJournal Talk"), ACC_LJTALK);
 		m_cbType.AddString(TranslateT("League Of Legends (EU Nordic)"), ACC_LOL_EN);
 		m_cbType.AddString(TranslateT("League Of Legends (EU West)"), ACC_LOL_EW);
@@ -1625,6 +1626,10 @@ protected:
 		m_canregister = true;
 		if (!mir_strcmp(manualServer, "talk.google.com")) {
 			m_cbType.SetCurSel(ACC_GTALK);
+			m_canregister = false;
+		}
+		else if (!mir_strcmp(server, "chat.hipchat.com")) {
+			m_cbType.SetCurSel(ACC_HIPCHAT);
 			m_canregister = false;
 		}
 		else if (!mir_strcmp(server, "livejournal.com")) {
@@ -1749,6 +1754,7 @@ protected:
 			m_proto->m_bUseTLS = TRUE;
 
 		case ACC_TLS:
+		case ACC_HIPCHAT:
 		case ACC_LJTALK:
 		case ACC_SMS:
 			m_proto->m_bUseSSL = FALSE;
@@ -1897,6 +1903,7 @@ private:
 	void setupSecure();
 	void setupSecureSSL();
 	void setupGoogle();
+	void setupHipchat();
 	void setupLJ();
 	void setupLOLEN();
 	void setupLOLEW();
@@ -1938,6 +1945,7 @@ void CJabberDlgAccMgrUI::setupConnection(int type)
 	case ACC_TLS: setupSecure(); break;
 	case ACC_SSL: setupSecureSSL(); break;
 	case ACC_GTALK: setupGoogle(); break;
+	case ACC_HIPCHAT: setupHipchat(); break;
 	case ACC_LJTALK: setupLJ(); break;
 	case ACC_LOL_EN: setupLOLEN(); break;
 	case ACC_LOL_EW: setupLOLEW(); break;
@@ -2009,6 +2017,24 @@ void CJabberDlgAccMgrUI::setupGoogle()
 	m_chkManualHost.Disable();
 	m_txtManualHost.Disable();
 	//m_txtPort.Disable();
+	m_btnRegister.Disable();
+}
+
+void CJabberDlgAccMgrUI::setupHipchat()
+{
+	m_canregister = false;
+	m_gotservers = true;
+	m_cbServer.ResetContent();
+	m_cbServer.SetTextA("chat.hipchat.com");
+	m_cbServer.AddStringA("chat.hipchat.com");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("");
+	m_txtPort.SetInt(5222);
+
+	m_cbServer.Disable();
+	m_chkManualHost.Disable();
+	m_txtManualHost.Disable();
+	m_txtPort.Disable();
 	m_btnRegister.Disable();
 }
 
