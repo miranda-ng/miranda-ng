@@ -532,10 +532,13 @@ recvRest:
 			m_StrmMgmt.OnDisconnect();
 
 			// Set all contacts to offline
-			debugLogA("1");
-			for (auto &hContact : AccContacts())
-				SetContactOfflineStatus(hContact);
-			debugLogA("2");
+			if (!m_StrmMgmt.IsResumeIdPresent())
+			{
+				debugLogA("1");
+				for (auto &hContact : AccContacts())
+					SetContactOfflineStatus(hContact);
+				debugLogA("2");
+			}
 
 			mir_free(m_szJabberJID);
 			m_szJabberJID = nullptr;

@@ -167,6 +167,11 @@ void strm_mgmt::OnProcessFailed(HXML node, ThreadData * info) //used failed inst
 	m_bStrmMgmtEnabled = false;
 	bSessionResumed = false;
 	m_sStrmMgmtResumeId.clear();
+
+	//resume failed, reset contacts status
+	for (auto &hContact : proto->AccContacts())
+		proto->SetContactOfflineStatus(hContact);
+
 	{
 		HXML subnode = XmlGetChild(node, L"item-not-found");
 		if (subnode)
