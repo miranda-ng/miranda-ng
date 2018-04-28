@@ -2,6 +2,9 @@
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULE_NAME)
+{}
+
+void CMPlugin::Init()
 {
 	HookPluginEvent(ME_OPT_INITIALISE, &CMPlugin::OnOptionsInit);
 }

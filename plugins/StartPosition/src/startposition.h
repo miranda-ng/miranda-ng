@@ -26,6 +26,8 @@ class CMPlugin : public PLUGIN<CMPlugin>
 public:
 	CMPlugin();
 
+	void Init();
+
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	void positionClist();
 

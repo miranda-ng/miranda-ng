@@ -56,6 +56,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
+	g_plugin.Init();
 	g_plugin.positionClist();
 
 	return 0;
