@@ -253,8 +253,6 @@ int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
 
 int CSteamProto::SetStatus(int new_status)
 {
-	mir_cslock lock(m_setStatusLock);
-
 	// Routing statuses not supported by Steam
 	switch (new_status) {
 	case ID_STATUS_OFFLINE:
@@ -274,13 +272,17 @@ int CSteamProto::SetStatus(int new_status)
 		break;
 	}
 
-	if (new_status == m_iDesiredStatus)
-		return 0;
+	int old_status;
+	{
+		mir_cslock lock(m_setStatusLock);
+		if (new_status == m_iDesiredStatus)
+			return 0;
 
-	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, new_status);
+		debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, new_status);
 
-	int old_status = m_iStatus;
-	m_iDesiredStatus = new_status;
+		old_status = m_iStatus;
+		m_iDesiredStatus = new_status;
+	}
 
 	if (new_status == ID_STATUS_OFFLINE) {
 		// Reset relogin flag
@@ -305,8 +307,7 @@ int CSteamProto::SetStatus(int new_status)
 
 		Login();
 	}
-	else
-		m_iStatus = new_status;
+	else m_iStatus = new_status;
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
