@@ -142,7 +142,6 @@ extern COLORREF BackgoundClr, TextClr;
 extern UINT_PTR timerId, Countdown;
 extern LOGFONT g_lf;
 extern HFONT h_font;
-extern HWND ContactHwnd;
 extern HMENU hMenu;
 extern int bpStatus;
 extern HNETLIBUSER hNetlibUser;

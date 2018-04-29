@@ -37,7 +37,6 @@ UINT_PTR  timerId;
 UINT_PTR  Countdown;
 LOGFONT   g_lf;
 HFONT     h_font;
-HWND      ContactHwnd;
 HMENU     hMenu;
 int       bpStatus;
 HGENMENU  hMenuItem1;
@@ -467,30 +466,14 @@ int ContactMenuItemUpdateData(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 {
-	HWND hwndDlg = WindowList_Find(hWindowList, wParam);
-	if (hwndDlg) {
-		DestroyWindow(hwndDlg);
-		return 0;
-	}
-
-	hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACT_OPT), nullptr, DlgProcContactOpt, (LPARAM)wParam);
-	ShowWindow(hwndDlg, SW_SHOW);
-	SetActiveWindow(hwndDlg);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACT_OPT), nullptr, DlgProcContactOpt, wParam);
 	return 0;
 }
 
 /*****************************************************************************/
 INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM)
 {
-	HWND hwndDlg = WindowList_Find(hWindowList, (MCONTACT)wParam);
-	if (hwndDlg) {
-		DestroyWindow(hwndDlg);
-		return 0;
-	}
-
-	hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALRT_OPT), nullptr, DlgProcAlertOpt, (LPARAM)wParam);
-	ShowWindow(hwndDlg, SW_SHOW);
-	SetActiveWindow(hwndDlg);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALRT_OPT), nullptr, DlgProcAlertOpt, wParam);
 	return 0;
 }
 

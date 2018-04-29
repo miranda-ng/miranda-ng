@@ -383,23 +383,13 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_OPTIONS_BUTTON:
-			if (hContact = FindContactByUrl(hwndDlg)) {
-				ContactHwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACT_OPT), hwndDlg, DlgProcContactOpt, (LPARAM) hContact);
-				ShowWindow(ContactHwnd, SW_SHOW);
-				SetActiveWindow(ContactHwnd);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS_BUTTON), 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_BUTTON), 0);
-			}
+			if (hContact = FindContactByUrl(hwndDlg))
+				DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACT_OPT), hwndDlg, DlgProcContactOpt, hContact);
 			break;
 
 		case IDC_ALERT_BUTTON:
-			if (hContact = FindContactByUrl(hwndDlg)) {
-				HWND hwndAlertOpt = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALRT_OPT), hwndDlg, DlgProcAlertOpt, (LPARAM) hContact);
-				ShowWindow(hwndAlertOpt, SW_SHOW);
-				SetActiveWindow(hwndAlertOpt);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_BUTTON), 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS_BUTTON), 0);
-			}
+			if (hContact = FindContactByUrl(hwndDlg))
+				DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALRT_OPT), hwndDlg, DlgProcAlertOpt, hContact);
 			break;
 
 		case IDOK:

@@ -698,7 +698,6 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_OK2:
 			{
 				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				wchar_t buf[MAX_PATH];
 
 				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
 				alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
@@ -745,6 +744,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							break;
 						}
 
+				wchar_t buf[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, buf, _countof(buf));
 				db_set_ws(hContact, MODULENAME, FILE_KEY, buf);
 
@@ -764,32 +764,15 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_APPLY), 0);
 
-				if (LOWORD(wParam) == IDC_OK2) {
-					EnableWindow(GetDlgItem(ParentHwnd, IDC_ALERT_BUTTON), 1);
-					EnableWindow(GetDlgItem(ParentHwnd, IDC_OPTIONS_BUTTON), 1);
-					WindowList_Remove(hWindowList, hwndDlg);
-					DestroyWindow(hwndDlg);
-				}
+				if (LOWORD(wParam) == IDC_OK2)
+					EndDialog(hwndDlg, 1);
 			}
-		}
-		break;
+			break;
 
-	case IDC_ALERT_CANCEL:
-		EnableWindow(GetDlgItem(ParentHwnd, IDC_ALERT_BUTTON), 1);
-		EnableWindow(GetDlgItem(ParentHwnd, IDC_OPTIONS_BUTTON), 1);
-		WindowList_Remove(hWindowList, hwndDlg);
-		if (hwndDlg) {
-			DestroyWindow(hwndDlg);
-			hwndDlg = nullptr;
+		case IDC_ALERT_CANCEL:
+		case IDC_CANCEL:
+			EndDialog(hwndDlg, 0);
 		}
-		break;
-
-	case WM_DESTROY:
-	case IDC_CANCEL:
-		EnableWindow(GetDlgItem(ParentHwnd, IDC_ALERT_BUTTON), 1);
-		EnableWindow(GetDlgItem(ParentHwnd, IDC_OPTIONS_BUTTON), 1);
-		WindowList_Remove(hWindowList, hwndDlg);
-		DestroyWindow(hwndDlg);
 	}
 	return FALSE;
 }
@@ -815,7 +798,6 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		test2 = 0;
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
-		WindowList_Add(hWindowList, hwndDlg, hContact);
 
 		SetWindowText(hwndDlg, TranslateT("Contact options"));
 
@@ -1036,33 +1018,15 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				SetWindowText(ParentHwnd, str);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 0);
 
-				if (LOWORD(wParam) == IDOK) {
-					EnableWindow(GetDlgItem(ParentHwnd, IDC_OPTIONS_BUTTON), 1);
-					EnableWindow(GetDlgItem(ParentHwnd, IDC_ALERT_BUTTON), 1);
-					if (hwndDlg) {
-						DestroyWindow(hwndDlg);
-						hwndDlg = nullptr;
-					}
-				}
+				if (LOWORD(wParam) == IDOK)
+					EndDialog(hwndDlg, 1);
 			}
 			break;
 
 		case IDC_OPT_CANCEL:
-			EnableWindow(GetDlgItem(ParentHwnd, IDC_OPTIONS_BUTTON), 1);
-			EnableWindow(GetDlgItem(ParentHwnd, IDC_ALERT_BUTTON), 1);
-			WindowList_Remove(hWindowList, hwndDlg);
-			if (hwndDlg) {
-				DestroyWindow(hwndDlg);
-				hwndDlg = nullptr;
-			}
+			EndDialog(hwndDlg, 0);
 		}
 		break;
-
-	case WM_DESTROY:
-		EnableWindow(GetDlgItem(ParentHwnd, IDC_OPTIONS_BUTTON), 1);
-		EnableWindow(GetDlgItem(ParentHwnd, IDC_ALERT_BUTTON), 1);
-		WindowList_Remove(hWindowList, hwndDlg);
-		DestroyWindow(hwndDlg);
 	}
 	return FALSE;
 }
