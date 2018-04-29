@@ -137,7 +137,7 @@ static void OnLoadSettings()
 		DeleteObject(g_Settings.MessageAreaFont);
 
 	LOGFONT lf;
-	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &g_Settings.MessageAreaColor);
+	pci->LoadMsgDlgFont(17, &lf, &g_Settings.MessageAreaColor);
 	g_Settings.MessageAreaFont = CreateFontIndirect(&lf);
 
 	g_Settings.iX = db_get_dw(0, CHAT_MODULE, "roomx", -1);
@@ -239,7 +239,7 @@ void Load_ChatModule()
 	AddIcons();
 	RegisterFonts();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Chat module"), FONTMODE_SKIP };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Chat module"), FONTMODE_USE };
 	pci = Chat_GetInterface(&data);
 
 	pci->OnCreateModule = OnCreateModule;
