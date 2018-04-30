@@ -146,14 +146,16 @@ class CTabbedWindow : public CDlgBase
 	void SaveWindowPosition(bool bUpdateSession);
 	void SetWindowPosition();
 
-	int iX, iY;
-	int iWidth, iHeight;
-	int m_windowWasCascaded;
+	int oldSizeX = 0, oldSizeY = 0;
+	int iX = 0, iY = 0;
+	int iWidth = 0, iHeight = 0;
+	int m_windowWasCascaded = 0;
+	bool m_bSizingLoop = false;
 
 public:
 	CCtrlPages m_tab;
 	HWND m_hwndStatus;
-	CMsgDialog *m_pEmbed;
+	CMsgDialog *m_pEmbed = nullptr;
 
 	CTabbedWindow();
 

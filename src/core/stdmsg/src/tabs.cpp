@@ -165,10 +165,8 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 CTabbedWindow::CTabbedWindow() :
 	CDlgBase(g_hInst, IDD_CONTAINER),
-	m_tab(this, IDC_TAB),
-	m_pEmbed(nullptr)
+	m_tab(this, IDC_TAB)
 {
-	iX = iY = iWidth = iHeight = m_windowWasCascaded = 0;
 }
 
 void CTabbedWindow::OnInitDialog()
@@ -423,6 +421,7 @@ void CTabbedWindow::TabClicked()
 
 INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	RECT rc;
 	int idx;
 
 	switch (msg) {
@@ -542,6 +541,25 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SaveWindowPosition(false);
 		break;
 
+	case WM_ENTERSIZEMOVE:
+		GetClientRect(m_hwnd, &rc);
+		oldSizeX = rc.right - rc.left;
+		oldSizeY = rc.bottom - rc.top;
+		m_bSizingLoop = true;
+		break;
+
+	case WM_EXITSIZEMOVE:
+		GetClientRect(m_hwnd, &rc);
+		if (!((rc.right - rc.left) == oldSizeX && (rc.bottom - rc.top) == oldSizeY)) {
+			CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
+			if (pDlg != nullptr) {
+				pDlg->ScrollToBottom();
+				pDlg->Resize();
+			}
+		}
+		m_bSizingLoop = false;
+		break;
+
 	case WM_GETMINMAXINFO:
 		{
 			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
@@ -585,7 +603,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (((LPNMHDR)lParam)->hwndFrom == m_hwndStatus) {
 			if (((LPNMHDR)lParam)->code == NM_CLICK || ((LPNMHDR)lParam)->code == NM_RCLICK) {
 				NMMOUSE *nm = (NMMOUSE *)lParam;
-				RECT rc;
 				SendMessage(m_hwndStatus, SB_GETRECT, SendMessage(m_hwndStatus, SB_GETPARTS, 0, 0) - 1, (LPARAM)&rc);
 				if (nm->pt.x >= rc.left) {
 					CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
@@ -668,8 +685,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	LRESULT res = CDlgBase::DlgProc(msg, wParam, lParam);
 	if (msg == WM_SIZE) {
 		SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
-		if (m_pEmbed) {
-			RECT rc;
+		if (m_pEmbed && !m_bSizingLoop) {
 			GetClientRect(m_tab.GetHwnd(), &rc);
 			MoveWindow(m_pEmbed->GetHwnd(), 0, 0, rc.right - rc.left, rc.bottom - rc.top, FALSE);
 		}
