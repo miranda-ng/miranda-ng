@@ -72,34 +72,34 @@ HIMAGELIST CCtrlListView::CreateImageList(int iImageList)
 	return hIml;
 }
 
-void CCtrlListView::AddColumn(int iSubItem, wchar_t *name, int cx)
+void CCtrlListView::AddColumn(int iSubItem, const wchar_t *name, int cx)
 {
 	LVCOLUMN lvc;
 	lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
 	lvc.iImage = 0;
-	lvc.pszText = name;
+	lvc.pszText = (LPWSTR)name;
 	lvc.cx = cx;
 	lvc.iSubItem = iSubItem;
 	InsertColumn(iSubItem, &lvc);
 }
 
-void CCtrlListView::AddGroup(int iGroupId, wchar_t *name)
+void CCtrlListView::AddGroup(int iGroupId, const wchar_t *name)
 {
 	LVGROUP lvg = { 0 };
 	lvg.cbSize = sizeof(lvg);
 	lvg.mask = LVGF_HEADER | LVGF_GROUPID;
-	lvg.pszHeader = name;
+	lvg.pszHeader = (LPWSTR)name;
 	lvg.cchHeader = (int)mir_wstrlen(lvg.pszHeader);
 	lvg.iGroupId = iGroupId;
 	InsertGroup(-1, &lvg);
 }
 
-int CCtrlListView::AddItem(wchar_t *text, int iIcon, LPARAM lParam, int iGroupId)
+int CCtrlListView::AddItem(const wchar_t *text, int iIcon, LPARAM lParam, int iGroupId)
 {
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_PARAM | LVIF_TEXT | LVIF_IMAGE;
 	lvi.iSubItem = 0;
-	lvi.pszText = text;
+	lvi.pszText = (LPWSTR)text;
 	lvi.iImage = iIcon;
 	lvi.lParam = lParam;
 	if (iGroupId >= 0) {
@@ -110,13 +110,13 @@ int CCtrlListView::AddItem(wchar_t *text, int iIcon, LPARAM lParam, int iGroupId
 	return InsertItem(&lvi);
 }
 
-void CCtrlListView::SetItem(int iItem, int iSubItem, wchar_t *text, int iIcon)
+void CCtrlListView::SetItem(int iItem, int iSubItem, const wchar_t *text, int iIcon)
 {
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_TEXT;
 	lvi.iItem = iItem;
 	lvi.iSubItem = iSubItem;
-	lvi.pszText = text;
+	lvi.pszText = (LPWSTR)text;
 	if (iIcon >= 0) {
 		lvi.mask |= LVIF_IMAGE;
 		lvi.iImage = iIcon;
@@ -423,8 +423,8 @@ void CCtrlListView::SetItemPosition32(int iItem, int x, int y)
 void CCtrlListView::SetItemState(int i, UINT state, UINT mask)
 {	ListView_SetItemState(m_hwnd, i, state, mask);
 }
-void CCtrlListView::SetItemText(int i, int iSubItem, wchar_t *pszText)
-{	ListView_SetItemText(m_hwnd, i, iSubItem, pszText);
+void CCtrlListView::SetItemText(int i, int iSubItem, const wchar_t *pszText)
+{	ListView_SetItemText(m_hwnd, i, iSubItem, (LPWSTR)pszText);
 }
 COLORREF CCtrlListView::SetOutlineColor(COLORREF color)
 {	return ListView_SetOutlineColor(m_hwnd, color);

@@ -133,7 +133,7 @@ wchar_t* CCtrlCombo::GetItemText(int index, wchar_t *buf, int size)
 	return buf;
 }
 
-int CCtrlCombo::InsertString(wchar_t *text, int pos, LPARAM data)
+int CCtrlCombo::InsertString(const wchar_t *text, int pos, LPARAM data)
 {
 	int iItem = SendMessage(m_hwnd, CB_INSERTSTRING, pos, (LPARAM)text);
 	SendMessage(m_hwnd, CB_SETITEMDATA, iItem, data);
@@ -144,7 +144,7 @@ void CCtrlCombo::ResetContent()
 {	SendMessage(m_hwnd, CB_RESETCONTENT, 0, 0);
 }
 
-int CCtrlCombo::SelectString(wchar_t *str)
+int CCtrlCombo::SelectString(const wchar_t *str)
 {	return SendMessage(m_hwnd, CB_SELECTSTRING, 0, (LPARAM)str);
 }
 

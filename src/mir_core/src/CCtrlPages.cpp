@@ -120,7 +120,7 @@ LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CSuper::CustomWndProc(msg, wParam, lParam);
 }
 
-void CCtrlPages::AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
+void CCtrlPages::AddPage(const wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 {
 	TPageInfo *info = new TPageInfo;
 	info->m_pDlg = pDlg;

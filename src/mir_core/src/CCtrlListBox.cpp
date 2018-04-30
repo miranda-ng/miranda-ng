@@ -39,7 +39,7 @@ BOOL CCtrlListBox::OnCommand(HWND, WORD, WORD idCode)
 	return TRUE;
 }
 
-int CCtrlListBox::AddString(wchar_t *text, LPARAM data)
+int CCtrlListBox::AddString(const wchar_t *text, LPARAM data)
 {
 	int iItem = ListBox_AddString(m_hwnd, text);
 	ListBox_SetItemData(m_hwnd, iItem, data);
@@ -50,7 +50,7 @@ void CCtrlListBox::DeleteString(int index)
 {	ListBox_DeleteString(m_hwnd, index);
 }
 
-int CCtrlListBox::FindString(wchar_t *str, int index, bool exact)
+int CCtrlListBox::FindString(const wchar_t *str, int index, bool exact)
 {	return SendMessage(m_hwnd, exact?LB_FINDSTRINGEXACT:LB_FINDSTRING, index, (LPARAM)str);
 }
 
@@ -108,7 +108,7 @@ int* CCtrlListBox::GetSelItems()
 	return result;
 }
 
-int CCtrlListBox::InsertString(wchar_t *text, int pos, LPARAM data)
+int CCtrlListBox::InsertString(const wchar_t *text, int pos, LPARAM data)
 {
 	int iItem = ListBox_InsertString(m_hwnd, pos, text);
 	ListBox_SetItemData(m_hwnd, iItem, data);
@@ -119,7 +119,7 @@ void CCtrlListBox::ResetContent()
 {	ListBox_ResetContent(m_hwnd);
 }
 
-int CCtrlListBox::SelectString(wchar_t *str)
+int CCtrlListBox::SelectString(const wchar_t *str)
 {	return ListBox_SelectString(m_hwnd, 0, str);
 }
 

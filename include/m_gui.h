@@ -538,13 +538,13 @@ public:
 	void SetTextA(const char *text);
 	void SetInt(int value);
 
-	wchar_t *GetText();
-	char *GetTextA();
+	wchar_t* GetText();
+	char *   GetTextA();
 
-	wchar_t *GetText(wchar_t *buf, int size);
-	char *GetTextA(char *buf, int size);
+	wchar_t* GetText(wchar_t *buf, int size);
+	char*    GetTextA(char *buf, int size);
 
-	int GetInt();
+	int      GetInt();
 
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { return FALSE; }
 	virtual BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
@@ -889,9 +889,9 @@ class MIR_CORE_EXPORT CCtrlListBox : public CCtrlBase
 public:
 	CCtrlListBox(CDlgBase *dlg, int ctrlId);
 
-	int    AddString(wchar_t *text, LPARAM data=0);
+	int    AddString(const wchar_t *text, LPARAM data=0);
 	void   DeleteString(int index);
-	int    FindString(wchar_t *str, int index = -1, bool exact = false);
+	int    FindString(const wchar_t *str, int index = -1, bool exact = false);
 	int    GetCount();
 	int    GetCurSel();
 	LPARAM GetItemData(int index);
@@ -902,9 +902,9 @@ public:
 	int    GetSelCount();
 	int*   GetSelItems(int *items, int count);
 	int*   GetSelItems();
-	int    InsertString(wchar_t *text, int pos, LPARAM data=0);
+	int    InsertString(const wchar_t *text, int pos, LPARAM data=0);
 	void   ResetContent();
-	int    SelectString(wchar_t *str);
+	int    SelectString(const wchar_t *str);
 	int    SetCurSel(int index);
 	void   SetItemData(int index, LPARAM data);
 	void   SetItemHeight(int index, int iHeight);
@@ -946,9 +946,9 @@ public:
 	LPARAM GetItemData(int index);
 	wchar_t* GetItemText(int index);
 	wchar_t* GetItemText(int index, wchar_t *buf, int size);
-	int    InsertString(wchar_t *text, int pos, LPARAM data=0);
+	int    InsertString(const wchar_t *text, int pos, LPARAM data=0);
 	void   ResetContent();
-	int    SelectString(wchar_t *str);
+	int    SelectString(const wchar_t *str);
 	int    SetCurSel(int index);
 	void   SetItemData(int index, LPARAM data);
 	void   ShowDropdown(bool show = true);
@@ -1073,7 +1073,7 @@ public:
 	BOOL       SetItemPosition(int i, int x, int y);
 	void       SetItemPosition32(int iItem, int x, int y);
 	void       SetItemState(int i, UINT state, UINT mask);
-	void       SetItemText(int i, int iSubItem, wchar_t *pszText);
+	void       SetItemText(int i, int iSubItem, const wchar_t *pszText);
 	COLORREF   SetOutlineColor(COLORREF color);
 	void       SetSelectedColumn(int iCol);
 	INT        SetSelectionMark(INT iIndex);
@@ -1094,10 +1094,10 @@ public:
 
 	// Additional APIs
 	HIMAGELIST CreateImageList(int iImageList);
-	void       AddColumn(int iSubItem, wchar_t *name, int cx);
-	void       AddGroup(int iGroupId, wchar_t *name);
-	int        AddItem(wchar_t *text, int iIcon, LPARAM lParam = 0, int iGroupId = -1);
-	void       SetItem(int iItem, int iSubItem, wchar_t *text, int iIcon = -1);
+	void       AddColumn(int iSubItem, const wchar_t *name, int cx);
+	void       AddGroup(int iGroupId, const wchar_t *name);
+	int        AddItem(const wchar_t *text, int iIcon, LPARAM lParam = 0, int iGroupId = -1);
+	void       SetItem(int iItem, int iSubItem, const wchar_t *text, int iIcon = -1);
 	LPARAM     GetItemData(int iItem);
 
 	// Events
@@ -1310,7 +1310,7 @@ class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 public:
 	CCtrlPages(CDlgBase *dlg, int ctrlId);
 
-	void AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg);
+	void AddPage(const wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg);
 	void ActivatePage(int iPage);
 	int  GetCount(void);
 	int  GetDlgIndex(CDlgBase*);
