@@ -29,9 +29,14 @@ struct CFUPLOADDATA
 	const wchar_t *serverFolder;	// server folder in witch file will be placed (can be NULL)
 };
 
+struct CFUPLOADRESULT
+{
+	char *link;						// link to file in cloud service (needs to be freed)
+};
+
 // upload file on cloud service
 // wParam = (WPARAM)(const CFUPLOADDATA*)uploadData
-// lParam = (LPARAM)(char*)link to file in cloud service (needs to be freed) (can be NULL)
+// lParam = (LPARAM)(const CFUPLOADRESULT*)uploadResult (can be NULL)
 // returns 0 on success, nonzero on failure
 #define MS_CLOUDFILE_UPLOAD "CloudFile/Upload"
 

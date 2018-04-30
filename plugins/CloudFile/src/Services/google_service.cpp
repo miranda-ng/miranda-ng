@@ -243,7 +243,7 @@ auto CGDriveService::CreateSharedLink(const std::string &itemId)
 
 void CGDriveService::Upload(FileTransferParam *ftp)
 {
-	std::string folderId;
+	std::string folderId = "root";
 	auto serverDictionary = ftp->GetServerDirectory();
 	std::string serverFolder = serverDictionary ? T2Utf(serverDictionary) : "";
 	if (!serverFolder.empty()) {

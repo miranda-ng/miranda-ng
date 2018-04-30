@@ -316,9 +316,10 @@ int CALLBACK COptionsDlg::BrowseProc(HWND hwnd, UINT uMsg, LPARAM, LPARAM)
 int COptionsDlg::EnumCloudFileServices(const CFSERVICEINFO *serviceInfo, void *param)
 {
 	CCtrlCombo &combo = *(CCtrlCombo*)param;
-	combo.AddString(serviceInfo->userName, (LPARAM)serviceInfo->accountName);
+	int pos = combo.GetCount();
+	combo.InsertString(serviceInfo->userName, pos, (LPARAM)serviceInfo->accountName);
 	if (mir_strcmp(serviceInfo->accountName, options.cloudfile_service) == 0)
-		combo.SetCurSel(combo.GetCount() - 1);
+		combo.SetCurSel(pos);
 	return 0;
 }
 

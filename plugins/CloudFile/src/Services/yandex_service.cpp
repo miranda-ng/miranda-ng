@@ -235,7 +235,6 @@ void CYandexService::Upload(FileTransferParam *ftp)
 	if (!serverFolder.empty()) {
 		auto path = PreparePath(serverFolder);
 		CreateFolder(path);
-
 		auto link = CreateSharedLink(path);
 		ftp->AddSharedLink(link.c_str());
 	}

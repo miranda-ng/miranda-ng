@@ -85,8 +85,10 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 	if (res == ACKRESULT_SUCCESS && lParam) {
 		size_t linkCount = 0;
 		const char **links = ftp.GetSharedLinks(linkCount);
-		if (linkCount > 0)
-			lParam = (LPARAM)mir_strdup(links[linkCount - 1]);
+		if (linkCount > 0) {
+			CFUPLOADRESULT *result = (CFUPLOADRESULT*)lParam;
+			result->link = mir_strdup(links[linkCount - 1]);
+		}
 	}
 
 	return res;

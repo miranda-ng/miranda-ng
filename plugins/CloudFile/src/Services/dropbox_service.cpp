@@ -225,6 +225,7 @@ void CDropboxService::Upload(FileTransferParam *ftp)
 	std::string serverFolder = serverDictionary ? T2Utf(serverDictionary) : "";
 	if (!serverFolder.empty()) {
 		auto path = PreparePath(serverFolder);
+		CreateFolder(path);
 		auto link = CreateSharedLink(path);
 		ftp->AddSharedLink(link.c_str());
 	}

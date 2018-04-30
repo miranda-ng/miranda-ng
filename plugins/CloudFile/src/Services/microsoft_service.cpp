@@ -214,10 +214,8 @@ void COneDriveService::Upload(FileTransferParam *ftp)
 	auto serverDictionary = ftp->GetServerDirectory();
 	std::string serverFolder = serverDictionary ? T2Utf(serverDictionary) : "";
 	if (!serverFolder.empty()) {
-		auto path = PreparePath(serverFolder);
-		folderId = CreateFolder(path);
-
-		auto link = CreateSharedLink(path);
+		folderId = CreateFolder(serverFolder);
+		auto link = CreateSharedLink(folderId);
 		ftp->AddSharedLink(link.c_str());
 	}
 
