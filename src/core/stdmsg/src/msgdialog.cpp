@@ -1084,6 +1084,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// fall through
 	case WM_MOUSEACTIVATE:
 		UpdateTitle();
+		SendMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
 			FlashWindow(m_pOwner->GetHwnd(), FALSE);
 		break;
