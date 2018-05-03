@@ -198,15 +198,20 @@ void CSrmmWindow::OnInitDialog()
 
 	MEVENT hdbEvent = db_event_last(m_hContact);
 	if (hdbEvent) {
+		bool bUpdate = false;
 		do {
 			DBEVENTINFO dbei = {};
 			db_event_get(hdbEvent, &dbei);
 			if ((dbei.eventType == EVENTTYPE_MESSAGE) && !(dbei.flags & DBEF_SENT)) {
 				m_lastMessage = dbei.timestamp;
-				PostMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
+				bUpdate = true;
 				break;
 			}
-		} while (hdbEvent = db_event_prev(m_hContact, hdbEvent));
+		}
+			while (hdbEvent = db_event_prev(m_hContact, hdbEvent));
+
+		if (bUpdate)
+			UpdateLastMessage();
 	}
 
 	OnOptionsApplied(false);
@@ -594,6 +599,21 @@ void CSrmmWindow::UpdateIcon(WPARAM wParam)
 		if (g_dat.bUseStatusWinIcon)
 			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 	}
+}
+
+void CSrmmWindow::UpdateLastMessage()
+{
+	if (m_nTypeSecs)
+		return;
+
+	if (m_lastMessage) {
+		wchar_t date[64], time[64], fmt[128];
+		TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
+		TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
+		mir_snwprintf(fmt, TranslateT("Last message received on %s at %s."), date, time);
+		SetStatusText(fmt, nullptr);
+	}
+	else SetStatusText(nullptr, nullptr);
 }
 
 void CSrmmWindow::UpdateReadChars()
@@ -1037,22 +1057,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case DM_UPDATELASTMESSAGE:
-		if (m_nTypeSecs)
-			break;
-
-		if (m_lastMessage) {
-			wchar_t date[64], time[64], fmt[128];
-			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
-			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
-			mir_snwprintf(fmt, TranslateT("Last message received on %s at %s."), date, time);
-			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
-		}
-		else SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)L"");
-
-		SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, 0);
-		break;
-
 	case DM_OPTIONSAPPLIED:
 		OnOptionsApplied(wParam != 0);
 		break;
@@ -1084,7 +1088,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// fall through
 	case WM_MOUSEACTIVATE:
 		UpdateTitle();
-		SendMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
+		UpdateLastMessage();
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
 			FlashWindow(m_pOwner->GetHwnd(), FALSE);
 		break;
@@ -1152,7 +1156,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				if (isMessage && !isSent) {
 					m_lastMessage = dbei.timestamp;
-					SendMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
+					UpdateLastMessage();
 				}
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
 					SendMessage(m_hwnd, DM_APPENDTOLOG, hDbEvent, 0);
@@ -1204,7 +1208,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 				}
 				else {
-					SendMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
+					UpdateLastMessage();
 					if (g_dat.bShowTypingWin)
 						SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 					m_bShowTyping = false;

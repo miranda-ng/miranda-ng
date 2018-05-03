@@ -32,7 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DM_NEWTIMEZONE       (WM_USER+18)
 #define DM_TYPING            (WM_USER+20)
 #define DM_UPDATEWINICON     (WM_USER+21)
-#define DM_UPDATELASTMESSAGE (WM_USER+22)
 #define DM_USERNAMETOCLIP    (WM_USER+23)
 #define DM_AVATARSIZECHANGE  (WM_USER+24)
 #define DM_AVATARCALCSIZE    (WM_USER+25)
@@ -77,6 +76,7 @@ class CSrmmWindow : public CMsgDialog
 	void SetupStatusBar(void);
 	void StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend);
 	void UpdateIcon(WPARAM wParam);
+	void UpdateLastMessage(void);
 
 	char *m_szProto;
 	HICON m_hStatusIcon = nullptr;
