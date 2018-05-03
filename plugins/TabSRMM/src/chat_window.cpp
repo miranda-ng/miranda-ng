@@ -907,6 +907,8 @@ void CChatRoomDlg::UpdateStatusBar()
 			}
 			else mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
 		}
+		else mi->tszIdleMsg[0] = 0;
+
 		mir_snwprintf(szFinalStatusBarText, TranslateT("%s on %s%s"), m_wszMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
 	}
 	else {
