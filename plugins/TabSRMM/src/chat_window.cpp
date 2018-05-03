@@ -660,7 +660,6 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 		fSound = false;
 	Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
 	mi->idleTimeStamp = time(0);
-	mi->lastIdleCheck = 0;
 	UpdateStatusBar();
 	if (m_pContainer)
 		if (fSound && !nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
@@ -895,9 +894,7 @@ void CChatRoomDlg::UpdateStatusBar()
 	if (m_pPanel.isActive()) {
 		time_t now = time(0);
 		DWORD diff = (now - mi->idleTimeStamp) / 60;
-
-		if ((diff >= 1 && diff != mi->lastIdleCheck)) {
-			mi->lastIdleCheck = diff;
+		if (diff >= 1) {																
 			if (diff > 59) {
 				DWORD hours = diff / 60;
 				DWORD minutes = diff % 60;
