@@ -92,7 +92,7 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *sz
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF | (p->flags & PREF_RTL ? DBEF_RTL : 0);
 	dbei.szModule = GetContactProto(hContact);
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.cbBlob = (DWORD)(mir_strlen(p->szMsg) + 1);
 	dbei.pBlob = (PBYTE)p->szMsg;
 

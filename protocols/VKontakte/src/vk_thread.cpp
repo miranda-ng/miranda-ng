@@ -371,7 +371,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactTy
 	setWord(hContact, "Status", iNewStatus);
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
-		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(nullptr));
+		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(0));
 		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 
 		int online_app = _wtoi(jnItem["online_app"].as_mstring());
@@ -621,7 +621,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			int iContactStatus = getWord(cc, "Status", ID_STATUS_OFFLINE);
 
 			if ((iContactStatus == ID_STATUS_ONLINE)
-				|| (iContactStatus == ID_STATUS_INVISIBLE && time(nullptr) - getDword(cc, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
+				|| (iContactStatus == ID_STATUS_INVISIBLE && time(0) - getDword(cc, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
 				setWord(cc, "Status", ID_STATUS_OFFLINE);
 				SetMirVer(cc, -1);
 				db_unset(cc, m_szModuleName, "ListeningTo");

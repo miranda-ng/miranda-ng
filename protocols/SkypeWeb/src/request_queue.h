@@ -51,8 +51,8 @@ class RequestQueue
 
 	void Execute(RequestQueueItem *item);
 
-	static unsigned int __cdecl AsyncSendThread(void*, void*);
-	static unsigned int __cdecl WorkerThread(void*);
+	static unsigned __cdecl AsyncSendThread(void*, void*);
+	static void __cdecl WorkerThread(RequestQueue *queue);
 
 public:
 	RequestQueue(HNETLIBUSER nlu);

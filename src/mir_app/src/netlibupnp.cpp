@@ -644,10 +644,10 @@ static void discoverUPnP(void)
 
 static bool findUPnPGateway(void)
 {
-	if ((time(nullptr) - lastDiscTime) >= expireTime) {
+	if ((time(0) - lastDiscTime) >= expireTime) {
 		WaitForSingleObject(portListMutex, INFINITE);
 
-		time_t curTime = time(nullptr);
+		time_t curTime = time(0);
 
 		if ((curTime - lastDiscTime) >= expireTime) {
 			gatewayFound = false;

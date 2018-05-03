@@ -1184,7 +1184,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	HWND hwndrtf = m_hwndIEView ? m_hwndIWebBrowserControl : m_log.GetHwnd();
 
 	rtfFonts = m_pContainer->theme.rtfFonts ? m_pContainer->theme.rtfFonts : &(rtfFontsGlobal[0][0]);
-	time_t now = time(nullptr);
+	time_t now = time(0);
 
 	struct tm tm_now = *localtime(&now);
 	struct tm tm_today = tm_now;

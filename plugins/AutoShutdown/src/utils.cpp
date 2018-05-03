@@ -66,9 +66,8 @@ void TrimString(wchar_t *pszStr)
 
 /************************* Error Output ***************************/
 
-static void MessageBoxIndirectFree(void *param)
+static void MessageBoxIndirectFree(MSGBOXPARAMSA *mbp)
 {
-	MSGBOXPARAMSA *mbp = (MSGBOXPARAMSA*)param;
 	MessageBoxIndirectA(mbp);
 	mir_free((char*)mbp->lpszCaption); /* does NULL check */
 	mir_free((char*)mbp->lpszText);    /* does NULL check */
@@ -99,7 +98,7 @@ void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, .
 	case NIIF_WARNING: mbp->dwStyle |= MB_ICONWARNING; break;
 	case NIIF_ERROR:   mbp->dwStyle |= MB_ICONERROR;
 	}
-	mir_forkthread(MessageBoxIndirectFree, mbp);
+	mir_forkThread<MSGBOXPARAMSA>(MessageBoxIndirectFree, mbp);
 }
 
 // LocalFree() the return value

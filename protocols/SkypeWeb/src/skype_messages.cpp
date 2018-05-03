@@ -52,7 +52,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
-	param->hMessage = time(nullptr);
+	param->hMessage = time(0);
 
 	ptrA username(getStringA(hContact, "Skypename"));
 

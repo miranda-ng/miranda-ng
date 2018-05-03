@@ -128,9 +128,8 @@ void NTAPI MainThreadIssueTransfer(ULONG_PTR param)
 	SetEvent(p->hEvent);
 }
 
-void __cdecl IssueTransferThread(void *param)
+void __cdecl IssueTransferThread(THeaderIPC *pipch)
 {
-	THeaderIPC *pipch = (THeaderIPC *)param;
 	HANDLE hMainThread = HANDLE(pipch->Param);
 
 	char szBuf[MAX_PATH];
@@ -377,12 +376,12 @@ void __stdcall ipcService(ULONG_PTR)
 			memcpy(cloned, pMMT, IPC_PACKET_SIZE);
 			ipcFixupAddresses(cloned);
 			DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &cloned->Param, THREAD_SET_CONTEXT, false, 0);
-			mir_forkthread(&IssueTransferThread, cloned);
+			mir_forkThread<THeaderIPC>(&IssueTransferThread, cloned);
 			goto Reply;
 		}
 		// the request was to clear the MRU entries, we have no return data
 		if (*bits & REQUEST_CLEARMRU) {
-			mir_forkthread(&ClearMRUThread, nullptr);
+			mir_forkthread(&ClearMRUThread);
 			goto Reply;
 		}
 		// the IPC header may have pointers that need to be translated

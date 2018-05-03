@@ -125,7 +125,7 @@ INT_PTR ShowSmileySelectionCommand(WPARAM, LPARAM lParam)
 	stwp->yPosition = smaddInfo->yPosition;
 	stwp->direction = smaddInfo->Direction;
 
-	mir_forkthread(SmileyToolThread, stwp);
+	mir_forkThread<SmileyToolWindowParam>(SmileyToolThread, stwp);
 
 	return TRUE;
 }

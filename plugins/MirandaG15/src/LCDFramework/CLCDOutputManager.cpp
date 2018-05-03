@@ -64,7 +64,7 @@ CLCDScreen *CLCDOutputManager::GetActiveScreen()
 //************************************************************************
 bool CLCDOutputManager::Initialize(tstring strAppletName,bool bAutostart, bool bConfigDialog)
 {
-	srand ( time(nullptr) );
+	srand ( time(0) );
 
 	InitDebug();
 

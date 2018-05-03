@@ -44,7 +44,7 @@ std::string utils::url::decode(std::string data)
 
 std::string utils::time::unix_timestamp()
 {
-	time_t in = ::time(nullptr);
+	time_t in = ::time(0);
 	return utils::conversion::to_string((void*)&in, UTILS_CONV_TIME_T);
 }
 

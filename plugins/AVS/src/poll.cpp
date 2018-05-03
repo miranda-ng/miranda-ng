@@ -62,7 +62,7 @@ static mir_cs cs;
 void InitPolls()
 {
 	// Init request queue
-	mir_forkthread(RequestThread, nullptr);
+	mir_forkthread(RequestThread);
 }
 
 void UninitPolls()

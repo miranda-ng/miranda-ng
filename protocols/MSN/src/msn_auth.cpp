@@ -302,7 +302,7 @@ bool SkypeToken::Refresh(bool bForce)
 					time_t tExpires = (*root)["expiresIn"].as_int();
 					if (tExpires == 0)
 						tExpires = 86400;
-					SetToken("skype_token " + szToken, time(nullptr) + tExpires);
+					SetToken("skype_token " + szToken, time(0) + tExpires);
 					bRet = true;
 				}
 			}
@@ -353,7 +353,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 	szPassword[99] = 0;
 
-	time_t ts = time(nullptr);
+	time_t ts = time(0);
 
 	wchar_t szTs1[64], szTs2[64];
 	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts, L"I", szTs1, _countof(szTs1), 0);
@@ -404,7 +404,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 					ezxml_t xml_expires = ezxml_get(tokr, "wst:Lifetime", 0, "wsu:Expires", -1);
 					time_t expires;
-					expires = xml_expires ? IsoToUnixTime(ezxml_txt(xml_expires)) : time(nullptr) + 86400;
+					expires = xml_expires ? IsoToUnixTime(ezxml_txt(xml_expires)) : time(0) + 86400;
 
 
 					if (mir_strcmp(addr, "http://Passport.NET/tb") == 0) {
@@ -722,7 +722,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 					if (*ptExpires == 0)
 						bRet = false;
 					else
-						*ptExpires += time(nullptr);
+						*ptExpires += time(0);
 				}
 			}
 		}

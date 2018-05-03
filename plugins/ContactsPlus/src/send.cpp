@@ -402,7 +402,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			dbei.szModule = GetContactProto(ackData->hContact);
 			dbei.eventType = EVENTTYPE_CONTACTS;
 			dbei.flags = DBEF_SENT | DBEF_UTF;
-			dbei.timestamp = time(nullptr);
+			dbei.timestamp = time(0);
 			//make blob
 			TCTSend* maSend = (TCTSend*)_alloca(ackData->nContacts*sizeof(TCTSend));
 			memset(maSend, 0, (ackData->nContacts * sizeof(TCTSend)));

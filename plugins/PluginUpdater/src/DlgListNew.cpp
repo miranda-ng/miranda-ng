@@ -423,8 +423,7 @@ static void DoGetList()
 		SetForegroundWindow(hwndDialog);
 		SetFocus(hwndDialog);
 	}
-	else
-		hListThread = mir_forkthread(GetList, nullptr);
+	else hListThread = mir_forkthread(GetList);
 }
 
 void UninitListNew()

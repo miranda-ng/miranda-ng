@@ -1808,7 +1808,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 					break;
 				}
 
-				toCp.lastExport = time(nullptr);
+				toCp.lastExport = time(0);
 
 				*to = toCp;
 				EndDialog(hwndDlg, IDOK);

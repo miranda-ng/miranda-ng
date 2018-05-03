@@ -514,11 +514,9 @@ void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
 }
 
 // will add hContact to queue and will return position;
-static void waitThread(void *param)
+static void waitThread(logthread_info* infoParam)
 {
 	Thread_SetName("SeenPlugin: waitThread");
-
-	logthread_info* infoParam = (logthread_info*)param;
 
 	WORD prevStatus = db_get_w(infoParam->hContact, S_MOD, "StatusTriger", ID_STATUS_OFFLINE);
 
@@ -586,7 +584,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 				mir_snprintf(str, "OffTime-%s", szProto);
 				DWORD t = db_get_dw(NULL, S_MOD, str, 0);
 				if (!t)
-					t = time(nullptr);
+					t = time(0);
 				DBWriteTimeTS(t, hContact);
 			}
 
@@ -613,7 +611,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			if (cws->value.wVal == prevStatus && !db_get_b(hContact, S_MOD, "Offline", 0))
 				return 0;
 
-			DBWriteTimeTS(time(nullptr), hContact);
+			DBWriteTimeTS(time(0), hContact);
 
 			if (g_bFileActive) FileWrite(hContact);
 			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
@@ -636,7 +634,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 				p->hContact = hContact;
 				mir_strncpy(p->sProtoName, cws->szModule, _countof(p->sProtoName));
 				arContacts.insert(p);
-				mir_forkthread(waitThread, p);
+				mir_forkThread<logthread_info>(waitThread, p);
 			}
 			p->currStatus = isIdleEvent ? db_get_w(hContact, cws->szModule, "Status", ID_STATUS_OFFLINE) : cws->value.wVal;
 		}
@@ -645,11 +643,10 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 	return 0;
 }
 
-static void cleanThread(void *param)
+static void cleanThread(logthread_info* infoParam)
 {
 	Thread_SetName("SeenPlugin: cleanThread");
 
-	logthread_info* infoParam = (logthread_info*)param;
 	char *szProto = infoParam->sProtoName;
 
 	// I hope in 10 secons all logged-in contacts will be listed
@@ -681,7 +678,7 @@ int ModeChange(WPARAM, LPARAM lparam)
 	if (!IsWatchedProtocol(courProtoName) && strncmp(courProtoName, "MetaContacts", 12))
 		return 0;
 
-	DBWriteTimeTS(time(nullptr), NULL);
+	DBWriteTimeTS(time(0), NULL);
 
 	WORD isetting = (WORD)ack->lParam;
 	if (isetting < ID_STATUS_OFFLINE)
@@ -695,7 +692,7 @@ int ModeChange(WPARAM, LPARAM lparam)
 			info->hContact = 0;
 			info->currStatus = 0;
 
-			mir_forkthread(cleanThread, info);
+			mir_forkThread<logthread_info>(cleanThread, info);
 		}
 	}
 	else if ((isetting == ID_STATUS_OFFLINE) && ((UINT_PTR)ack->hProcess > ID_STATUS_OFFLINE)) {

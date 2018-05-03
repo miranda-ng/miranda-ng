@@ -180,7 +180,7 @@ void CContactCache::updateStats(int iType, size_t value)
 		m_stats->lastReceivedChars = 0;
 		break;
 	case TSessionStats::INIT_TIMER:
-		m_stats->started = time(nullptr);
+		m_stats->started = time(0);
 		break;
 	case TSessionStats::SET_LAST_RCV:
 		m_stats->lastReceivedChars = (unsigned int)value;

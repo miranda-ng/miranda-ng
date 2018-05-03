@@ -533,8 +533,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendMessage(pCont->m_hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
 
 			// process send later contacts and jobs, if enough time has elapsed
-			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(nullptr) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
-				sendLater->setLastProcessed(time(nullptr));
+			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
+				sendLater->setLastProcessed(time(0));
 
 				// check the list of contacts that may have new send later jobs
 				// (added on user's request)

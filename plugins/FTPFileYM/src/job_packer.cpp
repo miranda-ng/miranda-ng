@@ -75,10 +75,8 @@ void PackerJob::addToUploadDlg()
 	start();
 }
 
-void PackerJob::waitingThread(void *arg)
+void PackerJob::waitingThread(PackerJob *job)
 {
-	PackerJob *job = (PackerJob *)arg;
-
 	while (!Miranda_IsTerminated()) {
 		mir_cslockfull lock(mutexJobCount);
 		if (iRunningJobCount < MAX_RUNNING_JOBS) {
@@ -103,7 +101,7 @@ void PackerJob::waitingThread(void *arg)
 
 void PackerJob::start()
 {
-	mir_forkthread(&PackerJob::waitingThread, this);
+	mir_forkThread<PackerJob>(&PackerJob::waitingThread, this);
 }
 
 void PackerJob::pack()
@@ -115,7 +113,7 @@ void PackerJob::pack()
 	}
 
 	setStatus(STATUS_PACKING);
-	m_startTS = time(nullptr);
+	m_startTS = time(0);
 
 	int res = createZipFile();
 	if (res == ZIP_OK) {
@@ -230,10 +228,10 @@ uLong PackerJob::getFileTime(wchar_t *file, tm_zip*, uLong *dt)
 void PackerJob::updateStats()
 {
 	DWORD dwNewTick = GetTickCount();
-	if (m_uiReaded && (time(nullptr) > m_startTS) && (dwNewTick > m_lastUpdateTick + 100)) {
+	if (m_uiReaded && (time(0) > m_startTS) && (dwNewTick > m_lastUpdateTick + 100)) {
 		m_lastUpdateTick = dwNewTick;
 
-		double speed = ((double)m_uiReaded / 1024) / (time(nullptr) - m_startTS);
+		double speed = ((double)m_uiReaded / 1024) / (time(0) - m_startTS);
 		mir_snwprintf(m_tab->m_stzSpeed, TranslateT("%0.1f kB/s"), speed);
 
 		double perc = m_uiFileSize ? ((double)m_uiReaded / m_uiFileSize) * 100 : 0;

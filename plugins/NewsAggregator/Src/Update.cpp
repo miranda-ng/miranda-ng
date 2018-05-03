@@ -32,7 +32,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 		bool HaveUpdates = FALSE;
 		for (auto &hContact : Contacts(MODULE)) {
 			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
-				double diff = difftime(time(nullptr), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
+				double diff = difftime(time(0), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 				if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
 					UpdateListAdd(hContact);
 					HaveUpdates = TRUE;

@@ -979,7 +979,7 @@ int FacebookProto::ParseMessages(std::string &pData, std::vector<facebook_messag
 			if (!buddyList)
 				continue;
 
-			time_t offlineThreshold = time(nullptr) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
+			time_t offlineThreshold = time(0) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
 
 			for (auto &itNodes : buddyList) {
 				// Facebook now sends info also about some nonfriends, so we just ignore status change of contacts we don't have in list
@@ -1041,7 +1041,7 @@ int FacebookProto::ParseMessages(std::string &pData, std::vector<facebook_messag
 			if (!overlay_)
 				continue;
 
-			time_t offlineThreshold = time(nullptr) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
+			time_t offlineThreshold = time(0) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
 
 			for (auto &itNodes : overlay_) {
 				MCONTACT hContact = ContactIDToHContact(itNodes.name());

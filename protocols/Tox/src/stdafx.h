@@ -42,7 +42,7 @@
 
 struct CToxProto;
 
-#define now() time(nullptr)
+#define now() time(0)
 
 #define MODULE "Tox"
 

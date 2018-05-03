@@ -176,7 +176,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 
 	if (!MesExist) {
 		if (stamp == 0)
-			stamp = time(nullptr);
+			stamp = time(0);
 
 		T2Utf pszMessage(message);
 
@@ -392,10 +392,10 @@ void CheckCurrentFeed(MCONTACT hContact)
 								szChildText = xmlGetText(child);
 							if (szChildText) {
 								time_t stamp = DateToUnixTime(szChildText, 0);
-								double deltaupd = difftime(time(nullptr), stamp);
-								double deltacheck = difftime(time(nullptr), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
+								double deltaupd = difftime(time(0), stamp);
+								double deltacheck = difftime(time(0), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(nullptr));
+									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(0));
 									xmlDestroyNode(hXml);
 									return;
 								}
@@ -525,10 +525,10 @@ void CheckCurrentFeed(MCONTACT hContact)
 							if (szChildText) {
 								wchar_t *lastupdtime = (wchar_t *)szChildText;
 								time_t stamp = DateToUnixTime(lastupdtime, 1);
-								double deltaupd = difftime(time(nullptr), stamp);
-								double deltacheck = difftime(time(nullptr), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
+								double deltaupd = difftime(time(0), stamp);
+								double deltacheck = difftime(time(0), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(nullptr));
+									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(0));
 									xmlDestroyNode(hXml);
 									return;
 								}
@@ -601,7 +601,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 			xmlDestroyNode(hXml);
 		}
 	}
-	db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(nullptr));
+	db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(0));
 }
 
 void CheckCurrentFeedAvatar(MCONTACT hContact)

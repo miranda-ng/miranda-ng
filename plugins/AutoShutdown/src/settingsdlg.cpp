@@ -255,14 +255,14 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			GetLocalTime(&stBuf);
 			if (SystemTimeToTimeStamp(&st, &timestamp)) {
 				/* set to current date if earlier */
-				if (timestamp < time(nullptr)) {
+				if (timestamp < time(0)) {
 					st.wDay = stBuf.wDay;
 					st.wDayOfWeek = stBuf.wDayOfWeek;
 					st.wMonth = stBuf.wMonth;
 					st.wYear = stBuf.wYear;
 					if (SystemTimeToTimeStamp(&st, &timestamp)) {
 						/* step one day up if still earlier */
-						if (timestamp < time(nullptr)) {
+						if (timestamp < time(0)) {
 							timestamp += 24 * 60 * 60;
 							TimeStampToSystemTime(timestamp, &st);
 						}
@@ -351,7 +351,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				time_t timestamp;
 				DateTime_GetSystemtime(GetDlgItem(hwndDlg, IDC_TIME_TIMESTAMP), &st); /* time gets synchronized */
 				if (!SystemTimeToTimeStamp(&st, &timestamp))
-					timestamp = time(nullptr);
+					timestamp = time(0);
 				db_set_dw(NULL, "AutoShutdown", "TimeStamp", (DWORD)timestamp);
 			}
 			/* shutdown type */

@@ -2028,8 +2028,8 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 
 				if (PluginConfig.m_bSendOnDblEnter) {
-					if (m_iLastEnterTime + 2 < time(nullptr)) {
-						m_iLastEnterTime = time(nullptr);
+					if (m_iLastEnterTime + 2 < time(0)) {
+						m_iLastEnterTime = time(0);
 						break;
 					}
 					else {

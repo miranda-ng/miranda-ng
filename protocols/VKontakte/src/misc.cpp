@@ -142,7 +142,7 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 void CVkProto::ClearAccessToken()
 {
 	debugLogA("CVkProto::ClearAccessToken");
-	setDword("LastAccessTokenTime", (DWORD)time(nullptr));
+	setDword("LastAccessTokenTime", (DWORD)time(0));
 	m_szAccessToken = nullptr;
 	delSetting("AccessToken");
 	ShutdownSession();
@@ -288,7 +288,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 			break;
 		}
 
-		if (time(nullptr) - getDword("LastAccessTokenTime", 0) > 60 * 60 * 24) {
+		if (time(0) - getDword("LastAccessTokenTime", 0) > 60 * 60 * 24) {
 			debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED (AccessToken fail?)");
 			ClearAccessToken();
 			return false;
@@ -583,7 +583,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = (DWORD)time(nullptr);
+	dbei.timestamp = (DWORD)time(0);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = added ? EVENTTYPE_ADDED : EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = blob.size();
@@ -1372,7 +1372,7 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
 		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", VK_INVALID_USER));
 	}
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)now);
 	setDword(hContact, "InvisibleTS", (DWORD)now);
 }
@@ -1514,7 +1514,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
 	dbei.cbBlob = (DWORD)mir_strlen(vkDeactivateEvent[iDEIdx].szDescription) + 1;
 	dbei.pBlob = (PBYTE)mir_strdup(vkDeactivateEvent[iDEIdx].szDescription);

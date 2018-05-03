@@ -299,10 +299,9 @@ rates_queue::~rates_queue()
 	cleanup();
 }
 
-static void rateDelayThread(void *param)
+static void rateDelayThread(rates_queue *pQueue)
 {
 	Thread_SetName("ICQ: rateDelayThread");
-	rates_queue *pQueue = (rates_queue*)param;
 	pQueue->handleDelay();
 }
 
@@ -311,7 +310,7 @@ void rates_queue::initDelay(int nDelay)
 	ppro->debugLogA("Rates: Delay %dms", nDelay);
 
 	scheduledDelay = nDelay;
-	mir_forkthread(rateDelayThread, this);
+	mir_forkThread<rates_queue>(rateDelayThread, this);
 }
 
 void rates_queue::handleDelay()

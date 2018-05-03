@@ -174,7 +174,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 void CJabberProto::OnLoggedIn()
 {
 	m_bJabberOnline = true;
-	m_tmJabberLoggedInTime = time(nullptr);
+	m_tmJabberLoggedInTime = time(0);
 
 	m_ThreadInfo->dwLoginRqs = 0;
 
@@ -1587,7 +1587,7 @@ void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo *pInfo)
 		if (szSeconds) {
 			int nSeconds = _wtoi(szSeconds);
 			if (nSeconds > 0)
-				lastActivity = time(nullptr) - nSeconds;
+				lastActivity = time(0) - nSeconds;
 		}
 
 		const wchar_t *szLastStatusMessage = XPathT(iqNode, "query[@xmlns='jabber:iq:last']");

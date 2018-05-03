@@ -66,7 +66,7 @@ HANDLE hThreadMFUpdate = nullptr;
 
 static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 {
-	DWORD  curTime = time(nullptr);
+	DWORD  curTime = time(0);
 	DWORD  frequency, eventCount;
 	MEVENT hEvent = db_event_last(hContact);
 

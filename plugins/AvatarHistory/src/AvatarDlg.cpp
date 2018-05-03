@@ -64,10 +64,9 @@ public:
 	wchar_t *filelink;
 };
 
-static void __cdecl AvatarDialogThread(void *param)
+static void __cdecl AvatarDialogThread(AvatarDialogData *data)
 {
-	struct AvatarDialogData* data = (struct AvatarDialogData*)param;
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AVATARDLG), data->parent, AvatarDlgProc, (LPARAM)param);
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AVATARDLG), data->parent, AvatarDlgProc, (LPARAM)data);
 }
 
 int OpenAvatarDialog(MCONTACT hContact, char* fn)
@@ -79,15 +78,14 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 		return 0;
 	}
 
-	struct AvatarDialogData *avdlg = (struct AvatarDialogData*)malloc(sizeof(struct AvatarDialogData));
-	memset(avdlg, 0, sizeof(struct AvatarDialogData));
+	AvatarDialogData *avdlg = (AvatarDialogData*)calloc(1, sizeof(AvatarDialogData));
 	avdlg->hContact = hContact;
 	if (fn == nullptr)
 		avdlg->fn[0] = '\0';
 	else
 		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, _countof(avdlg->fn));
 
-	mir_forkthread(AvatarDialogThread, (void*)avdlg);
+	mir_forkThread<AvatarDialogData>(AvatarDialogThread, avdlg);
 	return 0;
 }
 

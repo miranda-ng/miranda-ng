@@ -86,11 +86,49 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
+static void __cdecl AdvSt(void*)
+{
+	Thread_SetName("StartupSilenc: AdvSt");
+
+	if ((Enabled == 1)) {
+		POPUPDATAT ppd = { 0 };
+		wchar_t *lptzText = L"";
+		db_set_b(NULL, "Skin", "UseSound", 0);
+		EnablePopupModule();
+
+		if (PopUp == 1) {
+			lptzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
+			ppd.lchIcon = IcoLib_GetIconByHandle((NonStatusAllow == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
+			ppd.lchContact = NULL;
+			ppd.iSeconds = PopUpTime;
+			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
+			lptzText = TranslateW(MENU_NAMEW);
+			wcsncpy_s(ppd.lptzContactName, lptzText, _TRUNCATE);
+			PUAddPopupT(&ppd);
+		}
+
+		timer = 2;
+		Sleep(delay * 1000);
+		timer = 0;
+
+		if (PopUp == 1) {
+			lptzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
+			ppd.lchIcon = IcoLib_GetIconByHandle((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
+			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
+			PUAddPopupT(&ppd);
+		}
+		if (DefEnabled == 1) { //predefined sound setting
+			db_set_b(NULL, "Skin", "UseSound", DefSound);
+		}
+		else db_set_b(NULL, "Skin", "UseSound", 1); //or enable sounds every starts
+	}
+}
+
 INT_PTR StartupSilence()
 {
 	InitSettings();
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	mir_forkthread((pThreadFunc)AdvSt, nullptr);
+	mir_forkthread((pThreadFunc)AdvSt);
 	CreateServiceFunction(SS_SERVICE_NAME, StartupSilenceEnabled);
 	CreateServiceFunction(SS_SILENCE_CONNECTION, SilenceConnection);
 	IsMenu();
@@ -218,45 +256,6 @@ void IsMenu()
 		Icon_Register(hInst, MENU_NAME, iconList, _countof(iconList), MENU_NAME);
 		InitMenu();
 	}
-}
-
-static INT_PTR AdvSt()
-{
-	Thread_SetName("StartupSilenc: AdvSt");
-
-	if ((Enabled == 1)) {
-		POPUPDATAT ppd = {0};
-		wchar_t * lptzText =L"";
-		db_set_b(NULL, "Skin", "UseSound", 0);
-		EnablePopupModule();
-
-		if (PopUp == 1) {
-			lptzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
-			ppd.lchIcon = IcoLib_GetIconByHandle((NonStatusAllow == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
-			ppd.lchContact = NULL;
-			ppd.iSeconds = PopUpTime;
-			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-			lptzText = TranslateW(MENU_NAMEW);
-			wcsncpy_s(ppd.lptzContactName, lptzText, _TRUNCATE);
-			PUAddPopupT(&ppd);
-		}
-
-		timer = 2;
-		Sleep(delay * 1000);
-		timer = 0;
-
-		if (PopUp == 1) {
-			lptzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
-			ppd.lchIcon = IcoLib_GetIconByHandle((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
-			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-			PUAddPopupT(&ppd);
-		}
-		if (DefEnabled == 1) { //predefined sound setting
-			db_set_b(NULL, "Skin", "UseSound", DefSound);
-		}
-		else db_set_b(NULL, "Skin", "UseSound", 1); //or enable sounds every starts
-	}
-	return 0;
 }
 
 INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)

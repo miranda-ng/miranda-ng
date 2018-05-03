@@ -455,11 +455,10 @@ LBL_SkipEnd:
 	return false;
 }
 
-static void __cdecl phase2(void * lParam)
+static void __cdecl phase2(SESSION_INFO *si)
 {
 	Thread_SetName("TabSRMM: phase2");
 
-	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
 	if (si && si->pDlg)
 		si->pDlg->RedrawLog2();
@@ -660,7 +659,7 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 	if (ptszText[0] == '/' || m_si->iType == GCW_SERVER)
 		fSound = false;
 	Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
-	mi->idleTimeStamp = time(nullptr);
+	mi->idleTimeStamp = time(0);
 	mi->lastIdleCheck = 0;
 	UpdateStatusBar();
 	if (m_pContainer)
@@ -810,7 +809,7 @@ void CChatRoomDlg::RedrawLog()
 					index++;
 			}
 			StreamInEvents(pLog, TRUE);
-			mir_forkthread(phase2, m_si);
+			mir_forkThread<SESSION_INFO>(phase2, m_si);
 		}
 		else StreamInEvents(m_si->pLogEnd, TRUE);
 	}
@@ -894,7 +893,7 @@ void CChatRoomDlg::UpdateStatusBar()
 
 	wchar_t szFinalStatusBarText[512];
 	if (m_pPanel.isActive()) {
-		time_t now = time(nullptr);
+		time_t now = time(0);
 		DWORD diff = (now - mi->idleTimeStamp) / 60;
 
 		if ((diff >= 1 && diff != mi->lastIdleCheck)) {
@@ -1270,8 +1269,8 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			if (PluginConfig.m_bSendOnDblEnter) {
-				if (m_iLastEnterTime + 2 < time(nullptr)) {
-					m_iLastEnterTime = time(nullptr);
+				if (m_iLastEnterTime + 2 < time(0)) {
+					m_iLastEnterTime = time(0);
 					break;
 				}
 

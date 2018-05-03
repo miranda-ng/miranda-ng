@@ -745,7 +745,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 							strncpy_s(module, ack->szModule, _countof(module));
 							e.szModule = module;
-							e.timestamp = (DWORD)time(nullptr);
+							e.timestamp = (DWORD)time(0);
 
 							db_event_add(ack->hContact, &e);
 						}

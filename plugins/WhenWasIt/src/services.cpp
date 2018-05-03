@@ -184,7 +184,7 @@ void __cdecl RefreshUserDetailsWorkerThread(void*)
 
 INT_PTR RefreshUserDetailsService(WPARAM, LPARAM)
 {
-	mir_forkthread(RefreshUserDetailsWorkerThread, nullptr);
+	mir_forkthread(RefreshUserDetailsWorkerThread);
 	return 0;
 }
 

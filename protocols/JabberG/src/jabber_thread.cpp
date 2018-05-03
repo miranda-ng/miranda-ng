@@ -1238,7 +1238,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		dbei.cbBlob = 1;
 		dbei.eventType = EVENTTYPE_JABBER_CHATSTATES;
 		dbei.flags = DBEF_READ;
-		dbei.timestamp = time(nullptr);
+		dbei.timestamp = time(0);
 		dbei.szModule = m_szModuleName;
 		db_event_add(hContact, &dbei);
 	}
@@ -1490,7 +1490,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		hContact = CreateTemporaryContact(from, chatItem);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	if (!msgTime)
 		msgTime = now;
 

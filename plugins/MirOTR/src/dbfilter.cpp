@@ -23,7 +23,7 @@ void CALLBACK DeleteTimerProc(HWND, UINT, UINT_PTR, DWORD) {
 	DBEVENTINFO info = {};
 	next = DeleteEvents.first;
 	while (current = next) {
-		if (difftime(time(nullptr), current->timestamp) < 1) break;
+		if (difftime(time(0), current->timestamp) < 1) break;
 		if (!db_event_get(current->hDbEvent, &info)) // && info.flags&DBEF_READ)
 		{
 			db_event_delete(current->hContact, current->hDbEvent);
@@ -133,7 +133,7 @@ int OnDatabaseEventAdded(WPARAM hContact, LPARAM lParam)
 			DeleteEventNode *node = new DeleteEventNode();
 			node->hContact = hContact;
 			node->hDbEvent = lParam;
-			node->timestamp = time(nullptr);
+			node->timestamp = time(0);
 			node->next = nullptr;
 			mir_cslock lck(RemoveChainCS);
 			if (DeleteEvents.last)

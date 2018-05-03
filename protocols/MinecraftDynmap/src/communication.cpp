@@ -372,7 +372,7 @@ void MinecraftDynmapProto::SignOnWorker(void*)
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		setDword("LogonTS", (DWORD)time(nullptr));
+		setDword("LogonTS", (DWORD)time(0));
 		ClearChat();
 		OnJoinChat(0, false);
 
@@ -422,7 +422,7 @@ void MinecraftDynmapProto::EventsLoop(void *)
 {
 	ScopedLock s(events_loop_lock_);
 
-	time_t tim = ::time(nullptr);
+	time_t tim = ::time(0);
 	debugLogA(">>>>> Entering %s[%d]", __FUNCTION__, tim);
 
 	while (doEvents())

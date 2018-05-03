@@ -378,7 +378,7 @@ void CSend::DB_EventAdd(WORD EventType)
 	dbei.szModule = m_pszProto;
 	dbei.eventType = EventType;
 	dbei.flags = DBEF_SENT;
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob = m_cbEventMsg;
 	dbei.pBlob = (PBYTE)m_szEventMsg;

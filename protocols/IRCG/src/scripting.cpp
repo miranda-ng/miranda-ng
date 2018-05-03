@@ -64,11 +64,10 @@ static void __stdcall OnHook(void * pi)
 	delete gch;
 }
 
-static void __cdecl GuiOutThread(LPVOID di)
+static void __cdecl GuiOutThread(GCHOOK *gch)
 {
 	Thread_SetName("IRC: GuiOutThread");
-	GCHOOK* gch = (GCHOOK*)di;
-	CallFunctionAsync(OnHook, (void*)gch);
+	CallFunctionAsync(OnHook, gch);
 }
 
 INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
@@ -100,7 +99,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 		else
 			gchook->pszModule = nullptr;
 
-		mir_forkthread(GuiOutThread, gchook);
+		mir_forkThread<GCHOOK>(GuiOutThread, gchook);
 		return 0;
 	}
 

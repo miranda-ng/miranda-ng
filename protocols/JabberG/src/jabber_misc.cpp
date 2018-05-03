@@ -52,7 +52,7 @@ void CJabberProto::DBAddAuthRequest(const wchar_t *jid, const wchar_t *nick)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = (DWORD)time(nullptr);
+	dbei.timestamp = (DWORD)time(0);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = blob.size();
@@ -123,7 +123,7 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 	dbei.cbBlob = sizeof(btEventType);
 	dbei.eventType = EVENTTYPE_JABBER_PRESENCE;
 	dbei.flags = DBEF_READ;
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.szModule = m_szModuleName;
 	db_event_add(hContact, &dbei);
 

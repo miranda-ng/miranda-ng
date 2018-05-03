@@ -1836,7 +1836,7 @@ void CLCPaint::_FreePaintContext(_PaintContext &pc)
 
 void CLCPaint::_PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *_rcPaint)
 {
-	g_CluiData.t_now = time(nullptr);
+	g_CluiData.t_now = time(0);
 
 	if (_rcPaint && IsRectEmpty(_rcPaint)) return;       // check if draw area is not empty
 	if (!IsWindowVisible(hwnd)) return;                  // and window is visible

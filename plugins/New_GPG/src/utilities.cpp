@@ -568,7 +568,7 @@ void HistoryLog(MCONTACT hContact, db_event evt)
 	Event.eventType = evt.eventType;
 	Event.flags = evt.flags;
 	if (!evt.timestamp)
-		Event.timestamp = (DWORD)time(nullptr);
+		Event.timestamp = (DWORD)time(0);
 	else
 		Event.timestamp = evt.timestamp;
 	Event.cbBlob = (DWORD)mir_strlen((char*)evt.pBlob) + 1;

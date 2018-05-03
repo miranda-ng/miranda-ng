@@ -1215,7 +1215,7 @@ void InitConsole()
 
 	LoadSettings();
 
-	hConsoleThread = mir_forkthread(ConsoleThread, nullptr);
+	hConsoleThread = mir_forkthread(ConsoleThread);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownConsole);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);

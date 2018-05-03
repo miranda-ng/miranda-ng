@@ -36,10 +36,8 @@ struct TOpenUrlInfo
 	int newWindow;
 };
 
-static void OpenURLThread(void *arg)
+static void __cdecl OpenURLThread(TOpenUrlInfo *hUrlInfo)
 {
-	TOpenUrlInfo *hUrlInfo = (TOpenUrlInfo*)arg;
-
 	// wack a protocol on it
 	CMStringW tszUrl;
 	if ((isalpha(hUrlInfo->szUrl[0]) && hUrlInfo->szUrl[1] == ':') || hUrlInfo->szUrl[0] == '\\')
@@ -68,11 +66,11 @@ static void OpenURLThread(void *arg)
 MIR_CORE_DLL(void) Utils_OpenUrl(const char *pszUrl, bool bOpenInNewWindow)
 {
 	if (pszUrl)
-		mir_forkthread(OpenURLThread, new TOpenUrlInfo(mir_a2u(pszUrl), bOpenInNewWindow));
+		mir_forkThread<TOpenUrlInfo>(OpenURLThread, new TOpenUrlInfo(mir_a2u(pszUrl), bOpenInNewWindow));
 }
 
 MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNewWindow)
 {
 	if (pszUrl)
-		mir_forkthread(OpenURLThread, new TOpenUrlInfo(mir_wstrdup(pszUrl), bOpenInNewWindow));
+		mir_forkThread<TOpenUrlInfo>(OpenURLThread, new TOpenUrlInfo(mir_wstrdup(pszUrl), bOpenInNewWindow));
 }

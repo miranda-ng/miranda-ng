@@ -425,7 +425,7 @@ int CIcqProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	if (bPrivacy)
 		return 0;
 
-	setDword("IdleTS", bIdle ? time(nullptr) : 0);
+	setDword("IdleTS", bIdle ? time(0) : 0);
 
 	if (m_bTempVisListEnabled) // remove temporary visible users
 		sendEntireListServ(ICQ_BOS_FAMILY, ICQ_CLI_REMOVETEMPVISIBLE, BUL_TEMPVISIBLE);

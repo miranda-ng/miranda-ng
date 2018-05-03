@@ -72,7 +72,7 @@ int StartServer()
 	{
 		if (sdCmdLine->instances == 0)
 		{
-			HANDLE server = mir_forkthread(ServerWorkerThread, nullptr);
+			HANDLE server = mir_forkthread(ServerWorkerThread);
 			if (server)
 			{
 				wchar_t path[MIMFOLDER_SIZE];

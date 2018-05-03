@@ -590,7 +590,7 @@ namespace omemo {
 		session_signed_pre_key* signed_pre_key;
 		{
 			const unsigned int signed_pre_key_id = 1;
-			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, signed_pre_key_id, time(nullptr), global_context);
+			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, signed_pre_key_id, time(0), global_context);
 			SIGNAL_UNREF(new_dev->device_key);
 			signal_buffer *serialized_signed_pre_key;
 			session_signed_pre_key_serialize(&serialized_signed_pre_key, signed_pre_key);
@@ -1868,7 +1868,7 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		}
 	}
 
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	if (!msgTime)
 		msgTime = now;
 

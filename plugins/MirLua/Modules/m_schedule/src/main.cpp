@@ -24,7 +24,7 @@ struct ScheduleTask
 
 	ScheduleTask()
 	{
-		timestamp = time(nullptr);
+		timestamp = time(0);
 		interval = 0;
 		repeat = false;
 	}
@@ -63,7 +63,7 @@ void ExecuteTaskThread(void *arg)
 	{
 		mir_cslock lock(threadLock);
 
-		time_t now = time(nullptr);
+		time_t now = time(0);
 		if (task->timestamp + task->interval >= now)
 			task->timestamp += task->interval;
 		else
@@ -87,7 +87,7 @@ wait:	WaitForSingleObject(hScheduleEvent, waitTime);
 			if (Miranda_IsTerminated())
 				return;
 
-			time_t now = time(nullptr);
+			time_t now = time(0);
 			if (task->timestamp > now)
 			{
 				waitTime = (task->timestamp - now) * 1000;
@@ -165,7 +165,7 @@ static int fluent_Do(lua_State *L)
 
 	ScheduleTask *task = *(ScheduleTask**)lua_touserdata(L, lua_upvalueindex(1));
 
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	if (task->timestamp < now)
 	{
 		if (task->interval == 0)
@@ -323,7 +323,7 @@ static int fluent_Week(lua_State *L)
 
 static int fluent_Monday(lua_State *L)
 {
-	time_t timestamp = time(nullptr);
+	time_t timestamp = time(0);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(1 - ti->tm_wday);
 
@@ -339,7 +339,7 @@ static int fluent_Monday(lua_State *L)
 
 static int fluent_Tuesday(lua_State *L)
 {
-	time_t timestamp = time(nullptr);
+	time_t timestamp = time(0);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(2 - ti->tm_wday);
 
@@ -355,7 +355,7 @@ static int fluent_Tuesday(lua_State *L)
 
 static int fluent_Wednesday(lua_State *L)
 {
-	time_t timestamp = time(nullptr);
+	time_t timestamp = time(0);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(3 - ti->tm_wday);
 
@@ -371,7 +371,7 @@ static int fluent_Wednesday(lua_State *L)
 
 static int fluent_Thursday(lua_State *L)
 {
-	time_t timestamp = time(nullptr);
+	time_t timestamp = time(0);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(4 - ti->tm_wday);
 
@@ -387,7 +387,7 @@ static int fluent_Thursday(lua_State *L)
 
 static int fluent_Friday(lua_State *L)
 {
-	time_t timestamp = time(nullptr);
+	time_t timestamp = time(0);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(5 - ti->tm_wday);
 
@@ -403,7 +403,7 @@ static int fluent_Friday(lua_State *L)
 
 static int fluent_Saturday(lua_State *L)
 {
-	time_t timestamp = time(nullptr);
+	time_t timestamp = time(0);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(6 - ti->tm_wday);
 
@@ -419,7 +419,7 @@ static int fluent_Saturday(lua_State *L)
 
 static int fluent_Sunday(lua_State *L)
 {
-	time_t timestamp = time(nullptr);
+	time_t timestamp = time(0);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(-ti->tm_wday);
 
@@ -446,7 +446,7 @@ static int schedule_At(lua_State *L)
 {
 	ScheduleTask **task = (ScheduleTask**)lua_newuserdata(L, sizeof(ScheduleTask));
 	*task = new ScheduleTask();
-	(*task)->timestamp = luaM_opttimestamp(L, 1, time(nullptr));
+	(*task)->timestamp = luaM_opttimestamp(L, 1, time(0));
 
 	lua_newtable(L);
 	lua_newtable(L);

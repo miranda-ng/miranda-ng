@@ -590,7 +590,7 @@ private:
 	void cbServer_OnDropdown(CCtrlCombo*)
 	{
 		if (!m_gotservers)
-			mir_forkthread(QueryServerListThread, this);
+			mir_forkThread<CDlgOptAccount>(QueryServerListThread, this);
 	}
 
 	void chkManualHost_OnChange(CCtrlData *sender)
@@ -710,11 +710,10 @@ private:
 		mir_free(server);
 	}
 
-	static void QueryServerListThread(void *arg)
+	static void __cdecl QueryServerListThread(CDlgOptAccount *wnd)
 	{
 		Thread_SetName("Jabber: QueryServerListThread");
 
-		CDlgOptAccount *wnd = (CDlgOptAccount *)arg;
 		HWND hwnd = wnd->GetHwnd();
 		bool bIsError = true;
 
@@ -1853,7 +1852,7 @@ private:
 	void cbServer_OnDropdown(CCtrlCombo*)
 	{
 		if (!m_gotservers)
-			mir_forkthread(QueryServerListThread, this);
+			mir_forkThread<CJabberDlgAccMgrUI>(QueryServerListThread, this);
 	}
 
 	void cbType_OnChange(CCtrlData *sender)
@@ -1897,334 +1896,315 @@ private:
 		}
 	}
 
-	void CheckRegistration();
-	void setupConnection(int type);
-	void setupPublic();
-	void setupSecure();
-	void setupSecureSSL();
-	void setupGoogle();
-	void setupHipchat();
-	void setupLJ();
-	void setupLOLEN();
-	void setupLOLEW();
-	void setupLOLOC();
-	void setupLOLUS();
-	void setupOK();
-	void setupSMS();
-	void RefreshServers(HXML node);
-	static void QueryServerListThread(void *arg);
-};
+	void CheckRegistration()
+	{
+		if (!m_canregister) {
+			m_btnRegister.Disable();
+			return;
+		}
 
-void CJabberDlgAccMgrUI::CheckRegistration()
-{
-	if (!m_canregister) {
-		m_btnRegister.Disable();
-		return;
+		JABBER_CONN_DATA regInfo;
+		m_txtUsername.GetText(regInfo.username, _countof(regInfo.username));
+		m_txtPassword.GetText(regInfo.password, _countof(regInfo.password));
+		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		regInfo.port = m_txtPort.GetInt();
+		if (m_chkManualHost.GetState() == BST_CHECKED)
+			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
+		else
+			regInfo.manualHost[0] = '\0';
+
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
+			m_btnRegister.Enable();
+		else
+			m_btnRegister.Disable();
 	}
 
-	JABBER_CONN_DATA regInfo;
-	m_txtUsername.GetText(regInfo.username, _countof(regInfo.username));
-	m_txtPassword.GetText(regInfo.password, _countof(regInfo.password));
-	m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
-	regInfo.port = m_txtPort.GetInt();
-	if (m_chkManualHost.GetState() == BST_CHECKED)
-		m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
-	else
-		regInfo.manualHost[0] = '\0';
+	void setupConnection(int type)
+	{
+		switch (type) {
+		case ACC_PUBLIC: setupPublic(); break;
+		case ACC_TLS: setupSecure(); break;
+		case ACC_SSL: setupSecureSSL(); break;
+		case ACC_GTALK: setupGoogle(); break;
+		case ACC_HIPCHAT: setupHipchat(); break;
+		case ACC_LJTALK: setupLJ(); break;
+		case ACC_LOL_EN: setupLOLEN(); break;
+		case ACC_LOL_EW: setupLOLEW(); break;
+		case ACC_LOL_OC: setupLOLOC(); break;
+		case ACC_LOL_US: setupLOLUS(); break;
+		case ACC_OK: setupOK(); break;
+		case ACC_SMS: setupSMS(); break;
+		}
+	}
 
-	if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
+	void setupPublic()
+	{
+		m_canregister = true;
+		m_gotservers = false;
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("");
+		m_txtPort.SetInt(5222);
+
+		m_cbServer.Enable();
+		m_chkManualHost.Enable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
 		m_btnRegister.Enable();
-	else
+	}
+
+	void setupSecure()
+	{
+		m_canregister = true;
+		m_gotservers = false;
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("");
+		m_txtPort.SetInt(5222);
+
+		m_cbServer.Enable();
+		m_chkManualHost.Enable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Enable();
+	}
+
+	void setupSecureSSL()
+	{
+		m_canregister = true;
+		m_gotservers = false;
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("");
+		m_txtPort.SetInt(5223);
+
+		m_cbServer.Enable();
+		m_chkManualHost.Enable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Enable();
+	}
+
+	void setupGoogle()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.AddStringA("gmail.com");
+		m_cbServer.AddStringA("googlemail.com");
+		m_cbServer.SetTextA("gmail.com");
+		m_chkManualHost.SetState(BST_CHECKED);
+		m_txtManualHost.SetTextA("talk.google.com");
+		m_txtPort.SetInt(443);
+
+		m_cbServer.Enable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
 		m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupConnection(int type)
-{
-	switch (type) {
-	case ACC_PUBLIC: setupPublic(); break;
-	case ACC_TLS: setupSecure(); break;
-	case ACC_SSL: setupSecureSSL(); break;
-	case ACC_GTALK: setupGoogle(); break;
-	case ACC_HIPCHAT: setupHipchat(); break;
-	case ACC_LJTALK: setupLJ(); break;
-	case ACC_LOL_EN: setupLOLEN(); break;
-	case ACC_LOL_EW: setupLOLEW(); break;
-	case ACC_LOL_OC: setupLOLOC(); break;
-	case ACC_LOL_US: setupLOLUS(); break;
-	case ACC_OK: setupOK(); break;
-	case ACC_SMS: setupSMS(); break;
-	}
-}
-
-void CJabberDlgAccMgrUI::setupPublic()
-{
-	m_canregister = true;
-	m_gotservers = false;
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Enable();
-	m_chkManualHost.Enable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Enable();
-}
-
-void CJabberDlgAccMgrUI::setupSecure()
-{
-	m_canregister = true;
-	m_gotservers = false;
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Enable();
-	m_chkManualHost.Enable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Enable();
-}
-
-void CJabberDlgAccMgrUI::setupSecureSSL()
-{
-	m_canregister = true;
-	m_gotservers = false;
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5223);
-
-	m_cbServer.Enable();
-	m_chkManualHost.Enable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Enable();
-}
-
-void CJabberDlgAccMgrUI::setupGoogle()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.AddStringA("gmail.com");
-	m_cbServer.AddStringA("googlemail.com");
-	m_cbServer.SetTextA("gmail.com");
-	m_chkManualHost.SetState(BST_CHECKED);
-	m_txtManualHost.SetTextA("talk.google.com");
-	m_txtPort.SetInt(443);
-
-	m_cbServer.Enable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	//m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupHipchat()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("chat.hipchat.com");
-	m_cbServer.AddStringA("chat.hipchat.com");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupLJ()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("livejournal.com");
-	m_cbServer.AddStringA("livejournal.com");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupLOLEN()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("pvp.net");
-	m_cbServer.AddStringA("pvp.net");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("chat.eun1.lol.riotgames.com");
-	m_txtPort.SetInt(5223);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupLOLEW()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("pvp.net");
-	m_cbServer.AddStringA("pvp.net");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("chat.euw1.lol.riotgames.com");
-	m_txtPort.SetInt(5223);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupLOLOC()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("pvp.net");
-	m_cbServer.AddStringA("pvp.net");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("chat.oc1.lol.riotgames.com");
-	m_txtPort.SetInt(5223);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupLOLUS()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("pvp.net");
-	m_cbServer.AddStringA("pvp.net");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("chat.na2.lol.riotgames.com");
-	m_txtPort.SetInt(5223);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupOK()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("xmpp.odnoklassniki.ru");
-	m_cbServer.AddStringA("xmpp.odnoklassniki.ru");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupSMS()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("S.ms");
-	m_cbServer.AddStringA("S.ms");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::RefreshServers(HXML node)
-{
-	m_gotservers = node != nullptr;
-
-	wchar_t *server = m_cbServer.GetText();
-	bool bDropdown = m_cbServer.GetDroppedState();
-	if (bDropdown) m_cbServer.ShowDropdown(false);
-
-	m_cbServer.ResetContent();
-	if (node) {
-		for (int i = 0;; i++) {
-			HXML n = XmlGetChild(node, i);
-			if (!n)
-				break;
-
-			if (!mir_wstrcmp(XmlGetName(n), L"item"))
-				if (const wchar_t *jid = XmlGetAttrValue(n, L"jid"))
-					if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
-						m_cbServer.AddString(jid);
-		}
 	}
 
-	m_cbServer.SetText(server);
+	void setupHipchat()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.SetTextA("chat.hipchat.com");
+		m_cbServer.AddStringA("chat.hipchat.com");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("");
+		m_txtPort.SetInt(5222);
 
-	if (bDropdown) m_cbServer.ShowDropdown();
-	mir_free(server);
-}
+		m_cbServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
 
-void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
-{
-	CDlgOptAccount *wnd = (CDlgOptAccount *)arg;
-	HWND hwnd = wnd->GetHwnd();
-	bool bIsError = true;
+	void setupLJ()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.SetTextA("livejournal.com");
+		m_cbServer.AddStringA("livejournal.com");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("");
+		m_txtPort.SetInt(5222);
 
-	NETLIBHTTPREQUEST request = { 0 };
-	request.cbSize = sizeof(request);
-	request.requestType = REQUEST_GET;
-	request.flags = NLHRF_HTTP11;
-	request.szUrl = JABBER_SERVER_URL;
+		m_cbServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
 
-	NETLIBHTTPREQUEST *result = Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request);
-	if (result && IsWindow(hwnd)) {
-		if ((result->resultCode == 200) && result->dataLength && result->pData) {
-			wchar_t *ptszText = mir_a2u(result->pData);
-			XmlNode node(ptszText, nullptr, nullptr);
-			if (node) {
-				HXML queryNode = XmlGetChild(node, L"query");
-				if (queryNode && IsWindow(hwnd)) {
-					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
-					bIsError = false;
-				}
+	void setupLOLEN()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.SetTextA("pvp.net");
+		m_cbServer.AddStringA("pvp.net");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("chat.eun1.lol.riotgames.com");
+		m_txtPort.SetInt(5223);
+
+		m_cbServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
+
+	void setupLOLEW()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.SetTextA("pvp.net");
+		m_cbServer.AddStringA("pvp.net");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("chat.euw1.lol.riotgames.com");
+		m_txtPort.SetInt(5223);
+
+		m_cbServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
+
+	void setupLOLOC()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.SetTextA("pvp.net");
+		m_cbServer.AddStringA("pvp.net");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("chat.oc1.lol.riotgames.com");
+		m_txtPort.SetInt(5223);
+
+		m_cbServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
+
+	void setupLOLUS()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.SetTextA("pvp.net");
+		m_cbServer.AddStringA("pvp.net");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("chat.na2.lol.riotgames.com");
+		m_txtPort.SetInt(5223);
+
+		m_cbServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
+
+	void setupOK()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.SetTextA("xmpp.odnoklassniki.ru");
+		m_cbServer.AddStringA("xmpp.odnoklassniki.ru");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("");
+		m_txtPort.SetInt(5222);
+
+		m_cbServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
+
+	void setupSMS()
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_cbServer.ResetContent();
+		m_cbServer.SetTextA("S.ms");
+		m_cbServer.AddStringA("S.ms");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("");
+		m_txtPort.SetInt(5222);
+
+		m_cbServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
+
+	void RefreshServers(HXML node)
+	{
+		m_gotservers = node != nullptr;
+
+		wchar_t *server = m_cbServer.GetText();
+		bool bDropdown = m_cbServer.GetDroppedState();
+		if (bDropdown) m_cbServer.ShowDropdown(false);
+
+		m_cbServer.ResetContent();
+		if (node) {
+			for (int i = 0;; i++) {
+				HXML n = XmlGetChild(node, i);
+				if (!n)
+					break;
+
+				if (!mir_wstrcmp(XmlGetName(n), L"item"))
+					if (const wchar_t *jid = XmlGetAttrValue(n, L"jid"))
+						if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
+							m_cbServer.AddString(jid);
 			}
-			mir_free(ptszText);
 		}
+
+		m_cbServer.SetText(server);
+
+		if (bDropdown) m_cbServer.ShowDropdown();
+		mir_free(server);
 	}
 
-	if (result)
-		Netlib_FreeHttpRequest(result);
-	if (bIsError)
-		SendMessage(hwnd, WM_JABBER_REFRESH, 0, 0);
-}
+	static void __cdecl QueryServerListThread(CJabberDlgAccMgrUI *wnd)
+	{
+		HWND hwnd = wnd->GetHwnd();
+		bool bIsError = true;
+
+		NETLIBHTTPREQUEST request = { 0 };
+		request.cbSize = sizeof(request);
+		request.requestType = REQUEST_GET;
+		request.flags = NLHRF_HTTP11;
+		request.szUrl = JABBER_SERVER_URL;
+
+		NETLIBHTTPREQUEST *result = Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request);
+		if (result && IsWindow(hwnd)) {
+			if ((result->resultCode == 200) && result->dataLength && result->pData) {
+				wchar_t *ptszText = mir_a2u(result->pData);
+				XmlNode node(ptszText, nullptr, nullptr);
+				if (node) {
+					HXML queryNode = XmlGetChild(node, L"query");
+					if (queryNode && IsWindow(hwnd)) {
+						SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
+						bIsError = false;
+					}
+				}
+				mir_free(ptszText);
+			}
+		}
+
+		if (result)
+			Netlib_FreeHttpRequest(result);
+		if (bIsError)
+			SendMessage(hwnd, WM_JABBER_REFRESH, 0, 0);
+	}
+};
 
 INT_PTR CJabberProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {

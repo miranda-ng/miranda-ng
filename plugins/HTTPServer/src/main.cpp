@@ -560,9 +560,8 @@ static INT_PTR nHttpGetAllShares(WPARAM /*wParam*/, LPARAM /*lParam*/)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void HandleNewConnection(void *ch)
+void __cdecl HandleNewConnection(CLHttpUser *pclUser)
 {
-	CLHttpUser * pclUser = (CLHttpUser *)ch;
 	pclUser->HandleNewConnection();
 	delete pclUser;
 }
@@ -587,7 +586,7 @@ void ConnectionOpen(HNETLIBCONN hNewConnection, DWORD dwRemoteIP)
 	stAddr.S_un.S_addr = htonl(dwRemoteIP);
 
 	CLHttpUser *pclUser = new CLHttpUser(hNewConnection, stAddr);
-	mir_forkthread(HandleNewConnection, pclUser);
+	mir_forkThread<CLHttpUser>(HandleNewConnection, pclUser);
 }
 
 /////////////////////////////////////////////////////////////////////

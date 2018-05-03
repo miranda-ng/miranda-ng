@@ -111,9 +111,8 @@ void ReleaseIconEx(const char* name, bool big)
 }
 
 // Copied from MSN plugin - sent acks need to be from different thread
-void __cdecl sttFakeAckInfoSuccessThread(void *param)
+void __cdecl sttFakeAckInfoSuccessThread(TFakeAckParams* tParam)
 {
-	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
 	proto->debugLogW(L"sttFakeAckInfoSuccessThread() start");
 
@@ -124,9 +123,8 @@ void __cdecl sttFakeAckInfoSuccessThread(void *param)
 	mir_free(tParam);
 }
 
-void __cdecl sttFakeAckMessageSuccessThread(void *param)
+void __cdecl sttFakeAckMessageSuccessThread(TFakeAckParams* tParam)
 {
-	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
 	proto->debugLogW(L"sttFakeAckMessageSuccessThread() start");
 
@@ -137,9 +135,8 @@ void __cdecl sttFakeAckMessageSuccessThread(void *param)
 	mir_free(tParam);
 }
 
-void __cdecl sttFakeAckMessageFailedThread(void *param)
+void __cdecl sttFakeAckMessageFailedThread(TFakeAckParams* tParam)
 {
-	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
 	proto->debugLogW(L"sttFakeAckMessageFailedThread() start");
 
@@ -150,9 +147,8 @@ void __cdecl sttFakeAckMessageFailedThread(void *param)
 	mir_free(tParam);
 }
 
-void __cdecl sttRecvAwayThread(void *param)
+void __cdecl sttRecvAwayThread(TFakeAckParams* tParam)
 {
-	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
 	proto->debugLogW(L"sttRecvAwayThread() start");
 

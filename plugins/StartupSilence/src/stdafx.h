@@ -22,7 +22,6 @@
 #include "version.h"
 #include "resource.h"
 
-static INT_PTR AdvSt();
 static INT_PTR InitMenu();
 void InitSettings();
 void LoadSettings();

@@ -233,7 +233,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 						}
 						if (cnt) {
 							PROTORECVEVENT pre = { 0 };
-							pre.timestamp = (DWORD)time(nullptr);
+							pre.timestamp = (DWORD)time(0);
 							pre.szMessage = (char *)psr;
 							pre.lParam = cnt;
 							ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
@@ -283,7 +283,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 						ezxml_free(xmli);
 					}
 				}
-				else MSN_GCAddMessage(mChatID, hContact, email, time(nullptr), sentMsg, msgBody);
+				else MSN_GCAddMessage(mChatID, hContact, email, time(0), sentMsg, msgBody);
 			}
 			else if (hContact) {
 				if (!sentMsg) {
@@ -292,7 +292,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 					PROTORECVEVENT pre = { 0 };
 					pre.szMessage = (char*)msgBody;
 					pre.flags = (isRtl ? PREF_RTL : 0);
-					pre.timestamp = (DWORD)time(nullptr);
+					pre.timestamp = (DWORD)time(0);
 					pre.lParam = 0;
 					ProtoChainRecvMsg(hContact, &pre);
 				}
@@ -303,7 +303,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_SENT | DBEF_UTF | (haveWnd ? 0 : DBEF_READ) | (isRtl ? DBEF_RTL : 0);
 					dbei.szModule = m_szModuleName;
-					dbei.timestamp = time(nullptr);
+					dbei.timestamp = time(0);
 					dbei.cbBlob = (unsigned)mir_strlen(msgBody) + 1;
 					dbei.pBlob = (PBYTE)msgBody;
 					db_event_add(hContact, &dbei);
@@ -459,7 +459,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				PROTORECVFILE pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
-				pre.timestamp = time(nullptr);
+				pre.timestamp = time(0);
 				pre.descr.w = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeW(desc->txt):tComment;
 				pre.files.w = &ft->std.szCurrentFile.w;
 				pre.lParam = (LPARAM)ft;
@@ -477,7 +477,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			ezxml_t urllnk;
 			if (urllnk=ezxml_child(xmli, "a")) msgtxt.AppendFormat(" %s", ezxml_txt(urllnk));
 			pre.szMessage = (char*)(const char*)msgtxt;
-			pre.timestamp = (DWORD)time(nullptr);
+			pre.timestamp = (DWORD)time(0);
 			ProtoChainRecvMsg(hContact, &pre);
 		}
 	}
@@ -579,7 +579,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 
 		int newStatus = MSNStatusToMiranda(userStatus);
 		setWord(hContact, "Status", newStatus != ID_STATUS_IDLE ? newStatus : ID_STATUS_AWAY);
-		setDword(hContact, "IdleTS", newStatus != ID_STATUS_IDLE ? 0 : time(nullptr));
+		setDword(hContact, "IdleTS", newStatus != ID_STATUS_IDLE ? 0 : time(0));
 	}
 
 	if (cont) {

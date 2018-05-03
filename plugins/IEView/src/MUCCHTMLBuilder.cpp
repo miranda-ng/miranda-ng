@@ -37,7 +37,7 @@ static const char *classNames[] = {
 MUCCHTMLBuilder::MUCCHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(nullptr));
+	setLastEventTime(time(0));
 }
 
 void MUCCHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
@@ -86,7 +86,7 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 
 	szResult[0] = '\0';
 	struct tm tm_now, tm_today;
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	time_t today;
 	tm_now = *localtime(&now);
 	tm_today = tm_now;

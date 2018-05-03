@@ -18,10 +18,8 @@ int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg = nullptr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void sttFakeAck(LPVOID param)
+static void sttFakeAck(TFakeAckParams *tParam)
 {
-	TFakeAckParams *tParam = (TFakeAckParams*)param;
-
 	Sleep(100);
 	if (tParam->msg == nullptr)
 		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->id, 0);
@@ -33,13 +31,13 @@ static void sttFakeAck(LPVOID param)
 
 int returnNoError(MCONTACT hContact)
 {
-	mir_forkthread(sttFakeAck, new TFakeAckParams(hContact, 777, nullptr));
+	mir_forkThread<TFakeAckParams>(sttFakeAck, new TFakeAckParams(hContact, 777, nullptr));
 	return 777;
 }
 
 int returnError(MCONTACT hContact, LPCSTR err)
 {
-	mir_forkthread(sttFakeAck, new TFakeAckParams(hContact, 666, err));
+	mir_forkThread<TFakeAckParams>(sttFakeAck, new TFakeAckParams(hContact, 666, err));
 	return 666;
 }
 

@@ -44,7 +44,7 @@ static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 		si->pDlg->UpdateStatusBar();
 
 	if (mi)
-		mi->idleTimeStamp = time(nullptr);
+		mi->idleTimeStamp = time(0);
 }
 
 static void OnReplaceSession(SESSION_INFO *si)
@@ -77,7 +77,7 @@ static void OnChangeNick(SESSION_INFO *si)
 
 static void OnCreateModule(MODULEINFO *mi)
 {
-	mi->idleTimeStamp = time(nullptr);
+	mi->idleTimeStamp = time(0);
 }
 
 static void OnLoadSettings()

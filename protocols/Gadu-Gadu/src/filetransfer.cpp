@@ -113,7 +113,7 @@ HANDLE ftfail(GaduProto *gg, MCONTACT hContact)
 #ifdef DEBUGMODE
 	gg->debugLogA("ftfail(): Failing file transfer...");
 #endif
-	srand(time(nullptr));
+	srand(time(0));
 	ft->hProcess = (HANDLE)rand();
 	ft->hContact = hContact;
 #ifdef DEBUGMODE
@@ -397,7 +397,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 						PROTORECVFILE pre = { 0 };
 						pre.dwFlags = PRFF_UNICODE;
 						pre.fileCount = 1;
-						pre.timestamp = time(nullptr);
+						pre.timestamp = time(0);
 						pre.descr.w = filenameT;
 						pre.files.w = &filenameT;
 						pre.lParam = (LPARAM)local_dcc;

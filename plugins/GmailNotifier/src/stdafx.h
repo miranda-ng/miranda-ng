@@ -85,7 +85,6 @@ BOOL GetBrowser(char *);
 void NotifyUser(Account *);
 int OptInit(WPARAM, LPARAM);
 void Check_ThreadFunc(void *);
-void Login_ThreadFunc(void *);
 int OpenBrowser(WPARAM, LPARAM);
 void DeleteResults(resultLink *);
 void BuildList(void);

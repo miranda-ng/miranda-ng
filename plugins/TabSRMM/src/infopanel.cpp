@@ -486,7 +486,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 		wchar_t szBuf[256];
 
 		if (m_dat->m_idle) {
-			time_t diff = time(nullptr) - m_dat->m_idle;
+			time_t diff = time(0) - m_dat->m_idle;
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
 			mir_snwprintf(szBuf, TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);

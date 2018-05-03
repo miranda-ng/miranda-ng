@@ -108,7 +108,7 @@ void FacebookProto::ChangeStatus(void*)
 			if (getByte(FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE))
 				ForkThread(&FacebookProto::ProcessMemories, nullptr);
 
-			setDword(FACEBOOK_KEY_LOGON_TS, (DWORD)time(nullptr));
+			setDword(FACEBOOK_KEY_LOGON_TS, (DWORD)time(0));
 			ForkThread(&FacebookProto::UpdateLoop, nullptr);
 			ForkThread(&FacebookProto::MessageLoop, nullptr);
 
@@ -146,7 +146,7 @@ void FacebookProto::ChangeStatus(void*)
 	bool isAwayOrInvisible = (new_status == ID_STATUS_AWAY || new_status == ID_STATUS_INVISIBLE);
 	if (!wasAwayOrInvisible && isAwayOrInvisible) {
 		// Switching from "not-away" to "away" state, remember timestamp of this change (and if we are idle already, use the idle time)
-		m_awayTS = (m_idleTS > 0 ? m_idleTS : ::time(nullptr));
+		m_awayTS = (m_idleTS > 0 ? m_idleTS : ::time(0));
 	}
 	else if (wasAwayOrInvisible && !isAwayOrInvisible) {
 		// Switching from "away" to "not-away" state, reset the timestamp
@@ -182,7 +182,7 @@ bool FacebookProto::NegotiateConnection()
 	password = mir_utf8encode(password);
 
 	// Refresh last time of feeds update
-	facy.last_feeds_update_ = ::time(nullptr);
+	facy.last_feeds_update_ = ::time(0);
 
 	// Generate random clientid for this connection
 	facy.chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef", &facy.random_);
@@ -196,7 +196,7 @@ bool FacebookProto::NegotiateConnection()
 
 void FacebookProto::UpdateLoop(void *)
 {
-	time_t tim = ::time(nullptr);
+	time_t tim = ::time(0);
 	debugLogA(">>> Entering Facebook::UpdateLoop[%d]", tim);
 
 	for (int i = -1; !isOffline(); i = (i + 1) % 50) {
@@ -216,7 +216,7 @@ void FacebookProto::UpdateLoop(void *)
 
 void FacebookProto::MessageLoop(void *)
 {
-	time_t tim = ::time(nullptr);
+	time_t tim = ::time(0);
 	debugLogA(">>> Entering Facebook::MessageLoop[%d]", tim);
 
 	while (facy.channel()) {
@@ -224,7 +224,7 @@ void FacebookProto::MessageLoop(void *)
 			break;
 
 		// If we're not idle, send activity_ping every few minutes...
-		if (!m_idleTS && (::time(nullptr) - m_pingTS) > FACEBOOK_PING_TIME) {
+		if (!m_idleTS && (::time(0) - m_pingTS) > FACEBOOK_PING_TIME) {
 			debugLogA("*** FacebookProto::MessageLoop[%d] pinging...", tim);
 			facy.activity_ping();
 		}

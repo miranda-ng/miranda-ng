@@ -210,7 +210,7 @@ char* oauth_generate_nonce()
 	char randnum[16];
 	Utils_GetRandom(randnum, sizeof(randnum));
 
-	CMStringA str(FORMAT, "%ld%s", time(nullptr), randnum);
+	CMStringA str(FORMAT, "%ld%s", time(0), randnum);
 
 	BYTE digest[16];
 	mir_md5_hash((BYTE*)str.GetString(), str.GetLength(), digest);
@@ -243,7 +243,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	};
 
 	char timestamp[22];
-	mir_snprintf(timestamp, "%ld", time(nullptr));
+	mir_snprintf(timestamp, "%ld", time(0));
 	oauth_setparam(oauth_parameters, "oauth_timestamp", timestamp);
 	oauth_setparam(oauth_parameters, "oauth_nonce", ptrA(oauth_generate_nonce()));
 	if (token != nullptr && *token)

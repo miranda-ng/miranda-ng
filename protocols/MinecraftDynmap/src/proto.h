@@ -66,7 +66,7 @@ public:
 
 	// Chat handling
  	void AddChat(const char *id, const char *name);
-	void UpdateChat(const char *name, const char *message, const time_t timestamp = time(nullptr), bool addtochat = true);
+	void UpdateChat(const char *name, const char *message, const time_t timestamp = time(0), bool addtochat = true);
 	void AddChatContact(const char *nick);
 	void DeleteChatContact(const char *name);
 	void SetChatStatus(int);

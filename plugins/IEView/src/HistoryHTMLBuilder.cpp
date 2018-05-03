@@ -65,8 +65,8 @@ static const char *dbSpanSettingNames[] = {
 HistoryHTMLBuilder::HistoryHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(nullptr));
-	startedTime = time(nullptr);
+	setLastEventTime(time(0));
+	startedTime = time(0);
 }
 
 bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)

@@ -529,7 +529,7 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 					new_status = ID_STATUS_AWAY;
 					db_set_w(hContact, proto->m_szModuleName, "Status", new_status);
 				}
-				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", (DWORD)time(nullptr));
+				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", (DWORD)time(0));
 				break;
 			case mwStatus_BUSY:
 				new_status = ID_STATUS_DND;

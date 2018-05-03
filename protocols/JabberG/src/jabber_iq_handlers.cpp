@@ -57,7 +57,7 @@ BOOL CJabberProto::OnIqRequestLastActivity(HXML, CJabberIqInfo *pInfo)
 {
 	m_ThreadInfo->send(
 		XmlNodeIq(L"result", pInfo) << XQUERY(JABBER_FEAT_LAST_ACTIVITY)
-		<< XATTRI(L"seconds", m_tmJabberIdleStartTime ? time(nullptr) - m_tmJabberIdleStartTime : 0));
+		<< XATTRI(L"seconds", m_tmJabberIdleStartTime ? time(0) - m_tmJabberIdleStartTime : 0));
 	return TRUE;
 }
 
@@ -376,7 +376,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 
 		PROTORECVFILE pre;
 		pre.dwFlags = PRFF_UNICODE;
-		pre.timestamp = time(nullptr);
+		pre.timestamp = time(0);
 		pre.descr.w = desc;
 		pre.files.w = &str2;
 		pre.fileCount = 1;

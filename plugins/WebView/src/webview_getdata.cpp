@@ -270,7 +270,7 @@ void GetData(void *param)
 			if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 				memset(&temptime, 0, sizeof(temptime));
 				memset(&tstr, 0, sizeof(tstr));
-				ftime = time(nullptr);
+				ftime = time(0);
 				nTime = localtime(&ftime);
 				// 12 hour
 				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 0)
@@ -289,7 +289,7 @@ void GetData(void *param)
 				db_get_ws(hContact, "CList", "MyHandle", &dbv);
 				memset(&temptime, 0, sizeof(temptime));
 				memset(&tstr, 0, sizeof(tstr));
-				ftime = time(nullptr);
+				ftime = time(0);
 				nTime = localtime(&ftime);
 				// 12 hour
 				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 0)
@@ -306,7 +306,7 @@ void GetData(void *param)
 				db_free(&dbv);
 			}
 
-			ftime = time(nullptr);
+			ftime = time(0);
 			nTime = localtime(&ftime);
 
 			strncpy_s(timeprefix, _countof(timeprefix), Translate("Last updated on"), _TRUNCATE);

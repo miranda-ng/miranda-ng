@@ -305,7 +305,7 @@ void InitIpToCountry(void)
 	/* Services */
 	CreateServiceFunction(MS_FLAGS_IPTOCOUNTRY,ServiceIpToCountry);
 #ifdef BINCONV
-	mir_forkthread(BinConvThread,NULL);
+	mir_forkthread(BinConvThread);
 #endif
 }
 

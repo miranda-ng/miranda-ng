@@ -179,17 +179,16 @@ void FreeSearchResults(HWND hwndResults)
 }
 
 // on its own thread
-static void BeginSearchFailed(void *arg)
+static void __cdecl BeginSearchFailed(wchar_t *protoName)
 {
-	wchar_t buf[128];
-	if (arg != nullptr) {
-		const wchar_t *protoName = (wchar_t*)arg;
-		mir_snwprintf(buf,
+	CMStringW buf;
+	if (protoName != nullptr) {
+		buf.Format(
 			TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
 			protoName, protoName);
-		mir_free((char*)arg);
+		mir_free(protoName);
 	}
-	else mir_wstrncpy(buf, TranslateT("Could not search on any of the protocols, are you online?"), _countof(buf));
+	else buf = TranslateT("Could not search on any of the protocols, are you online?");
 	MessageBox(nullptr, buf, TranslateT("Problem with search"), MB_OK | MB_ICONERROR);
 }
 
@@ -215,7 +214,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		if (failures) {
 			// infuriatingly vague error message. fixme.
 			if (dat->searchCount == 0) {
-				mir_forkthread(BeginSearchFailed);
+				mir_forkThread<wchar_t>(BeginSearchFailed, nullptr);
 				mir_free(dat->search);
 				dat->search = nullptr;
 				return 1;
@@ -230,7 +229,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		if (dat->search[0].hProcess == nullptr) {
 			// infuriatingly vague error message. fixme.
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			mir_forkthread(BeginSearchFailed, mir_wstrdup(pa->tszAccountName));
+			mir_forkThread<wchar_t>(BeginSearchFailed, mir_wstrdup(pa->tszAccountName));
 			mir_free(dat->search);
 			dat->search = nullptr;
 			dat->searchCount = 0;

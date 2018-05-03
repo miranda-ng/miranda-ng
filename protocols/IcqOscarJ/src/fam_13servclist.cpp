@@ -1398,7 +1398,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 
 	// TODO: Change for new auth system, include all known informations
 	PROTORECVEVENT pre = { 0 };
-	pre.timestamp = time(nullptr);
+	pre.timestamp = time(0);
 	pre.lParam = blob.size();
 	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
@@ -1458,7 +1458,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
 	*(char*)pCurBlob = 0;
 	// TODO: Change for new auth system
 
-	AddEvent(NULL, EVENTTYPE_ADDED, time(nullptr), 0, cbBlob, pBlob);
+	AddEvent(NULL, EVENTTYPE_ADDED, time(0), 0, cbBlob, pBlob);
 }
 
 void CIcqProto::handleRecvAuthResponse(unsigned char *buf, size_t wLen)

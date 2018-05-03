@@ -538,7 +538,7 @@ void OptionsDialogType::ShowSmileyPreview(void)
 	stwp->direction = 1;
 	stwp->hContact = NULL;
 
-	mir_forkthread(SmileyToolThread, stwp);
+	mir_forkThread<SmileyToolWindowParam>(SmileyToolThread, stwp);
 }
 
 void OptionsType::Save(void)

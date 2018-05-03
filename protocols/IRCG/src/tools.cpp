@@ -395,7 +395,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 
 	gce.dwItemData = dwItemData;
 	if (timestamp == 1)
-		gce.time = time(nullptr);
+		gce.time = time(0);
 	else
 		gce.time = timestamp;
 	gce.bIsMe = bIsMe;

@@ -80,7 +80,7 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 		mir_cslock lck(cachecs);
 		cc = arCache.find((CacheNode*)&hContact);
 		if (cc) {
-			cc->t_lastAccess = time(nullptr);
+			cc->t_lastAccess = time(0);
 			return (cc->loaded || findAny) ? cc : nullptr;
 		}
 

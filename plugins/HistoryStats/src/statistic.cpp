@@ -1188,7 +1188,7 @@ Statistic::Statistic(const Settings& settings, InvocationSource invokedFrom, HIN
 	m_nFirstTime(0),
 	m_nLastTime(0)
 {
-	m_TimeStarted = TimeZone_ToLocal(time(nullptr));
+	m_TimeStarted = TimeZone_ToLocal(time(0));
 	m_MSecStarted = GetTickCount();
 	m_AverageMinTime = settings.m_AverageMinTime * 24 * 60 * 60; // calculate seconds from days
 }
@@ -1214,7 +1214,7 @@ bool Statistic::createStatistics()
 	utils::centerDialog(m_hWndProgress);
 	UpdateWindow(m_hWndProgress);
 
-	HANDLE hThread = mir_forkthread(threadProcSteps, (void*)this);
+	HANDLE hThread = mir_forkThread<Statistic>(threadProcSteps, this);
 
 	bool bDone = false;
 	MSG msg;
@@ -1304,11 +1304,10 @@ void Statistic::createStatisticsSteps()
 	setProgressLabel(false, TranslateT("Done"));
 }
 
-void __cdecl Statistic::threadProc(void *lpParameter)
+void __cdecl Statistic::threadProc(Statistic* pStats)
 {
 	Thread_SetName("HistoryStats: Statistic::threadProc");
 
-	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
 	SetEvent(pStats->m_hThreadPushEvent);
 
 	// perform action
@@ -1324,10 +1323,9 @@ void __cdecl Statistic::threadProc(void *lpParameter)
 	m_bRunning = false;
 }
 
-void __cdecl Statistic::threadProcSteps(void *lpParameter)
+void __cdecl Statistic::threadProcSteps(Statistic *pStats)
 {
 	Thread_SetName("HistoryStats: Statistic::threadProcSteps");
-	Statistic *pStats = reinterpret_cast<Statistic*>(lpParameter);
 	if (pStats->m_Settings.m_ThreadLowPriority)
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
 
@@ -1421,7 +1419,7 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 	Statistic *pStats = new Statistic(settings, invokedFrom, hInst);
 	pStats->m_hThreadPushEvent = hEvent;
 	// create worker thread
-	HANDLE hThread = mir_forkthread(threadProc, (void*)pStats);
+	HANDLE hThread = mir_forkThread<Statistic>(threadProc, pStats);
 
 	// wait for thread to place itself on thread unwind stack
 	if (hThread != nullptr)

@@ -377,7 +377,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				PROTORECVFILE pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
-				pre.timestamp = time(nullptr);
+				pre.timestamp = time(0);
 				pre.files.w = (wchar_t**)&filename;
 				pre.lParam = (LPARAM)ft;
 				if ((n = XmlGetChild(fileNode, "desc")) != nullptr)

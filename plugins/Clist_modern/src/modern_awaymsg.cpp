@@ -152,7 +152,7 @@ void amRequestAwayMsg(MCONTACT hContact)
 void InitAwayMsgModule()
 {
 	hamProcessEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-	g_hAwayMsgThread = mir_forkthread(amThreadProc, nullptr);
+	g_hAwayMsgThread = mir_forkthread(amThreadProc);
 }
 
 void UninitAwayMsgModule()

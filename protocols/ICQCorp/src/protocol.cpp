@@ -696,7 +696,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		packet >> checkUin
 			>> newCommand;
 
-		processSystemMessage(packet, checkUin, newCommand, time(nullptr));
+		processSystemMessage(packet, checkUin, newCommand, time(0));
 		break;
 
 	case ICQ_CMDxRCV_SYSxMSGxDONE: // end of system messages
@@ -777,7 +777,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		packet >> checkUin
 			>> newCommand;
 
-		processSystemMessage(packet, checkUin, newCommand, time(nullptr));
+		processSystemMessage(packet, checkUin, newCommand, time(0));
 		break;
 
 	case ICQ_CMDxRCV_BROADCASTxDONE:
@@ -1773,7 +1773,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 			packet >> theTCPSequence;
 
 			ackTCP(packet, u, newCommand, theTCPSequence);
-			addMessage(u, message, time(nullptr));
+			addMessage(u, message, time(0));
 			break;
 
 		case ICQ_CMDxTCP_CHAT:
@@ -1794,7 +1794,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 			packet >> theTCPSequence;
 
 			ackTCP(packet, u, newCommand, theTCPSequence);
-			addUrl(u, message, time(nullptr));
+			addUrl(u, message, time(0));
 			break;
 
 		case ICQ_CMDxTCP_FILE:
@@ -1810,7 +1810,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 
 			Netlib_Logf(hNetlibUser, "[tcp] file transfer request from %d (%d)\n", checkUin, theTCPSequence);
 
-			addFileReq(u, message, fileName, size, theTCPSequence, time(nullptr));
+			addFileReq(u, message, fileName, size, theTCPSequence, time(0));
 			delete[] fileName;
 			break;
 
@@ -1894,7 +1894,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 		case ICQ_CMDxTCP_READxDNDxMSG:
 		case ICQ_CMDxTCP_READxFREECHATxMSG:
 			packet >> theTCPSequence;
-			addAwayMsg(u, message, theTCPSequence, time(nullptr));
+			addAwayMsg(u, message, theTCPSequence, time(0));
 			break;
 		}
 

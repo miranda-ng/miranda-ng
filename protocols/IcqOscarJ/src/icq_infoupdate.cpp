@@ -81,7 +81,7 @@ BOOL CIcqProto::icq_QueueUser(MCONTACT hContact)
 	if (dwUin) {
 		m_infoUpdateList[nFirstFree].dwUin = dwUin;
 		m_infoUpdateList[nFirstFree].hContact = hContact;
-		m_infoUpdateList[nFirstFree].queued = time(nullptr);
+		m_infoUpdateList[nFirstFree].queued = time(0);
 		nInfoUserCount++;
 
 		debugLogA("Queued user %u, place %u, count %u", dwUin, nFirstFree, nInfoUserCount);
@@ -179,7 +179,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 				continue; // we can't send requests now      
 
 			if (nInfoUserCount && icqOnline()) {
-				time_t now = time(nullptr);
+				time_t now = time(0);
 				BOOL bNotReady = FALSE, bTimeOuted = FALSE;
 
 				// Check the list, take only users that were there for at least 5sec

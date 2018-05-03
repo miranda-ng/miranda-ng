@@ -188,9 +188,8 @@ struct TFakeAckParams
 	char msg[512];
 };
 
-static void __cdecl sttFakeAckFail(void *param)
+static void __cdecl sttFakeAckFail(TFakeAckParams *tParam)
 {
-	TFakeAckParams *tParam = (TFakeAckParams*)param;
 	WaitForSingleObject(tParam->hEvent, INFINITE);
 
 	Sleep(100);
@@ -243,7 +242,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 		tfap->id = 10;
 		strncpy(tfap->msg, Translate("No online contacts found."), _countof(tfap->msg) - 1);
 
-		CloseHandle(mir_forkthread(sttFakeAckFail, (void*)tfap));
+		mir_forkThread<TFakeAckParams>(sttFakeAckFail, tfap);
 		SetEvent(hEvent);
 		return 10;
 	}

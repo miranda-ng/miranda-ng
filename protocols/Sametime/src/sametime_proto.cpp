@@ -147,7 +147,7 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 	tfap->proto = this;
 	tfap->hContact = hContact;
 	tfap->lParam = NULL;
-	mir_forkthread(sttFakeAckInfoSuccessThread, tfap);
+	mir_forkThread<TFakeAckParams>(sttFakeAckInfoSuccessThread, tfap);
 
 	return 0;
 }
@@ -219,7 +219,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 		tfap->proto = this;
 		tfap->hContact = hContact;
 		tfap->lParam = 0;
-		mir_forkthread(sttFakeAckMessageFailedThread, tfap);
+		mir_forkThread<TFakeAckParams>(sttFakeAckMessageFailedThread, tfap);
 		return 0;
 	}
 
@@ -232,7 +232,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 	tfap->proto = this;
 	tfap->hContact = hContact;
 	tfap->lParam = (LPARAM)ret;
-	mir_forkthread(sttFakeAckMessageSuccessThread, tfap);
+	mir_forkThread<TFakeAckParams>(sttFakeAckMessageSuccessThread, tfap);
 
 	return ret;
 }
@@ -262,7 +262,7 @@ HANDLE CSametimeProto::GetAwayMsg(MCONTACT hContact)
 		tfap = (TFakeAckParams*)malloc(sizeof(TFakeAckParams));
 		tfap->proto = this;
 		tfap->hContact = hContact;
-		mir_forkthread(sttRecvAwayThread, tfap);
+		mir_forkThread<TFakeAckParams>(sttRecvAwayThread, tfap);
 		return (HANDLE)1;
 	}
 	return nullptr;

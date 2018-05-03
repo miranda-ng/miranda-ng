@@ -374,15 +374,15 @@ void DoCheck(int iFlag)
 			MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 	}
 	else if (iFlag) {
-		hCheckThread = mir_forkthread(CheckUpdates, nullptr);
-		db_set_dw(NULL, MODNAME, "LastUpdate", time(nullptr));
+		hCheckThread = mir_forkthread(CheckUpdates);
+		db_set_dw(NULL, MODNAME, "LastUpdate", time(0));
 	}
 }
 
 BOOL AllowUpdateOnStartup()
 {
 	if (OnlyOnceADay) {
-		time_t now = time(nullptr);
+		time_t now = time(0);
 		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
 
 		if ((now - was) < 86400)

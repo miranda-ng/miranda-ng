@@ -276,7 +276,7 @@ void bayes_approve_contact(MCONTACT hContact)
 
 void dequeue_messages()
 {
-	time_t t = time(nullptr);
+	time_t t = time(0);
 	sqlite3_stmt *stmt;
 	const char *message;
 	wchar_t *messageW;

@@ -222,7 +222,6 @@ void NumSymbols(char *truncated);
 
 INT_PTR AutoUpdateMCmd(WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-void AckFunc(void *dummy);
 int  SiteDeleted(WPARAM wParam, LPARAM lParam);
 
 int  WErrorPopup(MCONTACT hContact, wchar_t *textdisplay);

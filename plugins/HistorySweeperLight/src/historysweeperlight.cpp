@@ -30,7 +30,7 @@ typedef struct
 // build criteria
 time_t BuildCriteria(int dwti)
 {
-	time_t tim = time(nullptr);
+	time_t tim = time(0);
 
 	switch (dwti) {
 	case 0:

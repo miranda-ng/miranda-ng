@@ -2520,7 +2520,7 @@ static void do_friends(Messenger *m, void *userdata)
             do_receipts(m, i, userdata);
             do_reqchunk_filecb(m, i, userdata);
 
-            m->friendlist[i].last_seen_time = (uint64_t) time(nullptr);
+            m->friendlist[i].last_seen_time = (uint64_t) time(0);
         }
     }
 }

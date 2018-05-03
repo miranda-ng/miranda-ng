@@ -337,7 +337,7 @@ struct DeactivationThreadParam
 
 pfnUninitProto GetProtocolDestructor(char *szProto);
 
-static int DeactivationThread(DeactivationThreadParam* param)
+static void __cdecl DeactivationThread(DeactivationThreadParam *param)
 {
 	PROTO_INTERFACE *p = (PROTO_INTERFACE*)param->ppro;
 	p->SetStatus(ID_STATUS_OFFLINE);
@@ -366,7 +366,6 @@ static int DeactivationThread(DeactivationThreadParam* param)
 		EraseAccount(szModuleName);
 
 	delete param;
-	return 0;
 }
 
 void DeactivateAccount(PROTOACCOUNT *pa, int flags)
@@ -394,7 +393,7 @@ void DeactivateAccount(PROTOACCOUNT *pa, int flags)
 	param->flags = flags;
 	pa->ppro = nullptr;
 	if (flags & DAF_FORK)
-		mir_forkthread((pThreadFunc)DeactivationThread, param);
+		mir_forkThread<DeactivationThreadParam>(DeactivationThread, param);
 	else
 		DeactivationThread(param);
 }

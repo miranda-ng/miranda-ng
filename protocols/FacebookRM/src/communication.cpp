@@ -922,7 +922,7 @@ bool facebook_client::activity_ping()
 	http::response resp = sendRequest(channelRequest(PING));
 
 	// Remember this last ping time
-	parent->m_pingTS = ::time(nullptr);
+	parent->m_pingTS = ::time(0);
 
 	if (resp.data.empty() || resp.data.find("\"t\":\"pong\"") == resp.data.npos) {
 		// Something went wrong

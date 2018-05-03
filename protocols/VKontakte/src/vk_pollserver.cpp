@@ -93,9 +93,9 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			hContact = FindUser(uid);
 
 			if (hContact != 0 && (flags & VKFLAG_MSGUNREAD) && !CheckMid(m_incIds, msgid)) {
-				setDword(hContact, "LastMsgReadTime", time(nullptr));
+				setDword(hContact, "LastMsgReadTime", time(0));
 				if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
-					MessageReadData data(time(nullptr), MRD_TYPE_READTIME);
+					MessageReadData data(time(0), MRD_TYPE_READTIME);
 					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 				}
 				else
@@ -132,9 +132,9 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			uid = jnChild[1].as_int();
 			hContact = FindUser(uid);
 			if (hContact != 0) {
-				setDword(hContact, "LastMsgReadTime", time(nullptr));
+				setDword(hContact, "LastMsgReadTime", time(0));
 				if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
-					MessageReadData data(time(nullptr), MRD_TYPE_READTIME);
+					MessageReadData data(time(0), MRD_TYPE_READTIME);
 					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 				}
 				else

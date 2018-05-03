@@ -126,7 +126,7 @@ void CMLan::StartChecking()
 	for (TContact *cont = m_pRootContact; cont; cont = cont->m_prev)
 		cont->m_time = MLAN_CHECK + MLAN_TIMEOUT;
 
-	m_hCheckThread = mir_forkthread(CheckProc, (void*)this);
+	m_hCheckThread = mir_forkthread(CheckProc, this);
 	StartListen();
 	RequestStatus(true);
 }

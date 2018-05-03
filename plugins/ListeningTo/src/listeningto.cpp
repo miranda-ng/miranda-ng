@@ -429,7 +429,7 @@ static void ReplaceVars(Buffer<wchar_t> *buffer, MCONTACT hContact, wchar_t **va
 				}
 				else if (foundLen == 6 && wcsncmp(&buffer->str[j], L"%date%", 6) == 0) {
 					wchar_t tmp[128];
-					TimeZone_ToStringT(time(nullptr), L"d s", tmp, _countof(tmp));
+					TimeZone_ToStringT(time(0), L"d s", tmp, _countof(tmp));
 					buffer->replace(j, i + 1, tmp);
 				}
 				else {

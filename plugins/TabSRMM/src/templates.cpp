@@ -241,7 +241,7 @@ void CTemplateEditDlg::onClick_Preview(CCtrlButton*)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szProto;
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
 	dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 	if (dbei.eventType == EVENTTYPE_ERRMSG)
@@ -250,7 +250,7 @@ void CTemplateEditDlg::onClick_Preview(CCtrlButton*)
 	dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
 	dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 	dbei.flags |= (rtl ? DBEF_RTL : 0);
-	m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(nullptr) - 1 : 0;
+	m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(0) - 1 : 0;
 	m_iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
 	m_log.SetText(L"");
 	m_dwFlags = MWF_LOG_ALL;

@@ -122,7 +122,7 @@ void FacebookProto::ProcessFriendList(void*)
 
 						// Wasn't we already been notified about this contact?
 						if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
-							setDword(hContact, FACEBOOK_KEY_DELETED, ::time(nullptr));
+							setDword(hContact, FACEBOOK_KEY_DELETED, ::time(0));
 
 							// Notify it, if user wants to be notified
 							if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
@@ -1019,7 +1019,7 @@ void FacebookProto::ProcessFriendRequests(void *p)
 
 				DBEVENTINFO dbei = {};
 				dbei.szModule = m_szModuleName;
-				dbei.timestamp = ::time(nullptr);
+				dbei.timestamp = ::time(0);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = EVENTTYPE_AUTHREQUEST;
 				dbei.cbBlob = blob.size();

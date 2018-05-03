@@ -815,7 +815,7 @@ void AddMessageToDB(MCONTACT hContact, char *msg)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = GetContactProto(hContact);
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(msg) + 1;
 	dbei.pBlob = (PBYTE)msg;
 	db_event_add(hContact, &dbei);

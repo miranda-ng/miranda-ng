@@ -82,7 +82,7 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 		return;
 
 	PROTORECVEVENT pre = { 0 };
-	time_t t = time(nullptr);
+	time_t t = time(0);
 	pre.timestamp = t;
 	pre.szMessage = (char*)msg;
 	ProtoChainRecvMsg(hContact, &pre);

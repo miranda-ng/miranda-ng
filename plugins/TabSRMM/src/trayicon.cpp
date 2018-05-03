@@ -94,7 +94,7 @@ void TSAPI CreateTrayMenus(int mode)
 		mir_snwprintf(g_eventName, L"tsr_evt_%d", GetCurrentThreadId());
 		g_hEvent = CreateEvent(nullptr, FALSE, FALSE, g_eventName);
 		isAnimThreadRunning = TRUE;
-		hTrayAnimThread = mir_forkthread(TrayAnimThread, nullptr);
+		hTrayAnimThread = mir_forkthread(TrayAnimThread);
 
 		PluginConfig.g_hMenuTrayUnread = CreatePopupMenu();
 		PluginConfig.g_hMenuFavorites = CreatePopupMenu();
@@ -228,7 +228,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 					}
 				}
 			addnew:
-				db_set_dw(hContact, SRMSGMOD_T, "isRecent", time(nullptr));
+				db_set_dw(hContact, SRMSGMOD_T, "isRecent", time(0));
 				AppendMenu(hMenu, MF_BYCOMMAND, (UINT_PTR)hContact, szMenuEntry);
 			}
 			else if (hMenu == PluginConfig.g_hMenuFavorites) {            // insert the item sorted...

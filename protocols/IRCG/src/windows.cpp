@@ -126,7 +126,7 @@ void CWhoisDlg::OnPing(CCtrlButton*)
 	wchar_t szTemp[255];
 	m_InfoNick.GetText(szTemp, _countof(szTemp));
 	m_Reply.SetText(TranslateT("Please wait..."));
-	m_proto->PostIrcMessage(L"/PRIVMSG %s \001PING %u\001", szTemp, time(nullptr));
+	m_proto->PostIrcMessage(L"/PRIVMSG %s \001PING %u\001", szTemp, time(0));
 }
 
 void CWhoisDlg::OnUserInfo(CCtrlButton*)

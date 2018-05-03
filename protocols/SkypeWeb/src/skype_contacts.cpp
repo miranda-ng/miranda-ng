@@ -122,7 +122,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 				DB_AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, skypename.c_str(), reason.c_str());
 
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = time(nullptr);
+				pre.timestamp = time(0);
 				pre.lParam = blob.size();
 				pre.szMessage = blob;
 

@@ -169,7 +169,7 @@ static EventData* GetTestEvent(DWORD flags)
 	evt->eventType = EVENTTYPE_MESSAGE;
 	evt->dwFlags = IEEDF_READ | flags;
 	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
-	evt->time = time(nullptr);
+	evt->time = time(0);
 	return evt;
 }
 
@@ -333,7 +333,7 @@ wchar_t* TimestampToString(DWORD dwFlags, time_t check, int mode)
 	format[0] = '\0';
 	if ((mode == 0 || mode == 1) && (dwFlags & SMF_SHOWDATE)) {
 		struct tm tm_now, tm_today;
-		time_t now = time(nullptr);
+		time_t now = time(0);
 		time_t today;
 		tm_now = *localtime(&now);
 		tm_today = tm_now;

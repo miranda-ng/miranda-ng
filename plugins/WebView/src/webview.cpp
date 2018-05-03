@@ -267,7 +267,7 @@ void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD)
 
 	if (!(db_get_b(NULL, MODULENAME, OFFLINE_STATUS, 1)))
 		if (!(db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0)))
-			mir_forkthread(ContactLoop, nullptr);
+			mir_forkthread(ContactLoop);
 
 	db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0);
 }
@@ -350,7 +350,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// get data on startup
 	if (db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0))
-		mir_forkthread(StartUpdate, nullptr);
+		mir_forkthread(StartUpdate);
 
 	return 0;
 }
@@ -394,7 +394,7 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 /*****************************************************************************/
 INT_PTR UpdateAllMenuCommand(WPARAM, LPARAM)
 {
-	mir_forkthread(ContactLoop, nullptr);
+	mir_forkthread(ContactLoop);
 	return 0;
 }
 

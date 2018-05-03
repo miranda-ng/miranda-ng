@@ -38,7 +38,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 
 	for (auto &hContact : Contacts(MODULE)) {
 		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
-			db_set_dw(hContact, MODULE, "LastCheck", time(nullptr));
+			db_set_dw(hContact, MODULE, "LastCheck", time(0));
 		db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
 	}
 

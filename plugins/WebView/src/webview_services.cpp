@@ -66,7 +66,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 
 			if (invalidpresent) {
-				srand((unsigned)time(nullptr));
+				srand((unsigned)time(0));
 				wchar_t ranStr[7];
 				_itow((int)10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
 				mir_wstrcat(nick, ranStr); 
@@ -298,11 +298,11 @@ INT_PTR BPLoadIcon(WPARAM wParam, LPARAM)
 }
 
 /*****************************************************************************/
-static void __cdecl BasicSearchTimerProc(void *pszNick)
+static void __cdecl BasicSearchTimerProc(wchar_t *pszNick)
 {
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_UNICODE;
-	psr.nick.w = (wchar_t*)pszNick;
+	psr.nick.w = pszNick;
 
 	// broadcast the search result
 	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
@@ -310,7 +310,7 @@ static void __cdecl BasicSearchTimerProc(void *pszNick)
 
 	// exit the search
 	searchId = -1;
-	mir_free(psr.nick.w);
+	mir_free(pszNick);
 }
 
 INT_PTR BasicSearch(WPARAM, LPARAM lParam)
@@ -321,7 +321,7 @@ INT_PTR BasicSearch(WPARAM, LPARAM lParam)
 	searchId = 1;
 
 	// create a thread for the ID search
-	mir_forkthread(BasicSearchTimerProc, mir_wstrdup((const wchar_t*)lParam));
+	mir_forkThread<wchar_t>(BasicSearchTimerProc, mir_wstrdup((const wchar_t*)lParam));
 	return searchId;
 }
 
@@ -415,7 +415,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 
 	if ((sameurl > 0) || (samename > 0)) // contact has the same url or name as another contact, add rand num to name
 	{
-		srand((unsigned) time(nullptr));
+		srand((unsigned) time(0));
 		
 		wchar_t ranStr[10];
 		_itow((int) 10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
@@ -445,15 +445,15 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 }
 
 /*****************************************************************************/
-INT_PTR GetInfo(WPARAM, LPARAM)
-{
-	mir_forkthread(AckFunc, nullptr);
-	return 1;
-}
 
-/*****************************************************************************/
-void AckFunc(void*)
+static void __cdecl AckFunc(void*)
 {
 	for (auto &hContact : Contacts(MODULENAME))
 		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+}
+
+INT_PTR GetInfo(WPARAM, LPARAM)
+{
+	mir_forkthread(AckFunc);
+	return 1;
 }

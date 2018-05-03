@@ -384,9 +384,9 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 #if MIRANDA_VER >= 0x0A00
-		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(nullptr));
+		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(0));
 #endif
-		mir_forkthread(InitTimer, nullptr);
+		mir_forkthread(InitTimer);
 		break;
 	}
 
@@ -837,9 +837,9 @@ static void DoCheck(bool bSilent = true)
 	else {
 		opts.bSilent = bSilent;
 #if MIRANDA_VER >= 0x0A00
-		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(nullptr));
+		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(0));
 #endif
-		hCheckThread = mir_forkthread(CheckUpdates, nullptr);
+		hCheckThread = mir_forkthread(CheckUpdates);
 	}
 }
 
@@ -874,7 +874,7 @@ void CheckUpdateOnStartup()
 {
 	if (opts.bUpdateOnStartup) {
 		if (opts.bOnlyOnceADay) {
-			time_t now = time(nullptr),
+			time_t now = time(0),
 				was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
 
 			if ((now - was) < 86400)
@@ -921,7 +921,7 @@ void InitTimer(void *type)
 	switch ((INT_PTR)type) {
 	case 0: // default, plan next check relative to last check
 		{
-			time_t now = time(nullptr);
+			time_t now = time(0);
 			time_t was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
 
 			interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
@@ -954,5 +954,5 @@ void InitTimer(void *type)
 
 void CreateTimer() {
 	hTimer = CreateWaitableTimer(nullptr, FALSE, nullptr);
-	mir_forkthread(InitTimer, nullptr);
+	mir_forkthread(InitTimer);
 }

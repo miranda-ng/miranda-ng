@@ -324,7 +324,7 @@ void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)
 	Event.szModule = pluginName;
 	Event.eventType = event_type;
 	Event.flags = flags | DBEF_UTF;
-	Event.timestamp = (DWORD)time(nullptr);
+	Event.timestamp = (DWORD)time(0);
 	Event.cbBlob = (DWORD)mir_strlen(data) + 1;
 	Event.pBlob = (PBYTE)_strdup(data);
 	db_event_add(hContact, &Event);

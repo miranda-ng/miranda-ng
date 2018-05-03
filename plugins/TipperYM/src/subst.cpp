@@ -338,7 +338,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 	else if ((recv = !mir_wstrcmp(swzRawSpec, L"last_msg_reltime")) || !mir_wstrcmp(swzRawSpec, L"last_msg_out_reltime")) {
 		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
-		DWORD t = (DWORD)time(nullptr);
+		DWORD t = (DWORD)time(0);
 		DWORD diff = (t - ts);
 		int d = (diff / 60 / 60 / 24);
 		int h = (diff - d * 60 * 60 * 24) / 60 / 60;
@@ -366,7 +366,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 			if (i > 0)
 				hTmpContact = db_mc_getSub(hContact, i);
 			dwRecountTs = db_get_dw(hTmpContact, MODULE, "LastCountTS", 0);
-			dwTime = (DWORD)time(nullptr);
+			dwTime = (DWORD)time(0);
 			dwDiff = (dwTime - dwRecountTs);
 			if (dwDiff > (60 * 60 * 24 * 3)) {
 				db_set_dw(hTmpContact, MODULE, "LastCountTS", dwTime);

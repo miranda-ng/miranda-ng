@@ -554,6 +554,12 @@ MIR_CORE_DLL(void) UnloadCoreModule(void);
 #if defined(__cplusplus)
 }
 
+template <typename T>
+HANDLE mir_forkThread(void(__cdecl *pFunc)(T* param), T *arg)
+{
+	return mir_forkthread((pThreadFunc)pFunc, arg);
+}
+
 template <size_t _Size>
 inline int mir_snprintf(char(&buffer)[_Size], const char* fmt, ...)
 {

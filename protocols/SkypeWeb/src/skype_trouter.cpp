@@ -95,9 +95,9 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	m_hTrouterEvent.Set();
 	m_hTrouterHealthEvent.Set();
 
-	if ((time(nullptr) - TRouter.lastRegistrationTime) >= 3600) {
+	if ((time(0) - TRouter.lastRegistrationTime) >= 3600) {
 		SendRequest(new RegisterTrouterRequest(li, TRouter.url.c_str(), TRouter.sessId.c_str()));
-		TRouter.lastRegistrationTime = time(nullptr);
+		TRouter.lastRegistrationTime = time(0);
 	}
 }
 
@@ -186,7 +186,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 			if (!uid.empty()) {
 				MCONTACT hContact = AddContact(uid.c_str(), true);
 
-				MEVENT hEvent = AddDbEvent(SKYPE_DB_EVENT_TYPE_INCOMING_CALL, hContact, time(nullptr), DBEF_READ, gp.c_str(), callId.c_str());
+				MEVENT hEvent = AddDbEvent(SKYPE_DB_EVENT_TYPE_INCOMING_CALL, hContact, time(0), DBEF_READ, gp.c_str(), callId.c_str());
 				Skin_PlaySound("skype_inc_call");
 
 				CLISTEVENT cle = {};

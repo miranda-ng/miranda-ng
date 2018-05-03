@@ -71,7 +71,7 @@ void InitUpdateMsgs()
 	}
 	else if (!g_hUpdateMsgsThread && UpdateMsgs) {
 		g_hTerminateUpdateMsgsThread = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-		g_hUpdateMsgsThread = (HANDLE)mir_forkthread(UpdateMsgsThreadProc, nullptr);
+		g_hUpdateMsgsThread = mir_forkthread(UpdateMsgsThreadProc);
 	}
 }
 

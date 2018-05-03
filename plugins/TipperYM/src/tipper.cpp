@@ -266,7 +266,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	CallService(MS_CLC_SETINFOTIPHOVERTIME, opt.iTimeIn, 0);
 
 	// set Miranda start timestamp
-	db_set_dw(0, MODULE, "MirandaStartTS", (DWORD)time(nullptr));
+	db_set_dw(0, MODULE, "MirandaStartTS", (DWORD)time(0));
 	return 0;
 }
 

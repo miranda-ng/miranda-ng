@@ -718,7 +718,7 @@ INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 	else ace = (AVATARCACHEENTRY *)GetAvatarBitmap((WPARAM)r->hContact, 0);
 
 	if (ace && (!(r->dwFlags & AVDRQ_RESPECTHIDDEN) || !(ace->dwFlags & AVS_HIDEONCLIST))) {
-		ace->t_lastAccess = time(nullptr);
+		ace->t_lastAccess = time(0);
 
 		if (ace->bmHeight == 0 || ace->bmWidth == 0 || ace->hbmPic == nullptr)
 			return 0;
@@ -750,11 +750,9 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void ReloadMyAvatar(LPVOID lpParam)
+static void ReloadMyAvatar(char *szProto)
 {
 	Thread_SetName("AVS: ReloadMyAvatar");
-
-	char *szProto = (char *)lpParam;
 
 	mir_sleep(500);
 	if (g_shutDown)
@@ -785,7 +783,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, 0);
 	}
 
-	mir_free(lpParam);
+	mir_free(szProto);
 }
 
 INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM)
@@ -799,7 +797,7 @@ INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM)
 			continue;
 
 		if (!mir_strcmp(it->szProtoname, proto)) {
-			mir_forkthread(ReloadMyAvatar, mir_strdup(it->szProtoname));
+			mir_forkThread<char>(ReloadMyAvatar, mir_strdup(it->szProtoname));
 			return 0;
 		}
 	}

@@ -800,7 +800,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const wchar_t *
 	GCEVENT gce = { m_szModuleName, item->jid, GC_EVENT_NICK };
 	if (jid != nullptr)
 		gce.ptszUserInfo = jid;
-	gce.time = time(nullptr);
+	gce.time = time(0);
 	gce.ptszNick = oldNick;
 	gce.ptszUID = newNick;
 	gce.ptszText = newNick;
@@ -1095,7 +1095,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	}
 
 	bool isHistory = msgTime != 0;
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	if (!msgTime || msgTime > now)
 		msgTime = now;
 

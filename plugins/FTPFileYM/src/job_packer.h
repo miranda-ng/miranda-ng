@@ -36,7 +36,7 @@ private:
 	static mir_cs mutexJobCount;
 	static int iRunningJobCount;
 
-	static void waitingThread(void *arg); 
+	static void __cdecl waitingThread(PackerJob *job);
 	static uLong getFileTime(wchar_t *file, tm_zip *tmzip, uLong *dt);
 
 	void pack(); 

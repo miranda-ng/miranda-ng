@@ -135,11 +135,10 @@ typedef struct {
 	HWND hwnd;
 } THistoryThread;
 
-static void FillHistoryThread(void* param)
+static void FillHistoryThread(THistoryThread *hInfo)
 {
 	Thread_SetName("HistoryWindow::FillHistoryThread");
 
-	THistoryThread *hInfo = (THistoryThread*)param;
 	HWND hwndList = GetDlgItem(hInfo->hwnd, IDC_LIST);
 
 	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_RESETCONTENT, 0, 0);
@@ -221,7 +220,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIST), FALSE);
 			hInfo->hContact = hContact;
 			hInfo->hwnd = hwndDlg;
-			mir_forkthread(FillHistoryThread, hInfo);
+			mir_forkThread<THistoryThread>(FillHistoryThread, hInfo);
 		}
 		return TRUE;
 

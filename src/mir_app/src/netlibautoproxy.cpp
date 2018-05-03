@@ -176,9 +176,8 @@ struct IeProxyParam
 	char *szProxy;
 };
 
-static void NetlibIeProxyThread(void *arg)
+static void __cdecl NetlibIeProxyThread(IeProxyParam *param)
 {
-	IeProxyParam *param = (IeProxyParam*)arg;
 	param->szProxy = nullptr;
 
 	if (!bAutoProxyInit) {
@@ -261,7 +260,7 @@ char* NetlibGetIeProxy(char *szUrl)
 
 	if (szAutoUrlStr[0]) {
 		IeProxyParam param = { szUrl, szHost, nullptr };
-		HANDLE hThread = mir_forkthread(NetlibIeProxyThread, &param);
+		HANDLE hThread = mir_forkThread<IeProxyParam>(NetlibIeProxyThread, &param);
 		WaitForSingleObject(hThread, INFINITE);
 		res = param.szProxy;
 	}

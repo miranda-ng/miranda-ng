@@ -41,7 +41,7 @@ static const char *classNames[] = {
 ChatHTMLBuilder::ChatHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(nullptr));
+	setLastEventTime(time(0));
 }
 
 void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)

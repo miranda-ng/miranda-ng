@@ -317,7 +317,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mir_snwprintf(szEventName, L"avs_loaderthread_%d", GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(nullptr, TRUE, FALSE, szEventName);
 
-	SetThreadPriority(mir_forkthread(PicLoader, nullptr), THREAD_PRIORITY_IDLE);
+	SetThreadPriority(mir_forkthread(PicLoader), THREAD_PRIORITY_IDLE);
 
 	// Folders plugin support
 	hMyAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAT L"\\Avatars");

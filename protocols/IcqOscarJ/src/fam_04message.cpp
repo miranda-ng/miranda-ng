@@ -318,7 +318,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 						}
 					}
 
-					dwRecvTime = (DWORD)time(nullptr);
+					dwRecvTime = (DWORD)time(0);
 
 					{ // Check if the message was received as offline
 						cookie_offline_messages *cookie;
@@ -346,7 +346,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 					debugLogA("Message (format 1) received");
 
 					// Save tick value
-					setDword(hContact, "TickTS", time(nullptr) - (dwMsgID1 / 1000));
+					setDword(hContact, "TickTS", time(0) - (dwMsgID1 / 1000));
 				}
 				else debugLogA("Message (format %u) - Ignoring empty message", 1);
 
@@ -457,7 +457,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, size_t wLen, DWORD dwUin, char
 				// Save tick value
 				BYTE bClientID = getByte(hContact, "ClientID", 0);
 				if (bClientID == CLID_GENERIC || bClientID == CLID_ICQ6)
-					setDword(hContact, "TickTS", time(nullptr) - (dwMsgID1 / 1000));
+					setDword(hContact, "TickTS", time(0) - (dwMsgID1 / 1000));
 				else
 					setDword(hContact, "TickTS", 0);
 			}
@@ -687,7 +687,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, size_t wLen, MCONTACT hContac
 				pMsgAck.wCookie = wCookie;
 				pMsgAck.msgType = bMsgType;
 				pMsgAck.bFlags = bFlags;
-				handleMessageTypes(dwUin, szUID, time(nullptr), dwMsgID1, dwMsgID2, wCookie, wVersion, bMsgType, bFlags, wAckType, wLen, wMsgLen, (char*)pDataBuf, 0, &pMsgAck);
+				handleMessageTypes(dwUin, szUID, time(0), dwMsgID1, dwMsgID2, wCookie, wVersion, bMsgType, bFlags, wAckType, wLen, wMsgLen, (char*)pDataBuf, 0, &pMsgAck);
 				break;
 			}
 		}
@@ -852,7 +852,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, size_t wLen, DWORD dwUi
 				if (m_iStatus == ID_STATUS_NA)
 					nMsgType = MTYPE_AUTONA;
 			}
-			handleMessageTypes(dwUin, szUID, time(nullptr), dwMsgID1, dwMsgID2, wCookie, wVersion, nMsgType, bFlags, wAckType, dwLengthToEnd, 0, (char*)pDataBuf, MTF_PLUGIN | MTF_STATUS_EXTENDED, nullptr);
+			handleMessageTypes(dwUin, szUID, time(0), dwMsgID1, dwMsgID2, wCookie, wVersion, nMsgType, bFlags, wAckType, dwLengthToEnd, 0, (char*)pDataBuf, MTF_PLUGIN | MTF_STATUS_EXTENDED, nullptr);
 		}
 		else if (nTypeId) {
 			if (!dwUin) { // AIM cannot send this, just sanity
@@ -868,7 +868,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, size_t wLen, DWORD dwUi
 			pMsgAck.wCookie = wCookie;
 			pMsgAck.msgType = nTypeId;
 			pMsgAck.bFlags = bFlags;
-			handleMessageTypes(dwUin, szUID, time(nullptr), dwMsgID1, dwMsgID2, wCookie, wVersion, nTypeId, bFlags, wAckType, dwLengthToEnd, dwDataLen, (char*)pDataBuf, MTF_PLUGIN, &pMsgAck);
+			handleMessageTypes(dwUin, szUID, time(0), dwMsgID1, dwMsgID2, wCookie, wVersion, nTypeId, bFlags, wAckType, dwLengthToEnd, dwDataLen, (char*)pDataBuf, MTF_PLUGIN, &pMsgAck);
 		}
 		else debugLogA("Unsupported plugin message type %d", nTypeId);
 	}
@@ -1035,7 +1035,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 				icq_sendContactsAck(dwUin, szUID, dwID1, dwID2);
 
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = (DWORD)time(nullptr);
+				pre.timestamp = (DWORD)time(0);
 				pre.szMessage = (char *)contacts;
 				pre.lParam = nContacts;
 				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
@@ -1105,7 +1105,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, size_t wLen, DWORD dwUin, char
 				debugLogA("User %u probably checks his ignore state.", dwUin);
 			else {
 				cookie_offline_messages *cookie;
-				DWORD dwRecvTime = (DWORD)time(nullptr);
+				DWORD dwRecvTime = (DWORD)time(0);
 
 				if (!(dwRef & 0x80000000) && FindCookie(dwRef, nullptr, (void**)&cookie)) {
 					WORD wTimeTLVType;
@@ -1414,7 +1414,7 @@ void CIcqProto::handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DW
 	// it is probably UTF-8 status reply
 	PROTORECVEVENT pre = { 0 };
 	pre.szMessage = (char*)szMsg;
-	pre.timestamp = time(nullptr);
+	pre.timestamp = time(0);
 	pre.lParam = wCookie;
 	ProtoChainRecv(hContact, PSR_AWAYMSG, status, (LPARAM)&pre);
 }
@@ -2496,7 +2496,7 @@ void CIcqProto::handleMissedMsg(BYTE *buf, size_t wLen)
 	// Create event to notify user
 	int bAdded;
 
-	AddEvent(HContactFromUID(dwUin, szUid, &bAdded), ICQEVENTTYPE_MISSEDMESSAGE, time(nullptr), 0, sizeof(wError), (PBYTE)&wError);
+	AddEvent(HContactFromUID(dwUin, szUid, &bAdded), ICQEVENTTYPE_MISSEDMESSAGE, time(0), 0, sizeof(wError), (PBYTE)&wError);
 }
 
 

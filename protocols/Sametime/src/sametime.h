@@ -47,10 +47,17 @@ void ReleaseIconEx(const char* name, bool big);
 
 
 // services (async thread functions)
-void __cdecl sttFakeAckInfoSuccessThread(void* param);
-void __cdecl sttFakeAckMessageFailedThread(void* param);
-void __cdecl sttFakeAckMessageSuccessThread(void* param);
-void __cdecl sttRecvAwayThread(void* param);
+struct TFakeAckParams
+{
+	struct CSametimeProto* proto;
+	MCONTACT hContact;
+	LPARAM lParam;
+};
+
+void __cdecl sttFakeAckInfoSuccessThread(TFakeAckParams* tParam);
+void __cdecl sttFakeAckMessageFailedThread(TFakeAckParams* tParam);
+void __cdecl sttFakeAckMessageSuccessThread(TFakeAckParams* tParam);
+void __cdecl sttRecvAwayThread(TFakeAckParams* tParam);
 
 
 //sametime structs

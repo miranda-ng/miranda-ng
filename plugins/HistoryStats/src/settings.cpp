@@ -41,7 +41,7 @@ Settings::CharMapper::CharMapper(const Settings& settings)
 Settings::Filter::Filter(const ext::string& strID)
 	: m_strID(strID), m_nMode(fwmWordsMatching), m_nRef(0)
 {
-	time_t curTime = time(nullptr);
+	time_t curTime = time(0);
 	struct tm* curTM = localtime(&curTime);
 
 	m_strName += utils::intToPadded(1900 + curTM->tm_year, 4);

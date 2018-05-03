@@ -65,7 +65,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 				MCONTACT hContact = HContactFromPhone(tszPhone, dwPhoneSize);
 
 				dbei.szModule = GetModuleName(hContact);
-				dbei.timestamp = time(nullptr);
+				dbei.timestamp = time(0);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = ICQEVENTTYPE_SMS;
 				dbei.cbBlob = (mir_snprintf((LPSTR)dbei.pBlob, ((dwBuffLen + dwPhoneSize)), "SMS From: +%s\r\n%s", szPhone, lpszMessageUTF) + sizeof(DWORD));
@@ -93,7 +93,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 
 				DBEVENTINFO dbei = {};
 				dbei.szModule = GetModuleName(hContact);
-				dbei.timestamp = time(nullptr);
+				dbei.timestamp = time(0);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = ICQEVENTTYPE_SMSCONFIRMATION;
 				if (CompareStringA(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, lpszData, (int)dwDataSize, "yes", 3) == CSTR_EQUAL) {

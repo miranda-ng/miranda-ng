@@ -21,9 +21,9 @@ DWORD WINAPI notificationCallback(IN int,
 }
 
 
-void __cdecl initializeDrawingThread(void *pParam)
+void __cdecl initializeDrawingThread(CLCDConnectionLogitech *pParam)
 {
-	((CLCDConnectionLogitech*)pParam)->runDrawingThread();
+	pParam->runDrawingThread();
 }
 
 void CLCDConnectionLogitech::runDrawingThread() {
@@ -109,7 +109,7 @@ CLCDConnectionLogitech::CLCDConnectionLogitech()
 
 	CLCDConnectionLogitech::m_pInstance = this;
 
-	m_hDrawingThread = mir_forkthread(initializeDrawingThread, (void*)this);
+	m_hDrawingThread = mir_forkThread<CLCDConnectionLogitech>(initializeDrawingThread, this);
 }
 
 //************************************************************************

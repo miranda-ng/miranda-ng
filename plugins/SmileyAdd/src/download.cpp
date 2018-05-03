@@ -191,7 +191,7 @@ bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 
 	if (!threadRunning) {
 		threadRunning = true;
-		mir_forkthread(SmileyDownloadThread, nullptr);
+		mir_forkthread(SmileyDownloadThread);
 	}
 
 	url = filename;

@@ -519,7 +519,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 
 			long trimlimit = g_Settings->LoggingLimit * 1024;
 			if (dwSize > trimlimit) {
-				time_t now = time(nullptr);
+				time_t now = time(0);
 
 				wchar_t tszTimestamp[20];
 				wcsftime(tszTimestamp, 20, L"%Y%m%d-%H%M%S", _localtime32((__time32_t *)&now));

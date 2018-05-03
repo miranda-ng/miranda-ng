@@ -185,7 +185,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			GCEVENT gce = { m_szModuleName, cc->m_wszId, GC_EVENT_PART };
 			gce.ptszUID = wszId;
 			gce.dwFlags = GCEF_NOTNOTIFY;
-			gce.time = time(nullptr);
+			gce.time = time(0);
 			gce.ptszNick = mir_wstrdup(CMStringW(FORMAT, L"%s (https://vk.com/id%s)", cu->m_wszNick, wszId));
 			Chat_Event(&gce);
 
@@ -258,7 +258,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 	bool bIsAction = false;
 
 	int msgTime = jnMsg["date"].as_int();
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	if (!msgTime || msgTime > now)
 		msgTime = now;
 
@@ -736,7 +736,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			gce.ptszUID = wszId;
 			gce.ptszText = mir_wstrdup(wszNewNick);
 			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.time = time(nullptr);
+			gce.time = time(0);
 			Chat_Event(&gce);
 
 			cu->m_wszNick = mir_wstrdup(wszNewNick);

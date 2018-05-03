@@ -84,7 +84,7 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 		// first check if the state is calm
 		while (*queueState) {
 			int i;
-			time_t tNow = time(nullptr);
+			time_t tNow = time(0);
 			int bFound = FALSE;
 
 			for (i = 0; i < servlistQueueCount; i++) { // check if we do not have some expired items to handle, otherwise keep sleeping
@@ -285,7 +285,7 @@ void CIcqProto::servlistQueueAddGroupItem(servlistgroupitem* pGroupItem, int dwT
 	}
 	if (!pItem) { // compatible item was not found, create new one, add to queue
 		pItem = (ssiqueueditems*)SAFE_MALLOC(sizeof(ssiqueueditems));
-		pItem->tAdded = time(nullptr);
+		pItem->tAdded = time(0);
 		pItem->dwTimeout = dwTimeout;
 
 		if (servlistQueueCount == servlistQueueSize) { // resize the queue - it is too small

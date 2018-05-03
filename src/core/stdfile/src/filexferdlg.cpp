@@ -78,7 +78,7 @@ void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 	dbei.szModule = GetContactProto(dat->hContact);
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_SENT;
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	char *szFileNames = Utf8EncodeW(dat->szFilenames), *szMsg = Utf8EncodeW(dat->szMsg);
 	dbei.flags |= DBEF_UTF;
 
@@ -522,12 +522,11 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (GetFileAttributes(dat->files[dat->transferStatus.currentFileNumber])&FILE_ATTRIBUTE_DIRECTORY)
 						PostMessage(hwndDlg, M_VIRUSSCANDONE, dat->transferStatus.currentFileNumber, 0);
 					else {
-						virusscanthreadstartinfo *vstsi;
-						vstsi = (struct virusscanthreadstartinfo*)mir_alloc(sizeof(struct virusscanthreadstartinfo));
+						virusscanthreadstartinfo *vstsi = (virusscanthreadstartinfo*)mir_alloc(sizeof(virusscanthreadstartinfo));
 						vstsi->hwndReply = hwndDlg;
 						vstsi->szFile = mir_wstrdup(dat->files[dat->transferStatus.currentFileNumber]);
 						vstsi->returnCode = dat->transferStatus.currentFileNumber;
-						mir_forkthread((void(*)(void*))RunVirusScannerThread, vstsi);
+						mir_forkThread<virusscanthreadstartinfo>(RunVirusScannerThread, vstsi);
 					}
 				}
 				break;
@@ -670,19 +669,18 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							}
 							SetFtStatus(hwndDlg, LPGENW("Scanning for viruses..."), FTS_TEXT);
 							if (vstsi)
-								mir_forkthread((void(*)(void*))RunVirusScannerThread, vstsi);
+								mir_forkThread<virusscanthreadstartinfo>(RunVirusScannerThread, vstsi);
 						}
 						else dat->fs = nullptr; /* protocol will free structure */
 
 						dat->transferStatus.currentFileNumber = dat->transferStatus.totalFiles;
-					} // else dat->send
-
-				} // else ack->result
+					} 
+				}
 
 				PostMessage(GetParent(hwndDlg), WM_FT_COMPLETED, ack->result, (LPARAM)hwndDlg);
 				break;
-			} // switch ack->result
-		} // case HM_RECVEVENT
+			}
+		}
 		break; 
 
 	case M_VIRUSSCANDONE:

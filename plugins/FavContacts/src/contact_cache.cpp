@@ -30,9 +30,9 @@ int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
 	if (dbei.eventType != EVENTTYPE_MESSAGE)
 		return 0;
 
-	float weight = GetEventWeight(time(nullptr) - dbei.timestamp);
-	float q = GetTimeWeight(time(nullptr) - m_lastUpdate);
-	m_lastUpdate = time(nullptr);
+	float weight = GetEventWeight(time(0) - dbei.timestamp);
+	float q = GetTimeWeight(time(0) - m_lastUpdate);
+	m_lastUpdate = time(0);
 	if (!weight)
 		return 0;
 
@@ -77,8 +77,8 @@ float CContactCache::GetTimeWeight(unsigned long age)
 
 void CContactCache::Rebuild()
 {
-	unsigned long timestamp = time(nullptr);
-	m_lastUpdate = time(nullptr);
+	unsigned long timestamp = time(0);
+	m_lastUpdate = time(0);
 
 	for (auto &hContact : Contacts()) {
 		TContactInfo *info = new TContactInfo;

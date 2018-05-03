@@ -56,7 +56,7 @@ void CALLBACK DeleteTimer::AutoDeleteTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 	DBEntry *entry = DBEntry::getFirst();
 	while (entry != nullptr) {
-		if (entry->m_deleteTS > 0 && entry->m_deleteTS < time(nullptr)) {
+		if (entry->m_deleteTS > 0 && entry->m_deleteTS < time(0)) {
 			DeleteJob *job = new DeleteJob(new DBEntry(entry), nullptr);
 			job->start();
 		}

@@ -60,7 +60,7 @@ void StartSmsSend(HWND hWndDlg,size_t dwModuleIndex,LPWSTR lpwszPhone,size_t dwP
 			WideCharToMultiByte(CP_UTF8, 0, lpwszPhone, (int)dwPhoneSize, szPhone, MAX_PHONE_LEN, nullptr, nullptr);
 			dwPhoneSize=CopyNumberA(szPhone, szPhone, dwPhoneSize);
 
-			pdbei->timestamp = time(nullptr);
+			pdbei->timestamp = time(0);
 			pdbei->flags = (DBEF_SENT | DBEF_UTF);
 			pdbei->eventType = ICQEVENTTYPE_SMS;
 			pdbei->cbBlob = (mir_snprintf(lpszBuff, dwBuffSize, "SMS To: +%s\r\n%s", szPhone, lpszMessageUTF) + 4);

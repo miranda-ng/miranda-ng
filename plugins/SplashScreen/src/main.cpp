@@ -166,7 +166,7 @@ void SplashMain()
 					} //if
 				} while (FindNextFile(hFind, &ffd));
 
-				srand((unsigned)time(nullptr));
+				srand((unsigned)time(0));
 				int r = 0;
 				if (filescount) r = (rand() % filescount) + 1;
 

@@ -39,7 +39,7 @@ int Log(char *format, ...)
 	if (!fout)
 		return -1;
 
-	time_t tNow = time(nullptr);
+	time_t tNow = time(0);
 	struct tm *now = localtime(&tNow);
 	strftime(str, sizeof(str), "%d %b %Y @ %H:%M:%S: ", now);
 	fputs(str, fout);

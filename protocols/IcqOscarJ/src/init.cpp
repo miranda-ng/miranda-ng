@@ -78,7 +78,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	srand(time(nullptr));
+	srand(time(0));
 	_tzset();
 
 	// Initialize charset conversion routines

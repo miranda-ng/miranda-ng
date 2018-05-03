@@ -243,7 +243,7 @@ int Backup(wchar_t *backup_filename)
 		}
 		SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
 		UpdateWindow(progress_dialog);
-		db_set_dw(0, MODULE, "LastBackupTimestamp", (DWORD)time(nullptr));
+		db_set_dw(0, MODULE, "LastBackupTimestamp", (DWORD)time(0));
 
 		if (options.use_cloudfile)
 		{
@@ -308,7 +308,7 @@ void BackupStart(wchar_t *backup_filename)
 	}
 	if (backup_filename != nullptr)
 		tm = mir_wstrdup(backup_filename);
-	if (mir_forkthread(BackupThread, (void*)tm) == INVALID_HANDLE_VALUE) {
+	if (mir_forkthread(BackupThread, tm) == INVALID_HANDLE_VALUE) {
 		InterlockedExchange(&m_state, 0); /* Backup done. */
 		mir_free(tm);
 	}
@@ -316,7 +316,7 @@ void BackupStart(wchar_t *backup_filename)
 
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	time_t t = time(nullptr);
+	time_t t = time(0);
 	time_t diff = t - (time_t)db_get_dw(0, "AutoBackups", "LastBackupTimestamp", 0);
 	if (diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? (60 * 60) : (60 * 60 * 24)))))
 		BackupStart(nullptr);

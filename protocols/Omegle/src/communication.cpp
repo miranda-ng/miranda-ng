@@ -172,7 +172,7 @@ std::string Omegle_client::get_server(bool not_last)
 		server = 0;
 
 	if (server == 0) {
-		srand(::time(nullptr));
+		srand(::time(0));
 		server = (rand() % (_countof(servers) - 1 - q)) + 1;
 	}
 

@@ -530,7 +530,7 @@ MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen)
 	if (pfnRtlGenRandom != nullptr)
 		pfnRtlGenRandom(pszDest, (ULONG)cbLen);
 	else {
-		srand(time(nullptr));
+		srand(time(0));
 		BYTE *p = (BYTE*)pszDest;
 		for (size_t i = 0; i < cbLen; i++)
 			p[i] = rand() & 0xFF;

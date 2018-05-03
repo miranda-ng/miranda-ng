@@ -403,7 +403,7 @@ time_t MsnTSToUnixtime(const char *pszTS)
 {
 	char szTS[16];
 
-	if (!*pszTS) return time(nullptr);
+	if (!*pszTS) return time(0);
 	strncpy(szTS, pszTS, 10);
 	return (time_t)atoi(szTS);
 }

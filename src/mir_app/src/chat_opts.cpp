@@ -285,7 +285,7 @@ void SetIndentSize()
 		LOGFONT lf;
 		LoadMsgDlgFont(0, &lf, nullptr);
 		HFONT hFont = CreateFontIndirect(&lf);
-		int iText = Chat_GetTextPixelSize(MakeTimeStamp(g_Settings->pszTimeStamp, time(nullptr)), hFont, TRUE);
+		int iText = Chat_GetTextPixelSize(MakeTimeStamp(g_Settings->pszTimeStamp, time(0)), hFont, TRUE);
 		DeleteObject(hFont);
 		g_Settings->LogTextIndent = iText * 12 / 10;
 	}

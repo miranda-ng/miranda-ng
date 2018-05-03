@@ -45,7 +45,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	// store server port
 	info.wServerPort = infoParam->nloc.wPort;
 
-	srand(time(nullptr));
+	srand(time(0));
 
 	ResetSettingsOnConnect();
 

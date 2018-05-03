@@ -37,7 +37,7 @@ private:
 	char *getDelFileString();
 	char *getDelUrlString();
 
-	static void waitingThread(void *arg); 
+	static void __cdecl waitingThread(DeleteJob *job);
 	void run();
 
 public:

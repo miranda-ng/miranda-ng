@@ -79,7 +79,7 @@ int SendQueue::addTo(CTabBaseDlg *dat, size_t iLen, int dwFlags)
 			// this entry is used, check if it's orphaned and can be removed...
 			if (m_jobs[i].hOwnerWnd && IsWindow(m_jobs[i].hOwnerWnd)) // window exists, do not reuse it
 				continue;
-			if (time(nullptr) - m_jobs[i].dwTime < 120) // non-acked entry, but not old enough, don't re-use it
+			if (time(0) - m_jobs[i].dwTime < 120) // non-acked entry, but not old enough, don't re-use it
 				continue;
 			clearJob(i);
 			iFound = i;
@@ -99,7 +99,7 @@ entry_found:
 	memcpy(job.szSendBuffer, dat->m_sendBuffer, iLen);
 
 	job.dwFlags = dwFlags;
-	job.dwTime = time(nullptr);
+	job.dwTime = time(0);
 
 	HWND	hwndDlg = dat->GetHwnd();
 
@@ -359,7 +359,7 @@ void SendQueue::logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szE
 
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.cbBlob = (int)iMsgLen;
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.szModule = (char *)szErrMsg;
 	dat->StreamInEvents(0, 1, 1, &dbei);
 }
@@ -462,7 +462,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = GetContactProto(job.hContact);
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(job.szSendBuffer) + 1;
 
 	if (dat)
@@ -552,7 +552,7 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.szModule = GetContactProto(dat->m_hContact);
-		dbei.timestamp = time(nullptr);
+		dbei.timestamp = time(0);
 		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
 		dbei.pBlob = (PBYTE)(char*)utfText;
 		dat->StreamInEvents(0, 1, 1, &dbei);
@@ -578,13 +578,13 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 	wchar_t tszHeader[150];
 
 	if (fIsSendLater) {
-		time_t now = time(nullptr);
+		time_t now = time(0);
 		wchar_t tszTimestamp[30];
 		wcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
 		mir_snprintf(szKeyName, "S%d", now);
 		mir_snwprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 	}
-	else mir_snwprintf(tszHeader, L"M%d|", time(nullptr));
+	else mir_snwprintf(tszHeader, L"M%d|", time(0));
 
 	T2Utf utf_header(tszHeader);
 	size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;

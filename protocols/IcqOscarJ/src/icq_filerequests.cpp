@@ -157,7 +157,7 @@ void CIcqProto::handleFileRequest(PBYTE buf, DWORD dwUin, DWORD dwCookie, DWORD 
 	PROTORECVFILE pre = { 0 };
 	pre.dwFlags = PRFF_UNICODE;
 	pre.fileCount = 1;
-	pre.timestamp = time(nullptr);
+	pre.timestamp = time(0);
 	pre.descr.w = mir_utf8decodeW(pszDescription);
 	pre.files.w = &ptszFileName;
 	pre.lParam = (LPARAM)ft;

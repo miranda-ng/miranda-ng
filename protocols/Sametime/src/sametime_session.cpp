@@ -245,7 +245,7 @@ int CSametimeProto::SetSessionStatus(int status)
 
 	if (idle_timerid) KillTimer(nullptr, idle_timerid);
 
-	us.time = (DWORD)time(nullptr);
+	us.time = (DWORD)time(0);
 	//us.time = 0;
 
 	switch (status) {
@@ -286,7 +286,7 @@ VOID CALLBACK IdleTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime
 
 	if (proto->idle_status) {
 		struct mwUserStatus us;
-		us.time = (DWORD)time(nullptr);
+		us.time = (DWORD)time(0);
 		us.status = mwStatus_IDLE;
 		us.desc = nullptr;
 		mwSession_setUserStatus(proto->session, &us);
@@ -341,19 +341,18 @@ void WakeThread(HANDLE hThread)
 	QueueUserAPC(NullAPC, hThread, 0);
 }
 
-void __cdecl KeepAliveThread(LPVOID param)
+void __cdecl CSametimeProto::KeepAliveThread(void*)
 {
-	CSametimeProto* proto = (CSametimeProto*)param;
 	int i = 120;
-	proto->debugLogW(L"KeepAliveThread() start");
+	debugLogW(L"KeepAliveThread() start");
 
 	while (1) {
 
 		if (i <= 0) {
 			i = 120;
 			// send keepalive every 120 * 250 = 30000[ms]
-			if (mwSession_isStarted(proto->session) && proto->session) {
-				mwSession_sendKeepalive(proto->session);
+			if (mwSession_isStarted(session) && session) {
+				mwSession_sendKeepalive(session);
 			}
 		}
 
@@ -361,9 +360,9 @@ void __cdecl KeepAliveThread(LPVOID param)
 
 		SleepEx(250, TRUE);
 
-		mir_cslock lck(proto->session_cs);
-		if (Miranda_IsTerminated() || !proto->session) {
-			proto->debugLogW(L"KeepAliveThread() end");
+		mir_cslock lck(session_cs);
+		if (Miranda_IsTerminated() || !session) {
+			debugLogW(L"KeepAliveThread() end");
 			break;
 		}
 	}
@@ -376,65 +375,64 @@ int waitcallback(unsigned int* timeout)
 	return continue_connect ? 1 : 0;
 }
 
-void __cdecl SessionThread(LPVOID param)
+void __cdecl CSametimeProto::SessionThread(LPVOID)
 {
-	CSametimeProto* proto = (CSametimeProto*)param;
-	proto->debugLogW(L"SessionThread() start");
+	debugLogW(L"SessionThread() start");
 
 	continue_connect = true;
 
-	proto->BroadcastNewStatus(ID_STATUS_CONNECTING);
+	BroadcastNewStatus(ID_STATUS_CONNECTING);
 
 	// setup
 	NETLIBOPENCONNECTION conn_data = { 0 };
 	conn_data.cbSize = sizeof(NETLIBOPENCONNECTION);
 	conn_data.flags = NLOCF_V2;
-	conn_data.szHost = proto->options.server_name;
-	conn_data.wPort = proto->options.port;
+	conn_data.szHost = options.server_name;
+	conn_data.wPort = options.port;
 	conn_data.timeout = 20;
 	conn_data.waitcallback = waitcallback;
-	proto->server_connection = Netlib_OpenConnection(proto->m_hNetlibUser, &conn_data);
+	server_connection = Netlib_OpenConnection(m_hNetlibUser, &conn_data);
 
-	if (!proto->server_connection) {
+	if (!server_connection) {
 
-		proto->BroadcastNewStatus(ID_STATUS_OFFLINE);
+		BroadcastNewStatus(ID_STATUS_OFFLINE);
 
 		if (continue_connect) {
 			// real timeout - not user cancelled
-			proto->showPopup(TranslateT("No server connection!"), SAMETIME_POPUP_ERROR);
+			showPopup(TranslateT("No server connection!"), SAMETIME_POPUP_ERROR);
 		}
 
-		proto->debugLogW(L"SessionThread() end, no server_connection, continue_connect=[%d]", continue_connect);
+		debugLogW(L"SessionThread() end, no server_connection, continue_connect=[%d]", continue_connect);
 		return;
 	}
 
 	mwSessionHandler handler = {};
-	handler.clear = SessionClear;
-	handler.io_write = SessionWrite;
-	handler.io_close = SessionClose;
-	handler.on_stateChange = SessionStateChange;
-	handler.on_admin = SessionAdmin;
-	handler.on_announce = SessionAnnounce;
-	handler.on_setPrivacyInfo = SessionSetPrivacyInfo;
-	handler.on_setUserStatus = SessionSetUserStatus;
+	handler.clear = ::SessionClear;
+	handler.io_write = ::SessionWrite;
+	handler.io_close = ::SessionClose;
+	handler.on_stateChange = ::SessionStateChange;
+	handler.on_admin = ::SessionAdmin;
+	handler.on_announce = ::SessionAnnounce;
+	handler.on_setPrivacyInfo = ::SessionSetPrivacyInfo;
+	handler.on_setUserStatus = ::SessionSetUserStatus;
 
 	{
-		mir_cslock lck(proto->session_cs);
-		proto->session = mwSession_new(&handler);
+		mir_cslock lck(session_cs);
+		session = mwSession_new(&handler);
 
-		proto->InitMeanwhileServices();
+		InitMeanwhileServices();
 
-		mwSession_start(proto->session);
+		mwSession_start(session);
 	}
 
-	mir_forkthread(KeepAliveThread, proto);
+	ForkThread(&CSametimeProto::KeepAliveThread);
 
 	unsigned char* recv_buffer = (unsigned char*)mir_alloc(1024 * 32);
 	int bytes;
 	//while(session && server_connection && mwSession_getState(session) != mwSession_STOPPED) {
-	while (proto->server_connection) {// && session) {// && !mwSession_isStopped(session)) { // break on error
-		bytes = Netlib_Recv(proto->server_connection, (char *)recv_buffer, 1024 * 32, 0);
-		proto->debugLogW(L"SessionThread() Netlib_Recv'ed bytes=[%d]", bytes);
+	while (server_connection) {// && session) {// && !mwSession_isStopped(session)) { // break on error
+		bytes = Netlib_Recv(server_connection, (char *)recv_buffer, 1024 * 32, 0);
+		debugLogW(L"SessionThread() Netlib_Recv'ed bytes=[%d]", bytes);
 
 		if (bytes == 0) {
 			break;
@@ -444,23 +442,23 @@ void __cdecl SessionThread(LPVOID param)
 			break;
 		}
 		else {
-			mir_cslock lck(proto->session_cs);
-			mwSession_recv(proto->session, recv_buffer, bytes);
+			mir_cslock lck(session_cs);
+			mwSession_recv(session, recv_buffer, bytes);
 		}
 	}
 	mir_free(recv_buffer);
 
-	mir_cslock lck2(proto->session_cs);
-	proto->DeinitMeanwhileServices();
-	mwSession* old_session = proto->session;
-	proto->session = nullptr; // kills keepalive thread, if awake
+	mir_cslock lck2(session_cs);
+	DeinitMeanwhileServices();
+	mwSession* old_session = session;
+	session = nullptr; // kills keepalive thread, if awake
 	mwSession_free(old_session);
 
-	proto->BroadcastNewStatus(ID_STATUS_OFFLINE);
-	proto->SetAllOffline();
-	proto->first_online = true;
+	BroadcastNewStatus(ID_STATUS_OFFLINE);
+	SetAllOffline();
+	first_online = true;
 
-	proto->debugLogW(L"SessionThread() end");
+	debugLogW(L"SessionThread() end");
 	return;
 }
 
@@ -496,7 +494,7 @@ int CSametimeProto::LogIn(int ls, HANDLE hNetlibUser)
 
 	login_status = ls;
 
-	mir_forkthread(SessionThread, this);
+	ForkThread(&CSametimeProto::SessionThread);
 
 	return 0;
 }

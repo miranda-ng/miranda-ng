@@ -77,9 +77,9 @@ static const char *classNames[] = {
 TabSRMMHTMLBuilder::TabSRMMHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(nullptr));
-	lastEventTime = time(nullptr);
-	startedTime = time(nullptr);
+	setLastEventTime(time(0));
+	lastEventTime = time(0);
+	startedTime = time(0);
 }
 
 bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO *dbei)
@@ -158,7 +158,7 @@ char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 	const char *szFormat;
 
 	struct tm tm_now, tm_today;
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	time_t today;
 
 	if (!isGroupBreak || !(dwFlags & MWF_LOG_SHOWDATES)) {
@@ -291,7 +291,7 @@ time_t TabSRMMHTMLBuilder::getStartedTime()
 
 void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
-	DWORD today = (DWORD)time(nullptr);
+	DWORD today = (DWORD)time(0);
 	today = today - today % 86400;
 	DWORD dwFlags = db_get_dw(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
 	DWORD dwFlags2 = db_get_b(NULL, SRMSGMOD_T, SRMSGSET_SHOWURLS, 0) ? MWF_SHOW_URLEVENTS : 0;

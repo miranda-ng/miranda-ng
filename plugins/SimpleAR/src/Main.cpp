@@ -175,7 +175,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 			return FALSE;
 
 		if (!(dbei.flags & DBEF_SENT)) {
-			int timeBetween = time(nullptr) - db_get_dw(hContact, protocolname, "LastReplyTS", 0);
+			int timeBetween = time(0) - db_get_dw(hContact, protocolname, "LastReplyTS", 0);
 			if (timeBetween > interval || db_get_w(hContact, protocolname, "LastStatus", 0) != status) {
 				size_t msgLen = 1;
 				int isQun = db_get_b(hContact, pszProto, "IsQun", 0);
@@ -218,7 +218,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						dbei.eventType = EVENTTYPE_MESSAGE;
 						dbei.flags = DBEF_UTF | DBEF_SENT;
 						dbei.szModule = pszProto;
-						dbei.timestamp = time(nullptr);
+						dbei.timestamp = time(0);
 						dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
 						dbei.pBlob = (PBYTE)pszUtf;
 						db_event_add(hContact, &dbei);
@@ -231,7 +231,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 			}
 		}
 
-		db_set_dw(hContact, protocolname, "LastReplyTS", time(nullptr));
+		db_set_dw(hContact, protocolname, "LastReplyTS", time(0));
 		db_set_w(hContact, protocolname, "LastStatus", status);
 	}
 	return 0;

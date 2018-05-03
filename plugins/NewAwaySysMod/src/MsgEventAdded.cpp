@@ -48,11 +48,10 @@ public:
 };
 
 // _ad must be allocated using "new CAutoreplyData()"
-void __cdecl AutoreplyDelayThread(void *_ad)
+void __cdecl AutoreplyDelayThread(CAutoreplyData *ad)
 {
 	Thread_SetName("NewAwaySysMod: AutoreplyDelayThread");
 
-	CAutoreplyData *ad = (CAutoreplyData*)_ad;
 	_ASSERT(ad && ad->hContact && ad->Reply.GetLen());
 	char *szProto = GetContactProto(ad->hContact);
 	if (!szProto) {
@@ -69,7 +68,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		dbeo.eventType = EVENTTYPE_MESSAGE;
 		dbeo.flags = DBEF_SENT | DBEF_UTF;
 		dbeo.szModule = szProto;
-		dbeo.timestamp = time(nullptr);
+		dbeo.timestamp = time(0);
 
 		dbeo.cbBlob = ReplyLen;
 		dbeo.pBlob = (PBYTE)(char*)pszReply;
@@ -114,7 +113,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei->flags & DBEF_SENT || (dbei->eventType != EVENTTYPE_MESSAGE && dbei->eventType != EVENTTYPE_URL && dbei->eventType != EVENTTYPE_FILE))
 		return 0;
 
-	if (time(nullptr) - dbei->timestamp > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
+	if (time(0) - dbei->timestamp > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
@@ -133,7 +132,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 			return 0;
 
 		// remove outdated events first
-		DWORD CurTime = time(nullptr);
+		DWORD CurTime = time(0);
 		int i;
 		for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
 			if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
@@ -155,7 +154,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	// ugly workaround for metacontacts, part i; store all metacontacts' events to a temporary array, so we'll be able to get the 'source' protocol when subcontact event happens later. we need the protocol to get its status and per-status settings properly
 	if (!mir_strcmp(szProto, META_PROTO)) {
 		// remove outdated events first
-		DWORD CurTime = time(nullptr);
+		DWORD CurTime = time(0);
 		for (int i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
 			if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
 				MetacontactEvents.RemoveElem(i);
@@ -232,7 +231,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	
 	if (Reply.GetLen()) {
 		CAutoreplyData *ad = new CAutoreplyData(hContact, Reply);
-		mir_forkthread(AutoreplyDelayThread, ad);
+		mir_forkThread<CAutoreplyData>(AutoreplyDelayThread, ad);
 	}
 	return 0;
 }

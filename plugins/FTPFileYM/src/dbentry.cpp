@@ -137,7 +137,7 @@ void DBEntry::add(GenericJob *job)
 	DB::setAStringF(0, MODULE_FILES, "Filename%d", id, job->m_szSafeFileName);
 
 	if (job->m_tab->m_iOptAutoDelete != -1) {
-		time_t deleteTS = time(nullptr);
+		time_t deleteTS = time(0);
 		deleteTS += (job->m_tab->m_iOptAutoDelete * 60);
 		DB::setDwordF(0, MODULE_FILES, "DeleteTS%d", id, deleteTS);
 	}
@@ -149,7 +149,7 @@ void DBEntry::add(GenericJob *job)
 void DBEntry::setDeleteTS(GenericJob *job)
 {
 	if (job->m_tab->m_iOptAutoDelete != -1) {
-		time_t deleteTS = time(nullptr);
+		time_t deleteTS = time(0);
 		deleteTS += (job->m_tab->m_iOptAutoDelete * 60);
 		DB::setDwordF(0, MODULE_FILES, "DeleteTS%d", job->m_fileID, deleteTS);
 	}

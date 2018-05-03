@@ -189,7 +189,7 @@ int CJabberProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	if (lParam & IDF_ISIDLE) {
 		MIRANDA_IDLE_INFO mii;
 		Idle_GetInfo(mii);
-		m_tmJabberIdleStartTime = time(nullptr) - mii.idleTime * 60;
+		m_tmJabberIdleStartTime = time(0) - mii.idleTime * 60;
 	}
 	else m_tmJabberIdleStartTime = 0;
 

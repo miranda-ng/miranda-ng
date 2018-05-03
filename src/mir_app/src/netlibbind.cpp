@@ -119,9 +119,8 @@ int NetlibFreeBoundPort(NetlibBoundPort *nlbp)
 	return 1;
 }
 
-static void NetlibBindAcceptThread(void* param)
+static void __cdecl NetlibBindAcceptThread(NetlibBoundPort *nlbp)
 {
-	NetlibBoundPort *nlbp = (NetlibBoundPort*)param;
 	Netlib_Logf(nlbp->nlu, "(%u) Port %u opened for incoming connections", nlbp->s, nlbp->wPort);
 
 	while (true) {
@@ -281,7 +280,7 @@ LBL_Error:
 		nlb->dwExternalIP = nlb->dwInternalIP;
 	}
 
-	nlbp->hThread = mir_forkthread(NetlibBindAcceptThread, nlbp);
+	nlbp->hThread = mir_forkThread<NetlibBoundPort>(NetlibBindAcceptThread, nlbp);
 	return nlbp;
 }
 

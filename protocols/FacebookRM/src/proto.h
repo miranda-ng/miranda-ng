@@ -76,9 +76,9 @@ public:
 	inline int IdleSeconds()
 	{
 		if ((m_iStatus == ID_STATUS_AWAY || m_iStatus == ID_STATUS_INVISIBLE) && m_awayTS)
-			return time(nullptr) - m_awayTS;
+			return time(0) - m_awayTS;
 
-		return m_idleTS ? time(nullptr) - m_idleTS : 0;
+		return m_idleTS ? time(0) - m_idleTS : 0;
 	}
 
 	bool m_invisible;

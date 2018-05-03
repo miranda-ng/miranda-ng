@@ -130,7 +130,7 @@ static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM, LPARAM lP
 static void SaveAvatarToFile(CTabBaseDlg *dat, HBITMAP hbm, int isOwnPic)
 {
 	wchar_t szFinalFilename[MAX_PATH];
-	time_t t = time(nullptr);
+	time_t t = time(0);
 	struct tm *lt = localtime(&t);
 	DWORD setView = 1;
 
@@ -1154,7 +1154,7 @@ void CTabBaseDlg::FindFirstEvent()
 	case LOADHISTORY_TIME:
 		DBEVENTINFO dbei = {};
 		if (m_hDbEventFirst == 0)
-			dbei.timestamp = time(nullptr);
+			dbei.timestamp = time(0);
 		else
 			db_event_get(m_hDbEventFirst, &dbei);
 

@@ -95,7 +95,7 @@ void UploadJob::autoSend()
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = szProto;
-	dbei.timestamp = (DWORD)time(nullptr);
+	dbei.timestamp = (DWORD)time(0);
 	dbei.cbBlob = (DWORD)mir_strlen(m_szFileLink) + 1;
 	dbei.pBlob = (PBYTE)m_szFileLink;
 	db_event_add(m_hContact, &dbei);
@@ -137,7 +137,7 @@ void UploadJob::pauseHandler()
 void UploadJob::resume()
 {
 	m_uiSent = 0;
-	m_startTS = time(nullptr);
+	m_startTS = time(0);
 	if (!isCompleted()) {
 		curl_easy_pause(m_hCurl, CURLPAUSE_CONT);
 		setStatus(STATUS_UPLOADING);
@@ -150,10 +150,8 @@ void UploadJob::cancel()
 	curl_easy_pause(m_hCurl, CURLPAUSE_CONT);
 }
 
-void UploadJob::waitingThread(void *arg)
+void UploadJob::waitingThread(UploadJob *job)
 {
-	UploadJob *job = (UploadJob *)arg;
-
 	while (!Miranda_IsTerminated()) {
 		mir_cslockfull lock(mutexJobCount);
 		if (iRunningJobCount < MAX_RUNNING_JOBS) {
@@ -182,7 +180,7 @@ void UploadJob::waitingThread(void *arg)
 
 void UploadJob::start()
 {
-	mir_forkthread(&UploadJob::waitingThread, this);
+	mir_forkThread<UploadJob>(&UploadJob::waitingThread, this);
 }
 
 char *UploadJob::getChmodString()
@@ -312,7 +310,7 @@ void UploadJob::upload()
 	if (uploadFile) {
 		curl_easy_setopt(m_hCurl, CURLOPT_UPLOAD, 1L);
 		setStatus(STATUS_CONNECTING);
-		m_startTS = time(nullptr);
+		m_startTS = time(0);
 
 		int result = curl_easy_perform(hCurl);
 		curl_slist_free_all(headerList);
@@ -385,8 +383,8 @@ size_t UploadJob::ReadCallback(void *ptr, size_t size, size_t nmemb, void *arg)
 
 void UploadJob::updateStats()
 {
-	if (m_uiSent && (time(nullptr) > m_startTS)) {
-		double speed = ((double)m_uiSent / 1024) / (time(nullptr) - m_startTS);
+	if (m_uiSent && (time(0) > m_startTS)) {
+		double speed = ((double)m_uiSent / 1024) / (time(0) - m_startTS);
 		m_avgSpeed = speed;
 		for (int i = 0; i < _countof(m_lastSpeed); i++) {
 			m_avgSpeed += (m_lastSpeed[i] == 0 ? speed : m_lastSpeed[i]);

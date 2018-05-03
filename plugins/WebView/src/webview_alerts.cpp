@@ -226,7 +226,7 @@ void SaveToFile(MCONTACT hContact, char *truncated)
 		char timestring[128], timeprefix[32];
 		char temptime1[32], temptime2[32];
 
-		time_t ftime = time(nullptr);
+		time_t ftime = time(0);
 		struct tm *nTime = localtime(&ftime);
 
 		mir_snprintf(timeprefix, " %s ", Translate("Last updated on"));

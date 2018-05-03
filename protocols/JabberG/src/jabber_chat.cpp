@@ -234,7 +234,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 		gce.ptszUID = user->m_tszResourceName;
 		gce.ptszText = buf;
 		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.time = time(nullptr);
+		gce.time = time(0);
 		Chat_Event(&gce);
 	}
 }
@@ -263,7 +263,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 	gce.ptszText = szReason;
 	if (item->bChatActive == 2) {
 		gce.dwFlags |= GCEF_ADDTOLOG;
-		gce.time = time(nullptr);
+		gce.time = time(0);
 	}
 
 	switch (gce.iType = action) {

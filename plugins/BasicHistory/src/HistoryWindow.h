@@ -29,7 +29,7 @@ private:
 	static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static int HistoryDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc);
-	static void FillHistoryThread(void* param);
+	static void FillHistoryThread(HistoryWindow *hInfo);
 	static void Close(HistoryWindow* historyWindow);
 	static void ChangeToFreeWindow(HistoryWindow* historyWindow);
 	void ReplaceIcons(HWND hwndDlg, int selStart, BOOL isSent);

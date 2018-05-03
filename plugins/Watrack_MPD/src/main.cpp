@@ -43,7 +43,7 @@ void ReStart(void*)
 	if(ghConnection)
 		Netlib_CloseHandle(ghConnection);
 	Sleep(500);
-	mir_forkthread(&Start, nullptr);
+	mir_forkthread(&Start);
 }
 
 int Parser()
@@ -56,7 +56,7 @@ int Parser()
 	nlpr.dwTimeout = 5;
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, nullptr);
+		mir_forkthread(&Start);
 	}
 	if(ghConnection)
 	{	
@@ -68,7 +68,7 @@ int Parser()
 			recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 			if(recvResult == SOCKET_ERROR)
 			{
-				mir_forkthread(&ReStart, nullptr);
+				mir_forkthread(&ReStart);
 //				ReStart();
 				return 1;
 			}
@@ -81,7 +81,7 @@ int Parser()
 				recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 				if(recvResult == SOCKET_ERROR)
 				{
-					mir_forkthread(&ReStart, nullptr);
+					mir_forkthread(&ReStart);
 					return 1;
 				}
 			}
@@ -91,14 +91,14 @@ int Parser()
 		recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 		if(recvResult == SOCKET_ERROR)
 		{
-			mir_forkthread(&ReStart, nullptr);
+			mir_forkthread(&ReStart);
 			return 1;
 		}
 		Netlib_Send(ghConnection, "currentsong\n", (int)mir_strlen("currentsong\n"), 0);
 		recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 		if(recvResult == SOCKET_ERROR)
 		{
-			mir_forkthread(&ReStart, nullptr);
+			mir_forkthread(&ReStart);
 			return 1;
 		}
 		nlpr.bytesUsed = nlpr.bytesAvailable;
@@ -266,7 +266,7 @@ void Stop()
 
 int Init()
 {
-	mir_forkthread(&Start, nullptr);
+	mir_forkthread(&Start);
 	return 0;
 }
 
@@ -280,7 +280,7 @@ HWND CheckPlayer(HWND, int)
 {
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, nullptr);
+		mir_forkthread(&Start);
 		return nullptr;
 	}
 	if(Parser())
@@ -294,7 +294,7 @@ int GetStatus(HWND)
 {
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, nullptr);
+		mir_forkthread(&Start);
 		return 0;
 	}
 	return Parser() ? -1 : gbState;
@@ -304,7 +304,7 @@ WCHAR* GetFileName(HWND, int)
 {
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, nullptr);
+		mir_forkthread(&Start);
 		return nullptr;
 	}
 	return nullptr;
@@ -314,7 +314,7 @@ int GetPlayerInfo(LPSONGINFO info, int)
 {
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, nullptr);
+		mir_forkthread(&Start);
 		return 0;
 	}
 	if(Parser())

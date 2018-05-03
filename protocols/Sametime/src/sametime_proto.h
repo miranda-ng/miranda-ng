@@ -14,7 +14,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
 
 	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath) override;
@@ -121,6 +120,9 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void DeinitAwayMsg();
 	void InitMeanwhileServices();
 	void DeinitMeanwhileServices();
+	
+	void __cdecl KeepAliveThread(void*);
+	void __cdecl SessionThread(void*);
 
 	// options.cpp
 	int __cdecl OptInit(WPARAM wParam, LPARAM lParam);
@@ -198,14 +200,8 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSametimeProto>
 	}
 };
 
-typedef struct tag_TFakeAckParams {
-	CSametimeProto* proto;
-	MCONTACT hContact;
-	LPARAM lParam;
-} TFakeAckParams;
-
-
-struct SendAnnouncementFunc_arg {
+struct SendAnnouncementFunc_arg
+{
 	CSametimeProto* proto;
 	wchar_t msg[MAX_MESSAGE_SIZE];
 	GList* recipients;
@@ -213,13 +209,15 @@ struct SendAnnouncementFunc_arg {
 
 typedef void (*SendAnnouncementFunc)(SendAnnouncementFunc_arg* ad);
 
-struct SessionAnnounceDialogProc_arg {
+struct SessionAnnounceDialogProc_arg
+{
 	CSametimeProto* proto;
 	SendAnnouncementFunc sendAnnouncementFunc;
 };
 
 
-struct PopupData {
+struct PopupData
+{
 	SametimePopupEnum flag;
 	wchar_t* title;
 	wchar_t* text;

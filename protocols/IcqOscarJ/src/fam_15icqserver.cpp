@@ -910,7 +910,7 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 		else if (bHasMetaToken || !hContact)
 			writeDbInfoSettingTLVDouble(hContact, DBSETTING_METAINFO_SAVED, cDetails, 0x1CC);
 		else
-			setDword(hContact, DBSETTING_METAINFO_SAVED, time(nullptr));
+			setDword(hContact, DBSETTING_METAINFO_SAVED, time(0));
 	}
 
 	if (wReplySubType == META_DIRECTORY_RESPONSE)

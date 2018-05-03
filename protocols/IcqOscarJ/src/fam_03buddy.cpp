@@ -624,7 +624,7 @@ void CIcqProto::handleUserOffline(BYTE *buf, size_t wLen)
 
 void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, MCONTACT hContact, oscar_tlv_chain *pChain)
 {
-	DWORD dwStatusNoteTS = time(nullptr);
+	DWORD dwStatusNoteTS = time(0);
 	BYTE *pStatusNoteTS, *pStatusNote;
 	WORD wStatusNoteTSLen, wStatusNoteLen;
 	BYTE bStatusNoteFlags;

@@ -574,11 +574,11 @@ void CIrcProto::CheckDCCTimeout(void)
 	mir_cslock lck(m_dcc);
 
 	for (auto &p : m_dcc_chats)
-		if (time(nullptr) > p->tLastActivity + DCCCHATTIMEOUT)
+		if (time(0) > p->tLastActivity + DCCCHATTIMEOUT)
 			p->Disconnect();
 
 	for (auto &p : m_dcc_xfers)
-		if (time(nullptr) > p->tLastActivity + DCCSENDTIMEOUT)
+		if (time(0) > p->tLastActivity + DCCSENDTIMEOUT)
 			p->Disconnect();
 }
 
@@ -719,7 +719,7 @@ CDccSession::CDccSession(CIrcProto* _pro, DCCINFO *pdci) :
 	con(nullptr),
 	hBindPort(nullptr)
 {
-	tLastActivity = time(nullptr);
+	tLastActivity = time(0);
 
 	di = pdci; // Setup values passed to the constructor
 
@@ -783,7 +783,7 @@ CDccSession::~CDccSession() // destroy all that needs destroying
 
 int CDccSession::NLSend(const unsigned char* buf, int cbBuf)
 {
-	tLastActivity = time(nullptr);
+	tLastActivity = time(0);
 
 	if (con)
 		return Netlib_Send(con, (const char*)buf, cbBuf, di->iType == DCC_CHAT ? MSG_DUMPASTEXT : MSG_NODUMP);
@@ -798,7 +798,7 @@ int CDccSession::NLReceive(const unsigned char* buf, int cbBuf)
 	if (con)
 		n = Netlib_Recv(con, (char*)buf, cbBuf, di->iType == DCC_CHAT ? MSG_DUMPASTEXT : MSG_NODUMP);
 
-	tLastActivity = time(nullptr);
+	tLastActivity = time(0);
 	return n;
 }
 
@@ -863,7 +863,7 @@ int CDccSession::SetupConnection()
 		pfts.pszFiles.w = file;
 		pfts.totalProgress = 0;
 		pfts.currentFileProgress = 0;
-		pfts.currentFileTime = (unsigned long)time(nullptr);
+		pfts.currentFileTime = (unsigned long)time(0);
 	}
 
 	// create a listening socket for outgoing chat/send requests. The remote computer connects to this computer. Used for both chat and filetransfer.
@@ -1084,7 +1084,7 @@ void CDccSession::DoSendFile()
 			// initial ack to set the 'percentage-ready meter' to the correct value
 			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
 
-			tLastActivity = time(nullptr);
+			tLastActivity = time(0);
 
 			// create a packet receiver to handle receiving ack's from the remote computer.
 			HANDLE hPackrcver = Netlib_CreatePacketReceiver(con, sizeof(DWORD));
@@ -1155,8 +1155,8 @@ void CDccSession::DoSendFile()
 				}
 
 				// update the filetransfer dialog's 'percentage-ready meter' once per second only to save cpu
-				if (tLastPercentageUpdate < time(nullptr)) {
-					tLastPercentageUpdate = time(nullptr);
+				if (tLastPercentageUpdate < time(0)) {
+					tLastPercentageUpdate = time(0);
 					pfts.totalProgress = dwTotal;
 					pfts.currentFileProgress = dwTotal;
 					ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
@@ -1177,7 +1177,7 @@ void CDccSession::DoSendFile()
 			}
 
 			// ack the progress one final time
-			tLastActivity = time(nullptr);
+			tLastActivity = time(0);
 			pfts.totalProgress = dwTotal;
 			pfts.currentFileProgress = dwTotal;
 			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
@@ -1252,8 +1252,8 @@ void CDccSession::DoReceiveFile()
 
 			// sets the 'last update time' to check for timed out connections, and also make sure we only
 			// ack the 'percentage-ready meter' only once a second to save CPU.
-			if (tLastPercentageUpdate < time(nullptr)) {
-				tLastPercentageUpdate = time(nullptr);
+			if (tLastPercentageUpdate < time(0)) {
+				tLastPercentageUpdate = time(0);
 				pfts.totalProgress = dwTotal;
 				pfts.currentFileProgress = dwTotal;
 				ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
@@ -1323,7 +1323,7 @@ void CDccSession::DoChatReceive()
 			if (*pStart) {
 				// send it off to some messaging module
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = (DWORD)time(nullptr);
+				pre.timestamp = (DWORD)time(0);
 				pre.szMessage = pStart;
 				ProtoChainRecvMsg(di->hContact, &pre);
 			}

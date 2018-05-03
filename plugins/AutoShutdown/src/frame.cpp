@@ -290,7 +290,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 	case M_SET_COUNTDOWN:
 		if (dat->fTimeFlags&SDWTF_ST_TIME) {
 			dat->settingLastTime = (time_t)db_get_dw(NULL, "AutoShutdown", "TimeStamp", SETTING_TIMESTAMP_DEFAULT);
-			dat->countdown = time(nullptr);
+			dat->countdown = time(0);
 			if (dat->settingLastTime > dat->countdown) dat->countdown = dat->settingLastTime - dat->countdown;
 			else dat->countdown = 0;
 		}

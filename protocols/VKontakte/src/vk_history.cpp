@@ -102,7 +102,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 		return;
 	setByte(hContact, "ActiveHistoryTask", 1);
 
-	time_t tTime = time(nullptr) - 60 * 60 * 24 * NDay;
+	time_t tTime = time(0) - 60 * 60 * 24 * NDay;
 
 	MEVENT hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {

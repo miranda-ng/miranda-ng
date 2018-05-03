@@ -467,7 +467,7 @@ retry:
 	}
 	else {
 		// Successfully connected
-		logonTime = time(nullptr);
+		logonTime = time(0);
 		setDword(GG_KEY_LOGONTIME, logonTime);
 		gg_EnterCriticalSection(&sess_mutex, "mainthread", 15, "sess_mutex", 1);
 		m_sess = local_sess;
@@ -636,7 +636,7 @@ retry:
 							mir_wstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_wstrlen(strFmt2));
 						}
 						if (__birthyear) {
-							time_t t = time(nullptr);
+							time_t t = time(0);
 							struct tm *lt = localtime(&t);
 							int br = atoi(__birthyear);
 
@@ -698,7 +698,7 @@ retry:
 							delSetting(GG_KEY_PD_FAMILYCITY);
 
 						if (__birthyear) {
-							time_t t = time(nullptr);
+							time_t t = time(0);
 							struct tm *lt = localtime(&t);
 							int br = atoi(__birthyear);
 							if (br > 0)
@@ -815,7 +815,7 @@ retry:
 						UIN2IDT(e->event.msg.sender, id);
 
 						GCEVENT gce = { m_szModuleName, chat, GC_EVENT_MESSAGE };
-						time_t t = time(nullptr);
+						time_t t = time(0);
 						gce.ptszUID = id;
 						wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
 						gce.ptszText = messageT;
@@ -830,7 +830,7 @@ retry:
 				// Check if not empty message ( who needs it? )
 				else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && mir_strcmp(e->event.msg.message, "\xA0\0")) {
 					PROTORECVEVENT pre = { 0 };
-					time_t t = time(nullptr);
+					time_t t = time(0);
 					pre.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 					pre.szMessage = e->event.msg.message;
 					ProtoChainRecvMsg(getcontact(e->event.msg.sender, 1, 0, nullptr), &pre);
@@ -949,7 +949,7 @@ retry:
 			sessions_updatedlg();
 			if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
 			{
-				const wchar_t* szText = time(nullptr) - logonTime > 3
+				const wchar_t* szText = time(0) - logonTime > 3
 					? TranslateT("You have logged in at another location")
 					: TranslateT("You are logged in at another location");
 				for (i = 0; i < e->event.multilogon_info.count; i++)
@@ -1041,7 +1041,7 @@ retry:
 			PROTORECVFILE pre = { 0 };
 			pre.dwFlags = PRFF_UNICODE;
 			pre.fileCount = 1;
-			pre.timestamp = time(nullptr);
+			pre.timestamp = time(0);
 			pre.descr.w = filenameT;
 			pre.files.w = &filenameT;
 			pre.lParam = (LPARAM)dcc7;

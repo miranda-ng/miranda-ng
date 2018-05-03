@@ -875,7 +875,7 @@ void avatars_server_connection::checkRequestQueue()
 void avatars_server_connection::connectionThread()
 {
 	// This is the "infinite" loop that receives the packets from the ICQ avatar server
-	DWORD dwLastKeepAlive = time(nullptr) + KEEPALIVE_INTERVAL;
+	DWORD dwLastKeepAlive = time(0) + KEEPALIVE_INTERVAL;
 
 	hPacketRecver = Netlib_CreatePacketReceiver(hConnection, 65536);
 
@@ -893,14 +893,14 @@ void avatars_server_connection::connectionThread()
 				if (Miranda_IsTerminated())
 					break;
 
-				if (time(nullptr) >= dwLastKeepAlive) { // limit frequency (HACK: on some systems select() does not work well)
+				if (time(0) >= dwLastKeepAlive) { // limit frequency (HACK: on some systems select() does not work well)
 					if (!ppro->m_bGatewayMode && ppro->getByte("KeepAlive", DEFAULT_KEEPALIVE_ENABLED)) { // send keep-alive packet
 						icq_packet packet;
 						packet.wLen = 0;
 						write_flap(&packet, ICQ_PING_CHAN);
 						sendServerPacket(&packet);
 					}
-					dwLastKeepAlive = time(nullptr) + KEEPALIVE_INTERVAL;
+					dwLastKeepAlive = time(0) + KEEPALIVE_INTERVAL;
 				}
 
 				// check if we got something to request

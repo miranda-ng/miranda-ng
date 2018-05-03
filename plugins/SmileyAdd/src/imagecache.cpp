@@ -29,7 +29,7 @@ static UINT_PTR timerId;
 static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	WaitForSingleObject(g_hMutexIm, 3000);
-	const time_t ts = time(nullptr) - 10;
+	const time_t ts = time(0) - 10;
 	if (lastmodule && ts > laststamp) {
 		FreeLibrary(lastmodule);
 		lastmodule = nullptr;
@@ -69,7 +69,7 @@ static HMODULE LoadDll(const CMStringW &file)
 		lastmodule = LoadLibraryEx(file.c_str(), nullptr, LOAD_LIBRARY_AS_DATAFILE);
 
 	}
-	laststamp = time(nullptr);
+	laststamp = time(0);
 
 	ReleaseMutex(g_hMutexIm);
 	return lastmodule;
@@ -98,7 +98,7 @@ long ImageBase::Release(void)
 
 	long cnt = m_lRefCount;
 	if (cnt) m_lRefCount = --cnt;
-	if (cnt == 0) m_timestamp = time(nullptr);
+	if (cnt == 0) m_timestamp = time(0);
 
 	ReleaseMutex(g_hMutexIm);
 	return cnt;

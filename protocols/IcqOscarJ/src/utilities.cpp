@@ -946,7 +946,7 @@ int CIcqProto::IsMetaInfoChanged(MCONTACT hContact)
 
 			db_free(&infoSaved);
 
-			if ((time(nullptr) - dwInfoTime) > 14 * 3600 * 24) {
+			if ((time(0) - dwInfoTime) > 14 * 3600 * 24) {
 				res = 3; // threshold exceeded
 			}
 		}

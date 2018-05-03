@@ -227,7 +227,7 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			dwSinceDate = db_get_dw(NULL, IMPORT_MODULE, "ImportSinceTS", time(nullptr));
+			dwSinceDate = db_get_dw(NULL, IMPORT_MODULE, "ImportSinceTS", time(0));
 			struct tm *TM = localtime(&dwSinceDate);
 
 			struct _SYSTEMTIME ST = { 0 };

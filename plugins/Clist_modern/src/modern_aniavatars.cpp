@@ -996,7 +996,7 @@ int AniAva_InitModule()
 	_AniAva_LoadOptions();
 
 	s_hExitEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-	mir_forkthread(_AniAva_AnimationTreadProc, nullptr);
+	mir_forkthread(_AniAva_AnimationTreadProc);
 	return 1;
 }
 

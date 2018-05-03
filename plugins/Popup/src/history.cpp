@@ -82,7 +82,7 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 		ppd->lpzText = mir_strdup(ppd->lpzText);
 	}
 	ppd->lpzSkin = mir_strdup(ppd->lpzSkin);
-	ppd->dwTimestamp = time(nullptr);
+	ppd->dwTimestamp = time(0);
 	{
 		mir_cslock lck(csPopupHistory);
 		if (arPopupHistory.getCount() >= popupHistoryBuffer) {

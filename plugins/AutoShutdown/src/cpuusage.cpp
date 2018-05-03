@@ -72,10 +72,8 @@ static BOOL CallBackAndWait(struct CpuUsageThreadParams *param, BYTE nCpuUsage)
 	return !Miranda_IsTerminated();
 }
 
-static void WinNT_PollThread(void *vparam)
+static void WinNT_PollThread(CpuUsageThreadParams *param)
 {
-	CpuUsageThreadParams *param = (CpuUsageThreadParams*)vparam;
-
 	DWORD dwBufferSize = 0, dwCount;
 	BYTE *pBuffer = nullptr;
 	PERF_DATA_BLOCK *pPerfData = nullptr;
@@ -204,7 +202,7 @@ DWORD PollCpuUsage(CPUUSAGEAVAILPROC pfnDataAvailProc, LPARAM lParam, DWORD dwDe
 	param->hFirstEvent = hFirstEvent;
 
 	/* start thread */
-	if (mir_forkthread(WinNT_PollThread, param) != INVALID_HANDLE_VALUE)
+	if (mir_forkThread<CpuUsageThreadParams>(WinNT_PollThread, param) != INVALID_HANDLE_VALUE)
 		WaitForSingleObject(hFirstEvent, INFINITE); /* wait for first success */
 	else
 		mir_free(param); /* thread not started */

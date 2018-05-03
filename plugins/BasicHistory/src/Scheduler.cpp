@@ -244,7 +244,7 @@ bool DoTask(TaskOptions& to)
 		return true;
 	}
 
-	DWORD now = time(nullptr);
+	DWORD now = time(0);
 	long long int t = to.eventDeltaTime * 60;
 	if (to.eventUnit > TaskOptions::Minute)
 		t *= 60LL;
@@ -715,7 +715,7 @@ void SchedulerThreadFunc(void*)
 
 	while (!finishThread) {
 		DWORD timeWait;
-		time_t now = time(nullptr);
+		time_t now = time(0);
 		while (nextExportTime <= now)
 			if (!ExecuteCurrentTask(now))
 				return;
@@ -732,11 +732,11 @@ void StartThread(bool init)
 	StopThread();
 
 	initTask = false;
-	bool isExport = GetNextExportTime(init, time(nullptr));
+	bool isExport = GetNextExportTime(init, time(0));
 	if (isExport) {
 		finishThread = false;
 		hThreadEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-		hThread = mir_forkthread(SchedulerThreadFunc, nullptr);
+		hThread = mir_forkthread(SchedulerThreadFunc);
 	}
 }
 
@@ -803,7 +803,7 @@ bool ExecuteCurrentTask(time_t now)
 		mir_cslock lck(Options::instance->criticalSection);
 		for (auto it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it) {
 			if (it->forceExecute) {
-				it->lastExport = time(nullptr);
+				it->lastExport = time(0);
 				Options::instance->SaveTaskTime(*it);
 				to = *it;
 				isExport = true;
@@ -812,7 +812,7 @@ bool ExecuteCurrentTask(time_t now)
 			else if (it->active && it->trigerType != TaskOptions::AtStart && it->trigerType != TaskOptions::AtEnd) {
 				time_t t = GetNextExportTime(*it);
 				if (t <= now) {
-					it->lastExport = time(nullptr);
+					it->lastExport = time(0);
 					Options::instance->SaveTaskTime(*it);
 					to = *it;
 					isExport = true;
@@ -1283,7 +1283,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		DBEVENTINFO dbei = {};
 		dbei.szModule = MODULE;
 		dbei.flags = DBEF_UTF | DBEF_READ;
-		dbei.timestamp = time(nullptr);
+		dbei.timestamp = time(0);
 		// For now I do not convert event data from string to blob, and event type must be message to handle it properly
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		int len = (int)error.length() + 1;

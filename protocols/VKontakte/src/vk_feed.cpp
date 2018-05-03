@@ -544,7 +544,7 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 
 	LONG iUserId = !jnItem["invited_by"] ? 0 : jnItem["invited_by"].as_int();
 	CVKNewsItem *vkNotification = new CVKNewsItem();
-	vkNotification->tDate = time(nullptr);
+	vkNotification->tDate = time(0);
 	vkNotification->vkUser = GetVkUserInfo(iUserId, vkUsers);
 	vkNotification->wszType = wszType;
 	vkNotification->wszId = wszId;
@@ -577,8 +577,8 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 	if (!IsOnline())
 		return;
 
-	time_t tLastNewsReqTime = getDword("LastNewsReqTime", time(nullptr) - 24 * 60 * 60);
-	if (time(nullptr) - tLastNewsReqTime < 3 * 60)
+	time_t tLastNewsReqTime = getDword("LastNewsReqTime", time(0) - 24 * 60 * 60);
+	if (time(0) - tLastNewsReqTime < 3 * 60)
 		return;
 
 	CMStringA szFilter;
@@ -623,7 +623,7 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 		<< CHAR_PARAM("filters", szFilter)
 		<< CHAR_PARAM("source_ids", szSource));
 
-	setDword("LastNewsReqTime", (DWORD)time(nullptr));
+	setDword("LastNewsReqTime", (DWORD)time(0));
 }
 
 static int sttCompareVKNewsItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
@@ -688,7 +688,7 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 	if (bNewsAdded)
 		AddCListEvent(true);
 
-	setDword("LastNewsTime", time(nullptr));
+	setDword("LastNewsTime", time(0));
 
 	vkNews.destroy();
 	vkUsers.destroy();
@@ -702,8 +702,8 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 	if (!IsOnline())
 		return;
 
-	time_t tLastNotificationsReqTime = getDword("LastNotificationsReqTime", time(nullptr) - 24 * 60 * 60);
-	if (time(nullptr) - tLastNotificationsReqTime < 3 * 60)
+	time_t tLastNotificationsReqTime = getDword("LastNotificationsReqTime", time(0) - 24 * 60 * 60);
+	if (time(0) - tLastNotificationsReqTime < 3 * 60)
 		return;
 
 	CMStringW code(FORMAT, L"return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s",
@@ -714,7 +714,7 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 		<< WCHAR_PARAM("code", code)
 	);
 
-	setDword("LastNotificationsReqTime", (DWORD)time(nullptr));
+	setDword("LastNotificationsReqTime", (DWORD)time(0));
 }
 
 bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented)
@@ -813,7 +813,7 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 	if (bNotificationAdded)
 		AddCListEvent(false);
 
-	setDword("LastNotificationsTime", time(nullptr));
+	setDword("LastNotificationsTime", time(0));
 	if (m_vkOptions.bNotificationsMarkAsViewed && bNotificationCommentAdded)
 		NotificationMarkAsViewed();
 
@@ -827,12 +827,12 @@ void CVkProto::RetrieveUnreadEvents()
 	if (!IsOnline() || (!m_vkOptions.bNotificationsEnabled && !m_vkOptions.bNewsEnabled))
 		return;
 
-	time_t tLastNotificationsTime = getDword("LastNotificationsTime", time(nullptr) - 24 * 60 * 60);
-	if (time(nullptr) - tLastNotificationsTime - m_vkOptions.iNotificationsInterval * 60 >= -3 && m_vkOptions.bNotificationsEnabled)
+	time_t tLastNotificationsTime = getDword("LastNotificationsTime", time(0) - 24 * 60 * 60);
+	if (time(0) - tLastNotificationsTime - m_vkOptions.iNotificationsInterval * 60 >= -3 && m_vkOptions.bNotificationsEnabled)
 		RetrieveUnreadNotifications(tLastNotificationsTime);
 
-	time_t tLastNewsTime = getDword("LastNewsTime", time(nullptr) - 24 * 60 * 60);
-	if (time(nullptr) - tLastNewsTime - m_vkOptions.iNewsInterval * 60 >= -3 && m_vkOptions.bNewsEnabled)
+	time_t tLastNewsTime = getDword("LastNewsTime", time(0) - 24 * 60 * 60);
+	if (time(0) - tLastNewsTime - m_vkOptions.iNewsInterval * 60 >= -3 && m_vkOptions.bNewsEnabled)
 		RetrieveUnreadNews(tLastNewsTime);
 
 	NewsClearHistory();
@@ -849,7 +849,7 @@ INT_PTR CVkProto::SvcLoadVKNews(WPARAM, LPARAM)
 		AddFeedSpecialUser();
 	}
 
-	time_t tLastNewsTime = getDword("LastNewsTime", time(nullptr) - 24 * 60 * 60);
+	time_t tLastNewsTime = getDword("LastNewsTime", time(0) - 24 * 60 * 60);
 	RetrieveUnreadNews(tLastNewsTime);
 
 	return 0;
@@ -862,7 +862,7 @@ void CVkProto::NewsClearHistory()
 	if (hContact == 0 || !m_vkOptions.bNewsAutoClearHistory)
 		return;
 
-	time_t tTime = time(nullptr) - m_vkOptions.iNewsAutoClearHistoryInterval;
+	time_t tTime = time(0) - m_vkOptions.iNewsAutoClearHistoryInterval;
 	MEVENT hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {
 		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);

@@ -330,7 +330,7 @@ void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 
 				// Create message to notify user
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = time(nullptr);
+				pre.timestamp = time(0);
 				pre.szMessage = szWork;
 
 				int bAdded;

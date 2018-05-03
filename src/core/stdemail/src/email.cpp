@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static HGENMENU hEMailMenuItem;
 
-void SendEmailThread(void *szUrl)
+void __cdecl SendEmailThread(char *szUrl)
 {
 	ShellExecuteA(nullptr, "open", (char*)szUrl, "", "", SW_SHOW);
 	mir_free(szUrl);
@@ -46,7 +46,7 @@ static INT_PTR SendEMailCommand(WPARAM hContact, LPARAM lParam)
 	mir_strcpy(szUrl, "mailto:");
 	mir_strcat(szUrl, dbv.pszVal);
 	mir_free(dbv.pszVal);
-	mir_forkthread(SendEmailThread, szUrl);
+	mir_forkThread<char>(SendEmailThread, szUrl);
 	return 0;
 }
 

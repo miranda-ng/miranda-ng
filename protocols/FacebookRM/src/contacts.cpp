@@ -297,7 +297,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		if (hContact != 0) {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-			setDword(hContact, FACEBOOK_KEY_DELETED, ::time(nullptr));
+			setDword(hContact, FACEBOOK_KEY_DELETED, ::time(0));
 		}
 
 		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), 0, EVENT_FRIENDSHIP);

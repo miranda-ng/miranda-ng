@@ -41,7 +41,7 @@ void RequestQueue::Start()
 
 	isTerminated = false;
 	if (hRequestQueueThread == nullptr)
-		hRequestQueueThread = mir_forkthread((pThreadFunc)&RequestQueue::WorkerThread, this);
+		hRequestQueueThread = mir_forkThread<RequestQueue>(&RequestQueue::WorkerThread, this);
 }
 
 void RequestQueue::Stop()
@@ -70,7 +70,7 @@ void RequestQueue::Push(HttpRequest *request, HttpResponseCallback response, voi
 void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, void *arg)
 {
 	RequestQueueItem *item = new RequestQueueItem(request, response, arg);
-	mir_forkthreadowner((pThreadFuncOwner)&RequestQueue::AsyncSendThread, this, item, nullptr);
+	mir_forkthreadowner(&RequestQueue::AsyncSendThread, this, item, nullptr);
 }
 
 void RequestQueue::Execute(RequestQueueItem *item)
@@ -83,20 +83,17 @@ void RequestQueue::Execute(RequestQueueItem *item)
 	delete item;
 }
 
-unsigned int RequestQueue::AsyncSendThread(void *owner, void *arg)
+unsigned RequestQueue::AsyncSendThread(void *owner, void *arg)
 {
 	RequestQueue *that = (RequestQueue*)owner;
 	RequestQueueItem *item = (RequestQueueItem*)arg;
 
 	that->Execute(item);
-
 	return 0;
 }
 
-unsigned int RequestQueue::WorkerThread(void *arg)
+void RequestQueue::WorkerThread(RequestQueue *queue)
 {
-	RequestQueue *queue = (RequestQueue*)arg;
-
 	while (true) {
 		queue->hRequestQueueEvent.Wait();
 		if (queue->isTerminated)
@@ -119,5 +116,4 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 	}
 
 	queue->hRequestQueueThread = nullptr;
-	return 0;
 }

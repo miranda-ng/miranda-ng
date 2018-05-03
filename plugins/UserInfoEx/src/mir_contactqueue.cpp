@@ -38,7 +38,7 @@ CContactQueue::CContactQueue(int initialSize) :
 	_hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 	_status = RUNNING;
 
-	mir_forkthread((pThreadFunc)CContactQueue::ThreadProc, this);
+	mir_forkThread<CContactQueue>(CContactQueue::ThreadProc, this);
 }
 
 CContactQueue::~CContactQueue()

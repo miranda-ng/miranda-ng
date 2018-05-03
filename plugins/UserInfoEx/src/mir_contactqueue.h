@@ -138,7 +138,7 @@ protected:
 	
 	// This is a static method to redirect the thread's callback function
 	// to the desired class object.
-	static void ThreadProc(CContactQueue* obj)
+	static void __cdecl ThreadProc(CContactQueue* obj)
 	{
 		obj->Thread();
 	}

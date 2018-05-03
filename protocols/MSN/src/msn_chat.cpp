@@ -482,7 +482,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.ptszNick = bError ? L"" : dbv.ptszVal;
 				gce.ptszUID = mir_a2u(MyOptions.szEmail);
-				gce.time = time(nullptr);
+				gce.time = time(0);
 				gce.ptszText = gch->ptszText;
 				gce.bIsMe = TRUE;
 				Chat_Event(&gce);

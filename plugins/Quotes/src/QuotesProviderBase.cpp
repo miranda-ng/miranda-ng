@@ -547,7 +547,7 @@ bool show_popup(const IQuotesProvider* pProvider,
 
 void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol/* = ""*/)
 {
-	time_t nTime = ::time(nullptr);
+	time_t nTime = ::time(0);
 
 	if (false == rsSymbol.empty())
 		db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsSymbol.c_str());

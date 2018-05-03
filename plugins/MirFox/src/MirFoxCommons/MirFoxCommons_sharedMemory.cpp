@@ -1230,7 +1230,7 @@ time_t
 SharedMemoryUtils::mfGetCurrentTimestamp()
 {
 
-	time_t currentTimestamp = time(nullptr);
+	time_t currentTimestamp = time(0);
 	//logger->log_dp(L"mfGetCurrentTimestamp() [" SCNuPTR L"]", currentTimestamp);
 	return currentTimestamp;
 

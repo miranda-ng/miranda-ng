@@ -2882,7 +2882,7 @@ static int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 {
 	mir_snwprintf(g_ptszEventName, L"mf_update_evt_%d", GetCurrentThreadId());
 	g_hEventThread = CreateEvent(nullptr, TRUE, FALSE, g_ptszEventName);
-	hThreadMFUpdate = mir_forkthread(MF_UpdateThread, nullptr);
+	hThreadMFUpdate = mir_forkthread(MF_UpdateThread);
 	SetThreadPriority(hThreadMFUpdate, THREAD_PRIORITY_IDLE);
 	CLUIFramesLoadMainMenu();
 	CLUIFramesCreateMenuForFrame(-1, nullptr, 000010000, false);

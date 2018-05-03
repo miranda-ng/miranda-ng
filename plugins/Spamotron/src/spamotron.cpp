@@ -57,9 +57,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	/*** Dequeue and learn messages ***/
 	
 	if (bayesEnabled && _getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved))
-		if (time(nullptr) - last_queue_check > 4*3600) { // dequeue every 4 hours
+		if (time(0) - last_queue_check > 4*3600) { // dequeue every 4 hours
 			dequeue_messages();
-			last_queue_check = time(nullptr);
+			last_queue_check = time(0);
 		}
 
 	/*** Check for conditional and unconditional approval ***/
@@ -375,7 +375,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		else
 			_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
 		_getOptS(buf, buflen, "Response", defaultResponse);
-		srand(time(nullptr));
+		srand(time(0));
 		_setCOptD(hContact, "ResponseNum", rand() % get_response_num(buf));
 		ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
@@ -507,14 +507,14 @@ extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
 
-	srand((unsigned)time(nullptr));
+	srand((unsigned)time(0));
 	bayesdb = nullptr;
 	if (_getOptB("BayesEnabled", defaultBayesEnabled)) {
 		if (CheckBayes()) {
 			OpenBayes();
 			if (_getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved)) {
 				dequeue_messages();
-				last_queue_check = time(nullptr);
+				last_queue_check = time(0);
 			}
 		}
 	}

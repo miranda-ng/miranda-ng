@@ -737,11 +737,10 @@ int SmileyToolWindowType::CalculateCoordinatesToButton(POINT pt, int scroll)
 	return pos;
 }
 
-void __cdecl SmileyToolThread(void *arg)
+void __cdecl SmileyToolThread(SmileyToolWindowParam *stwp)
 {
 	Thread_SetName("SmileyAdd: SmileyToolThread");
 
-	SmileyToolWindowParam *stwp = (SmileyToolWindowParam*)arg;
 	if (stwp->pSmileyPack && stwp->pSmileyPack->VisibleSmileyCount()) {
 		WNDCLASSEX wndclass;
 		wndclass.cbSize = sizeof(wndclass);
@@ -761,7 +760,7 @@ void __cdecl SmileyToolThread(void *arg)
 		CreateWindowEx(WS_EX_TOPMOST | WS_EX_NOPARENTNOTIFY, L"SmileyTool", nullptr,
 			WS_BORDER | WS_POPUP | WS_VISIBLE,
 			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			((SmileyToolWindowParam*)arg)->hWndParent, nullptr, g_hInst, arg);
+			stwp->hWndParent, nullptr, g_hInst, stwp);
 
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
 

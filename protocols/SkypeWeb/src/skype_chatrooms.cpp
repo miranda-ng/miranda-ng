@@ -198,7 +198,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 					gce.ptszUID = gch->ptszUID;
 					gce.ptszText = tnick_new;
 					gce.dwFlags = GCEF_ADDTOLOG;
-					gce.time = time(nullptr);
+					gce.time = time(0);
 					Chat_Event(&gce);
 
 					if (!reset)
@@ -351,7 +351,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			gce.ptszNick = tszId;
 			gce.ptszUID = tszId;
 			gce.ptszText = tszInitiator;
-			gce.time = time(nullptr);
+			gce.time = time(0);
 			gce.bIsMe = IsMe(id);
 			gce.ptszStatus = TranslateT("Admin");
 			Chat_Event(&gce);
@@ -372,9 +372,9 @@ void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszM
 	ptrA szMessage(mir_utf8encodeW(buf));
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendChatActionRequest(szChatId, time(nullptr), szMessage, li));
+		SendRequest(new SendChatActionRequest(szChatId, time(0), szMessage, li));
 	else
-		SendRequest(new SendChatMessageRequest(szChatId, time(nullptr), szMessage, li));
+		SendRequest(new SendChatMessageRequest(szChatId, time(0), szMessage, li));
 }
 
 void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
@@ -512,7 +512,7 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	gce.time = !isChange ? time(nullptr) : NULL;
+	gce.time = !isChange ? time(0) : NULL;
 	gce.bIsMe = IsMe(id);
 	gce.ptszStatus = TranslateW(role);
 
@@ -533,13 +533,13 @@ void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, con
 		gce.ptszUID = tid;
 		gce.ptszNick = tnick;
 		gce.ptszStatus = tinitiator;
-		gce.time = time(nullptr);
+		gce.time = time(0);
 	}
 	else {
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.ptszNick = tnick;
 		gce.ptszUID = tid;
-		gce.time = time(nullptr);
+		gce.time = time(0);
 		gce.bIsMe = IsMe(id);
 	}
 

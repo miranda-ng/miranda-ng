@@ -168,7 +168,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		while (lc >= 0 && (gch->ptszText[lc] == '\n' || gch->ptszText[lc] == '\r'))
 			gch->ptszText[lc--] = 0;
 
-		gce.time = time(nullptr);
+		gce.time = time(0);
 		gce.bIsMe = 1;
 		gce.dwFlags = GCEF_ADDTOLOG;
 		debugLogW(L"gc_event(): Sending conference message to room %s, \"%s\".", gch->ptszID, gch->ptszText);

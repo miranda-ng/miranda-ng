@@ -36,7 +36,7 @@ bool CGDriveService::IsLoggedIn()
 	ptrA token(getStringA("TokenSecret"));
 	if (!token || token[0] == 0)
 		return false;
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	time_t expiresIn = getDword("ExpiresIn");
 	return now < expiresIn;
 }
@@ -55,7 +55,7 @@ void CGDriveService::Login(HWND owner)
 		setString("TokenSecret", node.as_string().c_str());
 
 		node = root.at("expires_in");
-		time_t expiresIn = time(nullptr) + node.as_int();
+		time_t expiresIn = time(0) + node.as_int();
 		setDword("ExpiresIn", expiresIn);
 
 		return;
@@ -116,7 +116,7 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 	db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
-	time_t expiresIn = time(nullptr) + node.as_int();
+	time_t expiresIn = time(0) + node.as_int();
 	db_set_dw(NULL, GetAccountName(), "ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");

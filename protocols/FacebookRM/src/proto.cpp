@@ -31,7 +31,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	update_loop_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	// Initialize random seed for this client
-	facy.random_ = ::time(nullptr) + PtrToUint(&facy);
+	facy.random_ = ::time(0) + PtrToUint(&facy);
 
 	m_enableChat = DEFAULT_ENABLE_CHATS;
 
@@ -362,7 +362,7 @@ int FacebookProto::OnIdleChanged(WPARAM, LPARAM lParam)
 		Idle_GetInfo(mii);
 
 		// Compute time when user really became idle
-		m_idleTS = time(nullptr) - mii.idleTime * 60;
+		m_idleTS = time(0) - mii.idleTime * 60;
 		setDword("IdleTS", m_idleTS);
 	}
 	else {

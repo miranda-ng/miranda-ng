@@ -188,7 +188,7 @@ int SmileyButtonPressed(WPARAM, LPARAM lParam)
 	stwp->direction = 0;
 	stwp->xPosition = pcbc->pt.x;
 	stwp->yPosition = pcbc->pt.y;
-	mir_forkthread(SmileyToolThread, stwp);
+	mir_forkThread<SmileyToolWindowParam>(SmileyToolThread, stwp);
 	return 0;
 }
 

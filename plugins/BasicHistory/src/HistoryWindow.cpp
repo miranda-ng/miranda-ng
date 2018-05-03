@@ -923,7 +923,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 		if (!historyWindow->isLoading) {
 			historyWindow->isLoading = true;
 			historyWindow->ReloadContacts();
-			mir_forkthread(HistoryWindow::FillHistoryThread, historyWindow);
+			mir_forkThread<HistoryWindow>(HistoryWindow::FillHistoryThread, historyWindow);
 		}
 		DlgReturn(TRUE);
 
@@ -1180,9 +1180,8 @@ int HistoryWindow::HistoryDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-void HistoryWindow::FillHistoryThread(void* param)
+void HistoryWindow::FillHistoryThread(HistoryWindow *hInfo)
 {
-	HistoryWindow *hInfo = (HistoryWindow*)param;
 	HWND hwndList = hInfo->listWindow;
 	ListView_DeleteAllItems(hwndList);
 	hInfo->SelectEventGroup(-1);
@@ -1668,11 +1667,11 @@ void HistoryWindow::FindToolbarClicked(LPNMTOOLBAR lpnmTB)
 		AppendMenu(hPopupMenu, searcher.IsAllUsers() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ALLUSERS, TranslateT("All contacts"));
 		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 		HMENU hFilterMenu = CreatePopupMenu();
-		int filter = GetFilterNr();
+		DWORD filter = GetFilterNr();
 		AppendMenu(hFilterMenu, filter == 0 ? MF_STRING | MF_CHECKED : MF_STRING, IDM_FILTERDEF, TranslateT("Default history events"));
 		AppendMenu(hFilterMenu, filter == 1 ? MF_STRING | MF_CHECKED : MF_STRING, IDM_FILTERALL, TranslateT("All events"));
 		for (size_t i = 0; i < Options::instance->customFilters.size(); ++i) {
-			UINT flags = MF_STRING;
+			DWORD flags = MF_STRING;
 			if (filter - 2 == i)
 				flags |= MF_CHECKED;
 
@@ -1975,7 +1974,7 @@ bool HistoryWindow::ContactChanged(bool sync)
 					if (sync)
 						FillHistoryThread(this);
 					else
-						mir_forkthread(HistoryWindow::FillHistoryThread, this);
+						mir_forkThread<HistoryWindow>(HistoryWindow::FillHistoryThread, this);
 					return true;
 				}
 			}
@@ -1988,7 +1987,7 @@ bool HistoryWindow::ContactChanged(bool sync)
 					if (sync)
 						FillHistoryThread(this);
 					else
-						mir_forkthread(HistoryWindow::FillHistoryThread, this);
+						mir_forkThread<HistoryWindow>(HistoryWindow::FillHistoryThread, this);
 					return true;
 				}
 			}

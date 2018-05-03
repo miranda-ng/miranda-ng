@@ -53,7 +53,7 @@ private:
 
 	CURL* curlInit(char *szUrl, struct curl_slist *headerList);
 
-	static void waitingThread(void *arg); 
+	static void __cdecl waitingThread(UploadJob *job);
 	static size_t ReadCallback(void *ptr, size_t size, size_t nmemb, void *arg);
 	static INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam); 
 

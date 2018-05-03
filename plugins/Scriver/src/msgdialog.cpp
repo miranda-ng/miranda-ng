@@ -195,8 +195,8 @@ void CSrmmWindow::OnInitDialog()
 	SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
 
 	m_lastEventType = -1;
-	m_lastEventTime = time(nullptr);
-	m_startTime = time(nullptr);
+	m_lastEventTime = time(0);
+	m_startTime = time(0);
 
 	m_bUseRtl = db_get_b(m_hContact, SRMM_MODULE, "UseRTL", 0) != 0;
 	m_bUseIEView = g_dat.ieviewInstalled ? (g_dat.flags & SMF_USEIEVIEW) != 0 : false;
@@ -322,7 +322,7 @@ void CSrmmWindow::OnInitDialog()
 
 		case LOADHISTORY_TIME:
 			if (m_hDbEventFirst == 0) {
-				dbei.timestamp = time(nullptr);
+				dbei.timestamp = time(0);
 				hPrevEvent = db_event_last(m_hContact);
 			}
 			else {

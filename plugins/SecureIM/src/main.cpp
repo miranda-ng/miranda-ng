@@ -105,7 +105,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	}
 
 	if (!rsa_4096)
-		mir_forkthread(sttGenerateRSA, nullptr);
+		mir_forkthread(sttGenerateRSA);
 
 	mir_exp->rsa_set_timeout(db_get_w(0, MODULENAME, "ket", 10));
 

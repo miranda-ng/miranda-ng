@@ -86,7 +86,7 @@ void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const ch
 	DB_AUTH_BLOB blob(hContact, nick, nullptr, nullptr, email, reason);
 
 	PROTORECVEVENT pre = { 0 };
-	pre.timestamp = (DWORD)time(nullptr);
+	pre.timestamp = (DWORD)time(0);
 	pre.lParam = blob.size();
 	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
@@ -710,7 +710,7 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 	if (p)
 		*p = 0;
 
-	CMStringA post = HotmailLogin(CMStringA().Format(postdata, (unsigned)time(nullptr), ptrA(mir_urlEncode(url))));
+	CMStringA post = HotmailLogin(CMStringA().Format(postdata, (unsigned)time(0), ptrA(mir_urlEncode(url))));
 	if (!post.IsEmpty()) {
 		CMStringA hippy(passport);
 		hippy.AppendFormat("/ppsecure/sha1auth.srf?lc=%d&token=%s", itoa(langpref, passport, 10), ptrA(mir_urlEncode(post)));

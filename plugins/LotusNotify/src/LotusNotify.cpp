@@ -555,7 +555,7 @@ int check() {
 	Menu_EnableItem(hMenuHandle, !running);
 
 	log(L"check: starting checkthread");
-	mir_forkthread(checkthread, nullptr);
+	mir_forkthread(checkthread);
 
 	return 0;
 }

@@ -191,7 +191,7 @@ int UpdateWeather(MCONTACT hContact)
 
 			DBEVENTINFO dbei = {};
 			dbei.szModule = WEATHERPROTONAME;
-			dbei.timestamp = (DWORD)time(nullptr);
+			dbei.timestamp = (DWORD)time(0);
 			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.pBlob = szMessage;

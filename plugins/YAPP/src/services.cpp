@@ -69,7 +69,7 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 	pd_out->opaque = pd_in->PluginData;
 	pd_out->timeout = pd_in->iSeconds;
 
-	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(nullptr));
+	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
@@ -110,7 +110,7 @@ static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 	pd_out->opaque = pd_in->PluginData;
 	pd_out->timeout = pd_in->iSeconds;
 
-	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(nullptr));
+	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
@@ -149,7 +149,7 @@ void ShowPopup(PopupData &pd_in)
 	StripBBCodesInPlace(pd_out->pwzTitle);
 	StripBBCodesInPlace(pd_out->pwzText);
 
-	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(nullptr));
+	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 
 	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		mir_free(pd_out->pwzTitle);
@@ -275,7 +275,7 @@ static INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam)
 		pd_out.opaque = pd_in->PluginData;
 		pd_out.timeout = pd_in->iSeconds;
 
-		lstPopupHistory.Add(pd_out.pwzTitle, pd_out.pwzText, time(nullptr));
+		lstPopupHistory.Add(pd_out.pwzTitle, pd_out.pwzText, time(0));
 	
 		SendMessage(hwndPop, PUM_CHANGE, 0, (LPARAM)&pd_out);
 	}

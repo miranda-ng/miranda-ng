@@ -128,7 +128,7 @@ void PasteIt(MCONTACT hContact, int mode)
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_SENT;
 					dbei.szModule = szProto;
-					dbei.timestamp = (DWORD)time(nullptr);
+					dbei.timestamp = (DWORD)time(0);
 					dbei.cbBlob = (DWORD)mir_strlen(pasteToWeb->szFileLink) + 1;
 					dbei.pBlob = (PBYTE)pasteToWeb->szFileLink;
 					db_event_add(hContact, &dbei);

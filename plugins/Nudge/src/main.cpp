@@ -45,7 +45,7 @@ INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 {
 	char *protoName = GetContactProto(hContact);
-	int diff = time(nullptr) - db_get_dw(hContact, "Nudge", "LastSent", time(nullptr) - 30);
+	int diff = time(0) - db_get_dw(hContact, "Nudge", "LastSent", time(0) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
 		wchar_t msg[500];
 		mir_snwprintf(msg, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
@@ -59,7 +59,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	db_set_dw(hContact, "Nudge", "LastSent", time(nullptr));
+	db_set_dw(hContact, "Nudge", "LastSent", time(0));
 
 	if (GlobalNudge.useByProtocol) {
 		for (auto &p : arNudges)
@@ -85,7 +85,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 {
 	char *protoName = GetContactProto(hContact);
 
-	DWORD currentTimestamp = time(nullptr);
+	DWORD currentTimestamp = time(0);
 	DWORD nudgeSentTimestamp = lParam ? (DWORD)lParam : currentTimestamp;
 
 	int diff = currentTimestamp - db_get_dw(hContact, "Nudge", "LastReceived", currentTimestamp - 30);
@@ -409,7 +409,7 @@ int Preview()
 				if (p->openMessageWindow)
 					CallService(MS_MSG_SENDMESSAGEW, hContact, NULL);
 				if (p->shakeChat)
-					ShakeChat(hContact, (LPARAM)time(nullptr));
+					ShakeChat(hContact, (LPARAM)time(0));
 			}
 		}
 	}
@@ -425,7 +425,7 @@ int Preview()
 			if (DefaultNudge.openMessageWindow)
 				CallService(MS_MSG_SENDMESSAGEW, hContact, NULL);
 			if (DefaultNudge.shakeChat)
-				ShakeChat(hContact, (LPARAM)time(nullptr));
+				ShakeChat(hContact, (LPARAM)time(0));
 		}
 	}
 	return 0;
@@ -470,7 +470,7 @@ void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
-	dbei.timestamp = (DWORD)time(nullptr);
+	dbei.timestamp = (DWORD)time(0);
 	dbei.eventType = 1;
 	dbei.cbBlob = (DWORD)mir_strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;

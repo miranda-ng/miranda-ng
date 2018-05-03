@@ -914,7 +914,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mir_snwprintf(eventName, L"%s/ExitEvent", eventPrefix);
 	hExitEvent = CreateEvent(nullptr, FALSE, FALSE, eventName);
 
-	hThread = mir_forkthread(FlashThreadFunction, nullptr);
+	hThread = mir_forkthread(FlashThreadFunction);
 
 	HookEvent(ME_MC_ENABLED, OnMetaChanged);
 	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);

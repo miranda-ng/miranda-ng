@@ -64,8 +64,8 @@ static const char *classNames[] = {
 ScriverHTMLBuilder::ScriverHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(nullptr));
-	startedTime = time(nullptr);
+	setLastEventTime(time(0));
+	startedTime = time(0);
 }
 
 bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
@@ -128,7 +128,7 @@ char* ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 
 	if ((mode == 0 || mode == 1) && (dwFlags & SMF_LOG_SHOWDATE)) {
 		struct tm tm_now, tm_today;
-		time_t now = time(nullptr);
+		time_t now = time(0);
 		time_t today;
 		tm_now = *localtime(&now);
 		tm_today = tm_now;

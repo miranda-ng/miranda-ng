@@ -310,7 +310,7 @@ void testSequence(wchar_t *testStr)
 	static FLASHING_SEQUENCE Test = {0};
 	Test = str2FS(testStr);
 	
-	mir_forkthread(TestThread, (void*)&Test);
+	mir_forkthread(TestThread, &Test);
 }
 
 
@@ -339,7 +339,7 @@ void previewFlashing(BOOL buttonState)
 		return;
 
 	bPreviewSemaphore = TRUE;
-	mir_forkthread(PreviewThread, nullptr);
+	mir_forkthread(PreviewThread);
 }
 
 

@@ -176,7 +176,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	// Boundary
 	int iboundary;
 	Utils_GetRandom(&iboundary, sizeof(iboundary));
-	boundary.AppendFormat("Miranda%dNG%d", iboundary, time(nullptr));
+	boundary.AppendFormat("Miranda%dNG%d", iboundary, time(0));
 	// Header
 	header.AppendFormat("multipart/form-data; boundary=%s", boundary.c_str());
 	pUploadReq->AddHeader("Content-Type", header);

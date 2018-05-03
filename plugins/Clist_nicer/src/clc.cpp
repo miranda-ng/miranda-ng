@@ -67,7 +67,7 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 {
 	DWORD new_freq = 0;
 
-	cfg::dat.t_now = time(nullptr);
+	cfg::dat.t_now = time(0);
 
 	if (hContact && lParam) {
 		DBEVENTINFO dbei = {};

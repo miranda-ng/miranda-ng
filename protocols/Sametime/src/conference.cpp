@@ -184,7 +184,7 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
 	gce.ptszStatus = L"Normal";
-	gce.time = (DWORD)time(nullptr);
+	gce.time = (DWORD)time(0);
 
 	Chat_Event( &gce);
 
@@ -209,7 +209,7 @@ void mwServiceConf_on_peer_parted(mwConference* conf, mwLoginInfo* user)
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
 	gce.ptszStatus = L"Normal";
-	gce.time = (DWORD)time(nullptr);
+	gce.time = (DWORD)time(0);
 	Chat_Event(&gce);
 }
 
@@ -229,7 +229,7 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 	gce.ptszText = textT;
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
-	gce.time = (DWORD)time(nullptr);
+	gce.time = (DWORD)time(0);
 	Chat_Event(&gce);
 }
 

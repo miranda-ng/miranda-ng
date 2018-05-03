@@ -144,10 +144,8 @@ struct ExportDialogData {
 	HWND hDialog;
 };
 
-void exportContactsMessages(void *p)
+void __cdecl exportContactsMessages(ExportDialogData *data)
 {
-	ExportDialogData *data = (ExportDialogData *)p;
-	
 	HWND hDlg = data->hDialog;
 	HWND hProg = GetDlgItem(hDlg, IDC_EXPORT_PROGRESS);
 	HWND hStatus = GetDlgItem(hDlg, IDC_EXP_ALL_STATUS);
@@ -291,7 +289,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 	ShowWindow(hDlg, SW_SHOWNORMAL);
 	
 	// Process the export in other thread
-	mir_forkthread(&exportContactsMessages, data);
+	mir_forkThread<ExportDialogData>(&exportContactsMessages, data);
 	return 0;
 }
 

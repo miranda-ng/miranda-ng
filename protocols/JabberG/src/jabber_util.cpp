@@ -447,7 +447,7 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 	}
 
 	if (m_tmJabberIdleStartTime)
-		p << XQUERY(JABBER_FEAT_LAST_ACTIVITY) << XATTRI(L"seconds", time(nullptr) - m_tmJabberIdleStartTime);
+		p << XQUERY(JABBER_FEAT_LAST_ACTIVITY) << XATTRI(L"seconds", time(0) - m_tmJabberIdleStartTime);
 
 	if (m_bEnableAvatars) {
 		HXML x = p << XCHILDNS(L"x", L"vcard-temp:x:update");

@@ -294,7 +294,7 @@ void MirandaUtils::addMessageToDB(MCONTACT hContact, char* msgBuffer, std::size_
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = targetHandleSzProto;
-	dbei.timestamp = (DWORD)time(nullptr);
+	dbei.timestamp = (DWORD)time(0);
 	dbei.cbBlob = (DWORD)bufSize;
 	dbei.pBlob = (PBYTE)msgBuffer;
 	db_event_add(hContact, &dbei);

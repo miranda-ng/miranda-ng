@@ -35,7 +35,7 @@ void CSkypeProto::Login()
 	}
 
 	m_bHistorySynced = m_bThreadsTerminated = false;
-	if ((tokenExpires - 1800) > time(nullptr))
+	if ((tokenExpires - 1800) > time(0))
 		OnLoginSuccess();
 
 	PushRequest(new OAuthRequest(), &CSkypeProto::OnOAuthStart);

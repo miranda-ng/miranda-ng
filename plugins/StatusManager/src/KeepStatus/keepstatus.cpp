@@ -758,7 +758,7 @@ static void CheckContinuouslyFunction(void *)
 static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	if (db_get_b(0, KSMODULENAME, SETTING_BYPING, FALSE))
-		mir_forkthread(CheckContinuouslyFunction, nullptr);
+		mir_forkthread(CheckContinuouslyFunction);
 	else
 		CheckContinuouslyFunction(nullptr);
 }

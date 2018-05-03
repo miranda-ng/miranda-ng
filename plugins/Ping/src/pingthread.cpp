@@ -147,7 +147,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 							i->responding = pa.responding;
 							i->round_trip_time = pa.round_trip_time;
 							history_entry.first = i->round_trip_time;
-							history_entry.second = time(nullptr);
+							history_entry.second = time(0);
 							history_map[i->item_id].push_back(history_entry);
 							// maintain history (-1 represents no response)
 							while (history_map[i->item_id].size() >= MAX_HISTORY)
@@ -227,7 +227,7 @@ void start_ping_thread()
 {
 	if (status_update_thread)
 		CloseHandle(status_update_thread);
-	status_update_thread = mir_forkthread(sttCheckStatusThreadProc, nullptr);
+	status_update_thread = mir_forkthread(sttCheckStatusThreadProc);
 }
 
 void stop_ping_thread()

@@ -692,7 +692,7 @@ public:
 	bool Load();
 	void Save();
 	virtual bool Refresh(bool = false) { return false; }
-	bool Expired(time_t t = time(nullptr));
+	bool Expired(time_t t = time(0));
 	void Clear();
 	const char *Token();
 	__forceinline operator char*() const { return m_pszToken; }

@@ -286,7 +286,7 @@ INT_PTR RunBadConnectionSvc(WPARAM wParam, LPARAM lParam)
 	HANDLE ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	Param->ThreadRunningEV = ThreadRunningEV;
 
-	HANDLE NewThread = mir_forkthread(BadConnection, (void*)Param);
+	HANDLE NewThread = mir_forkthread(BadConnection, Param);
 	if (nullptr == NewThread)
 		return 0;
 

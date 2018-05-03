@@ -248,7 +248,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCook
 
 		PROTORECVEVENT pre = { 0 };
 		pre.szMessage = szMsg ? szMsg : (char *)"";
-		pre.timestamp = time(nullptr);
+		pre.timestamp = time(0);
 		pre.lParam = dwCookie;
 		ProtoChainRecv(hContact, PSR_AWAYMSG, status, (LPARAM)&pre);
 

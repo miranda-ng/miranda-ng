@@ -1052,7 +1052,7 @@ void MirandaImport(HWND hdlg)
 	dstDb->SetCacheSafetyMode(FALSE);
 
 	// Start benchmark timer
-	DWORD dwTimer = time(nullptr);
+	DWORD dwTimer = time(0);
 
 	OBJLIST<char> arSkippedAccs(1, CompareModules);
 	arSkippedAccs.insert(newStr("CListGroups"));
@@ -1143,7 +1143,7 @@ void MirandaImport(HWND hdlg)
 	delete srcDb;
 
 	// Stop timer
-	dwTimer = time(nullptr) - dwTimer;
+	dwTimer = time(0) - dwTimer;
 
 	// Print statistics
 	AddMessage(LPGENW("Import completed in %d seconds."), dwTimer);

@@ -1,144 +1,8 @@
 #include "stdafx.h"
 
-int OpenBrowser(WPARAM hContact, LPARAM)
+static void __cdecl Login_ThreadFunc(Account *curAcc)
 {
-	char *proto = GetContactProto(hContact);
-	if (proto && !mir_strcmp(proto, MODULE_NAME)) {
-		Account *curAcc = GetAccountByContact(hContact);
-		PUDeletePopup(curAcc->popUpHwnd);
-		pcli->pfnRemoveEvent(curAcc->hContact, 1);
-		if (GetKeyState(VK_SHIFT) >> 8 || optionWindowIsOpen)
-			return FALSE;
-
-		if (curAcc->oldResults_num != 0) {
-			db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
-			curAcc->oldResults_num = 0;
-			DeleteResults(curAcc->results.next);
-			curAcc->results.next = nullptr;
-		}
-		mir_forkthread(Login_ThreadFunc, curAcc);
-	}
-	return FALSE;
-}
-
-INT_PTR Notifying(WPARAM, LPARAM lParam)
-{
-	OpenBrowser(((CLISTEVENT*)lParam)->hContact, 0);
-	return 0;
-}
-
-static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	MCONTACT hContact = PUGetContact(hWnd);
-	Account *curAcc = GetAccountByContact(hContact);
-
-	switch (message) {
-	case UM_INITPOPUP:
-		curAcc->popUpHwnd = hWnd;
-		break;
-
-	case WM_COMMAND:
-		if (HIWORD(wParam) == STN_CLICKED)
-			OpenBrowser((WPARAM)hContact, 0);
-		break;
-
-	case WM_CONTEXTMENU:
-		PUDeletePopup(hWnd);
-		curAcc->popUpHwnd = nullptr;
-		pcli->pfnRemoveEvent(hContact, 1);
-	}
-	return DefWindowProc(hWnd, message, wParam, lParam);
-}
-
-void NotifyUser(Account *curAcc)
-{
-	if (optionWindowIsOpen)
-		return;
-
-	db_set_s(curAcc->hContact, "CList", "MyHandle", curAcc->results.content);
-	switch (curAcc->results_num) {
-	case 0:
-		PUDeletePopup(curAcc->popUpHwnd);
-		pcli->pfnRemoveEvent(curAcc->hContact, 1);
-		if (curAcc->oldResults_num != 0)
-			db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
-		break;
-
-	case -1:
-		db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_AWAY);
-		break;
-
-	default:
-		db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_OCCUPIED);
-		int newMails = (curAcc->oldResults_num == -1) ? (curAcc->results_num) : (curAcc->results_num - curAcc->oldResults_num);
-		if (opt.LogThreads&&newMails > 0) {
-			DBEVENTINFO dbei = {};
-			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.flags = DBEF_READ;
-			dbei.szModule = MODULE_NAME;
-			dbei.timestamp = time(nullptr);
-
-			resultLink *prst = curAcc->results.next;
-			for (int i = 0; i < newMails; i++) {
-				dbei.cbBlob = (DWORD)mir_strlen(prst->content) + 1;
-				dbei.pBlob = (PBYTE)prst->content;
-				db_event_add(curAcc->hContact, &dbei);
-				prst = prst->next;
-			}
-		}
-		if (opt.notifierOnTray&&newMails > 0) {
-			pcli->pfnRemoveEvent(curAcc->hContact, 1);
-
-			CLISTEVENT cle = {};
-			cle.hContact = curAcc->hContact;
-			cle.hDbEvent = 1;
-			cle.flags = CLEF_URGENT;
-			cle.hIcon = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_OCCUPIED);
-			cle.pszService = "GmailMNotifier/Notifying";
-			cle.szTooltip.a = curAcc->results.next->content;
-			pcli->pfnAddEvent(&cle);
-		}
-
-		if (opt.notifierOnPop&&newMails > 0) {
-			POPUPDATA ppd = { 0 };
-
-			ppd.lchContact = curAcc->hContact;
-			ppd.lchIcon = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_OCCUPIED);
-			mir_strcpy(ppd.lpzContactName, curAcc->results.content);
-			resultLink *prst = curAcc->results.next;
-			for (int i = 0; i < 5 && i < newMails; i++) {
-				mir_strcat(ppd.lpzText, prst->content);
-				mir_strcat(ppd.lpzText, "\n");
-				prst = prst->next;
-			}
-			ppd.colorBack = opt.popupBgColor;
-			ppd.colorText = opt.popupTxtColor;
-			ppd.PluginWindowProc = PopupDlgProc;
-			ppd.PluginData = nullptr;
-			ppd.iSeconds = opt.popupDuration;
-			PUDeletePopup(curAcc->popUpHwnd);
-			PUAddPopup(&ppd);
-		}
-		if (newMails > 0)
-			Skin_PlaySound("Gmail");
-	}
-	curAcc->oldResults_num = curAcc->results_num;
-	DeleteResults(curAcc->results.next);
-	curAcc->results.next = nullptr;
-}
-
-void DeleteResults(resultLink *prst)
-{
-	if (prst != nullptr) {
-		if (prst->next != nullptr)
-			DeleteResults(prst->next);
-		free(prst);
-	}
-}
-
-void __cdecl Login_ThreadFunc(void *lpParam)
-{
-	if (lpParam == nullptr)
+	if (curAcc == nullptr)
 		return;
 
 	HANDLE hTempFile;
@@ -147,7 +11,6 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 	char buffer[1024];
 	char *str_temp;
 	char lpPathBuffer[1024];
-	Account *curAcc = (Account *)lpParam;
 
 	if (GetBrowser(lpPathBuffer)) {
 		if (opt.AutoLogin == 0) {
@@ -205,5 +68,143 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 	if (curAcc->hosted[0]) {
 		Sleep(30000);
 		DeleteFileA(szTempName);
+	}
+}
+
+int OpenBrowser(WPARAM hContact, LPARAM)
+{
+	char *proto = GetContactProto(hContact);
+	if (proto && !mir_strcmp(proto, MODULE_NAME)) {
+		Account *curAcc = GetAccountByContact(hContact);
+		PUDeletePopup(curAcc->popUpHwnd);
+		pcli->pfnRemoveEvent(curAcc->hContact, 1);
+		if (GetKeyState(VK_SHIFT) >> 8 || optionWindowIsOpen)
+			return FALSE;
+
+		if (curAcc->oldResults_num != 0) {
+			db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
+			curAcc->oldResults_num = 0;
+			DeleteResults(curAcc->results.next);
+			curAcc->results.next = nullptr;
+		}
+		mir_forkThread<Account>(Login_ThreadFunc, curAcc);
+	}
+	return FALSE;
+}
+
+INT_PTR Notifying(WPARAM, LPARAM lParam)
+{
+	OpenBrowser(((CLISTEVENT*)lParam)->hContact, 0);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	MCONTACT hContact = PUGetContact(hWnd);
+	Account *curAcc = GetAccountByContact(hContact);
+
+	switch (message) {
+	case UM_INITPOPUP:
+		curAcc->popUpHwnd = hWnd;
+		break;
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == STN_CLICKED)
+			OpenBrowser((WPARAM)hContact, 0);
+		break;
+
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hWnd);
+		curAcc->popUpHwnd = nullptr;
+		pcli->pfnRemoveEvent(hContact, 1);
+	}
+	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+void NotifyUser(Account *curAcc)
+{
+	if (optionWindowIsOpen)
+		return;
+
+	db_set_s(curAcc->hContact, "CList", "MyHandle", curAcc->results.content);
+	switch (curAcc->results_num) {
+	case 0:
+		PUDeletePopup(curAcc->popUpHwnd);
+		pcli->pfnRemoveEvent(curAcc->hContact, 1);
+		if (curAcc->oldResults_num != 0)
+			db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
+		break;
+
+	case -1:
+		db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_AWAY);
+		break;
+
+	default:
+		db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_OCCUPIED);
+		int newMails = (curAcc->oldResults_num == -1) ? (curAcc->results_num) : (curAcc->results_num - curAcc->oldResults_num);
+		if (opt.LogThreads&&newMails > 0) {
+			DBEVENTINFO dbei = {};
+			dbei.eventType = EVENTTYPE_MESSAGE;
+			dbei.flags = DBEF_READ;
+			dbei.szModule = MODULE_NAME;
+			dbei.timestamp = time(0);
+
+			resultLink *prst = curAcc->results.next;
+			for (int i = 0; i < newMails; i++) {
+				dbei.cbBlob = (DWORD)mir_strlen(prst->content) + 1;
+				dbei.pBlob = (PBYTE)prst->content;
+				db_event_add(curAcc->hContact, &dbei);
+				prst = prst->next;
+			}
+		}
+		if (opt.notifierOnTray&&newMails > 0) {
+			pcli->pfnRemoveEvent(curAcc->hContact, 1);
+
+			CLISTEVENT cle = {};
+			cle.hContact = curAcc->hContact;
+			cle.hDbEvent = 1;
+			cle.flags = CLEF_URGENT;
+			cle.hIcon = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_OCCUPIED);
+			cle.pszService = "GmailMNotifier/Notifying";
+			cle.szTooltip.a = curAcc->results.next->content;
+			pcli->pfnAddEvent(&cle);
+		}
+
+		if (opt.notifierOnPop&&newMails > 0) {
+			POPUPDATA ppd = { 0 };
+
+			ppd.lchContact = curAcc->hContact;
+			ppd.lchIcon = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_OCCUPIED);
+			mir_strcpy(ppd.lpzContactName, curAcc->results.content);
+			resultLink *prst = curAcc->results.next;
+			for (int i = 0; i < 5 && i < newMails; i++) {
+				mir_strcat(ppd.lpzText, prst->content);
+				mir_strcat(ppd.lpzText, "\n");
+				prst = prst->next;
+			}
+			ppd.colorBack = opt.popupBgColor;
+			ppd.colorText = opt.popupTxtColor;
+			ppd.PluginWindowProc = PopupDlgProc;
+			ppd.PluginData = nullptr;
+			ppd.iSeconds = opt.popupDuration;
+			PUDeletePopup(curAcc->popUpHwnd);
+			PUAddPopup(&ppd);
+		}
+		if (newMails > 0)
+			Skin_PlaySound("Gmail");
+	}
+	curAcc->oldResults_num = curAcc->results_num;
+	DeleteResults(curAcc->results.next);
+	curAcc->results.next = nullptr;
+}
+
+void DeleteResults(resultLink *prst)
+{
+	if (prst != nullptr) {
+		if (prst->next != nullptr)
+			DeleteResults(prst->next);
+		free(prst);
 	}
 }

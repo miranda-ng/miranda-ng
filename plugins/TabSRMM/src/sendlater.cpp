@@ -161,7 +161,7 @@ CSendLater::CSendLater() :
 	m_hFilter(0)
 {
 	m_fAvail = M.GetByte("sendLaterAvail", 0) != 0;
-	m_last_sendlater_processed = time(nullptr);
+	m_last_sendlater_processed = time(0);
 	m_fIsInteractive = false;
 	m_fErrorPopups = M.GetByte("qmgrErrorPopups", 0) != 0;
 	m_fSuccessPopups = M.GetByte("qmgrSuccessPopups", 0) != 0;
@@ -344,7 +344,7 @@ int CSendLater::addJob(const char *szSetting, void *lParam)
 // this is ONLY called from the WM_TIMER handler and should never be executed directly.
 int CSendLater::sendIt(CSendLaterJob *job)
 {
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	if (job->bCode == CSendLaterJob::JOB_HOLD || job->bCode == CSendLaterJob::JOB_DEFERRED || job->fSuccess || job->fFailed || job->lastSent > now)
 		return 0;											// this one is frozen or done (will be removed soon), don't process it now.
 
@@ -440,7 +440,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.szModule = GetContactProto((p->hContact));
-				dbei.timestamp = time(nullptr);
+				dbei.timestamp = time(0);
 				dbei.cbBlob = (int)mir_strlen(p->sendBuffer) + 1;
 				dbei.pBlob = (PBYTE)(p->sendBuffer);
 				db_event_add(p->hContact, &dbei);
@@ -802,7 +802,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							else if (job->bCode == CSendLaterJob::JOB_AGE) {
 								job->fFailed = false;
 								job->bCode = '-';
-								job->created = time(nullptr);
+								job->created = time(0);
 							}
 							break;
 						}

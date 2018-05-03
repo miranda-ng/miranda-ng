@@ -496,7 +496,7 @@ void GetLocalizedString(HKEY hSubKey, const wchar_t *szName, wchar_t *szBuf, DWO
 void RecalculateTime(void)
 {
 	GetTimeZoneInformation(&myInfo.myTZ.tzi);
-	myInfo.timestamp = time(nullptr);
+	myInfo.timestamp = time(0);
 	myInfo.myTZ.offset = INT_MIN;
 
 	bool found = false;

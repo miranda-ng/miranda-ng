@@ -272,7 +272,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 				if (dwValue) setDword("MemberTS", dwValue);
 
 				dwValue = chain->getDWord(0x03, 1);
-				setDword("LogonTS", dwValue ? dwValue : time(nullptr));
+				setDword("LogonTS", dwValue ? dwValue : time(0));
 
 				disposeChain(&chain);
 

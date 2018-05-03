@@ -298,7 +298,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 		dbei.pBlob = (PBYTE)(char*)blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
-		dbei.timestamp = (DWORD)time(nullptr);
+		dbei.timestamp = (DWORD)time(0);
 		dbei.szModule = MODULE;
 		MEVENT hDBEvent = db_event_add(xsc->hContact, &dbei);
 

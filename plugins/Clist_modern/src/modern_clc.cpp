@@ -155,7 +155,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 
 static int clcHookDbEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	g_CluiData.t_now = time(nullptr);
+	g_CluiData.t_now = time(0);
 	if (hContact && lParam) {
 		DBEVENTINFO dbei = {};
 		db_event_get(lParam, &dbei);
@@ -598,7 +598,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	switch (wParam) {
 	case TIMERID_INVALIDATE:
 		{
-			time_t cur_time = (time(nullptr) / 60);
+			time_t cur_time = (time(0) / 60);
 			if (cur_time != dat->last_tick_time) {
 				cliInvalidateRect(hwnd, nullptr, FALSE);
 				dat->last_tick_time = cur_time;

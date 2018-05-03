@@ -585,7 +585,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		// if it is not dcc or if it is dcc and a local ip exist
 		if (mir_wstrcmpi(two.c_str(), L"dcc") != 0 || ulAdr) {
 			if (mir_wstrcmpi(two.c_str(), L"ping") == 0)
-				mir_snwprintf(szTemp, L"/PRIVMSG %s \001%s %u\001", one.c_str(), two.c_str(), time(nullptr));
+				mir_snwprintf(szTemp, L"/PRIVMSG %s \001%s %u\001", one.c_str(), two.c_str(), time(0));
 			else
 				mir_snwprintf(szTemp, L"/PRIVMSG %s \001%s\001", one.c_str(), GetWordAddress(text.c_str(), 2));
 			PostIrcMessageWnd(window, hContact, szTemp);

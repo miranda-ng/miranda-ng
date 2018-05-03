@@ -73,7 +73,7 @@ VOID CALLBACK KeepAliveTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 	if (!ppro->m_info.sServerName.IsEmpty())
 		mir_snwprintf(temp2, L"PING %s", ppro->m_info.sServerName.c_str());
 	else
-		mir_snwprintf(temp2, L"PING %u", time(nullptr));
+		mir_snwprintf(temp2, L"PING %u", time(0));
 
 	if (ppro->IsConnected())
 		ppro->SendIrcMessage(temp2, false);
@@ -226,7 +226,7 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, const wchar_t *msg)
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.timestamp = (DWORD)time(nullptr);
+	dbei.timestamp = (DWORD)time(0);
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.pBlob = (PBYTE)mir_utf8encodeW(S);
 	dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob) + 1;
@@ -704,7 +704,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage *pmsg)
 			MCONTACT hContact = CList_AddContact(&user, false, true);
 
 			PROTORECVEVENT pre = { 0 };
-			pre.timestamp = (DWORD)time(nullptr);
+			pre.timestamp = (DWORD)time(0);
 			pre.szMessage = mir_utf8encodeW(mess);
 			setWString(hContact, "User", pmsg->prefix.sUser);
 			setWString(hContact, "Host", pmsg->prefix.sHost);
@@ -843,7 +843,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 		// incoming TIME
 		else if (pmsg->m_bIncoming && command == L"time") {
 			wchar_t temp[300];
-			time_t tim = time(nullptr);
+			time_t tim = time(0);
 			mir_wstrncpy(temp, _wctime(&tim), 25);
 			PostIrcMessage(L"/NOTICE %s \001TIME %s\001", pmsg->prefix.sNick.c_str(), temp);
 
@@ -1163,7 +1163,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 
 						PROTORECVFILE pre = { 0 };
 						pre.dwFlags = PRFF_UNICODE;
-						pre.timestamp = (DWORD)time(nullptr);
+						pre.timestamp = (DWORD)time(0);
 						pre.fileCount = 1;
 						pre.files.w = &tszTemp;
 						pre.lParam = (LPARAM)di;
@@ -1204,7 +1204,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 				}
 				if (pmsg->m_bIncoming && command == L"ping") {
 					SetActiveWindow(m_whoisDlg->GetHwnd());
-					int s = (int)time(nullptr) - (int)_wtol(GetWordAddress(mess, 1));
+					int s = (int)time(0) - (int)_wtol(GetWordAddress(mess, 1));
 					wchar_t szTmp[30];
 					if (s == 1)
 						mir_snwprintf(szTmp, TranslateT("%u second"), s);
@@ -1219,7 +1219,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 
 		//... else show the reply in the current window
 		if (pmsg->m_bIncoming && command == L"ping") {
-			int s = (int)time(nullptr) - (int)_wtol(GetWordAddress(mess, 1));
+			int s = (int)time(0) - (int)_wtol(GetWordAddress(mess, 1));
 			mir_snwprintf(szTemp, TranslateT("CTCP PING reply from %s: %u sec(s)"), pmsg->prefix.sNick.c_str(), s);
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 		}
@@ -1316,7 +1316,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 							else
 								btOwnMode = 0;
 						}
-						gce.time = gce.bIsMe ? time(nullptr) : 0;
+						gce.time = gce.bIsMe ? time(0) : 0;
 						Chat_Event(&gce);
 						
 						DoEvent(GC_EVENT_SETCONTACTSTATUS, sChanName, sTemp, nullptr, nullptr, nullptr, ID_STATUS_ONLINE, FALSE, FALSE);
@@ -2393,7 +2393,7 @@ int CIrcProto::DoPerform(const char* event)
 		if (!my_strstri(dbv.ptszVal, L"/away"))
 			PostIrcMessageWnd(nullptr, NULL, dbv.ptszVal);
 		else
-			mir_forkthread(AwayWarningThread, nullptr);
+			mir_forkthread(AwayWarningThread);
 		db_free(&dbv);
 		return 1;
 	}

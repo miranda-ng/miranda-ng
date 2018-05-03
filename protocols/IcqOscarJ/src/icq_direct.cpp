@@ -190,7 +190,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 	size_t nSkipPacketBytes = 0;
 	DWORD dwReqMsgID1 = 0, dwReqMsgID2 = 0;
 
-	srand(time(nullptr));
+	srand(time(0));
 	{
 		// add to DC connection list
 		mir_cslock l(directConnListMutex);

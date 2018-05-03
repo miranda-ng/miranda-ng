@@ -872,14 +872,13 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void FakeThread(void* param)
+static void __cdecl FakeThread(ACKDATA *ack)
 {
 	Thread_SetName("MRA: ProtoBroadcastAckAsync");
 	Sleep(100);
 
-	ACKDATA *ack = (ACKDATA*)param;
 	ProtoBroadcastAck(ack->szModule, ack->hContact, ack->type, ack->result, ack->hProcess, ack->lParam);
-	mir_free(param);
+	mir_free(ack);
 }
 
 DWORD CMraProto::ProtoBroadcastAckAsync(MCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
@@ -891,7 +890,7 @@ DWORD CMraProto::ProtoBroadcastAckAsync(MCONTACT hContact, int type, int hResult
 	ack->result = hResult;
 	ack->hProcess = hProcess;
 	ack->lParam = lParam;
-	mir_forkthread(FakeThread, ack);
+	mir_forkThread<ACKDATA>(FakeThread, ack);
 	return 0;
 }
 

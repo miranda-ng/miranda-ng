@@ -92,7 +92,7 @@ void TwitterProto::AddChatContact(const char *name, const char *nick)
 	ptrW wszNick(mir_a2u(nick ? nick : name));
 
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	gce.time = DWORD(time(nullptr));
+	gce.time = DWORD(time(0));
 	gce.ptszNick = wszNick;
 	gce.ptszUID = wszId;
 	gce.ptszStatus = L"Normal";
@@ -104,7 +104,7 @@ void TwitterProto::DeleteChatContact(const char *name)
 	ptrW wszId(mir_a2u(name));
 
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
-	gce.time = DWORD(time(nullptr));
+	gce.time = DWORD(time(0));
 	gce.ptszNick = wszId;
 	gce.ptszUID = gce.ptszNick;
 	Chat_Event(&gce);

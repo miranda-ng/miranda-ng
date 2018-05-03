@@ -28,7 +28,7 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 	utils::text::treplace_all(&smessage, L"%", L"%%");
 
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
-	gce.time = ::time(nullptr);
+	gce.time = ::time(0);
 	gce.ptszText = smessage.c_str();
 
 	if (name == nullptr) {
@@ -227,7 +227,7 @@ Chat_Event(WINDOW_CLEARLOG,&gce);
 void OmegleProto::AddChatContact(const wchar_t *name)
 {
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	gce.time = DWORD(time(nullptr));
+	gce.time = DWORD(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
 	gce.ptszUID = gce.ptszNick;
@@ -251,7 +251,7 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
 	gce.ptszUID = gce.ptszNick;
-	gce.time = DWORD(time(nullptr));
+	gce.time = DWORD(time(0));
 	if (name == nullptr)
 		gce.bIsMe = false;
 	else
@@ -284,7 +284,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 void OmegleProto::SetTopic(const wchar_t *topic)
 {
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
-	gce.time = ::time(nullptr);
+	gce.time = ::time(0);
 
 	if (topic == nullptr)
 		gce.ptszText = TranslateT("Omegle is a great way of meeting new friends!");

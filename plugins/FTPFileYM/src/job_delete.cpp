@@ -38,10 +38,8 @@ DeleteJob::~DeleteJob()
 	delete m_entry;
 }
 
-void DeleteJob::waitingThread(void *arg)
+void DeleteJob::waitingThread(DeleteJob *job)
 {
-	DeleteJob *job = (DeleteJob *)arg;
-
 	while (!Miranda_IsTerminated()) {
 		mir_cslockfull lock(mutexJobCount);
 		if (iRunningJobCount < MAX_RUNNING_JOBS) {
@@ -67,7 +65,7 @@ void DeleteJob::waitingThread(void *arg)
 
 void DeleteJob::start()
 {
-	mir_forkthread(&DeleteJob::waitingThread, this);
+	mir_forkThread<DeleteJob>(&DeleteJob::waitingThread, this);
 }
 
 void DeleteJob::run()

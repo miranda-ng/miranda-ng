@@ -298,7 +298,7 @@ extern "C" int __declspec(dllexport) Load()
 	g_bMirandaIsShutdown = false;
 	g_hEventShutdown = ::CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
-	g_hThread = mir_forkthread(ThreadFunc, nullptr);
+	g_hThread = mir_forkthread(ThreadFunc);
 
 	HookEvent(ME_PROTO_ACK, SSC_OnProtocolAck);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SSC_OnPreShutdown);

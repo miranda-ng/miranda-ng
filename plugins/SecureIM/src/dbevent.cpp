@@ -5,7 +5,7 @@ void HistoryLog(MCONTACT hContact, LPCSTR szText)
 	DBEVENTINFO dbei = {};
 	dbei.szModule = GetContactProto(hContact);
 	dbei.flags = DBEF_SENT | DBEF_READ;
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)mir_strlen(szText) + 1;
 	dbei.pBlob = (PBYTE)szText;

@@ -948,7 +948,7 @@ void start_threads()
 {
 	g_exit_threads = false;
 	g_udp_thread = mir_forkthread(udptcpThreadFunc, (void *)1);
-	g_tcp_thread = mir_forkthread(udptcpThreadFunc, nullptr);
+	g_tcp_thread = mir_forkthread(udptcpThreadFunc);
 }
 
 void stop_threads()

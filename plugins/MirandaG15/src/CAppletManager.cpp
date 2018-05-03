@@ -661,7 +661,7 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.szModule = szProto;
-				dbei.timestamp = time(nullptr);
+				dbei.timestamp = time(0);
 				// Check if protocoll is valid
 				if (dbei.szModule == nullptr)
 					return;

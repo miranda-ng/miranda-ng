@@ -172,7 +172,7 @@ void CSrmmWindow::OnInitDialog()
 		case LOADHISTORY_TIME:
 			DBEVENTINFO dbei = {};
 			if (m_hDbEventFirst == 0)
-				dbei.timestamp = (DWORD)time(nullptr);
+				dbei.timestamp = (DWORD)time(0);
 			else
 				db_event_get(m_hDbEventFirst, &dbei);
 

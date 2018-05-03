@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 TemplateHTMLBuilder::TemplateHTMLBuilder()
 {
 	iLastEventType = -1;
-	startedTime = lastEventTime = time(nullptr);
+	startedTime = lastEventTime = time(0);
 	groupTemplate = nullptr;
 }
 
@@ -85,7 +85,7 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 		TimeZone_ToStringT(check, (dwFlags & Options::LOG_SHOW_SECONDS) ? L"s" : L"t", str, _countof(str));
 	else { // date
 		struct tm tm_now, tm_today;
-		time_t now = time(nullptr);
+		time_t now = time(0);
 		time_t today;
 		tm_now = *localtime(&now);
 		tm_today = tm_now;

@@ -105,7 +105,7 @@ wchar_t* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, cons
 wchar_t* TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
-	DWORD t = (DWORD)time(nullptr);
+	DWORD t = (DWORD)time(0);
 	if (ts == 0) return nullptr;
 
 	DWORD diff = (ts > t) ? 0 : (t - ts);
@@ -481,7 +481,7 @@ wchar_t *DayMonthToDaysToNextBirthday(MCONTACT hContact, const char *szModuleNam
 			if (!db_get(hContact, szModuleName, szSettingName, &dbv)) {
 				if (GetInt(dbv, &month)) {
 					db_free(&dbv);
-					time_t now = time(nullptr);
+					time_t now = time(0);
 					struct tm *ti = localtime(&now);
 					int yday_now = ti->tm_yday;
 

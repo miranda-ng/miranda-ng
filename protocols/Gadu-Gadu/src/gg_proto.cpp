@@ -414,7 +414,7 @@ HWND GaduProto::SearchAdvanced(HWND hwndDlg)
 	if (mir_wstrlen(text)) {
 		int yearTo = _tstoi(text);
 		int yearFrom;
-		time_t t = time(nullptr);
+		time_t t = time(0);
 		struct tm *lt = localtime(&t);
 		int ay = lt->tm_year + 1900;
 		char age[16];

@@ -57,7 +57,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 
 	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_MESSAGE };
 	gce.ptszText = ttext;
-	gce.time = timestamp ? timestamp : ::time(nullptr);
+	gce.time = timestamp ? timestamp : ::time(0);
 	if (id != nullptr)
 		gce.bIsMe = !mir_strcmp(id, facy.self_.user_id.c_str());
 	gce.dwFlags |= GCEF_ADDTOLOG;
@@ -180,7 +180,7 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 	gce.dwFlags = addToLog ? GCEF_ADDTOLOG : 0;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	gce.time = ::time(nullptr);
+	gce.time = ::time(0);
 	gce.bIsMe = (user.role == ROLE_ME);
 
 	if (user.is_former) {
@@ -213,7 +213,7 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	gce.time = ::time(nullptr);
+	gce.time = ::time(0);
 	gce.bIsMe = false;
 
 	Chat_Event(&gce);
@@ -390,7 +390,7 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 
 	GCEVENT gce = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
 	gce.ptszText = messageT;
-	gce.time = notification->time ? notification->time : ::time(nullptr);
+	gce.time = notification->time ? notification->time : ::time(0);
 	gce.bIsMe = false;
 	gce.dwFlags |= GCEF_ADDTOLOG;
 	gce.ptszNick = TranslateT("Notifications");

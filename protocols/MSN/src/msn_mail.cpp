@@ -94,7 +94,7 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 			MimeHeaders mailInfo;
 			const char* mailbody = mailInfo.readFromBuffer((char*)ezxml_txt(body));
 
-			time_t evtm = time(nullptr);
+			time_t evtm = time(0);
 			const char* arrTime = mailInfo["X-OriginalArrivalTime"];
 			if (arrTime != nullptr) {
 				char szTime[32], *p;

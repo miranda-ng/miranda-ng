@@ -123,7 +123,7 @@ struct TaskOptions
 
 		filePath += TranslateT("History");
 		filePath += L"_<contact>_<date>.<ext>";
-		lastExport = time(nullptr);
+		lastExport = time(0);
 	}
 };
 

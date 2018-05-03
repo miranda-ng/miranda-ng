@@ -723,7 +723,7 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 			contact->avatar_data = nullptr;
 
 		if (contact->avatar_data != nullptr)
-			contact->avatar_data->t_lastAccess = (DWORD)time(nullptr);
+			contact->avatar_data->t_lastAccess = (DWORD)time(0);
 	}
 	else contact->avatar_data = nullptr;
 

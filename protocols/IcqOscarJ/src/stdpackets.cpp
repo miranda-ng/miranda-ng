@@ -1342,7 +1342,7 @@ DWORD CIcqProto::icq_sendSMSServ(const char *szPhoneNumber, const char *szMsg)
 	WORD wBufferLen;
 	char *szBuffer = nullptr;
 	char szTime[30];
-	time_t now = time(nullptr);
+	time_t now = time(0);
 	strftime(szTime, sizeof(szTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&now));
 	/* Sun, 00 Jan 0000 00:00:00 GMT */
 
@@ -1571,7 +1571,7 @@ void CIcqProto::icq_sendAuthResponseServ(DWORD dwUin, char* szUid, int auth, con
 
 void CIcqProto::icq_sendYouWereAddedServ(DWORD dwUin, DWORD dwMyUin)
 {
-	DWORD dwID1 = time(nullptr);
+	DWORD dwID1 = time(0);
 	DWORD dwID2 = RandRange(0, 0x00FF);
 
 	icq_packet packet;

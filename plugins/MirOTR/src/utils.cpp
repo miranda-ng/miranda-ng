@@ -238,7 +238,7 @@ void ShowMessageInline(const MCONTACT hContact, const wchar_t *msg) {
 	T2Utf utf(buff);
 
 	PROTORECVEVENT pre = {0};
-	pre.timestamp = time(nullptr);
+	pre.timestamp = time(0);
 	pre.szMessage = utf;
 	pre.flags = PREF_BYPASS_OTR;
 	ProtoChainRecvMsg(hContact, &pre);	
@@ -249,7 +249,7 @@ void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg) {
 	mir_snprintf(buff, "%s%s", LANG_INLINE_PREFIX, msg);
 
 	PROTORECVEVENT pre = {0};
-	pre.timestamp = time(nullptr);
+	pre.timestamp = time(0);
 	pre.szMessage = buff;
 	pre.flags = PREF_BYPASS_OTR;
 	ProtoChainRecvMsg(hContact, &pre);

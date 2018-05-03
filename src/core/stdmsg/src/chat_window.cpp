@@ -205,9 +205,8 @@ void CChatRoomDlg::LoadSettings()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void __cdecl phase2(void *lParam)
+static void __cdecl phase2(SESSION_INFO *si)
 {
-	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
 	if (si && si->pDlg)
 		si->pDlg->RedrawLog2();
@@ -229,7 +228,7 @@ void CChatRoomDlg::RedrawLog()
 					index++;
 			}
 			StreamInEvents(pLog, true);
-			mir_forkthread(phase2, m_si);
+			mir_forkThread<SESSION_INFO>(phase2, m_si);
 		}
 		else StreamInEvents(m_si->pLogEnd, true);
 	}
@@ -641,8 +640,8 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					return 0;
 				}
 				if (db_get_b(0, CHAT_MODULE, "SendOnDblEnter", 0)) {
-					if (m_iLastEnterTime + 2 < time(nullptr))
-						m_iLastEnterTime = time(nullptr);
+					if (m_iLastEnterTime + 2 < time(0))
+						m_iLastEnterTime = time(0);
 					else {
 						m_message.SendMsg(WM_KEYDOWN, VK_BACK, 0);
 						m_message.SendMsg(WM_KEYUP, VK_BACK, 0);
@@ -672,7 +671,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					return 0;
 
 				if (db_get_b(0, CHAT_MODULE, "SendOnDblEnter", 0))
-					if (m_iLastEnterTime + 2 >= time(nullptr))
+					if (m_iLastEnterTime + 2 >= time(0))
 						return 0;
 
 				break;

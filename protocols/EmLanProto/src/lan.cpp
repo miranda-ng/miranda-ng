@@ -131,8 +131,8 @@ void CLan::StartListen()
 			return;
 		}
 
-		m_hListenThread = mir_forkthread(ListenProc, (void*)this);
-		m_hAcceptTCPThread = mir_forkthread(AcceptTCPProc, (void*)this);
+		m_hListenThread = mir_forkthread(ListenProc, this);
+		m_hAcceptTCPThread = mir_forkthread(AcceptTCPProc, this);
 		if (m_hListenThread == nullptr || m_hAcceptTCPThread == nullptr) {
 			m_mode = LM_ON;
 			m_status = LS_CANT_CREATE_THREADS;
@@ -216,7 +216,7 @@ void CLan::AcceptTCP()
 		tcp_conn->m_addr = addrFrom.sin_addr.S_un.S_addr;
 		tcp_conn->m_lan = this;
 		tcp_conn->m_socket = in_socket;
-		mir_forkthread(OnInTCPConnectionProc, (void*)tcp_conn);
+		mir_forkthread(OnInTCPConnectionProc, tcp_conn);
 		Sleep(100);
 	}
 	m_hAcceptTCPThread = nullptr;
@@ -252,8 +252,7 @@ SOCKET CLan::CreateTCPConnection(u_long addr, LPVOID lpParameter)
 	tcp_conn->m_lan = this;
 	tcp_conn->m_addr = addr;
 	tcp_conn->m_lpParameter = lpParameter;
-
-	mir_forkthread(OnOutTCPConnectionProc, (void*)tcp_conn);
+	mir_forkthread(OnOutTCPConnectionProc, tcp_conn);
 
 	return out_socket;
 }

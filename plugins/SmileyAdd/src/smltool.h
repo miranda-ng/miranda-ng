@@ -35,8 +35,7 @@ struct SmileyToolWindowParam
 	MCONTACT hContact;
 };
 
-
-void __cdecl SmileyToolThread(void *arg);
+void __cdecl SmileyToolThread(SmileyToolWindowParam *stwp);
 
 #ifndef min
 #define min(A, B) ((A) < (B) ? (A) : (B)) 

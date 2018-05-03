@@ -142,7 +142,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_UTF | DBEF_SENT | ((item->flags & PREF_RTL) ? DBEF_RTL : 0);
 	dbei.szModule = GetContactProto(hContact);
-	dbei.timestamp = time(nullptr);
+	dbei.timestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(item->sendBuffer) + 1;
 	dbei.pBlob = (PBYTE)item->sendBuffer;
 

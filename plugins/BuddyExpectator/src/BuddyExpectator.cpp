@@ -73,7 +73,7 @@ time_t getLastSeen(MCONTACT hContact)
 
 void setLastSeen(MCONTACT hContact)
 {
-	db_set_dw(hContact, MODULE_NAME, "LastSeen", (DWORD)time(nullptr));
+	db_set_dw(hContact, MODULE_NAME, "LastSeen", (DWORD)time(0));
 	if (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0))
 		db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 0);
 }
@@ -213,7 +213,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 {
 	time_t lastSeen = getLastSeen(hContact);
 	time_t lastInputMsg = getLastInputMsg(hContact);
-	time_t currentTime = time(nullptr);
+	time_t currentTime = time(0);
 
 	int daysSinceOnline = -1;
 	if (lastSeen != -1) daysSinceOnline = (int)((currentTime - lastSeen) / (60 * 60 * 24));
@@ -640,7 +640,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	db_set_dw(hContact, MODULE_NAME, "CreationTime", (DWORD)time(nullptr));
+	db_set_dw(hContact, MODULE_NAME, "CreationTime", (DWORD)time(0));
 	return 0;
 }
 
@@ -670,7 +670,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// ensure all contacts are timestamped
 	DBVARIANT dbv;
-	DWORD current_time = (DWORD)time(nullptr);
+	DWORD current_time = (DWORD)time(0);
 
 	for (auto &hContact : Contacts()) {
 		if (!db_get(hContact, MODULE_NAME, "CreationTime", &dbv))

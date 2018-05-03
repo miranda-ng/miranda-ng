@@ -41,7 +41,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	PROTORECVFILE pre = {0};
 	pre.dwFlags = PRFF_UNICODE;
 	pre.fileCount = 1;
-	pre.timestamp = time(nullptr);
+	pre.timestamp = time(0);
 	pre.descr.w = descriptionT;
 	pre.files.w = &filenameT;
 	pre.lParam = (LPARAM)ft;
@@ -52,12 +52,12 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 }
 
 //returns 0 if finished with current file
-int SendFileChunk(CSametimeProto* proto, mwFileTransfer* ft, FileTransferClientData* ftcd) {
-	DWORD bytes_read;
-
+int SendFileChunk(CSametimeProto* proto, mwFileTransfer* ft, FileTransferClientData* ftcd)
+{
 	if (!ftcd || !ftcd->buffer)
 		return 0;
 
+	DWORD bytes_read;
 	if (!ReadFile(ftcd->hFile, ftcd->buffer, FILE_BUFF_SIZE, &bytes_read, nullptr)) {
 		proto->debugLogW(L"Sametime closing file transfer (SendFileChunk)");
 		mwFileTransfer_close(ft, mwFileTransfer_SUCCESS);
@@ -72,9 +72,8 @@ int SendFileChunk(CSametimeProto* proto, mwFileTransfer* ft, FileTransferClientD
 	return bytes_read;
 }
 
-void __cdecl SendThread(LPVOID param) {
-
-	mwFileTransfer* ft = (mwFileTransfer*)param;
+void __cdecl SendThread(mwFileTransfer* ft)
+{
 	if (!ft) return;
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);
@@ -113,7 +112,6 @@ void __cdecl SendThread(LPVOID param) {
 	delete ftcd;
 	
 	proto->debugLogW(L"SendThread() end");
-	return;
 }
 
 /** a file transfer has been fully initiated */
@@ -124,10 +122,9 @@ void mwFileTransfer_opened(mwFileTransfer* ft)
 
 	proto->debugLogW(L"Sametime mwFileTransfer_opened start");
 
-	if (ftcd->sending) {
-		// create a thread to send chunks - since it seems not all clients send acks for each of our chunks!
-		mir_forkthread(SendThread, ft);
-	}
+	// create a thread to send chunks - since it seems not all clients send acks for each of our chunks!
+	if (ftcd->sending) 
+		mir_forkThread<mwFileTransfer>(SendThread, ft);
 }
 
 /** a file transfer has been closed. Check the status of the file

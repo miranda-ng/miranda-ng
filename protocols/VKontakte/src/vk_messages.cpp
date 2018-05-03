@@ -49,7 +49,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,
 		bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserID)
-		<< INT_PARAM("random_id", ((LONG)time(nullptr)) * 100 + uMsgId % 100);
+		<< INT_PARAM("random_id", ((LONG)time(0)) * 100 + uMsgId % 100);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	if (StickerId)
@@ -300,7 +300,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
-		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(nullptr) - datetime < 60 * m_vkOptions.iInvisibleInterval)
+		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - datetime < 60 * m_vkOptions.iInvisibleInterval)
 			SetInvisible(hContact);
 
 		bool bEdited = CheckMid(m_editedIds, mid);
@@ -332,7 +332,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		T2Utf pszBody(wszBody);
-		recv.timestamp = bEdited ? datetime : (m_vkOptions.bUseLocalTime ? time(nullptr) : datetime);
+		recv.timestamp = bEdited ? datetime : (m_vkOptions.bUseLocalTime ? time(0) : datetime);
 		recv.szMessage = pszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
@@ -351,7 +351,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 		else if (m_vkOptions.bLoadSentAttachments && !wszAttachmentDescr.IsEmpty() && isOut) {
 			T2Utf pszAttach(wszAttachmentDescr);
-			recv.timestamp = time(nullptr); // only local time
+			recv.timestamp = time(0); // only local time
 			recv.szMessage = pszAttach;
 			ProtoChainRecvMsg(hContact, &recv);
 		}

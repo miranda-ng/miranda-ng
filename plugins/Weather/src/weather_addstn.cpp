@@ -160,7 +160,7 @@ INT_PTR WeatherBasicSearch(WPARAM, LPARAM lParam)
 	sttSID[_countof(sttSID) - 1] = 0;
 	sttSearchId = 1;
 	// create a thread for the ID search
-	mir_forkthread(BasicSearchTimerProc, nullptr);
+	mir_forkthread(BasicSearchTimerProc);
 	return sttSearchId;
 }
 
@@ -214,7 +214,7 @@ INT_PTR WeatherAdvancedSearch(WPARAM, LPARAM lParam)
 	GetDlgItemText((HWND)lParam, IDC_SEARCHCITY, name1, _countof(name1));
 
 	// search for the weather station using a thread
-	mir_forkthread(NameSearchTimerProc, nullptr);
+	mir_forkthread(NameSearchTimerProc);
 	return sttSearchId;
 }
 
