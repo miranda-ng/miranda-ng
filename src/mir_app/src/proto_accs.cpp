@@ -408,8 +408,8 @@ void KillModuleAccounts(HINSTANCE hInst)
 
 		for (auto &pa : accounts.rev_iter()) {
 			if (!mir_strcmp(pa->szProtoName, pd->szName)) {
-				DeactivateAccount(pa, DAF_DYNAMIC);
 				pa->bDynDisabled = true;
+				DeactivateAccount(pa, DAF_DYNAMIC);
 			}
 		}
 	}
