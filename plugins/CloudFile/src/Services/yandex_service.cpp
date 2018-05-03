@@ -64,87 +64,81 @@ void CYandexService::Login(HWND owner)
 		return;
 	}
 
-	COAuthDlg dlg(this, YANDEX_AUTH, RequestAccessTokenThread);
+	COAuthDlg dlg(this, YANDEX_AUTH, (MyThreadFunc)&CYandexService::RequestAccessTokenThread);
 	dlg.SetParent(owner);
 	dlg.DoModal();
 }
 
 void CYandexService::Logout()
 {
-	mir_forkthreadex(RevokeAccessTokenThread, this);
+	ForkThread((MyThreadFunc)&CYandexService::RevokeAccessTokenThread);
 }
 
-unsigned CYandexService::RequestAccessTokenThread(void *owner, void *param)
+void CYandexService::RequestAccessTokenThread(void *param)
 {
 	HWND hwndDlg = (HWND)param;
-	CYandexService *service = (CYandexService*)owner;
 
-	if (service->IsLoggedIn())
-		service->Logout();
+	if (IsLoggedIn())
+		Logout();
 
 	char requestToken[128];
 	GetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, requestToken, _countof(requestToken));
 
 	YandexAPI::GetAccessTokenRequest request(requestToken);
-	NLHR_PTR response(request.Send(service->m_hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
 		const char *error = response->dataLength
 			? response->pData
-			: service->HttpStatusToError(response->resultCode);
+			: HttpStatusToError(response->resultCode);
 
-		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), error);
+		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), error);
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
-		return 0;
+		return;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
-		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
-		return 0;
+		return;
 	}
 
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		CMStringW error_description = node.as_mstring();
-		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
 		ShowNotification(error_description, MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
-		return 0;
+		return;
 	}
 
 	node = root.at("access_token");
-	service->setString("TokenSecret", node.as_string().c_str());
+	setString("TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
 	time_t expiresIn = time(nullptr) + node.as_int();
-	service->setDword("ExpiresIn", expiresIn);
+	setDword("ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");
-	service->setString("RefreshToken", node.as_string().c_str());
+	setString("RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
 	EndDialog(hwndDlg, 1);
-	return 0;
 }
 
-unsigned CYandexService::RevokeAccessTokenThread(void *param)
+void CYandexService::RevokeAccessTokenThread(void*)
 {
-	CYandexService *service = (CYandexService*)param;
-
-	ptrA token(db_get_sa(NULL, service->GetAccountName(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	YandexAPI::RevokeAccessTokenRequest request(token);
-	NLHR_PTR response(request.Send(service->m_hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
-	service->delSetting("ExpiresIn");
-	service->delSetting("TokenSecret");
-	service->delSetting("RefreshToken");
-
-	return 0;
+	delSetting("ExpiresIn");
+	delSetting("TokenSecret");
+	delSetting("RefreshToken");
 }
 
 void CYandexService::HandleJsonError(JSONNode &node)

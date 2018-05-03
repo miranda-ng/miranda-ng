@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-COAuthDlg::COAuthDlg(CCloudService *service, const char *authUrl, pThreadFuncOwner requestAccessTokenThread)
+COAuthDlg::COAuthDlg(CCloudService *service, const char *authUrl, CCloudService::MyThreadFunc requestAccessTokenThread)
 	: CDlgBase(g_plugin.getInst(), IDD_OAUTH), m_service(service),
 	m_requestAccessTokenThread(requestAccessTokenThread),
 	m_authorize(this, IDC_OAUTH_AUTHORIZE, authUrl),
@@ -28,5 +28,5 @@ void COAuthDlg::Code_OnChange(CCtrlBase*)
 
 void COAuthDlg::Ok_OnClick(CCtrlButton*)
 {
-	mir_forkthreadowner(m_requestAccessTokenThread, m_service, m_hwnd);
+	m_service->ForkThread(m_requestAccessTokenThread, m_hwnd);
 }

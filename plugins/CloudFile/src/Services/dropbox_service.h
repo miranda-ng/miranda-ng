@@ -4,8 +4,8 @@
 class CDropboxService : public CCloudService
 {
 private:
-	static unsigned RequestAccessTokenThread(void *owner, void *param);
-	static unsigned __stdcall RevokeAccessTokenThread(void *param);
+	void __cdecl RequestAccessTokenThread(void *);
+	void __cdecl RevokeAccessTokenThread(void *);
 
 	void HandleJsonError(JSONNode &node) override;
 

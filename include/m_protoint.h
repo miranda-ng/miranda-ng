@@ -260,7 +260,7 @@ template<class T> struct PROTO : public PROTO_INTERFACE
 		::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); }
 
 	typedef void(__cdecl T::*MyThreadFunc)(void*);
-	__forceinline void ForkThread(MyThreadFunc pFunc, void *param) {
+	__forceinline void ForkThread(MyThreadFunc pFunc, void *param = nullptr) {
 		::ProtoForkThread(this, (ProtoThreadFunc)pFunc, param); }
 	HANDLE __forceinline ForkThreadEx(MyThreadFunc pFunc, void *param, UINT *pThreadId) {
 		return ::ProtoForkThreadEx(this, (ProtoThreadFunc)pFunc, param, pThreadId); }

@@ -3,9 +3,8 @@
 
 class COAuthDlg : public CDlgBase
 {
-private:
 	CCloudService *m_service;
-	pThreadFuncOwner m_requestAccessTokenThread;
+	CCloudService::MyThreadFunc m_requestAccessTokenThread;
 
 	CCtrlHyperlink m_authorize;
 	CCtrlEdit m_code;
@@ -18,7 +17,7 @@ protected:
 	void Ok_OnClick(CCtrlButton*);
 
 public:
-	COAuthDlg(CCloudService *service, const char *authUrl, pThreadFuncOwner requestAccessTokenThread);
+	COAuthDlg(CCloudService *service, const char *authUrl, CCloudService::MyThreadFunc requestAccessTokenThread);
 };
 
 #endif //_OAUTH_H_

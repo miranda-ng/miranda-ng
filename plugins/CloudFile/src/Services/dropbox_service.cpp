@@ -41,76 +41,70 @@ bool CDropboxService::IsLoggedIn()
 
 void CDropboxService::Login(HWND owner)
 {
-	COAuthDlg dlg(this, DROPBOX_API_AUTH, RequestAccessTokenThread);
+	COAuthDlg dlg(this, DROPBOX_API_AUTH, (MyThreadFunc)&CDropboxService::RequestAccessTokenThread);
 	dlg.SetParent(owner);
 	dlg.DoModal();
 }
 
 void CDropboxService::Logout()
 {
-	mir_forkthreadex(RevokeAccessTokenThread, this);
+	ForkThread((MyThreadFunc)&CDropboxService::RevokeAccessTokenThread);
 }
 
-unsigned CDropboxService::RequestAccessTokenThread(void *owner, void *param)
+void CDropboxService::RequestAccessTokenThread(void *param)
 {
 	HWND hwndDlg = (HWND)param;
-	CDropboxService *service = (CDropboxService*)owner;
 
-	if (service->IsLoggedIn())
-		service->Logout();
+	if (IsLoggedIn())
+		Logout();
 
 	char requestToken[128];
 	GetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, requestToken, _countof(requestToken));
 
 	DropboxAPI::GetAccessTokenRequest request(requestToken);
-	NLHR_PTR response(request.Send(service->m_hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
-		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError());
+		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError());
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
-		return 0;
+		return;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
-		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
-		return 0;
+		return;
 	}
 
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		CMStringW error_description = node.as_mstring();
-		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
 		ShowNotification(error_description, MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
-		return 0;
+		return;
 	}
 
 	node = root.at("access_token");
-	db_set_s(NULL, service->GetAccountName(), "TokenSecret", node.as_string().c_str());
+	db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
 	EndDialog(hwndDlg, 1);
-	return 0;
 }
 
-unsigned CDropboxService::RevokeAccessTokenThread(void *param)
+void CDropboxService::RevokeAccessTokenThread(void *)
 {
-	CDropboxService *service = (CDropboxService*)param;
-
-	ptrA token(service->getStringA("TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	DropboxAPI::RevokeAccessTokenRequest request(token);
-	NLHR_PTR response(request.Send(service->m_hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
-	service->delSetting("ExpiresIn");
-	service->delSetting("TokenSecret");
-	service->delSetting("RefreshToken");
-
-	return 0;
+	delSetting("ExpiresIn");
+	delSetting("TokenSecret");
+	delSetting("RefreshToken");
 }
 
 void CDropboxService::HandleJsonError(JSONNode &node)
