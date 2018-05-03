@@ -432,7 +432,11 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				mir_free(ft->std.szCurrentFile.w);
 				if (!((originalName = ezxml_child(xmli, "OriginalName")) && (pszFile = (char*)ezxml_attr(originalName, "v")))) {
 					if ((originalName = ezxml_child(xmli, "meta")))
+					{
+						char *p;
 						pszFile = (char*)ezxml_attr(originalName, "originalName");
+						if ((p=strrchr(pszFile, '\\')) || (p=strrchr(pszFile, '/'))) pszFile=p+1;
+					}
 				}
 				if (!pszFile || !*pszFile) {
 					if ((originalName = ezxml_child(xmli, "meta")) && (pszFile = (char*)ezxml_attr(originalName, "type"))) {
