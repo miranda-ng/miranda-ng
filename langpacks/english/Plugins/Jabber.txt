@@ -762,6 +762,7 @@
 [Secure XMPP Network]
 [Secure XMPP Network (old style)]
 [Google Talk!]
+[Hipchat]
 [LiveJournal Talk]
 [League Of Legends (EU Nordic)]
 [League Of Legends (EU West)]

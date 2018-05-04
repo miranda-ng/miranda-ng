@@ -1339,8 +1339,6 @@
 [Account name has to be unique. Please enter unique name.]
 [&Accounts...]
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_ui.cpp
-[Account]
 ;file \src\mir_app\src\proto_utils.cpp
 [Request authorization]
 [Grant authorization]
