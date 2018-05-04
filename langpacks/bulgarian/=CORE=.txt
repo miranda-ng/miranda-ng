@@ -2377,8 +2377,6 @@ ID на акаунта
 Името на акаунта трябва да бъде уникално.
 [&Accounts...]
 Акаунти...
-[Account]
-Акаунт
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]

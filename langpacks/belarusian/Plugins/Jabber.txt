@@ -1471,6 +1471,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 Абароненае XMPP (стары стыль)
 [Google Talk!]
 Google Talk!
+[Hipchat]
+Hipchat
 [LiveJournal Talk]
 Чат LiveJournal
 [League Of Legends (EU Nordic)]

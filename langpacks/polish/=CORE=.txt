@@ -2583,9 +2583,6 @@ Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
 [&Accounts...]
 &Konta...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_ui.cpp
-[Account]
-Konto
 ;file \src\mir_app\src\proto_utils.cpp
 [Request authorization]
 Poproś o autoryzację

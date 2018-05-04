@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
-;  Version: 0.8.0.4
+;  Version: 0.8.0.5
 ;  Authors: Bethoven
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
@@ -77,14 +77,14 @@
 Выполнить
 [Separator]
 Разделитель
-[Default]
-По умолчанию
 [TopToolBar background]
 Фон панели кнопок
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download]
 Текущий плагин списка контактов не поддерживает сервис фреймов, поэтому плагин ToptoolBar был выключен.\nДля работы панели кнопок нужно установить и / или включить один из следующих плагинов списка контактов:\n- Modern contact list\n- Clist nicer\nВы можете скачать их на https://wiki.miranda-ng.org/Download
 [TopToolBar]
 Панель кнопок
+[Default]
+По умолчанию
 [Contact list]
 Список контактов
 [Toolbar]

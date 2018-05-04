@@ -2233,8 +2233,6 @@ Error de cuenta
 El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
 [&Accounts...]
 &Cuentas...
-[Account]
-Cuenta
 [Request authorization]
 Solicitar autorización
 [Grant authorization]

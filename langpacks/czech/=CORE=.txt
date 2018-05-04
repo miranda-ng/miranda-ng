@@ -2583,9 +2583,6 @@ Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
 [&Accounts...]
 Účt&y...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_ui.cpp
-[Account]
-Účet
 ;file \src\mir_app\src\proto_utils.cpp
 [Request authorization]
 Požádat o autorizaci

@@ -41,6 +41,8 @@ Sie müssen einen ICQ-Corporate-Anmeldeserver angeben.
 [Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
 Ihre ICQ-Corp-Nummer und -Passwortkombination wurden vom ICQ-Corporate-Server abgelehnt. Bitte gehen Sie zu Einstellungen -> Netzwerk -> ICQCorp und versuchen Sie es nochmal.
 ;file \protocols\ICQCorp\src\services.cpp
+[ICQ number]
+ICQ-Nummer
 [%d file]
 %d Datei
 [%d files]

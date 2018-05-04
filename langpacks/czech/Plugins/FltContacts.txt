@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating contacts
-;  Version: 0.7.0.4
+;  Version: 0.7.0.5
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
@@ -95,6 +95,8 @@ Skrýt všechny
 Odebrat plovoucí kontakt
 [Show/Hide all thumbs]
 Zobrazit/skrýt všechny plovoucí kontakty
+[Floating contacts plugin won't work until you uncheck the "Disable drag and drop of items" option in Options - Contact list]
+
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Plovoucí kontakty

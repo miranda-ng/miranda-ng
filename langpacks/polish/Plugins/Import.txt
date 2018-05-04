@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.8.5
+;  Version: 0.95.8.6
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -93,12 +93,6 @@ Nowe konto
 Protokół %s nie jest załadowany, pomijam tworzenie konta %s
 [Unable to create an account %s of protocol %S]
 Nie można utworzyć konta %s dla protokołu %s
-[Failed to add %S contact %s]
-Nie udało się dodać %S kontaktu %s
-[Added %S contact %s, '%s']
-Dodano %S kontakt %s, "%s"
-[Added %S contact %s]
-Dodano %S kontakt %s
 [Metacontact cannot be imported due to its ambiguity.]
 Metakontakt nie może zostać zaimportowany z powodu swojej dwuznaczności.
 [Added metacontact '%s']
@@ -117,8 +111,12 @@ Pomijanie kontaktów nie-IM (%S)
 Pomijanie kontaktu %S, nie znaleziono ID
 [Skipping duplicate %S contact %s]
 Pomijanie zduplikowanego %S kontaktu %s
-[Unknown error while adding %S contact %s]
-Wystąpił nieznany błąd w czasie dodawania %S kontaktu %s
+[Failed to add %S contact %s]
+Nie udało się dodać %S kontaktu %s
+[Added %S contact %s, '%s']
+Dodano %S kontakt %s, "%s"
+[Added %S contact %s]
+Dodano %S kontakt %s
 [Failed to add message]
 Nie udało się dodać wiadomości
 [Error retrieving current profile, exiting.]

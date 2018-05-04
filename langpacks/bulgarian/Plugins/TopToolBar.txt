@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
-;  Version: 0.8.0.4
+;  Version: 0.8.0.5
 ;  Authors: Bethoven
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
@@ -77,12 +77,12 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 Изпълнение
 [Separator]
 Разделител
-[Default]
-Стандарт
 [TopToolBar background]
 Фон на TopToolBar
 [TopToolBar]
 TopToolBar
+[Default]
+Стандарт
 [Contact list]
 Списък с контакти
 [Toolbar]

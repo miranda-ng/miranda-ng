@@ -26,6 +26,7 @@
 [Hide all thumbs]
 [Remove thumb]
 [Show/Hide all thumbs]
+[Floating contacts plugin won't work until you uncheck the "Disable drag and drop of items" option in Options - Contact list]
 [Floating Contacts]
 [Main Features]
 [Appearance]

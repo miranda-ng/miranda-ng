@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
-;  Version: 0.8.0.4
+;  Version: 0.8.0.5
 ;  Authors: Bethoven
 ;============================================================
 [Minimize contact list]

@@ -377,6 +377,7 @@
 [Subscription]
 [XML for MS Excel (UTF-8 encoded)]
 [Secure XMPP Network (old style)]
+[Hipchat]
 [LiveJournal Talk]
 [League Of Legends (EU Nordic)]
 [League Of Legends (EU West)]

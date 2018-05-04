@@ -1495,6 +1495,8 @@ Napredno
 
 [Google Talk!]
 
+[Hipchat]
+
 [LiveJournal Talk]
 
 [League Of Legends (EU Nordic)]

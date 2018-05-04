@@ -1495,6 +1495,8 @@ Bezpieczna sieć XMPP
 Bezpieczna sieć XMPP (stary styl)
 [Google Talk!]
 Google Talk
+[Hipchat]
+Hipchat
 [LiveJournal Talk]
 LiveJournal Talk
 [League Of Legends (EU Nordic)]

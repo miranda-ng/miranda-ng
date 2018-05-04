@@ -2583,9 +2583,6 @@ Kontenname muss einmalig sein. Bitte geben Sie einen einmaligen Namen ein.
 [&Accounts...]
 &Konten...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_ui.cpp
-[Account]
-Konto
 ;file \src\mir_app\src\proto_utils.cpp
 [Request authorization]
 Autorisierung anfragen

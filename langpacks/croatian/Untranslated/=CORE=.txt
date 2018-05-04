@@ -1102,7 +1102,6 @@
 [Account error]
 [Account name has to be unique. Please enter unique name.]
 [&Accounts...]
-[Account]
 [Could not start a search on '%s', there was a problem - is %s connected?]
 [URL]
 [<Separator>]

@@ -2583,9 +2583,6 @@ Naziv naloga mora biti jedinstven. Molim unesite ponovo.
 [&Accounts...]
 &Nalozi...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_ui.cpp
-[Account]
-
 ;file \src\mir_app\src\proto_utils.cpp
 [Request authorization]
 Zatraži autorizaciju

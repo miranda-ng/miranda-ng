@@ -1495,6 +1495,8 @@ XMPP (zabezpečená síť)
 XMPP (zabezpečená síť, starší typ)
 [Google Talk!]
 Google Talk!
+[Hipchat]
+Hipchat
 [LiveJournal Talk]
 LiveJournal Talk
 [League Of Legends (EU Nordic)]

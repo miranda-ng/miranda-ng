@@ -56,6 +56,5 @@
 [Tray menu]
 [&About]
 [Compact]
-[Account]
 [Add group]
 [Toolbar]

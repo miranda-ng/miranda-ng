@@ -1,2 +1,3 @@
 [Bring to front]
 [Bring to front every]
+[Floating contacts plugin won't work until you uncheck the "Disable drag and drop of items" option in Options - Contact list]

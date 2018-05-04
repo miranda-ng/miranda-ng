@@ -2583,9 +2583,6 @@ Prika&ži/sakrij popis nadimaka
 [&Accounts...]
 
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_ui.cpp
-[Account]
-
 ;file \src\mir_app\src\proto_utils.cpp
 [Request authorization]
 Zahtjevaj autorizaciju

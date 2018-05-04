@@ -1457,6 +1457,8 @@ XML для MS Excel (кодування UTF-8)
 Захищена мережа XMPP (старий стиль)
 [Google Talk!]
 Google Hangouts
+[Hipchat]
+Hipchat
 [LiveJournal Talk]
 ЖЖ
 [Odnoklassniki]

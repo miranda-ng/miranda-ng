@@ -1313,6 +1313,8 @@ XML за MS Excel (кодиран с UTF-8)
 Защитена XMPP мрежа (стар стил)
 [Google Talk!]
 Google Talk!
+[Hipchat]
+Hipchat
 [LiveJournal Talk]
 LiveJournal Talk
 [S.ms]

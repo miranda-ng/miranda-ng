@@ -37,6 +37,8 @@
 
 [Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again.]
 
+[ICQ number]
+Нумар ICQ
 [%d file]
 
 [%d files]
