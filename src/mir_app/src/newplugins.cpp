@@ -121,7 +121,7 @@ static const MUUID pluginBannedList[] =
 	{ 0xa0138fc6, 0x4c52, 0x4501, { 0xaf, 0x93, 0x7d, 0x3e, 0x20, 0xbc, 0xae, 0x5b } },  // dbchecker
 };
 
-static bool isPluginBanned(const MUUID& u1)
+static bool isPluginBanned(const MUUID &u1)
 {
 	for (auto &it : pluginBannedList)
 		if (it == u1)
@@ -271,7 +271,9 @@ static int checkPI(BASIC_PLUGIN_INFO *bpi, PLUGININFOEX *pi)
 
 int checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, DWORD dwMirVer, int checkTypeAPI)
 {
+	SetErrorMode(SEM_FAILCRITICALERRORS); // disable error messages
 	HINSTANCE h = LoadLibrary(plugin);
+	SetErrorMode(0);							  // reset the system default
 	if (h == nullptr)
 		return 0;
 

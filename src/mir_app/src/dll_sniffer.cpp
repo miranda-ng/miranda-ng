@@ -123,7 +123,7 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 					bHasUnload = true;
 				else if (!mir_strcmp(szName, "MirandaInterfaces")) {
 					bHasMuuids = true;
-					pIds = (MUUID*)&pSecStart[ ptrFuncList[*ptrOrdRVA]];
+					pIds = (MUUID*)&pSecStart[ptrFuncList[*ptrOrdRVA]];
 				}
 				// old plugin, skip it
 				else if (!mir_strcmp(szName, "MirandaPluginInterfaces"))
@@ -141,7 +141,7 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 			for (MUUID* p = pIds; *p != miid_last; p++)
 				nLength++;
 
-			pResult = (MUUID*)mir_alloc( sizeof(MUUID)*nLength);
+			pResult = (MUUID*)mir_alloc(sizeof(MUUID)*nLength);
 			if (pResult)
 				memcpy(pResult, pIds, sizeof(MUUID)*nLength);
 		}
