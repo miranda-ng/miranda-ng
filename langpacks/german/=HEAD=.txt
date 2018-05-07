@@ -1,10 +1,10 @@
-Miranda Language Pack Version 1
+﻿Miranda Language Pack Version 1
 Language: German (DE)
 Locale: 0407
 Authors: Wishmaster, TuxX
 ; Miranda-im.de Projekt Sprachdatei - diverse Autoren
 Author-email: wishmaster51 at googlemail.com
-Last-Modified-Using: Miranda NG 0.95.8
+Last-Modified-Using: Miranda NG 0.95.9
 ; License: Creative Commons 3.0 (Attribution-Noncommercial-Share Alike)
 ; basiert auf deutsche Sprachdatei für Miranda IM
 ; Author-email: sprachdatei@miranda-im.de (original authors Herzog, Lastwebpage, CHEF-KOCH and more)
