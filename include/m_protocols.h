@@ -243,9 +243,10 @@ EXTERN_C MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *
 
 #define ME_PROTO_CONTACTISTYPING "Proto/ContactIsTypingEvent"
 
-// -------------- accounts support --------------------- 0.8.0+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Accounts support
 
-struct MIR_APP_EXPORT PROTOACCOUNT
+struct MIR_APP_EXPORT PROTOACCOUNT : public MZeroedObject
 {
 	char*    szModuleName;    // unique physical account name (matches database module name)
 	wchar_t* tszAccountName;  // user-defined account name
@@ -253,6 +254,7 @@ struct MIR_APP_EXPORT PROTOACCOUNT
 	bool     bIsEnabled;      // is account enabled?
 	bool     bIsVisible;      // is account visible?
 	bool     bIsVirtual;      // is account virtual?
+	bool     bIsLocked;		  // is locked in the contacts list?
 	bool     bOldProto;       // old-styled account (one instance per dll)
 	bool     bDynDisabled;    // dynamic disable flag, is never written to db
 
@@ -269,6 +271,10 @@ struct MIR_APP_EXPORT PROTOACCOUNT
 	int      protoindex;
 	int      protostatus[MAX_STATUS_COUNT];
 	HGENMENU menuhandle[MAX_STATUS_COUNT];
+
+	//---- methods ------------
+	PROTOACCOUNT(const char *szProto);
+	~PROTOACCOUNT();
 
 	bool     IsEnabled(void) const;
 	bool     IsLocked(void) const;

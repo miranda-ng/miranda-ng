@@ -164,7 +164,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 		if (pstatus == 0)
 			pstatus = pa->iRealStatus;
 
-		if (db_get_b(0, pa->szModuleName, "LockMainStatus", 0)) {
+		if (pa->bIsLocked) {
 			// if proto is locked, pstatus must be the current status
 			if (pstatus != pa->iRealStatus)
 				return 0;

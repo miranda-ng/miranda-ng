@@ -525,8 +525,8 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		char *prot = smep->szProto;
 		char szHumanName[64] = { 0 };
 		PROTOACCOUNT *acc = Proto_GetAccount(smep->szProto);
-		bool bIsLocked = !acc->IsLocked();
-		db_set_b(0, prot, "LockMainStatus", bIsLocked);
+		acc->bIsLocked = !acc->bIsLocked;
+		db_set_b(0, prot, "LockMainStatus", acc->bIsLocked);
 
 		CallProtoServiceInt(0, smep->szProto, PS_GETNAME, _countof(szHumanName), (LPARAM)szHumanName);
 
@@ -536,7 +536,7 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 
 		TMO_IntMenuItem *root = (TMO_IntMenuItem*)pimi->mi.root;
 		wchar_t buf[256], *ptszName;
-		if (bIsLocked) {
+		if (acc->bIsLocked) {
 			pimi->mi.flags |= CMIF_CHECKED;
 			mir_snwprintf(buf, TranslateT("%s (locked)"), acc->tszAccountName);
 			ptszName = buf;

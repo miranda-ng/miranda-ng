@@ -121,14 +121,11 @@ MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(int type, const char *szNa
 			ppi->m_iVersion = 1;
 			PROTOACCOUNT *pa = Proto_GetAccount(pd->szName);
 			if (pa == nullptr) {
-				pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-				pa->szModuleName = mir_strdup(szName);
+				pa = new PROTOACCOUNT(szName);
 				pa->szProtoName = mir_strdup(szName);
 				pa->tszAccountName = mir_a2u(szName);
 				pa->bIsVisible = pa->bIsEnabled = true;
 				pa->iOrder = accounts.getCount();
-				pa->iIconBase = -1;
-				pa->iRealStatus = ID_STATUS_OFFLINE;
 				accounts.insert(pa);
 			}
 			pa->bOldProto = true;
@@ -335,6 +332,22 @@ MIR_APP_DLL(LIST<PROTOACCOUNT>&) Accounts(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+PROTOACCOUNT::PROTOACCOUNT(const char *szProto) :
+	szModuleName(mir_strdup(szProto)),
+	iIconBase(-1),
+	iRealStatus(ID_STATUS_OFFLINE)
+{
+	bIsLocked = db_get_b(0, szProto, "LockMainStatus", 0) != 0;
+}
+
+PROTOACCOUNT::~PROTOACCOUNT()
+{
+	mir_free(szModuleName);
+	mir_free(szProtoName);
+	mir_free(szUniqueId);
+	mir_free(tszAccountName);
+}
+
 bool PROTOACCOUNT::IsEnabled() const
 {
 	return (this != nullptr) && ((bIsEnabled && !bDynDisabled) || bOldProto);
@@ -342,7 +355,7 @@ bool PROTOACCOUNT::IsEnabled() const
 
 bool PROTOACCOUNT::IsLocked() const
 {
-	return (this != nullptr) && db_get_b(0, szModuleName, "LockMainStatus", 0) != 0;
+	return (this != nullptr) && bIsLocked;
 }
 
 bool PROTOACCOUNT::IsVisible() const

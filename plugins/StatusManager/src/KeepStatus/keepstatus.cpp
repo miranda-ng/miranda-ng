@@ -132,7 +132,7 @@ int SMProto::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 		return -1;
 	if (iStatus != ID_STATUS_OFFLINE && m_status == ID_STATUS_DISABLED)
 		return -2;
-	if (!db_get_b(0, KSMODULENAME, SETTING_NOLOCKED, 0) && db_get_b(0, m_szName, "LockMainStatus", 0))
+	if (!db_get_b(0, KSMODULENAME, SETTING_NOLOCKED, 0) && Proto_GetAccount(m_szName)->IsLocked())
 		return -3;
 
 	mir_cslock lck(GenStatusCS);

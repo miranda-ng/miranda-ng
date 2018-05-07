@@ -1634,23 +1634,27 @@ buttons_done:
 				if (cfg::shutDown)
 					return TRUE;
 
+				char *szProto = pd->RealName;
+				PROTOACCOUNT *pa = Proto_GetAccount(szProto);
+				if (pa == nullptr)
+					return TRUE;
+
 				int nParts = SendMessage(pcli->hwndStatus, SB_GETPARTS, 0, 0);
 				SIZE textSize;
 				BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
-				char *szProto = pd->RealName;
-				int status = Proto_GetStatus(szProto);
+
 				SetBkMode(dis->hDC, TRANSPARENT);
 				int x = dis->rcItem.left;
 
 				if (showOpts & 1) {
 					HICON hIcon;
 
-					if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE) {
+					if (pa->iRealStatus >= ID_STATUS_CONNECTING && pa->iRealStatus < ID_STATUS_OFFLINE) {
 						char szBuffer[128];
 						mir_snprintf(szBuffer, "%s_conn", pd->RealName);
 						hIcon = IcoLib_GetIcon(szBuffer);
 					}
-					else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
+					else if (cfg::dat.bShowXStatusOnSbar && pa->iRealStatus > ID_STATUS_OFFLINE) {
 						int xStatus;
 						CUSTOM_STATUS cst = { sizeof(cst) };
 						cst.flags = CSSF_MASK_STATUS;
@@ -1658,10 +1662,9 @@ buttons_done:
 						if (ProtoServiceExists(pd->RealName, PS_GETCUSTOMSTATUSEX) && !CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cst) && xStatus > 0)
 							hIcon = (HICON)CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED); // get OWN xStatus icon (if set)
 						else
-							hIcon = Skin_LoadProtoIcon(szProto, status);
+							hIcon = Skin_LoadProtoIcon(szProto, pa->iRealStatus);
 					}
-					else
-						hIcon = Skin_LoadProtoIcon(szProto, status);
+					else hIcon = Skin_LoadProtoIcon(szProto, pa->iRealStatus);
 
 					if (!(showOpts & 6) && cfg::dat.bEqualSections)
 						x = (dis->rcItem.left + dis->rcItem.right - 16) >> 1;
@@ -1673,7 +1676,7 @@ buttons_done:
 					IcoLib_ReleaseIcon(hIcon);
 
 					if (db_get_b(NULL, "CLUI", "sbar_showlocked", 1)) {
-						if (db_get_b(NULL, szProto, "LockMainStatus", 0)) {
+						if (pa->bIsLocked) {
 							hIcon = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 							if (hIcon != nullptr) {
 								DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
@@ -1693,22 +1696,16 @@ buttons_done:
 
 				if (showOpts & 2) {
 					wchar_t szName[64];
-					PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-					if (pa) {
-						mir_wstrncpy(szName, pa->tszAccountName, _countof(szName));
-						szName[_countof(szName) - 1] = 0;
-					}
-					else
-						szName[0] = 0;
+					wcsncpy_s(szName, pa->tszAccountName, _TRUNCATE);
 
-					if (mir_wstrlen(szName) < sizeof(szName) - 1)
+					if (mir_wstrlen(szName) < _countof(szName) - 1)
 						mir_wstrcat(szName, L" ");
 					GetTextExtentPoint32(dis->hDC, szName, (int)mir_wstrlen(szName), &textSize);
 					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szName, (int)mir_wstrlen(szName));
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
-					wchar_t *szStatus = Clist_GetStatusModeDescription(status, 0);
+					wchar_t *szStatus = Clist_GetStatusModeDescription(pa->iRealStatus, 0);
 					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_wstrlen(szStatus), &textSize);
 					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_wstrlen(szStatus));
 				}

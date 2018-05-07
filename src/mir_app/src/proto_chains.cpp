@@ -155,7 +155,7 @@ MIR_APP_DLL(char*) GetContactProto(MCONTACT hContact)
 MIR_APP_DLL(char*) Proto_GetBaseAccountName(MCONTACT hContact)
 {
 	PROTOACCOUNT *pa = Proto_GetAccount(hContact);
-	return pa ? pa->szModuleName : nullptr;
+	return pa->IsEnabled() ? pa->szModuleName : nullptr;
 }
 
 MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *szProto)

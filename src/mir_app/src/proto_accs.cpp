@@ -48,15 +48,12 @@ static int EnumDbModules(const char *szModuleName, void*)
 	ptrA szProtoName(db_get_sa(0, szModuleName, "AM_BaseProto"));
 	if (szProtoName) {
 		if (!Proto_GetAccount(szModuleName)) {
-			PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-			pa->szModuleName = mir_strdup(szModuleName);
+			PROTOACCOUNT *pa = new PROTOACCOUNT(szModuleName);
 			pa->szProtoName = szProtoName.detach();
 			pa->tszAccountName = mir_a2u(szModuleName);
 			pa->bIsVisible = true;
 			pa->bIsEnabled = false;
 			pa->iOrder = accounts.getCount();
-			pa->iIconBase = -1;
-			pa->iRealStatus = ID_STATUS_OFFLINE;
 			accounts.insert(pa);
 		}
 	}
@@ -71,21 +68,14 @@ void LoadDbAccounts(void)
 	for (int i = 0; i < count; i++) {
 		char buf[10];
 		_itoa(i, buf, 10);
-		char *szModuleName = db_get_sa(0, "Protocols", buf);
+		ptrA szModuleName(db_get_sa(0, "Protocols", buf));
 		if (szModuleName == nullptr)
 			continue;
 
 		PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
 		if (pa == nullptr) {
-			pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-			pa->szModuleName = szModuleName;
-			pa->iIconBase = -1;
-			pa->iRealStatus = ID_STATUS_OFFLINE;
+			pa = new PROTOACCOUNT(szModuleName);
 			accounts.insert(pa);
-		}
-		else {
-			mir_free(szModuleName);
-			szModuleName = pa->szModuleName;
 		}
 
 		_itoa(OFFSET_VISIBLE + i, buf, 10);
@@ -128,12 +118,11 @@ void LoadDbAccounts(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct
+struct enumDB_ProtoProcParam
 {
 	int  arrlen;
 	char **pszSettingName;
-}
-enumDB_ProtoProcParam;
+};
 
 static int enumDB_ProtoProc(const char* szSetting, void *lParam)
 {
@@ -436,22 +425,20 @@ void UnloadAccount(PROTOACCOUNT *pa, int flags)
 {
 	DeactivateAccount(pa, flags);
 
-	replaceStrW(pa->tszAccountName, 0);
-	replaceStr(pa->szProtoName, 0);
-	replaceStr(pa->szUniqueId, 0);
-
 	// szModuleName should be freed only on a program's exit.
 	// otherwise many plugins dependand on static protocol names will crash!
 	// do NOT fix this 'leak', please
-	if (!(flags & DAF_DYNAMIC)) {
-		mir_free(pa->szModuleName);
-		mir_free(pa);
+	if (!(flags & DAF_DYNAMIC))
+		delete pa;
+	else {
+		replaceStrW(pa->tszAccountName, 0);		replaceStr(pa->szProtoName, 0);		replaceStr(pa->szUniqueId, 0);
 	}
 }
 
 void UnloadAccountsModule()
 {
-	if (!bModuleInitialized) return;
+	if (!bModuleInitialized)
+		return;
 
 	auto T = accounts.rev_iter();
 	for (auto &it : T) {

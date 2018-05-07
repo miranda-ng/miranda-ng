@@ -27,22 +27,19 @@ int UnLoadCLUIFramesModule(void);
 int CLUIFramesGetMinHeight();
 int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam);
 int SizeFramesByWindowRect(RECT *r);
-int CLUIFramesResizeFrames(RECT *rc);
 
-typedef struct tagProtocolData {
+struct ProtocolData
+{
 	char *RealName;
 	int protopos;
 	boolean show;
-} ProtocolData;
+};
 
-typedef struct 
+struct SortData
 {
 	int order;
 	int realpos;
-}SortData;
-
-
-
+};
 
 //============
 #define CLUIFRAMESSETALIGN			"CLUIFramesSetAlign"

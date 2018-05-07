@@ -495,7 +495,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				}
 
 				if (hxIcon || hIcon) { // TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto
-					if (db_get_b(0, p.szAccountName, "LockMainStatus", 0)) {
+					if (Proto_GetAccount(p.szAccountName)->IsLocked()) {
 						HICON hLockOverlay = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hLockOverlay != nullptr) {
 							ske_DrawIconEx(hDC, x, iconY, hLockOverlay, iconWidth, iconHeight, 0, nullptr, DI_NORMAL | dim);

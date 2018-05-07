@@ -55,14 +55,8 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const ch
 	if (pszBaseProto == nullptr || tszAccountName == nullptr)
 		return nullptr;
 
-	PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-	pa->bIsEnabled = pa->bIsVisible = true;
-	pa->iOrder = accounts.getCount();
-	pa->szProtoName = mir_strdup(pszBaseProto);
-	pa->iRealStatus = ID_STATUS_OFFLINE;
-	pa->iIconBase = -1;
-
 	// if the internal name is empty, generate new one
+	const char *szProto;
 	if (mir_strlen(pszInternal) == 0) {
 		char buf[100];
 		int count = 1;
@@ -71,10 +65,14 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const ch
 			if (ptrA(db_get_sa(0, buf, "AM_BaseProto")) == nullptr)
 				break;
 		}
-		pa->szModuleName = mir_strdup(buf);
+		szProto = buf;
 	}
-	else pa->szModuleName = mir_strdup(pszInternal);
+	else szProto = pszInternal;
 
+	PROTOACCOUNT *pa = new PROTOACCOUNT(szProto);
+	pa->bIsEnabled = pa->bIsVisible = true;
+	pa->iOrder = accounts.getCount();
+	pa->szProtoName = mir_strdup(pszBaseProto);
 	pa->tszAccountName = mir_wstrdup(tszAccountName);
 
 	db_set_s(0, pa->szModuleName, "AM_BaseProto", pszBaseProto);
