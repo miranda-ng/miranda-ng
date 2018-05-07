@@ -386,6 +386,9 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 				// just not supported.
 				continue;
 
+			case EGROKPRF_OBSOLETE:
+				break;
+
 			default:
 				return err;
 			}
