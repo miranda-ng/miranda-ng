@@ -27,7 +27,7 @@ Chatstatusänderungen anzeigen (bspw. Benutzer hat Chatsitzung geschlossen)
 [Connection]
 Verbindung
 [Error limit before logout:]
-
+Anzahl Fehler vor Abmeldung:
 [Captcha]
 Captcha
 [Cancel]
@@ -67,7 +67,7 @@ Spielen
 [%s has been removed from your contact list]
 %s wurde aus Ihrer Kontaktliste entfernt
 [%s has added you to contact list]
-
+%s hat Sie zu seiner Kontaktliste hinzugefügt.
 ;file \protocols\Steam\src\steam_login.cpp
 [Cannot obtain connection token.]
 Kann Verbindungstoken nicht erhalten.
@@ -75,7 +75,7 @@ Kann Verbindungstoken nicht erhalten.
 [Steam menu chooser]
 Steam-Menüauswahl
 [Unblock]
-
+Bockierung aufheben
 [Join to game]
 Dem Spiel beitreten
 ;file \protocols\Steam\src\steam_messages.cpp

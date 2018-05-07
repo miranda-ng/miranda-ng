@@ -67,7 +67,7 @@ Langes Datumsformat verwenden
 [Use relative timestamp]
 Relativen Zeitstempel verwenden
 [Download more templates]
-
+Weitere Vorlagen herunterladen
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Ausgehende Dateiübertragung

@@ -2518,7 +2518,7 @@ Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
 [Run]
 Starten
 [Compact]
-
+Komprimieren
 [Size]
 Größe
 [Created]

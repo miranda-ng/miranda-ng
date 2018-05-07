@@ -360,7 +360,7 @@ Ungültige E-Mail-Adresse
 [Generating new key, please wait...]
 Erzeuge neuen Schlüssel, bitte warten Sie...
 [Expiration date]
-
+Ablaufdatum
 [Failed to export public key.]
 Konnte öffentlichen Schlüssel nicht exportieren.
 ;file \plugins\New_GPG\src\utilities.cpp

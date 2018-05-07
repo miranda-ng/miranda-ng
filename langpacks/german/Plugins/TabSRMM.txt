@@ -1063,7 +1063,7 @@ Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
 Aussehen des Verlaufsfensters
 [Chat rooms]
-
+Chaträume
 [Voiced]
 Stimmhaft
 [Half operators]

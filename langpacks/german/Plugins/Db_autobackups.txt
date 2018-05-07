@@ -48,7 +48,7 @@ Sicherheitskopie wird erstellt
 [Copying database file...]
 Kopiere Datenbank...
 [Uploading to cloud failed]
-
+Hochladen in die Cloud fehlgeschlagen
 [Error]
 Fehler
 [Database backed up]

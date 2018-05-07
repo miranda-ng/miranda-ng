@@ -1,1 +1,0 @@
-[Use Stream Management (XEP-0198) if possible (Testing)]

@@ -131,17 +131,17 @@ Geben Sie den Text ein, den Sie sehen
 [&Invite user...]
 Kontakt e&inladen...
 [E&xit chat session]
-
+Chatsitzung &verlassen
 [&Destroy chat session]
-
+Chatsitzung &zerstören
 [User &details]
 Benutzer&details
 [User &history]
 Kontakt&verlauf
 [Delete conversation]
-
+Unterhaltung löschen
 [This will permanently delete the conversation history]
-
+Dies wird den Gesprächsverlauf dauerhaft löschen
 [Former]
 Ehemaliger
 [Myself]
@@ -268,7 +268,7 @@ Benutzer hat Ihnen %s gesendet:
 [User sent an unsupported attachment. Open your browser to see it.]
 Benutzer hat Ihnen einen nicht unterstützten Anhang gesendet. Öffnen Sie Ihren Browser, um ihn anzusehen.
 [Reaction]
-
+Reaktion
 [%s is typing a message...]
 %s tippt eine Nachricht...
 ;file \protocols\FacebookRM\src\messages.cpp
