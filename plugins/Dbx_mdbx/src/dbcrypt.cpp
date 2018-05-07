@@ -68,10 +68,12 @@ CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
 
 int CDbxMDBX::InitCrypt()
 {
-	CRYPTO_PROVIDER *pProvider;
+	if (m_crypto != nullptr)
+		return 0;
 
 	txn_ptr_ro txn(m_txn_ro);
 
+	CRYPTO_PROVIDER *pProvider;
 	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value;
 	if (mdbx_get(txn, m_dbCrypto, &key, &value) == MDBX_SUCCESS) {
 		pProvider = Crypto_GetProvider((const char*)value.iov_base);
