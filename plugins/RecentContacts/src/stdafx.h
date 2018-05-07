@@ -6,7 +6,6 @@
 #include <commctrl.h>
 #include <string>
 #include <map>
-#include <xfunctional> 
 #include <time.h>
 
 #include <newpluginapi.h>
