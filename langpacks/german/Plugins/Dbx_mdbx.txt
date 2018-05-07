@@ -13,7 +13,7 @@ Verschlüsselungsmodul auswählen
 [Cancel]
 Abbrechen
 [Total encryption (Recommended only for paranoid users)]
-
+Totale Verschlüsselung (nur für paranoide Benutzer empfohlen)
 [Login to Miranda NG]
 Einloggen bei Miranda NG
 [New password]
@@ -55,7 +55,7 @@ Passwörter stimmen nicht überein!
 [Database]
 Datenbank
 [Compact]
-
+Komprimieren
 ;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 Logo

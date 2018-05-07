@@ -94,7 +94,7 @@ Protokollicon
 [Action icon]
 Aktionsicon
 [Correction icon]
-
+Verbindungsicon
 [Protocols]
 Protokolle
 ;file \protocols\Tox\src\tox_menus.cpp

@@ -357,9 +357,9 @@ ist ins Chat zurückgekehrt
 [change chat title to]
 Chatthema geändert zu
 [pin message]
-
+Nachricht anheften
 [unpin message]
-
+Nachricht nicht mehr anheften
 [changed chat cover:]
 hat Chatcover geändert:
 [deleted chat cover]
@@ -479,9 +479,9 @@ Verlauf laden
 [Error loading message history for %s from server.]
 Fehler beim Laden des Nachrichtenverlaufes von %s vom Server.
 [%x at %X]
-
+%x am %X
 [Edited message (updated %s):\n]
-
+Nachricht bearbeitet (aktualisiert %s):\n
 [Loading messages for %s is completed.]
 Laden der Nachrichten von %s ist fertig.
 ;file \protocols\VKontakte\src\vk_messages.cpp

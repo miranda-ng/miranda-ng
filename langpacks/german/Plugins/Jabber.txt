@@ -1406,7 +1406,7 @@ Serverseitigen Verlauf aktivieren (XEP-0136)
 [Receive conversations from other devices (XEP-0280)]
 Unterhaltungen von anderen Geräten empfangen (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (Testing)]
-
+Stream-Management verwenden wenn möglich (XEP-0198) (Testphase)
 [Server options]
 Servereinstellungen
 [Disable SASL authentication (for old servers)]

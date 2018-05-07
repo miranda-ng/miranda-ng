@@ -96,7 +96,7 @@ Entferne Floater
 [Show/Hide all thumbs]
 Zeige/Verstecke alle Floater
 [Floating contacts plugin won't work until you uncheck the "Disable drag and drop of items" option in Options - Contact list]
-
+Das Floating-Contacts-Plugin funktioniert nur wenn Sie "Drag&Drop von Objekten ausschalten" unter Einstellungen -> Kontaktliste deaktivieren.
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Schwebende Kontakte

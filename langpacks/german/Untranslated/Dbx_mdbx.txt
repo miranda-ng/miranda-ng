@@ -1,2 +1,0 @@
-[Total encryption (Recommended only for paranoid users)]
-[Compact]

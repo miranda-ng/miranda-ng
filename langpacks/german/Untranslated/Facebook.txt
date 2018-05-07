@@ -1,5 +1,0 @@
-[E&xit chat session]
-[&Destroy chat session]
-[Delete conversation]
-[This will permanently delete the conversation history]
-[Reaction]

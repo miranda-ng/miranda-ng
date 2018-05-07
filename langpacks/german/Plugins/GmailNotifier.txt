@@ -69,7 +69,7 @@ Sonstige
 [Gmail: New thread(s)]
 Gmail: Neue Themen
 [Gmail Notifier connection]
-
+Gmail-Notifier-Verbindung
 [&Check all Gmail inboxes]
 Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]
