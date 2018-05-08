@@ -81,9 +81,9 @@ CDummyProto::~CDummyProto()
 int CDummyProto::getTemplateId()
 {
 	int id = this->getByte(DUMMY_ID_TEMPLATE, 0);
-	if (id < 0 || id >= _countof(templates)) {
+	if (id < 0 || id >= _countof(templates))
 		return 0;
-	}
+	
 	return id;
 }
 

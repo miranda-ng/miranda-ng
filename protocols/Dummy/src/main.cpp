@@ -77,3 +77,51 @@ extern "C" int __declspec(dllexport) Unload(void)
 CMPlugin	g_plugin;
 
 extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// stubs for obsoleted protocols
+
+struct CMPluginAim : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginAim() : ACCPROTOPLUGIN<CDummyProto>("AIM")
+	{
+		SetUniqueId("SN");
+	}
+}
+static g_pluginAim;
+
+struct CMPluginYahoo : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginYahoo() : ACCPROTOPLUGIN<CDummyProto>("YAHOO")
+	{
+		SetUniqueId("yahoo_id");
+	}
+}
+static g_pluginYahoo;
+
+struct CMPluginTlen : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginTlen() : ACCPROTOPLUGIN<CDummyProto>("TLEN")
+	{
+		SetUniqueId("jid");
+	}
+}
+static g_pluginTlen;
+
+struct CMPluginXFire : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginXFire() : ACCPROTOPLUGIN<CDummyProto>("XFire")
+	{
+		SetUniqueId("Username");
+	}
+}
+static g_pluginXFire;
+
+struct CMPluginWhatsapp : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginWhatsapp() : ACCPROTOPLUGIN<CDummyProto>("WhatsApp")
+	{
+		SetUniqueId("ID");
+	}
+}
+static g_pluginWhatsapp;
