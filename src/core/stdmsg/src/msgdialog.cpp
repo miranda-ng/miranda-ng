@@ -1084,9 +1084,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
-		SetFocus(m_message.GetHwnd());
-		// fall through
+		__fallthrough;
+
 	case WM_MOUSEACTIVATE:
+		SetFocus(m_message.GetHwnd());
 		UpdateTitle();
 		UpdateLastMessage();
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
