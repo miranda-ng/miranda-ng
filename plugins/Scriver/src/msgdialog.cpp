@@ -1302,7 +1302,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
-		//fall through
+		__fallthrough;
 	case WM_MOUSEACTIVATE:
 		if (m_hDbUnreadEventFirst != 0) {
 			MEVENT hDbEvent = m_hDbUnreadEventFirst;

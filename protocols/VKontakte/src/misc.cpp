@@ -311,7 +311,8 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		break;
 	case VKERR_FLOOD_CONTROL:
 		pReq->m_iRetry = 0;
-		// fall through
+		__fallthrough;
+
 	case VKERR_UNKNOWN:
 	case VKERR_TOO_MANY_REQ_PER_SEC:
 	case VKERR_INTERNAL_SERVER_ERR:

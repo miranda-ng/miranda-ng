@@ -474,7 +474,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				dat->item = nullptr;
 				break;
 			}
-		// fall through
+		__fallthrough;
 
 	case WM_JABBER_REFRESH:
 		if (dat == nullptr) break;

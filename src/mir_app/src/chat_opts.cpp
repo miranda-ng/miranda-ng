@@ -166,7 +166,8 @@ void RegisterFonts(void)
 			FO.szDefFace = L"Webdings";
 			FO.defColour = RGB(170, 170, 170);
 			FO.defCharset = SYMBOL_CHARSET;
-			// fall through
+			__fallthrough;
+
 		default:
 			wcsncpy_s(fontid.backgroundName, LPGENW("Group chat log background"), _TRUNCATE);
 			break;

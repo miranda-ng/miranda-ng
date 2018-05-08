@@ -591,7 +591,8 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				mir_snprintf(idstr, "e-mailFlag%d", dat->id);
 				dat->ppro->setWord(idstr, nFlag);
 			}
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			EndDialog(hwndDlg, wParam);
 			break;
@@ -639,7 +640,6 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-		{
 			char idstr[33];
 
 			if (dat->id < 0)
@@ -669,8 +669,8 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (IsDlgButtonChecked(hwndDlg, IDC_PCS))   nFlag |= JABBER_VCTEL_PCS;
 			mir_snprintf(idstr, "PhoneFlag%d", dat->id);
 			dat->ppro->setWord(idstr, nFlag);
-		}
-		// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			EndDialog(hwndDlg, wParam);
 			break;

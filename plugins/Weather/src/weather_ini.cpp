@@ -199,7 +199,8 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_STEP4:
 			WeatherAdd(0, 0);
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			// close the info window
 			DestroyWindow(hwndDlg);

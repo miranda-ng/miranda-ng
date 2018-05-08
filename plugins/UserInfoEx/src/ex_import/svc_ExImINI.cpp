@@ -230,13 +230,15 @@ static DWORD ImportreadLine(FILE* file, LPSTR &str)
 			case ';':
 				// found a comment line
 				bComment |= (l == 0);
-				// fall through
+				__fallthrough;
+
 			case '\t':
 			case ' ':
 				// ignore space and tab at the beginning of the line
 				if (l == 0)
 					break;
-				// fall through
+				__fallthrough;
+
 			default:
 				if (!bComment) {
 					str = mir_strncat_c(str, c);

@@ -962,7 +962,7 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		wParam = REFRESH_TIMER;
-		// fall through
+		__fallthrough;
 
 	case WM_TIMER:
 		if (wParam == REFRESH_TIMER) {

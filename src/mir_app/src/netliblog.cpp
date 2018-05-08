@@ -247,7 +247,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				}
 			}
 			InitLog();
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 		}

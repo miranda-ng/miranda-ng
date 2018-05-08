@@ -1292,10 +1292,10 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		szTitle.Format(TranslateT("Reason to destroy %s"), gch->ptszID);
 		if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
 			ppro->m_ThreadInfo->send(
-			XmlNodeIq(L"set", ppro->SerialNext(), gch->ptszID) << XQUERY(JABBER_FEAT_MUC_OWNER)
-			<< XCHILD(L"destroy") << XCHILD(L"reason", szBuffer));
+				XmlNodeIq(L"set", ppro->SerialNext(), gch->ptszID) << XQUERY(JABBER_FEAT_MUC_OWNER)
+				<< XCHILD(L"destroy") << XCHILD(L"reason", szBuffer));
+		__fallthrough;
 
-		// fall through
 	case IDM_LEAVE:
 		ppro->GcQuit(item, 200, nullptr);
 		break;

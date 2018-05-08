@@ -67,7 +67,8 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				SetCursor(LoadCursor(nullptr, IDC_ARROW));
 			}
 			refreshTree(1);
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			mir_free(mac);
 			DestroyWindow(hwnd);

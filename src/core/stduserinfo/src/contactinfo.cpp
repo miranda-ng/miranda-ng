@@ -42,9 +42,12 @@ static INT_PTR CALLBACK EditUserEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			GetDlgItemTextA(hwndDlg, IDC_EMAIL, (char*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA), 256);
-			//fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			EndDialog(hwndDlg, wParam);
+			__fallthrough;
+
 		case IDC_EMAIL:
 			if (HIWORD(wParam) == EN_CHANGE)
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetWindowTextLength(GetDlgItem(hwndDlg, IDC_EMAIL)));
@@ -100,9 +103,12 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_SMS)) mir_strcat(szText, " SMS");
 			}
-			//fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			EndDialog(hwndDlg, wParam);
+			__fallthrough;
+
 		case IDC_COUNTRY:
 			if (HIWORD(wParam) != CBN_SELCHANGE)
 				break;

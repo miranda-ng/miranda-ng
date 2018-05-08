@@ -594,8 +594,8 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 				ResetCList(hwndDlg);
 				return FALSE;
 			}
+			__fallthrough;
 
-			//fall through
 		case IDC_SHOWHIDE:
 		case IDC_FIND_TEXT:
 		case IDC_EDIT:

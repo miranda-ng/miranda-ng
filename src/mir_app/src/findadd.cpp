@@ -439,7 +439,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			GetClientRect(hwndList, &rc);
 			ListView_SetColumnWidth(hwndList, 0, rc.right);
 		}
-		// fall through
+		__fallthrough;
 
 	case WM_MOVE:
 		if (dat && dat->hwndAdvSearch) {

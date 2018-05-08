@@ -2472,7 +2472,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
-		// fall through
+		__fallthrough;
 
 	case WM_MOUSEACTIVATE:
 		MsgWindowUpdateState(WM_ACTIVATE);

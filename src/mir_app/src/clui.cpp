@@ -141,7 +141,8 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 				EndDialog(hWnd, IDC_HIDE);
 				break;
 			}
-			//fall through
+			__fallthrough;
+
 		case IDCANCEL:
 		case IDNO:
 			EndDialog(hWnd, LOWORD(wParam));

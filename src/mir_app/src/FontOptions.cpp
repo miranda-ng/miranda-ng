@@ -913,8 +913,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			if (HIWORD(wParam) != LBN_DBLCLK)
 				return TRUE;
-
-			//fall through
+			__fallthrough;
 
 		case IDC_CHOOSEFONT:
 			if (selCount = SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETSELCOUNT, 0, 0)) {

@@ -1190,7 +1190,7 @@ static UINT DrawScrollButton(SCROLLBUT *sbut, HDC hdc, const RECT *pctrl, UINT f
 		if (sbut->uState != SBBS_NORMAL)
 			flags |= SBBS_PUSHED;
 
-		//intentionally fall through here...
+		__fallthrough;
 
 	case SBBT_PUSHBUTTON: 
 		

@@ -51,7 +51,8 @@ static INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 
 				refreshTree(1);
 			}
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			DestroyWindow(hwnd);
 			break;

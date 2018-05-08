@@ -138,7 +138,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			supressRepos = false;
 			break;
 		}
-		// fall through
+		__fallthrough;
 
 	case TTB_REPOSBUTTONS:
 		if (g_ctrl->hWnd == hwnd) {

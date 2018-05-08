@@ -845,7 +845,8 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT))
 				pcli->pfnRemoveEvent(hContact, hContact);
 		}
-		// fall through
+		__fallthrough;
+
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
 		break;

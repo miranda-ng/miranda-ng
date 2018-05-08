@@ -209,7 +209,8 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID
 				switch (gce.iType) {
 				case GC_EVENT_JOIN:
 					gce.ptszStatus = MSN_GCGetRole(MSN_GetThreadByChatId(mChatID), target->txt);
-					// ..fall through.. //
+					__fallthrough;
+
 				case GC_EVENT_KICK:
 				case GC_EVENT_PART:
 					pszTarget = target->txt;
