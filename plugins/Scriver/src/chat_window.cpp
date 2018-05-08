@@ -915,7 +915,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		tcd.iFlags = TCDF_TEXT;
 		tcd.pszText = m_si->ptszName;
 		SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
-		// fall through
+		__fallthrough;
 
 	case DM_ACTIVATE:
 		if (m_si->wState & STATE_TALK) {
@@ -1012,7 +1012,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
-		// fall through
+		__fallthrough;
 	case WM_MOUSEACTIVATE:
 		if (uMsg != WM_ACTIVATE)
 			SetFocus(m_message.GetHwnd());

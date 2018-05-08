@@ -390,7 +390,8 @@ void importSettings(MCONTACT hContact, char *utf8)
 							memmove(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
 						}
 					}
-					// fall through - write it to database
+					__fallthrough; // write it to database
+
 				case 'u':
 				case 'U':
 					db_set_utf(hContact, module, setting, (end + 2));

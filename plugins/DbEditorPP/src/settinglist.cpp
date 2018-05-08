@@ -62,11 +62,13 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	case DBVT_WCHAR:
 		if (!value)
 			value = mir_wstrdup(dbv.pwszVal);
-		// fall through
+		__fallthrough;
+
 	case DBVT_UTF8:
 		if (!value)
 			value = mir_utf8decodeW(dbv.pszVal);
-		// fall through
+		__fallthrough;
+
 	case DBVT_ASCIIZ:
 		if (!value)
 			value = mir_a2u(dbv.pszVal);
@@ -519,7 +521,8 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 
 					case '0':
 						i = 1;
-						// fall through
+						__fallthrough;
+
 					case '1':
 					case '2':
 					case '3':
@@ -579,8 +582,8 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 					msg(TranslateT("Unable to store value in this data type!"));
 					break;
 				}
-
-			} // fall through
+			}
+			__fallthrough;
 
 		case IDCANCEL:
 			DestroyWindow(hwnd);

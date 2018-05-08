@@ -826,7 +826,8 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				(jfi->ppro->*(jfi->pfnSubmit))(n, jfi->userdata);
 				xmlDestroyNode(n);
 			}
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 		case IDCLOSE:
 			DestroyWindow(hwndDlg);

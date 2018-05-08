@@ -850,7 +850,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 		}
-		// fall through
+		__fallthrough;
 
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:

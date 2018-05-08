@@ -554,7 +554,8 @@ static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wPar
 
 				EnableControls(hDlg, idCtrl, _countof(idCtrl), bChecked);
 			}
-		// fall through
+			__fallthrough;
+
 		case CHECK_OPT_GROUPS:
 		case CHECK_OPT_SORTTREE:
 		case CHECK_OPT_AEROADAPTION:
@@ -707,7 +708,8 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 				EnableControls(hDlg, idCtrl, _countof(idCtrl), bEnabled);
 			}
-			// fall through
+			__fallthrough;
+
 		case EDIT_BIRTHMODULE:
 			if (bInitialized && HIWORD(wParam) == CBN_SELCHANGE)
 				NotifyParentOfChange(hDlg);

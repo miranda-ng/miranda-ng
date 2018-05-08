@@ -306,7 +306,8 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					if ((int)IsDlgButtonChecked(hDlg, CHECK_SMS) != ((cbi->wFlags & CBEXIF_SMS) == CBEXIF_SMS))
 						cbi->wFlags ^= CBEXIF_SMS;
 				}
-				//fall through
+				__fallthrough;
+
 			case IDCANCEL:
 				if (HIWORD(wParam) == BN_CLICKED) 
 					EndDialog(hDlg, wParam);

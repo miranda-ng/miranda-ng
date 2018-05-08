@@ -90,7 +90,6 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-		{
 			char module[FLD_SIZE];
 			GetDlgItemTextA(hwnd, IDC_CONTACTS, module, _countof(module));
 			SetCursor(LoadCursor(nullptr, IDC_WAIT));
@@ -101,8 +100,8 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 			deleteModule(NULL, module, 0);
 			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 			refreshTree(1);
-		}
-		// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			if (working == 1) {
 				working = 0;

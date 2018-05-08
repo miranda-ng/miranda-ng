@@ -556,7 +556,7 @@ bool facebook_client::login(const char *username, const char *password)
 				error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 2, "<strong>", "</strong"));
 			loginError(parent, error);
 		}
-		// fall through
+		__fallthrough;
 
 	case HTTP_CODE_FORBIDDEN: // Forbidden
 	case HTTP_CODE_NOT_FOUND: // Not Found

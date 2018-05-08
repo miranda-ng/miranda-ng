@@ -1388,7 +1388,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_iLastEnterTime = 0;
 			return 0;
 		}
-		// fall through
+		__fallthrough;
 
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
@@ -1936,7 +1936,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			m_pContainer->hwndSaved = nullptr;
 			break;
 		}
-		// fall through
+		__fallthrough;
 
 	case WM_MOUSEACTIVATE:
 		UpdateWindowState(WM_ACTIVATE);

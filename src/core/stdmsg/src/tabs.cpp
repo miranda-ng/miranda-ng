@@ -545,7 +545,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		GetClientRect(m_hwnd, &rc);
 		oldSizeX = rc.right - rc.left;
 		oldSizeY = rc.bottom - rc.top;
-		m_bSizingLoop = true;
 		break;
 
 	case WM_EXITSIZEMOVE:
@@ -557,7 +556,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				pDlg->Resize();
 			}
 		}
-		m_bSizingLoop = false;
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -685,7 +683,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	LRESULT res = CDlgBase::DlgProc(msg, wParam, lParam);
 	if (msg == WM_SIZE) {
 		SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
-		if (m_pEmbed && !m_bSizingLoop) {
+		if (m_pEmbed) {
 			GetClientRect(m_tab.GetHwnd(), &rc);
 			MoveWindow(m_pEmbed->GetHwnd(), 0, 0, rc.right - rc.left, rc.bottom - rc.top, FALSE);
 		}

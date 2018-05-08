@@ -371,7 +371,8 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 				}
 			}
 			dat->stage = STREAMSTAGE_TAIL;
-			// fall through
+			__fallthrough;
+
 		case STREAMSTAGE_TAIL:
 			CreateRTFTail(dat->buf);
 			dat->stage = STREAMSTAGE_STOP;

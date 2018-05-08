@@ -247,7 +247,8 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						db_unset(dbsetting->hContact, dbsetting->module, dbsetting->setting);
 				}
 
-			} // fall through
+			}
+			__fallthrough;
 
 		case IDCANCEL:
 			struct DBsetting *dbsetting = (struct DBsetting*)GetWindowLongPtr(hwnd, GWLP_USERDATA);

@@ -137,7 +137,8 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 				param->ppro->SetBookmarkRequest(iq);
 				param->ppro->m_ThreadInfo->send(iq);
 			}
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			EndDialog(hwndDlg, 0);
 			break;

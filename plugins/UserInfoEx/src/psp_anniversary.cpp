@@ -71,26 +71,28 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 				EnableWindow(GetDlgItem(hDlg, IDOK), GetWindowTextLength((HWND)lParam) > 0);
 			break;
 
-		case IDOK: {
-			// read new description
-			HWND hEdit = GetDlgItem(hDlg, EDIT_CATEGORY);
-			int len = Edit_GetTextLength(hEdit);
-			LPTSTR pszText;
-
-			if (len == 0
-				|| (pszText = (LPTSTR)_alloca((len + 1) * sizeof(wchar_t))) == nullptr
-				|| !Edit_GetText(hEdit, pszText, len + 1))
+		case IDOK:
 			{
-				MsgErr(hDlg, LPGENW("Please enter a valid description first!"));
-				break;
-			}
+				// read new description
+				HWND hEdit = GetDlgItem(hDlg, EDIT_CATEGORY);
+				int len = Edit_GetTextLength(hEdit);
+				LPTSTR pszText;
 
-			if (mir_wstrcmpi(pszText, pDlgEditAnniv->Description())) {
-				pDlgEditAnniv->Description(pszText);
-				pDlgEditAnniv->SetFlags(MAnnivDate::MADF_HASCUSTOM | MAnnivDate::MADF_CHANGED);
+				if (len == 0
+					|| (pszText = (LPTSTR)_alloca((len + 1) * sizeof(wchar_t))) == nullptr
+					|| !Edit_GetText(hEdit, pszText, len + 1))
+				{
+					MsgErr(hDlg, LPGENW("Please enter a valid description first!"));
+					break;
+				}
+
+				if (mir_wstrcmpi(pszText, pDlgEditAnniv->Description())) {
+					pDlgEditAnniv->Description(pszText);
+					pDlgEditAnniv->SetFlags(MAnnivDate::MADF_HASCUSTOM | MAnnivDate::MADF_CHANGED);
+				}
 			}
-		}
-		// fall through
+		  __fallthrough;
+
 		case IDCANCEL:
 			return EndDialog(hDlg, LOWORD(wParam));
 

@@ -46,8 +46,8 @@ BEGIN
     CONTROL         "Show toolbar buttons on top row",IDC_SHOWBUTTONLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,192,137,10
     CONTROL         "Send message on double 'Enter'",IDC_SENDONDBLENTER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,166,149,10
-    CONTROL         "Send message on 'Enter'",IDC_SENDONENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,179,152,10
+                    "Button", BS_AUTORADIOBUTTON | WS_TABSTOP,148,166,149,10
+    CONTROL         "Send message on 'Enter'",IDC_SENDONENTER,"Button", BS_AUTORADIOBUTTON | WS_TABSTOP,148,179,152,10
     CONTROL         "Show character count",IDC_CHARCOUNT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,192,149,10
     LTEXT           "Show warning when message has not been received after",IDC_STATIC,8,208,211,8
     EDITTEXT        IDC_SECONDS,223,206,25,12,ES_AUTOHSCROLL

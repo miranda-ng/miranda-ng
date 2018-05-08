@@ -171,7 +171,8 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 			case CLN_NEWCONTACT:
 			case CLN_LISTREBUILT:
 				SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
-				//fall through
+				__fallthrough;
+
 			case CLN_CONTACTMOVED:
 				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 				break;

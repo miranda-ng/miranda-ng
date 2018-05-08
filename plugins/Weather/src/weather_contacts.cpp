@@ -260,7 +260,8 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
 			if (!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_External))
 				return TRUE;
-			// fall through
+			__fallthrough;
+
 		case IDC_BROWSE:
 			// browse for the external log file
 			GetDlgItemText(hwndDlg, IDC_LOG, str, _countof(str));
@@ -374,7 +375,8 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// re-enable the protocol and update the data for the station
 			db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
 			UpdateSingleStation(hContact, 0);
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			// remove the dialog from window list and close it
 			DestroyWindow(hwndDlg);

@@ -161,7 +161,8 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		switch (LOWORD(wParam)) {
 		case IDC_UPDATEONSTARTUP:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), IsDlgButtonChecked(hwndDlg, IDC_UPDATEONSTARTUP));
-			// fall through
+			__fallthrough;
+
 		case IDC_SILENTMODE:
 		case IDC_ONLYONCEADAY:
 		case IDC_BACKUP:

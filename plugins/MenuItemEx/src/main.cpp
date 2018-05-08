@@ -389,11 +389,11 @@ static INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARA
 	case WM_COMMAND:
 		switch (LOWORD(wparam)) {
 		case IDOK:
-		{
-			wchar_t tszReason[256] = { 0 };
+			wchar_t tszReason[256];
 			GetDlgItemText(hdlg, IDC_REASON, tszReason, _countof(tszReason));
 			ProtoChainSend(hcontact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
-		} // fall through
+			__fallthrough;
+	
 		case IDCANCEL:
 			DestroyWindow(hdlg);
 			break;

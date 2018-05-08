@@ -634,11 +634,12 @@ void CSrmmWindow::UpdateTitle()
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
 
-		wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
 		if (g_dat.bUseStatusWinIcon)
 			mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
-		else
+		else {
+			wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
 			mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
+		}
 
 		m_wOldStatus = m_wStatus;
 	}
@@ -659,7 +660,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 	switch (urc->wId) {
 	case IDC_SRMM_LOG:
 		if (!g_dat.bShowButtons)
-			urc->rcItem.top = 22;
+			urc->rcItem.top = 2;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
@@ -1035,8 +1036,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			Window_FreeIcon_IcoLib(m_pOwner->GetHwnd());
 
 			if (m_szProto) {
-				WORD wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
-				Window_SetProtoIcon_IcoLib(m_pOwner->GetHwnd(), m_szProto, wStatus);
+				Window_SetProtoIcon_IcoLib(m_pOwner->GetHwnd(), m_szProto, Contact_GetStatus(m_hContact));
 				break;
 			}
 		}
@@ -1084,13 +1084,16 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
-		SetFocus(m_message.GetHwnd());
-		// fall through
+		__fallthrough;
+
 	case WM_MOUSEACTIVATE:
+		SetFocus(m_message.GetHwnd());
 		UpdateTitle();
 		UpdateLastMessage();
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
 			FlashWindow(m_pOwner->GetHwnd(), FALSE);
+		if (g_dat.bUseStatusWinIcon)
+			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 		break;
 
 	case WM_CBD_LOADICONS:

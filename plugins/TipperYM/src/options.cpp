@@ -1876,7 +1876,7 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				db_set_dw(0, MODULE, "FavContFlags", opt.iFavoriteContFlags);
 			}
-			// fall through
+			__fallthrough;
 
 		case IDC_BTN_CANCEL:
 			DestroyWindow(hwndDlg);
@@ -1943,8 +1943,8 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_CHK_ENABLETRAYTIP:
 			state = IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLETRAYTIP);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_HANDLEBYTIPPER), state);
-			// fall through
-		
+			__fallthrough;
+
 		case IDC_CHK_HANDLEBYTIPPER:
 			state = IsDlgButtonChecked(hwndDlg, IDC_CHK_HANDLEBYTIPPER) & IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLETRAYTIP);
 
@@ -1953,8 +1953,8 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), state);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_FAVCONTACTS), state);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_EXPAND), state);
-			// fall through
-		
+			__fallthrough;
+
 		case IDC_CHK_EXPAND:
 			state = IsDlgButtonChecked(hwndDlg, IDC_CHK_HANDLEBYTIPPER)
 				& IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLETRAYTIP)

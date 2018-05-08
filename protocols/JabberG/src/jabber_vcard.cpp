@@ -591,7 +591,8 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				mir_snprintf(idstr, "e-mailFlag%d", dat->id);
 				dat->ppro->setWord(idstr, nFlag);
 			}
-			// fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			EndDialog(hwndDlg, wParam);
 			break;
@@ -639,7 +640,6 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-		{
 			char idstr[33];
 
 			if (dat->id < 0)
@@ -653,24 +653,25 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			GetDlgItemTextA(hwndDlg, IDC_PHONE, text, _countof(text));
 			mir_snprintf(idstr, "Phone%d", dat->id);
 			dat->ppro->setString(idstr, text);
+			{
+				WORD nFlag = 0;
+				if (IsDlgButtonChecked(hwndDlg, IDC_HOME))  nFlag |= JABBER_VCTEL_HOME;
+				if (IsDlgButtonChecked(hwndDlg, IDC_WORK))  nFlag |= JABBER_VCTEL_WORK;
+				if (IsDlgButtonChecked(hwndDlg, IDC_VOICE)) nFlag |= JABBER_VCTEL_VOICE;
+				if (IsDlgButtonChecked(hwndDlg, IDC_FAX))   nFlag |= JABBER_VCTEL_FAX;
+				if (IsDlgButtonChecked(hwndDlg, IDC_PAGER)) nFlag |= JABBER_VCTEL_PAGER;
+				if (IsDlgButtonChecked(hwndDlg, IDC_MSG))   nFlag |= JABBER_VCTEL_MSG;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CELL))  nFlag |= JABBER_VCTEL_CELL;
+				if (IsDlgButtonChecked(hwndDlg, IDC_VIDEO)) nFlag |= JABBER_VCTEL_VIDEO;
+				if (IsDlgButtonChecked(hwndDlg, IDC_BBS))   nFlag |= JABBER_VCTEL_BBS;
+				if (IsDlgButtonChecked(hwndDlg, IDC_MODEM)) nFlag |= JABBER_VCTEL_MODEM;
+				if (IsDlgButtonChecked(hwndDlg, IDC_ISDN))  nFlag |= JABBER_VCTEL_ISDN;
+				if (IsDlgButtonChecked(hwndDlg, IDC_PCS))   nFlag |= JABBER_VCTEL_PCS;
+				mir_snprintf(idstr, "PhoneFlag%d", dat->id);
+				dat->ppro->setWord(idstr, nFlag);
+			}
+			__fallthrough;
 
-			WORD nFlag = 0;
-			if (IsDlgButtonChecked(hwndDlg, IDC_HOME))  nFlag |= JABBER_VCTEL_HOME;
-			if (IsDlgButtonChecked(hwndDlg, IDC_WORK))  nFlag |= JABBER_VCTEL_WORK;
-			if (IsDlgButtonChecked(hwndDlg, IDC_VOICE)) nFlag |= JABBER_VCTEL_VOICE;
-			if (IsDlgButtonChecked(hwndDlg, IDC_FAX))   nFlag |= JABBER_VCTEL_FAX;
-			if (IsDlgButtonChecked(hwndDlg, IDC_PAGER)) nFlag |= JABBER_VCTEL_PAGER;
-			if (IsDlgButtonChecked(hwndDlg, IDC_MSG))   nFlag |= JABBER_VCTEL_MSG;
-			if (IsDlgButtonChecked(hwndDlg, IDC_CELL))  nFlag |= JABBER_VCTEL_CELL;
-			if (IsDlgButtonChecked(hwndDlg, IDC_VIDEO)) nFlag |= JABBER_VCTEL_VIDEO;
-			if (IsDlgButtonChecked(hwndDlg, IDC_BBS))   nFlag |= JABBER_VCTEL_BBS;
-			if (IsDlgButtonChecked(hwndDlg, IDC_MODEM)) nFlag |= JABBER_VCTEL_MODEM;
-			if (IsDlgButtonChecked(hwndDlg, IDC_ISDN))  nFlag |= JABBER_VCTEL_ISDN;
-			if (IsDlgButtonChecked(hwndDlg, IDC_PCS))   nFlag |= JABBER_VCTEL_PCS;
-			mir_snprintf(idstr, "PhoneFlag%d", dat->id);
-			dat->ppro->setWord(idstr, nFlag);
-		}
-		// fall through
 		case IDCANCEL:
 			EndDialog(hwndDlg, wParam);
 			break;

@@ -952,7 +952,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				}
 				dat->vhs->fi->hContact = (MCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 			}
-			// fall through
+			__fallthrough;
 
 		case IDC_CANCEL:
 			if (GetParent(hwndDlg) == nullptr)

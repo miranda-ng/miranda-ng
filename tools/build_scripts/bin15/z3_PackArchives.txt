@@ -1,4 +1,3 @@
-dbchecker.bat
 Libs\api-ms-win-core-console-l1-1-0.dll
 Libs\api-ms-win-core-datetime-l1-1-0.dll
 Libs\api-ms-win-core-debug-l1-1-0.dll
@@ -67,6 +66,7 @@ Libs\Pcre16.mir
 Libs\sqlite3.mir
 Libs\ssleay32.mir
 Libs\Zlib.mir
+Icons\Proto_Dummy.dll
 Icons\Proto_Facebook.dll
 Icons\Proto_GG.dll
 Icons\Proto_ICQ.dll
@@ -83,6 +83,7 @@ Plugins\Clist_modern.dll
 Plugins\CrashDumper.dll
 Plugins\Dbx_mdbx.dll
 Plugins\Dbx_mmap.dll
+Plugins\Dummy.dll
 Plugins\Facebook.dll
 Plugins\GG.dll
 Plugins\ICQ.dll
