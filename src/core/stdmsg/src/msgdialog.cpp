@@ -659,7 +659,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 	switch (urc->wId) {
 	case IDC_SRMM_LOG:
 		if (!g_dat.bShowButtons)
-			urc->rcItem.top = 22;
+			urc->rcItem.top = 2;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
