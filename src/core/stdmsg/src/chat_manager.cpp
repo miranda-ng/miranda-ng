@@ -160,7 +160,7 @@ static void RegisterFonts()
 {
 	ColourIDW colourid = { sizeof(colourid) };
 	strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
-	wcsncpy(colourid.group, LPGENW("Message Sessions") L"/" LPGENW("Chat module"), _countof(colourid.group));
+	wcsncpy(colourid.group, LPGENW("Message sessions") L"/" LPGENW("Chat module"), _countof(colourid.group));
 
 	strncpy(colourid.setting, "ColorLogBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Group chat log background"), _countof(colourid.name));
@@ -239,7 +239,7 @@ void Load_ChatModule()
 	AddIcons();
 	RegisterFonts();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message Sessions") L"/" LPGENW("Chat module"), FONTMODE_USE };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Chat module"), FONTMODE_USE };
 	pci = Chat_GetInterface(&data);
 
 	pci->OnCreateModule = OnCreateModule;

@@ -58,34 +58,34 @@ struct ColorOptionsList
 * (GetSysColor(default_color & 0x00ffffff)), not a rgb value.
 */
 static ColorOptionsList _clrs[] = {
-	{ 0, LPGENW("Message Sessions"), LPGENW("Input area background"), "inputbg", SRMSGDEFSET_BKGCOLOUR },
-	{ 1, LPGENW("Message Sessions"), LPGENW("Log background"), SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR },
-	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR },
-	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Incoming background"), "inbg", SRMSGDEFSET_BKGINCOLOUR },
-	{ 2, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Status background"), "statbg", SRMSGDEFSET_BKGCOLOUR },
-	{ 3, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR },
-	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR },
-	{ 5, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224) },
-	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), LPGENW("Panel background low"), "ipfieldsbg", 0x62caff },
-	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), LPGENW("Panel background high"), "ipfieldsbgHigh", 0xf0f0f0 },
-	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Toolbar background high"), "tbBgHigh", 0 },
-	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Toolbar background low"), "tbBgLow", 0 },
-	{ 2, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Window fill color"), "fillColor", 0 },
-	{ 3, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Text area borders"), "cRichBorders", 0 },
-	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Aero glow effect"), "aeroGlow", RGB(40, 40, 255) },
-	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Generic text color (only when fill color is set)"), "genericTxtClr", 0xff000000 | COLOR_BTNTEXT },
+	{ 0, LPGENW("Message sessions"), LPGENW("Input area background"), "inputbg", SRMSGDEFSET_BKGCOLOUR },
+	{ 1, LPGENW("Message sessions"), LPGENW("Log background"), SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR },
+	{ 0, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), LPGENW("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR },
+	{ 1, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), LPGENW("Incoming background"), "inbg", SRMSGDEFSET_BKGINCOLOUR },
+	{ 2, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), LPGENW("Status background"), "statbg", SRMSGDEFSET_BKGCOLOUR },
+	{ 3, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), LPGENW("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR },
+	{ 4, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), LPGENW("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR },
+	{ 5, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), LPGENW("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224) },
+	{ 0, LPGENW("Message sessions") L"/" LPGENW("Info Panel"), LPGENW("Panel background low"), "ipfieldsbg", 0x62caff },
+	{ 1, LPGENW("Message sessions") L"/" LPGENW("Info Panel"), LPGENW("Panel background high"), "ipfieldsbgHigh", 0xf0f0f0 },
+	{ 0, LPGENW("Message sessions") L"/" LPGENW("Common colors"), LPGENW("Toolbar background high"), "tbBgHigh", 0 },
+	{ 1, LPGENW("Message sessions") L"/" LPGENW("Common colors"), LPGENW("Toolbar background low"), "tbBgLow", 0 },
+	{ 2, LPGENW("Message sessions") L"/" LPGENW("Common colors"), LPGENW("Window fill color"), "fillColor", 0 },
+	{ 3, LPGENW("Message sessions") L"/" LPGENW("Common colors"), LPGENW("Text area borders"), "cRichBorders", 0 },
+	{ 4, LPGENW("Message sessions") L"/" LPGENW("Common colors"), LPGENW("Aero glow effect"), "aeroGlow", RGB(40, 40, 255) },
+	{ 4, LPGENW("Message sessions") L"/" LPGENW("Common colors"), LPGENW("Generic text color (only when fill color is set)"), "genericTxtClr", 0xff000000 | COLOR_BTNTEXT },
 };
 
 static ColorOptionsList _tabclrs[] = {
-	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Normal text"), "tab_txt_normal", 0xff000000 | COLOR_BTNTEXT },
-	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Active text"), "tab_txt_active", 0xff000000 | COLOR_BTNTEXT },
-	{ 2, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Hovered text"), "tab_txt_hottrack", 0xff000000 | COLOR_HOTLIGHT },
-	{ 3, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Unread text"), "tab_txt_unread", 0xff000000 | COLOR_HOTLIGHT },
+	{ 0, LPGENW("Message sessions") L"/" LPGENW("Tabs"), LPGENW("Normal text"), "tab_txt_normal", 0xff000000 | COLOR_BTNTEXT },
+	{ 1, LPGENW("Message sessions") L"/" LPGENW("Tabs"), LPGENW("Active text"), "tab_txt_active", 0xff000000 | COLOR_BTNTEXT },
+	{ 2, LPGENW("Message sessions") L"/" LPGENW("Tabs"), LPGENW("Hovered text"), "tab_txt_hottrack", 0xff000000 | COLOR_HOTLIGHT },
+	{ 3, LPGENW("Message sessions") L"/" LPGENW("Tabs"), LPGENW("Unread text"), "tab_txt_unread", 0xff000000 | COLOR_HOTLIGHT },
 
-	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Normal background"), "tab_bg_normal", 0xff000000 | COLOR_3DFACE },
-	{ 5, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Active background"), "tab_bg_active", 0xff000000 | COLOR_3DFACE },
-	{ 6, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Hovered background"), "tab_bg_hottrack", 0xff000000 | COLOR_3DFACE },
-	{ 7, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Unread background"), "tab_bg_unread", 0xff000000 | COLOR_3DFACE }
+	{ 4, LPGENW("Message sessions") L"/" LPGENW("Tabs"), LPGENW("Normal background"), "tab_bg_normal", 0xff000000 | COLOR_3DFACE },
+	{ 5, LPGENW("Message sessions") L"/" LPGENW("Tabs"), LPGENW("Active background"), "tab_bg_active", 0xff000000 | COLOR_3DFACE },
+	{ 6, LPGENW("Message sessions") L"/" LPGENW("Tabs"), LPGENW("Hovered background"), "tab_bg_hottrack", 0xff000000 | COLOR_3DFACE },
+	{ 7, LPGENW("Message sessions") L"/" LPGENW("Tabs"), LPGENW("Unread background"), "tab_bg_unread", 0xff000000 | COLOR_3DFACE }
 };
 
 extern LOGFONT lfDefault;
@@ -506,8 +506,8 @@ void RegisterFontServiceFonts()
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		wcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
-		wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), _countof(fid.backgroundGroup));
-		wcsncpy(fid.group, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), _countof(fid.group));
+		wcsncpy(fid.backgroundGroup, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), _countof(fid.backgroundGroup));
+		wcsncpy(fid.group, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), _countof(fid.group));
 		switch (i) {
 		case MSGFONTID_MYMSG:
 		case 1:
@@ -529,8 +529,8 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.backgroundName, LPGENW("Incoming background(old)"), _countof(fid.backgroundName));
 			break;
 		case MSGFONTID_MESSAGEAREA:
-			wcsncpy(fid.group, LPGENW("Message Sessions"), _countof(fid.group));
-			wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions"), _countof(fid.backgroundGroup));
+			wcsncpy(fid.group, LPGENW("Message sessions"), _countof(fid.group));
+			wcsncpy(fid.backgroundGroup, LPGENW("Message sessions"), _countof(fid.backgroundGroup));
 			wcsncpy(fid.backgroundName, LPGENW("Input area background"), _countof(fid.backgroundName));
 			break;
 		case 17:
@@ -539,7 +539,7 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.backgroundName, LPGENW("Status background"), _countof(fid.backgroundName));
 			break;
 		case 18:
-			wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions"), _countof(fid.backgroundGroup));
+			wcsncpy(fid.backgroundGroup, LPGENW("Message sessions"), _countof(fid.backgroundGroup));
 			wcsncpy(fid.backgroundName, LPGENW("Log background"), _countof(fid.backgroundName));
 			break;
 		case 19:
@@ -554,8 +554,8 @@ void RegisterFontServiceFonts()
 
 	fontOptionsList = IP_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
-	wcsncpy(fid.group, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), _countof(fid.group));
-	wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), _countof(fid.backgroundGroup));
+	wcsncpy(fid.group, LPGENW("Message sessions") L"/" LPGENW("Info Panel"), _countof(fid.group));
+	wcsncpy(fid.backgroundGroup, LPGENW("Message sessions") L"/" LPGENW("Info Panel"), _countof(fid.backgroundGroup));
 	wcsncpy(fid.backgroundName, LPGENW("Fields background"), _countof(fid.backgroundName));
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
@@ -572,12 +572,12 @@ void RegisterFontServiceFonts()
 		if (i == IPFONTCOUNT - 1) {
 			wcsncpy(fid.backgroundGroup, L"", _countof(fid.backgroundGroup));
 			wcsncpy(fid.backgroundName, L"", _countof(fid.backgroundName));
-			wcsncpy(fid.group, LPGENW("Message Sessions"), _countof(fid.group));
+			wcsncpy(fid.group, LPGENW("Message sessions"), _countof(fid.group));
 		}
 		Font_RegisterW(&fid);
 	}
 
-	wcsncpy(cid.group, LPGENW("Message Sessions") L"/" LPGENW("Group chats"), _countof(cid.group));
+	wcsncpy(cid.group, LPGENW("Message sessions") L"/" LPGENW("Group chats"), _countof(cid.group));
 	strncpy(cid.dbSettingsGroup, CHAT_MODULE, _countof(cid.dbSettingsGroup));
 	for (int i = 0; i <= 7; i++) {
 		mir_snprintf(cid.setting, "NickColor%d", i);
