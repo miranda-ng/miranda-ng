@@ -28,6 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // *_w2 is working copy of list
 // *_w3 is stores initial configuration
 
+HWND hwndFontOptions = nullptr;
+
 static int sttCompareFont(const FontInternal* p1, const FontInternal* p2)
 {
 	int result = mir_wstrcmp(p1->group, p2->group);
@@ -113,7 +115,6 @@ int __inline DrawTextWithEffect(HDC hdc, LPCTSTR lpchText, int cchText, RECT * l
 }
 
 #define UM_SETFONTGROUP		(WM_USER + 101)
-#define TIMER_ID				11015
 
 #define FSUI_COLORBOXWIDTH		50
 #define FSUI_COLORBOXLEFT		5
@@ -540,6 +541,36 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	db_set_w(0, F.dbSettingsGroup, str, (WORD)F.flags);
 }
 
+static void RebuildTree(HWND hwndDlg)
+{
+	font_id_list_w2 = font_id_list;
+	font_id_list_w3 = font_id_list;
+
+	colour_id_list_w2 = colour_id_list;
+	colour_id_list_w3 = colour_id_list;
+
+	effect_id_list_w2 = effect_id_list;
+	effect_id_list_w3 = effect_id_list;
+
+	for (auto &F : font_id_list_w2) {
+		// sync settings with database
+		UpdateFontSettings(F, &F->value);
+		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), F->group, F->hLangpack);
+	}
+
+	for (auto &C : colour_id_list_w2) {
+		// sync settings with database
+		UpdateColourSettings(C, &C->value);
+		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), C->group, C->hLangpack);
+	}
+
+	for (auto &E : effect_id_list_w2) {
+		// sync settings with database
+		UpdateEffectSettings(E, &E->value);
+		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), E->group, E->hLangpack);
+	}
+}
+
 static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int selCount;
@@ -550,33 +581,9 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		hwndFontOptions = hwndDlg;
 
-		font_id_list_w2 = font_id_list;
-		font_id_list_w3 = font_id_list;
-
-		colour_id_list_w2 = colour_id_list;
-		colour_id_list_w3 = colour_id_list;
-
-		effect_id_list_w2 = effect_id_list;
-		effect_id_list_w3 = effect_id_list;
-
-		for (auto &F : font_id_list_w2) {
-			// sync settings with database
-			UpdateFontSettings(F, &F->value);
-			sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), F->group, F->hLangpack);
-		}
-
-		for (auto &C : colour_id_list_w2) {
-			// sync settings with database
-			UpdateColourSettings(C, &C->value);
-			sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), C->group, C->hLangpack);
-		}
-
-		for (auto &E : effect_id_list_w2) {
-			// sync settings with database
-			UpdateEffectSettings(E, &E->value);
-			sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), E->group, E->hLangpack);
-		}
+		RebuildTree(hwndDlg);
 
 		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, (LPARAM)GetSysColor(COLOR_WINDOW));
 		return TRUE;
@@ -1151,8 +1158,16 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		break;
 
+	case WM_TIMER:
+		if (wParam == 1) {
+			KillTimer(hwndDlg, wParam);
+			TreeView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_FONTGROUP));
+			RebuildTree(hwndDlg);
+		}
+		break;
+
 	case WM_DESTROY:
-		KillTimer(hwndDlg, TIMER_ID);
+		hwndFontOptions = nullptr;
 		sttSaveCollapseState(GetDlgItem(hwndDlg, IDC_FONTGROUP));
 		DeleteObject(hBkgColourBrush);
 		font_id_list_w2.destroy();

@@ -27,6 +27,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int code_page = CP_ACP;
 HANDLE hFontReloadEvent, hColourReloadEvent;
+extern HWND hwndFontOptions;
+
+static void notifyOptions()
+{
+	if (hwndFontOptions)
+		SetTimer(hwndFontOptions, 1, 100, nullptr);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -266,6 +273,8 @@ static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
 
 	UpdateFontSettings(font_id, &newItem->value);
 	font_id_list.insert(newItem);
+
+	notifyOptions();
 	return 0;
 }
 
@@ -327,9 +336,12 @@ static INT_PTR ReloadFonts(WPARAM, LPARAM)
 MIR_APP_DLL(void) KillModuleFonts(int _hLang)
 {
 	auto T = font_id_list.rev_iter();
-	for (auto &it : T)
-		if (it->hLangpack == _hLang)
+	for (auto &it : T) {
+		if (it->hLangpack == _hLang) {
 			font_id_list.remove(T.indexOf(&it));
+			notifyOptions();
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -355,6 +367,8 @@ static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
 	newItem->hLangpack = _hLang;
 	UpdateColourSettings(colour_id, &newItem->value);
 	colour_id_list.insert(newItem);
+
+	notifyOptions();
 	return 0;
 }
 
@@ -403,9 +417,12 @@ static INT_PTR ReloadColours(WPARAM, LPARAM)
 MIR_APP_DLL(void) KillModuleColours(int _hLang)
 {
 	auto T = colour_id_list.rev_iter();
-	for (auto &it : T)
-		if (it->hLangpack == _hLang)
+	for (auto &it : T) {
+		if (it->hLangpack == _hLang) {
 			colour_id_list.remove(T.indexOf(&it));
+			notifyOptions();
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -442,6 +459,8 @@ static int sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
 	newItem->hLangpack = _hLang;
 	UpdateEffectSettings(effect_id, &newItem->value);
 	effect_id_list.insert(newItem);
+
+	notifyOptions();
 	return 0;
 }
 
