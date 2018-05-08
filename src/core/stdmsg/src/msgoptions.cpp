@@ -101,7 +101,7 @@ void RegisterSRMMFonts(void)
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		strncpy_s(fontid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
-		wcsncpy_s(fontid.group, LPGENW("Message log"), _TRUNCATE);
+		wcsncpy_s(fontid.group, LPGENW("Message Sessions") L"/" LPGENW("Message log"), _TRUNCATE);
 		wcsncpy_s(fontid.name, fontOptionsList[i].szDescr, _TRUNCATE);
 		mir_snprintf(idstr, "SRMFont%d", i);
 		strncpy_s(fontid.prefix, idstr, _TRUNCATE);
@@ -115,7 +115,7 @@ void RegisterSRMMFonts(void)
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		wcsncpy_s(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _TRUNCATE);
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
-		wcsncpy_s(fontid.backgroundGroup, LPGENW("Message log"), _TRUNCATE);
+		wcsncpy_s(fontid.backgroundGroup, LPGENW("Message Sessions") L"/" LPGENW("Message log"), _TRUNCATE);
 		wcsncpy_s(fontid.backgroundName, LPGENW("Background"), _TRUNCATE);
 		Font_RegisterW(&fontid);
 	}
@@ -125,7 +125,7 @@ void RegisterSRMMFonts(void)
 	strncpy_s(colourid.setting, SRMSGSET_BKGCOLOUR, _TRUNCATE);
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);
-	wcsncpy_s(colourid.group, LPGENW("Message log"), _TRUNCATE);
+	wcsncpy_s(colourid.group, LPGENW("Message Sessions") L"/" LPGENW("Message log"), _TRUNCATE);
 	Colour_RegisterW(&colourid);
 }
 
