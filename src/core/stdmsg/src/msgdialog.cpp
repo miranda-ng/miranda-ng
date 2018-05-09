@@ -647,10 +647,8 @@ void CSrmmWindow::UpdateTitle()
 
 	wchar_t oldtitle[256];
 	GetWindowText(m_pOwner->GetHwnd(), oldtitle, _countof(oldtitle));
-	if (mir_wstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
+	if (mir_wstrcmp(newtitle, oldtitle)) //swt() flickers even if the title hasn't actually changed
 		SetWindowText(m_pOwner->GetHwnd(), newtitle);
-		Resize();
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
