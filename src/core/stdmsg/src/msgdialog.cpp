@@ -353,12 +353,12 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 			continue;
 
 		bool bShow = false;
-		if (m_hContact) {
+		if (m_hContact && g_dat.bShowButtons) {
 			if (cbd->m_dwButtonCID == IDC_ADD) {
 				bShow = 0 != db_get_b(m_hContact, "CList", "NotOnList", 0);
 				cbd->m_bHidden = !bShow;
 			}
-			else bShow = g_dat.bShowButtons;
+			else bShow = true;
 		}
 		ShowWindow(hwndButton, (bShow) ? SW_SHOW : SW_HIDE);
 	}
