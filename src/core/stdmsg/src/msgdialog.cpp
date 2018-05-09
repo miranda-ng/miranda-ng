@@ -308,6 +308,18 @@ void CSrmmWindow::OnDestroy()
 			db_delete_contact(m_hContact);
 }
 
+void CSrmmWindow::OnActivate()
+{
+	SetupStatusBar();
+	SetFocus(m_message.GetHwnd());
+	UpdateTitle();
+	UpdateLastMessage();
+	if (KillTimer(m_hwnd, TIMERID_FLASHWND))
+		FlashWindow(m_pOwner->GetHwnd(), FALSE);
+	if (g_dat.bUseStatusWinIcon)
+		SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
@@ -1076,22 +1088,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				*(int *)lParam = 1;
 			}
 		}
-		break;
-
-	case WM_ACTIVATE:
-		if (LOWORD(wParam) != WA_ACTIVE)
-			break;
-
-		__fallthrough;
-
-	case WM_MOUSEACTIVATE:
-		SetFocus(m_message.GetHwnd());
-		UpdateTitle();
-		UpdateLastMessage();
-		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-			FlashWindow(m_pOwner->GetHwnd(), FALSE);
-		if (g_dat.bUseStatusWinIcon)
-			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 		break;
 
 	case WM_CBD_LOADICONS:

@@ -41,6 +41,23 @@ void CMsgDialog::CloseTab()
 	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
 }
 
+INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_ACTIVE)
+			OnActivate();
+		break;
+
+	case WM_MOUSEACTIVATE:
+		OnActivate();
+		SetFocus(m_message.GetHwnd());
+		break;
+	}
+
+	return CSuper::DlgProc(uMsg, wParam, lParam);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int OnCheckPlugins(WPARAM, LPARAM);

@@ -283,31 +283,31 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 
 void CTabbedWindow::FixTabIcons(CSrmmBaseDialog *pDlg)
 {
-	if (pDlg != nullptr) {
-		int idx = m_tab.GetDlgIndex(pDlg);
-		if (idx == -1)
-			return;
+	if (pDlg == nullptr)
+		return;
 
-		int image = 0;
-		if (SESSION_INFO *si = ((CChatRoomDlg*)pDlg)->m_si) {
-			if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
-				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-				image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
-				if (si->wState & STATE_TALK)
-					image++;
-			}
-		}
-		else image = g_iMessageIconIndex;
+	int idx = m_tab.GetDlgIndex(pDlg);
+	if (idx == -1)
+		return;
 
-		TCITEM tci = {};
-		tci.mask = TCIF_IMAGE;
-		TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
-		if (tci.iImage != image) {
-			tci.iImage = image;
-			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
+	int image = 0;
+	if (SESSION_INFO *si = ((CChatRoomDlg*)pDlg)->m_si) {
+		if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
+			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+			image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+			if (si->wState & STATE_TALK)
+				image++;
 		}
 	}
-	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+	else image = g_iMessageIconIndex;
+
+	TCITEM tci = {};
+	tci.mask = TCIF_IMAGE;
+	TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
+	if (tci.iImage != image) {
+		tci.iImage = image;
+		TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
+	}
 }
 
 void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
