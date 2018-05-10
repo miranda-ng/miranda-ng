@@ -126,6 +126,7 @@ GlobalMessageData::GlobalMessageData() :
 	bCtrlSupport(SRMMMOD, "SupportCtrlUpDn", true),
 	bShowReadChar(SRMMMOD, "ShowCharCount", false),
 	bSendOnDblEnter(SRMMMOD, "SendOnDblEnter", false),
+	bSendOnCtrlEnter(SRMMMOD, "SendOnCtrlEnter", false),
 	bDeleteTempCont(SRMMMOD, "DeleteTempCont", false),
 	bSavePerContact(SRMMMOD, "SavePerContact", false),
 	bUseStatusWinIcon(SRMMMOD, "UseStatusWinIcon", false),

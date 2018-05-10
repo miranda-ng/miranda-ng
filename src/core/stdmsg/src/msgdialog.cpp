@@ -747,7 +747,11 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 
 		if (wParam == VK_RETURN) {
-			if (!isShift && isCtrl != g_dat.bSendOnEnter) {
+			if (!isShift && !isCtrl && g_dat.bSendOnEnter) {
+				onClick_Ok(&m_btnOk);
+				return 0;
+			}
+			if (!isShift && isCtrl && g_dat.bSendOnCtrlEnter) {
 				onClick_Ok(&m_btnOk);
 				return 0;
 			}

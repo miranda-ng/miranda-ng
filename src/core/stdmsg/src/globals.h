@@ -41,6 +41,7 @@ struct GlobalMessageData
 	CMOption<bool> bShowReadChar;
 	CMOption<bool> bSendOnEnter;
 	CMOption<bool> bSendOnDblEnter;
+	CMOption<bool> bSendOnCtrlEnter;
 	CMOption<bool> bAutoClose;
 	CMOption<bool> bAutoMin;
 	CMOption<bool> bTypingNew;

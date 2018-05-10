@@ -156,7 +156,7 @@ class COptionMainDlg : public CPluginDlgBase
 	CCtrlCheck chkAutoMin, chkAutoClose, chkSavePerContact, chkDoNotStealFocus;
 	CCtrlCheck chkDelTemp, chkCascade, chkCharCount, chkStatusWin, chkCtrlSupport;
 	CCtrlCheck chkAvatar, chkLimitAvatar;
-	CCtrlCheck chkSendOnEnter, chkSendOnDblEnter, chkShowSend, chkShowButtons;
+	CCtrlCheck chkSendOnEnter, chkSendOnDblEnter, chkSendOnCtrlEnter, chkShowSend, chkShowButtons;
 
 	CCtrlTreeView tree;
 
@@ -211,6 +211,7 @@ public:
 		chkCtrlSupport(this, IDC_CTRLSUPPORT),
 		chkSendOnEnter(this, IDC_SENDONENTER),
 		chkSendOnDblEnter(this, IDC_SENDONDBLENTER),
+		chkSendOnCtrlEnter(this, IDC_SENDONCTRLENTER),
 		chkSavePerContact(this, IDC_SAVEPERCONTACT),
 		chkDoNotStealFocus(this, IDC_DONOTSTEALFOCUS)
 	{
@@ -239,6 +240,7 @@ public:
 		CreateLink(chkCtrlSupport, g_dat.bCtrlSupport);
 		CreateLink(chkSendOnEnter, g_dat.bSendOnEnter);
 		CreateLink(chkSendOnDblEnter, g_dat.bSendOnDblEnter);
+		CreateLink(chkSendOnCtrlEnter, g_dat.bSendOnCtrlEnter);
 		CreateLink(chkSavePerContact, g_dat.bSavePerContact);
 		CreateLink(chkDoNotStealFocus, g_dat.bDoNotStealFocus);
 	}
