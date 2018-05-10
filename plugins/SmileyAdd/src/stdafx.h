@@ -68,6 +68,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_regexp.h>
 #include <m_string.h>
 #include <m_fontservice.h>
+#include <m_xml.h>
 
 #include <m_metacontacts.h>
 #include <m_smileyadd.h>
