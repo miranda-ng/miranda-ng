@@ -193,7 +193,6 @@
 #define IDC_TOGGLETOOLBAR               1144
 #define IDC_ERRORTEXT                   1145
 #define IDC_SHOWNOTIFY                  1146
-#define IDC_STATUSWIN                   1147
 #define IDC_TYPEFLASHWIN                1148
 #define IDC_CHARCOUNT                   1149
 #define IDC_TYPENOWIN                   1150

@@ -492,7 +492,8 @@ bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo)
 	}
 
 	xmlDestroyNode(xmlRoot);
-	m_VisibleCount = m_SmileyList.getCount();	AddTriggersToSmileyLookup();
+	m_VisibleCount = m_SmileyList.getCount();	AddTriggersToSmileyLookup();
+
 	selec.x = selec.y = win.x = win.y = 0;
 	return true;
 }
