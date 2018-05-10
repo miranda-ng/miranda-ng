@@ -60,33 +60,26 @@ CHAT_MANAGER *pci;
 HMENU g_hMenu = nullptr;
 
 BOOL SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
-HIMAGELIST hIconsList;
 
 GlobalLogSettings g_Settings;
 
 static void OnDestroyModule(MODULEINFO *mi)
 {
-	if (mi->hOnlineIcon) DestroyIcon(mi->hOnlineIcon);
-	if (mi->hOnlineTalkIcon) DestroyIcon(mi->hOnlineTalkIcon);
-	if (mi->hOfflineIcon) DestroyIcon(mi->hOfflineIcon);
-	if (mi->hOfflineTalkIcon) DestroyIcon(mi->hOfflineTalkIcon);
+	if (mi->hOnlineIcon)
+		DestroyIcon(mi->hOnlineIcon);
+	if (mi->hOfflineIcon)
+		DestroyIcon(mi->hOfflineIcon);
 }
 
 static void OnCreateModule(MODULEINFO *mi)
 {
 	OnDestroyModule(mi);
 
-	mi->OnlineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
-	mi->hOnlineIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT);
-	mi->hOnlineTalkIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-	ImageList_AddIcon(hIconsList, mi->hOnlineTalkIcon);
+	mi->OnlineIconIndex = pcli->pfnIconFromStatusMode(mi->pszModule, ID_STATUS_ONLINE, 0);
+	mi->hOnlineIcon = ImageList_GetIcon(Clist_GetImageList(), mi->OnlineIconIndex, ILD_TRANSPARENT);
 
-	mi->OfflineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
-	mi->hOfflineIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT);
-	mi->hOfflineTalkIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
-
-	g_iMessageIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+	mi->OfflineIconIndex = pcli->pfnIconFromStatusMode(mi->pszModule, ID_STATUS_OFFLINE, 0);
+	mi->hOfflineIcon = ImageList_GetIcon(Clist_GetImageList(), mi->OfflineIconIndex, ILD_TRANSPARENT);
 }
 
 static void OnReplaceSession(SESSION_INFO *si)
@@ -256,11 +249,6 @@ void Load_ChatModule()
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
-
-	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
-	ImageList_AddIcon(hIconsList, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-	ImageList_AddIcon(hIconsList, LoadIconEx("overlay", FALSE));
-	ImageList_SetOverlayImage(hIconsList, 1, 1);
 
 	HookEvent(ME_SYSTEM_MODULELOAD, OnCheckPlugins);
 }

@@ -88,11 +88,8 @@ extern HINSTANCE g_hInst;
 
 struct MODULEINFO : public GCModuleInfoBase
 {
-	HICON hOnlineIcon, hOnlineTalkIcon;
-	HICON hOfflineIcon, hOfflineTalkIcon;
-
-	int OnlineIconIndex;
-	int OfflineIconIndex;
+	HICON hOnlineIcon, hOfflineIcon;
+	int OnlineIconIndex, OfflineIconIndex;
 };
 
 struct SESSION_INFO : public GCSessionInfoBase {};
@@ -112,11 +109,9 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 
 extern GlobalLogSettings g_Settings;
 extern HMENU g_hMenu;
-extern HIMAGELIST hIconsList;
 
 extern HINSTANCE g_hInst;
 extern BOOL SmileyAddInstalled, PopupInstalled;
-extern int g_iMessageIconIndex;
 
 // main.cpp
 void LoadIcons(void);

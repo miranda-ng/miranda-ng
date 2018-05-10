@@ -49,7 +49,6 @@ struct GlobalMessageData
 	CMOption<bool> bCtrlSupport;
 	CMOption<bool> bShowFormat;
 	CMOption<bool> bSavePerContact;
-	CMOption<bool> bUseStatusWinIcon;
 	CMOption<bool> bDoNotStealFocus;
 	CMOption<bool> bCascade;
 	CMOption<bool> bDeleteTempCont;
