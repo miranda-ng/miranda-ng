@@ -626,11 +626,11 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 
 			if (wParam == '\n' || wParam == '\r') {
-				if ((isCtrl != 0) ^ (0 != db_get_b(0, CHAT_MODULE, "SendOnEnter", 1))) {
+				if ((isCtrl && g_dat.bSendOnCtrlEnter) || (!isCtrl && g_dat.bSendOnEnter)) {
 					m_btnOk.OnClick(&m_btnOk);
 					return 0;
 				}
-				if (db_get_b(0, CHAT_MODULE, "SendOnDblEnter", 0)) {
+				if (g_dat.bSendOnDblEnter) {
 					if (m_iLastEnterTime + 2 < time(0))
 						m_iLastEnterTime = time(0);
 					else {
@@ -658,10 +658,10 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 			if (wParam == VK_RETURN) {
 				szTabSave[0] = '\0';
-				if ((isCtrl != 0) ^ (0 != db_get_b(0, CHAT_MODULE, "SendOnEnter", 1)))
+				if ((isCtrl && g_dat.bSendOnCtrlEnter) || (!isCtrl && g_dat.bSendOnEnter))
 					return 0;
 
-				if (db_get_b(0, CHAT_MODULE, "SendOnDblEnter", 0))
+				if (g_dat.bSendOnDblEnter)
 					if (m_iLastEnterTime + 2 >= time(0))
 						return 0;
 
