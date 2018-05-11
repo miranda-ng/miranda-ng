@@ -609,7 +609,6 @@ void CSrmmWindow::UpdateIcon(WPARAM wParam)
 			if (m_hStatusIcon)
 				IcoLib_ReleaseIcon(m_hStatusIcon);
 			m_hStatusIcon = hIcon;
-			SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		}
 
 		SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
