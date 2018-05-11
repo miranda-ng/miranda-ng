@@ -533,16 +533,11 @@ void CChatRoomDlg::UpdateStatusBar()
 
 void CChatRoomDlg::UpdateTitle()
 {
+	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+
 	TitleBarData tbd = {};
-	if (g_dat.flags & SMF_STATUSICON) {
-		MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
-		tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
-		tbd.hIconBig = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIconBig : mi->hOfflineIconBig;
-	}
-	else {
-		tbd.hIcon = GetCachedIcon("chat_window");
-		tbd.hIconBig = g_dat.hIconChatBig;
-	}
+	tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
+	tbd.hIconBig = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIconBig : mi->hOfflineIconBig;
 	tbd.hIconNot = (m_si->wState & (GC_EVENT_HIGHLIGHT | STATE_TALK)) ? GetCachedIcon("chat_overlay") : nullptr;
 
 	wchar_t szTemp[512];
@@ -564,6 +559,7 @@ void CChatRoomDlg::UpdateTitle()
 	tbd.iFlags = TBDF_TEXT | TBDF_ICON;
 	tbd.pszText = szTemp;
 	SendMessage(m_hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
+	
 	SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
 }
 
