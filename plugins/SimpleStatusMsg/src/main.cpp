@@ -1727,8 +1727,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	if (db_get_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", 1))
 		g_uUpdateMsgTimer = SetTimer(nullptr, 0, db_get_w(NULL, "SimpleStatusMsg", "UpdateMsgInt", 10) * 1000, UpdateMsgTimerProc);
 
-	if (ServiceExists(MS_CS_SETSTATUSEX))
-		HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange);
+	HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange);
 
 	if (accounts->statusCount == 0)
 		return 0;

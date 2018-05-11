@@ -204,7 +204,7 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 		char setting[64];
 		mir_snprintf(setting, "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
 		if (!db_get_b(0, SSMODULENAME, setting, 0))
-			CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
+			SetStatusEx(ps);
 		else
 			ShowConfirmDialogEx(&ps, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
 	}

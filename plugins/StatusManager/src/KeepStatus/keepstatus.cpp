@@ -198,7 +198,7 @@ static int SetCurrentStatus()
 		}
 	}
 	ProcessPopup(KS_CONN_STATE_RETRY, (LPARAM)ps.getArray());
-	return CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
+	return SetStatusEx(ps);
 }
 
 static int StatusChange(WPARAM wParam, LPARAM lParam)
@@ -243,7 +243,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int CSStatusChangeEx(WPARAM wParam, LPARAM)
+static int CSStatusChangeEx(WPARAM wParam, LPARAM pCount)
 {
 	// the status was changed by commonstatus (new)
 	if (wParam != 0) {
@@ -251,7 +251,7 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 		if (protoSettings == nullptr)
 			return -1;
 
-		for (int i = 0; i < protoList.getCount(); i++) {
+		for (int i = 0; i < pCount; i++) {
 			auto psi = protoSettings[i];
 			if (psi->m_szName == nullptr)
 				continue;
