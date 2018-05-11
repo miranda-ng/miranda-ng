@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
@@ -60,7 +60,6 @@
 #define IDI_INCOMING                    276
 #define IDI_OUTGOING                    277
 #define IDI_EXCL                        282
-
 #define IDC_SPLITTERX                   1003
 #define IDC_AUTOCLOSE                   1004
 #define IDC_AUTOMIN                     1005
@@ -88,6 +87,7 @@
 #define IDC_SENDONDBLENTER              1044
 #define IDC_LOADTIMEN                   1045
 #define IDC_LOADTIMESPIN                1046
+#define IDC_SENDONCTRLENTER             1046
 #define IDC_LOADTIME                    1047
 #define IDC_STMINSOLD                   1048
 #define IDC_SPIN1                       1049
@@ -130,14 +130,12 @@
 #define IDC_HIGHLIGHT                   1089
 #define IDC_TEXTO                       1090
 #define IDC_LOGGING                     1091
-
+#define IDC_STMSGLOGGROUP               1442
 #define IDC_DETAILS                     1469
 #define IDC_USERMENU                    1471
-#define IDC_STMSGLOGGROUP               1442
 #define IDC_ERRORTEXT                   1596
 #define IDC_MSGTEXT                     1597
 #define IDC_SHOWNOTIFY                  1600
-#define IDC_STATUSWIN                   1601
 #define IDC_TYPEWIN                     1602
 #define IDC_CHARCOUNT                   1603
 #define IDC_TYPETRAY                    1603
@@ -158,7 +156,6 @@
 #define IDC_CLOSETABS                   1621
 #define IDC_RESTORETABS                 1622
 #define IDC_TABSBOTTOM                  1623
-
 #define IDM_CUT                         40000
 #define IDM_COPY                        40001
 #define IDM_PASTE                       40002
@@ -169,17 +166,16 @@
 #define IDM_COPYALL                     40011
 #define IDM_SELECTALL                   40012
 #define IDM_CLEAR                       40013
-
 #define ID_MESS                         40021
 #define ID_COPYALL                      40026
 #define ID_CLEARLOG                     40029
+#define ID_MESSAGE_PASTE                40030
 #define ID_MESSAGE_UNDO                 40033
 #define ID_MESSAGE_COPY                 40034
 #define ID_MESSAGE_CUT                  40035
 #define ID_MESSAGE_CLEAR                40037
 #define ID_MESSAGE_SELECTALL            40038
 #define ID_MESSAGE_REDO                 40039
-#define ID_MESSAGE_PASTE                40030
 #define ID_CLOSE                        40042
 #define ID_CLOSEOTHER                   40043
 #define ID_LOCKPOSITION                 40044
@@ -190,7 +186,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        290
+#define _APS_NEXT_RESOURCE_VALUE        291
 #define _APS_NEXT_COMMAND_VALUE         40019
 #define _APS_NEXT_CONTROL_VALUE         1620
 #define _APS_NEXT_SYMED_VALUE           101

@@ -598,14 +598,14 @@ void CSrmmWindow::GetTitlebarIcon(TitleBarData *tbd)
 	if (m_bShowTyping && (g_dat.flags2 & SMF2_SHOWTYPINGWIN))
 		tbd->hIconNot = tbd->hIcon = GetCachedIcon("scriver_TYPING");
 	else if (m_iShowUnread && (GetActiveWindow() != m_hwndParent || GetForegroundWindow() != m_hwndParent)) {
-		tbd->hIcon = (g_dat.flags & SMF_STATUSICON) ? m_hStatusIcon : g_dat.hMsgIcon;
-		tbd->hIconNot = (g_dat.flags & SMF_STATUSICON) ? g_dat.hMsgIcon : GetCachedIcon("scriver_OVERLAY");
+		tbd->hIcon = m_hStatusIcon;
+		tbd->hIconNot = g_dat.hMsgIcon;
 	}
 	else {
-		tbd->hIcon = (g_dat.flags & SMF_STATUSICON) ? m_hStatusIcon : g_dat.hMsgIcon;
+		tbd->hIcon = m_hStatusIcon;
 		tbd->hIconNot = nullptr;
 	}
-	tbd->hIconBig = (g_dat.flags & SMF_STATUSICON) ? m_hStatusIconBig : g_dat.hMsgIconBig;
+	tbd->hIconBig = m_hStatusIconBig;
 }
 
 bool CSrmmWindow::IsTypingNotificationSupported()
@@ -784,10 +784,8 @@ void CSrmmWindow::UpdateTitle()
 	ptrW tmplt(db_get_wsa(0, SRMM_MODULE, SRMSGSET_WINDOWTITLE));
 	if (tmplt != nullptr)
 		wszTitle = tmplt;
-	else if (g_dat.flags & SMF_STATUSICON)
-		wszTitle = L"%name% - ";
 	else
-		wszTitle = L"%name% (%status%) : ";
+		wszTitle = L"%name% - ";
 
 	if (m_hContact && m_szProto) {
 		wszTitle.Replace(L"%name%", Clist_GetContactDisplayName(m_hContact));

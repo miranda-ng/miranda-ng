@@ -27,27 +27,7 @@
 static HWND win;
 static int timeOut;
 
-struct TConfirmSetting : public PROTOCOLSETTINGEX
-{
-	TConfirmSetting(const PROTOCOLSETTINGEX &x)
-	{
-		memcpy(this, &x, sizeof(PROTOCOLSETTINGEX));
-		if (m_szMsg)
-			m_szMsg = mir_wstrdup(m_szMsg);
-	}
-
-	~TConfirmSetting()
-	{
-		mir_free(m_szMsg);
-	}
-};
-
-static int CompareSettings(const TConfirmSetting* p1, const TConfirmSetting* p2)
-{
-	return mir_strcmp(p1->m_szName, p2->m_szName);
-}
-
-static OBJLIST<TConfirmSetting> *confirmSettings;
+static TProtoSettings *confirmSettings;
 
 static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -385,7 +365,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case UM_CLOSECONFIRMDLG:
-		CallService(MS_CS_SETSTATUSEX, (WPARAM)confirmSettings, 0);
+		SetStatusEx(*confirmSettings);
 		DestroyWindow(hwndDlg);
 		break;
 
@@ -400,11 +380,11 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout)
 {
 	delete confirmSettings;
-	confirmSettings = new OBJLIST<TConfirmSetting>(10, CompareSettings);
+	confirmSettings = new TProtoSettings();
 
 	for (auto &it : *params)
 		if (it->m_status != ID_STATUS_DISABLED)
-			confirmSettings->insert(new TConfirmSetting(*it));
+			confirmSettings->insert(new SMProto(*it));
 
 	timeOut = _timeout;
 	if (timeOut < 0)

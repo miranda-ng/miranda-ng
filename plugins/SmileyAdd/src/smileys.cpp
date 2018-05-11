@@ -383,7 +383,6 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 	_close(fh);
 
 	CMStringW tbuf;
-
 	if (len > 2 && *(wchar_t*)buf == 0xfeff)
 		tbuf = ((wchar_t*)buf + 1);
 	else if (len > 3 && buf[0] == '\xef' && buf[1] == '\xbb' && buf[2] == '\xbf')
@@ -393,6 +392,116 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 
 	delete[] buf;
 
+	bool res;
+	if (filename.Find(L".xep") == -1)
+		res = LoadSmileyFileMSL(tbuf, onlyInfo, modpath);
+	else
+		res = LoadSmileyFileXEP(tbuf, onlyInfo);
+
+	if (errorFound)
+		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee network log for details."));
+
+	return res;
+}
+
+static IStream* DecodeBase64Data(const wchar_t *pString)
+{
+	size_t dataLen;
+	ptrA data((char*)mir_base64_decode(_T2A(pString), &dataLen));
+	if (data == nullptr)
+		return nullptr;
+
+	// Read image list
+	HGLOBAL hBuffer = GlobalAlloc(GMEM_MOVEABLE, dataLen);
+	if (!hBuffer)
+		return nullptr;
+
+	void *dst = GlobalLock(hBuffer);
+	memcpy(dst, data, dataLen);
+	GlobalUnlock(hBuffer);
+
+	IStream *pStream = nullptr;
+	CreateStreamOnHGlobal(hBuffer, TRUE, &pStream);
+	return pStream;
+}
+
+static CMStringW FilterQuotes(const wchar_t *pStr)
+{
+	CMStringW res(pStr);
+	int iStart = res.Find('\"', 0);
+	if (iStart != -1) {
+		int iEnd = res.Find('\"', ++iStart);
+		if (iEnd != -1)
+			res = res.Mid(iStart, iEnd - iStart);
+	}
+
+	return res;
+}
+
+bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo)
+{
+	HXML node, xmlRoot = xmlParseString(tbuf, nullptr, nullptr);
+	if (!xmlRoot)
+		return false;
+
+	if (node = xmlGetChildByPath(xmlRoot, L"settings/DataBaseName", 0))
+		m_Name = xmlGetText(node);
+	if (node = xmlGetChildByPath(xmlRoot, L"settings/PackageAuthor", 0))
+		m_Author = xmlGetText(node);
+
+	if (!onlyInfo) {
+		const wchar_t *pStr = xmlGetClear(xmlGetChildByPath(xmlRoot, L"lists/images", 0), 0, 0, 0);
+		if (pStr) {
+			IStream *pStream = DecodeBase64Data(pStr);
+			if (pStream) {
+				if (m_hSmList != nullptr)
+					ImageList_Destroy(m_hSmList);
+				m_hSmList = ImageList_Read(pStream);
+				pStream->Release();
+			}
+		}
+
+		HXML nRec, dataRoot = xmlGetChildByPath(xmlRoot, L"dataroot", 0);
+		for (int i = 0; (nRec = xmlGetNthChild(dataRoot, L"record", i)) != 0; i++) {
+			pStr = xmlGetAttrValue(nRec, L"ImageIndex");
+			if (pStr == nullptr)
+				continue;
+
+			SmileyType *dat = new SmileyType;
+			dat->SetRegEx(true);
+			dat->SetImList(m_hSmList, _wtoi(pStr));
+			dat->m_ToolText = xmlGetText(nRec);
+
+			if (node = xmlGetChildByPath(nRec, L"Expression", 0))
+				dat->m_TriggerText = FilterQuotes(xmlGetText(node));
+			if (node = xmlGetChildByPath(nRec, L"PasteText", 0))
+				dat->m_InsertText = FilterQuotes(xmlGetText(node));
+
+			dat->SetHidden(dat->m_InsertText.IsEmpty());
+
+			if (node = xmlGetChildByPath(nRec, L"Image", 0)) {
+				IStream *pStream = DecodeBase64Data(xmlGetText(node));
+				if (pStream) {
+					dat->LoadFromImage(pStream);
+					pStream->Release();
+				}
+			}
+
+			m_SmileyList.insert(dat);
+		}
+	}
+
+	xmlDestroyNode(xmlRoot);
+
+	m_VisibleCount = m_SmileyList.getCount();
+	AddTriggersToSmileyLookup();
+
+	selec.x = selec.y = win.x = win.y = 0;
+	return true;
+}
+
+bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW &modpath)
+{
 	CMStringW pathstr, packstr;
 	{
 		MRegexp16 pathsplit(L"(.*\\\\)(.*)\\.|$");
@@ -497,6 +606,7 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 					ReplaceAllSpecials(dat->m_TriggerText, dat->m_ToolText);
 			}
 
+			bool noerr;
 			if (resname.IsEmpty()) {
 				dat->SetHidden(true);
 				dat->SetText(true);
@@ -523,10 +633,6 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 	m_VisibleCount = m_SmileyList.getCount();
 	m_SmileyList.splice(hiddenSmileys);
 	AddTriggersToSmileyLookup();
-
-	if (errorFound)
-		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee network log for details."));
-
 	return true;
 }
 

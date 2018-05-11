@@ -91,9 +91,7 @@ BEGIN
     CONTROL         "Show toolbar",IDC_SHOWTOOLBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,180,10
     CONTROL         "Show info bar",IDC_SHOWINFOBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,45,180,10
     CONTROL         "Show avatars",IDC_AVATARSUPPORT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,56,180,10
-    CONTROL         "Use the contact's status icon as the window icon",IDC_STATUSWIN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,67,292,10
-    CONTROL         "Show progress indicator",IDC_SHOWPROGRESS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,78,180,10
+    CONTROL         "Show progress indicator",IDC_SHOWPROGRESS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,67,180,10
     CONTROL         "Enable transparency",IDC_TRANSPARENCY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,95,140,10
     LTEXT           "active",IDC_TRANSPARENCYTEXT1,152,91,36,8
     CONTROL         "Slider1",IDC_ATRANSPARENCYVALUE,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,194,91,70,12

@@ -31,8 +31,6 @@ struct branch_t
 };
 
 static branch_t branch1[] = {
-	{ LPGENW("Send message by pressing the 'Enter' key"), "SendOnEnter", 0, true },
-	{ LPGENW("Send message by pressing the 'Enter' key twice"), "SendOnDblEnter", 0, false },
 	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, false },
 	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, true },
 	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, true },

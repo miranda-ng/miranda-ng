@@ -374,8 +374,6 @@ extern int fontOptionsListSize;
 #define SRMSGDEFSET_SENDONENTER		1
 #define SRMSGSET_SENDONDBLENTER		"SendOnDblEnter"
 #define SRMSGDEFSET_SENDONDBLENTER	0
-#define SRMSGSET_STATUSICON			"UseStatusWinIcon"
-#define SRMSGDEFSET_STATUSICON		0
 #define SRMSGSET_SENDBUTTON			"UseSendButton"
 #define SRMSGDEFSET_SENDBUTTON		0
 #define SRMSGSET_CHARCOUNT			"ShowCharCount"

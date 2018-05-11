@@ -58,7 +58,7 @@ void CChatRoomDlg::OnInitDialog()
 	if (g_Settings.bTabsEnable)
 		SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
 	else
-		onActivate();
+		OnActivate();
 
 	m_log.SendMsg(EM_AUTOURLDETECT, 1, 0);
 
@@ -86,7 +86,7 @@ void CChatRoomDlg::OnDestroy()
 	CSuper::OnDestroy();
 }
 
-void CChatRoomDlg::onActivate()
+void CChatRoomDlg::OnActivate()
 {
 	WINDOWPLACEMENT wp = {};
 	wp.length = sizeof(wp);
@@ -286,12 +286,7 @@ void CChatRoomDlg::UpdateOptions()
 		hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
 	}
 
-	if (g_Settings.bTabsEnable)
-		g_pTabDialog->FixTabIcons(nullptr);
-
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
-
-	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), GetIconHandle("window"));
 
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 
@@ -341,10 +336,6 @@ void CChatRoomDlg::UpdateStatusBar()
 	}
 
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
-
-	if (g_Settings.bTabsEnable)
-		g_pTabDialog->FixTabIcons(nullptr);
-
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTIPTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
@@ -635,11 +626,11 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 
 			if (wParam == '\n' || wParam == '\r') {
-				if ((isCtrl != 0) ^ (0 != db_get_b(0, CHAT_MODULE, "SendOnEnter", 1))) {
+				if ((isCtrl && g_dat.bSendOnCtrlEnter) || (!isCtrl && g_dat.bSendOnEnter)) {
 					m_btnOk.OnClick(&m_btnOk);
 					return 0;
 				}
-				if (db_get_b(0, CHAT_MODULE, "SendOnDblEnter", 0)) {
+				if (g_dat.bSendOnDblEnter) {
 					if (m_iLastEnterTime + 2 < time(0))
 						m_iLastEnterTime = time(0);
 					else {
@@ -667,10 +658,10 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 			if (wParam == VK_RETURN) {
 				szTabSave[0] = '\0';
-				if ((isCtrl != 0) ^ (0 != db_get_b(0, CHAT_MODULE, "SendOnEnter", 1)))
+				if ((isCtrl && g_dat.bSendOnCtrlEnter) || (!isCtrl && g_dat.bSendOnEnter))
 					return 0;
 
-				if (db_get_b(0, CHAT_MODULE, "SendOnDblEnter", 0))
+				if (g_dat.bSendOnDblEnter)
 					if (m_iLastEnterTime + 2 >= time(0))
 						return 0;
 
@@ -1110,17 +1101,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (g_Settings.bTabsEnable) {
 				m_si->wState &= ~GC_EVENT_HIGHLIGHT;
 				m_si->wState &= ~STATE_TALK;
-				g_pTabDialog->FixTabIcons(nullptr);
 			}
-			break;
 		}
-		if (LOWORD(wParam) == WA_ACTIVE)
-			onActivate();
-		break;
-
-	case WM_MOUSEACTIVATE:
-		onActivate();
-		SetFocus(m_message.GetHwnd());
 		break;
 
 	case WM_NOTIFY:

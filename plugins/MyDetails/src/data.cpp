@@ -154,7 +154,7 @@ void Protocol::SetStatus(int aStatus)
 		GetStatusMsg(aStatus, status_msg, _countof(status_msg));
 		pse[0]->m_szMsg = status_msg;
 
-		CallService(MS_CS_SETSTATUSEX, (WPARAM)&pse, 0);
+		CallService(MS_CS_SETSTATUSEX, (WPARAM)&pse, pCount);
 
 		for (int i = 0; i < pCount; i++)
 			mir_free(pse[i]);

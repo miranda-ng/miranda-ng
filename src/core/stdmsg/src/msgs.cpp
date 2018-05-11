@@ -41,6 +41,23 @@ void CMsgDialog::CloseTab()
 	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
 }
 
+INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_ACTIVE)
+			OnActivate();
+		break;
+
+	case WM_MOUSEACTIVATE:
+		OnActivate();
+		SetFocus(m_message.GetHwnd());
+		break;
+	}
+
+	return CSuper::DlgProc(uMsg, wParam, lParam);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int OnCheckPlugins(WPARAM, LPARAM);
@@ -409,27 +426,20 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 	GetClientRect(hwndDlg, &rc);
 	int iLeftX = 2, iRightX = rc.right - 2;
 
-	bool bShow = (bIsChat) ? true : g_dat.bShowButtons;
-
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if (hwndButton == nullptr || cbd->m_bHidden)
 			continue;
 
-		if (bShow) {
-			ShowWindow(hwndButton, SW_SHOW);
-
-			if (cbd->m_bRSided) {
-				iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
-				hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iRightX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-			}
-			else {
-				hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iLeftX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-				iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
-			}
+		if (cbd->m_bRSided) {
+			iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
+			hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iRightX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
-		else ShowWindow(hwndButton, SW_HIDE);
+		else {
+			hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iLeftX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
+		}
 	}
 
 	EndDeferWindowPos(hdwp);

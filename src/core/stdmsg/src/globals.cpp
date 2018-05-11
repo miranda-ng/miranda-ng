@@ -47,7 +47,6 @@ static int OnShutdown(WPARAM, LPARAM)
 			si->pDlg->Close();
 
 	UninitTabs();
-	ImageList_Destroy(hIconsList);
 	return 0;
 }
 
@@ -126,9 +125,9 @@ GlobalMessageData::GlobalMessageData() :
 	bCtrlSupport(SRMMMOD, "SupportCtrlUpDn", true),
 	bShowReadChar(SRMMMOD, "ShowCharCount", false),
 	bSendOnDblEnter(SRMMMOD, "SendOnDblEnter", false),
+	bSendOnCtrlEnter(SRMMMOD, "SendOnCtrlEnter", false),
 	bDeleteTempCont(SRMMMOD, "DeleteTempCont", false),
 	bSavePerContact(SRMMMOD, "SavePerContact", false),
-	bUseStatusWinIcon(SRMMMOD, "UseStatusWinIcon", false),
 	bDoNotStealFocus(SRMMMOD, "DoNotStealFocus", false),
 
 	bLimitAvatarHeight(SRMMMOD, "AvatarLimitHeight", true),

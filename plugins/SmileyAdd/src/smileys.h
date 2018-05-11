@@ -203,6 +203,9 @@ public:
 
 	bool LoadSmileyFile(const CMStringW &filename, const CMStringW &packname, bool onlyInfo, bool noerr = false);
 
+	bool LoadSmileyFileMSL(CMStringW &body, bool bOnlyInfo, CMStringW &modPath);
+	bool LoadSmileyFileXEP(CMStringW &body, bool bOnlyInfo);
+
 	void Clear(void);
 };
 

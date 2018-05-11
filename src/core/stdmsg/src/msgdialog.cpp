@@ -308,6 +308,17 @@ void CSrmmWindow::OnDestroy()
 			db_delete_contact(m_hContact);
 }
 
+void CSrmmWindow::OnActivate()
+{
+	SetupStatusBar();
+	SetFocus(m_message.GetHwnd());
+	UpdateTitle();
+	UpdateLastMessage();
+	if (KillTimer(m_hwnd, TIMERID_FLASHWND))
+		FlashWindow(m_pOwner->GetHwnd(), FALSE);
+	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
@@ -353,12 +364,12 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 			continue;
 
 		bool bShow = false;
-		if (m_hContact) {
+		if (m_hContact && g_dat.bShowButtons) {
 			if (cbd->m_dwButtonCID == IDC_ADD) {
 				bShow = 0 != db_get_b(m_hContact, "CList", "NotOnList", 0);
 				cbd->m_bHidden = !bShow;
 			}
-			else bShow = g_dat.bShowButtons;
+			else bShow = true;
 		}
 		ShowWindow(hwndButton, (bShow) ? SW_SHOW : SW_HIDE);
 	}
@@ -585,19 +596,22 @@ void CSrmmWindow::UpdateIcon(WPARAM wParam)
 	if (!m_hContact || !m_szProto)
 		return;
 
+	bool bIsStatus = false;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
-	if (!cws || (!mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
-		if (m_szProto) {
-			HICON hIcon = Skin_LoadProtoIcon(m_szProto, m_wStatus);
-			if (hIcon) {
-				if (m_hStatusIcon)
-					IcoLib_ReleaseIcon(m_hStatusIcon);
-				m_hStatusIcon = hIcon;
-				SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-			}
+	if (cws && !mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status")) {
+		bIsStatus = true;
+		m_wStatus = cws->value.wVal;
+	}
+
+	if (!cws || bIsStatus) {
+		HICON hIcon = Skin_LoadProtoIcon(m_szProto, m_wStatus);
+		if (hIcon) {
+			if (m_hStatusIcon)
+				IcoLib_ReleaseIcon(m_hStatusIcon);
+			m_hStatusIcon = hIcon;
 		}
-		if (g_dat.bUseStatusWinIcon)
-			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+
+		SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 	}
 }
 
@@ -634,23 +648,15 @@ void CSrmmWindow::UpdateTitle()
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
 
-		if (g_dat.bUseStatusWinIcon)
-			mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
-		else {
-			wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
-			mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
-		}
-
+		mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
 		m_wOldStatus = m_wStatus;
 	}
 	else mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
 
 	wchar_t oldtitle[256];
 	GetWindowText(m_pOwner->GetHwnd(), oldtitle, _countof(oldtitle));
-	if (mir_wstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
+	if (mir_wstrcmp(newtitle, oldtitle)) //swt() flickers even if the title hasn't actually changed
 		SetWindowText(m_pOwner->GetHwnd(), newtitle);
-		Resize();
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -737,7 +743,11 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 
 		if (wParam == VK_RETURN) {
-			if (!isShift && isCtrl != g_dat.bSendOnEnter) {
+			if (!isShift && !isCtrl && g_dat.bSendOnEnter) {
+				onClick_Ok(&m_btnOk);
+				return 0;
+			}
+			if (!isShift && isCtrl && g_dat.bSendOnCtrlEnter) {
 				onClick_Ok(&m_btnOk);
 				return 0;
 			}
@@ -1032,15 +1042,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_UPDATEWINICON:
-		if (g_dat.bUseStatusWinIcon) {
-			Window_FreeIcon_IcoLib(m_pOwner->GetHwnd());
-
-			if (m_szProto) {
-				Window_SetProtoIcon_IcoLib(m_pOwner->GetHwnd(), m_szProto, Contact_GetStatus(m_hContact));
-				break;
-			}
-		}
-		Window_SetSkinIcon_IcoLib(m_pOwner->GetHwnd(), SKINICON_EVENT_MESSAGE);
+		m_pOwner->FixTabIcons(this);
 		break;
 
 	case DM_USERNAMETOCLIP:
@@ -1078,22 +1080,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				*(int *)lParam = 1;
 			}
 		}
-		break;
-
-	case WM_ACTIVATE:
-		if (LOWORD(wParam) != WA_ACTIVE)
-			break;
-
-		__fallthrough;
-
-	case WM_MOUSEACTIVATE:
-		SetFocus(m_message.GetHwnd());
-		UpdateTitle();
-		UpdateLastMessage();
-		if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-			FlashWindow(m_pOwner->GetHwnd(), FALSE);
-		if (g_dat.bUseStatusWinIcon)
-			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 		break;
 
 	case WM_CBD_LOADICONS:

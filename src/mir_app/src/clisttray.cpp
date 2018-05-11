@@ -27,8 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define TOOLTIP_TOLERANCE 5
 
-extern HIMAGELIST hCListImages;
-
 static UINT WM_TASKBARCREATED;
 static UINT WM_TASKBARBUTTONCREATED;
 static UINT_PTR RefreshTimerId = 0;   /////by FYR

@@ -53,8 +53,12 @@ protected:
 
 	CMsgDialog(int idDialog, SESSION_INFO *si = nullptr);
 
+	virtual void OnActivate() PURE;
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
 public:
-	virtual void CloseTab() override;
+	void CloseTab() override;
 
 	__forceinline SESSION_INFO* getChat() const { return m_si; }
 };
@@ -63,8 +67,8 @@ class CSrmmWindow : public CMsgDialog
 {
 	typedef CMsgDialog CSuper;
 	
-	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	CCtrlBase m_avatar;
 	CSplitter m_splitter;
@@ -114,16 +118,17 @@ public:
 public:
 	CSrmmWindow(CTabbedWindow*, MCONTACT hContact);
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	void OnInitDialog() override;
+	void OnDestroy() override;
+	void OnActivate() override;
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
 	
-	virtual void LoadSettings() override {}
-	virtual void ScrollToBottom() override;
-	virtual void SetStatusText(const wchar_t*, HICON) override;
-	virtual void UpdateTitle() override;
+	void LoadSettings() override {}
+	void ScrollToBottom() override;
+	void SetStatusText(const wchar_t*, HICON) override;
+	void UpdateTitle() override;
 
 	void OnSplitterMoved(CSplitter*);
 
@@ -152,9 +157,9 @@ class CChatRoomDlg : public CMsgDialog
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	wchar_t szTabSave[20];
 
@@ -164,26 +169,25 @@ class CChatRoomDlg : public CMsgDialog
 
 	int m_iSplitterX, m_iSplitterY;
 
-	void onActivate(void);
-
 public:
 	CChatRoomDlg(CTabbedWindow*, SESSION_INFO*);
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	void OnInitDialog() override;
+	void OnDestroy() override;
+	void OnActivate() override;
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
-	virtual void LoadSettings() override;
-	virtual void RedrawLog() override;
-	virtual void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
-	virtual void ScrollToBottom() override;
-	virtual void ShowFilterMenu() override;
-	virtual void UpdateNickList() override;
-	virtual void UpdateOptions() override;
-	virtual void UpdateStatusBar() override;
-	virtual void UpdateTitle() override;
+	void LoadSettings() override;
+	void RedrawLog() override;
+	void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
+	void ScrollToBottom() override;
+	void ShowFilterMenu() override;
+	void UpdateNickList() override;
+	void UpdateOptions() override;
+	void UpdateStatusBar() override;
+	void UpdateTitle() override;
 
 	void onClick_Ok(CCtrlButton*);
 

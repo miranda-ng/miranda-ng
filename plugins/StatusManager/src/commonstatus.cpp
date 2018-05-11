@@ -69,7 +69,6 @@ TProtoSettings::TProtoSettings(const TProtoSettings &p)
 
 char* StatusModeToDbSetting(int status, const char *suffix);
 DWORD StatusModeToProtoFlag(int status);
-INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam);
 
 // some helpers from awaymsg.c ================================================================
 
@@ -144,9 +143,9 @@ wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 	return tMsg;
 }
 
-static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
+static int equalsGlobalStatus(TProtoSettings &ps)
 {
-	int j, pstatus = 0, gstatus = 0;
+	int pstatus = 0, gstatus = 0;
 
 	for (auto &it : protoList)
 		if (it->m_szMsg != nullptr && GetActualStatus(it) != ID_STATUS_OFFLINE)
@@ -157,9 +156,9 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 			continue;
 
 		pstatus = 0;
-		for (j = 0; j < protoList.getCount(); j++)
-			if (!mir_strcmp(pa->szModuleName, ps[j]->m_szName))
-				pstatus = GetActualStatus(ps[j]);
+		for (auto &it : ps)
+			if (!mir_strcmp(pa->szModuleName, it->m_szName))
+				pstatus = GetActualStatus(it);
 
 		if (pstatus == 0)
 			pstatus = pa->iRealStatus;
@@ -215,22 +214,17 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 	mir_free(tszMsg);
 }
 
-INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
+int SetStatusEx(TProtoSettings &ps)
 {
-	PROTOCOLSETTINGEX** protoSettings = *(PROTOCOLSETTINGEX***)wParam;
-	if (protoSettings == nullptr)
-		return -1;
-
-	int globStatus = equalsGlobalStatus(protoSettings);
+	int globStatus = equalsGlobalStatus(ps);
 
 	// issue with setting global status;
 	// things get messy because SRAway hooks ME_CLIST_STATUSMODECHANGE, so the status messages of SRAway and
 	// commonstatus will clash
-	NotifyEventHooks(hCSStatusChangedExEvent, (WPARAM)&protoSettings, protoList.getCount());
+	NotifyEventHooks(hCSStatusChangedExEvent, (WPARAM)&ps, ps.getCount());
 
 	// set all status messages first
-	for (int i = 0; i < protoList.getCount(); i++) {
-		PROTOCOLSETTINGEX *p = protoSettings[i];
+	for (auto &p : ps) {
 		if (p->m_status == ID_STATUS_DISABLED)
 			continue;
 
@@ -239,7 +233,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 			continue;
 		}
 		// some checks
-		int newstatus = GetActualStatus(protoSettings[i]);
+		int newstatus = GetActualStatus(p);
 		if (newstatus == 0) {
 			log_debugA("CommonStatus: incorrect status for %s (%d)", p->m_szName, p->m_status);
 			continue;
@@ -273,7 +267,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 
 		// set status message first
 		if (b_Caps1 && b_Caps3)
-			SetStatusMsg(protoSettings[i], newstatus);
+			SetStatusMsg(p, newstatus);
 
 		// set the status
 		if (newstatus != oldstatus /*&& !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))*/) {
@@ -306,18 +300,6 @@ bool IsSuitableProto(PROTOACCOUNT *pa)
 	return (pa == nullptr) ? false : pa->IsVisible();
 }
 
-static int CreateServices()
-{
-	if (ServiceExists(MS_CS_SETSTATUSEX))
-		return -1;
-
-	hCSStatusChangedExEvent = CreateHookableEvent(ME_CS_STATUSCHANGEEX);
-
-	CreateServiceFunction(MS_CS_SETSTATUSEX, SetStatusEx);
-	CreateServiceFunction(MS_CS_GETPROTOCOUNT, GetProtocolCountService);
-	return 0;
-}
-
 static int onShutdown(WPARAM, LPARAM)
 {
 	g_bMirandaLoaded = false;
@@ -325,10 +307,25 @@ static int onShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
+static INT_PTR SetStatusEx(WPARAM wParam, LPARAM pCount)
+{
+	PROTOCOLSETTINGEX **protoSettings = *(PROTOCOLSETTINGEX***)wParam;
+	if (protoSettings == nullptr)
+		return -1;
+
+	TProtoSettings ps;
+	for (int i = 0; i < pCount; i++)
+		ps.insert((SMProto*)protoSettings[i]);
+	return SetStatusEx(ps);
+}
+
 int InitCommonStatus()
 {
-	if (!CreateServices())
-		HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
+	hCSStatusChangedExEvent = CreateHookableEvent(ME_CS_STATUSCHANGEEX);
 
+	CreateServiceFunction(MS_CS_SETSTATUSEX, SetStatusEx);
+	CreateServiceFunction(MS_CS_GETPROTOCOUNT, GetProtocolCountService);
+	
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 	return 0;
 }
