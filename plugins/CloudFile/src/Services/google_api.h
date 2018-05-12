@@ -108,6 +108,7 @@ namespace GDriveAPI
 
 			JSONNode parents(JSON_ARRAY);
 			parents << JSONNode("", parentId);
+			parents.set_name("parents");
 
 			JSONNode params(JSON_NODE);
 			params << JSONNode("name", name);
