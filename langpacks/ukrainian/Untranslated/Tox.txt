@@ -4,7 +4,6 @@
 [Enable UDP hole-punching]
 [Enable local network peer discovery]
 [Remove password]
-[Old password:]
 [Correction icon]
 [Create password]
 [Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]

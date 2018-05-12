@@ -177,7 +177,7 @@ El tema es '%s%s'
 %s habilitar '%s' de estado para %s
 [%s disables '%s' status for %s]
 %s deshabilitar '%s' de estado para %s
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje
 [Tabs]
 Pestañas
@@ -253,6 +253,8 @@ Tema (10x10)
 Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
+[Message Sessions]
+Sesiones de mensaje
 [Appearance and functionality of chat room windows]
 Apariencia y funcionalidad de ventanas de chat
 [Appearance of the message log]
@@ -323,8 +325,6 @@ Escribiendo notificación
 ** Nuevos contactos **
 [** Unknown contacts **]
 ** Contactos desconocidos **
-[Message sessions]
-Sesiones de mensaje
 [General]
 General
 [Message log]

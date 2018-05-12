@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.7
+;  Version: 3.0.1.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -68,8 +68,6 @@ Zobrazit lištu
 Zobrazit informační lištu
 [Show avatars]
 Zobrazit avatary
-[Use the contact's status icon as the window icon]
-Použít v liště okna ikonu aktuálního stavu
 [Show progress indicator]
 Zobrazit indikátor průběhu přenosu
 [Enable transparency]

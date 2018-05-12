@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
@@ -406,28 +406,16 @@ Wyłącz dźwięki kiedy bezczynny
 Automatycznie pokazuj okno gdy:
 [In background]
 W tle
+[Maximum number of flashes]
+Maksymalna liczba mignięć
 [Close the message window on send]
 Zamknij okno rozmowy po wysłaniu
 [Minimize the message window on send]
 Minimalizuj okno rozmowy po wysłaniu
-[Use the contact's status icon as the window icon]
-Użyj ikony statusu kontaktu jako ikony okna
 [Save the window size and location individually for each contact]
 Zapamiętaj rozmiar i położenie okna oddzielnie dla każdego kontaktu
 [Cascade new windows]
 Kaskaduj nowe okna
-[Show 'Send' button]
-Pokaż przycisk "Wyślij"
-[Show toolbar buttons on top row]
-Pokazuj pasek narzędzi u góry
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Show character count]
-Pokazuj liczbę znaków
-[Show warning when message has not been received after]
-Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Pozwalaj używać Ctrl+góra/dół w oknie rozmowy by przewijać wysłane wiadomości
 [Delete temporary contacts when closing message window]
@@ -436,8 +424,20 @@ Usuń tymczasowe kontakty po zamknięciu okna rozmowy
 Włącz awatary w oknie rozmowy
 [Limit avatar height to]
 Ogranicz wysokość awataru do
-[Maximum number of flashes]
-Maksymalna liczba mignięć
+[Show 'Send' button]
+Pokaż przycisk "Wyślij"
+[Show character count]
+Pokazuj liczbę znaków
+[Show toolbar buttons on top row]
+Pokazuj pasek narzędzi u góry
+[Send message on double 'Enter']
+Podwójny Enter wysyła wiadomość
+[Send message on 'Enter']
+Enter wysyła wiadomość
+[Send message on 'Ctrl+Enter']
+Ctrl+Enter wysyła wiadomość
+[Show warning when message has not been received after]
+Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [Send error]
 Błąd wysyłania
 [An error has occurred. The protocol reported the following error:]
@@ -548,7 +548,7 @@ Użyj takiego samego stylu, jak w dzienniku
 Użyj domyślnych kolorów
 [Use custom colors]
 Użyj niestandardowych kolorów
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 Czat
 [Timeout (s)]
 Opóźnienie (s)
@@ -1390,6 +1390,8 @@ Wychodzące
 [Idle]
 Bezczynność
 ;file \src\core\stdmsg\src\chat_manager.cpp
+[Message sessions]
+Okno rozmowy
 [Chat module]
 Moduł czatu
 [Group chat log background]
@@ -1403,10 +1405,6 @@ Linie listy użytkowników
 [Nick list background (selected)]
 Tło listy użytkowników (zaznaczenie)
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Send message by pressing the 'Enter' key]
-Wyślij wiadomość po Enterze
-[Send message by pressing the 'Enter' key twice]
-Wyślij wiadomość po dwukliku Entera
 [Flash window when someone speaks]
 Migaj oknem, gdy ktoś mówi
 [Flash window when a word is highlighted]
@@ -1627,8 +1625,6 @@ Ikony wyświetlane w dzienniku wiadomości
 Ikony wyświetlane w zasobniku
 [Popups to display]
 Popupy do wyświetlenia
-[Message sessions]
-Okno rozmowy
 [General]
 Ogólne
 [Chat log]

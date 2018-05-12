@@ -36,7 +36,7 @@ Numéro Gadu-Gadu
 [User ID]
 
 [ICQ number]
-
+Identifiant
 [Nickname]
 Pseudo
 [Visible name]

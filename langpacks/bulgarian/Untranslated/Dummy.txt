@@ -4,7 +4,6 @@
 [Screen name]
 [Facebook ID]
 [User ID]
-[ICQ number]
 [Visible name]
 [Skype name]
 [Steam ID]

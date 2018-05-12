@@ -835,7 +835,7 @@ Temat to "%s%s"
 [%s disables '%s' status for %s]
 %s wyłącza status "%s" dla %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
@@ -1054,6 +1054,8 @@ Temat (10x10)
 Podświetlenie (10x10)
 [Information (10x10)]
 Informacja (10x10)
+[Message Sessions]
+Okno rozmowy
 [Group chat windows]
 Okno czatu
 [Group chat log]
@@ -1598,8 +1600,6 @@ Normalnie - zamknij kartę, jeśli nie ma kart zamknij okno
 Zminimalizuj okno do paska
 [Close or hide window, depends on the close button setting above]
 Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
-[Message sessions]
-Okno rozmowy
 [General]
 Ogólne
 [Tabs and layout]

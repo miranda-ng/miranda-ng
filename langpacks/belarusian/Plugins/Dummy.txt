@@ -34,7 +34,7 @@
 [User ID]
 ID кантакта
 [ICQ number]
-
+Нумар ICQ
 [Nickname]
 Мянушка
 [Visible name]

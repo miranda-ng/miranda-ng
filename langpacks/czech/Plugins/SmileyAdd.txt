@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.0.1
+;  Version: 0.3.0.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -98,10 +98,10 @@ Závisí na protokolu
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Knihovna smajlíků %s pro kategorii "%s" nebyla nalezena.\nVyberte platnou knihovnu smajlíků v Možnosti -> Vlastní úpravy -> Smajlíky.
-[Smiley #%u in file %s for smiley pack %s not found.]
-Smajlík č.%u v souboru %s sady smajlíků %s nebyl nalezen.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace naleznete v záznamu komunikace po síti.
+[Smiley #%u in file %s for smiley pack %s not found.]
+Smajlík č.%u v souboru %s sady smajlíků %s nebyl nalezen.
 [%s global smiley pack]
 %s globální sada smajlíků
 [Standard]

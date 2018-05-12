@@ -21,6 +21,8 @@
 Потребителско име
 [Gadu-Gadu number]
 Gadu-Gadu номер
+[ICQ number]
+ICQ номер
 [Nickname]
 Прякор
 [E-mail address]

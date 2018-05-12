@@ -26,7 +26,6 @@
 [Show toolbar]
 [Show info bar]
 [Show avatars]
-[Use the contact's status icon as the window icon]
 [Show progress indicator]
 [Enable transparency]
 [active]

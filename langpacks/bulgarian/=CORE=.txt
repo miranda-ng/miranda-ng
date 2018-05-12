@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 [%s message for %s]
 Текст "%s" на %s
@@ -397,28 +397,16 @@
 Изскачане на прозореца при състояние:
 [In background]
 без фокусиране (на заден план)
+[Maximum number of flashes]
+Максимален брой мигания
 [Close the message window on send]
 Затваряне на прозореца след изпращане
 [Minimize the message window on send]
 Минимизиране на прозореца след изпращане
-[Use the contact's status icon as the window icon]
-Ползване на иконата за състояние на контакта като икона на прозореца
 [Save the window size and location individually for each contact]
 Индивидуален размер и позиция на прозореца за всеки контакт
 [Cascade new windows]
 Каскадно подреждане на новите прозорци
-[Show 'Send' button]
-Показване на бутон "Изпращане"
-[Show toolbar buttons on top row]
-Лента с инструменти на горния ред
-[Send message on double 'Enter']
-Двукратно натискане на "Enter" изпраща съобщение
-[Send message on 'Enter']
-Изпращане на съобщение с "Enter"
-[Show character count]
-Показване броя на знаците
-[Show warning when message has not been received after]
-Предупреждение, ако съобщение не е получено след
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Показване на вече изпратените съобщения чрез Ctrl + стрелка нагоре/надолу
 [Delete temporary contacts when closing message window]
@@ -427,8 +415,20 @@
 Поддръжка на аватари в прозореца за съобщения
 [Limit avatar height to]
 Височина на аватара до
-[Maximum number of flashes]
-Максимален брой мигания
+[Show 'Send' button]
+Показване на бутон "Изпращане"
+[Show character count]
+Показване броя на знаците
+[Show toolbar buttons on top row]
+Лента с инструменти на горния ред
+[Send message on double 'Enter']
+Двукратно натискане на "Enter" изпраща съобщение
+[Send message on 'Enter']
+Изпращане на съобщение с "Enter"
+[Send message on 'Ctrl+Enter']
+Изпращане на съобщение с "Ctrl+Enter"
+[Show warning when message has not been received after]
+Предупреждение, ако съобщение не е получено след
 [Send error]
 Грешка при изпращането
 [An error has occurred. The protocol reported the following error:]
@@ -537,8 +537,8 @@
 Стандартни цветове
 [Use custom colors]
 Зададени цветове
-[Popups for the Chat plugin]
-Popup за приставката Chat
+[Popups for the StdMsg plugin]
+Popup за приставката StdMsg
 [Timeout (s)]
 Времетраене (сек)
 [Text]
@@ -1325,6 +1325,8 @@ Google Translate
 Изходящи
 [Idle]
 Бездействие
+[Message sessions]
+Разговори
 [Chat module]
 Чат модул
 [Group chat log background]
@@ -1337,10 +1339,6 @@ Google Translate
 Редове на списък с прякори
 [Nick list background (selected)]
 Фон на списъка с прякори (маркирано)
-[Send message by pressing the 'Enter' key]
-Изпращане на съобщение с натискане на бутона "Enter"
-[Send message by pressing the 'Enter' key twice]
-Изпращане на съобщение с двукратно натискане на бутона "Enter"
 [Flash window when someone speaks]
 Мигане на прозореца при ново съобщение
 [Flash window when a word is highlighted]
@@ -1561,8 +1559,6 @@ Google Translate
 Икони за изобразяване в трея
 [Popups to display]
 Popups за изобразяване
-[Message sessions]
-Разговори
 [General]
 Основни
 [Chat log]

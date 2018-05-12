@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 [%s message for %s]
 %s (%s)
@@ -401,28 +401,16 @@
 Відкривати вікно, якщо:
 [In background]
 У фоні
+[Maximum number of flashes]
+Максимальна кількість блимань
 [Close the message window on send]
 Закривати вікно після надсилання
 [Minimize the message window on send]
 Згортати вікно після надсилання
-[Use the contact's status icon as the window icon]
-Значок статусу контакту в заголовку вікна
 [Save the window size and location individually for each contact]
 Зберігати розмір і розташування вікна для кожного контакту
 [Cascade new windows]
 Розміщувати нові вікна каскадом
-[Show 'Send' button]
-Показувати кнопку "Надіслати"
-[Show toolbar buttons on top row]
-Кнопки у верхньому рядку
-[Send message on double 'Enter']
-Надсилати подвійним натисканням Enter
-[Send message on 'Enter']
-Надсилати натисканням Enter
-[Show character count]
-Показувати лічильник символів
-[Show warning when message has not been received after]
-Сповіщати, якщо повідомл. не вдалося надіслати протягом
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Показувати попередні повідомлення у полі набору клавішами Ctrl+Вгору/Вниз
 [Delete temporary contacts when closing message window]
@@ -431,8 +419,20 @@
 Увімкнути аватари у вікні повідомлень
 [Limit avatar height to]
 Обмежити висоту аватарів
-[Maximum number of flashes]
-Максимальна кількість блимань
+[Show 'Send' button]
+Показувати кнопку "Надіслати"
+[Show character count]
+Показувати лічильник символів
+[Show toolbar buttons on top row]
+Кнопки у верхньому рядку
+[Send message on double 'Enter']
+Надсилати подвійним натисканням Enter
+[Send message on 'Enter']
+Надсилати натисканням Enter
+[Send message on 'Ctrl+Enter']
+Надсилати натисканням Ctrl+Enter
+[Show warning when message has not been received after]
+Сповіщати, якщо повідомл. не вдалося надіслати протягом
 [Send error]
 Помилка надсилання
 [An error has occurred. The protocol reported the following error:]
@@ -543,7 +543,7 @@
 Стандартні кольори
 [Use custom colors]
 Вказати кольори
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 Спливаючі вікна чату
 [Timeout (s)]
 Затримка (с)
@@ -1361,6 +1361,8 @@ UIN, E-mail тощо
 Вихідні
 [Idle]
 Очікування
+[Message sessions]
+Бесіди
 [Chat module]
 Чати
 [Group chat log background]
@@ -1373,10 +1375,6 @@ UIN, E-mail тощо
 Лінії списку користувачів
 [Nick list background (selected)]
 Фон списку користувачів (вибране)
-[Send message by pressing the 'Enter' key]
-Надсилати натисканням Enter
-[Send message by pressing the 'Enter' key twice]
-Надсилати подвійним натисканням Enter
 [Flash window when someone speaks]
 Блимання вікна, якщо є нове повідомлення
 [Flash window when a word is highlighted]
@@ -1597,8 +1595,6 @@ UIN, E-mail тощо
 Значки в треї
 [Popups to display]
 Спливаючі вікна
-[Message sessions]
-Бесіди
 [General]
 Загальне
 [Chat log]

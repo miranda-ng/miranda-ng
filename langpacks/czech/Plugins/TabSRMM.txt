@@ -835,7 +835,7 @@ Aktuální téma: '%s%s'
 [%s disables '%s' status for %s]
 %s deaktivuje stav '%s' pro %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Message Sessions]
+[Message sessions]
 Komunikace
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
@@ -1054,6 +1054,8 @@ Téma (10x10)
 Zvýraznění (10x10)
 [Information (10x10)]
 Informace (10x10)
+[Message Sessions]
+Komunikace
 [Group chat windows]
 Okna skupinových rozhovorů
 [Group chat log]
@@ -1598,8 +1600,6 @@ Normální - zavřít panel, pokud je uzavřen poslední panel, zavřít i okno
 Minimalizovat okno
 [Close or hide window, depends on the close button setting above]
 Zavřít či schovat okno, záleží na nastavení uzavíracího tlačítka
-[Message sessions]
-Komunikace
 [General]
 Obecné
 [Tabs and layout]

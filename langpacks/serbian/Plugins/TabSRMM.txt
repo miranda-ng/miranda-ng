@@ -835,7 +835,7 @@ Tema je '%s%s'
 [%s disables '%s' status for %s]
 %s uklanja '%s' status za: %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Message Sessions]
+[Message sessions]
 Celi razgovori
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
@@ -1054,6 +1054,8 @@ Tema (10х10)
 Istaknuto (10х10)
 [Information (10x10)]
 Informacija (10х10)
+[Message Sessions]
+Celi razgovori
 [Group chat windows]
 
 [Group chat log]
@@ -1598,8 +1600,6 @@ Obaveštenje o kucanju
 
 [Close or hide window, depends on the close button setting above]
 
-[Message sessions]
-Celi razgovori
 [General]
 Uopšteno
 [Tabs and layout]

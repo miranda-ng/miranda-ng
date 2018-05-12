@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.7
+;  Version: 3.0.1.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -68,8 +68,6 @@ Voir barre d'outils
 Afficher la barre d'information
 [Show avatars]
 Montrer les avatars
-[Use the contact's status icon as the window icon]
-Utiliser l'icône d'état du contact comme icône de fenêtre
 [Show progress indicator]
 Afficher la barre de progression
 [Enable transparency]

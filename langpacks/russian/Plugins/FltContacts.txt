@@ -1,4 +1,4 @@
-﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating contacts
@@ -7,8 +7,6 @@
 ;============================================================
 [Floating Contacts plugin for Miranda.]
 Плавающие контакты для Miranda NG.
-[Floating contacts plugin won't work until you uncheck the "Disable drag and drop of items" option in Options - Contact list]
-Плавающие контакты не будут работать, если в настройках списка контактов отключено перетаскивание элементов
 [Hiding contacts]
 Скрытие контактов
 [Hide offline contacts]
@@ -95,6 +93,8 @@
 Убрать плавающий контакт
 [Show/Hide all thumbs]
 Показать/Скрыть все контакты
+[Floating contacts plugin won't work until you uncheck the "Disable drag and drop of items" option in Options - Contact list]
+Плавающие контакты не будут работать, если в настройках списка контактов отключено перетаскивание элементов
 [Floating Contacts]
 Плавающие контакты
 [Contact list]

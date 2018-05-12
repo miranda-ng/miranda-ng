@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
@@ -406,28 +406,16 @@ Désactiver les sons quand inactif
 Fenêtre en popup quand :
 [In background]
 En arrière-plan
+[Maximum number of flashes]
+Nombre maximum de clignotements
 [Close the message window on send]
 Fermer la fenêtre à l'envoi
 [Minimize the message window on send]
 Réduire la fenêtre à l'envoi
-[Use the contact's status icon as the window icon]
-Utiliser l'icône d'état du contact comme icône de fenêtre
 [Save the window size and location individually for each contact]
 Sauvegarder taille et emplacement de fenêtre pour chaque contact
 [Cascade new windows]
 Voir les nouvelles fenêtres en cascade
-[Show 'Send' button]
-Voir le bouton "Envoyer"
-[Show toolbar buttons on top row]
-Voir boutons d'outils en haut
-[Send message on double 'Enter']
-Taper 2 fois "Entrée" pour envoyer
-[Send message on 'Enter']
-Taper 1 fois "Entrée" pour envoyer
-[Show character count]
-Décompte des caractères
-[Show warning when message has not been received after]
-M'alerter quand le message n'a pas été reçu après
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Permettre navigation haut/bas dans zone de texte pour voir mess. précédents
 [Delete temporary contacts when closing message window]
@@ -436,8 +424,20 @@ Effacer contacts temp. en fermant fenêtre de message
 Activer le support des avatars dans la fenêtre de message
 [Limit avatar height to]
 Limiter la taille de l'avatar à
-[Maximum number of flashes]
-Nombre maximum de clignotements
+[Show 'Send' button]
+Voir le bouton "Envoyer"
+[Show character count]
+Décompte des caractères
+[Show toolbar buttons on top row]
+Voir boutons d'outils en haut
+[Send message on double 'Enter']
+Taper 2 fois "Entrée" pour envoyer
+[Send message on 'Enter']
+Taper 1 fois "Entrée" pour envoyer
+[Send message on 'Ctrl+Enter']
+
+[Show warning when message has not been received after]
+M'alerter quand le message n'a pas été reçu après
 [Send error]
 Erreur d'envoi
 [An error has occurred. The protocol reported the following error:]
@@ -548,8 +548,8 @@ Utiliser même style que la fenêtre
 Couleurs par défaut
 [Use custom colors]
 Couleurs personnalisées
-[Popups for the Chat plugin]
-Popups pour le plugin Chat
+[Popups for the StdMsg plugin]
+Popups pour le plugin StdMsg
 [Timeout (s)]
 Délai (s)
 [Text]
@@ -1390,6 +1390,8 @@ Sortant
 [Idle]
 Inactif
 ;file \src\core\stdmsg\src\chat_manager.cpp
+[Message sessions]
+Sessions de message
 [Chat module]
 Chat
 [Group chat log background]
@@ -1403,10 +1405,6 @@ Lignes de la liste
 [Nick list background (selected)]
 
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Send message by pressing the 'Enter' key]
-Envoyer le message en pressant 1 fois sur "Entrée"
-[Send message by pressing the 'Enter' key twice]
-Envoyer le message en pressant 2 fois sur "Entrée"
 [Flash window when someone speaks]
 Fenêtre clignotante quand quelqu'un parle
 [Flash window when a word is highlighted]
@@ -1627,8 +1625,6 @@ Icônes à afficher dans le journal des messages
 Icônes à afficher dans la zone de notification système (tray)
 [Popups to display]
 
-[Message sessions]
-Sessions de message
 [General]
 Général
 [Chat log]

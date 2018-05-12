@@ -835,7 +835,7 @@ Le sujet est '%s%s'
 [%s disables '%s' status for %s]
 
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Message Sessions]
+[Message sessions]
 Sessions de message
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
@@ -1054,6 +1054,8 @@ Sujet (10x10)
 Surligner (10x10)
 [Information (10x10)]
 Information (10x10)
+[Message Sessions]
+Sessions de message
 [Group chat windows]
 
 [Group chat log]
@@ -1598,8 +1600,6 @@ Seulement si la fenêtre de message est fermée
 
 [Close or hide window, depends on the close button setting above]
 
-[Message sessions]
-Sessions de message
 [General]
 Général
 [Tabs and layout]

@@ -9,7 +9,6 @@
 [Screen name]
 [Facebook ID]
 [User ID]
-[ICQ number]
 [Visible name]
 [Live ID]
 [Steam ID]

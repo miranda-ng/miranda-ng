@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.0.1
+;  Version: 0.3.0.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Name:]

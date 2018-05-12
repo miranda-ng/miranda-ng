@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 [%s message for %s]
 %s Mensaje(S) para %s
@@ -401,28 +401,16 @@ Desactivar los sonidos en inactividad
 Ventana emergente automáticamente cuando:
 [In background]
 En segundo plano
+[Maximum number of flashes]
+Número máximo de destellos
 [Close the message window on send]
 Cerrar la ventana de mensaje al enviar
 [Minimize the message window on send]
 Minimizar la ventana de mensaje al enviar
-[Use the contact's status icon as the window icon]
-Usar el icono de estado del contacto como el icono de la ventana
 [Save the window size and location individually for each contact]
 Guardar el tamaño de la ventana y la ubicación de forma individual para cada contacto
 [Cascade new windows]
 Ventanas en cascada nueva
-[Show 'Send' button]
-Mostrar botón 'Enviar'
-[Show toolbar buttons on top row]
-Mostrar botones de barra de herramientas en la parte superior de la fila
-[Send message on double 'Enter']
-Enviar mensaje con doble 'Intro'
-[Send message on 'Enter']
-Enviar mensaje con 'Intro'
-[Show character count]
-Mostrar recuento de caracteres
-[Show warning when message has not been received after]
-Mostrar aviso cuando el mensaje no se ha recibido después de
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Soporte CTRL+Arriba/Abajo en el área de mensajes para mostrar mensajes previamente enviados
 [Delete temporary contacts when closing message window]
@@ -431,8 +419,20 @@ Eliminar contactos temporales al cerrar la ventana mensaje
 Habilitar la compatibilidad de avatar en la ventana de mensajes
 [Limit avatar height to]
 Limitar altura de avatar a
-[Maximum number of flashes]
-Número máximo de destellos
+[Show 'Send' button]
+Mostrar botón 'Enviar'
+[Show character count]
+Mostrar recuento de caracteres
+[Show toolbar buttons on top row]
+Mostrar botones de barra de herramientas en la parte superior de la fila
+[Send message on double 'Enter']
+Enviar mensaje con doble 'Intro'
+[Send message on 'Enter']
+Enviar mensaje con 'Intro'
+[Send message on 'Ctrl+Enter']
+Enviar mensaje con 'Ctrl+Intro'
+[Show warning when message has not been received after]
+Mostrar aviso cuando el mensaje no se ha recibido después de
 [Send error]
 Enviar error
 [An error has occurred. The protocol reported the following error:]
@@ -543,7 +543,7 @@ Usar mismo estilo que en el registro de mensajes
 Usar colores predeterminados
 [Use custom colors]
 Usar colores personalizados
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 Ventanas emergentes para el plugin de chat
 [Timeout (s)]
 Tiempo de espera (s)
@@ -1297,6 +1297,8 @@ Transferencia y Análisis en busca de virus finalizado
 Saliendo
 [Idle]
 Inactivo
+[Message sessions]
+Sesiones de mensaje
 [Chat module]
 Módulo de chat
 [Message background]
@@ -1307,10 +1309,6 @@ Fondo de lista de usuarios
 Líneas de lista de usuarios
 [Nick list background (selected)]
 Fondo de lista de usuarios (seleccionado)
-[Send message by pressing the 'Enter' key]
-Enviar mensaje pulsando la tecla 'Intro'
-[Send message by pressing the 'Enter' key twice]
-Enviar mensaje pulsando la tecla 'Intro' dos veces
 [Flash window when someone speaks]
 Parpadear ventana cuando alguien habla
 [Flash window when a word is highlighted]
@@ -1531,8 +1529,6 @@ Iconos a mostrar en el registro de mensajes
 Iconos a mostrar en la bandeja
 [Popups to display]
 Ventanas emergentes mostrar
-[Message sessions]
-Sesiones de mensaje
 [General]
 General
 [Chat log]
