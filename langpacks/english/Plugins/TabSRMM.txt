@@ -423,7 +423,7 @@
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Message Sessions]
+[Message sessions]
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 [Log background]
@@ -533,6 +533,7 @@
 [Topic (10x10)]
 [Highlight (10x10)]
 [Information (10x10)]
+[Message Sessions]
 [Group chat windows]
 [Group chat log]
 [Appearance and functionality of chat room windows]
@@ -813,7 +814,6 @@
 [Normal - close tab, if last tab is closed also close the window]
 [Minimize the window to the task bar]
 [Close or hide window, depends on the close button setting above]
-[Message sessions]
 [General]
 [Tabs and layout]
 [Containers]

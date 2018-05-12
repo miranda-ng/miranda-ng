@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
@@ -207,22 +207,22 @@
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 [In background]
+[Maximum number of flashes]
 [Close the message window on send]
 [Minimize the message window on send]
-[Use the contact's status icon as the window icon]
 [Save the window size and location individually for each contact]
 [Cascade new windows]
-[Show 'Send' button]
-[Show toolbar buttons on top row]
-[Send message on double 'Enter']
-[Send message on 'Enter']
-[Show character count]
-[Show warning when message has not been received after]
 [Support CTRL+Up/Down in message area to show previously sent messages]
 [Delete temporary contacts when closing message window]
 [Enable avatar support in the message window]
 [Limit avatar height to]
-[Maximum number of flashes]
+[Show 'Send' button]
+[Show character count]
+[Show toolbar buttons on top row]
+[Send message on double 'Enter']
+[Send message on 'Enter']
+[Send message on 'Ctrl+Enter']
+[Show warning when message has not been received after]
 [Send error]
 [An error has occurred. The protocol reported the following error:]
 [while sending the following message:]
@@ -278,7 +278,7 @@
 [Use same style as in the message log]
 [Use default colors]
 [Use custom colors]
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 [Timeout (s)]
 [Text]
 [Background]
@@ -709,6 +709,7 @@
 ;file \src\core\stdidle\src\options.cpp
 [Idle]
 ;file \src\core\stdmsg\src\chat_manager.cpp
+[Message sessions]
 [Chat module]
 [Group chat log background]
 [Message background]
@@ -716,8 +717,6 @@
 [Nick list lines]
 [Nick list background (selected)]
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Send message by pressing the 'Enter' key]
-[Send message by pressing the 'Enter' key twice]
 [Flash window when someone speaks]
 [Flash window when a word is highlighted]
 [Show list of users in the chat room]
@@ -828,7 +827,6 @@
 [Icons to display in the message log]
 [Icons to display in the tray]
 [Popups to display]
-[Message sessions]
 [General]
 [Chat log]
 [Chat]
