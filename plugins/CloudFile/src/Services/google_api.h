@@ -15,7 +15,7 @@ namespace GDriveAPI
 #define GOOGLE_APP_ID "528761318515-h1etlccvk5vjsbjuuj8i73cud8do4adi.apps.googleusercontent.com"
 #include "../../../miranda-private-keys/Google/client_secret.h"
 
-#define GOOGLE_AUTH GOOGLE_OAUTH "/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&redirect_uri=https%3A%2F%2Foauth.miranda-ng.org%2Fverification&client_id=" GOOGLE_APP_ID
+#define GOOGLE_AUTH GOOGLE_OAUTH "/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&access_type=offline&prompt=consent&redirect_uri=https%3A%2F%2Foauth.miranda-ng.org%2Fverification&client_id=" GOOGLE_APP_ID
 
 	class GetAccessTokenRequest : public HttpRequest
 	{
