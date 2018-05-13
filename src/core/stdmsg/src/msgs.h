@@ -53,6 +53,7 @@ protected:
 
 	CMsgDialog(int idDialog, SESSION_INFO *si = nullptr);
 
+	virtual int GetImageId() const PURE;
 	virtual void OnActivate() PURE;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -125,6 +126,7 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	int Resizer(UTILRESIZECONTROL *urc) override;
 	
+	int  GetImageId() const override;
 	void LoadSettings() override {}
 	void ScrollToBottom() override;
 	void SetStatusText(const wchar_t*, HICON) override;
@@ -179,6 +181,7 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	int Resizer(UTILRESIZECONTROL *urc) override;
 
+	int  GetImageId() const override;
 	void LoadSettings() override;
 	void RedrawLog() override;
 	void StreamInEvents(LOGINFO *lin, bool bRedraw) override;

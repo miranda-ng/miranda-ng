@@ -279,20 +279,12 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 		m_tab.ActivatePage(indexfound);
 }
 
-void CTabbedWindow::FixTabIcons(CSrmmBaseDialog *pDlg)
+void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 {
 	if (pDlg == nullptr)
 		return;
 
-	int image = 0;
-	if (SESSION_INFO *si = ((CChatRoomDlg*)pDlg)->m_si) {
-		if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
-			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-			image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
-		}
-	}
-	else image = pcli->pfnIconFromStatusMode(GetContactProto(pDlg->m_hContact), Contact_GetStatus(pDlg->m_hContact), pDlg->m_hContact);
-
+	int image = pDlg->GetImageId();
 	if (pDlg == m_pEmbed) {
 		SendMessage(m_hwnd, WM_SETICON, 0, (LPARAM)ImageList_GetIcon(Clist_GetImageList(), image, 0));
 		return;

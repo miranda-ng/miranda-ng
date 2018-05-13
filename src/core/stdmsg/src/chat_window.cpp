@@ -197,6 +197,15 @@ void CChatRoomDlg::onSplitterY(CSplitter *pSplitter)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CChatRoomDlg::GetImageId() const
+{
+	if (m_si->wState & GC_EVENT_HIGHLIGHT)
+		return 0;
+
+	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+	return (m_si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+}
+
 void CChatRoomDlg::LoadSettings()
 {
 	m_clrInputBG = db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
