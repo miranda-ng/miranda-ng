@@ -455,7 +455,7 @@ void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
 
 int CSrmmWindow::GetImageId() const
 {
-	return pcli->pfnIconFromStatusMode(m_szProto, m_wStatus, m_hContact);
+	return (WORD)pcli->pfnIconFromStatusMode(m_szProto, m_wStatus, m_hContact);
 }
 
 void CSrmmWindow::NotifyTyping(int mode)
