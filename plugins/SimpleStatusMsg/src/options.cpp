@@ -34,11 +34,9 @@ static LRESULT CALLBACK OptEditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			RECT rc;
 			GetClientRect(hwndDlg, &rc);
 
-			if (pt.x == -1 && pt.y == -1)
-			{
+			if (pt.x == -1 && pt.y == -1) {
 				GetCursorPos(&pt);
-				if (!PtInRect(&rc, pt))
-				{
+				if (!PtInRect(&rc, pt)) {
 					pt.x = rc.left + (rc.right - rc.left) / 2;
 					pt.y = rc.top + (rc.bottom - rc.top) / 2;
 				}
@@ -46,7 +44,7 @@ static LRESULT CALLBACK OptEditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			else
 				ScreenToClient(hwndDlg, &pt);
 
-			if (PtInRect(&rc, pt)) 
+			if (PtInRect(&rc, pt))
 				HandlePopupMenu(hwndDlg, pt, GetDlgItem(GetParent(hwndDlg), IDC_OPTEDIT1));
 
 			return 0;
@@ -124,13 +122,10 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			data->status_msg = (struct SingleStatusMsg *)mir_alloc(sizeof(struct SingleStatusMsg)*(accounts->count + 1));
 
-			for (i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-			{
-				if (accounts->statusMsgFlags & Proto_Status2Flag(i))
-				{
+			for (i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+				if (accounts->statusMsgFlags & Proto_Status2Flag(i)) {
 					index = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_INSERTSTRING, -1, (LPARAM)Clist_GetStatusModeDescription(i, 0));
-					if (index != CB_ERR && index != CB_ERRSPACE)
-					{
+					if (index != CB_ERR && index != CB_ERRSPACE) {
 						int j;
 						char setting[80];
 
@@ -138,18 +133,17 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
 						data->status_msg[0].flags[i - ID_STATUS_ONLINE] = val;
-						ptrW text( db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default")));
+						ptrW text(db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default")));
 						mir_wstrncpy(data->status_msg[0].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 
-						for (j = 0; j < accounts->count; j++)
-						{
+						for (j = 0; j < accounts->count; j++) {
 							auto *pa = accounts->pa[j];
 							if (!pa->IsEnabled() || !CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 								continue;
 
 							mir_snprintf(setting, "%sFlags", pa->szModuleName);
 							val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, setting), STATUS_DEFAULT);
-							data->status_msg[j+1].flags[i-ID_STATUS_ONLINE] = val;
+							data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE] = val;
 							mir_snprintf(setting, "%sDefault", pa->szModuleName);
 							text = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i, setting));
 							mir_wstrncpy(data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
@@ -160,8 +154,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETCURSEL, 0, 0);
 
 			data->proto_msg = (struct SingleProtoMsg *)mir_alloc(sizeof(struct SingleProtoMsg)*(accounts->count + 1));
-			if (!data->proto_msg)
-			{
+			if (!data->proto_msg) {
 				// TODO not really needed?
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTPROTO), FALSE);
@@ -171,16 +164,14 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ROPTPROTO4), FALSE);
 				data->proto_ok = FALSE;
 			}
-			else
-			{
+			else {
 				char setting[64];
 
 				data->proto_ok = TRUE;
 
 				index = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Global status change"));
 
-				if (index != CB_ERR && index != CB_ERRSPACE)
-				{
+				if (index != CB_ERR && index != CB_ERRSPACE) {
 					data->proto_msg[0].msg = nullptr;
 
 					val = db_get_b(NULL, "SimpleStatusMsg", "ProtoFlags", PROTO_DEFAULT);
@@ -189,37 +180,33 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, (WPARAM)index, 0);
 				}
 
-				for (i = 0; i < accounts->count; ++i)
-				{
+				for (i = 0; i < accounts->count; ++i) {
 					auto *pa = accounts->pa[i];
 					if (!pa->IsEnabled()
 						|| !CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0)
-						|| !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
-					{
-						data->proto_msg[i+1].msg = nullptr;
+						|| !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)) {
+						data->proto_msg[i + 1].msg = nullptr;
 						continue;
 					}
 
 					index = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
 					// SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, index, (LPARAM)i + 1);
-					if (index != CB_ERR && index != CB_ERRSPACE)
-					{
+					if (index != CB_ERR && index != CB_ERRSPACE) {
 						mir_snprintf(setting, "Proto%sDefault", pa->szModuleName);
-						data->proto_msg[i+1].msg = db_get_wsa(NULL, "SimpleStatusMsg", setting);
+						data->proto_msg[i + 1].msg = db_get_wsa(NULL, "SimpleStatusMsg", setting);
 
 						mir_snprintf(setting, "Proto%sFlags", pa->szModuleName);
 						val = db_get_b(NULL, "SimpleStatusMsg", setting, PROTO_DEFAULT);
-						data->proto_msg[i+1].flags = val;
+						data->proto_msg[i + 1].flags = val;
 
 						mir_snprintf(setting, "Proto%sMaxLen", pa->szModuleName);
 						val = db_get_w(NULL, "SimpleStatusMsg", setting, 1024);
-						data->proto_msg[i+1].max_length = val;
+						data->proto_msg[i + 1].max_length = val;
 						SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i + 1);
 					}
 				}
 
-				if (accounts->statusMsgCount == 1)
-				{
+				if (accounts->statusMsgCount == 1) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTPROTO), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), FALSE);
 					SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETCURSEL, 1, 0);
@@ -232,13 +219,11 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			if (db_get_b(NULL, "SimpleStatusMsg", "PutDefInList", 0))
 				CheckDlgButton(hwndDlg, IDC_COPTMSG2, BST_CHECKED);
 
-			if (ServiceExists(MS_VARS_FORMATSTRING))
-			{
-				HICON hIcon=nullptr;
-				char *szTipInfo=nullptr;
+			if (ServiceExists(MS_VARS_FORMATSTRING)) {
+				HICON hIcon = nullptr;
+				char *szTipInfo = nullptr;
 
-				if (ServiceExists(MS_VARS_GETSKINITEM))
-				{
+				if (ServiceExists(MS_VARS_GETSKINITEM)) {
 					hIcon = (HICON)CallService(MS_VARS_GETSKINITEM, 0, VSI_HELPICON);
 					szTipInfo = (char *)CallService(MS_VARS_GETSKINITEM, 0, VSI_HELPTIPTEXT);
 				}
@@ -261,8 +246,8 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 
 	case WM_COMMAND:
-		if ( ( (HIWORD(wParam) == BN_CLICKED) || /*(HIWORD(wParam) == EN_KILLFOCUS) ||*/ (HIWORD(wParam) == EN_CHANGE)
-			|| ( (HIWORD(wParam) == CBN_SELCHANGE) && (LOWORD(wParam) != IDC_CBOPTPROTO) && (LOWORD(wParam) != IDC_CBOPTSTATUS))
+		if (((HIWORD(wParam) == BN_CLICKED) || /*(HIWORD(wParam) == EN_KILLFOCUS) ||*/ (HIWORD(wParam) == EN_CHANGE)
+			|| ((HIWORD(wParam) == CBN_SELCHANGE) && (LOWORD(wParam) != IDC_CBOPTPROTO) && (LOWORD(wParam) != IDC_CBOPTSTATUS))
 			) && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		switch (LOWORD(wParam)) {
@@ -288,8 +273,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_CBOPTPROTO:
-			switch (HIWORD(wParam))
-			{
+			switch (HIWORD(wParam)) {
 			case CBN_SELCHANGE:
 			case CBN_SELENDOK:
 				{
@@ -297,8 +281,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					int i = SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
 
-					if (i == 0)
-					{
+					if (i == 0) {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_MAXLENGTH), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_EMAXLENGTH), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SMAXLENGTH), FALSE);
@@ -311,8 +294,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						else if (data->proto_msg[i].flags & PROTO_NOCHANGE)
 							CheckRadioButton(hwndDlg, IDC_ROPTPROTO1, IDC_ROPTPROTO4, IDC_ROPTPROTO2);
 					}
-					else
-					{
+					else {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_MAXLENGTH), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_EMAXLENGTH), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SMAXLENGTH), TRUE);
@@ -331,8 +313,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					}
 
 					if (data->proto_msg[i].flags & PROTO_NO_MSG || data->proto_msg[i].flags & PROTO_THIS_MSG
-						|| data->proto_msg[i].flags & PROTO_NOCHANGE)
-					{
+						|| data->proto_msg[i].flags & PROTO_NOCHANGE) {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTSTATUS), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_COPTMSG1), FALSE);
@@ -342,14 +323,12 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ROPTMSG3), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ROPTMSG5), FALSE);
 
-						if (data->proto_msg[i].flags & PROTO_NO_MSG || data->proto_msg[i].flags & PROTO_NOCHANGE)
-						{
+						if (data->proto_msg[i].flags & PROTO_NO_MSG || data->proto_msg[i].flags & PROTO_NOCHANGE) {
 							EnableWindow(GetDlgItem(hwndDlg, IDC_ROPTMSG4), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						}
-						else
-						{
+						else {
 							EnableWindow(GetDlgItem(hwndDlg, IDC_ROPTMSG4), TRUE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), TRUE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), TRUE);
@@ -357,8 +336,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						EnableWindow(GetDlgItem(hwndDlg, IDC_COPTMSG2), FALSE);
 					}
-					else
-					{
+					else {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTSTATUS), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_COPTMSG1), TRUE);
@@ -375,13 +353,11 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						EnableWindow(GetDlgItem(hwndDlg, IDC_COPTMSG2), TRUE);
 					}
 
-					if (i)
-					{
+					if (i) {
 						k = i - 1;
 						status_modes = CallProtoService(accounts->pa[k]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 					}
-					else
-					{
+					else {
 						k = 0;
 						status_modes = accounts->statusMsgFlags;
 					}
@@ -389,23 +365,19 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					int j = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
 					SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_RESETCONTENT, 0, 0);
 
-					for (l=ID_STATUS_ONLINE; l<=ID_STATUS_OUTTOLUNCH; l++)
-					{
+					for (l = ID_STATUS_ONLINE; l <= ID_STATUS_OUTTOLUNCH; l++) {
 						int	 index;
-						if (status_modes & Proto_Status2Flag(l))
-						{
+						if (status_modes & Proto_Status2Flag(l)) {
 							index = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_INSERTSTRING, -1, (LPARAM)Clist_GetStatusModeDescription(l, 0));
-							if (index != CB_ERR && index != CB_ERRSPACE)
-							{
+							if (index != CB_ERR && index != CB_ERRSPACE) {
 								SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETITEMDATA, (WPARAM)index, (LPARAM)l - ID_STATUS_ONLINE);
-								if (j == l-ID_STATUS_ONLINE)
-									newindex=index;
+								if (j == l - ID_STATUS_ONLINE)
+									newindex = index;
 							}
 						}
 					}
 
-					if (!newindex)
-					{
+					if (!newindex) {
 						SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETCURSEL, 0, 0);
 						j = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
 					}
@@ -417,32 +389,27 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					else
 						CheckDlgButton(hwndDlg, IDC_COPTMSG1, BST_UNCHECKED);
 
-					if (data->proto_msg[i].flags & PROTO_THIS_MSG)
-					{
+					if (data->proto_msg[i].flags & PROTO_THIS_MSG) {
 						CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG4);
 						if (data->proto_msg[i].msg)
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, data->proto_msg[i].msg);
 						else
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 					}
-					else
-					{
-						if (data->status_msg[i].flags[j] & STATUS_EMPTY_MSG)
-						{
+					else {
+						if (data->status_msg[i].flags[j] & STATUS_EMPTY_MSG) {
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG1);
 						}
-						else if (data->status_msg[i].flags[j] & STATUS_DEFAULT_MSG)
-						{
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, GetDefaultMessage(j+ID_STATUS_ONLINE));
+						else if (data->status_msg[i].flags[j] & STATUS_DEFAULT_MSG) {
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, GetDefaultMessage(j + ID_STATUS_ONLINE));
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG2);
 						}
-						else if (data->status_msg[i].flags[j] & STATUS_LAST_MSG)
-						{
+						else if (data->status_msg[i].flags[j] & STATUS_LAST_MSG) {
 							char setting[80];
 							if (i)
 								mir_snprintf(setting, "Last%sMsg", accounts->pa[k]->szModuleName);
@@ -451,11 +418,9 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
-							if (szSetting)
-							{
+							if (szSetting) {
 								wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
-								if (tszStatusMsg && mir_wstrlen(tszStatusMsg))
-								{
+								if (tszStatusMsg && mir_wstrlen(tszStatusMsg)) {
 									if (tszStatusMsg && mir_wstrlen(tszStatusMsg))
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 
@@ -467,23 +432,19 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG3);
 						}
-						else if (data->status_msg[i].flags[j] & STATUS_THIS_MSG)
-						{
-							if (data->proto_msg[i].flags & PROTO_NO_MSG || data->proto_msg[i].flags & PROTO_NOCHANGE)
-							{
+						else if (data->status_msg[i].flags[j] & STATUS_THIS_MSG) {
+							if (data->proto_msg[i].flags & PROTO_NO_MSG || data->proto_msg[i].flags & PROTO_NOCHANGE) {
 								EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 								EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							}
-							else
-							{
+							else {
 								EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), TRUE);
 								EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), TRUE);
 							}
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG4);
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, data->status_msg[i].msg[j]);
 						}
-						else if (data->status_msg[i].flags[j] & STATUS_LAST_STATUS_MSG)
-						{
+						else if (data->status_msg[i].flags[j] & STATUS_LAST_STATUS_MSG) {
 							char setting[80];
 
 							if (i)
@@ -492,8 +453,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								mir_snprintf(setting, "Msg");
 
 							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
-							if (tszStatusMsg)
-							{
+							if (tszStatusMsg) {
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 								mir_free(tszStatusMsg);
 							}
@@ -522,8 +482,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					data->proto_msg[i].flags = 0;
 
-					if ((LOWORD(wParam) == IDC_ROPTPROTO2) || (LOWORD(wParam) == IDC_ROPTPROTO4))
-					{
+					if ((LOWORD(wParam) == IDC_ROPTPROTO2) || (LOWORD(wParam) == IDC_ROPTPROTO4)) {
 						data->proto_msg[i].flags |= (LOWORD(wParam) == IDC_ROPTPROTO4) ? PROTO_NO_MSG : PROTO_NOCHANGE;
 						EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTSTATUS), FALSE);
@@ -537,8 +496,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						EnableWindow(GetDlgItem(hwndDlg, IDC_COPTMSG2), FALSE);
 					}
-					else if (LOWORD(wParam) == IDC_ROPTPROTO3)
-					{
+					else if (LOWORD(wParam) == IDC_ROPTPROTO3) {
 						data->proto_msg[i].flags |= PROTO_THIS_MSG;
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), TRUE);
@@ -559,8 +517,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						EnableWindow(GetDlgItem(hwndDlg, IDC_COPTMSG2), FALSE);
 					}
-					else if (LOWORD(wParam) == IDC_ROPTPROTO1)
-					{
+					else if (LOWORD(wParam) == IDC_ROPTPROTO1) {
 						data->proto_msg[i].flags |= PROTO_POPUPDLG;
 						EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTSTATUS), TRUE);
@@ -575,38 +532,32 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						EnableWindow(GetDlgItem(hwndDlg, IDC_COPTMSG2), TRUE);
 					}
 
-					if (LOWORD(wParam) != IDC_ROPTPROTO3)
-					{
-						if (data->status_msg[i].flags[j] & STATUS_EMPTY_MSG)
-						{
+					if (LOWORD(wParam) != IDC_ROPTPROTO3) {
+						if (data->status_msg[i].flags[j] & STATUS_EMPTY_MSG) {
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG1);
 						}
-						else if (data->status_msg[i].flags[j] & STATUS_DEFAULT_MSG)
-						{
-							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, GetDefaultMessage(j+ID_STATUS_ONLINE));
+						else if (data->status_msg[i].flags[j] & STATUS_DEFAULT_MSG) {
+							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, GetDefaultMessage(j + ID_STATUS_ONLINE));
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG2);
 						}
-						else if (data->status_msg[i].flags[j] & STATUS_LAST_MSG)
-						{
+						else if (data->status_msg[i].flags[j] & STATUS_LAST_MSG) {
 							char setting[80];
 
 							if (i)
-								mir_snprintf(setting, "Last%sMsg", accounts->pa[i-1]->szModuleName);
+								mir_snprintf(setting, "Last%sMsg", accounts->pa[i - 1]->szModuleName);
 							else
 								mir_snprintf(setting, "LastMsg");
 
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
-							if (szSetting != nullptr)
-							{
+							if (szSetting != nullptr) {
 								wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
-								if (tszStatusMsg)
-								{
+								if (tszStatusMsg) {
 									if (tszStatusMsg[0])
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 									mir_free(tszStatusMsg);
@@ -617,33 +568,28 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG3);
 						}
-						else if (data->status_msg[i].flags[j] & STATUS_THIS_MSG)
-						{
-							if ((LOWORD(wParam) == IDC_ROPTPROTO2) || (LOWORD(wParam) == IDC_ROPTPROTO4))
-							{
+						else if (data->status_msg[i].flags[j] & STATUS_THIS_MSG) {
+							if ((LOWORD(wParam) == IDC_ROPTPROTO2) || (LOWORD(wParam) == IDC_ROPTPROTO4)) {
 								EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 								EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 							}
-							else
-							{
+							else {
 								EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), TRUE);
 								EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), TRUE);
 							}
 							CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG4);
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, data->status_msg[i].msg[j]);
 						}
-						else if (data->status_msg[i].flags[j] & STATUS_LAST_STATUS_MSG)
-						{
+						else if (data->status_msg[i].flags[j] & STATUS_LAST_STATUS_MSG) {
 							char setting[80];
 
 							if (i)
-								mir_snprintf(setting, "%sMsg", accounts->pa[i-1]->szModuleName);
+								mir_snprintf(setting, "%sMsg", accounts->pa[i - 1]->szModuleName);
 							else
 								mir_snprintf(setting, "Msg");
 
 							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
-							if (tszStatusMsg != nullptr)
-							{
+							if (tszStatusMsg != nullptr) {
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 								mir_free(tszStatusMsg);
 							}
@@ -673,35 +619,30 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					else
 						CheckDlgButton(hwndDlg, IDC_COPTMSG1, BST_UNCHECKED);
 
-					if (data->status_msg[j].flags[i] & STATUS_EMPTY_MSG)
-					{
+					if (data->status_msg[j].flags[i] & STATUS_EMPTY_MSG) {
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG1);
 					}
-					else if (data->status_msg[j].flags[i] & STATUS_DEFAULT_MSG)
-					{
-						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, GetDefaultMessage(i+ID_STATUS_ONLINE));
+					else if (data->status_msg[j].flags[i] & STATUS_DEFAULT_MSG) {
+						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, GetDefaultMessage(i + ID_STATUS_ONLINE));
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG2);
 					}
-					else if (data->status_msg[j].flags[i] & STATUS_LAST_MSG)
-					{
+					else if (data->status_msg[j].flags[i] & STATUS_LAST_MSG) {
 						char setting[80];
 						if (j)
-							mir_snprintf(setting, "Last%sMsg", accounts->pa[j-1]->szModuleName);
+							mir_snprintf(setting, "Last%sMsg", accounts->pa[j - 1]->szModuleName);
 						else
 							mir_snprintf(setting, "LastMsg");
 
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
-						if (szSetting != nullptr)
-						{
+						if (szSetting != nullptr) {
 							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
-							if (tszStatusMsg)
-							{
+							if (tszStatusMsg) {
 								if (tszStatusMsg[0])
 									SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 								mir_free(tszStatusMsg);
@@ -712,25 +653,22 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG3);
 					}
-					else if (data->status_msg[j].flags[i] & STATUS_THIS_MSG)
-					{
+					else if (data->status_msg[j].flags[i] & STATUS_THIS_MSG) {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), TRUE);
 						CheckRadioButton(hwndDlg, IDC_ROPTMSG1, IDC_ROPTMSG5, IDC_ROPTMSG4);
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, data->status_msg[j].msg[i]);
 					}
-					else if (data->status_msg[j].flags[i] & STATUS_LAST_STATUS_MSG)
-					{
+					else if (data->status_msg[j].flags[i] & STATUS_LAST_STATUS_MSG) {
 						char setting[80];
 
 						if (j)
-							mir_snprintf(setting, "%sMsg", accounts->pa[j-1]->szModuleName);
+							mir_snprintf(setting, "%sMsg", accounts->pa[j - 1]->szModuleName);
 						else
 							mir_snprintf(setting, "Msg");
 
 						wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
-						if (tszStatusMsg != nullptr)
-						{
+						if (tszStatusMsg != nullptr) {
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 							mir_free(tszStatusMsg);
 						}
@@ -780,26 +718,23 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					if (IsDlgButtonChecked(hwndDlg, IDC_COPTMSG1) == BST_CHECKED)
 						data->status_msg[j].flags[i] |= STATUS_SHOW_DLG;
 
-					if (LOWORD(wParam) == IDC_ROPTMSG1)
-					{
+					if (LOWORD(wParam) == IDC_ROPTMSG1) {
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						data->status_msg[j].flags[i] |= STATUS_EMPTY_MSG;
 					}
-					else if (LOWORD(wParam) == IDC_ROPTMSG2)
-					{
-						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, GetDefaultMessage(i+ID_STATUS_ONLINE));
+					else if (LOWORD(wParam) == IDC_ROPTMSG2) {
+						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, GetDefaultMessage(i + ID_STATUS_ONLINE));
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						data->status_msg[j].flags[i] |= STATUS_DEFAULT_MSG;
 					}
-					else if (LOWORD(wParam) == IDC_ROPTMSG3)
-					{
+					else if (LOWORD(wParam) == IDC_ROPTMSG3) {
 						char setting[80];
 
 						if (j)
-							mir_snprintf(setting, "Last%sMsg", accounts->pa[j-1]->szModuleName);
+							mir_snprintf(setting, "Last%sMsg", accounts->pa[j - 1]->szModuleName);
 						else
 							mir_snprintf(setting, "LastMsg");
 
@@ -807,11 +742,9 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
-						if (szSetting != nullptr)
-						{
+						if (szSetting != nullptr) {
 							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
-							if (tszStatusMsg)
-							{
+							if (tszStatusMsg) {
 								if (tszStatusMsg[0])
 									SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 								mir_free(tszStatusMsg);
@@ -823,25 +756,22 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
 						data->status_msg[j].flags[i] |= STATUS_LAST_MSG;
 					}
-					else if (LOWORD(wParam) == IDC_ROPTMSG4)
-					{
+					else if (LOWORD(wParam) == IDC_ROPTMSG4) {
 						data->status_msg[j].flags[i] |= STATUS_THIS_MSG;
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), TRUE);
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, data->status_msg[j].msg[i]);
 					}
-					else if (LOWORD(wParam) == IDC_ROPTMSG5)
-					{
+					else if (LOWORD(wParam) == IDC_ROPTMSG5) {
 						char setting[80];
 
 						if (j)
-							mir_snprintf(setting, "%sMsg", accounts->pa[j-1]->szModuleName);
+							mir_snprintf(setting, "%sMsg", accounts->pa[j - 1]->szModuleName);
 						else
 							mir_snprintf(setting, "Msg");
 
 						wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i + ID_STATUS_ONLINE, setting));
-						if (tszStatusMsg != nullptr)
-						{
+						if (tszStatusMsg != nullptr) {
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 							mir_free(tszStatusMsg);
 						}
@@ -862,34 +792,27 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				int i = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
 				int j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 
-				if (HIWORD(wParam) == EN_KILLFOCUS)
-				{
+				if (HIWORD(wParam) == EN_KILLFOCUS) {
 					wchar_t msg[1024];
 
-					if (data->proto_msg[j].flags & PROTO_THIS_MSG)
-					{
+					if (data->proto_msg[j].flags & PROTO_THIS_MSG) {
 						int len = GetDlgItemText(hwndDlg, IDC_OPTEDIT1, msg, _countof(msg));
-						if (len > 0)
-						{	
+						if (len > 0) {
 							if (data->proto_msg[j].msg == nullptr)
 								data->proto_msg[j].msg = mir_wstrdup(msg);
-							else
-							{
+							else {
 								mir_free(data->proto_msg[j].msg);
 								data->proto_msg[j].msg = mir_wstrdup(msg);
 							}
 						}
-						else
-						{
-							if (data->proto_msg[j].msg != nullptr)
-							{
+						else {
+							if (data->proto_msg[j].msg != nullptr) {
 								mir_free(data->proto_msg[j].msg);
 								data->proto_msg[j].msg = nullptr;
 							}
 						}
 					}
-					else
-					{
+					else {
 						GetDlgItemText(hwndDlg, IDC_OPTEDIT1, msg, _countof(msg));
 						mir_wstrcpy(data->status_msg[j].msg[i], msg);
 					}
@@ -898,66 +821,53 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 
 		case IDC_VARSHELP:
-			variables_showhelp(hwndDlg, IDC_OPTEDIT1, VHF_FULLDLG|VHF_SETLASTSUBJECT, nullptr, nullptr);
+			variables_showhelp(hwndDlg, IDC_OPTEDIT1, VHF_FULLDLG | VHF_SETLASTSUBJECT, nullptr, nullptr);
 			break;
 
 		case IDC_BOPTPROTO:
 			{
 				int j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 
-				if (j)
-				{
-					for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-					{
-						if (accounts->statusMsgFlags & Proto_Status2Flag(i))
-						{
-							data->status_msg[0].flags[i-ID_STATUS_ONLINE] = data->status_msg[j].flags[i-ID_STATUS_ONLINE];
-							if (data->status_msg[j].flags[i-ID_STATUS_ONLINE] & STATUS_THIS_MSG)
-								mir_wstrcpy(data->status_msg[0].msg[i-ID_STATUS_ONLINE], data->status_msg[j].msg[i-ID_STATUS_ONLINE]);
+				if (j) {
+					for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+						if (accounts->statusMsgFlags & Proto_Status2Flag(i)) {
+							data->status_msg[0].flags[i - ID_STATUS_ONLINE] = data->status_msg[j].flags[i - ID_STATUS_ONLINE];
+							if (data->status_msg[j].flags[i - ID_STATUS_ONLINE] & STATUS_THIS_MSG)
+								mir_wstrcpy(data->status_msg[0].msg[i - ID_STATUS_ONLINE], data->status_msg[j].msg[i - ID_STATUS_ONLINE]);
 						}
 					}
 				}
 
-				for (int k = 0; k < accounts->count; k++)
-				{
+				for (int k = 0; k < accounts->count; k++) {
 					auto *pa = accounts->pa[k];
 					if (!pa->IsEnabled() || !CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 						continue;
 
-					if (k != j - 1)
-					{
-						data->proto_msg[k+1].flags = data->proto_msg[j].flags;
+					if (k != j - 1) {
+						data->proto_msg[k + 1].flags = data->proto_msg[j].flags;
 						if (j)
-							data->proto_msg[k+1].max_length = data->proto_msg[j].max_length;
+							data->proto_msg[k + 1].max_length = data->proto_msg[j].max_length;
 
-						if (data->proto_msg[j].flags & PROTO_THIS_MSG)
-						{
+						if (data->proto_msg[j].flags & PROTO_THIS_MSG) {
 							size_t len = mir_wstrlen(data->proto_msg[j].msg);
-							if (len > 0)
-							{	
-								if (data->proto_msg[k+1].msg == nullptr)
-									data->proto_msg[k+1].msg = mir_wstrdup(data->proto_msg[j].msg);
-								else
-								{
-									mir_free(data->proto_msg[k+1].msg);
-									data->proto_msg[k+1].msg = mir_wstrdup(data->proto_msg[j].msg);
+							if (len > 0) {
+								if (data->proto_msg[k + 1].msg == nullptr)
+									data->proto_msg[k + 1].msg = mir_wstrdup(data->proto_msg[j].msg);
+								else {
+									mir_free(data->proto_msg[k + 1].msg);
+									data->proto_msg[k + 1].msg = mir_wstrdup(data->proto_msg[j].msg);
 								}
 							}
-							else
-							{
-								if (data->proto_msg[k+1].msg != nullptr)
-								{
-									mir_free(data->proto_msg[k+1].msg);
-									data->proto_msg[k+1].msg = nullptr;
+							else {
+								if (data->proto_msg[k + 1].msg != nullptr) {
+									mir_free(data->proto_msg[k + 1].msg);
+									data->proto_msg[k + 1].msg = nullptr;
 								}
 							}
 						}
-						else if (data->proto_msg[j].flags & PROTO_POPUPDLG)
-						{
-							for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-							{
-								if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i))
-								{
+						else if (data->proto_msg[j].flags & PROTO_POPUPDLG) {
+							for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+								if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i)) {
 									data->status_msg[k + 1].flags[i - ID_STATUS_ONLINE] = data->status_msg[j].flags[i - ID_STATUS_ONLINE];
 									if (data->status_msg[j].flags[i - ID_STATUS_ONLINE] & STATUS_THIS_MSG)
 										mir_wstrcpy(data->status_msg[k + 1].msg[i - ID_STATUS_ONLINE], data->status_msg[j].msg[i - ID_STATUS_ONLINE]);
@@ -976,14 +886,12 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				int status_modes;
 				if (j)
-					status_modes = CallProtoService(accounts->pa[j-1]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+					status_modes = CallProtoService(accounts->pa[j - 1]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 				else
 					status_modes = accounts->statusMsgFlags;
 
-				for (int k = ID_STATUS_ONLINE; k <= ID_STATUS_OUTTOLUNCH; k++)
-				{
-					if (k - ID_STATUS_ONLINE != i && status_modes & Proto_Status2Flag(k))
-					{
+				for (int k = ID_STATUS_ONLINE; k <= ID_STATUS_OUTTOLUNCH; k++) {
+					if (k - ID_STATUS_ONLINE != i && status_modes & Proto_Status2Flag(k)) {
 						data->status_msg[j].flags[k - ID_STATUS_ONLINE] = data->status_msg[j].flags[i];
 						if (data->status_msg[j].flags[i] & STATUS_THIS_MSG)
 							mir_wstrcpy(data->status_msg[j].msg[k - ID_STATUS_ONLINE], data->status_msg[j].msg[i]);
@@ -995,18 +903,14 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY)
-		{
+		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
 			char szSetting[80];
-			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-			{
-				if (accounts->statusMsgFlags & Proto_Status2Flag(i))
-				{
+			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+				if (accounts->statusMsgFlags & Proto_Status2Flag(i)) {
 					db_set_ws(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
 					db_set_b(NULL, "SimpleStatusMsg", StatusModeToDbSetting(i, "Flags"), (BYTE)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
 
-					for (int j = 0; j < accounts->count; j++)
-					{
+					for (int j = 0; j < accounts->count; j++) {
 						auto *pa = accounts->pa[j];
 						if (!pa->IsEnabled())
 							continue;
@@ -1014,8 +918,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 							continue;
 
-						if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i))
-						{
+						if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i)) {
 							mir_snprintf(szSetting, "%sDefault", pa->szModuleName);
 							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
 
@@ -1028,12 +931,10 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			db_set_b(NULL, "SimpleStatusMsg", "PutDefInList", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_COPTMSG2) == BST_CHECKED));
 
-			if (data->proto_ok)
-			{
+			if (data->proto_ok) {
 				db_set_b(NULL, "SimpleStatusMsg", "ProtoFlags", (BYTE)data->proto_msg[0].flags);
 
-				for (int i = 0; i < accounts->count; i++)
-				{
+				for (int i = 0; i < accounts->count; i++) {
 					auto *pa = accounts->pa[i];
 					if (!pa->IsEnabled())
 						continue;
@@ -1045,16 +946,16 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						continue;
 
 					mir_snprintf(szSetting, "Proto%sDefault", pa->szModuleName);
-					if (data->proto_msg[i+1].msg && (data->proto_msg[i+1].flags & PROTO_THIS_MSG))
-						db_set_ws(NULL, "SimpleStatusMsg", szSetting, data->proto_msg[i+1].msg);
+					if (data->proto_msg[i + 1].msg && (data->proto_msg[i + 1].flags & PROTO_THIS_MSG))
+						db_set_ws(NULL, "SimpleStatusMsg", szSetting, data->proto_msg[i + 1].msg);
 					//						else
 					//							db_unset(NULL, "SimpleStatusMsg", szSetting);
 
 					mir_snprintf(szSetting, "Proto%sMaxLen", pa->szModuleName);
-					db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)data->proto_msg[i+1].max_length);
+					db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)data->proto_msg[i + 1].max_length);
 
 					mir_snprintf(szSetting, "Proto%sFlags", pa->szModuleName);
-					db_set_b(NULL, "SimpleStatusMsg", szSetting, (BYTE)data->proto_msg[i+1].flags);
+					db_set_b(NULL, "SimpleStatusMsg", szSetting, (BYTE)data->proto_msg[i + 1].flags);
 				}
 			}
 			RebuildStatusMenu();
@@ -1063,10 +964,8 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_DESTROY:
-		if (data->proto_ok)
-		{
-			for (int i = 0; i < accounts->count + 1; ++i)
-			{
+		if (data->proto_ok) {
+			for (int i = 0; i < accounts->count + 1; ++i) {
 				if (data->proto_msg[i].msg) // they want to be free, do they?
 					mir_free(data->proto_msg[i].msg);
 			}
@@ -1095,13 +994,11 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 			CheckDlgButton(hwndDlg, IDC_CNOIDLE, db_get_b(NULL, "SimpleStatusMsg", "NoUpdateOnIdle", 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CNOICQREQ, db_get_b(NULL, "SimpleStatusMsg", "NoUpdateOnICQReq", 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLEAVEWINAMP, db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1) ? BST_CHECKED : BST_UNCHECKED);
-			if (ServiceExists(MS_VARS_FORMATSTRING))
-			{
+			if (ServiceExists(MS_VARS_FORMATSTRING)) {
 				CheckDlgButton(hwndDlg, IDC_CVARIABLES, db_get_b(NULL, "SimpleStatusMsg", "EnableVariables", 1) ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_CDATEPARSING, db_get_b(NULL, "SimpleStatusMsg", "ExclDateToken", 0) ? BST_CHECKED : BST_UNCHECKED);
 			}
-			else
-			{
+			else {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CVARIABLES), FALSE);
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CDATEPARSING), IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED);
@@ -1122,8 +1019,7 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 		}
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_ESECUPDTMSG:
 			{
 				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return 0;
@@ -1145,29 +1041,25 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY)
-		{
+		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
 			if (g_uUpdateMsgTimer)
 				KillTimer(nullptr, g_uUpdateMsgTimer);
 
 			int val = SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_GETPOS, 0, 0);
 			db_set_w(NULL, "SimpleStatusMsg", "UpdateMsgInt", (WORD)val);
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_CUPDATEMSG) == BST_CHECKED && val)
-			{
+			if (IsDlgButtonChecked(hwndDlg, IDC_CUPDATEMSG) == BST_CHECKED && val) {
 				db_set_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", (BYTE)1);
 				g_uUpdateMsgTimer = SetTimer(nullptr, 0, val * 1000, (TIMERPROC)UpdateMsgTimerProc);
 			}
-			else
-			{
+			else {
 				db_set_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", (BYTE)0);
 			}
 
 			db_set_b(NULL, "SimpleStatusMsg", "NoUpdateOnIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOIDLE) == BST_CHECKED));
 			db_set_b(NULL, "SimpleStatusMsg", "NoUpdateOnICQReq", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOICQREQ) == BST_CHECKED));
 			db_set_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CLEAVEWINAMP) == BST_CHECKED));
-			if (ServiceExists(MS_VARS_FORMATSTRING))
-			{
+			if (ServiceExists(MS_VARS_FORMATSTRING)) {
 				db_set_b(NULL, "SimpleStatusMsg", "EnableVariables", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED));
 				db_set_b(NULL, "SimpleStatusMsg", "ExclDateToken", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CDATEPARSING) == BST_CHECKED));
 			}
@@ -1325,8 +1217,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			}
 
 		case IDC_BOPTHIST:
-			if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
-			{
+			if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES) {
 
 				if (hwndSAMsgDialog)
 					DestroyWindow(hwndSAMsgDialog);
@@ -1361,8 +1252,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			return 0;
 
 		case IDC_BOPTDEF:
-			if (MessageBox(nullptr, TranslateT("Are you sure you want to clear predefined status messages?"), TranslateT("Confirm clearing predefined"), MB_ICONQUESTION | MB_YESNO) == IDYES)
-			{
+			if (MessageBox(nullptr, TranslateT("Are you sure you want to clear predefined status messages?"), TranslateT("Confirm clearing predefined"), MB_ICONQUESTION | MB_YESNO) == IDYES) {
 				if (hwndSAMsgDialog)
 					DestroyWindow(hwndSAMsgDialog);
 
@@ -1429,79 +1319,69 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
+		TranslateDialogDefault(hwndDlg);
 
-			data = (struct StatusOptDlgData *)mir_alloc(sizeof(struct StatusOptDlgData));
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)data);
+		data = (struct StatusOptDlgData *)mir_alloc(sizeof(struct StatusOptDlgData));
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)data);
 
-			data->status = (int *)mir_alloc(sizeof(int) * accounts->count);
-			data->setdelay = (int *)mir_alloc(sizeof(int) * accounts->count);
-			for (int i = 0; i < accounts->count; ++i)
-			{
-				auto *pa = accounts->pa[i];
-				if (!pa->IsEnabled() || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
-					continue;
+		data->status = (int *)mir_alloc(sizeof(int) * accounts->count);
+		data->setdelay = (int *)mir_alloc(sizeof(int) * accounts->count);
+		for (int i = 0; i < accounts->count; ++i) {
+			auto *pa = accounts->pa[i];
+			if (!pa->IsEnabled() || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				continue;
 
-				int index = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
-				if (index != LB_ERR && index != LB_ERRSPACE)
-				{
-					char setting[80];
-					mir_snprintf(setting, "Startup%sStatus", pa->szModuleName);
-					data->status[i] = db_get_w(NULL, "SimpleStatusMsg", setting, ID_STATUS_CURRENT);
-					mir_snprintf(setting, "Set%sStatusDelay", pa->szModuleName);
-					data->setdelay[i] = db_get_w(NULL, "SimpleStatusMsg", setting, 300);
-					SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
-				}
+			int index = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
+			if (index != LB_ERR && index != LB_ERRSPACE) {
+				char setting[80];
+				mir_snprintf(setting, "Startup%sStatus", pa->szModuleName);
+				data->status[i] = db_get_w(NULL, "SimpleStatusMsg", setting, ID_STATUS_CURRENT);
+				mir_snprintf(setting, "Set%sStatusDelay", pa->szModuleName);
+				data->setdelay[i] = db_get_w(NULL, "SimpleStatusMsg", setting, 300);
+				SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 			}
-			SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETCURSEL, 0, 0);
-			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LISTPROTO, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_LISTPROTO));
+		}
+		SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETCURSEL, 0, 0);
+		SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LISTPROTO, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_LISTPROTO));
 
-			data->setglobaldelay = db_get_w(NULL, "SimpleStatusMsg", "SetStatusDelay", 300);
+		data->setglobaldelay = db_get_w(NULL, "SimpleStatusMsg", "SetStatusDelay", 300);
 
-			SendDlgItemMessage(hwndDlg, IDC_SSETSTATUS, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ESETSTATUS), 0);
-			SendDlgItemMessage(hwndDlg, IDC_SSETSTATUS, UDM_SETRANGE32, 0, 9000);
-			SendDlgItemMessage(hwndDlg, IDC_ESETSTATUS, EM_LIMITTEXT, 4, 0);
+		SendDlgItemMessage(hwndDlg, IDC_SSETSTATUS, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ESETSTATUS), 0);
+		SendDlgItemMessage(hwndDlg, IDC_SSETSTATUS, UDM_SETRANGE32, 0, 9000);
+		SendDlgItemMessage(hwndDlg, IDC_ESETSTATUS, EM_LIMITTEXT, 4, 0);
 
-			if (!db_get_b(NULL, "SimpleStatusMsg", "GlobalStatusDelay", 1))
-			{
-				CheckDlgButton(hwndDlg, IDC_SPECSET, BST_CHECKED);
-				int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
-				SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
-			}
-			else
-			{
+		if (!db_get_b(NULL, "SimpleStatusMsg", "GlobalStatusDelay", 1)) {
+			CheckDlgButton(hwndDlg, IDC_SPECSET, BST_CHECKED);
+			int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
+			SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
+		}
+		else {
+			CheckDlgButton(hwndDlg, IDC_SPECSET, BST_UNCHECKED);
+			SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setglobaldelay, FALSE);
+		}
+
+		if (db_get_b(NULL, "SimpleStatusMsg", "StartupPopupDlg", 1)) {
+			CheckDlgButton(hwndDlg, IDC_POPUPDLG, BST_CHECKED);
+			if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED) {
 				CheckDlgButton(hwndDlg, IDC_SPECSET, BST_UNCHECKED);
 				SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setglobaldelay, FALSE);
 			}
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SPECSET), FALSE);
+		}
+		else CheckDlgButton(hwndDlg, IDC_POPUPDLG, BST_UNCHECKED);
 
-			if (db_get_b(NULL, "SimpleStatusMsg", "StartupPopupDlg", 1))
-			{
-				CheckDlgButton(hwndDlg, IDC_POPUPDLG, BST_CHECKED);
-				if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED)
-				{
-					CheckDlgButton(hwndDlg, IDC_SPECSET, BST_UNCHECKED);
-					SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setglobaldelay, FALSE);
-				}
-				EnableWindow(GetDlgItem(hwndDlg, IDC_SPECSET), FALSE);
-			}
-			else
-				CheckDlgButton(hwndDlg, IDC_POPUPDLG, BST_UNCHECKED);
-
-			if (accounts->statusCount == 1 && accounts->statusMsgCount == 1)
-			{
-				EnableWindow(GetDlgItem(hwndDlg, IDC_SPECSET), FALSE);
-				CheckDlgButton(hwndDlg, IDC_SPECSET, BST_UNCHECKED); //should work like when checked, but should not be checked
-				int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
-				SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
-			}
-
-			return TRUE;
+		if (accounts->statusCount == 1 && accounts->statusMsgCount == 1) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SPECSET), FALSE);
+			CheckDlgButton(hwndDlg, IDC_SPECSET, BST_UNCHECKED); //should work like when checked, but should not be checked
+			int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
+			SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
 		}
 
+		return TRUE;
+
 	case WM_COMMAND:
-		if ( ( (HIWORD(wParam) == BN_CLICKED) || /*(HIWORD(wParam) == EN_KILLFOCUS) ||*/ (HIWORD(wParam) == EN_CHANGE)
-			|| ( (HIWORD(wParam) == LBN_SELCHANGE)  && (LOWORD(wParam) != IDC_LISTPROTO))
+		if (((HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == EN_CHANGE)
+			|| ((HIWORD(wParam) == LBN_SELCHANGE) && (LOWORD(wParam) != IDC_LISTPROTO))
 			) && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		switch (LOWORD(wParam)) {
@@ -1517,8 +1397,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, 0, FALSE);
 					val = GetDlgItemInt(hwndDlg, IDC_ESETSTATUS, &translated, FALSE);
 
-					if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED || (accounts->statusCount == 1 && accounts->statusMsgCount == 1))
-					{
+					if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED || (accounts->statusCount == 1 && accounts->statusMsgCount == 1)) {
 						int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
 						data->setdelay[i] = val;
 					}
@@ -1530,11 +1409,9 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			break;
 
 		case IDC_SPECSET:
-			switch (HIWORD(wParam))
-			{
+			switch (HIWORD(wParam)) {
 			case BN_CLICKED:
-				if (SendMessage((HWND)lParam, BM_GETCHECK, 0, 0) == BST_CHECKED || (accounts->statusCount == 1 && accounts->statusMsgCount == 1))
-				{
+				if (SendMessage((HWND)lParam, BM_GETCHECK, 0, 0) == BST_CHECKED || (accounts->statusCount == 1 && accounts->statusMsgCount == 1)) {
 					int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
 					SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
 				}
@@ -1550,10 +1427,8 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				if (accounts->statusCount == 1 && accounts->statusMsgCount == 1)
 					break;
 
-				if (SendMessage((HWND)lParam, BM_GETCHECK, 0, 0) == BST_CHECKED)
-				{
-					if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED)
-					{
+				if (SendMessage((HWND)lParam, BM_GETCHECK, 0, 0) == BST_CHECKED) {
+					if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED) {
 						CheckDlgButton(hwndDlg, IDC_SPECSET, BST_UNCHECKED);
 						SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setglobaldelay, FALSE);
 					}
@@ -1576,13 +1451,10 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					int status_modes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
 
 					SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_RESETCONTENT, 0, 0);
-					for (int l = ID_STATUS_OFFLINE; l <= ID_STATUS_OUTTOLUNCH; l++)
-					{
-						if (status_modes & Proto_Status2Flag(l) || l == ID_STATUS_OFFLINE)
-						{
+					for (int l = ID_STATUS_OFFLINE; l <= ID_STATUS_OUTTOLUNCH; l++) {
+						if (status_modes & Proto_Status2Flag(l) || l == ID_STATUS_OFFLINE) {
 							int index = SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_INSERTSTRING, -1, (LPARAM)Clist_GetStatusModeDescription(l, 0));
-							if (index != LB_ERR && index != LB_ERRSPACE)
-							{
+							if (index != LB_ERR && index != LB_ERRSPACE) {
 								SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_SETITEMDATA, (WPARAM)index, (LPARAM)l - ID_STATUS_OFFLINE);
 								if (data->status[i] == l)
 									newindex = index;
@@ -1591,8 +1463,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					}
 
 					int index = SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_INSERTSTRING, -1, (LPARAM)TranslateT("<last status>"));
-					if (index != LB_ERR && index != LB_ERRSPACE)
-					{
+					if (index != LB_ERR && index != LB_ERRSPACE) {
 						SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_SETITEMDATA, (WPARAM)index, (LPARAM)ID_STATUS_CURRENT - ID_STATUS_OFFLINE);
 						if (data->status[i] == ID_STATUS_CURRENT)
 							newindex = index;
@@ -1610,22 +1481,18 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 		case IDC_LISTSTATUS:
 			switch (HIWORD(wParam)) {
 			case LBN_SELCHANGE:
-				{
-					int i = SendMessage((HWND)lParam, LB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, LB_GETCURSEL, 0, 0), 0);
-					int j = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
-					data->status[j] = i + ID_STATUS_OFFLINE;
-					break;
-				}
+				int i = SendMessage((HWND)lParam, LB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, LB_GETCURSEL, 0, 0), 0);
+				int j = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
+				data->status[j] = i + ID_STATUS_OFFLINE;
+				break;
 			}
 			break;
 		}
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY)
-		{
-			for (int i = 0; i < accounts->count; i++)
-			{
+		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
+			for (int i = 0; i < accounts->count; i++) {
 				auto *pa = accounts->pa[i];
 				if (!pa->IsEnabled() || !(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;

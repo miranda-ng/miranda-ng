@@ -105,10 +105,10 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		return nullptr;
 
 	HWND handle = CreateWindowEx(0, WC_COMBOBOXEX, nullptr,
-					WS_TABSTOP | CBS_NOINTEGRALHEIGHT | WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST,
-					0, 0, 0, 240, hwndDlg, nullptr, g_hInst, nullptr);
+		WS_TABSTOP | CBS_NOINTEGRALHEIGHT | WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST,
+		0, 0, 0, 240, hwndDlg, nullptr, g_hInst, nullptr);
 
-	COMBOBOXEXITEM cbei = {0};
+	COMBOBOXEXITEM cbei = { 0 };
 	if (!(data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS))
 		cbei.mask = CBEIF_LPARAM | CBEIF_TEXT;
 	else
@@ -183,7 +183,7 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 				cbei.iImage = statusicon_nr[k];
 				cbei.iSelectedImage = statusicon_nr[k];
 			}
-			cbei.lParam	= (LPARAM)40083 + i;
+			cbei.lParam = (LPARAM)40083 + i;
 
 			mir_free(status_desc);
 
@@ -220,10 +220,10 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	wchar_t text[128];
 
 	HWND handle = CreateWindowEx(0, WC_COMBOBOXEX, nullptr,
-					WS_TABSTOP | CBS_NOINTEGRALHEIGHT | WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST,
-					0, 0, 0, 300, hwndDlg, nullptr, g_hInst, nullptr);
+		WS_TABSTOP | CBS_NOINTEGRALHEIGHT | WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST,
+		0, 0, 0, 300, hwndDlg, nullptr, g_hInst, nullptr);
 
-	COMBOBOXEXITEM cbei = {0};
+	COMBOBOXEXITEM cbei = { 0 };
 	if (!(data->m_iDlgFlags & DLG_SHOW_LIST_ICONS))
 		cbei.mask = CBEIF_LPARAM | CBEIF_TEXT | CBEIF_INDENT;
 	else
@@ -419,74 +419,74 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 
 	int m_selection = TrackPopupMenu(hmenuTrackPopup, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 	switch (m_selection) {
-		case IDM_COPY:
-			SendMessage(edit_control, WM_COPY, 0, 0);
+	case IDM_COPY:
+		SendMessage(edit_control, WM_COPY, 0, 0);
+		break;
+
+	case IDM_CUT:
+		SendMessage(edit_control, WM_CUT, 0, 0);
+		break;
+
+	case IDM_PASTE:
+		SendMessage(edit_control, WM_PASTE, 0, 0);
+		break;
+
+	case IDM_SELECTALL:
+		SendMessage(edit_control, EM_SETSEL, 0, -1);
+		break;
+
+	case IDM_DELETE:
+		SetWindowText(edit_control, L"");
+		SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_EDIT1, EN_CHANGE), (LPARAM)edit_control);
+		break;
+
+	case ID__FORTUNEAWAYMSG:
+		Utils_OpenUrl("https://miranda-ng.org/");
+		break;
+
+	case ID__VARIABLES:
+		Utils_OpenUrl("https://miranda-ng.org/");
+		break;
+
+	case ID__VARIABLES_MOREVARIABLES:
+		{
+			VARHELPINFO vhi = { 0 };
+			vhi.cbSize = sizeof(vhi);
+			vhi.flags = VHF_FULLDLG | VHF_SETLASTSUBJECT;
+			vhi.hwndCtrl = edit_control;
+			vhi.szSubjectDesc = nullptr;
+			vhi.szExtraTextDesc = nullptr;
+			CallService(MS_VARS_SHOWHELPEX, (WPARAM)hwnd, (LPARAM)&vhi);
+		}
+		break;
+
+	default:
+		if (!OpenClipboard(GetParent(hwnd)))
 			break;
 
-		case IDM_CUT:
-			SendMessage(edit_control, WM_CUT, 0, 0);
-			break;
+		if (EmptyClipboard()) {
+			wchar_t item_string[128];
+			GetMenuString(hmenu, m_selection, (LPTSTR)&item_string, 128, MF_BYCOMMAND);
 
-		case IDM_PASTE:
-			SendMessage(edit_control, WM_PASTE, 0, 0);
-			break;
-
-		case IDM_SELECTALL:
-			SendMessage(edit_control, EM_SETSEL, 0, -1);
-			break;
-
-		case IDM_DELETE:
-			SetWindowText(edit_control, L"");
-			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_EDIT1, EN_CHANGE), (LPARAM)edit_control);
-			break;
-
-		case ID__FORTUNEAWAYMSG:
-			Utils_OpenUrl("https://miranda-ng.org/");
-			break;
-
-		case ID__VARIABLES:
-			Utils_OpenUrl("https://miranda-ng.org/");
-			break;
-
-		case ID__VARIABLES_MOREVARIABLES:
-			{
-				VARHELPINFO vhi = {0};
-				vhi.cbSize = sizeof(vhi);
-				vhi.flags = VHF_FULLDLG | VHF_SETLASTSUBJECT;
-				vhi.hwndCtrl = edit_control;
-				vhi.szSubjectDesc = nullptr;
-				vhi.szExtraTextDesc = nullptr;
-				CallService(MS_VARS_SHOWHELPEX, (WPARAM)hwnd, (LPARAM)&vhi);
-			}
-			break;
-
-		default:
-			if (!OpenClipboard(GetParent(hwnd)))
-				break;
-
-			if (EmptyClipboard()) {
-				wchar_t item_string[128];
-				GetMenuString(hmenu, m_selection, (LPTSTR)&item_string, 128, MF_BYCOMMAND);
-
-				int len = (int)mir_wstrlen(item_string);
-				if (len) {
-					LPTSTR lptstrCopy;
-					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
-					if (hglbCopy == nullptr) {
-						CloseClipboard();
-						break;
-					}
-					lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-					memcpy(lptstrCopy, item_string, len * sizeof(wchar_t));
-					lptstrCopy[len] = (wchar_t)0;
-					GlobalUnlock(hglbCopy);
-
-					SetClipboardData(CF_UNICODETEXT, hglbCopy);
+			int len = (int)mir_wstrlen(item_string);
+			if (len) {
+				LPTSTR lptstrCopy;
+				HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
+				if (hglbCopy == nullptr) {
+					CloseClipboard();
+					break;
 				}
+				lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
+				memcpy(lptstrCopy, item_string, len * sizeof(wchar_t));
+				lptstrCopy[len] = (wchar_t)0;
+				GlobalUnlock(hglbCopy);
+
+				SetClipboardData(CF_UNICODETEXT, hglbCopy);
 			}
-			CloseClipboard();
-			SendMessage(edit_control, WM_PASTE, 0, 0);
-			break;
+		}
+		CloseClipboard();
+		SendMessage(edit_control, WM_PASTE, 0, 0);
+		break;
 	}
 	DestroyMenu(hmenu);
 }
@@ -517,7 +517,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		}
 
 	case WM_CHAR:
-		if (wParam=='\n' && GetKeyState(VK_CONTROL) & 0x8000) {
+		if (wParam == '\n' && GetKeyState(VK_CONTROL) & 0x8000) {
 			PostMessage(GetParent(hwndDlg), WM_COMMAND, IDC_OK, 0);
 			return 0;
 		}
@@ -591,7 +591,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 int AddToPredefined(HWND hwndDlg, struct MsgBoxData *data)
 {
-	COMBOBOXEXITEM newitem = {0};
+	COMBOBOXEXITEM newitem = { 0 };
 	int len = 0, num_items;
 	wchar_t msg[1024], text[1024];
 
@@ -634,7 +634,7 @@ int AddToPredefined(HWND hwndDlg, struct MsgBoxData *data)
 
 void ClearHistory(struct MsgBoxData *data, int cur_sel)
 {
-	COMBOBOXEXITEM histitem = {0};
+	COMBOBOXEXITEM histitem = { 0 };
 	int i, num_items;
 	char text[16], buff2[80];
 
@@ -809,8 +809,7 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	Window_SetProtoIcon_IcoLib(hwndDlg, msgbox_data->m_szProto, iStatus);
 
 	if (!bDisabled && ((Proto_Status2Flag(iStatus) & msgbox_data->m_iStatusMsgModes)
-		|| (iStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & msgbox_data->m_iStatusMsgModes))))
-	{
+		|| (iStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & msgbox_data->m_iStatusMsgModes)))) {
 		int num_items = SendMessage(msgbox_data->recent_cbex, CB_GETCOUNT, 0, 0);
 		int fcursel = CB_ERR, num_start = num_items - msgbox_data->num_def_msgs - 1;
 		wchar_t msg[1024];
@@ -842,7 +841,7 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 						EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
 				}
 				else {
-					COMBOBOXEXITEM cbitem = {0};
+					COMBOBOXEXITEM cbitem = { 0 };
 					cbitem.mask = CBEIF_LPARAM | CBEIF_TEXT;
 					cbitem.iItem = msgbox_data->curr_sel_msg;
 					cbitem.cchTextMax = _countof(msg);
@@ -860,7 +859,7 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 				}
 
 				if (msgbox_data->m_bIsMsgHistory && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BCLEAR)))
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), TRUE);
 			}
 		}
 	}
@@ -889,12 +888,12 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 	struct MsgBoxData *msgbox_data = (struct MsgBoxData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (uMsg) {
-		case WM_INITDIALOG:
+	case WM_INITDIALOG:
 		{
 			wchar_t szTitle[256], szFormat[256], szProtoName[128];
 			struct MsgBoxInitData *init_data;
 			struct MsgBoxData *copy_init_data;
-			INITCOMMONCONTROLSEX icex = {0};
+			INITCOMMONCONTROLSEX icex = { 0 };
 			BOOL bCurrentStatus = FALSE, bDisabled = FALSE;
 
 			InitCommonControls();
@@ -1008,7 +1007,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
 				}
 				else {
-					COMBOBOXEXITEM cbitem = {0};
+					COMBOBOXEXITEM cbitem = { 0 };
 					cbitem.mask = CBEIF_LPARAM | CBEIF_TEXT;
 					cbitem.iItem = copy_init_data->curr_sel_msg;
 					cbitem.cchTextMax = _countof(msg);
@@ -1030,8 +1029,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				bDisabled = TRUE;
 
 			if (!(((Proto_Status2Flag(copy_init_data->m_iStatus) & copy_init_data->m_iStatusMsgModes)
-				|| (copy_init_data->m_iStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & copy_init_data->m_iStatusMsgModes))) && !bDisabled))
-			{
+				|| (copy_init_data->m_iStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & copy_init_data->m_iStatusMsgModes))) && !bDisabled)) {
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1)))
 					EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT1), FALSE);
 				if (IsWindowEnabled(copy_init_data->recent_cbex))
@@ -1060,7 +1058,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if (bCurrentStatus)
 				copy_init_data->m_iStatus = ID_STATUS_CURRENT;
 
-			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_EDIT1), EditBoxSubProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_EDIT1), EditBoxSubProc);
 			if (!init_data->m_bOnEvent && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1))) {
 				SetFocus(GetDlgItem(hwndDlg, IDC_EDIT1));
 				SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_SETSEL, 0, -1);
@@ -1080,7 +1078,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				x = (int)db_get_dw(NULL, "SimpleStatusMsg", "Winx", -1);
 				y = (int)db_get_dw(NULL, "SimpleStatusMsg", "Winy", -1);
 
-				if (x !=- 1) {
+				if (x != -1) {
 					OffsetRect(&wp.rcNormalPosition, x - wp.rcNormalPosition.left, y - wp.rcNormalPosition.top);
 					wp.flags = 0;
 					SetWindowPlacement(hwndDlg, &wp);
@@ -1089,53 +1087,153 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			return FALSE;
 		}
 
-		case WM_TIMER:
-			if (msgbox_data->m_iCountdown == -1) {
-				SendMessage(hwndDlg, WM_COMMAND, (WPARAM)IDC_OK, 0);
-				msgbox_data->m_iCountdown = -2;
-				DisplayCharsCount(msgbox_data, hwndDlg);
-				break;
-			}
-			else {
-				wchar_t str[64];
-				mir_snwprintf(str, TranslateT("Closing in %d"), msgbox_data->m_iCountdown);
-				SetDlgItemText(hwndDlg, IDC_OK, str);
-			}
-			msgbox_data->m_iCountdown--;
+	case WM_TIMER:
+		if (msgbox_data->m_iCountdown == -1) {
+			SendMessage(hwndDlg, WM_COMMAND, (WPARAM)IDC_OK, 0);
+			msgbox_data->m_iCountdown = -2;
+			DisplayCharsCount(msgbox_data, hwndDlg);
 			break;
+		}
+		else {
+			wchar_t str[64];
+			mir_snwprintf(str, TranslateT("Closing in %d"), msgbox_data->m_iCountdown);
+			SetDlgItemText(hwndDlg, IDC_OK, str);
+		}
+		msgbox_data->m_iCountdown--;
+		break;
 
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDC_OK:
-				{
-					wchar_t tszMsg[1024];
-					int iStatus, iMsgLen = 0, iProfileStatus = 0;
-					BOOL bCurrentStatus = FALSE;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_OK:
+			{
+				wchar_t tszMsg[1024];
+				int iStatus, iMsgLen = 0, iProfileStatus = 0;
+				BOOL bCurrentStatus = FALSE;
 
-					if (msgbox_data->m_iStatus == ID_STATUS_CURRENT) {
-						msgbox_data->m_iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(msgbox_data->m_szProto) : GetCurrentStatus(msgbox_data->m_szProto);
-						if (msgbox_data->m_szProto == nullptr)
-							bCurrentStatus = TRUE;
+				if (msgbox_data->m_iStatus == ID_STATUS_CURRENT) {
+					msgbox_data->m_iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(msgbox_data->m_szProto) : GetCurrentStatus(msgbox_data->m_szProto);
+					if (msgbox_data->m_szProto == nullptr)
+						bCurrentStatus = TRUE;
+				}
+				else if (msgbox_data->m_iStatus >= ID_STATUS_CURRENT) {
+					iProfileStatus = msgbox_data->m_iStatus;
+					msgbox_data->m_iStatus = GetCurrentStatus(nullptr);
+				}
+
+				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1)))
+					iMsgLen = GetDlgItemText(hwndDlg, IDC_EDIT1, tszMsg, _countof(tszMsg));
+
+				if (iMsgLen == 0) {
+					char szSetting[80];
+					if (msgbox_data->m_szProto) {
+						mir_snprintf(szSetting, "Last%sMsg", msgbox_data->m_szProto);
+						db_set_s(NULL, "SimpleStatusMsg", szSetting, "");
+
+						mir_snprintf(szSetting, "%sMsg", msgbox_data->m_szProto);
+						db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, szSetting), L"");
 					}
-					else if (msgbox_data->m_iStatus >= ID_STATUS_CURRENT) {
-						iProfileStatus = msgbox_data->m_iStatus;
-						msgbox_data->m_iStatus = GetCurrentStatus(nullptr);
-					}
+					else {
+						db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
+						for (int j = 0; j < accounts->count; j++) {
+							auto *pa = accounts->pa[j];
+							if (!pa->IsEnabled())
+								continue;
 
-					if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1)))
-						iMsgLen = GetDlgItemText(hwndDlg, IDC_EDIT1, tszMsg, _countof(tszMsg));
+							if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+								continue;
 
-					if (iMsgLen == 0) {
-						char szSetting[80];
-						if (msgbox_data->m_szProto) {
-							mir_snprintf(szSetting, "Last%sMsg", msgbox_data->m_szProto);
+							if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
+								continue;
+
+							if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+								continue;
+
+							mir_snprintf(szSetting, "Last%sMsg", pa->szModuleName);
 							db_set_s(NULL, "SimpleStatusMsg", szSetting, "");
 
-							mir_snprintf(szSetting, "%sMsg", msgbox_data->m_szProto);
-							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, szSetting), L"");
+							mir_snprintf(szSetting, "%sMsg", pa->szModuleName);
+							iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
+							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, szSetting), L"");
+						}
+
+						db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), L""); // for compatibility with some plugins
+					}
+
+					if (bCurrentStatus)
+						SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, ID_STATUS_CURRENT, nullptr, msgbox_data->m_bOnStartup);
+					else if (iProfileStatus != 0)
+						SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, iProfileStatus, nullptr, FALSE);
+					else
+						SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, msgbox_data->m_iStatus, nullptr, msgbox_data->m_bOnStartup);
+				}
+				else {
+					char buff[64], buff2[80];
+					bool found = false;
+
+					for (int i = 1; i <= msgbox_data->max_hist_msgs; i++) {
+						mir_snprintf(buff, "SMsg%d", i);
+						wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", buff);
+						if (tszStatusMsg != nullptr) {
+							if (!mir_wstrcmp(tszStatusMsg, tszMsg)) {
+								found = true;
+								if (msgbox_data->m_szProto) {
+									mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);
+									db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
+
+									mir_snprintf(buff2, "%sMsg", msgbox_data->m_szProto);
+									db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
+								}
+								else {
+									db_set_s(NULL, "SimpleStatusMsg", "LastMsg", buff);
+									for (int j = 0; j < accounts->count; j++) {
+										auto *pa = accounts->pa[j];
+										if (!pa->IsEnabled())
+											continue;
+
+										if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
+											continue;
+
+										if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
+											continue;
+
+										if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+											continue;
+
+										mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
+										db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
+
+										mir_snprintf(buff2, "%sMsg", pa->szModuleName);
+										iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
+										db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
+									}
+								}
+								mir_free(tszStatusMsg);
+								break;
+							}
+							mir_free(tszStatusMsg);
+						}
+					}
+
+					if (!found) {
+						int last_modified_msg = db_get_w(NULL, "SimpleStatusMsg", "LMMsg", msgbox_data->max_hist_msgs);
+
+						if (last_modified_msg == msgbox_data->max_hist_msgs)
+							last_modified_msg = 1;
+						else
+							last_modified_msg++;
+
+						mir_snprintf(buff, "SMsg%d", last_modified_msg);
+						db_set_ws(NULL, "SimpleStatusMsg", buff, tszMsg);
+
+						if (msgbox_data->m_szProto) {
+							mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);
+							db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
+
+							mir_snprintf(buff2, "%sMsg", msgbox_data->m_szProto);
+							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
 						}
 						else {
-							db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
+							db_set_s(NULL, "SimpleStatusMsg", "LastMsg", buff);
 							for (int j = 0; j < accounts->count; j++) {
 								auto *pa = accounts->pa[j];
 								if (!pa->IsEnabled())
@@ -1150,433 +1248,324 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 									continue;
 
-								mir_snprintf(szSetting, "Last%sMsg", pa->szModuleName);
-								db_set_s(NULL, "SimpleStatusMsg", szSetting, "");
-
-								mir_snprintf(szSetting, "%sMsg", pa->szModuleName);
-								iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
-								db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, szSetting), L"");
-							}
-
-							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), L""); // for compatibility with some plugins
-						}
-
-						if (bCurrentStatus)
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, ID_STATUS_CURRENT, nullptr, msgbox_data->m_bOnStartup);
-						else if (iProfileStatus != 0)
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, iProfileStatus, nullptr, FALSE);
-						else
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, msgbox_data->m_iStatus, nullptr, msgbox_data->m_bOnStartup);
-					}
-					else {
-						char buff[64], buff2[80];
-						bool found = false;
-
-						for (int i = 1; i <= msgbox_data->max_hist_msgs; i++) {
-							mir_snprintf(buff, "SMsg%d", i);
-							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", buff);
-							if (tszStatusMsg != nullptr) {
-								if (!mir_wstrcmp(tszStatusMsg, tszMsg)) {
-									found = true;
-									if (msgbox_data->m_szProto) {
-										mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);
-										db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
-
-										mir_snprintf(buff2, "%sMsg", msgbox_data->m_szProto);
-										db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
-									}
-									else {
-										db_set_s(NULL, "SimpleStatusMsg", "LastMsg", buff);
-										for (int j = 0; j < accounts->count; j++) {
-											auto *pa = accounts->pa[j];
-											if (!pa->IsEnabled())
-												continue;
-
-											if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
-												continue;
-
-											if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
-												continue;
-
-											if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
-												continue;
-
-											mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
-											db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
-
-											mir_snprintf(buff2, "%sMsg", pa->szModuleName);
-											iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
-											db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
-										}
-									}
-									mir_free(tszStatusMsg);
-									break;
-								}
-								mir_free(tszStatusMsg);
-							}
-						}
-
-						if (!found) {
-							int last_modified_msg = db_get_w(NULL, "SimpleStatusMsg", "LMMsg", msgbox_data->max_hist_msgs);
-
-							if (last_modified_msg == msgbox_data->max_hist_msgs)
-								last_modified_msg = 1;
-							else
-								last_modified_msg++;
-
-							mir_snprintf(buff, "SMsg%d", last_modified_msg);
-							db_set_ws(NULL, "SimpleStatusMsg", buff, tszMsg);
-
-							if (msgbox_data->m_szProto) {
-								mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);
+								mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
 								db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
 
-								mir_snprintf(buff2, "%sMsg", msgbox_data->m_szProto);
-								db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
+								mir_snprintf(buff2, "%sMsg", pa->szModuleName);
+								iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
+								db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
 							}
-							else {
-								db_set_s(NULL, "SimpleStatusMsg", "LastMsg", buff);
-								for (int j = 0; j < accounts->count; j++) {
-									auto *pa = accounts->pa[j];
-									if (!pa->IsEnabled())
-										continue;
-
-									if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
-										continue;
-
-									if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
-										continue;
-
-									if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
-										continue;
-
-									mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
-									db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
-
-									mir_snprintf(buff2, "%sMsg", pa->szModuleName);
-									iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
-									db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
-								}
-							}
-							db_set_w(NULL, "SimpleStatusMsg", "LMMsg", (WORD)last_modified_msg);
 						}
-
-						if (!msgbox_data->m_szProto)
-							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), tszMsg); // for compatibility with some plugins
-
-						if (bCurrentStatus)
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, ID_STATUS_CURRENT, tszMsg, msgbox_data->m_bOnStartup);
-						else if (iProfileStatus != 0)
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, iProfileStatus, tszMsg, FALSE);
-						else
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, msgbox_data->m_iStatus, tszMsg, msgbox_data->m_bOnStartup);
+						db_set_w(NULL, "SimpleStatusMsg", "LMMsg", (WORD)last_modified_msg);
 					}
-				} // fallthrough
 
-				case IDCANCEL:
-				case IDC_CANCEL:
-					DestroyWindow(hwndDlg);
-					return TRUE;
+					if (!msgbox_data->m_szProto)
+						db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), tszMsg); // for compatibility with some plugins
 
-				case IDC_EDIT1:		// Notification from the edit control
-					if (msgbox_data->m_iCountdown > -2) {
-						KillTimer(hwndDlg, 1);
-						msgbox_data->m_iCountdown = -2;
-						DisplayCharsCount(msgbox_data, hwndDlg);
-					}
-					switch (HIWORD(wParam)) {
-						case EN_CHANGE:
-							DisplayCharsCount(msgbox_data, hwndDlg);
-							SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, -1, 0);
-							if ((msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) {
-								wchar_t msg[1024];
-
-								if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BDEL)))
-									EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
-
-								if (!GetDlgItemText(hwndDlg, IDC_EDIT1, msg, _countof(msg))) {
-									if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
-										EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), FALSE);
-								}
-								else if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
-									EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), TRUE);
-							}
-							break;
-					}
-					break;
+					if (bCurrentStatus)
+						SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, ID_STATUS_CURRENT, tszMsg, msgbox_data->m_bOnStartup);
+					else if (iProfileStatus != 0)
+						SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, iProfileStatus, tszMsg, FALSE);
+					else
+						SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, msgbox_data->m_iStatus, tszMsg, msgbox_data->m_bOnStartup);
+				}
 			}
+			__fallthrough;
 
-			if ((HWND)lParam == msgbox_data->status_cbex) {
-				if (msgbox_data->m_iCountdown > -2) {
-					KillTimer(hwndDlg, 1);
-					msgbox_data->m_iCountdown = -2;
+		case IDCANCEL:
+		case IDC_CANCEL:
+			DestroyWindow(hwndDlg);
+			return TRUE;
+
+		case IDC_EDIT1:		// Notification from the edit control
+			if (msgbox_data->m_iCountdown > -2) {
+				KillTimer(hwndDlg, 1);
+				msgbox_data->m_iCountdown = -2;
+				DisplayCharsCount(msgbox_data, hwndDlg);
+			}
+			
+			switch (HIWORD(wParam)) {
+			case EN_CHANGE:
+				DisplayCharsCount(msgbox_data, hwndDlg);
+				SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, -1, 0);
+				if ((msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) {
+					wchar_t msg[1024];
+
+					if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BDEL)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
+
+					if (!GetDlgItemText(hwndDlg, IDC_EDIT1, msg, _countof(msg))) {
+						if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), FALSE);
+					}
+					else if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), TRUE);
+				}
+				break;
+			}
+			break;
+		}
+
+		if ((HWND)lParam == msgbox_data->status_cbex) {
+			if (msgbox_data->m_iCountdown > -2) {
+				KillTimer(hwndDlg, 1);
+				msgbox_data->m_iCountdown = -2;
+				DisplayCharsCount(msgbox_data, hwndDlg);
+			}
+			
+			switch (HIWORD(wParam)) {
+			case CBN_SELENDOK:
+			case CBN_SELCHANGE:
+				COMBOBOXEXITEM cbitem = { 0 };
+
+				cbitem.mask = CBEIF_LPARAM;
+				cbitem.iItem = SendMessage(msgbox_data->status_cbex, CB_GETCURSEL, 0, 0);
+				SendMessage(msgbox_data->status_cbex, CBEM_GETITEM, 0, (LPARAM)&cbitem);
+
+				msgbox_data->m_iStatus = cbitem.lParam;
+				ChangeDlgStatus(hwndDlg, msgbox_data, (int)cbitem.lParam);
+
+				if (HIWORD(wParam) == CBN_SELENDOK && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1)))
+					SetFocus(GetDlgItem(hwndDlg, IDC_EDIT1));
+				break;
+			}
+		}
+
+		if ((HWND)lParam == msgbox_data->recent_cbex) {
+			if (msgbox_data->m_iCountdown > -2) {
+				KillTimer(hwndDlg, 1);
+				msgbox_data->m_iCountdown = -2;
+				DisplayCharsCount(msgbox_data, hwndDlg);
+			}
+			switch (HIWORD(wParam)) {
+			case CBN_SELENDOK:
+				wchar_t text[1024];
+				int cur_sel = SendMessage(msgbox_data->recent_cbex, CB_GETCURSEL, 0, 0);
+				COMBOBOXEXITEM cbitem = { 0 };
+
+				cbitem.mask = CBEIF_LPARAM | CBEIF_TEXT;
+				cbitem.iItem = cur_sel;
+				cbitem.cchTextMax = _countof(text);
+				cbitem.pszText = text;
+
+				SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&cbitem);
+				if (LOWORD(cbitem.lParam) == HISTORY_MSG || LOWORD(cbitem.lParam) == PREDEFINED_MSG || LOWORD(cbitem.lParam) == DEFAULT_MSG) {
+					SetDlgItemText(hwndDlg, IDC_EDIT1, text);
 					DisplayCharsCount(msgbox_data, hwndDlg);
-				}
-				switch (HIWORD(wParam)) {
-					case CBN_SELENDOK:
-					case CBN_SELCHANGE:
-					{
-						COMBOBOXEXITEM cbitem = {0};
-
-						cbitem.mask = CBEIF_LPARAM;
-						cbitem.iItem = SendMessage(msgbox_data->status_cbex, CB_GETCURSEL, 0, 0);
-						SendMessage(msgbox_data->status_cbex, CBEM_GETITEM, 0, (LPARAM)&cbitem);
-
-						msgbox_data->m_iStatus = cbitem.lParam;
-						ChangeDlgStatus(hwndDlg, msgbox_data, (int)cbitem.lParam);
-
-						if (HIWORD(wParam) == CBN_SELENDOK && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1)))
-							SetFocus(GetDlgItem(hwndDlg, IDC_EDIT1));
-						break;
-					}
-				}
-			}
-
-			if ((HWND)lParam == msgbox_data->recent_cbex) {
-				if (msgbox_data->m_iCountdown > -2) {
-					KillTimer(hwndDlg, 1);
-					msgbox_data->m_iCountdown = -2;
-					DisplayCharsCount(msgbox_data, hwndDlg);
-				}
-				switch (HIWORD(wParam)) {
-					case CBN_SELENDOK:
-					{
-						wchar_t text[1024];
-						int cur_sel = SendMessage(msgbox_data->recent_cbex, CB_GETCURSEL, 0, 0);
-						COMBOBOXEXITEM cbitem = {0};
-
-						cbitem.mask = CBEIF_LPARAM | CBEIF_TEXT;
-						cbitem.iItem = cur_sel;
-						cbitem.cchTextMax = _countof(text);
-						cbitem.pszText = text;
-
-						SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&cbitem);
-						if (LOWORD(cbitem.lParam) == HISTORY_MSG || LOWORD(cbitem.lParam) == PREDEFINED_MSG || LOWORD(cbitem.lParam) == DEFAULT_MSG)
-						{
-							SetDlgItemText(hwndDlg, IDC_EDIT1, text);
-							DisplayCharsCount(msgbox_data, hwndDlg);
-							if ((msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) {
-								if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BDEL)))
-									EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), TRUE);
-								if (LOWORD(cbitem.lParam) == PREDEFINED_MSG) {
-									if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
-										EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), FALSE);
-								}
-								else if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
-									EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), TRUE);
-							}
-						}
-						else if (LOWORD(cbitem.lParam) == CLEAR_HISTORY) {
-							if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
-								ClearHistory(msgbox_data, cur_sel);
-							else if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1))) {
-								wchar_t msg[1024];
-								int fcursel = CB_ERR, num_start;
-								num_start = SendMessage(msgbox_data->recent_cbex, CB_GETCOUNT, 0, 0);
-								num_start -= msgbox_data->num_def_msgs + 1;
-								GetDlgItemText(hwndDlg, IDC_EDIT1, msg, _countof(msg));
-								fcursel = SendMessage(msgbox_data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)msg);
-								SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, fcursel, 0);
-							}
-						}
-						else if (LOWORD(cbitem.lParam) == DELETE_SELECTED) {
-							COMBOBOXEXITEM histitem = {0};
-							BOOL scursel = FALSE;
-
-							histitem.mask = CBEIF_LPARAM;
-							histitem.iItem = msgbox_data->curr_sel_msg;
-							SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
-
-							if (LOWORD(histitem.lParam) == HISTORY_MSG) {
-								char szSetting[16];
-								mir_snprintf(szSetting, "SMsg%d", (int)HIWORD(histitem.lParam));
-								db_set_ws(NULL, "SimpleStatusMsg", szSetting, L"");
-								SendMessage(msgbox_data->recent_cbex, CBEM_DELETEITEM, (WPARAM)msgbox_data->curr_sel_msg, 0);
-							}
-							if (LOWORD(histitem.lParam) == PREDEFINED_MSG) {
-								msgbox_data->m_bPredefChanged = TRUE;
-								SendMessage(msgbox_data->recent_cbex, CBEM_DELETEITEM, (WPARAM)msgbox_data->curr_sel_msg, 0);
-							}
-
-							cur_sel = msgbox_data->curr_sel_msg;
-							while (!scursel) {
-								if (cur_sel - 1 >= 0)
-									cur_sel--;
-								else {
-									scursel = TRUE;
-									break;
-								}
-								histitem.mask = CBEIF_LPARAM;
-								histitem.iItem = cur_sel;
-								SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
-
-								if ((LOWORD(histitem.lParam) != CLEAR_HISTORY) && (LOWORD(histitem.lParam) != DELETE_SELECTED) && (LOWORD(histitem.lParam) != ADD_MSG))
-									scursel = TRUE;
-							}
-							msgbox_data->curr_sel_msg = cur_sel;
-							SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)cur_sel, 0);
-
-							histitem.mask = CBEIF_LPARAM | CBEIF_TEXT;
-							histitem.iItem = cur_sel;
-							histitem.cchTextMax = _countof(text);
-							histitem.pszText = text;
-
-							SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
-							if (LOWORD(histitem.lParam) == HISTORY_MSG || LOWORD(histitem.lParam) == PREDEFINED_MSG || LOWORD(histitem.lParam) == DEFAULT_MSG)
-							{
-								SetDlgItemText(hwndDlg, IDC_EDIT1, text);
-								DisplayCharsCount(msgbox_data, hwndDlg);
-							}
-						}
-						else if (LOWORD(cbitem.lParam) == ADD_MSG) {
-							int sel = AddToPredefined(hwndDlg, msgbox_data);
-							if (sel != -1) {
-								SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)sel, 0);
-								msgbox_data->curr_sel_msg = sel;
-							}
-							else
-								SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)msgbox_data->curr_sel_msg, 0);
-							break;
-						}
-						msgbox_data->curr_sel_msg = cur_sel;
-
-						if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1))) {
-							SetFocus(GetDlgItem(hwndDlg, IDC_EDIT1));
-							SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_SETSEL, 0, -1);
-						}
-						break;
-					}
-				}
-			}
-
-			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_BADD)) {
-				switch (HIWORD(wParam)) {
-					case BN_CLICKED:
-					{
-						int sel = AddToPredefined(hwndDlg, msgbox_data);
-						if (sel != -1) {
-							if (!IsWindowEnabled(msgbox_data->recent_cbex))
-								EnableWindow(msgbox_data->recent_cbex, TRUE);
-							if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BDEL)))
-								EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), TRUE);
+					if ((msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) {
+						if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BDEL)))
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), TRUE);
+						if (LOWORD(cbitem.lParam) == PREDEFINED_MSG) {
 							if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
 								EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), FALSE);
-
-							SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)sel, 0);
-							msgbox_data->curr_sel_msg = sel;
 						}
-						break;
+						else if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), TRUE);
 					}
 				}
-			}
-
-			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_BCLEAR)) {
-				switch (HIWORD(wParam)) {
-					case BN_CLICKED:
-						if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
-						{
-							ClearHistory(msgbox_data, 0);
-
-							int num_items = SendMessage(msgbox_data->recent_cbex, CB_GETCOUNT, 0, 0);
-							if (!num_items) {
-								if (IsWindowEnabled(msgbox_data->recent_cbex)) {
-									EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
-									EnableWindow(msgbox_data->recent_cbex, FALSE);
-								}
-							}
-							EnableWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), FALSE);
-						}
-						break;
+				else if (LOWORD(cbitem.lParam) == CLEAR_HISTORY) {
+					if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
+						ClearHistory(msgbox_data, cur_sel);
+					else if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1))) {
+						wchar_t msg[1024];
+						int fcursel = CB_ERR, num_start;
+						num_start = SendMessage(msgbox_data->recent_cbex, CB_GETCOUNT, 0, 0);
+						num_start -= msgbox_data->num_def_msgs + 1;
+						GetDlgItemText(hwndDlg, IDC_EDIT1, msg, _countof(msg));
+						fcursel = SendMessage(msgbox_data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)msg);
+						SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, fcursel, 0);
+					}
 				}
-			}
+				else if (LOWORD(cbitem.lParam) == DELETE_SELECTED) {
+					COMBOBOXEXITEM histitem = { 0 };
+					BOOL scursel = FALSE;
 
-			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_BDEL)) {
-				switch (HIWORD(wParam)) {
-					case BN_CLICKED:
-					{
-						int cur_sel;
-						char buff[16];
-						int left_items = 0;
-						COMBOBOXEXITEM histitem = {0};
+					histitem.mask = CBEIF_LPARAM;
+					histitem.iItem = msgbox_data->curr_sel_msg;
+					SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
 
-						cur_sel = SendMessage(msgbox_data->recent_cbex, CB_GETCURSEL, 0, 0);
+					if (LOWORD(histitem.lParam) == HISTORY_MSG) {
+						char szSetting[16];
+						mir_snprintf(szSetting, "SMsg%d", (int)HIWORD(histitem.lParam));
+						db_set_ws(NULL, "SimpleStatusMsg", szSetting, L"");
+						SendMessage(msgbox_data->recent_cbex, CBEM_DELETEITEM, (WPARAM)msgbox_data->curr_sel_msg, 0);
+					}
+					if (LOWORD(histitem.lParam) == PREDEFINED_MSG) {
+						msgbox_data->m_bPredefChanged = TRUE;
+						SendMessage(msgbox_data->recent_cbex, CBEM_DELETEITEM, (WPARAM)msgbox_data->curr_sel_msg, 0);
+					}
 
+					cur_sel = msgbox_data->curr_sel_msg;
+					while (!scursel) {
+						if (cur_sel - 1 >= 0)
+							cur_sel--;
+						else {
+							scursel = TRUE;
+							break;
+						}
 						histitem.mask = CBEIF_LPARAM;
-						histitem.iItem = msgbox_data->curr_sel_msg;
-
+						histitem.iItem = cur_sel;
 						SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
 
-						if (LOWORD(histitem.lParam) == HISTORY_MSG) {
-							mir_snprintf(buff, "SMsg%d", (int)HIWORD(histitem.lParam));
-							db_set_ws(NULL, "SimpleStatusMsg", buff, L"");
-						}
-						else if (LOWORD(histitem.lParam) == PREDEFINED_MSG)
-							msgbox_data->m_bPredefChanged = TRUE;
-						left_items = SendMessage(msgbox_data->recent_cbex, CBEM_DELETEITEM, (WPARAM)msgbox_data->curr_sel_msg, 0);
+						if ((LOWORD(histitem.lParam) != CLEAR_HISTORY) && (LOWORD(histitem.lParam) != DELETE_SELECTED) && (LOWORD(histitem.lParam) != ADD_MSG))
+							scursel = TRUE;
+					}
+					msgbox_data->curr_sel_msg = cur_sel;
+					SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)cur_sel, 0);
 
-						if (!left_items) {
-							if (IsWindowEnabled(msgbox_data->recent_cbex))
-								EnableWindow(msgbox_data->recent_cbex, FALSE);
-							if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BCLEAR)))
-								EnableWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), FALSE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
-						}
-						else {
-							wchar_t text[1024];
+					histitem.mask = CBEIF_LPARAM | CBEIF_TEXT;
+					histitem.iItem = cur_sel;
+					histitem.cchTextMax = _countof(text);
+					histitem.pszText = text;
 
-							if (cur_sel - 1 >= 0)
-								cur_sel--;
-							msgbox_data->curr_sel_msg = cur_sel;
-							SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)cur_sel, 0);
-
-							histitem.mask = CBEIF_LPARAM | CBEIF_TEXT;
-							histitem.iItem = cur_sel;
-							histitem.cchTextMax = _countof(text);
-							histitem.pszText = text;
-
-							SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
-							if (LOWORD(histitem.lParam) == HISTORY_MSG || LOWORD(histitem.lParam) == PREDEFINED_MSG || LOWORD(histitem.lParam) == DEFAULT_MSG)
-							{
-								SetDlgItemText(hwndDlg, IDC_EDIT1, text);
-								DisplayCharsCount(msgbox_data, hwndDlg);
-								EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), LOWORD(histitem.lParam) == PREDEFINED_MSG ? FALSE : TRUE);
-							}
-						}
-						break;
+					SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
+					if (LOWORD(histitem.lParam) == HISTORY_MSG || LOWORD(histitem.lParam) == PREDEFINED_MSG || LOWORD(histitem.lParam) == DEFAULT_MSG) {
+						SetDlgItemText(hwndDlg, IDC_EDIT1, text);
+						DisplayCharsCount(msgbox_data, hwndDlg);
 					}
 				}
-			}
-			break;
+				else if (LOWORD(cbitem.lParam) == ADD_MSG) {
+					int sel = AddToPredefined(hwndDlg, msgbox_data);
+					if (sel != -1) {
+						SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)sel, 0);
+						msgbox_data->curr_sel_msg = sel;
+					}
+					else
+						SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)msgbox_data->curr_sel_msg, 0);
+					break;
+				}
+				msgbox_data->curr_sel_msg = cur_sel;
 
-		case DM_SIMPAWAY_SHUTDOWN:
-			DestroyWindow(hwndDlg);
-			break;
-
-		case DM_SIMPAWAY_CHANGEICONS:
-			ReleaseIconEx("cross");
-			ReleaseIconEx("recent");
-			ReleaseIconEx("predef");
-			ReleaseIconEx("add");
-			ReleaseIconEx("clear");
-			msgbox_data->icon[I_ICON_DEL] = LoadIconEx("cross");
-			msgbox_data->icon[I_ICON_HIST] = LoadIconEx("recent");
-			msgbox_data->icon[I_ICON_MSG] = LoadIconEx("predef");
-			msgbox_data->icon[I_ICON_ADD] = LoadIconEx("add");
-			msgbox_data->icon[I_ICON_CLEAR] = LoadIconEx("clear");
-			if (msgbox_data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
-				for (int i = 0; i < 5; ++i)
-					ImageList_ReplaceIcon(msgbox_data->other_icons, i, msgbox_data->icon[i]);
-			}
-			if ((msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) {
-				SendDlgItemMessage(hwndDlg, IDC_BADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_ADD]);
-				SendDlgItemMessage(hwndDlg, IDC_BCLEAR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_CLEAR]);
-				SendDlgItemMessage(hwndDlg, IDC_BDEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_DEL]);
-			}
-			break;
-
-		case WM_DESTROY:
-			if (msgbox_data == nullptr)
+				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1))) {
+					SetFocus(GetDlgItem(hwndDlg, IDC_EDIT1));
+					SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_SETSEL, 0, -1);
+				}
 				break;
+			}
+		}
+
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_BADD)) {
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				int sel = AddToPredefined(hwndDlg, msgbox_data);
+				if (sel != -1) {
+					if (!IsWindowEnabled(msgbox_data->recent_cbex))
+						EnableWindow(msgbox_data->recent_cbex, TRUE);
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BDEL)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), TRUE);
+					if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BADD)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), FALSE);
+
+					SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)sel, 0);
+					msgbox_data->curr_sel_msg = sel;
+				}
+				break;
+			}
+		}
+
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_BCLEAR)) {
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES) {
+					ClearHistory(msgbox_data, 0);
+
+					int num_items = SendMessage(msgbox_data->recent_cbex, CB_GETCOUNT, 0, 0);
+					if (!num_items) {
+						if (IsWindowEnabled(msgbox_data->recent_cbex)) {
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
+							EnableWindow(msgbox_data->recent_cbex, FALSE);
+						}
+					}
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), FALSE);
+				}
+				break;
+			}
+		}
+
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_BDEL)) {
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				int cur_sel;
+				char buff[16];
+				int left_items = 0;
+				COMBOBOXEXITEM histitem = { 0 };
+
+				cur_sel = SendMessage(msgbox_data->recent_cbex, CB_GETCURSEL, 0, 0);
+
+				histitem.mask = CBEIF_LPARAM;
+				histitem.iItem = msgbox_data->curr_sel_msg;
+
+				SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
+
+				if (LOWORD(histitem.lParam) == HISTORY_MSG) {
+					mir_snprintf(buff, "SMsg%d", (int)HIWORD(histitem.lParam));
+					db_set_ws(NULL, "SimpleStatusMsg", buff, L"");
+				}
+				else if (LOWORD(histitem.lParam) == PREDEFINED_MSG)
+					msgbox_data->m_bPredefChanged = TRUE;
+				left_items = SendMessage(msgbox_data->recent_cbex, CBEM_DELETEITEM, (WPARAM)msgbox_data->curr_sel_msg, 0);
+
+				if (!left_items) {
+					if (IsWindowEnabled(msgbox_data->recent_cbex))
+						EnableWindow(msgbox_data->recent_cbex, FALSE);
+					if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BCLEAR)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
+				}
+				else {
+					wchar_t text[1024];
+
+					if (cur_sel - 1 >= 0)
+						cur_sel--;
+					msgbox_data->curr_sel_msg = cur_sel;
+					SendMessage(msgbox_data->recent_cbex, CB_SETCURSEL, (WPARAM)cur_sel, 0);
+
+					histitem.mask = CBEIF_LPARAM | CBEIF_TEXT;
+					histitem.iItem = cur_sel;
+					histitem.cchTextMax = _countof(text);
+					histitem.pszText = text;
+
+					SendMessage(msgbox_data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&histitem);
+					if (LOWORD(histitem.lParam) == HISTORY_MSG || LOWORD(histitem.lParam) == PREDEFINED_MSG || LOWORD(histitem.lParam) == DEFAULT_MSG) {
+						SetDlgItemText(hwndDlg, IDC_EDIT1, text);
+						DisplayCharsCount(msgbox_data, hwndDlg);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), LOWORD(histitem.lParam) == PREDEFINED_MSG ? FALSE : TRUE);
+					}
+				}
+				break;
+			}
+		}
+		break;
+
+	case DM_SIMPAWAY_SHUTDOWN:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case DM_SIMPAWAY_CHANGEICONS:
+		ReleaseIconEx("cross");
+		ReleaseIconEx("recent");
+		ReleaseIconEx("predef");
+		ReleaseIconEx("add");
+		ReleaseIconEx("clear");
+		msgbox_data->icon[I_ICON_DEL] = LoadIconEx("cross");
+		msgbox_data->icon[I_ICON_HIST] = LoadIconEx("recent");
+		msgbox_data->icon[I_ICON_MSG] = LoadIconEx("predef");
+		msgbox_data->icon[I_ICON_ADD] = LoadIconEx("add");
+		msgbox_data->icon[I_ICON_CLEAR] = LoadIconEx("clear");
+		if (msgbox_data->m_iDlgFlags & DLG_SHOW_LIST_ICONS)
+			for (int i = 0; i < 5; ++i)
+				ImageList_ReplaceIcon(msgbox_data->other_icons, i, msgbox_data->icon[i]);
+
+		if ((msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) {
+			SendDlgItemMessage(hwndDlg, IDC_BADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_ADD]);
+			SendDlgItemMessage(hwndDlg, IDC_BCLEAR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_CLEAR]);
+			SendDlgItemMessage(hwndDlg, IDC_BDEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_DEL]);
+		}
+		break;
+
+	case WM_DESTROY:
+		if (msgbox_data == nullptr)
+			break;
 		{
 			WINDOWPLACEMENT wp;
 			wp.length = sizeof(wp);
@@ -1586,7 +1575,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			if (msgbox_data->m_bPredefChanged) {
 				int i, num_items, new_num_def_msgs = 0;
-				COMBOBOXEXITEM cbitem = {0};
+				COMBOBOXEXITEM cbitem = { 0 };
 				wchar_t text[1024];
 				char buff[64];
 
