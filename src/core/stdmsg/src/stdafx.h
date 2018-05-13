@@ -70,6 +70,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_popup.h>
 #include <m_srmm_int.h>
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct MODULEINFO : public GCModuleInfoBase
+{
+	HICON hOnlineIcon, hOfflineIcon;
+	int OnlineIconIndex, OfflineIconIndex;
+};
+
+struct SESSION_INFO : public GCSessionInfoBase {};
+struct LOGSTREAMDATA : public GCLogStreamDataBase {};
+
 #include "cmdlist.h"
 #include "msgs.h"
 #include "globals.h"
@@ -85,15 +96,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE g_hInst;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-struct MODULEINFO : public GCModuleInfoBase
-{
-	HICON hOnlineIcon, hOfflineIcon;
-	int OnlineIconIndex, OfflineIconIndex;
-};
-
-struct SESSION_INFO : public GCSessionInfoBase {};
-struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {

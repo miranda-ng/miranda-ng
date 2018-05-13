@@ -285,25 +285,28 @@ void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 		return;
 
 	int image = pDlg->GetImageId();
-	if (pDlg == m_pEmbed) {
-		SendMessage(m_hwnd, WM_SETICON, 0, (LPARAM)ImageList_GetIcon(Clist_GetImageList(), image, 0));
-		return;
+
+	// if tabs are turned off, simply change the window's icon, otherwise set the tab's icon first
+	if (pDlg != m_pEmbed) {
+		int idx = m_tab.GetDlgIndex(pDlg);
+		if (idx == -1)
+			return;
+
+		TCITEM tci = {};
+		tci.mask = TCIF_IMAGE;
+		TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
+		if (tci.iImage != image) {
+			tci.iImage = image;
+			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
+		}
+
+		// set the container's icon only if we're processing the current page
+		if (pDlg != m_tab.GetActivePage())
+			return;
 	}
 
-	int idx = m_tab.GetDlgIndex(pDlg);
-	if (idx == -1)
-		return;
-
-	TCITEM tci = {};
-	tci.mask = TCIF_IMAGE;
-	TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
-	if (tci.iImage != image) {
-		tci.iImage = image;
-		TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
-	}
-
-	if (pDlg == m_tab.GetActivePage())
-		SendMessage(m_hwnd, WM_SETICON, 0, (LPARAM)ImageList_GetIcon(Clist_GetImageList(), image, 0));
+	Window_FreeIcon_IcoLib(m_hwnd);
+	Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
 }
 
 void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
