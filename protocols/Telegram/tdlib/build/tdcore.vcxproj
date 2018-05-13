@@ -67,7 +67,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\td;..\td\td\generate\auto;..\..\..\include;..\td\tdactor;..\td\tdutils;..\td\tdnet;..\td\tddb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\td;..\td\td\generate\auto;..\..\..\..\include;..\td\tdactor;..\td\tdutils;..\td\tdnet;..\td\tddb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -79,7 +79,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\td;..\td\td\generate\auto;..\..\..\include;..\td\tdactor;..\td\tdutils;..\td\tdnet;..\td\tddb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\td;..\td\td\generate\auto;..\..\..\..\include;..\td\tdactor;..\td\tdutils;..\td\tdnet;..\td\tddb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -91,7 +91,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\td;..\td\td\generate\auto;..\..\..\include;..\td\tdactor;..\td\tdutils;..\td\tdnet;..\td\tddb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\td;..\td\td\generate\auto;..\..\..\..\include;..\td\tdactor;..\td\tdutils;..\td\tdnet;..\td\tddb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -101,7 +101,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\td;..\td\td\generate\auto;..\..\..\include;..\td\tdactor;..\td\tdutils;..\td\tdnet;..\td\tddb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\td;..\td\td\generate\auto;..\..\..\..\include;..\td\tdactor;..\td\tdutils;..\td\tdnet;..\td\tddb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
