@@ -647,8 +647,9 @@ void CSrmmWindow::UpdateTitle()
 	if (m_hContact && m_szProto) {
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
+		wchar_t *szStatus = Clist_GetStatusModeDescription(m_wStatus, 0);
+		mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
 
-		mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
 		m_wOldStatus = m_wStatus;
 	}
 	else mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
