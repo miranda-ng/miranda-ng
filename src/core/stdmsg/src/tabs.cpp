@@ -279,34 +279,34 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 		m_tab.ActivatePage(indexfound);
 }
 
-void CTabbedWindow::FixTabIcons(CSrmmBaseDialog *pDlg)
+void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 {
 	if (pDlg == nullptr)
 		return;
 
-	int idx = m_tab.GetDlgIndex(pDlg);
-	if (idx == -1)
-		return;
+	int image = pDlg->GetImageId();
 
-	int image = 0;
-	if (SESSION_INFO *si = ((CChatRoomDlg*)pDlg)->m_si) {
-		if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
-			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-			image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+	// if tabs are turned off, simply change the window's icon, otherwise set the tab's icon first
+	if (pDlg != m_pEmbed) {
+		int idx = m_tab.GetDlgIndex(pDlg);
+		if (idx == -1)
+			return;
+
+		TCITEM tci = {};
+		tci.mask = TCIF_IMAGE;
+		TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
+		if (tci.iImage != image) {
+			tci.iImage = image;
+			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
 		}
-	}
-	else image = pcli->pfnIconFromStatusMode(GetContactProto(pDlg->m_hContact), Contact_GetStatus(pDlg->m_hContact), pDlg->m_hContact);
 
-	TCITEM tci = {};
-	tci.mask = TCIF_IMAGE;
-	TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
-	if (tci.iImage != image) {
-		tci.iImage = image;
-		TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
+		// set the container's icon only if we're processing the current page
+		if (pDlg != m_tab.GetActivePage())
+			return;
 	}
 
-	if (pDlg == m_tab.GetActivePage())
-		SendMessage(m_hwnd, WM_SETICON, 0, (LPARAM)ImageList_GetIcon(Clist_GetImageList(), image, 0));
+	Window_FreeIcon_IcoLib(m_hwnd);
+	Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
 }
 
 void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)

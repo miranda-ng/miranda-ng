@@ -797,7 +797,7 @@ Mаксимална ширина за лента с бутони
 %s даде статут "%s" на "%s"
 [%s disables '%s' status for %s]
 %s отне статута "%s" на "%s"
-[Message Sessions]
+[Message sessions]
 Разговори
 [Input area background]
 Фон на полето за въвеждане
@@ -1003,6 +1003,8 @@ UIN
 Отличаване (10x10)
 [Information (10x10)]
 Информация (10х10)
+[Message Sessions]
+Разговори
 [Group chat windows]
 Прозорци за групов чат
 [Group chat log]
@@ -1499,8 +1501,6 @@ Latin I
 Минимизира прозореца в лентата за задачи
 [Close or hide window, depends on the close button setting above]
 Затваря/Скрива прозореца (зависи как е настроен бутона "Затваряне" по-горе)
-[Message sessions]
-Разговори
 [General]
 Основни
 [Tabs and layout]

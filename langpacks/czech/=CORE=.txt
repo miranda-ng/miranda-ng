@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
@@ -406,28 +406,16 @@ Vypnout zvuky při nečinnosti
 Automaticky vyvolat okno při:
 [In background]
 Na pozadí
+[Maximum number of flashes]
+Maximální počet bliknutí
 [Close the message window on send]
 Zavřít okno kliknutím na 'Poslat'
 [Minimize the message window on send]
 Minimalizovat okno kliknutím na 'Poslat'
-[Use the contact's status icon as the window icon]
-Použít v liště okna ikonu aktuálního stavu
 [Save the window size and location individually for each contact]
 Uložit velikost a umístění okna pro každý kontakt zvlášť
 [Cascade new windows]
 Skládat okna kaskádně
-[Show 'Send' button]
-Zobrazit tlačítko 'Poslat'
-[Show toolbar buttons on top row]
-Zobrazit nahoře lištu s tlačítky
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým ENTER
-[Send message on 'Enter']
-Odeslat zprávu klávesou ENTER
-[Show character count]
-Zobrazit počet napsaných znaků
-[Show warning when message has not been received after]
-Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Použít kombinaci kláves CTRL+Nahoru/Dolů k zobrazení předešlých zpráv
 [Delete temporary contacts when closing message window]
@@ -436,8 +424,20 @@ Smazat dočasné kontakty po zavření okna pro rozhovor
 Aktivovat zobrazení avatarů v okně pro rozhovor
 [Limit avatar height to]
 Max. výška obrázku avataru
-[Maximum number of flashes]
-Maximální počet bliknutí
+[Show 'Send' button]
+Zobrazit tlačítko 'Poslat'
+[Show character count]
+Zobrazit počet napsaných znaků
+[Show toolbar buttons on top row]
+Zobrazit nahoře lištu s tlačítky
+[Send message on double 'Enter']
+Odeslat zprávu dvojitým ENTER
+[Send message on 'Enter']
+Odeslat zprávu klávesou ENTER
+[Send message on 'Ctrl+Enter']
+Odeslat zprávu CTRL+ENTER
+[Show warning when message has not been received after]
+Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [Send error]
 Chyba při odesílání
 [An error has occurred. The protocol reported the following error:]
@@ -548,7 +548,7 @@ Použít nastavení pro záznam komunikace
 Použít výchozí barvy
 [Use custom colors]
 Použít vlastní barvy
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 Oznamovací okna
 [Timeout (s)]
 Prodleva (s)
@@ -1390,6 +1390,8 @@ Odchozí
 [Idle]
 Nečinnost
 ;file \src\core\stdmsg\src\chat_manager.cpp
+[Message sessions]
+Komunikace
 [Chat module]
 Skupinový rozhovor
 [Group chat log background]
@@ -1403,10 +1405,6 @@ Linky v seznamu účastníků
 [Nick list background (selected)]
 Pozadí seznamu účastníků (vybraný)
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Send message by pressing the 'Enter' key]
-Odeslat zprávu klávesou ENTER
-[Send message by pressing the 'Enter' key twice]
-Odeslat zprávu dvojitým ENTER
 [Flash window when someone speaks]
 Zablikat oknem při přijetí zprávy
 [Flash window when a word is highlighted]
@@ -1627,8 +1625,6 @@ Možnosti zobrazení ikon v záznamu komunikace
 Možnosti zobrazení ikon v oznamovací oblasti
 [Popups to display]
 Zobrazit oznámení
-[Message sessions]
-Komunikace
 [General]
 Obecné
 [Chat log]

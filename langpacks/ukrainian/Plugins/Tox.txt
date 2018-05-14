@@ -61,6 +61,8 @@ IPv6 адреса (необов'язково)
 Порт
 [Public key]
 Відкритий ключ
+[Old password:]
+Старий пароль:
 [New password:]
 Новий пароль:
 [Confirm password:]

@@ -835,7 +835,7 @@ prikaži traku izbornika
 [%s disables '%s' status for %s]
 
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Message Sessions]
+[Message sessions]
 
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
@@ -1053,6 +1053,8 @@ kartice
 [Highlight (10x10)]
 
 [Information (10x10)]
+
+[Message Sessions]
 
 [Group chat windows]
 
@@ -1597,8 +1599,6 @@ drugo
 [Minimize the window to the task bar]
 
 [Close or hide window, depends on the close button setting above]
-
-[Message sessions]
 
 [General]
 

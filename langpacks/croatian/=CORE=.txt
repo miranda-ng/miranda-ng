@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
@@ -406,27 +406,15 @@ p&ovijest
 
 [In background]
 
+[Maximum number of flashes]
+
 [Close the message window on send]
 
 [Minimize the message window on send]
 
-[Use the contact's status icon as the window icon]
-
 [Save the window size and location individually for each contact]
 
 [Cascade new windows]
-
-[Show 'Send' button]
-
-[Show toolbar buttons on top row]
-
-[Send message on double 'Enter']
-
-[Send message on 'Enter']
-
-[Show character count]
-
-[Show warning when message has not been received after]
 
 [Support CTRL+Up/Down in message area to show previously sent messages]
 
@@ -436,7 +424,19 @@ p&ovijest
 
 [Limit avatar height to]
 
-[Maximum number of flashes]
+[Show 'Send' button]
+
+[Show character count]
+
+[Show toolbar buttons on top row]
+
+[Send message on double 'Enter']
+
+[Send message on 'Enter']
+
+[Send message on 'Ctrl+Enter']
+
+[Show warning when message has not been received after]
 
 [Send error]
 
@@ -548,7 +548,7 @@ koristi isti stil kao i u dnevnicima poruka
 koristi zadane boje
 [Use custom colors]
 koristi prilagođene boje
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 skočni prozori za dodatak čavrljanja
 [Timeout (s)]
 vrijeme nestanka (s)
@@ -1390,6 +1390,8 @@ sve datoteke
 [Idle]
 
 ;file \src\core\stdmsg\src\chat_manager.cpp
+[Message sessions]
+
 [Chat module]
 
 [Group chat log background]
@@ -1403,10 +1405,6 @@ sve datoteke
 [Nick list background (selected)]
 
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Send message by pressing the 'Enter' key]
-
-[Send message by pressing the 'Enter' key twice]
-
 [Flash window when someone speaks]
 
 [Flash window when a word is highlighted]
@@ -1626,8 +1624,6 @@ sve datoteke
 [Icons to display in the tray]
 
 [Popups to display]
-
-[Message sessions]
 
 [General]
 

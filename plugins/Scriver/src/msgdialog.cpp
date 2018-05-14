@@ -781,9 +781,8 @@ static const wchar_t *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg
 void CSrmmWindow::UpdateTitle()
 {
 	CMStringW wszTitle;
-	ptrW tmplt(db_get_wsa(0, SRMM_MODULE, SRMSGSET_WINDOWTITLE));
-	if (tmplt != nullptr)
-		wszTitle = tmplt;
+	if (g_dat.wszTitleFormat[0])
+		wszTitle = g_dat.wszTitleFormat;
 	else
 		wszTitle = L"%name% - ";
 
@@ -803,7 +802,7 @@ void CSrmmWindow::UpdateTitle()
 		}
 	}
 
-	if (tmplt == nullptr)
+	if (g_dat.wszTitleFormat[0] == 0)
 		wszTitle.Append(TranslateT("Message session"));
 
 	TitleBarData tbd = {};

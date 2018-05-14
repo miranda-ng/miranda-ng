@@ -423,10 +423,13 @@ void ReloadGlobals()
 	if (db_get_b(0, SRMM_MODULE, SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW))
 		g_dat.flags |= SMF_USEIEVIEW;
 
-	g_dat.buttonVisibility = db_get_dw(0, SRMM_MODULE, SRMSGSET_BUTTONVISIBILITY, SRMSGDEFSET_BUTTONVISIBILITY);
-	g_dat.chatBbuttonVisibility = db_get_dw(0, SRMM_MODULE, SRMSGSET_CHATBUTTONVISIBILITY, SRMSGDEFSET_CHATBUTTONVISIBILITY);
-
 	g_dat.limitNamesLength = db_get_dw(0, SRMM_MODULE, SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN);
 	g_dat.limitTabsNum = db_get_dw(0, SRMM_MODULE, SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM);
 	g_dat.limitChatsTabsNum = db_get_dw(0, SRMM_MODULE, SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM);
+
+	ptrW wszTitleFormat(db_get_wsa(0, SRMM_MODULE, SRMSGSET_WINDOWTITLE));
+	if (wszTitleFormat == nullptr)
+		g_dat.wszTitleFormat[0] = 0;
+	else
+		wcsncpy_s(g_dat.wszTitleFormat, wszTitleFormat, _TRUNCATE);
 }

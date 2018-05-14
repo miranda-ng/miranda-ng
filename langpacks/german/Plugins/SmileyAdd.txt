@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.0.1
+;  Version: 0.3.0.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -98,10 +98,10 @@ protokollspezifisch
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Smileypack %s für Kategorie "%s" nicht gefunden.\nBitte korrektes Smileypack in Einstellungen -> Customize -> Smileys auswählen.
-[Smiley #%u in file %s for smiley pack %s not found.]
-Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Das verwendete Smileypack ist fehlerhaft und muss korrigiert werden.\nDetails finden sich im Netzwerklog.
+[Smiley #%u in file %s for smiley pack %s not found.]
+Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 [%s global smiley pack]
 %s globales Smileypack
 [Standard]

@@ -1236,15 +1236,15 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 									int item = pcli->pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 									if (item != -1)
 										_DrawStatusIcon(Drawing, dat, item, hdcMem,
-										p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
-										CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
+											p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
+											CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
 								}
 								break;
 							case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
 								if (Drawing->iImage != -1)
 									_DrawStatusIcon(Drawing, dat, Drawing->iImage, hdcMem,
-									p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
-									CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
+										p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
+										CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
 								break;
 							}
 						}
@@ -1366,8 +1366,7 @@ void CLCPaint::_DrawStatusIcon(ClcContact *Drawing, ClcData *dat, int iImage, HD
 		else if (status > ID_STATUS_OUTTOLUNCH) status = ID_STATUS_ONLINE;
 		ske_ImageList_DrawEx(g_himlCListClc, HIWORD(iImage), hdcMem, x, y, cx, cy, colorbg, colorfg, mode);
 		if (dat->drawOverlayedStatus & 2) //draw overlay
-			ske_ImageList_DrawEx(hAvatarOverlays, g_pStatusOverlayIcons[status - ID_STATUS_OFFLINE].listID, hdcMem,
-			x, y, cx, cy, colorbg, colorfg, mode);
+			ske_ImageList_DrawEx(hAvatarOverlays, g_pStatusOverlayIcons[status - ID_STATUS_OFFLINE].listID, hdcMem, x, y, cx, cy, colorbg, colorfg, mode);
 	}
 	else ske_ImageList_DrawEx(g_himlCListClc, LOWORD(iImage), hdcMem, x, y, cx, cy, colorbg, colorfg, mode);
 }
@@ -2549,15 +2548,15 @@ void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing,
 					int item = pcli->pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 					if (item != -1)
 						_DrawStatusIcon(Drawing, dat, item, hdcMem,
-						ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT,
-						CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
+							ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT,
+							CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
 				}
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
 				if (Drawing->iImage != -1)
 					_DrawStatusIcon(Drawing, dat, Drawing->iImage, hdcMem,
-					ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT,
-					CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
+						ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT,
+						CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
 				break;
 			}
 		}
@@ -2581,9 +2580,7 @@ void CLCPaint::_DrawContactIcon(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 		COLORREF colourFg;
 		int mode;
 		_GetBlendMode(dat, Drawing, selected, hottrack, GIM_STATUSICON_AFFECT, &colourFg, &mode);
-		_DrawStatusIcon(Drawing, dat, iImage, hdcMem,
-			prcItem->left, prcItem->top,
-			0, 0, CLR_NONE, colourFg, mode);
+		_DrawStatusIcon(Drawing, dat, iImage, hdcMem, prcItem->left, prcItem->top, 0, 0, CLR_NONE, colourFg, mode);
 	}
 }
 
@@ -2696,8 +2693,7 @@ void CLCPaint::_DrawContactExtraIcon(HDC hdcMem, ClcData *dat, ClcContact *Drawi
 		COLORREF colourFg;
 		_GetBlendMode(dat, Drawing, selected, hottrack, GIM_EXTRAICON_AFFECT, &colourFg, &mode);
 		if (Drawing->iExtraImage[iImage] != EMPTY_EXTRA_ICON)
-			ske_ImageList_DrawEx(dat->himlExtraColumns, Drawing->iExtraImage[iImage], hdcMem,
-			rc->left, rc->top, 0, 0, CLR_NONE, colourFg, mode);
+			ske_ImageList_DrawEx(dat->himlExtraColumns, Drawing->iExtraImage[iImage], hdcMem, rc->left, rc->top, 0, 0, CLR_NONE, colourFg, mode);
 	}
 }
 

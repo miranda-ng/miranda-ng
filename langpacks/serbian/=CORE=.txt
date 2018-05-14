@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
@@ -406,28 +406,16 @@ Pasivni režim bez zvukova
 Odmah prikaži prozor kada:
 [In background]
 U pozadini
+[Maximum number of flashes]
+Maksimalno žmiganja
 [Close the message window on send]
 Zatvori prozor nakon slanja poruke
 [Minimize the message window on send]
 Spusti prozor nakon slanja poruke
-[Use the contact's status icon as the window icon]
-Ikonica kontakta je ikonica prozora
 [Save the window size and location individually for each contact]
 Zasebna veličina i pozicija prozora svakog kontakta
 [Cascade new windows]
 Poređaj novootvorene prozore
-[Show 'Send' button]
-Prikaži taster za slanje
-[Show toolbar buttons on top row]
-Prikaži tastere opcija u prvom redu
-[Send message on double 'Enter']
-Slanje dvostrukim 'Enter'
-[Send message on 'Enter']
-Slanje jednim 'Enter'
-[Show character count]
-Tačan broj znakova
-[Show warning when message has not been received after]
-Upozori me ukoliko poruka nije primljena posle
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Podrška za CTRL+Gore/Dole kod slanja, za prikaz ranijih poruka
 [Delete temporary contacts when closing message window]
@@ -436,8 +424,20 @@ Izbriši privremene kontakta usled zatvaranja prozora za poruke
 Avatari u prozoru za poruke
 [Limit avatar height to]
 Visina slike avatara:
-[Maximum number of flashes]
-Maksimalno žmiganja
+[Show 'Send' button]
+Prikaži taster za slanje
+[Show character count]
+Tačan broj znakova
+[Show toolbar buttons on top row]
+Prikaži tastere opcija u prvom redu
+[Send message on double 'Enter']
+Slanje dvostrukim 'Enter'
+[Send message on 'Enter']
+Slanje jednim 'Enter'
+[Send message on 'Ctrl+Enter']
+Slanje jednim 'Ctrl+Enter'
+[Show warning when message has not been received after]
+Upozori me ukoliko poruka nije primljena posle
 [Send error]
 Prijavi grešku
 [An error has occurred. The protocol reported the following error:]
@@ -548,7 +548,7 @@ Isti stil iz loga poruka
 Standardne boje
 [Use custom colors]
 Naknadno odabrane boje
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 Poruke plug-ina za razgovor
 [Timeout (s)]
 Timeout (s)
@@ -1390,6 +1390,8 @@ Odlazni
 [Idle]
 Pasivni režim
 ;file \src\core\stdmsg\src\chat_manager.cpp
+[Message sessions]
+Celi razgovori
 [Chat module]
 Modul za komunikaciju
 [Group chat log background]
@@ -1403,10 +1405,6 @@ Međulinije spiska nadimaka
 [Nick list background (selected)]
 Pozadina spiska nadimaka (odabrano)
 ;file \src\core\stdmsg\src\chat_options.cpp
-[Send message by pressing the 'Enter' key]
-Slanje poruka pritiskom na 'Enter'
-[Send message by pressing the 'Enter' key twice]
-Slanje poruka dvostrukim pritiskom na 'Enter'
 [Flash window when someone speaks]
 Žmiganje prozora usled razgovora
 [Flash window when a word is highlighted]
@@ -1627,8 +1625,6 @@ Odabir ikonica u log-u poruka
 Odabir ikonica u tray-u
 [Popups to display]
 Odabir balončića
-[Message sessions]
-Celi razgovori
 [General]
 Uopšteno
 [Chat log]

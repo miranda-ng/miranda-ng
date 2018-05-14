@@ -73,6 +73,7 @@
 #define IDC_HYPERLINKHAND               600
 #define IDC_DRAGCURSOR                  601
 #define IDC_TABS                        1000
+#define IDC_TITLEFORMAT                 1002
 #define IDC_AUTOPOPUP                   1003
 #define IDC_AUTOMIN                     1005
 #define IDC_STAYMINIMIZED               1006
@@ -165,6 +166,18 @@
 #define IDC_XSTATUSICON                 1646
 #define IDC_INPUTLINES                  1647
 #define IDC_INPUTLINESSPIN              1648
+#define IDC_SRMM_COLOR                  3001
+#define IDC_SRMM_BKGCOLOR               3002
+#define IDC_SRMM_BOLD                   3003
+#define IDC_SRMM_ITALICS                3004
+#define IDC_SRMM_UNDERLINE              3005
+#define IDC_SRMM_FILTER                 3006
+#define IDC_SRMM_CHANMGR                3007
+#define IDC_SRMM_SHOWNICKLIST           3008
+#define IDC_SRMM_HISTORY                3009
+#define IDC_SRMM_NICKLIST               3010
+#define IDC_SRMM_LOG                    3011
+#define IDC_SRMM_MESSAGE                3012
 #define IDC_SPLITTERX                   5006
 #define IDC_SPLITTERY                   5008
 #define IDC_CHAT_CHECKBOXES             5021
@@ -234,9 +247,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        101
+#define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1002
+#define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

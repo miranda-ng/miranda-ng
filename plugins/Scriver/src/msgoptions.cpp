@@ -376,6 +376,7 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_SHOWSTATUSBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWTITLEBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR) ? BST_CHECKED : BST_UNCHECKED);
+		SetWindowText(GetDlgItem(hwndDlg, IDC_TITLEFORMAT), g_dat.wszTitleFormat);
 		CheckDlgButton(hwndDlg, IDC_SHOWTOOLBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWINFOBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, db_get_b(0, SRMM_MODULE, SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY) ? BST_CHECKED : BST_UNCHECKED);
@@ -389,6 +390,9 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
 		SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
 		SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES));
+
+		bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTITLEBAR);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_TITLEFORMAT), bChecked);
 
 		bChecked = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYVALUE), bChecked);
@@ -413,6 +417,10 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT1), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT2), bChecked);
 			break;
+
+		case IDC_SHOWTITLEBAR:
+			bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTITLEBAR);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TITLEFORMAT), bChecked);
 
 		case IDC_INPUTLINES:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
@@ -439,6 +447,9 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				break;
 
 			case PSN_APPLY:
+				GetWindowText(GetDlgItem(hwndDlg, IDC_TITLEFORMAT), g_dat.wszTitleFormat, _countof(g_dat.wszTitleFormat));
+				db_set_ws(0, SRMM_MODULE, SRMSGSET_WINDOWTITLE, g_dat.wszTitleFormat);
+
 				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWSTATUSBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUSBAR));
 				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWTITLEBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTITLEBAR));
 				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWBUTTONLINE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTOOLBAR));

@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 [%s message for %s]
 %s (%s)
@@ -401,28 +401,16 @@
 Адкрываць вакно, калі:
 [In background]
 У фоне
+[Maximum number of flashes]
+Мігцець не больш
 [Close the message window on send]
 Зачыняць вакно пасля адпраўкі
 [Minimize the message window on send]
 Згортваць вакно пасля адпраўкі
-[Use the contact's status icon as the window icon]
-Выкарыстоўваць у якасці абразка вакна абразок статусу кантакту
 [Save the window size and location individually for each contact]
 Захоўваць памер і становішча вакна для кожнага кантакту
 [Cascade new windows]
 Размяшчаць новыя вокны каскадам
-[Show 'Send' button]
-Паказваць кнопку "адправіць"
-[Show toolbar buttons on top row]
-Паказваць кнопкі ў верхнім радку
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Show character count]
-Паказваць лічыльнік знакаў
-[Show warning when message has not been received after]
-Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Паказваць старыя паведамленні пры націску Ctrl+УГАРУ/УНІЗ
 [Delete temporary contacts when closing message window]
@@ -431,8 +419,20 @@
 Падтрымка аватараў у вакне паведамлення
 [Limit avatar height to]
 Вышыня аватара да
-[Maximum number of flashes]
-Мігцець не больш
+[Show 'Send' button]
+Паказваць кнопку "адправіць"
+[Show character count]
+Паказваць лічыльнік знакаў
+[Show toolbar buttons on top row]
+Паказваць кнопкі ў верхнім радку
+[Send message on double 'Enter']
+Пасылаць па падвойным "Enter"
+[Send message on 'Enter']
+Пасылаць па "Enter"
+[Send message on 'Ctrl+Enter']
+Пасылаць па "Ctrl+Enter"
+[Show warning when message has not been received after]
+Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [Send error]
 Памылка адпраўкі
 [An error has occurred. The protocol reported the following error:]
@@ -543,7 +543,7 @@
 Колеры па змаўчанні
 [Use custom colors]
 Задаць колеры
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 Усплывальныя вокны чата
 [Timeout (s)]
 Працягласць (з)
@@ -1365,6 +1365,8 @@ UIN, E-mail і г.д.
 Выходныя
 [Idle]
 Чаканне
+[Message sessions]
+Гутаркі
 [Chat module]
 Плагін чата
 [Group chat log background]
@@ -1377,10 +1379,6 @@ UIN, E-mail і г.д.
 Колер ліній спісу
 [Nick list background (selected)]
 Заліванне спісу (абрана)
-[Send message by pressing the 'Enter' key]
-УВОД адпраўляе паведамленне
-[Send message by pressing the 'Enter' key twice]
-Падвойны ЎВОД адпраўляе паведамленне
 [Flash window when someone speaks]
 Міргаць вакном, пры новым паведамленні
 [Flash window when a word is highlighted]
@@ -1601,8 +1599,6 @@ UIN, E-mail і г.д.
 Абразкі ў сістэмным латку
 [Popups to display]
 Усплывальныя вокны
-[Message sessions]
-Гутаркі
 [General]
 Агульнае
 [Chat log]

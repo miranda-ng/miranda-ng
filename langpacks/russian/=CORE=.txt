@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.8
+;  Version: 0.95.9
 ;============================================================
 [%s message for %s]
 %s сообщение для %s
@@ -401,28 +401,16 @@
 Открывать окно, если:
 [In background]
 В фоне
+[Maximum number of flashes]
+Максимальное количество миганий
 [Close the message window on send]
 Закрывать окно после отправки
 [Minimize the message window on send]
 Сворачивать окно после отправки
-[Use the contact's status icon as the window icon]
-Использовать в качестве значка окна значок статуса контакта
 [Save the window size and location individually for each contact]
 Сохранять размер и положение окна для каждого контакта
 [Cascade new windows]
 Располагать новые окна каскадом
-[Show 'Send' button]
-Показывать кнопку "Отправить"
-[Show toolbar buttons on top row]
-Показывать кнопки в верхней строке
-[Send message on double 'Enter']
-Посылать по двойному "Enter"
-[Send message on 'Enter']
-Посылать по "Enter"
-[Show character count]
-Показывать счётчик символов
-[Show warning when message has not been received after]
-Сообщать, если сообщение не удалось отправить за
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Показывать старые сообщения при нажатии Ctrl+Вверх/Вниз
 [Delete temporary contacts when closing message window]
@@ -431,8 +419,20 @@
 Поддержка аватаров в окне сообщений
 [Limit avatar height to]
 Ограничить высоту аватара
-[Maximum number of flashes]
-Максимальное количество миганий
+[Show 'Send' button]
+Показывать кнопку "Отправить"
+[Show character count]
+Показывать счётчик символов
+[Show toolbar buttons on top row]
+Показывать кнопки в верхней строке
+[Send message on double 'Enter']
+Посылать по двойному "Enter"
+[Send message on 'Enter']
+Посылать по "Enter"
+[Send message on 'Ctrl+Enter']
+Посылать по "Ctrl+Enter"
+[Show warning when message has not been received after]
+Сообщать, если сообщение не удалось отправить за
 [Send error]
 Ошибка отправки
 [An error has occurred. The protocol reported the following error:]
@@ -543,7 +543,7 @@
 Цвета по умолчанию
 [Use custom colors]
 Задать цвета
-[Popups for the Chat plugin]
+[Popups for the StdMsg plugin]
 Всплывающие окна чата
 [Timeout (s)]
 Длительность (с)
@@ -1363,6 +1363,8 @@ Google Карты
 Исходящие
 [Idle]
 Ожидание
+[Message sessions]
+Беседы
 [Chat module]
 Модуль чата
 [Group chat log background]
@@ -1375,10 +1377,6 @@ Google Карты
 Цвета линий в списке пользователей
 [Nick list background (selected)]
 Заливка списка пользователей (выбрано)
-[Send message by pressing the 'Enter' key]
-ВВОД отправляет сообщение
-[Send message by pressing the 'Enter' key twice]
-Двойной ВВОД отправляет сообщение
 [Flash window when someone speaks]
 Мигать окном, если есть новое сообщение
 [Flash window when a word is highlighted]
@@ -1599,8 +1597,6 @@ Google Карты
 Значки в трее
 [Popups to display]
 Всплывающие окна
-[Message sessions]
-Беседы
 [General]
 Общее
 [Chat log]

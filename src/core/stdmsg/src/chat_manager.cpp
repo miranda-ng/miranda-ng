@@ -199,6 +199,7 @@ static void ShowRoom(SESSION_INFO *si)
 			pDlg->SetParent(pContainer->GetHwnd());
 			pDlg->Create();
 			pContainer->Show();
+			pContainer->FixTabIcons(pDlg);
 			PostMessage(pContainer->GetHwnd(), WM_SIZE, 0, 0);
 		}
 

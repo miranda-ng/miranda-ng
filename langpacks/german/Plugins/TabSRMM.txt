@@ -835,7 +835,7 @@ Das Thema ist '%s%s'
 [%s disables '%s' status for %s]
 %s deaktiviert '%s' Status für %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
@@ -1054,6 +1054,8 @@ Thema (10x10)
 Hervorhebung (10x10)
 [Information (10x10)]
 Information (10x10)
+[Message Sessions]
+Nachrichtensitzungen
 [Group chat windows]
 Gruppenchat-Fenster
 [Group chat log]
@@ -1598,8 +1600,6 @@ Normal - Schließt Tabs; schließt das Fenster, wenn der letzte Tab geschlossen 
 Minimiert das Fenster in die Taskleiste
 [Close or hide window, depends on the close button setting above]
 Schließe oder verstecke Fenster abhängig vom obigen Schließverhalten
-[Message sessions]
-Nachrichtensitzungen
 [General]
 Allgemein
 [Tabs and layout]
