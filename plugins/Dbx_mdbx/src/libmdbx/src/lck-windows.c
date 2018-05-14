@@ -59,19 +59,12 @@ void mdbx_rthc_unlock(void) { LeaveCriticalSection(&rthc_critical_section); }
 #define LCK_WAITFOR 0
 #define LCK_DONTWAIT LOCKFILE_FAIL_IMMEDIATELY
 
-static __inline BOOL flock(mdbx_filehandle_t fd, DWORD flags, uint64_t offset,
-                           size_t bytes) {
-  OVERLAPPED ov;
-  ov.hEvent = 0;
-  ov.Offset = (DWORD)offset;
-  ov.OffsetHigh = HIGH_DWORD(offset);
-  return LockFileEx(fd, flags, 0, (DWORD)bytes, HIGH_DWORD(bytes), &ov);
+static __inline BOOL flock(mdbx_filehandle_t fd, DWORD flags, uint64_t offset, size_t bytes) {
+  return TRUE;
 }
 
-static __inline BOOL funlock(mdbx_filehandle_t fd, uint64_t offset,
-                             size_t bytes) {
-  return UnlockFile(fd, (DWORD)offset, HIGH_DWORD(offset), (DWORD)bytes,
-                    HIGH_DWORD(bytes));
+static __inline BOOL funlock(mdbx_filehandle_t fd, uint64_t offset, size_t bytes) {
+  return TRUE;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -445,49 +438,7 @@ int mdbx_lck_upgrade(MDBX_env *env) {
 }
 
 void mdbx_lck_destroy(MDBX_env *env) {
-  int rc;
-
-  if (env->me_lfd != INVALID_HANDLE_VALUE) {
-    /* double `unlock` for robustly remove overlapped shared/exclusive locks */
-    while (funlock(env->me_lfd, LCK_LOWER))
-      ;
-    rc = GetLastError();
-    assert(rc == ERROR_NOT_LOCKED);
-    (void)rc;
-    SetLastError(ERROR_SUCCESS);
-
-    while (funlock(env->me_lfd, LCK_UPPER))
-      ;
-    rc = GetLastError();
-    assert(rc == ERROR_NOT_LOCKED);
-    (void)rc;
-    SetLastError(ERROR_SUCCESS);
-  }
-
-  if (env->me_fd != INVALID_HANDLE_VALUE) {
-    /* explicitly unlock to avoid latency for other processes (windows kernel
-     * releases such locks via deferred queues) */
-    while (funlock(env->me_fd, LCK_BODY))
-      ;
-    rc = GetLastError();
-    assert(rc == ERROR_NOT_LOCKED);
-    (void)rc;
-    SetLastError(ERROR_SUCCESS);
-
-    while (funlock(env->me_fd, LCK_META))
-      ;
-    rc = GetLastError();
-    assert(rc == ERROR_NOT_LOCKED);
-    (void)rc;
-    SetLastError(ERROR_SUCCESS);
-
-    while (funlock(env->me_fd, LCK_WHOLE))
-      ;
-    rc = GetLastError();
-    assert(rc == ERROR_NOT_LOCKED);
-    (void)rc;
-    SetLastError(ERROR_SUCCESS);
-  }
+  SetLastError(ERROR_SUCCESS);
 }
 
 /*----------------------------------------------------------------------------*/
