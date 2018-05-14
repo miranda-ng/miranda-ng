@@ -153,6 +153,9 @@ void InitGlobals()
 		db_unset(0, SRMMMOD, "HideNames");
 	}
 
+	if (!g_dat.bSendOnEnter && !g_dat.bSendOnDblEnter)
+		g_dat.bSendOnCtrlEnter = true;
+
 	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
 	HookEvent(ME_PROTO_ACK, ackevent);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
