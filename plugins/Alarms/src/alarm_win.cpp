@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "alarm_win.h"
 
 #define ID_TIMER_SOUND				10101
 #define SOUND_REPEAT_PERIOD			5000	// milliseconds

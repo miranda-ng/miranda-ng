@@ -1,6 +1,4 @@
 #include "stdafx.h"
-#include "alarmlist.h"
-#include <list>
 
 AlarmList alarms;
 mir_cs alarm_cs;
@@ -663,7 +661,7 @@ void DoAlarm(ALARM *alarm)
 			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUPT))
 				ShowPopup(alarm);
 			else {
-				HWND hwndDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);
+				HWND hwndDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);
 				WindowList_Add(hAlarmWindowList, hwndDlg, 0);
 
 				ALARM *data = new ALARM;

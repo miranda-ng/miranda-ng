@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "frame.h"
 
 HWND hwnd_plugin = nullptr;
 HWND hwnd_frame = nullptr;
@@ -100,7 +99,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_CREATE:
 		hwnd_list = CreateWindow(L"LISTBOX", L"",
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_STANDARD | LBS_NOTIFY | LBS_OWNERDRAWFIXED) & ~LBS_SORT
-			& ~WS_BORDER, 0, 0, 0, 0, hwnd, nullptr, hInst, nullptr);
+			& ~WS_BORDER, 0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
 		return FALSE;
 
 	case WMU_INITIALIZE:
@@ -350,7 +349,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			mir_cslock lck(list_cs);
 			DWORD item = SendMessage(hwnd_list, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 
-			HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1)), submenu = GetSubMenu(menu, 0);
+			HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1)), submenu = GetSubMenu(menu, 0);
 			TranslateMenu(submenu);
 
 			if (HIWORD(item) == 0) {
@@ -482,7 +481,7 @@ int CreateFrame()
 {
 	WNDCLASS wndclass = {};
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wndclass.hInstance = hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.lpfnWndProc = FrameWindowProc;
 	wndclass.lpszClassName = L"AlarmsFrame";
 	RegisterClass(&wndclass);
@@ -490,7 +489,7 @@ int CreateFrame()
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"),
 			WS_CHILD | WS_CLIPCHILDREN,
-			0, 0, 10, 10, pcli->hwndContactList, nullptr, hInst, nullptr);
+			0, 0, 10, 10, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 		CLISTFrame Frame = { sizeof(CLISTFrame) };
 		Frame.tname = TranslateT("Alarms");
@@ -503,18 +502,18 @@ int CreateFrame()
 	}
 	else {
 		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		wndclass.hInstance = hInst;
+		wndclass.hInstance = g_plugin.getInst();
 		wndclass.lpfnWndProc = FrameContainerWindowProc;
 		wndclass.lpszClassName = L"AlarmsFrameContainer";
 		RegisterClass(&wndclass);
 
 		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, L"AlarmsFrameContainer", TranslateT("Alarms"),
 			(WS_POPUPWINDOW | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~WS_VISIBLE,
-			0, 0, 200, 100, pcli->hwndContactList, nullptr, hInst, nullptr);
+			0, 0, 200, 100, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"),
 			WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
-			0, 0, 10, 10, hwnd_frame, nullptr, hInst, nullptr);
+			0, 0, 10, 10, hwnd_frame, nullptr, g_plugin.getInst(), nullptr);
 
 		SetWindowLongPtr(hwnd_frame, GWLP_USERDATA, (LONG_PTR)hwnd_plugin);
 

@@ -6,8 +6,7 @@
 
 #include <windows.h>
 #include <shellapi.h>
-
-#define __NO_CMPLUGIN_NEEDED
+#include <list>
 
 #include <newpluginapi.h>
 #include <m_utils.h>
@@ -29,12 +28,6 @@
 #include "resource.h"
 #include "version.h"
 
-#define MODULE	"Alarm"
-
-extern HINSTANCE hInst;
-
-extern HANDLE hTopToolbarButton;
-
 typedef struct ALARM_tag {
 	unsigned short id;
 	wchar_t *szTitle;
@@ -47,6 +40,25 @@ typedef struct ALARM_tag {
 	wchar_t *szCommandParams;
 	BYTE sound_num;
 	int flags, day_mask;
-} ALARM;
+} ALARM; 
+
+#include "alarmlist.h"
+#include "options.h"
+#include "icons.h"
+#include "frame.h"
+#include "alarm_win.h"
+#include "time_utils.h"
+
+#define MODULE	"Alarm"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
+
+extern HANDLE hTopToolbarButton;
+
 
 #endif

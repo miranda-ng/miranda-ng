@@ -8,7 +8,6 @@ There is no warranty.
 */
 
 #include "stdafx.h"
-#include "alarms.h"
 
 #define SERVICENAME L"mp"
 #define COMMANDPREFIX L"/" SERVICENAME
@@ -19,7 +18,7 @@ There is no warranty.
 wchar_t szGamePrefix[] = COMMANDPREFIX;
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 HANDLE hTopToolbarButton;
@@ -36,12 +35,6 @@ PLUGININFOEX pluginInfo = {
 	// {4DD7762B-D612-4f84-AA86-068F17859B6D}
 	{0x4dd7762b, 0xd612, 0x4f84, {0xaa, 0x86, 0x6, 0x8f, 0x17, 0x85, 0x9b, 0x6d}}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -87,7 +80,7 @@ void ShowPopup(MCONTACT hContact, const wchar_t *msg)
 
 HBITMAP LoadBmpFromIcon(int IdRes)
 {
-	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IdRes));
+	HICON hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IdRes));
 
 	BITMAPINFOHEADER bih = { 0 };
 	bih.biSize = sizeof(bih);
@@ -124,8 +117,8 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 static int InitTopToolbarButton(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
-	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBUP));
-	ttb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBDN));
+	ttb.hIconUp = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_TBUP));
+	ttb.hIconDn = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_TBDN));
 	ttb.pszService = MODULE "/NewAlarm";
 	ttb.dwFlags = TTBBF_VISIBLE;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Set alarm");

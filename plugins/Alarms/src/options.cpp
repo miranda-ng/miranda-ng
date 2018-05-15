@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "options.h"
 
 Options options;
 
@@ -764,13 +763,13 @@ BOOL Edit(HWND hwnd, ALARM &alarm, bool modal)
 
 	if (modal) {
 		param->self_add = FALSE;
-		if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DIALOG2), hwnd, DlgProcAddEdit, (LPARAM)param) == IDOK) {
+		if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG2), hwnd, DlgProcAddEdit, (LPARAM)param) == IDOK) {
 			return TRUE;
 		}
 	}
 	else {
 		param->self_add = TRUE;
-		HWND hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DIALOG2), hwnd, DlgProcAddEdit, (LPARAM)param);
+		HWND hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG2), hwnd, DlgProcAddEdit, (LPARAM)param);
 
 		//SetActiveWindow(hwndDlg);
 		//SetWindowPos(hwndDlg, 
@@ -788,12 +787,12 @@ BOOL New(HWND hwnd, ALARM &alarm, bool modal)
 
 	if (modal) {
 		param->self_add = FALSE;
-		if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DIALOG2), hwnd, DlgProcAddEdit, (LPARAM)param) == IDOK)
+		if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG2), hwnd, DlgProcAddEdit, (LPARAM)param) == IDOK)
 			return TRUE;
 	}
 	else {
 		param->self_add = TRUE;
-		HWND hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DIALOG2), hwnd, DlgProcAddEdit, (LPARAM)param);
+		HWND hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG2), hwnd, DlgProcAddEdit, (LPARAM)param);
 
 		//SetActiveWindow(hwndDlg);
 		//SetWindowPos(hwndDlg, 
@@ -998,7 +997,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			switch (LOWORD(wParam)) {
 			case IDC_BTN_PREVIEW:
 				{
-					HWND hwndDlgPrev = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);
+					HWND hwndDlgPrev = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);
 					WindowList_Add(hAlarmWindowList, hwndDlgPrev, 0);
 					SendMessage(hwndDlgPrev, WMU_FAKEALARM, 0, 0);
 					SendMessage(hwndDlgPrev, WMU_SETOPT, 0, (LPARAM)&temp_options);
@@ -1213,7 +1212,7 @@ int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
 	odp.szTitle.a = LPGEN("Alarms");
 	odp.szGroup.a = LPGEN("Events");
