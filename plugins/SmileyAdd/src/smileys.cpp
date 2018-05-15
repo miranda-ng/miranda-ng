@@ -470,7 +470,7 @@ bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo)
 			SmileyType *dat = new SmileyType;
 			dat->SetRegEx(true);
 			dat->SetImList(m_hSmList, _wtoi(pStr));
-			dat->m_ToolText = xmlGetText(nRec);
+			dat->m_ToolText = FilterQuotes(xmlGetText(nRec));
 
 			if (node = xmlGetChildByPath(nRec, L"Expression", 0))
 				dat->m_TriggerText = FilterQuotes(xmlGetText(node));
