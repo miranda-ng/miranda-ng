@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <delayimp.h>
 #include <malloc.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_langpack.h>

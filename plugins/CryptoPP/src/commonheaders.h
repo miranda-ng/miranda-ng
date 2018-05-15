@@ -32,6 +32,7 @@
 #define M_API_H__
 
 // Miranda API
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_utils.h>

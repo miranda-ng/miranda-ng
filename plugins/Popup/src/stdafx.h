@@ -60,6 +60,7 @@ https://miranda-ng.org/distr/
 #include <malloc.h>
 #include <Uxtheme.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_clistint.h>

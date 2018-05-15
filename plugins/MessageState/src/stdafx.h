@@ -4,6 +4,8 @@
 #include <time.h>
 #include <locale.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <m_messagestate.h>
 #include <newpluginapi.h>
 #include <m_database.h>

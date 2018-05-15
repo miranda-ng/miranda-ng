@@ -2,6 +2,7 @@
 
 #include <windows.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_genmenu.h>

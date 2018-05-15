@@ -13,6 +13,7 @@ Distributed under GNU's GPL 2 or later
 #include <shlwapi.h>
 #include <commctrl.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>

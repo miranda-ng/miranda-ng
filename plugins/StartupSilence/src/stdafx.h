@@ -4,6 +4,7 @@
 #include <CommCtrl.h>
 #include <WinSock.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_clist.h>

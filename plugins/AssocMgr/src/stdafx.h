@@ -29,6 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DELAYIMP_INSECURE_WRITABLE_HOOKS
 #include <delayimp.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>

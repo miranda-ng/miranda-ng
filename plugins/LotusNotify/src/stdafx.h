@@ -6,10 +6,11 @@
 #include <commctrl.h>
 #include <assert.h>
 
-
-
 // Miranda headers
 //LotusNotify.h
+
+#define __NO_CMPLUGIN_NEEDED
+
 #include <m_core.h>
 #include <win2k.h>
 #include <newpluginapi.h>

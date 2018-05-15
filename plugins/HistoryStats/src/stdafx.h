@@ -31,6 +31,8 @@
 
 #define MIRANDA_VER 0x0A00
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 
 #include <m_awaymsg.h>     // not used

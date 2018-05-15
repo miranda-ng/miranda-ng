@@ -6,6 +6,8 @@
 
 #include <map>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_utils.h>

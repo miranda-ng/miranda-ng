@@ -34,6 +34,8 @@
 #include <time.h>
 #include <malloc.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_button.h>

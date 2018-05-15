@@ -23,6 +23,7 @@ Boston, MA 02111-1307, USA.
 
 #include <windows.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_string.h>

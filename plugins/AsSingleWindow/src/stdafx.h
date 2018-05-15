@@ -10,6 +10,8 @@
 #include <list>
 #include <algorithm>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include "newpluginapi.h"
 #include "m_system.h"
 #include "m_langpack.h"

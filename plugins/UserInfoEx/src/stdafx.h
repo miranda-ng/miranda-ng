@@ -48,6 +48,7 @@ using namespace std;
  * Miranda NG SDK includes and macros
  ***********************************************************************************************************/
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_button.h>
 #include <m_clistint.h>

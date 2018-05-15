@@ -14,6 +14,7 @@
 #include <time.h>
 #include <wchar.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_clist.h>

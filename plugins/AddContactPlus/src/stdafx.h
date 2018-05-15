@@ -24,6 +24,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <windows.h>
 #include <commctrl.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_utils.h>

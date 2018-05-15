@@ -55,6 +55,7 @@ using std::fstream;
 #include <utf8.h>
 
 //miranda
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_options.h>

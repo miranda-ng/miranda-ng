@@ -35,6 +35,7 @@ typedef struct SslHandle *HSSL;
 #define DELAYIMP_INSECURE_WRITABLE_HOOKS
 #include <delayimp.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_netlib.h>
 #include <m_langpack.h>

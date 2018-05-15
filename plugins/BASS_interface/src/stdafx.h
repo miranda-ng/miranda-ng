@@ -8,6 +8,8 @@ Copyright (C) 2010, 2011 tico-tico
 #include <commctrl.h>
 #include <Uxtheme.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_skin.h>

@@ -9,6 +9,8 @@
 #include <propvarutil.h>
 #include <memory>
 #include <map>
+
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
 #include <m_langpack.h>

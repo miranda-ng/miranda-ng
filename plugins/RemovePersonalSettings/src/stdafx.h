@@ -22,6 +22,8 @@
 #include <windows.h>
 #include <io.h>
 #include <stdio.h>
+
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>

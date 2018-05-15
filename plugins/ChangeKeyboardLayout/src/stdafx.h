@@ -5,6 +5,8 @@
 #include <commctrl.h>
 #include <richedit.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_langpack.h>

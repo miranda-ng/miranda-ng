@@ -51,6 +51,8 @@ using namespace std;
 #include <win2k.h>
 #include <msapi/vsstyle.h>
 #include <msapi/vssym32.h>
+
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_button.h>
 #include <m_chat_int.h>

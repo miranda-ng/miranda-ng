@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <commctrl.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_database.h>

@@ -9,6 +9,7 @@
 #include <sstream>
 #include <list>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protosvc.h>

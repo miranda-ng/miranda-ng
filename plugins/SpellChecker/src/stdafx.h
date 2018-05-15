@@ -34,6 +34,7 @@ Boston, MA 02111-1307, USA.
 #include <string>
 using namespace std;
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_protosvc.h>
 #include <m_langpack.h>

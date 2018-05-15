@@ -16,6 +16,8 @@
 #include <win2k.h>
 #include <malloc.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_clist.h>

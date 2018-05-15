@@ -16,6 +16,8 @@
 
 using namespace std;
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 
 #include <m_message.h>

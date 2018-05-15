@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <Shlwapi.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_database.h>

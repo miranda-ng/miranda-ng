@@ -9,6 +9,7 @@
 #include <icmpapi.h>
 #include <commctrl.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 
 #include <m_core.h>

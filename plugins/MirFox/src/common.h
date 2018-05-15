@@ -6,7 +6,8 @@
 #pragma comment(lib, "comctl32.lib")
 #include <commctrl.h>
 
-//Miranda headers
+// Miranda headers
+#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_system.h>

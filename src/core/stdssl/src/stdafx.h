@@ -31,6 +31,8 @@ typedef struct SslHandle *HSSL;
 #include <schannel.h>
 
 #include <malloc.h>
+
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_netlib.h>

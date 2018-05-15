@@ -7,6 +7,8 @@
 #include <windows.h>
 #include <shellapi.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_options.h>

@@ -31,6 +31,8 @@
 #include <WinSock.h>
 #include <commdlg.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include "newpluginapi.h"
 #include "statusmodes.h"
 #include "m_popup.h"

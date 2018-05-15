@@ -27,6 +27,7 @@ Boston, MA 02111-1307, USA.
 #include <Shlobj.h>
 
 // Miranda header files
+#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clist.h>

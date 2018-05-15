@@ -25,6 +25,8 @@
 #include <commctrl.h>
 #include <crtdbg.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_database.h>

@@ -28,6 +28,7 @@ Boston, MA 02111-1307, USA.
 #include <windowsx.h>
 #include <malloc.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_avatars.h>

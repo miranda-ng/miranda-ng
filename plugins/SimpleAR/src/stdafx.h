@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <time.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_langpack.h>

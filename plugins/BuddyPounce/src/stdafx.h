@@ -8,6 +8,8 @@
 #include <time.h>
 #include <malloc.h>
 
+#define __NO_CMPLUGIN_NEEDED
+
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_langpack.h>

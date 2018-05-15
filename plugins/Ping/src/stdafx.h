@@ -12,6 +12,7 @@
 #include <Icmpapi.h>
 #include <list>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_langpack.h>

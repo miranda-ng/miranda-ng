@@ -7,6 +7,7 @@
 #include <time.h>
 #include <richedit.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>

@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <vector>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_skin.h>

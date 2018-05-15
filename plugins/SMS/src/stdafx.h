@@ -9,6 +9,7 @@
 #include <malloc.h>
 #include <time.h>
 
+#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clistint.h>
