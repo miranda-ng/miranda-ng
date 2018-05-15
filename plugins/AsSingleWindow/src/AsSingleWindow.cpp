@@ -5,6 +5,7 @@
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -20,12 +21,6 @@ PLUGININFOEX pluginInfo = {
 };
 
 sPluginVars pluginVars;
-
-bool WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
-{
-	pluginVars.hInst = hInstDLL;
-	return true;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

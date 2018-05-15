@@ -10,8 +10,6 @@
 #include <list>
 #include <algorithm>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include "newpluginapi.h"
 #include "m_system.h"
 #include "m_langpack.h"
@@ -19,6 +17,15 @@
 #include "m_message.h"
 #include "m_clist.h"
 #include "m_clistint.h"
-//#include "m_clui.h"
 #include "m_options.h"
-//#include "m_plugins.h"
+
+#include "AsSingleWindow.h"
+#include "Options.h"
+#include "resource.h"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(SETTINGSNAME)
+	{}
+};

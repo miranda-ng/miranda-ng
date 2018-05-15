@@ -15,7 +15,6 @@
 typedef std::list<sWindowInfo> windowsList;
 
 struct sPluginVars {
-    HINSTANCE hInst;
     CRITICAL_SECTION m_CS;
 
     HWND contactListHWND;

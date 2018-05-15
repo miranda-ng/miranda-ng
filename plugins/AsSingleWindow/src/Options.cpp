@@ -1,7 +1,4 @@
 #include "stdafx.h"
-#include "AsSingleWindow.h"
-#include "Options.h"
-#include "resource.h"
 
 int InitOptions(WPARAM wParam, LPARAM)
 {
@@ -12,7 +9,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 
 	Opts.pfnDlgProc = cbOptionsDialog;
 	Opts.pszTemplate = MAKEINTRESOURCEA(IDD_ASW_OPTIONSPAGE);
-	Opts.hInstance = pluginVars.hInst;
+	Opts.hInstance = g_plugin.getInst();
 	Opts.flags = ODPF_BOLDGROUPS;
 
 	Options_AddPage(wParam, &Opts);
