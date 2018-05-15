@@ -23,8 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <windows.h>
 #include <commctrl.h>
-
-#define __NO_CMPLUGIN_NEEDED
+#include <limits.h>
 
 #include <win2k.h>
 #include <newpluginapi.h>
@@ -45,8 +44,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "resource.h"
 #include "version.h"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>("AddContact")
+	{}
+};
+
 #define	ICON_ADD "AddContactPlus_Icon"
 
 INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam);
-extern HINSTANCE hInst;
 extern HWND hAddDlg;

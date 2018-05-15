@@ -22,7 +22,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
+
+CMPlugin g_plugin;
 int hLangpack;
 static HANDLE hToolBarItem = nullptr;
 static HGENMENU hMainMenuItem = nullptr;
@@ -53,21 +54,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
 {
 	if (hAddDlg) {
 		SetForegroundWindow(hAddDlg);
 		SetFocus(hAddDlg);
 	}
-	else hAddDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), nullptr, AddContactDlgProc, 0);
+	else hAddDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADDCONTACT), nullptr, AddContactDlgProc, 0);
 
 	return 0;
 }
@@ -145,7 +138,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_USEREX_CLASSES };
 	InitCommonControlsEx(&icex);
 
-	Icon_Register(hInst, LPGEN("AddContact+"), &icon, 1);
+	Icon_Register(g_plugin.getInst(), LPGEN("AddContact+"), &icon, 1);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
