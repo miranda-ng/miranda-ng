@@ -61,8 +61,6 @@ bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
 CMPlugin g_plugin;
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {

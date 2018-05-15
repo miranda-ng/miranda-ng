@@ -45,8 +45,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 CMPlugin	g_plugin;
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR GetCaps(WPARAM wParam, LPARAM)

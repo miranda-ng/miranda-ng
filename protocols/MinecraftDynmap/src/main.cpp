@@ -45,8 +45,6 @@ PLUGININFOEX pluginInfo = {
 
 CMPlugin g_plugin;
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 /////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)

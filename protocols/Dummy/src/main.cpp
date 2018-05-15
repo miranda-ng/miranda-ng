@@ -76,8 +76,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 CMPlugin	g_plugin;
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // stubs for obsoleted protocols
 

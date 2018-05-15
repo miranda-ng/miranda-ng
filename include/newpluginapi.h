@@ -331,13 +331,6 @@ template<class T> class PLUGIN : public CMPluginBase
 {
 	typedef CMPluginBase CSuper;
 
-public:
-	static BOOL WINAPI RawDllMain(HINSTANCE hInstance, DWORD, LPVOID)
-	{
-		g_plugin.setInst(hInstance);
-		return TRUE;
-	}
-
 protected:
 	PLUGIN(const char *moduleName)
 		: CSuper(moduleName)
@@ -419,5 +412,13 @@ public:
 
 template<class P>
 OBJLIST<P> ACCPROTOPLUGIN<P>::g_arInstances(1, PtrKeySortT);
+
+#ifndef __NO_CMPLUGIN_NEEDED
+#ifdef _DEBUG
+#pragma comment(lib, "cmstubd.lib")
+#else
+#pragma comment(lib, "cmstub.lib")
+#endif
+#endif
 
 #endif // M_NEWPLUGINAPI_H__

@@ -5,8 +5,6 @@
 
 CMPlugin	g_plugin;
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 //////////////////////////////////////////////////////////////////////////
 
 CMLan* g_lan = nullptr;

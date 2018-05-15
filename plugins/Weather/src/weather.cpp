@@ -61,8 +61,6 @@ HANDLE hTBButton = nullptr;
 
 CMPlugin	g_plugin;
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin info
 

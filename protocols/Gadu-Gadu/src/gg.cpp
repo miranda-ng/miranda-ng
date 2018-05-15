@@ -48,8 +48,6 @@ static unsigned long crc_table[256];
 
 CMPlugin g_plugin;
 
-extern "C" _pfnCrtInit _pRawDllMain = &CMPlugin::RawDllMain;
-
 //////////////////////////////////////////////////////////
 // Extra winsock function for error description
 //
