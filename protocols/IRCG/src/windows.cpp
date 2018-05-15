@@ -258,8 +258,9 @@ CListDlg::CListDlg(CIrcProto *_pro)
 	m_status(this, IDC_TEXT),
 	m_filter(this, IDC_FILTER_STRING)
 {
-	m_list2.OnDoubleClick = m_list.OnDoubleClick = m_Join.OnClick = Callback(this, &CListDlg::OnJoin);
-	m_list.OnColumnClick = Callback(this, &CListDlg::List_OnColumnClick);
+	m_list.OnColumnClick = Callback(this, &CListDlg::onColumnClick_List);
+	m_list2.OnDoubleClick = m_list.OnDoubleClick = m_Join.OnClick = Callback(this, &CListDlg::onClick_Join);
+	m_filter.OnChange = Callback(this, &CListDlg::onChange_Filter);
 }
 
 void CListDlg::OnInitDialog()
@@ -390,10 +391,9 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CProtoDlgBase<CIrcProto>::DlgProc(msg, wParam, lParam);
 }
 
-void CListDlg::OnChange(CCtrlBase *ctrl)
+void CListDlg::onChange_Filter(CCtrlEdit*)
 {
-	if (ctrl->GetCtrlId() == IDC_FILTER_STRING)
-		m_timer = ::SetTimer(m_hwnd, LIST_TIMER, 200, nullptr);
+	m_timer = ::SetTimer(m_hwnd, LIST_TIMER, 200, nullptr);
 }
 
 void CListDlg::OnDestroy()
@@ -454,14 +454,14 @@ int CListDlg::Resizer(UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 }
 
-void CListDlg::List_OnColumnClick(CCtrlListView::TEventInfo *ev)
+void CListDlg::onColumnClick_List(CCtrlListView::TEventInfo *ev)
 {
 	ListViewSortParam param = { &m_list, ev->nmlv->iSubItem };
 	m_list.SortItems(ListViewSort, (LPARAM)&param);
 	UpdateList();
 }
 
-void CListDlg::OnJoin(CCtrlButton*)
+void CListDlg::onClick_Join(CCtrlButton*)
 {
 	wchar_t szTemp[255];
 	m_filter.GetText(szTemp, _countof(szTemp));
