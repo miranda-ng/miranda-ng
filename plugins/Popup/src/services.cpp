@@ -330,12 +330,13 @@ struct SafeUnhookEventParam
 	HANDLE hEvent;
 };
 
-static void CALLBACK SafeUnhookEventFunc(ULONG_PTR dwParam)
+static void CALLBACK SafeUnhookEventFunc(void *param)
 {
-	UnhookEvent(((SafeUnhookEventParam *)dwParam)->hEvent);
-	PostMessage(((SafeUnhookEventParam *)dwParam)->hwndPopup, UM_POPUPUNHOOKCOMPLETE, 0,
-		(LPARAM)((SafeUnhookEventParam *)dwParam)->hEvent);
-	delete (SafeUnhookEventParam *)dwParam;
+	SafeUnhookEventParam *p = (SafeUnhookEventParam*)param;
+
+	UnhookEvent(p->hEvent);
+	PostMessage(p->hwndPopup, UM_POPUPUNHOOKCOMPLETE, 0, (LPARAM)p->hEvent);
+	delete p;
 }
 
 INT_PTR Popup_UnhookEventAsync(WPARAM wParam, LPARAM lParam)
@@ -343,7 +344,7 @@ INT_PTR Popup_UnhookEventAsync(WPARAM wParam, LPARAM lParam)
 	SafeUnhookEventParam *param = new SafeUnhookEventParam;
 	param->hwndPopup = (HWND)wParam;
 	param->hEvent = (HANDLE)lParam;
-	QueueUserAPC(SafeUnhookEventFunc, hMainThread, (ULONG_PTR)param);
+	CallFunctionAsync(SafeUnhookEventFunc, param);
 	return 0;
 }
 
