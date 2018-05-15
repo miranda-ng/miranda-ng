@@ -142,7 +142,7 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 		ofn.lpstrInitialDir = L".";
 		*FileName = '\0';
 		ofn.lpstrDefExt = L"";
-		ofn.hInstance = g_hInst;
+		ofn.hInstance = g_plugin.getInst();
 		ofn.lpTemplateName = MAKEINTRESOURCE(IDD_OPENSUBCLASS);
 		ofn.lpfnHook = OpenFileSubclass;
 		locking_request = is_locked;
@@ -648,7 +648,7 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 		*FileName = '\0';
 		ofn.lpstrDefExt = L"";
-		ofn.hInstance = g_hInst;
+		ofn.hInstance = g_plugin.getInst();
 
 		wchar_t title[256];
 		if (protocol == nullptr)
@@ -681,7 +681,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 static INT_PTR ContactOptions(WPARAM wParam, LPARAM)
 {
 	if (wParam)
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_AVATAROPTIONS), nullptr, DlgProcAvatarOptions, (LPARAM)wParam);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AVATAROPTIONS), nullptr, DlgProcAvatarOptions, (LPARAM)wParam);
 	return 0;
 }
 

@@ -57,6 +57,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SHVIEW_THUMBNAIL 0x702D
 #endif
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(AVS_MODULE)
+	{}
+};
+
 /* most free()'s are invalid when the code is executed from a dll, so this changes
  all the bad free()'s to good ones, however it's still incorrect code. The reasons for not
  changing them include:
@@ -121,8 +128,6 @@ extern bool  g_shutDown;
 extern wchar_t g_szDataPath[];		// user datae path (read at startup only)
 extern BOOL  g_AvatarHistoryAvail;
 extern HWND  hwndSetMyAvatar;
-
-extern HINSTANCE g_hInst;
 
 extern HANDLE hMyAvatarsFolder;
 extern HANDLE hGlobalAvatarFolder;

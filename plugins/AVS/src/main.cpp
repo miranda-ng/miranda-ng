@@ -24,20 +24,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE g_hInst = nullptr;
-HICON g_hIcon = nullptr;
-bool g_shutDown = false;
+HICON    g_hIcon = nullptr;
+bool     g_shutDown = false;
 
-int hLangpack;
+CMPlugin g_plugin;
+int      hLangpack;
 
-wchar_t g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
-BOOL   g_AvatarHistoryAvail = FALSE;
-HWND   hwndSetMyAvatar = nullptr;
+wchar_t  g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
+BOOL     g_AvatarHistoryAvail = FALSE;
+HWND     hwndSetMyAvatar = nullptr;
 
-HANDLE hMyAvatarsFolder;
-HANDLE hGlobalAvatarFolder;
-HANDLE hLoaderEvent, hShutdownEvent;
-HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
+HANDLE   hMyAvatarsFolder;
+HANDLE   hGlobalAvatarFolder;
+HANDLE   hLoaderEvent, hShutdownEvent;
+HANDLE   hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 void   InitServices();
 
@@ -57,19 +57,6 @@ char *g_szMetaName = nullptr;
 
 int OnDetailsInit(WPARAM wParam, LPARAM lParam);
 int OptInit(WPARAM wParam, LPARAM lParam);
-
-PLUGININFOEX pluginInfoEx = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {E00F1643-263C-4599-B84B-053E5C511D29}
-	{ 0xe00f1643, 0x263c, 0x4599, { 0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29 } }
-};
 
 static int ProtocolAck(WPARAM, LPARAM lParam)
 {
@@ -372,16 +359,28 @@ static int LoadAvatarModule()
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {E00F1643-263C-4599-B84B-053E5C511D29}
 {
-	g_hInst = hInstDLL;
-	return TRUE;
-}
+	0xe00f1643, 0x263c, 0x4599,{ 0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29 } }
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load(void)
 {

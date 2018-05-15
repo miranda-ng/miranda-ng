@@ -31,7 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern OBJLIST<protoPicCacheEntry> g_ProtoPictures;
 extern HANDLE hEventChanged;
-extern HINSTANCE g_hInst;
 extern HICON g_hIcon;
 
 extern BOOL ScreenToClient(HWND hWnd, LPRECT lpRect);
@@ -708,7 +707,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szGroup.a = LPGEN("Contacts");
 	odp.szTitle.a = LPGEN("Avatars");
@@ -1100,7 +1099,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = LPGEN("Avatar");
 
 	MCONTACT hContact = lParam;
