@@ -1,3 +1,4 @@
 add_subdirectory(Clist_modern)
 add_subdirectory(Db3x_mmap)
+add_subdirectory(Dbx_mdbx)
 add_subdirectory(TopToolBar)
