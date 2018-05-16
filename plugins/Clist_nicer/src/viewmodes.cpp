@@ -549,7 +549,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 			ImageList_AddIcon(himlViewModes, Skin_LoadProtoIcon(nullptr, i));
 		{
-			HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_MINIMIZE), IMAGE_ICON, 16, 16, 0);
+			HICON hIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MINIMIZE), IMAGE_ICON, 16, 16, 0);
 			nullImage = ImageList_AddIcon(himlViewModes, hIcon);
 			DestroyIcon(hIcon);
 		}
@@ -817,18 +817,18 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	switch (msg) {
 	case WM_CREATE:
 		hwndSelector = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
-			hwnd, (HMENU)IDC_SELECTMODE, g_hInst, nullptr);
+			hwnd, (HMENU)IDC_SELECTMODE, g_plugin.getInst(), nullptr);
 		CustomizeButton(hwndSelector, false, false, false);
 		SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_UNICODE);
 		SendMessage(hwndSelector, BUTTONSETSENDONDOWN, TRUE, 0);
 		{
 			HWND hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
-				hwnd, (HMENU)IDC_CONFIGUREMODES, g_hInst, nullptr);
+				hwnd, (HMENU)IDC_CONFIGUREMODES, g_plugin.getInst(), nullptr);
 			CustomizeButton(hwndButton, false, false, false);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), BATF_UNICODE);
 
 			hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
-				hwnd, (HMENU)IDC_RESETMODES, g_hInst, nullptr);
+				hwnd, (HMENU)IDC_RESETMODES, g_plugin.getInst(), nullptr);
 			CustomizeButton(hwndButton, false, false, false);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), BATF_UNICODE);
 		}
@@ -973,7 +973,7 @@ clvm_reset_command:
 		case IDC_CONFIGUREMODES:
 clvm_config_command:
 			if (!g_ViewModeOptDlg)
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), nullptr, DlgProcViewModesSetup, 0);
+				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_OPT_VIEWMODES), nullptr, DlgProcViewModesSetup, 0);
 			break;
 		}
 		break;
@@ -996,7 +996,7 @@ void CreateViewModeFrame()
 	wndclass.lpfnWndProc = ViewModeFrameWndProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = g_hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hIcon = nullptr;
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE);
@@ -1012,7 +1012,7 @@ void CreateViewModeFrame()
 	frame.height = 22;
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
 	frame.align = alBottom;
-	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)nullptr, g_hInst, nullptr);
+	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
 	g_hwndViewModeFrame = frame.hWnd;
 	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);

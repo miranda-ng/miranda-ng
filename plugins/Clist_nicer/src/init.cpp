@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma comment(lib, "shlwapi.lib")
 
-HINSTANCE g_hInst = nullptr;
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli, coreCli;
 
 int hLangpack;
@@ -61,6 +61,8 @@ void        RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
@@ -75,19 +77,16 @@ PLUGININFOEX pluginInfo =
 	{ 0x8f79b4ee, 0xeb48, 0x4a03, { 0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
-{
-	g_hInst = hInstDLL;
-	DisableThreadLibraryCalls(g_hInst);
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int LoadContactListModule(void);
 int LoadCLCModule(void);
@@ -178,7 +177,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	wcslwr(cfg::dat.tszProfilePath);
 
 	// get the clist interface
-	pcli->hInst = g_hInst;
+	pcli->hInst = g_plugin.getInst();
 	pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
 	pcli->pfnCompareContacts = CompareContacts;
 	pcli->pfnCreateClcContact = CreateClcContact;
@@ -224,11 +223,15 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	return rc;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // a plugin loader aware of CList exports will never call this.
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	return 1;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

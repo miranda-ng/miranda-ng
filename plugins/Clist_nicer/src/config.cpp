@@ -202,7 +202,7 @@ int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, wch
 	mir_snprintf(exSzFile, "%s%s", szName, szExt);
 	mir_snwprintf(exReason, L"An application error has occured: %s", szReason);
 	exLine = line;
-	exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), nullptr, Ex_DlgProc, 0);
+	exLastResult = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXCEPTION), nullptr, Ex_DlgProc, 0);
 	exAllowContinue = fAllowContinue;
 	if (IDCANCEL == exLastResult)
 		ExitProcess(1);

@@ -164,7 +164,7 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 		DrawText(hDC, szName, -1, rc, DT_VCENTER | DT_SINGLELINE);
 	}
 	else {
-		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0));
+		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0));
 		DrawText(hDC, TranslateT("No events..."), -1, rc, DT_VCENTER | DT_SINGLELINE);
 		DrawIconEx(hDC, 4, (rc->bottom + rc->top - 16) / 2, hIcon, 16, 16, 0, nullptr, DI_NORMAL | DI_COMPAT);
 		DestroyIcon(hIcon);

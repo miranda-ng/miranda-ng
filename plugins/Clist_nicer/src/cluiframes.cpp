@@ -38,15 +38,13 @@ HANDLE g_hEventThread = nullptr;
 
 LOGFONT TitleBarLogFont = { 0 };
 
-extern HINSTANCE g_hInst;
-
-//we use dynamic frame list,
-//but who wants so huge number of frames ??
+// we use dynamic frame list,
+// but who wants so huge number of frames ??
 #define MAX_FRAMES		40
 
 #define UNCOLLAPSED_FRAME_SIZE		0
 
-//legacy menu support
+// legacy menu support
 #define frame_menu_lock				1
 #define frame_menu_visible			2
 #define frame_menu_showtitlebar		3
@@ -1361,7 +1359,7 @@ static int UpdateTBToolTip(int framepos)
 	memset(&ti, 0, sizeof(ti));
 	ti.cbSize = sizeof(ti);
 	ti.lpszText = Frames[framepos].TitleBar.tooltip;
-	ti.hinst = g_hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 	ti.uId = (UINT_PTR)Frames[framepos].TitleBar.hwnd;
 
@@ -1608,20 +1606,20 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM)
 		CreateWindow(CLUIFrameTitleBarClassName, Frames[nFramescount].name,
 		(db_get_b(NULL, CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
 		| WS_CHILD | WS_CLIPCHILDREN | (Frames[nFramescount].TitleBar.ShowTitleBar ? WS_VISIBLE : 0) |
-		WS_CLIPCHILDREN, 0, 0, 0, 0, pcli->hwndContactList, nullptr, g_hInst, nullptr);
+		WS_CLIPCHILDREN, 0, 0, 0, 0, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 	SetWindowLongPtr(Frames[nFramescount].TitleBar.hwnd, GWLP_USERDATA, Frames[nFramescount].id);
 
 	Frames[nFramescount].TitleBar.hwndTip = CreateWindowExA(0, TOOLTIPS_CLASSA, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		pcli->hwndContactList, nullptr, g_hInst, nullptr);
+		pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 	SetWindowPos(Frames[nFramescount].TitleBar.hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	{
 		TOOLINFOA ti = { 0 };
 		ti.cbSize = sizeof(ti);
 		ti.lpszText = "";
-		ti.hinst = g_hInst;
+		ti.hinst = g_plugin.getInst();
 		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 		ti.uId = (UINT_PTR)Frames[nFramescount].TitleBar.hwnd;
 		SendMessageA(Frames[nFramescount].TitleBar.hwndTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
@@ -2784,7 +2782,7 @@ LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 static HWND CreateContainerWindow(HWND parent, int x, int y, int width, int height)
 {
-	return(CreateWindowA("FramesContainer", "aaaa", WS_POPUP | WS_THICKFRAME, x, y, width, height, parent, nullptr, g_hInst, nullptr));
+	return(CreateWindowA("FramesContainer", "aaaa", WS_POPUP | WS_THICKFRAME, x, y, width, height, parent, nullptr, g_plugin.getInst(), nullptr));
 }
 
 INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam)
@@ -2926,7 +2924,7 @@ int LoadCLUIFramesModule(void)
 	WNDCLASS wndclass = {};
 	wndclass.style = CS_DBLCLKS;
 	wndclass.lpfnWndProc = CLUIFrameTitleBarProc;
-	wndclass.hInstance = g_hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.lpszClassName = CLUIFrameTitleBarClassName;
 	RegisterClass(&wndclass);
@@ -2934,7 +2932,7 @@ int LoadCLUIFramesModule(void)
 	WNDCLASS cntclass = {};
 	cntclass.style = CS_DBLCLKS | CS_DROPSHADOW;
 	cntclass.lpfnWndProc = CLUIFrameContainerWndProc;
-	cntclass.hInstance = g_hInst;
+	cntclass.hInstance = g_plugin.getInst();
 	cntclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	cntclass.lpszClassName = L"FramesContainer";
 	RegisterClass(&cntclass);
@@ -3047,6 +3045,6 @@ int UnLoadCLUIFramesModule(void)
 	free(Frames);
 	Frames = nullptr;
 	nFramescount = 0;
-	UnregisterClass(CLUIFrameTitleBarClassName, g_hInst);
+	UnregisterClass(CLUIFrameTitleBarClassName, g_plugin.getInst());
 	return 0;
 }

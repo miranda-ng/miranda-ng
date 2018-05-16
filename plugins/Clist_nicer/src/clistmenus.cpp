@@ -66,14 +66,14 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendMessage(hWnd, WM_USER + 100, hContact, dwMask);
 			SendMessage(hWnd, WM_USER + 120, 0, 0);
 			TranslateDialogDefault(hWnd);
-			hwndAdd = GetDlgItem(hWnd, IDC_IGN_ADDPERMANENTLY); // CreateWindowEx(0, L"CLCButtonClass", L"FOO", WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
+			hwndAdd = GetDlgItem(hWnd, IDC_IGN_ADDPERMANENTLY); // CreateWindowEx(0, L"CLCButtonClass", L"FOO", WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_plugin.getInst(), NULL);
 			CustomizeButton(hwndAdd, false, true, false);
 
 			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT));
 			SetWindowText(hwndAdd, TranslateT("Add permanently"));
 			EnableWindow(hwndAdd, db_get_b(hContact, "CList", "NotOnList", 0));
 
-			hwndAdd = GetDlgItem(hWnd, IDC_DSP_LOADDEFAULT); // CreateWindowEx(0, L"CLCButtonClass", L"FOO", WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
+			hwndAdd = GetDlgItem(hWnd, IDC_DSP_LOADDEFAULT); // CreateWindowEx(0, L"CLCButtonClass", L"FOO", WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_plugin.getInst(), NULL);
 			CustomizeButton(hwndAdd, false, true, false);
 
 			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_DELETE));
@@ -346,7 +346,7 @@ static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM)
 	hWnd = WindowList_Find(hWindowListIGN, wParam);
 	if (wParam) {
 		if (hWnd == nullptr)
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_QUICKIGNORE), nullptr, IgnoreDialogProc, (LPARAM)wParam);
+			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_QUICKIGNORE), nullptr, IgnoreDialogProc, (LPARAM)wParam);
 		else if (IsWindow(hWnd))
 			SetFocus(hWnd);
 	}

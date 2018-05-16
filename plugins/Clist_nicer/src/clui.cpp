@@ -166,7 +166,7 @@ static HWND PreCreateCLC(HWND parent)
 		| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
 		| (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
 		| CLS_MULTICOLUMN,
-		0, 0, 0, 0, parent, nullptr, g_hInst, (LPVOID)0xff00ff00);
+		0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), (LPVOID)0xff00ff00);
 
 	cfg::clcdat = (struct ClcData *)GetWindowLongPtr(pcli->hwndContactTree, 0);
 	return pcli->hwndContactTree;
@@ -187,7 +187,7 @@ static int CreateCLC()
 		frame.height = 20;
 		frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
 		frame.align = alBottom;
-		frame.hWnd = CreateWindowExA(0, "EventAreaClass", "evt", WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)nullptr, g_hInst, nullptr);
+		frame.hWnd = CreateWindowExA(0, "EventAreaClass", "evt", WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
 		g_hwndEventArea = frame.hWnd;
 		hNotifyFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 		CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hNotifyFrame, FU_FMPOS);
@@ -250,13 +250,13 @@ static void CacheClientIcons()
 
 static void InitIcoLib()
 {
-	Icon_Register(g_hInst, LPGEN("Contact list") "/" LPGEN("Default"), myIcons, _countof(myIcons));
+	Icon_Register(g_plugin.getInst(), LPGEN("Contact list") "/" LPGEN("Default"), myIcons, _countof(myIcons));
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
-		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Overlay icons"), &icon, 1);
+		Icon_RegisterT(g_plugin.getInst(), LPGENW("Contact list") L"/" LPGENW("Overlay icons"), &icon, 1);
 	}
 
 	for (auto &pa : Accounts()) {
@@ -266,7 +266,7 @@ static void InitIcoLib()
 		wchar_t szDescr[128];
 		mir_snwprintf(szDescr, TranslateT("%s connecting"), pa->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Connecting icons"), &icon, 1, pa->szModuleName);
+		Icon_RegisterT(g_plugin.getInst(), LPGENW("Contact list") L"/" LPGENW("Connecting icons"), &icon, 1, pa->szModuleName);
 	}
 }
 
@@ -278,14 +278,14 @@ static int IcoLibChanged(WPARAM, LPARAM)
 
 void CreateButtonBar(HWND hWnd)
 {
-	hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBMENU, g_hInst, nullptr);
+	hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBMENU, g_plugin.getInst(), nullptr);
 	CustomizeButton(hTbMenu, false, false, false);
 	SetWindowText(hTbMenu, TranslateT("Menu"));
 	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MAINMENU));
 	SendMessage(hTbMenu, BUTTONSETSENDONDOWN, TRUE, 0);
 	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Open main menu"), 0);
 
-	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBGLOBALSTATUS, g_hInst, nullptr);
+	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBGLOBALSTATUS, g_plugin.getInst(), nullptr);
 	CustomizeButton(hTbGlobalStatus, false, false, false);
 	SetWindowText(hTbGlobalStatus, TranslateT("Offline"));
 	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_STATUS_OFFLINE));
@@ -779,7 +779,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			int flags = WS_CHILD | CCS_BOTTOM;
 			flags |= db_get_b(NULL, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
 			flags |= db_get_b(NULL, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
-			pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, hwnd, nullptr, g_hInst, nullptr);
+			pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
 			if (flags & WS_VISIBLE) {
 				ShowWindow(pcli->hwndStatus, SW_SHOW);
 				SendMessage(pcli->hwndStatus, WM_SIZE, 0, 0);
@@ -1811,7 +1811,7 @@ void LoadCLUIModule(void)
 	wndclass.lpfnWndProc = EventAreaWndProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = g_hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hIcon = nullptr;
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)COLOR_3DFACE;

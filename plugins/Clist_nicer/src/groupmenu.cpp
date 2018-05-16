@@ -85,7 +85,7 @@ IconItemT iconItem[] = {
 
 void InitIconLibMenuIcons(void)
 {
-	Icon_RegisterT(g_hInst, LPGENW("Contact list"), iconItem, _countof(iconItem));
+	Icon_RegisterT(g_plugin.getInst(), LPGENW("Contact list"), iconItem, _countof(iconItem));
 }
 
 void InitGroupMenus(void)
