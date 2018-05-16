@@ -322,7 +322,7 @@ static IconItemT iconItem[] = {
 
 HRESULT CLUI::RegisterAvatarMenu()
 {
-	Icon_RegisterT(g_hInst, LPGENW("Contact list"), iconItem, _countof(iconItem));
+	Icon_RegisterT(g_plugin.getInst(), LPGENW("Contact list"), iconItem, _countof(iconItem));
 
 	CMenuItem mi;
 
@@ -354,7 +354,7 @@ HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 		| (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
 		| (db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0
 		| CLS_MULTICOLUMN),
-		0, 0, 0, 0, hwndClui, nullptr, g_hInst, nullptr);
+		0, 0, 0, 0, hwndClui, nullptr, g_plugin.getInst(), nullptr);
 
 	return S_OK;
 }
@@ -941,7 +941,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 		return hIcon;
 
-	return LoadSmallIcon(g_hInst, -IDI_ICQC1 - idx);
+	return LoadSmallIcon(g_plugin.getInst(), -IDI_ICQC1 - idx);
 }
 
 static PROTOTICKS* CLUI_GetProtoTicksByProto(char *szProto)

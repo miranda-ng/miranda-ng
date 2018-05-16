@@ -481,12 +481,12 @@ int EventArea_Create(HWND hCluiWnd)
 	WNDCLASS wndclass = { 0 };
 	wchar_t pluginname[] = L"EventArea";
 	int h = GetSystemMetrics(SM_CYSMICON) + 2;
-	if (GetClassInfo(g_hInst, pluginname, &wndclass) == 0) {
+	if (GetClassInfo(g_plugin.getInst(), pluginname, &wndclass) == 0) {
 		wndclass.style = 0;
 		wndclass.lpfnWndProc = EventArea_WndProc;
 		wndclass.cbClsExtra = 0;
 		wndclass.cbWndExtra = 0;
-		wndclass.hInstance = g_hInst;
+		wndclass.hInstance = g_plugin.getInst();
 		wndclass.hIcon = nullptr;
 		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wndclass.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
@@ -495,7 +495,7 @@ int EventArea_Create(HWND hCluiWnd)
 		RegisterClass(&wndclass);
 	}
 	g_CluiData.hwndEventFrame = CreateWindow(pluginname, pluginname, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN,
-		0, 0, 0, h, hCluiWnd, nullptr, g_hInst, nullptr);
+		0, 0, 0, h, hCluiWnd, nullptr, g_plugin.getInst(), nullptr);
 
 	// register frame
 	CLISTFrame Frame = { sizeof(Frame) };

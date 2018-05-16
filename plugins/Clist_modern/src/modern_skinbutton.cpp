@@ -608,7 +608,7 @@ static HWND ModernSkinButtonCreateWindow(ModernSkinButtonCtrl * bct, HWND parent
 	if (bct == nullptr) return FALSE;
 	{
 		wchar_t *UnicodeID = mir_a2u(bct->ID);
-		hwnd = CreateWindow(_A2W(MODERNSKINBUTTONCLASS), UnicodeID, WS_VISIBLE | WS_CHILD, bct->Left, bct->Top, bct->Right - bct->Left, bct->Bottom - bct->Top, parent, nullptr, g_hInst, nullptr);
+		hwnd = CreateWindow(_A2W(MODERNSKINBUTTONCLASS), UnicodeID, WS_VISIBLE | WS_CHILD, bct->Left, bct->Top, bct->Right - bct->Left, bct->Bottom - bct->Top, parent, nullptr, g_plugin.getInst(), nullptr);
 		mir_free(UnicodeID);
 	}
 

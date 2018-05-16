@@ -960,7 +960,7 @@ static int UpdateTBToolTip(int framepos)
 {
 	TOOLINFO ti = { sizeof(ti) };
 	ti.lpszText = g_pfwFrames[framepos].TitleBar.tooltip;
-	ti.hinst = g_hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 	ti.uId = (UINT_PTR)g_pfwFrames[framepos].TitleBar.hwnd;
 	return SendMessage(g_pfwFrames[framepos].TitleBar.hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
@@ -1564,21 +1564,21 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM)
 		| WS_CHILD | WS_CLIPCHILDREN |
 		(F.TitleBar.ShowTitleBar ? WS_VISIBLE : 0) |
 		WS_CLIPCHILDREN,
-		0, 0, 0, 0, pcli->hwndContactList, nullptr, g_hInst, nullptr);
+		0, 0, 0, 0, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(F.TitleBar.hwnd, GWLP_USERDATA, F.id);
 
 	F.TitleBar.hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, nullptr,
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		pcli->hwndContactList, nullptr, g_hInst,
+		pcli->hwndContactList, nullptr, g_plugin.getInst(),
 		nullptr);
 
 	SetWindowPos(F.TitleBar.hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	{
 		TOOLINFO ti = { sizeof(ti) };
 		ti.lpszText = L"";
-		ti.hinst = g_hInst;
+		ti.hinst = g_plugin.getInst();
 		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 		ti.uId = (UINT_PTR)F.TitleBar.hwnd;
 		SendMessage(F.TitleBar.hwndTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
@@ -3002,7 +3002,7 @@ static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wP
 
 static HWND CreateSubContainerWindow(HWND parent, int x, int y, int width, int height)
 {
-	HWND hwnd = CreateWindowEx(WS_EX_LAYERED, CLUIFrameSubContainerClassName, L"SubContainerWindow", WS_POPUP | (!g_CluiData.fLayered ? WS_BORDER : 0), x, y, width, height, parent, nullptr, g_hInst, nullptr);
+	HWND hwnd = CreateWindowEx(WS_EX_LAYERED, CLUIFrameSubContainerClassName, L"SubContainerWindow", WS_POPUP | (!g_CluiData.fLayered ? WS_BORDER : 0), x, y, width, height, parent, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~(WS_CAPTION | WS_BORDER));
 	if (g_CluiData.fOnDesktop) {
 		HWND hProgMan = FindWindow(L"Progman", nullptr);
@@ -3155,7 +3155,7 @@ static LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wP
 
 static HWND CreateContainerWindow(HWND parent, int x, int y, int width, int height)
 {
-	return CreateWindow(L"FramesContainer", L"FramesContainer", WS_POPUP | WS_THICKFRAME, x, y, width, height, parent, nullptr, g_hInst, nullptr);
+	return CreateWindow(L"FramesContainer", L"FramesContainer", WS_POPUP | WS_THICKFRAME, x, y, width, height, parent, nullptr, g_plugin.getInst(), nullptr);
 }
 
 static int _us_DoSetFrameFloat(WPARAM wParam, LPARAM lParam)
@@ -3282,7 +3282,7 @@ int LoadCLUIFramesModule(void)
 	WNDCLASS wndclass = { 0 };
 	wndclass.style = CS_DBLCLKS;//|CS_HREDRAW|CS_VREDRAW ;
 	wndclass.lpfnWndProc = CLUIFrameTitleBarProc;
-	wndclass.hInstance = g_hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
 	wndclass.lpszClassName = CLUIFrameTitleBarClassName;
@@ -3291,7 +3291,7 @@ int LoadCLUIFramesModule(void)
 	WNDCLASS subconclass = { 0 };
 	subconclass.style = CS_DBLCLKS;//|CS_HREDRAW|CS_VREDRAW ;
 	subconclass.lpfnWndProc = CLUIFrameSubContainerProc;
-	subconclass.hInstance = g_hInst;
+	subconclass.hInstance = g_plugin.getInst();
 	subconclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	subconclass.lpszClassName = CLUIFrameSubContainerClassName;
 	RegisterClass(&subconclass);
@@ -3300,7 +3300,7 @@ int LoadCLUIFramesModule(void)
 	WNDCLASS cntclass = { 0 };
 	cntclass.style = CS_DBLCLKS/*|CS_HREDRAW|CS_VREDRAW*/ | CS_DROPSHADOW;
 	cntclass.lpfnWndProc = CLUIFrameContainerWndProc;
-	cntclass.hInstance = g_hInst;
+	cntclass.hInstance = g_plugin.getInst();
 	cntclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	cntclass.lpszClassName = L"FramesContainer";
 	RegisterClass(&cntclass);
@@ -3402,7 +3402,7 @@ int UnLoadCLUIFramesModule(void)
 	free(g_pfwFrames);
 	g_pfwFrames = nullptr;
 	g_nFramesCount = 0;
-	UnregisterClass(CLUIFrameTitleBarClassName, g_hInst);
+	UnregisterClass(CLUIFrameTitleBarClassName, g_plugin.getInst());
 	DeleteObject(_hTitleBarFont);
 
 	_cluiFramesModuleCSInitialized = FALSE;

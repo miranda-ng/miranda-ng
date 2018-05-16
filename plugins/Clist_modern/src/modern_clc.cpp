@@ -956,7 +956,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else
-					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DROPMETA));
+					hNewCursor = LoadCursor(g_plugin.getInst(), MAKEINTRESOURCE(IDC_DROPMETA));
 			}
 			break;
 
@@ -969,9 +969,9 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else if (contSour->subcontacts == contDest)
-					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DEFAULTSUB)); ///MakeDefault
+					hNewCursor = LoadCursor(g_plugin.getInst(), MAKEINTRESOURCE(IDC_DEFAULTSUB)); ///MakeDefault
 				else
-					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
+					hNewCursor = LoadCursor(g_plugin.getInst(), MAKEINTRESOURCE(IDC_REGROUP));
 			}
 			break;
 
@@ -986,7 +986,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 				else if (contDest->subcontacts == contSour->subcontacts)
 					break;
 				else
-					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
+					hNewCursor = LoadCursor(g_plugin.getInst(), MAKEINTRESOURCE(IDC_REGROUP));
 			}
 			break;
 
@@ -1559,7 +1559,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 
 	// Get icons
 	wchar_t szMyPath[MAX_PATH];
-	GetModuleFileName(g_hInst, szMyPath, _countof(szMyPath));
+	GetModuleFileName(g_plugin.getInst(), szMyPath, _countof(szMyPath));
 
 	// Menus
 	LoadFavoriteContactMenu();

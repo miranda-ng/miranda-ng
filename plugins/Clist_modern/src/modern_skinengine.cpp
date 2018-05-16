@@ -122,7 +122,7 @@ IniParser::IniParser(wchar_t * tcsFileName, BYTE flags) : _Flags(flags)
 
 	if (tcsFileName[0] == '%') {
 		//TODO: Add parser of resource filename here
-		_LoadResourceIni(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF");
+		_LoadResourceIni(g_plugin.getInst(), MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF");
 		return;
 	}
 
@@ -1585,11 +1585,11 @@ static HBITMAP ske_LoadGlyphImage_TGA(const wchar_t *szFilename)
 	}
 	else {
 		/* reading from resources IDR_TGA_DEFAULT_SKIN */
-		HRSRC hRSrc = FindResourceA(g_hInst, MAKEINTRESOURCEA(IDR_TGA_DEFAULT_SKIN), "TGA");
+		HRSRC hRSrc = FindResourceA(g_plugin.getInst(), MAKEINTRESOURCEA(IDR_TGA_DEFAULT_SKIN), "TGA");
 		if (!hRSrc) return nullptr;
-		HGLOBAL hRes = LoadResource(g_hInst, hRSrc);
+		HGLOBAL hRes = LoadResource(g_plugin.getInst(), hRSrc);
 		if (!hRes) return nullptr;
-		DWORD size = SizeofResource(g_hInst, hRSrc);
+		DWORD size = SizeofResource(g_plugin.getInst(), hRSrc);
 		BYTE *mem = (BYTE*)LockResource(hRes);
 		if (size > sizeof(header)) {
 			tga_header_t *tgahdr = (tga_header_t*)mem;
@@ -1936,7 +1936,7 @@ void ske_LoadSkinFromDB(void)
 
 static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 {
-	IniParser parser(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF", bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS);
+	IniParser parser(g_plugin.getInst(), MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF", bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS);
 	if (parser.CheckOK()) {
 		db_delete_module(0, "ModernSkin");
 		db_set_s(0, SKIN, "SkinFolder", "%Default%");

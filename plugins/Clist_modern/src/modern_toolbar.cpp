@@ -69,13 +69,13 @@ void Modern_InitButtons()
 			char buf[255];
 			if (i != 0) {
 				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_dn");
-				tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx, g_hInst, BTNS[i].defResource);
+				tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx, g_plugin.getInst(), BTNS[i].defResource);
 			}
 			else tbb.hIconHandleUp = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipUp, nullptr, 0, nullptr, SKINICON_OTHER_MAINMENU);
 
 			if (BTNS[i].pszTooltipDn) {
 				mir_snprintf(buf, "%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_up");
-				tbb.hIconHandleDn = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipDn, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx + 1, g_hInst, BTNS[i].defResource2);
+				tbb.hIconHandleDn = RegisterIcolibIconHandle(buf, "Toolbar", BTNS[i].pszTooltipDn, L"icons\\toolbar_icons.dll", BTNS[i].icoDefIdx + 1, g_plugin.getInst(), BTNS[i].defResource2);
 			}
 			else tbb.hIconHandleDn = nullptr;
 		}

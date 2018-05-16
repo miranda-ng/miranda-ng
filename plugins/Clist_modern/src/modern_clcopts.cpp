@@ -1199,8 +1199,6 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 #define DEFAULT_BKBMPUSE      CLB_STRETCH
 #define DEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
 
-extern HINSTANCE g_hInst;
-
 char **bkgrList = nullptr;
 int bkgrCount = 0;
 
@@ -1513,7 +1511,7 @@ static clist_opt_items[] =
 int ClcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.szTitle.a = LPGEN("Contact list");
 	odp.pfnDlgProc = DlgProcClistListOpts;

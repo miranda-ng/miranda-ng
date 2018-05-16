@@ -104,6 +104,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_smileyadd.h>
 #include <m_folders.h>
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>("CList")
+	{}
+};
+
 #include "modern_global_structure.h"
 #include "modern_defsettings.h"
 #include "modern_clist.h"

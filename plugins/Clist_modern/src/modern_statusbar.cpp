@@ -861,16 +861,16 @@ HWND StatusBar_Create(HWND parent)
 {
 	WNDCLASS wndclass = { 0 };
 	int h = GetSystemMetrics(SM_CYSMICON) + 2;
-	if (GetClassInfo(g_hInst, pluginname, &wndclass) == 0) {
+	if (GetClassInfo(g_plugin.getInst(), pluginname, &wndclass) == 0) {
 		wndclass.lpfnWndProc = ModernStatusProc;
-		wndclass.hInstance = g_hInst;
+		wndclass.hInstance = g_plugin.getInst();
 		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wndclass.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
 		wndclass.lpszClassName = pluginname;
 		RegisterClass(&wndclass);
 	}
 
-	hModernStatusBar = CreateWindow(pluginname, pluginname, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN, 0, 0, 0, h, parent, nullptr, g_hInst, nullptr);
+	hModernStatusBar = CreateWindow(pluginname, pluginname, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN, 0, 0, 0, h, parent, nullptr, g_plugin.getInst(), nullptr);
 
 	// register frame
 	CLISTFrame Frame = { sizeof(Frame) };

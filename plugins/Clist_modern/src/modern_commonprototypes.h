@@ -42,7 +42,7 @@ extern BYTE g_bCalledFromShowHide;
 extern HICON g_hListeningToIcon;
 extern HWND g_hCLUIOptionsWnd;
 extern BOOL g_bTransparentFlag;
-extern HINSTANCE g_hInst, g_hMirApp;
+extern HINSTANCE g_hMirApp;
 extern BOOL g_mutex_bChangingMode;
 extern UINT g_dwMainThreadID;
 extern HANDLE g_hAwayMsgThread, g_hGetTextAsyncThread, g_hSmoothAnimationThread;

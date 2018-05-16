@@ -32,7 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CHECKRES(sub) if (sub != S_OK) return S_FALSE;
 
-HINSTANCE g_hInst = nullptr, g_hMirApp = nullptr;
+CMPlugin g_plugin;
+HINSTANCE g_hMirApp = nullptr;
 CLIST_INTERFACE *pcli = nullptr;
 CLIST_INTERFACE corecli = { 0 };
 CLUIDATA g_CluiData = {};
@@ -41,6 +42,8 @@ int hLangpack;
 static HRESULT SubclassClistInterface();
 static HRESULT CreateHookableEvents();
 int EventArea_UnloadModule();
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -55,19 +58,16 @@ PLUGININFOEX pluginInfo = {
 	{ 0x43909b6, 0xaad8, 0x4d82, { 0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd } }
 };
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST, MIID_LAST };
-
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
-{
-	g_hInst = hInstDLL;
-	DisableThreadLibraryCalls(g_hInst);
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int CListInitialise()
 {
@@ -91,11 +91,15 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	return S_OK;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // never called by a newer plugin loader.
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	return 1;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
@@ -134,7 +138,7 @@ static HRESULT SubclassClistInterface()
 	pcli = Clist_GetInterface();
 	corecli = *pcli;
 
-	pcli->hInst = g_hInst;
+	pcli->hInst = g_plugin.getInst();
 
 	pcli->pfnCreateCacheItem = cliCreateCacheItem;
 	pcli->pfnCheckCacheItem = cliCheckCacheItem;
