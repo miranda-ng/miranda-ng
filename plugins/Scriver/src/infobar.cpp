@@ -265,6 +265,6 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 void CSrmmWindow::CreateInfobar()
 {
-	m_hwndInfo = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOBAR), m_hwnd, InfobarWndProc, (LPARAM)this);
+	m_hwndInfo = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_INFOBAR), m_hwnd, InfobarWndProc, (LPARAM)this);
 	SetWindowPos(m_hwndInfo, HWND_TOP, 0, 0, 0, 0, SWP_HIDEWINDOW | SWP_NOSIZE | SWP_NOREPOSITION);
 }

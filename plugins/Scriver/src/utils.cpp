@@ -293,13 +293,13 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rec
 		WS_POPUP | TTS_NOPREFIX,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hwndParent, nullptr, g_hInst, nullptr);
+		hwndParent, nullptr, g_plugin.getInst(), nullptr);
 
 	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
 	ti.hwnd = hwndParent;
-	ti.hinst = g_hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.lpszText = ptszText;
 	ti.rect = *rect;
 	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)&ti);
@@ -310,7 +310,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rec
 void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle)
 {
 	TOOLINFO ti = { sizeof(ti) };
-	ti.hinst = g_hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.hwnd = hwndParent;
 	ti.lpszText = ptszText;
 	SendMessage(hwndTT, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
@@ -320,7 +320,7 @@ void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTi
 void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT *rect)
 {
 	TOOLINFO ti = { sizeof(ti) };
-	ti.hinst = g_hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.hwnd = hwndParent;
 	ti.rect = *rect;
 	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)&ti);

@@ -638,7 +638,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			dat->iSplitterX = db_get_dw(0, SRMM_MODULE, "splitterx", -1);
 			dat->iSplitterY = db_get_dw(0, SRMM_MODULE, "splittery", -1);
 			dat->flags2 = g_dat.flags2;
-			dat->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwndDlg, nullptr, g_hInst, nullptr);
+			dat->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwndDlg, nullptr, g_plugin.getInst(), nullptr);
 			dat->isChat = newData->isChat;
 			SendMessage(dat->hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 			SetupStatusBar(dat);
@@ -820,7 +820,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 					int tabId = TabCtrl_HitTest(dat->hwndTabs, &thinfo);
 					if (tabId != -1) {
 						CScriverWindow *pDlg = GetChildFromTab(dat->hwndTabs, tabId);
-						HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+						HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 						HMENU hSubMenu = GetSubMenu(hMenu, 3);
 						TranslateMenu(hSubMenu);
 						HMENU hUserMenu = (HMENU)SendMessage(pDlg->GetHwnd(), DM_GETCONTEXTMENU, 0, 0);
@@ -1417,5 +1417,5 @@ HWND GetParentWindow(MCONTACT hContact, BOOL bChat)
 	if (!(g_dat.flags2 & SMF2_SEPARATECHATSCONTAINERS))
 		newData.isChat = FALSE;
 
-	return CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), nullptr, DlgProcParentWindow, (LPARAM)&newData);
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGWIN), nullptr, DlgProcParentWindow, (LPARAM)&newData);
 }

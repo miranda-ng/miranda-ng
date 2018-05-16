@@ -88,7 +88,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	CFM_WEIGHT			0x00400000
 #endif
 
-extern HINSTANCE g_hInst;
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 *pTaskbarInterface;
 
@@ -117,6 +116,13 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 #include "input.h"
 #include "statusicon.h"
 #include "chat.h"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(SRMM_MODULE)
+	{}
+};
 
 extern GlobalMessageData g_dat;
 

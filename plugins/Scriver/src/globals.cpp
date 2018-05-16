@@ -96,9 +96,9 @@ void RegisterIcons(void)
 {
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 
-	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList,    14);
-	Icon_Register(g_hInst, LPGEN("Group chats"),      iconList+14, 20);
-	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList+34, 14);
+	Icon_Register(g_plugin.getInst(), LPGEN("Single Messaging"), iconList,    14);
+	Icon_Register(g_plugin.getInst(), LPGEN("Group chats"),      iconList+14, 20);
+	Icon_Register(g_plugin.getInst(), LPGEN("Single Messaging"), iconList+34, 14);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ void LoadGlobalIcons()
 	int overlayIcon = ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
 	ImageList_SetOverlayImage(g_dat.hHelperIconList, overlayIcon, 1);
 	for (int i = IDI_GOOGLE; i < IDI_LASTICON; i++) {
-		HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);
+		HICON hIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);
 		ImageList_AddIcon(g_dat.hSearchEngineIconList, hIcon);
 		DestroyIcon(hIcon);
 	}

@@ -622,7 +622,7 @@ class CLogOptionsDlg : public CDlgBase
 
 public:
 	CLogOptionsDlg() :
-		CDlgBase(g_hInst, IDD_OPT_MSGLOG),
+		CDlgBase(g_plugin.getInst(), IDD_OPT_MSGLOG),
 		m_log(this, IDC_SRMM_LOG)
 	{}
 
@@ -959,7 +959,7 @@ int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 
@@ -1005,7 +1005,7 @@ int OptInitialise(WPARAM wParam, LPARAM)
 
 	if (g_dat.popupInstalled) {
 		odp.position = 910000002;
-		odp.hInstance = g_hInst;
+		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
 		odp.szTitle.a = LPGEN("Messaging");
 		odp.szGroup.a = LPGEN("Popups");

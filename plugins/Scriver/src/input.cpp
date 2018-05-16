@@ -32,7 +32,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 	POINT pt;
 	CHARRANGE sel, all = { 0, -1 };
 
-	HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+	HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 	HMENU hSubMenu = GetSubMenu(hMenu, 2);
 	TranslateMenu(hSubMenu);
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);

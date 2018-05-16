@@ -916,7 +916,7 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		return DrawMenuItem(wParam, lParam);
 
 	case WM_CONTEXTMENU:
-		HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 		HMENU hSubMenu = GetSubMenu(hMenu, 0);
 		TranslateMenu(hSubMenu);
 
@@ -1611,7 +1611,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_SENDALL:
 			int result;
 			if (m_iSendAllConfirm == 0) {
-				result = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CONFIRM_SENDALL), m_hwnd, ConfirmSendAllDlgProc, (LPARAM)m_hwnd);
+				result = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONFIRM_SENDALL), m_hwnd, ConfirmSendAllDlgProc, (LPARAM)m_hwnd);
 				if (result & 0x10000)
 					m_iSendAllConfirm = result;
 			}

@@ -326,7 +326,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 // CScriverWindow
 
 CScriverWindow::CScriverWindow(int iDialog, SESSION_INFO *si)
-	: CSrmmBaseDialog(g_hInst, iDialog, si)
+	: CSrmmBaseDialog(g_plugin.getInst(), iDialog, si)
 {
 	m_autoClose = CLOSE_ON_CANCEL;
 }
@@ -654,7 +654,7 @@ int OnLoadModule(void)
 	Skin_AddSound("TNStart", LPGENW("Instant messages"), LPGENW("Contact started typing"));
 	Skin_AddSound("TNStop", LPGENW("Instant messages"), LPGENW("Contact stopped typing"));
 
-	hDragCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DRAGCURSOR));
+	hDragCursor = LoadCursor(g_plugin.getInst(), MAKEINTRESOURCE(IDC_DRAGCURSOR));
 
 	Chat_Load();
 	return 0;
