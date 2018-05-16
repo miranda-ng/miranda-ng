@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Option Page */
 static HANDLE hHookOptInit;
-extern HINSTANCE hInst;
 /* Trigger */
 static HANDLE hHookModulesLoaded;
 
@@ -107,7 +106,7 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 static int ShutdownOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHUTDOWN);
 	odp.position = 900000002;
 	odp.szGroup.w = LPGENW("Events"); /* autotranslated */

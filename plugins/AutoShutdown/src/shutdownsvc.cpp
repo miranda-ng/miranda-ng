@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Shutdown Dialog */
 static HWND hwndShutdownDlg;
-extern HINSTANCE hInst;
 
 /* Events */
 static HANDLE hEventOkToShutdown,hEventShutdown;
@@ -430,7 +429,7 @@ INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 	NotifyEventHooks(hEventShutdown, wParam, lParam);
 	/* show dialog */
 	if (lParam && db_get_b(NULL, "AutoShutdown", "ShowConfirmDlg", SETTING_SHOWCONFIRMDLG_DEFAULT))
-		if (CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SHUTDOWNNOW), nullptr, ShutdownDlgProc, (BYTE)wParam) != nullptr)
+		if (CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SHUTDOWNNOW), nullptr, ShutdownDlgProc, (BYTE)wParam) != nullptr)
 			return 0;
 	/* show error */
 

@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Services */
 static HWND hwndSettingsDlg;
-extern HINSTANCE hInst;
 
 const DWORD unitValues[] = { 1,60,60 * 60,60 * 60 * 24,60 * 60 * 24 * 7,60 * 60 * 24 * 31 };
 const wchar_t *unitNames[] = { LPGENW("Second(s)"), LPGENW("Minute(s)"), LPGENW("Hour(s)"), LPGENW("Day(s)"), LPGENW("Week(s)"), LPGENW("Month(s)") };
@@ -400,7 +399,7 @@ static INT_PTR ServiceShowSettingsDialog(WPARAM, LPARAM)
 		SetForegroundWindow(hwndSettingsDlg);
 		return 0;
 	}
-	return CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETTINGS), nullptr, SettingsDlgProc) == nullptr;
+	return CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETTINGS), nullptr, SettingsDlgProc) == nullptr;
 }
 
 /************************* Toolbar ************************************/

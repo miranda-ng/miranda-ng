@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 /* Show Frame */
-extern HINSTANCE hInst;
 static HWND hwndCountdownFrame;
 static WORD hFrame;
 /* Misc */
@@ -490,7 +489,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 		GetSystemMetrics(SM_CYICON) + 2,
 		pcli->hwndContactList,
 		nullptr,
-		hInst,
+		g_plugin.getInst(),
 		&fTimeFlags);
 	if (hwndCountdownFrame == nullptr) return;
 
@@ -572,7 +571,7 @@ int InitFrame(void)
 	wcx.cbSize = sizeof(wcx);
 	wcx.style = CS_DBLCLKS | CS_PARENTDC;
 	wcx.lpfnWndProc = FrameWndProc;
-	wcx.hInstance = hInst;
+	wcx.hInstance = g_plugin.getInst();
 	wcx.hCursor = (HCURSOR)LoadImage(nullptr, IDC_ARROW, IMAGE_CURSOR, 0, 0, LR_SHARED);
 	wcx.lpszClassName = COUNTDOWNFRAME_CLASS;
 	if (!RegisterClassEx(&wcx))
@@ -586,6 +585,6 @@ int InitFrame(void)
 void UninitFrame(void)
 {
 	/* frame closed by UninitWatcher() */
-	UnregisterClass(COUNTDOWNFRAME_CLASS, hInst); /* fails if window still exists */
+	UnregisterClass(COUNTDOWNFRAME_CLASS, g_plugin.getInst()); /* fails if window still exists */
 	UnhookEvent(hHookModulesLoaded);
 }

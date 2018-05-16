@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -43,12 +43,6 @@ IconItem iconList[] =
 	{ LPGEN("Active"), "AutoShutdown_Active", IDI_ACTIVE },
 	{ LPGEN("Inactive"), "AutoShutdown_Inactive", IDI_INACTIVE },
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, VOID*)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 static int ShutdownModulesLoaded(WPARAM, LPARAM)
 {
@@ -77,7 +71,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (InitFrame()) return 1; /* before icons */
 
 	/* shared */
-	Icon_Register(hInst, "Automatic Shutdown", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "Automatic Shutdown", iconList, _countof(iconList));
 
 	InitShutdownSvc();
 	InitWatcher(); /* before InitSettingsDlg() */
