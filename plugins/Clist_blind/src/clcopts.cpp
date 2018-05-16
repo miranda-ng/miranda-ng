@@ -255,7 +255,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 int ClcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.szTitle.a = LPGEN("List");

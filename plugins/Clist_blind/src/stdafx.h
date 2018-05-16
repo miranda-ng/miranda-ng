@@ -28,8 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <vssym32.h>
 #include <Uxtheme.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_database.h>
@@ -41,6 +39,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>("CList")
+	{}
+};
+
 struct ClcContact : public ClcContactBase {};
 
 struct ClcData : public ClcDataBase
@@ -50,7 +55,6 @@ struct ClcData : public ClcDataBase
 };
 
 // shared vars
-extern HINSTANCE g_hInst;
 extern CLIST_INTERFACE coreCli;
 extern int g_bSortByStatus, g_bSortByProto;
 

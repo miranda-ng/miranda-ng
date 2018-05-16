@@ -283,7 +283,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				DestroyWindow(pcli->hwndStatus);
 				flags |= db_get_b(NULL, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
 				flags |= db_get_b(NULL, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
-				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_hInst, nullptr);
+				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), nullptr);
 			}
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR))
 				ShowWindow(pcli->hwndStatus, SW_SHOW);
@@ -308,7 +308,7 @@ static UINT expertOnlyControls[] =
 int CluiOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	odp.szTitle.a = LPGEN("Window");
 	odp.szGroup.a = LPGEN("Contact list");

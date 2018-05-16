@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 int hLangpack;
-HINSTANCE g_hInst = nullptr;
 CLIST_INTERFACE *pcli = nullptr, coreCli;
 HIMAGELIST himlCListClc = nullptr;
 
@@ -49,16 +49,6 @@ void PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT * rcPaint);
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
 int CluiOptInit(WPARAM wParam, LPARAM lParam);
 int CListOptInit(WPARAM wParam, LPARAM lParam);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// dll stub
-
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
-{
-	g_hInst = hInstDLL;
-	DisableThreadLibraryCalls(g_hInst);
-	return TRUE;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns the plugin information
@@ -134,7 +124,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 
 	coreCli = *pcli;
 
-	pcli->hInst = g_hInst;
+	pcli->hInst = g_plugin.getInst();
 	pcli->pfnPaintClc = PaintClc;
 	pcli->pfnContactListWndProc = ContactListWndProc;
 	pcli->pfnContactListControlWndProc = ContactListControlWndProc;
@@ -342,7 +332,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		dat->hwnd_list = CreateWindow(L"LISTBOX", L"",
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL),
-			0, 0, 0, 0, hwnd, nullptr, g_hInst, nullptr);
+			0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
 		dat->need_rebuild = FALSE;
 
 		GetClientRect(hwnd, &r);
