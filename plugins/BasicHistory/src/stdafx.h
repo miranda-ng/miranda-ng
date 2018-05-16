@@ -31,8 +31,6 @@
 #include <fstream>
 #include <functional>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_system.h>
@@ -91,3 +89,12 @@
 #define HISTORY_HK_ALLCONTACTS 117
 
 HICON LoadIconEx(int iconId, bool big = false);
+
+#define MODULE "BasicHistory"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};

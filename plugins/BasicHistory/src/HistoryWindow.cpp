@@ -24,8 +24,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "ImageDataObject.h"
 #include "ExportManager.h"
 
-#define MODULE				"BasicHistory"
-extern HINSTANCE hInst;
 extern HCURSOR  hCurSplitNS, hCurSplitWE;
 extern int iconsNum;
 extern bool g_SmileyAddAvail;
@@ -235,7 +233,7 @@ void HistoryWindow::ChangeToFreeWindow(HistoryWindow* historyWindow)
 
 void HistoryWindow::Show()
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryWindow::DlgProcHistory, (LPARAM)this);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryWindow::DlgProcHistory, (LPARAM)this);
 }
 
 void HistoryWindow::Focus()
@@ -519,7 +517,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 380;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_HISTORY), HistoryWindow::HistoryDlgResizer);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_HISTORY), HistoryWindow::HistoryDlgResizer);
 		ListView_SetColumnWidth(GetDlgItem(hwndDlg, IDC_LIST), 0, LVSCW_AUTOSIZE_USEHEADER);
 		DlgReturn(TRUE);
 

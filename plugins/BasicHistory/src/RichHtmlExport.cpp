@@ -26,7 +26,6 @@ RichHtmlExport::~RichHtmlExport()
 {
 }
 
-extern HINSTANCE hInst;
 extern bool g_SmileyAddAvail;
 
 std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<size_t, size_t> >* positionMap = nullptr)
@@ -122,10 +121,10 @@ std::wstring GetName(const std::wstring &path)
 
 void ExtractFile(short int iRes, const std::wstring &fileName)
 {
-	HRSRC rSrc = FindResource(hInst, MAKEINTRESOURCE(iRes), MAKEINTRESOURCE(CUSTOMRES));
+	HRSRC rSrc = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(iRes), MAKEINTRESOURCE(CUSTOMRES));
 	if (rSrc != nullptr) {
-		HGLOBAL res = LoadResource(hInst, rSrc);
-		int size = SizeofResource(hInst, rSrc);
+		HGLOBAL res = LoadResource(g_plugin.getInst(), rSrc);
+		int size = SizeofResource(g_plugin.getInst(), rSrc);
 		if (res != nullptr) {
 			char* resData = (char*)LockResource(res);
 			if (resData != nullptr) {

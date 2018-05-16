@@ -20,11 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "Options.h"
 #include "resource.h"
 
-extern HINSTANCE hInst;
 extern bool g_SmileyAddAvail;
 extern bool bPopupsEnabled;
-
-#define MODULE "BasicHistory"
 
 Options *Options::instance;
 
@@ -122,7 +119,7 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("History");
 
@@ -1473,7 +1470,7 @@ INT_PTR CALLBACK Options::DlgProcOptsScheduler(HWND hwndDlg, UINT msg, WPARAM wP
 					DlgTaskOpt top;
 					top.tasks = tasks;
 					top.to = to;
-					if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_TASK), hwndDlg, DlgProcOptsTask, (LPARAM)&top) == IDOK) {
+					if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLG_TASK), hwndDlg, DlgProcOptsTask, (LPARAM)&top) == IDOK) {
 						if (LOWORD(wParam) == IDC_ADD_TASK) {
 							tasks->push_back(*to);
 							ListBox_AddString(listTasks, to->taskName.c_str());

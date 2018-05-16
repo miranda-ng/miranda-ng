@@ -18,8 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
-
 #define MS_HISTORY_DELETEALLCONTACTHISTORY       "BasicHistory/DeleteAllContactHistory"
 #define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask"
 
@@ -36,8 +34,6 @@ bool g_SmileyAddAvail = false;
 char* metaContactProto = nullptr;
 const IID IID_ITextDocument = { 0x8CC497C0, 0xA1DF, 0x11ce, {0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D} };
 
-#define MODULE "BasicHistory"
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -51,12 +47,7 @@ PLUGININFOEX pluginInfo = {
 	{0xe25367a2, 0x51ae, 0x4044, {0xbe, 0x28, 0x13, 0x1b, 0xc1, 0x8b, 0x71, 0xa4}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
+CMPlugin g_plugin;
 int hLangpack = 0;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
@@ -260,7 +251,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HistoryEventList::Init();
 
-	Icon_Register(hInst, LPGEN("History"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("History"), iconList, _countof(iconList));
 	return 0;
 }
 
