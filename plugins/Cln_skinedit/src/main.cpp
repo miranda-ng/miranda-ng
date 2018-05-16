@@ -39,11 +39,11 @@ PLUGININFOEX pluginInfo = {
 	{0x21948c89, 0xb549, 0x4c9d, {0x8b, 0x4f, 0x3f, 0x37, 0x26, 0xec, 0x6b, 0x4b}}
 };
 
-HINSTANCE g_hInst = nullptr;
+CMPlugin g_plugin;
 int hLangpack;
 
 StatusItems_t **StatusItems;
-ChangedSItems_t ChangedSItems = {0};
+ChangedSItems_t ChangedSItems = { 0 };
 
 static int LastModifiedItem = -1;
 static int last_selcount = 0;
@@ -73,7 +73,8 @@ static void ReActiveCombo(HWND hwndDlg)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_BR), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_BL), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		ChangeControlItems(hwndDlg, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_IGNORE), IDC_IGNORE);
-	} else {
+	}
+	else {
 		ChangeControlItems(hwndDlg, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_IGNORE), IDC_IGNORE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GRADIENT_LR), IsDlgButtonChecked(hwndDlg, IDC_GRADIENT));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GRADIENT_RL), IsDlgButtonChecked(hwndDlg, IDC_GRADIENT));
@@ -206,7 +207,8 @@ static void FillOptionDialogByStatusItem(HWND hwndDlg, StatusItems_t *item)
 
 	if (item->ALPHA == -1) {
 		SetDlgItemTextA(hwndDlg, IDC_ALPHA, "");
-	} else {
+	}
+	else {
 		ret = item->ALPHA;
 		_itoa(ret, itoabuf, 10);
 		SetDlgItemTextA(hwndDlg, IDC_ALPHA, itoabuf);
@@ -247,23 +249,23 @@ static void FillOptionDialogByStatusItem(HWND hwndDlg, StatusItems_t *item)
 		SendDlgItemMessage(hwndDlg, IDC_BORDERTYPE, CB_SETCURSEL, 0, 0);
 	else {
 		index = 0;
-		switch(item->BORDERSTYLE) {
-			case 0:
-			case -1:
-				index = 0;
-				break;
-			case BDR_RAISEDOUTER:
-				index = 1;
-				break;
-			case BDR_SUNKENINNER:
-				index = 2;
-				break;
-			case EDGE_BUMP:
-				index = 3;
-				break;
-			case EDGE_ETCHED:
-				index = 4;
-				break;
+		switch (item->BORDERSTYLE) {
+		case 0:
+		case -1:
+			index = 0;
+			break;
+		case BDR_RAISEDOUTER:
+			index = 1;
+			break;
+		case BDR_SUNKENINNER:
+			index = 2;
+			break;
+		case EDGE_BUMP:
+			index = 3;
+			break;
+		case EDGE_ETCHED:
+			index = 4;
+			break;
 		}
 		SendDlgItemMessage(hwndDlg, IDC_BORDERTYPE, CB_SETCURSEL, (WPARAM)index, 0);
 	}
@@ -289,7 +291,8 @@ static BOOL CheckItem(int item, HWND hwndDlg)
 	if (StatusItems[item]->statusID == ID_EXTBKSEPARATOR) {
 		ChangeControlItems(hwndDlg, 0, 0);
 		return FALSE;
-	} else {
+	}
+	else {
 		ChangeControlItems(hwndDlg, 1, 0);
 		return TRUE;
 	}
@@ -298,69 +301,69 @@ static BOOL CheckItem(int item, HWND hwndDlg)
 static void SetChangedStatusItemFlag(WPARAM wParam, HWND hwndDlg)
 {
 	if (LOWORD(wParam) != IDC_ITEMS
-	  && (GetDlgItem(hwndDlg, LOWORD(wParam)) == GetFocus() || HIWORD(wParam) == CPN_COLOURCHANGED)
-	  && (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == CPN_COLOURCHANGED)) {
+		&& (GetDlgItem(hwndDlg, LOWORD(wParam)) == GetFocus() || HIWORD(wParam) == CPN_COLOURCHANGED)
+		&& (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == CPN_COLOURCHANGED)) {
 		switch (LOWORD(wParam)) {
-			case IDC_IGNORE:
-				ChangedSItems.bIGNORED = TRUE; break;
-			case IDC_GRADIENT:
-				ChangedSItems.bGRADIENT = TRUE; break;
-			case IDC_GRADIENT_LR:
-				ChangedSItems.bGRADIENT = TRUE;break;
-			case IDC_GRADIENT_RL:
-				ChangedSItems.bGRADIENT = TRUE; break;
-			case IDC_GRADIENT_BT:
-				ChangedSItems.bGRADIENT = TRUE; break;
-			case IDC_GRADIENT_TB:
-				ChangedSItems.bGRADIENT = TRUE; break;
+		case IDC_IGNORE:
+			ChangedSItems.bIGNORED = TRUE; break;
+		case IDC_GRADIENT:
+			ChangedSItems.bGRADIENT = TRUE; break;
+		case IDC_GRADIENT_LR:
+			ChangedSItems.bGRADIENT = TRUE; break;
+		case IDC_GRADIENT_RL:
+			ChangedSItems.bGRADIENT = TRUE; break;
+		case IDC_GRADIENT_BT:
+			ChangedSItems.bGRADIENT = TRUE; break;
+		case IDC_GRADIENT_TB:
+			ChangedSItems.bGRADIENT = TRUE; break;
 
-			case IDC_CORNER:
-				ChangedSItems.bCORNER = TRUE; break;
-			case IDC_CORNER_TL:
-				ChangedSItems.bCORNER = TRUE; break;
-			case IDC_CORNER_TR:
-				ChangedSItems.bCORNER = TRUE; break;
-			case IDC_CORNER_BR:
-				ChangedSItems.bCORNER = TRUE; break;
-			case IDC_CORNER_BL:
-				ChangedSItems.bCORNER = TRUE; break;
+		case IDC_CORNER:
+			ChangedSItems.bCORNER = TRUE; break;
+		case IDC_CORNER_TL:
+			ChangedSItems.bCORNER = TRUE; break;
+		case IDC_CORNER_TR:
+			ChangedSItems.bCORNER = TRUE; break;
+		case IDC_CORNER_BR:
+			ChangedSItems.bCORNER = TRUE; break;
+		case IDC_CORNER_BL:
+			ChangedSItems.bCORNER = TRUE; break;
 
-			case IDC_BASECOLOUR:
-				ChangedSItems.bCOLOR = TRUE; break;
-			case IDC_BASECOLOUR2:
-				ChangedSItems.bCOLOR2 = TRUE; break;
-			case IDC_COLOR2_TRANSPARENT:
-				ChangedSItems.bCOLOR2_TRANSPARENT = TRUE; break;
-			case IDC_TEXTCOLOUR:
-				ChangedSItems.bTEXTCOLOR = TRUE; break;
+		case IDC_BASECOLOUR:
+			ChangedSItems.bCOLOR = TRUE; break;
+		case IDC_BASECOLOUR2:
+			ChangedSItems.bCOLOR2 = TRUE; break;
+		case IDC_COLOR2_TRANSPARENT:
+			ChangedSItems.bCOLOR2_TRANSPARENT = TRUE; break;
+		case IDC_TEXTCOLOUR:
+			ChangedSItems.bTEXTCOLOR = TRUE; break;
 
-			case IDC_ALPHA:
-				ChangedSItems.bALPHA = TRUE; break;
-			case IDC_ALPHASPIN:
-				ChangedSItems.bALPHA = TRUE; break;
+		case IDC_ALPHA:
+			ChangedSItems.bALPHA = TRUE; break;
+		case IDC_ALPHASPIN:
+			ChangedSItems.bALPHA = TRUE; break;
 
-			case IDC_MRGN_LEFT:
-				ChangedSItems.bMARGIN_LEFT = TRUE; break;
-			case IDC_MRGN_LEFT_SPIN:
-				ChangedSItems.bMARGIN_LEFT = TRUE; break;
+		case IDC_MRGN_LEFT:
+			ChangedSItems.bMARGIN_LEFT = TRUE; break;
+		case IDC_MRGN_LEFT_SPIN:
+			ChangedSItems.bMARGIN_LEFT = TRUE; break;
 
-			case IDC_MRGN_TOP:
-				ChangedSItems.bMARGIN_TOP = TRUE; break;
-			case IDC_MRGN_TOP_SPIN:
-				ChangedSItems.bMARGIN_TOP = TRUE; break;
+		case IDC_MRGN_TOP:
+			ChangedSItems.bMARGIN_TOP = TRUE; break;
+		case IDC_MRGN_TOP_SPIN:
+			ChangedSItems.bMARGIN_TOP = TRUE; break;
 
-			case IDC_MRGN_RIGHT:
-				ChangedSItems.bMARGIN_RIGHT = TRUE; break;
-			case IDC_MRGN_RIGHT_SPIN:
-				ChangedSItems.bMARGIN_RIGHT = TRUE; break;
+		case IDC_MRGN_RIGHT:
+			ChangedSItems.bMARGIN_RIGHT = TRUE; break;
+		case IDC_MRGN_RIGHT_SPIN:
+			ChangedSItems.bMARGIN_RIGHT = TRUE; break;
 
-			case IDC_MRGN_BOTTOM:
-				ChangedSItems.bMARGIN_BOTTOM = TRUE; break;
-			case IDC_MRGN_BOTTOM_SPIN:
-				ChangedSItems.bMARGIN_BOTTOM = TRUE; break;
+		case IDC_MRGN_BOTTOM:
+			ChangedSItems.bMARGIN_BOTTOM = TRUE; break;
+		case IDC_MRGN_BOTTOM_SPIN:
+			ChangedSItems.bMARGIN_BOTTOM = TRUE; break;
 
-			case IDC_BORDERTYPE:
-				ChangedSItems.bBORDERSTYLE = TRUE; break;
+		case IDC_BORDERTYPE:
+			ChangedSItems.bBORDERSTYLE = TRUE; break;
 		}
 	}
 }
@@ -391,9 +394,9 @@ static void UpdateStatusStructSettingsFromOptDlg(HWND hwndDlg, int index)
 	if (ChangedSItems.bCORNER) {
 		p->CORNER = CORNER_NONE;
 		if (IsDlgButtonChecked(hwndDlg, IDC_CORNER))
-			p->CORNER |= CORNER_ACTIVE ;
+			p->CORNER |= CORNER_ACTIVE;
 		if (IsDlgButtonChecked(hwndDlg, IDC_CORNER_TL))
-			p->CORNER |= CORNER_TL ;
+			p->CORNER |= CORNER_TL;
 		if (IsDlgButtonChecked(hwndDlg, IDC_CORNER_TR))
 			p->CORNER |= CORNER_TR;
 		if (IsDlgButtonChecked(hwndDlg, IDC_CORNER_BR))
@@ -417,54 +420,54 @@ static void UpdateStatusStructSettingsFromOptDlg(HWND hwndDlg, int index)
 	if (ChangedSItems.bALPHA) {
 		GetDlgItemTextA(hwndDlg, IDC_ALPHA, buf, 10);		// can be removed now
 		if (buf[0] != 0)
-			p->ALPHA = (BYTE) SendDlgItemMessage(hwndDlg, IDC_ALPHASPIN, UDM_GETPOS, 0, 0);
+			p->ALPHA = (BYTE)SendDlgItemMessage(hwndDlg, IDC_ALPHASPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_LEFT) {
 		GetDlgItemTextA(hwndDlg, IDC_MRGN_LEFT, buf, 10);
 		if (buf[0] != 0)
-			p->MARGIN_LEFT = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_LEFT_SPIN, UDM_GETPOS, 0, 0);
+			p->MARGIN_LEFT = (BYTE)SendDlgItemMessage(hwndDlg, IDC_MRGN_LEFT_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_TOP) {
 		GetDlgItemTextA(hwndDlg, IDC_MRGN_TOP, buf, 10);
 		if (buf[0] != 0)
-			p->MARGIN_TOP = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_TOP_SPIN, UDM_GETPOS, 0, 0);
+			p->MARGIN_TOP = (BYTE)SendDlgItemMessage(hwndDlg, IDC_MRGN_TOP_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_RIGHT) {
 		GetDlgItemTextA(hwndDlg, IDC_MRGN_RIGHT, buf, 10);
 		if (buf[0] != 0)
-			p->MARGIN_RIGHT = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_RIGHT_SPIN, UDM_GETPOS, 0, 0);
+			p->MARGIN_RIGHT = (BYTE)SendDlgItemMessage(hwndDlg, IDC_MRGN_RIGHT_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_BOTTOM) {
 		GetDlgItemTextA(hwndDlg, IDC_MRGN_BOTTOM, buf, 10);
 		if (buf[0] != 0)
-			p->MARGIN_BOTTOM = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_BOTTOM_SPIN, UDM_GETPOS, 0, 0);
+			p->MARGIN_BOTTOM = (BYTE)SendDlgItemMessage(hwndDlg, IDC_MRGN_BOTTOM_SPIN, UDM_GETPOS, 0, 0);
 	}
 	if (ChangedSItems.bBORDERSTYLE) {
 		bdrtype = SendDlgItemMessage(hwndDlg, IDC_BORDERTYPE, CB_GETCURSEL, 0, 0);
 		if (bdrtype == CB_ERR)
 			p->BORDERSTYLE = 0;
 		else {
-			switch(bdrtype) {
-				case 0:
+			switch (bdrtype) {
+			case 0:
 				p->BORDERSTYLE = 0;
 				break;
-				case 1:
+			case 1:
 				p->BORDERSTYLE = BDR_RAISEDOUTER;
 				break;
-				case 2:
+			case 2:
 				p->BORDERSTYLE = BDR_SUNKENINNER;
 				break;
-				case 3:
+			case 3:
 				p->BORDERSTYLE = EDGE_BUMP;
 				break;
-				case 4:
+			case 4:
 				p->BORDERSTYLE = EDGE_ETCHED;
 				break;
-				default:
+			default:
 				p->BORDERSTYLE = 0;
 				break;
 			}
@@ -540,7 +543,7 @@ static UINT _controls_to_refresh[] = {
 
 static void RefreshControls(HWND hwnd)
 {
-	for(int i = 0; _controls_to_refresh[i]; i++)
+	for (int i = 0; _controls_to_refresh[i]; i++)
 		InvalidateRect(GetDlgItem(hwnd, _controls_to_refresh[i]), nullptr, FALSE);
 }
 
@@ -556,7 +559,7 @@ static void OnListItemsChange(HWND hwndDlg)
 		int n, itemData, first_item;
 
 		// get selected indizes
-		SendDlgItemMessage(hwndDlg, IDC_ITEMS, LB_GETSELITEMS, 64, (LPARAM) last_indizes);
+		SendDlgItemMessage(hwndDlg, IDC_ITEMS, LB_GETSELITEMS, 64, (LPARAM)last_indizes);
 
 		// initialize with first items value
 
@@ -600,7 +603,8 @@ static void OnListItemsChange(HWND hwndDlg)
 		if (last_selcount == 1 && pFirst->statusID == ID_EXTBKSEPARATOR) {
 			ChangeControlItems(hwndDlg, 0, 0);
 			last_selcount = 0;
-		} else
+		}
+		else
 			ChangeControlItems(hwndDlg, 1, 0);
 		FillOptionDialogByStatusItem(hwndDlg, &DialogSettingForMultiSel);
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_ITEMS), nullptr, FALSE);
@@ -680,105 +684,105 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		SendDlgItemMessage(hwndDlg, IDC_BORDERTYPE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Bumped"));
 		SendDlgItemMessage(hwndDlg, IDC_BORDERTYPE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Etched"));
 
-		SendDlgItemMessage(hwndDlg, IDC_3DDARKCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, "CLCExt", "3ddark", RGB(224,224,224)));
-		SendDlgItemMessage(hwndDlg, IDC_3DLIGHTCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, "CLCExt", "3dbright", RGB(224,224,224)));
+		SendDlgItemMessage(hwndDlg, IDC_3DDARKCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, "CLCExt", "3ddark", RGB(224, 224, 224)));
+		SendDlgItemMessage(hwndDlg, IDC_3DLIGHTCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, "CLCExt", "3dbright", RGB(224, 224, 224)));
 		return 0;
 
 	case WM_DRAWITEM:
-		{
-			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *) lParam;
-			int iItem = dis->itemData;
-			StatusItems_t *item = nullptr;
+	{
+		DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
+		int iItem = dis->itemData;
+		StatusItems_t *item = nullptr;
 
-			SetBkMode(dis->hDC, TRANSPARENT);
-			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
+		SetBkMode(dis->hDC, TRANSPARENT);
+		FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
 
-			if (iItem >= ID_EXTBK_FIRST && iItem < ID_EXTBK_LAST)
-				item = StatusItems[iItem - ID_EXTBK_FIRST];
+		if (iItem >= ID_EXTBK_FIRST && iItem < ID_EXTBK_LAST)
+			item = StatusItems[iItem - ID_EXTBK_FIRST];
 
-			if (dis->itemState & ODS_SELECTED && iItem != ID_EXTBKSEPARATOR) {
-				FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
-				SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
-			}
-			else {
-				FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
-				if (item && item->IGNORED)
-					SetTextColor(dis->hDC, RGB(255, 0, 0));
-				else
-					SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
-			}
-			if (iItem == ID_EXTBKSEPARATOR) {
-				HPEN hPen, hPenOld;
-				POINT pt;
-
-				hPen = CreatePen(PS_SOLID, 2, GetSysColor(COLOR_WINDOWTEXT));
-				hPenOld = (HPEN)SelectObject(dis->hDC, hPen);
-
-				MoveToEx(dis->hDC, dis->rcItem.left, (dis->rcItem.top + dis->rcItem.bottom) / 2, &pt);
-				LineTo(dis->hDC, dis->rcItem.right, (dis->rcItem.top + dis->rcItem.bottom) / 2);
-				SelectObject(dis->hDC, hPenOld);
-				DeleteObject((HGDIOBJ)hPen);
-			}
-			else if (item) {
-				char *szName = item->szName[0] == '{' ? &item->szName[3] : item->szName;
-				TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, szName, (int)mir_strlen(szName));
-			}
-			return TRUE;
+		if (dis->itemState & ODS_SELECTED && iItem != ID_EXTBKSEPARATOR) {
+			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
+			SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
 		}
+		else {
+			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
+			if (item && item->IGNORED)
+				SetTextColor(dis->hDC, RGB(255, 0, 0));
+			else
+				SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+		}
+		if (iItem == ID_EXTBKSEPARATOR) {
+			HPEN hPen, hPenOld;
+			POINT pt;
+
+			hPen = CreatePen(PS_SOLID, 2, GetSysColor(COLOR_WINDOWTEXT));
+			hPenOld = (HPEN)SelectObject(dis->hDC, hPen);
+
+			MoveToEx(dis->hDC, dis->rcItem.left, (dis->rcItem.top + dis->rcItem.bottom) / 2, &pt);
+			LineTo(dis->hDC, dis->rcItem.right, (dis->rcItem.top + dis->rcItem.bottom) / 2);
+			SelectObject(dis->hDC, hPenOld);
+			DeleteObject((HGDIOBJ)hPen);
+		}
+		else if (item) {
+			char *szName = item->szName[0] == '{' ? &item->szName[3] : item->szName;
+			TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, szName, (int)mir_strlen(szName));
+		}
+		return TRUE;
+	}
 
 	case WM_CONTEXTMENU:
-		{
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_ITEMS);
+	{
+		HWND hwndList = GetDlgItem(hwndDlg, IDC_ITEMS);
 
-			POINT pt;
-			GetCursorPos(&pt);
+		POINT pt;
+		GetCursorPos(&pt);
 
-			RECT rc;
-			GetWindowRect(hwndList, &rc);
+		RECT rc;
+		GetWindowRect(hwndList, &rc);
 
-			if (PtInRect(&rc, pt)) {
-				int iSelection = (int)TrackPopupMenu(psd->hMenuItems, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
+		if (PtInRect(&rc, pt)) {
+			int iSelection = (int)TrackPopupMenu(psd->hMenuItems, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 
-				if (iSelection >= ID_EXTBK_FIRST && iSelection < ID_EXTBK_LAST) {
-					iSelection -= ID_EXTBK_FIRST;
-					StatusItems_t *pSel = StatusItems[iSelection];
+			if (iSelection >= ID_EXTBK_FIRST && iSelection < ID_EXTBK_LAST) {
+				iSelection -= ID_EXTBK_FIRST;
+				StatusItems_t *pSel = StatusItems[iSelection];
 
-					for(int i = ID_EXTBK_FIRST; i < ID_EXTBK_LAST; i++) {
-						if ( SendMessage(hwndList, LB_GETSEL, i - ID_EXTBK_FIRST, 0) <= 0)
-							continue;
+				for (int i = ID_EXTBK_FIRST; i < ID_EXTBK_LAST; i++) {
+					if (SendMessage(hwndList, LB_GETSEL, i - ID_EXTBK_FIRST, 0) <= 0)
+						continue;
 
-						int iIndex = SendMessage(hwndList, LB_GETITEMDATA, i - ID_EXTBK_FIRST, 0);
-						iIndex -= ID_EXTBK_FIRST;
-						if (iIndex < 0)
-							continue;
+					int iIndex = SendMessage(hwndList, LB_GETITEMDATA, i - ID_EXTBK_FIRST, 0);
+					iIndex -= ID_EXTBK_FIRST;
+					if (iIndex < 0)
+						continue;
 
-						StatusItems_t *p = StatusItems[iIndex];
-						p->ALPHA = pSel->ALPHA;
-						p->BORDERSTYLE = pSel->BORDERSTYLE;
-						p->COLOR = pSel->COLOR;
-						p->COLOR2 = pSel->COLOR2;
-						p->COLOR2_TRANSPARENT = pSel->COLOR2_TRANSPARENT;
-						p->CORNER = pSel->CORNER;
-						p->GRADIENT = pSel->GRADIENT;
-						p->IGNORED = pSel->IGNORED;
-						p->imageItem = pSel->imageItem;
-						p->MARGIN_BOTTOM = pSel->MARGIN_BOTTOM;
-						p->MARGIN_LEFT = pSel->MARGIN_LEFT;
-						p->MARGIN_RIGHT = pSel->MARGIN_RIGHT;
-						p->MARGIN_TOP = pSel->MARGIN_TOP;
-						p->TEXTCOLOR = pSel->TEXTCOLOR;
-					}
-					OnListItemsChange(hwndDlg);
+					StatusItems_t *p = StatusItems[iIndex];
+					p->ALPHA = pSel->ALPHA;
+					p->BORDERSTYLE = pSel->BORDERSTYLE;
+					p->COLOR = pSel->COLOR;
+					p->COLOR2 = pSel->COLOR2;
+					p->COLOR2_TRANSPARENT = pSel->COLOR2_TRANSPARENT;
+					p->CORNER = pSel->CORNER;
+					p->GRADIENT = pSel->GRADIENT;
+					p->IGNORED = pSel->IGNORED;
+					p->imageItem = pSel->imageItem;
+					p->MARGIN_BOTTOM = pSel->MARGIN_BOTTOM;
+					p->MARGIN_LEFT = pSel->MARGIN_LEFT;
+					p->MARGIN_RIGHT = pSel->MARGIN_RIGHT;
+					p->MARGIN_TOP = pSel->MARGIN_TOP;
+					p->TEXTCOLOR = pSel->TEXTCOLOR;
 				}
+				OnListItemsChange(hwndDlg);
 			}
 		}
-		break;
+	}
+	break;
 
 	case WM_COMMAND:
 		// this will check if the user changed some actual statusitems values
 		// if yes the flag bChanged will be set to TRUE
 		SetChangedStatusItemFlag(wParam, hwndDlg);
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_ITEMS:
 			if (HIWORD(wParam) != LBN_SELCHANGE)
 				return FALSE;
@@ -806,15 +810,15 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		case IDC_BORDERTYPE:
 			break;
 		}
-		if ((LOWORD(wParam) == IDC_ALPHA || LOWORD(wParam) == IDC_MRGN_LEFT || LOWORD(wParam) == IDC_MRGN_BOTTOM || LOWORD(wParam) == IDC_MRGN_TOP || LOWORD(wParam) == IDC_MRGN_RIGHT) && (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+		if ((LOWORD(wParam) == IDC_ALPHA || LOWORD(wParam) == IDC_MRGN_LEFT || LOWORD(wParam) == IDC_MRGN_BOTTOM || LOWORD(wParam) == IDC_MRGN_TOP || LOWORD(wParam) == IDC_MRGN_RIGHT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				// save user made changes
 				SaveLatestChanges(hwndDlg);
@@ -828,7 +832,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 					psd->pfnClcOptionsChanged();
 				if (psd->hwndCLUI) {
 					SendMessage(psd->hwndCLUI, WM_SIZE, 0, 0);
-					PostMessage(psd->hwndCLUI, WM_USER+100, 0, 0);		// CLUIINTM_REDRAW
+					PostMessage(psd->hwndCLUI, WM_USER + 100, 0, 0);		// CLUIINTM_REDRAW
 				}
 				break;
 			}
@@ -865,7 +869,7 @@ static INT_PTR SkinEdit_FillByCurrentSel(WPARAM wParam, LPARAM)
 static INT_PTR SkinEdit_Invoke(WPARAM, LPARAM lParam)
 {
 	SKINDESCRIPTION *psd = (SKINDESCRIPTION *)lParam;
-	TCITEM tci = {0};
+	TCITEM tci = { 0 };
 	RECT rcClient;
 	int iTabs;
 
@@ -875,8 +879,8 @@ static INT_PTR SkinEdit_Invoke(WPARAM, LPARAM lParam)
 	iTabs = TabCtrl_GetItemCount(psd->hWndTab);
 	GetClientRect(psd->hWndParent, &rcClient);
 
-	tci.mask = TCIF_PARAM|TCIF_TEXT;
-	tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SKINITEMEDIT), psd->hWndParent, SkinEdit_ExtBkDlgProc, (LPARAM)psd);
+	tci.mask = TCIF_PARAM | TCIF_TEXT;
+	tci.lParam = (LPARAM)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SKINITEMEDIT), psd->hWndParent, SkinEdit_ExtBkDlgProc, (LPARAM)psd);
 
 	tci.pszText = TranslateT("Skin items");
 	TabCtrl_InsertItem(psd->hWndTab, iTabs++, &tci);
@@ -916,11 +920,4 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
-{
-	g_hInst = hInstDLL;
-	DisableThreadLibraryCalls(g_hInst);
-	return TRUE;
 }

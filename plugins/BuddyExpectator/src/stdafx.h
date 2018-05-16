@@ -27,8 +27,6 @@
 #include <time.h>
 #include <locale.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_skin.h>
 #include <m_clistint.h>
@@ -49,7 +47,13 @@
 
 #define MODULE_NAME     "BuddyExpectator"
 
-extern HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{}
+};
+
 extern HANDLE hExtraIcon;
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);

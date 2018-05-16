@@ -123,7 +123,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// Зарегим звук
 	Skin_AddSound(SND_ChangeLayout, ModuleNameW, LPGENW("Changing Layout"));
-	Skin_AddSound(SND_ChangeCase,   ModuleNameW, LPGENW("Changing Case"));
+	Skin_AddSound(SND_ChangeCase, ModuleNameW, LPGENW("Changing Case"));
 
 	// Хук на нажатие клавиши
 	kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, nullptr, GetCurrentThreadId());
@@ -141,7 +141,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN_OPTION_FORM);
 	odp.szTitle.a = ModuleName;
 	odp.szGroup.a = LPGEN("Message sessions");

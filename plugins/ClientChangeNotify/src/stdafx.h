@@ -31,8 +31,6 @@
 #include <WinSock.h>
 #include <commdlg.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include "newpluginapi.h"
 #include "statusmodes.h"
 #include "m_popup.h"
@@ -85,6 +83,14 @@
 #define NOTIFYTIMER_INTERVAL 3500
 
 #define MOD_NAME "ClientChangeNotify"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MOD_NAME)
+	{}
+};
+
 #define LOG_ID MOD_NAME
 #define LOG_PREFIX MOD_NAME ": " // for netlib.log
 
@@ -104,7 +110,6 @@
 
 #define CLIENTCHANGED_SOUND "ClientChanged"
 
-extern HINSTANCE g_hInstance;
 extern BOOL bPopupExists, bFingerprintExists;
 
 extern COptPage g_PopupOptPage;

@@ -20,8 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-char ModuleName[] = "CmdLine";
-HINSTANCE hInstance;
+CMPlugin g_plugin;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -46,7 +45,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
- 	pcli = Clist_GetInterface();
+	pcli = Clist_GetInterface();
 
 	if (InitServer())
 		MessageBox(nullptr, TranslateT("Could not initialize CmdLine plugin property"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
@@ -63,10 +62,4 @@ extern "C" int __declspec(dllexport) Unload()
 
 	DestroyServer();
 	return 0;
-}
-
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInstance = hinstDLL;
-	return TRUE;
 }

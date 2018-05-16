@@ -19,7 +19,6 @@
 
 #include "stdafx.h"
 
-HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 HGENMENU g_hMenuItem;
 HWINEVENTHOOK g_hWinHook;
@@ -31,6 +30,7 @@ WORD g_wMask, g_wMaskAdv;
 bool g_bWindowHidden, g_fPassRequested, g_TrayIcon;
 char g_password[MAXPASSLEN + 1];
 HKL oldLangID, oldLayout;
+CMPlugin g_plugin;
 int protoCount, hLangpack;
 PROTOACCOUNT **proto;
 unsigned *oldStatus;
@@ -54,12 +54,6 @@ static PLUGININFOEX pluginInfo = {
 	{ 0x4fac353d, 0x0a36, 0x44a4, { 0x90, 0x64, 0x67, 0x59, 0xc5, 0x3a, 0xe7, 0x82 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInstance = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
@@ -80,7 +74,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 	switch (uMsg){
 	case WM_INITDIALOG:
 		g_hDlgPass = hDlg;
-		hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DLGPASSWD));
+		hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DLGPASSWD));
 		dwOldIcon = SetClassLongPtr(hDlg, GCLP_HICON, (INT_PTR)hIcon); // set alt+tab icon
 		SendDlgItemMessage(hDlg, IDC_EDIT1, EM_LIMITTEXT, MAXPASSLEN, 0);
 
@@ -378,7 +372,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
 				db_free(&dbVar);
 
-				int res = DialogBox(g_hInstance, (MAKEINTRESOURCE(IDD_PASSDIALOGNEW)), GetForegroundWindow(), DlgStdInProc);
+				int res = DialogBox(g_plugin.getInst(), (MAKEINTRESOURCE(IDD_PASSDIALOGNEW)), GetForegroundWindow(), DlgStdInProc);
 
 				g_fPassRequested = false;
 				if (res != IDOK) return 0;
@@ -638,13 +632,13 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 	WNDCLASS winclass = { 0 };
 	winclass.lpfnWndProc = ListenWndProc;
-	winclass.hInstance = g_hInstance;
+	winclass.hInstance = g_plugin.getInst();
 	winclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	winclass.lpszClassName = BOSSKEY_LISTEN_INFO;
 
 	if (RegisterClass(&winclass))
 	{
-		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO, BOSSKEY_LISTEN_INFO, WS_POPUP, 0, 0, 5, 5, pcli->hwndContactList, nullptr, g_hInstance, nullptr);
+		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO, BOSSKEY_LISTEN_INFO, WS_POPUP, 0, 0, 5, 5, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 		WTSRegisterSessionNotification(g_hListenWindow, 0);
 	}
 
@@ -702,7 +696,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", 0);
 	}
 
-	Icon_Register(g_hInstance, "BossKey", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "BossKey", iconList, _countof(iconList));
 
 	CreateServiceFunction(MS_BOSSKEY_HIDE, BossKeyHideMiranda); // Create service
 

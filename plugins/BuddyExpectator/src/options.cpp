@@ -432,7 +432,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 static int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPANEL);
 	odp.szTitle.w = LPGENW("Buddy Expectator");
@@ -529,7 +529,7 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 {
 	if (lparam > 0) {
 		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
-		uip.hInstance = hInst;
+		uip.hInstance = g_plugin.getInst();
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 		uip.szTitle.a = LPGEN("Buddy Expectator");
 		uip.pfnDlgProc = UserinfoDlgProc;

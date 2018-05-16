@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 int hLangpack;
 LPTSTR ptszLayStrings[20];
 HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
 HICON hPopupIcon, hCopyIcon;
 HKL hklLayouts[20];
 BYTE bLayNum;
-HINSTANCE hInst;
 HHOOK kbHook_All;
 MainOptions moOptions;
 PopupOptions poOptions, poOptionsTemp;
@@ -31,12 +31,6 @@ LPCTSTR ptszSeparators = L" \t\n\r";
 
 HANDLE hOptionsInitialize;
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -49,18 +43,18 @@ static IconItem iconList[] =
 };
 
 extern "C" __declspec(dllexport) int Load(void)
-{	
+{
 	mir_getLP(&pluginInfoEx);
 	memset(hklLayouts, 0, sizeof(hklLayouts));
 	bLayNum = GetKeyboardLayoutList(20, hklLayouts);
-	if (bLayNum < 2) 
+	if (bLayNum < 2)
 		return 1;
-	
+
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	// IcoLib support
-	Icon_Register(hInst, ModuleName, iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), ModuleName, iconList, _countof(iconList));
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 
@@ -71,7 +65,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	for (int i = 0; i < bLayNum; i++)	
+	for (int i = 0; i < bLayNum; i++)
 		mir_free(ptszLayStrings[i]);
 
 	DestroyServiceFunction(hChangeLayout);

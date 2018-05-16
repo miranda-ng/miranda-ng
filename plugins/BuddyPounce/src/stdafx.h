@@ -8,8 +8,6 @@
 #include <time.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_langpack.h>
@@ -28,6 +26,13 @@
 #define modname			"BuddyPounce"
 #define modFullname		"Buddy Pounce"
 #define msg(a,b)		MessageBox(0,a,b,MB_OK)
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(modname)
+	{}
+};
 
 #define SECONDSINADAY	86400
 
@@ -60,8 +65,6 @@ struct SendPounceDlgProcStruct
 	int timer;
 	wchar_t *message;
 };
-
-extern HINSTANCE hInst;
 
 //=======================================================
 //  Functions

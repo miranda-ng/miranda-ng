@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <time.h>
 #include <stdlib.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include "newpluginapi.h"
 #include "m_database.h"
 #include "m_clist.h"
@@ -56,8 +54,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "mimcmd_handlers.h"
 #include "mimcmd_data.h"
 
-extern char ModuleName[];
-extern HINSTANCE hInstance;
+#define ModuleName "CmdLine"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(ModuleName)
+	{}
+};
 
 extern int bUseANSIStrings;
 

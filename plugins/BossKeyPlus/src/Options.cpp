@@ -318,7 +318,7 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	optDi.position = 920000000;
 	optDi.pfnDlgProc = MainOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGMAIN);
-	optDi.hInstance = g_hInstance;
+	optDi.hInstance = g_plugin.getInst();
 	optDi.szTitle.a = LPGEN("BossKey");
 	optDi.szGroup.a = LPGEN("Events");
 	optDi.szTab.a = LPGEN("Main");

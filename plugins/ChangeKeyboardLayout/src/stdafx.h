@@ -5,8 +5,6 @@
 #include <commctrl.h>
 #include <richedit.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_langpack.h>
@@ -30,6 +28,13 @@
 #define MaxTextSize 64000
 #define ModuleName  LPGEN("ChangeKeyboardLayout")
 #define ModuleNameW LPGENW("ChangeKeyboardLayout")
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(ModuleName)
+	{}
+};
 
 // History++ API
 #define MS_HPP_EG_WINDOW			"History++/ExtGrid/NewWindow"
@@ -89,8 +94,6 @@ typedef struct
 	BYTE bRightClick;
 	POPUPACTION paActions[1];
 } PopupOptions;
-
-extern HINSTANCE hInst;
 
 extern HICON hPopupIcon, hCopyIcon;
 

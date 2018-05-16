@@ -2,26 +2,26 @@
 	ClientChangeNotify - Plugin for Miranda IM
 	Copyright (c) 2006-2008 Chervov Dmitry
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
 
-HINSTANCE g_hInstance;
 HANDLE    g_hMainThread;
 HGENMENU  g_hTogglePopupsMenuItem;
+CMPlugin g_plugin;
 int       hLangpack;
 
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
@@ -39,12 +39,6 @@ PLUGININFOEX pluginInfo = {
 	// {B68A8906-748B-435D-930E-21CC6E8F3B3F}
 	{0xb68a8906, 0x748b, 0x435d, {0x93, 0xe, 0x21, 0xcc, 0x6e, 0x8f, 0x3b, 0x3f}}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInstance = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
@@ -68,7 +62,7 @@ static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 // wParam = hContact
 {
 	POINT pt;
-	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MOD_NAME) L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInstance, nullptr);
+	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MOD_NAME) L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
 	HMENU hMenu = Menu_BuildContactMenu(wParam);
 	GetCursorPos(&pt);
@@ -156,7 +150,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	}
 
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)calloc(1, sizeof(PLUGIN_DATA));
-	POPUPDATAT ppd = {0};
+	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = sd->hContact;
 	char *szProto = GetContactProto(sd->hContact);
 	pdata->hIcon = ppd.lchIcon = Finger_GetClientIcon(sd->MirVer, false);
@@ -184,7 +178,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (strcmp(cws->szSetting, DB_MIRVER))
 		return 0;
 
-	SHOWPOPUP_DATA sd = {0};
+	SHOWPOPUP_DATA sd = { 0 };
 	char *szProto = GetContactProto(hContact);
 	if (g_PreviewOptPage)
 		sd.MirVer = L"Miranda NG ICQ 0.93.5.3007";
@@ -229,7 +223,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		sd.PopupOptPage = &PopupOptPage;
 		if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
 			if (bFingerprintExists) {
-				LPCTSTR ptszOldClient = Finger_GetClientDescr(sd.OldMirVer); 
+				LPCTSTR ptszOldClient = Finger_GetClientDescr(sd.OldMirVer);
 				LPCTSTR ptszClient = Finger_GetClientDescr(sd.MirVer);
 				if (ptszOldClient && ptszClient) {
 					if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !wcscmp(ptszClient, ptszOldClient))
@@ -326,7 +320,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	if (bPopupExists) {
 		CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups);
 		HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu);
-	
+
 		CMenuItem mi;
 		SET_UID(mi, 0xfabb9181, 0xdb92, 0x43f4, 0x86, 0x40, 0xca, 0xb6, 0x4c, 0x93, 0x34, 0x27);
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
@@ -342,7 +336,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 	// seems that Fingerprint is not installed
 	if (!bFingerprintExists && !db_get_b(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 0))
-		CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_CCN_ERROR), nullptr, CCNErrorDlgProc);
+		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CCN_ERROR), nullptr, CCNErrorDlgProc);
 
 	return 0;
 }

@@ -22,7 +22,7 @@
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 DWORD timer_id = 0;
@@ -59,12 +59,6 @@ static IconItem iconList[] =
 	{ LPGEN("Hide"), "hide_icon", IDI_HIDE },
 	{ LPGEN("Never hide"), "neverhide_icon", IDI_NEVERHIDE }
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 time_t getLastSeen(MCONTACT hContact)
 {
@@ -679,7 +673,7 @@ extern "C" int __declspec(dllexport) Load(void)
 			db_set_dw(hContact, MODULE_NAME, "CreationTime", current_time);
 	}
 
-	Icon_Register(hInst, "BuddyExpectator", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "BuddyExpectator", iconList, _countof(iconList));
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
 
