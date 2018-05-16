@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 /* Conversation */
-extern HINSTANCE hInst;
 static HWND hwndDdeMsg;
 /* Misc */
 static HANDLE hHookModulesLoaded, hHookPreShutdown;
@@ -88,20 +87,20 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 {
 	switch (msg) {
 	case WM_DDE_INITIATE:
-		{
-			ATOM hSzApp = LOWORD(lParam); /* no UnpackDDElParam() here */
-			ATOM hSzTopic = HIWORD(lParam);
-			if ((hSzApp == GlobalFindAtom(DDEAPP) && hSzTopic == GlobalFindAtom(DDETOPIC)) || !hSzApp) {
-				hSzApp = GlobalAddAtom(DDEAPP);
-				hSzTopic = GlobalAddAtom(DDETOPIC);
-				if (hSzApp && hSzTopic)
-					/* PackDDElParam() only for posted msgs */
-					SendMessage((HWND)wParam, WM_DDE_ACK, (WPARAM)hwnd, MAKELPARAM(hSzApp, hSzTopic));
-				if (hSzApp) GlobalDeleteAtom(hSzApp);
-				if (hSzTopic) GlobalDeleteAtom(hSzTopic);
-			}
+	{
+		ATOM hSzApp = LOWORD(lParam); /* no UnpackDDElParam() here */
+		ATOM hSzTopic = HIWORD(lParam);
+		if ((hSzApp == GlobalFindAtom(DDEAPP) && hSzTopic == GlobalFindAtom(DDETOPIC)) || !hSzApp) {
+			hSzApp = GlobalAddAtom(DDEAPP);
+			hSzTopic = GlobalAddAtom(DDETOPIC);
+			if (hSzApp && hSzTopic)
+				/* PackDDElParam() only for posted msgs */
+				SendMessage((HWND)wParam, WM_DDE_ACK, (WPARAM)hwnd, MAKELPARAM(hSzApp, hSzTopic));
+			if (hSzApp) GlobalDeleteAtom(hSzApp);
+			if (hSzTopic) GlobalDeleteAtom(hSzTopic);
 		}
-		return 0;
+	}
+	return 0;
 
 	case WM_DDE_EXECUTE: /* posted message */
 		HGLOBAL hCommand;
@@ -143,19 +142,19 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case WM_DDE_UNADVISE:
 	case WM_DDE_POKE:
 		/* fail safely for those to avoid memory leak in lParam */
-		{
-			ATOM hSzItem;
-			DDEACK ack;
-			memset(&ack, 0, sizeof(ack));
-			if (UnpackDDElParam(msg, lParam, nullptr, (PUINT_PTR)&hSzItem)) {
-				lParam = ReuseDDElParam(lParam, msg, WM_DDE_ACK, *(PUINT)&ack, (UINT)hSzItem);
-				if (!PostMessage((HWND)wParam, WM_DDE_ACK, (WPARAM)hwnd, lParam)) {
-					if (hSzItem) GlobalDeleteAtom(hSzItem);
-					FreeDDElParam(WM_DDE_ACK, lParam);
-				}
+	{
+		ATOM hSzItem;
+		DDEACK ack;
+		memset(&ack, 0, sizeof(ack));
+		if (UnpackDDElParam(msg, lParam, nullptr, (PUINT_PTR)&hSzItem)) {
+			lParam = ReuseDDElParam(lParam, msg, WM_DDE_ACK, *(PUINT)&ack, (UINT)hSzItem);
+			if (!PostMessage((HWND)wParam, WM_DDE_ACK, (WPARAM)hwnd, lParam)) {
+				if (hSzItem) GlobalDeleteAtom(hSzItem);
+				FreeDDElParam(WM_DDE_ACK, lParam);
 			}
-			return 0;
 		}
+		return 0;
+	}
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
@@ -166,7 +165,7 @@ static HANDLE StartupMainProcess(wchar_t *pszDatabasePath)
 	wchar_t *p, szPath[MAX_PATH];
 
 	/* we are inside RunDll32 here */
-	if (!GetModuleFileName(hInst, szPath, _countof(szPath))) return nullptr;
+	if (!GetModuleFileName(g_plugin.getInst(), szPath, _countof(szPath))) return nullptr;
 	p = wcsrchr(szPath, '\\');
 	if (p != nullptr) { *p = 0; p = wcsrchr(szPath, '\\'); }
 	if (p == nullptr) return nullptr;
@@ -215,7 +214,7 @@ static int DdePreShutdown(WPARAM, LPARAM)
 {
 	/* dde needs to be stopped before any plugins are unloaded */
 	if (hwndDdeMsg != nullptr) DestroyWindow(hwndDdeMsg);
-	UnregisterClass(WNDCLASS_DDEMSGWINDOW, hInst);
+	UnregisterClass(WNDCLASS_DDEMSGWINDOW, g_plugin.getInst());
 	return 0;
 }
 
@@ -226,7 +225,7 @@ static int DdeModulesLoaded2(WPARAM, LPARAM)
 	wcl.lpfnWndProc = DdeMessageWindow;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hCursor = nullptr;
 	wcl.lpszClassName = WNDCLASS_DDEMSGWINDOW;
 	wcl.hbrBackground = nullptr;
@@ -235,7 +234,7 @@ static int DdeModulesLoaded2(WPARAM, LPARAM)
 	wcl.style = 0;
 	RegisterClass(&wcl);
 	/* Note: use of HWND_MESSAGE does not fit for DDE as the window must be a top-level one */
-	hwndDdeMsg = CreateWindow(WNDCLASS_DDEMSGWINDOW, nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, hInst, nullptr);
+	hwndDdeMsg = CreateWindow(WNDCLASS_DDEMSGWINDOW, nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 
 	/* make known dde startup code is passed */
 	HANDLE hEvent = OpenEvent(EVENT_MODIFY_STATE, FALSE, WNDCLASS_DDEMSGWINDOW);

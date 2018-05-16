@@ -9,7 +9,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License,  or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -22,7 +22,6 @@ Foundation,  Inc.,  59 Temple Place - Suite 330,  Boston,  MA  02111-1307,  USA.
 #include "stdafx.h"
 
 // Options
-extern HINSTANCE hInst;
 static HANDLE hHookOptInit;
 
 /************************* Assoc List *****************************/
@@ -60,7 +59,7 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 	mir_snprintf(szSetting, "enabled_%s", assoc->pszClassName);
 	db_set_b(NULL, "AssocMgr", szSetting, (BYTE)fEnabled);
 	// dll name for uninstall
-	if (assoc->hInstance != nullptr && assoc->hInstance != hInst && assoc->hInstance != GetModuleHandle(nullptr))
+	if (assoc->hInstance != nullptr && assoc->hInstance != g_plugin.getInst() && assoc->hInstance != GetModuleHandle(nullptr))
 		if (GetModuleFileName(assoc->hInstance, szBuf, _countof(szBuf)))
 			if (PathToRelativeW(szBuf, szDLL)) {
 				mir_snprintf(szSetting, "module_%s", assoc->pszClassName);
@@ -309,7 +308,7 @@ static BOOL EnsureAssocRegistered(const ASSOCDATA *assoc)
 		if (!IsRegClass(assoc->pszClassName, pszRunCmd)) {
 			// class icon
 			if (!assoc->nIconResID && fIsUrl) pszIconLoc = MakeIconLocation(nullptr, 0); // miranda logo
-			else if (!assoc->nIconResID) pszIconLoc = MakeIconLocation(hInst, IDI_MIRANDAFILE); // generic file
+			else if (!assoc->nIconResID) pszIconLoc = MakeIconLocation(g_plugin.getInst(), IDI_MIRANDAFILE); // generic file
 			else pszIconLoc = MakeIconLocation(assoc->hInstance, assoc->nIconResID);
 			// register class
 			if (fUseMainCmdLine) pszDdeCmd = nullptr;
@@ -401,7 +400,7 @@ static BOOL AddNewAssocItem_Worker(char *pszClassName, const TYPEDESCHEAD *tdh, 
 	if (index != -1) return FALSE;
 
 	// resize storage array
-	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount + 1)*sizeof(ASSOCDATA));
+	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount + 1) * sizeof(ASSOCDATA));
 	if (pAssocListBuf == nullptr)
 		return FALSE;
 	pAssocList = pAssocListBuf;
@@ -462,8 +461,8 @@ static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 
 	// resize storage array
 	if ((index + 1) < nAssocListCount)
-		memmove(assoc, &pAssocList[index + 1], ((nAssocListCount - index - 1)*sizeof(ASSOCDATA)));
-	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount - 1)*sizeof(ASSOCDATA));
+		memmove(assoc, &pAssocList[index + 1], ((nAssocListCount - index - 1) * sizeof(ASSOCDATA)));
+	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount - 1) * sizeof(ASSOCDATA));
 	if (pAssocListBuf != nullptr) pAssocList = pAssocListBuf;
 	--nAssocListCount;
 
@@ -650,125 +649,125 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 	switch (msg) {
 	case WM_INITDIALOG:
+	{
+		TranslateDialogDefault(hwndDlg);
+		CoInitialize(nullptr);
+		HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
+
+		ListView_SetUnicodeFormat(hwndList, TRUE);
+
+		SendDlgItemMessage(hwndDlg, IDC_HEADERTEXT, WM_SETFONT, SendMessage(GetParent(hwndDlg), PSM_GETBOLDFONT, 0, 0), 0);
+		// checkboxes won't show up on Win95 without IE3+ or 4.70 (plugin opts uses the same)
+		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
+		// columns
 		{
-			TranslateDialogDefault(hwndDlg);
-			CoInitialize(nullptr);
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
-
-			ListView_SetUnicodeFormat(hwndList, TRUE);
-
-			SendDlgItemMessage(hwndDlg, IDC_HEADERTEXT, WM_SETFONT, SendMessage(GetParent(hwndDlg), PSM_GETBOLDFONT, 0, 0), 0);
-			// checkboxes won't show up on Win95 without IE3+ or 4.70 (plugin opts uses the same)
-			ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
-			// columns
-			{
-				LVCOLUMN lvc;
-				lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
-				lvc.pszText = TranslateT("Type");
-				lvc.cx = 170;
-				ListView_InsertColumn(hwndList, lvc.iSubItem = 0, &lvc);
-				lvc.pszText = TranslateT("Description");
-				ListView_InsertColumn(hwndList, lvc.iSubItem = 1, &lvc);
+			LVCOLUMN lvc;
+			lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
+			lvc.pszText = TranslateT("Type");
+			lvc.cx = 170;
+			ListView_InsertColumn(hwndList, lvc.iSubItem = 0, &lvc);
+			lvc.pszText = TranslateT("Description");
+			ListView_InsertColumn(hwndList, lvc.iSubItem = 1, &lvc);
+		}
+		// create image storage
+		HIMAGELIST himl;
+		mir_cslock lck(csAssocList);
+		{
+			HDC hdc = GetDC(hwndList);
+			if (hdc != nullptr) { // BITSPIXEL is compatible with ILC_COLOR flags
+				himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), GetDeviceCaps(hdc, BITSPIXEL) | ILC_MASK, nAssocListCount, 0);
+				ReleaseDC(hwndList, hdc);
 			}
-			// create image storage
-			HIMAGELIST himl;
-			mir_cslock lck(csAssocList);
-			{
-				HDC hdc = GetDC(hwndList);
-				if (hdc != nullptr) { // BITSPIXEL is compatible with ILC_COLOR flags
-					himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), GetDeviceCaps(hdc, BITSPIXEL) | ILC_MASK, nAssocListCount, 0);
-					ReleaseDC(hwndList, hdc);
-				}
-				else himl = nullptr;
-			}
-			ListView_SetImageList(hwndList, himl, LVSIL_SMALL); // autodestroyed
-			// enum assoc list
-			lvi.iSubItem = 0;
-			lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-			for (int i = 0; i < nAssocListCount; ++i) {
-				assoc = &pAssocList[i];
-				lvi.iItem = 0;
-				lvi.lParam = (LPARAM)CopyAssocItem(assoc);
-				lvi.pszText = GetAssocTypeDesc(assoc);
-				lvi.iImage = ReplaceImageListAssocIcon(himl, assoc, -1);
-				lvi.iItem = ListView_InsertItem(hwndList, &lvi);
-				if (lvi.iItem != -1) {
-					ListView_SetItemText(hwndList, lvi.iItem, 1, assoc->pszDescription);
-					ListView_SetCheckState(hwndList, lvi.iItem, IsAssocEnabled(assoc) && IsAssocRegistered(assoc));
-				}
-			}
-			// sort items (before moving to groups)
-			ListView_SortItems(hwndList, ListViewSortDesc, Langpack_GetDefaultLocale());
-			// groups
-			if (ListView_EnableGroupView(hwndList, TRUE) == 1) { // returns 0 on pre WinXP or if commctls6 are disabled
-				LVGROUP lvg;
-				int iItem;
-				// dummy item for group
-				lvi.iItem = ListView_GetItemCount(hwndList) - 1;
-				lvi.iSubItem = 0;
-				lvi.mask = LVIF_PARAM | LVIF_IMAGE;
-				lvi.iImage = -1;
-				lvi.lParam = 0;
-				// insert groups
-				lvg.cbSize = sizeof(lvg);
-				lvg.mask = LVGF_HEADER | LVGF_GROUPID;
-				lvg.iGroupId = 2;
-				lvg.pszHeader = TranslateT("URLs on websites");
-				lvi.iItem = ListView_InsertItem(hwndList, &lvi);
-				if (lvi.iItem != -1) {
-					ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
-					lvg.iGroupId = 1;
-					lvg.pszHeader = TranslateT("File types");
-					iItem = lvi.iItem = ListView_InsertItem(hwndList, &lvi);
-					if (lvi.iItem != -1)
-						ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
-					else ListView_DeleteItem(hwndList, iItem);
-				}
-				// move to group
-				lvi.iSubItem = 0;
-				lvi.mask = LVIF_PARAM | LVIF_GROUPID;
-				for (lvi.iItem = 0; ListView_GetItem(hwndList, &lvi); ++lvi.iItem) {
-					assoc = (ASSOCDATA*)lvi.lParam;
-					if (assoc == nullptr) continue; // groups
-					lvi.iGroupId = (assoc->pszFileExt == nullptr) + 1;
-					ListView_SetItem(hwndList, &lvi);
-				}
-			}
-			lvi.iItem = ListView_GetTopIndex(hwndList);
-			ListView_SetItemState(hwndList, lvi.iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-			ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE_USEHEADER); // size to fit window
-			// only while running
-			CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-
-			// autostart
-			wchar_t *pszRunCmd = MakeRunCommand(TRUE, TRUE);
-			if (pszRunCmd != nullptr) {
-				CheckDlgButton(hwndDlg, IDC_AUTOSTART, IsRegRunEntry(L"MirandaNG", pszRunCmd) ? BST_CHECKED : BST_UNCHECKED);
-				mir_free(pszRunCmd);
+			else himl = nullptr;
+		}
+		ListView_SetImageList(hwndList, himl, LVSIL_SMALL); // autodestroyed
+		// enum assoc list
+		lvi.iSubItem = 0;
+		lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
+		for (int i = 0; i < nAssocListCount; ++i) {
+			assoc = &pAssocList[i];
+			lvi.iItem = 0;
+			lvi.lParam = (LPARAM)CopyAssocItem(assoc);
+			lvi.pszText = GetAssocTypeDesc(assoc);
+			lvi.iImage = ReplaceImageListAssocIcon(himl, assoc, -1);
+			lvi.iItem = ListView_InsertItem(hwndList, &lvi);
+			if (lvi.iItem != -1) {
+				ListView_SetItemText(hwndList, lvi.iItem, 1, assoc->pszDescription);
+				ListView_SetCheckState(hwndList, lvi.iItem, IsAssocEnabled(assoc) && IsAssocRegistered(assoc));
 			}
 		}
-		return TRUE;
-
-	case WM_SETTINGCHANGE:
-	case M_REFRESH_ICONS:
-		{
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
-			HIMAGELIST himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
-			// enum items
+		// sort items (before moving to groups)
+		ListView_SortItems(hwndList, ListViewSortDesc, Langpack_GetDefaultLocale());
+		// groups
+		if (ListView_EnableGroupView(hwndList, TRUE) == 1) { // returns 0 on pre WinXP or if commctls6 are disabled
+			LVGROUP lvg;
+			int iItem;
+			// dummy item for group
+			lvi.iItem = ListView_GetItemCount(hwndList) - 1;
 			lvi.iSubItem = 0;
 			lvi.mask = LVIF_PARAM | LVIF_IMAGE;
+			lvi.iImage = -1;
+			lvi.lParam = 0;
+			// insert groups
+			lvg.cbSize = sizeof(lvg);
+			lvg.mask = LVGF_HEADER | LVGF_GROUPID;
+			lvg.iGroupId = 2;
+			lvg.pszHeader = TranslateT("URLs on websites");
+			lvi.iItem = ListView_InsertItem(hwndList, &lvi);
+			if (lvi.iItem != -1) {
+				ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
+				lvg.iGroupId = 1;
+				lvg.pszHeader = TranslateT("File types");
+				iItem = lvi.iItem = ListView_InsertItem(hwndList, &lvi);
+				if (lvi.iItem != -1)
+					ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
+				else ListView_DeleteItem(hwndList, iItem);
+			}
+			// move to group
+			lvi.iSubItem = 0;
+			lvi.mask = LVIF_PARAM | LVIF_GROUPID;
 			for (lvi.iItem = 0; ListView_GetItem(hwndList, &lvi); ++lvi.iItem) {
 				assoc = (ASSOCDATA*)lvi.lParam;
 				if (assoc == nullptr) continue; // groups
-				lvi.iImage = ReplaceImageListAssocIcon(himl, assoc, lvi.iImage);
+				lvi.iGroupId = (assoc->pszFileExt == nullptr) + 1;
 				ListView_SetItem(hwndList, &lvi);
 			}
-			if (lvi.iItem) { // ListView_Update() blinks
-				ListView_RedrawItems(hwndList, 0, lvi.iItem - 1);
-				UpdateWindow(hwndList);
-			}
 		}
-		return TRUE;
+		lvi.iItem = ListView_GetTopIndex(hwndList);
+		ListView_SetItemState(hwndList, lvi.iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+		ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE_USEHEADER); // size to fit window
+		// only while running
+		CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+
+		// autostart
+		wchar_t *pszRunCmd = MakeRunCommand(TRUE, TRUE);
+		if (pszRunCmd != nullptr) {
+			CheckDlgButton(hwndDlg, IDC_AUTOSTART, IsRegRunEntry(L"MirandaNG", pszRunCmd) ? BST_CHECKED : BST_UNCHECKED);
+			mir_free(pszRunCmd);
+		}
+	}
+	return TRUE;
+
+	case WM_SETTINGCHANGE:
+	case M_REFRESH_ICONS:
+	{
+		HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
+		HIMAGELIST himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
+		// enum items
+		lvi.iSubItem = 0;
+		lvi.mask = LVIF_PARAM | LVIF_IMAGE;
+		for (lvi.iItem = 0; ListView_GetItem(hwndList, &lvi); ++lvi.iItem) {
+			assoc = (ASSOCDATA*)lvi.lParam;
+			if (assoc == nullptr) continue; // groups
+			lvi.iImage = ReplaceImageListAssocIcon(himl, assoc, lvi.iImage);
+			ListView_SetItem(hwndList, &lvi);
+		}
+		if (lvi.iItem) { // ListView_Update() blinks
+			ListView_RedrawItems(hwndList, 0, lvi.iItem - 1);
+			UpdateWindow(hwndList);
+		}
+	}
+	return TRUE;
 
 	case WM_CTLCOLORSTATIC:
 		// use same text color for header as for group boxes (WinXP+)
@@ -799,7 +798,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		return TRUE;
 
 	case WM_NOTIFY:
-		NMHDR *nmhdr = (NMHDR*)lParam;
+		NMHDR * nmhdr = (NMHDR*)lParam;
 		switch (nmhdr->idFrom) {
 		case IDC_ASSOCLIST:
 			switch (nmhdr->code) {
@@ -817,7 +816,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				if (IsWindowVisible(nmhdr->hwndFrom))
 					PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				return TRUE;
-			
+
 			case LVN_KEYDOWN:
 				// workaround for WinXP (ListView with groups):
 				// eat keyboard navigation that goes beyond the first item in list
@@ -914,7 +913,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 static int AssocListOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ASSOCLIST);
 	odp.position = 900000100; // network opts  =  900000000
 	odp.szGroup.a = LPGEN("Services"); // autotranslated
@@ -979,7 +978,7 @@ void InitAssocList(void)
 		ftd.pszFileExt = ".dat";
 		ftd.pszMimeType = nullptr;
 		ftd.pwszDescription = TranslateT("Miranda NG database");
-		ftd.hInstance = hInst;
+		ftd.hInstance = g_plugin.getInst();
 		ftd.nIconResID = IDI_MIRANDAFILE;
 		ftd.pwszVerbDesc = nullptr;
 		ftd.pszService = nullptr;
@@ -1021,7 +1020,7 @@ void UninitAssocList(void)
 		ptrW pszAppFileName(MakeAppFileName(TRUE));
 		if (pszAppFileName != NULL)
 			RemoveRegOpenWith(pszAppFileName);
-		
+
 		// assocmgr.dll
 		pszAppFileName = MakeAppFileName(FALSE);
 		if (pszAppFileName != NULL)

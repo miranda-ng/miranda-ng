@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-extern HINSTANCE hInst;
-
 #ifdef _DEBUG
 // Debug: Ensure all registry calls do succeed and have valid parameters.
 // Shows a details message box otherwise.
@@ -135,7 +133,7 @@ wchar_t* MakeRunCommand(BOOL fMirExe, BOOL fFixedDbProfile)
 	}
 	else mir_wstrcpy(szDbFile, L"%1"); // buffer safe
 
-	if (!GetModuleFileName(fMirExe ? nullptr : hInst, szExe, _countof(szExe)))
+	if (!GetModuleFileName(fMirExe ? nullptr : g_plugin.getInst(), szExe, _countof(szExe)))
 		return nullptr;
 
 	if (fMirExe)
@@ -214,7 +212,7 @@ wchar_t* MakeIconLocation(HMODULE hModule, WORD nIconResID)
 wchar_t* MakeAppFileName(BOOL fMirExe)
 {
 	wchar_t szExe[MAX_PATH], *psz;
-	if (GetModuleFileName(fMirExe ? nullptr : hInst, szExe, _countof(szExe))) {
+	if (GetModuleFileName(fMirExe ? nullptr : g_plugin.getInst(), szExe, _countof(szExe))) {
 		psz = wcsrchr(szExe, '\\');
 		if (psz != nullptr) ++psz;
 		else psz = szExe;

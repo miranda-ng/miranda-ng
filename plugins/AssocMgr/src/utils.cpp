@@ -42,18 +42,18 @@ void DynamicLoadInit()
 /************************* String Conv ****************************/
 
 // mir_free() the return value
-WCHAR* a2u(const char *pszAnsi,BOOL fMirCp)
+WCHAR* a2u(const char *pszAnsi, BOOL fMirCp)
 {
-	UINT codepage,cch;
+	UINT codepage, cch;
 	WCHAR *psz;
-	
-	if(pszAnsi==nullptr) return nullptr;
+
+	if (pszAnsi == nullptr) return nullptr;
 	codepage = fMirCp ? Langpack_GetDefaultCodePage() : CP_ACP;
-	cch=MultiByteToWideChar(codepage,0,pszAnsi,-1,nullptr,0);
+	cch = MultiByteToWideChar(codepage, 0, pszAnsi, -1, nullptr, 0);
 	if (!cch) return nullptr;
 
-	psz=(WCHAR*)mir_alloc(cch*sizeof(WCHAR));
-	if(psz!=nullptr && !MultiByteToWideChar(codepage,0,pszAnsi,-1,psz,cch)) {
+	psz = (WCHAR*)mir_alloc(cch * sizeof(WCHAR));
+	if (psz != nullptr && !MultiByteToWideChar(codepage, 0, pszAnsi, -1, psz, cch)) {
 		mir_free(psz);
 		return nullptr;
 	}
@@ -61,21 +61,21 @@ WCHAR* a2u(const char *pszAnsi,BOOL fMirCp)
 }
 
 // mir_free() the return value
-char* u2a(const WCHAR *pszUnicode,BOOL fMirCp)
-{											
-	UINT codepage,cch;
+char* u2a(const WCHAR *pszUnicode, BOOL fMirCp)
+{
+	UINT codepage, cch;
 	char *psz;
 	DWORD flags;
 
-	if(pszUnicode==nullptr) return nullptr;
+	if (pszUnicode == nullptr) return nullptr;
 	codepage = fMirCp ? Langpack_GetDefaultCodePage() : CP_ACP;
 	/* without WC_COMPOSITECHECK some characters might get out strange (see MS blog) */
-	cch=WideCharToMultiByte(codepage,flags=WC_COMPOSITECHECK,pszUnicode,-1,nullptr,0,nullptr,nullptr);
-	if (!cch) cch=WideCharToMultiByte(codepage,flags=0,pszUnicode,-1,nullptr,0,nullptr,nullptr);
+	cch = WideCharToMultiByte(codepage, flags = WC_COMPOSITECHECK, pszUnicode, -1, nullptr, 0, nullptr, nullptr);
+	if (!cch) cch = WideCharToMultiByte(codepage, flags = 0, pszUnicode, -1, nullptr, 0, nullptr, nullptr);
 	if (!cch) return nullptr;
 
-	psz=(char*)mir_alloc(cch);
-	if(psz!=nullptr && !WideCharToMultiByte(codepage,flags,pszUnicode,-1,psz,cch,nullptr,nullptr)) {
+	psz = (char*)mir_alloc(cch);
+	if (psz != nullptr && !WideCharToMultiByte(codepage, flags, pszUnicode, -1, psz, cch, nullptr, nullptr)) {
 		mir_free(psz);
 		return nullptr;
 	}
@@ -83,19 +83,19 @@ char* u2a(const WCHAR *pszUnicode,BOOL fMirCp)
 }
 
 // mir_free() the return value
-wchar_t* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp)
+wchar_t* s2t(const void *pszStr, DWORD fUnicode, BOOL fMirCp)
 {
 
-	if(fUnicode) return mir_wstrdup((WCHAR*)pszStr);
-	return a2u((char*)pszStr,fMirCp);
+	if (fUnicode) return mir_wstrdup((WCHAR*)pszStr);
+	return a2u((char*)pszStr, fMirCp);
 
 }
 
 // mir_free() the return value
-void* t2s(const wchar_t *pszStr,DWORD fUnicode,BOOL fMirCp)
+void* t2s(const wchar_t *pszStr, DWORD fUnicode, BOOL fMirCp)
 {
 
-	if (!fUnicode) return (void*)u2a(pszStr,fMirCp);
+	if (!fUnicode) return (void*)u2a(pszStr, fMirCp);
 	return (void*)mir_wstrdup(pszStr);
 
 }
@@ -111,22 +111,22 @@ struct EnumPrefixSettingsParams {
 
 static int EnumPrefixSettingsProc(const char *pszSetting, void *lParam)
 {
-	struct EnumPrefixSettingsParams *param=(struct EnumPrefixSettingsParams*)lParam;
-	if (!strncmp(pszSetting,param->pszPrefix,param->nPrefixLen)) {
+	struct EnumPrefixSettingsParams *param = (struct EnumPrefixSettingsParams*)lParam;
+	if (!strncmp(pszSetting, param->pszPrefix, param->nPrefixLen)) {
 		char **buf;
 		/* resize storage array */
-		buf = (char**)mir_realloc(param->settings,(param->nSettingsCount+1)*sizeof(char*));
-		if(buf!=nullptr) {
-			param->settings=buf;
-			buf[param->nSettingsCount]=mir_strdup(pszSetting);
-			if(buf[param->nSettingsCount]!=nullptr) ++param->nSettingsCount;
+		buf = (char**)mir_realloc(param->settings, (param->nSettingsCount + 1) * sizeof(char*));
+		if (buf != nullptr) {
+			param->settings = buf;
+			buf[param->nSettingsCount] = mir_strdup(pszSetting);
+			if (buf[param->nSettingsCount] != nullptr) ++param->nSettingsCount;
 		}
 	}
 	return 0;
 }
 
 // mir_free() the returned pSettings after use
-BOOL EnumDbPrefixSettings(const char *pszModule,const char *pszSettingPrefix,char ***pSettings,int *pnSettingsCount)
+BOOL EnumDbPrefixSettings(const char *pszModule, const char *pszSettingPrefix, char ***pSettings, int *pnSettingsCount)
 {
 	struct EnumPrefixSettingsParams param;
 	param.settings = nullptr;
@@ -149,31 +149,31 @@ static void MessageBoxIndirectFree(MSGBOXPARAMSA *mbp)
 	mir_free(mbp);
 }
 
-void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
+void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, ...)
 {
 	char szText[256]; /* max for systray */
 
 	va_list va;
-	va_start(va,pszTextFmt);
-	mir_vsnprintf(szText,_countof(szText),pszTextFmt,va);
+	va_start(va, pszTextFmt);
+	mir_vsnprintf(szText, _countof(szText), pszTextFmt, va);
 	va_end(va);
 
 	if (!Clist_TrayNotifyA(nullptr, pszTitle, szText, flags, 30000)) // success 
 		return;
 
 	MSGBOXPARAMSA *mbp = (MSGBOXPARAMSA*)mir_calloc(sizeof(*mbp));
-	if(mbp == nullptr)
+	if (mbp == nullptr)
 		return;
-	
+
 	mbp->cbSize = sizeof(*mbp);
 	mbp->lpszCaption = mir_strdup(pszTitle);
 	mbp->lpszText = mir_strdup(szText);
 	mbp->dwStyle = MB_OK | MB_SETFOREGROUND | MB_TASKMODAL;
 	mbp->dwLanguageId = LANGIDFROMLCID(Langpack_GetDefaultLocale());
-	switch(flags&NIIF_ICON_MASK) {
-		case NIIF_INFO:    mbp->dwStyle|=MB_ICONINFORMATION; break;
-		case NIIF_WARNING: mbp->dwStyle|=MB_ICONWARNING; break;
-		case NIIF_ERROR:   mbp->dwStyle|=MB_ICONERROR;
+	switch (flags&NIIF_ICON_MASK) {
+	case NIIF_INFO:    mbp->dwStyle |= MB_ICONINFORMATION; break;
+	case NIIF_WARNING: mbp->dwStyle |= MB_ICONWARNING; break;
+	case NIIF_ERROR:   mbp->dwStyle |= MB_ICONERROR;
 	}
 	mir_forkThread<MSGBOXPARAMSA>(MessageBoxIndirectFree, mbp);
 }
@@ -181,10 +181,10 @@ void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
 // LocalFree() the return value
 char* GetWinErrorDescription(DWORD dwLastError)
 {
-	char *buf=nullptr;
+	char *buf = nullptr;
 	DWORD flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM;
-	if (!FormatMessageA(flags,nullptr,dwLastError, LANGIDFROMLCID(Langpack_GetDefaultLocale()),(char*)&buf,0,nullptr))
-		if(GetLastError()==ERROR_RESOURCE_LANG_NOT_FOUND) 
-			FormatMessageA(flags,nullptr,dwLastError,0,(char*)&buf,0,nullptr);
+	if (!FormatMessageA(flags, nullptr, dwLastError, LANGIDFROMLCID(Langpack_GetDefaultLocale()), (char*)&buf, 0, nullptr))
+		if (GetLastError() == ERROR_RESOURCE_LANG_NOT_FOUND)
+			FormatMessageA(flags, nullptr, dwLastError, 0, (char*)&buf, 0, nullptr);
 	return buf;
 }

@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma comment(lib, "delayimp.lib")
 
-HINSTANCE hInst;
 static HANDLE hHookModulesLoaded;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -40,15 +40,7 @@ PLUGININFOEX pluginInfo = {
 	{0x52685cd7, 0xec7, 0x44c1, {0xa1, 0xa6, 0x38, 0x16, 0x12, 0x41, 0x82, 0x2}}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-static int AssocMgrModulesLoaded(WPARAM,LPARAM)
+static int AssocMgrModulesLoaded(WPARAM, LPARAM)
 {
 	return 0;
 }
@@ -65,7 +57,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitAssocList();
 	InitDde();
 
-	hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,AssocMgrModulesLoaded);
+	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, AssocMgrModulesLoaded);
 	return 0;
 }
 
