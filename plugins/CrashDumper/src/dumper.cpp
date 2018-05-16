@@ -262,62 +262,56 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 	}
 }
 
-struct ProtoCount
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct ProtoCount : public MZeroedObject
 {
-	int countse;
-	int countsd;
-	bool nloaded;
+	ProtoCount(char *p) :
+		szProto(p)
+	{}
+
+	char *szProto;
+	int   countse;
+	int   countsd;
+	bool  nloaded;
+
+	static int Compare(const ProtoCount *p1, const ProtoCount *p2)
+	{	return mir_strcmp(p1->szProto, p2->szProto);
+	}
 };
 
 static void GetProtocolStrings(CMStringW &buffer)
 {
-	int accCount;
-	PROTOACCOUNT **accList;
-	Proto_EnumAccounts(&accCount, &accList);
-
 	int protoCount;
 	PROTOCOLDESCRIPTOR **protoList;
 	Proto_EnumProtocols(&protoCount, &protoList);
 
-	int protoCountMy = 0;
-	char **protoListMy = (char**)alloca((protoCount + accCount) * sizeof(char*));
+	OBJLIST<ProtoCount> arProtos(10, &ProtoCount::Compare);
 
+	// add first all declared protocols, both old & new
 	for (int i = 0; i < protoCount; i++)
 		switch (protoList[i]->type) {
 		case PROTOTYPE_PROTOCOL:
 		case PROTOTYPE_PROTOWITHACCS:
-			protoListMy[protoCountMy++] = protoList[i]->szName;
+			arProtos.insert(new ProtoCount(protoList[i]->szName));
 		}
 
-	for (int j = 0; j < accCount; j++) {
-		int i;
-		for (i = 0; i < protoCountMy; i++)
-			if (!mir_strcmp(protoListMy[i], accList[j]->szProtoName))
-				break;
+	// try to gather all missing protocols from accounts
+	for (auto &pa : Accounts()) {
+		ProtoCount *p = arProtos.find((ProtoCount*)&pa->szProtoName);
+		if (p == nullptr)
+			continue;
 
-		if (i == protoCountMy)
-			protoListMy[protoCountMy++] = accList[j]->szProtoName;
+		p->nloaded = pa->bDynDisabled;
+		if (pa->IsEnabled())
+			++p->countse;
+		else
+			++p->countsd;
 	}
 
-	ProtoCount *protos = (ProtoCount*)alloca(sizeof(ProtoCount) * protoCountMy);
-	memset(protos, 0, sizeof(ProtoCount) * protoCountMy);
-
-	for (int j = 0; j < accCount; j++)
-		for (int i = 0; i < protoCountMy; i++)
-			if (!mir_strcmp(protoListMy[i], accList[j]->szProtoName)) {
-				protos[i].nloaded = accList[j]->bDynDisabled != 0;
-				if (accList[j]->IsEnabled())
-					++protos[i].countse;
-				else
-					++protos[i].countsd;
-				break;
-			}
-
-	for (int i = 0; i < protoCountMy; i++) {
-		auto &p = protos[i];
-		buffer.AppendFormat(L"%-24s %d - Enabled %d - Disabled  %sLoaded\r\n", 
-			(wchar_t*)_A2T(protoListMy[i]), p.countse, p.countsd, p.nloaded ? L"Not " : L"");
-	}
+	for (auto &p : arProtos) 
+		if (p->countsd != 0 || p->countse != 0)
+			buffer.AppendFormat(L"%-24S %d - Enabled %d - Disabled  %sLoaded\r\n", p->szProto, p->countse, p->countsd, p->nloaded ? L"Not " : L"");
 }
 
 static void GetWeatherStrings(CMStringW &buffer, unsigned flags)

@@ -315,8 +315,6 @@ static int OnShutdown(WPARAM, LPARAM)
 // Called when the plugin is loaded into Miranda
 MIRAPI int Load(void)
 {
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
-
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
@@ -438,7 +436,5 @@ MIRAPI int Unload(void)
 
 	UnloadActions();
 	UnloadTreeData();
-
-	CloseHandle(hMainThread);
 	return 0;
 }

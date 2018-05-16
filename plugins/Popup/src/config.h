@@ -126,7 +126,6 @@ void LoadOptions();
 
 //===== General Plugin =====
 extern HINSTANCE hInst;
-extern HANDLE hMainThread;
 extern HANDLE hEventNotify;
 extern HANDLE hSemaphore;
 extern BOOL closing;

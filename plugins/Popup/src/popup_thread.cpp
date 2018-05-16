@@ -229,7 +229,7 @@ static unsigned __stdcall PopupThread(void *)
 	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"PopupThreadManagerWnd";
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
-	g_wndClass.cPopupThreadManagerWnd = RegisterClassEx(&wcl);
+	g_wndClass.cPopupThreadManagerWnd = RegisterClassExW(&wcl);
 	err = GetLastError();
 	if (!g_wndClass.cPopupThreadManagerWnd) {
 		wchar_t msg[1024];
@@ -247,6 +247,7 @@ static unsigned __stdcall PopupThread(void *)
 	}
 
 	DestroyWindow(gHwndManager); gHwndManager = nullptr;
+	UnregisterClassW(wcl.lpszClassName, hInst);
 	return 0;
 }
 

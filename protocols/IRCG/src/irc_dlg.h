@@ -88,7 +88,6 @@ struct CListDlg : public CProtoDlgBase < CIrcProto >
 	CListDlg(CIrcProto* _pro);
 
 	virtual void OnInitDialog();
-	virtual void OnChange(CCtrlBase* ctrl);
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 	virtual void OnDestroy();
 	virtual int Resizer(UTILRESIZECONTROL *urc);
@@ -98,9 +97,10 @@ struct CListDlg : public CProtoDlgBase < CIrcProto >
 	UINT_PTR m_timer;
 
 	CCtrlButton m_Join;
-	void OnJoin(CCtrlButton*);
+	void onClick_Join(CCtrlButton*);
 
-	void List_OnColumnClick(CCtrlListView::TEventInfo* ev);
+	void onChange_Filter(CCtrlEdit *ctrl);
+	void onColumnClick_List(CCtrlListView::TEventInfo* ev);
 
 	void UpdateList(void);
 };
