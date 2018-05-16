@@ -30,8 +30,6 @@
 #include <string>
 #include <list>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_system.h>
@@ -52,6 +50,13 @@
 #include "Engine/Mind.h"
 
 #define BOLTUN_KEY  "Boltun"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(BOLTUN_KEY)
+	{}
+};
 
 //Service names
 #define SERV_CONTACT_AUTO_CHAT "Boltun/ContactAutoChat"

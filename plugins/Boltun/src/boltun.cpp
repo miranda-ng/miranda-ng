@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 int hLangpack;
 
 TalkBot* bot = nullptr;
@@ -27,7 +28,6 @@ TalkBot* bot = nullptr;
 #define MAX_WARN_TEXT    1024
 #define MAX_MIND_FILE    1024
 
-HINSTANCE hInst;
 BOOL blInit = FALSE;
 UINT pTimer = 0;
 wchar_t tszPath[MAX_PATH];
@@ -115,17 +115,17 @@ static bool LoadMind(const wchar_t* filename, int &line)
 	//exit(0);
 	#endif
 	SetCursor(oldCur);
-	HRSRC hRes = FindResource(hInst, MAKEINTRESOURCE(IDR_SMILES), L"SMILES");
+	HRSRC hRes = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SMILES), L"SMILES");
 	if (!hRes) {
 		delete mind;
 		return false;
 	}
-	DWORD size = SizeofResource(hInst, hRes);
+	DWORD size = SizeofResource(g_plugin.getInst(), hRes);
 	if (!size) {
 		delete mind;
 		return false;
 	}
-	HGLOBAL hGlob = LoadResource(hInst, hRes);
+	HGLOBAL hGlob = LoadResource(g_plugin.getInst(), hRes);
 	if (!hGlob) {
 		delete mind;
 		return false;
@@ -221,12 +221,6 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	AnswerToContact(hContact, s);
 	mir_free(s);
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
 }
 
 void UpdateEverybodyCheckboxes(HWND hwndDlg)
@@ -441,7 +435,7 @@ static int MessageOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = BOLTUN_GROUP;
 	odp.szTitle.a = BOLTUN_NAME;
 	odp.pfnDlgProc = MainDlgProc;
@@ -528,7 +522,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	GetModuleFileName(hInst, tszPath, _countof(tszPath));
+	GetModuleFileName(g_plugin.getInst(), tszPath, _countof(tszPath));
 	*(wcsrchr(tszPath, '\\') + 1) = '\0';
 
 	/*initialize miranda hooks and services on options dialog*/
