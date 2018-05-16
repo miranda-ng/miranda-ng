@@ -169,7 +169,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 			item = (BEventData*)bsearch(&ev, books, bookcnt, sizeof(BEventData), CompareBookmarks);
 			if (item != nullptr && item->Timestamp == dbei.timestamp) {
 				doDelete = FALSE;
-				btshift = (--bookcnt - (item - books))*sizeof(BEventData);
+				btshift = (--bookcnt - (item - books)) * sizeof(BEventData);
 				if (btshift)
 					memmove(item, item + 1, btshift);
 			}

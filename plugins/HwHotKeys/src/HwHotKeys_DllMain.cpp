@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInstance;
+CMPlugin g_plugin;
 int hLangpack;
 HWND hDialogWnd = nullptr; // хэндл окна настроек, он глобально используется для вывода туда в реалтайме сканкодов клавы из хука
 HHOOK hHook;
@@ -67,14 +67,6 @@ CHAR key_name_buffer[150]; // буфер куда печатается имя к
 
 // ============================================================================
 
-BOOL APIENTRY DllMain( HMODULE hModule, DWORD, LPVOID)
-{
-	hInstance = hModule;
-	return TRUE;
-}
-
-// ============================================================================
-
 PLUGININFOEX PluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -112,10 +104,10 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, initializeOptions);
 
 	// установка хука для низкоуровневой обработки хоткеев
-	hHook = SetWindowsHookExA(WH_KEYBOARD_LL, key_hook, hInstance, 0);
+	hHook = SetWindowsHookExA(WH_KEYBOARD_LL, key_hook, g_plugin.getInst(), 0);
 
-//	StringCbPrintfA(key_name_buffer, 100, "hHook = 0x%x, Err = %u", hHook, GetLastError);
-//	MessageBoxA(0, key_name_buffer, 0, 0);
+	//	StringCbPrintfA(key_name_buffer, 100, "hHook = 0x%x, Err = %u", hHook, GetLastError);
+	//	MessageBoxA(0, key_name_buffer, 0, 0);
 
 	return 0;
 }
@@ -126,7 +118,7 @@ int initializeOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE OptDlgPg = { sizeof(OptDlgPg) };
 	OptDlgPg.position = 100000000;
-	OptDlgPg.hInstance = hInstance;
+	OptDlgPg.hInstance = g_plugin.getInst();
 	OptDlgPg.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	OptDlgPg.pszTemplate = MAKEINTRESOURCEA(dlg_options);
 	OptDlgPg.szGroup.w = LPGENW("Customize");

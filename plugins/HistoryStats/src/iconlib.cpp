@@ -60,7 +60,7 @@ void IconLib::init()
 
 		char szModule[MAX_PATH];
 
-		GetModuleFileNameA(g_hInst, szModule, MAX_PATH);
+		GetModuleFileNameA(g_plugin.getInst(), szModule, MAX_PATH);
 
 		m_Section = L"HistoryStats";
 		m_IconName = "historystats_";
@@ -98,7 +98,7 @@ void IconLib::init()
 		array_each_(i, m_IconInfo)
 		{
 			m_IconInfo[i].hIcon = reinterpret_cast<HICON>(LoadImage(
-				g_hInst,
+				g_plugin.getInst(),
 				MAKEINTRESOURCE(m_IconInfo[i].wID),
 				IMAGE_ICON,
 				OS::smIconCX(),

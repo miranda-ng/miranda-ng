@@ -30,7 +30,7 @@ INT_PTR CALLBACK DlgOption::staticDlgProc(HWND hDlg, UINT msg, WPARAM, LPARAM lP
 		return TRUE;
 
 	case WM_NOTIFY:
-		NMHDR* p = reinterpret_cast<NMHDR*>(lParam);
+		NMHDR * p = reinterpret_cast<NMHDR*>(lParam);
 		switch (p->idFrom) {
 		case 0:
 			if (p->code == PSN_APPLY)
@@ -109,7 +109,7 @@ void DlgOption::onWMInitDialog()
 
 		array_each_(i, pageBand)
 		{
-			HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(pageBand[i].iconId), IMAGE_ICON, 32, 32, 0));
+			HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(pageBand[i].iconId), IMAGE_ICON, 32, 32, 0));
 			DWORD dwFlags = 0;
 
 			dwFlags |= pageBand[i].bRight ? BandCtrl::BCF_RIGHT : 0;
@@ -159,8 +159,8 @@ void DlgOption::onRunStats()
 {
 	if (m_bSettingsModified) {
 		int svar = MessageBox(m_hWnd,
-									 TranslateT("You have unsaved settings. Do you want to save before running HistoryStats?"),
-									 TranslateT("HistoryStats"), MB_YESNOCANCEL);
+			TranslateT("You have unsaved settings. Do you want to save before running HistoryStats?"),
+			TranslateT("HistoryStats"), MB_YESNOCANCEL);
 
 		if (svar == IDYES)
 			saveSettings();
@@ -168,7 +168,7 @@ void DlgOption::onRunStats()
 			return;
 	}
 
-	Statistic::run(*g_pSettings, Statistic::fromOptions, g_hInst, m_hWnd);
+	Statistic::run(*g_pSettings, Statistic::fromOptions, g_plugin.getInst(), m_hWnd);
 }
 
 void DlgOption::onBandClicked(HANDLE hButton, INT_PTR dwData)

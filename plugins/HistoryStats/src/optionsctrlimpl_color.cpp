@@ -16,7 +16,7 @@ OptionsCtrlImpl::Color::Color(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar
 	: Item(pCtrl, itColor, szLabel, dwFlags, dwData)
 	, m_hColorWnd(nullptr)
 	, m_crColor(crColor)
-{	
+{
 	m_pCtrl->insertItem(pParent, this, m_strLabel.c_str(), dwFlags, m_bEnabled ? siColor : siColorG);
 
 	if (pParent)
@@ -56,7 +56,7 @@ void OptionsCtrlImpl::Color::onSelect()
 		if (hTempWnd = CreateWindowEx(
 			0, _A2W(WNDCLASS_COLOURPICKER), nullptr, dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccColor), g_hInst, nullptr))
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccColor), g_plugin.getInst(), nullptr))
 		{
 			SendMessage(hTempWnd, CPM_SETCOLOUR, 0, m_crColor);
 
@@ -133,7 +133,7 @@ void OptionsCtrlImpl::Color::childAdded(Item* pChild)
 void OptionsCtrlImpl::Color::setLabel(const wchar_t* szLabel)
 {
 	m_strLabel = szLabel;
-	
+
 	// only if not showing button (otherwise update when button disappears)
 	if (!m_hColorWnd)
 	{

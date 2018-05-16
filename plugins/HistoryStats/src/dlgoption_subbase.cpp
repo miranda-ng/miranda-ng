@@ -44,7 +44,7 @@ void DlgOption::SubBase::createWindow(DlgOption* pParent, WORD nDlgResource, con
 	m_pParent = pParent;
 
 	CreateDialogParam(
-		g_hInst,
+		g_plugin.getInst(),
 		MAKEINTRESOURCE(nDlgResource),
 		m_pParent->getHWnd(),
 		staticDlgProc,

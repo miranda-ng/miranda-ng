@@ -56,7 +56,7 @@ static HANDLE hIconLibItem[_countof(iconList)];
 
 void InitIcons(void)
 {
-	Icon_Register(hInst, ModuleName, iconList, _countof(iconList), ModuleName);
+	Icon_Register(g_plugin.getInst(), ModuleName, iconList, _countof(iconList), ModuleName);
 }
 
 HICON LoadIconEx(const char* name)
@@ -228,7 +228,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 		return TRUE;
 
 	case WM_NOTIFY:
-		NMCLISTCONTROL *nmc = (NMCLISTCONTROL*)lParam;
+		NMCLISTCONTROL * nmc = (NMCLISTCONTROL*)lParam;
 		if (nmc->hdr.idFrom == 0 && nmc->hdr.code == (unsigned)PSN_APPLY)
 			SaveSettings(hwndDlg);
 		else if (nmc->hdr.idFrom == IDC_LIST) {
@@ -270,7 +270,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 int HSOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORYSWEEPER);
 	odp.szTitle.a = ModuleName;
 	odp.szGroup.a = LPGEN("History");

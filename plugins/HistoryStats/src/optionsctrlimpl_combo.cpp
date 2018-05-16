@@ -88,7 +88,7 @@ void OptionsCtrlImpl::Combo::onSelect()
 		if (hTempWnd = CreateWindowEx(
 			WS_EX_CLIENTEDGE, WC_COMBOBOX, L"", dwStyle,
 			r.left, r.top, r.right - r.left, (r.bottom - r.top) * 20,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccCombo), g_hInst, nullptr))
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccCombo), g_plugin.getInst(), nullptr))
 		{
 			vector_each_(i, m_Items)
 			{

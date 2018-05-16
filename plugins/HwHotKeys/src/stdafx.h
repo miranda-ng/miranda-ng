@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 #include <SDKDDKVer.h>
 #include <windows.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>
@@ -43,7 +41,13 @@ LRESULT CALLBACK key_hook(INT, WPARAM, LPARAM);
 extern CLIST_INTERFACE *pcli;
 
 
-extern HINSTANCE hInstance;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(__DbModName)
+	{}
+};
+
 extern INT hLangpack;
 extern HWND hDialogWnd; // глобально используется для вывода туда в реалтайме сканкодов клавы, из хука
 extern HHOOK hHook;

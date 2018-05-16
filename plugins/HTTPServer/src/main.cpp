@@ -48,7 +48,6 @@ int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/);
 HNETLIBUSER hNetlibUser;
 HANDLE hDirectBoundPort;
 
-HINSTANCE hInstance = nullptr;
 CLIST_INTERFACE *pcli;
 
 string sLogFilePath;
@@ -83,6 +82,7 @@ bool bLimitOnlyWhenOnline = true;
 
 bool bShutdownInProgress = false;
 
+CMPlugin g_plugin;
 int hLangpack = 0;
 
 extern HWND hwndStatsticView;
@@ -654,12 +654,12 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 		dwLocalPortUsed = nlb.wPort;
 		dwLocalIpAddress = nlb.dwInternalIP;
 
-		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Disable HTTP server"), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DISABLE_SERVER)));
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Disable HTTP server"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DISABLE_SERVER)));
 	}
 	else if (hDirectBoundPort && wparam == 0) {
 		Netlib_CloseHandle(hDirectBoundPort);
 		hDirectBoundPort = nullptr;
-		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Enable HTTP server"), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE)));
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Enable HTTP server"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE)));
 	}
 	else return 0; // no changes;
 
@@ -667,27 +667,6 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 		db_set_b(NULL, MODULE, "AcceptConnections", hDirectBoundPort != nullptr);
 
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : DllMain
-// Type            : Global
-// Parameters      : hinst       - ?
-//                   fdwReason   - ?
-//                   lpvReserved - ?
-// Returns         : BOOL WINAPI
-// Description     :
-//
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN
-/////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/)
-{
-	hInstance = hinst;
-	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -740,7 +719,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING;
 	nlu.szSettingsModule = MODULE;
 	nlu.szDescriptiveName.a = Translate("HTTP Server");
-	hNetlibUser = Netlib_RegisterUser(& nlu);
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 	if (!hNetlibUser) {
 		MessageBox(nullptr, "Failed to register NetLib user", MSG_BOX_TITEL, MB_OK);
 		return 0;
@@ -920,7 +899,7 @@ extern "C" __declspec(dllexport) int Load()
 		CMenuItem mi;
 		SET_UID(mi, 0xf0a68784, 0xc30e, 0x4245, 0xb6, 0x2b, 0xb8, 0x71, 0x7e, 0xe6, 0xe1, 0x73);
 		mi.flags = CMIF_UNICODE;
-		mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 		mi.position = 1000085000;
 		mi.name.a = LPGEN("Enable HTTP server");
 		mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;

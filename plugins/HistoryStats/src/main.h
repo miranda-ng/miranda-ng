@@ -7,8 +7,6 @@
 #include "settingsserializer.h"
 #include "statistic.h"
 
-extern HINSTANCE g_hInst;
-
 extern PLUGININFOEX g_pluginInfoEx;
 
 extern SettingsSerializer* g_pSettings;

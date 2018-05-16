@@ -18,13 +18,12 @@
 
 #include "stdafx.h"
 
-extern HINSTANCE hInst;
 extern MWindowList hWindowList;
 
 /*
 The hyperlink detection in this function is taken from the
-Miranda core. It looks a bit sophisticated. I'd made a few 
-changes but I didn't really understand what these guys did! 
+Miranda core. It looks a bit sophisticated. I'd made a few
+changes but I didn't really understand what these guys did!
 Great job! It works! ;-)
 */
 int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
@@ -70,28 +69,29 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 			// support for files
 			if (msg[i] == '\\' && msg[i + 1] == '\\' && iswalnum(msg[i + 2]))
 				break;
-			if(IsDBCSLeadByte(msg[i]) && msg[i + 1])
-				i ++;
-			i ++;
+			if (IsDBCSLeadByte(msg[i]) && msg[i + 1])
+				i++;
+			i++;
 			if (msg[i] != '\n')
-				charCount ++;
+				charCount++;
 		}
 		if (msg[i] == '\0')
 			break;
 		cpWordStart = charCount;
 		wordStart = i;
-			
+
 		while (msg[i] && !iswspace(msg[i])) {
 			if (IsDBCSLeadByte(msg[i]) && msg[i + 1]) {
-				i ++;
-			} else {
-				if (iswalnum(msg[i]) || msg[i]=='/') {
-					cpLastAlphaNum = charCount; 
+				i++;
+			}
+			else {
+				if (iswalnum(msg[i]) || msg[i] == '/') {
+					cpLastAlphaNum = charCount;
 					iLastAlphaNum = i;
 				}
 			}
-			charCount ++;
-			i ++;
+			charCount++;
+			i++;
 		}
 
 		charCount = cpLastAlphaNum + 1;
@@ -115,25 +115,26 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 		wcsncpy_s(wordsearch, wordlen, msg + wordStart, (wordlen - 1));
 		CharLower(wordsearch);
 
-		for (j = 0; j < _countof(hyperlinkPrefixes); j ++) {
+		for (j = 0; j < _countof(hyperlinkPrefixes); j++) {
 			if (!wcsncmp(wordsearch, hyperlinkPrefixes[j], mir_wstrlen(hyperlinkPrefixes[j]))) {
 				isLink = 1;
 				break;
 			}
 		}
 		if (!isLink) {
-			for (j = 0; j < _countof(hyperlinkSubstrings); j ++) {
-				if (wcsstr(wordsearch + 1,hyperlinkSubstrings[j])) {
+			for (j = 0; j < _countof(hyperlinkSubstrings); j++) {
+				if (wcsstr(wordsearch + 1, hyperlinkSubstrings[j])) {
 					isLink = 1;
 					break;
 				}
 			}
 		}
 
-		if (wcschr(wordsearch,'@') && wcschr(wordsearch,'.') && !wcschr(wordsearch,':') && !wcschr(wordsearch,'/'))	{
+		if (wcschr(wordsearch, '@') && wcschr(wordsearch, '.') && !wcschr(wordsearch, ':') && !wcschr(wordsearch, '/')) {
 			isLink = 1; //e-mail addresses
 			type = LINK_MAIL;
-		} else if (isLink) {
+		}
+		else if (isLink) {
 			type = LINK_URL;
 		}
 
@@ -141,7 +142,8 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 			if (wcsstr(wordsearch, L"www.") != nullptr && wcsstr(wordsearch, L"http://") == nullptr && wcsstr(wordsearch, L"https://") == nullptr) {
 				wcsncpy_s(link, L"http://", LINK_MAX);
 				wcsncat_s(link, word, LINK_MAX);
-			} else {
+			}
+			else {
 				wcsncpy_s(link, word, LINK_MAX);
 			}
 
@@ -175,14 +177,14 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 			wcsncpy_s(newElement->time, time, _TRUNCATE);
 			wcsncpy_s(newElement->link, link, _TRUNCATE);
 			newElement->hEvent = hEvent;
-				
+
 			actualElement = listStart;
 			while (actualElement->nextElement != nullptr) {
-				actualElement = actualElement->nextElement; 
+				actualElement = actualElement->nextElement;
 			}
-				
+
 			actualElement->nextElement = newElement;
-			linkFound ++;
+			linkFound++;
 		}
 		mir_free(word);
 		mir_free(wordsearch);
@@ -200,11 +202,11 @@ int RemoveList(LISTELEMENT *listStart)
 {
 	LISTELEMENT *actualElement, *tempElement;
 
-	if ( listStart == nullptr )
+	if (listStart == nullptr)
 		return -1;
 
 	actualElement = listStart->nextElement;
-	while ( actualElement != nullptr )
+	while (actualElement != nullptr)
 	{
 		tempElement = actualElement->nextElement;
 		mir_free(actualElement);
@@ -223,11 +225,11 @@ int ListCount(LISTELEMENT *listStart)
 	LISTELEMENT *actualElement;
 	int count = 0;
 
-	if ( listStart == nullptr )
+	if (listStart == nullptr)
 		return -1;
-	
+
 	actualElement = listStart->nextElement;
-	while ( actualElement != nullptr )
+	while (actualElement != nullptr)
 	{
 		count++;
 		actualElement = actualElement->nextElement;
@@ -250,52 +252,52 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 	MYCOLOURSET colourSet;
 	wchar_t textLine[LINK_MAX + DIR_SIZE + TIME_SIZE + TYPE_SIZE + 6];
 	wchar_t searchText[320];
-	wchar_t lastDate[11] = {0};
+	wchar_t lastDate[11] = { 0 };
 	wchar_t filter1, filter2, filter3;
-	size_t lineLen, listCount=0, realListCount=0, actCount=0, len, appCount = 0;
+	size_t lineLen, listCount = 0, realListCount = 0, actCount = 0, len, appCount = 0;
 	int linePos = -1;
 	LISTELEMENT *actualElement;
 	LISTOPTIONS options;
-	CHARRANGE sel; 
+	CHARRANGE sel;
 	GETTEXTLENGTHEX gtl;
 
 	GetListInfo(params, listStart, searchString, &lineLen, &listCount, &realListCount);
 	GetColour(&colourSet);
 	GetListOptions(&options);
-		
-	if ( append == 0 )
+
+	if (append == 0)
 		ShowWindow(GetDlgItem(hDlg, IDC_MAIN), SW_HIDE);
-	
-	if ( (append > 0) && (GetMenuState(GetMenu(hDlg), IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
+
+	if ((append > 0) && (GetMenuState(GetMenu(hDlg), IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 		return;
 
-	if ( GetDlgItem(hDlg, IDC_MAIN) && GetDlgItem(hDlg, IDC_MESSAGE))
+	if (GetDlgItem(hDlg, IDC_MAIN) && GetDlgItem(hDlg, IDC_MESSAGE))
 	{
-		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)ENM_LINK);
-		SendDlgItemMessage( hDlg, IDC_MAIN, EM_AUTOURLDETECT, TRUE, 0 );
-		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETBKGNDCOLOR, FALSE, colourSet.background);
-		
+		SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)ENM_LINK);
+		SendDlgItemMessage(hDlg, IDC_MAIN, EM_AUTOURLDETECT, TRUE, 0);
+		SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETBKGNDCOLOR, FALSE, colourSet.background);
+
 		memset(&cf, 0, sizeof(cf));
 		cf.cbSize = sizeof(cf);
 		cf.dwMask = CFM_COLOR;
 		cf.crTextColor = colourSet.text;
-		SendDlgItemMessage( hDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-		SendDlgItemMessage( hDlg, IDC_MESSAGE, EM_AUTOURLDETECT, TRUE, 0 );
-		SendDlgItemMessage( hDlg, IDC_MESSAGE, EM_SETBKGNDCOLOR, FALSE, colourSet.background);
+		SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+		SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_AUTOURLDETECT, TRUE, 0);
+		SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_SETBKGNDCOLOR, FALSE, colourSet.background);
 
-		if ( append == 0 )
+		if (append == 0)
 		{
 			ClearLinePos(listStart);
-			
+
 			// How to set RTF colour, font, etc.... found at
 			// http://www.winehq.com/hypermail/wine-devel/2004/08/0608.html
 			memset(&pf, 0, sizeof(pf));
 			pf.cbSize = sizeof(pf);
 			pf.dwMask = PFM_ALIGNMENT;
 			pf.wAlignment = PFA_LEFT;
-			SendDlgItemMessage( hDlg, IDC_MAIN,  EM_SETPARAFORMAT, FALSE, (LPARAM) &pf);
-		
-			if ( searchString != nullptr )
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETPARAFORMAT, FALSE, (LPARAM)&pf);
+
+			if (searchString != nullptr)
 			{
 				memset(&cf, 0, sizeof(cf));
 				cf.cbSize = sizeof(cf);
@@ -303,123 +305,123 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				cf.dwEffects = CFE_BOLD;
 				cf.crTextColor = colourSet.text;
 				wcscpy_s(cf.szFaceName, L"Arial");
-				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
-				
+				SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+
 				mir_snwprintf(searchText, L"%s '%s': %d\n\n", TranslateT("Matches for searchtext"), searchString, listCount);
 				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)searchText);
 				linePos += 2;
 			}
-		
+
 			memset(&cf, 0, sizeof(cf));
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_FACE | CFM_BOLD;
 			wcscpy_s(cf.szFaceName, L"Courier");
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 
 		actualElement = listStart->nextElement;
-		
-		if ( append > 0 )
+
+		if (append > 0)
 		{
 			linePos = GetLastLinePos(listStart);
 
 			if ((realListCount - append) == 1)
 				wcscpy_s(lastDate, actualElement->date);
 
-			for(appCount = 1; appCount <= (realListCount - append); appCount++)
+			for (appCount = 1; appCount <= (realListCount - append); appCount++)
 			{
 				actualElement = actualElement->nextElement;
-				if(appCount == (realListCount - append - 1))
+				if (appCount == (realListCount - append - 1))
 					wcscpy_s(lastDate, actualElement->date);
 			}
-			gtl.flags = GTL_PRECISE; 
-			gtl.codepage = CP_ACP; 
-			sel.cpMin = sel.cpMax = SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0); 
-			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM) &sel); 
+			gtl.flags = GTL_PRECISE;
+			gtl.codepage = CP_ACP;
+			sel.cpMin = sel.cpMax = SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&sel);
 		}
 
-		if ( append == 0 )
+		if (append == 0)
 		{
 			// Create Progressbar
 			GetWindowRect(GetDesktopWindow(), &DesktopRect);
-			hwndProgress = CreateWindow(L"Progressbar", TranslateT("Processing list..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, nullptr, nullptr, hInst, nullptr);
-			SetWindowPos(hwndProgress,HWND_TOP,(int)(DesktopRect.right*0.5)-175,(int)(DesktopRect.bottom*0.5)-22,0,0,SWP_NOSIZE);
-		
-			if ( hwndProgress != nullptr )
+			hwndProgress = CreateWindow(L"Progressbar", TranslateT("Processing list..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, nullptr, nullptr, g_plugin.getInst(), nullptr);
+			SetWindowPos(hwndProgress, HWND_TOP, (int)(DesktopRect.right*0.5) - 175, (int)(DesktopRect.bottom*0.5) - 22, 0, 0, SWP_NOSIZE);
+
+			if (hwndProgress != nullptr)
 			{
 				ShowWindow(hwndProgress, SW_SHOW);
 				SetForegroundWindow(hwndProgress);
 			}
 		}
 
-		while ( actualElement != nullptr )
+		while (actualElement != nullptr)
 		{
 			filter1 = 0;
 			filter2 = 0;
 			filter3 = 0;
-			
-			if ( (params & WLL_IN) && (actualElement->direction == DIRECTION_IN))
+
+			if ((params & WLL_IN) && (actualElement->direction == DIRECTION_IN))
 				filter1 = 1;
-			else if ( (params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT))
+			else if ((params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT))
 				filter1 = 1;
-			
-			if ( (params & WLL_MAIL) && (actualElement->type == LINK_MAIL))
+
+			if ((params & WLL_MAIL) && (actualElement->type == LINK_MAIL))
 				filter2 = 1;
-			else if ( (params & WLL_URL) && (actualElement->type == LINK_URL))
+			else if ((params & WLL_URL) && (actualElement->type == LINK_URL))
 				filter2 = 1;
-			else if ( (params & WLL_FILE) && (actualElement->type == LINK_FILE))
+			else if ((params & WLL_FILE) && (actualElement->type == LINK_FILE))
 				filter2 = 1;
 
 
-			if ( searchString != nullptr )
+			if (searchString != nullptr)
 			{
-				if ( params & SLL_DEEP )
-				{	
+				if (params & SLL_DEEP)
+				{
 					// Perform deep scan
-					if ( actualElement->hEvent != NULL )
+					if (actualElement->hEvent != NULL)
 					{
 						DBEVENTINFO dbe = {};
 						dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
-						dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
+						dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
 						db_event_get(actualElement->hEvent, &dbe);
 						dbe.pBlob[dbe.cbBlob] = 0;
 						LPTSTR msg = DbEvent_GetTextW(&dbe, CP_ACP);
-						if ( wcsstr(msg, searchString))
-							filter3 = 1;						
-						
+						if (wcsstr(msg, searchString))
+							filter3 = 1;
+
 						mir_free(dbe.pBlob);
 						mir_free(msg);
 					}
 					else filter3 = 0;
 				}
-				else if ( wcsstr(actualElement->link, searchString))
+				else if (wcsstr(actualElement->link, searchString))
 					filter3 = 1;
 			}
 			else filter3 = 1;
 
-			if ( (filter1 == 1) && (filter2 == 1) && (filter3 == 1))
+			if ((filter1 == 1) && (filter2 == 1) && (filter3 == 1))
 			{
 				LPCTSTR type;
 
-				if ( mir_wstrcmp(actualElement->date, lastDate) != 0 )
+				if (mir_wstrcmp(actualElement->date, lastDate) != 0)
 				{
 					memset(&cf, 0, sizeof(cf));
 					cf.cbSize = sizeof(cf);
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = colourSet.text;
-					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-					if ( options.showLine != 0 )
+					SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+					if (options.showLine != 0)
 						DrawLine(hDlg, lineLen);
 					memset(&cf, 0, sizeof(cf));
 					cf.cbSize = sizeof(cf);
 					cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 					cf.dwEffects = CFE_BOLD;
 					wcscpy_s(cf.szFaceName, L"Arial");
-					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
-					if ( options.showDate != 0 )
+					SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+					if (options.showDate != 0)
 					{
-						SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM) actualElement->date);
-						SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM) L"\n\n");
+						SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)actualElement->date);
+						SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)L"\n\n");
 						linePos += 3;
 					}
 					wcscpy_s(lastDate, actualElement->date);
@@ -427,20 +429,20 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					cf.cbSize = sizeof cf;
 					cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_UNDERLINE | CFM_FACE;
 					wcscpy_s(cf.szFaceName, L"Courier");
-					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
+					SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				}
 				memset(&cf, 0, sizeof(cf));
 				cf.cbSize = sizeof(cf);
 				cf.dwMask = CFM_COLOR;
-				
-				if ( actualElement->direction == DIRECTION_OUT )
+
+				if (actualElement->direction == DIRECTION_OUT)
 				{
 					cf.crTextColor = colourSet.incoming;
 				}
 				else
 					cf.crTextColor = colourSet.outgoing;
-				
-				switch( actualElement->type ) {
+
+				switch (actualElement->type) {
 				case LINK_MAIL:
 					type = L"[mail]";
 					break;
@@ -455,48 +457,48 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				}
 
 				mir_snwprintf(textLine, L"%s%s%s%s%s%s%s\n",
-					options.showDirection ? (actualElement->direction==DIRECTION_IN?L"[in ]":L"[out]") : L"",
-					options.showDirection? L" " : L"",
+					options.showDirection ? (actualElement->direction == DIRECTION_IN ? L"[in ]" : L"[out]") : L"",
+					options.showDirection ? L" " : L"",
 					options.showType ? type : L"",
 					options.showType ? L"  " : L"",
 					options.showTime ? actualElement->time : L"",
 					options.showTime ? L" " : L"",
 					actualElement->link);
-				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
-				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE,(LPARAM)textLine);
+				SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)textLine);
 				linePos++;
 				actualElement->linePos = linePos;
 				actCount++;
-				if ( hwndProgress && ( ((int)(((float)actCount/listCount)*100.00)) % 10 == 0 ))
-						SendMessage(hwndProgress, WM_COMMAND, 100,((int)(((float)actCount/listCount)*100.00)));
+				if (hwndProgress && (((int)(((float)actCount / listCount)*100.00)) % 10 == 0))
+					SendMessage(hwndProgress, WM_COMMAND, 100, ((int)(((float)actCount / listCount)*100.00)));
 
 			}
 			actualElement = actualElement->nextElement;
 		}
-		if ( listCount > 0 )
+		if (listCount > 0)
 		{
 			if ((actCount < listCount) && (append == 0) && (options.showLine != 0))
 				DrawLine(hDlg, lineLen);
 		}
-		else if ( searchString == nullptr )
-		{	
+		else if (searchString == nullptr)
+		{
 			memset(&cf, 0, sizeof(cf));
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 			cf.dwEffects = CFE_BOLD;
 			wcscpy_s(cf.szFaceName, L"Arial");
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)TranslateT("No messages found!\nPlease change current filter options."));
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)TranslateT("No messages found!\nPlease change current filter options."));
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
 		}
-			
+
 	}
-	if ( append == 0 )
+	if (append == 0)
 	{
 		SendMessage(hwndProgress, WM_CLOSE, 0, 0);
-		ShowWindow(GetDlgItem(hDlg, IDC_MAIN), SW_SHOW);	
+		ShowWindow(GetDlgItem(hDlg, IDC_MAIN), SW_SHOW);
 	}
-	
+
 	PostMessage(GetDlgItem(hDlg, IDC_MAIN), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 	len = GetWindowTextLength(GetDlgItem(hDlg, IDC_MAIN));
 	PostMessage(GetDlgItem(hDlg, IDC_MAIN), EM_SETSEL, len, len);
@@ -510,7 +512,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 {
 	CHARFORMAT cf;
 	PARAFORMAT pf;
-	
+
 	memset(&pf, 0, sizeof(pf));
 	pf.cbSize = sizeof(pf);
 	pf.dwMask = PFM_ALIGNMENT;
@@ -526,30 +528,30 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	cf.dwMask = CFM_FACE | CFM_BOLD | CFM_ITALIC | CFM_COLOR;
 	wcscpy_s(cf.szFaceName, L"Courier");
 	cf.crTextColor = TxtColourSel;
-	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
-	if ( options->showLine == 1 )
-		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"___________________________________________\n");
+	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+	if (options->showLine == 1)
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"___________________________________________\n");
 	else
-		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
-	
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
+
 	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_BOLD | CFM_FACE | CFM_COLOR;
 	cf.dwEffects = CFE_BOLD;
 	wcscpy_s(cf.szFaceName, L"Arial");
 	cf.crTextColor = TxtColourSel;
-	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
+	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
-	if(options->showDate == 1)
-		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)TXT_DATE);
-	
-	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM) L"\n");
+	if (options->showDate == 1)
+		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)TXT_DATE);
+
+	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
 
 	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_UNDERLINE | CFM_FACE;
 	wcscpy_s(cf.szFaceName, L"Courier");
-	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
+	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
 	// incoming
 	memset(&cf, 0, sizeof(cf));
@@ -557,19 +559,19 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	cf.dwMask = CFM_COLOR | CFM_FACE;
 	cf.crTextColor = InColourSel;
 	wcscpy_s(cf.szFaceName, L"Courier");
-	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf );
-	
-	if ( options->showDirection == 1 )
+	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+
+	if (options->showDirection == 1)
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"\n[in ] ");
 	else
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
-		
-	if ( options->showType == 1 )
+
+	if (options->showType == 1)
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"URL   ");
 	else
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"");
-	
-	if ( options->showTime == 1 )
+
+	if (options->showTime == 1)
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"08:15 https://miranda-ng.org\n");
 	else
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"https://miranda-ng.org\n");
@@ -582,22 +584,22 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	wcscpy_s(cf.szFaceName, L"Courier");
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
-	
-	if ( options->showDirection == 1 )
+
+	if (options->showDirection == 1)
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"[out] ");
 	else
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"");
-		
-	if(options->showType == 1)
+
+	if (options->showType == 1)
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"URL   ");
 	else
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"");
-	
-	if(options->showTime == 1)
+
+	if (options->showTime == 1)
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"08:16 https://miranda-ng.org\n");
 	else
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)L"https://miranda-ng.org\n");
-	
+
 	return 0;
 }
 
@@ -611,10 +613,10 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 	while (actualElement != nullptr) {
 		if (actualElement->linePos == actLinePos) {
 			MEVENT hEvent = actualElement->hEvent;
-			if (hEvent != NULL ) {
+			if (hEvent != NULL) {
 				DBEVENTINFO dbe = {};
 				dbe.cbBlob = db_event_getBlobSize(hEvent);
-				dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
+				dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
 				db_event_get(hEvent, &dbe);
 				dbe.pBlob[dbe.cbBlob] = 0;
 				LPCTSTR msg = DbEvent_GetTextW(&dbe, CP_ACP);
@@ -636,33 +638,33 @@ user options.
 BYTE GetFlags(HMENU listMenu)
 {
 	BYTE returnflags = 0x00;
-	
-	if ( GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_UNCHECKED )
+
+	if (GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_UNCHECKED)
 		returnflags = returnflags | WLL_MAIL;
-	
-	if ( GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_UNCHECKED )
+
+	if (GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_UNCHECKED)
 		returnflags = returnflags | WLL_URL;
-	
-	if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_UNCHECKED )
+
+	if (GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_UNCHECKED)
 		returnflags = returnflags | WLL_OUT;
-	
-	if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_UNCHECKED )
+
+	if (GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_UNCHECKED)
 		returnflags = returnflags | WLL_IN;
-	
+
 	return returnflags;
 }
 
 void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 {
 
-	if ( GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_CHECKED )
+	if (GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_CHECKED)
 	{
-		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
+		if (GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED)
 		{
 			//incoming URLs
 			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, TXT_URLSONLY);
 		}
-		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
+		else if (GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED)
 		{
 			//outgoing URLs
 			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, TXT_URLSONLY);
@@ -673,14 +675,14 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, "", TXT_URLSONLY);
 		}
 	}
-	else if ( GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED )
+	else if (GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED)
 	{
-		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
+		if (GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED)
 		{
 			//incoming mail
 			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, TXT_MAILSONLY);
 		}
-		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
+		else if (GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED)
 		{
 			//outgoing mail
 			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, TXT_MAILSONLY);
@@ -693,12 +695,12 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 	}
 	else
 	{
-		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
+		if (GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED)
 		{
 			//incoming (both)
 			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, "");
 		}
-		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
+		else if (GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED)
 		{
 			//outgoing (both)
 			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, "");
@@ -719,13 +721,13 @@ void DrawLine(HWND hDlg, size_t lineLen)
 {
 	wchar_t line[LINK_MAX + 18];
 	size_t i;
-	for (i=0; (i<lineLen+18)&&(i<LINK_MAX+18); i++ )
+	for (i = 0; (i < lineLen + 18) && (i < LINK_MAX + 18); i++)
 	{
 		line[i] = '_';
 	}
-	line[lineLen+18] = '\0';
-	SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)line);
-	SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
+	line[lineLen + 18] = '\0';
+	SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)line);
+	SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)L"\n");
 	return;
 }
 
@@ -733,9 +735,9 @@ void DrawLine(HWND hDlg, size_t lineLen)
 /*
 Little helper function to get informations about the linked list, such as number of links, etc
 */
-void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, size_t *maxLen, size_t *elementCount, size_t *realElementCount)
+void GetListInfo(BYTE params, LISTELEMENT *listStart, LPCTSTR searchString, size_t *maxLen, size_t *elementCount, size_t *realElementCount)
 {
-	size_t tempLen;		
+	size_t tempLen;
 	LISTELEMENT *actualElement;
 	char filter1, filter2, filter3;
 
@@ -743,40 +745,40 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 	*elementCount = 0;
 	*realElementCount = 0;
 	actualElement = listStart->nextElement;
-	
-	while ( actualElement != nullptr )
+
+	while (actualElement != nullptr)
 	{
 		(*realElementCount)++;
 
 		filter1 = 0;
 		filter2 = 0;
 		filter3 = 0;
-			
-		if ( (params & WLL_IN) && (actualElement->direction == DIRECTION_IN))
+
+		if ((params & WLL_IN) && (actualElement->direction == DIRECTION_IN))
 			filter1 = 1;
-		else if ( (params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT))
+		else if ((params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT))
 			filter1 = 1;
-			
-		if ( (params & WLL_MAIL) && (actualElement->type == LINK_MAIL))
+
+		if ((params & WLL_MAIL) && (actualElement->type == LINK_MAIL))
 			filter2 = 1;
-		else if ( (params & WLL_URL) && (actualElement->type == LINK_URL))
+		else if ((params & WLL_URL) && (actualElement->type == LINK_URL))
 			filter2 = 1;
-		
-		if ( searchString != nullptr )
+
+		if (searchString != nullptr)
 		{
-			if ( params & SLL_DEEP )
-			{	
+			if (params & SLL_DEEP)
+			{
 				// Perform deep scan
-				if ( actualElement->hEvent != NULL )
+				if (actualElement->hEvent != NULL)
 				{
 					DBEVENTINFO dbe = {};
 					dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
-					dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
+					dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
 					db_event_get(actualElement->hEvent, &dbe);
 					dbe.pBlob[dbe.cbBlob] = 0;
-					if ( wcsstr((LPTSTR)dbe.pBlob, searchString))
-						filter3 = 1;						
-					
+					if (wcsstr((LPTSTR)dbe.pBlob, searchString))
+						filter3 = 1;
+
 					mir_free(dbe.pBlob);
 				}
 				else
@@ -784,14 +786,14 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 			}
 			else
 			{
-				if(wcsstr(actualElement->link, searchString))
+				if (wcsstr(actualElement->link, searchString))
 					filter3 = 1;
 			}
 		}
 		else
 			filter3 = 1;
 
-		if ((filter1 == 1) && (filter2 == 1) && (filter3 == 1))	
+		if ((filter1 == 1) && (filter2 == 1) && (filter3 == 1))
 		{
 			(*elementCount)++;
 
@@ -810,16 +812,16 @@ void GetListOptions(LISTOPTIONS *options)
 {
 
 	options->openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF);
-	if(options->openNewWindow == 0xFF)
+	if (options->openNewWindow == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0x00);
 		options->openNewWindow = 0x00;
 	}
 
-	
+
 	options->updateWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0xFF);
-	if(options->updateWindow == 0xFF)
+	if (options->updateWindow == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0x00);
@@ -827,7 +829,7 @@ void GetListOptions(LISTOPTIONS *options)
 	}
 
 	options->mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
-	if(options->mouseEvent == 0xFF)
+	if (options->mouseEvent == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0x00);
@@ -835,7 +837,7 @@ void GetListOptions(LISTOPTIONS *options)
 	}
 
 	options->saveSpecial = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0xFF);
-	if(options->saveSpecial == 0xFF)
+	if (options->saveSpecial == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00);
@@ -844,7 +846,7 @@ void GetListOptions(LISTOPTIONS *options)
 
 
 	options->showDate = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DATE, 0xFF);
-	if(options->showDate == 0xFF)
+	if (options->showDate == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DATE, 0x01);
@@ -852,7 +854,7 @@ void GetListOptions(LISTOPTIONS *options)
 	}
 
 	options->showLine = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_LINE, 0xFF);
-	if(options->showLine == 0xFF)
+	if (options->showLine == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_LINE, 0x01);
@@ -860,7 +862,7 @@ void GetListOptions(LISTOPTIONS *options)
 	}
 
 	options->showTime = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TIME, 0xFF);
-	if(options->showTime == 0xFF)
+	if (options->showTime == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TIME, 0x01);
@@ -868,7 +870,7 @@ void GetListOptions(LISTOPTIONS *options)
 	}
 
 	options->showDirection = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, 0xFF);
-	if(options->showDirection == 0xFF)
+	if (options->showDirection == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, 0x01);
@@ -876,7 +878,7 @@ void GetListOptions(LISTOPTIONS *options)
 	}
 
 	options->showType = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, 0xFF);
-	if(options->showType == 0xFF)
+	if (options->showType == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, 0x01);
@@ -906,11 +908,11 @@ void ClearLinePos(LISTELEMENT *listStart)
 {
 	LISTELEMENT *actualElement;
 
-	if ( listStart == nullptr )
+	if (listStart == nullptr)
 		return;
 
 	actualElement = listStart->nextElement;
-	while ( actualElement != nullptr )
+	while (actualElement != nullptr)
 	{
 		actualElement->linePos = -1;
 		actualElement = actualElement->nextElement;
@@ -922,13 +924,13 @@ int GetLastLinePos(LISTELEMENT *listStart)
 	LISTELEMENT *actualElement;
 	int maxPos = -1;
 
-	if ( listStart == nullptr )
+	if (listStart == nullptr)
 		return -1;
 
 	actualElement = listStart->nextElement;
-	while ( actualElement != nullptr )
+	while (actualElement != nullptr)
 	{
-		if ( actualElement->linePos > maxPos )
+		if (actualElement->linePos > maxPos)
 			maxPos = actualElement->linePos;
 
 		actualElement = actualElement->nextElement;
@@ -945,25 +947,25 @@ void GetColour(MYCOLOURSET *colourSet)
 	BYTE useDefault;
 
 	useDefault = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0xFF);
-	if ( useDefault == 0xFF )
+	if (useDefault == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x01);
 		useDefault = 0x01;
 	}
 
-	if ( useDefault == 0x01 )
+	if (useDefault == 0x01)
 	{
 		// Use Miranda-IM Default colours
 		// CHANGED AT MIRANDA 0.4!!!!
 		// Use SRMM... if it is not there try SRMsg (older Miranda Versions)
 		colour = db_get_dw(NULL, "SRMM", "SRMFont1Col", 0xFF000000);
-		if ( colour != 0xFF000000 )
+		if (colour != 0xFF000000)
 			colourSet->incoming = colour;
 		else
 		{
 			colour = db_get_dw(NULL, "SRMsg", "Font3Col", 0xFF000000);
-			if ( colour != 0xFF000000 )
+			if (colour != 0xFF000000)
 				colourSet->incoming = colour;
 			else
 			{
@@ -971,16 +973,16 @@ void GetColour(MYCOLOURSET *colourSet)
 				useDefault = 0x00;
 			}
 		}
-		
+
 		// SRMM
 		colour = db_get_dw(NULL, "SRMM", "SRMFont0Col", 0xFF000000);
-		if ( colour != 0xFF000000 )
+		if (colour != 0xFF000000)
 			colourSet->outgoing = colour;
 		else
 		{
 			// SRMsg
 			colour = db_get_dw(NULL, "SRMsg", "Font0Col", 0xFF000000);
-			if ( colour != 0xFF000000 )
+			if (colour != 0xFF000000)
 				colourSet->outgoing = colour;
 			else
 			{
@@ -991,13 +993,13 @@ void GetColour(MYCOLOURSET *colourSet)
 
 		// SRMM
 		colour = db_get_dw(NULL, "SRMM", "BkgColour", 0xFF000000);
-		if ( colour != 0xFF000000 )
+		if (colour != 0xFF000000)
 			colourSet->background = colour;
 		else
-		{	
+		{
 			// SRMsg
 			colour = db_get_dw(NULL, "SRMsg", "BkgColour", 0xFF000000);
-			if ( colour != 0xFF000000 )
+			if (colour != 0xFF000000)
 				colourSet->background = colour;
 			else
 			{
@@ -1008,29 +1010,29 @@ void GetColour(MYCOLOURSET *colourSet)
 		colourSet->text = MAKE_TXT_COL(colourSet->background);
 	}
 
-	if ( useDefault == 0x00 )
+	if (useDefault == 0x00)
 	{
 		// Use Plugin user defined or default colours
 		colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_IN_COL, 0xFF000000);
-		if ( colour != 0xFF000000 )
+		if (colour != 0xFF000000)
 			colourSet->incoming = colour;
 		else
 			colourSet->incoming = IN_COL_DEF;
-	
+
 		colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_OUT_COL, 0xFF000000);
-		if ( colour != 0xFF000000 )
+		if (colour != 0xFF000000)
 			colourSet->outgoing = colour;
 		else
 			colourSet->outgoing = OUT_COL_DEF;
-	
+
 		colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_BG_COL, 0xFF000000);
-		if ( colour != 0xFF000000 )
+		if (colour != 0xFF000000)
 			colourSet->background = colour;
 		else
 			colourSet->background = BG_COL_DEF;
 
 		colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_TXT_COL, 0xFF000000);
-		if ( colour != 0xFF000000 )
+		if (colour != 0xFF000000)
 			colourSet->text = colour;
 		else
 			colourSet->text = TXT_COL_DEF;
@@ -1047,7 +1049,7 @@ void GetDBColour(MYCOLOURSET *colourSet)
 
 	// Use Plugin user defined or default colours
 	colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_IN_COL, 0xFF000000);
-	if(colour != 0xFF000000)
+	if (colour != 0xFF000000)
 		colourSet->incoming = colour;
 	else
 	{
@@ -1056,16 +1058,16 @@ void GetDBColour(MYCOLOURSET *colourSet)
 	}
 
 	colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_OUT_COL, 0xFF000000);
-	if(colour != 0xFF000000)
+	if (colour != 0xFF000000)
 		colourSet->outgoing = colour;
 	else
-	{	
+	{
 		db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_OUT_COL, OUT_COL_DEF);
 		colourSet->outgoing = OUT_COL_DEF;
 	}
 
 	colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_BG_COL, 0xFF000000);
-	if(colour != 0xFF000000)
+	if (colour != 0xFF000000)
 		colourSet->background = colour;
 	else
 	{
@@ -1074,7 +1076,7 @@ void GetDBColour(MYCOLOURSET *colourSet)
 	}
 
 	colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_TXT_COL, 0xFF000000);
-	if(colour != 0xFF000000)
+	if (colour != 0xFF000000)
 		colourSet->text = colour;
 	else
 	{
@@ -1093,37 +1095,37 @@ int GetMirandaColour(MYCOLOURSET *colourSet)
 	// Use Miranda-IM Default colours
 	// Try SRMM (Miranda 0.4) .... or SRMsg... for older versions
 	colour = db_get_dw(NULL, "SRMM", "SRMFont1Col", 0xFF000000);
-	if(colour != 0xFF000000)
+	if (colour != 0xFF000000)
 		colourSet->incoming = colour;
 	else
 	{
 		colour = db_get_dw(NULL, "SRMsg", "Font3Col", 0xFF000000);
-		if(colour != 0xFF000000)
+		if (colour != 0xFF000000)
 			colourSet->incoming = colour;
 		else
-			return 1;	
+			return 1;
 	}
-		
+
 
 	colour = db_get_dw(NULL, "SRMM", "SRMFont0Col", 0xFF000000);
-	if(colour != 0xFF000000)
+	if (colour != 0xFF000000)
 		colourSet->outgoing = colour;
 	else
 	{
 		colour = db_get_dw(NULL, "SRMsg", "Font0Col", 0xFF000000);
-		if(colour != 0xFF000000)
+		if (colour != 0xFF000000)
 			colourSet->outgoing = colour;
 		else
 			return 1;
 	}
 
 	colour = db_get_dw(NULL, "SRMM", "BkgColour", 0xFF000000);
-	if(colour != 0xFF000000)
+	if (colour != 0xFF000000)
 		colourSet->background = colour;
 	else
-	{	
+	{
 		colour = db_get_dw(NULL, "SRMsg", "BkgColour", 0xFF000000);
-		if(colour != 0xFF000000)
+		if (colour != 0xFF000000)
 			colourSet->background = colour;
 		else
 			return 1;
@@ -1148,15 +1150,15 @@ void SetDBColour(MYCOLOURSET *colourSet)
 BYTE GetUpdateSetting(void)
 {
 	BYTE updateWindow;
-	
+
 	updateWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0xFF);
-	if ( updateWindow == 0xFF )
+	if (updateWindow == 0xFF)
 	{
 		// No DB entry for this Plugin
 		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0x00);
 		return 0;
 	}
-	if ( updateWindow == 0x00 )
+	if (updateWindow == 0x00)
 		return 0;
 	else
 		return 1;
@@ -1172,22 +1174,22 @@ int DBUpdate(WPARAM wParam, LPARAM hEvent)
 	DIALOGPARAM *DlgParam;
 	HMENU listMenu = GetMenu(hDlg);
 	int linkNum = 0;
-	
+
 	DlgParam = (DIALOGPARAM *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 
-	if(GetUpdateSetting() != 1)
+	if (GetUpdateSetting() != 1)
 		return 0;
 
-	if(hDlg) {
+	if (hDlg) {
 		DBEVENTINFO dbe = {};
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)mir_alloc((size_t)dbe.cbBlob+1);
+		dbe.pBlob = (PBYTE)mir_alloc((size_t)dbe.cbBlob + 1);
 		db_event_get(hEvent, &dbe);
 		if (dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
 			linkNum = ExtractURI(&dbe, hEvent, DlgParam->listStart);
-			if ( linkNum > 0 )
-				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, nullptr, linkNum); 
+			if (linkNum > 0)
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, nullptr, linkNum);
 		}
 		mir_free(dbe.pBlob);
 	}
@@ -1198,40 +1200,40 @@ int DBUpdate(WPARAM wParam, LPARAM hEvent)
 /*
 Little resize helper
 */
-int LinklistResizer(HWND hDlg, LPARAM lParam, UTILRESIZECONTROL *urc) 
+int LinklistResizer(HWND hDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
 	DIALOGPARAM *DlgParam = (DIALOGPARAM*)lParam;
 	UNREFERENCED_PARAMETER(hDlg);
-	
-	switch(urc->wId) 
-	{
-		case IDC_MAIN:
-			urc->rcItem.bottom -= DlgParam->splitterPosNew - DlgParam->splitterPosOld; 
-			return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
 
-		case IDC_MESSAGE:
-			urc->rcItem.top -= DlgParam->splitterPosNew - DlgParam->splitterPosOld; 
-			return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
-	
-		case IDC_STATUS:
-			return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
-		
-		case IDC_SPLITTER:
-            urc->rcItem.top -= DlgParam->splitterPosNew - DlgParam->splitterPosOld;
-            urc->rcItem.bottom -= DlgParam->splitterPosNew - DlgParam->splitterPosOld;
-            return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
+	switch (urc->wId)
+	{
+	case IDC_MAIN:
+		urc->rcItem.bottom -= DlgParam->splitterPosNew - DlgParam->splitterPosOld;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+	case IDC_MESSAGE:
+		urc->rcItem.top -= DlgParam->splitterPosNew - DlgParam->splitterPosOld;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+
+	case IDC_STATUS:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+
+	case IDC_SPLITTER:
+		urc->rcItem.top -= DlgParam->splitterPosNew - DlgParam->splitterPosOld;
+		urc->rcItem.bottom -= DlgParam->splitterPosNew - DlgParam->splitterPosOld;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 	}
 
-	return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
 
 /*
-Next both functions are taken from a example projekt, found at 
+Next both functions are taken from a example projekt, found at
 http://www.programmersheaven.com/zone15/cat236/2405.htm
 The author is unknown, but this peace of code made my work much easier!
 */
-BOOL SaveEditAsStream( HWND hDlg )
+BOOL SaveEditAsStream(HWND hDlg)
 {
 	EDITSTREAM es;
 	LONG lOut;
@@ -1243,9 +1245,9 @@ BOOL SaveEditAsStream( HWND hDlg )
 	wcscpy_s(szFilename, L"*.rtf");
 	// Fill in OPENFILENAME struct
 	memset(&ofn, 0, sizeof(OPENFILENAME));
-	ofn.lStructSize = sizeof(OPENFILENAME);      
+	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hDlg;
-	wchar_t temp[MAX_PATH]; 
+	wchar_t temp[MAX_PATH];
 	mir_snwprintf(temp, L"%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c", TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrFile = szFilename;
@@ -1253,21 +1255,21 @@ BOOL SaveEditAsStream( HWND hDlg )
 	ofn.lpstrTitle = TranslateT("Save RTF File");
 	ofn.Flags = OFN_OVERWRITEPROMPT;
 	// Get a filename or quit
-	if ( ! GetSaveFileName( &ofn ))                   
+	if (!GetSaveFileName(&ofn))
 		return FALSE;
 	//  Create the specified file
-	hFile = CreateFile( szFilename, GENERIC_WRITE, 0, nullptr,
-		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr );
+	hFile = CreateFile(szFilename, GENERIC_WRITE, 0, nullptr,
+		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	//  Quit if file creation fails
-	if ( hFile == INVALID_HANDLE_VALUE )
+	if (hFile == INVALID_HANDLE_VALUE)
 		return FALSE;
 	//  Pass file handle to callback
 	//  so the callback can do the file write
 	es.dwCookie = (DWORD_PTR)hFile;
-	es.dwError = 0;								
+	es.dwError = 0;
 	es.pfnCallback = (EDITSTREAMCALLBACK)RTFSaveStreamCallback;
 	// Start the callback proc
-	lOut = SendDlgItemMessage( hDlg, IDC_MAIN, EM_STREAMOUT, SF_RTF, (LPARAM)&es );
+	lOut = SendDlgItemMessage(hDlg, IDC_MAIN, EM_STREAMOUT, SF_RTF, (LPARAM)&es);
 	// Close file handle and exit
 	CloseHandle(hFile);
 	return TRUE;
@@ -1276,12 +1278,12 @@ BOOL SaveEditAsStream( HWND hDlg )
 DWORD CALLBACK RTFSaveStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuffer, LONG lSize, LONG *plRead)
 {
 	// Sanity check...exit if nothing passed
-	if ( ! lSize )                      
+	if (!lSize)
 		return 1;
 	// Initialize "amount read" variable for WriteFile()
-	*plRead = 0;           
+	*plRead = 0;
 	// dwCookie is the file handle
-	WriteFile( (HANDLE)dwCookie, lpBuffer, lSize, (LPDWORD)plRead, nullptr );
+	WriteFile((HANDLE)dwCookie, lpBuffer, lSize, (LPDWORD)plRead, nullptr);
 	// Continue, if needed
 	return 0;
 }

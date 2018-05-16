@@ -181,7 +181,7 @@ ext::string OptionsCtrlImpl::DateTime::getCombinedText()
 }
 
 OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szFormat, time_t timestamp, DWORD dwFlags, INT_PTR dwData)
-: Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(nullptr), m_strFormat(szFormat), m_timestamp(timestamp)
+	: Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(nullptr), m_strFormat(szFormat), m_timestamp(timestamp)
 {
 	m_bDisableChildsOnNone = bool_(dwFlags & OCF_DISABLECHILDSONNONE);
 	m_bAllowNone = bool_(dwFlags & OCF_ALLOWNONE);
@@ -221,7 +221,7 @@ void OptionsCtrlImpl::DateTime::onSelect()
 		if (hTempWnd = CreateWindowEx(
 			WS_EX_CLIENTEDGE, DATETIMEPICK_CLASS, L"", dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccDateTime), g_hInst, nullptr)) {
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccDateTime), g_plugin.getInst(), nullptr)) {
 			// restrict to dates a timestamp can hold (with 1 day less to avoid timezone issues)
 			SYSTEMTIME stMinMax[2] = { toSystemTime(0x00000000 + 24 * 60 * 60), toSystemTime(0x7FFFFFFF - 24 * 60 * 60) };
 

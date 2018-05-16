@@ -18,17 +18,17 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 
 	switch (msg) {
 	case WM_NCCREATE:
-		{
-			CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
+	{
+		CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
 
-			pCS->style &= ~(WS_BORDER | WS_HSCROLL | WS_VSCROLL);
-			pCS->style |= WS_CHILD;
-			pCS->dwExStyle &= ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE | WS_EX_WINDOWEDGE);
+		pCS->style &= ~(WS_BORDER | WS_HSCROLL | WS_VSCROLL);
+		pCS->style |= WS_CHILD;
+		pCS->dwExStyle &= ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE | WS_EX_WINDOWEDGE);
 
-			pCtrl = new OptionsCtrlImpl(hWnd, reinterpret_cast<INT_PTR>(pCS->hMenu));
-			SetWindowLongPtr(hWnd, 0, reinterpret_cast<INT_PTR>(pCtrl));
-		}
-		return pCtrl ? TRUE : FALSE;
+		pCtrl = new OptionsCtrlImpl(hWnd, reinterpret_cast<INT_PTR>(pCS->hMenu));
+		SetWindowLongPtr(hWnd, 0, reinterpret_cast<INT_PTR>(pCtrl));
+	}
+	return pCtrl ? TRUE : FALSE;
 
 	case WM_CREATE:
 		return pCtrl->onWMCreate(reinterpret_cast<CREATESTRUCT*>(lParam));
@@ -54,69 +54,69 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 		return SendMessage(pCtrl->m_hTree, WM_SETFONT, wParam, lParam);
 
 	case WM_WINDOWPOSCHANGED:
-		{
-			WINDOWPOS* pWP = reinterpret_cast<WINDOWPOS*>(lParam);
-			SetWindowPos(pCtrl->m_hTree, nullptr, 0, 0, pWP->cx, pWP->cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
-		}
-		return 0;
+	{
+		WINDOWPOS* pWP = reinterpret_cast<WINDOWPOS*>(lParam);
+		SetWindowPos(pCtrl->m_hTree, nullptr, 0, 0, pWP->cx, pWP->cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+	}
+	return 0;
 
 	case WM_SETREDRAW:
 		return SendMessage(pCtrl->m_hTree, WM_SETREDRAW, wParam, lParam);
 
 	case WM_NOTIFY:
-		{
-			NMHDR* pNM = reinterpret_cast<NMHDR*>(lParam);
-			if (pNM->hwndFrom == pCtrl->m_hTree) {
-				switch (pNM->code) {
-				case NM_CLICK:
-					pCtrl->onNMClick();
-					return 0;
+	{
+		NMHDR* pNM = reinterpret_cast<NMHDR*>(lParam);
+		if (pNM->hwndFrom == pCtrl->m_hTree) {
+			switch (pNM->code) {
+			case NM_CLICK:
+				pCtrl->onNMClick();
+				return 0;
 
-				case NM_CUSTOMDRAW:
-					return pCtrl->onNMCustomDraw(reinterpret_cast<NMTVCUSTOMDRAW*>(pNM));
+			case NM_CUSTOMDRAW:
+				return pCtrl->onNMCustomDraw(reinterpret_cast<NMTVCUSTOMDRAW*>(pNM));
 
-				case NM_KILLFOCUS:
-					pCtrl->onNMKillFocus();
-					return 0;
+			case NM_KILLFOCUS:
+				pCtrl->onNMKillFocus();
+				return 0;
 
-				case TVN_ITEMEXPANDING:
-					return pCtrl->onTVNItemExpanding(reinterpret_cast<NMTREEVIEW*>(pNM));
+			case TVN_ITEMEXPANDING:
+				return pCtrl->onTVNItemExpanding(reinterpret_cast<NMTREEVIEW*>(pNM));
 
-				case TVN_DELETEITEM:
-					pCtrl->onTVNDeleteItem(reinterpret_cast<NMTREEVIEW*>(pNM));
-					return 0;
+			case TVN_DELETEITEM:
+				pCtrl->onTVNDeleteItem(reinterpret_cast<NMTREEVIEW*>(pNM));
+				return 0;
 
-				case TVN_SELCHANGING:
-					pCtrl->onTVNSelChanging(reinterpret_cast<NMTREEVIEW*>(pNM));
-					return 0;
+			case TVN_SELCHANGING:
+				pCtrl->onTVNSelChanging(reinterpret_cast<NMTREEVIEW*>(pNM));
+				return 0;
 
-				case TVN_SELCHANGED:
-					pCtrl->onTVNSelChanged(reinterpret_cast<NMTREEVIEW*>(pNM));
-					return 0;
+			case TVN_SELCHANGED:
+				pCtrl->onTVNSelChanged(reinterpret_cast<NMTREEVIEW*>(pNM));
+				return 0;
 
-				case TVN_BEGINDRAG:
-					pCtrl->onTVNBeginDrag(reinterpret_cast<NMTREEVIEW*>(pNM));
-					return 0;
-				}
+			case TVN_BEGINDRAG:
+				pCtrl->onTVNBeginDrag(reinterpret_cast<NMTREEVIEW*>(pNM));
+				return 0;
 			}
 		}
-		break;
+	}
+	break;
 
 	case WM_MOUSEMOVE:
-		{
-			POINTS pts = MAKEPOINTS(lParam);
-			POINT pt = { pts.x, pts.y };
-			pCtrl->onWMMouseMove(pt);
-		}
-		return 0;
+	{
+		POINTS pts = MAKEPOINTS(lParam);
+		POINT pt = { pts.x, pts.y };
+		pCtrl->onWMMouseMove(pt);
+	}
+	return 0;
 
 	case WM_LBUTTONUP:
-		{
-			POINTS pts = MAKEPOINTS(lParam);
-			POINT pt = { pts.x, pts.y };
-			pCtrl->onWMLButtonUp(pt);
-		}
-		return 0;
+	{
+		POINTS pts = MAKEPOINTS(lParam);
+		POINT pt = { pts.x, pts.y };
+		pCtrl->onWMLButtonUp(pt);
+	}
+	return 0;
 
 	case OCM_INSERTGROUP:
 		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertGroup(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCGROUP*>(lParam)));
@@ -315,7 +315,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticTreeProc(HWND hTree, UINT msg, WPARAM wP
 		break;
 
 	case WM_NOTIFY:
-		NMHDR* pNM = reinterpret_cast<NMHDR*>(lParam);
+		NMHDR * pNM = reinterpret_cast<NMHDR*>(lParam);
 
 		if (pNM->idFrom == ccDateTime) {
 			if (pNM->code == DTN_DATETIMECHANGE)
@@ -389,7 +389,7 @@ bool OptionsCtrlImpl::registerClass()
 		staticWndProc,				// lpfnWndProc
 		0,							// cbClsExtra
 		sizeof(OptionsCtrlImpl*),	// cbWndExtra
-		g_hInst,					// hInstance
+		g_plugin.getInst(),					// hInstance
 		nullptr,						// hIcon
 		nullptr,						// hCursor
 		nullptr,						// hbrBackground
@@ -412,7 +412,7 @@ bool OptionsCtrlImpl::registerClass()
 
 void OptionsCtrlImpl::unregisterClass()
 {
-	UnregisterClass(m_ClassName, g_hInst);
+	UnregisterClass(m_ClassName, g_plugin.getInst());
 }
 
 OptionsCtrlImpl::OptionsCtrlImpl(HWND hWnd, UINT_PTR nOwnId) :
@@ -442,7 +442,7 @@ LRESULT OptionsCtrlImpl::onWMCreate(CREATESTRUCT* pCS)
 		pCS->cy,
 		m_hWnd,
 		reinterpret_cast<HMENU>(ccTree),
-		g_hInst,
+		g_plugin.getInst(),
 		nullptr);
 
 	if (!m_hTree)
@@ -497,7 +497,7 @@ LRESULT OptionsCtrlImpl::onNMCustomDraw(NMTVCUSTOMDRAW* pNMCustomDraw)
 		return CDRF_NOTIFYITEMDRAW;
 
 	case CDDS_ITEMPREPAINT:
-		Item* pItem = reinterpret_cast<Item*>(pNMCustomDraw->nmcd.lItemlParam);
+		Item * pItem = reinterpret_cast<Item*>(pNMCustomDraw->nmcd.lItemlParam);
 		if (pItem)
 			if (!pItem->m_bEnabled)
 				pNMCustomDraw->clrText = GetSysColor(COLOR_GRAYTEXT);

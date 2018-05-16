@@ -17,7 +17,7 @@ INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
 
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HISTORYSTATS))));
 
 		utils::centerDialog(hDlg);
 
@@ -37,11 +37,11 @@ INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			{
-				int nIndex = SendMessage(hWndList, LB_GETCURSEL, 0, 0);
-				EndDialog(hDlg, nIndex);
-			}
-			return TRUE;
+		{
+			int nIndex = SendMessage(hWndList, LB_GETCURSEL, 0, 0);
+			EndDialog(hDlg, nIndex);
+		}
+		return TRUE;
 
 		case IDCANCEL:
 			EndDialog(hDlg, -1);
@@ -95,52 +95,52 @@ BOOL DlgOption::SubColumns::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_NOTIFY:
 		switch (reinterpret_cast<NMHDR*>(lParam)->idFrom) {
 		case IDC_BAND:
-			{
-				BandCtrl::NMBANDCTRL* pNM = reinterpret_cast<BandCtrl::NMBANDCTRL*>(lParam);
-				if (pNM->hdr.code == BandCtrl::BCN_CLICKED)
-					onBandClicked(pNM->hButton, pNM->dwData);
-				else if (pNM->hdr.code == BandCtrl::BCN_DROP_DOWN)
-					onBandDropDown(pNM->hButton, pNM->dwData);
-			}
-			break;
+		{
+			BandCtrl::NMBANDCTRL* pNM = reinterpret_cast<BandCtrl::NMBANDCTRL*>(lParam);
+			if (pNM->hdr.code == BandCtrl::BCN_CLICKED)
+				onBandClicked(pNM->hButton, pNM->dwData);
+			else if (pNM->hdr.code == BandCtrl::BCN_DROP_DOWN)
+				onBandDropDown(pNM->hButton, pNM->dwData);
+		}
+		break;
 
 		case IDC_COLUMNS:
-			{
-				OptionsCtrl::NMOPTIONSCTRL* pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
-				if (pNM->hdr.code == OptionsCtrl::OCN_MODIFIED) {
-					getParent()->settingsChanged();
-					getParent()->updateProblemInfo();
-				}
-				else if (pNM->hdr.code == OptionsCtrl::OCN_SELCHANGED) {
-					onColSelChanged(pNM->hItem, pNM->dwData);
-				}
-				else if (pNM->hdr.code == OptionsCtrl::OCN_SELCHANGING) {
-					onColSelChanging(pNM->hItem, pNM->dwData);
-				}
-				else if (pNM->hdr.code == OptionsCtrl::OCN_ITEMDROPPED) {
-					OptionsCtrl::NMOPTIONSCTRLDROP* pNM2 = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRLDROP*>(pNM);
-
-					onColItemDropped(pNM2->hItem, pNM2->hDropTarget, pNM2->bAbove);
-				}
+		{
+			OptionsCtrl::NMOPTIONSCTRL* pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
+			if (pNM->hdr.code == OptionsCtrl::OCN_MODIFIED) {
+				getParent()->settingsChanged();
+				getParent()->updateProblemInfo();
 			}
-			break;
+			else if (pNM->hdr.code == OptionsCtrl::OCN_SELCHANGED) {
+				onColSelChanged(pNM->hItem, pNM->dwData);
+			}
+			else if (pNM->hdr.code == OptionsCtrl::OCN_SELCHANGING) {
+				onColSelChanging(pNM->hItem, pNM->dwData);
+			}
+			else if (pNM->hdr.code == OptionsCtrl::OCN_ITEMDROPPED) {
+				OptionsCtrl::NMOPTIONSCTRLDROP* pNM2 = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRLDROP*>(pNM);
+
+				onColItemDropped(pNM2->hItem, pNM2->hDropTarget, pNM2->bAbove);
+			}
+		}
+		break;
 
 		case IDC_OPTIONS:
-			{
-				OptionsCtrl::NMOPTIONSCTRL * pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
+		{
+			OptionsCtrl::NMOPTIONSCTRL * pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
 
-				if (pNM->hdr.code == OptionsCtrl::OCN_MODIFIED)
-					getParent()->settingsChanged();
-				else if (pNM->hdr.code == OptionsCtrl::OCN_CLICKED)
-					onColumnButton(pNM->hItem, pNM->dwData);
-			}
-			break;
+			if (pNM->hdr.code == OptionsCtrl::OCN_MODIFIED)
+				getParent()->settingsChanged();
+			else if (pNM->hdr.code == OptionsCtrl::OCN_CLICKED)
+				onColumnButton(pNM->hItem, pNM->dwData);
+		}
+		break;
 
 		case IDC_INFO:
-			NMTREEVIEW* pNM = reinterpret_cast<NMTREEVIEW*>(lParam);
+			NMTREEVIEW * pNM = reinterpret_cast<NMTREEVIEW*>(lParam);
 			if (pNM->hdr.code == TVN_ITEMEXPANDING) {
 				if (pNM->action == TVE_COLLAPSE || pNM->action == TVE_COLLAPSERESET ||
-					 (pNM->action == TVE_TOGGLE && pNM->itemNew.state & TVIS_EXPANDED)) {
+					(pNM->action == TVE_TOGGLE && pNM->itemNew.state & TVIS_EXPANDED)) {
 					SetWindowLongPtr(getHWnd(), DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
@@ -177,7 +177,7 @@ void DlgOption::SubColumns::onWMInitDialog()
 
 	array_each_(i, columnBand)
 	{
-		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(columnBand[i].iconId), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
+		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(columnBand[i].iconId), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
 		DWORD dwFlags =
 			(columnBand[i].bRight ? BandCtrl::BCF_RIGHT : 0) |
 			(columnBand[i].bDropDown ? BandCtrl::BCF_DROPDOWN : 0) |
@@ -561,7 +561,7 @@ void DlgOption::SubColumns::onBandDropDown(HANDLE hButton, INT_PTR dwData)
 
 void DlgOption::SubColumns::onAdd()
 {
-	int nCol = DialogBox(g_hInst, MAKEINTRESOURCE(IDD_COLADD), getHWnd(), staticAddProc);
+	int nCol = DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COLADD), getHWnd(), staticAddProc);
 
 	addCol(nCol);
 }
@@ -662,7 +662,7 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 
 				// sanity check: either HTML or PNG has to be fully supported
 				if ((restrictions & Column::crHTMLMask) != Column::crHTMLFull &&
-					 (restrictions & Column::crPNGMask) != Column::crPNGFull) {
+					(restrictions & Column::crPNGMask) != Column::crPNGFull) {
 					MessageBox(nullptr,
 						TranslateT("An internal column configuration error occurred. Please contact the author of this plugin."),
 						TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
@@ -688,9 +688,9 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 					// PNG output but only partial PNG support (enforce mode) -or-
 					// PNG output with alternative full HTML-only support (fallback mode)
 					if (bPNGOutput &&
-						 (restrictions & Column::crPNGMask) == Column::crPNGPartial &&
-						 (restrictions & Column::crHTMLMask) == Column::crHTMLFull &&
-						 nPNGMode != Settings::pmPreferHTML) {
+						(restrictions & Column::crPNGMask) == Column::crPNGPartial &&
+						(restrictions & Column::crHTMLMask) == Column::crHTMLFull &&
+						nPNGMode != Settings::pmPreferHTML) {
 						if (pHelp) {
 							pHelp->push_back(HelpPair());
 
@@ -708,8 +708,7 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 						++nConflicts;
 						break;
 					}
-				}
-				while (false);
+				} while (false);
 			}
 		}
 

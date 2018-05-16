@@ -70,7 +70,7 @@ INT_PTR CALLBACK DlgConfigure::staticConfigureProc(HWND hDlg, UINT msg, WPARAM w
 
 		pMMI->ptMinTrackSize = sizeMin;
 	}
-		return TRUE;
+	return TRUE;
 	}
 
 	return FALSE;
@@ -99,17 +99,17 @@ void DlgConfigure::showModal()
 	if (IsWindow(m_hCfgWnd))
 		SetForegroundWindow(m_hCfgWnd);
 	else
-		CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_CONFIGURE), nullptr, staticConfigureProc);
+		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONFIGURE), nullptr, staticConfigureProc);
 }
 
 void DlgConfigure::onWMInitDialog()
 {
 	TranslateDialogDefault(m_hWnd);
 	utils::centerDialog(m_hWnd);
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
+	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HISTORYSTATS))));
 	EnableWindow(GetDlgItem(m_hWnd, IDC_APPLY), FALSE);
 
-	m_hOptWnd = CreateDialogA(g_hInst, MAKEINTRESOURCEA(IDD_OPTIONS), m_hWnd, DlgOption::staticDlgProc);
+	m_hOptWnd = CreateDialogA(g_plugin.getInst(), MAKEINTRESOURCEA(IDD_OPTIONS), m_hWnd, DlgOption::staticDlgProc);
 
 	ShowWindow(m_hOptWnd, SW_SHOW);
 	SetFocus(m_hOptWnd);

@@ -43,7 +43,7 @@ OptionsCtrlImpl::Edit::Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t
 {
 	m_strEdit = szEdit;
 	m_bNumber = bool_(dwFlags & OCF_NUMBER);
-	
+
 	m_pCtrl->insertItem(pParent, this, getCombinedText().c_str(), dwFlags, m_bEnabled ? siEdit : siEditG);
 
 	if (pParent)
@@ -85,7 +85,7 @@ void OptionsCtrlImpl::Edit::onSelect()
 		if (hTempWnd = CreateWindowEx(
 			WS_EX_CLIENTEDGE, WC_EDIT, m_strEdit.c_str(), dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccEdit), g_hInst, nullptr))
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccEdit), g_plugin.getInst(), nullptr))
 		{
 			SendMessage(hTempWnd, WM_SETFONT, reinterpret_cast<WPARAM>(hTreeFront), MAKELPARAM(TRUE, 0));
 

@@ -39,13 +39,13 @@ INT_PTR CALLBACK DlgFilterWords::staticDlgProc(HWND hDlg, UINT msg, WPARAM wPara
 	case WM_NOTIFY:
 		switch (reinterpret_cast<NMHDR*>(lParam)->idFrom) {
 		case IDC_BAND:
-			{
-				BandCtrl::NMBANDCTRL* pNM = reinterpret_cast<BandCtrl::NMBANDCTRL*>(lParam);
+		{
+			BandCtrl::NMBANDCTRL* pNM = reinterpret_cast<BandCtrl::NMBANDCTRL*>(lParam);
 
-				if (pNM->hdr.code == BandCtrl::BCN_CLICKED)
-					pDlg->onBandClicked(pNM->hButton, pNM->dwData);
-			}
-			break;
+			if (pNM->hdr.code == BandCtrl::BCN_CLICKED)
+				pDlg->onBandClicked(pNM->hButton, pNM->dwData);
+		}
+		break;
 
 		case IDC_SETS:
 			OptionsCtrl::NMOPTIONSCTRL * pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
@@ -68,7 +68,7 @@ void DlgFilterWords::onWMInitDialog()
 {
 	TranslateDialogDefault(m_hWnd);
 
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
+	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HISTORYSTATS))));
 
 	utils::centerDialog(m_hWnd);
 
@@ -87,7 +87,7 @@ void DlgFilterWords::onWMInitDialog()
 
 	array_each_(i, columnBand)
 	{
-		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(columnBand[i].iconId), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
+		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(columnBand[i].iconId), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
 		DWORD dwFlags = (columnBand[i].bDisabled ? BandCtrl::BCF_DISABLED : 0);
 
 		m_hActionButtons[i] = m_Band.addButton(dwFlags, hIcon, i, TranslateW(columnBand[i].szTooltip));
@@ -308,7 +308,7 @@ DlgFilterWords::~DlgFilterWords()
 
 bool DlgFilterWords::showModal(HWND hParent)
 {
-	return (DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_FILTERWORDS), hParent, staticDlgProc, reinterpret_cast<LPARAM>(this)) == 1);
+	return (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTERWORDS), hParent, staticDlgProc, reinterpret_cast<LPARAM>(this)) == 1);
 }
 
 void DlgFilterWords::setFilters(const FilterSet& Filters)

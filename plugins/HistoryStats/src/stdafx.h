@@ -31,8 +31,6 @@
 
 #define MIRANDA_VER 0x0A00
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 
 #include <m_awaymsg.h>     // not used
@@ -75,23 +73,23 @@
 
 #include "version.h"
 
-/*
- * some patterns and similar stuff we want to use everywhere
- */
+ /*
+  * some patterns and similar stuff we want to use everywhere
+  */
 
 #include "utils/pattern.h"
 
-/*
- * some language 'extensions' (people will hate me because of this) and useful classes
- */
+  /*
+   * some language 'extensions' (people will hate me because of this) and useful classes
+   */
 
 #include "_langext.h"
 #include "_strfunc.h"
 #include "_format.h"
 
-/*
- * convenience typedefs
- */
+   /*
+	* convenience typedefs
+	*/
 
 namespace ext
 {
@@ -125,5 +123,12 @@ namespace ext
 	// import T-style classes for easier access
 	using namespace t;
 }
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>("HistoryStats")
+	{}
+};
 
 #endif // HISTORYSTATS_GUARD__GLOABLS_H

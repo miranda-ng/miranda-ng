@@ -17,11 +17,9 @@
 
 #include "stdafx.h"
 
-// Global variables
-HINSTANCE hInst;
-
 MWindowList hWindowList;
 HCURSOR splitCursor;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -37,12 +35,6 @@ PLUGININFOEX pluginInfo = {
 	{0xDA0B09F5, 0x9C66, 0x488C, {0xAE, 0x37, 0x8A, 0x5F, 0x19, 0x1C, 0x90, 0x79}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -52,7 +44,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CMenuItem mi;
 	SET_UID(mi, 0x2964dc6c, 0x9cf9, 0x4f20, 0x8f, 0x8a, 0xc6, 0xfe, 0xe2, 0x65, 0xac, 0xc9);
 	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON));
 	mi.name.w = LPGENW("&Create Linklist");
 	mi.pszService = "Linklist/MenuCommand";
 	Menu_AddContactMenuItem(&mi);
@@ -62,8 +54,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	WNDCLASS wndclass = { 0 };
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;
 	wndclass.lpfnWndProc = ProgressBarDlg;
-	wndclass.hInstance = hInst;
-	wndclass.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
+	wndclass.hInstance = g_plugin.getInst();
+	wndclass.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON));
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wndclass.lpszClassName = L"Progressbar";
@@ -92,7 +84,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 int InitOptionsDlg(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("History");
 	odp.szTitle.a = LPGEN("History Linklist");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_DLG);
@@ -111,8 +103,8 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 		int len = GetWindowTextLength(GetDlgItem(hWnd, IDC_MAIN));
 		PostMessage(GetDlgItem(hWnd, IDC_MAIN), EM_SETSEL, (WPARAM)len, (LPARAM)len);
 		return 0;
-	}	
-	
+	}
+
 	MEVENT hEvent = db_event_first(hContact);
 	if (hEvent == NULL) {
 		MessageBox(nullptr, TXT_EMPTYHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
@@ -129,10 +121,10 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 
 	RECT DesktopRect;
 	GetWindowRect(GetDesktopWindow(), &DesktopRect);
-	HWND hWndProgress = CreateWindow(L"Progressbar", TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, nullptr, nullptr, hInst, nullptr);
+	HWND hWndProgress = CreateWindow(L"Progressbar", TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, nullptr, nullptr, g_plugin.getInst(), nullptr);
 	if (hWndProgress == nullptr) {
 		mir_free(dbe.pBlob);
-		MessageBox(nullptr, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION );
+		MessageBox(nullptr, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION);
 		return -1;
 	}
 	SetWindowPos(hWndProgress, HWND_TOP, (int)((DesktopRect.right / 2) - 175), (int)((DesktopRect.bottom / 2) - 22), 0, 0, SWP_NOSIZE);
@@ -152,10 +144,10 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 				return -1;
 			}
 		}
-		actCount ++;
+		actCount++;
 		if (((int)(((float)actCount / histCount) * 100.00)) % 10 == 0)
 			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount / histCount) * 100.00)));
-		
+
 		hEvent = db_event_next(hContact, hEvent);
 		if (hEvent == NULL)
 			break;
@@ -167,7 +159,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	}
 	mir_free(dbe.pBlob);
 	SendMessage(hWndProgress, WM_CLOSE, 0, 0);
-	if (ListCount(listStart) <= 0) {	
+	if (ListCount(listStart) <= 0) {
 		RemoveList(listStart);
 		MessageBox(nullptr, TXT_NOLINKINHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
 		return 0;
@@ -180,7 +172,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	DlgParam->chrg.cpMax = -1;
 	DlgParam->chrg.cpMin = -1;
 
-	HWND hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN_DLG), nullptr, MainDlgProc, (LPARAM)DlgParam);
+	HWND hWndMain = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MAIN_DLG), nullptr, MainDlgProc, (LPARAM)DlgParam);
 	if (hWndMain == nullptr) {
 		mir_free(DlgParam);
 		RemoveList(listStart);
@@ -188,6 +180,6 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 		return -1;
 	}
 
-	ShowWindow(hWndMain, SW_SHOW);	
+	ShowWindow(hWndMain, SW_SHOW);
 	return 0;
 }

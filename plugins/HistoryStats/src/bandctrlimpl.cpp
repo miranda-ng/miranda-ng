@@ -170,7 +170,7 @@ bool BandCtrlImpl::registerClass()
 		staticWndProc,			// lpfnWndProc
 		0,						// cbClsExtra
 		sizeof(BandCtrlImpl*),	// cbWndExtra
-		g_hInst,				// hInstance
+		g_plugin.getInst(),				// hInstance
 		nullptr,					// hIcon
 		nullptr,					// hCursor
 		nullptr,					// hbrBackground
@@ -187,7 +187,7 @@ bool BandCtrlImpl::registerClass()
 
 void BandCtrlImpl::unregisterClass()
 {
-	UnregisterClass(m_ClassName, g_hInst);
+	UnregisterClass(m_ClassName, g_plugin.getInst());
 }
 
 BandCtrlImpl::BandCtrlImpl(HWND hWnd, UINT_PTR nOwnId) :
@@ -197,7 +197,7 @@ BandCtrlImpl::BandCtrlImpl(HWND hWnd, UINT_PTR nOwnId) :
 	m_nLayout(0), m_nDDWidth(12), m_hDDIcon(nullptr)
 {
 	m_IconSize.cx = m_IconSize.cy;
-	m_hDDIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DROPDOWN), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
+	m_hDDIcon = reinterpret_cast<HICON>(LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DROPDOWN), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
 
 	reloadTheme();
 }
@@ -626,9 +626,9 @@ void BandCtrlImpl::recalcButtonRects()
 		else if (m_Items[i].uTTId == -1 && m_Items[i].bVisible && !m_Items[i].tooltip.empty()) {
 			// add a tooltip, if we don't have a tooltip but are now visible
 			if (!m_hTooltip)
-				m_hTooltip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_hInst, nullptr);
+				m_hTooltip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 
-			TOOLINFO ti = { sizeof(TOOLINFO), TTF_SUBCLASS, m_hWnd, UINT_PTR(i+1), m_Items[i].rItem, nullptr,
+			TOOLINFO ti = { sizeof(TOOLINFO), TTF_SUBCLASS, m_hWnd, UINT_PTR(i + 1), m_Items[i].rItem, nullptr,
 				const_cast<wchar_t*>(m_Items[i].tooltip.c_str()),	// lpszText
 			};
 

@@ -21,8 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
-
+CMPlugin g_plugin;
 int hLangpack;
 
 LIST<void> g_hWindows(5, PtrKeySortT);
@@ -40,12 +39,6 @@ static PLUGININFOEX pluginInfoEx =
 	// {1D9BF74A-44A8-4B3F-A6E5-73069D3A8979}
 	{ 0x1d9bf74a, 0x44a8, 0x4b3f, { 0xa6, 0xe5, 0x73, 0x6, 0x9d, 0x3a, 0x89, 0x79 } }
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 int OnIconPressed(WPARAM hContact, LPARAM lParam)
 {

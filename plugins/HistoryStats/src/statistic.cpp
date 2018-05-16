@@ -200,7 +200,7 @@ ext::string Statistic::createFile(const ext::string& desiredName)
 	if (!utils::pathExists(desiredPath)) {
 		if (!utils::createPath(desiredPath)) {
 			m_ErrorText = ext::str(ext::kformat(TranslateT("HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable."))
-										  % L"#{folder}" * desiredPath);
+				% L"#{folder}" * desiredPath);
 		}
 	}
 
@@ -231,7 +231,7 @@ bool Statistic::newFilePNG(Canvas& canvas, ext::string& finalURL)
 	if (i == m_Images.end()) {
 		ext::string writeFile;
 
-		if (!newFilePNG(writeFile, finalURL)) 
+		if (!newFilePNG(writeFile, finalURL))
 			return false;
 
 		canvas.writePNG(writeFile.c_str());
@@ -272,7 +272,7 @@ INT_PTR CALLBACK Statistic::staticProgressProc(HWND hDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HISTORYSTATS))));
 		return TRUE;
 
 	case WM_DESTROY:
@@ -926,7 +926,7 @@ bool Statistic::stepWriteHTML()
 
 	if (!ofs.good()) {
 		m_ErrorText = ext::str(ext::kformat(TranslateT("HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable."))
-									  % L"#{file}" * m_OutputFile);
+			% L"#{file}" * m_OutputFile);
 		return false;
 	}
 
@@ -1337,7 +1337,7 @@ INT_PTR CALLBACK Statistic::staticConflictProc(HWND hDlg, UINT uMsg, WPARAM wPar
 	if (uMsg == WM_INITDIALOG) {
 		TranslateDialogDefault(hDlg);
 
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HISTORYSTATS))));
 
 		utils::centerDialog(hDlg);
 

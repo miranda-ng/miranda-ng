@@ -25,8 +25,6 @@
 #include <commctrl.h>
 #include <crtdbg.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_database.h>
@@ -84,7 +82,7 @@ struct LISTELEMENT {
 	MEVENT hEvent;
 	int	linePos;
 	struct LISTELEMENT *nextElement;
-} ;
+};
 
 typedef struct {
 	BYTE openNewWindow;
@@ -129,6 +127,12 @@ typedef struct {
 #define LINKLIST_SHOW_DIRECTION		"ShowMessageDirection"
 #define LINKLIST_SHOW_TYPE		"ShowMessageType"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(LINKLIST_MODULE)
+	{}
+};
 
 #define _mstrlen(x) (_countof(x) - 1)
 #define MAKE_TXT_COL(BGCol) ((DWORD)~BGCol & 0x00FFFFFF)

@@ -14,7 +14,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 		TranslateDialogDefault(hDlg);
 		{
 
-			SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
+			SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HISTORYSTATS))));
 
 			utils::centerDialog(hDlg);
 
@@ -165,7 +165,7 @@ BOOL DlgOption::SubGlobal::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		NMHDR* p = reinterpret_cast<NMHDR*>(lParam);
+		NMHDR * p = reinterpret_cast<NMHDR*>(lParam);
 		if (p->idFrom == IDC_INFO) {
 			NMTREEVIEW* pNM = reinterpret_cast<NMTREEVIEW*>(lParam);
 
@@ -190,7 +190,7 @@ BOOL DlgOption::SubGlobal::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else if (p->code == TVN_ITEMEXPANDING) {
 				if (pNM->action == TVE_COLLAPSE || pNM->action == TVE_COLLAPSERESET ||
-					 (pNM->action == TVE_TOGGLE && pNM->itemNew.state & TVIS_EXPANDED)) {
+					(pNM->action == TVE_TOGGLE && pNM->itemNew.state & TVIS_EXPANDED)) {
 					SetWindowLongPtr(getHWnd(), DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
@@ -387,5 +387,5 @@ void DlgOption::SubGlobal::toggleInfo()
 
 void DlgOption::SubGlobal::onShowSupportInfo(const SupportInfo& info)
 {
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_SUPPORTINFO), getHWnd(), staticInfoProc, reinterpret_cast<LPARAM>(&info));
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SUPPORTINFO), getHWnd(), staticInfoProc, reinterpret_cast<LPARAM>(&info));
 }

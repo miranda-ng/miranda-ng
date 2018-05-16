@@ -27,7 +27,6 @@
 #include <string>
 using namespace std;
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -59,7 +58,12 @@ using namespace std;
 
 #define SplitIpAddress( p ) (BYTE)(p>>24),(BYTE)(p>>16),(BYTE)(p>>8),(BYTE)(p)
 
-extern HINSTANCE hInstance;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
 extern HNETLIBUSER hNetlibUser;
 
@@ -84,6 +88,6 @@ extern bool bIsOnline;
 extern bool bLimitOnlyWhenOnline;
 
 extern void* (*MirandaMalloc)(size_t);
-extern void (*MirandaFree)(void*);
+extern void(*MirandaFree)(void*);
 
 #endif

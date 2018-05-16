@@ -18,7 +18,6 @@
 
 #include "stdafx.h"
 
-extern HINSTANCE hInst;
 extern MWindowList hWindowList;
 extern HCURSOR splitCursor;
 
@@ -74,7 +73,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		Utils_RestoreWindowPosition(hDlg, hContact, LINKLIST_MODULE, "Linklist");
 
-		SetClassLongPtr(hDlg, GCLP_HICON, (LONG_PTR)LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON)));
+		SetClassLongPtr(hDlg, GCLP_HICON, (LONG_PTR)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON)));
 		WindowList_Add(hWindowList, hDlg, DlgParam->hContact);
 		mir_snwprintf(title, L"%s [%s]", TranslateT("Linklist plugin"), Clist_GetContactDisplayName(DlgParam->hContact));
 		SetWindowText(hDlg, title);
@@ -129,7 +128,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			case WM_RBUTTONDOWN:
 				HMENU hPopup, hSubMenu;
-				hPopup = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU2));
+				hPopup = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU2));
 				hSubMenu = GetSubMenu(hPopup, 0);
 
 				// Disable Menuoption if "mouse over" events are active
@@ -192,30 +191,30 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (wParam) {
 		case IDM_SEARCH: // open Search Box
 			if (DlgParam != nullptr) {
-				HWND hWndSearchDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEARCH_DLG), hDlg, SearchDlgProc, (LPARAM)DlgParam);
+				HWND hWndSearchDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCH_DLG), hDlg, SearchDlgProc, (LPARAM)DlgParam);
 				EnableMenuItem(listMenu, IDM_SEARCH, (MF_BYCOMMAND | MF_DISABLED | MF_GRAYED));
 				ShowWindow(hWndSearchDlg, SW_SHOW);
 				SetFocus(GetDlgItem(hWndSearchDlg, IDC_SEARCHSTRING));
 			}
 			break;
-			
+
 		case IDM_CLEARSEARCH: // clear search results
 			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			SetDlgItemText(hDlg, IDC_MAIN, L"");
 			WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, nullptr, 0);
 			break;
-			
+
 		case IDM_SAVE: // save button
 			SaveEditAsStream(hDlg);
 			SetFocus(GetDlgItem(hDlg, IDC_MAIN));
 			break;
-			
+
 		case IDCANCEL: // Esc or Close pressed
 		case IDM_CLOSE:
 			SendMessage(hDlg, WM_CLOSE, 0, 0);
 			break;
-			
+
 		case IDM_DIR_IN: // view only incoming messages
 			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
@@ -234,7 +233,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			GetFilterText(GetMenu(hDlg), filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			break;
-			
+
 		case IDM_DIR_OUT: // view only outgoing messages
 			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
@@ -253,7 +252,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			break;
-		
+
 		case IDM_TYPE_WEB: // view only e-mail addresses
 			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
@@ -273,7 +272,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			break;
-			
+
 		case IDM_TYPE_MAIL: // view only URLs
 			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				break; // not possible if search dialog is open
@@ -292,7 +291,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		break;
-	
+
 		// Taken from srmm.
 		// Btw: The longer I searched the source of this plugin
 		// to learn how things work, the more I became a fan of
@@ -307,9 +306,9 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			mmi->ptMinTrackSize.y = rcWindow.bottom - rcWindow.top - ((rcMain.bottom - rcMain.top) - DlgParam->minSize.cy);
 		}
 		break;
-	
+
 	case WM_SIZE:
-		Utils_ResizeDialog(hDlg, hInst, MAKEINTRESOURCEA(IDD_MAIN_DLG), LinklistResizer, (LPARAM)DlgParam);
+		Utils_ResizeDialog(hDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_MAIN_DLG), LinklistResizer, (LPARAM)DlgParam);
 		// To get some scrollbars if needed...
 		RedrawWindow(GetDlgItem(hDlg, IDC_MAIN), nullptr, nullptr, RDW_INVALIDATE);
 		RedrawWindow(GetDlgItem(hDlg, IDC_MESSAGE), nullptr, nullptr, RDW_INVALIDATE);
@@ -335,11 +334,11 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			DlgParam->splitterPosNew = splitPosOld - DlgParam->minSize.cy + (rc.bottom - rc.top);
 		SendMessage(hDlg, WM_SIZE, 0, 0);
 		break;
-	
+
 	case WM_CLOSE:
 		DestroyWindow(hDlg);
 		break;
-	
+
 	case WM_DESTROY:
 		if (DlgParam != nullptr) {
 			hContact = ((db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0) == 0) ? NULL : DlgParam->hContact);
@@ -388,7 +387,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			HWND hListDlg = WindowList_Find(hWindowList, DlgParam->hContact);
 			if (hListDlg == nullptr)
 				break;
-			
+
 			SetDlgItemText(hListDlg, IDC_MAIN, L"");
 			if (IsDlgButtonChecked(hDlg, IDC_TYPE_WEB) == BST_UNCHECKED)
 				flags |= WLL_MAIL;
@@ -733,7 +732,7 @@ LRESULT CALLBACK ProgressBarDlg(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 	switch (message) {
 	case WM_CREATE:
-		hwndPB = CreateWindowEx(0, PROGRESS_CLASS, L"", WS_CHILD | WS_VISIBLE, 0, 2, 343, 17, hwnd, nullptr, hInst, nullptr);
+		hwndPB = CreateWindowEx(0, PROGRESS_CLASS, L"", WS_CHILD | WS_VISIBLE, 0, 2, 343, 17, hwnd, nullptr, g_plugin.getInst(), nullptr);
 		SendMessage(hwndPB, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
 		return 0;
 

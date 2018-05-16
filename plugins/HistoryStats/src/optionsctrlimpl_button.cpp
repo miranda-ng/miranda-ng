@@ -47,7 +47,7 @@ void OptionsCtrlImpl::Button::onSelect()
 		if (hTempWnd = CreateWindowEx(
 			0, WC_BUTTON, m_strButton.c_str(), dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccButton), g_hInst, nullptr))
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccButton), g_plugin.getInst(), nullptr))
 		{
 			SendMessage(hTempWnd, WM_SETFONT, reinterpret_cast<WPARAM>(hTreeFront), MAKELPARAM(TRUE, 0));
 
@@ -116,7 +116,7 @@ void OptionsCtrlImpl::Button::childAdded(Item* pChild)
 void OptionsCtrlImpl::Button::setLabel(const wchar_t* szLabel)
 {
 	m_strLabel = szLabel;
-	
+
 	// only if not showing button (otherwise update when button disappears)
 	if (!m_hButtonWnd)
 	{
