@@ -41,6 +41,29 @@ HANDLE   hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 void   InitServices();
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {E00F1643-263C-4599-B84B-053E5C511D29}
+{ 0xe00f1643, 0x263c, 0x4599,{ 0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29 } }
+};
+
+extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int ComparePicture(const protoPicCacheEntry *p1, const protoPicCacheEntry *p2)
 {
 	if (p1->cacheType != p2->cacheType)
@@ -335,8 +358,12 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static int LoadAvatarModule()
+extern "C" int __declspec(dllexport) Load(void)
 {
+	mir_getLP(&pluginInfoEx);
+
+	LoadACC();
+
 	hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 	HookEvent(ME_OPT_INITIALISE, OptInit);
@@ -360,35 +387,6 @@ static int LoadAvatarModule()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-PLUGININFOEX pluginInfoEx = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {E00F1643-263C-4599-B84B-053E5C511D29}
-{
-	0xe00f1643, 0x263c, 0x4599,{ 0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29 } }
-};
-
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Load(void)
-{
-	mir_getLP(&pluginInfoEx);
-
-	LoadACC();
-	return LoadAvatarModule();
-}
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
