@@ -29,8 +29,6 @@
 #include <malloc.h>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include "newpluginapi.h"
 #include "m_protosvc.h"
 #include "m_database.h"
@@ -53,6 +51,13 @@
 #include "receive.h"
 
 #define MODULENAME "SendReceiveContacts"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
 
 #define MS_CONTACTS_SEND "ContactsTransfer/SendContacts"
 #define MS_CONTACTS_RECEIVE "ContactsTransfer/ReceiveContacts"

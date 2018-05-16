@@ -25,8 +25,7 @@
 
 CLIST_INTERFACE *pcli;
 
-HINSTANCE hInst;
-
+CMPlugin g_plugin;
 int hLangpack;
 
 int g_Utf8EventsSupported = TRUE;
@@ -50,12 +49,6 @@ PLUGININFOEX pluginInfo = {
 	{ 0x0324785E, 0x74CE, 0x4600, { 0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
 	//process the event
@@ -78,7 +71,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hDbEvent = hDbEvent;
-		cle.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
+		cle.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_CONTACTS));
 		cle.pszService = MS_CONTACTS_RECEIVE;
 		cle.szTooltip.w = caToolTip;
 		cle.flags |= CLEF_UNICODE;
@@ -139,7 +132,7 @@ static int HookModulesLoaded(WPARAM, LPARAM)
 	mi.name.a = LPGEN("Contacts");
 	mi.position = -2000009990;  //position in menu
 	mi.pszService = MS_CONTACTS_SEND;
-	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_CONTACTS));
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);
@@ -178,7 +171,7 @@ static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM)
 	//find window for hContact
 	HWND hWnd = WindowList_Find(g_hSendWindowList, wParam);
 	if (!hWnd)
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEND), nullptr, SendDlgProc, wParam);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEND), nullptr, SendDlgProc, wParam);
 	else {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
@@ -188,7 +181,7 @@ static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM)
 
 static INT_PTR ServiceReceiveCommand(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_RECEIVE), nullptr, RecvDlgProc, lParam);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_RECEIVE), nullptr, RecvDlgProc, lParam);
 	return 0;
 }
 

@@ -170,14 +170,14 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		{
 			CLISTEVENT *pcle = (CLISTEVENT*)lParam;
 			WindowList_Add(g_hRecvWindowList, hwndDlg, pcle->hContact);
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS)));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_CONTACTS)));
 			EnableDlgItem(hwndDlg, IDOK, FALSE);
 			EnableDlgItem(hwndDlg, IDDETAILS, FALSE);
 			wndData = new TRecvContactsData(pcle->hContact);
 			SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)wndData);
 			wndData->mhDbEvent = pcle->hDbEvent; /// initialized, pcle not needed anymore
 			wndData->mhListIcon = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLORDDB|ILC_MASK, 0, 1);
-			wndData->mhPopup = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTACTMENU));
+			wndData->mhPopup = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTACTMENU));
 			TranslateMenu(wndData->mhPopup);
 			wndData->hHook = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_EVENTSENT);
 
@@ -463,7 +463,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) // make the dlg resizeable
-			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_RECEIVE), RecvDlg_Resize);
+			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_RECEIVE), RecvDlg_Resize);
 		break;
 
 	case WM_GETMINMAXINFO:

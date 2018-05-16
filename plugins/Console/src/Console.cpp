@@ -79,8 +79,6 @@ typedef struct {
 	int newline;
 } LOGWIN;
 
-
-
 static SortedList lModules = {};
 
 static LOGWIN *pActive = nullptr;
@@ -447,7 +445,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 	case WM_SIZE:
 		SetWindowPos(hwndDlg, HWND_TOP, rcTabs.left, rcTabs.top, rcTabs.right - rcTabs.left, rcTabs.bottom - rcTabs.top, SWP_SHOWWINDOW);
-		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_LOG), LogResize);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_LOG), LogResize);
 		break;
 
 	case WM_COMMAND:
@@ -689,7 +687,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		GetClientRect(hTabs, &rcTabs);
 		TabCtrl_AdjustRect(hTabs, FALSE, &rcTabs);
 
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_LOG), hwndDlg, LogDlgProc, (LPARAM)lw);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LOG), hwndDlg, LogDlgProc, (LPARAM)lw);
 		ShowWindow(lw->hwnd, (tabCount > 1) ? SW_HIDE : SW_SHOWNOACTIVATE);
 
 		if (pActive)
@@ -856,7 +854,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		}
 		break;
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_CONSOLE), ConsoleResize);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_CONSOLE), ConsoleResize);
 		GetClientRect(hTabs, &rcTabs);
 		TabCtrl_AdjustRect(hTabs, FALSE, &rcTabs);
 
@@ -899,7 +897,7 @@ void __cdecl ConsoleThread(void*)
 	MSG msg;
 	HWND hwnd;
 
-	hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
+	hwnd = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
 
 	if (!hwnd) return;
 
@@ -1056,7 +1054,7 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 static int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.a = LPGEN("Services");
 	odp.szTitle.a = LPGEN("Console");
@@ -1193,19 +1191,19 @@ void InitConsole()
 	lModules.sortFunc = (FSortFunc)stringCompare;
 	lModules.increment = 5;
 
-	hIcons[0] = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONSOLE));
-	hIcons[1] = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_NOSCROLL), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
-	hIcons[2] = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_PAUSED), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
+	hIcons[0] = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_CONSOLE));
+	hIcons[1] = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOSCROLL), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
+	hIcons[2] = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_PAUSED), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
 	for (i = 0; i < _countof(ctrls); i++) {
-		hIcons[i + ICON_FIRST] = (HICON)LoadImage(hInst, MAKEINTRESOURCE(ctrls[i].icon), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
+		hIcons[i + ICON_FIRST] = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(ctrls[i].icon), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 	}
 
 	gImg = ImageList_Create(LOGICONX_SIZE, LOGICONY_SIZE, ILC_COLOR24 | ILC_MASK, _countof(logicons), 0);
 
 	for (i = 0; i < _countof(logicons); i++)
 	{
-		hi = (HICON)LoadImage(hInst, MAKEINTRESOURCE(logicons[i]), IMAGE_ICON, LOGICONX_SIZE, LOGICONY_SIZE, 0);
+		hi = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(logicons[i]), IMAGE_ICON, LOGICONX_SIZE, LOGICONY_SIZE, 0);
 		if (hi)
 		{
 			ImageList_AddIcon(gImg, hi);
@@ -1235,7 +1233,7 @@ void ShutdownConsole(void)
 		if (hIcons[i]) DestroyIcon(hIcons[i]);
 	}
 
-	if(hwndConsole)
+	if (hwndConsole)
 		EndDialog(hwndConsole, TRUE);
 	WaitForSingleObject(hConsoleThread, INFINITE);
 }
@@ -1256,7 +1254,7 @@ static int Openfile(wchar_t *outputFile, int selection)
 	wchar_t *filter, *tmp, *tmp1, *tmp2;
 	tmp1 = TranslateT("Text Files (*.txt)");
 	tmp2 = TranslateT("All Files");
-	filter = tmp = (wchar_t*)_alloca((mir_wstrlen(tmp1) + mir_wstrlen(tmp2) + 11)*sizeof(wchar_t));
+	filter = tmp = (wchar_t*)_alloca((mir_wstrlen(tmp1) + mir_wstrlen(tmp2) + 11) * sizeof(wchar_t));
 	tmp = addstring(tmp, tmp1);
 	tmp = addstring(tmp, L"*.TXT");
 	tmp = addstring(tmp, tmp2);

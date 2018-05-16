@@ -93,7 +93,7 @@ void TSendContactsData::ShowErrorDlg(HWND hwndDlg, char* szMsg, bool bAllowRetry
 	ShowWindow(hwndDlg, SW_SHOWNORMAL);
 	EnableWindow(hwndDlg, FALSE);
 	if (!hError) {
-		hError = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), hwndDlg, ErrorDlgProc, _A2T(szMsg));
+		hError = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGSENDERROR), hwndDlg, ErrorDlgProc, _A2T(szMsg));
 		if (!bAllowRetry)
 			EnableDlgItem(hError, IDOK, FALSE); // do not allow again - fatal, could not be better
 	}
@@ -228,7 +228,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_CONTACTS)));
 		SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), lParam);
 		WindowList_Add(g_hSendWindowList, hwndDlg, lParam);
 		wndData = new TSendContactsData(lParam);

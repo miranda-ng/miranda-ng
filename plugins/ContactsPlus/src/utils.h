@@ -24,8 +24,6 @@
 #ifndef __UTILS_H
 #define __UTILS_H
 
-extern HINSTANCE hInst;
-
 // utils.cpp
 size_t __fastcall strlennull(const char *string);
 int __fastcall strcmpnull(const char *str1, const char *str2);

@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 DWORD mirandaVer;
+CMPlugin g_plugin;
 int hLangpack;
-HINSTANCE hInst;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -40,12 +40,6 @@ PLUGININFOEX pluginInfoEx = {
 	// {23D4F302-D513-45B7-9027-445F29557311}
 	{ 0x23d4f302, 0xd513, 0x45b7, { 0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11 } }
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -70,7 +64,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	Icon_Register(hInst, "Console", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "Console", iconList, _countof(iconList));
 
 	InitCommonControls();
 	InitConsole();
