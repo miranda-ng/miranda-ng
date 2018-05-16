@@ -20,8 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-char ModuleName[] = "Folders";
-HINSTANCE hInstance;
+CMPlugin g_plugin;
 int hLangpack;
 
 OBJLIST<CFolderItem> lstRegisteredFolders(10, PtrKeySortT);
@@ -58,10 +57,4 @@ extern "C" __declspec(dllexport) int Unload()
 {
 	DestroyEvents();
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInstance = hinstDLL;
-	return TRUE;
 }

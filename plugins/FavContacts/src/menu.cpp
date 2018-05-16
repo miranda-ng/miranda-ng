@@ -361,28 +361,28 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 
 	switch (message) {
 	case WM_MEASUREITEM:
-		{
-			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
-			if (lpmis->CtlType != ODT_MENU)
-				return FALSE;
+	{
+		LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
+		if (lpmis->CtlType != ODT_MENU)
+			return FALSE;
 
-			if ((lpmis->itemID >= CLISTMENUIDMIN) && (lpmis->itemID <= CLISTMENUIDMAX))
-				return Menu_MeasureItem(lParam);
+		if ((lpmis->itemID >= CLISTMENUIDMIN) && (lpmis->itemID <= CLISTMENUIDMAX))
+			return Menu_MeasureItem(lParam);
 
-			return MenuMeasureItem(lpmis);
-		}
+		return MenuMeasureItem(lpmis);
+	}
 
 	case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
-			if (lpdis->CtlType != ODT_MENU)
-				return FALSE;
+	{
+		LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
+		if (lpdis->CtlType != ODT_MENU)
+			return FALSE;
 
-			if ((lpdis->itemID >= CLISTMENUIDMIN) && (lpdis->itemID <= CLISTMENUIDMAX))
-				return Menu_DrawItem(lParam);
+		if ((lpdis->itemID >= CLISTMENUIDMIN) && (lpdis->itemID <= CLISTMENUIDMAX))
+			return Menu_DrawItem(lParam);
 
-			return MenuDrawItem(lpdis);
-		}
+		return MenuDrawItem(lpdis);
+	}
 
 	case WM_MENUCHAR:
 		while (GetMenuItemCount((HMENU)lParam) > 1)
@@ -536,13 +536,13 @@ void InitMenu()
 {
 	WNDCLASSEX wcl = { sizeof(wcl) };
 	wcl.lpfnWndProc = MenuHostWndProc;
-	wcl.hInstance = g_hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = L"FavContactsMenuHostWnd";
 	RegisterClassEx(&wcl);
 
-	g_hwndMenuHost = CreateWindow(L"FavContactsMenuHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
+	g_hwndMenuHost = CreateWindow(L"FavContactsMenuHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowPos(g_hwndMenuHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 }
 

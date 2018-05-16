@@ -52,7 +52,7 @@ void Manager::init()
 {
 	ServerList::FTP *ftp = ftpList.getSelected();
 	if (ftp->m_bEnabled) {
-		m_hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DLG_MANAGER), nullptr, Manager::ManagerDlgProc);
+		m_hwnd = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLG_MANAGER), nullptr, Manager::ManagerDlgProc);
 		m_hwndFileTree = GetDlgItem(m_hwnd, IDC_FILELIST);
 		initImageList();
 		fillTree();
@@ -265,15 +265,15 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			case IDC_BTN_SELECTALL:
 			case IDC_BTN_DESELECTALL:
-				{
-					UINT newState = (LOWORD(wParam) == IDC_BTN_SELECTALL) ?
-						TreeItem::_CHECKED() : TreeItem::_UNCHECKED();
+			{
+				UINT newState = (LOWORD(wParam) == IDC_BTN_SELECTALL) ?
+					TreeItem::_CHECKED() : TreeItem::_UNCHECKED();
 
-					for (UINT i = 0; i < manDlg->m_items.size(); i++)
-						manDlg->m_items[i]->setState(newState);
+				for (UINT i = 0; i < manDlg->m_items.size(); i++)
+					manDlg->m_items[i]->setState(newState);
 
-				}
-				break;
+			}
+			break;
 
 			case IDC_BTN_CLOSE:
 				DestroyWindow(hwndDlg);
@@ -290,89 +290,89 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
 
 			case NM_CLICK:
-				{
-					HTREEITEM hItem;
-					TVHITTESTINFO hti = { 0 };
-					hti.pt.x = (short)LOWORD(GetMessagePos());
-					hti.pt.y = (short)HIWORD(GetMessagePos());
-					ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) || ((LPNMHDR)lParam)->code == TVN_KEYDOWN) {
-						if (((LPNMHDR)lParam)->code == TVN_KEYDOWN) {
-							hti.flags |= TVHT_ONITEMSTATEICON;
-							hItem = TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom);
+			{
+				HTREEITEM hItem;
+				TVHITTESTINFO hti = { 0 };
+				hti.pt.x = (short)LOWORD(GetMessagePos());
+				hti.pt.y = (short)HIWORD(GetMessagePos());
+				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
+				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) || ((LPNMHDR)lParam)->code == TVN_KEYDOWN) {
+					if (((LPNMHDR)lParam)->code == TVN_KEYDOWN) {
+						hti.flags |= TVHT_ONITEMSTATEICON;
+						hItem = TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom);
+					}
+					else {
+						hItem = hti.hItem;
+					}
+
+					TreeItem *item = manDlg->getItem(hItem);
+					if (item && (hti.flags & TVHT_ONITEMSTATEICON)) {
+						if (item->isRoot()) {
+							for (UINT i = 0; i < manDlg->m_items.size(); i++) {
+								if (manDlg->m_items[i]->m_parent == item->m_handle)
+									manDlg->m_items[i]->toggleState();
+							}
 						}
 						else {
-							hItem = hti.hItem;
+							item->toggleState();
 						}
+					}
+				}
+			}
+			return TRUE;
 
-						TreeItem *item = manDlg->getItem(hItem);
-						if (item && (hti.flags & TVHT_ONITEMSTATEICON)) {
-							if (item->isRoot()) {
-								for (UINT i = 0; i < manDlg->m_items.size(); i++) {
-									if (manDlg->m_items[i]->m_parent == item->m_handle)
-										manDlg->m_items[i]->toggleState();
+			case NM_RCLICK:
+			{
+				TVHITTESTINFO hti;
+				hti.pt.x = (short)LOWORD(GetMessagePos());
+				hti.pt.y = (short)HIWORD(GetMessagePos());
+				ScreenToClient(manDlg->m_hwndFileTree, &hti.pt);
+				if (TreeView_HitTest(manDlg->m_hwndFileTree, &hti)) {
+					HTREEITEM hItem = hti.hItem;
+					TreeItem *item = manDlg->getItem(hItem);
+					if (item && !item->isRoot()) {
+						POINT pt;
+						GetCursorPos(&pt);
+						SetForegroundWindow(hwndDlg);
+						HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU_MANAGER));
+						if (hMenu) {
+							HMENU hPopupMenu = GetSubMenu(hMenu, 0);
+							TranslateMenu(hPopupMenu);
+							int command = TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
+							switch (command) {
+							case IDM_DELETEFROMLIST:
+								item->remove();
+								break;
+
+							case IDM_DELETEFROMFTP:
+								(new DeleteJob(DBEntry::get(item->m_fileID), item))->start();
+								break;
+
+							case IDM_COPYLINK:
+							case IDM_DOWNLOAD:
+								int ftpNum = manDlg->indexOf(item->m_parent);
+								if (ftpNum != -1) {
+									char buff[256];
+
+									DBEntry *entry = DBEntry::get(item->m_fileID);
+									Utils::createFileDownloadLink(ftpList[ftpNum]->m_szUrl, entry->m_szFileName, buff, sizeof(buff));
+									delete entry;
+
+									if (command == IDM_COPYLINK)
+										Utils::copyToClipboard(buff);
+									else
+										ShellExecuteA(nullptr, "open", buff, nullptr, nullptr, SW_SHOWNORMAL);
 								}
+								break;
 							}
-							else {
-								item->toggleState();
-							}
+							DestroyMenu(hMenu);
 						}
 					}
 				}
 				return TRUE;
-
-			case NM_RCLICK:
-				{
-					TVHITTESTINFO hti;
-					hti.pt.x = (short)LOWORD(GetMessagePos());
-					hti.pt.y = (short)HIWORD(GetMessagePos());
-					ScreenToClient(manDlg->m_hwndFileTree, &hti.pt);
-					if (TreeView_HitTest(manDlg->m_hwndFileTree, &hti)) {
-						HTREEITEM hItem = hti.hItem;
-						TreeItem *item = manDlg->getItem(hItem);
-						if (item && !item->isRoot()) {
-							POINT pt;
-							GetCursorPos(&pt);
-							SetForegroundWindow(hwndDlg);
-							HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU_MANAGER));
-							if (hMenu) {
-								HMENU hPopupMenu = GetSubMenu(hMenu, 0);
-								TranslateMenu(hPopupMenu);
-								int command = TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
-								switch (command) {
-								case IDM_DELETEFROMLIST:
-									item->remove();
-									break;
-
-								case IDM_DELETEFROMFTP:
-									(new DeleteJob(DBEntry::get(item->m_fileID), item))->start();
-									break;
-
-								case IDM_COPYLINK:
-								case IDM_DOWNLOAD:
-									int ftpNum = manDlg->indexOf(item->m_parent);
-									if (ftpNum != -1) {
-										char buff[256];
-
-										DBEntry *entry = DBEntry::get(item->m_fileID);
-										Utils::createFileDownloadLink(ftpList[ftpNum]->m_szUrl, entry->m_szFileName, buff, sizeof(buff));
-										delete entry;
-
-										if (command == IDM_COPYLINK)
-											Utils::copyToClipboard(buff);
-										else
-											ShellExecuteA(nullptr, "open", buff, nullptr, nullptr, SW_SHOWNORMAL);
-									}
-									break;
-								}
-								DestroyMenu(hMenu);
-							}
-						}
-					}
-					return TRUE;
-				}
+			}
 			case TVN_GETINFOTIP:
-				NMTVGETINFOTIP *tvInfoTip = (NMTVGETINFOTIP *)lParam;
+				NMTVGETINFOTIP * tvInfoTip = (NMTVGETINFOTIP *)lParam;
 				TreeItem *item = manDlg->getItem(tvInfoTip->hItem);
 
 				if (item) {

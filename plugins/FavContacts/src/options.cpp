@@ -27,7 +27,7 @@ void LoadOptions()
 	g_Options.bAvatarBorder = db_get_b(NULL, "FavContacts", "AvatarBorder", 0);
 	g_Options.wAvatarRadius = db_get_w(NULL, "FavContacts", "AvatarRadius", 3);
 	g_Options.bNoTransparentBorder = db_get_b(NULL, "FavContacts", "NoTransparentBorder",
-															!db_get_b(NULL, "FavContacts", "AvatarBorderTransparent", 1));
+		!db_get_b(NULL, "FavContacts", "AvatarBorderTransparent", 1));
 	g_Options.bSysColors = db_get_b(NULL, "FavContacts", "SysColors", 0);
 	g_Options.bCenterHotkey = db_get_b(NULL, "FavContacts", "CenterHotkey", 1);
 	g_Options.bUseGroups = db_get_b(NULL, "FavContacts", "UseGroups", 0);
@@ -85,7 +85,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		SetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, g_Options.wMaxRecent, FALSE);
 
 		SetWindowLongPtr(GetDlgItem(hwnd, IDC_CLIST), GWL_STYLE,
-							  GetWindowLongPtr(GetDlgItem(hwnd, IDC_CLIST), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+			GetWindowLongPtr(GetDlgItem(hwnd, IDC_CLIST), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
 		SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 		sttResetListOptions(GetDlgItem(hwnd, IDC_CLIST));
 
@@ -93,8 +93,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		{
 			for (auto &hContact : Contacts())
 				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK,
-				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0),
-				db_get_b(hContact, "FavContacts", "IsFavourite", 0));
+					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0),
+					db_get_b(hContact, "FavContacts", "IsFavourite", 0));
 		}
 
 		bInitialized = true;
@@ -102,59 +102,59 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return TRUE;
 
 	case WM_APP:
-		{
-			BOOL bGroups = IsDlgButtonChecked(hwnd, IDC_CHK_GROUPS);
-			EnableWindow(GetDlgItem(hwnd, IDC_CHK_GROUPCOLUMS), bGroups);
+	{
+		BOOL bGroups = IsDlgButtonChecked(hwnd, IDC_CHK_GROUPS);
+		EnableWindow(GetDlgItem(hwnd, IDC_CHK_GROUPCOLUMS), bGroups);
 
-			BOOL bAvatars = IsDlgButtonChecked(hwnd, IDC_CHK_AVATARS);
-			BOOL bBorders = IsDlgButtonChecked(hwnd, IDC_CHK_AVATARBORDER);
-			EnableWindow(GetDlgItem(hwnd, IDC_CHK_AVATARBORDER), bAvatars);
-			EnableWindow(GetDlgItem(hwnd, IDC_CHK_RIGHTAVATARS), bAvatars);
-			EnableWindow(GetDlgItem(hwnd, IDC_CHK_NOTRANSPARENTBORDER), bAvatars && bBorders);
-			EnableWindow(GetDlgItem(hwnd, IDC_TXT_RADIUS), bAvatars && bBorders);
-		}
-		return TRUE;
+		BOOL bAvatars = IsDlgButtonChecked(hwnd, IDC_CHK_AVATARS);
+		BOOL bBorders = IsDlgButtonChecked(hwnd, IDC_CHK_AVATARBORDER);
+		EnableWindow(GetDlgItem(hwnd, IDC_CHK_AVATARBORDER), bAvatars);
+		EnableWindow(GetDlgItem(hwnd, IDC_CHK_RIGHTAVATARS), bAvatars);
+		EnableWindow(GetDlgItem(hwnd, IDC_CHK_NOTRANSPARENTBORDER), bAvatars && bBorders);
+		EnableWindow(GetDlgItem(hwnd, IDC_TXT_RADIUS), bAvatars && bBorders);
+	}
+	return TRUE;
 
 	case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
-			if (lpdis->CtlID == IDC_CANVAS) {
-				MEASUREITEMSTRUCT mis = { 0 };
-				DRAWITEMSTRUCT dis = *lpdis;
+	{
+		LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
+		if (lpdis->CtlID == IDC_CANVAS) {
+			MEASUREITEMSTRUCT mis = { 0 };
+			DRAWITEMSTRUCT dis = *lpdis;
 
-				FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_BTNFACE));
-				if (hSelectedContact) {
-					Options options;
-					options.bSecondLine = IsDlgButtonChecked(hwnd, IDC_CHK_SECONDLINE);
-					options.bAvatars = IsDlgButtonChecked(hwnd, IDC_CHK_AVATARS);
-					options.bAvatarBorder = IsDlgButtonChecked(hwnd, IDC_CHK_AVATARBORDER);
-					options.bNoTransparentBorder = IsDlgButtonChecked(hwnd, IDC_CHK_NOTRANSPARENTBORDER);
-					options.bSysColors = IsDlgButtonChecked(hwnd, IDC_CHK_SYSCOLORS);
-					options.bCenterHotkey = IsDlgButtonChecked(hwnd, IDC_CHK_CENTERHOTKEY);
-					options.bRightAvatars = IsDlgButtonChecked(hwnd, IDC_CHK_RIGHTAVATARS);
-					options.bDimIdle = IsDlgButtonChecked(hwnd, IDC_CHK_DIMIDLE);
-					options.wAvatarRadius = GetDlgItemInt(hwnd, IDC_TXT_RADIUS, nullptr, FALSE);
-					options.wMaxRecent = GetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, nullptr, FALSE);
+			FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_BTNFACE));
+			if (hSelectedContact) {
+				Options options;
+				options.bSecondLine = IsDlgButtonChecked(hwnd, IDC_CHK_SECONDLINE);
+				options.bAvatars = IsDlgButtonChecked(hwnd, IDC_CHK_AVATARS);
+				options.bAvatarBorder = IsDlgButtonChecked(hwnd, IDC_CHK_AVATARBORDER);
+				options.bNoTransparentBorder = IsDlgButtonChecked(hwnd, IDC_CHK_NOTRANSPARENTBORDER);
+				options.bSysColors = IsDlgButtonChecked(hwnd, IDC_CHK_SYSCOLORS);
+				options.bCenterHotkey = IsDlgButtonChecked(hwnd, IDC_CHK_CENTERHOTKEY);
+				options.bRightAvatars = IsDlgButtonChecked(hwnd, IDC_CHK_RIGHTAVATARS);
+				options.bDimIdle = IsDlgButtonChecked(hwnd, IDC_CHK_DIMIDLE);
+				options.wAvatarRadius = GetDlgItemInt(hwnd, IDC_TXT_RADIUS, nullptr, FALSE);
+				options.wMaxRecent = GetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, nullptr, FALSE);
 
-					mis.CtlID = 0;
-					mis.CtlType = ODT_MENU;
-					mis.itemData = (DWORD)hSelectedContact;
-					MenuMeasureItem(&mis, &options);
-					dis.rcItem.bottom = dis.rcItem.top + mis.itemHeight;
+				mis.CtlID = 0;
+				mis.CtlType = ODT_MENU;
+				mis.itemData = (DWORD)hSelectedContact;
+				MenuMeasureItem(&mis, &options);
+				dis.rcItem.bottom = dis.rcItem.top + mis.itemHeight;
 
-					dis.CtlID = 0;
-					dis.CtlType = ODT_MENU;
-					dis.itemData = (DWORD)hSelectedContact;
-					MenuDrawItem(&dis, &options);
+				dis.CtlID = 0;
+				dis.CtlType = ODT_MENU;
+				dis.itemData = (DWORD)hSelectedContact;
+				MenuDrawItem(&dis, &options);
 
-					RECT rc = lpdis->rcItem;
-					rc.bottom = rc.top + mis.itemHeight;
-					FrameRect(lpdis->hDC, &rc, GetSysColorBrush(COLOR_HIGHLIGHT));
-				}
-				return TRUE;
+				RECT rc = lpdis->rcItem;
+				rc.bottom = rc.top + mis.itemHeight;
+				FrameRect(lpdis->hDC, &rc, GetSysColorBrush(COLOR_HIGHLIGHT));
 			}
+			return TRUE;
 		}
-		return FALSE;
+	}
+	return FALSE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
@@ -209,7 +209,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			for (auto &hContact : Contacts()) {
 				BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
-														SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0), 0);
+					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0), 0);
 				if (fav != db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 					db_set_b(hContact, "FavContacts", "IsFavourite", fav);
 				if (fav) CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
@@ -228,7 +228,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				for (auto &hContact : Contacts()) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0) == iSelection) {
 						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection,
-												 db_get_b(hContact, "FavContacts", "IsFavourite", 0));
+							db_get_b(hContact, "FavContacts", "IsFavourite", 0));
 						break;
 					}
 				}
@@ -255,7 +255,7 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.a = LPGEN("Contacts");
 	odp.szTitle.a = LPGEN("Favorites");

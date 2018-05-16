@@ -292,7 +292,7 @@ void UploadJob::upload()
 
 	bool uploadFile = true;
 	if (fileExistsOnServer()) {
-		int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FILEEXISTS), nullptr, DlgProcFileExists, (LPARAM)m_szSafeFileName);
+		int res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLG_FILEEXISTS), nullptr, DlgProcFileExists, (LPARAM)m_szSafeFileName);
 		if (res == IDC_RENAME) {
 			if (Utils::setFileNameDlg(_A2T(m_szSafeFileName)) == true)
 				curl_easy_setopt(hCurl, CURLOPT_URL, getUrlString());

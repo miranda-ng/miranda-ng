@@ -22,8 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "http_api.h"
 
-HINSTANCE g_hInst;
-
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -49,12 +48,6 @@ CContactCache *g_contactCache = nullptr;
 
 Options g_Options = { 0 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
@@ -74,7 +67,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	Icon_Register(g_hInst, LPGEN("Favorites"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("Favorites"), iconList, _countof(iconList));
 
 	LoadHttpApi();
 	return 0;

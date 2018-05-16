@@ -194,7 +194,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_HELP_BUTTON:
-			ShowWindow(CreateDialog(hInstance, MAKEINTRESOURCE(IDD_VARIABLES_HELP), hWnd, DlgProcVariables), SW_SHOW);
+			ShowWindow(CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VARIABLES_HELP), hWnd, DlgProcVariables), SW_SHOW);
 			break;
 
 		case IDC_FOLDERS_SECTIONS_LIST:
@@ -247,7 +247,7 @@ static int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FOLDERS);
 	odp.szTitle.a = LPGEN("Folders");
 	odp.szGroup.a = LPGEN("Customize");

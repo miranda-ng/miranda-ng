@@ -8,8 +8,6 @@
 #include <Shlwapi.h>
 #include <CommCtrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_skin.h>
@@ -33,6 +31,15 @@
 #include "version.h"
 
 /////////////////////////////////////////////////////////////////////////////
+
+#define MODULE "FloatingContacts"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
 #endif	// #ifndef __STDHDR_H__
 

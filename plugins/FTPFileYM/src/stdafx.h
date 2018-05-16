@@ -27,8 +27,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 using namespace std;
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_button.h>
 #include <m_clist.h>
@@ -83,4 +81,9 @@ using namespace std;
 #define SOUND_UPCOMPLETE	"ftpfile_upcomplete"
 #define SOUND_CANCEL		"ftpfile_cancel"
 
-extern HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};

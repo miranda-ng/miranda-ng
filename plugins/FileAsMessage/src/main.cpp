@@ -16,7 +16,7 @@ PLUGININFOEX pluginInfo =
 
 CLIST_INTERFACE *pcli;
 MWindowList hFileList;
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 char *szServiceTitle = SERVICE_TITLE;
@@ -104,7 +104,7 @@ INT_PTR OnSendFile(WPARAM wParam, LPARAM)
 		if (hwnd != nullptr) WindowList_Remove(hFileList, hwnd);
 		FILEECHO *fe = new FILEECHO(wParam);
 		fe->inSend = TRUE;
-		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), nullptr, DialogProc, (LPARAM)fe);
+		hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MAIN), nullptr, DialogProc, (LPARAM)fe);
 		if (hwnd == nullptr)
 		{
 			delete fe;
@@ -130,7 +130,7 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 		if (hwnd != nullptr) WindowList_Remove(hFileList, hwnd);
 		FILEECHO *fe = new FILEECHO(ccs->hContact);
 		fe->inSend = FALSE;
-		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), nullptr, DialogProc, (LPARAM)fe);
+		hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MAIN), nullptr, DialogProc, (LPARAM)fe);
 		if (hwnd == nullptr)
 		{
 			delete fe;
@@ -146,7 +146,7 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 int OnOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = SERVICE_TITLE;
 	odp.szGroup.a = LPGEN("Events");
@@ -194,7 +194,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitCRC32();
 
-	Icon_Register(hInst, "fileAsMessage", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "fileAsMessage", iconList, _countof(iconList));
 
 	hFileList = WindowList_Create();
 
@@ -225,13 +225,4 @@ extern "C" __declspec(dllexport) int Unload(void)
 	UnhookEvent(hHookContactAdded);
 
 	return 0;
-}
-
-//
-// DllMain()
-//
-int WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
-{
-	hInst = hInstance;
-	return TRUE;
 }

@@ -65,7 +65,7 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 
 	wchar_t destfile[MAX_PATH];
 	if (mask->iIconIndex == IDI_NOTFOUND || mask->iIconIndex == IDI_UNKNOWN || mask->iIconIndex == IDI_UNDETECTED)
-		GetModuleFileName(g_hInst, destfile, MAX_PATH);
+		GetModuleFileName(g_plugin.getInst(), destfile, MAX_PATH);
 	else {
 		wcsncpy_s(destfile, g_szSkinLib, _TRUNCATE);
 
@@ -419,9 +419,9 @@ HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2
  *	Futher routines is for creating joined 'overlay' icons.
  ******************************************************************************/
 
-/*
-*	CreateBitmap32 - Create DIB 32 bitmap with sizes cx*cy
-*/
+ /*
+ *	CreateBitmap32 - Create DIB 32 bitmap with sizes cx*cy
+ */
 
 HBITMAP __inline CreateBitmap32(int cx, int cy)
 {

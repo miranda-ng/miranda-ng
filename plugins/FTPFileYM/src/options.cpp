@@ -248,7 +248,7 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("FTP File");
 	odp.szGroup.w = LPGENW("Services");

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define LIB_REG		2
 #define LIB_USE		3
 
-HINSTANCE g_hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 HANDLE hHeap = nullptr;
@@ -43,12 +43,6 @@ PLUGININFOEX pluginInfoEx = {
 	// {687364AF-58B0-4AF2-A4EE-20F40A8D9AFB}
 	{ 0x687364af, 0x58b0, 0x4af2, { 0xa4, 0xee, 0x20, 0xf4, 0xa, 0x8d, 0x9a, 0xfb } }
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

@@ -38,7 +38,6 @@ static int  ClcStatusToPf2(int status);
 
 static VOID CALLBACK ToTopTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
-HINSTANCE  hInst;
 HFONT      hFont[FLT_FONTIDS];
 COLORREF   tColor[FLT_FONTIDS];
 HIMAGELIST himlMiranda;
@@ -63,6 +62,7 @@ BOOL       bIsCListShow;
 
 HGENMENU	hMenuItemRemove, hMenuItemHideAll, hMainMenuItemHideAll;
 
+CMPlugin g_plugin;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -105,15 +105,6 @@ PLUGININFOEX pluginInfoEx =
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
-}
-
-///////////////////////////////////////////////////////
-// Load / unload
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -334,17 +325,17 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 	switch (uMsg) {
 	case WM_RBUTTONUP:
-		{
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
+	{
+		POINT pt;
+		pt.x = LOWORD(lParam);
+		pt.y = HIWORD(lParam);
 
-			if (pThumb) pThumb->ThumbDeselect(TRUE);
+		if (pThumb) pThumb->ThumbDeselect(TRUE);
 
-			ClientToScreen(hwnd, &pt);
-			ShowContactMenu(hwnd, pt);
-		}
-		break;
+		ClientToScreen(hwnd, &pt);
+		ShowContactMenu(hwnd, pt);
+	}
+	break;
 
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
@@ -487,7 +478,7 @@ static void RegisterWindowClass()
 	wcx.cbSize = sizeof(WNDCLASSEX);
 	wcx.style = CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
 	wcx.lpfnWndProc = CommWndProc;
-	wcx.hInstance = hInst;
+	wcx.hInstance = g_plugin.getInst();
 	wcx.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
 	wcx.lpszClassName = WND_CLASS;
 	RegisterClassEx(&wcx);
@@ -495,7 +486,7 @@ static void RegisterWindowClass()
 
 static void UnregisterWindowClass()
 {
-	UnregisterClass(WND_CLASS, hInst);
+	UnregisterClass(WND_CLASS, g_plugin.getInst());
 }
 
 static void CreateThumbWnd(wchar_t *ptszName, MCONTACT hContact, int nX, int nY)
@@ -505,7 +496,7 @@ static void CreateThumbWnd(wchar_t *ptszName, MCONTACT hContact, int nX, int nY)
 		return;
 
 	// Prepare for window creation
-	HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, WND_CLASS, ptszName, WS_POPUP, nX, nY, 50, 20, nullptr, nullptr, hInst, nullptr);
+	HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, WND_CLASS, ptszName, WS_POPUP, nX, nY, 50, 20, nullptr, nullptr, g_plugin.getInst(), nullptr);
 	if (hwnd == nullptr)
 		return;
 
@@ -719,10 +710,10 @@ static void LoadMenus()
 
 	// Remove thumb menu item
 	CreateServiceFunction(MODULE "/RemoveThumb", OnContactMenu_Remove);
-	SET_UID(mi,0xbab83df0, 0xe126, 0x4d9a, 0xbc, 0xc3, 0x2b, 0xea, 0x84, 0x90, 0x58, 0xc8);
+	SET_UID(mi, 0xbab83df0, 0xe126, 0x4d9a, 0xbc, 0xc3, 0x2b, 0xea, 0x84, 0x90, 0x58, 0xc8);
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HIDE));
 	mi.name.w = LPGENW("Remove thumb");
 	mi.pszService = MODULE "/RemoveThumb";
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
@@ -843,7 +834,7 @@ static LRESULT __stdcall newMirandaWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			if (method) {
 				WORD wBehindEdgeBorderSize = db_get_w(NULL, "ModernData", "HideBehindBorderSize", 0);
 				RECT rc = { wp->x, wp->y, wp->x + wp->cx, wp->y + wp->cy };
-				RECT rcScr = { wBehindEdgeBorderSize*(2 - method), 0, GetSystemMetrics(SM_CXSCREEN) - wBehindEdgeBorderSize*(method - 1), GetSystemMetrics(SM_CYSCREEN) };
+				RECT rcScr = { wBehindEdgeBorderSize*(2 - method), 0, GetSystemMetrics(SM_CXSCREEN) - wBehindEdgeBorderSize * (method - 1), GetSystemMetrics(SM_CYSCREEN) };
 				RECT rcOverlap;
 				BOOL isIntersect = IntersectRect(&rcOverlap, &rc, &rcScr);
 				if (!isIntersect && bIsCListShow) {
@@ -914,7 +905,7 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Icon_RegisterT(hInst, _A2W(MODULE), g_iconList, _countof(g_iconList));
+	Icon_RegisterT(g_plugin.getInst(), _A2W(MODULE), g_iconList, _countof(g_iconList));
 	LoadMenus();
 	InitOptions();
 

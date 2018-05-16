@@ -7,8 +7,6 @@
 #include <fcntl.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protosvc.h>
@@ -35,6 +33,13 @@
 
 #define NOPLUGIN_MESSAGE "If you see this \"garbage\", probably you have no \"fileAsMessage\" plugin installed, see https://miranda-ng.org/p/FileAsMessage/ for more information and download."
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(SERVICE_NAME)
+	{}
+};
+
 extern char *szServiceTitle;
 extern char *szServicePrefix;
 extern const ulong INITCRC;
@@ -43,7 +48,6 @@ extern const ulong INITCRC;
 #define WM_FE_STATUSCHANGE	WM_USER+101
 #define WM_FE_SKINCHANGE	WM_USER+102
 
-extern HINSTANCE hInst;
 extern MWindowList hFileList;
 extern HANDLE hEventNewFile;
 

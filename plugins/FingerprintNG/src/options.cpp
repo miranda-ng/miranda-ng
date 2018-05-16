@@ -93,7 +93,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_NOTIFY:
-		NMHDR *hdr = (NMHDR *)lParam;
+		NMHDR * hdr = (NMHDR *)lParam;
 		if (hdr && hdr->code == PSN_APPLY) {
 			for (auto &it : settings)
 				StoreDBCheckState(hwndDlg, it.idCtrl, it.szSetName);
@@ -112,7 +112,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 int OnOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG);
 	odp.szTitle.w = LPGENW("Fingerprint");

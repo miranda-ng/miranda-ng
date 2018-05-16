@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 HGENMENU hMenu, hMainMenu, hSubMenu[ServerList::FTP_COUNT], hMainSubMenu[ServerList::FTP_COUNT];
@@ -51,12 +51,6 @@ static PLUGININFOEX pluginInfoEx =
 
 //------------ BASIC STAFF ------------//
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -81,7 +75,7 @@ static IconItem iconList[] =
 
 static void InitIcolib()
 {
-	Icon_Register(hInst, LPGEN("FTP File"), iconList, _countof(iconList), MODULE);
+	Icon_Register(g_plugin.getInst(), LPGEN("FTP File"), iconList, _countof(iconList), MODULE);
 }
 
 void InitMenuItems()

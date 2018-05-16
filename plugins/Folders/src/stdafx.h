@@ -30,8 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_system.h>
@@ -56,8 +54,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS_FOLDERS_TEST_PLUGIN "Folders/Test/Plugin"
 
-extern char ModuleName[];
-extern HINSTANCE hInstance;
+#define ModuleName "Folders"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(ModuleName)
+	{}
+};
+
 extern OBJLIST<CFolderItem> lstRegisteredFolders;
 
 #endif //FOLDERS_COMMONHEADERS_H

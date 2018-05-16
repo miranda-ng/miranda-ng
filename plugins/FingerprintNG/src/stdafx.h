@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <malloc.h>
 
 // Miranda IM SDK includes
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_database.h>
@@ -113,6 +112,13 @@ typedef struct _foundInfo
 
 #define DEFAULT_SKIN_FOLDER		L"Icons\\Fp_icons.dll"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
+
 void ClearFI();
 
 void InitFingerModule(void);
@@ -127,13 +133,11 @@ HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer);
 
 BOOL __fastcall WildCompareW(LPWSTR name, LPWSTR mask);
 
-void __fastcall Prepare(KN_FP_MASK* mask);
 void RegisterIcons();
 
 #define WildCompare		WildCompareW
 #define GetIconsIndexes	GetIconsIndexesW
 
-extern HINSTANCE g_hInst;
 extern HANDLE hHeap;
 
 extern KN_FP_MASK

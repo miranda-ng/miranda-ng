@@ -24,9 +24,9 @@ extern UploadDialog *uDlg;
 int Utils::getDeleteTimeMin()
 {
 	switch (opt.timeRange) {
-	case (Options::TR_MINUTES) : return (opt.iDeleteTime);
-	case (Options::TR_HOURS) : return (opt.iDeleteTime * 60);
-	case (Options::TR_DAYS) : return (opt.iDeleteTime * 60 * 24);
+	case (Options::TR_MINUTES): return (opt.iDeleteTime);
+	case (Options::TR_HOURS): return (opt.iDeleteTime * 60);
+	case (Options::TR_DAYS): return (opt.iDeleteTime * 60 * 24);
 	}
 
 	return -1;
@@ -170,7 +170,7 @@ INT_PTR CALLBACK Utils::DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam
 
 bool Utils::setFileNameDlg(wchar_t *nameBuff)
 {
-	if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_NAME), nullptr, DlgProcSetFileName, (LPARAM)nameBuff) == IDOK)
+	if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLG_NAME), nullptr, DlgProcSetFileName, (LPARAM)nameBuff) == IDOK)
 		return true;
 	else
 		return false;
