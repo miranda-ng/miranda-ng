@@ -30,7 +30,7 @@ FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo dli)
 
 extern "C" PfnDliHook __pfnDliNotifyHook2 = delayHook;
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -46,12 +46,6 @@ PLUGININFOEX pluginInfo = {
 	// {2F07EA05-05B5-4FF0-875D-C590DA2DDAC1}
 	{ 0x2f07ea05, 0x05b5, 0x4ff0, { 0x87, 0x5d, 0xc5, 0x90, 0xda, 0x2d, 0xda, 0xc1 } }
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -314,7 +308,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = ModuleName;
 	odp.pfnDlgProc = OptionsProc;
@@ -443,13 +437,13 @@ void CreateFrame()
 
 	WNDCLASS wndclass = { 0 };
 	wndclass.lpfnWndProc = FrameWindowProc;
-	wndclass.hInstance = hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.lpszClassName = L"BassInterfaceFrame";
 	RegisterClass(&wndclass);
 
 	hwnd_plugin = CreateWindow(L"BassInterfaceFrame", TranslateT("BASS Interface"),
-		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, nullptr, hInst, nullptr);
+		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
 	Frame.tname = TranslateT("BASS Interface");
@@ -603,7 +597,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
 
-	Icon_Register(hInst, ModuleName, iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), ModuleName, iconList, _countof(iconList));
 	return 0;
 }
 

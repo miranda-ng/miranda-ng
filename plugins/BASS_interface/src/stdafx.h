@@ -8,8 +8,6 @@ Copyright (C) 2010, 2011 tico-tico
 #include <commctrl.h>
 #include <Uxtheme.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_skin.h>
@@ -28,6 +26,13 @@ Copyright (C) 2010, 2011 tico-tico
 #include "version.h"
 
 #define ModuleName LPGEN("BASS Interface")
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(ModuleName)
+	{}
+};
 
 #define OPT_VOLUME		"Volume"
 #define OPT_BASSPATH	"PathToDll"
