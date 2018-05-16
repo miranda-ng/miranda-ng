@@ -22,7 +22,7 @@ int WatchedArrayIndex(MCONTACT hContact, const char *module, const char *setting
 		if (hContact == WatchListArray.item[i].hContact)
 			if (!mir_strcmp(module, WatchListArray.item[i].module))
 				// empty setting = module watching
-				if ((!strict && !WatchListArray.item[i].setting) || !mir_strcmp(setting, WatchListArray.item[i].setting)) 
+				if ((!strict && !WatchListArray.item[i].setting) || !mir_strcmp(setting, WatchListArray.item[i].setting))
 					return i;
 	}
 	return -1;
@@ -36,7 +36,7 @@ int addSettingToWatchList(MCONTACT hContact, const char *module, const char *set
 		WatchListArray.size += 32;
 		WatchListArray.item = (struct DBsetting*)mir_realloc(WatchListArray.item, sizeof(struct DBsetting)*WatchListArray.size);
 	}
-	if (!WatchListArray.item) 
+	if (!WatchListArray.item)
 		return 0;
 
 	db_get_s(hContact, module, setting, &(WatchListArray.item[WatchListArray.count].dbv), 0);
@@ -44,7 +44,7 @@ int addSettingToWatchList(MCONTACT hContact, const char *module, const char *set
 	WatchListArray.item[WatchListArray.count].hContact = hContact;
 	WatchListArray.item[WatchListArray.count].module = mir_strdup(module);
 
-	if (setting) 
+	if (setting)
 		WatchListArray.item[WatchListArray.count].setting = mir_strdup(setting);
 	else
 		WatchListArray.item[WatchListArray.count].setting = nullptr;
@@ -56,14 +56,14 @@ int addSettingToWatchList(MCONTACT hContact, const char *module, const char *set
 
 void freeWatchListItem(int item)
 {
-    if (item < 0 || item >= WatchListArray.count) return;
-    
-	if (WatchListArray.item[item].module) 
+	if (item < 0 || item >= WatchListArray.count) return;
+
+	if (WatchListArray.item[item].module)
 		mir_free(WatchListArray.item[item].module);
 
 	WatchListArray.item[item].module = nullptr;
 
-	if (WatchListArray.item[item].setting) 
+	if (WatchListArray.item[item].setting)
 		mir_free(WatchListArray.item[item].setting);
 
 	WatchListArray.item[item].setting = nullptr;
@@ -77,7 +77,7 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 	DBVARIANT *dbv = &(lParam->dbv);
 
 	if (!lParam->module) return;
-	
+
 	LVITEM lvItem;
 	lvItem.lParam = (LPARAM)lParam->hContact;
 	lvItem.mask = LVIF_TEXT | LVIF_PARAM;
@@ -90,20 +90,20 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 		if (IsModuleEmpty(lParam->hContact, lParam->module) || !EnumSettings(lParam->hContact, lParam->module, &settinglist))
 			return;
 
-		struct DBsetting dummy = {0};
+		struct DBsetting dummy = { 0 };
 		dummy.hContact = lParam->hContact;
 		dummy.module = lParam->module;
-		
+
 		for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next)
 		{
 			dummy.setting = setting->name;
 			addwatchtolist(hwnd, &dummy);
-			
+
 		}
 		FreeModuleSettingLL(&settinglist);
 		return;
 	}
-	
+
 	db_free(&(lParam->dbv));
 
 	if (db_get_s(lParam->hContact, lParam->module, lParam->setting, &(lParam->dbv), 0))
@@ -172,8 +172,8 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 
 void PopulateWatchedWindow()
 {
-    if (!hwnd2watchedVarsWindow) return;
-    HWND hwnd = GetDlgItem(hwnd2watchedVarsWindow, IDC_VARS);
+	if (!hwnd2watchedVarsWindow) return;
+	HWND hwnd = GetDlgItem(hwnd2watchedVarsWindow, IDC_VARS);
 	ListView_DeleteAllItems(hwnd);
 	for (int i = 0; i < WatchListArray.count; i++) {
 		addwatchtolist(hwnd, &(WatchListArray.item[i]));
@@ -237,7 +237,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		hwnd2watchedVarsWindow = hwnd;
 		// do the icon
-		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT)));
+		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT)));
 		TranslateMenu(GetMenu(hwnd));
 		TranslateMenu(GetSubMenu(GetMenu(hwnd), 0));
 		TranslateDialogDefault(hwnd);
@@ -254,17 +254,17 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		PopulateWatchedWindow();
 		return TRUE;
 
-	// for the resize
+		// for the resize
 	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = 500;
-			mmi->ptMinTrackSize.y = 300;
-		}
-		return 0;
+	{
+		MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+		mmi->ptMinTrackSize.x = 500;
+		mmi->ptMinTrackSize.y = 300;
+	}
+	return 0;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwnd, hInst, MAKEINTRESOURCEA(IDD_WATCH_DIAG), WatchDialogResize);
+		Utils_ResizeDialog(hwnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_WATCH_DIAG), WatchDialogResize);
 		break;
 
 	case WM_COMMAND:
@@ -339,8 +339,8 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void openWatchedVarWindow()
 {
-	if (!hwnd2watchedVarsWindow) 
-		CreateDialog(hInst, MAKEINTRESOURCE(IDD_WATCH_DIAG), nullptr, WatchDlgProc);
+	if (!hwnd2watchedVarsWindow)
+		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WATCH_DIAG), nullptr, WatchDlgProc);
 	else
 		SetForegroundWindow(hwnd2watchedVarsWindow);
 }
@@ -361,7 +361,7 @@ void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = (MCONTACT)hContact;
-	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
+	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT));
 	mir_wstrncpy(ppd.lptzContactName, name, _countof(ppd.lptzContactName));
 	mir_wstrncpy(ppd.lptzText, text, _countof(ppd.lptzText));
 	ppd.colorBack = colorBack;

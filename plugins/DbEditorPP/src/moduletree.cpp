@@ -42,7 +42,7 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 
 	tvi.hInsertAfter = TVI_SORT;
 	tvi.item.cChildren = 1;
-	
+
 	char szProto[FLD_SIZE];
 	wchar_t name[NAME_SIZE];
 
@@ -80,7 +80,7 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 			for (ModSetLinkLinkItem *module = modlist->first; module && hwnd2mainWindow; module = module->next) {
 				if (!module->name[0] || IsModuleEmpty(hContact, module->name))
 					continue;
-					insertItem(hContact, module->name, contact);
+				insertItem(hContact, module->name, contact);
 			}
 
 			hItem = findItemInTree(hSelectedContact, selectedModule);
@@ -400,7 +400,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 		for (ModSetLinkLinkItem *module = modlist.first; module && hwnd2mainWindow; module = module->next) {
 			if (!module->name[0] || IsModuleEmpty(hContact, module->name))
 				continue;
-				insertItem(hContact, module->name, contact);
+			insertItem(hContact, module->name, contact);
 		}
 
 		if (db_get_b(NULL, modname, "ExpandSettingsOnOpen", 0))
@@ -494,34 +494,34 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 		break;
 
 	case TVN_SELCHANGED:
-		{
-			LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-			TVITEM tvi = { 0 };
-			wchar_t text[FLD_SIZE];
-			MCONTACT hContact;
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
-			tvi.hItem = pnmtv->itemNew.hItem;
-			tvi.pszText = text;
-			tvi.cchTextMax = _countof(text);
-			TreeView_GetItem(pnmtv->hdr.hwndFrom, &tvi);
-			
-			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
+	{
+		LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
+		TVITEM tvi = { 0 };
+		wchar_t text[FLD_SIZE];
+		MCONTACT hContact;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
+		tvi.hItem = pnmtv->itemNew.hItem;
+		tvi.pszText = text;
+		tvi.cchTextMax = _countof(text);
+		TreeView_GetItem(pnmtv->hdr.hwndFrom, &tvi);
 
-			if (mtis) {
-				
-				hContact = mtis->hContact;
+		ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 
-				if (mtis->type == STUB)
-					break;
+		if (mtis) {
 
-				if (populating)
-					Select = 0;
+			hContact = mtis->hContact;
 
-				if (mtis->type == MODULE) {
-					_T2A module(text);
-					PopulateSettings(hContact, module);
-				}
-				else 
+			if (mtis->type == STUB)
+				break;
+
+			if (populating)
+				Select = 0;
+
+			if (mtis->type == MODULE) {
+				_T2A module(text);
+				PopulateSettings(hContact, module);
+			}
+			else
 				if (((mtis->type & CONTACT) == CONTACT && hContact) || (mtis->type == CONTACT_ROOT_ITEM && !hContact)) {
 					int multi = 0;
 
@@ -550,11 +550,11 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 				}
 				else
 					ClearListView();
-			}
-			else 
-				ClearListView();
 		}
-		break; //TVN_SELCHANGED:
+		else
+			ClearListView();
+	}
+	break; //TVN_SELCHANGED:
 
 	case NM_RCLICK:
 		if (((NMHDR *)lParam)->code == NM_RCLICK)
@@ -562,18 +562,18 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 		break;
 
 	case TVN_BEGINLABELEDIT: // subclass it..
-		{
-			LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
-			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
-			HWND hwnd2Edit = TreeView_GetEditControl(hwnd2Tree);
-			if (!mtis->type || (mtis->type == CONTACT)) {
-				SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
-				break;
-			}
-			mir_subclassWindow(hwnd2Edit, ModuleTreeLabelEditSubClassProc);
-			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+	{
+		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
+		ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
+		HWND hwnd2Edit = TreeView_GetEditControl(hwnd2Tree);
+		if (!mtis->type || (mtis->type == CONTACT)) {
+			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
+			break;
 		}
-		break;
+		mir_subclassWindow(hwnd2Edit, ModuleTreeLabelEditSubClassProc);
+		SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+	}
+	break;
 
 	case TVN_ENDLABELEDIT:
 		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
@@ -615,7 +615,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 	hti.pt.y = (short)HIWORD(GetMessagePos());
 	ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 
-	if (!TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) || !(hti.flags & TVHT_ONITEM)) return; 
+	if (!TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) || !(hti.flags & TVHT_ONITEM)) return;
 
 	TVITEM tvi = { 0 };
 	HMENU hMenu, hSubMenu;
@@ -636,7 +636,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 	MCONTACT hContact = mtis->hContact;
 	GetCursorPos(&hti.pt);
 
-	hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
+	hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
 	TranslateMenu(hMenu);
 
 	if (mtis->type == CONTACT && hContact)
@@ -660,7 +660,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 	{
 		// check if the setting is being watched and if it is then check the menu item
 		int watchIdx = WatchedArrayIndex(hContact, module, nullptr, 1);
-		if (watchIdx >= 0) 
+		if (watchIdx >= 0)
 			CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
 
 		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, nullptr)) {
@@ -689,7 +689,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 			break;
 
 		case MENU_REFRESH:
-			refreshTree(1);			
+			refreshTree(1);
 			break;
 
 		case MENU_EXPORTMODULE:
@@ -739,7 +739,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 			break;
 
 		case MENU_REFRESH:
-			refreshTree(1);			
+			refreshTree(1);
 			break;
 
 		}
@@ -760,7 +760,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 			ImportSettingsFromFileMenuItem(NULL, nullptr);
 			break;
 		case MENU_REFRESH:
-			refreshTree(1);			
+			refreshTree(1);
 			break;
 		}
 		break;
@@ -777,7 +777,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 			ImportSettingsFromFileMenuItem(NULL, nullptr);
 			break;
 		case MENU_REFRESH:
-			refreshTree(1);			
+			refreshTree(1);
 			break;
 		}
 		break;

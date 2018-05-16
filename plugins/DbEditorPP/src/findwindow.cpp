@@ -3,16 +3,16 @@
 
 
 #ifdef _UNICODE
-	#define FindMatchT(a,b,c)	FindMatchW(a,b,c)
+#define FindMatchT(a,b,c)	FindMatchW(a,b,c)
 #else
-	#define FindMatchT(a,b,c)	FindMatchA(a,b,c)
+#define FindMatchT(a,b,c)	FindMatchA(a,b,c)
 #endif
 
 
 #ifdef _UNICODE
-	#define multiReplaceT(a,b,c,d)	multiReplaceW(a,b,c,d)
+#define multiReplaceT(a,b,c,d)	multiReplaceW(a,b,c,d)
 #else
-	#define multiReplaceT(a,b,c,d)	multiReplaceA(a,b,c,d)
+#define multiReplaceT(a,b,c,d)	multiReplaceA(a,b,c,d)
 #endif
 
 
@@ -78,7 +78,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		CheckDlgButton(hwnd, IDC_SETTINGNAME, BST_CHECKED);
 		CheckDlgButton(hwnd, IDC_SETTINGVALUE, BST_CHECKED);
 		CheckDlgButton(hwnd, IDC_FOUND, BST_CHECKED);
-		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT)));
+		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT)));
 		SetWindowLongPtr(GetDlgItem(hwnd, IDC_REPLACE), GWLP_USERDATA, 0);
 		SetWindowLongPtr(GetDlgItem(hwnd, IDC_SEARCH), GWLP_USERDATA, 0);
 		SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW); // taskbar icon
@@ -96,11 +96,11 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				SetWindowLongPtr(GetDlgItem(hwnd, IDC_SEARCH), GWLP_USERDATA, 0);
 			else {
 				wchar_t text[FLD_SIZE];
-				wchar_t replace[FLD_SIZE] = {0};
+				wchar_t replace[FLD_SIZE] = { 0 };
 
 				if (!GetDlgItemText(hwnd, IDC_TEXT, text, _countof(text)) && !IsDlgButtonChecked(hwnd, IDC_EXACT)) break;
 
-                // empty replace is done only for exact match or entire replace
+				// empty replace is done only for exact match or entire replace
 				if (LOWORD(wParam) == IDOK &&
 					!GetDlgItemText(hwnd, IDC_REPLACE, replace, _countof(replace)) &&
 					(!IsDlgButtonChecked(hwnd, IDC_ENTIRELY) && !IsDlgButtonChecked(hwnd, IDC_EXACT)))
@@ -154,61 +154,61 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		break;
 	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = 610;
-			mmi->ptMinTrackSize.y = 300;
-		}
-		return 0;
+	{
+		MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+		mmi->ptMinTrackSize.x = 610;
+		mmi->ptMinTrackSize.y = 300;
+	}
+	return 0;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwnd, hInst, MAKEINTRESOURCEA(IDD_FIND), FindDialogResize);
+		Utils_ResizeDialog(hwnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_FIND), FindDialogResize);
 		break;
 
 	case WM_NOTIFY:
 		if (LOWORD(wParam) != IDC_LIST) break;
-	    switch (((NMHDR*)lParam)->code) {
-	    case NM_DBLCLK:
-			{
-				LVHITTESTINFO hti;
-				LVITEM lvi;
-				HWND hwndResults = GetDlgItem(hwnd, IDC_LIST);
-				hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
-				if (ListView_SubItemHitTest(hwndResults, &hti) > -1) {
-					if (hti.flags&LVHT_ONITEM)
+		switch (((NMHDR*)lParam)->code) {
+		case NM_DBLCLK:
+		{
+			LVHITTESTINFO hti;
+			LVITEM lvi;
+			HWND hwndResults = GetDlgItem(hwnd, IDC_LIST);
+			hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
+			if (ListView_SubItemHitTest(hwndResults, &hti) > -1) {
+				if (hti.flags&LVHT_ONITEM)
+				{
+					lvi.mask = LVIF_PARAM;
+					lvi.iItem = hti.iItem;
+					lvi.iSubItem = 0;
+					if (ListView_GetItem(hwndResults, &lvi))
 					{
-						lvi.mask = LVIF_PARAM;
-						lvi.iItem = hti.iItem;
-						lvi.iSubItem = 0;
-						if (ListView_GetItem(hwndResults, &lvi))
-						{
-							ItemInfo ii = {0};
-							ii.hContact = (MCONTACT)lvi.lParam;
-							ListView_GetItemTextA(hwndResults, hti.iItem, 2, ii.module, _countof(ii.module));
-							ListView_GetItemTextA(hwndResults, hti.iItem, 3, ii.setting, _countof(ii.setting));
-							if (ii.setting[0])
-								ii.type = FW_SETTINGNAME;
-							else if (ii.module[0])
-								ii.type = FW_MODULE;
+						ItemInfo ii = { 0 };
+						ii.hContact = (MCONTACT)lvi.lParam;
+						ListView_GetItemTextA(hwndResults, hti.iItem, 2, ii.module, _countof(ii.module));
+						ListView_GetItemTextA(hwndResults, hti.iItem, 3, ii.setting, _countof(ii.setting));
+						if (ii.setting[0])
+							ii.type = FW_SETTINGNAME;
+						else if (ii.module[0])
+							ii.type = FW_MODULE;
 
-							SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
-						}
+						SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
 					}
 				}
-				break;
 			}
+			break;
+		}
 
 		case LVN_COLUMNCLICK:
-			{
-				LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
-				ColumnsSortParams params;
-				params.hList = GetDlgItem(hwnd, IDC_LIST);
-				params.column = lv->iSubItem;
-				params.last = lastColumn;
-				ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
-				lastColumn = (params.column == lastColumn) ? -1 : params.column;
-				break;
-			}
+		{
+			LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
+			ColumnsSortParams params;
+			params.hList = GetDlgItem(hwnd, IDC_LIST);
+			params.column = lv->iSubItem;
+			params.last = lastColumn;
+			ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
+			lastColumn = (params.column == lastColumn) ? -1 : params.column;
+			break;
+		}
 		} // switch
 		break;
 	case WM_DESTROY:
@@ -222,7 +222,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 
 void newFindWindow() {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FIND), hwnd2mainWindow, FindWindowDlgProc);	
+	CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FIND), hwnd2mainWindow, FindWindowDlgProc);
 }
 
 void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *setting, wchar_t* value, int type)
@@ -236,10 +236,10 @@ void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *set
 		mode = TranslateT("Deleted");
 	else
 		mode = TranslateT("Found");
-			
+
 	GetContactName(hContact, nullptr, name, _countof(name));
 
-	LVITEM lvi = {0};
+	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_PARAM;
 	lvi.lParam = (LPARAM)hContact;
 
@@ -266,20 +266,20 @@ char* multiReplaceA(const char *value, const char *search, const char *replace, 
 	int vlen = (int)mir_strlen(value);
 	int ci = slen ? cs : 1; // on empty string strstr() returns full string while StrStrI() returns NULL 
 	// let's try to calculate maximum length for result string
-	int newlen = (!slen) ? rlen + 1 : ( ( rlen <= slen ) ? vlen + 1 :  vlen * rlen / slen + 1 );
-	
+	int newlen = (!slen) ? rlen + 1 : ((rlen <= slen) ? vlen + 1 : vlen * rlen / slen + 1);
+
 	char *head;
 	char *in = (char*)value;
 	char *out = (char*)mir_alloc(newlen * sizeof(char));
 	out[0] = 0;
-	
+
 	while (head = ci ? strstr(in, search) : StrStrIA(in, search)) {
 		if (head != in)
 			mir_strncat(out, in, head - in + 1);
 		in = head + slen;
 		mir_strcat(out, replace);
 	}
-	
+
 	mir_strcat(out, in);
 	return out;
 }
@@ -291,8 +291,8 @@ WCHAR* multiReplaceW(const WCHAR *value, const WCHAR *search, const WCHAR *repla
 	int vlen = (int)mir_wstrlen(value);
 	int ci = slen ? cs : 1; // on empty string strstr() returns full string while StrStrI() returns NULL 
 	// let's try to calculate maximum length for result string
-	int newlen = (!slen) ? rlen + 1 : ( ( rlen <= slen ) ? vlen + 1 :  vlen * rlen / slen + 1 );
-	
+	int newlen = (!slen) ? rlen + 1 : ((rlen <= slen) ? vlen + 1 : vlen * rlen / slen + 1);
+
 	WCHAR *head;
 	WCHAR *in = (WCHAR*)value;
 	WCHAR *out = (WCHAR*)mir_alloc(newlen * sizeof(WCHAR));
@@ -304,7 +304,7 @@ WCHAR* multiReplaceW(const WCHAR *value, const WCHAR *search, const WCHAR *repla
 		in = head + slen;
 		mir_wstrcat(out, replace);
 	}
-	
+
 	mir_wstrcat(out, in);
 	return out;
 }
@@ -317,7 +317,7 @@ int FindMatchA(const char *text, char *search, int options)
 
 	if (options & F_EXACT)
 		return (options & F_CASE) ? !strcmp(text, search) : !stricmp(text, search);
-	
+
 	// on empty string strstr() returns full string while StrStrI() returns NULL 	
 	return (options & F_CASE) ? (INT_PTR)strstr(text, search) : (INT_PTR)StrStrIA(text, search);
 }
@@ -355,7 +355,7 @@ void __cdecl FindSettings(LPVOID param)
 	MCONTACT hContact;
 	DBVARIANT dbv = { 0 };
 
-	int foundCount = 0,	 replaceCount = 0, deleteCount = 0;
+	int foundCount = 0, replaceCount = 0, deleteCount = 0;
 
 	DWORD numsearch = 0, numreplace = 0;
 	int NULLContactDone = 0;
@@ -368,13 +368,13 @@ void __cdecl FindSettings(LPVOID param)
 	_T2A search(fi->search);
 	_T2A replace(fi->replace);
 
-    // skip modules and setting names on unicode search or replace
-   	if (IsRealUnicode(fi->search) || IsRealUnicode(fi->replace)) {
-   		fi->options &= ~(F_SETNAME | F_MODNAME); 
-   		fi->options |= F_UNICODE;
-   	}
+	// skip modules and setting names on unicode search or replace
+	if (IsRealUnicode(fi->search) || IsRealUnicode(fi->replace)) {
+		fi->options &= ~(F_SETNAME | F_MODNAME);
+		fi->options |= F_UNICODE;
+	}
 
-    if (!(fi->options & F_UNICODE) && (fi->options & F_SETVAL)) {
+	if (!(fi->options & F_UNICODE) && (fi->options & F_SETVAL)) {
 		char val[16];
 		numsearch = strtoul(search, nullptr, 10);
 		_ultoa(numsearch, val, 10);
@@ -397,7 +397,7 @@ void __cdecl FindSettings(LPVOID param)
 	while (GetWindowLongPtr(GetDlgItem(hwndParent, IDC_SEARCH), GWLP_USERDATA)) {
 
 		if (!hContact) {
-			if (NULLContactDone) 
+			if (NULLContactDone)
 				break;
 			else {
 				NULLContactDone = 1;
@@ -430,27 +430,27 @@ void __cdecl FindSettings(LPVOID param)
 
 						wchar_t *value = nullptr;
 
-					    switch(dbv.type) {
+						switch (dbv.type) {
 
-						case DBVT_BYTE: 
-						case DBVT_WORD: 
+						case DBVT_BYTE:
+						case DBVT_WORD:
 						case DBVT_DWORD:
 							if ((fi->options & F_NUMSRCH) && numsearch == getNumericValue(&dbv)) {
 								wchar_t *val = fi->search;
 								int flag = F_SETVAL;
 
 								if (fi->options & F_NUMREPL) {
-								    if (replace[0]) {
+									if (replace[0]) {
 										db_unset(hContact, module->name, setting->name);
 										flag |= F_DELETED;
 										deleteCount++;
-									} 
-									else
-									if (setNumericValue(hContact, module->name, setting->name, numreplace, dbv.type)) {
-										val = fi->replace;
-										flag |= F_REPLACED;
-										replaceCount++;
 									}
+									else
+										if (setNumericValue(hContact, module->name, setting->name, numreplace, dbv.type)) {
+											val = fi->replace;
+											flag |= F_REPLACED;
+											replaceCount++;
+										}
 								}
 
 								ItemFound(fi->hwnd, hContact, module->name, setting->name, val, flag);
@@ -478,14 +478,15 @@ void __cdecl FindSettings(LPVOID param)
 										flag |= F_DELETED;
 										newValue = value;
 										deleteCount++;
-									} else {
+									}
+									else {
 #ifdef _UNICODE
-                                        // save as unicode if needed
+										// save as unicode if needed
 										if (dbv.type != DBVT_ASCIIZ || IsRealUnicode(newValue))
 											db_set_ws(hContact, module->name, setting->name, newValue);
-										else												
+										else
 #endif
-											db_set_s(hContact, module->name, setting->name, _T2A(newValue)); 
+											db_set_s(hContact, module->name, setting->name, _T2A(newValue));
 										flag |= F_REPLACED;
 										replaceCount++;
 									}
@@ -513,15 +514,16 @@ void __cdecl FindSettings(LPVOID param)
 								flag |= F_DELETED;
 								newSetting = setting->name;
 								deleteCount++;
-							} else {
+							}
+							else {
 								DBVARIANT dbv2;
 								// skip if exist
-								if (!db_get_s(hContact, module->name, newSetting, &dbv2, 0)) 
+								if (!db_get_s(hContact, module->name, newSetting, &dbv2, 0))
 									db_free(&dbv2);
 								else if (!db_set(hContact, module->name, newSetting, &dbv)) {
 									db_unset(hContact, module->name, setting->name);
 									flag |= F_REPLACED;
-							 		replaceCount++;
+									replaceCount++;
 								}
 							}
 						}
@@ -545,16 +547,16 @@ void __cdecl FindSettings(LPVOID param)
 
 				if (replace) {
 					newModule = (fi->options & F_ENTIRE) ? replace : ptr = multiReplaceA(module->name, search, replace, fi->options & F_CASE);
-								
+
 					if (!newModule[0]) {
 						deleteModule(hContact, module->name, 0);
 						replaceTreeItem(hContact, module->name, nullptr);
 						flag |= F_DELETED;
 						newModule = module->name;
 						deleteCount++;
-					} 
+					}
 					else if (renameModule(hContact, module->name, newModule)) {
-   						replaceTreeItem(hContact, module->name, nullptr);
+						replaceTreeItem(hContact, module->name, nullptr);
 						flag |= F_REPLACED;
 						replaceCount++;
 					}
@@ -566,7 +568,7 @@ void __cdecl FindSettings(LPVOID param)
 		} // for(module)
 	}
 
-	wchar_t msg[MSG_SIZE];	
+	wchar_t msg[MSG_SIZE];
 	mir_snwprintf(msg, TranslateT("Finished. Items found: %d / replaced: %d / deleted: %d"), foundCount, replaceCount, deleteCount);
 	SendDlgItemMessage(hwndParent, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)msg);
 

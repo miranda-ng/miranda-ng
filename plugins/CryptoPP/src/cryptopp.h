@@ -107,7 +107,7 @@ typedef RSAPRIV* pRSAPRIV;
 
 
 typedef deque<string, allocator<string> > STRINGDEQUE;
-typedef queue<string,STRINGDEQUE> STRINGQUEUE;
+typedef queue<string, STRINGDEQUE> STRINGQUEUE;
 
 
 typedef struct __RSADATA {
@@ -120,7 +120,7 @@ typedef struct __RSADATA {
 	string			aes_v;	// aes iv
 	HANDLE	 		thread; // thread handle
 	BOOL			thread_exit;
- 	HANDLE			event;	// thread event
+	HANDLE			event;	// thread event
 	STRINGQUEUE		*queue;  // thread queue
 } RSADATA;
 typedef RSADATA* pRSADATA;
@@ -151,48 +151,47 @@ typedef RSADATA* pRSADATA;
 
 extern LPCSTR szModuleName;
 extern LPCSTR szVersionStr;
-extern HINSTANCE g_hInst;
 
 pCNTX get_context_on_id(int);
 pCNTX get_context_on_id(HANDLE);
 void cpp_free_keys(pCNTX);
-BYTE *cpp_gzip(BYTE*,size_t,size_t&);
-BYTE *cpp_gunzip(BYTE*,size_t,size_t&);
+BYTE *cpp_gzip(BYTE*, size_t, size_t&);
+BYTE *cpp_gunzip(BYTE*, size_t, size_t&);
 string cpp_zlibc(string&);
 string cpp_zlibd(string&);
 
 typedef struct {
-    int (__cdecl *rsa_gen_keypair)(short);				// генерит RSA-ключи для указанной длины (либо тока 2048, либо 2048 и 4096)
-    int (__cdecl *rsa_get_keypair)(short,PBYTE,int*,PBYTE,int*);	// возвращает пару ключей для указанной длины
-    int (__cdecl *rsa_get_keyhash)(short,PBYTE,int*,PBYTE,int*);	// возвращает hash пары ключей для указанной длины
-    int (__cdecl *rsa_set_keypair)(short,PBYTE,int);			// устанавливает ключи, указанной длины
-    int (__cdecl *rsa_get_pubkey)(HANDLE,PBYTE,int*);			// возвращает паблик ключ из указанного контекста
-    int (__cdecl *rsa_set_pubkey)(HANDLE,PBYTE,int);			// загружает паблик ключ для указанного контекста
-    void (__cdecl *rsa_set_timeout)(int);				// установить таймаут для установки секюрного соединения
-    int (__cdecl *rsa_get_state)(HANDLE);				// получить статус указанного контекста
-    int (__cdecl *rsa_get_hash)(PBYTE,int,PBYTE,int*);			// вычисляет SHA1(key)
-    int (__cdecl *rsa_connect)(HANDLE);					// запускает процесс установки содинения с указанным контекстом
-    int (__cdecl *rsa_disconnect)(HANDLE);				// разрывает соединение с указанным контекстом
-    int (__cdecl *rsa_disabled)(HANDLE);				// разрывает соединение по причине "disabled"
-    LPSTR (__cdecl *rsa_recv)(HANDLE,LPCSTR);				// необходимо передавать сюда все входящие протокольные сообщения
-    int   (__cdecl *rsa_send)(HANDLE,LPCSTR);				// вызываем для отправки сообщения клиенту
-    int (__cdecl *rsa_encrypt_file)(HANDLE,LPCSTR,LPCSTR);
-    int (__cdecl *rsa_decrypt_file)(HANDLE,LPCSTR,LPCSTR);
-    LPSTR  (__cdecl *utf8encode)(LPCWSTR);
-    LPWSTR (__cdecl *utf8decode)(LPCSTR);
-    int (__cdecl *is_7bit_string)(LPCSTR);
-    int (__cdecl *is_utf8_string)(LPCSTR);
-    int (__cdecl *rsa_export_keypair)(short,LPSTR,LPSTR,LPSTR);		// export private key
-    int (__cdecl *rsa_import_keypair)(short,LPSTR,LPSTR);		// import & activate private key
-    int (__cdecl *rsa_export_pubkey)(HANDLE,LPSTR);			// export public key from context
-    int (__cdecl *rsa_import_pubkey)(HANDLE,LPSTR);			// import public key into context
+	int(__cdecl *rsa_gen_keypair)(short);				// генерит RSA-ключи для указанной длины (либо тока 2048, либо 2048 и 4096)
+	int(__cdecl *rsa_get_keypair)(short, PBYTE, int*, PBYTE, int*);	// возвращает пару ключей для указанной длины
+	int(__cdecl *rsa_get_keyhash)(short, PBYTE, int*, PBYTE, int*);	// возвращает hash пары ключей для указанной длины
+	int(__cdecl *rsa_set_keypair)(short, PBYTE, int);			// устанавливает ключи, указанной длины
+	int(__cdecl *rsa_get_pubkey)(HANDLE, PBYTE, int*);			// возвращает паблик ключ из указанного контекста
+	int(__cdecl *rsa_set_pubkey)(HANDLE, PBYTE, int);			// загружает паблик ключ для указанного контекста
+	void(__cdecl *rsa_set_timeout)(int);				// установить таймаут для установки секюрного соединения
+	int(__cdecl *rsa_get_state)(HANDLE);				// получить статус указанного контекста
+	int(__cdecl *rsa_get_hash)(PBYTE, int, PBYTE, int*);			// вычисляет SHA1(key)
+	int(__cdecl *rsa_connect)(HANDLE);					// запускает процесс установки содинения с указанным контекстом
+	int(__cdecl *rsa_disconnect)(HANDLE);				// разрывает соединение с указанным контекстом
+	int(__cdecl *rsa_disabled)(HANDLE);				// разрывает соединение по причине "disabled"
+	LPSTR(__cdecl *rsa_recv)(HANDLE, LPCSTR);				// необходимо передавать сюда все входящие протокольные сообщения
+	int(__cdecl *rsa_send)(HANDLE, LPCSTR);				// вызываем для отправки сообщения клиенту
+	int(__cdecl *rsa_encrypt_file)(HANDLE, LPCSTR, LPCSTR);
+	int(__cdecl *rsa_decrypt_file)(HANDLE, LPCSTR, LPCSTR);
+	LPSTR(__cdecl *utf8encode)(LPCWSTR);
+	LPWSTR(__cdecl *utf8decode)(LPCSTR);
+	int(__cdecl *is_7bit_string)(LPCSTR);
+	int(__cdecl *is_utf8_string)(LPCSTR);
+	int(__cdecl *rsa_export_keypair)(short, LPSTR, LPSTR, LPSTR);		// export private key
+	int(__cdecl *rsa_import_keypair)(short, LPSTR, LPSTR);		// import & activate private key
+	int(__cdecl *rsa_export_pubkey)(HANDLE, LPSTR);			// export public key from context
+	int(__cdecl *rsa_import_pubkey)(HANDLE, LPSTR);			// import public key into context
 } RSA_EXPORT;
 typedef RSA_EXPORT* pRSA_EXPORT;
 
 typedef struct {
-    int  (__cdecl *rsa_inject)(HANDLE,LPCSTR);			// вставляет сообщение в очередь на отправку
-    int  (__cdecl *rsa_check_pub)(HANDLE,PBYTE,int,PBYTE,int);	// проверяет интерактивно SHA и сохраняет ключ, если все нормально
-    void (__cdecl *rsa_notify)(HANDLE,int);			// нотификация о смене состояния
+	int(__cdecl *rsa_inject)(HANDLE, LPCSTR);			// вставляет сообщение в очередь на отправку
+	int(__cdecl *rsa_check_pub)(HANDLE, PBYTE, int, PBYTE, int);	// проверяет интерактивно SHA и сохраняет ключ, если все нормально
+	void(__cdecl *rsa_notify)(HANDLE, int);			// нотификация о смене состояния
 } RSA_IMPORT;
 typedef RSA_IMPORT* pRSA_IMPORT;
 

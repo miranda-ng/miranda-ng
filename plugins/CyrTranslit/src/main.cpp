@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack = 0;
 
 PLUGININFOEX pluginInfoEx={
@@ -33,14 +33,6 @@ PLUGININFOEX pluginInfoEx={
 	UNICODE_AWARE,
 	{0xbcec0bd7, 0xca59, 0x44b2, {0x9a, 0x14, 0x3a, 0x14, 0x98, 0x0f, 0x52, 0x4a}}
 };
-
-//------------------------------------------------------------------------------
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 //------------------------------------------------------------------------------
 

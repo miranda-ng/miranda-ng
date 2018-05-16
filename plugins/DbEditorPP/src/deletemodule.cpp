@@ -121,7 +121,7 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 void deleteModuleDlg()
 {
 	if (!hwnd2Delete)
-		hwnd2Delete = CreateDialog(hInst, MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, DeleteModuleDlgProc);
+		hwnd2Delete = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, DeleteModuleDlgProc);
 	else
 		SetForegroundWindow(hwnd2Delete);
 }

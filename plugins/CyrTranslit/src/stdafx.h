@@ -22,8 +22,6 @@
 #include <windows.h>
 #include <map>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protosvc.h>
@@ -34,3 +32,10 @@
 #include "MirandaContact.h"
 #include "TransliterationMap.h"
 #include "TransliterationProtocol.h"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>("CyrTranslit")
+	{}
+};

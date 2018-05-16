@@ -85,7 +85,7 @@ void copyModuleMenuItem(MCONTACT hContact, const char *module)
 	mac->hContact = hContact;
 	mir_strncpy(mac->module, module, sizeof(mac->module));
 
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, copyModDlgProc, (LPARAM)mac);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, copyModDlgProc, (LPARAM)mac);
 }
 
 

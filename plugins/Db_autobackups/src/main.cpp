@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 int	hLangpack;
-HINSTANCE g_hInstance;
 HANDLE	hFolder;
 char g_szMirVer[100];
 
@@ -17,12 +17,6 @@ PLUGININFOEX pluginInfo = {
 	// {81C220A6-0226-4Ad6-BFCA-217B17A16053}
 	{ 0x81c220a6, 0x226, 0x4ad6, { 0xbf, 0xca, 0x21, 0x7b, 0x17, 0xa1, 0x60, 0x53 } }
 };
-
-BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
-{
-	g_hInstance = hInstance;
-	return TRUE;
-}
 
 static INT_PTR ABService(WPARAM, LPARAM)
 {
@@ -122,7 +116,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
 
-	Icon_Register(g_hInstance, LPGEN("Database") "/" LPGEN("Database backups"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("Database") "/" LPGEN("Database backups"), iconList, _countof(iconList));
 
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);

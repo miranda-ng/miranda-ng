@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 int hLangpack;
 
-HINSTANCE hInst;
 DWORD mirandaVersion;
 LCID packlcid;
 //HANDLE hCrashLogFolder, hVerInfoFolder;
@@ -119,7 +119,7 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 	}
 	else {
 		DWORD dwFlags = wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR;
-		hViewWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), nullptr, DlgProcView, dwFlags);
+		hViewWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VIEWVERSION), nullptr, DlgProcView, dwFlags);
 	}
 
 	return 0;
@@ -200,7 +200,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = PluginName;
 	odp.szGroup.a = LPGEN("Services");
@@ -403,10 +403,4 @@ extern "C" int __declspec(dllexport) Unload(void)
 	mir_free(vertxt);
 	FreeLibrary(hMsftedit);
 	return 0;
-}
-
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
 }

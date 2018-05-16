@@ -1,13 +1,12 @@
 #include "stdafx.h"
 
-HINSTANCE hInst = nullptr;
-
 MIDatabase *g_db;
 
 HANDLE hTTBButt = nullptr;
 bool g_bServiceMode = false;
 bool g_bUsePopups;
 
+CMPlugin g_plugin;
 int hLangpack;
 BYTE nameOrder[NAMEORDERCOUNT];
 HGENMENU hUserMenu;
@@ -42,16 +41,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 // we implement service mode interface
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_LAST };
-
-//========================
-//  WINAPI DllMain
-//========================
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 
 int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
@@ -169,7 +158,7 @@ INT_PTR ServiceMode(WPARAM, LPARAM)
 
 	IcoLibRegister();
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
-	
+
 	return SERVICE_ONLYDB;  // load database and then call us
 }
 

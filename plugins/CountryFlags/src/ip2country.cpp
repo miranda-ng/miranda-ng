@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-extern HINSTANCE hInst;
 extern int nCountriesCount;
 extern struct CountryListEntry *countries;
 
@@ -28,24 +27,24 @@ extern struct CountryListEntry *countries;
 #define DATARECORD_SIZE (sizeof(DWORD)+sizeof(DWORD)+sizeof(WORD))
 
 // mir_free() the return value
-static BYTE* GetDataHeader(BYTE *data,DWORD cbDataSize,DWORD *pnDataRecordCount)
+static BYTE* GetDataHeader(BYTE *data, DWORD cbDataSize, DWORD *pnDataRecordCount)
 {
 	BYTE *recordData;
 	/* uncompressed size stored in first DWORD */
-	*pnDataRecordCount=(*(DWORD*)data)/DATARECORD_SIZE;
-	recordData=(BYTE*)mir_alloc(*(DWORD*)data);
+	*pnDataRecordCount = (*(DWORD*)data) / DATARECORD_SIZE;
+	recordData = (BYTE*)mir_alloc(*(DWORD*)data);
 	if (recordData != nullptr)
-		Huffman_Uncompress(data+sizeof(DWORD),recordData,cbDataSize-sizeof(DWORD),*(DWORD*)data);
+		Huffman_Uncompress(data + sizeof(DWORD), recordData, cbDataSize - sizeof(DWORD), *(DWORD*)data);
 	return recordData;
 }
 
-static int GetDataRecord(BYTE *data,DWORD index,DWORD *pdwFrom,DWORD *pdwTo)
+static int GetDataRecord(BYTE *data, DWORD index, DWORD *pdwFrom, DWORD *pdwTo)
 {
-	data+=index*DATARECORD_SIZE;
-	*pdwFrom=*(DWORD*)data;
-	data+=sizeof(DWORD);
-	if (pdwTo != nullptr) *pdwTo=*(DWORD*)data;
-	data+=sizeof(DWORD);
+	data += index * DATARECORD_SIZE;
+	*pdwFrom = *(DWORD*)data;
+	data += sizeof(DWORD);
+	if (pdwTo != nullptr) *pdwTo = *(DWORD*)data;
+	data += sizeof(DWORD);
 	return (int)*(WORD*)data;
 }
 
@@ -61,36 +60,36 @@ static void CALLBACK UnloadRecordCache(LPARAM)
 {
 	mir_cslock lck(csRecordCache);
 	mir_free(dataRecords);
-	dataRecords=nullptr;
+	dataRecords = nullptr;
 }
 
 // function assumes it has got the csRecordCache mutex
-static BOOL EnsureRecordCacheLoaded(BYTE **pdata,DWORD *pcount)
+static BOOL EnsureRecordCacheLoaded(BYTE **pdata, DWORD *pcount)
 {
 	HRSRC hrsrc;
 	DWORD cb;
 	mir_cslock lck(csRecordCache);
 	if (dataRecords == nullptr) {
 		/* load record data list from resources */
-		hrsrc=FindResource(hInst,MAKEINTRESOURCE(IDR_IPTOCOUNTRY),L"BIN");
-		cb=SizeofResource(hInst,hrsrc);
-		dataRecords=(BYTE*)LockResource(LoadResource(hInst,hrsrc));
-		if (cb<=sizeof(DWORD) || dataRecords == nullptr)
+		hrsrc = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_IPTOCOUNTRY), L"BIN");
+		cb = SizeofResource(g_plugin.getInst(), hrsrc);
+		dataRecords = (BYTE*)LockResource(LoadResource(g_plugin.getInst(), hrsrc));
+		if (cb <= sizeof(DWORD) || dataRecords == nullptr)
 			return FALSE;
 		/* uncompress record data */
-		dataRecords=GetDataHeader(dataRecords,cb,&nDataRecordsCount);
+		dataRecords = GetDataHeader(dataRecords, cb, &nDataRecordsCount);
 		if (dataRecords == nullptr || !nDataRecordsCount)
 			return FALSE;
 	}
-	*pdata=dataRecords;
-	*pcount=nDataRecordsCount;
+	*pdata = dataRecords;
+	*pcount = nDataRecordsCount;
 	return TRUE;
 }
 
 static void LeaveRecordCache(void)
 {
 	/* mark for unload */
-	CallFunctionBuffered(UnloadRecordCache,0,FALSE,UNLOADDELAY);
+	CallFunctionBuffered(UnloadRecordCache, 0, FALSE, UNLOADDELAY);
 }
 
 /************************* Services *******************************/
@@ -99,21 +98,21 @@ static void LeaveRecordCache(void)
 INT_PTR ServiceIpToCountry(WPARAM wParam, LPARAM)
 {
 	BYTE *data;
-	DWORD dwFrom,dwTo;
-	DWORD low=0,i,high;
+	DWORD dwFrom, dwTo;
+	DWORD low = 0, i, high;
 	int id;
-	if (EnsureRecordCacheLoaded(&data,&high)) {
+	if (EnsureRecordCacheLoaded(&data, &high)) {
 		/* binary search in record data */
-		GetDataRecord(data,low,&dwFrom,nullptr);
+		GetDataRecord(data, low, &dwFrom, nullptr);
 		--high;
-		if (wParam>=dwFrom) /* only search if wParam valid */
-			while (low<=high) {
-				i=low+((high-low)/2);
-				/* analyze record */ 
-				id=GetDataRecord(data,i,&dwFrom,&dwTo);
-				if (dwFrom<=wParam && dwTo>=wParam) { LeaveRecordCache(); return id; }
-				if (wParam>dwTo) low=i+1;      
-				else high=i-1;
+		if (wParam >= dwFrom) /* only search if wParam valid */
+			while (low <= high) {
+				i = low + ((high - low) / 2);
+				/* analyze record */
+				id = GetDataRecord(data, i, &dwFrom, &dwTo);
+				if (dwFrom <= wParam && dwTo >= wParam) { LeaveRecordCache(); return id; }
+				if (wParam > dwTo) low = i + 1;
+				else high = i - 1;
 			}
 		LeaveRecordCache();
 	}
@@ -129,7 +128,7 @@ INT_PTR ServiceIpToCountry(WPARAM wParam, LPARAM)
 struct {
 	const char *szMir;
 	const char *szCSV;
-} static const differentCountryNames[]={
+} static const differentCountryNames[] = {
 	{"British Virgin Islands","VIRGIN ISLANDS, BRITISH"},
 	{"Brunei","BRUNEI DARUSSALAM"},
 	{"Cape Verde Islands","CAPE VERDE"},
@@ -164,82 +163,82 @@ struct {
 
 struct ResizableByteBuffer {
 	BYTE *buf;
-	DWORD cbLength,cbAlloced;
+	DWORD cbLength, cbAlloced;
 };
 
-static void AppendToByteBuffer(struct ResizableByteBuffer *buffer,const void *append,DWORD cbAppendSize)
+static void AppendToByteBuffer(struct ResizableByteBuffer *buffer, const void *append, DWORD cbAppendSize)
 {
-	if (buffer->cbAlloced<=buffer->cbLength+cbAppendSize) {
-		BYTE* buf=(BYTE*)mir_realloc(buffer->buf,buffer->cbAlloced+ALLOC_STEP+cbAppendSize);
+	if (buffer->cbAlloced <= buffer->cbLength + cbAppendSize) {
+		BYTE* buf = (BYTE*)mir_realloc(buffer->buf, buffer->cbAlloced + ALLOC_STEP + cbAppendSize);
 		if (buf == NULL) return;
-		buffer->buf=buf;
-		buffer->cbAlloced+=ALLOC_STEP+cbAppendSize;
+		buffer->buf = buf;
+		buffer->cbAlloced += ALLOC_STEP + cbAppendSize;
 		OutputDebugStringA("reallocating memory...\n"); /* all ascii */
 	}
-	memcpy(&buffer->buf[buffer->cbLength],append,cbAppendSize);
-	buffer->cbLength+=cbAppendSize;
+	memcpy(&buffer->buf[buffer->cbLength], append, cbAppendSize);
+	buffer->cbLength += cbAppendSize;
 }
 
-static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
+static int EnumIpDataLines(const char *pszFileCSV, const char *pszFileOut)
 {
 	FILE *fp;
-	char line[1024],out[512],*pszFrom,*pszTo,*pszTwo,*pszCountry,*buf;
-	int i,j;
+	char line[1024], out[512], *pszFrom, *pszTo, *pszTwo, *pszCountry, *buf;
+	int i, j;
 	DWORD dwOut;
 	WORD wOut;
 	struct ResizableByteBuffer buffer;
 
 	memset(&buffer, 0, sizeof(buffer));
-	fp=fopen(pszFileCSV,"rt");
+	fp = fopen(pszFileCSV, "rt");
 	if (fp != NULL) {
 		OutputDebugStringA("Running IP data convert...\n"); /* all ascii */
 		while (!feof(fp)) {
-			if (fgets(line,sizeof(line),fp) == NULL) break;
+			if (fgets(line, sizeof(line), fp) == NULL) break;
 			/* get line data */
-			pszFrom=line+1;
-			pszTo=strchr(pszFrom,',');
-			*(pszTo-1)='\0'; pszTo+=2;
-			pszTwo=strchr(pszTo,',');
-			*(pszTwo-1)='\0'; pszTwo+=2;
-			pszCountry=strchr(pszTwo,',')+1;
-			pszCountry=strchr(pszCountry,',')+2;
-			buf=strchr(pszCountry,'"');
-			*buf=pszTwo[2]='\0';
+			pszFrom = line + 1;
+			pszTo = strchr(pszFrom, ',');
+			*(pszTo - 1) = '\0'; pszTo += 2;
+			pszTwo = strchr(pszTo, ',');
+			*(pszTwo - 1) = '\0'; pszTwo += 2;
+			pszCountry = strchr(pszTwo, ',') + 1;
+			pszCountry = strchr(pszCountry, ',') + 2;
+			buf = strchr(pszCountry, '"');
+			*buf = pszTwo[2] = '\0';
 			/* corrections */
-			if (!mir_wstrcmpi(pszCountry,"ANTARCTICA")) continue;
-			if (!mir_wstrcmpi(pszCountry,"TIMOR-LESTE")) continue;
-			if (!mir_wstrcmpi(pszCountry,"PALESTINIAN TERRITORY, OCCUPIED"))
-				mir_wstrcpy(pszCountry,"ISRAEL");
-			else if (!mir_wstrcmpi(pszCountry,"UNITED STATES MINOR OUTLYING ISLANDS"))
-				mir_wstrcpy(pszCountry,"UNITED STATES");
-			else if (!mir_wstrcmpi(pszCountry,"SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"))
-				mir_wstrcpy(pszCountry,"UNITED KINGDOM");
-			else if (!mir_wstrcmpi(pszTwo,"JE")) /* map error */
-				mir_wstrcpy(pszCountry,"UNITED KINGDOM");
-			else if (!mir_wstrcmpi(pszTwo,"AX")) /* Еland Island belongs to Finland */
-				mir_wstrcpy(pszCountry,"FINLAND");
-			else if (!mir_wstrcmpi(pszTwo,"ME"))
-				mir_wstrcpy(pszCountry,"MONTENEGRO");
-			else if (!mir_wstrcmpi(pszTwo,"RS") || !mir_wstrcmpi(pszTwo,"CS"))
-				mir_wstrcpy(pszCountry,"SERBIA");
+			if (!mir_wstrcmpi(pszCountry, "ANTARCTICA")) continue;
+			if (!mir_wstrcmpi(pszCountry, "TIMOR-LESTE")) continue;
+			if (!mir_wstrcmpi(pszCountry, "PALESTINIAN TERRITORY, OCCUPIED"))
+				mir_wstrcpy(pszCountry, "ISRAEL");
+			else if (!mir_wstrcmpi(pszCountry, "UNITED STATES MINOR OUTLYING ISLANDS"))
+				mir_wstrcpy(pszCountry, "UNITED STATES");
+			else if (!mir_wstrcmpi(pszCountry, "SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"))
+				mir_wstrcpy(pszCountry, "UNITED KINGDOM");
+			else if (!mir_wstrcmpi(pszTwo, "JE")) /* map error */
+				mir_wstrcpy(pszCountry, "UNITED KINGDOM");
+			else if (!mir_wstrcmpi(pszTwo, "AX")) /* Еland Island belongs to Finland */
+				mir_wstrcpy(pszCountry, "FINLAND");
+			else if (!mir_wstrcmpi(pszTwo, "ME"))
+				mir_wstrcpy(pszCountry, "MONTENEGRO");
+			else if (!mir_wstrcmpi(pszTwo, "RS") || !mir_wstrcmpi(pszTwo, "CS"))
+				mir_wstrcpy(pszCountry, "SERBIA");
 			/* convert */
-			for(i=0;i<nCountriesCount;i++) {
+			for (i = 0; i < nCountriesCount; i++) {
 				/* map different writings */
-				for(j=0;j<_countof(differentCountryNames);j++)
-					if (!mir_wstrcmpi(countries[i].szName,differentCountryNames[j].szMir)) {
-						buf=(char*)differentCountryNames[j].szCSV;
+				for (j = 0; j < _countof(differentCountryNames); j++)
+					if (!mir_wstrcmpi(countries[i].szName, differentCountryNames[j].szMir)) {
+						buf = (char*)differentCountryNames[j].szCSV;
 						break;
 					}
 				if (j == _countof(differentCountryNames))
-					buf=(char*)countries[i].szName;
+					buf = (char*)countries[i].szName;
 				/* check country */
-				if (!mir_strcmpi(pszCountry,buf)) {
-					dwOut=(DWORD)atoi(pszFrom);
-					AppendToByteBuffer(&buffer,(void*)&dwOut,sizeof(DWORD));
-					dwOut=(DWORD)atoi(pszTo);
-					AppendToByteBuffer(&buffer,(void*)&dwOut,sizeof(DWORD));
-					wOut=(WORD)countries[i].id;
-					AppendToByteBuffer(&buffer,(void*)&wOut,sizeof(WORD));
+				if (!mir_strcmpi(pszCountry, buf)) {
+					dwOut = (DWORD)atoi(pszFrom);
+					AppendToByteBuffer(&buffer, (void*)&dwOut, sizeof(DWORD));
+					dwOut = (DWORD)atoi(pszTo);
+					AppendToByteBuffer(&buffer, (void*)&dwOut, sizeof(DWORD));
+					wOut = (WORD)countries[i].id;
+					AppendToByteBuffer(&buffer, (void*)&wOut, sizeof(WORD));
 					break;
 				}
 			}
@@ -253,23 +252,23 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 		OutputDebugStringA("Done!\n"); /* all ascii */
 		if (buffer.buf != NULL) {
 			HANDLE hFileOut;
-			DWORD cbWritten=0;
+			DWORD cbWritten = 0;
 			BYTE *compressed;
 			DWORD cbCompressed;
 			/* compress whole data */
 			OutputDebugStringA("Compressing...\n"); /* all ascii */
-			compressed=(BYTE*)mir_alloc(buffer.cbAlloced+384);
+			compressed = (BYTE*)mir_alloc(buffer.cbAlloced + 384);
 			if (compressed != NULL) {
-				cbCompressed=Huffman_Compress(buffer.buf,compressed,buffer.cbLength);
+				cbCompressed = Huffman_Compress(buffer.buf, compressed, buffer.cbLength);
 				OutputDebugStringA("Done!\n"); /* all ascii */
 				OutputDebugStringA("Writing to file...\n"); /* all ascii */
-				hFileOut=CreateFile(pszFileOut,GENERIC_WRITE,FILE_SHARE_READ,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);
+				hFileOut = CreateFile(pszFileOut, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				if (hFileOut != INVALID_HANDLE_VALUE) {
 					/* store data length count at beginning */
-					dwOut=buffer.cbLength;
-					WriteFile(hFileOut,&dwOut,sizeof(DWORD),&cbWritten,NULL);
+					dwOut = buffer.cbLength;
+					WriteFile(hFileOut, &dwOut, sizeof(DWORD), &cbWritten, NULL);
 					/* store compressed data records */
-					WriteFile(hFileOut,compressed,cbCompressed,&cbWritten,NULL);
+					WriteFile(hFileOut, compressed, cbCompressed, &cbWritten, NULL);
 					CloseHandle(hFileOut);
 				}
 				OutputDebugStringA("Done!\n"); /* all ascii */
@@ -285,12 +284,12 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 static void BinConvThread(void *unused)
 {
 	/* debug version only */
-	if (MessageBox(NULL,_T("Looking for 'ip-to-country.csv' in current directory.\n"
+	if (MessageBox(NULL, _T("Looking for 'ip-to-country.csv' in current directory.\n"
 		"It will be converted into 'ip-to-country.bin'.\n"
 		"See debug output for more details.\n"
-		"This process may take very long."),L"Bin Converter",MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL) == IDOK) {
-		EnumIpDataLines("ip-to-country.csv","ip-to-country.bin");
-		MessageBox(NULL,L"Done!\n'ip-to-country.bin' has been created in current directory.",L"Bin Converter",MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL);
+		"This process may take very long."), L"Bin Converter", MB_OKCANCEL | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL) == IDOK) {
+		EnumIpDataLines("ip-to-country.csv", "ip-to-country.bin");
+		MessageBox(NULL, L"Done!\n'ip-to-country.bin' has been created in current directory.", L"Bin Converter", MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL);
 	}
 }
 
@@ -300,10 +299,10 @@ static void BinConvThread(void *unused)
 
 void InitIpToCountry(void)
 {
-	nDataRecordsCount=0;
-	dataRecords=nullptr;
+	nDataRecordsCount = 0;
+	dataRecords = nullptr;
 	/* Services */
-	CreateServiceFunction(MS_FLAGS_IPTOCOUNTRY,ServiceIpToCountry);
+	CreateServiceFunction(MS_FLAGS_IPTOCOUNTRY, ServiceIpToCountry);
 #ifdef BINCONV
 	mir_forkthread(BinConvThread);
 #endif

@@ -5,13 +5,13 @@
 #define CRYPTOPP_DEFAULT_NO_DLL
 
 #ifdef _MSC_VER
-	#pragma once
-	#define _CRT_SECURE_NO_WARNINGS
-	#define _SCL_SECURE_NO_WARNINGS
-	#define NOMINMAX
-	#ifndef _WIN64
-		#define _USE_32BIT_TIME_T
-	#endif
+#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS
+#define NOMINMAX
+#ifndef _WIN64
+#define _USE_32BIT_TIME_T
+#endif
 #endif
 
 #include <limits>
@@ -32,7 +32,6 @@
 #define M_API_H__
 
 // Miranda API
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_utils.h>
@@ -55,11 +54,17 @@
 
 #define MODULENAME "Crypto++"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
+
 extern LPCSTR szModuleName;
 extern LPCSTR szVersionStr;
 
 // shared vars
-extern HINSTANCE g_hInst;
 extern PLUGININFOEX pluginInfoEx;
 
 extern HANDLE hPGPPRIV;
@@ -67,7 +72,7 @@ extern HANDLE hRSA4096;
 
 extern mir_cs localQueueMutex;
 
-void ExtractFile(char*,int,int);
+void ExtractFile(char*, int, int);
 size_t rtrim(LPCSTR);
 
 std::string base64encode(const std::string&);
@@ -78,14 +83,14 @@ std::string base64decode(const char *);
 extern HNETLIBUSER hNetlibUser;
 void InitNetlib();
 void DeinitNetlib();
-int Sent_NetLog(const char *,...);
+int Sent_NetLog(const char *, ...);
 #endif
 
 #define DLLEXPORT __declspec(dllexport)
 
 PBYTE cpp_alloc_pdata(pCNTX);
 
-extern "C" 
+extern "C"
 {
 	DLLEXPORT HANDLE __cdecl cpp_create_context(int); // create crypt-context
 	DLLEXPORT void   __cdecl cpp_delete_context(HANDLE); // delete crypt-context

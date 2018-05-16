@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "strpos.h"
 
 CLIST_INTERFACE *pcli;
+CMPlugin g_plugin;
 int hLangpack;
-HINSTANCE g_hInst;
 
 static LIST<CSWindow> arWindows(3, HandleKeySortT);
 
@@ -46,14 +46,6 @@ PLUGININFOEX pluginInfoEx =
 	// {C8CC7414-6507-4AF6-925A-83C1D2F7BE8C}
 	{ 0xc8cc7414, 0x6507, 0x4af6, { 0x92, 0x5a, 0x83, 0xc1, 0xd2, 0xf7, 0xbe, 0x8c } }
 };
-
-// ====[ MAIN ]===============================================================
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
-}
 
 // ====[ PLUGIN INFO ]========================================================
 
@@ -81,7 +73,7 @@ static int OnInitOptions(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 955000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = CSOptionsProc;
 	odp.szGroup.w = L"Status";
@@ -120,7 +112,7 @@ extern "C" __declspec(dllexport) int Load()
 
 	// init icons
 	wchar_t tszFile[MAX_PATH];
-	GetModuleFileName(g_hInst, tszFile, MAX_PATH);
+	GetModuleFileName(g_plugin.getInst(), tszFile, MAX_PATH);
 
 	SKINICONDESC sid = {};
 	sid.defaultFile.w = tszFile;
@@ -212,7 +204,7 @@ INT_PTR showList(WPARAM, LPARAM, LPARAM param)
 		}
 	}
 
-	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CSLIST), nullptr, CSWindowProc, (LPARAM)new CSWindow(szProto));
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CSLIST), nullptr, CSWindowProc, (LPARAM)new CSWindow(szProto));
 	return 0;
 }
 
@@ -232,7 +224,7 @@ void addProtoStatusMenuItem(char *protoName)
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
 
 	CMenuItem mi;
-	mi.flags =  CMIF_UNICODE;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = forms[0].hIcoLibItem;
 	mi.name.w = MODULENAME;
 	mi.position = 2000040000;
@@ -458,7 +450,7 @@ CSAMWindow::~CSAMWindow()
 
 void CSAMWindow::exec()
 {
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_ADDMODIFY), nullptr, CSAMWindowProc, (LPARAM)this);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADDMODIFY), nullptr, CSAMWindowProc, (LPARAM)this);
 }
 
 
@@ -1002,15 +994,15 @@ INT_PTR CALLBACK CSOptionsProc(HWND hwnd, UINT message, WPARAM, LPARAM lparam)
 		TranslateDialogDefault(hwnd);
 		CheckDlgButton(hwnd, IDC_CONFIRM_DELETION,
 			getByte("ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION) ?
-		BST_CHECKED : BST_UNCHECKED);
+			BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwnd, IDC_DELETE_AFTER_IMPORT,
 			getByte("DeleteAfterImport", DEFAULT_PLUGIN_DELETE_AFTER_IMPORT) ?
-		BST_CHECKED : BST_UNCHECKED);
+			BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwnd, IDC_REMEMBER_POSITION,
 			getByte("RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION) ?
-		BST_CHECKED : BST_UNCHECKED);
+			BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_NOTIFY:

@@ -60,12 +60,12 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return HTCLIENT;
 
 	case WM_SETCURSOR:
-		{
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			SetCursor(rc.right > rc.bottom ? LoadCursor(nullptr, IDC_SIZENS) : LoadCursor(nullptr, IDC_SIZEWE));
-		}
-		return TRUE;
+	{
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+		SetCursor(rc.right > rc.bottom ? LoadCursor(nullptr, IDC_SIZENS) : LoadCursor(nullptr, IDC_SIZEWE));
+	}
+	return TRUE;
 
 	case WM_LBUTTONDOWN:
 		SetCapture(hwnd);
@@ -91,18 +91,18 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 {
 	switch (msg) {
 	case WM_RBUTTONDOWN:
-		{
-			TVHITTESTINFO hti;
-			hti.pt.x = (short)LOWORD(GetMessagePos());
-			hti.pt.y = (short)HIWORD(GetMessagePos());
-			ScreenToClient(hwnd, &hti.pt);
+	{
+		TVHITTESTINFO hti;
+		hti.pt.x = (short)LOWORD(GetMessagePos());
+		hti.pt.y = (short)HIWORD(GetMessagePos());
+		ScreenToClient(hwnd, &hti.pt);
 
-			if (TreeView_HitTest(hwnd, &hti)) {
-				if (hti.flags&TVHT_ONITEM)
-					TreeView_SelectItem(hwnd, hti.hItem);
-			}
+		if (TreeView_HitTest(hwnd, &hti)) {
+			if (hti.flags&TVHT_ONITEM)
+				TreeView_SelectItem(hwnd, hti.hItem);
 		}
-		break;
+	}
+	break;
 
 	case WM_CHAR:
 		if (GetKeyState(VK_CONTROL) & 0x8000 && wParam == 6)
@@ -209,7 +209,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			hImg = LoadIcons();
 
 			// do the icon
-			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT)));
+			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT)));
 			SetWindowText(hwnd, TranslateT("Database Editor++"));
 
 			// setup the splitter
@@ -265,42 +265,42 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case GC_SPLITTERMOVED:
-		{
-			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
+	{
+		int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
 
-			RECT rc2;
-			GetWindowRect(hwnd, &rc2);
+		RECT rc2;
+		GetWindowRect(hwnd, &rc2);
 
-			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SPLITTER)) {
-				RECT rc;
-				GetClientRect(hwnd, &rc);
-				POINT pt = { (LONG)wParam, 0 };
-				ScreenToClient(hwnd, &pt);
+		if ((HWND)lParam == GetDlgItem(hwnd, IDC_SPLITTER)) {
+			RECT rc;
+			GetClientRect(hwnd, &rc);
+			POINT pt = { (LONG)wParam, 0 };
+			ScreenToClient(hwnd, &pt);
 
-				splitterPos = rc.left + pt.x + 1;
-				if (splitterPos < 150)
-					splitterPos = 150;
-				if (splitterPos > rc2.right - rc2.left - 150)
-					splitterPos = rc2.right - rc2.left - 150;
-				SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
-				db_set_w(NULL, modname, "Splitter", (WORD)splitterPos);
-			}
-			PostMessage(hwnd, WM_SIZE, 0, 0);
+			splitterPos = rc.left + pt.x + 1;
+			if (splitterPos < 150)
+				splitterPos = 150;
+			if (splitterPos > rc2.right - rc2.left - 150)
+				splitterPos = rc2.right - rc2.left - 150;
+			SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
+			db_set_w(NULL, modname, "Splitter", (WORD)splitterPos);
 		}
-		break;
+		PostMessage(hwnd, WM_SIZE, 0, 0);
+	}
+	break;
 
 	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
-			mmi->ptMinTrackSize.x = splitterPos + 150;
-			mmi->ptMinTrackSize.y = 300;
-		}
-		return 0;
+	{
+		MINMAXINFO *mmi = (MINMAXINFO *)lParam;
+		int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
+		mmi->ptMinTrackSize.x = splitterPos + 150;
+		mmi->ptMinTrackSize.y = 300;
+	}
+	return 0;
 
 	case WM_MOVE:
 	case WM_SIZE:
-		Utils_ResizeDialog(hwnd, hInst, MAKEINTRESOURCEA(IDD_MAIN), DialogResize, GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA));
+		Utils_ResizeDialog(hwnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_MAIN), DialogResize, GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA));
 		break;
 
 	case WM_DESTROY: // free our shit!
@@ -359,7 +359,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				ShowWindow(hwnd, SW_SHOWNOACTIVATE);
 			}
 			else db_set_b(NULL, modname, "Maximized", 0);
-			
+
 			Utils_SaveWindowPosition(hwnd, NULL, modname, "Main_");
 			ShowWindow(hwnd, SW_HIDE);
 		}
@@ -408,7 +408,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 
-		// watches
+			// watches
 		case MENU_VIEW_WATCHES:
 			openWatchedVarWindow();
 			break;
@@ -490,12 +490,12 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_DWORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_DWORD) ? MF_CHECKED : MF_UNCHECKED));
 			break;
 		case MENU_SAVE_POSITION:
-			{
-				BOOL save = !db_get_b(NULL, modname, "RestoreOnOpen", 1);
-				CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (save ? MF_CHECKED : MF_UNCHECKED));
-				db_set_b(NULL, modname, "RestoreOnOpen", (byte)save);
-			}
-			break;
+		{
+			BOOL save = !db_get_b(NULL, modname, "RestoreOnOpen", 1);
+			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (save ? MF_CHECKED : MF_UNCHECKED));
+			db_set_b(NULL, modname, "RestoreOnOpen", (byte)save);
+		}
+		break;
 		case MENU_INLINE_EDIT:
 			g_Inline = !g_Inline;
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED : MF_UNCHECKED));
@@ -523,7 +523,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE; // case WM_NOTIFY
 
 	case WM_FINDITEM:
-		ItemInfo *ii = (ItemInfo *)wParam;
+		ItemInfo * ii = (ItemInfo *)wParam;
 		HTREEITEM hItem = findItemInTree(ii->hContact, ii->module);
 		if (hItem) {
 			TreeView_SelectItem(hwnd2Tree, hItem);
@@ -539,5 +539,5 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void openMainWindow()
 {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), nullptr, MainDlgProc);
+	CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MAIN), nullptr, MainDlgProc);
 }

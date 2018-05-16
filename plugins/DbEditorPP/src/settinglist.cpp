@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 
-SettingListInfo info = {0};
+SettingListInfo info = { 0 };
 HWND hwnd2List = nullptr;
 
 
@@ -451,139 +451,139 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			{
-				DBVARIANT dbv = { 0 };
-				int len = GetWindowTextLength(hwnd) + 1;
+		{
+			DBVARIANT dbv = { 0 };
+			int len = GetWindowTextLength(hwnd) + 1;
 
-				if ((!info.subitem && len <= 1) || db_get_s(info.hContact, info.module, info.setting, &dbv, 0)) {
+			if ((!info.subitem && len <= 1) || db_get_s(info.hContact, info.module, info.setting, &dbv, 0)) {
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
+				return 0;
+			}
+
+			wchar_t *value = (wchar_t*)mir_alloc(len * sizeof(wchar_t));
+
+			GetWindowText(hwnd, value, len);
+
+			_T2A szValue(value);
+
+			int res = 0;
+
+			switch (info.subitem) {
+			case 0: // setting name
+				if (!mir_strcmp(info.setting, szValue) || mir_strlen(szValue) > 0xFE) {
+					db_free(&dbv);
+					mir_free(value);
 					SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
 					return 0;
 				}
+				if (db_set(info.hContact, info.module, szValue, &dbv))
+					break;
+				res = 1;
+				db_unset(info.hContact, info.module, info.setting);
+				deleteListItem(info.setting);
+				break;
 
-				wchar_t *value = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
+			case 1: // value
+				DWORD val;
+				int i = 0;
 
-				GetWindowText(hwnd, value, len);
+				if (dbv.type == DBVT_BLOB) {
+					res = WriteBlobFromString(info.hContact, info.module, info.setting, szValue, (int)mir_strlen(szValue));
+					break;
+				}
 
-				_T2A szValue(value);
-
-				int res = 0;
-
-				switch (info.subitem) {
-				case 0: // setting name
-					if (!mir_strcmp(info.setting, szValue) || mir_strlen(szValue) > 0xFE) {
-						db_free(&dbv);
-						mir_free(value);
-						SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
-						return 0;
+				switch (value[0]) {
+				case 'b':
+				case 'B':
+					val = wcstoul(&value[1], nullptr, 0);
+					if (!val || value[1] == '0') {
+						res = !db_set_b(info.hContact, info.module, info.setting, (BYTE)val);
 					}
-					if (db_set(info.hContact, info.module, szValue, &dbv))
-						break;
-					res = 1;
-					db_unset(info.hContact, info.module, info.setting);
-					deleteListItem(info.setting);
+					else
+						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+					break;
+				case 'w':
+				case 'W':
+					val = wcstoul(&value[1], nullptr, 0);
+					if (!val || value[1] == '0')
+						res = !db_set_w(info.hContact, info.module, info.setting, (WORD)val);
+					else
+						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+					break;
+				case 'd':
+				case 'D':
+					val = wcstoul(&value[1], nullptr, 0);
+					if (!val || value[1] == '0')
+						res = !db_set_dw(info.hContact, info.module, info.setting, val);
+					else
+						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
 					break;
 
-				case 1: // value
-					DWORD val;
-					int i = 0;
+				case '0':
+					i = 1;
+					__fallthrough;
 
-					if (dbv.type == DBVT_BLOB) {
-						res = WriteBlobFromString(info.hContact, info.module, info.setting, szValue, (int)mir_strlen(szValue));
-						break;
-					}
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case '-':
+				case 'x':
+				case 'X':
+					if (value[i] == 'x' || value[i] == 'X')
+						val = wcstoul(&value[i + 1], nullptr, 16);
+					else
+						val = wcstoul(value, nullptr, 10);
 
-					switch (value[0]) {
-					case 'b':
-					case 'B':
-						val = wcstoul(&value[1], nullptr, 0);
-						if (!val || value[1] == '0') {
-							res = !db_set_b(info.hContact, info.module, info.setting, (BYTE)val);
-						}
-						else
-							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+					switch (dbv.type) {
+					case DBVT_BYTE:
+					case DBVT_WORD:
+					case DBVT_DWORD:
+						res = setNumericValue(info.hContact, info.module, info.setting, val, dbv.type);
 						break;
-					case 'w':
-					case 'W':
-						val = wcstoul(&value[1], nullptr, 0);
-						if (!val || value[1] == '0')
-							res = !db_set_w(info.hContact, info.module, info.setting, (WORD)val);
-						else
-							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
-						break;
-					case 'd':
-					case 'D':
-						val = wcstoul(&value[1], nullptr, 0);
-						if (!val || value[1] == '0')
-							res = !db_set_dw(info.hContact, info.module, info.setting, val);
-						else
-							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
-						break;
-
-					case '0':
-						i = 1;
-						__fallthrough;
-
-					case '1':
-					case '2':
-					case '3':
-					case '4':
-					case '5':
-					case '6':
-					case '7':
-					case '8':
-					case '9':
-					case '-':
-					case 'x':
-					case 'X':
-						if (value[i] == 'x' || value[i] == 'X')
-							val = wcstoul(&value[i + 1], nullptr, 16);
-						else
-							val = wcstoul(value, nullptr, 10);
-
-						switch (dbv.type) {
-						case DBVT_BYTE:
-						case DBVT_WORD:
-						case DBVT_DWORD:
-							res = setNumericValue(info.hContact, info.module, info.setting, val, dbv.type);
-							break;
-						case DBVT_ASCIIZ:
-						case DBVT_WCHAR:
-						case DBVT_UTF8:
-							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
-							break;
-						}
-						break;
-					case '\"':
-					case '\'':
-						{
-							size_t nlen = mir_wstrlen(value);
-							int sh = 0;
-							if (nlen > 3) {
-								if (value[nlen - 1] == value[0]) {
-									value[nlen - 1] = 0;
-									sh = 1;
-								}
-							}
-							res = setTextValue(info.hContact, info.module, info.setting, &value[sh], dbv.type);
-						}
-						break;
-
-					default:
+					case DBVT_ASCIIZ:
+					case DBVT_WCHAR:
+					case DBVT_UTF8:
 						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
 						break;
 					}
 					break;
+				case '\"':
+				case '\'':
+				{
+					size_t nlen = mir_wstrlen(value);
+					int sh = 0;
+					if (nlen > 3) {
+						if (value[nlen - 1] == value[0]) {
+							value[nlen - 1] = 0;
+							sh = 1;
+						}
+					}
+					res = setTextValue(info.hContact, info.module, info.setting, &value[sh], dbv.type);
 				}
+				break;
 
-				mir_free(value);
-				db_free(&dbv);
-
-				if (!res) {
-					msg(TranslateT("Unable to store value in this data type!"));
+				default:
+					res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
 					break;
 				}
+				break;
 			}
-			__fallthrough;
+
+			mir_free(value);
+			db_free(&dbv);
+
+			if (!res) {
+				msg(TranslateT("Unable to store value in this data type!"));
+				break;
+			}
+		}
+		__fallthrough;
 
 		case IDCANCEL:
 			DestroyWindow(hwnd);
@@ -622,7 +622,7 @@ void EditLabel(int item, int subitem)
 	info.subitem = subitem;
 
 	if (!subitem)
-		info.hwnd2Edit = CreateWindow(L"EDIT", _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, nullptr, hInst, nullptr);
+		info.hwnd2Edit = CreateWindow(L"EDIT", _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, nullptr, g_plugin.getInst(), nullptr);
 	else {
 		wchar_t *str = nullptr, value[16] = { 0 };
 
@@ -656,11 +656,11 @@ void EditLabel(int item, int subitem)
 			GetClientRect(hwnd2List, &rclist);
 			if (rc.top + height > rclist.bottom && rclist.bottom - rclist.top > height)
 				rc.top = rc.bottom - height;
-			info.hwnd2Edit = CreateWindow(L"EDIT", str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, hwnd2List, nullptr, hInst, nullptr);
+			info.hwnd2Edit = CreateWindow(L"EDIT", str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, hwnd2List, nullptr, g_plugin.getInst(), nullptr);
 			mir_free(str);
 		}
 		else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)
-			info.hwnd2Edit = CreateWindow(L"EDIT", value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, nullptr, hInst, nullptr);
+			info.hwnd2Edit = CreateWindow(L"EDIT", value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, nullptr, g_plugin.getInst(), nullptr);
 	}
 
 	db_free(&dbv);
@@ -740,7 +740,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 	if (ListView_SubItemHitTest(hwnd2List, &hti) == -1) {
 		// nowhere.. new item menu
 		GetCursorPos(&pt);
-		hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
+		hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
 		hSubMenu = GetSubMenu(hMenu, 6);
 		TranslateMenu(hSubMenu);
 
@@ -783,7 +783,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 
 	// on item
 	GetCursorPos(&pt);
-	hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
+	hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
 	hSubMenu = GetSubMenu(hMenu, 0);
 	TranslateMenu(hSubMenu);
 

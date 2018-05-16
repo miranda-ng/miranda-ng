@@ -440,7 +440,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_TEXT));
 			if (length) {
-				wchar_t *data = (wchar_t*)mir_alloc((length + 1)*sizeof(wchar_t));
+				wchar_t *data = (wchar_t*)mir_alloc((length + 1) * sizeof(wchar_t));
 				GetDlgItemText(hwnd, IDC_TEXT, data, length + 1);
 				importSettings(hContact, T2Utf(data));
 				mir_free(data);
@@ -454,7 +454,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 void ImportSettingsMenuItem(MCONTACT hContact)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_IMPORT), hwnd2mainWindow, ImportDlgProc, hContact);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_IMPORT), hwnd2mainWindow, ImportDlgProc, hContact);
 }
 
 int Openfile2Import(wchar_t *outputFiles, int maxlen)

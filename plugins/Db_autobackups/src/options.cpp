@@ -17,7 +17,7 @@ Options::Options() :
 Options options;
 
 COptionsDlg::COptionsDlg()
-	: CPluginDlgBase(g_hInstance, IDD_OPTIONS, MODULE),
+	: CPluginDlgBase(g_plugin.getInst(), IDD_OPTIONS, MODULE),
 	m_disable(this, IDC_RAD_DISABLED), m_backupOnStart(this, IDC_RAD_START),
 	m_backupOnExit(this, IDC_RAD_EXIT), m_backupPeriodic(this, IDC_RAD_PERIODIC),
 	m_backup(this, IDC_BUT_NOW), m_backupProfile(this, IDC_BACKUPPROFILE),
@@ -277,7 +277,7 @@ void COptionsDlg::CreateToolTip(LPTSTR ptszText, LPTSTR ptszTitle)
 		(WS_POPUP | TTS_NOPREFIX),
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hwndFolder, nullptr, g_hInstance, nullptr);
+		hwndFolder, nullptr, g_plugin.getInst(), nullptr);
 
 	if (m_hPathTip == nullptr) {
 		return;
@@ -289,7 +289,7 @@ void COptionsDlg::CreateToolTip(LPTSTR ptszText, LPTSTR ptszTitle)
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
 	ti.hwnd = hwndFolder;
-	ti.hinst = g_hInstance;
+	ti.hinst = g_plugin.getInst();
 	ti.lpszText = ptszText;
 	GetClientRect(hwndFolder, &ti.rect);
 	ti.rect.left = -80;

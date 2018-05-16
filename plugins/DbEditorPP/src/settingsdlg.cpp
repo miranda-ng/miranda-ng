@@ -100,18 +100,18 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					break;
 
 				case DBVT_UTF8:
-					{
-						ptrW tmp(mir_utf8decodeW(dbsetting->dbv.pszVal));
-						SetDlgItemTextW(hwnd, IDC_STRING, tmp);
-						break;
-					}
+				{
+					ptrW tmp(mir_utf8decodeW(dbsetting->dbv.pszVal));
+					SetDlgItemTextW(hwnd, IDC_STRING, tmp);
+					break;
+				}
 
 				case DBVT_BLOB:
-					{
-						ptrA tmp(StringFromBlob(dbsetting->dbv.pbVal, dbsetting->dbv.cpbVal));
-						SetDlgItemTextA(hwnd, IDC_BLOB, tmp);
-						break;
-					}
+				{
+					ptrA tmp(StringFromBlob(dbsetting->dbv.pbVal, dbsetting->dbv.cpbVal));
+					SetDlgItemTextA(hwnd, IDC_BLOB, tmp);
+					break;
+				}
 				}
 			}
 
@@ -176,79 +176,79 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDOK:
-			{
-				struct DBsetting *dbsetting = (struct DBsetting*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		{
+			struct DBsetting *dbsetting = (struct DBsetting*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-				wchar_t settingname[FLD_SIZE];
-				GetDlgItemText(hwnd, IDC_SETTINGNAME, settingname, _countof(settingname));
+			wchar_t settingname[FLD_SIZE];
+			GetDlgItemText(hwnd, IDC_SETTINGNAME, settingname, _countof(settingname));
 
-				if (settingname[0]) {
-					int valueID = 0;
+			if (settingname[0]) {
+				int valueID = 0;
 
-					switch (dbsetting->dbv.type) {
-					case DBVT_BYTE:
-					case DBVT_WORD:
-					case DBVT_DWORD:
-					case DBVT_DELETED:
-						valueID = IDC_SETTINGVALUE;
-						break;
+				switch (dbsetting->dbv.type) {
+				case DBVT_BYTE:
+				case DBVT_WORD:
+				case DBVT_DWORD:
+				case DBVT_DELETED:
+					valueID = IDC_SETTINGVALUE;
+					break;
 
-					case DBVT_ASCIIZ:
-					case DBVT_UTF8:
-					case DBVT_WCHAR:
-						valueID = IDC_STRING;
-						break;
+				case DBVT_ASCIIZ:
+				case DBVT_UTF8:
+				case DBVT_WCHAR:
+					valueID = IDC_STRING;
+					break;
 
-					case DBVT_BLOB:
-						valueID = IDC_BLOB;
-						break;
-					default:
-						break;
-					}
-
-					if (!valueID)
-						break;
-
-					int len = GetWindowTextLength(GetDlgItem(hwnd, valueID)) + 1;
-					wchar_t *value = (wchar_t*)mir_alloc(len * sizeof(wchar_t));
-
-					GetDlgItemText(hwnd, valueID, value, len);
-					_T2A setting(settingname);
-
-					int type = saveAsType(hwnd, dbsetting->dbv.type);
-					int res = 0;
-
-					// write the setting
-					switch (type) {
-					case DBVT_BYTE:
-					case DBVT_WORD:
-					case DBVT_DWORD:
-						res = setNumericValue(dbsetting->hContact, dbsetting->module, setting, wcstoul(value, nullptr, IsDlgButtonChecked(hwnd, CHK_HEX) ? 16 : 10), type);
-						break;
-					case DBVT_ASCIIZ:
-					case DBVT_UTF8:
-					case DBVT_WCHAR:
-						res = setTextValue(dbsetting->hContact, dbsetting->module, setting, value, type);
-						break;
-					case DBVT_BLOB:
-						res = WriteBlobFromString(dbsetting->hContact, dbsetting->module, setting, _T2A(value), len);
-						break;
-					}
-
-					mir_free(value);
-
-					if (!res) {
-						msg(TranslateT("Unable to store value in this data type!"));
-						break;
-					}
-
-					// delete old setting
-					if (dbsetting->setting && mir_strcmp(setting, dbsetting->setting))
-						db_unset(dbsetting->hContact, dbsetting->module, dbsetting->setting);
+				case DBVT_BLOB:
+					valueID = IDC_BLOB;
+					break;
+				default:
+					break;
 				}
 
+				if (!valueID)
+					break;
+
+				int len = GetWindowTextLength(GetDlgItem(hwnd, valueID)) + 1;
+				wchar_t *value = (wchar_t*)mir_alloc(len * sizeof(wchar_t));
+
+				GetDlgItemText(hwnd, valueID, value, len);
+				_T2A setting(settingname);
+
+				int type = saveAsType(hwnd, dbsetting->dbv.type);
+				int res = 0;
+
+				// write the setting
+				switch (type) {
+				case DBVT_BYTE:
+				case DBVT_WORD:
+				case DBVT_DWORD:
+					res = setNumericValue(dbsetting->hContact, dbsetting->module, setting, wcstoul(value, nullptr, IsDlgButtonChecked(hwnd, CHK_HEX) ? 16 : 10), type);
+					break;
+				case DBVT_ASCIIZ:
+				case DBVT_UTF8:
+				case DBVT_WCHAR:
+					res = setTextValue(dbsetting->hContact, dbsetting->module, setting, value, type);
+					break;
+				case DBVT_BLOB:
+					res = WriteBlobFromString(dbsetting->hContact, dbsetting->module, setting, _T2A(value), len);
+					break;
+				}
+
+				mir_free(value);
+
+				if (!res) {
+					msg(TranslateT("Unable to store value in this data type!"));
+					break;
+				}
+
+				// delete old setting
+				if (dbsetting->setting && mir_strcmp(setting, dbsetting->setting))
+					db_unset(dbsetting->hContact, dbsetting->module, dbsetting->setting);
 			}
-			__fallthrough;
+
+		}
+		__fallthrough;
 
 		case IDCANCEL:
 			struct DBsetting *dbsetting = (struct DBsetting*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -275,7 +275,7 @@ void editSetting(MCONTACT hContact, const char *module, const char *setting)
 		dbsetting->module = mir_strdup(module);
 		dbsetting->setting = mir_strdup(setting);
 
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
 	}
 }
 
@@ -298,7 +298,7 @@ void copySetting(MCONTACT hContact, const char *module, const char *setting)
 			dbsetting->hContact = hContact;
 			dbsetting->module = mir_strdup(module);
 			dbsetting->setting = mir_strdup(tmp);
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
+			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
 			return;
 		}
 	}
@@ -313,5 +313,5 @@ void newSetting(MCONTACT hContact, const char *module, int type)
 	dbsetting->hContact = hContact;
 	dbsetting->module = mir_strdup(module);
 	dbsetting->setting = nullptr;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
 }

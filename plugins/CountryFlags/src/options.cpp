@@ -23,38 +23,38 @@ bool bUseUnknown, bShowStatusIcon, bShowExtraIcon, bUseIpToCountry;
 
 #define M_ENABLE_SUBCTLS  (WM_APP+1)
 
-static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM,LPARAM lParam)
+static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
 		CheckDlgButton(hwndDlg, IDC_CHECK_SHOWSTATUSICONFLAG, bShowStatusIcon ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHECK_SHOWEXTRAIMGFLAG, bShowExtraIcon ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHECK_USEUNKNOWNFLAG, bUseUnknown ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY, bUseIpToCountry ? BST_CHECKED : BST_UNCHECKED);
-		
-		SendMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
+		CheckDlgButton(hwndDlg, IDC_CHECK_USEIPTOCOUNTRY, bUseIpToCountry ? BST_CHECKED : BST_UNCHECKED);
+
+		SendMessage(hwndDlg, M_ENABLE_SUBCTLS, 0, 0);
 		return TRUE; /* default focus */
 
 	case M_ENABLE_SUBCTLS:
-		{
-			BOOL checked = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWEXTRAIMGFLAG);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TEXT_EXTRAIMGFLAGCOLUMN), checked);
-			if (!checked)
-				checked = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWSTATUSICONFLAG);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_USEUNKNOWNFLAG), checked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_USEIPTOCOUNTRY), checked);
-		}
-		return TRUE;
+	{
+		BOOL checked = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWEXTRAIMGFLAG);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_TEXT_EXTRAIMGFLAGCOLUMN), checked);
+		if (!checked)
+			checked = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWSTATUSICONFLAG);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_USEUNKNOWNFLAG), checked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_USEIPTOCOUNTRY), checked);
+	}
+	return TRUE;
 
 	case WM_COMMAND:
-		PostMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
-		PostMessage(GetParent(hwndDlg),PSM_CHANGED,0,0); /* enable apply */
+		PostMessage(hwndDlg, M_ENABLE_SUBCTLS, 0, 0);
+		PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0); /* enable apply */
 		return FALSE;
 
 	case WM_NOTIFY:
-		switch(((NMHDR*)lParam)->code) {
+		switch (((NMHDR*)lParam)->code) {
 		case PSN_APPLY: /* setting change hook will pick these up  */
 			bool bChanged = false, bTemp;
 
@@ -83,7 +83,7 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM,LPARAM l
 int OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
 	odp.position = 900000002;
 	odp.szGroup.a = LPGEN("Icons");  /* autotranslated */

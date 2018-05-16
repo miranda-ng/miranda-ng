@@ -8,31 +8,31 @@ PBYTE	pRS_pgp;
 
 int   __cdecl _pgp_init(void);
 int   __cdecl _pgp_done(void);
-int   __cdecl _pgp_open_keyrings(LPSTR,LPSTR);
+int   __cdecl _pgp_open_keyrings(LPSTR, LPSTR);
 int   __cdecl _pgp_close_keyrings(void);
 int   __cdecl _pgp_get_version(void);
 LPSTR __cdecl _pgp_get_error(void);
 int   __cdecl _pgp_size_keyid(void);
-PVOID __cdecl _pgp_select_keyid(HWND,LPSTR);
-LPSTR __cdecl _pgp_encrypt_keydb(LPCSTR,PVOID);
+PVOID __cdecl _pgp_select_keyid(HWND, LPSTR);
+LPSTR __cdecl _pgp_encrypt_keydb(LPCSTR, PVOID);
 LPSTR __cdecl _pgp_decrypt_keydb(LPCSTR);
 //int   __cdecl _pgp_check_key(LPCSTR);
-LPSTR __cdecl _pgp_encrypt_key(LPCSTR,LPCSTR);
-LPSTR __cdecl _pgp_decrypt_key(LPCSTR,LPCSTR);
+LPSTR __cdecl _pgp_encrypt_key(LPCSTR, LPCSTR);
+LPSTR __cdecl _pgp_decrypt_key(LPCSTR, LPCSTR);
 
-int   (__cdecl *p_pgp_init)(void);
-int   (__cdecl *p_pgp_done)(void);
-int   (__cdecl *p_pgp_open_keyrings)(LPSTR,LPSTR);
-int   (__cdecl *p_pgp_close_keyrings)(void);
-int   (__cdecl *p_pgp_get_version)(void);
-LPSTR (__cdecl *p_pgp_get_error)(void);
-int   (__cdecl *p_pgp_size_keyid)(void);
-PVOID (__cdecl *p_pgp_select_keyid)(HWND,LPSTR);
-LPSTR (__cdecl *p_pgp_encrypt_keydb)(LPCSTR,PVOID);
-LPSTR (__cdecl *p_pgp_decrypt_keydb)(LPCSTR);
+int(__cdecl *p_pgp_init)(void);
+int(__cdecl *p_pgp_done)(void);
+int(__cdecl *p_pgp_open_keyrings)(LPSTR, LPSTR);
+int(__cdecl *p_pgp_close_keyrings)(void);
+int(__cdecl *p_pgp_get_version)(void);
+LPSTR(__cdecl *p_pgp_get_error)(void);
+int(__cdecl *p_pgp_size_keyid)(void);
+PVOID(__cdecl *p_pgp_select_keyid)(HWND, LPSTR);
+LPSTR(__cdecl *p_pgp_encrypt_keydb)(LPCSTR, PVOID);
+LPSTR(__cdecl *p_pgp_decrypt_keydb)(LPCSTR);
 //int   (__cdecl *p_pgp_check_key)(LPCSTR);
-LPSTR (__cdecl *p_pgp_encrypt_key)(LPCSTR,LPCSTR);
-LPSTR (__cdecl *p_pgp_decrypt_key)(LPCSTR,LPCSTR);
+LPSTR(__cdecl *p_pgp_encrypt_key)(LPCSTR, LPCSTR);
+LPSTR(__cdecl *p_pgp_decrypt_key)(LPCSTR, LPCSTR);
 
 #define GPA(x)                                              \
 {                                                           \
@@ -97,7 +97,7 @@ int __cdecl pgp_init()
 		memset(tmp->pdata, 0, sizeof(PGPDATA));
 	}
 
-	hpgpsdk = g_hInst;
+	hpgpsdk = g_plugin.getInst();
 	return 0;
 }
 

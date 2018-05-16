@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 HWND hViewWnd;
-extern HINSTANCE hInst;
 
 HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndCtrl, int nHorizontalOffset, int nVerticalOffset, int nWidthOffset, int nHeightOffset)
 {
@@ -132,7 +131,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			if (PtInRect(&rc, pt)) {
 				static const CHARRANGE all = { 0, -1 };
 
-				HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+				HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 				HMENU hSubMenu = GetSubMenu(hMenu, 0);
 				TranslateMenu(hSubMenu);
 

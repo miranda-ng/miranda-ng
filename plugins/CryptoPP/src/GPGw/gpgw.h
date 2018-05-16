@@ -39,7 +39,6 @@ extern char *txtendpgpmessage;
 
 extern LPCSTR szModuleName;
 extern LPCSTR szVersionStr;
-extern HINSTANCE g_hInst;
 
 #define DLLEXPORT __declspec(dllexport)
 

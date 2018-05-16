@@ -1,9 +1,9 @@
 #include "commonheaders.h"
 
+CMPlugin g_plugin;
 int hLangpack;
 LPCSTR szModuleName = MODULENAME;
 LPCSTR szVersionStr = MODULENAME" DLL (" __VERSION_STRING_DOTS ")";
-HINSTANCE g_hInst;
 
 HANDLE hPGPPRIV = nullptr;
 HANDLE hRSA4096 = nullptr;
@@ -24,12 +24,6 @@ PLUGININFOEX pluginInfoEx = {
 	{0x3613F2D9, 0xC040, 0x4361, {0xA4, 0x4F, 0xDF, 0x7B, 0x5A, 0xAA, 0xCF, 0x6E}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
-{
-	g_hInst = hInst;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
@@ -46,7 +40,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	DisableThreadLibraryCalls(g_hInst);
+	DisableThreadLibraryCalls(g_plugin.getInst());
 
 	// get memoryManagerInterface address
 	mir_getLP(&pluginInfoEx);
@@ -66,15 +60,15 @@ extern "C" __declspec(dllexport) int Unload()
 
 BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, DWORD* Size)
 {
-	HRSRC RH = FindResource(g_hInst, MAKEINTRESOURCE(ResId), MAKEINTRESOURCE(ResType));
+	HRSRC RH = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(ResId), MAKEINTRESOURCE(ResType));
 	if (RH == nullptr)
 		return FALSE;
 
-	PBYTE	RP = (PBYTE)LoadResource(g_hInst, RH);
+	PBYTE	RP = (PBYTE)LoadResource(g_plugin.getInst(), RH);
 	if (RP == nullptr)
 		return FALSE;
 
-	DWORD	x, s = SizeofResource(g_hInst, RH);
+	DWORD	x, s = SizeofResource(g_plugin.getInst(), RH);
 	if (!WriteFile(FH, RP, s, &x, nullptr)) return FALSE;
 	if (x != s) return FALSE;
 	if (Size) *Size = s;

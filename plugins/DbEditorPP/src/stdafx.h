@@ -16,8 +16,6 @@
 #include <win2k.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_clist.h>
@@ -49,6 +47,13 @@
 #define modname			"DBEditorpp"
 #define modFullname		"Database Editor++"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(modname)
+	{}
+};
+
 #define msg(a)		MessageBox(hwnd2mainWindow,a,_A2T(modFullname),MB_OK)
 #define dlg(a,b)	MessageBox(hwnd2mainWindow,a,_A2T(modFullname),b)
 
@@ -64,7 +69,7 @@
 	this gets dumped as the lparam for each module tree item
 	************************/
 
-// types
+	// types
 #define CONTACT_ROOT_ITEM 0
 #define CONTACT           1
 #define MODULE            2
@@ -149,7 +154,7 @@ struct ColumnsSortParams {
 
 
 enum ICONS {
-    IMAGE_EMPTY,
+	IMAGE_EMPTY,
 	IMAGE_BINARY,
 	IMAGE_BYTE,
 	IMAGE_WORD,
@@ -169,8 +174,6 @@ enum ICONS {
 //=======================================================
 //  Variables
 //=======================================================
-extern HINSTANCE hInst;
-
 extern HWND hwnd2mainWindow;
 
 extern int g_Mode;
@@ -196,9 +199,9 @@ extern bool g_bUsePopups;
 #define HEX_DWORD		4
 
 #ifdef _UNICODE
-	#define GetValue(a,b,c,d,e)	GetValueW(a,b,c,d,e)
+#define GetValue(a,b,c,d,e)	GetValueW(a,b,c,d,e)
 #else
-	#define GetValue(a,b,c,d,e)	GetValueA(a,b,c,d,e)
+#define GetValue(a,b,c,d,e)	GetValueA(a,b,c,d,e)
 #endif
 
 //main
@@ -250,7 +253,7 @@ void settingChanged(MCONTACT hContact, const char *module, const char *setting, 
 void editSetting(MCONTACT hContact, const char *module, const char *setting);
 void copySetting(MCONTACT hContact, const char *module, const char *setting);
 void newSetting(MCONTACT hContact, const char *module, int type);
-                                   
+
 // exportimport
 void exportDB(MCONTACT hContact, const char *module); // hContact == -1 export entire db. module == NULL export entire contact
 void ImportSettingsMenuItem(MCONTACT hContact);

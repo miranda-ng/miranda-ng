@@ -35,8 +35,6 @@ Offers List of your Custom Statuses.
 
 #include <windows.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_system.h>
@@ -58,6 +56,13 @@ Offers List of your Custom Statuses.
 
 #define MODULENAME  LPGENW("Custom Status List")
 #define MODNAME     "CSList"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODNAME)
+	{}
+};
 
 // ====[ LIMITS ]=============================================================
 
@@ -396,7 +401,6 @@ INT_PTR __cdecl  showList(WPARAM, LPARAM, LPARAM);
 void addProtoStatusMenuItem(char *protoName);
 
 // other functions
-void IitIcoLib();
 void RegisterHotkeys(char buf[200], wchar_t* accName, int Number);
 void SetStatus(WORD code, StatusItem* item, char *protoName);
 
@@ -404,7 +408,6 @@ void SetStatus(WORD code, StatusItem* item, char *protoName);
 
 INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 INT_PTR CALLBACK CSAMWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
-INT_PTR CALLBACK CSRNWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 INT_PTR CALLBACK CSOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 
 #endif /* __CSLIST_H */

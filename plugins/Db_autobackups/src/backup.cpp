@@ -217,7 +217,7 @@ int Backup(wchar_t *backup_filename)
 		ShowPopup(dbname, TranslateT("Backup in progress"), nullptr);
 
 	if (!options.disable_progress)
-		progress_dialog = CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_COPYPROGRESS), nullptr, DlgProcProgress);
+		progress_dialog = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPYPROGRESS), nullptr, DlgProcProgress);
 
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 

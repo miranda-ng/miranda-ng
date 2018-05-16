@@ -22,10 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int nCountriesCount;
 CountryListEntry *countries;
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
-static PLUGININFOEX pluginInfo={
+static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -38,12 +38,6 @@ static PLUGININFOEX pluginInfo={
 	{0x68c36842, 0x3d95, 0x4f4a, {0xab, 0x81, 0x1, 0x4d, 0x65, 0x93, 0x86, 0x3b}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
@@ -54,12 +48,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 
 	PrepareBufferedFunctions();
-	if ( CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&nCountriesCount, (LPARAM)&countries))
+	if (CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&nCountriesCount, (LPARAM)&countries))
 		nCountriesCount = 0;
 
 	bShowStatusIcon = db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
-	bShowExtraIcon  = db_get_b(NULL, MODULENAME, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
-	bUseUnknown     = db_get_b(NULL, MODULENAME, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
+	bShowExtraIcon = db_get_b(NULL, MODULENAME, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
+	bUseUnknown = db_get_b(NULL, MODULENAME, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
 	bUseIpToCountry = db_get_b(NULL, MODULENAME, "UseIpToCountry", SETTING_USEIPTOCOUNTRY_DEFAULT) != 0;
 
 	InitIcons();

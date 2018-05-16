@@ -50,7 +50,7 @@ HANDLE GetIcoLibHandle(int icon)
 
 void IcoLibRegister(void)
 {
-	Icon_Register(hInst, modFullname, iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), modFullname, iconList, _countof(iconList));
 }
 
 HICON LoadSkinnedDBEIcon(int icon)
@@ -59,7 +59,7 @@ HICON LoadSkinnedDBEIcon(int icon)
 		if (it.defIconID == icon)
 			return IcoLib_GetIconByHandle(it.hIcolib);
 
-	return LoadIcon(hInst, MAKEINTRESOURCE(icon));
+	return LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(icon));
 }
 
 HIMAGELIST LoadIcons()

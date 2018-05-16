@@ -7,21 +7,21 @@ PBYTE	pRS_gpg;
 
 int   __cdecl _gpg_init(void);
 int   __cdecl _gpg_done(void);
-int   __cdecl _gpg_open_keyrings(LPSTR,LPSTR);
+int   __cdecl _gpg_open_keyrings(LPSTR, LPSTR);
 int   __cdecl _gpg_close_keyrings(void);
 void  __cdecl _gpg_set_log(LPCSTR);
 void  __cdecl _gpg_set_tmp(LPCSTR);
 LPSTR __cdecl _gpg_get_error(void);
 int   __cdecl _gpg_size_keyid(void);
-int   __cdecl _gpg_select_keyid(HWND,LPSTR);
-LPSTR __cdecl _gpg_encrypt(LPCSTR,LPCSTR);
+int   __cdecl _gpg_select_keyid(HWND, LPSTR);
+LPSTR __cdecl _gpg_encrypt(LPCSTR, LPCSTR);
 LPSTR __cdecl _gpg_decrypt(LPCSTR);
 LPSTR __cdecl _gpg_get_passphrases();
 void  __cdecl _gpg_set_passphrases(LPCSTR);
 
 int __cdecl gpg_init()
 {
-	hgpg = g_hInst;
+	hgpg = g_plugin.getInst();
 	return _gpg_init();
 }
 
@@ -71,7 +71,7 @@ LPSTR __cdecl gpg_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 		return ptr->tmp = nullptr;
 	}
 	else {
-		ptr->tmp =  mir_strdup(szEncMsg);
+		ptr->tmp = mir_strdup(szEncMsg);
 		LocalFree((LPVOID)szEncMsg);
 		return ptr->tmp;
 	}

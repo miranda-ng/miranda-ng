@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <delayimp.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_langpack.h>
@@ -80,6 +78,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define PluginName "Crash Dumper"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PluginName)
+	{}
+};
+
 #define VI_FLAG_FORMAT  1
 #define VI_FLAG_PRNVAR  2
 #define VI_FLAG_PRNDLL  4
@@ -91,7 +96,6 @@ struct VerTrnsfr
 	bool  autot;
 };
 
-extern HMODULE hInst;
 extern DWORD mirandaVersion;
 extern LCID packlcid;
 extern bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart;

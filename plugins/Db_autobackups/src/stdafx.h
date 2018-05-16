@@ -12,8 +12,6 @@
 
 namespace fs = std::experimental::filesystem;
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_database.h>
@@ -28,6 +26,13 @@ namespace fs = std::experimental::filesystem;
 #include <m_cloudfile.h>
 
 #define MODULE "AutoBackups"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
 #include "options.h"
 #include "resource.h"
@@ -52,7 +57,6 @@ struct ZipFile
 
 int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback);
 
-extern HINSTANCE g_hInstance;
 extern char g_szMirVer[];
 
 static IconItem iconList[] = {
