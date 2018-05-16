@@ -37,7 +37,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <Uxtheme.h>
 #include <shlwapi.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clistint.h>
@@ -57,8 +56,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 #include "resource.h"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>("CList")
+	{}
+};
+
 // shared vars
-extern HINSTANCE g_hInst;
 extern CLIST_INTERFACE coreCli;
 extern int g_bSortByStatus, g_bSortByProto;
 

@@ -23,8 +23,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 int LoadSendRecvFileModule(void);
 
+CMPlugin g_plugin;
+
 CLIST_INTERFACE* pcli;
-HINSTANCE hInst;
 int hLangpack;
 
 ITaskbarList3 * pTaskbarInterface;
@@ -41,12 +42,6 @@ PLUGININFOEX pluginInfo = {
 	// 39698dce-7ed4-4334-ac4c-ba8b37a86f13
 	{ 0x39698dce, 0x7ed4, 0x4334, {0xac, 0x4c, 0xba, 0x8b, 0x37, 0xa8, 0x6f, 0x13}}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

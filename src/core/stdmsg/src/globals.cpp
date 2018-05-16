@@ -30,7 +30,7 @@ IconItem iconList[] =
 
 static void InitIcons(void)
 {
-	Icon_Register(g_hInst, LPGEN("Messaging"), iconList, _countof(iconList), "SRMM");
+	Icon_Register(g_plugin.getInst(), LPGEN("Messaging"), iconList, _countof(iconList), "SRMM");
 }
 
 static int IconsChanged(WPARAM, LPARAM)

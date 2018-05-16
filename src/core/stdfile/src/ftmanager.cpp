@@ -163,7 +163,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		if (i == dat->wnds->realCount)
 			PostMessage(GetParent(hwnd), WM_TIMER, 1, NULL);
 
-		if(dat->runningCount == 0 && wParam == ACKRESULT_SUCCESS && db_get_b(NULL, "SRFile", "AutoClose", 0))
+		if(dat->runningCount == 0 && wParam == ACKRESULT_SUCCESS && db_get_b(NULL, MODULENAME, "AutoClose", 0))
 			ShowWindow(hwndFtMgr, SW_HIDE);
 		break;
 
@@ -276,8 +276,8 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			dat->hhkPreshutdown = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwnd, M_PRESHUTDOWN);
 
-			dat->hwndIncoming = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
-			dat->hwndOutgoing = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
+			dat->hwndIncoming = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
+			dat->hwndOutgoing = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
 			ShowWindow(dat->hwndIncoming, SW_SHOW);
 
 			tci.mask = TCIF_PARAM|TCIF_TEXT;
@@ -288,7 +288,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			tci.lParam = (LPARAM)dat->hwndOutgoing;
 			TabCtrl_InsertItem(hwndTab, 1, &tci);
 
-			Utils_RestoreWindowPosition(hwnd, NULL, "SRFile", "FtMgrDlg_", RWPF_NOACTIVATE);
+			Utils_RestoreWindowPosition(hwnd, NULL, MODULENAME, "FtMgrDlg_", RWPF_NOACTIVATE);
 			// Fall through to setup initial placement
 		}
 	case WM_SIZE:
@@ -414,7 +414,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_CLOSE:
 		ShowWindow(hwnd, SW_HIDE);
-		if (db_get_b(NULL, "SRFile", "AutoClear", 1)) {
+		if (db_get_b(NULL, MODULENAME, "AutoClear", 1)) {
 			PostMessage(dat->hwndIncoming, WM_FT_CLEANUP, 0, 0);
 			PostMessage(dat->hwndOutgoing, WM_FT_CLEANUP, 0, 0);
 		}
@@ -427,7 +427,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		DestroyWindow(dat->hwndOutgoing);
 		mir_free(dat);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-		Utils_SaveWindowPosition(hwnd, NULL, "SRFile", "FtMgrDlg_");
+		Utils_SaveWindowPosition(hwnd, NULL, MODULENAME, "FtMgrDlg_");
 		break;
 
 	case WM_ACTIVATE:
@@ -476,11 +476,11 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 {
-	bool bAutoMin = db_get_b(NULL, "SRFile", "AutoMin", 0) != 0; /* lqbe */
+	bool bAutoMin = db_get_b(NULL, MODULENAME, "AutoMin", 0) != 0; /* lqbe */
 
 	bool bJustCreated = (hwndFtMgr == nullptr);
 	if (bJustCreated)
-		hwndFtMgr = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FTMGR), NULL, FtMgrDlgProc);
+		hwndFtMgr = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FTMGR), NULL, FtMgrDlgProc);
 
 	if (bFromMenu) { /* lqbe */
 		ShowWindow(hwndFtMgr, SW_RESTORE);
@@ -520,13 +520,13 @@ void FtMgr_ShowPage(int page)
 
 HWND FtMgr_AddTransfer(FileDlgData *fdd)
 {
-	bool bForceActivate = fdd->send || !db_get_b(NULL, "SRFile", "AutoAccept", 0);
+	bool bForceActivate = fdd->send || !db_get_b(NULL, MODULENAME, "AutoAccept", 0);
 	TFtMgrData *dat = (TFtMgrData*)GetWindowLongPtr(FtMgr_Show(bForceActivate, false), GWLP_USERDATA);
 	if (dat == nullptr)
 		return nullptr;
 
 	HWND hwndBox = fdd->send ? dat->hwndOutgoing : dat->hwndIncoming;
-	HWND hwndFt = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILETRANSFERINFO), hwndBox, DlgProcFileTransfer, (LPARAM)fdd);
+	HWND hwndFt = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILETRANSFERINFO), hwndBox, DlgProcFileTransfer, (LPARAM)fdd);
 	ShowWindow(hwndFt, SW_SHOWNA);
 	SendMessage(hwndBox, WM_FT_ADD, 0, (LPARAM)hwndFt);
 	FtMgr_ShowPage(fdd->send ? 1 : 0);

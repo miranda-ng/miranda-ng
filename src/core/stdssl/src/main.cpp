@@ -24,7 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 int LoadSslModule(void);
 void UnloadSslModule(void);
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -39,12 +39,6 @@ PLUGININFOEX pluginInfo = {
 	// { 312C4F84 - 75BE - 4404 - BCB1 - C103DBE5A3B8 }
 	{ 0x312C4F84, 0x75BE, 0x4404, {0xBC, 0xB1, 0xC1, 0x03, 0xDB, 0xE5, 0xA3, 0xB8 }}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

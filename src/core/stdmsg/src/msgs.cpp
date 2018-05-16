@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMsgDialog::CMsgDialog(int iDialogId, SESSION_INFO *si)
-	: CSuper(g_hInst, iDialogId, si),
+	: CSuper(g_plugin.getInst(), iDialogId, si),
 	m_btnOk(this, IDOK)
 {
 	m_autoClose = 0;

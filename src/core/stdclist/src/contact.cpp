@@ -30,7 +30,8 @@ const struct
 {
 	int status, order;
 }
-static statusModeOrder[] = {
+static statusModeOrder[] =
+{
 	{ ID_STATUS_OFFLINE, 500 },
 	{ ID_STATUS_ONLINE, 10 },
 	{ ID_STATUS_AWAY, 200 },
@@ -40,7 +41,8 @@ static statusModeOrder[] = {
 	{ ID_STATUS_FREECHAT, 0 },
 	{ ID_STATUS_INVISIBLE, 20 },
 	{ ID_STATUS_ONTHEPHONE, 150 },
-	{ ID_STATUS_OUTTOLUNCH, 425 } };
+	{ ID_STATUS_OUTTOLUNCH, 425 }
+};
 
 int GetStatusModeOrdering(int statusMode)
 {
@@ -87,7 +89,7 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 
 	nameb = Clist_GetContactDisplayName(a);
 	wcsncpy_s(namea, nameb, _TRUNCATE);
-	namea[ _countof(namea)-1 ] = 0;
+	namea[_countof(namea) - 1] = 0;
 	nameb = Clist_GetContactDisplayName(b);
 
 	//otherwise just compare names

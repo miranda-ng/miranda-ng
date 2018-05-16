@@ -236,7 +236,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_HISTORY), HistoryDlgResizer);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_HISTORY), HistoryDlgResizer);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -247,7 +247,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 
 		case IDC_FIND:
-			ShowWindow(CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY_FIND), hwndDlg, DlgProcHistoryFind, (LPARAM)hwndDlg), SW_SHOW);
+			ShowWindow(CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY_FIND), hwndDlg, DlgProcHistoryFind, (LPARAM)hwndDlg), SW_SHOW);
 			return TRUE;
 
 		case IDC_DELETEHISTORY:
@@ -370,7 +370,7 @@ static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
 		SetFocus(hwnd);
 		return 0;
 	}
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), NULL, DlgProcHistory, wParam);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), NULL, DlgProcHistory, wParam);
 	return 0;
 }
 

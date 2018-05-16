@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE g_hInst = nullptr;
+CMPlugin g_plugin;
 CLIST_INTERFACE* pcli = nullptr, coreCli;
 HIMAGELIST himlCListClc = nullptr;
 int hLangpack;
@@ -32,22 +32,13 @@ int hLangpack;
 /////////////////////////////////////////////////////////////////////////////////////////
 // external functions
 
-void RegisterCListFonts( void );
-void InitCustomMenus( void );
+void RegisterCListFonts(void);
+void InitCustomMenus(void);
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint);
 
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
 int CluiOptInit(WPARAM wParam, LPARAM lParam);
 int CListOptInit(WPARAM wParam, LPARAM lParam);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// dll stub
-
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
-{
-	g_hInst = hInstDLL;
-	return TRUE;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns the plugin information
@@ -125,7 +116,7 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	g_bSortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
 
 	coreCli = *pcli;
-	pcli->hInst = g_hInst;
+	pcli->hInst = g_plugin.getInst();
 	pcli->pfnPaintClc = PaintClc;
 	pcli->pfnLoadClcOptions = LoadClcOptions;
 	pcli->pfnCompareContacts = CompareContacts;

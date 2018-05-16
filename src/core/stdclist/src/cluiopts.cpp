@@ -29,26 +29,22 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_BRINGTOFRONT,
-			db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_BRINGTOFRONT, db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONTOP, db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TOOLWND,
-			db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MIN2TRAY,
-			db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TOOLWND, db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MIN2TRAY, db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		if (IsDlgButtonChecked(hwndDlg, IDC_TOOLWND))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIN2TRAY), FALSE);
-		CheckDlgButton(hwndDlg, IDC_SHOWCAPTION,
-			db_get_b(NULL, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWMAINMENU,
-			db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CLIENTDRAG,
-			db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		
+		CheckDlgButton(hwndDlg, IDC_SHOWCAPTION, db_get_b(NULL, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWMAINMENU, db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CLIENTDRAG, db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIN2TRAY), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TOOLWND), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TITLETEXT), FALSE);
 		}
+
 		CheckDlgButton(hwndDlg, IDC_FADEINOUT, db_get_b(NULL, "CLUI", "FadeInOut", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AUTOSIZE, db_get_b(NULL, "CLUI", "AutoSize", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_DROPSHADOW, db_get_b(NULL, "CList", "WindowShadow", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -72,13 +68,12 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MAXSIZESPIN), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTOSIZEUPWARD), FALSE);
 		}
-
-		{	DBVARIANT dbv;
-		if (!db_get_ws(NULL, "CList", "TitleText", &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_TITLETEXT, dbv.ptszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemTextA(hwndDlg, IDC_TITLETEXT, MIRANDANAME);
+		{
+			ptrW wszTitle(db_get_wsa(NULL, "CList", "TitleText"));
+			if (wszTitle != nullptr)
+				SetDlgItemText(hwndDlg, IDC_TITLETEXT, wszTitle);
+			else
+				SetDlgItemTextA(hwndDlg, IDC_TITLETEXT, MIRANDANAME);
 		}
 		CheckDlgButton(hwndDlg, IDC_TRANSPARENT, db_get_b(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -90,11 +85,11 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ACTIVEPERC), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INACTIVEPERC), FALSE);
 		}
+		
 		SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 		SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 		SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_SETPOS, TRUE, db_get_b(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT));
-		SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_SETPOS, TRUE,
-			db_get_b(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT));
+		SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_SETPOS, TRUE, db_get_b(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT));
 		SendMessage(hwndDlg, WM_HSCROLL, 0x12345678, 0);
 		return TRUE;
 
@@ -297,7 +292,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				DestroyWindow(pcli->hwndStatus);
 				flags |= db_get_b(NULL, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
 				flags |= db_get_b(NULL, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
-				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_hInst, nullptr);
+				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), nullptr);
 			}
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR))
 				ShowWindow(pcli->hwndStatus, SW_SHOW);
@@ -316,7 +311,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 int CluiOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	odp.szTitle.a = LPGEN("Window");
 	odp.szGroup.a = LPGEN("Contact list");

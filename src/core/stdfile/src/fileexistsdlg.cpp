@@ -184,7 +184,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 			}
 			else
 				iconIndex = 0;
-			HICON hIcon = ExtractIcon(hInst, szIconFile, iconIndex);
+			HICON hIcon = ExtractIcon(g_plugin.getInst(), szIconFile, iconIndex);
 			if (hIcon)
 				fileInfo.hIcon = hIcon;
 		}

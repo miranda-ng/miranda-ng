@@ -23,7 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 int LoadAutoAwayModule(void);
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -38,12 +38,6 @@ PLUGININFOEX pluginInfo = {
 	// 9f5ca736-1108-4872-bec3-19c84bc2143b
 	{ 0x9f5ca736, 0x1108, 0x4872, {0xbe, 0xc3, 0x19, 0xc8, 0x4b, 0xc2, 0x14, 0x3b}}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

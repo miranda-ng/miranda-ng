@@ -118,7 +118,7 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
 	psh.pszCaption = (wchar_t*)wParam;	  //more abuses of structure: this is hContact
 	psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
 
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProcDetails, (LPARAM)&psh);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProcDetails, (LPARAM)&psh);
 	for (int i = 0; i < opi.pageCount; i++) {
 		//cleanup moved to WM_DESTROY
 		if (opi.odp[i].szGroup.w != nullptr)
@@ -265,7 +265,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			LPTSTR ptszLastTab;
 			DBVARIANT dbv;
-			if (!db_get_ws(NULL, "UserInfo", "LastTab", &dbv)) {
+			if (!db_get_ws(NULL, MODULENAME, "LastTab", &dbv)) {
 				ptszLastTab = NEWWSTR_ALLOCA(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -584,7 +584,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		tvi.pszText = name;
 		tvi.cchTextMax = _countof(name);
 		TreeView_GetItem(GetDlgItem(hwndDlg, IDC_PAGETREE), &tvi);
-		db_set_ws(NULL, "UserInfo", "LastTab", name);
+		db_set_ws(NULL, MODULENAME, "LastTab", name);
 
 		Window_FreeIcon_IcoLib(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_NAME, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDC_WHITERECT, WM_GETFONT, 0, 0), 0);

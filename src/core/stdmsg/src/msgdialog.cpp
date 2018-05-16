@@ -852,7 +852,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			mwpd.hContact = m_hContact;
 			mwpd.hwnd = m_message.GetHwnd();
 
-			HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 
 			mwpd.hMenu = GetSubMenu(hMenu, 1);
 			TranslateMenu(mwpd.hMenu);
@@ -1335,7 +1335,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				case WM_RBUTTONUP:
 					CHARRANGE all = { 0, -1 };
-					HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+					HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 					HMENU hSubMenu = GetSubMenu(hMenu, 0);
 					TranslateMenu(hSubMenu);
 					SendMessage(((NMHDR *)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);

@@ -258,7 +258,7 @@ void CChatRoomDlg::ScrollToBottom()
 
 void CChatRoomDlg::ShowFilterMenu()
 {
-	HWND hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
+	HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
 	TranslateDialogDefault(hwnd);
 
 	RECT rc;

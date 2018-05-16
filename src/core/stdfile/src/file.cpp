@@ -47,7 +47,7 @@ static INT_PTR SendFileCommand(WPARAM hContact, LPARAM)
 	struct FileSendData fsd;
 	fsd.hContact = hContact;
 	fsd.ppFiles = nullptr;
-	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
+	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 }
 
 static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
@@ -65,7 +65,7 @@ static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
 		fsd.ppFiles[i] = mir_a2u(ppFiles[i]);
 	fsd.ppFiles[count] = nullptr;
 
-	HWND hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
+	HWND hWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	for (int j = 0; j < count; j++)
 		mir_free((void*)fsd.ppFiles[j]);
 	return (INT_PTR)hWnd;
@@ -76,7 +76,7 @@ static INT_PTR SendSpecificFilesT(WPARAM hContact, LPARAM lParam)
 	FileSendData fsd;
 	fsd.hContact = hContact;
 	fsd.ppFiles = (const wchar_t**)lParam;
-	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
+	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 }
 
 static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
@@ -91,7 +91,7 @@ static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, lParam);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, lParam);
 	return 0;
 }
 
@@ -101,8 +101,8 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = lParam;
-	if (db_get_b(NULL, "SRFile", "AutoAccept", 0) && !db_get_b(hContact, "CList", "NotOnList", 0)) {
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
+	if (db_get_b(NULL, MODULENAME, "AutoAccept", 0) && !db_get_b(hContact, "CList", "NotOnList", 0)) {
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
 	}
 	else {
 		Skin_PlaySound("RecvFile");

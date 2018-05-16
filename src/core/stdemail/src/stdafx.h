@@ -40,9 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <direct.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
-
 #include <m_system.h>
 #include <newpluginapi.h>
 #include <m_utils.h>
@@ -66,4 +64,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../mir_app/src/resource.h"
 
-extern HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(nullptr)
+	{}
+};

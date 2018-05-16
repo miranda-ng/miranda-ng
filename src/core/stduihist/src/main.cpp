@@ -23,7 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 int LoadHistoryModule(void);
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -38,12 +38,6 @@ PLUGININFOEX pluginInfo = {
 	/* 5eedf3c5-3071-4234-a627-efd062a4d694 */
 	{ 0x5eedf3c5, 0x3071, 0x4234, {0xa6, 0x27, 0xef, 0xd0, 0x62, 0xa4, 0xd6, 0x94}}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

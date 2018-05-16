@@ -33,23 +33,23 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	int newStatus = cws->value.wVal;
-	int oldStatus = db_get_w(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
-	db_set_w(hContact, "UserOnline", "OldStatus", (WORD)newStatus);
+	int oldStatus = db_get_w(hContact, MODULENAME, "OldStatus", ID_STATUS_OFFLINE);
+	db_set_w(hContact, MODULENAME, "OldStatus", (WORD)newStatus);
 	if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE)) return 0;
 	if (db_get_b(hContact, "CList", "Hidden", 0)) return 0;
     if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
        // Remove the event from the queue if it exists since they are now offline
-		 int lastEvent = (int)db_get_dw(hContact, "UserOnline", "LastEvent", 0);
+		 int lastEvent = (int)db_get_dw(hContact, MODULENAME, "LastEvent", 0);
 
        if (lastEvent) {
 			 pcli->pfnRemoveEvent(hContact, lastEvent);
-			  db_set_dw(hContact, "UserOnline", "LastEvent", 0);
+			  db_set_dw(hContact, MODULENAME, "LastEvent", 0);
        }
     }
 	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) &&
 	   oldStatus != ID_STATUS_ONLINE && oldStatus != ID_STATUS_FREECHAT) {
 		{
-			DWORD ticked = db_get_dw(NULL, "UserOnline", cws->szModule, GetTickCount());
+			DWORD ticked = db_get_dw(NULL, MODULENAME, cws->szModule, GetTickCount());
 			// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
 			if (GetTickCount() - ticked > (1000*10)) {
 				wchar_t tooltip[256];
@@ -64,8 +64,8 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 				cle.szTooltip.w = tooltip;
 				pcli->pfnAddEvent(&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);
-                db_set_dw(cle.hContact, "UserOnline", "LastEvent", (DWORD)cle.hDbEvent);
-				Skin_PlaySound("UserOnline");
+                db_set_dw(cle.hContact, MODULENAME, "LastEvent", (DWORD)cle.hDbEvent);
+				Skin_PlaySound(MODULENAME);
 			}
 		}
 	}
@@ -77,7 +77,7 @@ static int UserOnlineAck(WPARAM, LPARAM lParam)
 	ACKDATA * ack = (ACKDATA*) lParam;
 	if (ack != nullptr && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS && ack->hProcess == (HANDLE)ID_STATUS_OFFLINE) {
 		// if going from offline to any other mode, remember when it happened.
-		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
+		db_set_dw(NULL, MODULENAME, ack->szModule, GetTickCount());
 	}
 	return 0;
 }
@@ -86,7 +86,7 @@ static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 {
 	for (auto &pa : Accounts())
 		if (pa->IsEnabled())
-			db_set_dw(NULL, "UserOnline", pa->szModuleName, GetTickCount());
+			db_set_dw(NULL, MODULENAME, pa->szModuleName, GetTickCount());
 
 	return 0;
 }
@@ -100,7 +100,7 @@ static int UserOnlineAccountsChanged(WPARAM eventCode, LPARAM lParam)
 	case PRAC_CHECKED:
 		// reset the counter
 		if (pa->IsEnabled())
-			db_set_dw(NULL, "UserOnline", pa->szModuleName, GetTickCount());
+			db_set_dw(NULL, MODULENAME, pa->szModuleName, GetTickCount());
 		break;
 	}
 	return 0;
@@ -112,6 +112,6 @@ int LoadUserOnlineModule(void)
 	HookEvent(ME_PROTO_ACK, UserOnlineAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, UserOnlineModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, UserOnlineAccountsChanged);
-	Skin_AddSound("UserOnline", LPGENW("Alerts"), LPGENW("Online"));
+	Skin_AddSound(MODULENAME, LPGENW("Alerts"), LPGENW("Online"));
 	return 0;
 }

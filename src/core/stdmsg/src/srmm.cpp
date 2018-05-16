@@ -24,8 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadSendRecvMessageModule(void);
 void SplitmsgShutdown(void);
 
+CMPlugin g_plugin;
+
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInst;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -39,12 +40,6 @@ PLUGININFOEX pluginInfo = {
 	UNICODE_AWARE,
 	{ 0x657fe89b, 0xd121, 0x40c2, { 0x8a, 0xc9, 0xb9, 0xfa, 0x57, 0x55, 0xb3, 0x0D } } //{657FE89B-D121-40c2-8AC9-B9FA5755B30D}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

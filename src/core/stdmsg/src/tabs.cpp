@@ -163,7 +163,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CTabbedWindow::CTabbedWindow() :
-	CDlgBase(g_hInst, IDD_CONTAINER),
+	CDlgBase(g_plugin.getInst(), IDD_CONTAINER),
 	m_tab(this, IDC_TAB)
 {
 }
@@ -173,7 +173,7 @@ void CTabbedWindow::OnInitDialog()
 	SetWindowLongPtr(m_tab.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_tab.GetHwnd(), ::TabSubclassProc);
 
-	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, nullptr, g_hInst, nullptr);
+	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, nullptr, g_plugin.getInst(), nullptr);
 	SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
 	SetWindowPosition();

@@ -40,9 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "resource.h"
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
-
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_database.h>
@@ -94,8 +92,6 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 #define GC_TABCHANGE     (WM_USER+0x105)
 #define GC_SWITCHTAB     (WM_USER+0x106)
 
-extern HINSTANCE g_hInst;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct GlobalLogSettings : public GlobalLogSettingsBase
@@ -110,10 +106,18 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(SRMMMOD)
+	{}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern GlobalLogSettings g_Settings;
 extern HMENU g_hMenu;
 
-extern HINSTANCE g_hInst;
 extern BOOL SmileyAddInstalled, PopupInstalled;
 
 // main.cpp

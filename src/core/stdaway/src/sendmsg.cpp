@@ -70,12 +70,12 @@ static const char* StatusModeToDbSetting(int status, const char *suffix)
 
 static bool GetStatusModeByte(int status, const char *suffix, bool bDefault = false)
 {
-	return db_get_b(NULL, "SRAway", StatusModeToDbSetting(status, suffix), bDefault) != 0;
+	return db_get_b(NULL, MODULENAME, StatusModeToDbSetting(status, suffix), bDefault) != 0;
 }
 
 static void SetStatusModeByte(int status, const char *suffix, BYTE value)
 {
-	db_set_b(NULL, "SRAway", StatusModeToDbSetting(status, suffix), value);
+	db_set_b(NULL, MODULENAME, StatusModeToDbSetting(status, suffix), value);
 }
 
 static wchar_t* GetAwayMessage(int statusMode, char *szProto)
@@ -88,11 +88,11 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 
 	DBVARIANT dbv;
 	if (GetStatusModeByte(statusMode, "UsePrev")) {
-		if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
+		if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(statusMode, "Msg"), &dbv))
 			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 	}
 	else {
-		if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
+		if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(statusMode, "Default"), &dbv))
 			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 
 		for (int i = 0; dbv.ptszVal[i]; i++) {
@@ -231,7 +231,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			dat->countdown = 6;
 			SendMessage(hwndDlg, WM_TIMER, 0, 0);
 			Window_SetProtoIcon_IcoLib(hwndDlg, dat->szProto, dat->statusMode);
-			Utils_RestoreWindowPosition(hwndDlg, NULL, "SRAway", "AwayMsgDlg");
+			Utils_RestoreWindowPosition(hwndDlg, NULL, MODULENAME, "AwayMsgDlg");
 			SetTimer(hwndDlg, 1, 1000, nullptr);
 			dat->hPreshutdown = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, DM_SRAWAY_SHUTDOWN);
 		}
@@ -265,7 +265,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				wchar_t str[1024];
 				GetDlgItemText(hwndDlg, IDC_MSG, str, _countof(str));
 				ChangeAllProtoMessages(dat->szProto, dat->statusMode, str);
-				db_set_ws(NULL, "SRAway", StatusModeToDbSetting(dat->statusMode, "Msg"), str);
+				db_set_ws(NULL, MODULENAME, StatusModeToDbSetting(dat->statusMode, "Msg"), str);
 				DestroyWindow(hwndDlg);
 			}
 			else PostMessage(hwndDlg, WM_CLOSE, 0, 0);
@@ -286,7 +286,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		break;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hwndDlg, NULL, "SRAway", "AwayMsgDlg");
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "AwayMsgDlg");
 		KillTimer(hwndDlg, 1);
 		UnhookEvent(dat->hPreshutdown);
 		Window_FreeIcon_IcoLib(hwndDlg);
@@ -332,7 +332,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 		newdat->statusMode = statusMode;
 		if (hwndStatusMsg)
 			DestroyWindow(hwndStatusMsg);
-		hwndStatusMsg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)newdat);
+		hwndStatusMsg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)newdat);
 	}
 	return 0;
 }
@@ -388,8 +388,8 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				dat->info[j].usePrevious = GetStatusModeByte(it, "UsePrev");
 
 				DBVARIANT dbv;
-				if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(it, "Default"), &dbv))
-					if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(it, "Msg"), &dbv))
+				if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(it, "Default"), &dbv))
+					if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(it, "Msg"), &dbv))
 						dbv.ptszVal = mir_wstrdup(GetDefaultMessage(it));
 				mir_wstrcpy(dat->info[j].msg, dbv.ptszVal);
 				mir_free(dbv.ptszVal);
@@ -494,7 +494,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 						SetStatusModeByte(status, "Ignore", (BYTE)dat->info[i].ignore);
 						SetStatusModeByte(status, "NoDlg", (BYTE)dat->info[i].noDialog);
 						SetStatusModeByte(status, "UsePrev", (BYTE)dat->info[i].usePrevious);
-						db_set_ws(NULL, "SRAway", StatusModeToDbSetting(status, "Default"), dat->info[i].msg);
+						db_set_ws(NULL, MODULENAME, StatusModeToDbSetting(status, "Default"), dat->info[i].msg);
 					}
 					return TRUE;
 				}
@@ -517,7 +517,7 @@ static int AwayMsgOptInitialise(WPARAM wParam, LPARAM)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 870000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AWAYMSG);
 	odp.szTitle.a = LPGEN("Status messages");
 	odp.szGroup.a = LPGEN("Status");

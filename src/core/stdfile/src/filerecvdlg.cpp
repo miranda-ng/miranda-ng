@@ -125,7 +125,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 {
 	wchar_t tszTemp[MAX_PATH];
 
-	ptrW tszRecvPath(db_get_wsa(NULL, "SRFile", "RecvFilesDirAdv"));
+	ptrW tszRecvPath(db_get_wsa(NULL, MODULENAME, "RecvFilesDirAdv"));
 	if (tszRecvPath)
 		wcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
@@ -165,7 +165,7 @@ void GetReceivedFilesDir(wchar_t *szDir, int cchDir)
 {
 	wchar_t tszTemp[MAX_PATH];
 
-	ptrW tszRecvPath(db_get_wsa(NULL, "SRFile", "RecvFilesDirAdv"));
+	ptrW tszRecvPath(db_get_wsa(NULL, MODULENAME, "RecvFilesDirAdv"));
 	if (tszRecvPath)
 		wcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
@@ -214,7 +214,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				mir_snprintf(idstr, "MruDir%d", i);
 
 				DBVARIANT dbv;
-				if (db_get_ws(NULL, "SRFile", idstr, &dbv))
+				if (db_get_ws(NULL, MODULENAME, idstr, &dbv))
 					break;
 				SendDlgItemMessage(hwndDlg, IDC_FILEDIR, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 				db_free(&dbv);
@@ -257,7 +257,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_DATE), &rcDateCtrl);
 				SetWindowPos(GetDlgItem(hwndDlg, IDC_DATE), 0, 0, 0, rcDateCtrl.right - rcDateCtrl.left - (rcBtn2.left - rcBtn1.left), rcDateCtrl.bottom - rcDateCtrl.top, SWP_NOZORDER | SWP_NOMOVE);
 			}
-			else if (db_get_b(NULL, "SRFile", "AutoAccept", 0)) {
+			else if (db_get_b(NULL, MODULENAME, "AutoAccept", 0)) {
 				//don't check auto-min here to fix BUG#647620
 				PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDOK));
 			}
@@ -313,12 +313,12 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					DBVARIANT dbv;
 					for (i = MAX_MRU_DIRS-2;i>=0;i--) {
 						mir_snprintf(idstr, "MruDir%d", i);
-						if (db_get_ws(NULL, "SRFile", idstr, &dbv)) continue;
+						if (db_get_ws(NULL, MODULENAME, idstr, &dbv)) continue;
 						mir_snprintf(idstr, "MruDir%d", i+1);
-						db_set_ws(NULL, "SRFile", idstr, dbv.ptszVal);
+						db_set_ws(NULL, MODULENAME, idstr, dbv.ptszVal);
 						db_free(&dbv);
 					}
-					db_set_ws(NULL, "SRFile", idstr, szRecvDir);
+					db_set_ws(NULL, MODULENAME, idstr, szRecvDir);
 				}
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILENAMES), FALSE);
@@ -332,7 +332,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			dat->hwndTransfer = FtMgr_AddTransfer(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			//check for auto-minimize here to fix BUG#647620
-			if (db_get_b(NULL, "SRFile", "AutoAccept", 0) && db_get_b(NULL, "SRFile", "AutoMin", 0)) {
+			if (db_get_b(NULL, MODULENAME, "AutoAccept", 0) && db_get_b(NULL, MODULENAME, "AutoMin", 0)) {
 				ShowWindow(hwndDlg, SW_HIDE);
 				ShowWindow(hwndDlg, SW_SHOWMINNOACTIVE);
 			}

@@ -78,7 +78,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			ack.result = ACKRESULT_SUCCESS;
 			SendMessage(hwndDlg, HM_AWAYMSG, 0, (LPARAM)&ack);
 		}
-		Utils_RestoreWindowPosition(hwndDlg, lParam, "SRAway", "AwayMsgDlg");
+		Utils_RestoreWindowPosition(hwndDlg, lParam, MODULENAME, "AwayMsgDlg");
 		return TRUE;
 
 	case HM_AWAYMSG:
@@ -111,7 +111,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 	case WM_DESTROY:
 		if (dat->hAwayMsgEvent) UnhookEvent(dat->hAwayMsgEvent);
-		Utils_SaveWindowPosition(hwndDlg, dat->hContact, "SRAway", "AwayMsgDlg");
+		Utils_SaveWindowPosition(hwndDlg, dat->hContact, MODULENAME, "AwayMsgDlg");
 		WindowList_Remove(hWindowList, hwndDlg);
 		Window_FreeIcon_IcoLib(hwndDlg);
 		mir_free(dat);
@@ -126,7 +126,7 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
-	else CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
+	else CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
 	return 0;
 }
 

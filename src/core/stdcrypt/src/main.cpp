@@ -22,7 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 int LoadEncryptionModule(void);
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -37,12 +37,6 @@ PLUGININFOEX pluginInfo = {
 	// {D3637189-A5A5-41F5-BC72-67A2F8AF1B6F}
 	{ 0xd3637189, 0xa5a5, 0x41f5, {0xbc, 0x72, 0x67, 0xa2, 0xf8, 0xaf, 0x1b, 0x6f}}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

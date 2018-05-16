@@ -551,7 +551,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			HFONT hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
-			ptrW szNotes(db_get_wsa(lParam, "UserInfo", "MyNotes"));
+			ptrW szNotes(db_get_wsa(lParam, MODULENAME, "MyNotes"));
 			if (szNotes != nullptr)
 				SetDlgItemText(hwndDlg, IDC_MYNOTES, szNotes);
 		}
@@ -576,9 +576,9 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MYNOTES))) {
 					char text[2048];
 					GetDlgItemTextA(hwndDlg, IDC_MYNOTES, text, _countof(text));
-					db_set_s(hContact, "UserInfo", "MyNotes", text);
+					db_set_s(hContact, MODULENAME, "MyNotes", text);
 				}
-				else db_unset(hContact, "UserInfo", "MyNotes");
+				else db_unset(hContact, MODULENAME, "MyNotes");
 				break;
 			}
 			break;
@@ -608,7 +608,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 
 	odp.pfnDlgProc = SummaryDlgProc;
 	odp.position = -2100000000;

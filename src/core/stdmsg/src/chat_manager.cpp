@@ -249,7 +249,7 @@ void Load_ChatModule()
 	oldDoTrayIcon = pci->DoTrayIcon; pci->DoTrayIcon = DoTrayIcon;
 	pci->ReloadSettings();
 
-	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
+	g_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU));
 
 	HookEvent(ME_SYSTEM_MODULELOAD, OnCheckPlugins);
 }

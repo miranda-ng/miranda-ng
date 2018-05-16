@@ -31,7 +31,7 @@ static int CheckVirusScanned(HWND hwnd, FileDlgData *dat, int i)
 	if (dat->send) return 1;
 	if (dat->fileVirusScanned == nullptr) return 0;
 	if (dat->fileVirusScanned[i]) return 1;
-	if (db_get_b(NULL, "SRFile", "WarnBeforeOpening", 1) == 0) return 1;
+	if (db_get_b(NULL, MODULENAME, "WarnBeforeOpening", 1) == 0) return 1;
 	return IDYES == MessageBox(hwnd, TranslateT("This file has not yet been scanned for viruses. Are you certain you want to open it?"), TranslateT("File received"), MB_YESNO|MB_DEFBUTTON2);
 }
 
@@ -94,7 +94,7 @@ void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 {
 	DBVARIANT dbv;
-	if (!db_get_ws(NULL, "SRFile", "ScanCmdLine", &dbv)) {
+	if (!db_get_ws(NULL, MODULENAME, "ScanCmdLine", &dbv)) {
 		if (dbv.ptszVal[0]) {
 			STARTUPINFO si = { 0 };
 			si.cb = sizeof(si);
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			dat->fs = (HANDLE)ProtoChainSend(dat->hContact, PSS_FILEALLOW, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
 			dat->transferStatus.szWorkingDir.w = mir_wstrdup(dat->szSavePath);
 			if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) dat->resumeBehaviour = FILERESUME_ASK;
-			else dat->resumeBehaviour = db_get_b(NULL, "SRFile", "IfExists", FILERESUME_ASK);
+			else dat->resumeBehaviour = db_get_b(NULL, MODULENAME, "IfExists", FILERESUME_ASK);
 			SetFtStatus(hwndDlg, LPGENW("Waiting for connection..."), FTS_TEXT);
 		}
 
@@ -518,7 +518,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, "");
 				if (dat->transferStatus.currentFileNumber == 1 && dat->transferStatus.totalFiles > 1 && !dat->send)
 					SetOpenFileButtonStyle(GetDlgItem(hwndDlg, IDC_OPENFILE), 1);
-				if (dat->transferStatus.currentFileNumber != -1 && dat->files && !dat->send && db_get_b(NULL, "SRFile", "UseScanner", VIRUSSCAN_DISABLE) == VIRUSSCAN_DURINGDL) {
+				if (dat->transferStatus.currentFileNumber != -1 && dat->files && !dat->send && db_get_b(NULL, MODULENAME, "UseScanner", VIRUSSCAN_DISABLE) == VIRUSSCAN_DURINGDL) {
 					if (GetFileAttributes(dat->files[dat->transferStatus.currentFileNumber])&FILE_ATTRIBUTE_DIRECTORY)
 						PostMessage(hwndDlg, M_VIRUSSCANDONE, dat->transferStatus.currentFileNumber, 0);
 					else {
@@ -543,7 +543,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (dat->resumeBehaviour == FILERESUME_ASK) {
 						TDlgProcFileExistsParam param = { hwndDlg, fts };
 						ShowWindow(hwndDlg, SW_SHOWNORMAL);
-						CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILEEXISTS), hwndDlg, DlgProcFileExists, (LPARAM)&param);
+						CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILEEXISTS), hwndDlg, DlgProcFileExists, (LPARAM)&param);
 						EnableWindow(hwndDlg, FALSE);
 					}
 					else {
@@ -649,7 +649,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							LPGENW("Transfer completed, open folder."),
 							FTS_OPEN);
 
-						int useScanner = db_get_b(NULL, "SRFile", "UseScanner", VIRUSSCAN_DISABLE);
+						int useScanner = db_get_b(NULL, MODULENAME, "UseScanner", VIRUSSCAN_DISABLE);
 						if (useScanner != VIRUSSCAN_DISABLE) {
 							struct virusscanthreadstartinfo *vstsi;
 							vstsi = (struct virusscanthreadstartinfo*)mir_alloc(sizeof(struct virusscanthreadstartinfo));
@@ -706,7 +706,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_FILETRANSFERINFO), FileTransferDlgResizer);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_FILETRANSFERINFO), FileTransferDlgResizer);
 
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_ALLTRANSFERRED), NULL, NULL, RDW_INVALIDATE | RDW_NOERASE);
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_ALLSPEED), NULL, NULL, RDW_INVALIDATE | RDW_NOERASE);
