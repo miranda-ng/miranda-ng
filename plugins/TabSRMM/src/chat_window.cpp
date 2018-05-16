@@ -545,7 +545,7 @@ void CChatRoomDlg::OnInitDialog()
 	GetMYUIN();
 	GetMyNick();
 
-	HWND hwndBtn = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20), m_hwnd, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, nullptr);
+	HWND hwndBtn = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20), m_hwnd, (HMENU)IDC_TOGGLESIDEBAR, g_plugin.getInst(), nullptr);
 	CustomizeButton(hwndBtn);
 	SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, 1, 0);
 	SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
@@ -822,7 +822,7 @@ void CChatRoomDlg::ScrollToBottom()
 
 void CChatRoomDlg::ShowFilterMenu()
 {
-	m_hwndFilter = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), m_pContainer->m_hwnd, FilterWndProc, (LPARAM)this);
+	m_hwndFilter = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_pContainer->m_hwnd, FilterWndProc, (LPARAM)this);
 	TranslateDialogDefault(m_hwndFilter);
 
 	RECT rcFilter, rcLog;
@@ -1094,7 +1094,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		POINT pt;
 		GetCursorPos(&pt);
 		{
-			HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 			HMENU hSubMenu = GetSubMenu(hMenu, 2);
 			RemoveMenu(hSubMenu, 9, MF_BYPOSITION);
 			RemoveMenu(hSubMenu, 8, MF_BYPOSITION);

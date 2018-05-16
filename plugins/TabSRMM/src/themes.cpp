@@ -2394,7 +2394,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 	m_fAeroSkinsValid = true;
 
 	for (auto &it : my_default_skin)
-		if (!Utils::extractResource(g_hInst, it.ulID, L"SKIN_GLYPH", tszBasePath, it.tszName, fForceOverwrite))
+		if (!Utils::extractResource(g_plugin.getInst(), it.ulID, L"SKIN_GLYPH", tszBasePath, it.tszName, fForceOverwrite))
 			m_fAeroSkinsValid = false;
 }
 

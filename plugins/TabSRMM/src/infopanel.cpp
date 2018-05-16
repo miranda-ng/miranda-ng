@@ -1253,7 +1253,7 @@ int CInfoPanel::invokeConfigDialog(const POINT &pt)
 
 	if (m_hwndConfig == nullptr) {
 		m_configDlgBoldFont = m_configDlgFont = nullptr;
-		m_hwndConfig = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOPANEL), nullptr /*m_dat->m_pContainer->m_hwnd */,
+		m_hwndConfig = ::CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_INFOPANEL), nullptr /*m_dat->m_pContainer->m_hwnd */,
 			ConfigDlgProcStub, (LPARAM)this);
 		if (m_hwndConfig) {
 			TranslateDialogDefault(m_hwndConfig);
@@ -1306,10 +1306,10 @@ void CInfoPanel::dismissConfig(bool fForced)
 CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const wchar_t *pszText, const CInfoPanel* panel)
 {
 	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, L"RichEditTipClass", L"", (M.isAero() ? WS_THICKFRAME : WS_BORDER) | WS_POPUPWINDOW | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-		0, 0, 40, 40, nullptr, nullptr, g_hInst, this);
+		0, 0, 40, 40, nullptr, nullptr, g_plugin.getInst(), this);
 
 	m_hRich = ::CreateWindowEx(0, L"RICHEDIT50W", L"", WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
-		0, 0, 40, 40, m_hwnd, reinterpret_cast<HMENU>(1000), g_hInst, nullptr);
+		0, 0, 40, 40, m_hwnd, reinterpret_cast<HMENU>(1000), g_plugin.getInst(), nullptr);
 
 	::SendMessage(m_hRich, EM_AUTOURLDETECT, TRUE, 0);
 	::SendMessage(m_hRich, EM_SETEVENTMASK, 0, ENM_LINK);

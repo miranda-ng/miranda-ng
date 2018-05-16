@@ -814,7 +814,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const wchar_t *tszN
 		HGLOBAL hResource = LoadResource(h, hRes);
 		if (hResource) {
 			char 	*pData = (char *)LockResource(hResource);
-			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
+			DWORD	dwSize = SizeofResource(g_plugin.getInst(), hRes), written = 0;
 
 			wchar_t	szFilename[MAX_PATH];
 			mir_snwprintf(szFilename, L"%s%s", tszPath, tszFilename);
@@ -968,6 +968,67 @@ void Utils::AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilena
 	}
 }
 
+int _DebugTraceW(const wchar_t *fmt, ...)
+{
+	wchar_t 	debug[2048];
+	int     	ibsize = 2047;
+	SYSTEMTIME	st;
+	va_list 	va;
+	char		tszTime[50];
+	va_start(va, fmt);
+
+	GetLocalTime(&st);
+
+	mir_snprintf(tszTime, "%02d.%02d.%04d - %02d:%02d:%02d.%04d: ", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+
+
+	mir_vsnwprintf(debug, ibsize - 10, fmt, va);
+	//#ifdef _DEBUG
+	OutputDebugStringW(debug);
+	//#else
+	{
+		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
+		FILE *f;
+
+		Profile_GetPathA(MAX_PATH, szDataPath);
+		mir_snprintf(szLogFileName, "%s\\%s", szDataPath, "tabsrmm_debug.log");
+		f = fopen(szLogFileName, "a+");
+		if (f) {
+			fputs(tszTime, f);
+			fputs(T2Utf(debug), f);
+			fputs("\n", f);
+			fclose(f);
+		}
+	}
+	//#endif
+	return 0;
+}
+
+/*
+* output a notification message.
+* may accept a hContact to include the contacts nickname in the notification message...
+* the actual message is using printf() rules for formatting and passing the arguments...
+*
+* can display the message either as systray notification (baloon popup) or using the
+* popup plugin.
+*/
+int _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...)
+{
+	va_list	va;
+	wchar_t		debug[1024];
+	int			ibsize = 1023;
+
+	va_start(va, fmt);
+	mir_vsnwprintf(debug, ibsize, fmt, va);
+
+	wchar_t	szTitle[128];
+	mir_snwprintf(szTitle, TranslateT("TabSRMM message (%s)"),
+		(hContact != 0) ? Clist_GetContactDisplayName(hContact) : TranslateT("Global"));
+
+	Clist_TrayNotifyW(nullptr, szTitle, debug, NIIF_INFO, 1000 * 4);
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // implementation of the CWarning class
 //
@@ -1021,11 +1082,11 @@ CWarning::~CWarning()
 LRESULT CWarning::ShowDialog() const
 {
 	if (!m_fIsModal) {
-		::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), nullptr, stubDlgProc, LPARAM(this));
+		::CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WARNING), nullptr, stubDlgProc, LPARAM(this));
 		return 0;
 	}
 
-	return ::DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), nullptr, stubDlgProc, LPARAM(this));
+	return ::DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WARNING), nullptr, stubDlgProc, LPARAM(this));
 }
 
 __int64 CWarning::getMask()

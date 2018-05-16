@@ -590,7 +590,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			// tab tooltips...
 			if (!fHaveTipper || M.GetByte("d_tooltips", 0) == 0) {
 				pContainer->m_hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
-					CW_USEDEFAULT, CW_USEDEFAULT, hwndDlg, nullptr, g_hInst, (LPVOID)nullptr);
+					CW_USEDEFAULT, CW_USEDEFAULT, hwndDlg, nullptr, g_plugin.getInst(), (LPVOID)nullptr);
 
 				if (pContainer->m_hwndTip) {
 					SetWindowPos(pContainer->m_hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -894,12 +894,12 @@ panel_found:
 					memset(&tci, 0, sizeof(tci));
 					tci.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwndTab, iItem, &tci);
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)tci.lParam);
+					CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)tci.lParam);
 				}
 				break;
 			case ID_TABMENU_CONTAINEROPTIONS:
 				if (pContainer->hWndOptions == nullptr)
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM)pContainer);
+					CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM)pContainer);
 				break;
 			case ID_TABMENU_CLOSECONTAINER:
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
@@ -1227,7 +1227,7 @@ panel_found:
 			if (IsIconic(pContainer->m_hwnd))
 				SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 			if (pContainer->hWndOptions == nullptr)
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM)pContainer);
+				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM)pContainer);
 			break;
 		case SC_MAXIMIZE:
 			pContainer->oldSize.cx = pContainer->oldSize.cy = 0;
@@ -1574,7 +1574,7 @@ panel_found:
 				}
 			}
 			else if (pContainer->hwndStatus == nullptr) {
-				pContainer->hwndStatus = CreateWindowEx(0, L"TSStatusBarClass", nullptr, SBT_TOOLTIPS | WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hwndDlg, nullptr, g_hInst, nullptr);
+				pContainer->hwndStatus = CreateWindowEx(0, L"TSStatusBarClass", nullptr, SBT_TOOLTIPS | WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hwndDlg, nullptr, g_plugin.getInst(), nullptr);
 
 				if (sBarHeight && bSkinned)
 					SendMessage(pContainer->hwndStatus, SB_SETMINHEIGHT, sBarHeight, 0);
@@ -1945,7 +1945,7 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 		pContainer->dwFlags |= CNT_CREATE_CLONED;
 		pContainer->hContactFrom = hContactFrom;
 	}
-	pContainer->m_hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGCONTAINER), nullptr, DlgProcContainer, (LPARAM)pContainer);
+	pContainer->m_hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGCONTAINER), nullptr, DlgProcContainer, (LPARAM)pContainer);
 	return pContainer;
 }
 

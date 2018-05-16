@@ -75,7 +75,7 @@ void CTabBaseDlg::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 {
 	CHARRANGE sel, all = { 0, -1 };
 
-	HMENU hSubMenu, hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+	HMENU hSubMenu, hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG)
 		hSubMenu = GetSubMenu(hMenu, 0);
 	else {
@@ -643,7 +643,7 @@ void CSrmmWindow::OnInitDialog()
 	GetClientIcon();
 
 	CustomizeButton(CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
-		m_hwnd, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, nullptr));
+		m_hwnd, (HMENU)IDC_TOGGLESIDEBAR, g_plugin.getInst(), nullptr));
 	m_hwndPanelPicParent = CreateWindowEx(WS_EX_TOPMOST, L"Static", L"", SS_OWNERDRAW | WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, m_hwnd, (HMENU)6000, nullptr, nullptr);
 	mir_subclassWindow(m_hwndPanelPicParent, CInfoPanel::avatarParentSubclass);
 

@@ -62,7 +62,7 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 // basic window class
 
 CTabBaseDlg::CTabBaseDlg(int iResource, SESSION_INFO *si)
-	: CSrmmBaseDialog(g_hInst, iResource, si),
+	: CSrmmBaseDialog(g_plugin.getInst(), iResource, si),
 	m_pPanel(this),
 	m_dwFlags(MWF_INITMODE),
 	m_iInputAreaHeight(-1)
@@ -308,7 +308,7 @@ static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 		SetForegroundWindow(hWnd);			// already open, bring it to front
 		return 0;
 	}
-	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS_FRAME), nullptr, DlgProcUserPrefsFrame, (LPARAM)wParam);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERPREFS_FRAME), nullptr, DlgProcUserPrefsFrame, (LPARAM)wParam);
 	return 0;
 }
 
@@ -748,7 +748,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 	// an icon on each tab. This is a blank and empty icon
 	if (bInitial) {
 		PluginConfig.g_hImageList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		HICON hIcon = CreateIcon(g_hInst, 16, 16, 1, 4, nullptr, nullptr);
+		HICON hIcon = CreateIcon(g_plugin.getInst(), 16, 16, 1, 4, nullptr, nullptr);
 		ImageList_AddIcon(PluginConfig.g_hImageList, hIcon);
 		DestroyIcon(hIcon);
 	}

@@ -64,7 +64,7 @@ void CGlobals::reloadSystemStartup()
 
 	dwThreadID = GetCurrentThreadId();
 
-	PluginConfig.g_hMenuContext = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
+	PluginConfig.g_hMenuContext = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_TABCONTEXT));
 	TranslateMenu(g_hMenuContext);
 
 	Skin_AddSound("RecvMsgActive",   LPGENW("Instant messages"), LPGENW("Incoming (focused window)"));
@@ -172,7 +172,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_autoSplit = M.GetByte("autosplit", 0);
 	m_FlashOnMTN = M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
 	if (m_MenuBar == nullptr) {
-		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
+		m_MenuBar = ::LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);
 	}
 
@@ -219,7 +219,7 @@ void CGlobals::reloadAdv()
 const HMENU CGlobals::getMenuBar()
 {
 	if (m_MenuBar == nullptr) {
-		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
+		m_MenuBar = ::LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);
 	}
 	return(m_MenuBar);
@@ -290,7 +290,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (M.GetByte("avatarmode", -1) == -1)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);
 
-	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP, 0, 0, 40, 40, nullptr, nullptr, g_hInst, nullptr);
+	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP, 0, 0, 40, 40, nullptr, nullptr, g_plugin.getInst(), nullptr);
 
 	::CreateTrayMenus(TRUE);
 	if (nen_options.bTraySupport)
@@ -458,11 +458,11 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 	::NEN_WriteOptions(&nen_options);
 	::DestroyWindow(PluginConfig.g_hwndHotkeyHandler);
 
-	::UnregisterClass(L"TSStatusBarClass", g_hInst);
-	::UnregisterClass(L"SideBarClass", g_hInst);
-	::UnregisterClass(L"TSTabCtrlClass", g_hInst);
-	::UnregisterClass(L"RichEditTipClass", g_hInst);
-	::UnregisterClass(L"TSHK", g_hInst);
+	::UnregisterClass(L"TSStatusBarClass", g_plugin.getInst());
+	::UnregisterClass(L"SideBarClass", g_plugin.getInst());
+	::UnregisterClass(L"TSTabCtrlClass", g_plugin.getInst());
+	::UnregisterClass(L"RichEditTipClass", g_plugin.getInst());
+	::UnregisterClass(L"TSHK", g_plugin.getInst());
 	return 0;
 }
 

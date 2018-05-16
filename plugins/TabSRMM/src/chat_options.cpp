@@ -374,7 +374,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 		WS_POPUP | TTS_NOPREFIX,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hwndParent, nullptr, g_hInst, nullptr);
+		hwndParent, nullptr, g_plugin.getInst(), nullptr);
 
 	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0,
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -383,7 +383,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
 	ti.hwnd = hwndParent;
-	ti.hinst = g_hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.lpszText = ptszText;
 	GetClientRect(hwndParent, &ti.rect);
 	ti.rect.left = -65;

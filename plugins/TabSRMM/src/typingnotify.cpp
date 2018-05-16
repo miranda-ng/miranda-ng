@@ -492,7 +492,7 @@ int TN_OptionsInitialize(WPARAM wParam, LPARAM)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.position = 100000000;
-		odp.hInstance = g_hInst;
+		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TYPINGNOTIFYPOPUP);
 		odp.szTitle.a = LPGEN("Typing notify");
 		odp.szGroup.a = LPGEN("Popups");

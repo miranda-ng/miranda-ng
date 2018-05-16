@@ -1123,4 +1123,11 @@ struct SKINDESC
 #define ICON_BUTTON_CANCEL				6
 #define ICON_BUTTON_SAVE				7
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(SRMSGMOD)
+	{}
+};
+
 #endif /* _MSGS_H */

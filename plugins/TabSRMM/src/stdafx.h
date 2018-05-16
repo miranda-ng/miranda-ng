@@ -26,9 +26,6 @@
 //
 // global include file, used to build the precompiled header.
 
-#ifndef __stdafx_H
-#define __stdafx_H
-
 #include <windows.h>
 #include <windowsx.h>
 #include <commdlg.h>
@@ -135,7 +132,6 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 #include "ImageDataObject.h"
 #include "muchighlight.h"
 
-
 /*
 * text shadow types (DrawThemeTextEx() / Vista+ uxtheme)
 */
@@ -217,7 +213,6 @@ typedef struct _BP_PAINTPARAMS
 #endif
 
 extern NEN_OPTIONS nen_options;
-extern HINSTANCE g_hInst;
 extern CSkinItem SkinItems[];
 extern TContainerData *pFirstContainer, *pLastActiveContainer;
 extern ButtonSet g_ButtonSet;
@@ -245,7 +240,6 @@ void FreeLogFonts();
 INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam);
 
-
 #define IMG_NOCHECK	0
 #define IMG_CHECK	1
 #define IMG_GRPOPEN	2
@@ -260,8 +254,6 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM wParam, LPARAM lPar
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -272,5 +264,3 @@ int TSAPI RBStateConvert2Flat(int state);
 void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CTabBaseDlg *dat, RECT* rc);
 
 #define IS_EXTKEY(a) (a & (1 << 24))
-
-#endif /* __stdafx_H */

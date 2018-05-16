@@ -34,7 +34,6 @@
 #define __TASKBAR_H
 
 #define PROXYCLASSNAME  L"TabSRMM_DWMProxy"
-extern HINSTANCE g_hInst;
 
 class CProxyWindow;
 
@@ -154,7 +153,7 @@ public:
 		*/
 		WNDCLASSEX wcex = { sizeof(wcex) };
 		wcex.lpfnWndProc = CProxyWindow::stubWndProc;
-		wcex.hInstance = g_hInst;
+		wcex.hInstance = g_plugin.getInst();
 		wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 		wcex.lpszClassName = PROXYCLASSNAME;
@@ -168,7 +167,7 @@ public:
 			m_pTaskbarInterface = nullptr;
 			m_isEnabled = false;
 		}
-		::UnregisterClass(PROXYCLASSNAME, g_hInst);
+		::UnregisterClass(PROXYCLASSNAME, g_plugin.getInst());
 	}
 	const LONG getIconSize() const { return m_IconSize; }
 	const bool haveAlwaysGroupingMode() const { return m_fHaveAlwaysGrouping; }

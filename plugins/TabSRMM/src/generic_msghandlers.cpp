@@ -97,12 +97,12 @@ void CTabBaseDlg::DM_DismissTip(const POINT& pt)
 void CTabBaseDlg::DM_InitTip()
 {
 	m_hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_BALLOON, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, m_hwnd, nullptr, g_hInst, (LPVOID)nullptr);
+		CW_USEDEFAULT, CW_USEDEFAULT, m_hwnd, nullptr, g_plugin.getInst(), (LPVOID)nullptr);
 
 	memset(&ti, 0, sizeof(ti));
 	ti.cbSize = sizeof(ti);
 	ti.lpszText = TranslateT("No status message");
-	ti.hinst = g_hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.hwnd = m_hwnd;
 	ti.uFlags = TTF_TRACK | TTF_IDISHWND | TTF_TRANSPARENT;
 	ti.uId = (UINT_PTR)m_hwnd;
@@ -131,7 +131,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 
 	case TABSRMM_HK_CONTAINEROPTIONS:
 		if (m_pContainer->hWndOptions == nullptr)
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_pContainer->m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
+			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_pContainer->m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
 		return true;
 
 	case TABSRMM_HK_SEND:
@@ -825,7 +825,7 @@ HWND CTabBaseDlg::DM_CreateClist()
 		return nullptr;
 	}
 
-	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248, 184, 0, 30, 30, m_hwnd, (HMENU)IDC_CLIST, g_hInst, nullptr);
+	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248, 184, 0, 30, 30, m_hwnd, (HMENU)IDC_CLIST, g_plugin.getInst(), nullptr);
 	SendMessage(hwndClist, WM_TIMER, 14, 0);
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, m_hContact, 0);
 

@@ -229,7 +229,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				break;
 
 			case IDC_POPUPSTATUSMODES:
-				hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, M.GetDword(MODULE, "statusmask", (DWORD)-1));
+				hwndNew = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, M.GetDword(MODULE, "statusmask", (DWORD)-1));
 				SendMessage(hwndNew, DM_SETPARENTDIALOG, 0, (LPARAM)hWnd);
 				break;
 

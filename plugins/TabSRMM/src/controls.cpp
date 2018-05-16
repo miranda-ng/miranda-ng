@@ -41,7 +41,7 @@ static int resetLP(WPARAM, LPARAM, LPARAM obj)
 {
 	if (PluginConfig.g_hMenuContext)
 		DestroyMenu(PluginConfig.g_hMenuContext);
-	PluginConfig.g_hMenuContext = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
+	PluginConfig.g_hMenuContext = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_TABCONTEXT));
 	TranslateMenu(PluginConfig.g_hMenuContext);
 
 	((CMenuBar*)obj)->resetLP();
@@ -71,7 +71,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 	m_MimIconRefCount++;
 
 	m_hwndToolbar = ::CreateWindowEx(WS_EX_TOOLWINDOW, TOOLBARCLASSNAME, nullptr, WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_LIST |/*CCS_NOPARENTALIGN|*/CCS_NODIVIDER | CCS_TOP,
-		0, 0, 0, 0, hwndParent, nullptr, g_hInst, nullptr);
+		0, 0, 0, 0, hwndParent, nullptr, g_plugin.getInst(), nullptr);
 
 	::SendMessage(m_hwndToolbar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 
@@ -672,7 +672,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 	if (OldStatusBarproc == nullptr) {
 		WNDCLASSEX wc = { 0 };
 		wc.cbSize = sizeof(wc);
-		GetClassInfoEx(g_hInst, STATUSCLASSNAME, &wc);
+		GetClassInfoEx(g_plugin.getInst(), STATUSCLASSNAME, &wc);
 		OldStatusBarproc = wc.lpfnWndProc;
 	}
 

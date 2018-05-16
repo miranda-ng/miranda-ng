@@ -944,7 +944,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		{
 			WNDCLASSEX wcl = { 0 };
 			wcl.cbSize = sizeof(wcl);
-			GetClassInfoEx(g_hInst, L"SysTabControl32", &wcl);
+			GetClassInfoEx(g_plugin.getInst(), L"SysTabControl32", &wcl);
 			OldTabControlClassProc = wcl.lpfnWndProc;
 
 			tabdat = (TabControlData*)mir_calloc(sizeof(TabControlData));
