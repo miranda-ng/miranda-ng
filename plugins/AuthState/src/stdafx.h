@@ -23,8 +23,6 @@
 #include <windows.h>
 
 // Miranda API headers
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protocols.h>
@@ -40,10 +38,16 @@
 
 #define MODULENAME "AuthState"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
+
 int onOptInitialise(WPARAM wParam, LPARAM lParam);
 int onExtraImageApplying(WPARAM wParam, LPARAM lParam);
 
-extern HINSTANCE g_hInst;
 extern HANDLE hExtraIcon;
 
 #include "options.h"
