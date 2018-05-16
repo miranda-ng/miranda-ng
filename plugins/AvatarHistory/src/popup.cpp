@@ -43,7 +43,7 @@ void InitPopups()
 	// window needed for popup commands
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MODULE_NAME) L"_PopupWindow",
 		0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
-		nullptr, hInst, nullptr);
+		nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
 }
 

@@ -23,14 +23,13 @@ Avatar History Plugin
 */
 #include "stdafx.h"
 
-HINSTANCE hInst;
-
 DWORD mirVer;
 
 HANDLE hFolder = nullptr;
 
 wchar_t profilePath[MAX_PATH];		// database profile path (read at startup only)
 wchar_t basedir[MAX_PATH];
+CMPlugin g_plugin;
 int hLangpack = 0;
 MWindowList hAvatarWindowsList = nullptr;
 
@@ -58,14 +57,6 @@ PLUGININFOEX pluginInfo = {
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -296,7 +287,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Is first run?
 	if (db_get_b(NULL, MODULE_NAME, "FirstRun", 1)) {
 		// Show dialog
-		int ret = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FIRST_RUN), nullptr, FirstRunDlgProc, 0);
+		int ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FIRST_RUN), nullptr, FirstRunDlgProc, 0);
 		if (ret == 0)
 			return -1;
 

@@ -66,7 +66,7 @@ public:
 
 static void __cdecl AvatarDialogThread(AvatarDialogData *data)
 {
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AVATARDLG), data->parent, AvatarDlgProc, (LPARAM)data);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AVATARDLG), data->parent, AvatarDlgProc, (LPARAM)data);
 }
 
 int OpenAvatarDialog(MCONTACT hContact, char* fn)
@@ -190,7 +190,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 			}
 			else break;
 
-			HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
+			HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 			HMENU submenu = GetSubMenu(menu, 0);
 			TranslateMenu(submenu);
 
@@ -520,7 +520,7 @@ int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hwnd;
-	ofn.hInstance = hInst;
+	ofn.hInstance = g_plugin.getInst();
 
 	ofn.lpstrFilter = filter;
 

@@ -147,7 +147,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("History"); // group to put your item under
 	odp.szTitle.w = LPGENW("Avatar"); // name of the item
 	odp.pfnDlgProc = OptionsDlgProc;

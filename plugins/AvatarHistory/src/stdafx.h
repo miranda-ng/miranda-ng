@@ -6,8 +6,6 @@
 #include <ShObjIdl.h>
 #include <ShlGuid.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
@@ -35,7 +33,6 @@
 #include "popup.h"
 
 // Globals
-extern HINSTANCE hInst;
 extern HGENMENU hMenu;
 extern DWORD mirVer;
 extern MWindowList hAvatarWindowsList;
@@ -44,6 +41,13 @@ extern HANDLE hFolder;
 extern wchar_t basedir[];
 
 #define MODULE_NAME "AvatarHistory"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{}
+};
 
 #define AVH_DEF_POPUPFG 0
 #define AVH_DEF_POPUPBG 0x2DB6FF

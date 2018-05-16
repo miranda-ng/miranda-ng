@@ -38,7 +38,7 @@ int IcoLibIconsChanged(WPARAM, LPARAM)
 void SetupIcoLib()
 {
 	iconList[0].hIcolib = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	Icon_Register(hInst, LPGEN("Avatar history"), iconList + 1, _countof(iconList) - 1);
+	Icon_Register(g_plugin.getInst(), LPGEN("Avatar history"), iconList + 1, _countof(iconList) - 1);
 	IcoLibUpdateMenus();
 }
 
