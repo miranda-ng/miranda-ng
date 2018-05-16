@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 HKEY ROOT_KEY = HKEY_CURRENT_USER;
 
@@ -16,12 +16,6 @@ PLUGININFOEX pluginInfoEx = {
 	// {EB0465E2-CEEE-11DB-83EF-C1BF55D89593}
 	{0xeb0465e2, 0xceee, 0x11db, {0x83, 0xef, 0xc1, 0xbf, 0x55, 0xd8, 0x95, 0x93}}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 void GetProfilePath(wchar_t *res, size_t resLen)
 {
@@ -41,7 +35,7 @@ static void SetAutorun(BOOL autorun)
 	DWORD dw;
 	switch (autorun) {
 	case TRUE:
-		if ( RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, nullptr, 0, KEY_CREATE_SUB_KEY|KEY_SET_VALUE,nullptr,&hKey,&dw) == ERROR_SUCCESS) {
+		if (RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, nullptr, 0, KEY_CREATE_SUB_KEY | KEY_SET_VALUE, nullptr, &hKey, &dw) == ERROR_SUCCESS) {
 			wchar_t result[MAX_PATH];
 			GetProfilePath(result, _countof(result));
 			RegSetValueEx(hKey, L"MirandaNG", 0, REG_SZ, (BYTE*)result, sizeof(wchar_t)*(DWORD)mir_wstrlen(result));
@@ -49,7 +43,7 @@ static void SetAutorun(BOOL autorun)
 		}
 		break;
 	case FALSE:
-		if ( RegOpenKey(ROOT_KEY, SUB_KEY, &hKey) == ERROR_SUCCESS) {
+		if (RegOpenKey(ROOT_KEY, SUB_KEY, &hKey) == ERROR_SUCCESS) {
 			RegDeleteValue(hKey, L"MirandaNG");
 			RegCloseKey(hKey);
 		}
@@ -60,14 +54,14 @@ static void SetAutorun(BOOL autorun)
 static BOOL CmpCurrentAndRegistry()
 {
 	HKEY hKey;
-	if ( RegOpenKeyEx(ROOT_KEY, SUB_KEY, 0, KEY_QUERY_VALUE, &hKey) != ERROR_SUCCESS)
+	if (RegOpenKeyEx(ROOT_KEY, SUB_KEY, 0, KEY_QUERY_VALUE, &hKey) != ERROR_SUCCESS)
 		return FALSE;
 
 	wchar_t result[MAX_PATH], dbpath[MAX_PATH];
 	DWORD dwBufLen = MAX_PATH;
-	if ( RegQueryValueEx(hKey, L"MirandaNG", nullptr, nullptr, (LPBYTE)dbpath, &dwBufLen) != ERROR_SUCCESS)
+	if (RegQueryValueEx(hKey, L"MirandaNG", nullptr, nullptr, (LPBYTE)dbpath, &dwBufLen) != ERROR_SUCCESS)
 		return FALSE;
-	
+
 	GetProfilePath(result, _countof(result));
 	return mir_wstrcmpi(result, dbpath) == 0;
 }
@@ -85,11 +79,11 @@ static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 		return TRUE;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY: // if "Apply" pressed then...
-				SetAutorun(IsDlgButtonChecked(hwndDlg,IDC_AUTORUN)); //Save changes to registry;
+				SetAutorun(IsDlgButtonChecked(hwndDlg, IDC_AUTORUN)); //Save changes to registry;
 				return TRUE;
 			}
 			break;
@@ -99,11 +93,11 @@ static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 	return FALSE;
 }
 
-static int AutorunOptInitialise(WPARAM wParam,LPARAM)
+static int AutorunOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100100000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTORUN);
 	odp.szTitle.a = ModuleName;
 	odp.szGroup.a = LPGEN("Services");
