@@ -225,7 +225,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_CONFIGUREAUTODISABLE:
-			CreateDialog(hInst, MAKEINTRESOURCE(IDD_AUTODISABLE), hwndDlg, DlgProcAutoDisableOpts);
+			CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AUTODISABLE), hwndDlg, DlgProcAutoDisableOpts);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return FALSE;
 		case IDC_AUTODISABLE:
@@ -1174,7 +1174,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -100000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Status Notify");
 	odp.szGroup.a = LPGEN("Status");

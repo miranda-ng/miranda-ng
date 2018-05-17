@@ -4,7 +4,6 @@
 #include <windows.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -22,13 +21,17 @@
 #include "options.h"
 #include "version.h"
 
-#define MODULE						"NoHistory"
-#define DBSETTING_REMOVE			"RemoveHistory"
+#define MODULE	"NoHistory"
 
-extern HINSTANCE hInst;
+#define DBSETTING_REMOVE "RemoveHistory"
 
-#endif
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
 void SrmmMenu_Load();
 
-
+#endif

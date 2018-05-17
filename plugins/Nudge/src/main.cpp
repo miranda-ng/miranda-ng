@@ -2,7 +2,6 @@
 
 int nProtocol = 0;
 static HANDLE hPopupClass;
-HINSTANCE hInst;
 
 HGENMENU g_hContactMenu;
 OBJLIST<CNudgeElement> arNudges(5);
@@ -12,11 +11,17 @@ CNudge GlobalNudge;
 
 CLIST_INTERFACE *pcli;
 int hLangpack = 0;
+CMPlugin g_plugin;
 
-//========================
-//  MirandaPluginInfo
-//========================
-PLUGININFOEX pluginInfo = {
+static IconItem iconList[] =
+{
+	{ LPGEN("Nudge as Default"), "Nudge_Default", IDI_NUDGE }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -29,7 +34,14 @@ PLUGININFOEX pluginInfo = {
 	{ 0xe47cc215, 0xd28, 0x462d, { 0xa0, 0xf6, 0x3a, 0xe4, 0x44, 0x3d, 0x29, 0x26 } }
 };
 
-INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bEnabled = false;
 	for (auto &p : arNudges)
@@ -42,7 +54,7 @@ INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
+static INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 {
 	char *protoName = GetContactProto(hContact);
 	int diff = time(0) - db_get_dw(hContact, "Nudge", "LastSent", time(0) - 30);
@@ -81,7 +93,7 @@ void OpenContactList()
 	ShowWindow(hWnd, SW_SHOW);
 }
 
-int NudgeReceived(WPARAM hContact, LPARAM lParam)
+static int NudgeReceived(WPARAM hContact, LPARAM lParam)
 {
 	char *protoName = GetContactProto(hContact);
 
@@ -186,175 +198,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-void LoadProtocols(void)
-{
-	//Load the default nudge
-	mir_snprintf(DefaultNudge.ProtocolName, "Default");
-	mir_snprintf(DefaultNudge.NudgeSoundname, "Nudge : Default");
-	Skin_AddSound(DefaultNudge.NudgeSoundname, LPGENW("Nudge"), LPGENW("Default Nudge"));
-	DefaultNudge.Load();
-
-	GlobalNudge.Load();
-
-	for (auto &pa : Accounts())
-		Nudge_AddAccount(pa);
-
-	shake.Load();
-}
-
-static IconItem iconList[] =
-{
-	{ LPGEN("Nudge as Default"), "Nudge_Default", IDI_NUDGE }
-};
-
-// Load icons
-void LoadIcons(void)
-{
-	Icon_Register(hInst, LPGEN("Nudge"), iconList, _countof(iconList));
-}
-
-// Nudge support
-static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
-{
-	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
-
-	if (!mir_strcmp(cbcd->pszModule, "Nudge"))
-		NudgeSend(wParam, 0);
-
-	return 0;
-}
-
-static int TabsrmmButtonInit(WPARAM, LPARAM)
-{
-	HOTKEYDESC hkd = { "srmm_nudge", LPGEN("Send nudge"), BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), LPARAM(hInst) };
-	Hotkey_Register(&hkd);
-
-	BBButton bbd = {};
-	bbd.pszModuleName = "Nudge";
-	bbd.pwszTooltip = LPGENW("Send nudge");
-	bbd.dwDefPos = 300;
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
-	bbd.hIcon = iconList[0].hIcolib;
-	bbd.dwButtonID = 6000;
-	bbd.pszHotkey = hkd.pszName;
-	Srmm_AddButton(&bbd);
-	return 0;
-}
-
-void HideNudgeButton(MCONTACT hContact)
-{
-	char *szProto = GetContactProto(hContact);
-	if (!ProtoServiceExists(szProto, PS_SEND_NUDGE)) {
-		BBButton bbd = {};
-		bbd.pszModuleName = "Nudge";
-		bbd.dwButtonID = 6000;
-		bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
-		Srmm_SetButtonState(hContact, &bbd);
-	}
-}
-
-static int ContactWindowOpen(WPARAM, LPARAM lParam)
-{
-	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
-	if (MWeventdata->uType == MSG_WINDOW_EVT_OPENING && MWeventdata->hContact)
-		HideNudgeButton(MWeventdata->hContact);
-
-	return 0;
-}
-
-static int PrebuildContactMenu(WPARAM hContact, LPARAM)
-{
-	char *szProto = GetContactProto(hContact);
-	if (szProto != nullptr) {
-		bool isChat = db_get_b(hContact, szProto, "ChatRoom", false) != 0;
-		NudgeShowMenu((WPARAM)szProto, !isChat);
-	}
-
-	return 0;
-}
-
-int ModulesLoaded(WPARAM, LPARAM)
-{
-	LoadProtocols();
-	LoadPopupClass();
-
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
-
-	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonInit);
-	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
-	HookEvent(ME_MSG_WINDOWEVENT, ContactWindowOpen);
-	return 0;
-}
-
-int AccListChanged(WPARAM wParam, LPARAM lParam)
-{
-	PROTOACCOUNT *proto = (PROTOACCOUNT*)wParam;
-	if (proto == nullptr)
-		return 0;
-
-	if (lParam == PRAC_ADDED)
-		Nudge_AddAccount(proto);
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Load(void)
-{
-	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
-
-	LoadIcons();
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged);
-	HookEvent(ME_OPT_INITIALISE, NudgeOptInit);
-
-	// Create function for plugins
-	CreateServiceFunction(MS_SHAKE_CLIST, ShakeClist);
-	CreateServiceFunction(MS_SHAKE_CHAT, ShakeChat);
-	CreateServiceFunction(MS_NUDGE_SEND, NudgeSend);
-	CreateServiceFunction(MS_NUDGE_SHOWMENU, NudgeShowMenu);
-
-	// Add contact menu entry
-	CMenuItem mi;
-	SET_UID(mi, 0xd617db26, 0x22ba, 0x4205, 0x9c, 0x3e, 0x53, 0x10, 0xbc, 0xcf, 0xce, 0x19);
-	mi.flags = CMIF_NOTOFFLINE | CMIF_UNICODE;
-	mi.position = -500050004;
-	mi.hIcolibItem = iconList[0].hIcolib;
-	mi.name.w = LPGENW("Send &nudge");
-	mi.pszService = MS_NUDGE_SEND;
-	g_hContactMenu = Menu_AddContactMenuItem(&mi);
-
-	// register special type of event
-	// there's no need to declare the special service for getting text
-	// because a blob contains only text
-	DBEVENTTYPEDESCR evtype = { sizeof(evtype) };
-	evtype.module = MODULENAME;
-	evtype.eventType = 1;
-	evtype.descr = LPGEN("Nudge");
-	evtype.eventIcon = iconList[0].hIcolib;
-	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
-	DbEvent_RegisterType(&evtype);
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
-	arNudges.destroy();
-	return 0;
-}
-
-LRESULT CALLBACK NudgePopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK NudgePopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_COMMAND:
@@ -522,4 +366,160 @@ void AutoResendNudge(void *wParam)
 {
 	Sleep(GlobalNudge.resendDelaySec * 1000);
 	NudgeSend((WPARAM)wParam, NULL);
+}
+
+static void LoadProtocols(void)
+{
+	// Load the default nudge
+	mir_snprintf(DefaultNudge.ProtocolName, "Default");
+	mir_snprintf(DefaultNudge.NudgeSoundname, "Nudge : Default");
+	Skin_AddSound(DefaultNudge.NudgeSoundname, LPGENW("Nudge"), LPGENW("Default Nudge"));
+	DefaultNudge.Load();
+
+	GlobalNudge.Load();
+
+	for (auto &pa : Accounts())
+		Nudge_AddAccount(pa);
+
+	shake.Load();
+}
+
+// Load icons
+void LoadIcons(void)
+{
+	Icon_Register(g_plugin.getInst(), LPGEN("Nudge"), iconList, _countof(iconList));
+}
+
+// Nudge support
+static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
+{
+	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
+
+	if (!mir_strcmp(cbcd->pszModule, "Nudge"))
+		NudgeSend(wParam, 0);
+
+	return 0;
+}
+
+static int TabsrmmButtonInit(WPARAM, LPARAM)
+{
+	HOTKEYDESC hkd = { "srmm_nudge", LPGEN("Send nudge"), BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), LPARAM(g_plugin.getInst()) };
+	Hotkey_Register(&hkd);
+
+	BBButton bbd = {};
+	bbd.pszModuleName = "Nudge";
+	bbd.pwszTooltip = LPGENW("Send nudge");
+	bbd.dwDefPos = 300;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
+	bbd.hIcon = iconList[0].hIcolib;
+	bbd.dwButtonID = 6000;
+	bbd.pszHotkey = hkd.pszName;
+	Srmm_AddButton(&bbd);
+	return 0;
+}
+
+void HideNudgeButton(MCONTACT hContact)
+{
+	char *szProto = GetContactProto(hContact);
+	if (!ProtoServiceExists(szProto, PS_SEND_NUDGE)) {
+		BBButton bbd = {};
+		bbd.pszModuleName = "Nudge";
+		bbd.dwButtonID = 6000;
+		bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
+		Srmm_SetButtonState(hContact, &bbd);
+	}
+}
+
+static int ContactWindowOpen(WPARAM, LPARAM lParam)
+{
+	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
+	if (MWeventdata->uType == MSG_WINDOW_EVT_OPENING && MWeventdata->hContact)
+		HideNudgeButton(MWeventdata->hContact);
+
+	return 0;
+}
+
+static int PrebuildContactMenu(WPARAM hContact, LPARAM)
+{
+	char *szProto = GetContactProto(hContact);
+	if (szProto != nullptr) {
+		bool isChat = db_get_b(hContact, szProto, "ChatRoom", false) != 0;
+		NudgeShowMenu((WPARAM)szProto, !isChat);
+	}
+
+	return 0;
+}
+
+static int ModulesLoaded(WPARAM, LPARAM)
+{
+	LoadProtocols();
+	LoadPopupClass();
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonInit);
+	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+	HookEvent(ME_MSG_WINDOWEVENT, ContactWindowOpen);
+	return 0;
+}
+
+static int AccListChanged(WPARAM wParam, LPARAM lParam)
+{
+	PROTOACCOUNT *proto = (PROTOACCOUNT*)wParam;
+	if (proto == nullptr)
+		return 0;
+
+	if (lParam == PRAC_ADDED)
+		Nudge_AddAccount(proto);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" int __declspec(dllexport) Load(void)
+{
+	mir_getLP(&pluginInfo);
+	pcli = Clist_GetInterface();
+
+	LoadIcons();
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged);
+	HookEvent(ME_OPT_INITIALISE, NudgeOptInit);
+
+	// Create function for plugins
+	CreateServiceFunction(MS_SHAKE_CLIST, ShakeClist);
+	CreateServiceFunction(MS_SHAKE_CHAT, ShakeChat);
+	CreateServiceFunction(MS_NUDGE_SEND, NudgeSend);
+	CreateServiceFunction(MS_NUDGE_SHOWMENU, NudgeShowMenu);
+
+	// Add contact menu entry
+	CMenuItem mi;
+	SET_UID(mi, 0xd617db26, 0x22ba, 0x4205, 0x9c, 0x3e, 0x53, 0x10, 0xbc, 0xcf, 0xce, 0x19);
+	mi.flags = CMIF_NOTOFFLINE | CMIF_UNICODE;
+	mi.position = -500050004;
+	mi.hIcolibItem = iconList[0].hIcolib;
+	mi.name.w = LPGENW("Send &nudge");
+	mi.pszService = MS_NUDGE_SEND;
+	g_hContactMenu = Menu_AddContactMenuItem(&mi);
+
+	// register special type of event
+	// there's no need to declare the special service for getting text
+	// because a blob contains only text
+	DBEVENTTYPEDESCR evtype = { sizeof(evtype) };
+	evtype.module = MODULENAME;
+	evtype.eventType = 1;
+	evtype.descr = LPGEN("Nudge");
+	evtype.eventIcon = iconList[0].hIcolib;
+	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
+	DbEvent_RegisterType(&evtype);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" int __declspec(dllexport) Unload(void)
+{
+	arNudges.destroy();
+	return 0;
 }

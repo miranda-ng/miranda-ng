@@ -34,8 +34,6 @@
 #include <time.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_button.h>
@@ -70,6 +68,13 @@
 
 #define MODULE "NewStatusNotify"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
+
 #define MAX_STATUSTEXT			36
 #define MAX_STANDARDTEXT		36
 #define MAX_SKINSOUNDNAME		36
@@ -89,7 +94,7 @@
 #define ID_STATUSEX_MAX			6
 #define STATUSEX_COUNT			ID_STATUSEX_MAX + 1
 #define ID_STATUS_EXTRASTATUS	40081
-#define ID_STATUS_STATUSMSG		40082
+#define ID_STATUS_STATUSMSG	40082
 #define ID_STATUS_MIN			ID_STATUS_OFFLINE
 #define ID_STATUS_MAX			ID_STATUS_OUTTOLUNCH
 #define ID_STATUS_MAX2			ID_STATUS_STATUSMSG
@@ -157,7 +162,6 @@ extern LIST<DBEVENT> eventListXStatus;
 extern LIST<DBEVENT> eventListStatus;
 extern LIST<DBEVENT> eventListSMsg;
 extern TEMPLATES templates;
-extern HINSTANCE hInst;
 extern HGENMENU hEnableDisableMenu;
 extern STATUS StatusList[STATUS_COUNT];
 extern STATUS StatusListEx[STATUSEX_COUNT];

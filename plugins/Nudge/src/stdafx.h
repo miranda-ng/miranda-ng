@@ -9,7 +9,6 @@
 #include <commctrl.h>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_langpack.h>	
@@ -75,7 +74,13 @@ void AutoResendNudge(void *wParam) ;
 ///////////////////////////////////////////////////////////////////////////////
 // external variables
 
-extern HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
+
 extern int nProtocol;
 extern CShake shake;
 extern CNudge GlobalNudge;

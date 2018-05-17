@@ -1,7 +1,7 @@
 #include "globals.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hinstance = nullptr;
+CMPlugin g_plugin;
 HINSTANCE hmiranda = nullptr;
 int hLangpack;
 
@@ -14,6 +14,8 @@ HMODULE hRichedDll = nullptr;
 
 extern TREEELEMENT *g_Stickies;
 extern TREEELEMENT *RemindersList;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfo =
 {
@@ -28,6 +30,12 @@ static PLUGININFOEX pluginInfo =
 	{0x842a6668, 0xf9da, 0x4968, {0xbf, 0xd7, 0xd2, 0xbd, 0x9d, 0xf8, 0x48, 0xee}} // {842A6668-F9DA-4968-BFD7-D2BD9DF848EE}
 };
 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void RegisterFontServiceFonts();
 void RegisterKeyBindings();
@@ -110,14 +118,14 @@ IconItem iconList[] =
 
 void InitIcons(void)
 {
-	Icon_Register(hinstance, LPGEN("Sticky Notes"), iconList, _countof(iconList), MODULENAME);
+	Icon_Register(g_plugin.getInst(), LPGEN("Sticky Notes"), iconList, _countof(iconList), MODULENAME);
 }
 
 static int OnOptInitialise(WPARAM w, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 900002000;
-	odp.hInstance = hinstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_STNOTEOPTIONS);
 	odp.szTitle.a = SECTIONNAME;
 	odp.szGroup.a = LPGEN("Plugins");
@@ -259,41 +267,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	CloseNotesList();
-	CloseReminderList();
-	SaveNotes();
-	SaveReminders();
-	DestroyMsgWindow();
-	WS_CleanUp();
-	TermSettings();
-
-	UnhookEvent(hkFontChange);
-	UnhookEvent(hkColorChange);
-
-	UnhookEvent(hkOptInit);
-
-	IcoLib_ReleaseIcon(g_hReminderIcon);
-	DeleteObject(hBodyFont);
-	DeleteObject(hCaptionFont);
-
-	if (hRichedDll)
-		FreeLibrary(hRichedDll);
-
-	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
-{
-	hinstance = hinst;
-	return TRUE;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -318,6 +292,33 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hkModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	InitIcons();
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) int Unload(void)
+{
+	CloseNotesList();
+	CloseReminderList();
+	SaveNotes();
+	SaveReminders();
+	DestroyMsgWindow();
+	WS_CleanUp();
+	TermSettings();
+
+	UnhookEvent(hkFontChange);
+	UnhookEvent(hkColorChange);
+
+	UnhookEvent(hkOptInit);
+
+	IcoLib_ReleaseIcon(g_hReminderIcon);
+	DeleteObject(hBodyFont);
+	DeleteObject(hCaptionFont);
+
+	if (hRichedDll)
+		FreeLibrary(hRichedDll);
 
 	return 0;
 }

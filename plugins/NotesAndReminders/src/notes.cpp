@@ -898,7 +898,7 @@ static BOOL DoContextMenu(HWND AhWnd, WPARAM, LPARAM lParam)
 	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd, "ctrldata");
 
 	HMENU hMenuLoad, FhMenu, hSub;
-	hMenuLoad = LoadMenu(hinstance, "MNU_NOTEPOPUP");
+	hMenuLoad = LoadMenu(g_plugin.getInst(), "MNU_NOTEPOPUP");
 	FhMenu = GetSubMenu(hMenuLoad, 0);
 
 	if (SN->bOnTop)
@@ -1688,7 +1688,7 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, STICKYNO
 	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS))
 		return FALSE;
 
-	HMENU hMenuLoad = LoadMenu(hinstance, "MNU_NOTELISTPOPUP");
+	HMENU hMenuLoad = LoadMenu(g_plugin.getInst(), "MNU_NOTELISTPOPUP");
 	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
 	MENUITEMINFO mii = { 0 };
@@ -1947,7 +1947,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 void ListNotes(void)
 {
 	if (!ListNotesVisible) {
-		CreateDialog(hinstance, MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewNotes);
+		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewNotes);
 		ListNotesVisible = TRUE;
 	}
 	else BringWindowToTop(LV);

@@ -110,7 +110,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_READAWAYMSG), ReadAwayMsgDlgResize);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_READAWAYMSG), ReadAwayMsgDlgResize);
 		break;
 
 	case WM_CLOSE:
@@ -135,6 +135,6 @@ INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM)
 	if (HWND hWnd = WindowList_Find(g_hReadWndList, wParam)) // already have it
 		SetForegroundWindow(hWnd);
 	else
-		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_READAWAYMSG), nullptr, ReadAwayMsgDlgProc, wParam);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_READAWAYMSG), nullptr, ReadAwayMsgDlgProc, wParam);
 	return 0;
 }

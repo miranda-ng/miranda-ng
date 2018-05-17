@@ -1938,7 +1938,7 @@ INT_PTR OpenTriggeredReminder(WPARAM, LPARAM l)
 
 		pReminder->RemVisible = TRUE;
 
-		HWND H = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_NOTIFYREMINDER), nullptr, DlgProcNotifyReminder);
+		HWND H = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_NOTIFYREMINDER), nullptr, DlgProcNotifyReminder);
 		pReminder->handle = H;
 
 		mir_snprintf(S2, "%s! - %s", Translate("Reminder"), S1);
@@ -1957,7 +1957,7 @@ void NewReminder(void)
 {
 	if (!NewReminderVisible) {
 		NewReminderVisible = TRUE;
-		CreateDialog(hinstance, MAKEINTRESOURCE(IDD_ADDREMINDER), nullptr, DlgProcNewReminder);
+		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADDREMINDER), nullptr, DlgProcNewReminder);
 	}
 }
 
@@ -1971,7 +1971,7 @@ void EditReminder(REMINDERDATA *p)
 			p->RemVisible = TRUE;
 			NewReminderVisible = 2;
 			pEditReminder = p;
-			CreateDialog(hinstance, MAKEINTRESOURCE(IDD_ADDREMINDER), nullptr, DlgProcNewReminder);
+			CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADDREMINDER), nullptr, DlgProcNewReminder);
 		}
 		else {
 			BringWindowToTop(p->handle);
@@ -2087,7 +2087,7 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, REMINDER
 {
 	HWND hwndListView = (HWND)wParam;
 	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS)) return FALSE;
-	HMENU hMenuLoad = LoadMenu(hinstance, "MNU_REMINDERPOPUP");
+	HMENU hMenuLoad = LoadMenu(g_plugin.getInst(), "MNU_REMINDERPOPUP");
 	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
 	MENUITEMINFO mii = { 0 };
@@ -2284,7 +2284,7 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog, UINT Message, WPARAM w
 void ListReminders(void)
 {
 	if (!ListReminderVisible) {
-		CreateDialog(hinstance, MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewReminders);
+		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewReminders);
 		ListReminderVisible = TRUE;
 	}
 	else {

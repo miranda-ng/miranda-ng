@@ -213,7 +213,7 @@ static void CreateImageList(HWND hWnd)
 		ImageList_AddIcon(hImList, hIcon);
 	}
 	//ADD default Icon for nudge
-	HICON hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_NUDGE), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
+	HICON hIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NUDGE), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 	ImageList_AddIcon(hImList, hIcon);
 	DestroyIcon(hIcon);
 
@@ -374,7 +374,7 @@ int NudgeOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NUDGE);
 	odp.szTitle.a = LPGEN("Nudge");
 	odp.szGroup.a = LPGEN("Events");

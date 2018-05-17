@@ -26,14 +26,19 @@
 
 extern PLUGIN_DATA* PopupList[20];
 
+PLUGIN_OPTIONS pluginOptions;
+
 //---------------------------
 //---Some global variables for the plugin
 
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInst;
-PLUGIN_OPTIONS pluginOptions;
+CMPlugin g_plugin;
 int hLangpack;
-PLUGININFOEX pluginInfo = {
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -46,12 +51,17 @@ PLUGININFOEX pluginInfo = {
 	{0x3503D584, 0x6234, 0x4BEF, {0xA5, 0x53, 0x6C, 0x1B, 0x9C, 0xD4, 0x71, 0xF2}}
 };
 
-//---------------------------
-//---Hooks
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Hooks
 
 //---Called when a new event is added to the database
-//wParam: contact-handle
-//lParam: dbevent-handle
+// wParam: contact-handle
+// lParam: dbevent-handle
 
 int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 {
@@ -117,17 +127,11 @@ int HookedInit(WPARAM, LPARAM)
 //---Called when an options dialog has to be created
 int HookedOptions(WPARAM wParam, LPARAM)
 {
-	OptionsAdd(g_hInst, wParam);
+	OptionsAdd(g_plugin.getInst(), wParam);
 	return 0;
 }
 
-//---------------------------
-//---Exported Functions
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -138,19 +142,14 @@ extern "C" __declspec(dllexport) int Load(void)
 	pcli = Clist_GetInterface();
 
 	OptionsInit(&pluginOptions);
-	pluginOptions.hInst = g_hInst;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
 }
 
 //-------------------------------------

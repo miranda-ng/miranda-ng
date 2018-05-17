@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-HINSTANCE hInst;
 int hLangpack = 0;
+CMPlugin g_plugin;
 
 // add icon to srmm status icons
 static void SrmmMenu_UpdateIcon(MCONTACT hContact);
@@ -41,16 +41,12 @@ PLUGININFOEX pluginInfo =
 	{0xb25e8c7b, 0x292b, 0x495a, {0x9f, 0xb8, 0xa4, 0xc3, 0xd4, 0xee, 0xb0, 0x4b}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void RemoveReadEvents(MCONTACT hContact = 0)
 {
@@ -240,7 +236,9 @@ void SrmmMenu_Load()
 	HookEvent(ME_MSG_ICONPRESSED, IconPressed);
 }
 
-int ModulesLoaded(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	// create contact menu item
 	CMenuItem mi;
@@ -284,6 +282,8 @@ extern "C" __declspec (dllexport) int Load()
 	CreateServiceFunction(MS_NOHISTORY_CLEAR, ServiceClear);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec (dllexport) int Unload(void)
 {

@@ -19,7 +19,7 @@ int ReloadIcons(WPARAM, LPARAM)
 
 void InitIcons()
 {
-	Icon_Register(hInst, LPGEN("No History"), iconList, _countof(iconList), MODULE);
+	Icon_Register(g_plugin.getInst(), LPGEN("No History"), iconList, _countof(iconList), MODULE);
 
 	ReloadIcons(0, 0);
 

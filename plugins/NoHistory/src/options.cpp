@@ -221,7 +221,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
    odp.flags       = ODPF_BOLDGROUPS|ODPF_UNICODE;
    odp.position    = -790000000;
-   odp.hInstance   = hInst;
+   odp.hInstance   = g_plugin.getInst();
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
    odp.szTitle.w   = LPGENW("No History");
    odp.szGroup.w   = LPGENW("History");

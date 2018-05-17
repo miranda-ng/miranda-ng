@@ -69,7 +69,7 @@ wchar_t *SelectSound(HWND hwndDlg, wchar_t *buff, size_t bufflen)
 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = GetParent(hwndDlg);
-	ofn.hInstance = hInst;
+	ofn.hInstance = g_plugin.getInst();
 	wchar_t filter[MAX_PATH];
 	if (GetModuleHandle(L"bass_interface.dll"))
 		mir_snwprintf(filter, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*.*)%c*%c", TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
@@ -597,7 +597,7 @@ int UserInfoInitialise(WPARAM wParam, LPARAM lParam)
 	if (lParam) {
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.position = 100000000;
-		odp.hInstance = hInst;
+		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SOUNDS);
 		odp.szTitle.a = LPGEN("Status Notify");
 		odp.pfnDlgProc = DlgProcSoundUIPage;

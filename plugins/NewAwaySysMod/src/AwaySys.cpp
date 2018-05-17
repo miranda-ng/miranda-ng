@@ -41,9 +41,9 @@
 #include "Services.h"
 #include "version.h"
 
-HINSTANCE g_hInstance;
-
+CMPlugin g_plugin;
 int hLangpack;
+
 HANDLE g_hTopToolbarbutton;
 HGENMENU g_hToggleSOEMenuItem, g_hToggleSOEContactMenuItem, g_hContactMenuItem, g_hReadStatMenuItem;
 HGENMENU g_hAutoreplyOnContactMenuItem, g_hAutoreplyOffContactMenuItem, g_hAutoreplyUseDefaultContactMenuItem;
@@ -75,7 +75,10 @@ HICON GetIcon(int iconId, bool size)
 	return nullptr;
 }
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -87,18 +90,14 @@ PLUGININFOEX pluginInfo = {
 	{ 0xb2dd9270, 0xce5e, 0x11df, { 0xbd, 0x3d, 0x8, 0x0, 0x20, 0xc, 0x9a, 0x66 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInstance = hinstDLL;
-	return TRUE;
-}
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRAWAY, MIID_LAST }; // TODO: add MIID_WHOISREADING here if there'll be any some time in future..
-
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRAWAY, MIID_LAST }; 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -260,7 +259,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 		memset(dat, 0, sizeof(SetAwayMsgData));
 		dat->szProtocol = (char*)lParam;
 		dat->IsModeless = false;
-		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
+		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
 	}
 	return 0;
 }
@@ -378,7 +377,7 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 	dat->hInitContact = hContact;
 	dat->szProtocol = GetContactProto(hContact);
 	dat->IsModeless = false;
-	DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
 	return 0;
 }
 
@@ -710,7 +709,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 
-	Icon_Register(g_hInstance, MOD_NAME, iconList, _countof(iconList), "nas");
+	Icon_Register(g_plugin.getInst(), MOD_NAME, iconList, _countof(iconList), "nas");
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService

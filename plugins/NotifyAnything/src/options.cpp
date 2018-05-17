@@ -177,7 +177,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Notify Anything");
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.position = 100000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;

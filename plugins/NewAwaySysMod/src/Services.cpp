@@ -182,5 +182,5 @@ INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM)
 	dat->IsModeless = true;
 	if (iswi->cbSize > sizeof(NAS_ISWINFOv1))
 		dat->ISW_Flags = iswi->Flags;
-	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
+	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
 }

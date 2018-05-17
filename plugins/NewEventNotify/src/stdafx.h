@@ -32,8 +32,6 @@
 #include <windows.h>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -150,9 +148,15 @@
 //---------------------------
 //---Structures
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
+
 struct PLUGIN_OPTIONS
 {
-	HINSTANCE hInst;
 	BOOL bDisable;
 	BOOL bPreview;
 	BOOL bMenuitem;
@@ -226,5 +230,3 @@ int MenuitemInit(BOOL bStatus);
 int MenuitemUpdate(BOOL bStatus);
 int NumberPopupData(MCONTACT hContact, int eventType);
 int CheckMsgWnd(MCONTACT hContact);
-
-extern HINSTANCE g_hInst;

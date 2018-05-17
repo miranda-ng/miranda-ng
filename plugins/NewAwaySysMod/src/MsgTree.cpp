@@ -369,9 +369,9 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 				if (Order >= 0) {
 					HMENU hMenu;
 					if (TreeCtrl->m_value[Order].Flags & TIF_GROUP)
-						hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MSGTREE_CATEGORYMENU));
+						hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MSGTREE_CATEGORYMENU));
 					else
-						hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MSGTREE_MESSAGEMENU));
+						hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MSGTREE_MESSAGEMENU));
 
 					_ASSERT(hMenu);
 					HMENU hPopupMenu = GetSubMenu(hMenu, 0);

@@ -22,8 +22,8 @@
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
-
-HINSTANCE hInst;
+CMPlugin g_plugin;
+int hLangpack;
 
 LIST<DBEVENT> eventListXStatus(10, PtrKeySortT);
 LIST<DBEVENT> eventListStatus(10, PtrKeySortT);
@@ -35,11 +35,29 @@ HGENMENU hEnableDisableMenu;
 STATUS StatusList[STATUS_COUNT];
 STATUS StatusListEx[STATUSEX_COUNT];
 HWND SecretWnd;
-int hLangpack;
 
 int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus);
 
-PLUGININFOEX pluginInfoEx = {
+IconItem iconList[] =
+{
+	{ LPGEN("Reset"), ICO_RESET, IDI_RESET },
+	{ LPGEN("Popups"), ICO_POPUP, IDI_POPUP },
+	{ LPGEN("Sounds"), ICO_SOUND, IDI_SOUND },
+	{ LPGEN("Notification enabled"), ICO_NOTIFICATION_OFF, IDI_NOTIFICATION_OFF },
+	{ LPGEN("Notification disabled"), ICO_NOTIFICATION_ON, IDI_NOTIFICATION_ON },
+	{ LPGEN("Extra status notify"), ICO_XSTATUS, IDI_XSTATUS },
+	{ LPGEN("Disable all"), ICO_DISABLEALL, IDI_DISABLEALL },
+	{ LPGEN("Enable all"), ICO_ENABLEALL, IDI_ENABLEALL },
+	{ LPGEN("Variables"), ICO_VARIABLES, IDI_VARIABLES },
+	{ LPGEN("Status message notify"), ICO_STATUS_MESSAGE, IDI_STATUS_MESSAGE },
+	{ LPGEN("Extra status logging"), ICO_LOGGING_XSTATUS, IDI_LOGGING_XSTATUS },
+	{ LPGEN("Status message logging"), ICO_LOGGING_SMSG, IDI_LOGGING_SMSG }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -52,18 +70,16 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0xebf19652, 0xe434, 0x4d79, { 0x98, 0x97, 0x91, 0xa0, 0xff, 0x22, 0x6f, 0x51 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_USERONLINE, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BYTE GetGender(MCONTACT hContact)
 {
@@ -107,7 +123,8 @@ static int __inline CheckStrW(WCHAR *str, int not_empty, int empty)
 		return not_empty;
 }
 
-static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, char *szSetting) {
+static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, char *szSetting)
+{
 	DBVARIANT dbv_old;
 	int ret = -1;
 
@@ -325,7 +342,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 		DBVARIANT dbv;
 		wchar_t stzSoundFile[MAX_PATH] = { 0 };
 		if (!db_get_ws(hContact, MODULE, name, &dbv)) {
-			wcsncpy(stzSoundFile, dbv.ptszVal, _countof(stzSoundFile)-1);
+			wcsncpy(stzSoundFile, dbv.ptszVal, _countof(stzSoundFile) - 1);
 			db_free(&dbv);
 		}
 
@@ -695,7 +712,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			if (db_get_ws(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGREMOVED);
 			}
-			else  {
+			else {
 				str = GetStr(&smi, dbVar.ptszVal);
 				db_free(&dbVar);
 			}
@@ -1079,28 +1096,7 @@ void InitMainMenuItem()
 	EnableDisableMenuCommand(0, 0);
 }
 
-IconItem iconList[] =
-{
-	{ LPGEN("Reset"), ICO_RESET, IDI_RESET },
-	{ LPGEN("Popups"), ICO_POPUP, IDI_POPUP },
-	{ LPGEN("Sounds"), ICO_SOUND, IDI_SOUND },
-	{ LPGEN("Notification enabled"), ICO_NOTIFICATION_OFF, IDI_NOTIFICATION_OFF },
-	{ LPGEN("Notification disabled"), ICO_NOTIFICATION_ON, IDI_NOTIFICATION_ON },
-	{ LPGEN("Extra status notify"), ICO_XSTATUS, IDI_XSTATUS },
-	{ LPGEN("Disable all"), ICO_DISABLEALL, IDI_DISABLEALL },
-	{ LPGEN("Enable all"), ICO_ENABLEALL, IDI_ENABLEALL },
-	{ LPGEN("Variables"), ICO_VARIABLES, IDI_VARIABLES },
-	{ LPGEN("Status message notify"), ICO_STATUS_MESSAGE, IDI_STATUS_MESSAGE },
-	{ LPGEN("Extra status logging"), ICO_LOGGING_XSTATUS, IDI_LOGGING_XSTATUS },
-	{ LPGEN("Status message logging"), ICO_LOGGING_SMSG, IDI_LOGGING_SMSG }
-};
-
-void InitIcolib()
-{
-	Icon_Register(hInst, LPGEN("New Status Notify"), iconList, _countof(iconList), MODULE);
-}
-
-void InitSound()
+static void InitSound()
 {
 	for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
 		Skin_AddSound(StatusList[Index(i)].lpzSkinSoundName, LPGENW("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
@@ -1109,7 +1105,7 @@ void InitSound()
 		Skin_AddSound(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
 }
 
-int InitTopToolbar(WPARAM, LPARAM)
+static int InitTopToolbar(WPARAM, LPARAM)
 {
 	TTBButton tbb = {};
 	tbb.pszService = MS_STATUSCHANGE_MENUCOMMAND;
@@ -1124,7 +1120,7 @@ int InitTopToolbar(WPARAM, LPARAM)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM, LPARAM)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitMainMenuItem();
 
@@ -1134,7 +1130,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	SecretWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", L"ConnectionTimerWindow", 0,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
-		nullptr, hInst, nullptr);
+		nullptr, g_plugin.getInst(), nullptr);
 
 	for (auto &pa : Accounts())
 		if (pa->IsEnabled())
@@ -1149,10 +1145,14 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
+
+	Icon_Register(g_plugin.getInst(), LPGEN("New Status Notify"), iconList, _countof(iconList), MODULE);
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
@@ -1170,7 +1170,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChanged);
 	HookEvent(ME_PROTO_ACK, ProtoAck);
 
-	InitIcolib();
 	LoadOptions();
 	InitStatusList();
 	InitSound();
@@ -1192,6 +1191,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_STATUSCHANGE_MENUCOMMAND, EnableDisableMenuCommand);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

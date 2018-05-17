@@ -24,10 +24,13 @@ volatile bool g_exit_threads, g_firstrun;
 std::wstring g_mirandaDir;
 mir_cs g_wsocklock;
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -40,12 +43,12 @@ PLUGININFOEX pluginInfo = {
 	{ 0xe92874ec, 0x594a, 0x4a2f, { 0xbd, 0xed, 0xc0, 0xbe, 0x8b, 0x5a, 0x45, 0xd1 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hi, DWORD, LPVOID)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	hInst = hi;
-	DisableThreadLibraryCalls(hInst);
-	return TRUE;
+	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 enum replace_mode_t {
 	xno,
@@ -962,10 +965,7 @@ void stop_threads()
 	WaitForSingleObject(g_tcp_thread, INFINITE);
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load()
 {
@@ -987,6 +987,8 @@ extern "C" int __declspec(dllexport) Load()
 	start_threads();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

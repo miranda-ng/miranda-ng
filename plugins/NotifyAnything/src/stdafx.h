@@ -11,7 +11,6 @@
 #include <set>
 #include <vector>
 
-#define __NO_CMPLUGIN_NEEDED
 #include "newpluginapi.h"
 #include "m_options.h"
 #include "m_skin.h"
@@ -22,9 +21,14 @@
 #include "resource.h"
 #include "version.h"
 
-extern HINSTANCE hInst;
-
 const char PlugName[] = "NotifyAnything";
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PlugName)
+	{}
+};
 
 //---------------------------
 //---Internal Hooks (see main.c)

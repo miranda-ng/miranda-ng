@@ -1048,7 +1048,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			case IDC_SAWAYMSG_OPTIONS:
 				{
-					HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_SAM_OPTIONS));
+					HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SAM_OPTIONS));
 					_ASSERT(hMenu);
 					HMENU hPopupMenu = GetSubMenu(hMenu, 0);
 					TranslateMenu(hPopupMenu);
@@ -1254,7 +1254,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		return true;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_SETAWAYMSG), SetAwayMsgDlgResize, (LPARAM)&g_SetAwayMsgPage);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_SETAWAYMSG), SetAwayMsgDlgResize, (LPARAM)&g_SetAwayMsgPage);
 			
 		// means that we sent WM_SIZE message to apply new settings to the dialog; probably it's somewhat a misuse, but who cares ;-P
 		if (!wParam && !lParam) {
