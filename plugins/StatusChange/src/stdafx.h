@@ -5,7 +5,6 @@
 #include <windows.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clist.h>
@@ -19,7 +18,14 @@
 
 #define PLUGINNAME "StatusChange"
 
-typedef struct
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PLUGINNAME)
+	{}
+};
+
+struct TOPTIONS
 {
 	BOOL MessageRead;
 	BOOL MessageSend;
@@ -40,4 +46,4 @@ typedef struct
 	BOOL IfInvisible;
 	BOOL IfOnthephone;
 	BOOL IfOuttolunch;
-} TOPTIONS;
+};

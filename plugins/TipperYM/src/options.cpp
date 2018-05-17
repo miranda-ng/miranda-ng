@@ -847,7 +847,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			int sel = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETCURSEL, 0, 0);
 			if (sel != CB_ERR) {
 				DSListNode *ds_value = (DSListNode *)SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETITEMDATA, sel, 0);
-				if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SUBST), hwndDlg, DlgProcAddSubst, (LPARAM)&ds_value->ds) == IDOK) {
+				if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SUBST), hwndDlg, DlgProcAddSubst, (LPARAM)&ds_value->ds) == IDOK) {
 					SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_DELETESTRING, (WPARAM)sel, 0);
 
 					sel = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_ADDSTRING, 0, (LPARAM)ds_value->ds.swzName);
@@ -867,7 +867,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					memset(di_value, 0, sizeof(DIListNode));
 					di_value->di.bIsVisible = true;
 
-					int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ITEM), hwndDlg, DlgProcAddItem, (LPARAM)&di_value->di);
+					int result = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ITEM), hwndDlg, DlgProcAddItem, (LPARAM)&di_value->di);
 					if (result == IDOK || (result >= IDPRESETITEM && result < (IDPRESETITEM + 100))) {
 						TVINSERTSTRUCT tvi = {};
 						tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
@@ -1020,7 +1020,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (item.hItem) {
 						if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item)) {
 							DIListNode *di_value = (DIListNode *)item.lParam;
-							if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ITEM), hwndDlg, DlgProcAddItem, (LPARAM)&di_value->di) == IDOK) {
+							if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ITEM), hwndDlg, DlgProcAddItem, (LPARAM)&di_value->di) == IDOK) {
 								item.mask = TVIF_TEXT;
 								SetTreeItemText(di_value, &item.pszText);
 								TreeView_SetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item);
@@ -1036,7 +1036,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				{
 					DSListNode *ds_value = (DSListNode *)mir_alloc(sizeof(DSListNode));
 					memset(ds_value, 0, sizeof(DSListNode));
-					if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SUBST), hwndDlg, DlgProcAddSubst, (LPARAM)&ds_value->ds) == IDOK) {
+					if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SUBST), hwndDlg, DlgProcAddSubst, (LPARAM)&ds_value->ds) == IDOK) {
 						int index = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_ADDSTRING, 0, (LPARAM)ds_value->ds.swzName);
 						SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_SETITEMDATA, index, (LPARAM)ds_value);
 						SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_SETCURSEL, index, 0);
@@ -1067,7 +1067,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					int sel = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETCURSEL, 0, 0);
 					if (sel != LB_ERR) {
 						DSListNode *ds_value = (DSListNode *)SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETITEMDATA, sel, 0);
-						if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SUBST), hwndDlg, DlgProcAddSubst, (LPARAM)&ds_value->ds) == IDOK) {
+						if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SUBST), hwndDlg, DlgProcAddSubst, (LPARAM)&ds_value->ds) == IDOK) {
 							SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_DELETESTRING, (WPARAM)sel, 0);
 
 							sel = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_ADDSTRING, 0, (LPARAM)ds_value->ds.swzName);
@@ -1144,7 +1144,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (item.hItem) {
 					if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item)) {
 						DIListNode *di_value = (DIListNode *)item.lParam;
-						if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ITEM), hwndDlg, DlgProcAddItem, (LPARAM)&di_value->di) == IDOK) {
+						if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ITEM), hwndDlg, DlgProcAddItem, (LPARAM)&di_value->di) == IDOK) {
 							item.mask = TVIF_TEXT;
 							SetTreeItemText(di_value, &item.pszText);
 							TreeView_SetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item);
@@ -1965,7 +1965,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_BTN_FAVCONTACTS:
-			CreateDialog(hInst, MAKEINTRESOURCE(IDD_FAVCONTACTS), nullptr, DlgProcFavouriteContacts);
+			CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FAVCONTACTS), nullptr, DlgProcFavouriteContacts);
 			break;
 		}
 
@@ -2083,7 +2083,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_APPEARANCE);
 	odp.szTab.a = LPGEN("Appearance");

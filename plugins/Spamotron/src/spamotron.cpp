@@ -1,9 +1,12 @@
 #include "stdafx.h"
 
-HINSTANCE hInst;
 HANDLE hOptInitialize, hModulesLoaded, hDBContactAdded, hDBEventAdded, hDBEventFilterAdd;
 time_t last_queue_check = 0;
+
 int hLangpack;
+CMPlugin g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -18,18 +21,18 @@ PLUGININFOEX pluginInfo = {
 	{0x14331048, 0x5a73, 0x4fdb, {0xb9, 0x09, 0x2d, 0x7e, 0x18, 0x25, 0xa0, 0x12}}
 };
 
-extern int OnOptInitialize(WPARAM wParam, LPARAM lParam);
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	hInst = hinstDLL;
-	return TRUE;
+	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern int OnOptInitialize(WPARAM wParam, LPARAM lParam);
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	hOptInitialize = HookEvent(ME_OPT_INITIALISE, OnOptInitialize);
-
 	return 0;
 }
 
@@ -498,10 +501,7 @@ void RemoveNotOnListSettings()
 	}
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load()
 {
@@ -523,6 +523,8 @@ extern "C" __declspec(dllexport) int Load()
 	hDBEventFilterAdd = HookEvent(ME_DB_EVENT_FILTER_ADD, OnDBEventFilterAdd);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" _declspec(dllexport) int Unload(void)
 {

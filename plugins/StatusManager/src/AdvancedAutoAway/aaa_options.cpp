@@ -424,7 +424,7 @@ int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 1000000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Auto away");

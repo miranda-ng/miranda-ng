@@ -34,7 +34,6 @@ Boston, MA 02111-1307, USA.
 #include <string>
 using namespace std;
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_protosvc.h>
 #include <m_langpack.h>
@@ -67,14 +66,21 @@ using namespace std;
 #include "ardialog.h"
 #include "RichEdit.h"
 
-#define MODULE_NAME		"SpellChecker"
+#define MODULE_NAME "SpellChecker"
 
 #define FLAGS_DLL_FOLDER L"%miranda_path%\\Icons"
 #define CUSTOM_DICTIONARIES_FOLDER L"%miranda_userdata%\\Dictionaries"
 #define DICTIONARIES_FOLDER L"%miranda_path%\\Dictionaries"
 
 // Global Variables
-extern HINSTANCE hInst;
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{}
+};
+
 extern BOOL uinfoex_enabled;
 extern BOOL variables_enabled;
 

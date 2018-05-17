@@ -24,17 +24,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
 int hLangpack;
+CMPlugin g_plugin;
+
 HGENMENU hSSMenuToggleOnOff;
 HANDLE GetIconHandle(char *szIcon);
 HANDLE hOptionsInitialize;
 HANDLE hTTBarloaded = nullptr;
 HANDLE Buttons = nullptr;
-int InitializeOptions(WPARAM wParam,LPARAM lParam);
 int DisablePopup(WPARAM wParam, LPARAM lParam);
-int ModulesLoaded(WPARAM wParam, LPARAM lParam);
-static int CreateTTButtons(WPARAM wParam, LPARAM lParam);
+
 void RemoveTTButtons();
 void EnablePopupModule();
 BYTE Enabled;
@@ -62,7 +61,10 @@ char NonStatusAllowComp[MAX_PATH] = "";
 
 static LIST<void> ttbButtons(1);
 
-PLUGININFOEX pluginInfo={
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -72,19 +74,15 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {7B856B6A-D48F-4f54-B8D6-C8D86D02FFC2}
-	{0x7b856b6a, 0xd48f, 0x4f54, {0xb8, 0xd6, 0xc8, 0xd8, 0x6d, 0x2, 0xff, 0xc2}}
+	{ 0x7b856b6a, 0xd48f, 0x4f54, { 0xb8, 0xd6, 0xc8, 0xd8, 0x6d, 0x2, 0xff, 0xc2 }}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static void __cdecl AdvSt(void*)
 {
@@ -124,66 +122,26 @@ static void __cdecl AdvSt(void*)
 	}
 }
 
-INT_PTR StartupSilence()
-{
-	InitSettings();
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	mir_forkthread((pThreadFunc)AdvSt);
-	CreateServiceFunction(SS_SERVICE_NAME, StartupSilenceEnabled);
-	CreateServiceFunction(SS_SILENCE_CONNECTION, SilenceConnection);
-	IsMenu();
-	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
-	return 0;
-}
-
-extern "C" __declspec(dllexport) int Load(void)
-{
-	mir_getLP(&pluginInfo);
-	StartupSilence();
-	return 0;
-}
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	if (hTTBarloaded != nullptr){
-		UnhookEvent(hTTBarloaded);
-	}
-	return 0;
-}
-
-int ModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_POPUP_FILTER, DisablePopup);
-	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
-	if (TTBButtons == 1 && hTTBarloaded != nullptr) {
-		Icon_Register(hInst, "Toolbar/" MENU_NAME, iconttbList, _countof(iconttbList), MENU_NAME);
-		RemoveTTButtons();
-		CreateTTButtons(0,0);
-	}
-	return 0;
-}
-
 int DisablePopup(WPARAM wParam, LPARAM)
 {
 	if (DefEnabled == 1 && DefPopup == 0)      //All popups are blocked
 		return 1;
 
-	if ( (NonStatusAllow == 1) // while startup allow popups for unread mail notification from MRA, keepstatus ... other services?
-		|| ((DefPopup == 1 && DefEnabled == 1) && timer !=2) ) //also filtered only: We do not run next lines every time
-		                                                     //if "Filtered only..." is unchecked --->
-		{
-			MCONTACT hContact = wParam;
-			if (hContact != NULL)
-			{
-				char* cp = GetContactProto(hContact);
-				if ( !mir_strcmp(cp, "Weather") || !mir_strcmp(cp, "mRadio") )
-					return 0;
-				return 1;
-			}
-			else return 0;//or allow popups for unread mail notification from MRA, keepstatus ... other services?
+	if ((NonStatusAllow == 1) // while startup allow popups for unread mail notification from MRA, keepstatus ... other services?
+		|| ((DefPopup == 1 && DefEnabled == 1) && timer != 2)) //also filtered only: We do not run next lines every time
+																			  //if "Filtered only..." is unchecked --->
+	{
+		MCONTACT hContact = wParam;
+		if (hContact != NULL) {
+			char* cp = GetContactProto(hContact);
+			if (!mir_strcmp(cp, "Weather") || !mir_strcmp(cp, "mRadio"))
+				return 0;
+			return 1;
 		}
+		else return 0;//or allow popups for unread mail notification from MRA, keepstatus ... other services?
+	}
 	else if (timer == 2)
-			return 1;	//block all popups at startup
+		return 1;	//block all popups at startup
 	return 0;	//---> just allow all popups with this return
 }
 
@@ -194,7 +152,7 @@ void EnablePopupModule()
 
 void InitSettings()
 {
-	if(gethostname(hostname, _countof(hostname)) == 0){
+	if (gethostname(hostname, _countof(hostname)) == 0) {
 		mir_snprintf(EnabledComp, "%s_Enabled", hostname);
 		mir_snprintf(DelayComp, "%s_Delay", hostname);
 		mir_snprintf(PopUpComp, "%s_PopUp", hostname);
@@ -212,6 +170,7 @@ void InitSettings()
 	//or load host settings
 	else LoadSettings();
 }
+
 void DefSettings()
 {
 	db_set_dw(NULL, MODULE_NAME, DelayComp, 20);
@@ -226,6 +185,7 @@ void DefSettings()
 	db_set_b(NULL, MODULE_NAME, NonStatusAllowComp, 1);
 	LoadSettings();
 }
+
 void LoadSettings()
 {
 	Enabled = db_get_b(NULL, MODULE_NAME, EnabledComp, 0);
@@ -250,15 +210,9 @@ void LoadSettings()
 	db_set_dw(NULL, MODULE_NAME, PopUpTimeComp, PopUpTime);
 }
 
-void IsMenu()
-{
-	if (MenuItem == 1) {
-		Icon_Register(hInst, MENU_NAME, iconList, _countof(iconList), MENU_NAME);
-		InitMenu();
-	}
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
+static INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 {
 	db_set_b(NULL, MODULE_NAME, EnabledComp, !Enabled);
 	LoadSettings();
@@ -266,7 +220,7 @@ INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 		UpdateMenu();
 	if (PopUp == 1) {
 		wchar_t * lptzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
-		POPUPDATAT ppd = {0};
+		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = IcoLib_GetIconByHandle((Enabled == 1) ? GetIconHandle(ENABLE_SILENCE) : GetIconHandle(DISABLE_SILENCE));
 		ppd.lchContact = NULL;
 		ppd.iSeconds = PopUpTime;
@@ -278,11 +232,13 @@ INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR SilenceConnection(WPARAM wParam, LPARAM)
+static INT_PTR SilenceConnection(WPARAM wParam, LPARAM)
 {
 	timer = (BYTE)wParam;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR InitMenu()
 {
@@ -310,7 +266,7 @@ void UpdateMenu()
 void UpdateTTB()
 {
 	if (hTTBarloaded != nullptr && TTBButtons == 1)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)Buttons, (Enabled == 1 ?  0 : TTBST_PUSHED));
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)Buttons, (Enabled == 1 ? 0 : TTBST_PUSHED));
 }
 
 static int CreateTTButtons(WPARAM, LPARAM)
@@ -349,7 +305,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		LoadSettings();
-		SetDlgItemText(hwndDlg,  IDC_HST, mir_a2u(hostname));
+		SetDlgItemText(hwndDlg, IDC_HST, mir_a2u(hostname));
 		CheckDlgButton(hwndDlg, IDC_DELAY, (Enabled == 1) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SSTIME), 0);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETRANGE32, 10, 300);
@@ -377,17 +333,17 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_SSTIME:
 			DWORD min;
 			if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return FALSE;
-				min = GetDlgItemInt(hwndDlg, IDC_SSTIME, nullptr, FALSE);
+			min = GetDlgItemInt(hwndDlg, IDC_SSTIME, nullptr, FALSE);
 			if (min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_SSTIME)))
-				SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETPOS, 0, MAKELONG((short) 1, 0));
+				SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETPOS, 0, MAKELONG((short)1, 0));
 			delay = (DWORD)db_set_dw(NULL, MODULE_NAME, DelayComp, (DWORD)(SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_GETPOS, 0, 0)));
 			break;
 
 		case IDC_SSPOPUPTIME:
 			if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return FALSE;
-				min = GetDlgItemInt(hwndDlg, IDC_SSPOPUPTIME, nullptr, FALSE);
+			min = GetDlgItemInt(hwndDlg, IDC_SSPOPUPTIME, nullptr, FALSE);
 			if (min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_SSPOPUPTIME)))
-				SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((short) 1, 0));
+				SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((short)1, 0));
 			PopUpTime = (DWORD)db_set_dw(NULL, MODULE_NAME, PopUpTimeComp, (DWORD)(SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_GETPOS, 0, 0)));
 			break;
 
@@ -459,12 +415,57 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 int InitializeOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SSOPT);
 	odp.szGroup.a = LPGEN("Events");//FIXME: move to...Group?
 	odp.szTitle.a = MENU_NAME;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int ModulesLoaded(WPARAM, LPARAM)
+{
+	HookEvent(ME_POPUP_FILTER, DisablePopup);
+	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
+	if (TTBButtons == 1 && hTTBarloaded != nullptr) {
+		Icon_Register(g_plugin.getInst(), "Toolbar/" MENU_NAME, iconttbList, _countof(iconttbList), MENU_NAME);
+		RemoveTTButtons();
+		CreateTTButtons(0, 0);
+	}
+	return 0;
+}
+
+extern "C" __declspec(dllexport) int Load(void)
+{
+	mir_getLP(&pluginInfo);
+
+	InitSettings();
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
+
+	mir_forkthread((pThreadFunc)AdvSt);
+
+	CreateServiceFunction(SS_SERVICE_NAME, StartupSilenceEnabled);
+	CreateServiceFunction(SS_SILENCE_CONNECTION, SilenceConnection);
+
+	if (MenuItem == 1) {
+		Icon_Register(g_plugin.getInst(), MENU_NAME, iconList, _countof(iconList), MENU_NAME);
+		InitMenu();
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) int Unload(void)
+{
+	if (hTTBarloaded != nullptr)
+		UnhookEvent(hTTBarloaded);
+
 	return 0;
 }

@@ -9,7 +9,6 @@
 #include <sstream>
 #include <list>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protosvc.h>
@@ -32,9 +31,14 @@ typedef std::wstring tstring;
 
 #define pluginName LPGEN("StopSpam")
 
-extern char const *answeredSetting;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(pluginName)
+	{}
+};
 
-extern HINSTANCE hInst;
+extern char const *answeredSetting;
 
 // utils
 tstring &GetDlgItemString(HWND hwnd, int id);

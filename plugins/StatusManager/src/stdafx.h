@@ -9,7 +9,6 @@
 #include <icmpapi.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 
 #include <m_core.h>
@@ -29,12 +28,18 @@
 
 #define MODULENAME "StatusManager"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
+
 #include "commonstatus.h"
 #include "KeepStatus\keepstatus.h"
 #include "StartupStatus\startupstatus.h"
 #include "AdvancedAutoAway\advancedautoaway.h"
 
-extern HINSTANCE hInst;
 extern bool g_bMirandaLoaded;
 extern int AAALangPack, KSLangPack, SSLangPack;
 extern CMOption<bool> g_AAAEnabled, g_KSEnabled, g_SSEnabled;

@@ -19,20 +19,9 @@
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
-int hLangpack = 0;
+int hLangpack;
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// dll entry point
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
-{
-	if (fdwReason == DLL_PROCESS_ATTACH)
-		hInst = hinstDLL;
-
-	return TRUE;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
@@ -80,8 +69,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	g_bMirandaLoaded = true;
 
 	HookEvent(ME_OPT_INITIALISE, OnCommonOptionsInit);
-
-	////////////////////////////////////////////////////////////////////////////////////////
 
 	for (auto &pa : Accounts())
 		if (IsSuitableProto(pa))

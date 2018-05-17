@@ -14,7 +14,7 @@ class CSubPluginsOptionsDlg : public CPluginDlgBase
 
 public:
 	CSubPluginsOptionsDlg()
-		: CPluginDlgBase(hInst, IDD_OPT_SUBPLUGINS, MODULENAME),
+		: CPluginDlgBase(g_plugin.getInst(), IDD_OPT_SUBPLUGINS, MODULENAME),
 		m_enableKeepStatus(this, IDC_ENABLE_KEEPSTATUS),
 		m_enableStartupStatus(this, IDC_ENABLE_STARTUPSTATUS),
 		m_enableAdvancedAutoAway(this, IDC_ENABLE_ADVANCEDAUTOAWAY)
@@ -55,7 +55,7 @@ public:
 int OnCommonOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Status");
 	odp.szTitle.w = LPGENW("Status manager");

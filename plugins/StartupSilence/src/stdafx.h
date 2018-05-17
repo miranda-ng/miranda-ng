@@ -4,7 +4,6 @@
 #include <CommCtrl.h>
 #include <WinSock.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_clist.h>
@@ -27,14 +26,17 @@ static INT_PTR InitMenu();
 void InitSettings();
 void LoadSettings();
 void DefSettings();
-void IsMenu();
 void UpdateMenu();
 void UpdateTTB();
 
-INT_PTR StartupSilenceEnabled(WPARAM wParam, LPARAM lParam);
-INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam);
-
 #define MODULE_NAME "StartupSilence"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{}
+};
 
 #define SS_SERVICE_NAME "StartupSilence/ToggleEnabled"
 

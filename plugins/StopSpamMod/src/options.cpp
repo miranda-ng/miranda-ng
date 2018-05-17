@@ -26,7 +26,7 @@ const wchar_t *defAuthReply = LPGENW("StopSpam: send a message and reply to an a
 class COptMainDlg : public CDlgBase
 {
 public:
-	COptMainDlg() : CDlgBase(hInst, IDD_MAIN),
+	COptMainDlg() : CDlgBase(g_plugin.getInst(), IDD_MAIN),
 		chk_INFTALKPROT(this, ID_INFTALKPROT), chk_ADDPERMANENT(this, ID_ADDPERMANENT), chk_HANDLEAUTHREQ(this, ID_HANDLEAUTHREQ),
 		chk_HIDECONTACTS(this, ID_HIDECONTACTS), chk_IGNORESPAMMERS(this, ID_IGNORESPAMMERS), chk_LOGSPAMTOFILE(this, ID_LOGSPAMTOFILE),
 		ctrl_DESCRIPTION(this, ID_DESCRIPTION), edit_MAXQUESTCOUNT(this, ID_MAXQUESTCOUNT)
@@ -64,7 +64,7 @@ private:
 class COptMessagesDlg : public CDlgBase
 {
 public:
-	COptMessagesDlg() : CDlgBase(hInst, IDD_MESSAGES),
+	COptMessagesDlg() : CDlgBase(g_plugin.getInst(), IDD_MESSAGES),
 		edit_QUESTION(this, ID_QUESTION), edit_ANSWER(this, ID_ANSWER), edit_CONGRATULATION(this, ID_CONGRATULATION), edit_AUTHREPL(this, ID_AUTHREPL),
 		btn_RESTOREDEFAULTS(this, ID_RESTOREDEFAULTS), btn_VARS(this, IDC_VARS)
 	{
@@ -114,7 +114,7 @@ private:
 class COptProtoDlg : public CDlgBase
 {
 public:
-	COptProtoDlg() : CDlgBase(hInst, IDD_PROTO),
+	COptProtoDlg() : CDlgBase(g_plugin.getInst(), IDD_PROTO),
 		list_USEDPROTO(this, ID_USEDPROTO), list_ALLPROTO(this, ID_ALLPROTO),
 		btn_ADD(this, ID_ADD), btn_REMOVE(this, ID_REMOVE), btn_ADDALL(this, ID_ADDALL), btn_REMOVEALL(this, ID_REMOVEALL)
 	{
@@ -184,7 +184,7 @@ private:
 class COptAdvancedDlg : public CDlgBase
 {
 public:
-	COptAdvancedDlg() : CDlgBase(hInst, IDD_ADVANCED),
+	COptAdvancedDlg() : CDlgBase(g_plugin.getInst(), IDD_ADVANCED),
 		chk_INVIS_DISABLE(this, IDC_INVIS_DISABLE), chk_CASE_INSENSITIVE(this, IDC_CASE_INSENSITIVE), chk_SPECIALGROUP(this, ID_SPECIALGROUP), chk_EXCLUDE(this, ID_EXCLUDE),
 		chk_REMOVE_TMP(this, ID_REMOVE_TMP), chk_REMOVE_TMP_ALL(this, ID_REMOVE_TMP_ALL), chk_IGNOREURL(this, ID_IGNOREURL), chk_AUTOAUTH(this, IDC_AUTOAUTH), chk_ADDTOSRVLST(this, IDC_ADDTOSRVLST),
 		chk_REQAUTH(this, IDC_REQAUTH), chk_REGEX(this, IDC_REGEX), chk_HISTORY_LOG(this, IDC_HISTORY_LOG), chk_MATH_QUESTION(this, IDC_MATH_QUESTION),

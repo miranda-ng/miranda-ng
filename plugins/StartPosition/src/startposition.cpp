@@ -48,7 +48,7 @@ void CMPlugin::positionClist()
 int CMPlugin::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.szTitle.a = LPGEN("Start position");
 	odp.pDialog = new COptionsDlg();

@@ -23,8 +23,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HINSTANCE g_hInstance;
 int hLangpack;
+CMPlugin g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
     sizeof(PLUGININFOEX),
@@ -46,17 +48,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMPlugin g_plugin;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
 	g_plugin.Init();
 	g_plugin.positionClist();
-
 	return 0;
 }
 

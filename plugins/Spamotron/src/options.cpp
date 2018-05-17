@@ -87,8 +87,6 @@ BOOL _saveDlgItemScore(HWND hDialog, int controlID, char* option)
 	return TRUE;
 }
 
-extern HINSTANCE hInst;
-
 INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing = 0, i, j;
@@ -554,7 +552,7 @@ extern INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wPara
 int OnOptInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = PLUGIN_NAME;
 	odp.flags = ODPF_BOLDGROUPS;

@@ -21,35 +21,35 @@
 
 #define MODULENAME "WUMF Plugin"
 
-#define LIFETIME_MAX 60
-#define LIFETIME_MIN 1
-#define MAX_PATHNAME 512
-#define MAX_USERNAME 512
-#define TIME 500
+#define LIFETIME_MAX       60
+#define LIFETIME_MIN        1
+#define MAX_PATHNAME      512
+#define MAX_USERNAME      512
+#define TIME              500
 
-#define POPUPS_ENABLED              "1033"
-#define DELAY_SEC	                "1026"
-#define DELAY_SET                   "1049"
-#define DELAY_INF                   "1050"
-#define DELAY_DEF                   "1051"
-#define COLOR_SET                   "1000"
-#define COLOR_WIN                   "1001"
-#define COLOR_DEF                   "1002"
-#define COLOR_BACK                  "1003"
-#define COLOR_TEXT                  "1004"
-#define OPT_FILE                    "1006"
-#define LOG_INTO_FILE               "1054"
-#define LOG_FOLDER                  "1055"
-#define ALERT_FOLDER                "1056"
-#define LOG_UNC                     "1057"
-#define ALERT_UNC                   "1058"
-#define LOG_COMP                    "1059"
-#define ALERT_COMP                  "1060"
+#define POPUPS_ENABLED "1033"
+#define DELAY_SEC	     "1026"
+#define DELAY_SET      "1049"
+#define DELAY_INF      "1050"
+#define DELAY_DEF      "1051"
+#define COLOR_SET      "1000"
+#define COLOR_WIN      "1001"
+#define COLOR_DEF      "1002"
+#define COLOR_BACK     "1003"
+#define COLOR_TEXT     "1004"
+#define OPT_FILE       "1006"
+#define LOG_INTO_FILE  "1054"
+#define LOG_FOLDER     "1055"
+#define ALERT_FOLDER   "1056"
+#define LOG_UNC        "1057"
+#define ALERT_UNC      "1058"
+#define LOG_COMP       "1059"
+#define ALERT_COMP     "1060"
 
-#define IDM_SETUP 0x0402
-#define IDM_ABOUT 0x0403
-#define IDM_SHOW  0x0405
-#define IDM_EXIT  0x0404
+#define IDM_SETUP      0x0402
+#define IDM_ABOUT      0x0403
+#define IDM_SHOW       0x0405
+#define IDM_EXIT       0x0404
 
 struct WUMF_OPTIONS
 {

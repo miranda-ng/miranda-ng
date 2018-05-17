@@ -124,7 +124,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 			if (!NeedWaitForContent(clcitex)) {
 				if (hwndTip)
 					MyDestroyWindow(hwndTip);
-				hwndTip = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, nullptr, WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, hInst, (LPVOID)clcitex);
+				hwndTip = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, nullptr, WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), (LPVOID)clcitex);
 
 				if (clcitex) {
 					mir_free(clcitex);
@@ -214,7 +214,7 @@ void InitMessagePump()
 	WNDCLASSEX wcl = {0};
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = PopupWindowProc;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = POP_WIN_CLASS;
@@ -230,7 +230,7 @@ void InitMessagePump()
 void DeinitMessagePump()
 {
 	PostMPMessage(WM_QUIT, 0, 0);
-	UnregisterClass(POP_WIN_CLASS, hInst);
+	UnregisterClass(POP_WIN_CLASS, g_plugin.getInst());
 	FreeLibrary(hDwmapiDll);
 }
 

@@ -21,22 +21,8 @@ Boston, MA 02111-1307, USA.
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {36753AE3-840B-4797-94A5-FD9F5852B942}
-	{ 0x36753ae3, 0x840b, 0x4797, { 0x94, 0xa5, 0xfd, 0x9f, 0x58, 0x52, 0xb9, 0x42 } }
-};
-
-HINSTANCE hInst;
-
 int hLangpack = 0;
+CMPlugin g_plugin;
 
 HANDLE hDictionariesFolder = nullptr;
 wchar_t *dictionariesFolder;
@@ -55,18 +41,28 @@ BOOL loaded = FALSE;
 
 LIST<Dictionary> languages(1);
 
-// Functions ////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
+PLUGININFOEX pluginInfo =
 {
-	hInst = hinstDLL;
-	return TRUE;
-}
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {36753AE3-840B-4797-94A5-FD9F5852B942}
+	{ 0x36753ae3, 0x840b, 0x4797, { 0x94, 0xa5, 0xfd, 0x9f, 0x58, 0x52, 0xb9, 0x42 }}
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+// Functions ////////////////////////////////////////////////////////////////////////////
 
 static int IconsChanged(WPARAM, LPARAM)
 {
@@ -137,7 +133,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		HMODULE hFlagsDll = LoadLibraryEx(flag_file, nullptr, LOAD_LIBRARY_AS_DATAFILE);
 
 		wchar_t path[MAX_PATH];
-		GetModuleFileName(hInst, path, MAX_PATH);
+		GetModuleFileName(g_plugin.getInst(), path, MAX_PATH);
 
 		SKINICONDESC sid = {};
 		sid.flags = SIDF_ALL_UNICODE | SIDF_SORTED;
@@ -234,7 +230,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	// icons
-	Icon_Register(hInst, LPGEN("Spell Checker"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("Spell Checker"), iconList, _countof(iconList));
 
 	// hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

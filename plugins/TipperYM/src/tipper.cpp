@@ -20,7 +20,9 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HMODULE hInst;
+int hLangpack;
+CMPlugin g_plugin;
+CLIST_INTERFACE *pcli;
 
 FontIDW fontTitle, fontLabels, fontValues, fontTrayTitle;
 ColourIDW colourBg, colourBorder, colourAvatarBorder, colourDivider, colourSidebar;
@@ -34,8 +36,7 @@ HANDLE hReloadFonts = nullptr;
 HANDLE hFolderChanged, hSkinFolder;
 wchar_t SKIN_FOLDER[256];
 
-CLIST_INTERFACE *pcli;
-int hLangpack;
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -51,16 +52,12 @@ PLUGININFOEX pluginInfoEx =
 	{0x8392df1d, 0x9090, 0x4f8e, {0x9d, 0xf6, 0x2f, 0xe0, 0x58, 0xed, 0xd8, 0x00}}
 };
 
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int ReloadFont(WPARAM, LPARAM)
 {
@@ -86,12 +83,11 @@ int ReloadFont(WPARAM, LPARAM)
 	opt.colAvatarBorder = Colour_GetW(colourAvatarBorder);
 	opt.colSidebar = Colour_GetW(colourSidebar);
 	opt.colDivider = Colour_GetW(colourDivider);
-
 	return 0;
 }
 
 // hack to hide tip when clist hides from timeout
-int SettingChanged(WPARAM, LPARAM lParam)
+static int SettingChanged(WPARAM, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
 	if (strcmp(dcws->szModule, "CList") != 0 || strcmp(dcws->szSetting, "State") != 0)
@@ -105,7 +101,7 @@ int SettingChanged(WPARAM, LPARAM lParam)
 }
 
 // needed for msg_count_xxx substitutions
-int EventDeleted(WPARAM wParam, LPARAM lParam)
+static int EventDeleted(WPARAM wParam, LPARAM lParam)
 {
 	DBEVENTINFO dbei = {};
 	if (!db_event_get(lParam, &dbei))
@@ -115,13 +111,13 @@ int EventDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ReloadSkinFolder(WPARAM, LPARAM)
+static int ReloadSkinFolder(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
 	return 0;
 }
 
-void InitFonts()
+static void InitFonts()
 {
 	colourBg.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourBg.group, LPGENW("Tooltips"));
@@ -240,7 +236,7 @@ void InitFonts()
 	hReloadFonts = HookEvent(ME_FONT_RELOAD, ReloadFont);
 }
 
-int ModulesLoaded(WPARAM, LPARAM)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitFonts();
 	
@@ -307,6 +303,8 @@ static INT_PTR ReloadSkin(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 IconItem iconList[] =
 {
 	{ LPGEN("Copy item"),      "copy_item",      IDI_ITEM      },
@@ -325,7 +323,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	iCodePage = Langpack_GetDefaultCodePage();
 
-	Icon_Register(hInst, MODULE, iconList, _countof(iconList), MODULE);
+	Icon_Register(g_plugin.getInst(), MODULE, iconList, _countof(iconList), MODULE);
 
 	InitTranslations();
 	InitMessagePump();
@@ -345,6 +343,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload()
 {

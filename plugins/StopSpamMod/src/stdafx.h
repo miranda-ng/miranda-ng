@@ -6,7 +6,6 @@ using namespace std;
 #include <fstream>
 #include <string>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protosvc.h>
@@ -36,7 +35,13 @@ using namespace std;
 #include "resource.h"
 #include "utilities.h"
 
-extern HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(pluginName)
+	{}
+};
+
 extern HANDLE hStopSpamLogDirH;
 
 int OnDbContactSettingChanged(WPARAM w, LPARAM l);

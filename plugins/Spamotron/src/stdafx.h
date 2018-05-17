@@ -150,6 +150,13 @@ void queue_message(MCONTACT hContact, DWORD msgtime, wchar_t *message);
 void bayes_approve_contact(MCONTACT hContact);
 void dequeue_messages();
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PLUGIN_NAME)
+	{}
+};
+
 #ifdef _DEBUG
 extern sqlite3 *bayesdbg;
 #define BAYESDBG_FILENAME "bayes.dbg"

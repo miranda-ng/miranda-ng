@@ -27,7 +27,6 @@
 #include <time.h>
 #include <dshow.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -53,6 +52,13 @@
 #define MODNAME "SplashScreen"
 #define WM_LOADED (WM_USER + 10)
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODNAME)
+	{}
+};
+
 struct SPLASHOPTS
 {
 	byte active;
@@ -73,7 +79,6 @@ extern wchar_t szSplashFile[MAX_PATH], szSoundFile[MAX_PATH], szPrefix[128];
 extern wchar_t *szMirDir;
 extern char szVersion[MAX_PATH];
 extern BOOL bserviceinvoked, bmodulesloaded, png2dibavail;
-extern HINSTANCE hInst;
 
 extern int OptInit(WPARAM wParam, LPARAM lParam);
 extern BOOL ShowSplash(BOOL bpreview);

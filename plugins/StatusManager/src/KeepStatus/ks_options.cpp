@@ -457,7 +457,7 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Keep status");
 	odp.flags = ODPF_BOLDGROUPS;
@@ -476,7 +476,7 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 		memset(&odp, 0, sizeof(odp));
 		odp.position = 150000000;
 		odp.szGroup.a = LPGEN("Popups");
-		odp.hInstance = hInst;
+		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
 		odp.szTitle.a = LPGEN("Keep status");
 		odp.pfnDlgProc = PopupOptDlgProc;

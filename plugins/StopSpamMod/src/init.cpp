@@ -17,7 +17,10 @@
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
+int hLangpack = 0;
+
+HANDLE hEventFilter = nullptr, hOptInitialise = nullptr, hSettingChanged = nullptr;
 
 BOOL gbDosServiceExist = 0;
 BOOL gbVarsServiceExist = 0;
@@ -43,7 +46,7 @@ BOOL gbAutoAddToServerList=0;
 BOOL gbAutoReqAuth=1;
 BOOL gbMathExpression = 0;
 
-HANDLE hStopSpamLogDirH=nullptr;
+HANDLE hStopSpamLogDirH = nullptr;
 
 wstring gbSpammersGroup = L"Spammers";
 wstring gbAutoAuthGroup	= L"NotSpammers";
@@ -76,6 +79,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfoEx;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, wstring errorValue);
 
 void InitVars()
@@ -107,15 +112,13 @@ void InitVars()
 	gbLogToFile = db_get_b(NULL, pluginName, "LogSpamToFile", 0);
 	gbHistoryLog = db_get_b(NULL, pluginName, "HistoryLog", 0);
 	gbMathExpression = db_get_b(NULL, pluginName, "MathExpression", 0);
-
 }
 
 static int OnSystemModulesLoaded(WPARAM, LPARAM)
 {
-/*	if (ServiceExists(MS_DOS_SERVICE))
-		gbDosServiceExist = TRUE; */
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 		gbVarsServiceExist = TRUE;
+
 	InitVars();
 	if(gbDelAllTempory || gbDelExcluded)
 		mir_forkthread(&CleanThread);
@@ -125,16 +128,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-HANDLE hEventFilter = nullptr, hOptInitialise = nullptr, hSettingChanged = nullptr;
-
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-int hLangpack = 0;
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load()
 {
@@ -157,6 +151,8 @@ extern "C" int __declspec(dllexport) Load()
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

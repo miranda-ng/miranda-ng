@@ -19,11 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-class CMPlugin : public PLUGIN<CMPlugin>
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	friend COptionsDlg;
-
-public:
 	CMPlugin();
 
 	void Init();

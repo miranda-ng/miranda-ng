@@ -147,7 +147,7 @@ void __cdecl SplashThread(void *arg)
 	wcl.style = 0;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hIcon = nullptr;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
@@ -181,7 +181,7 @@ void __cdecl SplashThread(void *arg)
 		SplashBmp->getHeight(), // Height
 		HWND_DESKTOP, //Parent
 		nullptr, //menu handle
-		hInst, //Instance
+		g_plugin.getInst(), //Instance
 		nullptr);
 
 	RECT rc; GetWindowRect(hwndSplash, &rc);

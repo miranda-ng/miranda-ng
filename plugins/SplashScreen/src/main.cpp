@@ -19,8 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "stdafx.h"
 
-HINSTANCE hInst = nullptr;
 int hLangpack;
+CMPlugin g_plugin;
 
 BOOL bstartup = true; // startup?
 BOOL bserviceinvoked = false;
@@ -36,6 +36,8 @@ wchar_t szLogFile[MAX_PATH];
 SPLASHOPTS options;
 HWND hwndSplash;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -49,11 +51,12 @@ PLUGININFOEX pluginInfo = {
 	{ 0xc64cc8e0, 0xcf03, 0x474a, { 0x8b, 0x11, 0x8b, 0xd4, 0x56, 0x5c, 0xcf, 0x04 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	hInst = hinstDLL;
-	return TRUE;
+	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void SplashMain()
 {
@@ -187,36 +190,20 @@ void SplashMain()
 
 int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 {
-	#ifdef _DEBUG
-	wchar_t buf[128];
-	#endif
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+
 	if (options.inheritGS) {
-		if (!strcmp(cws->szModule, "Skin") && !strcmp(cws->szSetting, "UseSound")) {
+		if (!strcmp(cws->szModule, "Skin") && !strcmp(cws->szSetting, "UseSound"))
 			db_set_b(NULL, MODNAME, "PlaySound", cws->value.bVal);
-			#ifdef _DEBUG
-			cws->value.bVal ? _DebugPopup(NULL, L"Sounds enabled.", L"") : _DebugPopup(NULL, L"Sounds disabled.", L"");
-			logMessage(L"Module", _A2T(cws->szModule));
-			logMessage(L"Setting", _A2T(cws->szSetting));
-			logMessage(L"Value", _itow(cws->value.bVal, buf, 10));
-			#endif
-		}
-		if (!strcmp(cws->szModule, "PluginDisable") && !strcmp(cws->szSetting, _T2A(szDllName))) {
+
+		if (!strcmp(cws->szModule, "PluginDisable") && !strcmp(cws->szSetting, _T2A(szDllName)))
 			db_set_b(NULL, MODNAME, "Active", cws->value.bVal);
-			#ifdef _DEBUG
-			cws->value.bVal ? _DebugPopup(NULL, L"Disabled.", "") : _DebugPopup(NULL, L"Enabled.", L"");
-			logMessage(L"PlugDisableHook", L"Triggered");
-			logMessage(L"Module", _A2T(cws->szModule));
-			logMessage(L"Setting", _A2T(cws->szSetting));
-			logMessage(L"Value", _itow(cws->value.bVal, buf, 10));
-			#endif
-		}
 	}
 
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	bmodulesloaded = true; // all modules are loaded now, let other parts know about this fact
 
@@ -242,11 +229,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	return &pluginInfo;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -259,13 +241,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnregisterClass(SPLASH_CLASS, hInst);
-
-	#ifdef _DEBUG
-	logMessage(L"Unload", L"Job done");
-	#endif
-
+	UnregisterClass(SPLASH_CLASS, g_plugin.getInst());
 	return 0;
 }

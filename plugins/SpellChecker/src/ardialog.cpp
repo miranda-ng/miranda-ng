@@ -55,9 +55,9 @@ BOOL ShowAutoReplaceDialog(HWND parent, BOOL modal,
 		data->replace = replace;
 
 	if (modal)
-		return DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ADD_REPLACEMENT), parent, AddReplacementDlgProc, (LPARAM)data);
+		return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADD_REPLACEMENT), parent, AddReplacementDlgProc, (LPARAM)data);
 
-	HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_REPLACEMENT), parent, AddReplacementDlgProc, (LPARAM)data);
+	HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADD_REPLACEMENT), parent, AddReplacementDlgProc, (LPARAM)data);
 	SetForegroundWindow(hwnd);
 	SetFocus(hwnd);
 	SetFocus(GetDlgItem(hwnd, IDC_NEW));

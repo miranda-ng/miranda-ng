@@ -280,7 +280,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						break;
 
 					ListView_GetItem(GetDlgItem(hwndDlg, IDC_STARTUPLIST), &lvItem);
-					DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SETSTSMSGDIALOG), hwndDlg, StatusMessageDlgProc, lvItem.lParam);
+					DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETSTSMSGDIALOG), hwndDlg, StatusMessageDlgProc, lvItem.lParam);
 				}
 				break;
 
@@ -391,7 +391,7 @@ HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout)
 		timeOut = DEF_CLOSE_TIME;
 
 	if (GetWindow(win, 0) == nullptr) {
-		win = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMDIALOG), nullptr, ConfirmDlgProc, 0);
+		win = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONFIRMDIALOG), nullptr, ConfirmDlgProc, 0);
 		EnableWindow(win, TRUE);
 	}
 

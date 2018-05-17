@@ -140,7 +140,7 @@ class CCmdlDlg : public CDlgBase
 
 public:
 	CCmdlDlg(int iProfileNo)
-		: CDlgBase(hInst, IDD_CMDLOPTIONS),
+		: CDlgBase(g_plugin.getInst(), IDD_CMDLOPTIONS),
 		btnCopy(this, IDC_COPY),
 		btnLink(this, IDC_SHORTCUT),
 		ps(protoList)
@@ -453,7 +453,7 @@ class CAddProfileDlg : public CDlgBase
 
 public:
 	CAddProfileDlg()
-		: CDlgBase(hInst, IDD_ADDPROFILE),
+		: CDlgBase(g_plugin.getInst(), IDD_ADDPROFILE),
 		btnOk(this, IDOK),
 		edtProfile(this, IDC_PROFILENAME)
 	{
@@ -588,7 +588,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 
 public:
 	CSSAdvancedOptDlg() :
-		CDlgBase(hInst, IDD_OPT_STATUSPROFILES),
+		CDlgBase(g_plugin.getInst(), IDD_OPT_STATUSPROFILES),
 		cmbProfile(this, IDC_PROFILE),
 		btnAdd(this, IDC_ADDPROFILE),
 		btnHelp(this, IDC_VARIABLESHELP),
@@ -860,7 +860,7 @@ public:
 int StartupStatusOptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Startup status");
 	odp.flags = ODPF_BOLDGROUPS;

@@ -28,7 +28,6 @@ Boston, MA 02111-1307, USA.
 #include <windowsx.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_avatars.h>
@@ -74,7 +73,12 @@ Boston, MA 02111-1307, USA.
 #define MODULE_ITEMS "Tipper_Items"
 #define DEFAULT_SKIN_FOLDER L"Skins\\Tipper"
 
-extern HMODULE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
 extern HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 extern COLORREF	colTitle, colLabels, colBg, colValues;
