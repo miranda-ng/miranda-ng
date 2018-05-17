@@ -42,6 +42,11 @@ static PLUGININFOEX pluginInfo =
 	{0x9c23a24b, 0xe6aa, 0x43c6, {0xb0, 0xb8, 0xd6, 0xc3, 0x6d, 0x2f, 0x7b, 0x57}}
 };
 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
 /*
 ============================================================================================
 	event hooks
