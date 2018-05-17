@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-extern HINSTANCE hinstance;
 extern BOOL bPopupService;
 
 struct {
@@ -62,7 +61,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		return 1;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR)lparam)->code){
+		switch (((LPNMHDR)lparam)->code) {
 		case PSN_APPLY:
 			DWORD mod_flags = 0;
 
@@ -99,7 +98,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 955000000;
-	odp.hInstance = hinstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = MODULENAME;
 	odp.pfnDlgProc = OptionsProc;

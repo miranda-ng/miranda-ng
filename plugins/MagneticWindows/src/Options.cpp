@@ -14,8 +14,8 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_CHK_SNAP, Options.DoSnap?BST_CHECKED:BST_UNCHECKED);
-		SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_SETRANGE, FALSE, MAKELONG(1,32));
+		CheckDlgButton(hwndDlg, IDC_CHK_SNAP, Options.DoSnap ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_SETRANGE, FALSE, MAKELONG(1, 32));
 		SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_SETPOS, TRUE, Options.SnapWidth);
 
 		mir_snwprintf(str, TranslateT("%d pix"), Options.SnapWidth);
@@ -24,8 +24,8 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_SNAPWIDTH), Options.DoSnap);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_SNAPWIDTH), Options.DoSnap);
 
-		CheckDlgButton(hwndDlg, IDC_CHK_SCRIVERWORKAROUND, Options.ScriverWorkAround?BST_CHECKED:BST_UNCHECKED);
-		break;		
+		CheckDlgButton(hwndDlg, IDC_CHK_SCRIVERWORKAROUND, Options.ScriverWorkAround ? BST_CHECKED : BST_UNCHECKED);
+		break;
 
 	case WM_HSCROLL:
 		mir_snwprintf(str, TranslateT("%d pix"), SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_GETPOS, 0, 0));
@@ -34,7 +34,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_COMMAND:
-		switch( LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_CHK_SNAP:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_SNAPWIDTH), IsDlgButtonChecked(hwndDlg, IDC_CHK_SNAP));
@@ -52,10 +52,10 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_NOTIFY:  //Here we have pressed either the OK or the APPLY button.
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
-			case PSN_RESET:							
+			case PSN_RESET:
 				LoadOptions();
 				break;
 
@@ -68,8 +68,8 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				db_set_b(NULL, MODULE_NAME, "SnapWidth", Options.SnapWidth);
 				db_set_b(NULL, MODULE_NAME, "ScriverWorkAround", Options.ScriverWorkAround);
 				break;
-			} 
-		} 
+			}
+		}
 		break;
 	}
 	return 0;
@@ -80,7 +80,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE Opt = { sizeof(Opt) };
 	Opt.pfnDlgProc = OptionsDlgProc;
 	Opt.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAGNETICWINDOWS);
-	Opt.hInstance = hInst;
+	Opt.hInstance = g_plugin.getInst();
 	Opt.szGroup.a = LPGEN("Customize");
 	Opt.szTitle.a = LPGEN("Magnetic Windows");
 	Opt.flags = ODPF_BOLDGROUPS;

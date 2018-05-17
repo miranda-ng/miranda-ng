@@ -17,7 +17,6 @@
 const int vf_default = VF_VS | VF_HFL | VF_IGN | VF_CID | VF_SHOWID | VF_RECV | VF_STAT | VF_SMNAME | VF_CIDN | VF_CIP;
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hinstance;
 HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto, hmenuAdded, hmenuAuthReq;
 HGENMENU hmenuCopyID, hmenuRecvFiles, hmenuStatusMsg, hmenuCopyIP, hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
@@ -25,6 +24,7 @@ HICON hIcons[5];
 BOOL bPopupService = FALSE;
 PROTOACCOUNT **accs;
 int protoCount;
+CMPlugin g_plugin;
 int hLangpack;
 
 struct {
@@ -232,7 +232,7 @@ void CopyToClipboard(HWND, LPSTR pszMsg, LPTSTR ptszMsg)
 	if (buf == nullptr)
 		return;
 
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(buf) + 1)*sizeof(wchar_t));
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(buf) + 1) * sizeof(wchar_t));
 	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
 	mir_wstrcpy(lptstrCopy, buf);
 	mir_free(buf);
@@ -269,7 +269,7 @@ void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID, size_t dwIDSize)
 		else if (dbv_uniqueid.type == DBVT_WORD)
 			mir_snprintf(szID, dwIDSize, "%u", dbv_uniqueid.wVal);
 		else if (dbv_uniqueid.type == DBVT_BLOB) {
-			CMStringA tmp(' ', dbv_uniqueid.cpbVal*2+1);
+			CMStringA tmp(' ', dbv_uniqueid.cpbVal * 2 + 1);
 			bin2hex(dbv_uniqueid.pbVal, dbv_uniqueid.cpbVal, tmp.GetBuffer());
 			strncpy_s(szID, dwIDSize, tmp, _TRUNCATE);
 		}
@@ -291,7 +291,7 @@ int StatusMsgExists(MCONTACT hContact)
 		if (it.flag & 8)
 			mir_snprintf(par, "%s/%s", module, it.name);
 		else
-			strncpy(par, it.name, _countof(par)-1);
+			strncpy(par, it.name, _countof(par) - 1);
 
 		LPSTR msg = db_get_sa(hContact, (it.module) ? it.module : module, par);
 		if (msg) {
@@ -377,7 +377,7 @@ static INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARA
 {
 	static MCONTACT hcontact;
 
-	switch (msg){
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		mir_subclassWindow(GetDlgItem(hdlg, IDC_REASON), AuthReqEditSubclassProc);
@@ -393,7 +393,7 @@ static INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARA
 			GetDlgItemText(hdlg, IDC_REASON, tszReason, _countof(tszReason));
 			ProtoChainSend(hcontact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 			__fallthrough;
-	
+
 		case IDCANCEL:
 			DestroyWindow(hdlg);
 			break;
@@ -412,21 +412,21 @@ static BOOL isProtoOnline(char *szProto)
 
 static INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT) wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	char *szProto = GetContactProto(hContact);
 
 	DWORD flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (flags&PF4_NOCUSTOMAUTH)
 		ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)L"");
 	else
-		CreateDialogParam(hinstance, MAKEINTRESOURCE(IDD_AUTHREQ), pcli->hwndContactList, AuthReqWndProc, (LPARAM)hContact);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AUTHREQ), pcli->hwndContactList, AuthReqWndProc, (LPARAM)hContact);
 
 	return 0;
 }
 
 static INT_PTR onSendAdded(WPARAM wparam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT) wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	ProtoChainSend(hContact, PSS_ADDED, 0, 0);
 	return 0;
 }
@@ -434,7 +434,7 @@ static INT_PTR onSendAdded(WPARAM wparam, LPARAM)
 // set the invisible-flag in db
 static INT_PTR onSetInvis(WPARAM wparam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT) wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0) == ID_STATUS_OFFLINE) ? 0 : ID_STATUS_OFFLINE, 0);
 	return 0;
 }
@@ -442,14 +442,14 @@ static INT_PTR onSetInvis(WPARAM wparam, LPARAM)
 // set visible-flag in db
 static INT_PTR onSetVis(WPARAM wparam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT) wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0) == ID_STATUS_ONLINE) ? 0 : ID_STATUS_ONLINE, 0);
 	return 0;
 }
 
 static INT_PTR onHide(WPARAM wparam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT) wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	db_set_b(hContact, "CList", "Hidden", (BYTE)!db_get_b(hContact, "CList", "Hidden", 0));
 	return 0;
 }
@@ -489,7 +489,7 @@ static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 	wchar_t buffer[256];
 	char szID[256];
 	GetID(hContact, szProto, (LPSTR)&szID, _countof(szID));
-	if (szID[0])  {
+	if (szID[0]) {
 		if (bShowID) {
 			if (bTrimID && (mir_strlen(szID) > MAX_IDLEN)) {
 				szID[MAX_IDLEN - 2] = szID[MAX_IDLEN - 1] = szID[MAX_IDLEN] = '.';
@@ -586,7 +586,7 @@ static INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 			mir_snprintf(buffer, "%s: %s", szProto, szID);
 	}
 	else
-		strncpy(buffer, szID, _countof(buffer)-1);
+		strncpy(buffer, szID, _countof(buffer) - 1);
 
 	CopyToClipboard((HWND)lparam, buffer, nullptr);
 	if (CTRL_IS_PRESSED && bPopupService)
@@ -597,7 +597,7 @@ static INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 
 static INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 {
-	MCONTACT hContact = (MCONTACT) wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	char par[32];
 	wchar_t buffer[2048];
 	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
@@ -738,7 +738,7 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, wchar_t* name, HICON icon, DWORD 
 	mi.hIcolibItem = icon;
 	mi.flags = CMIF_UNICODE | CMIF_UNMOVABLE | flag;
 	mi.pszService = service;
-	
+
 	HGENMENU res = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, param);
 	return res;
@@ -776,7 +776,7 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 		BYTE bHidden = db_get_b(hContact, "CList", "Hidden", 0);
 		if (bHidden)
 			Menu_ModifyItem(hmenuHide, LPGENW("Show in list"), IcoLib_GetIcon("miex_showil"));
-		else 
+		else
 			Menu_ModifyItem(hmenuHide, LPGENW("Hide from list"), IcoLib_GetIcon("miex_hidefl"));
 	}
 
@@ -1053,8 +1053,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Icon_Register(hinstance, LPGEN("MenuItemEx"), iconList, _countof(iconList));
-	Icon_Register(hinstance, LPGEN("MenuItemEx"), overlayIconList, _countof(overlayIconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("MenuItemEx"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("MenuItemEx"), overlayIconList, _countof(overlayIconList));
 
 	CreateServiceFunction(MS_SETINVIS, onSetInvis);
 	CreateServiceFunction(MS_SETVIS, onSetVis);
@@ -1084,10 +1084,4 @@ extern "C" __declspec(dllexport) int Unload(void)
 	DestroyIcon(hIcons[3]);
 	DestroyIcon(hIcons[4]);
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
-{
-	hinstance = hinst;
-	return 1;
 }

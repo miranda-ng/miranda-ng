@@ -5,8 +5,6 @@
 
 #include <windows.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_system.h>
@@ -31,6 +29,13 @@
 #include "resource.h"
 
 #define MODULENAME "MenuItemEx"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
 
 #define MIIM_STRING	0x00000040
 

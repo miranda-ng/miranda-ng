@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2006 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "stdafx.h"
@@ -192,14 +192,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_NOTIFY:
-		{
-			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
-				RebuildMenu();
-				StartTimer();
-			}
+	{
+		LPNMHDR lpnmhdr = (LPNMHDR)lParam;
+		if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
+			RebuildMenu();
+			StartTimer();
 		}
-		break;
+	}
+	break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
@@ -262,14 +262,14 @@ static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_NOTIFY:
-		{
-			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
-				EnableDisablePlayers();
-				StartTimer();
-			}
+	{
+		LPNMHDR lpnmhdr = (LPNMHDR)lParam;
+		if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
+			EnableDisablePlayers();
+			StartTimer();
 		}
-		break;
+	}
+	break;
 	}
 
 	return ret;

@@ -2,8 +2,6 @@
 #include <commctrl.h>
 #include <stdio.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_message.h>
@@ -20,15 +18,21 @@
 #include "Version.h"
 
 typedef
-	struct {
-		int MouseX, MouseY;
-		bool SnappedX, SnappedY;
-	} TWorkingVariables;
+struct {
+	int MouseX, MouseY;
+	bool SnappedX, SnappedY;
+} TWorkingVariables;
 
 
 
 #define MODULE_NAME "MagneticWindows"
-extern HINSTANCE hInst;
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{}
+};
 
 void WindowStart();
 bool WindowOpen(HWND);

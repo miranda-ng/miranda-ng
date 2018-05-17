@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void LoadSettings(void);
 
 extern BYTE bFlashOnMsg, bFlashOnURL, bFlashOnFile, bFlashOnOther, bFullScreenMode, bScreenSaverRunning, bWorkstationLocked, bProcessesAreRunning,
-		bWorkstationActive, bFlashIfMsgOpen, bFlashIfMsgOlder, bFlashUntil, bMirandaOrWindows, bFlashLed[3], bFlashEffect, bSequenceOrder, bFlashSpeed,
-		bEmulateKeypresses, bOverride, bFlashIfMsgWinNotTop, bTrillianLedsMsg, bTrillianLedsURL, bTrillianLedsFile, bTrillianLedsOther;
+bWorkstationActive, bFlashIfMsgOpen, bFlashIfMsgOlder, bFlashUntil, bMirandaOrWindows, bFlashLed[3], bFlashEffect, bSequenceOrder, bFlashSpeed,
+bEmulateKeypresses, bOverride, bFlashIfMsgWinNotTop, bTrillianLedsMsg, bTrillianLedsURL, bTrillianLedsFile, bTrillianLedsOther;
 extern WORD wSecondsOlder, wBlinksNumber, wStatusMap, wReminderCheck, wCustomTheme, wStartDelay;
 
 extern PROTOCOL_LIST ProtoList;
@@ -32,8 +32,8 @@ extern PROCESS_LIST ProcessList;
 
 HWND hwndProto, hwndBasic, hwndEffect, hwndTheme, hwndIgnore, hwndCurrentTab;
 
-wchar_t *AttendedName[]={L"Miranda", L"Windows"};
-wchar_t *OrderName[]={LPGENW("left -> right"), LPGENW("right -> left"), LPGENW("left <-> right")};
+wchar_t *AttendedName[] = { L"Miranda", L"Windows" };
+wchar_t *OrderName[] = { LPGENW("left -> right"), LPGENW("right -> left"), LPGENW("left <-> right") };
 
 PROCESS_LIST ProcessListAux;
 XSTATUS_INFO *XstatusListAux;
@@ -534,47 +534,47 @@ static INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM, LPAR
 		return TRUE;
 
 	case WM_NOTIFY:
-		{
-			//Here we have pressed either the OK or the APPLY button.
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				switch (((LPNMHDR)lParam)->code) {
-				case PSN_APPLY:
-					// enabled protos
-					{
-						LVITEM lvItem;
-						HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
+	{
+		//Here we have pressed either the OK or the APPLY button.
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_APPLY:
+				// enabled protos
+			{
+				LVITEM lvItem;
+				HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
 
-						memset(&lvItem, 0, sizeof(lvItem));
-						lvItem.mask = LVIF_PARAM;
-						lvItem.iSubItem = 0;
-						for (int i = 0; i < ListView_GetItemCount(hList); i++) {
-							lvItem.iItem = i;
-							ListView_GetItem(hList, &lvItem);
-							db_set_b(NULL, KEYBDMODULE, (char *)lvItem.lParam, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
-						}
-					}
+				memset(&lvItem, 0, sizeof(lvItem));
+				lvItem.mask = LVIF_PARAM;
+				lvItem.iSubItem = 0;
+				for (int i = 0; i < ListView_GetItemCount(hList); i++) {
+					lvItem.iItem = i;
+					ListView_GetItem(hList, &lvItem);
+					db_set_b(NULL, KEYBDMODULE, (char *)lvItem.lParam, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+				}
+			}
 
-					LoadSettings();
+			LoadSettings();
 
-					return TRUE;
-				} // switch code - 0
-				break;
-			case IDC_PROTOCOLLIST:
-				switch (((NMHDR*)lParam)->code) {
-				case LVN_ITEMCHANGED:
-					{
-						NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+			return TRUE;
+			} // switch code - 0
+			break;
+		case IDC_PROTOCOLLIST:
+			switch (((NMHDR*)lParam)->code) {
+			case LVN_ITEMCHANGED:
+			{
+				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 
-						if (!initDlg && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
-							SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-					}
-					break;
-				} // switch code - IDC_PROTOCOLLIST
-				break;
-			} //switch idFrom
-		}
-		break; //End WM_NOTIFY
+				if (!initDlg && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
+					SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+			}
+			break;
+			} // switch code - IDC_PROTOCOLLIST
+			break;
+		} //switch idFrom
+	}
+	break; //End WM_NOTIFY
 
 	default:
 		break;
@@ -742,86 +742,86 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		break;
 
 	case WM_NOTIFY:
-		{
-			BYTE untilMap = 0;
-			WORD statusMap = 0;
-			//Here we have pressed either the OK or the APPLY button.
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				switch (((LPNMHDR)lParam)->code) {
-				case PSN_APPLY:
-					db_set_b(NULL, KEYBDMODULE, "onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "onurl", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONURL) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
+	{
+		BYTE untilMap = 0;
+		WORD statusMap = 0;
+		//Here we have pressed either the OK or the APPLY button.
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_APPLY:
+				db_set_b(NULL, KEYBDMODULE, "onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "onurl", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONURL) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
 
-					db_set_b(NULL, KEYBDMODULE, "fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1 : 0));
 
-					db_set_b(NULL, KEYBDMODULE, "ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
-					db_set_w(NULL, KEYBDMODULE, "secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(NULL, KEYBDMODULE, "ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
+				db_set_w(NULL, KEYBDMODULE, "secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
 
-					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED)
-						untilMap |= UNTIL_NBLINKS;
-					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILATTENDED) == BST_CHECKED)
-						untilMap |= UNTIL_REATTENDED;
-					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILOPEN) == BST_CHECKED)
-						untilMap |= UNTIL_EVENTSOPEN;
-					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILCOND) == BST_CHECKED)
-						untilMap |= UNTIL_CONDITIONS;
-					db_set_b(NULL, KEYBDMODULE, "funtil", untilMap);
-					db_set_w(NULL, KEYBDMODULE, "nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
-					db_set_b(NULL, KEYBDMODULE, "mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
+				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED)
+					untilMap |= UNTIL_NBLINKS;
+				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILATTENDED) == BST_CHECKED)
+					untilMap |= UNTIL_REATTENDED;
+				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILOPEN) == BST_CHECKED)
+					untilMap |= UNTIL_EVENTSOPEN;
+				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILCOND) == BST_CHECKED)
+					untilMap |= UNTIL_CONDITIONS;
+				db_set_b(NULL, KEYBDMODULE, "funtil", untilMap);
+				db_set_w(NULL, KEYBDMODULE, "nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(NULL, KEYBDMODULE, "mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
 
-					if (IsDlgButtonChecked(hwndDlg, IDC_ONLINE) == BST_CHECKED)
-						statusMap |= MAP_ONLINE;
-					if (IsDlgButtonChecked(hwndDlg, IDC_AWAY) == BST_CHECKED)
-						statusMap |= MAP_AWAY;
-					if (IsDlgButtonChecked(hwndDlg, IDC_NA) == BST_CHECKED)
-						statusMap |= MAP_NA;
-					if (IsDlgButtonChecked(hwndDlg, IDC_OCCUPIED) == BST_CHECKED)
-						statusMap |= MAP_OCCUPIED;
-					if (IsDlgButtonChecked(hwndDlg, IDC_DND) == BST_CHECKED)
-						statusMap |= MAP_DND;
-					if (IsDlgButtonChecked(hwndDlg, IDC_FREECHAT) == BST_CHECKED)
-						statusMap |= MAP_FREECHAT;
-					if (IsDlgButtonChecked(hwndDlg, IDC_INVISIBLE) == BST_CHECKED)
-						statusMap |= MAP_INVISIBLE;
-					if (IsDlgButtonChecked(hwndDlg, IDC_ONTHEPHONE) == BST_CHECKED)
-						statusMap |= MAP_ONTHEPHONE;
-					if (IsDlgButtonChecked(hwndDlg, IDC_OUTTOLUNCH) == BST_CHECKED)
-						statusMap |= MAP_OUTTOLUNCH;
-					if (IsDlgButtonChecked(hwndDlg, IDC_OFFLINE) == BST_CHECKED)
-						statusMap |= MAP_OFFLINE;
-					db_set_w(NULL, KEYBDMODULE, "status", statusMap);
+				if (IsDlgButtonChecked(hwndDlg, IDC_ONLINE) == BST_CHECKED)
+					statusMap |= MAP_ONLINE;
+				if (IsDlgButtonChecked(hwndDlg, IDC_AWAY) == BST_CHECKED)
+					statusMap |= MAP_AWAY;
+				if (IsDlgButtonChecked(hwndDlg, IDC_NA) == BST_CHECKED)
+					statusMap |= MAP_NA;
+				if (IsDlgButtonChecked(hwndDlg, IDC_OCCUPIED) == BST_CHECKED)
+					statusMap |= MAP_OCCUPIED;
+				if (IsDlgButtonChecked(hwndDlg, IDC_DND) == BST_CHECKED)
+					statusMap |= MAP_DND;
+				if (IsDlgButtonChecked(hwndDlg, IDC_FREECHAT) == BST_CHECKED)
+					statusMap |= MAP_FREECHAT;
+				if (IsDlgButtonChecked(hwndDlg, IDC_INVISIBLE) == BST_CHECKED)
+					statusMap |= MAP_INVISIBLE;
+				if (IsDlgButtonChecked(hwndDlg, IDC_ONTHEPHONE) == BST_CHECKED)
+					statusMap |= MAP_ONTHEPHONE;
+				if (IsDlgButtonChecked(hwndDlg, IDC_OUTTOLUNCH) == BST_CHECKED)
+					statusMap |= MAP_OUTTOLUNCH;
+				if (IsDlgButtonChecked(hwndDlg, IDC_OFFLINE) == BST_CHECKED)
+					statusMap |= MAP_OFFLINE;
+				db_set_w(NULL, KEYBDMODULE, "status", statusMap);
 
-					db_set_w(NULL, KEYBDMODULE, "remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
+				db_set_w(NULL, KEYBDMODULE, "remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
 
-					int i = 0;
-					for (int j = 0; j < ProcessListAux.count; j++)
-						if (ProcessListAux.szFileName[j])
-							db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
-					db_set_w(NULL, KEYBDMODULE, "processcount", (WORD)i);
-					while (!db_unset(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
+				int i = 0;
+				for (int j = 0; j < ProcessListAux.count; j++)
+					if (ProcessListAux.szFileName[j])
+						db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
+				db_set_w(NULL, KEYBDMODULE, "processcount", (WORD)i);
+				while (!db_unset(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
 
-					if (XstatusListAux)
-						for (i = 0; i < ProtoList.protoCount; i++)
-							for (int j = 0; j < (int)XstatusListAux[i].count; j++)
-								db_set_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
+				if (XstatusListAux)
+					for (i = 0; i < ProtoList.protoCount; i++)
+						for (int j = 0; j < (int)XstatusListAux[i].count; j++)
+							db_set_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
 
-					LoadSettings();
+				LoadSettings();
 
-					return TRUE;
-				} // switch code
-				break;
-			} //switch idFrom
-		}
-		break; //End WM_NOTIFY
+				return TRUE;
+			} // switch code
+			break;
+		} //switch idFrom
+	}
+	break; //End WM_NOTIFY
 
 	default:
 		break;
@@ -935,48 +935,48 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		break;
 
 	case WM_NOTIFY:
-		{
-			//Here we have pressed either the OK or the APPLY button.
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				switch (((LPNMHDR)lParam)->code) {
-				case PSN_APPLY:
-					db_set_b(NULL, KEYBDMODULE, "fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1 : 0));
-					db_set_b(NULL, KEYBDMODULE, "fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1 : 0));
+	{
+		//Here we have pressed either the OK or the APPLY button.
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_APPLY:
+				db_set_b(NULL, KEYBDMODULE, "fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1 : 0));
 
-					if (IsDlgButtonChecked(hwndDlg, IDC_INTURN) == BST_CHECKED)
-						db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INTURN);
-					else if (IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED)
-						db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INSEQUENCE);
-					else if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED)
-						db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_CUSTOM);
-					else if (IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED)
-						db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_TRILLIAN);
-					else
-						db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_SAMETIME);
-					db_set_b(NULL, KEYBDMODULE, "order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
-					db_set_w(NULL, KEYBDMODULE, "custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
+				if (IsDlgButtonChecked(hwndDlg, IDC_INTURN) == BST_CHECKED)
+					db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INTURN);
+				else if (IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED)
+					db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INSEQUENCE);
+				else if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED)
+					db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_CUSTOM);
+				else if (IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED)
+					db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_TRILLIAN);
+				else
+					db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_SAMETIME);
+				db_set_b(NULL, KEYBDMODULE, "order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
+				db_set_w(NULL, KEYBDMODULE, "custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
 
-					db_set_b(NULL, KEYBDMODULE, "ledsmsg", trillianLedsMsg);
-					db_set_b(NULL, KEYBDMODULE, "ledsfile", trillianLedsFile);
-					db_set_b(NULL, KEYBDMODULE, "ledsurl", trillianLedsURL);
-					db_set_b(NULL, KEYBDMODULE, "ledsother", trillianLedsOther);
+				db_set_b(NULL, KEYBDMODULE, "ledsmsg", trillianLedsMsg);
+				db_set_b(NULL, KEYBDMODULE, "ledsfile", trillianLedsFile);
+				db_set_b(NULL, KEYBDMODULE, "ledsurl", trillianLedsURL);
+				db_set_b(NULL, KEYBDMODULE, "ledsother", trillianLedsOther);
 
-					db_set_w(NULL, KEYBDMODULE, "sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
+				db_set_w(NULL, KEYBDMODULE, "sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
 
-					db_set_b(NULL, KEYBDMODULE, "speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
+				db_set_b(NULL, KEYBDMODULE, "speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
 
-					db_set_b(NULL, KEYBDMODULE, "keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1 : 0));
+				db_set_b(NULL, KEYBDMODULE, "keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1 : 0));
 
-					LoadSettings();
+				LoadSettings();
 
-					return TRUE;
-				} // switch code
-				break;
-			} //switch idFrom
-		}
-		break; //End WM_NOTIFY
+				return TRUE;
+			} // switch code
+			break;
+		} //switch idFrom
+	}
+	break; //End WM_NOTIFY
 
 	default:
 		break;
@@ -1040,7 +1040,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 			}
-				break;
+								break;
 			case CBN_EDITCHANGE:
 				wchar_t theme[MAX_PATH + 1];
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
@@ -1083,132 +1083,132 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 			return TRUE;
 		case IDC_TEST:
-			{
-				wchar_t custom[MAX_PATH + 1];
+		{
+			wchar_t custom[MAX_PATH + 1];
 
-				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, _countof(custom));
-				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(custom));
-				testSequence(custom);
-			}
-			return TRUE;
+			GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, _countof(custom));
+			SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(custom));
+			testSequence(custom);
+		}
+		return TRUE;
 		case IDC_ADD:
-			{
-				wchar_t theme[MAX_PATH + 1];
+		{
+			wchar_t theme[MAX_PATH + 1];
 
-				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
-				if (!theme[0])
-					return TRUE;
-				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-				wchar_t *str = (wchar_t *)mir_alloc((MAX_PATH + 1)*sizeof(wchar_t));
-				if (str) {
-					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
-				}
-				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
+			GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
+			if (!theme[0])
+				return TRUE;
+			int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
+			wchar_t *str = (wchar_t *)mir_alloc((MAX_PATH + 1) * sizeof(wchar_t));
+			if (str) {
+				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
+				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
 			}
-			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-			return TRUE;
+			SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
+		}
+		SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+		return TRUE;
 		case IDC_UPDATE:
-			{
-				wchar_t theme[MAX_PATH + 1];
+		{
+			wchar_t theme[MAX_PATH + 1];
 
-				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
-				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
-				wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
-				if (str) {
-					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
-				}
-				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
+			GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
+			int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+			wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+			if (str) {
+				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
+				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
 			}
-			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-			return TRUE;
+			EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
+		}
+		SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+		return TRUE;
 		case IDC_DELETE:
-			{
-				wchar_t theme[MAX_PATH + 1];
+		{
+			wchar_t theme[MAX_PATH + 1];
 
-				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
-				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
-				wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+			GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
+			int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+			wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+			if (str)
+				mir_free(str);
+			SendDlgItemMessage(hwndDlg, IDC_THEME, CB_DELETESTRING, (WPARAM)item, 0);
+			if (SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0) == 0) {
+				SetDlgItemText(hwndDlg, IDC_THEME, L"");
+				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
+			}
+			else {
+				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETCURSEL, 0, 0);
+				str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, 0, 0);
 				if (str)
-					mir_free(str);
-				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_DELETESTRING, (WPARAM)item, 0);
-				if (SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0) == 0) {
-					SetDlgItemText(hwndDlg, IDC_THEME, L"");
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
-					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
-				}
-				else {
-					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETCURSEL, 0, 0);
-					str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, 0, 0);
-					if (str)
-						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
-				}
-				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
+					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
 			}
-			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-			return TRUE;
+			EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
+		}
+		SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+		return TRUE;
 		case IDC_EXPORT:
-			{
-				wchar_t path[MAX_PATH + 1], filter[MAX_PATH + 1], *pfilter;
-				OPENFILENAME ofn = { 0 };
+		{
+			wchar_t path[MAX_PATH + 1], filter[MAX_PATH + 1], *pfilter;
+			OPENFILENAME ofn = { 0 };
 
-				path[0] = '\0';
-				ofn.lStructSize = sizeof(OPENFILENAME);
-				ofn.hwndOwner = hwndDlg;
-				ofn.hInstance = nullptr;
-				mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
-				mir_wstrcat(filter, L" (*.knt)");
-				pfilter = filter + mir_wstrlen(filter) + 1;
-				mir_wstrcpy(pfilter, L"*.knt");
-				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-				mir_wstrcpy(pfilter, TranslateT("All Files"));
-				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-				mir_wstrcpy(pfilter, L"*.*");
-				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-				*pfilter = '\0';
-				ofn.lpstrFilter = filter;
-				ofn.lpstrFile = path;
-				ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_NOREADONLYRETURN | OFN_PATHMUSTEXIST;
-				ofn.nMaxFile = _countof(path);
-				ofn.lpstrDefExt = L"knt";
-				if (GetSaveFileName(&ofn))
-					exportThemes(path);
-			}
-			return TRUE;
+			path[0] = '\0';
+			ofn.lStructSize = sizeof(OPENFILENAME);
+			ofn.hwndOwner = hwndDlg;
+			ofn.hInstance = nullptr;
+			mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
+			mir_wstrcat(filter, L" (*.knt)");
+			pfilter = filter + mir_wstrlen(filter) + 1;
+			mir_wstrcpy(pfilter, L"*.knt");
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+			mir_wstrcpy(pfilter, TranslateT("All Files"));
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+			mir_wstrcpy(pfilter, L"*.*");
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+			*pfilter = '\0';
+			ofn.lpstrFilter = filter;
+			ofn.lpstrFile = path;
+			ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_NOREADONLYRETURN | OFN_PATHMUSTEXIST;
+			ofn.nMaxFile = _countof(path);
+			ofn.lpstrDefExt = L"knt";
+			if (GetSaveFileName(&ofn))
+				exportThemes(path);
+		}
+		return TRUE;
 		case IDC_IMPORT:
-			{
-				wchar_t path[MAX_PATH + 1], filter[MAX_PATH + 1], *pfilter;
-				OPENFILENAME ofn = { 0 };
+		{
+			wchar_t path[MAX_PATH + 1], filter[MAX_PATH + 1], *pfilter;
+			OPENFILENAME ofn = { 0 };
 
-				path[0] = '\0';
-				ofn.lStructSize = sizeof(OPENFILENAME);
-				ofn.hwndOwner = hwndDlg;
-				ofn.hInstance = nullptr;
-				mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
-				mir_wstrcat(filter, L" (*.knt)");
-				pfilter = filter + mir_wstrlen(filter) + 1;
-				mir_wstrcpy(pfilter, L"*.knt");
-				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-				mir_wstrcpy(pfilter, TranslateT("All Files"));
-				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-				mir_wstrcpy(pfilter, L"*.*");
-				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-				*pfilter = '\0';
-				ofn.lpstrFilter = filter;
-				ofn.lpstrFile = path;
-				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_NOCHANGEDIR;
-				ofn.nMaxFile = _countof(path);
-				ofn.lpstrDefExt = L"knt";
-				if (GetOpenFileName(&ofn)) {
-					importThemes(path, IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED);
-					SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-				}
+			path[0] = '\0';
+			ofn.lStructSize = sizeof(OPENFILENAME);
+			ofn.hwndOwner = hwndDlg;
+			ofn.hInstance = nullptr;
+			mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
+			mir_wstrcat(filter, L" (*.knt)");
+			pfilter = filter + mir_wstrlen(filter) + 1;
+			mir_wstrcpy(pfilter, L"*.knt");
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+			mir_wstrcpy(pfilter, TranslateT("All Files"));
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+			mir_wstrcpy(pfilter, L"*.*");
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+			*pfilter = '\0';
+			ofn.lpstrFilter = filter;
+			ofn.lpstrFile = path;
+			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_NOCHANGEDIR;
+			ofn.nMaxFile = _countof(path);
+			ofn.lpstrDefExt = L"knt";
+			if (GetOpenFileName(&ofn)) {
+				importThemes(path, IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED);
+				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			}
-			return TRUE;
+		}
+		return TRUE;
 		case IDC_OVERRIDE:
 			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
@@ -1216,68 +1216,68 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		break;
 
 	case WM_NOTIFY:
-		{
-			int count;
-			wchar_t theme[MAX_PATH + 1], themeAux[MAX_PATH + 1];
-			// Here we have pressed either the OK or the APPLY button.
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				switch (((LPNMHDR)lParam)->code) {
-				case PSN_APPLY:
-					if (szTheme = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme))) {
-						mir_wstrcpy(theme, szTheme);
-						mir_free(szTheme);
-					}
+	{
+		int count;
+		wchar_t theme[MAX_PATH + 1], themeAux[MAX_PATH + 1];
+		// Here we have pressed either the OK or the APPLY button.
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_APPLY:
+				if (szTheme = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme))) {
+					mir_wstrcpy(theme, szTheme);
+					mir_free(szTheme);
+				}
+				else
+					theme[0] = '\0';
+
+				// Here we will delete all the items in the theme combo on the Flashing tab: we will load them again later
+				for (int i = 0; SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_DELETESTRING, 0, (LPARAM)i) != CB_ERR; i++);
+
+				count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
+				for (int i = 0; i < count; i++) {
+					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
+					db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
+					wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
+					if (str)
+						db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
 					else
-						theme[0] = '\0';
+						db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), L"");
 
-					// Here we will delete all the items in the theme combo on the Flashing tab: we will load them again later
-					for (int i = 0; SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_DELETESTRING, 0, (LPARAM)i) != CB_ERR; i++);
+					if (!mir_wstrcmp(theme, themeAux))
+						wCustomTheme = i;
 
-					count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
-					for (int i = 0; i < count; i++) {
-						SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
-						db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
-						wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
-						if (str)
-							db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
-						else
-							db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), L"");
+					// Here we will update the theme combo on the Flashing tab: horrible but can't imagine a better way right now
+					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)i, (LPARAM)themeAux);
+					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETITEMDATA, (WPARAM)i, (LPARAM)i);
+				}
+				for (int i = count; !db_unset(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++)
+					db_unset(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i));
 
-						if (!mir_wstrcmp(theme, themeAux))
-							wCustomTheme = i;
+				db_set_w(NULL, KEYBDMODULE, "custom", wCustomTheme);
+				// Still updating here the the Flashing tab's controls
+				SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
 
-						// Here we will update the theme combo on the Flashing tab: horrible but can't imagine a better way right now
-						SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)i, (LPARAM)themeAux);
-						SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETITEMDATA, (WPARAM)i, (LPARAM)i);
-					}
-					for (int i = count; !db_unset(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++)
-						db_unset(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i));
+				db_set_b(NULL, KEYBDMODULE, "override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1 : 0));
 
-					db_set_w(NULL, KEYBDMODULE, "custom", wCustomTheme);
-					// Still updating here the the Flashing tab's controls
-					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
-
-					db_set_b(NULL, KEYBDMODULE, "override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1 : 0));
-
-					return TRUE;
-				} // switch code
-				break;
-			} //switch idFrom
-		}
-		break; //End WM_NOTIFY
+				return TRUE;
+			} // switch code
+			break;
+		} //switch idFrom
+	}
+	break; //End WM_NOTIFY
 
 	case WM_DESTROY:
-		{
-			int count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
+	{
+		int count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
 
-			for (int item = 0; item < count; item++) {
-				wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
-				if (str)
-					mir_free(str);
-			}
-			break;
+		for (int item = 0; item < count; item++) {
+			wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+			if (str)
+				mir_free(str);
 		}
+		break;
+	}
 
 	default:
 		break;
