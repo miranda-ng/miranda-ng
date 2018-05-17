@@ -28,8 +28,6 @@ Boston, MA 02111-1307, USA.
 #include <vector>
 #include <algorithm>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_protosvc.h>
@@ -71,11 +69,16 @@ Boston, MA 02111-1307, USA.
 #define MS_LISTENINGTO_HOTKEYS_DISABLE		"ListeningTo/HotkeysDisable"
 #define MS_LISTENINGTO_HOTKEYS_TOGGLE		"ListeningTo/HotkeysToggle"
 
-#define MODULE_NAME		"ListeningTo"
+#define MODULE_NAME "ListeningTo"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{}
+};
 
 // Global Variables
-extern HINSTANCE hInst;
 extern BOOL loaded;
 
 #define MIR_FREE(_X_) { mir_free(_X_); _X_ = NULL; }

@@ -119,7 +119,7 @@ public:
 		acFindStr[0] = 0;
 		memset(&fr, 0, sizeof(fr));
 		fr.lStructSize = sizeof(fr);
-		fr.hInstance = hInstance;
+		fr.hInstance = g_plugin.getInst();
 		fr.Flags = FR_NOUPDOWN | FR_HIDEUPDOWN;//|FR_MATCHCASE|FR_WHOLEWORD;
 		// FR_DOWN|FR_FINDNEXT|FR_NOMATCHCASE;
 		fr.lpstrFindWhat = acFindStr;
@@ -765,7 +765,7 @@ LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	switch (msg) {
 	case WM_CONTEXTMENU:
 	{
-		HMENU nMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_FV_EDIT));
+		HMENU nMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_FV_EDIT));
 		HMENU nSubMenu = GetSubMenu(nMenu, 0);
 		POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 
@@ -943,7 +943,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		pclDlg = (CLHistoryDlg *)lParam;
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_EXPORT_MESSAGE)));
 		{
 			HWND hRichEdit = GetDlgItem(hwndDlg, IDC_RICHEDIT);
 			mir_subclassWindow(hRichEdit, EditSubclassProc);
@@ -1201,7 +1201,7 @@ bool bShowFileViewer(MCONTACT hContact)
 	}
 
 	CLHistoryDlg *pcl = new CLHistoryDlg(hContact);
-	pcl->hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_FILE_VIEWER), nullptr, DlgProcFileViewer, (LPARAM)pcl);
+	pcl->hWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILE_VIEWER), nullptr, DlgProcFileViewer, (LPARAM)pcl);
 	if (pcl->hWnd) {
 		mir_cslock lck(csHistoryList);
 		clHistoryDlgList.push_front(pcl);

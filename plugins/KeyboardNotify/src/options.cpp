@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void LoadSettings(void);
 
-extern HINSTANCE g_hInst;
-
 extern BYTE bFlashOnMsg, bFlashOnURL, bFlashOnFile, bFlashOnOther, bFullScreenMode, bScreenSaverRunning, bWorkstationLocked, bProcessesAreRunning,
 		bWorkstationActive, bFlashIfMsgOpen, bFlashIfMsgOlder, bFlashUntil, bMirandaOrWindows, bFlashLed[3], bFlashEffect, bSequenceOrder, bFlashSpeed,
 		bEmulateKeypresses, bOverride, bFlashIfMsgWinNotTop, bTrillianLedsMsg, bTrillianLedsURL, bTrillianLedsFile, bTrillianLedsOther;
@@ -725,11 +723,11 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 			return TRUE;
 		case IDC_ASSIGNPGMS:
-			if (DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PROCESSES), hwndDlg, DlgProcProcesses, 0) == IDC_OKPGM)
+			if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PROCESSES), hwndDlg, DlgProcProcesses, 0) == IDC_OKPGM)
 				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SELECTXSTATUS:
-			if (DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_XSTATUSES), hwndDlg, DlgProcXstatusList, 0) == IDC_OKXST)
+			if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_XSTATUSES), hwndDlg, DlgProcXstatusList, 0) == IDC_OKXST)
 				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SREMCHECK:
@@ -918,7 +916,7 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_ASSIGNLEDS:
-			if (DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EVENTLEDS), hwndDlg, DlgProcEventLeds, 0) == IDC_OK)
+			if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EVENTLEDS), hwndDlg, DlgProcEventLeds, 0) == IDC_OK)
 				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SDELAY:
@@ -1307,20 +1305,20 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		tci.pszText = TranslateT("Ignore");
 		TabCtrl_InsertItem(tc, 4, &tci);
 
-		hwndProto = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_PROTO_OPTIONS), hwndDlg, DlgProcProtoOptions, (LPARAM)NULL);
+		hwndProto = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PROTO_OPTIONS), hwndDlg, DlgProcProtoOptions, (LPARAM)NULL);
 		EnableThemeDialogTexture(hwndProto, ETDT_ENABLETAB);
 		SetWindowPos(hwndProto, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		ShowWindow(hwndProto, SW_SHOW);
-		hwndBasic = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_BASIC_OPTIONS), hwndDlg, DlgProcBasicOptions, (LPARAM)NULL);
+		hwndBasic = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BASIC_OPTIONS), hwndDlg, DlgProcBasicOptions, (LPARAM)NULL);
 		EnableThemeDialogTexture(hwndBasic, ETDT_ENABLETAB);
 		SetWindowPos(hwndBasic, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		hwndEffect = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_EFFECT_OPTIONS), hwndDlg, DlgProcEffectOptions, (LPARAM)NULL);
+		hwndEffect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EFFECT_OPTIONS), hwndDlg, DlgProcEffectOptions, (LPARAM)NULL);
 		EnableThemeDialogTexture(hwndEffect, ETDT_ENABLETAB);
 		SetWindowPos(hwndEffect, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		hwndTheme = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_THEME_OPTIONS), hwndDlg, DlgProcThemeOptions, (LPARAM)NULL);
+		hwndTheme = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_THEME_OPTIONS), hwndDlg, DlgProcThemeOptions, (LPARAM)NULL);
 		EnableThemeDialogTexture(hwndTheme, ETDT_ENABLETAB);
 		SetWindowPos(hwndTheme, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		hwndIgnore = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_IGNORE_OPTIONS), hwndDlg, DlgProcIgnoreOptions, (LPARAM)NULL);
+		hwndIgnore = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_IGNORE_OPTIONS), hwndDlg, DlgProcIgnoreOptions, (LPARAM)NULL);
 		EnableThemeDialogTexture(hwndIgnore, ETDT_ENABLETAB);
 		SetWindowPos(hwndIgnore, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		hwndCurrentTab = hwndProto;
@@ -1386,7 +1384,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 int InitializeOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = LPGEN("Keyboard Flash");
 	odp.szGroup.a = LPGEN("Events");

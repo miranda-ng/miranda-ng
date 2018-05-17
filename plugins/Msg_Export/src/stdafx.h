@@ -28,8 +28,6 @@ using namespace std;
 #include <string>
 #include <map>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clist.h>
@@ -56,7 +54,12 @@ using namespace std;
 #define szFileViewDB "FileV_"
 #define WM_RELOAD_FILE (WM_USER+10)
 
-extern HINSTANCE hInstance;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
 extern MWindowList hInternalWindowList;
 

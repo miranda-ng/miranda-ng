@@ -26,10 +26,9 @@
 
 #define NCONVERS_BLINKID ((MEVENT)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
 
-HINSTANCE g_hInst;
-
-CLIST_INTERFACE *pcli;
 int hLangpack;
+CLIST_INTERFACE *pcli;
+CMPlugin g_plugin;
 
 DWORD IDThread = 0;
 HANDLE hThread = nullptr;
@@ -87,7 +86,8 @@ BOOL bReminderDisabled = FALSE;
 
 BYTE bMetaProtoEnabled = 0;
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -103,12 +103,6 @@ PLUGININFOEX pluginInfo = {
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
 }
 
 int InitializeOptions(WPARAM, LPARAM);

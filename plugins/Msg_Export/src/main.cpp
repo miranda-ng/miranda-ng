@@ -18,8 +18,8 @@
 
 #include "stdafx.h"
 
-HINSTANCE hInstance = nullptr;
-int hLangpack = 0;
+int hLangpack;
+CMPlugin g_plugin;
 
 MWindowList hInternalWindowList = nullptr;
 
@@ -40,6 +40,10 @@ PLUGININFOEX pluginInfo = {
 	{ 0x46102b07, 0xc215, 0x4162, { 0x9c, 0x83, 0xd3, 0x77, 0x88, 0x1d, 0xa7, 0xcc } }
 };
 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
 
 /////////////////////////////////////////////////////////////////////
 // Member Function : ShowExportHistory
@@ -57,8 +61,7 @@ PLUGININFOEX pluginInfo = {
 
 static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM /*lParam*/)
 {
-	if (bUseInternalViewer())
-	{
+	if (bUseInternalViewer()) {
 		bShowFileViewer(wParam);
 		return 0;
 	}
@@ -109,11 +112,10 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
-	if (!bReplaceHistory)
-	{
+	if (!bReplaceHistory) {
 		CMenuItem mi;
 		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
-		mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
 		mi.position = 1000090100;
 		mi.name.a = LPGEN("Open E&xported History");
 		mi.pszService = MS_SHOW_EXPORT_HISTORY;
@@ -122,48 +124,6 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 	HookEvent(ME_SYSTEM_SHUTDOWN, nSystemShutdown);
 	return 0;
-}
-
-
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : DllMain
-// Type            : Global
-// Parameters      : hinst       - ?
-//                   fdwReason   - ?
-//                   lpvReserved - ?
-// Returns         : BOOL WINAPI
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/)
-{
-	hInstance = hinst;
-	return 1;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : MirandaPluginInfo
-// Type            : Global
-// Parameters      : mirandaVersion - ?
-// Returns         : 
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
 }
 
 /////////////////////////////////////////////////////////////////////

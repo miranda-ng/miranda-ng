@@ -117,7 +117,7 @@ void CScreen::SetButtonBitmap(int iButton, int iBitmap)
 		if(m_ahBitmaps[iButton] != nullptr)
 			DeleteObject(m_ahBitmaps[iButton]);
 
-		m_ahBitmaps[iButton] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(iBitmap),
+		m_ahBitmaps[iButton] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(iBitmap),
 												IMAGE_BITMAP,17, 3, LR_MONOCHROME);
 		m_aButtons[iButton].SetBitmap(m_ahBitmaps[iButton]);
 

@@ -102,24 +102,24 @@ bool CAppletManager::Initialize(tstring strAppletName)
 	}
 
 	// load status bitmaps
-	m_ahStatusBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_OFFLINE), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_ONLINE), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_AWAY), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_NA), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[4] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_OCCUPIED), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[5] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_DND), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[6] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_INVISIBLE), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[7] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_FFC), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[0] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_STATUS_OFFLINE), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[1] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_STATUS_ONLINE), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[2] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_STATUS_AWAY), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[3] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_STATUS_NA), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[4] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_STATUS_OCCUPIED), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[5] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_STATUS_DND), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[6] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_STATUS_INVISIBLE), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[7] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_STATUS_FFC), IMAGE_BITMAP, 5, 5, LR_MONOCHROME);
 	// Load event bitmaps
-	m_ahEventBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_MSG), IMAGE_BITMAP, 6, 6, LR_MONOCHROME);
-	m_ahEventBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_CON), IMAGE_BITMAP, 6, 6, LR_MONOCHROME);
-	m_ahEventBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_USER), IMAGE_BITMAP, 6, 6, LR_MONOCHROME);
-	m_ahEventBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_INFO), IMAGE_BITMAP, 6, 6, LR_MONOCHROME);
+	m_ahEventBitmaps[0] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_EVENT_MSG), IMAGE_BITMAP, 6, 6, LR_MONOCHROME);
+	m_ahEventBitmaps[1] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_EVENT_CON), IMAGE_BITMAP, 6, 6, LR_MONOCHROME);
+	m_ahEventBitmaps[2] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_EVENT_USER), IMAGE_BITMAP, 6, 6, LR_MONOCHROME);
+	m_ahEventBitmaps[3] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_EVENT_INFO), IMAGE_BITMAP, 6, 6, LR_MONOCHROME);
 
-	m_ahLargeEventBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_MSG_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
-	m_ahLargeEventBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_CON_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
-	m_ahLargeEventBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_USER_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
-	m_ahLargeEventBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_INFO_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
+	m_ahLargeEventBitmaps[0] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_EVENT_MSG_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
+	m_ahLargeEventBitmaps[1] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_EVENT_CON_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
+	m_ahLargeEventBitmaps[2] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_EVENT_USER_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
+	m_ahLargeEventBitmaps[3] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDB_EVENT_INFO_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
 
 	// start the update timer
 	m_uiTimer = SetTimer(nullptr, 0, 1000 / 10, CAppletManager::UpdateTimer);

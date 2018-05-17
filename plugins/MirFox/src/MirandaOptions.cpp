@@ -1,10 +1,7 @@
 #include "common.h"
 #include "MirandaOptions.h"
 
-
 extern CMirfoxMiranda mirfoxMiranda;
-extern HINSTANCE hInst;
-
 
 /*
  *	callback function for tab 1 options page
@@ -340,8 +337,8 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		hIml = ImageList_Create(smCx,smCy,((LOBYTE(LOWORD(GetVersion()))>=5 && LOWORD(GetVersion())!=5) ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 4, 4);
 
 		//load icons (direct)
-		icoHandle_ICON_OFF = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON_OFF));
-		icoHandle_ICON_FF = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON_FF));
+		icoHandle_ICON_OFF = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON_OFF));
+		icoHandle_ICON_FF = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON_FF));
 
 		//add icons to ImageList list
 		ImageList_AddIcon(hIml, icoHandle_ICON_OFF);
@@ -674,7 +671,7 @@ int OptInit(WPARAM wParam, LPARAM) {
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = LPGEN(PLUGIN_OPTIONS_NAME);
 	odp.szGroup.a = LPGEN("Services");
 	odp.flags = ODPF_BOLDGROUPS;

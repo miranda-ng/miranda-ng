@@ -130,7 +130,7 @@ void LoadRichEdit()
 	wcl.style = CS_GLOBALCLASS;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hIcon = nullptr;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
@@ -147,7 +147,7 @@ void UnloadRichEdit()
 
 HWND CreateProxyWindow(ITextServices *ts)
 {
-	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, hInst, nullptr);
+	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ts);
 	return hwnd;
 }

@@ -58,16 +58,18 @@ bool g_bInitialized;
 
 // Plugin Information
 
-CLIST_INTERFACE *pcli;
-HINSTANCE hInstance;
 int hLangpack;
+CMPlugin g_plugin;
+CLIST_INTERFACE *pcli;
 
-// {58D63981-14C1-4099-A3F7-F4FAA4C8FC59}
-#define MIID_G15APPLET	{ 0x58d63981, 0x14c1, 0x4099, { 0xa3, 0xf7, 0xf4, 0xfa, 0xa4, 0xc8, 0xfc, 0x59 } }
+// Function Prototypes
+int Init(WPARAM, LPARAM);
+void UnInit();
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_G15APPLET, MIID_LAST};
-	
-PLUGININFOEX pluginInfoEx = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -80,22 +82,16 @@ PLUGININFOEX pluginInfoEx = {
 	{0x798221e1, 0xe47a, 0x4dc8, {0x90, 0x77, 0x1e, 0x57, 0x6f, 0x9c, 0x43, 0x7}}
 };
 
-// Function Prototypes
-int Init(WPARAM,LPARAM);
-void UnInit();
-
-//************************************************************************
-// Exported Functions
-//************************************************************************
-
 EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 	
+/////////////////////////////////////////////////////////////////////////////////////////
 // Called by Miranda to load the plugin.
 // We defer initialization until Miranda's module loading process completed and return 0 to
 // mark success, everything else will cause the plugin to be freed right away.
+
 EXTERN_C int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
@@ -110,7 +106,9 @@ EXTERN_C int __declspec(dllexport) Load()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Called by Miranda when the plugin should unload itself.
+
 EXTERN_C int __declspec(dllexport) Unload(void)
 {
 	if(!g_bInitialized) {
@@ -124,17 +122,6 @@ EXTERN_C int __declspec(dllexport) Unload(void)
 	UnInitDebug();
 	TRACE(L"OK!\n");
 	return 0;
-}
-
-//************************************************************************
-// DllMain
-//
-// EntryPoint of the DLL
-//************************************************************************
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInstance = hinstDLL;
-	return TRUE;
 }
 
 //************************************************************************

@@ -71,11 +71,11 @@ GenericPlayer::GenericPlayer()
 
 	WNDCLASS wc = {};
 	wc.lpfnWndProc = ReceiverWndProc;
-	wc.hInstance = hInst;
+	wc.hInstance = g_plugin.getInst();
 	wc.lpszClassName = MIRANDA_WINDOWCLASS;
 	RegisterClass(&wc);
 
-	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENW("Miranda ListeningTo receiver"), 0, 0, 0, 0, 0, nullptr, nullptr, hInst, nullptr);
+	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENW("Miranda ListeningTo receiver"), 0, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 }
 
 GenericPlayer::~GenericPlayer()
@@ -88,7 +88,7 @@ GenericPlayer::~GenericPlayer()
 	DestroyWindow(hWnd);
 	hWnd = nullptr;
 
-	UnregisterClass(MIRANDA_WINDOWCLASS, hInst);
+	UnregisterClass(MIRANDA_WINDOWCLASS, g_plugin.getInst());
 	singleton = nullptr;
 }
 

@@ -22,8 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
 int hLangpack;
+CMPlugin g_plugin;
 
 MSGBOXOPTIONS optionsDefault =
 {
@@ -34,7 +34,10 @@ MSGBOXOPTIONS optionsDefault =
 };
 MSGBOXOPTIONS options;
 
-PLUGININFOEX pluginInfo={
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -46,6 +49,13 @@ PLUGININFOEX pluginInfo={
 	// {CF25D645-4DAB-4B0A-B9F1-DE1E86231F9B}
 	{0xcf25d645, 0x4dab, 0x4b0a, {0xb9, 0xf1, 0xde, 0x1e, 0x86, 0x23, 0x1f, 0x9b}}
 };
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 typedef int (WINAPI *MSGBOXPROC)(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 
@@ -183,7 +193,7 @@ int HookedOptions(WPARAM wParam, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.hInstance = hInst;
+		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 		odp.szTitle.w = LPGENW("MessagePopup");
 		odp.szGroup.w = LPGENW("Popups");
@@ -209,6 +219,8 @@ void LoadConfig()
 	options.Sound = db_get_b(NULL, SERVICENAME, "Sound", (DWORD)optionsDefault.Sound);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -219,18 +231,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	return 0;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
 }

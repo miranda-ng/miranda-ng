@@ -127,7 +127,7 @@ void CodeInjectionPlayer::InjectCode()
 
 	// Get the dll path
 	char dll_path[1024] = { 0 };
-	if (!GetModuleFileNameA(hInst, dll_path, _countof(dll_path)))
+	if (!GetModuleFileNameA(g_plugin.getInst(), dll_path, _countof(dll_path)))
 		return;
 
 	char *p = strrchr(dll_path, '\\');

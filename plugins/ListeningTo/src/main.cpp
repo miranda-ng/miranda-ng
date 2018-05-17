@@ -19,10 +19,13 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
 int hLangpack;
+CMPlugin g_plugin;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -34,16 +37,6 @@ PLUGININFOEX pluginInfo = {
 	// {F981F3F5-035A-444F-9892-CA722C195ADA}
 	{ 0xf981f3f5, 0x35a, 0x444f,{ 0x98, 0x92, 0xca, 0x72, 0x2c, 0x19, 0x5a, 0xda } }
 };
-
-// Functions ////////////////////////////////////////////////////////////////////////////
-
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -69,6 +62,5 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	CoUninitialize();
-
 	return 0;
 }

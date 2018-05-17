@@ -2,12 +2,10 @@
 
 #include "MirFoxCommons_pch.h"
 
-
 #pragma comment(lib, "comctl32.lib")
 #include <commctrl.h>
 
 // Miranda headers
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_system.h>
@@ -21,12 +19,15 @@
 #include <m_extraicons.h>
 #include <m_protocols.h>
 
+#define PLUGIN_DB_ID        "MirFox"
+#define PLUGIN_OPTIONS_NAME "MirFox"
 
-#define PLUGIN_DB_ID				"MirFox"
-#define PLUGIN_OPTIONS_NAME			"MirFox"
-
-
-
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PLUGIN_DB_ID)
+	{}
+};
 
 //for MirandaUtils.h and MirfoxData.h and MirfoxMiranda.h
 #include "MirFoxCommons_logger.h"

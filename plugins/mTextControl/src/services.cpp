@@ -328,7 +328,7 @@ INT_PTR MText_GetInterface(WPARAM, LPARAM lParam)
 	if (MText == nullptr)
 		return CALLSERVICE_NOTFOUND;
 
-	MText->version = pluginInfoEx.version;
+	MText->version = PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 	MText->Register = MTI_TextUserAdd;
 	MText->Create = MTI_MTextCreateW;
 	MText->CreateEx = MTI_MTextCreateEx;

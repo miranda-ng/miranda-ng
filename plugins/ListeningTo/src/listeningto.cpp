@@ -894,5 +894,5 @@ void InitServices()
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 
 	// icons
-	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("ListeningTo"), iconList, _countof(iconList));
 }

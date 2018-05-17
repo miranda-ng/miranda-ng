@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "Miranda.h"
 #include "CConfig.h"
 
 #include "CAppletManager.h"
@@ -244,7 +243,7 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 847000000;
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("MirandaG15");
 	odp.flags = ODPF_BOLDGROUPS;
 
@@ -573,8 +572,8 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 			HIMAGELIST himlCheckBoxes;
 			himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-			iRes = ImageList_AddIcon(himlCheckBoxes, LoadIcon(hInstance, MAKEINTRESOURCE(IDI_NOTICK)));
-			iRes = ImageList_AddIcon(himlCheckBoxes, LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TICK)));
+			iRes = ImageList_AddIcon(himlCheckBoxes, LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOTICK)));
+			iRes = ImageList_AddIcon(himlCheckBoxes, LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_TICK)));
 			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_PROTOCOLS), himlCheckBoxes, TVSIL_NORMAL);
 
 			FillTree(GetDlgItem(hwndDlg, IDC_PROTOCOLS));
@@ -744,8 +743,8 @@ INT_PTR CALLBACK CConfig::ContactlistDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 			HIMAGELIST himlCheckBoxes;
 			himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-			iRes = ImageList_AddIcon(himlCheckBoxes, LoadIcon(hInstance, MAKEINTRESOURCE(IDI_NOTICK)));
-			iRes = ImageList_AddIcon(himlCheckBoxes, LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TICK)));
+			iRes = ImageList_AddIcon(himlCheckBoxes, LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOTICK)));
+			iRes = ImageList_AddIcon(himlCheckBoxes, LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_TICK)));
 			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_CLIST_PROTOFILTER), himlCheckBoxes, TVSIL_NORMAL);
 
 			FillTree(GetDlgItem(hwndDlg, IDC_CLIST_PROTOFILTER), true);

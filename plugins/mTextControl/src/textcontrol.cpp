@@ -38,7 +38,7 @@ void MTextControl_RegisterClass()
 	wcl.style = CS_GLOBALCLASS;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hIcon = nullptr;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);

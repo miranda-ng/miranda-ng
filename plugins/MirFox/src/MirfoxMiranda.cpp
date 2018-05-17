@@ -1,9 +1,6 @@
 #include "common.h"
 #include "MirfoxMiranda.h"
 
-
-
-
 CMirfoxMiranda::CMirfoxMiranda()
 				: sharedMemoryUtils(SharedMemoryUtils::getInstance())
 				, mirandaUtils(MirandaUtils::getInstance())
@@ -17,14 +14,15 @@ CMirfoxMiranda::~CMirfoxMiranda()
 {
 }
 
-MirfoxData& CMirfoxMiranda::getMirfoxData(){
+MirfoxData& CMirfoxMiranda::getMirfoxData()
+{
 	return mirfoxData;
 }
 
-SharedMemoryUtils& CMirfoxMiranda::getSharedMemoryUtils(){
+SharedMemoryUtils& CMirfoxMiranda::getSharedMemoryUtils()
+{
 	return *sharedMemoryUtils;
 }
-
 
 int CMirfoxMiranda::onMirandaInterfaceLoad()
 {

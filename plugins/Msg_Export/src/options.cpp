@@ -285,7 +285,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 	}
 
 	// Create progress dialog
-	HWND hDlg = data->hDialog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), nullptr, DialogProc);
+	HWND hDlg = data->hDialog = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), nullptr, DialogProc);
 	ShowWindow(hDlg, SW_SHOWNORMAL);
 	
 	// Process the export in other thread
@@ -870,7 +870,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 	case WM_CONTEXTMENU:
 		if (wParam == (WPARAM)GetDlgItem(hwndDlg, IDC_MAP_USER_LIST)) {
-			HMENU hMainMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MSG_EXPORT));
+			HMENU hMainMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MSG_EXPORT));
 			if (hMainMenu) {
 				HMENU hMenu = GetSubMenu(hMainMenu, 0);
 
@@ -1228,7 +1228,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("Message export");
