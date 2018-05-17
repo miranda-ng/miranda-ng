@@ -23,6 +23,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);
 
 char PLUGINNAME[64] = {0}; //init at init_pluginname();
 int hLangpack = 0;
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 
 HINSTANCE hLotusDll;
@@ -85,10 +86,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 #endif
 	return &pluginInfo;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

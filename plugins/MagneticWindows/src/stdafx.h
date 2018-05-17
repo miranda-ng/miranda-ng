@@ -17,13 +17,11 @@
 #include "resource.h"
 #include "Version.h"
 
-typedef
-struct {
+struct TWorkingVariables
+{
 	int MouseX, MouseY;
 	bool SnappedX, SnappedY;
-} TWorkingVariables;
-
-
+};
 
 #define MODULE_NAME "MagneticWindows"
 

@@ -9,8 +9,6 @@
 // Miranda headers
 //LotusNotify.h
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <m_core.h>
 #include <win2k.h>
 #include <newpluginapi.h>
@@ -38,5 +36,3 @@
 #include "cnotesapi/include/extmgr.h"
 #include "cnotesapi/include/bsafeerr.h"
 #include "cnotesapi/include/nsferr.h"
-
-

@@ -7,8 +7,8 @@ using namespace std;
 static const basic_string <char>::size_type npos = -1;
 
 char *szProto;
-HINSTANCE hInst = nullptr;
 int hLangpack = 0;
+CMPlugin g_plugin;
 
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
@@ -20,13 +20,7 @@ const INT_PTR boo = 0;
 
 LastUCOptions LastUCOpt = {0};
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
+static IconItem icon = { LPGEN("Main icon"), "recent_main", IDI_SHOWRECENT };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,8 +37,6 @@ PLUGININFOEX pluginInfo =
 	// {0E5F3B9D-EBCD-44D7-9374-D8E5D88DF4E3}
 	{0x0e5f3b9d, 0xebcd, 0x44d7, {0x93, 0x74, 0xd8, 0xe5, 0xd8, 0x8d, 0xf4, 0xe3}}
 };
-
-static IconItem icon = { LPGEN("Main icon"), "recent_main", IDI_SHOWRECENT };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -251,12 +243,11 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					lvi.iImage = Clist_GetContactIcon(curContact->second);
 					ListView_InsertItem(hList, &lvi);
 					i++;
-
 				}
+
 				if (LastUCOpt.MaxShownContacts > 0 && i >= LastUCOpt.MaxShownContacts)
 					break;
 			}
-
 
 			// window autosize/autopos - ike blaster
 			bool restorePos = !LastUCOpt.WindowAutoSize;
@@ -300,37 +291,35 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		{
-			LPNMHDR lpNmhdr;
-			lpNmhdr = (LPNMHDR)lParam;
-			if (lpNmhdr->hwndFrom == hList) {
-				if (lpNmhdr->code == NM_CLICK || lpNmhdr->code == NM_RCLICK) {
-					RECT r;
-					POINT p;
-					GetCursorPos(&p);
-					GetWindowRect(hList, &r);
-					if (PtInRect(&r, p)) {
-						LVHITTESTINFO lvh;
-						memset(&lvh, 0, sizeof(lvh));
-						lvh.pt = p;
-						ScreenToClient(hList, &lvh.pt);
-						ListView_HitTest(hList, &lvh);
-						if ((lvh.flags & (LVHT_ONITEMICON | LVHT_ONITEMLABEL | LVHT_ONITEMSTATEICON)) && lvh.iItem != -1) {
-							if (lpNmhdr->code == NM_CLICK) {
-								if (ShowListMainDlgProc_OpenContact(hList, lvh.iItem))
-									SendMessage(hDlg, WM_CLOSE, 0, 0);
-							}
-							else ShowListMainDlgProc_OpenContactMenu(hDlg, hList, lvh.iItem, DlgDat);
+		LPNMHDR lpNmhdr;
+		lpNmhdr = (LPNMHDR)lParam;
+		if (lpNmhdr->hwndFrom == hList) {
+			if (lpNmhdr->code == NM_CLICK || lpNmhdr->code == NM_RCLICK) {
+				RECT r;
+				POINT p;
+				GetCursorPos(&p);
+				GetWindowRect(hList, &r);
+				if (PtInRect(&r, p)) {
+					LVHITTESTINFO lvh;
+					memset(&lvh, 0, sizeof(lvh));
+					lvh.pt = p;
+					ScreenToClient(hList, &lvh.pt);
+					ListView_HitTest(hList, &lvh);
+					if ((lvh.flags & (LVHT_ONITEMICON | LVHT_ONITEMLABEL | LVHT_ONITEMSTATEICON)) && lvh.iItem != -1) {
+						if (lpNmhdr->code == NM_CLICK) {
+							if (ShowListMainDlgProc_OpenContact(hList, lvh.iItem))
+								SendMessage(hDlg, WM_CLOSE, 0, 0);
 						}
+						else ShowListMainDlgProc_OpenContactMenu(hDlg, hList, lvh.iItem, DlgDat);
 					}
 				}
-				else if (lpNmhdr->code == NM_RETURN) {
-					if (ShowListMainDlgProc_OpenContact(hList, ListView_GetNextItem(hList, -1, LVIS_SELECTED)))
-						SendMessage(hDlg, WM_CLOSE, 0, 0);
-				}
 			}
-			break;
+			else if (lpNmhdr->code == NM_RETURN) {
+				if (ShowListMainDlgProc_OpenContact(hList, ListView_GetNextItem(hList, -1, LVIS_SELECTED)))
+					SendMessage(hDlg, WM_CLOSE, 0, 0);
+			}
 		}
+		break;
 
 	case WM_MEASUREITEM:
 		return Menu_MeasureItem(lParam);
@@ -415,7 +404,7 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 			contacts->insert(cpair(curTime, curContact));
 	}
 
-	HWND hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_LASTUC_DIALOG), nullptr, ShowListMainDlgProc, (LPARAM)contacts);
+	HWND hWndMain = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LASTUC_DIALOG), nullptr, ShowListMainDlgProc, (LPARAM)contacts);
 	if (hWndMain == nullptr)
 		return -1;
 
@@ -562,7 +551,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	CoInitialize(nullptr);
 
-	Icon_Register(hInst, "Recent Contacts", &icon, 1);
+	Icon_Register(g_plugin.getInst(), "Recent Contacts", &icon, 1);
 
 	CreateServiceFunction(msLastUC_ShowList, OnMenuCommandShowList);
 	CreateServiceFunction(V_RECENTCONTACTS_TOGGLE_IGNORE, ToggleIgnore);

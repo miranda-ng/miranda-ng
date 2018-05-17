@@ -147,7 +147,7 @@ INT_PTR PluginCommand_SetMyNicknameUI(WPARAM, LPARAM lParam)
 	if (!nickname_dialog_open) {
 		InterlockedExchange(&nickname_dialog_open, 1);
 
-		hwndSetNickname = CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETNICKNAME), nullptr, DlgProcSetNickname);
+		hwndSetNickname = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETNICKNAME), nullptr, DlgProcSetNickname);
 
 		SendMessage(hwndSetNickname, WMU_SETDATA, proto_num, 0);
 	}
@@ -437,7 +437,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 		if (!status_msg_dialog_open) {
 			InterlockedExchange(&status_msg_dialog_open, 1);
 
-			hwndSetStatusMsg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETSTATUSMESSAGE), nullptr, DlgProcSetStatusMessage);
+			hwndSetStatusMsg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETSTATUSMESSAGE), nullptr, DlgProcSetStatusMessage);
 
 			SendMessage(hwndSetStatusMsg, WMU_SETDATA, status, proto_num);
 		}

@@ -27,10 +27,15 @@ MWindowList hWindowList;
 HNETLIBUSER hNetlibUser;
 HANDLE hHookDisplayDataAlert, hHookAlertPopup, hHookAlertWPopup, hHookErrorPopup, hHookAlertOSD;
 
-int    hLangpack = 0;
+int hLangpack;
+CMPlugin g_plugin;
+
 static HMODULE hRichEd = nullptr;
 
-PLUGININFOEX pluginInfoEx = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -83,10 +88,6 @@ void ChangeContactStatus(int con_stat)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

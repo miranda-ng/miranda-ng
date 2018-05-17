@@ -35,10 +35,19 @@
 
 #include "stdafx.h"
 
-HINSTANCE g_hInst;
-
 static HANDLE hExtraIcon = nullptr;
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+}
+g_plugin;
+
 int hLangpack;
+
+///////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo =
 {
@@ -53,12 +62,6 @@ PLUGININFOEX pluginInfo =
 	// {45230488-977B-405B-856D-EA276D7083B7}
 	{0x45230488, 0x977b, 0x405b, {0x85, 0x6d, 0xea, 0x27, 0x6d, 0x70, 0x83, 0xb7}}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
-}
 
 // плагининфо
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
@@ -123,12 +126,14 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
 	// IcoLib support
-	Icon_Register(g_hInst, LPGEN("Contact rate"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("Contact rate"), iconList, _countof(iconList));
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_RegisterIcolib("contact_rate", LPGEN("Contact rate"), "rate_high");
 	return 0;
 }
+
+///////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

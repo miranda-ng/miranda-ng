@@ -163,7 +163,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -200000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
 	odp.szGroup.w = LPGENW("Contact list");

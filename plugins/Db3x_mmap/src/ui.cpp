@@ -63,7 +63,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_hInst, MAKEINTRESOURCE(iconList[0].defIconID)));
+		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(iconList[0].defIconID)));
 
 		param = (DlgChangePassParam*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -140,7 +140,7 @@ bool CDb3Mmap::EnterPassword(const BYTE *pKey, const size_t keyLen)
 			CredFree(pCred);
 		}
 		else {
-			if (IDOK != DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), nullptr, sttEnterPassword, (LPARAM)&param))
+			if (IDOK != DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LOGIN), nullptr, sttEnterPassword, (LPARAM)&param))
 				return false;
 			m_crypto->setPassword(T2Utf(param.newPass));
 		}
@@ -258,7 +258,7 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 	DlgChangePassParam param = { db };
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)&param);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)&param);
 	return 0;
 }
 
@@ -304,7 +304,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Database");
@@ -325,7 +325,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 
-	Icon_Register(g_hInst, LPGEN("Database"), iconList, _countof(iconList), "mmap");
+	Icon_Register(g_plugin.getInst(), LPGEN("Database"), iconList, _countof(iconList), "mmap");
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 

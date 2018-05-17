@@ -6,8 +6,6 @@
 #include <iphlpapi.h>
 #include <Tlhelp32.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_clistint.h>
@@ -50,8 +48,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 void showMsg(wchar_t *pName,DWORD pid,wchar_t *intIp,wchar_t *extIp,int intPort,int extPort,int state);
-//int __declspec(dllexport) Load(PLUGINLINK *link);
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 static unsigned __stdcall checkthread(void *dummy);
 struct CONNECTION * LoadSettingsConnections();
 void saveSettingsConnections(struct CONNECTION *connHead);

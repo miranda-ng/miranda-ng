@@ -262,7 +262,7 @@ int CreateFrame()
 	wndclass.lpfnWndProc = FrameWindowProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hIcon = nullptr;
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = nullptr; //(HBRUSH)(COLOR_3DFACE+1);
@@ -272,7 +272,7 @@ int CreateFrame()
 
 	if (g_bFramesExist) {
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My details"), WS_CHILD | WS_VISIBLE,
-			0, 0, 10, 10, pcli->hwndContactList, nullptr, hInst, nullptr);
+			0, 0, 10, 10, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 		CLISTFrame Frame = { 0 };
 
@@ -307,7 +307,7 @@ int CreateFrame()
 		wndclass.lpfnWndProc = FrameContainerWindowProc;
 		wndclass.cbClsExtra = 0;
 		wndclass.cbWndExtra = 0;
-		wndclass.hInstance = hInst;
+		wndclass.hInstance = g_plugin.getInst();
 		wndclass.hIcon = nullptr;
 		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wndclass.hbrBackground = nullptr; //(HBRUSH)(COLOR_3DFACE+1);
@@ -317,10 +317,10 @@ int CreateFrame()
 
 		hwnd_container = CreateWindowEx(WS_EX_TOOLWINDOW, CONTAINER_CLASS_NAME, TranslateT("My details"),
 			(WS_THICKFRAME | WS_CAPTION | WS_SYSMENU) & ~WS_VISIBLE,
-			0, 0, 200, 130, pcli->hwndContactList, nullptr, hInst, nullptr);
+			0, 0, 200, 130, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My details"), WS_CHILD | WS_VISIBLE,
-			0, 0, 10, 10, hwnd_container, nullptr, hInst, nullptr);
+			0, 0, 10, 10, hwnd_container, nullptr, g_plugin.getInst(), nullptr);
 
 		SetWindowLongPtr(hwnd_container, GWLP_USERDATA, (LONG_PTR)hwnd_frame);
 		SendMessage(hwnd_container, WM_SIZE, 0, 0);
@@ -528,14 +528,14 @@ HWND CreateTooltip(HWND hwnd, RECT &rect)
 
 	/* CREATE A TOOLTIP WINDOW */
 	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwnd, nullptr, hInst, nullptr);                 // handle to the ToolTip control
+		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwnd, nullptr, g_plugin.getInst(), nullptr);                 // handle to the ToolTip control
 
 	/* INITIALIZE MEMBERS OF THE TOOLINFO STRUCTURE */
 	TOOLINFO ti;
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS;
 	ti.hwnd = hwnd;
-	ti.hinst = hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.uId = uid;
 	ti.lpszText = LPSTR_TEXTCALLBACK;
 	// ToolTip control will cover the whole window
@@ -1187,7 +1187,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 
 		HICON icon = IcoLib_GetIcon("MYDETAILS_NEXT_PROTOCOL");
 		if (icon == nullptr)
-			icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
+			icon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_RIGHT_ARROW));
 		DrawIconEx(hdc, data->next_proto_rect.left, data->next_proto_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, nullptr, DI_NORMAL);
 		IcoLib_ReleaseIcon(icon);
 
@@ -1200,7 +1200,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 
 		icon = IcoLib_GetIcon("MYDETAILS_PREV_PROTOCOL");
 		if (icon == nullptr)
-			icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
+			icon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_RIGHT_ARROW));
 		DrawIconEx(hdc, data->prev_proto_rect.left, data->prev_proto_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, nullptr, DI_NORMAL);
 		IcoLib_ReleaseIcon(icon);
 
@@ -1324,7 +1324,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 
 			HICON icon = IcoLib_GetIcon("LISTENING_TO_ICON");
 			if (icon == nullptr)
-				icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LISTENINGTO));
+				icon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LISTENINGTO));
 			DrawIconEx(hdc, data->listening_to_icon_rect.left, data->listening_to_icon_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, nullptr, DI_NORMAL);
 			IcoLib_ReleaseIcon(icon);
 
@@ -1448,7 +1448,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 		static unsigned statusModePf2List[] = { 0xFFFFFFFF, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, PF2_HEAVYDND, PF2_FREECHAT,
 			PF2_INVISIBLE, PF2_ONTHEPHONE, PF2_OUTTOLUNCH };
 
-		menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
+		menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 		submenu = GetSubMenu(menu, 0);
 		TranslateMenu(submenu);
 
@@ -1472,7 +1472,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 
 void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, POINT &p)
 {
-	HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
+	HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 	HMENU submenu = GetSubMenu(menu, 5);
 	TranslateMenu(submenu);
 
@@ -1710,7 +1710,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			// In image?
 			if (data->draw_img && InsideRect(&p, &data->img_rect)) {
-				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
+				HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 4);
 				TranslateMenu(submenu);
 
@@ -1750,7 +1750,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 			// In nick?
 			else if (data->draw_nick && InsideRect(&p, &data->nick_rect)) {
-				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
+				HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 2);
 				TranslateMenu(submenu);
 
@@ -1798,7 +1798,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			else if (data->draw_away_msg && InsideRect(&p, &data->away_msg_rect)) {
 				wchar_t tmp[128];
 
-				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
+				HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 3);
 				TranslateMenu(submenu);
 
@@ -1875,7 +1875,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 			// Default context menu
 			else {
-				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
+				HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 1);
 				TranslateMenu(submenu);
 

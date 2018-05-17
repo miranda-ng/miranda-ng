@@ -63,7 +63,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	mi.name.w = LPGENW("Check exchange mailbox");
 	Menu_AddMainMenuItem(&mi);
 	
-	hEmailsDlg = nullptr; //CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails); //create emails window
+	hEmailsDlg = nullptr; //CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails); //create emails window
 	FirstTimeCheck();	
 //	CheckEmail();
 	return 0;
@@ -74,7 +74,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXCHANGE);
 	odp.szTitle.w = LPGENW("Exchange notify");
 	odp.szGroup.w = LPGENW("Plugins");

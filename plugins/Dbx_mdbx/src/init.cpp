@@ -25,12 +25,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 EXTERN_C void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved);
 
-HINSTANCE g_hInst = nullptr;
 int hLangpack;
+CMPlugin g_plugin;
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID reserved)
 {
-	g_hInst = hInstDLL;
 	tls_callback(hInstDLL, reason, reserved);
 	return TRUE;
 }

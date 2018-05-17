@@ -19,9 +19,14 @@
 
 #include "stdafx.h"
 
-HINSTANCE g_hInst;
 int hLangpack;
+CMPlugin g_plugin;
+
 HANDLE hExtraIcon = nullptr;
+
+static IconItem icon = { LPGEN("Mobile State"), "mobile_icon", IDI_MOBILE };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -36,18 +41,12 @@ PLUGININFOEX pluginInfo = {
 	{ 0xf0ba32d0, 0xcd07, 0x4a9c, { 0x92, 0x6b, 0x5a, 0x1f, 0xf2, 0x1c, 0x3c, 0x10 } }
 };
 
-static IconItem icon = { LPGEN("Mobile State"), "mobile_icon", IDI_MOBILE };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 bool hasMobileClient(MCONTACT hContact, LPARAM)
 {
@@ -67,7 +66,9 @@ bool hasMobileClient(MCONTACT hContact, LPARAM)
 	return false;
 }
 
-int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == NULL)
 		return 0;
@@ -80,7 +81,7 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int onContactSettingChanged(WPARAM wParam, LPARAM lParam)
+static int onContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {	
 	char *proto = GetContactProto(wParam);
 	if (!proto)
@@ -93,7 +94,7 @@ int onContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int onModulesLoaded(WPARAM, LPARAM)
+static int onModulesLoaded(WPARAM, LPARAM)
 {
 	// Set initial value for all contacts
 	for (auto &hContact : Contacts())
@@ -111,12 +112,14 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraIconsApply);
 
 	// IcoLib support
-	Icon_Register(g_hInst, "Mobile State", &icon, 1);
+	Icon_Register(g_plugin.getInst(), "Mobile State", &icon, 1);
 
 	// Extra icons
 	hExtraIcon = ExtraIcon_RegisterIcolib("mobilestate", LPGEN("Mobile State"), "mobile_icon");
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

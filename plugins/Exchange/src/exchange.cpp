@@ -20,15 +20,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-char ModuleName[] = "ExchangeNotify";
-HINSTANCE hInstance;
 HICON hiMailIcon = nullptr;
 HWND hEmailsDlg = nullptr;
 int hLangpack=0;
+CMPlugin g_plugin;
 
 CExchangeServer exchangeServer;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_DISPLAY_NAME,
 	__VERSION_DWORD,
@@ -45,31 +47,22 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_EXCHANGE, MIID_LAST};
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP( &pluginInfo );
-	hiMailIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MAIL));
+	hiMailIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MAIL));
 	InitServices();
 	HookEvents();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload()
 {
 	DestroyServices();
 	UnhookEvents();
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID)
-{
-	hInstance = hinstDLL; //save global instance
-	if (fdwReason == DLL_PROCESS_ATTACH)
-		DisableThreadLibraryCalls(hinstDLL);
-
-	return TRUE;
 }

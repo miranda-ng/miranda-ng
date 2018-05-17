@@ -17,8 +17,6 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include "mir_smileys.h"
 #include "utf8_helpers.h"
 

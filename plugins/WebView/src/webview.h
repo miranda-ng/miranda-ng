@@ -253,4 +253,3 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 		SetUniqueId("PreserveName");
 	}
 };
-

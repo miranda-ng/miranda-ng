@@ -25,8 +25,6 @@ Boston, MA 02111-1307, USA.
 #include <windowsx.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_skin.h>
 #include <m_protosvc.h>
@@ -65,7 +63,13 @@ Boston, MA 02111-1307, USA.
 #define SETTING_FRAME_VISIBLE "FrameVisible"
 #define SETTING_DEFAULT_NICK "DefaultNick"
 
-extern HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{}
+};
+
 extern bool g_bFramesExist, g_bAvsExist;
 
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"

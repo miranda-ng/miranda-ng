@@ -23,7 +23,6 @@
 #include <malloc.h>
 
 // Miranda API headers
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protocols.h>
@@ -37,3 +36,10 @@
 #include "clients.h"
 
 #define MODULENAME "MobileState"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};

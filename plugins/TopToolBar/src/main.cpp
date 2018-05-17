@@ -1,9 +1,25 @@
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
 int hLangpack;
+CMPlugin g_plugin;
+CLIST_INTERFACE *pcli;
+
+IconItem iconList[] =
+{
+	{ LPGEN("Execute"),               "run",          IDI_RUN },
+	{ LPGEN("Hide offline contacts"), "hide_offline", IDI_HIDEOFFLINE },
+	{ LPGEN("Show offline contacts"), "show_offline", IDI_SHOWOFFLINE },
+	{ LPGEN("Disable groups"),        "groups_off",   IDI_GROUPSOFF },
+	{ LPGEN("Enable groups"),         "groups_on",    IDI_GROUPSON },
+	{ LPGEN("Disable sounds"),        "sounds_off",   IDI_SOUNDSOFF },
+	{ LPGEN("Enable sounds"),         "sounds_on",    IDI_SOUNDSON },
+	{ LPGEN("Disable metacontacts"),  "meta_off",     IDI_METAON },
+	{ LPGEN("Enable metacontacts"),   "meta_on",      IDI_METAOFF },
+	{ LPGEN("Separator"),             "separator",    IDI_SEPARATOR }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo =
 {
@@ -24,20 +40,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-IconItem iconList[] =
-{
-	{ LPGEN("Execute"),               "run",          IDI_RUN         },
-	{ LPGEN("Hide offline contacts"), "hide_offline", IDI_HIDEOFFLINE },
-	{ LPGEN("Show offline contacts"), "show_offline", IDI_SHOWOFFLINE },
-	{ LPGEN("Disable groups"),        "groups_off",   IDI_GROUPSOFF   },
-	{ LPGEN("Enable groups"),         "groups_on",    IDI_GROUPSON    },
-	{ LPGEN("Disable sounds"),        "sounds_off",   IDI_SOUNDSOFF   },
-	{ LPGEN("Enable sounds"),         "sounds_on",    IDI_SOUNDSON    },
-	{ LPGEN("Disable metacontacts"),  "meta_off",     IDI_METAON      },
-	{ LPGEN("Enable metacontacts"),   "meta_on",      IDI_METAOFF     },
-	{ LPGEN("Separator"),             "separator",    IDI_SEPARATOR   }
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load(void)
@@ -45,7 +47,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	Icon_Register(hInst, TTB_OPTDIR, iconList, _countof(iconList), TTB_OPTDIR);
+	Icon_Register(g_plugin.getInst(), TTB_OPTDIR, iconList, _countof(iconList), TTB_OPTDIR);
 
 	LoadToolbarModule();
 	return 0;
@@ -57,12 +59,4 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	UnloadToolbarModule();
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
 }

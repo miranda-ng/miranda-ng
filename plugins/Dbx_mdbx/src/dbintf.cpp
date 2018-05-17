@@ -32,7 +32,7 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 	m_tszProfileName = mir_wstrdup(tszFileName);
 
 	if (!m_bReadOnly) {
-		m_hwndTimer = CreateWindowExW(0, L"STATIC", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
+		m_hwndTimer = CreateWindowExW(0, L"STATIC", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 		::SetWindowLongPtr(m_hwndTimer, GWLP_USERDATA, (LONG_PTR)this);
 	}
 

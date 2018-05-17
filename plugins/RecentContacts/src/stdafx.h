@@ -8,7 +8,6 @@
 #include <map>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_chat_int.h>
@@ -48,6 +47,13 @@ void wfree(char **Data);
 #define msLastUC_ShowList  "RecentContacts/ShowList"
 #define msLastUC_IgnoreOff "RecentContacts/SetIgnoreOff"
 #define msLastUC_IgnoreOn  "RecentContacts/SetIgnoreOn"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

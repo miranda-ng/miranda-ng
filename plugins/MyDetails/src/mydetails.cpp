@@ -19,11 +19,18 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+int hLangpack;
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
-int hLangpack = 0;
 
 bool g_bAvsExist;
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Listening to"), "LISTENING_TO_ICON", IDI_LISTENINGTO },
+	{ LPGEN("Previous account"), "MYDETAILS_PREV_PROTOCOL", IDI_LEFT_ARROW },
+	{ LPGEN("Next account"), "MYDETAILS_NEXT_PROTOCOL", IDI_RIGHT_ARROW }
+};
 
 // Plugin data ////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,21 +46,6 @@ PLUGININFOEX pluginInfo = {
 	// {A82BAEB3-A33C-4036-B837-7803A5B6C2AB}
 	{ 0xa82baeb3, 0xa33c, 0x4036, { 0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab } }
 };
-
-static IconItem iconList[] =
-{
-	{ LPGEN("Listening to"), "LISTENING_TO_ICON", IDI_LISTENINGTO },
-	{ LPGEN("Previous account"), "MYDETAILS_PREV_PROTOCOL", IDI_LEFT_ARROW },
-	{ LPGEN("Next account"), "MYDETAILS_NEXT_PROTOCOL", IDI_RIGHT_ARROW }
-};
-
-// Functions //////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -153,9 +145,9 @@ extern "C" __declspec(dllexport) int Load()
 	InitOptions();
 
 	if (IcoLib_GetIcon("LISTENING_TO_ICON") == nullptr)
-		Icon_Register(hInst, LPGEN("Contact list"), iconList, 1);
+		Icon_Register(g_plugin.getInst(), LPGEN("Contact list"), iconList, 1);
 
-	Icon_Register(hInst, LPGEN("My details"), iconList + 1, _countof(iconList) - 1);
+	Icon_Register(g_plugin.getInst(), LPGEN("My details"), iconList + 1, _countof(iconList) - 1);
 
 	// Register services
 	CreateServiceFunction(MS_MYDETAILS_SETMYNICKNAME, PluginCommand_SetMyNickname);

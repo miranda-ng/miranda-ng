@@ -326,7 +326,7 @@ int ShowEmailsWindow(int cUnreadEmails)
 {
 	if (cUnreadEmails > 0) { //show window only if there are unread emails
 		if (!hEmailsDlg)
-			hEmailsDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), nullptr, DlgProcEmails);
+			hEmailsDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EMAILS), nullptr, DlgProcEmails);
 		
 		SetWindowLongPtr(hEmailsDlg, GWLP_USERDATA, cUnreadEmails);
 		if (IsWindowVisible(hEmailsDlg))

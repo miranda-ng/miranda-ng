@@ -247,7 +247,7 @@ void CALLBACK OnEventFire()
 	WNDCLASS wndclass = {0};
 	wndclass.lpfnWndProc = TopToolBarProc;
 	wndclass.cbWndExtra = sizeof(void *);
-	wndclass.hInstance = hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_BTNFACE + 1);
 	wndclass.lpszClassName = pluginname;
@@ -256,11 +256,12 @@ void CALLBACK OnEventFire()
 	g_ctrl->pButtonList = (SortedList *)&Buttons;
 	g_ctrl->hWnd = CreateWindow(pluginname, L"Toolbar",
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-		0, 0, 0, g_ctrl->nLastHeight, parent, nullptr, hInst, nullptr);
+		0, 0, 0, g_ctrl->nLastHeight, parent, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(g_ctrl->hWnd, 0, (LONG_PTR)g_ctrl);
 
 	LoadBackgroundOptions();
-	LoadAllSeparators();	LoadAllLButs();
+	LoadAllSeparators();
+	LoadAllLButs();
 
 	// if we're working in skinned clist, receive the standard buttons & customizations
 	if (g_CustomProc && g_ctrl->hWnd)

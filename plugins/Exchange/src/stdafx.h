@@ -31,8 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <string.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_popup.h>
@@ -50,11 +48,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "services.h"
 #include "hooked_events.h"
 
-extern char ModuleName[];
-extern HINSTANCE hInstance;
+#define ModuleName "ExchangeNotify"
+
 extern HICON hiMailIcon;
 extern HWND hEmailsDlg;
 
-
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(ModuleName)
+	{}
+};
 
 #endif //M_EXCHANGE_COMMONHEADERS_H

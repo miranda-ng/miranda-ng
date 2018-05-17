@@ -34,8 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <map>
 #include <cassert>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_system_cpp.h>
@@ -164,6 +162,12 @@ public:
 #include "resource.h"
 #include "version.h"
 
-extern HINSTANCE g_hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(nullptr)
+	{}
+};
 
 #include "ui.h"
+

@@ -9,7 +9,7 @@ class CSelectCryptoDialog : public CDlgBase
 	CRYPTO_PROVIDER *m_selected;
 public:
 	CSelectCryptoDialog(CRYPTO_PROVIDER **provs, size_t count) : 
-		CDlgBase(g_hInst, IDD_SELECT_CRYPTOPROVIDER), 
+		CDlgBase(g_plugin.getInst(), IDD_SELECT_CRYPTOPROVIDER), 
 		m_combo(this, IDC_SELECTCRYPT_COMBO), 
 		m_descr(this, IDC_CRYPTOPROVIDER_DESCR),
 		m_provs(provs), 

@@ -41,8 +41,8 @@ TopButtonInt *idtopos(int id, int *pPos)
 void InsertSBut(int i)
 {
 	TTBButton ttb = {};
-	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+	ttb.hIconDn = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+	ttb.hIconUp = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSBUTTON | TTBBF_INTERNAL;
 	ttb.wParamDown = i;
 	TTBAddButton((WPARAM)&ttb, 0);

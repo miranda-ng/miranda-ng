@@ -15,7 +15,6 @@
 #include <fstream>
 #include <msapi/comptr.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <win2k.h>

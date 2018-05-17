@@ -146,7 +146,7 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
 	CDbxMDBX *db = (CDbxMDBX*)obj;
 	DlgChangePassParam param = { db };
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)&param);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)&param);
 	return 0;
 }
 
@@ -182,7 +182,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
 	CDbxMDBX *db = (CDbxMDBX*)obj;
 
-	Icon_Register(g_hInst, LPGEN("Database"), iconList, _countof(iconList), "mdbx");
+	Icon_Register(g_plugin.getInst(), LPGEN("Database"), iconList, _countof(iconList), "mdbx");
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
