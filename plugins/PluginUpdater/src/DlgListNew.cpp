@@ -308,7 +308,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_SIZE: // make the dlg resizeable
 		if (!IsIconic(hDlg))
-			Utils_ResizeDialog(hDlg, hInst, MAKEINTRESOURCEA(IDD_LIST), ListDlg_Resize);
+			Utils_ResizeDialog(hDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_LIST), ListDlg_Resize);
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -340,7 +340,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 static void __stdcall LaunchListDialog(void *param)
 {
-	hwndDialog = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_LIST), GetDesktopWindow(), DlgList, (LPARAM)param);
+	hwndDialog = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LIST), GetDesktopWindow(), DlgList, (LPARAM)param);
 }
 
 static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t* tszBaseUrl, const wchar_t* tszPath)

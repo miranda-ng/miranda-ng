@@ -21,11 +21,7 @@ Boston, MA 02111-1307, USA.
 
 extern "C"
 {
-	#if MIRANDA_VER < 0x0A00
-		#include "Minizip/unzip.h"
-	#else
-		#include "../../libs/zlib/src/unzip.h"
-	#endif
+	#include "../../libs/zlib/src/unzip.h"
 
 	void fill_fopen64_filefunc(zlib_filefunc64_def *pzlib_filefunc_def);
 }

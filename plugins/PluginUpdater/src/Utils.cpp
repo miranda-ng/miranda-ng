@@ -41,7 +41,6 @@ void LoadOptions()
 	opts.bChangePlatform = db_get_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, 0);
 }
 
-#if MIRANDA_VER >= 0x0A00
 IconItemT iconList[] =
 {
 	{ LPGENW("Check for updates"),"check_update", IDI_MENU },
@@ -51,20 +50,14 @@ IconItemT iconList[] =
 
 void InitIcoLib()
 {
-	Icon_RegisterT(hInst,MODULE,iconList, _countof(iconList));
+	Icon_RegisterT(g_plugin.getInst(), MODULE, iconList, _countof(iconList));
 }
-#endif
 
 void InitNetlib()
 {
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	#if MIRANDA_VER >= 0x0A00
-		nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
-	#else
-		nlu.cbSize = sizeof(nlu);
-		nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connections");
-	#endif
+	nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
@@ -136,23 +129,14 @@ int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 {
 	REPLACEVARSARRAY vars[2];
-#if MIRANDA_VER >=0x0A00
 	vars[0].key.w = L"platform";
-#ifdef _WIN64
-	vars[0].value.w = L"64";
-#else
-	vars[0].value.w = L"32";
-#endif
+	#ifdef _WIN64
+		vars[0].value.w = L"64";
+	#else
+		vars[0].value.w = L"32";
+	#endif
 	vars[1].key.w = vars[1].value.w = nullptr;
-#else
-	vars[0].lptzKey = L"platform";
-#ifdef _WIN64
-	vars[0].lptzValue = L"64";
-#else
-	vars[0].lptzValue = L"32";
-#endif
-	vars[1].lptzKey = vars[1].lptzValue = 0;
-#endif
+
 	baseUrl = Utils_ReplaceVarsW(ptszUrl, 0, vars);
 
 	// Download version info
@@ -237,15 +221,8 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 {
 	NETLIBHTTPREQUEST nlhr = {0};
-#if MIRANDA_VER < 0x0A00
-	nlhr.cbSize = NETLIBHTTPREQUEST_V1_SIZE;
-	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	if (g_mirandaVersion >= PLUGIN_MAKE_VERSION(0, 9, 0, 0))
-		nlhr.flags |= NLHRF_PERSISTENT;
-#else
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
-#endif
 	nlhr.requestType = REQUEST_GET;
 	nlhr.nlc = nlc;
 	char *szUrl = mir_u2a(pFileURL->tszDownloadURL);
@@ -321,9 +298,7 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 
 void __stdcall OpenPluginOptions(void*)
 {
-	#if MIRANDA_VER >= 0x0A00
-		Options_Open(nullptr, L"Plugins");
-	#endif
+	Options_Open(nullptr, L"Plugins");
 }
 
 //   FUNCTION: IsRunAsAdmin()

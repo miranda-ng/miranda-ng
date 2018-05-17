@@ -28,7 +28,6 @@ Boston, MA 02111-1307, USA.
 #include <string.h>
 
 // Miranda header files
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
@@ -48,12 +47,7 @@ Boston, MA 02111-1307, USA.
 #include "version.h"
 #include "resource.h"
 
-#if MIRANDA_VER < 0x0A00
-	#include <m_system_cpp.h>
-	#include "Compat/compat.h"
-#else
-	#include <m_autobackups.h>
-#endif
+#include <m_autobackups.h>
 
 #include "Notifications.h"
 
@@ -102,12 +96,7 @@ extern struct PlugOptions
 #define DEFAULT_UPDATEONPERIOD    0
 #define DEFAULT_PERIOD            1
 #define DEFAULT_PERIODMEASURE     1
-
-#if MIRANDA_VER < 0x0A00
-	#define DEFAULT_ONLYONCEADAY      0
-#else
-	#define DEFAULT_ONLYONCEADAY      1
-#endif
+#define DEFAULT_ONLYONCEADAY      1
 
 #define DEFAULT_UPDATE_URL                L"https://miranda-ng.org/distr/stable/x%d"
 #define DEFAULT_UPDATE_URL_TRUNK          L"https://miranda-ng.org/distr/x%d"
@@ -160,16 +149,21 @@ extern struct PlugOptions
 
 using namespace std;
 
-extern HINSTANCE hInst;
-
 extern DWORD g_mirandaVersion;
 extern wchar_t g_tszRoot[MAX_PATH], g_tszTempPath[MAX_PATH];
 extern aPopups PopupsList[POPUPS];
 extern HANDLE hPipe;
 extern HNETLIBUSER hNetlibUser;
-#if MIRANDA_VER >= 0x0A00
+
 extern IconItemT iconList[];
-#endif
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODNAME)
+	{}
+};
+
 void UninitCheck(void);
 void UninitListNew(void);
 

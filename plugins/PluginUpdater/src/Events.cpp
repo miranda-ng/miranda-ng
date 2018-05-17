@@ -52,10 +52,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 	else lstrcpyn(g_tszRoot, VARSW(L"%miranda_path%\\" DEFAULT_UPDATES_FOLDER), _countof(g_tszRoot));
 
-#if MIRANDA_VER >= 0x0A00
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
-		AssocMgr_AddNewUrlTypeW("mirpu:", TranslateT("Plugin updater URI scheme"), hInst, IDI_PLGLIST, MODNAME "/ParseUri", 0);
-#endif
+		AssocMgr_AddNewUrlTypeW("mirpu:", TranslateT("Plugin updater URI scheme"), g_plugin.getInst(), IDI_PLGLIST, MODNAME "/ParseUri", 0);
 
 	int iRestartCount = db_get_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 2);
 	if (iRestartCount > 0)
@@ -73,10 +71,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 int OnPreShutdown(WPARAM, LPARAM)
 {
 	UninitCheck();
-
-#if MIRANDA_VER >= 0x0A00
 	UninitListNew();
-#endif
 	return 0;
 }
 
