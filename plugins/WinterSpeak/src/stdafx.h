@@ -8,7 +8,6 @@
 
 #include <memory>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>
@@ -46,3 +45,10 @@
 #include "Subject.h"
 #include "SpeechInterface.h"
 #include "SpeakConfig.h"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>("speak_config")
+	{}
+};

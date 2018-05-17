@@ -19,7 +19,7 @@
 class COptWaMpdDlg : public CDlgBase
 {
 public:
-	COptWaMpdDlg() : CDlgBase(hInst, IDD_OPT_WA_MPD),
+	COptWaMpdDlg() : CDlgBase(g_plugin.getInst(), IDD_OPT_WA_MPD),
 		edit_PORT(this, IDC_PORT), edit_SERVER(this, IDC_SERVER), edit_PASSWORD(this, IDC_PASSWORD)
 	{}
 	virtual void OnInitDialog() override

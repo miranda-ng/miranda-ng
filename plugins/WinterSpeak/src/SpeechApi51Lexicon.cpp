@@ -2,9 +2,6 @@
 #include "SpeechApi51Lexicon.h"
 #include "SpeechApi51.h"
 
-
-extern HINSTANCE g_hInst;
-
 //------------------------------------------------------------------------------
 SpeechApi51Lexicon::SpeechApi51Lexicon(HWND window) : m_parent_window(window), m_window(nullptr)
 {
@@ -19,7 +16,7 @@ SpeechApi51Lexicon::~SpeechApi51Lexicon()
 bool SpeechApi51Lexicon::display()
 {
 /*	m_window = CreateDialog(
-		g_hInst, 
+		g_plugin.getInst(), 
 		MAKEINTRESOURCE(IDD_TTS_LEXICON), 
 		m_parent_window, 
 		dialogEvent);

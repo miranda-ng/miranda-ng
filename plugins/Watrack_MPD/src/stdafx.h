@@ -18,7 +18,6 @@
 
 #include <windows.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_netlib.h>
@@ -35,12 +34,17 @@
 
 #define szModuleName "Watrack_MPD"
 
-extern HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(szModuleName)
+	{}
+};
+
 extern HNETLIBUSER ghNetlibUser;
 extern BOOL bWatrackService;
 extern wchar_t *gbHost, *gbPassword;
 extern WORD gbPort;
-extern char *date();
 
 extern int WaMpdOptInit(WPARAM, LPARAM);
 extern void RegisterPlayer();

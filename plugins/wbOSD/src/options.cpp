@@ -54,7 +54,7 @@ int selectColor(HWND hwnd, COLORREF *clr)
 	CHOOSECOLOR cc = { 0 };
 	cc.lStructSize = sizeof(cc);
 	cc.hwndOwner = hwnd;
-	cc.hInstance = (HWND)hI;
+	cc.hInstance = (HWND)g_plugin.getInst();
 	cc.rgbResult = *clr;
 	cc.lpCustColors = pencustcolors;
 	cc.Flags = CC_FULLOPEN | CC_RGBINIT;
@@ -411,7 +411,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 150000000;
-	odp.hInstance = hI;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
 	odp.szGroup.w = LPGENW("Plugins");
 	odp.szTitle.w = LPGENW("OSD");

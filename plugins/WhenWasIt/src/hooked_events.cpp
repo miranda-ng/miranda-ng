@@ -44,7 +44,7 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
 	odp.szTitle.w = LPGENW("Birthdays");
 	odp.szGroup.w = LPGENW("Contacts");

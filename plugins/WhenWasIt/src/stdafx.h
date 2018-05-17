@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <math.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_skin.h>
@@ -62,8 +61,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "dlg_handlers.h"
 #include "events.h"
 
-extern char ModuleName[];
-extern HINSTANCE hInstance;
+#define ModuleName "WhenWasIt"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(ModuleName)
+	{}
+};
+
 extern HWND hBirthdaysDlg;
 extern HWND hUpcomingDlg;
 extern MWindowList hAddBirthdayWndsList;

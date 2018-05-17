@@ -1,8 +1,7 @@
 #include "stdafx.h"
 
-HINSTANCE g_hInst;
+CMPlugin g_plugin;
 int hLangpack;
-DWORD g_mirandaVersion;
 
 SpeakConfig   *g_speak_config = nullptr;
 SpeakAnnounce *g_speak_announce = nullptr;
@@ -23,6 +22,11 @@ PLUGININFOEX pluginInfo={
 	// {81E189DC-C251-45F6-9EDF-A0F3A05C4248}
 	{ 0x81e189dc, 0xc251, 0x45f6, { 0x9e, 0xdf, 0xa0, 0xf3, 0xa0, 0x5c, 0x42, 0x48 } }
 };
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
 
 //-----------------------------------------------------------------------------
 // Description : External hook
@@ -68,7 +72,7 @@ int protocolAck(WPARAM, LPARAM lParam)
 int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Speak");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
@@ -95,11 +99,7 @@ int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	g_mirandaVersion = mirandaVersion;
-	return &pluginInfo;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -107,7 +107,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	if (!g_speak_config)
 	{
-		g_speak_config = new SpeakConfig(g_hInst);
+		g_speak_config = new SpeakConfig(g_plugin.getInst());
 
 		// expose to allow miranda + plugins to access my speak routines
 		CreateServiceFunction(MS_SPEAK_STATUS, status);
@@ -116,7 +116,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	if (!g_speak_announce)
 	{
-		g_speak_announce = new SpeakAnnounce(g_hInst);
+		g_speak_announce = new SpeakAnnounce(g_plugin.getInst());
 
 		// tap into contact setting change event
 		g_event_status_change = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, eventStatusChange);
@@ -134,6 +134,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
@@ -156,11 +158,4 @@ extern "C" __declspec(dllexport) int Unload(void)
 	}
 
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	DisableThreadLibraryCalls(hinstDLL);
-	g_hInst = hinstDLL;
-	return TRUE;
 }

@@ -20,14 +20,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-char ModuleName[] = "WhenWasIt";
-HINSTANCE hInstance;
 HWND hBirthdaysDlg = nullptr;
 HWND hUpcomingDlg = nullptr;
 MWindowList hAddBirthdayWndsList = nullptr;
+
+CMPlugin g_plugin;
 int hLangpack;
 
 CommonData commonData = { 0 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -46,6 +48,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -134,6 +138,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Unload()
 {
 	Log("%s", "Entering function " __FUNCTION__);
@@ -152,10 +158,4 @@ extern "C" int __declspec(dllexport) Unload()
 
 	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;
-}
-
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInstance = hinstDLL;
-	return TRUE;
 }

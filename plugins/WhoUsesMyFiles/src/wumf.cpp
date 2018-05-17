@@ -108,7 +108,7 @@ INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hWnd, hInst, MAKEINTRESOURCEA(IDD_CONNLIST), DlgResizer);
+		Utils_ResizeDialog(hWnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_CONNLIST), DlgResizer);
 		Utils_SaveWindowPosition(hWnd, NULL, MODULENAME,"conn");
 		return TRUE;
 

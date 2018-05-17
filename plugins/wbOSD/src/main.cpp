@@ -9,11 +9,11 @@ Distributed under GNU's GPL 2 or later
 
 #include "stdafx.h"
 
-HINSTANCE hI;
+int hLangpack;
+CMPlugin g_plugin;
 
 HWND g_hWnd = nullptr;
-int hLangpack = 0;
-HANDLE hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;
+HANDLE hHookContactStatusChanged;
 
 void logmsg2(char *str);
 int MainInit(WPARAM,LPARAM);
@@ -45,7 +45,7 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfo);
 
 	logmsg("Load");
-	hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	return 0;
 }
 
@@ -54,19 +54,7 @@ extern "C" __declspec(dllexport) int Load()
 extern "C" __declspec(dllexport) int Unload()
 {
 	logmsg("Unload");
-	UnhookEvent(hProtoAck);
-	UnhookEvent(hContactSettingChanged);
-	UnhookEvent(hContactStatusChanged);
-	UnhookEvent(hHookedInit);
 
 	DestroyHookableEvent(hHookContactStatusChanged);
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
-{
-	hI = hinst;
-	return TRUE;
 }

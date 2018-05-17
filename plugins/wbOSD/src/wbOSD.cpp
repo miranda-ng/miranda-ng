@@ -259,7 +259,7 @@ int MainInit(WPARAM, LPARAM)
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	WNDCLASSEX wincl;
-	wincl.hInstance = hI;
+	wincl.hInstance = g_plugin.getInst();
 	wincl.lpszClassName = szClassName;
 	wincl.lpfnWndProc = WindowProcedure;
 	wincl.style = CS_DBLCLKS;
@@ -282,7 +282,7 @@ int MainInit(WPARAM, LPARAM)
 		db_get_dw(NULL, THIS_MODULE, "winypos", DEFAULT_WINYPOS),
 		db_get_dw(NULL, THIS_MODULE, "winx", DEFAULT_WINX),
 		db_get_dw(NULL, THIS_MODULE, "winy", DEFAULT_WINY),
-		HWND_DESKTOP, nullptr, hI, nullptr);
+		HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 
 	SetWindowLongPtr(g_hWnd, GWLP_USERDATA, 0);
 
@@ -293,16 +293,14 @@ int MainInit(WPARAM, LPARAM)
 	HookEvent(ME_DB_EVENT_ADDED, HookedNewEvent);
 
 	// try to create ME_STATUSCHANGE_CONTACTSTATUSCHANGED event... I hope it fails when newstatusnotify or equal creates it before ;-)
-
-	hContactStatusChanged = HookEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED, ContactStatusChanged);
+	HANDLE hContactStatusChanged = HookEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED, ContactStatusChanged);
 	if (!hContactStatusChanged) {
 		hHookContactStatusChanged = CreateHookableEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED);
-		hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
-
-		hContactStatusChanged = HookEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED, ContactStatusChanged);
+		HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+		HookEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED, ContactStatusChanged);
 	}
-	hProtoAck = HookEvent(ME_PROTO_ACK, ProtoAck);
-
+	
+	HookEvent(ME_PROTO_ACK, ProtoAck);
 	HookEvent(ME_SYSTEM_SHUTDOWN, pluginShutDown);
 	return 0;
 }

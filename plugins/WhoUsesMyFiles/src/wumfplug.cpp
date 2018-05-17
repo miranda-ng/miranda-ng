@@ -1,14 +1,17 @@
 #include "stdafx.h"
 
-HINSTANCE hInst;
 WUMF_OPTIONS WumfOptions = { 0 };
 HGENMENU hMenuItem = nullptr;
-int hLangpack;
 HWND hDlg;
+
+CMPlugin g_plugin;
+int hLangpack;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfo =
 {
-	sizeof(PLUGININFOEX), 
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -20,13 +23,21 @@ static PLUGININFOEX pluginInfo =
 	{0x80dca515, 0x973a, 0x4a7e, {0x8b, 0x85, 0x5d, 0x8e, 0xc8, 0x8f, 0xc5, 0xa7}}
 };
 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int OptionsInit(WPARAM, LPARAM);
+
 void LoadOptions()
 {
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_WCHAR;
 	memset(&WumfOptions, 0, sizeof(WumfOptions));
-	if (db_get_ws(NULL, MODULENAME, OPT_FILE, &dbv) == 0)
-	{
+	if (db_get_ws(NULL, MODULENAME, OPT_FILE, &dbv) == 0) {
 		wcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
 		db_free(&dbv);
 	}
@@ -39,8 +50,8 @@ void LoadOptions()
 	WumfOptions.UseWinColor = db_get_b(NULL, MODULENAME, COLOR_WIN, FALSE);
 	WumfOptions.SelectColor = db_get_b(NULL, MODULENAME, COLOR_SET, FALSE);
 
-	WumfOptions.ColorText = db_get_dw(NULL, MODULENAME, COLOR_TEXT, RGB(0,0,0));
-	WumfOptions.ColorBack = db_get_dw(NULL, MODULENAME, COLOR_BACK, RGB(255,255,255));
+	WumfOptions.ColorText = db_get_dw(NULL, MODULENAME, COLOR_TEXT, RGB(0, 0, 0));
+	WumfOptions.ColorBack = db_get_dw(NULL, MODULENAME, COLOR_BACK, RGB(255, 255, 255));
 
 	WumfOptions.DelayDef = db_get_b(NULL, MODULENAME, DELAY_DEF, TRUE);
 	WumfOptions.DelayInf = db_get_b(NULL, MODULENAME, DELAY_INF, FALSE);
@@ -62,40 +73,40 @@ void LoadOptions()
 
 void ExecuteMenu(HWND hWnd)
 {
-    HMENU hMenu = CreatePopupMenu();
-    if (!hMenu) {
-        msg(TranslateT("Error creating menu"));
-        return;
-    }
-    AppendMenu(hMenu, MF_STRING, IDM_ABOUT, L"About\0");
-    AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);//------------------
-    AppendMenu(hMenu, MF_STRING, IDM_SHOW, L"Show connections\0");
-    AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);//------------------
-    AppendMenu(hMenu, MF_STRING, IDM_EXIT, L"Dismiss popup\0");
+	HMENU hMenu = CreatePopupMenu();
+	if (!hMenu) {
+		msg(TranslateT("Error creating menu"));
+		return;
+	}
+	AppendMenu(hMenu, MF_STRING, IDM_ABOUT, L"About\0");
+	AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);//------------------
+	AppendMenu(hMenu, MF_STRING, IDM_SHOW, L"Show connections\0");
+	AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);//------------------
+	AppendMenu(hMenu, MF_STRING, IDM_EXIT, L"Dismiss popup\0");
 
-    POINT point;
-    GetCursorPos(&point);
-    SetForegroundWindow(hWnd);
-    TrackPopupMenu(hMenu, TPM_LEFTBUTTON | TPM_RIGHTBUTTON | TPM_RIGHTALIGN | TPM_TOPALIGN, point.x, point.y, 0, hWnd, nullptr);
-    PostMessage(hWnd, WM_USER, 0, 0);
-    DestroyMenu(hMenu);
+	POINT point;
+	GetCursorPos(&point);
+	SetForegroundWindow(hWnd);
+	TrackPopupMenu(hMenu, TPM_LEFTBUTTON | TPM_RIGHTBUTTON | TPM_RIGHTALIGN | TPM_TOPALIGN, point.x, point.y, 0, hWnd, nullptr);
+	PostMessage(hWnd, WM_USER, 0, 0);
+	DestroyMenu(hMenu);
 }
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) {
+	switch (message) {
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDM_ABOUT:
 			break;
 		case IDM_EXIT:
 			PUDeletePopup(hWnd);
-			break;	
+			break;
 		case IDM_SHOW:
 			CallService(MS_WUMF_CONNECTIONSSHOW, 0, 0);
 			return TRUE;
 		}
-		
+
 		switch (HIWORD(wParam)) {
 		case STN_CLICKED:
 			PUDeletePopup(hWnd);
@@ -103,9 +114,9 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		}
 		break;
 
-	case WM_CONTEXTMENU: 
+	case WM_CONTEXTMENU:
 		CallService(MS_WUMF_CONNECTIONSSHOW, 0, 0);
-		break;		
+		break;
 
 	case UM_FREEPLUGINDATA:
 		return TRUE; //TRUE or FALSE is the same, it gets ignored.
@@ -125,12 +136,12 @@ void ShowWumfPopup(PWumf w)
 
 void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 {
-	POPUPDATAT ppd = {0};
+	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = NULL;
-	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_DRIVE));
+	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DRIVE));
 
 	if (WumfOptions.DelayInf)
-		ppd.iSeconds = -1; 
+		ppd.iSeconds = -1;
 	else if (WumfOptions.DelayDef)
 		ppd.iSeconds = 0;
 	else if (WumfOptions.DelaySet)
@@ -152,332 +163,60 @@ void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 	PUAddPopupT(&ppd);
 }
 
-void ShowThePreview()
-{
-	if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		MessageBox(nullptr, TranslateT("Popup plugin not found!"), TranslateT("Error"), MB_OK|MB_ICONSTOP);
-		return;
-	}
-
-	if (WumfOptions.AlertFolders) {
-		ShowThePopup(nullptr, L"Guest", L"C:\\My Share");
-		Sleep(300);
-		ShowThePopup(nullptr, L"Guest", L"C:\\My Share\\Photos");
-		Sleep(300);
-	}
-	ShowThePopup(nullptr, L"Guest", L"C:\\Share\\My Photos\\photo.jpg");
-	Sleep(300);
-	if (WumfOptions.AlertFolders) {
-		ShowThePopup(nullptr, L"User", L"C:\\My Share");
-		Sleep(300);
-		ShowThePopup(nullptr, L"User", L"C:\\My Share\\Movies");
-		Sleep(300);
-	}
-	ShowThePopup(nullptr, L"User", L"C:\\My Share\\Movies\\The Two Towers.avi");
-	Sleep(300);
-	if (WumfOptions.AlertFolders) {
-		ShowThePopup(nullptr, L"Administrator", L"C:\\Distributives");
-		Sleep(300);
-		ShowThePopup(nullptr, L"Administrator", L"C:\\Distributives\\Win2k");
-		Sleep(300);
-	}
-	ShowThePopup(nullptr, L"Administrator", L"C:\\Distributives\\Win2k\\setup.exe");
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 void ThreadProc(LPVOID)
 {
 	if (hDlg) {
-		ShowWindow(hDlg, SW_SHOWNORMAL); 
+		ShowWindow(hDlg, SW_SHOWNORMAL);
 		SetForegroundWindow(hDlg);
 		return;
 	}
 
-	hDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONNLIST), nullptr, ConnDlgProc);
-	SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE)));
-	ShowWindow(hDlg, SW_SHOW); 
+	hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONNLIST), nullptr, ConnDlgProc);
+	SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DRIVE)));
+	ShowWindow(hDlg, SW_SHOW);
 
 	MSG msg;
-	while(GetMessage(&msg, nullptr, 0, 0) == TRUE) { 
+	while (GetMessage(&msg, nullptr, 0, 0) == TRUE) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 	hDlg = nullptr;
 }
 
-static INT_PTR WumfShowConnections(WPARAM,LPARAM)
+static INT_PTR WumfShowConnections(WPARAM, LPARAM)
 {
 	mir_forkthread(ThreadProc);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hWumfBut, 0);
 	return 0;
 }
 
-static INT_PTR WumfMenuCommand(WPARAM,LPARAM)
+static INT_PTR WumfMenuCommand(WPARAM, LPARAM)
 {
-	if (WumfOptions.PopupsEnabled == TRUE) { 
+	if (WumfOptions.PopupsEnabled == TRUE) {
 		WumfOptions.PopupsEnabled = FALSE;
-		Menu_ModifyItem(hMenuItem, LPGENW("Enable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP)));
+		Menu_ModifyItem(hMenuItem, LPGENW("Enable WUMF popups"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOPOPUP)));
 	}
 	else {
 		WumfOptions.PopupsEnabled = TRUE;
-		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP)));
+		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP)));
 	}
 
 	db_set_b(NULL, MODULENAME, POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-void DisableDelayOptions(HWND hwndDlg)
-{
-	CheckDlgButton(hwndDlg, IDC_DELAY_INF,BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_DELAY_SET,BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_DELAY_DEF,BST_CHECKED);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_INF), FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_SET), FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_DEF), FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_SEC), FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_TX_DELAY_SEC), FALSE);
-}
-
-void ChooseFile(HWND hwndDlg)
-{
-	wchar_t szFile[MAX_PATH]; szFile[0]=0;
-
-	// Initialize OPENFILENAME
-	OPENFILENAME ofn = {0};       // common dialog box structure
-	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = hwndDlg;
-	ofn.lpstrFile = szFile;
-	ofn.nMaxFile = _countof(szFile);
-	ofn.lpstrFilter = L"All files (*.*)\0*.*\0Text files (*.txt)\0*.txt\0Log files (*.log)\0*.log\0\0";
-	ofn.nFilterIndex = 2;
-	ofn.Flags = OFN_CREATEPROMPT;
-	// Display the Open dialog box. 
-	if (GetSaveFileName(&ofn)) {
-		HANDLE hf = CreateFile(szFile,GENERIC_WRITE,0,nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, nullptr);
-		if (hf != INVALID_HANDLE_VALUE) {
-			SetDlgItemText(hwndDlg,IDC_FILE,szFile);
-			mir_wstrncpy(WumfOptions.LogFile, szFile, MAX_PATH);
-			CloseHandle(hf);
-		}
-	}
-	else if (CommDlgExtendedError() != 0) {
-		wchar_t str[256];
-		mir_snwprintf(str, TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
-		MessageBox(hwndDlg, str, TranslateT("Error"), MB_OK | MB_ICONSTOP);
-	}
-}
-
-INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lparam)
-{
-	WORD wControlId = LOWORD(wparam);
-	WORD wNotifyCode = HIWORD(wparam);
-	int seconds;
-
-	switch(msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_COLOR_WIN, WumfOptions.UseWinColor ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_COLOR_DEF, WumfOptions.UseDefColor ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_COLOR_SET, WumfOptions.SelectColor ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_BACK), WumfOptions.SelectColor);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_TEXT), WumfOptions.SelectColor);
-		if (WumfOptions.SelectColor) {
-			SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
-			SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
-		}
-		if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) {
-			DisableDelayOptions(hwndDlg);
-			break;
-		}
-		CheckDlgButton(hwndDlg, IDC_DELAY_INF, WumfOptions.DelayInf ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DELAY_DEF, WumfOptions.DelayDef ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DELAY_SET, WumfOptions.DelaySet ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_SEC), WumfOptions.DelaySet);
-		SetDlgItemInt(hwndDlg, IDC_DELAY_SEC, WumfOptions.DelaySec, FALSE);
-		//Logging & alerts
-		CheckDlgButton(hwndDlg, IDC_LOG_FOLDER, WumfOptions.LogFolders ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALERT_FOLDER, WumfOptions.AlertFolders ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_UNC, WumfOptions.LogUNC ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALERT_UNC, WumfOptions.AlertUNC ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_COMP, WumfOptions.LogComp ? BST_CHECKED : BST_UNCHECKED);
-
-		if (WumfOptions.LogToFile) {
-			CheckDlgButton(hwndDlg,IDC_LOG_INTO_FILE,BST_CHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SEL_FILE), TRUE);
-			SetDlgItemText(hwndDlg,IDC_FILE,WumfOptions.LogFile);
-		}
-		else {
-			CheckDlgButton(hwndDlg,IDC_LOG_INTO_FILE,BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SEL_FILE), FALSE);
-			SetDlgItemText(hwndDlg, IDC_FILE, L"");
-		}
-		break;
-
-	case WM_COMMAND:
-		switch(wNotifyCode) {
-		case BN_CLICKED :
-			switch(wControlId) {
-			case IDC_DELAY_SET:
-			case IDC_DELAY_DEF:
-			case IDC_DELAY_INF:
-				WumfOptions.DelaySet = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_SET) == BST_CHECKED);	
-				WumfOptions.DelayDef = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_DEF) == BST_CHECKED);	
-				WumfOptions.DelayInf = (IsDlgButtonChecked(hwndDlg, IDC_DELAY_INF) == BST_CHECKED);	
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_SEC), WumfOptions.DelaySet);
-				SetDlgItemInt(hwndDlg, IDC_DELAY_SEC, WumfOptions.DelaySec, TRUE);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_COLOR_SET:
-			case IDC_COLOR_DEF:
-			case IDC_COLOR_WIN:
-				WumfOptions.SelectColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_SET) == BST_CHECKED);	
-				WumfOptions.UseDefColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_DEF) == BST_CHECKED);	
-				WumfOptions.UseWinColor = (IsDlgButtonChecked(hwndDlg, IDC_COLOR_WIN) == BST_CHECKED);	
-				EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_BACK),WumfOptions.SelectColor);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_TEXT), WumfOptions.SelectColor);
-				SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
-				SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-				/* not implemented */
-			case IDC_LOG_COMP:
-			case IDC_ALERT_COMP:
-			case IDC_LOG_UNC:
-			case IDC_ALERT_UNC:
-				MessageBox(nullptr, TranslateT("Not implemented yet..."), L"WUMF", MB_OK | MB_ICONINFORMATION);
-				break;
-				/* end */
-			case IDC_LOG_INTO_FILE:
-				WumfOptions.LogToFile = (IsDlgButtonChecked(hwndDlg, IDC_LOG_INTO_FILE) == BST_CHECKED);	
-				EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), WumfOptions.LogToFile);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_SEL_FILE), WumfOptions.LogToFile);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_SEL_FILE:
-				ChooseFile(hwndDlg);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_LOG_FOLDER:
-				WumfOptions.LogFolders = (IsDlgButtonChecked(hwndDlg, IDC_LOG_FOLDER) == BST_CHECKED);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_ALERT_FOLDER:
-				WumfOptions.AlertFolders = (IsDlgButtonChecked(hwndDlg, IDC_ALERT_FOLDER) == BST_CHECKED);
-				break;
-			case IDC_PREVIEW:
-				ShowThePreview();
-				break;
-			case IDC_CONN:
-				CallService(MS_WUMF_CONNECTIONSSHOW, 0, 0);
-				break;
-			}
-			break;
-
-		case CPN_COLOURCHANGED:						
-			WumfOptions.ColorText = SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_GETCOLOUR,0,0);
-			WumfOptions.ColorBack = SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_GETCOLOUR,0,0);
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-
-		case EN_CHANGE:
-			switch(wControlId) {
-			case IDC_DELAY_SEC:
-				seconds = GetDlgItemInt(hwndDlg, IDC_DELAY_SEC, nullptr, FALSE);
-				if (seconds > LIFETIME_MAX)
-					WumfOptions.DelaySec = LIFETIME_MAX;
-				else if (seconds < LIFETIME_MIN)
-					WumfOptions.DelaySec = LIFETIME_MIN;
-				else if (seconds <= LIFETIME_MAX || seconds >= LIFETIME_MIN)
-					WumfOptions.DelaySec = seconds;
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_FILE:
-				GetDlgItemText(hwndDlg,IDC_FILE,WumfOptions.LogFile, _countof(WumfOptions.LogFile));
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			}
-			break;
-		case EN_KILLFOCUS:
-			switch(wControlId) {
-			case IDC_DELAY_SEC:
-				SetDlgItemInt(hwndDlg, IDC_DELAY_SEC, WumfOptions.DelaySec, FALSE);								
-				break;
-			}
-			break;
-		}
-		break;				
-
-	case WM_NOTIFY: 
-		switch(((LPNMHDR)lparam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lparam)->code) {
-			case PSN_RESET:
-				LoadOptions();
-				return TRUE;
-
-			case PSN_APPLY:
-				db_set_dw(NULL, MODULENAME, COLOR_TEXT, (DWORD)WumfOptions.ColorText);
-				db_set_dw(NULL, MODULENAME, COLOR_BACK, (DWORD)WumfOptions.ColorBack);
-				db_set_b(NULL, MODULENAME, COLOR_DEF, (BYTE)WumfOptions.UseDefColor);
-				db_set_b(NULL, MODULENAME, COLOR_WIN, (BYTE)WumfOptions.UseWinColor);
-				db_set_b(NULL, MODULENAME, COLOR_SET, (BYTE)WumfOptions.SelectColor );
-				db_set_b(NULL, MODULENAME, DELAY_DEF, (BYTE)WumfOptions.DelayDef);
-				db_set_b(NULL, MODULENAME, DELAY_INF, (BYTE)WumfOptions.DelayInf);
-				db_set_b(NULL, MODULENAME, DELAY_SET, (BYTE)WumfOptions.DelaySet);
-				db_set_b(NULL, MODULENAME, DELAY_SEC, (BYTE)WumfOptions.DelaySec);
-				db_set_b(NULL, MODULENAME, LOG_INTO_FILE, (BYTE)WumfOptions.LogToFile);
-				db_set_b(NULL, MODULENAME, LOG_FOLDER, (BYTE)WumfOptions.LogFolders);
-				db_set_b(NULL, MODULENAME, ALERT_FOLDER, (BYTE)WumfOptions.AlertFolders);
-				db_set_b(NULL, MODULENAME, LOG_UNC, (BYTE)WumfOptions.LogUNC);
-				db_set_b(NULL, MODULENAME, ALERT_UNC, (BYTE)WumfOptions.AlertUNC);
-				db_set_b(NULL, MODULENAME, LOG_COMP, (BYTE)WumfOptions.LogComp);
-				db_set_b(NULL, MODULENAME, ALERT_COMP, (BYTE)WumfOptions.AlertComp);
-				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, _countof(WumfOptions.LogFile));
-				db_set_ws(NULL, MODULENAME, OPT_FILE, WumfOptions.LogFile);
-			}
-		}
-		break;
-	}
-	return 0;
-}
-
-int InitTopToolbar(WPARAM,LPARAM)
+int InitTopToolbar(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
-	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_DRIVE));
+	ttb.hIconUp = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DRIVE));
 	ttb.pszService = MS_WUMF_CONNECTIONSSHOW;
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Show connections list");
 	hWumfBut = TopToolbar_AddButton(&ttb);
 	return 0;
 }
 
-int OptionsInit(WPARAM wparam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.position = 945000000;
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szTitle.a = LPGEN("Who uses my files");
-	odp.pfnDlgProc = OptionsDlgProc;
-	odp.szGroup.a = LPGEN("Services");
-	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wparam, &odp);
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -492,24 +231,24 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	SET_UID(mi, 0xcfce6487, 0x907b, 0x4822, 0xb0, 0x49, 0x18, 0x4e, 0x47, 0x17, 0x0, 0x69);
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 1999990000);
-	if (WumfOptions.PopupsEnabled == FALSE) { 
+	if (WumfOptions.PopupsEnabled == FALSE) {
 		mi.name.a = LPGEN("Enable WUMF popups");
-		mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOPOPUP));
 	}
 	else {
 		mi.name.a = LPGEN("Disable WUMF popups");
-		mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
+		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP));
 	}
 	mi.pszService = MS_WUMF_SWITCHPOPUP;
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xbf93984c, 0xaa05, 0x447c, 0xbd, 0x5c, 0x5f, 0x43, 0x60, 0x92, 0x6a, 0x12);
 	mi.name.a = LPGEN("WUMF: Show connections");
-	mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DRIVE));
 	mi.pszService = MS_WUMF_CONNECTIONSSHOW;
 	Menu_AddMainMenuItem(&mi);
 
-	HookEvent(ME_OPT_INITIALISE,OptionsInit);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
 
 	if (IsUserAnAdmin())
@@ -518,6 +257,8 @@ extern "C" __declspec(dllexport) int Load(void)
 		MessageBox(nullptr, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), L"Miranda NG", MB_OK);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

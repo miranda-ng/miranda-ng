@@ -13,7 +13,6 @@ Distributed under GNU's GPL 2 or later
 #include <shlwapi.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>
@@ -29,7 +28,14 @@ Distributed under GNU's GPL 2 or later
 
 #define THIS_MODULE "mirandaosd"
 
-//SETTINGS DEFAULTS
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(THIS_MODULE)
+	{}
+};
+
+// Settings defaults
 #define DEFAULT_FNT_HEIGHT -30
 #define DEFAULT_FNT_WIDTH 0
 #define DEFAULT_FNT_ESCAPEMENT 0
@@ -69,7 +75,7 @@ Distributed under GNU's GPL 2 or later
 #define DEFAULT_SHOWMSGWIN 1
 #define DEFAULT_SHOWWHEN 0x00000002
 
-//HOOKS
+// Hooks
 #define ME_STATUSCHANGE_CONTACTSTATUSCHANGED "Miranda/StatusChange/ContactStatusChanged"
 
 int ContactStatusChanged(WPARAM wParam, LPARAM lParam);
@@ -77,10 +83,8 @@ int ProtoAck(WPARAM wparam,LPARAM lparam);
 int ContactSettingChanged(WPARAM wparam,LPARAM lparam);
 int HookedNewEvent(WPARAM wParam, LPARAM lParam);
 
-//ANNOUNCING MESSAGES FROM OUTSIDE ;-)
+// Announcing messages from outside
 INT_PTR OSDAnnounce(WPARAM wParam, LPARAM lParam);
-
-
 
 #define ID_STATUS_MIN	ID_STATUS_OFFLINE
 #define ID_STATUS_MAX	ID_STATUS_OUTTOLUNCH
@@ -114,6 +118,5 @@ int OptionsInit(WPARAM wparam,LPARAM lparam);
 
 void loadDBSettings(plgsettings *ps);
 
-extern HINSTANCE hI;
-extern HWND   g_hWnd;
-extern HANDLE hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;
+extern HWND g_hWnd;
+extern HANDLE hHookContactStatusChanged;

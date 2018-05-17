@@ -6,7 +6,6 @@
 #include <locale.h>
 #include <shlobj.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_langpack.h>
@@ -20,7 +19,7 @@
 #include "resource.h"
 #include "version.h"
 
-#define MODULENAME		"WUMF Plugin"
+#define MODULENAME "WUMF Plugin"
 
 #define LIFETIME_MAX 60
 #define LIFETIME_MIN 1
@@ -114,8 +113,14 @@ BOOL  del_all   (PWumf* l);
 void  mark_all  (PWumf* l, BOOL mark);
 BOOL  del_marked(PWumf* l);
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
+
 extern WUMF_OPTIONS WumfOptions;
-extern HINSTANCE hInst;
 extern HANDLE hLogger;
 static HANDLE hWumfBut;
 extern PWumf list;
@@ -123,6 +128,8 @@ extern PWumf list;
 void FreeAll();
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 INT_PTR CALLBACK ConnDlgProc(HWND, UINT, WPARAM, LPARAM);
+
+void LoadOptions();
 
 void ShowThePopup(PWumf w, LPTSTR, LPTSTR);
 void ShowWumfPopup(PWumf w);

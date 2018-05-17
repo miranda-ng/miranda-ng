@@ -139,7 +139,7 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 INT_PTR ShowListService(WPARAM, LPARAM)
 {
 	if (!hBirthdaysDlg)
-		hBirthdaysDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_BIRTHDAYS), nullptr, DlgProcBirthdays);
+		hBirthdaysDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BIRTHDAYS), nullptr, DlgProcBirthdays);
 
 	ShowWindow(hBirthdaysDlg, SW_SHOW);
 	return 0;
@@ -149,7 +149,7 @@ INT_PTR AddBirthdayService(WPARAM hContact, LPARAM)
 {
 	HWND hWnd = WindowList_Find(hAddBirthdayWndsList, hContact);
 	if (!hWnd)
-		hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), nullptr, DlgProcAddBirthday, hContact);
+		hWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), nullptr, DlgProcAddBirthday, hContact);
 
 	return ShowWindow(hWnd, SW_SHOW);
 }
@@ -193,7 +193,7 @@ INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 	wchar_t fileName[1024] = { 0 };
 	OPENFILENAME of = { 0 };
 	of.lStructSize = sizeof(OPENFILENAME);
-	//of.hInstance = hInstance;
+	//of.g_plugin.getInst() = g_plugin.getInst();
 	wchar_t filter[MAX_PATH];
 	mir_snwprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c", TranslateT("Birthdays files"), 0, 0);
 	of.lpstrFilter = filter;
@@ -218,7 +218,7 @@ INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
 	wchar_t fileName[1024] = { 0 };
 	OPENFILENAME of = { 0 };
 	of.lStructSize = sizeof(OPENFILENAME);
-	//of.hInstance = hInstance;
+	//of.g_plugin.getInst() = g_plugin.getInst();
 	wchar_t filter[MAX_PATH];
 	mir_snwprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c%s (*.*)%c*.*%c", TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
 	of.lpstrFilter = filter;
