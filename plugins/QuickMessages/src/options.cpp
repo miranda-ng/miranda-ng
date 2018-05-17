@@ -920,7 +920,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		switch (LOWORD(wparam)) {
 		case IDC_VARHELP:
 			if (!g_varhelpDlg)
-				g_varhelpDlg = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_HELPDIALOG), nullptr, HelpDlgProc);
+				g_varhelpDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HELPDIALOG), nullptr, HelpDlgProc);
 			else
 				//ShowWindow(g_varhelpDlg,SW_SHOWDEFAULT);
 				SetWindowPos(g_varhelpDlg, nullptr, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
@@ -1085,7 +1085,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 940000000;
-	odp.hInstance = hinstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = LPGEN("Quick Messages");
 	odp.pfnDlgProc = OptionsProc;

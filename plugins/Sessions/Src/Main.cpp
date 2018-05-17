@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HINSTANCE g_hInst = nullptr;
-
 HGENMENU hmSaveCurrentSession;
 
 HANDLE hmTBButton[2], hiTBbutton[2], iTBbutton[2];
@@ -46,11 +44,25 @@ MCONTACT session_list[255] = { 0 };
 MCONTACT user_session_list[255] = { 0 };
 MCONTACT session_list_recovered[255];
 
+CMPlugin g_plugin;
 int hLangpack;
 
 int OptionsInit(WPARAM, LPARAM);
 
-PLUGININFOEX pluginInfo = {
+IconItem iconList[] =
+{
+	{ LPGEN("Sessions"), "Sessions", IDD_SESSION_CHECKED },
+	{ LPGEN("Favorite Session"), "SessionMarked", IDD_SESSION_CHECKED },
+	{ LPGEN("Not favorite Session"), "SessionUnMarked", IDD_SESSION_UNCHECKED },
+	{ LPGEN("Load Session"), "SessionsLoad", IDI_SESSIONS_LOAD },
+	{ LPGEN("Save Session"), "SessionsSave", IDD_SESSIONS_SAVE },
+	{ LPGEN("Load last Session"), "SessionsLoadLast", IDD_SESSIONS_LOADLAST }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -63,15 +75,12 @@ PLUGININFOEX pluginInfo = {
 	{ 0x60558872, 0x2aab, 0x45aa, { 0x88, 0x8d, 0x9, 0x76, 0x91, 0xc9, 0xb6, 0x83 } }
 };
 
-IconItem iconList[] =
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	{ LPGEN("Sessions"), "Sessions", IDD_SESSION_CHECKED },
-	{ LPGEN("Favorite Session"), "SessionMarked", IDD_SESSION_CHECKED },
-	{ LPGEN("Not favorite Session"), "SessionUnMarked", IDD_SESSION_UNCHECKED },
-	{ LPGEN("Load Session"), "SessionsLoad", IDI_SESSIONS_LOAD },
-	{ LPGEN("Save Session"), "SessionsSave", IDD_SESSIONS_SAVE },
-	{ LPGEN("Load last Session"), "SessionsLoadLast", IDD_SESSIONS_LOADLAST }
-};
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CALLBACK ExitDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 {
@@ -161,7 +170,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 					dd = 5;
 					hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE, CLISTCONTROL_CLASSW, L"",
 						WS_TABSTOP | WS_VISIBLE | WS_CHILD,
-						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, g_hInst, nullptr);
+						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, g_plugin.getInst(), nullptr);
 
 					SetWindowLongPtr(hClistControl, GWL_STYLE,
 						GetWindowLongPtr(hClistControl, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
@@ -431,7 +440,7 @@ INT_PTR SaveUserSessionHandles(WPARAM, LPARAM)
 		return 1;
 	}
 
-	g_hSDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_SAVEDIALOG), nullptr, SaveSessionDlgProc);
+	g_hSDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SAVEDIALOG), nullptr, SaveSessionDlgProc);
 	return 0;
 }
 
@@ -446,7 +455,7 @@ INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 		tszSession(db_get_wsa(NULL, MODNAME, "SessionDate_0")),
 		tszUserSession(db_get_wsa(NULL, MODNAME, "UserSessionDsc_0"));
 	if (g_bIncompletedSave || tszSession || tszUserSession) {
-		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
 		return 0;
 	}
 	if (g_bOtherWarnings)
@@ -658,7 +667,7 @@ int OkToExit(WPARAM, LPARAM)
 		db_set_b(NULL, MODNAME, "lastempty", 0);
 	}
 	else if (exitmode == 1 && session_list[0] != 0) {
-		DialogBox(g_hInst, MAKEINTRESOURCE(IDD_EXDIALOG), nullptr, ExitDlgProc);
+		DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXDIALOG), nullptr, ExitDlgProc);
 	}
 	else db_set_b(NULL, MODNAME, "lastempty", 1);
 	return 0;
@@ -727,11 +736,11 @@ static void CALLBACK LaunchSessions()
 	int startup = db_get_b(NULL, MODNAME, "StartupMode", 3);
 	if (startup == 1 || (startup == 3 && isLastTRUE == TRUE)) {
 		StartUp = TRUE;
-		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
 	}
 	else if (startup == 2 && isLastTRUE == TRUE) {
 		g_hghostw = TRUE;
-		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
 	}
 }
 
@@ -797,21 +806,7 @@ static int PluginInit(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
-{
-	g_hInst = hinst;
-	return 1;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -857,6 +852,13 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
 
 	// Icons
-	Icon_Register(g_hInst, MODNAME, iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), MODNAME, iconList, _countof(iconList));
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) int Unload(void)
+{
 	return 0;
 }

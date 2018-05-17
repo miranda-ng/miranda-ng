@@ -23,7 +23,6 @@ Boston, MA 02111-1307, USA.
 
 #include <windows.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_string.h>
@@ -38,9 +37,15 @@ Boston, MA 02111-1307, USA.
 
 #define MODULE "QuickReplies"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
+
 #define MS_QUICKREPLIES_SERVICE MODULE"/Service"
 
-extern HINSTANCE hInstance;
 extern int iNumber;
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam);

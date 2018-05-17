@@ -177,10 +177,10 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM)
 static void __stdcall CreateDownloadDialog(void*)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups3", DEFAULT_POPUP_ENABLED))
-		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), nullptr, DlgDownloadPop);
+		hDlgDld = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POPUPDUMMI), nullptr, DlgDownloadPop);
 	else if (db_get_b(NULL, MODNAME, "Popups3M", DEFAULT_MESSAGE_ENABLED)) {
 		mir_wstrncpy(tszDialogMsg, Text, _countof(tszDialogMsg));
-		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), nullptr, DlgDownload);
+		hDlgDld = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DOWNLOAD), nullptr, DlgDownload);
 	}
 }
 
@@ -421,7 +421,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 					Title = TranslateT("Pack Updater");
 					Text = tszBuff;
 					if (ServiceExists(MS_POPUP_ADDPOPUPT) && ServiceExists(MS_POPUP_REGISTERACTIONS) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (db_get_dw(NULL, "Popup", "Actions", 0) & 1))
-						rc = DialogBox(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), nullptr, DlgMsgPop);
+						rc = DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POPUPDUMMI), nullptr, DlgMsgPop);
 					else
 						rc = MessageBox(nullptr, tszBuff, Title, MB_YESNO | MB_ICONQUESTION);
 					if (rc == IDYES) {

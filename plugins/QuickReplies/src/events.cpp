@@ -30,7 +30,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialized);
 	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 
-	Icon_Register(hInstance, "TabSRMM/Quick Replies", &icon, 1);
+	Icon_Register(g_plugin.getInst(), "TabSRMM/Quick Replies", &icon, 1);
 
 	char buttonNameTranslated[32], buttonName[32];
 	mir_snprintf(buttonNameTranslated, "%s %x", Translate("Button"), iNumber + 1);

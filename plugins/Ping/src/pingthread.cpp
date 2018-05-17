@@ -418,7 +418,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			context_point = lParam;
 			context_point_valid = true;
 			InvalidateRect(list_hwnd, nullptr, FALSE);
-			HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1)),
+			HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1)),
 				submenu = GetSubMenu(menu, 0);
 
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
@@ -474,7 +474,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		list_hwnd = CreateWindow(L"LISTBOX", L"",
 			//(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT| LBS_STANDARD | WS_CLIPCHILDREN | LBS_OWNERDRAWVARIABLE | LBS_NOTIFY) 
 			(WS_VISIBLE | WS_CHILD | LBS_STANDARD | LBS_OWNERDRAWFIXED | LBS_NOTIFY)
-			& ~WS_BORDER, 0, 0, 0, 0, hwnd, nullptr, hInst, nullptr);
+			& ~WS_BORDER, 0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
 
 		if (db_get_b(NULL, "CList", "Transparent", 0)) {
 			if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
@@ -850,7 +850,7 @@ void InitList()
 	wndclass.lpfnWndProc = FrameWindowProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hIcon = hIconResponding;
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
@@ -859,7 +859,7 @@ void InitList()
 	RegisterClass(&wndclass);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		hpwnd = CreateWindow(_A2W(PLUG) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, nullptr, hInst, nullptr);
+		hpwnd = CreateWindow(_A2W(PLUG) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, nullptr, g_plugin.getInst(), nullptr);
 
 		CLISTFrame frame = { 0 };
 		frame.name = PLUG;
@@ -875,7 +875,7 @@ void InitList()
 	else {
 		hpwnd = CreateWindowEx(WS_EX_TOOLWINDOW, _A2W(PLUG) L"WindowClass", L"Ping",
 			(WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_CLIPCHILDREN),
-			0, 0, 400, 300, hwnd_clist, nullptr, hInst, nullptr);
+			0, 0, 400, 300, hwnd_clist, nullptr, g_plugin.getInst(), nullptr);
 
 		Utils_RestoreWindowPosition(hpwnd, 0, PLUG, "main_window");
 

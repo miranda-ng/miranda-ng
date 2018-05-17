@@ -12,7 +12,6 @@
 #include <Icmpapi.h>
 #include <list>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_langpack.h>
@@ -55,6 +54,12 @@
 
 #define MAX_PINGADDRESS_STRING_LENGTH	256
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PLUG)
+	{}
+};
 
 typedef struct {
 	int ping_period, ping_timeout;
@@ -105,13 +110,12 @@ struct PINGADDRESS {
 };
 
 #include "options.h"
+
 typedef Map<DWORD, HistoryList> HistoryMap;
 typedef std::list<PINGADDRESS> PINGLIST;
 typedef std::list<PINGADDRESS>::iterator pinglist_it;
 
-
 extern HNETLIBUSER hNetlibUser;
-extern HINSTANCE hInst;
 
 extern bool use_raw_ping;
 

@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <commctrl.h>
 #include <Richedit.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_options.h>
@@ -44,7 +43,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define PLGNAME "QuickMessages"
 
-extern HINSTANCE hinstance;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PLGNAME)
+	{}
+};
+
 extern HANDLE hIcolib;
 extern ListData *ButtonsList[100];
 extern SortedList *QuickList;

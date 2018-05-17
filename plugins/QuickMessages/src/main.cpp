@@ -19,18 +19,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HINSTANCE hinstance;
 int hLangpack;
+CMPlugin g_plugin;
 
 WNDPROC mainProc;
 
-int g_iButtonsCount=0;
-int g_bStartup=0;
-BOOL g_bRClickAuto=0;
-BOOL g_bLClickAuto=0;
-BOOL g_bQuickMenu=0;
+int g_iButtonsCount = 0;
+int g_bStartup = 0;
+BOOL g_bRClickAuto = 0;
+BOOL g_bLClickAuto = 0;
+BOOL g_bQuickMenu = 0;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -42,6 +45,13 @@ PLUGININFOEX pluginInfo = {
 	// {37ED754B-6CF9-40ED-9EB6-0FEF8E822475}
 	{ 0x37ed754b, 0x6cf9, 0x40ed, { 0x9e, 0xb6, 0xf, 0xef, 0x8e, 0x82, 0x24, 0x75 } }
 };
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int PreShutdown(WPARAM, LPARAM)
 {
@@ -101,7 +111,7 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 				textlenght = cr.cpMax - cr.cpMin;
 
 				if (textlenght) {
-					pszText = (wchar_t *)mir_alloc((textlenght + 10)*sizeof(wchar_t));
+					pszText = (wchar_t *)mir_alloc((textlenght + 10) * sizeof(wchar_t));
 					memset(pszText, 0, ((textlenght + 10) * sizeof(wchar_t)));
 					SendMessage(mwpd->hwnd, EM_GETSELTEXT, 0, (LPARAM)pszText);
 				}
@@ -160,7 +170,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 
 	UINT textlenght = cr.cpMax - cr.cpMin;
 	if (textlenght) {
-		pszText = (wchar_t *)mir_alloc((textlenght + 10)*sizeof(wchar_t));
+		pszText = (wchar_t *)mir_alloc((textlenght + 10) * sizeof(wchar_t));
 		memset(pszText, 0, ((textlenght + 10) * sizeof(wchar_t)));
 		SendMessage(hEdit, EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
@@ -195,7 +205,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 	case 3:
 		if (!g_iButtonsCount)
 			break;
-			
+
 		HMENU hMenu = CreatePopupMenu(), hSubMenu = nullptr;
 
 		for (int menunum = 0; menunum < sl->realCount; menunum++) {
@@ -216,8 +226,8 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 				AppendMenu((HMENU)((hSubMenu && !bSetPopupMark) ? hSubMenu : hMenu), MF_SEPARATOR, 0, nullptr);
 			else
 				AppendMenu((HMENU)((hSubMenu && !bSetPopupMark) ? hSubMenu : hMenu),
-				MF_STRING | (bSetPopupMark ? MF_POPUP : 0),
-				(bSetPopupMark ? (UINT_PTR)hSubMenu : (menunum + 1)), bd->pszName);
+					MF_STRING | (bSetPopupMark ? MF_POPUP : 0),
+					(bSetPopupMark ? (UINT_PTR)hSubMenu : (menunum + 1)), bd->pszName);
 		}
 
 		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, nullptr);
@@ -267,27 +277,18 @@ static int PluginInit(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
-{
-	hinstance = hinst;
-	return 1;
-}
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) int Unload(void)
+{
 	return 0;
 }

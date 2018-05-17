@@ -225,7 +225,7 @@ BYTE getEntryByte(int buttonnum, int entrynum, BOOL mode)
 static HANDLE AddIcon(char* szIcoName)
 {
 	wchar_t tszPath[MAX_PATH];
-	GetModuleFileName(hinstance, tszPath, _countof(tszPath));
+	GetModuleFileName(g_plugin.getInst(), tszPath, _countof(tszPath));
 
 	SKINICONDESC sid = {};
 	sid.flags = SIDF_PATH_UNICODE;

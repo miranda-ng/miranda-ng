@@ -276,7 +276,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
 bool Edit(HWND hwnd, PINGADDRESS &addr)
 {
 	add_edit_addr = addr;
-	if (DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwnd, DlgProcDestEdit) == IDOK)
+	if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG3), hwnd, DlgProcDestEdit) == IDOK)
 	{
 		addr = add_edit_addr;
 		return true;
@@ -360,7 +360,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				add_edit_addr.item_id = 0;
 				add_edit_addr.index = (int)temp_list.size();
 
-				if (DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwndDlg, DlgProcDestEdit) == IDOK)
+				if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG3), hwndDlg, DlgProcDestEdit) == IDOK)
 				{
 					temp_list.push_back(add_edit_addr);
 
@@ -497,7 +497,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 int PingOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = LPGENW("Ping");

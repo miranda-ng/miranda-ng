@@ -169,7 +169,7 @@ int OnOptInitialized(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Quick Replies");
 	odp.szTab.a = tabName;
 	odp.position = iNumber;
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);
 	odp.pfnDlgProc = DlgProcOptionsPage;
 	Options_AddPage(wParam, &odp);

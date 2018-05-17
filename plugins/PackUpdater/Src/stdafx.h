@@ -27,7 +27,6 @@ Boston, MA 02111-1307, USA.
 #include <Shlobj.h>
 
 // Miranda header files
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clist.h>
@@ -51,6 +50,13 @@ Boston, MA 02111-1307, USA.
 #define MODULE					L"Pack Updater"
 #define DEFAULT_UPDATES_FOLDER	L"Pack Updates"
 typedef std::wstring tString;
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODNAME)
+	{}
+};
 
 struct FILEURL
 {
@@ -90,7 +96,6 @@ struct FILEINFO
 using std::wstring;
 using namespace std;
 
-extern HINSTANCE hInst;
 extern INT FileCount, CurrentFile, Number, UpdatesCount, Period;
 extern BOOL Silent, DlgDld;
 extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;

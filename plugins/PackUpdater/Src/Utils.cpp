@@ -44,7 +44,7 @@ IconItem iconList[] =
 
 void IcoLibInit()
 {
-	Icon_Register(hInst, MODULEA, iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), MODULEA, iconList, _countof(iconList));
 }
 
 BOOL NetlibInit()
@@ -330,7 +330,7 @@ static void CheckUpdates(void *)
 	// Show dialog
 	INT upd_ret = 0;
 	if (UpdateFiles.size() > 0)
-		upd_ret = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)&UpdateFiles);
+		upd_ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)&UpdateFiles);
 	DeleteFile(tszTmpIni);
 	if (upd_ret == IDCANCEL) {
 		hCheckThread = nullptr;

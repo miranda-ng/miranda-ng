@@ -19,9 +19,17 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst = nullptr;
-
 int hLangpack;
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(nullptr)
+	{}
+}
+g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -36,23 +44,19 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x286947d, 0x3140, 0x4222, { 0xb5, 0xad, 0x2c, 0x92, 0x31, 0x5e, 0x1c, 0x1e } }
 };
 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static IconItem iconList[] =
 {
 	{ LPGEN("Switch Layout and Send"), "Switch Layout and Send", IDI_SWITCHSEND },
 	{ LPGEN("Translit and Send"), "Translit and Send", IDI_TRANSLITSEND },
 	{ LPGEN("Invert Case and Send"), "Invert Case and Send", IDI_INVERTSEND },
 };
-
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return true;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
 
 //-------------------------------------------------------------------------------------------------------
 #define MS_TS_SWITCHLAYOUT "TranslitSwitcher/SwitchLayout"
@@ -80,7 +84,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 
-	Icon_Register(hInst, "TabSRMM/TranslitSwitcher", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "TabSRMM/TranslitSwitcher", iconList, _countof(iconList));
 
 	BBButton bbd = {};
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
@@ -107,7 +111,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-//-------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -161,6 +165,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	Hotkey_Register(&hkd);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

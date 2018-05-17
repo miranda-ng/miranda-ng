@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack = 0;
 
 HNETLIBUSER hNetlibUser = nullptr;
@@ -9,8 +9,10 @@ HANDLE hFillListEvent = nullptr;
 
 bool use_raw_ping = true;
 
-// plugin stuff
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -23,18 +25,14 @@ PLUGININFOEX pluginInfo = {
 	{ 0x760ea901, 0xc0c2, 0x446c, { 0x80, 0x29, 0x94, 0xc3, 0xbc, 0x47, 0xc4, 0x5e } }
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-void CreatePluginServices()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void CreatePluginServices()
 {
 	// general
 	CreateServiceFunction(PLUG "/Ping", PluginPing);
@@ -65,7 +63,8 @@ void CreatePluginServices()
 
 }
 
-int OnShutdown(WPARAM, LPARAM) {
+static int OnShutdown(WPARAM, LPARAM)
+{
 	graphs_cleanup();
 
 	UnhookEvent(hFillListEvent);
@@ -80,17 +79,15 @@ int OnShutdown(WPARAM, LPARAM) {
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM, LPARAM)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	NETLIBUSER nl_user = {};
 	nl_user.szSettingsModule = PLUG;
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nl_user.szDescriptiveName.w = TranslateT("Ping Plugin");
-
 	hNetlibUser = Netlib_RegisterUser(&nl_user);
 
 	InitUtils();
-
 	InitMenus();
 
 	hFillListEvent = HookEvent(PLUG "/ListReload", FillList);
@@ -108,7 +105,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	graphs_init();
 
-	if (options.logging) CallService(PLUG "/Log", (WPARAM)L"start", 0);
+	if (options.logging)
+		CallService(PLUG "/Log", (WPARAM)L"start", 0);
 
 	return 0;
 }
@@ -141,17 +139,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	Skin_AddSound("PingReply", LPGENW("Ping"), LPGENW("Reply"));
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
 	HookEvent(ME_OPT_INITIALISE, PingOptInit);
-
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
-
-	Icon_Register(hInst, LPGEN("Ping"), iconList, _countof(iconList));
-
 	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 
+	Icon_Register(g_plugin.getInst(), LPGEN("Ping"), iconList, _countof(iconList));
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
@@ -159,7 +155,8 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	CloseHandle(mainThread);
 
-	if (options.logging) CallService(PLUG "/Log", (WPARAM)L"stop", 0);
+	if (options.logging)
+		CallService(PLUG "/Log", (WPARAM)L"stop", 0);
 
 	return 0;
 }

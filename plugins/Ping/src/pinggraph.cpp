@@ -45,11 +45,11 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 			if (wd->hwnd_chk_grid == nullptr) {
-				wd->hwnd_chk_grid = CreateWindow(L"BUTTON", TranslateT("Show grid lines"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, nullptr, hInst, nullptr);
+				wd->hwnd_chk_grid = CreateWindow(L"BUTTON", TranslateT("Show grid lines"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
 				SendMessage(wd->hwnd_chk_grid, BM_SETCHECK, wd->show_grid ? BST_CHECKED : BST_UNCHECKED, 0);
 			}
 			if (wd->hwnd_chk_stat == nullptr) {
-				wd->hwnd_chk_stat = CreateWindow(L"BUTTON", TranslateT("Show stats"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, nullptr, hInst, nullptr);
+				wd->hwnd_chk_stat = CreateWindow(L"BUTTON", TranslateT("Show stats"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
 				SendMessage(wd->hwnd_chk_stat, BM_SETCHECK, wd->show_stat ? BST_CHECKED : BST_UNCHECKED, 0);
 			}
 			KillTimer(hwnd, ID_REPAINT_TIMER);
@@ -267,7 +267,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wndclass.lpfnWndProc = GraphWindowProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hIcon = hIconResponding;
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
@@ -285,7 +285,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	HWND parent = nullptr;
 	hGraphWnd = CreateWindowEx(0, _A2W(PLUG) L"GraphWindow", title,
 		(WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~CS_VREDRAW & ~CS_HREDRAW,
-		0, 0, 800, 600, parent, nullptr, hInst, nullptr);
+		0, 0, 800, 600, parent, nullptr, g_plugin.getInst(), nullptr);
 
 	WindowData *wd = new WindowData;
 	wd->item_id = (DWORD)wParam; // wParam is destination id

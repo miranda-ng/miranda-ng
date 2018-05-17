@@ -356,7 +356,7 @@ void PasteToWeb::FromClipboard()
 			FromClipboardData data;
 			data.content = str;
 			data.page = pageIndex;
-			if (Options::instance->confDlg && DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FROM_CLIPBOARD), nullptr, DlgProcFromClipboard, (LPARAM)&data) != IDC_BTN_OK)
+			if (Options::instance->confDlg && DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLG_FROM_CLIPBOARD), nullptr, DlgProcFromClipboard, (LPARAM)&data) != IDC_BTN_OK)
 				return;
 
 			SendToServer(str, L"", data.format);
@@ -473,7 +473,7 @@ void PasteToWeb::FromFile(std::wstring file)
 
 				fromFileData.contentW[cbLen] = 0;
 				fromFileData.page = pageIndex;
-				if (!Options::instance->confDlg || DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FROM_FILE), nullptr, DlgProcFromFile, (LPARAM)&fromFileData) == IDC_BTN_OK)
+				if (!Options::instance->confDlg || DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLG_FROM_FILE), nullptr, DlgProcFromFile, (LPARAM)&fromFileData) == IDC_BTN_OK)
 				{
 					std::wstring fileName;
 					std::wstring::size_type pos1 = file.find_last_of(L'\\');

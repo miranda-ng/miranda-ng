@@ -336,7 +336,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				SetDlgItemText(hdlg, IDC_EDIT, TranslateT("View"));
 				hOpClistControl = CreateWindowEx(WS_EX_STATICEDGE, CLISTCONTROL_CLASSW, L"",
 					WS_TABSTOP | WS_VISIBLE | WS_CHILD,
-					14, 198, 161, 163, hdlg, (HMENU)IDC_EMCLIST, g_hInst, nullptr);
+					14, 198, 161, 163, hdlg, (HMENU)IDC_EMCLIST, g_plugin.getInst(), nullptr);
 
 				SetWindowLongPtr(hOpClistControl, GWL_STYLE,
 					GetWindowLongPtr(hOpClistControl, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
@@ -491,7 +491,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 955000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = MODNAME;
 	odp.pfnDlgProc = OptionsProc;

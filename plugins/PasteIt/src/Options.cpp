@@ -298,7 +298,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 				d.page = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_WEBPAGE));
 				WebOptions* wo = optsPagesData->webOptions[d.page];
 				d.tempFormats = wo->formats;
-				if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_CONFIGURE), hwndDlg, DlgProcOptsConfigure, (LPARAM)&d) == IDOK) {
+				if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLG_CONFIGURE), hwndDlg, DlgProcOptsConfigure, (LPARAM)&d) == IDOK) {
 					wo->formats = d.tempFormats;
 					ReloadFormatsCombo(GetDlgItem(hwndDlg, IDC_DEFFORMAT), wo);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -306,7 +306,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 			else if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_PASTEBIN_LOGIN) {
 				OptsLoginData d;
-				if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_PASTEBIN_LOGIN), hwndDlg, DlgProcOptsLogin, (LPARAM)&d) == IDOK) {
+				if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLG_PASTEBIN_LOGIN), hwndDlg, DlgProcOptsLogin, (LPARAM)&d) == IDOK) {
 					PasteToWeb1 *web = (PasteToWeb1*)pasteToWebs[optsPagesData->lastPage];
 					Edit_SetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY), web->GetUserKey(d.user, d.password).c_str());
 				}
@@ -679,7 +679,7 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("Paste It");
 	odp.szGroup.w = LPGENW("Services");

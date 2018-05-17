@@ -1,8 +1,17 @@
 #include "stdafx.h"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(nullptr)
+	{}
+}
+g_plugin;
+
 int hLangpack = 0;
-HINSTANCE hInst;
 HANDLE hButtonTopToolbar;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -18,13 +27,14 @@ PLUGININFOEX pluginInfoEx =
 	{0x10896143, 0x7249, 0x4b36, {0xa4, 0x8, 0x65, 0x1, 0xa6, 0xb6, 0x3, 0x5a}}
 };
 
-static IconItem icon = { LPGEN("Open Folder"), "open", IDI_FOLDER };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	hInst = hinstDLL;
-	return TRUE;
+	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem icon = { LPGEN("Open Folder"), "open", IDI_FOLDER };
 
 static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 {
@@ -67,11 +77,6 @@ HICON LoadIconExEx(const char* IcoLibName, int)
 	return IcoLib_GetIcon(szSettingName);
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load()
@@ -83,7 +88,7 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	// icolib (0.7+)
-	Icon_Register(hInst, LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
+	Icon_Register(g_plugin.getInst(), LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
 	
 	// hotkeys service (0.8+)
 	HOTKEYDESC hotkey = {};

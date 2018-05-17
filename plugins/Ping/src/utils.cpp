@@ -189,7 +189,7 @@ INT_PTR EditContact(WPARAM wParam, LPARAM)
 
 			add_edit_addr = *i;
 
-			if (DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwndList, DlgProcDestEdit) == IDOK) {
+			if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG3), hwndList, DlgProcDestEdit) == IDOK) {
 
 				*i = add_edit_addr;
 				CallService(PLUG "/SetAndSavePingList", (WPARAM)&pl, 0);

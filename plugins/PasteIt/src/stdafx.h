@@ -18,7 +18,6 @@
 #include <map>
 #include <list>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_langpack.h>
@@ -37,7 +36,13 @@
 #include "resource.h"
 #include "Options.h"
 
-extern HINSTANCE hInst;
 extern PasteToWeb* pasteToWebs[PasteToWeb::pages];
 
-#define MODULE				"PasteIt"
+#define MODULE "PasteIt"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};

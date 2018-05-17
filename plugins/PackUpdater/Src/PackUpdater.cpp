@@ -19,13 +19,16 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst = nullptr;
-
 HANDLE hPackUpdaterFolder = nullptr;
 wchar_t tszRoot[MAX_PATH] = { 0 };
-int hLangpack;
 
-PLUGININFOEX pluginInfoEx = {
+int hLangpack;
+CMPlugin g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -38,16 +41,12 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x29517be5, 0x779a, 0x48e5, { 0x89, 0x50, 0xcb, 0x4d, 0xe1, 0xd4, 0x31, 0x72 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -96,6 +95,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

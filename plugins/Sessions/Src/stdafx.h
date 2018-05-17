@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_clc.h>
@@ -48,6 +47,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MODNAME "Sessions"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODNAME)
+	{}
+};
+
 extern IconItem iconList[];
 
 #define MIIM_STRING	0x00000040
@@ -61,7 +67,6 @@ int SaveUserSessionName(wchar_t*);
 INT_PTR CloseCurrentSession(WPARAM, LPARAM);
 int SaveSessionDate();
 
-extern HINSTANCE g_hInst;
 extern MCONTACT session_list_recovered[255];
 extern MCONTACT session_list[255];
 extern int g_ses_limit;
