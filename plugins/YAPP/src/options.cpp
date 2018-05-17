@@ -475,7 +475,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = LPGEN("Popups");
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);

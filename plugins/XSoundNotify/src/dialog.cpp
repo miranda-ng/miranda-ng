@@ -194,7 +194,7 @@ INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 {
 	HWND hChangeSoundDlg = WindowList_Find(hChangeSoundDlgList, wParam);
 	if (!hChangeSoundDlg) {
-		hChangeSoundDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACTS), nullptr, DlgProcContactsOptions, (LPARAM)wParam);
+		hChangeSoundDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACTS), nullptr, DlgProcContactsOptions, (LPARAM)wParam);
 		ShowWindow(hChangeSoundDlg, SW_SHOW);
 	}
 	else {

@@ -23,7 +23,6 @@ Features:
 #include <time.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_database.h>
@@ -36,18 +35,25 @@ Features:
 #include "resource.h"
 #include "version.h"
 
-#define STATUS_OFFLINE               0x1
-#define STATUS_ONLINE                0x2
-#define STATUS_AWAY                  0x4
-#define STATUS_NA                    0x8
-#define STATUS_OCCUPIED              0x10
-#define STATUS_DND                   0x20
-#define STATUS_FREECHAT              0x40
-#define STATUS_INVISIBLE             0x80
+#define STATUS_OFFLINE   0x1
+#define STATUS_ONLINE    0x2
+#define STATUS_AWAY      0x4
+#define STATUS_NA        0x8
+#define STATUS_OCCUPIED  0x10
+#define STATUS_DND       0x20
+#define STATUS_FREECHAT  0x40
+#define STATUS_INVISIBLE 0x80
 
-#define MAXTEMPLATESIZE 1024
+#define MAXTEMPLATESIZE  1024
 
-extern HINSTANCE hInst;
+#define MODULENAME "yaRelay"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
 
 extern MCONTACT hForwardFrom, hForwardTo;
 extern wchar_t tszForwardTemplate[MAXTEMPLATESIZE];

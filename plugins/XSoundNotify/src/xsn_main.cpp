@@ -9,16 +9,19 @@ There is no warranty.
 
 #include "stdafx.h"
 
-HINSTANCE hInst;
 int hLangpack;
+CMPlugin g_plugin;
+CHAT_MANAGER *pci;
+
 LIST<XSN_Data> XSN_Users(10, NumericKeySortT);
 HGENMENU hChangeSound = nullptr;
 MWindowList hChangeSoundDlgList = nullptr;
 BYTE isIgnoreSound = 0, isOwnSound = 0, isIgnoreAccSound = 0, isAccSound = 0;
 
-CHAT_MANAGER *pci;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -28,14 +31,8 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {A01E25F7-A6EF-4B40-8CAC-755A2F2E55B5}
-	{ 0xa01e25f7, 0xa6ef, 0x4b40,{ 0x8c, 0xac, 0x75, 0x5a, 0x2f, 0x2e, 0x55, 0xb5 } }
+	{ 0xa01e25f7, 0xa6ef, 0x4b40,{ 0x8c, 0xac, 0x75, 0x5a, 0x2f, 0x2e, 0x55, 0xb5 }}
 };
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -44,7 +41,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct {
+struct
+{
 	int iStatus;
 	const char *szName;
 }
@@ -190,6 +188,7 @@ static int OnPlaySound(WPARAM, LPARAM)
 {
 	if (isIgnoreSound || isIgnoreAccSound)
 		return 1;
+	
 	if (isOwnSound) {
 		isOwnSound = 0;
 		return 1;
@@ -254,6 +253,8 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySound);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

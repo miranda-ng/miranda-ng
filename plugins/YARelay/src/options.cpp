@@ -168,15 +168,15 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					iSplitMaxSize = 1;
 
 				// write to database
-				db_set_dw(NULL, "yaRelay", "ForwardFrom", (DWORD)hForwardFrom);
-				db_set_dw(NULL, "yaRelay", "ForwardTo", (DWORD)hForwardTo);
-				db_set_dw(NULL, "yaRelay", "ForwardOnStatus", iForwardOnStatus);
-				db_set_ws(NULL, "yaRelay", "ForwardTemplate", tszForwardTemplate);
-				db_set_dw(NULL, "yaRelay", "Split", iSplit);
-				db_set_dw(NULL, "yaRelay", "SplitMaxSize", iSplitMaxSize);
-				db_set_dw(NULL, "yaRelay", "SendParts", iSendParts);
-				db_set_dw(NULL, "yaRelay", "MarkRead", iMarkRead);
-				db_set_dw(NULL, "yaRelay", "SendAndHistory", iSendAndHistory);
+				db_set_dw(NULL, MODULENAME, "ForwardFrom", (DWORD)hForwardFrom);
+				db_set_dw(NULL, MODULENAME, "ForwardTo", (DWORD)hForwardTo);
+				db_set_dw(NULL, MODULENAME, "ForwardOnStatus", iForwardOnStatus);
+				db_set_ws(NULL, MODULENAME, "ForwardTemplate", tszForwardTemplate);
+				db_set_dw(NULL, MODULENAME, "Split", iSplit);
+				db_set_dw(NULL, MODULENAME, "SplitMaxSize", iSplitMaxSize);
+				db_set_dw(NULL, MODULENAME, "SendParts", iSendParts);
+				db_set_dw(NULL, MODULENAME, "MarkRead", iMarkRead);
+				db_set_dw(NULL, MODULENAME, "SendAndHistory", iSendAndHistory);
 				return TRUE;
 			}			
 			break;
@@ -188,10 +188,11 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 /**
 * Init options panel
 */
+
 int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.position = -1;
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);

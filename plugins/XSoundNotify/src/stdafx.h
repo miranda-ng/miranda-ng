@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <Shlwapi.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_database.h>
@@ -23,6 +22,13 @@
 #define SETTINGSKEY "XSNPlugin_sound"
 #define SETTINGSIGNOREKEY "XSNPlugin_ignore"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(SETTINGSNAME)
+	{}
+};
+
 struct XSN_Data
 {
 	LPARAM hContact;
@@ -41,7 +47,6 @@ struct XSN_Data
 
 extern LIST<XSN_Data> XSN_Users;
 
-extern HINSTANCE hInst;
 extern MWindowList hChangeSoundDlgList;
 extern BYTE isIgnoreSound, isOwnSound;
 

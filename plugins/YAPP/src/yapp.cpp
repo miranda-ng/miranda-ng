@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 
-HMODULE hInst = nullptr;
+CMPlugin g_plugin;
 bool bShutdown = false;
 
 MNOTIFYLINK *notifyLink = nullptr;
@@ -28,7 +28,10 @@ HANDLE hTTButton;
 // menu items
 HGENMENU hMenuRoot, hMenuItem, hMenuItemHistory;
 
-PLUGININFOEX pluginInfo={
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -41,18 +44,14 @@ PLUGININFOEX pluginInfo={
 	{0xefd15f16, 0x7ae4, 0x40d7, {0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5}}
 };
 
-BOOL WINAPI DllMain(HMODULE hModule, DWORD, LPVOID)
-{
-	hInst = hModule;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-int ReloadFont(WPARAM, LPARAM) 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int ReloadFont(WPARAM, LPARAM)
 {
 	LOGFONT log_font;
 	if (hFontFirstLine) DeleteObject(hFontFirstLine);
@@ -72,7 +71,7 @@ int ReloadFont(WPARAM, LPARAM)
 	return 0;
 }
 
-int TTBLoaded(WPARAM, LPARAM)
+static int TTBLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
 	ttb.pszService = "Popup/EnableDisableMenuCommand";
@@ -163,7 +162,7 @@ static void InitFonts()
 	ReloadFont(0, 0);
 }
 
-void InitMenuItems(void)
+static void InitMenuItems(void)
 {
 	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
 
@@ -187,7 +186,7 @@ void InitMenuItems(void)
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 }
 
-int ModulesLoaded(WPARAM, LPARAM)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	MNotifyGetLink();
 
@@ -205,7 +204,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int PreShutdown(WPARAM, LPARAM)
+static int PreShutdown(WPARAM, LPARAM)
 {
 	bShutdown = true;
 	DeinitMessagePump();
@@ -228,6 +227,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload()
 {

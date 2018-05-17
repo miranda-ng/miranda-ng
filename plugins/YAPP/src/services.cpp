@@ -317,7 +317,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 INT_PTR Popup_ShowHistory(WPARAM, LPARAM)
 {
 	if (!hHistoryWindow)
-		hHistoryWindow = CreateDialog(hInst, MAKEINTRESOURCE(IDD_LST_HISTORY), nullptr, DlgProcHistLst);
+		hHistoryWindow = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LST_HISTORY), nullptr, DlgProcHistLst);
 
 	ShowWindow(hHistoryWindow, SW_SHOW);
 	return 0;

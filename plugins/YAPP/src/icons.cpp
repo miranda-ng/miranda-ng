@@ -14,6 +14,6 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(hInst, SECT_TOLBAR, iconList, 2);
-	Icon_Register(hInst, SECT_POPUP,  iconList+2, 3);
+	Icon_Register(g_plugin.getInst(), SECT_TOLBAR, iconList, 2);
+	Icon_Register(g_plugin.getInst(), SECT_POPUP,  iconList+2, 3);
 }

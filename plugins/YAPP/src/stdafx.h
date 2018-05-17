@@ -13,7 +13,6 @@
 #include <time.h>
 #include <malloc.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_langpack.h>
@@ -43,10 +42,16 @@
 
 #define MODULE "YAPP"
 
-extern HMODULE  hInst;
-extern bool     bShutdown;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
-extern HFONT    hFontFirstLine, hFontSecondLine, hFontTime;
+extern bool bShutdown;
+
+extern HFONT hFontFirstLine, hFontSecondLine, hFontTime;
 extern COLORREF colFirstLine, colSecondLine, colBg, colTime, colBorder, colSidebar, colTitleUnderline;
 
 extern MNOTIFYLINK *notifyLink;

@@ -21,7 +21,7 @@ Features:
 
 #include "../../utils/mir_buffer.h"
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack;
 
 MCONTACT hForwardFrom, hForwardTo;
@@ -29,6 +29,8 @@ wchar_t tszForwardTemplate[MAXTEMPLATESIZE];
 int iSplit, iSplitMaxSize, iSendParts, iMarkRead, iSendAndHistory, iForwardOnStatus;
 
 LIST<MESSAGE_PROC> arMessageProcs(10, HandleKeySortT);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -43,15 +45,14 @@ PLUGININFOEX pluginInfoEx = {
 	{0x1202e6a, 0xc1b3, 0x42e5, {0x83, 0x8a, 0x3e, 0x49, 0x7b, 0x31, 0xf3, 0x8e}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	hInst=hinstDLL;
-	return TRUE;
+	return &pluginInfoEx;
 }
 
-/**
-* Protocols acknowledgement
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Protocols acknowledgement
+
 int ProtoAck(WPARAM,LPARAM lparam)
 {
 	ACKDATA *pAck = (ACKDATA *)lparam;
@@ -67,7 +68,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 		time(&ltime);
 
 		DBEVENTINFO dbei = {};
-		dbei.szModule = "yaRelay";
+		dbei.szModule = MODULENAME;
 		dbei.timestamp = ltime;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.eventType = EVENTTYPE_MESSAGE;
@@ -82,9 +83,9 @@ int ProtoAck(WPARAM,LPARAM lparam)
 	return 0;
 }
 
-/**
-* New event was added into DB.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// New event was added into DB.
+
 static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 {
 	// is the message sender accepted for forwarding
@@ -212,33 +213,30 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
 
 	// Load plugin options from DB
-	hForwardFrom = (MCONTACT)db_get_dw(NULL, "yaRelay", "ForwardFrom", 0);
-	hForwardTo = (MCONTACT)db_get_dw(NULL, "yaRelay", "ForwardTo", 0);
+	hForwardFrom = (MCONTACT)db_get_dw(NULL, MODULENAME, "ForwardFrom", 0);
+	hForwardTo = (MCONTACT)db_get_dw(NULL, MODULENAME, "ForwardTo", 0);
 
-	iForwardOnStatus = db_get_dw(NULL, "yaRelay", "ForwardOnStatus", STATUS_OFFLINE | STATUS_AWAY | STATUS_NA);
+	iForwardOnStatus = db_get_dw(NULL, MODULENAME, "ForwardOnStatus", STATUS_OFFLINE | STATUS_AWAY | STATUS_NA);
 
-	wchar_t *szForwardTemplate = db_get_wsa(NULL, "yaRelay", "ForwardTemplate");
+	wchar_t *szForwardTemplate = db_get_wsa(NULL, MODULENAME, "ForwardTemplate");
 	if (szForwardTemplate){
 		wcsncpy(tszForwardTemplate, szForwardTemplate, _countof(tszForwardTemplate));
 		mir_free(szForwardTemplate);
 	}
 	else wcsncpy(tszForwardTemplate, L"%u: %m", MAXTEMPLATESIZE-1);
 
-	iSplit          = db_get_dw(NULL, "yaRelay", "Split", 0);
-	iSplitMaxSize   = db_get_dw(NULL, "yaRelay", "SplitMaxSize", 100);
-	iSendParts      = db_get_dw(NULL, "yaRelay", "SendParts", 0);
-	iMarkRead       = db_get_dw(NULL, "yaRelay", "MarkRead", 0);
-	iSendAndHistory = db_get_dw(NULL, "yaRelay", "SendAndHistory", 1);
+	iSplit          = db_get_dw(NULL, MODULENAME, "Split", 0);
+	iSplitMaxSize   = db_get_dw(NULL, MODULENAME, "SplitMaxSize", 100);
+	iSendParts      = db_get_dw(NULL, MODULENAME, "SendParts", 0);
+	iMarkRead       = db_get_dw(NULL, MODULENAME, "MarkRead", 0);
+	iSendAndHistory = db_get_dw(NULL, MODULENAME, "SendAndHistory", 1);
 
 	// hook events
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
@@ -246,6 +244,8 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_PROTO_ACK, ProtoAck);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

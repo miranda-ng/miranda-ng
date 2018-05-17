@@ -9,7 +9,6 @@
 // Windows Header Files:
 #include <windows.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_skin.h>

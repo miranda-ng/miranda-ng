@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_database.h>
@@ -14,7 +13,14 @@
 #include "version.h"
 #include "resource.h"
 
-#define MODNAME		"ZeroNotify"
+#define MODNAME "ZeroNotify"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODNAME)
+	{}
+};
 
 #define DEFAULT_NOSOUND		0x00000000
 #define DEFAULT_NOBLINK 	0x00000000
@@ -23,3 +29,4 @@
 #define DISABLE_SOUND LPGENW("Disable &Sounds")
 #define ENABLE_SOUND LPGENW("Enable &Sounds")
 
+int SetNotify(const long status);
