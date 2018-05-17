@@ -27,7 +27,6 @@
 #include <vector>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_protosvc.h>
@@ -53,8 +52,25 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 extern HNETLIBUSER hNetlibUser;
-extern HINSTANCE hInstance;
 extern char protoName[64];
 
 extern int LoadServices();
 extern int UnloadServices();
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(protoName)
+	{
+		char fileName[MAX_PATH];
+		GetModuleFileNameA(m_hInst, fileName, MAX_PATH);
+
+		WIN32_FIND_DATAA findData;
+		FindClose(FindFirstFileA(fileName, &findData));
+		findData.cFileName[strlen(findData.cFileName) - 4] = 0;
+		strncpy_s(protoName, findData.cFileName, _TRUNCATE);
+
+		Proto_RegisterModule(PROTOTYPE_PROTOCOL, protoName);
+		Proto_SetUniqueId(protoName, "UIN");
+	}
+};

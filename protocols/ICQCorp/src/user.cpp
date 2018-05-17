@@ -155,7 +155,7 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 	odp.szTitle.a = protoName;
 	odp.pfnDlgProc = icqUserInfoDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQCORP);
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	UserInfo_AddPage(wParam, &odp);
 	return 0;
 }

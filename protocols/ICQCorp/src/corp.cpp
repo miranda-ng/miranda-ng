@@ -23,7 +23,7 @@
 
 int hLangpack;
 char protoName[64];
-HINSTANCE hInstance;
+CMPlugin g_plugin;
 HNETLIBUSER hNetlibUser;
 
 PLUGININFOEX pluginInfo =
@@ -47,28 +47,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 // Interface information
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
-///////////////////////////////////////////////////////////////////////////////
-
-BOOL APIENTRY DllMain(HINSTANCE hModule, DWORD reason, LPVOID)
-{
-	hInstance = hModule;
-	if (reason == DLL_PROCESS_ATTACH) {
-		char fileName[MAX_PATH];
-		GetModuleFileNameA(hInstance, fileName, MAX_PATH);
-
-		WIN32_FIND_DATAA findData;
-		FindClose(FindFirstFileA(fileName, &findData));
-		findData.cFileName[strlen(findData.cFileName) - 4] = 0;
-		strncpy_s(protoName, findData.cFileName, _TRUNCATE);
-
-		Proto_RegisterModule(PROTOTYPE_PROTOCOL, protoName);
-		Proto_SetUniqueId(protoName, "UIN");
-
-		DisableThreadLibraryCalls(hModule);
-	}
-	return TRUE;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -160,11 +160,11 @@ bool ICQ::load()
 	awayMessage = new char[1];
 	awayMessage[0] = 0;
 
-	WNDCLASSA wc = { 0, messageWndProc, 0, 0, hInstance, nullptr, nullptr, nullptr, nullptr, protoName };
+	WNDCLASSA wc = { 0, messageWndProc, 0, 0, g_plugin.getInst(), nullptr, nullptr, nullptr, nullptr, protoName };
 	if (!RegisterClassA(&wc))
 		return false;
 
-	hWnd = CreateWindowExA(0, protoName, nullptr, 0, 0, 0, 0, 0, (unsigned short)GetVersion() >= 5 ? HWND_MESSAGE : nullptr, nullptr, hInstance, nullptr);
+	hWnd = CreateWindowExA(0, protoName, nullptr, 0, 0, 0, 0, 0, (unsigned short)GetVersion() >= 5 ? HWND_MESSAGE : nullptr, nullptr, g_plugin.getInst(), nullptr);
 	if (hWnd == nullptr)
 		return false;
 
@@ -185,7 +185,7 @@ void ICQ::unload()
 	WSACleanup();
 
 	DestroyWindow(hWnd);
-	UnregisterClassA(protoName, hInstance);
+	UnregisterClassA(protoName, g_plugin.getInst());
 }
 
 ///////////////////////////////////////////////////////////////////////////////

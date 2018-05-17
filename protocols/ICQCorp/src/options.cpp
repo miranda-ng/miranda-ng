@@ -72,7 +72,7 @@ int icqOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.szTitle.a = protoName;
 	odp.pfnDlgProc = icqOptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQCORP);
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Network");
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

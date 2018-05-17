@@ -57,7 +57,7 @@ static INT_PTR icqLoadIcon(WPARAM wParam, LPARAM)
 	case PLI_PROTOCOL: id = IDI_ICQCORP; break;
 	default: return NULL;
 	}
-	return (INT_PTR)LoadImage(hInstance, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
+	return (INT_PTR)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
