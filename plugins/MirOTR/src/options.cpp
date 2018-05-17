@@ -828,7 +828,7 @@ static int OpenOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Services");
 	odp.szTitle.w = L"OTR";
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;

@@ -148,11 +148,11 @@ void ShowOTRMenu(MCONTACT hContact, POINT pt)
 void InitMirOTRMenu(void)
 {
 	WNDCLASS wc = { 0 };
-	wc.hInstance = hInst;
+	wc.hInstance = g_plugin.getInst();
 	wc.lpfnWndProc = PopupMenuWndProc;
 	wc.lpszClassName = L"MirOTRPopupMenuProcessor";
 	RegisterClass(&wc);
-	hDummyPaintWin = CreateWindowEx(0, L"MirOTRPopupMenuProcessor", nullptr, 0, 0, 0, 1, 1, nullptr, nullptr, hInst, nullptr);
+	hDummyPaintWin = CreateWindowEx(0, L"MirOTRPopupMenuProcessor", nullptr, 0, 0, 0, 1, 1, nullptr, nullptr, g_plugin.getInst(), nullptr);
 
 	CreateServiceFunction("MirOTRMenuExecService", MirOTRMenuExecService);
 	CreateServiceFunction("MirOTRMenuCheckService", MirOTRMenuCheckService);
@@ -208,7 +208,7 @@ void UninitMirOTRMenu(void)
 	DestroyWindow(hDummyPaintWin);
 	hDummyPaintWin = nullptr;
 
-	UnregisterClass(L"MirOTRPopupMenuProcessor", hInst);
+	UnregisterClass(L"MirOTRPopupMenuProcessor", g_plugin.getInst());
 
 	Menu_RemoveObject(hMirOTRMenuObject);
 	hMirOTRMenuObject = 0;

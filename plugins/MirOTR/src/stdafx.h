@@ -23,8 +23,6 @@ extern "C" {
 }
 using namespace std;
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_database.h>
@@ -76,7 +74,12 @@ using namespace std;
 
 #define MODULENAME "MirOTR"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
+
 #define PREF_BYPASS_OTR 0x8000
 #define PREF_NO_HISTORY  0x10000
-
-extern HINSTANCE hInst;

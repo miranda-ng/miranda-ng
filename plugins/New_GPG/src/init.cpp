@@ -18,6 +18,9 @@
 
 //global variables
 int hLangpack = 0;
+CMPlugin g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -32,18 +35,12 @@ PLUGININFOEX pluginInfo={
 	{ 0x4227c050, 0x8d97, 0x48d2, { 0x91, 0xec, 0x6a, 0x95, 0x2b, 0x3d, 0xab, 0x94 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	globals.hInst = hinstDLL;
-	return TRUE;
-}
-
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR LoadKey(WPARAM w, LPARAM l);
 INT_PTR ToggleEncryption(WPARAM w, LPARAM l);
@@ -201,6 +198,8 @@ extern "C" int __declspec(dllexport) Load()
 	globals.g_hCLIcon = ExtraIcon_RegisterCallback(szGPGModuleName, Translate("GPG encryption status"), "secured", onExtraImageListRebuilding, onExtraImageApplying);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern list<wstring> transfers;
 extern "C" int __declspec(dllexport) Unload(void)

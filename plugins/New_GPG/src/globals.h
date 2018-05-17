@@ -23,7 +23,6 @@ struct globals_s
 	wchar_t *inopentag = nullptr, *inclosetag = nullptr, *outopentag = nullptr, *outclosetag = nullptr, *password = nullptr;
 	wchar_t key_id_global[17] = { 0 };
 	list <JabberAccount*> Accounts;
-	HINSTANCE hInst;
 	HFONT bold_font = nullptr;
 	HANDLE hLoadPubKey = nullptr, g_hCLIcon = nullptr, hExportGpgKeys = nullptr, hImportGpgKeys = nullptr;
 	HGENMENU hSendKey = nullptr, hToggleEncryption = nullptr;

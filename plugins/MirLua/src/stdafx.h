@@ -6,8 +6,6 @@
 
 #include <map>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_utils.h>
@@ -48,7 +46,12 @@ class CMLuaScript;
 
 #define MODULE "MirLua"
 
-extern HINSTANCE g_hInstance;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
 
 extern CMLua *g_mLua;
 

@@ -11,5 +11,5 @@ static IconItem iconList[] = {
 
 void InitIcons()
 {
-	Icon_Register(hInst, "OTR", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "OTR", iconList, _countof(iconList));
 }

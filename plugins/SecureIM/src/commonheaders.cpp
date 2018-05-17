@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-HINSTANCE g_hInst, g_hIconInst;
+HINSTANCE g_hIconInst;
 
 char TEMP[MAX_PATH];
 int  TEMP_SIZE = 0;

@@ -9,7 +9,7 @@ private:
 
 public:
 	CMLuaScriptOptionPage(lua_State *_L, int onInitDialogRef, int onApplyRef)
-		: CDlgBase(g_hInstance, IDD_SCRIPTOPTIONSPAGE), L(_L),
+		: CDlgBase(g_plugin.getInst(), IDD_SCRIPTOPTIONSPAGE), L(_L),
 		m_onInitDialogRef(onInitDialogRef), m_onApplyRef(onApplyRef)
 	{
 	}
@@ -43,7 +43,7 @@ public:
 
 void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 {
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.hLangpack = CMLuaEnvironment::GetEnvironmentId(L);
 
 	lua_getfield(L, -1, "Flags");

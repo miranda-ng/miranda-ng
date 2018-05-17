@@ -89,7 +89,7 @@ void InitIcons(void)
 		hNewIconInst = LoadIconsPack("plugins\\secureim_icons.dll");
 
 	if (hNewIconInst == nullptr)
-		g_hIconInst = g_hInst;
+		g_hIconInst = g_plugin.getInst();
 	else
 		g_hIconInst = hNewIconInst;
 

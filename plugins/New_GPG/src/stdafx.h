@@ -55,7 +55,6 @@ using std::fstream;
 #include <utf8.h>
 
 //miranda
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_options.h>
@@ -87,5 +86,12 @@ using std::fstream;
 #include "ui.h"
 #include "options.h"
 #include "globals.h"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(szGPGModuleName)
+	{}
+};
 
 #endif

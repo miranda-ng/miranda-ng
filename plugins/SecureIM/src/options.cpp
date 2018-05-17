@@ -93,19 +93,19 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		iInit = TRUE;
 		tci.mask = TCIF_PARAM | TCIF_TEXT;
 
-		tci.lParam = (LPARAM)CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_TAB_GENERAL), hwnd, DlgProcOptionsGeneral);
+		tci.lParam = (LPARAM)CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TAB_GENERAL), hwnd, DlgProcOptionsGeneral);
 		tci.pszText = (LPSTR)sim201;
 		TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 0, &tci);
 		EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
-		tci.lParam = (LPARAM)CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_TAB_PROTO), hwnd, DlgProcOptionsProto);
+		tci.lParam = (LPARAM)CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TAB_PROTO), hwnd, DlgProcOptionsProto);
 		tci.pszText = (LPSTR)sim202;
 		TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 2, &tci);
 		EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 		ShowWindow((HWND)tci.lParam, SW_HIDE);
 
 		if (bPGP && bPGPloaded) {
-			tci.lParam = (LPARAM)CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_TAB_PGP), hwnd, DlgProcOptionsPGP);
+			tci.lParam = (LPARAM)CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TAB_PGP), hwnd, DlgProcOptionsPGP);
 			tci.pszText = (LPSTR)sim214;
 			TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 3, &tci);
 			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
@@ -113,7 +113,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 
 		if (bGPG && bGPGloaded) {
-			tci.lParam = (LPARAM)CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_TAB_GPG), hwnd, DlgProcOptionsGPG);
+			tci.lParam = (LPARAM)CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TAB_GPG), hwnd, DlgProcOptionsGPG);
 			tci.pszText = (LPSTR)sim226;
 			TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 4, &tci);
 			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
@@ -280,7 +280,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			if (ptr) {
 				LPSTR buffer = (LPSTR)alloca(PSKSIZE + 1);
 				getContactName(ptr->hContact, buffer);
-				int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PSK), nullptr, DlgProcSetPSK, (LPARAM)buffer);
+				int res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PSK), nullptr, DlgProcSetPSK, (LPARAM)buffer);
 				if (res == IDOK) {
 					setListViewPSK(hLV, idx, 1);
 					db_set_s(ptr->hContact, MODULENAME, "tPSK", buffer);
@@ -433,17 +433,17 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 					if (ptr->tmode == MODE_NATIVE || ptr->tmode == MODE_RSAAES) {
 						switch (lpLV->iSubItem) {
 						case 2: // mode
-							hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDM_CLIST2));
+							hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDM_CLIST2));
 							break;
 						case 3: // status
-							hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE) ? IDM_CLIST01 : IDM_CLIST11));
+							hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE) ? IDM_CLIST01 : IDM_CLIST11));
 							break;
 						case 4: // PSK/PUB
 						case 5: // SHA1
-							hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE) ? IDM_CLIST02 : IDM_CLIST12));
+							hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE) ? IDM_CLIST02 : IDM_CLIST12));
 							break;
 						default: // full menu
-							hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE) ? IDM_CLIST0 : IDM_CLIST1));
+							hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE) ? IDM_CLIST0 : IDM_CLIST1));
 							break;
 						}
 						CheckMenuItem(hMenu, ID_DISABLED + ptr->tstatus, MF_CHECKED);
@@ -458,7 +458,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 						}
 					}
 					if (!hMenu)
-						hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDM_CLIST2));
+						hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDM_CLIST2));
 					TranslateMenu(hMenu);
 					CheckMenuItem(hMenu, ID_SIM_NATIVE + ptr->tmode, MF_CHECKED);
 					if (!bPGP) EnableMenuItem(hMenu, ID_SIM_PGP, MF_GRAYED);
@@ -534,7 +534,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		case IDC_RSA_EXPPRIV:
 		{
 			LPSTR passphrase = (LPSTR)alloca(RSASIZE);
-			int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PASSPHRASE), nullptr, DlgProcSetPassphrase, (LPARAM)passphrase);
+			int res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PASSPHRASE), nullptr, DlgProcSetPassphrase, (LPARAM)passphrase);
 			if (res == IDOK) {
 				LPSTR priv = (LPSTR)alloca(RSASIZE);
 				mir_exp->rsa_export_keypair(CPP_MODE_RSA, priv, nullptr, passphrase);
@@ -551,7 +551,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 				return TRUE;
 
 			LPSTR passphrase = (LPSTR)alloca(RSASIZE);
-			int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PASSPHRASE), nullptr, DlgProcSetPassphrase, (LPARAM)passphrase);
+			int res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PASSPHRASE), nullptr, DlgProcSetPassphrase, (LPARAM)passphrase);
 			if (res == IDOK) {
 				if (!mir_exp->rsa_import_keypair(CPP_MODE_RSA, priv, passphrase))
 					msgbox(hDlg, sim113, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
@@ -1687,7 +1687,7 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 int onRegisterOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSTAB);
 	odp.szTitle.a = (char*)MODULENAME;
 	odp.szGroup.a = LPGEN("Services");

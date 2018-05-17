@@ -23,8 +23,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 int LoadSslModule(void);
 void UnloadSslModule(void);
 
-HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(nullptr)
+	{}
+}
+g_plugin;
+
 int hLangpack;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -39,18 +48,16 @@ PLUGININFOEX pluginInfo = {
 	{ 0xb649702c, 0x13de, 0x408a, { 0xb6, 0xc2, 0xfb, 0x8f, 0xed, 0x2a, 0x2c, 0x90 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SSL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -58,6 +65,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	return LoadSslModule();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

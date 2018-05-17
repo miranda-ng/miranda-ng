@@ -27,7 +27,7 @@ void CDlgEncryptedFileMsgBox::OnInitDialog()
 	globals.bDecryptFiles = false;
 }
 
-CDlgEncryptedFileMsgBox::CDlgEncryptedFileMsgBox() : CDlgBase(globals.hInst, IDD_ENCRYPTED_FILE_MSG_BOX),
+CDlgEncryptedFileMsgBox::CDlgEncryptedFileMsgBox() : CDlgBase(g_plugin.getInst(), IDD_ENCRYPTED_FILE_MSG_BOX),
 chk_REMEMBER(this, IDC_REMEMBER),
 btn_IGNORE(this, IDC_IGNORE), btn_DECRYPT(this, IDC_DECRYPT)
 {
@@ -61,7 +61,7 @@ void CDlgEncryptedFileMsgBox::onClick_DECRYPT(CCtrlButton*)
 
 
 
-CDlgExportKeysMsgBox::CDlgExportKeysMsgBox() : CDlgBase(globals.hInst, IDD_EXPORT_TYPE),
+CDlgExportKeysMsgBox::CDlgExportKeysMsgBox() : CDlgBase(g_plugin.getInst(), IDD_EXPORT_TYPE),
 btn_OK(this, IDC_OK), btn_CANCEL(this, IDC_CANCEL),
 chk_PUBLIC(this, IDC_PUBLIC), chk_PRIVATE(this, IDC_PRIVATE), chk_ALL(this, IDC_ALL)
 {
@@ -89,7 +89,7 @@ void CDlgExportKeysMsgBox::onClick_CANCEL(CCtrlButton*)
 
 
 
-CDlgChangePasswdMsgBox::CDlgChangePasswdMsgBox() : CDlgBase(globals.hInst, IDD_CHANGE_PASSWD),
+CDlgChangePasswdMsgBox::CDlgChangePasswdMsgBox() : CDlgBase(g_plugin.getInst(), IDD_CHANGE_PASSWD),
 btn_OK(this, ID_OK),
 edit_NEW_PASSWD1(this, IDC_NEW_PASSWD1), edit_NEW_PASSWD2(this, IDC_NEW_PASSWD2), edit_OLD_PASSWD(this, IDC_OLD_PASSWD)
 {
@@ -160,7 +160,7 @@ void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 
 
 
-CDlgFirstRun::CDlgFirstRun() : CDlgBase(globals.hInst, IDD_FIRST_RUN),
+CDlgFirstRun::CDlgFirstRun() : CDlgBase(g_plugin.getInst(), IDD_FIRST_RUN),
 list_KEY_LIST(this, IDC_KEY_LIST),
 btn_COPY_PUBKEY(this, IDC_COPY_PUBKEY), btn_EXPORT_PRIVATE(this, IDC_EXPORT_PRIVATE), btn_CHANGE_PASSWD(this, IDC_CHANGE_PASSWD), btn_GENERATE_RANDOM(this, IDC_GENERATE_RANDOM),
 btn_GENERATE_KEY(this, IDC_GENERATE_KEY), btn_OTHER(this, IDC_OTHER), btn_DELETE_KEY(this, IDC_DELETE_KEY), btn_OK(this, ID_OK),
@@ -734,7 +734,7 @@ void CDlgFirstRun::refresh_key_list()
 
 
 
-CDlgGpgBinOpts::CDlgGpgBinOpts() : CDlgBase(globals.hInst, IDD_BIN_PATH),
+CDlgGpgBinOpts::CDlgGpgBinOpts() : CDlgBase(g_plugin.getInst(), IDD_BIN_PATH),
 btn_SET_BIN_PATH(this, IDC_SET_BIN_PATH), btn_SET_HOME_DIR(this, IDC_SET_HOME_DIR), btn_OK(this, ID_OK), btn_GENERATE_RANDOM(this, IDC_GENERATE_RANDOM),
 edit_BIN_PATH(this, IDC_BIN_PATH), edit_HOME_DIR(this, IDC_HOME_DIR),
 chk_AUTO_EXCHANGE(this, IDC_AUTO_EXCHANGE)
@@ -895,7 +895,7 @@ void CDlgGpgBinOpts::OnDestroy()
 	InitCheck();
 }
 
-CDlgNewKey::CDlgNewKey(MCONTACT _hContact, wstring _new_key) : CDlgBase(globals.hInst, IDD_NEW_KEY),
+CDlgNewKey::CDlgNewKey(MCONTACT _hContact, wstring _new_key) : CDlgBase(g_plugin.getInst(), IDD_NEW_KEY),
 lbl_KEY_FROM(this, IDC_KEY_FROM), lbl_MESSAGE(this, IDC_MESSAGE),
 btn_IMPORT(this, ID_IMPORT), btn_IMPORT_AND_USE(this, IDC_IMPORT_AND_USE), btn_IGNORE_KEY(this, IDC_IGNORE_KEY)
 {
@@ -946,7 +946,7 @@ void CDlgNewKey::onClick_IGNORE_KEY(CCtrlButton*)
 	this->Close();
 }
 
-CDlgKeyGen::CDlgKeyGen() : CDlgBase(globals.hInst, IDD_KEY_GEN),
+CDlgKeyGen::CDlgKeyGen() : CDlgBase(g_plugin.getInst(), IDD_KEY_GEN),
 combo_KEY_TYPE(this, IDC_KEY_TYPE),
 edit_KEY_LENGTH(this, IDC_KEY_LENGTH), edit_KEY_PASSWD(this, IDC_KEY_PASSWD), edit_KEY_REAL_NAME(this, IDC_KEY_REAL_NAME), edit_KEY_EMAIL(this, IDC_KEY_EMAIL), edit_KEY_COMMENT(this, IDC_KEY_COMMENT),
 edit_KEY_EXPIRE_DATE(this, IDC_KEY_EXPIRE_DATE),
@@ -1140,7 +1140,7 @@ void CDlgKeyGen::OnDestroy()
 	db_set_dw(NULL, szGPGModuleName, "KeyGenWindowY", globals.key_gen_rect.top);
 }
 
-CDlgLoadExistingKey::CDlgLoadExistingKey() : CDlgBase(globals.hInst, IDD_LOAD_EXISTING_KEY),
+CDlgLoadExistingKey::CDlgLoadExistingKey() : CDlgBase(g_plugin.getInst(), IDD_LOAD_EXISTING_KEY),
 btn_OK(this, IDOK), btn_CANCEL(this, IDCANCEL),
 list_EXISTING_KEY_LIST(this, IDC_EXISTING_KEY_LIST)
 {
@@ -1323,7 +1323,7 @@ void CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST(CCtrlListView::TEventInfo *
 		btn_OK.Enable();
 }
 
-CDlgImportKey::CDlgImportKey(MCONTACT _hContact) : CDlgBase(globals.hInst, IDD_IMPORT_KEY),
+CDlgImportKey::CDlgImportKey(MCONTACT _hContact) : CDlgBase(g_plugin.getInst(), IDD_IMPORT_KEY),
 combo_KEYSERVER(this, IDC_KEYSERVER),
 btn_IMPORT(this, IDC_IMPORT)
 {
@@ -1362,7 +1362,7 @@ void CDlgImportKey::onClick_IMPORT(CCtrlButton*)
 
 
 
-CDlgKeyPasswordMsgBox::CDlgKeyPasswordMsgBox(MCONTACT _hContact) : CDlgBase(globals.hInst, IDD_KEY_PASSWD),
+CDlgKeyPasswordMsgBox::CDlgKeyPasswordMsgBox(MCONTACT _hContact) : CDlgBase(g_plugin.getInst(), IDD_KEY_PASSWD),
 lbl_KEYID(this, IDC_KEYID),
 edit_KEY_PASSWORD(this, IDC_KEY_PASSWORD),
 chk_DEFAULT_PASSWORD(this, IDC_DEFAULT_PASSWORD), chk_SAVE_PASSWORD(this, IDC_SAVE_PASSWORD),

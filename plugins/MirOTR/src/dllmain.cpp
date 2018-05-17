@@ -1,10 +1,10 @@
 // dllmain.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
 #include "stdafx.h"
 
-HANDLE hEventWindow;
-HINSTANCE hInst;
-
 int hLangpack;
+CMPlugin g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -19,16 +19,12 @@ PLUGININFOEX pluginInfo={
 	{0x12d8faad, 0x78ab, 0x4e3c, {0x98, 0x54, 0x32, 0xe, 0x9e, 0xa5, 0xcc, 0x9f}}
 };
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD, LPVOID)
-{
-	hInst = hModule;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
@@ -43,7 +39,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	InitSRMM();
 
-	hEventWindow = HookEvent(ME_MSG_WINDOWEVENT, WindowEvent);
+	HookEvent(ME_MSG_WINDOWEVENT, WindowEvent);
 
 	if (options.bHaveSecureIM && !db_get_b(0, MODULENAME, "sim_warned", 0)) {
 		db_set_b(0, MODULENAME, "sim_warned", 1);
@@ -91,12 +87,10 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	//UnhookEvent(hSettingChanged);
-	UnhookEvent(hEventWindow);
-	//UnhookEvent(hEventDbEventAddedFilter);
-	//UnhookEvent(hEventDbEventAdded);
 	DEBUGOUTA("UNLOAD MIROTR");
 	DeinitSRMM();
 	DeinitDBFilter();

@@ -108,7 +108,7 @@ extern "C" {
 			protocol = GetContactProto((UINT_PTR)opdata);
 		}
 		if (!protocol) return;
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GENKEYNOTIFY), nullptr, GenKeyDlgBoxProc, (LPARAM)protocol);
+		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_GENKEYNOTIFY), nullptr, GenKeyDlgBoxProc, (LPARAM)protocol);
 
 	}
 

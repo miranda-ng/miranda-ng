@@ -11,7 +11,10 @@ HANDLE hRSA4096 = nullptr;
 mir_cs localQueueMutex;
 mir_cs localContextMutex;
 
-PLUGININFOEX pluginInfoEx = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -28,6 +31,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -53,10 +58,14 @@ extern "C" __declspec(dllexport) int Load()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Unload()
 {
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, DWORD* Size)
 {

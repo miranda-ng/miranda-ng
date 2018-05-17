@@ -1,6 +1,9 @@
 #include "commonheaders.h"
 
+CMPlugin g_plugin;
 int hLangpack = 0;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -24,7 +27,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 {
-	g_hInst = hInst;
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		INITCOMMONCONTROLSEX icce = { sizeof(icce), ICC_LISTVIEW_CLASSES | ICC_TAB_CLASSES };
 		InitCommonControlsEx(&icce);
@@ -288,7 +290,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	DisableThreadLibraryCalls(g_hInst);
+	DisableThreadLibraryCalls(g_plugin.getInst());
 
 	char temp[MAX_PATH];
 	GetTempPath(sizeof(temp), temp);

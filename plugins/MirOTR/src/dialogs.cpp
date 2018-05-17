@@ -153,7 +153,7 @@ static void SMPInitUpdateDialog(ConnContext *context, bool responder)
 	data->context = context;
 	data->oldlevel = otr_context_get_trust(context);
 	data->responder = responder;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_PROGRESS), nullptr, DlgSMPUpdateProc, (LPARAM)data);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SMP_PROGRESS), nullptr, DlgSMPUpdateProc, (LPARAM)data);
 }
 
 static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -304,7 +304,7 @@ void SMPInitResponseDialog(ConnContext *context, const wchar_t *question) {
 	data->oldlevel = TRUST_NOT_PRIVATE;
 	data->responder = true;
 	data->question = (question) ? mir_wstrdup(question) : NULL;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgSMPResponseProc, (LPARAM) data);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgSMPResponseProc, (LPARAM) data);
 }
 */
 
@@ -570,7 +570,7 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 void SMPInitDialog(ConnContext *context)
 {
 	if (context)
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgProcSMPInitProc, (LPARAM)context);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgProcSMPInitProc, (LPARAM)context);
 }
 
 void SMPDialogUpdate(ConnContext *context, int percent)
@@ -609,7 +609,7 @@ void SMPDialogReply(ConnContext *context, const char* question)
 	data->oldlevel = TRUST_NOT_PRIVATE;
 	data->responder = true;
 	data->question = (question) ? mir_utf8decodeW(question) : nullptr;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgSMPResponseProc, (LPARAM)data);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgSMPResponseProc, (LPARAM)data);
 	/*
 	ShowError(L"SMP requires user password (NOT IMPL YET)");
 	otr_abort_smp(context);
@@ -729,7 +729,7 @@ static unsigned int CALLBACK verify_context_thread(void *param)
 		ConnContext *context = (ConnContext *)param;
 		MCONTACT hContact = (UINT_PTR)context->app_data;
 		wchar_t msg[1024];
-		switch (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgBoxProcVerifyContext, (LPARAM)param)) {
+		switch (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgBoxProcVerifyContext, (LPARAM)param)) {
 		case IDOK:
 		case IDYES:
 			lib_cs_lock();

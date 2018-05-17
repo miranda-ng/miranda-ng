@@ -163,7 +163,7 @@ int onRegisterPopOptions(WPARAM wParam, LPARAM)
 {
 	if (bPopupExists) {
 		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.hInstance = g_hInst;
+		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
 		odp.szTitle.a = (char*)MODULENAME;
 		odp.szGroup.a = LPGEN("Popups");

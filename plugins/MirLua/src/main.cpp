@@ -1,8 +1,7 @@
 #include "stdafx.h"
 
 int hLangpack;
-
-HINSTANCE g_hInstance;
+CMPlugin g_plugin;
 
 CMLua *g_mLua;
 
@@ -10,6 +9,8 @@ HANDLE g_hCLibsFolder;
 HANDLE g_hScriptsFolder;
 
 HNETLIBUSER hNetlib = nullptr;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo =
 {
@@ -26,29 +27,23 @@ PLUGININFOEX pluginInfo =
 
 };
 
-DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
-{
-	g_hInstance = hInstance;
-
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.szGroup.w = LPGENW("Services");
 	odp.szTitle.w = L"Lua";
 	odp.szTab.w = LPGENW("Scripts");
 	odp.pDialog = new CMLuaOptions(g_mLua);
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 
@@ -58,7 +53,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULE, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
 
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
-
 	return 0;
 }
 
@@ -83,9 +77,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_mLua->Load();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

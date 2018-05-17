@@ -28,7 +28,7 @@ static void MakeSKINICONDESC(lua_State *L, SKINICONDESC &sid)
 	if (sid.defaultFile.w == nullptr)
 	{
 		sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
-		GetModuleFileName(g_hInstance, sid.defaultFile.w, MAX_PATH);
+		GetModuleFileName(g_plugin.getInst(), sid.defaultFile.w, MAX_PATH);
 	}
 
 	lua_getfield(L, -1, "DefaultIndex");
@@ -64,7 +64,7 @@ static int lua_AddIcon(lua_State *L)
 		if (sid.defaultFile.w == nullptr)
 		{
 			sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
-			GetModuleFileName(g_hInstance, sid.defaultFile.w, MAX_PATH);
+			GetModuleFileName(g_plugin.getInst(), sid.defaultFile.w, MAX_PATH);
 		}
 	}
 	else if (lua_type(L, 1) == LUA_TTABLE)
