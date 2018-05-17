@@ -30,8 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <malloc.h>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_langpack.h>
@@ -55,6 +53,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IMPORT_MODULE  "MIMImport"        // Module name
 #define IMPORT_SERVICE "MIMImport/Import" // Service for menu item
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(IMPORT_MODULE)
+	{}
+};
 
 // Keys
 #define IMP_KEY_FR     "FirstRun"         // First run
@@ -86,7 +91,6 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 
 int CreateGroup(const wchar_t *name, MCONTACT hContact);
 
-extern HINSTANCE hInst;
 extern HWND hwndWizard, hwndAccMerge;
 extern int nImportOptions;
 extern wchar_t importFile[];

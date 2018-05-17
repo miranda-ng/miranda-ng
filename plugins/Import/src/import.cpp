@@ -43,11 +43,13 @@ struct AccountMap
 };
 
 static int CompareAccs(const AccountMap *p1, const AccountMap *p2)
-{	return mir_strcmpi(p1->szSrcAcc, p2->szSrcAcc);
+{
+	return mir_strcmpi(p1->szSrcAcc, p2->szSrcAcc);
 }
 
 static int CompareAccByIds(const AccountMap *p1, const AccountMap *p2)
-{	return p1->iOrder - p2->iOrder;
+{
+	return p1->iOrder - p2->iOrder;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -251,7 +253,7 @@ static LRESULT CALLBACK ListWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 			SendMessage(hwndCombo, WM_KILLFOCUS, 0, (LPARAM)hwndCombo);
 
 		hwndCombo = CreateWindowEx(WS_EX_CLIENTEDGE, WC_COMBOBOX, L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
-			r.left + 3, r.top, r.right - r.left - 3, r.bottom - r.top, hwnd, nullptr, hInst, nullptr);
+			r.left + 3, r.top, r.right - r.left - 3, r.bottom - r.top, hwnd, nullptr, g_plugin.getInst(), nullptr);
 
 		// copy a font from listview
 		HFONT hFont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
@@ -461,7 +463,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 
 	// all accounts to be converted automatically, no need to raise a dialog
 	if (bNeedManualMerge)
-		if (DialogBox(hInst, MAKEINTRESOURCE(IDD_ACCMERGE), nullptr, AccountsMatcherProc) != IDOK)
+		if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ACCMERGE), nullptr, AccountsMatcherProc) != IDOK)
 			return false;
 
 	bool bImportSysAll = (nImportOptions & IOPT_SYS_SETTINGS) != 0;
@@ -552,7 +554,7 @@ int ModulesEnumProc(const char *szModuleName, void *pParam)
 			CopySettings(icd->from, szModuleName, icd->to, icd->szDstProto);
 	}
 	else CopySettings(icd->from, szModuleName, icd->to, szModuleName);
-	
+
 	return 0;
 }
 
@@ -976,7 +978,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 				nDupes++;
 				continue;
 			}
-					
+
 			// no need to display all these dialogs again
 			if (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_ADDED)
 				dbei.flags |= DBEF_READ;

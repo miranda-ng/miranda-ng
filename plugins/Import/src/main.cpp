@@ -24,11 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int nImportOptions;
 
-HINSTANCE hInst;
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 bool g_bServiceMode = false, g_bSendQuit = false;
 HWND hwndWizard, hwndAccMerge;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfo =
@@ -45,12 +45,6 @@ PLUGININFOEX pluginInfo =
 	{0x2d77a746, 0xa6, 0x4343, {0xbf, 0xc5, 0xf8, 0x8, 0xcd, 0xd7, 0x72, 0xea}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 static INT_PTR ImportCommand(WPARAM, LPARAM)
 {
 	if (IsWindow(hwndWizard)) {
@@ -59,7 +53,7 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 	}
 	else {
 		WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
 	}
 
 	return 0;
@@ -121,14 +115,14 @@ static INT_PTR ServiceMode(WPARAM, LPARAM)
 		wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
 
 		WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
 		return SERVICE_CONTINUE;
 	}
 
 	g_bSendQuit = true;
 
 	WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
 	return SERVICE_ONLYDB;
 }
 
@@ -139,7 +133,7 @@ static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 	nImportOptions = opts->dwFlags;
 
 	WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
-	return DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
 }
 
 extern "C" __declspec(dllexport) int Load(void)

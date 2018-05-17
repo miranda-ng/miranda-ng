@@ -36,8 +36,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <io.h>
 #include <fcntl.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_langpack.h>
@@ -76,7 +74,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ieviewModuleName	"IEVIEW"
 
-extern HINSTANCE hInstance;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(ieviewModuleName)
+	{}
+};
+
 extern IEView *debugView;
 extern char *workingDirUtf8;
 extern HANDLE hHookOptionsChanged;

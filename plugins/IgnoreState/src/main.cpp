@@ -20,12 +20,11 @@
 
 #include "stdafx.h"
 
-HINSTANCE g_hInst;
-
 HANDLE hIcoLibIconsChanged = nullptr;
 HANDLE hHookExtraIconsRebuild = nullptr, hHookExtraIconsApply = nullptr, hContactSettingChanged = nullptr;
 HANDLE hPrebuildContactMenu = nullptr;
 HANDLE hExtraIcon = nullptr;
+CMPlugin g_plugin;
 int hLangpack;
 
 INT currentFilter = 0;
@@ -59,12 +58,6 @@ PLUGININFOEX pluginInfo = {
 	// A6872BCD-F2A1-41B8-B2F1-DD7CEC055734
 	{ 0xa6872bcd, 0xf2a1, 0x41b8, { 0xb2, 0xf1, 0xdd, 0x7c, 0xec, 0x05, 0x57, 0x34 } }
 };
-
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	g_hInst = hinstDLL;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -166,7 +159,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
 	//IcoLib support
-	Icon_Register(g_hInst, LPGEN("Ignore State"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("Ignore State"), iconList, _countof(iconList));
 
 	hExtraIcon = ExtraIcon_RegisterIcolib("ignore", LPGEN("Ignore State"), "ignore_full");
 

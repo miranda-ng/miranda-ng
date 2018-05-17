@@ -51,9 +51,9 @@ int CreateGroup(const wchar_t *group, MCONTACT hContact)
 static bool IsEqualEvent(const DBEVENTINFO &ev1, const DBEVENTINFO &ev2)
 {
 	return (ev1.timestamp == ev2.timestamp &&
-			  ev1.eventType == ev2.eventType &&
-			  ev1.cbBlob == ev2.cbBlob &&
-			  (ev1.flags & DBEF_SENT) == (ev2.flags & DBEF_SENT));
+		ev1.eventType == ev2.eventType &&
+		ev1.cbBlob == ev2.cbBlob &&
+		(ev1.flags & DBEF_SENT) == (ev2.flags & DBEF_SENT));
 }
 
 // Returns TRUE if the event already exist in the database
@@ -206,5 +206,5 @@ HANDLE GetIconHandle(int iIconId)
 
 void RegisterIcons()
 {
-	Icon_Register(hInst, "Import", iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), "Import", iconList, _countof(iconList));
 }

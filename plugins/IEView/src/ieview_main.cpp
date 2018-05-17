@@ -20,10 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "stdafx.h"
 
-HINSTANCE hInstance;
 CLIST_INTERFACE *pcli;
 
 char *workingDirUtf8;
+CMPlugin g_plugin;
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx = {
@@ -38,12 +38,6 @@ PLUGININFOEX pluginInfoEx = {
 	// 0495171B-7137-4DED-97F8-CE6FED67D691
 	{ 0x0495171b, 0x7137, 0x4ded, { 0x97, 0xf8, 0xce, 0x6f, 0xed, 0x67, 0xd6, 0x91 } }
 };
-
-BOOL WINAPI DllMain(HINSTANCE hModule, DWORD, LPVOID)
-{
-	hInstance = hModule;
-	return TRUE;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
@@ -84,7 +78,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_IEVIEW_NAVIGATE, HandleIENavigate);
 	CreateServiceFunction("IEView/ReloadOptions", ReloadOptions);
 	hHookOptionsChanged = CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
-	Icon_Register(hInstance, ieviewModuleName, iconList, _countof(iconList), ieviewModuleName);
+	Icon_Register(g_plugin.getInst(), ieviewModuleName, iconList, _countof(iconList), ieviewModuleName);
 	return 0;
 }
 
