@@ -59,20 +59,20 @@ int TrafficSend(WPARAM wParam,LPARAM lParam);
 
 /*====== ФУНКЦИИ МОДУЛЯ =====*/
 int TrafficCounterOptInitialise(WPARAM wParam,LPARAM lParam);
-int TrafficCounterModulesLoaded(WPARAM wParam,LPARAM lParam);
 int TrafficCounterShutdown(WPARAM wParam,LPARAM lParam);
 int ModuleLoad(WPARAM wParam, LPARAM lParam);
 void SaveSettings(BYTE);
 void CreateTrafficWindow(HWND);
+
 //popup
 void UpdateNotifyTimer(void);
 void NotifyOnSend(void);
 void NotifyOnRecv(void);
+
 //time counter
-int ProtocolAckHook(WPARAM wParam,LPARAM lParam);
 void CreateProtocolList(void);
 void DestroyProtocolList(void);
-int OnAccountsListChange(WPARAM wParam, LPARAM lParam);
+
 //font service suppot
 int UpdateFonts(WPARAM wParam, LPARAM lParam);
 void UpdateTrafficWindowSize(void);

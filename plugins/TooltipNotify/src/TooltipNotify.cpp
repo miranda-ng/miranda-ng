@@ -53,7 +53,7 @@ const char *CTooltipNotify::s_szModuleNameOld = "ttntfmod";
 //////////////////////////////////////////////////////////////////////
 
 CTooltipNotify::CTooltipNotify() :
-m_bNt50(IsNt50())
+	m_bNt50(IsNt50())
 {
 	if (s_pInstance != nullptr)
 		throw EAlreadyExists();
@@ -257,7 +257,7 @@ int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = g_hInstDLL;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = LPGEN("Tooltip Notify");
 	odp.szGroup.a = LPGEN("Popups");
@@ -342,14 +342,9 @@ void CTooltipNotify::EndNotifyAll()
 
 CTooltipNotify::MapTimerIdProtoIter CTooltipNotify::FindProtoByTimer(UINT idTimer)
 {
-	for (
-		MapTimerIdProtoIter iter = m_mapTimerIdProto.begin();
-		iter != m_mapTimerIdProto.end();
-	++iter) {
-		if (iter->timerId == idTimer) {
+	for (MapTimerIdProtoIter iter = m_mapTimerIdProto.begin(); iter != m_mapTimerIdProto.end(); ++iter)
+		if (iter->timerId == idTimer)
 			return iter;
-		}
-	}
 
 	return m_mapTimerIdProto.end();
 }
@@ -587,11 +582,11 @@ BOOL CTooltipNotify::OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 			}
 
 		case IDC_SEL_PROTO:
-			DialogBox(g_hInstDLL, MAKEINTRESOURCE(IDD_PROTOS), hDlg, CTooltipNotify::ProtosDlgProcWrapper);
+			DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PROTOS), hDlg, CTooltipNotify::ProtosDlgProcWrapper);
 			break;
 
 		case IDC_IGNORE:
-			DialogBox(g_hInstDLL, MAKEINTRESOURCE(IDD_CONTACTS), hDlg, CTooltipNotify::ContactsDlgProcWrapper);
+			DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACTS), hDlg, CTooltipNotify::ContactsDlgProcWrapper);
 			break;
 
 		default:

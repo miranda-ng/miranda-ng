@@ -21,7 +21,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static PLUGININFOEX pluginInfo = {
+CLIST_INTERFACE *pcli;
+CMPlugin g_plugin;
+int hLangpack;
+HMODULE hDwmApi;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -33,9 +41,6 @@ static PLUGININFOEX pluginInfo = {
 	// {9C23A24B-E6AA-43C6-B0B8-D6C36D2F7B57}
 	{0x9c23a24b, 0xe6aa, 0x43c6, {0xb0, 0xb8, 0xd6, 0xc3, 0x6d, 0x2f, 0x7b, 0x57}}
 };
-
-int hLangpack;
-HMODULE hDwmApi;
 
 /*
 ============================================================================================
@@ -110,22 +115,10 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-/*
-============================================================================================
-	plugin interface & DllEntrypoint
-============================================================================================
-*/
+//============================================================================================
+//	plugin interface
+//============================================================================================
 
-/**
- * This function is called by Miranda to get some information about this plugin.
- *
- * @return	pointer to pluginInfo struct
- **/
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	myGlobals.mirandaVersion = mirandaVersion;
-	return &pluginInfo;
-}
 
 /**
  * This function returns the provided interfaces.
@@ -204,17 +197,4 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	return 0;
-}
-
-/**
- * Windows needs it for loading.
- *
- * @return	TRUE
- **/
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID)
-{
-	if (fdwReason == DLL_PROCESS_ATTACH)
-		ghInst = hinst;
-
-	return TRUE;
 }

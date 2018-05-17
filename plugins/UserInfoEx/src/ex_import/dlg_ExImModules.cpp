@@ -432,6 +432,6 @@ int DlgExImModules_SelectModulesToExport(lpExImParam ExImContact, DB::CEnumList*
 
 	dat.ExImContact = ExImContact;
 	dat.pModules = pModules;
-	return (IDOK != DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_EXPORT), hParent, SelectModulesToExport_DlgProc, (LPARAM)&dat));
+	return (IDOK != DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT), hParent, SelectModulesToExport_DlgProc, (LPARAM)&dat));
 }
 

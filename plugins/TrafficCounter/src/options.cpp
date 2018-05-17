@@ -344,7 +344,7 @@ int TrafficCounterOptInitialise(WPARAM wParam, LPARAM)
 	// Main options page
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 900000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TRAFFIC);
 	odp.szGroup.a = LPGEN("Services");
 	odp.szTab.a = LPGEN("Options");

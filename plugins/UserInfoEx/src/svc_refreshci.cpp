@@ -281,7 +281,7 @@ public:
 	virtual HWND Create(LPCTSTR szTitle, PUpdCallback pFnCallBack)
 	{
 		_pFnCallBack = pFnCallBack;
-		_hWnd = CreateDialogParam(ghInst, 
+		_hWnd = CreateDialogParam(g_plugin.getInst(), 
 							MAKEINTRESOURCE(IDD_REFRESHDETAILS), 
 							nullptr, 
 							CDlgUpdProgress::WndProc, 

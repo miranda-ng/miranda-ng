@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <win2k.h>
 #include <m_system.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_netlib.h>
 #include <m_langpack.h>
@@ -52,6 +51,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "vars.h"
 #include "statistics.h"
 #include "TrafficCounter.h"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(TRAFFIC_SETTINGS_GROUP)
+	{}
+};
 
 #pragma pack(push)
 #pragma pack(1)
@@ -141,8 +147,6 @@ typedef union
 		unsigned int DrawTotalTimeCounter:1;	//23
 	};
 } uTCFLAGS;
-
-extern HINSTANCE hInst;
 
 extern HWND TrafficHwnd;
 extern PROTOLIST *ProtoList;

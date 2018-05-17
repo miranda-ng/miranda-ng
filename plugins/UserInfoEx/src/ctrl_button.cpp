@@ -619,7 +619,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 
 void CtrlButtonUnloadModule() 
 {
-	UnregisterClass(UINFOBUTTONCLASS, ghInst);
+	UnregisterClass(UINFOBUTTONCLASS, g_plugin.getInst());
 }
 
 void CtrlButtonLoadModule()

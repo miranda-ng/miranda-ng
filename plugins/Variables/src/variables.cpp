@@ -422,7 +422,7 @@ int LoadVarModule()
 	CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
 	CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
 
-	Icon_Register(hInst, LPGEN("Variables"), &icon, 1);
+	Icon_Register(g_plugin.getInst(), LPGEN("Variables"), &icon, 1);
 
 	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, iconsChanged);
 

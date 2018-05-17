@@ -20,7 +20,7 @@ CTooltip::CTooltip(CTooltipNotify *pTooltipNotify)
 
 	m_hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, s_szTooltipClass, nullptr, 
 							WS_POPUP|WS_BORDER, 100, 100, 50, 50, nullptr, nullptr, 
-							g_hInstDLL, nullptr);
+							g_plugin.getInst(), nullptr);
 
 	SetWindowLongPtr(m_hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 }
@@ -40,14 +40,14 @@ CTooltip::~CTooltip()
 	wcexWndClass.cbSize = sizeof(WNDCLASSEX); 
 	wcexWndClass.style = CS_SAVEBITS;
 	wcexWndClass.lpfnWndProc = (WNDPROC)CTooltip::WindowProcWrapper;
-	wcexWndClass.hInstance = g_hInstDLL;
+	wcexWndClass.hInstance = g_plugin.getInst();
 	wcexWndClass.lpszClassName	= s_szTooltipClass;
 	RegisterClassEx(&wcexWndClass);
 }
 
 /*static*/ void CTooltip::Deinitialize()
 {
-	UnregisterClass(s_szTooltipClass, g_hInstDLL);
+	UnregisterClass(s_szTooltipClass, g_plugin.getInst());
 }
 
 LRESULT CALLBACK CTooltip::WindowProcWrapper(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

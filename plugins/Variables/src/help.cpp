@@ -29,8 +29,6 @@ struct HELPDLGDATA
 
 static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 
-extern HINSTANCE hInst;
-
 extern HCURSOR hCurSplitNS;
 
 static HWND hwndHelpDialog = nullptr;
@@ -73,7 +71,7 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 
 	case WM_SIZE:
 		if (!IsIconic( hwndDlg )) {
-			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_EXTRATEXT_DIALOG), defaultHelpDialogResize);
+			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_EXTRATEXT_DIALOG), defaultHelpDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -159,7 +157,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) {
-			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_CLIST_DIALOG), clistDialogResize);
+			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_CLIST_DIALOG), clistDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -492,7 +490,7 @@ static INT_PTR CALLBACK tokenHelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) {
-			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_TOKENS_DIALOG), defaultHelpDialogResize);
+			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_TOKENS_DIALOG), defaultHelpDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -658,7 +656,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg))
-			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_INPUT_DIALOG), inputDialogResize, (LPARAM)dat);
+			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_INPUT_DIALOG), inputDialogResize, (LPARAM)dat);
 		
 		SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		break;
@@ -740,7 +738,7 @@ static INT_PTR CALLBACK helpInfoDlgProc(HWND hwndDlg,UINT msg,WPARAM,LPARAM)
 
 	case WM_SIZE:
 		if (!IsIconic( hwndDlg )) {
-			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_HELPINFO_DIALOG), defaultHelpDialogResize);
+			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_HELPINFO_DIALOG), defaultHelpDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -786,7 +784,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				// token tab
 				tci.mask = TCIF_TEXT | TCIF_PARAM;
 				tci.pszText = TranslateT("Tokens");
-				hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_TOKENS_DIALOG), hwndDlg, tokenHelpDlgProc, (LPARAM)GetParent(hwndDlg));
+				hPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_TOKENS_DIALOG), hwndDlg, tokenHelpDlgProc, (LPARAM)GetParent(hwndDlg));
 				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 				tci.lParam = (LPARAM)hPage;
@@ -799,7 +797,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				// input tab
 				tci.mask = TCIF_TEXT | TCIF_PARAM;
 				tci.pszText = TranslateT("Input");
-				dat->hwndInputDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_INPUT_DIALOG), hwndDlg, inputDlgProc, (LPARAM)GetParent(hwndDlg));
+				dat->hwndInputDlg = hPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_INPUT_DIALOG), hwndDlg, inputDlgProc, (LPARAM)GetParent(hwndDlg));
 				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 				tci.lParam = (LPARAM)hPage;
@@ -833,7 +831,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			if ((dat->vhs->flags&VHF_SUBJECT) ||
 				((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != nullptr) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT)))) {
 				// subject window is created, but not necessarily shown
-				dat->hwndSubjectDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CLIST_DIALOG), hwndDlg, clistDlgProc, (LPARAM)GetParent(hwndDlg));
+				dat->hwndSubjectDlg = hPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CLIST_DIALOG), hwndDlg, clistDlgProc, (LPARAM)GetParent(hwndDlg));
 				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
@@ -856,7 +854,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			if ((dat->vhs->flags&VHF_EXTRATEXT) ||
 				((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != nullptr) && (dat->vhs->fi->tszExtraText != nullptr))) {
 				// extratext window is created, but not necessarily shown
-				dat->hwndExtraTextDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EXTRATEXT_DIALOG), hwndDlg, extratextDlgProc, (LPARAM)GetParent(hwndDlg));
+				dat->hwndExtraTextDlg = hPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXTRATEXT_DIALOG), hwndDlg, extratextDlgProc, (LPARAM)GetParent(hwndDlg));
 				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
@@ -885,7 +883,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				// helpinfo tab
 				tci.mask = TCIF_TEXT | TCIF_PARAM;
 				tci.pszText = TranslateT("Help");
-				hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HELPINFO_DIALOG), hwndDlg, helpInfoDlgProc, (LPARAM)GetParent(hwndDlg));
+				hPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HELPINFO_DIALOG), hwndDlg, helpInfoDlgProc, (LPARAM)GetParent(hwndDlg));
 				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 				tci.lParam = (LPARAM)hPage;
@@ -1039,7 +1037,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) {
-			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_HELP_DIALOG), helpDialogResize);
+			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_HELP_DIALOG), helpDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 
 			RECT rcTabs, rcParent;
@@ -1126,9 +1124,9 @@ INT_PTR showHelpExService(WPARAM wParam, LPARAM lParam)
 	iFrameY = 3 * GetSystemMetrics(SM_CYSIZEFRAME);
 
 	if (wParam)
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_HELP_DIALOG), (HWND)wParam, helpDlgProc, (LPARAM)lParam);
+		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HELP_DIALOG), (HWND)wParam, helpDlgProc, (LPARAM)lParam);
 	else
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HELP_DIALOG), nullptr, helpDlgProc, (LPARAM)lParam);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HELP_DIALOG), nullptr, helpDlgProc, (LPARAM)lParam);
 
 	return 0;
 }

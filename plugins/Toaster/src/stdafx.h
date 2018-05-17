@@ -10,7 +10,6 @@
 #include <memory>
 #include <map>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
 #include <m_langpack.h>
@@ -33,8 +32,14 @@ const wchar_t AppUserModelID[] = L"MirandaNG";
 #define MODULE "Toaster"
 #define CHECKHR(x) if (FAILED(x)) return x;
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE)
+	{}
+};
+
 class ToastNotification;
-extern HINSTANCE g_hInstance;
 extern mir_cs csNotifications;
 extern wchar_t wszTempDir[MAX_PATH];
 extern OBJLIST<ToastNotification> lstNotifications;
@@ -47,7 +52,6 @@ extern OBJLIST<ToastNotification> lstNotifications;
 
 void CleanupClasses();
 void InitServices();
-int OnPreShutdown(WPARAM, LPARAM);
 void __stdcall HideAllToasts(void*);
 
 int OnOptionsInitialized(WPARAM wParam, LPARAM);

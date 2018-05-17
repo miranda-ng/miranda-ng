@@ -1,5 +1,5 @@
 /*
-Traffic Counter plugin for Miranda IM 
+Traffic Counter plugin for Miranda IM
 Copyright 2007-2011 Mironych.
 
 This program is free software; you can redistribute it and/or
@@ -30,33 +30,26 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 
 	if (ai->argc != 5) return nullptr;
 
-	if (!mir_wstrcmp(ai->targv[1], L"overall"))
-	{
+	if (!mir_wstrcmp(ai->targv[1], L"overall")) {
 		tmpsn = OverallInfo.CurrentSentTraffic;
 		tmprn = OverallInfo.CurrentRecvTraffic;
 		tmpst = OverallInfo.TotalSentTraffic;
 		tmprt = OverallInfo.TotalRecvTraffic;
 	}
-	else
-	if (!mir_wstrcmp(ai->targv[1], L"summary"))
-	{
+	else if (!mir_wstrcmp(ai->targv[1], L"summary")) {
 		for (ed = 0; ed < NumberOfAccounts; ed++)
-			if (ProtoList[ed].Visible)
-			{
+			if (ProtoList[ed].Visible) {
 				tmpsn += ProtoList[ed].CurrentSentTraffic;
 				tmprn += ProtoList[ed].CurrentRecvTraffic;
 				tmpst += ProtoList[ed].TotalSentTraffic;
 				tmprt += ProtoList[ed].TotalRecvTraffic;
 			}
 	}
-	else
-	{	// Ищем индекс протокола, переданного первым аргументом
-		for (tmp = ed = 0; ed < NumberOfAccounts; ed++)
-		{
+	else {	// Ищем индекс протокола, переданного первым аргументом
+		for (tmp = ed = 0; ed < NumberOfAccounts; ed++) {
 			if (!ProtoList[ed].name) continue;
 			wchar_t *buf = mir_a2u(ProtoList[ed].name);
-			if (!mir_wstrcmp(buf, ai->targv[1]))
-			{
+			if (!mir_wstrcmp(buf, ai->targv[1])) {
 				tmpsn = ProtoList[ed].CurrentSentTraffic;
 				tmprn = ProtoList[ed].CurrentRecvTraffic;
 				tmpst = ProtoList[ed].TotalSentTraffic;
@@ -68,35 +61,34 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 		if (tmp != 0xAA) return nullptr;
 	}
 
-	if (!mir_wstrcmp(ai->targv[2], L"now"))
-	{
+	if (!mir_wstrcmp(ai->targv[2], L"now")) {
 		if (!mir_wstrcmp(ai->targv[3], L"sent")) tmp = tmpsn;
 		else
-		if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprn;
-		else
-		if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprn + tmpsn;
-		else return nullptr;
+			if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprn;
+			else
+				if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprn + tmpsn;
+				else return nullptr;
 	}
-	else
-	if (!mir_wstrcmp(ai->targv[2], L"total"))
-	{
+	else if (!mir_wstrcmp(ai->targv[2], L"total")) {
 		if (!mir_wstrcmp(ai->targv[3], L"sent")) tmp = tmpst;
 		else
-		if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprt;
-		else
-		if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprt + tmpst;
-		else return nullptr;
+			if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprt;
+			else
+				if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprt + tmpst;
+				else return nullptr;
 	}
 	else return nullptr;
 
-	if (!mir_wstrcmp(ai->targv[4], L"b")) ed = 0;
+	if (!mir_wstrcmp(ai->targv[4], L"b"))
+		ed = 0;
+	else if (!mir_wstrcmp(ai->targv[4], L"k"))
+		ed = 1;
+	else if (!mir_wstrcmp(ai->targv[4], L"m"))
+		ed = 2;
+	else if (!mir_wstrcmp(ai->targv[4], L"d"))
+		ed = 3;
 	else
-	if (!mir_wstrcmp(ai->targv[4], L"k")) ed = 1;
-	else
-	if (!mir_wstrcmp(ai->targv[4], L"m")) ed = 2;
-	else
-	if (!mir_wstrcmp(ai->targv[4], L"d")) ed = 3;
-	else return nullptr;
+		return nullptr;
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
@@ -113,30 +105,29 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 static wchar_t* GetTime(ARGUMENTSINFO *ai)
 {
 	BYTE ed, flag;
-	DWORD Duration;
+	DWORD Duration = 0;
 
 	if (ai->argc != 4) return nullptr;
 
 	// Ищем индекс протокола, переданного первым аргументом
-	for (flag = ed = 0; ed < NumberOfAccounts; ed++)
-	{
+	for (flag = ed = 0; ed < NumberOfAccounts; ed++) {
 		wchar_t *buf;
 		if (!ProtoList[ed].name) continue;
 		buf = mir_a2u(ProtoList[ed].name);
-		if (!mir_wstrcmp(buf, ai->targv[1]))
-		{
+		if (!mir_wstrcmp(buf, ai->targv[1])) {
 			flag = 0xAA;
 			if (!mir_wstrcmp(ai->targv[2], L"now"))
 				Duration = ProtoList[ed].Session.Timer;
 			else if (!mir_wstrcmp(ai->targv[2], L"total"))
 				Duration = ProtoList[ed].Total.Timer;
-			else flag = 0;
+			else
+				flag = 0;
 			break;
 		}
 		mir_free(buf);
 	}
-	if ( (flag != 0xAA) && !mir_wstrcmp(ai->targv[1], L"summary") )
-	{
+
+	if ((flag != 0xAA) && !mir_wstrcmp(ai->targv[1], L"summary")) {
 		flag = 0xAA;
 		if (!mir_wstrcmp(ai->targv[2], L"now"))
 			Duration = OverallInfo.Session.Timer;
@@ -144,25 +135,27 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 			Duration = OverallInfo.Total.Timer;
 		else flag = 0;
 	}
-	
-	if (flag != 0xAA) return nullptr;
+
+	if (flag != 0xAA)
+		return nullptr;
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
 	size_t l = GetDurationFormatM(Duration, ai->targv[3], nullptr, 0);
 	wchar_t *res = (wchar_t*)mir_alloc(l * sizeof(wchar_t));
-	if (!res) return nullptr;
+	if (!res)
+		return nullptr;
+	
 	GetDurationFormatM(Duration, ai->targv[3], res, l);
-
 	return res;
 }
 
 void RegisterVariablesTokens(void)
 {
 	TOKENREGISTER trs;
-	
+
 	if (!bVariablesExists) return;
-		
+
 	memset(&trs, 0, sizeof(trs));
 	trs.cbSize = sizeof(TOKENREGISTER);
 

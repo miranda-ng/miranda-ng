@@ -89,7 +89,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 CProgress::CProgress()
 {
 	_dwStartTime = GetTickCount();
-	_hDlg = CreateDialog(ghInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), nullptr, DlgProcProgress);
+	_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPYPROGRESS), nullptr, DlgProcProgress);
 }
 
 /**

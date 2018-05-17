@@ -1030,7 +1030,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 95400;
-	odp.hInstance = ghInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = MODULELONGNAME;
 	odp.szGroup.a = LPGEN("Contacts");
 

@@ -134,7 +134,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.position = 150000000;
 	odp.szGroup.a = LPGEN("Services");
 	odp.szTitle.a = LPGEN("Variables");
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pfnDlgProc = SetOptsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS_DIALOG);
 	Options_AddPage(wParam, &odp);

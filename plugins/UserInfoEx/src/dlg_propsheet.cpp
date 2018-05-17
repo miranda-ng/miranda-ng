@@ -329,7 +329,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 		qsort(psh._pPages, psh._numPages, sizeof(CPsTreeItem*), (int(*)(const void*, const void*))SortProc);
 
 	// create the dialog itself
-	if (!CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_DETAILS), nullptr, DlgProc, (LPARAM)&psh))
+	if (!CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DETAILS), nullptr, DlgProc, (LPARAM)&psh))
 		MsgErr(nullptr, LPGENW("Details dialog failed to be created. Returning error is %d."), GetLastError());
 	return 0;
 }
@@ -506,7 +506,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && db_get_b(NULL, MODNAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		if (lParam || bChangeDetailsEnabled) {
 			OPTIONSDIALOGPAGE odp = { 0 };
-			odp.hInstance = ghInst;
+			odp.hInstance = g_plugin.getInst();
 			odp.flags = ODPF_ICON | ODPF_UNICODE;
 			odp.szGroup.w = IcoLib_GetDefaultIconFileName();
 
@@ -1426,7 +1426,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					}
 					else {
 						TreeView_SetInsertMark(pPs->pTree->Window(), NULL, 0);
-						SetCursor(LoadCursor(ghInst, MAKEINTRESOURCE(CURSOR_ADDGROUP)));
+						SetCursor(LoadCursor(g_plugin.getInst(), MAKEINTRESOURCE(CURSOR_ADDGROUP)));
 					}
 				}
 			}

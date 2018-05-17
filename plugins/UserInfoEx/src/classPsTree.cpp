@@ -128,7 +128,7 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 		psh._numPages = _numItems;
 
 		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.hInstance = ghInst;
+		odp.hInstance = g_plugin.getInst();
 		odp.flags = ODPF_UNICODE;
 		odp.szTitle.w = mir_utf8decodeW(pszGroup);
 		
@@ -649,7 +649,7 @@ int CPsTree::BeginLabelEdit(HTREEITEM hItem)
 						rcTree.right - rc.left, rc.bottom - rc.top,
 						_hWndTree,
 						nullptr,
-						ghInst,
+						g_plugin.getInst(),
 						nullptr );
 		if (_hLabelEdit)
 		{

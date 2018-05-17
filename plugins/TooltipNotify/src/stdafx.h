@@ -13,7 +13,6 @@
 #include <algorithm>
 #include <vector>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_skin.h>
@@ -28,6 +27,13 @@
 
 #define MODULENAME "TooltipNotify"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
+
 #include "version.h"
 #include "TooltipNotify.h"
 #include "DbHelpers.h"
@@ -35,5 +41,3 @@
 #include "Settings.h"
 #include "resource.h"
 #include "Utils.h"
-
-extern HINSTANCE g_hInstDLL;

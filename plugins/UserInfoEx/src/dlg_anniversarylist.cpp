@@ -850,7 +850,7 @@ public:
 		_rcWin.left		= _rcWin.right = _rcWin.top = _rcWin.bottom = 0;
 		LoadFilter();
 
-		_hDlg = CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_LIST), nullptr, DlgProc, (LPARAM)this);
+		_hDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ANNIVERSARY_LIST), nullptr, DlgProc, (LPARAM)this);
 		if (_hDlg)
 			_mHookExit = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, _hDlg, WM_CLOSE);
 		else {

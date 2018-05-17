@@ -90,7 +90,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 {
 	DB::CEnumList Modules;
 
-	DWORD result = (DWORD) DialogBox(ghInst, 
+	DWORD result = (DWORD) DialogBox(g_plugin.getInst(), 
 							MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY),
 							nullptr, DlgProc_DataHistory);
 	if (LOWORD(result) != IDOK)

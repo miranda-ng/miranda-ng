@@ -693,7 +693,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				cbi.wFlags = 0;
 				cbi.dwID = 0;
 
-				if (DialogBoxParam(ghInst, MAKEINTRESOURCE(dlgID), GetParent(hwnd), dlgProc, (LPARAM)&cbi) == IDOK) {
+				if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(dlgID), GetParent(hwnd), dlgProc, (LPARAM)&cbi) == IDOK) {
 					MCONTACT hContact = NULL;
 							
 					SendMessage(hDlgDetails, PSM_GETCONTACT, NULL, (LPARAM)&hContact);
@@ -751,7 +751,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 					return 1;
 				}
 
-				if (DialogBoxParam(ghInst, MAKEINTRESOURCE(dlgID), GetParent(hwnd), dlgProc, (LPARAM)&cbi) == IDOK) {
+				if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(dlgID), GetParent(hwnd), dlgProc, (LPARAM)&cbi) == IDOK) {
 					MCONTACT hContact;
 
 					SendMessage(hDlgDetails, PSM_GETCONTACT, NULL, (LPARAM)&hContact);
@@ -1236,7 +1236,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
  **/
 int CtrlContactUnLoadModule()
 {
-	UnregisterClass(UINFOCOMBOEXCLASS, ghInst);
+	UnregisterClass(UINFOCOMBOEXCLASS, g_plugin.getInst());
 	return 0;
 }
 

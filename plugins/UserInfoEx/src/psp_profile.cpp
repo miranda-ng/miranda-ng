@@ -318,7 +318,7 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 			pList->labelEdit.rcCombo.right - (pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top), pList->labelEdit.rcCombo.top,
 			pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top,
 			pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top,
-			pList->hList, nullptr, ghInst, nullptr);
+			pList->hList, nullptr, g_plugin.getInst(), nullptr);
 		if (pList->labelEdit.hBtn) {
 			SetWindowLongPtr(pList->labelEdit.hBtn, GWLP_ID, BTN_EDIT);
 			pList->labelEdit.rcCombo.right -= pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top;
@@ -341,7 +341,7 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 				pList->labelEdit.rcCombo.left, pList->labelEdit.rcCombo.top,
 				pList->labelEdit.rcCombo.right - pList->labelEdit.rcCombo.left,
 				pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top,
-				pList->hList, nullptr, ghInst, nullptr);
+				pList->hList, nullptr, g_plugin.getInst(), nullptr);
 	if (!pList->labelEdit.hEdit)
 		return nullptr;
 	SendMessage(pList->labelEdit.hEdit, WM_SETFONT, (WPARAM)(pList->hFont), 0);
@@ -832,7 +832,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 					if (textSize.cx > rchWnd.right - rchWnd.left || textSize.cx > rcItem.right - rcItem.left) {
 						ti.cbSize = sizeof(TOOLINFO);
 						ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS | TTF_TRANSPARENT;
-						ti.hinst = ghInst;
+						ti.hinst = g_plugin.getInst();
 						ti.hwnd = hwnd;
 						ti.uId = (UINT_PTR)hwnd;
 						ti.lpszText = pItem->pszText[hi.iSubItem];
@@ -933,7 +933,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 					pList->labelEdit.dropDown.hDrop = CreateWindowEx(0, L"LISTBOX", nullptr,
 						WS_CHILD | WS_BORDER | WS_VSCROLL | LBS_COMBOBOX | LBS_HASSTRINGS,
 						rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top,
-						hwnd, nullptr, ghInst, nullptr);
+						hwnd, nullptr, g_plugin.getInst(), nullptr);
 					if (!pList->labelEdit.dropDown.hDrop)
 						return FALSE;
 					SetUserData(pList->labelEdit.dropDown.hDrop, pList);
@@ -1071,7 +1071,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 			// initiate the tooltips
 			pList->hTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_BALLOON | TTS_NOPREFIX | TTS_ALWAYSTIP,
-				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hList, nullptr, ghInst, nullptr);
+				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hList, nullptr, g_plugin.getInst(), nullptr);
 			if (pList->hTip) {
 				SetWindowPos(pList->hTip, HWND_TOPMOST, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 					SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -1079,7 +1079,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				memset(&ti, 0, sizeof(TOOLINFO));
 				ti.cbSize = sizeof(TOOLINFO);
 				ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS | TTF_TRANSPARENT;
-				ti.hinst = ghInst;
+				ti.hinst = g_plugin.getInst();
 				ti.hwnd = hList;
 				ti.uId = (UINT_PTR)hList;
 				SendMessage(pList->hTip, TTM_ADDTOOL, NULL, (LPARAM)&ti);

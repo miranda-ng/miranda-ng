@@ -16,16 +16,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #include "stdafx.h"
 
-HINSTANCE hInst;
+CMPlugin g_plugin;
 int hLangpack = 0;
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns the extended information about a plugin
@@ -41,7 +36,7 @@ PLUGININFOEX pluginInfoEx =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {59B0036E-5403-422E-883B-C9AAF425682B}
-	{0x59b0036e, 0x5403, 0x422e, {0x88, 0x3b, 0xc9, 0xaa, 0xf4, 0x25, 0x68, 0x2b}}
+	{ 0x59b0036e, 0x5403, 0x422e, {0x88, 0x3b, 0xc9, 0xaa, 0xf4, 0x25, 0x68, 0x2b }}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)

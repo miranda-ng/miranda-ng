@@ -646,9 +646,9 @@ INT_PTR MsgBoxService(WPARAM, LPARAM lParam)
 			&& myGlobals.PopupActionsExist == 1							// popup support ext stuct?
 			&& (db_get_dw(NULL, "Popup", "Actions", 0) & 1)				// popup++ actions on?
 			&& db_get_b(NULL, MODNAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
-			return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
+			return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
 
-		return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);
+		return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);
 	}
 	return -1;
 }

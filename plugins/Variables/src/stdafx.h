@@ -32,7 +32,6 @@
 #include <pdh.h>
 #include <pdhmsg.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_langpack.h>
@@ -70,6 +69,13 @@
 #include "parse_variables.h"
 
 #define MODULENAME "Variables"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
 
 #define SETTING_STARTUPTEXT    "StartupText"
 #define SETTING_STRIPCRLF      "StripCRLF"
@@ -149,8 +155,7 @@ struct ParseOptions {
 	BOOL bStripAll;
 };
 
-extern HINSTANCE hInst;
-extern struct ParseOptions gParseOpts;
+extern ParseOptions gParseOpts;
 extern int hLangpack;
 
 // variables.c
