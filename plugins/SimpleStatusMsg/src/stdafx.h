@@ -24,7 +24,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <windowsx.h>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clistint.h>
@@ -44,6 +43,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_toptoolbar.h>
 #include <m_variables.h>
 #include <m_simplestatusmsg.h>
+
+#define MODULENAME "SimpleStatusMsg"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
 
 #include "simplestatusmsg.h"
 #include "resource.h"

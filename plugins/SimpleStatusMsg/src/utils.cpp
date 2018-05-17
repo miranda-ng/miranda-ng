@@ -36,7 +36,7 @@ static IconItem iconList[] =
 
 void IconsInit(void)
 {
-	Icon_Register(g_hInst, LPGEN("Simple Status Message"), iconList, _countof(iconList), "SimpleStatusMsg");
+	Icon_Register(g_plugin.getInst(), LPGEN("Simple Status Message"), iconList, _countof(iconList), MODULENAME);
 }
 
 HICON LoadIconEx(const char *name)
@@ -135,7 +135,7 @@ int GetCurrentStatus(const char *szProto)
 	if (szProto) {
 		char szSetting[80];
 		mir_snprintf(szSetting, "Cur%sStatus", szProto);
-		return (int)db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_OFFLINE);
+		return (int)db_get_w(NULL, MODULENAME, szSetting, ID_STATUS_OFFLINE);
 
 	}
 	return CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
@@ -148,13 +148,13 @@ int GetStartupStatus(const char *szProto)
 		char szSetting[80];
 
 		mir_snprintf(szSetting, "Startup%sStatus", szProto);
-		status_mode = db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_CURRENT);
+		status_mode = db_get_w(NULL, MODULENAME, szSetting, ID_STATUS_CURRENT);
 		if (status_mode == ID_STATUS_CURRENT) {
 			// load status used for this proto last time
 			mir_snprintf(szSetting, "Last%sStatus", szProto);
-			status_mode = db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_OFFLINE);
+			status_mode = db_get_w(NULL, MODULENAME, szSetting, ID_STATUS_OFFLINE);
 		}
 		return status_mode;
 	}
-	return (int)db_get_w(NULL, "SimpleStatusMsg", "StartupStatus", ID_STATUS_OFFLINE);
+	return (int)db_get_w(NULL, MODULENAME, "StartupStatus", ID_STATUS_OFFLINE);
 }

@@ -60,7 +60,6 @@ https://miranda-ng.org/distr/
 #include <malloc.h>
 #include <Uxtheme.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_clistint.h>
@@ -97,6 +96,19 @@ https://miranda-ng.org/distr/
 #include <m_toptoolbar.h>
 #include <m_hpp.h>
 
+#define PU_MODULCLASS  "PopupCLASS" // temp DB modul for this plugin
+#define MODULNAME      "Popup"
+#define MODULNAME_LONG L"Popup Plus"
+#define MODULNAME_PLU  "Popups"
+#define MODULNAME_PLUW L"Popups"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULNAME)
+	{}
+};
+
 #include "resource.h"
 #include "defs.h"
 #include "version.h"
@@ -127,12 +139,6 @@ https://miranda-ng.org/distr/
 #include "avatars_flash.h"
 #include "avatars_gif.h"
 #include "popup_gdiplus.h"
-
-#define PU_MODULCLASS  "PopupCLASS" // temp DB modul for this plugin
-#define MODULNAME      "Popup"
-#define MODULNAME_LONG L"Popup Plus"
-#define MODULNAME_PLU  "Popups"
-#define MODULNAME_PLUW L"Popups"
 
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM);
 

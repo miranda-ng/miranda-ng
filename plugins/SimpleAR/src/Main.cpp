@@ -16,13 +16,13 @@ Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 
 #include "stdafx.h"
 
+int hLangpack;
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
-HINSTANCE hinstance;
 
 HGENMENU hToggle, hEnableMenu;
 BOOL gbVarsServiceExist = FALSE;
 INT interval;
-int hLangpack;
 
 wchar_t* ptszDefaultMsg[] = {
 	LPGENW("I am currently away. I will reply to you when I am back."),
@@ -33,7 +33,10 @@ wchar_t* ptszDefaultMsg[] = {
 	LPGENW("I am having meal right now. I will get back to you very soon.")
 };
 
-PLUGININFOEX pluginInfoEx = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -51,11 +54,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfoEx;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
-{
-	hinstance = hinst;
-	return TRUE;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR ToggleEnable(WPARAM, LPARAM)
 {
@@ -237,6 +236,8 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 IconItemT iconList[] =
 {
 	{ LPGENW("Disable Auto&reply"), "Disable Auto&reply", IDI_OFF },
@@ -270,10 +271,12 @@ extern "C" int __declspec(dllexport)Load(void)
 	HookEvent(ME_DB_EVENT_ADDED, addEvent);
 	HookEvent(ME_SYSTEM_MODULESLOADED, CheckDefaults);
 
-	Icon_RegisterT(hinstance, L"Simple Auto Replier", iconList, _countof(iconList));
+	Icon_RegisterT(g_plugin.getInst(), L"Simple Auto Replier", iconList, _countof(iconList));
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport)int Unload(void)
 {

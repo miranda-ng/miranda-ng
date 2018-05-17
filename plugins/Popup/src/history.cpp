@@ -109,7 +109,7 @@ void PopupHistoryShow()
 		SetActiveWindow(hwndHistory);
 	}
 	else {
-		hwndHistory = CreateDialog(hInst, MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryDlgProc);
+		hwndHistory = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryDlgProc);
 		SetWindowText(hwndHistory, TranslateT("Popup History"));
 	}
 }

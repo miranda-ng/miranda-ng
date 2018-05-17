@@ -50,7 +50,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define NETLIB_NOLOGGING
 
-#define __NO_CMPLUGIN_NEEDED
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clist.h>
@@ -88,7 +87,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "smileyroutines.h"
 #include "smltool.h"
 
-extern HINSTANCE g_hInst;
 extern HNETLIBUSER hNetlibUser;
 extern HANDLE hEvent1;
 extern HGENMENU hContactMenuItem;
@@ -97,6 +95,13 @@ extern SmileyPackListType g_SmileyPacks;
 extern LIST<void> menuHandleArray;
 
 #define MODULENAME "SmileyAdd"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
 
 #define DM_REMAKELOG         (WM_USER + 11)
 #define DM_OPTIONSAPPLIED    (WM_USER + 14)

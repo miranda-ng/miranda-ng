@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 /// SendSS compatibility:
 #include "stdafx.h"
-#define ghInst g_hSendSS
+#define ghInst g_plugin.getInst()
 #define myGlobals g_myGlobals
 #define MODNAME SZ_SENDSS
 #define ICO_COMMON_MAIN 0xFFFF

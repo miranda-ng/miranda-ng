@@ -27,13 +27,16 @@ Enjoy the code and use it smartly!
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 int hLangpack;
-HINSTANCE hInst;
+CMPlugin g_plugin;
+CLIST_INTERFACE *pcli;
 
 SMS_SETTINGS ssSMSSettings;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -51,9 +54,42 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-int		OnModulesLoaded		(WPARAM wParam,LPARAM lParam);
-int		OnPreShutdown		(WPARAM wParam,LPARAM lParam);
-void	VersionConversions();
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void VersionConversions()
+{
+	WCHAR wsztm[MAX_PATH];
+
+	if (DB_SMS_GetStaticStringW(NULL, "UseSignature", wsztm, _countof(wsztm), nullptr))
+		DB_SMS_SetByte(NULL, "UseSignature", (wsztm[0] == '0'));
+	else
+		DB_SMS_SetByte(NULL, "UseSignature", SMS_DEFAULT_USESIGNATURE);
+
+	if (DB_SMS_GetStaticStringW(NULL, "SignaturePos", wsztm, _countof(wsztm), nullptr))
+		DB_SMS_SetByte(NULL, "SignaturePos", (wsztm[0] == '0'));
+	else
+		DB_SMS_SetByte(NULL, "SignaturePos", SMS_DEFAULT_SIGNATUREPOS);
+
+	if (DB_SMS_GetStaticStringW(NULL, "ShowACK", wsztm, _countof(wsztm), nullptr))
+		DB_SMS_SetByte(NULL, "ShowACK", (wsztm[0] == '0'));
+	else
+		DB_SMS_SetByte(NULL, "ShowACK", SMS_DEFAULT_SHOWACK);
+}
+
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	VersionConversions();
+	LoadModules();
+	return 0;
+}
+
+static int OnPreShutdown(WPARAM, LPARAM)
+{
+	RecvSMSWindowDestroy();
+	SendSMSWindowDestroy();
+	FreeAccountList();
+	return 0;
+}
 
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 {
@@ -64,9 +100,11 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 		ssSMSSettings.hHeap = HeapCreate(0, 0, 0);
 		DisableThreadLibraryCalls((HMODULE)hInstance);
 		break;
+	
 	case DLL_PROCESS_DETACH:
 		HeapDestroy(ssSMSSettings.hHeap);
 		ssSMSSettings.hHeap = nullptr;
+	
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
 		break;
@@ -74,6 +112,8 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -87,49 +127,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	RecvSMSWindowInitialize();
 
 	LoadServices();
-
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
-}
-
-int OnModulesLoaded(WPARAM,LPARAM)
-{
-	VersionConversions();
-
-	LoadModules();
-
-	return 0;
-}
-
-int OnPreShutdown(WPARAM,LPARAM)
-{
-	RecvSMSWindowDestroy();
-	SendSMSWindowDestroy();
-	FreeAccountList();
-
-	return 0;
-}
-
-void VersionConversions()
-{
-	WCHAR wsztm[MAX_PATH];
-
-	if (DB_SMS_GetStaticStringW(NULL,"UseSignature",wsztm,_countof(wsztm),nullptr))
-		DB_SMS_SetByte(NULL,"UseSignature",(wsztm[0]=='0'));
-	else
-		DB_SMS_SetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE);
-
-	if (DB_SMS_GetStaticStringW(NULL,"SignaturePos",wsztm,_countof(wsztm),nullptr))
-		DB_SMS_SetByte(NULL,"SignaturePos",(wsztm[0]=='0'));
-	else
-		DB_SMS_SetByte(NULL,"SignaturePos",SMS_DEFAULT_SIGNATUREPOS);
-
-	if (DB_SMS_GetStaticStringW(NULL,"ShowACK",wsztm,_countof(wsztm),nullptr))
-		DB_SMS_SetByte(NULL,"ShowACK",(wsztm[0]=='0'));
-	else
-		DB_SMS_SetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK);
 }

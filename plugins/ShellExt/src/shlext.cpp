@@ -633,7 +633,7 @@ typedef HRESULT (__stdcall *pfnDllGetVersion)(DllVersionInfo*);
 
 HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT, UINT _idCmdFirst, UINT, UINT uFlags)
 {
-	logA("TShellExt[%p]::QueryContextMenu: %p, %d, %d, %08x\n", this, hmenu, indexMenu, _idCmdFirst, uFlags);
+	logA("TShellExt[%p]::QueryContextMenu: %p, %d, %08x\n", this, hmenu, _idCmdFirst, uFlags);
 
 	if (((LOWORD(uFlags) & CMF_VERBSONLY) != CMF_VERBSONLY) && ((LOWORD(uFlags) & CMF_DEFAULTONLY) != CMF_DEFAULTONLY)) {
 		bool bMF_OWNERDRAW = false;

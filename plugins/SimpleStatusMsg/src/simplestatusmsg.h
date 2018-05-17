@@ -21,16 +21,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef SIMPLESTATUSMSG_H__
 #define SIMPLESTATUSMSG_H__ 1
 
-typedef struct tagACCOUNTS
+struct PROTOACCOUNTS
 {
-	PROTOACCOUNT	**pa;
-	int				count;
-	int				statusCount;
-	DWORD			statusFlags;
-	int				statusMsgCount;
-	DWORD			statusMsgFlags;
-}
-PROTOACCOUNTS;
+	PROTOACCOUNT **pa;
+	int   count;
+	int   statusCount;
+	DWORD statusFlags;
+	int   statusMsgCount;
+	DWORD statusMsgFlags;
+};
 
 extern PROTOACCOUNTS *accounts;
 
@@ -39,11 +38,11 @@ extern PROTOACCOUNTS *accounts;
 
 #define DLG_SHOW_STATUS				1
 #define DLG_SHOW_STATUS_ICONS		2
-#define DLG_SHOW_LIST_ICONS			4
+#define DLG_SHOW_LIST_ICONS		4
 #define DLG_SHOW_BUTTONS			8
-#define DLG_SHOW_BUTTONS_INLIST		16
+#define DLG_SHOW_BUTTONS_INLIST	16
 #define DLG_SHOW_BUTTONS_FLAT		32
-#define	DLG_SHOW_STATUS_PROFILES	64
+#define DLG_SHOW_STATUS_PROFILES	64
 //NOTE: MAX 128
 #define DLG_SHOW_DEFAULT			DLG_SHOW_STATUS | DLG_SHOW_STATUS_ICONS | DLG_SHOW_LIST_ICONS | DLG_SHOW_BUTTONS
 
@@ -71,7 +70,6 @@ struct MsgBoxInitData
 	BOOL	m_bOnStartup;
 };
 
-extern HINSTANCE g_hInst;
 extern HWND hwndSAMsgDialog;
 
 #define MS_SIMPLESTATUSMSG_SHOWDIALOGINT "SimpleStatusMsg/ShowDialogInternal" // internal use ONLY

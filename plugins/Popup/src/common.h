@@ -94,7 +94,7 @@ inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, c
 	ti.uFlags = TTF_SUBCLASS;
 	ti.hwnd = hwnd;
 	ti.uId = id;
-	ti.hinst = hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.lpszText = TranslateW(wtext);
 	ti.rect = rc;
 	SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);

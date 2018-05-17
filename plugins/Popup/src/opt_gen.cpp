@@ -308,7 +308,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_CUSTOMPOS:
 				{
 					RECT rcButton, rcBox;
-					HWND hwndBox = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POSITION), nullptr, PositionBoxDlgProc);
+					HWND hwndBox = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POSITION), nullptr, PositionBoxDlgProc);
 					GetWindowRect((HWND)lParam, &rcButton);
 					GetWindowRect(hwndBox, &rcBox);
 					MoveWindow(hwndBox,

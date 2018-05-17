@@ -25,7 +25,6 @@ Boston, MA 02111-1307, USA.
 #include <windows.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_protosvc.h>
 #include <m_clist.h>
@@ -52,13 +51,14 @@ Boston, MA 02111-1307, USA.
 #include "options.h"
 #include "version.h"
 
-#define MODULE_NAME		"QuickContacts"
+#define MODULE_NAME "QuickContacts"
 
-
-// Global Variables
-extern HINSTANCE hInst;
-
-// Copied from "../modernb/clc.h" ///////////////////////////////////////////////////////////////////
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULE_NAME)
+	{}
+};
 
 //add a new hotkey so it has a default and can be changed in the options dialog
 //wParam=0
@@ -77,7 +77,5 @@ typedef struct {
 
 #define MS_SKIN_ADDHOTKEY      "Skin/HotKeys/AddNew"
 #define MS_SKIN_PLAYHOTKEY		"Skin/HotKeys/Run"
-
-
 
 #endif // __COMMONS_H__

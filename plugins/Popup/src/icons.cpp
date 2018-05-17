@@ -62,9 +62,9 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(hInst, SECT_POPUP, iconList, 8, MODULNAME);
-	Icon_Register(hInst, SECT_POPUP SECT_POPUP_OPT, iconList + 8, 9, MODULNAME);
-	Icon_Register(hInst, SECT_POPUP SECT_POPUP_ACT, iconList + 17, 9, MODULNAME);
+	Icon_Register(g_plugin.getInst(), SECT_POPUP, iconList, 8, MODULNAME);
+	Icon_Register(g_plugin.getInst(), SECT_POPUP SECT_POPUP_OPT, iconList + 8, 9, MODULNAME);
+	Icon_Register(g_plugin.getInst(), SECT_POPUP SECT_POPUP_ACT, iconList + 17, 9, MODULNAME);
 }
 
 HICON LoadIconEx(int iconId, bool big)

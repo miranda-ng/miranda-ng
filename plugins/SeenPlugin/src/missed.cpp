@@ -114,7 +114,7 @@ int ShowMissed(void)
 		buf.AppendChar('\n');
 	}
 
-	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_MISSED), nullptr, MissedDlgProc, (LPARAM)buf.c_str());
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MISSED), nullptr, MissedDlgProc, (LPARAM)buf.c_str());
 	return 0;
 }
 

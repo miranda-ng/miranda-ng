@@ -137,7 +137,7 @@ INT OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
-	odp.hInstance = hinstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTION);
 	odp.szTitle.a = LPGEN("Simple Auto Replier");
 	odp.szGroup.a = LPGEN("Message sessions");

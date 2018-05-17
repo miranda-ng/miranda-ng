@@ -550,7 +550,7 @@ void CheckUnregisterServer()
 	if (bIsVistaPlus) {
 		// launches regsvr to remove the dll under admin.
 		wchar_t szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
-		GetModuleFileName(hInst, szFileName, _countof(szFileName));
+		GetModuleFileName(g_plugin.getInst(), szFileName, _countof(szFileName));
 		mir_snwprintf(szBuf, L"/s /u \"%s\"", szFileName);
 
 		SHELLEXECUTEINFO sei = { sizeof(sei) };
@@ -579,7 +579,7 @@ void CheckRegisterServer()
 			TranslateT("Shell context menus requires your permission to register with Windows Explorer (one time only)."),
 			TranslateT("Miranda NG - Shell context menus (shellext.dll)"), MB_OK | MB_ICONINFORMATION);
 		// /s = silent
-		GetModuleFileName(hInst, szFileName, _countof(szFileName));
+		GetModuleFileName(g_plugin.getInst(), szFileName, _countof(szFileName));
 		mir_snwprintf(szBuf, L"/s \"%s\"", szFileName);
 
 		SHELLEXECUTEINFO sei = { sizeof(sei) };

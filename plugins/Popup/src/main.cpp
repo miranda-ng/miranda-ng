@@ -38,6 +38,7 @@ static int OkToExit(WPARAM, LPARAM);
 bool OptionLoaded = false;
 int hLangpack = 0;
 CLIST_INTERFACE *pcli;
+CMPlugin g_plugin;
 
 //===== Global variables ================================================================
 HMODULE  hUserDll = nullptr;
@@ -63,7 +64,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = MODULNAME_PLU;
 
@@ -278,18 +279,25 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-//=== DllMain ===========================================================================
-// DLL entry point, Required to store the instance handle
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 //===== MirandaPluginInfo ===============================================================
 // Called by Miranda to get the information associated to this plugin.
 // It only returns the PLUGININFOEX structure, without any test on the version
 // @param mirandaVersion - The version of the application calling this function
+
+PLUGININFOEX pluginInfoEx =
+{
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	//  {26A9125D-7863-4E01-AF0E-D14EF95C5054}
+	{ 0x26a9125d, 0x7863, 0x4e01, { 0xaf, 0xe, 0xd1, 0x4e, 0xf9, 0x5c, 0x50, 0x54 } }
+};
+
 MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -349,7 +357,7 @@ MIRAPI int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OkToExit);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 
-	hbmNoAvatar = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_NOAVATAR));
+	hbmNoAvatar = LoadBitmap(g_plugin.getInst(), MAKEINTRESOURCE(IDB_NOAVATAR));
 
 	if (!OptionLoaded)
 		LoadOptions();
@@ -425,12 +433,12 @@ MIRAPI int Unload(void)
 	PopupHistoryUnload();
 	SrmmMenu_Unload();
 
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupWnd2), hInst);
-	UnregisterClass(L"PopupEditBox", hInst);
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupMenuHostWnd), hInst);
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupThreadManagerWnd), hInst);
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPreviewBoxWndclass), hInst);
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPlusDlgBox), hInst);
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupWnd2), g_plugin.getInst());
+	UnregisterClass(L"PopupEditBox", g_plugin.getInst());
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupMenuHostWnd), g_plugin.getInst());
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupThreadManagerWnd), g_plugin.getInst());
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPreviewBoxWndclass), g_plugin.getInst());
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPlusDlgBox), g_plugin.getInst());
 
 	UnloadGDIPlus();
 

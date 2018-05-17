@@ -183,7 +183,7 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
-	else CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_READAWAYMSG), nullptr, ReadAwayMsgDlgProc, wParam);
+	else CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_READAWAYMSG), nullptr, ReadAwayMsgDlgProc, wParam);
 	return 0;
 }
 
@@ -288,7 +288,7 @@ static INT_PTR CopyAwayMsgCommand(WPARAM wParam, LPARAM)
 		SetFocus(hwnd);
 	}
 	else
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COPY), nullptr, CopyAwayMsgDlgProc, wParam);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPY), nullptr, CopyAwayMsgDlgProc, wParam);
 	return 0;
 }
 

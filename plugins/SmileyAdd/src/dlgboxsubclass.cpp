@@ -155,7 +155,7 @@ int SmileyButtonCreate(WPARAM, LPARAM)
 	desc.szSection.a = BB_HK_SECTION;
 	desc.szDescription.a = LPGEN("Smiley selector");
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'E');
-	desc.lParam = LPARAM(g_hInst);
+	desc.lParam = LPARAM(g_plugin.getInst());
 	Hotkey_Register(&desc);
 
 	BBButton bbd = {};

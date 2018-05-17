@@ -37,13 +37,13 @@ void RegisterOptPrevBox()
 	wcl.style = CS_DROPSHADOW;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hIcon = nullptr;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = nullptr; // (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = BOXPREVIEW_WNDCLASS;
-	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+	wcl.hIconSm = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupPreviewBoxWndclass = RegisterClassEx(&wcl);
 	err = GetLastError();
 	if (!g_wndClass.cPopupPreviewBoxWndclass) {
@@ -54,8 +54,8 @@ void RegisterOptPrevBox()
 
 	//  register custom class for dialog box with drop-shadow attribute
 	//  "#32770" stays for class name of default system dialog box
-	GetClassInfoEx(hInst, L"#32770", &wcl);
-	wcl.hInstance = hInst;
+	GetClassInfoEx(g_plugin.getInst(), L"#32770", &wcl);
+	wcl.hInstance = g_plugin.getInst();
 	wcl.lpszClassName = L"PopupPlusDlgBox";
 	wcl.style |= CS_DROPSHADOW;
 	g_wndClass.cPopupPlusDlgBox = RegisterClassEx(&wcl);

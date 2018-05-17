@@ -97,7 +97,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			CW_USEDEFAULT,						//  Height
 			HWND_DESKTOP,						//  Parent
 			nullptr,								//  menu handle
-			hInst,								//  Instance
+			g_plugin.getInst(),								//  Instance
 			(LPVOID)nullptr);
 		ShowWindow(hwndBox, SW_HIDE);
 	}

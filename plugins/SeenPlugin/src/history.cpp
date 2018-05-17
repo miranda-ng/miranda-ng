@@ -284,7 +284,7 @@ void ShowHistory(MCONTACT hContact, BYTE isAlert)
 {
 	HWND hHistoryDlg = WindowList_Find(hWindowList, hContact);
 	if (hHistoryDlg == nullptr) {
-		hHistoryDlg = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryDlgProc, hContact);
+		hHistoryDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryDlgProc, hContact);
 		LoadHistoryList(hContact, hHistoryDlg, IDC_HISTORYLIST);
 		WindowList_Add(hWindowList, hHistoryDlg, hContact);
 	}

@@ -1,21 +1,5 @@
 #include "stdafx.h"
 
-#ifdef LOG_ENABLED
-extern wchar_t tszLogPath[];
-
-void logA(const char *format, ...)
-{
-	FILE *out = _wfopen(tszLogPath, L"a+");
-	if (out) {
-		va_list args;
-		va_start(args, format);
-		vfprintf(out, format, args);
-		va_end(args);
-		fclose(out);
-	}
-}
-#endif
-
 ///////////////////////////////////////////////////////////////////////////////
 
 UINT murmur_hash(const char *str)

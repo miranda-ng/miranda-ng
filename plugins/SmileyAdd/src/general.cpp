@@ -50,7 +50,7 @@ HICON GetDefaultIcon(bool copy)
 {
 	HICON resIco = IcoLib_GetIcon("SmileyAdd_ButtonSmiley");
 	if (resIco == nullptr)
-		resIco = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_SMILINGICON), IMAGE_ICON, 0, 0, copy ? 0 : LR_SHARED);
+		resIco = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SMILINGICON), IMAGE_ICON, 0, 0, copy ? 0 : LR_SHARED);
 	else if (copy) {
 		resIco = (HICON)CopyImage(resIco, IMAGE_ICON, 0, 0, 0);
 		IcoLib_Release("SmileyAdd_ButtonSmiley");

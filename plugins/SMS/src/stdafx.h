@@ -9,7 +9,6 @@
 #include <malloc.h>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clistint.h>
@@ -32,7 +31,12 @@
 #include "SMSConstans.h"
 #include "senddlg.h"
 
-extern HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(PROTOCOL_NAMEA)
+	{}
+};
 
 // структура содержащая информацию по построению меню или расширенных иконок
 struct GUI_DISPLAY_ITEM
@@ -43,12 +47,10 @@ struct GUI_DISPLAY_ITEM
 	LPVOID lpFunc;      // функция вызываемая меню
 };
 
-
 #define MAIN_MENU_ITEMS_COUNT		1
 #define CONTACT_MENU_ITEMS_COUNT	1
 
-
-typedef struct
+struct SMS_SETTINGS
 {
 	HANDLE         hHeap;
 	HINSTANCE      hInstance;
@@ -61,20 +63,13 @@ typedef struct
 
 	PROTOACCOUNT **ppaSMSAccounts;
 	size_t         dwSMSAccountsCount;
-
-} SMS_SETTINGS;
-
-
+};
 
 extern SMS_SETTINGS ssSMSSettings;
-
-
-
 
 #define MEMALLOC(Size)			HeapAlloc(ssSMSSettings.hHeap,HEAP_ZERO_MEMORY,(Size+sizeof(size_t)))
 #define MEMREALLOC(Mem,Size)	HeapReAlloc(ssSMSSettings.hHeap,(HEAP_ZERO_MEMORY),(LPVOID)Mem,(Size+sizeof(size_t)))
 #define MEMFREE(Mem)			if (Mem) {HeapFree(ssSMSSettings.hHeap,0,(LPVOID)Mem);Mem=NULL;}
-
 
 #define GET_DLG_ITEM_TEXT_LENGTH(hDlg,nIDDlgItem) SendDlgItemMessage(hDlg,nIDDlgItem,WM_GETTEXTLENGTH,NULL,NULL)
 #define GET_CURRENT_COMBO_DATA(hWndDlg,ControlID) SendDlgItemMessage(hWndDlg,ControlID,CB_GETITEMDATA,SendDlgItemMessage(hWndDlg,ControlID,CB_GETCURSEL,0,0),0)

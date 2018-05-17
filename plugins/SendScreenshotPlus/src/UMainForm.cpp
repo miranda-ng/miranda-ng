@@ -224,7 +224,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		/// Add a tab for each of the three child dialog boxes.
 		itab.tcih.pszText = TranslateT("Window");
 		itab.tcih.iImage = 0;
-		itab.hwndTabPage = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UMain_CaptureWindow), m_hWnd, DlgProc_CaptureTabPage, IDD_UMain_CaptureWindow);
+		itab.hwndTabPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UMain_CaptureWindow), m_hWnd, DlgProc_CaptureTabPage, IDD_UMain_CaptureWindow);
 		TabCtrl_InsertItem(m_hwndTab, 0, &itab);
 		/// get tab boundaries (required after 1st tab)
 		GetClientRect(m_hwndTab, &rcTab);
@@ -238,7 +238,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 
 		itab.tcih.pszText = TranslateT("Desktop");
 		itab.tcih.iImage = 1;
-		itab.hwndTabPage = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UMain_CaptureDesktop), m_hWnd, DlgProc_CaptureTabPage, IDD_UMain_CaptureDesktop);
+		itab.hwndTabPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UMain_CaptureDesktop), m_hWnd, DlgProc_CaptureTabPage, IDD_UMain_CaptureDesktop);
 		TabCtrl_InsertItem(m_hwndTab, 1, &itab);
 		SetWindowPos(itab.hwndTabPage, HWND_TOP, rcTab.left, rcTab.top, rcTab.right, rcTab.bottom, 0);
 
@@ -261,7 +261,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 
 		itab.tcih.pszText = TranslateT("File");
 		itab.tcih.iImage = 2;
-		itab.hwndTabPage = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UMain_CaptureFile), m_hWnd, DlgProc_CaptureTabPage, IDD_UMain_CaptureFile);
+		itab.hwndTabPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UMain_CaptureFile), m_hWnd, DlgProc_CaptureTabPage, IDD_UMain_CaptureFile);
 		TabCtrl_InsertItem(m_hwndTab, 2, &itab);
 		SetWindowPos(itab.hwndTabPage, HWND_TOP, rcTab.left, rcTab.top, rcTab.right, rcTab.bottom, 0);
 
@@ -535,7 +535,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 		static int primarymouse;
 		if (!m_hTargetHighlighter) {
 			primarymouse = GetSystemMetrics(SM_SWAPBUTTON) ? VK_RBUTTON : VK_LBUTTON;
-			m_hTargetHighlighter = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, (wchar_t*)g_clsTargetHighlighter, nullptr, WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_hSendSS, nullptr);
+			m_hTargetHighlighter = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, (wchar_t*)g_clsTargetHighlighter, nullptr, WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 			if (!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter, 0, 123, LWA_ALPHA);
 			SetSystemCursor(CopyCursor(GetIcon(ICO_TARGET)), OCR_IBEAM);//text cursor
@@ -808,7 +808,7 @@ void TfrmMain::Init(wchar_t* DestFolder, MCONTACT Contact)
 	m_hContact = Contact;
 
 	// create window
-	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UMainForm), nullptr, DlgTfrmMain, (LPARAM)this);
+	m_hWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UMainForm), nullptr, DlgTfrmMain, (LPARAM)this);
 	//register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 

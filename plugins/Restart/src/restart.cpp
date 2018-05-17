@@ -1,8 +1,17 @@
 #include "stdafx.h"
 
-HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(nullptr)
+	{}
+}
+g_plugin;
+
 int hLangpack;
 HANDLE hRestartMe;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -17,16 +26,12 @@ PLUGININFOEX pluginInfo={
 	{0x61bedf3a, 0xcc2, 0x41a3, {0xb9, 0x80, 0xbb, 0x93, 0x93, 0x36, 0x89, 0x35}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR RestartMe(WPARAM, LPARAM)
 {
@@ -41,7 +46,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP( &pluginInfo );
 
 	// IcoLib support
-	Icon_Register(hInst, LPGEN("Restart Plugin"), &icon, 1);
+	Icon_Register(g_plugin.getInst(), LPGEN("Restart Plugin"), &icon, 1);
 
 	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
 
@@ -55,6 +60,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	Menu_AddTrayMenuItem(&mi);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

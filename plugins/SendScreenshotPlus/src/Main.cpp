@@ -27,14 +27,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "Main.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
-CHAT_MANAGER    *pci;
-HINSTANCE g_hSendSS;
+
+int hLangpack;
+CMPlugin g_plugin;
+CHAT_MANAGER *pci;
+
 MGLOBAL g_myGlobals;
-HNETLIBUSER g_hNetlibUser=nullptr;//!< Netlib Register User
-int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
+HNETLIBUSER g_hNetlibUser;
 
 IconItem ICONS[ICO_END_] =
 {
@@ -57,7 +58,6 @@ IconItem ICONS_BTN[ICO_BTN_END_] =
 	{ LPGEN("Update"), "update", IDI_UPDATE },
 	{ LPGEN("OK"), "ok", IDI_OK },
 	{ LPGEN("Cancel"), "cancel", IDI_CANCEL },
-	//		{LPGEN("Apply"),"apply",IDI_APPLY},
 	{ LPGEN("Edit"), "edit", IDI_EDIT },
 	{ LPGEN("Edit on"), "editon", IDI_EDITON },
 	{ LPGEN("Copy"), "copy", IDI_COPY },
@@ -207,13 +207,10 @@ INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)result;
 }
 
-// Functions ////////////////////////////////////////////////////////////////////////////
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PLUGININFOEX pluginInfo =
 {
-	g_hSendSS = hinstDLL;
-	return TRUE;
-}
-static const PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -225,11 +222,15 @@ static const PLUGININFOEX pluginInfo = {
 	// {ED39AF7C-BECD-404E-9499-4D04F711B9CB}
 	{ 0xed39af7c, 0xbecd, 0x404e, { 0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb } }
 };
-DLL_EXPORT PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return const_cast<PLUGININFOEX*>(&pluginInfo);
+	return &pluginInfo;
 }
-/// hooks
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// hooks
+
 int hook_ModulesLoaded(WPARAM, LPARAM)
 {
 	g_myGlobals.PopupExist = ServiceExists(MS_POPUP_ADDPOPUPT);
@@ -250,6 +251,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 		PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\Screenshots");
 	return 0;
 }
+
 int hook_SystemPreShutdown(WPARAM, LPARAM)
 {
 	TfrmAbout::Unload();//crashes if done from "Unload" because of dependencies
@@ -262,7 +264,8 @@ int hook_SystemPreShutdown(WPARAM, LPARAM)
 }
 
 ATOM g_clsTargetHighlighter = 0;
-DLL_EXPORT int Load(void)
+
+extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 	pci = Chat_GetInterface();
@@ -272,8 +275,8 @@ DLL_EXPORT int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
 	
 	/// icons
-	Icon_Register(g_hSendSS, SZ_SENDSS, ICONS, sizeof(ICONS) / sizeof(IconItem), SZ_SENDSS);
-	Icon_Register(g_hSendSS, SZ_SENDSS "/" LPGEN("Buttons"), ICONS_BTN, sizeof(ICONS_BTN) / sizeof(IconItem), SZ_SENDSS);
+	Icon_Register(g_plugin.getInst(), SZ_SENDSS, ICONS, sizeof(ICONS) / sizeof(IconItem), SZ_SENDSS);
+	Icon_Register(g_plugin.getInst(), SZ_SENDSS "/" LPGEN("Buttons"), ICONS_BTN, sizeof(ICONS_BTN) / sizeof(IconItem), SZ_SENDSS);
 	
 	/// services
 #define srv_reg(name) do{\
@@ -320,17 +323,17 @@ DLL_EXPORT int Load(void)
 
 	/// register highlighter window class
 	HBRUSH brush = CreateSolidBrush(0x0000FF00);//owned by class
-	WNDCLASS wndclass = { CS_HREDRAW | CS_VREDRAW, DefWindowProc, 0, 0, g_hSendSS, nullptr, nullptr, brush, nullptr, L"SendSSHighlighter" };
+	WNDCLASS wndclass = { CS_HREDRAW | CS_VREDRAW, DefWindowProc, 0, 0, g_plugin.getInst(), nullptr, nullptr, brush, nullptr, L"SendSSHighlighter" };
 	g_clsTargetHighlighter = RegisterClass(&wndclass);
 	return 0;
 }
-/*---------------------------------------------------------------------------
-* Prepare the plugin to stop
-* Called by Miranda when it will exit or when the plugin gets deselected
-*/
-DLL_EXPORT int Unload(void)
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Prepare the plugin to stop
+
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	if (g_clsTargetHighlighter)
-		UnregisterClass((wchar_t*)g_clsTargetHighlighter, g_hSendSS), g_clsTargetHighlighter = 0;
+		UnregisterClass((wchar_t*)g_clsTargetHighlighter, g_plugin.getInst()), g_clsTargetHighlighter = 0;
 	return 0;
 }

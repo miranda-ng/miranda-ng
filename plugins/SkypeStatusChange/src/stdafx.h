@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <commctrl.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protocols.h>
@@ -17,6 +16,13 @@
 #include <win2k.h>
 
 #define MODULENAME "Change Skype Status"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(MODULENAME)
+	{}
+};
 
 class COptions
 {
@@ -163,7 +169,3 @@ struct CMirandaStatus2SkypeStatus
 };
 
 extern const CMirandaStatus2SkypeStatus g_aStatusCode[10];
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern HINSTANCE g_hModule;

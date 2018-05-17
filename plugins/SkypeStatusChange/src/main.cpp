@@ -5,10 +5,22 @@
 #pragma comment(lib, "Comctl32.lib")
 
 int hLangpack = 0;
+CMPlugin g_plugin;
 
 int SSC_OptInitialise(WPARAM wp, LPARAM lp);
 
-PLUGININFOEX g_pluginInfo =
+UINT g_MsgIDSkypeControlAPIAttach = 0;
+UINT g_MsgIDSkypeControlAPIDiscover = 0;
+HWND g_wndMainWindow = nullptr;
+
+bool g_bMirandaIsShutdown = false;
+
+HANDLE g_hThread = nullptr;
+HANDLE g_hEventShutdown = nullptr;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PLUGININFOEX g_pluginInfo =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -17,20 +29,16 @@ PLUGININFOEX g_pluginInfo =
 	__AUTHOR,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE,		//not transient
-	{ 0x2925520b, 0x6677, 0x4658, { 0x8b, 0xad, 0x56, 0x61, 0xd1, 0x3e, 0x46, 0x92 } }
+	UNICODE_AWARE,
+	{ 0x2925520b, 0x6677, 0x4658, { 0x8b, 0xad, 0x56, 0x61, 0xd1, 0x3e, 0x46, 0x92 }}
 };
 
-HINSTANCE g_hModule = nullptr;
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &g_pluginInfo;
+}
 
-UINT   g_MsgIDSkypeControlAPIAttach = 0;
-UINT   g_MsgIDSkypeControlAPIDiscover = 0;
-HWND   g_wndMainWindow = nullptr;
-
-HANDLE g_hThread = nullptr;
-HANDLE g_hEventShutdown = nullptr;
-
-bool   g_bMirandaIsShutdown = false;
+/////////////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
@@ -84,8 +92,8 @@ private:
 	size_t m_nStatusIndex;
 };
 
-COptions         g_Options;
-CStatusInfo      g_CurrStatusInfo;
+COptions g_Options;
+CStatusInfo g_CurrStatusInfo;
 mir_cs g_csStatusInfo;
 
 int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
@@ -253,24 +261,11 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 		g_wndMainWindow = nullptr;
 	}
 
-	UnregisterClass(g_pszSkypeWndClassName, g_hModule);
+	UnregisterClass(g_pszSkypeWndClassName, g_plugin.getInst());
 	return 0;
 }
 
 /******************************* INSTALLATION PROCEDURES *****************************/
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
-{
-	if (fdwReason == DLL_PROCESS_ATTACH)
-		g_hModule = hinstDLL;
-
-	return TRUE;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &g_pluginInfo;
-}
 
 extern "C" int __declspec(dllexport) Load()
 {
@@ -284,14 +279,14 @@ extern "C" int __declspec(dllexport) Load()
 	WNDCLASS oWindowClass = { 0 };
 	oWindowClass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	oWindowClass.lpfnWndProc = (WNDPROC)&SkypeAPI_WindowProc;
-	oWindowClass.hInstance = g_hModule;
+	oWindowClass.hInstance = g_plugin.getInst();
 	oWindowClass.lpszClassName = g_pszSkypeWndClassName;
 	if (!RegisterClass(&oWindowClass))
 		return 1;
 
 	g_wndMainWindow = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE,
 		g_pszSkypeWndClassName, L"", WS_BORDER | WS_SYSMENU | WS_MINIMIZEBOX,
-		CW_USEDEFAULT, CW_USEDEFAULT, 128, 128, nullptr, nullptr, g_hModule, nullptr);
+		CW_USEDEFAULT, CW_USEDEFAULT, 128, 128, nullptr, nullptr, g_plugin.getInst(), nullptr);
 	if (g_wndMainWindow == nullptr)
 		return 1;
 
@@ -305,6 +300,8 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_OPT_INITIALISE, SSC_OptInitialise);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)		// Executed on DLL unload
 {

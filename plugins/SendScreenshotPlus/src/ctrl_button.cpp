@@ -653,7 +653,7 @@ void CtrlButtonUnloadModule()
 {
 	if (!g_init) return;
 	g_init = false;
-	UnregisterClass(UINFOBUTTONCLASS, g_hSendSS);
+	UnregisterClass(UINFOBUTTONCLASS, g_plugin.getInst());
 }
 
 void CtrlButtonLoadModule()/// @fixme : compatibility with UInfoEx is everything but perfect... we get a huge problem if UInfoEx is unloaded...

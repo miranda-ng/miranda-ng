@@ -107,7 +107,7 @@ static void SetTooltip(long x, long y, HWND hwnd, RichEditData *rdt)
 	if (needtip != -1) {
 		if (rdt->tipActive == -1) {
 			rdt->hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", TTS_NOPREFIX | WS_POPUP,
-				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwnd, nullptr, g_hInst, nullptr);
+				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwnd, nullptr, g_plugin.getInst(), nullptr);
 
 			SendMessage(rdt->hToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 		}

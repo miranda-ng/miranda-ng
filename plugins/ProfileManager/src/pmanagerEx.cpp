@@ -13,10 +13,20 @@ There is no warranty.
 #define SRV_CHANGE_PM  "Database/ChangePM"
 #define SRV_RESTART_ME "System/RestartMe"
 
-HINSTANCE hInst;
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(nullptr)
+	{}
+}
+g_plugin;
+
 int hLangpack;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -32,14 +42,6 @@ PLUGININFOEX pluginInfo = {
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +87,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	Icon_Register(hInst, LPGEN("Profile manager"), iconList, _countof(iconList));
+	Icon_Register(g_plugin.getInst(), LPGEN("Profile manager"), iconList, _countof(iconList));
 
 	CreateServiceFunction(SRV_LOAD_PM, LoadPM);
 	CreateServiceFunction(SRV_CHANGE_PM, ChangePM);
@@ -106,6 +108,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	}
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

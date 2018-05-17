@@ -552,7 +552,7 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 
 	//add tooltips
 	m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"",
-		TTS_NOPREFIX | WS_POPUP, 0, 0, 0, 0, m_hwndDialog, nullptr, g_hInst, nullptr);
+		TTS_NOPREFIX | WS_POPUP, 0, 0, 0, 0, m_hwndDialog, nullptr, g_plugin.getInst(), nullptr);
 	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(ti);
 	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
@@ -748,7 +748,7 @@ void __cdecl SmileyToolThread(SmileyToolWindowParam *stwp)
 		wndclass.lpfnWndProc = DlgProcSmileyToolWindow;
 		wndclass.cbClsExtra = 0;
 		wndclass.cbWndExtra = 4;
-		wndclass.hInstance = g_hInst;
+		wndclass.hInstance = g_plugin.getInst();
 		wndclass.hIcon = nullptr;
 		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wndclass.hbrBackground = CreateSolidBrush(opt.SelWndBkgClr);
@@ -760,7 +760,7 @@ void __cdecl SmileyToolThread(SmileyToolWindowParam *stwp)
 		CreateWindowEx(WS_EX_TOPMOST | WS_EX_NOPARENTNOTIFY, L"SmileyTool", nullptr,
 			WS_BORDER | WS_POPUP | WS_VISIBLE,
 			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			stwp->hWndParent, nullptr, g_hInst, stwp);
+			stwp->hWndParent, nullptr, g_plugin.getInst(), stwp);
 
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
 
@@ -769,7 +769,7 @@ void __cdecl SmileyToolThread(SmileyToolWindowParam *stwp)
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		UnregisterClass(L"SmileyTool", g_hInst);
+		UnregisterClass(L"SmileyTool", g_plugin.getInst());
 	}
 	delete stwp;
 }

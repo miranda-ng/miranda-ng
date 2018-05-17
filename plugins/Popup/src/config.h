@@ -125,7 +125,6 @@ extern GLOBAL_WND_CLASSES g_wndClass;
 void LoadOptions();
 
 //===== General Plugin =====
-extern HINSTANCE hInst;
 extern HANDLE hEventNotify;
 extern HANDLE hSemaphore;
 extern BOOL closing;
@@ -144,12 +143,6 @@ extern HBITMAP hbmNoAvatar;
 //===== Options =====
 extern POPUPOPTIONS PopupOptions;
 extern bool OptionLoaded;
-//extern SKINELEMENT *skin;
-//extern SKINELEMENT *w_skin;
-//extern SKINELEMENT *n_skin;
-
-//===== Plugin informations struct =====
-extern PLUGININFOEX pluginInfoEx;
 
 //===== Transparency & APIs which are not supported by every OS =====
 #ifndef DWLP_MSGRESULT

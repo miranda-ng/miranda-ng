@@ -20,11 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 // globals
-HINSTANCE g_hInst;
 HANDLE    hEvent1;
 HGENMENU  hContactMenuItem;
 
 int hLangpack;
+CMPlugin g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static const PLUGININFOEX pluginInfoEx =
 {
@@ -44,6 +46,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mira
 {
 	return (PLUGININFOEX*)&pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static IconItem icon = { LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON };
 
@@ -91,7 +95,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitImageCache();
 
-	Icon_Register(g_hInst, MODULENAME, &icon, 1);
+	Icon_Register(g_plugin.getInst(), MODULENAME, &icon, 1);
 
 	g_SmileyCategories.SetSmileyPackStore(&g_SmileyPacks);
 
@@ -125,6 +129,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	RemoveDialogBoxHook();
@@ -141,19 +147,4 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	DownloadClose();
 	return 0;
-}
-
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID /*lpvReserved*/)
-{
-	switch (fdwReason) {
-	case DLL_PROCESS_ATTACH:
-		g_hInst = hinstDLL;
-		DisableThreadLibraryCalls(hinstDLL);
-		break;
-
-	case DLL_PROCESS_DETACH:
-		break;
-	}
-
-	return TRUE;
 }

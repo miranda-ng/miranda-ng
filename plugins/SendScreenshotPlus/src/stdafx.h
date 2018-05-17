@@ -52,7 +52,6 @@ using namespace std;
 #include <msapi/vsstyle.h>
 #include <msapi/vssym32.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_button.h>
 #include <m_chat_int.h>
@@ -119,8 +118,14 @@ typedef struct _MGLOBAL {
 // Miranda Database Key
 #define SZ_SENDSS		"SendSS"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(SZ_SENDSS)
+	{}
+};
+
 extern ATOM g_clsTargetHighlighter;
-extern HINSTANCE g_hSendSS;
 extern MGLOBAL g_myGlobals;
 extern HNETLIBUSER g_hNetlibUser;
 

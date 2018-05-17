@@ -222,13 +222,13 @@ static unsigned __stdcall PopupThread(void *)
 	wcl.style = 0;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hIcon = nullptr;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"PopupThreadManagerWnd";
-	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+	wcl.hIconSm = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupThreadManagerWnd = RegisterClassExW(&wcl);
 	err = GetLastError();
 	if (!g_wndClass.cPopupThreadManagerWnd) {
@@ -237,7 +237,7 @@ static unsigned __stdcall PopupThread(void *)
 		MSGERROR(msg);
 	}
 
-	gHwndManager = CreateWindow(L"PopupThreadManagerWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, hInst, nullptr);
+	gHwndManager = CreateWindow(L"PopupThreadManagerWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowPos(gHwndManager, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	MSG msg;
@@ -247,7 +247,7 @@ static unsigned __stdcall PopupThread(void *)
 	}
 
 	DestroyWindow(gHwndManager); gHwndManager = nullptr;
-	UnregisterClassW(wcl.lpszClassName, hInst);
+	UnregisterClassW(wcl.lpszClassName, g_plugin.getInst());
 	return 0;
 }
 

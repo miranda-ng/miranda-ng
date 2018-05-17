@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 // ===== General Plugin =====
-HINSTANCE hInst;
-
 HANDLE hSemaphore;
 BOOL closing = FALSE;
 MTEXT_INTERFACE		MText = { 0 };
@@ -38,27 +36,6 @@ HBITMAP hbmNoAvatar;
 
 // ===== Options =====
 POPUPOPTIONS PopupOptions;
-// SKINELEMENT *skin;
-// SKINELEMENT *w_skin;
-// SKINELEMENT *n_skin;
-
-
-// ===== Plugin information =====
-
-PLUGININFOEX pluginInfoEx =
-{
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	//  {26A9125D-7863-4E01-AF0E-D14EF95C5054}
-	{ 0x26a9125d, 0x7863, 0x4e01, { 0xaf, 0xe, 0xd1, 0x4e, 0xf9, 0x5c, 0x50, 0x54 } }
-};
-
 
 HRESULT(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 

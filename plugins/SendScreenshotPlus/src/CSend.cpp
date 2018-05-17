@@ -419,7 +419,7 @@ void CSend::Exit(unsigned int Result)
 		switch (Result) {
 		case CSEND_DIALOG:
 			Skin_PlaySound("FileDone");
-			DialogBoxParam(g_hSendSS, MAKEINTRESOURCE(IDD_UResultForm), nullptr, ResultDialogProc, (LPARAM)this);
+			DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UResultForm), nullptr, ResultDialogProc, (LPARAM)this);
 			err = false;
 			break;
 		case ACKRESULT_SUCCESS:

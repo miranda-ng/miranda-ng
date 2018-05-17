@@ -20,14 +20,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInstance;
 HANDLE ehmissed = nullptr, ehuserinfo = nullptr, ehmissed_proto = nullptr;
 HANDLE g_hShutdownEvent;
 MWindowList g_pUserInfo;
 
 int hLangpack;
+CMPlugin g_plugin;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -37,8 +40,15 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {2D506D46-C94E-4EF8-8537-F11233A80381}
-	{ 0x2d506d46, 0xc94e, 0x4ef8, { 0x85, 0x37, 0xf1, 0x12, 0x33, 0xa8, 0x03, 0x81 } }
+	{ 0x2d506d46, 0xc94e, 0x4ef8, { 0x85, 0x37, 0xf1, 0x12, 0x33, 0xa8, 0x03, 0x81 }}
 };
+
+extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 #define TRANSNUMBER 2
 DBVTranslation idleTr[TRANSNUMBER] = {
@@ -57,7 +67,9 @@ mir_cs csContacts;
 
 void UninitHistoryDialog(void);
 
-int MainInit(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int MainInit(WPARAM, LPARAM)
 {
 	if (g_bFileActive = db_get_b(NULL, S_MOD, "FileOutput", 0))
 		InitFileOutput();
@@ -108,10 +120,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
@@ -126,10 +135,4 @@ extern "C" __declspec(dllexport) int Unload(void)
 	CloseHandle(g_hShutdownEvent);
 	UninitHistoryDialog();
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
-{
-	hInstance = hinst;
-	return 1;
 }

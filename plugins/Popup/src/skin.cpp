@@ -843,8 +843,6 @@ void PopupSkin::loadSkin(std::wistream &f)
 		if (!mir_wstrcmp(buf, L"popup-version")) {
 			f >> m_popup_version;
 			m_popup_version = PLUGIN_MAKE_VERSION((m_popup_version / 1000000) % 100, (m_popup_version / 10000) % 100, (m_popup_version / 100) % 100, (m_popup_version / 1) % 100);
-			if (!isCompatible())
-				break;
 		}
 		else if (!mir_wstrcmp(buf, L"padding-right")) {
 			f >> m_right_gap;
@@ -897,8 +895,8 @@ void PopupSkin::loadSkin(LPCTSTR fn)
 
 void PopupSkin::loadSkin(LPCTSTR lpName, LPCTSTR lpType)
 {
-	HRSRC hRes = FindResource(hInst, lpName, lpType);
-	HRSRC hResLoad = (HRSRC)LoadResource(hInst, hRes);
+	HRSRC hRes = FindResource(g_plugin.getInst(), lpName, lpType);
+	HRSRC hResLoad = (HRSRC)LoadResource(g_plugin.getInst(), hRes);
 	char *lpResLock = (char *)LockResource(hResLoad);
 	std::wistringstream stream((wchar_t*)_A2T(lpResLock));
 	loadSkin(stream);
@@ -1154,12 +1152,6 @@ const PopupSkin *Skins::getSkin(LPCTSTR name)
 
 	any->skin = new PopupSkin(any->name);
 	any->skin->load(any->dir);
-
-	if (!any->skin->isCompatible())
-		MessageBox(nullptr,
-		TranslateT("The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin."),
-		MODULNAME_LONG, MB_ICONSTOP | MB_OK);
-
 	return any->skin;
 }
 

@@ -98,10 +98,10 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 		CMStringW pszText(_A2W(__COPYRIGHT));
 		pszText.Append(L"\r\n\r\n");
 
-		HRSRC hRes = FindResource(g_hSendSS, MAKEINTRESOURCE(IDR_LICENSE), L"TEXT");
-		DWORD size = SizeofResource(g_hSendSS, hRes);
+		HRSRC hRes = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_LICENSE), L"TEXT");
+		DWORD size = SizeofResource(g_plugin.getInst(), hRes);
 		char* data = (char*)mir_alloc(size + 1);
-		memcpy(data, LockResource(LoadResource(g_hSendSS, hRes)), size);
+		memcpy(data, LockResource(LoadResource(g_plugin.getInst(), hRes)), size);
 		data[size] = '\0';
 		pszText.AppendFormat(L"%S", data);
 		mir_free(data);
@@ -110,10 +110,10 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 
 	// Credit
 	{
-		HRSRC hRes = FindResource(g_hSendSS, MAKEINTRESOURCE(IDR_CREDIT), L"TEXT");
-		DWORD size = SizeofResource(g_hSendSS, hRes);
+		HRSRC hRes = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CREDIT), L"TEXT");
+		DWORD size = SizeofResource(g_plugin.getInst(), hRes);
 		char* data = (char*)mir_alloc(size + 1);
-		memcpy(data, LockResource(LoadResource(g_hSendSS, hRes)), size);
+		memcpy(data, LockResource(LoadResource(g_plugin.getInst(), hRes)), size);
 		data[size] = '\0';
 		wchar_t* pszText = mir_a2u(data);
 		mir_free(data);
@@ -171,7 +171,7 @@ TfrmAbout::TfrmAbout(HWND Owner)
 	m_hWndOwner = Owner;
 	m_Page = 1;
 	// create window
-	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UAboutForm), nullptr, DlgTfrmAbout, (LPARAM)this);
+	m_hWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UAboutForm), nullptr, DlgTfrmAbout, (LPARAM)this);
 	//register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 }

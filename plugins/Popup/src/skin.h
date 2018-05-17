@@ -140,7 +140,6 @@ public:
 	int				useInternalClock()			const	{ return m_internalClock; }
 	int				getLegacyRegionOpacity()	const	{ return m_legacy_region_opacity; }
 	int				getShadowRegionOpacity()	const	{ return m_shadow_region_opacity; }
-	bool			isCompatible()				const	{ return (DWORD)m_popup_version <= (DWORD)pluginInfoEx.version; }
 
 	const LPTSTR	getName()					const	{ return m_name; }
 

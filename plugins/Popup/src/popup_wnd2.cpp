@@ -51,11 +51,11 @@ bool	LoadPopupWnd2()
 	WNDCLASSEX wcl = { 0 };
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = PopupWnd2::WindowProc;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = POPUP_WNDCLASS;
-	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+	wcl.hIconSm = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupWnd2 = RegisterClassEx(&wcl);
 	DWORD err = GetLastError();
 	if (!g_wndClass.cPopupWnd2) {
@@ -69,7 +69,7 @@ bool	LoadPopupWnd2()
 	wclw.cbSize = sizeof(wclw);
 	if (!GetClassInfoEx(nullptr, L"EDIT", &wclw))
 		MSGERROR(TranslateT("Failed to GetClassInfoExW from EDIT class."));
-	wclw.hInstance = hInst;
+	wclw.hInstance = g_plugin.getInst();
 	wclw.lpszClassName = L"PopupEditBox";
 	wclw.style |= CS_DROPSHADOW;
 	g_wndClass.cPopupEditBox = RegisterClassEx(&wclw);
@@ -89,13 +89,13 @@ bool	LoadPopupWnd2()
 	wcl.style = 0;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hIcon = nullptr;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"PopupMenuHostWnd";
-	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+	wcl.hIconSm = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupMenuHostWnd = RegisterClassEx(&wcl);
 	err = GetLastError();
 	if (!g_wndClass.cPopupMenuHostWnd) {
@@ -105,7 +105,7 @@ bool	LoadPopupWnd2()
 		MSGERROR(msg);
 	}
 
-	ghwndMenuHost = CreateWindow(L"PopupMenuHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, hInst, nullptr);
+	ghwndMenuHost = CreateWindow(L"PopupMenuHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowPos(ghwndMenuHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	INITCOMMONCONTROLSEX iccex;
@@ -175,7 +175,7 @@ void PopupWnd2::create()
 		CW_USEDEFAULT,						//  Height
 		HWND_DESKTOP,						//  Parent
 		nullptr,								//  menu handle
-		hInst,								//  Instance
+		g_plugin.getInst(),								//  Instance
 		(LPVOID)this);
 
 	//  Shadows
@@ -191,7 +191,7 @@ void PopupWnd2::create()
 	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr,
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		m_hwnd, nullptr, hInst, nullptr);
+		m_hwnd, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowPos(m_hwndToolTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	m_bWindowCreated = true;
@@ -921,7 +921,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					g_wndClass.cPopupEditBox ? L"PopupEditBox" : L"EDIT",
 					nullptr,
 					WS_BORDER | WS_POPUP | WS_VISIBLE | ES_AUTOVSCROLL | ES_LEFT | ES_MULTILINE | ES_NOHIDESEL | ES_WANTRETURN,
-					rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInst, nullptr);
+					rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, g_plugin.getInst(), nullptr);
 
 				ReplyEditData *dat = (ReplyEditData *)mir_alloc(sizeof(ReplyEditData));
 				dat->oldWndProc = (WNDPROC)GetWindowLongPtr(hwndEditBox, (LONG_PTR)GWLP_WNDPROC);

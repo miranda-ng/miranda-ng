@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <time.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_langpack.h>
@@ -23,8 +22,15 @@
 #define KEY_HEADING			"Heading"
 #define KEY_REPEATINTERVAL	"RepeatInterval"
 
-//General
-extern HINSTANCE hinstance;
+// General
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(protocolname)
+	{}
+};
+
 extern INT interval;
 extern wchar_t *ptszDefaultMsg[6];
 extern HGENMENU hEnableMenu;
