@@ -46,7 +46,6 @@
 #include <msapi/vsstyle.h>
 #include <msapi/comptr.h>
 
-#define __NO_CMPLUGIN_NEEDED
 #include <m_avatars.h>
 #include <m_message.h>
 #include <win2k.h>
