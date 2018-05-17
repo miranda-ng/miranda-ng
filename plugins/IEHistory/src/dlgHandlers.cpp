@@ -374,7 +374,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				0, 0, //width, height
 				hWnd, //parent
 				(HMENU)IDC_STATUSBAR, //menu
-				hInstance, //instance
+				g_plugin.getInst(), //instance
 				nullptr); //lpParam
 			int x;
 			int widths[] = { x = 50, x += 50, x += 150, -1 };
@@ -464,7 +464,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_SEARCH:
-			HWND hSearch = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_SEARCH), hWnd, SearchDlgProc);
+			HWND hSearch = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCH), hWnd, SearchDlgProc);
 			if (hSearch == nullptr) {
 				char buffer[1024];
 				sprintf(buffer, "Error #%d", GetLastError());

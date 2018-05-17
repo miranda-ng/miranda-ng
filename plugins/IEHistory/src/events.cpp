@@ -42,7 +42,7 @@ int OnOptionsInitialize(WPARAM wParam, LPARAM)
 	odp.szTitle.w = LPGENW("History");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
-	odp.hInstance = hInstance;
+	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wParam, &odp);
 	return 0;

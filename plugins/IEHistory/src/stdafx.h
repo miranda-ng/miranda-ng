@@ -34,8 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <uxtheme.h>
 
-#define __NO_CMPLUGIN_NEEDED
-
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_utils.h>
@@ -72,10 +70,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #	define sntprintf snwprintf
 #endif
 
+#define ModuleName "IEHistory"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(ModuleName)
+	{}
+}; 
+
 extern HICON hIcon; //history icon
 extern int hLangpack;
-extern char ModuleName[];
-extern HINSTANCE hInstance; //dll instance
 extern MWindowList hOpenWindowsList;
 
 extern PLUGININFOEX pluginInfo;

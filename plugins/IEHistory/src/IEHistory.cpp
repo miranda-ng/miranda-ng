@@ -21,8 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "services.h"
 
+CMPlugin g_plugin;
 int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
-char ModuleName[] = "IEHistory";
 HICON hIcon;
 HINSTANCE hInstance;
 MWindowList hOpenWindowsList = nullptr;
@@ -98,14 +98,4 @@ extern "C" int __declspec(dllexport) Unload()
 	WindowList_Broadcast(hOpenWindowsList, WM_CLOSE, 0, 0);
 	WindowList_Destroy(hOpenWindowsList);
 	return 0;
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
-{
-	hInstance = hinstDLL;
-	if (fdwReason == DLL_PROCESS_ATTACH) {
-		DisableThreadLibraryCalls(hinstDLL);
-		LogInit();
-	}
-	return TRUE;
 }

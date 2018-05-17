@@ -44,7 +44,7 @@ INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM)
 		data->index = 0;
 		data->count = 0;
 		data->loadMethod = (loadInBackground) ? LOAD_IN_BACKGROUND : 0;
-		historyDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_HISTORY), parent, HistoryDlgProc);
+		historyDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), parent, HistoryDlgProc);
 		SetWindowLongPtr(historyDlg, DWLP_USER, (LONG_PTR)data);
 
 		WindowList_Add(hOpenWindowsList, historyDlg, (MCONTACT)wParam);
