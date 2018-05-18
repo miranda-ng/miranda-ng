@@ -4,7 +4,7 @@
 
 // plugin stuff
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 PLUGININFOEX pluginInfo =
 {

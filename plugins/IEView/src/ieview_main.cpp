@@ -24,7 +24,7 @@ CLIST_INTERFACE *pcli;
 
 char *workingDirUtf8;
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),

@@ -7,7 +7,7 @@ bool g_bServiceMode = false;
 bool g_bUsePopups;
 
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 BYTE nameOrder[NAMEORDERCOUNT];
 HGENMENU hUserMenu;
 MCONTACT hRestore;

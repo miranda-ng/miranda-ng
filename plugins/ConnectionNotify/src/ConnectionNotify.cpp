@@ -16,7 +16,7 @@ HANDLE hFilterOptionsThread = nullptr;
 HANDLE killCheckThreadEvent = nullptr;
 HANDLE hExceptionsMutex = nullptr;
 //HANDLE hCurrentEditMutex=NULL;
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 
 DWORD FilterOptionsThreadId;
 DWORD ConnectionCheckThreadId;

@@ -16,7 +16,7 @@
 
 #include "stdafx.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 BOOL bWatrackService = FALSE;

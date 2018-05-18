@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static HANDLE hHookModulesLoaded;
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),

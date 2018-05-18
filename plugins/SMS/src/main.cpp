@@ -27,7 +27,7 @@ Enjoy the code and use it smartly!
 
 #include "stdafx.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 

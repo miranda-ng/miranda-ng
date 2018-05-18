@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 HANDLE g_hEventWorkThreadStop;
 //int g_nStatus = ID_STATUS_OFFLINE;
 bool g_bAutoUpdate = true;

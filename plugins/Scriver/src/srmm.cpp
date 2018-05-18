@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int OnLoadModule(void);
 int OnUnloadModule(void);
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 

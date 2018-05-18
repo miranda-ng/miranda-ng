@@ -30,7 +30,7 @@ static int iDllPlugins = 0;
 YAMN_VARIABLES YAMNVar;
 
 CLIST_INTERFACE *pcli;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hNewMailHook;
 HANDLE NoWriterEV;

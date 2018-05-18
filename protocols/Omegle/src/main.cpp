@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // TODO: Make following as "globals" structure?
 
 CLIST_INTERFACE* pcli;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 std::string g_strUserAgent;
 DWORD g_mirandaVersion;

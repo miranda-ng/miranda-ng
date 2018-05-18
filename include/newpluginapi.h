@@ -169,6 +169,8 @@ protected:
 	void SetUniqueId(const char *pszUniqueId);
 
 public:
+	int m_hLang;
+
 	void debugLogA(LPCSTR szFormat, ...);
 	void debugLogW(LPCWSTR wszFormat, ...);
 

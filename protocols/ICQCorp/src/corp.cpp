@@ -21,7 +21,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 char protoName[64];
 CMPlugin g_plugin;
 HNETLIBUSER hNetlibUser;

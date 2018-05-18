@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo = {
 };
 
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 StatusItems_t **StatusItems;
 ChangedSItems_t ChangedSItems = { 0 };

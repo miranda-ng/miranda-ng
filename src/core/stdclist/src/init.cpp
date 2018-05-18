@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CMPlugin g_plugin;
 CLIST_INTERFACE* pcli = nullptr, coreCli;
 HIMAGELIST himlCListClc = nullptr;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // external functions

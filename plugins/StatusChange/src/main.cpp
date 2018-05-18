@@ -5,7 +5,7 @@ HICON hIconMsg;
 HICON hIconUrl;
 HICON hIconFile;
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////

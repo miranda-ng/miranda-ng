@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo = {
 // Other variables
 SSL_API sslApi;
 CLIST_INTERFACE *pcli;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 static unsigned long crc_table[256];
 

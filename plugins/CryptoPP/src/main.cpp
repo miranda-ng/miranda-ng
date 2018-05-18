@@ -1,7 +1,7 @@
 #include "commonheaders.h"
 
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 LPCSTR szModuleName = MODULENAME;
 LPCSTR szVersionStr = MODULENAME" DLL (" __VERSION_STRING_DOTS ")";
 

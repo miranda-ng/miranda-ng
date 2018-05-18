@@ -19,7 +19,6 @@
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 HGENMENU g_hMenuItem;
 HWINEVENTHOOK g_hWinHook;
 HWND g_hListenWindow, g_hDlgPass, hOldForegroundWindow;
@@ -30,12 +29,15 @@ WORD g_wMask, g_wMaskAdv;
 bool g_bWindowHidden, g_fPassRequested, g_TrayIcon;
 char g_password[MAXPASSLEN + 1];
 HKL oldLangID, oldLayout;
-CMPlugin g_plugin;
-int protoCount, hLangpack;
+int protoCount;
 PROTOACCOUNT **proto;
 unsigned *oldStatus;
 wchar_t **oldStatusMsg;
 BYTE g_bOldSetting;
+
+CMPlugin g_plugin;
+int &hLangpack(g_plugin.m_hLang);
+CLIST_INTERFACE *pcli;
 
 PFNDwmIsCompositionEnabled dwmIsCompositionEnabled;
 

@@ -17,7 +17,7 @@
 #include "stdafx.h"
 
 //global variables
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////

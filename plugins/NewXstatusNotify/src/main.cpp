@@ -23,7 +23,7 @@
 
 CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 LIST<DBEVENT> eventListXStatus(10, PtrKeySortT);
 LIST<DBEVENT> eventListStatus(10, PtrKeySortT);

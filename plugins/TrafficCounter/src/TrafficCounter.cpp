@@ -30,7 +30,7 @@ HWND TrafficHwnd;
 
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
-int hLangpack = 0; // Поддержка плагинозависимого перевода.
+int &hLangpack(g_plugin.m_hLang);
 
 BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
 

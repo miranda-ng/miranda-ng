@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "version.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfo =

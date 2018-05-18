@@ -12,7 +12,7 @@ static HANDLE g_hProtoContactIsTyping = nullptr;
 
 // Main global object
 static CTooltipNotify *g_pTooltipNotify = nullptr;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 

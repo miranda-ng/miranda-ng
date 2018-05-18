@@ -18,7 +18,7 @@
 
 #include "stdafx.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 MWindowList hInternalWindowList = nullptr;

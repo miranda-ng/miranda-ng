@@ -10,7 +10,7 @@ CShake shake;
 CNudge GlobalNudge;
 
 CLIST_INTERFACE *pcli;
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 static IconItem iconList[] =

@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 char g_szMirVer[100];
 HANDLE g_hCallEvent;

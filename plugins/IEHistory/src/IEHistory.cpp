@@ -22,7 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "services.h"
 
 CMPlugin g_plugin;
-int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
+int &hLangpack(g_plugin.m_hLang);
+
 HICON hIcon;
 HINSTANCE hInstance;
 MWindowList hOpenWindowsList = nullptr;

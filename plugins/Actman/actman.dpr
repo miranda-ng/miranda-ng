@@ -136,18 +136,13 @@ begin
   begin
     if p^.Hash=0 then
       p^.Hash:=Hash(p^.Name,StrLen(p^.Name));
-    //!! must add icon registration in icolib
-{
-    StrCopy(pc,p^.Name);
-    ii.szDescr  :=p^.Name;
-    ii.DefIconID:=;
-    Icon_Register(hInstance,'Actions',@ii,1);
-}
+    
     sid.hDefaultIcon   :=LoadImageA(hInstance,p^.Icon,IMAGE_ICON,16,16,0);
     sid.szDescription.a:=p^.Name;
     StrCopy(pc,p^.Name);
     Skin_AddIcon(@sid);
-    DestroyIcon(sid.hDefaultIcon);
+ 
+   DestroyIcon(sid.hDefaultIcon);
 
     p:=p^.Next;
   end;

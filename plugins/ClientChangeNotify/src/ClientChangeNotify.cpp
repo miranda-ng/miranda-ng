@@ -21,8 +21,9 @@
 
 HANDLE    g_hMainThread;
 HGENMENU  g_hTogglePopupsMenuItem;
+
 CMPlugin g_plugin;
-int       hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
 BOOL bPopupExists = FALSE, bFingerprintExists = FALSE, bVariablesExists = FALSE;

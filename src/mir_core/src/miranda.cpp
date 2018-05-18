@@ -40,7 +40,6 @@ void InitMetaContacts();
 void InitTimeZones();
 void InitWinver();
 
-int hLangpack = 0;
 HINSTANCE g_hInst = nullptr;
 
 HCURSOR g_hCursorNS, g_hCursorWE;

@@ -17,7 +17,7 @@ PLUGININFOEX pluginInfo =
 CLIST_INTERFACE *pcli;
 MWindowList hFileList;
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 char *szServiceTitle = SERVICE_TITLE;
 char *szServicePrefix = SERVICE_PREFIX;

@@ -1,8 +1,9 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-int	hLangpack;
-HANDLE	hFolder;
+int &hLangpack(g_plugin.m_hLang);
+
+HANDLE hFolder;
 char g_szMirVer[100];
 
 PLUGININFOEX pluginInfo = {

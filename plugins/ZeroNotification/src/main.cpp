@@ -10,7 +10,7 @@ https://miranda-ng.org/
 
 CMPlugin g_plugin;
 HGENMENU noSoundMenu;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 int OptionsInitialize(WPARAM, LPARAM);
 

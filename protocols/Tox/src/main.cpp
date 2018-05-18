@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
 HANDLE hProfileFolderPath;

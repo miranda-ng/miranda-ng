@@ -62,6 +62,8 @@ extern "C"
 {
 #endif
 
+extern int &hLangpack; // gotta be killed soon
+
 ///////////////////////////////////////////////////////////////////////////////
 // command line support
 
@@ -153,8 +155,6 @@ MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl);
 ///////////////////////////////////////////////////////////////////////////////
 // icons support
 
-extern int hLangpack;
-
 typedef struct tagIconItem
 {
 	char  *szDescr, *szName;
@@ -173,11 +173,11 @@ typedef struct tagIconItemT
 	IconItemT;
 
 #if defined( __cplusplus )
-MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix = nullptr, int = hLangpack);
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, char *prefix = nullptr, int = hLangpack);
+MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, const char *prefix = nullptr, int = hLangpack);
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, const char *prefix = nullptr, int = hLangpack);
 #else
-MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix, int hLangpack);
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, char *prefix, int hLangpack);
+MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, const char *prefix, int hLangpack);
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, const char *prefix, int hLangpack);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////

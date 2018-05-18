@@ -80,7 +80,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 }; 
 
 extern HICON hIcon; //history icon
-extern int hLangpack;
 extern MWindowList hOpenWindowsList;
 
 extern PLUGININFOEX pluginInfo;

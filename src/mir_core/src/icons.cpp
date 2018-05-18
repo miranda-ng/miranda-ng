@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconItem *pIcons, size_t iCount, char *prefix, int _hLang)
+MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconItem *pIcons, size_t iCount, const char *prefix, int _hLang)
 {
 	wchar_t szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
@@ -48,7 +48,7 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 	}
 }
 
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t *szSection, IconItemT *pIcons, size_t iCount, char *prefix, int _hLang)
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t *szSection, IconItemT *pIcons, size_t iCount, const char *prefix, int _hLang)
 {
 	wchar_t szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);

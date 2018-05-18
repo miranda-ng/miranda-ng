@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
-int hLangpack;
+int _hLang;
+int &hLangpack(_hLang);
 
 static TTBButton* MakeTBButton(lua_State *L)
 {

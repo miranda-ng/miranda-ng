@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CLIST_INTERFACE *pcli;
 
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),

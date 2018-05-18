@@ -32,7 +32,7 @@ HANDLE hWindowEvent = nullptr;
 static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };
 
 CMPlugin g_plugin;
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 CHAT_MANAGER *pci;
 
 #define FROM_CLIPBOARD 10

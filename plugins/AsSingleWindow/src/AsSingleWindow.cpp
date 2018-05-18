@@ -6,7 +6,7 @@
 
 CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 PLUGININFOEX pluginInfo = {
 	 sizeof(PLUGININFOEX),

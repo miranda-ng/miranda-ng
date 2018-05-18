@@ -48,7 +48,7 @@ PLUGININFOEX pluginInfo = {
 };
 
 CMPlugin g_plugin;
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

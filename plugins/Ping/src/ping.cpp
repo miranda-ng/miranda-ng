@@ -2,7 +2,7 @@
 
 CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 
 HNETLIBUSER hNetlibUser = nullptr;
 HANDLE hFillListEvent = nullptr;

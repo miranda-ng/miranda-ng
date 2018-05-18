@@ -83,7 +83,7 @@ bool bLimitOnlyWhenOnline = true;
 bool bShutdownInProgress = false;
 
 CMPlugin g_plugin;
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 
 extern HWND hwndStatsticView;
 

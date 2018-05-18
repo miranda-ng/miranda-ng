@@ -48,7 +48,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	{}
 };
 
-extern INT hLangpack;
 extern HWND hDialogWnd; // глобально используется для вывода туда в реалтайме сканкодов клавы, из хука
 extern HHOOK hHook;
 

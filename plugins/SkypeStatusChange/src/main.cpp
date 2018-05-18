@@ -4,7 +4,7 @@
 
 #pragma comment(lib, "Comctl32.lib")
 
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 int SSC_OptInitialise(WPARAM wp, LPARAM lp);

@@ -58,7 +58,7 @@ bool g_bInitialized;
 
 // Plugin Information
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 

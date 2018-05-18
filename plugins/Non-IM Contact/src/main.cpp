@@ -7,7 +7,7 @@
 #include "Version.h"
 
 CLIST_INTERFACE *pcli;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 INT_PTR doubleClick(WPARAM wParam, LPARAM)
 {

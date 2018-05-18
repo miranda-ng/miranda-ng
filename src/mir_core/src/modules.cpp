@@ -702,6 +702,8 @@ struct CMPlugin : public CMPluginBase
 	{}
 } g_plugin;
 
+int &hLangpack(g_plugin.m_hLang);
+
 LIST<CMPluginBase> pluginListAddr(10, HandleKeySortT);
 
 MIR_CORE_DLL(void) RegisterModule(CMPluginBase *pPlugin)

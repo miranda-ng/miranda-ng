@@ -28,7 +28,7 @@
 #include "m_extraicons.h"
 #include "m_icolib.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 BOOL bPopupService = FALSE;
 

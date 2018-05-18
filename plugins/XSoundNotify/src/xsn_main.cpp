@@ -9,7 +9,7 @@ There is no warranty.
 
 #include "stdafx.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 

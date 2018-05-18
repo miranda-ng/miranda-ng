@@ -63,7 +63,7 @@ BOOL       bIsCListShow;
 HGENMENU	hMenuItemRemove, hMenuItemHideAll, hMainMenuItemHideAll;
 
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
 //Options

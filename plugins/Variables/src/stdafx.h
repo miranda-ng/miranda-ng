@@ -156,7 +156,6 @@ struct ParseOptions {
 };
 
 extern ParseOptions gParseOpts;
-extern int hLangpack;
 
 // variables.c
 //int isValidTokenChar(char c);

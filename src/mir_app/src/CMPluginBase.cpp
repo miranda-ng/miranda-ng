@@ -47,6 +47,8 @@ void CMPluginBase::tryOpenLog()
 	m_hLogger = mir_createLog(m_szModuleName, nullptr, path, 0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CMPluginBase::debugLogA(LPCSTR szFormat, ...)
 {
 	if (m_hLogger == nullptr)
@@ -68,6 +70,8 @@ void CMPluginBase::debugLogW(LPCWSTR wszFormat, ...)
 	mir_writeLogVW(m_hLogger, wszFormat, args);
 	va_end(args);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMPluginBase::RegisterProtocol(int type, pfnInitProto fnInit, pfnUninitProto fnUninit)
 {

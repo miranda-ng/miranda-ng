@@ -20,7 +20,7 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-int hLangpack = 0;
+int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns the extended information about a plugin

@@ -45,7 +45,7 @@ MCONTACT user_session_list[255] = { 0 };
 MCONTACT session_list_recovered[255];
 
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 int OptionsInit(WPARAM, LPARAM);
 

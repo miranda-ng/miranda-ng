@@ -45,7 +45,7 @@ unsigned status;
 unsigned old_status;
 
 UINT_PTR timerId;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 MYOPTIONS opt;
 

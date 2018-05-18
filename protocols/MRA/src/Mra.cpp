@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
 HMODULE   g_hDLLXStatusIcons;

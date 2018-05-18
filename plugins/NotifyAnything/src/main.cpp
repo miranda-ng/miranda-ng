@@ -25,7 +25,7 @@ std::wstring g_mirandaDir;
 mir_cs g_wsocklock;
 
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

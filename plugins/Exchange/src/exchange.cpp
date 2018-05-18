@@ -22,8 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HICON hiMailIcon = nullptr;
 HWND hEmailsDlg = nullptr;
-int hLangpack=0;
+
 CMPlugin g_plugin;
+int &hLangpack(g_plugin.m_hLang);
 
 CExchangeServer exchangeServer;
 

@@ -19,8 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-int hLangpack;
-
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin() :
@@ -28,6 +26,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	{}
 }
 g_plugin;
+
+int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

@@ -11,7 +11,7 @@ There is no warranty.
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 UINT hTimer;
 HANDLE hMirandaStarted, hOptionsInitial;
 HNETLIBUSER hNetlibUser;

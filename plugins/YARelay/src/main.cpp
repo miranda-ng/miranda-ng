@@ -22,7 +22,7 @@ Features:
 #include "../../utils/mir_buffer.h"
 
 CMPlugin g_plugin;
-int hLangpack;
+int &hLangpack(g_plugin.m_hLang);
 
 MCONTACT hForwardFrom, hForwardTo;
 wchar_t tszForwardTemplate[MAXTEMPLATESIZE]; 
