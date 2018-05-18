@@ -198,6 +198,6 @@ MBaseProto* Proto_GetProto(const char *szProtoName);
 
 extern "C"
 {
-	MIR_CORE_DLL(int)  Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
+	MIR_CORE_DLL(int)  Langpack_MarkPluginLoaded(const MUUID &uuid);
 	MIR_CORE_DLL(int)  GetSubscribersCount(struct THook *hHook);
 };

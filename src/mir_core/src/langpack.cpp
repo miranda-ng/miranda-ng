@@ -586,9 +586,9 @@ MIR_CORE_DLL(MUUID*) Langpack_LookupUuid(WPARAM wParam)
 	return (idx > 0 && idx <= lMuuids.getCount()) ? lMuuids[idx - 1] : nullptr;
 }
 
-MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX *pInfo)
+MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(const MUUID &uuid)
 {
-	int idx = lMuuids.getIndex(&pInfo->uuid);
+	int idx = lMuuids.getIndex((MUUID*)&uuid);
 	if (idx == -1)
 		return 0;
 
@@ -686,7 +686,7 @@ void GetDefaultLang()
 MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang)
 {
 	if (_hLang && pInfo)
-		*(int*)_hLang = GetPluginLangId(pInfo->uuid, Langpack_MarkPluginLoaded((PLUGININFOEX*)pInfo));
+		*(int*)_hLang = GetPluginLangId(pInfo->uuid, Langpack_MarkPluginLoaded(pInfo->uuid));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
