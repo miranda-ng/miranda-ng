@@ -269,7 +269,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 void NetlibLogShowOptions(void)
 {
 	if (logOptions.hwndOpts == nullptr)
-		logOptions.hwndOpts = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_NETLIBLOGOPTS), nullptr, LogOptionsDlgProc);
+		logOptions.hwndOpts = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_NETLIBLOGOPTS), nullptr, LogOptionsDlgProc);
 	SetForegroundWindow(logOptions.hwndOpts);
 }
 

@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "skin.h"
 #include <m_history.h>
 
-CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si) :
-	CDlgBase(hInst, idDialog),
+CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_INFO *si) :
+	CDlgBase(pPlugin, idDialog),
 	m_log(this, IDC_SRMM_LOG),
 	m_message(this, IDC_SRMM_MESSAGE),
 	m_nickList(this, IDC_SRMM_NICKLIST),
@@ -410,7 +410,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr,
 			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			hwnd, nullptr, g_hInst, nullptr);
+			hwnd, nullptr, g_plugin.getInst(), nullptr);
 	}
 
 	RECT clientRect;
@@ -418,7 +418,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 
 	TOOLINFO ti = { sizeof(ti) };
 	ti.uFlags = TTF_SUBCLASS;
-	ti.hinst = g_hInst;
+	ti.hinst = g_plugin.getInst();
 	ti.hwnd = hwnd;
 	ti.uId = 1;
 	ti.rect = clientRect;
@@ -712,7 +712,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					wszText.Insert(0, L"mailto:");
 
 				if (pLink->msg == WM_RBUTTONDOWN) {
-					HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+					HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 					HMENU hSubMenu = GetSubMenu(hMenu, 6);
 					TranslateMenu(hSubMenu);
 

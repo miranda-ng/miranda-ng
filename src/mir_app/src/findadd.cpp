@@ -432,7 +432,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_FINDADD), FindAddDlgResizer, (LPARAM)dat);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_FINDADD), FindAddDlgResizer, (LPARAM)dat);
 		ReposTinySearchDlg(hwndDlg, dat);
 		SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_SIZE, 0, 0);
 		if (dat->notSearchedYet) {
@@ -988,7 +988,7 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 				netProtoCount++;
 		}
 		if (netProtoCount > 0)
-			hwndFindAdd = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_FINDADD), nullptr, DlgProcFindAdd);
+			hwndFindAdd = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FINDADD), nullptr, DlgProcFindAdd);
 	}
 	return 0;
 }

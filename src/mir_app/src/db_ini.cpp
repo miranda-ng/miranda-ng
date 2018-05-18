@@ -51,7 +51,7 @@ public:
 };
 
 CInstallIniDlg::CInstallIniDlg(wchar_t *szIniPath)
-	: CDlgBase(g_hInst, IDD_INSTALLINI),
+	: CDlgBase(g_plugin, IDD_INSTALLINI),
 	m_noToAll(this, IDC_NOTOALL), m_viewIni(this, IDC_VIEWINI),
 	m_iniName(this, IDC_ININAME), m_securityInfo(this, IDC_SECURITYINFO)
 {
@@ -147,7 +147,7 @@ public:
 };
 
 CWarnIniChangeDlg::CWarnIniChangeDlg(warnSettingChangeInfo_t *warnInfo)
-	: CDlgBase(g_hInst, IDD_WARNINICHANGE),
+	: CDlgBase(g_plugin, IDD_WARNINICHANGE),
 	m_yes(this, IDYES), m_no(this, IDNO),
 	m_cancel(this, IDCANCEL), m_noWarn(this, IDC_WARNNOMORE),
 	m_iniName(this, IDC_ININAME), m_settingName(this, IDC_SETTINGNAME),
@@ -224,7 +224,7 @@ void CIniImportDoneDlg::OnInitDialog()
 }
 
 CIniImportDoneDlg::CIniImportDoneDlg(wchar_t *path)
-	: CDlgBase(g_hInst, IDD_INIIMPORTDONE),
+	: CDlgBase(g_plugin, IDD_INIIMPORTDONE),
 	m_delete(this, IDC_DELETE), m_leave(this, IDC_LEAVE),
 	m_recycle(this, IDC_RECYCLE), m_move(this, IDC_MOVE),
 	m_iniPath(this, IDC_ININAME), m_newPath(this, IDC_NEWNAME)

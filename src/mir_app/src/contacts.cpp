@@ -307,7 +307,7 @@ class CContactOptsDlg : public CDlgBase
 
 public:
 	CContactOptsDlg() :
-		CDlgBase(g_hInst, IDD_OPT_CONTACT),
+		CDlgBase(g_plugin, IDD_OPT_CONTACT),
 		m_nameOrder(this, IDC_NAMEORDER)
 	{
 		m_nameOrder.SetFlags(MTREE_DND);

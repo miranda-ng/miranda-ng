@@ -50,11 +50,12 @@ ITaskbarList3 *pTaskbarInterface;
 
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
 HANDLE hShutdownEvent, hPreShutdownEvent;
-HINSTANCE g_hInst;
 DWORD hMainThreadId;
-int hLangpack = 0;
 bool bModulesLoadedFired = false, bMirandaTerminated = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
+
+CMPlugin g_plugin;
+int hLangpack = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -95,7 +96,9 @@ MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent)
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID)
 {
 	if (dwReason == DLL_PROCESS_ATTACH) {
-		g_hInst = hinstDLL;
+		g_plugin.setInst(hinstDLL);
+		RegisterModule(&g_plugin);
+
 		g_iIconX = GetSystemMetrics(SM_CXICON);
 		g_iIconY = GetSystemMetrics(SM_CYICON);
 		g_iIconSX = GetSystemMetrics(SM_CXSMICON);
@@ -191,7 +194,7 @@ public:
 };
 
 CWaitRestartDlg::CWaitRestartDlg(HANDLE hProcess)
-	: CDlgBase(g_hInst, IDD_WAITRESTART), m_timer(this, 1),
+	: CDlgBase(g_plugin, IDD_WAITRESTART), m_timer(this, 1),
 	m_progress(this, IDC_PROGRESSBAR), m_cancel(this, IDCANCEL)
 {
 	m_autoClose = 0;
@@ -392,7 +395,7 @@ MIR_APP_DLL(bool) Miranda_OkToExit()
 MIR_APP_DLL(DWORD) Miranda_GetVersion()
 {
 	wchar_t filename[MAX_PATH];
-	GetModuleFileName(g_hInst, filename, _countof(filename));
+	GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
 	PVOID pVerInfo = _alloca(verInfoSize);
@@ -410,7 +413,7 @@ MIR_APP_DLL(DWORD) Miranda_GetVersion()
 MIR_APP_DLL(void) Miranda_GetFileVersion(MFileVersion *pVer)
 {
 	wchar_t filename[MAX_PATH];
-	GetModuleFileName(g_hInst, filename, _countof(filename));
+	GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
 	PVOID pVerInfo = _alloca(verInfoSize);
@@ -429,7 +432,7 @@ MIR_APP_DLL(void) Miranda_GetFileVersion(MFileVersion *pVer)
 MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
 {
 	wchar_t filename[MAX_PATH], *productVersion;
-	GetModuleFileName(g_hInst, filename, _countof(filename));
+	GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
 	PVOID pVerInfo = _alloca(verInfoSize);

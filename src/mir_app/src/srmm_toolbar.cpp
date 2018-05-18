@@ -601,7 +601,7 @@ class CSrmmToolbarOptions : public CDlgBase
 
 public:
 	CSrmmToolbarOptions() :
-		CDlgBase(g_hInst, IDD_OPT_TOOLBAR),
+		CDlgBase(g_plugin, IDD_OPT_TOOLBAR),
 		m_gap(this, IDC_SPIN1),
 		m_btnIM(this, IDC_IMCHECK),
 		m_btnChat(this, IDC_CHATCHECK),

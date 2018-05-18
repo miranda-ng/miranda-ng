@@ -38,7 +38,7 @@ class CAuthReqDlg : public CDlgBase
 
 public:
 	CAuthReqDlg(MEVENT hEvent) :
-		CDlgBase(g_hInst, IDD_AUTHREQ),
+		CDlgBase(g_plugin, IDD_AUTHREQ),
 		m_hDbEvent(hEvent),
 		btnOk(this, IDOK),
 		btnCancel(this, IDCANCEL),
@@ -187,7 +187,7 @@ class CAddedDlg : public CDlgBase
 
 public:
 	CAddedDlg(MEVENT hEvent) :
-		CDlgBase(g_hInst, IDD_ADDED),
+		CDlgBase(g_plugin, IDD_ADDED),
 		m_hDbEvent(hEvent),
 		btnOk(this, IDOK),
 		btnAdd(this, IDC_ADD),

@@ -57,7 +57,7 @@ class CMetaOptionsDlg : public CDlgBase
 
 public:
 	CMetaOptionsDlg() :
-		CDlgBase(g_hInst, IDD_METAOPTIONS),
+		CDlgBase(g_plugin, IDD_METAOPTIONS),
 		m_btnUid(this, IDC_RAD_UID),
 		m_btnDid(this, IDC_RAD_DID),
 		m_btnMsg(this, IDC_RAD_MSG),

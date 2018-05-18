@@ -124,7 +124,7 @@ public:
 };
 
 CMetaSelectDlg::CMetaSelectDlg(MCONTACT hContact)
-	: CDlgBase(g_hInst, IDD_METASELECT), m_hContact(hContact),
+	: CDlgBase(g_plugin, IDD_METASELECT), m_hContact(hContact),
 	m_metaList(this, IDC_METALIST), m_sortCheck(this, IDC_CHK_SRT)
 {
 	m_metaList.OnDblClick = Callback(this, &CMetaSelectDlg::MetaList_OnDblClick);

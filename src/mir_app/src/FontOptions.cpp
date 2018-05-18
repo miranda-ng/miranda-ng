@@ -983,7 +983,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				EffectInternal& E = effect_id_list_w2[itemData->effect_id];
 
 				FONTEFFECT es = E.value;
-				if (IDOK == DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSE_FONT_EFFECT), hwndDlg, ChooseEffectDlgProc, (LPARAM)&es)) {
+				if (IDOK == DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSE_FONT_EFFECT), hwndDlg, ChooseEffectDlgProc, (LPARAM)&es)) {
 					for (int i = 0; i < selCount; i++) {
 						itemData = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
 						if (itemData->effect_id < 0)
@@ -1185,7 +1185,7 @@ int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FONTS);
 	odp.szTitle.a = LPGEN("Fonts and colors");
 	odp.szGroup.a = LPGEN("Customize");

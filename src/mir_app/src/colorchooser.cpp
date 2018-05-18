@@ -86,7 +86,7 @@ class CColorChooserDlg : public CDlgBase
 
 public:
 	CColorChooserDlg(CSrmmBaseDialog *pDlg, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser) :
-		CDlgBase(g_hInst, IDD_COLORCHOOSER),
+		CDlgBase(g_plugin, IDD_COLORCHOOSER),
 		m_text(this, IDC_COLORTEXT),
 		m_pDlg(pDlg),
 		m_hwndTarget(hwndTarget),

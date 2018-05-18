@@ -785,7 +785,7 @@ int LoadIcoLibModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	hIconBlank = LoadIconEx(g_hInst, MAKEINTRESOURCE(IDI_BLANK), 0);
+	hIconBlank = LoadIconEx(g_plugin.getInst(), MAKEINTRESOURCE(IDI_BLANK), 0);
 
 	hIcons2ChangedEvent = CreateHookableEvent(ME_SKIN2_ICONSCHANGED);
 	hIconsChangedEvent = CreateHookableEvent(ME_SKIN_ICONSCHANGED);

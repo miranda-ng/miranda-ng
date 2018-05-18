@@ -268,7 +268,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 public:
 	CGenMenuOptionsPage() :
-		CDlgBase(g_hInst, IDD_OPT_GENMENU),
+		CDlgBase(g_plugin, IDD_OPT_GENMENU),
 		m_menuItems(this, IDC_MENUITEMS),
 		m_menuObjects(this, IDC_MENUOBJECTS),
 		m_radio1(this, IDC_RADIO1),

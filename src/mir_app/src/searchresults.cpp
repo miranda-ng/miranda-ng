@@ -345,7 +345,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	ListView_GetItem(GetDlgItem(hwndDlg, IDC_RESULTS), &lvi);
 	ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
 
-	HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+	HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 	HMENU hPopupMenu = GetSubMenu(hMenu, 4);
 	TranslateMenu(hPopupMenu);
 	int commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, x, y, 0, hwndDlg, nullptr);

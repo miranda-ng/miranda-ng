@@ -104,3 +104,10 @@ typedef struct GlobalLogSettingsBase GlobalLogSettings;
 #include <m_chat_int.h>
 
 #include "resource.h"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin() :
+		PLUGIN<CMPlugin>(nullptr)
+	{}
+};

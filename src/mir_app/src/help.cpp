@@ -36,7 +36,7 @@ class CAboutDlg : public CDlgBase
 
 public:
 	CAboutDlg() :
-		CDlgBase(g_hInst, IDD_ABOUT),
+		CDlgBase(g_plugin, IDD_ABOUT),
 		btnLink(this, IDC_CONTRIBLINK),
 		ctrlCredits(this, IDC_CREDITSFILE),
 		ctrlHeaderBar(this, IDC_HEADERBAR),
@@ -61,9 +61,9 @@ public:
 		Miranda_GetVersionText(productVersion, _countof(productVersion));
 		ctrlHeaderBar.SetText(CMStringW(FORMAT, L"Miranda NG\nv%S", productVersion));
 
-		HRSRC hResInfo = FindResource(g_hInst, MAKEINTRESOURCE(IDR_CREDITS), L"TEXT");
-		DWORD ResSize = SizeofResource(g_hInst, hResInfo);
-		HGLOBAL hRes = LoadResource(g_hInst, hResInfo);
+		HRSRC hResInfo = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CREDITS), L"TEXT");
+		DWORD ResSize = SizeofResource(g_plugin.getInst(), hResInfo);
+		HGLOBAL hRes = LoadResource(g_plugin.getInst(), hResInfo);
 		char *pszMsg = (char*)LockResource(hRes);
 		if (pszMsg) {
 			char *pszMsgt = (char*)alloca(ResSize + 1);

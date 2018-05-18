@@ -241,7 +241,7 @@ class CAccountManagerDlg : public CDlgBase
 
 public:
 	CAccountManagerDlg() :
-		CDlgBase(g_hInst, IDD_ACCMGR),
+		CDlgBase(g_plugin, IDD_ACCMGR),
 		m_accList(this, IDC_ACCLIST),
 		m_name(this, IDC_NAME),
 		m_link(this, IDC_LNK_ADDONS, "https://miranda-ng.org/"),
@@ -803,7 +803,7 @@ LRESULT CAccountListCtrl::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CAccountFormDlg::CAccountFormDlg(CAccountManagerDlg *pParent, int action, PROTOACCOUNT *pa) :
-	CDlgBase(g_hInst, IDD_ACCFORM),
+	CDlgBase(g_plugin, IDD_ACCFORM),
 	m_btnOk(this, IDOK),
 	m_accName(this, IDC_ACCNAME),
 	m_prototype(this, IDC_PROTOTYPECOMBO),
@@ -948,7 +948,7 @@ void CAccountListCtrl::InitRename()
 	rc.bottom = rc.top + max(g_iIconSX, PARENT()->m_titleHeight) + 4 - 1;
 	++rc.top; --rc.right;
 
-	m_hwndEdit = ::CreateWindow(L"EDIT", pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, m_hwnd, nullptr, g_hInst, nullptr);
+	m_hwndEdit = ::CreateWindow(L"EDIT", pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, m_hwnd, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(m_hwndEdit, GWLP_USERDATA, (LPARAM)m_parentWnd);
 	mir_subclassWindow(m_hwndEdit, sttEditSubclassProc);
 	SendMessage(m_hwndEdit, WM_SETFONT, (WPARAM)PARENT()->m_hfntTitle, 0);

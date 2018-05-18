@@ -509,7 +509,7 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 900000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NETLIB);
 	odp.szTitle.a = LPGEN("Network");
 	odp.pfnDlgProc = DlgProcNetlibOpts;

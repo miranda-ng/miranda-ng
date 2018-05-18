@@ -468,7 +468,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 				else {
 					TTooltips *ptt = (TTooltips*)mir_alloc(sizeof(TTooltips));
 					ptt->ThreadId = tt.ThreadId;
-					ptt->hwnd = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", TTS_ALWAYSTIP, 0, 0, 0, 0, nullptr, nullptr, g_hInst, nullptr);
+					ptt->hwnd = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", TTS_ALWAYSTIP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 					lToolTips.insert(ptt);
 					bct->hwndToolTips = ptt->hwnd;
 				}

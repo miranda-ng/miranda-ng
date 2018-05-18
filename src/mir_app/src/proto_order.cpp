@@ -146,7 +146,7 @@ class CProtocolOrderOpts : public CDlgBase
 
 public:
 	CProtocolOrderOpts() :
-		CDlgBase(g_hInst, IDD_OPT_PROTOCOLORDER),
+		CDlgBase(g_plugin, IDD_OPT_PROTOCOLORDER),
 		m_order(this, IDC_PROTOCOLORDER),
 		m_btnReset(this, IDC_RESETPROTOCOLDATA),
 		m_bDragging(false),

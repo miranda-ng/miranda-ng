@@ -69,7 +69,7 @@ public:
 };
 
 CLangpackDlg::CLangpackDlg()
-	: CDlgBase(g_hInst, IDD_OPT_LANGUAGES),
+	: CDlgBase(g_plugin, IDD_OPT_LANGUAGES),
 	m_languages(this, IDC_LANGUAGES), m_infoFrame(this, IDC_LANGINFOFRAME),
 	m_authors(this, IDC_LANGAUTHORS),
 	m_locale(this, IDC_LANGLOCALE), m_lastModUsing(this, IDC_LANGMODUSING),

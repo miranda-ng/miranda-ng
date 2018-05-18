@@ -111,7 +111,7 @@ INT_PTR Meta_LoadIcon(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	return (INT_PTR)LoadImage(g_hInst, MAKEINTRESOURCE(id), IMAGE_ICON,
+	return (INT_PTR)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(id), IMAGE_ICON,
 		(wParam & PLIF_SMALL) ? g_iIconX : g_iIconSX,
 		(wParam & PLIF_SMALL) ? g_iIconY : g_iIconSY, 0);
 }

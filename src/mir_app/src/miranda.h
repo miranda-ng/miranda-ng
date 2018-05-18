@@ -63,7 +63,6 @@ void UninitIni(void);
 
 /**** miranda.cpp **********************************************************************/
 
-extern HINSTANCE g_hInst;
 extern DWORD hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
 extern HANDLE hAccListChanged;

@@ -768,7 +768,7 @@ int LoadChatModule(void)
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 
-	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_SRMM));
+	g_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SRMM));
 	TranslateMenu(g_hMenu);
 
 	bInited = true;

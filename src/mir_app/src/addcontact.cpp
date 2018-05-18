@@ -51,7 +51,7 @@ protected:
 
 public:
 	CAddContactDlg() :
-		CDlgBase(g_hInst, IDD_ADDCONTACT),
+		CDlgBase(g_plugin, IDD_ADDCONTACT),
 		m_chkAdded(this, IDC_ADDED),
 		m_chkAuth(this, IDC_AUTH),
 		m_chkOpen(this, IDC_OPEN_WINDOW),

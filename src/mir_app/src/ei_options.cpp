@@ -219,7 +219,7 @@ class CExtraIconOptsDlg : public CDlgBase
 			hItem = m_tree.GetNextSibling(hItem);
 		}
 
-		HMENU menu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_OPT_POPUP));
+		HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_OPT_POPUP));
 		HMENU submenu = GetSubMenu(menu, popup);
 		TranslateMenu(submenu);
 
@@ -243,7 +243,7 @@ class CExtraIconOptsDlg : public CDlgBase
 
 public:
 	CExtraIconOptsDlg() :
-		CDlgBase(g_hInst, IDD_EI_OPTIONS),
+		CDlgBase(g_plugin, IDD_EI_OPTIONS),
 		m_tree(this, IDC_EXTRAORDER)
 	{
 		m_tree.SetFlags(MTREE_DND | MTREE_MULTISELECT);
@@ -261,7 +261,7 @@ public:
 		int cx = g_iIconSX;
 		HIMAGELIST hImageList = ImageList_Create(cx, cx, ILC_COLOR32 | ILC_MASK, 2, 2);
 
-		HICON hBlankIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx, 0);
+		HICON hBlankIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx, 0);
 		ImageList_AddIcon(hImageList, hBlankIcon);
 
 		for (auto &extra : registeredExtraIcons) {

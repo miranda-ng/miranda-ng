@@ -237,7 +237,7 @@ class CPluginOptDlg : public CDlgBase
 
 public:
 	CPluginOptDlg() :
-		CDlgBase(g_hInst, IDD_OPT_PLUGINS),
+		CDlgBase(g_plugin, IDD_OPT_PLUGINS),
 		m_link(this, IDC_GETMOREPLUGINS),
 		m_plugUrl(this, IDC_PLUGINURL, "https://miranda-ng.org/downloads/"),
 		m_author(this, IDC_PLUGINAUTHOR),
@@ -542,7 +542,7 @@ public:
 int PluginOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pDialog = new CPluginOptDlg();
 	odp.position = 1300000000;
 	odp.szTitle.a = LPGEN("Plugins");

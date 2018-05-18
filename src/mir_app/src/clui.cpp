@@ -169,7 +169,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 
 	if (db_get_b(0, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) && !(GetKeyState(VK_SHIFT) & 0x8000))
 		// Ask user for confirmation, and if the contact should be archived (hidden, not deleted)
-		action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND)lParam, AskForConfirmationDlgProc, wParam);
+		action = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND)lParam, AskForConfirmationDlgProc, wParam);
 	else
 		action = IDYES;
 

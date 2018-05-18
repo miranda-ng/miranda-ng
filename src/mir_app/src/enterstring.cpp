@@ -172,7 +172,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		return TRUE;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_ENTER_STRING), sttEnterStringResizer);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_ENTER_STRING), sttEnterStringResizer);
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -255,7 +255,7 @@ INT_PTR __cdecl svcEnterString(WPARAM, LPARAM lParam)
 
 	EnterStringFormParam param;
 	memcpy(&param, pForm, sizeof(ENTER_STRING));
-	if (!DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_ENTER_STRING), GetForegroundWindow(), sttEnterStringDlgProc, LPARAM(&param)))
+	if (!DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ENTER_STRING), GetForegroundWindow(), sttEnterStringDlgProc, LPARAM(&param)))
 		return FALSE;
 
 	pForm->ptszResult = param.ptszResult;

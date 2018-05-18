@@ -325,7 +325,7 @@ int LoadSkinHotkeys(void)
 	wcl.style = 0;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
-	wcl.hInstance = g_hInst;
+	wcl.hInstance = g_plugin.getInst();
 	wcl.hIcon = nullptr;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
@@ -336,7 +336,7 @@ int LoadSkinHotkeys(void)
 
 	g_pid = GetCurrentProcessId();
 
-	g_hwndHotkeyHost = CreateWindow(L"MirandaHotkeyHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
+	g_hwndHotkeyHost = CreateWindow(L"MirandaHotkeyHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowPos(g_hwndHotkeyHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	hhkKeyboard = SetWindowsHookEx(WH_KEYBOARD, sttKeyboardProc, nullptr, hMainThreadId);

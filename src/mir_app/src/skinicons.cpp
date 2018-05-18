@@ -145,15 +145,15 @@ static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
 HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared)
 {
 	HICON hResIcon = bShared ? LoadSmallIconShared(hInstance, lpIconName) : LoadSmallIcon(hInstance, lpIconName);
-	if (hResIcon == nullptr && g_hInst != hInstance) // Icon not found in hInstance, let's try to load it from core
-		hResIcon = bShared ? LoadSmallIconShared(g_hInst, lpIconName) : LoadSmallIcon(g_hInst, lpIconName);
+	if (hResIcon == nullptr && g_plugin.getInst() != hInstance) // Icon not found in hInstance, let's try to load it from core
+		hResIcon = bShared ? LoadSmallIconShared(g_plugin.getInst(), lpIconName) : LoadSmallIcon(g_plugin.getInst(), lpIconName);
 
 	return hResIcon;
 }
 
 int ImageList_AddIcon_NotShared(HIMAGELIST hIml, LPCTSTR szResource)
 {
-	HICON hTempIcon = LoadIconEx(g_hInst, szResource, 0);
+	HICON hTempIcon = LoadIconEx(g_plugin.getInst(), szResource, 0);
 	int res = ImageList_AddIcon(hIml, hTempIcon);
 	Safe_DestroyIcon(hTempIcon);
 	return res;
@@ -382,7 +382,7 @@ MIR_APP_DLL(HICON) Skin_LoadIcon(int idx, bool big)
 int LoadSkinIcons(void)
 {
 	wchar_t modulePath[MAX_PATH];
-	GetModuleFileName(g_hInst, modulePath, _countof(modulePath));
+	GetModuleFileName(g_plugin.getInst(), modulePath, _countof(modulePath));
 
 	char iconName[MAX_PATH];
 	SKINICONDESC sid = {};

@@ -436,7 +436,7 @@ static int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -200000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SOUND);
 	odp.szTitle.a = LPGEN("Sounds");
 	odp.pfnDlgProc = DlgProcSoundOpts;

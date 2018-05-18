@@ -165,7 +165,7 @@ class CIconImportDlg : public CDlgBase
 
 public:
 	CIconImportDlg(CIcoLibOptsDlg *_parent) :
-		CDlgBase(g_hInst, IDD_ICOLIB_IMPORT),
+		CDlgBase(g_plugin, IDD_ICOLIB_IMPORT),
 		m_pParent(_parent),
 		m_preview(this, IDC_PREVIEW),
 		m_iconSet(this, IDC_ICONSET),
@@ -439,7 +439,7 @@ class CIcoLibOptsDlg : public CDlgBase
 	{
 		POINT pt;
 		GetCursorPos(&pt);
-		HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
+		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
 		HMENU hPopup = GetSubMenu(hMenu, 0);
 		TranslateMenu(hPopup);
 		int cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
@@ -545,7 +545,7 @@ class CIcoLibOptsDlg : public CDlgBase
 
 public:
 	CIcoLibOptsDlg() :
-		CDlgBase(g_hInst, IDD_OPT_ICOLIB),
+		CDlgBase(g_plugin, IDD_OPT_ICOLIB),
 		m_preview(this, IDC_PREVIEW),
 		m_btnImport(this, IDC_IMPORT),
 		m_urlGetMore(this, IDC_GETMORE, "https://miranda-ng.org/"),

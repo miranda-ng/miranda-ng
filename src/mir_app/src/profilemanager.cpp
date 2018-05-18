@@ -130,7 +130,7 @@ class CCreateProfileDlg : public CDlgBase
 
 public:
 	CCreateProfileDlg(CCtrlButton &_btn, PROFILEMANAGERDATA *_pd) :
-		CDlgBase(g_hInst, IDD_PROFILE_NEW),
+		CDlgBase(g_plugin, IDD_PROFILE_NEW),
 		m_btnOk(_btn),
 		m_pd(_pd),
 		m_bFocused(false),
@@ -431,7 +431,7 @@ class CChooseProfileDlg : public CDlgBase
 
 public:
 	CChooseProfileDlg(CCtrlButton &_btn, PROFILEMANAGERDATA *_pd) :
-		CDlgBase(g_hInst, IDD_PROFILE_SELECTION),
+		CDlgBase(g_plugin, IDD_PROFILE_SELECTION),
 		m_btnOk(_btn),
 		m_pd(_pd),
 		m_profileList(this, IDC_PROFILELIST)
@@ -569,7 +569,7 @@ class CProfileManager : public CDlgBase
 
 public:
 	CProfileManager(PROFILEMANAGERDATA *_pd) :
-		CDlgBase(g_hInst, IDD_PROFILEMANAGER),
+		CDlgBase(g_plugin, IDD_PROFILEMANAGER),
 		m_btnOk(this, IDOK),
 		m_pd(_pd),
 		m_tab(this, IDC_TABS),
@@ -585,8 +585,8 @@ public:
 	virtual void OnInitDialog()
 	{
 		// MUST NOT be replaced with Window_SetIcon_IcoLib!!!
-		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, g_iIconSX, g_iIconSY, 0));
-		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, g_iIconX, g_iIconY, 0));
+		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, g_iIconSX, g_iIconSY, 0));
+		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, g_iIconX, g_iIconY, 0));
 
 		if (m_pd->noProfiles || shouldAutoCreate(m_pd->ptszProfile))
 			m_tab.ActivatePage(1);

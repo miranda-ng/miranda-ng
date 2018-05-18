@@ -273,7 +273,7 @@ static int VisibilityOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 850000000;
-	odp.hInstance = g_hInst;
+	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VISIBILITY);
 	odp.szTitle.a = LPGEN("Visibility");
 	odp.szGroup.a = LPGEN("Contacts");
