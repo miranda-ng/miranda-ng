@@ -37,8 +37,6 @@ void DestroyModularEngine(void);
 
 int  InitPathUtils(void);
 
-HINSTANCE ProtoGetInstance(const char *szModuleName);
-
 extern HINSTANCE g_hInst;
 extern HWND hAPCWindow;
 extern HANDLE hThreadQueueEmpty;
@@ -83,13 +81,12 @@ struct THook
 	CRITICAL_SECTION csHook;
 };
 
-extern LIST<HINSTANCE__> pluginListAddr;
+extern LIST<CMPluginBase> pluginListAddr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // langpack.cpp
 
-char*  LangPackTranslateString(MUUID* pUuid, const char *szEnglish, const int W);
-wchar_t* LangPackTranslateStringT(int hLangpack, const wchar_t* tszEnglish);
+char* LangPackTranslateString(MUUID* pUuid, const char *szEnglish, const int W);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // threads.cpp

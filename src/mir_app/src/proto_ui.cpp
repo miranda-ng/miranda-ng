@@ -23,14 +23,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE ProtoGetInstance(const char *szModuleName)
+CMPluginBase& ProtoGetInstance(const char *szModuleName)
 {
 	PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
 	if (pa == nullptr)
-		return nullptr;
+		return g_plugin;
 
 	MBaseProto *p = Proto_GetProto(pa->szProtoName);
-	return (p == nullptr) ? nullptr : GetInstByAddress(p->fnInit);
+	return (p == nullptr) ? g_plugin : GetPluginByInstance(p->hInst);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

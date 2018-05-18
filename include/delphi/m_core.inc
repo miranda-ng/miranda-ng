@@ -382,18 +382,6 @@ function mir_wstrcmpi(const p1,p2:PWideChar):int; stdcall;
                  external CoreDLL name 'mir_wstrcmpi';
 
 ///////////////////////////////////////////////////////////////////////////////
-// modules
-
-procedure RegisterModule(hInst:HINST); stdcall;
-                 external CoreDLL name 'RegisterModule';
-procedure UnregisterModule(hInst:HINST); stdcall;
-                 external CoreDLL name 'UnregisterModule';
-
-function GetInstByAddress(codePtr:pointer):HINST; stdcall;
-                 external CoreDLL name 'GetInstByAddress';
-
-
-///////////////////////////////////////////////////////////////////////////////
 // print functions
 
 function mir_snprintf(buffer:PAnsiChar;count:size_t;fmt:PAnsiChar{, ...}):int; stdcall;

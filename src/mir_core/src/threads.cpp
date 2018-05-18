@@ -333,11 +333,14 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &p->hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 	p->dwThreadId = GetCurrentThreadId();
 	p->pObject = pOwner;
-	if (pluginListAddr.getIndex(hInst) != -1)
+	p->pEntryPoint = hInst;
+
+	// try to find the precise match
+	CMPluginBase &pPlugin = GetPluginByInstance(hInst);
+	if (pPlugin.getInst() == hInst)
 		p->hOwner = hInst;
 	else
-		p->hOwner = GetInstByAddress((hInst != nullptr) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
-	p->pEntryPoint = hInst;
+		GetInstByAddress((hInst != nullptr) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
 
 	threads.insert(p);
 	return 0;

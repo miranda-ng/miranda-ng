@@ -157,9 +157,9 @@ class MIR_APP_EXPORT CMPluginBase
 	void tryOpenLog();
 
 protected:
+	HINSTANCE m_hInst;
 	const char *m_szModuleName;
 	HANDLE m_hLogger = nullptr;
-	HINSTANCE m_hInst;
 
 	CMPluginBase(const char *moduleName);
 	~CMPluginBase();

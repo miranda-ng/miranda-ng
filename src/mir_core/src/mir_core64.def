@@ -497,7 +497,7 @@ mir_wstrcmpi                  @280
 ??0CDbLink@@QEAA@PEBD0EK@Z @639 NONAME
 ??0CDbLink@@QEAA@PEBD0EPEA_W@Z @640 NONAME
 ??0CDlgBase@@QEAA@AEBV0@@Z @641 NONAME
-??0CDlgBase@@QEAA@PEAUHINSTANCE__@@H@Z @642 NONAME
+??0CDlgBase@@QEAA@AEAVCMPluginBase@@H@Z @642 NONAME
 ??1CCtrlBase@@UEAA@XZ @645 NONAME
 ??1CCtrlButton@@UEAA@XZ @646 NONAME
 ??1CCtrlCheck@@UEAA@XZ @647 NONAME
@@ -516,7 +516,6 @@ mir_wstrcmpi                  @280
 ??1CDlgBase@@UEAA@XZ @660 NONAME
 ??4CDataLink@@QEAAAEAV0@AEBV0@@Z @675 NONAME
 ??4CDbLink@@QEAAAEAV0@AEBV0@@Z @676 NONAME
-??4CDlgBase@@QEAAAEAV0@AEBV0@@Z @677 NONAME
 ??_7CCtrlBase@@6B@ @679 NONAME
 ??_7CCtrlButton@@6B@ @680 NONAME
 ??_7CCtrlCheck@@6B@ @681 NONAME
@@ -1069,3 +1068,4 @@ IsTerminalDisconnected @1245
 CallObjectEventHook @1259
 ?db_get_sm@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPEBD0@Z @1260 NONAME
 ?db_get_wsm@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@IPEBD0@Z @1261 NONAME
+GetPluginByInstance @1262

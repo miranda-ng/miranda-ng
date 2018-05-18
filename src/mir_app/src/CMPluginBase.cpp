@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CMPluginBase::CMPluginBase(const char *moduleName) :
 	m_szModuleName(moduleName)
 {
+	::RegisterModule(this);
 }
 
 CMPluginBase::~CMPluginBase()
@@ -35,6 +36,8 @@ CMPluginBase::~CMPluginBase()
 		mir_closeLog(m_hLogger);
 		m_hLogger = nullptr;
 	}
+
+	::UnregisterModule(this);
 }
 
 void CMPluginBase::tryOpenLog()

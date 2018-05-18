@@ -309,10 +309,12 @@ MIR_CORE_DLL(wchar_t*) mir_wstrndup(const wchar_t *str, size_t len);
 ///////////////////////////////////////////////////////////////////////////////
 // modules
 
-MIR_CORE_DLL(void) RegisterModule(HINSTANCE hInst);
-MIR_CORE_DLL(void) UnregisterModule(HINSTANCE hInst);
+class CMPluginBase;
+MIR_CORE_DLL(void) RegisterModule(CMPluginBase*);
+MIR_CORE_DLL(void) UnregisterModule(CMPluginBase*);
 
 MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr);
+MIR_CORE_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst);
 
 ///////////////////////////////////////////////////////////////////////////////
 // print functions

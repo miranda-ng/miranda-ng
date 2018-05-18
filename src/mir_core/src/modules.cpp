@@ -695,24 +695,24 @@ static void DestroyServices()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int sttComparePlugins(const HINSTANCE__* p1, const HINSTANCE__* p2)
+struct CMPlugin : public CMPluginBase
 {
-	if (p1 == p2)
-		return 0;
+	CMPlugin() :
+		CMPluginBase(nullptr)
+	{}
+} g_plugin;
 
-	return (p1 < p2) ? -1 : 1;
+LIST<CMPluginBase> pluginListAddr(10, HandleKeySortT);
+
+MIR_CORE_DLL(void) RegisterModule(CMPluginBase *pPlugin)
+{
+	if (pPlugin->getInst() != nullptr)
+		pluginListAddr.insert(pPlugin);
 }
 
-LIST<HINSTANCE__> pluginListAddr(10, sttComparePlugins);
-
-MIR_CORE_DLL(void) RegisterModule(HINSTANCE hInst)
+MIR_CORE_DLL(void) UnregisterModule(CMPluginBase *pPlugin)
 {
-	pluginListAddr.insert(hInst);
-}
-
-MIR_CORE_DLL(void) UnregisterModule(HINSTANCE hInst)
-{
-	pluginListAddr.remove(hInst);
+	pluginListAddr.remove(pPlugin);
 }
 
 MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
@@ -721,17 +721,23 @@ MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
 		return nullptr;
 
 	int idx;
-	List_GetIndex((SortedList*)&pluginListAddr, codePtr, &idx);
+	List_GetIndex((SortedList*)&pluginListAddr, (CMPluginBase*)&codePtr, &idx);
 	if (idx > 0)
 		idx--;
 
-	HINSTANCE result = pluginListAddr[idx];
+	HINSTANCE result = pluginListAddr[idx]->getInst();
 	if (result < g_hInst && codePtr > g_hInst)
-		result = g_hInst;
-	else if (idx == 0 && codePtr < (void*)result)
-		result = nullptr;
+		return g_hInst;
+	if (idx == 0 && codePtr < (void*)result)
+		return nullptr;
 
 	return result;
+}
+
+MIR_CORE_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
+{
+	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
+	return (pPlugin == nullptr) ? g_plugin : *pPlugin;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

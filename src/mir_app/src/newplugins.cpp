@@ -332,7 +332,6 @@ void Plugin_Uninit(pluginEntry *p)
 		// we need to kill all resources which belong to that DLL before calling FreeLibrary
 		KillModuleEventHooks(hInst);
 		KillModuleServices(hInst);
-		UnregisterModule(hInst);
 
 		FreeLibrary(hInst);
 		memset(&p->bpi, 0, sizeof(p->bpi));
@@ -457,7 +456,6 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 			// copy the dblink stuff
 			p->bpi = bpi;
 
-			RegisterModule(p->bpi.hInst);
 			if (bpi.Load() != 0)
 				p->bFailed = true;
 			else
@@ -563,7 +561,6 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 	// contact list is loaded via clistlink, db - via DATABASELINK
 	// so we should call Load() only for usual plugins
 	if (!p->bLoaded && !p->bIsClist && !p->bIsDatabase) {
-		RegisterModule(p->bpi.hInst);
 		if (p->bpi.Load() != 0)
 			return false;
 
@@ -641,7 +638,6 @@ static bool loadClistModule(wchar_t* exe, pluginEntry *p)
 		ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN);
 		ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPSHUT);
 
-		RegisterModule(p->bpi.hInst);
 		if (bpi.clistlink() == 0) {
 			p->bpi = bpi;
 			p->bLoaded = true;
@@ -698,7 +694,6 @@ int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
 	if (!p->bLoaded) {
-		RegisterModule(p->bpi.hInst);
 		if (p->bpi.Load() != ERROR_SUCCESS) {
 			Plugin_Uninit(p);
 			return SERVICE_FAILED;
@@ -870,8 +865,6 @@ int LoadNewPluginsModuleInfos(void)
 	LoadPluginOptions();
 
 	mirandaVersion = Miranda_GetVersion();
-
-	RegisterModule(g_hInst);
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteW(L"mirandaboot.ini", mirandabootini);
