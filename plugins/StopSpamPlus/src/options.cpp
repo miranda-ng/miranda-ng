@@ -9,7 +9,7 @@ class COptMainDlg : public CPluginDlgBase
 
 public:
 	COptMainDlg() :
-		CPluginDlgBase(g_plugin.getInst(), IDD_MAIN, pluginName),
+		CPluginDlgBase(g_plugin, IDD_MAIN, pluginName),
 		edtCount(this, ID_MAXQUESTCOUNT),
 		edtDescr(this, ID_DESCRIPTION),
 		chk1(this, ID_INFTALKPROT),
@@ -44,7 +44,7 @@ class COptMessageDlg : public CPluginDlgBase
 
 public:
 	COptMessageDlg() :
-		CPluginDlgBase(g_plugin.getInst(), IDD_MESSAGES, pluginName),
+		CPluginDlgBase(g_plugin, IDD_MESSAGES, pluginName),
 		btnHelp(this, IDC_VARS),
 		btnRestore(this, ID_RESTOREDEFAULTS),
 		edtQuestion(this, ID_QUESTION),
@@ -94,7 +94,7 @@ class COptAccountDlg : public CPluginDlgBase
 
 public:
 	COptAccountDlg() :
-		CPluginDlgBase(g_plugin.getInst(), IDD_PROTO, pluginName),
+		CPluginDlgBase(g_plugin, IDD_PROTO, pluginName),
 		m_accounts(this, IDC_PROTO)
 	{
 		m_accounts.OnItemChanged = Callback(this, &COptAccountDlg::list_OnItemChanged);

@@ -36,7 +36,7 @@ class COptGpgMainDlg : public CDlgBase
 	CCtrlButton btn_DELETE_KEY_BUTTON, btn_SELECT_KEY, btn_SAVE_KEY_BUTTON, btn_COPY_KEY, btn_LOG_FILE_SET;
 
 public:
-	COptGpgMainDlg() : CDlgBase(g_plugin.getInst(), IDD_OPT_GPG),
+	COptGpgMainDlg() : CDlgBase(g_plugin, IDD_OPT_GPG),
 		list_USERLIST(this, IDC_USERLIST), lbl_CURRENT_KEY(this, IDC_CURRENT_KEY), edit_LOG_FILE_EDIT(this, IDC_LOG_FILE_EDIT),
 		check_DEBUG_LOG(this, IDC_DEBUG_LOG), check_JABBER_API(this, IDC_JABBER_API), check_AUTO_EXCHANGE(this, IDC_AUTO_EXCHANGE), check_FILE_TRANSFERS(this, IDC_FILE_TRANSFERS),
 		btn_DELETE_KEY_BUTTON(this, IDC_DELETE_KEY_BUTTON), btn_SELECT_KEY(this, IDC_SELECT_KEY), btn_SAVE_KEY_BUTTON(this, IDC_SAVE_KEY_BUTTON), btn_COPY_KEY(this, IDC_COPY_KEY), btn_LOG_FILE_SET(this, IDC_LOG_FILE_SET)
@@ -373,7 +373,7 @@ class COptGpgBinDlg : public CDlgBase
 	CCtrlButton btn_SET_BIN_PATH, btn_SET_HOME_DIR;
 
 public:
-	COptGpgBinDlg() : CDlgBase(g_plugin.getInst(), IDD_OPT_GPG_BIN),
+	COptGpgBinDlg() : CDlgBase(g_plugin, IDD_OPT_GPG_BIN),
 		edit_BIN_PATH(this, IDC_BIN_PATH), edit_HOME_DIR(this, IDC_HOME_DIR),
 		btn_SET_BIN_PATH(this, IDC_SET_BIN_PATH), btn_SET_HOME_DIR(this, IDC_SET_HOME_DIR)
 	{
@@ -468,7 +468,7 @@ class COptGpgMsgDlg : public CDlgBase
 	CCtrlEdit edit_IN_OPEN_TAG, edit_IN_CLOSE_TAG, edit_OUT_OPEN_TAG, edit_OUT_CLOSE_TAG;
 
 public:
-	COptGpgMsgDlg() : CDlgBase(g_plugin.getInst(), IDD_OPT_GPG_MESSAGES),
+	COptGpgMsgDlg() : CDlgBase(g_plugin, IDD_OPT_GPG_MESSAGES),
 		check_APPEND_TAGS(this, IDC_APPEND_TAGS), check_STRIP_TAGS(this, IDC_STRIP_TAGS),
 		edit_IN_OPEN_TAG(this, IDC_IN_OPEN_TAG), edit_IN_CLOSE_TAG(this, IDC_IN_CLOSE_TAG), edit_OUT_OPEN_TAG(this, IDC_OUT_OPEN_TAG), edit_OUT_CLOSE_TAG(this, IDC_OUT_CLOSE_TAG)
 	{}
@@ -514,7 +514,7 @@ class COptGpgAdvDlg : public CDlgBase
 	CCtrlCheck check_PRESCENSE_SUBSCRIPTION;
 
 public:
-	COptGpgAdvDlg() : CDlgBase(g_plugin.getInst(), IDD_OPT_GPG_ADVANCED),
+	COptGpgAdvDlg() : CDlgBase(g_plugin, IDD_OPT_GPG_ADVANCED),
 		btn_EXPORT(this, IDC_EXPORT), btn_IMPORT(this, IDC_IMPORT),
 		check_PRESCENSE_SUBSCRIPTION(this, IDC_PRESCENSE_SUBSCRIPTION)
 	{
@@ -570,7 +570,7 @@ class CDlgLoadPubKeyDlg : public CDlgBase
 	CCtrlEdit edit_PUBLIC_KEY_EDIT;
 
 public:
-	CDlgLoadPubKeyDlg() : CDlgBase(g_plugin.getInst(), IDD_LOAD_PUBLIC_KEY),
+	CDlgLoadPubKeyDlg() : CDlgBase(g_plugin, IDD_LOAD_PUBLIC_KEY),
 		chk_ENABLE_ENCRYPTION(this, IDC_ENABLE_ENCRYPTION),
 		btn_SELECT_EXISTING(this, IDC_SELECT_EXISTING), btn_OK(this, ID_OK), btn_LOAD_FROM_FILE(this, ID_LOAD_FROM_FILE), btn_IMPORT(this, IDC_IMPORT),
 		edit_PUBLIC_KEY_EDIT(this, IDC_PUBLIC_KEY_EDIT)

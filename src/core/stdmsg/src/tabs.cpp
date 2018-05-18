@@ -163,7 +163,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CTabbedWindow::CTabbedWindow() :
-	CDlgBase(g_plugin.getInst(), IDD_CONTAINER),
+	CDlgBase(g_plugin, IDD_CONTAINER),
 	m_tab(this, IDC_TAB)
 {
 }

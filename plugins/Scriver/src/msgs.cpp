@@ -326,7 +326,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 // CScriverWindow
 
 CScriverWindow::CScriverWindow(int iDialog, SESSION_INFO *si)
-	: CSrmmBaseDialog(g_plugin.getInst(), iDialog, si)
+	: CSrmmBaseDialog(g_plugin, iDialog, si)
 {
 	m_autoClose = CLOSE_ON_CANCEL;
 }

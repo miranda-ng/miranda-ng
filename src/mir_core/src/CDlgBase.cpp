@@ -45,11 +45,11 @@ static int CompareTimerId(const CTimer *t1, const CTimer *t2)
 	return t1->GetEventId() - t2->GetEventId();
 }
 
-CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog)
+CDlgBase::CDlgBase(CMPluginBase &pPlug, int idDialog)
 	: m_controls(1, CompareControlId),
-	m_timers(1, CompareTimerId)
+	m_timers(1, CompareTimerId),
+	m_pPlugin(pPlug)
 {
-	m_hInst = hInst;
 	m_idDialog = idDialog;
 	m_hwnd = m_hwndParent = nullptr;
 	m_isModal = m_initialized = m_bExiting = false;
@@ -74,13 +74,13 @@ void CDlgBase::Close()
 
 void CDlgBase::Create()
 {
-	CreateDialogParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
+	CreateDialogParam(GetInst(), MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
 
 int CDlgBase::DoModal()
 {
 	m_isModal = true;
-	return DialogBoxParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
+	return DialogBoxParam(GetInst(), MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
 
 void CDlgBase::EndModal(INT_PTR nResult)
@@ -159,7 +159,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_INITDIALOG:
 		m_initialized = false;
-		TranslateDialog_LP(m_hwnd, GetPluginLangByInstance(m_hInst));
+		TranslateDialog_LP(m_hwnd, GetPluginLangByInstance(m_pPlugin.getInst()));
 
 		::EnumChildWindows(m_hwnd, &GlobalFieldEnum, LPARAM(this));
 
@@ -286,7 +286,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SIZE:
 		if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_THICKFRAME))
-			Utils_ResizeDialog(m_hwnd, m_hInst, MAKEINTRESOURCEA(m_idDialog), GlobalDlgResizer);
+			Utils_ResizeDialog(m_hwnd, m_pPlugin.getInst(), MAKEINTRESOURCEA(m_idDialog), GlobalDlgResizer);
 		return TRUE;
 
 	case WM_TIMER:

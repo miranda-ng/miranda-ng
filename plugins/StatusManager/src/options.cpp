@@ -14,7 +14,7 @@ class CSubPluginsOptionsDlg : public CPluginDlgBase
 
 public:
 	CSubPluginsOptionsDlg()
-		: CPluginDlgBase(g_plugin.getInst(), IDD_OPT_SUBPLUGINS, MODULENAME),
+		: CPluginDlgBase(g_plugin, IDD_OPT_SUBPLUGINS, MODULENAME),
 		m_enableKeepStatus(this, IDC_ENABLE_KEEPSTATUS),
 		m_enableStartupStatus(this, IDC_ENABLE_STARTUPSTATUS),
 		m_enableAdvancedAutoAway(this, IDC_ENABLE_ADVANCEDAUTOAWAY)

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 COptions::COptions()
-	: CDlgBase(g_plugin.getInst(), IDD_OPTIONS_MAIN),
+	: CDlgBase(g_plugin, IDD_OPTIONS_MAIN),
 	m_shortcut(this, IDC_SHORTCUT),
 	m_preview(this, IDC_PREVIEW),
 	m_enabled(this, IDC_CHECK_ENABLED)

@@ -193,7 +193,7 @@ class COptionMainDlg : public CPluginDlgBase
 
 public:
 	COptionMainDlg() :
-		CPluginDlgBase(g_plugin.getInst(), IDD_OPT_MSGDLG, SRMMMOD),
+		CPluginDlgBase(g_plugin, IDD_OPT_MSGDLG, SRMMMOD),
 		tree(this, IDC_POPLIST),
 		edtSecs(this, IDC_SECONDS),
 		edtNFlash(this, IDC_NFLASHES),
@@ -315,7 +315,7 @@ class COptionLogDlg : public CPluginDlgBase
 
 public:
 	COptionLogDlg() :
-		CPluginDlgBase(g_plugin.getInst(), IDD_OPT_MSGLOG, SRMMMOD),
+		CPluginDlgBase(g_plugin, IDD_OPT_MSGLOG, SRMMMOD),
 		chkSecs(this, IDC_SHOWSECS),
 		chkDate(this, IDC_SHOWDATES),
 		chkTime(this, IDC_SHOWTIMES),
@@ -418,7 +418,7 @@ class COptionTypingDlg : public CPluginDlgBase
 
 public:
 	COptionTypingDlg() :
-		CPluginDlgBase(g_plugin.getInst(), IDD_OPT_MSGTYPE, SRMMMOD),
+		CPluginDlgBase(g_plugin, IDD_OPT_MSGTYPE, SRMMMOD),
 		clist(this, IDC_CLIST),
 		chkType(this, IDC_SHOWNOTIFY),
 		chkTypeWin(this, IDC_TYPEWIN),
@@ -529,7 +529,7 @@ class COptionsTabDlg : public CDlgBase
 
 public:
 	COptionsTabDlg() :
-		CDlgBase(g_plugin.getInst(), IDD_OPT_TABS),
+		CDlgBase(g_plugin, IDD_OPT_TABS),
 		m_chkTabs(this, IDC_USETABS),
 		m_chkTabsBottom(this, IDC_TABSBOTTOM),
 		m_chkTabsClose(this, IDC_CLOSETABS),

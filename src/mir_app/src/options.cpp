@@ -172,8 +172,8 @@ class COptionPageDialog : public CDlgBase
 	LPARAM  m_lParam;
 
 public:
-	COptionPageDialog(HINSTANCE hInst, int idDialog, DLGPROC pProc, LPARAM lParam) :
-		CDlgBase(hInst, idDialog),
+	COptionPageDialog(CMPluginBase &pPlug, int idDialog, DLGPROC pProc, LPARAM lParam) :
+		CDlgBase(pPlug, idDialog),
 		m_wndProc(pProc),
 		m_lParam(lParam)
 	{
@@ -200,7 +200,7 @@ struct OptionsPageData : public MZeroedObject
 	OptionsPageData(const OPTIONSDIALOGPAGE &src)
 	{
 		if (src.hInstance != nullptr && src.pszTemplate != nullptr)
-			pDialog = new COptionPageDialog(src.hInstance, (INT_PTR)src.pszTemplate, src.pfnDlgProc, src.dwInitParam);
+			pDialog = new COptionPageDialog(::GetPluginByInstance(src.hInstance), (INT_PTR)src.pszTemplate, src.pfnDlgProc, src.dwInitParam);
 		else
 			pDialog = src.pDialog;
 		assert(pDialog != nullptr);
@@ -438,13 +438,13 @@ class COptionsDlg : public CDlgBase
 		int countKnownInst = 0;
 		m_keywordFilter.ResetContent();
 		m_keywordFilter.AddString(ALL_MODULES_FILTER, 0);
-		m_keywordFilter.AddString(CORE_MODULES_FILTER, (LPARAM)g_hInst);
+		m_keywordFilter.AddString(CORE_MODULES_FILTER, (LPARAM)g_plugin.getInst());
 
 		for (auto &opd : m_arOpd) {
 			opd->FindFilterStrings(false, 0, m_hwnd); // only modules name (fast enougth)
 
 			HINSTANCE inst = opd->getInst();
-			if (inst == g_hInst)
+			if (inst == g_plugin.getInst())
 				continue;
 
 			int j;
@@ -512,7 +512,7 @@ class COptionsDlg : public CDlgBase
 		else if (mir_wstrcmp(m_szFilterString, CORE_MODULES_FILTER) == 0) {
 			// replace string with process name - that will show core settings
 			wchar_t szFileName[300];
-			GetModuleFileName(g_hInst, szFileName, _countof(szFileName));
+			GetModuleFileName(g_plugin.getInst(), szFileName, _countof(szFileName));
 			wchar_t *pos = wcsrchr(szFileName, '\\');
 			if (pos)
 				pos++;
@@ -685,7 +685,7 @@ class COptionsDlg : public CDlgBase
 
 public:
 	COptionsDlg(const wchar_t *pszCaption, const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, bool bSinglePage, const OptionsPageList &arPages) :
-		CDlgBase(g_hInst, bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS),
+		CDlgBase(g_plugin, bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS),
 		m_btnApply(this, IDC_APPLY),
 		m_btnCancel(this, IDCANCEL),
 		m_pageTree(this, IDC_PAGETREE),

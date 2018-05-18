@@ -247,7 +247,7 @@ void CToxOptionsMain::OnApply()
 /////////////////////////////////////////////////////////////////////////////////
 
 CToxNodeEditor::CToxNodeEditor(int iItem, CCtrlListView *m_nodes)
-	: CSuper(g_plugin.getInst(), IDD_NODE_EDITOR),
+	: CSuper(g_plugin, IDD_NODE_EDITOR),
 	m_ipv4(this, IDC_IPV4), m_ipv6(this, IDC_IPV6),
 	m_port(this, IDC_PORT), m_pkey(this, IDC_PKEY),
 	m_ok(this, IDOK), m_iItem(iItem)

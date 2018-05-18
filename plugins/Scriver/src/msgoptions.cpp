@@ -622,7 +622,7 @@ class CLogOptionsDlg : public CDlgBase
 
 public:
 	CLogOptionsDlg() :
-		CDlgBase(g_plugin.getInst(), IDD_OPT_MSGLOG),
+		CDlgBase(g_plugin, IDD_OPT_MSGLOG),
 		m_log(this, IDC_SRMM_LOG)
 	{}
 

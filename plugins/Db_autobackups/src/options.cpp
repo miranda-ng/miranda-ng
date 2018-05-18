@@ -17,7 +17,7 @@ Options::Options() :
 Options options;
 
 COptionsDlg::COptionsDlg()
-	: CPluginDlgBase(g_plugin.getInst(), IDD_OPTIONS, MODULE),
+	: CPluginDlgBase(g_plugin, IDD_OPTIONS, MODULE),
 	m_disable(this, IDC_RAD_DISABLED), m_backupOnStart(this, IDC_RAD_START),
 	m_backupOnExit(this, IDC_RAD_EXIT), m_backupPeriodic(this, IDC_RAD_PERIODIC),
 	m_backup(this, IDC_BUT_NOW), m_backupProfile(this, IDC_BACKUPPROFILE),

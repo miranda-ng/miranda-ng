@@ -26,7 +26,7 @@ class COptionsDialog : public CPluginDlgBase
 	CCtrlCheck m_chkOnlyForRecent;
 public:
 	COptionsDialog() : 
-		CPluginDlgBase(g_plugin.getInst(), IDD_AUTHSTATE_OPT, MODULENAME),
+		CPluginDlgBase(g_plugin, IDD_AUTHSTATE_OPT, MODULENAME),
 		m_chkAuthIcon(this, IDC_AUTHICON),
 		m_chkGrantIcon(this, IDC_GRANTICON),
 		m_chkMenuItem(this, IDC_ENABLEMENUITEM),

@@ -62,7 +62,7 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 // basic window class
 
 CTabBaseDlg::CTabBaseDlg(int iResource, SESSION_INFO *si)
-	: CSrmmBaseDialog(g_plugin.getInst(), iResource, si),
+	: CSrmmBaseDialog(g_plugin, iResource, si),
 	m_pPanel(this),
 	m_dwFlags(MWF_INITMODE),
 	m_iInputAreaHeight(-1)

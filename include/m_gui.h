@@ -395,7 +395,7 @@ class MIR_CORE_EXPORT CDlgBase
 	friend class CCtrlData;
 
 public:
-	CDlgBase(HINSTANCE hInst, int idDialog);
+	CDlgBase(class CMPluginBase &pPlug, int idDialog);
 	virtual ~CDlgBase();
 
 	// general utilities
@@ -413,7 +413,7 @@ public:
 	void NotifyChange(void); // sends a notification to a parent window
 
 	__forceinline void Fail() { m_lresult = false; }
-	__forceinline HINSTANCE GetInst() const { return m_hInst; }
+	__forceinline HINSTANCE GetInst() const { return m_pPlugin.getInst(); }
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline void Hide() { Show(SW_HIDE); }
 	__forceinline bool IsInitialized() const { return m_initialized; }
@@ -424,15 +424,16 @@ public:
 	static CDlgBase* Find(HWND hwnd);
 
 protected:
-	HWND      m_hwnd;  // must be the first data item
-	HINSTANCE m_hInst;
-	HWND      m_hwndParent;
-	int       m_idDialog;
-	bool      m_isModal;
-	bool      m_initialized;
-	bool      m_forceResizable;
-	bool      m_bExiting; // window received WM_CLOSE and gonna die soon
-	LRESULT   m_lresult;
+	HWND    m_hwnd;  // must be the first data item
+	HWND    m_hwndParent;
+	int     m_idDialog;
+	bool    m_isModal;
+	bool    m_initialized;
+	bool    m_forceResizable;
+	bool    m_bExiting; // window received WM_CLOSE and gonna die soon
+	LRESULT m_lresult;
+
+	CMPluginBase &m_pPlugin;
 
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
 	BYTE    m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
@@ -1494,7 +1495,9 @@ class CPluginDlgBase : public CDlgBase
 {
 	const char *m_szModule;
 public:
-	CPluginDlgBase(HINSTANCE hInst, int idDialog, const char *module) : CDlgBase(hInst, idDialog), m_szModule(module) {};
+	CPluginDlgBase(CMPluginBase &pPlug, int idDialog, const char *module) : 
+		CDlgBase(pPlug, idDialog), m_szModule(module)
+	{};
 
 	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
 	{

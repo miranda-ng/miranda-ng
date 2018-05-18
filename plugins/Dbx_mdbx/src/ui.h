@@ -40,7 +40,7 @@ class COptionsDialog : public CDlgBase
 
 public:
 	COptionsDialog(CDbxMDBX *db) :
-		CDlgBase(g_plugin.getInst(), IDD_OPTIONS),
+		CDlgBase(g_plugin, IDD_OPTIONS),
 		m_chkStandart(this, IDC_STANDARD),
 		m_chkTotal(this, IDC_TOTAL),
 		m_btnChangePass(this, IDC_USERPASS),
@@ -84,7 +84,7 @@ class CSelectCryptoDialog : public CDlgBase
 
 public:
 	CSelectCryptoDialog(CRYPTO_PROVIDER **provs, size_t count) :
-		CDlgBase(g_plugin.getInst(), IDD_SELECT_CRYPTOPROVIDER),
+		CDlgBase(g_plugin, IDD_SELECT_CRYPTOPROVIDER),
 		m_combo(this, IDC_SELECTCRYPT_COMBO),
 		m_descr(this, IDC_CRYPTOPROVIDER_DESCR),
 		m_chkTotalCrypt(this, IDC_CHECK_TOTALCRYPT),
@@ -180,7 +180,7 @@ class CEnterPasswordDialog : public CDlgBase
 
 public:
 	CEnterPasswordDialog(DlgChangePassParam *param) :
-		CDlgBase(g_plugin.getInst(), IDD_LOGIN),
+		CDlgBase(g_plugin, IDD_LOGIN),
 		m_header(this, IDC_HEADERBAR),
 		m_language(this, IDC_LANG),
 		m_passwordEdit(this, IDC_USERPASS),

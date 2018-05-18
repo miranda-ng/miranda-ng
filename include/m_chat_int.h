@@ -403,7 +403,7 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 	CSrmmBaseDialog& operator=(const CSrmmBaseDialog&) = delete;
 
 protected:
-	CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si = nullptr);
+	CSrmmBaseDialog(CMPluginBase&, int idDialog, SESSION_INFO *si = nullptr);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;

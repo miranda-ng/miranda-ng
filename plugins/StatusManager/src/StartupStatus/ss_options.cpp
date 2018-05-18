@@ -140,7 +140,7 @@ class CCmdlDlg : public CDlgBase
 
 public:
 	CCmdlDlg(int iProfileNo)
-		: CDlgBase(g_plugin.getInst(), IDD_CMDLOPTIONS),
+		: CDlgBase(g_plugin, IDD_CMDLOPTIONS),
 		btnCopy(this, IDC_COPY),
 		btnLink(this, IDC_SHORTCUT),
 		ps(protoList)
@@ -453,7 +453,7 @@ class CAddProfileDlg : public CDlgBase
 
 public:
 	CAddProfileDlg()
-		: CDlgBase(g_plugin.getInst(), IDD_ADDPROFILE),
+		: CDlgBase(g_plugin, IDD_ADDPROFILE),
 		btnOk(this, IDOK),
 		edtProfile(this, IDC_PROFILENAME)
 	{
@@ -588,7 +588,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 
 public:
 	CSSAdvancedOptDlg() :
-		CDlgBase(g_plugin.getInst(), IDD_OPT_STATUSPROFILES),
+		CDlgBase(g_plugin, IDD_OPT_STATUSPROFILES),
 		cmbProfile(this, IDC_PROFILE),
 		btnAdd(this, IDC_ADDPROFILE),
 		btnHelp(this, IDC_VARIABLESHELP),

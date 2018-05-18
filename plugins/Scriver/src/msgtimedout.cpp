@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 CErrorDlg::CErrorDlg(const wchar_t *pwszDescr, HWND hWnd, MessageSendQueueItem *pItem)
-	: CDlgBase(g_plugin.getInst(), IDD_MSGSENDERROR),
+	: CDlgBase(g_plugin, IDD_MSGSENDERROR),
 	m_wszText(mir_utf8decodeW(pItem->sendBuffer)),
 	m_wszDescr(pwszDescr != nullptr ? pwszDescr : TranslateT("An unknown error has occurred.")),
 	m_hwndParent(hWnd),

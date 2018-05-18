@@ -332,7 +332,7 @@ class COptMainDlg : public CDlgBase
 
 public:
 	COptMainDlg()
-		: CDlgBase(g_plugin.getInst(), IDD_OPTIONS1),
+		: CDlgBase(g_plugin, IDD_OPTIONS1),
 		checkBoxes(this, IDC_CHECKBOXES)
 	{
 		checkBoxes.OnItemChanged = Callback(this, &COptMainDlg::onChange_Tree);
@@ -433,7 +433,7 @@ class COptLogDlg : public CDlgBase
 
 public:
 	COptLogDlg() :
-		CDlgBase(g_plugin.getInst(), IDD_OPTIONS2),
+		CDlgBase(g_plugin, IDD_OPTIONS2),
 		spin2(this, IDC_SPIN2),
 		spin3(this, IDC_SPIN3),
 		spin4(this, IDC_SPIN4),
@@ -596,7 +596,7 @@ class COptPopupDlg : public CDlgBase
 
 public:
 	COptPopupDlg()
-		: CDlgBase(g_plugin.getInst(), IDD_OPTIONSPOPUP),
+		: CDlgBase(g_plugin, IDD_OPTIONSPOPUP),
 		chkRadio1(this, IDC_RADIO1),
 		chkRadio2(this, IDC_RADIO2),
 		chkRadio3(this, IDC_RADIO3)

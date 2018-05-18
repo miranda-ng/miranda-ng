@@ -576,7 +576,7 @@ class COptMainDlg : public CDlgBase
 
 public:
 	COptMainDlg() :
-		CDlgBase(g_plugin.getInst(), IDD_OPT_MSGDLG),
+		CDlgBase(g_plugin, IDD_OPT_MSGDLG),
 		urlHelp(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings"),
 		btnReset(this, IDC_RESETWARNINGS),
 		spnAvaSize(this, IDC_AVATARSPIN),
@@ -656,7 +656,7 @@ class COptLogDlg : public CDlgBase
 
 public:
 	COptLogDlg()
-		: CDlgBase(g_plugin.getInst(), IDD_OPT_MSGLOG),
+		: CDlgBase(g_plugin, IDD_OPT_MSGLOG),
 		btnModify(this, IDC_MODIFY),
 		btnRtlModify(this, IDC_RTLMODIFY),
 		spnTrim(this, IDC_TRIMSPIN),
@@ -895,7 +895,7 @@ class COptTypingDlg : public CDlgBase
 
 public:
 	COptTypingDlg()
-		: CDlgBase(g_plugin.getInst(), IDD_OPT_MSGTYPE),
+		: CDlgBase(g_plugin, IDD_OPT_MSGTYPE),
 		urlHelp(this, IDC_MTN_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Advanced_tweaks"),
 		chkWin(this, IDC_TYPEWIN),
 		chkNoWin(this, IDC_TYPENOWIN),
@@ -1023,7 +1023,7 @@ class COptTabbedDlg : public CDlgBase
 
 public:
 	COptTabbedDlg() :
-		CDlgBase(g_plugin.getInst(), IDD_OPT_TABBEDMSG),
+		CDlgBase(g_plugin, IDD_OPT_TABBEDMSG),
 		chkLimit(this, IDC_CUT_TABTITLE),
 		edtLimit(this, IDC_CUT_TITLEMAX),
 		spnLimit(this, IDC_CUT_TITLEMAXSPIN),
@@ -1114,7 +1114,7 @@ class COptContainersDlg : public CDlgBase
 
 public:
 	COptContainersDlg()
-		: CDlgBase(g_plugin.getInst(), IDD_OPT_CONTAINERS),
+		: CDlgBase(g_plugin, IDD_OPT_CONTAINERS),
 		urlHelp(this, IDC_HELP_CONTAINERS, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers"),
 		spnNumFlash(this, IDC_NRFLASHSPIN),
 		spnTabLimit(this, IDC_TABLIMITSPIN),
@@ -1196,7 +1196,7 @@ class COptAdvancedDlg : public CDlgBase
 
 public:
 	COptAdvancedDlg() :
-		CDlgBase(g_plugin.getInst(), IDD_OPTIONS_PLUS),
+		CDlgBase(g_plugin, IDD_OPTIONS_PLUS),
 		urlHelp(this, IDC_PLUS_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications"),
 		btnRevert(this, IDC_PLUS_REVERT),
 		spnTimeout(this, IDC_TIMEOUTSPIN),
