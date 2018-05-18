@@ -7,6 +7,8 @@ if not %GIT_STATUS%==0 goto :Error
 
 xcopy /S /Y tools\build_scripts\*.* . >nul
 
+call copyhpp.cmd
+
 start /min /wait z1_ReBuild_Full.bat 32 %comp%
 
 start /min /wait z1_ReBuild_Full.bat 64 %comp%

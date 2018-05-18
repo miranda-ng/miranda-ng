@@ -13,6 +13,8 @@ if not %GIT_STATUS%==0 goto :Error
 
 xcopy /S /Y tools\build_scripts\*.* . >nul
 
+call copyhpp.cmd
+
 del /F /Q version.txt
 
 pushd build
