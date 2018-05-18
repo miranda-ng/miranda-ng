@@ -44,7 +44,7 @@ IconItem iconList[] =
 
 void IcoLibInit()
 {
-	Icon_Register(g_plugin.getInst(), MODULEA, iconList, _countof(iconList));
+	g_plugin.registerIcon(MODULEA, iconList);
 }
 
 BOOL NetlibInit()

@@ -126,7 +126,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
 	// IcoLib support
-	Icon_Register(g_plugin.getInst(), LPGEN("Contact rate"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Contact rate"), iconList);
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_RegisterIcolib("contact_rate", LPGEN("Contact rate"), "rate_high");

@@ -56,7 +56,7 @@ static HANDLE hIconLibItem[_countof(iconList)];
 
 void InitIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), ModuleName, iconList, _countof(iconList), ModuleName);
+	g_plugin.registerIcon(ModuleName, iconList, ModuleName);
 }
 
 HICON LoadIconEx(const char* name)

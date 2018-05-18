@@ -238,10 +238,10 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-IconItemT iconList[] =
+IconItem iconList[] =
 {
-	{ LPGENW("Disable Auto&reply"), "Disable Auto&reply", IDI_OFF },
-	{ LPGENW("Enable Auto&reply"), "Enable Auto&reply", IDI_ON }
+	{ LPGEN("Disable Auto&reply"), "Disable Auto&reply", IDI_OFF },
+	{ LPGEN("Enable Auto&reply"), "Enable Auto&reply", IDI_ON }
 };
 
 extern "C" int __declspec(dllexport)Load(void)
@@ -271,8 +271,7 @@ extern "C" int __declspec(dllexport)Load(void)
 	HookEvent(ME_DB_EVENT_ADDED, addEvent);
 	HookEvent(ME_SYSTEM_MODULESLOADED, CheckDefaults);
 
-	Icon_RegisterT(g_plugin.getInst(), L"Simple Auto Replier", iconList, _countof(iconList));
-
+	g_plugin.registerIcon("Simple Auto Replier", iconList);
 	return 0;
 }
 

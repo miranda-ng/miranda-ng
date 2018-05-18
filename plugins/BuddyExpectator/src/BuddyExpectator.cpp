@@ -673,7 +673,7 @@ extern "C" int __declspec(dllexport) Load(void)
 			db_set_dw(hContact, MODULE_NAME, "CreationTime", current_time);
 	}
 
-	Icon_Register(g_plugin.getInst(), "BuddyExpectator", iconList, _countof(iconList));
+	g_plugin.registerIcon("BuddyExpectator", iconList);
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
 

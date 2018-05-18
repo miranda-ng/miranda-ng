@@ -1053,8 +1053,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Icon_Register(g_plugin.getInst(), LPGEN("MenuItemEx"), iconList, _countof(iconList));
-	Icon_Register(g_plugin.getInst(), LPGEN("MenuItemEx"), overlayIconList, _countof(overlayIconList));
+	g_plugin.registerIcon(LPGEN("MenuItemEx"), iconList);
+	g_plugin.registerIcon(LPGEN("MenuItemEx"), overlayIconList);
 
 	CreateServiceFunction(MS_SETINVIS, onSetInvis);
 	CreateServiceFunction(MS_SETVIS, onSetVis);

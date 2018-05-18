@@ -99,7 +99,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
 	
-	Icon_Register(g_plugin.getInst(), MODULENAME, Icons, _countof(Icons));
+	g_plugin.registerIcon(MODULENAME, Icons);
 
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME;

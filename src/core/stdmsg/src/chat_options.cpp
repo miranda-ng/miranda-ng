@@ -135,7 +135,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 
 // add icons to the skinning module
 
-static IconItem iconList[] =
+static IconItem iconList1[] =
 {
 	{ LPGEN("Window icon"), "chat_window", IDI_CHANMGR, 0 },
 	{ LPGEN("Text color"), "chat_fgcol", IDI_COLOR, 0 },
@@ -158,8 +158,11 @@ static IconItem iconList[] =
 	{ LPGEN("Status 3 (10x10)"), "chat_status2", IDI_STATUS2, 10 },
 	{ LPGEN("Status 4 (10x10)"), "chat_status3", IDI_STATUS3, 10 },
 	{ LPGEN("Status 5 (10x10)"), "chat_status4", IDI_STATUS4, 10 },
-	{ LPGEN("Status 6 (10x10)"), "chat_status5", IDI_STATUS5, 10 },
+	{ LPGEN("Status 6 (10x10)"), "chat_status5", IDI_STATUS5, 10 }
+};
 
+static IconItem iconList2[] =
+{
 	{ LPGEN("Message in (10x10)"), "chat_log_message_in", IDI_MESSAGE, 10 },
 	{ LPGEN("Message out (10x10)"), "chat_log_message_out", IDI_MESSAGEOUT, 10 },
 	{ LPGEN("Action (10x10)"), "chat_log_action", IDI_ACTION, 10 },
@@ -178,8 +181,8 @@ static IconItem iconList[] =
 
 void AddIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("Messaging") "/" LPGEN("Group chats"), iconList, 21);
-	Icon_Register(g_plugin.getInst(), LPGEN("Messaging") "/" LPGEN("Group chats log"), iconList + 21, 14);
+	g_plugin.registerIcon(LPGEN("Messaging") "/" LPGEN("Group chats"), iconList1);
+	g_plugin.registerIcon(LPGEN("Messaging") "/" LPGEN("Group chats log"), iconList2);
 }
 
 // load icons from the skinning module if available

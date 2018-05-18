@@ -125,7 +125,6 @@ private:
 	void UninitNetlib();
 
 	// icons
-	static IconItemT Icons[];
 	static HANDLE GetIconHandle(int iconId);
 	static HICON GetIcon(int iconId);
 

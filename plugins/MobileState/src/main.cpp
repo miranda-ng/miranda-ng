@@ -24,7 +24,10 @@ CMPlugin g_plugin;
 
 HANDLE hExtraIcon = nullptr;
 
-static IconItem icon = { LPGEN("Mobile State"), "mobile_icon", IDI_MOBILE };
+static IconItem iconList[] = 
+{
+	{ LPGEN("Mobile State"), "mobile_icon", IDI_MOBILE }
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,7 +115,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraIconsApply);
 
 	// IcoLib support
-	Icon_Register(g_plugin.getInst(), "Mobile State", &icon, 1);
+	g_plugin.registerIcon("Mobile State", iconList);
 
 	// Extra icons
 	hExtraIcon = ExtraIcon_RegisterIcolib("mobilestate", LPGEN("Mobile State"), "mobile_icon");

@@ -39,21 +39,24 @@ static INT_PTR RestartMe(WPARAM, LPARAM)
 	return 0;
 }
 
-static IconItem icon = { LPGEN("Restart"), "rst_restart_icon", IDI_RESTARTICON };
+static IconItem iconList[] = 
+{
+	{ LPGEN("Restart"), "rst_restart_icon", IDI_RESTARTICON }
+};
 
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
 
 	// IcoLib support
-	Icon_Register(g_plugin.getInst(), LPGEN("Restart Plugin"), &icon, 1);
+	g_plugin.registerIcon(LPGEN("Restart Plugin"), iconList);
 
 	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
 
 	CMenuItem mi;
 	SET_UID(mi, 0x9181059, 0x5316, 0x4be3, 0x96, 0xb7, 0x80, 0x51, 0xa9, 0x3a, 0xd8, 0x49);
 	mi.position = -0x7FFFFFFF;
-	mi.hIcolibItem = icon.hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.a = LPGEN("Restart");
 	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);

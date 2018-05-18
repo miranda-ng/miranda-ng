@@ -145,7 +145,7 @@ int InitCustomMenus(void)
 {
 	CreateServiceFunction("CloseAction", CloseAction);
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Contact list"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Contact list"), iconList);
 
 	CreateServiceFunction(CLUI_FAVSETRATE, FAV_SetRate);
 	CreateServiceFunction(CLUI_FAVTOGGLESHOWOFFLINE, FAV_ToggleShowOffline);

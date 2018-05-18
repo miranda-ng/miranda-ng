@@ -166,7 +166,7 @@ static IconItem iconList[] =
 
 void LoadIcons()
 {
-	Icon_Register(g_plugin.getInst(), "YAMN", iconList, _countof(iconList));
+	g_plugin.registerIcon("YAMN", iconList);
 }
 
 HANDLE WINAPI g_GetIconHandle(int idx)

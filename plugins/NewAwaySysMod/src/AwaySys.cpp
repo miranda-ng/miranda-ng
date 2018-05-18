@@ -709,7 +709,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 
-	Icon_Register(g_plugin.getInst(), MOD_NAME, iconList, _countof(iconList), "nas");
+	g_plugin.registerIcon(MOD_NAME, iconList, "nas");
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService

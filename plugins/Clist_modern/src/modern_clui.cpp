@@ -315,17 +315,17 @@ HRESULT CLUI::LoadDllsRuntime()
 	return S_OK;
 }
 
-static IconItemT iconItem[] = {
-	{ LPGENW("Show avatar"), "ShowAvatar", IDI_SHOW_AVATAR },
-	{ LPGENW("Hide avatar"), "HideAvatar", IDI_HIDE_AVATAR }
+static IconItem iconItem[] =
+{
+	{ LPGEN("Show avatar"), "ShowAvatar", IDI_SHOW_AVATAR },
+	{ LPGEN("Hide avatar"), "HideAvatar", IDI_HIDE_AVATAR }
 };
 
 HRESULT CLUI::RegisterAvatarMenu()
 {
-	Icon_RegisterT(g_plugin.getInst(), LPGENW("Contact list"), iconItem, _countof(iconItem));
+	g_plugin.registerIcon(LPGEN("Contact list"), iconItem);
 
 	CMenuItem mi;
-
 	SET_UID(mi, 0x1cc99858, 0x40ca, 0x4558, 0xae, 0x10, 0xba, 0x81, 0xaf, 0x4c, 0x67, 0xb5);
 	CreateServiceFunction("CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;

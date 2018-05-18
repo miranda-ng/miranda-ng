@@ -79,13 +79,14 @@ static int OnBuildGroupMenu(WPARAM, LPARAM)
 	return 0;
 }
 
-IconItemT iconItem[] = {
-	{ LPGENW("Contact list"), "clist", IDI_CLIST }
+IconItem iconItem[] =
+{
+	{ LPGEN("Contact list"), "clist", IDI_CLIST }
 };
 
 void InitIconLibMenuIcons(void)
 {
-	Icon_RegisterT(g_plugin.getInst(), LPGENW("Contact list"), iconItem, _countof(iconItem));
+	g_plugin.registerIcon(LPGEN("Contact list"), iconItem);
 }
 
 void InitGroupMenus(void)

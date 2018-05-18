@@ -179,7 +179,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hUserMenu = Menu_AddContactMenuItem(&mi);
 
 	// IcoLib support
-	Icon_Register(g_plugin.getInst(), LPGEN("Auth state"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Auth state"), iconList);
 
 	return 0;
 }

@@ -29,7 +29,10 @@ static HANDLE hToolBarItem = nullptr;
 static HGENMENU hMainMenuItem = nullptr;
 HWND hAddDlg;
 
-static IconItem icon = { LPGEN("Add contact"), ICON_ADD, IDI_ADDCONTACT };
+static IconItem icon[] =
+{
+	{ LPGEN("Add contact"), ICON_ADD, IDI_ADDCONTACT }
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -85,7 +88,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		SET_UID(mi, 0xb19db907, 0x870e, 0x49fa, 0xa7, 0x1e, 0x43, 0x5e, 0xa8, 0xe5, 0x9b, 0xbd);
 		mi.position = 500020001;
 		mi.flags = CMIF_UNICODE;
-		mi.hIcolibItem = icon.hIcolib;
+		mi.hIcolibItem = icon[0].hIcolib;
 		mi.name.w = LPGENW("&Add contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);
@@ -108,7 +111,7 @@ static int CreateButton(WPARAM, LPARAM)
 	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	tbb.pszService = MS_ADDCONTACTPLUS_SHOW;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Add contact");
-	tbb.hIconHandleUp = icon.hIcolib;
+	tbb.hIconHandleUp = icon[0].hIcolib;
 	hToolBarItem = TopToolbar_AddButton(&tbb);
 	return 0;
 }
@@ -138,7 +141,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_USEREX_CLASSES };
 	InitCommonControlsEx(&icex);
 
-	Icon_Register(g_plugin.getInst(), LPGEN("AddContact+"), &icon, 1);
+	g_plugin.registerIcon(LPGEN("AddContact+"), icon);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);

@@ -67,7 +67,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Favorites"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Favorites"), iconList);
 
 	LoadHttpApi();
 	return 0;

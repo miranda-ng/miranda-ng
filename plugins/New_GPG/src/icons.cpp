@@ -25,7 +25,7 @@ static IconItem iconList[] =
 
 void InitIconLib()
 {
-	Icon_Register(g_plugin.getInst(), szGPGModuleName, iconList, _countof(iconList));
+	g_plugin.registerIcon(szGPGModuleName, iconList);
 }
 
 HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)

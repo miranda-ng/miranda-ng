@@ -36,7 +36,7 @@ static IconItem iconList[] =
 
 void IconsInit(void)
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("Simple Status Message"), iconList, _countof(iconList), MODULENAME);
+	g_plugin.registerIcon(LPGEN("Simple Status Message"), iconList, MODULENAME);
 }
 
 HICON LoadIconEx(const char *name)

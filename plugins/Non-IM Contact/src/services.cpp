@@ -33,9 +33,9 @@ INT_PTR LoadLCIcon(WPARAM wParam, LPARAM)
 {
 	if (LOWORD(wParam) == PLI_PROTOCOL) {
 		if (wParam & PLIF_ICOLIBHANDLE)
-			return (INT_PTR)icoList[0].hIcolib;
+			return (INT_PTR)iconList[0].hIcolib;
 
-		HICON hIcon = IcoLib_GetIconByHandle(icoList[0].hIcolib, (wParam & PLIF_SMALL) == 0);
+		HICON hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib, (wParam & PLIF_SMALL) == 0);
 		if (wParam & PLIF_ICOLIB)
 			return (INT_PTR)hIcon;
 

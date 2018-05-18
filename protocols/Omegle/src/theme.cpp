@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static IconItem icons[] =
+static IconItem iconList[] =
 {
 	{ LPGEN("Omegle Icon"), "omegle", IDI_OMEGLE },
 	{ LPGEN("Stranger is typing"), "typing_on", IDI_TYPING_ON },
@@ -31,14 +31,14 @@ static IconItem icons[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), "Protocols/Omegle", icons, _countof(icons), "Omegle");
+	g_plugin.registerIcon("Protocols/Omegle", iconList, "Omegle");
 }
 
 HANDLE GetIconHandle(const char* name)
 {
-	for (size_t i = 0; i < _countof(icons); i++)
-		if (mir_strcmp(icons[i].szName, name) == 0)
-			return icons[i].hIcolib;
+	for (auto &it : iconList)
+		if (mir_strcmp(it.szName, name) == 0)
+			return it.hIcolib;
 
 	return nullptr;
 }

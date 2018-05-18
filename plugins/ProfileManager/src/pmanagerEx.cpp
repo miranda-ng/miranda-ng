@@ -87,7 +87,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Profile manager"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Profile manager"), iconList);
 
 	CreateServiceFunction(SRV_LOAD_PM, LoadPM);
 	CreateServiceFunction(SRV_CHANGE_PM, ChangePM);

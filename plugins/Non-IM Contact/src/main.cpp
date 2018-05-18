@@ -110,7 +110,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 // Description : Called when plugin is loaded into Miranda
 //=====================================================
 
-IconItem icoList[] =
+IconItem iconList[] =
 {
 	{ LPGEN("Main Icon"), MODNAME, IDI_MAIN },
 };
@@ -120,7 +120,7 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Non-IM Contact"), icoList, _countof(icoList));
+	g_plugin.registerIcon(LPGEN("Non-IM Contact"), iconList);
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, (MIRANDAHOOK)doubleClick);
 	HookEvent(ME_OPT_INITIALISE, NimcOptInit);
@@ -148,7 +148,7 @@ extern "C" __declspec(dllexport) int Load()
 	mi.position = 600090000;
 	mi.name.a = LPGEN("&Add Non-IM Contact");
 	mi.pszService = "AddLCcontact";
-	mi.hIcolibItem = icoList[0].hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xa511c5e, 0x26d2, 0x41b1, 0xbd, 0xb7, 0x3e, 0x62, 0xc8, 0x44, 0x37, 0xc9);

@@ -54,7 +54,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	// IcoLib support
-	Icon_Register(g_plugin.getInst(), ModuleName, iconList, _countof(iconList));
+	g_plugin.registerIcon(ModuleName, iconList);
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 

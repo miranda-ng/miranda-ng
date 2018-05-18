@@ -348,14 +348,12 @@ static IconItem _logicons[] =
 // add icons to the skinning module
 void Chat_AddIcons(void)
 {
-	Icon_Register(g_hIconDLL, LPGEN("Message Sessions") "/" LPGEN("Group chat windows"), _icons, _countof(_icons));
-	Icon_Register(g_hIconDLL, LPGEN("Message Sessions") "/" LPGEN("Group chat log"), _logicons, _countof(_logicons));
+	Icon_Register(g_hIconDLL, LPGEN("Message Sessions") "/" LPGEN("Group chat windows"), _icons, _countof(_icons), 0, g_plugin.m_hLang);
+	Icon_Register(g_hIconDLL, LPGEN("Message Sessions") "/" LPGEN("Group chat log"), _logicons, _countof(_logicons), 0, g_plugin.m_hLang);
 	pci->MM_IconsChanged();
 }
 
-/*
- * get icon by name from the core icon library service
- */
+// get icon by name from the core icon library service
 HICON LoadIconEx(char *pszIcoLibName)
 {
 	char szTemp[256];

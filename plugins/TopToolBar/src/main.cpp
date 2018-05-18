@@ -47,7 +47,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	Icon_Register(g_plugin.getInst(), TTB_OPTDIR, iconList, _countof(iconList), TTB_OPTDIR);
+	g_plugin.registerIcon(TTB_OPTDIR, iconList, TTB_OPTDIR);
 
 	LoadToolbarModule();
 	return 0;

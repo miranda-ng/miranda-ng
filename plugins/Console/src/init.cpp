@@ -64,7 +64,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	Icon_Register(g_plugin.getInst(), "Console", iconList, _countof(iconList));
+	g_plugin.registerIcon("Console", iconList);
 
 	InitCommonControls();
 	InitConsole();

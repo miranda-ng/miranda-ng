@@ -155,7 +155,7 @@ extern aPopups PopupsList[POPUPS];
 extern HANDLE hPipe;
 extern HNETLIBUSER hNetlibUser;
 
-extern IconItemT iconList[];
+extern IconItem iconList[];
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

@@ -64,7 +64,7 @@ static int RegisterMeta(WPARAM, LPARAM)
 
 int LoadMetacontacts(void)
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("MetaContacts"), iconList, _countof(iconList), "mc");
+	g_plugin.registerIcon(LPGEN("MetaContacts"), iconList, "mc");
 
 	db_set_resident(META_PROTO, "Status");
 	db_set_resident(META_PROTO, "IdleTS");

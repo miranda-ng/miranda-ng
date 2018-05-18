@@ -177,6 +177,18 @@ public:
 	__forceinline HINSTANCE getInst() const { return m_hInst; }
 	__forceinline void setInst(HINSTANCE hInst) { m_hInst = hInst; }
 
+	template <size_t _Size>
+	__forceinline void registerIcon(const char *szSection, IconItem(&pIcons)[_Size], const char *prefix = nullptr)
+	{
+		Icon_Register(m_hInst, szSection, pIcons, _Size, prefix, m_hLang);
+	}
+
+	template <size_t _Size>
+	__forceinline void registerIconW(const wchar_t *szSection, IconItemT(&pIcons)[_Size], const char *prefix = nullptr)
+	{
+		Icon_RegisterT(m_hInst, szSection, pIcons, _Size, prefix, m_hLang);
+	}
+
 	__forceinline INT_PTR delSetting(const char *name)
 	{
 		return db_unset(0, m_szModuleName, name);

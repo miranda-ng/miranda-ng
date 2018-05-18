@@ -20,7 +20,10 @@ const INT_PTR boo = 0;
 
 LastUCOptions LastUCOpt = {0};
 
-static IconItem icon = { LPGEN("Main icon"), "recent_main", IDI_SHOWRECENT };
+static IconItem iconList[] =
+{
+	{ LPGEN("Main iconList"), "recent_main", IDI_SHOWRECENT }
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -428,7 +431,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 int Create_TopToolbarShowList(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
-	ttb.hIconHandleUp = icon.hIcolib;
+	ttb.hIconHandleUp = iconList[0].hIcolib;
 	ttb.pszService = msLastUC_ShowList;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Recent Contacts");
@@ -440,14 +443,14 @@ int Create_MenuitemShowList(void)
 {
 	CMenuItem mi;
 	SET_UID(mi, 0xe22ce213, 0x362a, 0x444a, 0xa5, 0x82, 0xc, 0xcf, 0xf5, 0x4b, 0xd1, 0x8e);
-	mi.hIcolibItem = icon.hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.a = LPGEN("Recent Contacts");
 	mi.pszService = msLastUC_ShowList;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xe22ce213, 0x362a, 0x444a, 0xa5, 0x82, 0xc, 0xcf, 0xf5, 0x4b, 0xd1, 0x8e);
 	mi.position = 0xFFFFF;
-	mi.hIcolibItem = icon.hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.a = LPGEN("Toggle Ignore");
 	mi.pszService = V_RECENTCONTACTS_TOGGLE_IGNORE;
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
@@ -551,7 +554,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	CoInitialize(nullptr);
 
-	Icon_Register(g_plugin.getInst(), "Recent Contacts", &icon, 1);
+	g_plugin.registerIcon("Recent Contacts", iconList);
 
 	CreateServiceFunction(msLastUC_ShowList, OnMenuCommandShowList);
 	CreateServiceFunction(V_RECENTCONTACTS_TOGGLE_IGNORE, ToggleIgnore);

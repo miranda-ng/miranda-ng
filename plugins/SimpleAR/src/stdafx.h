@@ -34,6 +34,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern INT interval;
 extern wchar_t *ptszDefaultMsg[6];
 extern HGENMENU hEnableMenu;
-extern IconItemT iconList[];
+extern IconItem iconList[];
 
 extern INT OptInit(WPARAM wParam, LPARAM lParam);

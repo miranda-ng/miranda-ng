@@ -1152,7 +1152,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Icon_Register(g_plugin.getInst(), LPGEN("New Status Notify"), iconList, _countof(iconList), MODULE);
+	g_plugin.registerIcon(LPGEN("New Status Notify"), iconList, MODULE);
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);

@@ -182,7 +182,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
 	CDbxMDBX *db = (CDbxMDBX*)obj;
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Database"), iconList, _countof(iconList), "mdbx");
+	g_plugin.registerIcon(LPGEN("Database"), iconList, "mdbx");
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 

@@ -79,7 +79,7 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("VKontakte"), iconList, _countof(iconList), "VKontakte");
+	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("VKontakte"), iconList, "VKontakte");
 }
 
 HANDLE GetIconHandle(int iCommand)

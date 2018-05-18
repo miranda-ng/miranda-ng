@@ -21,7 +21,10 @@ Boston, MA 02111-1307, USA.
 
 using namespace std;
 
-static IconItem icon = { LPGEN("Button"), "qr_button", IDI_QICON };
+static IconItem iconList[] = 
+{
+	{ LPGEN("Button"), "qr_button", IDI_QICON }
+};
 
 int iNumber = 0;
 
@@ -30,7 +33,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialized);
 	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 
-	Icon_Register(g_plugin.getInst(), "TabSRMM/Quick Replies", &icon, 1);
+	g_plugin.registerIcon("TabSRMM/Quick Replies", iconList);
 
 	char buttonNameTranslated[32], buttonName[32];
 	mir_snprintf(buttonNameTranslated, "%s %x", Translate("Button"), iNumber + 1);
@@ -40,7 +43,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 	bbd.pszModuleName = buttonName;
 	bbd.pwszTooltip = LPGENW("Quick Replies");
-	bbd.hIcon = icon.hIcolib;
+	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = iNumber;
 	bbd.dwDefPos = 220;
 	Srmm_AddButton(&bbd);

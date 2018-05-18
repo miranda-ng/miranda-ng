@@ -206,5 +206,5 @@ HANDLE GetIconHandle(int iIconId)
 
 void RegisterIcons()
 {
-	Icon_Register(g_plugin.getInst(), "Import", iconList, _countof(iconList));
+	g_plugin.registerIcon("Import", iconList);
 }

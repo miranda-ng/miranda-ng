@@ -144,10 +144,7 @@ extern "C" __declspec(dllexport) int Load()
 	// Options
 	InitOptions();
 
-	if (IcoLib_GetIcon("LISTENING_TO_ICON") == nullptr)
-		Icon_Register(g_plugin.getInst(), LPGEN("Contact list"), iconList, 1);
-
-	Icon_Register(g_plugin.getInst(), LPGEN("My details"), iconList + 1, _countof(iconList) - 1);
+	g_plugin.registerIcon(LPGEN("My details"), iconList);
 
 	// Register services
 	CreateServiceFunction(MS_MYDETAILS_SETMYNICKNAME, PluginCommand_SetMyNickname);

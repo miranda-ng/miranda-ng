@@ -172,13 +172,8 @@ typedef struct tagIconItemT
 }
 	IconItemT;
 
-#if defined( __cplusplus )
-MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, const char *prefix = nullptr, int = hLangpack);
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, const char *prefix = nullptr, int = hLangpack);
-#else
 MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, const char *prefix, int hLangpack);
 MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, const char *prefix, int hLangpack);
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // language packs support

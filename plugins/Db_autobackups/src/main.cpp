@@ -117,7 +117,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Database") "/" LPGEN("Database backups"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Database") "/" LPGEN("Database backups"), iconList);
 
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);

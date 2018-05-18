@@ -194,7 +194,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitCRC32();
 
-	Icon_Register(g_plugin.getInst(), "fileAsMessage", iconList, _countof(iconList));
+	g_plugin.registerIcon("fileAsMessage", iconList);
 
 	hFileList = WindowList_Create();
 

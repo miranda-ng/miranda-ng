@@ -159,7 +159,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
 	//IcoLib support
-	Icon_Register(g_plugin.getInst(), LPGEN("Ignore State"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Ignore State"), iconList);
 
 	hExtraIcon = ExtraIcon_RegisterIcolib("ignore", LPGEN("Ignore State"), "ignore_full");
 

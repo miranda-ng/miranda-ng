@@ -47,7 +47,7 @@ static IconItem iconList[] =
 
 void MsnInitIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), "Protocols/MSN", iconList, _countof(iconList), "MSN");
+	g_plugin.registerIcon("Protocols/MSN", iconList, "MSN");
 }
 
 HICON LoadIconEx(const char* name, bool big)

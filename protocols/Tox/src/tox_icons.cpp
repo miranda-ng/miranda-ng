@@ -1,20 +1,20 @@
 #include "stdafx.h"
 
-IconItemT CToxProto::Icons[] =
+static IconItem iconList[] =
 {
-	{ LPGENW("Protocol icon"),			"main",				IDI_TOX  },
-	{ LPGENW("Action icon"),			"main",				IDI_ME   },
-	{ LPGENW("Correction icon"),		"edit",				IDI_EDIT },
+	{ LPGEN("Protocol icon"),			"main",				IDI_TOX  },
+	{ LPGEN("Action icon"),			"main",				IDI_ME   },
+	{ LPGEN("Correction icon"),		"edit",				IDI_EDIT },
 };
 
 void CToxProto::InitIcons()
 {
-	Icon_RegisterT(g_plugin.getInst(), LPGENW("Protocols") L"/" _A2W(MODULE), Icons, _countof(Icons), MODULE);
+	g_plugin.registerIcon(LPGEN("Protocols") "/" MODULE, iconList, MODULE);
 }
 
 HANDLE CToxProto::GetIconHandle(int iconId)
 {
-	for (auto &it : Icons)
+	for (auto &it : iconList)
 		if (it.defIconID == iconId)
 			return it.hIcolib;
 	return nullptr;
@@ -22,7 +22,7 @@ HANDLE CToxProto::GetIconHandle(int iconId)
 
 HICON CToxProto::GetIcon(int iconId)
 {
-	for (auto &it : Icons)
+	for (auto &it : iconList)
 		if (it.defIconID == iconId)
 			return IcoLib_GetIconByHandle(it.hIcolib);
 	return nullptr;

@@ -250,13 +250,13 @@ static void CacheClientIcons()
 
 static void InitIcoLib()
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("Contact list") "/" LPGEN("Default"), myIcons, _countof(myIcons));
+	g_plugin.registerIcon(LPGEN("Contact list") "/" LPGEN("Default"), myIcons);
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
-		IconItemT icon = { Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
-		Icon_RegisterT(g_plugin.getInst(), LPGENW("Contact list") L"/" LPGENW("Overlay icons"), &icon, 1);
+		IconItemT icon[] = { { Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i } };
+		g_plugin.registerIconW(LPGENW("Contact list") L"/" LPGENW("Overlay icons"), icon);
 	}
 
 	for (auto &pa : Accounts()) {
@@ -265,8 +265,8 @@ static void InitIcoLib()
 
 		wchar_t szDescr[128];
 		mir_snwprintf(szDescr, TranslateT("%s connecting"), pa->tszAccountName);
-		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_plugin.getInst(), LPGENW("Contact list") L"/" LPGENW("Connecting icons"), &icon, 1, pa->szModuleName);
+		IconItemT icon[] = { { szDescr, "conn", IDI_PROTOCONNECTING } };
+		g_plugin.registerIconW(LPGENW("Contact list") L"/" LPGENW("Connecting icons"), icon, pa->szModuleName);
 	}
 }
 

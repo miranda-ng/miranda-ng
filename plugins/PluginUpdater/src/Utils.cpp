@@ -41,16 +41,16 @@ void LoadOptions()
 	opts.bChangePlatform = db_get_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, 0);
 }
 
-IconItemT iconList[] =
+IconItem iconList[] =
 {
-	{ LPGENW("Check for updates"),"check_update", IDI_MENU },
-	{ LPGENW("Plugin info"), "info", IDI_INFO },
-	{ LPGENW("Component list"),"plg_list", IDI_PLGLIST }
+	{ LPGEN("Check for updates"),"check_update", IDI_MENU },
+	{ LPGEN("Plugin info"), "info", IDI_INFO },
+	{ LPGEN("Component list"),"plg_list", IDI_PLGLIST }
 };
 
 void InitIcoLib()
 {
-	Icon_RegisterT(g_plugin.getInst(), MODULE, iconList, _countof(iconList));
+	g_plugin.registerIcon(MODULEA, iconList);
 }
 
 void InitNetlib()

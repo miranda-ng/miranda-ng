@@ -70,7 +70,7 @@ struct DLGTEMPLATEEX
 // General
 
 extern int LCStatus;
-extern IconItem icoList[];
+extern IconItem iconList[];
 
 // Services.c
 INT_PTR GetLCCaps(WPARAM wParam,LPARAM lParam);

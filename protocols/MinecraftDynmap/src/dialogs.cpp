@@ -24,19 +24,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Icons
 
-static IconItem icons[] = {
+static IconItem iconList[] = {
 	{ "proto", LPGEN("Protocol icon"), IDI_PROTO },
 };
 
-static HANDLE hIconLibItem[_countof(icons)];
+static HANDLE hIconLibItem[_countof(iconList)];
 
 void InitIcons(void) {
-	Icon_Register(g_plugin.getInst(), "Protocols/MinecraftDynmap", icons, _countof(icons), "MinecraftDynmap");
+	g_plugin.registerIcon("Protocols/MinecraftDynmap", iconList, "MinecraftDynmap");
 }
 
 HANDLE GetIconHandle(const char* name) {
-	for (size_t i = 0; i < _countof(icons); i++) {
-		if (strcmp(icons[i].szName, name) == 0) {
+	for (size_t i = 0; i < _countof(iconList); i++) {
+		if (strcmp(iconList[i].szName, name) == 0) {
 			return hIconLibItem[i];
 		}
 	}

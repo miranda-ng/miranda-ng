@@ -118,7 +118,7 @@ IconItem iconList[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("Sticky Notes"), iconList, _countof(iconList), MODULENAME);
+	g_plugin.registerIcon(LPGEN("Sticky Notes"), iconList, MODULENAME);
 }
 
 static int OnOptInitialise(WPARAM w, LPARAM)

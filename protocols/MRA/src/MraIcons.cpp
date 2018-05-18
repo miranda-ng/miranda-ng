@@ -76,10 +76,10 @@ HICON IconLibGetIconEx(HANDLE hIcon, DWORD dwFlags)
 
 void IconsLoad()
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("MRA"), gdiMainIcon, 1, "MRA_");
-	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Main Menu"), gdiMenuItems, MAIN_MENU_ITEMS_COUNT, "MRA_");
-	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Contact Menu"), gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, "MRA_");
-	Icon_Register(g_plugin.getInst(), LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Extra status"), gdiExtraStatusIconsItems, ADV_ICON_MAX, "MRA_");
+	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("MRA"), gdiMainIcon, "MRA_");
+	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Main Menu"), gdiMenuItems, "MRA_");
+	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Contact Menu"), gdiContactMenuItems, "MRA_");
+	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("MRA") "/" LPGEN("Extra status"), gdiExtraStatusIconsItems, "MRA_");
 
 	g_hMainIcon = IconLibGetIcon(gdiMainIcon[0].hIcolib);
 }

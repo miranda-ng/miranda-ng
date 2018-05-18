@@ -94,7 +94,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hExtraXStatus = ExtraIcon_RegisterIcolib("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
 
-	Icon_Register(g_plugin.getInst(), "ICQ", iconList, _countof(iconList));
+	g_plugin.registerIcon("ICQ", iconList);
 
 	g_MenuInit();
 	return 0;

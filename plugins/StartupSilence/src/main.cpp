@@ -432,7 +432,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_POPUP_FILTER, DisablePopup);
 	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
 	if (TTBButtons == 1 && hTTBarloaded != nullptr) {
-		Icon_Register(g_plugin.getInst(), "Toolbar/" MENU_NAME, iconttbList, _countof(iconttbList), MENU_NAME);
+		g_plugin.registerIcon("Toolbar/" MENU_NAME, iconttbList, MENU_NAME);
 		RemoveTTButtons();
 		CreateTTButtons(0, 0);
 	}
@@ -454,7 +454,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(SS_SILENCE_CONNECTION, SilenceConnection);
 
 	if (MenuItem == 1) {
-		Icon_Register(g_plugin.getInst(), MENU_NAME, iconList, _countof(iconList), MENU_NAME);
+		g_plugin.registerIcon(MENU_NAME, iconList, MENU_NAME);
 		InitMenu();
 	}
 	return 0;

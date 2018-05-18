@@ -200,7 +200,6 @@ private:
 	}
 
 	// icons
-	static IconItemT Icons[];
 	static HICON GetIcon(int iconId);
 	static HANDLE GetIconHandle(int iconId);
 

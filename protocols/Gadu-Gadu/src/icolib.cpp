@@ -43,7 +43,7 @@ extern IconItem iconList[] =
 
 void gg_icolib_init()
 {
-	Icon_Register(g_plugin.getInst(), "Protocols/" GGDEF_PROTO, iconList, _countof(iconList), GGDEF_PROTO);
+	g_plugin.registerIcon("Protocols/" GGDEF_PROTO, iconList, GGDEF_PROTO);
 }
 
 HICON LoadIconEx(const char* name, bool big)

@@ -78,7 +78,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_IEVIEW_NAVIGATE, HandleIENavigate);
 	CreateServiceFunction("IEView/ReloadOptions", ReloadOptions);
 	hHookOptionsChanged = CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
-	Icon_Register(g_plugin.getInst(), ieviewModuleName, iconList, _countof(iconList), ieviewModuleName);
+	g_plugin.registerIcon(ieviewModuleName, iconList, ieviewModuleName);
 	return 0;
 }
 

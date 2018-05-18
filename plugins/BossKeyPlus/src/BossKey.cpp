@@ -698,7 +698,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", 0);
 	}
 
-	Icon_Register(g_plugin.getInst(), "BossKey", iconList, _countof(iconList));
+	g_plugin.registerIcon("BossKey", iconList);
 
 	CreateServiceFunction(MS_BOSSKEY_HIDE, BossKeyHideMiranda); // Create service
 

@@ -323,7 +323,7 @@ static IconItem common[] =
 
 void IcoLib_LoadModule()
 {
-	Icon_Register(g_plugin.getInst(), SECT_COMMON, common, 2);
+	g_plugin.registerIcon(SECT_COMMON, common);
 
 	LPTSTR szDefaultFile = IcoLib_GetDefaultIconFileName();
 	IcoLib_CheckIconPackVersion(szDefaultFile);

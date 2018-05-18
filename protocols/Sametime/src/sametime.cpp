@@ -83,7 +83,7 @@ static IconItem iconList[] =
 
 void SametimeInitIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), "Protocols/Sametime", iconList, _countof(iconList), "SAMETIME");
+	g_plugin.registerIcon("Protocols/Sametime", iconList, "SAMETIME");
 }
 
 HANDLE GetIconHandle(int iconId)

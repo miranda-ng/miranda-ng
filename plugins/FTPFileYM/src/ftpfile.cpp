@@ -75,7 +75,7 @@ static IconItem iconList[] =
 
 static void InitIcolib()
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("FTP File"), iconList, _countof(iconList), MODULE);
+	g_plugin.registerIcon(LPGEN("FTP File"), iconList, MODULE);
 }
 
 void InitMenuItems()

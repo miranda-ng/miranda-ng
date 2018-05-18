@@ -143,7 +143,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Ping"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Ping"), iconList);
 	return 0;
 }
 

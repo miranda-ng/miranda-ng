@@ -2,13 +2,11 @@
 
 enum IconIndex
 {
-	I_HISTORY,
 	I_OVERLAY
 };
 
 static IconItem iconList[] =
 {
-	{ LPGEN("History"),        "",             IDI_AVATARHIST    },
 	{ LPGEN("Avatar overlay"),	"avh_overlay",  IDI_AVATAROVERLAY }
 };
 
@@ -37,8 +35,8 @@ int IcoLibIconsChanged(WPARAM, LPARAM)
 
 void SetupIcoLib()
 {
-	iconList[0].hIcolib = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	Icon_Register(g_plugin.getInst(), LPGEN("Avatar history"), iconList + 1, _countof(iconList) - 1);
+	g_plugin.registerIcon(LPGEN("Avatar history"), iconList);
+
 	IcoLibUpdateMenus();
 }
 
@@ -60,7 +58,7 @@ static HICON getOverlayedIcon(HICON icon, HICON overlay, BOOL big)
 
 HICON createDefaultOverlayedIcon(BOOL)
 {
-	HICON icon0 = LoadIconEx(I_HISTORY);
+	HICON icon0 = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
 	HICON icon1 = LoadIconEx(I_OVERLAY);
 
 	HICON resIcon = getOverlayedIcon(icon0, icon1, FALSE);

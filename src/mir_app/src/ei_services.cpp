@@ -487,7 +487,7 @@ void LoadExtraIconsModule()
 	hEventExtraImageListRebuilding = CreateHookableEvent(ME_CLIST_EXTRA_LIST_REBUILD);
 
 	// Icons
-	Icon_Register(g_plugin.getInst(), LPGEN("Contact list"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Contact list"), iconList);
 
 	// Hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

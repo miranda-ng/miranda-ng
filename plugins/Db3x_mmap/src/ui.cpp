@@ -325,7 +325,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Database"), iconList, _countof(iconList), "mmap");
+	g_plugin.registerIcon(LPGEN("Database"), iconList, "mmap");
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 

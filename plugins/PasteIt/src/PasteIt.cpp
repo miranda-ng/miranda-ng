@@ -29,7 +29,10 @@ HGENMENU hWebPageMenus[PasteToWeb::pages];
 HANDLE hOptionsInit;
 HANDLE hWindowEvent = nullptr;
 
-static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };
+static IconItem iconList[] = 
+{
+	{ LPGEN("Paste It"), "PasteIt_main", IDI_MENU }
+};
 
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
@@ -255,7 +258,7 @@ static void InitMenuItems()
 
 	SET_UID(mi, 0x33ecc112, 0x6, 0x487d, 0xbb, 0x8b, 0x76, 0xb4, 0x17, 0x9b, 0xdb, 0xc5);
 	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = icon.hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.position = 3000090005;
 	mi.name.w = LPGENW("Paste It");
 	hContactMenu = Menu_AddContactMenuItem(&mi);
@@ -306,7 +309,7 @@ static void InitTabsrmmButton()
 	btn.dwButtonID = 1;
 	btn.pszModuleName = MODULE;
 	btn.dwDefPos = 110;
-	btn.hIcon = icon.hIcolib;
+	btn.hIcon = iconList[0].hIcolib;
 	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
 	btn.pwszTooltip = TranslateT("Paste It");
 	Srmm_AddButton(&btn);
@@ -351,7 +354,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pci = Chat_GetInterface();
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Paste It"), &icon, 1);
+	g_plugin.registerIcon(LPGEN("Paste It"), iconList);
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_HTTPCONNS;

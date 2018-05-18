@@ -50,7 +50,7 @@ HANDLE GetIcoLibHandle(int icon)
 
 void IcoLibRegister(void)
 {
-	Icon_Register(g_plugin.getInst(), modFullname, iconList, _countof(iconList));
+	g_plugin.registerIcon(modFullname, iconList);
 }
 
 HICON LoadSkinnedDBEIcon(int icon)

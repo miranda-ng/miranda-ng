@@ -387,7 +387,7 @@ static void LoadProtocols(void)
 // Load icons
 void LoadIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("Nudge"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Nudge"), iconList);
 }
 
 // Nudge support

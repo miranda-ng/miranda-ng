@@ -251,7 +251,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HistoryEventList::Init();
 
-	Icon_Register(g_plugin.getInst(), LPGEN("History"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("History"), iconList);
 	return 0;
 }
 

@@ -597,7 +597,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
 
-	Icon_Register(g_plugin.getInst(), ModuleName, iconList, _countof(iconList));
+	g_plugin.registerIcon(ModuleName, iconList);
 	return 0;
 }
 

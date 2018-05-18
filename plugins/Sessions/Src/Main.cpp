@@ -852,7 +852,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
 
 	// Icons
-	Icon_Register(g_plugin.getInst(), MODNAME, iconList, _countof(iconList));
+	g_plugin.registerIcon(MODNAME, iconList);
 	return 0;
 }
 

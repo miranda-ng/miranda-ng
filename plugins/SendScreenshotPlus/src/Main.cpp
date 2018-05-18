@@ -275,8 +275,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
 	
 	/// icons
-	Icon_Register(g_plugin.getInst(), SZ_SENDSS, ICONS, sizeof(ICONS) / sizeof(IconItem), SZ_SENDSS);
-	Icon_Register(g_plugin.getInst(), SZ_SENDSS "/" LPGEN("Buttons"), ICONS_BTN, sizeof(ICONS_BTN) / sizeof(IconItem), SZ_SENDSS);
+	g_plugin.registerIcon(SZ_SENDSS, ICONS, SZ_SENDSS);
+	g_plugin.registerIcon(SZ_SENDSS "/" LPGEN("Buttons"), ICONS_BTN, SZ_SENDSS);
 	
 	/// services
 #define srv_reg(name) do{\

@@ -204,7 +204,7 @@ static IconItem iconList[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), "Protocols/IRC", iconList, _countof(iconList), "IRC");
+	g_plugin.registerIcon("Protocols/IRC", iconList, "IRC");
 }
 
 HICON LoadIconEx(int iconId, bool big)

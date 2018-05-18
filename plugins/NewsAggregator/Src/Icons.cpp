@@ -33,7 +33,7 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(g_plugin.getInst(), LPGEN("News Aggregator"), iconList, _countof(iconList), MODULE);
+	g_plugin.registerIcon(LPGEN("News Aggregator"), iconList, MODULE);
 }
 
 HICON LoadIconEx(const char *name, bool big)

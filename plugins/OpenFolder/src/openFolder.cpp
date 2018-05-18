@@ -34,7 +34,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static IconItem icon = { LPGEN("Open Folder"), "open", IDI_FOLDER };
+static IconItem iconList[] = 
+{
+	{ LPGEN("Open Folder"), "open", IDI_FOLDER }
+};
 
 static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 {
@@ -56,7 +59,7 @@ static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 static int ToptoolBarHook(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
-	ttb.hIconHandleUp = icon.hIcolib;
+	ttb.hIconHandleUp = iconList[0].hIcolib;
 	ttb.pszService = MS_OPENFOLDER_OPEN;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.name = LPGEN("Open Folder");
@@ -88,7 +91,7 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	// icolib (0.7+)
-	Icon_Register(g_plugin.getInst(), LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
+	g_plugin.registerIcon(LPGEN("Open Folder"), iconList, OPENFOLDER_MODULE_NAME);
 	
 	// hotkeys service (0.8+)
 	HOTKEYDESC hotkey = {};
@@ -104,7 +107,7 @@ extern "C" int __declspec(dllexport) Load()
 	SET_UID(mi, 0xbba6ad01, 0x755a, 0x4d01, 0x94, 0xee, 0x57, 0x84, 0x18, 0x70, 0x77, 0x4f);
 	mi.position = 0x7FFFFFFF;
 	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = icon.hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.w = LPGENW("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;
 	Menu_AddMainMenuItem(&mi);

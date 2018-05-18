@@ -49,14 +49,17 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mira
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static IconItem icon = { LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON };
+static IconItem iconList[] = 
+{
+	{ LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON }
+};
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	CMenuItem mi;
 	SET_UID(mi, 0x5ba238de, 0xe16b, 0x4928, 0xa0, 0x70, 0xff, 0x43, 0xf6, 0x1f, 0x16, 0xd4);
 	mi.position = 2000070050;
-	mi.hIcolibItem = icon.hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.a = LPGEN("Assign smiley category");
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
@@ -95,7 +98,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitImageCache();
 
-	Icon_Register(g_plugin.getInst(), MODULENAME, &icon, 1);
+	g_plugin.registerIcon(MODULENAME, iconList);
 
 	g_SmileyCategories.SetSmileyPackStore(&g_SmileyPacks);
 

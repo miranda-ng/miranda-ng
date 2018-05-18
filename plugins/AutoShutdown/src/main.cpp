@@ -71,7 +71,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (InitFrame()) return 1; /* before icons */
 
 	/* shared */
-	Icon_Register(g_plugin.getInst(), "Automatic Shutdown", iconList, _countof(iconList));
+	g_plugin.registerIcon("Automatic Shutdown", iconList);
 
 	InitShutdownSvc();
 	InitWatcher(); /* before InitSettingsDlg() */

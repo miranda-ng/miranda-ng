@@ -17,27 +17,27 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-IconItemT CSkypeProto::Icons[] =
+static IconItem iconList[] =
 {
-	{ LPGENW("Protocol icon"),        "main",             IDI_SKYPE         },
-	{ LPGENW("Create new chat icon"), "conference",       IDI_CONFERENCE    },
-	{ LPGENW("Sync history icon"),    "synchistory",      IDI_SYNCHISTORY   },
-	{ LPGENW("Block user icon"),      "user_block",       IDI_BLOCKUSER     },
-	{ LPGENW("Unblock user icon"),    "user_unblock",     IDI_UNBLOCKUSER   },
-	{ LPGENW("Incoming call icon"),   "inc_call",         IDI_CALL          },
-	{ LPGENW("Notification icon"),    "notify",           IDI_NOTIFY        },
-	{ LPGENW("Error icon"),           "error",            IDI_ERRORICON     },
-	{ LPGENW("Action icon"),          "me_action",        IDI_ACTION_ME     }
+	{ LPGEN("Protocol icon"),        "main",             IDI_SKYPE         },
+	{ LPGEN("Create new chat icon"), "conference",       IDI_CONFERENCE    },
+	{ LPGEN("Sync history icon"),    "synchistory",      IDI_SYNCHISTORY   },
+	{ LPGEN("Block user icon"),      "user_block",       IDI_BLOCKUSER     },
+	{ LPGEN("Unblock user icon"),    "user_unblock",     IDI_UNBLOCKUSER   },
+	{ LPGEN("Incoming call icon"),   "inc_call",         IDI_CALL          },
+	{ LPGEN("Notification icon"),    "notify",           IDI_NOTIFY        },
+	{ LPGEN("Error icon"),           "error",            IDI_ERRORICON     },
+	{ LPGEN("Action icon"),          "me_action",        IDI_ACTION_ME     }
 };
 
 void CSkypeProto::InitIcons()
 {
-	Icon_RegisterT(g_plugin.getInst(), LPGENW("Protocols") L"/" _A2W(MODULE), Icons, _countof(Icons), MODULE);
+	g_plugin.registerIcon(LPGEN("Protocols") "/" MODULE, iconList, MODULE);
 }
 
 HICON CSkypeProto::GetIcon(int iconId)
 {
-	for (auto &it : Icons)
+	for (auto &it : iconList)
 		if (it.defIconID == iconId)
 			return IcoLib_GetIconByHandle(it.hIcolib);
 	return nullptr;
@@ -45,7 +45,7 @@ HICON CSkypeProto::GetIcon(int iconId)
 
 HANDLE CSkypeProto::GetIconHandle(int iconId)
 {
-	for (auto &it : Icons)
+	for (auto &it : iconList)
 		if (it.defIconID == iconId)
 			return it.hIcolib;
 	return nullptr;

@@ -323,7 +323,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	iCodePage = Langpack_GetDefaultCodePage();
 
-	Icon_Register(g_plugin.getInst(), MODULE, iconList, _countof(iconList), MODULE);
+	g_plugin.registerIcon(MODULE, iconList, MODULE);
 
 	InitTranslations();
 	InitMessagePump();

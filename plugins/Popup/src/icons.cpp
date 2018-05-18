@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static IconItem iconList[] =
+static IconItem iconList1[] =
 {
 	// common popup
 	{ LPGEN("Popups are enabled"), "enabled", IDI_POPUP },
@@ -35,8 +35,11 @@ static IconItem iconList[] =
 	// notifications
 	{ LPGEN("Information"), "info", IDI_MB_INFO },
 	{ LPGEN("Warning"), "warning", IDI_MB_WARN },
-	{ LPGEN("Error"), "error", IDI_MB_STOP },
+	{ LPGEN("Error"), "error", IDI_MB_STOP }
+};
 
+static IconItem iconList2[] =
+{
 	// option
 	{ LPGEN("Refresh skin list"), "opt_reload", IDI_RELOAD },
 	{ LPGEN("Popup placement"), "opt_resize", IDI_RESIZE },
@@ -46,8 +49,11 @@ static IconItem iconList[] =
 	{ LPGEN("Show default"), "opt_default", IDI_ACT_OK },
 	{ LPGEN("Favorite contact"), "opt_favorite", IDI_OPT_FAVORITE },
 	{ LPGEN("Show in fullscreen"), "opt_fullscreen", IDI_OPT_FULLSCREEN },
-	{ LPGEN("Blocked contact"), "opt_block", IDI_OPT_BLOCK },
+	{ LPGEN("Blocked contact"), "opt_block", IDI_OPT_BLOCK }
+};
 
+static IconItem iconList3[] =
+{
 	// action
 	{ LPGEN("Quick reply"), "act_reply", IDI_ACT_REPLY },
 	{ LPGEN("Pin popup"), "act_pin", IDI_ACT_PIN },
@@ -62,23 +68,39 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(g_plugin.getInst(), SECT_POPUP, iconList, 8, MODULNAME);
-	Icon_Register(g_plugin.getInst(), SECT_POPUP SECT_POPUP_OPT, iconList + 8, 9, MODULNAME);
-	Icon_Register(g_plugin.getInst(), SECT_POPUP SECT_POPUP_ACT, iconList + 17, 9, MODULNAME);
+	g_plugin.registerIcon(SECT_POPUP, iconList1, MODULNAME);
+	g_plugin.registerIcon(SECT_POPUP SECT_POPUP_OPT, iconList2, MODULNAME);
+	g_plugin.registerIcon(SECT_POPUP SECT_POPUP_ACT, iconList3, MODULNAME);
 }
 
 HICON LoadIconEx(int iconId, bool big)
 {
-	for (auto &it : iconList)
+	for (auto &it : iconList1)
 		if (it.defIconID == iconId)
 			return IcoLib_GetIconByHandle(it.hIcolib, big);
-	
+
+	for (auto &it : iconList2)
+		if (it.defIconID == iconId)
+			return IcoLib_GetIconByHandle(it.hIcolib, big);
+
+	for (auto &it : iconList3)
+		if (it.defIconID == iconId)
+			return IcoLib_GetIconByHandle(it.hIcolib, big);
+
 	return nullptr;
 }
 
 HANDLE GetIconHandle(int iconId)
 {
-	for (auto &it : iconList)
+	for (auto &it : iconList1)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
+
+	for (auto &it : iconList2)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
+
+	for (auto &it : iconList3)
 		if (it.defIconID == iconId)
 			return it.hIcolib;
 

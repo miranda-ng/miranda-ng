@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "theme.h"
 #include "proto.h"
 
-static IconItem icons[] =
+static IconItem iconList[] =
 {
 	{ LPGEN("Twitter Icon"), "twitter", IDI_TWITTER },
 	{ LPGEN("Tweet"), "tweet", IDI_TWITTER },
@@ -38,13 +38,13 @@ void TwitterInitSounds(void)
 // TODO: uninit
 void InitIcons(void)
 {
-	Icon_Register(g_plugin.getInst(), "Protocols/Twitter", icons, _countof(icons), "Twitter");
-	icons[_countof(icons) - 1].hIcolib = Skin_GetIconHandle(SKINICON_EVENT_URL);
+	g_plugin.registerIcon("Protocols/Twitter", iconList, "Twitter");
+	iconList[_countof(iconList) - 1].hIcolib = Skin_GetIconHandle(SKINICON_EVENT_URL);
 }
 
 HANDLE GetIconHandle(const char *name)
 {
-	for (auto &it : icons)
+	for (auto &it : iconList)
 		if (mir_strcmp(it.szName, name) == 0)
 			return it.hIcolib;
 

@@ -11,7 +11,7 @@ IconItem Icons[] =
 
 void InitIcons()
 {
-	Icon_Register(g_plugin.getInst(), MODULE, Icons, _countof(Icons), MODULE);
+	g_plugin.registerIcon(MODULE, Icons, MODULE);
 }
 
 HICON GetIcon(int iconId)

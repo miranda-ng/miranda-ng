@@ -406,7 +406,10 @@ int setParseOptions(struct ParseOptions *po)
 	return 0;
 }
 
-static IconItem icon = { LPGEN("Help"), "vars_help", IDI_V };
+static IconItem iconList[] = 
+{
+	{ LPGEN("Help"), "vars_help", IDI_V }
+};
 
 int LoadVarModule()
 {
@@ -422,7 +425,7 @@ int LoadVarModule()
 	CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
 	CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
 
-	Icon_Register(g_plugin.getInst(), LPGEN("Variables"), &icon, 1);
+	g_plugin.registerIcon(LPGEN("Variables"), iconList);
 
 	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, iconsChanged);
 

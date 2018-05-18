@@ -1,11 +1,14 @@
 #include "stdafx.h"
 
-static IconItem iconList[] =
+static IconItem iconList1[] =
 {
 	// toolbar
 	{ LPGEN("Popups are enabled"),          ICO_TB_POPUP_ON,    IDI_POPUP          },
-	{ LPGEN("Popups are disabled"),         ICO_TB_POPUP_OFF,   IDI_NOPOPUP        },
+	{ LPGEN("Popups are disabled"),         ICO_TB_POPUP_OFF,   IDI_NOPOPUP        }
+};
 
+static IconItem iconList2[] =
+{
 	// common
 	{ LPGEN("Popups are enabled"),          ICO_POPUP_ON,       IDI_POPUP          },
 	{ LPGEN("Popups are disabled"),         ICO_POPUP_OFF,      IDI_NOPOPUP        },
@@ -14,6 +17,6 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(g_plugin.getInst(), SECT_TOLBAR, iconList, 2);
-	Icon_Register(g_plugin.getInst(), SECT_POPUP,  iconList+2, 3);
+	g_plugin.registerIcon(SECT_TOLBAR, iconList1);
+	g_plugin.registerIcon(SECT_POPUP,  iconList2);
 }

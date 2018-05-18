@@ -84,7 +84,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 
-	Icon_Register(g_plugin.getInst(), "TabSRMM/TranslitSwitcher", iconList, _countof(iconList));
+	g_plugin.registerIcon("TabSRMM/TranslitSwitcher", iconList);
 
 	BBButton bbd = {};
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;

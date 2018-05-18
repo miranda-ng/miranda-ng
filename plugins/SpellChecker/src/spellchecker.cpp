@@ -230,7 +230,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	// icons
-	Icon_Register(g_plugin.getInst(), LPGEN("Spell Checker"), iconList, _countof(iconList));
+	g_plugin.registerIcon(LPGEN("Spell Checker"), iconList);
 
 	// hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
