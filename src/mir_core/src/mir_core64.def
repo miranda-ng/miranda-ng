@@ -19,7 +19,6 @@ CreateServiceFunctionParam     @18
 DestroyHookableEvent           @19
 DestroyServiceFunction         @20
 GetExceptionFilter             @21
-GetInstByAddress               @22
 HookEvent                      @23
 HookEventMessage               @24
 HookEventObj                   @25
@@ -52,7 +51,6 @@ PathToAbsolute                 @51
 PathToAbsoluteW                @52
 PathToRelative                 @53
 PathToRelativeW                @54
-RegisterModule                 @55
 ReloadLangpack                 @56
 ServiceExists                  @57
 SetExceptionFilter             @58
@@ -66,7 +64,6 @@ TranslateMenu_LP               @65
 TranslateW_LP                  @66
 Ucs2toUtf8Len                  @67
 UnhookEvent                    @68
-UnregisterModule               @69
 Utf8Decode                     @70
 Utf8DecodeCP                   @71
 Utf8DecodeW                    @72
@@ -1068,4 +1065,3 @@ IsTerminalDisconnected @1245
 CallObjectEventHook @1259
 ?db_get_sm@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPEBD0@Z @1260 NONAME
 ?db_get_wsm@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@IPEBD0@Z @1261 NONAME
-GetPluginByInstance @1262

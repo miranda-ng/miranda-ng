@@ -177,6 +177,9 @@ public:
 	__forceinline HINSTANCE getInst() const { return m_hInst; }
 	__forceinline void setInst(HINSTANCE hInst) { m_hInst = hInst; }
 
+	////////////////////////////////////////////////////////////////////////////////////////
+	// registering module's resources
+
 	template <size_t _Size>
 	__forceinline void registerIcon(const char *szSection, IconItem(&pIcons)[_Size], const char *prefix = nullptr)
 	{
@@ -188,6 +191,10 @@ public:
 	{
 		Icon_RegisterT(m_hInst, szSection, pIcons, _Size, prefix, m_hLang);
 	}
+
+	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);
+
+	////////////////////////////////////////////////////////////////////////////////////////
 
 	__forceinline INT_PTR delSetting(const char *name)
 	{
@@ -434,5 +441,9 @@ OBJLIST<P> ACCPROTOPLUGIN<P>::g_arInstances(1, PtrKeySortT);
 #pragma comment(lib, "cmstub.lib")
 #endif
 #endif
+
+EXTERN_C MIR_APP_DLL(HINSTANCE) GetInstByAddress(void* codePtr);
+EXTERN_C MIR_APP_DLL(CMPluginBase*) GetPluginByLangId(int hLangpack);
+EXTERN_C MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst);
 
 #endif // M_NEWPLUGINAPI_H__

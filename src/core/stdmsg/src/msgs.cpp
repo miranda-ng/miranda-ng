@@ -538,13 +538,13 @@ int LoadSendRecvMessageModule(void)
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
 	CreateServiceFunction(MS_MSG_READMESSAGE, ReadMessageCommand);
 
-	Skin_AddSound("RecvMsgActive",   LPGENW("Instant messages"), LPGENW("Incoming (focused window)"));
-	Skin_AddSound("RecvMsgInactive", LPGENW("Instant messages"), LPGENW("Incoming (unfocused window)"));
-	Skin_AddSound("AlertMsg",        LPGENW("Instant messages"), LPGENW("Incoming (new session)"));
-	Skin_AddSound("SendMsg",         LPGENW("Instant messages"), LPGENW("Outgoing"));
-	Skin_AddSound("SendError",       LPGENW("Instant messages"), LPGENW("Message send error"));
-	Skin_AddSound("TNStart",         LPGENW("Instant messages"), LPGENW("Contact started typing"));
-	Skin_AddSound("TNStop",          LPGENW("Instant messages"), LPGENW("Contact stopped typing"));
+	g_plugin.addSound("RecvMsgActive",   LPGENW("Instant messages"), LPGENW("Incoming (focused window)"));
+	g_plugin.addSound("RecvMsgInactive", LPGENW("Instant messages"), LPGENW("Incoming (unfocused window)"));
+	g_plugin.addSound("AlertMsg",        LPGENW("Instant messages"), LPGENW("Incoming (new session)"));
+	g_plugin.addSound("SendMsg",         LPGENW("Instant messages"), LPGENW("Outgoing"));
+	g_plugin.addSound("SendError",       LPGENW("Instant messages"), LPGENW("Message send error"));
+	g_plugin.addSound("TNStart",         LPGENW("Instant messages"), LPGENW("Contact started typing"));
+	g_plugin.addSound("TNStop",          LPGENW("Instant messages"), LPGENW("Contact stopped typing"));
 
 	InitStatusIcons();
 	return 0;

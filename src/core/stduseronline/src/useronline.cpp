@@ -112,6 +112,7 @@ int LoadUserOnlineModule(void)
 	HookEvent(ME_PROTO_ACK, UserOnlineAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, UserOnlineModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, UserOnlineAccountsChanged);
-	Skin_AddSound(MODULENAME, LPGENW("Alerts"), LPGENW("Online"));
+	
+	g_plugin.addSound(MODULENAME, LPGENW("Alerts"), LPGENW("Online"));
 	return 0;
 }

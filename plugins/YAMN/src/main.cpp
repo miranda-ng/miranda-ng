@@ -297,8 +297,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	CreateServiceFunctions();
 
-	Skin_AddSound(YAMN_NEWMAILSOUND, L"YAMN", YAMN_NEWMAILSNDDESC);
-	Skin_AddSound(YAMN_CONNECTFAILSOUND, L"YAMN", YAMN_CONNECTFAILSNDDESC);
+	g_plugin.addSound(YAMN_NEWMAILSOUND, L"YAMN", YAMN_NEWMAILSNDDESC);
+	g_plugin.addSound(YAMN_CONNECTFAILSOUND, L"YAMN", YAMN_CONNECTFAILSNDDESC);
 
 	HookEvents();
 

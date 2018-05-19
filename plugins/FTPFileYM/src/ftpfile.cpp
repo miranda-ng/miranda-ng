@@ -346,8 +346,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 	InitMenuItems();
 	InitTabsrmmButton();
 
-	Skin_AddSound(SOUND_UPCOMPLETE, LPGENW("FTP File"), LPGENW("File upload complete"));
-	Skin_AddSound(SOUND_CANCEL, LPGENW("FTP File"), LPGENW("Upload canceled"));
+	g_plugin.addSound(SOUND_UPCOMPLETE, LPGENW("FTP File"), LPGENW("File upload complete"));
+	g_plugin.addSound(SOUND_CANCEL, LPGENW("FTP File"), LPGENW("Upload canceled"));
 
 	curl_global_init(CURL_GLOBAL_ALL);
 

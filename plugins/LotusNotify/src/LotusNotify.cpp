@@ -1733,7 +1733,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	LoadSettings(); //read from db to variables
 
-	Skin_AddSound("LotusNotify", LPGENW("Lotus Notify"), LPGENW("New Lotus document detected"));
+	g_plugin.addSound("LotusNotify", LPGENW("Lotus Notify"), LPGENW("New Lotus document detected"));
 
 	HookEvent(ME_OPT_INITIALISE, LotusNotifyOptInit); //register service to hook option call
 	HookEvent(ME_SYSTEM_MODULESLOADED, modulesloaded); //hook event that all plugins are loaded

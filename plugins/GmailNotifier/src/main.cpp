@@ -90,7 +90,7 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Skin_AddSound("Gmail", LPGENW("Other"), LPGENW("Gmail: New thread(s)"));
+	g_plugin.addSound("Gmail", LPGENW("Other"), LPGENW("Gmail: New thread(s)"));
 	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);
 
 	NETLIBUSER nlu = {};

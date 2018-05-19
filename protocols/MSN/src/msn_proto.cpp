@@ -113,11 +113,11 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	mailsoundname = (char*)mir_alloc(64);
 	mir_snprintf(mailsoundname, 64, "%s:Hotmail", m_szModuleName);
-	Skin_AddSound(mailsoundname, m_tszUserName, LPGENW("Live Mail"));
+	g_plugin.addSound(mailsoundname, m_tszUserName, LPGENW("Live Mail"));
 
 	alertsoundname = (char*)mir_alloc(64);
 	mir_snprintf(alertsoundname, 64, "%s:Alerts", m_szModuleName);
-	Skin_AddSound(alertsoundname, m_tszUserName, LPGENW("Live Alert"));
+	g_plugin.addSound(alertsoundname, m_tszUserName, LPGENW("Live Alert"));
 
 	AvatarQueue_Init();
 	InitCustomFolders();

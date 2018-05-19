@@ -45,8 +45,8 @@ int LoadModules(void)
 	mi.flags = CMIF_UNICODE;
 	ssSMSSettings.hContactMenuItems[0] = Menu_AddContactMenuItem(&mi);
 
-	Skin_AddSound("RecvSMSMsg", PROTOCOL_NAMEW, LPGENW("Incoming SMS Message"));
-	Skin_AddSound("RecvSMSConfirmation", PROTOCOL_NAMEW, LPGENW("Incoming SMS Confirmation"));
+	g_plugin.addSound("RecvSMSMsg", PROTOCOL_NAMEW, LPGENW("Incoming SMS Message"));
+	g_plugin.addSound("RecvSMSConfirmation", PROTOCOL_NAMEW, LPGENW("Incoming SMS Confirmation"));
 
 	RefreshAccountList(NULL, NULL);
 	return 0;

@@ -437,7 +437,6 @@ Hotkey_Unsubclass @457
 Hotkey_Check @458
 ?SetStatusText@CSrmmBaseDialog@@UAEXPB_WPAUHICON__@@@Z @459 NONAME
 Srmm_SetStatusText @460
-Skin_AddSound @461
 Skin_PlaySound @462
 Skin_PlaySoundFile @463
 Clist_SetStatusMode @464
@@ -593,3 +592,7 @@ Contact_GetStatus @609
 ?getMStringW@PROTO_INTERFACE@@QAE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@PBD@Z @620 NONAME
 ??0PROTOACCOUNT@@QAE@PBD@Z @621 NONAME
 ??1PROTOACCOUNT@@QAE@XZ @622 NONAME
+?addSound@CMPluginBase@@QAEHPBDPB_W11@Z @623 NONAME
+GetPluginByLangId @624
+GetInstByAddress @625
+GetPluginByInstance @626

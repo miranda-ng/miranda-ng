@@ -108,7 +108,7 @@ void CVkProto::OnModulesLoaded()
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CVkProto::OnDbSettingChanged);
 
 	//Sounds
-	Skin_AddSound("VKNewsFeed", m_tszUserName, LPGENW("VKontakte newsfeed & notification event"));
+	g_plugin.addSound("VKNewsFeed", m_tszUserName, LPGENW("VKontakte newsfeed & notification event"));
 
 	InitPopups();
 	InitMenus();

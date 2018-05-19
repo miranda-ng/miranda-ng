@@ -144,7 +144,7 @@ void registerSound(const std::wstring &name)
 	std::wstring id = L"NotifyAnything_" + name;
 	std::wstring desc = L"NotifyAnything: " + name;
 	std::wstring file = name + L".wav";
-	Skin_AddSound(_T2A(id.c_str()), LPGENW("Notify Anything"), desc.c_str(), file.c_str());
+	g_plugin.addSound(_T2A(id.c_str()), LPGENW("Notify Anything"), desc.c_str(), file.c_str());
 }
 
 HICON getIcon(const std::wstring &name)

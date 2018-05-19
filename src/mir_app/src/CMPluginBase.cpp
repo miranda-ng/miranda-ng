@@ -24,10 +24,55 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+static LIST<CMPluginBase> pluginListAddr(10, HandleKeySortT);
+
+void RegisterModule(CMPluginBase *pPlugin)
+{
+	pluginListAddr.insert(pPlugin);
+}
+
+MIR_APP_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
+{
+	if (pluginListAddr.getCount() == 0)
+		return nullptr;
+
+	int idx;
+	List_GetIndex((SortedList*)&pluginListAddr, (CMPluginBase*)&codePtr, &idx);
+	if (idx > 0)
+		idx--;
+
+	HINSTANCE result = pluginListAddr[idx]->getInst();
+	if (result < g_plugin.getInst() && codePtr > g_plugin.getInst())
+		return g_plugin.getInst();
+	
+	if (idx == 0 && codePtr < (void*)result)
+		return nullptr;
+
+	return result;
+}
+
+MIR_APP_DLL(CMPluginBase*) GetPluginByLangId(int _hLang)
+{
+	for (auto &it : pluginListAddr)
+		if (it->m_hLang == _hLang)
+			return it;
+
+	return nullptr;
+}
+
+MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
+{
+	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
+	return (pPlugin == nullptr) ? g_plugin : *pPlugin;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CMPluginBase::CMPluginBase(const char *moduleName) :
 	m_szModuleName(moduleName)
 {
-	::RegisterModule(this);
+	if (m_hInst != nullptr)
+		pluginListAddr.insert(this);
 }
 
 CMPluginBase::~CMPluginBase()
@@ -37,7 +82,7 @@ CMPluginBase::~CMPluginBase()
 		m_hLogger = nullptr;
 	}
 
-	::UnregisterModule(this);
+	pluginListAddr.remove(this);
 }
 
 void CMPluginBase::tryOpenLog()

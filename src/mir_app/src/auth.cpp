@@ -356,7 +356,7 @@ int LoadSendRecvAuthModule(void)
 	CreateServiceFunction(MS_AUTH_SHOWADDED, ShowAddedWindow);
 	Miranda_WaitOnHandle(LaunchAuth);
 
-	Skin_AddSound("AuthRequest", LPGENW("Alerts"), LPGENW("Authorization request"));
-	Skin_AddSound("AddedEvent", LPGENW("Alerts"), LPGENW("Added event"));
+	g_plugin.addSound("AuthRequest", LPGENW("Alerts"), LPGENW("Authorization request"));
+	g_plugin.addSound("AddedEvent", LPGENW("Alerts"), LPGENW("Added event"));
 	return 0;
 }

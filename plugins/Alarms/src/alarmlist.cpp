@@ -777,9 +777,9 @@ int IdleChanged(WPARAM, LPARAM lParam)
 
 void InitList()
 {
-	Skin_AddSound("Triggered1", LPGENW("Alarms"), LPGENW("Alert 1"));
-	Skin_AddSound("Triggered2", LPGENW("Alarms"), LPGENW("Alert 2"));
-	Skin_AddSound("Triggered3", LPGENW("Alarms"), LPGENW("Alert 3"));
+	g_plugin.addSound("Triggered1", LPGENW("Alarms"), LPGENW("Alert 1"));
+	g_plugin.addSound("Triggered2", LPGENW("Alarms"), LPGENW("Alert 2"));
+	g_plugin.addSound("Triggered3", LPGENW("Alarms"), LPGENW("Alert 3"));
 
 	// load last checked time	
 	DBVARIANT dbv;

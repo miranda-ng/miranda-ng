@@ -585,10 +585,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 
 	// add sounds support
-	Skin_AddSound("buddyExpectatorReturn", LPGENW("BuddyExpectator"), LPGENW("Contact returned"));
-	Skin_AddSound("buddyExpectatorStillAbsent", LPGENW("BuddyExpectator"), LPGENW("Contact still absent"));
-	Skin_AddSound("buddyExpectatorMissYou", LPGENW("BuddyExpectator"), LPGENW("Miss you event"));
-	Skin_AddSound("buddyExpectatorHide", LPGENW("BuddyExpectator"), LPGENW("Hide contact event"));
+	g_plugin.addSound("buddyExpectatorReturn", LPGENW("BuddyExpectator"), LPGENW("Contact returned"));
+	g_plugin.addSound("buddyExpectatorStillAbsent", LPGENW("BuddyExpectator"), LPGENW("Contact still absent"));
+	g_plugin.addSound("buddyExpectatorMissYou", LPGENW("BuddyExpectator"), LPGENW("Miss you event"));
+	g_plugin.addSound("buddyExpectatorHide", LPGENW("BuddyExpectator"), LPGENW("Hide contact event"));
 
 	timer_id = SetTimer(nullptr, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 

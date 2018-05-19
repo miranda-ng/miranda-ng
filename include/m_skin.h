@@ -121,12 +121,6 @@ EXTERN_C MIR_APP_DLL(char*)  Skin_GetIconName(int idx);
 EXTERN_C MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big = false);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// adds a new sound so it has a default and can be changed in the options dialog
-// returns 0 on success, nonzero otherwise
-
-EXTERN_C MIR_APP_DLL(int) Skin_AddSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr, int = hLangpack);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // plays a registered sound
 // returns 0 on success, nonzero otherwise
 

@@ -680,7 +680,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	// we have to read the status message from contacts too... err
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetContactStatMsg);
 
-	Skin_AddSound(AWAYSYS_STATUSMSGREQUEST_SOUND, nullptr, LPGENW("NewAwaySys: Incoming status message request"));
+	g_plugin.addSound(AWAYSYS_STATUSMSGREQUEST_SOUND, nullptr, LPGENW("NewAwaySys: Incoming status message request"));
 
 	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {
 		CreateServiceFunction(MS_AWAYSYS_FREEVARMEM, srvFreeVarMem);

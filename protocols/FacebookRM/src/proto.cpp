@@ -1035,12 +1035,12 @@ void FacebookProto::InitHotkeys()
  */
 void FacebookProto::InitSounds()
 {
-	Skin_AddSound("Notification", m_tszUserName, LPGENW("Notification"));
-	Skin_AddSound("NewsFeed", m_tszUserName, LPGENW("Newsfeed event"));
-	Skin_AddSound("OtherEvent", m_tszUserName, LPGENW("Other event"));
-	Skin_AddSound("Friendship", m_tszUserName, LPGENW("Friendship event"));
-	Skin_AddSound("Ticker", m_tszUserName, LPGENW("Ticker event"));
-	Skin_AddSound("Memories", m_tszUserName, LPGENW("Memories"));
+	g_plugin.addSound("Notification", m_tszUserName, LPGENW("Notification"));
+	g_plugin.addSound("NewsFeed", m_tszUserName, LPGENW("Newsfeed event"));
+	g_plugin.addSound("OtherEvent", m_tszUserName, LPGENW("Other event"));
+	g_plugin.addSound("Friendship", m_tszUserName, LPGENW("Friendship event"));
+	g_plugin.addSound("Ticker", m_tszUserName, LPGENW("Ticker event"));
+	g_plugin.addSound("Memories", m_tszUserName, LPGENW("Memories"));
 }
 
 /**

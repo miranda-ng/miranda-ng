@@ -1099,10 +1099,10 @@ void InitMainMenuItem()
 static void InitSound()
 {
 	for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
-		Skin_AddSound(StatusList[Index(i)].lpzSkinSoundName, LPGENW("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
+		g_plugin.addSound(StatusList[Index(i)].lpzSkinSoundName, LPGENW("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
 
 	for (int i = 0; i <= ID_STATUSEX_MAX; i++)
-		Skin_AddSound(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
+		g_plugin.addSound(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
 }
 
 static int InitTopToolbar(WPARAM, LPARAM)

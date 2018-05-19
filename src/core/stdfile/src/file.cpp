@@ -442,9 +442,9 @@ int LoadSendRecvFileModule(void)
 	CreateServiceFunction("SRFile/OpenContRecDir", openContRecDir);
 	CreateServiceFunction("SRFile/OpenRecDir", openRecDir);
 
-	Skin_AddSound("RecvFile",   LPGENW("File"), LPGENW("Incoming"));
-	Skin_AddSound("FileDone",   LPGENW("File"), LPGENW("Complete"));
-	Skin_AddSound("FileFailed", LPGENW("File"), LPGENW("Error"));
-	Skin_AddSound("FileDenied", LPGENW("File"), LPGENW("Denied"));
+	g_plugin.addSound("RecvFile",   LPGENW("File"), LPGENW("Incoming"));
+	g_plugin.addSound("FileDone",   LPGENW("File"), LPGENW("Complete"));
+	g_plugin.addSound("FileFailed", LPGENW("File"), LPGENW("Error"));
+	g_plugin.addSound("FileDenied", LPGENW("File"), LPGENW("Denied"));
 	return 0;
 }

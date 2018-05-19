@@ -316,7 +316,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 
-	Skin_AddSound(CLIENTCHANGED_SOUND, nullptr, LPGENW("ClientChangeNotify: Client changed"));
+	g_plugin.addSound(CLIENTCHANGED_SOUND, nullptr, LPGENW("ClientChangeNotify: Client changed"));
 
 	if (bPopupExists) {
 		CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups);

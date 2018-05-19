@@ -695,55 +695,6 @@ static void DestroyServices()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct CMPlugin : public CMPluginBase
-{
-	CMPlugin() :
-		CMPluginBase(nullptr)
-	{}
-} g_plugin;
-
-int &hLangpack(g_plugin.m_hLang);
-
-LIST<CMPluginBase> pluginListAddr(10, HandleKeySortT);
-
-MIR_CORE_DLL(void) RegisterModule(CMPluginBase *pPlugin)
-{
-	if (pPlugin->getInst() != nullptr)
-		pluginListAddr.insert(pPlugin);
-}
-
-MIR_CORE_DLL(void) UnregisterModule(CMPluginBase *pPlugin)
-{
-	pluginListAddr.remove(pPlugin);
-}
-
-MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
-{
-	if (pluginListAddr.getCount() == 0)
-		return nullptr;
-
-	int idx;
-	List_GetIndex((SortedList*)&pluginListAddr, (CMPluginBase*)&codePtr, &idx);
-	if (idx > 0)
-		idx--;
-
-	HINSTANCE result = pluginListAddr[idx]->getInst();
-	if (result < g_hInst && codePtr > g_hInst)
-		return g_hInst;
-	if (idx == 0 && codePtr < (void*)result)
-		return nullptr;
-
-	return result;
-}
-
-MIR_CORE_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
-{
-	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
-	return (pPlugin == nullptr) ? g_plugin : *pPlugin;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 int InitialiseModularEngine(void)
 {
 	mainThreadId = GetCurrentThreadId();

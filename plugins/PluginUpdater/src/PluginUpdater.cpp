@@ -99,8 +99,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitEvents();
 
 	// add sounds
-	Skin_AddSound("updatecompleted", LPGENW("Plugin Updater"), LPGENW("Update completed"));
-	Skin_AddSound("updatefailed",    LPGENW("Plugin Updater"), LPGENW("Update failed"));
+	g_plugin.addSound("updatecompleted", LPGENW("Plugin Updater"), LPGENW("Update completed"));
+	g_plugin.addSound("updatefailed",    LPGENW("Plugin Updater"), LPGENW("Update failed"));
 
 	// Upgrade old settings
 	if (-1 == db_get_b(0, MODNAME, DB_SETTING_UPDATE_MODE, -1)) {

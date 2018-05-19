@@ -188,6 +188,8 @@ INT_PTR stubChainRecv(WPARAM, LPARAM);
 
 /**** utils.cpp ************************************************************************/
 
+void RegisterModule(CMPluginBase*);
+
 void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key);
 WORD GetHotkeyValue(INT_PTR idHotkey);
 

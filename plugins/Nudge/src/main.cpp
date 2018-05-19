@@ -357,7 +357,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 
 	wchar_t soundDesc[MAXMODULELABELLENGTH + 10];
 	mir_snwprintf(soundDesc, LPGENW("Nudge for %s"), proto->tszAccountName);
-	Skin_AddSound(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
+	g_plugin.addSound(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
 
 	arNudges.insert(p);
 }
@@ -373,9 +373,9 @@ static void LoadProtocols(void)
 	// Load the default nudge
 	mir_snprintf(DefaultNudge.ProtocolName, "Default");
 	mir_snprintf(DefaultNudge.NudgeSoundname, "Nudge : Default");
-	Skin_AddSound(DefaultNudge.NudgeSoundname, LPGENW("Nudge"), LPGENW("Default Nudge"));
+	g_plugin.addSound(DefaultNudge.NudgeSoundname, LPGENW("Nudge"), LPGENW("Default Nudge"));
+	
 	DefaultNudge.Load();
-
 	GlobalNudge.Load();
 
 	for (auto &pa : Accounts())

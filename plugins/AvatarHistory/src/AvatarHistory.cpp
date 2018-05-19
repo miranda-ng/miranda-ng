@@ -331,8 +331,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	Profile_GetPathW(MAX_PATH, profilePath);
 
-	Skin_AddSound("avatar_changed", LPGENW("Avatar history"), LPGENW("Contact changed avatar"));
-	Skin_AddSound("avatar_removed", LPGENW("Avatar history"), LPGENW("Contact removed avatar"));
+	g_plugin.addSound("avatar_changed", LPGENW("Avatar history"), LPGENW("Contact changed avatar"));
+	g_plugin.addSound("avatar_removed", LPGENW("Avatar history"), LPGENW("Contact removed avatar"));
 
 	hAvatarWindowsList = WindowList_Create();
 

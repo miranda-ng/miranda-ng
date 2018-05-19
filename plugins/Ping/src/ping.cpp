@@ -135,8 +135,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	LoadOptions();
 
-	Skin_AddSound("PingTimeout", LPGENW("Ping"), LPGENW("Timeout"));
-	Skin_AddSound("PingReply", LPGENW("Ping"), LPGENW("Reply"));
+	g_plugin.addSound("PingTimeout", LPGENW("Ping"), LPGENW("Timeout"));
+	g_plugin.addSound("PingReply", LPGENW("Ping"), LPGENW("Reply"));
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, PingOptInit);

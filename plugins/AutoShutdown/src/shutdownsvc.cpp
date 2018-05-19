@@ -495,7 +495,7 @@ void InitShutdownSvc(void)
 {
 	/* Shutdown Dialog */
 	hwndShutdownDlg = nullptr;
-	Skin_AddSound("AutoShutdown_Countdown", LPGENW("Alerts"), LPGENW("Automatic shutdown countdown"));
+	g_plugin.addSound("AutoShutdown_Countdown", LPGENW("Alerts"), LPGENW("Automatic shutdown countdown"));
 
 	/* Events */
 	hEventOkToShutdown = CreateHookableEvent(ME_AUTOSHUTDOWN_OKTOSHUTDOWN);

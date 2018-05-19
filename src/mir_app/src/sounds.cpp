@@ -59,7 +59,7 @@ MIR_APP_DLL(void) KillModuleSounds(int _hLang)
 
 static HANDLE hPlayEvent = nullptr;
 
-MIR_APP_DLL(int) Skin_AddSound(const char *pszName, const wchar_t *pwszSection, const wchar_t *pwszDescription, const wchar_t *pwszDefaultFile, int _hLang)
+int CMPluginBase::addSound(const char *pszName, const wchar_t *pwszSection, const wchar_t *pwszDescription, const wchar_t *pwszDefaultFile)
 {
 	if (pszName == nullptr || pwszDescription == nullptr)
 		return 1;
@@ -67,7 +67,7 @@ MIR_APP_DLL(int) Skin_AddSound(const char *pszName, const wchar_t *pwszSection, 
 	SoundItem *item = new SoundItem; // due to OBJLIST
 	item->name = mir_strdup(pszName);
 	item->ptszTempFile = nullptr;
-	item->hLangpack = _hLang;
+	item->hLangpack = m_hLang;
 	arSounds.insert(item);
 
 	item->pwszDescription = mir_wstrdup(pwszDescription);
