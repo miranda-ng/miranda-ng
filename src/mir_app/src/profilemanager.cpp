@@ -149,7 +149,8 @@ public:
 		}
 		else {
 			for (auto &p : arDbPlugins)
-				m_driverList.AddString(TranslateW(p->szFullName), (LPARAM)p);
+				if (p->capabilities & MDB_CAPS_CREATE)
+					m_driverList.AddString(TranslateW(p->szFullName), (LPARAM)p);
 		}
 
 		// default item
