@@ -81,7 +81,7 @@ class CSrmmWindow : public CMsgDialog
 	void NotifyTyping(int mode);
 	void ProcessFileDrop(HDROP hDrop);
 	void ShowAvatar(void);
-	void ShowTime(void);
+	void ShowTime(bool bForce);
 	void SetupStatusBar(void);
 	void StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend);
 	void UpdateIcon(WPARAM wParam);

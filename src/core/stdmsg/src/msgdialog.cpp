@@ -548,19 +548,22 @@ void CSrmmWindow::ShowAvatar()
 	SendMessage(m_hwnd, DM_AVATARSIZECHANGE, 0, 0);
 }
 
-void CSrmmWindow::ShowTime()
+void CSrmmWindow::ShowTime(bool bForce)
 {
-	if (m_hTimeZone) {
-		SYSTEMTIME st;
-		GetSystemTime(&st);
-		if (m_wMinute != st.wMinute) {
+	if (!m_hTimeZone)
+		return;
+
+	SYSTEMTIME st;
+	GetSystemTime(&st);
+	if (m_wMinute != st.wMinute || bForce) {
+		if (m_pOwner->m_tab.GetActivePage() == this) {
 			wchar_t buf[32];
 			unsigned i = g_dat.bShowReadChar ? 2 : 1;
 
 			TimeZone_PrintDateTime(m_hTimeZone, L"t", buf, _countof(buf), 0);
 			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, i, (LPARAM)buf);
-			m_wMinute = st.wMinute;
 		}
+		m_wMinute = st.wMinute;
 	}
 }
 
@@ -586,7 +589,7 @@ void CSrmmWindow::SetupStatusBar()
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETPARTS, i, (LPARAM)statwidths);
 
 	UpdateReadChars();
-	ShowTime();
+	ShowTime(true);
 	SendMessage(m_hwnd, DM_STATUSICONCHANGE, 0, 0);
 }
 
@@ -1192,7 +1195,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			m_nFlash++;
 		}
 		else if (wParam == TIMERID_TYPE) {
-			ShowTime();
+			ShowTime(false);
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
 				NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
