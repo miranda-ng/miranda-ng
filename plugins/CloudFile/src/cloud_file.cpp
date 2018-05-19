@@ -3,8 +3,7 @@
 CCloudService::CCloudService(const char *protoName, const wchar_t *userName)
 	: PROTO<CCloudService>(protoName, userName)
 {
-	MUUID muidLast = MIID_LAST;
-	m_hLangpack = GetPluginLangId(muidLast, 0);
+	m_hLangpack = GetPluginLangId(MIID_LAST, 0);
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;

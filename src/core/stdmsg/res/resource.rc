@@ -61,7 +61,7 @@ BEGIN
 
     CONTROL         "Send message on double 'Enter'",IDC_SENDONDBLENTER,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,148,166,149,10
     CONTROL         "Send message on 'Enter'",IDC_SENDONENTER,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,148,179,152,10
-    CONTROL         "Send message on 'Ctrl-Enter'",IDC_SENDONCTRLENTER, "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,148,192,152,10
+    CONTROL         "Send message on 'Ctrl+Enter'",IDC_SENDONCTRLENTER, "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,148,192,152,10
 
     LTEXT           "Show warning when message has not been received after",IDC_STATIC,8,208,211,8
     EDITTEXT        IDC_SECONDS,223,206,25,12,ES_AUTOHSCROLL

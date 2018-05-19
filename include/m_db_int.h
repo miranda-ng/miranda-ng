@@ -191,6 +191,7 @@ public:
 #define EMKPRF_CREATEFAILED 1   // for some reason CreateFile() didnt like something
 
 #define MDB_CAPS_COMPACT 0x0001 // database can be compacted
+#define MDB_CAPS_CREATE  0x0002 // new database can be created
 
 struct DATABASELINK
 {
