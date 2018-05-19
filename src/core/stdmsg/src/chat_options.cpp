@@ -215,7 +215,7 @@ static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefau
 
 class COptMainDlg : public CDlgBase
 {
-	HTREEITEM hListHeading1, hListHeading2, hListHeading3, hListHeading4, hListHeading5, hListHeading6;
+	HTREEITEM hListHeading1, hListHeading2, hListHeading3, hListHeading4, hListHeading5, hListHeading6 = 0;
 
 	CCtrlTreeView checkBoxes;
 
@@ -330,7 +330,8 @@ class COptMainDlg : public CDlgBase
 		CheckHeading(hListHeading3);
 		CheckHeading(hListHeading4);
 		CheckHeading(hListHeading5);
-		CheckHeading(hListHeading6);
+		if (PopupInstalled)
+			CheckHeading(hListHeading6);
 	}
 
 public:
@@ -350,15 +351,17 @@ public:
 		hListHeading3 = InsertBranch(LPGEN("Default events to show in new chat rooms if the 'event filter' is enabled"), db_get_b(0, CHAT_MODULE, "Branch3Exp", 0) ? TRUE : FALSE);
 		hListHeading4 = InsertBranch(LPGEN("Icons to display in the message log"), db_get_b(0, CHAT_MODULE, "Branch4Exp", 0) ? TRUE : FALSE);
 		hListHeading5 = InsertBranch(LPGEN("Icons to display in the tray"), db_get_b(0, CHAT_MODULE, "Branch5Exp", 0) ? TRUE : FALSE);
-		if (PopupInstalled)
-			hListHeading6 = InsertBranch(LPGEN("Popups to display"), db_get_b(0, CHAT_MODULE, "Branch6Exp", 0) ? TRUE : FALSE);
 
 		FillBranch(hListHeading1, branch1, _countof(branch1), 0);
 		FillBranch(hListHeading2, branch2, _countof(branch2), 0);
 		FillBranch(hListHeading3, branch3, _countof(branch3), 0x03E0);
 		FillBranch(hListHeading4, branch4, _countof(branch4), 0x0000);
 		FillBranch(hListHeading5, branch5, _countof(branch5), 0x1000);
-		FillBranch(hListHeading6, branch6, _countof(branch6), 0x0000);
+		
+		if (PopupInstalled) {
+			hListHeading6 = InsertBranch(LPGEN("Popups to display"), db_get_b(0, CHAT_MODULE, "Branch6Exp", 0) ? TRUE : FALSE);
+			FillBranch(hListHeading6, branch6, _countof(branch6), 0x0000);
+		}
 		FixHeadings();
 	}
 
