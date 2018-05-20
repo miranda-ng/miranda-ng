@@ -30,7 +30,7 @@ PopupAvatar *PopupAvatar::create(MCONTACT hContact)
 			AVATARCACHEENTRY *av = (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 			if (av && (mir_wstrlen(av->szFilename) > 4))
 				if (!mir_wstrcmpi(av->szFilename + mir_wstrlen(av->szFilename) - 4, L".gif"))
-					if (db_get_b(NULL, MODULNAME, "EnableGifAnimation", 1) && GDIPlus_IsAnimatedGIF(av->szFilename))
+					if (db_get_b(NULL, MODULENAME, "EnableGifAnimation", 1) && GDIPlus_IsAnimatedGIF(av->szFilename))
 						return new GifAvatar(hContact);
 		}
 	}

@@ -10,7 +10,7 @@ HANDLE         g_event_status_change;
 HANDLE         g_event_message_added;
 HANDLE         g_protocol_ack;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -23,9 +23,13 @@ PLUGININFOEX pluginInfo={
 	{ 0x81e189dc, 0xc251, 0x45f6, { 0x9e, 0xdf, 0xa0, 0xf3, 0xa0, 0x5c, 0x42, 0x48 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>("speak_config", pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 //-----------------------------------------------------------------------------
@@ -103,7 +107,7 @@ int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	if (!g_speak_config)
 	{

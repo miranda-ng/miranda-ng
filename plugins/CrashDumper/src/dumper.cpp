@@ -529,16 +529,12 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wcha
 	frame.AddrFrame.Mode = AddrModeFlat;
 	frame.AddrStack.Mode = AddrModeFlat;
 
-	const PLUGININFOEX *pluginInfoEx = GetPluginInfoEx();
-
 	wchar_t curtime[30];
 	GetISO8061Time(nullptr, curtime, 30);
 
 	CMStringW buffer;
-	buffer.AppendFormat(L"Miranda Crash Report from %s. Crash Dumper v.%d.%d.%d.%d\r\n",
-		curtime,
-		HIBYTE(HIWORD(pluginInfoEx->version)), LOBYTE(HIWORD(pluginInfoEx->version)),
-		HIBYTE(LOWORD(pluginInfoEx->version)), LOBYTE(LOWORD(pluginInfoEx->version)));
+	buffer.AppendFormat(L"Miranda Crash Report from %s. Crash Dumper v.%d.%d.%d.%d\r\n", 
+		curtime, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 
 	int crashpos = buffer.GetLength();
 
@@ -635,6 +631,6 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wcha
 	if (len > 8192)
 		free(dst);
 
-	if (db_get_b(0, PluginName, "ShowCrashMessageBox", 1) && msg && IDYES == MessageBox(nullptr, msg, L"Miranda Crash Dumper", MB_YESNO | MB_ICONERROR | MB_TASKMODAL | MB_DEFBUTTON2 | MB_TOPMOST))
+	if (db_get_b(0, MODULENAME, "ShowCrashMessageBox", 1) && msg && IDYES == MessageBox(nullptr, msg, L"Miranda Crash Dumper", MB_YESNO | MB_ICONERROR | MB_TASKMODAL | MB_DEFBUTTON2 | MB_TOPMOST))
 		StoreStringToClip(buffer);
 }

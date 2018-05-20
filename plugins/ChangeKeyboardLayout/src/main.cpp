@@ -11,6 +11,21 @@ HHOOK kbHook_All;
 MainOptions moOptions;
 PopupOptions poOptions, poOptionsTemp;
 
+LPCTSTR ptszKeybEng = L"`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?";
+HKL hklEng = (HKL)0x04090409;
+
+LPCTSTR ptszSeparators = L" \t\n\r";
+
+HANDLE hOptionsInitialize;
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Popup"), "ckl_popup_icon", IDI_POPUPICON },
+	{ LPGEN("Copy to clipboard"), "ckl_copy_icon", IDI_COPYICON }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -24,23 +39,16 @@ PLUGININFOEX pluginInfoEx = {
 	{0xc5ef53a8, 0x80d4, 0x4ce9, {0xb3, 0x41, 0xec, 0x90, 0xd3, 0xec, 0x91, 0x56}}
 };
 
-LPCTSTR ptszKeybEng = L"`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?";
-HKL hklEng = (HKL)0x04090409;
-
-LPCTSTR ptszSeparators = L" \t\n\r";
-
-HANDLE hOptionsInitialize;
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-static IconItem iconList[] =
-{
-	{ LPGEN("Popup"), "ckl_popup_icon", IDI_POPUPICON },
-	{ LPGEN("Copy to clipboard"), "ckl_copy_icon", IDI_COPYICON }
-};
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -54,7 +62,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	// IcoLib support
-	g_plugin.registerIcon(ModuleName, iconList);
+	g_plugin.registerIcon(MODULENAME, iconList);
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 

@@ -103,7 +103,5 @@ extern IconItem iconList[];
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>("FavContacts")
-	{}
+	CMPlugin();
 };

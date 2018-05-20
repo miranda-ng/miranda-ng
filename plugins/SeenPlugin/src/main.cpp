@@ -29,7 +29,7 @@ CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -43,9 +43,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x2d506d46, 0xc94e, 0x4ef8, { 0x85, 0x37, 0xf1, 0x12, 0x33, 0xa8, 0x03, 0x81 }}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(S_MOD, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -95,7 +99,7 @@ static int OnShutdown(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	g_pUserInfo = WindowList_Create();
 	g_hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);

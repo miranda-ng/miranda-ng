@@ -21,7 +21,7 @@ int CheckBayes()
 	mir_free(tmp);
 
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		hBayesFolder = FoldersRegisterCustomPath(PLUGIN_NAME, Translate("Bayes database path"), bayesdb_tmp);
+		hBayesFolder = FoldersRegisterCustomPath(MODULENAME, Translate("Bayes database path"), bayesdb_tmp);
 	} else hBayesFolder = nullptr;
 	
 	if (hBayesFolder)

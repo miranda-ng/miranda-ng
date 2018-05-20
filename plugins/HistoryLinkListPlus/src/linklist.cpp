@@ -22,7 +22,9 @@ HCURSOR splitCursor;
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -35,55 +37,20 @@ PLUGININFOEX pluginInfo = {
 	{0xDA0B09F5, 0x9C66, 0x488C, {0xAE, 0x37, 0x8A, 0x5F, 0x19, 0x1C, 0x90, 0x79}}
 };
 
-extern "C" __declspec(dllexport) int Load(void)
-{
-	mir_getLP(&pluginInfo);
-
-	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
-
-	CMenuItem mi;
-	SET_UID(mi, 0x2964dc6c, 0x9cf9, 0x4f20, 0x8f, 0x8a, 0xc6, 0xfe, 0xe2, 0x65, 0xac, 0xc9);
-	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON));
-	mi.name.w = LPGENW("&Create Linklist");
-	mi.pszService = "Linklist/MenuCommand";
-	Menu_AddContactMenuItem(&mi);
-
-	hWindowList = WindowList_Create();
-
-	WNDCLASS wndclass = { 0 };
-	wndclass.style = CS_HREDRAW | CS_VREDRAW;
-	wndclass.lpfnWndProc = ProgressBarDlg;
-	wndclass.hInstance = g_plugin.getInst();
-	wndclass.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON));
-	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wndclass.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wndclass.lpszClassName = L"Progressbar";
-	RegisterClass(&wndclass);
-
-	splitCursor = LoadCursor(nullptr, IDC_SIZENS);
-
-	HookEvent(ME_OPT_INITIALISE, InitOptionsDlg);
-	HookEvent(ME_DB_EVENT_ADDED, DBUpdate);
-
-	return 0;
-}
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(LINKLIST_MODULE, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	WindowList_Destroy(hWindowList);
-	DestroyCursor(splitCursor);
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-int InitOptionsDlg(WPARAM wParam, LPARAM)
+static int InitOptionsDlg(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("History");
 	odp.szTitle.a = LPGEN("History Linklist");
@@ -181,5 +148,48 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	}
 
 	ShowWindow(hWndMain, SW_SHOW);
+	return 0;
+}
+
+extern "C" __declspec(dllexport) int Load(void)
+{
+	mir_getLP(&pluginInfoEx);
+
+	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
+
+	CMenuItem mi;
+	SET_UID(mi, 0x2964dc6c, 0x9cf9, 0x4f20, 0x8f, 0x8a, 0xc6, 0xfe, 0xe2, 0x65, 0xac, 0xc9);
+	mi.flags = CMIF_UNICODE;
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON));
+	mi.name.w = LPGENW("&Create Linklist");
+	mi.pszService = "Linklist/MenuCommand";
+	Menu_AddContactMenuItem(&mi);
+
+	hWindowList = WindowList_Create();
+
+	WNDCLASS wndclass = {};
+	wndclass.style = CS_HREDRAW | CS_VREDRAW;
+	wndclass.lpfnWndProc = ProgressBarDlg;
+	wndclass.hInstance = g_plugin.getInst();
+	wndclass.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON));
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wndclass.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+	wndclass.lpszClassName = L"Progressbar";
+	RegisterClass(&wndclass);
+
+	splitCursor = LoadCursor(nullptr, IDC_SIZENS);
+
+	HookEvent(ME_OPT_INITIALISE, InitOptionsDlg);
+	HookEvent(ME_DB_EVENT_ADDED, DBUpdate);
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) int Unload(void)
+{
+	WindowList_Destroy(hWindowList);
+	DestroyCursor(splitCursor);
 	return 0;
 }

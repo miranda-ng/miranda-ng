@@ -63,7 +63,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+static PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -77,9 +77,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x8f79b4ee, 0xeb48, 0x4a03, { 0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>("CList", pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +116,7 @@ static int systemModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) CListInitialise()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	pcli = Clist_GetInterface();
 	coreCli = *pcli;

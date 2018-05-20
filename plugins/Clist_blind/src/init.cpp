@@ -53,8 +53,8 @@ int CListOptInit(WPARAM wParam, LPARAM lParam);
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns the plugin information
 
-PLUGININFOEX pluginInfo = {
-	sizeof(pluginInfo),
+PLUGININFOEX pluginInfoEx = {
+	sizeof(pluginInfoEx),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -66,9 +66,13 @@ PLUGININFOEX pluginInfo = {
 	{0x53e095a3, 0x2695, 0x490a, {0x9d, 0xad, 0xd2, 0x4, 0x79, 0x9, 0x38, 0x31}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>("CList", pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

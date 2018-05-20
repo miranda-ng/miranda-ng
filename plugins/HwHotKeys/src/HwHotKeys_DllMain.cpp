@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
+
 HWND hDialogWnd = nullptr; // хэндл окна настроек, он глобально используется для вывода туда в реалтайме сканкодов клавы из хука
 HHOOK hHook;
 CLIST_INTERFACE *pcli;
@@ -67,7 +68,7 @@ CHAR key_name_buffer[150]; // буфер куда печатается имя к
 
 // ============================================================================
 
-PLUGININFOEX PluginInfoEx = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -80,9 +81,13 @@ PLUGININFOEX PluginInfoEx = {
 	{ 0x315b3800, 0x8258, 0x44c4, { 0xb6, 0xe, 0x58, 0xc5, 0xb, 0x93, 0x3, 0xb6 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 {
-	return &PluginInfoEx;
+	return &pluginInfoEx;
 }
 
 // ============================================================================
@@ -90,12 +95,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	// загружаем (из БД) настройки плагина
-	code_Close = db_get_dw(0, __DbModName, "Close", 0);
-	code_HideShow = db_get_dw(0, __DbModName, "HideShow", 0);
-	code_ReadMsg = db_get_dw(0, __DbModName, "ReadMsg", 0);
+	code_Close = db_get_dw(0, MODULENAME, "Close", 0);
+	code_HideShow = db_get_dw(0, MODULENAME, "HideShow", 0);
+	code_ReadMsg = db_get_dw(0, MODULENAME, "ReadMsg", 0);
 
 	// установка кода локализации - макрос mir_getLP(PlgInfoEx)
-	mir_getLP(&PluginInfoEx);
+	mir_getLP(&pluginInfoEx);
 
 	// Интерфейс контактлиста - макрос заполняет CLIST_INTERFACE *pcli;
 	pcli = Clist_GetInterface();

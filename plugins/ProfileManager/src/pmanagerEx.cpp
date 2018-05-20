@@ -15,9 +15,7 @@ There is no warranty.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(nullptr)
-	{}
+	CMPlugin();
 }
 g_plugin;
 
@@ -25,7 +23,7 @@ int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -39,9 +37,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x7eeeb55e, 0x9d83, 0x4e1a, { 0xa1, 0x2f, 0x8f, 0x13, 0xf1, 0xa1, 0x24, 0xfb } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +87,7 @@ static MUUID uids[_countof(iconList)] =
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	g_plugin.registerIcon(LPGEN("Profile manager"), iconList);
 

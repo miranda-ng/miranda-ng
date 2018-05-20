@@ -23,30 +23,45 @@
 #include "version.h"
 #include <errno.h>
 
-// Plugin info
-PLUGININFOEX pluginInfo = {
-   sizeof(PLUGININFOEX),
-   __PLUGIN_NAME,
-   PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-   __DESCRIPTION,
-   __AUTHOR,
-   __COPYRIGHT,
-   __AUTHORWEB,
-   UNICODE_AWARE,
-   // {F3FF65F3-250E-416A-BEE9-58C93F85AB33}
-   { 0xf3ff65f3, 0x250e, 0x416a, { 0xbe, 0xe9, 0x58, 0xc9, 0x3f, 0x85, 0xab, 0x33 } }
-};
-
 // Other variables
 SSL_API sslApi;
-CLIST_INTERFACE *pcli;
+CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
+CLIST_INTERFACE *pcli;
 
 static unsigned long crc_table[256];
 
 //////////////////////////////////////////////////////////
+// Plugin info
 
-CMPlugin g_plugin;
+PLUGININFOEX pluginInfoEx = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {F3FF65F3-250E-416A-BEE9-58C93F85AB33}
+	{0xf3ff65f3, 0x250e, 0x416a, {0xbe, 0xe9, 0x58, 0xc9, 0x3f, 0x85, 0xab, 0x33}}
+};
+
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<GaduProto>(GGDEF_PROTO, pluginInfoEx)
+{
+	crc_gentable();
+	SetUniqueId(GG_KEY_UIN);
+}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+//////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 //////////////////////////////////////////////////////////
 // Extra winsock function for error description
@@ -148,22 +163,12 @@ const wchar_t *http_error_string(int h)
 }
 
 //////////////////////////////////////////////////////////
-// Gets plugin info
-//
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
-//////////////////////////////////////////////////////////
 // Cleanups from last plugin
 //
 void GaduProto::cleanuplastplugin(DWORD version)
 {
 	// Store current plugin version
-	setDword(GG_PLUGINVERSION, pluginInfo.version);
+	setDword(GG_PLUGINVERSION, pluginInfoEx.version);
 
 	//1. clean files: %miranda_avatarcache%\GG\*.(null)
 	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)) {
@@ -299,7 +304,7 @@ void GaduProto::OnBuildProtoMenu()
 //
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);

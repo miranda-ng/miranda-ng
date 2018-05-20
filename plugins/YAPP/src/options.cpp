@@ -6,79 +6,79 @@ HICON hPopupIcon = nullptr;
 
 void LoadModuleDependentOptions() {
 	if (ServiceExists(MS_AV_DRAWAVATAR))
-		options.av_layout = (PopupAvLayout)db_get_b(0, MODULE, "AVLayout", PAV_RIGHT);
+		options.av_layout = (PopupAvLayout)db_get_b(0, MODULENAME, "AVLayout", PAV_RIGHT);
 	else
 		options.av_layout = PAV_NONE;
 
-	options.time_layout = (PopupTimeLayout)db_get_b(0, MODULE, "TimeLayout", (ServiceExists(MS_AV_DRAWAVATAR) ? PT_WITHAV : PT_RIGHT));
+	options.time_layout = (PopupTimeLayout)db_get_b(0, MODULENAME, "TimeLayout", (ServiceExists(MS_AV_DRAWAVATAR) ? PT_WITHAV : PT_RIGHT));
 	if (options.time_layout == PT_WITHAV && !ServiceExists(MS_AV_DRAWAVATAR))
 		options.time_layout = PT_RIGHT;
 }
 
 void LoadOptions()
 {
-	options.default_timeout = db_get_dw(0, MODULE, "DefaultTimeout", 7);
-	options.win_width       = db_get_dw(0, MODULE, "WinWidth", 220);
-	options.win_max_height  = db_get_dw(0, MODULE, "WinMaxHeight", 400);
-	options.location        = (PopupLocation)db_get_b(0, MODULE, "Location", (BYTE)PL_BOTTOMRIGHT);
-	options.opacity         = db_get_b(0, MODULE, "Opacity", 75);
-	options.border          = db_get_b(0, MODULE, "Border", 1) == 1;
-	options.round           = db_get_b(0, MODULE, "RoundCorners", 1) == 1;
-	options.av_round        = db_get_b(0, MODULE, "AvatarRoundCorners", 1) == 1;
-	options.animate         = db_get_b(0, MODULE, "Animate", 0);
-	options.trans_bg        = db_get_b(0, MODULE, "TransparentBg", 0) == 1;
-	options.use_mim_monitor = db_get_b(0, MODULE, "UseMimMonitor", 1) == 1;
-	options.right_icon      = db_get_b(0, MODULE, "RightIcon", 0) == 1;
+	options.default_timeout = db_get_dw(0, MODULENAME, "DefaultTimeout", 7);
+	options.win_width       = db_get_dw(0, MODULENAME, "WinWidth", 220);
+	options.win_max_height  = db_get_dw(0, MODULENAME, "WinMaxHeight", 400);
+	options.location        = (PopupLocation)db_get_b(0, MODULENAME, "Location", (BYTE)PL_BOTTOMRIGHT);
+	options.opacity         = db_get_b(0, MODULENAME, "Opacity", 75);
+	options.border          = db_get_b(0, MODULENAME, "Border", 1) == 1;
+	options.round           = db_get_b(0, MODULENAME, "RoundCorners", 1) == 1;
+	options.av_round        = db_get_b(0, MODULENAME, "AvatarRoundCorners", 1) == 1;
+	options.animate         = db_get_b(0, MODULENAME, "Animate", 0);
+	options.trans_bg        = db_get_b(0, MODULENAME, "TransparentBg", 0) == 1;
+	options.use_mim_monitor = db_get_b(0, MODULENAME, "UseMimMonitor", 1) == 1;
+	options.right_icon      = db_get_b(0, MODULENAME, "RightIcon", 0) == 1;
 	options.av_layout       = PAV_NONE; // corrected in LoadModuleDependentOptions function above
-	options.av_size         = db_get_dw(0, MODULE, "AVSize", 40); //tweety
-	options.text_indent     = db_get_dw(0, MODULE, "TextIndent", 22); 
-	options.global_hover    = db_get_b(0, MODULE, "GlobalHover", 1) == 1;
-	options.time_layout     = (PopupTimeLayout)db_get_b(0, MODULE, "TimeLayout", PT_RIGHT);
+	options.av_size         = db_get_dw(0, MODULENAME, "AVSize", 40); //tweety
+	options.text_indent     = db_get_dw(0, MODULENAME, "TextIndent", 22); 
+	options.global_hover    = db_get_b(0, MODULENAME, "GlobalHover", 1) == 1;
+	options.time_layout     = (PopupTimeLayout)db_get_b(0, MODULENAME, "TimeLayout", PT_RIGHT);
 
 	char buff[128];
 	for (int i = 0; i < 10; i++) {
 		mir_snprintf(buff, "DisableStatus%d", i - 1); // -1 because i forgot offline status earlier!
-		options.disable_status[i] = (db_get_b(0, MODULE, buff, 0) == 1);
+		options.disable_status[i] = (db_get_b(0, MODULENAME, buff, 0) == 1);
 	}
 
-	options.disable_full_screen = db_get_b(0, MODULE, "DisableFullScreen", 1) == 1;
-	options.drop_shadow = db_get_b(0, MODULE, "DropShadow", 0) == 1;
-	options.sb_width = db_get_dw(0, MODULE, "SidebarWidth", 22);
-	options.padding = db_get_dw(0, MODULE, "Padding", 4);
-	options.av_padding = db_get_dw(0, MODULE, "AvatarPadding", 4);
+	options.disable_full_screen = db_get_b(0, MODULENAME, "DisableFullScreen", 1) == 1;
+	options.drop_shadow = db_get_b(0, MODULENAME, "DropShadow", 0) == 1;
+	options.sb_width = db_get_dw(0, MODULENAME, "SidebarWidth", 22);
+	options.padding = db_get_dw(0, MODULENAME, "Padding", 4);
+	options.av_padding = db_get_dw(0, MODULENAME, "AvatarPadding", 4);
 }
 
 void SaveOptions()
 {
-	db_set_dw(0, MODULE, "DefaultTimeout", options.default_timeout);
-	db_set_dw(0, MODULE, "WinWidth", options.win_width);
-	db_set_dw(0, MODULE, "WinMaxHeight", options.win_max_height);
-	db_set_b(0, MODULE, "Location", (BYTE)options.location);
-	db_set_b(0, MODULE, "Opacity", (BYTE)options.opacity);
-	db_set_b(0, MODULE, "Border", (options.border ? 1 : 0));
-	db_set_b(0, MODULE, "RoundCorners", (options.round ? 1 : 0));
-	db_set_b(0, MODULE, "AvatarRoundCorners", (options.av_round ? 1 : 0));
-	db_set_b(0, MODULE, "Animate", options.animate);
-	db_set_b(0, MODULE, "TransparentBg", (options.trans_bg ? 1 : 0));
-	db_set_b(0, MODULE, "UseMimMonitor", (options.use_mim_monitor ? 1 : 0));
-	db_set_b(0, MODULE, "RightIcon", (options.right_icon ? 1 : 0));
+	db_set_dw(0, MODULENAME, "DefaultTimeout", options.default_timeout);
+	db_set_dw(0, MODULENAME, "WinWidth", options.win_width);
+	db_set_dw(0, MODULENAME, "WinMaxHeight", options.win_max_height);
+	db_set_b(0, MODULENAME, "Location", (BYTE)options.location);
+	db_set_b(0, MODULENAME, "Opacity", (BYTE)options.opacity);
+	db_set_b(0, MODULENAME, "Border", (options.border ? 1 : 0));
+	db_set_b(0, MODULENAME, "RoundCorners", (options.round ? 1 : 0));
+	db_set_b(0, MODULENAME, "AvatarRoundCorners", (options.av_round ? 1 : 0));
+	db_set_b(0, MODULENAME, "Animate", options.animate);
+	db_set_b(0, MODULENAME, "TransparentBg", (options.trans_bg ? 1 : 0));
+	db_set_b(0, MODULENAME, "UseMimMonitor", (options.use_mim_monitor ? 1 : 0));
+	db_set_b(0, MODULENAME, "RightIcon", (options.right_icon ? 1 : 0));
 	if (ServiceExists(MS_AV_DRAWAVATAR))
-		db_set_b(0, MODULE, "AVLayout", (BYTE)options.av_layout);
-	db_set_dw(0, MODULE, "AVSize", options.av_size);
-	db_set_dw(0, MODULE, "TextIndent", options.text_indent);
-	db_set_b(0, MODULE, "GlobalHover", (options.global_hover ? 1 : 0));
-	db_set_b(0, MODULE, "TimeLayout", (BYTE)options.time_layout);
+		db_set_b(0, MODULENAME, "AVLayout", (BYTE)options.av_layout);
+	db_set_dw(0, MODULENAME, "AVSize", options.av_size);
+	db_set_dw(0, MODULENAME, "TextIndent", options.text_indent);
+	db_set_b(0, MODULENAME, "GlobalHover", (options.global_hover ? 1 : 0));
+	db_set_b(0, MODULENAME, "TimeLayout", (BYTE)options.time_layout);
 
 	char buff[128];
 	for (int i = 0; i < 9; i++) {
 		mir_snprintf(buff, "DisableStatus%d", i - 1);
-		db_set_b(0, MODULE, buff, options.disable_status[i] ? 1 : 0);
+		db_set_b(0, MODULENAME, buff, options.disable_status[i] ? 1 : 0);
 	}
-	db_set_b(0, MODULE, "DisableFullScreen", (options.disable_full_screen ? 1 : 0));
-	db_set_b(0, MODULE, "DropShadow", (options.drop_shadow ? 1 : 0));
-	db_set_dw(0, MODULE, "SidebarWidth", options.sb_width);
-	db_set_dw(0, MODULE, "Padding", options.padding);
-	db_set_dw(0, MODULE, "AvatarPadding", options.av_padding);
+	db_set_b(0, MODULENAME, "DisableFullScreen", (options.disable_full_screen ? 1 : 0));
+	db_set_b(0, MODULENAME, "DropShadow", (options.drop_shadow ? 1 : 0));
+	db_set_dw(0, MODULENAME, "SidebarWidth", options.sb_width);
+	db_set_dw(0, MODULENAME, "Padding", options.padding);
+	db_set_dw(0, MODULENAME, "AvatarPadding", options.av_padding);
 }
 
 void ShowExamplePopups()
@@ -453,11 +453,11 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			char setting[256];
 			for (auto &pc : arClasses) {
 				mir_snprintf(setting, "%s/Timeout", pc->pszName);
-				db_set_w(0, MODULE, setting, pc->iSeconds);
+				db_set_w(0, MODULENAME, setting, pc->iSeconds);
 				mir_snprintf(setting, "%s/TextCol", pc->pszName);
-				db_set_dw(0, MODULE, setting, (DWORD)pc->colorText);
+				db_set_dw(0, MODULENAME, setting, (DWORD)pc->colorText);
 				mir_snprintf(setting, "%s/BgCol", pc->pszName);
-				db_set_dw(0, MODULE, setting, (DWORD)pc->colorBack);
+				db_set_dw(0, MODULENAME, setting, (DWORD)pc->colorBack);
 			}
 			return TRUE;
 		}

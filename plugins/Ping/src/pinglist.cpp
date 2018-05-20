@@ -59,7 +59,7 @@ void write_ping_address(PINGADDRESS &i)
 
 	if (i.item_id == 0) {
 		i.item_id = NextID++;
-		db_set_dw(0, PLUG, "NextID", NextID);
+		db_set_dw(0, MODULENAME, "NextID", NextID);
 	}
 
 	db_set_dw(0, buff, "Id", i.item_id);
@@ -162,7 +162,7 @@ bool read_ping_address(PINGADDRESS &pa) {
 	pa.index = index;
 	if (pa.item_id >= NextID) {
 		NextID = pa.item_id + 1;
-		db_set_dw(0, PLUG, "NextID", NextID);
+		db_set_dw(0, MODULENAME, "NextID", NextID);
 	}
 
 	return true;

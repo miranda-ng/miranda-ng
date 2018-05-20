@@ -32,14 +32,10 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 #define MIIM_STRING	0x00000040
-
-extern PLUGININFOEX pluginInfoEx;
 
 int OptionsInit(WPARAM, LPARAM);
 

@@ -268,7 +268,7 @@ void MirfoxData::refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* 
 	MFENUM_MIRANDAACCOUNT_STATE getOrCreateAccountStateInDB(char* szModuleName);
 	std::string mirandaAccountDBKey("ACCOUNTSTATE_");
 	mirandaAccountDBKey += szModuleName;
-	int keyValue = db_get_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 0);
+	int keyValue = db_get_b(0, MODULENAME, mirandaAccountDBKey.c_str(), 0);
 	if (keyValue == 1 || keyValue == 2){
 		//setting exist
 		if (keyValue == 1){
@@ -280,10 +280,10 @@ void MirfoxData::refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* 
 		//setting does not exist, or is invalid -> save default setting (1 - ON)
 		if (getAccountDefaultState(mirandaAccountItemPtr) == 1){ //on = 1
 			mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_ON;	//1
-			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 1);
+			db_set_b(0, MODULENAME, mirandaAccountDBKey.c_str(), 1);
 		} else { //off = 2
 			mirandaAccountItemPtr->accountState = MFENUM_MIRANDAACCOUNT_STATE_OFF;	//2
-			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 2);
+			db_set_b(0, MODULENAME, mirandaAccountDBKey.c_str(), 2);
 		}
 	}
 	 */
@@ -337,7 +337,7 @@ void MirfoxData::refreshAccount_Delete(SharedMemoryUtils& sharedMemoryUtils, cha
 
 	std::string mirandaAccountDBKey("ACCOUNTSTATE_");
 	mirandaAccountDBKey += szModuleName;
-	db_unset(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str());
+	db_unset(0, MODULENAME, mirandaAccountDBKey.c_str());
 
 	//del proto from SM
 	sharedMemoryUtils.refreshMsm_Delete('A', deletedId);
@@ -530,7 +530,7 @@ MirfoxData::createOrGetAccountStateFromDB(MirandaAccount* mirandaAccount){
 
 	std::string mirandaAccountDBKey("ACCOUNTSTATE_");
 	mirandaAccountDBKey += mirandaAccount->szModuleName;
-	int keyValue = db_get_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 0);
+	int keyValue = db_get_b(0, MODULENAME, mirandaAccountDBKey.c_str(), 0);
 	if (keyValue == 1 || keyValue == 2){
 		//setting exist
 		if (keyValue == 1){
@@ -541,10 +541,10 @@ MirfoxData::createOrGetAccountStateFromDB(MirandaAccount* mirandaAccount){
 	} else {
 		//setting does not exist, or is invalid -> save default setting (1 - ON)
 		if (getAccountDefaultState(mirandaAccount) == 1){ //on = 1
-			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 1);
+			db_set_b(0, MODULENAME, mirandaAccountDBKey.c_str(), 1);
 			return MFENUM_MIRANDAACCOUNT_STATE_ON;	//1
 		} else { //off = 2
-			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 2);
+			db_set_b(0, MODULENAME, mirandaAccountDBKey.c_str(), 2);
 			return MFENUM_MIRANDAACCOUNT_STATE_OFF;	//2
 		}
 	}
@@ -554,7 +554,7 @@ MirfoxData::createOrGetAccountStateFromDB(MirandaAccount* mirandaAccount){
 MFENUM_MIRANDACONTACT_STATE
 MirfoxData::createOrGetContactStateFromDB(MirandaContact* mirandaContact){
 
-	int keyValue = db_get_b(mirandaContact->contactHandle, PLUGIN_DB_ID, "state", 0);
+	int keyValue = db_get_b(mirandaContact->contactHandle, MODULENAME, "state", 0);
 	if (keyValue == 1 || keyValue == 2){
 		//setting exist
 		if (keyValue == 1){
@@ -565,10 +565,10 @@ MirfoxData::createOrGetContactStateFromDB(MirandaContact* mirandaContact){
 	} else {
 		//setting does not exist, or is invalid -> save default setting (1 - ON)
 		if (MirfoxData::getContactDefaultState(mirandaContact->getObjectPtr()) == 1){ //on = 1
-			db_set_b(mirandaContact->contactHandle, PLUGIN_DB_ID, "state", 1);
+			db_set_b(mirandaContact->contactHandle, MODULENAME, "state", 1);
 			return MFENUM_MIRANDACONTACT_STATE_ON;		//1
 		} else { //off = 2
-			db_set_b(mirandaContact->contactHandle, PLUGIN_DB_ID, "state", 2);
+			db_set_b(mirandaContact->contactHandle, MODULENAME, "state", 2);
 			return MFENUM_MIRANDACONTACT_STATE_OFF;	//2
 		}
 	}
@@ -664,7 +664,7 @@ void MirfoxData::initializeOptions()
 {
 
 	//addAccountToContactNameCheckbox
-	int opt2KeyValue = db_get_b(0, PLUGIN_DB_ID, "addAccountToContactNameCheckbox", 0);
+	int opt2KeyValue = db_get_b(0, MODULENAME, "addAccountToContactNameCheckbox", 0);
 	if (opt2KeyValue == 1 || opt2KeyValue == 2){
 		//setting exist
 		if (opt2KeyValue == 1){
@@ -675,12 +675,12 @@ void MirfoxData::initializeOptions()
 	} else {
 		//setting does not exist, or is invalid -> save default setting (2 - false)
 		setAddAccountToContactNameCheckbox(false);	 //2
-		db_set_b(0, PLUGIN_DB_ID, "addAccountToContactNameCheckbox", 2);
+		db_set_b(0, MODULENAME, "addAccountToContactNameCheckbox", 2);
 	}
 
 
 	//clientsProfilesFilterCheckbox
-	int opt1KeyValue = db_get_b(0, PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", 0);
+	int opt1KeyValue = db_get_b(0, MODULENAME, "clientsProfilesFilterCheckbox", 0);
 	if (opt1KeyValue == 1 || opt1KeyValue == 2){
 		//setting exist
 		if (opt1KeyValue == 1){
@@ -691,53 +691,53 @@ void MirfoxData::initializeOptions()
 	} else {
 		//setting does not exist, or is invalid -> save default setting (2 - false)
 		setClientsProfilesFilterCheckbox(false);	 //2
-		db_set_b(0, PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", 2);
+		db_set_b(0, MODULENAME, "clientsProfilesFilterCheckbox", 2);
 	}
 
 
 	//clientsProfilesFilterString
 	DBVARIANT opt2Dbv = {0};
-	INT_PTR opt2Result = db_get_s(0, PLUGIN_DB_ID, "clientsProfilesFilterString", &opt2Dbv, DBVT_WCHAR);
+	INT_PTR opt2Result = db_get_s(0, MODULENAME, "clientsProfilesFilterString", &opt2Dbv, DBVT_WCHAR);
 	if (opt2Result == 0){	//success
 		//option exists in DB, get value
 		(* getClientsProfilesFilterStringPtr()) = opt2Dbv.pwszVal;
 	} else {
 		//option not exists in DB, set default value
 		(* getClientsProfilesFilterStringPtr()) = L"";
-		db_set_ws(0, PLUGIN_DB_ID, "clientsProfilesFilterString", getClientsProfilesFilterStringPtr()->c_str());
+		db_set_ws(0, MODULENAME, "clientsProfilesFilterString", getClientsProfilesFilterStringPtr()->c_str());
 	}
 	db_free(&opt2Dbv);
 
 
 
-	int opt3KeyValue = db_get_b(0, PLUGIN_DB_ID, "leftClickSendMode", 0);
+	int opt3KeyValue = db_get_b(0, MODULENAME, "leftClickSendMode", 0);
 	if (opt3KeyValue == MFENUM_SMM_ONLY_SEND || opt3KeyValue == MFENUM_SMM_SEND_AND_SHOW_MW || opt3KeyValue == MFENUM_SMM_ONLY_SHOW_MW){
 		//setting exist
 		leftClickSendMode = (MFENUM_SEND_MESSAGE_MODE)opt3KeyValue;
 	} else {
 		//setting does not exist, or is invalid -> save default setting (MFENUM_SMM_ONLY_SEND)
 		leftClickSendMode = MFENUM_SMM_ONLY_SEND;
-		db_set_b(0, PLUGIN_DB_ID, "leftClickSendMode", MFENUM_SMM_ONLY_SEND);
+		db_set_b(0, MODULENAME, "leftClickSendMode", MFENUM_SMM_ONLY_SEND);
 	}
 
-	int opt4KeyValue = db_get_b(0, PLUGIN_DB_ID, "rightClickSendMode", 0);
+	int opt4KeyValue = db_get_b(0, MODULENAME, "rightClickSendMode", 0);
 	if (opt4KeyValue == MFENUM_SMM_ONLY_SEND || opt4KeyValue == MFENUM_SMM_SEND_AND_SHOW_MW || opt4KeyValue == MFENUM_SMM_ONLY_SHOW_MW){
 		//setting exist
 		rightClickSendMode = (MFENUM_SEND_MESSAGE_MODE)opt4KeyValue;
 	} else {
 		//setting does not exist, or is invalid -> save default setting (MFENUM_SMM_SEND_AND_SHOW_MW)
 		rightClickSendMode = MFENUM_SMM_SEND_AND_SHOW_MW;
-		db_set_b(0, PLUGIN_DB_ID, "rightClickSendMode", MFENUM_SMM_SEND_AND_SHOW_MW);
+		db_set_b(0, MODULENAME, "rightClickSendMode", MFENUM_SMM_SEND_AND_SHOW_MW);
 	}
 
-	int opt5KeyValue = db_get_b(0, PLUGIN_DB_ID, "middleClickSendMode", 0);
+	int opt5KeyValue = db_get_b(0, MODULENAME, "middleClickSendMode", 0);
 	if (opt5KeyValue == MFENUM_SMM_ONLY_SEND || opt5KeyValue == MFENUM_SMM_SEND_AND_SHOW_MW || opt5KeyValue == MFENUM_SMM_ONLY_SHOW_MW){
 		//setting exist
 		middleClickSendMode = (MFENUM_SEND_MESSAGE_MODE)opt5KeyValue;
 	} else {
 		//setting does not exist, or is invalid -> save default setting (must be MFENUM_SMM_ONLY_SEND due to Firefox bug and crash)
 		middleClickSendMode = MFENUM_SMM_ONLY_SEND;
-		db_set_b(0, PLUGIN_DB_ID, "middleClickSendMode", MFENUM_SMM_ONLY_SEND);
+		db_set_b(0, MODULENAME, "middleClickSendMode", MFENUM_SMM_ONLY_SEND);
 	}
 
 

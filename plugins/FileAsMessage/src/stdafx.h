@@ -27,7 +27,7 @@
 
 #define MAXBUFSIZE 4096
 #define SERVICE_TITLE LPGEN("File As Message")
-#define SERVICE_NAME "FileAsMessage"
+#define MODULENAME "FileAsMessage"
 
 #define SERVICE_PREFIX "<%fAM-0023%>"
 
@@ -35,9 +35,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(SERVICE_NAME)
-	{}
+	CMPlugin();
 };
 
 extern char *szServiceTitle;

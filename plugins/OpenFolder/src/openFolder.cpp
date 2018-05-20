@@ -2,9 +2,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(nullptr)
-	{}
+	CMPlugin();
 }
 g_plugin;
 
@@ -26,6 +24,10 @@ PLUGININFOEX pluginInfoEx =
 	// {10896143-7249-4B36-A408-6501A6B6035A}
 	{0x10896143, 0x7249, 0x4b36, {0xa4, 0x8, 0x65, 0x1, 0xa6, 0xb6, 0x3, 0x5a}}
 };
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

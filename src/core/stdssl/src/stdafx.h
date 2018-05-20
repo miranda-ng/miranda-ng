@@ -42,7 +42,5 @@ typedef struct SslHandle *HSSL;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(nullptr)
-	{}
+	CMPlugin();
 };

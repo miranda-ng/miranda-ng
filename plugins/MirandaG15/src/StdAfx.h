@@ -37,9 +37,7 @@ using namespace std;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(nullptr)
-	{}
+	CMPlugin();
 };
 
 #include "LCDFramework/LCDFramework.h"

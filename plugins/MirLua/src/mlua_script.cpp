@@ -44,17 +44,17 @@ const wchar_t* CMLuaScript::GetFileName() const
 
 bool CMLuaScript::IsEnabled()
 {
-	return db_get_b(NULL, MODULE, _T2A(fileName), 1);
+	return db_get_b(NULL, MODULENAME, _T2A(fileName), 1);
 }
 
 void CMLuaScript::Enable()
 {
-	db_unset(NULL, MODULE, _T2A(fileName));
+	db_unset(NULL, MODULENAME, _T2A(fileName));
 }
 
 void CMLuaScript::Disable()
 {
-	db_set_b(NULL, MODULE, _T2A(fileName), 0);
+	db_set_b(NULL, MODULENAME, _T2A(fileName), 0);
 }
 
 CMLuaScript::Status CMLuaScript::GetStatus() const

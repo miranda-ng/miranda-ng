@@ -442,7 +442,7 @@ void ProtocolArray::SetNicks(const wchar_t *nick)
 
 	mir_wstrncpy(default_nick, nick, _countof(default_nick));
 
-	db_set_ws(0, MODULE_NAME, SETTING_DEFAULT_NICK, nick);
+	db_set_ws(0, MODULENAME, SETTING_DEFAULT_NICK, nick);
 
 	for (int i = 0; i < buffer_len; i++)
 		buffer[i]->SetNick(default_nick);
@@ -475,7 +475,7 @@ void ProtocolArray::SetStatusMsgs(int status, const wchar_t *message)
 
 void ProtocolArray::GetDefaultNick()
 {
-	ptrW tszNick(db_get_wsa(0, MODULE_NAME, SETTING_DEFAULT_NICK));
+	ptrW tszNick(db_get_wsa(0, MODULENAME, SETTING_DEFAULT_NICK));
 	if (tszNick)
 		mir_wstrncpy(default_nick, tszNick, _countof(default_nick));
 	else

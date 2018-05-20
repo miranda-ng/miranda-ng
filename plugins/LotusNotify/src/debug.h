@@ -1,6 +1,6 @@
 #pragma once
 
-extern char PLUGINNAME[];
+extern char MODULENAME[];
 
 void logRegister(void);
 void logUnregister(void);

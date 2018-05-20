@@ -35,7 +35,7 @@ SMS_SETTINGS ssSMSSettings;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -49,9 +49,13 @@ PLUGININFOEX pluginInfo =
 	{0xcf97fd5d, 0xb911, 0x47a8, {0xaf, 0x3, 0xd2, 0x19, 0x68, 0xb5, 0xb8, 0x94}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -117,7 +121,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);

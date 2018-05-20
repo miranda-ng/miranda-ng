@@ -338,7 +338,7 @@ static void WriteDbBackupData(const char *pszSetting, DWORD dwType, BYTE *pData,
 	if (buf) {
 		*(DWORD*)buf = dwType;
 		memcpy(buf + sizeof(DWORD), pData, cbData);
-		db_set_blob(NULL, "AssocMgr", pszSetting, buf, (unsigned)cbLen);
+		db_set_blob(NULL, MODULENAME, pszSetting, buf, (unsigned)cbLen);
 		mir_free(buf);
 	}
 }
@@ -347,7 +347,7 @@ static void WriteDbBackupData(const char *pszSetting, DWORD dwType, BYTE *pData,
 static BOOL ReadDbBackupData(const char *pszSetting, DWORD *pdwType, BYTE **ppData, DWORD *pcbData)
 {
 	DBVARIANT dbv;
-	if (!db_get(0, "AssocMgr", pszSetting, &dbv)) {
+	if (!db_get(0, MODULENAME, pszSetting, &dbv)) {
 		if (dbv.type == DBVT_BLOB && dbv.cpbVal >= sizeof(DWORD)) {
 			*pdwType = *(DWORD*)dbv.pbVal;
 			*ppData = dbv.pbVal;
@@ -454,7 +454,7 @@ static LONG RestoreRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPr
 	if (pszPrefixWithSubKey != nullptr) {
 		int nSettingsCount;
 		char **ppszSettings;
-		if (EnumDbPrefixSettings("AssocMgr", pszPrefixWithSubKey, &ppszSettings, &nSettingsCount)) {
+		if (EnumDbPrefixSettings(MODULENAME, pszPrefixWithSubKey, &ppszSettings, &nSettingsCount)) {
 			for (int i = 0; i < nSettingsCount; ++i) {
 				char *pszSuffix = &ppszSettings[i][nDbPrefixLen];
 				// key hierachy
@@ -486,7 +486,7 @@ static LONG RestoreRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPr
 					}
 					else res = ERROR_INVALID_DATA;
 					if (res) break;
-					db_unset(NULL, "AssocMgr", ppszSettings[i]);
+					db_unset(NULL, MODULENAME, ppszSettings[i]);
 					if (hSubKey != hKey) RegCloseKey(hSubKey);
 				}
 				mir_free(ppszSettings[i]);
@@ -507,9 +507,9 @@ static void DeleteRegTreeBackup(const char *pszSubKey, const char *pszDbPrefix)
 	if (pszPrefixWithSubKey == nullptr) return;
 	mir_strcat(mir_strcat(mir_strcpy(pszPrefixWithSubKey, pszDbPrefix), pszSubKey), "\\"); // buffer safe
 	if (pszPrefixWithSubKey != nullptr) {
-		if (EnumDbPrefixSettings("AssocMgr", pszPrefixWithSubKey, &ppszSettings, &nSettingsCount)) {
+		if (EnumDbPrefixSettings(MODULENAME, pszPrefixWithSubKey, &ppszSettings, &nSettingsCount)) {
 			for (i = 0; i < nSettingsCount; ++i) {
-				db_unset(NULL, "AssocMgr", ppszSettings[i]);
+				db_unset(NULL, MODULENAME, ppszSettings[i]);
 				mir_free(ppszSettings[i]);
 			}
 			mir_free(ppszSettings);
@@ -523,7 +523,7 @@ void CleanupRegTreeBackupSettings(void)
 	// delete old bak_* settings and try to restore backups
 	int nSettingsCount;
 	char **ppszSettings;
-	if (!EnumDbPrefixSettings("AssocMgr", "bak_", &ppszSettings, &nSettingsCount))
+	if (!EnumDbPrefixSettings(MODULENAME, "bak_", &ppszSettings, &nSettingsCount))
 		return;
 
 	for (int i = 0; i < nSettingsCount; ++i) {

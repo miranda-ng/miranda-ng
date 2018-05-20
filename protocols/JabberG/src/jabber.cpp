@@ -37,13 +37,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HMODULE hMsftedit;
 
+CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
-unsigned int g_nTempFileId;
 CHAT_MANAGER *pci;
 
 int g_cbCountries;
 CountryListEntry *g_countries;
 
+unsigned int g_nTempFileId;
 wchar_t szCoreVersion[100];
 
 CLIST_INTERFACE* pcli;
@@ -59,11 +60,7 @@ bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMPlugin g_plugin;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-PLUGININFOEX pluginInfo = {
+static PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -75,9 +72,15 @@ PLUGININFOEX pluginInfo = {
 	{ 0x144e80a2, 0xd198, 0x428b, {0xac, 0xbe, 0x9d, 0x55, 0xda, 0xcc, 0x7f, 0xde }} // {144E80A2-D198-428b-ACBE-9D55DACC7FDE}
 };
 
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CJabberProto>("JABBER", pluginInfoEx)
+{
+	SetUniqueId("jid");
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -157,7 +160,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 

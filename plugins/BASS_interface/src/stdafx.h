@@ -25,13 +25,11 @@ Copyright (C) 2010, 2011 tico-tico
 #include "resource.h"
 #include "version.h"
 
-#define ModuleName LPGEN("BASS Interface")
+#define MODULENAME LPGEN("BASS Interface")
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(ModuleName)
-	{}
+	CMPlugin();
 };
 
 #define OPT_VOLUME		"Volume"

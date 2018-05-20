@@ -21,7 +21,7 @@
 
 // ================================================ Popup options ================================================
 
-COptPage g_PopupOptPage(MOD_NAME, nullptr);
+COptPage g_PopupOptPage(MODULENAME, nullptr);
 
 void EnablePopupOptDlgControls()
 {
@@ -128,7 +128,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				DBCONTACTWRITESETTING cws = {};
 				cws.szModule = "ICQ";
 				cws.szSetting = DB_MIRVER;
-				db_set_s(NULL, MOD_NAME, DB_OLDMIRVER, "ICQ Lite v5");
+				db_set_s(NULL, MODULENAME, DB_OLDMIRVER, "ICQ Lite v5");
 				ContactSettingChanged(NULL, (LPARAM)&cws); // simulate a version change
 				delete g_PreviewOptPage;
 				g_PreviewOptPage = nullptr;

@@ -122,7 +122,7 @@ static void ApplyUpdates(void *param)
 	}
 	Skin_PlaySound("updatecompleted");
 
-	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
+	db_set_b(NULL, MODULENAME, DB_SETTING_RESTART_COUNT, 5);
 
 	if (opts.bBackup)
 		CallService(MS_AB_BACKUP, 0, 0);
@@ -130,28 +130,28 @@ static void ApplyUpdates(void *param)
 	if (opts.bChangePlatform) {
 		wchar_t mirandaPath[MAX_PATH];
 		GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
-		db_set_ws(NULL, MODNAME, "OldBin2", mirandaPath);
+		db_set_ws(NULL, MODULENAME, "OldBin2", mirandaPath);
 
-		db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
+		db_unset(NULL, MODULENAME, DB_SETTING_CHANGEPLATFORM);
 	}
 	else {
-		ptrW oldbin(db_get_wsa(NULL, MODNAME, "OldBin2"));
+		ptrW oldbin(db_get_wsa(NULL, MODULENAME, "OldBin2"));
 		if (oldbin) {
 			SafeDeleteFile(oldbin);
-			db_unset(NULL, MODNAME, "OldBin2");
+			db_unset(NULL, MODULENAME, "OldBin2");
 		}
 	}
 
 	if (opts.bForceRedownload) {
 		opts.bForceRedownload = 0;
-		db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
+		db_unset(NULL, MODULENAME, DB_SETTING_REDOWNLOAD);
 	}
 
 	// 5) Prepare Restart
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
 	if (rc == IDYES) {
-		BOOL bRestartCurrentProfile = db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0;
+		BOOL bRestartCurrentProfile = db_get_b(NULL, MODULENAME, "RestartCurrentProfile", 1) ? 1 : 0;
 		if (opts.bChangePlatform) {
 			wchar_t mirstartpath[MAX_PATH];
 
@@ -275,7 +275,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 
 		// do this after filling list - enables 'ITEMCHANGED' below
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
-		Utils_RestoreWindowPositionNoSize(hDlg, 0, MODNAME, "ConfirmWindow");
+		Utils_RestoreWindowPositionNoSize(hDlg, 0, MODULENAME, "ConfirmWindow");
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -361,12 +361,12 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(hDlg);
-		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
+		Utils_SaveWindowPosition(hDlg, NULL, MODULENAME, "ConfirmWindow");
 		hwndDialog = nullptr;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 
-		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(0));
+		db_set_dw(NULL, MODULENAME, DB_SETTING_LAST_UPDATE, time(0));
 
 		mir_forkthread(InitTimer);
 		break;
@@ -457,13 +457,13 @@ static void DlgUpdateSilent(void *param)
 	Skin_PlaySound("updatecompleted");
 
 	opts.bForceRedownload = false;
-	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
+	db_unset(NULL, MODULENAME, DB_SETTING_REDOWNLOAD);
 
 	opts.bChangePlatform = false;
-	db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
+	db_unset(NULL, MODULENAME, DB_SETTING_CHANGEPLATFORM);
 
-	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
-	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 1);
+	db_set_b(NULL, MODULENAME, DB_SETTING_RESTART_COUNT, 5);
+	db_set_b(NULL, MODULENAME, DB_SETTING_NEED_RESTART, 1);
 
 	// 5) Prepare Restart
 	wchar_t tszTitle[100];
@@ -478,7 +478,7 @@ static void DlgUpdateSilent(void *param)
 			mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 			if (MessageBox(nullptr, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
-				CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
+				CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODULENAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
 		}
 	}
 }
@@ -803,7 +803,7 @@ static void DoCheck(bool bSilent = true)
 	else {
 		opts.bSilent = bSilent;
 
-		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(0));
+		db_set_dw(NULL, MODULENAME, DB_SETTING_LAST_UPDATE, time(0));
 	
 		hCheckThread = mir_forkthread(CheckUpdates);
 	}
@@ -841,7 +841,7 @@ void CheckUpdateOnStartup()
 	if (opts.bUpdateOnStartup) {
 		if (opts.bOnlyOnceADay) {
 			time_t now = time(0),
-				was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
+				was = db_get_dw(NULL, MODULENAME, DB_SETTING_LAST_UPDATE, 0);
 
 			if ((now - was) < 86400)
 				return;
@@ -888,7 +888,7 @@ void InitTimer(void *type)
 	case 0: // default, plan next check relative to last check
 		{
 			time_t now = time(0);
-			time_t was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
+			time_t was = db_get_dw(NULL, MODULENAME, DB_SETTING_LAST_UPDATE, 0);
 
 			interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
 			interval -= (now - was) * 1000;

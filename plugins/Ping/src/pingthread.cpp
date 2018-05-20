@@ -66,7 +66,7 @@ void SetProtoStatus(wchar_t *pszLabel, char *pszProto, int if_status, int new_st
 			if (options.logging) {
 				wchar_t buf[1024];
 				mir_snwprintf(buf, TranslateT("%s - setting status of protocol '%S' (%d)"), pszLabel, pszProto, new_status);
-				CallService(PLUG "/Log", (WPARAM)buf, 0);
+				CallService(MODULENAME "/Log", (WPARAM)buf, 0);
 			}
 			CallProtoService(pszProto, PS_SETSTATUS, new_status, 0);
 		}
@@ -135,7 +135,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 					InvalidateRect(list_hwnd, nullptr, FALSE);
 				}
 
-				CallService(PLUG "/Ping", 0, (LPARAM)&pa);
+				CallService(MODULENAME "/Ping", 0, (LPARAM)&pa);
 
 				if (get_thread_finished()) break;
 				if (get_list_changed()) break;
@@ -190,7 +190,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 					if (pa.miss_count == -1 - options.retries && options.logging) {
 						wchar_t buf[512];
 						mir_snwprintf(buf, TranslateT("%s - reply, %d"), pa.pszLabel, pa.round_trip_time);
-						CallService(PLUG "/Log", (WPARAM)buf, 0);
+						CallService(MODULENAME "/Log", (WPARAM)buf, 0);
 					}
 					SetProtoStatus(pa.pszLabel, pa.pszProto, pa.get_status, pa.set_status);
 				}
@@ -204,7 +204,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 					if (pa.miss_count == 1 + options.retries && options.logging) {
 						wchar_t buf[512];
 						mir_snwprintf(buf, TranslateT("%s - timeout"), pa.pszLabel);
-						CallService(PLUG "/Log", (WPARAM)buf, 0);
+						CallService(MODULENAME "/Log", (WPARAM)buf, 0);
 					}
 				}
 
@@ -253,10 +253,10 @@ int FillList(WPARAM, LPARAM)
 {
 
 	if (options.logging)
-		CallService(PLUG "/Log", (WPARAM)L"ping address list reload", 0);
+		CallService(MODULENAME "/Log", (WPARAM)L"ping address list reload", 0);
 
 	PINGLIST pl;
-	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
+	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 
 	SendMessage(list_hwnd, WM_SETREDRAW, FALSE, 0);
 	{
@@ -369,7 +369,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					SetBkColor(dis->hDC, tcol);
 					FillRect(dis->hDC, &dis->rcItem, (ttbrush = CreateSolidBrush(tcol)));
 
-					tcol = db_get_dw(NULL, PLUG, "FontCol", GetSysColor(COLOR_WINDOWTEXT));
+					tcol = db_get_dw(NULL, MODULENAME, "FontCol", GetSysColor(COLOR_WINDOWTEXT));
 					SetTextColor(dis->hDC, tcol);
 				}
 
@@ -615,7 +615,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						}
 					}
 					if (found)
-						CallService(PLUG "/ShowGraph", (WPARAM)itemData.item_id, (LPARAM)itemData.pszLabel);
+						CallService(MODULENAME "/ShowGraph", (WPARAM)itemData.item_id, (LPARAM)itemData.pszLabel);
 				}
 			}
 			return TRUE;
@@ -631,7 +631,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					mir_cslock lck(data_list_cs);
 					if (count >= 0 && count < (int)data_list.size()) {
 						PINGADDRESS itemData = *(PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
-						CallService(PLUG "/ToggleEnabled", (WPARAM)itemData.item_id, 0);
+						CallService(MODULENAME "/ToggleEnabled", (WPARAM)itemData.item_id, 0);
 					}
 				}
 			}
@@ -656,7 +656,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						if (Edit(hwnd, itemData)) {
 							mir_cslock lck(data_list_cs);
 							*temp = itemData;
-							CallService(PLUG "/SetAndSavePingList", (WPARAM)&data_list, 0);
+							CallService(MODULENAME "/SetAndSavePingList", (WPARAM)&data_list, 0);
 						}
 					}
 				}
@@ -664,11 +664,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 
 		case ID_MENU_DISABLEALLPINGS:
-			CallService(PLUG "/DisableAll", 0, 0);
+			CallService(MODULENAME "/DisableAll", 0, 0);
 			return TRUE;
 
 		case ID_MENU_ENABLEALLPINGS:
-			CallService(PLUG "/EnableAll", 0, 0);
+			CallService(MODULENAME "/EnableAll", 0, 0);
 			return TRUE;
 
 		case ID_MENU_OPTIONS:
@@ -691,14 +691,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					if (pItemData) {
 						DWORD item_id = pItemData->item_id;
 
-						int wake = CallService(PLUG "/DblClick", (WPARAM)item_id, 0);
+						int wake = CallService(MODULENAME "/DblClick", (WPARAM)item_id, 0);
 						InvalidateRect(list_hwnd, nullptr, FALSE);
 						if (wake) SetEvent(hWakeEvent);
 
 						if (options.logging) {
 							wchar_t buf[1024];
 							mir_snwprintf(buf, L"%s - %s", pItemData->pszLabel, (wake ? TranslateT("enabled") : TranslateT("double clicked")));
-							CallService(PLUG "/Log", (WPARAM)buf, 0);
+							CallService(MODULENAME "/Log", (WPARAM)buf, 0);
 						}
 					}
 				}
@@ -730,7 +730,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_DESTROY:
 		if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-			Utils_SaveWindowPosition(hwnd, 0, PLUG, "main_window");
+			Utils_SaveWindowPosition(hwnd, 0, MODULENAME, "main_window");
 		}
 
 		KillTimer(hwnd, TIMER_ID);
@@ -742,7 +742,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_CLOSE:
 		if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-			Utils_SaveWindowPosition(hwnd, 0, PLUG, "main_window");
+			Utils_SaveWindowPosition(hwnd, 0, MODULENAME, "main_window");
 			ShowWindow(hwnd, SW_HIDE);
 			return 0;
 		}
@@ -855,14 +855,14 @@ void InitList()
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
 	wndclass.lpszMenuName = nullptr;
-	wndclass.lpszClassName = _A2W(PLUG) L"WindowClass";
+	wndclass.lpszClassName = _A2W(MODULENAME) L"WindowClass";
 	RegisterClass(&wndclass);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		hpwnd = CreateWindow(_A2W(PLUG) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, nullptr, g_plugin.getInst(), nullptr);
+		hpwnd = CreateWindow(_A2W(MODULENAME) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, nullptr, g_plugin.getInst(), nullptr);
 
 		CLISTFrame frame = { 0 };
-		frame.name = PLUG;
+		frame.name = MODULENAME;
 		frame.cbSize = sizeof(CLISTFrame);
 		frame.hWnd = hpwnd;
 		frame.align = alBottom;
@@ -873,13 +873,13 @@ void InitList()
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	}
 	else {
-		hpwnd = CreateWindowEx(WS_EX_TOOLWINDOW, _A2W(PLUG) L"WindowClass", L"Ping",
+		hpwnd = CreateWindowEx(WS_EX_TOOLWINDOW, _A2W(MODULENAME) L"WindowClass", L"Ping",
 			(WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_CLIPCHILDREN),
 			0, 0, 400, 300, hwnd_clist, nullptr, g_plugin.getInst(), nullptr);
 
-		Utils_RestoreWindowPosition(hpwnd, 0, PLUG, "main_window");
+		Utils_RestoreWindowPosition(hpwnd, 0, MODULENAME, "main_window");
 
-		CreateServiceFunction(PLUG "/ShowWindow", PingPlugShowWindow);
+		CreateServiceFunction(MODULENAME "/ShowWindow", PingPlugShowWindow);
 
 		CMenuItem mi;
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Ping"), 1000200001);
@@ -889,7 +889,7 @@ void InitList()
 		mi.flags = CMIF_UNICODE;
 		mi.position = 3000320001;
 		mi.name.w = LPGENW("Show/Hide &Ping Window");
-		mi.pszService = PLUG "/ShowWindow";
+		mi.pszService = MODULENAME "/ShowWindow";
 		Menu_AddMainMenuItem(&mi);
 
 		if (options.attach_to_clist) AttachToClist(true);

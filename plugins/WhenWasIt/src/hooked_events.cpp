@@ -142,7 +142,7 @@ int RefreshContactListIcons(MCONTACT hContact)
 
 int UpdateTimers()
 {
-	UINT interval = db_get_dw(NULL, ModuleName, "Interval", CHECK_INTERVAL);
+	UINT interval = db_get_dw(NULL, MODULENAME, "Interval", CHECK_INTERVAL);
 	interval *= (1000 * 60 * 60); //go from miliseconds to hours
 	hCheckTimer = SetTimer(nullptr, 0, interval, OnCheckTimer);
 	if (!hDateChangeTimer)

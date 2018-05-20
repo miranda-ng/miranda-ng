@@ -159,9 +159,10 @@ class MIR_APP_EXPORT CMPluginBase
 protected:
 	HINSTANCE m_hInst;
 	const char *m_szModuleName;
+	const PLUGININFOEX &m_pInfo;
 	HANDLE m_hLogger = nullptr;
 
-	CMPluginBase(const char *moduleName);
+	CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo);
 	~CMPluginBase();
 
 	// pass one of PROTOTYPE_* constants as type
@@ -353,8 +354,8 @@ template<class T> class PLUGIN : public CMPluginBase
 	typedef CMPluginBase CSuper;
 
 protected:
-	PLUGIN(const char *moduleName)
-		: CSuper(moduleName)
+	__forceinline PLUGIN(const char *moduleName, const PLUGININFOEX &pInfo)
+		: CSuper(moduleName, pInfo)
 	{}
 
 	__forceinline HANDLE CreatePluginEvent(const char *name)
@@ -394,8 +395,8 @@ template<class P> class ACCPROTOPLUGIN : public PLUGIN<CMPlugin>
 	typedef PLUGIN<CMPlugin> CSuper;
 
 protected:
-	ACCPROTOPLUGIN(const char *moduleName) :
-		CSuper(moduleName)
+	ACCPROTOPLUGIN(const char *moduleName, const PLUGININFOEX &pInfo) :
+		CSuper(moduleName, pInfo)
 	{
 		CMPluginBase::RegisterProtocol(1002, &fnInit, &fnUninit);
 	}

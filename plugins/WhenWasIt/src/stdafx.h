@@ -61,13 +61,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "dlg_handlers.h"
 #include "events.h"
 
-#define ModuleName "WhenWasIt"
+#define MODULENAME "WhenWasIt"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(ModuleName)
-	{}
+	CMPlugin();
 };
 
 extern HWND hBirthdaysDlg;

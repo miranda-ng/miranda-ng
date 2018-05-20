@@ -38,19 +38,6 @@ POPUPACTION hideactions[2];
 
 extern int UserinfoInit(WPARAM wparam, LPARAM lparam);
 
-PLUGININFOEX pluginInfo = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
-	{ 0xddf8aec9, 0x7d37, 0x49af, { 0x9d, 0x22, 0xbb, 0xbc, 0x92, 0x0e, 0x6f, 0x05 } }
-};
-
 static IconItem iconList[] =
 {
 	{ LPGEN("Tray/popup icon"), "main_icon", IDI_MAINICON },
@@ -60,16 +47,42 @@ static IconItem iconList[] =
 	{ LPGEN("Never hide"), "neverhide_icon", IDI_NEVERHIDE }
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
+	{0xddf8aec9, 0x7d37, 0x49af, {0x9d, 0x22, 0xbb, 0xbc, 0x92, 0x0e, 0x6f, 0x05}}
+};
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 time_t getLastSeen(MCONTACT hContact)
 {
-	return db_get_dw(hContact, MODULE_NAME, "LastSeen", db_get_dw(hContact, MODULE_NAME, "CreationTime", (DWORD)-1));
+	return db_get_dw(hContact, MODULENAME, "LastSeen", db_get_dw(hContact, MODULENAME, "CreationTime", (DWORD)-1));
 }
 
 void setLastSeen(MCONTACT hContact)
 {
-	db_set_dw(hContact, MODULE_NAME, "LastSeen", (DWORD)time(0));
-	if (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0))
-		db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 0);
+	db_set_dw(hContact, MODULENAME, "LastSeen", (DWORD)time(0));
+	if (db_get_b(hContact, MODULENAME, "StillAbsentNotified", 0))
+		db_set_b(hContact, MODULENAME, "StillAbsentNotified", 0);
 }
 
 time_t getLastInputMsg(MCONTACT hContact)
@@ -100,7 +113,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 		break;
 
 	case WM_CONTEXTMENU:
-		db_set_b(PUGetContact(hWnd), MODULE_NAME, "NeverHide", 1);
+		db_set_b(PUGetContact(hWnd), MODULENAME, "NeverHide", 1);
 		PUDeletePopup(hWnd);
 		break;
 
@@ -110,7 +123,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 			PUDeletePopup(hWnd);
 		}
 		if (wParam == 3) {
-			db_set_b(PUGetContact(hWnd), MODULE_NAME, "NeverHide", 1);
+			db_set_b(PUGetContact(hWnd), MODULENAME, "NeverHide", 1);
 			PUDeletePopup(hWnd);
 		}
 		break;
@@ -127,8 +140,8 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
 			CallServiceSync("BuddyExpectator/actionMissYou", (WPARAM)PUGetContact(hWnd), 0);
-			if (!db_get_b(PUGetContact(hWnd), MODULE_NAME, "MissYouNotifyAlways", 0)) {
-				db_set_b(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
+			if (!db_get_b(PUGetContact(hWnd), MODULENAME, "MissYouNotifyAlways", 0)) {
+				db_set_b(PUGetContact(hWnd), MODULENAME, "MissYou", 0);
 				ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			}
 			PUDeletePopup(hWnd);
@@ -141,7 +154,7 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 	case UM_POPUPACTION:
 		if (wParam == 1) {
-			db_set_b(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
+			db_set_b(PUGetContact(hWnd), MODULENAME, "MissYou", 0);
 			ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			PUDeletePopup(hWnd);
 		}
@@ -217,7 +230,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 
 	if (options.hideInactive)
 		if (daysSinceMessage >= options.iSilencePeriod)
-			if (!db_get_b(hContact, "CList", "Hidden", 0) && !db_get_b(hContact, MODULE_NAME, "NeverHide", 0)) {
+			if (!db_get_b(hContact, "CList", "Hidden", 0) && !db_get_b(hContact, MODULENAME, "NeverHide", 0)) {
 				POPUPDATAT_V2 ppd = { 0 };
 				ppd.cbSize = sizeof(ppd);
 				ppd.lchContact = hContact;
@@ -405,12 +418,12 @@ int onIconsChanged(WPARAM, LPARAM)
  */
 INT_PTR MenuMissYouClick(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
-		db_set_b(hContact, MODULE_NAME, "MissYou", 0);
+	if (db_get_b(hContact, MODULENAME, "MissYou", 0)) {
+		db_set_b(hContact, MODULENAME, "MissYou", 0);
 		ExtraIcon_Clear(hExtraIcon, hContact);
 	}
 	else {
-		db_set_b(hContact, MODULE_NAME, "MissYou", 1);
+		db_set_b(hContact, MODULENAME, "MissYou", 1);
 		ExtraIcon_SetIconByName(hExtraIcon, hContact, "enabled_icon");
 	}
 
@@ -426,7 +439,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (!proto)
 		return 0;
 
-	if (db_get_b(hContact, MODULE_NAME, "MissYou", 0))
+	if (db_get_b(hContact, MODULENAME, "MissYou", 0))
 		Menu_ModifyItem(hContactMenu, LPGENW("Disable Miss You"), iconList[1].hIcolib);
 	else
 		Menu_ModifyItem(hContactMenu, LPGENW("Enable Miss You"), iconList[2].hIcolib);
@@ -437,7 +450,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 int onExtraImageApplying(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(hContact, MODULE_NAME, "MissYou", 0))
+	if (db_get_b(hContact, MODULENAME, "MissYou", 0))
 		ExtraIcon_SetIconByName(hExtraIcon, hContact, "enabled_icon");
 
 	return 0;
@@ -467,10 +480,10 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	// Last status
-	db_set_dw(hContact, MODULE_NAME, "LastStatus", prevStatus);
+	db_set_dw(hContact, MODULENAME, "LastStatus", prevStatus);
 
 	if (prevStatus == ID_STATUS_OFFLINE) {
-		if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
+		if (db_get_b(hContact, MODULENAME, "MissYou", 0)) {
 			// Display Popup
 			POPUPDATAT_V2 ppd = { 0 };
 			ppd.cbSize = sizeof(ppd);
@@ -502,12 +515,12 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	if (db_get_dw(hContact, MODULE_NAME, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline) {
+	if (db_get_dw(hContact, MODULENAME, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline) {
 		ReturnNotify(hContact, TranslateT("has gone online for the first time."));
 		setLastSeen(hContact);
 	}
 
-	unsigned int AbsencePeriod = db_get_dw(hContact, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
+	unsigned int AbsencePeriod = db_get_dw(hContact, MODULENAME, "iAbsencePeriod", options.iAbsencePeriod);
 	if (isContactGoneFor(hContact, AbsencePeriod)) {
 		wchar_t* message = TranslateT("has returned after a long absence.");
 		wchar_t tmpBuf[251] = { 0 };
@@ -538,9 +551,9 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	for (auto &hContact : Contacts()) {
 		char *proto = GetContactProto(hContact);
-		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0) == 0))
+		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (db_get_b(hContact, MODULENAME, "StillAbsentNotified", 0) == 0))
 		{
-			db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 1);
+			db_set_b(hContact, MODULENAME, "StillAbsentNotified", 1);
 			Skin_PlaySound("buddyExpectatorStillAbsent");
 
 			wchar_t* message = TranslateT("has not returned after a long absence.");
@@ -627,14 +640,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	db_set_dw(hContact, MODULE_NAME, "CreationTime", (DWORD)time(0));
+	db_set_dw(hContact, MODULENAME, "CreationTime", (DWORD)time(0));
 	return 0;
 }
 
@@ -646,7 +654,7 @@ int onShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	InitOptions();
@@ -667,10 +675,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	DWORD current_time = (DWORD)time(0);
 
 	for (auto &hContact : Contacts()) {
-		if (!db_get(hContact, MODULE_NAME, "CreationTime", &dbv))
+		if (!db_get(hContact, MODULENAME, "CreationTime", &dbv))
 			db_free(&dbv);
 		else
-			db_set_dw(hContact, MODULE_NAME, "CreationTime", current_time);
+			db_set_dw(hContact, MODULENAME, "CreationTime", current_time);
 	}
 
 	g_plugin.registerIcon("BuddyExpectator", iconList);

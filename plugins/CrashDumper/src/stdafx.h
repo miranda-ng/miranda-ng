@@ -76,13 +76,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MS_CRASHDUMPER_URL         "CrashDmp/StartUrl"
 #define MS_CRASHDUMPER_URLTOCLIP   "CrashDmp/CopyToClip"
 
-#define PluginName "Crash Dumper"
+#define MODULENAME "Crash Dumper"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PluginName)
-	{}
+	CMPlugin();
 };
 
 #define VI_FLAG_FORMAT  1
@@ -131,7 +129,6 @@ void ShowMessage(int type, const wchar_t* format, ...);
 bool IsPluginEnabled(wchar_t* filename);
 
 PLUGININFOEX* GetMirInfo(HMODULE hModule);
-const PLUGININFOEX* GetPluginInfoEx(void);
 
 void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr);
 void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wchar_t* msg);

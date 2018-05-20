@@ -44,13 +44,11 @@ class CMLuaScript;
 #include "mlua_options.h"
 #include "mlua_metatable.h"
 
-#define MODULE "MirLua"
+#define MODULENAME "MirLua"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 extern CMLua *g_mLua;

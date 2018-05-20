@@ -12,8 +12,8 @@ HGENMENU hMenuToggle, hMenuClear;
 
 mir_cs list_cs;
 
-#define MS_NOHISTORY_TOGGLE 		MODULE "/ToggleOnOff"
-#define MS_NOHISTORY_CLEAR	 		MODULE "/Clear"
+#define MS_NOHISTORY_TOGGLE 		MODULENAME "/ToggleOnOff"
+#define MS_NOHISTORY_CLEAR	 		MODULENAME "/Clear"
 
 #define DBSETTING_REMOVE			"RemoveHistory"
 
@@ -27,7 +27,7 @@ struct EventListNode {
 EventListNode *event_list = nullptr;
 
 // plugin stuff
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -41,9 +41,13 @@ PLUGININFOEX pluginInfo =
 	{0xb25e8c7b, 0x292b, 0x495a, {0x9f, 0xb8, 0xa4, 0xc3, 0xd4, 0xee, 0xb0, 0x4b}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +74,7 @@ void RemoveReadEvents(MCONTACT hContact = 0)
 		}
 		
 		if (remove) {
-			if (db_get_b(node->hContact, MODULE, DBSETTING_REMOVE, 0)) // is history disabled for this contact?
+			if (db_get_b(node->hContact, MODULENAME, DBSETTING_REMOVE, 0)) // is history disabled for this contact?
 				db_event_delete(node->hContact, node->hDBEvent);
 			
 			// remove list node anyway
@@ -107,7 +111,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 int OnDatabaseEventAdd(WPARAM hContact, LPARAM hDBEvent)
 {
 	// history not disabled for this contact
-	if (db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) == 0)
+	if (db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) == 0)
 		return 0;
 	
 	DBEVENTINFO info = {};
@@ -136,7 +140,7 @@ INT_PTR ServiceClear(WPARAM hContact, LPARAM)
 
 int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	bool remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
+	bool remove = db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) != 0;
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 
@@ -155,12 +159,12 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 
 INT_PTR ServiceToggle(WPARAM hContact, LPARAM)
 {
-	int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
+	int remove = db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) != 0;
 	remove = !remove;
-	db_set_b(hContact, MODULE, DBSETTING_REMOVE, remove != 0);
+	db_set_b(hContact, MODULENAME, DBSETTING_REMOVE, remove != 0);
 
 	StatusIconData sid = {};
-	sid.szModule = MODULE;
+	sid.szModule = MODULENAME;
 
 	for (int i = 0; i < 2; ++i) {
 		sid.dwId = i;
@@ -183,10 +187,10 @@ int WindowEvent(WPARAM, LPARAM lParam)
 	case MSG_WINDOW_EVT_OPEN:
 		char *proto = GetContactProto(hContact);
 		bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
-		int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
+		int remove = db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) != 0;
 
 		StatusIconData sid = {};
-		sid.szModule = MODULE;
+		sid.szModule = MODULENAME;
 		for (int i=0; i < 2; ++i) {
 			sid.dwId = i;
 			sid.flags = (chat_room ? MBF_HIDDEN : (i == remove) ? 0 : MBF_HIDDEN);
@@ -204,7 +208,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (sicd->flags & MBCF_RIGHTBUTTON) return 0; // ignore right-clicks
-	if (mir_strcmp(sicd->szModule, MODULE) != 0) return 0; // not our event
+	if (mir_strcmp(sicd->szModule, MODULENAME) != 0) return 0; // not our event
 
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
@@ -219,7 +223,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 void SrmmMenu_Load()
 {
 	StatusIconData sid = {};
-	sid.szModule = MODULE;
+	sid.szModule = MODULENAME;
 
 	sid.dwId = 0;
 	sid.szTooltip = LPGEN("History Enabled");
@@ -265,7 +269,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec (dllexport) int Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	// Ensure that the common control DLL is loaded (for listview)
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_LISTVIEW_CLASSES };

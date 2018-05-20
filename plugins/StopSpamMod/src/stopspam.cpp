@@ -38,7 +38,7 @@ int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 
 			// if request is from unknown or not marked Answered contact
 			int a = db_get_b(hcntct, "CList", "NotOnList", 0);
-			int b = !db_get_b(hcntct, pluginName, "Answered", 0);
+			int b = !db_get_b(hcntct, MODULENAME, "Answered", 0);
 
 			if (a && b) {
 				// ...send message
@@ -84,11 +84,11 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	}
 	//do not check excluded contact
 
-	if (db_get_b(hContact, pluginName, "Answered", 0))
+	if (db_get_b(hContact, MODULENAME, "Answered", 0))
 		return 0;
-	if (db_get_b(hContact, pluginName, "Excluded", 0)) {
+	if (db_get_b(hContact, MODULENAME, "Excluded", 0)) {
 		if (!db_get_b(hContact, "CList", "NotOnList", 0))
-			db_unset(hContact, pluginName, "Excluded");
+			db_unset(hContact, MODULENAME, "Excluded");
 		return 0;
 	}
 	//we want block not only messages, i seen many types other eventtype flood
@@ -97,8 +97,8 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		return 0;
 	//mark contact which we trying to contact for exclude from check
 	if ((dbei->flags & DBEF_SENT) && db_get_b(hContact, "CList", "NotOnList", 0)
-		&& (!gbMaxQuestCount || db_get_dw(hContact, pluginName, "QuestionCount", 0) < gbMaxQuestCount) && gbExclude) {
-		db_set_b(hContact, pluginName, "Excluded", 1);
+		&& (!gbMaxQuestCount || db_get_dw(hContact, MODULENAME, "QuestionCount", 0) < gbMaxQuestCount) && gbExclude) {
+		db_set_b(hContact, MODULENAME, "Excluded", 1);
 		return 0;
 	}
 	// if message is from known or marked Answered contact
@@ -137,7 +137,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	if (gbMathExpression) {
 		if (boost::algorithm::all(message, boost::is_digit())) {
 			int num = _wtoi(message.c_str());
-			int math_answer = db_get_dw(hContact, pluginName, "MathAnswer", 0);
+			int math_answer = db_get_dw(hContact, MODULENAME, "MathAnswer", 0);
 			if (num && math_answer)
 				answered = (num == math_answer);
 		}
@@ -162,10 +162,10 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		// unhide contact
 		db_unset(hContact, "CList", "Hidden");
 
-		db_unset(hContact, pluginName, "MathAnswer");
+		db_unset(hContact, MODULENAME, "MathAnswer");
 
 		// mark contact as Answered
-		db_set_b(hContact, pluginName, "Answered", 1);
+		db_set_b(hContact, MODULENAME, "Answered", 1);
 
 		//add contact permanently
 		if (gbAddPermanent) //do not use this )
@@ -204,7 +204,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	// and question count for this contact is less then maximum
 	if (bSendMsg) {
 		if ((!gbInfTalkProtection || wstring::npos == message.find(L"StopSpam automatic message:\r\n"))
-			&& (!gbMaxQuestCount || db_get_dw(hContact, pluginName, "QuestionCount", 0) < gbMaxQuestCount)) {
+			&& (!gbMaxQuestCount || db_get_dw(hContact, MODULENAME, "QuestionCount", 0) < gbMaxQuestCount)) {
 			// send question
 			wstring q;
 			if (gbInfTalkProtection)
@@ -264,7 +264,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 					else
 						break;
 				}
-				db_set_dw(hContact, pluginName, "MathAnswer", math_answer);
+				db_set_dw(hContact, MODULENAME, "MathAnswer", math_answer);
 				q += variables_parse(tmp_question, hContact);
 			}
 			else
@@ -273,8 +273,8 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 			ProtoChainSend(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeW(q.c_str())));
 
 			// increment question count
-			DWORD questCount = db_get_dw(hContact, pluginName, "QuestionCount", 0);
-			db_set_dw(hContact, pluginName, "QuestionCount", questCount + 1);
+			DWORD questCount = db_get_dw(hContact, MODULENAME, "QuestionCount", 0);
+			db_set_dw(hContact, MODULENAME, "QuestionCount", questCount + 1);
 		}
 		else {
 			if (gbIgnoreContacts)
@@ -288,7 +288,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	db_set_b(hContact, "CList", "NotOnList", 1);
 
 	// save first message from contact
-	if (db_get_dw(hContact, pluginName, "QuestionCount", 0) < 2) {
+	if (db_get_dw(hContact, MODULENAME, "QuestionCount", 0) < 2) {
 		dbei->flags |= DBEF_READ;
 		db_event_add(hContact, dbei);
 	};
@@ -308,8 +308,8 @@ int OnDbContactSettingChanged(WPARAM w, LPARAM l)
 	if (strcmp(cws->szSetting, "NotOnList"))
 		return 0;
 	if (!cws->value.type) {
-		db_unset(hContact, pluginName, "Answered");
-		db_unset(hContact, pluginName, "QuestionCount");
+		db_unset(hContact, MODULENAME, "Answered");
+		db_unset(hContact, MODULENAME, "QuestionCount");
 	}
 
 	return 0;

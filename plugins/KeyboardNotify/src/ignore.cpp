@@ -27,15 +27,15 @@ static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, PF1_URLRECV, PF
 
 static DWORD GetMask(MCONTACT hContact)
 {
-	DWORD mask = db_get_dw(hContact, KEYBDMODULE, "Mask1", (DWORD)(-1));
+	DWORD mask = db_get_dw(hContact, MODULENAME, "Mask1", (DWORD)(-1));
 	if(mask == (DWORD)(-1)) {
 		if(hContact == NULL)
 			mask=0;
 		else {
 			if(db_get_b(hContact, "CList", "Hidden", 0) || db_get_b(hContact, "CList", "NotOnList", 0))
-				mask = db_get_dw(NULL, KEYBDMODULE, "Mask1", 0);
+				mask = db_get_dw(NULL, MODULENAME, "Mask1", 0);
 			else
-				mask = db_get_dw(NULL, KEYBDMODULE, "Default1", 0);
+				mask = db_get_dw(NULL, MODULENAME, "Default1", 0);
 		}
 	}
 	return mask;
@@ -164,7 +164,7 @@ static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const c
 		if(iImage && iImage != EMPTY_EXTRA_ICON)
 			mask |= 1<<i;
 	}
-	db_set_dw(hContact, KEYBDMODULE, pszSetting, mask);
+	db_set_dw(hContact, MODULENAME, pszSetting, mask);
 }
 
 static void SetAllContactIcons(HWND hwndList)

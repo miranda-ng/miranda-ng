@@ -164,9 +164,7 @@ public:
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(nullptr)
-	{}
+	CMPlugin();
 };
 
 #include "ui.h"

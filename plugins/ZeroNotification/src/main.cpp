@@ -29,6 +29,10 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x47d489d3, 0x310d, 0x4ef6, { 0xbd, 0x5, 0x69, 0x9f, 0xff, 0xd5, 0xa4, 0xaa } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -53,9 +57,9 @@ static int SoundSettingChanged(WPARAM, LPARAM lParam)
 
 int SetNotify(const long status)
 {
-	db_set_b(NULL, "Skin", "UseSound", (BYTE)!(db_get_dw(NULL, MODNAME, "NoSound", DEFAULT_NOSOUND) & status));
-	db_set_b(NULL, "CList", "DisableTrayFlash", (BYTE)(db_get_dw(NULL, MODNAME, "NoBlink", DEFAULT_NOBLINK) & status));
-	db_set_b(NULL, "CList", "NoIconBlink", (BYTE)(db_get_dw(NULL, MODNAME, "NoCLCBlink", DEFAULT_NOCLCBLINK) & status));
+	db_set_b(NULL, "Skin", "UseSound", (BYTE)!(db_get_dw(NULL, MODULENAME, "NoSound", DEFAULT_NOSOUND) & status));
+	db_set_b(NULL, "CList", "DisableTrayFlash", (BYTE)(db_get_dw(NULL, MODULENAME, "NoBlink", DEFAULT_NOBLINK) & status));
+	db_set_b(NULL, "CList", "NoIconBlink", (BYTE)(db_get_dw(NULL, MODULENAME, "NoCLCBlink", DEFAULT_NOCLCBLINK) & status));
 
 	UpdateMenuItem();
 	return 0;
@@ -89,14 +93,14 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	if (!db_get_b(NULL, MODNAME, "HideMenu", 1)) {
-		CreateServiceFunction(MODNAME "/MenuCommand", NoSoundMenuCommand);
+	if (!db_get_b(NULL, MODULENAME, "HideMenu", 1)) {
+		CreateServiceFunction(MODULENAME "/MenuCommand", NoSoundMenuCommand);
 
 		CMenuItem mi;
 		SET_UID(mi, 0x6bd635eb, 0xc4bb, 0x413b, 0xb9, 0x3, 0x81, 0x6d, 0x8f, 0xf1, 0x9b, 0xb0);
 		mi.position = -0x7FFFFFFF;
 		mi.flags = CMIF_UNICODE;
-		mi.pszService = MODNAME "/MenuCommand";
+		mi.pszService = MODULENAME "/MenuCommand";
 		noSoundMenu = Menu_AddMainMenuItem(&mi);
 
 		UpdateMenuItem();

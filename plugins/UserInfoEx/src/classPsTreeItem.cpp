@@ -134,7 +134,7 @@ LPCSTR CPsTreeItem::IconKey()
 	if (pszIconName)
 	{
 		static CHAR pszSetting[MAXSETTING];
-		mir_snprintf(pszSetting, MODNAME"_{%s}", pszIconName);
+		mir_snprintf(pszSetting, MODULENAME"_{%s}", pszIconName);
 		return pszSetting;
 	}
 	return nullptr;
@@ -151,7 +151,7 @@ LPSTR CPsTreeItem::ParentItemName()
 {
 	// try to read the parent item from the database
 	DBVARIANT dbv;
-	if (!DB::Setting::GetAString(NULL, MODNAME, PropertyKey(SET_ITEM_GROUP), &dbv))
+	if (!DB::Setting::GetAString(NULL, MODULENAME, PropertyKey(SET_ITEM_GROUP), &dbv))
 		return dbv.pszVal;
 
 	const CHAR* p = mir_strrchr(_pszName, '\\');
@@ -245,7 +245,7 @@ int CPsTreeItem::ItemLabel(const BYTE bReadDBValue)
 		mir_free(_ptszLabel);
 
 	// try to get custom label from database
-	if (!bReadDBValue || DB::Setting::GetTString(NULL, MODNAME, GlobalPropertyKey(SET_ITEM_LABEL), &dbv) || (_ptszLabel = dbv.ptszVal) == nullptr) {
+	if (!bReadDBValue || DB::Setting::GetTString(NULL, MODULENAME, GlobalPropertyKey(SET_ITEM_LABEL), &dbv) || (_ptszLabel = dbv.ptszVal) == nullptr) {
 		// extract the name
 		LPSTR pszName = mir_strrchr(_pszName, '\\');
 		if (pszName && pszName[1])
@@ -425,12 +425,12 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 
 			// load custom order
 			if (!(pPsh->_dwFlags & PSTVF_SORTTREE)) {
-				_iPosition = (int)db_get_b(NULL, MODNAME, PropertyKey(SET_ITEM_POS), odp->position);
+				_iPosition = (int)db_get_b(NULL, MODULENAME, PropertyKey(SET_ITEM_POS), odp->position);
 				if ((_iPosition < 0) && (_iPosition > 0x800000A))
 					_iPosition = 0;
 			}
 			// read visibility state
-			_bState =	db_get_b(NULL, MODNAME, PropertyKey(SET_ITEM_STATE), DBTVIS_EXPANDED);
+			_bState =	db_get_b(NULL, MODULENAME, PropertyKey(SET_ITEM_STATE), DBTVIS_EXPANDED);
 
 			// error for no longer supported dialog template type
 			if (((UINT_PTR)odp->pszTemplate & 0xFFFF0000)) 
@@ -473,19 +473,19 @@ WORD CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iStat
 
 	// save group
 	if ((dwFlags & PSTVF_GROUPS) && (dwFlags & PSTVF_POS_CHANGED))
-		numErrors += db_set_utf(NULL, MODNAME, PropertyKey(SET_ITEM_GROUP), (LPSTR)pszGroup);
+		numErrors += db_set_utf(NULL, MODULENAME, PropertyKey(SET_ITEM_GROUP), (LPSTR)pszGroup);
 
 	// save label
 	if ((dwFlags & PSTVF_LABEL_CHANGED) && (_dwFlags & PSTVF_LABEL_CHANGED))
-		numErrors += db_set_ws(NULL, MODNAME, GlobalPropertyKey(SET_ITEM_LABEL), Label());
+		numErrors += db_set_ws(NULL, MODULENAME, GlobalPropertyKey(SET_ITEM_LABEL), Label());
 
 	// save position
 	if ((dwFlags & PSTVF_POS_CHANGED) && !(dwFlags & PSTVF_SORTTREE))
-		numErrors += db_set_b(NULL, MODNAME, PropertyKey(SET_ITEM_POS), iItemPosition);
+		numErrors += db_set_b(NULL, MODULENAME, PropertyKey(SET_ITEM_POS), iItemPosition);
 
 	// save state
 	if (dwFlags & PSTVF_STATE_CHANGED)
-		numErrors += db_set_b(NULL, MODNAME, PropertyKey(SET_ITEM_STATE), 
+		numErrors += db_set_b(NULL, MODULENAME, PropertyKey(SET_ITEM_STATE), 
 			_hItem ? ((iState & TVIS_EXPANDED) ? DBTVIS_EXPANDED : DBTVIS_NORMAL) : DBTVIS_INVISIBLE);
 
 	RemoveFlags(PSTVF_STATE_CHANGED|PSTVF_LABEL_CHANGED|PSTVF_POS_CHANGED);

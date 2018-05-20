@@ -68,9 +68,9 @@ static IconItem iconList3[] =
 
 void InitIcons()
 {
-	g_plugin.registerIcon(SECT_POPUP, iconList1, MODULNAME);
-	g_plugin.registerIcon(SECT_POPUP SECT_POPUP_OPT, iconList2, MODULNAME);
-	g_plugin.registerIcon(SECT_POPUP SECT_POPUP_ACT, iconList3, MODULNAME);
+	g_plugin.registerIcon(SECT_POPUP, iconList1, MODULENAME);
+	g_plugin.registerIcon(SECT_POPUP SECT_POPUP_OPT, iconList2, MODULENAME);
+	g_plugin.registerIcon(SECT_POPUP SECT_POPUP_ACT, iconList3, MODULENAME);
 }
 
 HICON LoadIconEx(int iconId, bool big)

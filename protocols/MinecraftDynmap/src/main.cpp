@@ -22,13 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 CLIST_INTERFACE* pcli;
 int &hLangpack(g_plugin.m_hLang);
 
 std::string g_strUserAgent;
-DWORD g_mirandaVersion;
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -41,16 +41,15 @@ PLUGININFOEX pluginInfo = {
 	{ 0x40da5ebd, 0x4f2d, 0x4bea, 0x84, 0x1c, 0xea, 0xb7, 0x7b, 0xee, 0x6f, 0x4f }
 };
 
-/////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
-
-/////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<MinecraftDynmapProto>("MinecraftDynmap", pluginInfoEx)
 {
-	g_mirandaVersion = mirandaVersion;
-	return &pluginInfo;
+	SetUniqueId("Nick");
+}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -65,22 +64,17 @@ static HANDLE g_hEvents[1];
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	InitIcons();
 
 	// Init native User-Agent
 	{
+		MFileVersion w;
+		Miranda_GetFileVersion(&w);
 		std::stringstream agent;
-		agent << "Miranda NG/";
-		agent << ((g_mirandaVersion >> 24) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion >> 16) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion >>  8) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion     ) & 0xFF);
+		agent << "Miranda NG/" << w[0] << "." << w[1] << "." << w[2] << "." << w[3];
 	#ifdef _WIN64
 		agent << " Minecraft Dynmap Protocol x64/";
 	#else

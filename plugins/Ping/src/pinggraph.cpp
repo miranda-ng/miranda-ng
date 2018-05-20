@@ -232,7 +232,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			char buff[30];
 			mir_snprintf(buff, "pinggraphwnd%d", wd->item_id);
-			Utils_SaveWindowPosition(hwnd, 0, PLUG, buff);
+			Utils_SaveWindowPosition(hwnd, 0, MODULENAME, buff);
 		}
 	}
 	break;
@@ -242,7 +242,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			char buff[30];
 			mir_snprintf(buff, "WindowHandle%d", wd->item_id);
-			db_set_dw(0, PLUG, buff, 0);
+			db_set_dw(0, MODULENAME, buff, 0);
 		}
 		delete wd;
 	}
@@ -255,7 +255,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	char buff[30];
 	mir_snprintf(buff, "WindowHandle%d", (DWORD)wParam);
-	HWND hGraphWnd = (HWND)db_get_dw(0, PLUG, buff, 0);
+	HWND hGraphWnd = (HWND)db_get_dw(0, MODULENAME, buff, 0);
 	if (hGraphWnd) {
 		ShowWindow(hGraphWnd, SW_SHOW);
 		SetWindowPos(hGraphWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -272,7 +272,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
 	wndclass.lpszMenuName = nullptr;
-	wndclass.lpszClassName = _A2W(PLUG) L"GraphWindow";
+	wndclass.lpszClassName = _A2W(MODULENAME) L"GraphWindow";
 	RegisterClass(&wndclass);
 
 	wchar_t title[256];
@@ -283,7 +283,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	}
 
 	HWND parent = nullptr;
-	hGraphWnd = CreateWindowEx(0, _A2W(PLUG) L"GraphWindow", title,
+	hGraphWnd = CreateWindowEx(0, _A2W(MODULENAME) L"GraphWindow", title,
 		(WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~CS_VREDRAW & ~CS_HREDRAW,
 		0, 0, 800, 600, parent, nullptr, g_plugin.getInst(), nullptr);
 
@@ -291,15 +291,15 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wd->item_id = (DWORD)wParam; // wParam is destination id
 	wd->hwnd_chk_grid = nullptr;
 	wd->hwnd_chk_stat = nullptr;
-	wd->show_grid = db_get_b(0, PLUG, "ShowGridLines", 0) ? true : false;
-	wd->show_stat = db_get_b(0, PLUG, "ShowStats", 1) ? true : false;
+	wd->show_grid = db_get_b(0, MODULENAME, "ShowGridLines", 0) ? true : false;
+	wd->show_stat = db_get_b(0, MODULENAME, "ShowStats", 1) ? true : false;
 
-	db_set_dw(0, PLUG, buff, (UINT_PTR)hGraphWnd);
+	db_set_dw(0, MODULENAME, buff, (UINT_PTR)hGraphWnd);
 
 	SetWindowLongPtr(hGraphWnd, GWLP_USERDATA, (LONG_PTR)wd);
 
 	mir_snprintf(buff, "pinggraphwnd%d", wd->item_id);
-	Utils_RestoreWindowPosition(hGraphWnd, 0, PLUG, buff);
+	Utils_RestoreWindowPosition(hGraphWnd, 0, MODULENAME, buff);
 
 	if (!IsWindowVisible(hGraphWnd))
 		ShowWindow(hGraphWnd, SW_SHOW);
@@ -315,11 +315,11 @@ void graphs_cleanup() {
 
 	for (int i = 0; i < list_size; i++) {
 		mir_snprintf(buff, "WindowHandle%d", i);
-		if (hwnd = (HWND)db_get_dw(0, PLUG, buff, 0)) {
+		if (hwnd = (HWND)db_get_dw(0, MODULENAME, buff, 0)) {
 			DestroyWindow(hwnd);
-			db_set_dw(0, PLUG, buff, 0);
+			db_set_dw(0, MODULENAME, buff, 0);
 			mir_snprintf(buff, "WindowWasOpen%d", i);
-			db_set_b(0, PLUG, buff, 1);
+			db_set_b(0, MODULENAME, buff, 1);
 		}
 	}
 }
@@ -328,13 +328,13 @@ void graphs_cleanup() {
 void graphs_init() {
 	PINGLIST pl;
 	char buff[64];
-	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
+	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		mir_snprintf(buff, "WindowHandle%d", i->item_id); // clean up from possible crash
-		db_set_dw(0, PLUG, buff, 0);
+		db_set_dw(0, MODULENAME, buff, 0);
 		mir_snprintf(buff, "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
-		if (db_get_b(0, PLUG, buff, 0)) {
-			db_set_b(0, PLUG, buff, 0);
+		if (db_get_b(0, MODULENAME, buff, 0)) {
+			db_set_b(0, MODULENAME, buff, 0);
 			ShowGraph((WPARAM)i->item_id, (LPARAM)i->pszLabel);
 		}
 	}

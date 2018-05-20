@@ -28,7 +28,7 @@ HMODULE hDwmApi;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PLUGININFOEX pluginInfo =
+static PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -42,9 +42,13 @@ static PLUGININFOEX pluginInfo =
 	{0x9c23a24b, 0xe6aa, 0x43c6, {0xb0, 0xb8, 0xd6, 0xc3, 0x6d, 0x2f, 0x7b, 0x57}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /*
@@ -154,7 +158,7 @@ extern "C" int __declspec(dllexport) Unload(void)
  **/
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	// init common controls
 	INITCOMMONCONTROLSEX ccEx;

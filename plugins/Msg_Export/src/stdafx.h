@@ -48,7 +48,7 @@ using namespace std;
 #include "resource.h"
 #include "version.h"
 
-#define MODULE "Msg_Export"
+#define MODULENAME "Msg_Export"
 #define MSG_BOX_TITEL TranslateT("Miranda NG (Message Export Plugin)")
 #define MS_SHOW_EXPORT_HISTORY "History/ShowExportHistory"
 #define szFileViewDB "FileV_"
@@ -56,9 +56,7 @@ using namespace std;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 extern MWindowList hInternalWindowList;

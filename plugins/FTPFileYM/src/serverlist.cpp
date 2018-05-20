@@ -45,49 +45,49 @@ void ServerList::saveToDb() const
 	char buff[256];
 
 	mir_snprintf(buff, "Password%d", opt.selected);
-	DB::setAStringF(0, MODULE, buff, opt.selected, ftp->m_szPass);
+	DB::setAStringF(0, MODULENAME, buff, opt.selected, ftp->m_szPass);
 
-	DB::setStringF(0, MODULE, "Name%d", opt.selected, ftp->m_stzName);
-	DB::setAStringF(0, MODULE, "Server%d", opt.selected, ftp->m_szServer);
-	DB::setAStringF(0, MODULE, "User%d", opt.selected, ftp->m_szUser);
-	DB::setAStringF(0, MODULE, "Url%d", opt.selected, ftp->m_szUrl);
-	DB::setAStringF(0, MODULE, "Dir%d", opt.selected, ftp->m_szDir);
-	DB::setAStringF(0, MODULE, "Chmod%d", opt.selected, ftp->m_szChmod);
-	DB::setWordF(0, MODULE, "FtpProto%d", opt.selected, ftp->m_ftpProto);
-	DB::setWordF(0, MODULE, "Port%d", opt.selected, ftp->m_iPort);
-	DB::setByteF(0, MODULE, "Passive%d", opt.selected, ftp->m_bPassive);
-	DB::setByteF(0, MODULE, "Enabled%d", opt.selected, ftp->m_bEnabled);
-	db_set_b(0, MODULE, "Selected", opt.selected);
-	db_set_b(0, MODULE, "Default", opt.defaultFTP);
+	DB::setStringF(0, MODULENAME, "Name%d", opt.selected, ftp->m_stzName);
+	DB::setAStringF(0, MODULENAME, "Server%d", opt.selected, ftp->m_szServer);
+	DB::setAStringF(0, MODULENAME, "User%d", opt.selected, ftp->m_szUser);
+	DB::setAStringF(0, MODULENAME, "Url%d", opt.selected, ftp->m_szUrl);
+	DB::setAStringF(0, MODULENAME, "Dir%d", opt.selected, ftp->m_szDir);
+	DB::setAStringF(0, MODULENAME, "Chmod%d", opt.selected, ftp->m_szChmod);
+	DB::setWordF(0, MODULENAME, "FtpProto%d", opt.selected, ftp->m_ftpProto);
+	DB::setWordF(0, MODULENAME, "Port%d", opt.selected, ftp->m_iPort);
+	DB::setByteF(0, MODULENAME, "Passive%d", opt.selected, ftp->m_bPassive);
+	DB::setByteF(0, MODULENAME, "Enabled%d", opt.selected, ftp->m_bEnabled);
+	db_set_b(0, MODULENAME, "Selected", opt.selected);
+	db_set_b(0, MODULENAME, "Default", opt.defaultFTP);
 }
 
 ServerList::FTP::FTP(int index)
 {
-	ptrA Name(db_get_sa(NULL, MODULE, CMStringA(FORMAT, "Name%d", index)));
+	ptrA Name(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Name%d", index)));
 	if (Name)
 		mir_snwprintf(m_stzName, TranslateT("FTP Server %d"), index + 1);
-	ptrA Pass(db_get_sa(NULL, MODULE, CMStringA(FORMAT, "Password%d", index)));
+	ptrA Pass(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Password%d", index)));
 	if (Pass)
 		strncpy_s(m_szPass, Pass, _TRUNCATE);
-	ptrA Server(db_get_sa(NULL, MODULE, CMStringA(FORMAT, "Server%d", index)));
+	ptrA Server(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Server%d", index)));
 	if (Server)
 		strncpy_s(m_szServer, Server, _TRUNCATE);
-	ptrA User(db_get_sa(NULL, MODULE, CMStringA(FORMAT, "User%d", index)));
+	ptrA User(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "User%d", index)));
 	if (User)
 		strncpy_s(m_szUser, User, _TRUNCATE);
-	ptrA Url(db_get_sa(NULL, MODULE, CMStringA(FORMAT, "Url%d", index)));
+	ptrA Url(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Url%d", index)));
 	if (Url)
 		strncpy_s(m_szUrl, Url, _TRUNCATE);
-	ptrA Dir(db_get_sa(NULL, MODULE, CMStringA(FORMAT, "Dir%d", index)));
+	ptrA Dir(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Dir%d", index)));
 	if (Dir)
 		strncpy_s(m_szDir, Dir, _TRUNCATE);
-	ptrA Chmod(db_get_sa(NULL, MODULE, CMStringA(FORMAT, "Chmod%d", index)));
+	ptrA Chmod(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Chmod%d", index)));
 	if (Chmod)
 		strncpy_s(m_szChmod, Chmod, _TRUNCATE);
-	m_ftpProto = (FTP::EProtoType)DB::getWordF(0, MODULE, "FtpProto%d", index, FTP::FT_STANDARD);
-	m_iPort = DB::getWordF(0, MODULE, "Port%d", index, 21);
-	m_bPassive = DB::getByteF(0, MODULE, "Passive%d", index, 0) ? true : false;
-	m_bEnabled = DB::getByteF(0, MODULE, "Enabled%d", index, 0) ? true : false;
+	m_ftpProto = (FTP::EProtoType)DB::getWordF(0, MODULENAME, "FtpProto%d", index, FTP::FT_STANDARD);
+	m_iPort = DB::getWordF(0, MODULENAME, "Port%d", index, 21);
+	m_bPassive = DB::getByteF(0, MODULENAME, "Passive%d", index, 0) ? true : false;
+	m_bEnabled = DB::getByteF(0, MODULENAME, "Enabled%d", index, 0) ? true : false;
 }
 
 ServerList::FTP* ServerList::getSelected() const

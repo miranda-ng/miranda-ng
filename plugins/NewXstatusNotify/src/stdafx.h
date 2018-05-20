@@ -70,9 +70,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 #define MAX_STATUSTEXT			36

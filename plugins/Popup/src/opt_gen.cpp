@@ -89,40 +89,40 @@ int AddStatusModes(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flags)
 void LoadOption_General()
 {
 	// Seconds
-	PopupOptions.InfiniteDelay = db_get_b(NULL, MODULNAME, "InfiniteDelay", FALSE);
+	PopupOptions.InfiniteDelay = db_get_b(NULL, MODULENAME, "InfiniteDelay", FALSE);
 	PopupOptions.Seconds =
-		DBGetContactSettingRangedWord(NULL, MODULNAME, "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	PopupOptions.LeaveHovered = db_get_b(NULL, MODULNAME, "LeaveHovered", TRUE);
+		DBGetContactSettingRangedWord(NULL, MODULENAME, "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
+	PopupOptions.LeaveHovered = db_get_b(NULL, MODULENAME, "LeaveHovered", TRUE);
 
 	// Dynamic Resize
-	PopupOptions.DynamicResize = db_get_b(NULL, MODULNAME, "DynamicResize", FALSE);
-	PopupOptions.UseMinimumWidth = db_get_b(NULL, MODULNAME, "UseMinimumWidth", TRUE);
-	PopupOptions.MinimumWidth = db_get_w(NULL, MODULNAME, "MinimumWidth", 160);
-	PopupOptions.UseMaximumWidth = db_get_b(NULL, MODULNAME, "UseMaximumWidth", TRUE);
-	PopupOptions.MaximumWidth = db_get_w(NULL, MODULNAME, "MaximumWidth", 300);
+	PopupOptions.DynamicResize = db_get_b(NULL, MODULENAME, "DynamicResize", FALSE);
+	PopupOptions.UseMinimumWidth = db_get_b(NULL, MODULENAME, "UseMinimumWidth", TRUE);
+	PopupOptions.MinimumWidth = db_get_w(NULL, MODULENAME, "MinimumWidth", 160);
+	PopupOptions.UseMaximumWidth = db_get_b(NULL, MODULENAME, "UseMaximumWidth", TRUE);
+	PopupOptions.MaximumWidth = db_get_w(NULL, MODULENAME, "MaximumWidth", 300);
 
 	// Position
 	PopupOptions.Position =
-		DBGetContactSettingRangedByte(NULL, MODULNAME, "Position", POS_LOWERRIGHT, POS_MINVALUE, POS_MAXVALUE);
+		DBGetContactSettingRangedByte(NULL, MODULENAME, "Position", POS_LOWERRIGHT, POS_MINVALUE, POS_MAXVALUE);
 
 	// Configure popup area
-	PopupOptions.gapTop = db_get_w(NULL, MODULNAME, "gapTop", 5);
-	PopupOptions.gapBottom = db_get_w(NULL, MODULNAME, "gapBottom", 5);
-	PopupOptions.gapLeft = db_get_w(NULL, MODULNAME, "gapLeft", 5);
-	PopupOptions.gapRight = db_get_w(NULL, MODULNAME, "gapRight", 5);
-	PopupOptions.spacing = db_get_w(NULL, MODULNAME, "spacing", 5);
+	PopupOptions.gapTop = db_get_w(NULL, MODULENAME, "gapTop", 5);
+	PopupOptions.gapBottom = db_get_w(NULL, MODULENAME, "gapBottom", 5);
+	PopupOptions.gapLeft = db_get_w(NULL, MODULENAME, "gapLeft", 5);
+	PopupOptions.gapRight = db_get_w(NULL, MODULENAME, "gapRight", 5);
+	PopupOptions.spacing = db_get_w(NULL, MODULENAME, "spacing", 5);
 
 	// Spreading
 	PopupOptions.Spreading =
-		DBGetContactSettingRangedByte(NULL, MODULNAME, "Spreading", SPREADING_VERTICAL, SPREADING_MINVALUE, SPREADING_MAXVALUE);
+		DBGetContactSettingRangedByte(NULL, MODULENAME, "Spreading", SPREADING_VERTICAL, SPREADING_MINVALUE, SPREADING_MAXVALUE);
 
 	// miscellaneous
-	PopupOptions.ReorderPopups = db_get_b(NULL, MODULNAME, "ReorderPopups", TRUE);
-	PopupOptions.ReorderPopupsWarning = db_get_b(NULL, MODULNAME, "ReorderPopupsWarning", TRUE);
+	PopupOptions.ReorderPopups = db_get_b(NULL, MODULENAME, "ReorderPopups", TRUE);
+	PopupOptions.ReorderPopupsWarning = db_get_b(NULL, MODULENAME, "ReorderPopupsWarning", TRUE);
 
 	// disable When
 	PopupOptions.ModuleIsEnabled = db_get_b(NULL, "Popup", "ModuleIsEnabled", TRUE);
-	PopupOptions.DisableWhenFullscreen = db_get_b(NULL, MODULNAME, "DisableWhenFullscreen", TRUE);
+	PopupOptions.DisableWhenFullscreen = db_get_b(NULL, MODULENAME, "DisableWhenFullscreen", TRUE);
 }
 
 INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -243,10 +243,10 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 					wchar_t pszSettingName[256];
 					mir_snwprintf(pszSettingName, LPGENW("Protocol Status")L"/%s", pa->tszAccountName);
-					OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, prefix, 0), pszSettingName);
+					OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULENAME, prefix, 0), pszSettingName);
 				}
 			}
-			OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, "Global Status", 0), LPGENW("Global Status"));
+			OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULENAME, "Global Status", 0), LPGENW("Global Status"));
 		}
 
 		TranslateDialogDefault(hwnd);	// do it on end of WM_INITDIALOG
@@ -335,7 +335,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case IDC_REORDERPOPUPS:
 				PopupOptions.ReorderPopups = !PopupOptions.ReorderPopups;
-				PopupOptions.ReorderPopupsWarning = PopupOptions.ReorderPopups ? db_get_b(NULL, MODULNAME, "ReorderPopupsWarning", TRUE) : TRUE;
+				PopupOptions.ReorderPopupsWarning = PopupOptions.ReorderPopups ? db_get_b(NULL, MODULENAME, "ReorderPopupsWarning", TRUE) : TRUE;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
@@ -485,35 +485,35 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case PSN_APPLY:
 				// Seconds
-				db_set_b(NULL, MODULNAME, "InfiniteDelay", PopupOptions.InfiniteDelay);
-				db_set_w(NULL, MODULNAME, "Seconds", (WORD)PopupOptions.Seconds);
-				db_set_b(NULL, MODULNAME, "LeaveHovered", PopupOptions.LeaveHovered);
+				db_set_b(NULL, MODULENAME, "InfiniteDelay", PopupOptions.InfiniteDelay);
+				db_set_w(NULL, MODULENAME, "Seconds", (WORD)PopupOptions.Seconds);
+				db_set_b(NULL, MODULENAME, "LeaveHovered", PopupOptions.LeaveHovered);
 
 				// Dynamic Resize
-				db_set_b(NULL, MODULNAME, "DynamicResize", PopupOptions.DynamicResize);
-				db_set_b(NULL, MODULNAME, "UseMinimumWidth", PopupOptions.UseMinimumWidth);
-				db_set_w(NULL, MODULNAME, "MinimumWidth", PopupOptions.MinimumWidth);
-				db_set_b(NULL, MODULNAME, "UseMaximumWidth", PopupOptions.UseMaximumWidth);
-				db_set_w(NULL, MODULNAME, "MaximumWidth", PopupOptions.MaximumWidth);
+				db_set_b(NULL, MODULENAME, "DynamicResize", PopupOptions.DynamicResize);
+				db_set_b(NULL, MODULENAME, "UseMinimumWidth", PopupOptions.UseMinimumWidth);
+				db_set_w(NULL, MODULENAME, "MinimumWidth", PopupOptions.MinimumWidth);
+				db_set_b(NULL, MODULENAME, "UseMaximumWidth", PopupOptions.UseMaximumWidth);
+				db_set_w(NULL, MODULENAME, "MaximumWidth", PopupOptions.MaximumWidth);
 
 				// Position
-				db_set_b(NULL, MODULNAME, "Position", (BYTE)PopupOptions.Position);
+				db_set_b(NULL, MODULENAME, "Position", (BYTE)PopupOptions.Position);
 
 				// Configure popup area
-				db_set_w(NULL, MODULNAME, "gapTop", (WORD)PopupOptions.gapTop);
-				db_set_w(NULL, MODULNAME, "gapBottom", (WORD)PopupOptions.gapBottom);
-				db_set_w(NULL, MODULNAME, "gapLeft", (WORD)PopupOptions.gapLeft);
-				db_set_w(NULL, MODULNAME, "gapRight", (WORD)PopupOptions.gapRight);
-				db_set_w(NULL, MODULNAME, "spacing", (WORD)PopupOptions.spacing);
+				db_set_w(NULL, MODULENAME, "gapTop", (WORD)PopupOptions.gapTop);
+				db_set_w(NULL, MODULENAME, "gapBottom", (WORD)PopupOptions.gapBottom);
+				db_set_w(NULL, MODULENAME, "gapLeft", (WORD)PopupOptions.gapLeft);
+				db_set_w(NULL, MODULENAME, "gapRight", (WORD)PopupOptions.gapRight);
+				db_set_w(NULL, MODULENAME, "spacing", (WORD)PopupOptions.spacing);
 
 				// Spreading
-				db_set_b(NULL, MODULNAME, "Spreading", (BYTE)PopupOptions.Spreading);
+				db_set_b(NULL, MODULENAME, "Spreading", (BYTE)PopupOptions.Spreading);
 
 				// miscellaneous
 				Check_ReorderPopups(hwnd);	// this save also PopupOptions.ReorderPopups
 
 				// disable When
-				db_set_b(NULL, MODULNAME, "DisableWhenFullscreen", PopupOptions.DisableWhenFullscreen);
+				db_set_b(NULL, MODULENAME, "DisableWhenFullscreen", PopupOptions.DisableWhenFullscreen);
 
 				// new status options
 				for (auto &pa : Accounts())
@@ -523,10 +523,10 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 						wchar_t pszSettingName[256];
 						mir_snwprintf(pszSettingName, L"Protocol Status/%s", pa->tszAccountName);
-						db_set_dw(NULL, MODULNAME, prefix, OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
+						db_set_dw(NULL, MODULENAME, prefix, OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
 					}
 
-				db_set_dw(NULL, MODULNAME, "Global Status", OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, L"Global Status"));
+				db_set_dw(NULL, MODULENAME, "Global Status", OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, L"Global Status"));
 				return TRUE;
 			}
 			break;
@@ -598,8 +598,8 @@ void Check_ReorderPopups(HWND hwnd)
 			return;
 		}
 	}
-	db_set_b(NULL, MODULNAME, "ReorderPopups", PopupOptions.ReorderPopups);
-	db_set_b(NULL, MODULNAME, "ReorderPopupsWarning", PopupOptions.ReorderPopupsWarning);
+	db_set_b(NULL, MODULENAME, "ReorderPopups", PopupOptions.ReorderPopups);
+	db_set_b(NULL, MODULENAME, "ReorderPopupsWarning", PopupOptions.ReorderPopupsWarning);
 	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups ? BST_CHECKED : BST_UNCHECKED);
 }
 

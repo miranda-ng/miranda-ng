@@ -132,9 +132,9 @@ bool SvcPhoneEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (bUpdateDB) {
 		bChanged = g_eiPhone != bEnable;
-		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, g_eiPhone = bEnable);
+		db_set_b(NULL, MODULENAME, SET_CLIST_EXTRAICON_PHONE, g_eiPhone = bEnable);
 	}
-	else bChanged = g_eiPhone = db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE) != 0;
+	else bChanged = g_eiPhone = db_get_b(NULL, MODULENAME, SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE) != 0;
 
 	// force module enabled, if extraicon plugin was found
 	if (g_eiPhone) {

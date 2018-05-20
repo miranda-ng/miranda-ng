@@ -69,13 +69,11 @@ Boston, MA 02111-1307, USA.
 #define MS_LISTENINGTO_HOTKEYS_DISABLE		"ListeningTo/HotkeysDisable"
 #define MS_LISTENINGTO_HOTKEYS_TOGGLE		"ListeningTo/HotkeysToggle"
 
-#define MODULE_NAME "ListeningTo"
+#define MODULENAME "ListeningTo"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE_NAME)
-	{}
+	CMPlugin();
 };
 
 // Global Variables

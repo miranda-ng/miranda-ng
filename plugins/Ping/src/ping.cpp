@@ -11,7 +11,7 @@ bool use_raw_ping = true;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -25,9 +25,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x760ea901, 0xc0c2, 0x446c, { 0x80, 0x29, 0x94, 0xc3, 0xbc, 0x47, 0xc4, 0x5e } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -35,31 +39,31 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 static void CreatePluginServices()
 {
 	// general
-	CreateServiceFunction(PLUG "/Ping", PluginPing);
-	CreateServiceFunction(PLUG "/DblClick", DblClick);
+	CreateServiceFunction(MODULENAME "/Ping", PluginPing);
+	CreateServiceFunction(MODULENAME "/DblClick", DblClick);
 
 	// list
-	CreateServiceFunction(PLUG "/ClearPingList", ClearPingList);
-	CreateServiceFunction(PLUG "/GetPingList", GetPingList);
-	CreateServiceFunction(PLUG "/SetPingList", SetPingList);
-	CreateServiceFunction(PLUG "/SetAndSavePingList", SetAndSavePingList);
-	CreateServiceFunction(PLUG "/LoadPingList", LoadPingList);
-	CreateServiceFunction(PLUG "/SavePingList", SavePingList);
+	CreateServiceFunction(MODULENAME "/ClearPingList", ClearPingList);
+	CreateServiceFunction(MODULENAME "/GetPingList", GetPingList);
+	CreateServiceFunction(MODULENAME "/SetPingList", SetPingList);
+	CreateServiceFunction(MODULENAME "/SetAndSavePingList", SetAndSavePingList);
+	CreateServiceFunction(MODULENAME "/LoadPingList", LoadPingList);
+	CreateServiceFunction(MODULENAME "/SavePingList", SavePingList);
 
-	reload_event_handle = CreateHookableEvent(PLUG "/ListReload");
+	reload_event_handle = CreateHookableEvent(MODULENAME "/ListReload");
 
 	//log
-	CreateServiceFunction(PLUG "/Log", Log);
-	CreateServiceFunction(PLUG "/ViewLogData", ViewLogData);
-	CreateServiceFunction(PLUG "/GetLogFilename", GetLogFilename);
-	CreateServiceFunction(PLUG "/SetLogFilename", SetLogFilename);
+	CreateServiceFunction(MODULENAME "/Log", Log);
+	CreateServiceFunction(MODULENAME "/ViewLogData", ViewLogData);
+	CreateServiceFunction(MODULENAME "/GetLogFilename", GetLogFilename);
+	CreateServiceFunction(MODULENAME "/SetLogFilename", SetLogFilename);
 
 	// menu
-	CreateServiceFunction(PLUG "/DisableAll", PingDisableAll);
-	CreateServiceFunction(PLUG "/EnableAll", PingEnableAll);
-	CreateServiceFunction(PLUG "/ToggleEnabled", ToggleEnabled);
-	CreateServiceFunction(PLUG "/ShowGraph", ShowGraph);
-	CreateServiceFunction(PLUG "/Edit", EditContact);
+	CreateServiceFunction(MODULENAME "/DisableAll", PingDisableAll);
+	CreateServiceFunction(MODULENAME "/EnableAll", PingEnableAll);
+	CreateServiceFunction(MODULENAME "/ToggleEnabled", ToggleEnabled);
+	CreateServiceFunction(MODULENAME "/ShowGraph", ShowGraph);
+	CreateServiceFunction(MODULENAME "/Edit", EditContact);
 
 }
 
@@ -82,7 +86,7 @@ static int OnShutdown(WPARAM, LPARAM)
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	NETLIBUSER nl_user = {};
-	nl_user.szSettingsModule = PLUG;
+	nl_user.szSettingsModule = MODULENAME;
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nl_user.szDescriptiveName.w = TranslateT("Ping Plugin");
 	hNetlibUser = Netlib_RegisterUser(&nl_user);
@@ -90,23 +94,23 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	InitUtils();
 	InitMenus();
 
-	hFillListEvent = HookEvent(PLUG "/ListReload", FillList);
+	hFillListEvent = HookEvent(MODULENAME "/ListReload", FillList);
 
-	if (!db_get_b(0, PLUG, "PingPlugImport", 0)) {
+	if (!db_get_b(0, MODULENAME, "PingPlugImport", 0)) {
 		if (db_get_dw(0, "PingPlug", "NumEntries", 0)) {
 			import_ping_addresses();
-			db_set_b(0, PLUG, "PingPlugImport", 1);
+			db_set_b(0, MODULENAME, "PingPlugImport", 1);
 		}
 	}
 
 	InitList();
 
-	CallService(PLUG "/LoadPingList", 0, 0);
+	CallService(MODULENAME "/LoadPingList", 0, 0);
 
 	graphs_init();
 
 	if (options.logging)
-		CallService(PLUG "/Log", (WPARAM)L"start", 0);
+		CallService(MODULENAME "/Log", (WPARAM)L"start", 0);
 
 	return 0;
 }
@@ -121,11 +125,11 @@ static IconItem iconList[] =
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	use_raw_ping = false;
-	db_set_b(0, PLUG, "UsingRawSockets", (BYTE)use_raw_ping);
+	db_set_b(0, MODULENAME, "UsingRawSockets", (BYTE)use_raw_ping);
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0);
 	hWakeEvent = CreateEvent(nullptr, FALSE, FALSE, L"Local\\ThreadWaitEvent");
@@ -156,7 +160,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	CloseHandle(mainThread);
 
 	if (options.logging)
-		CallService(PLUG "/Log", (WPARAM)L"stop", 0);
+		CallService(MODULENAME "/Log", (WPARAM)L"stop", 0);
 
 	return 0;
 }

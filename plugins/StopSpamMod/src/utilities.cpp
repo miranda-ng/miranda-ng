@@ -56,7 +56,7 @@ wstring &GetDlgItemString(HWND hwnd, int id)
 std::string &GetProtoList()
 {
 	static std::string s;
-	return s = DBGetContactSettingStringPAN_A(NULL, pluginName, "protoList", "ICQ\r\n");
+	return s = DBGetContactSettingStringPAN_A(NULL, MODULENAME, "protoList", "ICQ\r\n");
 }
 
 bool ProtoInList(const char *szProto)
@@ -286,7 +286,7 @@ void __cdecl CleanProtocolExclThread(void *param)
 
 	std::list<MCONTACT> contacts;
 	for (auto &hContact : Contacts(szProto))
-		if (db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
+		if (db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, MODULENAME, "Excluded", 0))
 			contacts.push_back(hContact);
 
 	Sleep(5000);
@@ -321,7 +321,7 @@ void __cdecl CleanThread(void*)
 void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)
 {
 	DBEVENTINFO Event = {};
-	Event.szModule = pluginName;
+	Event.szModule = MODULENAME;
 	Event.eventType = event_type;
 	Event.flags = flags | DBEF_UTF;
 	Event.timestamp = (DWORD)time(0);

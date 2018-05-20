@@ -87,11 +87,11 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 			case PSN_APPLY: // система просит сохранить настройки плагина
 				code_Close = code_Close_tmp;
-				db_set_dw(0, __DbModName, "Close", code_Close_tmp);
+				db_set_dw(0, MODULENAME, "Close", code_Close_tmp);
 				code_HideShow = code_HideShow_tmp;
-				db_set_dw(0, __DbModName, "HideShow", code_HideShow_tmp);
+				db_set_dw(0, MODULENAME, "HideShow", code_HideShow_tmp);
 				code_ReadMsg = code_ReadMsg_tmp;
-				db_set_dw(0, __DbModName, "ReadMsg", code_ReadMsg_tmp);
+				db_set_dw(0, MODULENAME, "ReadMsg", code_ReadMsg_tmp);
 				break; //case PSN_APPLY
 			}
 			break; //case 0

@@ -30,10 +30,10 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 	// only run if it is not current updating and the auto update option is enabled
 	if (!ThreadRunning && !Miranda_IsTerminated()) {
 		bool HaveUpdates = FALSE;
-		for (auto &hContact : Contacts(MODULE)) {
-			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
-				double diff = difftime(time(0), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
-				if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
+		for (auto &hContact : Contacts(MODULENAME)) {
+			if (db_get_dw(hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME)) {
+				double diff = difftime(time(0), (time_t)db_get_dw(hContact, MODULENAME, "LastCheck", 0));
+				if (db_get_b(NULL, MODULENAME, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
 					UpdateListAdd(hContact);
 					HaveUpdates = TRUE;
 				}
@@ -51,8 +51,8 @@ void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 	KillTimer(nullptr, timerId);
 	ThreadRunning = FALSE;
 
-	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_IsTerminated()) {
-		if (db_get_b(NULL, MODULE, "StartupRetrieve", 1))
+	if (db_get_b(NULL, MODULENAME, "AutoUpdate", 1) && !Miranda_IsTerminated()) {
+		if (db_get_b(NULL, MODULENAME, "StartupRetrieve", 1))
 			CheckAllFeeds(0, 1);
 		timerId = SetTimer(nullptr, 0, 30000, (TIMERPROC)timerProc);
 	}

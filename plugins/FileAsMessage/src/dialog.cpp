@@ -136,17 +136,17 @@ int RetrieveFileSize(wchar_t *filename)
 FILEECHO::FILEECHO(MCONTACT Contact)
 {
 	hContact = Contact;
-	dwSendInterval = db_get_dw(NULL, SERVICE_NAME, "SendDelay", 6000);
+	dwSendInterval = db_get_dw(NULL, MODULENAME, "SendDelay", 6000);
 
-	chunkMaxLen = db_get_dw(NULL, SERVICE_NAME, "ChunkSize", 5000);
+	chunkMaxLen = db_get_dw(NULL, MODULENAME, "ChunkSize", 5000);
 	chunkCount = 0;
 	filename = nullptr;
 
-	rgbRecv = db_get_dw(NULL, SERVICE_NAME, "colorRecv", RGB(64, 255, 64));
-	rgbSent = db_get_dw(NULL, SERVICE_NAME, "colorSent", RGB(255, 255, 64));
-	rgbUnSent = db_get_dw(NULL, SERVICE_NAME, "colorUnsent", RGB(128, 128, 128));
-	rgbToSend = db_get_dw(NULL, SERVICE_NAME, "colorTosend", RGB(192, 192, 192));
-	asBinary = db_get_dw(NULL, SERVICE_NAME, "base64", 1) == 0;
+	rgbRecv = db_get_dw(NULL, MODULENAME, "colorRecv", RGB(64, 255, 64));
+	rgbSent = db_get_dw(NULL, MODULENAME, "colorSent", RGB(255, 255, 64));
+	rgbUnSent = db_get_dw(NULL, MODULENAME, "colorUnsent", RGB(128, 128, 128));
+	rgbToSend = db_get_dw(NULL, MODULENAME, "colorTosend", RGB(192, 192, 192));
+	asBinary = db_get_dw(NULL, MODULENAME, "base64", 1) == 0;
 }
 
 uint controlEnabled[][2] =
@@ -419,7 +419,7 @@ void FILEECHO::incomeRequest(char *param)
 		cle.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SMALLICON));
 		cle.flags = CLEF_URGENT;
 		cle.hDbEvent = 0;
-		cle.pszService = SERVICE_NAME "/FERecvFile";
+		cle.pszService = MODULENAME "/FERecvFile";
 		pcli->pfnAddEvent(&cle);
 
 		MakePopupMsg(hDlg, hContact, L"Incoming file...");

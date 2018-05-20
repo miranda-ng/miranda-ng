@@ -11,7 +11,7 @@ static IconItem iconList[] =
 
 void InitializeIcons()
 {
-	g_plugin.registerIcon("Protocols/" MODULE, iconList, MODULE);
+	g_plugin.registerIcon("Protocols/" MODULENAME, iconList, MODULENAME);
 }
 
 HANDLE GetIconHandle(int iconId)

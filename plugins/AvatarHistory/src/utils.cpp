@@ -38,8 +38,8 @@ bool ContactEnabled(MCONTACT hContact, char *setting, int def)
 	if (!ProtocolEnabled(proto))
 		return false;
 
-	BYTE globpref = db_get_b(NULL, MODULE_NAME, setting, def);
-	BYTE userpref = db_get_b(hContact, MODULE_NAME, setting, BST_INDETERMINATE);
+	BYTE globpref = db_get_b(NULL, MODULENAME, setting, def);
+	BYTE userpref = db_get_b(hContact, MODULENAME, setting, BST_INDETERMINATE);
 
 	return (globpref && userpref == BST_INDETERMINATE) || userpref == BST_CHECKED;
 }

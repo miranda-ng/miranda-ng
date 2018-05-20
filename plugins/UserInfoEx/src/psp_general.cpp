@@ -91,7 +91,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 										CheckDlgButton(hDlg, RADIO_FEMALE, (dbv.bVal == 'F') ? BST_CHECKED : BST_UNCHECKED);
 										CheckDlgButton(hDlg, RADIO_MALE, (dbv.bVal == 'M') ? BST_CHECKED : BST_UNCHECKED);
 
-										bEnable = !hContact || Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0);
+										bEnable = !hContact || Flags.B.hasCustom || !db_get_b(NULL, MODULENAME, SET_PROPSHEET_PCBIREADONLY, 0);
 										EnableWindow(GetDlgItem(hDlg, RADIO_FEMALE), bEnable);
 										EnableWindow(GetDlgItem(hDlg, RADIO_MALE), bEnable);
 									}

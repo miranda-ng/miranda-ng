@@ -936,11 +936,7 @@ private:
 
 struct CMPlugin : public ACCPROTOPLUGIN<CJabberProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<CJabberProto>("JABBER")
-	{
-		SetUniqueId("jid");
-	}
+	CMPlugin();
 };
 
 #endif

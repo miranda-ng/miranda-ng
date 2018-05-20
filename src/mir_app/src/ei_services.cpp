@@ -121,11 +121,11 @@ BaseExtraIcon* GetExtraIconByName(const char *name)
 
 static void LoadGroups(LIST<ExtraIconGroup> &groups)
 {
-	int count = db_get_w(0, MODULE_NAME "Groups", "Count", 0);
+	int count = db_get_w(0, EI_MODULE_NAME "Groups", "Count", 0);
 	for (int i = 0; i < count; i++) {
 		char setting[512];
 		mir_snprintf(setting, "%d_count", i);
-		unsigned int items = db_get_w(0, MODULE_NAME "Groups", setting, 0);
+		unsigned int items = db_get_w(0, EI_MODULE_NAME "Groups", setting, 0);
 		if (items < 1)
 			continue;
 
@@ -134,7 +134,7 @@ static void LoadGroups(LIST<ExtraIconGroup> &groups)
 
 		for (unsigned int j = 0; j < items; j++) {
 			mir_snprintf(setting, "%d_%d", i, j);
-			ptrA szIconName(db_get_sa(0, MODULE_NAME "Groups", setting));
+			ptrA szIconName(db_get_sa(0, EI_MODULE_NAME "Groups", setting));
 			if (IsEmpty(szIconName))
 				continue;
 
@@ -322,15 +322,15 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags)
 {
 	char setting[512];
 	mir_snprintf(setting, "Position_%s", name);
-	extra->setPosition(db_get_w(0, MODULE_NAME, setting, 1000));
+	extra->setPosition(db_get_w(0, EI_MODULE_NAME, setting, 1000));
 
 	mir_snprintf(setting, "Slot_%s", name);
-	int slot = db_get_w(0, MODULE_NAME, setting, -100);
+	int slot = db_get_w(0, EI_MODULE_NAME, setting, -100);
 	if (slot == EMPTY_EXTRA_ICON)
 		slot = -1;
 	else if (slot == -100) {
 		if (flags & EIF_DISABLED_BY_DEFAULT) {
-			db_set_w(0, MODULE_NAME, setting, EMPTY_EXTRA_ICON);
+			db_set_w(0, EI_MODULE_NAME, setting, EMPTY_EXTRA_ICON);
 			slot = -1;
 		}
 		else slot = 1;

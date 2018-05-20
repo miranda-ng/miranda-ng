@@ -19,14 +19,13 @@
 #include <m_extraicons.h>
 #include <m_protocols.h>
 
-#define PLUGIN_DB_ID        "MirFox"
+#define MODULENAME "MirFox"
+
 #define PLUGIN_OPTIONS_NAME "MirFox"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLUGIN_DB_ID)
-	{}
+	CMPlugin();
 };
 
 //for MirandaUtils.h and MirfoxData.h and MirfoxMiranda.h

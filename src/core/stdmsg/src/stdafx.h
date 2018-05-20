@@ -108,9 +108,7 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(SRMMMOD)
-	{}
+	CMPlugin();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

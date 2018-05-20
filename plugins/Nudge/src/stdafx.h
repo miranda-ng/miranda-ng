@@ -76,9 +76,7 @@ void AutoResendNudge(void *wParam) ;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 extern int nProtocol;

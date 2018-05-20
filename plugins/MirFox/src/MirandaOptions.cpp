@@ -102,32 +102,32 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY){
 			//SaveOptions from tab1 mirfoxData to miranda database
 			mirfoxMiranda.getMirfoxData().leftClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (WORD)SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_GETCURSEL, 0, 0));
-			db_set_b(0, PLUGIN_DB_ID, "leftClickSendMode", (int)mirfoxMiranda.getMirfoxData().leftClickSendMode);
+			db_set_b(0, MODULENAME, "leftClickSendMode", (int)mirfoxMiranda.getMirfoxData().leftClickSendMode);
 
 			mirfoxMiranda.getMirfoxData().rightClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (WORD)SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_GETCURSEL, 0, 0));
-			db_set_b(0, PLUGIN_DB_ID, "rightClickSendMode", (int)mirfoxMiranda.getMirfoxData().rightClickSendMode);
+			db_set_b(0, MODULENAME, "rightClickSendMode", (int)mirfoxMiranda.getMirfoxData().rightClickSendMode);
 
 			mirfoxMiranda.getMirfoxData().middleClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (WORD)SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_GETCURSEL, 0, 0));
-			db_set_b(0, PLUGIN_DB_ID, "middleClickSendMode", (int)mirfoxMiranda.getMirfoxData().middleClickSendMode);
+			db_set_b(0, MODULENAME, "middleClickSendMode", (int)mirfoxMiranda.getMirfoxData().middleClickSendMode);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC1_CHECK1) == BST_CHECKED){
 				mirfoxMiranda.getMirfoxData().setClientsProfilesFilterCheckbox(true);
-				db_set_b(0, PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", 1);
+				db_set_b(0, MODULENAME, "clientsProfilesFilterCheckbox", 1);
 			} else {
 				mirfoxMiranda.getMirfoxData().setClientsProfilesFilterCheckbox(false);
-				db_set_b(0, PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", 2);
+				db_set_b(0, MODULENAME, "clientsProfilesFilterCheckbox", 2);
 			}
 
 			if (IsDlgButtonChecked(hwndDlg, IDC1_CHECK2) == BST_CHECKED){
 				if (mirfoxMiranda.getMirfoxData().getAddAccountToContactNameCheckbox() != true){
 					mirfoxMiranda.getMirfoxData().setAddAccountToContactNameCheckbox(true);
-					db_set_b(0, PLUGIN_DB_ID, "addAccountToContactNameCheckbox", 1);
+					db_set_b(0, MODULENAME, "addAccountToContactNameCheckbox", 1);
 					mirfoxMiranda.getMirfoxData().updateAllMirandaContactsNames(mirfoxMiranda.getSharedMemoryUtils());
 				}
 			} else {
 				if (mirfoxMiranda.getMirfoxData().getAddAccountToContactNameCheckbox() != false){
 					mirfoxMiranda.getMirfoxData().setAddAccountToContactNameCheckbox(false);
-					db_set_b(0, PLUGIN_DB_ID, "addAccountToContactNameCheckbox", 2);
+					db_set_b(0, MODULENAME, "addAccountToContactNameCheckbox", 2);
 					mirfoxMiranda.getMirfoxData().updateAllMirandaContactsNames(mirfoxMiranda.getSharedMemoryUtils());
 				}
 			}
@@ -142,7 +142,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			MFLogger* logger = MFLogger::getInstance();
 			logger->log_p(L"Options. Save clientsProfilesFilterString: [%s]", mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->c_str());
-			db_set_ws(0, PLUGIN_DB_ID, "clientsProfilesFilterString", mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->c_str());
+			db_set_ws(0, MODULENAME, "clientsProfilesFilterString", mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->c_str());
 
 			//TODO fire actualization visableTo field at CSM record
 
@@ -483,9 +483,9 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 							//save to db	1 - on, 2 - off
 							if (contactState == MFENUM_MIRANDACONTACT_STATE_OFF){
-								db_set_b(hContact, PLUGIN_DB_ID, "state", 2);
+								db_set_b(hContact, MODULENAME, "state", 2);
 							} else {
-								db_set_b(hContact, PLUGIN_DB_ID, "state", 1);
+								db_set_b(hContact, MODULENAME, "state", 1);
 							}
 
 
@@ -641,9 +641,9 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				std::string mirandaAccountDBKey("ACCOUNTSTATE_");
 				mirandaAccountDBKey += accountId;
 				if (accountState == MFENUM_MIRANDAACCOUNT_STATE_OFF){
-					db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 2);
+					db_set_b(0, MODULENAME, mirandaAccountDBKey.c_str(), 2);
 				} else {
-					db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 1);
+					db_set_b(0, MODULENAME, mirandaAccountDBKey.c_str(), 1);
 				}
 
 

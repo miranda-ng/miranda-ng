@@ -1,5 +1,5 @@
 #pragma once
 
-#define pluginName "StopSpam" //const char* ?
+#define MODULENAME "StopSpam" //const char* ?
 #define PREF_TCHAR2 PREF_UTF
 

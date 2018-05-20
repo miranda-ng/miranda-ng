@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
+CMPlugin	g_plugin;
 CLIST_INTERFACE *pcli;
+int &hLangpack(g_plugin.m_hLang);
 
 //PLUGINLINK *pluginLink=NULL;
 HANDLE hOptInit = nullptr;
@@ -15,8 +17,6 @@ HANDLE hConnectionCheckThread = nullptr;
 HANDLE hFilterOptionsThread = nullptr;
 HANDLE killCheckThreadEvent = nullptr;
 HANDLE hExceptionsMutex = nullptr;
-//HANDLE hCurrentEditMutex=NULL;
-int &hLangpack(g_plugin.m_hLang);
 
 DWORD FilterOptionsThreadId;
 DWORD ConnectionCheckThreadId;
@@ -40,7 +40,9 @@ int currentStatus = ID_STATUS_OFFLINE, diffstat = 0;
 BOOL bOptionsOpen = FALSE;
 wchar_t *tcpStates[] = { L"CLOSED", L"LISTEN", L"SYN_SENT", L"SYN_RCVD", L"ESTAB", L"FIN_WAIT1", L"FIN_WAIT2", L"CLOSE_WAIT", L"CLOSING", L"LAST_ACK", L"TIME_WAIT", L"DELETE_TCB" };
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	PLUGINNAME,
 	__VERSION_DWORD,
@@ -53,14 +55,16 @@ PLUGININFOEX pluginInfo = {
 	{ 0x4bb5b4aa, 0xc364, 0x4f23, { 0x97, 0x46, 0xd5, 0xb7, 0x8, 0xa2, 0x86, 0xa5 } }
 };
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(PLUGINNAME, pluginInfoEx)
 {
-	return &pluginInfo;
+	RegisterProtocol(PROTOTYPE_PROTOCOL);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin	g_plugin;
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -300,9 +304,9 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			bOptionsOpen = TRUE;
 			TranslateDialogDefault(hwndDlg);//translate miranda function
 			#ifdef _WIN64
-			mir_snwprintf(buff, L"%d.%d.%d.%d/64", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+			mir_snwprintf(buff, L"%d.%d.%d.%d/64", HIBYTE(HIWORD(pluginInfoEx.version)), LOBYTE(HIWORD(pluginInfoEx.version)), HIBYTE(LOWORD(pluginInfoEx.version)), LOBYTE(LOWORD(pluginInfoEx.version)));
 			#else
-			mir_snwprintf(buff, L"%d.%d.%d.%d/32", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+			mir_snwprintf(buff, L"%d.%d.%d.%d/32", HIBYTE(HIWORD(pluginInfoEx.version)), LOBYTE(HIWORD(pluginInfoEx.version)), HIBYTE(LOWORD(pluginInfoEx.version)), LOBYTE(LOWORD(pluginInfoEx.version)));
 			#endif
 			SetDlgItemText(hwndDlg, IDC_VERSION, buff);
 			LoadSettings();
@@ -848,7 +852,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	_OutputDebugString(L"Entering Load dll");
 	#endif
 
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	hExceptionsMutex = CreateMutex(nullptr, FALSE, L"ExceptionsMutex");

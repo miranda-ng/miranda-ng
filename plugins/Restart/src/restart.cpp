@@ -2,9 +2,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(nullptr)
-	{}
+	CMPlugin();
 }
 g_plugin;
 
@@ -13,7 +11,7 @@ HANDLE hRestartMe;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -26,9 +24,13 @@ PLUGININFOEX pluginInfo={
 	{0x61bedf3a, 0xcc2, 0x41a3, {0xb9, 0x80, 0xbb, 0x93, 0x93, 0x36, 0x89, 0x35}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +48,7 @@ static IconItem iconList[] =
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfoEx);
 
 	// IcoLib support
 	g_plugin.registerIcon(LPGEN("Restart Plugin"), iconList);

@@ -36,10 +36,10 @@ static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 	if (!hContact)
 		return;
 
-	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
+	int mode = db_get_b(hContact, MODULENAME, "ShowMode", PU_SHOWMODE_AUTO);
 
 	StatusIconData sid = {};
-	sid.szModule = MODULNAME;
+	sid.szModule = MODULENAME;
 
 	for (int i = 0; i < 4; i++) {
 		sid.dwId = i;
@@ -70,13 +70,13 @@ static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
 static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (mir_strcmp(sicd->szModule, MODULNAME))
+	if (mir_strcmp(sicd->szModule, MODULENAME))
 		return 0;
 
 	if (!hContact)
 		return 0;
 
-	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
+	int mode = db_get_b(hContact, MODULENAME, "ShowMode", PU_SHOWMODE_AUTO);
 
 	if (sicd->flags & MBCF_RIGHTBUTTON) {
 		HMENU hMenu = CreatePopupMenu();
@@ -90,12 +90,12 @@ static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 
 		mode = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), nullptr);
 		if (mode) {
-			db_set_b(hContact, MODULNAME, "ShowMode", mode - 1);
+			db_set_b(hContact, MODULENAME, "ShowMode", mode - 1);
 			SrmmMenu_UpdateIcon(hContact);
 		}
 	}
 	else {
-		db_set_b(hContact, MODULNAME, "ShowMode", (mode == PU_SHOWMODE_AUTO) ? PU_SHOWMODE_BLOCK : PU_SHOWMODE_AUTO);
+		db_set_b(hContact, MODULENAME, "ShowMode", (mode == PU_SHOWMODE_AUTO) ? PU_SHOWMODE_BLOCK : PU_SHOWMODE_AUTO);
 		SrmmMenu_UpdateIcon(hContact);
 	}
 
@@ -105,7 +105,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 void SrmmMenu_Load()
 {
 	StatusIconData sid = {};
-	sid.szModule = MODULNAME;
+	sid.szModule = MODULENAME;
 
 	sid.dwId = 0;
 	sid.szTooltip = LPGEN("Popup Mode: Auto");

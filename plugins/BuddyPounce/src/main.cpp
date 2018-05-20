@@ -4,7 +4,9 @@ CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 MWindowList hWindowList;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -17,19 +19,17 @@ PLUGININFOEX pluginInfo = {
 	{0xa9e9c114, 0x84b9, 0x434b, {0xa3, 0xd5, 0x89, 0x92, 0x1d, 0x39, 0xdd, 0xff}}
 };
 
-//========================
-//  MirandaPluginInfo
-//========================
-
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
-//===================
+/////////////////////////////////////////////////////////////////////////////////////////
 // MainInit
-//===================
 
 int MainInit(WPARAM, LPARAM)
 {
@@ -49,14 +49,14 @@ int MsgAck(WPARAM, LPARAM lParam)
 
 	if (ack && ack->type == ACKTYPE_MESSAGE) {
 		if (ack->hProcess == (HANDLE)WindowList_Find(hWindowList, ack->hContact)) {
-			if (db_get_b(NULL, modname, "ShowDeliveryMessages", 1))
+			if (db_get_b(NULL, MODULENAME, "ShowDeliveryMessages", 1))
 				CreateMessageAcknowlegedWindow(ack->hContact, ack->result == ACKRESULT_SUCCESS);
 			if (ack->result == ACKRESULT_SUCCESS) {
 				// wrtie it to the DB
 				DBEVENTINFO dbei = {};
 				DBVARIANT dbv;
-				int reuse = db_get_b(ack->hContact, modname, "Reuse", 0);
-				if (!db_get_ws(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
+				int reuse = db_get_b(ack->hContact, MODULENAME, "Reuse", 0);
+				if (!db_get_ws(ack->hContact, MODULENAME, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
 					T2Utf pszUtf(dbv.ptszVal);
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_UTF | DBEF_SENT;
@@ -68,10 +68,10 @@ int MsgAck(WPARAM, LPARAM lParam)
 				}
 				// check to reuse
 				if (reuse > 1)
-					db_set_b(ack->hContact, modname, "Reuse", (BYTE)(reuse - 1));
+					db_set_b(ack->hContact, MODULENAME, "Reuse", (BYTE)(reuse - 1));
 				else {
-					db_set_b(ack->hContact, modname, "Reuse", 0);
-					db_set_ws(ack->hContact, modname, "PounceMsg", L"");
+					db_set_b(ack->hContact, MODULENAME, "Reuse", 0);
+					db_set_ws(ack->hContact, MODULENAME, "PounceMsg", L"");
 				}
 			}
 			WindowList_Remove(hWindowList, (HWND)ack->hProcess);
@@ -123,9 +123,9 @@ int statusCheck(int statusFlag, int status)
 int CheckDate(MCONTACT hContact)
 {
 	time_t curtime = time(nullptr);
-	if (!db_get_b(hContact, modname, "GiveUpDays", 0))
+	if (!db_get_b(hContact, MODULENAME, "GiveUpDays", 0))
 		return 1;
-	if (db_get_b(hContact, modname, "GiveUpDays", 0) && (abs((time_t)db_get_dw(hContact, modname, "GiveUpDate", 0)) > curtime))
+	if (db_get_b(hContact, MODULENAME, "GiveUpDays", 0) && (abs((time_t)db_get_dw(hContact, MODULENAME, "GiveUpDate", 0)) > curtime))
 		return 1;
 	return 0;
 }
@@ -148,14 +148,14 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 
 		if (newStatus != oldStatus && hContact != NULL && newStatus != ID_STATUS_OFFLINE) {
 			DBVARIANT dbv;
-			if (!db_get_ws(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
+			if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
 				// check my status
-				if (statusCheck(db_get_w(hContact, modname, "SendIfMyStatusIsFLAG", 0), Proto_GetStatus(szProto))
+				if (statusCheck(db_get_w(hContact, MODULENAME, "SendIfMyStatusIsFLAG", 0), Proto_GetStatus(szProto))
 					// check the contacts status
-					&& statusCheck(db_get_w(hContact, modname, "SendIfTheirStatusIsFLAG", 0), newStatus)) {
+					&& statusCheck(db_get_w(hContact, MODULENAME, "SendIfTheirStatusIsFLAG", 0), newStatus)) {
 					// check if we r giving up after x days
 					if (CheckDate(hContact)) {
-						if (db_get_w(hContact, modname, "ConfirmTimeout", 0)) {
+						if (db_get_w(hContact, MODULENAME, "ConfirmTimeout", 0)) {
 							SendPounceDlgProcStruct *spdps = (SendPounceDlgProcStruct *)mir_alloc(sizeof(SendPounceDlgProcStruct));
 							wchar_t *message = mir_wstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
@@ -176,7 +176,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 
 INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(NULL, modname, "UseAdvanced", 0) || db_get_b(hContact, modname, "UseAdvanced", 0))
+	if (db_get_b(NULL, MODULENAME, "UseAdvanced", 0) || db_get_b(hContact, MODULENAME, "UseAdvanced", 0))
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE), nullptr, BuddyPounceDlgProc, hContact);
 	else
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE_SIMPLE), nullptr, BuddyPounceSimpleDlgProc, hContact);
@@ -187,12 +187,12 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	wchar_t* message = (wchar_t*)lParam;
-	db_set_ws(hContact, modname, "PounceMsg", message);
-	db_set_w(hContact, modname, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfMyStatusIsFLAG", 1));
-	db_set_w(hContact, modname, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfTheirStatusIsFLAG", 1));
-	db_set_b(hContact, modname, "Reuse", (BYTE)db_get_b(NULL, modname, "Reuse", 0));
-	db_set_b(hContact, modname, "GiveUpDays", (BYTE)db_get_b(NULL, modname, "GiveUpDays", 0));
-	db_set_dw(hContact, modname, "GiveUpDate", (DWORD)(db_get_b(hContact, modname, "GiveUpDays", 0)*SECONDSINADAY));
+	db_set_ws(hContact, MODULENAME, "PounceMsg", message);
+	db_set_w(hContact, MODULENAME, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, MODULENAME, "SendIfMyStatusIsFLAG", 1));
+	db_set_w(hContact, MODULENAME, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, MODULENAME, "SendIfTheirStatusIsFLAG", 1));
+	db_set_b(hContact, MODULENAME, "Reuse", (BYTE)db_get_b(NULL, MODULENAME, "Reuse", 0));
+	db_set_b(hContact, MODULENAME, "GiveUpDays", (BYTE)db_get_b(NULL, MODULENAME, "GiveUpDays", 0));
+	db_set_dw(hContact, MODULENAME, "GiveUpDate", (DWORD)(db_get_b(hContact, MODULENAME, "GiveUpDays", 0)*SECONDSINADAY));
 	return 0;
 }
 
@@ -201,13 +201,13 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	wchar_t* message = (wchar_t*)lParam;
 	DBVARIANT dbv;
-	if (!db_get_ws(hContact, modname, "PounceMsg", &dbv))
+	if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv))
 	{
 		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_wstrlen(dbv.ptszVal) + mir_wstrlen(message) + 1);
 		if (!newPounce) return 1;
 		mir_wstrcpy(newPounce, dbv.ptszVal);
 		mir_wstrcat(newPounce, message);
-		db_set_ws(hContact, modname, "PounceMsg", newPounce);
+		db_set_ws(hContact, MODULENAME, "PounceMsg", newPounce);
 		mir_free(newPounce);
 		db_free(&dbv);
 	}
@@ -215,12 +215,12 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===========================
+/////////////////////////////////////////////////////////////////////////////////////////
 // Load (hook ModulesLoaded)
-//===========================
+
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UserOnlineSettingChanged);
@@ -231,12 +231,13 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hWindowList = WindowList_Create();
 
-	/*     service funcitons for other devs...					*/
+	// service funcitons for other devs...					*/
 	CreateServiceFunction("BuddyPounce/AddSimplePounce", AddSimpleMessage); // add a simple pounce to a contact
 	CreateServiceFunction("BuddyPounce/AddToPounce", AddToPounce); // add to the exsisitng pounce, if there isnt 1 then add a new simple pounce.
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

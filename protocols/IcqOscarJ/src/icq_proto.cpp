@@ -31,8 +31,6 @@
 
 #include "m_icolib.h"
 
-extern PLUGININFOEX pluginInfo;
-
 #pragma warning(disable:4355)
 
 static int CompareConns(const directconnect *p1, const directconnect *p2)

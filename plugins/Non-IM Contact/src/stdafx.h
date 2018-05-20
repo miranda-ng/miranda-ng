@@ -119,11 +119,7 @@ extern HNETLIBUSER hNetlibUser;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODNAME)
-	{
-		RegisterProtocol(PROTOTYPE_VIRTUAL);
-	}
+	CMPlugin();
 };
 
 #endif

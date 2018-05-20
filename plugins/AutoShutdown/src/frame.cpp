@@ -288,14 +288,14 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 		}
 	case M_SET_COUNTDOWN:
 		if (dat->fTimeFlags&SDWTF_ST_TIME) {
-			dat->settingLastTime = (time_t)db_get_dw(NULL, "AutoShutdown", "TimeStamp", SETTING_TIMESTAMP_DEFAULT);
+			dat->settingLastTime = (time_t)db_get_dw(NULL, MODULENAME, "TimeStamp", SETTING_TIMESTAMP_DEFAULT);
 			dat->countdown = time(0);
 			if (dat->settingLastTime > dat->countdown) dat->countdown = dat->settingLastTime - dat->countdown;
 			else dat->countdown = 0;
 		}
 		else if (dat->flags&FWPDF_COUNTDOWNINVALID) {
-			dat->countdown = (time_t)db_get_dw(NULL, "AutoShutdown", "Countdown", SETTING_COUNTDOWN_DEFAULT);
-			dat->countdown *= (time_t)db_get_dw(NULL, "AutoShutdown", "CountdownUnit", SETTING_COUNTDOWNUNIT_DEFAULT);
+			dat->countdown = (time_t)db_get_dw(NULL, MODULENAME, "Countdown", SETTING_COUNTDOWN_DEFAULT);
+			dat->countdown *= (time_t)db_get_dw(NULL, MODULENAME, "CountdownUnit", SETTING_COUNTDOWNUNIT_DEFAULT);
 		}
 		dat->flags &= ~FWPDF_COUNTDOWNINVALID;
 		/* commctl 4.70+, Win95: 1-100 will work fine (wrap around) */
@@ -499,7 +499,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 		clf.align = alBottom;
 		clf.height = GetSystemMetrics(SM_CYICON);
 		clf.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_SKINNED;
-		clf.name = Translate("AutoShutdown");
+		clf.name = Translate(MODULENAME);
 		clf.TBname = Translate("Automatic shutdown");
 		clf.hWnd = hwndCountdownFrame;
 		hFrame = (WORD)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&clf, 0);
@@ -553,13 +553,13 @@ static int FrameModulesLoaded(WPARAM, LPARAM)
 		LOGFONT lf;
 		/* built-in font module is not available before this hook */
 		COLORREF clr = GetDefaultColor(FRAMEELEMENT_TEXT);
-		FontService_RegisterFont("AutoShutdown", "CountdownFont", LPGENW("Automatic shutdown"), LPGENW("Countdown on frame"), LPGENW("Automatic shutdown"), LPGENW("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
+		FontService_RegisterFont(MODULENAME, "CountdownFont", LPGENW("Automatic shutdown"), LPGENW("Countdown on frame"), LPGENW("Automatic shutdown"), LPGENW("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
 		clr = GetDefaultColor(FRAMEELEMENT_BKGRND);
-		FontService_RegisterColor("AutoShutdown", "BkgColor", LPGENW("Automatic shutdown"), LPGENW("Background"), clr);
+		FontService_RegisterColor(MODULENAME, "BkgColor", LPGENW("Automatic shutdown"), LPGENW("Background"), clr);
 		if (!IsThemeActive()) {
 			/* progressbar color can only be changed with classic theme */
 			clr = GetDefaultColor(FRAMEELEMENT_BAR);
-			FontService_RegisterColor("AutoShutdown", "ProgressColor", TranslateT("Automatic shutdown"), TranslateT("Progress bar"), clr);
+			FontService_RegisterColor(MODULENAME, "ProgressColor", TranslateT("Automatic shutdown"), TranslateT("Progress bar"), clr);
 		}
 	}
 	return 0;

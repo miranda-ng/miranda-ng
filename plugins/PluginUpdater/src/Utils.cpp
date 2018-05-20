@@ -25,20 +25,20 @@ HANDLE hPipe = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////
 void LoadOptions()
 {
-	PopupOptions.DefColors = db_get_b(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
-	PopupOptions.LeftClickAction= db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
-	PopupOptions.RightClickAction = db_get_b(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
-	PopupOptions.Timeout = db_get_dw(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
+	PopupOptions.DefColors = db_get_b(NULL, MODULENAME, "DefColors", DEFAULT_COLORS);
+	PopupOptions.LeftClickAction= db_get_b(NULL, MODULENAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
+	PopupOptions.RightClickAction = db_get_b(NULL, MODULENAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
+	PopupOptions.Timeout = db_get_dw(NULL, MODULENAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
 
-	opts.bUpdateOnStartup = db_get_b(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
-	opts.bOnlyOnceADay = db_get_b(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
-	opts.bUpdateOnPeriod = db_get_b(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
-	opts.Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
-	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	opts.bForceRedownload = db_get_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, 0);
-	opts.bSilentMode = db_get_b(NULL, MODNAME, "SilentMode", 0);
-	opts.bBackup = db_get_b(NULL, MODNAME, "Backup", 0);
-	opts.bChangePlatform = db_get_b(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM, 0);
+	opts.bUpdateOnStartup = db_get_b(NULL, MODULENAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
+	opts.bOnlyOnceADay = db_get_b(NULL, MODULENAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
+	opts.bUpdateOnPeriod = db_get_b(NULL, MODULENAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
+	opts.Period = db_get_dw(NULL, MODULENAME, "Period", DEFAULT_PERIOD);
+	opts.bPeriodMeasure = db_get_b(NULL, MODULENAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
+	opts.bForceRedownload = db_get_b(NULL, MODULENAME, DB_SETTING_REDOWNLOAD, 0);
+	opts.bSilentMode = db_get_b(NULL, MODULENAME, "SilentMode", 0);
+	opts.bBackup = db_get_b(NULL, MODULENAME, "Backup", 0);
+	opts.bChangePlatform = db_get_b(NULL, MODULENAME, DB_SETTING_CHANGEPLATFORM, 0);
 }
 
 IconItem iconList[] =
@@ -58,7 +58,7 @@ void InitNetlib()
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
-	nlu.szSettingsModule = MODNAME;
+	nlu.szSettingsModule = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
@@ -205,14 +205,14 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	DeleteFile(tszTmpIni);
 
 	if (bDoNotSwitchToStable) {
-		db_set_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
+		db_set_b(NULL, MODULENAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
 		// Reset setting if needed
-		int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
+		int UpdateMode = db_get_b(NULL, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
 		if (UpdateMode == UPDATE_MODE_STABLE)
-			db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+			db_set_b(NULL, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
 	}
 	else
-		db_set_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
+		db_set_b(NULL, MODULENAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
 
 	return true;
 }

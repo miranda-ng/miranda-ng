@@ -4,7 +4,7 @@ int LoadServices(void)
 {
 	char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
 
-	memcpy(szServiceFunction, PROTOCOL_NAMEA, PROTOCOL_NAME_SIZE);
+	memcpy(szServiceFunction, MODULENAME, PROTOCOL_NAME_SIZE);
 	pszServiceFunctionName = szServiceFunction + PROTOCOL_NAME_LEN;
 
 	// Service creation
@@ -25,7 +25,7 @@ int LoadModules(void)
 	HookEvent(ME_PROTO_ACCLISTCHANGED, RefreshAccountList);
 
 	char szServiceFunction[MAX_PATH];
-	mir_snprintf(szServiceFunction, "%s%s", PROTOCOL_NAMEA, SMS_SEND);
+	mir_snprintf(szServiceFunction, "%s%s", MODULENAME, SMS_SEND);
 
 	CMenuItem mi;
 

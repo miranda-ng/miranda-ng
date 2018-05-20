@@ -26,14 +26,12 @@
 #include "version.h"
 
 #define MaxTextSize 64000
-#define ModuleName  LPGEN("ChangeKeyboardLayout")
+#define MODULENAME  LPGEN("ChangeKeyboardLayout")
 #define ModuleNameW LPGENW("ChangeKeyboardLayout")
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(ModuleName)
-	{}
+	CMPlugin();
 };
 
 // History++ API

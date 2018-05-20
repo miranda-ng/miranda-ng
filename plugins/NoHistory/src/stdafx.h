@@ -21,15 +21,13 @@
 #include "options.h"
 #include "version.h"
 
-#define MODULE	"NoHistory"
+#define MODULENAME	"NoHistory"
 
 #define DBSETTING_REMOVE "RemoveHistory"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 void SrmmMenu_Load();

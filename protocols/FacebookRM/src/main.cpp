@@ -22,12 +22,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
 std::string g_strUserAgent;
 DWORD g_mirandaVersion;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -40,15 +43,17 @@ PLUGININFOEX pluginInfo = {
 	{ 0x8432b009, 0xff32, 0x4727, { 0xaa, 0xe6, 0xa9, 0x3, 0x50, 0x38, 0xfd, 0x58 } }
 };
 
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<FacebookProto>(FACEBOOK_NAME, pluginInfoEx)
+{
+	SetUniqueId(FACEBOOK_KEY_ID);
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	g_mirandaVersion = mirandaVersion;
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
@@ -60,7 +65,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	InitIcons();
 	InitContactMenus();

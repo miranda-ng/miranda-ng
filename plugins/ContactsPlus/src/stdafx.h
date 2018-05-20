@@ -54,9 +54,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 #define MS_CONTACTS_SEND "ContactsTransfer/SendContacts"

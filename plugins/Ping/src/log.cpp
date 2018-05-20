@@ -3,7 +3,7 @@
 INT_PTR Log(WPARAM wParam, LPARAM) {
 
 	wchar_t buf[1024], tbuf[512], dbuf[512];
-	CallService(PLUG "/GetLogFilename", (WPARAM)1024, (LPARAM)buf);
+	CallService(MODULENAME "/GetLogFilename", (WPARAM)1024, (LPARAM)buf);
 
 	//char TBcapt[255];
 	SYSTEMTIME systime;
@@ -32,7 +32,7 @@ INT_PTR Log(WPARAM wParam, LPARAM) {
 INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	wchar_t *filename = (wchar_t *)lParam;
-	if (db_get_ws(0, PLUG, "LogFilename", &dbv)) {
+	if (db_get_ws(0, MODULENAME, "LogFilename", &dbv)) {
 		Profile_GetPathW(wParam, filename);
 		mir_wstrncat(filename, L"\\ping_log.txt", wParam - mir_wstrlen(filename));
 	}
@@ -47,13 +47,13 @@ INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR SetLogFilename(WPARAM, LPARAM lParam) {
-	db_set_ws(0, PLUG, "LogFilename", (wchar_t *)lParam);
+	db_set_ws(0, MODULENAME, "LogFilename", (wchar_t *)lParam);
 	return 0;
 }
 
 INT_PTR ViewLogData(WPARAM wParam, LPARAM) {
 	wchar_t buf[MAX_PATH];
-	CallService(PLUG "/GetLogFilename", (WPARAM)MAX_PATH, (LPARAM)buf);
+	CallService(MODULENAME "/GetLogFilename", (WPARAM)MAX_PATH, (LPARAM)buf);
 	return (INT_PTR)ShellExecute((HWND)wParam, L"edit", buf, L"", L"", SW_SHOW);
 }
 

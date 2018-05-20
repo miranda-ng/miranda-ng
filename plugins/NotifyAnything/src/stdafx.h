@@ -21,13 +21,11 @@
 #include "resource.h"
 #include "version.h"
 
-const char PlugName[] = "NotifyAnything";
+#define MODULENAME "NotifyAnything"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PlugName)
-	{}
+	CMPlugin();
 };
 
 //---------------------------

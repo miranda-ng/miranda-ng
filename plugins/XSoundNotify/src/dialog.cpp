@@ -21,7 +21,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			hContact = lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			WindowList_Add(hChangeSoundDlgList, hwndDlg, hContact);
-			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, SETTINGSNAME, "ChangeSoundDlg");
+			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULENAME, "ChangeSoundDlg");
 			char* szProto = GetContactProto(hContact);
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			const char* szUniqueId = Proto_GetUniqueId(pa->szModuleName);
@@ -52,7 +52,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_CHOOSE_SOUND), TRUE);
 			DBVARIANT dbv = { 0 };
-			if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+			if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_TEST_PLAY), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_RESET_SOUND), TRUE);
 				SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, PathFindFileName(dbv.ptszVal));
@@ -64,10 +64,10 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, TranslateT("Not set"));
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_IGNORE_SOUND), TRUE);
-			CheckDlgButton(hwndDlg, IDC_CONT_IGNORE_SOUND, db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CONT_IGNORE_SOUND, db_get_b(hContact, MODULENAME, SETTINGSIGNOREKEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p == nullptr) {
-				ptrW name(db_get_wsa(hContact, SETTINGSNAME, SETTINGSKEY));
+				ptrW name(db_get_wsa(hContact, MODULENAME, SETTINGSKEY));
 				if (name != NULL)
 					XSN_Users.insert(new XSN_Data(hContact, name, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0, 1));
 			}
@@ -82,9 +82,9 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				if (mir_wstrcmpi(p->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
 					PathToRelativeW(p->path, shortpath);
-					db_set_ws(hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
+					db_set_ws(hContact, MODULENAME, SETTINGSKEY, shortpath);
 				}
-				db_set_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, p->ignore);
+				db_set_b(hContact, MODULENAME, SETTINGSIGNOREKEY, p->ignore);
 			}
 
 		case IDCANCEL:
@@ -134,7 +134,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			isIgnoreSound = 0;
 			if (p == nullptr) {
 				DBVARIANT dbv;
-				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+				if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH] = { 0 };
 					PathToAbsoluteW(dbv.ptszVal, longpath);
 					Skin_PlaySoundFile(longpath);
@@ -159,15 +159,15 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				XSN_Users.remove(p);
 				delete p;
 			}
-			db_unset(hContact, SETTINGSNAME, SETTINGSKEY);
-			db_unset(hContact, SETTINGSNAME, SETTINGSIGNOREKEY);
+			db_unset(hContact, MODULENAME, SETTINGSKEY);
+			db_unset(hContact, MODULENAME, SETTINGSIGNOREKEY);
 			break;
 
 		case IDC_CONT_IGNORE_SOUND:
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p == nullptr) {
 				DBVARIANT dbv;
-				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+				if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH];
 					PathToAbsoluteW(dbv.ptszVal, longpath);
 					XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0, 1));
@@ -184,7 +184,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hwndDlg, hContact, SETTINGSNAME, "ChangeSoundDlg");
+		Utils_SaveWindowPosition(hwndDlg, hContact, MODULENAME, "ChangeSoundDlg");
 		WindowList_Remove(hChangeSoundDlgList, hwndDlg);
 	}
 	return FALSE;

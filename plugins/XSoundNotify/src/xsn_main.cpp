@@ -20,7 +20,7 @@ BYTE isIgnoreSound = 0, isOwnSound = 0, isIgnoreAccSound = 0, isAccSound = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -34,9 +34,13 @@ PLUGININFOEX pluginInfo =
 	{ 0xa01e25f7, 0xa6ef, 0x4b40,{ 0x8c, 0xac, 0x75, 0x5a, 0x2f, 0x2e, 0x55, 0xb5 }}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -107,9 +111,9 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 	if (!isReceiveMessage(lParam))
 		return 0;
 
-	isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
+	isIgnoreSound = db_get_b(hContact, MODULENAME, SETTINGSIGNOREKEY, 0);
 	DBVARIANT dbv;
-	if (!isIgnoreSound && !db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+	if (!isIgnoreSound && !db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 		PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 		isOwnSound = 0;
@@ -124,9 +128,9 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 	size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
 	char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
 	mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-	isIgnoreAccSound = db_get_b(NULL, SETTINGSNAME, value, 0);
+	isIgnoreAccSound = db_get_b(NULL, MODULENAME, value, 0);
 	mir_free(value);
-	if (!isIgnoreAccSound && !db_get_ws(NULL, SETTINGSNAME, pa->szModuleName, &dbv)) {
+	if (!isIgnoreAccSound && !db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 		PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 		isAccSound = 0;
@@ -152,9 +156,9 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 		if (nick == NULL || gce->ptszText == nullptr)
 			return 0;
 		if (wcsstr(gce->ptszText, nick)) {
-			isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
+			isIgnoreSound = db_get_b(hContact, MODULENAME, SETTINGSIGNOREKEY, 0);
 			DBVARIANT dbv;
-			if (!isIgnoreSound && !db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+			if (!isIgnoreSound && !db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 				PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 				isOwnSound = 0;
@@ -168,9 +172,9 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 			size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
 			char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
 			mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-			isIgnoreAccSound = db_get_b(NULL, SETTINGSNAME, value, 0);
+			isIgnoreAccSound = db_get_b(NULL, MODULENAME, value, 0);
 			mir_free(value);
-			if (!isIgnoreAccSound && !db_get_ws(NULL, SETTINGSNAME, pa->szModuleName, &dbv)) {
+			if (!isIgnoreAccSound && !db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 				PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 				isAccSound = 0;
@@ -236,7 +240,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 
 	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog);

@@ -7,8 +7,8 @@ void logRegister(){
 	// Register netlib user for logging function
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_NOOPTIONS;
-	nlu.szSettingsModule = PLUGINNAME;
-	nlu.szDescriptiveName.w = mir_a2u(PLUGINNAME);
+	nlu.szSettingsModule = MODULENAME;
+	nlu.szDescriptiveName.w = mir_a2u(MODULENAME);
 	netlibHandle = Netlib_RegisterUser(&nlu);
 }
 

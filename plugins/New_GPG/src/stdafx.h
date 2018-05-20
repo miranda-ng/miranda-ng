@@ -89,9 +89,7 @@ using std::fstream;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(szGPGModuleName)
-	{}
+	CMPlugin();
 };
 
 #endif

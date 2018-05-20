@@ -247,7 +247,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		ListView_SetExtendedListViewStyle(GetDlgItem(hwnd, IDC_VARS), 32 | LVS_EX_LABELTIP); // LVS_EX_GRIDLINES
 
 		loadListSettings(GetDlgItem(hwnd, IDC_VARS), csWatchList);
-		Utils_RestoreWindowPositionNoMove(hwnd, NULL, modname, "Watch_");
+		Utils_RestoreWindowPositionNoMove(hwnd, NULL, MODULENAME, "Watch_");
 
 		mir_subclassWindow(GetDlgItem(hwnd, IDC_VARS), WatchSubclassProc);
 
@@ -330,7 +330,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		ListView_DeleteAllItems(GetDlgItem(hwnd, IDC_VARS));
 		saveListSettings(GetDlgItem(hwnd, IDC_VARS), csWatchList);
-		Utils_SaveWindowPosition(hwnd, NULL, modname, "Watch_");
+		Utils_SaveWindowPosition(hwnd, NULL, MODULENAME, "Watch_");
 		hwnd2watchedVarsWindow = nullptr;
 		break;
 	}
@@ -348,9 +348,9 @@ void openWatchedVarWindow()
 
 void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 {
-	COLORREF colorBack = db_get_dw(NULL, modname, "PopupColour", RGB(255, 0, 0));
-	COLORREF colorText = db_get_dw(NULL, modname, "PopupTextColour", RGB(0, 0, 0));
-	int timeout = db_get_b(NULL, modname, "PopupDelay", 3);
+	COLORREF colorBack = db_get_dw(NULL, MODULENAME, "PopupColour", RGB(255, 0, 0));
+	COLORREF colorText = db_get_dw(NULL, MODULENAME, "PopupTextColour", RGB(0, 0, 0));
+	int timeout = db_get_b(NULL, MODULENAME, "PopupDelay", 3);
 
 	wchar_t name[NAME_SIZE], text[MAX_SECONDLINE], value[MAX_SECONDLINE];
 	GetContactName(hContact, nullptr, name, _countof(name));

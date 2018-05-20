@@ -80,7 +80,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		if (lParam & VI_FLAG_PRNDLL)
 			SetWindowText(hwndDlg, TranslateT("View Version Information (with DLLs)"));
 
-		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, PluginName, "ViewInfo_");
+		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "ViewInfo_");
 		ShowWindow(hwndDlg, SW_SHOW);
 		break;
 
@@ -163,7 +163,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_DESTROY:
 		hViewWnd = nullptr;
 		Window_FreeIcon_IcoLib(hwndDlg);
-		Utils_SaveWindowPosition(hwndDlg, NULL, PluginName, "ViewInfo_");
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "ViewInfo_");
 		if (servicemode)
 			PostQuitMessage(0);
 		break;
@@ -187,15 +187,15 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwndDlg);
 		{
 			DBVARIANT dbv;
-			if (db_get_s(NULL, PluginName, "Username", &dbv) == 0) {
+			if (db_get_s(NULL, MODULENAME, "Username", &dbv) == 0) {
 				SetDlgItemTextA(hwndDlg, IDC_USERNAME, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (db_get_s(NULL, PluginName, "Password", &dbv) == 0) {
+			if (db_get_s(NULL, MODULENAME, "Password", &dbv) == 0) {
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
-			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, db_get_b(NULL, PluginName, "UploadChanged", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, db_get_b(NULL, MODULENAME, "UploadChanged", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CATCHCRASHES, catchcrashes ? BST_CHECKED : BST_UNCHECKED);
@@ -230,28 +230,28 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
 			char szSetting[100];
 			GetDlgItemTextA(hwndDlg, IDC_USERNAME, szSetting, _countof(szSetting));
-			db_set_s(NULL, PluginName, "Username", szSetting);
+			db_set_s(NULL, MODULENAME, "Username", szSetting);
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szSetting, _countof(szSetting));
-			db_set_s(NULL, PluginName, "Password", szSetting);
+			db_set_s(NULL, MODULENAME, "Password", szSetting);
 
-			db_set_b(NULL, PluginName, "UploadChanged", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
+			db_set_b(NULL, MODULENAME, "UploadChanged", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
 
 			clsdates = IsDlgButtonChecked(hwndDlg, IDC_CLASSICDATES) == BST_CHECKED;
 			if (clsdates)
-				db_set_b(NULL, PluginName, "ClassicDates", 1);
+				db_set_b(NULL, MODULENAME, "ClassicDates", 1);
 			else
-				db_set_b(NULL, PluginName, "ClassicDates", 0);
+				db_set_b(NULL, MODULENAME, "ClassicDates", 0);
 			dtsubfldr = IsDlgButtonChecked(hwndDlg, IDC_DATESUBFOLDER) == BST_CHECKED;
 			if (dtsubfldr)
-				db_set_b(NULL, PluginName, "SubFolders", 1);
+				db_set_b(NULL, MODULENAME, "SubFolders", 1);
 			else
-				db_set_b(NULL, PluginName, "SubFolders", 0);
+				db_set_b(NULL, MODULENAME, "SubFolders", 0);
 			catchcrashes = IsDlgButtonChecked(hwndDlg, IDC_CATCHCRASHES) == BST_CHECKED;
 			if (catchcrashes)
-				db_set_b(NULL, PluginName, "CatchCrashes", 1);
+				db_set_b(NULL, MODULENAME, "CatchCrashes", 1);
 			else
-				db_set_b(NULL, PluginName, "CatchCrashes", 0);
+				db_set_b(NULL, MODULENAME, "CatchCrashes", 0);
 		}
 		break;
 	}
@@ -305,12 +305,12 @@ void ShowMessage(int type, const wchar_t* format, ...)
 	va_end(va);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		mir_wstrcpy(pi.lptzContactName, _A2W(PluginName));
+		mir_wstrcpy(pi.lptzContactName, _A2W(MODULENAME));
 		pi.lchIcon = LoadIconEx(IDI_VI);
 		pi.PluginWindowProc = DlgProcPopup;
 		pi.PluginData = (void*)type;
 
 		PUAddPopupT(&pi);
 	}
-	else MessageBox(nullptr, pi.lptzText, _A2W(PluginName), MB_OK | MB_ICONINFORMATION);
+	else MessageBox(nullptr, pi.lptzText, _A2W(MODULENAME), MB_OK | MB_ICONINFORMATION);
 }

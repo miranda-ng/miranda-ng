@@ -70,6 +70,10 @@ PLUGININFOEX pluginInfoEx =
 	{ 0xebf19652, 0xe434, 0x4d79, { 0x98, 0x97, 0x91, 0xa0, 0xff, 0x22, 0x6f, 0x51 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULE, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;

@@ -10,8 +10,10 @@ There is no warranty.
 #include "stdafx.h"
 #include "version.h"
 
+CMPlugin	g_plugin;
 CLIST_INTERFACE *pcli;
 int &hLangpack(g_plugin.m_hLang);
+
 UINT hTimer;
 HANDLE hMirandaStarted, hOptionsInitial;
 HNETLIBUSER hNetlibUser;
@@ -21,6 +23,8 @@ optionSettings opt;
 OBJLIST<Account> g_accs(1);
 BOOL optionWindowIsOpen = FALSE;
 short ID_STATUS_NONEW;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfoEx =
 {
@@ -36,14 +40,16 @@ static PLUGININFOEX pluginInfoEx =
 	{ 0x243955e0, 0x75d9, 0x4cc3, { 0x9b, 0x28, 0x6f, 0x9c, 0x5a, 0xf4, 0x53, 0x2d } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{
+	RegisterProtocol(PROTOTYPE_VIRTUAL);
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin	g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,7 +68,7 @@ INT_PTR GetStatus(WPARAM, LPARAM)
 
 INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 {
-	mir_strncpy((char*)lParam, MODULE_NAME, wParam);
+	mir_strncpy((char*)lParam, MODULENAME, wParam);
 	return 0;
 }
 
@@ -95,59 +101,59 @@ extern "C" int __declspec(dllexport) Load()
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
-	nlu.szSettingsModule = MODULE_NAME;
+	nlu.szSettingsModule = MODULENAME;
 	nlu.szDescriptiveName.w = TranslateT("Gmail Notifier connection");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	CreateProtoServiceFunction(MODULE_NAME, PS_GETCAPS, GetCaps);
-	CreateProtoServiceFunction(MODULE_NAME, PS_GETSTATUS, GetStatus);
-	CreateProtoServiceFunction(MODULE_NAME, PS_GETNAME, GetName);
+	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
+	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, GetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);
 	CreateServiceFunction("GmailMNotifier/Notifying", Notifying);
 
-	opt.circleTime = db_get_dw(NULL, MODULE_NAME, "circleTime", 30);
-	opt.notifierOnTray = db_get_dw(NULL, MODULE_NAME, "notifierOnTray", TRUE);
-	opt.notifierOnPop = db_get_dw(NULL, MODULE_NAME, "notifierOnPop", TRUE);
-	opt.popupDuration = db_get_dw(NULL, MODULE_NAME, "popupDuration", -1);
-	opt.popupBgColor = db_get_dw(NULL, MODULE_NAME, "popupBgColor", RGB(173, 206, 247));
-	opt.popupTxtColor = db_get_dw(NULL, MODULE_NAME, "popupTxtColor", RGB(0, 0, 0));
-	opt.OpenUsePrg = db_get_dw(NULL, MODULE_NAME, "OpenUsePrg", 0);
-	opt.ShowCustomIcon = db_get_dw(NULL, MODULE_NAME, "ShowCustomIcon", FALSE);
-	opt.UseOnline = db_get_dw(NULL, MODULE_NAME, "UseOnline", FALSE);
-	opt.AutoLogin = db_get_dw(NULL, MODULE_NAME, "AutoLogin", TRUE);
-	opt.LogThreads = db_get_dw(NULL, MODULE_NAME, "LogThreads", FALSE);
+	opt.circleTime = db_get_dw(NULL, MODULENAME, "circleTime", 30);
+	opt.notifierOnTray = db_get_dw(NULL, MODULENAME, "notifierOnTray", TRUE);
+	opt.notifierOnPop = db_get_dw(NULL, MODULENAME, "notifierOnPop", TRUE);
+	opt.popupDuration = db_get_dw(NULL, MODULENAME, "popupDuration", -1);
+	opt.popupBgColor = db_get_dw(NULL, MODULENAME, "popupBgColor", RGB(173, 206, 247));
+	opt.popupTxtColor = db_get_dw(NULL, MODULENAME, "popupTxtColor", RGB(0, 0, 0));
+	opt.OpenUsePrg = db_get_dw(NULL, MODULENAME, "OpenUsePrg", 0);
+	opt.ShowCustomIcon = db_get_dw(NULL, MODULENAME, "ShowCustomIcon", FALSE);
+	opt.UseOnline = db_get_dw(NULL, MODULENAME, "UseOnline", FALSE);
+	opt.AutoLogin = db_get_dw(NULL, MODULENAME, "AutoLogin", TRUE);
+	opt.LogThreads = db_get_dw(NULL, MODULENAME, "LogThreads", FALSE);
 
 	DBVARIANT dbv;
-	if (db_get_s(NULL, "SkinIcons", "core_status_" MODULE_NAME "4", &dbv)) {
-		db_set_s(NULL, "SkinIcons", "core_status_" MODULE_NAME "0", "plugins\\GmailNotifier.dll,2");
-		db_set_s(NULL, "SkinIcons", "core_status_" MODULE_NAME "1", "plugins\\GmailNotifier.dll,2");
-		db_set_s(NULL, "SkinIcons", "core_status_" MODULE_NAME "2", "plugins\\GmailNotifier.dll,0");
-		db_set_s(NULL, "SkinIcons", "core_status_" MODULE_NAME "4", "plugins\\GmailNotifier.dll,1");
+	if (db_get_s(NULL, "SkinIcons", "core_status_" MODULENAME "4", &dbv)) {
+		db_set_s(NULL, "SkinIcons", "core_status_" MODULENAME "0", "plugins\\GmailNotifier.dll,2");
+		db_set_s(NULL, "SkinIcons", "core_status_" MODULENAME "1", "plugins\\GmailNotifier.dll,2");
+		db_set_s(NULL, "SkinIcons", "core_status_" MODULENAME "2", "plugins\\GmailNotifier.dll,0");
+		db_set_s(NULL, "SkinIcons", "core_status_" MODULENAME "4", "plugins\\GmailNotifier.dll,1");
 	}
 	else db_free(&dbv);
 
 	BuildList();
 	ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 	for (auto &it : g_accs)
-		db_set_dw(it->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
+		db_set_dw(it->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
 
 	hTimer = SetTimer(nullptr, 0, opt.circleTime * 60000, TimerProc);
 	hMirandaStarted = HookEvent(ME_SYSTEM_MODULESLOADED, OnMirandaStart);
 	hOptionsInitial = HookEvent(ME_OPT_INITIALISE, OptInit);
 
-	CreateServiceFunction(MODULE_NAME "/MenuCommand", PluginMenuCommand);
+	CreateServiceFunction(MODULENAME "/MenuCommand", PluginMenuCommand);
 
 	CMenuItem mi;
 	SET_UID(mi, 0xbe16f37, 0x17be, 0x4494, 0xaa, 0xb2, 0x3a, 0xa7, 0x38, 0xfa, 0xf9, 0xcc);
 	mi.position = -0x7FFFFFFF;
-	mi.hIcolibItem = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_ONLINE);
+	mi.hIcolibItem = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
 	mi.name.a = LPGEN("&Check all Gmail inboxes");
-	mi.pszService = MODULE_NAME "/MenuCommand";
+	mi.pszService = MODULENAME "/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x22c6ace1, 0xba0c, 0x44b5, 0xa4, 0xd2, 0x1, 0x7d, 0xb1, 0xe0, 0x51, 0xeb);
 	mi.name.a = LPGEN("&Check Gmail inbox");
 	mi.pszService = "/MenuCommand";
-	Menu_AddContactMenuItem(&mi, MODULE_NAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 	return 0;
 }
 

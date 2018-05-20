@@ -64,7 +64,7 @@ void MySetPos(HWND hwndParent)
 
 // ================================================ Message options ================================================
 
-COptPage g_MessagesOptPage(MOD_NAME, nullptr);
+COptPage g_MessagesOptPage(MODULENAME, nullptr);
 
 void EnableMessagesOptDlgControls(CMsgTree* MsgTree)
 {
@@ -326,7 +326,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 // ================================================ Main options ================================================
 
-COptPage g_MoreOptPage(MOD_NAME, nullptr);
+COptPage g_MoreOptPage(MODULENAME, nullptr);
 
 void EnableMoreOptDlgControls()
 {
@@ -446,7 +446,7 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 // ================================================ Autoreply options ================================================
 
-COptPage g_AutoreplyOptPage(MOD_NAME, nullptr);
+COptPage g_AutoreplyOptPage(MODULENAME, nullptr);
 
 void EnableAutoreplyOptDlgControls()
 {
@@ -1046,8 +1046,8 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-COptPage g_SetAwayMsgPage(MOD_NAME, nullptr);
-COptPage g_MsgTreePage(MOD_NAME, nullptr);
+COptPage g_SetAwayMsgPage(MODULENAME, nullptr);
+COptPage g_MsgTreePage(MODULENAME, nullptr);
 
 void InitOptions()
 {

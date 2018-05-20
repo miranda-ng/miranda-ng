@@ -85,7 +85,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwnd);
 		ListView_SetExtendedListViewStyle(GetDlgItem(hwnd, IDC_LIST), 32 | LVS_EX_LABELTIP); // LVS_EX_GRIDLINES
 		loadListSettings(GetDlgItem(hwnd, IDC_LIST), csResultList);
-		Utils_RestoreWindowPositionNoMove(hwnd, NULL, modname, "Search_");
+		Utils_RestoreWindowPositionNoMove(hwnd, NULL, MODULENAME, "Search_");
 		return TRUE;
 
 	case WM_COMMAND:
@@ -214,7 +214,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_DESTROY:
 		ListView_DeleteAllItems(GetDlgItem(hwnd, IDC_LIST));
 		saveListSettings(GetDlgItem(hwnd, IDC_LIST), csResultList);
-		Utils_SaveWindowPosition(hwnd, NULL, modname, "Search_");
+		Utils_SaveWindowPosition(hwnd, NULL, MODULENAME, "Search_");
 		break;
 	}
 	return 0;

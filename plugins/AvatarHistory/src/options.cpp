@@ -50,7 +50,7 @@ static OptPageControl popupsControls[] = {
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	return SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULENAME, hwndDlg, msg, wParam, lParam);
 }
 
 // Popup options dialog procedure /////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SendDlgItemMessage(hwndDlg, IDC_LEFT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Show contact history"));
 
 		// Needs to be called here in this case
-		SaveOptsDlgProc(popupsControls, _countof(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+		SaveOptsDlgProc(popupsControls, _countof(popupsControls), MODULENAME, hwndDlg, msg, wParam, lParam);
 		PopupsEnableDisableCtrls(hwndDlg);
 		return TRUE;
 
@@ -139,7 +139,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 	}
 
-	return SaveOptsDlgProc(popupsControls, _countof(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(popupsControls, _countof(popupsControls), MODULENAME, hwndDlg, msg, wParam, lParam);
 }
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
@@ -168,10 +168,10 @@ int OptInit(WPARAM wParam, LPARAM)
 
 void LoadOptions()
 {
-	LoadOpts(optionsControls, _countof(optionsControls), MODULE_NAME);
-	LoadOpts(popupsControls, _countof(popupsControls), MODULE_NAME);
+	LoadOpts(optionsControls, _countof(optionsControls), MODULENAME);
+	LoadOpts(popupsControls, _countof(popupsControls), MODULENAME);
 
-	opts.log_per_contact_folders = db_get_b(NULL, MODULE_NAME, "LogPerContactFolders", 0);
-	opts.log_keep_same_folder = db_get_b(NULL, MODULE_NAME, "LogKeepSameFolder", 0);
-	opts.log_store_as_hash = db_get_b(NULL, MODULE_NAME, "StoreAsHash", 1);
+	opts.log_per_contact_folders = db_get_b(NULL, MODULENAME, "LogPerContactFolders", 0);
+	opts.log_keep_same_folder = db_get_b(NULL, MODULENAME, "LogKeepSameFolder", 0);
+	opts.log_store_as_hash = db_get_b(NULL, MODULENAME, "StoreAsHash", 1);
 }

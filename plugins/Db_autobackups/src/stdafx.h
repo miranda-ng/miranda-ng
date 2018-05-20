@@ -29,9 +29,7 @@ namespace fs = std::experimental::filesystem;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 #include "options.h"

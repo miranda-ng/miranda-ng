@@ -30,9 +30,5 @@ void checkthread(void*);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLUGINNAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL);
-	}
+	CMPlugin();
 };

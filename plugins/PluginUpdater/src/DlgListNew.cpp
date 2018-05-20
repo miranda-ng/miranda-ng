@@ -250,7 +250,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 		// do this after filling list - enables 'ITEMCHANGED' below
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
-		Utils_RestoreWindowPosition(hDlg, 0, MODNAME, "ListWindow");
+		Utils_RestoreWindowPosition(hDlg, 0, MODULENAME, "ListWindow");
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ListWindow");
+		Utils_SaveWindowPosition(hDlg, NULL, MODULENAME, "ListWindow");
 		Window_FreeIcon_IcoLib(hDlg);
 		hwndDialog = nullptr;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
@@ -490,6 +490,6 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 
 void InitListNew()
 {
-	CreateServiceFunction(MODNAME "/ParseUri", ParseUriService);
+	CreateServiceFunction(MODULENAME "/ParseUri", ParseUriService);
 	CreateServiceFunction(MS_PU_SHOWLIST, ShowListCommand);
 }

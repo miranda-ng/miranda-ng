@@ -36,10 +36,10 @@ int NewsAggrInit(WPARAM, LPARAM)
 	else
 		mir_wstrncpy(tszRoot, VARSW(L"%miranda_userdata%\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)), _countof(tszRoot));
 
-	for (auto &hContact : Contacts(MODULE)) {
-		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
-			db_set_dw(hContact, MODULE, "LastCheck", time(0));
-		db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
+	for (auto &hContact : Contacts(MODULENAME)) {
+		if (!db_get_b(NULL, MODULENAME, "StartupRetrieve", 1))
+			db_set_dw(hContact, MODULENAME, "LastCheck", time(0));
+		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 	}
 
 	NetlibInit();
@@ -64,7 +64,7 @@ int NewsAggrPreShutdown(WPARAM, LPARAM)
 INT_PTR NewsAggrGetName(WPARAM wParam, LPARAM lParam)
 {
 	if(lParam) {
-		mir_strncpy((char *)lParam, MODULE, wParam);
+		mir_strncpy((char *)lParam, MODULENAME, wParam);
 		return 0;
 	}
 
@@ -96,10 +96,10 @@ INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 		if(nStatus != g_nStatus) {
 			g_nStatus = nStatus;
 
-			for (auto &hContact : Contacts(MODULE))
-				db_set_w(hContact, MODULE, "Status", nStatus);
+			for (auto &hContact : Contacts(MODULENAME))
+				db_set_w(hContact, MODULENAME, "Status", nStatus);
 
-			ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
+			ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
 		}
 	}
 
@@ -119,7 +119,7 @@ INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM)
 static void __cdecl AckThreadProc(void *param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(MODULE, (UINT_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(MODULENAME, (UINT_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 INT_PTR NewsAggrGetInfo(WPARAM, LPARAM lParam)
@@ -131,8 +131,8 @@ INT_PTR NewsAggrGetInfo(WPARAM, LPARAM lParam)
 
 INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 {
-	for (auto &hContact : Contacts(MODULE)) {
-		if (lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
+	for (auto &hContact : Contacts(MODULENAME)) {
+		if (lParam && db_get_dw(hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME))
 			UpdateListAdd(hContact);
 		else if (!lParam)
 			UpdateListAdd(hContact);
@@ -207,12 +207,12 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	// if GAIF_FORCE is set, we are updating the feed
 	// otherwise, cached avatar is used
-	if ((wParam & GAIF_FORCE) && db_get_dw(pai->hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
+	if ((wParam & GAIF_FORCE) && db_get_dw(pai->hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME))
 		UpdateListAdd(pai->hContact);
-	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && !ThreadRunning)
+	if (db_get_b(NULL, MODULENAME, "AutoUpdate", 1) != 0 && !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, (void *)TRUE);
 
-	wchar_t *ptszImageURL = db_get_wsa(pai->hContact, MODULE, "ImageURL");
+	wchar_t *ptszImageURL = db_get_wsa(pai->hContact, MODULENAME, "ImageURL");
 	if(ptszImageURL == nullptr)
 		return GAIR_NOAVATAR;
 
@@ -222,7 +222,7 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 {
-	PROTOACCOUNT *pa = Proto_GetAccount(MODULE);
+	PROTOACCOUNT *pa = Proto_GetAccount(MODULENAME);
 	if (pa && pa->ppro) {
 		CCSDATA *ccs = (CCSDATA*)lParam;
 		pa->ppro->PROTO_INTERFACE::RecvMsg(ccs->hContact, (PROTORECVEVENT*)ccs->lParam);
@@ -239,14 +239,14 @@ void UpdateMenu(bool State)
 		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Disabled"), GetIconHandle("disabled"));
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
-	db_set_b(NULL, MODULE, "AutoUpdate", !State);
+	db_set_b(NULL, MODULENAME, "AutoUpdate", !State);
 }
 
 // update the newsaggregator auto-update menu item when click on it
 INT_PTR EnableDisable(WPARAM, LPARAM)
 {
-	UpdateMenu(db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0);
-	NewsAggrSetStatus(db_get_b(NULL, MODULE, "AutoUpdate", 1) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
+	UpdateMenu(db_get_b(NULL, MODULENAME, "AutoUpdate", 1) != 0);
+	NewsAggrSetStatus(db_get_b(NULL, MODULENAME, "AutoUpdate", 1) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
 	return 0;
 }
 
@@ -259,7 +259,7 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
 	ttb.hIconHandleUp = GetIconHandle("enabled");
 	ttb.hIconHandleDn = GetIconHandle("disabled");
-	ttb.dwFlags = (db_get_b(NULL, MODULE, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+	ttb.dwFlags = (db_get_b(NULL, MODULENAME, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
 	hTBButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }

@@ -77,7 +77,7 @@ HICON GetIcon(int iconId, bool size)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -90,9 +90,13 @@ PLUGININFOEX pluginInfo =
 	{ 0xb2dd9270, 0xce5e, 0x11df, { 0xbd, 0x3d, 0x8, 0x0, 0x20, 0xc, 0x9a, 0x66 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +150,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 		hFoundContact = INVALID_CONTACT_ID;
 	else if (iMode >= ID_STATUS_ONLINE && iMode <= ID_STATUS_OUTTOLUNCH)
 		// don't count xstatus requests
-		db_set_w(hFoundContact, MOD_NAME, DB_REQUESTCOUNT, db_get_w(hFoundContact, MOD_NAME, DB_REQUESTCOUNT, 0) + 1);
+		db_set_w(hFoundContact, MODULENAME, DB_REQUESTCOUNT, db_get_w(hFoundContact, MODULENAME, DB_REQUESTCOUNT, 0) + 1);
 
 	MCONTACT hContactForSettings = hFoundContact; // used to take into account not-on-list contacts when getting contact settings, but at the same time allows to get correct contact info for contacts that are in the DB
 	if (hContactForSettings != INVALID_CONTACT_ID && db_get_b(hContactForSettings, "CList", "NotOnList", 0))
@@ -502,11 +506,11 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 			Result = TranslateT("Stranger");
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
-		mir_snwprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
+		mir_snwprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MODULENAME, DB_REQUESTCOUNT, 0));
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_MESSAGENUM)) {
-		mir_snwprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
+		mir_snwprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MODULENAME, DB_MESSAGECOUNT, 0));
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_TIMEPASSED)) {
@@ -533,7 +537,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 
 		COptPage MsgTreeData(g_MsgTreePage);
 		COptItem_TreeCtrl *TreeCtrl = (COptItem_TreeCtrl*)MsgTreeData.Find(IDV_MSGTREE);
-		TreeCtrl->DBToMem(CString(MOD_NAME));
+		TreeCtrl->DBToMem(CString(MODULENAME));
 
 		for (int i = 0; i < TreeCtrl->m_value.GetSize(); i++) {
 			if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP) && !mir_wstrcmpi(TreeCtrl->m_value[i].Title, ai->targv[1])) {
@@ -705,27 +709,27 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 
-	g_plugin.registerIcon(MOD_NAME, iconList, "nas");
+	g_plugin.registerIcon(MODULENAME, iconList, "nas");
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService
 
-	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) { // change all %nas_message% variables to %extratext% if it wasn't done before
-		TCString Str = db_get_s(NULL, MOD_NAME, "PopupsFormat", L"");
+	if (db_get_b(NULL, MODULENAME, DB_SETTINGSVER, 0) < 1) { // change all %nas_message% variables to %extratext% if it wasn't done before
+		TCString Str = db_get_s(NULL, MODULENAME, "PopupsFormat", L"");
 		if (Str.GetLen())
-			db_set_ws(NULL, MOD_NAME, "PopupsFormat", Str.Replace(L"nas_message", L"extratext"));
+			db_set_ws(NULL, MODULENAME, "PopupsFormat", Str.Replace(L"nas_message", L"extratext"));
 
-		Str = db_get_s(NULL, MOD_NAME, "ReplyPrefix", L"");
+		Str = db_get_s(NULL, MODULENAME, "ReplyPrefix", L"");
 		if (Str.GetLen())
-			db_set_ws(NULL, MOD_NAME, "ReplyPrefix", Str.Replace(L"nas_message", L"extratext"));
+			db_set_ws(NULL, MODULENAME, "ReplyPrefix", Str.Replace(L"nas_message", L"extratext"));
 	}
-	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 2) { // disable autoreply for not-on-list contacts, as such contact may be a spam bot
-		db_set_b(NULL, MOD_NAME, ContactStatusToDBSetting(0, DB_ENABLEREPLY, 0, INVALID_CONTACT_ID), 0);
-		db_set_b(NULL, MOD_NAME, DB_SETTINGSVER, 2);
+	if (db_get_b(NULL, MODULENAME, DB_SETTINGSVER, 0) < 2) { // disable autoreply for not-on-list contacts, as such contact may be a spam bot
+		db_set_b(NULL, MODULENAME, ContactStatusToDBSetting(0, DB_ENABLEREPLY, 0, INVALID_CONTACT_ID), 0);
+		db_set_b(NULL, MODULENAME, DB_SETTINGSVER, 2);
 	}
 	return 0;
 }

@@ -18,20 +18,13 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x1B2A39E5, 0xE2F6, 0x494D, { 0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
-{
-	if (dwReason == DLL_PROCESS_ATTACH) {
-		INITCOMMONCONTROLSEX icce = { sizeof(icce), ICC_LISTVIEW_CLASSES | ICC_TAB_CLASSES };
-		InitCommonControlsEx(&icce);
-	}
-	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -289,6 +282,9 @@ static int onShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int __cdecl Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+
+	INITCOMMONCONTROLSEX icce = { sizeof(icce), ICC_LISTVIEW_CLASSES | ICC_TAB_CLASSES };
+	InitCommonControlsEx(&icce);
 
 	DisableThreadLibraryCalls(g_plugin.getInst());
 

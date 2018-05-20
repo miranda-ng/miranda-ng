@@ -54,10 +54,10 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_PREVIEW) {
-			MessageBox(nullptr, TranslateT("Message with question"),    TranslateW(_A2W(SERVICENAME) L" - demo"), MB_ICONQUESTION);
-			MessageBox(nullptr, TranslateT("Message with exclamation"), TranslateW(_A2W(SERVICENAME) L" - demo"), MB_ICONEXCLAMATION);
-			MessageBox(nullptr, TranslateT("Message with error"),       TranslateW(_A2W(SERVICENAME) L" - demo"), MB_ICONSTOP);
-			MessageBox(nullptr, TranslateT("Message with asterisk"),    TranslateW(_A2W(SERVICENAME) L" - demo"), MB_ICONASTERISK);
+			MessageBox(nullptr, TranslateT("Message with question"),    TranslateW(_A2W(MODULENAME) L" - demo"), MB_ICONQUESTION);
+			MessageBox(nullptr, TranslateT("Message with exclamation"), TranslateW(_A2W(MODULENAME) L" - demo"), MB_ICONEXCLAMATION);
+			MessageBox(nullptr, TranslateT("Message with error"),       TranslateW(_A2W(MODULENAME) L" - demo"), MB_ICONSTOP);
+			MessageBox(nullptr, TranslateT("Message with asterisk"),    TranslateW(_A2W(MODULENAME) L" - demo"), MB_ICONASTERISK);
 
 			return FALSE;
 		}
@@ -103,11 +103,11 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 				mir_snprintf(szNameBG, "BG%d", indx);
 				mir_snprintf(szNameTO, "TO%d", indx);
 
-				DBWriteContactSettingDwordDef(NULL, SERVICENAME, szNameFG, options.FG[indx], optionsDefault.FG[indx]);
-				DBWriteContactSettingDwordDef(NULL, SERVICENAME, szNameBG, options.BG[indx], optionsDefault.BG[indx]);
-				DBWriteContactSettingDwordDef(NULL, SERVICENAME, szNameTO, options.Timeout[indx], (DWORD)optionsDefault.Timeout[indx]);
+				DBWriteContactSettingDwordDef(NULL, MODULENAME, szNameFG, options.FG[indx], optionsDefault.FG[indx]);
+				DBWriteContactSettingDwordDef(NULL, MODULENAME, szNameBG, options.BG[indx], optionsDefault.BG[indx]);
+				DBWriteContactSettingDwordDef(NULL, MODULENAME, szNameTO, options.Timeout[indx], (DWORD)optionsDefault.Timeout[indx]);
 			}
-			DBWriteContactSettingDwordDef(NULL, SERVICENAME, "Sound", options.Sound, optionsDefault.Sound);
+			DBWriteContactSettingDwordDef(NULL, MODULENAME, "Sound", options.Sound, optionsDefault.Sound);
 
 			break;
 		}

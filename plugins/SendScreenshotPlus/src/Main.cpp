@@ -209,7 +209,7 @@ INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PLUGININFOEX pluginInfo =
+static PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -223,9 +223,13 @@ static PLUGININFOEX pluginInfo =
 	{ 0xed39af7c, 0xbecd, 0x404e, { 0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -267,7 +271,7 @@ ATOM g_clsTargetHighlighter = 0;
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 
 	/// hook events
@@ -275,13 +279,13 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
 	
 	/// icons
-	g_plugin.registerIcon(SZ_SENDSS, ICONS, SZ_SENDSS);
-	g_plugin.registerIcon(SZ_SENDSS "/" LPGEN("Buttons"), ICONS_BTN, SZ_SENDSS);
+	g_plugin.registerIcon(MODULENAME, ICONS, MODULENAME);
+	g_plugin.registerIcon(MODULENAME "/" LPGEN("Buttons"), ICONS_BTN, MODULENAME);
 	
 	/// services
 #define srv_reg(name) do{\
-		m_h##name=CreateServiceFunction(SZ_SENDSS "/" #name, service_##name);\
-		if(!m_h##name) MessageBoxA(NULL,Translate("Could not register Miranda service."),SZ_SENDSS "/" #name,MB_OK|MB_ICONERROR|MB_APPLMODAL);\
+		m_h##name=CreateServiceFunction(MODULENAME "/" #name, service_##name);\
+		if(!m_h##name) MessageBoxA(NULL,Translate("Could not register Miranda service."),MODULENAME "/" #name,MB_OK|MB_ICONERROR|MB_APPLMODAL);\
 		}while(0)
 	srv_reg(OpenCaptureDialog);
 	srv_reg(SendDesktop);

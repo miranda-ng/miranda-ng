@@ -193,11 +193,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 
 struct CMPlugin : public ACCPROTOPLUGIN<CSametimeProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<CSametimeProto>("Sametime")
-	{
-		SetUniqueId("stid");
-	}
+	CMPlugin();
 };
 
 struct SendAnnouncementFunc_arg

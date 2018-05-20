@@ -153,7 +153,7 @@ void CYandexService::HandleJsonError(JSONNode &node)
 auto CYandexService::CreateUploadSession(const std::string &path)
 {
 	ptrA token(getStringA("TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
+	BYTE strategy = db_get_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
 	YandexAPI::GetUploadUrlRequest request(token, path.c_str(), (OnConflict)strategy);
 	NLHR_PTR response(request.Send(m_hConnection));
 
@@ -280,7 +280,7 @@ void CYandexService::Upload(FileTransferParam *ftp)
 struct CMPluginYandex : public CMPluginBase
 {
 	CMPluginYandex() :
-		CMPluginBase(MODULE "/YandexDisk")
+		CMPluginBase(MODULENAME "/YandexDisk", pluginInfoEx)
 	{
 		m_hInst = g_plugin.getInst();
 

@@ -1600,22 +1600,22 @@ void HistoryWindow::RestorePos()
 {
 	MCONTACT contactToLoad = m_hContact;
 	if (m_hContact == NULL) {
-		Utils_RestoreWindowPosition(m_hWnd, NULL, MODULE, "history_");
+		Utils_RestoreWindowPosition(m_hWnd, NULL, MODULENAME, "history_");
 		contactToLoad = NULL;
 	}
-	else if (Utils_RestoreWindowPosition(m_hWnd, m_hContact, MODULE, "history_") != 0) {
-		Utils_RestoreWindowPosition(m_hWnd, NULL, MODULE, "history_");
+	else if (Utils_RestoreWindowPosition(m_hWnd, m_hContact, MODULENAME, "history_") != 0) {
+		Utils_RestoreWindowPosition(m_hWnd, NULL, MODULENAME, "history_");
 		contactToLoad = NULL;
 	}
 
-	if (db_get_b(contactToLoad, MODULE, "history_ismax", 0))
+	if (db_get_b(contactToLoad, MODULENAME, "history_ismax", 0))
 		ShowWindow(m_hWnd, SW_SHOWMAXIMIZED);
 
-	LONG pos = db_get_dw(contactToLoad, MODULE, "history_splitterv", 0);
+	LONG pos = db_get_dw(contactToLoad, MODULENAME, "history_splitterv", 0);
 	if (pos > 0)
 		SplitterMoved(splitterYhWnd, pos, false);
 
-	pos = db_get_dw(contactToLoad, MODULE, "history_splitter", 0);
+	pos = db_get_dw(contactToLoad, MODULENAME, "history_splitter", 0);
 	if (pos > 0)
 		SplitterMoved(splitterXhWnd, pos, false);
 }
@@ -1625,25 +1625,25 @@ void HistoryWindow::SavePos(bool all)
 	MCONTACT contactToSave = m_hContact;
 	if (all) {
 		for (auto &_hContact : Contacts()) {
-			db_unset(_hContact, MODULE, "history_x");
-			db_unset(_hContact, MODULE, "history_y");
-			db_unset(_hContact, MODULE, "history_width");
-			db_unset(_hContact, MODULE, "history_height");
-			db_unset(_hContact, MODULE, "history_ismax");
-			db_unset(_hContact, MODULE, "history_splitterv");
-			db_unset(_hContact, MODULE, "history_splitter");
+			db_unset(_hContact, MODULENAME, "history_x");
+			db_unset(_hContact, MODULENAME, "history_y");
+			db_unset(_hContact, MODULENAME, "history_width");
+			db_unset(_hContact, MODULENAME, "history_height");
+			db_unset(_hContact, MODULENAME, "history_ismax");
+			db_unset(_hContact, MODULENAME, "history_splitterv");
+			db_unset(_hContact, MODULENAME, "history_splitter");
 		}
 
 		contactToSave = NULL;
 	}
 
-	Utils_SaveWindowPosition(m_hWnd, contactToSave, MODULE, "history_");
+	Utils_SaveWindowPosition(m_hWnd, contactToSave, MODULENAME, "history_");
 	WINDOWPLACEMENT wp;
 	wp.length = sizeof(wp);
 	GetWindowPlacement(m_hWnd, &wp);
-	db_set_b(contactToSave, MODULE, "history_ismax", wp.showCmd == SW_MAXIMIZE ? 1 : 0);
-	db_set_dw(contactToSave, MODULE, "history_splitterv", splitterX);
-	db_set_dw(contactToSave, MODULE, "history_splitter", splitterY);
+	db_set_b(contactToSave, MODULENAME, "history_ismax", wp.showCmd == SW_MAXIMIZE ? 1 : 0);
+	db_set_dw(contactToSave, MODULENAME, "history_splitterv", splitterX);
+	db_set_dw(contactToSave, MODULENAME, "history_splitter", splitterY);
 }
 
 #define DEF_FILTERS_START 50000

@@ -29,6 +29,7 @@ static int iDllPlugins = 0;
 
 YAMN_VARIABLES YAMNVar;
 
+CMPlugin	g_plugin;
 CLIST_INTERFACE *pcli;
 int &hLangpack(g_plugin.m_hLang);
 
@@ -69,15 +70,11 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMPlugin	g_plugin;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -90,9 +87,16 @@ PLUGININFOEX pluginInfo = {
 	{0xb047a7e5, 0x27a, 0x4cfc, {0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(YAMN_DBMODULE, pluginInfoEx)
+{
+	RegisterProtocol(PROTOTYPE_VIRTUAL);
+	SetUniqueId("Id");
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -237,7 +241,7 @@ static void LoadPlugins()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	YAMN_STATUS = ID_STATUS_OFFLINE;

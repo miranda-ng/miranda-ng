@@ -28,24 +28,6 @@ DWORD mirandaVer;
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
-PLUGININFOEX pluginInfoEx = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {23D4F302-D513-45B7-9027-445F29557311}
-	{ 0x23d4f302, 0xd513, 0x45b7, { 0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11 } }
-};
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 static IconItem iconList[] =
 {
 	{ "Show", "Console_Up", IDI_BTN_UP },
@@ -59,6 +41,32 @@ HANDLE LoadIcon(int iIconID)
 			return iconList[i].hIcolib;
 	return nullptr;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {23D4F302-D513-45B7-9027-445F29557311}
+{ 0x23d4f302, 0xd513, 0x45b7,{ 0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11 } }
+};
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>("Console", pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {

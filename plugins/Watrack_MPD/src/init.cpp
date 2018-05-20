@@ -26,7 +26,7 @@ HNETLIBUSER ghNetlibUser;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -40,9 +40,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x692e87d0, 0x6c71, 0x4cdc, {0x9e, 0x36, 0x2b, 0x2d, 0x69, 0xfb, 0xdc, 0x4c }}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -55,9 +59,9 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	ghNetlibUser = Netlib_RegisterUser(&nlu);
 
-	gbPort = db_get_w(NULL, szModuleName, "Port", 6600);
-	gbHost = UniGetContactSettingUtf(NULL, szModuleName, "Server", L"127.0.0.1");
-	gbPassword = UniGetContactSettingUtf(NULL, szModuleName, "Password", L"");
+	gbPort = db_get_w(NULL, MODULENAME, "Port", 6600);
+	gbHost = UniGetContactSettingUtf(NULL, MODULENAME, "Server", L"127.0.0.1");
+	gbPassword = UniGetContactSettingUtf(NULL, MODULENAME, "Password", L"");
 
 	if (ServiceExists(MS_WAT_PLAYER))
 		bWatrackService = TRUE;
@@ -68,7 +72,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, WaMpdOptInit);
 

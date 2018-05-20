@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 #ifndef __EXTRAICONS_H__
 # define __EXTRAICONS_H__
 
-#define MODULE_NAME "ExtraIcons"
+#define EI_MODULE_NAME "ExtraIcons"
 
 // Global Variables
 

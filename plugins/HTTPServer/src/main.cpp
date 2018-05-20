@@ -87,7 +87,9 @@ int &hLangpack(g_plugin.m_hLang);
 
 extern HWND hwndStatsticView;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -100,7 +102,14 @@ PLUGININFOEX pluginInfo = {
 	{0x67848b07, 0x83d2, 0x49e9, {0x88, 0x44, 0x7e, 0x3d, 0xe2, 0x68, 0xe3, 0x4}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /*mirandaVersion*/)
+{
+	return &pluginInfoEx;
+}
 
 /////////////////////////////////////////////////////////////////////
 // Member Function : bOpenLogFile
@@ -664,7 +673,7 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 	else return 0; // no changes;
 
 	if (!bShutdownInProgress)
-		db_set_b(NULL, MODULE, "AcceptConnections", hDirectBoundPort != nullptr);
+		db_set_b(NULL, MODULENAME, "AcceptConnections", hDirectBoundPort != nullptr);
 
 	return 0;
 }
@@ -717,7 +726,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING;
-	nlu.szSettingsModule = MODULE;
+	nlu.szSettingsModule = MODULENAME;
 	nlu.szDescriptiveName.a = Translate("HTTP Server");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 	if (!hNetlibUser) {
@@ -725,7 +734,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 		return 0;
 	}
 
-	if (db_get_b(NULL, MODULE, "AcceptConnections", 1))
+	if (db_get_b(NULL, MODULENAME, "AcceptConnections", 1))
 		nToggelAcceptConnections(0, 0);
 
 	InitGuiElements();
@@ -791,28 +800,10 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 	UnInitGuiElements();
 
-	db_set_b(NULL, MODULE, "IndexCreationMode", (BYTE)indexCreationMode);
+	db_set_b(NULL, MODULENAME, "IndexCreationMode", (BYTE)indexCreationMode);
 	FreeIndexHTMLTemplate();
 
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : MirandaPluginInfoEx
-// Type            : Global
-// Parameters      : mirandaVersion - ?
-// Returns         :
-// Description     :
-//
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN, Houdini
-/////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /*mirandaVersion*/)
-{
-	return &pluginInfo;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -830,7 +821,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /*miran
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
@@ -889,13 +880,13 @@ extern "C" __declspec(dllexport) int Load()
 	if (!bInitMimeHandling())
 		MessageBox(nullptr, "Failed to read configuration file : " szMimeTypeConfigFile, MSG_BOX_TITEL, MB_OK);
 
-	nMaxUploadSpeed = db_get_dw(NULL, MODULE, "MaxUploadSpeed", nMaxUploadSpeed);
-	nMaxConnectionsTotal = db_get_dw(NULL, MODULE, "MaxConnectionsTotal", nMaxConnectionsTotal);
-	nMaxConnectionsPerUser = db_get_dw(NULL, MODULE, "MaxConnectionsPerUser", nMaxConnectionsPerUser);
-	bLimitOnlyWhenOnline = db_get_b(NULL, MODULE, "LimitOnlyWhenOnline", bLimitOnlyWhenOnline) != 0;
-	indexCreationMode = (eIndexCreationMode)db_get_b(NULL, MODULE, "IndexCreationMode", 2);
+	nMaxUploadSpeed = db_get_dw(NULL, MODULENAME, "MaxUploadSpeed", nMaxUploadSpeed);
+	nMaxConnectionsTotal = db_get_dw(NULL, MODULENAME, "MaxConnectionsTotal", nMaxConnectionsTotal);
+	nMaxConnectionsPerUser = db_get_dw(NULL, MODULENAME, "MaxConnectionsPerUser", nMaxConnectionsPerUser);
+	bLimitOnlyWhenOnline = db_get_b(NULL, MODULENAME, "LimitOnlyWhenOnline", bLimitOnlyWhenOnline) != 0;
+	indexCreationMode = (eIndexCreationMode)db_get_b(NULL, MODULENAME, "IndexCreationMode", 2);
 
-	if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
+	if (db_get_b(NULL, MODULENAME, "AddAcceptConMenuItem", 1)) {
 		CMenuItem mi;
 		SET_UID(mi, 0xf0a68784, 0xc30e, 0x4245, 0xb6, 0x2b, 0xb8, 0x71, 0x7e, 0xe6, 0xe1, 0x73);
 		mi.flags = CMIF_UNICODE;
@@ -909,7 +900,7 @@ extern "C" __declspec(dllexport) int Load()
 	if (indexCreationMode == INDEX_CREATION_HTML || indexCreationMode == INDEX_CREATION_DETECT)
 		if (!LoadIndexHTMLTemplate()) {
 			indexCreationMode = INDEX_CREATION_DISABLE;
-			db_set_b(NULL, MODULE, "IndexCreationMode", (BYTE)indexCreationMode);
+			db_set_b(NULL, MODULENAME, "IndexCreationMode", (BYTE)indexCreationMode);
 		}
 
 	hEventProtoAck = HookEvent(ME_PROTO_ACK, nProtoAck);

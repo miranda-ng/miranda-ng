@@ -48,7 +48,5 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>("speak_config")
-	{}
+	CMPlugin();
 };

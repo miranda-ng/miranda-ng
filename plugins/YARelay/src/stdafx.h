@@ -50,9 +50,7 @@ Features:
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 extern MCONTACT hForwardFrom, hForwardTo;

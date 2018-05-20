@@ -37,7 +37,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		Utils_RestoreWindowPositionNoSize(hwndDlg, 0, MODULE, "Notify");
+		Utils_RestoreWindowPositionNoSize(hwndDlg, 0, MODULENAME, "Notify");
 		SetFocus(GetDlgItem(hwndDlg, IDC_SNOOZE));
 
 		wd = new WindowData;
@@ -52,7 +52,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			r.left += 20;
 
 			SetWindowPos(hwndDlg, nullptr, r.left, r.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
-			Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
+			Utils_SaveWindowPosition(hwndDlg, 0, MODULENAME, "Notify");
 		}
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)wd);
 
@@ -191,7 +191,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		return TRUE;
 
 	case WM_MOVE:
-		Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
+		Utils_SaveWindowPosition(hwndDlg, 0, MODULENAME, "Notify");
 		break;
 
 	case WMU_ADDSNOOZER:
@@ -350,7 +350,7 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	title_font_id.cbSize = sizeof(FontIDW);
 	wcsncpy_s(title_font_id.group, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(title_font_id.name, LPGENW("Title"), _TRUNCATE);
-	strncpy_s(title_font_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(title_font_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	strncpy_s(title_font_id.prefix, "FontTitle", _TRUNCATE);
 	wcsncpy_s(title_font_id.backgroundGroup, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(title_font_id.backgroundName, LPGENW("Background"), _TRUNCATE);
@@ -361,7 +361,7 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	window_font_id.cbSize = sizeof(FontIDW);
 	wcsncpy_s(window_font_id.group, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(window_font_id.name, LPGENW("Window"), _TRUNCATE);
-	strncpy_s(window_font_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(window_font_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	strncpy_s(window_font_id.prefix, "FontWindow", _TRUNCATE);
 	wcsncpy_s(window_font_id.backgroundGroup, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(window_font_id.backgroundName, LPGENW("Background"), _TRUNCATE);
@@ -370,7 +370,7 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	Font_RegisterW(&window_font_id);
 
 	bk_colour_id.cbSize = sizeof(ColourIDW);
-	strncpy_s(bk_colour_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(bk_colour_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	wcsncpy_s(bk_colour_id.group, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(bk_colour_id.name, LPGENW("Background"), _TRUNCATE);
 	strncpy_s(bk_colour_id.setting, "BkColour", _TRUNCATE);

@@ -12,12 +12,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+CMPlugin g_plugin;
+int &hLangpack(g_plugin.m_hLang);
+CLIST_INTERFACE *pcli;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -30,9 +33,14 @@ PLUGININFOEX pluginInfo = {
 	{0x8c01613, 0x24c8, 0x486f, { 0xbd, 0xae, 0x2c, 0x3d, 0xdc, 0xaf, 0x93, 0x47 }}
 };
 
-CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
-CLIST_INTERFACE *pcli;
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Plugin Functions
@@ -105,14 +113,9 @@ int SnapPluginShutDown(WPARAM, LPARAM)
 // Exportet Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, SnapPluginStart);

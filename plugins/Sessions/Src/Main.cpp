@@ -61,7 +61,7 @@ IconItem iconList[] =
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -75,9 +75,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x60558872, 0x2aab, 0x45aa, { 0x88, 0x8d, 0x9, 0x76, 0x91, 0xc9, 0xb6, 0x83 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -97,13 +101,13 @@ INT_PTR CALLBACK ExitDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 			SavePosition(hdlg, "ExitDlg");
 			SaveSessionDate();
 			SaveSessionHandles(0, 0);
-			db_set_b(NULL, MODNAME, "lastempty", 0);
+			db_set_b(NULL, MODULENAME, "lastempty", 0);
 			DestroyWindow(hdlg);
 			break;
 
 		case IDCANCEL:
 			SavePosition(hdlg, "ExitDlg");
-			db_set_b(NULL, MODNAME, "lastempty", 1);
+			db_set_b(NULL, MODULENAME, "lastempty", 1);
 			DestroyWindow(hdlg);
 			break;
 		}
@@ -263,7 +267,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		{
-			int iDelay = db_get_w(NULL, MODNAME, "StartupModeDelay", 1500);
+			int iDelay = db_get_w(NULL, MODULENAME, "StartupModeDelay", 1500);
 			if (g_hghostw == TRUE)
 				SetTimer(hdlg, TIMERID_LOAD, iDelay, nullptr);
 			else {
@@ -322,7 +326,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		case IDC_SESSDEL:
 			if (session_list_recovered[0] && ses_count == 256) {
 				for (int i = 0; session_list_recovered[i]; i++)
-					db_set_b(session_list_recovered[i], MODNAME, "wasInLastSession", 0);
+					db_set_b(session_list_recovered[i], MODULENAME, "wasInLastSession", 0);
 
 				memset(session_list_recovered, 0, sizeof(session_list_recovered));
 				g_bIncompletedSave = 0;
@@ -428,7 +432,7 @@ int SaveSessionHandles(WPARAM, LPARAM lparam)
 	}
 	if (lparam == 1) {
 		g_ses_count++;
-		db_set_b(0, MODNAME, "UserSessionsCount", (BYTE)g_ses_count);
+		db_set_b(0, MODULENAME, "UserSessionsCount", (BYTE)g_ses_count);
 	}
 	return 0;
 }
@@ -452,8 +456,8 @@ INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 	}
 
 	ptrW
-		tszSession(db_get_wsa(NULL, MODNAME, "SessionDate_0")),
-		tszUserSession(db_get_wsa(NULL, MODNAME, "UserSessionDsc_0"));
+		tszSession(db_get_wsa(NULL, MODULENAME, "SessionDate_0")),
+		tszUserSession(db_get_wsa(NULL, MODULENAME, "UserSessionDsc_0"));
 	if (g_bIncompletedSave || tszSession || tszUserSession) {
 		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
 		return 0;
@@ -481,9 +485,9 @@ int SaveSessionDate()
 
 		char szSetting[256];
 		mir_snprintf(szSetting, "%s_%d", "SessionDate", 0);
-		wchar_t *ptszSaveSessionDate = db_get_wsa(NULL, MODNAME, szSetting);
+		wchar_t *ptszSaveSessionDate = db_get_wsa(NULL, MODULENAME, szSetting);
 
-		db_set_ws(NULL, MODNAME, szSetting, szSessionTime);
+		db_set_ws(NULL, MODULENAME, szSetting, szSessionTime);
 		mir_free(szSessionTime);
 
 		if (ptszSaveSessionDate)
@@ -495,7 +499,7 @@ int SaveSessionDate()
 			mir_free(szDateBuf);
 	}
 	if (g_bCrashRecovery)
-		db_set_b(NULL, MODNAME, "lastSaveCompleted", 1);
+		db_set_b(NULL, MODULENAME, "lastSaveCompleted", 1);
 	return 0;
 }
 
@@ -506,11 +510,11 @@ int SaveUserSessionName(wchar_t *szUSessionName)
 
 	char szSetting[256];
 	mir_snprintf(szSetting, "%s_%u", "UserSessionDsc", 0);
-	wchar_t *ptszUserSessionName = db_get_wsa(NULL, MODNAME, szSetting);
+	wchar_t *ptszUserSessionName = db_get_wsa(NULL, MODULENAME, szSetting);
 	if (ptszUserSessionName)
 		ResaveSettings("UserSessionDsc", 1, 255, ptszUserSessionName);
 
-	db_set_ws(NULL, MODNAME, szSetting, szUSessionName);
+	db_set_ws(NULL, MODULENAME, szSetting, szUSessionName);
 	return 0;
 }
 
@@ -592,30 +596,30 @@ int DelUserDefSession(int ses_count)
 
 	char szSessionName[256];
 	mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", ses_count);
-	db_unset(NULL, MODNAME, szSessionName);
+	db_unset(NULL, MODULENAME, szSessionName);
 
 	mir_snprintf(szSessionName, "%s_%u", "FavUserSession", ses_count);
-	db_unset(NULL, MODNAME, szSessionName);
+	db_unset(NULL, MODULENAME, szSessionName);
 
 	for (int i = ses_count + 1;; i++) {
 		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i);
-		ptrW szSessionNameBuf(db_get_wsa(NULL, MODNAME, szSessionName));
+		ptrW szSessionNameBuf(db_get_wsa(NULL, MODULENAME, szSessionName));
 
 		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i - 1);
 		if (szSessionNameBuf) {
 			MarkUserDefSession(i - 1, IsMarkedUserDefSession(i));
-			db_set_ws(NULL, MODNAME, szSessionName, szSessionNameBuf);
+			db_set_ws(NULL, MODULENAME, szSessionName, szSessionNameBuf);
 		}
 		else {
-			db_unset(NULL, MODNAME, szSessionName);
+			db_unset(NULL, MODULENAME, szSessionName);
 
 			mir_snprintf(szSessionName, "%s_%u", "FavUserSession", i - 1);
-			db_unset(NULL, MODNAME, szSessionName);
+			db_unset(NULL, MODULENAME, szSessionName);
 			break;
 		}
 	}
 	g_ses_count--;
-	db_set_b(0, MODNAME, "UserSessionsCount", (BYTE)g_ses_count);
+	db_set_b(0, MODULENAME, "UserSessionsCount", (BYTE)g_ses_count);
 	return 0;
 }
 
@@ -628,17 +632,17 @@ int DeleteAutoSession(int ses_count)
 
 	char szSessionName[256];
 	mir_snprintf(szSessionName, "%s_%u", "SessionDate", ses_count);
-	db_unset(NULL, MODNAME, szSessionName);
+	db_unset(NULL, MODULENAME, szSessionName);
 
 	for (int i = ses_count + 1;; i++) {
 		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i);
-		ptrW szSessionNameBuf(db_get_wsa(NULL, MODNAME, szSessionName));
+		ptrW szSessionNameBuf(db_get_wsa(NULL, MODULENAME, szSessionName));
 
 		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i - 1);
 		if (szSessionNameBuf)
-			db_set_ws(NULL, MODNAME, szSessionName, szSessionNameBuf);
+			db_set_ws(NULL, MODULENAME, szSessionName, szSessionNameBuf);
 		else {
-			db_unset(NULL, MODNAME, szSessionName);
+			db_unset(NULL, MODULENAME, szSessionName);
 			break;
 		}
 	}
@@ -653,23 +657,23 @@ int SessionPreShutdown(WPARAM, LPARAM)
 	if (g_hDlg)  DestroyWindow(g_hDlg);
 	if (g_hSDlg) DestroyWindow(g_hSDlg);
 
-	db_set_b(NULL, MODNAME, "lastSaveCompleted", 1);
+	db_set_b(NULL, MODULENAME, "lastSaveCompleted", 1);
 	return 0;
 }
 
 int OkToExit(WPARAM, LPARAM)
 {
-	int exitmode = db_get_b(NULL, MODNAME, "ShutdownMode", 2);
+	int exitmode = db_get_b(NULL, MODULENAME, "ShutdownMode", 2);
 	DONT = 1;
 	if (exitmode == 2 && session_list[0] != 0) {
 		SaveSessionDate();
 		SaveSessionHandles(0, 0);
-		db_set_b(NULL, MODNAME, "lastempty", 0);
+		db_set_b(NULL, MODULENAME, "lastempty", 0);
 	}
 	else if (exitmode == 1 && session_list[0] != 0) {
 		DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXDIALOG), nullptr, ExitDlgProc);
 	}
-	else db_set_b(NULL, MODNAME, "lastempty", 1);
+	else db_set_b(NULL, MODULENAME, "lastempty", 1);
 	return 0;
 }
 
@@ -679,13 +683,13 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
 		AddToCurSession(MWeventdata->hContact, 0);
 		if (g_bCrashRecovery)
-			db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 1);
+			db_set_b(MWeventdata->hContact, MODULENAME, "wasInLastSession", 1);
 	}
 	else if (MWeventdata->uType == MSG_WINDOW_EVT_CLOSE) {
 		if (!DONT)
 			DelFromCurSession(MWeventdata->hContact, 0);
 		if (g_bCrashRecovery)
-			db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 0);
+			db_set_b(MWeventdata->hContact, MODULENAME, "wasInLastSession", 0);
 	}
 
 	return 0;
@@ -733,7 +737,7 @@ static int CreateButtons(WPARAM, LPARAM)
 
 static void CALLBACK LaunchSessions()
 {
-	int startup = db_get_b(NULL, MODNAME, "StartupMode", 3);
+	int startup = db_get_b(NULL, MODULENAME, "StartupMode", 3);
 	if (startup == 1 || (startup == 3 && isLastTRUE == TRUE)) {
 		StartUp = TRUE;
 		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
@@ -810,7 +814,7 @@ static int PluginInit(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	CreateServiceFunction(MS_SESSIONS_SHOWFAVORITESMENU, BuildFavMenu);
 	CreateServiceFunction(MS_SESSIONS_OPENMANAGER, OpenSessionsManagerWindow);
@@ -820,31 +824,31 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	Miranda_WaitOnHandle(LaunchSessions);
 
-	g_ses_count = db_get_b(NULL, MODNAME, "UserSessionsCount", 0);
-	g_ses_limit = db_get_b(NULL, MODNAME, "TrackCount", 10);
-	g_bExclHidden = db_get_b(NULL, MODNAME, "ExclHidden", 0) != 0;
-	g_bWarnOnHidden = db_get_b(NULL, MODNAME, "WarnOnHidden", 0) != 0;
-	g_bOtherWarnings = db_get_b(NULL, MODNAME, "OtherWarnings", 1) != 0;
-	g_bCrashRecovery = db_get_b(NULL, MODNAME, "CrashRecovery", 0) != 0;
+	g_ses_count = db_get_b(NULL, MODULENAME, "UserSessionsCount", 0);
+	g_ses_limit = db_get_b(NULL, MODULENAME, "TrackCount", 10);
+	g_bExclHidden = db_get_b(NULL, MODULENAME, "ExclHidden", 0) != 0;
+	g_bWarnOnHidden = db_get_b(NULL, MODULENAME, "WarnOnHidden", 0) != 0;
+	g_bOtherWarnings = db_get_b(NULL, MODULENAME, "OtherWarnings", 1) != 0;
+	g_bCrashRecovery = db_get_b(NULL, MODULENAME, "CrashRecovery", 0) != 0;
 
 	if (g_bCrashRecovery)
-		g_bIncompletedSave = db_get_b(NULL, MODNAME, "lastSaveCompleted", 0) == 0;
+		g_bIncompletedSave = db_get_b(NULL, MODULENAME, "lastSaveCompleted", 0) == 0;
 
 	if (g_bIncompletedSave) {
 		int i = 0;
 		memset(session_list_recovered, 0, sizeof(session_list_recovered));
 
 		for (auto &hContact : Contacts())
-			if (db_get_b(hContact, MODNAME, "wasInLastSession", 0))
+			if (db_get_b(hContact, MODULENAME, "wasInLastSession", 0))
 				session_list_recovered[i++] = hContact;
 	}
 
 	if (!session_list_recovered[0])
 		g_bIncompletedSave = false;
 
-	db_set_b(NULL, MODNAME, "lastSaveCompleted", 0);
+	db_set_b(NULL, MODULENAME, "lastSaveCompleted", 0);
 
-	if (!db_get_b(NULL, MODNAME, "lastempty", 1) || g_bIncompletedSave)
+	if (!db_get_b(NULL, MODULENAME, "lastempty", 1) || g_bIncompletedSave)
 		isLastTRUE = true;
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
@@ -852,7 +856,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
 
 	// Icons
-	g_plugin.registerIcon(MODNAME, iconList);
+	g_plugin.registerIcon(MODULENAME, iconList);
 	return 0;
 }
 

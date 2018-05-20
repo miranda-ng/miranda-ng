@@ -340,11 +340,11 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 		break;
 
 	case 2: // restore saved
-		if (GetValueA(NULL, modname, "LastModule", SelectedModule, _countof(SelectedModule))) {
-			hSelectedContact = db_get_dw(NULL, modname, "LastContact", INVALID_CONTACT_ID);
+		if (GetValueA(NULL, MODULENAME, "LastModule", SelectedModule, _countof(SelectedModule))) {
+			hSelectedContact = db_get_dw(NULL, MODULENAME, "LastContact", INVALID_CONTACT_ID);
 			if (hSelectedContact != INVALID_CONTACT_ID)
 				Select = 1;
-			GetValueA(NULL, modname, "LastSetting", SelectedSetting, _countof(SelectedSetting));
+			GetValueA(NULL, MODULENAME, "LastSetting", SelectedSetting, _countof(SelectedSetting));
 		}
 		break;
 
@@ -403,7 +403,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 			insertItem(hContact, module->name, contact);
 		}
 
-		if (db_get_b(NULL, modname, "ExpandSettingsOnOpen", 0))
+		if (db_get_b(NULL, MODULENAME, "ExpandSettingsOnOpen", 0))
 			TreeView_Expand(hwnd2Tree, contact, TVE_EXPAND);
 
 		if (Select && hSelectedContact == NULL) {

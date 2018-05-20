@@ -134,7 +134,7 @@ int GetRecentGroupID(int iMode)
 	//	COptPage MoreOptData(g_MoreOptPage);
 	COptPage MsgTreeData(g_MsgTreePage);
 	COptItem_TreeCtrl *TreeCtrl = (COptItem_TreeCtrl*)MsgTreeData.Find(IDV_MSGTREE);
-	TreeCtrl->DBToMem(CString(MOD_NAME));
+	TreeCtrl->DBToMem(CString(MODULENAME));
 
 	if (!g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSMRM))
 		return g_Messages_RecentRootID;

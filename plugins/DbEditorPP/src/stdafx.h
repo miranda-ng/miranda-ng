@@ -44,14 +44,12 @@
 //=======================================================
 //	Definitions
 //=======================================================
-#define modname			"DBEditorpp"
-#define modFullname		"Database Editor++"
+#define MODULENAME   "DBEditorpp"
+#define modFullname  "Database Editor++"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(modname)
-	{}
+	CMPlugin();
 };
 
 #define msg(a)		MessageBox(hwnd2mainWindow,a,_A2T(modFullname),MB_OK)

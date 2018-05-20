@@ -24,9 +24,9 @@ CProtoStates g_ProtoStates;
 
 void ResetContactSettingsOnStatusChange(MCONTACT hContact)
 {
-	db_unset(hContact, MOD_NAME, DB_REQUESTCOUNT);
-	db_unset(hContact, MOD_NAME, DB_SENDCOUNT);
-	db_unset(hContact, MOD_NAME, DB_MESSAGECOUNT);
+	db_unset(hContact, MODULENAME, DB_REQUESTCOUNT);
+	db_unset(hContact, MODULENAME, DB_SENDCOUNT);
+	db_unset(hContact, MODULENAME, DB_MESSAGECOUNT);
 }
 
 void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPersonalMsgs = false, int Status = 0)
@@ -110,9 +110,9 @@ void CContactSettings::SetMsgFormat(int Flags, TCString Message)
 			ResetContactSettingsOnStatusChange(m_hContact);
 
 		if (Message != nullptr)
-			db_set_ws(m_hContact, MOD_NAME, DBSetting, Message);
+			db_set_ws(m_hContact, MODULENAME, DBSetting, Message);
 		else
-			db_unset(m_hContact, MOD_NAME, DBSetting);
+			db_unset(m_hContact, MODULENAME, DBSetting);
 	}
 
 	if (Flags & (SMF_LAST | SMF_TEMPORARY)) {
@@ -132,7 +132,7 @@ TCString CContactSettings::GetMsgFormat(int Flags, int *pOrder, char *szProtoOve
 		*pOrder = -1;
 
 	if (Flags & GMF_PERSONAL) // try getting personal message (it overrides global)
-		Message = db_get_s(m_hContact, MOD_NAME, StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL), (wchar_t*)NULL);
+		Message = db_get_s(m_hContact, MODULENAME, StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL), (wchar_t*)NULL);
 
 	if (Flags & (GMF_LASTORDEFAULT | GMF_PROTOORGLOBAL | GMF_TEMPORARY) && Message.IsEmpty()) {
 		char *szProto = szProtoOverride ? szProtoOverride : (m_hContact ? GetContactProto(m_hContact) : nullptr);
@@ -164,19 +164,19 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		g_ProtoStates[szProto].TempMsg.Unset();
 		CString DBSetting(ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS));
 		if (Message != nullptr)
-			db_set_ws(NULL, MOD_NAME, DBSetting, Message);
+			db_set_ws(NULL, MODULENAME, DBSetting, Message);
 		else {
 			if (!szProto)
-				db_set_ws(NULL, MOD_NAME, DBSetting, CProtoSettings(nullptr, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
+				db_set_ws(NULL, MODULENAME, DBSetting, CProtoSettings(nullptr, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
 			else
-				db_unset(NULL, MOD_NAME, DBSetting);
+				db_unset(NULL, MODULENAME, DBSetting);
 		}
 	}
 
 	if (Flags & SMF_LAST) {
 		COptPage MsgTreeData(g_MsgTreePage);
 		COptItem_TreeCtrl *TreeCtrl = (COptItem_TreeCtrl*)MsgTreeData.Find(IDV_MSGTREE);
-		TreeCtrl->DBToMem(CString(MOD_NAME));
+		TreeCtrl->DBToMem(CString(MODULENAME));
 		int RecentGroupID = GetRecentGroupID(Status);
 		if (RecentGroupID == -1) { // we didn't find the group, it also means that we're using per status messages; so we need to create it
 			TreeCtrl->m_value.AddElem(CTreeItem(Status ? Clist_GetStatusModeDescription(Status, 0) : MSGTREE_RECENT_OTHERGROUP, g_Messages_RecentRootID, RecentGroupID = TreeCtrl->GenerateID(), TIF_GROUP));
@@ -244,7 +244,7 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 				}
 			}
 		}
-		TreeCtrl->MemToDB(CString(MOD_NAME));
+		TreeCtrl->MemToDB(CString(MODULENAME));
 	}
 }
 
@@ -263,7 +263,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 		}
 	}
 	if (Flags & GMF_PERSONAL && Message == nullptr) // try getting personal message (it overrides global)
-		Message = db_get_s(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr);
+		Message = db_get_s(NULL, MODULENAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr);
 
 	if (Flags & GMF_PROTOORGLOBAL && Message == nullptr) {
 		Message = CProtoSettings().GetMsgFormat(GMF_PERSONAL | (Flags & GMF_TEMPORARY), pOrder);
@@ -273,10 +273,10 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 	if (Flags & GMF_LASTORDEFAULT && Message == nullptr) { // try to get the last or default message, depending on current settings
 		COptPage MsgTreeData(g_MsgTreePage);
 		COptItem_TreeCtrl *TreeCtrl = (COptItem_TreeCtrl*)MsgTreeData.Find(IDV_MSGTREE);
-		TreeCtrl->DBToMem(CString(MOD_NAME));
+		TreeCtrl->DBToMem(CString(MODULENAME));
 		Message = nullptr;
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USELASTMSG)) { // if using last message by default...
-			Message = db_get_s(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr); // try per-protocol message first
+			Message = db_get_s(NULL, MODULENAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr); // try per-protocol message first
 			if (Message.IsEmpty()) {
 				Message = nullptr; // to be sure it's NULL, not "" - as we're checking 'Message == NULL' later
 				int RecentGroupID = GetRecentGroupID(Status);

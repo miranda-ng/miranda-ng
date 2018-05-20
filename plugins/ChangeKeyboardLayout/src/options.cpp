@@ -211,9 +211,9 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 					pszNameLay = GetNameOfLayout(hklLayouts[i]);
 
 					if (mir_wstrcmp(ptszMemLay, ptszGenLay) != 0)
-						db_set_ws(NULL, ModuleName, pszNameLay, ptszMemLay);
+						db_set_ws(NULL, MODULENAME, pszNameLay, ptszMemLay);
 					else
-						db_unset(NULL, ModuleName, pszNameLay);
+						db_unset(NULL, MODULENAME, pszNameLay);
 
 					mir_free(pszNameLay);
 					mir_free(ptszGenLay);
@@ -354,7 +354,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 
 				POPUPDATAT_V2 pdtData = { 0 };
 				pdtData.cbSize = sizeof(pdtData);
-				wcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
+				wcsncpy(pdtData.lptzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
 				wcsncpy(pdtData.lptzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
 
 				switch(poOptionsTemp.bColourType) {

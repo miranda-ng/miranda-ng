@@ -62,7 +62,7 @@ Boston, MA 02111-1307, USA.
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #endif
 
-#define MODNAME "PluginUpdater"
+#define MODULENAME "PluginUpdater"
 #define MODULEA "Plugin Updater"
 #define MODULE L"Plugin Updater"
 #define DEFAULT_UPDATES_FOLDER L"Plugin Updates"
@@ -138,8 +138,8 @@ extern struct PlugOptions
 #define DB_SETTING_LAST_UPDATE		"LastUpdate"
 #define DB_SETTING_DONT_SWITCH_TO_STABLE		"DontSwitchToStable"
 #define DB_SETTING_CHANGEPLATFORM	"ChangePlatform"
-#define DB_MODULE_FILES				MODNAME "Files"
-#define DB_MODULE_NEW_FILES         MODNAME "NewFiles"
+#define DB_MODULE_FILES				MODULENAME "Files"
+#define DB_MODULE_NEW_FILES         MODULENAME "NewFiles"
 
 #define MAX_RETRIES			3
 
@@ -159,9 +159,7 @@ extern IconItem iconList[];
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODNAME)
-	{}
+	CMPlugin();
 };
 
 void UninitCheck(void);

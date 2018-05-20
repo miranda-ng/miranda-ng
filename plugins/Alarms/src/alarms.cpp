@@ -23,7 +23,9 @@ int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hTopToolbarButton;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -36,10 +38,16 @@ PLUGININFOEX pluginInfo = {
 	{0x4dd7762b, 0xd612, 0x4f84, {0xaa, 0x86, 0x6, 0x8f, 0x17, 0x85, 0x9b, 0x6d}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -119,7 +127,7 @@ static int InitTopToolbarButton(WPARAM, LPARAM)
 	TTBButton ttb = {};
 	ttb.hIconUp = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_TBUP));
 	ttb.hIconDn = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_TBDN));
-	ttb.pszService = MODULE "/NewAlarm";
+	ttb.pszService = MODULENAME "/NewAlarm";
 	ttb.dwFlags = TTBBF_VISIBLE;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Set alarm");
 	hTopToolbarButton = TopToolbar_AddButton(&ttb);
@@ -144,7 +152,7 @@ static int MainDeInit(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	// ensure datetime picker is loaded
@@ -166,6 +174,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

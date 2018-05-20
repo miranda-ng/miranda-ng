@@ -33,13 +33,13 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	g_plugin.registerIcon(LPGEN("News Aggregator"), iconList, MODULE);
+	g_plugin.registerIcon(LPGEN("News Aggregator"), iconList, MODULENAME);
 }
 
 HICON LoadIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", MODULE, name);
+	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 

@@ -53,16 +53,14 @@ using namespace std;
 #define SD_SEND         0x01
 #define SD_BOTH         0x02
 
-#define MODULE "HTTPServer"
+#define MODULENAME "HTTPServer"
 #define MSG_BOX_TITEL Translate("Miranda NG HTTP-Server")
 
 #define SplitIpAddress( p ) (BYTE)(p>>24),(BYTE)(p>>16),(BYTE)(p>>8),(BYTE)(p)
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 extern HNETLIBUSER hNetlibUser;

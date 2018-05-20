@@ -34,8 +34,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_DATABA
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PLUGININFOEX pluginInfo =
-{
+static PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -45,12 +44,16 @@ static PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE | STATIC_PLUGIN,
 	//{F7A6B27C-9D9C-4A42-BE86-A448AE109161}
-	{ 0xf7a6b27c, 0x9d9c, 0x4a42, { 0xbe, 0x86, 0xa4, 0x48, 0xae, 0x10, 0x91, 0x61 } }
+	{0xf7a6b27c, 0x9d9c, 0x4a42, {0xbe, 0x86, 0xa4, 0x48, 0xae, 0x10, 0x91, 0x61}}
 };
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +82,7 @@ static int grokHeader(const wchar_t *profile)
 static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 {
 	// set the memory, lists & UTF8 manager
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// if not read only, convert the old profile to libmdbx

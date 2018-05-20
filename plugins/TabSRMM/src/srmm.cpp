@@ -40,7 +40,7 @@ CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -53,9 +53,13 @@ PLUGININFOEX pluginInfo = {
 	{ 0x6ca5f042, 0x7a7f, 0x47cc, { 0xa7, 0x15, 0xfc, 0x8c, 0x46, 0xfb, 0xf4, 0x34 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(SRMSGMOD, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +76,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	pcli = Clist_GetInterface();
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 

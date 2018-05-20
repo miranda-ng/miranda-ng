@@ -22,9 +22,9 @@ Boston, MA 02111-1307, USA.
 void CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg)
 {
 	wchar_t *tlogin = nullptr, *tpass = nullptr;
-	if (hContact && db_get_b(hContact, MODULE, "UseAuth", 0)) {
-		tlogin = db_get_wsa(hContact, MODULE, "Login");
-		tpass = db_get_wsa(hContact, MODULE, "Password");
+	if (hContact && db_get_b(hContact, MODULENAME, "UseAuth", 0)) {
+		tlogin = db_get_wsa(hContact, MODULENAME, "Login");
+		tpass = db_get_wsa(hContact, MODULENAME, "Password");
 	}
 	else if (pDlg && pDlg->m_useauth.IsChecked()) {
 		tlogin = pDlg->m_login.GetText();
@@ -65,13 +65,13 @@ void CAuthRequest::OnInitDialog()
 		}
 	}
 	else if (m_hContact) {
-		wchar_t *ptszNick = db_get_wsa(m_hContact, MODULE, "Nick");
+		wchar_t *ptszNick = db_get_wsa(m_hContact, MODULENAME, "Nick");
 		if (ptszNick) {
 			m_feedname.SetText(ptszNick);
 			mir_free(ptszNick);
 		}
 		else {
-			wchar_t *ptszURL = db_get_wsa(m_hContact, MODULE, "URL");
+			wchar_t *ptszURL = db_get_wsa(m_hContact, MODULENAME, "URL");
 			if (ptszURL) {
 				m_feedname.SetText(ptszURL);
 				mir_free(ptszURL);
@@ -100,9 +100,9 @@ void CAuthRequest::OnOk(CCtrlBase*)
 		m_pDlg->m_password.SetTextA(strfeedpassword);
 	}
 	else if (m_hContact) {
-		db_set_b(m_hContact, MODULE, "UseAuth", 1);
-		db_set_ws(m_hContact, MODULE, "Login", strfeedusername);
-		db_set_s(m_hContact, MODULE, "Password", strfeedpassword);
+		db_set_b(m_hContact, MODULENAME, "UseAuth", 1);
+		db_set_ws(m_hContact, MODULENAME, "Login", strfeedusername);
+		db_set_s(m_hContact, MODULENAME, "Password", strfeedpassword);
 
 	}
 }

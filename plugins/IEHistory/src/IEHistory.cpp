@@ -31,7 +31,7 @@ MWindowList hOpenWindowsList = nullptr;
 HMODULE hUxTheme = nullptr;
 BOOL(WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = nullptr;
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_DISPLAY_NAME,
 	__VERSION_DWORD,
@@ -44,9 +44,13 @@ PLUGININFOEX pluginInfo = {
 	{ 0x2f093b88, 0xf389, 0x44f1, { 0x9e, 0x2a, 0x37, 0xc2, 0x91, 0x94, 0x20, 0x3a } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 static const MUUID interfaces[] = { MIID_UIHISTORY, MIID_LAST };
@@ -58,7 +62,7 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	INITCOMMONCONTROLSEX icex;
 
 	icex.dwSize = sizeof(icex);

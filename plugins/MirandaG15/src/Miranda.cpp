@@ -58,9 +58,9 @@ bool g_bInitialized;
 
 // Plugin Information
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
+int &hLangpack(g_plugin.m_hLang);
 
 // Function Prototypes
 int Init(WPARAM, LPARAM);
@@ -81,6 +81,10 @@ PLUGININFOEX pluginInfoEx =
 	// {798221E1-E47A-4dc8-9077-1E576F9C4307}
 	{0x798221e1, 0xe47a, 0x4dc8, {0x90, 0x77, 0x1e, 0x57, 0x6f, 0x9c, 0x43, 0x7}}
 };
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
+{}
 
 EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

@@ -48,9 +48,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 #include "simplestatusmsg.h"

@@ -29,7 +29,7 @@ Boston, MA 02111-1307, USA.
 IcolibExtraIcon::IcolibExtraIcon(int _id, const char *_name, const wchar_t *_description, const char *_descIcon, MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
 	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param)
 {
-	db_set_resident(MODULE_NAME, _name);
+	db_set_resident(EI_MODULE_NAME, _name);
 }
 
 IcolibExtraIcon::~IcolibExtraIcon()
@@ -52,7 +52,7 @@ void IcolibExtraIcon::applyIcon(MCONTACT hContact)
 
 	HANDLE hImage = INVALID_HANDLE_VALUE;
 
-	ptrA szIconName(db_get_sa(hContact, MODULE_NAME, m_szName));
+	ptrA szIconName(db_get_sa(hContact, EI_MODULE_NAME, m_szName));
 	if (!IsEmpty(szIconName))
 		hImage = GetIcon(szIconName);
 
@@ -68,7 +68,7 @@ int IcolibExtraIcon::setIcon(int id, MCONTACT hContact, HANDLE hIcoLib)
 		hIcoLib = nullptr;
 
 	if (isEnabled()) {
-		ptrA szIconName(db_get_sa(hContact, MODULE_NAME, m_szName));
+		ptrA szIconName(db_get_sa(hContact, EI_MODULE_NAME, m_szName));
 		if (!IsEmpty(szIconName))
 			RemoveIcon(szIconName);
 	}
@@ -92,7 +92,7 @@ int IcolibExtraIcon::setIconByName(int id, MCONTACT hContact, const char *icon)
 		icon = nullptr;
 
 	if (isEnabled()) {
-		ptrA szIconName(db_get_sa(hContact, MODULE_NAME, m_szName));
+		ptrA szIconName(db_get_sa(hContact, EI_MODULE_NAME, m_szName));
 		if (!IsEmpty(szIconName))
 			RemoveIcon(szIconName);
 	}
@@ -112,7 +112,7 @@ void IcolibExtraIcon::storeIcon(MCONTACT hContact, void *icon)
 
 	const char *icolibName = (const char *)icon;
 	if (IsEmpty(icolibName))
-		db_unset(hContact, MODULE_NAME, m_szName);
+		db_unset(hContact, EI_MODULE_NAME, m_szName);
 	else
-		db_set_s(hContact, MODULE_NAME, m_szName, icolibName);
+		db_set_s(hContact, EI_MODULE_NAME, m_szName, icolibName);
 }

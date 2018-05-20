@@ -25,7 +25,9 @@ CountryListEntry *countries;
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
-static PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -38,14 +40,20 @@ static PLUGININFOEX pluginInfo = {
 	{0x68c36842, 0x3d95, 0x4f4a, {0xab, 0x81, 0x1, 0x4d, 0x65, 0x93, 0x86, 0x3b}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	PrepareBufferedFunctions();
 	if (CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&nCountriesCount, (LPARAM)&countries))
@@ -61,6 +69,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitExtraImg();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

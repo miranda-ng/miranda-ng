@@ -18,7 +18,7 @@ std::fstream emlanLog("EmLanLog.txt", std::ios::out|std::ios::app);
 
 //////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -31,9 +31,16 @@ PLUGININFOEX pluginInfo = {
 	{ 0xe08ce7c4, 0x9eeb, 0x4272, { 0xb5, 0x44, 0xd, 0x32, 0xe1, 0x8d, 0x90, 0xde } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(PROTONAME, pluginInfoEx)
+{
+	RegisterProtocol(PROTOTYPE_PROTOCOL);
+	SetUniqueId("Nick");
+}
+
 extern "C" __declspec(dllexport)  PLUGININFOEX* __cdecl MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -328,7 +335,7 @@ INT_PTR CALLBACK EMPDlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 extern "C" int __declspec(dllexport) __cdecl Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	g_lan = new CMLan();
 
 	CreateProtoServiceFunction(PROTONAME, PS_GETCAPS, EMPGetCaps);

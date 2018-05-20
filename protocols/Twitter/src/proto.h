@@ -129,11 +129,7 @@ private:
 
 struct CMPlugin : public ACCPROTOPLUGIN<TwitterProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<TwitterProto>("Twitter")
-	{
-		SetUniqueId(TWITTER_KEY_UN);
-	}
+	CMPlugin();
 };
 
 // TODO: remove this

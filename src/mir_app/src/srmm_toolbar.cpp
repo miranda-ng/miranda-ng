@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "chat.h"
 #include "skin.h"
 
-#define MODULENAME "SRMM_Toolbar"
+#define EI_MODULE_NAME "SRMM_Toolbar"
 
 #define DPISCALEY_S(argY) ((int)((double)(argY) * g_DPIscaleY))
 #define DPISCALEX_S(argX) ((int)((double)(argX) * g_DPIscaleX))
@@ -127,7 +127,7 @@ MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonID);
 
 	DBVARIANT dbv = { 0 };
-	if (!db_get_s(0, MODULENAME, SettingName, &dbv)) {
+	if (!db_get_s(0, EI_MODULE_NAME, SettingName, &dbv)) {
 		// modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 		char *token = strtok(dbv.pszVal, "_");
 		cbd->m_dwPosition = (DWORD)atoi(token);
@@ -451,9 +451,9 @@ static void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonID);
 	mir_snprintf(SettingParameter, "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, 0, cbd->m_bRSided, cbd->m_bCanBeHidden);
 	if (!(cbd->m_opFlags & BBSF_NTBDESTRUCT))
-		db_set_s(hContact, MODULENAME, SettingName, SettingParameter);
+		db_set_s(hContact, EI_MODULE_NAME, SettingName, SettingParameter);
 	else
-		db_unset(hContact, MODULENAME, SettingName);
+		db_unset(hContact, EI_MODULE_NAME, SettingName);
 }
 
 #define MIDDLE_SEPARATOR L">-------M-------<"
@@ -540,7 +540,7 @@ class CSrmmToolbarOptions : public CDlgBase
 
 			qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
 		}
-		db_set_dw(0, MODULENAME, "SeparatorsCount", loc_sepcout);
+		db_set_dw(0, EI_MODULE_NAME, "SeparatorsCount", loc_sepcout);
 		dwSepCount = loc_sepcout;
 	}
 
@@ -629,7 +629,7 @@ public:
 		m_btnHidden.Disable();
 
 		m_gap.SetRange(10);
-		m_gap.SetPosition(db_get_b(0, MODULENAME, "ButtonsBarGap", 1));
+		m_gap.SetPosition(db_get_b(0, EI_MODULE_NAME, "ButtonsBarGap", 1));
 	}
 
 	virtual void OnDestroy() override
@@ -645,9 +645,9 @@ public:
 		CB_ReInitCustomButtons();
 
 		WORD newGap = m_gap.GetPosition();
-		if (newGap != db_get_b(0, MODULENAME, "ButtonsBarGap", 1)) {
+		if (newGap != db_get_b(0, EI_MODULE_NAME, "ButtonsBarGap", 1)) {
 			WindowList_BroadcastAsync(g_hWindowList, WM_SIZE, 0, 0);
-			db_set_b(0, MODULENAME, "ButtonsBarGap", newGap);
+			db_set_b(0, EI_MODULE_NAME, "ButtonsBarGap", newGap);
 		}
 
 		BuildMenuObjectsTree();
@@ -660,12 +660,12 @@ public:
 	virtual void OnReset() override
 	{
 		CB_ReInitCustomButtons();
-		dwSepCount = db_get_dw(0, MODULENAME, "SeparatorsCount", 0);
+		dwSepCount = db_get_dw(0, EI_MODULE_NAME, "SeparatorsCount", 0);
 	}
 
 	void btnResetClicked(void*)
 	{
-		db_delete_module(0, MODULENAME);
+		db_delete_module(0, EI_MODULE_NAME);
 
 		Srmm_ResetToolbar();
 		qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
@@ -813,8 +813,8 @@ static void CALLBACK SrmmLoadToolbar()
 static int ConvertToolbarData(const char *szSetting, void*)
 {
 	DBVARIANT dbv;
-	if (!db_get(0, "Tab" MODULENAME, szSetting, &dbv)) {
-		db_set(0, MODULENAME, szSetting, &dbv);
+	if (!db_get(0, "Tab" EI_MODULE_NAME, szSetting, &dbv)) {
+		db_set(0, EI_MODULE_NAME, szSetting, &dbv);
 		db_free(&dbv);
 	}
 	return 0;
@@ -837,12 +837,12 @@ void LoadSrmmToolbarModule()
 	ReleaseDC(nullptr, hScrnDC);
 
 	// old data? convert them
-	if (db_get_dw(0, "Tab" MODULENAME, "SeparatorsCount", -1) != -1) {
-		db_enum_settings(0, ConvertToolbarData, "Tab" MODULENAME, nullptr);
-		db_delete_module(0, "Tab" MODULENAME);
+	if (db_get_dw(0, "Tab" EI_MODULE_NAME, "SeparatorsCount", -1) != -1) {
+		db_enum_settings(0, ConvertToolbarData, "Tab" EI_MODULE_NAME, nullptr);
+		db_delete_module(0, "Tab" EI_MODULE_NAME);
 	}
 
-	dwSepCount = db_get_dw(0, MODULENAME, "SeparatorsCount", 0);
+	dwSepCount = db_get_dw(0, EI_MODULE_NAME, "SeparatorsCount", 0);
 	CB_RegisterSeparators();
 }
 

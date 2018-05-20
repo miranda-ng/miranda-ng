@@ -1436,9 +1436,8 @@ void HandleVersionCommand(PCommand command, TArgument*, int argc, PReply reply)
 		}
 		else {
 			char miranda[512];
-			DWORD v = pluginInfo.version;
 			Miranda_GetVersionText(miranda, _countof(miranda));
-			mir_snwprintf(reply->message, L"Miranda %S\nCmdLine v.%d.%d.%d.%d", miranda, ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF), (v & 0xFF));
+			mir_snwprintf(reply->message, L"Miranda %S\nCmdLine v.%d.%d.%d.%d", miranda, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 		}
 	}
 	else HandleWrongParametersCount(command, reply);

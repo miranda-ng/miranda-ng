@@ -27,10 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_EXCHANGE_CHECKEMAIL "Exchange/CheckEmail"
 #define MS_YAMN_FORCECHECK  "YAMN/Service/ForceCheck"
 
-extern PCommand GetCommand(char *command);
-
 extern HANDLE heServerBufferFull;
-extern PLUGININFOEX pluginInfo;
 
 void HandleCommand(PCommand command, TArgument *argv, int argc, PReply reply);
 

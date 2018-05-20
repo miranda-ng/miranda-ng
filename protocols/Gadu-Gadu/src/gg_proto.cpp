@@ -74,7 +74,7 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD pluginVersion = getDword(GG_PLUGINVERSION, 0);
-	if (pluginVersion < pluginInfo.version)
+	if (pluginVersion < pluginInfoEx.version)
 		cleanuplastplugin(pluginVersion);
 
 	links_instance_init();

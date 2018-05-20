@@ -39,9 +39,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(TTB_OPTDIR)
-	{}
+	CMPlugin();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

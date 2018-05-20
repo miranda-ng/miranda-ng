@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "HistoryWindow.h"
 
 // Sorry for plain C implementation
-#define MODULE				"BasicHistory"
+#define MODULENAME				"BasicHistory"
 extern HANDLE  g_hMainThread;
 bool bPopupsEnabled;
 bool DoTask(TaskOptions& to);
@@ -75,7 +75,7 @@ void InitScheduler()
 	test.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
 	test.iSeconds = 10;
 	test.pwszDescription = TranslateT("History task");
-	test.pszName = MODULE;
+	test.pszName = MODULENAME;
 	if (hPopupClass = Popup_RegisterClass(&test))
 		HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 
@@ -1281,7 +1281,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		error += _error;
 
 		DBEVENTINFO dbei = {};
-		dbei.szModule = MODULE;
+		dbei.szModule = MODULENAME;
 		dbei.flags = DBEF_UTF | DBEF_READ;
 		dbei.timestamp = time(0);
 		// For now I do not convert event data from string to blob, and event type must be message to handle it properly
@@ -1299,7 +1299,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 			return;
 
 		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
-			ShowClassPopupT(MODULE, msg, (wchar_t*)_error.c_str());
+			ShowClassPopupT(MODULENAME, msg, (wchar_t*)_error.c_str());
 		else if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 			POPUPDATAT ppd = { 0 };
 			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);

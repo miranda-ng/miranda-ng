@@ -41,13 +41,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 #include "Utils.h"
 
-#define PLGNAME "QuickMessages"
+#define MODULENAME "QuickMessages"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLGNAME)
-	{}
+	CMPlugin();
 };
 
 extern HANDLE hIcolib;

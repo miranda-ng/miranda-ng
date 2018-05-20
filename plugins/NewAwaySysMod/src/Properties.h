@@ -326,19 +326,19 @@ public:
 		CAutoreply& operator=(const int m_value)
 		{
 			CString Setting(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY);
-			if (db_get_b(NULL, MOD_NAME, Setting, VAL_USEDEFAULT) == m_value)
+			if (db_get_b(NULL, MODULENAME, Setting, VAL_USEDEFAULT) == m_value)
 				return *this;
 
 			if (m_value != VAL_USEDEFAULT)
-				db_set_b(NULL, MOD_NAME, Setting, m_value != 0);
+				db_set_b(NULL, MODULENAME, Setting, m_value != 0);
 			else
-				db_unset(NULL, MOD_NAME, Setting);
+				db_unset(NULL, MODULENAME, Setting);
 			return *this;
 		}
 		
 		operator int()
 		{
-			return db_get_b(NULL, MOD_NAME, Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, 
+			return db_get_b(NULL, MODULENAME, Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, 
 				Parent->szProto ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);
 		}
 		
@@ -421,15 +421,15 @@ public:
       CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
 			if (m_value)
-				db_set_b(hContact, MOD_NAME, Setting, 1);
+				db_set_b(hContact, MODULENAME, Setting, 1);
 			else
-				db_unset(hContact, MOD_NAME, Setting);
+				db_unset(hContact, MODULENAME, Setting);
 			return *this;
 		}
 
 		operator int() 
 		{
-			return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MOD_NAME,
+			return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MODULENAME,
 				Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), 0);
 		}
 
@@ -445,16 +445,16 @@ public:
 		{
 			CString Setting(Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
-			if (db_get_b(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == m_value)
+			if (db_get_b(hContact, MODULENAME, Setting, VAL_USEDEFAULT) == m_value)
 				return *this;
 
 			if (m_value != VAL_USEDEFAULT)
-				db_set_b(hContact, MOD_NAME, Setting, m_value != 0);
+				db_set_b(hContact, MODULENAME, Setting, m_value != 0);
 			else
-				db_unset(hContact, MOD_NAME, Setting);
+				db_unset(hContact, MODULENAME, Setting);
 			return *this;
 		}
-		operator int() {return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
+		operator int() {return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MODULENAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
 		int IncludingParents(const char *szProtoOverride = nullptr) // takes into account protocol and global data also, if per-contact setting is not defined
 		{
 			_ASSERT((Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol

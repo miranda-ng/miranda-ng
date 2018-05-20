@@ -90,11 +90,9 @@
 
 HICON LoadIconEx(int iconId, bool big = false);
 
-#define MODULE "BasicHistory"
+#define MODULENAME "BasicHistory"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };

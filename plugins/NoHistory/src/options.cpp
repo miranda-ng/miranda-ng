@@ -84,7 +84,7 @@ static void SetAllContactIcons(HWND hwndList)
 		if (!chat_room) {
 			HANDLE hItem=(HANDLE)SendMessage(hwndList,CLM_FINDCONTACT,hContact,0);
 			if (hItem) {
-				bool disabled = (db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) == 1);
+				bool disabled = (db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) == 1);
 				SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(0,disabled?1:0));
 			}
 		}
@@ -199,7 +199,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						HANDLE hItem = (HANDLE)SendMessage(hwndList,CLM_FINDCONTACT,hContact,0);
 						if (hItem) {
 							int iImage = SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(0,0));
-							db_set_b(hContact, MODULE, DBSETTING_REMOVE, iImage==1?1:0);
+							db_set_b(hContact, MODULENAME, DBSETTING_REMOVE, iImage==1?1:0);
 						}
 					}
 				}

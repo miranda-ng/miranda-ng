@@ -41,7 +41,7 @@ static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam,
 void InitPopups()
 {
 	// window needed for popup commands
-	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MODULE_NAME) L"_PopupWindow",
+	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MODULENAME) L"_PopupWindow",
 		0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
 		nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
@@ -56,7 +56,7 @@ void DeInitPopups()
 // Show an error popup
 void ShowErrPopup(const wchar_t *description, const wchar_t *title)
 {
-	ShowPopupEx(NULL, title == nullptr ? _A2W(MODULE_NAME) L" Error" : title, description,
+	ShowPopupEx(NULL, title == nullptr ? _A2W(MODULENAME) L" Error" : title, description,
 		nullptr, POPUP_TYPE_ERROR, nullptr);
 }
 
@@ -74,7 +74,7 @@ void ShowPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *descripti
 
 void ShowDebugPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description)
 {
-	if (db_get_b(NULL, MODULE_NAME, "Debug", 0)) {
+	if (db_get_b(NULL, MODULENAME, "Debug", 0)) {
 		ShowPopup(hContact, title, description);
 	}
 }

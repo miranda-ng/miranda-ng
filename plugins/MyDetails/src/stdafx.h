@@ -58,16 +58,14 @@ Boston, MA 02111-1307, USA.
 #include "options.h"
 #include "frame.h"
 
-#define MODULE_NAME "MyDetails"
+#define MODULENAME "MyDetails"
 
 #define SETTING_FRAME_VISIBLE "FrameVisible"
 #define SETTING_DEFAULT_NICK "DefaultNick"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE_NAME)
-	{}
+	CMPlugin();
 };
 
 extern bool g_bFramesExist, g_bAvsExist;

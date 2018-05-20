@@ -34,7 +34,9 @@ CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -47,10 +49,16 @@ PLUGININFOEX pluginInfo = {
 	{ 0x2f07ea05, 0x05b5, 0x4ff0, { 0x87, 0x5d, 0xc5, 0x90, 0xda, 0x2d, 0xda, 0xc1 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 #define MAXCHAN 5
 static wchar_t CurrBassPath[MAX_PATH], tmp[MAX_PATH];
@@ -191,7 +199,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
 
 			BASS_DEVICEINFO info;
-			ptrW tszDeviceName(db_get_wsa(NULL, ModuleName, OPT_OUTDEVICE));
+			ptrW tszDeviceName(db_get_wsa(NULL, MODULENAME, OPT_OUTDEVICE));
 			for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++) {
 				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, _A2T(info.name));
 				if (!mir_wstrcmp(tszDeviceName, _A2T(info.name)))
@@ -220,29 +228,29 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				SYSTEMTIME systime = { 0 };
 
 				GetDlgItemText(hwndDlg, IDC_OUTDEVICE, tmp, _countof(tmp));
-				db_set_ws(NULL, ModuleName, OPT_OUTDEVICE, tmp);
+				db_set_ws(NULL, MODULENAME, OPT_OUTDEVICE, tmp);
 
 				Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
-				db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
+				db_set_b(NULL, MODULENAME, OPT_VOLUME, Volume);
 
 				sndLimSnd = SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_GETCURSEL, 0, 0) + 1;
 				if (sndLimSnd > MAXCHAN)
 					sndLimSnd = MAXCHAN;
-				db_set_b(NULL, ModuleName, OPT_MAXCHAN, sndLimSnd);
+				db_set_b(NULL, MODULENAME, OPT_MAXCHAN, sndLimSnd);
 
 				QuietTime = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
-				db_set_b(NULL, ModuleName, OPT_QUIETTIME, QuietTime);
+				db_set_b(NULL, MODULENAME, OPT_QUIETTIME, QuietTime);
 
 				SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
 				TimeWrd1 = MAKEWORD(systime.wMinute, systime.wHour);
-				db_set_w(NULL, ModuleName, OPT_TIME1, TimeWrd1);
+				db_set_w(NULL, MODULENAME, OPT_TIME1, TimeWrd1);
 
 				SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
 				TimeWrd2 = MAKEWORD(systime.wMinute, systime.wHour);
-				db_set_w(NULL, ModuleName, OPT_TIME2, TimeWrd2);
+				db_set_w(NULL, MODULENAME, OPT_TIME2, TimeWrd2);
 
 				EnPreview = IsDlgButtonChecked(hwndDlg, IDC_PREVIEW) == BST_CHECKED;
-				db_set_b(NULL, ModuleName, OPT_PREVIEW, EnPreview);
+				db_set_b(NULL, MODULENAME, OPT_PREVIEW, EnPreview);
 
 				StatMask = 0;
 				for (int i = IDC_CHECKBOX10; i > IDC_CHECKBOX1 - 1; i--) {
@@ -251,7 +259,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						StatMask |= 1;
 				}
 
-				db_set_w(NULL, ModuleName, OPT_STATUS, StatMask);
+				db_set_w(NULL, MODULENAME, OPT_STATUS, StatMask);
 
 				device = SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_GETCURSEL, 0, 0);
 				if (device == 0)
@@ -310,7 +318,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szTitle.a = ModuleName;
+	odp.szTitle.a = MODULENAME;
 	odp.pfnDlgProc = OptionsProc;
 	odp.szGroup.a = LPGEN("Sounds");
 	odp.flags = ODPF_BOLDGROUPS;
@@ -379,7 +387,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if (hBass != nullptr)
 			if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK) {
 				Volume = (DWORD)SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
-				db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
+				db_set_b(NULL, MODULENAME, OPT_VOLUME, Volume);
 				BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 				SendMessage(hwndOptSlider, TBM_SETPOS, TRUE, Volume);
 				Preview = TRUE;
@@ -417,7 +425,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 int ReloadColors(WPARAM, LPARAM)
 {
-	clBack = Colour_GetW(_A2W(ModuleName), LPGENW("Frame background"));
+	clBack = Colour_GetW(_A2W(MODULENAME), LPGENW("Frame background"));
 
 	if (hBkgBrush)
 		DeleteObject(hBkgBrush);
@@ -457,10 +465,10 @@ void CreateFrame()
 	ColourIDW colourid = { 0 };
 	colourid.cbSize = sizeof(ColourIDW);
 
-	strcpy_s(colourid.dbSettingsGroup, ModuleName);
+	strcpy_s(colourid.dbSettingsGroup, MODULENAME);
 	strcpy_s(colourid.setting, "ColorFrame");
 	wcscpy_s(colourid.name, LPGENW("Frame background"));
-	wcscpy_s(colourid.group, _A2W(ModuleName));
+	wcscpy_s(colourid.group, _A2W(MODULENAME));
 
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
 	Colour_RegisterW(&colourid);
@@ -488,26 +496,26 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 		DBVARIANT dbv = { 0 };
 
 		BASS_DEVICEINFO info;
-		if (!db_get_ws(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
+		if (!db_get_ws(NULL, MODULENAME, OPT_OUTDEVICE, &dbv))
 			for (size_t i = 1; BASS_GetDeviceInfo((DWORD)i, &info); i++)
 				if (!mir_wstrcmp(dbv.ptszVal, _A2T(info.name)))
 					device = (int)i;
 
 		db_free(&dbv);
 
-		sndLimSnd = db_get_b(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
+		sndLimSnd = db_get_b(NULL, MODULENAME, OPT_MAXCHAN, MAXCHAN);
 		if (sndLimSnd > MAXCHAN)
 			sndLimSnd = MAXCHAN;
 
-		TimeWrd1 = db_get_w(NULL, ModuleName, OPT_TIME1, 0);
-		TimeWrd2 = db_get_w(NULL, ModuleName, OPT_TIME2, 0);
-		QuietTime = db_get_b(NULL, ModuleName, OPT_QUIETTIME, 0);
-		EnPreview = db_get_b(NULL, ModuleName, OPT_PREVIEW, 0);
-		StatMask = db_get_w(NULL, ModuleName, OPT_STATUS, 0x3ff);
+		TimeWrd1 = db_get_w(NULL, MODULENAME, OPT_TIME1, 0);
+		TimeWrd2 = db_get_w(NULL, MODULENAME, OPT_TIME2, 0);
+		QuietTime = db_get_b(NULL, MODULENAME, OPT_QUIETTIME, 0);
+		EnPreview = db_get_b(NULL, MODULENAME, OPT_PREVIEW, 0);
+		StatMask = db_get_w(NULL, MODULENAME, OPT_STATUS, 0x3ff);
 
 		BASS_Init(device, 44100, 0, pcli->hwndContactList, nullptr);
 
-		Volume = db_get_b(NULL, ModuleName, OPT_VOLUME, 33);
+		Volume = db_get_b(NULL, MODULENAME, OPT_VOLUME, 33);
 		BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 		hPlaySound = HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
 		CreateFrame();
@@ -539,9 +547,9 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	}
 	else {
 		DBVARIANT dbv;
-		if (db_get_ws(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
+		if (db_get_ws(NULL, MODULENAME, OPT_BASSPATH, &dbv)) {
 			mir_wstrncpy(CurrBassPath, VARSW(L"Plugins\\BASS\\bass.dll"), _countof(CurrBassPath));
-			db_set_ws(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
+			db_set_ws(NULL, MODULENAME, OPT_BASSPATH, CurrBassPath);
 		}
 		else {
 			mir_wstrcpy(CurrBassPath, dbv.ptszVal);
@@ -582,6 +590,8 @@ int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static IconItem iconList[] =
 {
 	{ LPGEN("Sounds enabled"), "BASSSoundOn", IDI_BASSSoundOn },
@@ -590,16 +600,18 @@ static IconItem iconList[] =
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
 
-	g_plugin.registerIcon(ModuleName, iconList);
+	g_plugin.registerIcon(MODULENAME, iconList);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

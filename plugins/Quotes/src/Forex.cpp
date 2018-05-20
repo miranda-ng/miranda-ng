@@ -3,7 +3,9 @@
 
 #include "stdafx.h"
 
+CMPlugin	g_plugin;
 int &hLangpack(g_plugin.m_hLang);
+
 HANDLE g_hEventWorkThreadStop;
 //int g_nStatus = ID_STATUS_OFFLINE;
 bool g_bAutoUpdate = true;
@@ -277,15 +279,11 @@ inline int Quotes_UnhookEvent(HANDLE h)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMPlugin	g_plugin;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 EXTERN_C __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX Global_pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -299,16 +297,23 @@ PLUGININFOEX Global_pluginInfo =
 	{ 0xe882056d, 0xd1d, 0x4131, { 0x9a, 0x98, 0x40, 0x4c, 0xba, 0xea, 0x6a, 0x9c } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(QUOTES_PROTOCOL_NAME, pluginInfoEx)
+{
+	RegisterProtocol(PROTOTYPE_VIRTUAL);
+	SetUniqueId(DB_STR_QUOTE_SYMBOL);
+}
+
 EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &Global_pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 EXTERN_C int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&Global_pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	if (false == CModuleInfo::Verify())
 		return 1;

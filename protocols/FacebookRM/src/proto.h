@@ -289,9 +289,5 @@ public:
 
 struct CMPlugin : public ACCPROTOPLUGIN<FacebookProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<FacebookProto>(FACEBOOK_NAME)
-	{
-		SetUniqueId(FACEBOOK_KEY_ID);
-	}
+	CMPlugin();
 };

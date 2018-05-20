@@ -45,9 +45,7 @@ HRESULT RemoveCOMRegistryEntries();
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(SHLExt_Name)
-	{}
+	CMPlugin();
 };
 
 extern bool bIsVistaPlus;

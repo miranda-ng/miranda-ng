@@ -5,8 +5,6 @@
 
 #define SKIN  "ModernSkin"
 
-extern PLUGININFOEX pluginInfo;
-extern CLIST_INTERFACE * pcli;
 extern CLIST_INTERFACE corecli;
 
 //Global variables

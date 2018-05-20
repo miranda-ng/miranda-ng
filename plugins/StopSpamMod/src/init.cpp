@@ -74,6 +74,10 @@ PLUGININFOEX pluginInfoEx = {
 	{0x94ced94c, 0xa94a, 0x4bb1, {0xac, 0xbd, 0x5c, 0xc6, 0xeb, 0xb6, 0x89, 0xd4}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -85,33 +89,33 @@ extern wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szMo
 
 void InitVars()
 {
-	gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"Spammers");
-	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
-	gbInfTalkProtection = db_get_b(NULL, pluginName, "infTalkProtection", 0);
-	gbAddPermanent = db_get_b(NULL, pluginName, "addPermanent", 0);
-	gbMaxQuestCount = db_get_dw(NULL, pluginName, "maxQuestCount", 5);
-	gbHandleAuthReq = db_get_b(NULL, pluginName, "handleAuthReq", 1);
-	gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", TranslateW(defQuestion));
-	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
-	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", TranslateW(defCongrats));
-	gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateW(defAuthReply));
-	gbSpecialGroup = db_get_b(NULL, pluginName, "SpecialGroup", 0);
-	gbHideContacts = db_get_b(NULL, pluginName, "HideContacts", 0);
-	gbIgnoreContacts = db_get_b(NULL, pluginName, "IgnoreContacts", 0);
-	gbExclude = db_get_b(NULL, pluginName, "ExcludeContacts", 1);
-	gbDelExcluded = db_get_b(NULL, pluginName, "DelExcluded", 0);
-	gbDelAllTempory = db_get_b(NULL, pluginName, "DelAllTempory", 0);
-	gbCaseInsensitive = db_get_b(NULL, pluginName, "CaseInsensitive", 0);
-	gbRegexMatch = db_get_b(NULL, pluginName, "RegexMatch", 0);
-	gbInvisDisable = db_get_b(NULL, pluginName, "DisableInInvis", 0);
-	gbIgnoreURL = db_get_b(NULL, pluginName, "IgnoreURL", 0);
-	gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"Not Spammers");
-	gbAutoAuth = db_get_b(NULL, pluginName, "AutoAuth", 0);
-	gbAutoAddToServerList = db_get_b(NULL, pluginName, "AutoAddToServerList", 0);
-	gbAutoReqAuth = db_get_b(NULL, pluginName, "AutoReqAuth", 0);
-	gbLogToFile = db_get_b(NULL, pluginName, "LogSpamToFile", 0);
-	gbHistoryLog = db_get_b(NULL, pluginName, "HistoryLog", 0);
-	gbMathExpression = db_get_b(NULL, pluginName, "MathExpression", 0);
+	gbSpammersGroup = DBGetContactSettingStringPAN(NULL, MODULENAME, "SpammersGroup", L"Spammers");
+	gbAnswer = DBGetContactSettingStringPAN(NULL, MODULENAME, "answer", L"nospam");
+	gbInfTalkProtection = db_get_b(NULL, MODULENAME, "infTalkProtection", 0);
+	gbAddPermanent = db_get_b(NULL, MODULENAME, "addPermanent", 0);
+	gbMaxQuestCount = db_get_dw(NULL, MODULENAME, "maxQuestCount", 5);
+	gbHandleAuthReq = db_get_b(NULL, MODULENAME, "handleAuthReq", 1);
+	gbQuestion = DBGetContactSettingStringPAN(NULL, MODULENAME, "question", TranslateW(defQuestion));
+	gbAnswer = DBGetContactSettingStringPAN(NULL, MODULENAME, "answer", L"nospam");
+	gbCongratulation = DBGetContactSettingStringPAN(NULL, MODULENAME, "congratulation", TranslateW(defCongrats));
+	gbAuthRepl = DBGetContactSettingStringPAN(NULL, MODULENAME, "authrepl", TranslateW(defAuthReply));
+	gbSpecialGroup = db_get_b(NULL, MODULENAME, "SpecialGroup", 0);
+	gbHideContacts = db_get_b(NULL, MODULENAME, "HideContacts", 0);
+	gbIgnoreContacts = db_get_b(NULL, MODULENAME, "IgnoreContacts", 0);
+	gbExclude = db_get_b(NULL, MODULENAME, "ExcludeContacts", 1);
+	gbDelExcluded = db_get_b(NULL, MODULENAME, "DelExcluded", 0);
+	gbDelAllTempory = db_get_b(NULL, MODULENAME, "DelAllTempory", 0);
+	gbCaseInsensitive = db_get_b(NULL, MODULENAME, "CaseInsensitive", 0);
+	gbRegexMatch = db_get_b(NULL, MODULENAME, "RegexMatch", 0);
+	gbInvisDisable = db_get_b(NULL, MODULENAME, "DisableInInvis", 0);
+	gbIgnoreURL = db_get_b(NULL, MODULENAME, "IgnoreURL", 0);
+	gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, MODULENAME, "AutoAuthGroup", L"Not Spammers");
+	gbAutoAuth = db_get_b(NULL, MODULENAME, "AutoAuth", 0);
+	gbAutoAddToServerList = db_get_b(NULL, MODULENAME, "AutoAddToServerList", 0);
+	gbAutoReqAuth = db_get_b(NULL, MODULENAME, "AutoReqAuth", 0);
+	gbLogToFile = db_get_b(NULL, MODULENAME, "LogSpamToFile", 0);
+	gbHistoryLog = db_get_b(NULL, MODULENAME, "HistoryLog", 0);
+	gbMathExpression = db_get_b(NULL, MODULENAME, "MathExpression", 0);
 }
 
 static int OnSystemModulesLoaded(WPARAM, LPARAM)

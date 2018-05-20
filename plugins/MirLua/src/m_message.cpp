@@ -35,7 +35,7 @@ static int message_Send(lua_State *L)
 	}
 	else if ((res = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message)) != ACKRESULT_FAILED) {
 		DBEVENTINFO dbei = {};
-		dbei.szModule = MODULE;
+		dbei.szModule = MODULENAME;
 		dbei.timestamp = time(0);
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.cbBlob = (DWORD)mir_strlen(message);

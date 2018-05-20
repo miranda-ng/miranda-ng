@@ -16,7 +16,7 @@
 #include "Resource.h"
 #include "version.h"
 
-#define protocolname		"SimpleAutoReplier" //no spaces here :)
+#define MODULENAME "SimpleAutoReplier"
 
 #define KEY_ENABLED			"Enabled"
 #define KEY_HEADING			"Heading"
@@ -26,9 +26,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(protocolname)
-	{}
+	CMPlugin();
 };
 
 extern INT interval;

@@ -75,11 +75,11 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOSOUND), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOSOUND), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOBLINK), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOBLINK), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-		CheckDlgButton(hwndDlg, IDC_HIDEMENU, db_get_b(NULL, MODNAME, "HideMenu", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEMENU, db_get_b(NULL, MODULENAME, "HideMenu", 1) ? BST_CHECKED : BST_UNCHECKED);
 
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOSOUND), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODNAME, "NoSound", DEFAULT_NOSOUND));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODNAME, "NoBlink", DEFAULT_NOBLINK));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODNAME, "NoCLCBlink", DEFAULT_NOCLCBLINK));
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOSOUND), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODULENAME, "NoSound", DEFAULT_NOSOUND));
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODULENAME, "NoBlink", DEFAULT_NOBLINK));
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODULENAME, "NoCLCBlink", DEFAULT_NOCLCBLINK));
 		return TRUE;
 	
 	case WM_COMMAND:
@@ -112,11 +112,11 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(NULL, MODNAME, "HideMenu", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDEMENU));
+				db_set_b(NULL, MODULENAME, "HideMenu", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDEMENU));
 
-				db_set_dw(NULL, MODNAME, "NoSound", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOSOUND)));
-				db_set_dw(NULL, MODNAME, "NoBlink", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOBLINK)));
-				db_set_dw(NULL, MODNAME, "NoCLCBlink", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOCLCBLINK)));
+				db_set_dw(NULL, MODULENAME, "NoSound", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOSOUND)));
+				db_set_dw(NULL, MODULENAME, "NoBlink", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOBLINK)));
+				db_set_dw(NULL, MODULENAME, "NoCLCBlink", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOCLCBLINK)));
 
 				test = db_get_w(NULL, "CList", "Status", 0);
 				SetNotify(Proto_Status2Flag(db_get_w(NULL, "CList", "Status", 0)));

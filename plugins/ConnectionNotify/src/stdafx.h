@@ -40,11 +40,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLUGINNAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL);
-	}
+	CMPlugin();
 };
 
 void showMsg(wchar_t *pName,DWORD pid,wchar_t *intIp,wchar_t *extIp,int intPort,int extPort,int state);

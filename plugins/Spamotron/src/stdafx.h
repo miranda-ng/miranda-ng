@@ -24,7 +24,7 @@
 #include "resource.h"
 #include "version.h"
 
-#define PLUGIN_NAME "Spam-o-tron"
+#define MODULENAME "Spam-o-tron"
 
 #define SPAMOTRON_MODE_PLAIN 0
 #define SPAMOTRON_MODE_MATH 1
@@ -33,10 +33,10 @@
 
 #define MAX_BUFFER_LENGTH 1024
 
-#define _getCOptB(a,b,c) db_get_b(a, PLUGIN_NAME, b, c)
-#define _setCOptB(a,b,c) db_set_b(a, PLUGIN_NAME, b, c)
-#define _getCOptD(a,b,c) db_get_dw(a, PLUGIN_NAME, b, c)
-#define _setCOptD(a,b,c) db_set_dw(a, PLUGIN_NAME, b, c)
+#define _getCOptB(a,b,c) db_get_b(a, MODULENAME, b, c)
+#define _setCOptB(a,b,c) db_set_b(a, MODULENAME, b, c)
+#define _getCOptD(a,b,c) db_get_dw(a, MODULENAME, b, c)
+#define _setCOptD(a,b,c) db_set_dw(a, MODULENAME, b, c)
 #define _getOptB(a,b) _getCOptB(NULL, a, b)
 #define _setOptB(a,b) _setCOptB(NULL, a, b)
 #define _getOptD(a,b) _getCOptD(NULL, a, b)
@@ -44,8 +44,8 @@
 
 wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const char* option, const wchar_t *def);
 #define _getOptS(a,b,c,d) _getCOptS(a, b, NULL, c, d)
-#define _setCOptTS(a,b,c) db_set_ws(a, PLUGIN_NAME, b, c)
-#define _setCOptS(a,b,c) db_set_s(a, PLUGIN_NAME, b, c)
+#define _setCOptTS(a,b,c) db_set_ws(a, MODULENAME, b, c)
+#define _setCOptS(a,b,c) db_set_s(a, MODULENAME, b, c)
 #define _setOptTS(a,b) _setCOptTS(NULL, a, b)
 
 #define defaultMode SPAMOTRON_MODE_PLAIN
@@ -151,9 +151,7 @@ void dequeue_messages();
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLUGIN_NAME)
-	{}
+	CMPlugin();
 };
 
 #ifdef _DEBUG

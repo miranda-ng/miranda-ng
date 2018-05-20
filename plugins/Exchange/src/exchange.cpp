@@ -30,7 +30,7 @@ CExchangeServer exchangeServer;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_DISPLAY_NAME,
@@ -43,16 +43,20 @@ PLUGININFOEX pluginInfo =
   {0x2fd0df15, 0x7098, 0x41ce, {0xaa, 0x92, 0xff, 0x62, 0x18, 0x06, 0xe3, 0x8b}} //{2fd0df15-7098-41ce-aa92-ff621806e38b}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD) 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfoEx);
 	hiMailIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MAIL));
 	InitServices();
 	HookEvents();

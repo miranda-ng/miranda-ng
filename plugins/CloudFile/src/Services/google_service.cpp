@@ -286,7 +286,7 @@ void CGDriveService::Upload(FileTransferParam *ftp)
 struct CMPluginGoogle : public CMPluginBase
 {
 	CMPluginGoogle() :
-		CMPluginBase(MODULE "/GDrive")
+		CMPluginBase(MODULENAME "/GDrive", pluginInfoEx)
 	{
 		m_hInst = g_plugin.getInst();
 

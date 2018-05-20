@@ -56,7 +56,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady)
 		{
-			db_unset(hContact, MODULE, "TempStatusMsg");
+			db_unset(hContact, MODULENAME, "TempStatusMsg");
 			if (CanRetrieveStatusMsg(hContact, szProto) && ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
 			{
 				if (WaitForContentTimerID)
@@ -161,7 +161,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 					}
 
 					if (swzMsg) {
-						db_set_ws((DWORD_PTR)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
+						db_set_ws((DWORD_PTR)clcitex->hItem, MODULENAME, "TempStatusMsg", swzMsg);
 						mir_free(swzMsg);
 					}
 

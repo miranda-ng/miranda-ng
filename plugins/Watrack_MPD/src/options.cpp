@@ -24,21 +24,21 @@ public:
 	{}
 	virtual void OnInitDialog() override
 	{
-		edit_PORT.SetInt(db_get_w(NULL, szModuleName, "Port", 6600));
-		wchar_t *tmp = UniGetContactSettingUtf(NULL, szModuleName, "Server", L"127.0.0.1");
+		edit_PORT.SetInt(db_get_w(NULL, MODULENAME, "Port", 6600));
+		wchar_t *tmp = UniGetContactSettingUtf(NULL, MODULENAME, "Server", L"127.0.0.1");
 		edit_SERVER.SetText(tmp);
 		mir_free(tmp);
-		tmp = UniGetContactSettingUtf(NULL, szModuleName, "Password", L"");
+		tmp = UniGetContactSettingUtf(NULL, MODULENAME, "Password", L"");
 		edit_PASSWORD.SetText(tmp);
 		mir_free(tmp);
 	}
 	virtual void OnApply() override
 	{
-		db_set_w(NULL, szModuleName, "Port", (WORD)edit_PORT.GetInt());
+		db_set_w(NULL, MODULENAME, "Port", (WORD)edit_PORT.GetInt());
 		gbPort = edit_PORT.GetInt();
-		db_set_ws(NULL, szModuleName, "Server", edit_SERVER.GetText());
+		db_set_ws(NULL, MODULENAME, "Server", edit_SERVER.GetText());
 		mir_wstrcpy(gbHost, edit_SERVER.GetText());
-		db_set_ws(NULL, szModuleName, "Password", edit_PASSWORD.GetText());
+		db_set_ws(NULL, MODULENAME, "Password", edit_PASSWORD.GetText());
 		mir_wstrcpy(gbPassword, edit_PASSWORD.GetText());
 	}
 private:

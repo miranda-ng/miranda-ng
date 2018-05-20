@@ -29,13 +29,11 @@ typedef std::wstring tstring;
 #include "resource.h"
 #include "settings.h"
 
-#define pluginName LPGEN("StopSpam")
+#define MODULENAME LPGEN("StopSpam")
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(pluginName)
-	{}
+	CMPlugin();
 };
 
 extern char const *answeredSetting;

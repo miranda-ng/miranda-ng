@@ -18,10 +18,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "version.h"
 
-int &hLangpack(g_plugin.m_hLang);
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
+int &hLangpack(g_plugin.m_hLang);
 
-PLUGININFOEX pluginInfo =
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -35,14 +38,16 @@ PLUGININFOEX pluginInfo =
 	{ 0x32579908, 0x724b, 0x467f, {0xad, 0xad, 0x22, 0xb6, 0x35, 0x9a, 0x74, 0x9a}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CVkProto>("VKontakte", pluginInfoEx)
 {
-	return &pluginInfo;
+	SetUniqueId("ID");
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,7 +58,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	InitIcons();

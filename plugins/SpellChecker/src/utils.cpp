@@ -525,7 +525,7 @@ LRESULT CALLBACK OwnerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 void ToggleEnabled(Dialog *dlg)
 {
 	dlg->enabled = !dlg->enabled;
-	db_set_b(dlg->hContact, MODULE_NAME, dlg->name, dlg->enabled);
+	db_set_b(dlg->hContact, MODULENAME, dlg->name, dlg->enabled);
 
 	if (!dlg->enabled)
 		SetNoUnderline(dlg);
@@ -769,13 +769,13 @@ void GetContactLanguage(Dialog *dlg)
 	dlg->lang_name[0] = '\0';
 
 	if (dlg->hContact == NULL) {
-		if (!db_get_ws(NULL, MODULE_NAME, dlg->name, &dbv)) {
+		if (!db_get_ws(NULL, MODULENAME, dlg->name, &dbv)) {
 			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 	}
 	else {
-		if (!db_get_ws(dlg->hContact, MODULE_NAME, "TalkLanguage", &dbv)) {
+		if (!db_get_ws(dlg->hContact, MODULENAME, "TalkLanguage", &dbv)) {
 			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
@@ -789,7 +789,7 @@ void GetContactLanguage(Dialog *dlg)
 		if (dlg->lang_name[0] == '\0') {
 			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
 			if (hMetaContact != NULL) {
-				if (!db_get_ws(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
+				if (!db_get_ws(hMetaContact, MODULENAME, "TalkLanguage", &dbv)) {
 					mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 					db_free(&dbv);
 				}
@@ -833,7 +833,7 @@ void GetContactLanguage(Dialog *dlg)
 void ModifyIcon(Dialog *dlg)
 {
 	StatusIconData sid = {};
-	sid.szModule = MODULE_NAME;
+	sid.szModule = MODULENAME;
 
 	for (int i = 0; i < languages.getCount(); i++) {
 		sid.dwId = i;
@@ -876,7 +876,7 @@ int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND 
 		dlg->hContact = hContact;
 		dlg->hwnd = hwnd;
 		strncpy(dlg->name, name, _countof(dlg->name));
-		dlg->enabled = db_get_b(dlg->hContact, MODULE_NAME, dlg->name, 1);
+		dlg->enabled = db_get_b(dlg->hContact, MODULENAME, dlg->name, 1);
 		dlg->srmm = srmm;
 
 		GetContactLanguage(dlg);
@@ -1203,10 +1203,10 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 		SetNoUnderline(dlg);
 
 		if (dlg->hContact == NULL)
-			db_set_ws(NULL, MODULE_NAME, dlg->name,
+			db_set_ws(NULL, MODULENAME, dlg->name,
 			languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 		else
-			db_set_ws(dlg->hContact, MODULE_NAME, "TalkLanguage",
+			db_set_ws(dlg->hContact, MODULENAME, "TalkLanguage",
 			languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 
 		GetContactLanguage(dlg);
@@ -1352,7 +1352,7 @@ int MsgWindowEvent(WPARAM, LPARAM lParam)
 int IconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (sicd == nullptr || mir_strcmp(sicd->szModule, MODULE_NAME) != 0)
+	if (sicd == nullptr || mir_strcmp(sicd->szModule, MODULENAME) != 0)
 		return 0;
 
 	if (hContact == NULL)

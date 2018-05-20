@@ -86,7 +86,9 @@ BOOL bReminderDisabled = FALSE;
 
 BYTE bMetaProtoEnabled = 0;
 
-PLUGININFOEX pluginInfo =
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -100,10 +102,16 @@ PLUGININFOEX pluginInfo =
 	{0x119d7288, 0x2050, 0x448d, {0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int InitializeOptions(WPARAM, LPARAM);
 BOOL CheckMsgWnd(MCONTACT, BOOL *);
@@ -508,13 +516,13 @@ void StartBlinkAction(char *flashSequence, WORD eventMaxSeconds)
 
 void createProcessList(void)
 {
-	int count = db_get_w(NULL, KEYBDMODULE, "processcount", 0);
+	int count = db_get_w(NULL, MODULENAME, "processcount", 0);
 
 	ProcessList.count = 0;
 	ProcessList.szFileName = (wchar_t **)mir_alloc(count * sizeof(wchar_t *));
 	if (ProcessList.szFileName) {
 		for (int i = 0; i < count; i++)
-			ProcessList.szFileName[i] = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i));
+			ProcessList.szFileName[i] = db_get_wsa(NULL, MODULENAME, fmtDBSettingName("process%d", i));
 
 		ProcessList.count = count;
 	}
@@ -664,36 +672,36 @@ int UnhookWindowsHooks()
 
 void LoadSettings(void)
 {
-	bFlashOnMsg = db_get_b(NULL, KEYBDMODULE, "onmsg", DEF_SETTING_ONMSG);
-	bFlashOnURL = db_get_b(NULL, KEYBDMODULE, "onurl", DEF_SETTING_ONURL);
-	bFlashOnFile = db_get_b(NULL, KEYBDMODULE, "onfile", DEF_SETTING_ONFILE);
-	bFlashOnOther = db_get_b(NULL, KEYBDMODULE, "onother", DEF_SETTING_OTHER);
-	bFullScreenMode = db_get_b(NULL, KEYBDMODULE, "fscreenmode", DEF_SETTING_FSCREEN);
-	bScreenSaverRunning = db_get_b(NULL, KEYBDMODULE, "ssaverrunning", DEF_SETTING_SSAVER);
-	bWorkstationLocked = db_get_b(NULL, KEYBDMODULE, "wstationlocked", DEF_SETTING_LOCKED);
-	bProcessesAreRunning = db_get_b(NULL, KEYBDMODULE, "procsrunning", DEF_SETTING_PROCS);
-	bWorkstationActive = db_get_b(NULL, KEYBDMODULE, "wstationactive", DEF_SETTING_ACTIVE);
-	bFlashIfMsgOpen = db_get_b(NULL, KEYBDMODULE, "ifmsgopen", DEF_SETTING_IFMSGOPEN);
-	bFlashIfMsgWinNotTop = db_get_b(NULL, KEYBDMODULE, "ifmsgnottop", DEF_SETTING_IFMSGNOTTOP);
-	bFlashIfMsgOlder = db_get_b(NULL, KEYBDMODULE, "ifmsgolder", DEF_SETTING_IFMSGOLDER);
-	wSecondsOlder = db_get_w(NULL, KEYBDMODULE, "secsolder", DEF_SETTING_SECSOLDER);
-	bFlashUntil = db_get_b(NULL, KEYBDMODULE, "funtil", DEF_SETTING_FLASHUNTIL);
-	wBlinksNumber = db_get_w(NULL, KEYBDMODULE, "nblinks", DEF_SETTING_NBLINKS);
-	bMirandaOrWindows = db_get_b(NULL, KEYBDMODULE, "mirorwin", DEF_SETTING_MIRORWIN);
-	wStatusMap = db_get_w(NULL, KEYBDMODULE, "status", DEF_SETTING_STATUS);
-	wReminderCheck = db_get_w(NULL, KEYBDMODULE, "remcheck", DEF_SETTING_CHECKTIME);
-	bFlashLed[0] = db_get_b(NULL, KEYBDMODULE, "fnum", DEF_SETTING_FLASHNUM);
-	bFlashLed[1] = db_get_b(NULL, KEYBDMODULE, "fcaps", DEF_SETTING_FLASHCAPS);
-	bFlashLed[2] = db_get_b(NULL, KEYBDMODULE, "fscroll", DEF_SETTING_FLASHSCROLL);
-	bFlashEffect = db_get_b(NULL, KEYBDMODULE, "feffect", DEF_SETTING_FLASHEFFECT);
-	bSequenceOrder = db_get_b(NULL, KEYBDMODULE, "order", DEF_SETTING_SEQORDER);
-	wCustomTheme = db_get_w(NULL, KEYBDMODULE, "custom", DEF_SETTING_CUSTOMTHEME);
-	bTrillianLedsMsg = db_get_b(NULL, KEYBDMODULE, "ledsmsg", DEF_SETTING_LEDSMSG);
-	bTrillianLedsURL = db_get_b(NULL, KEYBDMODULE, "ledsurl", DEF_SETTING_LEDSURL);
-	bTrillianLedsFile = db_get_b(NULL, KEYBDMODULE, "ledsfile", DEF_SETTING_LEDSFILE);
-	bTrillianLedsOther = db_get_b(NULL, KEYBDMODULE, "ledsother", DEF_SETTING_LEDSOTHER);
-	wStartDelay = db_get_w(NULL, KEYBDMODULE, "sdelay", DEF_SETTING_STARTDELAY);
-	bFlashSpeed = db_get_b(NULL, KEYBDMODULE, "speed", DEF_SETTING_FLASHSPEED);
+	bFlashOnMsg = db_get_b(NULL, MODULENAME, "onmsg", DEF_SETTING_ONMSG);
+	bFlashOnURL = db_get_b(NULL, MODULENAME, "onurl", DEF_SETTING_ONURL);
+	bFlashOnFile = db_get_b(NULL, MODULENAME, "onfile", DEF_SETTING_ONFILE);
+	bFlashOnOther = db_get_b(NULL, MODULENAME, "onother", DEF_SETTING_OTHER);
+	bFullScreenMode = db_get_b(NULL, MODULENAME, "fscreenmode", DEF_SETTING_FSCREEN);
+	bScreenSaverRunning = db_get_b(NULL, MODULENAME, "ssaverrunning", DEF_SETTING_SSAVER);
+	bWorkstationLocked = db_get_b(NULL, MODULENAME, "wstationlocked", DEF_SETTING_LOCKED);
+	bProcessesAreRunning = db_get_b(NULL, MODULENAME, "procsrunning", DEF_SETTING_PROCS);
+	bWorkstationActive = db_get_b(NULL, MODULENAME, "wstationactive", DEF_SETTING_ACTIVE);
+	bFlashIfMsgOpen = db_get_b(NULL, MODULENAME, "ifmsgopen", DEF_SETTING_IFMSGOPEN);
+	bFlashIfMsgWinNotTop = db_get_b(NULL, MODULENAME, "ifmsgnottop", DEF_SETTING_IFMSGNOTTOP);
+	bFlashIfMsgOlder = db_get_b(NULL, MODULENAME, "ifmsgolder", DEF_SETTING_IFMSGOLDER);
+	wSecondsOlder = db_get_w(NULL, MODULENAME, "secsolder", DEF_SETTING_SECSOLDER);
+	bFlashUntil = db_get_b(NULL, MODULENAME, "funtil", DEF_SETTING_FLASHUNTIL);
+	wBlinksNumber = db_get_w(NULL, MODULENAME, "nblinks", DEF_SETTING_NBLINKS);
+	bMirandaOrWindows = db_get_b(NULL, MODULENAME, "mirorwin", DEF_SETTING_MIRORWIN);
+	wStatusMap = db_get_w(NULL, MODULENAME, "status", DEF_SETTING_STATUS);
+	wReminderCheck = db_get_w(NULL, MODULENAME, "remcheck", DEF_SETTING_CHECKTIME);
+	bFlashLed[0] = db_get_b(NULL, MODULENAME, "fnum", DEF_SETTING_FLASHNUM);
+	bFlashLed[1] = db_get_b(NULL, MODULENAME, "fcaps", DEF_SETTING_FLASHCAPS);
+	bFlashLed[2] = db_get_b(NULL, MODULENAME, "fscroll", DEF_SETTING_FLASHSCROLL);
+	bFlashEffect = db_get_b(NULL, MODULENAME, "feffect", DEF_SETTING_FLASHEFFECT);
+	bSequenceOrder = db_get_b(NULL, MODULENAME, "order", DEF_SETTING_SEQORDER);
+	wCustomTheme = db_get_w(NULL, MODULENAME, "custom", DEF_SETTING_CUSTOMTHEME);
+	bTrillianLedsMsg = db_get_b(NULL, MODULENAME, "ledsmsg", DEF_SETTING_LEDSMSG);
+	bTrillianLedsURL = db_get_b(NULL, MODULENAME, "ledsurl", DEF_SETTING_LEDSURL);
+	bTrillianLedsFile = db_get_b(NULL, MODULENAME, "ledsfile", DEF_SETTING_LEDSFILE);
+	bTrillianLedsOther = db_get_b(NULL, MODULENAME, "ledsother", DEF_SETTING_LEDSOTHER);
+	wStartDelay = db_get_w(NULL, MODULENAME, "sdelay", DEF_SETTING_STARTDELAY);
+	bFlashSpeed = db_get_b(NULL, MODULENAME, "speed", DEF_SETTING_FLASHSPEED);
 	switch (bFlashSpeed) {
 	case 0:	 nWaitDelay = 1500; break;
 	case 1:  nWaitDelay = 0750; break;
@@ -703,19 +711,19 @@ void LoadSettings(void)
 	default: nWaitDelay = 0050; break;
 	}
 	setFlashingSequence();
-	bEmulateKeypresses = db_get_b(NULL, KEYBDMODULE, "keypresses", DEF_SETTING_KEYPRESSES);
-	bOverride = db_get_b(NULL, KEYBDMODULE, "override", DEF_SETTING_OVERRIDE);
+	bEmulateKeypresses = db_get_b(NULL, MODULENAME, "keypresses", DEF_SETTING_KEYPRESSES);
+	bOverride = db_get_b(NULL, MODULENAME, "override", DEF_SETTING_OVERRIDE);
 	// Create hidden settings (for test button) if needed
-	if (db_get_b(NULL, KEYBDMODULE, "testnum", -1) == -1)
-		db_set_b(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
-	if (db_get_b(NULL, KEYBDMODULE, "testsecs", -1) == -1)
-		db_set_b(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
+	if (db_get_b(NULL, MODULENAME, "testnum", -1) == -1)
+		db_set_b(NULL, MODULENAME, "testnum", DEF_SETTING_TESTNUM);
+	if (db_get_b(NULL, MODULENAME, "testsecs", -1) == -1)
+		db_set_b(NULL, MODULENAME, "testsecs", DEF_SETTING_TESTSECS);
 	for (int i = 0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].visible) {
 			unsigned int j;
-			ProtoList.protoInfo[i].enabled = db_get_b(NULL, KEYBDMODULE, ProtoList.protoInfo[i].szProto, DEF_SETTING_PROTOCOL);
+			ProtoList.protoInfo[i].enabled = db_get_b(NULL, MODULENAME, ProtoList.protoInfo[i].szProto, DEF_SETTING_PROTOCOL);
 			for (j = 0; j < ProtoList.protoInfo[i].xstatus.count; j++)
-				ProtoList.protoInfo[i].xstatus.enabled[j] = db_get_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
+				ProtoList.protoInfo[i].xstatus.enabled[j] = db_get_b(NULL, MODULENAME, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
 		}
 
 	bMetaProtoEnabled = db_mc_isEnabled();
@@ -925,7 +933,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	GetWindowsVersion();

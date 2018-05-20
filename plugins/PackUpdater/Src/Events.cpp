@@ -31,7 +31,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.pszName = "Check for pack updates";
 	hkd.szDescription.w = LPGENW("Check for pack updates");
 	hkd.szSection.w = LPGENW("Pack Updater");
-	hkd.pszService = MODNAME"/CheckUpdates";
+	hkd.pszService = MODULENAME"/CheckUpdates";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&hkd);
 

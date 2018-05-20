@@ -115,9 +115,7 @@ BOOL  del_marked(PWumf* l);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 extern WUMF_OPTIONS WumfOptions;

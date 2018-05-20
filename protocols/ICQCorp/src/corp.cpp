@@ -26,7 +26,7 @@ char protoName[64];
 CMPlugin g_plugin;
 HNETLIBUSER hNetlibUser;
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -38,9 +38,24 @@ PLUGININFOEX pluginInfo =
 	UNICODE_AWARE
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(protoName, pluginInfoEx)
+{
+	char fileName[MAX_PATH];
+	GetModuleFileNameA(m_hInst, fileName, MAX_PATH);
+
+	WIN32_FIND_DATAA findData;
+	FindClose(FindFirstFileA(fileName, &findData));
+	findData.cFileName[strlen(findData.cFileName) - 4] = 0;
+	strncpy_s(protoName, findData.cFileName, _TRUNCATE);
+
+	Proto_RegisterModule(PROTOTYPE_PROTOCOL, protoName);
+	Proto_SetUniqueId(protoName, "UIN");
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -52,7 +67,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	CMStringA szDescr(FORMAT, "%s connection", protoName);
 	NETLIBUSER nlu = {};

@@ -26,6 +26,16 @@ char *workingDirUtf8;
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
+IconItem iconList[] =
+{
+	{ LPGEN("RTL On"), "RTL_ON", IDI_RTL_ON },
+	{ LPGEN("RTL Off"), "RTL_OFF", IDI_RTL_OFF },
+	{ LPGEN("Group On"), "GROUP_ON", IDI_GROUP_ON },
+	{ LPGEN("Group Off"), "GROUP_OFF", IDI_GROUP_OFF }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -39,24 +49,22 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x0495171b, 0x7137, 0x4ded, { 0x97, 0xf8, 0xce, 0x6f, 0xed, 0x67, 0xd6, 0x91 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(ieviewModuleName, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	Options::init();
 	return 0;
 }
-
-IconItem iconList[] =
-{
-	{ LPGEN("RTL On"), "RTL_ON", IDI_RTL_ON },
-	{ LPGEN("RTL Off"), "RTL_OFF", IDI_RTL_OFF },
-	{ LPGEN("Group On"), "GROUP_ON", IDI_GROUP_ON },
-	{ LPGEN("Group Off"), "GROUP_OFF", IDI_GROUP_OFF }
-};
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -81,6 +89,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_plugin.registerIcon(ieviewModuleName, iconList, ieviewModuleName);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

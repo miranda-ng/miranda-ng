@@ -126,9 +126,7 @@ namespace ext
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>("HistoryStats")
-	{}
+	CMPlugin();
 };
 
 #endif // HISTORYSTATS_GUARD__GLOABLS_H

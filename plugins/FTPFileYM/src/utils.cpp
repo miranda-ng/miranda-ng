@@ -47,14 +47,14 @@ int Utils::msgBoxA(char *szMsg, UINT uType)
 HICON Utils::loadIconEx(const char *szName)
 {
 	char buff[100];
-	mir_snprintf(buff, "%s_%s", MODULE, szName);
+	mir_snprintf(buff, "%s_%s", MODULENAME, szName);
 	return IcoLib_GetIcon(buff);
 }
 
 HANDLE Utils::getIconHandle(const char *szName)
 {
 	char buff[100];
-	mir_snprintf(buff, "%s_%s", MODULE, szName);
+	mir_snprintf(buff, "%s_%s", MODULENAME, szName);
 	return IcoLib_GetIconHandle(buff);
 }
 
@@ -111,7 +111,7 @@ void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl
 	if (ftp->m_bPassive)
 		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, 0);
 	else {
-		ptrA localip(db_get_sa(NULL, MODULE, "LocalIP"));
+		ptrA localip(db_get_sa(NULL, MODULENAME, "LocalIP"));
 		if (localip)
 			curl_easy_setopt(hCurl, CURLOPT_FTPPORT, localip);
 		else

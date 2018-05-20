@@ -129,9 +129,5 @@ public:
 
 struct CMPlugin : public ACCPROTOPLUGIN<MinecraftDynmapProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<MinecraftDynmapProto>("MinecraftDynmap")
-	{
-		SetUniqueId("Nick");
-	}
+	CMPlugin();
 };

@@ -116,13 +116,11 @@ typedef struct _MGLOBAL {
 #define ERROR_TITLE		TranslateT("SendScreenshot - Error")
 
 // Miranda Database Key
-#define SZ_SENDSS		"SendSS"
+#define MODULENAME		"SendSS"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(SZ_SENDSS)
-	{}
+	CMPlugin();
 };
 
 extern ATOM g_clsTargetHighlighter;

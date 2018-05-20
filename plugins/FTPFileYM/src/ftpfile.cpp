@@ -35,6 +35,8 @@ void PrebuildMainMenu();
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam);
 int UploadFile(MCONTACT hContact, int m_iFtpNum, UploadJob::EMode mode);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
@@ -49,14 +51,16 @@ static PLUGININFOEX pluginInfoEx =
 	{0x9502e511, 0x7e5d, 0x49a1, {0x8b, 0xa5, 0xb1, 0xae, 0xe7, 0xf, 0xa5, 0xbf}}
 };
 
-//------------ BASIC STAFF ------------//
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-//------------ INIT FUNCTIONS ------------//
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static IconItem iconList[] =
 {
@@ -75,7 +79,7 @@ static IconItem iconList[] =
 
 static void InitIcolib()
 {
-	g_plugin.registerIcon(LPGEN("FTP File"), iconList, MODULE);
+	g_plugin.registerIcon(LPGEN("FTP File"), iconList, MODULENAME);
 }
 
 void InitMenuItems()
@@ -103,7 +107,7 @@ void InitMenuItems()
 
 	CMStringA frmt;
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) {
-		ptrA Name(db_get_sa(NULL, MODULE, frmt.Format("Name%d", i)));
+		ptrA Name(db_get_sa(NULL, MODULENAME, frmt.Format("Name%d", i)));
 		if (Name)
 			mir_snwprintf(stzName, TranslateT("FTP Server %d"), i + 1);
 
@@ -164,7 +168,7 @@ void InitMenuItems()
 void InitHotkeys()
 {
 	HOTKEYDESC hk = {};
-	hk.szSection.a = MODULE;
+	hk.szSection.a = MODULENAME;
 	hk.szDescription.a = LPGEN("Show FTPFile manager");
 	hk.pszName = "FTP_ShowManager";
 	hk.pszService = MS_FTPFILE_SHOWMANAGER;
@@ -175,7 +179,7 @@ void InitTabsrmmButton()
 {
 	BBButton btn = {};
 	btn.dwButtonID = 1;
-	btn.pszModuleName = MODULE;
+	btn.pszModuleName = MODULENAME;
 	btn.dwDefPos = 105;
 	btn.hIcon = iconList[ServerList::FTP_COUNT].hIcolib;
 	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
@@ -217,7 +221,7 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
 
-	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) {
+	if (!strcmp(cbc->pszModule, MODULENAME) && cbc->dwButtonId == 1 && hContact) {
 		if (cbc->flags == BBCF_ARROWCLICKED) {
 			HMENU hPopupMenu = CreatePopupMenu();
 			if (hPopupMenu) {
@@ -341,7 +345,7 @@ INT_PTR MainMenuService(WPARAM wParam, LPARAM)
 
 //------------ START & EXIT STUFF ------------//
 
-int ModulesLoaded(WPARAM, LPARAM)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitMenuItems();
 	InitTabsrmmButton();
@@ -354,7 +358,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int Shutdown(WPARAM, LPARAM)
+static int Shutdown(WPARAM, LPARAM)
 {
 	deleteTimer.deinit();
 
@@ -401,6 +405,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	ftpList.init();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

@@ -156,7 +156,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		acs = new AddDialogParam();
 		SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)acs);
 
-		Utils_RestoreWindowPositionNoSize(hdlg, NULL, "AddContact", "");
+		Utils_RestoreWindowPositionNoSize(hdlg, NULL, MODULENAME, "");
 		TranslateDialogDefault(hdlg);
 		Window_SetIcon_IcoLib(hdlg, IcoLib_GetIconHandle(ICON_ADD));
 
@@ -172,7 +172,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, 0, 0);
 		{
-			ptrA szProto(db_get_sa(NULL, "AddContact", "LastProto"));
+			ptrA szProto(db_get_sa(NULL, MODULENAME, "LastProto"));
 			if (szProto)
 				acs->proto = szProto;
 		}
@@ -317,7 +317,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		Window_FreeIcon_IcoLib(hdlg);
 		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_GETIMAGELIST, 0, 0));
 		if (acs) {
-			db_set_s(NULL, "AddContact", "LastProto", acs->proto);
+			db_set_s(NULL, MODULENAME, "LastProto", acs->proto);
 			if (acs->psr) {
 				mir_free(acs->psr->nick.w);
 				mir_free(acs->psr->firstName.w);
@@ -327,7 +327,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 			}
 			delete acs;
 		}
-		Utils_SaveWindowPosition(hdlg, NULL, "AddContact", "");
+		Utils_SaveWindowPosition(hdlg, NULL, MODULENAME, "");
 		break;
 	}
 

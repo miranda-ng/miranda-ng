@@ -33,7 +33,9 @@ int &hLangpack(g_plugin.m_hLang);
 
 static LIST<CSWindow> arWindows(3, HandleKeySortT);
 
-PLUGININFOEX pluginInfoEx =
+//====[ PLUGIN INFO ]========================================================
+
+static PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -47,14 +49,16 @@ PLUGININFOEX pluginInfoEx =
 	{ 0xc8cc7414, 0x6507, 0x4af6, { 0x92, 0x5a, 0x83, 0xc1, 0xd2, 0xf7, 0xbe, 0x8c } }
 };
 
-// ====[ PLUGIN INFO ]========================================================
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODNAME, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-// ====[ LOADER ]=============================================================
+//====[ LOADER ]=============================================================
 
 static int OnDbChanged(WPARAM hContact, LPARAM lparam)
 {
@@ -139,14 +143,14 @@ extern "C" __declspec(dllexport) int Load()
 	return 0;
 }
 
-// ====[ UNLOADER ]===========================================================
+//====[ UNLOADER ]===========================================================
 
 extern "C" __declspec(dllexport) int Unload()
 {
 	return 0;
 }
 
-// ====[ FUN ]================================================================
+//====[ FUN ]================================================================
 
 void RegisterHotkeys(char buf[200], wchar_t* accName, int Number)
 {
@@ -671,7 +675,7 @@ void CSListView::setFullFocusedSelection(int selection)
 	SetFocus(m_handle);
 }
 
-// ====[ LIST MANAGEMENT ]====================================================
+//====[ LIST MANAGEMENT ]====================================================
 
 CSItemsList::CSItemsList(char *protoName)
 {
@@ -791,7 +795,7 @@ void CSItemsList::saveItems(char *protoName)
 }
 
 
-// ====[ PROCEDURES ]=========================================================
+//====[ PROCEDURES ]=========================================================
 
 INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {

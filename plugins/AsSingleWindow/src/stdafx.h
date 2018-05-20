@@ -25,7 +25,5 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(SETTINGSNAME)
-	{}
+	CMPlugin();
 };

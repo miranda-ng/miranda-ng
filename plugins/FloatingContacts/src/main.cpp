@@ -18,6 +18,7 @@ No warranty for any misbehaviour.
 
 #include "../../utils/mir_fonts.h"
 
+/////////////////////////////////////////////////////////////////////////////
 // Globals
 
 // TODO: move to some more approriate place, probably part of Thumbs manager
@@ -66,7 +67,33 @@ CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
-//Options
+/////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {53C715A8-EB01-4136-A73C-441868610074}
+	{0x53c715a8, 0xeb01, 0x4136, {0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74}}
+};
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULE, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Options
 
 FCOptions fcOpt = { 0 };
 
@@ -86,25 +113,6 @@ static void InitOptions()
 	fcOpt.bHideWhenCListShow = FALSE;
 	fcOpt.bUseSingleClick = FALSE;
 	fcOpt.bShowIdle = TRUE;
-}
-
-PLUGININFOEX pluginInfoEx =
-{
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {53C715A8-EB01-4136-A73C-441868610074}
-	{ 0x53c715a8, 0xeb01, 0x4136, { 0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74 } }
-};
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////

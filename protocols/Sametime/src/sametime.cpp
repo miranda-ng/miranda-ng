@@ -6,7 +6,7 @@
 
 int &hLangpack(g_plugin.m_hLang);
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -20,9 +20,15 @@ PLUGININFOEX pluginInfo =
 	{ 0xf1b0ba1b, 0xc91, 0x4313, { 0x85, 0xeb, 0x22, 0x50, 0x69, 0xd4, 0x4d, 0x1 } } 
 };
 
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CSametimeProto>("Sametime", pluginInfoEx)
+{
+	SetUniqueId("stid");
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -232,7 +238,7 @@ void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	return 0;
 }
 

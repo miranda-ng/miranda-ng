@@ -108,53 +108,53 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 	switch (id) {
 	case IDOK:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
-		mir_strcpy(pa.lpzTitle, MODNAME"/Ok");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/Ok");
 		break;
 
 	case IDCLOSE:
 	case IDCANCEL:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-		mir_strcpy(pa.lpzTitle, MODNAME"/Cancel");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/Cancel");
 		break;
 
 	case IDABORT:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-		mir_strcpy(pa.lpzTitle, MODNAME"/Abort");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/Abort");
 		break;
 
 	case IDRETRY:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
-		mir_strcpy(pa.lpzTitle, MODNAME"/Retry");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/Retry");
 		break;
 
 	case IDIGNORE:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
-		mir_strcpy(pa.lpzTitle, MODNAME"/Ignore");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/Ignore");
 		break;
 
 	case IDYES:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
-		mir_strcpy(pa.lpzTitle, MODNAME"/Yes");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/Yes");
 		break;
 
 	case IDNO:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-		mir_strcpy(pa.lpzTitle, MODNAME"/No");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/No");
 		break;
 
 	case IDHELP:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-		mir_strcpy(pa.lpzTitle, MODNAME"/Help");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/Help");
 		break;
 
 	case IDALL:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
-		mir_strcpy(pa.lpzTitle, MODNAME"/All");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/All");
 		break;
 
 	case IDNONE:
 		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-		mir_strcpy(pa.lpzTitle, MODNAME"/None");
+		mir_strcpy(pa.lpzTitle, MODULENAME"/None");
 	}
 }
 
@@ -645,7 +645,7 @@ INT_PTR MsgBoxService(WPARAM, LPARAM lParam)
 			&& ServiceExists(MS_POPUP_ADDPOPUPT)						// popups exist?
 			&& myGlobals.PopupActionsExist == 1							// popup support ext stuct?
 			&& (db_get_dw(NULL, "Popup", "Actions", 0) & 1)				// popup++ actions on?
-			&& db_get_b(NULL, MODNAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
+			&& db_get_b(NULL, MODULENAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
 			return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
 
 		return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);
@@ -687,7 +687,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 {
 	wchar_t tszTitle[MAX_SECONDLINE], tszMsg[MAX_SECONDLINE];
-	mir_snwprintf(tszTitle, L"%s - %s", _T(MODNAME), TranslateT("Error"));
+	mir_snwprintf(tszTitle, L"%s - %s", _T(MODULENAME), TranslateT("Error"));
 
 	va_list vl;
 	va_start(vl, pszFormat);

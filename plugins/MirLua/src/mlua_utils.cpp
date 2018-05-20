@@ -44,16 +44,16 @@ void ObsoleteMethod(lua_State *L, const char *message)
 	char text[512];
 	mir_snprintf(text, "%s is obsolete. %s", ar.name, message);
 	Log(text);
-	if (db_get_b(NULL, MODULE, "PopupOnObsolete", 0))
-		ShowNotification(MODULE, text, MB_OK | MB_ICONWARNING, NULL);
+	if (db_get_b(NULL, MODULENAME, "PopupOnObsolete", 0))
+		ShowNotification(MODULENAME, text, MB_OK | MB_ICONWARNING, NULL);
 }
 
 void ReportError(lua_State *L)
 {
 	const char *message = lua_tostring(L, -1);
 	Log(message);
-	if (db_get_b(NULL, MODULE, "PopupOnError", 0))
-		ShowNotification(MODULE, message, MB_OK | MB_ICONERROR);
+	if (db_get_b(NULL, MODULENAME, "PopupOnError", 0))
+		ShowNotification(MODULENAME, message, MB_OK | MB_ICONERROR);
 }
 
 int luaM_atpanic(lua_State *L)

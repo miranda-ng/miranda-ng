@@ -129,9 +129,7 @@ typedef struct {
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(LINKLIST_MODULE)
-	{}
+	CMPlugin();
 };
 
 #define _mstrlen(x) (_countof(x) - 1)
@@ -153,8 +151,6 @@ typedef struct {
 } DIALOGPARAM;
 
 
-static INT_PTR LinkList_Main(WPARAM, LPARAM);
-int InitOptionsDlg(WPARAM, LPARAM);
 int DBUpdate(WPARAM, LPARAM);
 int ExtractURI(DBEVENTINFO*, MEVENT, LISTELEMENT*);
 int RemoveList(LISTELEMENT*);

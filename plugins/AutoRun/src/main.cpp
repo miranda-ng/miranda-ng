@@ -4,6 +4,8 @@ CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 HKEY ROOT_KEY = HKEY_CURRENT_USER;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -16,6 +18,17 @@ PLUGININFOEX pluginInfoEx = {
 	// {EB0465E2-CEEE-11DB-83EF-C1BF55D89593}
 	{0xeb0465e2, 0xceee, 0x11db, {0x83, 0xef, 0xc1, 0xbf, 0x55, 0xd8, 0x95, 0x93}}
 };
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void GetProfilePath(wchar_t *res, size_t resLen)
 {
@@ -99,17 +112,12 @@ static int AutorunOptInitialise(WPARAM wParam, LPARAM)
 	odp.position = 100100000;
 	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTORUN);
-	odp.szTitle.a = ModuleName;
+	odp.szTitle.a = MODULENAME;
 	odp.szGroup.a = LPGEN("Services");
 	odp.pfnDlgProc = DlgProcAutorunOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
 }
 
 extern "C" __declspec(dllexport) int Load(void)
@@ -118,6 +126,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, AutorunOptInitialise);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

@@ -1,9 +1,11 @@
 #include "stdafx.h"
 
+extern PLUGININFOEX pluginInfoEx;
+
 int hMLuaLangpack;
 
 CMLua::CMLua()
-	: PLUGIN(MODULE),
+	: PLUGIN(MODULENAME, pluginInfoEx),
 	L(nullptr),
 	Scripts(1)
 {

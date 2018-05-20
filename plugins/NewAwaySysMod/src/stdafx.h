@@ -141,11 +141,11 @@
 
 #define STR_XSTATUSDESC TranslateT("extended status")
 
-#define MOD_NAME "NewAwaySys"
+#define MODULENAME "NewAwaySys"
 #define MOD_NAMEW L"NewAwaySys"
 
-#define LOG_ID MOD_NAME // LogService log ID
-#define LOG_PREFIX MOD_NAME ": " // netlib.log prefix for all NAS' messages
+#define LOG_ID MODULENAME // LogService log ID
+#define LOG_PREFIX MODULENAME ": " // netlib.log prefix for all NAS' messages
 
 #define DB_SETTINGSVER "SettingsVer"
 
@@ -223,9 +223,7 @@ int ICQStatusToGeneralStatus(int bICQStat); // TODO: get rid of these protocol-s
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MOD_NAME)
-	{}
+	CMPlugin();
 };
 
 struct SetAwayMsgData

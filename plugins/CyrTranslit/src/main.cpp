@@ -22,6 +22,8 @@
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -34,15 +36,16 @@ PLUGININFOEX pluginInfoEx={
 	{0xbcec0bd7, 0xca59, 0x44b2, {0x9a, 0x14, 0x3a, 0x14, 0x98, 0x0f, 0x52, 0x4a}}
 };
 
-//------------------------------------------------------------------------------
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>("CyrTranslit", pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-
-//------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -54,7 +57,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-//------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

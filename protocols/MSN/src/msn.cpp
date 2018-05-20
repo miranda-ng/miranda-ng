@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include "version.h"
 
+CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 int &hLangpack(g_plugin.m_hLang);
 
@@ -39,7 +40,9 @@ void MsnLinks_Destroy(void);
 bool g_bTerminated = false;
 int avsPresent = -1;
 
-static const PLUGININFOEX pluginInfo =
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static const PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -53,19 +56,22 @@ static const PLUGININFOEX pluginInfo =
 	{0x97724af9, 0xf3fb, 0x47d3, {0xa3, 0xbf, 0xea, 0xa9, 0x35, 0xc7, 0x4e, 0x6d}}
 };
 
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CMsnProto>("MSN", pluginInfoEx)
+{
+	::DisableThreadLibraryCalls(m_hInst);
+	SetUniqueId("wlid");
+}
+
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	OnModulesLoaded - finalizes plugin's configuration on load
@@ -83,7 +89,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

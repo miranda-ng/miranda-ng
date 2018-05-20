@@ -51,13 +51,11 @@ Boston, MA 02111-1307, USA.
 #include "options.h"
 #include "version.h"
 
-#define MODULE_NAME "QuickContacts"
+#define MODULENAME "QuickContacts"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE_NAME)
-	{}
+	CMPlugin();
 };
 
 //add a new hotkey so it has a default and can be changed in the options dialog

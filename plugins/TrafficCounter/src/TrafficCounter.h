@@ -26,7 +26,7 @@ int TrafficSend(WPARAM wParam,LPARAM lParam);
 //---------------------------------------------------------------------------------------------
 // Имена параметров с настройками в базе
 //---------------------------------------------------------------------------------------------
-#define TRAFFIC_SETTINGS_GROUP "TrafficCounter"
+#define MODULENAME "TrafficCounter"
 
 #define SETTINGS_COUNTER_FORMAT "CounterFormat"
 #define SETTINGS_TOOLTIP_FORMAT "TooltipFormat"

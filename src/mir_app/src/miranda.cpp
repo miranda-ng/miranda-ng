@@ -59,6 +59,24 @@ int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static PLUGININFOEX pluginInfoEx = {
+	sizeof(PLUGININFOEX),
+	"Miranda NG",
+	MIRANDA_VERSION_DWORD,
+	"",
+	"Miranda NG team",
+	LEGAL_COPYRIGHT,
+	"https://miranda-ng.org",
+	UNICODE_AWARE,
+	MIID_LAST
+};
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
+{}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct MWaitableObject
 {
 	MWaitableObject(MWaitableStub pFunc, HANDLE hEvent) :

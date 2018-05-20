@@ -28,7 +28,7 @@ void populateContacts(MCONTACT BPhContact, HWND hwnd2CB)
 void saveLastSetting(MCONTACT hContact, HWND hwnd)
 {
 	wchar_t number[8];//, string[1024];//for sending file name
-	switch (db_get_b(hContact, modname, "LastSetting", 2)) { // nothing to do
+	switch (db_get_b(hContact, MODULENAME, "LastSetting", 2)) { // nothing to do
 	case 0: // Send If My Status Is...
 		break;
 	case 1: // Send If They Change status to
@@ -38,18 +38,18 @@ void saveLastSetting(MCONTACT hContact, HWND hwnd)
 		break;
 	case 3: // Reuse Pounce
 		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, _countof(number));
-		db_set_b(hContact, modname, "Reuse", (BYTE)_wtoi(number));
+		db_set_b(hContact, MODULENAME, "Reuse", (BYTE)_wtoi(number));
 		break;
 	case 4: // Give Up delay
 		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, _countof(number));
-		db_set_b(hContact, modname, "GiveUpDays", (BYTE)_wtoi(number));
+		db_set_b(hContact, MODULENAME, "GiveUpDays", (BYTE)_wtoi(number));
 		{
-			db_set_dw(hContact, modname, "GiveUpDate", (DWORD)(_wtoi(number)*SECONDSINADAY));
+			db_set_dw(hContact, MODULENAME, "GiveUpDate", (DWORD)(_wtoi(number)*SECONDSINADAY));
 		}
 		break;
 	case 5:	// confirm window
 		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, _countof(number));
-		db_set_w(hContact, modname, "ConfirmTimeout", (WORD)_wtoi(number));
+		db_set_w(hContact, MODULENAME, "ConfirmTimeout", (WORD)_wtoi(number));
 		break;
 	}
 }
@@ -65,11 +65,11 @@ void hideAll(HWND hwnd)
 void getDefaultMessage(HWND hwnd, UINT control, MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	if (!db_get_ws(hContact, modname, "PounceMsg", &dbv)) {
+	if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv)) {
 		SetDlgItemText(hwnd, control, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else if (!db_get_ws(NULL, modname, "PounceMsg", &dbv)) {
+	else if (!db_get_ws(NULL, MODULENAME, "PounceMsg", &dbv)) {
 		SetDlgItemText(hwnd, control, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -104,12 +104,12 @@ INT_PTR CALLBACK StatusModesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 			if (!mir_wstrcmp(type, L"Any")) {
 				if (LOWORD(wParam) == IDOK)
-					db_set_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", flag);
+					db_set_w(wi->hContact, MODULENAME, "SendIfMyStatusIsFLAG", flag);
 				wi->SendIfMy = nullptr;
 			}
 			else {
 				if (LOWORD(wParam) == IDOK)
-					db_set_w(wi->hContact, modname, "SendIfTheirStatusIsFLAG", flag);
+					db_set_w(wi->hContact, MODULENAME, "SendIfTheirStatusIsFLAG", flag);
 				wi->SendWhenThey = nullptr;
 			}
 			DestroyWindow(hwnd);
@@ -130,7 +130,7 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 		}
 		else {
 			hwnd = wi->SendIfMy = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_STATUSMODES), nullptr, StatusModesDlgProc, (LPARAM)wi);
-			statusFlag = db_get_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", 0);
+			statusFlag = db_get_w(wi->hContact, MODULENAME, "SendIfMyStatusIsFLAG", 0);
 			SetWindowText(hwnd, TranslateT("Send If My Status Is"));
 			SetDlgItemText(hwnd, IDC_CHECK1, TranslateT("Any"));
 			SetDlgItemText(hwnd, IDC_CHECK2, TranslateT("Online"));
@@ -151,7 +151,7 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 		}
 		else {
 			hwnd = wi->SendWhenThey = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_STATUSMODES), nullptr, StatusModesDlgProc, (LPARAM)wi);
-			statusFlag = db_get_w(wi->hContact, modname, "SendIfTheirStatusIsFLAG", 0);
+			statusFlag = db_get_w(wi->hContact, MODULENAME, "SendIfTheirStatusIsFLAG", 0);
 			SetWindowText(hwnd, TranslateT("Send If Their Status changes"));
 			SetDlgItemText(hwnd, IDC_CHECK1, TranslateT("From Offline"));
 			SetDlgItemText(hwnd, IDC_CHECK2, TranslateT("To Online"));
@@ -179,14 +179,14 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 
 void deletePounce(MCONTACT hContact)
 {
-	db_unset(hContact, modname, "PounceMsg");
-	db_unset(hContact, modname, "SendIfMyStatusIsFLAG");
-	db_unset(hContact, modname, "SendIfTheirStatusIsFLAG");
-	db_unset(hContact, modname, "Reuse");
-	db_unset(hContact, modname, "GiveUpDays");
-	db_unset(hContact, modname, "GiveUpDate");
-	db_unset(hContact, modname, "ConfirmTimeout");
-	db_unset(hContact, modname, "FileToSend");
+	db_unset(hContact, MODULENAME, "PounceMsg");
+	db_unset(hContact, MODULENAME, "SendIfMyStatusIsFLAG");
+	db_unset(hContact, MODULENAME, "SendIfTheirStatusIsFLAG");
+	db_unset(hContact, MODULENAME, "Reuse");
+	db_unset(hContact, MODULENAME, "GiveUpDays");
+	db_unset(hContact, MODULENAME, "GiveUpDate");
+	db_unset(hContact, MODULENAME, "ConfirmTimeout");
+	db_unset(hContact, MODULENAME, "FileToSend");
 }
 
 INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -224,9 +224,9 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			if (length > 1) {
 				wchar_t *text = (wchar_t*)_alloca(length * sizeof(wchar_t));
 				GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-				db_set_ws(hContact, modname, "PounceMsg", text);
+				db_set_ws(hContact, MODULENAME, "PounceMsg", text);
 			}
-			else db_unset(hContact, modname, "PounceMsg");
+			else db_unset(hContact, MODULENAME, "PounceMsg");
 		}
 		// fall through
 		case IDCANCEL:
@@ -264,7 +264,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 		populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
 		populateContacts(wi->hContact, GetDlgItem(hwnd, IDC_CONTACTS));
 		SendDlgItemMessage(hwnd, IDC_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((short)1024, (short)0));
-		db_set_b(wi->hContact, modname, "LastSetting", 0);
+		db_set_b(wi->hContact, MODULENAME, "LastSetting", 0);
 		return FALSE;
 
 	case WM_COMMAND:
@@ -289,10 +289,10 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 					break;
 				}
 				GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-				db_set_ws(hContact, modname, "PounceMsg", text);
+				db_set_ws(hContact, MODULENAME, "PounceMsg", text);
 				mir_free(text);
 			}
-			else db_unset(hContact, modname, "PounceMsg");
+			else db_unset(hContact, MODULENAME, "PounceMsg");
 			saveLastSetting(hContact, hwnd);
 		} // fall through
 		if (LOWORD(wParam) == IDC_SIMPLE)
@@ -318,12 +318,12 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 			mir_snwprintf(msg, TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
 			SetDlgItemText(hwnd, GRP_MSG, msg);
 
-			db_set_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfMyStatusIsFLAG", 0));
-			db_set_w(wi->hContact, modname, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfTheirStatusIsFLAG", 0));
-			db_set_b(wi->hContact, modname, "Reuse", (BYTE)db_get_b(NULL, modname, "Reuse", 0));
-			db_set_b(wi->hContact, modname, "GiveUpDays", (BYTE)db_get_b(NULL, modname, "GiveUpDays", 0));
-			db_set_dw(wi->hContact, modname, "GiveUpDate", (DWORD)db_get_dw(NULL, modname, "GiveUpDate", 0));
-			db_set_w(wi->hContact, modname, "ConfirmTimeout", (WORD)db_get_w(NULL, modname, "ConfirmTimeout", 0));
+			db_set_w(wi->hContact, MODULENAME, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, MODULENAME, "SendIfMyStatusIsFLAG", 0));
+			db_set_w(wi->hContact, MODULENAME, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, MODULENAME, "SendIfTheirStatusIsFLAG", 0));
+			db_set_b(wi->hContact, MODULENAME, "Reuse", (BYTE)db_get_b(NULL, MODULENAME, "Reuse", 0));
+			db_set_b(wi->hContact, MODULENAME, "GiveUpDays", (BYTE)db_get_b(NULL, MODULENAME, "GiveUpDays", 0));
+			db_set_dw(wi->hContact, MODULENAME, "GiveUpDate", (DWORD)db_get_dw(NULL, MODULENAME, "GiveUpDate", 0));
+			db_set_w(wi->hContact, MODULENAME, "ConfirmTimeout", (WORD)db_get_w(NULL, MODULENAME, "ConfirmTimeout", 0));
 			break;
 
 		case IDC_SETTINGS:
@@ -344,7 +344,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Reuse this message? (0 to use it once)"));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_SHOW);
 					SetDlgItemText(hwnd, IDC_SETTINGMSG2, TranslateT("Times"));
-					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_b(wi->hContact, modname, "Reuse", 0), temp, 10));
+					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_b(wi->hContact, MODULENAME, "Reuse", 0), temp, 10));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGNUMBER), SW_SHOW);
 					ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_SHOW);
 					break;
@@ -353,7 +353,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Give up after... (0 to not give up)"));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_SHOW);
 					SetDlgItemText(hwnd, IDC_SETTINGMSG2, TranslateT("Days"));
-					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_b(wi->hContact, modname, "GiveUpDays", 0), temp, 10));
+					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_b(wi->hContact, MODULENAME, "GiveUpDays", 0), temp, 10));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGNUMBER), SW_SHOW);
 					ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_SHOW);
 					break;
@@ -362,12 +362,12 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Show confirmation window? (0 to not Show)"));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_SHOW);
 					SetDlgItemText(hwnd, IDC_SETTINGMSG2, TranslateT("Seconds to wait before sending"));
-					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_w(wi->hContact, modname, "ConfirmTimeout", 0), temp, 10));
+					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_w(wi->hContact, MODULENAME, "ConfirmTimeout", 0), temp, 10));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGNUMBER), SW_SHOW);
 					ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_SHOW);
 					break;
 				}
-				db_set_b(wi->hContact, modname, "LastSetting", (BYTE)item);
+				db_set_b(wi->hContact, MODULENAME, "LastSetting", (BYTE)item);
 			}
 		}
 		break;
@@ -394,9 +394,9 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			SetDlgItemText(hwnd, GRP_MSG, msg);
 			populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
 			SendDlgItemMessage(hwnd, IDC_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((short)1024, (short)0));
-			CheckDlgButton(hwnd, IDC_USEADVANCED, db_get_b(NULL, modname, "UseAdvanced", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwnd, IDC_SHOWDELIVERYMSGS, db_get_b(NULL, modname, "ShowDeliveryMessages", 1) ? BST_CHECKED : BST_UNCHECKED);
-			db_set_b(wi->hContact, modname, "LastSetting", 0);
+			CheckDlgButton(hwnd, IDC_USEADVANCED, db_get_b(NULL, MODULENAME, "UseAdvanced", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_SHOWDELIVERYMSGS, db_get_b(NULL, MODULENAME, "ShowDeliveryMessages", 1) ? BST_CHECKED : BST_UNCHECKED);
+			db_set_b(wi->hContact, MODULENAME, "LastSetting", 0);
 		}
 		return FALSE;
 
@@ -415,12 +415,12 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 						break;
 					}
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-					db_set_ws(hContact, modname, "PounceMsg", text);
+					db_set_ws(hContact, MODULENAME, "PounceMsg", text);
 					mir_free(text);
 				}
-				else db_unset(hContact, modname, "PounceMsg");
-				db_set_b(NULL, modname, "UseAdvanced", (BYTE)IsDlgButtonChecked(hwnd, IDC_USEADVANCED));
-				db_set_b(NULL, modname, "ShowDeliveryMessages", (BYTE)IsDlgButtonChecked(hwnd, IDC_SHOWDELIVERYMSGS));
+				else db_unset(hContact, MODULENAME, "PounceMsg");
+				db_set_b(NULL, MODULENAME, "UseAdvanced", (BYTE)IsDlgButtonChecked(hwnd, IDC_USEADVANCED));
+				db_set_b(NULL, MODULENAME, "ShowDeliveryMessages", (BYTE)IsDlgButtonChecked(hwnd, IDC_SHOWDELIVERYMSGS));
 
 				if (wi->SendIfMy) DestroyWindow(wi->SendIfMy);
 				if (wi->SendWhenThey) DestroyWindow(wi->SendWhenThey);
@@ -464,7 +464,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Reuse this message? (0 to use it once)"));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_SHOW);
 					SetDlgItemText(hwnd, IDC_SETTINGMSG2, TranslateT("Times"));
-					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_b(wi->hContact, modname, "Reuse", 0), temp, 10));
+					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_b(wi->hContact, MODULENAME, "Reuse", 0), temp, 10));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGNUMBER), SW_SHOW);
 					ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_SHOW);
 					break;
@@ -473,7 +473,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Give up after... (0 to not give up)"));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_SHOW);
 					SetDlgItemText(hwnd, IDC_SETTINGMSG2, TranslateT("Days"));
-					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_b(wi->hContact, modname, "GiveUpDays", 0), temp, 10));
+					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_b(wi->hContact, MODULENAME, "GiveUpDays", 0), temp, 10));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGNUMBER), SW_SHOW);
 					ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_SHOW);
 					break;
@@ -482,12 +482,12 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Show confirmation window? (0 to not Show)"));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_SHOW);
 					SetDlgItemText(hwnd, IDC_SETTINGMSG2, TranslateT("Seconds to wait before sending"));
-					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_w(wi->hContact, modname, "ConfirmTimeout", 0), temp, 10));
+					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itow(db_get_w(wi->hContact, MODULENAME, "ConfirmTimeout", 0), temp, 10));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGNUMBER), SW_SHOW);
 					ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_SHOW);
 					break;
 				}
-				db_set_b(wi->hContact, modname, "LastSetting", (BYTE)item);
+				db_set_b(wi->hContact, MODULENAME, "LastSetting", (BYTE)item);
 			}
 		}
 		break;
@@ -506,11 +506,11 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		if (!spdps)
 			DestroyWindow(hwnd);
 
-		spdps->timer = db_get_w(spdps->hContact, modname, "ConfirmTimeout", 0);
+		spdps->timer = db_get_w(spdps->hContact, MODULENAME, "ConfirmTimeout", 0);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)spdps);
 		{
 			DBVARIANT dbv;
-			if (db_get_ws(spdps->hContact, modname, "PounceMsg", &dbv))
+			if (db_get_ws(spdps->hContact, MODULENAME, "PounceMsg", &dbv))
 				DestroyWindow(hwnd);
 			else {
 				SetDlgItemText(hwnd, IDC_MESSAGE, dbv.ptszVal);
@@ -567,7 +567,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		hContact = lParam;
 		{
 			DBVARIANT dbv;
-			if (db_get_ws(hContact, modname, "PounceMsg", &dbv))
+			if (db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv))
 				DestroyWindow(hwnd);
 			else {
 				SetDlgItemText(hwnd, IDC_MESSAGE, dbv.ptszVal);

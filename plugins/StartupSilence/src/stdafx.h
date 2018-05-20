@@ -29,13 +29,11 @@ void DefSettings();
 void UpdateMenu();
 void UpdateTTB();
 
-#define MODULE_NAME "StartupSilence"
+#define MODULENAME "StartupSilence"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE_NAME)
-	{}
+	CMPlugin();
 };
 
 #define SS_SERVICE_NAME "StartupSilence/ToggleEnabled"

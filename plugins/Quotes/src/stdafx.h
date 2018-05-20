@@ -118,10 +118,5 @@ inline tstring quotes_a2t(const char* s)
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(QUOTES_PROTOCOL_NAME)
-	{
-		RegisterProtocol(PROTOTYPE_VIRTUAL);
-		SetUniqueId(DB_STR_QUOTE_SYMBOL);
-	}
+	CMPlugin();
 };

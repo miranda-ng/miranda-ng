@@ -21,7 +21,7 @@
 
 void FirstRun()
 {
-	if (!db_get_b(NULL, szGPGModuleName, "FirstRun", 1))
+	if (!db_get_b(NULL, MODULENAME, "FirstRun", 1))
 		return;
 	CDlgGpgBinOpts *d = new CDlgGpgBinOpts;
 	d->Show();
@@ -31,13 +31,13 @@ void InitCheck()
 {
 	{
 		// parse gpg output
-		wchar_t *current_home = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
-		db_set_ws(NULL, szGPGModuleName, "szHomePath", L""); //we do not need home for gpg binary validation
+		wchar_t *current_home = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+		db_set_ws(NULL, MODULENAME, "szHomePath", L""); //we do not need home for gpg binary validation
 		globals.gpg_valid = isGPGValid();
-		db_set_ws(NULL, szGPGModuleName, "szHomePath", current_home); //return current home dir back
+		db_set_ws(NULL, MODULENAME, "szHomePath", current_home); //return current home dir back
 		mir_free(current_home);
 		bool home_dir_access = false, temp_access = false;
-		wchar_t *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+		wchar_t *home_dir = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
 		std::wstring test_path = home_dir;
 		mir_free(home_dir);
 		test_path += L"/";
@@ -92,7 +92,7 @@ void InitCheck()
 			if (result == pxNotFound)
 				return;
 		}
-		home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+		home_dir = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
 		wstring tmp_dir = home_dir;
 		mir_free(home_dir);
 		tmp_dir += L"\\tmp";
@@ -110,11 +110,11 @@ void InitCheck()
 			acc += pa->szModuleName;
 			acc += ")";
 			acc += "_KeyID";
-			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc.c_str(), "");
+			keyid = UniGetContactSettingUtf(NULL, MODULENAME, acc.c_str(), "");
 			if (keyid[0]) {
 				question = Translate("Your secret key with ID: ");
 				mir_free(keyid);
-				keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
+				keyid = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", "");
 				if ((p = out.find(keyid)) == string::npos) {
 					question += keyid;
 					question += Translate(" for account ");
@@ -176,9 +176,9 @@ void InitCheck()
 			}
 		}
 		question = Translate("Your secret key with ID: ");
-		keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-		char *key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
-		if (!db_get_b(NULL, szGPGModuleName, "FirstRun", 1) && (!keyid[0] || !key[0])) {
+		keyid = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", "");
+		char *key = UniGetContactSettingUtf(NULL, MODULENAME, "GPGPubKey", "");
+		if (!db_get_b(NULL, MODULENAME, "FirstRun", 1) && (!keyid[0] || !key[0])) {
 			question = Translate("You didn't set a private key.\nWould you like to set it now?");
 			if (MessageBoxA(nullptr, question.c_str(), Translate("Own private key warning"), MB_YESNO) == IDYES)
 			{
@@ -241,7 +241,7 @@ void InitCheck()
 		mir_free(key);
 	}
 	{
-		wchar_t *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+		wchar_t *path = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
 		DWORD dwFileAttr = GetFileAttributes(path);
 		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
@@ -285,27 +285,27 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			for (int i = 0; i < count; i++) {
 				MCONTACT hcnt = db_mc_getSub(hContact, i);
 				if (hcnt)
-					db_set_ws(hcnt, szGPGModuleName, "GPGPubKey", new_key.c_str());
+					db_set_ws(hcnt, MODULENAME, "GPGPubKey", new_key.c_str());
 			}
 		}
-		else db_set_ws(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", new_key.c_str());
+		else db_set_ws(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", new_key.c_str());
 	}
-	else db_set_ws(hContact, szGPGModuleName, "GPGPubKey", new_key.c_str());
+	else db_set_ws(hContact, MODULENAME, "GPGPubKey", new_key.c_str());
 
 	// gpg execute block
 	std::vector<wstring> cmd;
 	wchar_t tmp2[MAX_PATH] = { 0 };
 	{
-		wcsncpy(tmp2, ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"")), MAX_PATH - 1);
+		wcsncpy(tmp2, ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"")), MAX_PATH - 1);
 		mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
 		mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
 		boost::filesystem::remove(tmp2);
 
 		ptrW ptmp;
 		if (db_mc_isMeta(hContact))
-			ptmp = UniGetContactSettingUtf(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", L"");
+			ptmp = UniGetContactSettingUtf(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", L"");
 		else
-			ptmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", L"");
+			ptmp = UniGetContactSettingUtf(hContact, MODULENAME, "GPGPubKey", L"");
 
 		wfstream f(tmp2, std::ios::out);
 		f << ptmp.get();
@@ -336,7 +336,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					char *tmp = nullptr;
 					string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					string::size_type s2 = output.find(":", s);
-					db_set_s(hcnt, szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
+					db_set_s(hcnt, MODULENAME, "KeyID", output.substr(s, s2 - s).c_str());
 					s = output.find("вЂњ", s2);
 					if (s == string::npos) {
 						s = output.find("\"", s2);
@@ -357,7 +357,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 						tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 						mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
 						mir_utf8decode(tmp, nullptr);
-						db_set_s(hcnt, szGPGModuleName, "KeyMainName", tmp);
+						db_set_s(hcnt, MODULENAME, "KeyMainName", tmp);
 						mir_free(tmp);
 					}
 
@@ -371,7 +371,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 							mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 							mir_utf8decode(tmp, nullptr);
-							db_set_s(hcnt, szGPGModuleName, "KeyComment", tmp);
+							db_set_s(hcnt, MODULENAME, "KeyComment", tmp);
 							mir_free(tmp);
 							s += 3;
 							s2 = output.find(">", s);
@@ -379,7 +379,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 								tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 								mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
 								mir_utf8decode(tmp, nullptr);
-								db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", tmp);
+								db_set_s(hcnt, MODULENAME, "KeyMainEmail", tmp);
 								mir_free(tmp);
 							}
 						}
@@ -387,11 +387,11 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 							mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 							mir_utf8decode(tmp, nullptr);
-							db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+							db_set_s(hcnt, MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 							mir_free(tmp);
 						}
 					}
-					db_unset(hcnt, szGPGModuleName, "bAlwatsTrust");
+					db_unset(hcnt, MODULENAME, "bAlwatsTrust");
 				}
 			}
 		}
@@ -399,7 +399,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			char *tmp = nullptr;
 			string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 			string::size_type s2 = output.find(":", s);
-			db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
+			db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyID", output.substr(s, s2 - s).c_str());
 			s = output.find("вЂњ", s2);
 			if (s == string::npos) {
 				s = output.find("\"", s2);
@@ -420,7 +420,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 				tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 				mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
 				mir_utf8decode(tmp, nullptr);
-				db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", tmp);
+				db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainName", tmp);
 				mir_free(tmp);
 			}
 			if ((s = output.find(")", s2)) == string::npos)
@@ -433,7 +433,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 					mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 					mir_utf8decode(tmp, nullptr);
-					db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", tmp);
+					db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyComment", tmp);
 					mir_free(tmp);
 					s += 3;
 					s2 = output.find(">", s);
@@ -441,7 +441,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 						tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 						mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
 						mir_utf8decode(tmp, nullptr);
-						db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", tmp);
+						db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainEmail", tmp);
 						mir_free(tmp);
 					}
 				}
@@ -449,18 +449,18 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 					mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 					mir_utf8decode(tmp, nullptr);
-					db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+					db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 					mir_free(tmp);
 				}
 			}
-			db_unset(metaGetMostOnline(hContact), szGPGModuleName, "bAlwatsTrust");
+			db_unset(metaGetMostOnline(hContact), MODULENAME, "bAlwatsTrust");
 		}
 	}
 	else {
 		char *tmp = nullptr;
 		string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 		string::size_type s2 = output.find(":", s);
-		db_set_s(hContact, szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
+		db_set_s(hContact, MODULENAME, "KeyID", output.substr(s, s2 - s).c_str());
 		s = output.find("вЂњ", s2);
 		if (s == string::npos) {
 			s = output.find("\"", s2);
@@ -481,7 +481,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 			mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
 			mir_utf8decode(tmp, nullptr);
-			db_set_s(hContact, szGPGModuleName, "KeyMainName", tmp);
+			db_set_s(hContact, MODULENAME, "KeyMainName", tmp);
 			mir_free(tmp);
 		}
 		if ((s = output.find(")", s2)) == string::npos)
@@ -494,7 +494,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 				tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 				mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 				mir_utf8decode(tmp, nullptr);
-				db_set_s(hContact, szGPGModuleName, "KeyComment", tmp);
+				db_set_s(hContact, MODULENAME, "KeyComment", tmp);
 				mir_free(tmp);
 				s += 3;
 				s2 = output.find(">", s);
@@ -502,7 +502,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 					mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
 					mir_utf8decode(tmp, nullptr);
-					db_set_s(hContact, szGPGModuleName, "KeyMainEmail", tmp);
+					db_set_s(hContact, MODULENAME, "KeyMainEmail", tmp);
 					mir_free(tmp);
 				}
 			}
@@ -510,11 +510,11 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 				tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 				mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 				mir_utf8decode(tmp, nullptr);
-				db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+				db_set_s(hContact, MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 				mir_free(tmp);
 			}
 		}
-		db_unset(hContact, szGPGModuleName, "bAlwatsTrust");
+		db_unset(hContact, MODULENAME, "bAlwatsTrust");
 	}
 
 	MessageBox(nullptr, toUTF16(output).c_str(), L"", MB_OK);

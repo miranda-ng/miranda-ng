@@ -13,13 +13,11 @@
 #include "version.h"
 #include "resource.h"
 
-#define MODNAME "ZeroNotify"
+#define MODULENAME "ZeroNotify"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODNAME)
-	{}
+	CMPlugin();
 };
 
 #define DEFAULT_NOSOUND		0x00000000

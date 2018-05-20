@@ -59,9 +59,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(AVS_MODULE)
-	{}
+	CMPlugin();
 };
 
 /* most free()'s are invalid when the code is executed from a dll, so this changes

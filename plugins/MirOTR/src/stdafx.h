@@ -76,9 +76,7 @@ using namespace std;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 #define PREF_BYPASS_OTR 0x8000

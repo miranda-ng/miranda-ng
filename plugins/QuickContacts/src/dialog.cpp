@@ -132,7 +132,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 	BOOL metacontactsEnabled = db_mc_isEnabled();
 
 	// Read last-sent-to contact from db and set handle as window-userdata
-	HANDLE hlastsent = (HANDLE)db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1);
+	HANDLE hlastsent = (HANDLE)db_get_dw(NULL, MODULENAME, "LastSentTo", -1);
 	SetWindowLongPtr(hwndMain, GWLP_USERDATA, (LONG_PTR)hlastsent);
 
 	// enumerate all contacts and write them to the array
@@ -160,7 +160,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 				char setting[128];
 				mir_snprintf(setting, "ShowOffline%s", pszProto);
 
-				if (!db_get_b(NULL, MODULE_NAME, setting, FALSE))
+				if (!db_get_b(NULL, MODULENAME, setting, FALSE))
 					continue;
 
 				// Check if proto offline
@@ -179,7 +179,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 				char setting[128];
 				mir_snprintf(setting, "ShowOffline%s", META_PROTO);
-				if (db_get_b(NULL, MODULE_NAME, setting, FALSE))
+				if (db_get_b(NULL, MODULENAME, setting, FALSE))
 					continue;
 			}
 		}
@@ -525,13 +525,13 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETEXTENDEDUI, TRUE, 0);
 
-			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE_NAME, "window");
+			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULENAME, "window");
 
 			LoadContacts(hwndDlg, FALSE);
 
 			EnableButtons(hwndDlg, NULL);
-			if (db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", 0)) {
-				int pos = GetItemPos((MCONTACT)db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1));
+			if (db_get_b(NULL, MODULENAME, "EnableLastSentTo", 0)) {
+				int pos = GetItemPos((MCONTACT)db_get_dw(NULL, MODULENAME, "LastSentTo", -1));
 				if (pos != -1) {
 					SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETCURSEL, (WPARAM)pos, 0);
 					EnableButtons(hwndDlg, contacts[pos]->hcontact);
@@ -559,7 +559,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				Clist_ContactDoubleClicked(hContact);
 
-				db_set_dw(NULL, MODULE_NAME, "LastSentTo", hContact);
+				db_set_dw(NULL, MODULENAME, "LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			}
 			break;
@@ -578,7 +578,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
 
-				db_set_dw(NULL, MODULE_NAME, "LastSentTo", hContact);
+				db_set_dw(NULL, MODULENAME, "LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 				break;
 			}
@@ -599,7 +599,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				CallService(MS_FILE_SENDFILE, hContact, 0);
 
-				db_set_dw(NULL, MODULE_NAME, "LastSentTo", hContact);
+				db_set_dw(NULL, MODULENAME, "LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			}
 			break;
@@ -620,7 +620,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				CallService(MS_URL_SENDURL, hContact, 0);
 
-				db_set_dw(NULL, MODULE_NAME, "LastSentTo", hContact);
+				db_set_dw(NULL, MODULENAME, "LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			}
 			break;
@@ -641,7 +641,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 
-				db_set_dw(NULL, MODULE_NAME, "LastSentTo", hContact);
+				db_set_dw(NULL, MODULENAME, "LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			}
 			break;
@@ -662,7 +662,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
 
-				db_set_dw(NULL, MODULE_NAME, "LastSentTo", hContact);
+				db_set_dw(NULL, MODULENAME, "LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			}
 			break;
@@ -692,7 +692,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					Clist_MenuProcessCommand(LOWORD(ret), MPCF_CONTACTMENU, hContact);
 				}
 
-				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD)hContact);
+				db_set_dw(NULL, MODULENAME, "LastSentTo", (DWORD)hContact);
 			}
 			break;
 
@@ -726,7 +726,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_CLOSE:
-		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE_NAME, "window");
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "window");
 		DestroyWindow(hwndDlg);
 		break;
 

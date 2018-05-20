@@ -42,6 +42,7 @@ class CCloudService;
 #include "options.h"
 
 extern HNETLIBUSER hNetlibConnection;
+extern PLUGININFOEX pluginInfoEx;
 
 class Exception
 {
@@ -59,7 +60,7 @@ public:
 	}
 };
 
-#define MODULE "CloudFile"
+#define MODULENAME "CloudFile"
 
 #define FILE_CHUNK_SIZE 1024 * 1024 //1 MB
 
@@ -118,9 +119,7 @@ CCloudService* FindService(const char *szProto);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 #endif //_COMMON_H_

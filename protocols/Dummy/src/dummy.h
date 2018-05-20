@@ -70,13 +70,5 @@ static const ttemplate templates[] =
 
 struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<CDummyProto>("Dummy")
-	{
-		int id = db_get_b(0, m_szModuleName, DUMMY_ID_TEMPLATE, -1);
-		if (id < 0 || id >= _countof(templates))
-			SetUniqueId(ptrA(db_get_sa(0, m_szModuleName, DUMMY_ID_SETTING)));
-		else
-			SetUniqueId(templates[id].setting);
-	}
+	CMPlugin();
 };

@@ -22,24 +22,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "version.h"
 
+CMPlugin g_plugin;
+int &hLangpack(g_plugin.m_hLang);
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
 
-int &hLangpack(g_plugin.m_hLang);
+/////////////////////////////////////////////////////////////////////////////////////////
 
-static int CompareServers( const SERVER_INFO* p1, const SERVER_INFO* p2 )
+static int CompareServers(const SERVER_INFO* p1, const SERVER_INFO* p2)
 {
-	return mir_strcmp( p1->m_name, p2->m_name );
+	return mir_strcmp(p1->m_name, p2->m_name);
 }
 
-OBJLIST<SERVER_INFO> g_servers( 20, CompareServers );
+OBJLIST<SERVER_INFO> g_servers(20, CompareServers);
 
-void UninitTimers( void );
+void UninitTimers(void);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Information about the plugin
-PLUGININFOEX pluginInfo =
+
+static PLUGININFOEX pluginInfoEx =
 {
-	sizeof( PLUGININFOEX ),
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESC,
@@ -48,17 +52,19 @@ PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {92382B4D-5572-48a0-B0B9-1336A601D689}
-	{ 0x92382b4d, 0x5572, 0x48a0, {0xb0, 0xb9, 0x13, 0x36, 0xa6, 0x1, 0xd6, 0x89 }}
+	{0x92382b4d, 0x5572, 0x48a0, {0xb0, 0xb9, 0x13, 0x36, 0xa6, 0x1, 0xd6, 0x89}}
 };
+
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CIrcProto>("IRC", pluginInfoEx)
+{
+	SetUniqueId("Nick");
+}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,7 +74,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 

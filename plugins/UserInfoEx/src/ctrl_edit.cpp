@@ -114,7 +114,7 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, _pszModule, _pszModule, pszProto, _pszSetting, &dbv);
 
 		EnableWindow(_hwnd,
-			!hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0));
+			!hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODULENAME, SET_PROPSHEET_PCBIREADONLY, 0));
 
 		MIR_FREE(_pszValue);
 		switch (dbv.type) {

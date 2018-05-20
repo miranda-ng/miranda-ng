@@ -99,7 +99,7 @@ static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 		if (!db_event_get(hDbEvent, &dbe))
 			if (dbe.eventType == EVENTTYPE_MESSAGE && !(dbe.flags & DBEF_SENT)) {
 				DBVARIANT dbv;
-				if (!db_get_ws(NULL, "AutoShutdown", "Message", &dbv)) {
+				if (!db_get_ws(NULL, MODULENAME, "Message", &dbv)) {
 					TrimString(dbv.ptszVal);
 					wchar_t *pszMsg = GetMessageText(&dbe.pBlob, &dbe.cbBlob);
 					if (pszMsg != nullptr && wcsstr(pszMsg, dbv.ptszVal) != nullptr)
@@ -175,7 +175,7 @@ static int IdleChanged(WPARAM, LPARAM lParam)
 static BOOL CheckAllContactsOffline(void)
 {
 	BOOL fSmartCheck, fAllOffline = TRUE; /* tentatively */
-	fSmartCheck = db_get_b(NULL, "AutoShutdown", "SmartOfflineCheck", SETTING_SMARTOFFLINECHECK_DEFAULT);
+	fSmartCheck = db_get_b(NULL, MODULENAME, "SmartOfflineCheck", SETTING_SMARTOFFLINECHECK_DEFAULT);
 	for (auto &hContact : Contacts()) {
 		char *pszProto = GetContactProto(hContact);
 		if (pszProto != nullptr && Proto_GetStatus(pszProto) != ID_STATUS_OFFLINE) {
@@ -236,7 +236,7 @@ static int WeatherUpdated(WPARAM wParam, LPARAM lParam)
 {
 	char *pszProto = GetContactProto(wParam);
 	if ((BOOL)lParam && pszProto != nullptr && Proto_GetStatus(pszProto) == THUNDER)
-		if (db_get_b(NULL, "AutoShutdown", "WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT))
+		if (db_get_b(NULL, MODULENAME, "WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT))
 			ServiceShutdown(SDSDT_SHUTDOWN, TRUE);
 	return 0;
 }
@@ -247,7 +247,7 @@ INT_PTR ServiceStartWatcher(WPARAM, LPARAM lParam)
 {
 	/* passing watcherType as lParam is only to be used internally, undocumented */
 	if (lParam == 0)
-		lParam = (LPARAM)db_get_w(NULL, "AutoShutdown", "WatcherFlags", 0);
+		lParam = (LPARAM)db_get_w(NULL, MODULENAME, "WatcherFlags", 0);
 
 	/* invalid flags or empty? */
 	if (!(lParam&SDWTF_MASK))
@@ -276,7 +276,7 @@ INT_PTR ServiceStartWatcher(WPARAM, LPARAM lParam)
 		ShowCountdownFrame(currentWatcherType); /* after modules loaded */
 	/* Cpu Shutdown */
 	if (currentWatcherType&SDWTF_CPUUSAGE)
-		idCpuUsageThread = PollCpuUsage(CpuUsageWatcherProc, (LPARAM)DBGetContactSettingRangedByte(NULL, "AutoShutdown", "CpuUsageThreshold", SETTING_CPUUSAGETHRESHOLD_DEFAULT, 1, 100), 1500);
+		idCpuUsageThread = PollCpuUsage(CpuUsageWatcherProc, (LPARAM)DBGetContactSettingRangedByte(NULL, MODULENAME, "CpuUsageThreshold", SETTING_CPUUSAGETHRESHOLD_DEFAULT, 1, 100), 1500);
 	/* Transfer Shutdown */
 	if (currentWatcherType&SDWTF_FILETRANSFER && !nTransfersCount)
 		ShutdownAndStopWatcher();
@@ -317,8 +317,8 @@ void WatcherModulesLoaded(void)
 		hHookWeatherUpdated = HookEvent(ME_WEATHER_UPDATED, WeatherUpdated);
 
 	/* restore watcher if it was running on last exit */
-	if (db_get_b(NULL, "AutoShutdown", "RememberOnRestart", 0) == SDROR_RUNNING) {
-		db_set_b(NULL, "AutoShutdown", "RememberOnRestart", 1);
+	if (db_get_b(NULL, MODULENAME, "RememberOnRestart", 0) == SDROR_RUNNING) {
+		db_set_b(NULL, MODULENAME, "RememberOnRestart", 1);
 		ServiceStartWatcher(0, 0); /* after modules loaded */
 	}
 }
@@ -350,8 +350,8 @@ void UninitWatcher(void)
 {
 	/* remember watcher if running */
 	if (!ServiceStopWatcher(0, 0))
-		if (db_get_b(NULL, "AutoShutdown", "RememberOnRestart", SETTING_REMEMBERONRESTART_DEFAULT))
-			db_set_b(NULL, "AutoShutdown", "RememberOnRestart", SDROR_RUNNING);
+		if (db_get_b(NULL, MODULENAME, "RememberOnRestart", SETTING_REMEMBERONRESTART_DEFAULT))
+			db_set_b(NULL, MODULENAME, "RememberOnRestart", SDROR_RUNNING);
 
 	/* Message Shutdown */
 	UnhookEvent(hHookEventAdded);

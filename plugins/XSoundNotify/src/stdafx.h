@@ -18,15 +18,13 @@
 #include "resource.h"
 #include "version.h"
 
-#define SETTINGSNAME "XSoundNotify"
+#define MODULENAME "XSoundNotify"
 #define SETTINGSKEY "XSNPlugin_sound"
 #define SETTINGSIGNOREKEY "XSNPlugin_ignore"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(SETTINGSNAME)
-	{}
+	CMPlugin();
 };
 
 struct XSN_Data

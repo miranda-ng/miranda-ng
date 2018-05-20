@@ -69,15 +69,13 @@ Boston, MA 02111-1307, USA.
 #include "preset_items.h"
 #include "translations.h"
 
-#define MODULE "Tipper"
+#define MODULENAME "Tipper"
 #define MODULE_ITEMS "Tipper_Items"
 #define DEFAULT_SKIN_FOLDER L"Skins\\Tipper"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 extern HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;

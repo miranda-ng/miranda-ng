@@ -1,7 +1,7 @@
 #ifndef _POPWIN_INC
 #define _POPWIN_INC
 
-#define POP_WIN_CLASS        _A2W(MODULE) L"YAPPWindowClass"
+#define POP_WIN_CLASS        _A2W(MODULENAME) L"YAPPWindowClass"
 
 #define PUM_SETTEXT          (WM_USER + 0x020)
 #define PUM_GETCONTACT       (WM_USER + 0x021)

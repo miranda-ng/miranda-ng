@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULE_NAME)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 void CMPlugin::Init()

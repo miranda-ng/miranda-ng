@@ -53,7 +53,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
-		Utils_RestoreWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
+		Utils_RestoreWindowPosition(hwndDlg, NULL, MODULENAME, RAMDLGSIZESETTING);
 		{
 			READAWAYMSGDATA *awayData = new READAWAYMSGDATA;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)awayData);
@@ -124,7 +124,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			awayData->hAwayMsgEvent = nullptr;
 		}
 		delete awayData;
-		Utils_SaveWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, RAMDLGSIZESETTING);
 		WindowList_Remove(g_hReadWndList, hwndDlg);
 	}
 	return false;

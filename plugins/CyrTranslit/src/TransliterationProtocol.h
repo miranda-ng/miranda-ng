@@ -49,7 +49,7 @@ public:
 	static void TranslateMessageUTF(WPARAM wParam, LPARAM lParam);
 
 private:
-	static char *MODULE_NAME;
+	static char *MODULENAME;
 
 	TransliterationProtocol();
 	~TransliterationProtocol();

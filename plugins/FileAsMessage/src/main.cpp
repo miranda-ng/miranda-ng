@@ -1,19 +1,5 @@
 #include "stdafx.h"
 
-PLUGININFOEX pluginInfo =
-{
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {34B5A402-1B79-4246-B041-43D0B590AE2C}
-	{ 0x34b5a402, 0x1b79, 0x4246, { 0xb0, 0x41, 0x43, 0xd0, 0xb5, 0x90, 0xae, 0x2c } }
-};
-
 CLIST_INTERFACE *pcli;
 MWindowList hFileList;
 CMPlugin g_plugin;
@@ -36,10 +22,35 @@ IconItem iconList[] =
 
 int iIconId[5] = { 3, 2, 4, 1, 0 };
 
-//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
+{
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {34B5A402-1B79-4246-B041-43D0B590AE2C}
+	{ 0x34b5a402, 0x1b79, 0x4246, { 0xb0, 0x41, 0x43, 0xd0, 0xb5, 0x90, 0xae, 0x2c } }
+};
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //  wParam - Section name
 //  lParam - Icon ID
-//
+
 int OnSkinIconsChanged(WPARAM, LPARAM)
 {
 	for (int indx = 0; indx < _countof(hIcons); indx++)
@@ -157,15 +168,6 @@ int OnOptInitialise(WPARAM wParam, LPARAM)
 }
 
 //
-// MirandaPluginInfo()
-// Called by Miranda to get Version
-//
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-//
 // Startup initializing
 //
 
@@ -181,7 +183,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.position = 200011;
 	mi.hIcolibItem = iconList[ICON_MAIN].hIcolib;
 	mi.name.a = LPGEN("File As Message...");
-	mi.pszService = SERVICE_NAME "/FESendFile";
+	mi.pszService = MODULENAME "/FESendFile";
 	mi.flags = CMIF_NOTOFFLINE;
 	Menu_AddContactMenuItem(&mi);
 	return 0;
@@ -189,7 +191,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	InitCRC32();
@@ -198,11 +200,11 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hFileList = WindowList_Create();
 
-	CreateServiceFunction(SERVICE_NAME PSR_MESSAGE, OnRecvMessage);
-	CreateServiceFunction(SERVICE_NAME "/FESendFile", OnSendFile);
-	CreateServiceFunction(SERVICE_NAME "/FERecvFile", OnRecvFile);
+	CreateServiceFunction(MODULENAME PSR_MESSAGE, OnRecvMessage);
+	CreateServiceFunction(MODULENAME "/FESendFile", OnSendFile);
+	CreateServiceFunction(MODULENAME "/FERecvFile", OnRecvFile);
 
-	Proto_RegisterModule(PROTOTYPE_FILTER, SERVICE_NAME);
+	Proto_RegisterModule(PROTOTYPE_FILTER, MODULENAME);
 
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

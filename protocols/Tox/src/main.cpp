@@ -1,11 +1,15 @@
 #include "stdafx.h"
 
-int &hLangpack(g_plugin.m_hLang);
+CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
+int &hLangpack(g_plugin.m_hLang);
+
 HANDLE hProfileFolderPath;
 
-PLUGININFOEX pluginInfo =
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -19,14 +23,16 @@ PLUGININFOEX pluginInfo =
 	{0x272a3e, 0xf5fa, 0x4090, {0x8b, 0x67, 0x3e, 0x62, 0xac, 0x1e, 0xe0, 0xb4}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CToxProto>("TOX", pluginInfoEx)
 {
-	return &pluginInfo;
+	SetUniqueId(TOX_SETTINGS_ID);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -50,7 +56,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 

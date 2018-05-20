@@ -65,11 +65,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../mir_app/src/resource.h"
 
-#define AA_MODULE "AutoAway"
+#define MODULENAME "AutoAway"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(AA_MODULE)
-	{}
+	CMPlugin();
 };

@@ -51,7 +51,7 @@ void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
 		QueueUserAPC(sttMainThreadCallback, mainThread, (ULONG_PTR)ppd);
 	}
 	else{
-		MessageBox(nullptr, line2, _A2W(PLUG) L" Message", MB_OK | MB_ICONINFORMATION);
+		MessageBox(nullptr, line2, _A2W(MODULENAME) L" Message", MB_OK | MB_ICONINFORMATION);
 		return;
 	}
 }
@@ -136,24 +136,24 @@ INT_PTR PluginPing(WPARAM, LPARAM lParam)
 
 INT_PTR PingDisableAll(WPARAM, LPARAM) {
 	PINGLIST pl;
-	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
+	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		i->status = PS_DISABLED;
 		i->miss_count = 0;
 	}
-	CallService(PLUG "/SetPingList", (WPARAM)&pl, 0);
+	CallService(MODULENAME "/SetPingList", (WPARAM)&pl, 0);
 	return 0;
 }
 
 INT_PTR PingEnableAll(WPARAM, LPARAM) {
 	PINGLIST pl;
-	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
+	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		if (i->status == PS_DISABLED) {
 			i->status = PS_NOTRESPONDING;
 		}
 	}
-	CallService(PLUG "/SetPingList", (WPARAM)&pl, 0);
+	CallService(MODULENAME "/SetPingList", (WPARAM)&pl, 0);
 	return 0;
 }
 
@@ -161,7 +161,7 @@ INT_PTR PingEnableAll(WPARAM, LPARAM) {
 INT_PTR ToggleEnabled(WPARAM wParam, LPARAM) {
 	int retval = 0;
 	PINGLIST pl;
-	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
+	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		if (i->item_id == (DWORD)wParam) {
 
@@ -174,7 +174,7 @@ INT_PTR ToggleEnabled(WPARAM wParam, LPARAM) {
 			}
 		}
 	}
-	CallService(PLUG "/SetPingList", (WPARAM)&pl, 0);
+	CallService(MODULENAME "/SetPingList", (WPARAM)&pl, 0);
 	return 0;
 }
 
@@ -183,7 +183,7 @@ INT_PTR EditContact(WPARAM wParam, LPARAM)
 	PINGLIST pl;
 	HWND hwndList = pcli->hwndContactList;
 
-	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
+	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		if (i->item_id == (DWORD)wParam) {
 
@@ -192,7 +192,7 @@ INT_PTR EditContact(WPARAM wParam, LPARAM)
 			if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG3), hwndList, DlgProcDestEdit) == IDOK) {
 
 				*i = add_edit_addr;
-				CallService(PLUG "/SetAndSavePingList", (WPARAM)&pl, 0);
+				CallService(MODULENAME "/SetAndSavePingList", (WPARAM)&pl, 0);
 				return 0;
 			}
 		}
@@ -202,14 +202,14 @@ INT_PTR EditContact(WPARAM wParam, LPARAM)
 
 INT_PTR DblClick(WPARAM wParam, LPARAM) {
 	PINGLIST pl;
-	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
+	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		if (i->item_id == (DWORD)wParam) {
 			if (mir_wstrlen(i->pszCommand)) {
 				ShellExecute(nullptr, L"open", i->pszCommand, i->pszParams, nullptr, SW_SHOW);
 			}
 			else {
-				return CallService(PLUG "/ToggleEnabled", wParam, 0);
+				return CallService(MODULENAME "/ToggleEnabled", wParam, 0);
 			}
 		}
 	}

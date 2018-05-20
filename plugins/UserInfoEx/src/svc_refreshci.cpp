@@ -241,7 +241,7 @@ class CDlgUpdProgress : public CUpdProgress
 					{ ICO_BTN_DOWNARROW,	BM_SETIMAGE,	IDSKIP		},
 					{ ICO_BTN_CANCEL,		BM_SETIMAGE,	IDCANCEL	}
 				};
-				IcoLib_SetCtrlIcons(hWnd, idIcon, db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? 2 : 1);
+				IcoLib_SetCtrlIcons(hWnd, idIcon, db_get_b(NULL, MODULENAME, SET_ICONS_BUTTONS, 1) ? 2 : 1);
 	
 				SendDlgItemMessage(hWnd, IDCANCEL,	BUTTONTRANSLATE, NULL, NULL);
 				SendDlgItemMessage(hWnd, IDSKIP,	BUTTONTRANSLATE, NULL, NULL);
@@ -397,7 +397,7 @@ public:
 		_popupButtons[0].lchIcon = IcoLib_GetIcon(ICO_BTN_DOWNARROW);
 		_popupButtons[0].wParam = MAKEWORD(IDSKIP, BN_CLICKED);
 		_popupButtons[0].lParam = NULL;
-		mir_strcpy(_popupButtons[0].lpzTitle, MODNAME"/Hide");
+		mir_strcpy(_popupButtons[0].lpzTitle, MODULENAME"/Hide");
 
 		// cancel button
 		_popupButtons[1].cbSize = sizeof(POPUPACTION);
@@ -405,7 +405,7 @@ public:
 		_popupButtons[1].lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
 		_popupButtons[1].wParam = MAKEWORD(IDCANCEL, BN_CLICKED);
 		_popupButtons[1].lParam = NULL;
-		mir_strcpy(_popupButtons[1].lpzTitle, MODNAME"/Cancel");
+		mir_strcpy(_popupButtons[1].lpzTitle, MODULENAME"/Cancel");
 	}
 
 	/**
@@ -690,7 +690,7 @@ public:
 
 		if (Size() && !_pProgress)
 		{
-			if (ServiceExists(MS_POPUP_CHANGETEXTT) && db_get_b(NULL, MODNAME, "PopupProgress", FALSE))
+			if (ServiceExists(MS_POPUP_CHANGETEXTT) && db_get_b(NULL, MODULENAME, "PopupProgress", FALSE))
 			{
 				_pProgress = new CPopupUpdProgress(this);
 			}
@@ -864,7 +864,7 @@ void SvcRefreshContactInfoLoadModule(void)
 
 	HOTKEYDESC hk = {};
 	hk.pszName = "RefreshContactDetails";
-	hk.szSection.a = MODNAME;
+	hk.szSection.a = MODULENAME;
 	hk.szDescription.a = LPGEN("Refresh contact details");
 	hk.pszService = MS_USERINFO_REFRESH;
 	Hotkey_Register(&hk);

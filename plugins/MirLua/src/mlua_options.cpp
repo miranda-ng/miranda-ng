@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 CMLuaOptions::CMLuaOptions(CMLua *mLua)
-	: CPluginDlgBase(g_plugin, IDD_OPTIONS, MODULE),
+	: CPluginDlgBase(g_plugin, IDD_OPTIONS, MODULENAME),
 	m_mLua(mLua), isScriptListInit(false),
 	m_popupOnError(this, IDC_POPUPONERROR),
 	m_popupOnObsolete(this, IDC_POPUPONOBSOLETE),

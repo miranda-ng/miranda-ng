@@ -42,6 +42,13 @@ PLUGININFOEX pluginInfoEx = {
 	{0x56cc3f29, 0xccbf, 0x4546, {0xa8, 0xba, 0x98, 0x56, 0x24, 0x8a, 0x41, 0x2a}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{
+	RegisterProtocol(PROTOTYPE_VIRTUAL);
+	SetUniqueId("URL");
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -68,14 +75,14 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
 
-	CreateProtoServiceFunction(MODULE, PS_GETNAME, NewsAggrGetName);
-	CreateProtoServiceFunction(MODULE, PS_GETCAPS, NewsAggrGetCaps);
-	CreateProtoServiceFunction(MODULE, PS_SETSTATUS, NewsAggrSetStatus);
-	CreateProtoServiceFunction(MODULE, PS_GETSTATUS, NewsAggrGetStatus);
-	CreateProtoServiceFunction(MODULE, PS_LOADICON, NewsAggrLoadIcon);
-	CreateProtoServiceFunction(MODULE, PSS_GETINFO, NewsAggrGetInfo);
-	CreateProtoServiceFunction(MODULE, PS_GETAVATARINFO, NewsAggrGetAvatarInfo);
-	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, NewsAggrRecvMessage);
+	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, NewsAggrGetName);
+	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, NewsAggrGetCaps);
+	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, NewsAggrSetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, NewsAggrGetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, NewsAggrLoadIcon);
+	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, NewsAggrGetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETAVATARINFO, NewsAggrGetAvatarInfo);
+	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, NewsAggrRecvMessage);
 
 	CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKALLFEEDS, CheckAllFeeds);
 	CreateServiceFunction(MS_NEWSAGGREGATOR_ADDFEED, AddFeed);

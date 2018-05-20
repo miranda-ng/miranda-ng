@@ -35,16 +35,14 @@ Boston, MA 02111-1307, USA.
 #include "version.h"
 #include "resource.h"
 
-#define MODULE "QuickReplies"
+#define MODULENAME "QuickReplies"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
-#define MS_QUICKREPLIES_SERVICE MODULE"/Service"
+#define MS_QUICKREPLIES_SERVICE MODULENAME"/Service"
 
 extern int iNumber;
 

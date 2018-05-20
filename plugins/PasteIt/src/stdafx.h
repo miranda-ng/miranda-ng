@@ -38,11 +38,9 @@
 
 extern PasteToWeb* pasteToWebs[PasteToWeb::pages];
 
-#define MODULE "PasteIt"
+#define MODULENAME "PasteIt"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };

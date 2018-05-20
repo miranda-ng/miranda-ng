@@ -10,7 +10,7 @@ CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -24,9 +24,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x1acb2ed1, 0xc1ed, 0x43ee, { 0x89, 0xbd, 0x8, 0x66, 0x86, 0xf6, 0xeb, 0xb5 }}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -34,23 +38,23 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 void LoadOptions()
 {
 	memset(&Options, 0, sizeof(Options));
-	Options.MessageRead = (BOOL)db_get_b(NULL, PLUGINNAME, "MessageRead", FALSE);
-	Options.MessageSend = (BOOL)db_get_b(NULL, PLUGINNAME, "MessageSend", TRUE);
-	Options.UrlRead = (BOOL)db_get_b(NULL, PLUGINNAME, "UrlRead", FALSE);
-	Options.UrlSend = (BOOL)db_get_b(NULL, PLUGINNAME, "UrlSend", TRUE);
-	Options.FileRead = (BOOL)db_get_b(NULL, PLUGINNAME, "FileRead", FALSE);
-	Options.FileSend = (BOOL)db_get_b(NULL, PLUGINNAME, "FileSend", TRUE);
-	Options.ChangeTo = (INT)db_get_dw(NULL, PLUGINNAME, "ChangeTo", ID_STATUS_ONLINE);
-	Options.IfOffline = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOffline", FALSE);
-	Options.IfOnline = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOnline", FALSE);
-	Options.IfAway = (BOOL)db_get_b(NULL, PLUGINNAME, "IfAway", TRUE);
-	Options.IfNA = (BOOL)db_get_b(NULL, PLUGINNAME, "IfNA", TRUE);
-	Options.IfOccupied = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOccupied", FALSE);
-	Options.IfDND = (BOOL)db_get_b(NULL, PLUGINNAME, "IfDND", FALSE);
-	Options.IfFreeforchat = (BOOL)db_get_b(NULL, PLUGINNAME, "IfFreeforchat", FALSE);
-	Options.IfInvisible = (BOOL)db_get_b(NULL, PLUGINNAME, "IfInvisible", FALSE);
-	Options.IfOnthephone = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOnthephone", FALSE);
-	Options.IfOuttolunch = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOuttolunch", FALSE);
+	Options.MessageRead = (BOOL)db_get_b(NULL, MODULENAME, "MessageRead", FALSE);
+	Options.MessageSend = (BOOL)db_get_b(NULL, MODULENAME, "MessageSend", TRUE);
+	Options.UrlRead = (BOOL)db_get_b(NULL, MODULENAME, "UrlRead", FALSE);
+	Options.UrlSend = (BOOL)db_get_b(NULL, MODULENAME, "UrlSend", TRUE);
+	Options.FileRead = (BOOL)db_get_b(NULL, MODULENAME, "FileRead", FALSE);
+	Options.FileSend = (BOOL)db_get_b(NULL, MODULENAME, "FileSend", TRUE);
+	Options.ChangeTo = (INT)db_get_dw(NULL, MODULENAME, "ChangeTo", ID_STATUS_ONLINE);
+	Options.IfOffline = (BOOL)db_get_b(NULL, MODULENAME, "IfOffline", FALSE);
+	Options.IfOnline = (BOOL)db_get_b(NULL, MODULENAME, "IfOnline", FALSE);
+	Options.IfAway = (BOOL)db_get_b(NULL, MODULENAME, "IfAway", TRUE);
+	Options.IfNA = (BOOL)db_get_b(NULL, MODULENAME, "IfNA", TRUE);
+	Options.IfOccupied = (BOOL)db_get_b(NULL, MODULENAME, "IfOccupied", FALSE);
+	Options.IfDND = (BOOL)db_get_b(NULL, MODULENAME, "IfDND", FALSE);
+	Options.IfFreeforchat = (BOOL)db_get_b(NULL, MODULENAME, "IfFreeforchat", FALSE);
+	Options.IfInvisible = (BOOL)db_get_b(NULL, MODULENAME, "IfInvisible", FALSE);
+	Options.IfOnthephone = (BOOL)db_get_b(NULL, MODULENAME, "IfOnthephone", FALSE);
+	Options.IfOuttolunch = (BOOL)db_get_b(NULL, MODULENAME, "IfOuttolunch", FALSE);
 }
 
 static int StatusChangeGetMessage(WPARAM, LPARAM hDbEvent)
@@ -285,23 +289,23 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 				return TRUE;
 			
 			case PSN_APPLY:
-				db_set_b(NULL, PLUGINNAME, "MessageRead", (BYTE)Options.MessageRead);
-				db_set_b(NULL, PLUGINNAME, "MessageSend", (BYTE)Options.MessageSend);
-				db_set_b(NULL, PLUGINNAME, "UrlRead", (BYTE)Options.UrlRead);
-				db_set_b(NULL, PLUGINNAME, "UrlSend", (BYTE)Options.UrlSend);
-				db_set_b(NULL, PLUGINNAME, "FileRead", (BYTE)Options.FileRead);
-				db_set_b(NULL, PLUGINNAME, "FileSend", (BYTE)Options.FileSend);
-				db_set_dw(NULL, PLUGINNAME, "ChangeTo", (DWORD)Options.ChangeTo);
-				db_set_b(NULL, PLUGINNAME, "IfOffline", (BYTE)Options.IfOffline);
-				db_set_b(NULL, PLUGINNAME, "IfOnline", (BYTE)Options.IfOnline);
-				db_set_b(NULL, PLUGINNAME, "IfAway", (BYTE)Options.IfAway);
-				db_set_b(NULL, PLUGINNAME, "IfNA", (BYTE)Options.IfNA);
-				db_set_b(NULL, PLUGINNAME, "IfDND", (BYTE)Options.IfDND);
-				db_set_b(NULL, PLUGINNAME, "IfOccupied", (BYTE)Options.IfOccupied);
-				db_set_b(NULL, PLUGINNAME, "IfFreeforchat", (BYTE)Options.IfFreeforchat);
-				db_set_b(NULL, PLUGINNAME, "IfInvisible", (BYTE)Options.IfInvisible);
-				db_set_b(NULL, PLUGINNAME, "IfOnthephone", (BYTE)Options.IfOnthephone);
-				db_set_b(NULL, PLUGINNAME, "IfOuttolunch", (BYTE)Options.IfOuttolunch);
+				db_set_b(NULL, MODULENAME, "MessageRead", (BYTE)Options.MessageRead);
+				db_set_b(NULL, MODULENAME, "MessageSend", (BYTE)Options.MessageSend);
+				db_set_b(NULL, MODULENAME, "UrlRead", (BYTE)Options.UrlRead);
+				db_set_b(NULL, MODULENAME, "UrlSend", (BYTE)Options.UrlSend);
+				db_set_b(NULL, MODULENAME, "FileRead", (BYTE)Options.FileRead);
+				db_set_b(NULL, MODULENAME, "FileSend", (BYTE)Options.FileSend);
+				db_set_dw(NULL, MODULENAME, "ChangeTo", (DWORD)Options.ChangeTo);
+				db_set_b(NULL, MODULENAME, "IfOffline", (BYTE)Options.IfOffline);
+				db_set_b(NULL, MODULENAME, "IfOnline", (BYTE)Options.IfOnline);
+				db_set_b(NULL, MODULENAME, "IfAway", (BYTE)Options.IfAway);
+				db_set_b(NULL, MODULENAME, "IfNA", (BYTE)Options.IfNA);
+				db_set_b(NULL, MODULENAME, "IfDND", (BYTE)Options.IfDND);
+				db_set_b(NULL, MODULENAME, "IfOccupied", (BYTE)Options.IfOccupied);
+				db_set_b(NULL, MODULENAME, "IfFreeforchat", (BYTE)Options.IfFreeforchat);
+				db_set_b(NULL, MODULENAME, "IfInvisible", (BYTE)Options.IfInvisible);
+				db_set_b(NULL, MODULENAME, "IfOnthephone", (BYTE)Options.IfOnthephone);
+				db_set_b(NULL, MODULENAME, "IfOuttolunch", (BYTE)Options.IfOuttolunch);
 				return TRUE;
 			}
 			break;
@@ -335,7 +339,7 @@ int StatusChangeOptInit(WPARAM wParam, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_OPT_INITIALISE, StatusChangeOptInit);
 	HookEvent(ME_DB_EVENT_ADDED, StatusChangeGetMessage);

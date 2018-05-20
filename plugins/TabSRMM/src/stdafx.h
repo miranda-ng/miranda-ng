@@ -217,7 +217,6 @@ extern TContainerData *pFirstContainer, *pLastActiveContainer;
 extern ButtonSet g_ButtonSet;
 extern HANDLE g_hEvent;
 extern RECT rcLastStatusBarClick;
-extern PLUGININFOEX pluginInfo;
 extern TTemplateSet RTL_Active, LTR_Active;
 extern LOGFONTA logfonts[MSGDLGFONTCOUNT + 2];
 extern COLORREF fontcolors[MSGDLGFONTCOUNT + 2];

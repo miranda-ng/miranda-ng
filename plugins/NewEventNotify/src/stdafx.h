@@ -56,7 +56,7 @@
 //---------------------------
 //---Definitions
 
-#define MODULE "NewEventNotify"
+#define MODULENAME "NewEventNotify"
 #define MAX_POPUPS 20
 
 #define DEFAULT_COLBACK RGB(255,255,128)
@@ -150,9 +150,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 struct PLUGIN_OPTIONS

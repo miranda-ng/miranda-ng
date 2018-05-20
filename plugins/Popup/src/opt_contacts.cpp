@@ -32,7 +32,7 @@ static void sttSetAllContactIcons(HWND hwndList)
 {
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
-		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
+		DWORD dwMode = db_get_b(hContact, MODULENAME, "ShowMode", 0);
 		for (int i = 0; i < 4 /*_countof(sttIcons)*/; ++i)
 			// hIml element [0]    = SKINICON_OTHER_SMALLDOT
 			// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
@@ -103,7 +103,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					for (int i = 0; i < 4 /*_countof(sttIcons)*/; ++i) {
 						if (SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0))) {
-							db_set_b(hContact, MODULNAME, "ShowMode", i);
+							db_set_b(hContact, MODULENAME, "ShowMode", i);
 							break;
 						}
 					}

@@ -40,7 +40,7 @@
 
 #define MAX_HISTORY		(1440)		// 12 hrs at 30 sec intervals
 
-#define PLUG	"PING"
+#define MODULENAME	"PING"
 
 #define DEFAULT_PING_PERIOD		30
 #define DEFAULT_PING_TIMEOUT	2
@@ -56,9 +56,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLUG)
-	{}
+	CMPlugin();
 };
 
 typedef struct {

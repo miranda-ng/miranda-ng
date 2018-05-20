@@ -86,7 +86,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 		}
 
 		// def pos
-		if (Utils_RestoreWindowPosition(hWndDlg, (DB_SMS_GetByte(NULL, "SavePerContact", 0) ? prswdWindowData->hContact : NULL), PROTOCOL_NAMEA, "recv"))
+		if (Utils_RestoreWindowPosition(hWndDlg, (DB_SMS_GetByte(NULL, "SavePerContact", 0) ? prswdWindowData->hContact : NULL), MODULENAME, "recv"))
 			SetWindowPos(hWndDlg, nullptr, 200, 200, 400, 350, SWP_NOZORDER);
 
 		InvalidateRect(GetDlgItem(hWndDlg, IDC_MESSAGE), nullptr, FALSE);
@@ -235,7 +235,7 @@ void RecvSMSWindowRemove(HWND hWndDlg)
 	RECV_SMS_WINDOW_DATA *prswdWindowData = GET_WINDOW_DATA(hWndDlg);
 
 	if (prswdWindowData) {
-		Utils_SaveWindowPosition(hWndDlg, (DB_SMS_GetByte(NULL, "SavePerContact", 0) ? prswdWindowData->hContact : NULL), PROTOCOL_NAMEA, "recv");
+		Utils_SaveWindowPosition(hWndDlg, (DB_SMS_GetByte(NULL, "SavePerContact", 0) ? prswdWindowData->hContact : NULL), MODULENAME, "recv");
 
 		ListMTLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
 		ListMTItemDelete(&ssSMSSettings.lmtRecvSMSWindowsListMT, &prswdWindowData->lmtListMTItem);

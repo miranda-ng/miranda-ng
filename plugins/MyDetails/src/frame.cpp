@@ -74,8 +74,8 @@ BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
 COLORREF font_colors[] = { RGB(0, 0, 0), RGB(0, 0, 0), RGB(0, 0, 0), RGB(150, 150, 150), RGB(150, 150, 150) };
 
 static ColourID
-bg_colour = { sizeof(bg_colour), LPGEN("My details"), LPGEN("Background"), MODULE_NAME, "BackgroundColor", 0, GetSysColor(COLOR_BTNFACE) },
-av_colour = { sizeof(av_colour), LPGEN("My details"), LPGEN("Avatar border"), MODULE_NAME, "AvatarBorderColor", 0, RGB(0, 0, 0) };
+bg_colour = { sizeof(bg_colour), LPGEN("My details"), LPGEN("Background"), MODULENAME, "BackgroundColor", 0, GetSysColor(COLOR_BTNFACE) },
+av_colour = { sizeof(av_colour), LPGEN("My details"), LPGEN("Avatar border"), MODULENAME, "AvatarBorderColor", 0, RGB(0, 0, 0) };
 
 int CreateFrame();
 void FixMainMenu();
@@ -236,7 +236,7 @@ int CreateFrame()
 		font_id[i].cbSize = sizeof(FontIDW);
 		mir_wstrncpy(font_id[i].group, LPGENW("My details"), _countof(font_id[i].group));
 		mir_wstrncpy(font_id[i].name, font_names[i], _countof(font_id[i].name));
-		mir_strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, _countof(font_id[i].dbSettingsGroup));
+		mir_strncpy(font_id[i].dbSettingsGroup, MODULENAME, _countof(font_id[i].dbSettingsGroup));
 		mir_wstrncpy(font_id[i].backgroundName, LPGENW("Background"), _countof(font_id[i].backgroundName));
 		mir_wstrncpy(font_id[i].backgroundGroup, LPGENW("My details"), _countof(font_id[i].backgroundGroup));
 
@@ -336,11 +336,11 @@ int CreateFrame()
 		mi.position = 1;
 		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
 		mi.name.w = LPGENW("Show my details");
-		mi.pszService = MODULE_NAME"/ShowHideMyDetails";
+		mi.pszService = MODULENAME"/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
 		Menu_ConfigureItem(hMenuShowHideFrame, MCI_OPT_EXECPARAM, -0x7FFFFFFF);
 
-		if (db_get_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1) == 1) {
+		if (db_get_b(0, MODULENAME, SETTING_FRAME_VISIBLE, 1) == 1) {
 			ShowWindow(hwnd_container, SW_SHOW);
 			FixMainMenu();
 		}
@@ -365,9 +365,9 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_SHOWWINDOW:
 		if ((BOOL)wParam)
-			Utils_RestoreWindowPosition(hwnd, 0, MODULE_NAME, WINDOW_NAME_PREFIX);
+			Utils_RestoreWindowPosition(hwnd, 0, MODULENAME, WINDOW_NAME_PREFIX);
 		else
-			Utils_SaveWindowPosition(hwnd, 0, MODULE_NAME, WINDOW_NAME_PREFIX);
+			Utils_SaveWindowPosition(hwnd, 0, MODULENAME, WINDOW_NAME_PREFIX);
 		break;
 
 	case WM_ERASEBKGND:
@@ -386,7 +386,7 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_CLOSE:
-		db_set_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 0);
+		db_set_b(0, MODULENAME, SETTING_FRAME_VISIBLE, 0);
 		ShowWindow(hwnd, SW_HIDE);
 		FixMainMenu();
 		return TRUE;
@@ -2186,7 +2186,7 @@ INT_PTR ShowHideFrameFunc(WPARAM, LPARAM)
 			SendMessage(hwnd_container, WM_CLOSE, 0, 0);
 		else {
 			ShowWindow(hwnd_container, SW_SHOW);
-			db_set_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1);
+			db_set_b(0, MODULENAME, SETTING_FRAME_VISIBLE, 1);
 		}
 
 		FixMainMenu();
@@ -2204,7 +2204,7 @@ INT_PTR ShowFrameFunc(WPARAM, LPARAM)
 	else {
 		if (!MyDetailsFrameVisible()) {
 			ShowWindow(hwnd_container, SW_SHOW);
-			db_set_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1);
+			db_set_b(0, MODULENAME, SETTING_FRAME_VISIBLE, 1);
 
 			FixMainMenu();
 		}

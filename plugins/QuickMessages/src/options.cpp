@@ -249,25 +249,25 @@ void SaveMenuTree()
 
 		if (ld->ptszQValue) {
 			mir_snprintf(szMEntry, "ButtonValue_%u", iBl);
-			db_set_ws(NULL, PLGNAME, szMEntry, ld->ptszQValue);
+			db_set_ws(NULL, MODULENAME, szMEntry, ld->ptszQValue);
 		}
 
 		if (((ld->dwOPFlags & QMF_NEW) || (ld->dwOPFlags & QMF_RENAMED) || bDeleted)) {
 			BBButton bb = {};
-			bb.pszModuleName = PLGNAME;
+			bb.pszModuleName = MODULENAME;
 			bb.dwButtonID = iBl;
 			bb.pwszTooltip = ld->ptszButtonName;
 			Srmm_ModifyButton(&bb);
 		}
 
 		mir_snprintf(szMEntry, "ButtonName_%u", iBl);
-		db_set_ws(NULL, PLGNAME, szMEntry, ld->ptszButtonName);
+		db_set_ws(NULL, MODULENAME, szMEntry, ld->ptszButtonName);
 
 		ld->dwOPFlags = 0;
 		ld->dwPos = iBl;
 		ld->bIsServName = ld->bIsOpServName;
 		mir_snprintf(szMEntry, "RCEntryIsServiceName_%u", iBl);
-		db_set_b(NULL, PLGNAME, szMEntry, ld->bIsServName);
+		db_set_b(NULL, MODULENAME, szMEntry, ld->bIsServName);
 
 		bDeleted = FALSE;
 
@@ -314,7 +314,7 @@ void SaveMenuTree()
 		iBl++;
 	}
 
-	db_set_b(NULL, PLGNAME, "ButtonsCount", (BYTE)g_iButtonsCount);
+	db_set_b(NULL, MODULENAME, "ButtonsCount", (BYTE)g_iButtonsCount);
 }
 
 void RestoreModuleData()
@@ -504,7 +504,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			g_opHdlg = hdlg;
 			bOptionsInit = TRUE;
 			TranslateDialogDefault(hdlg);
-			if (g_iButtonsCount != db_get_b(NULL, PLGNAME, "ButtonsCount", 0)) {
+			if (g_iButtonsCount != db_get_b(NULL, MODULENAME, "ButtonsCount", 0)) {
 				LOGFONT logFont;
 				HFONT hFont;
 				bNeedRestart = TRUE;
@@ -553,9 +553,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			EnableWindow(GetDlgItem(hdlg, IDC_MENUVALUE), FALSE);
 			EnableWindow(GetDlgItem(hdlg, IDC_INQMENU), FALSE);
 			EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME), FALSE);
-			CheckDlgButton(hdlg, IDC_RAUTOSEND, (g_bRClickAuto = db_get_b(NULL, PLGNAME, "RClickAuto", 0)) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hdlg, IDC_LAUTOSEND, (g_bLClickAuto = db_get_b(NULL, PLGNAME, "LClickAuto", 0)) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hdlg, IDC_ENABLEQUICKMENU, (g_bQuickMenu = db_get_b(NULL, PLGNAME, "QuickMenu", 1)) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_RAUTOSEND, (g_bRClickAuto = db_get_b(NULL, MODULENAME, "RClickAuto", 0)) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_LAUTOSEND, (g_bLClickAuto = db_get_b(NULL, MODULENAME, "LClickAuto", 0)) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_ENABLEQUICKMENU, (g_bQuickMenu = db_get_b(NULL, MODULENAME, "QuickMenu", 1)) ? BST_CHECKED : BST_UNCHECKED);
 
 			bOptionsInit = FALSE;
 		}break;
@@ -694,9 +694,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					SetMenuEntryProperties(hdlg);
 					SaveMenuTree();
 				}
-				db_set_b(NULL, PLGNAME, "RClickAuto", (BYTE)(g_bRClickAuto = IsDlgButtonChecked(hdlg, IDC_RAUTOSEND)));
-				db_set_b(NULL, PLGNAME, "LClickAuto", (BYTE)(g_bLClickAuto = IsDlgButtonChecked(hdlg, IDC_LAUTOSEND)));
-				db_set_b(NULL, PLGNAME, "QuickMenu", (BYTE)(g_bQuickMenu = IsDlgButtonChecked(hdlg, IDC_ENABLEQUICKMENU)));
+				db_set_b(NULL, MODULENAME, "RClickAuto", (BYTE)(g_bRClickAuto = IsDlgButtonChecked(hdlg, IDC_RAUTOSEND)));
+				db_set_b(NULL, MODULENAME, "LClickAuto", (BYTE)(g_bLClickAuto = IsDlgButtonChecked(hdlg, IDC_LAUTOSEND)));
+				db_set_b(NULL, MODULENAME, "QuickMenu", (BYTE)(g_bQuickMenu = IsDlgButtonChecked(hdlg, IDC_ENABLEQUICKMENU)));
 				return 1;
 			}
 			else if (((LPNMHDR)lparam)->code == PSN_RESET) {

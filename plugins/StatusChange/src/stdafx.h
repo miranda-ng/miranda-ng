@@ -16,13 +16,11 @@
 #include "resource.h"
 #include "version.h"
 
-#define PLUGINNAME "StatusChange"
+#define MODULENAME "StatusChange"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PLUGINNAME)
-	{}
+	CMPlugin();
 };
 
 struct TOPTIONS

@@ -112,7 +112,7 @@ LPCTSTR CheckFeed(wchar_t *tszURL, CFeedEditor *pEditDlg)
 
 static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStringW &descr, CMStringW &author, CMStringW &comments, CMStringW &guid, CMStringW &category, time_t stamp)
 {
-	CMStringW message = db_get_wsa(hContact, MODULE, "MsgFormat");
+	CMStringW message = db_get_wsa(hContact, MODULENAME, "MsgFormat");
 	if (!message)
 		message = TAGSDEFAULT;
 
@@ -190,10 +190,10 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 void CheckCurrentFeed(MCONTACT hContact)
 {
 	// Check is disabled by the user?
-	if (!db_get_b(hContact, MODULE, "CheckState", 1) != 0)
+	if (!db_get_b(hContact, MODULENAME, "CheckState", 1) != 0)
 		return;
 
-	wchar_t *szURL = db_get_wsa(hContact, MODULE, "URL");
+	wchar_t *szURL = db_get_wsa(hContact, MODULENAME, "URL");
 	if (szURL == nullptr)
 		return;
 
@@ -252,13 +252,13 @@ void CheckCurrentFeed(MCONTACT hContact)
 							if (!mir_wstrcmpi(szAttrName, L"version")) {
 								wchar_t ver[MAX_PATH];
 								mir_snwprintf(ver, L"RSS %s", xmlGetAttrValue(node, szAttrName));
-								db_set_ws(hContact, MODULE, "MirVer", ver);
+								db_set_ws(hContact, MODULENAME, "MirVer", ver);
 								break;
 							}
 						}
 					}
 					else if (isAtom)
-						db_set_ws(hContact, MODULE, "MirVer", L"RSS 1.0");
+						db_set_ws(hContact, MODULENAME, "MirVer", L"RSS 1.0");
 
 					HXML chan = xmlGetChild(node, 0);
 					for (int j = 0; j < xmlGetChildCount(chan); j++) {
@@ -274,7 +274,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							else
 								szChildText = xmlGetText(child);
 							if (szChildText)
-								db_set_ws(hContact, MODULE, "FirstName", ClearText(szValue, szChildText));
+								db_set_ws(hContact, MODULENAME, "FirstName", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"link")) {
 							LPCTSTR szChildText = nullptr;
@@ -286,7 +286,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							else
 								szChildText = xmlGetText(child);
 							if (szChildText)
-								db_set_ws(hContact, MODULE, "Homepage", ClearText(szValue, szChildText));
+								db_set_ws(hContact, MODULENAME, "Homepage", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"description")) {
 							LPCTSTR szChildText = nullptr;
@@ -299,7 +299,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								szChildText = xmlGetText(child);
 							if (szChildText) {
 								ClearText(szValue, szChildText);
-								db_set_ws(hContact, MODULE, "About", szValue);
+								db_set_ws(hContact, MODULENAME, "About", szValue);
 								db_set_ws(hContact, "CList", "StatusMsg", szValue);
 							}
 						}
@@ -313,7 +313,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							else
 								szChildText = xmlGetText(child);
 							if (szChildText)
-								db_set_ws(hContact, MODULE, "Language1", ClearText(szValue, szChildText));
+								db_set_ws(hContact, MODULENAME, "Language1", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"managingEditor")) {
 							LPCTSTR szChildText = nullptr;
@@ -325,7 +325,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							else
 								szChildText = xmlGetText(child);
 							if (szChildText)
-								db_set_ws(hContact, MODULE, "e-mail", ClearText(szValue, szChildText));
+								db_set_ws(hContact, MODULENAME, "e-mail", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"category")) {
 							LPCTSTR szChildText = nullptr;
@@ -337,7 +337,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							else
 								szChildText = xmlGetText(child);
 							if (szChildText)
-								db_set_ws(hContact, MODULE, "Interest0Text", ClearText(szValue, szChildText));
+								db_set_ws(hContact, MODULENAME, "Interest0Text", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"copyright")) {
 							LPCTSTR szChildText = nullptr;
@@ -356,12 +356,12 @@ void CheckCurrentFeed(MCONTACT hContact)
 								HXML imageval = xmlGetChild(child, x);
 								if (!mir_wstrcmpi(xmlGetName(imageval), L"url")) {
 									LPCTSTR url = xmlGetText(imageval);
-									db_set_ws(hContact, MODULE, "ImageURL", url);
+									db_set_ws(hContact, MODULENAME, "ImageURL", url);
 
 									PROTO_AVATAR_INFORMATION ai = { 0 };
 									ai.hContact = hContact;
 
-									wchar_t *szNick = db_get_wsa(hContact, MODULE, "Nick");
+									wchar_t *szNick = db_get_wsa(hContact, MODULENAME, "Nick");
 									if (szNick) {
 										wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
 										ai.format = ProtoGetAvatarFormat(url);
@@ -371,10 +371,10 @@ void CheckCurrentFeed(MCONTACT hContact)
 										mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename.c_str(), ext);
 										CreateDirectoryTreeW(tszRoot);
 										if (DownloadFile(url, ai.filename)) {
-											db_set_ws(hContact, MODULE, "ImagePath", ai.filename);
-											ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
+											db_set_ws(hContact, MODULENAME, "ImagePath", ai.filename);
+											ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
 										}
-										else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
+										else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
 										mir_free(szNick);
 										break;
 									}
@@ -393,9 +393,9 @@ void CheckCurrentFeed(MCONTACT hContact)
 							if (szChildText) {
 								time_t stamp = DateToUnixTime(szChildText, 0);
 								double deltaupd = difftime(time(0), stamp);
-								double deltacheck = difftime(time(0), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
+								double deltacheck = difftime(time(0), (time_t)db_get_dw(hContact, MODULENAME, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(0));
+									db_set_dw(hContact, MODULENAME, "LastCheck", (DWORD)time(0));
 									xmlDestroyNode(hXml);
 									return;
 								}
@@ -448,14 +448,14 @@ void CheckCurrentFeed(MCONTACT hContact)
 					}
 				}
 				else if (!mir_wstrcmpi(szNodeName, L"feed")) {
-					db_set_ws(hContact, MODULE, "MirVer", L"Atom 3");
+					db_set_ws(hContact, MODULENAME, "MirVer", L"Atom 3");
 					for (int j = 0; j < xmlGetChildCount(node); j++) {
 						HXML child = xmlGetChild(node, j);
 						LPCTSTR szChildName = xmlGetName(child);
 						if (!mir_wstrcmpi(szChildName, L"title")) {
 							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
-								db_set_ws(hContact, MODULE, "FirstName", ClearText(szValue, szChildText));
+								db_set_ws(hContact, MODULENAME, "FirstName", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(szChildName, L"link")) {
 							for (int x = 0; x < xmlGetAttrCount(child); x++) {
@@ -464,27 +464,27 @@ void CheckCurrentFeed(MCONTACT hContact)
 										break;
 
 								if (!mir_wstrcmpi(xmlGetAttrName(child, x), L"href"))
-									db_set_ws(hContact, MODULE, "Homepage", xmlGetAttrValue(child, xmlGetAttrName(child, x)));
+									db_set_ws(hContact, MODULENAME, "Homepage", xmlGetAttrValue(child, xmlGetAttrName(child, x)));
 							}
 						}
 						else if (!mir_wstrcmpi(szChildName, L"subtitle")) {
 							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText) {
 								ClearText(szValue, szChildText);
-								db_set_ws(hContact, MODULE, "About", szValue);
+								db_set_ws(hContact, MODULENAME, "About", szValue);
 								db_set_ws(hContact, "CList", "StatusMsg", szValue);
 							}
 						}
 						else if (!mir_wstrcmpi(szChildName, L"language")) {
 							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
-								db_set_ws(hContact, MODULE, "Language1", ClearText(szValue, szChildText));
+								db_set_ws(hContact, MODULENAME, "Language1", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(szChildName, L"author")) {
 							for (int x = 0; x < xmlGetChildCount(child); x++) {
 								HXML authorval = xmlGetChild(child, x);
 								if (!mir_wstrcmpi(xmlGetName(authorval), L"email")) {
-									db_set_ws(hContact, MODULE, "e-mail", xmlGetText(authorval));
+									db_set_ws(hContact, MODULENAME, "e-mail", xmlGetText(authorval));
 									break;
 								}
 							}
@@ -492,16 +492,16 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_wstrcmpi(szChildName, L"category")) {
 							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
-								db_set_ws(hContact, MODULE, "Interest0Text", ClearText(szValue, szChildText));
+								db_set_ws(hContact, MODULENAME, "Interest0Text", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(szChildName, L"icon")) {
 							for (int x = 0; x < xmlGetChildCount(child); x++) {
 								HXML imageval = xmlGetChild(child, x);
 								if (!mir_wstrcmpi(xmlGetName(imageval), L"url")) {
 									LPCTSTR url = xmlGetText(imageval);
-									db_set_ws(hContact, MODULE, "ImageURL", url);
+									db_set_ws(hContact, MODULENAME, "ImageURL", url);
 
-									ptrW szNick(db_get_wsa(hContact, MODULE, "Nick"));
+									ptrW szNick(db_get_wsa(hContact, MODULENAME, "Nick"));
 									if (szNick) {
 										PROTO_AVATAR_INFORMATION ai = { 0 };
 										ai.hContact = hContact;
@@ -511,10 +511,10 @@ void CheckCurrentFeed(MCONTACT hContact)
 										wchar_t *filename = szNick;
 										mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
 										if (DownloadFile(url, ai.filename)) {
-											db_set_ws(hContact, MODULE, "ImagePath", ai.filename);
-											ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
+											db_set_ws(hContact, MODULENAME, "ImagePath", ai.filename);
+											ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
 										}
-										else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
+										else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
 										break;
 									}
 								}
@@ -526,9 +526,9 @@ void CheckCurrentFeed(MCONTACT hContact)
 								wchar_t *lastupdtime = (wchar_t *)szChildText;
 								time_t stamp = DateToUnixTime(lastupdtime, 1);
 								double deltaupd = difftime(time(0), stamp);
-								double deltacheck = difftime(time(0), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
+								double deltacheck = difftime(time(0), (time_t)db_get_dw(hContact, MODULENAME, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(0));
+									db_set_dw(hContact, MODULENAME, "LastCheck", (DWORD)time(0));
 									xmlDestroyNode(hXml);
 									return;
 								}
@@ -601,15 +601,15 @@ void CheckCurrentFeed(MCONTACT hContact)
 			xmlDestroyNode(hXml);
 		}
 	}
-	db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(0));
+	db_set_dw(hContact, MODULENAME, "LastCheck", (DWORD)time(0));
 }
 
 void CheckCurrentFeedAvatar(MCONTACT hContact)
 {
-	if (!db_get_b(hContact, MODULE, "CheckState", 1))
+	if (!db_get_b(hContact, MODULENAME, "CheckState", 1))
 		return;
 
-	wchar_t *szURL = db_get_wsa(hContact, MODULE, "URL");
+	wchar_t *szURL = db_get_wsa(hContact, MODULENAME, "URL");
 	if (szURL == nullptr)
 		return;
 
@@ -643,12 +643,12 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 						HXML imageval = xmlGetChild(child, x);
 						if (!mir_wstrcmpi(xmlGetName(imageval), L"url")) {
 							LPCTSTR url = xmlGetText(imageval);
-							db_set_ws(hContact, MODULE, "ImageURL", url);
+							db_set_ws(hContact, MODULENAME, "ImageURL", url);
 
 							PROTO_AVATAR_INFORMATION ai = { 0 };
 							ai.hContact = hContact;
 
-							wchar_t *szNick = db_get_wsa(hContact, MODULE, "Nick");
+							wchar_t *szNick = db_get_wsa(hContact, MODULENAME, "Nick");
 							if (szNick) {
 								wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
 								ai.format = ProtoGetAvatarFormat(ext);
@@ -656,10 +656,10 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 								wchar_t *filename = szNick;
 								mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
 								if (DownloadFile(url, ai.filename)) {
-									db_set_ws(hContact, MODULE, "ImagePath", ai.filename);
-									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
+									db_set_ws(hContact, MODULENAME, "ImagePath", ai.filename);
+									ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
 								}
-								else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
+								else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
 								mir_free(szNick);
 								break;
 							}
@@ -676,9 +676,9 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 						HXML imageval = xmlGetChild(child, x);
 						if (!mir_wstrcmpi(xmlGetName(imageval), L"url")) {
 							LPCTSTR url = xmlGetText(imageval);
-							db_set_ws(hContact, MODULE, "ImageURL", url);
+							db_set_ws(hContact, MODULENAME, "ImageURL", url);
 
-							ptrW szNick(db_get_wsa(hContact, MODULE, "Nick"));
+							ptrW szNick(db_get_wsa(hContact, MODULENAME, "Nick"));
 							if (szNick) {
 								PROTO_AVATAR_INFORMATION ai = { 0 };
 								ai.hContact = hContact;
@@ -689,10 +689,10 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 								wchar_t *filename = szNick;
 								mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
 								if (DownloadFile(url, ai.filename)) {
-									db_set_ws(hContact, MODULE, "ImagePath", ai.filename);
-									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
+									db_set_ws(hContact, MODULENAME, "ImagePath", ai.filename);
+									ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
 								}
-								else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
+								else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
 								break;
 							}
 						}

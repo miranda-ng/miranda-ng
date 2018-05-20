@@ -26,6 +26,8 @@ int &hLangpack(g_plugin.m_hLang);
 
 LIST<void> g_hWindows(5, PtrKeySortT);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
@@ -40,7 +42,18 @@ static PLUGININFOEX pluginInfoEx =
 	{ 0x1d9bf74a, 0x44a8, 0x4b3f, { 0xa6, 0xe5, 0x73, 0x6, 0x9d, 0x3a, 0x89, 0x79 } }
 };
 
-int OnIconPressed(WPARAM hContact, LPARAM lParam)
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(ModuleName, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int OnIconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
@@ -63,7 +76,7 @@ int OnIconPressed(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM, LPARAM)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	int sweep = db_get_b(NULL, ModuleName, "SweepHistory", 0);
 
@@ -106,11 +119,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
@@ -121,6 +129,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitIcons();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

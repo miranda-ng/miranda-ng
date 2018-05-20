@@ -450,7 +450,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 			POPUPDATAT_V2 pdtData = { 0 };
 			pdtData.cbSize = sizeof(pdtData);
-			wcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
+			wcsncpy(pdtData.lptzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
 			wcsncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);
 
 			switch (poOptions.bColourType) {
@@ -488,7 +488,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 			if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pdtData, APF_NEWDATA) < 0) {
 				mir_free(ptszPopupText);
-				MessageBox(nullptr, ptszMBox, TranslateT(ModuleName), MB_ICONINFORMATION);
+				MessageBox(nullptr, ptszMBox, TranslateT(MODULENAME), MB_ICONINFORMATION);
 			}
 		}
 	}

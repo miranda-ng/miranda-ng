@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
@@ -12,6 +13,8 @@ size_t    g_dwMirWorkDirPathLen;
 WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
 
 void IconsLoad();
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -26,14 +29,16 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0xe7c48bab, 0x8ace, 0x4cb3, { 0x84, 0x46, 0xd4, 0xb7, 0x34, 0x81, 0xf4, 0x97 } }
 };
 
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CMraProto>("MRA", pluginInfoEx)
+{
+	SetUniqueId("e-mail");
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

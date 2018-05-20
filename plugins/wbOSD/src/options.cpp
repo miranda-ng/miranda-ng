@@ -103,53 +103,53 @@ void loadDBSettings(plgsettings *ps)
 {
 	logmsg("loadDBSettings");
 
-	ps->align = db_get_b(NULL, THIS_MODULE, "align", DEFAULT_ALIGN);
-	ps->salign = db_get_b(NULL, THIS_MODULE, "salign", DEFAULT_SALIGN);
-	ps->altShadow = db_get_b(NULL, THIS_MODULE, "altShadow", DEFAULT_ALTSHADOW);
-	ps->transparent = db_get_b(NULL, THIS_MODULE, "transparent", DEFAULT_TRANPARENT);
-	ps->showShadow = db_get_b(NULL, THIS_MODULE, "showShadow", DEFAULT_SHOWSHADOW);
-	ps->messages = db_get_b(NULL, THIS_MODULE, "messages", DEFAULT_ANNOUNCEMESSAGES);
-	ps->a_user = db_get_b(NULL, THIS_MODULE, "a_user", DEFAULT_ANNOUNCESTATUS);
-	ps->distance = db_get_b(NULL, THIS_MODULE, "distance", DEFAULT_DISTANCE);
-	ps->winx = db_get_dw(NULL, THIS_MODULE, "winx", DEFAULT_WINX);
-	ps->winy = db_get_dw(NULL, THIS_MODULE, "winy", DEFAULT_WINY);
-	ps->winxpos = db_get_dw(NULL, THIS_MODULE, "winxpos", DEFAULT_WINXPOS);
-	ps->winypos = db_get_dw(NULL, THIS_MODULE, "winypos", DEFAULT_WINYPOS);
-	ps->alpha = db_get_b(NULL, THIS_MODULE, "alpha", DEFAULT_ALPHA);
-	ps->showmystatus = db_get_b(NULL, THIS_MODULE, "showMyStatus", DEFAULT_SHOWMYSTATUS);
-	ps->timeout = db_get_dw(NULL, THIS_MODULE, "timeout", DEFAULT_TIMEOUT);
-	ps->clr_msg = db_get_dw(NULL, THIS_MODULE, "clr_msg", DEFAULT_CLRMSG);
-	ps->clr_status = db_get_dw(NULL, THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS);
-	ps->clr_shadow = db_get_dw(NULL, THIS_MODULE, "clr_shadow", DEFAULT_CLRSHADOW);
-	ps->bkclr = db_get_dw(NULL, THIS_MODULE, "bkclr", DEFAULT_BKCLR);
+	ps->align = db_get_b(NULL, MODULENAME, "align", DEFAULT_ALIGN);
+	ps->salign = db_get_b(NULL, MODULENAME, "salign", DEFAULT_SALIGN);
+	ps->altShadow = db_get_b(NULL, MODULENAME, "altShadow", DEFAULT_ALTSHADOW);
+	ps->transparent = db_get_b(NULL, MODULENAME, "transparent", DEFAULT_TRANPARENT);
+	ps->showShadow = db_get_b(NULL, MODULENAME, "showShadow", DEFAULT_SHOWSHADOW);
+	ps->messages = db_get_b(NULL, MODULENAME, "messages", DEFAULT_ANNOUNCEMESSAGES);
+	ps->a_user = db_get_b(NULL, MODULENAME, "a_user", DEFAULT_ANNOUNCESTATUS);
+	ps->distance = db_get_b(NULL, MODULENAME, "distance", DEFAULT_DISTANCE);
+	ps->winx = db_get_dw(NULL, MODULENAME, "winx", DEFAULT_WINX);
+	ps->winy = db_get_dw(NULL, MODULENAME, "winy", DEFAULT_WINY);
+	ps->winxpos = db_get_dw(NULL, MODULENAME, "winxpos", DEFAULT_WINXPOS);
+	ps->winypos = db_get_dw(NULL, MODULENAME, "winypos", DEFAULT_WINYPOS);
+	ps->alpha = db_get_b(NULL, MODULENAME, "alpha", DEFAULT_ALPHA);
+	ps->showmystatus = db_get_b(NULL, MODULENAME, "showMyStatus", DEFAULT_SHOWMYSTATUS);
+	ps->timeout = db_get_dw(NULL, MODULENAME, "timeout", DEFAULT_TIMEOUT);
+	ps->clr_msg = db_get_dw(NULL, MODULENAME, "clr_msg", DEFAULT_CLRMSG);
+	ps->clr_status = db_get_dw(NULL, MODULENAME, "clr_status", DEFAULT_CLRSTATUS);
+	ps->clr_shadow = db_get_dw(NULL, MODULENAME, "clr_shadow", DEFAULT_CLRSHADOW);
+	ps->bkclr = db_get_dw(NULL, MODULENAME, "bkclr", DEFAULT_BKCLR);
 
-	ps->showMsgWindow = db_get_b(NULL, THIS_MODULE, "showMessageWindow", DEFAULT_SHOWMSGWIN);
-	ps->showWhen = db_get_dw(NULL, THIS_MODULE, "showWhen", DEFAULT_SHOWWHEN);
+	ps->showMsgWindow = db_get_b(NULL, MODULENAME, "showMessageWindow", DEFAULT_SHOWMSGWIN);
+	ps->showWhen = db_get_dw(NULL, MODULENAME, "showWhen", DEFAULT_SHOWWHEN);
 
 	DBVARIANT dbv;
-	if (!db_get_ws(NULL, THIS_MODULE, "message_format", &dbv)) {
+	if (!db_get_ws(NULL, MODULENAME, "message_format", &dbv)) {
 		mir_wstrcpy(ps->msgformat, dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else mir_wstrcpy(ps->msgformat, DEFAULT_MESSAGEFORMAT);
 
-	ps->announce = db_get_dw(NULL, THIS_MODULE, "announce", DEFAULT_ANNOUNCE);
+	ps->announce = db_get_dw(NULL, MODULENAME, "announce", DEFAULT_ANNOUNCE);
 
-	ps->lf.lfHeight = db_get_dw(NULL, THIS_MODULE, "fntHeight", DEFAULT_FNT_HEIGHT);
-	ps->lf.lfWidth = db_get_dw(NULL, THIS_MODULE, "fntWidth", DEFAULT_FNT_WIDTH);
-	ps->lf.lfEscapement = db_get_dw(NULL, THIS_MODULE, "fntEscapement", DEFAULT_FNT_ESCAPEMENT);
-	ps->lf.lfOrientation = db_get_dw(NULL, THIS_MODULE, "fntOrientation", DEFAULT_FNT_ORIENTATION);
-	ps->lf.lfWeight = db_get_dw(NULL, THIS_MODULE, "fntWeight", DEFAULT_FNT_WEIGHT);
-	ps->lf.lfItalic = db_get_b(NULL, THIS_MODULE, "fntItalic", DEFAULT_FNT_ITALIC);
-	ps->lf.lfUnderline = db_get_b(NULL, THIS_MODULE, "fntUnderline", DEFAULT_FNT_UNDERLINE);
-	ps->lf.lfStrikeOut = db_get_b(NULL, THIS_MODULE, "fntStrikeout", DEFAULT_FNT_STRIKEOUT);
-	ps->lf.lfCharSet = db_get_b(NULL, THIS_MODULE, "fntCharSet", DEFAULT_FNT_CHARSET);
-	ps->lf.lfOutPrecision = db_get_b(NULL, THIS_MODULE, "fntOutPrecision", DEFAULT_FNT_OUTPRECISION);
-	ps->lf.lfClipPrecision = db_get_b(NULL, THIS_MODULE, "fntClipPrecision", DEFAULT_FNT_CLIPRECISION);
-	ps->lf.lfQuality = db_get_b(NULL, THIS_MODULE, "fntQuality", DEFAULT_FNT_QUALITY);
-	ps->lf.lfPitchAndFamily = db_get_b(NULL, THIS_MODULE, "fntPitchAndFamily", DEFAULT_FNT_PITCHANDFAM);
+	ps->lf.lfHeight = db_get_dw(NULL, MODULENAME, "fntHeight", DEFAULT_FNT_HEIGHT);
+	ps->lf.lfWidth = db_get_dw(NULL, MODULENAME, "fntWidth", DEFAULT_FNT_WIDTH);
+	ps->lf.lfEscapement = db_get_dw(NULL, MODULENAME, "fntEscapement", DEFAULT_FNT_ESCAPEMENT);
+	ps->lf.lfOrientation = db_get_dw(NULL, MODULENAME, "fntOrientation", DEFAULT_FNT_ORIENTATION);
+	ps->lf.lfWeight = db_get_dw(NULL, MODULENAME, "fntWeight", DEFAULT_FNT_WEIGHT);
+	ps->lf.lfItalic = db_get_b(NULL, MODULENAME, "fntItalic", DEFAULT_FNT_ITALIC);
+	ps->lf.lfUnderline = db_get_b(NULL, MODULENAME, "fntUnderline", DEFAULT_FNT_UNDERLINE);
+	ps->lf.lfStrikeOut = db_get_b(NULL, MODULENAME, "fntStrikeout", DEFAULT_FNT_STRIKEOUT);
+	ps->lf.lfCharSet = db_get_b(NULL, MODULENAME, "fntCharSet", DEFAULT_FNT_CHARSET);
+	ps->lf.lfOutPrecision = db_get_b(NULL, MODULENAME, "fntOutPrecision", DEFAULT_FNT_OUTPRECISION);
+	ps->lf.lfClipPrecision = db_get_b(NULL, MODULENAME, "fntClipPrecision", DEFAULT_FNT_CLIPRECISION);
+	ps->lf.lfQuality = db_get_b(NULL, MODULENAME, "fntQuality", DEFAULT_FNT_QUALITY);
+	ps->lf.lfPitchAndFamily = db_get_b(NULL, MODULENAME, "fntPitchAndFamily", DEFAULT_FNT_PITCHANDFAM);
 
-	if (!db_get_ws(NULL, THIS_MODULE, "fntFaceName", &dbv)) {
+	if (!db_get_ws(NULL, MODULENAME, "fntFaceName", &dbv)) {
 		mir_wstrcpy(ps->lf.lfFaceName, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -161,52 +161,52 @@ void saveDBSettings(plgsettings *ps)
 {
 	logmsg("saveDBSettings");
 
-	db_set_b(NULL, THIS_MODULE, "showShadow", ps->showShadow);
-	db_set_b(NULL, THIS_MODULE, "altShadow", ps->altShadow);
-	db_set_b(NULL, THIS_MODULE, "distance", ps->distance);
+	db_set_b(NULL, MODULENAME, "showShadow", ps->showShadow);
+	db_set_b(NULL, MODULENAME, "altShadow", ps->altShadow);
+	db_set_b(NULL, MODULENAME, "distance", ps->distance);
 
-	db_set_dw(NULL, THIS_MODULE, "winx", ps->winx);
-	db_set_dw(NULL, THIS_MODULE, "winy", ps->winy);
-	db_set_dw(NULL, THIS_MODULE, "winxpos", ps->winxpos);
-	db_set_dw(NULL, THIS_MODULE, "winypos", ps->winypos);
+	db_set_dw(NULL, MODULENAME, "winx", ps->winx);
+	db_set_dw(NULL, MODULENAME, "winy", ps->winy);
+	db_set_dw(NULL, MODULENAME, "winxpos", ps->winxpos);
+	db_set_dw(NULL, MODULENAME, "winypos", ps->winypos);
 
-	db_set_b(NULL, THIS_MODULE, "alpha", ps->alpha);
-	db_set_dw(NULL, THIS_MODULE, "timeout", ps->timeout);
+	db_set_b(NULL, MODULENAME, "alpha", ps->alpha);
+	db_set_dw(NULL, MODULENAME, "timeout", ps->timeout);
 
-	db_set_b(NULL, THIS_MODULE, "transparent", ps->transparent);
-	db_set_b(NULL, THIS_MODULE, "messages", ps->messages);
-	db_set_b(NULL, THIS_MODULE, "a_user", ps->a_user);
-	db_set_ws(NULL, THIS_MODULE, "message_format", ps->msgformat);
+	db_set_b(NULL, MODULENAME, "transparent", ps->transparent);
+	db_set_b(NULL, MODULENAME, "messages", ps->messages);
+	db_set_b(NULL, MODULENAME, "a_user", ps->a_user);
+	db_set_ws(NULL, MODULENAME, "message_format", ps->msgformat);
 
-	db_set_b(NULL, THIS_MODULE, "align", ps->align);
-	db_set_b(NULL, THIS_MODULE, "salign", ps->salign);
+	db_set_b(NULL, MODULENAME, "align", ps->align);
+	db_set_b(NULL, MODULENAME, "salign", ps->salign);
 
-	db_set_b(NULL, THIS_MODULE, "showMyStatus", ps->showmystatus);
+	db_set_b(NULL, MODULENAME, "showMyStatus", ps->showmystatus);
 
-	db_set_dw(NULL, THIS_MODULE, "clr_msg", ps->clr_msg);
-	db_set_dw(NULL, THIS_MODULE, "clr_shadow", ps->clr_shadow);
-	db_set_dw(NULL, THIS_MODULE, "clr_status", ps->clr_status);
-	db_set_dw(NULL, THIS_MODULE, "bkclr", ps->bkclr);
+	db_set_dw(NULL, MODULENAME, "clr_msg", ps->clr_msg);
+	db_set_dw(NULL, MODULENAME, "clr_shadow", ps->clr_shadow);
+	db_set_dw(NULL, MODULENAME, "clr_status", ps->clr_status);
+	db_set_dw(NULL, MODULENAME, "bkclr", ps->bkclr);
 
-	db_set_dw(NULL, THIS_MODULE, "fntHeight", ps->lf.lfHeight);
-	db_set_dw(NULL, THIS_MODULE, "fntWidth", ps->lf.lfWidth);
-	db_set_dw(NULL, THIS_MODULE, "fntEscapement", ps->lf.lfEscapement);
-	db_set_dw(NULL, THIS_MODULE, "fntOrientation", ps->lf.lfOrientation);
-	db_set_dw(NULL, THIS_MODULE, "fntWeight", ps->lf.lfWeight);
-	db_set_b(NULL, THIS_MODULE, "fntItalic", ps->lf.lfItalic);
-	db_set_b(NULL, THIS_MODULE, "fntUnderline", ps->lf.lfUnderline);
-	db_set_b(NULL, THIS_MODULE, "fntStrikeout", ps->lf.lfStrikeOut);
-	db_set_b(NULL, THIS_MODULE, "fntCharSet", ps->lf.lfCharSet);
-	db_set_b(NULL, THIS_MODULE, "fntOutPrecision", ps->lf.lfOutPrecision);
-	db_set_b(NULL, THIS_MODULE, "fntClipPrecision", ps->lf.lfClipPrecision);
-	db_set_b(NULL, THIS_MODULE, "fntQuality", ps->lf.lfQuality);
-	db_set_b(NULL, THIS_MODULE, "fntPitchAndFamily", ps->lf.lfPitchAndFamily);
-	db_set_ws(NULL, THIS_MODULE, "fntFaceName", ps->lf.lfFaceName);
+	db_set_dw(NULL, MODULENAME, "fntHeight", ps->lf.lfHeight);
+	db_set_dw(NULL, MODULENAME, "fntWidth", ps->lf.lfWidth);
+	db_set_dw(NULL, MODULENAME, "fntEscapement", ps->lf.lfEscapement);
+	db_set_dw(NULL, MODULENAME, "fntOrientation", ps->lf.lfOrientation);
+	db_set_dw(NULL, MODULENAME, "fntWeight", ps->lf.lfWeight);
+	db_set_b(NULL, MODULENAME, "fntItalic", ps->lf.lfItalic);
+	db_set_b(NULL, MODULENAME, "fntUnderline", ps->lf.lfUnderline);
+	db_set_b(NULL, MODULENAME, "fntStrikeout", ps->lf.lfStrikeOut);
+	db_set_b(NULL, MODULENAME, "fntCharSet", ps->lf.lfCharSet);
+	db_set_b(NULL, MODULENAME, "fntOutPrecision", ps->lf.lfOutPrecision);
+	db_set_b(NULL, MODULENAME, "fntClipPrecision", ps->lf.lfClipPrecision);
+	db_set_b(NULL, MODULENAME, "fntQuality", ps->lf.lfQuality);
+	db_set_b(NULL, MODULENAME, "fntPitchAndFamily", ps->lf.lfPitchAndFamily);
+	db_set_ws(NULL, MODULENAME, "fntFaceName", ps->lf.lfFaceName);
 
-	db_set_dw(NULL, THIS_MODULE, "announce", ps->announce);
+	db_set_dw(NULL, MODULENAME, "announce", ps->announce);
 
-	db_set_b(NULL, THIS_MODULE, "showMessageWindow", ps->showMsgWindow);
-	db_set_dw(NULL, THIS_MODULE, "showWhen", ps->showWhen);
+	db_set_b(NULL, MODULENAME, "showMessageWindow", ps->showMsgWindow);
+	db_set_dw(NULL, MODULENAME, "showWhen", ps->showWhen);
 }
 
 INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -364,9 +364,9 @@ xxx:
 		saveDBSettings(ps);
 		SetWindowPos(g_hWnd, nullptr, 0, 0, ps->winx, ps->winy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 		SetLayeredWindowAttributes(g_hWnd, 
-			db_get_dw(NULL, THIS_MODULE, "bkclr", DEFAULT_BKCLR), 
-			db_get_b(NULL, THIS_MODULE, "alpha", DEFAULT_ALPHA), 
-			(db_get_b(NULL, THIS_MODULE, "transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
+			db_get_dw(NULL, MODULENAME, "bkclr", DEFAULT_BKCLR), 
+			db_get_b(NULL, MODULENAME, "alpha", DEFAULT_ALPHA), 
+			(db_get_b(NULL, MODULENAME, "transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
 		InvalidateRect(g_hWnd, nullptr, TRUE);
 		SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 
@@ -397,7 +397,7 @@ xxx:
 			ps[1] = ps[0]; //apply current settings at closing
 
 			saveDBSettings(ps);
-			SetLayeredWindowAttributes(g_hWnd, db_get_dw(NULL, THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL, THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL, THIS_MODULE, "transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
+			SetLayeredWindowAttributes(g_hWnd, db_get_dw(NULL, MODULENAME, "bkclr", DEFAULT_BKCLR), db_get_b(NULL, MODULENAME, "alpha", DEFAULT_ALPHA), (db_get_b(NULL, MODULENAME, "transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
 			InvalidateRect(g_hWnd, nullptr, TRUE);
 			break;
 		}

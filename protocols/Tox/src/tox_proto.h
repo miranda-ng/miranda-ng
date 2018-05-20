@@ -248,11 +248,7 @@ private:
 
 struct CMPlugin : public ACCPROTOPLUGIN<CToxProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<CToxProto>("TOX")
-	{
-		SetUniqueId(TOX_SETTINGS_ID);
-	}
+	CMPlugin();
 };
 
 #endif //_TOX_PROTO_H_

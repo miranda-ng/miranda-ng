@@ -27,7 +27,7 @@ GenericPlayer *singleton = nullptr;
 void m_log(const wchar_t *function, const wchar_t *fmt, ...)
 {
 	if (hLog == nullptr) {
-		hLog = mir_createLog(MODULE_NAME, L"ListeningTo log", L"c:\\temp\\listeningto.txt", 0);
+		hLog = mir_createLog(MODULENAME, L"ListeningTo log", L"c:\\temp\\listeningto.txt", 0);
 		if (hLog == nullptr)
 			return;
 	}

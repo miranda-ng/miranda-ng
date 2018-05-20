@@ -32,7 +32,17 @@ BOOL blInit = FALSE;
 UINT pTimer = 0;
 wchar_t tszPath[MAX_PATH];
 
-PLUGININFOEX pluginInfo = {
+static HGENMENU hMenuItemAutoChat, hMenuItemNotToChat, hMenuItemStartChatting;
+
+#define MIND_DIALOG_FILTER L"%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1"
+
+#ifdef DEBUG_LOAD_TIME
+#include <intrin.h>
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -42,16 +52,19 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {488C5C84-56DA-434F-96F1-B18900DEF760}
-	{ 0x488c5c84, 0x56da, 0x434f, { 0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60 } }
+{ 0x488c5c84, 0x56da, 0x434f,{ 0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60 } }
 };
 
-static HGENMENU hMenuItemAutoChat, hMenuItemNotToChat, hMenuItemStartChatting;
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(BOLTUN_KEY, pluginInfoEx)
+{}
 
-#define MIND_DIALOG_FILTER L"%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1"
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
 
-#ifdef DEBUG_LOAD_TIME
-#include <intrin.h>
-#endif
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void UpdateEngine()
 {
@@ -155,14 +168,6 @@ static bool LoadMind(const wchar_t* filename, int &line)
 	UpdateEngine();
 	return true;
 }
-
-/*static bool SaveMind(const wchar_t* filename)
-{
-if (!bot)
-return false;
-bot->GetMind().Save(filename);
-return true;
-}*/
 
 static bool BoltunAutoChat(MCONTACT hContact)
 {
@@ -513,14 +518,9 @@ static int MessagePrebuild(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	GetModuleFileName(g_plugin.getInst(), tszPath, _countof(tszPath));
 	*(wcsrchr(tszPath, '\\') + 1) = '\0';
@@ -567,6 +567,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

@@ -64,9 +64,9 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				Options.SnapWidth = SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_GETPOS, 0, 0);
 				Options.ScriverWorkAround = (IsDlgButtonChecked(hwndDlg, IDC_CHK_SCRIVERWORKAROUND) == TRUE);
 
-				db_set_b(NULL, MODULE_NAME, "DoSnap", Options.DoSnap);
-				db_set_b(NULL, MODULE_NAME, "SnapWidth", Options.SnapWidth);
-				db_set_b(NULL, MODULE_NAME, "ScriverWorkAround", Options.ScriverWorkAround);
+				db_set_b(NULL, MODULENAME, "DoSnap", Options.DoSnap);
+				db_set_b(NULL, MODULENAME, "SnapWidth", Options.SnapWidth);
+				db_set_b(NULL, MODULENAME, "ScriverWorkAround", Options.ScriverWorkAround);
 				break;
 			}
 		}
@@ -90,7 +90,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 
 void LoadOptions()
 {
-	Options.DoSnap = db_get_b(NULL, MODULE_NAME, "DoSnap", 1) != 0;
-	Options.SnapWidth = db_get_b(NULL, MODULE_NAME, "SnapWidth", cDefaultSnapWidth);
-	Options.ScriverWorkAround = db_get_b(NULL, MODULE_NAME, "ScriverWorkAround", 0) != 0;
+	Options.DoSnap = db_get_b(NULL, MODULENAME, "DoSnap", 1) != 0;
+	Options.SnapWidth = db_get_b(NULL, MODULENAME, "SnapWidth", cDefaultSnapWidth);
+	Options.ScriverWorkAround = db_get_b(NULL, MODULENAME, "ScriverWorkAround", 0) != 0;
 }

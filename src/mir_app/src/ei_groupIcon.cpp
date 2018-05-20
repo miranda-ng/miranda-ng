@@ -27,7 +27,7 @@ ExtraIconGroup::ExtraIconGroup(const char *_name) :
 	ExtraIcon(_name), m_setValidExtraIcon(false), m_insideApply(false),
 	m_items(1)
 {
-	db_set_resident(MODULE_NAME, _name);
+	db_set_resident(EI_MODULE_NAME, _name);
 }
 
 ExtraIconGroup::~ExtraIconGroup()
@@ -71,7 +71,7 @@ void ExtraIconGroup::applyIcon(MCONTACT hContact)
 
 	m_insideApply = false;
 
-	db_set_dw(hContact, MODULE_NAME, m_szName, m_setValidExtraIcon ? m_items[i]->getID() : 0);
+	db_set_dw(hContact, EI_MODULE_NAME, m_szName, m_setValidExtraIcon ? m_items[i]->getID() : 0);
 }
 
 int ExtraIconGroup::getPosition() const
@@ -92,7 +92,7 @@ void ExtraIconGroup::setSlot(int slot)
 
 ExtraIcon * ExtraIconGroup::getCurrentItem(MCONTACT hContact) const
 {
-	int id = (int)db_get_dw(hContact, MODULE_NAME, m_szName, 0);
+	int id = (int)db_get_dw(hContact, EI_MODULE_NAME, m_szName, 0);
 	if (id < 1)
 		return nullptr;
 
@@ -164,11 +164,11 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, HANDLE value, boo
 
 	if (storePos < currentPos) {
 		if (m_setValidExtraIcon)
-			db_set_dw(hContact, MODULE_NAME, m_szName, m_items[storePos]->getID());
+			db_set_dw(hContact, EI_MODULE_NAME, m_szName, m_items[storePos]->getID());
 	}
 	else if (storePos == currentPos) {
 		if (!m_setValidExtraIcon) {
-			db_set_dw(hContact, MODULE_NAME, m_szName, 0);
+			db_set_dw(hContact, EI_MODULE_NAME, m_szName, 0);
 
 			m_insideApply = true;
 
@@ -181,7 +181,7 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, HANDLE value, boo
 			m_insideApply = false;
 
 			if (m_setValidExtraIcon && storePos < m_items.getCount())
-				db_set_dw(hContact, MODULE_NAME, m_szName, m_items[storePos]->getID());
+				db_set_dw(hContact, EI_MODULE_NAME, m_szName, m_items[storePos]->getID());
 		}
 	}
 

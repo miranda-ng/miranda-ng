@@ -29,14 +29,12 @@
 
 const wchar_t AppUserModelID[] = L"MirandaNG";
 
-#define MODULE "Toaster"
+#define MODULENAME "Toaster"
 #define CHECKHR(x) if (FAILED(x)) return x;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 class ToastNotification;

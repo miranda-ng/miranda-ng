@@ -31,8 +31,10 @@ HWND hwndWizard, hwndAccMerge;
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
-PLUGININFOEX pluginInfo =
-{
+/////////////////////////////////////////////////////////////////////////////////////////
+// MirandaPluginInfoEx - returns an information about a plugin
+
+static PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -41,30 +43,17 @@ PLUGININFOEX pluginInfo =
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	//{2D77A746-00A6-4343-BFC5-F808CDD772EA}
+	// {2D77A746-00A6-4343-BFC5-F808CDD772EA}
 	{0x2d77a746, 0xa6, 0x4343, {0xbf, 0xc5, 0xf8, 0x8, 0xcd, 0xd7, 0x72, 0xea}}
 };
 
-static INT_PTR ImportCommand(WPARAM, LPARAM)
-{
-	if (IsWindow(hwndWizard)) {
-		SetForegroundWindow(hwndWizard);
-		SetFocus(hwndWizard);
-	}
-	else {
-		WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
-	}
-
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// MirandaPluginInfoEx - returns an information about a plugin
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(IMPORT_MODULE, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -136,9 +125,23 @@ static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
 }
 
+static INT_PTR ImportCommand(WPARAM, LPARAM)
+{
+	if (IsWindow(hwndWizard)) {
+		SetForegroundWindow(hwndWizard);
+		SetFocus(hwndWizard);
+	}
+	else {
+		WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
+	}
+
+	return 0;
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);

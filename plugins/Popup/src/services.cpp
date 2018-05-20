@@ -126,7 +126,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	if (ppd->lchContact)
 		proto = GetContactProto(ppd->lchContact);
 
-	BYTE bShowMode = proto ? db_get_b(ppd->lchContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO) : PU_SHOWMODE_AUTO;
+	BYTE bShowMode = proto ? db_get_b(ppd->lchContact, MODULENAME, "ShowMode", PU_SHOWMODE_AUTO) : PU_SHOWMODE_AUTO;
 
 	if (bShowMode == PU_SHOWMODE_BLOCK)
 		return -1;
@@ -138,7 +138,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if (PopupOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && IsFullScreen())
 			return -1;
 
-		if (db_get_dw(NULL, MODULNAME, LPGEN("Global Status"), 0) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
+		if (db_get_dw(NULL, MODULENAME, LPGEN("Global Status"), 0) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
 			return -1;
 
 		if ((disableWhen & 0x0000FFFF) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
@@ -147,7 +147,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if (proto) {
 			char prefix[128];
 			mir_snprintf(prefix, LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
-			if (db_get_dw(NULL, MODULNAME, prefix, 0) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
+			if (db_get_dw(NULL, MODULENAME, prefix, 0) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
 				return -1;
 			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
 				return -1;

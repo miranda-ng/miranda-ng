@@ -6,7 +6,7 @@ static HANDLE hEventNotify;
 
 void StripBBCodesInPlace(wchar_t *text)
 {
-	if (text == nullptr || db_get_b(0, MODULE, "StripBBCodes", 1) == 0)
+	if (text == nullptr || db_get_b(0, MODULENAME, "StripBBCodes", 1) == 0)
 		return;
 
 	int read = 0, write = 0;
@@ -338,12 +338,12 @@ static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 	
 	char setting[256];
 	mir_snprintf(setting, "%s/Timeout", pc->pszName);
-	pc->iSeconds = db_get_w(0, MODULE, setting, pc->iSeconds);
+	pc->iSeconds = db_get_w(0, MODULENAME, setting, pc->iSeconds);
 	if (pc->iSeconds == (WORD)-1) pc->iSeconds = -1;
 	mir_snprintf(setting, "%s/TextCol", pc->pszName);
-	pc->colorText = (COLORREF)db_get_dw(0, MODULE, setting, (DWORD)pc->colorText);
+	pc->colorText = (COLORREF)db_get_dw(0, MODULENAME, setting, (DWORD)pc->colorText);
 	mir_snprintf(setting, "%s/BgCol", pc->pszName);
-	pc->colorBack = (COLORREF)db_get_dw(0, MODULE, setting, (DWORD)pc->colorBack);
+	pc->colorBack = (COLORREF)db_get_dw(0, MODULENAME, setting, (DWORD)pc->colorBack);
 
 	arClasses.insert(pc);
 	return (INT_PTR)pc;

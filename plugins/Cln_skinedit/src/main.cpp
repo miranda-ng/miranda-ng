@@ -26,7 +26,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define ID_EXTBKSEPARATOR		 40200
 
-PLUGININFOEX pluginInfo = {
+CMPlugin g_plugin;
+int &hLangpack(g_plugin.m_hLang);
+
+StatusItems_t **StatusItems;
+ChangedSItems_t ChangedSItems = { 0 };
+
+static int LastModifiedItem = -1;
+static int last_selcount = 0;
+static int last_indizes[64];
+static int ID_EXTBK_LAST = 0, ID_EXTBK_FIRST = 0;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -39,20 +52,17 @@ PLUGININFOEX pluginInfo = {
 	{0x21948c89, 0xb549, 0x4c9d, {0x8b, 0x4f, 0x3f, 0x37, 0x26, 0xec, 0x6b, 0x4b}}
 };
 
-CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>("Skin editor", pluginInfoEx)
+{}
 
-StatusItems_t **StatusItems;
-ChangedSItems_t ChangedSItems = { 0 };
+extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
 
-static int LastModifiedItem = -1;
-static int last_selcount = 0;
-static int last_indizes[64];
-static int ID_EXTBK_LAST = 0, ID_EXTBK_FIRST = 0;
-
-/*
- * prototypes
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// prototypes
 
 static void ChangeControlItems(HWND hwndDlg, int status, int except);
 static BOOL CheckItem(int item, HWND hwndDlg);
@@ -886,36 +896,18 @@ static INT_PTR SkinEdit_Invoke(WPARAM, LPARAM lParam)
 	TabCtrl_InsertItem(psd->hWndTab, iTabs++, &tci);
 	MoveWindow((HWND)tci.lParam, 5, 25, rcClient.right - 9, rcClient.bottom - 60, 1);
 	psd->hwndSkinEdit = (HWND)tci.lParam;
-
-	/*
-	tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_IMAGEITEMEDIT), psd->hWndParent, SkinEdit_ImageItemEditProc, (LPARAM)psd);
-	tci.pszText = TranslateT("Image items");
-	TabCtrl_InsertItem(psd->hWndTab, iTabs++, &tci);
-	MoveWindow((HWND)tci.lParam, 5, 25, rcClient.right - 9, rcClient.bottom - 60, 1);
-	psd->hwndImageEdit = (HWND)tci.lParam;
-	*/
-
 	return (INT_PTR)psd->hwndSkinEdit;
 }
 
-
-static int LoadModule()
+extern "C" int __declspec(dllexport) Load(void)
 {
+	mir_getLP(&pluginInfoEx);
 	CreateServiceFunction(MS_CLNSE_INVOKE, SkinEdit_Invoke);
 	CreateServiceFunction(MS_CLNSE_FILLBYCURRENTSEL, SkinEdit_FillByCurrentSel);
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-extern "C" int __declspec(dllexport) Load(void)
-{
-	mir_getLP(&pluginInfo);
-	return LoadModule();
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

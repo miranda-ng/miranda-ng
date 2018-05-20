@@ -34,7 +34,9 @@ BOOL bPopupService = FALSE;
 
 HANDLE hExtraXStatus;
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -46,9 +48,15 @@ PLUGININFOEX pluginInfo = {
 	{ 0x73a9615c, 0x7d4e, 0x4555, { 0xba, 0xdb, 0xee, 0x5, 0xdc, 0x92, 0x8e, 0xff } } // {73A9615C-7D4E-4555-BADB-EE05DC928EFF}
 };
 
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CIcqProto>(ICQ_PROTOCOL_NAME, pluginInfoEx)
+{
+	SetUniqueId(UNIQUEIDSETTING);
+}
+
 extern "C" PLUGININFOEX __declspec(dllexport) *MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +82,7 @@ IconItem iconList[] =
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	srand(time(0));
 	_tzset();

@@ -154,7 +154,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
  **/
 static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 {
-	if (db_get_b(NULL, MODNAME, SET_ICONS_CHECKFILEVERSION, TRUE)) {
+	if (db_get_b(NULL, MODULENAME, SET_ICONS_CHECKFILEVERSION, TRUE)) {
 		if (szIconPack) {
 			wchar_t szAbsolutePath[MAX_PATH];
 			PathToAbsoluteW(szIconPack, szAbsolutePath);

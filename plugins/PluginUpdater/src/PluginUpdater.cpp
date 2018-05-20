@@ -39,6 +39,10 @@ PLUGININFOEX pluginInfoEx = {
 	{0x968def4a, 0xbc60, 0x4266, {0xac, 0x8, 0x75, 0x4c, 0xe7, 0x21, 0xdb, 0x5f}} 
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -52,7 +56,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitServices();
 
-	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 0);
+	db_set_b(NULL, MODULENAME, DB_SETTING_NEED_RESTART, 0);
 
 	DWORD dwLen = GetTempPath(_countof(g_tszTempPath), g_tszTempPath);
 	if (g_tszTempPath[dwLen-1] == '\\')
@@ -103,22 +107,22 @@ extern "C" __declspec(dllexport) int Load(void)
 	g_plugin.addSound("updatefailed",    LPGENW("Plugin Updater"), LPGENW("Update failed"));
 
 	// Upgrade old settings
-	if (-1 == db_get_b(0, MODNAME, DB_SETTING_UPDATE_MODE, -1)) {
-		ptrW dbvUpdateURL(db_get_wsa(0, MODNAME, DB_SETTING_UPDATE_URL));
+	if (-1 == db_get_b(0, MODULENAME, DB_SETTING_UPDATE_MODE, -1)) {
+		ptrW dbvUpdateURL(db_get_wsa(0, MODULENAME, DB_SETTING_UPDATE_URL));
 		if (dbvUpdateURL) {
 			if (!wcscmp(dbvUpdateURL, _A2W(DEFAULT_UPDATE_URL_OLD))) {
-				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
-				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
+				db_set_b(0, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
+				db_unset(0, MODULENAME, DB_SETTING_UPDATE_URL);
 			}
 			else if (!wcscmp(dbvUpdateURL, _A2W(DEFAULT_UPDATE_URL_TRUNK_OLD))) {
-				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
+				db_set_b(0, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+				db_unset(0, MODULENAME, DB_SETTING_UPDATE_URL);
 			}
 			else if (!wcscmp(dbvUpdateURL, _A2W(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS_OLD) L"/")) {
-				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK_SYMBOLS);
-				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
+				db_set_b(0, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK_SYMBOLS);
+				db_unset(0, MODULENAME, DB_SETTING_UPDATE_URL);
 			}
-			else db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
+			else db_set_b(0, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
 		}
 	}
 

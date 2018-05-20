@@ -1125,9 +1125,7 @@ struct SKINDESC
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(SRMSGMOD)
-	{}
+	CMPlugin();
 };
 
 #endif /* _MSGS_H */

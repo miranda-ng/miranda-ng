@@ -44,13 +44,13 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 					}
 					else
 					{
-						db_set_b(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, szGPGModuleName, "GPGEncryption", 1);
+						db_set_b(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, MODULENAME, "GPGEncryption", 1);
 						setSrmmIcon(hContact);
 						setClistIcon(hContact);
 					}
 					if (isContactHaveKey(hContact))
 					{
-						db_set_b(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, szGPGModuleName, "GPGEncryption", 1);
+						db_set_b(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, MODULENAME, "GPGEncryption", 1);
 						setSrmmIcon(hContact);
 						setClistIcon(hContact);
 					}
@@ -66,7 +66,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 			boost::algorithm::erase_all(str, "\r");
 			s2 += mir_wstrlen(L"-----END PGP MESSAGE-----");
 
-			ptrW ptszHomePath(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
+			ptrW ptszHomePath(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L""));
 			wstring encfile = toUTF16(get_random(10));
 			wstring decfile = toUTF16(get_random(10));
 			{
@@ -88,7 +88,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						count += step;
 						if(count >= timeout)
 						{
-							db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+							db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
 							setSrmmIcon(hContact);
 							setClistIcon(hContact);
 							globals.debuglog<<std::string(time_str() + "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock");
@@ -106,19 +106,19 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 				std::vector<wstring> cmd;
 				cmd.push_back(L"--batch");
 				{
-					char *inkeyid = UniGetContactSettingUtf(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, szGPGModuleName, "InKeyID", "");
+					char *inkeyid = UniGetContactSettingUtf(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, MODULENAME, "InKeyID", "");
 					wchar_t *pass = nullptr;
 					if (inkeyid[0]) {
 						string dbsetting = "szKey_";
 						dbsetting += inkeyid;
 						dbsetting += "_Password";
-						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
+						pass = UniGetContactSettingUtf(NULL, MODULENAME, dbsetting.c_str(), L"");
 						if (pass[0] && globals.bDebugLog)
 							globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
 					}
 					else
 					{
-						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
+						pass = UniGetContactSettingUtf(NULL, MODULENAME, "szKeyPassword", L"");
 						if (pass[0] && globals.bDebugLog)
 							globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
 					}
@@ -163,11 +163,11 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						boost::filesystem::remove(path, e);
 					}
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-					BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+					BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
+					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
+					db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
 					return;
 				}
 				if (result == pxNotFound)
@@ -201,18 +201,18 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 					if (globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info: failed to decrypt messaage from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " password needed, trying to get one");
 					if (globals._terminate) {
-						BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-						db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+						BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
+						db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
 						ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-						db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
+						db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
 						break;
 					}
 					{ //save inkey id
 						string::size_type s = out.find(" encrypted with ");
 						s = out.find(" ID ", s);
 						s += mir_strlen(" ID ");
-						db_set_s(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, szGPGModuleName, "InKeyID", out.substr(s, out.find(",", s) - s).c_str());
+						db_set_s(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, MODULENAME, "InKeyID", out.substr(s, out.find(",", s) - s).c_str());
 					}
 
 					CDlgKeyPasswordMsgBox *d = new CDlgKeyPasswordMsgBox(hContact);
@@ -241,11 +241,11 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						}
 
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-						BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-						db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+						BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
+						db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
 						ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-						db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
+						db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
 						return;
 					}
 					if (result2 == pxNotFound)
@@ -270,11 +270,11 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 					}
 
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-					BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+					BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
+					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
+					db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
 					return;
 				}
 				if (result == pxNotFound)
@@ -303,11 +303,11 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 					ptrA tmp4((char*)mir_alloc(sizeof(char)*(str1.length() + 1)));
 					mir_strcpy(tmp4, str1.c_str());
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-					BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+					BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
+					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
+					db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
 					return;
 				}
 
@@ -346,11 +346,11 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						globals.debuglog << std::string(time_str() + ": info: Failed to decrypt GPG encrypted message.");
 
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-					BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+					BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
+					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
+					db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
 					return;
 				}
 
@@ -368,7 +368,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 			}
 		}
 	}
-	if (db_get_b(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, szGPGModuleName, "GPGEncryption", 0))
+	if (db_get_b(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, MODULENAME, "GPGEncryption", 0))
 	{
 		HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags | DBEF_READ));
 		return;
@@ -413,14 +413,14 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			if (globals.bDebugLog)
 				globals.debuglog << std::string(time_str() + ": info(autoexchange): found pubkey block:" + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
 			s2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
-			db_set_ws(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1, s2 - s1).c_str());
+			db_set_ws(ccs->hContact, MODULENAME, "GPGPubKey", str.substr(s1, s2 - s1).c_str());
 			{ //gpg execute block
 				std::vector<wstring> cmd;
 				wchar_t tmp2[MAX_PATH] = { 0 };
 				string output;
 				DWORD exitcode;
 				{
-					ptrW ptmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
+					ptrW ptmp(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L""));
 					mir_wstrcpy(tmp2, ptmp);
 					mir_free(ptmp);
 					mir_wstrcat(tmp2, L"\\");
@@ -444,7 +444,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 							count += step;
 							if(count >= timeout)
 							{
-								db_set_b(ccs->hContact, szGPGModuleName, "GPGEncryption", 0);
+								db_set_b(ccs->hContact, MODULENAME, "GPGEncryption", 0);
 								setSrmmIcon(ccs->hContact);
 								setClistIcon(ccs->hContact);
 								globals.debuglog<<std::string(time_str() + "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock");
@@ -453,7 +453,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 							f.open(tmp2, std::ios::out);
 						}
 					}
-					ptmp = UniGetContactSettingUtf(ccs->hContact, szGPGModuleName, "GPGPubKey", L"");
+					ptmp = UniGetContactSettingUtf(ccs->hContact, MODULENAME, "GPGPubKey", L"");
 					f << (wchar_t*)ptmp;
 					f.close();
 					cmd.push_back(L"--batch");
@@ -483,7 +483,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					char *tmp = nullptr;
 					s1 = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					s2 = output.find(":", s1);
-					db_set_s(ccs->hContact, szGPGModuleName, "KeyID", output.substr(s1, s2 - s1).c_str());
+					db_set_s(ccs->hContact, MODULENAME, "KeyID", output.substr(s1, s2 - s1).c_str());
 					s2 += 2;
 					s1 = output.find("вЂњ", s2);
 					if (s1 == string::npos)
@@ -500,7 +500,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					tmp = (char*)mir_alloc(output.substr(s1, s2 - s1 - 1).length() + 1);
 					mir_strcpy(tmp, output.substr(s1, s2 - s1 - 1).c_str());
 					mir_utf8decode(tmp, nullptr);
-					db_set_s(ccs->hContact, szGPGModuleName, "KeyMainName", tmp);
+					db_set_s(ccs->hContact, MODULENAME, "KeyMainName", tmp);
 					mir_free(tmp);
 					if ((s1 = output.find(")", s2)) == string::npos)
 						s1 = output.find(">", s2);
@@ -512,14 +512,14 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 						tmp = (char*)mir_alloc(output.substr(s2, s1 - s2).length() + 1);
 						mir_strcpy(tmp, output.substr(s2, s1 - s2).c_str());
 						mir_utf8decode(tmp, nullptr);
-						db_set_s(ccs->hContact, szGPGModuleName, "KeyComment", tmp);
+						db_set_s(ccs->hContact, MODULENAME, "KeyComment", tmp);
 						mir_free(tmp);
 						s1 += 3;
 						s2 = output.find(">", s1);
 						tmp = (char*)mir_alloc(output.substr(s1, s2 - s1).length() + 1);
 						mir_strcpy(tmp, output.substr(s1, s2 - s1).c_str());
 						mir_utf8decode(tmp, nullptr);
-						db_set_s(ccs->hContact, szGPGModuleName, "KeyMainEmail", tmp);
+						db_set_s(ccs->hContact, MODULENAME, "KeyMainEmail", tmp);
 						mir_free(tmp);
 					}
 					else
@@ -527,11 +527,11 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 						tmp = (char*)mir_alloc(output.substr(s2, s1 - s2).length() + 1);
 						mir_strcpy(tmp, output.substr(s2, s1 - s2).c_str());
 						mir_utf8decode(tmp, nullptr);
-						db_set_s(ccs->hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2, s1 - s2).c_str());
+						db_set_s(ccs->hContact, MODULENAME, "KeyMainEmail", output.substr(s2, s1 - s2).c_str());
 						mir_free(tmp);
 					}
-					db_set_b(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
-					db_set_b(ccs->hContact, szGPGModuleName, "bAlwatsTrust", 1);
+					db_set_b(ccs->hContact, MODULENAME, "GPGEncryption", 1);
+					db_set_b(ccs->hContact, MODULENAME, "bAlwatsTrust", 1);
 					setSrmmIcon(ccs->hContact);
 					setClistIcon(ccs->hContact);
 					if (db_mc_isSub(ccs->hContact))
@@ -571,17 +571,17 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": info(autoexchange): received key request from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
 
-		ptrA tmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", ""));
+		ptrA tmp(UniGetContactSettingUtf(NULL, MODULENAME, "GPGPubKey", ""));
 		if (tmp[0]) {
-			int enc_state = db_get_b(ccs->hContact, szGPGModuleName, "GPGEncryption", 0);
+			int enc_state = db_get_b(ccs->hContact, MODULENAME, "GPGEncryption", 0);
 			if (enc_state)
-				db_set_b(ccs->hContact, szGPGModuleName, "GPGEncryption", 0);
+				db_set_b(ccs->hContact, MODULENAME, "GPGEncryption", 0);
 
 			string str1 = "-----PGP KEY RESPONSE-----";
 			str1.append(tmp);
 			ProtoChainSend(ccs->hContact, PSS_MESSAGE, 0, (LPARAM)str1.c_str());
 			if (enc_state)
-				db_set_b(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
+				db_set_b(ccs->hContact, MODULENAME, "GPGEncryption", 1);
 		}
 		return 0;
 	}
@@ -656,7 +656,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	{
 		wchar_t *tmp2;
 		{
-			char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
+			char *tmp = UniGetContactSettingUtf(hContact, MODULENAME, "KeyID", "");
 			if (!tmp[0]) {
 				mir_free(tmp);
 				HistoryLog(hContact, db_event("Failed to encrypt message with GPG (not found key for encryption in db)", 0, 0, DBEF_SENT));
@@ -669,7 +669,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 				cmd.push_back(L"\"\"");
 				cmd.push_back(L"--no-version");
 			}
-			if (db_get_b(hContact, szGPGModuleName, "bAlwaysTrust", 0)) {
+			if (db_get_b(hContact, MODULENAME, "bAlwaysTrust", 0)) {
 				cmd.push_back(L"--trust-model");
 				cmd.push_back(L"always");
 			}
@@ -683,7 +683,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		mir_free(tmp2);
 	}
 	{
-		wchar_t *tmp2 = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+		wchar_t *tmp2 = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
 		path = tmp2;
 		cmd.push_back(std::wstring(tmp2) + L"\\tmp\\" + file);
 		mir_free(tmp2);
@@ -699,7 +699,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 			count += step;
 			if(count >= timeout)
 			{
-				db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0); //disable encryption
+				db_set_b(hContact, MODULENAME, "GPGEncryption", 0); //disable encryption
 				setSrmmIcon(hContact);
 				setClistIcon(hContact);
 				globals.debuglog << std::string(time_str() + ": info: failed to create temporary file for encryption, disabling encryption to avoid deadlock");
@@ -735,7 +735,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	if (out.find("There is no assurance this key belongs to the named user") != string::npos) {
 		out.clear();
 		if (MessageBox(nullptr, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
-			db_set_b(hContact, szGPGModuleName, "bAlwaysTrust", 1);
+			db_set_b(hContact, MODULENAME, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;
 			tmp.push_back(L"--trust-model");
 			tmp.push_back(L"always");
@@ -791,7 +791,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		count += step;
 		if(count >= timeout)
 		{
-			db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0); //disable encryption
+			db_set_b(hContact, MODULENAME, "GPGEncryption", 0); //disable encryption
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 			globals.debuglog << std::string(time_str() + ": info: gpg failed to encrypt message, disabling encryption to avoid deadlock");

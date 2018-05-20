@@ -34,8 +34,7 @@ static HMODULE hRichEd = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfoEx =
-{
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -47,6 +46,13 @@ PLUGININFOEX pluginInfoEx =
 	// {CD5427FB-5320-4f65-B4BF-86B7CF7B5087}
 	{0xcd5427fb, 0x5320, 0x4f65, {0xb4, 0xbf, 0x86, 0xb7, 0xcf, 0x7b, 0x50, 0x87}}
 };
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{
+	RegisterProtocol(PROTOTYPE_PROTOCOL);
+	SetUniqueId("PreserveName");
+}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

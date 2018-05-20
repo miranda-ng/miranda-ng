@@ -23,15 +23,13 @@
 //=======================================================
 //	Definitions
 //=======================================================
-#define modname			"BuddyPounce"
-#define modFullname		"Buddy Pounce"
-#define msg(a,b)		MessageBox(0,a,b,MB_OK)
+#define MODULENAME   "BuddyPounce"
+#define modFullname  "Buddy Pounce"
+#define msg(a,b)     MessageBox(0,a,b,MB_OK)
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(modname)
-	{}
+	CMPlugin();
 };
 
 #define SECONDSINADAY	86400

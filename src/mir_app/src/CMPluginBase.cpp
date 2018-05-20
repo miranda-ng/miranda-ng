@@ -68,8 +68,9 @@ MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMPluginBase::CMPluginBase(const char *moduleName) :
-	m_szModuleName(moduleName)
+CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
+	m_szModuleName(moduleName),
+	m_pInfo(pInfo)
 {
 	if (m_hInst != nullptr)
 		pluginListAddr.insert(this);

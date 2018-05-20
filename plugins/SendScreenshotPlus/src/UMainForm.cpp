@@ -749,54 +749,54 @@ TfrmMain::~TfrmMain()
 
 void TfrmMain::LoadOptions(void)
 {
-	DWORD rgb = db_get_dw(NULL, SZ_SENDSS, "AlphaColor", 16777215);
+	DWORD rgb = db_get_dw(NULL, MODULENAME, "AlphaColor", 16777215);
 	m_AlphaColor.rgbRed = GetRValue(rgb);
 	m_AlphaColor.rgbGreen = GetGValue(rgb);
 	m_AlphaColor.rgbBlue = GetBValue(rgb);
 	m_AlphaColor.rgbReserved = 0;
 
-	//	m_opt_chkEmulateClick		= db_get_b(NULL, SZ_SENDSS, "AutoSend", 1);
-	m_opt_edtQuality = db_get_b(NULL, SZ_SENDSS, "JpegQuality", 75);
+	//	m_opt_chkEmulateClick		= db_get_b(NULL, MODULENAME, "AutoSend", 1);
+	m_opt_edtQuality = db_get_b(NULL, MODULENAME, "JpegQuality", 75);
 
-	m_opt_tabCapture = db_get_b(NULL, SZ_SENDSS, "Capture", 0);
-	m_opt_chkIndirectCapture = db_get_b(NULL, SZ_SENDSS, "IndirectCapture", 0);
-	m_opt_chkClientArea = db_get_b(NULL, SZ_SENDSS, "ClientArea", 0);
-	m_opt_cboxDesktop = db_get_b(NULL, SZ_SENDSS, "Desktop", 0);
+	m_opt_tabCapture = db_get_b(NULL, MODULENAME, "Capture", 0);
+	m_opt_chkIndirectCapture = db_get_b(NULL, MODULENAME, "IndirectCapture", 0);
+	m_opt_chkClientArea = db_get_b(NULL, MODULENAME, "ClientArea", 0);
+	m_opt_cboxDesktop = db_get_b(NULL, MODULENAME, "Desktop", 0);
 
-	m_opt_chkTimed = db_get_b(NULL, SZ_SENDSS, "TimedCap", 0);
-	m_opt_edtTimed = db_get_b(NULL, SZ_SENDSS, "CapTime", 3);
-	m_opt_cboxFormat = db_get_b(NULL, SZ_SENDSS, "OutputFormat", 0);
-	m_opt_cboxSendBy = db_get_b(NULL, SZ_SENDSS, "SendBy", 0);
+	m_opt_chkTimed = db_get_b(NULL, MODULENAME, "TimedCap", 0);
+	m_opt_edtTimed = db_get_b(NULL, MODULENAME, "CapTime", 3);
+	m_opt_cboxFormat = db_get_b(NULL, MODULENAME, "OutputFormat", 0);
+	m_opt_cboxSendBy = db_get_b(NULL, MODULENAME, "SendBy", 0);
 
-	m_opt_btnDesc = db_get_b(NULL, SZ_SENDSS, "AutoDescription", 1);
-	m_opt_btnDeleteAfterSend = db_get_b(NULL, SZ_SENDSS, "DelAfterSend", 1) != 0;
-	m_opt_chkEditor = db_get_b(NULL, SZ_SENDSS, "Preview", 0);
-	m_opt_chkOpenAgain = db_get_b(NULL, SZ_SENDSS, "OpenAgain", 0);
+	m_opt_btnDesc = db_get_b(NULL, MODULENAME, "AutoDescription", 1);
+	m_opt_btnDeleteAfterSend = db_get_b(NULL, MODULENAME, "DelAfterSend", 1) != 0;
+	m_opt_chkEditor = db_get_b(NULL, MODULENAME, "Preview", 0);
+	m_opt_chkOpenAgain = db_get_b(NULL, MODULENAME, "OpenAgain", 0);
 }
 
 void TfrmMain::SaveOptions(void)
 {
 	if (m_bOnExitSave) {
-		db_set_dw(NULL, SZ_SENDSS, "AlphaColor",
+		db_set_dw(NULL, MODULENAME, "AlphaColor",
 			(DWORD)RGB(m_AlphaColor.rgbRed, m_AlphaColor.rgbGreen, m_AlphaColor.rgbBlue));
 
-		//		db_set_b(NULL, SZ_SENDSS, "AutoSend", m_opt_chkEmulateClick);
-		db_set_b(NULL, SZ_SENDSS, "JpegQuality", m_opt_edtQuality);
+		//		db_set_b(NULL, MODULENAME, "AutoSend", m_opt_chkEmulateClick);
+		db_set_b(NULL, MODULENAME, "JpegQuality", m_opt_edtQuality);
 
-		db_set_b(NULL, SZ_SENDSS, "Capture", m_opt_tabCapture);
-		db_set_b(NULL, SZ_SENDSS, "IndirectCapture", m_opt_chkIndirectCapture);
-		db_set_b(NULL, SZ_SENDSS, "ClientArea", m_opt_chkClientArea);
-		db_set_b(NULL, SZ_SENDSS, "Desktop", m_opt_cboxDesktop);
+		db_set_b(NULL, MODULENAME, "Capture", m_opt_tabCapture);
+		db_set_b(NULL, MODULENAME, "IndirectCapture", m_opt_chkIndirectCapture);
+		db_set_b(NULL, MODULENAME, "ClientArea", m_opt_chkClientArea);
+		db_set_b(NULL, MODULENAME, "Desktop", m_opt_cboxDesktop);
 
-		db_set_b(NULL, SZ_SENDSS, "TimedCap", m_opt_chkTimed);
-		db_set_b(NULL, SZ_SENDSS, "CapTime", m_opt_edtTimed);
-		db_set_b(NULL, SZ_SENDSS, "OutputFormat", m_opt_cboxFormat);
-		db_set_b(NULL, SZ_SENDSS, "SendBy", m_opt_cboxSendBy);
+		db_set_b(NULL, MODULENAME, "TimedCap", m_opt_chkTimed);
+		db_set_b(NULL, MODULENAME, "CapTime", m_opt_edtTimed);
+		db_set_b(NULL, MODULENAME, "OutputFormat", m_opt_cboxFormat);
+		db_set_b(NULL, MODULENAME, "SendBy", m_opt_cboxSendBy);
 
-		db_set_b(NULL, SZ_SENDSS, "AutoDescription", m_opt_btnDesc);
-		db_set_b(NULL, SZ_SENDSS, "DelAfterSend", m_opt_btnDeleteAfterSend);
-		db_set_b(NULL, SZ_SENDSS, "Preview", m_opt_chkEditor);
-		db_set_b(NULL, SZ_SENDSS, "OpenAgain", m_opt_chkOpenAgain);
+		db_set_b(NULL, MODULENAME, "AutoDescription", m_opt_btnDesc);
+		db_set_b(NULL, MODULENAME, "DelAfterSend", m_opt_btnDeleteAfterSend);
+		db_set_b(NULL, MODULENAME, "Preview", m_opt_chkEditor);
+		db_set_b(NULL, MODULENAME, "OpenAgain", m_opt_chkOpenAgain);
 	}
 }
 
@@ -992,7 +992,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 		return 1;		//error
 
 	// generate file name
-	unsigned FileNumber = db_get_dw(NULL, SZ_SENDSS, "FileNumber", 0) + 1;
+	unsigned FileNumber = db_get_dw(NULL, MODULENAME, "FileNumber", 0) + 1;
 	if (FileNumber > 99999)
 		FileNumber = 1;
 	
@@ -1080,7 +1080,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 	if (!ret)
 		return 1; // error
 	
-	db_set_dw(NULL, SZ_SENDSS, "FileNumber", FileNumber);
+	db_set_dw(NULL, MODULENAME, "FileNumber", FileNumber);
 	replaceStrW(m_pszFile, wszFileName);
 
 	if (!IsWindowEnabled(GetDlgItem(m_hWnd, ID_chkDesc)) || !m_opt_btnDesc)

@@ -70,19 +70,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #	define sntprintf snwprintf
 #endif
 
-#define ModuleName "IEHistory"
+#define MODULENAME "IEHistory"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(ModuleName)
-	{}
+	CMPlugin();
 }; 
 
 extern HICON hIcon; //history icon
 extern MWindowList hOpenWindowsList;
-
-extern PLUGININFOEX pluginInfo;
 
 extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
 

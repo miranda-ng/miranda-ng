@@ -44,11 +44,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "resource.h"
 #include "version.h"
 
+#define MODULENAME "AddContact"
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>("AddContact")
-	{}
+	CMPlugin();
 };
 
 #define	ICON_ADD "AddContactPlus_Icon"

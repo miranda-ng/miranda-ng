@@ -25,7 +25,7 @@ static IconItem iconList[] =
 
 void InitIconLib()
 {
-	g_plugin.registerIcon(szGPGModuleName, iconList);
+	g_plugin.registerIcon(MODULENAME, iconList);
 }
 
 HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)
@@ -50,7 +50,7 @@ void setSrmmIcon(MCONTACT h)
 	MCONTACT hMC = db_mc_tryMeta(hContact);
 
 	StatusIconData sid = {};
-	sid.szModule = szGPGModuleName;
+	sid.szModule = MODULENAME;
 	sid.hIcon = IcoLib_GetIcon("secured");
 	sid.dwId = 1;
 	sid.flags = enabled ? 0 : MBF_HIDDEN;

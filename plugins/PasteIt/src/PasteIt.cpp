@@ -45,7 +45,7 @@ CHAT_MANAGER *pci;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -59,9 +59,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x1aac15e8, 0xdcec, 0x4050, { 0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -184,7 +188,7 @@ static int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
 
-	if (!mir_strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) {
+	if (!mir_strcmp(cbc->pszModule, MODULENAME) && cbc->dwButtonId == 1 && hContact) {
 		if (cbc->flags == BBCF_ARROWCLICKED) {
 			HMENU hMenu = CreatePopupMenu();
 			if (hMenu) {
@@ -307,7 +311,7 @@ static void InitTabsrmmButton()
 {
 	BBButton btn = {};
 	btn.dwButtonID = 1;
-	btn.pszModuleName = MODULE;
+	btn.pszModuleName = MODULENAME;
 	btn.dwDefPos = 110;
 	btn.hIcon = iconList[0].hIcolib;
 	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
@@ -351,14 +355,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 
 	g_plugin.registerIcon(LPGEN("Paste It"), iconList);
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_HTTPCONNS;
-	nlu.szSettingsModule = MODULE;
+	nlu.szSettingsModule = MODULENAME;
 	nlu.szDescriptiveName.w = TranslateT("Paste It HTTP connections");
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 

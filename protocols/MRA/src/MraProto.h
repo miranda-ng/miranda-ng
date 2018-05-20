@@ -342,9 +342,5 @@ struct CMraProto : public PROTO<CMraProto>
 
 struct CMPlugin : public ACCPROTOPLUGIN<CMraProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<CMraProto>("MRA")
-	{
-		SetUniqueId("e-mail");
-	}
+	CMPlugin();
 };

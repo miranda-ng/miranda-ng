@@ -113,6 +113,10 @@ PLUGININFOEX pluginInfoEx =
 	{0x82181510, 0x5dfa, 0x49d7, {0xb4, 0x69, 0x33, 0x87, 0x1e, 0x2a, 0xe8, 0xb5}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -161,7 +165,7 @@ void SaveSettings(BYTE OnlyCnt)
 	unsigned short int i;
 
 	// Сохраняем счётчик времени онлайна
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
+	db_set_dw(NULL, MODULENAME, SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
 
 	if (OnlyCnt) return;
 
@@ -172,26 +176,26 @@ void SaveSettings(BYTE OnlyCnt)
 	}
 
 	//settings for notification
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_BKCOLOR, Traffic_PopupBkColor);
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_FONTCOLOR, Traffic_PopupFontColor);
+	db_set_dw(NULL, MODULENAME, SETTINGS_POPUP_BKCOLOR, Traffic_PopupBkColor);
+	db_set_dw(NULL, MODULENAME, SETTINGS_POPUP_FONTCOLOR, Traffic_PopupFontColor);
 	//
-	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_NOTIFY_TIME_VALUE, Traffic_Notify_time_value);
+	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_TIME_VALUE, Traffic_Notify_time_value);
 	//
-	db_set_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, Traffic_Notify_size_value);
+	db_set_w(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, Traffic_Notify_size_value);
 	//
 	//popup timeout
-	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_DEFAULT, Traffic_PopupTimeoutDefault);
-	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, Traffic_PopupTimeoutValue);
+	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_DEFAULT, Traffic_PopupTimeoutDefault);
+	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_VALUE, Traffic_PopupTimeoutValue);
 	//
 	// Формат счётчиков
-	db_set_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
+	db_set_ws(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
 
-	db_set_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
+	db_set_ws(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
 
-	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
+	db_set_b(NULL, MODULENAME, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
 	// Сохраняем флаги
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
-	db_set_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
+	db_set_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, unOptions.Flags);
+	db_set_w(NULL, MODULENAME, SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
 }
 
 /*--------------------------------------------------------------------------------------------*/
@@ -880,7 +884,7 @@ INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM)
 		ShowWindow(TrafficHwnd, unOptions.FrameIsVisible ? SW_SHOW : SW_HIDE);
 	else
 		CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)Traffic_FrameID, 0);
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
+	db_set_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, unOptions.Flags);
 	//
 	return 0;
 }
@@ -1086,21 +1090,21 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	ModuleLoad(0, 0);
 
 	// Читаем флаги
-	unOptions.Flags = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, 0x0882);
-	Stat_SelAcc = db_get_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, 0x01);
+	unOptions.Flags = db_get_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, 0x0882);
+	Stat_SelAcc = db_get_w(NULL, MODULENAME, SETTINGS_STAT_ACC_OPT, 0x01);
 
 	// settings for notification
-	Traffic_PopupBkColor = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_BKCOLOR, RGB(200, 255, 200));
-	Traffic_PopupFontColor = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_FONTCOLOR, RGB(0, 0, 0));
-	Traffic_Notify_time_value = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_NOTIFY_TIME_VALUE, 10);
-	Traffic_Notify_size_value = db_get_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, 100);
+	Traffic_PopupBkColor = db_get_dw(NULL, MODULENAME, SETTINGS_POPUP_BKCOLOR, RGB(200, 255, 200));
+	Traffic_PopupFontColor = db_get_dw(NULL, MODULENAME, SETTINGS_POPUP_FONTCOLOR, RGB(0, 0, 0));
+	Traffic_Notify_time_value = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_TIME_VALUE, 10);
+	Traffic_Notify_size_value = db_get_w(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, 100);
 
 	// popup timeout
-	Traffic_PopupTimeoutDefault = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_DEFAULT, 1);
-	Traffic_PopupTimeoutValue = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
+	Traffic_PopupTimeoutDefault = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_DEFAULT, 1);
+	Traffic_PopupTimeoutValue = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
 
 	// Формат счётчика для каждого активного протокола
-	if (db_get_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0) {
+	if (db_get_ws(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT, &dbv) == 0) {
 		if (mir_wstrlen(dbv.ptszVal) > 0)
 			mir_wstrncpy(Traffic_CounterFormat, dbv.ptszVal, _countof(Traffic_CounterFormat));
 		//
@@ -1112,7 +1116,7 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Формат всплывающих подсказок
-	if (db_get_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0) {
+	if (db_get_ws(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0) {
 		if (mir_wstrlen(dbv.ptszVal) > 0)
 			mir_wstrncpy(Traffic_TooltipFormat, dbv.ptszVal, _countof(Traffic_TooltipFormat));
 		//
@@ -1123,16 +1127,16 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 		mir_wstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
 	}
 
-	Traffic_AdditionSpace = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
+	Traffic_AdditionSpace = db_get_b(NULL, MODULENAME, SETTINGS_ADDITION_SPACE, 0);
 
 	// Счётчик времени онлайна
-	OverallInfo.Total.Timer = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, 0);
+	OverallInfo.Total.Timer = db_get_dw(NULL, MODULENAME, SETTINGS_TOTAL_ONLINE_TIME, 0);
 
 	//register traffic font
 	TrafficFontID.cbSize = sizeof(FontIDW);
 	mir_wstrcpy(TrafficFontID.group, LPGENW("Traffic counter"));
 	mir_wstrcpy(TrafficFontID.name, LPGENW("Font"));
-	mir_strcpy(TrafficFontID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
+	mir_strcpy(TrafficFontID.dbSettingsGroup, MODULENAME);
 	mir_strcpy(TrafficFontID.prefix, "Font");
 	TrafficFontID.flags = FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 	TrafficFontID.deffontsettings.charset = DEFAULT_CHARSET;
@@ -1147,7 +1151,7 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	TrafficBackgroundColorID.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(TrafficBackgroundColorID.group, LPGENW("Traffic counter"));
 	mir_wstrcpy(TrafficBackgroundColorID.name, LPGENW("Font"));
-	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
+	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, MODULENAME);
 	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
 	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
 	Colour_RegisterW(&TrafficBackgroundColorID);

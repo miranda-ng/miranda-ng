@@ -364,9 +364,5 @@ public:
 
 struct CMPlugin : public ACCPROTOPLUGIN<CDiscordProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<CDiscordProto>("Discord")
-	{
-		SetUniqueId(DB_KEY_ID);
-	}
+	CMPlugin();
 };

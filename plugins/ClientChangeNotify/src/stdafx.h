@@ -82,17 +82,15 @@
 
 #define NOTIFYTIMER_INTERVAL 3500
 
-#define MOD_NAME "ClientChangeNotify"
+#define MODULENAME "ClientChangeNotify"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MOD_NAME)
-	{}
+	CMPlugin();
 };
 
-#define LOG_ID MOD_NAME
-#define LOG_PREFIX MOD_NAME ": " // for netlib.log
+#define LOG_ID MODULENAME
+#define LOG_PREFIX MODULENAME ": " // for netlib.log
 
 #define MS_NETLIB_LOG "Netlib/Log"
 

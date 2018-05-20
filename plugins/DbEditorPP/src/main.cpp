@@ -16,9 +16,8 @@ extern HWND hwnd2watchedVarsWindow;
 
 #pragma comment(lib, "shlwapi.lib")
 
-//========================
+/////////////////////////////////////////////////////////////////////////////////////////
 //  MirandaPluginInfo
-//========================
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -34,15 +33,23 @@ PLUGININFOEX pluginInfoEx =
 	{ 0xa8a417ef, 0x7aa, 0x4f37, { 0x86, 0x9f, 0x7b, 0xfd, 0x74, 0x88, 0x65, 0x34 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // we implement service mode interface
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_LAST };
 
-int DBSettingChanged(WPARAM hContact, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
@@ -95,7 +102,7 @@ static int OnTTBLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM, LPARAM)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	IcoLibRegister();
 
@@ -126,7 +133,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
 	Hotkey_Register(&hkd);
 
-	g_bUsePopups = db_get_b(NULL, modname, "UsePopUps", 0) != 0;
+	g_bUsePopups = db_get_b(NULL, MODULENAME, "UsePopUps", 0) != 0;
 
 	// Load the name order
 	for (int i = 0; i < NAMEORDERCOUNT; i++)
@@ -145,14 +152,14 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int PreShutdown(WPARAM, LPARAM)
+static int PreShutdown(WPARAM, LPARAM)
 {
 	if (hwnd2watchedVarsWindow) DestroyWindow(hwnd2watchedVarsWindow);
 	if (hwnd2mainWindow) DestroyWindow(hwnd2mainWindow);
 	return 0;
 }
 
-INT_PTR ServiceMode(WPARAM, LPARAM)
+static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
 	g_bServiceMode = true;
 
@@ -162,7 +169,7 @@ INT_PTR ServiceMode(WPARAM, LPARAM)
 	return SERVICE_ONLYDB;  // load database and then call us
 }
 
-INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
+static INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
 {
 	ImportSettingsFromFileMenuItem(wParam, (char *)lParam);
 	return 0;
@@ -196,13 +203,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	freeAllWatches();
 	return 0;
 }
 
-// ======================================================================================================================
+/////////////////////////////////////////////////////////////////////////////////////////
 
 char *StringFromBlob(BYTE *blob, WORD len)
 {
@@ -516,7 +525,7 @@ void loadListSettings(HWND hwnd, ColumnsSettings *cs)
 	int i = 0;
 	while (cs[i].name) {
 		sLC.pszText = TranslateW(cs[i].name);
-		sLC.cx = db_get_w(NULL, modname, cs[i].dbname, cs[i].defsize);
+		sLC.cx = db_get_w(NULL, MODULENAME, cs[i].dbname, cs[i].defsize);
 		ListView_InsertColumn(hwnd, cs[i].index, &sLC);
 		i++;
 	}
@@ -531,7 +540,7 @@ void saveListSettings(HWND hwnd, ColumnsSettings *cs)
 	while (cs[i].name) {
 		if (ListView_GetColumn(hwnd, cs[i].index, &sLC)) {
 			mir_snprintf(tmp, cs[i].dbname, i);
-			db_set_w(NULL, modname, tmp, (WORD)sLC.cx);
+			db_set_w(NULL, MODULENAME, tmp, (WORD)sLC.cx);
 		}
 		i++;
 	}

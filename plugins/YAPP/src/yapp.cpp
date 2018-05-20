@@ -30,7 +30,7 @@ HGENMENU hMenuRoot, hMenuItem, hMenuItemHistory;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -44,9 +44,13 @@ PLUGININFOEX pluginInfo =
 	{0xefd15f16, 0x7ae4, 0x40d7, {0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +98,7 @@ static void InitFonts()
 	font_id_firstline.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(font_id_firstline.group, LPGENW("Popups"));
 	mir_wstrcpy(font_id_firstline.name, LPGENW("First line"));
-	mir_strcpy(font_id_firstline.dbSettingsGroup, MODULE);
+	mir_strcpy(font_id_firstline.dbSettingsGroup, MODULENAME);
 	mir_strcpy(font_id_firstline.prefix, "FontFirst");
 	mir_wstrcpy(font_id_firstline.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_firstline.backgroundName, L"Background");
@@ -105,7 +109,7 @@ static void InitFonts()
 	font_id_secondline.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(font_id_secondline.group, LPGENW("Popups"));
 	mir_wstrcpy(font_id_secondline.name, LPGENW("Second line"));
-	mir_strcpy(font_id_secondline.dbSettingsGroup, MODULE);
+	mir_strcpy(font_id_secondline.dbSettingsGroup, MODULENAME);
 	mir_strcpy(font_id_secondline.prefix, "FontSecond");
 	mir_wstrcpy(font_id_secondline.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_secondline.backgroundName, L"Background");
@@ -116,7 +120,7 @@ static void InitFonts()
 	font_id_time.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(font_id_time.group, LPGENW("Popups"));
 	mir_wstrcpy(font_id_time.name, LPGENW("Time"));
-	mir_strcpy(font_id_time.dbSettingsGroup, MODULE);
+	mir_strcpy(font_id_time.dbSettingsGroup, MODULENAME);
 	mir_strcpy(font_id_time.prefix, "FontTime");
 	mir_wstrcpy(font_id_time.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_time.backgroundName, L"Background");
@@ -126,7 +130,7 @@ static void InitFonts()
 	colour_id_bg.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_bg.group, LPGENW("Popups"));
 	mir_wstrcpy(colour_id_bg.name, LPGENW("Background"));
-	mir_strcpy(colour_id_bg.dbSettingsGroup, MODULE);
+	mir_strcpy(colour_id_bg.dbSettingsGroup, MODULENAME);
 	mir_strcpy(colour_id_bg.setting, "ColourBg");
 	colour_id_bg.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_bg.order = 0;
@@ -135,7 +139,7 @@ static void InitFonts()
 	colour_id_border.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_border.group, LPGENW("Popups"));
 	mir_wstrcpy(colour_id_border.name, LPGENW("Border"));
-	mir_strcpy(colour_id_border.dbSettingsGroup, MODULE);
+	mir_strcpy(colour_id_border.dbSettingsGroup, MODULENAME);
 	mir_strcpy(colour_id_border.setting, "ColourBorder");
 	colour_id_border.defcolour = RGB(0, 0, 0);
 	colour_id_border.order = 1;
@@ -144,7 +148,7 @@ static void InitFonts()
 	colour_id_sidebar.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_sidebar.group, LPGENW("Popups"));
 	mir_wstrcpy(colour_id_sidebar.name, LPGENW("Sidebar"));
-	mir_strcpy(colour_id_sidebar.dbSettingsGroup, MODULE);
+	mir_strcpy(colour_id_sidebar.dbSettingsGroup, MODULENAME);
 	mir_strcpy(colour_id_sidebar.setting, "ColourSidebar");
 	colour_id_sidebar.defcolour = RGB(128, 128, 128);
 	colour_id_sidebar.order = 2;
@@ -153,7 +157,7 @@ static void InitFonts()
 	colour_id_titleunderline.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_titleunderline.group, LPGENW("Popups"));
 	mir_wstrcpy(colour_id_titleunderline.name, LPGENW("Title underline"));
-	mir_strcpy(colour_id_titleunderline.dbSettingsGroup, MODULE);
+	mir_strcpy(colour_id_titleunderline.dbSettingsGroup, MODULENAME);
 	mir_strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
 	colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_titleunderline.order = 3;
@@ -213,7 +217,7 @@ static int PreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	InitMessagePump();

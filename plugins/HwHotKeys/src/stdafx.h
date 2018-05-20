@@ -38,14 +38,10 @@ INT_PTR CALLBACK OptDlgProc(HWND, UINT, WPARAM, LPARAM);
 VOID HwHotKeys_PrintFullKeyname(DWORD);
 BOOL HwHotKeys_CompareCurrentScancode(DWORD);
 LRESULT CALLBACK key_hook(INT, WPARAM, LPARAM);
-extern CLIST_INTERFACE *pcli;
-
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(__DbModName)
-	{}
+	CMPlugin();
 };
 
 extern HWND hDialogWnd; // глобально используется для вывода туда в реалтайме сканкодов клавы, из хука

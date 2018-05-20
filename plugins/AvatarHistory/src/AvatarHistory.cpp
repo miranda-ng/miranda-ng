@@ -41,7 +41,9 @@ wchar_t* GetOldStyleAvatarName(wchar_t *fn, MCONTACT hContact);
 
 void InitMenuItem();
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -54,9 +56,13 @@ PLUGININFOEX pluginInfo = {
 	{0xdbe8c990, 0x7aa0, 0x458d, {0xba, 0xb7, 0x33, 0xeb, 0x7, 0x23, 0x8e, 0x71}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +111,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbvOldHash = { 0 };
-	bool ret = (db_get_ws(hContact, MODULE_NAME, "AvatarHash", &dbvOldHash) == 0);
+	bool ret = (db_get_ws(hContact, MODULENAME, "AvatarHash", &dbvOldHash) == 0);
 
 	CONTACTAVATARCHANGEDNOTIFICATION* avatar = (CONTACTAVATARCHANGEDNOTIFICATION*)lParam;
 	if (avatar == nullptr) {
@@ -119,7 +125,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		Skin_PlaySound("avatar_removed");
 
 		// Is a flash avatar or avs could not load it
-		db_set_ws(hContact, MODULE_NAME, "AvatarHash", L"-");
+		db_set_ws(hContact, MODULENAME, "AvatarHash", L"-");
 
 		if (ContactEnabled(hContact, "AvatarPopups", AVH_DEF_AVPOPUPS) && opts.popup_show_removed)
 			ShowPopup(hContact, nullptr, opts.popup_removed);
@@ -280,12 +286,12 @@ static INT_PTR CALLBACK FirstRunDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	CoInitialize(nullptr);
 
 	// Is first run?
-	if (db_get_b(NULL, MODULE_NAME, "FirstRun", 1)) {
+	if (db_get_b(NULL, MODULENAME, "FirstRun", 1)) {
 		// Show dialog
 		int ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FIRST_RUN), nullptr, FirstRunDlgProc, 0);
 		if (ret == 0)
@@ -293,29 +299,29 @@ extern "C" __declspec(dllexport) int Load(void)
 
 		// Write settings
 
-		db_set_b(NULL, MODULE_NAME, "LogToDisk", 1);
+		db_set_b(NULL, MODULENAME, "LogToDisk", 1);
 
 		if (ret == IDC_MIR_SAME)
-			db_set_b(NULL, MODULE_NAME, "LogKeepSameFolder", 1);
+			db_set_b(NULL, MODULENAME, "LogKeepSameFolder", 1);
 		else
-			db_set_b(NULL, MODULE_NAME, "LogKeepSameFolder", 0);
+			db_set_b(NULL, MODULENAME, "LogKeepSameFolder", 0);
 
 		if (ret == IDC_MIR_SHORT || ret == IDC_SHORT || ret == IDC_DUP)
-			db_set_b(NULL, MODULE_NAME, "LogPerContactFolders", 1);
+			db_set_b(NULL, MODULENAME, "LogPerContactFolders", 1);
 		else
-			db_set_b(NULL, MODULE_NAME, "LogPerContactFolders", 0);
+			db_set_b(NULL, MODULENAME, "LogPerContactFolders", 0);
 
 		if (ret == IDC_DUP)
-			db_set_b(NULL, MODULE_NAME, "StoreAsHash", 0);
+			db_set_b(NULL, MODULENAME, "StoreAsHash", 0);
 		else
-			db_set_b(NULL, MODULE_NAME, "StoreAsHash", 1);
+			db_set_b(NULL, MODULENAME, "StoreAsHash", 1);
 
 		if (ret == IDC_MIR_SAME || ret == IDC_MIR_PROTO || ret == IDC_MIR_SHORT)
-			db_set_b(NULL, MODULE_NAME, "LogToHistory", 1);
+			db_set_b(NULL, MODULENAME, "LogToHistory", 1);
 		else
-			db_set_b(NULL, MODULE_NAME, "LogToHistory", 0);
+			db_set_b(NULL, MODULENAME, "LogToHistory", 0);
 
-		db_set_b(NULL, MODULE_NAME, "FirstRun", 0);
+		db_set_b(NULL, MODULENAME, "FirstRun", 0);
 	}
 
 	LoadOptions();

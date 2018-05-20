@@ -4,15 +4,15 @@ void BuildList(void)
 {
 	g_accs.destroy();
 
-	for (auto &hContact : Contacts(MODULE_NAME)) {
-		ptrA szName(db_get_sa(hContact, MODULE_NAME, "name"));
+	for (auto &hContact : Contacts(MODULENAME)) {
+		ptrA szName(db_get_sa(hContact, MODULENAME, "name"));
 		if (szName != nullptr) {
 			Account *p = new Account;
 			p->hContact = hContact;
 			mir_strcpy(p->name, szName);
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 
-			ptrA szPassword(db_get_sa(hContact, MODULE_NAME, "Password"));
+			ptrA szPassword(db_get_sa(hContact, MODULENAME, "Password"));
 			if (szPassword != nullptr)
 				mir_strcpy(p->pass, szPassword);
 			g_accs.insert(p);
@@ -40,7 +40,7 @@ BOOL GetBrowser(char *str)
 	else if (opt.OpenUsePrg == 0)
 		strKey = strDefault;
 	else {
-		if (!db_get_s(NULL, MODULE_NAME, "OpenUsePrgPath", &dbv)) {
+		if (!db_get_s(NULL, MODULENAME, "OpenUsePrgPath", &dbv)) {
 			mir_strcpy(str, dbv.pszVal);
 			db_free(&dbv);
 		}

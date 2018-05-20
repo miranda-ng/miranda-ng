@@ -138,13 +138,13 @@ DWORD MouseOverride(HWND hCombo, int number)
 
 void LoadOption_Actions()
 {
-	PopupOptions.actions = db_get_dw(NULL, MODULNAME, "Actions",
+	PopupOptions.actions = db_get_dw(NULL, MODULENAME, "Actions",
 		ACT_ENABLE | ACT_RIGHTICONS | ACT_DEF_KEEPWND | ACT_DEF_IMONLY |
 		ACT_DEF_NOGLOBAL | ACT_DEF_MESSAGE | ACT_DEF_DETAILS | ACT_DEF_MENU |
 		ACT_DEF_ADD | ACT_DEF_DISMISS | ACT_DEF_PIN);
-	PopupOptions.overrideLeft = db_get_dw(NULL, MODULNAME, "OverrideLeft", 0);
-	PopupOptions.overrideMiddle = db_get_dw(NULL, MODULNAME, "OverrideMiddle", 0);
-	PopupOptions.overrideRight = db_get_dw(NULL, MODULNAME, "OverrideRight", 0);
+	PopupOptions.overrideLeft = db_get_dw(NULL, MODULENAME, "OverrideLeft", 0);
+	PopupOptions.overrideMiddle = db_get_dw(NULL, MODULENAME, "OverrideMiddle", 0);
+	PopupOptions.overrideRight = db_get_dw(NULL, MODULENAME, "OverrideRight", 0);
 }
 
 static UINT controls[] =
@@ -340,7 +340,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case PSN_APPLY:
-				db_set_dw(NULL, MODULNAME, "Actions", PopupOptions.actions);
+				db_set_dw(NULL, MODULENAME, "Actions", PopupOptions.actions);
 				HWND hwndList = GetDlgItem(hwnd, IDC_ACTIONS);
 
 				for (int i = 0; i < gActions.getCount(); ++i) {
@@ -349,9 +349,9 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				}
 
 				// overrideActions
-				db_set_dw(NULL, MODULNAME, "OverrideLeft", PopupOptions.overrideLeft);
-				db_set_dw(NULL, MODULNAME, "OverrideMiddle", PopupOptions.overrideMiddle);
-				db_set_dw(NULL, MODULNAME, "OverrideRight", PopupOptions.overrideRight);
+				db_set_dw(NULL, MODULENAME, "OverrideLeft", PopupOptions.overrideLeft);
+				db_set_dw(NULL, MODULENAME, "OverrideMiddle", PopupOptions.overrideMiddle);
+				db_set_dw(NULL, MODULENAME, "OverrideRight", PopupOptions.overrideRight);
 			}
 			break;
 

@@ -32,57 +32,57 @@ Options options;
 
 void LoadOptions()
 {
-	options.iAbsencePeriod = db_get_dw(NULL, MODULE_NAME, "iAbsencePeriod", 14);
-	options.iAbsencePeriod2 = db_get_dw(NULL, MODULE_NAME, "iAbsencePeriod2", 30 * 3);
-	options.iSilencePeriod = db_get_dw(NULL, MODULE_NAME, "iSilencePeriod", 30);
+	options.iAbsencePeriod = db_get_dw(NULL, MODULENAME, "iAbsencePeriod", 14);
+	options.iAbsencePeriod2 = db_get_dw(NULL, MODULENAME, "iAbsencePeriod2", 30 * 3);
+	options.iSilencePeriod = db_get_dw(NULL, MODULENAME, "iSilencePeriod", 30);
 
-	options.iShowPopup = db_get_b(NULL, MODULE_NAME, "iShowPopUp", 1);
-	options.iShowEvent = db_get_b(NULL, MODULE_NAME, "iShowEvent", 0);
-	options.iShowUDetails = db_get_b(NULL, MODULE_NAME, "iShowUDetails", 0);
-	options.iShowMessageWindow = db_get_b(NULL, MODULE_NAME, "iShowMessageWindow", 1);
+	options.iShowPopup = db_get_b(NULL, MODULENAME, "iShowPopUp", 1);
+	options.iShowEvent = db_get_b(NULL, MODULENAME, "iShowEvent", 0);
+	options.iShowUDetails = db_get_b(NULL, MODULENAME, "iShowUDetails", 0);
+	options.iShowMessageWindow = db_get_b(NULL, MODULENAME, "iShowMessageWindow", 1);
 
-	options.iPopupColorBack = db_get_dw(NULL, MODULE_NAME, "iPopUpColorBack", DEF_COLOR_BACK);
-	options.iPopupColorFore = db_get_dw(NULL, MODULE_NAME, "iPopUpColorFore", DEF_COLOR_FORE);
+	options.iPopupColorBack = db_get_dw(NULL, MODULENAME, "iPopUpColorBack", DEF_COLOR_BACK);
+	options.iPopupColorFore = db_get_dw(NULL, MODULENAME, "iPopUpColorFore", DEF_COLOR_FORE);
 
-	options.iUsePopupColors = db_get_b(NULL, MODULE_NAME, "iUsePopupColors", 0);
-	options.iUseWinColors = db_get_b(NULL, MODULE_NAME, "iUseWinColors", 0);
-	options.iPopupDelay = db_get_b(NULL, MODULE_NAME, "iPopUpDelay", 0);
+	options.iUsePopupColors = db_get_b(NULL, MODULENAME, "iUsePopupColors", 0);
+	options.iUseWinColors = db_get_b(NULL, MODULENAME, "iUseWinColors", 0);
+	options.iPopupDelay = db_get_b(NULL, MODULENAME, "iPopUpDelay", 0);
 
-	options.iShowPopup2 = db_get_b(NULL, MODULE_NAME, "iShowPopUp2", 1);
-	options.iShowEvent2 = db_get_b(NULL, MODULE_NAME, "iShowEvent2", 0);
-	options.action2 = (GoneContactAction)db_get_b(NULL, MODULE_NAME, "Action2", (BYTE)GCA_NOACTION);
-	options.notifyFirstOnline = db_get_b(NULL, MODULE_NAME, "bShowFirstSight", 0) ? true : false;
-	options.hideInactive = db_get_b(NULL, MODULE_NAME, "bHideInactive", 0) ? true : false;
-	options.enableMissYou = db_get_b(NULL, MODULE_NAME, "bMissYouEnabled", 1) ? true : false;
+	options.iShowPopup2 = db_get_b(NULL, MODULENAME, "iShowPopUp2", 1);
+	options.iShowEvent2 = db_get_b(NULL, MODULENAME, "iShowEvent2", 0);
+	options.action2 = (GoneContactAction)db_get_b(NULL, MODULENAME, "Action2", (BYTE)GCA_NOACTION);
+	options.notifyFirstOnline = db_get_b(NULL, MODULENAME, "bShowFirstSight", 0) ? true : false;
+	options.hideInactive = db_get_b(NULL, MODULENAME, "bHideInactive", 0) ? true : false;
+	options.enableMissYou = db_get_b(NULL, MODULENAME, "bMissYouEnabled", 1) ? true : false;
 }
 
 void SaveOptions()
 {
-	db_set_dw(NULL, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
-	db_set_dw(NULL, MODULE_NAME, "iAbsencePeriod2", options.iAbsencePeriod2);
-	db_set_dw(NULL, MODULE_NAME, "iSilencePeriod", options.iSilencePeriod);
+	db_set_dw(NULL, MODULENAME, "iAbsencePeriod", options.iAbsencePeriod);
+	db_set_dw(NULL, MODULENAME, "iAbsencePeriod2", options.iAbsencePeriod2);
+	db_set_dw(NULL, MODULENAME, "iSilencePeriod", options.iSilencePeriod);
 
-	db_set_b(NULL, MODULE_NAME, "iShowPopUp", options.iShowPopup);
-	db_set_b(NULL, MODULE_NAME, "iShowEvent", options.iShowEvent);
-	db_set_b(NULL, MODULE_NAME, "iShowUDetails", options.iShowUDetails);
-	db_set_b(NULL, MODULE_NAME, "iShowMessageWindow", options.iShowMessageWindow);
+	db_set_b(NULL, MODULENAME, "iShowPopUp", options.iShowPopup);
+	db_set_b(NULL, MODULENAME, "iShowEvent", options.iShowEvent);
+	db_set_b(NULL, MODULENAME, "iShowUDetails", options.iShowUDetails);
+	db_set_b(NULL, MODULENAME, "iShowMessageWindow", options.iShowMessageWindow);
 
-	db_set_b(NULL, MODULE_NAME, "iShowPopUp2", options.iShowPopup2);
-	db_set_b(NULL, MODULE_NAME, "iShowEvent2", options.iShowEvent2);
-	db_set_b(NULL, MODULE_NAME, "Action2", (BYTE)options.action2);
-	db_set_b(NULL, MODULE_NAME, "bShowFirstSight", options.notifyFirstOnline ? 1 : 0);
-	db_set_b(NULL, MODULE_NAME, "bHideInactive", options.hideInactive ? 1 : 0);
-	db_set_b(NULL, MODULE_NAME, "bMissYouEnabled", options.enableMissYou ? 1 : 0);
+	db_set_b(NULL, MODULENAME, "iShowPopUp2", options.iShowPopup2);
+	db_set_b(NULL, MODULENAME, "iShowEvent2", options.iShowEvent2);
+	db_set_b(NULL, MODULENAME, "Action2", (BYTE)options.action2);
+	db_set_b(NULL, MODULENAME, "bShowFirstSight", options.notifyFirstOnline ? 1 : 0);
+	db_set_b(NULL, MODULENAME, "bHideInactive", options.hideInactive ? 1 : 0);
+	db_set_b(NULL, MODULENAME, "bMissYouEnabled", options.enableMissYou ? 1 : 0);
 }
 
 void SavePopupOptions()
 {
-	db_set_dw(NULL, MODULE_NAME, "iPopUpColorBack", options.iPopupColorBack);
-	db_set_dw(NULL, MODULE_NAME, "iPopUpColorFore", options.iPopupColorFore);
+	db_set_dw(NULL, MODULENAME, "iPopUpColorBack", options.iPopupColorBack);
+	db_set_dw(NULL, MODULENAME, "iPopUpColorFore", options.iPopupColorFore);
 
-	db_set_b(NULL, MODULE_NAME, "iUsePopupColors", options.iUsePopupColors);
-	db_set_b(NULL, MODULE_NAME, "iUseWinColors", options.iUseWinColors);
-	db_set_b(NULL, MODULE_NAME, "iPopUpDelay", options.iPopupDelay);
+	db_set_b(NULL, MODULENAME, "iUsePopupColors", options.iUsePopupColors);
+	db_set_b(NULL, MODULENAME, "iUseWinColors", options.iUseWinColors);
+	db_set_b(NULL, MODULENAME, "iPopUpDelay", options.iPopupDelay);
 }
 
 /**
@@ -247,8 +247,8 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
 			// clear all notified settings
 			for (auto &hContact : Contacts())
-				if (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0))
-					db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 0);
+				if (db_get_b(hContact, MODULENAME, "StillAbsentNotified", 0))
+					db_set_b(hContact, MODULENAME, "StillAbsentNotified", 0);
 
 			// restart timer & run check
 			KillTimer(nullptr, timer_id);
@@ -473,7 +473,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, tmpBuf);
 		}
 
-		unsigned int AbsencePeriod = db_get_dw((MCONTACT)lparam, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
+		unsigned int AbsencePeriod = db_get_dw((MCONTACT)lparam, MODULENAME, "iAbsencePeriod", options.iAbsencePeriod);
 
 		SendDlgItemMessage(hdlg, IDC_SPINABSENCE, UDM_SETRANGE, 0, MAKELONG(999, 1));
 		SetDlgItemInt(hdlg, IDC_EDITABSENCE, AbsencePeriod, FALSE);
@@ -483,9 +483,9 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 		else
 			SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, L"");
 
-		CheckDlgButton(hdlg, IDC_CHECK_MISSYOU, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_NOTIFYALWAYS, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_NEVERHIDE, db_get_b((MCONTACT)lparam, MODULE_NAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CHECK_MISSYOU, db_get_b((MCONTACT)lparam, MODULENAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CHECK_NOTIFYALWAYS, db_get_b((MCONTACT)lparam, MODULENAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CHECK_NEVERHIDE, db_get_b((MCONTACT)lparam, MODULENAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		TranslateDialogDefault(hdlg);
 		return TRUE;
@@ -502,10 +502,10 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lparam)->lParam;
 				if (hContact)
 				{
-					db_set_dw(hContact, MODULE_NAME, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, nullptr, FALSE));
-					db_set_b(hContact, MODULE_NAME, "MissYou", (IsDlgButtonChecked(hdlg, IDC_CHECK_MISSYOU) == BST_CHECKED) ? 1 : 0);
-					db_set_b(hContact, MODULE_NAME, "MissYouNotifyAlways", (IsDlgButtonChecked(hdlg, IDC_CHECK_NOTIFYALWAYS) == BST_CHECKED) ? 1 : 0);
-					db_set_b(hContact, MODULE_NAME, "NeverHide", (IsDlgButtonChecked(hdlg, IDC_CHECK_NEVERHIDE) == BST_CHECKED) ? 1 : 0);
+					db_set_dw(hContact, MODULENAME, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, nullptr, FALSE));
+					db_set_b(hContact, MODULENAME, "MissYou", (IsDlgButtonChecked(hdlg, IDC_CHECK_MISSYOU) == BST_CHECKED) ? 1 : 0);
+					db_set_b(hContact, MODULENAME, "MissYouNotifyAlways", (IsDlgButtonChecked(hdlg, IDC_CHECK_NOTIFYALWAYS) == BST_CHECKED) ? 1 : 0);
+					db_set_b(hContact, MODULENAME, "NeverHide", (IsDlgButtonChecked(hdlg, IDC_CHECK_NEVERHIDE) == BST_CHECKED) ? 1 : 0);
 				}
 				break;
 			}

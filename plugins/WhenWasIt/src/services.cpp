@@ -29,26 +29,26 @@ int InitServices()
 {
 	Log("%s", "Entering function " __FUNCTION__);
 
-	commonData.foreground = db_get_dw(NULL, ModuleName, "Foreground", FOREGROUND_COLOR);
-	commonData.background = db_get_dw(NULL, ModuleName, "Background", BACKGROUND_COLOR);
-	commonData.checkInterval = db_get_w(NULL, ModuleName, "CheckInterval", CHECK_INTERVAL);
-	commonData.daysInAdvance = db_get_w(NULL, ModuleName, "DaysInAdvance", DAYS_TO_NOTIFY);
-	commonData.daysAfter = db_get_w(NULL, ModuleName, "DaysAfter", DAYS_TO_NOTIFY_AFTER);
-	commonData.popupTimeout = db_get_w(NULL, ModuleName, "PopupTimeout", POPUP_TIMEOUT);
-	commonData.popupTimeoutToday = db_get_w(NULL, ModuleName, "PopupTimeoutToday", commonData.popupTimeout);
-	commonData.bUsePopups = db_get_b(NULL, ModuleName, "UsePopups", TRUE);
-	commonData.bUseDialog = db_get_b(NULL, ModuleName, "UseDialog", TRUE);
-	commonData.bIgnoreSubcontacts = db_get_b(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
-	commonData.cShowAgeMode = db_get_b(NULL, ModuleName, "ShowCurrentAge", FALSE);
-	commonData.bNoBirthdaysPopup = db_get_b(NULL, ModuleName, "NoBirthdaysPopup", FALSE);
-	commonData.bOpenInBackground = db_get_b(NULL, ModuleName, "OpenInBackground", FALSE);
-	commonData.cSoundNearDays = db_get_b(NULL, ModuleName, "SoundNearDays", BIRTHDAY_NEAR_DEFAULT_DAYS);
-	commonData.cDefaultModule = db_get_b(NULL, ModuleName, "DefaultModule", 0);
-	commonData.lPopupClick = db_get_b(NULL, ModuleName, "PopupLeftClick", 2);
-	commonData.rPopupClick = db_get_b(NULL, ModuleName, "PopupRightClick", 1);
-	commonData.bOncePerDay = db_get_b(NULL, ModuleName, "OncePerDay", 0);
-	commonData.cDlgTimeout = db_get_w(NULL, ModuleName, "DlgTimeout", POPUP_TIMEOUT);
-	commonData.notifyFor = db_get_b(NULL, ModuleName, "NotifyFor", 0);
+	commonData.foreground = db_get_dw(NULL, MODULENAME, "Foreground", FOREGROUND_COLOR);
+	commonData.background = db_get_dw(NULL, MODULENAME, "Background", BACKGROUND_COLOR);
+	commonData.checkInterval = db_get_w(NULL, MODULENAME, "CheckInterval", CHECK_INTERVAL);
+	commonData.daysInAdvance = db_get_w(NULL, MODULENAME, "DaysInAdvance", DAYS_TO_NOTIFY);
+	commonData.daysAfter = db_get_w(NULL, MODULENAME, "DaysAfter", DAYS_TO_NOTIFY_AFTER);
+	commonData.popupTimeout = db_get_w(NULL, MODULENAME, "PopupTimeout", POPUP_TIMEOUT);
+	commonData.popupTimeoutToday = db_get_w(NULL, MODULENAME, "PopupTimeoutToday", commonData.popupTimeout);
+	commonData.bUsePopups = db_get_b(NULL, MODULENAME, "UsePopups", TRUE);
+	commonData.bUseDialog = db_get_b(NULL, MODULENAME, "UseDialog", TRUE);
+	commonData.bIgnoreSubcontacts = db_get_b(NULL, MODULENAME, "IgnoreSubcontacts", FALSE);
+	commonData.cShowAgeMode = db_get_b(NULL, MODULENAME, "ShowCurrentAge", FALSE);
+	commonData.bNoBirthdaysPopup = db_get_b(NULL, MODULENAME, "NoBirthdaysPopup", FALSE);
+	commonData.bOpenInBackground = db_get_b(NULL, MODULENAME, "OpenInBackground", FALSE);
+	commonData.cSoundNearDays = db_get_b(NULL, MODULENAME, "SoundNearDays", BIRTHDAY_NEAR_DEFAULT_DAYS);
+	commonData.cDefaultModule = db_get_b(NULL, MODULENAME, "DefaultModule", 0);
+	commonData.lPopupClick = db_get_b(NULL, MODULENAME, "PopupLeftClick", 2);
+	commonData.rPopupClick = db_get_b(NULL, MODULENAME, "PopupRightClick", 1);
+	commonData.bOncePerDay = db_get_b(NULL, MODULENAME, "OncePerDay", 0);
+	commonData.cDlgTimeout = db_get_w(NULL, MODULENAME, "DlgTimeout", POPUP_TIMEOUT);
+	commonData.notifyFor = db_get_b(NULL, MODULENAME, "NotifyFor", 0);
 
 	CreateServiceFunction(MS_WWI_CHECK_BIRTHDAYS, CheckBirthdaysService);
 	CreateServiceFunction(MS_WWI_LIST_SHOW, ShowListService);
@@ -104,7 +104,7 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 	SYSTEMTIME today;
 	GetLocalTime(&today);
 
-	DWORD lastChecked = db_get_dw(NULL, ModuleName, "LastChecked", 0); //get last checked date
+	DWORD lastChecked = db_get_dw(NULL, MODULENAME, "LastChecked", 0); //get last checked date
 	int lcDay = LOBYTE(LOWORD(lastChecked));
 	int lcMonth = HIBYTE(LOWORD(lastChecked));
 	int lcYear = HIWORD(lastChecked);
@@ -131,7 +131,7 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 	commonData.daysAfter = savedDaysAfter; //restore previous value
 
 	if (lParam) //if not forced - i.e. timer check
-		db_set_dw(NULL, ModuleName, "LastChecked", MAKELONG(MAKEWORD(today.wDay, today.wMonth), today.wYear)); //write the value in DB so we don't check again today
+		db_set_dw(NULL, MODULENAME, "LastChecked", MAKELONG(MAKEWORD(today.wDay, today.wMonth), today.wYear)); //write the value in DB so we don't check again today
 
 	return 0;
 }
@@ -170,7 +170,7 @@ void __cdecl RefreshUserDetailsWorkerThread(void*)
 	Thread_SetName("WhenWasIt: RefreshUserDetailsWorkerThread");
 
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Starting to refresh user details"), hRefreshUserDetails);
-	int delay = db_get_w(NULL, ModuleName, "UpdateDelay", REFRESH_DETAILS_DELAY);
+	int delay = db_get_w(NULL, MODULENAME, "UpdateDelay", REFRESH_DETAILS_DELAY);
 
 	MCONTACT hContact = db_find_first();
 	while (hContact != NULL) {

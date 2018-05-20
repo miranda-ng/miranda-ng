@@ -49,16 +49,13 @@ typedef struct ALARM_tag {
 #include "alarm_win.h"
 #include "time_utils.h"
 
-#define MODULE	"Alarm"
+#define MODULENAME	"Alarm"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 extern HANDLE hTopToolbarButton;
-
 
 #endif

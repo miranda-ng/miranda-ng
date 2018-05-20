@@ -347,35 +347,35 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					commonData.cDlgTimeout = wcstol(buffer, &stop, 10);
 					if (*stop) { commonData.cDlgTimeout = POPUP_TIMEOUT; }
 
-					db_set_b(NULL, ModuleName, "IgnoreSubcontacts", commonData.bIgnoreSubcontacts);
-					db_set_b(NULL, ModuleName, "UsePopups", commonData.bUsePopups);
-					db_set_b(NULL, ModuleName, "UseDialog", commonData.bUseDialog);
-					db_set_w(NULL, ModuleName, "CheckInterval", commonData.checkInterval);
-					db_set_w(NULL, ModuleName, "DaysInAdvance", commonData.daysInAdvance);
-					db_set_w(NULL, ModuleName, "DaysAfter", commonData.daysAfter);
-					db_set_w(NULL, ModuleName, "PopupTimeout", commonData.popupTimeout);
-					db_set_w(NULL, ModuleName, "PopupTimeoutToday", commonData.popupTimeoutToday);
+					db_set_b(NULL, MODULENAME, "IgnoreSubcontacts", commonData.bIgnoreSubcontacts);
+					db_set_b(NULL, MODULENAME, "UsePopups", commonData.bUsePopups);
+					db_set_b(NULL, MODULENAME, "UseDialog", commonData.bUseDialog);
+					db_set_w(NULL, MODULENAME, "CheckInterval", commonData.checkInterval);
+					db_set_w(NULL, MODULENAME, "DaysInAdvance", commonData.daysInAdvance);
+					db_set_w(NULL, MODULENAME, "DaysAfter", commonData.daysAfter);
+					db_set_w(NULL, MODULENAME, "PopupTimeout", commonData.popupTimeout);
+					db_set_w(NULL, MODULENAME, "PopupTimeoutToday", commonData.popupTimeoutToday);
 
-					db_set_b(NULL, ModuleName, "ShowCurrentAge", commonData.cShowAgeMode);
-					db_set_b(NULL, ModuleName, "NoBirthdaysPopup", commonData.bNoBirthdaysPopup);
+					db_set_b(NULL, MODULENAME, "ShowCurrentAge", commonData.cShowAgeMode);
+					db_set_b(NULL, MODULENAME, "NoBirthdaysPopup", commonData.bNoBirthdaysPopup);
 
-					db_set_b(NULL, ModuleName, "OpenInBackground", commonData.bOpenInBackground);
+					db_set_b(NULL, MODULENAME, "OpenInBackground", commonData.bOpenInBackground);
 
-					db_set_b(NULL, ModuleName, "SoundNearDays", commonData.cSoundNearDays);
+					db_set_b(NULL, MODULENAME, "SoundNearDays", commonData.cSoundNearDays);
 
-					db_set_b(NULL, ModuleName, "DefaultModule", commonData.cDefaultModule);
+					db_set_b(NULL, MODULENAME, "DefaultModule", commonData.cDefaultModule);
 
-					db_set_b(NULL, ModuleName, "PopupLeftClick", commonData.lPopupClick);
-					db_set_b(NULL, ModuleName, "PopupRightClick", commonData.rPopupClick);
+					db_set_b(NULL, MODULENAME, "PopupLeftClick", commonData.lPopupClick);
+					db_set_b(NULL, MODULENAME, "PopupRightClick", commonData.rPopupClick);
 
-					db_set_dw(NULL, ModuleName, "Foreground", commonData.foreground);
-					db_set_dw(NULL, ModuleName, "Background", commonData.background);
+					db_set_dw(NULL, MODULENAME, "Foreground", commonData.foreground);
+					db_set_dw(NULL, MODULENAME, "Background", commonData.background);
 
-					db_set_b(NULL, ModuleName, "OncePerDay", commonData.bOncePerDay);
+					db_set_b(NULL, MODULENAME, "OncePerDay", commonData.bOncePerDay);
 
-					db_set_w(NULL, ModuleName, "DlgTimeout", commonData.cDlgTimeout);
+					db_set_w(NULL, MODULENAME, "DlgTimeout", commonData.cDlgTimeout);
 
-					db_set_b(NULL, ModuleName, "NotifyFor", commonData.notifyFor);
+					db_set_b(NULL, MODULENAME, "NotifyFor", commonData.notifyFor);
 
 					RefreshAllContactListIcons();
 
@@ -401,7 +401,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 		hContact = lParam;
 		WindowList_Add(hAddBirthdayWndsList, hWnd, hContact);
-		Utils_RestoreWindowPositionNoSize(hWnd, hContact, ModuleName, "BirthdayWnd");
+		Utils_RestoreWindowPositionNoSize(hWnd, hContact, MODULENAME, "BirthdayWnd");
 
 		Window_SetIcon_IcoLib(hWnd, hAddBirthdayContact);
 
@@ -474,7 +474,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_DESTROY:
 		RefreshContactListIcons(hContact); //the birthday might be changed, refresh icon.
 		Window_FreeIcon_IcoLib(hWnd);
-		Utils_SaveWindowPosition(hWnd, hContact, ModuleName, "BirthdayWnd");
+		Utils_SaveWindowPosition(hWnd, hContact, MODULENAME, "BirthdayWnd");
 		WindowList_Remove(hAddBirthdayWndsList, hWnd);
 		break;
 
@@ -746,14 +746,14 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			ListView_InsertColumn(hList, 5, &col);
 
 			LoadBirthdays(hWnd, 0);
-			int column = db_get_b(NULL, ModuleName, "SortColumn", 0);
+			int column = db_get_b(NULL, MODULENAME, "SortColumn", 0);
 
 			BirthdaysSortParams params = {};
 			params.hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
 			params.column = column;
 			ListView_SortItemsEx(params.hList, BirthdaysCompare, (LPARAM)&params);
 
-			Utils_RestoreWindowPosition(hWnd, NULL, ModuleName, "BirthdayList");
+			Utils_RestoreWindowPosition(hWnd, NULL, MODULENAME, "BirthdayList");
 		}
 		return TRUE;
 
@@ -818,7 +818,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			case LVN_COLUMNCLICK:
 				LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
 				int column = lv->iSubItem;
-				db_set_b(NULL, ModuleName, "SortColumn", column);
+				db_set_b(NULL, MODULENAME, "SortColumn", column);
 				BirthdaysSortParams params = {};
 				params.hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
 				params.column = column;
@@ -831,7 +831,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 	case WM_DESTROY:
 		hBirthdaysDlg = nullptr;
-		Utils_SaveWindowPosition(hWnd, NULL, ModuleName, "BirthdayList");
+		Utils_SaveWindowPosition(hWnd, NULL, MODULENAME, "BirthdayList");
 		Window_FreeIcon_IcoLib(hWnd);
 		lastColumn = -1;
 		break;
@@ -872,7 +872,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			if (timeout > 0)
 				SetTimer(hWnd, UPCOMING_TIMER_ID, 1000, nullptr);
-			Utils_RestoreWindowPosition(hWnd, NULL, ModuleName, "BirthdayListUpcoming");
+			Utils_RestoreWindowPosition(hWnd, NULL, MODULENAME, "BirthdayListUpcoming");
 		}
 		return TRUE;
 
@@ -959,7 +959,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_DESTROY:
 		hUpcomingDlg = nullptr;
-		Utils_SaveWindowPosition(hWnd, NULL, ModuleName, "BirthdayListUpcoming");
+		Utils_SaveWindowPosition(hWnd, NULL, MODULENAME, "BirthdayListUpcoming");
 		Window_FreeIcon_IcoLib(hWnd);
 		KillTimer(hWnd, UPCOMING_TIMER_ID);
 		break;

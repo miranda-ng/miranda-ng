@@ -53,11 +53,11 @@ int ModulesLoaded(WPARAM, LPARAM)
 	else lstrcpyn(g_tszRoot, VARSW(L"%miranda_path%\\" DEFAULT_UPDATES_FOLDER), _countof(g_tszRoot));
 
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
-		AssocMgr_AddNewUrlTypeW("mirpu:", TranslateT("Plugin updater URI scheme"), g_plugin.getInst(), IDI_PLGLIST, MODNAME "/ParseUri", 0);
+		AssocMgr_AddNewUrlTypeW("mirpu:", TranslateT("Plugin updater URI scheme"), g_plugin.getInst(), IDI_PLGLIST, MODULENAME "/ParseUri", 0);
 
-	int iRestartCount = db_get_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 2);
+	int iRestartCount = db_get_b(NULL, MODULENAME, DB_SETTING_RESTART_COUNT, 2);
 	if (iRestartCount > 0)
-		db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, iRestartCount - 1);
+		db_set_b(NULL, MODULENAME, DB_SETTING_RESTART_COUNT, iRestartCount - 1);
 	else
 		EmptyFolder(); // silently
 

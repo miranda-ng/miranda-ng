@@ -18,7 +18,7 @@ static void MakeSKINICONDESC(lua_State *L, SKINICONDESC &sid)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Section");
-	sid.section.w = mir_utf8decodeW(luaL_optstring(L, 3, MODULE));
+	sid.section.w = mir_utf8decodeW(luaL_optstring(L, 3, MODULENAME));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "DefaultFile");
@@ -57,7 +57,7 @@ static int lua_AddIcon(lua_State *L)
 		sid.flags = SIDF_ALL_UNICODE;
 		sid.pszName = mir_utf8decodeA(luaL_checkstring(L, 1));
 		sid.description.w = mir_utf8decodeW(luaL_checkstring(L, 2));
-		sid.section.w = mir_utf8decodeW(luaL_optstring(L, 3, MODULE));
+		sid.section.w = mir_utf8decodeW(luaL_optstring(L, 3, MODULENAME));
 		sid.defaultFile.w = mir_utf8decodeW(lua_tostring(L, 4));
 		sid.hDefaultIcon = GetIcon(IDI_SCRIPT);
 

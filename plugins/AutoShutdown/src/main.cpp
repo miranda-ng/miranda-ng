@@ -24,7 +24,16 @@ CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
-PLUGININFOEX pluginInfo = {
+IconItem iconList[] =
+{
+	{ LPGEN("Header"), "AutoShutdown_Header", IDI_HEADER },
+	{ LPGEN("Active"), "AutoShutdown_Active", IDI_ACTIVE },
+	{ LPGEN("Inactive"), "AutoShutdown_Inactive", IDI_INACTIVE },
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -37,12 +46,16 @@ PLUGININFOEX pluginInfo = {
 	{0x9de24579, 0x5c5c, 0x49aa, {0x80, 0xe8, 0x4d, 0x38, 0xe4, 0x34, 0x4e, 0x63}}
 };
 
-IconItem iconList[] =
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	{ LPGEN("Header"), "AutoShutdown_Header", IDI_HEADER },
-	{ LPGEN("Active"), "AutoShutdown_Active", IDI_ACTIVE },
-	{ LPGEN("Inactive"), "AutoShutdown_Inactive", IDI_INACTIVE },
-};
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int ShutdownModulesLoaded(WPARAM, LPARAM)
 {
@@ -53,14 +66,9 @@ static int ShutdownModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	INITCOMMONCONTROLSEX icc;

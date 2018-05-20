@@ -47,7 +47,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "fancy_rtf.h"
 #include "textcontrol.h"
 
-#define MODULNAME "MTextControl" // DB module for this plugin
+#define MODULENAME "MTextControl" // DB module for this plugin
 #define MODULNAMEW L"MTextControl" // DB module for this plugin
 
 #define MODULTITLE "Text Display"
@@ -56,9 +56,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULNAME)
-	{}
+	CMPlugin();
 };
 
 #endif // __headers_h__

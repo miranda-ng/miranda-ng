@@ -32,13 +32,11 @@
 #include "utilities.h"
 #include "version.h"
 
-#define szModuleName "Watrack_MPD"
+#define MODULENAME "Watrack_MPD"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(szModuleName)
-	{}
+	CMPlugin();
 };
 
 extern HNETLIBUSER ghNetlibUser;

@@ -16,7 +16,7 @@ int &hLangpack(g_plugin.m_hLang);
 
 static const int g_pluginFileListID = 2535;
 
-PLUGININFOEX g_pluginInfoEx = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -28,6 +28,10 @@ PLUGININFOEX g_pluginInfoEx = {
 	// {F184F5A0-C198-4454-A9B4-F6E2FD534133}
 	{0xf184f5a0, 0xc198, 0x4454, {0xa9, 0xb4, 0xf6, 0xe2, 0xfd, 0x53, 0x41, 0x33}},
 };
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>("HistoryStats", pluginInfoEx)
+{}
 
 SettingsSerializer* g_pSettings = nullptr;
 
@@ -383,12 +387,12 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	OutputDebugString(L"HistoryStats: MirandaPluginInfoEx() was called.\n");
 
 	// MEMO: (don't) fail, if version is below minimum
-	return &g_pluginInfoEx;
+	return &pluginInfoEx;
 }
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&g_pluginInfoEx);
+	mir_getLP(&pluginInfoEx);
 
 	// init COM, needed for GUID generation
 	CoInitialize(nullptr);

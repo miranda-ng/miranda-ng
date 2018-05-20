@@ -217,7 +217,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 	dbei.pBlob = (PBYTE)MEMALLOC(dbei.cbBlob);
 	if (!dbei.pBlob)
 		return 0;
-	memcpy(szServiceFunction, PROTOCOL_NAMEA, PROTOCOL_NAME_SIZE);
+	memcpy(szServiceFunction, MODULENAME, PROTOCOL_NAME_SIZE);
 	pszServiceFunctionName = szServiceFunction + PROTOCOL_NAME_LEN;
 
 	if (db_event_get(hDbEvent, &dbei) == 0)

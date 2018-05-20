@@ -46,13 +46,13 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 	case WM_SHOWWINDOW:
 		if (wParam) {
-			db_set_b(0, MODULE, "ReminderFrameVisible", 1);
-			Utils_RestoreWindowPosition(hwnd, 0, MODULE, "reminders_window");
+			db_set_b(0, MODULENAME, "ReminderFrameVisible", 1);
+			Utils_RestoreWindowPosition(hwnd, 0, MODULENAME, "reminders_window");
 			PostMessage(hwnd, WM_SIZE, 0, 0);
 		}
 		else {
-			db_set_b(0, MODULE, "ReminderFrameVisible", 0);
-			Utils_SaveWindowPosition(hwnd, 0, MODULE, "reminders_window");
+			db_set_b(0, MODULENAME, "ReminderFrameVisible", 0);
+			Utils_SaveWindowPosition(hwnd, 0, MODULENAME, "reminders_window");
 		}
 		break;
 	case WM_SIZE:
@@ -68,7 +68,7 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_CLOSE:
-		Utils_SaveWindowPosition(hwnd, 0, MODULE, "reminders_window");
+		Utils_SaveWindowPosition(hwnd, 0, MODULENAME, "reminders_window");
 		ShowWindow(hwnd, SW_HIDE);
 		FixMainMenu();
 		return TRUE;
@@ -519,7 +519,7 @@ int CreateFrame()
 
 		///////////////////////
 		// create menu item
-		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
+		CreateServiceFunction(MODULENAME "/ShowHideReminders", ShowHideMenuFunc);
 
 		CMenuItem mi;
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Alarms"), 0);
@@ -528,7 +528,7 @@ int CreateFrame()
 		SET_UID(mi, 0x27556ea9, 0xfa19, 0x4c2e, 0xb0, 0xc9, 0x48, 0x2, 0x5c, 0x17, 0xba, 0x5);
 		mi.hIcolibItem = hIconMenuShowHide;
 		mi.name.a = LPGEN("Show reminders");
-		mi.pszService = MODULE "/ShowHideReminders";
+		mi.pszService = MODULENAME "/ShowHideReminders";
 		mi.position = 500010000;
 		hMenuShowReminders = Menu_AddMainMenuItem(&mi);
 		/////////////////////
@@ -542,7 +542,7 @@ int CreateFrame()
 				else ShowWindow(hwnd_frame, SW_HIDE);
 			}
 			else {
-				if (db_get_b(0, MODULE, "ReminderFrameVisible", 1) == 1) {
+				if (db_get_b(0, MODULENAME, "ReminderFrameVisible", 1) == 1) {
 					ShowWindow(hwnd_frame, SW_SHOW);
 					RefreshReminderFrame();
 				}
@@ -558,13 +558,13 @@ int CreateFrame()
 	font_id.cbSize = sizeof(font_id);
 	strncpy_s(font_id.group, LPGEN("Frames"), _TRUNCATE);
 	strncpy_s(font_id.name, LPGEN("Alarm reminders"), _TRUNCATE);
-	strncpy_s(font_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(font_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	strncpy_s(font_id.prefix, "Font", _TRUNCATE);
 	font_id.order = 0;
 	Font_Register(&font_id);
 
 	framebk_colour_id.cbSize = sizeof(ColourID);
-	strncpy_s(framebk_colour_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(framebk_colour_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	strncpy_s(framebk_colour_id.group, LPGEN("Frames"), _TRUNCATE);
 	strncpy_s(framebk_colour_id.name, LPGEN("Alarm reminders"), _TRUNCATE);
 	strncpy_s(framebk_colour_id.setting, "clFrameBack", _TRUNCATE);

@@ -282,7 +282,7 @@ bool SkinOptionList_Update(OPTTREE_OPTION* &options, int *OptionsCount, HWND hwn
 	char prefix[128];
 	mir_snprintf(prefix, "skin.%S", PopupOptions.SkinPack);
 	OptTree_SetOptions(hwndDlg, IDC_SKIN_LIST_OPT, options, *OptionsCount,
-		db_get_dw(NULL, MODULNAME, prefix, dwSkinOptions), L"Skin options");
+		db_get_dw(NULL, MODULENAME, prefix, dwSkinOptions), L"Skin options");
 
 	// check "Global Settings"
 	OptTree_SetOptions(hwndDlg, IDC_SKIN_LIST_OPT, options, *OptionsCount,
@@ -293,14 +293,14 @@ bool SkinOptionList_Update(OPTTREE_OPTION* &options, int *OptionsCount, HWND hwn
 
 void LoadOption_Skins() {
 	// skin pack
-	PopupOptions.SkinPack = (LPTSTR)DBGetContactSettingStringX(NULL, MODULNAME, "SkinPack", "* Popup Classic", DBVT_WCHAR);
+	PopupOptions.SkinPack = (LPTSTR)DBGetContactSettingStringX(NULL, MODULENAME, "SkinPack", "* Popup Classic", DBVT_WCHAR);
 	// more Skin options
-	PopupOptions.DisplayTime = db_get_b(NULL, MODULNAME, "DisplayTime", TRUE);
-	PopupOptions.DropShadow = db_get_b(NULL, MODULNAME, "DropShadow", TRUE);
-	PopupOptions.EnableFreeformShadows = db_get_b(NULL, MODULNAME, "EnableShadowRegion", 1);
-	PopupOptions.EnableAeroGlass = db_get_b(NULL, MODULNAME, "EnableAeroGlass", 1);
-	PopupOptions.UseWinColors = db_get_b(NULL, MODULNAME, "UseWinColors", FALSE);
-	PopupOptions.UseMText = db_get_b(NULL, MODULNAME, "UseMText", TRUE);
+	PopupOptions.DisplayTime = db_get_b(NULL, MODULENAME, "DisplayTime", TRUE);
+	PopupOptions.DropShadow = db_get_b(NULL, MODULENAME, "DropShadow", TRUE);
+	PopupOptions.EnableFreeformShadows = db_get_b(NULL, MODULENAME, "EnableShadowRegion", 1);
+	PopupOptions.EnableAeroGlass = db_get_b(NULL, MODULENAME, "EnableAeroGlass", 1);
+	PopupOptions.UseWinColors = db_get_b(NULL, MODULENAME, "UseWinColors", FALSE);
+	PopupOptions.UseMText = db_get_b(NULL, MODULENAME, "UseMText", TRUE);
 }
 
 INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -477,18 +477,18 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case PSN_APPLY:
 				{
 					// skin pack
-					db_set_ws(NULL, MODULNAME, "SkinPack", PopupOptions.SkinPack);
+					db_set_ws(NULL, MODULENAME, "SkinPack", PopupOptions.SkinPack);
 					// skin options
 					const PopupSkin *skin = nullptr;
 					if (skin = skins.getSkin(PopupOptions.SkinPack))
 						skin->saveOpts();
 					skins.freeAllButActive();
 					// more Skin options
-					db_set_b(NULL, MODULNAME, "DisplayTime", PopupOptions.DisplayTime);
-					db_set_b(NULL, MODULNAME, "DropShadow", PopupOptions.DropShadow);
-					db_set_b(NULL, MODULNAME, "EnableShadowRegion", PopupOptions.EnableFreeformShadows);
-					db_set_b(NULL, MODULNAME, "EnableAeroGlass", PopupOptions.EnableAeroGlass);
-					db_set_b(NULL, MODULNAME, "UseMText", PopupOptions.UseMText);
+					db_set_b(NULL, MODULENAME, "DisplayTime", PopupOptions.DisplayTime);
+					db_set_b(NULL, MODULENAME, "DropShadow", PopupOptions.DropShadow);
+					db_set_b(NULL, MODULENAME, "EnableShadowRegion", PopupOptions.EnableFreeformShadows);
+					db_set_b(NULL, MODULENAME, "EnableAeroGlass", PopupOptions.EnableAeroGlass);
+					db_set_b(NULL, MODULENAME, "UseMText", PopupOptions.UseMText);
 				}// end PSN_APPLY:
 				return TRUE;
 			}// switch (((LPNMHDR)lParam)->code)

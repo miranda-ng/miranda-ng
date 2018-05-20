@@ -302,7 +302,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				// don't use stored status message
 				if (!opt.bWaitForContent)
-					db_unset(pwd->hContact, MODULE, "TempStatusMsg");
+					db_unset(pwd->hContact, MODULENAME, "TempStatusMsg");
 
 				wcsncpy_s(pwd->swzTitle, Clist_GetContactDisplayName(pwd->hContact), _TRUNCATE);
 
@@ -954,7 +954,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_SETSTATUSTEXT:
 		if (pwd && wParam == pwd->hContact) {
-			db_set_ws(pwd->hContact, MODULE, "TempStatusMsg", (wchar_t *)lParam);
+			db_set_ws(pwd->hContact, MODULENAME, "TempStatusMsg", (wchar_t *)lParam);
 			pwd->bIsPainted = false;
 			pwd->bNeedRefresh = true;
 			SendMessage(hwnd, PUM_REFRESH_VALUES, TRUE, 0);
@@ -1579,14 +1579,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		if (dwItems & TRAYTIP_FAVCONTACTS) {
-			if (db_get_dw(0, MODULE, "FavouriteContactsCount", 0)) {
+			if (db_get_dw(0, MODULENAME, "FavouriteContactsCount", 0)) {
 				wchar_t swzName[256];
 				wchar_t swzStatus[256];
 				bool bTitlePainted = false;
 				int iCount = 0, iCountOnline = 0;
 
 				for (auto &hContact : Contacts()) {
-					if (db_get_b(hContact, MODULE, "FavouriteContact", 0)) {
+					if (db_get_b(hContact, MODULENAME, "FavouriteContact", 0)) {
 						char *proto = GetContactProto(hContact);
 						if (proto == nullptr)
 							continue;
@@ -1633,7 +1633,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		if (dwItems & TRAYTIP_MIRANDA_UPTIME) {
-			if (TimestampToTimeDifference(NULL, MODULE, "MirandaStartTS", buff, 64)) {
+			if (TimestampToTimeDifference(NULL, MODULENAME, "MirandaStartTS", buff, 64)) {
 				AddRow(pwd, TranslateT("Other"), L"", nullptr, false, false, !bFirstItem, true, nullptr);
 				AddRow(pwd, TranslateT("Miranda uptime:"), buff, nullptr, false, false, false);
 			}

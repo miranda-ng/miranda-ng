@@ -204,7 +204,7 @@ static void GetInitialDir(LPSTR pszInitialDir)
 
 	szRelative[0] = 0;
 	// is some standard path defined
-	if (!db_get_static(0, MODNAME, "vCardPath", szRelative, _countof(szRelative))) {
+	if (!db_get_static(0, MODULENAME, "vCardPath", szRelative, _countof(szRelative))) {
 		if (!PathToAbsolute(szRelative, pszInitialDir))
 			mir_strcpy(pszInitialDir, szRelative);
 	}
@@ -225,9 +225,9 @@ static void SaveInitialDir(LPSTR pszInitialDir)
 	if (p = mir_strrchr(pszInitialDir, '\\')) {
 		*p = 0;
 		if ( PathToRelative(pszInitialDir, szRelative))
-			db_set_s(0, MODNAME, "vCardPath", szRelative);
+			db_set_s(0, MODULENAME, "vCardPath", szRelative);
 		else
-			db_set_s(0, MODNAME, "vCardPath", pszInitialDir);
+			db_set_s(0, MODULENAME, "vCardPath", pszInitialDir);
 		*p = '\\';
 	}	
 }

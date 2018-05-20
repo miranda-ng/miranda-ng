@@ -26,7 +26,7 @@ bool UpdateListFlag = FALSE;
 bool IsMyContact(MCONTACT hContact)
 {
 	const char *szProto = GetContactProto(hContact);
-	return szProto != nullptr && mir_strcmp(MODULE, szProto) == 0;
+	return szProto != nullptr && mir_strcmp(MODULENAME, szProto) == 0;
 }
 
 void NetlibInit()
@@ -34,7 +34,7 @@ void NetlibInit()
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szDescriptiveName.w = TranslateT("NewsAggregator HTTP connection");
-	nlu.szSettingsModule = MODULE;
+	nlu.szSettingsModule = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
@@ -72,7 +72,7 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 	nlhr.headers[3].szName = "Connection";
 	nlhr.headers[3].szValue = "close";
 	char auth[256];
-	if (db_get_b(hContact, MODULE, "UseAuth", 0) || (pEditDlg && pEditDlg->m_useauth.IsChecked()) /*IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)*/) {
+	if (db_get_b(hContact, MODULENAME, "UseAuth", 0) || (pEditDlg && pEditDlg->m_useauth.IsChecked()) /*IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)*/) {
 		nlhr.headersCount++;
 		nlhr.headers[4].szName = "Authorization";
 
@@ -429,8 +429,8 @@ LPCTSTR ClearText(CMStringW &result, const wchar_t *message)
 
 MCONTACT GetContactByNick(const wchar_t *nick)
 {
-	for (auto &hContact : Contacts(MODULE)) {
-		ptrW contactNick(::db_get_wsa(hContact, MODULE, "Nick"));
+	for (auto &hContact : Contacts(MODULENAME)) {
+		ptrW contactNick(::db_get_wsa(hContact, MODULENAME, "Nick"));
 		if (!mir_wstrcmpi(contactNick, nick))
 			return hContact;
 	}
@@ -439,8 +439,8 @@ MCONTACT GetContactByNick(const wchar_t *nick)
 
 MCONTACT GetContactByURL(const wchar_t *url)
 {
-	for (auto &hContact : Contacts(MODULE)) {
-		ptrW contactURL(::db_get_wsa(hContact, MODULE, "URL"));
+	for (auto &hContact : Contacts(MODULENAME)) {
+		ptrW contactURL(::db_get_wsa(hContact, MODULENAME, "URL"));
 		if (!mir_wstrcmpi(contactURL, url))
 			return hContact;
 	}

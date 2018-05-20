@@ -42,14 +42,14 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 	else if(db_mc_isSub(hContact))
 		hMeta = db_mc_getMeta(hContact);
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if(mir_strcmp(sicd->szModule, szGPGModuleName)) 
+	if(mir_strcmp(sicd->szModule, MODULENAME)) 
 		return 0; // not our event
 	
-	BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+	BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
 	if(enc)
 	{
-		db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-		hMeta?db_set_b(hMeta, szGPGModuleName, "GPGEncryption", 0):0;
+		db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+		hMeta?db_set_b(hMeta, MODULENAME, "GPGEncryption", 0):0;
 		setSrmmIcon(hContact);
 		setClistIcon(hContact);
 	}
@@ -64,16 +64,16 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
-			hMeta?db_set_b(hMeta, szGPGModuleName, "GPGEncryption", 1):0;
+			db_set_b(hContact, MODULENAME, "GPGEncryption", 1);
+			hMeta?db_set_b(hMeta, MODULENAME, "GPGEncryption", 1):0;
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 			return 0;
 		}
 		if(isContactHaveKey(hContact))
 		{
-			db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
-			hMeta?db_set_b(hMeta, szGPGModuleName, "GPGEncryption", 1):0;
+			db_set_b(hContact, MODULENAME, "GPGEncryption", 1);
+			hMeta?db_set_b(hMeta, MODULENAME, "GPGEncryption", 1):0;
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 		}

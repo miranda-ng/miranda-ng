@@ -33,9 +33,9 @@ LPSTR GetModuleName(MCONTACT hContact)
 	if (hContact) {
 		lpszRet = GetContactProto(hContact);
 		if (lpszRet == nullptr)
-			lpszRet = PROTOCOL_NAMEA;
+			lpszRet = MODULENAME;
 	}
-	else lpszRet = PROTOCOL_NAMEA;
+	else lpszRet = MODULENAME;
 
 	return lpszRet;
 }

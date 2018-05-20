@@ -31,6 +31,9 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x7993ab24, 0x1fda, 0x428c, { 0xa8, 0x9b, 0xbe, 0x37, 0x7a, 0x10, 0xbe, 0x3a }}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(SHLExt_Name, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

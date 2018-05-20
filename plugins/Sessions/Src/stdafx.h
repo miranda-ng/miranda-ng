@@ -45,13 +45,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 #include "Resource.h"
 
-#define MODNAME "Sessions"
+#define MODULENAME "Sessions"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODNAME)
-	{}
+	CMPlugin();
 };
 
 extern IconItem iconList[];

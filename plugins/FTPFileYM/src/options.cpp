@@ -33,32 +33,32 @@ void Options::deinit()
 
 void Options::loadOptions()
 {
-	selected = db_get_b(0, MODULE, "Selected", 0);
-	defaultFTP = db_get_b(0, MODULE, "Default", 0);
-	bAutosend = db_get_b(0, MODULE, "Autosend", 0) ? true : false;
-	bCloseDlg = db_get_b(0, MODULE, "CloseDlg", 0) ? true : false;
-	bCopyLink = db_get_b(0, MODULE, "CopyLink", 1) ? true : false;
-	bUseSubmenu = db_get_b(0, MODULE, "UseSubmenu", 1) ? true : false;
-	bHideInactive = db_get_b(0, MODULE, "HideInactive", 1) ? true : false;
-	bAutoDelete = db_get_b(0, MODULE, "DeleteTimer", 0) ? true : false;
-	iDeleteTime = db_get_dw(0, MODULE, "AutoDeleteTime", 60);
-	timeRange = (ETimeRange)db_get_b(0, MODULE, "TimeRange", TR_MINUTES);
-	iCompressionLevel = db_get_b(0, MODULE, "CompressionLevel", 6);
-	bSetZipName = db_get_b(0, MODULE, "SetZipName", 0) ? true : false;
+	selected = db_get_b(0, MODULENAME, "Selected", 0);
+	defaultFTP = db_get_b(0, MODULENAME, "Default", 0);
+	bAutosend = db_get_b(0, MODULENAME, "Autosend", 0) ? true : false;
+	bCloseDlg = db_get_b(0, MODULENAME, "CloseDlg", 0) ? true : false;
+	bCopyLink = db_get_b(0, MODULENAME, "CopyLink", 1) ? true : false;
+	bUseSubmenu = db_get_b(0, MODULENAME, "UseSubmenu", 1) ? true : false;
+	bHideInactive = db_get_b(0, MODULENAME, "HideInactive", 1) ? true : false;
+	bAutoDelete = db_get_b(0, MODULENAME, "DeleteTimer", 0) ? true : false;
+	iDeleteTime = db_get_dw(0, MODULENAME, "AutoDeleteTime", 60);
+	timeRange = (ETimeRange)db_get_b(0, MODULENAME, "TimeRange", TR_MINUTES);
+	iCompressionLevel = db_get_b(0, MODULENAME, "CompressionLevel", 6);
+	bSetZipName = db_get_b(0, MODULENAME, "SetZipName", 0) ? true : false;
 }
 
 void Options::saveOptions() const
 {
-	db_set_b(0, MODULE, "Autosend", bAutosend ? 1 : 0);
-	db_set_b(0, MODULE, "CopyLink", bCopyLink ? 1 : 0);
-	db_set_b(0, MODULE, "UseSubmenu", bUseSubmenu ? 1 : 0);
-	db_set_b(0, MODULE, "HideInactive", bHideInactive ? 1 : 0);
-	db_set_b(0, MODULE, "CloseDlg", bCloseDlg ? 1 : 0);
-	db_set_b(0, MODULE, "DeleteTimer", bAutoDelete ? 1 : 0);
-	db_set_dw(0, MODULE, "AutoDeleteTime", iDeleteTime);
-	db_set_b(0, MODULE, "TimeRange", (int)timeRange);
-	db_set_b(0, MODULE, "CompressionLevel", iCompressionLevel);
-	db_set_b(0, MODULE, "SetZipName", bSetZipName ? 1 : 0);
+	db_set_b(0, MODULENAME, "Autosend", bAutosend ? 1 : 0);
+	db_set_b(0, MODULENAME, "CopyLink", bCopyLink ? 1 : 0);
+	db_set_b(0, MODULENAME, "UseSubmenu", bUseSubmenu ? 1 : 0);
+	db_set_b(0, MODULENAME, "HideInactive", bHideInactive ? 1 : 0);
+	db_set_b(0, MODULENAME, "CloseDlg", bCloseDlg ? 1 : 0);
+	db_set_b(0, MODULENAME, "DeleteTimer", bAutoDelete ? 1 : 0);
+	db_set_dw(0, MODULENAME, "AutoDeleteTime", iDeleteTime);
+	db_set_b(0, MODULENAME, "TimeRange", (int)timeRange);
+	db_set_b(0, MODULENAME, "CompressionLevel", iCompressionLevel);
+	db_set_b(0, MODULENAME, "SetZipName", bSetZipName ? 1 : 0);
 }
 
 void Options::enableItems(HWND hwndDlg, bool state)

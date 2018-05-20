@@ -74,15 +74,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>("CList")
-	{}
+	CMPlugin();
 };
 
 // shared vars
 
 extern LONG g_cxsmIcon, g_cysmIcon;
-extern PLUGININFOEX pluginInfo;
 extern LIST<StatusItems_t> arStatusItems;
 extern ImageItem *g_glyphItem;
 extern HIMAGELIST hCListImages;

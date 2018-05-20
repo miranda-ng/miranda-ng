@@ -29,7 +29,7 @@ int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -43,9 +43,13 @@ PLUGININFOEX pluginInfo =
 	{ 0xe92874ec, 0x594a, 0x4a2f, { 0xbd, 0xed, 0xc0, 0xbe, 0x8b, 0x5a, 0x45, 0xd1 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -970,7 +974,7 @@ void stop_threads()
 extern "C" int __declspec(dllexport) Load()
 {
 	g_firstrun = true;
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	wchar_t buf[MAX_PATH + 1];
 	mir_wstrcpy(buf, L".");

@@ -13,7 +13,7 @@ static int OnProtoAck(WPARAM, LPARAM lParam)
 			continue;
 
 		BBButton bbd = {};
-		bbd.pszModuleName = MODULE;
+		bbd.pszModuleName = MODULENAME;
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
 		bbd.bbbFlags = CanSendToContact(hContact)
 			? BBSF_RELEASED

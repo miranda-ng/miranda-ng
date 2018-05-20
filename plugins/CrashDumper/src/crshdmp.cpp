@@ -37,8 +37,9 @@ bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart = 0;
 
 extern HWND hViewWnd;
 
-static const PLUGININFOEX pluginInfoEx =
-{
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -51,7 +52,9 @@ static const PLUGININFOEX pluginInfoEx =
 	{ 0xf62c1d7a, 0xffa4, 0x4065, { 0xa2, 0x51, 0x4c, 0x9d, 0xd9, 0x10, 0x1c, 0xc8 } }
 };
 
-const PLUGININFOEX* GetPluginInfoEx(void) { return &pluginInfoEx; }
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
 {
@@ -59,8 +62,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVers
 	return (PLUGININFOEX*)&pluginInfoEx;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 {
@@ -155,7 +162,7 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 
 INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 {
-	ptrW tmp(db_get_wsa(NULL, PluginName, "Username"));
+	ptrW tmp(db_get_wsa(NULL, MODULENAME, "Username"));
 	if (tmp != NULL) {
 		wchar_t buffer[MAX_PATH];
 		mir_snwprintf(buffer, L"https://vi.miranda-ng.org/detail/%s", tmp);
@@ -202,7 +209,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szTitle.a = PluginName;
+	odp.szTitle.a = MODULENAME;
 	odp.szGroup.a = LPGEN("Services");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
@@ -247,8 +254,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		replaceStrW(profpath, L"%miranda_userdata%");
 
 		// Removed because it isn't available on Load()
-		//		hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
-		hVerInfoFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Version Information"), VersionInfoFolder);
+		//		hCrashLogFolder = FoldersRegisterCustomPathT(MODULENAME, LPGEN("Crash Reports"), CrashLogFolder);
+		hVerInfoFolder = FoldersRegisterCustomPathT(MODULENAME, LPGEN("Version Information"), VersionInfoFolder);
 
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
 		FoldersPathChanged(0, 0);
@@ -317,7 +324,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
 	HOTKEYDESC hk = {};
-	hk.szSection.a = PluginName;
+	hk.szSection.a = MODULENAME;
 
 	hk.szDescription.a = LPGEN("Copy Version Info to clipboard");
 	hk.pszName = "CopyVerInfo";
@@ -338,7 +345,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	if (servicemode)
 		ViewVersionInfo(0, 0);
-	else if (db_get_b(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
+	else if (db_get_b(NULL, MODULENAME, "UploadChanged", 0) && !ProcessVIHash(false))
 		UploadVersionInfo(0, 0xa1);
 
 	return 0;
@@ -357,9 +364,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (hMsftedit == nullptr)
 		return 1;
 
-	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
-	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
-	catchcrashes = db_get_b(NULL, PluginName, "CatchCrashes", 1) != 0;
+	clsdates = db_get_b(NULL, MODULENAME, "ClassicDates", 1) != 0;
+	dtsubfldr = db_get_b(NULL, MODULENAME, "SubFolders", 1) != 0;
+	catchcrashes = db_get_b(NULL, MODULENAME, "CatchCrashes", 1) != 0;
 
 	mir_getLP(&pluginInfoEx);
 
@@ -390,6 +397,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_CRASHDUMPER_URLTOCLIP, CopyLinkToClipboard);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

@@ -141,12 +141,12 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, size_t size)
 {
-	return GetStringFromDatabase(NULL, ModuleName, szSettingName, szError, szResult, size);
+	return GetStringFromDatabase(NULL, MODULENAME, szSettingName, szError, szResult, size);
 }
 
 int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count)
 {
-	return GetStringFromDatabase(NULL, ModuleName, szSettingName, szError, szResult, count);
+	return GetStringFromDatabase(NULL, MODULENAME, szSettingName, szError, szResult, count);
 }
 
 #pragma warning (disable: 4312)

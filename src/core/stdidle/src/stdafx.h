@@ -65,30 +65,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../mir_app/src/resource.h"
 
-#define IDLEMOD "Idle"
+#define MODULENAME "Idle"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(IDLEMOD)
-	{}
+	CMPlugin();
 };
 
 struct Settings
 {
 	Settings() :
-		bIdleCheck(IDLEMOD, "UserIdleCheck", 0),
-		bIdleMethod(IDLEMOD, "IdleMethod", 0),
-		bIdleOnSaver(IDLEMOD, "IdleOnSaver", 0),
-		bIdleOnFullScr(IDLEMOD, "IdleOnFullScr", 0),
-		bIdleOnLock(IDLEMOD, "IdleOnLock", 0),
-		bIdlePrivate(IDLEMOD, "IdlePrivate", 0),
-		bIdleSoundsOff(IDLEMOD, "IdleSoundsOff", 1),
-		bIdleOnTerminal(IDLEMOD, "IdleOnTerminalDisconnect", 0),
-		bIdleStatusLock(IDLEMOD, "IdleStatusLock", 0),
-		bAAEnable(IDLEMOD, "AAEnable", 0),
-		bAAStatus(IDLEMOD, "AAStatus", 0),
-		iIdleTime1st(IDLEMOD, "IdleTime1st", 10)
+		bIdleCheck(MODULENAME, "UserIdleCheck", 0),
+		bIdleMethod(MODULENAME, "IdleMethod", 0),
+		bIdleOnSaver(MODULENAME, "IdleOnSaver", 0),
+		bIdleOnFullScr(MODULENAME, "IdleOnFullScr", 0),
+		bIdleOnLock(MODULENAME, "IdleOnLock", 0),
+		bIdlePrivate(MODULENAME, "IdlePrivate", 0),
+		bIdleSoundsOff(MODULENAME, "IdleSoundsOff", 1),
+		bIdleOnTerminal(MODULENAME, "IdleOnTerminalDisconnect", 0),
+		bIdleStatusLock(MODULENAME, "IdleStatusLock", 0),
+		bAAEnable(MODULENAME, "AAEnable", 0),
+		bAAStatus(MODULENAME, "AAStatus", 0),
+		iIdleTime1st(MODULENAME, "IdleTime1st", 10)
 	{}
 
 	CMOption<BYTE> bIdleCheck, bIdleMethod, bIdleOnSaver, bIdleOnFullScr, bIdleOnLock;

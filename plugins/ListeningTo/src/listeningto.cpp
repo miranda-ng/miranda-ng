@@ -174,7 +174,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 int ModulesLoaded(WPARAM, LPARAM)
 {
 	// Extra icon support
-	hExtraIcon = ExtraIcon_RegisterIcolib(MODULE_NAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
+	hExtraIcon = ExtraIcon_RegisterIcolib(MODULENAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
 
 	EnableDisablePlayers();
 
@@ -385,7 +385,7 @@ bool ListeningToEnabled(char *proto, bool ignoreGlobal)
 
 	char setting[256];
 	mir_snprintf(setting, "%sEnabled", proto);
-	return db_get_b(NULL, MODULE_NAME, setting, false) != 0;
+	return db_get_b(NULL, MODULENAME, setting, false) != 0;
 }
 
 INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM)
@@ -608,7 +608,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = nullptr)
 			mir_free(fr[1]);
 		}
 	}
-	else if (db_get_b(0, MODULE_NAME, "UseStatusMessage", 1) && ProtoServiceExists(proto, PS_SETAWAYMSG)) {
+	else if (db_get_b(0, MODULENAME, "UseStatusMessage", 1) && ProtoServiceExists(proto, PS_SETAWAYMSG)) {
 		int status = Proto_GetStatus(proto);
 		if (lti == nullptr)
 			CallProtoService(proto, PS_SETAWAYMSG, status, 0);
@@ -635,7 +635,7 @@ INT_PTR EnableListeningTo(char *proto, bool enabled)
 
 		char setting[256];
 		mir_snprintf(setting, "%sEnabled", proto);
-		db_set_b(NULL, MODULE_NAME, setting, enabled);
+		db_set_b(NULL, MODULENAME, setting, enabled);
 
 		// Modify menu info
 		ProtocolInfo *info = GetProtoInfo(proto);

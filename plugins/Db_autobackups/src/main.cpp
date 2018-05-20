@@ -6,7 +6,9 @@ int &hLangpack(g_plugin.m_hLang);
 HANDLE hFolder;
 char g_szMirVer[100];
 
-PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -18,6 +20,17 @@ PLUGININFOEX pluginInfo = {
 	// {81C220A6-0226-4Ad6-BFCA-217B17A16053}
 	{ 0x81c220a6, 0x226, 0x4ad6, { 0xbf, 0xca, 0x21, 0x7b, 0x17, 0xa1, 0x60, 0x53 } }
 };
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULE, pluginInfoEx)
+{}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR ABService(WPARAM, LPARAM)
 {
@@ -103,14 +116,9 @@ static int PreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 
@@ -128,6 +136,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {

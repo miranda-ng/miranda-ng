@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 #define ghInst g_plugin.getInst()
 #define myGlobals g_myGlobals
-#define MODNAME SZ_SENDSS
+#define MODNAME MODULENAME
 #define ICO_COMMON_MAIN 0xFFFF
 #define ICO_DLG_DETAILS 0xFFFF
 

@@ -38,7 +38,7 @@ HWND hwndSplash;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -51,9 +51,13 @@ PLUGININFOEX pluginInfo = {
 	{ 0xc64cc8e0, 0xcf03, 0x474a, { 0x8b, 0x11, 0x8b, 0xd4, 0x56, 0x5c, 0xcf, 0x04 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -79,14 +83,14 @@ void SplashMain()
 
 	if (bstartup & (options.active == 1)) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ws(NULL, MODNAME, "VersionPrefix", &dbv)) {
+		if (!db_get_ws(NULL, MODULENAME, "VersionPrefix", &dbv)) {
 			mir_wstrcpy(szPrefix, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else
 			mir_wstrcpy(szPrefix, L"");
 
-		if (!db_get_ws(NULL, MODNAME, "Path", &dbv)) {
+		if (!db_get_ws(NULL, MODULENAME, "Path", &dbv)) {
 			mir_wstrcpy(inBuf, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -103,7 +107,7 @@ void SplashMain()
 		else
 			mir_wstrcpy(szSplashFile, inBuf);
 
-		if (!db_get_ws(NULL, MODNAME, "Sound", &dbv)) {
+		if (!db_get_ws(NULL, MODULENAME, "Sound", &dbv)) {
 			mir_wstrcpy(inBuf, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -194,10 +198,10 @@ int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 
 	if (options.inheritGS) {
 		if (!strcmp(cws->szModule, "Skin") && !strcmp(cws->szSetting, "UseSound"))
-			db_set_b(NULL, MODNAME, "PlaySound", cws->value.bVal);
+			db_set_b(NULL, MODULENAME, "PlaySound", cws->value.bVal);
 
 		if (!strcmp(cws->szModule, "PluginDisable") && !strcmp(cws->szSetting, _T2A(szDllName)))
-			db_set_b(NULL, MODNAME, "Active", cws->value.bVal);
+			db_set_b(NULL, MODULENAME, "Active", cws->value.bVal);
 	}
 
 	return 0;
@@ -231,7 +235,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 

@@ -39,13 +39,15 @@ HANDLE hHookWeatherError;
 MWindowList hDataWindowList, hWindowList;
 
 HANDLE hUpdateMutex;
-CLIST_INTERFACE *pcli;
 
 unsigned status;
 unsigned old_status;
 
 UINT_PTR timerId;
+
+CMPlugin	g_plugin;
 int &hLangpack(g_plugin.m_hLang);
+CLIST_INTERFACE *pcli;
 
 MYOPTIONS opt;
 
@@ -56,10 +58,6 @@ BOOL ThreadRunning;
 BOOL ModuleLoaded;
 
 HANDLE hTBButton = nullptr;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin	g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin info
@@ -77,6 +75,14 @@ static const PLUGININFOEX pluginInfoEx =
 	// {6B612A34-DCF2-4E32-85CF-B6FD006B745E}
 	{0x6b612a34, 0xdcf2, 0x4e32, {0x85, 0xcf, 0xb6, 0xfd, 0x0, 0x6b, 0x74, 0x5e}}
 };
+
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(WEATHERPROTONAME, pluginInfoEx)
+{
+	opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus", true);
+	RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
+	SetUniqueId("ID");
+}
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {

@@ -46,7 +46,7 @@ void LoadOptions()
 {
 	memset(&PopupOptions, 0, sizeof(PopupOptions));
 #if defined(_DEBUG)
-	PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
+	PopupOptions.debug = db_get_b(NULL, MODULENAME, "debug", FALSE);
 #endif
 
 	// Load Popup Options

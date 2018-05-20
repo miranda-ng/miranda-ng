@@ -50,9 +50,7 @@ void wfree(char **Data);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

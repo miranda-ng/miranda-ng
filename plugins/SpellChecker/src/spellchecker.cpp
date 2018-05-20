@@ -43,7 +43,7 @@ LIST<Dictionary> languages(1);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -57,9 +57,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x36753ae3, 0x840b, 0x4797, { 0x94, 0xa5, 0xfd, 0x9f, 0x58, 0x52, 0xb9, 0x42 }}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 // Functions ////////////////////////////////////////////////////////////////////////////
@@ -67,7 +71,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 static int IconsChanged(WPARAM, LPARAM)
 {
 	StatusIconData sid = {};
-	sid.szModule = MODULE_NAME;
+	sid.szModule = MODULENAME;
 	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
 	sid.flags = MBF_HIDDEN | MBF_UNICODE;
 
@@ -189,7 +193,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MSG_ICONPRESSED, IconPressed);
 
 	StatusIconData sid = {};
-	sid.szModule = MODULE_NAME;
+	sid.szModule = MODULENAME;
 	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
 	sid.flags = MBF_UNICODE | MBF_HIDDEN;
 
@@ -227,7 +231,7 @@ static IconItem iconList[] =
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	// icons
 	g_plugin.registerIcon(LPGEN("Spell Checker"), iconList);

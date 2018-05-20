@@ -45,13 +45,11 @@
 #include "options.h"
 #include "version.h"
 
-#define MODULE_NAME     "BuddyExpectator"
+#define MODULENAME     "BuddyExpectator"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE_NAME)
-	{}
+	CMPlugin();
 };
 
 extern HANDLE hExtraIcon;

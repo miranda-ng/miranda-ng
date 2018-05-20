@@ -51,14 +51,12 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MOD_NAME)
-	{}
+	CMPlugin();
 };
 
 #define KEY_DOWN(key) ((GetAsyncKeyState(key) & 0x8000) ? (true) : (false))
 #define MAXPASSLEN 16
-#define	DEFAULTSETTING	(OPT_SETONLINEBACK | OPT_DISABLESNDS | OPT_ONLINEONLY | OPT_USEDEFMSG)
+#define DEFAULTSETTING (OPT_SETONLINEBACK | OPT_DISABLESNDS | OPT_ONLINEONLY | OPT_USEDEFMSG)
 
 #define OLD_SOUND			1
 #define OLD_POPUP			2

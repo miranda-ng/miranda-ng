@@ -27,7 +27,7 @@ MWindowList hInternalWindowList = nullptr;
 // Remember to update the Version in the resource !!!
 /////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -40,9 +40,13 @@ PLUGININFOEX pluginInfo = {
 	{ 0x46102b07, 0xc215, 0x4162, { 0x9c, 0x83, 0xd3, 0x77, 0x88, 0x1d, 0xa7, 0xcc } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -141,29 +145,29 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
-	nMaxLineWidth = db_get_w(NULL, MODULE, "MaxLineWidth", nMaxLineWidth);
+	nMaxLineWidth = db_get_w(NULL, MODULENAME, "MaxLineWidth", nMaxLineWidth);
 	if (nMaxLineWidth > 0 && nMaxLineWidth < 5)
 		nMaxLineWidth = 5;
 
-	sExportDir = _DBGetString(NULL, MODULE, "ExportDir", L"%dbpath%\\MsgExport\\");
-	sDefaultFile = _DBGetString(NULL, MODULE, "DefaultFile", L"%nick%.txt");
+	sExportDir = _DBGetString(NULL, MODULENAME, "ExportDir", L"%dbpath%\\MsgExport\\");
+	sDefaultFile = _DBGetString(NULL, MODULENAME, "DefaultFile", L"%nick%.txt");
 
-	sTimeFormat = _DBGetString(NULL, MODULE, "TimeFormat", L"d s");
+	sTimeFormat = _DBGetString(NULL, MODULENAME, "TimeFormat", L"d s");
 
-	sFileViewerPrg = _DBGetString(NULL, MODULE, "FileViewerPrg", L"");
-	bUseInternalViewer(db_get_b(NULL, MODULE, "UseInternalViewer", bUseInternalViewer()) != 0);
+	sFileViewerPrg = _DBGetString(NULL, MODULENAME, "FileViewerPrg", L"");
+	bUseInternalViewer(db_get_b(NULL, MODULENAME, "UseInternalViewer", bUseInternalViewer()) != 0);
 
-	bReplaceHistory = db_get_b(NULL, MODULE, "ReplaceHistory", bReplaceHistory) != 0;
-	bAppendNewLine = db_get_b(NULL, MODULE, "AppendNewLine", bAppendNewLine) != 0;
-	bUseUtf8InNewFiles = db_get_b(NULL, MODULE, "UseUtf8InNewFiles", bUseUtf8InNewFiles) != 0;
-	bUseLessAndGreaterInExport = db_get_b(NULL, MODULE, "UseLessAndGreaterInExport", bUseLessAndGreaterInExport) != 0;
+	bReplaceHistory = db_get_b(NULL, MODULENAME, "ReplaceHistory", bReplaceHistory) != 0;
+	bAppendNewLine = db_get_b(NULL, MODULENAME, "AppendNewLine", bAppendNewLine) != 0;
+	bUseUtf8InNewFiles = db_get_b(NULL, MODULENAME, "UseUtf8InNewFiles", bUseUtf8InNewFiles) != 0;
+	bUseLessAndGreaterInExport = db_get_b(NULL, MODULENAME, "UseLessAndGreaterInExport", bUseLessAndGreaterInExport) != 0;
 
-	enRenameAction = (ENDialogAction)db_get_b(NULL, MODULE, "RenameAction", enRenameAction);
-	enDeleteAction = (ENDialogAction)db_get_b(NULL, MODULE, "DeleteAction", enDeleteAction);
+	enRenameAction = (ENDialogAction)db_get_b(NULL, MODULENAME, "RenameAction", enRenameAction);
+	enDeleteAction = (ENDialogAction)db_get_b(NULL, MODULENAME, "DeleteAction", enDeleteAction);
 
 	HANDLE hServiceFunc = nullptr;
 	if (bReplaceHistory)

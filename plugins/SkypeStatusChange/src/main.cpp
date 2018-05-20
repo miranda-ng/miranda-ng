@@ -20,7 +20,7 @@ HANDLE g_hEventShutdown = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PLUGININFOEX g_pluginInfo =
+static PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -33,9 +33,13 @@ static PLUGININFOEX g_pluginInfo =
 	{ 0x2925520b, 0x6677, 0x4658, { 0x8b, 0xad, 0x56, 0x61, 0xd1, 0x3e, 0x46, 0x92 }}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &g_pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -269,7 +273,7 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&g_pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	g_MsgIDSkypeControlAPIAttach = ::RegisterWindowMessage(L"SkypeControlAPIAttach");
 	g_MsgIDSkypeControlAPIDiscover = ::RegisterWindowMessage(L"SkypeControlAPIDiscover");

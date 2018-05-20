@@ -6,7 +6,7 @@ wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const c
 {
 	DBVARIANT dbv = {0};
 	wcsnset(buf, 0, buflen);
-	if (db_get_ws(hContact, PLUGIN_NAME, option, &dbv) != 0)
+	if (db_get_ws(hContact, MODULENAME, option, &dbv) != 0)
 		wcsncpy(buf, def, min(buflen, mir_wstrlen(def)+1));
 	else if (dbv.type == DBVT_WCHAR) {
 		wcsncpy(buf, dbv.ptszVal, min(buflen, mir_wstrlen(dbv.ptszVal)+1));
@@ -554,7 +554,7 @@ int OnOptInitialize(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Message sessions");
-	odp.szTitle.a = PLUGIN_NAME;
+	odp.szTitle.a = MODULENAME;
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.szTab.a = LPGEN("Settings");

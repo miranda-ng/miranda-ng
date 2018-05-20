@@ -28,9 +28,9 @@ int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hHeap = nullptr;
 
-//End of header
+/////////////////////////////////////////////////////////////////////////////////////////
+// PluginInfoEx
 
-// PluginInfo & PluginInfoEx
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -44,10 +44,16 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x687364af, 0x58b0, 0x4af2, { 0xa4, 0xee, 0x20, 0xf4, 0xa, 0x8d, 0x9a, 0xfb } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int	__declspec(dllexport) Load(void)
 {

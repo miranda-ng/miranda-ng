@@ -43,7 +43,9 @@ PFNDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
 static void LanguageChanged(HWND hDlg);
 
-static PLUGININFOEX pluginInfo = {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -56,10 +58,16 @@ static PLUGININFOEX pluginInfo = {
 	{ 0x4fac353d, 0x0a36, 0x44a4, { 0x90, 0x64, 0x67, 0x59, 0xc5, 0x3a, 0xe7, 0x82 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MOD_NAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static BOOL IsAeroMode()
 {
@@ -614,7 +622,7 @@ static int EnumProtos(WPARAM, LPARAM)
 	return 0;
 }
 
-int MirandaLoaded(WPARAM, LPARAM)
+static int MirandaLoaded(WPARAM, LPARAM)
 {
 	g_wMask = db_get_w(NULL, MOD_NAME, "optsmask", DEFAULTSETTING);
 
@@ -681,7 +689,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	g_wMaskAdv = db_get_w(NULL, MOD_NAME, "optsmaskadv", 0);
@@ -705,6 +713,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

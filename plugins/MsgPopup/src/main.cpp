@@ -36,7 +36,7 @@ MSGBOXOPTIONS options;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -50,9 +50,13 @@ PLUGININFOEX pluginInfo =
 	{0xcf25d645, 0x4dab, 0x4b0a, {0xb9, 0xf1, 0xde, 0x1e, 0x86, 0x23, 0x1f, 0x9b}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -211,19 +215,19 @@ void LoadConfig()
 		mir_snprintf(szNameFG, "FG%d", indx);
 		mir_snprintf(szNameBG, "BG%d", indx);
 		mir_snprintf(szNameTO, "TO%d", indx);
-		options.FG[indx] = db_get_dw(NULL, SERVICENAME, szNameFG, optionsDefault.FG[indx]);
-		options.BG[indx] = db_get_dw(NULL, SERVICENAME, szNameBG, optionsDefault.BG[indx]);
-		options.Timeout[indx] = db_get_dw(NULL, SERVICENAME, szNameTO, (DWORD)optionsDefault.Timeout[indx]);
+		options.FG[indx] = db_get_dw(NULL, MODULENAME, szNameFG, optionsDefault.FG[indx]);
+		options.BG[indx] = db_get_dw(NULL, MODULENAME, szNameBG, optionsDefault.BG[indx]);
+		options.Timeout[indx] = db_get_dw(NULL, MODULENAME, szNameTO, (DWORD)optionsDefault.Timeout[indx]);
 	}
 
-	options.Sound = db_get_b(NULL, SERVICENAME, "Sound", (DWORD)optionsDefault.Sound);
+	options.Sound = db_get_b(NULL, MODULENAME, "Sound", (DWORD)optionsDefault.Sound);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
 	HookEvent(ME_OPT_INITIALISE, HookedOptions);
 

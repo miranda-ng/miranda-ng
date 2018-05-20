@@ -24,7 +24,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		return pxNotConfigured;
 
 	
-	wchar_t *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
+	wchar_t *bin_path = UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"");
 	{
 		if(!boost::filesystem::exists(bin_path))
 		{
@@ -47,7 +47,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	env.push_back(L"LC_ALL=English");
 	env.push_back(L"LANG=C");
 	argv.push_back(bin_path);
-	wchar_t *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+	wchar_t *home_dir = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
 	if(mir_wstrlen(home_dir)) //this check are required for first run gpg binary validation
 	{
 		argv.push_back(L"--homedir");
@@ -173,7 +173,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 	if(!globals.gpg_valid)
 		return pxNotConfigured;
 
-	wchar_t *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
+	wchar_t *bin_path = UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"");
 	{
 		if(!boost::filesystem::exists(bin_path))
 		{
@@ -195,7 +195,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 	env.push_back(L"LC_ALL=English");
 	argv.push_back(bin_path);
 	argv.push_back(L"--homedir");
-	wchar_t *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+	wchar_t *home_dir = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
 	argv.push_back(home_dir);
 	mir_free(home_dir);
 	argv.push_back(L"--display-charset");

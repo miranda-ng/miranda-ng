@@ -247,7 +247,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 			BroadcastEndSession(BSM_APPLICATIONS | BSM_ALLDESKTOPS, ENDSESSION_CLOSEAPP); /* app should close itself */
 			WinNT_SetPrivilege(SE_TCB_NAME, FALSE);
 
-			if (!InitiateSystemShutdownEx(nullptr, TranslateT("AutoShutdown"), 0, TRUE, shutdownType == SDSDT_REBOOT, SHTDN_REASON_MAJOR_OTHER | SHTDN_REASON_MINOR_OTHER | SHTDN_REASON_FLAG_PLANNED))
+			if (!InitiateSystemShutdownEx(nullptr, TranslateT(MODULENAME), 0, TRUE, shutdownType == SDSDT_REBOOT, SHTDN_REASON_MAJOR_OTHER | SHTDN_REASON_MINOR_OTHER | SHTDN_REASON_FLAG_PLANNED))
 				dwErrCode = GetLastError();
 
 			/* cleanly close Miranda */
@@ -321,7 +321,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, (LONG_PTR)hBoldFont);
 		}
 		{
-			countdown = db_get_w(NULL, "AutoShutdown", "ConfirmDlgCountdown", SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
+			countdown = db_get_w(NULL, MODULENAME, "ConfirmDlgCountdown", SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
 			if (countdown < 3)
 				countdown = SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT;
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, countdown);
@@ -331,7 +331,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (!SetTimer(hwndDlg, 1, 1000, nullptr))
 			PostMessage(hwndDlg, M_START_SHUTDOWN, 0, 0);
 
-		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, "AutoShutdown", "ConfirmDlg_");
+		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULENAME, "ConfirmDlg_");
 
 		/* disallow foreground window changes (WinMe/2000+) */
 		SetForegroundWindow(hwndDlg);
@@ -346,7 +346,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			ShowWindow(hwndDlg, SW_HIDE);
 			/* reallow foreground window changes (WinMe/2000+) */
 			LockSetForegroundWindow(LSFW_UNLOCK);
-			Utils_SaveWindowPosition(hwndDlg, NULL, "AutoShutdown", "ConfirmDlg_");
+			Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "ConfirmDlg_");
 			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_TEXT_HEADER, WM_GETFONT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TEXT_HEADER, WM_SETFONT, 0, FALSE); /* no return value */
 			if (hFont != nullptr) DeleteObject(hFont);
@@ -416,7 +416,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 {
 	/* passing 0 as wParam is only to be used internally, undocumented */
-	if (!wParam) wParam = db_get_b(NULL, "AutoShutdown", "ShutdownType", SETTING_SHUTDOWNTYPE_DEFAULT);
+	if (!wParam) wParam = db_get_b(NULL, MODULENAME, "ShutdownType", SETTING_SHUTDOWNTYPE_DEFAULT);
 	if (!IsShutdownTypeEnabled((BYTE)wParam)) return 1; /* does shutdownType range check */
 	if ((BOOL)lParam && hwndShutdownDlg != nullptr) return 2;
 
@@ -428,7 +428,7 @@ INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 	/* tell others */
 	NotifyEventHooks(hEventShutdown, wParam, lParam);
 	/* show dialog */
-	if (lParam && db_get_b(NULL, "AutoShutdown", "ShowConfirmDlg", SETTING_SHOWCONFIRMDLG_DEFAULT))
+	if (lParam && db_get_b(NULL, MODULENAME, "ShowConfirmDlg", SETTING_SHOWCONFIRMDLG_DEFAULT))
 		if (CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SHUTDOWNNOW), nullptr, ShutdownDlgProc, (BYTE)wParam) != nullptr)
 			return 0;
 	/* show error */

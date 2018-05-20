@@ -201,7 +201,7 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern)
 string sCreateLink(const char * pszSrvPath)
 {
 	char szTemp[30];
-	string sLink = DBGetString(NULL, MODULE, "ExternalSrvName", szDefaultExternalSrvName);
+	string sLink = DBGetString(NULL, MODULENAME, "ExternalSrvName", szDefaultExternalSrvName);
 	mir_snprintf(szTemp, "%d.%d.%d.%d", SplitIpAddress(dwLocalIpAddress));
 	ReplaceAll(sLink, "%LocalIP%", szTemp);
 
@@ -721,45 +721,45 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 
 		LVCOLUMN cCol = { 0 };
 		cCol.mask = LVCF_TEXT | LVCF_WIDTH;
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx1", 126);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx1", 126);
 		cCol.pszText = Translate("Share name");
 		ListView_InsertColumn(hShareList, 0, &cCol);
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx2", 48);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx2", 48);
 		cCol.pszText = Translate("Max Downloads");
 		ListView_InsertColumn(hShareList, 1, &cCol);
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx3", 96);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx3", 96);
 		cCol.pszText = Translate("Allowed IP");
 		ListView_InsertColumn(hShareList, 2, &cCol);
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx4", 104);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx4", 104);
 		cCol.pszText = Translate("Allowed Mask");
 		ListView_InsertColumn(hShareList, 3, &cCol);
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx5", 252);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx5", 252);
 		cCol.pszText = Translate("Real path");
 		ListView_InsertColumn(hShareList, 4, &cCol);
 
 		cCol.mask = LVCF_TEXT | LVCF_WIDTH;
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx6", 142);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx6", 142);
 		cCol.pszText = Translate("Share name");
 		ListView_InsertColumn(hUserList, 0, &cCol);
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx7", 111);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx7", 111);
 		cCol.pszText = Translate("User");
 		ListView_InsertColumn(hUserList, 1, &cCol);
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx8", 100);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx8", 100);
 		cCol.pszText = Translate("Agent");
 		ListView_InsertColumn(hUserList, 2, &cCol);
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx9", 100);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx9", 100);
 		cCol.pszText = Translate("Completed");
 		ListView_InsertColumn(hUserList, 3, &cCol);
-		cCol.cx = db_get_w(NULL, MODULE, "StatWnd_cx10", 100);
+		cCol.cx = db_get_w(NULL, MODULENAME, "StatWnd_cx10", 100);
 		cCol.pszText = Translate("Speed");
 		ListView_InsertColumn(hUserList, 4, &cCol);
 
-		bool b = db_get_b(NULL, MODULE, "StatWnd_ShowHidden", 0) != 0;
+		bool b = db_get_b(NULL, MODULENAME, "StatWnd_ShowHidden", 0) != 0;
 		CheckDlgButton(hwndDlg, IDC_SHOWHIDDENSHARES, b ? BST_CHECKED : BST_UNCHECKED);
 
 		bLastAutoRefress = false;
 		UpdateStatisticView(hwndDlg);
-		Utils_RestoreWindowPosition(hwndDlg, 0, MODULE, "StatWnd_");
+		Utils_RestoreWindowPosition(hwndDlg, 0, MODULENAME, "StatWnd_");
 		SetWindowsCtrls(hwndDlg);
 	}
 	return TRUE;
@@ -959,21 +959,21 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 		HWND hShareList = GetDlgItem(hwndDlg, IDC_CURRENT_SHARES);
 		HWND hUserList = GetDlgItem(hwndDlg, IDC_CURRENT_USERS);
 
-		db_set_w(NULL, MODULE, "StatWnd_cx1", (WORD)ListView_GetColumnWidth(hShareList, 0));
-		db_set_w(NULL, MODULE, "StatWnd_cx2", (WORD)ListView_GetColumnWidth(hShareList, 1));
-		db_set_w(NULL, MODULE, "StatWnd_cx3", (WORD)ListView_GetColumnWidth(hShareList, 2));
-		db_set_w(NULL, MODULE, "StatWnd_cx4", (WORD)ListView_GetColumnWidth(hShareList, 3));
-		db_set_w(NULL, MODULE, "StatWnd_cx5", (WORD)ListView_GetColumnWidth(hShareList, 4));
-		db_set_w(NULL, MODULE, "StatWnd_cx6", (WORD)ListView_GetColumnWidth(hUserList, 0));
-		db_set_w(NULL, MODULE, "StatWnd_cx7", (WORD)ListView_GetColumnWidth(hUserList, 1));
-		db_set_w(NULL, MODULE, "StatWnd_cx8", (WORD)ListView_GetColumnWidth(hUserList, 2));
-		db_set_w(NULL, MODULE, "StatWnd_cx9", (WORD)ListView_GetColumnWidth(hUserList, 3));
-		db_set_w(NULL, MODULE, "StatWnd_cx10", (WORD)ListView_GetColumnWidth(hUserList, 4));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx1", (WORD)ListView_GetColumnWidth(hShareList, 0));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx2", (WORD)ListView_GetColumnWidth(hShareList, 1));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx3", (WORD)ListView_GetColumnWidth(hShareList, 2));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx4", (WORD)ListView_GetColumnWidth(hShareList, 3));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx5", (WORD)ListView_GetColumnWidth(hShareList, 4));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx6", (WORD)ListView_GetColumnWidth(hUserList, 0));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx7", (WORD)ListView_GetColumnWidth(hUserList, 1));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx8", (WORD)ListView_GetColumnWidth(hUserList, 2));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx9", (WORD)ListView_GetColumnWidth(hUserList, 3));
+		db_set_w(NULL, MODULENAME, "StatWnd_cx10", (WORD)ListView_GetColumnWidth(hUserList, 4));
 
 		bool b = IsDlgButtonChecked(hwndDlg, IDC_SHOWHIDDENSHARES) == BST_CHECKED;
-		db_set_b(NULL, MODULE, "StatWnd_ShowHidden", b);
+		db_set_b(NULL, MODULENAME, "StatWnd_ShowHidden", b);
 
-		Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "StatWnd_");
+		Utils_SaveWindowPosition(hwndDlg, 0, MODULENAME, "StatWnd_");
 		DestroyWindow(hwndDlg);
 		return TRUE;
 	}
@@ -1039,12 +1039,12 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 				if (!stNewShare.dwAllowedIP)
 					stNewShare.dwAllowedIP = db_get_dw(hContact, dbv.pszVal, "RealIP", 0);
 				if (!stNewShare.dwAllowedIP)
-					stNewShare.dwAllowedIP = db_get_dw(hContact, MODULE, "LastUsedIP", 0);
+					stNewShare.dwAllowedIP = db_get_dw(hContact, MODULENAME, "LastUsedIP", 0);
 			}
 		}
 		db_free(&dbv);
 
-		stNewShare.dwAllowedMask = db_get_dw(hContact, MODULE, "LastUsedMask", 0);
+		stNewShare.dwAllowedMask = db_get_dw(hContact, MODULENAME, "LastUsedMask", 0);
 	}
 
 	if (!stNewShare.dwAllowedMask) {
@@ -1058,14 +1058,14 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (stNewShare.dwAllowedIP)
-		db_set_dw(hContact, MODULE, "LastUsedIP", stNewShare.dwAllowedIP);
+		db_set_dw(hContact, MODULENAME, "LastUsedIP", stNewShare.dwAllowedIP);
 	else
-		db_unset(hContact, MODULE, "LastUsedIP");
+		db_unset(hContact, MODULENAME, "LastUsedIP");
 
 	if (stNewShare.dwAllowedMask && stNewShare.dwAllowedMask != 0xFFFFFFFF)
-		db_set_dw(hContact, MODULE, "LastUsedMask", stNewShare.dwAllowedMask);
+		db_set_dw(hContact, MODULENAME, "LastUsedMask", stNewShare.dwAllowedMask);
 	else
-		db_unset(hContact, MODULE, "LastUsedMask");
+		db_unset(hContact, MODULENAME, "LastUsedMask");
 
 	SendLinkToUser(hContact, stNewShare.pszSrvPath);
 	return 0;
@@ -1103,16 +1103,16 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
-		string sDefExt = DBGetString(NULL, MODULE, "ExternalSrvName", szDefaultExternalSrvName);
+		string sDefExt = DBGetString(NULL, MODULENAME, "ExternalSrvName", szDefaultExternalSrvName);
 		SetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, sDefExt.c_str());
 
-		bool b = db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0;
+		bool b = db_get_b(NULL, MODULENAME, "AddStatisticsMenuItem", 1) != 0;
 		CheckDlgButton(hwndDlg, IDC_ADD_STATISTICS_MENU_ITEM, b ? BST_CHECKED : BST_UNCHECKED);
 
-		b = db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1) != 0;
+		b = db_get_b(NULL, MODULENAME, "AddAcceptConMenuItem", 1) != 0;
 		CheckDlgButton(hwndDlg, IDC_ACCEPT_COM_MENU_ITEM, b ? BST_CHECKED : BST_UNCHECKED);
 
-		b = db_get_b(NULL, MODULE, "WriteLogFile", 0) != 0;
+		b = db_get_b(NULL, MODULENAME, "WriteLogFile", 0) != 0;
 		CheckDlgButton(hwndDlg, IDC_WRITE_LOG_FILE, b ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_SHOW_POPUPS, bShowPopups ? BST_CHECKED : BST_UNCHECKED);
@@ -1148,7 +1148,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SetDlgItemInt(hwndDlg, IDC_DEFAULT_DOWNLOAD_LIMIT, nDefaultDownloadLimit, true);
 
 		indexCreationMode =
-			(eIndexCreationMode)db_get_b(NULL, MODULE, "IndexCreationMode", 3);
+			(eIndexCreationMode)db_get_b(NULL, MODULENAME, "IndexCreationMode", 3);
 
 		switch (indexCreationMode) {
 		case INDEX_CREATION_HTML:
@@ -1232,64 +1232,64 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			char szTemp[500];
 			if (GetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, szTemp, _countof(szTemp)))
-				db_set_s(NULL, MODULE, "ExternalSrvName", szTemp);
+				db_set_s(NULL, MODULENAME, "ExternalSrvName", szTemp);
 
-			bool b = db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0;
+			bool b = db_get_b(NULL, MODULENAME, "AddStatisticsMenuItem", 1) != 0;
 			bool bNew = IsDlgButtonChecked(hwndDlg, IDC_ADD_STATISTICS_MENU_ITEM) == BST_CHECKED;
 			if (b != bNew) {
-				db_set_b(NULL, MODULE, "AddStatisticsMenuItem", bNew);
+				db_set_b(NULL, MODULENAME, "AddStatisticsMenuItem", bNew);
 				MessageBox(hwndDlg, Translate("You need to restart Miranda to change the main menu"), MSG_BOX_TITEL, MB_OK);
 			}
 
-			b = db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1) != 0;
+			b = db_get_b(NULL, MODULENAME, "AddAcceptConMenuItem", 1) != 0;
 			bNew = IsDlgButtonChecked(hwndDlg, IDC_ACCEPT_COM_MENU_ITEM) == BST_CHECKED;
 			if (b != bNew) {
-				db_set_b(NULL, MODULE, "AddAcceptConMenuItem", bNew);
+				db_set_b(NULL, MODULENAME, "AddAcceptConMenuItem", bNew);
 				MessageBox(hwndDlg, Translate("You need to restart Miranda to change the main menu"), MSG_BOX_TITEL, MB_OK);
 			}
 
 			bNew = IsDlgButtonChecked(hwndDlg, IDC_WRITE_LOG_FILE) == BST_CHECKED;
-			db_set_b(NULL, MODULE, "WriteLogFile", bNew);
+			db_set_b(NULL, MODULENAME, "WriteLogFile", bNew);
 
 			bShowPopups = IsDlgButtonChecked(hwndDlg, IDC_SHOW_POPUPS) == BST_CHECKED;
-			db_set_b(NULL, MODULE, "ShowPopups", bShowPopups);
+			db_set_b(NULL, MODULENAME, "ShowPopups", bShowPopups);
 
 			GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szTemp, _countof(szTemp));
 			sUrlAddress = szTemp;
-			db_set_s(NULL, MODULE, "UrlAddress", sUrlAddress.c_str());
+			db_set_s(NULL, MODULENAME, "UrlAddress", sUrlAddress.c_str());
 
 			GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szTemp, _countof(szTemp));
 			sPageKeyword = szTemp;
-			db_set_s(NULL, MODULE, "PageKeyword", sPageKeyword.c_str());
+			db_set_s(NULL, MODULENAME, "PageKeyword", sPageKeyword.c_str());
 			dwExternalIpAddress = 0;
 
 			BOOL bTranslated = false;
 			int nTemp = GetDlgItemInt(hwndDlg, IDC_MAX_SPEED, &bTranslated, true);
 			if (bTranslated) {
 				nMaxUploadSpeed = nTemp << 10;
-				db_set_dw(NULL, MODULE, "MaxUploadSpeed", nMaxUploadSpeed);
+				db_set_dw(NULL, MODULENAME, "MaxUploadSpeed", nMaxUploadSpeed);
 			}
 
 			nTemp = GetDlgItemInt(hwndDlg, IDC_MAX_CONN_TOTAL, &bTranslated, true);
 			if (bTranslated) {
 				nMaxConnectionsTotal = nTemp;
-				db_set_dw(NULL, MODULE, "MaxConnectionsTotal", nMaxConnectionsTotal);
+				db_set_dw(NULL, MODULENAME, "MaxConnectionsTotal", nMaxConnectionsTotal);
 			}
 
 			nTemp = GetDlgItemInt(hwndDlg, IDC_MAX_CONN_PER_USER, &bTranslated, true);
 			if (bTranslated) {
 				nMaxConnectionsPerUser = nTemp;
-				db_set_dw(NULL, MODULE, "MaxConnectionsPerUser", nMaxConnectionsPerUser);
+				db_set_dw(NULL, MODULENAME, "MaxConnectionsPerUser", nMaxConnectionsPerUser);
 			}
 
 			nTemp = GetDlgItemInt(hwndDlg, IDC_DEFAULT_DOWNLOAD_LIMIT, &bTranslated, true);
 			if (bTranslated) {
 				nDefaultDownloadLimit = nTemp;
-				db_set_dw(NULL, MODULE, "DefaultDownloadLimit", nDefaultDownloadLimit);
+				db_set_dw(NULL, MODULENAME, "DefaultDownloadLimit", nDefaultDownloadLimit);
 			}
 
 			bLimitOnlyWhenOnline = IsDlgButtonChecked(hwndDlg, IDC_LIMIT_ONLY_WHEN_ONLINE) == BST_CHECKED;
-			db_set_b(NULL, MODULE, "LimitOnlyWhenOnline", bLimitOnlyWhenOnline);
+			db_set_b(NULL, MODULENAME, "LimitOnlyWhenOnline", bLimitOnlyWhenOnline);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_INDEX_HTML) == BST_CHECKED ||
 				IsDlgButtonChecked(hwndDlg, IDC_INDEX_DETECT) == BST_CHECKED) {
@@ -1312,7 +1312,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				indexCreationMode = INDEX_CREATION_DISABLE;
 			}
 
-			db_set_b(NULL, MODULE, "IndexCreationMode", (BYTE)indexCreationMode);
+			db_set_b(NULL, MODULENAME, "IndexCreationMode", (BYTE)indexCreationMode);
 
 			return TRUE;
 		}
@@ -1367,7 +1367,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 void CALLBACK MainThreadCallback(ULONG_PTR dwParam)
 {
 	POPUPDATAT *pclData = (POPUPDATAT*)dwParam;
-	if (db_get_b(NULL, MODULE, "WriteLogFile", 0) != 0)
+	if (db_get_b(NULL, MODULENAME, "WriteLogFile", 0) != 0)
 		LogEvent(pclData->lpzContactName, pclData->lpzText);
 
 	PUAddPopupT(pclData);
@@ -1467,8 +1467,8 @@ void InitGuiElements()
 	//hMainThread = GetCurrentThread();
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
-	sUrlAddress = DBGetString(NULL, MODULE, "UrlAddress", szDefaultUrlAddress);
-	sPageKeyword = DBGetString(NULL, MODULE, "PageKeyword", szDefaultPageKeyword);
+	sUrlAddress = DBGetString(NULL, MODULENAME, "UrlAddress", szDefaultUrlAddress);
+	sPageKeyword = DBGetString(NULL, MODULENAME, "PageKeyword", szDefaultPageKeyword);
 
 	hShareNewFileService = CreateServiceFunction(MS_SHARE_NEW_FILE, nShareNewFile);
 	hShowStatisticsViewService = CreateServiceFunction(MS_SHOW_STATISTICS_VIEW, nShowStatisticsView);
@@ -1482,7 +1482,7 @@ void InitGuiElements()
 	mi.pszService = MS_SHARE_NEW_FILE;
 	hShareNewFileMenuItem = Menu_AddContactMenuItem(&mi);
 
-	if (db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0) {
+	if (db_get_b(NULL, MODULENAME, "AddStatisticsMenuItem", 1) != 0) {
 		SET_UID(mi, 0x68db84c9, 0xe6b4, 0x4b4f, 0x93, 0x4b, 0xfd, 0x34, 0x2d, 0x83, 0x11, 0xe7);
 		mi.position = 1000085005;
 		mi.name.w = LPGENW("Show HTTP server statistics");
@@ -1494,7 +1494,7 @@ void InitGuiElements()
 	if (!hEventOptionsInitialize)
 		MessageBox(nullptr, "Failed to HookEvent ME_OPT_INITIALISE", MSG_BOX_TITEL, MB_OK);
 
-	bShowPopups = db_get_b(NULL, MODULE, "ShowPopups", bShowPopups) != 0;
+	bShowPopups = db_get_b(NULL, MODULENAME, "ShowPopups", bShowPopups) != 0;
 }
 
 /////////////////////////////////////////////////////////////////////

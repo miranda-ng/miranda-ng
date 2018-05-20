@@ -57,7 +57,7 @@ class COptionsDlg : public CPluginDlgBase
 
 public:
 	COptionsDlg() :
-		CPluginDlgBase(g_plugin, IDD_OPT_IDLE, IDLEMOD),
+		CPluginDlgBase(g_plugin, IDD_OPT_IDLE, MODULENAME),
 		edt1sttime(this, IDC_IDLE1STTIME),
 		spinIdle(this, IDC_IDLESPIN),
 		cmbAAStatus(this, IDC_AASTATUS),

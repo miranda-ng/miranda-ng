@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define BIRTHDAY_NEAR_DEFAULT_DAYS 3
 
-#define DUMMY_MODULE ModuleName
+#define DUMMY_MODULE MODULENAME
 #define DUMMY_SETTING "refreshIconsDummyVal"
 
 struct TUpcomingBirthday{

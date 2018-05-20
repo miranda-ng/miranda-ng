@@ -140,7 +140,7 @@ void COneDriveService::HandleJsonError(JSONNode &node)
 auto COneDriveService::UploadFile(const std::string &parentId, const std::string &fileName, const char *data, size_t size)
 {
 	ptrA token(getStringA("TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
+	BYTE strategy = db_get_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
 	OneDriveAPI::UploadFileRequest *request = !parentId.empty()
 		? new OneDriveAPI::UploadFileRequest(token, parentId.c_str(), fileName.c_str(), data, size, (OnConflict)strategy)
 		: new OneDriveAPI::UploadFileRequest(token, fileName.c_str(), data, size, (OnConflict)strategy);
@@ -154,7 +154,7 @@ auto COneDriveService::UploadFile(const std::string &parentId, const std::string
 auto COneDriveService::CreateUploadSession(const std::string &parentId, const std::string &fileName)
 {
 	ptrA token(getStringA("TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
+	BYTE strategy = db_get_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
 	OneDriveAPI::CreateUploadSessionRequest *request = !parentId.empty()
 		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId.c_str(), fileName.c_str(), (OnConflict)strategy)
 		: new OneDriveAPI::CreateUploadSessionRequest(token, fileName.c_str(), (OnConflict)strategy);
@@ -259,7 +259,7 @@ void COneDriveService::Upload(FileTransferParam *ftp)
 struct CMPluginOnedrive : public CMPluginBase
 {
 	CMPluginOnedrive() :
-		CMPluginBase(MODULE "/OneDrive")
+		CMPluginBase(MODULENAME "/OneDrive", pluginInfoEx)
 	{
 		m_hInst = g_plugin.getInst();
 

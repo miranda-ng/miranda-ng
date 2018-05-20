@@ -37,7 +37,7 @@ int hksAction = 0;
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -50,9 +50,13 @@ PLUGININFOEX pluginInfo = {
 	{0xf93ba59c, 0x4f48, 0x4f2e, {0x8a, 0x91, 0x77, 0xa2, 0x80, 0x15, 0x27, 0xa3}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -141,17 +145,17 @@ static int EventAdded(WPARAM wparam, LPARAM hDbEvent)
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 	if (!(dbei.flags & DBEF_SENT) || (dbei.flags & DBEF_READ)
-		|| !db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", 0)
-		|| db_get_w(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL)
+		|| !db_get_b(NULL, MODULENAME, "EnableLastSentTo", 0)
+		|| db_get_w(NULL, MODULENAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL)
 		return 0;
 
-	db_set_dw(NULL, MODULE_NAME, "LastSentTo", (UINT_PTR)wparam);
+	db_set_dw(NULL, MODULENAME, "LastSentTo", (UINT_PTR)wparam);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	CreateServiceFunction(MS_QC_SHOW_DIALOG, ShowDialog);
 

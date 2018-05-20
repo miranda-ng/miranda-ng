@@ -17,13 +17,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-int &hLangpack(g_plugin.m_hLang);
+CMPlugin g_plugin;
+CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
+int &hLangpack(g_plugin.m_hLang);
+
 char g_szMirVer[100];
 HANDLE g_hCallEvent;
-CHAT_MANAGER *pci;
 
-PLUGININFOEX pluginInfo =
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -37,14 +41,16 @@ PLUGININFOEX pluginInfo =
 	{ 0x57e90ac6, 0x1067, 0x423b, { 0x8c, 0xa3, 0x70, 0xa3, 0x9d, 0x20, 0xd, 0x4f } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CSkypeProto>("SKYPE", pluginInfoEx)
 {
-	return &pluginInfo;
+	SetUniqueId(SKYPE_SETTINGS_ID);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -63,7 +69,7 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 	pci = Chat_GetInterface();
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));

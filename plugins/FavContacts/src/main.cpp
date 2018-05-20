@@ -25,7 +25,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
-PLUGININFOEX pluginInfo = {
+IconItem iconList[] =
+{
+	{ LPGEN("Favorite Contact"), "favcontacts_favorite", IDI_FAVORITE },
+	{ LPGEN("Regular Contact"), "favcontacts_regular", IDI_REGULAR },
+};
+
+CContactCache *g_contactCache = nullptr;
+
+Options g_Options = { 0 };
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+static PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -38,26 +50,20 @@ PLUGININFOEX pluginInfo = {
 	{0xce2c0401, 0xf9e0, 0x40d7, {0x8e, 0x95, 0x1a, 0x41, 0x97, 0xd7, 0xab, 0x4}}
 };
 
-IconItem iconList[] =
-{
-	{ LPGEN("Favorite Contact"), "favcontacts_favorite", IDI_FAVORITE },
-	{ LPGEN("Regular Contact"), "favcontacts_regular", IDI_REGULAR },
-};
-
-CContactCache *g_contactCache = nullptr;
-
-Options g_Options = { 0 };
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>("FavContacts", pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	g_contactCache = new CContactCache;
 

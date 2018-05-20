@@ -7,7 +7,7 @@
 #include "settingsserializer.h"
 #include "statistic.h"
 
-extern PLUGININFOEX g_pluginInfoEx;
+extern PLUGININFOEX pluginInfoEx;
 
 extern SettingsSerializer* g_pSettings;
 

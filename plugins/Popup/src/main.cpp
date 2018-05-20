@@ -247,7 +247,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	// Uninstalling purposes
 	if (ServiceExists("PluginSweeper/Add"))
-		CallService("PluginSweeper/Add", (WPARAM)Translate(MODULNAME), (LPARAM)MODULNAME);
+		CallService("PluginSweeper/Add", (WPARAM)Translate(MODULENAME), (LPARAM)MODULENAME);
 
 	// load fonts / create hook
 	InitFonts();
@@ -298,12 +298,19 @@ PLUGININFOEX pluginInfoEx =
 	{ 0x26a9125d, 0x7863, 0x4e01, { 0xaf, 0xe, 0xd1, 0x4e, 0xf9, 0x5c, 0x50, 0x54 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-// called before the app goes into shutdown routine to make sure everyone is happy to exit
+//===== Load ============================================================================
+// Initializes the services provided and the link to those needed
+// Called when the plugin is loaded into Miranda
+
 static int OkToExit(WPARAM, LPARAM)
 {
 	closing = TRUE;
@@ -318,9 +325,6 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-//===== Load ============================================================================
-// Initializes the services provided and the link to those needed
-// Called when the plugin is loaded into Miranda
 MIRAPI int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
@@ -329,7 +333,7 @@ MIRAPI int Load(void)
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
 #if defined(_DEBUG)
-	PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
+	PopupOptions.debug = db_get_b(NULL, MODULENAME, "debug", FALSE);
 #else
 	PopupOptions.debug = false;
 #endif

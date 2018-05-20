@@ -9,7 +9,7 @@ INT_PTR IsContactPassed(WPARAM hContact, LPARAM /*lParam*/)
 	if (!g_sets.ProtoDisabled(szProto))
 		return CS_PASSED;
 
-	if (db_get_b(hContact, pluginName, answeredSetting, 0))
+	if (db_get_b(hContact, MODULENAME, answeredSetting, 0))
 		return CS_PASSED;
 
 	if (!db_get_b(hContact, "CList", "NotOnList", 0) && db_get_w(hContact, szProto, "SrvGroupId", -1) != 1)
@@ -63,7 +63,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 		hGroup++;
 	} while (group_name);
 	if (!lParam)
-		MessageBox(nullptr, TranslateT("Complete"), TranslateT(pluginName), MB_ICONINFORMATION);
+		MessageBox(nullptr, TranslateT("Complete"), TranslateT(MODULENAME), MB_ICONINFORMATION);
 
 	return 0;
 }

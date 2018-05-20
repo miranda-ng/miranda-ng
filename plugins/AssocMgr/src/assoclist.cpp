@@ -49,7 +49,7 @@ static BOOL IsAssocEnabled(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, "enabled_%s", assoc->pszClassName);
-	return db_get_b(NULL, "AssocMgr", szSetting, (BYTE)!(assoc->flags&FTDF_DEFAULTDISABLED)) != 0;
+	return db_get_b(NULL, MODULENAME, szSetting, (BYTE)!(assoc->flags&FTDF_DEFAULTDISABLED)) != 0;
 }
 
 static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
@@ -57,13 +57,13 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 	char szSetting[MAXMODULELABELLENGTH];
 	wchar_t szDLL[MAX_PATH], szBuf[MAX_PATH];
 	mir_snprintf(szSetting, "enabled_%s", assoc->pszClassName);
-	db_set_b(NULL, "AssocMgr", szSetting, (BYTE)fEnabled);
+	db_set_b(NULL, MODULENAME, szSetting, (BYTE)fEnabled);
 	// dll name for uninstall
 	if (assoc->hInstance != nullptr && assoc->hInstance != g_plugin.getInst() && assoc->hInstance != GetModuleHandle(nullptr))
 		if (GetModuleFileName(assoc->hInstance, szBuf, _countof(szBuf)))
 			if (PathToRelativeW(szBuf, szDLL)) {
 				mir_snprintf(szSetting, "module_%s", assoc->pszClassName);
-				db_set_ws(NULL, "AssocMgr", szSetting, szDLL);
+				db_set_ws(NULL, MODULENAME, szSetting, szDLL);
 			}
 }
 
@@ -71,10 +71,10 @@ static void DeleteAssocEnabledSetting(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, "enabled_%s", assoc->pszClassName);
-	db_unset(NULL, "AssocMgr", szSetting);
+	db_unset(NULL, MODULENAME, szSetting);
 	// dll name for uninstall
 	mir_snprintf(szSetting, "module_%s", assoc->pszClassName);
-	db_unset(NULL, "AssocMgr", szSetting);
+	db_unset(NULL, MODULENAME, szSetting);
 }
 
 void CleanupAssocEnabledSettings(void)
@@ -88,18 +88,18 @@ void CleanupAssocEnabledSettings(void)
 	char szSetting[MAXMODULELABELLENGTH];
 
 	// delete old enabled_* settings if associated plugin no longer present
-	if (EnumDbPrefixSettings("AssocMgr", "enabled_", &ppszSettings, &nSettingsCount)) {
+	if (EnumDbPrefixSettings(MODULENAME, "enabled_", &ppszSettings, &nSettingsCount)) {
 		mir_cslock lck(csAssocList);
 		for (i = 0; i < nSettingsCount; ++i) {
 			pszSuffix = &ppszSettings[i][8];
 			mir_snprintf(szSetting, "module_%s", pszSuffix);
-			if (!db_get_ws(NULL, "AssocMgr", szSetting, &dbv)) {
+			if (!db_get_ws(NULL, MODULENAME, szSetting, &dbv)) {
 				if (PathToAbsoluteW(dbv.ptszVal, szDLL)) {
 					// file still exists?
 					hFile = CreateFile(szDLL, 0, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 					if (hFile == INVALID_HANDLE_VALUE) {
-						db_unset(NULL, "AssocMgr", ppszSettings[i]);
-						db_unset(NULL, "AssocMgr", szSetting);
+						db_unset(NULL, MODULENAME, ppszSettings[i]);
+						db_unset(NULL, MODULENAME, szSetting);
 					}
 					else CloseHandle(hFile);
 				}
@@ -117,8 +117,8 @@ static __inline void RememberMimeTypeAdded(const char *pszMimeType, const char *
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, "mime_%s", pszMimeType);
-	if (fAdded) db_set_s(NULL, "AssocMgr", szSetting, pszFileExt);
-	else db_unset(NULL, "AssocMgr", szSetting);
+	if (fAdded) db_set_s(NULL, MODULENAME, szSetting, pszFileExt);
+	else db_unset(NULL, MODULENAME, szSetting);
 }
 
 static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
@@ -127,7 +127,7 @@ static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
 	DBVARIANT dbv;
 	BOOL fAdded = FALSE;
 	mir_snprintf(szSetting, "mime_%s", pszMimeType);
-	if (!db_get(NULL, "AssocMgr", szSetting, &dbv)) fAdded = TRUE;
+	if (!db_get(NULL, MODULENAME, szSetting, &dbv)) fAdded = TRUE;
 	else db_free(&dbv);
 	return fAdded;
 }
@@ -140,7 +140,7 @@ void CleanupMimeTypeAddedSettings(void)
 	int i, j;
 
 	// delete old mime_* settings and unregister the associated mime type
-	if (EnumDbPrefixSettings("AssocMgr", "mime_", &ppszSettings, &nSettingsCount)) {
+	if (EnumDbPrefixSettings(MODULENAME, "mime_", &ppszSettings, &nSettingsCount)) {
 		mir_cslock lck(csAssocList);
 		for (i = 0; i < nSettingsCount; ++i) {
 			pszSuffix = &ppszSettings[i][5];
@@ -148,12 +148,12 @@ void CleanupMimeTypeAddedSettings(void)
 				if (!mir_strcmp(pszSuffix, pAssocList[j].pszMimeType))
 					break; // mime type in current list
 			if (j == nAssocListCount) { // mime type not in current list
-				if (!db_get(NULL, "AssocMgr", ppszSettings[i], &dbv)) {
+				if (!db_get(NULL, MODULENAME, ppszSettings[i], &dbv)) {
 					if (dbv.type == DBVT_ASCIIZ)
 						RemoveRegMimeType(pszSuffix, dbv.pszVal);
 					db_free(&dbv);
 				}
-				db_unset(NULL, "AssocMgr", ppszSettings[i]);
+				db_unset(NULL, MODULENAME, ppszSettings[i]);
 			}
 			mir_free(ppszSettings[i]);
 		}
@@ -737,7 +737,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		ListView_SetItemState(hwndList, lvi.iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 		ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE_USEHEADER); // size to fit window
 		// only while running
-		CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)db_get_b(NULL, MODULENAME, "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 
 		// autostart
 		wchar_t *pszRunCmd = MakeRunCommand(TRUE, TRUE);
@@ -864,7 +864,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				BOOL fEnabled, fRegFailed = FALSE;
 
 				// only while running
-				db_set_b(NULL, "AssocMgr", "OnlyWhileRunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONLYWHILERUNNING) != 0));
+				db_set_b(NULL, MODULENAME, "OnlyWhileRunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONLYWHILERUNNING) != 0));
 
 				// save enabled assoc items
 				HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
@@ -993,7 +993,7 @@ void UninitAssocList(void)
 	UnhookEvent(hHookOptInit);
 
 	// Assoc List
-	BYTE fOnlyWhileRunning = db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);
+	BYTE fOnlyWhileRunning = db_get_b(NULL, MODULENAME, "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);
 	for (int i = 0; i < nAssocListCount; ++i) {
 		ASSOCDATA *assoc = &pAssocList[i];
 

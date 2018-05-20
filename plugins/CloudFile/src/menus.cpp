@@ -15,12 +15,12 @@ void InitializeMenus()
 	SET_UID(mi, 0x93d4495b, 0x259b, 0x4fba, 0xbc, 0x14, 0xf9, 0x46, 0x2c, 0xda, 0xfc, 0x6d);
 	mi.name.a = LPGEN("Upload to...");
 
-	ptrA defaultService(db_get_sa(NULL, MODULE, "DefaultService"));
+	ptrA defaultService(db_get_sa(NULL, MODULENAME, "DefaultService"));
 	if (defaultService) {
 		CCloudService *service = FindService(defaultService);
 		if (service) {
 			mi.name.a = LPGEN("Upload");
-			mi.pszService = MODULE "/Default/Upload";
+			mi.pszService = MODULENAME "/Default/Upload";
 			CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, service);
 		}
 	}

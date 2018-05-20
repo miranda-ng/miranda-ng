@@ -40,13 +40,11 @@
 #include "yapp_history.h"
 #include "icons.h"
 
-#define MODULE "YAPP"
+#define MODULENAME "YAPP"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE)
-	{}
+	CMPlugin();
 };
 
 extern bool bShutdown;

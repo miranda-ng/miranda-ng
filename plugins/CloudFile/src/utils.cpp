@@ -21,13 +21,13 @@ void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags,
 
 void ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 {
-	ShowNotification(_A2W(MODULE), message, flags, hContact);
+	ShowNotification(_A2W(MODULENAME), message, flags, hContact);
 }
 
 MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = {};
-	dbei.szModule = MODULE;
+	dbei.szModule = MODULENAME;
 	dbei.timestamp = time(0);
 	dbei.eventType = type;
 	dbei.cbBlob = cbBlob;
@@ -102,12 +102,12 @@ void PasteToClipboard(const wchar_t *data)
 
 void Report(MCONTACT hContact, const wchar_t *data)
 {
-	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
+	if (db_get_b(NULL, MODULENAME, "UrlAutoSend", 1))
 		SendToContact(hContact, data);
 
-	if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
+	if (db_get_b(NULL, MODULENAME, "UrlPasteToMessageInputArea", 0))
 		PasteToInputArea(hContact, data);
 
-	if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
+	if (db_get_b(NULL, MODULENAME, "UrlCopyToClipboard", 0))
 		PasteToClipboard(data);
 }

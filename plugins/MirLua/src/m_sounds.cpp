@@ -4,7 +4,7 @@ static int lua_AddSound(lua_State *L)
 {
 	ptrA name(mir_utf8decodeA(luaL_checkstring(L, 1)));
 	ptrW description(mir_utf8decodeW(luaL_checkstring(L, 2)));
-	ptrW section(mir_utf8decodeW(luaL_optstring(L, 3, MODULE)));
+	ptrW section(mir_utf8decodeW(luaL_optstring(L, 3, MODULENAME)));
 	ptrW filePath(mir_utf8decodeW(lua_tostring(L, 4)));
 
 	int res;

@@ -5,7 +5,7 @@ CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo = 
+PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -20,16 +20,20 @@ PLUGININFOEX pluginInfo =
 
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	InitServices();
 	return 0;

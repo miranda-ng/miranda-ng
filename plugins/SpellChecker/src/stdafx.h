@@ -66,7 +66,7 @@ using namespace std;
 #include "ardialog.h"
 #include "RichEdit.h"
 
-#define MODULE_NAME "SpellChecker"
+#define MODULENAME "SpellChecker"
 
 #define FLAGS_DLL_FOLDER L"%miranda_path%\\Icons"
 #define CUSTOM_DICTIONARIES_FOLDER L"%miranda_userdata%\\Dictionaries"
@@ -76,9 +76,7 @@ using namespace std;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE_NAME)
-	{}
+	CMPlugin();
 };
 
 extern BOOL uinfoex_enabled;

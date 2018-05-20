@@ -118,9 +118,7 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(SRMM_MODULE)
-	{}
+	CMPlugin();
 };
 
 extern GlobalMessageData g_dat;

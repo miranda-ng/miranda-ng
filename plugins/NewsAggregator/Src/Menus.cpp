@@ -30,7 +30,7 @@ void InitMenu()
 
 	SET_UID(mi, 0x3ec91864, 0xefa7, 0x4994, 0xb7, 0x75, 0x6c, 0x96, 0xcb, 0x29, 0x2f, 0x93);
 	mi.position = 10100001;
-	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))
+	if (db_get_b(NULL, MODULENAME, "AutoUpdate", 1))
 		mi.name.w = LPGENW("Auto Update Enabled");
 	else
 		mi.name.w = LPGENW("Auto Update Disabled");
@@ -72,12 +72,12 @@ void InitMenu()
 	mi.hIcolibItem = GetIconHandle("checkfeed");
 	mi.name.w = LPGENW("Check feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKFEED;
-	hService2[5] = Menu_AddContactMenuItem(&mi, MODULE);
+	hService2[5] = Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x41a70fbc, 0x9241, 0x44c0, 0x90, 0x90, 0x87, 0xd2, 0xc5, 0x9f, 0xc9, 0xac);
 	mi.name.w = LPGENW("Change feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
-	hService2[6] = Menu_AddContactMenuItem(&mi, MODULE);
+	hService2[6] = Menu_AddContactMenuItem(&mi, MODULENAME);
 
-	Menu_ModifyItem(hService2[0], nullptr, GetIconHandle(db_get_b(NULL, MODULE, "AutoUpdate", 1) ? "enabled" : "disabled"));
+	Menu_ModifyItem(hService2[0], nullptr, GetIconHandle(db_get_b(NULL, MODULENAME, "AutoUpdate", 1) ? "enabled" : "disabled"));
 }

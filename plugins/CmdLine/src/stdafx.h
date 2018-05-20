@@ -54,13 +54,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "mimcmd_handlers.h"
 #include "mimcmd_data.h"
 
-#define ModuleName "CmdLine"
+#define MODULENAME "CmdLine"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(ModuleName)
-	{}
+	CMPlugin();
 };
 
 extern int bUseANSIStrings;

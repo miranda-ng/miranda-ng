@@ -518,7 +518,7 @@ void ReplaceDBPath(tstring &sRet)
 
 tstring GetFilePathFromUser(MCONTACT hContact)
 {
-	tstring sFilePath = sExportDir + _DBGetString(hContact, MODULE, "FileName", sDefaultFile.c_str());
+	tstring sFilePath = sExportDir + _DBGetString(hContact, MODULENAME, "FileName", sDefaultFile.c_str());
 
 	bool bNickUsed = sFilePath.find(L"%nick%") != string::npos;
 
@@ -530,7 +530,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 	ReplaceDBPath(sFilePath);
 
 	// Previous file name check to see if it has changed !!
-	tstring sPrevFileName = _DBGetString(hContact, MODULE, "PrevFileName", L"");
+	tstring sPrevFileName = _DBGetString(hContact, MODULENAME, "PrevFileName", L"");
 	if (sNoDBPath != sPrevFileName) {
 		if (!sPrevFileName.empty()) {
 			ReplaceDBPath(sPrevFileName);
@@ -596,7 +596,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 		}
 
 		// Store the Filename used so that we can check if it changes.
-		db_set_ws(hContact, MODULE, "PrevFileName", sNoDBPath.c_str());
+		db_set_ws(hContact, MODULENAME, "PrevFileName", sNoDBPath.c_str());
 	}
 
 	return sFilePath;
@@ -1209,13 +1209,13 @@ HANDLE openCreateFile(tstring sFilePath)
 
 bool bIsExportEnabled(MCONTACT hContact)
 {
-	if (!db_get_b(hContact, MODULE, "EnableLog", 1))
+	if (!db_get_b(hContact, MODULENAME, "EnableLog", 1))
 		return false;
 
 	const char *szProto = GetContactProto(hContact);
 	char szTemp[500];
 	mir_snprintf(szTemp, "DisableProt_%s", szProto);
-	if (!db_get_b(NULL, MODULE, szTemp, 1))
+	if (!db_get_b(NULL, MODULENAME, szTemp, 1))
 		return false;
 
 	return true;
@@ -1445,20 +1445,20 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 
 void SaveSettings()
 {
-	db_set_w(NULL, MODULE, "MaxLineWidth", (WORD)nMaxLineWidth);
-	db_set_ws(NULL, MODULE, "ExportDir", sExportDir.c_str());
-	db_set_ws(NULL, MODULE, "DefaultFile", sDefaultFile.c_str());
-	db_set_ws(NULL, MODULE, "TimeFormat", sTimeFormat.c_str());
+	db_set_w(NULL, MODULENAME, "MaxLineWidth", (WORD)nMaxLineWidth);
+	db_set_ws(NULL, MODULENAME, "ExportDir", sExportDir.c_str());
+	db_set_ws(NULL, MODULENAME, "DefaultFile", sDefaultFile.c_str());
+	db_set_ws(NULL, MODULENAME, "TimeFormat", sTimeFormat.c_str());
 
-	db_set_ws(NULL, MODULE, "FileViewerPrg", sFileViewerPrg.c_str());
-	db_set_b(NULL, MODULE, "UseInternalViewer", bUseInternalViewer());
-	db_set_b(NULL, MODULE, "ReplaceHistory", bReplaceHistory);
-	db_set_b(NULL, MODULE, "AppendNewLine", bAppendNewLine);
-	db_set_b(NULL, MODULE, "UseUtf8InNewFiles", bUseUtf8InNewFiles);
-	db_set_b(NULL, MODULE, "UseLessAndGreaterInExport", bUseLessAndGreaterInExport);
+	db_set_ws(NULL, MODULENAME, "FileViewerPrg", sFileViewerPrg.c_str());
+	db_set_b(NULL, MODULENAME, "UseInternalViewer", bUseInternalViewer());
+	db_set_b(NULL, MODULENAME, "ReplaceHistory", bReplaceHistory);
+	db_set_b(NULL, MODULENAME, "AppendNewLine", bAppendNewLine);
+	db_set_b(NULL, MODULENAME, "UseUtf8InNewFiles", bUseUtf8InNewFiles);
+	db_set_b(NULL, MODULENAME, "UseLessAndGreaterInExport", bUseLessAndGreaterInExport);
 
-	db_set_b(NULL, MODULE, "RenameAction", (BYTE)enRenameAction);
-	db_set_b(NULL, MODULE, "DeleteAction", (BYTE)enDeleteAction);
+	db_set_b(NULL, MODULENAME, "RenameAction", (BYTE)enRenameAction);
+	db_set_b(NULL, MODULENAME, "DeleteAction", (BYTE)enDeleteAction);
 }
 
 /////////////////////////////////////////////////////////////////////

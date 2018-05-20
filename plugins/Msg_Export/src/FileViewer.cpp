@@ -906,13 +906,13 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL)
 	CHARFORMAT ncf = { 0 };
 	ncf.cbSize = sizeof(CHARFORMAT);
 	ncf.dwMask = CFM_BOLD | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_UNDERLINE;
-	ncf.dwEffects = db_get_dw(NULL, MODULE, szFileViewDB "TEffects", 0);
-	ncf.yHeight = db_get_dw(NULL, MODULE, szFileViewDB "THeight", 165);
-	wcsncpy_s(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
+	ncf.dwEffects = db_get_dw(NULL, MODULENAME, szFileViewDB "TEffects", 0);
+	ncf.yHeight = db_get_dw(NULL, MODULENAME, szFileViewDB "THeight", 165);
+	wcsncpy_s(ncf.szFaceName, _DBGetString(NULL, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
 
 	if (!bUseSyntaxHL) {
 		ncf.dwMask |= CFM_COLOR;
-		ncf.crTextColor = db_get_dw(NULL, MODULE, szFileViewDB "TColor", 0);
+		ncf.crTextColor = db_get_dw(NULL, MODULENAME, szFileViewDB "TColor", 0);
 	}
 	SendMessage(hRichEdit, EM_SETCHARFORMAT, (WPARAM)SCF_ALL, (LPARAM)&ncf);
 
@@ -956,22 +956,22 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_SAVE_AS_RTF, LPGENW("Save as RTF"));
 			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, nullptr);
 
-			BYTE bUseCC = (BYTE)db_get_b(NULL, MODULE, szFileViewDB "UseCC", 0);
+			BYTE bUseCC = (BYTE)db_get_b(NULL, MODULENAME, szFileViewDB "UseCC", 0);
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseCC ? MF_CHECKED : 0), ID_FV_COLOR, LPGENW("Color..."));
 
 			if (bUseCC)
-				SendMessage(hRichEdit, EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, MODULE, szFileViewDB "CustomC", RGB(255, 255, 255)));
+				SendMessage(hRichEdit, EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, MODULENAME, szFileViewDB "CustomC", RGB(255, 255, 255)));
 
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_FONT, LPGENW("Font..."));
 
-			bool bUseSyntaxHL = db_get_b(NULL, MODULE, szFileViewDB "UseSyntaxHL", 1) != 0;
+			bool bUseSyntaxHL = db_get_b(NULL, MODULENAME, szFileViewDB "UseSyntaxHL", 1) != 0;
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseSyntaxHL ? MF_CHECKED : 0), ID_FV_SYNTAX_HL, LPGENW("Syntax highlight"));
 
 			SetRichEditFont(hRichEdit, bUseSyntaxHL);
 
 			TranslateDialogDefault(hwndDlg);
 
-			Utils_RestoreWindowPosition(hwndDlg, pclDlg->hContact, MODULE, szFileViewDB);
+			Utils_RestoreWindowPosition(hwndDlg, pclDlg->hContact, MODULENAME, szFileViewDB);
 
 			pclDlg->sPath = GetFilePathFromUser(pclDlg->hContact);
 
@@ -1016,7 +1016,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return 0;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hwndDlg, pclDlg->hContact, MODULE, szFileViewDB);
+		Utils_SaveWindowPosition(hwndDlg, pclDlg->hContact, MODULENAME, szFileViewDB);
 		WindowList_Remove(hInternalWindowList, hwndDlg);
 		return 0;
 
@@ -1030,18 +1030,18 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			LOGFONT lf = { 0 };
 			lf.lfHeight = 14L;
 
-			DWORD dwEffects = db_get_dw(NULL, MODULE, szFileViewDB "TEffects", 0);
+			DWORD dwEffects = db_get_dw(NULL, MODULENAME, szFileViewDB "TEffects", 0);
 			lf.lfWeight = (dwEffects & CFE_BOLD) ? FW_BOLD : 0;
 			lf.lfUnderline = (dwEffects & CFE_UNDERLINE) != 0;
 			lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
 			lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
 
-			wcsncpy_s(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
+			wcsncpy_s(lf.lfFaceName, _DBGetString(NULL, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
 			CHOOSEFONT cf = { 0 };
 			cf.lStructSize = sizeof(cf);
 			cf.hwndOwner = hwndDlg;
 			cf.lpLogFont = &lf;
-			cf.rgbColors = db_get_dw(NULL, MODULE, szFileViewDB "TColor", 0);
+			cf.rgbColors = db_get_dw(NULL, MODULENAME, szFileViewDB "TColor", 0);
 			cf.Flags = CF_EFFECTS | CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT;
 
 			if (ChooseFont(&cf)) {
@@ -1050,27 +1050,27 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 					(lf.lfStrikeOut ? CFE_STRIKEOUT : 0) |
 					(lf.lfUnderline ? CFE_UNDERLINE : 0);
 
-				db_set_dw(NULL, MODULE, szFileViewDB "TEffects", dwEffects);
-				db_set_dw(NULL, MODULE, szFileViewDB "THeight", cf.iPointSize * 2);
-				db_set_dw(NULL, MODULE, szFileViewDB "TColor", cf.rgbColors);
-				db_set_ws(NULL, MODULE, szFileViewDB "TFace", lf.lfFaceName);
+				db_set_dw(NULL, MODULENAME, szFileViewDB "TEffects", dwEffects);
+				db_set_dw(NULL, MODULENAME, szFileViewDB "THeight", cf.iPointSize * 2);
+				db_set_dw(NULL, MODULENAME, szFileViewDB "TColor", cf.rgbColors);
+				db_set_ws(NULL, MODULENAME, szFileViewDB "TFace", lf.lfFaceName);
 				SetRichEditFont(hRichEdit, bUseSyntaxHL);
 			}
 			return TRUE;
 		}
 		if ((wParam & 0xFFF0) == ID_FV_COLOR) {
-			BYTE bUseCC = !db_get_b(NULL, MODULE, szFileViewDB "UseCC", 0);
+			BYTE bUseCC = !db_get_b(NULL, MODULENAME, szFileViewDB "UseCC", 0);
 			if (bUseCC) {
 				CHOOSECOLOR cc = { 0 };
 				cc.lStructSize = sizeof(cc);
 				cc.hwndOwner = hwndDlg;
-				cc.rgbResult = db_get_dw(NULL, MODULE, szFileViewDB "CustomC", RGB(255, 255, 255));
+				cc.rgbResult = db_get_dw(NULL, MODULENAME, szFileViewDB "CustomC", RGB(255, 255, 255));
 				cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 				static COLORREF MyCustColors[16] = { 0xFFFFFFFF };
 				cc.lpCustColors = MyCustColors;
 				if (ChooseColor(&cc)) {
 					SendMessage(hRichEdit, EM_SETBKGNDCOLOR, 0, cc.rgbResult);
-					db_set_dw(NULL, MODULE, szFileViewDB "CustomC", cc.rgbResult);
+					db_set_dw(NULL, MODULENAME, szFileViewDB "CustomC", cc.rgbResult);
 				}
 				else {
 					CommDlgExtendedError();
@@ -1080,7 +1080,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			else SendMessage(hRichEdit, EM_SETBKGNDCOLOR, TRUE, 0);
 
 			CheckMenuItem(hSysMenu, ID_FV_COLOR, MF_BYCOMMAND | (bUseCC ? MF_CHECKED : 0));
-			db_set_b(NULL, MODULE, szFileViewDB "UseCC", bUseCC);
+			db_set_b(NULL, MODULENAME, szFileViewDB "UseCC", bUseCC);
 			return TRUE;
 		}
 		if ((wParam & 0xFFF0) == ID_FV_SYNTAX_HL) {
@@ -1091,7 +1091,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			bUseSyntaxHL = !bUseSyntaxHL;
 			CheckMenuItem(hSysMenu, ID_FV_SYNTAX_HL, MF_BYCOMMAND | (bUseSyntaxHL ? MF_CHECKED : 0));
-			db_set_b(NULL, MODULE, szFileViewDB "UseSyntaxHL", bUseSyntaxHL);
+			db_set_b(NULL, MODULENAME, szFileViewDB "UseSyntaxHL", bUseSyntaxHL);
 
 			if (bUseSyntaxHL)
 				bLoadFile(hwndDlg, pclDlg);

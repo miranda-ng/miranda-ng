@@ -22,15 +22,15 @@
 namespace CyrTranslit
 {
 
-char *TransliterationProtocol::MODULE_NAME = "ProtoCyrTranslitByIKR";
+char *TransliterationProtocol::MODULENAME = "ProtoCyrTranslitByIKR";
 
 //------------------------------------------------------------------------------
 
 void TransliterationProtocol::initialize()
 {
-	Proto_RegisterModule(PROTOTYPE_TRANSLATION, MODULE_NAME);
+	Proto_RegisterModule(PROTOTYPE_TRANSLATION, MODULENAME);
 
-	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE, sendMessage);
+	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, sendMessage);
 }
 
 //------------------------------------------------------------------------------

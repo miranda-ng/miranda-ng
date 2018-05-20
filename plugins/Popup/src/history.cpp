@@ -56,7 +56,7 @@ void PopupHistoryResize()
 
 void PopupHistoryLoad()
 {
-	popupHistoryBuffer = db_get_w(NULL, MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
+	popupHistoryBuffer = db_get_w(NULL, MODULENAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
 }
 
 void PopupHistoryUnload()
@@ -209,7 +209,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				ShowWindow(hwndLog, SW_SHOW);
 			}
 
-			Utils_RestoreWindowPosition(hwnd, NULL, MODULNAME, "popupHistory_");
+			Utils_RestoreWindowPosition(hwnd, NULL, MODULENAME, "popupHistory_");
 
 			if (logType == LOG_DEFAULT) {
 				SendMessage(hwnd, UM_RESIZELIST, 0, 0);
@@ -396,7 +396,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 		return TRUE;
 
 	case WM_CLOSE:
-		Utils_SaveWindowPosition(hwnd, NULL, MODULNAME, "popupHistory_");
+		Utils_SaveWindowPosition(hwnd, NULL, MODULENAME, "popupHistory_");
 		DestroyWindow(hwnd);
 		hwndHistory = nullptr;
 		return TRUE;

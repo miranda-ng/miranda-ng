@@ -150,7 +150,7 @@ BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 
 		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = false;
 		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, USERINFO, USERINFO, pszProto, _pszSetting, &dbv);
-		EnableWindow(_hwnd, !hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0));
+		EnableWindow(_hwnd, !hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODULENAME, SET_PROPSHEET_PCBIREADONLY, 0));
 
 		if (_Flags.B.hasCustom || _Flags.B.hasProto || _Flags.B.hasMeta) {
 			switch (dbv.type) {

@@ -21,8 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define MS_HISTORY_DELETEALLCONTACTHISTORY       "BasicHistory/DeleteAllContactHistory"
 #define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask"
 
-HCURSOR     hCurSplitNS, hCurSplitWE;
-HANDLE  g_hMainThread = nullptr;
+HCURSOR hCurSplitNS, hCurSplitWE;
+HANDLE g_hMainThread = nullptr;
 
 HANDLE *hEventIcons = nullptr;
 int iconsNum = 3;
@@ -34,7 +34,12 @@ bool g_SmileyAddAvail = false;
 char* metaContactProto = nullptr;
 const IID IID_ITextDocument = { 0x8CC497C0, 0xA1DF, 0x11ce, {0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D} };
 
-PLUGININFOEX pluginInfo = {
+CMPlugin g_plugin;
+int &hLangpack(g_plugin.m_hLang);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -47,15 +52,20 @@ PLUGININFOEX pluginInfo = {
 	{0xe25367a2, 0x51ae, 0x4044, {0xbe, 0x28, 0x13, 0x1b, 0xc1, 0x8b, 0x71, 0xa4}}
 };
 
-CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHISTORY, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void InitScheduler();
 void DeinitScheduler();
@@ -232,7 +242,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	hTaskMainMenu = nullptr;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
@@ -254,6 +264,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_plugin.registerIcon(LPGEN("History"), iconList);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

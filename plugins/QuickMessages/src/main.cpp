@@ -32,7 +32,7 @@ BOOL g_bQuickMenu = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -46,9 +46,13 @@ PLUGININFOEX pluginInfo =
 	{ 0x37ed754b, 0x6cf9, 0x40ed, { 0x9e, 0xb6, 0xf, 0xef, 0x8e, 0x82, 0x24, 0x75 } }
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +140,7 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 static int CustomButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
-	if (mir_strcmp(cbcd->pszModule, PLGNAME))
+	if (mir_strcmp(cbcd->pszModule, MODULENAME))
 		return 0;
 
 	if (!ButtonsList[cbcd->dwButtonId])
@@ -266,10 +270,10 @@ static int PluginInit(WPARAM, LPARAM)
 
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
 
-	g_bRClickAuto = db_get_b(NULL, PLGNAME, "RClickAuto", 0);
-	g_bLClickAuto = db_get_b(NULL, PLGNAME, "LClickAuto", 0);
-	g_iButtonsCount = db_get_b(NULL, PLGNAME, "ButtonsCount", 0);
-	g_bQuickMenu = db_get_b(NULL, PLGNAME, "QuickMenu", 1);
+	g_bRClickAuto = db_get_b(NULL, MODULENAME, "RClickAuto", 0);
+	g_bLClickAuto = db_get_b(NULL, MODULENAME, "LClickAuto", 0);
+	g_iButtonsCount = db_get_b(NULL, MODULENAME, "ButtonsCount", 0);
+	g_bQuickMenu = db_get_b(NULL, MODULENAME, "QuickMenu", 1);
 
 	InitButtonsList();
 
@@ -279,7 +283,7 @@ static int PluginInit(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);

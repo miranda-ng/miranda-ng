@@ -409,14 +409,14 @@ BOOL bApplyChanges(HWND hwndDlg)
 		if (ListView_GetItem(hMapUser, &sItem)) {
 			MCONTACT hUser = (MCONTACT)sItem.lParam;
 			if (mir_wstrlen(szTemp) > 0)
-				db_set_ws(hUser, MODULE, "FileName", szTemp);
+				db_set_ws(hUser, MODULENAME, "FileName", szTemp);
 			else
-				db_unset(hUser, MODULE, "FileName");
+				db_unset(hUser, MODULENAME, "FileName");
 
 			if (sItem.iImage)
-				db_unset(hUser, MODULE, "EnableLog"); // default is Enabled !!
+				db_unset(hUser, MODULENAME, "EnableLog"); // default is Enabled !!
 			else
-				db_set_b(hUser, MODULE, "EnableLog", 0);
+				db_set_b(hUser, MODULENAME, "EnableLog", 0);
 		}
 	}
 	UpdateFileToColWidth();
@@ -632,10 +632,10 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 					sItem.iItem = nUser++;
 					sItem.iSubItem = 0;
-					sItem.iImage = db_get_b(hContact, MODULE, "EnableLog", 1);
+					sItem.iImage = db_get_b(hContact, MODULENAME, "EnableLog", 1);
 					sItem.lParam = hContact;
 
-					sTmp = _DBGetString(hContact, MODULE, "FileName", L"");
+					sTmp = _DBGetString(hContact, MODULENAME, "FileName", L"");
 					sItem.pszText = (wchar_t*)sTmp.c_str();
 					ListView_InsertItem(hMapUser, &sItem);
 
@@ -1053,9 +1053,9 @@ BOOL bApplyChanges2(HWND hwndDlg)
 		sItem.cchTextMax = (_countof(szTemp) - 15);
 		if (::SendMessage(hMapUser, LVM_GETITEMA, 0, (LPARAM)&sItem)) {
 			if (sItem.iImage)
-				db_unset(NULL, MODULE, szTemp); // default is Enabled !!
+				db_unset(NULL, MODULENAME, szTemp); // default is Enabled !!
 			else
-				db_set_b(NULL, MODULE, szTemp, 0);
+				db_set_b(NULL, MODULENAME, szTemp, 0);
 		}
 	}
 	SaveSettings();
@@ -1139,7 +1139,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 			for (auto &pa : Accounts()) {
 				mir_snprintf(szTemp, "DisableProt_%s", pa->szModuleName);
 				sItem.pszText = pa->szModuleName;
-				sItem.iImage = db_get_b(NULL, MODULE, szTemp, 1);
+				sItem.iImage = db_get_b(NULL, MODULENAME, szTemp, 1);
 				::SendMessage(hMapUser, LVM_INSERTITEMA, 0, (LPARAM)&sItem);
 				sItem.iItem++;
 			}

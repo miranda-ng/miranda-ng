@@ -1,10 +1,13 @@
 #include "stdafx.h"
 
+CMPlugin g_plugin;
 int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hExtraXStatus;
 
-PLUGININFOEX pluginInfo =
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -18,14 +21,16 @@ PLUGININFOEX pluginInfo =
 	{ 0x68f5a030, 0xba32, 0x48ec, { 0x95, 0x7, 0x5c, 0x2f, 0xbd, 0xea, 0x52, 0x17 }}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CSteamProto>("STEAM", pluginInfoEx)
 {
-	return &pluginInfo;
+	SetUniqueId("SteamID");
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+{
+	return &pluginInfoEx;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -35,7 +40,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");

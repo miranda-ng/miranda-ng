@@ -31,7 +31,7 @@ void MirandaUtils::netlibRegister(){
 	// Register netlib user for logging function
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_NOOPTIONS;
-	nlu.szSettingsModule = PLUGIN_DB_ID;
+	nlu.szSettingsModule = MODULENAME;
 	nlu.szDescriptiveName.w = TranslateT("MirFox log");
 
 	netlibHandle = Netlib_RegisterUser(&nlu);
@@ -351,7 +351,7 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 	}
 
 	// show and focus window
-	if (db_get_b(0, PLUGIN_DB_ID, "doNotFocusWhenOpenMW", 0) == 1){
+	if (db_get_b(0, MODULENAME, "doNotFocusWhenOpenMW", 0) == 1){
 		delete param;
 		return 0;
 	}
@@ -467,7 +467,7 @@ void MirandaUtils::translateOldDBNames() {
 	//settings			"clientsProfilesFilterCheckbox", "clientsProfilesFilterString"
 	int opt1KeyValue = db_get_b(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", 0);
 	if (opt1KeyValue != 0){
-		db_set_b(0, PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", opt1KeyValue);
+		db_set_b(0, MODULENAME, "clientsProfilesFilterCheckbox", opt1KeyValue);
 		db_unset(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterCheckbox");
 		logger->log(L"TranslateOldDBNames:  'clientsProfilesFilterCheckbox' db entry found and moved");
 	} else {
@@ -479,7 +479,7 @@ void MirandaUtils::translateOldDBNames() {
 	INT_PTR opt2Result = db_get_s(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterString", &opt2Dbv, DBVT_WCHAR);
 	if (opt2Result == 0){	//success
 		std::wstring clientsProfilesFilterString = opt2Dbv.pwszVal;
-		db_set_ws(0, PLUGIN_DB_ID, "clientsProfilesFilterString", clientsProfilesFilterString.c_str());
+		db_set_ws(0, MODULENAME, "clientsProfilesFilterString", clientsProfilesFilterString.c_str());
 		db_unset(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterString");
 		logger->log(L"TranslateOldDBNames:  'clientsProfilesFilterString' db entry found and moved");
 		db_free(&opt2Dbv);
@@ -493,7 +493,7 @@ void MirandaUtils::translateOldDBNames() {
 		mirandaAccountDBKey += pa->szModuleName;
 		int keyValue = db_get_b(0, OLD_PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 0);
 		if (keyValue != 0){
-			db_set_b(0, PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), keyValue);
+			db_set_b(0, MODULENAME, mirandaAccountDBKey.c_str(), keyValue);
 			db_unset(0, OLD_PLUGIN_DB_ID, mirandaAccountDBKey.c_str());
 			logger->log(L"TranslateOldDBNames:  ACCOUNT db entry found and moved");
 		}
@@ -505,7 +505,7 @@ void MirandaUtils::translateOldDBNames() {
 
 		int keyValue = db_get_b(hContact, OLD_PLUGIN_DB_ID, "state", 0);
 		if (keyValue != 0){
-			db_set_b(hContact, PLUGIN_DB_ID, "state", keyValue);
+			db_set_b(hContact, MODULENAME, "state", keyValue);
 			db_unset(hContact, OLD_PLUGIN_DB_ID, "state");
 			logger->log(L"TranslateOldDBNames:  CONTACT db entry found and moved");
 		}

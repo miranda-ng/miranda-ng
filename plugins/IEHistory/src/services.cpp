@@ -34,8 +34,8 @@ INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM)
 	HWND parent = nullptr;
 	historyDlg = WindowList_Find(hOpenWindowsList, (MCONTACT)wParam);
 	if (historyDlg == nullptr){
-		int count = db_get_dw(NULL, ModuleName, "EventsToLoad", 0);
-		int loadInBackground = db_get_b(NULL, ModuleName, "UseWorkerThread", 0);
+		int count = db_get_dw(NULL, MODULENAME, "EventsToLoad", 0);
+		int loadInBackground = db_get_b(NULL, MODULENAME, "UseWorkerThread", 0);
 		HistoryWindowData *data;
 		data = (HistoryWindowData *)malloc(sizeof(HistoryWindowData));
 		data->contact = (MCONTACT)wParam;

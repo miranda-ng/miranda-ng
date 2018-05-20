@@ -48,16 +48,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "services.h"
 #include "hooked_events.h"
 
-#define ModuleName "ExchangeNotify"
+#define MODULENAME "ExchangeNotify"
 
 extern HICON hiMailIcon;
 extern HWND hEmailsDlg;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(ModuleName)
-	{}
+	CMPlugin();
 };
 
 #endif //M_EXCHANGE_COMMONHEADERS_H

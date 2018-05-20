@@ -44,12 +44,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(YAMN_DBMODULE)
-	{
-		RegisterProtocol(PROTOTYPE_VIRTUAL);
-		SetUniqueId("Id");
-	}
+	CMPlugin();
 };
  
 // From services.cpp

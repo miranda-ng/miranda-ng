@@ -9,7 +9,7 @@ class COptMainDlg : public CPluginDlgBase
 
 public:
 	COptMainDlg() :
-		CPluginDlgBase(g_plugin, IDD_MAIN, pluginName),
+		CPluginDlgBase(g_plugin, IDD_MAIN, MODULENAME),
 		edtCount(this, ID_MAXQUESTCOUNT),
 		edtDescr(this, ID_DESCRIPTION),
 		chk1(this, ID_INFTALKPROT),
@@ -44,7 +44,7 @@ class COptMessageDlg : public CPluginDlgBase
 
 public:
 	COptMessageDlg() :
-		CPluginDlgBase(g_plugin, IDD_MESSAGES, pluginName),
+		CPluginDlgBase(g_plugin, IDD_MESSAGES, MODULENAME),
 		btnHelp(this, IDC_VARS),
 		btnRestore(this, ID_RESTOREDEFAULTS),
 		edtQuestion(this, ID_QUESTION),
@@ -94,7 +94,7 @@ class COptAccountDlg : public CPluginDlgBase
 
 public:
 	COptAccountDlg() :
-		CPluginDlgBase(g_plugin, IDD_PROTO, pluginName),
+		CPluginDlgBase(g_plugin, IDD_PROTO, MODULENAME),
 		m_accounts(this, IDC_PROTO)
 	{
 		m_accounts.OnItemChanged = Callback(this, &COptAccountDlg::list_OnItemChanged);
@@ -159,7 +159,7 @@ int OnOptInit(WPARAM w, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.szGroup.a = LPGEN("Message sessions");
-	odp.szTitle.a = pluginName;
+	odp.szTitle.a = MODULENAME;
 
 	odp.szTab.a = LPGEN("General");
 	odp.pDialog = new COptMainDlg();

@@ -26,13 +26,11 @@ Distributed under GNU's GPL 2 or later
 #include "resource.h"
 #include "version.h"
 
-#define THIS_MODULE "mirandaosd"
+#define MODULENAME "mirandaosd"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(THIS_MODULE)
-	{}
+	CMPlugin();
 };
 
 // Settings defaults

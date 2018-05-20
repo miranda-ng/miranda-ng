@@ -29,7 +29,3 @@ struct sPluginVars {
 };
 
 extern sPluginVars pluginVars;
-extern PLUGININFOEX pluginInfo;
-
-int OnModulesLoaded(WPARAM, LPARAM);
-int MsgWindowEvent(WPARAM, LPARAM);

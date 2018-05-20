@@ -40,13 +40,11 @@ extern Options opts;
 extern HANDLE hFolder;
 extern wchar_t basedir[];
 
-#define MODULE_NAME "AvatarHistory"
+#define MODULENAME "AvatarHistory"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULE_NAME)
-	{}
+	CMPlugin();
 };
 
 #define AVH_DEF_POPUPFG 0

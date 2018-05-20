@@ -56,17 +56,13 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{}
+	CMPlugin();
 };
 
 extern LPCSTR szModuleName;
 extern LPCSTR szVersionStr;
 
 // shared vars
-extern PLUGININFOEX pluginInfoEx;
-
 extern HANDLE hPGPPRIV;
 extern HANDLE hRSA4096;
 

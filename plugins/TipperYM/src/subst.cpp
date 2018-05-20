@@ -78,7 +78,7 @@ bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di)
 
 void StripBBCodesInPlace(wchar_t *ptszText)
 {
-	if (!db_get_b(0, MODULE, "StripBBCodes", 1))
+	if (!db_get_b(0, MODULENAME, "StripBBCodes", 1))
 		return;
 
 	if (ptszText == nullptr)
@@ -220,7 +220,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 			if (wStatus == ID_STATUS_OFFLINE)
 				return nullptr;
 
-			if (!db_get_ws(hContact, MODULE, "TempStatusMsg", &dbv)) {
+			if (!db_get_ws(hContact, MODULENAME, "TempStatusMsg", &dbv)) {
 				if (mir_wstrlen(dbv.ptszVal) != 0)
 					swzMsg = mir_wstrdup(dbv.ptszVal);
 				db_free(&dbv);
@@ -365,17 +365,17 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 		for (int i = 0; i < iNumber; i++) {
 			if (i > 0)
 				hTmpContact = db_mc_getSub(hContact, i);
-			dwRecountTs = db_get_dw(hTmpContact, MODULE, "LastCountTS", 0);
+			dwRecountTs = db_get_dw(hTmpContact, MODULENAME, "LastCountTS", 0);
 			dwTime = (DWORD)time(0);
 			dwDiff = (dwTime - dwRecountTs);
 			if (dwDiff > (60 * 60 * 24 * 3)) {
-				db_set_dw(hTmpContact, MODULE, "LastCountTS", dwTime);
+				db_set_dw(hTmpContact, MODULENAME, "LastCountTS", dwTime);
 				dwCountOut = dwCountIn = dwLastTs = 0;
 			}
 			else {
-				dwCountOut = db_get_dw(hTmpContact, MODULE, "MsgCountOut", 0);
-				dwCountIn = db_get_dw(hTmpContact, MODULE, "MsgCountIn", 0);
-				dwLastTs = db_get_dw(hTmpContact, MODULE, "LastMsgTS", 0);
+				dwCountOut = db_get_dw(hTmpContact, MODULENAME, "MsgCountOut", 0);
+				dwCountIn = db_get_dw(hTmpContact, MODULENAME, "MsgCountIn", 0);
+				dwLastTs = db_get_dw(hTmpContact, MODULENAME, "LastMsgTS", 0);
 			}
 
 			dwNewTs = dwLastTs;
@@ -397,9 +397,9 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 			}
 
 			if (dwNewTs > dwLastTs) {
-				db_set_dw(hTmpContact, MODULE, "MsgCountOut", dwCountOut);
-				db_set_dw(hTmpContact, MODULE, "MsgCountIn", dwCountIn);
-				db_set_dw(hTmpContact, MODULE, "LastMsgTS", dwNewTs);
+				db_set_dw(hTmpContact, MODULENAME, "MsgCountOut", dwCountOut);
+				db_set_dw(hTmpContact, MODULENAME, "MsgCountIn", dwCountIn);
+				db_set_dw(hTmpContact, MODULENAME, "LastMsgTS", dwNewTs);
 			}
 
 			dwMetaCountOut += dwCountOut;

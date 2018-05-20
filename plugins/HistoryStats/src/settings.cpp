@@ -161,7 +161,7 @@ void Settings::clearColumns()
 }
 
 Settings::Settings() :
-	m_VersionCurrent(g_pluginInfoEx.version),
+	m_VersionCurrent(pluginInfoEx.version),
 	
 	// global settings
 	m_OnStartup(false),
@@ -232,7 +232,7 @@ Settings::Settings() :
 }
 
 Settings::Settings(const Settings& other) :
-	m_VersionCurrent(g_pluginInfoEx.version)
+	m_VersionCurrent(pluginInfoEx.version)
 {
 	*this = other;
 }

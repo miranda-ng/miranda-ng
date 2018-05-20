@@ -33,9 +33,7 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(PROTOCOL_NAMEA)
-	{}
+	CMPlugin();
 };
 
 // структура содержащая информацию по построению меню или расширенных иконок
@@ -74,17 +72,17 @@ extern SMS_SETTINGS ssSMSSettings;
 #define GET_DLG_ITEM_TEXT_LENGTH(hDlg,nIDDlgItem) SendDlgItemMessage(hDlg,nIDDlgItem,WM_GETTEXTLENGTH,NULL,NULL)
 #define GET_CURRENT_COMBO_DATA(hWndDlg,ControlID) SendDlgItemMessage(hWndDlg,ControlID,CB_GETITEMDATA,SendDlgItemMessage(hWndDlg,ControlID,CB_GETCURSEL,0,0),0)
 
-#define DB_SMS_DeleteValue(Contact,valueName) db_unset(Contact,PROTOCOL_NAMEA,valueName)
-#define DB_SMS_GetDword(Contact,valueName,parDefltValue) db_get_dw(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
-#define DB_SMS_SetDword(Contact,valueName,parValue) db_set_dw(Contact,PROTOCOL_NAMEA,valueName,parValue)
-#define DB_SMS_GetWord(Contact,valueName,parDefltValue) db_get_w(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
-#define DB_SMS_SetWord(Contact,valueName,parValue) db_set_w(Contact,PROTOCOL_NAMEA,valueName,parValue)
-#define DB_SMS_GetByte(Contact,valueName,parDefltValue) db_get_b(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
-#define DB_SMS_SetByte(Contact,valueName,parValue) db_set_b(Contact,PROTOCOL_NAMEA,valueName,parValue)
+#define DB_SMS_DeleteValue(Contact,valueName) db_unset(Contact,MODULENAME,valueName)
+#define DB_SMS_GetDword(Contact,valueName,parDefltValue) db_get_dw(Contact,MODULENAME,valueName,parDefltValue)
+#define DB_SMS_SetDword(Contact,valueName,parValue) db_set_dw(Contact,MODULENAME,valueName,parValue)
+#define DB_SMS_GetWord(Contact,valueName,parDefltValue) db_get_w(Contact,MODULENAME,valueName,parDefltValue)
+#define DB_SMS_SetWord(Contact,valueName,parValue) db_set_w(Contact,MODULENAME,valueName,parValue)
+#define DB_SMS_GetByte(Contact,valueName,parDefltValue) db_get_b(Contact,MODULENAME,valueName,parDefltValue)
+#define DB_SMS_SetByte(Contact,valueName,parValue) db_set_b(Contact,MODULENAME,valueName,parValue)
 BOOL	DB_GetStaticStringW(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpszRetBuff,size_t dwRetBuffSize,size_t *pdwRetBuffSize);
-#define DB_SMS_GetStaticStringW(Contact,ValueName,Ret,RetBuffSize,pRetBuffSize) DB_GetStaticStringW(Contact,PROTOCOL_NAMEA,ValueName,Ret,RetBuffSize,pRetBuffSize)
+#define DB_SMS_GetStaticStringW(Contact,ValueName,Ret,RetBuffSize,pRetBuffSize) DB_GetStaticStringW(Contact,MODULENAME,ValueName,Ret,RetBuffSize,pRetBuffSize)
 #define DB_SetStringW(Contact,Module,valueName,parValue) db_set_ws(Contact,Module,valueName,parValue)
-#define DB_SMS_SetStringW(Contact,valueName,parValue) db_set_ws(Contact,PROTOCOL_NAMEA,valueName,parValue)
+#define DB_SMS_SetStringW(Contact,valueName,parValue) db_set_ws(Contact,MODULENAME,valueName,parValue)
 
 LRESULT CALLBACK MessageSubclassProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam);
 

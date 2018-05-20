@@ -37,7 +37,7 @@ int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -51,9 +51,13 @@ PLUGININFOEX pluginInfo =
 	{0x3503D584, 0x6234, 0x4BEF, {0xA5, 0x53, 0x6C, 0x1B, 0x9C, 0xD4, 0x71, 0xF2}}
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -117,7 +121,7 @@ int HookedInit(WPARAM, LPARAM)
 	HookEvent(ME_DB_EVENT_ADDED, HookedNewEvent);
 	// Plugin sweeper support
 	if (ServiceExists("PluginSweeper/Add"))
-		CallService("PluginSweeper/Add", (WPARAM)MODULE, (LPARAM)MODULE);
+		CallService("PluginSweeper/Add", (WPARAM)MODULENAME, (LPARAM)MODULENAME);
 
 	if (pluginOptions.bMenuitem)
 		MenuitemInit(!pluginOptions.bDisable);
@@ -138,7 +142,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
 	HookEvent(ME_OPT_INITIALISE, HookedOptions);
 
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	OptionsInit(&pluginOptions);

@@ -12,7 +12,7 @@ HNETLIBUSER hNetlib = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -27,9 +27,13 @@ PLUGININFOEX pluginInfo =
 
 };
 
+CMPlugin::CMPlugin() :
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+{}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -49,8 +53,8 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	g_hCLibsFolder = FoldersRegisterCustomPathT(MODULE, "CLibsFolder", MIRLUA_PATHT, TranslateT("C libs folder"));
-	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULE, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
+	g_hCLibsFolder = FoldersRegisterCustomPathT(MODULENAME, "CLibsFolder", MIRLUA_PATHT, TranslateT("C libs folder"));
+	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULENAME, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
 
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
 	return 0;
@@ -58,20 +62,20 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfoEx);
 
 	InitIcons();
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
-	nlu.szDescriptiveName.a = MODULE;
-	nlu.szSettingsModule = MODULE;
+	nlu.szDescriptiveName.a = MODULENAME;
+	nlu.szSettingsModule = MODULENAME;
 	hNetlib = Netlib_RegisterUser(&nlu);
 
-	Proto_RegisterModule(PROTOTYPE_FILTER, MODULE);
+	Proto_RegisterModule(PROTOTYPE_FILTER, MODULENAME);
 
-	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
-	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
+	hRecvMessage = CreateHookableEvent(MODULENAME PSR_MESSAGE);
+	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, FilterRecvMessage);
 
 	g_mLua = new CMLua();
 	g_mLua->Load();

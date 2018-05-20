@@ -246,10 +246,5 @@ extern HANDLE hHookAlertOSD;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMPlugin() :
-		PLUGIN<CMPlugin>(MODULENAME)
-	{
-		RegisterProtocol(PROTOTYPE_PROTOCOL);
-		SetUniqueId("PreserveName");
-	}
+	CMPlugin();
 };

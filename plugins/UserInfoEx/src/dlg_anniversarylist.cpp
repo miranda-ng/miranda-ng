@@ -330,7 +330,7 @@ class CAnnivList
 				pDlg->_sizeMin.cy = rc.bottom - rc.top;
 				
 				// restore position and size
-				Utils_RestoreWindowPosition(hDlg, NULL, MODNAME, "AnnivDlg_");
+				Utils_RestoreWindowPosition(hDlg, NULL, MODULENAME, "AnnivDlg_");
 
 				//save win pos
 				GetWindowRect(hDlg, &pDlg->_rcWin);
@@ -345,17 +345,17 @@ class CAnnivList
 				}
 
 				// init reminder groups
-				pDlg->_bRemindEnable = db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF;
+				pDlg->_bRemindEnable = db_get_b(NULL, MODULENAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF;
 				if (hCtrl = GetDlgItem(hDlg, CHECK_REMIND)) {
 					Button_SetCheck(hCtrl, pDlg->_bRemindEnable ? BST_INDETERMINATE : BST_UNCHECKED);
 					EnableWindow(hCtrl, pDlg->_bRemindEnable);
 				}
 
-				CheckDlgButton(hDlg, CHECK_POPUP, db_get_b(NULL, MODNAME, SET_ANNIVLIST_POPUP, FALSE) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hDlg, CHECK_POPUP, db_get_b(NULL, MODULENAME, SET_ANNIVLIST_POPUP, FALSE) ? BST_CHECKED : BST_UNCHECKED);
 				// set number of days to show contact in advance
 				SetDlgItemInt(hDlg, EDIT_DAYS, pDlg->_filter.wDaysBefore, FALSE);
 				if (hCtrl = GetDlgItem(hDlg, CHECK_DAYS)) {
-					Button_SetCheck(hCtrl, db_get_b(NULL, MODNAME, SET_ANNIVLIST_FILTER_DAYSENABLED, FALSE));
+					Button_SetCheck(hCtrl, db_get_b(NULL, MODULENAME, SET_ANNIVLIST_FILTER_DAYSENABLED, FALSE));
 					DlgProc(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_DAYS, BN_CLICKED), (LPARAM)hCtrl);
 				}
 
@@ -598,7 +598,7 @@ class CAnnivList
 		CHAR pszSetting[MAXSETTING];
 
 		mir_snprintf(pszSetting, "AnnivDlg_Col%d", iSubItem);
-		lvc.cx = db_get_w(NULL, MODNAME, pszSetting, defaultWidth);
+		lvc.cx = db_get_w(NULL, MODULENAME, pszSetting, defaultWidth);
 		lvc.mask = LVCF_WIDTH | LVCF_TEXT;
 		lvc.iSubItem = iSubItem;
 		lvc.pszText = TranslateW(pszText);
@@ -730,7 +730,7 @@ class CAnnivList
 		MAnnivDate ad;
 		int i = 0;
 		DWORD age = 0;
-		WORD wDaysBefore = db_get_w(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
+		WORD wDaysBefore = db_get_w(NULL, MODULENAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
 		WORD numMale = 0;
 		WORD numFemale = 0;
 		WORD numContacts = 0;
@@ -822,17 +822,17 @@ class CAnnivList
 	// This method loads all filter settings from db
 	void LoadFilter()
 	{
-		_filter.wDaysBefore = db_get_w(NULL, MODNAME, SET_ANNIVLIST_FILTER_DAYS, 9);
-		_filter.bFilterIndex = db_get_b(NULL, MODNAME, SET_ANNIVLIST_FILTER_INDEX, 0);
+		_filter.wDaysBefore = db_get_w(NULL, MODULENAME, SET_ANNIVLIST_FILTER_DAYS, 9);
+		_filter.bFilterIndex = db_get_b(NULL, MODULENAME, SET_ANNIVLIST_FILTER_INDEX, 0);
 	}
 
 	// This method saves all filter settings to db
 	void SaveFilter()
 	{
 		if (_hDlg) {
-			db_set_w(NULL, MODNAME, SET_ANNIVLIST_FILTER_DAYS, (WORD)GetDlgItemInt(_hDlg, EDIT_DAYS, nullptr, FALSE));
-			db_set_b(NULL, MODNAME, SET_ANNIVLIST_FILTER_DAYSENABLED, (BYTE)Button_GetCheck(GetDlgItem(_hDlg, CHECK_DAYS)));
-			db_set_b(NULL, MODNAME, SET_ANNIVLIST_FILTER_INDEX, (BYTE)ComboBox_GetCurSel(GetDlgItem(_hDlg, EDIT_DAYS)));
+			db_set_w(NULL, MODULENAME, SET_ANNIVLIST_FILTER_DAYS, (WORD)GetDlgItemInt(_hDlg, EDIT_DAYS, nullptr, FALSE));
+			db_set_b(NULL, MODULENAME, SET_ANNIVLIST_FILTER_DAYSENABLED, (BYTE)Button_GetCheck(GetDlgItem(_hDlg, CHECK_DAYS)));
+			db_set_b(NULL, MODULENAME, SET_ANNIVLIST_FILTER_INDEX, (BYTE)ComboBox_GetCurSel(GetDlgItem(_hDlg, EDIT_DAYS)));
 		}
 	}
 
@@ -877,14 +877,14 @@ public:
 
 				for (c = 0; c < cc; c++) {
 					mir_snprintf(pszSetting, "AnnivDlg_Col%d", c);
-					db_set_w(NULL, MODNAME, pszSetting, (WORD)ListView_GetColumnWidth(_hList, c));
+					db_set_w(NULL, MODULENAME, pszSetting, (WORD)ListView_GetColumnWidth(_hList, c));
 				}
 				DeleteAllItems();
 			}
 			// remember popup setting
-			db_set_b(NULL, MODNAME, SET_ANNIVLIST_POPUP, (BYTE)IsDlgButtonChecked(_hDlg, CHECK_POPUP));
+			db_set_b(NULL, MODULENAME, SET_ANNIVLIST_POPUP, (BYTE)IsDlgButtonChecked(_hDlg, CHECK_POPUP));
 			// save window position, size and column widths
-			Utils_SaveWindowPosition(_hDlg, NULL, MODNAME, "AnnivDlg_");
+			Utils_SaveWindowPosition(_hDlg, NULL, MODULENAME, "AnnivDlg_");
 			SaveFilter();
 
 			// if the window did not yet retrieve a WM_DESTROY message, do it right now.
@@ -928,7 +928,7 @@ INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
 {
 	if (!gpDlg) {
 		try {
-			myGlobals.WantAeroAdaption = db_get_b(NULL, MODNAME, SET_PROPSHEET_AEROADAPTION, TRUE);
+			myGlobals.WantAeroAdaption = db_get_b(NULL, MODULENAME, SET_PROPSHEET_AEROADAPTION, TRUE);
 			gpDlg = new CAnnivList();
 		}
 		catch(...) {
@@ -979,7 +979,7 @@ void DlgAnniversaryListLoadModule()
 
 	HOTKEYDESC hk = {};
 	hk.pszName = "AnniversaryList";
-	hk.szSection.a = MODNAME;
+	hk.szSection.a = MODULENAME;
 	hk.szDescription.a = LPGEN("Popup anniversary list");
 	hk.pszService = MS_USERINFO_REMINDER_LIST;
 	Hotkey_Register(&hk);
