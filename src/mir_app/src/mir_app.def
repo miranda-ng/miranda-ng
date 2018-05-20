@@ -595,3 +595,4 @@ Contact_GetStatus @609
 GetPluginByLangId @624
 GetInstByAddress @625
 GetPluginByInstance @626
+?addUserInfo@CMPluginBase@@QAEHIPAUOPTIONSDIALOGPAGE@@@Z @627 NONAME

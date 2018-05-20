@@ -276,7 +276,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.position = -1900000000;
 	odp.szTitle.w = m_tszUserName;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQ);
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	if (!lParam) {
 		wchar_t buf[200];
@@ -286,7 +286,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.position = -1899999999;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO);
 		odp.pfnDlgProc = ChangeInfoDlgProc;
-		UserInfo_AddPage(wParam, &odp);
+		g_plugin.addUserInfo(wParam, &odp);
 	}
 	return 0;
 }

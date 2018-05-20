@@ -113,7 +113,7 @@ int QuotesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM lp)
 	odp.position = -2000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_QUOTE_INFO);
 	odp.szTitle.a = LPGEN("Quote");
-	UserInfo_AddPage(wp, &odp);
+	g_plugin.addUserInfo(wp, &odp);
 	return 0;
 }
 

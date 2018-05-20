@@ -132,7 +132,7 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 		odp.flags = ODPF_UNICODE;
 		odp.szTitle.w = mir_utf8decodeW(pszGroup);
 		
-		INT_PTR rc = UserInfo_AddPage((WPARAM)&psh, &odp);
+		int rc = g_plugin.addUserInfo((WPARAM)&psh, &odp);
 		mir_free(odp.szTitle.w);
 		if (!rc) {
 			_pItems = psh._pPages;

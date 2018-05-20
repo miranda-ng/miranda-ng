@@ -97,6 +97,14 @@ void CMPluginBase::tryOpenLog()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CMPluginBase::addUserInfo(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
+{
+	odp->langId = hLangpack;
+	return CallService("UserInfo/AddPage", wParam, (LPARAM)odp);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CMPluginBase::debugLogA(LPCSTR szFormat, ...)
 {
 	if (m_hLogger == nullptr)

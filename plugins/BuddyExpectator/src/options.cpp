@@ -533,7 +533,7 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 		uip.szTitle.a = LPGEN("Buddy Expectator");
 		uip.pfnDlgProc = UserinfoDlgProc;
-		UserInfo_AddPage(wparam, &uip);
+		g_plugin.addUserInfo(wparam, &uip);
 	}
 	return 0;
 }

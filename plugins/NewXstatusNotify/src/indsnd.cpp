@@ -601,7 +601,7 @@ int UserInfoInitialise(WPARAM wParam, LPARAM lParam)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SOUNDS);
 		odp.szTitle.a = LPGEN("Status Notify");
 		odp.pfnDlgProc = DlgProcSoundUIPage;
-		UserInfo_AddPage(wParam, &odp);
+		g_plugin.addUserInfo(wParam, &odp);
 	}
 	return 0;
 }

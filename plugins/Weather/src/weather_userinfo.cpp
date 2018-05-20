@@ -321,7 +321,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	if (lParam == 0) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = DlgProcINIPage;
-		UserInfo_AddPage(wParam, &odp);
+		g_plugin.addUserInfo(wParam, &odp);
 	}
 	else {
 		// check if it is a weather contact
@@ -330,7 +330,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
 			odp.flags = ODPF_BOLDGROUPS;
-			UserInfo_AddPage(wParam, &odp);
+			g_plugin.addUserInfo(wParam, &odp);
 		}
 	}
 	return 0;

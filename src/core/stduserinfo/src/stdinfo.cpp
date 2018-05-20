@@ -614,36 +614,36 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	odp.position = -2100000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SUMMARY);
 	odp.szTitle.a = LPGEN("Summary");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = ContactDlgProc;
 	odp.position = -1800000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_CONTACT);
 	odp.szTitle.a = LPGEN("Contact");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = LocationDlgProc;
 	odp.position = -1500000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_LOCATION);
 	odp.szTitle.a = LPGEN("Location");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = WorkDlgProc;
 	odp.position = -1200000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_WORK);
 	odp.szTitle.a = LPGEN("Work");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = BackgroundDlgProc;
 	odp.position = -900000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_BACKGROUND);
 	odp.szTitle.a = LPGEN("Background info");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = NotesDlgProc;
 	odp.position = 0;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_NOTES);
 	odp.szTitle.a = LPGEN("Notes");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 	return 0;
 }

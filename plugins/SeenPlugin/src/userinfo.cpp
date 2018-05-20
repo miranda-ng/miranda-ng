@@ -74,7 +74,7 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 		uip.szTitle.a = LPGEN("Last seen");
 		uip.pfnDlgProc = UserinfoDlgProc;
-		UserInfo_AddPage(wparam, &uip);
+		g_plugin.addUserInfo(wparam, &uip);
 	}
 	return 0;
 }

@@ -815,7 +815,7 @@ int GaduProto::details_init(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = pszTemplate;
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	// Start search for user data
 	if (hContact == NULL)

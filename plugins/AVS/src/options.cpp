@@ -1107,7 +1107,7 @@ int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 		// User dialog
 		odp.pfnDlgProc = DlgProcAvatarProtoInfo;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO_AVATARS);
-		UserInfo_AddPage(wParam, &odp);
+		g_plugin.addUserInfo(wParam, &odp);
 	}
 	else {
 		char *szProto = GetContactProto(hContact);
@@ -1116,7 +1116,7 @@ int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 			odp.pfnDlgProc = DlgProcAvatarUserInfo;
 			odp.position = -2000000000;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_AVATAR);
-			UserInfo_AddPage(wParam, &odp);
+			g_plugin.addUserInfo(wParam, &odp);
 		}
 	}
 	return 0;

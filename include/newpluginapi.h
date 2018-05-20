@@ -194,6 +194,7 @@ public:
 	}
 
 	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);
+	int addUserInfo(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 

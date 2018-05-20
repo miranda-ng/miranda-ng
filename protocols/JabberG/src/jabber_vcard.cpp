@@ -1187,32 +1187,32 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = PersonalDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PERSONAL);
 	odp.szTab.w = LPGENW("General");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = ContactDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_CONTACT);
 	odp.szTab.w = LPGENW("Contacts");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = HomeDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_HOME);
 	odp.szTab.w = LPGENW("Home");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = WorkDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_WORK);
 	odp.szTab.w = LPGENW("Work");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = PhotoDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
 	odp.szTab.w = LPGENW("Photo");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	odp.pfnDlgProc = NoteDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_NOTE);
 	odp.szTab.w = LPGENW("Note");
-	UserInfo_AddPage(wParam, &odp);
+	g_plugin.addUserInfo(wParam, &odp);
 
 	SendGetVcard(m_szJabberJID);
 }

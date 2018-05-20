@@ -358,7 +358,7 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = UserInfoProc;
 		odp.position = -2000000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_INFO);
-		UserInfo_AddPage(wParam, &odp);
+		g_plugin.addUserInfo(wParam, &odp);
 	}
 
 	return 0;
