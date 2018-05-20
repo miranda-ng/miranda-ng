@@ -24,7 +24,7 @@ void CVkProto::RetrievePollingInfo()
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("use_ssl", 1)
-		<< INT_PARAM("lp_version", 2)
+		<< INT_PARAM("lp_version", 3)
 	);
 }
 
