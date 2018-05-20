@@ -1,10 +1,8 @@
-#ifndef _LUA_OPTIONS_H_
-#define _LUA_OPTIONS_H_
+#pragma once
 
 class CMLuaOptions : public CPluginDlgBase
 {
 private:
-	CMLua *m_mLua;
 	bool isScriptListInit;
 	
 	CCtrlCheck m_popupOnError;
@@ -25,7 +23,5 @@ protected:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
-	CMLuaOptions(CMLua *mLua);
+	CMLuaOptions();
 };
-
-#endif //_LUA_OPTIONS_H_

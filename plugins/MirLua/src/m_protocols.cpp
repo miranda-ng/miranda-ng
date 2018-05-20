@@ -236,6 +236,9 @@ static luaL_Reg protocolsApi[] =
 
 LUAMOD_API int luaopen_m_protocols(lua_State *L)
 {
+	hRecvMessage = CreateHookableEvent(MODULENAME PSR_MESSAGE);
+	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, FilterRecvMessage);
+
 	luaL_newlib(L, protocolsApi);
 
 	MT<PROTOCOLDESCRIPTOR>(L, MT_PROTOCOLDESCRIPTOR)

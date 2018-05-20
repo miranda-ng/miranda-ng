@@ -1,11 +1,12 @@
 #include "stdafx.h"
 
-CMLuaOptions::CMLuaOptions(CMLua *mLua)
+CMLuaOptions::CMLuaOptions()
 	: CPluginDlgBase(g_plugin, IDD_OPTIONS, MODULENAME),
-	m_mLua(mLua), isScriptListInit(false),
+	isScriptListInit(false),
 	m_popupOnError(this, IDC_POPUPONERROR),
 	m_popupOnObsolete(this, IDC_POPUPONOBSOLETE),
-	m_scripts(this, IDC_SCRIPTS), m_reload(this, IDC_RELOAD)
+	m_scripts(this, IDC_SCRIPTS),
+	m_reload(this, IDC_RELOAD)
 {
 	CreateLink(m_popupOnError, "PopupOnError", DBVT_BYTE, 1);
 	CreateLink(m_popupOnObsolete, "PopupOnObsolete", DBVT_BYTE, 1);
@@ -16,7 +17,7 @@ CMLuaOptions::CMLuaOptions(CMLua *mLua)
 
 void CMLuaOptions::LoadScripts()
 {
-	for (auto &script : m_mLua->Scripts) {
+	for (auto &script : g_plugin.Scripts) {
 		wchar_t *fileName = NEWWSTR_ALLOCA(script->GetFileName());
 		int iIcon = script->GetStatus() - 1;
 		int iItem = m_scripts.AddItem(fileName, iIcon, (LPARAM)script);
@@ -124,7 +125,7 @@ void CMLuaOptions::OnReload(CCtrlBase*)
 {
 	isScriptListInit = false;
 	m_scripts.DeleteAllItems();
-	m_mLua->Reload();
+	g_plugin.Reload();
 	LoadScripts();
 	isScriptListInit = true;
 }

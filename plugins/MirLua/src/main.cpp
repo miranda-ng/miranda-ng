@@ -3,8 +3,6 @@
 int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
-CMLua *g_mLua;
-
 HANDLE g_hCLibsFolder;
 HANDLE g_hScriptsFolder;
 
@@ -27,10 +25,6 @@ PLUGININFOEX pluginInfoEx =
 
 };
 
-CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -46,7 +40,7 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Services");
 	odp.szTitle.w = L"Lua";
 	odp.szTab.w = LPGENW("Scripts");
-	odp.pDialog = new CMLuaOptions(g_mLua);
+	odp.pDialog = new CMLuaOptions();
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
@@ -70,15 +64,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	nlu.szSettingsModule = MODULENAME;
 	hNetlib = Netlib_RegisterUser(&nlu);
 
-	Proto_RegisterModule(PROTOTYPE_FILTER, MODULENAME);
-
-	hRecvMessage = CreateHookableEvent(MODULENAME PSR_MESSAGE);
-	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, FilterRecvMessage);
-
-	g_mLua = new CMLua();
-	g_mLua->Load();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+
+	g_plugin.Load();
+
 	return 0;
 }
 
@@ -86,8 +75,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	delete g_mLua;
-
 	if (hNetlib) {
 		Netlib_CloseHandle(hNetlib);
 		hNetlib = nullptr;

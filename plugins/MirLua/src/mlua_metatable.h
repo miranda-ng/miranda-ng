@@ -1,5 +1,4 @@
-#ifndef _LUA_METATABLE_H_
-#define _LUA_METATABLE_H_
+#pragma once
 
 #include <map>
 #include <cstddef>
@@ -343,5 +342,3 @@ const luaL_Reg MT<T>::Events[] = {
 
 template<typename T>
 OBJLIST<CMTField> MT<T>::Fields(5, &CMTField::Compare);
-
-#endif //_LUA_METATABLE_H_
