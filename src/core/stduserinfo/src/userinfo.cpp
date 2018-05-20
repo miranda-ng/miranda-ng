@@ -66,12 +66,12 @@ struct DetailsData
 
 wchar_t* getTitle(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTitle.w : TranslateW_LP(p->szTitle.w, p->hLangpack);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTitle.w : TranslateW_LP(p->szTitle.w, p->langId);
 }
 
 wchar_t* getTab(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTab.w : TranslateW_LP(p->szTab.w, p->hLangpack);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTab.w : TranslateW_LP(p->szTab.w, p->langId);
 }
 
 static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
@@ -155,7 +155,7 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 		dst->szTab.w = (odp->flags & ODPF_USERINFOTAB) ? mir_a2u(odp->szTab.a) : nullptr;
 	}
 
-	dst->hLangpack = odp->hLangpack;
+	dst->langId = odp->langId;
 	dst->flags = odp->flags;
 	dst->dwInitParam = odp->dwInitParam;
 	opi->pageCount++;
@@ -288,7 +288,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				p.ptszTitle = odp[i].szTitle.w;
 				p.ptszTab = odp[i].szTab.w;
-				p.hLangpack = odp[i].hLangpack;
+				p.hLangpack = odp[i].langId;
 
 				if (i && p.ptszTab && !mir_wstrcmp(dat->opd[i - 1].ptszTitle, p.ptszTitle)) {
 					p.hItem = dat->opd[i - 1].hItem;

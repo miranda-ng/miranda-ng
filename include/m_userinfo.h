@@ -77,7 +77,7 @@ All PSN_ WM_NOTIFY messages have PSHNOTIFY.lParam = (LPARAM)hContact
 #define PSM_FORCECHANGED  (WM_USER+100)   //force-send a PSN_INFOCHANGED to all pages
 
 __forceinline INT_PTR UserInfo_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
-{	odp->hLangpack = hLangpack;
+{	odp->langId = hLangpack;
 	return CallService("UserInfo/AddPage", wParam, (LPARAM)odp);
 }
 

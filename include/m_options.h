@@ -66,7 +66,7 @@ struct OPTIONSDIALOGPAGE
 	DLGPROC pfnDlgProc;
 	char *pszTemplate;
 	HINSTANCE hInstance;
-	int hLangpack;
+	int langId;
 	DWORD flags;
 
 	union {

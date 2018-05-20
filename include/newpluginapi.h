@@ -52,7 +52,7 @@ __forceinline bool operator!=(const MUUID &p1, const MUUID &p2)
 {	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
 }
 
-MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int hLangpack);
+MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int langId);
 MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid);
 MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName);
 
@@ -444,7 +444,7 @@ OBJLIST<P> ACCPROTOPLUGIN<P>::g_arInstances(1, PtrKeySortT);
 #endif
 
 EXTERN_C MIR_APP_DLL(HINSTANCE) GetInstByAddress(void* codePtr);
-EXTERN_C MIR_APP_DLL(CMPluginBase*) GetPluginByLangId(int hLangpack);
+EXTERN_C MIR_APP_DLL(CMPluginBase*) GetPluginByLangId(int langId);
 EXTERN_C MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst);
 
 #endif // M_NEWPLUGINAPI_H__

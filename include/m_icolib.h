@@ -117,7 +117,7 @@ MIR_APP_DLL(void)   Window_FreeIcon_IcoLib(HWND hWnd);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void)   KillModuleIcons(int hLangpack);
+MIR_APP_DLL(void)   KillModuleIcons(int langId);
 
 #if defined(__cplusplus)
 }

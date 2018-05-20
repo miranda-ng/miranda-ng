@@ -88,6 +88,6 @@ EXTERN_C MIR_APP_DLL(void) Hotkey_Unsubclass(HWND hwndEdit);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-EXTERN_C MIR_APP_DLL(void) KillModuleHotkeys(int hLangpack);
+EXTERN_C MIR_APP_DLL(void) KillModuleHotkeys(int langId);
 
 #endif // M_HOTKEYS_H__

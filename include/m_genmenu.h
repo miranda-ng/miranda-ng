@@ -46,7 +46,7 @@ struct TMO_MenuItem
 		HICON hIcon;
 		HANDLE hIcolibItem;
 	};
-	int hLangpack;
+	int langId;
 	MUUID uid;
 };
 
@@ -64,7 +64,7 @@ struct CMenuItem : public TMO_MenuItem
 	CMenuItem()
 	{
 		memset(this, 0, sizeof(CMenuItem));
-		this->hLangpack = ::hLangpack;
+		this->langId = ::hLangpack;
 	}
 };
 #endif
@@ -260,7 +260,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis);
 /////////////////////////////////////////////////////////////////////////////////////////
 // kills all menu items & submenus that belong to the hLangpack given
 
-EXTERN_C MIR_APP_DLL(void) KillModuleMenus(int hLangpack);
+EXTERN_C MIR_APP_DLL(void) KillModuleMenus(int langId);
 
 #endif // M_GENMENU_H__
 

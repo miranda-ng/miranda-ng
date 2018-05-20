@@ -206,7 +206,7 @@ struct OptionsPageData : public MZeroedObject
 		assert(pDialog != nullptr);
 
 		flags = src.flags;
-		hLangpack = src.hLangpack;
+		langId = src.langId;
 
 		if (src.flags & ODPF_UNICODE)
 			ptszTitle = mir_wstrdup(src.szTitle.w);
@@ -231,7 +231,7 @@ struct OptionsPageData : public MZeroedObject
 	}
 
 	CDlgBase *pDialog;
-	int hLangpack;
+	int langId;
 	ptrW ptszTitle, ptszGroup, ptszTab;
 	HTREEITEM hTreeItem;
 	bool bChanged, bInsideTab;
@@ -246,7 +246,7 @@ struct OptionsPageData : public MZeroedObject
 	{
 		if (flags & ODPF_DONTTRANSLATE)
 			return ptszStr;
-		return TranslateW_LP(ptszStr, hLangpack);
+		return TranslateW_LP(ptszStr, langId);
 	}
 
 	HWND CreateOptionWindow(HWND hWndParent) const
@@ -565,9 +565,9 @@ class COptionsDlg : public CDlgBase
 				continue;
 
 			opd = m_arOpd[i];
-			wchar_t *ptszGroup = TranslateW_LP(opd->ptszGroup, opd->hLangpack);
+			wchar_t *ptszGroup = TranslateW_LP(opd->ptszGroup, opd->langId);
 			wchar_t *ptszTitle = opd->getString(opd->ptszTitle), *useTitle;
-			wchar_t *ptszTab = TranslateW_LP(opd->ptszTab, opd->hLangpack);
+			wchar_t *ptszTab = TranslateW_LP(opd->ptszTab, opd->langId);
 
 			tvis.hParent = nullptr;
 			useTitle = ptszTitle;
@@ -985,7 +985,7 @@ public:
 				if (mir_wstrcmp(opd->ptszTitle, p->ptszTitle) || mir_wstrcmp(opd->ptszGroup, p->ptszGroup))
 					continue;
 
-				tie.pszText = TranslateW_LP(p->ptszTab, p->hLangpack);
+				tie.pszText = TranslateW_LP(p->ptszTab, p->langId);
 				tie.lParam = i;
 				TabCtrl_InsertItem(hwndTab, pages, &tie);
 				if (!mir_wstrcmp(opd->ptszTab, p->ptszTab))
@@ -1139,7 +1139,7 @@ public:
 	void KillModule(int _hLang)
 	{
 		for (auto &opd : m_arOpd) {
-			if (opd->hLangpack != _hLang)
+			if (opd->langId != _hLang)
 				continue;
 
 			if (opd->pDialog != nullptr) {
@@ -1199,7 +1199,7 @@ MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int _hLangpack)
+MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int langId)
 {
 	OptionsPageList *pList = (OptionsPageList*)wParam;
 	if (odp == nullptr)
@@ -1207,7 +1207,7 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int _hLa
 
 	OptionsPage *dst = new OptionsPage();
 	memcpy(dst, odp, sizeof(OPTIONSDIALOGPAGE));
-	dst->hLangpack = _hLangpack;
+	dst->langId = langId;
 
 	if (odp->szTitle.w != nullptr) {
 		if (odp->flags & ODPF_UNICODE)

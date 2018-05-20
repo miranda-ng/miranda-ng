@@ -78,7 +78,7 @@ LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
 		return pimi->mi.name.w;
 
-	return TranslateW_LP(pimi->mi.name.w, pimi->mi.hLangpack);
+	return TranslateW_LP(pimi->mi.name.w, pimi->mi.langId);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -610,18 +610,18 @@ MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem)
 struct KillMenuItemsParam
 {
 	KillMenuItemsParam(int _hLangpack) :
-		hLangpack(_hLangpack),
+		langId(_hLangpack),
 		arItems(10)
 	{
 	}
 
-	int hLangpack;
+	int langId;
 	LIST<TMO_IntMenuItem> arItems;
 };
 
 int KillMenuItems(TMO_IntMenuItem *pimi, KillMenuItemsParam* param)
 {
-	if (pimi->mi.hLangpack == param->hLangpack)
+	if (pimi->mi.langId == param->langId)
 		param->arItems.insert(pimi);
 	return FALSE;
 }
@@ -689,7 +689,7 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = hIcoLib;
-	mi.hLangpack = _hLang;
+	mi.langId = _hLang;
 	mi.name.w = (wchar_t*)ptszName;
 	mi.position = position;
 	return Menu_AddItem(hMenuObject, &mi, nullptr);

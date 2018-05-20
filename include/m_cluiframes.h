@@ -221,7 +221,7 @@ typedef struct tagCLISTFrame {
 //contactowner=advanced parameter
 
 __forceinline HGENMENU Menu_AddContextFrameMenuItem(TMO_MenuItem *pmi)
-{	pmi->hLangpack = hLangpack;
+{	pmi->langId = hLangpack;
 	return (HGENMENU)CallService("CList/AddContextFrameMenuItem", 0, (LPARAM)pmi);
 }
 

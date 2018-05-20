@@ -36,7 +36,7 @@ void CCloudService::OnModulesLoaded()
 	mi.root = hContactMenu;
 	CMStringA serviceName(FORMAT, "/%s/Upload", GetAccountName());
 	mi.pszService = serviceName.GetBuffer();
-	mi.hLangpack = GetId();
+	mi.langId = GetId();
 	mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
 	mi.name.w = (wchar_t*)GetUserName();
 	mi.position = Services.getCount();

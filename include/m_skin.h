@@ -134,7 +134,7 @@ EXTERN_C MIR_APP_DLL(int) Skin_PlaySoundFile(const wchar_t *pwszFileName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-EXTERN_C MIR_APP_DLL(void) KillModuleSounds(int hLangpack);
+EXTERN_C MIR_APP_DLL(void) KillModuleSounds(int langId);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sent when the icons DLL has been changed in the options dialog, and everyone

@@ -425,7 +425,7 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			if (reset || check) {
 				TMO_IntMenuItem *timiParent = MO_GetIntMenuItem(pimi->mi.root);
 				if (timiParent) {
-					LPTSTR ptszName = TranslateW_LP(pimi->mi.hIcolibItem ? pimi->mi.name.w : LPGENW("Custom status"), pimi->mi.hLangpack);
+					LPTSTR ptszName = TranslateW_LP(pimi->mi.hIcolibItem ? pimi->mi.name.w : LPGENW("Custom status"), pimi->mi.langId);
 
 					timiParent = MO_GetIntMenuItem(pimi->mi.root);
 

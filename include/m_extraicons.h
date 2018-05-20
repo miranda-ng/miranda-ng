@@ -101,7 +101,7 @@ struct EXTRAICON_INFO
 	LPARAM onClickParam;
 };
 
-EXTERN_C MIR_APP_DLL(void) KillModuleExtraIcons(int hLangpack);
+EXTERN_C MIR_APP_DLL(void) KillModuleExtraIcons(int langId);
 
 #pragma warning(disable:4505)
 
