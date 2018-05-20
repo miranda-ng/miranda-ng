@@ -35,7 +35,7 @@
 
 class CMLuaScript;
 
-#include "mlua.h"
+#include "mplugin.h"
 #include "mlua_environment.h"
 #include "mlua_script.h"
 #include "mlua_function_loader.h"
@@ -45,13 +45,6 @@ class CMLuaScript;
 #include "mlua_metatable.h"
 
 #define MODULENAME "MirLua"
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-};
-
-extern CMLua *g_mLua;
 
 extern int hMLuaLangpack;
 
