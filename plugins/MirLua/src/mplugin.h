@@ -7,6 +7,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 private:
 	lua_State *L;
 
+	void Unload();
 
 	INT_PTR __cdecl Eval(WPARAM, LPARAM);
 	INT_PTR __cdecl Call(WPARAM, LPARAM);
@@ -19,6 +20,5 @@ public:
 	~CMPlugin();
 
 	void Load();
-	void Unload();
 	void Reload();
 };

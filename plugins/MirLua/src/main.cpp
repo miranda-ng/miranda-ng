@@ -25,10 +25,6 @@ PLUGININFOEX pluginInfoEx =
 
 };
 
-/*CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}*/
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
@@ -68,14 +64,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	nlu.szSettingsModule = MODULENAME;
 	hNetlib = Netlib_RegisterUser(&nlu);
 
-	Proto_RegisterModule(PROTOTYPE_FILTER, MODULENAME);
-
-	hRecvMessage = CreateHookableEvent(MODULENAME PSR_MESSAGE);
-	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, FilterRecvMessage);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	g_plugin.Load();
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	return 0;
 }
 
@@ -83,8 +75,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	g_plugin.Unload();
-
 	if (hNetlib) {
 		Netlib_CloseHandle(hNetlib);
 		hNetlib = nullptr;

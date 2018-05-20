@@ -47,6 +47,7 @@ class CMLuaScript;
 #define MODULENAME "MirLua"
 
 extern int hMLuaLangpack;
+extern PLUGININFOEX pluginInfoEx;
 
 extern HANDLE g_hCLibsFolder;
 extern HANDLE g_hScriptsFolder;

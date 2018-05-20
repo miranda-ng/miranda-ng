@@ -25,8 +25,7 @@ static void MakeSKINICONDESC(lua_State *L, SKINICONDESC &sid)
 	sid.defaultFile.w = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	if (sid.defaultFile.w == nullptr)
-	{
+	if (sid.defaultFile.w == nullptr) {
 		sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
 		GetModuleFileName(g_plugin.getInst(), sid.defaultFile.w, MAX_PATH);
 	}
@@ -52,8 +51,7 @@ static int lua_AddIcon(lua_State *L)
 {
 	SKINICONDESC sid = { };
 
-	if (lua_type(L, 1) == LUA_TSTRING)
-	{
+	if (lua_type(L, 1) == LUA_TSTRING) {
 		sid.flags = SIDF_ALL_UNICODE;
 		sid.pszName = mir_utf8decodeA(luaL_checkstring(L, 1));
 		sid.description.w = mir_utf8decodeW(luaL_checkstring(L, 2));
@@ -61,8 +59,7 @@ static int lua_AddIcon(lua_State *L)
 		sid.defaultFile.w = mir_utf8decodeW(lua_tostring(L, 4));
 		sid.hDefaultIcon = GetIcon(IDI_SCRIPT);
 
-		if (sid.defaultFile.w == nullptr)
-		{
+		if (sid.defaultFile.w == nullptr) {
 			sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
 			GetModuleFileName(g_plugin.getInst(), sid.defaultFile.w, MAX_PATH);
 		}
@@ -89,8 +86,7 @@ static int lua_GetIcon(lua_State *L)
 	bool big = luaM_toboolean(L, 2);
 
 	HICON hIcon = nullptr;
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TLIGHTUSERDATA:
 		hIcon = IcoLib_GetIconByHandle(lua_touserdata(L, 1), big);
 		break;
@@ -121,8 +117,7 @@ static int lua_GetIconHandle(lua_State *L)
 
 static int lua_RemoveIcon(lua_State *L)
 {
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TLIGHTUSERDATA:
 		IcoLib_RemoveIconByHandle(lua_touserdata(L, 1));
 		break;

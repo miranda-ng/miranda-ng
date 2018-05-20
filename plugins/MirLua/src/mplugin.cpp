@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-extern PLUGININFOEX pluginInfoEx;
-
 int hMLuaLangpack;
 
 CMPlugin::CMPlugin()
@@ -11,6 +9,8 @@ CMPlugin::CMPlugin()
 {
 	MUUID muidLast = MIID_LAST;
 	hMLuaLangpack = GetPluginLangId(muidLast, 0);
+
+	RegisterProtocol(PROTOTYPE_FILTER);
 
 	CreatePluginService(MS_LUA_CALL, &CMPlugin::Call);
 	CreatePluginService(MS_LUA_EXEC, &CMPlugin::Exec);

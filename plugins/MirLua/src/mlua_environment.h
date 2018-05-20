@@ -1,10 +1,8 @@
-#ifndef _LUA_ENVIRONMENT_H_
-#define _LUA_ENVIRONMENT_H_
+#pragma once
 
-class CMLuaEnvironment
+class CMLuaEnvironment : public CMPluginBase
 {
 private:
-	int m_id;
 	std::map<HANDLE, int> m_hookRefs;
 	std::map<HANDLE, int> m_serviceRefs;
 
@@ -19,8 +17,6 @@ public:
 	static CMLuaEnvironment* GetEnvironment(lua_State *L);
 	static int GetEnvironmentId(lua_State *L);
 
-	int GetId() const;
-
 	void AddHookRef(HANDLE h, int ref);
 	void ReleaseHookRef(HANDLE h);
 
@@ -29,5 +25,3 @@ public:
 
 	bool Load();
 };
-
-#endif //_LUA_ENVIRONMENT_H_
