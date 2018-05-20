@@ -87,8 +87,6 @@ static MUUID uids[_countof(iconList)] =
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	g_plugin.registerIcon(LPGEN("Profile manager"), iconList);
 
 	CreateServiceFunction(SRV_LOAD_PM, LoadPM);

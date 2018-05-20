@@ -62,8 +62,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	InitIcons();
 
 	NETLIBUSER nlu = {};

@@ -72,6 +72,8 @@ CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
 	m_szModuleName(moduleName),
 	m_pInfo(pInfo)
 {
+	mir_getLP(&pInfo, &m_hLang);
+
 	if (m_hInst != nullptr)
 		pluginListAddr.insert(this);
 }

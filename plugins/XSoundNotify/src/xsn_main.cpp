@@ -240,7 +240,6 @@ static int OnPreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 
 	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog);

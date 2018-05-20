@@ -153,8 +153,6 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 
 	CMenuItem mi;

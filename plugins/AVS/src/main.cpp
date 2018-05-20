@@ -364,8 +364,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	LoadACC();
 
 	hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);

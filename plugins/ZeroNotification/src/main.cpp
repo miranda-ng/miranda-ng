@@ -91,8 +91,6 @@ static INT_PTR NoSoundMenuCommand(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	if (!db_get_b(NULL, MODULENAME, "HideMenu", 1)) {
 		CreateServiceFunction(MODULENAME "/MenuCommand", NoSoundMenuCommand);
 

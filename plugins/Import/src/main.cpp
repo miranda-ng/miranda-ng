@@ -141,8 +141,6 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	CreateServiceFunction(MS_IMPORT_RUN, CustomImport);

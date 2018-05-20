@@ -275,7 +275,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 	hmiranda = GetModuleHandle(nullptr);
 

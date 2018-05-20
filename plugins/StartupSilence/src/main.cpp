@@ -445,8 +445,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	InitSettings();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

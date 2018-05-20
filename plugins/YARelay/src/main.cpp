@@ -221,8 +221,6 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	// Load plugin options from DB
 	hForwardFrom = (MCONTACT)db_get_dw(NULL, MODULENAME, "ForwardFrom", 0);
 	hForwardTo = (MCONTACT)db_get_dw(NULL, MODULENAME, "ForwardTo", 0);

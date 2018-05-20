@@ -163,7 +163,6 @@ void InitVar()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	// initialize global variables

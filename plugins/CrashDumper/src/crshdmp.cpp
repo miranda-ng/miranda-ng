@@ -368,8 +368,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	dtsubfldr = db_get_b(NULL, MODULENAME, "SubFolders", 1) != 0;
 	catchcrashes = db_get_b(NULL, MODULENAME, "CatchCrashes", 1) != 0;
 
-	mir_getLP(&pluginInfoEx);
-
 	profname = Utils_ReplaceVarsW(L"%miranda_profilename%.dat");
 	profpath = Utils_ReplaceVarsW(L"%miranda_userdata%");
 	if (catchcrashes && !needrestart)

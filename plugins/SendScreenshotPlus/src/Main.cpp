@@ -271,7 +271,6 @@ ATOM g_clsTargetHighlighter = 0;
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 
 	/// hook events

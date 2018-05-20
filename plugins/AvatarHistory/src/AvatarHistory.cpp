@@ -286,8 +286,6 @@ static INT_PTR CALLBACK FirstRunDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	CoInitialize(nullptr);
 
 	// Is first run?

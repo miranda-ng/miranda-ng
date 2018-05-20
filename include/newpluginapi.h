@@ -141,7 +141,7 @@ struct PLUGININFOEX
 // initializes the plugin-specific translation context  v0.10.0+
 // always returns 0
 
-EXTERN_C MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang = &hLangpack);
+EXTERN_C MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's class

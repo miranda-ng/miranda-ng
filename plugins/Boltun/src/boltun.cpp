@@ -520,8 +520,6 @@ static int MessagePrebuild(WPARAM hContact, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	GetModuleFileName(g_plugin.getInst(), tszPath, _countof(tszPath));
 	*(wcsrchr(tszPath, '\\') + 1) = '\0';
 

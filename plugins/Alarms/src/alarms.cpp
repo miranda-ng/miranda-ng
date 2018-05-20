@@ -152,7 +152,6 @@ static int MainDeInit(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	// ensure datetime picker is loaded

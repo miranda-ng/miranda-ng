@@ -335,7 +335,6 @@ INT_PTR CALLBACK EMPDlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 extern "C" int __declspec(dllexport) __cdecl Load()
 {
-	mir_getLP(&pluginInfoEx);
 	g_lan = new CMLan();
 
 	CreateProtoServiceFunction(PROTONAME, PS_GETCAPS, EMPGetCaps);

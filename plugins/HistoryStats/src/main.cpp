@@ -392,8 +392,6 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	// init COM, needed for GUID generation
 	CoInitialize(nullptr);
 

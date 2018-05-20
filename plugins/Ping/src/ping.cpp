@@ -125,7 +125,6 @@ static IconItem iconList[] =
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	use_raw_ping = false;

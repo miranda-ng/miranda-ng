@@ -138,7 +138,6 @@ static int MainUninit(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	// Hook event to load messages and show first one

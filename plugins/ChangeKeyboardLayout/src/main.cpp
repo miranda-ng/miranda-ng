@@ -52,7 +52,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	memset(hklLayouts, 0, sizeof(hklLayouts));
 	bLayNum = GetKeyboardLayoutList(20, hklLayouts);
 	if (bLayNum < 2)

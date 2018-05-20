@@ -313,9 +313,7 @@ EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 EXTERN_C int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
-	if (false == CModuleInfo::Verify())
+	if (!CModuleInfo::Verify())
 		return 1;
 
 	Quotes_IconsInit();

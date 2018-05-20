@@ -118,8 +118,6 @@ static int PreShutdown(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);

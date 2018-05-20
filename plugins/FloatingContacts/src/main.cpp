@@ -910,7 +910,6 @@ static int OnPreshutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	g_plugin.registerIconW(_A2W(MODULE), g_iconList);

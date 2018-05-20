@@ -304,7 +304,6 @@ void GaduProto::OnBuildProtoMenu()
 //
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);

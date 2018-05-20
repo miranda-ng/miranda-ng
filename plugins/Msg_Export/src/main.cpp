@@ -145,8 +145,6 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
 	nMaxLineWidth = db_get_w(NULL, MODULENAME, "MaxLineWidth", nMaxLineWidth);

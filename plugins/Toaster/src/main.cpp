@@ -55,8 +55,6 @@ static int OnPreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &OnPreShutdown);
 

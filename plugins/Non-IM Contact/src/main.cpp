@@ -123,7 +123,6 @@ IconItem iconList[] =
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	g_plugin.registerIcon(LPGEN("Non-IM Contact"), iconList);

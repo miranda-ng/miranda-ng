@@ -250,7 +250,6 @@ IconItem iconList[] =
 
 extern "C" int __declspec(dllexport)Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	CreateServiceFunction(MODULENAME"/ToggleEnable", ToggleEnable);

@@ -552,7 +552,6 @@ static INT_PTR ToggleIgnore(WPARAM hContact, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 	pci = Chat_GetInterface();
 

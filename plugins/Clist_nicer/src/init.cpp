@@ -116,8 +116,6 @@ static int systemModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) CListInitialise()
 {
-	mir_getLP(&pluginInfoEx);
-
 	pcli = Clist_GetInterface();
 	coreCli = *pcli;
 

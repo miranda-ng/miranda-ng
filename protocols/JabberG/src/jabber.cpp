@@ -160,7 +160,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
-	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 

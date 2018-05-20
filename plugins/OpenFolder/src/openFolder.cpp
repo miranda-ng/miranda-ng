@@ -86,8 +86,6 @@ HICON LoadIconExEx(const char* IcoLibName, int)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	CreateServiceFunction(MS_OPENFOLDER_OPEN, MenuCommand_OpenFolder);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

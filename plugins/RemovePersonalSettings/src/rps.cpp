@@ -594,8 +594,6 @@ static INT_PTR RemoveAllService(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	CMenuItem mi;
 	SET_UID(mi, 0x2f9f21df, 0xf33c, 0x4640, 0xb9, 0x63, 0xd3, 0x26, 0x8a, 0xb8, 0xb1, 0xf0);
 	mi.position = -0x7FFFFFFF;

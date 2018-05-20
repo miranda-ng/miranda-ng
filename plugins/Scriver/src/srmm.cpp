@@ -65,7 +65,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 extern "C" __declspec(dllexport) int Load(void)
 {
 	// set the memory manager
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	if (IsWinVer7Plus())

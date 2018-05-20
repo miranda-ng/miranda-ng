@@ -54,8 +54,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	wchar_t *tszFolder = Utils_ReplaceVarsW(L"%miranda_userdata%\\" DEFAULT_UPDATES_FOLDER);
 	mir_wstrncpy(tszRoot, tszFolder, _countof(tszRoot));
 

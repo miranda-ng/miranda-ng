@@ -113,7 +113,6 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int CListInitialise()
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	g_bSortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);

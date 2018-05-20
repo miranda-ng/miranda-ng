@@ -155,8 +155,6 @@ static int EventAdded(WPARAM wparam, LPARAM hDbEvent)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	CreateServiceFunction(MS_QC_SHOW_DIALOG, ShowDialog);
 
 	// hooks

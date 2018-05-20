@@ -53,8 +53,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SSL, M
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	return LoadSslModule();
 }
 

@@ -52,8 +52,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	InitServices();
 
 	db_set_b(NULL, MODULENAME, DB_SETTING_NEED_RESTART, 0);

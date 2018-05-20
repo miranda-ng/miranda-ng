@@ -117,8 +117,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	CreateServiceFunction(MS_TS_SWITCHLAYOUT, ServiceSwitch);
 	CreateServiceFunction(MS_TS_TRANSLITLAYOUT, ServiceTranslit);
 	CreateServiceFunction(MS_TS_INVERTCASE, ServiceInvert);

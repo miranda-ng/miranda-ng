@@ -220,8 +220,6 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UserOnlineSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, BuddyPounceOptInit);

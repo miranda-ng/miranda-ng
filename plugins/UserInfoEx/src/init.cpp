@@ -158,8 +158,6 @@ extern "C" int __declspec(dllexport) Unload(void)
  **/
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	// init common controls
 	INITCOMMONCONTROLSEX ccEx;
 	ccEx.dwSize = sizeof(ccEx);

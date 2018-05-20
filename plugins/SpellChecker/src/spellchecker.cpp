@@ -231,8 +231,6 @@ static IconItem iconList[] =
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	// icons
 	g_plugin.registerIcon(LPGEN("Spell Checker"), iconList);
 

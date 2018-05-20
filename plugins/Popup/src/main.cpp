@@ -327,7 +327,6 @@ static int OnShutdown(WPARAM, LPARAM)
 
 MIRAPI int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);

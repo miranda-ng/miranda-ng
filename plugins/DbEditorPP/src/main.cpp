@@ -177,8 +177,6 @@ static INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	hwnd2mainWindow = nullptr;
 
 	hRestore = NULL;

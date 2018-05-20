@@ -51,9 +51,6 @@ extern "C" __declspec(dllexport) int Load()
 {
 	DisableThreadLibraryCalls(g_plugin.getInst());
 
-	// get memoryManagerInterface address
-	mir_getLP(&pluginInfoEx);
-
 	// register plugin module
 	Proto_RegisterModule(PROTOTYPE_ENCRYPTION, szModuleName);
 

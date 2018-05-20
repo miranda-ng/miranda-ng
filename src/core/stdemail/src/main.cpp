@@ -58,8 +58,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SREMAI
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	LoadSendRecvEMailModule();
 	return 0;
 }

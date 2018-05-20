@@ -56,7 +56,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfoEx);
 	hiMailIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MAIL));
 	InitServices();
 	HookEvents();

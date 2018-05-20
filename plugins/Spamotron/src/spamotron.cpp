@@ -509,8 +509,6 @@ void RemoveNotOnListSettings()
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	srand((unsigned)time(0));
 	bayesdb = nullptr;
 	if (_getOptB("BayesEnabled", defaultBayesEnabled)) {

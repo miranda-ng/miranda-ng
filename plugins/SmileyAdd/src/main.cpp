@@ -93,8 +93,6 @@ static int MirandaShutdown(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 		ReportError(TranslateT("Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory"));
 		return 1;

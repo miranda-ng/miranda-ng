@@ -58,8 +58,6 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	DEBUGOUTA("LOAD MIROTR");
 
-	mir_getLP(&pluginInfoEx);
-
 	InitIcons();
 
 	OTRL_INIT;

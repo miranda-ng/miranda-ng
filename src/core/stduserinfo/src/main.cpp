@@ -58,8 +58,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIUSER
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	LoadUserInfoModule();
 	return 0;
 }

@@ -70,8 +70,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	g_plugin.registerIcon("Console", iconList);
 
 	InitCommonControls();

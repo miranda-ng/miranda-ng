@@ -355,7 +355,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pci = Chat_GetInterface();
 
 	g_plugin.registerIcon(LPGEN("Paste It"), iconList);

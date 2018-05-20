@@ -974,7 +974,6 @@ void stop_threads()
 extern "C" int __declspec(dllexport) Load()
 {
 	g_firstrun = true;
-	mir_getLP(&pluginInfoEx);
 
 	wchar_t buf[MAX_PATH + 1];
 	mir_wstrcpy(buf, L".");

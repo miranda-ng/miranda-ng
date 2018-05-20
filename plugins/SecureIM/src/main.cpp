@@ -281,8 +281,6 @@ static int onShutdown(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int __cdecl Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	INITCOMMONCONTROLSEX icce = { sizeof(icce), ICC_LISTVIEW_CLASSES | ICC_TAB_CLASSES };
 	InitCommonControlsEx(&icce);
 

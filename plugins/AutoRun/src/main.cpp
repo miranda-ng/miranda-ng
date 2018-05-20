@@ -122,7 +122,6 @@ static int AutorunOptInitialise(WPARAM wParam, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	HookEvent(ME_OPT_INITIALISE, AutorunOptInitialise);
 	return 0;
 }

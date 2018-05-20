@@ -142,7 +142,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
 	HookEvent(ME_OPT_INITIALISE, HookedOptions);
 
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	OptionsInit(&pluginOptions);

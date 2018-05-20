@@ -40,8 +40,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
 

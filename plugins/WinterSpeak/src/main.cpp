@@ -107,8 +107,6 @@ int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	if (!g_speak_config)
 	{
 		g_speak_config = new SpeakConfig(g_plugin.getInst());

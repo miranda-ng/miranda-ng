@@ -62,12 +62,9 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	INITCOMMONCONTROLSEX icex;
-
 	icex.dwSize = sizeof(icex);
 	icex.dwICC = ICC_DATE_CLASSES;
-
 	InitCommonControlsEx(&icex);
 
 	if ((hUxTheme = LoadLibraryA("uxtheme.dll")) != nullptr)

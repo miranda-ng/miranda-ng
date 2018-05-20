@@ -75,8 +75,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST,
 
 extern "C" __declspec(dllexport) int CListInitialise()
 {
-	mir_getLP(&pluginInfoEx);
-
 	g_dwMainThreadID = GetCurrentThreadId();
 	g_hMirApp = GetModuleHandleA("mir_app.mir");
 

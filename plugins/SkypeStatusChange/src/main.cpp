@@ -273,8 +273,6 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	g_MsgIDSkypeControlAPIAttach = ::RegisterWindowMessage(L"SkypeControlAPIAttach");
 	g_MsgIDSkypeControlAPIDiscover = ::RegisterWindowMessage(L"SkypeControlAPIDiscover");
 	if ((0 == g_MsgIDSkypeControlAPIAttach) || (0 == g_MsgIDSkypeControlAPIDiscover))

@@ -159,8 +159,6 @@ STDAPI DllUnregisterServer()
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	InvokeThreadServer();
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
 	DllRegisterServer();

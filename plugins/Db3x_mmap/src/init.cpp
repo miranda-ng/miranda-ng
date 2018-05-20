@@ -81,9 +81,6 @@ static int grokHeader(const wchar_t *profile)
 
 static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 {
-	// set the memory, lists & UTF8 manager
-	mir_getLP(&pluginInfoEx);
-
 	////////////////////////////////////////////////////////////////////////////////////////
 	// if not read only, convert the old profile to libmdbx
 	if (!bReadOnly) {

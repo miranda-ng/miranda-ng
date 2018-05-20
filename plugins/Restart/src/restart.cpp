@@ -48,8 +48,6 @@ static IconItem iconList[] =
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	// IcoLib support
 	g_plugin.registerIcon(LPGEN("Restart Plugin"), iconList);
 

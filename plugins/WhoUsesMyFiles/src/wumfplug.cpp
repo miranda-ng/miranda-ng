@@ -224,8 +224,6 @@ int InitTopToolbar(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
 	LoadOptions();
 
 	CreateServiceFunction(MS_WUMF_SWITCHPOPUP, WumfMenuCommand);

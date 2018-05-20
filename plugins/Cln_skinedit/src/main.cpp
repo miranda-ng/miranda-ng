@@ -901,7 +901,6 @@ static INT_PTR SkinEdit_Invoke(WPARAM, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	CreateServiceFunction(MS_CLNSE_INVOKE, SkinEdit_Invoke);
 	CreateServiceFunction(MS_CLNSE_FILLBYCURRENTSEL, SkinEdit_FillByCurrentSel);
 	return 0;

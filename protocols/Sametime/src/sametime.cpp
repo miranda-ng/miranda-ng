@@ -238,7 +238,6 @@ void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	return 0;
 }
 

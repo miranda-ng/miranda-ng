@@ -68,7 +68,6 @@ static int ShutdownModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	INITCOMMONCONTROLSEX icc;

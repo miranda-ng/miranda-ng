@@ -1058,7 +1058,6 @@ static int PluginInit(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	g_plugin.registerIcon(LPGEN("MenuItemEx"), iconList);

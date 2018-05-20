@@ -49,10 +49,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP(&pluginInfoEx);
-
-	//plugin inits: PLACE IT ONLY AFTER THIS LINE
-
 	CyrTranslit::MirandaContact::initialize();
 	return 0;
 }

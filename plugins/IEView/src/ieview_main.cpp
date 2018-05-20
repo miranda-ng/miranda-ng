@@ -75,7 +75,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	workingDirUtf8 = mir_utf8encodeW(workingDir);
 	delete[] workingDir;
 
-	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_OPT_INITIALISE, IEViewOptInit);

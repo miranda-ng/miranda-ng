@@ -136,8 +136,6 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	CreateServiceFunction("/RemoveTmp", (MIRANDASERVICE)RemoveTmp);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 	HookEvent(ME_DB_EVENT_ADDED, OnDbEventAdded);

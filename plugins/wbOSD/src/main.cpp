@@ -46,8 +46,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	logmsg("Load");
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	return 0;

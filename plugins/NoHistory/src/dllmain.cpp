@@ -269,8 +269,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec (dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
-
 	// Ensure that the common control DLL is loaded (for listview)
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_LISTVIEW_CLASSES };
 	InitCommonControlsEx(&icex); 	

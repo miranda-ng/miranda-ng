@@ -99,9 +99,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	code_HideShow = db_get_dw(0, MODULENAME, "HideShow", 0);
 	code_ReadMsg = db_get_dw(0, MODULENAME, "ReadMsg", 0);
 
-	// установка кода локализации - макрос mir_getLP(PlgInfoEx)
-	mir_getLP(&pluginInfoEx);
-
 	// Интерфейс контактлиста - макрос заполняет CLIST_INTERFACE *pcli;
 	pcli = Clist_GetInterface();
 

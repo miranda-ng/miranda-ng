@@ -82,9 +82,6 @@ static int grokHeader(const TCHAR *profile)
 // returns 0 if all the APIs are injected otherwise, 1
 static MDatabaseCommon* loadDatabase(const TCHAR *profile, BOOL bReadOnly)
 {
-	// set the memory, lists & UTF8 manager
-	mir_getLP(&pluginInfoEx);
-
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, (bReadOnly) ? DBMODE_READONLY : 0));
 	if (db->Map() != ERROR_SUCCESS)
 		return nullptr;

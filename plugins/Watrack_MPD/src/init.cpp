@@ -72,10 +72,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	mir_getLP(&pluginInfoEx);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, WaMpdOptInit);
-
 	return 0;
 }
 
