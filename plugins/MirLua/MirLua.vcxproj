@@ -39,6 +39,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\*.h" />
+    <ClInclude Include="src\Modules\*.h" />
+    <ClCompile Include="src\Modules\*.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <None Include="res\*.ico" />
   </ItemGroup>
 </Project>

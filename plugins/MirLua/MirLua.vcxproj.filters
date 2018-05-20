@@ -1,4 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files\Modules">
+      <UniqueIdentifier>{A6D8C279-52F8-4F14-960D-C95F06EB80C6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Modules">
+      <UniqueIdentifier>{B44E7536-934D-4B31-865F-FDE5D0C1ED32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\*.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\*.h">
+      <Filter>Header Files\Services</Filter>
+    </ClInclude>
+    <ClCompile Include="src\*.cpp;src\*.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\*.cpp">
+      <Filter>Source Files\Services</Filter>
+    </ClCompile>
+    <ResourceCompile Include="res\*.rc">
+       <Filter>Resource Files</Filter>
+     </ResourceCompile>
+     <None Include="res\*.ico;res\*.bmp;res\*.cur">
+       <Filter>Resource Files</Filter>
+     </None>
+  </ItemGroup>
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
 </Project>

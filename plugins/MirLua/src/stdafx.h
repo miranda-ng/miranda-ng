@@ -10,8 +10,10 @@
 #include <m_core.h>
 #include <m_utils.h>
 #include <m_langpack.h>
+#include <m_database.h>
 #include <m_options.h>
 #include <m_netlib.h>
+#include <m_genmenu.h>
 #include <m_http.h>
 #include <m_clist.h>
 #include <m_hotkeys.h>
@@ -35,23 +37,17 @@
 
 class CMLuaScript;
 
-#include "mlua.h"
-#include "mlua_environment.h"
-#include "mlua_script.h"
-#include "mlua_function_loader.h"
-#include "mlua_module_loader.h"
-#include "mlua_script_loader.h"
-#include "mlua_options.h"
-#include "mlua_metatable.h"
+#include "mplugin.h"
+#include "modules.h"
+#include "environment.h"
+#include "script.h"
+#include "function_loader.h"
+#include "module_loader.h"
+#include "script_loader.h"
+#include "options.h"
+#include "metatable.h"
 
 #define MODULENAME "MirLua"
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-};
-
-extern CMLua *g_mLua;
 
 extern int hMLuaLangpack;
 
@@ -65,43 +61,6 @@ extern HANDLE g_hScriptsFolder;
 
 /* modules */
 
-#define MLUA_CORE	"m_core"
-LUAMOD_API int (luaopen_m_core)(lua_State *L);
-
-#define MLUA_CHAT	"m_chat"
-LUAMOD_API int (luaopen_m_chat)(lua_State *L);
-
-#define MLUA_CLIST	"m_clist"
-LUAMOD_API int (luaopen_m_clist)(lua_State *L);
-
-#include "m_database.h"
-
-#define MLUA_ICOLIB	"m_icolib"
-LUAMOD_API int (luaopen_m_icolib)(lua_State *L);
-
-#include "m_json.h"
-
-#include "m_genmenu.h"
-
-#define MLUA_HTTP	"m_http"
-LUAMOD_API int (luaopen_m_http)(lua_State *L);
-
-#define MLUA_HOTKEYS	"m_hotkeys"
-LUAMOD_API int (luaopen_m_hotkeys)(lua_State *L);
-
-#define MLUA_MESSAGE	"m_message"
-LUAMOD_API int (luaopen_m_message)(lua_State *L);
-
-#define MLUA_OPTIONS	"m_options"
-LUAMOD_API int (luaopen_m_options)(lua_State *L);
-
-#include "m_protocols.h"
-
-#define MLUA_SOUNDS	"m_sounds"
-LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
-
-#define MLUA_SRMM	"m_srmm"
-LUAMOD_API int (luaopen_m_srmm)(lua_State *L);
 
 /* utils */
 

@@ -1,4 +1,6 @@
-#include  "stdafx.h"
+#include "../stdafx.h"
+
+#define MT_JSON "JSON"
 
 static void lua2json(lua_State *L, JSONNode &node)
 {

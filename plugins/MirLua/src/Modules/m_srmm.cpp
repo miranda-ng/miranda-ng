@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 
 #define MT_BBBUTTON "BBButton"
 

@@ -1,5 +1,4 @@
-#ifndef _LUA_SCRIPT_H_
-#define _LUA_SCRIPT_H_
+#pragma once
 
 class CMLuaScript : public CMLuaEnvironment
 {
@@ -15,8 +14,7 @@ private:
 	Status status;
 	int unloadRef;
 
-	char *moduleName;
-	wchar_t *fileName;
+	const wchar_t *fileName;
 	wchar_t filePath[MAX_PATH];
 
 	void Unload();
@@ -38,5 +36,3 @@ public:
 	bool Load();
 	bool Reload();
 };
-
-#endif //_LUA_SCRIPT_H_
