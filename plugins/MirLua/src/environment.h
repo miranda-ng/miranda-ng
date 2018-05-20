@@ -1,17 +1,15 @@
-#ifndef _LUA_ENVIRONMENT_H_
-#define _LUA_ENVIRONMENT_H_
+#pragma once
 
-class CMLuaEnvironment
+class CMLuaEnvironment : public CMPluginBase
 {
 private:
-	int m_id;
 	std::map<HANDLE, int> m_hookRefs;
 	std::map<HANDLE, int> m_serviceRefs;
 
 	void CreateEnvironmentTable();
 
 public:
-	lua_State *L;
+	lua_State * L;
 
 	CMLuaEnvironment(lua_State *L);
 	virtual ~CMLuaEnvironment();
@@ -19,15 +17,11 @@ public:
 	static CMLuaEnvironment* GetEnvironment(lua_State *L);
 	static int GetEnvironmentId(lua_State *L);
 
-	int GetId() const;
+	HANDLE HookEvent(const char *name, int ref);
+	int UnhookEvent(HANDLE hHook);
 
-	void AddHookRef(HANDLE h, int ref);
-	void ReleaseHookRef(HANDLE h);
-
-	void AddServiceRef(HANDLE h, int ref);
-	void ReleaseServiceRef(HANDLE h);
+	HANDLE CreateServiceFunction(const char *name, int ref);
+	void DestroyServiceFunction(HANDLE hService);
 
 	bool Load();
 };
-
-#endif //_LUA_ENVIRONMENT_H_

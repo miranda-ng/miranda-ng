@@ -46,33 +46,78 @@ int CMLuaEnvironment::GetEnvironmentId(lua_State *L)
 		: hMLuaLangpack;
 }
 
-int CMLuaEnvironment::GetId() const
+static int HookEventEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	return m_id;
+	CMLuaEnvironment *env = (CMLuaEnvironment*)obj;
+
+	int ref = param;
+	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
+
+	if (wParam)
+		lua_pushlightuserdata(env->L, (void*)wParam);
+	else
+		lua_pushnil(env->L);
+
+	if (lParam)
+		lua_pushlightuserdata(env->L, (void*)lParam);
+	else
+		lua_pushnil(env->L);
+
+	luaM_pcall(env->L, 2, 1);
+
+	return lua_tointeger(env->L, -1);
 }
 
-void CMLuaEnvironment::AddHookRef(HANDLE h, int ref)
+HANDLE CMLuaEnvironment::HookEvent(const char *name, int ref)
 {
-	m_hookRefs[h] = ref;
+	HANDLE hHook = HookEventObjParam(name, HookEventEnvParam, this, ref);
+	if (hHook)
+		m_hookRefs[hHook] = ref;
+	return hHook;
 }
 
-void CMLuaEnvironment::ReleaseHookRef(HANDLE h)
+int CMLuaEnvironment::UnhookEvent(HANDLE hEvent)
 {
-	auto it = m_hookRefs.find(h);
-	if (it != m_hookRefs.end())
-		luaL_unref(L, LUA_REGISTRYINDEX, it->second);
+	int res = ::UnhookEvent(hEvent);
+	if (res) {
+		auto it = m_hookRefs.find(hEvent);
+		if (it != m_hookRefs.end())
+			luaL_unref(L, LUA_REGISTRYINDEX, it->second);
+	}
+	return res;
 }
 
-void CMLuaEnvironment::AddServiceRef(HANDLE h, int ref)
+static INT_PTR CreateServiceFunctionEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	m_serviceRefs[h] = ref;
+	CMLuaEnvironment *env = (CMLuaEnvironment*)obj;
+
+	int ref = param;
+	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
+
+	lua_pushlightuserdata(env->L, (void*)wParam);
+	lua_pushlightuserdata(env->L, (void*)lParam);
+	luaM_pcall(env->L, 2, 1);
+
+	INT_PTR res = lua_tointeger(env->L, 1);
+	lua_pushinteger(env->L, res);
+
+	return res;
 }
 
-void CMLuaEnvironment::ReleaseServiceRef(HANDLE h)
+HANDLE CMLuaEnvironment::CreateServiceFunction(const char *name, int ref)
 {
-	auto it = m_serviceRefs.find(h);
+	HANDLE hService = CreateServiceFunctionObjParam(name, CreateServiceFunctionEnvParam, this, ref);
+	if (hService)
+		m_serviceRefs[hService] = ref;
+	return hService;
+}
+
+void CMLuaEnvironment::DestroyServiceFunction(HANDLE hService)
+{
+	auto it = m_serviceRefs.find(hService);
 	if (it != m_serviceRefs.end())
 		luaL_unref(L, LUA_REGISTRYINDEX, it->second);
+	::DestroyServiceFunction(hService);
 }
 
 void CMLuaEnvironment::CreateEnvironmentTable()

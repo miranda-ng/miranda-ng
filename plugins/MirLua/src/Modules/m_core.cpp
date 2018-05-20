@@ -13,7 +13,7 @@ static int core_CreateHookableEvent(lua_State *L)
 	return 1;
 }
 
-int HookEventLuaParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+static int HookEventLuaParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
 	lua_State *L = (lua_State*)obj;
 
@@ -35,28 +35,6 @@ int HookEventLuaParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 	return lua_tointeger(L, -1);
 }
 
-int HookEventEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
-{
-	CMLuaEnvironment *env = (CMLuaEnvironment*)obj;
-
-	int ref = param;
-	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
-
-	if (wParam)
-		lua_pushlightuserdata(env->L, (void*)wParam);
-	else
-		lua_pushnil(env->L);
-
-	if (lParam)
-		lua_pushlightuserdata(env->L, (void*)lParam);
-	else
-		lua_pushnil(env->L);
-
-	luaM_pcall(env->L, 2, 1);
-
-	return lua_tointeger(env->L, -1);
-}
-
 static int core_HookEvent(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
@@ -65,20 +43,14 @@ static int core_HookEvent(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = nullptr;
 	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
-	if (env) {
-		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
-		if (res)
-			env->AddHookRef(res, ref);
-	}
-	else
-		res = HookEventObjParam(name, HookEventLuaParam, L, ref);
+	HANDLE res = env != nullptr
+		? env->HookEvent(name, ref)
+		: HookEventObjParam(name, HookEventLuaParam, L, ref);
 
 	if (res == nullptr) {
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
 		lua_pushnil(L);
-
 		return 1;
 	}
 
@@ -95,15 +67,10 @@ static int core_HookTemporaryEvent(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = nullptr;
 	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
-	if (env) {
-		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
-		if (res)
-			env->AddHookRef(res, ref);
-	}
-	else
-		res = HookEventObjParam(name, HookEventLuaParam, L, ref);
+	HANDLE res = env != nullptr
+		? env->HookEvent(name, ref)
+		: HookEventObjParam(name, HookEventLuaParam, L, ref);
 
 	// event does not exists, call hook immideatelly
 	if (res == nullptr) {
@@ -124,12 +91,10 @@ static int core_UnhookEvent(lua_State *L)
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hEvent = lua_touserdata(L, 1);
 
-	int res = UnhookEvent(hEvent);
-	if (!res) {
-		CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
-		if (env)
-			env->ReleaseHookRef(hEvent);
-	}
+	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
+	int res = env != nullptr
+		? env->UnhookEvent(hEvent)
+		: UnhookEvent(hEvent);
 	lua_pushboolean(L, !res);
 
 	return 1;
@@ -167,23 +132,6 @@ INT_PTR CreateServiceFunctionLuaStateParam(void *obj, WPARAM wParam, LPARAM lPar
 	return res;
 }
 
-INT_PTR CreateServiceFunctionEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
-{
-	CMLuaEnvironment *env = (CMLuaEnvironment*)obj;
-
-	int ref = param;
-	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
-
-	lua_pushlightuserdata(env->L, (void*)wParam);
-	lua_pushlightuserdata(env->L, (void*)lParam);
-	luaM_pcall(env->L, 2, 1);
-
-	INT_PTR res = lua_tointeger(env->L, 1);
-	lua_pushinteger(env->L, res);
-
-	return res;
-}
-
 static int core_CreateServiceFunction(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
@@ -192,15 +140,10 @@ static int core_CreateServiceFunction(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = nullptr;
 	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
-	if (env) {
-		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionEnvParam, env, ref);
-		if (res)
-			env->AddServiceRef(res, ref);
-	}
-	else
-		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionLuaStateParam, L, ref);
+	HANDLE res = env != nullptr
+		? env->CreateServiceFunction(name, ref)
+		: CreateServiceFunctionObjParam(name, CreateServiceFunctionLuaStateParam, L, ref);
 
 	if (!res) {
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
@@ -242,9 +185,9 @@ static int core_DestroyServiceFunction(lua_State *L)
 
 	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
 	if (env)
-		env->ReleaseHookRef(hService);
-
-	DestroyServiceFunction(hService);
+		env->DestroyServiceFunction(hService);
+	else
+		DestroyServiceFunction(hService);
 
 	return 0;
 }
@@ -255,7 +198,7 @@ static int core_IsPluginLoaded(lua_State *L)
 {
 	const char *value = lua_tostring(L, 1);
 
-	MUUID uuid = { 0 };
+	MUUID uuid = { };
 	bool res = UuidFromStringA((RPC_CSTR)value, (UUID*)&uuid) == RPC_S_OK;
 	if (res)
 		res = IsPluginLoaded(uuid) > 0;
@@ -266,8 +209,7 @@ static int core_IsPluginLoaded(lua_State *L)
 
 static int core_Free(lua_State *L)
 {
-	if (lua_islightuserdata(L, 1))
-	{
+	if (lua_islightuserdata(L, 1)) {
 		void *ptr = lua_touserdata(L, 1);
 		mir_free(ptr);
 	}
