@@ -430,12 +430,12 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("List");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
 	odp.szTitle.a = LPGEN("List background");
 	odp.pfnDlgProc = DlgProcClcBkgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

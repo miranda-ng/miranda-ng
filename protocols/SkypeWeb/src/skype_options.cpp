@@ -78,7 +78,7 @@ int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = CSkypeOptionsMain::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

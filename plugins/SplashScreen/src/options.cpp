@@ -342,6 +342,6 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.szTitle.a = LPGEN("Splash Screen");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

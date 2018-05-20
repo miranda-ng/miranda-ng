@@ -920,7 +920,7 @@ static int AssocListOptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Associations"); // autotranslated
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = AssocListOptDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

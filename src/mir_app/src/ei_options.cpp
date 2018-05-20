@@ -460,6 +460,6 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CExtraIconOptsDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

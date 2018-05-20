@@ -63,6 +63,6 @@ INT OptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = modFullname;
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

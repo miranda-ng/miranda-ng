@@ -494,14 +494,14 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.szGroup.w = LPGENW("Contacts");
 	odp.szTitle.w = LPGENW("Last seen");
 	odp.pfnDlgProc = OptsSettingsDlgProc;
-	Options_AddPage(wparam, &odp);
+	g_plugin.addOptions(wparam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
 		odp.szGroup.w = LPGENW("Popups");
 		odp.szTitle.w = LPGENW("Last seen");
 		odp.pfnDlgProc = OptsPopupsDlgProc;
-		Options_AddPage(wparam, &odp);
+		g_plugin.addOptions(wparam, &odp);
 	}
 	return 0;
 }

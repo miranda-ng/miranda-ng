@@ -531,7 +531,7 @@ int GenMenuOptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CGenMenuOptionsPage();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	
 	return ProtocolOrderOptInit(wParam, 0);
 }

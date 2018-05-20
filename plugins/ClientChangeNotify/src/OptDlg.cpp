@@ -169,7 +169,7 @@ int OptionsDlgInit(WPARAM wParam, LPARAM)
 		optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
 		optDi.hInstance = g_plugin.getInst();
 		optDi.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wParam, &optDi);
+		g_plugin.addOptions(wParam, &optDi);
 	}
 	return 0;
 }

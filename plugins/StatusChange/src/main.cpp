@@ -331,7 +331,7 @@ int StatusChangeOptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Status");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcStatusChangeOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

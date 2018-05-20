@@ -168,7 +168,7 @@ int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = OmegleOptionsProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

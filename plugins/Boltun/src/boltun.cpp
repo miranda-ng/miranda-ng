@@ -446,12 +446,12 @@ static int MessageOptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = MainDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.szTab.a = TAB_GENERAL;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pfnDlgProc = EngineDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ENGINE);
 	odp.szTab.a = TAB_ENGINE;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

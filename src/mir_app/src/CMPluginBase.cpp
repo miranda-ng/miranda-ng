@@ -97,9 +97,26 @@ void CMPluginBase::tryOpenLog()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CMPluginBase::addOptions(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp)
+{
+	return ::Options_AddPage(wParam, odp, m_hLang);
+}
+
+void CMPluginBase::openOptions(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab)
+{
+	::Options_Open(pszGroup, pszPage, pszTab, m_hLang);
+}
+
+void CMPluginBase::openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab)
+{
+	::Options_OpenPage(pszGroup, pszPage, pszTab, m_hLang);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CMPluginBase::addUserInfo(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 {
-	odp->langId = hLangpack;
+	odp->langId = m_hLang;
 	return CallService("UserInfo/AddPage", wParam, (LPARAM)odp);
 }
 

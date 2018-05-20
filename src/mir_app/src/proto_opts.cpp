@@ -507,7 +507,7 @@ public:
 		pshn.hdr.hwndFrom = m_hwnd;
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
-		Options_Open(nullptr, L"Network");
+		g_plugin.openOptions(nullptr, L"Network");
 	}
 
 	void OnOptions(CCtrlButton*)
@@ -516,7 +516,7 @@ public:
 		if (idx != -1) {
 			PROTOACCOUNT *pa = (PROTOACCOUNT*)m_accList.GetItemData(idx);
 			if (pa->bOldProto)
-				Options_Open(L"Network", _A2T(pa->szModuleName));
+				g_plugin.openOptions(L"Network", _A2T(pa->szModuleName));
 			else
 				OpenAccountOptions(pa);
 		}

@@ -1027,22 +1027,22 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	optDi.pfnDlgProc = MessagesOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	optDi.szTab.a = LPGEN("Status messages");
-	Options_AddPage(wParam, &optDi);
+	g_plugin.addOptions(wParam, &optDi);
 
 	optDi.pfnDlgProc = MoreOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MOREOPTDIALOG);
 	optDi.szTab.a = LPGEN("Main options");
-	Options_AddPage(wParam, &optDi);
+	g_plugin.addOptions(wParam, &optDi);
 
 	optDi.pfnDlgProc = AutoreplyOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_AUTOREPLY);
 	optDi.szTab.a = LPGEN("Autoreply");
-	Options_AddPage(wParam, &optDi);
+	g_plugin.addOptions(wParam, &optDi);
 
 	optDi.pfnDlgProc = ContactsOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACTSOPTDLG);
 	optDi.szTab.a = LPGEN("Contacts");
-	Options_AddPage(wParam, &optDi);
+	g_plugin.addOptions(wParam, &optDi);
 	return 0;
 }
 

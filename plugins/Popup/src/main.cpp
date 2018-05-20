@@ -71,33 +71,33 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = DlgProcPopupGeneral;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP_GENERAL);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Classes");
 	odp.pfnDlgProc = DlgProcOptsClasses;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFICATIONS);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Actions");
 	odp.pfnDlgProc = DlgProcPopupActions;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ACTIONS);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcContactOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Advanced");
 	odp.pfnDlgProc = DlgProcPopupAdvOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP_ADVANCED);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szGroup.a = LPGEN("Skins");
 	odp.szTab.a = LPGEN(MODULNAME_PLU);
 	odp.pfnDlgProc = DlgProcPopSkinsOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN2);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

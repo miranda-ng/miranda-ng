@@ -136,7 +136,7 @@ int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM)
 		odp.szGroup.w = LPGENW("Popups");
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		odp.pfnDlgProc = MraPopupDlgProcOpts;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

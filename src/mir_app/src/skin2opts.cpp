@@ -940,6 +940,6 @@ int SkinOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -180000000;
 	odp.pDialog = new CIcoLibOptsDlg();
 	odp.szTitle.a = LPGEN("Icons");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

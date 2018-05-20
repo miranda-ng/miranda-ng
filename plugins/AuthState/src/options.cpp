@@ -26,6 +26,6 @@ int onOptInitialise(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Auth state");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new COptionsDialog;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

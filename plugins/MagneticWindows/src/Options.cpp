@@ -84,7 +84,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 	Opt.szGroup.a = LPGEN("Customize");
 	Opt.szTitle.a = LPGEN("Magnetic Windows");
 	Opt.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &Opt);
+	g_plugin.addOptions(wParam, &Opt);
 	return 0;
 }
 

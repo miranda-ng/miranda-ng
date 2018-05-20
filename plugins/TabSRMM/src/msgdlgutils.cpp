@@ -386,7 +386,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 	else if (menuId == MENU_LOGMENU) {
 		switch (selection) {
 		case ID_MESSAGELOGSETTINGS_GLOBAL:
-			Options_Open(nullptr, L"Message sessions", L"Message log");
+			g_plugin.openOptions(nullptr, L"Message sessions", L"Message log");
 			return 1;
 
 		case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:

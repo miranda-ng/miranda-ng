@@ -425,25 +425,25 @@ int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = FBOptionsProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.position = 271829;
 	odp.szTab.w = LPGENW("Events");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_EVENTS);
 	odp.pfnDlgProc = FBOptionsEventsProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.position = 271830;
 	odp.szTab.w = LPGENW("Statuses");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_STATUSES);
 	odp.pfnDlgProc = FBOptionsStatusesProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.position = 271831;
 	odp.szTab.w = LPGENW("Messaging");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MESSAGING);
 	odp.pfnDlgProc = FBOptionsMessagingProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

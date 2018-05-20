@@ -1181,22 +1181,22 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
 	odp.pfnDlgProc = DlgProcGeneralOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Status logging");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOG);
 	odp.pfnDlgProc = DlgProcLogOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Extra status logging");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XLOG);
 	odp.pfnDlgProc = DlgProcXLogOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Filtering");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILTERS);
 	odp.pfnDlgProc = DlgProcFiltering;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.szTitle.a = LPGEN("Status Notify");
@@ -1204,17 +1204,17 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 		odp.szTab.a = LPGEN("General");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProcPopupOpts;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 
 		odp.szTab.a = LPGEN("Extra status");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XPOPUP);
 		odp.pfnDlgProc = DlgProcXPopupOpts;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 
 		odp.szTab.a = LPGEN("Status message");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMPOPUP);
 		odp.pfnDlgProc = DlgProcSMPopupOpts;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

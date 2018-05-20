@@ -417,6 +417,6 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.szTitle.w = LPGENW("OSD");
 	odp.pfnDlgProc = OptDlgProc;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	Options_AddPage(wparam, &odp);
+	g_plugin.addOptions(wparam, &odp);
 	return 0;
 }

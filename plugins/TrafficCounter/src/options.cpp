@@ -351,13 +351,13 @@ int TrafficCounterOptInitialise(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Traffic counter");
 	odp.pfnDlgProc = DlgProcTCOptions;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// Statistics options page
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATS);
 	odp.szTab.a = LPGEN("Statistics");
 	odp.pfnDlgProc = DlgProcOptStatistics;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// Popups option page
 	if (bPopupExists) {
@@ -366,7 +366,7 @@ int TrafficCounterOptInitialise(WPARAM wParam, LPARAM)
 		odp.szTitle.a = LPGEN("Traffic counter");
 		odp.pfnDlgProc = DlgProcPopupsTraffic;
 		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

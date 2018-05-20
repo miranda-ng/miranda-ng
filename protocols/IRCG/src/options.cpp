@@ -1634,19 +1634,19 @@ int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 
 	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new CConnectPrefsDlg(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("DCC and CTCP");
 	odp.pDialog = new CCtcpPrefsDlg(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.pDialog = new COtherPrefsDlg(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Ignore");
 	odp.pDialog = new CIgnorePrefsDlg(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

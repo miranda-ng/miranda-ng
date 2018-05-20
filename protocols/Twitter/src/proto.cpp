@@ -249,13 +249,13 @@ int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = options_proc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.szTab.w = LPGENW("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc = popup_options_proc;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

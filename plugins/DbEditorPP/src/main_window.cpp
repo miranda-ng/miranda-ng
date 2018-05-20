@@ -506,7 +506,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			refreshTree(1);
 			break;
 		case MENU_OPEN_OPTIONS:
-			Options_Open(L"Database", _A2W(modFullname));
+			g_plugin.openOptions(L"Database", _A2W(modFullname));
 			break;
 		}
 		return TRUE; // case WM_COMMAND

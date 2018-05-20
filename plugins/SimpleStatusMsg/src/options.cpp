@@ -1534,7 +1534,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 		odp.szGroup.a = LPGEN("Status");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUS);
 		odp.pfnDlgProc = DlgStatusOptionsProc;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 
 	if (accounts->statusMsgCount == 0)
@@ -1546,16 +1546,16 @@ int InitOptions(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = DlgOptionsProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Variables");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VARIABLES);
 	odp.pfnDlgProc = DlgVariablesOptionsProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgAdvancedOptionsProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

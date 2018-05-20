@@ -110,6 +110,6 @@ int onOptInitialise(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_IGNORE_OPT);
 	odp.szTitle.a = LPGEN("Ignore State");
 	odp.pfnDlgProc = DlgProcOptions;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

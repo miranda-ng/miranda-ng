@@ -715,17 +715,17 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Protocols");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PICTS);
 	odp.pfnDlgProc = DlgProcOptionsProtos;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Contact avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_AVATARS);
 	odp.pfnDlgProc = DlgProcOptionsAvatars;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Own avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_OWN);
 	odp.pfnDlgProc = DlgProcOptionsOwn;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

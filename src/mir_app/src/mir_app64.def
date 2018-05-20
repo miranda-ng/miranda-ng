@@ -596,3 +596,6 @@ GetPluginByLangId @624
 GetInstByAddress @625
 GetPluginByInstance @626
 ?addUserInfo@CMPluginBase@@QEAAH_KPEAUOPTIONSDIALOGPAGE@@@Z @627 NONAME
+?addOptions@CMPluginBase@@QEAAH_KPEAUOPTIONSDIALOGPAGE@@@Z @628 NONAME
+?openOptions@CMPluginBase@@QEAAXPEB_W00@Z @629 NONAME
+?openOptionsPage@CMPluginBase@@QEAAXPEB_W00@Z @630 NONAME

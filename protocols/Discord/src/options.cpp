@@ -76,6 +76,6 @@ int CDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = 1;
 	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new CDiscardAccountOptions(this, IDD_OPTIONS_ACCOUNT);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

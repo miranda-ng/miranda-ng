@@ -88,7 +88,7 @@ namespace mu
 			odp.szGroup.w = const_cast<wchar_t*>(pszGroup);
 			odp.flags = flags | ODPF_UNICODE;
 			odp.szTab.w = const_cast<wchar_t*>(pszTab);
-			Options_AddPage(addInfo, &odp);
+			g_plugin.addOptions(addInfo, &odp);
 		}
 	}
 

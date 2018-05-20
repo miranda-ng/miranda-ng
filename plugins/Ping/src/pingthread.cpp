@@ -672,11 +672,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 
 		case ID_MENU_OPTIONS:
-			Options_Open(L"Network", L"Ping", L"Settings");
+			g_plugin.openOptions(L"Network", L"Ping", L"Settings");
 			return TRUE;
 
 		case ID_MENU_DESTINATIONS:
-			Options_Open(L"Network", L"Ping", L"Hosts");
+			g_plugin.openOptions(L"Network", L"Ping", L"Hosts");
 			return TRUE;
 		}
 

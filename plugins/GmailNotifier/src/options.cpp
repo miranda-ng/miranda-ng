@@ -278,6 +278,6 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Network");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

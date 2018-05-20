@@ -179,6 +179,6 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

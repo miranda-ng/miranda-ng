@@ -81,27 +81,27 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Account");
 	odp.position = 1;
 	odp.pDialog = new CVkOptionAccountForm(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.position = 2;
 	odp.pDialog = new CVkOptionAdvancedForm(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("News and notifications");
 	odp.position = 3;
 	odp.pDialog = new CVkOptionFeedsForm(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("View");
 	odp.position = 4;
 	odp.pDialog = new CVkOptionViewForm(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Menu");
 	odp.position = 5;
 	odp.pDialog = new CVkOptionMenuForm(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

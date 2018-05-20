@@ -252,25 +252,25 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Appearance");
 	odp.szGroup.a = LPGEN("MirandaG15");
 	odp.pfnDlgProc = CConfig::AppearanceDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// ---------------------
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_NOTIFICATIONS);
 	odp.szTitle.a = LPGEN("Notifications");
 	odp.pfnDlgProc = CConfig::NotificationsDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// ---------------------
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CHAT);
 	odp.szTitle.a = LPGEN("Chat sessions");
 	odp.pfnDlgProc = CConfig::ChatDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// ---------------------
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CLIST);
 	odp.szTitle.a = LPGEN("Contact list");
 	odp.pfnDlgProc = CConfig::ContactlistDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

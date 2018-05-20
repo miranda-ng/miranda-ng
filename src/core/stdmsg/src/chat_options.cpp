@@ -672,12 +672,12 @@ int ChatOptionsInitialize(WPARAM wParam)
 	odp.position = 910000000;
 	odp.szTab.a = LPGEN("General");
 	odp.pDialog = new COptMainDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.position = 910000001;
 	odp.szTab.a = LPGEN("Chat log");
 	odp.pDialog = new COptLogDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	if (PopupInstalled) {
 		odp.position = 910000002;
@@ -685,7 +685,7 @@ int ChatOptionsInitialize(WPARAM wParam)
 		odp.szGroup.a = LPGEN("Popups");
 		odp.szTab.a = nullptr;
 		odp.pDialog = new COptPopupDlg();
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

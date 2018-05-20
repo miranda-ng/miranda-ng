@@ -134,7 +134,7 @@ static int OnOptInitialise(WPARAM w, LPARAM)
 	odp.szTitle.a = SECTIONNAME;
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.pfnDlgProc = DlgProcOptions;
-	Options_AddPage(w, &odp);
+	g_plugin.addOptions(w, &odp);
 	return 0;
 }
 

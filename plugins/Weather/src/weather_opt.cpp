@@ -581,13 +581,13 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = WEATHERPROTOTEXT;
 	odp.szTab.a = LPGEN("General");
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// text options
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TEXTOPT);
 	odp.pfnDlgProc = DlgProcText;
 	odp.szTab.a = LPGEN("Display");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// if popup service exists, load the weather popup options
 	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
@@ -596,7 +596,7 @@ int OptInit(WPARAM wParam, LPARAM)
 		odp.szGroup.a = LPGEN("Popups");
 		odp.szTab.a = nullptr;
 		odp.pfnDlgProc = DlgPopupOpts;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 
 	return 0;

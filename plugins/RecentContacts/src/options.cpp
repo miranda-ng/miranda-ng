@@ -64,6 +64,6 @@ int onOptInitialise(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Recent Contacts");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

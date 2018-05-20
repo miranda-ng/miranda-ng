@@ -505,12 +505,12 @@ int PingOptInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Settings");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
 	odp.pfnDlgProc = DlgProcOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Hosts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG2);
 	odp.pfnDlgProc = DlgProcOpts2;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

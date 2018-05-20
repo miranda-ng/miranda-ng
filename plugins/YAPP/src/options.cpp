@@ -481,12 +481,12 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
 	odp.szTab.a = LPGEN("Settings");
 	odp.pfnDlgProc = DlgProcOpts1;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CLASSES);
 	odp.szTab.a = LPGEN("Classes");
 	odp.pfnDlgProc = DlgProcOptsClasses;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

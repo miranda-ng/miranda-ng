@@ -676,7 +676,7 @@ static INT_PTR onCopyMirVer(WPARAM wparam, LPARAM lparam)
 
 static INT_PTR OpenIgnoreOptions(WPARAM, LPARAM)
 {
-	Options_Open(L"Contacts", L"Ignore");
+	g_plugin.openOptions(L"Contacts", L"Ignore");
 	return 0;
 }
 

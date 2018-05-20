@@ -438,13 +438,13 @@ static int OptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.w = LPGENW("Buddy Expectator");
 	odp.pfnDlgProc = OptionsFrameProc;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.szGroup.w = LPGENW("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPPANEL);
 		odp.pfnDlgProc = PopupOptionsFrameProc;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 
 	return 0;

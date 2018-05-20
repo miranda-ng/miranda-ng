@@ -56,7 +56,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

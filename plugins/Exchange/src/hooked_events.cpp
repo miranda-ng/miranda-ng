@@ -80,7 +80,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Plugins");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcOptions;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

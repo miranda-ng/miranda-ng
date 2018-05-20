@@ -836,22 +836,22 @@ static int OpenOptions(WPARAM wParam, LPARAM)
 	odp.szTab.w = LANG_OPT_GENERAL;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
 	odp.pfnDlgProc = DlgProcMirOTROpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LANG_OPT_PROTO;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTO);
 	odp.pfnDlgProc = DlgProcMirOTROptsProto;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LANG_OPT_CONTACTS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
 	odp.pfnDlgProc = DlgProcMirOTROptsContacts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LANG_OPT_FINGER;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FINGER);
 	odp.pfnDlgProc = DlgProcMirOTROptsFinger;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

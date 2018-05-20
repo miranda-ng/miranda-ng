@@ -556,15 +556,15 @@ int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = CToxOptionsMain::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	/*odp.szTab.w = LPGENW("Multimedia");
 	odp.pDialog = CToxOptionsMultimedia::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);*/
+	g_plugin.addOptions(wParam, &odp);*/
 
 	odp.szTab.w = LPGENW("Nodes");
 	odp.pDialog = CToxOptionsNodeList::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

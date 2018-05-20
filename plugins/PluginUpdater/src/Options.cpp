@@ -243,7 +243,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			break;
 
 		case IDC_LINK_HOTKEY:
-			Options_Open(L"Customize", L"Hotkeys");
+			g_plugin.openOptions(L"Customize", L"Hotkeys");
 			return true;
 		}
 		break;
@@ -511,14 +511,14 @@ static int OptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Services");
 	odp.szTitle.w = LPGENW("Plugin Updater");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.szGroup.w = LPGENW("Popups");
 		odp.szTitle.w = LPGENW("Plugin Updater");
 		odp.pfnDlgProc = DlgPopupOpts;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

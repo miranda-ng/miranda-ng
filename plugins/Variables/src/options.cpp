@@ -137,6 +137,6 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.hInstance = g_plugin.getInst();
 	odp.pfnDlgProc = SetOptsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS_DIALOG);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

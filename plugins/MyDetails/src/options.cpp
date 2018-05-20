@@ -169,7 +169,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Contact list");
 	odp.szTitle.w = LPGENW("My details");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

@@ -306,6 +306,6 @@ int SSC_OptInitialise(WPARAM wp, LPARAM)
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_SETTINGS);
 	odp.pfnDlgProc = SettingsDlgProc;
-	Options_AddPage(wp, &odp);
+	g_plugin.addOptions(wp, &odp);
 	return 0;
 }

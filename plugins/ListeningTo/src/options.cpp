@@ -79,18 +79,18 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Format");
 	odp.pfnDlgProc = FormatDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_FORMAT);
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Players");
 	odp.pfnDlgProc = PlayersDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PLAYERS);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

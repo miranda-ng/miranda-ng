@@ -315,5 +315,5 @@ void ShowDukasCopyPropPage(CQuotesProviderDukasCopy* pProvider, WPARAM wp, OPTIO
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_ECONOMIC_RATES);
 	odp.pfnDlgProc = EconomicRatesDlgProc;
 	odp.szTab.w = const_cast<LPTSTR>(pi.m_sName.c_str());
-	Options_AddPage(wp, &odp);
+	g_plugin.addOptions(wp, &odp);
 }

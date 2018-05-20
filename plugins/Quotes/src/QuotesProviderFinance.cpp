@@ -261,5 +261,5 @@ void CQuotesProviderFinance::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp)
 	odp.pfnDlgProc = GoogleFinanceOptDlgProc;
 	odp.dwInitParam = LPARAM(this);
 	odp.szTab.w = const_cast<LPTSTR>(GetInfo().m_sName.c_str());
-	Options_AddPage(wp, &odp);
+	g_plugin.addOptions(wp, &odp);
 }

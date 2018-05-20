@@ -358,7 +358,7 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Contact names");
 	odp.pDialog = new CContactOptsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

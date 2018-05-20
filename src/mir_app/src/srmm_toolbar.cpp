@@ -776,7 +776,7 @@ static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Toolbar");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CSrmmToolbarOptions();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

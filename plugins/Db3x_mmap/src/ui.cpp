@@ -310,7 +310,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Database");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.dwInitParam = (LPARAM)obj;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

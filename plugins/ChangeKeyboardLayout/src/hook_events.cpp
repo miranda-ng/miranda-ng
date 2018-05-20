@@ -147,13 +147,13 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgMainProcOptions;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
 		odp.szGroup.a = LPGEN("Popups");
 		odp.pfnDlgProc = DlgPopupsProcOptions;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

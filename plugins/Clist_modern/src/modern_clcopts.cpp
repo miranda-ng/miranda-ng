@@ -1522,7 +1522,7 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 		odp.szTab.a = it.name;
 		odp.pfnDlgProc = it.wnd_proc;
 		odp.flags = ODPF_BOLDGROUPS | it.flag;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 
 	if (g_CluiData.fDisableSkinEngine) {
@@ -1532,7 +1532,7 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 		odp.szTab.a = LPGEN("List background");
 		odp.pfnDlgProc = DlgProcClcBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

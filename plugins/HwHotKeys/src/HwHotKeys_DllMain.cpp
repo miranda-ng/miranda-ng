@@ -127,7 +127,7 @@ int initializeOptions(WPARAM wParam, LPARAM)
 	OptDlgPg.szTitle.w = LPGENW("Hardware HotKeys");
 	OptDlgPg.pfnDlgProc = OptDlgProc;
 	OptDlgPg.langId = hLangpack;
-	Options_AddPage(wParam, &OptDlgPg);
+	g_plugin.addOptions(wParam, &OptDlgPg);
 	return 0;
 }
 

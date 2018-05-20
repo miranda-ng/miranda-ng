@@ -41,7 +41,7 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.w = L"Lua";
 	odp.szTab.w = LPGENW("Scripts");
 	odp.pDialog = new CMLuaOptions();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

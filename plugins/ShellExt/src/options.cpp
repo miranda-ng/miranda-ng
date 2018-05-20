@@ -117,6 +117,6 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 	opt.pszTemplate = MAKEINTRESOURCEA(IDD_SHLOPTS);
 	opt.hInstance = g_plugin.getInst();
 	opt.pfnDlgProc = OptDialogProc;
-	Options_AddPage(wParam, &opt);
+	g_plugin.addOptions(wParam, &opt);
 	return 0;
 }

@@ -768,18 +768,18 @@ int GaduProto::options_init(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_GENERAL);
 	odp.pfnDlgProc = gg_genoptsdlgproc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Conference");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_CONFERENCE);
 	odp.pfnDlgProc = gg_confoptsdlgproc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.position = 2;
 	odp.pszTemplate = nullptr;
 	odp.pDialog = new GaduOptionsDlgAdvanced(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

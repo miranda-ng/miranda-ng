@@ -62,7 +62,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	memset(&odp, 0, sizeof(odp));
 	odp.hInstance = g_plugin.getInst();
@@ -71,7 +71,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = AutoreplaceDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_REPLACEMENTS);
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

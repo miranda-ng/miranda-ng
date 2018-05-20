@@ -443,7 +443,7 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);
 	odp.pfnDlgProc = tabPages[0].dlgProc;
 	odp.szTab.w = tabPages[0].tabName;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szGroup.w = LPGENW("Skins");
 	odp.szTitle.w = LPGENW("IEView");
@@ -451,7 +451,7 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
 		odp.szTab.w = tabPages[i].tabName;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

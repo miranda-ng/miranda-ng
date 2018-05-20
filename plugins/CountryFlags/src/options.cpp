@@ -91,6 +91,6 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Country Flags");   /* autotranslated, can be made a tab */
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = ExtraImgOptDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

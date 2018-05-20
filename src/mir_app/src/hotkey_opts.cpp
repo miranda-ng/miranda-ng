@@ -1030,6 +1030,6 @@ int HotkeyOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Hotkeys");
 	odp.szGroup.a = LPGEN("Customize");
 	odp.pfnDlgProc = sttOptionsDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

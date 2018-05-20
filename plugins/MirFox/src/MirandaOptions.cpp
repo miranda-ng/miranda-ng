@@ -680,19 +680,19 @@ int OptInit(WPARAM wParam, LPARAM) {
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
 	odp.szTab.a = LPGEN("Options");
 	odp.pfnDlgProc = DlgProcOpts_Tab1;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	//2 - contacts
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT2);
 	odp.szTab.a = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcOpts_Tab2;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	//3 - accounts
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT3);
 	odp.szTab.a = LPGEN("Accounts");
 	odp.pfnDlgProc = DlgProcOpts_Tab3;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

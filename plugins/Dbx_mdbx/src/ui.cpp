@@ -167,7 +167,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Database");
 	odp.pDialog = new COptionsDialog((CDbxMDBX*)obj);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

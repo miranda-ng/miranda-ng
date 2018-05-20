@@ -601,22 +601,22 @@ int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.pfnDlgProc = DlgProcMsnOpts;
 	odp.dwInitParam = (LPARAM)this;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN_CONN);
 	odp.pfnDlgProc = DlgProcMsnConnOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Server list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_LISTSMGR);
 	odp.pfnDlgProc = DlgProcMsnServLists;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Notifications");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
 	odp.pfnDlgProc = DlgProcHotmailPopupOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

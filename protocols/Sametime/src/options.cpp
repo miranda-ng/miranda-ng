@@ -349,7 +349,7 @@ int CSametimeProto::OptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Network");
 	odp.pfnDlgProc = DlgProcOptNet;
 	odp.dwInitParam = (LPARAM)this;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

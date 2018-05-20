@@ -55,6 +55,6 @@ int WaMpdOptInit(WPARAM wParam,LPARAM)
 	odp.szTab.w = LPGENW("Watrack MPD");
 	odp.flags=ODPF_BOLDGROUPS|ODPF_UNICODE;
 	odp.pDialog = new COptWaMpdDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

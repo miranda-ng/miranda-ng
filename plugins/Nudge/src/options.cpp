@@ -381,12 +381,12 @@ int NudgeOptInit(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Nudge");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcNudgeOpt;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.position = -790000001;
 	odp.szTab.a = LPGEN("Window Shaking");
 	odp.pfnDlgProc = DlgProcShakeOpt;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHAKE);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

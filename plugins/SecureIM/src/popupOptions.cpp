@@ -168,7 +168,7 @@ int onRegisterPopOptions(WPARAM wParam, LPARAM)
 		odp.szTitle.a = (char*)MODULENAME;
 		odp.szGroup.a = LPGEN("Popups");
 		odp.pfnDlgProc = PopOptionsDlgProc;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

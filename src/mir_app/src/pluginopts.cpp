@@ -545,7 +545,7 @@ int PluginOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = 1300000000;
 	odp.szTitle.a = LPGEN("Plugins");
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

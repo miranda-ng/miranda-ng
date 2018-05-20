@@ -296,7 +296,7 @@ int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 		odp.szGroup.a = LPGEN("Popups");
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = OptionsDlgProc;
-		Options_AddPage(addInfo, &odp);
+		g_plugin.addOptions(addInfo, &odp);
 	}
 
 	return 0;

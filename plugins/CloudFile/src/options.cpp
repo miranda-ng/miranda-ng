@@ -80,7 +80,7 @@ int OnOptionsInitialized(WPARAM wParam, LPARAM)
 
 	//odp.szTab.w = LPGENW("General");
 	odp.pDialog = new COptionsMainDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

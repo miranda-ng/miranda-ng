@@ -193,6 +193,10 @@ public:
 		Icon_RegisterT(m_hInst, szSection, pIcons, _Size, prefix, m_hLang);
 	}
 
+	int addOptions(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);
+	void openOptions(const wchar_t *pszGroup, const wchar_t *pszPage = 0, const wchar_t *pszTab = 0);
+	void openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPage = 0, const wchar_t *pszTab = 0);
+
 	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);
 	int addUserInfo(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);
 

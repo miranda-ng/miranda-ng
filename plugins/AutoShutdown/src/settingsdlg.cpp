@@ -323,7 +323,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_URL_IDLE:
-			Options_Open(L"Status", L"Idle");
+			g_plugin.openOptions(L"Status", L"Idle");
 			return TRUE;
 
 		case IDC_COMBO_SHUTDOWNTYPE:

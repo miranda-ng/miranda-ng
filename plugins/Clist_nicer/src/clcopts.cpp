@@ -525,27 +525,27 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = DlgProcGenOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("List layout");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Window");
 	odp.pfnDlgProc = DlgProcCluiOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Background");
 	odp.pfnDlgProc = DlgProcClcBkgOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Status bar");
 	odp.pfnDlgProc = DlgProcSBarOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	////////////////////////////////////////////////////////////////////////////
 	// Contact rows tabs
@@ -557,22 +557,22 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcDspItems;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPITEMS);
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Groups and layout");
 	odp.pfnDlgProc = DlgProcDspGroups;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPGROUPS);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Advanced");
 	odp.pfnDlgProc = DlgProcDspAdvanced;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPADVANCED);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Icons");
 	odp.pfnDlgProc = DlgProcIcons;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICONS);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	////////////////////////////////////////////////////////////////////////////
 	// Other options
@@ -582,7 +582,7 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Contact list");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

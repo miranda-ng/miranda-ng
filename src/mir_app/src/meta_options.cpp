@@ -124,6 +124,6 @@ int Meta_OptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Metacontacts");
 	odp.szGroup.a = LPGEN("Contacts");
 	odp.pDialog = new CMetaOptionsDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

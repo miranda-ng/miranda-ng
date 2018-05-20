@@ -153,7 +153,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.szGroup.w = LPGENW("Popups");
@@ -161,7 +161,7 @@ int OptInit(WPARAM wParam, LPARAM)
 		odp.pfnDlgProc = PopupsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

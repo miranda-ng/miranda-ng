@@ -314,12 +314,12 @@ int CluiOptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.pfnDlgProc = DlgProcCluiOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
 	odp.szTitle.a = LPGEN("Status bar");
 	odp.pfnDlgProc = DlgProcSBarOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

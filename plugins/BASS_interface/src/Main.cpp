@@ -322,7 +322,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = OptionsProc;
 	odp.szGroup.a = LPGEN("Sounds");
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

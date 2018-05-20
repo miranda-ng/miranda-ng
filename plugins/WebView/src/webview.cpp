@@ -297,14 +297,14 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szTitle.a = MODULENAME;
 	odp.pfnDlgProc = DlgProcOpt;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// if popup service exists
 	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.szGroup.w = LPGENW("Popups");
 		odp.pfnDlgProc = DlgPopUpOpts;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

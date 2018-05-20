@@ -116,7 +116,7 @@ static int AutorunOptInitialise(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Services");
 	odp.pfnDlgProc = DlgProcAutorunOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

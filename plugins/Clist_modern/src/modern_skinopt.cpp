@@ -56,7 +56,7 @@ int SkinOptInit(WPARAM wParam, LPARAM)
 		odp.szGroup.w = LPGENW("Skins");
 		odp.szTitle.w = LPGENW("Contact list");
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

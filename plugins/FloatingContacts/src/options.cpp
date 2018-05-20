@@ -340,11 +340,11 @@ int OnOptionsInitialize(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Main Features");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptWndProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
 	odp.szTab.a = LPGEN("Appearance");
 	odp.pfnDlgProc = OptSknWndProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

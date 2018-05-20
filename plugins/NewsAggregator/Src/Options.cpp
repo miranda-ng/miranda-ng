@@ -1069,6 +1069,6 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = LPGENW("News Aggregator");
 	odp.pDialog = new COptionsMain();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

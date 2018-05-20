@@ -263,7 +263,7 @@ int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Popups");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = CTooltipNotify::OptionsDlgProcWrapper;
-	::Options_AddPage(wParam, &odp);
+	::g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

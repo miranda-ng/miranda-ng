@@ -586,19 +586,19 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 
 	odp.szTitle.a = LPGEN("Message sessions");
 	odp.pDialog = new COptionMainDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Messaging log");
 	odp.pDialog = new COptionLogDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Typing notify");
 	odp.pDialog = new COptionTypingDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Tabs");
 	odp.pDialog = new COptionsTabDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	ChatOptionsInitialize(wParam);
 	return 0;

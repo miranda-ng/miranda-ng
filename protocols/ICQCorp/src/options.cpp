@@ -75,7 +75,7 @@ int icqOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Network");
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

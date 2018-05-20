@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void CALLBACK OpenOptions(void*)
 {
-	Options_Open(L"Customize", L"Languages");
+	g_plugin.openOptions(L"Customize", L"Languages");
 }
 
 static void ReloadOptions(void *hWnd)
@@ -261,6 +261,6 @@ int LangpackOptionsInit(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CLangpackDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

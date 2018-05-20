@@ -533,7 +533,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			DlgReturn(TRUE);
 
 		case IDM_CONFIG:
-			Options_Open(nullptr, LPGENW("History"));
+			g_plugin.openOptions(nullptr, LPGENW("History"));
 			DlgReturn(TRUE);
 
 		case IDM_DELETE:
@@ -1766,13 +1766,13 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 			SendMessage(m_hWnd, WM_COMMAND, IDM_CONFIG, 0);
 			break;
 		case IDM_FONTS:
-			Options_Open(L"Customize", L"Fonts and colors");
+			g_plugin.openOptions(L"Customize", L"Fonts and colors");
 			break;
 		case IDM_ICONS:
-			Options_Open(L"Customize", L"Icons");
+			g_plugin.openOptions(L"Customize", L"Icons");
 			break;
 		case IDM_HOTKEYS:
-			Options_Open(L"Customize", L"Hotkeys");
+			g_plugin.openOptions(L"Customize", L"Hotkeys");
 			break;
 		case IDM_SAVEPOS:
 			SavePos(false);

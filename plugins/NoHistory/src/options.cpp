@@ -227,7 +227,7 @@ int OptInit(WPARAM wParam, LPARAM)
    odp.szGroup.w   = LPGENW("History");
    odp.szTab.w     = LPGENW("Logging");
    odp.pfnDlgProc  = DlgProcOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

@@ -203,7 +203,7 @@ int HookedOptions(WPARAM wParam, LPARAM)
 		odp.szGroup.w = LPGENW("Popups");
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		odp.pfnDlgProc = OptionsDlgProc;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

@@ -661,6 +661,6 @@ int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 	odp.szGroup.a = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcSmileysOptions;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(addInfo, &odp);
+	g_plugin.addOptions(addInfo, &odp);
 	return 0;
 }

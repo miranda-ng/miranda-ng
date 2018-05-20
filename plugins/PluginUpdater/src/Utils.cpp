@@ -298,7 +298,7 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 
 void __stdcall OpenPluginOptions(void*)
 {
-	Options_Open(nullptr, L"Plugins");
+	g_plugin.openOptions(nullptr, L"Plugins");
 }
 
 //   FUNCTION: IsRunAsAdmin()

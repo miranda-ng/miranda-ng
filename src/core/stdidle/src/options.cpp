@@ -129,6 +129,6 @@ int IdleOptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Idle");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new COptionsDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

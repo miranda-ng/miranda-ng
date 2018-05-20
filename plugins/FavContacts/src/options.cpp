@@ -173,7 +173,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_BTN_FONTS:
-			Options_Open(L"Customize", L"Fonts and colors");
+			g_plugin.openOptions(L"Customize", L"Fonts and colors");
 			break;
 
 		case IDC_TXT_RADIUS:
@@ -261,6 +261,6 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Favorites");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

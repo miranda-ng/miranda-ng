@@ -96,7 +96,7 @@ int OptInitialise(WPARAM wParam,LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMSPLUGIN);
 	odp.szTitle.a = PROTOCOL_DISPLAY_NAME_ORIG;
 	odp.pfnDlgProc = DlgProcEditorOptions;
-	Options_AddPage(wParam, &odp);	
+	g_plugin.addOptions(wParam, &odp);	
 	return 0;
 }
 

@@ -228,6 +228,6 @@ int ProtocolOrderOptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.pDialog = new CProtocolOrderOpts();
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

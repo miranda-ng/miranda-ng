@@ -256,11 +256,11 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Accounts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FTPFILE);
 	odp.pfnDlgProc = Options::DlgProcOptsAccounts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = Options::DlgProcOptsAdvanced;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

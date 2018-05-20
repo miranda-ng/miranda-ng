@@ -596,3 +596,6 @@ GetPluginByLangId @624
 GetInstByAddress @625
 GetPluginByInstance @626
 ?addUserInfo@CMPluginBase@@QAEHIPAUOPTIONSDIALOGPAGE@@@Z @627 NONAME
+?addOptions@CMPluginBase@@QAEHIPAUOPTIONSDIALOGPAGE@@@Z @628 NONAME
+?openOptions@CMPluginBase@@QAEXPB_W00@Z @629 NONAME
+?openOptionsPage@CMPluginBase@@QAEXPB_W00@Z @630 NONAME

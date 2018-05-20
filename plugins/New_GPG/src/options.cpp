@@ -1069,18 +1069,18 @@ int GpgOptInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Main");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pDialog = new COptGpgMainDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("GnuPG Variables");
 	odp.pDialog = new COptGpgBinDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Messages");
 	odp.pDialog = new COptGpgMsgDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.pDialog = new COptGpgAdvDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

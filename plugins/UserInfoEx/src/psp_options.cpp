@@ -1039,28 +1039,28 @@ static int OnInitOptions(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_COMMON);
 	odp.pfnDlgProc = DlgProc_CommonOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// Advanced page
 	odp.szTab.a = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgProc_AdvancedOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// Details Dialog page
 	odp.szTab.a = LPGEN("Details dialog");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DETAILSDLG);
 	odp.pfnDlgProc = DlgProc_DetailsDlgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// Reminder page
 	odp.szTab.a = LPGEN("Reminder");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_REMINDER);
 	odp.pfnDlgProc = DlgProc_ReminderOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// Popups page
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
@@ -1069,7 +1069,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProc_Popups;
 		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return MIR_OK;
 }

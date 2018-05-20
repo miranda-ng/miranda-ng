@@ -1480,17 +1480,17 @@ int LotusNotifyOptInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_CONECTION);
 	odp.pfnDlgProc = DlgProcLotusNotifyConnectionOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Popup");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_POPUP);
 	odp.pfnDlgProc = DlgProcLotusNotifyPopupOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Miscellaneous");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_MISC);
 	odp.pfnDlgProc = DlgProcLotusNotifyMiscOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

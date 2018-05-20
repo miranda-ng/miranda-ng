@@ -184,7 +184,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				return true;
 
 			case IDC_MAINOPT_LNK_HOTKEY:
-				Options_Open(L"Customize", L"Hotkeys");
+				g_plugin.openOptions(L"Customize", L"Hotkeys");
 				return true;
 			}
 			return 0;
@@ -323,11 +323,11 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	optDi.szGroup.a = LPGEN("Events");
 	optDi.szTab.a = LPGEN("Main");
 	optDi.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &optDi);
+	g_plugin.addOptions(wParam, &optDi);
 
 	optDi.pfnDlgProc = AdvOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGADV);
 	optDi.szTab.a = LPGEN("Advanced");
-	Options_AddPage(wParam, &optDi);
+	g_plugin.addOptions(wParam, &optDi);
 	return 0;
 }

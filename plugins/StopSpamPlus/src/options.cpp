@@ -163,14 +163,14 @@ int OnOptInit(WPARAM w, LPARAM)
 
 	odp.szTab.a = LPGEN("General");
 	odp.pDialog = new COptMainDlg();
-	Options_AddPage(w, &odp);
+	g_plugin.addOptions(w, &odp);
 
 	odp.szTab.a = LPGEN("Messages");
 	odp.pDialog = new COptMessageDlg();
-	Options_AddPage(w, &odp);
+	g_plugin.addOptions(w, &odp);
 
 	odp.szTab.a = LPGEN("Accounts");
 	odp.pDialog = new COptAccountDlg();
-	Options_AddPage(w, &odp);
+	g_plugin.addOptions(w, &odp);
 	return 0;
 }

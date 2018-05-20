@@ -83,11 +83,11 @@ int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = CSteamOptionsMain::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	//odp.szTab.w = LPGENW("Blocked contacts");
 	//odp.pDialog = CSteamOptionsBlockList::CreateOptionsPage(this);
-	//Options_AddPage(wParam, &odp);
+	//g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

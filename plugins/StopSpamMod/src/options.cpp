@@ -276,19 +276,19 @@ int OnOptInit(WPARAM w, LPARAM l)
 
 	odp.szTab.w = LPGENW("General");
 	odp.pDialog = new COptMainDlg();
-	Options_AddPage(w, &odp);
+	g_plugin.addOptions(w, &odp);
 
 
 	odp.szTab.w = LPGENW("Messages");
 	odp.pDialog = new COptMessagesDlg();
-	Options_AddPage(w, &odp);
+	g_plugin.addOptions(w, &odp);
 
 	odp.szTab.w = LPGENW("Accounts");
 	odp.pDialog = new COptProtoDlg();
-	Options_AddPage(w, &odp);
+	g_plugin.addOptions(w, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.pDialog = new COptAdvancedDlg();
-	Options_AddPage(w, &odp);
+	g_plugin.addOptions(w, &odp);
 	return 0;
 }

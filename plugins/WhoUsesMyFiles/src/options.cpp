@@ -276,6 +276,6 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.szGroup.a = LPGEN("Services");
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wparam, &odp);
+	g_plugin.addOptions(wparam, &odp);
 	return 0;
 }

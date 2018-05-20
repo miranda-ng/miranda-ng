@@ -941,7 +941,7 @@ int CListOptInit(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(it.id);
 		odp.szTab.a = it.name;
 		odp.pfnDlgProc = it.wnd_proc;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

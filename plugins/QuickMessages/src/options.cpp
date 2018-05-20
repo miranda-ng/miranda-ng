@@ -1091,6 +1091,6 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.pfnDlgProc = OptionsProc;
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wparam, &odp);
+	g_plugin.addOptions(wparam, &odp);
 	return 0;
 }

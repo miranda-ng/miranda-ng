@@ -368,7 +368,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					break;
 
 				case IDC_MORE:
-					Options_Open(L"Customize", L"Fonts and colors");
+					g_plugin.openOptions(L"Customize", L"Fonts and colors");
 					break;
 
 				case IDC_SOFFLINE:  case IDC_SONLINE:     case IDC_SAWAY:       case IDC_SNA:     case IDC_SOCCUPIED:

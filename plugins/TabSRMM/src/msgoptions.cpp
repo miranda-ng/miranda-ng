@@ -1294,28 +1294,28 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 
 	odpnew.szTab.a = LPGEN("General");
 	odpnew.pDialog = new COptMainDlg();
-	Options_AddPage(wParam, &odpnew);
+	g_plugin.addOptions(wParam, &odpnew);
 
 	odpnew.szTab.a = LPGEN("Tabs and layout");
 	odpnew.pDialog = new COptTabbedDlg();
-	Options_AddPage(wParam, &odpnew);
+	g_plugin.addOptions(wParam, &odpnew);
 
 	odpnew.szTab.a = LPGEN("Containers");
 	odpnew.pDialog = new COptContainersDlg();
-	Options_AddPage(wParam, &odpnew);
+	g_plugin.addOptions(wParam, &odpnew);
 
 	odpnew.szTab.a = LPGEN("Message log");
 	odpnew.pDialog = new COptLogDlg();
-	Options_AddPage(wParam, &odpnew);
+	g_plugin.addOptions(wParam, &odpnew);
 
 	odpnew.szTab.a = LPGEN("Advanced tweaks");
 	odpnew.pDialog = new COptAdvancedDlg();
-	Options_AddPage(wParam, &odpnew);
+	g_plugin.addOptions(wParam, &odpnew);
 
 	odpnew.szGroup.a = LPGEN("Message sessions");
 	odpnew.szTitle.a = LPGEN("Typing notify");
 	odpnew.pDialog = new COptTypingDlg();
-	Options_AddPage(wParam, &odpnew);
+	g_plugin.addOptions(wParam, &odpnew);
 
 	OPTIONSDIALOGPAGE odp = {};
 	odp.hInstance = g_plugin.getInst();
@@ -1327,7 +1327,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 		odp.szTitle.a = LPGEN("Event notifications");
 		odp.szGroup.a = LPGEN("Popups");
 		odp.pfnDlgProc = DlgProcPopupOpts;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
@@ -1335,12 +1335,12 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.szTab.a = LPGEN("Load and apply");
 	odp.pfnDlgProc = DlgProcSkinOpts;
 	odp.szGroup.a = LPGEN("Skins");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
 	odp.szTab.a = LPGEN("Window layout tweaks");
 	odp.pfnDlgProc = DlgProcTabConfig;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	// group chats
 	odp.szGroup.a = LPGEN("Message sessions");
@@ -1348,22 +1348,22 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.szTitle.a = LPGEN("Group chats");
 	odp.szTab.a = LPGEN("Settings");
 	odp.pfnDlgProc = DlgProcOptions1;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
 	odp.szTab.a = LPGEN("Log formatting");
 	odp.pfnDlgProc = DlgProcOptions2;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS3);
 	odp.szTab.a = LPGEN("Events and filters");
 	odp.pfnDlgProc = DlgProcOptions3;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS4);
 	odp.szTab.a = LPGEN("Highlighting");
 	odp.pfnDlgProc = CMUCHighlight::dlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

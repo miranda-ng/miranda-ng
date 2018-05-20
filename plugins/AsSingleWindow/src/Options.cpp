@@ -12,7 +12,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 	Opts.hInstance = g_plugin.getInst();
 	Opts.flags = ODPF_BOLDGROUPS;
 
-	Options_AddPage(wParam, &Opts);
+	g_plugin.addOptions(wParam, &Opts);
 
 	return 0;
 }

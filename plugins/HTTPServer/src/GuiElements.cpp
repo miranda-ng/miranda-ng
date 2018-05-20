@@ -1346,7 +1346,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.szTitle.w = LPGENW("HTTP Server");
 	odp.szGroup.w = LPGENW("Network");
 	odp.pfnDlgProc = OptionsDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

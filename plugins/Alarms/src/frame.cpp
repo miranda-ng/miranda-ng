@@ -383,7 +383,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case ID_REMINDERFRAMECONTEXT_OPTIONS:
-			Options_Open(L"Events", L"Alarms");
+			g_plugin.openOptions(L"Events", L"Alarms");
 			break;
 
 		case ID_REMINDERFRAMECONTEXT_SUSPEND:

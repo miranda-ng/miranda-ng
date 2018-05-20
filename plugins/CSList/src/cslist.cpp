@@ -83,7 +83,7 @@ static int OnInitOptions(WPARAM wparam, LPARAM)
 	odp.szGroup.w = L"Status";
 	odp.szTitle.w = MODULENAME;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	Options_AddPage(wparam, &odp);
+	g_plugin.addOptions(wparam, &odp);
 	return 0;
 }
 

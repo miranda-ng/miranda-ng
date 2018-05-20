@@ -92,7 +92,7 @@ int opt_AddPage(lua_State *L)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	MakeOptionDialogPage(L, odp);
 
-	INT_PTR res = Options_AddPage(wParam, &odp);
+	INT_PTR res = g_plugin.addOptions(wParam, &odp);
 	lua_pushboolean(L, !res);
 
 	mir_free(odp.szGroup.w);

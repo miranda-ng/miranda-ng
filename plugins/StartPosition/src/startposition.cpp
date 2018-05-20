@@ -53,7 +53,7 @@ int CMPlugin::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Start position");
 	odp.pDialog = new COptionsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

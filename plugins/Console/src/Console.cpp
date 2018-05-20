@@ -1060,7 +1060,7 @@ static int OptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Console");
 	odp.pfnDlgProc = OptDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

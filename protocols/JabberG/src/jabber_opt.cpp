@@ -1502,15 +1502,15 @@ int CJabberProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new CDlgOptAccount(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Conferences");
 	odp.pDialog = new CDlgOptGc(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.pDialog = new CDlgOptAdvanced(this);
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	//TODO: add omemo options
 	return 0;
 }
@@ -2221,6 +2221,6 @@ void CJabberProto::JabberUpdateDialogs(BOOL)
 
 INT_PTR __cdecl CJabberProto::OnMenuOptions(WPARAM, LPARAM)
 {
-	Options_Open(L"Network", m_tszUserName, L"Account");
+	g_plugin.openOptions(L"Network", m_tszUserName, L"Account");
 	return 0;
 }

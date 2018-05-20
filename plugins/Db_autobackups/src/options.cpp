@@ -206,7 +206,7 @@ void COptionsDlg::BrowseFolder_OnClick(CCtrlButton*)
 
 void COptionsDlg::FoldersPageLink_OnClick(CCtrlHyperlink*)
 {
-	Options_Open(L"Customize", L"Folders");
+	g_plugin.openOptions(L"Customize", L"Folders");
 }
 
 void COptionsDlg::SetDialogState()
@@ -330,7 +330,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Automatic backups");
 	odp.szGroup.a = LPGEN("Database");
 	odp.pDialog = new COptionsDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

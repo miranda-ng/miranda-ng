@@ -54,7 +54,7 @@ int NimcOptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.szTitle.a = LPGEN("Non-IM Contacts");
 	odp.pfnDlgProc = DlgProcNimcOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 //=====================================================

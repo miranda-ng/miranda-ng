@@ -350,6 +350,6 @@ INT OptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Sounds");
 	odp.szTitle.w = LPGENW("XSound Notify");
 	odp.pfnDlgProc = OptsProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

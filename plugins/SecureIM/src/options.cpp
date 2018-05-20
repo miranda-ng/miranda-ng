@@ -1692,6 +1692,6 @@ int onRegisterOptions(WPARAM wParam, LPARAM)
 	odp.szTitle.a = (char*)MODULENAME;
 	odp.szGroup.a = LPGEN("Services");
 	odp.pfnDlgProc = OptionsDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

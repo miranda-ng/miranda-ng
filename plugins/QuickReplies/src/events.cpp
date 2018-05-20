@@ -68,7 +68,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 
 	if (count == 0 || cbcd->flags & BBCF_RIGHTBUTTON) {
 		mir_snprintf(buttonName, "%s %x", Translate("Button"), iNumber + 1);
-		Options_Open(L"Message sessions", L"Quick Replies", _A2T(buttonName));
+		g_plugin.openOptions(L"Message sessions", L"Quick Replies", _A2T(buttonName));
 		return 0;
 	}
 

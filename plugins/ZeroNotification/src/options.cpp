@@ -138,6 +138,6 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.szTitle.w = LPGENW("Zero Notifications");
 	odp.szGroup.w = LPGENW("Plugins");
 	odp.pfnDlgProc = DlgProcNoSoundOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

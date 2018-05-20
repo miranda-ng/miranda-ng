@@ -232,6 +232,6 @@ int FileOptInitialise(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Events");
 	odp.pfnDlgProc = DlgProcFileOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

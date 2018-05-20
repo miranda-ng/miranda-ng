@@ -706,7 +706,7 @@ public:
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 			case IDC_FONTSCOLORS:
-				Options_Open(L"Customize", L"Fonts and colors");
+				g_plugin.openOptions(L"Customize", L"Fonts and colors");
 				break;
 
 			case IDC_LOADUNREAD:
@@ -966,23 +966,23 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.szTab.a = LPGEN("General");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTABS);
 	odp.pfnDlgProc = DlgProcTabsOptions;
 	odp.szTab.a = LPGEN("Tabs");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LAYOUT);
 	odp.pfnDlgProc = DlgProcLayoutOptions;
 	odp.szTab.a = LPGEN("Layout");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = nullptr;
 	odp.pfnDlgProc = nullptr;
 	odp.pDialog = new CLogOptionsDlg();
 	odp.szTab.a = LPGEN("Event log");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pDialog = nullptr;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
@@ -990,18 +990,18 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Group chats");
 	odp.szTab.a = LPGEN("General");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
 	odp.pfnDlgProc = DlgProcOptions2;
 	odp.szTab.a = LPGEN("Event log");
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
 	odp.szTitle.a = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	odp.szTab.a = nullptr;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	if (g_dat.popupInstalled) {
 		odp.position = 910000002;
@@ -1011,7 +1011,7 @@ int OptInitialise(WPARAM wParam, LPARAM)
 		odp.szGroup.a = LPGEN("Popups");
 		odp.pfnDlgProc = DlgProcOptionsPopup;
 		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wParam, &odp);
+		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
 }

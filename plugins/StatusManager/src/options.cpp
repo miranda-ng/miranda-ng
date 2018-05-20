@@ -60,7 +60,7 @@ int OnCommonOptionsInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Status");
 	odp.szTitle.w = LPGENW("Status manager");
 	odp.pDialog = new CSubPluginsOptionsDlg();
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	return 0;
 }

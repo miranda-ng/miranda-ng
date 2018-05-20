@@ -1235,12 +1235,12 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.szGroup.w = LPGENW("History");
 	odp.szTab.w = LPGENW("General");
 	odp.pfnDlgProc = DlgProcMsgExportOpts;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 
 	odp.position = 100000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT2);
 	odp.szTab.w = LPGENW("Additional");
 	odp.pfnDlgProc = DlgProcMsgExportOpts2;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

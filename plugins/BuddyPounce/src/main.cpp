@@ -89,7 +89,7 @@ int BuddyPounceOptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Message sessions");
 	odp.szTitle.w = LPGENW("Buddy Pounce");
 	odp.pfnDlgProc = BuddyPounceOptionsDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

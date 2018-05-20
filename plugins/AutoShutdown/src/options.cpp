@@ -114,7 +114,7 @@ static int ShutdownOptInit(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Automatic shutdown");  /* autotranslated, can be made a tab */
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = ShutdownOptDlgProc;
-	Options_AddPage(wParam, &odp);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 
