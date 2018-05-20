@@ -29,7 +29,7 @@ void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file
 	PathToRelativeW(fullPath, path);
 
 	CMLuaScript *script = new CMLuaScript(L, path);
-	g_plugin.Scripts.insert(script);
+	g_mLua->Scripts.insert(script);
 
 	if (!script->IsEnabled()) {
 		Log(L"%s:PASS", path);

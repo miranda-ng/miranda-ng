@@ -3,18 +3,18 @@
 #define MT_ENVIRONMENT "ENVIRONMENT"
 
 CMLuaEnvironment::CMLuaEnvironment(lua_State *L)
-	: CMPluginBase(nullptr, *(PLUGININFOEX*)nullptr), L(L)
+	: L(L)
 {
 	MUUID muidLast = MIID_LAST;
-	m_hLang = GetPluginLangId(muidLast, 0);
+	m_id = GetPluginLangId(muidLast, 0);
 }
 
 CMLuaEnvironment::~CMLuaEnvironment()
 {
-	KillModuleIcons(m_hLang);
-	KillModuleSounds(m_hLang);
-	KillModuleMenus(m_hLang);
-	KillModuleHotkeys(m_hLang);
+	KillModuleIcons(m_id);
+	KillModuleSounds(m_id);
+	KillModuleMenus(m_id);
+	KillModuleHotkeys(m_id);
 
 	KillObjectEventHooks(this);
 	KillObjectServices(this);
@@ -40,10 +40,15 @@ CMLuaEnvironment* CMLuaEnvironment::GetEnvironment(lua_State *L)
 
 int CMLuaEnvironment::GetEnvironmentId(lua_State *L)
 {
-	CMLuaEnvironment *env = GetEnvironment(L);
-	return env != nullptr
-		? env->m_hLang
+	CMLuaEnvironment *script = GetEnvironment(L);
+	return script != nullptr
+		? script->GetId()
 		: hMLuaLangpack;
+}
+
+int CMLuaEnvironment::GetId() const
+{
+	return m_id;
 }
 
 void CMLuaEnvironment::AddHookRef(HANDLE h, int ref)

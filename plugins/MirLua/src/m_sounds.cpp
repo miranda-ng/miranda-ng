@@ -7,10 +7,12 @@ static int lua_AddSound(lua_State *L)
 	ptrW section(mir_utf8decodeW(luaL_optstring(L, 3, MODULENAME)));
 	ptrW filePath(mir_utf8decodeW(lua_tostring(L, 4)));
 
-	int res = 1;
-	CMPluginBase *pPlugin = CMLuaEnvironment::GetEnvironment(L);
+	int res;
+	CMPluginBase *pPlugin = GetPluginByLangId(CMLuaEnvironment::GetEnvironmentId(L));
 	if (pPlugin != nullptr)
 		res = pPlugin->addSound(name, section, description, filePath);
+	else
+		res = 1;
 	lua_pushboolean(L, res == 0);
 
 	return 1;

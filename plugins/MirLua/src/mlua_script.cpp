@@ -7,15 +7,15 @@ CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
 {
 	mir_wstrcpy(filePath, path);
 
-	fileName = wcsrchr(filePath, L'\\') + 1;
-	const wchar_t *dot = wcsrchr(fileName, '.');
+	fileName = wcsrchr(filePath, '\\') + 1;
+	wchar_t *dot = wcsrchr(fileName, '.');
 
 	size_t length = mir_wstrlen(fileName) - mir_wstrlen(dot) + 1;
 
 	ptrW name((wchar_t*)mir_calloc(sizeof(wchar_t) * (length + 1)));
 	mir_wstrncpy(name, fileName, length);
 
-	m_szModuleName = mir_utf8encodeW(name);
+	moduleName = mir_utf8encodeW(name);
 }
 
 CMLuaScript::CMLuaScript(const CMLuaScript &script)
@@ -23,13 +23,13 @@ CMLuaScript::CMLuaScript(const CMLuaScript &script)
 {
 	mir_wstrcpy(filePath, script.filePath);
 	fileName = mir_wstrdup(script.fileName);
-	m_szModuleName = mir_strdup(script.m_szModuleName);
+	moduleName = mir_strdup(script.moduleName);
 }
 
 CMLuaScript::~CMLuaScript()
 {
 	Unload();
-	mir_free((char*)m_szModuleName);
+	mir_free(moduleName);
 }
 
 const wchar_t* CMLuaScript::GetFilePath() const
@@ -82,11 +82,11 @@ bool CMLuaScript::Load()
 		return true;
 
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, LUA_LOADED_TABLE);
-	lua_getfield(L, -1, m_szModuleName);
+	lua_getfield(L, -1, moduleName);
 	if (!lua_toboolean(L, -1)) {
 		lua_pop(L, 1);
 		lua_pushvalue(L, -2);
-		lua_setfield(L, -2, m_szModuleName);
+		lua_setfield(L, -2, moduleName);
 		lua_pop(L, 1);
 	}
 	else
@@ -126,7 +126,7 @@ void CMLuaScript::Unload()
 
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, LUA_LOADED_TABLE);
 	lua_pushnil(L);
-	lua_setfield(L, -2, m_szModuleName);
+	lua_setfield(L, -2, moduleName);
 	lua_pop(L, 1);
 }
 
