@@ -36,8 +36,7 @@ void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file
 		return;
 	}
 
-	if (script->Load())
-		Log(L"%s:OK", path);
+	script->Load();
 }
 
 void CMLuaScriptLoader::LoadScripts()

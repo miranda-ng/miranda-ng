@@ -77,6 +77,7 @@ bool CMLuaScript::Load()
 	}
 
 	status = Loaded;
+	Log(L"%s:OK", filePath);
 
 	if (lua_isnoneornil(L, -1))
 		return true;
@@ -132,6 +133,7 @@ void CMLuaScript::Unload()
 
 bool CMLuaScript::Reload()
 {
+	Log(L"Reloading script %s", filePath);
 	Unload();
 	return Load();
 }
