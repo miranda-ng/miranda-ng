@@ -662,10 +662,12 @@ void CSrmmWindow::UpdateTitle()
 	}
 	else mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
 
-	wchar_t oldtitle[256];
-	GetWindowText(m_pOwner->GetHwnd(), oldtitle, _countof(oldtitle));
-	if (mir_wstrcmp(newtitle, oldtitle)) //swt() flickers even if the title hasn't actually changed
-		SetWindowText(m_pOwner->GetHwnd(), newtitle);
+	if (this == m_pOwner->CurrPage()) {
+		wchar_t oldtitle[256];
+		GetWindowText(m_pOwner->GetHwnd(), oldtitle, _countof(oldtitle));
+		if (mir_wstrcmp(newtitle, oldtitle)) //swt() flickers even if the title hasn't actually changed
+			SetWindowText(m_pOwner->GetHwnd(), newtitle);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1389,6 +1391,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_UPDATETITLE:
+		if (lParam != 0) {
+			bool bIsMe = (lParam == m_hContact) || (m_bIsMeta && db_mc_getMeta(lParam) == m_hContact);
+			if (!bIsMe)
+				break;
+		}
+
 		UpdateIcon(wParam);
 		UpdateTitle();
 		break;

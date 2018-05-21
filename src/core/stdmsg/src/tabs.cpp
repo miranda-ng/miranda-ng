@@ -279,6 +279,11 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 		m_tab.ActivatePage(indexfound);
 }
 
+CMsgDialog* CTabbedWindow::CurrPage() const
+{
+	return (m_pEmbed != nullptr) ? m_pEmbed : (CMsgDialog*)m_tab.GetActivePage();
+}
+
 void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 {
 	if (pDlg == nullptr)
@@ -287,7 +292,7 @@ void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 	int image = pDlg->GetImageId();
 
 	// if tabs are turned off, simply change the window's icon, otherwise set the tab's icon first
-	if (pDlg != m_pEmbed) {
+	if (m_pEmbed == nullptr) {
 		int idx = m_tab.GetDlgIndex(pDlg);
 		if (idx == -1)
 			return;
@@ -299,14 +304,13 @@ void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 			tci.iImage = image;
 			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
 		}
-
-		// set the container's icon only if we're processing the current page
-		if (pDlg != m_tab.GetActivePage())
-			return;
 	}
 
-	Window_FreeIcon_IcoLib(m_hwnd);
-	Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
+	// set the container's icon only if we're processing the current page
+	if (pDlg == CurrPage()) {
+		Window_FreeIcon_IcoLib(m_hwnd);
+		Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
+	}
 }
 
 void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
