@@ -256,6 +256,7 @@ implementation
 
 initialization
   g_plugin.m_hInst := hInstance;
+  g_plugin.m_pInfo := @PluginInfo;
   RegisterPlugin(g_plugin);
   hLangpack := g_plugin.m_hLang;
 
