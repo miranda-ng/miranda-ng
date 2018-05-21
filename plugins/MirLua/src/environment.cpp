@@ -2,8 +2,10 @@
 
 #define MT_ENVIRONMENT "ENVIRONMENT"
 
-CMLuaEnvironment::CMLuaEnvironment(lua_State *L)
-	: CMPluginBase(nullptr, *(PLUGININFOEX*)nullptr), L(L)
+extern PLUGININFOEX pluginInfoEx;
+
+CMLuaEnvironment::CMLuaEnvironment(lua_State*)
+	: CMPluginBase(nullptr, pluginInfoEx)
 {
 	MUUID muidLast = MIID_LAST;
 	m_hLang = GetPluginLangId(muidLast, 0);
