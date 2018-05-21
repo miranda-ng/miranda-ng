@@ -174,19 +174,6 @@ int LoadStdPlugins()
 /////////////////////////////////////////////////////////////////////////////////////////
 // global functions
 
-MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
-{
-	for (auto &p : pluginList) {
-		if (!p->bpi.hInst)
-			continue;
-
-		if (p->bpi.pluginInfo->uuid == uuid)
-			return true;
-	}
-
-	return false;
-}
-
 static bool validInterfaceList(MUUID *piface)
 {
 	if (piface == nullptr)

@@ -254,9 +254,8 @@ end;
 
 function Langpack_Register:int_ptr;
 begin
-  mir_getLP(PluginInfo, hLangpack);
   cli := Clist_GetInterface();
-  result:=hLangpack;
+  result := hLangpack;
 end;
 
 

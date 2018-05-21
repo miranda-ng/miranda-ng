@@ -35,7 +35,7 @@ const
 
   ME_LANGPACK_CHANGE:PAnsiChar = 'LangPack/Changed';
 
-procedure mir_getLP(var pInfo:TPLUGININFOEX; var hLang:int); stdcall;
-                 external CoreDLL name 'mir_getLP';
+procedure RegisterPlugin(var pInfo:CMPlugin); stdcall; external AppDLL;
+procedure UnregisterPlugin(var pInfo:CMPlugin); stdcall; external AppDLL;
 
 {$ENDIF}

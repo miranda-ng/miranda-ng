@@ -600,3 +600,5 @@ GetPluginByInstance @626
 ?openOptions@CMPluginBase@@QAEXPB_W00@Z @629 NONAME
 ?openOptionsPage@CMPluginBase@@QAEXPB_W00@Z @630 NONAME
 ?getInfo@CMPluginBase@@QBEABUPLUGININFOEX@@XZ @631 NONAME
+RegisterPlugin @632
+UnregisterPlugin @633

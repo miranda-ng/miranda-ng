@@ -74,6 +74,15 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 	return 0;
 }
 
+MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
+{
+	for (auto &it : pluginListAddr)
+		if (it->getInfo().uuid == uuid)
+			return it->getInst() != nullptr;
+
+	return false;
+}
+
 char* GetPluginNameByInstance(HINSTANCE hInst)
 {
 	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
@@ -90,6 +99,22 @@ MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInst)
 {
 	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
 	return (pPlugin == nullptr) ? 0 : pPlugin->m_hLang;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// stubs for pascal plugins
+
+EXTERN_C MIR_APP_DLL(void) RegisterPlugin(CMPluginBase *pPlugin)
+{
+	if (pPlugin->getInst() != nullptr)
+		pluginListAddr.insert(pPlugin);
+
+	mir_getLP(&pPlugin->getInfo(), &pPlugin->m_hLang);
+}
+
+EXTERN_C MIR_APP_DLL(void) UnregisterPlugin(CMPluginBase *pPlugin)
+{
+	pluginListAddr.remove(pPlugin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
