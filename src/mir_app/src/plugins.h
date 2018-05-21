@@ -48,7 +48,6 @@ struct pluginEntry
 		bool bIsCrypto : 1;	  // crypto provider
 	};
 		
-	int hLangpack;
 	BASIC_PLUGIN_INFO bpi;
 };
 

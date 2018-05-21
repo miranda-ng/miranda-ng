@@ -174,42 +174,6 @@ int LoadStdPlugins()
 /////////////////////////////////////////////////////////////////////////////////////////
 // global functions
 
-char* GetPluginNameByLangpack(int _hLang)
-{
-	if (pluginList.getCount() == 0 || _hLang == 0)
-		return "";
-
-	for (auto &p : pluginList)
-		if (p->hLangpack == _hLang)
-			return p->bpi.pluginInfo->shortName;
-
-	return "";
-}
-
-char* GetPluginNameByInstance(HINSTANCE hInstance)
-{
-	if (pluginList.getCount() == 0)
-		return nullptr;
-
-	for (auto &p : pluginList)
-		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
-			return p->bpi.pluginInfo->shortName;
-
-	return nullptr;
-}
-
-MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInstance)
-{
-	if (pluginList.getCount() == 0)
-		return 0;
-
-	for (auto &p : pluginList)
-		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
-			return p->hLangpack;
-
-	return 0;
-}
-
 MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
 {
 	for (auto &p : pluginList) {
@@ -343,7 +307,7 @@ int Plugin_UnloadDyn(pluginEntry *p)
 		KillModuleServices(p->bpi.hInst);
 	}
 
-	int _hLang = p->hLangpack;
+	int _hLang = GetPluginLangByInstance(p->bpi.hInst);
 	if (_hLang != 0) {
 		KillModuleMenus(_hLang);
 		KillModuleFonts(_hLang);

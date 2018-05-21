@@ -72,7 +72,6 @@ extern bool bModulesLoadedFired;
 
 /**** newplugins.cpp *******************************************************************/
 
-char* GetPluginNameByLangpack(int _hLang);
 char* GetPluginNameByInstance(HINSTANCE hInstance);
 int   LoadStdPlugins(void);
 int   LaunchServicePlugin(pluginEntry *p);

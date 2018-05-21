@@ -74,10 +74,22 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 	return 0;
 }
 
+char* GetPluginNameByInstance(HINSTANCE hInst)
+{
+	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
+	return (pPlugin == nullptr) ? nullptr : pPlugin->getInfo().shortName;
+}
+
 MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
 {
 	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
 	return (pPlugin == nullptr) ? g_plugin : *pPlugin;
+}
+
+MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInst)
+{
+	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
+	return (pPlugin == nullptr) ? 0 : pPlugin->m_hLang;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -506,7 +506,8 @@ public:
 			m_service.SetTextA(szText);
 		}
 
-		m_module.SetTextA(GetPluginNameByLangpack(iod->pimi->mi.langId));
+		CMPluginBase *pPlugin = GetPluginByLangId(iod->pimi->mi.langId);
+		m_module.SetTextA(pPlugin == nullptr ? "" : pPlugin->getInfo().shortName);
 
 		m_btnInsMenu.Enable(iod->pimi->mi.root == nullptr);
 		m_btnDefault.Enable(mir_wstrcmp(iod->name, iod->defname) != 0);
