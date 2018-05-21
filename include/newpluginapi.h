@@ -175,6 +175,8 @@ public:
 	void debugLogA(LPCSTR szFormat, ...);
 	void debugLogW(LPCWSTR wszFormat, ...);
 
+	__forceinline const PLUGININFOEX& getInfo() const { return m_pInfo; }
+
 	__forceinline HINSTANCE getInst() const { return m_hInst; }
 	__forceinline void setInst(HINSTANCE hInst) { m_hInst = hInst; }
 

@@ -599,3 +599,4 @@ GetPluginByInstance @626
 ?addOptions@CMPluginBase@@QEAAH_KPEAUOPTIONSDIALOGPAGE@@@Z @628 NONAME
 ?openOptions@CMPluginBase@@QEAAXPEB_W00@Z @629 NONAME
 ?openOptionsPage@CMPluginBase@@QEAAXPEB_W00@Z @630 NONAME
+?getInfo@CMPluginBase@@QEBAAEBUPLUGININFOEX@@XZ @631 NONAME

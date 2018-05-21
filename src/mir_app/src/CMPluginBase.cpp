@@ -23,7 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "plugins.h"
 
+static int sttFakeID = -100;
 static LIST<CMPluginBase> pluginListAddr(10, HandleKeySortT);
 
 void RegisterModule(CMPluginBase *pPlugin)
@@ -60,6 +62,18 @@ MIR_APP_DLL(CMPluginBase*) GetPluginByLangId(int _hLang)
 	return nullptr;
 }
 
+MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
+{
+	if (uuid == miid_last)
+		return --sttFakeID;
+
+	for (auto &it : pluginListAddr)
+		if (it->getInfo().uuid == uuid)
+			return (_hLang) ? _hLang : --sttFakeID;
+
+	return 0;
+}
+
 MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
 {
 	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
@@ -72,10 +86,10 @@ CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
 	m_szModuleName(moduleName),
 	m_pInfo(pInfo)
 {
-	mir_getLP(&pInfo, &m_hLang);
-
 	if (m_hInst != nullptr)
 		pluginListAddr.insert(this);
+
+	mir_getLP(&pInfo, &m_hLang);
 }
 
 CMPluginBase::~CMPluginBase()

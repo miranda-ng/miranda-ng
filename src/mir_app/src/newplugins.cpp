@@ -56,7 +56,6 @@ static BOOL bModuleInitialized = FALSE;
 
 wchar_t  mirandabootini[MAX_PATH];
 static DWORD mirandaVersion;
-static int sttFakeID = -100;
 static int askAboutIgnoredPlugins;
 
 pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
@@ -207,22 +206,6 @@ MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInstance)
 	for (auto &p : pluginList)
 		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
 			return p->hLangpack;
-
-	return 0;
-}
-
-MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
-{
-	if (uuid == miid_last)
-		return --sttFakeID;
-
-	for (auto &p : pluginList) {
-		if (!p->bpi.hInst)
-			continue;
-
-		if (p->bpi.pluginInfo->uuid == uuid)
-			return p->hLangpack = (_hLang) ? _hLang : --sttFakeID;
-	}
 
 	return 0;
 }
