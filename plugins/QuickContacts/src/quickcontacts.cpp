@@ -76,7 +76,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hkd.szSection.w = LPGENW("Quick Contacts");
 	hkd.pszService = MS_QC_SHOW_DIALOG;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_ALT, 'Q');
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszService = nullptr;
 
@@ -84,37 +84,37 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'F');
 	hkd.pszName = "Quick Contacts/File";
 	hkd.szDescription.w = LPGENW("Send file");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.lParam = HOTKEY_URL;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'U');
 	hkd.pszName = "Quick Contacts/URL";
 	hkd.szDescription.w = LPGENW("Send URL");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.lParam = HOTKEY_INFO;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'I');
 	hkd.pszName = "Quick Contacts/Info";
 	hkd.szDescription.w = LPGENW("Open user info");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.lParam = HOTKEY_HISTORY;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'H');
 	hkd.pszName = "Quick Contacts/History";
 	hkd.szDescription.w = LPGENW("Open history");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.lParam = HOTKEY_MENU;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'M');
 	hkd.pszName = "Quick Contacts/Menu";
 	hkd.szDescription.w = LPGENW("Open contact menu");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.lParam = HOTKEY_ALL_CONTACTS;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'A');
 	hkd.pszName = "Quick Contacts/All Contacts";
 	hkd.szDescription.w = LPGENW("Show all contacts");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	if (ServiceExists(MS_SKIN_ADDHOTKEY)) {
 		SKINHOTKEYDESCEX hk = { 0 };

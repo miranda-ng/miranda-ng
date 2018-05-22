@@ -50,7 +50,7 @@ TwitterProto::TwitterProto(const char *proto_name, const wchar_t *username) :
 	hkd.pszService = text;
 	hkd.szSection.a = m_szModuleName; // Section title; TODO: use username?
 	hkd.szDescription.a = "Send Tweet";
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	// set Tokens and stuff
 

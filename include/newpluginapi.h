@@ -199,8 +199,9 @@ public:
 	void openOptions(const wchar_t *pszGroup, const wchar_t *pszPage = 0, const wchar_t *pszTab = 0);
 	void openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPage = 0, const wchar_t *pszTab = 0);
 
-	HANDLE addIcon(struct SKINICONDESC*);
+	HANDLE addIcon(const struct SKINICONDESC*);
 
+	int addHotkey(const struct HOTKEYDESC*);
 	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);
 	int addUserInfo(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);
 

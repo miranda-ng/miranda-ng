@@ -156,7 +156,7 @@ int SmileyButtonCreate(WPARAM, LPARAM)
 	desc.szDescription.a = LPGEN("Smiley selector");
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'E');
 	desc.lParam = LPARAM(g_plugin.getInst());
-	Hotkey_Register(&desc);
+	g_plugin.addHotkey(&desc);
 
 	BBButton bbd = {};
 	bbd.pszModuleName = MODULENAME;

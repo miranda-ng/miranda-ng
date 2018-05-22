@@ -17,28 +17,28 @@ void RegisterKeyBindings()
 	desc.lParam = KB_NEW_NOTE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_INSERT);
 	desc.pszService = MODULENAME"/MenuCommandAddNew";
-	Hotkey_Register(&desc);
+	g_plugin.addHotkey(&desc);
 
 	desc.pszName = MODULENAME"/ToggleNotesVis";
 	desc.szDescription.w = LPGENW("Toggle Notes Visibility");
 	desc.lParam = KB_TOGGLE_NOTES;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_ADD);
 	desc.pszService = MODULENAME"/MenuCommandShowHide";
-	Hotkey_Register(&desc);
+	g_plugin.addHotkey(&desc);
 
 	desc.pszName = MODULENAME"/BringNotesFront";
 	desc.szDescription.w = LPGENW("Bring All Notes to Front");
 	desc.lParam = KB_TOGGLE_NOTES;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_HOME);
 	desc.pszService = MODULENAME"/MenuCommandBringAllFront";
-	Hotkey_Register(&desc);
+	g_plugin.addHotkey(&desc);
 
 	desc.pszName = MODULENAME"/NewReminder";
 	desc.szDescription.w = LPGENW("New Reminder");
 	desc.lParam = KB_NEW_REMINDER;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_SUBTRACT);
 	desc.pszService = MODULENAME"/MenuCommandNewReminder";
-	Hotkey_Register(&desc);
+	g_plugin.addHotkey(&desc);
 }
 
 LRESULT CALLBACK NotifyHotKeyWndProc(HWND AHwnd, UINT Message, WPARAM wParam, LPARAM lParam)

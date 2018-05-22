@@ -742,13 +742,13 @@ static void LoadMenus()
 	hkd.pszName = MODULE "/MainHideAllThumbs";
 	hkd.szDescription.a = LPGEN("Show/Hide all thumbs");
 	hkd.pszService = MODULE "/MainHideAllThumbs";
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	CreateServiceFunction(MODULE "/HideWhenCListShow", OnHotKey_HideWhenCListShow);
 	hkd.pszName = MODULE "/HideWhenCListShow";
 	hkd.szDescription.a = LPGEN("Hide when contact list is shown");
 	hkd.pszService = MODULE "/HideWhenCListShow";
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

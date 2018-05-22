@@ -129,7 +129,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	hkd.szSection.w = LPGENW("Main");
 	hkd.pszService = MS_ADDCONTACTPLUS_SHOW;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C') | HKF_MIRANDA_LOCAL;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	OnAccListChanged(0, 0);
 

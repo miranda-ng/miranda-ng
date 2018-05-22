@@ -160,7 +160,7 @@ void RegisterHotkeys(char buf[200], wchar_t* accName, int Number)
 	hotkey.szSection.w = LPGENW("Custom Status List");
 	hotkey.pszService = buf;
 	hotkey.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, '0' + Number);
-	Hotkey_Register(&hotkey);
+	g_plugin.addHotkey(&hotkey);
 }
 
 void SetStatus(WORD code, StatusItem* item, char *szAccName)

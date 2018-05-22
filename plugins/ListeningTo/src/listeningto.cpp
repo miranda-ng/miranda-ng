@@ -295,17 +295,17 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.pszService = MS_LISTENINGTO_HOTKEYS_ENABLE;
 	hkd.pszName = "ListeningTo/EnableAll";
 	hkd.szDescription.a = LPGEN("Send to all protocols");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszService = MS_LISTENINGTO_HOTKEYS_DISABLE;
 	hkd.pszName = "ListeningTo/DisableAll";
 	hkd.szDescription.a = LPGEN("Don't send to any protocols");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszService = MS_LISTENINGTO_HOTKEYS_TOGGLE;
 	hkd.pszName = "ListeningTo/ToggleAll";
 	hkd.szDescription.a = LPGEN("Toggle send to all protocols");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	//
 	SetListeningInfos();

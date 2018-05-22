@@ -97,7 +97,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.szSection.w = LPGENW("News Aggregator");
 	hkd.pszService = MS_NEWSAGGREGATOR_CHECKALLFEEDS;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'O') | HKF_MIRANDA_LOCAL;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	InitIcons();
 

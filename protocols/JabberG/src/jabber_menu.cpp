@@ -750,19 +750,19 @@ void CJabberProto::GlobalMenuInit()
 
 	mir_strcpy(tDest, "/Groupchat");
 	hkd.szDescription.w = LPGENW("Join conference");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	mir_strcpy(tDest, "/Bookmarks");
 	hkd.szDescription.w = LPGENW("Open bookmarks");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	mir_strcpy(tDest, "/PrivacyLists");
 	hkd.szDescription.w = LPGENW("Privacy lists");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	mir_strcpy(tDest, "/ServiceDiscovery");
 	hkd.szDescription.w = LPGENW("Service discovery");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 }
 
 static INT_PTR g_ToolbarHandleJoinGroupchat(WPARAM w, LPARAM l)

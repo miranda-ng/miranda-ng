@@ -60,7 +60,7 @@ extern "C"
 // Adds an icon into the icon library
 // returns a handle to the newly added item
 
-MIR_APP_DLL(HANDLE) IcoLib_AddIcon(SKINICONDESC *sid, int langId);
+MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, int langId);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Removes an icon from icon library by icon's name or handle

@@ -314,7 +314,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hkd.szSection.a = YAMN_DBMODULE;
 	hkd.szDescription.a = LPGEN("Check mail");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F11);
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	//Create thread that will be executed every second
 	if (!(SecTimer = SetTimer(nullptr, 0, 1000, TimerProc)))

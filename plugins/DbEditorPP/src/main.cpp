@@ -131,7 +131,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hkd.szSection.a = modFullname;
 	hkd.szDescription.a = LPGEN("Open Database Editor");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	g_bUsePopups = db_get_b(NULL, MODULENAME, "UsePopUps", 0) != 0;
 

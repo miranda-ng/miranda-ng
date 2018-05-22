@@ -52,18 +52,18 @@ int InitSkinHotKeys(void)
 	shk.szDescription.w = LPGENW("Close Miranda");
 	shk.pszName = "CloseMiranda";
 	shk.pszService = "CLIST/HK/CloseMiranda";
-	Hotkey_Register(&shk);
+	g_plugin.addHotkey(&shk);
 
 	shk.szSection.w = LPGENW("Status");
 	shk.szDescription.w = LPGENW("Restore last status");
 	shk.pszName = "RestoreLastStatus";
 	shk.pszService = "CLIST/HK/RestoreStatus";
-	Hotkey_Register(&shk);
+	g_plugin.addHotkey(&shk);
 
 	shk.szSection.w = LPGENW("Main");
 	shk.szDescription.w = LPGENW("Show/Hide offline users");
 	shk.pszName = "ShowHideOfflineUsers";
 	shk.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
-	Hotkey_Register(&shk);
+	g_plugin.addHotkey(&shk);
 	return 0;
 }

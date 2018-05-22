@@ -213,7 +213,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hkd.szDescription.a = LPGEN("Enable/disable spell checker");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_ALT, 'S');
 	hkd.lParam = HOTKEY_ACTION_TOGGLE;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	loaded = TRUE;
 

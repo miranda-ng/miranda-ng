@@ -322,7 +322,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.pszService = MS_SENDSS_OPENDIALOG;
 	hkd.lParam = 0xFFFF;
 	hkd.dwFlags = HKD_UNICODE;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	/// register highlighter window class
 	HBRUSH brush = CreateSolidBrush(0x0000FF00);//owned by class

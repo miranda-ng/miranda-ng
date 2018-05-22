@@ -126,12 +126,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	hotkey.pszName = "wwi_birthday_list";
 	hotkey.szDescription.a = LPGEN("Birthday list");
 	hotkey.pszService = MS_WWI_LIST_SHOW;
-	Hotkey_Register(&hotkey);
+	g_plugin.addHotkey(&hotkey);
 
 	hotkey.pszName = "wwi_check_birthdays";
 	hotkey.szDescription.a = LPGEN("Check for birthdays");
 	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	Hotkey_Register(&hotkey);
+	g_plugin.addHotkey(&hotkey);
 
 	g_plugin.addSound(BIRTHDAY_NEAR_SOUND, LPGENW("WhenWasIt"), LPGENW("Birthday near"));
 	g_plugin.addSound(BIRTHDAY_TODAY_SOUND, LPGENW("WhenWasIt"), LPGENW("Birthday today"));

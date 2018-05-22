@@ -557,7 +557,7 @@ void RegisterCoreHotKeys(void)
 	hotkey.pszService = MS_BOSSKEY_HIDE;
 	hotkey.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F12);
 
-	Hotkey_Register(&hotkey);
+	g_plugin.addHotkey(&hotkey);
 }
 
 static int TopToolbarInit(WPARAM, LPARAM)

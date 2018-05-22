@@ -130,39 +130,39 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.szSection.w = L"TranslitSwitcher";
 	hkd.pszService = MS_TS_SWITCHLAYOUT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL + HKCOMB_A, 'R') | HKF_MIRANDA_LOCAL;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/ConvertLastOrSelected";
 	hkd.szDescription.w = LPGENW("Convert Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT + HKCOMB_A, 'R') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = true;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/TranslitAllOrSelected";
 	hkd.szDescription.w = LPGENW("Translit All / Selected");
 	hkd.pszService = MS_TS_TRANSLITLAYOUT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL + HKCOMB_A, 'T') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = false;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/TranslitLastOrSelected";
 	hkd.szDescription.w = LPGENW("Translit Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT + HKCOMB_A, 'T') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = true;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/InvertCaseAllOrSelected";
 	hkd.szDescription.w = LPGENW("Invert Case All / Selected");
 	hkd.pszService = MS_TS_INVERTCASE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL + HKCOMB_A, 'Y') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = false;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/InvertCaseLastOrSelected";
 	hkd.szDescription.w = LPGENW("Invert Case Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT + HKCOMB_A, 'Y') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = true;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 	return 0;
 }
 

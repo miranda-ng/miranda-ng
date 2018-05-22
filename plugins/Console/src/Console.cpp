@@ -1136,7 +1136,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	hkd.szDescription.a = LPGEN("Show/Hide Console");
 	hkd.pszService = MS_CONSOLE_SHOW_HIDE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_EXT, 'C');
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	if (hwndConsole && IsWindow(hwndConsole)) {
 		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);

@@ -867,5 +867,5 @@ void SvcRefreshContactInfoLoadModule(void)
 	hk.szSection.a = MODULENAME;
 	hk.szDescription.a = LPGEN("Refresh contact details");
 	hk.pszService = MS_USERINFO_REFRESH;
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 }

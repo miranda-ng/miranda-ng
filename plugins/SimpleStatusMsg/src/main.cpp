@@ -1250,7 +1250,7 @@ void RegisterHotkey(void)
 	hkd.szSection.w = LPGENW("Status message");
 	hkd.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_OEM_3);
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 }
 
 static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)

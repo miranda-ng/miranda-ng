@@ -96,7 +96,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.pszService = MS_PU_CHECKUPDATES;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	InitEvents();
 

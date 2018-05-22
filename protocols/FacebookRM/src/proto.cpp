@@ -1018,16 +1018,16 @@ void FacebookProto::InitHotkeys()
 
 	mir_strcpy(tDest, "/VisitProfile");
 	hkd.szDescription.w = LPGENW("Visit profile");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	mir_strcpy(tDest, "/VisitNotifications");
 	hkd.szDescription.w = LPGENW("Visit notifications");
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	mir_strcpy(tDest, "/Mind");
 	hkd.szDescription.w = LPGENW("Show 'Share status' window");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_EXT, 'F');
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 }
 
 /**

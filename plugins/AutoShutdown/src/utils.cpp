@@ -205,5 +205,5 @@ void AddHotkey()
 	hkd.szSection.w = LPGENW("Main");
 	hkd.pszService = "AutoShutdown/MenuCommand";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T') | HKF_MIRANDA_LOCAL;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 }

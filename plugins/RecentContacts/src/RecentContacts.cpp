@@ -533,7 +533,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	hk.szDescription.a = LPGEN("Show Recent Contacts");
 	hk.pszService = msLastUC_ShowList;
 	hk.DefHotKey = MAKEWORD('R', HOTKEYF_CONTROL | HOTKEYF_SHIFT);
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 	return 0;
 }
 

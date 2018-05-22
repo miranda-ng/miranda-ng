@@ -224,7 +224,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	hotkey.szSection.a = "Contacts";
 	hotkey.pszService = MS_FAVCONTACTS_SHOWMENU_CENTERED;
 	hotkey.DefHotKey = MAKEWORD('Q', HOTKEYF_EXT);
-	Hotkey_Register(&hotkey);
+	g_plugin.addHotkey(&hotkey);
 
 	if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
 		for (auto &hContact : Contacts())

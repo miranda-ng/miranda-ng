@@ -272,7 +272,7 @@ void Options::Load(void)
 		hid.pszService = g_HotkeyOptionsList[i].pszService;
 		hid.DefHotKey = g_HotkeyOptionsList[i].DefHotKey;
 		hid.lParam = g_HotkeyOptionsList[i].lParam;
-		Hotkey_Register(&hid);
+		g_plugin.addHotkey(&hid);
 	}
 
 	showContacts = db_get_b(0, MODULENAME, "showContacts", 0) ? true : false;

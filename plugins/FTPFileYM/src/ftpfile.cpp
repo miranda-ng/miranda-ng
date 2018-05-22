@@ -172,7 +172,7 @@ void InitHotkeys()
 	hk.szDescription.a = LPGEN("Show FTPFile manager");
 	hk.pszName = "FTP_ShowManager";
 	hk.pszService = MS_FTPFILE_SHOWMANAGER;
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 }
 
 void InitTabsrmmButton()

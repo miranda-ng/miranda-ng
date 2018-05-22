@@ -760,22 +760,22 @@ static int PluginInit(WPARAM, LPARAM)
 	hkd.szSection.a = LPGEN("Sessions");
 	hkd.szDescription.a = LPGEN("Open Sessions Manager");
 	hkd.pszService = MS_SESSIONS_OPENMANAGER;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszName = "RestoreLastSession";
 	hkd.szDescription.a = LPGEN("Restore last Session");
 	hkd.pszService = MS_SESSIONS_RESTORELASTSESSION;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszName = "SaveSession";
 	hkd.szDescription.a = LPGEN("Save Session");
 	hkd.pszService = MS_SESSIONS_SAVEUSERSESSION;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	hkd.pszName = "CloseSession";
 	hkd.szDescription.a = LPGEN("Close Session");
 	hkd.pszService = MS_SESSIONS_CLOSESESSION;
-	Hotkey_Register(&hkd);
+	g_plugin.addHotkey(&hkd);
 
 	// Main menu
 	CMenuItem mi;

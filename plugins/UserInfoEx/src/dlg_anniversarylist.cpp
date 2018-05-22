@@ -982,5 +982,5 @@ void DlgAnniversaryListLoadModule()
 	hk.szSection.a = MODULENAME;
 	hk.szDescription.a = LPGEN("Popup anniversary list");
 	hk.pszService = MS_USERINFO_REMINDER_LIST;
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 }

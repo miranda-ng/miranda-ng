@@ -1170,7 +1170,7 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 		hkd.szDescription.a = LPGEN("Show/Hide frame");
 		hkd.pszName = "TC_Show_Hide";
 		hkd.pszService = "TrafficCounter/ShowHide";
-		Hotkey_Register(&hkd);
+		g_plugin.addHotkey(&hkd);
 	}
 
 	// Добавляем пункт в главное меню.

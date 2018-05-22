@@ -1079,7 +1079,7 @@ void InitCustomMenus(void)
 		hkd.szDescription.w = Clist_GetStatusModeDescription(hkd.lParam, GSMDF_UNTRANSLATED);
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '0' + i) | HKF_MIRANDA_LOCAL;
 		hkd.pszService = MS_CLIST_HKSTATUS;
-		g_statuses[i].iHotKey = Hotkey_Register(&hkd);
+		g_statuses[i].iHotKey = g_plugin.addHotkey(&hkd);
 	}
 
 	HookEvent(ME_HOTKEYS_CHANGED, sttRebuildHotkeys);

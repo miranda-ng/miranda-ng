@@ -329,12 +329,12 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hk.szDescription.a = LPGEN("Copy Version Info to clipboard");
 	hk.pszName = "CopyVerInfo";
 	hk.pszService = MS_CRASHDUMPER_STORETOCLIP;
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 
 	hk.szDescription.a = LPGEN("Show Version Info");
 	hk.pszName = "ShowVerInfo";
 	hk.pszService = MS_CRASHDUMPER_VIEWINFO;
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 
 	UploadInit();
 

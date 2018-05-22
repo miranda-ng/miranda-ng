@@ -165,7 +165,12 @@ void CMPluginBase::openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE CMPluginBase::addIcon(SKINICONDESC *sid)
+int CMPluginBase::addHotkey(const HOTKEYDESC *hk)
+{
+	return Hotkey_Register(hk, m_hLang);
+}
+
+HANDLE CMPluginBase::addIcon(const SKINICONDESC *sid)
 {
 	return IcoLib_AddIcon(sid, m_hLang);
 }

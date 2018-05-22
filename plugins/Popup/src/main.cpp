@@ -216,13 +216,13 @@ void LoadHotkey()
 	hk.szDescription.w = LPGENW("Toggle Popups");
 	hk.szSection.w = MODULNAME_PLUW;
 	hk.pszService = MENUCOMMAND_SVC;
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 
 	// 'Popup History' Hotkey
 	hk.pszName = "Popup History";
 	hk.szDescription.w = LPGENW("Popup History");
 	hk.pszService = MENUCOMMAND_HISTORY;
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 }
 
 // menu

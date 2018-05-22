@@ -461,7 +461,7 @@ void IcolibItem::clear()
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_AddIcon
 
-MIR_APP_DLL(HANDLE) IcoLib_AddIcon(SKINICONDESC *sid, int _hLang)
+MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, int _hLang)
 {
 	mir_cslock lck(csIconList);
 

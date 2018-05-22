@@ -53,7 +53,7 @@ struct HOTKEYDESC
 // Registers new hotkey
 // Returns 0 on failure or hotkey atom id on success
 
-EXTERN_C MIR_APP_DLL(int) Hotkey_Register(const HOTKEYDESC *hk, int = hLangpack);
+EXTERN_C MIR_APP_DLL(int) Hotkey_Register(const HOTKEYDESC *hk, int langId);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unregister existing hotkey

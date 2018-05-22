@@ -133,7 +133,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_CREATE:
 		for (auto &it : _hotkeydescs)
-			Hotkey_Register(&it);
+			g_plugin.addHotkey(&it);
 
 		WM_TASKBARCREATED = RegisterWindowMessageA("TaskbarCreated");
 		ShowWindow(hwndDlg, SW_HIDE);

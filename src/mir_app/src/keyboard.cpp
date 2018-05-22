@@ -61,34 +61,34 @@ int InitClistHotKeys(void)
 	shk.szSection.w = L"Main";
 	shk.pszService = "CLIST/HK/SHOWHIDE";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'A');
-	Hotkey_Register(&shk);
+	g_plugin.addHotkey(&shk);
 
 	shk.szDescription.w = LPGENW("Read message");
 	shk.pszName = "ReadMessage";
 	shk.szSection.w = L"Main";
 	shk.pszService = "CLIST/HK/Read";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'I');
-	Hotkey_Register(&shk);
+	g_plugin.addHotkey(&shk);
 
 	shk.szDescription.w = LPGENW("Open Options page");
 	shk.pszName = "ShowOptions";
 	shk.szSection.w = L"Main";
 	shk.pszService = "CLIST/HK/Opts";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'O') | HKF_MIRANDA_LOCAL;
-	Hotkey_Register(&shk);
+	g_plugin.addHotkey(&shk);
 
 	shk.szDescription.w = LPGENW("Open logging options");
 	shk.pszName = "ShowLogOptions";
 	shk.szSection.w = L"Main";
 	shk.pszService = "Netlib/Log/Win";
 	shk.DefHotKey = 0;
-	Hotkey_Register(&shk);
+	g_plugin.addHotkey(&shk);
 
 	shk.szDescription.w = LPGENW("Open 'Find user' dialog");
 	shk.pszName = "FindUsers";
 	shk.szSection.w = L"Main";
 	shk.pszService = "FindAdd/FindAddCommand";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'F') | HKF_MIRANDA_LOCAL;
-	Hotkey_Register(&shk);
+	g_plugin.addHotkey(&shk);
 	return 0;
 }

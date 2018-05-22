@@ -907,7 +907,7 @@ void SvcReminderLoadModule(void)
 	hk.szSection.a = MODULENAME;
 	hk.szDescription.a = LPGEN("Check anniversaries");
 	hk.pszService = MS_USERINFO_REMINDER_CHECK;
-	Hotkey_Register(&hk);
+	g_plugin.addHotkey(&hk);
 
 	if (db_get_b(NULL, MODULENAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF && ExtraIcon == INVALID_HANDLE_VALUE)
 		ExtraIcon = ExtraIcon_RegisterIcolib("Reminder", LPGEN("Reminder (UInfoEx)"), ICO_COMMON_ANNIVERSARY);
