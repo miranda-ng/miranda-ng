@@ -224,23 +224,23 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 	ttb.name = ttb.pszTooltipUp = LPGEN("Version Information To Clipboard");
 	ttb.hIconHandleUp = GetIconHandle(IDI_VITOCLIP);
 	ttb.dwFlags = TTBBF_VISIBLE;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_CRASHDUMPER_STORETOFILE;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Version Information To File");
 	ttb.hIconHandleUp = GetIconHandle(IDI_VITOFILE);
 	ttb.dwFlags = 0;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_CRASHDUMPER_VIEWINFO;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Show Version Information");
 	ttb.hIconHandleUp = GetIconHandle(IDI_VISHOW);
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_CRASHDUMPER_UPLOAD;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Upload Version Information");
 	ttb.hIconHandleUp = GetIconHandle(IDI_VIUPLOAD);
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 	return 0;
 }
 

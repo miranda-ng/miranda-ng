@@ -146,12 +146,12 @@ int OnTopToolBarInit(WPARAM, LPARAM)
 	ttb.hIconHandleUp = iconList[14].hIcolib;
 	ttb.pszService = MODULENAME"/MenuCommandAddNew";
 	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Note");
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	ttb.hIconHandleUp = iconList[15].hIcolib;
 	ttb.pszService = MODULENAME"/MenuCommandNewReminder";
 	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Reminder");
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	UnhookEvent(hkTopToolbarInit);
 	return 0;

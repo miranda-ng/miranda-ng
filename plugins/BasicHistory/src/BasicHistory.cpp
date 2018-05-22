@@ -89,7 +89,7 @@ int ToolbarModuleLoaded(WPARAM, LPARAM)
 	ttb.name = ttb.pszTooltipUp = LPGEN("Open History");
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP;
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	hToolbarButton = TopToolbar_AddButton(&ttb);
+	hToolbarButton = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

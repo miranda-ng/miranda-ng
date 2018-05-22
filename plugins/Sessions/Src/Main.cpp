@@ -716,22 +716,22 @@ static int CreateButtons(WPARAM, LPARAM)
 	ttb.pszService = MS_SESSIONS_OPENMANAGER;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Open Sessions Manager");
 	ttb.hIconHandleUp = iconList[3].hIcolib;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Save Session");
 	ttb.hIconHandleUp = iconList[4].hIcolib;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Restore Last Session");
 	ttb.hIconHandleUp = iconList[5].hIcolib;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_SESSIONS_SHOWFAVORITESMENU;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Show Favorite Sessions Menu");
 	ttb.hIconHandleUp = iconList[1].hIcolib;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 	return 0;
 }
 

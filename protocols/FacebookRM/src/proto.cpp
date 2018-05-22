@@ -458,7 +458,7 @@ int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 	ttb.pszService = service;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Share status...");
 	ttb.hIconHandleUp = IcoLib_GetIconByHandle(GetIconHandle("mind"));
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	return 0;
 }

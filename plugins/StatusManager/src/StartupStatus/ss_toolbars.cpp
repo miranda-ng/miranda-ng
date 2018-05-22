@@ -63,7 +63,7 @@ int CreateTopToolbarButtons(WPARAM, LPARAM)
 		ttb.hIconHandleUp = iconList[1].hIcolib;
 		ttb.wParamDown = ttb.wParamUp = i;
 		ttb.name = ttb.pszTooltipUp = dbv.pszVal;
-		HANDLE ttbAddResult = TopToolbar_AddButton(&ttb);
+		HANDLE ttbAddResult = g_plugin.addTTB(&ttb);
 		if (ttbAddResult)
 			ttbButtons.insert(ttbAddResult);
 		db_free(&dbv);

@@ -116,7 +116,7 @@ static int CreateButton(WPARAM, LPARAM)
 	tbb.pszService = MS_ADDCONTACTPLUS_SHOW;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Add contact");
 	tbb.hIconHandleUp = icon[0].hIcolib;
-	hToolBarItem = TopToolbar_AddButton(&tbb);
+	hToolBarItem = g_plugin.addTTB(&tbb);
 	return 0;
 }
 

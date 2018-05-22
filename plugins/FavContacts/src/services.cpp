@@ -117,7 +117,7 @@ int ProcessTBLoaded(WPARAM, LPARAM)
 	ttb.pszService = MS_FAVCONTACTS_SHOWMENU;
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 	ttb.hIconHandleUp = iconList[0].hIcolib;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 	return 0;
 }
 

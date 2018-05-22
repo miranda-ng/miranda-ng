@@ -260,6 +260,6 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.hIconHandleUp = GetIconHandle("enabled");
 	ttb.hIconHandleDn = GetIconHandle("disabled");
 	ttb.dwFlags = (db_get_b(NULL, MODULENAME, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
-	hTBButton = TopToolbar_AddButton(&ttb);
+	hTBButton = g_plugin.addTTB(&ttb);
 	return 0;
 }

@@ -611,3 +611,4 @@ UnregisterPlugin @633
 ?addEffect@CMPluginBase@@QEAAHPEAUEffectIDW@@@Z @640 NONAME
 ?addFont@CMPluginBase@@QEAAHPEAUFontID@@@Z @641 NONAME
 ?addFont@CMPluginBase@@QEAAHPEAUFontIDW@@@Z @642 NONAME
+?addTTB@CMPluginBase@@QEAAPEAXPEBUTTBButton@@@Z @643 NONAME

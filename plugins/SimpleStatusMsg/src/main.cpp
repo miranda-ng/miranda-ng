@@ -1235,7 +1235,7 @@ static int AddTopToolbarButton(WPARAM, LPARAM)
 	tbb.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Change status message");
-	hTTBButton = TopToolbar_AddButton(&tbb);
+	hTTBButton = g_plugin.addTTB(&tbb);
 
 	ReleaseIconEx("csmsg");
 	return 0;

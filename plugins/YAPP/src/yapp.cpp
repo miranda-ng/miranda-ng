@@ -88,7 +88,7 @@ static int TTBLoaded(WPARAM, LPARAM)
 	ttb.hIconHandleDn = IcoLib_GetIconHandle(ICO_TB_POPUP_ON);
 	ttb.pszTooltipUp = LPGEN("Enable Popups");
 	ttb.pszTooltipDn = LPGEN("Disable Popups");
-	hTTButton = TopToolbar_AddButton(&ttb);
+	hTTButton = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

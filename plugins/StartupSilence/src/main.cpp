@@ -283,7 +283,7 @@ static int CreateTTButtons(WPARAM, LPARAM)
 	ttb.name = TTBNAME;
 	ttb.pszTooltipUp = SS_IS_ON;
 	ttb.pszTooltipDn = SS_IS_OFF;
-	Buttons = TopToolbar_AddButton(&ttb);
+	Buttons = g_plugin.addTTB(&ttb);
 	if (Buttons)
 		ttbButtons.insert(Buttons);
 	return 0;

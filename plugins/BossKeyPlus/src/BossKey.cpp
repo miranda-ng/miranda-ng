@@ -567,7 +567,7 @@ static int TopToolbarInit(WPARAM, LPARAM)
 	ttb.pszTooltipUp = ttb.name = LPGEN("Hide Miranda NG");
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.hIconHandleUp = iconList[0].hIcolib;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 	return 0;
 }
 

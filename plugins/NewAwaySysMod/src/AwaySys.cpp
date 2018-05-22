@@ -435,7 +435,7 @@ static int Create_TopToolbar(WPARAM, LPARAM)
 		ttbb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
 		ttbb.pszTooltipDn = LPGEN("Toggle autoreply off");
 		ttbb.pszTooltipUp = LPGEN("Toggle autoreply on");
-		g_hTopToolbarbutton = TopToolbar_AddButton(&ttbb);
+		g_hTopToolbarbutton = g_plugin.addTTB(&ttbb);
 		
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : 0);
 	}

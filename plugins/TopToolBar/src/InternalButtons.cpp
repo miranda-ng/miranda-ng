@@ -74,7 +74,7 @@ void InitInternalButtons()
 	ttb.pszTooltipUp = LPGEN("Show main menu");
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU);
 	ttb.wParamUp = 1;
-	hMainMenu = TopToolbar_AddButton(&ttb);
+	hMainMenu = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Show options page");
 	ttb.pszService = "Options/OptionsCommand";
@@ -82,28 +82,28 @@ void InitInternalButtons()
 	ttb.pszTooltipUp = LPGEN("Show options page");
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	ttb.wParamUp = 0;
-	hOptions = TopToolbar_AddButton(&ttb);
+	hOptions = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Show accounts manager");
 	ttb.pszService = "Protos/ShowAccountManager";
 	ttb.dwFlags = TTBBF_INTERNAL;
 	ttb.pszTooltipUp = LPGEN("Show accounts manager");
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
-	hAccManager = TopToolbar_AddButton(&ttb);
+	hAccManager = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Find/add contacts");
 	ttb.pszService = MS_FINDADD_FINDADD;
 	ttb.dwFlags = TTBBF_INTERNAL | TTBBF_VISIBLE;
 	ttb.pszTooltipUp = LPGEN("Find/add contacts");
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
-	hFindAdd = TopToolbar_AddButton(&ttb);
+	hFindAdd = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Show status menu");
 	ttb.pszService = TTBI_STATUSMENUBUTT;
 	ttb.dwFlags = TTBBF_INTERNAL;
 	ttb.pszTooltipUp = LPGEN("Show status menu");
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_STATUS);
-	hStatusMenu = TopToolbar_AddButton(&ttb);
+	hStatusMenu = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Show/hide offline contacts");
 	ttb.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
@@ -113,7 +113,7 @@ void InitInternalButtons()
 	ttb.hIconHandleDn = ttb.hIconHandleUp = nullptr;
 	ttb.hIconUp = IcoLib_GetIconByHandle(iconList[1].hIcolib);
 	ttb.hIconDn = IcoLib_GetIconByHandle(iconList[2].hIcolib);
-	hShowHideOffline = TopToolbar_AddButton(&ttb);
+	hShowHideOffline = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Enable/disable metacontacts");
 	ttb.pszService = "MetaContacts/OnOff";
@@ -122,7 +122,7 @@ void InitInternalButtons()
 	ttb.pszTooltipUp = LPGEN("Disable metacontacts");
 	ttb.hIconUp = IcoLib_GetIconByHandle(iconList[7].hIcolib);
 	ttb.hIconDn = IcoLib_GetIconByHandle(iconList[8].hIcolib);
-	hMetaContacts = TopToolbar_AddButton(&ttb);
+	hMetaContacts = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Enable/disable groups");
 	ttb.pszService = MS_CLIST_TOGGLEGROUPS;
@@ -131,7 +131,7 @@ void InitInternalButtons()
 	ttb.pszTooltipUp = LPGEN("Enable groups");
 	ttb.hIconUp = IcoLib_GetIconByHandle(iconList[3].hIcolib);
 	ttb.hIconDn = IcoLib_GetIconByHandle(iconList[4].hIcolib);
-	hGroups = TopToolbar_AddButton(&ttb);
+	hGroups = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Enable/disable sounds");
 	ttb.pszService = TTBI_SOUNDSONOFF;
@@ -140,7 +140,7 @@ void InitInternalButtons()
 	ttb.pszTooltipUp = LPGEN("Disable sounds");
 	ttb.hIconUp = IcoLib_GetIconByHandle(iconList[5].hIcolib);
 	ttb.hIconDn = IcoLib_GetIconByHandle(iconList[6].hIcolib);
-	hSounds = TopToolbar_AddButton(&ttb);
+	hSounds = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Minimize contact list");
 	ttb.pszService = "Clist/ShowHide";
@@ -149,14 +149,14 @@ void InitInternalButtons()
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	ttb.pszTooltipDn = nullptr;
 	ttb.hIconUp = ttb.hIconDn = nullptr;
-	hMinimize = TopToolbar_AddButton(&ttb);
+	hMinimize = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Exit");
 	ttb.pszService = "CloseAction";
 	ttb.dwFlags = TTBBF_INTERNAL;
 	ttb.pszTooltipUp = LPGEN("Exit");
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
-	hExit = TopToolbar_AddButton(&ttb);
+	hExit = g_plugin.addTTB(&ttb);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hShowHideOffline,
 		db_get_b(NULL, "CList", "HideOffline", 0) ? 0 : TTBST_PUSHED);

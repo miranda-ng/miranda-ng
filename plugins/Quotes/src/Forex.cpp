@@ -161,7 +161,7 @@ int Quotes_OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.hIconHandleUp = Quotes_GetIconHandle(IDI_ICON_MAIN);
 	ttb.hIconHandleDn = Quotes_GetIconHandle(IDI_ICON_DISABLED);
 	ttb.dwFlags = ((g_bAutoUpdate) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
-	g_hTBButton = TopToolbar_AddButton(&ttb);
+	g_hTBButton = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Currency Converter");
 	ttb.pszService = g_pszCurrencyConverter;
@@ -170,7 +170,7 @@ int Quotes_OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.hIconHandleUp = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 	ttb.hIconHandleDn = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 	ttb.dwFlags = TTBBF_VISIBLE;
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	return 0;
 }

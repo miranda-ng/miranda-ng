@@ -98,7 +98,7 @@ static int OnTTBLoaded(WPARAM, LPARAM)
 	ttb.name = LPGEN("Database Editor++");
 	ttb.hIconHandleUp = GetIcoLibHandle(ICO_DBE_BUTT);
 	ttb.pszTooltipUp = LPGEN("Open Database Editor");
-	hTTBButt = TopToolbar_AddButton(&ttb);
+	hTTBButt = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

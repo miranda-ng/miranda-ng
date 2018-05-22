@@ -212,6 +212,11 @@ HGENMENU CMPluginBase::addRootMenu(int hMenuObject, LPCWSTR ptszName, int positi
 	return Menu_CreateRoot(hMenuObject, ptszName, position, hIcoLib, m_hLang);
 }
 
+HANDLE CMPluginBase::addTTB(const struct TTBButton *pButton)
+{
+	return (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)pButton, m_hLang);
+}
+
 int CMPluginBase::addUserInfo(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 {
 	odp->langId = m_hLang;

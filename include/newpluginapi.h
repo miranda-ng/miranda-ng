@@ -202,6 +202,7 @@ public:
 	void openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPage = 0, const wchar_t *pszTab = 0);
 
 	HANDLE addIcon(const struct SKINICONDESC*);
+	HANDLE addTTB(const struct TTBButton*);
 
 	HGENMENU addRootMenu(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib = nullptr);
 

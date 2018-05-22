@@ -82,7 +82,7 @@ void Modern_InitButtons()
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
 		tbb.dwFlags |= (BTNS[i].bVisByDefault ? TTBBF_VISIBLE : 0);
-		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
+		BTNS[i].hButton = g_plugin.addTTB(&tbb);
 	}
 
 	SetButtonPressed(3, db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));

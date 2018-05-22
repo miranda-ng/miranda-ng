@@ -216,7 +216,7 @@ int InitTopToolbar(WPARAM, LPARAM)
 	ttb.pszService = MS_WUMF_CONNECTIONSSHOW;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Show connections list");
-	hWumfBut = TopToolbar_AddButton(&ttb);
+	hWumfBut = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

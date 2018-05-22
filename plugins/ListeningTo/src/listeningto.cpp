@@ -353,7 +353,7 @@ int TopToolBarLoaded(WPARAM, LPARAM)
 	ttb.name = LPGEN("Enable/Disable sending Listening To info (to all protocols)");
 	ttb.pszTooltipDn = LPGEN("Disable ListeningTo (to all protocols)");
 	ttb.pszTooltipUp = LPGEN("Enable ListeningTo (to all protocols)");
-	hTTB = TopToolbar_AddButton(&ttb);
+	hTTB = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

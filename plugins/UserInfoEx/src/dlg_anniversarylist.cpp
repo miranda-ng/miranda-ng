@@ -963,7 +963,7 @@ void DlgAnniversaryListOnTopToolBarLoaded()
 	ttb.pszService = MS_USERINFO_REMINDER_LIST;
 	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_ANNIVERSARY);
 	ttb.name = ttb.pszTooltipUp = LPGEN("Anniversary list");
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 }
 
 /**

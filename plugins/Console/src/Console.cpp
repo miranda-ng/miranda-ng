@@ -127,7 +127,7 @@ static int OnTTBLoaded(WPARAM, LPARAM)
 	ttb.name = LPGEN("Show/Hide Console");
 	ttb.pszTooltipDn = LPGEN("Hide Console");
 	ttb.pszTooltipUp = LPGEN("Show Console");
-	hTTBButt = TopToolbar_AddButton(&ttb);
+	hTTBButt = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

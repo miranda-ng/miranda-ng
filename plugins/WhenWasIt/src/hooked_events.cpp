@@ -36,7 +36,7 @@ static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
 	ttb.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	ttb.hIconHandleUp = hCheckMenu;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Check for birthdays");
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 	return 0;
 }
 

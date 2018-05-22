@@ -65,7 +65,7 @@ static int ToptoolBarHook(WPARAM, LPARAM)
 	ttb.pszService = MS_OPENFOLDER_OPEN;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.name = LPGEN("Open Folder");
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 	return 0;
 }
 

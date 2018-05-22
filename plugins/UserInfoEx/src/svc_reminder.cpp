@@ -683,7 +683,7 @@ void SvcReminderOnTopToolBarLoaded()
 	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Check anniversaries");
 	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_BIRTHDAY);
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 }
 
 /***********************************************************************************************************

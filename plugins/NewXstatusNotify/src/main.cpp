@@ -1119,7 +1119,7 @@ static int InitTopToolbar(WPARAM, LPARAM)
 	tbb.hIconHandleDn = iconList[4].hIcolib;
 	tbb.pszTooltipUp = LPGEN("Enable status notification");
 	tbb.pszTooltipDn = LPGEN("Disable status notification");
-	hToolbarButton = TopToolbar_AddButton(&tbb);
+	hToolbarButton = g_plugin.addTTB(&tbb);
 
 	return 0;
 }

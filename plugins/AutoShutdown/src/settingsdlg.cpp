@@ -416,7 +416,7 @@ int ToolbarLoaded(WPARAM, LPARAM)
 	ttb.name = LPGEN("Start/Stop automatic shutdown");
 	ttb.pszTooltipUp = LPGEN("Start automatic shutdown");
 	ttb.pszTooltipDn = LPGEN("Stop automatic shutdown");
-	hToolbarButton = TopToolbar_AddButton(&ttb);
+	hToolbarButton = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

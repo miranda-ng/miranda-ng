@@ -130,7 +130,7 @@ static int InitTopToolbarButton(WPARAM, LPARAM)
 	ttb.pszService = MODULENAME "/NewAlarm";
 	ttb.dwFlags = TTBBF_VISIBLE;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Set alarm");
-	hTopToolbarButton = TopToolbar_AddButton(&ttb);
+	hTopToolbarButton = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

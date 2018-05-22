@@ -62,9 +62,7 @@ lparam = hLangpack
 returns: hTTBButton - handle of added button on success, -1 on failure.
 */
 
-__forceinline HANDLE TopToolbar_AddButton(TTBButton *pButton)
-{	return (HANDLE)CallService("TopToolBar/AddButton", (WPARAM)pButton, hLangpack);
-}
+#define MS_TTB_ADDBUTTON                  "TopToolBar/AddButton"
 
 /*
 toptoolbar/removebutton service

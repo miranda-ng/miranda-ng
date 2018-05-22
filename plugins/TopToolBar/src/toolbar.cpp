@@ -650,7 +650,7 @@ int LoadToolbarModule()
 
 	hTTBModuleLoaded = CreateHookableEvent(ME_TTB_MODULELOADED);
 
-	CreateServiceFunction("TopToolBar/AddButton", TTBAddButton);
+	CreateServiceFunction(MS_TTB_ADDBUTTON, TTBAddButton);
 	CreateServiceFunction(MS_TTB_REMOVEBUTTON, TTBRemoveButton);
 
 	CreateServiceFunction(MS_TTB_SETBUTTONSTATE, TTBSetState);

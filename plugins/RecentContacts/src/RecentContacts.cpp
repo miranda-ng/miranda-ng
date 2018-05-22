@@ -439,7 +439,7 @@ int Create_TopToolbarShowList(WPARAM, LPARAM)
 	ttb.pszService = msLastUC_ShowList;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Recent Contacts");
-	hTopToolbarButtonShowList = TopToolbar_AddButton(&ttb);
+	hTopToolbarButtonShowList = g_plugin.addTTB(&ttb);
 	return 0;
 }
 

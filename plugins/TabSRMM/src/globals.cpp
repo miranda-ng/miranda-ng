@@ -253,13 +253,13 @@ int CGlobals::TopToolbarLoaded(WPARAM, LPARAM)
 	ttb.name = "TabSRMM session list";
 	ttb.pszTooltipUp = LPGEN("TabSRMM session list");
 	ttb.hIconHandleUp = IcoLib_GetIcon("tabSRMM_sb_slist");
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	ttb.name = "TabSRMM Menu";
 	ttb.pszTooltipUp = LPGEN("TabSRMM menu");
 	ttb.lParamUp = ttb.lParamDown = 1;
 	ttb.hIconHandleUp = IcoLib_GetIcon("tabSRMM_container");
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	return 0;
 }

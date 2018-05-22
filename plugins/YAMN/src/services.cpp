@@ -301,7 +301,7 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 			btn.hIconHandleUp = btn.hIconHandleDn = g_GetIconHandle(0);
 			btn.name = btn.pszTooltipUp = LPGEN("Check mail");
-			hTTButton = TopToolbar_AddButton(&btn);
+			hTTButton = g_plugin.addTTB(&btn);
 		}
 	}
 	else {

@@ -61,7 +61,7 @@ static void InitDefaultButtons()
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
 		tbb.dwFlags |= (BTNS[i].isVis ? TTBBF_VISIBLE : 0);
-		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
+		BTNS[i].hButton = g_plugin.addTTB(&tbb);
 	}
 	g_index = -1;
 

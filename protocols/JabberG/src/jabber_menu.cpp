@@ -798,19 +798,19 @@ int g_OnToolbarInit(WPARAM, LPARAM)
 	ttb.pszService = "JABBER/*/Groupchat";
 	ttb.pszTooltipUp = ttb.name = LPGEN("Join conference");
 	ttb.hIconHandleUp = g_GetIconHandle(IDI_GROUP);
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	CreateServiceFunction("JABBER/*/Bookmarks", g_ToolbarHandleBookmarks);
 	ttb.pszService = "JABBER/*/Bookmarks";
 	ttb.pszTooltipUp = ttb.name = LPGEN("Open bookmarks");
 	ttb.hIconHandleUp = g_GetIconHandle(IDI_BOOKMARKS);
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 
 	CreateServiceFunction("JABBER/*/ServiceDiscovery", g_ToolbarHandleServiceDiscovery);
 	ttb.pszService = "JABBER/*/ServiceDiscovery";
 	ttb.pszTooltipUp = ttb.name = LPGEN("Service discovery");
 	ttb.hIconHandleUp = g_GetIconHandle(IDI_SERVICE_DISCOVERY);
-	TopToolbar_AddButton(&ttb);
+	g_plugin.addTTB(&ttb);
 	return 0;
 }
 
