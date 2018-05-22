@@ -4,8 +4,9 @@
 
 extern PLUGININFOEX pluginInfoEx;
 
-CMLuaEnvironment::CMLuaEnvironment(lua_State*)
-	: CMPluginBase(nullptr, pluginInfoEx)
+CMLuaEnvironment::CMLuaEnvironment(lua_State *_l) :
+	CMPluginBase(nullptr, pluginInfoEx),
+	L(_l)
 {
 	MUUID muidLast = MIID_LAST;
 	m_hLang = GetPluginLangId(muidLast, 0);
