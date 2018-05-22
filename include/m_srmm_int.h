@@ -62,7 +62,7 @@ struct CustomButtonData : public MZeroedObject
 	bool   m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bAutoHidden, m_bSeparator, m_bDisabled, m_bPushButton;
 	bool   m_bRSided;
 	BYTE   m_opFlags;
-	int    m_hLangpack;
+	int    m_iLangId;
 	DWORD  m_dwOrigPosition;
 	struct THotkeyItem *m_hotkey;
 

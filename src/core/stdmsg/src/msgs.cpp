@@ -225,14 +225,14 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (!strcmp(cws->szModule, "CList"))
-		Srmm_Broadcast(DM_UPDATETITLE, (WPARAM)cws, 0);
+		Srmm_Broadcast(DM_UPDATETITLE, (WPARAM)cws, hContact);
 	else if (hContact) {
 		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
 			Srmm_Broadcast(DM_NEWTIMEZONE, (WPARAM)cws, 0);
 		else {
 			char *szProto = GetContactProto(hContact);
 			if (szProto && !strcmp(cws->szModule, szProto))
-				Srmm_Broadcast(DM_UPDATETITLE, (WPARAM)cws, 0);
+				Srmm_Broadcast(DM_UPDATETITLE, (WPARAM)cws, hContact);
 		}
 	}
 	return 0;
