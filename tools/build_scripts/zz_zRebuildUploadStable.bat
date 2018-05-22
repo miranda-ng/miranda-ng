@@ -11,9 +11,7 @@ set GIT_STATUS=%ERRORLEVEL%
 if %GIT_STATUS%==0 echo Git update success
 if not %GIT_STATUS%==0 goto :Error
 
-xcopy /S /Y tools\build_scripts\*.* . >nul
-
-call copyhpp.cmd
+rem xcopy /S /Y tools\build_scripts\*.* . >nul
 
 del /F /Q version.txt
 
