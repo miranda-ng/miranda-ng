@@ -68,6 +68,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_smileyadd.h>
 #include <m_metacontacts.h>
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin();
+};
+
 #include "resource.h"
 #include "version.h"
 
@@ -115,11 +120,6 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 #include "input.h"
 #include "statusicon.h"
 #include "chat.h"
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-};
 
 extern GlobalMessageData g_dat;
 

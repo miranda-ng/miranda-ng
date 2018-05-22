@@ -216,7 +216,7 @@ int Chat_Load()
 	CheckUpdate();
 	Utils::RTF_CTableInit();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Group chats"), FONTMODE_ALTER };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Group chats"), FONTMODE_ALTER, g_plugin.m_hLang };
 	pci = Chat_GetInterface(&data);
 	
 	pci->OnCreateModule = OnCreateModule;

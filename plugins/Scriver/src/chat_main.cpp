@@ -129,7 +129,7 @@ static void OnLoadSettings()
 
 int Chat_Load()
 {
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP, g_plugin.m_hLang };
 	pci = Chat_GetInterface(&data);
 
 	pci->OnCreateModule = OnCreateModule;

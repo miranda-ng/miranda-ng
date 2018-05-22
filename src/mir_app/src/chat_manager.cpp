@@ -971,7 +971,7 @@ static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
 	return TRUE;
 }
 
-MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _hLangpack)
+MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit)
 {
 	if (pInit == nullptr)
 		return &chatApi;
@@ -1009,7 +1009,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	g_cbSession = pInit->cbSession;
 	g_cbModuleInfo = pInit->cbModuleInfo;
 	g_iFontMode = pInit->iFontMode;
-	g_iChatLang = _hLangpack;
+	g_iChatLang = pInit->iLangId;
 
 	chatApi.SetActiveSession = SetActiveSession;
 	chatApi.GetActiveSession = GetActiveSession;

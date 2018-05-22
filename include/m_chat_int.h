@@ -247,6 +247,7 @@ struct CHAT_MANAGER_INITDATA
 	int cbModuleInfo, cbSession;
 	wchar_t *szFontGroup;
 	int iFontMode;
+   int iLangId;
 };
 
 typedef BOOL (*pfnDoTrayIcon)(SESSION_INFO *si, GCEVENT *gce);
@@ -362,7 +363,7 @@ struct CHAT_MANAGER
 extern CHAT_MANAGER *pci;
 #endif
 
-EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = nullptr, int = hLangpack);
+EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
