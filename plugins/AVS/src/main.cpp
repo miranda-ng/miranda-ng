@@ -28,7 +28,6 @@ HICON    g_hIcon = nullptr;
 bool     g_shutDown = false;
 
 CMPlugin g_plugin;
-int      &hLangpack(g_plugin.m_hLang);
 
 wchar_t  g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
 BOOL     g_AvatarHistoryAvail = FALSE;
