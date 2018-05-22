@@ -3,7 +3,6 @@
 CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 HINSTANCE hmiranda = nullptr;
-int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hkOptInit = nullptr;
 HANDLE hkTopToolbarInit = nullptr; 

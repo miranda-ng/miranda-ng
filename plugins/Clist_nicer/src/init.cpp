@@ -30,8 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli, coreCli;
 
-int &hLangpack(g_plugin.m_hLang);
-
 #define DEFAULT_TB_VISIBILITY (1 | 2 | 4 | 8 | 16 | 32 | 64 | 8192)
 
 extern HICON overlayicons[10];

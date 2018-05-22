@@ -26,7 +26,6 @@
 CLIST_INTERFACE *pcli;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 int g_Utf8EventsSupported = TRUE;
 

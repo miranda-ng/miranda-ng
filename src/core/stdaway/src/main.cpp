@@ -24,7 +24,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 int LoadAwayMsgModule(void);
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 // add icon to srmm status icons

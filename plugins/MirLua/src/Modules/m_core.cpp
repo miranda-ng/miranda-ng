@@ -222,7 +222,7 @@ static int core_Translate(lua_State *L)
 	char *what = (char*)luaL_checkstring(L, 1);
 
 	ptrW value(mir_utf8decodeW(what));
-	lua_pushstring(L, T2Utf(TranslateW_LP(value, hLangpack)));
+	lua_pushstring(L, T2Utf(TranslateW_LP(value, g_plugin.m_hLang)));
 
 	return 1;
 }

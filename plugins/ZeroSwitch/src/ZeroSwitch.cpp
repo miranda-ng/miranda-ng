@@ -11,7 +11,6 @@ g_plugin;
 
 HHOOK hHook;
 HWND hDummyWnd = nullptr, hHelperWnd = nullptr, hMirandaWnd = nullptr;
-int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////

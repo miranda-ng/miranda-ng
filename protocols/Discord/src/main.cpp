@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CHAT_MANAGER *pci;
-int &hLangpack(g_plugin.m_hLang);
 HWND g_hwndHeartbeat;
 
 PLUGININFOEX pluginInfoEx = {

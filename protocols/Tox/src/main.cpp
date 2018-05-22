@@ -3,7 +3,6 @@
 CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
-int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hProfileFolderPath;
 

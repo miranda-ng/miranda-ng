@@ -36,7 +36,6 @@ wchar_t **oldStatusMsg;
 BYTE g_bOldSetting;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
 PFNDwmIsCompositionEnabled dwmIsCompositionEnabled;

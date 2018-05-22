@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define ID_EXTBKSEPARATOR		 40200
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 StatusItems_t **StatusItems;
 ChangedSItems_t ChangedSItems = { 0 };

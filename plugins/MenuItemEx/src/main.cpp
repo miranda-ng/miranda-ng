@@ -25,7 +25,6 @@ BOOL bPopupService = FALSE;
 PROTOACCOUNT **accs;
 int protoCount;
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 struct {
 	char *module;

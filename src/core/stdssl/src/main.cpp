@@ -25,7 +25,6 @@ int LoadSslModule(void);
 void UnloadSslModule(void);
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),

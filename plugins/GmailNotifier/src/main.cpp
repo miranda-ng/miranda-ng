@@ -12,7 +12,6 @@ There is no warranty.
 
 CMPlugin	g_plugin;
 CLIST_INTERFACE *pcli;
-int &hLangpack(g_plugin.m_hLang);
 
 UINT hTimer;
 HANDLE hMirandaStarted, hOptionsInitial;

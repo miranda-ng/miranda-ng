@@ -19,7 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-int &hLangpack(g_plugin.m_hLang);
 HANDLE hPrebuildMenuHook = nullptr;
 CDlgBase *pAddFeedDialog = nullptr, *pImportDialog = nullptr, *pExportDialog = nullptr;
 wchar_t tszRoot[MAX_PATH] = {0};

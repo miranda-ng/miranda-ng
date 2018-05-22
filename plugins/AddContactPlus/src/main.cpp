@@ -24,7 +24,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 CLIST_INTERFACE *pcli;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 static HANDLE hToolBarItem = nullptr;
 static HGENMENU hMainMenuItem = nullptr;
 HWND hAddDlg;

@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 HWND hDialogWnd = nullptr; // хэндл окна настроек, он глобально используется для вывода туда в реалтайме сканкодов клавы из хука
 HHOOK hHook;

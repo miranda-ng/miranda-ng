@@ -25,7 +25,6 @@ HANDLE hHookExtraIconsRebuild = nullptr, hHookExtraIconsApply = nullptr, hContac
 HANDLE hPrebuildContactMenu = nullptr;
 HANDLE hExtraIcon = nullptr;
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 INT currentFilter = 0;
 

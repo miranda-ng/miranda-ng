@@ -31,7 +31,6 @@ YAMN_VARIABLES YAMNVar;
 
 CMPlugin	g_plugin;
 CLIST_INTERFACE *pcli;
-int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hNewMailHook;
 HANDLE NoWriterEV;

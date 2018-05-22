@@ -29,7 +29,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 bool g_bServiceMode = false, g_bSendQuit = false;
 HWND hwndWizard, hwndAccMerge;
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns an information about a plugin

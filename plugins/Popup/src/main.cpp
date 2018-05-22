@@ -36,7 +36,6 @@ void UpgradeDb();
 //===== Initializations =================================================================
 static int OkToExit(WPARAM, LPARAM);
 bool OptionLoaded = false;
-int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 

@@ -19,7 +19,6 @@
 
 #include "stdafx.h"
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 HANDLE hExtraIcon = nullptr;

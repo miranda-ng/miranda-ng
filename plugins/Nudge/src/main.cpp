@@ -9,9 +9,8 @@ CNudgeElement DefaultNudge;
 CShake shake;
 CNudge GlobalNudge;
 
-CLIST_INTERFACE *pcli;
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
+CLIST_INTERFACE *pcli;
 
 static IconItem iconList[] =
 {

@@ -26,7 +26,6 @@ int LoadSendRecvFileModule(void);
 CMPlugin g_plugin;
 
 CLIST_INTERFACE* pcli;
-int &hLangpack(g_plugin.m_hLang);
 
 ITaskbarList3 * pTaskbarInterface;
 

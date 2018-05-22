@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 HANDLE    hEvent1;
 HGENMENU  hContactMenuItem;
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////

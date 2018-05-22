@@ -35,7 +35,6 @@ static IconItem iconList[] =
 };
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 CHAT_MANAGER *pci;
 
 #define FROM_CLIPBOARD 10

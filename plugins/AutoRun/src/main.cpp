@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 HKEY ROOT_KEY = HKEY_CURRENT_USER;
 
 /////////////////////////////////////////////////////////////////////////////////////////

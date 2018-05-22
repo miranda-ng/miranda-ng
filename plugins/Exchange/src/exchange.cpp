@@ -24,7 +24,6 @@ HICON hiMailIcon = nullptr;
 HWND hEmailsDlg = nullptr;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 CExchangeServer exchangeServer;
 

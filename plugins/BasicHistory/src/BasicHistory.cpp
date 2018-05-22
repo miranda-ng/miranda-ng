@@ -35,7 +35,6 @@ char* metaContactProto = nullptr;
 const IID IID_ITextDocument = { 0x8CC497C0, 0xA1DF, 0x11ce, {0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D} };
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

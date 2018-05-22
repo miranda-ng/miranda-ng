@@ -35,7 +35,6 @@ LOGFONT lfDefault = { 0 };
  */
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////

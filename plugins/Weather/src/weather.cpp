@@ -46,7 +46,6 @@ unsigned old_status;
 UINT_PTR timerId;
 
 CMPlugin	g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
 MYOPTIONS opt;

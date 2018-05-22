@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define LIB_USE		3
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hHeap = nullptr;
 

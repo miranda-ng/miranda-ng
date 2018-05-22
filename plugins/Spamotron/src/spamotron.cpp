@@ -3,7 +3,6 @@
 HANDLE hOptInitialize, hModulesLoaded, hDBContactAdded, hDBEventAdded, hDBEventFilterAdd;
 time_t last_queue_check = 0;
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////

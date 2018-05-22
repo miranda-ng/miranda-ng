@@ -7,7 +7,6 @@ using namespace std;
 static const basic_string <char>::size_type npos = -1;
 
 char *szProto;
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 CHAT_MANAGER *pci;

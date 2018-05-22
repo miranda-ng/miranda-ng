@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 HANDLE hFolder;
 char g_szMirVer[100];

@@ -20,7 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 CMPlugin g_plugin;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
-int &hLangpack(g_plugin.m_hLang);
 
 char g_szMirVer[100];
 HANDLE g_hCallEvent;

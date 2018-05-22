@@ -22,7 +22,6 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);
 #define STATUS_COUNT 9
 
 char MODULENAME[64] = {0}; //init at init_pluginname();
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
 

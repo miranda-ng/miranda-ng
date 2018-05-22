@@ -30,7 +30,6 @@ HANDLE hFolder = nullptr;
 wchar_t profilePath[MAX_PATH];		// database profile path (read at startup only)
 wchar_t basedir[MAX_PATH];
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 MWindowList hAvatarWindowsList = nullptr;
 
 int OptInit(WPARAM wParam, LPARAM lParam);

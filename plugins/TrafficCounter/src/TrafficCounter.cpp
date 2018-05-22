@@ -30,7 +30,6 @@ HWND TrafficHwnd;
 
 CMPlugin g_plugin;
 CLIST_INTERFACE *pcli;
-int &hLangpack(g_plugin.m_hLang);
 
 BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
 

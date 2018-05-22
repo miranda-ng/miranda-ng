@@ -20,7 +20,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "stdafx.h"
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 PROTOACCOUNTS *accounts;

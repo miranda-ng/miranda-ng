@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli = nullptr, coreCli;
 HIMAGELIST himlCListClc = nullptr;
 

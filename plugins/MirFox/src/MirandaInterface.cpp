@@ -6,7 +6,6 @@
 CMPlugin g_plugin;
 
 //Miranda - Langpack
-int &hLangpack(g_plugin.m_hLang);
 
 //Miranda - HANDLE to hooked protocols ACK
 HANDLE hProtoAck;

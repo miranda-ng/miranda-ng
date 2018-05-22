@@ -27,7 +27,6 @@ MWindowList hWindowList;
 HNETLIBUSER hNetlibUser;
 HANDLE hHookDisplayDataAlert, hHookAlertPopup, hHookAlertWPopup, hHookErrorPopup, hHookAlertOSD;
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 static HMODULE hRichEd = nullptr;

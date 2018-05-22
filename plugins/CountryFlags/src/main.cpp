@@ -23,7 +23,6 @@ int nCountriesCount;
 CountryListEntry *countries;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

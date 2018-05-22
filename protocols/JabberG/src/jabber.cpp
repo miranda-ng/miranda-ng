@@ -38,7 +38,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HMODULE hMsftedit;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 CHAT_MANAGER *pci;
 
 int g_cbCountries;

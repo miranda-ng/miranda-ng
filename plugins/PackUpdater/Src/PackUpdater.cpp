@@ -22,7 +22,6 @@ Boston, MA 02111-1307, USA.
 HANDLE hPackUpdaterFolder = nullptr;
 wchar_t tszRoot[MAX_PATH] = { 0 };
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////

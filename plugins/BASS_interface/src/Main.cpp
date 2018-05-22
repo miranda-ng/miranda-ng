@@ -31,7 +31,6 @@ FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo dli)
 extern "C" PfnDliHook __pfnDliNotifyHook2 = delayHook;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////

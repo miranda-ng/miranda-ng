@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 LPTSTR ptszLayStrings[20];
 HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
 HICON hPopupIcon, hCopyIcon;

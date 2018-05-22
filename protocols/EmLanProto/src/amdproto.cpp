@@ -9,7 +9,6 @@ CMPlugin	g_plugin;
 
 CMLan* g_lan = nullptr;
 
-int &hLangpack(g_plugin.m_hLang);
 bool g_InitOptions = false;
 
 #ifdef VERBOSE

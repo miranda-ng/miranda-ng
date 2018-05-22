@@ -25,7 +25,6 @@ HWND hUpcomingDlg = nullptr;
 MWindowList hAddBirthdayWndsList = nullptr;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 CommonData commonData = { 0 };
 

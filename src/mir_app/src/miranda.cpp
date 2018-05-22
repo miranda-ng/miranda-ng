@@ -55,7 +55,6 @@ bool bModulesLoadedFired = false, bMirandaTerminated = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

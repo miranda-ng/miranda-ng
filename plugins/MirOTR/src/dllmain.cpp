@@ -1,7 +1,6 @@
 // dllmain.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
 #include "stdafx.h"
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -12,7 +12,6 @@
 #include "dlgconfigure.h"
 
 CMPlugin g_plugin;
-int &hLangpack(g_plugin.m_hLang);
 
 static const int g_pluginFileListID = 2535;
 

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "shlcom.h"
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 bool bIsVistaPlus;

@@ -24,7 +24,6 @@ HANDLE ehmissed = nullptr, ehuserinfo = nullptr, ehmissed_proto = nullptr;
 HANDLE g_hShutdownEvent;
 MWindowList g_pUserInfo;
 
-int &hLangpack(g_plugin.m_hLang);
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////

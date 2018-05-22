@@ -37,7 +37,6 @@ HINSTANCE g_hMirApp = nullptr;
 CLIST_INTERFACE *pcli = nullptr;
 CLIST_INTERFACE corecli = { 0 };
 CLUIDATA g_CluiData = {};
-int &hLangpack(g_plugin.m_hLang);
 
 static HRESULT SubclassClistInterface();
 static HRESULT CreateHookableEvents();
