@@ -52,6 +52,7 @@
 
 #include "m_fingerprint.h"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 };

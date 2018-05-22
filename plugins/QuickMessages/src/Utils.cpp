@@ -234,7 +234,7 @@ static HANDLE AddIcon(char* szIcoName)
 	sid.pszName = szIcoName;
 	sid.defaultFile.w = tszPath;
 	sid.iDefaultIndex = -IDI_QICON;
-	return IcoLib_AddIcon(&sid);
+	return g_plugin.addIcon(&sid);
 }
 
 DWORD BalanceButtons(int buttonsWas, int buttonsNow)

@@ -351,7 +351,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 				sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL), bNeedFree = true;
 		}
 		// add file to icolib
-		IcoLib_AddIcon(&sid);
+		g_plugin.addIcon(&sid);
 
 		if (!bInitIconsOnly)
 			hIcon = IcoLib_GetIcon(pszIconName);

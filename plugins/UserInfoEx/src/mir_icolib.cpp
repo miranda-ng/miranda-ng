@@ -260,7 +260,7 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 				sid.hDefaultIcon = hDefIcon;
 				sid.iDefaultIndex = -1;
 			}
-			hIconHandle = IcoLib_AddIcon(&sid);
+			hIconHandle = g_plugin.addIcon(&sid);
 		}
 		MIR_FREE(sid.description.w);
 		MIR_FREE(sid.section.w);

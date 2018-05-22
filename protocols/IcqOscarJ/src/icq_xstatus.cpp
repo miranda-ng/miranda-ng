@@ -902,7 +902,7 @@ void InitXStatusIcons()
 		sid.pszName = szTemp;
 		sid.description.a = (LPSTR)nameXStatus[i];
 		sid.iDefaultIndex = -(IDI_XSTATUS1 + i);
-		hXStatusIcons[i] = IcoLib_AddIcon(&sid);
+		hXStatusIcons[i] = g_plugin.addIcon(&sid);
 	}
 
 	// initialize arrays for CList custom status icons

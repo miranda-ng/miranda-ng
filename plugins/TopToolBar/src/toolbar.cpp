@@ -163,7 +163,7 @@ static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsU
 		mir_snprintf(buf, "%s%s", but->name, bIsUp ? "" : " (pressed)");
 		sid.description.a = buf;
 		sid.hDefaultIcon = bIsUp ? but->hIconUp : but->hIconDn;
-		hIcoLib = IcoLib_AddIcon(&sid);
+		hIcoLib = g_plugin.addIcon(&sid);
 	}
 
 	hIcon = IcoLib_GetIconByHandle(hIcoLib);

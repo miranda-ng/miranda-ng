@@ -355,7 +355,7 @@ void InitIcons()
 				sid.hDefaultIcon = ImageList_ExtractIcon(NULL, himl, index);
 				index = CountryNumberToIndex(countries[i].id);
 
-				phIconHandles[index] = IcoLib_AddIcon(&sid);
+				phIconHandles[index] = g_plugin.addIcon(&sid);
 				if (sid.hDefaultIcon != nullptr)
 					DestroyIcon(sid.hDefaultIcon);
 				mir_free(sid.description.w); sid.description.w = nullptr;

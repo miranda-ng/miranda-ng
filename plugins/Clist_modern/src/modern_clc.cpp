@@ -1573,14 +1573,14 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	sid.description.a = LPGEN("Listening to");
 	sid.pszName = "LISTENING_TO_ICON";
 	sid.iDefaultIndex = -IDI_LISTENING_TO;
-	IcoLib_AddIcon(&sid);
+	g_plugin.addIcon(&sid);
 
 	sid.section.a = LPGEN("Contact list") "/" LPGEN("Avatar overlay");
 	for (auto &it : g_pAvatarOverlayIcons) {
 		sid.description.a = it.description;
 		sid.pszName = it.name;
 		sid.iDefaultIndex = -it.id;
-		IcoLib_AddIcon(&sid);
+		g_plugin.addIcon(&sid);
 	}
 
 	sid.section.a = LPGEN("Contact list") "/" LPGEN("Status overlay");
@@ -1588,7 +1588,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 		sid.description.a = it.description;
 		sid.pszName = it.name;
 		sid.iDefaultIndex = -it.id;
-		IcoLib_AddIcon(&sid);
+		g_plugin.addIcon(&sid);
 	}
 
 	clcHookIconsChanged(0, 0);

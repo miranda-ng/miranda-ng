@@ -85,7 +85,7 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 	sid.description.w = mask->szClientDescription;
 	sid.defaultFile.w = destfile;
 	sid.iDefaultIndex = -mask->iIconIndex;
-	mask->hIcolibItem = IcoLib_AddIcon(&sid);
+	mask->hIcolibItem = g_plugin.addIcon(&sid);
 }
 
 /*

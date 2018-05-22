@@ -63,7 +63,7 @@ namespace mu
 			sid.defaultFile.a = const_cast<char*>(szDefaultFile);
 			sid.iDefaultIndex = iDefaultIndex;
 			sid.flags = SIDF_UNICODE;
-			IcoLib_AddIcon(&sid);
+			g_plugin.addIcon(&sid);
 		}
 
 		HICON getIcon(const char* szIconName)

@@ -165,6 +165,11 @@ void CMPluginBase::openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+HANDLE CMPluginBase::addIcon(SKINICONDESC *sid)
+{
+	return IcoLib_AddIcon(sid, m_hLang);
+}
+
 int CMPluginBase::addUserInfo(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 {
 	odp->langId = m_hLang;

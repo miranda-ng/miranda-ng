@@ -126,7 +126,7 @@ void CIconPool::RegisterIcon(const char *name, wchar_t *filename, int iconid, wc
 	sid.description.w = szDescription;
 	sid.flags = SIDF_ALL_UNICODE;
 	sid.iDefaultIndex = iconid;
-	item->m_hIcolibItem = IcoLib_AddIcon(&sid);
+	item->m_hIcolibItem = IcoLib_AddIcon(&sid, g_plugin.m_hLang);
 
 	m_items.insert(item);
 }
@@ -293,7 +293,7 @@ static HICON LoadTransportIcon(char *filename, int i, char *IconName, wchar_t *S
 		sid.defaultFile.a = szMyPath;
 		sid.iDefaultIndex = i;
 		sid.flags = SIDF_UNICODE;
-		IcoLib_AddIcon(&sid);
+		g_plugin.addIcon(&sid);
 	}
 	return IcoLib_GetIcon(IconName);
 }

@@ -1516,7 +1516,7 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDesc
 		sid.iDefaultIndex = -iDefaultResource;
 	}
 
-	return IcoLib_AddIcon(&sid);
+	return g_plugin.addIcon(&sid);
 }
 
 // MAIN WINPROC MESSAGE HANDLERS

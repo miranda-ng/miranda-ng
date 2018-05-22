@@ -38,7 +38,7 @@ static HANDLE AddIcon(char *name, char *description, wchar_t *tszPath, int iDefa
 	sid.pszName = name;
 	sid.defaultFile.w = tszPath;
 	sid.iDefaultIndex = -iDefaultIdx;
-	return IcoLib_AddIcon(&sid);
+	return g_plugin.addIcon(&sid);
 }
 
 int AddIcons()

@@ -602,3 +602,4 @@ GetPluginByInstance @626
 ?getInfo@CMPluginBase@@QEBAAEBUPLUGININFOEX@@XZ @631 NONAME
 RegisterPlugin @632
 UnregisterPlugin @633
+?addIcon@CMPluginBase@@QEAAPEAXPEAUSKINICONDESC@@@Z @634 NONAME

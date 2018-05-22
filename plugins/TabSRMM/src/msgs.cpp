@@ -897,9 +897,9 @@ static int TSAPI SetupIconLibConfig()
 			sid.iDefaultIndex = it.idesc[i].uId == -IDI_HISTORY ? 0 : it.idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
 
 			if (n > 0 && n < 4)
-				PluginConfig.g_buttonBarIconHandles[j++] = IcoLib_AddIcon(&sid);
+				PluginConfig.g_buttonBarIconHandles[j++] = g_plugin.addIcon(&sid);
 			else
-				IcoLib_AddIcon(&sid);
+				g_plugin.addIcon(&sid);
 		}
 	}
 
@@ -907,30 +907,30 @@ static int TSAPI SetupIconLibConfig()
 	sid.pszName = "tabSRMM_clock_symbol";
 	sid.description.a = LPGEN("Clock symbol (for the info panel clock)");
 	sid.iDefaultIndex = -IDI_CLOCK;
-	IcoLib_AddIcon(&sid);
+	g_plugin.addIcon(&sid);
 
 	wcsncpy(szFilename, L"plugins\\tabsrmm.dll", MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
 	sid.description.a = LPGEN("Feature disabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_DISABLED;
-	IcoLib_AddIcon(&sid);
+	g_plugin.addIcon(&sid);
 
 	sid.pszName = "tabSRMM_overlay_enabled";
 	sid.description.a = LPGEN("Feature enabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_ENABLED;
-	IcoLib_AddIcon(&sid);
+	g_plugin.addIcon(&sid);
 
 	sid.section.a = LPGEN("Message Sessions") "/" LPGEN("Popups");
 	sid.pszName = "tabSRMM_popups_disabled";
 	sid.description.a = LPGEN("Enable typing notification");
 	sid.iDefaultIndex = -IDI_DISABLED;
-	IcoLib_AddIcon(&sid);
+	g_plugin.addIcon(&sid);
 
 	sid.pszName = "tabSRMM_popups_enabled";
 	sid.description.a = LPGEN("Disable typing notification");
 	sid.iDefaultIndex = -IDI_ENABLED;
-	IcoLib_AddIcon(&sid);
+	g_plugin.addIcon(&sid);
 
 	return 1;
 }

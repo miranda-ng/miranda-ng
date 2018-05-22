@@ -168,7 +168,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 			}
 
 			// Oki, lets add to IcoLib, then
-			p->hIcolib = IcoLib_AddIcon(&sid);
+			p->hIcolib = g_plugin.addIcon(&sid);
 
 			if (hFlag != nullptr)
 				DestroyIcon(hFlag);

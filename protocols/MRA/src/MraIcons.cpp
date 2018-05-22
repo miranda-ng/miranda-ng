@@ -128,7 +128,7 @@ void InitXStatusIcons()
 		sid.description.w = (wchar_t*)lpcszXStatusNameDef[i];
 		sid.iDefaultIndex = -iCurIndex;
 
-		hXStatusAdvancedStatusIcons[i] = IcoLib_AddIcon(&sid);
+		hXStatusAdvancedStatusIcons[i] = g_plugin.addIcon(&sid);
 	}
 }
 

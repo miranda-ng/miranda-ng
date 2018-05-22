@@ -129,7 +129,7 @@ extern "C" __declspec(dllexport) int Load()
 		sid.pszName = szSettingName;
 		sid.description.w = forms[i].ptszDescr;
 		sid.iDefaultIndex = -forms[i].iconNoIcoLib;
-		forms[i].hIcoLibItem = IcoLib_AddIcon(&sid);
+		forms[i].hIcoLibItem = g_plugin.addIcon(&sid);
 	}
 
 	HookEvent(ME_OPT_INITIALISE, OnInitOptions);

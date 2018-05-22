@@ -254,7 +254,7 @@ void InitIcons(void)
 				}
 				else sid.hDefaultIcon = nullptr;
 				index = CountryNumberToIndex(countries[i].id);
-				phIconHandles[index] = IcoLib_AddIcon(&sid);
+				phIconHandles[index] = g_plugin.addIcon(&sid);
 				if (sid.hDefaultIcon != nullptr)
 					DestroyIcon(sid.hDefaultIcon);
 			}
