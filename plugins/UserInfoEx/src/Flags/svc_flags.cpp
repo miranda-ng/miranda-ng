@@ -238,7 +238,7 @@ void SvcFlagsOnModulesLoaded()
 	sid.szModule = MODNAMEFLAGS;
 	if (!g_bShowStatusIconFlag)
 		sid.flags = MBF_HIDDEN;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);

@@ -163,7 +163,7 @@ struct StatusIconData
 #define MBCF_RIGHTBUTTON   0x01     // if this flag is specified, the click was a right button - otherwize it was a left click
 
 // adds an icon
-EXTERN_C MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLang = hLangpack);
+EXTERN_C MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int langId);
 
 // removes an icon
 EXTERN_C MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId);

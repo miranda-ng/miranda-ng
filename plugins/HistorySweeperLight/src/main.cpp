@@ -94,25 +94,25 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		sid.szTooltip = LPGEN("Delete all events");
 
 	sid.flags = MBF_HIDDEN;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
 	sid.szTooltip = time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
 	sid.flags = MBF_HIDDEN;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
 	sid.szTooltip = keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
 	sid.flags = MBF_HIDDEN;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	sid.dwId = 3;
 	sid.hIcon = LoadIconEx("actDel");
 	sid.szTooltip = LPGEN("Delete all events");
 	sid.flags = MBF_HIDDEN;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, OnIconPressed);

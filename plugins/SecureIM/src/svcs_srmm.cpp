@@ -40,28 +40,28 @@ void InitSRMMIcons()
 	sid.hIcon = mode2icon(MODE_NATIVE | SECURED, 3);
 	sid.hIconDisabled = mode2icon(MODE_NATIVE, 3);
 	sid.szTooltip = LPGEN("SecureIM [Native]");
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	// PGP
 	sid.dwId = MODE_PGP;
 	sid.hIcon = mode2icon(MODE_PGP | SECURED, 3);
 	sid.hIconDisabled = mode2icon(MODE_PGP, 3);
 	sid.szTooltip = LPGEN("SecureIM [PGP]");
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	// GPG
 	sid.dwId = MODE_GPG;
 	sid.hIcon = mode2icon(MODE_GPG | SECURED, 3);
 	sid.hIconDisabled = mode2icon(MODE_GPG, 3);
 	sid.szTooltip = LPGEN("SecureIM [GPG]");
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	// RSAAES
 	sid.dwId = MODE_RSAAES;
 	sid.hIcon = mode2icon(MODE_RSAAES | SECURED, 3);
 	sid.hIconDisabled = mode2icon(MODE_RSAAES, 3);
 	sid.szTooltip = LPGEN("SecureIM [RSA/AES]");
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	// hook the window events so that we can can change the status of the icon
 	HookEvent(ME_MSG_WINDOWEVENT, onWindowEvent);

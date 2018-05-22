@@ -204,7 +204,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		mir_snwprintf(tmp, L"%s - %s", TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
 		sid.hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
-		Srmm_AddIcon(&sid);
+		Srmm_AddIcon(&sid, g_plugin.m_hLang);
 	}
 
 	HOTKEYDESC hkd = {};

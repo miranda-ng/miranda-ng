@@ -1525,13 +1525,13 @@ int SI_InitStatusIcons()
 	StatusIconData sid = {};
 	sid.szModule = MSG_ICON_MODULE;
 	sid.dwId = MSG_ICON_SOUND; // Sounds
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	sid.dwId = MSG_ICON_UTN;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	sid.dwId = MSG_ICON_SESSION;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);
 

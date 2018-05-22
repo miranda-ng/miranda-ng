@@ -121,12 +121,12 @@ void InitSRMM()
 	sid.hIconDisabled = hIconNotSecure;
 	sid.flags = MBF_DISABLED | MBF_HIDDEN;
 	sid.szTooltip = LANG_OTR_TOOLTIP;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	sid.dwId = 1;
 	sid.hIcon = hIconPrivate;
 	sid.hIconDisabled = hIconUnverified;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 		
 	// hook the window events so that we can can change the status of the icon
 	HookEvent(ME_MSG_ICONPRESSED, SVC_IconPressed);

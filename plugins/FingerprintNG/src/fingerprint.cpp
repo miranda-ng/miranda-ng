@@ -932,7 +932,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 		sid.szModule = MODULENAME;
 		sid.flags = MBF_HIDDEN;
 		sid.dwId = 1;
-		Srmm_AddIcon(&sid);
+		Srmm_AddIcon(&sid, g_plugin.m_hLang);
 	}
 
 	return 0;

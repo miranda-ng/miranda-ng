@@ -228,12 +228,12 @@ void SrmmMenu_Load()
 	sid.dwId = 0;
 	sid.szTooltip = LPGEN("History Enabled");
 	sid.hIcon = sid.hIconDisabled = hIconKeep;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	sid.dwId = 1;
 	sid.szTooltip = LPGEN("History Disabled");
 	sid.hIcon = sid.hIconDisabled = hIconRemove;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 		
 	// hook the window events so that we can can change the status of the icon
 	HookEvent(ME_MSG_WINDOWEVENT, WindowEvent);

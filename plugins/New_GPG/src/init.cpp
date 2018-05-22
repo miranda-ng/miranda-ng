@@ -115,12 +115,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	sid.dwId = 0x00000001;
 	sid.hIcon = IcoLib_GetIcon("secured");
 	sid.szTooltip = LPGEN("GPG Turn off encryption");
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	sid.dwId = 0x00000002;
 	sid.hIcon = IcoLib_GetIcon("unsecured");
 	sid.szTooltip = LPGEN("GPG Turn on encryption");
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	if(globals.bJabberAPI)
 		GetJabberInterface(0,0);

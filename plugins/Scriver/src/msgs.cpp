@@ -403,7 +403,7 @@ static void RegisterStatusIcons()
 	sid.hIcon = GetCachedIcon("scriver_TYPING");
 	sid.hIconDisabled = GetCachedIcon("scriver_TYPINGOFF");
 	sid.flags = MBF_HIDDEN;
-	Srmm_AddIcon(&sid);
+	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 }
 
 void ChangeStatusIcons()
