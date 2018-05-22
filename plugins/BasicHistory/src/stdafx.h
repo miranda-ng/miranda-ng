@@ -58,6 +58,11 @@
 #include "m_smileyadd.h"
 #include "m_metacontacts.h"
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin();
+};
+
 #include "../../libs/zlib/src/zconf.h"
 #include "../../libs/zlib/src/ioapi.h"
 #include "../../libs/zlib/src/zip.h"
@@ -92,7 +97,3 @@ HICON LoadIconEx(int iconId, bool big = false);
 
 #define MODULENAME "BasicHistory"
 
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-};

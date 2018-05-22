@@ -47,6 +47,11 @@ Boston, MA 02111-1307, USA.
 #include <m_toptoolbar.h>
 #include <m_listeningto.h>
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin();
+};
+
 #include "../../utils/mir_options.h"
 #include "../../utils/mir_buffer.h"
 #include "../../utils/utf8_helpers.h"
@@ -70,11 +75,6 @@ Boston, MA 02111-1307, USA.
 #define MS_LISTENINGTO_HOTKEYS_TOGGLE		"ListeningTo/HotkeysToggle"
 
 #define MODULENAME "ListeningTo"
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-};
 
 // Global Variables
 extern BOOL loaded;

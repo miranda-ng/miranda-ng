@@ -71,7 +71,7 @@ int InitContactListSmileys()
 
 		rc.cbSize = sizeof(rc);
 		rc.name = "clist";
-		rc.dispname = Translate("Contact List smileys");
+		rc.dispname = TranslateA_LP("Contact List smileys");
 
 		CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
 	}

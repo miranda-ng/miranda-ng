@@ -110,6 +110,11 @@ struct SESSION_INFO : public GCSessionInfoBase {};
 
 struct CJabberProto;
 
+struct CMPlugin : public ACCPROTOPLUGIN<CJabberProto>
+{
+	CMPlugin();
+};
+
 class CJabberDlgBase : public CProtoDlgBase<CJabberProto>
 {
 	typedef CProtoDlgBase<CJabberProto> CSuper;

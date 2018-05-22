@@ -534,7 +534,7 @@ __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 				szTipInfo = (char *)CallService(MS_VARS_GETSKINITEM, 0, (LPARAM)VSI_HELPTIPTEXT);
 
 			if (szTipInfo == nullptr)
-				szTipInfo = Translate("Open String Formatting Help");
+				szTipInfo = TranslateA_LP("Open String Formatting Help", 0);
 
 			SendMessage(GetDlgItem(hwndDlg, uIDButton), BUTTONADDTOOLTIP, (WPARAM)szTipInfo, 0);
 			SendDlgItemMessage(hwndDlg, uIDButton, BUTTONSETASFLATBTN, 0, 0);

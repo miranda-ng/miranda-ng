@@ -503,7 +503,7 @@ MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr)
 	wchar_t *result = (wchar_t*)alloca((len + 1)*sizeof(wchar_t));
 	MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pszStr, -1, result, len);
 	result[len] = 0;
-	return mir_wstrdup(TranslateW(result));
+	return mir_wstrdup(TranslateW_LP(result));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

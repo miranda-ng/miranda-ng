@@ -437,7 +437,7 @@ MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND 
 	if (lstMsg == nullptr)
 		return 0;
 
-	SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)TranslateT("<unspecified>"));
+	SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)TranslateW_LP(L"<unspecified>"));
 
 	for (auto &it : g_timezonesBias) {
 		SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)it->szDisplay);

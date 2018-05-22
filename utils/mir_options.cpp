@@ -126,7 +126,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		break;
 
 	case CONTROL_TEXT:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue));
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == nullptr ? nullptr : TranslateW_LP(ctrl->tszDefValue));
 		break;
 
 	case CONTROL_INT:
@@ -140,7 +140,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 
 	case CONTROL_COMBO_TEXT:
 	case CONTROL_COMBO_ITEMDATA:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue));
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == nullptr ? nullptr : TranslateW_LP(ctrl->tszDefValue));
 		break;
 	}
 }
@@ -157,7 +157,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+		TranslateDialog_LP(hwndDlg, 0);
 
 		for (int i = 0; i < controlsSize; i++) {
 			OptPageControl *ctrl = &controls[i];
@@ -231,7 +231,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_TEXT:
-				SetDlgItemText(hwndDlg, ctrl->nID, MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue)));
+				SetDlgItemText(hwndDlg, ctrl->nID, MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW_LP(ctrl->tszDefValue)));
 				SendDlgItemMessage(hwndDlg, ctrl->nID, EM_LIMITTEXT, min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), 0);
 				break;
 
@@ -251,12 +251,12 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_COMBO_TEXT:
-				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue));
+				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW_LP(ctrl->tszDefValue));
 				SendDlgItemMessage(hwndDlg, ctrl->nID, CB_SELECTSTRING, 0, (WPARAM)tmp);
 				break;
 
 			case CONTROL_COMBO_ITEMDATA:
-				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue));
+				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW_LP(ctrl->tszDefValue));
 				{
 					int count = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCOUNT, 0, 0);
 					int k;

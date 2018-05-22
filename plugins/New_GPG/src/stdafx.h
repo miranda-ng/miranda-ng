@@ -73,6 +73,11 @@ using std::fstream;
 
 #include <m_metacontacts.h>
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin();
+};
+
 //internal
 #include "resource.h"
 #include "version.h"
@@ -86,10 +91,5 @@ using std::fstream;
 #include "ui.h"
 #include "options.h"
 #include "globals.h"
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-};
 
 #endif

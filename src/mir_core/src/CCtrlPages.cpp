@@ -214,7 +214,7 @@ void CCtrlPages::InsertPage(TPageInfo *pPage)
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM | TCIF_TEXT;
 	tci.lParam = (LPARAM)pPage;
-	tci.pszText = TranslateW(pPage->m_ptszHeader);
+	tci.pszText = TranslateW_LP(pPage->m_ptszHeader);
 	if (pPage->m_hIcon) {
 		if (!m_hIml) {
 			m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
@@ -272,7 +272,7 @@ void CCtrlPages::SwapPages(int idx1, int idx2)
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM | TCIF_TEXT;
 	tci.lParam = (LPARAM)p1;
-	tci.pszText = TranslateW(p1->m_ptszHeader);
+	tci.pszText = TranslateW_LP(p1->m_ptszHeader);
 	TabCtrl_InsertItem(m_hwnd, idx2, &tci);
 }
 

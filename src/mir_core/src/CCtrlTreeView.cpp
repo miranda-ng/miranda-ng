@@ -335,7 +335,7 @@ void CCtrlTreeView::TranslateItem(HTREEITEM hItem)
 	TVITEMEX tvi;
 	wchar_t buf[128];
 	GetItem(hItem, &tvi, buf, _countof(buf));
-	tvi.pszText = TranslateW(tvi.pszText);
+	tvi.pszText = TranslateW_LP(tvi.pszText);
 	SetItem(&tvi);
 }
 

@@ -45,14 +45,14 @@ EXTERN_C MIR_CORE_DLL(int)      LoadLangPackModule(void);
 EXTERN_C MIR_CORE_DLL(int)      LoadLangPack(const wchar_t *szLangPack);
 EXTERN_C MIR_CORE_DLL(void)     ReloadLangpack(wchar_t *pszStr);
 
-EXTERN_C MIR_CORE_DLL(char*)    TranslateA_LP(const char *str, int hLang);
-EXTERN_C MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, int hLang);
-EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang);
+EXTERN_C MIR_CORE_DLL(char*)    TranslateA_LP(const char *str, int hLang = 0);
+EXTERN_C MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, int hLang = 0);
+EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang = 0);
 
-#define Translate(s) TranslateA_LP(s, hLangpack)
-#define TranslateW(s) TranslateW_LP(s, hLangpack)
-#define TranslateT(s) TranslateW_LP(_A2W(s), hLangpack)
-#define TranslateDialogDefault(h) TranslateDialog_LP(h,hLangpack)
+#define Translate(s) TranslateA_LP(s, g_plugin.m_hLang)
+#define TranslateW(s) TranslateW_LP(s, g_plugin.m_hLang)
+#define TranslateT(s) TranslateW_LP(_A2W(s), g_plugin.m_hLang)
+#define TranslateDialogDefault(h) TranslateDialog_LP(h, g_plugin.m_hLang)
 
 // If you're storing some string for calling later-on Translate or using it
 // with an API call that does translation automatically marked with
@@ -68,9 +68,9 @@ EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang);
 // translates a menu into the user's local language
 // returns 0 on success, nonzero on failure
 
-EXTERN_C MIR_CORE_DLL(void) TranslateMenu_LP(HMENU, int = hLangpack);
+EXTERN_C MIR_CORE_DLL(void) TranslateMenu_LP(HMENU, int langId);
 
-#define TranslateMenu(h) TranslateMenu_LP(h,hLangpack)
+#define TranslateMenu(h) TranslateMenu_LP(h, g_plugin.m_hLang)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns the codepage used in the language pack
@@ -92,8 +92,8 @@ EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultLocale(void);
 EXTERN_C MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// retrieves the hLangpack of a plugin by its HINSTANCE
-// returns hLangpack if found, or 0 if error occurred
+// retrieves the language id of a plugin by its HINSTANCE
+// returns id if found, or 0 if error occurred
 
 EXTERN_C MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE);
 

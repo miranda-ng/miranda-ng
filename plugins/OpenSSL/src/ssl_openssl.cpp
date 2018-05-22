@@ -101,12 +101,12 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 		return;
 
 	case SEC_E_INVALID_TOKEN:
-		tszMsg += TranslateT("Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package");
+		tszMsg += TranslateW_LP(L"Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package");
 		break;
 
 	case CERT_E_CN_NO_MATCH:
 	case SEC_E_WRONG_PRINCIPAL:
-		tszMsg += TranslateT("Host we are connecting to is not the one certificate was issued for");
+		tszMsg += TranslateW_LP(L"Host we are connecting to is not the one certificate was issued for");
 		break;
 
 	default:
@@ -404,7 +404,7 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 int LoadSslModule(void)
 {
 	if (!SSL_library_load()) {
-		MessageBoxW(nullptr, TranslateT("OpenSSL library loading failed"), TranslateT("OpenSSL error"), MB_ICONERROR | MB_OK);
+		MessageBoxW(nullptr, TranslateW_LP(L"OpenSSL library loading failed"), TranslateW_LP(L"OpenSSL error"), MB_ICONERROR | MB_OK);
 		return 1;
 	}
 	CreateServiceFunction(MS_SYSTEM_GET_SI, GetSslApi);

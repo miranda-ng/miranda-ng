@@ -52,6 +52,10 @@
 
 #include "m_fingerprint.h"
 
+{
+	CMPlugin();
+};
+
 #include "TMyArray.h"
 #include "Options.h"
 #include "CString.h"
@@ -83,11 +87,6 @@
 #define NOTIFYTIMER_INTERVAL 3500
 
 #define MODULENAME "ClientChangeNotify"
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-};
 
 #define LOG_ID MODULENAME
 #define LOG_PREFIX MODULENAME ": " // for netlib.log

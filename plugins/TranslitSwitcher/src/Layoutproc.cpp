@@ -430,7 +430,7 @@ void SwitchLayout(bool lastword)
 			POPUPDATAT pd = { 0 };
 			pd.lchIcon = IcoLib_GetIcon("Switch Layout and Send");
 			mir_wstrncpy(pd.lptzText, buf, _countof(pd.lptzText));
-			mir_wstrncpy(pd.lptzContactName, TranslateT("TranslitSwitcher"), _countof(pd.lptzContactName));
+			mir_wstrncpy(pd.lptzContactName, TranslateW_LP(L"TranslitSwitcher"), _countof(pd.lptzContactName));
 			PUAddPopupT(&pd);
 		}
 	}
