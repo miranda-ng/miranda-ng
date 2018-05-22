@@ -183,7 +183,7 @@ void SvcEMailRebuildMenu()
 
 		if (!ghMenuItem) {
 			// insert contact menuitem
-			CMenuItem mi;
+			CMenuItem mi(g_plugin);
 			SET_UID(mi, 0x61d8e25a, 0x92e, 0x4470, 0x84, 0x57, 0x5e, 0x52, 0x17, 0x7f, 0xfa, 0x3);
 			mi.position = -2000010000;
 			mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EMAIL);

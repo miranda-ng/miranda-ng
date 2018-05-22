@@ -77,7 +77,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitServices();
 
 	/// menu items
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x28848d7a, 0x6995, 0x4799, 0x82, 0xd7, 0x18, 0x40, 0x3d, 0xe3, 0x71, 0xc4);
 	mi.name.w = LPGENW("View &history");
 	mi.flags = CMIF_UNICODE;

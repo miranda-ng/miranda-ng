@@ -317,7 +317,7 @@ int LoadCLUIModule(void)
 					 db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
 					 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	
 	SET_UID(mi, 0x66aada45, 0x8bcb, 0x49bb, 0x85, 0xb0, 0xae, 0x1, 0xf8, 0xbe, 0x78, 0x7e);
 	mi.position = 2000070000;

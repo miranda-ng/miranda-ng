@@ -891,7 +891,7 @@ INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM)
 
 void Traffic_AddMainMenuItem(void)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x7fe75b30, 0x3cf6, 0x4280, 0xb9, 0xd2, 0x88, 0x6b, 0xbb, 0x69, 0xa3, 0x7e);
 	mi.position = -0x7FFFFFFF;
 	mi.hIcolibItem = nullptr;

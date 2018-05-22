@@ -443,7 +443,7 @@ void CSametimeProto::InitConferenceMenu()
 	CreateProtoService(MS_SAMETIME_MENULEAVECHAT, &CSametimeProto::onMenuLeaveChat);
 	CreateProtoService(MS_SAMETIME_MENUCREATECHAT, &CSametimeProto::onMenuCreateChat);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE | CMIF_NOTOFFLINE;
 	
 	SET_UID(mi, 0x98cf8a8c, 0x75ba, 0x46f2, 0xa3, 0x35, 0x65, 0x46, 0x4a, 0x38, 0x20, 0x7d);

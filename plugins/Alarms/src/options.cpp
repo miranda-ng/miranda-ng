@@ -811,9 +811,9 @@ void AddMenuItem()
 {
 	if (hMainMenuItem) return;
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Alarms"), mi.position);
+		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Alarms"), mi.position);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "24F03563-01BE-4118-8297-E94375A783E7");
 	}
 

@@ -83,7 +83,7 @@ void RebuildContact()
 	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
 
 	// support new genmenu style
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 
 	
 	switch (flag) {
@@ -176,7 +176,7 @@ void RebuildMain()
 	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
 
 	// support new genmenu style
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 
 	switch (flag) {
 	case 3:
@@ -313,7 +313,7 @@ void RebuildGroup()
 	char text[200];
 	mir_strcpy(text, "UserInfo");
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.pszService = text;
 
 	switch (flag) {
@@ -404,7 +404,7 @@ void RebuildSubGroup()
 	char text[200];
 	mir_strcpy(text, "UserInfo");
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.pszService = text;
 	char* tDest = text + mir_strlen(text);
 
@@ -520,7 +520,7 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 		char text[200];
 		mir_strcpy(text, it->szProto);
 
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		mi.pszService = text;
 		char* tDest = text + mir_strlen(text);
 

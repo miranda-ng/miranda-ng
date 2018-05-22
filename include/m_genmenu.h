@@ -9,12 +9,6 @@
 #include <newpluginapi.h>
 #endif
 
-#if defined MIR_APP_EXPORTS
-	typedef struct TMO_IntMenuItem* HGENMENU;
-#else
-	DECLARE_HANDLE(HGENMENU);
-#endif
-
 // predefined menu objects
 #define MO_MAIN    (-1)
 #define MO_CONTACT (-2)
@@ -50,21 +44,16 @@ struct TMO_MenuItem
 	MUUID uid;
 };
 
-#if _MSC_VER <= 1600
-	#define SET_UID(M,A,B,C,D1,D2,D3,D4,D5,D6,D7,D8) { MUUID tmp = { A, B, C, {D1,D2,D3,D4,D5,D6,D7,D8}}; M.uid = tmp; }
-	#define UNSET_UID(M) { MUUID tmp = MIID_LAST; M.uid = tmp; }
-#else
-	#define SET_UID(M,A,B,C,D1,D2,D3,D4,D5,D6,D7,D8) { M.uid = { A, B, C, {D1,D2,D3,D4,D5,D6,D7,D8}}; }
-	#define UNSET_UID(M) { M.uid = MIID_LAST; }
-#endif
+#define SET_UID(M,A,B,C,D1,D2,D3,D4,D5,D6,D7,D8) { M.uid = { A, B, C, {D1,D2,D3,D4,D5,D6,D7,D8}}; }
+#define UNSET_UID(M) { M.uid = MIID_LAST; }
 
 #ifdef __cplusplus
 struct CMenuItem : public TMO_MenuItem
 {
-	CMenuItem()
+	CMenuItem(const CMPluginBase &pPlugin)
 	{
 		memset(this, 0, sizeof(CMenuItem));
-		this->langId = ::hLangpack;
+		this->langId = pPlugin.m_hLang;
 	}
 };
 #endif
@@ -118,7 +107,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pItem
 // Adds new submenu
 // Returns HGENMENU on success, or NULL on failure
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib = nullptr, int hLang = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib, int langId);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // process a WM_DRAWITEM message for user context menus      v0.1.1.0+
@@ -258,7 +247,7 @@ __forceinline int Menu_ConfigureItem(HGENMENU hMenu, int iSetting, LPCSTR pszVal
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// kills all menu items & submenus that belong to the hLangpack given
+// kills all menu items & submenus that belong to the language id given
 
 EXTERN_C MIR_APP_DLL(void) KillModuleMenus(int langId);
 

@@ -535,7 +535,7 @@ INT_PTR GaduProto::export_server(WPARAM, LPARAM)
 //
 void GaduProto::import_init(HGENMENU hRoot)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.root = hRoot;
 

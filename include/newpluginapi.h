@@ -46,10 +46,12 @@ struct MUUID
 };
 
 __forceinline bool operator==(const MUUID &p1, const MUUID &p2)
-{	return memcmp(&p1, &p2, sizeof(MUUID)) == 0;
+{
+	return memcmp(&p1, &p2, sizeof(MUUID)) == 0;
 }
 __forceinline bool operator!=(const MUUID &p1, const MUUID &p2)
-{	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
+{
+	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
 }
 
 MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int langId);
@@ -200,6 +202,8 @@ public:
 	void openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPage = 0, const wchar_t *pszTab = 0);
 
 	HANDLE addIcon(const struct SKINICONDESC*);
+
+	HGENMENU addRootMenu(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib = nullptr);
 
 	int addHotkey(const struct HOTKEYDESC*);
 	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);

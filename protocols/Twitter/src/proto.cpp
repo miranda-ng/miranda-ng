@@ -219,7 +219,7 @@ INT_PTR TwitterProto::VisitHomepage(WPARAM wParam, LPARAM)
 
 int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 	mi.flags = CMIF_UNICODE;
 	mi.position = 1001;

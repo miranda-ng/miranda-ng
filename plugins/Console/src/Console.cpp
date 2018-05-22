@@ -1141,7 +1141,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	if (hwndConsole && IsWindow(hwndConsole)) {
 		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		SET_UID(mi, 0x6d97694e, 0x2024, 0x4560, 0xbb, 0xbc, 0x20, 0x62, 0x7e, 0x5, 0xdf, 0xb3);
 		mi.flags = CMIF_UNICODE;
 		mi.hIcolibItem = hIcons[0];

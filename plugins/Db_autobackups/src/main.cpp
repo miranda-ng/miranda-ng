@@ -70,8 +70,8 @@ static int FoldersGetBackupPath(WPARAM, LPARAM)
 
 static int ModulesLoad(WPARAM, LPARAM)
 {
-	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Database"), 500100000);
+	CMenuItem mi(g_plugin);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500100000);
 
 	SET_UID(mi, 0x1439b1db, 0x7d95, 0x495b, 0xbf, 0x5, 0x3d, 0x21, 0xc1, 0xeb, 0xf7, 0x58);
 	mi.name.a = LPGEN("Backup profile");

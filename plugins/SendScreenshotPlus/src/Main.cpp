@@ -292,7 +292,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	srv_reg(Send2ImageShack);
 
 	// menu items
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = GetIconHandle(ICO_MAINXS);
 

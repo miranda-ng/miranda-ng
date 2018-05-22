@@ -95,7 +95,7 @@ void InitContactMenus()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 
 	SET_UID(mi, 0x4f006492, 0x9fe5, 0x4d10, 0x88, 0xce, 0x47, 0x53, 0xba, 0x27, 0xe9, 0xc9);
 	mi.position = -2000006000;
@@ -193,7 +193,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 void FacebookProto::OnBuildProtoMenu()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.position = 201001;
 	mi.root = Menu_GetProtocolRoot(this);
 

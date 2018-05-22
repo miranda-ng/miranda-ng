@@ -604,3 +604,4 @@ RegisterPlugin @632
 UnregisterPlugin @633
 ?addHotkey@CMPluginBase@@QAEHPBUHOTKEYDESC@@@Z @634 NONAME
 ?addIcon@CMPluginBase@@QAEPAXPBUSKINICONDESC@@@Z @635 NONAME
+?addRootMenu@CMPluginBase@@QAEPAUTMO_IntMenuItem@@HPB_WHPAX@Z @636 NONAME

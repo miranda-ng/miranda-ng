@@ -521,8 +521,8 @@ int CreateFrame()
 		// create menu item
 		CreateServiceFunction(MODULENAME "/ShowHideReminders", ShowHideMenuFunc);
 
-		CMenuItem mi;
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Alarms"), 0);
+		CMenuItem mi(g_plugin);
+		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Alarms"), 0);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "8A3C1906-4809-4EE8-A32A-858003A2AAA7");
 
 		SET_UID(mi, 0x27556ea9, 0xfa19, 0x4c2e, 0xb0, 0xc9, 0x48, 0x2, 0x5c, 0x17, 0xba, 0x5);

@@ -262,7 +262,7 @@ INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
 // copied and modified form "modified MSN Protocol"
 void AddMenuItems(void)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 
 	// contact menu
 	SET_UID(mi, 0x266ef52b, 0x869a, 0x4cac, 0xa9, 0xf8, 0xea, 0x5b, 0xb8, 0xab, 0xe0, 0x24);
@@ -322,7 +322,7 @@ void AddMenuItems(void)
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	// adding main menu items
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Weather"), 500099000);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Weather"), 500099000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "82809D2F-2CF0-4E15-9350-D257A7748552");
 
 	SET_UID(mi, 0x5ad16188, 0xe0a0, 0x4c31, 0x85, 0xc3, 0xe4, 0x85, 0x79, 0x7e, 0x4b, 0x9c);
@@ -357,7 +357,7 @@ void AddMenuItems(void)
 		mi.name.a = LPGEN("Weather Notification");
 		mi.hIcolibItem = GetIconHandle("popup");
 		mi.position = 0;
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
+		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
 		mi.pszService = WEATHERPROTONAME "/PopupMenu";
 		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
 		UpdatePopupMenu(opt.UsePopup);

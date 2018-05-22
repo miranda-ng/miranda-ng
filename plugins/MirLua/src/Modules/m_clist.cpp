@@ -46,7 +46,7 @@ static int clist_AddMainMenuRoot(lua_State *L)
 	int position = lua_tointeger(L, 2);
 	HANDLE hIcon = (HANDLE)lua_touserdata(L, 3);
 
-	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrW(Utf8DecodeW(name)), position, hIcon);
+	HGENMENU res = g_plugin.addRootMenu(MO_MAIN, ptrW(Utf8DecodeW(name)), position, hIcon);
 	if (res != nullptr)
 		lua_pushlightuserdata(L, res);
 	else
@@ -59,7 +59,7 @@ static int clist_AddMainMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	MakeMenuItem(L, mi);
 
 	HGENMENU res = Menu_AddMainMenuItem(&mi);
@@ -77,7 +77,7 @@ static int clist_AddContactMenuRoot(lua_State *L)
 	int position = lua_tointeger(L, 2);
 	HANDLE hIcon = (HANDLE)lua_touserdata(L, 3);
 
-	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrW(Utf8DecodeW(name)), position, hIcon);
+	HGENMENU res = g_plugin.addRootMenu(MO_MAIN, ptrW(Utf8DecodeW(name)), position, hIcon);
 	if (res != nullptr)
 		lua_pushlightuserdata(L, res);
 	else
@@ -90,7 +90,7 @@ static int clist_AddContactMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	MakeMenuItem(L, mi);
 
 	ptrA szProto(mir_utf8decodeA(lua_tostring(L, 2)));
@@ -107,7 +107,7 @@ static int clist_AddTrayMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	MakeMenuItem(L, mi);
 
 	HGENMENU res = Menu_AddTrayMenuItem(&mi);

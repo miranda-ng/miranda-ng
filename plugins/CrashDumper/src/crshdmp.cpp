@@ -261,8 +261,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		FoldersPathChanged(0, 0);
 	}
 
-	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Version Information"), 2000089999, GetIconHandle(IDI_VI));
+	CMenuItem mi(g_plugin);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Version Information"), 2000089999, GetIconHandle(IDI_VI));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "9A7A9C76-7FD8-4C05-B402-6C46060C2D78");
 
 	SET_UID(mi, 0x52930e40, 0xb2ee, 0x4433, 0xad, 0x77, 0xf5, 0x42, 0xe, 0xf6, 0x57, 0xc1);

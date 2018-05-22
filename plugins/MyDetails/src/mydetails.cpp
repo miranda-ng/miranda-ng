@@ -82,7 +82,7 @@ static int MainInit(WPARAM, LPARAM)
 	InitProtocolData();
 
 	// Add options to menu
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x73ff525d, 0x7b8, 0x49cc, 0xa2, 0xdf, 0xc5, 0xad, 0x13, 0xf3, 0x8e, 0x2d);
 	mi.position = 500050000;
 	mi.flags =  CMIF_UNICODE;

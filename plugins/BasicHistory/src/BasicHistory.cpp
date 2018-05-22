@@ -95,7 +95,7 @@ int ToolbarModuleLoaded(WPARAM, LPARAM)
 
 void InitMenuItems()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 
 	SET_UID(mi, 0x28848d7a, 0x6995, 0x4799, 0x82, 0xd7, 0x18, 0x40, 0x3d, 0xe3, 0x71, 0xc4);
 	mi.position = 1000090000;
@@ -122,7 +122,7 @@ void InitTaskMenuItems()
 {
 	if (Options::instance->taskOptions.size() > 0) {
 		if (hTaskMainMenu == nullptr) {
-			CMenuItem mi;
+			CMenuItem mi(g_plugin);
 			SET_UID(mi, 0xbf66499, 0x1b39, 0x47a2, 0x9b, 0x74, 0xa6, 0xae, 0x89, 0x95, 0x59, 0x59);
 			mi.position = 500060005;
 			mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
@@ -140,7 +140,7 @@ void InitTaskMenuItems()
 
 		int pos = (int)taskMenus.size();
 		for (; taskIt != Options::instance->taskOptions.end(); ++taskIt) {
-			CMenuItem mi;
+			CMenuItem mi(g_plugin);
 			mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.root = hTaskMainMenu;

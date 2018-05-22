@@ -714,7 +714,7 @@ static INT_PTR OnHotKey_HideWhenCListShow(WPARAM, LPARAM)
 
 static void LoadMenus()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 
 	// Remove thumb menu item
 	CreateServiceFunction(MODULE "/RemoveThumb", OnContactMenu_Remove);

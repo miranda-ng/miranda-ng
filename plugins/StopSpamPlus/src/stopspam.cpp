@@ -44,7 +44,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbContactSettingchanged);
 	
 	// Add deleting temporary contacts
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0xf2164e17, 0xa4c1, 0x4b07, 0xae, 0x81, 0x9e, 0xae, 0x7f, 0xa2, 0x55, 0x13);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_UNICODE;

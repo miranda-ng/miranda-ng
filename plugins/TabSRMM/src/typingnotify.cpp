@@ -531,7 +531,7 @@ int TN_ModuleInit()
 	if (PluginConfig.g_bPopupAvail && ShowMenu) {
 		CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		SET_UID(mi, 0xe18fd2cf, 0xcf90, 0x459e, 0xb6, 0xe6, 0x70, 0xec, 0xad, 0xc6, 0x73, 0xef);
 		if (!Disabled) {
 			mi.name.a = LPGEN("Disable &typing notification");
@@ -542,7 +542,7 @@ int TN_ModuleInit()
 			mi.hIcolibItem = IcoLib_GetIcon("tabSRMM_popups_disabled");
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
+		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
 

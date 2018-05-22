@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CIrcProto::OnBuildProtoMenu()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.name.a = LPGEN("&Quick connect");
@@ -104,7 +104,7 @@ void InitContactMenus(void)
 	char temp[MAXMODULELABELLENGTH];
 	char *d = temp + mir_snprintf(temp, "IRC");
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.pszService = temp;
 
 	SET_UID(mi, 0x5f01196f, 0xfbcd, 0x4034, 0xbd, 0x90, 0x12, 0xa0, 0x20, 0x68, 0x15, 0xc0);

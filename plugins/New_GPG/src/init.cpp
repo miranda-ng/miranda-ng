@@ -157,7 +157,7 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction("/ExportGPGKeys",ExportGpGKeys);
 	CreateServiceFunction("/ImportGPGKeys",ImportGpGKeys);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 
 	SET_UID(mi, 0xbd22e3f8, 0xc19c, 0x45a8, 0xb7, 0x37, 0x6b, 0x3b, 0x27, 0xf0, 0x8c, 0xbb);
 	mi.position = -0x7FFFFFFF;

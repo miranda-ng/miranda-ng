@@ -1272,7 +1272,7 @@ static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
 
 static int OptModulesLoaded(WPARAM, LPARAM)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0xc1284523, 0x548d, 0x4744, 0xb0, 0x9, 0xfb, 0xa0, 0x4, 0x8e, 0xa8, 0x67);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.position = 1900000000;

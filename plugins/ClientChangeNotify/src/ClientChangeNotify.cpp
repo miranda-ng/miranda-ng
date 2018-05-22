@@ -328,9 +328,9 @@ static int MirandaLoaded(WPARAM, LPARAM)
 		CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups);
 		HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu);
 
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		SET_UID(mi, 0xfabb9181, 0xdb92, 0x43f4, 0x86, 0x40, 0xca, 0xb6, 0x4c, 0x93, 0x34, 0x27);
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
+		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
 		mi.flags = CMIF_UNICODE;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
 			mi.name.w = LPGENW("Disable c&lient change notification");

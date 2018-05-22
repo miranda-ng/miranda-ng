@@ -88,7 +88,7 @@ static boolean resizing = FALSE;
 
 // menus
 static FrameMenuHandles cont;
-static LIST<HGENMENU__> g_frameMenus(10);
+static LIST<TMO_IntMenuItem> g_frameMenus(10);
 
 // others
 static int ContactListHeight;
@@ -567,7 +567,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 	int framepos = id2pos(frameid);
 	FrameMenuHandles &fmh = (frameid == -1) ? cont : Frames[framepos].MenuHandles;
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.root = root;
 	mi.position = popuppos++;
@@ -1322,7 +1322,7 @@ static int CLUIFramesLoadMainMenu()
 	g_frameMenus.destroy();
 
 	// create frames menu
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.root = cont.MainMenuItem;
 	mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
 	int separator = (int)3000200000;
@@ -2938,7 +2938,7 @@ int LoadCLUIFramesModule(void)
 	RegisterClass(&cntclass);
 
 	// create root menu
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x3931AC4, 0x7A32, 0x4D9C, 0x99, 0x92, 0x94, 0xD4, 0xB5, 0x9B, 0xD6, 0xB6);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;

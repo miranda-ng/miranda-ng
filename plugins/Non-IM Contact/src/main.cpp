@@ -145,8 +145,8 @@ extern "C" __declspec(dllexport) int Load()
 	CreateServiceFunction("TestStringReplaceLine", testStringReplacer);
 	CreateServiceFunction("NIM_Contact/DoubleClick", doubleClick);
 
-	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("&Non-IM Contact"), 600090000);
+	CMenuItem mi(g_plugin);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("&Non-IM Contact"), 600090000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "D7CE61C5-1178-41BA-B2ED-5A711BB21AE9");
 
 	SET_UID(mi, 0x73c11266, 0x153c, 0x4da4, 0x9b, 0x82, 0x5c, 0xce, 0xca, 0x86, 0xd, 0x41);

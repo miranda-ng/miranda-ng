@@ -254,7 +254,7 @@ INT_PTR GaduProto::blockuser(WPARAM hContact, LPARAM)
 //
 void GaduProto::block_init()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
 	mi.position = -500050000;
 	mi.hIcolibItem = iconList[8].hIcolib;
@@ -280,7 +280,7 @@ void GaduProto::OnBuildProtoMenu()
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(this);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.root = hRoot;
 	mi.flags = CMIF_UNICODE;
 

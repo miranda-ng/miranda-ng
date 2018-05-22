@@ -141,7 +141,7 @@ int CMsnProto::OnContactDoubleClicked(WPARAM hContact, LPARAM)
 // Menus initialization
 void CMsnProto::OnBuildProtoMenu(void)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.pszService = MSN_INVITE;
@@ -225,7 +225,7 @@ void MSN_InitContactMenu(void)
 	mir_strcpy(servicefunction, "MSN");
 	char* tDest = servicefunction + mir_strlen(servicefunction);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.pszService = servicefunction;
 
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);

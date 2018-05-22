@@ -57,7 +57,7 @@ static INT_PTR profileService(WPARAM, LPARAM, LPARAM param)
 
 static int CreateMainMenuItems(WPARAM, LPARAM)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.position = 2000100000;
 	mi.flags = CMIF_UNICODE;
 	mcount = 0;
@@ -68,7 +68,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 			continue;
 
 		if (db_get_b(0, SSMODULENAME, OptName(i, SETTING_INSUBMENU), 1) && !mi.root) {
-			mi.root = Menu_CreateRoot(MO_STATUS, LPGENW("Status profiles"), 2000100000);
+			mi.root = g_plugin.addRootMenu(MO_STATUS, LPGENW("Status profiles"), 2000100000);
 			Menu_ConfigureItem(mi.root, MCI_OPT_UID, "1AB30D51-BABA-4B27-9288-1A12278BAD8D");
 		}
 

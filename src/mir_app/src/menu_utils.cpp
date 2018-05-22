@@ -240,7 +240,7 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 			return p;
 
 	// create protocol root in the main menu
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.name.w = pThis->m_tszUserName;
 	mi.position = 500090000;
 	mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
@@ -686,7 +686,7 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 	if (oldroot != nullptr)
 		return oldroot;
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = hIcoLib;
 	mi.langId = _hLang;

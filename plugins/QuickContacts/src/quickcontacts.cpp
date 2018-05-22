@@ -128,7 +128,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Add menu item
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x3a3f768a, 0xcf47, 0x43d5, 0x92, 0x16, 0xe4, 0xeb, 0x93, 0xf6, 0x72, 0xfa);
 	mi.position = 500100001;
 	mi.flags = CMIF_UNICODE;

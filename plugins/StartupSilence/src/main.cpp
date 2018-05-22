@@ -246,7 +246,7 @@ static INT_PTR SilenceConnection(WPARAM wParam, LPARAM)
 
 static INT_PTR InitMenu()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x9100c881, 0x6f76, 0x4cb5, 0x97, 0x66, 0xeb, 0xf5, 0xc5, 0x22, 0x46, 0x1f);
 	mi.position = 100000000;
 	mi.hIcolibItem = GetIconHandle(MENU_NAME);

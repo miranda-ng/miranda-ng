@@ -69,7 +69,7 @@ int gg_img_remove(GGIMAGEDLGDATA *dat);
 int GaduProto::img_init()
 {
 	// Send image contact menu item
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0xab238938, 0xed85, 0x4cfe, 0x93, 0xb5, 0xb8, 0x83, 0xf4, 0x32, 0xa0, 0xec);
 	mi.position = -2000010000;
 	mi.hIcolibItem = iconList[11].hIcolib;

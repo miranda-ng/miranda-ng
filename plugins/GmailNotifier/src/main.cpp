@@ -141,7 +141,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	CreateServiceFunction(MODULENAME "/MenuCommand", PluginMenuCommand);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0xbe16f37, 0x17be, 0x4494, 0xaa, 0xb2, 0x3a, 0xa7, 0x38, 0xfa, 0xf9, 0xcc);
 	mi.position = -0x7FFFFFFF;
 	mi.hIcolibItem = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);

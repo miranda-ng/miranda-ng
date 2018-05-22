@@ -75,7 +75,7 @@ void InitContactMenus()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_NOTOFFLINE | CMIF_UNICODE;
 
 	SET_UID(mi, 0xfc4e1245, 0xc8e0, 0x4de2, 0x92, 0x15, 0xfc, 0xcf, 0x48, 0xf9, 0x41, 0x56);

@@ -97,7 +97,7 @@ void gg_links_instancemenu_init()
 	CreateServiceFunction(GGS_MENUCHOOSE, gg_menuchoose);
 	hInstanceMenu = Menu_AddObject("GGAccountChooser", LPGEN("Gadu-Gadu account chooser"), nullptr, GGS_MENUCHOOSE);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.name.a = "Cancel";
 	mi.position = 9999999;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
@@ -115,7 +115,7 @@ void gg_links_init()
 void GaduProto::links_instance_init()
 {
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		mi.flags = CMIF_UNICODE;
 		mi.position = CMPlugin::g_arInstances.getCount();
 		mi.name.w = m_tszUserName;

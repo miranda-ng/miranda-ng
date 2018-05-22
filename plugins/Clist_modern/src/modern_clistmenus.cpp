@@ -93,7 +93,7 @@ INT_PTR FAV_ToggleShowOffline(WPARAM hContact, LPARAM)
 
 void LoadFavoriteContactMenu()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0xf99a2320, 0xc024, 0x48bd, 0x81, 0xf7, 0x9f, 0xa2, 0x5, 0xb0, 0x7f, 0xdc);
 	mi.name.w = FAVMENUROOTNAME;
 	mi.flags = CMIF_UNICODE;

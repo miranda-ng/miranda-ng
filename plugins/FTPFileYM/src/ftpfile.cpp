@@ -86,7 +86,7 @@ void InitMenuItems()
 {
 	wchar_t stzName[256];
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0xB7132F5A, 0x65FC, 0x42C5, 0xB4, 0xCB, 0x54, 0xBC, 0xAC, 0x58, 0x34, 0xE9);
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
@@ -101,7 +101,7 @@ void InitMenuItems()
 	mi.name.w = stzName;
 	mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
 
-	CMenuItem mi2;
+	CMenuItem mi2(g_plugin);
 	mi2.flags = CMIF_UNICODE | CMIF_SYSTEM;
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 

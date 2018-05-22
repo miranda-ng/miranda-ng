@@ -53,6 +53,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	DECLARE_HANDLE(HNETLIBBIND);
 #endif
 
+typedef struct TMO_IntMenuItem* HGENMENU;
+
 #define MIR_APP_DLL(T) MIR_APP_EXPORT T __stdcall
 
 #pragma warning(disable:4201 4127 4312 4706)

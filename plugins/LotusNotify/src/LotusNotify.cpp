@@ -1714,7 +1714,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		//function that will be called on menu click
 		CreateServiceFunction("LotusNotify/MenuCommand", PluginMenuCommand);
 
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		SET_UID(mi, 0x4519458, 0xb55a, 0x4e22, 0xac, 0x95, 0x5e, 0xa4, 0x4d, 0x92, 0x65, 0x65);
 		mi.position = -0x7FFFFFFF; //on top menu position
 		mi.flags = CMIF_UNICODE;

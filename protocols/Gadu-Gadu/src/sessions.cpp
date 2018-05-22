@@ -418,7 +418,7 @@ BOOL GaduProto::sessions_closedlg()
 
 void GaduProto::sessions_menus_init(HGENMENU hRoot)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.root = hRoot;
 

@@ -116,7 +116,7 @@ int CSteamProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 void CSteamProto::OnInitStatusMenu()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.root = Menu_GetProtocolRoot(this);
 
@@ -134,7 +134,7 @@ void CSteamProto::InitMenus()
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 
 	// "Block"

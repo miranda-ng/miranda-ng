@@ -854,14 +854,14 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 		wchar_t szItem[MAX_PATH + 64];
 		mir_snwprintf(szItem, TranslateT("%s Custom Status"), m_tszUserName);
 
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		mi.root = Menu_GetProtocolMenu(m_szModuleName);
 		mi.name.w = szItem;
 		mi.position = 10001;
 		hRoot = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	}
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.position = 2000040000;
 	mi.root = hRoot;
 

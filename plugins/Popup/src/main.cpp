@@ -174,13 +174,13 @@ INT_PTR svcShowHistory(WPARAM, LPARAM)
 
 void InitMenuItems(void)
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 
 	HANDLE hIcon = GetIconHandle(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP);
 
 	// Build main menu
-	hMenuRoot = mi.root = Menu_CreateRoot(MO_MAIN, MODULNAME_PLUW, -1000000000, hIcon);
+	hMenuRoot = mi.root = g_plugin.addRootMenu(MO_MAIN, MODULNAME_PLUW, -1000000000, hIcon);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "3F5B5AB5-46D8-469E-8951-50B287C59037");
 
 	// Add item to main menu

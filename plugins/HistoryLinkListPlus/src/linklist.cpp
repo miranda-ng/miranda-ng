@@ -155,7 +155,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x2964dc6c, 0x9cf9, 0x4f20, 0x8f, 0x8a, 0xc6, 0xfe, 0xe2, 0x65, 0xac, 0xc9);
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON));

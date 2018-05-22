@@ -147,7 +147,7 @@ void AddMainMenu()
 	CreateServiceFunction(con::SvcShowStatistics, MenuShowStatistics);
 	CreateServiceFunction(con::SvcConfigure, MenuConfigure);
 
-	HGENMENU hRoot = bInPopup ? Menu_CreateRoot(MO_MAIN, LPGENW("Statistics"), 1910000000) : nullptr;
+	HGENMENU hRoot = bInPopup ? g_plugin.addRootMenu(MO_MAIN, LPGENW("Statistics"), 1910000000) : nullptr;
 	Menu_ConfigureItem(hRoot, MCI_OPT_UID, "7F116B24-9D84-4D04-B6AA-EED95051A184");
 
 	g_hMenuCreateStatistics = mu::clist::addMainMenuItem(

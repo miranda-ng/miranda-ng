@@ -132,13 +132,13 @@ extern "C" int __declspec(dllexport) Load()
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 	if ( db_get_b(NULL, MODULENAME, MENU_OFF, 0)) {
 		//value is 0 if menu is enabled
 		db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 0);
 
-		mi.root = Menu_CreateRoot(MO_MAIN, _A2W(MODULENAME), 20200001);
+		mi.root = g_plugin.addRootMenu(MO_MAIN, _A2W(MODULENAME), 20200001);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "403BE07B-7954-4F3E-B318-4301571776B8");
 
 		/*DISABLE WEBVIEW*/

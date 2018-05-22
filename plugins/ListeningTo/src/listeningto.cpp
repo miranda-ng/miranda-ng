@@ -94,7 +94,7 @@ void RebuildMenu()
 		wchar_t text[512];
 		mir_snwprintf(text, TranslateT("Send to %s"), info->account);
 
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		mi.position = 100000 + i;
 		mi.root = hMainMenuGroup;
 		mi.position = 500080000 + i;
@@ -192,7 +192,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Add main menu item
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0xe8e4e594, 0x255e, 0x434d, 0x83, 0x74, 0x79, 0x44, 0x1b, 0x4e, 0xe7, 0x16);
 	mi.position = 500080000;
 	mi.name.w = LPGENW("Listening to");

@@ -325,7 +325,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 {
 	g_plugin.registerIcon(LPGEN("Contact list"), iconItem);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x1cc99858, 0x40ca, 0x4558, 0xae, 0x10, 0xba, 0x81, 0xaf, 0x4c, 0x67, 0xb5);
 	CreateServiceFunction("CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;

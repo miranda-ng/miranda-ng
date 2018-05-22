@@ -46,7 +46,7 @@ int CToxProto::UpdateStatusMenu(WPARAM, LPARAM)
 
 void CToxProto::OnBuildProtoMenu()
 {
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.root = Menu_GetProtocolRoot(this);
 

@@ -1276,7 +1276,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 	if (!iStatusMsgFlags || !iStatusMenuItemCount)
 		return 0;
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	mi.flags = CMIF_UNICODE;
 	if (!db_get_b(NULL, MODULENAME, "ShowStatusMenuItem", 1))
 		mi.flags |= CMIF_HIDDEN;
@@ -1312,9 +1312,9 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 		if (pa->IsLocked()) {
 			wchar_t szBuffer[256];
 			mir_snwprintf(szBuffer, TranslateT("%s (locked)"), pa->tszAccountName);
-			mi.root = Menu_CreateRoot(MO_STATUS, szBuffer, mi.position);
+			mi.root = g_plugin.addRootMenu(MO_STATUS, szBuffer, mi.position);
 		}
-		else mi.root = Menu_CreateRoot(MO_STATUS, pa->tszAccountName, mi.position);
+		else mi.root = g_plugin.addRootMenu(MO_STATUS, pa->tszAccountName, mi.position);
 
 		hProtoStatusMenuItem[i++] = Menu_AddStatusMenuItem(&mi);
 	}

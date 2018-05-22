@@ -93,8 +93,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(SRV_CHANGE_PM, ChangePM);
 	CreateServiceFunction(SRV_RESTART_ME, RestartMe);
 
-	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Database"), -500200000);
+	CMenuItem mi(g_plugin);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), -500200000);
 
 	for (int i = 0; i < _countof(iconList); i++) {
 		mi.name.a = iconList[i].szDescr;

@@ -175,6 +175,11 @@ HANDLE CMPluginBase::addIcon(const SKINICONDESC *sid)
 	return IcoLib_AddIcon(sid, m_hLang);
 }
 
+HGENMENU CMPluginBase::addRootMenu(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib)
+{
+	return Menu_CreateRoot(hMenuObject, ptszName, position, hIcoLib, m_hLang);
+}
+
 int CMPluginBase::addUserInfo(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 {
 	odp->langId = m_hLang;

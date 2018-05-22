@@ -53,7 +53,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
 
-	CMenuItem mi;
+	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x9181059, 0x5316, 0x4be3, 0x96, 0xb7, 0x80, 0x51, 0xa9, 0x3a, 0xd8, 0x49);
 	mi.position = -0x7FFFFFFF;
 	mi.hIcolibItem = iconList[0].hIcolib;

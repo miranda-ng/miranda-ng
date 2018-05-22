@@ -94,7 +94,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (!db_get_b(NULL, MODULENAME, "HideMenu", 1)) {
 		CreateServiceFunction(MODULENAME "/MenuCommand", NoSoundMenuCommand);
 
-		CMenuItem mi;
+		CMenuItem mi(g_plugin);
 		SET_UID(mi, 0x6bd635eb, 0xc4bb, 0x413b, 0xb9, 0x3, 0x81, 0x6d, 0x8f, 0xf1, 0x9b, 0xb0);
 		mi.position = -0x7FFFFFFF;
 		mi.flags = CMIF_UNICODE;
