@@ -32,7 +32,7 @@ static int CompareFunc(const CRYPTO_PROVIDER *p1, const CRYPTO_PROVIDER *p2)
 
 static LIST<CRYPTO_PROVIDER> arProviders(5, CompareFunc);
 
-static INT_PTR srvRegister(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvRegister(WPARAM, LPARAM lParam)
 {
 	CRYPTO_PROVIDER *p = (CRYPTO_PROVIDER*)lParam;
 	if (p == nullptr || p->dwSize != sizeof(CRYPTO_PROVIDER))
@@ -41,9 +41,9 @@ static INT_PTR srvRegister(WPARAM wParam, LPARAM lParam)
 	CRYPTO_PROVIDER *pNew = new CRYPTO_PROVIDER(*p);
 	pNew->pszName = mir_strdup(p->pszName);
 	if (pNew->dwFlags & CPF_UNICODE)
-		pNew->ptszDescr = mir_wstrdup(TranslateW_LP(p->pwszDescr, wParam));
+		pNew->szDescr.w = mir_wstrdup(TranslateW_LP(p->szDescr.w, p->iLangId));
 	else
-		pNew->ptszDescr = mir_a2u(TranslateA_LP(p->pszDescr, wParam));
+		pNew->szDescr.w = mir_a2u(TranslateA_LP(p->szDescr.a, p->iLangId));
 	arProviders.insert(pNew);
 	return 0;
 }
@@ -81,7 +81,7 @@ void UninitCrypt(void)
 {
 	for (auto &p : arProviders) {
 		mir_free(p->pszName);
-		mir_free(p->pszDescr);
+		mir_free(p->szDescr.w);
 		delete p;
 	}
 }

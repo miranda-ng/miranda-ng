@@ -57,7 +57,7 @@ struct MICryptoEngine
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // registers a crypto provider v0.94+
-// wParam = (int)hLangpack
+// wParam = 0
 // lParam = (CRYPTO_PROVIDER*)
 // returns HANDLE on success or NULL on failure
 
@@ -65,28 +65,19 @@ typedef MICryptoEngine* (__cdecl *pfnCryptoProviderFactory)(void);
 
 #define CPF_UNICODE 1
 
-typedef struct tagCRYPTOPROVIDER
+struct CRYPTO_PROVIDER
 {
 	DWORD	dwSize;
 	DWORD	dwFlags; // one of CPF_* constants
+   int iLangId;
 
 	char *pszName; // unique id
-	union {
-		char *pszDescr;   // description
-		wchar_t *ptszDescr;	// auto translated by core
-		wchar_t *pwszDescr;
-	};
+	MAllStrings szDescr;  // description
 
 	pfnCryptoProviderFactory pFactory;
-}
-	CRYPTO_PROVIDER;
+};
 
 #define MS_CRYPTO_REGISTER_ENGINE "Crypto/RegisterEngine"
-
-__forceinline HANDLE Crypto_RegisterEngine(CRYPTO_PROVIDER *pProvider)
-{
-	return (HANDLE)CallService(MS_CRYPTO_REGISTER_ENGINE, hLangpack, (LPARAM)pProvider);
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // retrieves list of all available crypto providers

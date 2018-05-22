@@ -68,7 +68,7 @@ class CSelectCryptoDialog : public CDlgBase
 			m_combo.AddStringA(prov->pszName, i);
 		}
 		m_combo.SetCurSel(0);
-		m_descr.SetText(m_provs[0]->ptszDescr);
+		m_descr.SetText(m_provs[0]->szDescr.w);
 	}
 
 	void OnClose()
@@ -79,7 +79,7 @@ class CSelectCryptoDialog : public CDlgBase
 
 	void OnComboChanged(CCtrlCombo*)
 	{
-		m_descr.SetText(m_provs[m_combo.GetItemData(m_combo.GetCurSel())]->ptszDescr);
+		m_descr.SetText(m_provs[m_combo.GetItemData(m_combo.GetCurSel())]->szDescr.w);
 	}
 
 public:

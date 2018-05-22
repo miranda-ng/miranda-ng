@@ -42,7 +42,7 @@ public:
 
 	void SetDescr(CRYPTO_PROVIDER *prov)
 	{
-		m_descr.SetText(prov->ptszDescr);
+		m_descr.SetText(prov->szDescr.w);
 	}
 
 	inline CRYPTO_PROVIDER* GetSelected()

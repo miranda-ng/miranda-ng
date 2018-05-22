@@ -209,8 +209,9 @@ int LoadEncryptionModule(void)
 {
 	CRYPTO_PROVIDER cp = { sizeof(cp) };
 	cp.pszName = "AES (Rjindale)";
-	cp.pszDescr = LPGEN("Standard crypto provider");
+	cp.szDescr.a = LPGEN("Standard crypto provider");
 	cp.pFactory = builder;
-	Crypto_RegisterEngine(&cp);
+	cp.iLangId = g_plugin.m_hLang;
+	CallService(MS_CRYPTO_REGISTER_ENGINE, 0, LPARAM(&cp));
 	return 0;
 }
