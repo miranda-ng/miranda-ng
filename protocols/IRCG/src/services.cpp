@@ -796,7 +796,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 		if (!mir_strcmpi(gcmi->pszModule, m_szModuleName)) {
 			if (gcmi->Type == MENU_ON_LOG) {
 				if (mir_wstrcmpi(gcmi->pszID, SERVERWINDOW))
-					Chat_AddMenuItems(gcmi->hMenu, _countof(logItems), logItems);
+					Chat_AddMenuItems(gcmi->hMenu, _countof(logItems), logItems, g_plugin.m_hLang);
 			}
 
 			if (gcmi->Type == MENU_ON_NICKLIST) {
@@ -829,7 +829,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 				nickItems[7].bDisabled = nickItems[8].bDisabled = nickItems[9].bDisabled = nickItems[10].bDisabled = !(bForceEnable || bOwner);
 				nickItems[11].bDisabled = nickItems[12].bDisabled = nickItems[13].bDisabled = nickItems[14].bDisabled = !(bForceEnable || bOp || bAdmin || bOwner);
 
-				Chat_AddMenuItems(gcmi->hMenu, _countof(nickItems), nickItems);
+				Chat_AddMenuItems(gcmi->hMenu, _countof(nickItems), nickItems, g_plugin.m_hLang);
 			}
 		}
 	}

@@ -534,7 +534,7 @@ typedef struct {
 
 #define ME_GC_BUILDMENU  "GChat/BuildMenu"
 
-EXTERN_C MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item, int = hLangpack);
+EXTERN_C MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item, int langId);
 
 //////////////////////////////////////////////////////////////////////////
 // Get Chat ToolTip Text for buddy
