@@ -911,7 +911,7 @@ void InitList()
 	font_id.deffontsettings.colour = RGB(255, 255, 255);
 	mir_wstrncpy(font_id.deffontsettings.szFace, L"Tahoma", _countof(font_id.deffontsettings.szFace));
 
-	Font_RegisterW(&font_id);
+	g_plugin.addFont(&font_id);
 
 	bk_col_id.cbSize = sizeof(ColourIDW);
 	mir_wstrncpy(bk_col_id.group, L"Ping", _countof(bk_col_id.group));
@@ -919,7 +919,7 @@ void InitList()
 	mir_strncpy(bk_col_id.dbSettingsGroup, "PING", _countof(bk_col_id.dbSettingsGroup));
 	mir_strncpy(bk_col_id.setting, "BgColor", _countof(bk_col_id.setting));
 	bk_col_id.defcolour = RGB(0, 0, 0);
-	Colour_RegisterW(&bk_col_id);
+	g_plugin.addColor(&bk_col_id);
 
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
 

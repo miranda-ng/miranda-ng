@@ -174,13 +174,13 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	strncpy_s(fontid.prefix, "fntName", _TRUNCATE);
 	fontid.deffontsettings.colour = GetSysColor(COLOR_MENUTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Second line"), _TRUNCATE);
 	strncpy_s(fontid.prefix, "fntSecond", _TRUNCATE);
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_MENUTEXT), GetSysColor(COLOR_MENU));
 	fontid.deffontsettings.style = 0;
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	wcsncpy_s(fontid.backgroundName, LPGENW("Selected background"), _TRUNCATE);
 
@@ -188,13 +188,13 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	strncpy_s(fontid.prefix, "fntNameSel", _TRUNCATE);
 	fontid.deffontsettings.colour = GetSysColor(COLOR_HIGHLIGHTTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Selected second line (color)"), _TRUNCATE);
 	strncpy_s(fontid.prefix, "fntSecondSel", _TRUNCATE);
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_HIGHLIGHTTEXT), GetSysColor(COLOR_HIGHLIGHT));
 	fontid.deffontsettings.style = 0;
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
@@ -205,12 +205,12 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);
 	strncpy_s(colourid.setting, "BackColour", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_MENU);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 
 	wcsncpy_s(colourid.name, LPGENW("Selected background"), _TRUNCATE);
 	strncpy_s(colourid.setting, "SelectedColour", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 
 	HookEvent(ME_FONT_RELOAD, ProcessReloadFonts);
 	HookEvent(ME_COLOUR_RELOAD, ProcessReloadFonts);

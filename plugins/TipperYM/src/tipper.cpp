@@ -130,7 +130,7 @@ static void InitFonts()
 	mir_strcpy(colourBg.setting, "ColourBg");
 	colourBg.defcolour = RGB(219, 219, 219);
 	colourBg.order = 0;
-	Colour_RegisterW(&colourBg);
+	g_plugin.addColor(&colourBg);
 
 	colourBorder.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourBorder.group, LPGENW("Tooltips"));
@@ -139,7 +139,7 @@ static void InitFonts()
 	mir_strcpy(colourBorder.setting, "BorderCol");
 	colourBorder.defcolour = 0;
 	colourBorder.order = 0;
-	Colour_RegisterW(&colourBorder);
+	g_plugin.addColor(&colourBorder);
 
 	colourAvatarBorder.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourAvatarBorder.group, LPGENW("Tooltips"));
@@ -148,7 +148,7 @@ static void InitFonts()
 	mir_strcpy(colourAvatarBorder.setting, "AvBorderCol");
 	colourAvatarBorder.defcolour = 0;
 	colourAvatarBorder.order = 0;
-	Colour_RegisterW(&colourAvatarBorder);
+	g_plugin.addColor(&colourAvatarBorder);
 
 	colourDivider.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourDivider.group, LPGENW("Tooltips"));
@@ -157,7 +157,7 @@ static void InitFonts()
 	mir_strcpy(colourDivider.setting, "DividerCol");
 	colourDivider.defcolour = 0;
 	colourDivider.order = 0;
-	Colour_RegisterW(&colourDivider);
+	g_plugin.addColor(&colourDivider);
 
 	colourSidebar.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourSidebar.group, LPGENW("Tooltips"));
@@ -166,7 +166,7 @@ static void InitFonts()
 	mir_strcpy(colourSidebar.setting, "SidebarCol");
 	colourSidebar.defcolour = RGB(192, 192, 192);
 	colourSidebar.order = 0;
-	Colour_RegisterW(&colourSidebar);
+	g_plugin.addColor(&colourSidebar);
 
 	fontTitle.cbSize = sizeof(FontIDW);
 	fontTitle.flags = FIDF_ALLOWEFFECTS;
@@ -232,10 +232,10 @@ static void InitFonts()
 	fontTrayTitle.deffontsettings.colour = RGB(0, 0, 0);
 	fontTrayTitle.flags |= FIDF_DEFAULTVALID;
 
-	Font_RegisterW(&fontTitle);
-	Font_RegisterW(&fontLabels);
-	Font_RegisterW(&fontValues);
-	Font_RegisterW(&fontTrayTitle);
+	g_plugin.addFont(&fontTitle);
+	g_plugin.addFont(&fontLabels);
+	g_plugin.addFont(&fontValues);
+	g_plugin.addFont(&fontTrayTitle);
 
 	hReloadFonts = HookEvent(ME_FONT_RELOAD, ReloadFont);
 }

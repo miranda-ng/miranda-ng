@@ -251,7 +251,7 @@ void Options::Load(void)
 		wcsncpy_s(fid.name, g_FontOptionsList[i].szDescr, _TRUNCATE);
 		wcsncpy_s(fid.backgroundName, g_FontOptionsList[i].szBackgroundName, _TRUNCATE);
 		fid.flags = FIDF_DEFAULTVALID | FIDF_CLASSGENERAL | g_FontOptionsList[i].flags;
-		Font_RegisterW(&fid);
+		g_plugin.addFont(&fid);
 	}
 
 	strncpy_s(cid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
@@ -261,7 +261,7 @@ void Options::Load(void)
 		mir_snprintf(cid.setting, _countof(cid.setting), "Color%d", i);
 		cid.order = i;
 		cid.defcolour = g_ColorOptionsList[i].def;
-		Colour_RegisterW(&cid);
+		g_plugin.addColor(&cid);
 	}
 
 	hid.dwFlags = HKD_UNICODE;

@@ -1115,7 +1115,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	fid.deffontsettings.size = 10;
 	fid.deffontsettings.style = 0;
 	mir_wstrncpy(fid.deffontsettings.szFace, L"Courier", _countof(fid.deffontsettings.szFace));
-	Font_RegisterW(&fid);
+	g_plugin.addFont(&fid);
 
 	HookEvent(ME_FONT_RELOAD, OnFontChange);
 
@@ -1126,7 +1126,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	mir_strncpy(cid.dbSettingsGroup, "Console", _countof(cid.dbSettingsGroup));
 	mir_strncpy(cid.setting, "BgColor", _countof(cid.setting));
 	cid.defcolour = RGB(255, 255, 255);
-	Colour_RegisterW(&cid);
+	g_plugin.addColor(&cid);
 
 	HookEvent(ME_COLOUR_RELOAD, OnColourChange);
 

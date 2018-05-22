@@ -117,7 +117,7 @@ void RegisterSRMMFonts(void)
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
 		wcsncpy_s(fontid.backgroundGroup, LPGENW("Message sessions") L"/" LPGENW("Message log"), _TRUNCATE);
 		wcsncpy_s(fontid.backgroundName, LPGENW("Background"), _TRUNCATE);
-		Font_RegisterW(&fontid);
+		g_plugin.addFont(&fontid);
 	}
 
 	ColourIDW colourid = { sizeof(colourid) };
@@ -126,7 +126,7 @@ void RegisterSRMMFonts(void)
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);
 	wcsncpy_s(colourid.group, LPGENW("Message sessions") L"/" LPGENW("Message log"), _TRUNCATE);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

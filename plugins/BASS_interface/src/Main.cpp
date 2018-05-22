@@ -471,7 +471,7 @@ void CreateFrame()
 	wcscpy_s(colourid.group, _A2W(MODULENAME));
 
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 
 	HookEvent(ME_COLOUR_RELOAD, ReloadColors);
 	ReloadColors(0, 0);

@@ -253,7 +253,7 @@ void RegisterFontServiceFonts()
 		strncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
 		strncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, _countof(fontid.backgroundName));
 
-		Font_Register(&fontid);
+		g_plugin.addFont(&fontid);
 	}
 
 	ColourID colorid = { 0 };
@@ -269,7 +269,7 @@ void RegisterFontServiceFonts()
 		colorid.defcolour = colourOptionsList[i].defColour;
 		strncpy(colorid.setting, colourOptionsList[i].szSettingName, _countof(colorid.setting));
 
-		Colour_Register(&colorid);
+		g_plugin.addColor(&colorid);
 	}
 
 	hkFontChange = HookEvent(ME_FONT_RELOAD, FS_FontsChanged);

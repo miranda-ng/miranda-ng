@@ -356,7 +356,7 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	wcsncpy_s(title_font_id.backgroundName, LPGENW("Background"), _TRUNCATE);
 	title_font_id.flags = 0;
 	title_font_id.order = 0;
-	Font_RegisterW(&title_font_id);
+	g_plugin.addFont(&title_font_id);
 
 	window_font_id.cbSize = sizeof(FontIDW);
 	wcsncpy_s(window_font_id.group, LPGENW("Alarms"), _TRUNCATE);
@@ -367,7 +367,7 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	wcsncpy_s(window_font_id.backgroundName, LPGENW("Background"), _TRUNCATE);
 	window_font_id.flags = 0;
 	window_font_id.order = 1;
-	Font_RegisterW(&window_font_id);
+	g_plugin.addFont(&window_font_id);
 
 	bk_colour_id.cbSize = sizeof(ColourIDW);
 	strncpy_s(bk_colour_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
@@ -378,7 +378,7 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	bk_colour_id.flags = 0;
 	bk_colour_id.order = 0;
 
-	Colour_RegisterW(&bk_colour_id);
+	g_plugin.addColor(&bk_colour_id);
 
 	ReloadFonts(0, 0);
 	HookEvent(ME_FONT_RELOAD, ReloadFonts);

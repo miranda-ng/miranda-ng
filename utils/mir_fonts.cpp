@@ -30,7 +30,7 @@ int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, con
 		fid.deffontsettings.charset = plfDefault->lfCharSet;
 		mir_wstrncpy(fid.deffontsettings.szFace, plfDefault->lfFaceName, _countof(fid.deffontsettings.szFace)); /* buffer safe */
 	}
-	Font_RegisterW(&fid);
+	Font_RegisterW(&fid, 0);
 	return 0;
 }
 
@@ -43,6 +43,6 @@ int FontService_RegisterColor(const char *pszDbModule, const char *pszDbName, co
 	mir_strncpy(cid.setting, pszDbName, sizeof(cid.setting)); /* buffer safe */
 	mir_wstrncpy(cid.group, pszSection, _countof(cid.group)); /* buffer safe */
 	mir_wstrncpy(cid.name, pszDescription, _countof(cid.name)); /* buffer safe */
-	Colour_RegisterW(&cid);
+	Colour_RegisterW(&cid, 0);
 	return 0;
 }

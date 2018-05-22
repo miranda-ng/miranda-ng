@@ -165,6 +165,38 @@ void CMPluginBase::openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CMPluginBase::addFont(FontID *pFont)
+{
+	return Font_Register(pFont, m_hLang);
+}
+
+int CMPluginBase::addFont(FontIDW *pFont)
+{
+	return Font_RegisterW(pFont, m_hLang);
+}
+
+int CMPluginBase::addColor(ColourID *pColor)
+{
+	return Colour_Register(pColor, m_hLang);
+}
+
+int CMPluginBase::addColor(ColourIDW *pColor)
+{
+	return Colour_RegisterW(pColor, m_hLang);
+}
+
+int CMPluginBase::addEffect(EffectID *pEffect)
+{
+	return Effect_Register(pEffect, m_hLang);
+}
+
+int CMPluginBase::addEffect(EffectIDW *pEffect)
+{
+	return Effect_RegisterW(pEffect, m_hLang);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CMPluginBase::addHotkey(const HOTKEYDESC *hk)
 {
 	return Hotkey_Register(hk, m_hLang);

@@ -393,7 +393,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	mir_snprintf(fid.prefix, "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style = 0;
 	fid.deffontsettings.colour = fonts.clText;
-	Font_RegisterW(&fid);
+	g_plugin.addFont(&fid);
 
 	// we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
 	mir_snprintf(setting, "%s/BgCol", ptd->pupClass.pszName);
@@ -405,7 +405,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
 	mir_snprintf(cid.setting, "%s/BgCol", ptd->pupClass.pszName);
 	cid.defcolour = fonts.clBack;
-	Colour_RegisterW(&cid);
+	g_plugin.addColor(&cid);
 
 	gTreeData.insert(ptd);
 	num_classes++;

@@ -205,6 +205,15 @@ public:
 
 	HGENMENU addRootMenu(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib = nullptr);
 
+	int addFont(struct FontID *pFont);
+	int addFont(struct FontIDW *pFont);
+
+	int addColor(struct ColourID *pColor);
+	int addColor(struct ColourIDW *pColor);
+
+	int addEffect(struct EffectID *pEffect);
+	int addEffect(struct EffectIDW *pEffect);
+
 	int addHotkey(const struct HOTKEYDESC*);
 	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);
 	int addUserInfo(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);

@@ -225,8 +225,8 @@ int CreateFrame()
 {
 	HDC hdc = GetDC(nullptr);
 
-	Colour_Register(&bg_colour);
-	Colour_Register(&av_colour);
+	g_plugin.addColor(&bg_colour);
+	g_plugin.addColor(&av_colour);
 	ReloadColour(0, 0);
 	HookEvent(ME_COLOUR_RELOAD, ReloadColour);
 
@@ -249,7 +249,7 @@ int CreateFrame()
 		mir_wstrncpy(font_id[i].deffontsettings.szFace, L"Tahoma", _countof(font_id[i].deffontsettings.szFace));
 		font_id[i].order = i;
 		font_id[i].flags = FIDF_DEFAULTVALID;
-		Font_RegisterW(&font_id[i]);
+		g_plugin.addFont(&font_id[i]);
 	}
 
 	ReleaseDC(nullptr, hdc);

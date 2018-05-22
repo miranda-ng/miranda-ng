@@ -549,17 +549,17 @@ int LoadFontserviceModule(void)
 	wcsncpy_s(fontid.name, LPGENW("Headers"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSHEADER;
 	strncpy(fontid.prefix, "Header", _countof(fontid.prefix));
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Generic text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSGENERAL;
 	strncpy(fontid.prefix, "Generic", _countof(fontid.prefix));
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Small text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSSMALL;
 	strncpy(fontid.prefix, "Small", _countof(fontid.prefix));
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	// do last for silly dyna plugin
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

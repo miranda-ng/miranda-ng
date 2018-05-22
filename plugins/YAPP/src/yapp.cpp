@@ -103,7 +103,7 @@ static void InitFonts()
 	mir_wstrcpy(font_id_firstline.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_firstline.backgroundName, L"Background");
 	font_id_firstline.order = 0;
-	Font_RegisterW(&font_id_firstline);
+	g_plugin.addFont(&font_id_firstline);
 
 	font_id_secondline.cbSize = sizeof(FontIDW);
 	font_id_secondline.flags = FIDF_ALLOWEFFECTS;
@@ -114,7 +114,7 @@ static void InitFonts()
 	mir_wstrcpy(font_id_secondline.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_secondline.backgroundName, L"Background");
 	font_id_secondline.order = 1;
-	Font_RegisterW(&font_id_secondline);
+	g_plugin.addFont(&font_id_secondline);
 
 	font_id_time.cbSize = sizeof(FontIDW);
 	font_id_time.flags = FIDF_ALLOWEFFECTS;
@@ -125,7 +125,7 @@ static void InitFonts()
 	mir_wstrcpy(font_id_time.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_time.backgroundName, L"Background");
 	font_id_time.order = 2;
-	Font_RegisterW(&font_id_time);
+	g_plugin.addFont(&font_id_time);
 
 	colour_id_bg.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_bg.group, LPGENW("Popups"));
@@ -134,7 +134,7 @@ static void InitFonts()
 	mir_strcpy(colour_id_bg.setting, "ColourBg");
 	colour_id_bg.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_bg.order = 0;
-	Colour_RegisterW(&colour_id_bg);
+	g_plugin.addColor(&colour_id_bg);
 
 	colour_id_border.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_border.group, LPGENW("Popups"));
@@ -143,7 +143,7 @@ static void InitFonts()
 	mir_strcpy(colour_id_border.setting, "ColourBorder");
 	colour_id_border.defcolour = RGB(0, 0, 0);
 	colour_id_border.order = 1;
-	Colour_RegisterW(&colour_id_border);
+	g_plugin.addColor(&colour_id_border);
 
 	colour_id_sidebar.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_sidebar.group, LPGENW("Popups"));
@@ -152,7 +152,7 @@ static void InitFonts()
 	mir_strcpy(colour_id_sidebar.setting, "ColourSidebar");
 	colour_id_sidebar.defcolour = RGB(128, 128, 128);
 	colour_id_sidebar.order = 2;
-	Colour_RegisterW(&colour_id_sidebar);
+	g_plugin.addColor(&colour_id_sidebar);
 
 	colour_id_titleunderline.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_titleunderline.group, LPGENW("Popups"));
@@ -161,7 +161,7 @@ static void InitFonts()
 	mir_strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
 	colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_titleunderline.order = 3;
-	Colour_RegisterW(&colour_id_titleunderline);
+	g_plugin.addColor(&colour_id_titleunderline);
 
 	ReloadFont(0, 0);
 }

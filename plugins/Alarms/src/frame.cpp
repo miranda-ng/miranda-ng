@@ -561,7 +561,7 @@ int CreateFrame()
 	strncpy_s(font_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	strncpy_s(font_id.prefix, "Font", _TRUNCATE);
 	font_id.order = 0;
-	Font_Register(&font_id);
+	g_plugin.addFont(&font_id);
 
 	framebk_colour_id.cbSize = sizeof(ColourID);
 	strncpy_s(framebk_colour_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
@@ -571,7 +571,7 @@ int CreateFrame()
 	framebk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
 	framebk_colour_id.flags = 0;
 	framebk_colour_id.order = 0;
-	Colour_Register(&framebk_colour_id);
+	g_plugin.addColor(&framebk_colour_id);
 
 	LOGFONTA log_font;
 	fontColour = Font_Get(font_id, &log_font);

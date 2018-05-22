@@ -158,27 +158,27 @@ static void RegisterFonts()
 	strncpy(colourid.setting, "ColorLogBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Group chat log background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 
 	strncpy(colourid.setting, "ColorMessageBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Message background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Nick list background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistLines", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Nick list lines"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistSelectedBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Nick list background (selected)"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 }
 
 static void ShowRoom(SESSION_INFO *si)

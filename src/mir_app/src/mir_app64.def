@@ -605,3 +605,9 @@ UnregisterPlugin @633
 ?addHotkey@CMPluginBase@@QEAAHPEBUHOTKEYDESC@@@Z @634 NONAME
 ?addIcon@CMPluginBase@@QEAAPEAXPEBUSKINICONDESC@@@Z @635 NONAME
 ?addRootMenu@CMPluginBase@@QEAAPEAUTMO_IntMenuItem@@HPEB_WHPEAX@Z @636 NONAME
+?addColor@CMPluginBase@@QEAAHPEAUColourID@@@Z @637 NONAME
+?addColor@CMPluginBase@@QEAAHPEAUColourIDW@@@Z @638 NONAME
+?addEffect@CMPluginBase@@QEAAHPEAUEffectID@@@Z @639 NONAME
+?addEffect@CMPluginBase@@QEAAHPEAUEffectIDW@@@Z @640 NONAME
+?addFont@CMPluginBase@@QEAAHPEAUFontID@@@Z @641 NONAME
+?addFont@CMPluginBase@@QEAAHPEAUFontIDW@@@Z @642 NONAME

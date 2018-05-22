@@ -196,7 +196,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(fontid.name, "%s (colors only)", notification->lpzName);
 	mir_snprintf(fontid.prefix, "{%s/%s}text", notification->lpzGroup, notification->lpzName);
 	fontid.deffontsettings.style = 0;
-	Font_Register(&fontid);
+	g_plugin.addFont(&fontid);
 
 	ColourID colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
@@ -205,7 +205,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(colourid.name, "%s (colors only)", notification->lpzName);
 	mir_snprintf(colourid.setting, "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;
-	Colour_Register(&colourid);
+	g_plugin.addColor(&colourid);
 
 	gTreeData.insert(ptd);
 	return (HANDLE)ptd;

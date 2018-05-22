@@ -43,27 +43,27 @@ void InitFonts()
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
 	fid.deffontsettings.style = DBFONTF_BOLD;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
-	Font_RegisterW(&fid);
+	g_plugin.addFont(&fid);
 
 	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_CLOCK), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
-	Font_RegisterW(&fid);
+	g_plugin.addFont(&fid);
 
 	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_TEXT), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
 	fid.deffontsettings.style = 0;
-	Font_RegisterW(&fid);
+	g_plugin.addFont(&fid);
 
 	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_ACTION), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 	fid.deffontsettings.colour = RGB(0, 0, 255);
-	Font_RegisterW(&fid);
+	g_plugin.addFont(&fid);
 
 	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_HOVERED_ACTION), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
 	fid.deffontsettings.style = DBFONTF_UNDERLINE;
-	Font_RegisterW(&fid);
+	g_plugin.addFont(&fid);
 
 	ColourIDW cid = { 0 };
 	cid.cbSize = sizeof(ColourIDW);
@@ -73,12 +73,12 @@ void InitFonts()
 	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
 	mir_strncpy(cid.setting, PU_COL_BACK_SETTING, _countof(cid.setting));
 	cid.defcolour = SETTING_BACKCOLOUR_DEFAULT;
-	Colour_RegisterW(&cid);
+	g_plugin.addColor(&cid);
 
 	mir_wstrncpy(cid.name, PU_COL_AVAT_NAME, _countof(cid.name));
 	mir_strncpy(cid.setting, PU_COL_AVAT_SETTING, _countof(cid.setting));
 	cid.defcolour = SETTING_TEXTCOLOUR_DEFAULT;
-	Colour_RegisterW(&cid);
+	g_plugin.addColor(&cid);
 
 	ReloadFonts();
 }

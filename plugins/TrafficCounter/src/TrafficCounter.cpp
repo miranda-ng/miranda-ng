@@ -1145,7 +1145,7 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	TrafficFontID.deffontsettings.style = 0;
 	mir_wstrcpy(TrafficFontID.deffontsettings.szFace, L"Arial");
 	TrafficFontID.order = 0;
-	Font_RegisterW(&TrafficFontID);
+	g_plugin.addFont(&TrafficFontID);
 
 	// Регистрируем цвет фона
 	TrafficBackgroundColorID.cbSize = sizeof(ColourIDW);
@@ -1154,7 +1154,7 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, MODULENAME);
 	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
 	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
-	Colour_RegisterW(&TrafficBackgroundColorID);
+	g_plugin.addColor(&TrafficBackgroundColorID);
 
 	HookEvent(ME_FONT_RELOAD, UpdateFonts);
 

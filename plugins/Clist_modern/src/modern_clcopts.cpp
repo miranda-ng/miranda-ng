@@ -150,7 +150,7 @@ void RegisterCLUIFonts(void)
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		mir_wstrncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
 
-		Font_RegisterW(&fontid);
+		g_plugin.addFont(&fontid);
 
 		mir_wstrncpy(effectid.group, fontOptionsList[i].szGroup, _countof(effectid.group));
 		mir_wstrncpy(effectid.name, fontOptionsList[i].szDescr, _countof(effectid.name));
@@ -162,7 +162,7 @@ void RegisterCLUIFonts(void)
 		effectid.defeffect.baseColour = fontOptionsList[i].defeffect.baseColour;
 		effectid.defeffect.secondaryColour = fontOptionsList[i].defeffect.secondaryColour;
 
-		Effect_RegisterW(&effectid);
+		g_plugin.addEffect(&effectid);
 	}
 
 	ColourIDW colourid = { 0 };
@@ -175,7 +175,7 @@ void RegisterCLUIFonts(void)
 		mir_strncpy(colourid.dbSettingsGroup, colourOptionsList[i].chGroup, _countof(colourid.dbSettingsGroup));
 		colourid.defcolour = colourOptionsList[i].defColour;
 		colourid.order = i + 1;
-		Colour_RegisterW(&colourid);
+		g_plugin.addColor(&colourid);
 	}
 	registered = true;
 }

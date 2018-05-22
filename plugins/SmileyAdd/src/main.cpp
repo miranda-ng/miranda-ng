@@ -81,7 +81,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	strcpy_s(cid.name, LPGEN("Background color"));
 	strcpy_s(cid.setting, "SelWndBkgClr");
 	cid.defcolour = GetSysColor(COLOR_WINDOW);
-	Colour_Register(&cid);
+	g_plugin.addColor(&cid);
 	return 0;
 }
 

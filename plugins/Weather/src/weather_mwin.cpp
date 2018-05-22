@@ -323,7 +323,7 @@ void InitMwin(void)
 	mir_wstrcpy(colourid.name, LPGENW("Frame Background"));
 	mir_wstrcpy(colourid.group, _A2W(WEATHERPROTONAME));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
-	Colour_RegisterW(&colourid);
+	g_plugin.addColor(&colourid);
 
 	FontIDW fontid = { 0 };
 	fontid.cbSize = sizeof(FontIDW);
@@ -341,12 +341,12 @@ void InitMwin(void)
 	mir_wstrcpy(fontid.deffontsettings.szFace, L"Verdana");
 	mir_wstrcpy(fontid.backgroundGroup, _A2W(WEATHERPROTONAME));
 	mir_wstrcpy(fontid.backgroundName, LPGENW("Frame Background"));
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	mir_wstrcpy(fontid.name, LPGENW("Frame Title Font"));
 	mir_strcpy(fontid.prefix, "fnt1");
-	Font_RegisterW(&fontid);
+	g_plugin.addFont(&fontid);
 
 	for (auto &hContact : Contacts(WEATHERPROTONAME))
 		if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))

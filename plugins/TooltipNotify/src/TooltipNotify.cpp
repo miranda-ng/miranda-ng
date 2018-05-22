@@ -95,11 +95,11 @@ void CTooltipNotify::RegisterFonts()
 		wcsncpy(fontId.name, s_fontTable[i].name, _countof(fontId.name) - 1);
 		strncpy(fontId.prefix, s_fontTable[i].fontPrefix, _countof(fontId.prefix) - 1);
 		wcsncpy(fontId.backgroundName, s_fontTable[i].name, _countof(fontId.backgroundName) - 1);
-		::Font_RegisterW(&fontId);
+		::g_plugin.addFont(&fontId);
 
 		wcsncpy(colorId.name, s_fontTable[i].name, _countof(colorId.name) - 1);
 		strncpy(colorId.setting, s_fontTable[i].clrPrefix, _countof(colorId.setting) - 1);
-		::Colour_RegisterW(&colorId);
+		::g_plugin.addColor(&colorId);
 	}
 }
 
