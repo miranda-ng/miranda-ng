@@ -553,6 +553,7 @@ int CLUIFramesGetalClientFrame(void)
 
 static HGENMENU addFrameMenuItem(TMO_MenuItem *pmi, int frameid, bool bMain)
 {
+	pmi->langId = g_plugin.m_hLang;
 	HGENMENU res = (bMain) ? Menu_AddMainMenuItem(pmi) : Menu_AddContextFrameMenuItem(pmi);
 	if (pmi->pszService != nullptr)
 		Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, frameid);
