@@ -442,7 +442,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = IcoLib_GetIconHandle("scriver_SEND");
 	bbd.pwszText = LPGENW("&OK");
 	bbd.pwszTooltip = LPGENW("Send message");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 	
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_QUOTE;
@@ -450,7 +450,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = IcoLib_GetIconHandle("scriver_QUOTE");
 	bbd.pwszText = LPGENW("&Quote");
 	bbd.pwszTooltip = LPGENW("Quote");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags |= BBBF_ISRSIDEBUTTON;
 	bbd.dwButtonID = IDC_ADD;
@@ -458,21 +458,21 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = IcoLib_GetIconHandle("scriver_ADD");
 	bbd.pwszText = LPGENW("&Add");
 	bbd.pwszTooltip = LPGENW("Add contact permanently to list");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_USERMENU;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_DOWNARROW);
 	bbd.pwszText = LPGENW("&User menu");
 	bbd.pwszTooltip = LPGENW("User menu");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_DETAILS;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = IcoLib_GetIconHandle("scriver_USERDETAILS");
 	bbd.pwszText = LPGENW("User &details");
 	bbd.pwszTooltip = LPGENW("View user's details");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags |= BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
 	bbd.dwButtonID = IDC_SRMM_HISTORY;
@@ -480,7 +480,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = IcoLib_GetIconHandle("scriver_HISTORY");
 	bbd.pwszText = LPGENW("&History");
 	bbd.pwszTooltip = LPGENW("View user's history (CTRL+H)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	// chat buttons
 	bbd.bbbFlags = BBBF_ISPUSHBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID;
@@ -489,35 +489,35 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = IcoLib_GetIconHandle("chat_bold");
 	bbd.pwszText = LPGENW("&Bold");
 	bbd.pwszTooltip = LPGENW("Make the text bold (CTRL+B)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_ITALICS;
 	bbd.dwDefPos = 15;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_italics");
 	bbd.pwszText = LPGENW("&Italic");
 	bbd.pwszTooltip = LPGENW("Make the text italicized (CTRL+I)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_UNDERLINE;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_underline");
 	bbd.pwszText = LPGENW("&Underline");
 	bbd.pwszTooltip = LPGENW("Make the text underlined (CTRL+U)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_COLOR;
 	bbd.dwDefPos = 25;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_fgcol");
 	bbd.pwszText = LPGENW("&Color");
 	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (CTRL+K)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_bkgcol");
 	bbd.pwszText = LPGENW("&Background color");
 	bbd.pwszTooltip = LPGENW("Select a background color for the text (CTRL+L)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SRMM_CHANMGR;
@@ -525,21 +525,21 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.hIcon = IcoLib_GetIconHandle("chat_settings");
 	bbd.pwszText = LPGENW("&Room settings");
 	bbd.pwszTooltip = LPGENW("Control this room (CTRL+O)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_SHOWNICKLIST;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_nicklist");
 	bbd.pwszText = LPGENW("&Show/hide nick list");
 	bbd.pwszTooltip = LPGENW("Show/hide the nick list (CTRL+N)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_FILTER;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_filter");
 	bbd.pwszText = LPGENW("&Filter");
 	bbd.pwszTooltip = LPGENW("Enable/disable the event filter (CTRL+F)");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 	return 0;
 }
 

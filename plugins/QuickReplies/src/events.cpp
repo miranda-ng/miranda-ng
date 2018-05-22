@@ -46,7 +46,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = iNumber;
 	bbd.dwDefPos = 220;
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 	return 0;
 }
 

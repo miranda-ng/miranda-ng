@@ -56,7 +56,7 @@ static int RegisterCustomButton(WPARAM, LPARAM)
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];
 	bbd.pszModuleName = "Tabmodplus";
 	bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 	return 0;
 }
 

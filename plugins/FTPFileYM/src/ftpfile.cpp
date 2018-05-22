@@ -184,7 +184,7 @@ void InitTabsrmmButton()
 	btn.hIcon = iconList[ServerList::FTP_COUNT].hIcolib;
 	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
 	btn.pwszTooltip = TranslateT("FTP File");
-	Srmm_AddButton(&btn);
+	Srmm_AddButton(&btn, g_plugin.m_hLang);
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 }
 

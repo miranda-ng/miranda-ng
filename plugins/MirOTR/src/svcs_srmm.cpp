@@ -86,7 +86,7 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 
 int SVC_ButtonsBarLoaded(WPARAM, LPARAM)
 {
-	Srmm_AddButton(&OTRButton);
+	Srmm_AddButton(&OTRButton, g_plugin.m_hLang);
 	return 0;
 }
 

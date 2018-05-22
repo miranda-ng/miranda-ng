@@ -65,7 +65,7 @@ static void CB_RegisterSeparators()
 		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = i + 1;
 		bbd.dwDefPos = 410 + i;
-		Srmm_AddButton(&bbd);
+		Srmm_AddButton(&bbd, g_plugin.m_hLang);
 	}
 }
 
@@ -685,7 +685,7 @@ public:
 		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = ++dwSepCount;
 
-		CustomButtonData *cbd = (CustomButtonData*)Srmm_AddButton(&bbd);
+		CustomButtonData *cbd = (CustomButtonData*)Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;

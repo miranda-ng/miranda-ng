@@ -12,80 +12,80 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_CONNECTING);
 	bbd.pszModuleName = "Tabsrmm";
 	bbd.pwszTooltip = LPGENW("Protocol button");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_NAME;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[20];
 	bbd.pwszTooltip = LPGENW("Info button");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SRMM_BOLD;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[10];
 	bbd.pwszTooltip = LPGENW("Bold text");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_ITALICS;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[11];
 	bbd.pwszTooltip = LPGENW("Italic text");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_UNDERLINE;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[12];
 	bbd.pwszTooltip = LPGENW("Underlined text");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTSTRIKEOUT;
 	bbd.dwDefPos = 70;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[15];
 	bbd.pwszTooltip = LPGENW("Strike-through text");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDOK;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[6];
 	bbd.pwszTooltip = LPGENW("Send message\nClick dropdown arrow for sending options");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_CLOSE;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[8];
 	bbd.pwszTooltip = LPGENW("Close session");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_QUOTE;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[4];
 	bbd.pwszTooltip = LPGENW("Quote last message OR selected text");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_TIME;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[2];
 	bbd.pwszTooltip = LPGENW("Message log options");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SRMM_HISTORY;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[0];
 	bbd.pwszTooltip = LPGENW("View user's history");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_PIC;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[7];
 	bbd.pwszTooltip = LPGENW("Edit user notes");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	// chat buttons
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISSEPARATOR;
@@ -94,15 +94,15 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.dwDefPos = 35;
 	bbd.hIcon = nullptr;
 	bbd.pwszTooltip = nullptr;
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = 2;
 	bbd.dwDefPos = 22;
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = 3;
 	bbd.dwDefPos = 71;
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SRMM_COLOR;
@@ -110,32 +110,32 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.dwDefPos = 80;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[14];
 	bbd.pwszTooltip = LPGENW("Select font color");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 81;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[16];
 	bbd.pwszTooltip = LPGENW("Change background color");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SRMM_SHOWNICKLIST;
 	bbd.dwDefPos = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[19];
 	bbd.pwszTooltip = LPGENW("Toggle nick list");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_FILTER;
 	bbd.dwDefPos = 24;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[18];
 	bbd.pwszTooltip = LPGENW("Event filter - right click to setup, left click to activate/deactivate");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 
 	bbd.dwButtonID = IDC_SRMM_CHANMGR;
 	bbd.dwDefPos = 33;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[17];
 	bbd.pwszTooltip = LPGENW("Channel manager");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 	return 0;
 }
 

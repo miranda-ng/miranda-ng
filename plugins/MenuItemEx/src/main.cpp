@@ -912,7 +912,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Browse Received Files");
 	bbd.bbbFlags = BBBF_CANBEHIDDEN;
 	bbd.hIcon = IcoLib_GetIconHandle("miex_recfiles");
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 	return 0;
 }
 

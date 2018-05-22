@@ -165,7 +165,7 @@ int SmileyButtonCreate(WPARAM, LPARAM)
 	bbd.hIcon = IcoLib_GetIconHandle("SmileyAdd_ButtonSmiley");
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 	bbd.pszHotkey = desc.pszName;
-	Srmm_AddButton(&bbd);
+	Srmm_AddButton(&bbd, g_plugin.m_hLang);
 	return 0;
 }
 

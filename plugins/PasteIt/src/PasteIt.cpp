@@ -316,7 +316,7 @@ static void InitTabsrmmButton()
 	btn.hIcon = iconList[0].hIcolib;
 	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
 	btn.pwszTooltip = TranslateT("Paste It");
-	Srmm_AddButton(&btn);
+	Srmm_AddButton(&btn, g_plugin.m_hLang);
 
 	if (hTabsrmmButtonPressed != nullptr)
 		UnhookEvent(hTabsrmmButtonPressed);
