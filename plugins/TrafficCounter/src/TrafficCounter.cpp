@@ -126,177 +126,12 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 	return TRUE;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
-{
-	// Получаем дескриптор языкового пакета.
-	mir_getLP(&pluginInfoEx);
-	pcli = Clist_GetInterface();
-
-	HookEvent(ME_OPT_INITIALISE, TrafficCounterOptInitialise);
-	HookEvent(ME_SYSTEM_MODULESLOADED, TrafficCounterModulesLoaded);
-	HookEvent(ME_PROTO_ACK, ProtocolAckHook);
-	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccountsListChange);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, TrafficCounterShutdown);
-	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
-
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
-	// Удаляем шрифт.
-	if (Traffic_h_font) {
-		DeleteObject(Traffic_h_font);
-		Traffic_h_font = nullptr;
-	}
-
-	// Убиваем все рабочие данные.
-	DestroyProtocolList();
-	return 0;
-}
-
-int TrafficCounterShutdown(WPARAM, LPARAM)
-{
-	KillTimer(TrafficHwnd, TIMER_REDRAW);
-	KillTimer(TrafficHwnd, TIMER_NOTIFY_TICK);
-
-	SaveSettings(0);
-
-	// Удаляем пункт главного меню.
-	if (hTrafficMainMenuItem) {
-		Menu_RemoveItem(hTrafficMainMenuItem);
-		hTrafficMainMenuItem = nullptr;
-	}
-	// Удаляем контекстное меню.
-	if (TrafficPopupMenu) {
-		DestroyMenu(TrafficPopupMenu);
-		TrafficPopupMenu = nullptr;
-	}
-	// Разрегистрируем процедуру отрисовки фрейма.
-	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)TrafficHwnd, (LPARAM)NULL);
-
-	// Удаляем фрейм.
-	if ((ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME)) && Traffic_FrameID) {
-		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)Traffic_FrameID, 0);
-		Traffic_FrameID = nullptr;
-	}
-	return 0;
-}
-
-int ModuleLoad(WPARAM, LPARAM)
-{
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
-	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) && ServiceExists(MS_VARS_REGISTERTOKEN);
-	bTooltipExists = ServiceExists("mToolTip/ShowTipW") || ServiceExists("mToolTip/ShowTip");
-	return 0;
-}
-
-int TrafficCounterModulesLoaded(WPARAM, LPARAM)
-{
-	CreateProtocolList();
-	ModuleLoad(0, 0);
-
-	// Читаем флаги
-	unOptions.Flags = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, 0x0882);
-	Stat_SelAcc = db_get_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, 0x01);
-
-	// settings for notification
-	Traffic_PopupBkColor = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_BKCOLOR, RGB(200, 255, 200));
-	Traffic_PopupFontColor = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_FONTCOLOR, RGB(0, 0, 0));
-	Traffic_Notify_time_value = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_NOTIFY_TIME_VALUE, 10);
-	Traffic_Notify_size_value = db_get_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, 100);
-
-	// popup timeout
-	Traffic_PopupTimeoutDefault = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_DEFAULT, 1);
-	Traffic_PopupTimeoutValue = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
-
-	// Формат счётчика для каждого активного протокола
-	ptrW wszFormat(db_get_wsa(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT));
-	if (mir_wstrlen(wszFormat) > 0)
-		mir_wstrncpy(Traffic_CounterFormat, wszFormat, _countof(Traffic_CounterFormat));
-	else
-		mir_wstrcpy(Traffic_CounterFormat, wszDefaultFormat);
-
-	// Формат всплывающих подсказок
-	wszFormat = db_get_wsa(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT);
-	if (mir_wstrlen(wszFormat) > 0)
-		mir_wstrncpy(Traffic_TooltipFormat, wszFormat, _countof(Traffic_TooltipFormat));
-	else
-		mir_wstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
-
-	Traffic_AdditionSpace = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
-
-	// Счётчик времени онлайна
-	OverallInfo.Total.Timer = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, 0);
-
-	//register traffic font
-	TrafficFontID.cbSize = sizeof(FontIDW);
-	mir_wstrcpy(TrafficFontID.group, LPGENW("Traffic counter"));
-	mir_wstrcpy(TrafficFontID.name, LPGENW("Font"));
-	mir_strcpy(TrafficFontID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
-	mir_strcpy(TrafficFontID.prefix, "Font");
-	TrafficFontID.flags = FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
-	TrafficFontID.deffontsettings.charset = DEFAULT_CHARSET;
-	TrafficFontID.deffontsettings.colour = GetSysColor(COLOR_BTNTEXT);
-	TrafficFontID.deffontsettings.size = 12;
-	TrafficFontID.deffontsettings.style = 0;
-	mir_wstrcpy(TrafficFontID.deffontsettings.szFace, L"Arial");
-	TrafficFontID.order = 0;
-	Font_RegisterW(&TrafficFontID);
-
-	// Регистрируем цвет фона
-	TrafficBackgroundColorID.cbSize = sizeof(ColourIDW);
-	mir_wstrcpy(TrafficBackgroundColorID.group, LPGENW("Traffic counter"));
-	mir_wstrcpy(TrafficBackgroundColorID.name, LPGENW("Font"));
-	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
-	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
-	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
-	Colour_RegisterW(&TrafficBackgroundColorID);
-
-	HookEvent(ME_FONT_RELOAD, UpdateFonts);
-
-	// Добавляем поддержку плагина Variables
-	RegisterVariablesTokens();
-
-	CreateServiceFunction("TrafficCounter/ShowHide", MenuCommand_TrafficShowHide);
-	// Регистрируем горячую клавишу для показа/скрытия фрейма
-	{
-		HOTKEYDESC hkd = {};
-		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T');
-		hkd.szSection.a = "Traffic Counter";
-		hkd.szDescription.a = LPGEN("Show/Hide frame");
-		hkd.pszName = "TC_Show_Hide";
-		hkd.pszService = "TrafficCounter/ShowHide";
-		Hotkey_Register(&hkd);
-	}
-
-	// Добавляем пункт в главное меню.
-	if (unOptions.ShowMainMenuItem)
-		Traffic_AddMainMenuItem();
-
-	// Создаём контекстное меню.
-	if (TrafficPopupMenu = CreatePopupMenu()) {
-		AppendMenu(TrafficPopupMenu, MF_STRING, POPUPMENU_HIDE, TranslateT("Hide traffic window"));
-		AppendMenu(TrafficPopupMenu, MF_STRING, POPUPMENU_CLEAR_NOW, TranslateT("Clear the current (Now:) value"));
-	}
-
-	// Регистрируем обработчики событий Netlib
-	HookEvent(ME_NETLIB_FASTRECV, TrafficRecv);
-	HookEvent(ME_NETLIB_FASTSEND, TrafficSend);
-
-	CreateTrafficWindow(pcli->hwndContactList);
-	UpdateFonts(0, 0);	//Load and create fonts here
-
-	return 0;
-}
-
 void SaveSettings(BYTE OnlyCnt)
 {
 	unsigned short int i;
 
 	// Сохраняем счётчик времени онлайна
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
+	db_set_dw(NULL, MODULENAME, SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
 
 	if (OnlyCnt) return;
 
@@ -307,26 +142,26 @@ void SaveSettings(BYTE OnlyCnt)
 	}
 
 	//settings for notification
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_BKCOLOR, Traffic_PopupBkColor);
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_FONTCOLOR, Traffic_PopupFontColor);
+	db_set_dw(NULL, MODULENAME, SETTINGS_POPUP_BKCOLOR, Traffic_PopupBkColor);
+	db_set_dw(NULL, MODULENAME, SETTINGS_POPUP_FONTCOLOR, Traffic_PopupFontColor);
 	//
-	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_NOTIFY_TIME_VALUE, Traffic_Notify_time_value);
+	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_TIME_VALUE, Traffic_Notify_time_value);
 	//
-	db_set_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, Traffic_Notify_size_value);
+	db_set_w(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, Traffic_Notify_size_value);
 	//
 	//popup timeout
-	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_DEFAULT, Traffic_PopupTimeoutDefault);
-	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, Traffic_PopupTimeoutValue);
+	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_DEFAULT, Traffic_PopupTimeoutDefault);
+	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_VALUE, Traffic_PopupTimeoutValue);
 	//
 	// Формат счётчиков
-	db_set_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
+	db_set_ws(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
 
-	db_set_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
+	db_set_ws(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
 
-	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
+	db_set_b(NULL, MODULENAME, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
 	// Сохраняем флаги
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
-	db_set_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
+	db_set_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, unOptions.Flags);
+	db_set_w(NULL, MODULENAME, SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
 }
 
 /*--------------------------------------------------------------------------------------------*/
@@ -991,7 +826,7 @@ INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM)
 		ShowWindow(TrafficHwnd, unOptions.FrameIsVisible ? SW_SHOW : SW_HIDE);
 	else
 		CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)Traffic_FrameID, 0);
-	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
+	db_set_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, unOptions.Flags);
 	//
 	return 0;
 }
@@ -1157,9 +992,10 @@ unsigned short int TrafficWindowHeight(void)
 	return (MaxWndHeight < TrafficFontHeight) ? 0 : MaxWndHeight;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Функция вносит изменения в ProtoList при коммутации аккаунтов
 
-int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
+static int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *acc = (PROTOACCOUNT*)lParam;
 
@@ -1178,5 +1014,172 @@ int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	UpdateTrafficWindowSize();
+	return 0;
+}
+
+static int TrafficCounterShutdown(WPARAM, LPARAM)
+{
+	KillTimer(TrafficHwnd, TIMER_REDRAW);
+	KillTimer(TrafficHwnd, TIMER_NOTIFY_TICK);
+
+	SaveSettings(0);
+
+	// Удаляем пункт главного меню.
+	if (hTrafficMainMenuItem) {
+		Menu_RemoveItem(hTrafficMainMenuItem);
+		hTrafficMainMenuItem = nullptr;
+	}
+	// Удаляем контекстное меню.
+	if (TrafficPopupMenu) {
+		DestroyMenu(TrafficPopupMenu);
+		TrafficPopupMenu = nullptr;
+	}
+	// Разрегистрируем процедуру отрисовки фрейма.
+	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)TrafficHwnd, (LPARAM)NULL);
+
+	// Удаляем фрейм.
+	if ((ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME)) && Traffic_FrameID) {
+		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)Traffic_FrameID, 0);
+		Traffic_FrameID = nullptr;
+	}
+	return 0;
+}
+
+static int ModuleLoad(WPARAM, LPARAM)
+{
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
+	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) && ServiceExists(MS_VARS_REGISTERTOKEN);
+	bTooltipExists = ServiceExists("mToolTip/ShowTipW") || ServiceExists("mToolTip/ShowTip");
+	return 0;
+}
+
+static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
+{
+	CreateProtocolList();
+	ModuleLoad(0, 0);
+
+	// Читаем флаги
+	unOptions.Flags = db_get_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, 0x0882);
+	Stat_SelAcc = db_get_w(NULL, MODULENAME, SETTINGS_STAT_ACC_OPT, 0x01);
+
+	// settings for notification
+	Traffic_PopupBkColor = db_get_dw(NULL, MODULENAME, SETTINGS_POPUP_BKCOLOR, RGB(200, 255, 200));
+	Traffic_PopupFontColor = db_get_dw(NULL, MODULENAME, SETTINGS_POPUP_FONTCOLOR, RGB(0, 0, 0));
+	Traffic_Notify_time_value = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_TIME_VALUE, 10);
+	Traffic_Notify_size_value = db_get_w(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, 100);
+
+	// popup timeout
+	Traffic_PopupTimeoutDefault = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_DEFAULT, 1);
+	Traffic_PopupTimeoutValue = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
+
+	// Формат счётчика для каждого активного протокола
+	ptrW wszFormat(db_get_wsa(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT));
+	if (mir_wstrlen(wszFormat) > 0)
+		mir_wstrncpy(Traffic_CounterFormat, wszFormat, _countof(Traffic_CounterFormat));
+	else
+		mir_wstrcpy(Traffic_CounterFormat, wszDefaultFormat);
+
+	// Формат всплывающих подсказок
+	wszFormat = db_get_wsa(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT);
+	if (mir_wstrlen(wszFormat) > 0)
+		mir_wstrncpy(Traffic_TooltipFormat, wszFormat, _countof(Traffic_TooltipFormat));
+	else
+		mir_wstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
+
+	Traffic_AdditionSpace = db_get_b(NULL, MODULENAME, SETTINGS_ADDITION_SPACE, 0);
+
+	// Счётчик времени онлайна
+	OverallInfo.Total.Timer = db_get_dw(NULL, MODULENAME, SETTINGS_TOTAL_ONLINE_TIME, 0);
+
+	//register traffic font
+	TrafficFontID.cbSize = sizeof(FontIDW);
+	mir_wstrcpy(TrafficFontID.group, LPGENW("Traffic counter"));
+	mir_wstrcpy(TrafficFontID.name, LPGENW("Font"));
+	mir_strcpy(TrafficFontID.dbSettingsGroup, MODULENAME);
+	mir_strcpy(TrafficFontID.prefix, "Font");
+	TrafficFontID.flags = FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
+	TrafficFontID.deffontsettings.charset = DEFAULT_CHARSET;
+	TrafficFontID.deffontsettings.colour = GetSysColor(COLOR_BTNTEXT);
+	TrafficFontID.deffontsettings.size = 12;
+	TrafficFontID.deffontsettings.style = 0;
+	mir_wstrcpy(TrafficFontID.deffontsettings.szFace, L"Arial");
+	TrafficFontID.order = 0;
+	Font_RegisterW(&TrafficFontID);
+
+	// Регистрируем цвет фона
+	TrafficBackgroundColorID.cbSize = sizeof(ColourIDW);
+	mir_wstrcpy(TrafficBackgroundColorID.group, LPGENW("Traffic counter"));
+	mir_wstrcpy(TrafficBackgroundColorID.name, LPGENW("Font"));
+	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, MODULENAME);
+	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
+	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
+	Colour_RegisterW(&TrafficBackgroundColorID);
+
+	HookEvent(ME_FONT_RELOAD, UpdateFonts);
+
+	// Добавляем поддержку плагина Variables
+	RegisterVariablesTokens();
+
+	CreateServiceFunction("TrafficCounter/ShowHide", MenuCommand_TrafficShowHide);
+	// Регистрируем горячую клавишу для показа/скрытия фрейма
+	{
+		HOTKEYDESC hkd = {};
+		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T');
+		hkd.szSection.a = "Traffic Counter";
+		hkd.szDescription.a = LPGEN("Show/Hide frame");
+		hkd.pszName = "TC_Show_Hide";
+		hkd.pszService = "TrafficCounter/ShowHide";
+		Hotkey_Register(&hkd);
+	}
+
+	// Добавляем пункт в главное меню.
+	if (unOptions.ShowMainMenuItem)
+		Traffic_AddMainMenuItem();
+
+	// Создаём контекстное меню.
+	if (TrafficPopupMenu = CreatePopupMenu()) {
+		AppendMenu(TrafficPopupMenu, MF_STRING, POPUPMENU_HIDE, TranslateT("Hide traffic window"));
+		AppendMenu(TrafficPopupMenu, MF_STRING, POPUPMENU_CLEAR_NOW, TranslateT("Clear the current (Now:) value"));
+	}
+
+	// Регистрируем обработчики событий Netlib
+	HookEvent(ME_NETLIB_FASTRECV, TrafficRecv);
+	HookEvent(ME_NETLIB_FASTSEND, TrafficSend);
+
+	CreateTrafficWindow(pcli->hwndContactList);
+	UpdateFonts(0, 0);	//Load and create fonts here
+
+	return 0;
+}
+
+extern "C" int __declspec(dllexport) Load(void)
+{
+	// Получаем дескриптор языкового пакета.
+	mir_getLP(&pluginInfoEx);
+	pcli = Clist_GetInterface();
+
+	HookEvent(ME_OPT_INITIALISE, TrafficCounterOptInitialise);
+	HookEvent(ME_SYSTEM_MODULESLOADED, TrafficCounterModulesLoaded);
+	HookEvent(ME_PROTO_ACK, ProtocolAckHook);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccountsListChange);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, TrafficCounterShutdown);
+	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" int __declspec(dllexport) Unload(void)
+{
+	// Удаляем шрифт.
+	if (Traffic_h_font) {
+		DeleteObject(Traffic_h_font);
+		Traffic_h_font = nullptr;
+	}
+
+	// Убиваем все рабочие данные.
+	DestroyProtocolList();
 	return 0;
 }
