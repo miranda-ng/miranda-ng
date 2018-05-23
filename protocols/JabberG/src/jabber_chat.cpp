@@ -1172,17 +1172,17 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		break;
 
 	case IDM_CPY_NICK:
-		JabberCopyText(pcli->hwndContactList, him->m_tszResourceName);
+		JabberCopyText(g_CLI.hwndContactList, him->m_tszResourceName);
 		break;
 
 	case IDM_RJID_COPY:
 	case IDM_CPY_RJID:
-		JabberCopyText(pcli->hwndContactList, him->m_tszRealJid);
+		JabberCopyText(g_CLI.hwndContactList, him->m_tszRealJid);
 		break;
 
 	case IDM_CPY_INROOMJID:
 		szBuffer.Format(L"%s/%s", item->jid, him->m_tszResourceName);
-		JabberCopyText(pcli->hwndContactList, szBuffer);
+		JabberCopyText(g_CLI.hwndContactList, szBuffer);
 		break;
 
 	case IDM_RJID_VCARD:
@@ -1208,7 +1208,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			if (wchar_t *tmp = wcschr(psr.id.w, '/'))
 				*tmp = 0;
 			psr.nick.w = psr.id.w;
-			Contact_AddBySearch(ppro->m_szModuleName, &psr, pcli->hwndContactList);
+			Contact_AddBySearch(ppro->m_szModuleName, &psr, g_CLI.hwndContactList);
 		}
 		break;
 	}
@@ -1329,11 +1329,11 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		break;
 
 	case IDM_CPY_RJID:
-		JabberCopyText(pcli->hwndContactList, item->jid);
+		JabberCopyText(g_CLI.hwndContactList, item->jid);
 		break;
 
 	case IDM_CPY_TOPIC:
-		JabberCopyText(pcli->hwndContactList, item->getTemp()->m_tszStatusMessage);
+		JabberCopyText(g_CLI.hwndContactList, item->getTemp()->m_tszStatusMessage);
 		break;
 	}
 }

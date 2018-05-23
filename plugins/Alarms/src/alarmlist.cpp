@@ -684,7 +684,7 @@ void DoAlarm(ALARM *alarm)
 			cle.hIcon = hIconSystray;
 			cle.szTooltip.w = alarm->szTitle;
 			cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
-			pcli->pfnAddEvent(&cle);
+			g_CLI.pfnAddEvent(&cle);
 		}
 	}
 }

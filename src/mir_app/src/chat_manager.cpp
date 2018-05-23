@@ -76,8 +76,8 @@ static SESSION_INFO* GetActiveSession(void)
 
 static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 {
-	if (cli.pfnGetEvent(si->hContact, 0))
-		cli.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
+	if (g_CLI.pfnGetEvent(si->hContact, 0))
+		g_CLI.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 	si->wState &= ~STATE_TALK;
 	db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
 

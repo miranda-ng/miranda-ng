@@ -1054,7 +1054,7 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 			stNewShare.dwAllowedMask = 0;
 	}
 
-	if (!bShowShareNewFileDlg((lParam ? HWND(lParam) : pcli->hwndContactList), &stNewShare))
+	if (!bShowShareNewFileDlg((lParam ? HWND(lParam) : g_CLI.hwndContactList), &stNewShare))
 		return 0;
 
 	if (stNewShare.dwAllowedIP)

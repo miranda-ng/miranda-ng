@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -46,8 +45,6 @@ CMPlugin::CMPlugin() :
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	if (InitServer())
 		MessageBox(nullptr, TranslateT("Could not initialize CmdLine plugin property"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
 

@@ -229,7 +229,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	}
 	int hit = RowHeight::hitTest(dat, dat->yScroll + testy);
 	if (hit != -1)
-		hit = pcli->pfnGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
+		hit = g_CLI.pfnGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
 
 	if (hit == -1) {
 		if (flags)
@@ -409,7 +409,7 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = pcli->pfnGetRowTotalHeight(dat) - 1;
+	si.nMax = g_CLI.pfnGetRowTotalHeight(dat) - 1;
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
 
@@ -454,11 +454,11 @@ void SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newStat
 		group->expanded = newState != 0;
 	}
 	InvalidateRect(hwnd, nullptr, FALSE);
-	contentCount = pcli->pfnGetGroupContentsCount(group, 1);
+	contentCount = g_CLI.pfnGetGroupContentsCount(group, 1);
 
-	groupy = pcli->pfnGetRowsPriorTo(&dat->list, group, -1);
+	groupy = g_CLI.pfnGetRowsPriorTo(&dat->list, group, -1);
 	if (dat->selection > groupy && dat->selection < groupy + contentCount) dat->selection = groupy;
-	pcli->pfnRecalcScrollBar(hwnd, dat);
+	g_CLI.pfnRecalcScrollBar(hwnd, dat);
 
 	GetClientRect(hwnd, &clRect);
 	newy = dat->yScroll;
@@ -518,7 +518,7 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 	KillTimer(hwnd, TIMERID_RENAME);
 	ReleaseCapture();
 	dat->iHotTrack = -1;
-	dat->selection = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, &group);
+	dat->selection = g_CLI.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
 	if (dat->selection == -1)
 		return;
 	if (contact->type != CLCIT_CONTACT && contact->type != CLCIT_GROUP)
@@ -608,11 +608,11 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 
 		cfg::dat.bmpBackground = dat->hBmpBackground;
 		if (cfg::dat.bmpBackground) {
-			HDC hdcThis = GetDC(pcli->hwndContactList);
+			HDC hdcThis = GetDC(g_CLI.hwndContactList);
 			GetObject(cfg::dat.bmpBackground, sizeof(cfg::dat.bminfoBg), &(cfg::dat.bminfoBg));
 			cfg::dat.hdcPic = CreateCompatibleDC(hdcThis);
 			cfg::dat.hbmPicOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcPic, cfg::dat.bmpBackground));
-			ReleaseDC(pcli->hwndContactList, hdcThis);
+			ReleaseDC(g_CLI.hwndContactList, hdcThis);
 		}
 	}
 
@@ -631,11 +631,11 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 
 		cfg::dat.bmpBackground = dat->hBmpBackground;
 		if (cfg::dat.bmpBackground) {
-			HDC hdcThis = GetDC(pcli->hwndContactList);
+			HDC hdcThis = GetDC(g_CLI.hwndContactList);
 			GetObject(cfg::dat.bmpBackground, sizeof(cfg::dat.bminfoBg), &(cfg::dat.bminfoBg));
 			cfg::dat.hdcPic = CreateCompatibleDC(hdcThis);
 			cfg::dat.hbmPicOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcPic, cfg::dat.bmpBackground));
-			ReleaseDC(pcli->hwndContactList, hdcThis);
+			ReleaseDC(g_CLI.hwndContactList, hdcThis);
 		}
 	}
 }

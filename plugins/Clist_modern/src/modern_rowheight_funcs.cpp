@@ -61,11 +61,11 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 	if (!RowHeights_Alloc(dat, item + 1))
 		return -1;
 
-	if (!pcli->hwndContactTree)
+	if (!g_CLI.hwndContactTree)
 		return 0;
 
 	ClcCacheEntry *pdnce = contact->pce;
-	if (dat->hWnd != pcli->hwndContactTree || !gl_RowRoot || contact->type == CLCIT_GROUP) {
+	if (dat->hWnd != g_CLI.hwndContactTree || !gl_RowRoot || contact->type == CLCIT_GROUP) {
 		int tmp = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
 		if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
 			tmp = max(tmp, contact->ssText.iMaxSmileyHeight);

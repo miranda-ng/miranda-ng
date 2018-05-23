@@ -77,18 +77,18 @@ int ExtraImage_ExtraIDToColumnNum(int extra)
 
 int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 {
-	if (cli.hwndContactTree == nullptr)
+	if (g_CLI.hwndContactTree == nullptr)
 		return -1;
 
 	int icol = ExtraImage_ExtraIDToColumnNum(ConvertToClistSlot(slot));
 	if (icol == -1)
 		return -1;
 
-	HANDLE hItem = (HANDLE)SendMessage(cli.hwndContactTree, CLM_FINDCONTACT, hContact, 0);
+	HANDLE hItem = (HANDLE)SendMessage(g_CLI.hwndContactTree, CLM_FINDCONTACT, hContact, 0);
 	if (hItem == nullptr)
 		return -1;
 
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol, hImage));
+	SendMessage(g_CLI.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol, hImage));
 	return 0;
 }
 
@@ -277,23 +277,23 @@ MIR_APP_DLL(HANDLE) ExtraIcon_AddIcon(HICON hIcon)
 
 MIR_APP_DLL(void) ExtraIcon_Reload()
 {
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRASPACE, db_get_b(0, "CLUI", "ExtraColumnSpace", 18), 0);
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, 0);
+	SendMessage(g_CLI.hwndContactTree, CLM_SETEXTRASPACE, db_get_b(0, "CLUI", "ExtraColumnSpace", 18), 0);
+	SendMessage(g_CLI.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, 0);
 
 	if (hExtraImageList)
 		ImageList_Destroy(hExtraImageList);
 
 	hExtraImageList = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 1, 256);
 
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hExtraImageList);
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
+	SendMessage(g_CLI.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hExtraImageList);
+	SendMessage(g_CLI.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
 	NotifyEventHooks(hEventExtraImageListRebuilding, 0, 0);
 	bImageCreated = true;
 }
 
 MIR_APP_DLL(void) ExtraIcon_SetAll(MCONTACT hContact)
 {
-	if (cli.hwndContactTree == nullptr)
+	if (g_CLI.hwndContactTree == nullptr)
 		return;
 
 	bool hcontgiven = (hContact != 0);
@@ -301,7 +301,7 @@ MIR_APP_DLL(void) ExtraIcon_SetAll(MCONTACT hContact)
 	if (!bImageCreated)
 		ExtraIcon_Reload();
 
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
+	SendMessage(g_CLI.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
 
 	if (hContact == 0)
 		hContact = db_find_first();
@@ -312,7 +312,7 @@ MIR_APP_DLL(void) ExtraIcon_SetAll(MCONTACT hContact)
 			break;
 	}
 
-	cli.pfnInvalidateRect(cli.hwndContactTree, nullptr, FALSE);
+	g_CLI.pfnInvalidateRect(g_CLI.hwndContactTree, nullptr, FALSE);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

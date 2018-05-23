@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static INT_PTR hkHideShow(WPARAM, LPARAM)
 {
-	cli.pfnShowHide();
+	g_CLI.pfnShowHide();
 	return 0;
 }
 
@@ -37,8 +37,8 @@ static INT_PTR hkRead(WPARAM, LPARAM)
 	if (Clist_EventsProcessTrayDoubleClick(0) == 0)
 		return true;
 	
-	SetForegroundWindow(cli.hwndContactList);
-	SetFocus(cli.hwndContactList);
+	SetForegroundWindow(g_CLI.hwndContactList);
+	SetFocus(g_CLI.hwndContactList);
 	return 0;
 }
 

@@ -21,7 +21,6 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 FontIDW fontTitle, fontLabels, fontValues, fontTrayTitle;
 ColourIDW colourBg, colourBorder, colourAvatarBorder, colourDivider, colourSidebar;
@@ -316,8 +315,6 @@ IconItem iconList[] =
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	iCodePage = Langpack_GetDefaultCodePage();
 
 	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);

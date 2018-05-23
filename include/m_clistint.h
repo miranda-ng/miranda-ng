@@ -441,7 +441,6 @@ struct CLIST_INTERFACE
 
 EXTERN_C MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void);
 
-#ifndef MIR_APP_EXPORTS
-	extern CLIST_INTERFACE *pcli;
-#endif
+extern MIR_APP_EXPORT CLIST_INTERFACE g_CLI;
+
 #endif // M_CLISTINT_H__

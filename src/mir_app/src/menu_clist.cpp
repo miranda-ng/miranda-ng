@@ -109,7 +109,7 @@ MIR_APP_DLL(HMENU) Menu_GetMainMenu(void)
 	NotifyEventHooks(hPreBuildMainMenuEvent, 0, 0);
 
 	Menu_Build(hMainMenu, hMainMenuObject);
-	DrawMenuBar(cli.hwndContactList);
+	DrawMenuBar(g_CLI.hwndContactList);
 	return hMainMenu;
 }
 
@@ -548,8 +548,8 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		replaceStrW(pimi->mi.name.w, ptszName);
 		replaceStrW(root->mi.name.w, ptszName);
 
-		if (cli.hwndStatus)
-			InvalidateRect(cli.hwndStatus, nullptr, TRUE);
+		if (g_CLI.hwndStatus)
+			InvalidateRect(g_CLI.hwndStatus, nullptr, TRUE);
 		return 0;
 	}
 	
@@ -565,7 +565,7 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		if (pa->IsVisible())
 			MenusProtoCount++;
 
-	cli.currentDesiredStatusMode = smep->status;
+	g_CLI.currentDesiredStatusMode = smep->status;
 
 	for (auto &pa : accounts) {
 		if (!pa->IsEnabled())
@@ -573,10 +573,10 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		if (MenusProtoCount > 1 && pa->IsLocked())
 			continue;
 
-		Proto_SetStatus(pa->szModuleName, cli.currentDesiredStatusMode);
+		Proto_SetStatus(pa->szModuleName, g_CLI.currentDesiredStatusMode);
 	}
-	NotifyEventHooks(hStatusModeChangeEvent, cli.currentDesiredStatusMode, 0);
-	db_set_w(0, "CList", "Status", (WORD)cli.currentDesiredStatusMode);
+	NotifyEventHooks(hStatusModeChangeEvent, g_CLI.currentDesiredStatusMode, 0);
+	db_set_w(0, "CList", "Status", (WORD)g_CLI.currentDesiredStatusMode);
 	return 1;
 }
 
@@ -669,7 +669,7 @@ static int MenuIconsChanged(WPARAM, LPARAM)
 {
 	// just rebuild menu
 	RebuildMenuOrder();
-	cli.pfnCluiProtocolStatusChanged(0, nullptr);
+	g_CLI.pfnCluiProtocolStatusChanged(0, nullptr);
 	return 0;
 }
 
@@ -882,7 +882,7 @@ MIR_APP_DLL(void) Menu_ReloadProtoMenus(void)
 	RebuildMenuOrder();
 	if (db_get_b(0, "CList", "MoveProtoMenus", true))
 		BuildProtoMenus();
-	cli.pfnCluiProtocolStatusChanged(0, nullptr);
+	g_CLI.pfnCluiProtocolStatusChanged(0, nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -994,7 +994,7 @@ static INT_PTR HotkeySetStatus(WPARAM, LPARAM lParam)
 
 static INT_PTR ShowHide(WPARAM, LPARAM)
 {
-	cli.pfnShowHide();
+	g_CLI.pfnShowHide();
 	return 0;
 }
 
@@ -1095,7 +1095,7 @@ void InitCustomMenus(void)
 	Menu_AddMainMenuItem(&mi);
 
 	currentStatusMenuItem = ID_STATUS_OFFLINE;
-	cli.currentDesiredStatusMode = ID_STATUS_OFFLINE;
+	g_CLI.currentDesiredStatusMode = ID_STATUS_OFFLINE;
 
 	HookEvent(ME_SKIN_ICONSCHANGED, MenuIconsChanged);
 }

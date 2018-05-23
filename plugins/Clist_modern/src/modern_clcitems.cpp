@@ -208,7 +208,7 @@ bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
 MCONTACT SaveSelection(ClcData *dat)
 {
 	ClcContact *selcontact = nullptr;
-	if (pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) == -1)
+	if (g_CLI.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) == -1)
 		return 0;
 
 	return Clist_ContactToHItem(selcontact);
@@ -224,9 +224,9 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 	}
 
 	if (!selcontact->iSubNumber)
-		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+		dat->selection = g_CLI.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 	else {
-		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact->subcontacts));
+		dat->selection = g_CLI.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact->subcontacts));
 		if (dat->selection != -1)
 			dat->selection += selcontact->iSubNumber;
 	}
@@ -247,7 +247,7 @@ int cliIsVisibleContact(ClcCacheEntry *pce, ClcGroup *group)
 void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	KillTimer(hwnd, TIMERID_REBUILDAFTER);
-	pcli->bAutoRebuild = false;
+	g_CLI.bAutoRebuild = false;
 
 	ImageArray_Clear(&dat->avatar_cache);
 	RowHeights_Clear(dat);

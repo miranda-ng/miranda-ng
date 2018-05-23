@@ -128,7 +128,7 @@ EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
 	evt->custom = DbEventIsCustomForMsgWindow(&dbei);
 	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || evt->custom)) {
 		db_event_markRead(hContact, hDbEvent);
-		pcli->pfnRemoveEvent(hContact, hDbEvent);
+		g_CLI.pfnRemoveEvent(hContact, hDbEvent);
 	}
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE)
 		db_event_markRead(hContact, hDbEvent);

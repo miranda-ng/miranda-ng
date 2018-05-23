@@ -109,7 +109,7 @@ static UINT_PTR autoHideTimerId;
 static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 {
 	KillTimer(hwnd, idEvent);
-	HWND hwndClui = pcli->hwndContactList;
+	HWND hwndClui = g_CLI.hwndContactList;
 	HWND ActiveWindow = GetActiveWindow();
 	if (ActiveWindow == hwndClui) return;
 	if (CLUI_CheckOwnedByClui(ActiveWindow)) return;
@@ -121,7 +121,7 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT, UINT_PTR idEvent, DW
 int cliTrayIconPauseAutoHide(WPARAM, LPARAM)
 {
 	if (db_get_b(0, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
-		if (GetActiveWindow() != pcli->hwndContactList && GetWindow(GetParent(GetActiveWindow()), GW_OWNER) != pcli->hwndContactList) {
+		if (GetActiveWindow() != g_CLI.hwndContactList && GetWindow(GetParent(GetActiveWindow()), GW_OWNER) != g_CLI.hwndContactList) {
 			KillTimer(nullptr, autoHideTimerId);
 			autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * db_get_w(0, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 		}
@@ -138,8 +138,8 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 	MSG *msg = (MSG*)wParam;
 	switch (msg->message) {
 	case WM_EXITMENULOOP:
-		if (pcli->bTrayMenuOnScreen)
-			pcli->bTrayMenuOnScreen = FALSE;
+		if (g_CLI.bTrayMenuOnScreen)
+			g_CLI.bTrayMenuOnScreen = FALSE;
 		break;
 
 	case TIM_CALLBACK:
@@ -151,7 +151,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			SetForegroundWindow(msg->hwnd);
 			SetFocus(msg->hwnd);
 			GetCursorPos(&pt);
-			pcli->bTrayMenuOnScreen = TRUE;
+			g_CLI.bTrayMenuOnScreen = TRUE;
 			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, nullptr);
 			PostMessage(msg->hwnd, WM_NULL, 0, 0);
 			g_mutex_bOnTrayRightClick = 0;
@@ -170,7 +170,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			HWND h1 = (HWND)msg->lParam;
 			HWND h2 = h1 ? GetParent(h1) : nullptr;
 			if (db_get_b(0, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
-				if (LOWORD(msg->wParam) == WA_INACTIVE && h2 != pcli->hwndContactList)
+				if (LOWORD(msg->wParam) == WA_INACTIVE && h2 != g_CLI.hwndContactList)
 					autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * db_get_w(0, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 				else {
 					KillTimer(nullptr, autoHideTimerId);
@@ -192,7 +192,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	if (!pcli->trayIconCount)
+	if (!g_CLI.trayIconCount)
 		return;
 
 	PROTOACCOUNT **acc;
@@ -200,14 +200,14 @@ VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 	Proto_EnumAccounts(&AccNum, &acc);
 
 	// looking for the appropriate account to show its icon
-	int t = pcli->cycleStep;
+	int t = g_CLI.cycleStep;
 	do {
-		pcli->cycleStep = (pcli->cycleStep + 1) % AccNum;
-		if (pcli->cycleStep == t)
+		g_CLI.cycleStep = (g_CLI.cycleStep + 1) % AccNum;
+		if (g_CLI.cycleStep == t)
 			return;
-	} while (acc[pcli->cycleStep]->bIsVirtual || !acc[pcli->cycleStep]->bIsVisible);
+	} while (acc[g_CLI.cycleStep]->bIsVirtual || !acc[g_CLI.cycleStep]->bIsVisible);
 
-	cliTrayCalcChanged(acc[pcli->cycleStep]->szModuleName, 0, 0);
+	cliTrayCalcChanged(acc[g_CLI.cycleStep]->szModuleName, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -294,7 +294,7 @@ UINT_PTR TimerID = 0;
 
 int cliTrayIconInit(HWND hwnd)
 {
-	if (pcli->trayIconCount != 0)
+	if (g_CLI.trayIconCount != 0)
 		return 0;
 
 	if (TimerID) {
@@ -308,11 +308,11 @@ int cliTrayIconInit(HWND hwnd)
 
 	// Нужно узнать количество годных аккаунтов и неодинаковость их статусов.
 	bool bDiffers;
-	pcli->trayIconCount = GetGoodAccNum(&bDiffers);
+	g_CLI.trayIconCount = GetGoodAccNum(&bDiffers);
 	// Если таковых аккаунтов не нашлось вообще, то будем показывать основную иконку Миранды.
-	if (!pcli->trayIconCount) {
-		pcli->trayIconCount = 1;
-		pcli->trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * pcli->trayIconCount);
+	if (!g_CLI.trayIconCount) {
+		g_CLI.trayIconCount = 1;
+		g_CLI.trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * g_CLI.trayIconCount);
 		Clist_TrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
 		OldMode = TRAY_ICON_MODE_GLOBAL;
 		return 0;
@@ -326,9 +326,9 @@ int cliTrayIconInit(HWND hwnd)
 
 	// Некоторые режимы всегда показывают единственную иконку.
 	if (Mode < 8)
-		pcli->trayIconCount = 1;
+		g_CLI.trayIconCount = 1;
 
-	pcli->trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * pcli->trayIconCount);
+	g_CLI.trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * g_CLI.trayIconCount);
 
 	// Добавляем иконки.
 	switch (Mode) {
@@ -352,8 +352,9 @@ int cliTrayIconInit(HWND hwnd)
 
 	case TRAY_ICON_MODE_CYCLE:
 		Clist_TrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
-		pcli->cycleStep = 0;
+		g_CLI.cycleStep = 0;
 		cliTrayCycleTimerProc(nullptr, 0, 0, 0); // force icon update
+		
 		// Не сохраняем ID таймера в pcli, чтобы fnTrayIconUpdateBase не убивала его.
 		TimerID = CLUI_SafeSetTimer(nullptr, 0, db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cliTrayCycleTimerProc);
 		break;
@@ -373,7 +374,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 	if (!szChangedProto)
 		return -1;
 
-	if (!pcli->trayIconCount)
+	if (!g_CLI.trayIconCount)
 		return -1;
 
 	if (!Clist_GetProtocolVisibility(szChangedProto))
@@ -394,7 +395,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
-		hIcon = pcli->pfnGetIconFromStatusMode(0, nullptr, CListTray_GetGlobalStatus(0, 0));
+		hIcon = g_CLI.pfnGetIconFromStatusMode(0, nullptr, CListTray_GetGlobalStatus(0, 0));
 		Clist_TrayIconMakeTooltip(nullptr, nullptr);
 		break;
 
@@ -409,7 +410,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 				hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
 			else
-				hIcon = pcli->pfnGetIconFromStatusMode(0, szProto, Proto_GetStatus(szProto));
+				hIcon = g_CLI.pfnGetIconFromStatusMode(0, szProto, Proto_GetStatus(szProto));
 
 			Clist_TrayIconMakeTooltip(nullptr, szProto);
 		}
@@ -420,39 +421,39 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else if (!bConn)
-			hIcon = pcli->pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto));
+			hIcon = g_CLI.pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto));
 		Clist_TrayIconMakeTooltip(nullptr, nullptr);
 		break;
 
 	case TRAY_ICON_MODE_ALL:
 		// Какой индекс у аккаунта, который будем апдейтить?
-		for (; i < pcli->trayIconCount; i++)
-			if (!mir_strcmp(pcli->trayIcon[i].szProto, szChangedProto))
+		for (; i < g_CLI.trayIconCount; i++)
+			if (!mir_strcmp(g_CLI.trayIcon[i].szProto, szChangedProto))
 				break;
 
 		iStatus = Proto_GetStatus(szChangedProto);
 		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
-			hIcon = pcli->pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto));
-		Clist_TrayIconMakeTooltip(nullptr, pcli->trayIcon[i].szProto);
+			hIcon = g_CLI.pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto));
+		Clist_TrayIconMakeTooltip(nullptr, g_CLI.trayIcon[i].szProto);
 		break;
 	}
 
-	trayIconInfo_t &p = pcli->trayIcon[i];
+	trayIconInfo_t &p = g_CLI.trayIcon[i];
 	DestroyIcon(p.hBaseIcon);
 	p.hBaseIcon = hIcon;
-	replaceStrW(p.ptszToolTip, pcli->szTip);
+	replaceStrW(p.ptszToolTip, g_CLI.szTip);
 
 	NOTIFYICONDATA nid = { sizeof(NOTIFYICONDATA) };
-	nid.hWnd = pcli->hwndContactList;
+	nid.hWnd = g_CLI.hwndContactList;
 	nid.uID = p.id;
 	nid.hIcon = p.hBaseIcon;
 	nid.uFlags = NIF_ICON | NIF_TIP;
 
 	// if Tipper is missing or turned off for tray, use system tooltips
 	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(0, "Tipper", "TrayTip", 1))
-		mir_wstrncpy(nid.szTip, pcli->szTip, _countof(nid.szTip));
+		mir_wstrncpy(nid.szTip, g_CLI.szTip, _countof(nid.szTip));
 
 	Shell_NotifyIcon(NIM_MODIFY, &nid);
 

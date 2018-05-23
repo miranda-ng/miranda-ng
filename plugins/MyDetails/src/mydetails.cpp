@@ -20,7 +20,6 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 bool g_bAvsExist;
 
@@ -132,8 +131,6 @@ static int MainUninit(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	pcli = Clist_GetInterface();
-
 	// Hook event to load messages and show first one
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, MainUninit);

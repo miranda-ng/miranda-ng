@@ -837,7 +837,7 @@ void CTooltipNotify::OnTooltipDblClicked(CTooltip *pTooltip)
 {
 	switch (m_sOptions.bLDblClick) {
 	case SHOW_HIDE_CLIST:
-		pcli->pfnShowHide();
+		g_CLI.pfnShowHide();
 		break;
 
 	case OPEN_MSGDLG:
@@ -851,7 +851,7 @@ void CTooltipNotify::OnTooltipDblClicked(CTooltip *pTooltip)
 		}
 
 	default:
-		pcli->pfnShowHide();
+		g_CLI.pfnShowHide();
 		break;
 	}
 }

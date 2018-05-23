@@ -31,7 +31,6 @@ PLUGIN_OPTIONS pluginOptions;
 //---------------------------
 //---Some global variables for the plugin
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -135,8 +134,6 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
 	HookEvent(ME_OPT_INITIALISE, HookedOptions);
-
-	pcli = Clist_GetInterface();
 
 	OptionsInit(&pluginOptions);
 	return 0;

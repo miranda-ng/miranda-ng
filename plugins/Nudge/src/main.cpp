@@ -10,7 +10,6 @@ CShake shake;
 CNudge GlobalNudge;
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 static IconItem iconList[] =
 {
@@ -86,7 +85,7 @@ static INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 
 void OpenContactList()
 {
-	HWND hWnd = pcli->hwndContactList;
+	HWND hWnd = g_CLI.hwndContactList;
 	ShowWindow(hWnd, SW_RESTORE);
 	ShowWindow(hWnd, SW_SHOW);
 }
@@ -476,8 +475,6 @@ static int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	LoadIcons();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

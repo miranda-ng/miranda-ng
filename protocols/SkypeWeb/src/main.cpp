@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 CHAT_MANAGER *pci;
-CLIST_INTERFACE *pcli;
 
 char g_szMirVer[100];
 HANDLE g_hCallEvent;
@@ -63,7 +62,6 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
 	pci = Chat_GetInterface();
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 

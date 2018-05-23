@@ -773,9 +773,9 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 		DBEVENTINFO dbei = {};
 		if (!db_event_get(hDBEvent, &dbei) && !mir_strcmp(m_szModuleName, dbei.szModule)) {
 			db_event_markRead(hContact, hDBEvent);
-			pcli->pfnRemoveEvent(hMContact, hDBEvent);
+			g_CLI.pfnRemoveEvent(hMContact, hDBEvent);
 			if (hContact != hMContact)
-				pcli->pfnRemoveEvent(hContact, hDBEvent);
+				g_CLI.pfnRemoveEvent(hContact, hDBEvent);
 		}
 
 		hDBEvent = db_event_next(hContact, hDBEvent);

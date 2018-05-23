@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 
 HNETLIBUSER hNetlibUser = nullptr;
@@ -119,8 +118,6 @@ static IconItem iconList[] =
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	use_raw_ping = false;
 	db_set_b(0, MODULENAME, "UsingRawSockets", (BYTE)use_raw_ping);
 

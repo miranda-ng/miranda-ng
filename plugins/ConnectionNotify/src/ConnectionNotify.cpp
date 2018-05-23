@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 CMPlugin	g_plugin;
-CLIST_INTERFACE *pcli;
 
 //PLUGINLINK *pluginLink=NULL;
 HANDLE hOptInit = nullptr;
@@ -845,8 +844,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	#ifdef _DEBUG
 	_OutputDebugString(L"Entering Load dll");
 	#endif
-
-	pcli = Clist_GetInterface();
 
 	hExceptionsMutex = CreateMutex(nullptr, FALSE, L"ExceptionsMutex");
 

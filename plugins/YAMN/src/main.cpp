@@ -30,7 +30,6 @@ static int iDllPlugins = 0;
 YAMN_VARIABLES YAMNVar;
 
 CMPlugin	g_plugin;
-CLIST_INTERFACE *pcli;
 
 HANDLE hNewMailHook;
 HANDLE NoWriterEV;
@@ -235,8 +234,6 @@ static void LoadPlugins()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
 	//	we get the Miranda Root Path

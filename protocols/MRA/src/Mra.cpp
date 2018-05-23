@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 HMODULE   g_hDLLXStatusIcons;
 HICON     g_hMainIcon;
@@ -42,8 +41,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	IconsLoad();
 	InitXStatusIcons();
 	return 0;

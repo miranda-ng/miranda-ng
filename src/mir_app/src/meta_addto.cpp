@@ -236,7 +236,7 @@ void CMetaSelectDlg::SortCheck_OnChange(CCtrlCheck*)
 INT_PTR Meta_AddTo(WPARAM hContact, LPARAM)
 {
 	CMetaSelectDlg dlg(hContact);
-	dlg.SetParent(cli.hwndContactList);
+	dlg.SetParent(g_CLI.hwndContactList);
 	dlg.DoModal();
 	return 0;
 }

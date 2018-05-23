@@ -358,7 +358,7 @@ static INT_PTR CALLBACK DlgProcClistAdditionalOpts(HWND hwndDlg, UINT msg, WPARA
 				db_set_b(0, "CLC", "SubIndent", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SUBINDENTSPIN, UDM_GETPOS, 0, 0));
 				ClcOptionsChanged();
 				CLUI_ReloadCLUIOptions();
-				PostMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
+				PostMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
 				return TRUE;
 			}
 		}
@@ -562,7 +562,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				db_set_b(0, "CList", "PlaceOfflineToRoot", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_OFFLINETOROOT));
 
 				Clist_LoadContactTree(); /* this won't do job properly since it only really works when changes happen */
-				Clist_InitAutoRebuild(pcli->hwndContactTree); /* force reshuffle */
+				Clist_InitAutoRebuild(g_CLI.hwndContactTree); /* force reshuffle */
 				ClcOptionsChanged(); // Used to force loading avatar an list height related options
 				return TRUE;
 			}
@@ -741,7 +741,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				Clist_TrayIconIconsChanged();
 				Clist_LoadContactTree(); /* this won't do job properly since it only really works when changes happen */
-				Clist_InitAutoRebuild(pcli->hwndContactTree); /* force reshuffle */
+				Clist_InitAutoRebuild(g_CLI.hwndContactTree); /* force reshuffle */
 				ClcOptionsChanged(); // Used to force loading avatar an list height related options
 				return TRUE;
 			}
@@ -905,7 +905,7 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			db_set_b(0, "CList", "AutoHide", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			db_set_w(0, "CList", "HideTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
 			CLUI_ChangeWindowMode();
-			SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
+			SendMessage(g_CLI.hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 			CLUI_ReloadCLUIOptions();
 			EventArea_ConfigureEventArea();
 			cliShowHide(true);
@@ -1126,7 +1126,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (DWORD)SETTING_KEYCOLOR_DEFAULT);
 			db_set_b(0, "CList", "OnDesktop", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
 			db_set_b(0, "CList", "OnTop", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONTOP));
-			SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+			SetWindowPos(g_CLI.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			db_set_b(0, "CLUI", "DragToScroll", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
 
 			{ //======  Non-Layered Mode ======
@@ -1149,14 +1149,14 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
 				HWND hProgMan = FindWindow(L"Progman", nullptr);
 				if (IsWindow(hProgMan)) {
-					SetParent(pcli->hwndContactList, hProgMan);
+					SetParent(g_CLI.hwndContactList, hProgMan);
 					Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
 					g_CluiData.fOnDesktop = true;
 				}
 			}
 			else {
-				if (GetParent(pcli->hwndContactList)) {
-					SetParent(pcli->hwndContactList, nullptr);
+				if (GetParent(g_CLI.hwndContactList)) {
+					SetParent(g_CLI.hwndContactList, nullptr);
 					Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
 				}
 				g_CluiData.fOnDesktop = false;
@@ -1170,7 +1170,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 				db_set_dw(0, "CLUIFrames", "GapBetweenFrames", (DWORD)i1);
 				db_set_dw(0, "CLUIFrames", "GapBetweenTitleBar", (DWORD)i2);
-				Sync(CLUIFramesOnClistResize, (WPARAM)pcli->hwndContactList, 0);
+				Sync(CLUIFramesOnClistResize, (WPARAM)g_CLI.hwndContactList, 0);
 			}
 			db_set_b(0, "CList", "Transparent", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT));
 			db_set_b(0, "CList", "Alpha", (BYTE)SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
@@ -1180,7 +1180,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			ske_LoadSkinFromDB();
 			CLUI_UpdateLayeredMode();
 			CLUI_ChangeWindowMode();
-			SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
+			SendMessage(g_CLI.hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 			CLUI_ReloadCLUIOptions();
 			cliShowHide(true);
 			g_mutex_bChangingMode = FALSE;

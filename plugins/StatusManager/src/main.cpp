@@ -20,7 +20,6 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
@@ -95,8 +94,6 @@ int OnAccChanged(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
 

@@ -59,7 +59,6 @@ bool g_bInitialized;
 // Plugin Information
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 // Function Prototypes
 int Init(WPARAM, LPARAM);
@@ -92,8 +91,6 @@ CMPlugin::CMPlugin() :
 
 EXTERN_C int __declspec(dllexport) Load()
 {
-	pcli = Clist_GetInterface();
-	
 	g_bInitialized = false;
 	
 	InitDebug();

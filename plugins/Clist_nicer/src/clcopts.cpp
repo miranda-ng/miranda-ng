@@ -455,9 +455,9 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 			cfg::dat.bShowLocalTimeSelective = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT) ? 1 : 0;
 			db_set_b(NULL, "CLC", "SelectiveLocalTime", (BYTE)cfg::dat.bShowLocalTimeSelective);
 
-			KillTimer(pcli->hwndContactTree, TIMERID_REFRESH);
+			KillTimer(g_CLI.hwndContactTree, TIMERID_REFRESH);
 			if (cfg::dat.bShowLocalTime)
-				SetTimer(pcli->hwndContactTree, TIMERID_REFRESH, 65000, nullptr);
+				SetTimer(g_CLI.hwndContactTree, TIMERID_REFRESH, 65000, nullptr);
 
 			cfg::dat.dualRowMode = (BYTE)SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_GETCURSEL, 0, 0);
 			if (cfg::dat.dualRowMode == CB_ERR)
@@ -685,7 +685,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				Clist_ClcOptionsChanged();
 				CoolSB_SetupScrollBar();
-				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
+				PostMessage(g_CLI.hwndContactList, CLUIINTM_REDRAW, 0, 0);
 				opt_clc_main_changed = 0;
 				return TRUE;
 			}
@@ -810,7 +810,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				db_set_b(NULL, "CLUI", "UseBkSkin", (BYTE)cfg::dat.bWallpaperMode);
 
 				Clist_ClcOptionsChanged();
-				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
+				PostMessage(g_CLI.hwndContactList, CLUIINTM_REDRAW, 0, 0);
 				opt_clc_bkg_changed = 0;
 				return TRUE;
 			}

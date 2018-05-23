@@ -190,7 +190,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 					pt.x = rcParent.left;
 					pt.y = rcParent.top;
 
-					ScreenToClient(pcli->hwndContactList, &pt);
+					ScreenToClient(g_CLI.hwndContactList, &pt);
 
 					BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
 					if (imgItem)
@@ -212,7 +212,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 					pt.x = rcParent.left;
 					pt.y = rcParent.top;
 
-					ScreenToClient(pcli->hwndContactList, &pt);
+					ScreenToClient(g_CLI.hwndContactList, &pt);
 
 					if (ctl->bIsTTButton)
 						item_id = ctl->stateId == PBS_HOT ? ID_EXTBKTBBUTTONMOUSEOVER : (ctl->stateId == PBS_PRESSED ? ID_EXTBKTBBUTTONSPRESSED : ID_EXTBKTBBUTTONSNPRESSED);
@@ -281,7 +281,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				GetWindowRect(ctl->hwnd, &rcParent);
 				pt.x = rcParent.left;
 				pt.y = rcParent.top;
-				ScreenToClient(pcli->hwndContactList, &pt);
+				ScreenToClient(g_CLI.hwndContactList, &pt);
 				BitBlt(hdcMem, 0, 0, rcClient.right, rcClient.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
 
 				if (ctl->bIsTTButton) {
@@ -466,7 +466,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_NCHITTEST:
-		switch (SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
+		switch (SendMessage(g_CLI.hwndContactList, WM_NCHITTEST, wParam, lParam)) {
 		case HTLEFT:
 		case HTRIGHT:
 		case HTBOTTOM:
@@ -536,7 +536,7 @@ static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			int iCtrlId = ClcGetButtonId((HWND)lParam);
 			// standard buttons are processed in the main window
 			if (iCtrlId) {
-				SendMessage(pcli->hwndContactList, msg, MAKELONG(iCtrlId, BN_CLICKED), lParam);
+				SendMessage(g_CLI.hwndContactList, msg, MAKELONG(iCtrlId, BN_CLICKED), lParam);
 				return 0;
 			}
 		}

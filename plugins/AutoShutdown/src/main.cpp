@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 
 IconItem iconList[] =
@@ -62,8 +61,6 @@ static int ShutdownModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	INITCOMMONCONTROLSEX icc;
 	icc.dwSize = sizeof(icc);
 	icc.dwICC = ICC_DATE_CLASSES | ICC_UPDOWN_CLASS | ICC_PROGRESS_CLASS;

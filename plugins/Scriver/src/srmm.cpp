@@ -27,7 +27,6 @@ int OnLoadModule(void);
 int OnUnloadModule(void);
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 ITaskbarList3 *pTaskbarInterface;
 
@@ -58,9 +57,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	// set the memory manager
-	pcli = Clist_GetInterface();
-
 	if (IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 

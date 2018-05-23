@@ -28,7 +28,6 @@ Enjoy the code and use it smartly!
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 SMS_SETTINGS ssSMSSettings;
 
@@ -115,8 +114,6 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN,OnPreShutdown);
 

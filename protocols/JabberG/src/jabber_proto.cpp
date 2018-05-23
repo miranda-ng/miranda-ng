@@ -1316,7 +1316,7 @@ void CJabberProto::InfoFrame_OnTransport(CJabberInfoFrame_Event *evt)
 		HMENU hContactMenu = Menu_BuildContactMenu(hContact);
 		POINT pt;
 		GetCursorPos(&pt);
-		int res = TrackPopupMenu(hContactMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
+		int res = TrackPopupMenu(hContactMenu, TPM_RETURNCMD, pt.x, pt.y, 0, g_CLI.hwndContactList, nullptr);
 		Clist_MenuProcessCommand(res, MPCF_CONTACTMENU, hContact);
 	}
 }

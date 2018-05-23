@@ -25,7 +25,6 @@ CMPlugin g_plugin;
 
 HWND hDialogWnd = nullptr; // хэндл окна настроек, он глобально используется для вывода туда в реалтайме сканкодов клавы из хука
 HHOOK hHook;
-CLIST_INTERFACE *pcli;
 
 // там хранятся настройки - сканкоды кнопок для закрытия/показа/чтения, на которые должны реагировать соответствующие действия
 DWORD code_Close = 0;
@@ -92,9 +91,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	code_Close = db_get_dw(0, MODULENAME, "Close", 0);
 	code_HideShow = db_get_dw(0, MODULENAME, "HideShow", 0);
 	code_ReadMsg = db_get_dw(0, MODULENAME, "ReadMsg", 0);
-
-	// Интерфейс контактлиста - макрос заполняет CLIST_INTERFACE *pcli;
-	pcli = Clist_GetInterface();
 
 	// регистрация диалога опций
 	HookEvent(ME_OPT_INITIALISE, initializeOptions);

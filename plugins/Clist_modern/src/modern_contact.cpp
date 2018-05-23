@@ -148,19 +148,19 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 
 INT_PTR ToggleHideOffline(WPARAM, LPARAM)
 {
-	return pcli->pfnSetHideOffline(-1);
+	return g_CLI.pfnSetHideOffline(-1);
 }
 
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE)&CLS_USEGROUPS);
+	int newVal = !(GetWindowLongPtr(g_CLI.hwndContactTree, GWL_STYLE)&CLS_USEGROUPS);
 	if (wParam != -1)
 	{
 		if (!newVal == (int)wParam) return 0;
 		newVal = wParam;
 	}
 	db_set_b(0, "CList", "UseGroups", (BYTE)newVal);
-	SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
+	SendMessage(g_CLI.hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 	return 0;
 }
 

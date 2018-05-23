@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
-
 char *workingDirUtf8;
 CMPlugin g_plugin;
 
@@ -68,8 +66,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	Utils::convertPath(workingDir);
 	workingDirUtf8 = mir_utf8encodeW(workingDir);
 	delete[] workingDir;
-
-	pcli = Clist_GetInterface();
 
 	HookEvent(ME_OPT_INITIALISE, IEViewOptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

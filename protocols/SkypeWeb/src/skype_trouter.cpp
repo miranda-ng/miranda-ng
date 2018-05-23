@@ -201,7 +201,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 
 				CMStringW tooltip(FORMAT, TranslateT("Incoming call from %s"), Clist_GetContactDisplayName(hContact));
 				cle.szTooltip.w = tooltip.GetBuffer();
-				pcli->pfnAddEvent(&cle);
+				g_CLI.pfnAddEvent(&cle);
 
 				ShowNotification(Clist_GetContactDisplayName(hContact), TranslateT("Incoming call"), hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
 			}
@@ -224,9 +224,9 @@ INT_PTR CSkypeProto::OnIncomingCallCLE(WPARAM, LPARAM lParam)
 
 INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM wParam, LPARAM hContact)
 {
-	while (CLISTEVENT *cle = pcli->pfnGetEvent(hContact, 0)) {
+	while (CLISTEVENT *cle = g_CLI.pfnGetEvent(hContact, 0)) {
 		if (cle->lParam == SKYPE_DB_EVENT_TYPE_INCOMING_CALL) {
-			pcli->pfnRemoveEvent(hContact, cle->hDbEvent);
+			g_CLI.pfnRemoveEvent(hContact, cle->hDbEvent);
 			break;
 		}
 	}

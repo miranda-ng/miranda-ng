@@ -69,7 +69,7 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 	else { // Multimonitor stuff (we have more then 1)
 		HWND hWnd;
 		if (PopupOptions.Monitor == MN_MIRANDA)
-			hWnd = pcli->hwndContactList;
+			hWnd = g_CLI.hwndContactList;
 		else //  PopupOptions.Monitor == MN_ACTIVE
 			hWnd = GetForegroundWindow();
 

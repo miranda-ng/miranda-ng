@@ -26,8 +26,6 @@ void SplitmsgShutdown(void);
 
 CMPlugin g_plugin;
 
-CLIST_INTERFACE *pcli;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -54,8 +52,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	Load_ChatModule();
 	return LoadSendRecvMessageModule();
 }

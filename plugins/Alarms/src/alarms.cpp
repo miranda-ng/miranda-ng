@@ -17,7 +17,6 @@ There is no warranty.
 
 wchar_t szGamePrefix[] = COMMANDPREFIX;
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 
 HANDLE hTopToolbarButton;
@@ -146,8 +145,6 @@ static int MainDeInit(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	// ensure datetime picker is loaded
 	INITCOMMONCONTROLSEX ccx;
 	ccx.dwSize = sizeof(ccx);

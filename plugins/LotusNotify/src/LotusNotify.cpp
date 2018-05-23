@@ -23,7 +23,6 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);
 
 char MODULENAME[64] = {0}; //init at init_pluginname();
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 HINSTANCE hLotusDll;
 HEMREGISTRATION hLotusRegister = 0;
@@ -1674,8 +1673,6 @@ static int preshutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	Plugin_Terminated = false;
 
 	//if(pluginLink)//strange, but this function is called by Lotus API Extension Manager (instead of MainEntryPoint) probably always with parameter poiter =1

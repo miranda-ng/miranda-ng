@@ -482,7 +482,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 
 	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 		db_event_markRead(hContact, hDbEvent);
-		pcli->pfnRemoveEvent(hContact, hDbEvent);
+		g_CLI.pfnRemoveEvent(hContact, hDbEvent);
 	}
 
 	g_groupBreak = TRUE;

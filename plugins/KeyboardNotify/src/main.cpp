@@ -26,7 +26,6 @@
 
 #define NCONVERS_BLINKID ((MEVENT)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 
 DWORD IDThread = 0;
@@ -248,7 +247,7 @@ BOOL checkUnopenEvents()
 	if (nExternCount && bFlashOnOther)
 		return TRUE;
 
-	for (nIndex = 0; pCLEvent = pcli->pfnGetEvent(-1, nIndex); nIndex++) {
+	for (nIndex = 0; pCLEvent = g_CLI.pfnGetEvent(-1, nIndex); nIndex++) {
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg) ||
@@ -424,7 +423,7 @@ static VOID CALLBACK ReminderTimer(HWND, UINT, UINT_PTR, DWORD)
 		return;
 	}
 
-	for (nIndex = 0; !bReminderDisabled && (pCLEvent = pcli->pfnGetEvent(-1, nIndex)); nIndex++) {
+	for (nIndex = 0; !bReminderDisabled && (pCLEvent = g_CLI.pfnGetEvent(-1, nIndex)); nIndex++) {
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg) ||
@@ -854,7 +853,7 @@ void countUnopenEvents(int *msgCount, int *fileCount, int *urlCount, int *otherC
 	int nIndex;
 	CLISTEVENT *pCLEvent;
 
-	for (nIndex = 0; pCLEvent = pcli->pfnGetEvent(-1, nIndex); nIndex++) {
+	for (nIndex = 0; pCLEvent = g_CLI.pfnGetEvent(-1, nIndex); nIndex++) {
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType)) {
@@ -927,8 +926,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	GetWindowsVersion();
 	OpenKeyboardDevice();
 

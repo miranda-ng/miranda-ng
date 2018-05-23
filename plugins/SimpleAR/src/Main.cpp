@@ -17,7 +17,6 @@ Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 HGENMENU hToggle, hEnableMenu;
 BOOL gbVarsServiceExist = FALSE;
@@ -244,8 +243,6 @@ IconItem iconList[] =
 
 extern "C" int __declspec(dllexport)Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	CreateServiceFunction(MODULENAME"/ToggleEnable", ToggleEnable);
 	CreateServiceFunction(MODULENAME"/ToggleAutoanswer", Toggle);
 

@@ -183,8 +183,8 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 	if (m_iTabID >= 0) {
 		if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
-		if (pcli->pfnGetEvent(m_si->hContact, 0))
-			pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+		if (g_CLI.pfnGetEvent(m_si->hContact, 0))
+			g_CLI.pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
 
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
@@ -581,8 +581,8 @@ void CChatRoomDlg::OnDestroy()
 		if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 			DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-	if (pcli->pfnGetEvent(m_si->hContact, 0))
-		pcli->pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+	if (g_CLI.pfnGetEvent(m_si->hContact, 0))
+		g_CLI.pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
 	m_si->wState &= ~STATE_TALK;
 	m_si->pDlg = nullptr;
 	m_si = nullptr;

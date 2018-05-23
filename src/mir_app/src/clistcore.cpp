@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadContactListModule2(void);
 int LoadCLCModule(void);
 
-CLIST_INTERFACE cli;
+MIR_APP_DLL(CLIST_INTERFACE) g_CLI;
 
 static wchar_t szTip[MAX_TIP_SIZE+1];
 
@@ -58,79 +58,79 @@ static int fnIsVisibleContact(ClcCacheEntry*, ClcGroup*)
 
 void InitClistCore()
 {
-	cli.menuProtos = &g_menuProtos;
+	g_CLI.menuProtos = &g_menuProtos;
 
-	cli.pfnContactListControlWndProc = fnContactListControlWndProc;
+	g_CLI.pfnContactListControlWndProc = fnContactListControlWndProc;
 
-	cli.pfnGetRowsPriorTo = fnGetRowsPriorTo;
-	cli.pfnFindItem = fnFindItem;
-	cli.pfnGetRowByIndex = fnGetRowByIndex;
-	cli.pfnGetContactHiddenStatus = fnGetContactHiddenStatus;
+	g_CLI.pfnGetRowsPriorTo = fnGetRowsPriorTo;
+	g_CLI.pfnFindItem = fnFindItem;
+	g_CLI.pfnGetRowByIndex = fnGetRowByIndex;
+	g_CLI.pfnGetContactHiddenStatus = fnGetContactHiddenStatus;
 
-	cli.pfnAddGroup = fnAddGroup;
-	cli.pfnAddItemToGroup = fnAddItemToGroup;
-	cli.pfnCreateClcContact = fnCreateClcContact;
+	g_CLI.pfnAddGroup = fnAddGroup;
+	g_CLI.pfnAddItemToGroup = fnAddItemToGroup;
+	g_CLI.pfnCreateClcContact = fnCreateClcContact;
 	
-	cli.pfnFreeContact = fnFreeContact;	
-	cli.pfnAddInfoItemToGroup = fnAddInfoItemToGroup;	
-	cli.pfnAddContactToGroup = fnAddContactToGroup;	
-	cli.pfnAddContactToTree = fnAddContactToTree;	
-	cli.pfnRebuildEntireList = fnRebuildEntireList;	
-	cli.pfnGetGroupContentsCount = fnGetGroupContentsCount;
-	cli.pfnSortCLC = fnSortCLC;
+	g_CLI.pfnFreeContact = fnFreeContact;	
+	g_CLI.pfnAddInfoItemToGroup = fnAddInfoItemToGroup;	
+	g_CLI.pfnAddContactToGroup = fnAddContactToGroup;	
+	g_CLI.pfnAddContactToTree = fnAddContactToTree;	
+	g_CLI.pfnRebuildEntireList = fnRebuildEntireList;	
+	g_CLI.pfnGetGroupContentsCount = fnGetGroupContentsCount;
+	g_CLI.pfnSortCLC = fnSortCLC;
 
-	cli.pfnProcessExternalMessages = fnProcessExternalMessages;
+	g_CLI.pfnProcessExternalMessages = fnProcessExternalMessages;
 
-	cli.pfnPaintClc = fnPaintClc;
+	g_CLI.pfnPaintClc = fnPaintClc;
 
-	cli.pfnHitTest = fnHitTest;	
-	cli.pfnScrollTo = fnScrollTo;	
-	cli.pfnRecalcScrollBar = fnRecalcScrollBar;	
-	cli.pfnSetGroupExpand = fnSetGroupExpand;
-	cli.pfnFindRowByText = fnFindRowByText;	
-	cli.pfnBeginRenameSelection = fnBeginRenameSelection;
-	cli.pfnIsVisibleContact = fnIsVisibleContact;
-	cli.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;
-	cli.pfnLoadClcOptions = fnLoadClcOptions;
-	cli.pfnGetRowBottomY = fnGetRowBottomY;
-	cli.pfnGetRowHeight = fnGetRowHeight;
-	cli.pfnGetRowTopY = fnGetRowTopY;
-	cli.pfnGetRowTotalHeight = fnGetRowTotalHeight;
-	cli.pfnRowHitTest = fnRowHitTest;
+	g_CLI.pfnHitTest = fnHitTest;	
+	g_CLI.pfnScrollTo = fnScrollTo;	
+	g_CLI.pfnRecalcScrollBar = fnRecalcScrollBar;	
+	g_CLI.pfnSetGroupExpand = fnSetGroupExpand;
+	g_CLI.pfnFindRowByText = fnFindRowByText;	
+	g_CLI.pfnBeginRenameSelection = fnBeginRenameSelection;
+	g_CLI.pfnIsVisibleContact = fnIsVisibleContact;
+	g_CLI.pfnGetDefaultFontSetting = fnGetDefaultFontSetting;
+	g_CLI.pfnLoadClcOptions = fnLoadClcOptions;
+	g_CLI.pfnGetRowBottomY = fnGetRowBottomY;
+	g_CLI.pfnGetRowHeight = fnGetRowHeight;
+	g_CLI.pfnGetRowTopY = fnGetRowTopY;
+	g_CLI.pfnGetRowTotalHeight = fnGetRowTotalHeight;
+	g_CLI.pfnRowHitTest = fnRowHitTest;
 
-	cli.pfnAddEvent = fnAddEvent;
-	cli.pfnGetEvent = fnGetEvent;
-	cli.pfnGetImlIconIndex = fnGetImlIconIndex;
-	cli.pfnRemoveEvent = fnRemoveEvent;
+	g_CLI.pfnAddEvent = fnAddEvent;
+	g_CLI.pfnGetEvent = fnGetEvent;
+	g_CLI.pfnGetImlIconIndex = fnGetImlIconIndex;
+	g_CLI.pfnRemoveEvent = fnRemoveEvent;
 
-	cli.pfnInvalidateDisplayNameCacheEntry = fnInvalidateDisplayNameCacheEntry;
-	cli.pfnCreateCacheItem = fnCreateCacheItem;
-	cli.pfnCheckCacheItem = fnCheckCacheItem;
-	cli.pfnFreeCacheItem = fnFreeCacheItem;
+	g_CLI.pfnInvalidateDisplayNameCacheEntry = fnInvalidateDisplayNameCacheEntry;
+	g_CLI.pfnCreateCacheItem = fnCreateCacheItem;
+	g_CLI.pfnCheckCacheItem = fnCheckCacheItem;
+	g_CLI.pfnFreeCacheItem = fnFreeCacheItem;
 
-	cli.szTip = szTip;
+	g_CLI.szTip = szTip;
 
-	cli.pfnTrayIconInit = fnTrayIconInit;
-	cli.pfnTrayIconPauseAutoHide = fnTrayIconPauseAutoHide;
-	cli.pfnTrayIconProcessMessage = fnTrayIconProcessMessage;
+	g_CLI.pfnTrayIconInit = fnTrayIconInit;
+	g_CLI.pfnTrayIconPauseAutoHide = fnTrayIconPauseAutoHide;
+	g_CLI.pfnTrayIconProcessMessage = fnTrayIconProcessMessage;
 
-	cli.pfnContactListWndProc = fnContactListWndProc;
-	cli.pfnLoadCluiGlobalOpts = fnLoadCluiGlobalOpts;
-	cli.pfnCluiProtocolStatusChanged = fnCluiProtocolStatusChanged;
-	cli.pfnInvalidateRect = fnInvalidateRect;
-	cli.pfnOnCreateClc = fnOnCreateClc;
+	g_CLI.pfnContactListWndProc = fnContactListWndProc;
+	g_CLI.pfnLoadCluiGlobalOpts = fnLoadCluiGlobalOpts;
+	g_CLI.pfnCluiProtocolStatusChanged = fnCluiProtocolStatusChanged;
+	g_CLI.pfnInvalidateRect = fnInvalidateRect;
+	g_CLI.pfnOnCreateClc = fnOnCreateClc;
 
-	cli.pfnSetHideOffline = fnSetHideOffline;
+	g_CLI.pfnSetHideOffline = fnSetHideOffline;
 
-	cli.pfnDocking_ProcessWindowMessage = fnDocking_ProcessWindowMessage;
+	g_CLI.pfnDocking_ProcessWindowMessage = fnDocking_ProcessWindowMessage;
 
-	cli.pfnGetIconFromStatusMode = fnGetIconFromStatusMode;
-	cli.pfnGetWindowVisibleState = fnGetWindowVisibleState;
-	cli.pfnIconFromStatusMode = fnIconFromStatusMode;
-	cli.pfnShowHide = fnShowHide;
+	g_CLI.pfnGetIconFromStatusMode = fnGetIconFromStatusMode;
+	g_CLI.pfnGetWindowVisibleState = fnGetWindowVisibleState;
+	g_CLI.pfnIconFromStatusMode = fnIconFromStatusMode;
+	g_CLI.pfnShowHide = fnShowHide;
 
-	cli.pfnTrayCalcChanged = fnTrayCalcChanged;
-	cli.pfnSetContactCheckboxes = fnSetContactCheckboxes;
+	g_CLI.pfnTrayCalcChanged = fnTrayCalcChanged;
+	g_CLI.pfnSetContactCheckboxes = fnSetContactCheckboxes;
 }
 
 MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)
@@ -141,5 +141,5 @@ MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)
 		g_bReadyToInitClist = false;
 	}
 
-	return &cli;
+	return &g_CLI;
 }

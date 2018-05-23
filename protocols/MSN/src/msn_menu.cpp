@@ -47,7 +47,7 @@ INT_PTR CMsnProto::MsnGotoInbox(WPARAM, LPARAM)
 {
 	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
 	if (hContact)
-		pcli->pfnRemoveEvent(hContact, 1);
+		g_CLI.pfnRemoveEvent(hContact, 1);
 
 	MsnInvokeMyURL(true, "http://mail.live.com?rru=inbox");
 	return 0;

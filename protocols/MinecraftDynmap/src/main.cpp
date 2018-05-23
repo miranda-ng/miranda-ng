@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE* pcli;
 
 std::string g_strUserAgent;
 
@@ -58,8 +57,6 @@ static HANDLE g_hEvents[1];
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	InitIcons();
 
 	// Init native User-Agent

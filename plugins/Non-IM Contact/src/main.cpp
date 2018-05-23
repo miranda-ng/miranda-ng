@@ -6,7 +6,6 @@
 
 #include "Version.h"
 
-CLIST_INTERFACE *pcli;
 CMPlugin	g_plugin;
 
 INT_PTR doubleClick(WPARAM wParam, LPARAM)
@@ -114,8 +113,6 @@ IconItem iconList[] =
 
 extern "C" __declspec(dllexport) int Load()
 {
-	pcli = Clist_GetInterface();
-
 	g_plugin.registerIcon(LPGEN("Non-IM Contact"), iconList);
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, (MIRANDAHOOK)doubleClick);

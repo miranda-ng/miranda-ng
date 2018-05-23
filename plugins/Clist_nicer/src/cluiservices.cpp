@@ -30,11 +30,11 @@ extern ButtonItem *g_ButtonItems;
 void FreeProtocolData(void)
 {
 	// free protocol data
-	int nParts = SendMessage(pcli->hwndStatus, SB_GETPARTS, 0, 0);
+	int nParts = SendMessage(g_CLI.hwndStatus, SB_GETPARTS, 0, 0);
 	for (int nPanel = 0; nPanel < nParts; nPanel++) {
-		ProtocolData *PD = (ProtocolData *)SendMessage(pcli->hwndStatus, SB_GETTEXT, nPanel, 0);
+		ProtocolData *PD = (ProtocolData *)SendMessage(g_CLI.hwndStatus, SB_GETTEXT, nPanel, 0);
 		if (PD != nullptr && !IsBadCodePtr((FARPROC)PD)) {
-			SendMessage(pcli->hwndStatus, SB_SETTEXT, (WPARAM)nPanel | SBT_OWNERDRAW, 0);
+			SendMessage(g_CLI.hwndStatus, SB_SETTEXT, (WPARAM)nPanel | SBT_OWNERDRAW, 0);
 			if (PD->RealName) mir_free(PD->RealName);
 			if (PD) mir_free(PD);
 		}
@@ -45,7 +45,7 @@ int g_maxStatus = ID_STATUS_OFFLINE;
 
 void CluiProtocolStatusChanged(int, const char*)
 {
-	if (pcli->hwndStatus == nullptr || cfg::shutDown)
+	if (g_CLI.hwndStatus == nullptr || cfg::shutDown)
 		return;
 
 	auto &accs = Accounts();
@@ -56,7 +56,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	g_maxStatus = ID_STATUS_OFFLINE;
 
 	int borders[3];
-	SendMessage(pcli->hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
+	SendMessage(g_CLI.hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 
 	int *partWidths = (int*)_alloca((accs.getCount() + 1)*sizeof(int));
 
@@ -64,7 +64,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	int partCount;
 	if (cfg::dat.bEqualSections) {
 		RECT rc;
-		GetClientRect(pcli->hwndStatus, &rc);
+		GetClientRect(g_CLI.hwndStatus, &rc);
 		rc.right -= borders[0] * 2;
 		int toshow = 0;
 		for (auto &pa : accs)
@@ -91,7 +91,7 @@ void CluiProtocolStatusChanged(int, const char*)
 		wchar_t szName[32];
 
 		HDC hdc = GetDC(nullptr);
-		HFONT hofont = reinterpret_cast<HFONT>(SelectObject(hdc, (HFONT)SendMessage(pcli->hwndStatus, WM_GETFONT, 0, 0)));
+		HFONT hofont = reinterpret_cast<HFONT>(SelectObject(hdc, (HFONT)SendMessage(g_CLI.hwndStatus, WM_GETFONT, 0, 0)));
 
 		// count down since built in ones tend to go at the end
 		partCount = 0;
@@ -128,15 +128,15 @@ void CluiProtocolStatusChanged(int, const char*)
 		ReleaseDC(nullptr, hdc);
 	}
 	if (partCount == 0) {
-		SendMessage(pcli->hwndStatus, SB_SIMPLE, TRUE, 0);
+		SendMessage(g_CLI.hwndStatus, SB_SIMPLE, TRUE, 0);
 		return;
 	}
-	SendMessage(pcli->hwndStatus, SB_SIMPLE, FALSE, 0);
+	SendMessage(g_CLI.hwndStatus, SB_SIMPLE, FALSE, 0);
 
 	partWidths[partCount - 1] = -1;
 	BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", 0);
-	SendMessage(pcli->hwndStatus, SB_SETMINHEIGHT, 18 + cfg::dat.bClipBorder + ((windowStyle == SETTING_WINDOWSTYLE_THINBORDER || windowStyle == SETTING_WINDOWSTYLE_NOBORDER) ? 3 : 0), 0);
-	SendMessage(pcli->hwndStatus, SB_SETPARTS, partCount, (LPARAM)partWidths);
+	SendMessage(g_CLI.hwndStatus, SB_SETMINHEIGHT, 18 + cfg::dat.bClipBorder + ((windowStyle == SETTING_WINDOWSTYLE_THINBORDER || windowStyle == SETTING_WINDOWSTYLE_NOBORDER) ? 3 : 0), 0);
+	SendMessage(g_CLI.hwndStatus, SB_SETPARTS, partCount, (LPARAM)partWidths);
 
 	// count down since built in ones tend to go at the end
 	partCount = 0;
@@ -156,7 +156,7 @@ void CluiProtocolStatusChanged(int, const char*)
 		int flags = SBT_OWNERDRAW;
 		if (db_get_b(NULL, "CLUI", "SBarBevel", 1) == 0)
 			flags |= SBT_NOBORDERS;
-		SendMessageA(pcli->hwndStatus, SB_SETTEXTA, partCount | flags, (LPARAM)PD);
+		SendMessageA(g_CLI.hwndStatus, SB_SETTEXTA, partCount | flags, (LPARAM)PD);
 		
 		partCount++;
 	}
@@ -188,8 +188,8 @@ void CluiProtocolStatusChanged(int, const char*)
 	* set the global status icon and display the global (most online) status mode on the
 	* status mode button
 	*/
-	if (szStatus && pcli->hwndContactList) {
-		HWND hwndClistBtn = GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS);
+	if (szStatus && g_CLI.hwndContactList) {
+		HWND hwndClistBtn = GetDlgItem(g_CLI.hwndContactList, IDC_TBGLOBALSTATUS);
 		if (IsWindow(hwndClistBtn)) {
 			SetWindowText(hwndClistBtn, szStatus);
 			SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);

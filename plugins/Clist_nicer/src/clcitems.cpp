@@ -246,11 +246,11 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 void ReloadExtraInfo(MCONTACT hContact)
 {
-	if (hContact && pcli->hwndContactTree) {
+	if (hContact && g_CLI.hwndContactTree) {
 		TExtraCache *p = cfg::getCache(hContact, nullptr);
 		if (p) {
 			TZ_LoadTimeZone(hContact, p);
-			InvalidateRect(pcli->hwndContactTree, nullptr, FALSE);
+			InvalidateRect(g_CLI.hwndContactTree, nullptr, FALSE);
 		}
 	}
 }

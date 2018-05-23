@@ -46,7 +46,6 @@ unsigned old_status;
 UINT_PTR timerId;
 
 CMPlugin	g_plugin;
-CLIST_INTERFACE *pcli;
 
 MYOPTIONS opt;
 
@@ -157,8 +156,6 @@ void InitVar()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	// initialize global variables
 	InitVar();
 

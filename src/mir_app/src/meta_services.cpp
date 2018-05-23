@@ -617,7 +617,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		InsertMenuItem(hMenu, i, TRUE, &mii);
 	}
 
-	UINT res = TrackPopupMenu(hMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_BOTTOMALIGN | TPM_LEFTALIGN, sicd->clickLocation.x, sicd->clickLocation.y, 0, cli.hwndContactTree, nullptr);
+	UINT res = TrackPopupMenu(hMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_BOTTOMALIGN | TPM_LEFTALIGN, sicd->clickLocation.x, sicd->clickLocation.y, 0, g_CLI.hwndContactTree, nullptr);
 	if (res > 0) {
 		MCONTACT hChosen = Meta_GetContactHandle(cc, res - 1);
 
@@ -662,7 +662,7 @@ static VOID CALLBACK sttMenuThread(PVOID param)
 
 	TPMPARAMS tpmp = { 0 };
 	tpmp.cbSize = sizeof(tpmp);
-	BOOL menuRet = TrackPopupMenuEx(hMenu, TPM_RETURNCMD, menuMousePoint.x, menuMousePoint.y, cli.hwndContactList, &tpmp);
+	BOOL menuRet = TrackPopupMenuEx(hMenu, TPM_RETURNCMD, menuMousePoint.x, menuMousePoint.y, g_CLI.hwndContactList, &tpmp);
 
 	Clist_MenuProcessCommand(LOWORD(menuRet), MPCF_CONTACTMENU, (INT_PTR)param);
 

@@ -23,8 +23,6 @@
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
-
 CMPlugin g_plugin;
 
 int g_Utf8EventsSupported = TRUE;
@@ -82,7 +80,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		cle.pszService = MS_CONTACTS_RECEIVE;
 		cle.szTooltip.w = caToolTip;
 		cle.flags |= CLEF_UNICODE;
-		pcli->pfnAddEvent(&cle);
+		g_CLI.pfnAddEvent(&cle);
 	}
 	return 0; //continue processing by other hooks
 }
@@ -194,8 +192,6 @@ static INT_PTR ServiceReceiveCommand(WPARAM, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	InitCommonControls();
 
 	g_hSendWindowList = WindowList_Create();

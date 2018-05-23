@@ -26,7 +26,6 @@
 // Other variables
 SSL_API sslApi;
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 static unsigned long crc_table[256];
 
@@ -298,8 +297,6 @@ void GaduProto::OnBuildProtoMenu()
 //
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
 
 	gg_links_instancemenu_init();

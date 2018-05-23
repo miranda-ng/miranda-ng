@@ -95,7 +95,7 @@ LRESULT CALLBACK key_hook(int nCode, WPARAM wParam, LPARAM lParam)  // https://m
 						
 						if (HwHotKeys_CompareCurrentScancode(code_HideShow)) { // хоткей сворачивания/разворачивания главного окна Miranda
 							// Beep(700, 200);
-							pcli->pfnShowHide(); // есть варианты
+							g_CLI.pfnShowHide(); // есть варианты
 							return 1;
 						}
 						
@@ -103,8 +103,8 @@ LRESULT CALLBACK key_hook(int nCode, WPARAM wParam, LPARAM lParam)  // https://m
 							// Beep(1500, 200);
 							if (Clist_EventsProcessTrayDoubleClick(0) != 0) { // клик по трею для стандартного открытия сообщения
 								// иначе - окно чата уже открыто и надо его вытащить наверх...
-								SetForegroundWindow(pcli->hwndContactList);
-								SetFocus(pcli->hwndContactList);
+								SetForegroundWindow(g_CLI.hwndContactList);
+								SetFocus(g_CLI.hwndContactList);
 								// хотя всЄ равно это не очень работает в новой винде
 								// надо http://www.rsdn.ru/article/qna/ui/wndsetfg.xml
 								// но пока незнаю где тут взять хэндл окна чата(причём именно для

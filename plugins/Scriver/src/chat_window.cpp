@@ -922,8 +922,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (m_si->wState & GC_EVENT_HIGHLIGHT) {
 			m_si->wState &= ~GC_EVENT_HIGHLIGHT;
 
-			if (pcli->pfnGetEvent(m_hContact, 0))
-				pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
+			if (g_CLI.pfnGetEvent(m_hContact, 0))
+				g_CLI.pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 		}
 
 		FixTabIcons();
@@ -1017,8 +1017,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
-		if (pcli->pfnGetEvent(m_hContact, 0))
-			pcli->pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
+		if (g_CLI.pfnGetEvent(m_hContact, 0))
+			g_CLI.pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 		break;
 
 	case WM_NOTIFY:

@@ -21,7 +21,6 @@
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 
 LIST<DBEVENT> eventListXStatus(10, PtrKeySortT);
@@ -331,7 +330,7 @@ void BlinkIcon(MCONTACT hContact, HICON hIcon, wchar_t *stzText)
 	cle.hIcon = hIcon;
 	cle.pszService = "UserOnline/Description";
 	cle.szTooltip.w = stzText;
-	pcli->pfnAddEvent(&cle);
+	g_CLI.pfnAddEvent(&cle);
 }
 
 void PlayChangeSound(MCONTACT hContact, const char *name)
@@ -1147,8 +1146,6 @@ static int OnShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	g_plugin.registerIcon(LPGEN("New Status Notify"), iconList, MODULE);
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.

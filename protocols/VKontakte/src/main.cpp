@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,8 +51,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load()
 {
-	pcli = Clist_GetInterface();
-
 	InitIcons();
 	return 0;
 }

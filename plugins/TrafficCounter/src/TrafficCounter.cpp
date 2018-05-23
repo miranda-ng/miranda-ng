@@ -29,7 +29,6 @@ int NumberOfAccounts;
 HWND TrafficHwnd;
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
 
@@ -225,7 +224,7 @@ int TrafficCounter_PaintCallbackProc(HWND hWnd, HDC hDC, RECT*, HRGN, DWORD, voi
 int TrafficCounter_Draw(HWND hwnd, HDC hDC)
 {
 	if (hwnd == (HWND)-1) return 0;
-	if (GetParent(hwnd) == pcli->hwndContactList)
+	if (GetParent(hwnd) == g_CLI.hwndContactList)
 		return PaintTrafficCounterWindow(hwnd, hDC);
 	else
 		InvalidateRect(hwnd, nullptr, FALSE);
@@ -1142,15 +1141,13 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_NETLIB_FASTRECV, TrafficRecv);
 	HookEvent(ME_NETLIB_FASTSEND, TrafficSend);
 
-	CreateTrafficWindow(pcli->hwndContactList);
+	CreateTrafficWindow(g_CLI.hwndContactList);
 	UpdateFonts(0, 0);	//Load and create fonts here
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	HookEvent(ME_OPT_INITIALISE, TrafficCounterOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, TrafficCounterModulesLoaded);
 	HookEvent(ME_PROTO_ACK, ProtocolAckHook);

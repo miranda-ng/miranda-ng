@@ -21,8 +21,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
-
 CMPlugin g_plugin;
 static HANDLE hToolBarItem = nullptr;
 static HGENMENU hMainMenuItem = nullptr;
@@ -133,8 +131,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_USEREX_CLASSES };
 	InitCommonControlsEx(&icex);
 

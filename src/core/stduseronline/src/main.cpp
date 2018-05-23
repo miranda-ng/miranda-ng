@@ -24,7 +24,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 int LoadUserOnlineModule(void);
 
 CMPlugin g_plugin;
-CLIST_INTERFACE* pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,8 +52,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_USERON
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	LoadUserOnlineModule();
 	return 0;
 }

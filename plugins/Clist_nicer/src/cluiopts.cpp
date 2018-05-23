@@ -176,7 +176,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			db_set_dw(NULL, "CLUIFrames", "GapBetweenFrames", cfg::dat.gapBetweenFrames);
 			db_set_b(NULL, "CList", "OnTop", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONTOP));
-			SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			SetWindowPos(g_CLI.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 			cfg::dat.bCLeft = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLEFTSPIN, UDM_GETPOS, 0, 0);
 			cfg::dat.bCRight = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CRIGHTSPIN, UDM_GETPOS, 0, 0);
@@ -184,7 +184,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			cfg::dat.bCBottom = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CBOTTOMSPIN, UDM_GETPOS, 0, 0);
 
 			db_set_dw(NULL, "CLUI", "clmargins", MAKELONG(MAKEWORD(cfg::dat.bCLeft, cfg::dat.bCRight), MAKEWORD(cfg::dat.bCTop, cfg::dat.bCBottom)));
-			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
+			SendMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
 
 			db_set_b(NULL, "CList", "BringToFront", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BRINGTOFRONT));
 			db_set_b(NULL, "CList", "AlwaysHideOnTB", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYSHIDEONTASKBAR));
@@ -195,28 +195,28 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				// See http://msdn.microsoft.com/library/en-us/shellcc/platform/shell/programmersguide/shell_int/shell_int_programming/taskbar.asp
 				WINDOWPLACEMENT p;
 				p.length = sizeof(p);
-				GetWindowPlacement(pcli->hwndContactList, &p);
-				ShowWindow(pcli->hwndContactList, SW_HIDE);
+				GetWindowPlacement(g_CLI.hwndContactList, &p);
+				ShowWindow(g_CLI.hwndContactList, SW_HIDE);
 
-				style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
+				style = GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE);
 				style |= WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE;
 				style &= ~WS_EX_APPWINDOW;
-				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, style);
+				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, style);
 
-				SetWindowPlacement(pcli->hwndContactList, &p);
-				ShowWindow(pcli->hwndContactList, SW_SHOW);
+				SetWindowPlacement(g_CLI.hwndContactList, &p);
+				ShowWindow(g_CLI.hwndContactList, SW_SHOW);
 			}
 			else {
 				LONG style;
-				style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
+				style = GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE);
 				style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
 				if (db_get_b(NULL, "CList", "AlwaysHideOnTB", 1))
 					style &= ~WS_EX_APPWINDOW;
 				else {
 					style |= WS_EX_APPWINDOW;
-					AddToTaskBar(pcli->hwndContactList);
+					AddToTaskBar(g_CLI.hwndContactList);
 				}
-				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, style);
+				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, style);
 			}
 
 			cfg::dat.bClipBorder = (BYTE)GetDlgItemInt(hwndDlg, IDC_CLIPBORDER, &translated, FALSE);
@@ -229,21 +229,21 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ApplyCLUIBorderStyle();
 
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
-				SetMenu(pcli->hwndContactList, nullptr);
+				SetMenu(g_CLI.hwndContactList, nullptr);
 			else
-				SetMenu(pcli->hwndContactList, pcli->hMenuMain);
+				SetMenu(g_CLI.hwndContactList, g_CLI.hMenuMain);
 
 			wchar_t title[256];
 			GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
 			db_set_ws(NULL, "CList", "TitleText", title);
-			SetWindowText(pcli->hwndContactList, title);
+			SetWindowText(g_CLI.hwndContactList, title);
 
 			cfg::dat.dwFlags = IsDlgButtonChecked(hwndDlg, IDC_ROUNDEDBORDER) ? cfg::dat.dwFlags | CLUI_FRAME_ROUNDEDFRAME : cfg::dat.dwFlags & ~CLUI_FRAME_ROUNDEDFRAME;
 			db_set_b(NULL, "CLUI", "AutoSize", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
 
 			if ((cfg::dat.autosize = IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE) ? 1 : 0)) {
-				SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
-				SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
+				SendMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
+				SendMessage(g_CLI.hwndContactTree, WM_SIZE, 0, 0);
 			}
 
 			db_set_b(NULL, "CLUI", "MaxSizeHeight", (BYTE)GetDlgItemInt(hwndDlg, IDC_MAXSIZEHEIGHT, nullptr, FALSE));
@@ -264,36 +264,36 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			db_set_b(NULL, "CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
 
 			if (cfg::dat.bLayeredHack)
-				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 
 			if (g_CLUISkinnedBkColorRGB)
 				cfg::dat.colorkey = g_CLUISkinnedBkColorRGB;
 			else if (cfg::dat.bClipBorder == 0 && !(cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME))
 				cfg::dat.colorkey = db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 			else {
-				SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
+				SendMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
 				cfg::dat.colorkey = RGB(255, 0, 255);
 			}
 			if (cfg::dat.isTransparent || cfg::dat.bFullTransparent) {
-				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
-				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
-				SetLayeredWindowAttributes(pcli->hwndContactList, 0, 255, LWA_ALPHA | LWA_COLORKEY);
-				SetLayeredWindowAttributes(pcli->hwndContactList,
+				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetLayeredWindowAttributes(g_CLI.hwndContactList, 0, 255, LWA_ALPHA | LWA_COLORKEY);
+				SetLayeredWindowAttributes(g_CLI.hwndContactList,
 					(COLORREF)(cfg::dat.bFullTransparent ? cfg::dat.colorkey : 0),
 					(BYTE)(cfg::dat.isTransparent ? cfg::dat.autoalpha : 255),
 					(DWORD)((cfg::dat.isTransparent ? LWA_ALPHA : 0L) | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0L)));
 			}
 			else {
-				SetLayeredWindowAttributes(pcli->hwndContactList, RGB(0, 0, 0), (BYTE)255, LWA_ALPHA);
+				SetLayeredWindowAttributes(g_CLI.hwndContactList, RGB(0, 0, 0), (BYTE)255, LWA_ALPHA);
 				if (!cfg::dat.bLayeredHack)
-					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+					SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 			}
 
 			ConfigureCLUIGeometry(1);
-			ShowWindow(pcli->hwndContactList, SW_SHOW);
-			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
-			SetWindowPos(pcli->hwndContactList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
-			RedrawWindow(pcli->hwndContactList, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
+			ShowWindow(g_CLI.hwndContactList, SW_SHOW);
+			SendMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
+			SetWindowPos(g_CLI.hwndContactList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+			RedrawWindow(g_CLI.hwndContactList, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
 			cfg::dat.fadeinout = oldFading;
 			opt_clui_changed = 0;
 
@@ -377,33 +377,33 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			db_set_b(NULL, "CLUI", "xstatus_sbar", (BYTE)cfg::dat.bShowXStatusOnSbar);
 			db_set_b(NULL, "CLUI", "SBarBevel", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SBPANELBEVEL));
 			if (db_get_b(NULL, "CLUI", "ShowGrip", 1) != (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP)) {
-				HWND parent = GetParent(pcli->hwndStatus);
+				HWND parent = GetParent(g_CLI.hwndStatus);
 				int flags = WS_CHILD | CCS_BOTTOM;
 				db_set_b(NULL, "CLUI", "ShowGrip", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP));
-				ShowWindow(pcli->hwndStatus, SW_HIDE);
-				mir_unsubclassWindow(pcli->hwndStatus, NewStatusBarWndProc);
-				DestroyWindow(pcli->hwndStatus);
+				ShowWindow(g_CLI.hwndStatus, SW_HIDE);
+				mir_unsubclassWindow(g_CLI.hwndStatus, NewStatusBarWndProc);
+				DestroyWindow(g_CLI.hwndStatus);
 
 				flags |= db_get_b(NULL, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
 				flags |= db_get_b(NULL, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
 
-				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), nullptr);
-				mir_subclassWindow(pcli->hwndStatus, NewStatusBarWndProc);
+				g_CLI.hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), nullptr);
+				mir_subclassWindow(g_CLI.hwndStatus, NewStatusBarWndProc);
 			}
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
-				ShowWindow(pcli->hwndStatus, SW_SHOW);
-				SendMessage(pcli->hwndStatus, WM_SIZE, 0, 0);
+				ShowWindow(g_CLI.hwndStatus, SW_SHOW);
+				SendMessage(g_CLI.hwndStatus, WM_SIZE, 0, 0);
 				cfg::dat.dwFlags |= CLUI_FRAME_SBARSHOW;
 			}
 			else {
-				ShowWindow(pcli->hwndStatus, SW_HIDE);
+				ShowWindow(g_CLI.hwndStatus, SW_HIDE);
 				cfg::dat.dwFlags &= ~CLUI_FRAME_SBARSHOW;
 			}
 			db_set_dw(NULL, "CLUI", "Frameflags", cfg::dat.dwFlags);
 			ConfigureCLUIGeometry(1);
-			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
+			SendMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
 			CluiProtocolStatusChanged(0, nullptr);
-			PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
+			PostMessage(g_CLI.hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			opt_sbar_changed = 0;
 			return TRUE;
 		}
@@ -433,26 +433,26 @@ void ApplyCLUIBorderStyle()
 	bool minToTray = TRUE;
 
 	p.length = sizeof(p);
-	GetWindowPlacement(pcli->hwndContactList, &p);
-	ShowWindow(pcli->hwndContactList, SW_HIDE);
+	GetWindowPlacement(g_CLI.hwndContactList, &p);
+	ShowWindow(g_CLI.hwndContactList, SW_HIDE);
 
 	if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT || windowStyle == SETTING_WINDOWSTYLE_TOOLWINDOW) {
-		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME);
+		SetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME);
 		if (SETTING_WINDOWSTYLE_DEFAULT == windowStyle) {
-			SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) & ~(WS_MAXIMIZEBOX/* | WS_MINIMIZEBOX*/));
+			SetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE) & ~(WS_MAXIMIZEBOX/* | WS_MINIMIZEBOX*/));
 			minToTray = FALSE;
 		}
 	}
 	else if (windowStyle == SETTING_WINDOWSTYLE_THINBORDER) {
-		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
-		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_BORDER | WS_CLIPCHILDREN);
+		SetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
+		SetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE) | WS_BORDER | WS_CLIPCHILDREN);
 	}
 	else {
-		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
-		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_CLIPCHILDREN);
+		SetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
+		SetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE) | WS_CLIPCHILDREN);
 	}
 	p.showCmd = SW_HIDE;
-	SetWindowPlacement(pcli->hwndContactList, &p);
+	SetWindowPlacement(g_CLI.hwndContactList, &p);
 
 	db_set_b(0, "CList", "Min2Tray", minToTray);
 }

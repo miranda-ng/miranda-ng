@@ -11,7 +11,6 @@ There is no warranty.
 #include "version.h"
 
 CMPlugin	g_plugin;
-CLIST_INTERFACE *pcli;
 
 UINT hTimer;
 HANDLE hMirandaStarted, hOptionsInitial;
@@ -87,8 +86,6 @@ static int OnMirandaStart(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	pcli = Clist_GetInterface();
-
 	g_plugin.addSound("Gmail", LPGENW("Other"), LPGENW("Gmail: New thread(s)"));
 	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);
 

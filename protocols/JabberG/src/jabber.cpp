@@ -46,8 +46,6 @@ CountryListEntry *g_countries;
 unsigned int g_nTempFileId;
 wchar_t szCoreVersion[100];
 
-CLIST_INTERFACE* pcli;
-
 HANDLE hExtraActivity = nullptr;
 HANDLE hExtraMood = nullptr;
 HANDLE hExtListInit, hDiscoInfoResult;
@@ -155,7 +153,6 @@ extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
 	pci = Chat_GetInterface();
-	pcli = Clist_GetInterface();
 
 	char mirVer[100];
 	Miranda_GetVersionText(mirVer, _countof(mirVer));

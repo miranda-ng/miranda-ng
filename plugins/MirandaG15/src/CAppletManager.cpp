@@ -796,7 +796,7 @@ bool CAppletManager::IsMessageWindowOpen(MCONTACT hContact)
 void CAppletManager::MarkMessageAsRead(MCONTACT hContact, MEVENT hEvent)
 {
 	db_event_markRead(hContact, hEvent);
-	pcli->pfnRemoveEvent(hContact, hEvent);
+	g_CLI.pfnRemoveEvent(hContact, hEvent);
 }
 
 //************************************************************************

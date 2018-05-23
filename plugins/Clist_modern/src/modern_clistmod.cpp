@@ -65,7 +65,7 @@ HICON cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int statu
 		}
 	}
 
-	return ske_ImageList_GetIcon(g_himlCListClc, pcli->pfnIconFromStatusMode(szProto, status, hContact));
+	return ske_ImageList_GetIcon(g_himlCListClc, g_CLI.pfnIconFromStatusMode(szProto, status, hContact));
 }
 
 int cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact)
@@ -107,7 +107,7 @@ int cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact)
 
 int GetContactIconC(ClcCacheEntry *p)
 {
-	return pcli->pfnIconFromStatusMode(p->szProto, p->szProto == nullptr ? ID_STATUS_OFFLINE : p->m_iStatus, p->hContact);
+	return g_CLI.pfnIconFromStatusMode(p->szProto, p->szProto == nullptr ? ID_STATUS_OFFLINE : p->m_iStatus, p->hContact);
 }
 
 //lParam
@@ -193,7 +193,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 		return GWVS_VISIBLE;
 
 	HWND hwndFocused = GetFocus();
-	if (hwndFocused == pcli->hwndContactList || GetParent(hwndFocused) == pcli->hwndContactList)
+	if (hwndFocused == g_CLI.hwndContactList || GetParent(hwndFocused) == g_CLI.hwndContactList)
 		return GWVS_VISIBLE;
 
 	// Some defaults now. The routine is designed for thin and tall windows.
@@ -307,7 +307,7 @@ int cliShowHide(bool bAlwaysShow)
 {
 	BOOL bShow = FALSE;
 
-	int iVisibleState = GetWindowVisibleState(pcli->hwndContactList, 0, 0);
+	int iVisibleState = GetWindowVisibleState(g_CLI.hwndContactList, 0, 0);
 	int method = db_get_b(0, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT); //(0-none, 1-leftedge, 2-rightedge);
 	if (method) {
 		if (db_get_b(0, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && !bAlwaysShow)
@@ -337,46 +337,46 @@ int cliShowHide(bool bAlwaysShow)
 		bShow = TRUE; break;
 	case GWVS_VISIBLE: //This is not needed, but goes for readability.
 		bShow = FALSE; break;
-	case -1: //We can't get here, both pcli->hwndContactList and iStepX and iStepY are right.
+	case -1: //We can't get here, both g_CLI.hwndContactList and iStepX and iStepY are right.
 		return 0;
 	}
 
 	if (bShow || bAlwaysShow) {
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
-		CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);
+		CLUI_ShowWindowMod(g_CLI.hwndContactList, SW_RESTORE);
 
 		if (!db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
 			Sync(CLUIFrames_OnShowHide, 1);	//TO BE PROXIED
-			SetWindowPos(pcli->hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+			SetWindowPos(g_CLI.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			g_bCalledFromShowHide = 1;
 			if (!db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
-				SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+				SetWindowPos(g_CLI.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			g_bCalledFromShowHide = 0;
 		}
 		else {
-			SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+			SetWindowPos(g_CLI.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			Sync(CLUIFrames_OnShowHide, 1);
-			SetForegroundWindow(pcli->hwndContactList);
+			SetForegroundWindow(g_CLI.hwndContactList);
 		}
 		db_set_b(0, "CList", "State", SETTING_STATE_NORMAL);
 
 		RECT rcWindow;
-		GetWindowRect(pcli->hwndContactList, &rcWindow);
+		GetWindowRect(g_CLI.hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1)
-			MoveWindow(pcli->hwndContactList, rcWindow.left, rcWindow.top,
+			MoveWindow(g_CLI.hwndContactList, rcWindow.left, rcWindow.top,
 			rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 	}
 	else { // It needs to be hidden
-		if (GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) {
+		if (GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) {
 			CListMod_HideWindow();
 			db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
 		}
 		else if (db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
-			CLUI_ShowWindowMod(pcli->hwndContactList, SW_HIDE);
+			CLUI_ShowWindowMod(g_CLI.hwndContactList, SW_HIDE);
 			db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
 		}
 		else {
-			CLUI_ShowWindowMod(pcli->hwndContactList, SW_MINIMIZE);
+			CLUI_ShowWindowMod(g_CLI.hwndContactList, SW_MINIMIZE);
 			db_set_b(0, "CList", "State", SETTING_STATE_MINIMIZED);
 		}
 
@@ -387,9 +387,9 @@ int cliShowHide(bool bAlwaysShow)
 
 int CListMod_HideWindow()
 {
-	KillTimer(pcli->hwndContactList, 1);
+	KillTimer(g_CLI.hwndContactList, 1);
 
 	if (!CLUI_HideBehindEdge())
-		return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);
+		return CLUI_SmoothAlphaTransition(g_CLI.hwndContactList, 0, 1);
 	return 0;
 }

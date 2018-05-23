@@ -21,7 +21,6 @@
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 
 DWORD timer_id = 0;
@@ -165,14 +164,14 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			pcli->pfnRemoveEvent(PUGetContact(hWnd), 0);
+			g_CLI.pfnRemoveEvent(PUGetContact(hWnd), 0);
 			CallServiceSync("BuddyExpectator/actionReturned", PUGetContact(hWnd), 0);
 			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		pcli->pfnRemoveEvent(PUGetContact(hWnd), 0);
+		g_CLI.pfnRemoveEvent(PUGetContact(hWnd), 0);
 		setLastSeen(PUGetContact(hWnd));
 		PUDeletePopup(hWnd);
 		break;
@@ -190,14 +189,14 @@ LRESULT CALLBACK PopupDlgProcNoSet(HWND hWnd, UINT message, WPARAM wParam, LPARA
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			pcli->pfnRemoveEvent(PUGetContact(hWnd), 0);
+			g_CLI.pfnRemoveEvent(PUGetContact(hWnd), 0);
 			CallServiceSync("BuddyExpectator/actionStillAbsent", (WPARAM)PUGetContact(hWnd), 0);
 			PUDeletePopup(hWnd);
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		pcli->pfnRemoveEvent(PUGetContact(hWnd), 0);
+		g_CLI.pfnRemoveEvent(PUGetContact(hWnd), 0);
 		PUDeletePopup(hWnd);
 		break;
 
@@ -287,7 +286,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 		wchar_t tmpMsg[512];
 		mir_snwprintf(tmpMsg, L"%s %s", nick, message);
 		cle.szTooltip.w = tmpMsg;
-		pcli->pfnAddEvent(&cle);
+		g_CLI.pfnAddEvent(&cle);
 	}
 }
 
@@ -325,7 +324,7 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 		mir_snwprintf(tmpMsg, L"%s %s", nick, message);
 		cle.szTooltip.w = tmpMsg;
 		cle.flags = CLEF_UNICODE;
-		pcli->pfnAddEvent(&cle);
+		g_CLI.pfnAddEvent(&cle);
 	}
 }
 
@@ -648,8 +647,6 @@ int onShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	InitOptions();
 
 	CreateServiceFunction("BuddyExpectator/actionReturned", ContactReturnedAction);

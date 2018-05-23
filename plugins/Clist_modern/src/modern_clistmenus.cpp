@@ -136,7 +136,7 @@ static INT_PTR CloseAction(WPARAM, LPARAM)
 	} while (!k);
 
 	if (k)
-		DestroyWindow(pcli->hwndContactList);
+		DestroyWindow(g_CLI.hwndContactList);
 
 	return 0;
 }

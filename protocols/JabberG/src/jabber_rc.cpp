@@ -603,7 +603,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 
 				db_event_markRead(hContact, hDbEvent);
 				if (bRemoveCListEvents)
-					pcli->pfnRemoveEvent(hContact, hDbEvent);
+					g_CLI.pfnRemoveEvent(hContact, hDbEvent);
 			}
 		}
 

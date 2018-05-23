@@ -114,7 +114,7 @@ int LoadStatusBarData()
 		g_StatusBarData.backgroundBmpUse = db_get_w(0, "StatusBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 
-	SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
+	SendMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
 	return 1;
 }
 
@@ -135,7 +135,7 @@ int NewStatusPaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
 int ModernDrawStatusBar(HWND hwnd, HDC hDC)
 {
 	if (hwnd == (HWND)-1) return 0;
-	if (GetParent(hwnd) == pcli->hwndContactList)
+	if (GetParent(hwnd) == g_CLI.hwndContactList)
 		return ModernDrawStatusBarWorker(hwnd, hDC);
 
 	cliInvalidateRect(hwnd, nullptr, FALSE);
@@ -586,7 +586,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 
 	case WM_SIZE:
-		if (!g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList)
+		if (!g_CluiData.fLayered || GetParent(hwnd) != g_CLI.hwndContactList)
 			InvalidateRect(hwnd, nullptr, FALSE);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
@@ -594,9 +594,9 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		return 1;
 
 	case WM_PAINT:
-		if (GetParent(hwnd) == pcli->hwndContactList && g_CluiData.fLayered)
+		if (GetParent(hwnd) == g_CLI.hwndContactList && g_CluiData.fLayered)
 			CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)hwnd, 0);
-		else if (GetParent(hwnd) == pcli->hwndContactList && !g_CluiData.fLayered) {
+		else if (GetParent(hwnd) == g_CLI.hwndContactList && !g_CluiData.fLayered) {
 			RECT rc = { 0 };
 			GetClientRect(hwnd, &rc);
 			rc.right++;
@@ -837,7 +837,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				ClientToScreen(hwnd, &pt);
 
 				HWND parent = GetParent(hwnd);
-				if (parent != pcli->hwndContactList) parent = GetParent(parent);
+				if (parent != g_CLI.hwndContactList) parent = GetParent(parent);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, parent, nullptr);
 				return 0;
 			}

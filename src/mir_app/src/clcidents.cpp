@@ -112,13 +112,13 @@ MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcConta
 			index++;
 
 		ClcContact *cc = group->cl[group->scanIndex];
-		ClcContact *res = cli.pfnFindItem(dwItem, cc);
+		ClcContact *res = g_CLI.pfnFindItem(dwItem, cc);
 		if (res != nullptr) {
 			if (isVisible) {
 				if (!nowVisible)
 					*isVisible = 0;
 				else {
-					int posY = cli.pfnGetRowTopY(dat, index+1);
+					int posY = g_CLI.pfnGetRowTopY(dat, index+1);
 					if (posY < dat->yScroll)
 						*isVisible = 0;
 					else {

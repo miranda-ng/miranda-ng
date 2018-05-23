@@ -10,7 +10,7 @@ char *szProto;
 CMPlugin g_plugin;
 
 CHAT_MANAGER *pci;
-CLIST_INTERFACE *pcli;
+
 HANDLE hTopToolbarButtonShowList;
 HANDLE hMsgWndEvent;
 HGENMENU hMenuItemRemove;
@@ -255,7 +255,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			if (!restorePos) {
 				RECT rect;
-				if (GetWindowRect(pcli->hwndContactList, &rect)) {
+				if (GetWindowRect(g_CLI.hwndContactList, &rect)) {
 					WINDOWPLACEMENT wp;
 
 					wp.length = sizeof(wp);
@@ -266,7 +266,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					int width = db_get_dw(NULL, MODULENAME, szSettingName, -1);
 
 					int right = rect.left - 6;
-					if (!IsWindowVisible(pcli->hwndContactList)) right = rect.right;
+					if (!IsWindowVisible(g_CLI.hwndContactList)) right = rect.right;
 
 					wp.rcNormalPosition.left = right - width;
 					wp.rcNormalPosition.top = rect.top;
@@ -546,7 +546,6 @@ static INT_PTR ToggleIgnore(WPARAM hContact, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
 	pci = Chat_GetInterface();
 
 	CoInitialize(nullptr);

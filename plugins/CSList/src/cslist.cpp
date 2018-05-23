@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "strpos.h"
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 
 static LIST<CSWindow> arWindows(3, HandleKeySortT);
@@ -99,8 +98,6 @@ static int OnPreshutdown(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	pcli = Clist_GetInterface();
-
 	// support for ComboBoxEx
 	INITCOMMONCONTROLSEX icc;
 	icc.dwSize = sizeof(icc);
@@ -949,7 +946,7 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 
 INT_PTR CALLBACK CSAMWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
-	CSAMWindow* csamw = (CSAMWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CSAMWindow *csamw = (CSAMWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (message) {
 	case WM_INITDIALOG:

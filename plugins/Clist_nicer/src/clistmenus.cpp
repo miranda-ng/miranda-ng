@@ -37,7 +37,7 @@ INT_PTR CloseAction(WPARAM, LPARAM)
 	cfg::shutDown = 1;
 
 	if (Miranda_OkToExit()) {
-		DestroyWindow(pcli->hwndContactList);
+		DestroyWindow(g_CLI.hwndContactList);
 		PostQuitMessage(0);
 		Sleep(0);
 	}
@@ -91,7 +91,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed by status message"));
 
 			if (cfg::clcdat) {
-				Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr);
+				Clist_FindItem(g_CLI.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr);
 				if (contact && contact->type != CLCIT_CONTACT) {
 					DestroyWindow(hWnd);
 					return FALSE;
@@ -147,7 +147,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_IGN_PRIORITY:
-			SendMessage(pcli->hwndContactTree, CLM_TOGGLEPRIORITYCONTACT, hContact, 0);
+			SendMessage(g_CLI.hwndContactTree, CLM_TOGGLEPRIORITYCONTACT, hContact, 0);
 			return 0;
 
 		case IDC_IGN_ALL:
@@ -198,7 +198,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					DWORD dwFlags = db_get_dw(hContact, "CList", "CLN_Flags", 0), dwXMask = 0;
 					LRESULT  checked = 0;
 
-					Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr);
+					Clist_FindItem(g_CLI.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr);
 					if (iSel != CB_ERR) {
 						dwFlags &= ~(ECF_FORCEAVATAR | ECF_HIDEAVATAR);
 
@@ -285,7 +285,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_USER + 120:	// set visibility status
 		{
 			ClcContact *contact = nullptr;
-			if (Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
+			if (Clist_FindItem(g_CLI.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
 				if (contact) {
 					WORD wApparentMode = db_get_w(contact->hContact, contact->proto, "ApparentMode", 0);
 
@@ -300,7 +300,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		{
 			ClcContact *contact = nullptr;
 
-			if (Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
+			if (Clist_FindItem(g_CLI.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
 				if (contact) {
 					WORD wApparentMode = 0;
 

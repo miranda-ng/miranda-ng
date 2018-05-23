@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
-MWindowList hFileList;
 CMPlugin g_plugin;
+
+MWindowList hFileList;
 
 char *szServiceTitle = SERVICE_TITLE;
 char *szServicePrefix = SERVICE_PREFIX;
@@ -185,8 +185,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	InitCRC32();
 
 	g_plugin.registerIcon("fileAsMessage", iconList);

@@ -109,7 +109,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact) {
 		if (!__strcmp(cws->szModule, "CList")) {
 			if (!__strcmp(cws->szSetting, "StatusMsg"))
-				SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
+				SendMessage(g_CLI.hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
 		}
 		else if (!__strcmp(cws->szModule, "UserInfo")) {
 			if (!__strcmp(cws->szSetting, "ANSIcodepage"))
@@ -136,14 +136,14 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 							if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
 								return 0;
 
-					SendMessage(pcli->hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
+					SendMessage(g_CLI.hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
 					return 0;
 				}
 
 				if (strstr("YMsg|StatusDescr|XStatusMsg", cws->szSetting))
-					SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
+					SendMessage(g_CLI.hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
 				else if (strstr(cws->szSetting, "XStatus"))
-					SendMessage(pcli->hwndContactTree, INTM_XSTATUSCHANGED, hContact, lParam);
+					SendMessage(g_CLI.hwndContactTree, INTM_XSTATUSCHANGED, hContact, lParam);
 				else if (!__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 					ReloadExtraInfo(hContact);
 
@@ -259,7 +259,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		Clist_EndRename(dat, 1);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
-		pcli->pfnRecalcScrollBar(hwnd, dat);
+		g_CLI.pfnRecalcScrollBar(hwnd, dat);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_NCCALCSIZE:
@@ -283,7 +283,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 			Clist_DeleteItemFromTree(hwnd, wParam);
 			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, nullptr, dat)) {
-				pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+				g_CLI.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 				if (Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr)) {
 					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 					if (flags & CONTACTF_CHECKED)
@@ -324,9 +324,9 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			if (!Clist_FindItem(hwnd, dat, hContact, &contact, &group, nullptr)) {
 				if (shouldShow && db_is_contact(wParam)) {
-					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
+					if (dat->selection >= 0 && g_CLI.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
-					pcli->pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
+					g_CLI.pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
 					recalcScrollBar = 1;
 					Clist_FindItem(hwnd, dat, hContact, &contact, nullptr, nullptr);
 					if (contact) {
@@ -341,7 +341,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (contact->iImage == (WORD)lParam)
 					break;
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
-					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
+					if (dat->selection >= 0 && g_CLI.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
 					Clist_RemoveItemFromGroup(hwnd, group, contact, 0);
 					contactRemoved = TRUE;
@@ -358,7 +358,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (hSelItem) {
 				ClcGroup *selgroup;
 				if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, nullptr))
-					dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+					dat->selection = g_CLI.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 				else
 					dat->selection = -1;
 			}
@@ -366,7 +366,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			PostMessage(hwnd, INTM_SORTCLC, 0, recalcScrollBar);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, contactRemoved ? 0 : wParam);
 			if (recalcScrollBar)
-				pcli->pfnRecalcScrollBar(hwnd, dat);
+				g_CLI.pfnRecalcScrollBar(hwnd, dat);
 		}
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
@@ -489,7 +489,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			break;
 
 		contact->proto = GetContactProto(wParam);
-		pcli->pfnInvalidateDisplayNameCacheEntry(wParam);
+		g_CLI.pfnInvalidateDisplayNameCacheEntry(wParam);
 		mir_wstrncpy(contact->szText, Clist_GetContactDisplayName(wParam), _countof(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
@@ -512,11 +512,11 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	case INTM_SORTCLC:
 		if (dat->bNeedsResort) {
-			pcli->pfnSortCLC(hwnd, dat, TRUE);
+			g_CLI.pfnSortCLC(hwnd, dat, TRUE);
 			dat->bNeedsResort = false;
 		}
 		if (lParam)
-			pcli->pfnRecalcScrollBar(hwnd, dat);
+			g_CLI.pfnRecalcScrollBar(hwnd, dat);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_IDLECHANGED:
@@ -643,7 +643,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		{
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1 && pt.y == -1) {
-				dat->selection = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
+				dat->selection = g_CLI.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
 				if (dat->selection != -1)
 					Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 				pt.x = dat->iconXSpace + 15;
@@ -664,7 +664,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (contact->type == CLCIT_GROUP) {
 					hMenu = Menu_BuildSubGroupMenu(contact->group);
 					ClientToScreen(hwnd, &pt);
-					TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
+					TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, g_CLI.hwndContactList, nullptr);
 					CheckMenuItem(hMenu, POPUP_GROUPHIDEOFFLINE, contact->group->hideOffline ? MF_CHECKED : MF_UNCHECKED);
 					DestroyMenu(hMenu);
 					return 0;

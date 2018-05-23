@@ -785,7 +785,7 @@ bool CJabberProto::OnIncomingNote(const wchar_t *szFrom, HXML hXml)
 	cle.lParam = (LPARAM)pItem;
 	cle.pszService = szService;
 	cle.szTooltip.w = TranslateT("Incoming note");
-	pcli->pfnAddEvent(&cle);
+	g_CLI.pfnAddEvent(&cle);
 	return true;
 }
 

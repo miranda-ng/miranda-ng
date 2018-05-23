@@ -215,7 +215,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 	
 	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 		db_event_markRead(dat->hContact, dat->hDbEvent);
-		pcli->pfnRemoveEvent(dat->hContact, dat->hDbEvent);
+		g_CLI.pfnRemoveEvent(dat->hContact, dat->hDbEvent);
 	}
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		db_event_markRead(dat->hContact, dat->hDbEvent);

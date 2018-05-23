@@ -95,7 +95,7 @@ int GetContactCachedStatus(MCONTACT hContact)
 int ContactAdded(WPARAM hContact, LPARAM)
 {
 	if (!MirandaExiting())
-		Clist_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, hContact));
+		Clist_ChangeContactIcon(hContact, g_CLI.pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, hContact));
 
 	return 0;
 }
@@ -111,7 +111,7 @@ int MetaStatusChanged(WPARAM hMeta, LPARAM)
 
 int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	if (MirandaExiting() || !pcli || !hContact)
+	if (MirandaExiting() || !hContact)
 		return 0;
 
 	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
@@ -140,8 +140,8 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			Clist_Broadcast(INTM_STATUSCHANGED, hContact, 0);
 		}
 		else if (!strcmp(cws->szModule, META_PROTO) && !memcmp(cws->szSetting, "Status", 6)) { // Status0..N for metacontacts
-			if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
-				Clist_InitAutoRebuild(pcli->hwndContactTree);
+			if (g_CLI.hwndContactTree && g_flag_bOnModulesLoadedCalled)
+				Clist_InitAutoRebuild(g_CLI.hwndContactTree);
 
 			if ((db_get_w(0, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
@@ -152,7 +152,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			pdnce->IdleTS = cws->value.dVal;
 		else if (!strcmp(cws->szSetting, "IsSubcontact")) {
 			pdnce->m_bIsSub = (cws->value.type == DBVT_DELETED) ? false : cws->value.bVal != 0;
-			Clist_InitAutoRebuild(pcli->hwndContactTree);
+			Clist_InitAutoRebuild(g_CLI.hwndContactTree);
 		}
 	}
 
@@ -170,7 +170,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		else if (!strcmp(cws->szSetting, "Hidden")) {
 			pdnce->bIsHidden = cws->value.bVal;
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0)
-				Clist_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(pdnce->szProto, pdnce->getStatus(), hContact));
+				Clist_ChangeContactIcon(hContact, g_CLI.pfnIconFromStatusMode(pdnce->szProto, pdnce->getStatus(), hContact));
 
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		}
@@ -183,7 +183,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(cws->szSetting, "p")) {
 			pdnce->szProto = GetContactProto(hContact);
 			char *szProto = (cws->value.type == DBVT_DELETED) ? nullptr : cws->value.pszVal;
-			Clist_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto, pdnce->getStatus(), hContact));
+			Clist_ChangeContactIcon(hContact, g_CLI.pfnIconFromStatusMode(szProto, pdnce->getStatus(), hContact));
 		}
 	}
 

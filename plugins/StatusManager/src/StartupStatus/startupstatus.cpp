@@ -268,13 +268,13 @@ static int OnShutdown(WPARAM, LPARAM)
 	// set windowstate and docked for next startup
 	if (db_get_b(0, SSMODULENAME, SETTING_SETWINSTATE, 0)) {
 		int state = db_get_b(0, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
-		HWND hClist = pcli->hwndContactList;
+		HWND hClist = g_CLI.hwndContactList;
 		BOOL isHidden = !IsWindowVisible(hClist);
 		switch (state) {
 		case SETTING_STATE_HIDDEN:
 			// try to use services where possible
 			if (!isHidden)
-				pcli->pfnShowHide();
+				g_CLI.pfnShowHide();
 			break;
 
 		case SETTING_STATE_MINIMIZED:
@@ -285,7 +285,7 @@ static int OnShutdown(WPARAM, LPARAM)
 		case SETTING_STATE_NORMAL:
 			// try to use services where possible (that's what they're for)
 			if (isHidden)
-				pcli->pfnShowHide();
+				g_CLI.pfnShowHide();
 			break;
 		}
 	}
@@ -366,7 +366,7 @@ int SSModuleLoaded(WPARAM, LPARAM)
 
 	// win size and location
 	if (db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0) || db_get_b(0, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
-		HWND hClist = pcli->hwndContactList;
+		HWND hClist = g_CLI.hwndContactList;
 
 		// store in db
 		if (db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0)) {

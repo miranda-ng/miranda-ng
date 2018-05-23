@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Variables
@@ -92,7 +91,7 @@ int SnapPluginStart(WPARAM, LPARAM)
 
 	HookEvent(ME_MSG_WINDOWEVENT, PluginMessageWindowEvent);
 
-	WindowOpen(pcli->hwndContactList);
+	WindowOpen(g_CLI.hwndContactList);
 	return 0;
 }
 
@@ -109,8 +108,6 @@ int SnapPluginShutDown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	pcli = Clist_GetInterface();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, SnapPluginStart);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SnapPluginShutDown);
 	HookEvent(ME_OPT_INITIALISE, InitOptions);

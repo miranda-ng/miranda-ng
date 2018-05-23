@@ -272,7 +272,7 @@ int CreateFrame()
 
 	if (g_bFramesExist) {
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My details"), WS_CHILD | WS_VISIBLE,
-			0, 0, 10, 10, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
+			0, 0, 10, 10, g_CLI.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 		CLISTFrame Frame = { 0 };
 
@@ -317,7 +317,7 @@ int CreateFrame()
 
 		hwnd_container = CreateWindowEx(WS_EX_TOOLWINDOW, CONTAINER_CLASS_NAME, TranslateT("My details"),
 			(WS_THICKFRAME | WS_CAPTION | WS_SYSMENU) & ~WS_VISIBLE,
-			0, 0, 200, 130, pcli->hwndContactList, nullptr, g_plugin.getInst(), nullptr);
+			0, 0, 200, 130, g_CLI.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My details"), WS_CHILD | WS_VISIBLE,
 			0, 0, 10, 10, hwnd_container, nullptr, g_plugin.getInst(), nullptr);

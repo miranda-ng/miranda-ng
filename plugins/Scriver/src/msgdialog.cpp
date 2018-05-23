@@ -1308,7 +1308,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				DBEVENTINFO dbei = {};
 				db_event_get(hDbEvent, &dbei);
 				if (!(dbei.flags & DBEF_SENT) && (DbEventIsMessageOrCustom(&dbei) || dbei.eventType == EVENTTYPE_URL))
-					pcli->pfnRemoveEvent(m_hContact, hDbEvent);
+					g_CLI.pfnRemoveEvent(m_hContact, hDbEvent);
 				hDbEvent = db_event_next(m_hContact, hDbEvent);
 			}
 		}

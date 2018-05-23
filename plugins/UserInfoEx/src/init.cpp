@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 HMODULE hDwmApi;
 
@@ -159,9 +158,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitCommonControlsEx(&ccEx);
 
 	memset(&myGlobals, 0, sizeof(MGLOBAL));
-
-	// init clist interface
-	pcli = Clist_GetInterface();
 
 	if (IsWinVerVistaPlus()) {
 		hDwmApi = LoadLibraryA("dwmapi.dll");

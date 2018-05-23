@@ -2,7 +2,6 @@
 
 CMPlugin g_plugin;
 CHAT_MANAGER *pci;
-CLIST_INTERFACE *pcli;
 
 HANDLE hProfileFolderPath;
 
@@ -51,7 +50,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	pci = Chat_GetInterface();
-	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 

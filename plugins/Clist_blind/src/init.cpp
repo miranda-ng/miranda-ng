@@ -25,7 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli = nullptr, coreCli;
+CLIST_INTERFACE coreCli;
+
 HIMAGELIST himlCListClc = nullptr;
 
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -108,7 +109,7 @@ static int OnOptsInit(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR GetStatusMode(WPARAM, LPARAM)
 {
-	return pcli->currentDesiredStatusMode;
+	return g_CLI.currentDesiredStatusMode;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -116,24 +117,23 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) CListInitialise()
 {
-	pcli = Clist_GetInterface();
 	g_bSortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
 	g_bSortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
 
-	coreCli = *pcli;
-
-	pcli->hInst = g_plugin.getInst();
-	pcli->pfnPaintClc = PaintClc;
-	pcli->pfnContactListWndProc = ContactListWndProc;
-	pcli->pfnContactListControlWndProc = ContactListControlWndProc;
-	pcli->pfnRebuildEntireList = RebuildEntireList;
-	pcli->pfnSetGroupExpand = SetGroupExpand;
-	pcli->pfnRecalcScrollBar = RecalcScrollBar;
-	pcli->pfnScrollTo = ScrollTo;
-	pcli->pfnLoadClcOptions = LoadClcOptions;
-	pcli->pfnGetRowHeight = GetRowHeight;
-	pcli->pfnSortCLC = SortCLC;
-	pcli->pfnCompareContacts = CompareContacts;
+	Clist_GetInterface();
+	coreCli = g_CLI;
+	g_CLI.hInst = g_plugin.getInst();
+	g_CLI.pfnPaintClc = PaintClc;
+	g_CLI.pfnContactListWndProc = ContactListWndProc;
+	g_CLI.pfnContactListControlWndProc = ContactListControlWndProc;
+	g_CLI.pfnRebuildEntireList = RebuildEntireList;
+	g_CLI.pfnSetGroupExpand = SetGroupExpand;
+	g_CLI.pfnRecalcScrollBar = RecalcScrollBar;
+	g_CLI.pfnScrollTo = ScrollTo;
+	g_CLI.pfnLoadClcOptions = LoadClcOptions;
+	g_CLI.pfnGetRowHeight = GetRowHeight;
+	g_CLI.pfnSortCLC = SortCLC;
+	g_CLI.pfnCompareContacts = CompareContacts;
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 
@@ -383,7 +383,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		dat->szQuickSearch[0] = 0;
-		pcli->pfnInvalidateRect(hwnd, nullptr, FALSE);
+		g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		Clist_EnsureVisible(hwnd, (ClcData*)dat, dat->selection, 0);
 		UpdateWindow(hwnd);
 		break;

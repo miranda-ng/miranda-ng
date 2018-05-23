@@ -147,7 +147,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 				OutputDebugStringA("Not ready to exit. Waiting...\n"); /* tell others, all ascii */
 			}
 			/* shutdown service must be called from main thread anyway */
-			if (!DestroyWindow(pcli->hwndContactList))
+			if (!DestroyWindow(g_CLI.hwndContactList))
 				dwErrCode = GetLastError();
 		}
 		break;

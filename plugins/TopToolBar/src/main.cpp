@@ -2,7 +2,6 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 IconItem iconList[] =
 {
@@ -42,8 +41,6 @@ CMPlugin::CMPlugin() :
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	g_plugin.registerIcon(TTB_OPTDIR, iconList, TTB_OPTDIR);
 
 	LoadToolbarModule();

@@ -19,8 +19,6 @@ HFONT hFontFirstLine = nullptr, hFontSecondLine = nullptr, hFontTime = nullptr;
 COLORREF colFirstLine = RGB(255, 0, 0), colSecondLine = 0, colTime = RGB(0, 0, 255), colBorder = RGB(0, 0, 0), 
 	colSidebar = RGB(128, 128, 128), colTitleUnderline = GetSysColor(COLOR_3DSHADOW);
 
-CLIST_INTERFACE *pcli;
-
 // toptoolbar button
 HANDLE hTTButton;
 
@@ -211,8 +209,6 @@ static int PreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	InitMessagePump();
 	InitOptions();
 	InitNotify();

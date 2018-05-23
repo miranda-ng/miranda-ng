@@ -171,7 +171,7 @@ int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT * rcClip, char * obje
 	GetWindowRect(hwndIn,&r1);
 	pt.x=r1.left;
 	pt.y=r1.top;
-	GetWindowRect(pcli->hwndContactList, &rc);
+	GetWindowRect(g_CLI.hwndContactList, &rc);
 	OffsetRect(&rc,-pt.x ,-pt.y);
 	rq.hDC=hdc;
 	rq.rcDestRect=rc;

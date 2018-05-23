@@ -94,7 +94,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			GetWindowRect(hwnd, &rcWindow);
 			pt.x = rcWindow.left;
 			pt.y = rcWindow.top;
-			ScreenToClient(pcli->hwndContactList, &pt);
+			ScreenToClient(g_CLI.hwndContactList, &pt);
 
 			HBITMAP hbmMem = CreateCompatibleBitmap(hdc, rcClient.right, rcClient.bottom);
 			HBITMAP hbmOld = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hbmMem));
@@ -123,7 +123,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&dis.rcItem);
 				OffsetRect(&dis.rcItem, 0, -b_offset);
 				dis.itemData = SendMessage(hwnd, SB_GETTEXTA, i, 0);
-				SendMessage(pcli->hwndContactList, WM_DRAWITEM, 0, (LPARAM)&dis);
+				SendMessage(g_CLI.hwndContactList, WM_DRAWITEM, 0, (LPARAM)&dis);
 			}
 			BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, hdcMem, 0, 0, SRCCOPY);
 			if (hOldFont)
@@ -163,7 +163,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							mir_snwprintf(szTipText, L"<b>%s</b>: %s%s", PD->RealName, Clist_GetStatusModeDescription(pa->iRealStatus, 0), pa->bIsLocked ? L"  (LOCKED)" : L"");
 
 							CLCINFOTIP ti = { sizeof(ti) };
-							ti.isTreeFocused = (GetFocus() == pcli->hwndContactList);
+							ti.isTreeFocused = (GetFocus() == g_CLI.hwndContactList);
 							CallService("mToolTip/ShowTipW", (WPARAM)szTipText, (LPARAM)&ti);
 						}
 						break;

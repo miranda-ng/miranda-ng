@@ -452,7 +452,7 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 	cle.lParam = (LPARAM)pParams;
 	cle.pszService = szService;
 	cle.szTooltip.w = TranslateT("Http authentication request received");
-	pcli->pfnAddEvent(&cle);
+	g_CLI.pfnAddEvent(&cle);
 	return TRUE;
 }
 

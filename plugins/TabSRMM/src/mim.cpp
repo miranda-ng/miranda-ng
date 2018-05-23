@@ -276,7 +276,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 
 		if (fShowOnClist) {
-			pcli->pfnRemoveEvent(hContact, 1);
+			g_CLI.pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
@@ -285,7 +285,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 			cle.pszService = MS_MSG_TYPINGMESSAGE;
 			cle.szTooltip.w = szTip;
-			pcli->pfnAddEvent(&cle);
+			g_CLI.pfnAddEvent(&cle);
 		}
 	}
 	return 0;
@@ -390,7 +390,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (dbei.markedRead() || (isCustomEvent && !isShownCustomEvent))
 		return 0;
 
-	pcli->pfnRemoveEvent(hContact, 1);
+	g_CLI.pfnRemoveEvent(hContact, 1);
 
 	bool bAllowAutoCreate = false;
 	bool bAutoPopup = M.GetBool(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
@@ -518,7 +518,7 @@ nowindowcreate:
 			contactName = Clist_GetContactDisplayName(hContact);
 			mir_snwprintf(toolTip, TranslateT("Message from %s"), contactName);
 			cle.szTooltip.w = toolTip;
-			pcli->pfnAddEvent(&cle);
+			g_CLI.pfnAddEvent(&cle);
 		}
 		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, nullptr, nullptr, dbei.szModule);
 	}

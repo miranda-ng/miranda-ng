@@ -102,7 +102,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(&dbei))
 		return 0;
 
-	pcli->pfnRemoveEvent(hContact, 1);
+	g_CLI.pfnRemoveEvent(hContact, 1);
 	/* does a window for the contact exist? */
 	if (hwnd == nullptr) {
 		/* new message */
@@ -123,7 +123,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = MS_MSG_READMESSAGE;
 		cle.szTooltip.w = toolTip;
-		pcli->pfnAddEvent(&cle);
+		g_CLI.pfnAddEvent(&cle);
 	}
 	return 0;
 }
@@ -197,7 +197,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
 		if (g_dat.flags2 & SMF2_SHOWTYPINGCLIST) {
-			pcli->pfnRemoveEvent(hContact, 1);
+			g_CLI.pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
@@ -206,7 +206,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			cle.hIcon = GetCachedIcon("scriver_TYPING");
 			cle.pszService = MS_MSG_TYPINGMESSAGE;
 			cle.szTooltip.w = szTip;
-			pcli->pfnAddEvent(&cle);
+			g_CLI.pfnAddEvent(&cle);
 		}
 		else Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 	}
@@ -280,7 +280,7 @@ static void RestoreUnreadMessageAlerts(void)
 		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(e->hContact));
 		cle.hContact = e->hContact;
 		cle.hDbEvent = e->hEvent;
-		pcli->pfnAddEvent(&cle);
+		g_CLI.pfnAddEvent(&cle);
 	}
 }
 

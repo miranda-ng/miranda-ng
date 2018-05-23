@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 CMPlugin	g_plugin;
-CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -62,8 +61,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	pcli = Clist_GetInterface();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	return 0;
 }

@@ -1,6 +1,5 @@
 #include "globals.h"
 
-CLIST_INTERFACE *pcli;
 CMPlugin g_plugin;
 HINSTANCE hmiranda = nullptr;
 
@@ -269,7 +268,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
 	hmiranda = GetModuleHandle(nullptr);
 
 	INITCOMMONCONTROLSEX ctrls = { 0 };

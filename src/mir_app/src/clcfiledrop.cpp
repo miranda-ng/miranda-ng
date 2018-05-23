@@ -74,7 +74,7 @@ static MCONTACT HContactFromPoint(HWND hwnd, ClcData *dat, int x, int y, int *hi
 {
 	DWORD hitFlags;
 	ClcContact *contact;
-	int hit = cli.pfnHitTest(hwnd, dat, x, y, &contact, nullptr, &hitFlags);
+	int hit = g_CLI.pfnHitTest(hwnd, dat, x, y, &contact, nullptr, &hitFlags);
 	if (hit == -1 || !(hitFlags & (CLCHT_ONITEMLABEL | CLCHT_ONITEMICON)) || contact->type != CLCIT_CONTACT)
 		return 0;
 
@@ -107,7 +107,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 		*pdwEffect = DROPEFFECT_NONE;
 		return S_OK;
 	}
-	cli.pfnTrayIconPauseAutoHide(0, 0);
+	g_CLI.pfnTrayIconPauseAutoHide(0, 0);
 	ClcData *dat = (ClcData*)GetWindowLongPtr(hwndCurrentDrag, 0);
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;
@@ -116,7 +116,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 
 	if (shortPt.y < dat->dragAutoScrollHeight || shortPt.y >= clRect.bottom - dat->dragAutoScrollHeight) {
 		*pdwEffect |= DROPEFFECT_SCROLL;
-		cli.pfnScrollTo(hwndCurrentDrag, dat, dat->yScroll + (shortPt.y < dat->dragAutoScrollHeight ? -1 : 1) * dat->rowHeight * 2, 0);
+		g_CLI.pfnScrollTo(hwndCurrentDrag, dat, dat->yScroll + (shortPt.y < dat->dragAutoScrollHeight ? -1 : 1) * dat->rowHeight * 2, 0);
 	}
 	hContact = HContactFromPoint(hwndCurrentDrag, dat, shortPt.x, shortPt.y, &hit);
 	if (hContact == 0) {
@@ -128,7 +128,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 
 	if (dat->selection != hit) {
 		dat->selection = hit;
-		cli.pfnInvalidateRect(hwndCurrentDrag, nullptr, FALSE);
+		g_CLI.pfnInvalidateRect(hwndCurrentDrag, nullptr, FALSE);
 		if (pDropTargetHelper) pDropTargetHelper->Show(FALSE);
 		UpdateWindow(hwndCurrentDrag);
 		if (pDropTargetHelper) pDropTargetHelper->Show(TRUE);
@@ -166,7 +166,7 @@ HRESULT CDropTarget::DragLeave(void)
 		ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 		dat->bShowSelAlways = false;
 		dat->selection = originalSelection;
-		cli.pfnInvalidateRect(hwndCurrentDrag, nullptr, FALSE);
+		g_CLI.pfnInvalidateRect(hwndCurrentDrag, nullptr, FALSE);
 	}
 	hwndCurrentDrag = nullptr;
 	return S_OK;

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
@@ -27,8 +26,6 @@ CMPlugin::CMPlugin() :
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);

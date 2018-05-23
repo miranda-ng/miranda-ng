@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CMPlugin g_plugin;
 HINSTANCE g_hMirApp = nullptr;
-CLIST_INTERFACE *pcli = nullptr;
+
 CLIST_INTERFACE corecli = { 0 };
 CLUIDATA g_CluiData = {};
 
@@ -101,9 +101,9 @@ extern "C" __declspec(dllexport) int Unload(void)
 {
 	TRACE("Unloading Clist Modern\r\n");
 
-	if (IsWindow(pcli->hwndContactList))
-		DestroyWindow(pcli->hwndContactList);
-	pcli->hwndContactList = nullptr;
+	if (IsWindow(g_CLI.hwndContactList))
+		DestroyWindow(g_CLI.hwndContactList);
+	g_CLI.hwndContactList = nullptr;
 
 	ToolbarButtonUnloadModule();
 	BackgroundsUnloadModule();
@@ -131,63 +131,63 @@ static HRESULT SubclassClistInterface()
 	//  'save*' - pointer to stored default parent handle
 	//	'cli_*'	- new handler with default core service calling
 
-	pcli = Clist_GetInterface();
-	corecli = *pcli;
+	Clist_GetInterface();
+	corecli = g_CLI;
 
-	pcli->hInst = g_plugin.getInst();
+	g_CLI.hInst = g_plugin.getInst();
 
-	pcli->pfnCreateCacheItem = cliCreateCacheItem;
-	pcli->pfnCheckCacheItem = cliCheckCacheItem;
-	pcli->pfnFreeCacheItem = cliFreeCacheItem;
-	pcli->pfnInvalidateDisplayNameCacheEntry = cliInvalidateDisplayNameCacheEntry;
+	g_CLI.pfnCreateCacheItem = cliCreateCacheItem;
+	g_CLI.pfnCheckCacheItem = cliCheckCacheItem;
+	g_CLI.pfnFreeCacheItem = cliFreeCacheItem;
+	g_CLI.pfnInvalidateDisplayNameCacheEntry = cliInvalidateDisplayNameCacheEntry;
 
-	pcli->pfnTrayIconPauseAutoHide = cliTrayIconPauseAutoHide;
-	pcli->pfnTrayIconInit = cliTrayIconInit;
-	pcli->pfnTrayCalcChanged = cliTrayCalcChanged;
+	g_CLI.pfnTrayIconPauseAutoHide = cliTrayIconPauseAutoHide;
+	g_CLI.pfnTrayIconInit = cliTrayIconInit;
+	g_CLI.pfnTrayCalcChanged = cliTrayCalcChanged;
 
-	pcli->pfnCluiProtocolStatusChanged = cliCluiProtocolStatusChanged;
+	g_CLI.pfnCluiProtocolStatusChanged = cliCluiProtocolStatusChanged;
 
-	pcli->pfnBeginRenameSelection = cliBeginRenameSelection;
-	pcli->pfnCreateClcContact = cliCreateClcContact;
-	pcli->pfnGetRowBottomY = cliGetRowBottomY;
-	pcli->pfnGetRowHeight = cliGetRowHeight;
-	pcli->pfnGetRowTopY = cliGetRowTopY;
-	pcli->pfnGetRowTotalHeight = cliGetRowTotalHeight;
-	pcli->pfnInvalidateRect = cliInvalidateRect;
-	pcli->pfnOnCreateClc = CLUI::cliOnCreateClc;
-	pcli->pfnPaintClc = CLCPaint::cliPaintClc;
-	pcli->pfnRebuildEntireList = cliRebuildEntireList;
-	pcli->pfnIsVisibleContact = cliIsVisibleContact;
-	pcli->pfnRecalcScrollBar = cliRecalcScrollBar;
-	pcli->pfnRowHitTest = cliRowHitTest;
-	pcli->pfnScrollTo = cliScrollTo;
-	pcli->pfnShowHide = cliShowHideStub;
-	pcli->pfnHitTest = cliHitTest;
-	pcli->pfnCompareContacts = cliCompareContacts;
-	pcli->pfnGetIconFromStatusMode = cliGetIconFromStatusMode;
-	pcli->pfnFindItem = cliFindItem;
-	pcli->pfnGetRowByIndex = cliGetRowByIndex;
-	pcli->pfnGetRowsPriorTo = cliGetRowsPriorTo;
-	pcli->pfnGetGroupContentsCount = cliGetGroupContentsCount;
-	pcli->pfnFindRowByText = cliFindRowByText;
-	pcli->pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
+	g_CLI.pfnBeginRenameSelection = cliBeginRenameSelection;
+	g_CLI.pfnCreateClcContact = cliCreateClcContact;
+	g_CLI.pfnGetRowBottomY = cliGetRowBottomY;
+	g_CLI.pfnGetRowHeight = cliGetRowHeight;
+	g_CLI.pfnGetRowTopY = cliGetRowTopY;
+	g_CLI.pfnGetRowTotalHeight = cliGetRowTotalHeight;
+	g_CLI.pfnInvalidateRect = cliInvalidateRect;
+	g_CLI.pfnOnCreateClc = CLUI::cliOnCreateClc;
+	g_CLI.pfnPaintClc = CLCPaint::cliPaintClc;
+	g_CLI.pfnRebuildEntireList = cliRebuildEntireList;
+	g_CLI.pfnIsVisibleContact = cliIsVisibleContact;
+	g_CLI.pfnRecalcScrollBar = cliRecalcScrollBar;
+	g_CLI.pfnRowHitTest = cliRowHitTest;
+	g_CLI.pfnScrollTo = cliScrollTo;
+	g_CLI.pfnShowHide = cliShowHideStub;
+	g_CLI.pfnHitTest = cliHitTest;
+	g_CLI.pfnCompareContacts = cliCompareContacts;
+	g_CLI.pfnGetIconFromStatusMode = cliGetIconFromStatusMode;
+	g_CLI.pfnFindItem = cliFindItem;
+	g_CLI.pfnGetRowByIndex = cliGetRowByIndex;
+	g_CLI.pfnGetRowsPriorTo = cliGetRowsPriorTo;
+	g_CLI.pfnGetGroupContentsCount = cliGetGroupContentsCount;
+	g_CLI.pfnFindRowByText = cliFindRowByText;
+	g_CLI.pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
 
 	// partialy overloaded - call default handlers from inside
-	pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
-	pcli->pfnLoadCluiGlobalOpts = CLUI_cli_LoadCluiGlobalOpts;
-	pcli->pfnLoadClcOptions = cli_LoadCLCOptions;
-	pcli->pfnSortCLC = cli_SortCLC;
-	pcli->pfnAddContactToGroup = cli_AddContactToGroup;
-	pcli->pfnAddContactToTree = cli_AddContactToTree;
-	pcli->pfnContactListWndProc = CLUI::cli_ContactListWndProc;
-	pcli->pfnFreeContact = cli_FreeContact;
-	pcli->pfnSetContactCheckboxes = cli_SetContactCheckboxes;
-	pcli->pfnTrayIconProcessMessage = cli_TrayIconProcessMessage;
-	pcli->pfnContactListControlWndProc = cli_ContactListControlWndProc;
-	pcli->pfnProcessExternalMessages = cli_ProcessExternalMessages;
-	pcli->pfnAddEvent = cli_AddEvent;
-	pcli->pfnRemoveEvent = cli_RemoveEvent;
-	pcli->pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
+	g_CLI.pfnIconFromStatusMode = cli_IconFromStatusMode;
+	g_CLI.pfnLoadCluiGlobalOpts = CLUI_cli_LoadCluiGlobalOpts;
+	g_CLI.pfnLoadClcOptions = cli_LoadCLCOptions;
+	g_CLI.pfnSortCLC = cli_SortCLC;
+	g_CLI.pfnAddContactToGroup = cli_AddContactToGroup;
+	g_CLI.pfnAddContactToTree = cli_AddContactToTree;
+	g_CLI.pfnContactListWndProc = CLUI::cli_ContactListWndProc;
+	g_CLI.pfnFreeContact = cli_FreeContact;
+	g_CLI.pfnSetContactCheckboxes = cli_SetContactCheckboxes;
+	g_CLI.pfnTrayIconProcessMessage = cli_TrayIconProcessMessage;
+	g_CLI.pfnContactListControlWndProc = cli_ContactListControlWndProc;
+	g_CLI.pfnProcessExternalMessages = cli_ProcessExternalMessages;
+	g_CLI.pfnAddEvent = cli_AddEvent;
+	g_CLI.pfnRemoveEvent = cli_RemoveEvent;
+	g_CLI.pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
 	return S_OK;
 }
 

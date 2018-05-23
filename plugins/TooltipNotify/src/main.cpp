@@ -12,7 +12,7 @@ static HANDLE g_hProtoContactIsTyping = nullptr;
 
 // Main global object
 static CTooltipNotify *g_pTooltipNotify = nullptr;
-CLIST_INTERFACE *pcli;
+
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -69,8 +69,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	g_pTooltipNotify = new CTooltipNotify();
 	assert(g_pTooltipNotify!=nullptr);
 	

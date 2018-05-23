@@ -114,7 +114,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 
 	SESSION_INFO *si = SM_FindSession(roomid, szProto);
 	if (si) {
-		if (si->pDlg != nullptr && !cli.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
+		if (si->pDlg != nullptr && !g_CLI.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
 			si->pDlg->CloseTab();
 			return 1;
 		}
@@ -209,13 +209,13 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* 
 		CreateServiceFunction(cle.pszService, &EventDoubleclicked);
 
 	if (type) {
-		if (!cli.pfnGetEvent(hContact, 0))
-			cli.pfnAddEvent(&cle);
+		if (!g_CLI.pfnGetEvent(hContact, 0))
+			g_CLI.pfnAddEvent(&cle);
 	}
 	else {
-		if (cli.pfnGetEvent(hContact, 0))
-			cli.pfnRemoveEvent(hContact, GC_FAKE_EVENT);
-		cli.pfnAddEvent(&cle);
+		if (g_CLI.pfnGetEvent(hContact, 0))
+			g_CLI.pfnRemoveEvent(hContact, GC_FAKE_EVENT);
+		g_CLI.pfnAddEvent(&cle);
 	}
 	return TRUE;
 }

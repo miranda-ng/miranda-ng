@@ -48,8 +48,6 @@ int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/);
 HNETLIBUSER hNetlibUser;
 HANDLE hDirectBoundPort;
 
-CLIST_INTERFACE *pcli;
-
 string sLogFilePath;
 
 // static so they can not be used from other modules ( sourcefiles )
@@ -815,8 +813,6 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 extern "C" __declspec(dllexport) int Load()
 {
-	pcli = Clist_GetInterface();
-
 	hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
 	if (!hHttpAcceptConnectionsService) {
 		MessageBox(nullptr, "Failed to CreateServiceFunction MS_HTTP_ACCEPT_CONNECTIONS", MSG_BOX_TITEL, MB_OK);

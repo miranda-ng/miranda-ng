@@ -489,14 +489,14 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 
 	// on call by hook or first start
 	if (!lParam || !hMenuItemAccount) {
-		size_t sizeNew = mItems * pcli->menuProtos->getCount() * sizeof(HGENMENU);
+		size_t sizeNew = mItems * g_CLI.menuProtos->getCount() * sizeof(HGENMENU);
 		hMenuItemAccount = (HGENMENU*)mir_realloc(hMenuItemAccount, sizeNew);
 		// set all bytes 0 to avoid problems
 		memset(hMenuItemAccount, 0, sizeNew);
 	}
 	// on options change
 	else // delete all MenuItems backward (first item second group)
-		RemoveMenuItems(hMenuItemAccount, mItems * pcli->menuProtos->getCount());
+		RemoveMenuItems(hMenuItemAccount, mItems * g_CLI.menuProtos->getCount());
 
 	// load options
 	int flag = db_get_b(NULL, MODULENAME, SET_MI_ACCOUNT, MCAS_NOTINITIATED);
@@ -506,7 +506,7 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 	}
 
 	// loop for all account names
-	for (auto &it : *pcli->menuProtos) {
+	for (auto &it : *g_CLI.menuProtos) {
 		// set all bytes 0 to avoid problems
 		item = 0;
 
@@ -527,7 +527,7 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 		// support new genmenu style
 		mi.root = mhRoot;
 
-		int i = pcli->menuProtos->indexOf(&it);
+		int i = g_CLI.menuProtos->indexOf(&it);
 		switch (flag) {
 		case 3:
 			// cascade off

@@ -87,7 +87,7 @@ void CVkProto::AddCListEvent(bool bNews)
 	wchar_t toolTip[255];
 	mir_snwprintf(toolTip, bNews ? TranslateT("New news") : TranslateT("New notifications"));
 	cle.szTooltip.w = toolTip;
-	pcli->pfnAddEvent(&cle);
+	g_CLI.pfnAddEvent(&cle);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

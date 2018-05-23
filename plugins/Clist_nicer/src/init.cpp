@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma comment(lib, "shlwapi.lib")
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli, coreCli;
+CLIST_INTERFACE coreCli;
 
 #define DEFAULT_TB_VISIBILITY (1 | 2 | 4 | 8 | 16 | 32 | 64 | 8192)
 
@@ -109,8 +109,8 @@ static int systemModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) CListInitialise()
 {
-	pcli = Clist_GetInterface();
-	coreCli = *pcli;
+	Clist_GetInterface();
+	coreCli = g_CLI;
 
 	API::onInit();
 
@@ -172,41 +172,41 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	wcslwr(cfg::dat.tszProfilePath);
 
 	// get the clist interface
-	pcli->hInst = g_plugin.getInst();
-	pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
-	pcli->pfnCompareContacts = CompareContacts;
-	pcli->pfnCreateClcContact = CreateClcContact;
-	pcli->pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
-	pcli->pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
-	pcli->pfnGetDefaultFontSetting = GetDefaultFontSetting;
-	pcli->pfnGetRowBottomY = RowHeight::getItemBottomY;
-	pcli->pfnGetRowHeight = RowHeight::getHeight;
-	pcli->pfnGetRowTopY = RowHeight::getItemTopY;
-	pcli->pfnGetRowTotalHeight = RowHeight::getTotalHeight;
-	pcli->pfnGetWindowVisibleState = GetWindowVisibleState;
-	pcli->pfnHitTest = HitTest;
-	pcli->pfnOnCreateClc = OnCreateClc;
-	pcli->pfnPaintClc = PaintClc;
-	pcli->pfnRebuildEntireList = RebuildEntireList;
-	pcli->pfnRowHitTest = RowHeight::hitTest;
-	pcli->pfnScrollTo = ScrollTo;
-	pcli->pfnSetHideOffline = SetHideOffline;
-	pcli->pfnShowHide = ShowHide;
+	g_CLI.hInst = g_plugin.getInst();
+	g_CLI.pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
+	g_CLI.pfnCompareContacts = CompareContacts;
+	g_CLI.pfnCreateClcContact = CreateClcContact;
+	g_CLI.pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
+	g_CLI.pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
+	g_CLI.pfnGetDefaultFontSetting = GetDefaultFontSetting;
+	g_CLI.pfnGetRowBottomY = RowHeight::getItemBottomY;
+	g_CLI.pfnGetRowHeight = RowHeight::getHeight;
+	g_CLI.pfnGetRowTopY = RowHeight::getItemTopY;
+	g_CLI.pfnGetRowTotalHeight = RowHeight::getTotalHeight;
+	g_CLI.pfnGetWindowVisibleState = GetWindowVisibleState;
+	g_CLI.pfnHitTest = HitTest;
+	g_CLI.pfnOnCreateClc = OnCreateClc;
+	g_CLI.pfnPaintClc = PaintClc;
+	g_CLI.pfnRebuildEntireList = RebuildEntireList;
+	g_CLI.pfnRowHitTest = RowHeight::hitTest;
+	g_CLI.pfnScrollTo = ScrollTo;
+	g_CLI.pfnSetHideOffline = SetHideOffline;
+	g_CLI.pfnShowHide = ShowHide;
 
-	pcli->pfnAddContactToGroup = AddContactToGroup;
+	g_CLI.pfnAddContactToGroup = AddContactToGroup;
 
-	pcli->pfnAddEvent = AddEvent;
-	pcli->pfnRemoveEvent = RemoveEvent;
+	g_CLI.pfnAddEvent = AddEvent;
+	g_CLI.pfnRemoveEvent = RemoveEvent;
 
-	pcli->pfnAddGroup = AddGroup;
-	pcli->pfnAddInfoItemToGroup = AddInfoItemToGroup;
-	pcli->pfnContactListControlWndProc = ContactListControlWndProc;
-	pcli->pfnContactListWndProc = ContactListWndProc;
-	pcli->pfnIconFromStatusMode = IconFromStatusMode;
-	pcli->pfnLoadClcOptions = LoadClcOptions;
-	pcli->pfnProcessExternalMessages = ProcessExternalMessages;
-	pcli->pfnRecalcScrollBar = RecalcScrollBar;
-	pcli->pfnTrayIconProcessMessage = TrayIconProcessMessage;
+	g_CLI.pfnAddGroup = AddGroup;
+	g_CLI.pfnAddInfoItemToGroup = AddInfoItemToGroup;
+	g_CLI.pfnContactListControlWndProc = ContactListControlWndProc;
+	g_CLI.pfnContactListWndProc = ContactListWndProc;
+	g_CLI.pfnIconFromStatusMode = IconFromStatusMode;
+	g_CLI.pfnLoadClcOptions = LoadClcOptions;
+	g_CLI.pfnProcessExternalMessages = ProcessExternalMessages;
+	g_CLI.pfnRecalcScrollBar = RecalcScrollBar;
+	g_CLI.pfnTrayIconProcessMessage = TrayIconProcessMessage;
 
 	int rc = LoadContactListModule();
 	if (rc == 0)
@@ -230,8 +230,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (IsWindow(pcli->hwndContactList))
-		DestroyWindow(pcli->hwndContactList);
+	if (IsWindow(g_CLI.hwndContactList))
+		DestroyWindow(g_CLI.hwndContactList);
 	ClcShutdown(0, 0);
 	UnLoadCLUIFramesModule();
 	return 0;

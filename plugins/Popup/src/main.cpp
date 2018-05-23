@@ -36,7 +36,7 @@ void UpgradeDb();
 //===== Initializations =================================================================
 static int OkToExit(WPARAM, LPARAM);
 bool OptionLoaded = false;
-CLIST_INTERFACE *pcli;
+
 CMPlugin g_plugin;
 
 //===== Global variables ================================================================
@@ -321,8 +321,6 @@ static int OnShutdown(WPARAM, LPARAM)
 
 MIRAPI int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
 #if defined(_DEBUG)

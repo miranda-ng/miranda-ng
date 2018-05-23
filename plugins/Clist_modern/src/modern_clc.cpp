@@ -119,7 +119,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 			cliCluiProtocolStatusChanged(0, cws->szModule);
 		else if (!strcmp(cws->szModule, "CList")) {
 			if (!strcmp(cws->szSetting, "OnTop"))
-				SetWindowPos(pcli->hwndContactList, cws->value.bVal ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+				SetWindowPos(g_CLI.hwndContactList, cws->value.bVal ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 		}
 	}
 	else {
@@ -145,7 +145,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 			else if (!strcmp(cws->szSetting, "ListeningTo"))
 				Clist_Broadcast(INTM_STATUSMSGCHANGED, hContact, 0);
 			else if (!strcmp(cws->szSetting, "Transport") || !strcmp(cws->szSetting, "IsTransported")) {
-				pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
+				g_CLI.pfnInvalidateDisplayNameCacheEntry(hContact);
 				Clist_Broadcast(CLM_AUTOREBUILD, hContact, 0);
 			}
 		}
@@ -236,8 +236,8 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const wchar_
 				int contactScanIndex = group->scanIndex;
 				int foundindex;
 				for (; group; group = group->parent)
-					pcli->pfnSetGroupExpand(hwnd, dat, group, 1);
-				foundindex = pcli->pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
+					g_CLI.pfnSetGroupExpand(hwnd, dat, group, 1);
+				foundindex = g_CLI.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
 				if (fReturnAsFound)
 					return foundindex;
 				else if (nLastFound != -1 && fSearchUp && foundindex == index)
@@ -313,7 +313,7 @@ static LRESULT clcOnHitTest(ClcData *, HWND hwnd, UINT, WPARAM wParam, LPARAM lP
 static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
-	int hit = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
+	int hit = g_CLI.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
 	if (hit != -1 && contact->type == CLCIT_GROUP) {
 		switch (LOWORD(wParam)) {
 		case POPUP_GROUPSHOWOFFLINE:
@@ -384,7 +384,7 @@ static LRESULT clcOnChar(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARA
 static LRESULT clcOnPaint(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (IsWindowVisible(hwnd)) {
-		if (!g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList) {
+		if (!g_CluiData.fLayered || GetParent(hwnd) != g_CLI.hwndContactList) {
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
 			g_clcPainter.cliPaintClc(hwnd, dat, hdc, &ps.rcPaint);
@@ -430,7 +430,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 			}
 
 			dat->selection = index;
-			pcli->pfnInvalidateRect(hwnd, nullptr, FALSE);
+			g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
 			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 			return 0;
 		}
@@ -443,7 +443,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 	case VK_PRIOR: dat->selection -= pageSize; selMoved = 1; break;
 	case VK_NEXT: dat->selection += pageSize; selMoved = 1; break;
 	case VK_HOME: dat->selection = 0; selMoved = 1; break;
-	case VK_END: dat->selection = pcli->pfnGetGroupContentsCount(&dat->list, 1) - 1; selMoved = 1; break;
+	case VK_END: dat->selection = g_CLI.pfnGetGroupContentsCount(&dat->list, 1) - 1; selMoved = 1; break;
 	case VK_LEFT: changeGroupExpand = 1; break;
 	case VK_RIGHT: changeGroupExpand = 2; break;
 	case VK_RETURN:
@@ -510,7 +510,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					db_set_b(contact->hContact, "CList", "Expanded", 0);
 					ht = contact;
 					dat->bNeedsResort = true;
-					pcli->pfnSortCLC(hwnd, dat, 1);
+					g_CLI.pfnSortCLC(hwnd, dat, 1);
 					cliRecalcScrollBar(hwnd, dat);
 					hitcontact = nullptr;
 				}
@@ -525,7 +525,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					db_set_b(contact->hContact, "CList", "Expanded", 1);
 					ht = contact;
 					dat->bNeedsResort = true;
-					pcli->pfnSortCLC(hwnd, dat, 1);
+					g_CLI.pfnSortCLC(hwnd, dat, 1);
 					cliRecalcScrollBar(hwnd, dat);
 					if (ht) {
 						ClcContact *contact2;
@@ -552,10 +552,10 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 							dat->selection--;
 							selMoved = 1;
 						}
-						else pcli->pfnSetGroupExpand(hwnd, dat, contact->group, 0);
+						else g_CLI.pfnSetGroupExpand(hwnd, dat, contact->group, 0);
 					}
 					else if (changeGroupExpand == 2) {
-						pcli->pfnSetGroupExpand(hwnd, dat, contact->group, 1);
+						g_CLI.pfnSetGroupExpand(hwnd, dat, contact->group, 1);
 						dat->selection++;
 						selMoved = 1;
 					}
@@ -565,8 +565,8 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 		}
 	}
 	if (selMoved) {
-		if (dat->selection >= pcli->pfnGetGroupContentsCount(&dat->list, 1))
-			dat->selection = pcli->pfnGetGroupContentsCount(&dat->list, 1) - 1;
+		if (dat->selection >= g_CLI.pfnGetGroupContentsCount(&dat->list, 1))
+			dat->selection = g_CLI.pfnGetGroupContentsCount(&dat->list, 1) - 1;
 		if (dat->selection < 0) dat->selection = 0;
 		if (dat->bCompactMode)
 			SendMessage(hwnd, WM_SIZE, 0, 0);
@@ -618,7 +618,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			}
 
 			dat->bNeedsResort = true;
-			pcli->pfnSortCLC(hwnd, dat, 1);
+			g_CLI.pfnSortCLC(hwnd, dat, 1);
 			cliRecalcScrollBar(hwnd, dat);
 			if (ht) {
 				int i = 0;
@@ -636,13 +636,13 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case TIMERID_DELAYEDRESORTCLC:
 		TRACE("Do sort on Timer\n");
 		KillTimer(hwnd, TIMERID_DELAYEDRESORTCLC);
-		pcli->pfnSortCLC(hwnd, dat, 1);
-		pcli->pfnInvalidateRect(hwnd, nullptr, FALSE);
+		g_CLI.pfnSortCLC(hwnd, dat, 1);
+		g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		return 0;
 
 	case TIMERID_RECALCSCROLLBAR:
 		KillTimer(hwnd, TIMERID_RECALCSCROLLBAR);
-		pcli->pfnRecalcScrollBar(hwnd, dat);
+		g_CLI.pfnRecalcScrollBar(hwnd, dat);
 		return 0;
 
 	default:
@@ -745,7 +745,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			ClcGroup *selgroup;
 			ClcContact *selcontact;
 			dat->selection = cliGetRowByIndex(dat, dat->selection, &selcontact, &selgroup);
-			pcli->pfnSetGroupExpand(hwnd, dat, contact->group, -1);
+			g_CLI.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
 			if (dat->selection != -1) {
 				dat->selection = cliGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 				if (dat->selection == -1)
@@ -767,7 +767,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			if (contact->type == CLCIT_GROUP)
 				Clist_SetGroupChildCheckboxes(contact->group, bNewState);
 			else
-				pcli->pfnSetContactCheckboxes(contact, bNewState);
+				g_CLI.pfnSetContactCheckboxes(contact, bNewState);
 			Clist_RecalculateGroupCheckboxes(dat);
 			cliInvalidateRect(hwnd, nullptr, FALSE);
 
@@ -1203,8 +1203,8 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			{
 				BOOL NeedRename = FALSE;
 				wchar_t newName[128] = { 0 };
-				pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
-				int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
+				g_CLI.pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
+				int i = g_CLI.pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
 				if (i != -1 && group->groupId != destgroup->groupId) {
 					wchar_t *groupName = mir_wstrdup(Clist_GroupGetName(contact->groupId, nullptr));
 					wchar_t *shortGroup = nullptr;
@@ -1303,7 +1303,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 	Clist_DeleteItemFromTree(hwnd, wParam);
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0)) {
 		NMCLISTCONTROL nm;
-		pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+		g_CLI.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 		if (Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr)) {
 			memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 			if (flags & CONTACTF_CHECKED)
@@ -1350,9 +1350,9 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	ClcContact *contact = nullptr;
 	if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group, nullptr)) {
 		if (shouldShow && db_is_contact(wParam)) {
-			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
+			if (dat->selection >= 0 && g_CLI.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 				hSelItem = Clist_ContactToHItem(selcontact);
-			pcli->pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
+			g_CLI.pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
 			needRepaint = TRUE;
 			Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr);
 			if (contact) {
@@ -1372,7 +1372,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 			shouldShow = TRUE;
 
 		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline || g_CluiData.bFilterEffective)) { // CLVM changed
-			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
+			if (dat->selection >= 0 && g_CLI.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
 				hSelItem = Clist_ContactToHItem(selcontact);
 			Clist_RemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
@@ -1396,7 +1396,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 	if (hSelItem) {
 		if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, nullptr))
-			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+			dat->selection = g_CLI.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 		else
 			dat->selection = -1;
 	}
@@ -1501,7 +1501,7 @@ static LRESULT clcOnIntmScrollBarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, 
 		if (dat->bNoVScrollbar)
 			ShowScrollBar(hwnd, SB_VERT, FALSE);
 		else
-			pcli->pfnRecalcScrollBar(hwnd, dat);
+			g_CLI.pfnRecalcScrollBar(hwnd, dat);
 	}
 	return 0;
 }
@@ -1538,11 +1538,11 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 static LRESULT clcOnIntmReloadOptions(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-	pcli->pfnLoadClcOptions(hwnd, dat, FALSE);
+	g_CLI.pfnLoadClcOptions(hwnd, dat, FALSE);
 	Clist_SaveStateAndRebuildList(hwnd, dat);
-	pcli->pfnSortCLC(hwnd, dat, 1);
+	g_CLI.pfnSortCLC(hwnd, dat, 1);
 	if (IsWindowVisible(hwnd))
-		pcli->pfnInvalidateRect(GetParent(hwnd), nullptr, FALSE);
+		g_CLI.pfnInvalidateRect(GetParent(hwnd), nullptr, FALSE);
 	return TRUE;
 }
 

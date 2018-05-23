@@ -35,7 +35,6 @@ LOGFONT lfDefault = { 0 };
  */
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,8 +67,6 @@ extern "C" int __declspec(dllexport) Load(void)
 		MessageBox(nullptr, TranslateT("This version of TabSRMM requires Windows 2000 or later."), L"tabSRMM", MB_OK | MB_ICONERROR);
 		return 1;
 	}
-
-	pcli = Clist_GetInterface();
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 

@@ -42,7 +42,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 		 int lastEvent = (int)db_get_dw(hContact, MODULENAME, "LastEvent", 0);
 
        if (lastEvent) {
-			 pcli->pfnRemoveEvent(hContact, lastEvent);
+			 g_CLI.pfnRemoveEvent(hContact, lastEvent);
 			  db_set_dw(hContact, MODULENAME, "LastEvent", 0);
        }
     }
@@ -62,7 +62,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 				cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService = "UserOnline/Description";
 				cle.szTooltip.w = tooltip;
-				pcli->pfnAddEvent(&cle);
+				g_CLI.pfnAddEvent(&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);
                 db_set_dw(cle.hContact, MODULENAME, "LastEvent", (DWORD)cle.hDbEvent);
 				Skin_PlaySound(MODULENAME);

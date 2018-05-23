@@ -1000,7 +1000,7 @@ retry:
 					cle.lParam = (LPARAM)img;
 					cle.pszService = service;
 					cle.szTooltip.a = Translate("Incoming image");
-					pcli->pfnAddEvent(&cle);
+					g_CLI.pfnAddEvent(&cle);
 					ReleaseIconEx("image", FALSE);
 				}
 			}

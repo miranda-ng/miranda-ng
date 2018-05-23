@@ -16,7 +16,6 @@
 
 const int vf_default = VF_VS | VF_HFL | VF_IGN | VF_CID | VF_SHOWID | VF_RECV | VF_STAT | VF_SMNAME | VF_CIDN | VF_CIP;
 
-CLIST_INTERFACE *pcli;
 HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto, hmenuAdded, hmenuAuthReq;
 HGENMENU hmenuCopyID, hmenuRecvFiles, hmenuStatusMsg, hmenuCopyIP, hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
@@ -426,7 +425,7 @@ static INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 	if (flags&PF4_NOCUSTOMAUTH)
 		ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)L"");
 	else
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AUTHREQ), pcli->hwndContactList, AuthReqWndProc, (LPARAM)hContact);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AUTHREQ), g_CLI.hwndContactList, AuthReqWndProc, (LPARAM)hContact);
 
 	return 0;
 }
@@ -1052,8 +1051,6 @@ static int PluginInit(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	g_plugin.registerIcon(LPGEN("MenuItemEx"), iconList);
 	g_plugin.registerIcon(LPGEN("MenuItemEx"), overlayIconList);
 

@@ -7,7 +7,6 @@
 sPluginVars pluginVars;
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,7 +48,7 @@ static int MsgWindowEvent(WPARAM, LPARAM lParam)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	windowAdd(pcli->hwndContactList, true);
+	windowAdd(g_CLI.hwndContactList, true);
 
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWindowEvent);
 
@@ -66,8 +65,6 @@ static int OnShutdown(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	::InitializeCriticalSection(&pluginVars.m_CS);
 	pluginVars.IsUpdateInProgress = false;
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

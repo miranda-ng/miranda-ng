@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "theme.h"
 
 CMPlugin g_plugin;
-CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,8 +54,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pcli = Clist_GetInterface();
-
 	InitIcons();
 	InitContactMenus();
 	TwitterInitSounds();

@@ -11,7 +11,6 @@ g_plugin;
 
 HHOOK hHook;
 HWND hDummyWnd = nullptr, hHelperWnd = nullptr, hMirandaWnd = nullptr;
-CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -114,7 +113,7 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
 	{
 		pMes = (PCWPRETSTRUCT)lParam; // Get message details
 		if (!hMirandaWnd)
-			hMirandaWnd = pcli->hwndContactList;
+			hMirandaWnd = g_CLI.hwndContactList;
 
 		if (pMes->hwnd == hMirandaWnd)
 		{
@@ -134,8 +133,6 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
- 	pcli = Clist_GetInterface();
-
 	if (IsWinVerVistaPlus()) {
 		MessageBox(nullptr, TranslateT("Plugin works under Windows XP only"), TranslateT("ZeroSwitch plugin failed"), MB_ICONSTOP);
 		return 1;

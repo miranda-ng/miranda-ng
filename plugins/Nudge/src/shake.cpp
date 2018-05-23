@@ -31,7 +31,7 @@ void __cdecl ShakeClistWindow(void *Param)
 
 INT_PTR ShakeClist(WPARAM, LPARAM)
 {
-	mir_forkthread(ShakeClistWindow, (void*)pcli->hwndContactList);
+	mir_forkthread(ShakeClistWindow, (void*)g_CLI.hwndContactList);
 	return 0;
 }
 

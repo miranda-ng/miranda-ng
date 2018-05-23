@@ -75,7 +75,7 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 
 		HMENU hMenu = CreatePopupMenu();
 		Menu_Build(hMenu, hInstanceMenu);
-		int cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
+		int cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, g_CLI.hwndContactList, nullptr);
 		DestroyMenu(hMenu);
 
 		if (cmd)

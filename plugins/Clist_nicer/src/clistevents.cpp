@@ -66,7 +66,7 @@ void HideShowNotifyFrame()
 
 static CLISTEVENT* MyGetEvent(int iSelection)
 {
-	for (auto &p : *pcli->events)
+	for (auto &p : *g_CLI.events)
 		if (p->menuId == iSelection)
 			return p;
 
@@ -161,7 +161,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						// event we're interested in was removed by the service (nasty one...)
 						cle1 = MyGetEvent(iSelection);
 						if (cle1 != nullptr)
-							pcli->pfnRemoveEvent(cle->hContact, cle->hDbEvent);
+							g_CLI.pfnRemoveEvent(cle->hContact, cle->hDbEvent);
 					}
 				}
 			}
@@ -289,14 +289,14 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 	}
 
 	if (cfg::dat.dwFlags & CLUI_STICKYEVENTS) {
-		HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM)p->hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(g_CLI.hwndContactTree, CLM_FINDCONTACT, (WPARAM)p->hContact, 0);
 		if (hItem) {
-			SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM)hItem, 1);
+			SendMessage(g_CLI.hwndContactTree, CLM_SETSTICKY, (WPARAM)hItem, 1);
 			Clist_Broadcast(INTM_PROTOCHANGED, (WPARAM)p->hContact, 0);
 		}
 	}
 
-	if (pcli->events->getCount() > 0) {
+	if (g_CLI.events->getCount() > 0) {
 		cfg::dat.bEventAreaEnabled = TRUE;
 		if (cfg::dat.notifyActive == 0) {
 			cfg::dat.notifyActive = 1;
@@ -316,7 +316,7 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
 	// Find the event that should be removed
 	CListEvent *e = nullptr;
-	for (auto &it : *pcli->events)
+	for (auto &it : *g_CLI.events)
 		if (it->hContact == hContact && it->hDbEvent == hDbEvent) {
 			e = it;
 			break;
@@ -343,7 +343,7 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 
 	int res = coreCli.pfnRemoveEvent(hContact, hDbEvent);
 
-	if (pcli->events->getCount() == 0) {
+	if (g_CLI.events->getCount() == 0) {
 		cfg::dat.bEventAreaEnabled = FALSE;
 		if (cfg::dat.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY) {
 			cfg::dat.notifyActive = 0;
@@ -352,9 +352,9 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 	}
 
 	// clear "sticky" (sort) status
-	HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, hContact, 0);
+	HANDLE hItem = (HANDLE)SendMessage(g_CLI.hwndContactTree, CLM_FINDCONTACT, hContact, 0);
 	if (hItem) {
-		SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM)hItem, 0);
+		SendMessage(g_CLI.hwndContactTree, CLM_SETSTICKY, (WPARAM)hItem, 0);
 		Clist_Broadcast(INTM_PROTOCHANGED, hContact, 0);
 	}
 

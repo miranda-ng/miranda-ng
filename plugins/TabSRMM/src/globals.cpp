@@ -111,7 +111,7 @@ void CGlobals::reloadSystemModulesChanged()
 	}
 	else db_set_b(0, SRMSGMOD_T, "ieview_installed", 0);
 
-	m_hwndClist = pcli->hwndContactList;
+	m_hwndClist = g_CLI.hwndContactList;
 
 	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
 
@@ -528,7 +528,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(e->hContact));
 		cle.hContact = e->hContact;
 		cle.hDbEvent = e->hEvent;
-		pcli->pfnAddEvent(&cle);
+		g_CLI.pfnAddEvent(&cle);
 	}
 }
 

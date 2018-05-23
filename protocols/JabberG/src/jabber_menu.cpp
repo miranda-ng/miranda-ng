@@ -1081,7 +1081,7 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 
 		HMENU hMenu = CreatePopupMenu();
 		Menu_Build(hMenu, hChooserMenu);
-		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
+		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, g_CLI.hwndContactList, nullptr);
 		DestroyMenu(hMenu);
 
 		if (res) {
