@@ -33,7 +33,7 @@ CLIST_INTERFACE *pcli;
 
 BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
 
-static wchar_t tszFormat[] =
+static wchar_t wszDefaultFormat[] =
 _A2W("{I4}\x0D\x0A\x0A\
 {R65}?tc_GetTraffic(%extratext%,now,sent,d)\x0D\x0A\x0A\
 {R115}?tc_GetTraffic(%extratext%,now,received,d)\x0D\x0A\x0A\
@@ -710,44 +710,42 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 				for (int i = 0; i < NumberOfAccounts; i++) {
 					auto &p = ProtoList[i];
 					if (p.State) {
-						p.AllStatistics[p.NumberOfRecords - 1].Time =
-							(CurrentTimeMs - p.Total.TimeAtStart) / 1000;
-						p.Session.Timer =
-							(CurrentTimeMs - p.Session.TimeAtStart) / 1000;
+						p.AllStatistics[p.NumberOfRecords - 1].Time = (CurrentTimeMs - p.Total.TimeAtStart) / 1000;
+						p.Session.Timer = (CurrentTimeMs - p.Session.TimeAtStart) / 1000;
 					}
 
 					Stat_CheckStatistics(p);
-					{
-						// Здесь на основании статистики вычисляются значения всех трафиков и времени.
-						DWORD Sum1, Sum2;
-						unsigned long int j;
 
-						// Значения для текущей сессии.
-						for (Sum1 = Sum2 = 0, j = p.StartIndex; j < p.NumberOfRecords; j++) {
-							Sum1 += p.AllStatistics[j].Incoming;
-							Sum2 += p.AllStatistics[j].Outgoing;
-						}
-						p.CurrentRecvTraffic = Sum1 - p.StartIncoming;
-						p.CurrentSentTraffic = Sum2 - p.StartOutgoing;
-						OverallInfo.CurrentRecvTraffic += p.CurrentRecvTraffic;
-						OverallInfo.CurrentSentTraffic += p.CurrentSentTraffic;
-						// Значения для выбранного периода.
-						p.TotalRecvTraffic =
-							Stat_GetItemValue(1 << i,
-								unOptions.PeriodForShow + 1,
-								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 1);
-						p.TotalSentTraffic =
-							Stat_GetItemValue(1 << i,
-								unOptions.PeriodForShow + 1,
-								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 2);
-						p.Total.Timer =
-							Stat_GetItemValue(1 << i,
-								unOptions.PeriodForShow + 1,
-								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 4);
-						OverallInfo.TotalRecvTraffic += p.TotalRecvTraffic;
-						OverallInfo.TotalSentTraffic += p.TotalSentTraffic;
+					// Здесь на основании статистики вычисляются значения всех трафиков и времени.
+					DWORD Sum1 = 0, Sum2 = 0;
+						
+					// Значения для текущей сессии.
+					for (int j = p.StartIndex; j < p.NumberOfRecords; j++) {
+						Sum1 += p.AllStatistics[j].Incoming;
+						Sum2 += p.AllStatistics[j].Outgoing;
 					}
+
+					p.CurrentRecvTraffic = Sum1 - p.StartIncoming;
+					p.CurrentSentTraffic = Sum2 - p.StartOutgoing;
+					OverallInfo.CurrentRecvTraffic += p.CurrentRecvTraffic;
+					OverallInfo.CurrentSentTraffic += p.CurrentSentTraffic;
+					// Значения для выбранного периода.
+					p.TotalRecvTraffic =
+						Stat_GetItemValue(1 << i,
+							unOptions.PeriodForShow + 1,
+							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 1);
+					p.TotalSentTraffic =
+						Stat_GetItemValue(1 << i,
+							unOptions.PeriodForShow + 1,
+							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 2);
+					p.Total.Timer =
+						Stat_GetItemValue(1 << i,
+							unOptions.PeriodForShow + 1,
+							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 4);
+					OverallInfo.TotalRecvTraffic += p.TotalRecvTraffic;
+					OverallInfo.TotalSentTraffic += p.TotalSentTraffic;
 				}
+
 				// Не пора ли уведомить?
 				if (unOptions.NotifyBySize && Traffic_Notify_size_value) {
 					if (!((OverallInfo.CurrentRecvTraffic >> 10) % Traffic_Notify_size_value)
@@ -1058,8 +1056,6 @@ static int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
 
 static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 {
-	DBVARIANT dbv;
-
 	CreateProtocolList();
 	ModuleLoad(0, 0);
 
@@ -1078,28 +1074,18 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	Traffic_PopupTimeoutValue = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
 
 	// Формат счётчика для каждого активного протокола
-	if (db_get_ws(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT, &dbv) == 0) {
-		if (mir_wstrlen(dbv.ptszVal) > 0)
-			mir_wstrncpy(Traffic_CounterFormat, dbv.ptszVal, _countof(Traffic_CounterFormat));
-		//
-		db_free(&dbv);
-	}
-	else //defaults here
-	{
-		mir_wstrcpy(Traffic_CounterFormat, tszFormat);
-	}
+	ptrW wszFormat(db_get_wsa(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT));
+	if (mir_wstrlen(wszFormat) > 0)
+		mir_wstrncpy(Traffic_CounterFormat, wszFormat, _countof(Traffic_CounterFormat));
+	else
+		mir_wstrcpy(Traffic_CounterFormat, wszDefaultFormat);
 
 	// Формат всплывающих подсказок
-	if (db_get_ws(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0) {
-		if (mir_wstrlen(dbv.ptszVal) > 0)
-			mir_wstrncpy(Traffic_TooltipFormat, dbv.ptszVal, _countof(Traffic_TooltipFormat));
-		//
-		db_free(&dbv);
-	}
-	else //defaults here
-	{
+	wszFormat = db_get_wsa(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT);
+	if (mir_wstrlen(wszFormat) > 0)
+		mir_wstrncpy(Traffic_TooltipFormat, wszFormat, _countof(Traffic_TooltipFormat));
+	else
 		mir_wstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
-	}
 
 	Traffic_AdditionSpace = db_get_b(NULL, MODULENAME, SETTINGS_ADDITION_SPACE, 0);
 
