@@ -11,8 +11,7 @@
 // basic export prototypes
 typedef int (__cdecl * Miranda_Plugin_Load) (void);
 typedef int (__cdecl * Miranda_Plugin_Unload) (void);
-// version control
-typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_InfoEx) (DWORD mirandaVersion);
+
 // prototype for clists
 typedef int (__cdecl * CList_Initialise) (void);
 
@@ -22,10 +21,9 @@ struct BASIC_PLUGIN_INFO
 	HINSTANCE hInst;
 	Miranda_Plugin_Load Load;
 	Miranda_Plugin_Unload Unload;
-	Miranda_Plugin_InfoEx InfoEx;
 	CList_Initialise clistlink;
-	PLUGININFOEX *pluginInfo;	 // must be freed if hInst = = nullptr then its a copy
-	MUUID *Interfaces;          // array of supported interfaces
+	const PLUGININFOEX *pluginInfo;	 // must be freed if hInst == nullptr then its a copy
+	MUUID *Interfaces;                // array of supported interfaces
 };
 
 struct pluginEntry
@@ -43,7 +41,7 @@ struct pluginEntry
 
 		bool bHasBasicApi : 1; // has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
 		bool bIsProtocol : 1;  // protocol module
-		bool bIsDatabase : 1;  // has DatabasePluginInfo() and is valid as can be, and PCLASS_BASICAPI has to be set too
+		bool bIsDatabase : 1;  // has MUUID_DATABASE in its interfaces, and PCLASS_BASICAPI has to be set too
 		bool bIsClist : 1;	  // a CList implementation
 		bool bIsCrypto : 1;	  // crypto provider
 	};
@@ -64,7 +62,7 @@ void SetPluginOnWhiteList(const wchar_t* pluginname, int allow);
 int  getDefaultPluginIdx(const MUUID& muuid);
 bool hasMuuid(const BASIC_PLUGIN_INFO&, const MUUID&);
 bool hasMuuid(const MUUID* pFirst, const MUUID&);
-int  checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI);
+int  checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, int checkTypeAPI);
 
 pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path);
 

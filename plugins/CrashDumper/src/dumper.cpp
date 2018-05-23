@@ -125,27 +125,6 @@ void GetLinkedModulesInfo(wchar_t *moduleName, CMStringW &buffer)
 				importData++; //go to next record
 			}
 		}
-
-		bool found = false;
-		PIMAGE_EXPORT_DIRECTORY exportData = (PIMAGE_EXPORT_DIRECTORY)ImageDirectoryEntryToData(dllAddr, FALSE,
-			IMAGE_DIRECTORY_ENTRY_EXPORT, &tableSize);
-		if (exportData) {
-			ULONG *funcAddr = (ULONG*)ImageRvaToVa(nthdrs, dllAddr, exportData->AddressOfNames, nullptr);
-			for (unsigned i = 0; i < exportData->NumberOfNames; ++i) {
-				char *funcName = (char*)ImageRvaToVa(nthdrs, dllAddr, funcAddr[i], nullptr);
-				if (mir_strcmp(funcName, "DatabasePluginInfo") == 0) {
-					buffer.Append(L"    This dll is a Miranda database plugin, another database is active right now\r\n");
-					found = true;
-					break;
-				}
-				else if (mir_strcmp(funcName, "MirandaPluginInfoEx") == 0) {
-					found = true;
-					break;
-				}
-			}
-		}
-		if (!found)
-			buffer.Append(L"    This dll is not a Miranda plugin and should be removed from plugins directory\r\n");
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER) {}
 
@@ -208,7 +187,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 			continue;
 		}
 
-		PLUGININFOEX *pi = GetMirInfo(hModule);
+		const PLUGININFOEX *pi = GetMirInfo(hModule);
 		if (pi != nullptr) {
 			wchar_t timebuf[30] = L"";
 			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
@@ -603,7 +582,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wcha
 
 		if (crashpos != 0) {
 			HMODULE hModule = (HMODULE)Module.BaseOfImage;
-			PLUGININFOEX *pi = GetMirInfo(hModule);
+			const PLUGININFOEX *pi = GetMirInfo(hModule);
 			if (pi != nullptr) {
 				if (pi->shortName) {
 					CMStringW crashcause;

@@ -38,11 +38,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(TTB_OPTDIR, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Load(void)

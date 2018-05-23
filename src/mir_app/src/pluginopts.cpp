@@ -65,7 +65,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	HINSTANCE hInst = GetModuleHandle(buf);
 
 	BASIC_PLUGIN_INFO pi;
-	if (checkAPI(buf, &pi, MIRANDA_VERSION_CORE, CHECKAPI_NONE) == 0)
+	if (checkAPI(buf, &pi, CHECKAPI_NONE) == 0)
 		return TRUE;
 
 	PluginListItemData *dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));

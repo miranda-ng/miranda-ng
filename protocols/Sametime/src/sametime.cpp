@@ -25,11 +25,6 @@ CMPlugin::CMPlugin() :
 	SetUniqueId("stid");
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMPlugin g_plugin;

@@ -32,11 +32,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 LRESULT CALLBACK HelperProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -381,14 +381,6 @@ static int EventModulesLoaded(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // external interface
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	OutputDebugString(L"HistoryStats: MirandaPluginInfoEx() was called.\n");
-
-	// MEMO: (don't) fail, if version is below minimum
-	return &pluginInfoEx;
-}
-
 extern "C" __declspec(dllexport) int Load()
 {
 	// init COM, needed for GUID generation

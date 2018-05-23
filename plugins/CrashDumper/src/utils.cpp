@@ -89,15 +89,10 @@ void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, DWORD dwSize)
 	GetLastWriteTime(&FindFileData.ftLastWriteTime, lpszString, dwSize);
 }
 
-typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_Info) (DWORD mirandaVersion);
-
-PLUGININFOEX* GetMirInfo(HMODULE hModule)
+const PLUGININFOEX* GetMirInfo(HMODULE hModule)
 {
-	Miranda_Plugin_Info bpi = (Miranda_Plugin_Info)GetProcAddress(hModule, "MirandaPluginInfoEx");
-	if (bpi == nullptr)
-		return nullptr;
-
-	return bpi(mirandaVersion);
+	CMPluginBase &pPlugin = GetPluginByInstance(hModule);
+	return (pPlugin.getInst() == hModule) ? &pPlugin.getInfo() : nullptr;
 }
 
 void GetInternetExplorerVersion(CMStringW &buffer)

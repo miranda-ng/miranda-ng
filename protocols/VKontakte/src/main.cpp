@@ -43,11 +43,6 @@ CMPlugin::CMPlugin() :
 	SetUniqueId("ID");
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };

@@ -22,7 +22,7 @@
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// MirandaPluginInfoEx - returns the extended information about a plugin
+// plugin info
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -41,11 +41,6 @@ PLUGININFOEX pluginInfoEx =
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load - plugin's entry point

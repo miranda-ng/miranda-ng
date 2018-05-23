@@ -55,11 +55,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("Skin editor", pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // prototypes
 

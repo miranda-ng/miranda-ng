@@ -61,11 +61,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("CList", pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST, MIID_LAST };

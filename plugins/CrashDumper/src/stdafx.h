@@ -94,7 +94,6 @@ struct VerTrnsfr
 	bool  autot;
 };
 
-extern DWORD mirandaVersion;
 extern LCID packlcid;
 extern bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart;
 
@@ -128,7 +127,7 @@ void StoreStringToClip(CMStringW& buffer);
 void ShowMessage(int type, const wchar_t* format, ...);
 bool IsPluginEnabled(wchar_t* filename);
 
-PLUGININFOEX* GetMirInfo(HMODULE hModule);
+const PLUGININFOEX* GetMirInfo(HMODULE hModule);
 
 void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr);
 void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wchar_t* msg);

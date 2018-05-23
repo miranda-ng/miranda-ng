@@ -52,11 +52,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODNAME, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 //====[ LOADER ]=============================================================
 
 static int OnDbChanged(WPARAM hContact, LPARAM lparam)

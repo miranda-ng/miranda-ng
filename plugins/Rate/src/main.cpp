@@ -64,11 +64,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
 static void setExtraIcon(MCONTACT hContact, int bRate = -1, BOOL clear = TRUE)

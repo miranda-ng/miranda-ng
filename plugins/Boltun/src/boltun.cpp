@@ -58,11 +58,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(BOLTUN_KEY, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void UpdateEngine()

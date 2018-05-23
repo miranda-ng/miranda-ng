@@ -62,11 +62,6 @@ CMPlugin::CMPlugin() :
 	SetUniqueId("wlid");
 }
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
 

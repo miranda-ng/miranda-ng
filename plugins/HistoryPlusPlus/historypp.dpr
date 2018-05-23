@@ -128,21 +128,6 @@ function OnEventDeleted(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward
 function OnMetaDefaultChanged(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
 function OnPreshutdown(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
 
-// tell Miranda about this plugin ExVersion
-function MirandaPluginInfoEx(mirandaVersion:DWORD): PPLUGININFOEX; cdecl;
-begin
-  PluginInfo.cbSize:= SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName:= hppShortNameV;
-  PluginInfo.version:= hppVersion;
-  PluginInfo.description:= hppDescription;
-  PluginInfo.author:= hppAuthor;
-  PluginInfo.copyright:= hppCopyright;
-  PluginInfo.homepage:= hppHomePageURL;
-  PluginInfo.flags:= UNICODE_AWARE;
-  PluginInfo.uuid:= MIID_HISTORYPP;
-  Result := @PluginInfo;
-end;
-
 var
   PluginInterfaces: array[0..1] of TGUID;
 
@@ -518,13 +503,22 @@ begin
 end;
 
 exports
-  MirandaPluginInfoEx,
   MirandaPluginInterfaces,
   Load,
   Unload;
 
 begin
   DisableThreadLibraryCalls(hInstance);
+
+  PluginInfo.cbSize:= SizeOf(TPLUGININFOEX);
+  PluginInfo.shortName:= hppShortNameV;
+  PluginInfo.version:= hppVersion;
+  PluginInfo.description:= hppDescription;
+  PluginInfo.author:= hppAuthor;
+  PluginInfo.copyright:= hppCopyright;
+  PluginInfo.homepage:= hppHomePageURL;
+  PluginInfo.flags:= UNICODE_AWARE;
+  PluginInfo.uuid:= MIID_HISTORYPP;
 
   // decreasing ref count to oleaut32.dll as said
   // in plugins doc

@@ -61,11 +61,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MOD_NAME, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static BOOL IsAeroMode()

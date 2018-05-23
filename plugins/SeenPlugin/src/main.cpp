@@ -46,11 +46,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(S_MOD, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define TRANSNUMBER 2

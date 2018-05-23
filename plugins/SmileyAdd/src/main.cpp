@@ -45,11 +45,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mirandaVersion */)
-{
-	return (PLUGININFOEX*)&pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static IconItem iconList[] = 

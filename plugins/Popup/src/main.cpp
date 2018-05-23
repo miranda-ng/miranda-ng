@@ -301,11 +301,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
-MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 //===== Load ============================================================================
 // Initializes the services provided and the link to those needed
 // Called when the plugin is loaded into Miranda

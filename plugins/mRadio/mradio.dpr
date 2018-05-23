@@ -27,21 +27,6 @@ uses
 {$include i_visual.inc}
 {$include i_optdlg.inc}
 
-function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
-begin
-  result:=@PluginInfo;
-  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName  :='mRadio Mod';
-  PluginInfo.version    :=$00000204;
-  PluginInfo.description:='This plugin plays and records Internet radio streams.'+
-                          ' Also local media files can be played.';
-  PluginInfo.author     :='Awkward';
-  PluginInfo.copyright  :='(c) 2007-14 Awkward';
-  PluginInfo.homepage   :='https://miranda-ng.org/p/MRadio/';
-  PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.uuid       :=MIID_MRADIO;
-end;
-
 function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   nlu:TNETLIBUSER;
@@ -178,7 +163,6 @@ begin
   CreateServiceFunction(MS_RADIO_EXPORT   ,@ExportAll);
   CreateServiceFunction(MS_RADIO_IMPORT   ,@ImportAll);
 
-
   CreateProtoServices;
 
   HookEvent(ME_SYSTEM_MODULESLOADED     ,@OnModulesLoaded);
@@ -198,8 +182,7 @@ begin
 end;
 
 exports
-  Load, Unload,
-  MirandaPluginInfoEx;
+  Load, Unload;
 
 begin
   // register protocol
@@ -207,4 +190,15 @@ begin
   Proto_SetUniqueId(PluginName,optStationURL);
 
   DisableThreadLibraryCalls(hInstance);
+
+  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
+  PluginInfo.shortName  :='mRadio Mod';
+  PluginInfo.version    :=$00000204;
+  PluginInfo.description:='This plugin plays and records Internet radio streams.'+
+                          ' Also local media files can be played.';
+  PluginInfo.author     :='Awkward';
+  PluginInfo.copyright  :='(c) 2007-14 Awkward';
+  PluginInfo.homepage   :='https://miranda-ng.org/p/MRadio/';
+  PluginInfo.flags      :=UNICODE_AWARE;
+  PluginInfo.uuid       :=MIID_MRADIO;
 end.

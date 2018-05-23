@@ -24,11 +24,6 @@ PLUGININFOEX pluginInfoEx =
 
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int OnOptionsInit(WPARAM wParam, LPARAM)

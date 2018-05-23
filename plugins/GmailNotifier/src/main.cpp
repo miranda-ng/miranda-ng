@@ -45,11 +45,6 @@ CMPlugin::CMPlugin() :
 	RegisterProtocol(PROTOTYPE_VIRTUAL);
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR GetCaps(WPARAM wParam, LPARAM)

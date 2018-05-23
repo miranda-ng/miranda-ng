@@ -303,11 +303,6 @@ CMPlugin::CMPlugin() :
 	SetUniqueId(DB_STR_QUOTE_SYMBOL);
 }
 
-EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 EXTERN_C int __declspec(dllexport) Load(void)

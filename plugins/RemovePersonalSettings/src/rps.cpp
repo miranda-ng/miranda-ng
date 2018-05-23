@@ -34,7 +34,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 }
 g_plugin;
 
-
 char gIniFile[MAX_PATH];
 char gMirandaDir[MAX_PATH];
 
@@ -56,11 +55,6 @@ PLUGININFOEX pluginInfoEx = {
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
 {}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

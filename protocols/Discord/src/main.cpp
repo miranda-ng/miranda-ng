@@ -18,7 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CHAT_MANAGER *pci;
+CMPlugin g_plugin;
+
 HWND g_hwndHeartbeat;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -38,15 +42,6 @@ CMPlugin::CMPlugin() :
 {
 	SetUniqueId(DB_KEY_ID);
 }
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information

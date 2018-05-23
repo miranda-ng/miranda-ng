@@ -20,24 +20,6 @@ uses
   mirutils,
   common;
 
-function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
-begin
-  result:=@PluginInfo;
-  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName  :='Quick Search';
-  PluginInfo.version    :=$01040200;
-  PluginInfo.description:=
-    'This plugin allows you to quick search for nickname, '+
-    'firstname, lastname, email, uin in your contact list. '+
-    'And now you may add any setting to display - for example '+
-    'user''s version of Miranda, group or city.';
-  PluginInfo.author     :='Awkward, based on Bethoven sources';
-  PluginInfo.copyright  :='(c) 2004-05 Bethoven; 2006-13 Awkward';
-  PluginInfo.homepage   :='https://miranda-ng.org/p/QuickSearch/';
-  PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.uuid       :=MIID_QUICKSEARCH;
-end;
-
 function OnTTBLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 begin
   addtotoolbar;
@@ -188,9 +170,22 @@ begin
 end;
 
 exports
-  Load, Unload,
-  MirandaPluginInfoEx;
+  Load, Unload;
 
 begin
   DisableThreadLibraryCalls(hInstance);
+
+  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
+  PluginInfo.shortName  :='Quick Search';
+  PluginInfo.version    :=$01040200;
+  PluginInfo.description:=
+    'This plugin allows you to quick search for nickname, '+
+    'firstname, lastname, email, uin in your contact list. '+
+    'And now you may add any setting to display - for example '+
+    'user''s version of Miranda, group or city.';
+  PluginInfo.author     :='Awkward, based on Bethoven sources';
+  PluginInfo.copyright  :='(c) 2004-05 Bethoven; 2006-13 Awkward';
+  PluginInfo.homepage   :='https://miranda-ng.org/p/QuickSearch/';
+  PluginInfo.flags      :=UNICODE_AWARE;
+  PluginInfo.uuid       :=MIID_QUICKSEARCH;
 end.

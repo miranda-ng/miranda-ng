@@ -84,14 +84,6 @@ CMPlugin::CMPlugin() :
 	RegisterProtocol(PROTOTYPE_PROTOCOL);
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
-{
-#ifdef _WIN64
-#error LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)
-#endif
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };

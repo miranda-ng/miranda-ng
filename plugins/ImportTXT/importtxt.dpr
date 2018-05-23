@@ -49,21 +49,6 @@ var
   hwndWizard:HWND;
   hwndDialog:HWND;
 
-function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
-begin
-  PluginInfo.cbSize     :=sizeof(TPLUGININFOEX);
-  PluginInfo.shortName  :='Import TXT';
-  PluginInfo.version    :=$0000010A;
-  PluginInfo.description:='Imports history saved in TXT files from other clients.';
-  PluginInfo.author     :='Abyss';
-  PluginInfo.copyright  :='© 2008 Abyss';
-  PluginInfo.homepage   :='https://miranda-ng.org/p/ImportTXT/';
-  PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.uuid       :=MIID_IMPORTTEXT;
-
-  result := @PluginInfo;
-end;
-
 function ContactMenuCommand(wParam: wParam; lParam: lParam): int_ptr; cdecl;
 begin
   result := 0;
@@ -153,9 +138,18 @@ begin
 end;
 
 exports
-  Load, Unload, MirandaPluginInfoEx;
+  Load, Unload;
 
-initialization
+begin
+  PluginInfo.cbSize     :=sizeof(TPLUGININFOEX);
+  PluginInfo.shortName  :='Import TXT';
+  PluginInfo.version    :=$0000010A;
+  PluginInfo.description:='Imports history saved in TXT files from other clients.';
+  PluginInfo.author     :='Abyss';
+  PluginInfo.copyright  :='© 2008 Abyss';
+  PluginInfo.homepage   :='https://miranda-ng.org/p/ImportTXT/';
+  PluginInfo.flags      :=UNICODE_AWARE;
+  PluginInfo.uuid       :=MIID_IMPORTTEXT;
+
   DisableThreadLibraryCalls(hInstance);
-
 end.

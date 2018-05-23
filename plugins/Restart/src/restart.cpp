@@ -27,11 +27,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR RestartMe(WPARAM, LPARAM)

@@ -60,11 +60,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(AVS_MODULE, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int ComparePicture(const protoPicCacheEntry *p1, const protoPicCacheEntry *p2)

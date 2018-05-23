@@ -93,11 +93,6 @@ CMPlugin::CMPlugin() :
 	SetUniqueId("Id");
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // The callback function
 

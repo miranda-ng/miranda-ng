@@ -373,7 +373,7 @@ int touchDatabase(const wchar_t *tszProfile, DATABASELINK **dblink)
 	return EGROKPRF_CANTREAD;
 }
 
-// enumerate all plugins that had valid DatabasePluginInfo()
+// enumerate all database plugins
 int tryOpenDatabase(const wchar_t *tszProfile)
 {
 	for (auto &it : arDbPlugins) {
@@ -408,7 +408,7 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 	return -1; // no suitable driver found
 }
 
-// enumerate all plugins that had valid DatabasePluginInfo()
+// enumerate all database plugins
 static int tryCreateDatabase(const wchar_t *ptszProfile)
 {
 	wchar_t *tszProfile = NEWWSTR_ALLOCA(ptszProfile);

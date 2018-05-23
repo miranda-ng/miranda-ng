@@ -85,11 +85,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
 {}
 
-EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-	
 /////////////////////////////////////////////////////////////////////////////////////////
 // Called by Miranda to load the plugin.
 // We defer initialization until Miranda's module loading process completed and return 0 to

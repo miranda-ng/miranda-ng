@@ -22,15 +22,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	if (!IsWinVer8Plus()) {
-		MessageBox(nullptr, TranslateT("This plugin requires Windows 8 or higher"), _T(MODULENAME), MB_OK | MB_ICONERROR);
-		return nullptr;
-	}
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int OnPreShutdown(WPARAM, LPARAM)
@@ -54,6 +45,11 @@ static int OnPreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
+	if (!IsWinVer8Plus()) {
+		MessageBox(nullptr, TranslateT("This plugin requires Windows 8 or higher"), _T(MODULENAME), MB_OK | MB_ICONERROR);
+		return 1;
+	}
+
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &OnPreShutdown);
 

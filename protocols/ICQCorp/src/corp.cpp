@@ -52,11 +52,6 @@ CMPlugin::CMPlugin() :
 	Proto_SetUniqueId(protoName, "UIN");
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 //////////////////////////////////////////////////////////////////////////
 // Interface information
 

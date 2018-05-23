@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 
-DWORD mirandaVersion;
 LCID packlcid;
 //HANDLE hCrashLogFolder, hVerInfoFolder;
 HANDLE hVerInfoFolder;
@@ -54,12 +53,6 @@ PLUGININFOEX pluginInfoEx = {
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
-{
-	::mirandaVersion = mirVersion;
-	return (PLUGININFOEX*)&pluginInfoEx;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core

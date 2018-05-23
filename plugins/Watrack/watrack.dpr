@@ -38,20 +38,6 @@ uses
 const
   MenuDisablePos = 500050000;
 
-function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
-begin
-  result:=@PluginInfo;
-  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName  :=PluginName;
-  PluginInfo.version    :=$0000060C;
-  PluginInfo.description:='Paste played music info into message window or status text';
-  PluginInfo.author     :='Awkward';
-  PluginInfo.copyright  :='(c) 2005-12 Awkward';
-  PluginInfo.homepage   :='https://miranda-ng.org/p/Watrack/';
-  PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.uuid       :=MIID_WATRACK;
-end;
-
 {$include i_options.inc}
 {$include i_timer.inc}
 {$include i_gui.inc}
@@ -675,9 +661,18 @@ begin
 end;
 
 exports
-  Load, Unload,
-  MirandaPluginInfoEx;
+  Load, Unload;
 
 begin
   DisableThreadLibraryCalls(hInstance);
+
+  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
+  PluginInfo.shortName  :=PluginName;
+  PluginInfo.version    :=$0000060C;
+  PluginInfo.description:='Paste played music info into message window or status text';
+  PluginInfo.author     :='Awkward';
+  PluginInfo.copyright  :='(c) 2005-12 Awkward';
+  PluginInfo.homepage   :='https://miranda-ng.org/p/Watrack/';
+  PluginInfo.flags      :=UNICODE_AWARE;
+  PluginInfo.uuid       :=MIID_WATRACK;
 end.

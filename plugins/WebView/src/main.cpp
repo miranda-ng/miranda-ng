@@ -53,11 +53,6 @@ CMPlugin::CMPlugin() :
 	SetUniqueId("PreserveName");
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void InitServices()

@@ -69,11 +69,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("CList", pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's interfaces information
 

@@ -55,7 +55,6 @@ MUUID miid_last = MIID_LAST;
 static BOOL bModuleInitialized = FALSE;
 
 wchar_t  mirandabootini[MAX_PATH];
-static DWORD mirandaVersion;
 static int askAboutIgnoredPlugins;
 
 pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
@@ -185,12 +184,12 @@ static bool validInterfaceList(MUUID *piface)
 	return true;
 }
 
-static int checkPI(BASIC_PLUGIN_INFO *bpi, PLUGININFOEX *pi)
+static int checkPI(BASIC_PLUGIN_INFO *bpi, const PLUGININFOEX *pi)
 {
 	if (pi == nullptr)
 		return FALSE;
 
-	if (bpi->InfoEx == nullptr || pi->cbSize != sizeof(PLUGININFOEX))
+	if (pi->cbSize != sizeof(PLUGININFOEX))
 		return FALSE;
 
 	if (!validInterfaceList(bpi->Interfaces) || isPluginBanned(pi->uuid))
@@ -203,7 +202,7 @@ static int checkPI(BASIC_PLUGIN_INFO *bpi, PLUGININFOEX *pi)
 	return TRUE;
 }
 
-int checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, DWORD dwMirVer, int checkTypeAPI)
+int checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, int checkTypeAPI)
 {
 	SetErrorMode(SEM_FAILCRITICALERRORS); // disable error messages
 	HINSTANCE h = LoadLibrary(plugin);
@@ -212,12 +211,12 @@ int checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, DWORD dwMirVer, int checkT
 		return 0;
 
 	// loaded, check for exports
+	CMPluginBase &pPlugin = GetPluginByInstance(h);
 	bpi->Load = (Miranda_Plugin_Load)GetProcAddress(h, "Load");
 	bpi->Unload = (Miranda_Plugin_Unload)GetProcAddress(h, "Unload");
-	bpi->InfoEx = (Miranda_Plugin_InfoEx)GetProcAddress(h, "MirandaPluginInfoEx");
 
-	// if they were present
-	if (!bpi->Load || !bpi->Unload || !bpi->InfoEx) {
+	// Load & Unload shall be defined anyway, and a dll must register itself during LoadLibrary
+	if (!bpi->Load || !bpi->Unload || pPlugin.getInst() != h) {
 LBL_Error:
 		FreeLibrary(h);
 		return 0;
@@ -225,17 +224,19 @@ LBL_Error:
 
 	bpi->Interfaces = (MUUID*)GetProcAddress(h, "MirandaInterfaces");
 	if (bpi->Interfaces == nullptr) {
-		typedef MUUID * (__cdecl * Miranda_Plugin_Interfaces) (void);
+		// MirandaPluginInterfaces function is actual only for the only plugin, HistoryPlusPlus
+		// plugins written in C++ shall export data directly
+		typedef MUUID* (__cdecl * Miranda_Plugin_Interfaces)(void);
 		Miranda_Plugin_Interfaces pFunc = (Miranda_Plugin_Interfaces)GetProcAddress(h, "MirandaPluginInterfaces");
 		if (pFunc)
 			bpi->Interfaces = pFunc();
 	}
 
-	PLUGININFOEX* pi = bpi->InfoEx(dwMirVer);
-	if (!checkPI(bpi, pi))
+	const PLUGININFOEX &pi = pPlugin.getInfo();
+	if (!checkPI(bpi, &pi))
 		goto LBL_Error;
 
-	bpi->pluginInfo = pi;
+	bpi->pluginInfo = &pi;
 	// basic API is present
 	if (checkTypeAPI == CHECKAPI_NONE) {
 LBL_Ok:
@@ -245,7 +246,7 @@ LBL_Ok:
 	// check clist ?
 	if (checkTypeAPI == CHECKAPI_CLIST) {
 		bpi->clistlink = (CList_Initialise)GetProcAddress(h, "CListInitialise");
-		if ((pi->flags & UNICODE_AWARE) && bpi->clistlink)
+		if ((pi.flags & UNICODE_AWARE) && bpi->clistlink)
 			goto LBL_Ok;
 	}
 	goto LBL_Error;
@@ -379,7 +380,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	bool bIsDb = hasMuuid(pIds, MIID_DATABASE);
 	if (bIsDb || hasMuuid(pIds, MIID_CRYPTO)) {
 		BASIC_PLUGIN_INFO bpi;
-		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+		if (checkAPI(tszFullPath, &bpi, CHECKAPI_NONE)) {
 			// plugin is valid
 			p->bHasBasicApi = p->bIsLast = true;
 			if (bIsDb)
@@ -412,7 +413,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	// load it for a profile manager's window
 	else if (hasMuuid(pIds, MIID_SERVICEMODE)) {
 		BASIC_PLUGIN_INFO bpi;
-		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+		if (checkAPI(tszFullPath, &bpi, CHECKAPI_NONE)) {
 			p->bOk = p->bHasBasicApi = true;
 			p->bpi = bpi;
 			if (hasMuuid(bpi, MIID_SERVICEMODE)) {
@@ -465,7 +466,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 
 			BASIC_PLUGIN_INFO bpi;
 			mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->bIsCore) ? L"Core" : L"Plugins", p->pluginname);
-			if (!checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+			if (!checkAPI(tszFullPath, &bpi, CHECKAPI_NONE)) {
 				p->bFailed = true;
 				return false;
 			}
@@ -557,7 +558,7 @@ static bool loadClistModule(wchar_t* exe, pluginEntry *p)
 	g_bReadyToInitClist = true;
 
 	BASIC_PLUGIN_INFO bpi;
-	if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
+	if (checkAPI(exe, &bpi, CHECKAPI_CLIST)) {
 		p->bpi = bpi;
 		p->bIsLast = p->bOk = p->bHasBasicApi = true;
 
@@ -711,7 +712,7 @@ int LoadProtocolPlugins(void)
 		mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, L"Plugins", p->pluginname);
 
 		BASIC_PLUGIN_INFO bpi;
-		if (checkAPI(tszFullPath, &bpi, 0, CHECKAPI_NONE)) {
+		if (checkAPI(tszFullPath, &bpi, CHECKAPI_NONE)) {
 			p->bOk = p->bHasBasicApi = true;
 			p->bpi = bpi;
 		}
@@ -797,8 +798,6 @@ int LoadNewPluginsModuleInfos(void)
 	DeleteFile(L"mir_core.dll");
 
 	LoadPluginOptions();
-
-	mirandaVersion = Miranda_GetVersion();
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteW(L"mirandaboot.ini", mirandabootini);

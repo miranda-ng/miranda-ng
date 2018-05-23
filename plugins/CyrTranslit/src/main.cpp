@@ -39,11 +39,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("CyrTranslit", pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(void)

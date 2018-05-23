@@ -34,11 +34,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(SHLExt_Name, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // exported functions
 

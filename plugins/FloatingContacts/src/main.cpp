@@ -86,11 +86,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULE, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // Options
 

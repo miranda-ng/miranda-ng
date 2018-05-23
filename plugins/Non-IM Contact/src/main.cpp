@@ -7,6 +7,7 @@
 #include "Version.h"
 
 CLIST_INTERFACE *pcli;
+CMPlugin	g_plugin;
 
 INT_PTR doubleClick(WPARAM wParam, LPARAM)
 {
@@ -81,15 +82,6 @@ CMPlugin::CMPlugin() :
 {
 	RegisterProtocol(PROTOTYPE_VIRTUAL);
 }
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMPlugin	g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

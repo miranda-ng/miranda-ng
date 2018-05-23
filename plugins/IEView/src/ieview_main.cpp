@@ -52,11 +52,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(ieviewModuleName, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int ModulesLoaded(WPARAM, LPARAM)

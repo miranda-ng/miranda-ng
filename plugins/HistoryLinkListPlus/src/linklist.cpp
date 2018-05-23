@@ -40,11 +40,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(LINKLIST_MODULE, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int InitOptionsDlg(WPARAM wParam, LPARAM)

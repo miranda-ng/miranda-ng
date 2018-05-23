@@ -24,11 +24,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULE, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR ABService(WPARAM, LPARAM)

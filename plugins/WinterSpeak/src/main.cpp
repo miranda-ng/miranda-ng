@@ -26,11 +26,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("speak_config", pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 //-----------------------------------------------------------------------------
 // Description : External hook
 //-----------------------------------------------------------------------------

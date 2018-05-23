@@ -51,12 +51,6 @@ CMPlugin::CMPlugin() :
 	SetUniqueId("Nick");
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	g_mirandaVersion = mirandaVersion;
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
 

@@ -106,18 +106,6 @@ begin
   result:=0;
 end;
 
-function MirandaPluginInfo(mirandaVersion:dword):PPLUGININFO; cdecl;
-begin
-  result:=@PluginInfo;
-  PluginInfo.cbSize:=SizeOf(TPLUGININFO);
-end;
-
-function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
-begin
-  result:=@PluginInfo;
-  PluginInfo.cbSize:=SizeOf(TPLUGININFOEX);
-end;
-
 function Load(link: PPLUGINLINK): int; cdecl;
 begin
   PLUGINLINK := pointer(link);
@@ -132,8 +120,7 @@ begin
 end;
 
 exports
-  Load, Unload,
-  MirandaPluginInfoEx;
+  Load, Unload;
 
 begin
 end.

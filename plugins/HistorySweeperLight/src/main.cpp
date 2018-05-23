@@ -45,11 +45,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(ModuleName, pluginInfoEx)
 {}
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int OnIconPressed(WPARAM hContact, LPARAM lParam)

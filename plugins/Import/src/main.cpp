@@ -31,7 +31,6 @@ HWND hwndWizard, hwndAccMerge;
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// MirandaPluginInfoEx - returns an information about a plugin
 
 static PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -49,11 +48,6 @@ static PLUGININFOEX pluginInfoEx = {
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(IMPORT_MODULE, pluginInfoEx)
 {}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfoEx;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
