@@ -279,11 +279,14 @@ void Plugin_Uninit(pluginEntry *p)
 	mir_free(p);
 }
 
-int Plugin_UnloadDyn(pluginEntry *p)
+bool Plugin_UnloadDyn(pluginEntry *p)
 {
+	if (p == nullptr)
+		return true;
+
 	if (p->bpi.hInst) {
 		if (CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
-			return FALSE;
+			return false;
 
 		KillModuleAccounts(p->bpi.hInst);
 		KillModuleSubclassing(p->bpi.hInst);
@@ -319,7 +322,7 @@ int Plugin_UnloadDyn(pluginEntry *p)
 				it.pImpl = nullptr;
 
 	Plugin_Uninit(p);
-	return TRUE;
+	return true;
 }
 
 // returns true if the given file is <anything>.dll exactly
@@ -359,22 +362,20 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 
 pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 {
-	pluginEntry *p = (pluginEntry*)mir_calloc(sizeof(pluginEntry));
-	wcsncpy_s(p->pluginname, tszFileName, _TRUNCATE);
-
-	// add it to the list anyway
-	pluginList.insert(p);
-
 	wchar_t tszFullPath[MAX_PATH];
 	mir_snwprintf(tszFullPath, L"%s\\%s\\%s", path, dir, tszFileName);
 
 	// map dll into the memory and check its exports
 	bool bIsPlugin = false;
 	mir_ptr<MUUID> pIds(GetPluginInterfaces(tszFullPath, bIsPlugin));
-	if (!bIsPlugin) {
-		p->bFailed = true;  // piece of shit
-		return p;
-	}
+	if (!bIsPlugin)
+		return nullptr;
+
+	pluginEntry *p = (pluginEntry*)mir_calloc(sizeof(pluginEntry));
+	wcsncpy_s(p->pluginname, tszFileName, _TRUNCATE);
+
+	// add it to the list anyway
+	pluginList.insert(p);
 
 	// plugin declared that it's a database or a cryptor. load it asap!
 	bool bIsDb = hasMuuid(pIds, MIID_DATABASE);
@@ -427,6 +428,12 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	}
 	else if (hasMuuid(pIds, MIID_PROTOCOL) || !mir_wstrcmpi(tszFileName, L"mradio.dll") || !mir_wstrcmpi(tszFileName, L"watrack.dll"))
 		p->bIsProtocol = true;
+
+	if (plugin_crshdmp == nullptr && !mir_wstrcmpi(tszFileName, L"crashdumper.dll")) {
+		plugin_crshdmp = p;
+		p->bIsLast = true;
+	}
+
 	return p;
 }
 
@@ -526,7 +533,7 @@ bool LoadCorePlugin(MuuidReplacement &mr)
 
 	mir_snwprintf(tszPlugName, L"%s.dll", mr.stdplugname);
 	pluginEntry* pPlug = OpenPlugin(tszPlugName, L"Core", exe);
-	if (pPlug->bFailed) {
+	if (pPlug == nullptr) {
 LBL_Error:
 		MessageBox(nullptr, CMStringW(FORMAT, TranslateW(tszCoreErr), mr.stdplugname), TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
 
@@ -781,14 +788,7 @@ int LoadNewPluginsModule(void)
 
 static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM)
 {
-	pluginEntry *p = OpenPlugin(fd->cFileName, L"Plugins", path);
-	if (!p->bFailed) {
-		if (plugin_crshdmp == nullptr && mir_wstrcmpi(fd->cFileName, L"crashdumper.dll") == 0) {
-			plugin_crshdmp = p;
-			p->bIsLast = true;
-		}
-	}
-
+	OpenPlugin(fd->cFileName, L"Plugins", path);
 	return TRUE;
 }
 

@@ -68,7 +68,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path);
 
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic);
 void Plugin_Uninit(pluginEntry *p);
-int  Plugin_UnloadDyn(pluginEntry *p);
+bool Plugin_UnloadDyn(pluginEntry *p);
 
 typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, wchar_t *path, WPARAM wParam, LPARAM lParam);
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam);
