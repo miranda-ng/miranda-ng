@@ -34,7 +34,7 @@ CLIST_INTERFACE *pcli;
 int hLangpack = 0; // Поддержка плагинозависимого перевода.
 BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
 
-static wchar_t tszFormat[] =
+static wchar_t wszDefaultFormat[] =
 _A2W("{I4}\x0D\x0A\x0A\
 {R65}?tc_GetTraffic(%extratext%,now,sent,d)\x0D\x0A\x0A\
 {R115}?tc_GetTraffic(%extratext%,now,received,d)\x0D\x0A\x0A\
@@ -194,8 +194,6 @@ int ModuleLoad(WPARAM, LPARAM)
 
 int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 {
-	DBVARIANT dbv;
-
 	CreateProtocolList();
 	ModuleLoad(0, 0);
 
@@ -214,28 +212,18 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	Traffic_PopupTimeoutValue = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
 
 	// Формат счётчика для каждого активного протокола
-	if (db_get_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0) {
-		if (mir_wstrlen(dbv.ptszVal) > 0)
-			mir_wstrncpy(Traffic_CounterFormat, dbv.ptszVal, _countof(Traffic_CounterFormat));
-		//
-		db_free(&dbv);
-	}
-	else //defaults here
-	{
-		mir_wstrcpy(Traffic_CounterFormat, tszFormat);
-	}
+	ptrW wszFormat(db_get_wsa(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT));
+	if (mir_wstrlen(wszFormat) > 0)
+		mir_wstrncpy(Traffic_CounterFormat, wszFormat, _countof(Traffic_CounterFormat));
+	else
+		mir_wstrcpy(Traffic_CounterFormat, wszDefaultFormat);
 
 	// Формат всплывающих подсказок
-	if (db_get_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0) {
-		if (mir_wstrlen(dbv.ptszVal) > 0)
-			mir_wstrncpy(Traffic_TooltipFormat, dbv.ptszVal, _countof(Traffic_TooltipFormat));
-		//
-		db_free(&dbv);
-	}
-	else //defaults here
-	{
+	wszFormat = db_get_wsa(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT);
+	if (mir_wstrlen(wszFormat) > 0)
+		mir_wstrncpy(Traffic_TooltipFormat, wszFormat, _countof(Traffic_TooltipFormat));
+	else
 		mir_wstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
-	}
 
 	Traffic_AdditionSpace = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
 
@@ -753,9 +741,6 @@ static POINT ptMouse = { 0 };
 
 LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	POINT p;
-	int i;
-	//
 	switch (msg) {
 	case (WM_USER + 697) :
 		if (lParam == 666)
@@ -781,16 +766,20 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 	case WM_LBUTTONDOWN:
 		if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+			POINT p;
 			ClientToScreen(GetParent(hwnd), &p);
 			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(p.x, p.y));
 		}
 		break;
 
 	case WM_RBUTTONDOWN:
-		p.x = GET_X_LPARAM(lParam);
-		p.y = GET_Y_LPARAM(lParam);
-		ClientToScreen(hwnd, &p);
-		TrackPopupMenu(TrafficPopupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, p.x, p.y, 0, hwnd, nullptr);
+		{
+			POINT p;
+			p.x = GET_X_LPARAM(lParam);
+			p.y = GET_Y_LPARAM(lParam);
+			ClientToScreen(hwnd, &p);
+			TrackPopupMenu(TrafficPopupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, p.x, p.y, 0, hwnd, nullptr);
+		}
 		break;
 
 	case WM_COMMAND:
@@ -800,12 +789,11 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 			break;
 
 		case POPUPMENU_CLEAR_NOW:
-			for (i = 0; i < NumberOfAccounts; i++) {
-				ProtoList[i].StartIncoming =
-					ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords - 1].Incoming;
-				ProtoList[i].StartOutgoing =
-					ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords - 1].Outgoing;
-				ProtoList[i].Session.TimeAtStart = GetTickCount();
+			for (int i = 0; i < NumberOfAccounts; i++) {
+				auto &p = ProtoList[i];
+				p.StartIncoming = p.AllStatistics[p.NumberOfRecords - 1].Incoming;
+				p.StartOutgoing = p.AllStatistics[p.NumberOfRecords - 1].Outgoing;
+				p.Session.TimeAtStart = GetTickCount();
 			}
 			OverallInfo.CurrentRecvTraffic = OverallInfo.CurrentSentTraffic = 0;
 		}
@@ -851,46 +839,45 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 				CurrentTimeMs = GetTickCount();
 
-				for (i = 0; i < NumberOfAccounts; i++) {
-					if (ProtoList[i].State) {
-						ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords - 1].Time =
-							(CurrentTimeMs - ProtoList[i].Total.TimeAtStart) / 1000;
-						ProtoList[i].Session.Timer =
-							(CurrentTimeMs - ProtoList[i].Session.TimeAtStart) / 1000;
+				for (int i = 0; i < NumberOfAccounts; i++) {
+					auto &p = ProtoList[i];
+					if (p.State) {
+						p.AllStatistics[p.NumberOfRecords - 1].Time = (CurrentTimeMs - p.Total.TimeAtStart) / 1000;
+						p.Session.Timer = (CurrentTimeMs - p.Session.TimeAtStart) / 1000;
 					}
 
-					Stat_CheckStatistics(i);
+					Stat_CheckStatistics(p);
 
-					{	// Здесь на основании статистики вычисляются значения всех трафиков и времени.
-						DWORD Sum1, Sum2;
-						unsigned long int j;
-
-						// Значения для текущей сессии.
-						for (Sum1 = Sum2 = 0, j = ProtoList[i].StartIndex; j < ProtoList[i].NumberOfRecords; j++) {
-							Sum1 += ProtoList[i].AllStatistics[j].Incoming;
-							Sum2 += ProtoList[i].AllStatistics[j].Outgoing;
-						}
-						ProtoList[i].CurrentRecvTraffic = Sum1 - ProtoList[i].StartIncoming;
-						ProtoList[i].CurrentSentTraffic = Sum2 - ProtoList[i].StartOutgoing;
-						OverallInfo.CurrentRecvTraffic += ProtoList[i].CurrentRecvTraffic;
-						OverallInfo.CurrentSentTraffic += ProtoList[i].CurrentSentTraffic;
-						// Значения для выбранного периода.
-						ProtoList[i].TotalRecvTraffic =
-							Stat_GetItemValue(1 << i,
-								unOptions.PeriodForShow + 1,
-								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 1);
-						ProtoList[i].TotalSentTraffic =
-							Stat_GetItemValue(1 << i,
-								unOptions.PeriodForShow + 1,
-								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 2);
-						ProtoList[i].Total.Timer =
-							Stat_GetItemValue(1 << i,
-								unOptions.PeriodForShow + 1,
-								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 4);
-						OverallInfo.TotalRecvTraffic += ProtoList[i].TotalRecvTraffic;
-						OverallInfo.TotalSentTraffic += ProtoList[i].TotalSentTraffic;
+					// Здесь на основании статистики вычисляются значения всех трафиков и времени.
+					DWORD Sum1 = 0, Sum2 = 0;
+						
+					// Значения для текущей сессии.
+					for (int j = p.StartIndex; j < p.NumberOfRecords; j++) {
+						Sum1 += p.AllStatistics[j].Incoming;
+						Sum2 += p.AllStatistics[j].Outgoing;
 					}
+
+					p.CurrentRecvTraffic = Sum1 - p.StartIncoming;
+					p.CurrentSentTraffic = Sum2 - p.StartOutgoing;
+					OverallInfo.CurrentRecvTraffic += p.CurrentRecvTraffic;
+					OverallInfo.CurrentSentTraffic += p.CurrentSentTraffic;
+					// Значения для выбранного периода.
+					p.TotalRecvTraffic =
+						Stat_GetItemValue(1 << i,
+							unOptions.PeriodForShow + 1,
+							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 1);
+					p.TotalSentTraffic =
+						Stat_GetItemValue(1 << i,
+							unOptions.PeriodForShow + 1,
+							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 2);
+					p.Total.Timer =
+						Stat_GetItemValue(1 << i,
+							unOptions.PeriodForShow + 1,
+							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 4);
+					OverallInfo.TotalRecvTraffic += p.TotalRecvTraffic;
+					OverallInfo.TotalSentTraffic += p.TotalSentTraffic;
 				}
+
 				// Не пора ли уведомить?
 				if (unOptions.NotifyBySize && Traffic_Notify_size_value) {
 					if (!((OverallInfo.CurrentRecvTraffic >> 10) % Traffic_Notify_size_value)
@@ -906,33 +893,15 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 				GetLocalTime(&stNow);
 
 				// Не пора ли сбросить общий счётчик?
-				if ((unOptions.PeriodForShow == 0
-					&& stNow.wHour == 0
-					&& stNow.wMinute == 0
-					&& stNow.wSecond == 0)
-					|| (unOptions.PeriodForShow == 1
-						&& DayOfWeek(stNow.wDay, stNow.wMonth, stNow.wYear) == 1
-						&& stNow.wHour == 0
-						&& stNow.wMinute == 0
-						&& stNow.wSecond == 0)
-					|| (unOptions.PeriodForShow == 2
-						&& stNow.wDay == 1
-						&& stNow.wHour == 0
-						&& stNow.wMinute == 0
-						&& stNow.wSecond == 0)
-					|| (unOptions.PeriodForShow == 3
-						&& stNow.wMonth == 1
-						&& stNow.wDay == 1
-						&& stNow.wHour == 0
-						&& stNow.wMinute == 0
-						&& stNow.wSecond == 0))
+				if ((unOptions.PeriodForShow == 0 && stNow.wHour == 0 && stNow.wMinute == 0 && stNow.wSecond == 0)
+					|| (unOptions.PeriodForShow == 1 && DayOfWeek(stNow.wDay, stNow.wMonth, stNow.wYear) == 1 && stNow.wHour == 0 && stNow.wMinute == 0 && stNow.wSecond == 0)
+					|| (unOptions.PeriodForShow == 2 && stNow.wDay == 1 && stNow.wHour == 0 && stNow.wMinute == 0 && stNow.wSecond == 0) 
+					|| (unOptions.PeriodForShow == 3 && stNow.wMonth == 1 && stNow.wDay == 1 && stNow.wHour == 0 && stNow.wMinute == 0 && stNow.wSecond == 0))
 					OverallInfo.Total.TimeAtStart = CurrentTimeMs;
 
 				if (online_count > 0) {
-					OverallInfo.Session.Timer =
-						(CurrentTimeMs - OverallInfo.Session.TimeAtStart) / 1000;
-					OverallInfo.Total.Timer =
-						(CurrentTimeMs - OverallInfo.Total.TimeAtStart) / 1000;
+					OverallInfo.Session.Timer = (CurrentTimeMs - OverallInfo.Session.TimeAtStart) / 1000;
+					OverallInfo.Total.Timer = (CurrentTimeMs - OverallInfo.Total.TimeAtStart) / 1000;
 				}
 
 				CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)Traffic_FrameID, FU_FMREDRAW);
@@ -940,40 +909,35 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 			break;
 
 		case TIMER_TOOLTIP:
-			{
-				wchar_t *TooltipText;
-				CLCINFOTIP ti = { 0 };
+			GetCursorPos(&TooltipPosition);
+			if (!TooltipShowing && unOptions.ShowTooltip) {
+				KillTimer(TrafficHwnd, TIMER_TOOLTIP);
+				ScreenToClient(TrafficHwnd, &TooltipPosition);
+
 				RECT rt;
+				GetClientRect(TrafficHwnd, &rt);
+				if (PtInRect(&rt, TooltipPosition)) {
+					GetCursorPos(&ptMouse);
 
-				GetCursorPos(&TooltipPosition);
-				if (!TooltipShowing && unOptions.ShowTooltip) {
-					KillTimer(TrafficHwnd, TIMER_TOOLTIP);
-					ScreenToClient(TrafficHwnd, &TooltipPosition);
-					GetClientRect(TrafficHwnd, &rt);
-					if (PtInRect(&rt, TooltipPosition)) {
-						GetCursorPos(&ptMouse);
-						ti.rcItem.left = TooltipPosition.x - 10;
-						ti.rcItem.right = TooltipPosition.x + 10;
-						ti.rcItem.top = TooltipPosition.y - 10;
-						ti.rcItem.bottom = TooltipPosition.y + 10;
-						ti.cbSize = sizeof(ti);
-						TooltipText = variables_parsedup(Traffic_TooltipFormat, nullptr, NULL);
+					CLCINFOTIP ti = { 0 };
+					ti.rcItem.left = TooltipPosition.x - 10;
+					ti.rcItem.right = TooltipPosition.x + 10;
+					ti.rcItem.top = TooltipPosition.y - 10;
+					ti.rcItem.bottom = TooltipPosition.y + 10;
+					ti.cbSize = sizeof(ti);
 
-						CallService(MS_TIPPER_SHOWTIPW, (WPARAM)TooltipText, (LPARAM)&ti);
+					wchar_t *TooltipText = variables_parsedup(Traffic_TooltipFormat, nullptr, NULL);
+					CallService(MS_TIPPER_SHOWTIPW, (WPARAM)TooltipText, (LPARAM)&ti);
+					mir_free(TooltipText);
 
-						TooltipShowing = TRUE;
-						mir_free(TooltipText);
-					}
+					TooltipShowing = TRUE;
 				}
 			}
 			break;
 		}
 		break;
-
-	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
-	//
+
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
@@ -1089,30 +1053,25 @@ void NotifyOnRecv(void)
 
 void CreateProtocolList(void)
 {
-	int i;
-	PROTOACCOUNT **acc;
-	//
-	Proto_EnumAccounts(&NumberOfAccounts, &acc);
-	//
-	ProtoList = (PROTOLIST*)mir_alloc(sizeof(PROTOLIST)*(NumberOfAccounts));
-	//
-	for (i = 0; i < NumberOfAccounts; i++) {
-		ProtoList[i].name = mir_strdup(acc[i]->szModuleName);
-		ProtoList[i].tszAccountName = mir_wstrdup(acc[i]->tszAccountName);
+	auto &accs = Accounts();
 
-		ProtoList[i].Flags = db_get_b(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, 3);
-		ProtoList[i].CurrentRecvTraffic =
-			ProtoList[i].CurrentSentTraffic =
-			ProtoList[i].Session.Timer = 0;
+	NumberOfAccounts = accs.getCount();
+	ProtoList = (PROTOLIST*)mir_calloc(sizeof(PROTOLIST)*NumberOfAccounts);
 
-		ProtoList[i].Enabled = acc[i]->bIsEnabled;
-		ProtoList[i].State = 0;
+	int i = 0;
+	for (auto &pa : accs) {
+		auto &p = ProtoList[i++];
+		p.name = mir_strdup(pa->szModuleName);
+		p.tszAccountName = mir_wstrdup(pa->tszAccountName);
+		p.Flags = db_get_b(NULL, p.name, SETTINGS_PROTO_FLAGS, 3);
+		p.Enabled = pa->IsEnabled();
 
-		Stat_ReadFile(i);
-		ProtoList[i].StartIndex = ProtoList[i].NumberOfRecords - 1;
-		ProtoList[i].StartIncoming = ProtoList[i].AllStatistics[ProtoList[i].StartIndex].Incoming;
-		ProtoList[i].StartOutgoing = ProtoList[i].AllStatistics[ProtoList[i].StartIndex].Outgoing;
-	} // цикл по аккаунтам
+		Stat_ReadFile(p);
+		p.StartIndex = p.NumberOfRecords - 1;
+		p.StartIncoming = p.AllStatistics[p.StartIndex].Incoming;
+		p.StartOutgoing = p.AllStatistics[p.StartIndex].Outgoing;
+	}
+
 	// Начальные значения для суммарной информации.
 	OverallInfo.Session.Timer = OverallInfo.Total.Timer = 0;
 }
@@ -1120,11 +1079,12 @@ void CreateProtocolList(void)
 void DestroyProtocolList(void)
 {
 	for (int i = 0; i < NumberOfAccounts; i++) {
-		Stat_CheckStatistics(i);
-		CloseHandle(ProtoList[i].hFile);
-		mir_free(ProtoList[i].tszAccountName);
-		mir_free(ProtoList[i].name);
-		mir_free(ProtoList[i].AllStatistics);
+		auto &p = ProtoList[i];
+		Stat_CheckStatistics(p);
+		CloseHandle(p.hFile);
+		mir_free(p.tszAccountName);
+		mir_free(p.name);
+		mir_free(p.AllStatistics);
 	}
 
 	mir_free(ProtoList);
@@ -1198,6 +1158,7 @@ unsigned short int TrafficWindowHeight(void)
 }
 
 // Функция вносит изменения в ProtoList при коммутации аккаунтов
+
 int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *acc = (PROTOACCOUNT*)lParam;

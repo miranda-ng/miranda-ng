@@ -177,19 +177,15 @@ Size - размер буфера. */
 size_t GetDurationFormatM(DWORD Duration, wchar_t *Format, wchar_t *Buffer, size_t Size)
 {
 	size_t Length;
-	DWORD q;
-	WORD TokenIndex, FormatIndex;
-	wchar_t Token[256],  // Аккумулятор.
-		*Res; // Промежуточный результат.
+	wchar_t Token[256];  // Аккумулятор.
 
-	Res = (wchar_t*)malloc(sizeof(wchar_t)); // Выделяем чуть-чуть памяти под результат, но это только начало.
-	//SecureZeroMemory(Res, sizeof(wchar_t));
+	wchar_t *Res = (wchar_t*)malloc(sizeof(wchar_t)); // Выделяем чуть-чуть памяти под результат, но это только начало.
 	Res[0] = 0;
 
-	for (FormatIndex = 0; Format[FormatIndex];) {
+	for (int FormatIndex = 0; Format[FormatIndex];) {
 		// Ищем токены. Считается, что токен - только буквы.
-		TokenIndex = 0;
-		q = iswalpha(Format[FormatIndex]);
+		int TokenIndex = 0;
+		int q = iswalpha(Format[FormatIndex]);
 		// Копируем символы в аккумулятор до смены флага.
 		do {
 			Token[TokenIndex++] = Format[FormatIndex++];

@@ -32,11 +32,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define STAT_UNITS_ADAPTIVE 3
 
 INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-void Stat_ReadFile(BYTE);
+void Stat_ReadFile(PROTOLIST &p);
 void Stat_Show(HWND);
 void Stat_UpdateTotalTraffic(HWND, DWORD, DWORD);
-void Stat_CheckStatistics(BYTE);
-DWORD Stat_GetStartIndex(BYTE AccNum, BYTE Interval, DWORD ItemNumber, SYSTEMTIME *st);
+void Stat_CheckStatistics(PROTOLIST &p);
+DWORD Stat_GetStartIndex(BYTE AccNum, BYTE Interval, int ItemNumber, SYSTEMTIME *st);
 void Stat_SetAccShift(BYTE AccNum, BYTE EldestAccount);
 DWORD Stat_GetItemValue(WORD SelectedAccs, BYTE Interval, DWORD ItemNum, BYTE SubitemNum);
 DWORD Stat_GetRecordsNumber(BYTE AccNum, BYTE Interval);

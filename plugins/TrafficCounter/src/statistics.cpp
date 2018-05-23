@@ -29,8 +29,6 @@ HWND hListAccs;
 
 INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WORD i;
-
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -41,12 +39,12 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			2, 20, 246, 112,
 			hwndDlg, nullptr, nullptr, nullptr);
 		SendMessage(hListAccs, WM_SETFONT, (WPARAM)(HFONT)GetStockObject(DEFAULT_GUI_FONT), 0);
-		for (i = 0; i < NumberOfAccounts; i++) {
+		for (int i = 0; i < NumberOfAccounts; i++) {
 			// Готовим список аккаунтов
 			if (ProtoList[i].tszAccountName)
 				SendMessage(hListAccs, LB_ADDSTRING, 0, (LPARAM)ProtoList[i].tszAccountName);
 		}
-		for (i = NumberOfAccounts; i--;)
+		for (int i = NumberOfAccounts; i--;)
 			SendMessage(hListAccs, LB_SETSEL, (WPARAM)0x01 & (Stat_SelAcc >> i), (LPARAM)i);
 		// Готовим список единиц измерения
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_UNITS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Bytes"));
@@ -112,7 +110,8 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					LB_GETSELITEMS,
 					SelItemsCount,
 					(LPARAM)SelItems);
-				for (Stat_SelAcc = i = 0; i < SelItemsCount; i++)
+				Stat_SelAcc = 0;
+				for (int i = 0; i < SelItemsCount; i++)
 					Stat_SelAcc |= 1 << SelItems[i];
 				Stat_Show(hwndDlg);
 			}
@@ -133,7 +132,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					MB_OKCANCEL | MB_ICONWARNING))
 					break;
 				GetLocalTime(&stNow);
-				for (i = NumberOfAccounts; i--;)
+				for (int i = NumberOfAccounts; i--;)
 					if (0x01 & (Stat_SelAcc >> i)) {
 						SetFilePointer(ProtoList[i].hFile, sizeof(HOURLYSTATS), nullptr, FILE_BEGIN);
 						SetEndOfFile(ProtoList[i].hFile); // Усекаем файл до одной записи.
@@ -149,7 +148,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						ProtoList[i].StartOutgoing = 0;
 						ProtoList[i].AllStatistics[0].Time = 0;
 						ProtoList[i].Total.TimeAtStart = GetTickCount();
-						Stat_CheckStatistics(i);
+						Stat_CheckStatistics(ProtoList[i]);
 					}
 				Stat_Show(hwndDlg);
 			}
@@ -242,7 +241,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					{
 						DWORD j = -1, dwTotalIncoming = 0, dwTotalOutgoing = 0;
 
-						i = SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_GETSELECTEDCOUNT, 0, 0);
+						int i = SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_GETSELECTEDCOUNT, 0, 0);
 						for (; i--;) {
 							j = SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_GETNEXTITEM, j, LVNI_SELECTED);
 							dwTotalIncoming += Stat_GetItemValue(Stat_SelAcc, unOptions.Stat_Tab, j, 1);
@@ -293,7 +292,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 /*
 Функция читает статистику из файла для аккаунта с номером n.
 */
-void Stat_ReadFile(BYTE n)
+void Stat_ReadFile(PROTOLIST &p)
 {
 	LARGE_INTEGER Size;
 	DWORD BytesRead;
@@ -302,18 +301,18 @@ void Stat_ReadFile(BYTE n)
 
 	pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\statistics");
 	CreateDirectoryTreeW(pszPath);
-	mir_snwprintf(FileName, L"%s\\%S.stat", pszPath, ProtoList[n].name);
+	mir_snwprintf(FileName, L"%s\\%S.stat", pszPath, p.name);
 	mir_free(pszPath);
 	GetLocalTime(&stNow);
-	ProtoList[n].hFile = CreateFile(FileName, GENERIC_READ | GENERIC_WRITE,
+	p.hFile = CreateFile(FileName, GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-	GetFileSizeEx(ProtoList[n].hFile, &Size);
+	GetFileSizeEx(p.hFile, &Size);
 	if (Size.QuadPart != 0) // Если файл со статистикой существует и имеет ненулевой размер...
 	{
 		// ...то читаем статистику из файла
-		ProtoList[n].NumberOfRecords = DWORD(Size.QuadPart / sizeof(HOURLYSTATS));
-		ProtoList[n].AllStatistics = (HOURLYSTATS*)mir_alloc(sizeof(HOURLYSTATS)*ProtoList[n].NumberOfRecords);
-		ReadFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[0], sizeof(HOURLYSTATS)*ProtoList[n].NumberOfRecords, &BytesRead, nullptr);
+		p.NumberOfRecords = DWORD(Size.QuadPart / sizeof(HOURLYSTATS));
+		p.AllStatistics = (HOURLYSTATS*)mir_alloc(sizeof(HOURLYSTATS)*p.NumberOfRecords);
+		ReadFile(p.hFile, &p.AllStatistics[0], sizeof(HOURLYSTATS)*p.NumberOfRecords, &BytesRead, nullptr);
 		if (!BytesRead) {
 			MessageBox(TrafficHwnd, TranslateT("Couldn't read statistics file"), TranslateT("Traffic Counter"), MB_OK);
 			return;
@@ -321,17 +320,15 @@ void Stat_ReadFile(BYTE n)
 	}
 	else {
 		// Необходимо создать новый файл.
-		ProtoList[n].NumberOfRecords = 1;
-		ProtoList[n].AllStatistics = (HOURLYSTATS*)mir_alloc(sizeof(HOURLYSTATS));
-		ProtoList[n].AllStatistics[0].Hour = stNow.wHour;
-		ProtoList[n].AllStatistics[0].Day = stNow.wDay;
-		ProtoList[n].AllStatistics[0].Month = stNow.wMonth;
-		ProtoList[n].AllStatistics[0].Year = stNow.wYear;
-		ProtoList[n].AllStatistics[0].Incoming =
-			ProtoList[n].AllStatistics[0].Outgoing =
-			ProtoList[n].AllStatistics[0].Time = 0;
+		p.NumberOfRecords = 1;
+		p.AllStatistics = (HOURLYSTATS*)mir_alloc(sizeof(HOURLYSTATS));
+		p.AllStatistics[0].Hour = stNow.wHour;
+		p.AllStatistics[0].Day = stNow.wDay;
+		p.AllStatistics[0].Month = stNow.wMonth;
+		p.AllStatistics[0].Year = stNow.wYear;
+		p.AllStatistics[0].Incoming = p.AllStatistics[0].Outgoing = p.AllStatistics[0].Time = 0;
 	}
-	Stat_CheckStatistics(n);
+	Stat_CheckStatistics(p);
 }
 
 /* Функция готовит вывод в ListView статистики.
@@ -367,25 +364,25 @@ void Stat_UpdateTotalTraffic(HWND hwndDialog, DWORD Incoming, DWORD Outgoing)
 количество записей уменьшается на соответствующее количество часов.
 Если текущее время больше, в статистику включается необходимое количество пустых записей.
 */
-void Stat_CheckStatistics(BYTE n)
+void Stat_CheckStatistics(PROTOLIST &p)
 {
 	SYSTEMTIME stNow, stLast = { 0 };
 	HOURLYSTATS htTmp = { 0 };
 	signed short int d;//, i;
 	DWORD q;
 
-	stLast.wHour = ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1].Hour;
-	stLast.wDay = ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1].Day;
-	stLast.wMonth = ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1].Month;
-	stLast.wYear = ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1].Year;
+	stLast.wHour = p.AllStatistics[p.NumberOfRecords - 1].Hour;
+	stLast.wDay = p.AllStatistics[p.NumberOfRecords - 1].Day;
+	stLast.wMonth = p.AllStatistics[p.NumberOfRecords - 1].Month;
+	stLast.wYear = p.AllStatistics[p.NumberOfRecords - 1].Year;
 
 	GetLocalTime(&stNow);
 	d = TimeCompare(stNow, stLast);
 	// Если текущее время совпадает со временем последней записи...
 	if (!d) {
 		// ...сохраняем запись в файл и уходим.
-		SetFilePointer(ProtoList[n].hFile, -LONG(sizeof(HOURLYSTATS)), nullptr, FILE_END);
-		WriteFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1], sizeof(HOURLYSTATS), &q, nullptr);
+		SetFilePointer(p.hFile, -LONG(sizeof(HOURLYSTATS)), nullptr, FILE_END);
+		WriteFile(p.hFile, &p.AllStatistics[p.NumberOfRecords - 1], sizeof(HOURLYSTATS), &q, nullptr);
 		return;
 	}
 
@@ -405,25 +402,25 @@ void Stat_CheckStatistics(BYTE n)
 				}
 			}
 
-			ProtoList[n].NumberOfRecords--;
+			p.NumberOfRecords--;
 		} while (TimeCompare(stNow, stLast));
 		return;
 	}
 
 	if (d > 0) {
 		// Сохраняем.
-		SetFilePointer(ProtoList[n].hFile, -LONG(sizeof(HOURLYSTATS)), nullptr, FILE_END);
-		WriteFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1], sizeof(HOURLYSTATS), &q, nullptr);
+		SetFilePointer(p.hFile, -LONG(sizeof(HOURLYSTATS)), nullptr, FILE_END);
+		WriteFile(p.hFile, &p.AllStatistics[p.NumberOfRecords - 1], sizeof(HOURLYSTATS), &q, nullptr);
 
 		// Последняя запись из статистики понадобится для вычисления новых записей, поэтому копируем её (кроме трафика и времени).
-		memcpy(&htTmp, &ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1],
+		memcpy(&htTmp, &p.AllStatistics[p.NumberOfRecords - 1],
 			sizeof(HOURLYSTATS) - 2 * sizeof(DWORD) - sizeof(WORD));
 		// Счётчик времени каждый час должен начинать считать с нуля.
-		ProtoList[n].Total.TimeAtStart = GetTickCount() - stNow.wMilliseconds;
+		p.Total.TimeAtStart = GetTickCount() - stNow.wMilliseconds;
 
 		do {
-			ProtoList[n].AllStatistics =
-				(HOURLYSTATS*)mir_realloc(ProtoList[n].AllStatistics, sizeof(HOURLYSTATS) * ++ProtoList[n].NumberOfRecords);
+			p.AllStatistics =
+				(HOURLYSTATS*)mir_realloc(p.AllStatistics, sizeof(HOURLYSTATS) * ++p.NumberOfRecords);
 
 			htTmp.Hour++;
 			if (htTmp.Hour > 23) {
@@ -442,8 +439,8 @@ void Stat_CheckStatistics(BYTE n)
 			stLast.wYear = htTmp.Year;
 
 			// Добавляем записи одновременно в ОЗУ и в файл.
-			WriteFile(ProtoList[n].hFile, &htTmp, sizeof(HOURLYSTATS), &q, nullptr);
-			memcpy(&ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1], &htTmp, sizeof(HOURLYSTATS));
+			WriteFile(p.hFile, &htTmp, sizeof(HOURLYSTATS), &q, nullptr);
+			memcpy(&p.AllStatistics[p.NumberOfRecords - 1], &htTmp, sizeof(HOURLYSTATS));
 
 		} while (TimeCompare(stNow, stLast));
 	}
@@ -455,9 +452,9 @@ void Stat_CheckStatistics(BYTE n)
 ItemNumber - номер строки в ListView (номер периода).
 stReq - дата, соответствующая вычисленному индексу.
 */
-DWORD Stat_GetStartIndex(BYTE AccNum, BYTE Interval, DWORD ItemNumber, SYSTEMTIME *stReq)
+DWORD Stat_GetStartIndex(BYTE AccNum, BYTE Interval, int ItemNumber, SYSTEMTIME *stReq)
 {
-	DWORD Left, Right, Probe; // Границы интервала для поиска (индексы статистики).
+	int Left, Right, Probe; // Границы интервала для поиска (индексы статистики).
 	SYSTEMTIME stProbe = { 0 }; // Время тыка.
 	signed short int d = 1;
 
@@ -499,7 +496,8 @@ DWORD Stat_GetStartIndex(BYTE AccNum, BYTE Interval, DWORD ItemNumber, SYSTEMTIM
 				Probe++;
 			break;
 		}
-		if (Probe == ItemNumber) break;
+		if (Probe == ItemNumber)
+			break;
 	}
 
 	stReq->wHour = ProtoList[AccNum].AllStatistics[Left].Hour;
@@ -576,7 +574,7 @@ DWORD Stat_GetItemValue(WORD SelectedAccs, BYTE Interval, DWORD ItemNum, BYTE Su
 {
 	DWORD Result = 0;
 	SYSTEMTIME st = { 0 };
-	DWORD Index, IndexP, i;
+	int Index, IndexP, i;
 	signed long int IndexM;
 	BYTE a, EldestAcc;
 
