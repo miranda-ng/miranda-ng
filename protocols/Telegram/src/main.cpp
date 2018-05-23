@@ -17,11 +17,6 @@ PLUGININFOEX pluginInfo =
 
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMPlugin g_plugin;

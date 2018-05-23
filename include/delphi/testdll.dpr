@@ -6,9 +6,6 @@ uses
 var
   PluginInterfaces:array [0..1] of MUUID;
 
-function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
-begin
-  result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
   PluginInfo.shortName  :='Plugin Template';
   PluginInfo.version    :=$00000001;
@@ -18,7 +15,6 @@ begin
   PluginInfo.homepage   :='http://miranda-icq.sourceforge.net/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_TESTPLUGIN;//'{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}';
-end;
 
 function PluginMenuCommand(wParam: WPARAM; lParam: LPARAM):int_ptr; cdecl;
 begin

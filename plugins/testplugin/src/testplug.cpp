@@ -46,11 +46,6 @@ INT_PTR PluginMenuCommand(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	return &pluginInfo;
-}
-
 extern "C" __declspec(dllexport) const MUUID interfaces[] = {MIID_TESTPLUGIN, MIID_LAST};
 
 extern "C" __declspec(dllexport) int Load()
