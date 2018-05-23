@@ -21,7 +21,7 @@ LastUCOptions LastUCOpt = {0};
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Main iconList"), "recent_main", IDI_SHOWRECENT }
+	{ LPGEN("Main icon"), "recent_main", IDI_SHOWRECENT }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
