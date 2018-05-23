@@ -67,7 +67,7 @@ end;
 
 exports
   Load, Unload,
-  MirandaPluginInterfaces,MirandaPluginInfoEx;
+  MirandaPluginInterfaces;
 
 begin
 end.
