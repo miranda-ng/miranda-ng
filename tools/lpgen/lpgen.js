@@ -505,7 +505,7 @@ function ParseRCFile(FileTextVar, array) {
     }
 }
 
-//Source files C++ (*.h,*.c,*.cpp) and *.pas,*.dpr,*.inc (Pascal) multiline parser for translations using LPGEN() LPGENT() TranslateT() Translate() _T() TranslateW()
+//Source files C++ (*.h,*.c,*.cpp) and *.pas,*.dpr,*.inc (Pascal) multiline parser for translations using LPGEN(), LPGENT(), LPGENW(), Translate(), TranslateT(), TranslateW(), _T(), TranslateA_LP(), TranslateW_LP()
 function ParseSourceFile(FileTextVar, array) {
         var string = "",
             onestring = "",
@@ -515,9 +515,9 @@ function ParseSourceFile(FileTextVar, array) {
             stringtolangpack = "",
             clearstring = "";
     //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
-    //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
+    //var find= /(?:LPGEN[TW]?|Translate[TW]?||Translate[AW]_LP|_T)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
     //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
-    var find = /(?:LPGEN[TW]?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)((?:(?:"[^"\\]*(?:\\[\S\s][^"\\]*)*")\s*)*)(?:\s*?,?\s*?(?:tmp)?\))/gm;
+    var find = /(?:LPGEN[TW]?|Translate[TW]?|Translate[AW]_LP)(?:\s*?\(\s*?L?\s*)((?:(?:"[^"\\]*(?:\\[\S\s][^"\\]*)*")\s*)*)(?:\s*?,?\s*?(?:tmp)?\))/gm;
     //now make a job, till end of matching regexp
     while ((string = find.exec(FileTextVar)) !== null) {
         //first, init empty var
