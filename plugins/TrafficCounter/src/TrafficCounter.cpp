@@ -609,9 +609,6 @@ static POINT ptMouse = { 0 };
 
 LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	POINT p;
-	int i;
-	//
 	switch (msg) {
 	case (WM_USER + 697):
 		if (lParam == 666)
@@ -637,16 +634,20 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 	case WM_LBUTTONDOWN:
 		if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+			POINT p;
 			ClientToScreen(GetParent(hwnd), &p);
 			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(p.x, p.y));
 		}
 		break;
 
 	case WM_RBUTTONDOWN:
-		p.x = GET_X_LPARAM(lParam);
-		p.y = GET_Y_LPARAM(lParam);
-		ClientToScreen(hwnd, &p);
-		TrackPopupMenu(TrafficPopupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, p.x, p.y, 0, hwnd, nullptr);
+		{
+			POINT p;
+			p.x = GET_X_LPARAM(lParam);
+			p.y = GET_Y_LPARAM(lParam);
+			ClientToScreen(hwnd, &p);
+			TrackPopupMenu(TrafficPopupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, p.x, p.y, 0, hwnd, nullptr);
+		}
 		break;
 
 	case WM_COMMAND:
@@ -656,12 +657,11 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 			break;
 
 		case POPUPMENU_CLEAR_NOW:
-			for (i = 0; i < NumberOfAccounts; i++) {
-				ProtoList[i].StartIncoming =
-					ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords - 1].Incoming;
-				ProtoList[i].StartOutgoing =
-					ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords - 1].Outgoing;
-				ProtoList[i].Session.TimeAtStart = GetTickCount();
+			for (int i = 0; i < NumberOfAccounts; i++) {
+				auto &p = ProtoList[i];
+				p.StartIncoming = p.AllStatistics[p.NumberOfRecords - 1].Incoming;
+				p.StartOutgoing = p.AllStatistics[p.NumberOfRecords - 1].Outgoing;
+				p.Session.TimeAtStart = GetTickCount();
 			}
 			OverallInfo.CurrentRecvTraffic = OverallInfo.CurrentSentTraffic = 0;
 		}
@@ -707,44 +707,45 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 				CurrentTimeMs = GetTickCount();
 
-				for (i = 0; i < NumberOfAccounts; i++) {
-					if (ProtoList[i].State) {
-						ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords - 1].Time =
-							(CurrentTimeMs - ProtoList[i].Total.TimeAtStart) / 1000;
-						ProtoList[i].Session.Timer =
-							(CurrentTimeMs - ProtoList[i].Session.TimeAtStart) / 1000;
+				for (int i = 0; i < NumberOfAccounts; i++) {
+					auto &p = ProtoList[i];
+					if (p.State) {
+						p.AllStatistics[p.NumberOfRecords - 1].Time =
+							(CurrentTimeMs - p.Total.TimeAtStart) / 1000;
+						p.Session.Timer =
+							(CurrentTimeMs - p.Session.TimeAtStart) / 1000;
 					}
 
-					Stat_CheckStatistics(i);
-
-					{	// Здесь на основании статистики вычисляются значения всех трафиков и времени.
+					Stat_CheckStatistics(p);
+					{
+						// Здесь на основании статистики вычисляются значения всех трафиков и времени.
 						DWORD Sum1, Sum2;
 						unsigned long int j;
 
 						// Значения для текущей сессии.
-						for (Sum1 = Sum2 = 0, j = ProtoList[i].StartIndex; j < ProtoList[i].NumberOfRecords; j++) {
-							Sum1 += ProtoList[i].AllStatistics[j].Incoming;
-							Sum2 += ProtoList[i].AllStatistics[j].Outgoing;
+						for (Sum1 = Sum2 = 0, j = p.StartIndex; j < p.NumberOfRecords; j++) {
+							Sum1 += p.AllStatistics[j].Incoming;
+							Sum2 += p.AllStatistics[j].Outgoing;
 						}
-						ProtoList[i].CurrentRecvTraffic = Sum1 - ProtoList[i].StartIncoming;
-						ProtoList[i].CurrentSentTraffic = Sum2 - ProtoList[i].StartOutgoing;
-						OverallInfo.CurrentRecvTraffic += ProtoList[i].CurrentRecvTraffic;
-						OverallInfo.CurrentSentTraffic += ProtoList[i].CurrentSentTraffic;
+						p.CurrentRecvTraffic = Sum1 - p.StartIncoming;
+						p.CurrentSentTraffic = Sum2 - p.StartOutgoing;
+						OverallInfo.CurrentRecvTraffic += p.CurrentRecvTraffic;
+						OverallInfo.CurrentSentTraffic += p.CurrentSentTraffic;
 						// Значения для выбранного периода.
-						ProtoList[i].TotalRecvTraffic =
+						p.TotalRecvTraffic =
 							Stat_GetItemValue(1 << i,
 								unOptions.PeriodForShow + 1,
 								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 1);
-						ProtoList[i].TotalSentTraffic =
+						p.TotalSentTraffic =
 							Stat_GetItemValue(1 << i,
 								unOptions.PeriodForShow + 1,
 								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 2);
-						ProtoList[i].Total.Timer =
+						p.Total.Timer =
 							Stat_GetItemValue(1 << i,
 								unOptions.PeriodForShow + 1,
 								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 4);
-						OverallInfo.TotalRecvTraffic += ProtoList[i].TotalRecvTraffic;
-						OverallInfo.TotalSentTraffic += ProtoList[i].TotalSentTraffic;
+						OverallInfo.TotalRecvTraffic += p.TotalRecvTraffic;
+						OverallInfo.TotalSentTraffic += p.TotalSentTraffic;
 					}
 				}
 				// Не пора ли уведомить?
@@ -762,33 +763,15 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 				GetLocalTime(&stNow);
 
 				// Не пора ли сбросить общий счётчик?
-				if ((unOptions.PeriodForShow == 0
-					&& stNow.wHour == 0
-					&& stNow.wMinute == 0
-					&& stNow.wSecond == 0)
-					|| (unOptions.PeriodForShow == 1
-						&& DayOfWeek(stNow.wDay, stNow.wMonth, stNow.wYear) == 1
-						&& stNow.wHour == 0
-						&& stNow.wMinute == 0
-						&& stNow.wSecond == 0)
-					|| (unOptions.PeriodForShow == 2
-						&& stNow.wDay == 1
-						&& stNow.wHour == 0
-						&& stNow.wMinute == 0
-						&& stNow.wSecond == 0)
-					|| (unOptions.PeriodForShow == 3
-						&& stNow.wMonth == 1
-						&& stNow.wDay == 1
-						&& stNow.wHour == 0
-						&& stNow.wMinute == 0
-						&& stNow.wSecond == 0))
+				if ((unOptions.PeriodForShow == 0 && stNow.wHour == 0 && stNow.wMinute == 0 && stNow.wSecond == 0)
+					|| (unOptions.PeriodForShow == 1 && DayOfWeek(stNow.wDay, stNow.wMonth, stNow.wYear) == 1 && stNow.wHour == 0 && stNow.wMinute == 0 && stNow.wSecond == 0)
+					|| (unOptions.PeriodForShow == 2 && stNow.wDay == 1 && stNow.wHour == 0 && stNow.wMinute == 0 && stNow.wSecond == 0) 
+					|| (unOptions.PeriodForShow == 3 && stNow.wMonth == 1 && stNow.wDay == 1 && stNow.wHour == 0 && stNow.wMinute == 0 && stNow.wSecond == 0))
 					OverallInfo.Total.TimeAtStart = CurrentTimeMs;
 
 				if (online_count > 0) {
-					OverallInfo.Session.Timer =
-						(CurrentTimeMs - OverallInfo.Session.TimeAtStart) / 1000;
-					OverallInfo.Total.Timer =
-						(CurrentTimeMs - OverallInfo.Total.TimeAtStart) / 1000;
+					OverallInfo.Session.Timer = (CurrentTimeMs - OverallInfo.Session.TimeAtStart) / 1000;
+					OverallInfo.Total.Timer = (CurrentTimeMs - OverallInfo.Total.TimeAtStart) / 1000;
 				}
 
 				CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)Traffic_FrameID, FU_FMREDRAW);
@@ -796,40 +779,35 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 			break;
 
 		case TIMER_TOOLTIP:
-			{
-				wchar_t *TooltipText;
-				CLCINFOTIP ti = { 0 };
+			GetCursorPos(&TooltipPosition);
+			if (!TooltipShowing && unOptions.ShowTooltip) {
+				KillTimer(TrafficHwnd, TIMER_TOOLTIP);
+				ScreenToClient(TrafficHwnd, &TooltipPosition);
+
 				RECT rt;
+				GetClientRect(TrafficHwnd, &rt);
+				if (PtInRect(&rt, TooltipPosition)) {
+					GetCursorPos(&ptMouse);
 
-				GetCursorPos(&TooltipPosition);
-				if (!TooltipShowing && unOptions.ShowTooltip) {
-					KillTimer(TrafficHwnd, TIMER_TOOLTIP);
-					ScreenToClient(TrafficHwnd, &TooltipPosition);
-					GetClientRect(TrafficHwnd, &rt);
-					if (PtInRect(&rt, TooltipPosition)) {
-						GetCursorPos(&ptMouse);
-						ti.rcItem.left = TooltipPosition.x - 10;
-						ti.rcItem.right = TooltipPosition.x + 10;
-						ti.rcItem.top = TooltipPosition.y - 10;
-						ti.rcItem.bottom = TooltipPosition.y + 10;
-						ti.cbSize = sizeof(ti);
-						TooltipText = variables_parsedup(Traffic_TooltipFormat, nullptr, NULL);
+					CLCINFOTIP ti = { 0 };
+					ti.rcItem.left = TooltipPosition.x - 10;
+					ti.rcItem.right = TooltipPosition.x + 10;
+					ti.rcItem.top = TooltipPosition.y - 10;
+					ti.rcItem.bottom = TooltipPosition.y + 10;
+					ti.cbSize = sizeof(ti);
 
-						CallService(MS_TIPPER_SHOWTIPW, (WPARAM)TooltipText, (LPARAM)&ti);
+					wchar_t *TooltipText = variables_parsedup(Traffic_TooltipFormat, nullptr, NULL);
+					CallService(MS_TIPPER_SHOWTIPW, (WPARAM)TooltipText, (LPARAM)&ti);
+					mir_free(TooltipText);
 
-						TooltipShowing = TRUE;
-						mir_free(TooltipText);
-					}
+					TooltipShowing = TRUE;
 				}
 			}
 			break;
 		}
 		break;
-
-	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
-	//
+
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
@@ -948,21 +926,17 @@ void CreateProtocolList(void)
 	auto &accs = Accounts();
 
 	NumberOfAccounts = accs.getCount();
-	ProtoList = (PROTOLIST*)mir_alloc(sizeof(PROTOLIST)*NumberOfAccounts);
+	ProtoList = (PROTOLIST*)mir_calloc(sizeof(PROTOLIST)*NumberOfAccounts);
 
 	int i = 0;
 	for (auto &pa : accs) {
 		auto &p = ProtoList[i++];
 		p.name = mir_strdup(pa->szModuleName);
 		p.tszAccountName = mir_wstrdup(pa->tszAccountName);
-
 		p.Flags = db_get_b(NULL, p.name, SETTINGS_PROTO_FLAGS, 3);
-		p.CurrentRecvTraffic = p.CurrentSentTraffic = p.Session.Timer = 0;
-
 		p.Enabled = pa->IsEnabled();
-		p.State = 0;
 
-		Stat_ReadFile(i);
+		Stat_ReadFile(p);
 		p.StartIndex = p.NumberOfRecords - 1;
 		p.StartIncoming = p.AllStatistics[p.StartIndex].Incoming;
 		p.StartOutgoing = p.AllStatistics[p.StartIndex].Outgoing;
@@ -975,11 +949,12 @@ void CreateProtocolList(void)
 void DestroyProtocolList(void)
 {
 	for (int i = 0; i < NumberOfAccounts; i++) {
-		Stat_CheckStatistics(i);
-		CloseHandle(ProtoList[i].hFile);
-		mir_free(ProtoList[i].tszAccountName);
-		mir_free(ProtoList[i].name);
-		mir_free(ProtoList[i].AllStatistics);
+		auto &p = ProtoList[i];
+		Stat_CheckStatistics(p);
+		CloseHandle(p.hFile);
+		mir_free(p.tszAccountName);
+		mir_free(p.name);
+		mir_free(p.AllStatistics);
 	}
 
 	mir_free(ProtoList);

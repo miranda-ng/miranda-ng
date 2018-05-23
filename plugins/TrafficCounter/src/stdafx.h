@@ -44,18 +44,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_skin_eng.h>
 #include <m_tipper.h>
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin();
+};
+
 #include "resource.h"
 #include "version.h"
 #include "misc.h"
 #include "opttree.h"
 #include "vars.h"
-#include "statistics.h"
 #include "TrafficCounter.h"
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-};
 
 #pragma pack(push)
 #pragma pack(1)
@@ -74,7 +73,7 @@ typedef struct tagTimer
 	DWORD Timer; // Количество секунд со времени запуска таймера.
 } TIMER;
 
-typedef struct
+struct PROTOLIST
 {
 	char *name; // Имя аккаунта.
 
@@ -99,21 +98,23 @@ typedef struct
 	};
 
 	// Добавлено в версии 0.1.1.0.
-	DWORD NumberOfRecords; // Количество часов в общей статистике.
+	int NumberOfRecords; // Количество часов в общей статистике.
 	HOURLYSTATS *AllStatistics; // Полная статистика вместе со статистикой онлайна.
 	HANDLE hFile; // Файл с сохранённой статистикой данного протокола.
 
-	DWORD StartIndex; // Номер записи в статистике, бывший актуальным на момент запуска.
-	DWORD StartIncoming; // Значение входящего трафика на момент запуска.
-	DWORD StartOutgoing; // Значение исходящего трафика на момент запуска.
+	int StartIndex; // Номер записи в статистике, бывший актуальным на момент запуска.
+	int StartIncoming; // Значение входящего трафика на момент запуска.
+	int StartOutgoing; // Значение исходящего трафика на момент запуска.
 
 	// 0.1.1.5.
-	DWORD Shift;	// Номер записи в статистике старейшего выбранного аккаунта,
+	int Shift;	// Номер записи в статистике старейшего выбранного аккаунта,
 					// дата которой соответствует началу статистики данного аккаунта.
 
 	// 0.1.1.6
 	wchar_t *tszAccountName; // Человеческое имя аккаунта для использования в графическом интерфейсе.
-} PROTOLIST;
+};
+
+#include "statistics.h"
 
 //---------------------------------------------------------------------------------------------
 // Различные флаги
