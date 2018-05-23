@@ -6,16 +6,6 @@ uses
 var
   PluginInterfaces:array [0..1] of MUUID;
 
-  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName  :='Plugin Template';
-  PluginInfo.version    :=$00000001;
-  PluginInfo.description:='The long description of your plugin, to go in the plugin options dialog';
-  PluginInfo.author     :='J. Random Hacker';
-  PluginInfo.copyright  :='(c) 2003 J. Random Hacker';
-  PluginInfo.homepage   :='http://miranda-icq.sourceforge.net/';
-  PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.uuid       :=MIID_TESTPLUGIN;//'{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}';
-
 function PluginMenuCommand(wParam: WPARAM; lParam: LPARAM):int_ptr; cdecl;
 begin
   Result:=0;
@@ -23,9 +13,6 @@ begin
   // all services and hooks need this.
   MessageBox(0, 'Just groovy, baby!', 'Plugin-o-rama', MB_OK);
 end;
-
-var
-  onloadhook:THANDLE;
 
 function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
@@ -48,7 +35,7 @@ end;
 function Load():int; cdecl;
 begin
   Langpack_register;
-  onloadhook:=HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
+  HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
 
   Result:=0;
 end;
@@ -70,4 +57,14 @@ exports
   MirandaPluginInterfaces;
 
 begin
+  PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
+  PluginInfo.shortName  :='Plugin Template';
+  PluginInfo.version    :=$00000001;
+  PluginInfo.description:='The long description of your plugin, to go in the plugin options dialog';
+  PluginInfo.author     :='J. Random Hacker';
+  PluginInfo.copyright  :='(c) 2003 J. Random Hacker';
+  PluginInfo.homepage   :='http://miranda-icq.sourceforge.net/';
+  PluginInfo.flags      :=UNICODE_AWARE;
+  PluginInfo.uuid       :=MIID_TESTPLUGIN;//'{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}';
+
 end.
