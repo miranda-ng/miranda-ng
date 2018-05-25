@@ -1129,10 +1129,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 
-	case DM_APPENDTOLOG:
-		StreamInEvents(wParam, 1, 1);
-		break;
-
 	case DM_REMAKELOG:
 		StreamInEvents(m_hDbEventFirst, -1, 0);
 		break;
@@ -1146,10 +1142,11 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
+			bool isActive = GetActiveWindow() == m_pOwner->GetHwnd() && GetForegroundWindow() == m_pOwner->GetHwnd();
 			if (DbEventIsShown(&dbei)) {
 				// Sounds *only* for sent messages, not for custom events
 				if (isMessage && !isSent) {
-					if (GetForegroundWindow() == m_pOwner->GetHwnd())
+					if (isActive)
 						Skin_PlaySound("RecvMsgActive");
 					else
 						Skin_PlaySound("RecvMsgInactive");
@@ -1158,14 +1155,17 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					m_lastMessage = dbei.timestamp;
 					UpdateLastMessage();
 				}
-				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-					SendMessage(m_hwnd, DM_APPENDTOLOG, hDbEvent, 0);
-				else
-					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+
+				if (isActive) {
+					if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
+						StreamInEvents(hDbEvent, 1, 1);
+					else
+						SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+				}
 
 				// Flash window *only* for messages, not for custom events
 				if (isMessage && !isSent) {
-					if (GetActiveWindow() == m_pOwner->GetHwnd() && GetForegroundWindow() == m_pOwner->GetHwnd()) {
+					if (isActive) {
 						if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
 							SCROLLINFO si = {};
 							si.cbSize = sizeof(si);
