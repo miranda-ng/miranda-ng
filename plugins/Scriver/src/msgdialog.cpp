@@ -1378,10 +1378,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(m_log.GetHwnd(), nullptr, FALSE);
 		break;
 
-	case DM_APPENDTOLOG:   //takes wParam=hDbEvent
-		StreamInEvents(wParam, 1, 1);
-		break;
-
 	case DM_SCROLLLOGTOBOTTOM:
 		if (m_hwndIeview == nullptr) {
 			if ((GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
@@ -1416,26 +1412,32 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (m_hDbEventFirst == 0)
 				m_hDbEventFirst = hDbEvent;
 			if (DbEventIsShown(dbei)) {
+				bool bIsActive = GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->hwndActive == m_hwnd;
 				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
 					/* store the event when the container is hidden so that clist notifications can be removed */
 					if (!IsWindowVisible(m_hwndParent) && m_hDbUnreadEventFirst == 0)
 						m_hDbUnreadEventFirst = hDbEvent;
 					m_lastMessage = dbei.timestamp;
 					UpdateStatusBar();
-					if (GetForegroundWindow() == m_hwndParent && m_pParent->hwndActive == m_hwnd)
+					if (bIsActive)
 						Skin_PlaySound("RecvMsgActive");
-					else Skin_PlaySound("RecvMsgInactive");
+					else
+						Skin_PlaySound("RecvMsgInactive");
 					if ((g_dat.flags2 & SMF2_SWITCHTOACTIVE) && (IsIconic(m_hwndParent) || GetActiveWindow() != m_hwndParent) && IsWindowVisible(m_hwndParent))
 						SendMessage(m_hwndParent, CM_ACTIVATECHILD, 0, (LPARAM)m_hwnd);
 					if (IsAutoPopup(m_hContact))
 						SendMessage(m_hwndParent, CM_POPUPWINDOW, 1, (LPARAM)m_hwnd);
 				}
-				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-					SendMessage(m_hwnd, DM_APPENDTOLOG, WPARAM(hDbEvent), 0);
-				else
-					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+
+				if (bIsActive) {
+					if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
+						StreamInEvents(hDbEvent, 1, 1);
+					else
+						SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+				}
+
 				if (!(dbei.flags & DBEF_SENT) && !DbEventIsCustomForMsgWindow(&dbei)) {
-					if (GetActiveWindow() != m_hwndParent || GetForegroundWindow() != m_hwndParent || m_pParent->hwndActive != m_hwnd) {
+					if (bIsActive) {
 						m_iShowUnread = 1;
 						SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
 						SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, nullptr);
