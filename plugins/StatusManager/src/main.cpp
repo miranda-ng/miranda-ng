@@ -44,14 +44,17 @@ CMPlugin::CMPlugin() :
 /////////////////////////////////////////////////////////////////////////////////////////
 // interfaces
 
-static MUUID Interfaces[2] = { MIID_LAST, MIID_LAST };
+MUUID Interfaces[2] = {0};
+MUUID miidAutoAway = MIID_AUTOAWAY;
 
-extern "C" __declspec(dllexport) MUUID* MirandaPluginInterfaces(void)
+MUUID* GetInterfaces(void)
 {
 	if (g_AAAEnabled)
-		Interfaces[0] = MIID_AUTOAWAY;
+		Interfaces[0] = miidAutoAway;
 	return Interfaces;
-}
+};
+
+extern "C" __declspec(dllexport) MUUID* MirandaInterfaces = GetInterfaces();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's entry point
