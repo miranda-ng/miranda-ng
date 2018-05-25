@@ -616,7 +616,7 @@ const
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
 
   // don't forget to increment it after adding new components!
-  COMPONENTS_COUNT = 19; // Index of the first language
+  COMPONENTS_COUNT = 21; // Index of the first language
 
 // Default installation check
 function IsDefault: Boolean;
