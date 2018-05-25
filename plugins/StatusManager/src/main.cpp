@@ -58,17 +58,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // interfaces
 
-MUUID Interfaces[2] = {0};
-MUUID miidAutoAway = MIID_AUTOAWAY;
+static MUUID Interfaces[2] = { MIID_AUTOAWAY, MIID_LAST };
 
-MUUID* GetInterfaces(void)
+extern "C" __declspec(dllexport) MUUID* MirandaPluginInterfaces(void)
 {
-	if (g_AAAEnabled)
-		Interfaces[0] = miidAutoAway;
-	return Interfaces;
-};
-
-extern "C" __declspec(dllexport) MUUID* MirandaInterfaces = GetInterfaces();
+	return (g_AAAEnabled) ? Interfaces : nullptr;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's entry point
