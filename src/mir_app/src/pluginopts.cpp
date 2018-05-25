@@ -236,8 +236,8 @@ class CPluginOptDlg : public CDlgBase
 public:
 	CPluginOptDlg() :
 		CDlgBase(g_plugin, IDD_OPT_PLUGINS),
-		m_link(this, IDC_GETMOREPLUGINS),
-		m_plugUrl(this, IDC_PLUGINURL, "https://miranda-ng.org/downloads/"),
+		m_link(this, IDC_GETMOREPLUGINS, "https://miranda-ng.org/downloads/"),
+		m_plugUrl(this, IDC_PLUGINURL),
 		m_author(this, IDC_PLUGINAUTHOR),
 		m_plugPid(this, IDC_PLUGINPID),
 		m_plugInfo(this, IDC_PLUGINLONGINFO),
