@@ -1429,12 +1429,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						SendMessage(m_hwndParent, CM_POPUPWINDOW, 1, (LPARAM)m_hwnd);
 				}
 
-				if (bIsActive) {
-					if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-						StreamInEvents(hDbEvent, 1, 1);
-					else
-						SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-				}
+				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
+					StreamInEvents(hDbEvent, 1, 1);
+				else
+					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 
 				if (!(dbei.flags & DBEF_SENT) && !DbEventIsCustomForMsgWindow(&dbei)) {
 					if (bIsActive) {

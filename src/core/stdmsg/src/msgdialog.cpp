@@ -1156,12 +1156,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					UpdateLastMessage();
 				}
 
-				if (isActive) {
-					if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-						StreamInEvents(hDbEvent, 1, 1);
-					else
-						SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-				}
+				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
+					StreamInEvents(hDbEvent, 1, 1);
+				else
+					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 
 				// Flash window *only* for messages, not for custom events
 				if (isMessage && !isSent) {
