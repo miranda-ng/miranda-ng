@@ -209,18 +209,8 @@
 			</BuildConfiguration>
 		</ItemGroup>
 		<ProjectExtensions>
-			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
 			<Borland.ProjectType/>
 			<BorlandProject>
-				<Delphi.Personality>
-					<Source>
-						<Source Name="MainSource">historypp.dpr</Source>
-					</Source>
-					<Excluded_Packages>
-						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k160.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
-					</Excluded_Packages>
-				</Delphi.Personality>
 				<Platforms>
 					<Platform value="Win64">True</Platform>
 					<Platform value="Win32">True</Platform>
