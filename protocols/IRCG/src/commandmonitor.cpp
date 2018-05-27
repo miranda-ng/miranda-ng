@@ -96,7 +96,7 @@ VOID CALLBACK OnlineNotifTimerProc3(HWND, UINT, UINT_PTR idEvent, DWORD)
 	CMStringW name = GetWord(ppro->m_channelsToWho, 0);
 	if (name.IsEmpty()) {
 		ppro->m_channelsToWho = L"";
-		int count = pci->SM_GetCount(ppro->m_szModuleName);
+		int count = g_chatApi.SM_GetCount(ppro->m_szModuleName);
 		for (int i = 0; i < count; i++) {
 			GC_INFO gci = { 0 };
 			gci.Flags = GCF_BYINDEX | GCF_NAME | GCF_TYPE | GCF_COUNT;
@@ -2353,7 +2353,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	}
 
 	if (m_rejoinChannels) {
-		int count = pci->SM_GetCount(m_szModuleName);
+		int count = g_chatApi.SM_GetCount(m_szModuleName);
 		for (int i = 0; i < count; i++) {
 			GC_INFO gci = { 0 };
 			gci.Flags = GCF_BYINDEX | GCF_DATA | GCF_NAME | GCF_TYPE;

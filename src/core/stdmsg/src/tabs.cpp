@@ -81,7 +81,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 					SESSION_INFO *si = pDlg->getChat();
 					if (si != nullptr) {
 						bool bOnline = db_get_w(si->hContact, si->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE;
-						MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+						MODULEINFO *mi = g_chatApi.MM_FindModule(si->pszModule);
 						bDragging = true;
 						iBeginIndex = idx;
 						ImageList_BeginDrag(Clist_GetImageList(), bOnline ? mi->OnlineIconIndex : mi->OfflineIconIndex, 8, 8);
@@ -196,7 +196,7 @@ void CTabbedWindow::OnInitDialog()
 	// restore previous tabs
 	if (g_Settings.bTabRestore) {
 		for (auto &p : arSavedTabs) {
-			SESSION_INFO *si = pci->SM_FindSession(p->m_id, p->m_szModule);
+			SESSION_INFO *si = g_chatApi.SM_FindSession(p->m_id, p->m_szModule);
 			if (si)
 				AddPage(si);
 		}
@@ -414,7 +414,7 @@ void CTabbedWindow::TabClicked()
 
 		FixTabIcons(pDlg);
 		if (!s->pDlg) {
-			pci->ShowRoom(s);
+			g_chatApi.ShowRoom(s);
 			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
 	}

@@ -10,7 +10,6 @@ There is no warranty.
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CHAT_MANAGER *pci;
 
 LIST<XSN_Data> XSN_Users(10, NumericKeySortT);
 HGENMENU hChangeSound = nullptr;
@@ -144,7 +143,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 	if (gce->iType != GC_EVENT_MESSAGE)
 		return 0;
 
-	MCONTACT hContact = pci->FindRoom(gce->pszModule, gce->ptszID);
+	MCONTACT hContact = g_chatApi.FindRoom(gce->pszModule, gce->ptszID);
 	if (hContact != 0) {
 		ptrW nick(db_get_wsa(hContact, gce->pszModule, "MyNick"));
 		if (nick == NULL || gce->ptszText == nullptr)
@@ -234,8 +233,6 @@ static int OnPreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	pci = Chat_GetInterface();
-
 	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog);
 
 	hChangeSoundDlgList = WindowList_Create();

@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 CMPlugin g_plugin;
-CHAT_MANAGER *pci;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,8 +66,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load()
 {
-	pci = Chat_GetInterface();
-
 	InitIcons();
 	InitServers();
 	InitContactMenus();

@@ -153,7 +153,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	dbei.pBlob = (PBYTE)item->sendBuffer;
 
 	MessageWindowEvent evt = { item->hSendId, hContact, &dbei };
-	NotifyEventHooks(pci->hevPreCreate, 0, (LPARAM)&evt);
+	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
 
 	item->sendBuffer = (char *)dbei.pBlob;
 	db_event_add(hContact, &dbei);

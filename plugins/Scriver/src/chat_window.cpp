@@ -83,7 +83,7 @@ LBL_SkipEnd:
 		if (m_pLastSession != nullptr)
 			pszName = m_pLastSession->ptszName;
 	}
-	else pszName = pci->UM_FindUserAutoComplete(m_si->pUsers, m_wszSearchQuery, m_wszSearchResult);
+	else pszName = g_chatApi.UM_FindUserAutoComplete(m_si->pUsers, m_wszSearchQuery, m_wszSearchResult);
 
 	mir_free(pszText);
 	replaceStrW(m_wszSearchResult, nullptr);
@@ -116,9 +116,9 @@ void CChatRoomDlg::FixTabIcons()
 	HICON hIcon;
 	if (!(m_si->wState & GC_EVENT_HIGHLIGHT)) {
 		if (m_si->wState & STATE_TALK)
-			hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? pci->MM_FindModule(m_si->pszModule)->hOnlineTalkIcon : pci->MM_FindModule(m_si->pszModule)->hOfflineTalkIcon;
+			hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? g_chatApi.MM_FindModule(m_si->pszModule)->hOnlineTalkIcon : g_chatApi.MM_FindModule(m_si->pszModule)->hOfflineTalkIcon;
 		else
-			hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? pci->MM_FindModule(m_si->pszModule)->hOnlineIcon : pci->MM_FindModule(m_si->pszModule)->hOfflineIcon;
+			hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? g_chatApi.MM_FindModule(m_si->pszModule)->hOnlineIcon : g_chatApi.MM_FindModule(m_si->pszModule)->hOfflineIcon;
 	}
 	else hIcon = g_dat.hMsgIcon;
 
@@ -157,7 +157,7 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 		m_btnNickList.Enable(true);
 		m_btnFilter.Enable(true);
 		if (m_si->iType == GCW_CHATROOM)
-			m_btnChannelMgr.Enable(pci->MM_FindModule(m_si->pszModule)->bChanMgr);
+			m_btnChannelMgr.Enable(g_chatApi.MM_FindModule(m_si->pszModule)->bChanMgr);
 	}
 
 	int toolbarTopY = bToolbar ? h - m_pParent->iSplitterY - toolbarHeight : h - m_pParent->iSplitterY;
@@ -309,7 +309,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
 	if (mi == nullptr)
 		return;
 
@@ -327,7 +327,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	cmdList = tcmdlist_append(cmdList, pszRtf, 20, FALSE);
 
 	CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
-	pci->DoRtfToTags(ptszText, 0, nullptr);
+	g_chatApi.DoRtfToTags(ptszText, 0, nullptr);
 	ptszText.Trim();
 	ptszText.Replace(L"%", L"%%");
 
@@ -437,7 +437,7 @@ void CChatRoomDlg::UpdateNickList()
 	m_nickList.SendMsg(WM_SETREDRAW, FALSE, 0);
 	m_nickList.SendMsg(LB_RESETCONTENT, 0, 0);
 	for (int index = 0; index < m_si->nUsersInNicklist; index++) {
-		USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
+		USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
 		if (ui) {
 			char szIndicator = SM_GetStatusIndicator(m_si, ui);
 			if (szIndicator > '\0') {
@@ -459,7 +459,7 @@ void CChatRoomDlg::UpdateOptions()
 	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_bNicklistEnabled ? "chat_nicklist" : "chat_nicklist2"));
 	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_bFilterEnabled ? "chat_filter" : "chat_filter2"));
 	{
-		MODULEINFO *pInfo = pci->MM_FindModule(m_si->pszModule);
+		MODULEINFO *pInfo = g_chatApi.MM_FindModule(m_si->pszModule);
 		if (pInfo) {
 			m_btnBold.Enable(pInfo->bBold);
 			m_btnItalic.Enable(pInfo->bItalics);
@@ -510,7 +510,7 @@ void CChatRoomDlg::UpdateOptions()
 
 void CChatRoomDlg::UpdateStatusBar()
 {
-	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
 	wchar_t szTemp[512];
 	mir_snwprintf(szTemp, L"%s : %s", mi->ptszModDispName, m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L"");
 
@@ -533,7 +533,7 @@ void CChatRoomDlg::UpdateStatusBar()
 
 void CChatRoomDlg::UpdateTitle()
 {
-	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
 
 	TitleBarData tbd = {};
 	tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
@@ -819,7 +819,7 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == VK_RETURN) {
 			int index = m_nickList.SendMsg(LB_GETCURSEL, 0, 0);
 			if (index != LB_ERR) {
-				USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
+				USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
 				Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
 			}
 			break;
@@ -858,7 +858,7 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			// string we have
 			int iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
 			for (int i = 0; i < iItems; i++) {
-				USERINFO *ui = pci->UM_FindUserFromIndex(m_si->pUsers, i);
+				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si->pUsers, i);
 				if (ui) {
 					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
 						m_nickList.SendMsg(LB_SETCURSEL, i, 0);
@@ -935,7 +935,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CTLCOLORLISTBOX:
 		SetBkColor((HDC)wParam, g_Settings.crUserListBGColor);
-		return (INT_PTR)pci->hListBkgBrush;
+		return (INT_PTR)g_chatApi.hListBkgBrush;
 
 	case WM_MEASUREITEM:
 		if (!MeasureMenuItem(wParam, lParam)) {
@@ -962,7 +962,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (dis->CtlID == IDC_SRMM_NICKLIST) {
 				int index = dis->itemID;
-				USERINFO *ui = pci->SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
+				USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
 				if (ui) {
 					int x_offset = 2;
 
@@ -976,9 +976,9 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					SetBkMode(dis->hDC, TRANSPARENT);
 
 					if (dis->itemAction == ODA_FOCUS && dis->itemState & ODS_SELECTED)
-						FillRect(dis->hDC, &dis->rcItem, pci->hListSelectedBkgBrush);
+						FillRect(dis->hDC, &dis->rcItem, g_chatApi.hListSelectedBkgBrush);
 					else //if (dis->itemState & ODS_INACTIVE)
-						FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
+						FillRect(dis->hDC, &dis->rcItem, g_chatApi.hListBkgBrush);
 
 					if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
 						hIcon = Skin_LoadProtoIcon(m_si->pszModule, ui->ContactStatus);
@@ -986,7 +986,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						IcoLib_ReleaseIcon(hIcon);
 						x_offset += 18;
 					}
-					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset, pci->SM_GetStatusIcon(m_si, ui), 10, 10, 0, nullptr, DI_NORMAL);
+					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset, g_chatApi.SM_GetStatusIcon(m_si, ui), 10, 10, 0, nullptr, DI_NORMAL);
 					x_offset += 12;
 					if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
 						hIcon = Skin_LoadProtoIcon(m_si->pszModule, ui->ContactStatus);
@@ -1013,7 +1013,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (uMsg != WM_ACTIVATE)
 			SetFocus(m_message.GetHwnd());
 
-		pci->SetActiveSession(m_si);
+		g_chatApi.SetActiveSession(m_si);
 
 		if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
@@ -1041,13 +1041,13 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					GetCursorPos(&p);
 					ScreenToClient(m_nickList.GetHwnd(), &p);
 					int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
-					USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
+					USERINFO *ui = g_chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 					if (ui != nullptr) {
 						static wchar_t ptszBuf[1024];
 						mir_snwprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 							TranslateT("Nickname"), ui->pszNick,
 							TranslateT("Unique ID"), ui->pszUID,
-							TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
+							TranslateT("Status"), g_chatApi.TM_WordToString(parentdat->pStatuses, ui->Status));
 						lpttd->lpszText = ptszBuf;
 					}
 				}

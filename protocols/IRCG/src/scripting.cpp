@@ -162,7 +162,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		}
 		else if (sRequest == "channellist") {
 			CMStringW S = L"";
-			int n = pci->SM_GetCount(m_szModuleName);
+			int n = g_chatApi.SM_GetCount(m_szModuleName);
 			if (n >= 0) {
 				int j = 0;
 				while (j < n) {

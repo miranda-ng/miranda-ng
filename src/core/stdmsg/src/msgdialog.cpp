@@ -891,7 +891,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			// First notification
-			NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
+			NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
 
 			// Someone added items?
 			if (GetMenuItemCount(mwpd.hMenu) > 0) {
@@ -902,7 +902,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// Second notification
 			mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
-			NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
+			NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
 
 			switch (mwpd.selection) {
 			case IDM_UNDO:

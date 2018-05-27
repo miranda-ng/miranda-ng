@@ -97,7 +97,7 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *sz
 	dbei.pBlob = (PBYTE)p->szMsg;
 
 	MessageWindowEvent evt = { id, hContact, &dbei };
-	NotifyEventHooks(pci->hevPreCreate, 0, (LPARAM)&evt);
+	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
 
 	p->szMsg = (char*)dbei.pBlob;
 

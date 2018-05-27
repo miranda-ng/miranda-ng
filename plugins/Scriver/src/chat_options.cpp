@@ -309,7 +309,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_WIZFINISH:
-				pci->ReloadSettings();
+				g_chatApi.ReloadSettings();
 				Chat_UpdateOptions();
 				break;
 
@@ -514,7 +514,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		else if (((LPNMHDR)lParam)->idFrom == 0) {
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_WIZFINISH:
-				pci->ReloadSettings();
+				g_chatApi.ReloadSettings();
 				Chat_UpdateOptions();
 				break;
 
@@ -551,7 +551,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					mir_wstrncpy(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
 					db_unset(0, CHAT_MODULE, "LogDirectory");
 				}
-				pci->SM_InvalidateLogDirectories();
+				g_chatApi.SM_InvalidateLogDirectories();
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGTIMESTAMP));
 				if (iLen > 0) {
@@ -609,7 +609,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				g_Settings.bPopupInactiveOnly = db_get_b(0, CHAT_MODULE, "PopUpInactiveOnly", 1) != 0;
 				g_Settings.bLogIndentEnabled = (db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
-				pci->MM_FontsChanged();
+				g_chatApi.MM_FontsChanged();
 				return TRUE;
 			}
 		}

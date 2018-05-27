@@ -177,7 +177,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 
 	m_pContainer->hwndSaved = m_hwnd;
 
-	pci->SetActiveSession(m_si);
+	g_chatApi.SetActiveSession(m_si);
 	m_hTabIcon = m_hTabStatusIcon;
 
 	if (m_iTabID >= 0) {
@@ -261,7 +261,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		m_btnNickList.Enable(true);
 		m_btnFilter.Enable(true);
 		if (m_si->iType == GCW_CHATROOM) {
-			MODULEINFO *tmp = pci->MM_FindModule(m_si->pszModule);
+			MODULEINFO *tmp = g_chatApi.MM_FindModule(m_si->pszModule);
 			if (tmp)
 				m_btnChannelMgr.Enable(tmp->bChanMgr);
 		}
@@ -427,7 +427,7 @@ LBL_SkipEnd:
 		if (m_pLastSession != nullptr)
 			pszName = m_pLastSession->ptszName;
 	}
-	else pszName = pci->UM_FindUserAutoComplete(m_si->pUsers, m_wszSearchQuery, m_wszSearchResult);
+	else pszName = g_chatApi.UM_FindUserAutoComplete(m_si->pUsers, m_wszSearchQuery, m_wszSearchResult);
 
 	replaceStrW(m_wszSearchResult, nullptr);
 
@@ -489,10 +489,10 @@ CThumbBase* CChatRoomDlg::tabCreateThumb(CProxyWindow *pProxy) const
 
 void CChatRoomDlg::tabClearLog()
 {
-	SESSION_INFO *s = pci->SM_FindSession(m_si->ptszID, m_si->pszModule);
+	SESSION_INFO *s = g_chatApi.SM_FindSession(m_si->ptszID, m_si->pszModule);
 	if (s) {
 		ClearLog();
-		pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
+		g_chatApi.LM_RemoveAll(&s->pLog, &s->pLogEnd);
 		s->iEventCount = 0;
 		s->LastTime = 0;
 		m_si->iEventCount = 0;
@@ -628,12 +628,12 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 	if (GetSendButtonState(m_hwnd) == PBS_DISABLED)
 		return;
 
-	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
 	if (mi == nullptr)
 		return;
 
 	ptrA pszRtf(m_message.GetRichTextRtf());
-	pci->SM_AddCommand(m_si->ptszID, m_si->pszModule, pszRtf);
+	g_chatApi.SM_AddCommand(m_si->ptszID, m_si->pszModule, pszRtf);
 
 	CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
 	if (ptszText.IsEmpty())
@@ -847,7 +847,7 @@ void CChatRoomDlg::UpdateNickList()
 
 void CChatRoomDlg::UpdateOptions()
 {
-	MODULEINFO *pInfo = m_si ? pci->MM_FindModule(m_si->pszModule) : nullptr;
+	MODULEINFO *pInfo = m_si ? g_chatApi.MM_FindModule(m_si->pszModule) : nullptr;
 	if (pInfo) {
 		m_btnBold.Enable(pInfo->bBold);
 		m_btnItalic.Enable(pInfo->bItalics);
@@ -879,7 +879,7 @@ void CChatRoomDlg::UpdateStatusBar()
 		return;
 
 	//Mad: strange rare crash here...
-	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
 	if (!mi)
 		return;
 
@@ -1100,7 +1100,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			RemoveMenu(hSubMenu, 8, MF_BYPOSITION);
 			RemoveMenu(hSubMenu, 4, MF_BYPOSITION);
 
-			MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+			MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
 			EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, MF_BYCOMMAND | ((mi && mi->bBold) ? MF_ENABLED : MF_GRAYED));
 			TranslateMenu(hSubMenu);
 
@@ -1118,13 +1118,13 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			mwpd.hwnd = m_message.GetHwnd();
 			mwpd.hMenu = hSubMenu;
 			mwpd.pt = pt;
-			NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
+			NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
 
 			int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
 
 			mwpd.selection = iSelection;
 			mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
-			NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
+			NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
 
 			switch (iSelection) {
 			case IDM_COPY:
@@ -1323,7 +1323,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (wParam == VK_UP && isCtrl && !isAlt) {
-			char *lpPrevCmd = pci->SM_GetPrevCommand(m_si->ptszID, m_si->pszModule);
+			char *lpPrevCmd = g_chatApi.SM_GetPrevCommand(m_si->ptszID, m_si->pszModule);
 
 			if (!m_si->lpCurrentCommand || !m_si->lpCurrentCommand->last) {
 				// Next command is not defined. It means currently entered text is not saved in the history and it
@@ -1367,7 +1367,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			ste.flags = ST_DEFAULT;
 			ste.codepage = CP_ACP;
 
-			char *lpPrevCmd = pci->SM_GetNextCommand(m_si->ptszID, m_si->pszModule);
+			char *lpPrevCmd = g_chatApi.SM_GetNextCommand(m_si->ptszID, m_si->pszModule);
 			if (lpPrevCmd)
 				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)lpPrevCmd);
 			else if (m_enteredText) {
@@ -1516,7 +1516,7 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			// string we have
 			int i, iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
 			for (i = 0; i < iItems; i++) {
-				USERINFO *ui = pci->UM_FindUserFromIndex(m_si->pUsers, i);
+				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si->pUsers, i);
 				if (ui) {
 					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
 						m_nickList.SendMsg(LB_SETSEL, FALSE, -1);
@@ -1749,7 +1749,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CTLCOLORLISTBOX:
 		SetBkColor((HDC)wParam, g_Settings.crUserListBGColor);
-		return (INT_PTR)pci->hListBkgBrush;
+		return (INT_PTR)g_chatApi.hListBkgBrush;
 
 	case WM_MEASUREITEM:
 		{
@@ -1781,7 +1781,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				int x_offset = 0;
 				int index = dis->itemID;
 
-				USERINFO *ui = pci->UM_FindUserFromIndex(m_si->pUsers, index);
+				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si->pUsers, index);
 				if (ui == nullptr)
 					return TRUE;
 
@@ -1790,14 +1790,14 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					height++;
 				int offset = (height == 10) ? 0 : height / 2;
 
-				HICON hIcon = pci->SM_GetStatusIcon(m_si, ui);
+				HICON hIcon = g_chatApi.SM_GetStatusIcon(m_si, ui);
 				HFONT hFont = g_Settings.UserListFonts[ui->iStatusEx];
 				HFONT hOldFont = (HFONT)SelectObject(dis->hDC, hFont);
 				SetBkMode(dis->hDC, TRANSPARENT);
 
 				int nickIndex = 0;
 				for (int i = 0; i < STATUSICONCOUNT; i++) {
-					if (hIcon == pci->hIcons[ICON_STATUS0 + i]) {
+					if (hIcon == g_chatApi.hIcons[ICON_STATUS0 + i]) {
 						nickIndex = i;
 						break;
 					}
@@ -1808,7 +1808,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					SetTextColor(dis->hDC, g_Settings.nickColors[6]);
 				}
 				else {
-					FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
+					FillRect(dis->hDC, &dis->rcItem, g_chatApi.hListBkgBrush);
 					if (g_Settings.bColorizeNicks && nickIndex != 0)
 						SetTextColor(dis->hDC, g_Settings.nickColors[nickIndex - 1]);
 					else

@@ -252,9 +252,9 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 			continue;
 
 		CMStringW wszOldNick;
-		SESSION_INFO *si = pci->SM_FindSession(it->wszUsername, m_szModuleName);
+		SESSION_INFO *si = g_chatApi.SM_FindSession(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
-			USERINFO *ui = pci->UM_FindUser(si->pUsers, wszUserId);
+			USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, wszUserId);
 			if (ui != nullptr)
 				wszOldNick = ui->pszNick;
 		}
@@ -300,9 +300,9 @@ void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
 		if (it->guildId != pGuild->id)
 			continue;
 
-		SESSION_INFO *si = pci->SM_FindSession(it->wszUsername, m_szModuleName);
+		SESSION_INFO *si = g_chatApi.SM_FindSession(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
-			pci->TM_RemoveAll(&si->pStatuses);
+			g_chatApi.TM_RemoveAll(&si->pStatuses);
 			BuildStatusList(pGuild, it->wszUsername);
 		}
 	}
@@ -358,7 +358,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 		else {
 			debugLogA("store a message into the group channel id %lld", channelId);
 
-			SESSION_INFO *si = pci->SM_FindSession(pUser->wszUsername, m_szModuleName);
+			SESSION_INFO *si = g_chatApi.SM_FindSession(pUser->wszUsername, m_szModuleName);
 			if (si == nullptr) {
 				debugLogA("message to unknown channel %lld ignored", channelId);
 				return;

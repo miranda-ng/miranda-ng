@@ -281,7 +281,7 @@ Profile_GetPathW @293
 Profile_SetDefault @294
 FindDatabasePlugin @296
 RegisterDatabasePlugin @298
-Chat_GetInterface @299
+Chat_CustomizeApi @299
 Chat_Event @300 
 Chat_GetInfo @301 
 Chat_NewSession @302 
@@ -613,3 +613,4 @@ UnregisterPlugin @633
 ?addFont@CMPluginBase@@QAEHPAUFontIDW@@@Z @642 NONAME
 ?addTTB@CMPluginBase@@QAEPAXPBUTTBButton@@@Z @643 NONAME
 ?g_CLI@@3UCLIST_INTERFACE@@A @644 NONAME
+?g_chatApi@@3UCHAT_MANAGER@@A @645 NONAME

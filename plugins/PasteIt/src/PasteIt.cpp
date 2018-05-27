@@ -35,7 +35,6 @@ static IconItem iconList[] =
 };
 
 CMPlugin g_plugin;
-CHAT_MANAGER *pci;
 
 #define FROM_CLIPBOARD 10
 #define FROM_FILE 11
@@ -128,7 +127,7 @@ static void PasteIt(MCONTACT hContact, int mode)
 					// in chat room. 
 					// Next step is to get all protocol sessions and find
 					// one with correct hContact 
-					int cnt = pci->SM_GetCount(szProto);
+					int cnt = g_chatApi.SM_GetCount(szProto);
 					for (int i = 0; i < cnt; i++) {
 						GC_INFO gci = {};
 						gci.iItem = i;
@@ -349,8 +348,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pci = Chat_GetInterface();
-
 	g_plugin.registerIcon(LPGEN("Paste It"), iconList);
 
 	NETLIBUSER nlu = {};

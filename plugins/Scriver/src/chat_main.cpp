@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 // globals
-CHAT_MANAGER *pci;
-
 pfnDoTrayIcon oldDoTrayIcon;
 pfnDoPopup    oldDoPopup;
 
@@ -130,23 +128,23 @@ static void OnLoadSettings()
 int Chat_Load()
 {
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP, g_plugin.m_hLang };
-	pci = Chat_GetInterface(&data);
+	Chat_CustomizeApi(&data);
 
-	pci->OnCreateModule = OnCreateModule;
-	pci->OnDestroyModule = OnDestroyModule;
-	pci->OnLoadSettings = OnLoadSettings;
+	g_chatApi.OnCreateModule = OnCreateModule;
+	g_chatApi.OnDestroyModule = OnDestroyModule;
+	g_chatApi.OnLoadSettings = OnLoadSettings;
 
-	pci->OnSetStatus = OnSetStatus;
+	g_chatApi.OnSetStatus = OnSetStatus;
 
-	pci->OnReplaceSession = OnReplaceSession;
+	g_chatApi.OnReplaceSession = OnReplaceSession;
 
-	pci->OnFlashWindow = OnFlashWindow;
-	pci->OnFlashHighlight = OnFlashHighlight;
-	pci->ShowRoom = ShowRoom;
+	g_chatApi.OnFlashWindow = OnFlashWindow;
+	g_chatApi.OnFlashHighlight = OnFlashHighlight;
+	g_chatApi.ShowRoom = ShowRoom;
 
-	oldDoPopup = pci->DoPopup; pci->DoPopup = DoPopup;
-	oldDoTrayIcon = pci->DoTrayIcon; pci->DoTrayIcon = DoTrayIcon;
-	pci->ReloadSettings();
+	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
+	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.DoTrayIcon = DoTrayIcon;
+	g_chatApi.ReloadSettings();
 
 	return 0;
 }

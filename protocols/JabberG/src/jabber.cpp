@@ -38,7 +38,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HMODULE hMsftedit;
 
 CMPlugin g_plugin;
-CHAT_MANAGER *pci;
 
 int g_cbCountries;
 CountryListEntry *g_countries;
@@ -151,9 +150,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	// set the memory, lists & utf8 managers
-	pci = Chat_GetInterface();
-
 	char mirVer[100];
 	Miranda_GetVersionText(mirVer, _countof(mirVer));
 	mir_wstrcpy(szCoreVersion, _A2T(mirVer));

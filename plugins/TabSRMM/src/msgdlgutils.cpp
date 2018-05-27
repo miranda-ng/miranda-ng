@@ -862,7 +862,7 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 	}
 	else idx += 5;
 
-	MODULEINFO *mi = (isChat()) ? pci->MM_FindModule(m_si->pszModule) : nullptr;
+	MODULEINFO *mi = (isChat()) ? g_chatApi.MM_FindModule(m_si->pszModule) : nullptr;
 
 	bool bInsideColor = false, bInsideUl = false;
 	CMStringW res;

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-CHAT_MANAGER *pci;
 
 HANDLE hProfileFolderPath;
 
@@ -49,10 +48,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pci = Chat_GetInterface();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
 	return 0;
 }
 

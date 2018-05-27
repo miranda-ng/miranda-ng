@@ -48,10 +48,6 @@ typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);
 extern pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
 extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
-/**** chat.cpp *************************************************************************/
-
-extern struct CHAT_MANAGER chatApi;
-
 /**** database.cpp *********************************************************************/
 
 extern MDatabaseCommon *currDb;

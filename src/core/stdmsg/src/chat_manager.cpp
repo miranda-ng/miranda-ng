@@ -27,12 +27,12 @@ pfnDoPopup    oldDoPopup;
 
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si)
 {
-	int i = pci->arSessions.indexOf(si);
+	int i = g_chatApi.arSessions.indexOf(si);
 	if (i == -1)
 		return nullptr;
 
 	for (i--; i >= 0; i--) {
-		SESSION_INFO *p = pci->arSessions[i];
+		SESSION_INFO *p = g_chatApi.arSessions[i];
 		if (p->pDlg)
 			return p;
 	}
@@ -42,11 +42,11 @@ SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si)
 
 SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 {
-	int i = pci->arSessions.indexOf(si);
+	int i = g_chatApi.arSessions.indexOf(si);
 	if (i == -1)
 		return nullptr;
 
-	for (auto &p : pci->arSessions)
+	for (auto &p : g_chatApi.arSessions)
 		if (p->pDlg)
 			return p;
 
@@ -54,8 +54,6 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-CHAT_MANAGER *pci;
 
 HMENU g_hMenu = nullptr;
 
@@ -130,7 +128,7 @@ static void OnLoadSettings()
 		DeleteObject(g_Settings.MessageAreaFont);
 
 	LOGFONT lf;
-	pci->LoadMsgDlgFont(17, &lf, &g_Settings.MessageAreaColor);
+	g_chatApi.LoadMsgDlgFont(17, &lf, &g_Settings.MessageAreaColor);
 	g_Settings.MessageAreaFont = CreateFontIndirect(&lf);
 
 	g_Settings.iX = db_get_dw(0, CHAT_MODULE, "roomx", -1);
@@ -234,20 +232,20 @@ void Load_ChatModule()
 	RegisterFonts();
 
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Chat module"), FONTMODE_USE };
-	pci = Chat_GetInterface(&data);
+	Chat_CustomizeApi(&data);
 
-	pci->OnCreateModule = OnCreateModule;
-	pci->OnDestroyModule = OnDestroyModule;
-	pci->OnReplaceSession = OnReplaceSession;
+	g_chatApi.OnCreateModule = OnCreateModule;
+	g_chatApi.OnDestroyModule = OnDestroyModule;
+	g_chatApi.OnReplaceSession = OnReplaceSession;
 
-	pci->OnLoadSettings = OnLoadSettings;
-	pci->OnFlashWindow = OnFlashWindow;
-	pci->OnFlashHighlight = OnFlashHighlight;
-	pci->ShowRoom = ShowRoom;
+	g_chatApi.OnLoadSettings = OnLoadSettings;
+	g_chatApi.OnFlashWindow = OnFlashWindow;
+	g_chatApi.OnFlashHighlight = OnFlashHighlight;
+	g_chatApi.ShowRoom = ShowRoom;
 
-	oldDoPopup = pci->DoPopup; pci->DoPopup = DoPopup;
-	oldDoTrayIcon = pci->DoTrayIcon; pci->DoTrayIcon = DoTrayIcon;
-	pci->ReloadSettings();
+	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
+	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.DoTrayIcon = DoTrayIcon;
+	g_chatApi.ReloadSettings();
 
 	g_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU));
 

@@ -31,7 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 
 CMPlugin g_plugin;
-CHAT_MANAGER *pci;
 
 MGLOBAL g_myGlobals;
 HNETLIBUSER g_hNetlibUser;
@@ -265,8 +264,6 @@ ATOM g_clsTargetHighlighter = 0;
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pci = Chat_GetInterface();
-
 	/// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);

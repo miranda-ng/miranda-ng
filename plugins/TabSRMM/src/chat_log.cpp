@@ -78,7 +78,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, wchar_t 
 	int lineLen, textCharsCount = 0;
 	wchar_t* line = (wchar_t*)_alloca(8001 * sizeof(wchar_t));
 	wchar_t* d;
-	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(streamData->si->pszModule);
 
 	va_start(va, fmt);
 	lineLen = mir_vsnwprintf(line, 8000, fmt, va);
@@ -497,7 +497,7 @@ static void Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, CMStringA 
 			case 'r':
 				if (!streamData->bStripFormat) {
 					int index = EventToIndex(streamData->lin);
-					res.AppendFormat("%s ", pci->Log_SetStyle(index));
+					res.AppendFormat("%s ", g_chatApi.Log_SetStyle(index));
 				}
 				break;
 			}
@@ -634,10 +634,10 @@ static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 char* Log_CreateRtfHeader(void)
 {
 	// get the number of pixels per logical inch
-	if (pci->logPixelSY == 0) {
+	if (g_chatApi.logPixelSY == 0) {
 		HDC hdc = GetDC(nullptr);
-		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+		g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 		ReleaseDC(nullptr, hdc);
 	}
 
@@ -646,12 +646,12 @@ char* Log_CreateRtfHeader(void)
 	// font table
 	CMStringA str("{\\rtf1\\ansi\\deff0{\\fonttbl");
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
-		str.AppendFormat("{\\f%u\\fnil\\fcharset%u%S;}", i, pci->aFonts[i].lf.lfCharSet, pci->aFonts[i].lf.lfFaceName);
+		str.AppendFormat("{\\f%u\\fnil\\fcharset%u%S;}", i, g_chatApi.aFonts[i].lf.lfCharSet, g_chatApi.aFonts[i].lf.lfFaceName);
 
 	// colour table
 	str.Append("}{\\colortbl ;");
 
-	for (auto &it : pci->aFonts)
+	for (auto &it : g_chatApi.aFonts)
 		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(it.color), GetGValue(it.color), GetBValue(it.color));
 
 	for (auto &it : Utils::rtf_clrs)
@@ -672,19 +672,19 @@ char* Log_CreateRtfHeader(void)
 
 		szString[1] = 0;
 		szString[0] = 0x28;
-		pci->LoadMsgDlgFont(17, &lf, nullptr);
+		g_chatApi.LoadMsgDlgFont(17, &lf, nullptr);
 		HFONT hFont = CreateFontIndirect(&lf);
 		int iText = Chat_GetTextPixelSize(szString, hFont, true) + 3;
 		DeleteObject(hFont);
-		iIndent += (iText * 1440) / pci->logPixelSX;
+		iIndent += (iText * 1440) / g_chatApi.logPixelSX;
 		str.AppendFormat("\\tx%u", iIndent);
 	}
 	else if (g_Settings.dwIconFlags) {
-		iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / pci->logPixelSX;
+		iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / g_chatApi.logPixelSX;
 		str.AppendFormat("\\tx%u", iIndent);
 	}
 	if (g_Settings.bShowTime) {
-		int iSize = (g_Settings.LogTextIndent * 1440) / pci->logPixelSX;
+		int iSize = (g_Settings.LogTextIndent * 1440) / g_chatApi.logPixelSX;
 		str.AppendFormat("\\tx%u", iIndent + iSize);
 		if (g_Settings.bLogIndentEnabled)
 			iIndent += iSize;
@@ -697,7 +697,7 @@ char* Log_CreateRtfHeader(void)
 char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	LOGINFO *lin = streamData->lin;
-	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(streamData->si->pszModule);
 	SESSION_INFO *si = streamData->si;
 
 	// ### RTF HEADER
@@ -730,37 +730,37 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				streamData->dat->m_dwFlags &= ~MWF_DIVIDERWANTED;
 			}
 			// create new line, and set font and color
-			str.AppendFormat("\\ql\\sl0%s ", pci->Log_SetStyle(0));
+			str.AppendFormat("\\ql\\sl0%s ", g_chatApi.Log_SetStyle(0));
 			str.AppendFormat("\\v~-+%p+-~\\v0 ", lin);
 
 			// Insert icon
 			if (g_Settings.bLogSymbols)                // use symbols
-				str.AppendFormat("%s %c", pci->Log_SetStyle(17), EventToSymbol(lin));
+				str.AppendFormat("%s %c", g_chatApi.Log_SetStyle(17), EventToSymbol(lin));
 			else if (g_Settings.dwIconFlags) {
 				int iIndex = lin->bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
 				str.Append("\\f0\\fs14");
-				str.Append(pci->pLogIconBmpBits[iIndex]);
+				str.Append(g_chatApi.pLogIconBmpBits[iIndex]);
 			}
 
 			if (g_Settings.bTimeStampEventColour) {
 				// colored timestamps
 				static char szStyle[256];
-				LOGFONT &F = pci->aFonts[0].lf;
+				LOGFONT &F = g_chatApi.aFonts[0].lf;
 				int iii;
 				if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 					iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
 					mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
-						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / pci->logPixelSY);
+						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / g_chatApi.logPixelSY);
 					str.Append(szStyle);
 				}
 				else {
 					iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
 					mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
-						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / pci->logPixelSY);
+						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / g_chatApi.logPixelSY);
 					str.Append(szStyle);
 				}
 			}
-			else str.Append(pci->Log_SetStyle(0));
+			else str.Append(g_chatApi.Log_SetStyle(0));
 			str.AppendChar(' ');
 
 			// insert a TAB if necessary to put the timestamp in the right position
@@ -771,8 +771,8 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			if (g_Settings.bShowTime) {
 				wchar_t szTimeStamp[30], szOldTimeStamp[30];
 
-				wcsncpy_s(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), _TRUNCATE);
-				wcsncpy_s(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, si->LastTime), _TRUNCATE);
+				wcsncpy_s(szTimeStamp, g_chatApi.MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), _TRUNCATE);
+				wcsncpy_s(szOldTimeStamp, g_chatApi.MakeTimeStamp(g_Settings.pszTimeStamp, si->LastTime), _TRUNCATE);
 				if (!g_Settings.bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 					si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, str, L"%s", szTimeStamp);
@@ -788,7 +788,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog)
 					pszIndicator[0] = GetIndicator(si, lin->ptszNick, &crNickIndex);
 
-				str.Append(pci->Log_SetStyle(lin->bIsMe ? 2 : 1));
+				str.Append(g_chatApi.Log_SetStyle(lin->bIsMe ? 2 : 1));
 				str.AppendChar(' ');
 
 				if (g_Settings.bLogClassicIndicators)
@@ -812,7 +812,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			}
 
 			// Insert the message
-			str.Append(pci->Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
+			str.Append(g_chatApi.Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
 			str.AppendChar(' ');
 
 			streamData->lin = lin;
@@ -879,8 +879,8 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 	// get the number of pixels per logical inch
 	if (bRedraw) {
 		HDC hdc = GetDC(nullptr);
-		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+		g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 		ReleaseDC(nullptr, hdc);
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 		bFlag = true;

@@ -51,26 +51,26 @@ static HANDLE
 
 void LoadChatIcons(void)
 {
-	chatApi.hIcons[ICON_ACTION] = LoadIconEx("log_action", FALSE);
-	chatApi.hIcons[ICON_ADDSTATUS] = LoadIconEx("log_addstatus", FALSE);
-	chatApi.hIcons[ICON_HIGHLIGHT] = LoadIconEx("log_highlight", FALSE);
-	chatApi.hIcons[ICON_INFO] = LoadIconEx("log_info", FALSE);
-	chatApi.hIcons[ICON_JOIN] = LoadIconEx("log_join", FALSE);
-	chatApi.hIcons[ICON_KICK] = LoadIconEx("log_kick", FALSE);
-	chatApi.hIcons[ICON_MESSAGE] = LoadIconEx("log_message_in", FALSE);
-	chatApi.hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
-	chatApi.hIcons[ICON_NICK] = LoadIconEx("log_nick", FALSE);
-	chatApi.hIcons[ICON_NOTICE] = LoadIconEx("log_notice", FALSE);
-	chatApi.hIcons[ICON_PART] = LoadIconEx("log_part", FALSE);
-	chatApi.hIcons[ICON_QUIT] = LoadIconEx("log_quit", FALSE);
-	chatApi.hIcons[ICON_REMSTATUS] = LoadIconEx("log_removestatus", FALSE);
-	chatApi.hIcons[ICON_TOPIC] = LoadIconEx("log_topic", FALSE);
-	chatApi.hIcons[ICON_STATUS0] = LoadIconEx("status0", FALSE);
-	chatApi.hIcons[ICON_STATUS1] = LoadIconEx("status1", FALSE);
-	chatApi.hIcons[ICON_STATUS2] = LoadIconEx("status2", FALSE);
-	chatApi.hIcons[ICON_STATUS3] = LoadIconEx("status3", FALSE);
-	chatApi.hIcons[ICON_STATUS4] = LoadIconEx("status4", FALSE);
-	chatApi.hIcons[ICON_STATUS5] = LoadIconEx("status5", FALSE);
+	g_chatApi.hIcons[ICON_ACTION] = LoadIconEx("log_action", FALSE);
+	g_chatApi.hIcons[ICON_ADDSTATUS] = LoadIconEx("log_addstatus", FALSE);
+	g_chatApi.hIcons[ICON_HIGHLIGHT] = LoadIconEx("log_highlight", FALSE);
+	g_chatApi.hIcons[ICON_INFO] = LoadIconEx("log_info", FALSE);
+	g_chatApi.hIcons[ICON_JOIN] = LoadIconEx("log_join", FALSE);
+	g_chatApi.hIcons[ICON_KICK] = LoadIconEx("log_kick", FALSE);
+	g_chatApi.hIcons[ICON_MESSAGE] = LoadIconEx("log_message_in", FALSE);
+	g_chatApi.hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
+	g_chatApi.hIcons[ICON_NICK] = LoadIconEx("log_nick", FALSE);
+	g_chatApi.hIcons[ICON_NOTICE] = LoadIconEx("log_notice", FALSE);
+	g_chatApi.hIcons[ICON_PART] = LoadIconEx("log_part", FALSE);
+	g_chatApi.hIcons[ICON_QUIT] = LoadIconEx("log_quit", FALSE);
+	g_chatApi.hIcons[ICON_REMSTATUS] = LoadIconEx("log_removestatus", FALSE);
+	g_chatApi.hIcons[ICON_TOPIC] = LoadIconEx("log_topic", FALSE);
+	g_chatApi.hIcons[ICON_STATUS0] = LoadIconEx("status0", FALSE);
+	g_chatApi.hIcons[ICON_STATUS1] = LoadIconEx("status1", FALSE);
+	g_chatApi.hIcons[ICON_STATUS2] = LoadIconEx("status2", FALSE);
+	g_chatApi.hIcons[ICON_STATUS3] = LoadIconEx("status3", FALSE);
+	g_chatApi.hIcons[ICON_STATUS4] = LoadIconEx("status4", FALSE);
+	g_chatApi.hIcons[ICON_STATUS5] = LoadIconEx("status5", FALSE);
 
 	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
@@ -87,7 +87,7 @@ static int FontsChanged(WPARAM, LPARAM)
 	SetIndentSize();
 	g_Settings->bLogIndentEnabled = (db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
-	chatApi.MM_FontsChanged();
+	g_chatApi.MM_FontsChanged();
 	Chat_UpdateOptions();
 	return 0;
 }
@@ -97,7 +97,7 @@ static int IconsChanged(WPARAM, LPARAM)
 	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
 
-	chatApi.MM_IconsChanged();
+	g_chatApi.MM_IconsChanged();
 	Chat_UpdateOptions();
 	return 0;
 }
@@ -106,10 +106,10 @@ static int PreShutdown(WPARAM, LPARAM)
 {
 	if (g_Settings != nullptr) {
 		SM_RemoveAll();
-		chatApi.MM_RemoveAll();
+		g_chatApi.MM_RemoveAll();
 
-		DeleteObject(chatApi.hListBkgBrush);
-		DeleteObject(chatApi.hListSelectedBkgBrush);
+		DeleteObject(g_chatApi.hListBkgBrush);
+		DeleteObject(g_chatApi.hListSelectedBkgBrush);
 	}
 	return 0;
 }
@@ -158,7 +158,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 		return GC_ERROR;
 
 	mir_cslock lck(csChat);
-	MODULEINFO *mi = chatApi.MM_AddModule(gcr->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_AddModule(gcr->pszModule);
 	if (mi == nullptr)
 		return GC_ERROR;
 
@@ -171,9 +171,9 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 	mi->bAckMsg = (gcr->dwFlags & GC_ACKMSG) != 0;
 	mi->bChanMgr = (gcr->dwFlags & GC_CHANMGR) != 0;
 	mi->iMaxText = gcr->iMaxText;
-	mi->pszHeader = chatApi.Log_CreateRtfHeader();
+	mi->pszHeader = g_chatApi.Log_CreateRtfHeader();
 
-	chatApi.SetAllOffline(TRUE, gcr->pszModule);
+	g_chatApi.SetAllOffline(TRUE, gcr->pszModule);
 	return 0;
 }
 
@@ -188,23 +188,23 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 	void          *pItemData)  // Set user defined data for this session. Retrieve it by using the Chat_GetUserInfo() call
 {
 	mir_cslockfull lck(csChat);
-	MODULEINFO *mi = chatApi.MM_FindModule(pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(pszModule);
 	if (mi == nullptr)
 		return nullptr;
 
 	// try to restart a session first
 	SESSION_INFO *si = SM_FindSession(ptszID, pszModule);
 	if (si != nullptr) {
-		chatApi.UM_RemoveAll(&si->pUsers);
-		chatApi.TM_RemoveAll(&si->pStatuses);
+		g_chatApi.UM_RemoveAll(&si->pUsers);
+		g_chatApi.TM_RemoveAll(&si->pStatuses);
 		lck.unlock();
 
 		si->iStatusCount = 0;
 		si->nUsersInNicklist = 0;
 		si->pMe = nullptr;
 
-		if (chatApi.OnReplaceSession)
-			chatApi.OnReplaceSession(si);
+		if (g_chatApi.OnReplaceSession)
+			g_chatApi.OnReplaceSession(si);
 		return si;
 	}
 
@@ -213,7 +213,7 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 	si->ptszID = mir_wstrdup(ptszID);
 	si->pszModule = mir_strdup(pszModule);
 
-	chatApi.arSessions.insert(si);
+	g_chatApi.arSessions.insert(si);
 	lck.unlock();
 
 	// set the defaults
@@ -237,8 +237,8 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 	else
 		db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
-	if (chatApi.OnCreateSession)
-		chatApi.OnCreateSession(si, mi);
+	if (g_chatApi.OnCreateSession)
+		g_chatApi.OnCreateSession(si, mi);
 	return si;
 }
 
@@ -278,7 +278,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 			return GC_EVENT_ERROR;
 
 		SetInitDone(si);
-		chatApi.SetActiveSession(si);
+		g_chatApi.SetActiveSession(si);
 		break;
 
 	case WINDOW_VISIBLE:
@@ -288,7 +288,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 
 		SetInitDone(si);
 		if (p->command != SESSION_INITDONE || db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) == 0)
-			chatApi.ShowRoom(si);
+			g_chatApi.ShowRoom(si);
 		break;
 
 	case SESSION_OFFLINE:
@@ -316,7 +316,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 		if (si == nullptr)
 			return GC_EVENT_ERROR;
 
-		chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
+		g_chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
 		si->iEventCount = 0;
 		si->LastTime = 0;
 		if (si->pDlg)
@@ -369,13 +369,13 @@ static void AddUser(GCEVENT *gce)
 
 	WORD status = TM_StringToWord(si->pStatuses, gce->ptszStatus);
 
-	USERINFO *ui = chatApi.UM_AddUser(si->pStatuses, &si->pUsers, gce->ptszUID, gce->ptszNick, status);
+	USERINFO *ui = g_chatApi.UM_AddUser(si->pStatuses, &si->pUsers, gce->ptszUID, gce->ptszNick, status);
 	if (ui == nullptr)
 		return;
 
 	si->nUsersInNicklist++;
-	if (chatApi.OnAddUser)
-		chatApi.OnAddUser(si, ui);
+	if (g_chatApi.OnAddUser)
+		g_chatApi.OnAddUser(si, ui);
 
 	ui->pszNick = mir_wstrdup(gce->ptszNick);
 	if (gce->bIsMe)
@@ -386,8 +386,8 @@ static void AddUser(GCEVENT *gce)
 	if (si->pDlg)
 		si->pDlg->UpdateNickList();
 
-	if (chatApi.OnNewUser)
-		chatApi.OnNewUser(si, ui);
+	if (g_chatApi.OnNewUser)
+		g_chatApi.OnNewUser(si, ui);
 }
 
 static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
@@ -398,11 +398,11 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 		if (!si->bInitDone || mir_strcmpi(si->pszModule, gce->pszModule))
 			continue;
 
-		if (!chatApi.UM_FindUser(si->pUsers, gce->ptszUID))
+		if (!g_chatApi.UM_FindUser(si->pUsers, gce->ptszUID))
 			continue;
 
-		if (chatApi.OnEventBroadcast)
-			chatApi.OnEventBroadcast(si, gce);
+		if (g_chatApi.OnEventBroadcast)
+			g_chatApi.OnEventBroadcast(si, gce);
 
 		if (si->pDlg && si->bInitDone) {
 			if (SM_AddEvent(si->ptszID, si->pszModule, gce, FALSE))
@@ -412,11 +412,11 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 		}
 
 		if (!(gce->dwFlags & GCEF_NOTNOTIFY))
-			chatApi.DoSoundsFlashPopupTrayStuff(si, gce, FALSE, bManyFix);
+			g_chatApi.DoSoundsFlashPopupTrayStuff(si, gce, FALSE, bManyFix);
 
 		bManyFix++;
 		if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-			chatApi.LogToFile(si, gce);
+			g_chatApi.LogToFile(si, gce);
 	}
 
 	return 0;
@@ -447,8 +447,8 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 			else
 				db_unset(si->hContact, si->pszModule, "Topic");
 
-			if (chatApi.OnSetTopic)
-				chatApi.OnSetTopic(si);
+			if (g_chatApi.OnSetTopic)
+				g_chatApi.OnSetTopic(si);
 
 			if (db_get_b(0, CHAT_MODULE, "TopicOnClist", 0)) {
 				if (pwszNew != nullptr)
@@ -461,37 +461,37 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 
 	case GC_EVENT_ADDSTATUS:
 		SM_GiveStatus(gce->ptszID, gce->pszModule, gce->ptszUID, gce->ptszStatus);
-		bIsHighlighted = chatApi.IsHighlighted(nullptr, gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, gce);
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
 		SM_TakeStatus(gce->ptszID, gce->pszModule, gce->ptszUID, gce->ptszStatus);
-		bIsHighlighted = chatApi.IsHighlighted(nullptr, gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, gce);
 		break;
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
 		if (!gce->bIsMe && gce->ptszID && gce->ptszText) {
 			SESSION_INFO *si = SM_FindSession(gce->ptszID, gce->pszModule);
-			bIsHighlighted = chatApi.IsHighlighted(si, gce);
+			bIsHighlighted = g_chatApi.IsHighlighted(si, gce);
 		}
 		break;
 
 	case GC_EVENT_NICK:
 		SM_ChangeNick(gce->ptszID, gce->pszModule, gce);
-		bIsHighlighted = chatApi.IsHighlighted(nullptr, gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, gce);
 		break;
 
 	case GC_EVENT_JOIN:
 		AddUser(gce);
-		bIsHighlighted = chatApi.IsHighlighted(nullptr, gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, gce);
 		break;
 
 	case GC_EVENT_PART:
 	case GC_EVENT_QUIT:
 	case GC_EVENT_KICK:
 		bRemoveFlag = TRUE;
-		bIsHighlighted = chatApi.IsHighlighted(nullptr, gce);
+		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, gce);
 		break;
 	}
 
@@ -503,7 +503,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 		pMod = gce->pszModule;
 	}
 	else if (gce->iType == GC_EVENT_NOTICE || gce->iType == GC_EVENT_INFORMATION) {
-		SESSION_INFO *si = chatApi.GetActiveSession();
+		SESSION_INFO *si = g_chatApi.GetActiveSession();
 		if (si && !mir_strcmp(si->pszModule, gce->pszModule)) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
@@ -533,7 +533,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 
 		if (si && (si->bInitDone || gce->iType == GC_EVENT_TOPIC || (gce->iType == GC_EVENT_JOIN && gce->bIsMe))) {
 			if (gce->ptszNick == nullptr && gce->ptszUID != nullptr) {
-				USERINFO *ui = chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
+				USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
 				if (ui != nullptr)
 					gce->ptszNick = ui->pszNick;
 			}
@@ -547,10 +547,10 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 			}
 
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
-				chatApi.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
+				g_chatApi.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
 
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-				chatApi.LogToFile(si, gce);
+				g_chatApi.LogToFile(si, gce);
 		}
 
 		if (!bRemoveFlag)
@@ -591,8 +591,8 @@ MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const
 	if (ti)
 		si->iStatusCount++;
 
-	if (chatApi.OnAddStatus)
-		chatApi.OnAddStatus(si, ti);
+	if (g_chatApi.OnAddStatus)
+		g_chatApi.OnAddStatus(si, ti);
 	return 0;
 }
 
@@ -625,7 +625,7 @@ MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, c
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
-		USERINFO *ui = chatApi.UM_FindUser(si->pUsers, wszOldId);
+		USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, wszOldId);
 		if (ui)
 			replaceStrW(ui->pszUID, wszNewId);
 		if (wszId)
@@ -691,7 +691,7 @@ MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, in
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
-		chatApi.UM_SetStatusEx(si->pUsers, wszText, flags);
+		g_chatApi.UM_SetStatusEx(si->pUsers, wszText, flags);
 		if (si->pDlg)
 			RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_LIST), nullptr, nullptr, RDW_INVALIDATE);
 		if (wszId)
@@ -702,7 +702,7 @@ MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, in
 
 MIR_APP_DLL(int) Chat_SetUserInfo(const char *szModule, const wchar_t *wszId, void *pItemData)
 {
-	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule)) {
+	if (SESSION_INFO *si = g_chatApi.SM_FindSession(wszId, szModule)) {
 		si->pItemData = pItemData;
 		return 0;
 	}
@@ -745,7 +745,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, LeaveChat);
 
-	chatApi.SetAllOffline(TRUE, nullptr);
+	g_chatApi.SetAllOffline(TRUE, nullptr);
 	return 0;
 }
 
@@ -762,8 +762,8 @@ int LoadChatModule(void)
 	hevSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	hevBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
 	
-	chatApi.hevPreCreate = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
-	chatApi.hevWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
+	g_chatApi.hevPreCreate = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
+	g_chatApi.hevWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
@@ -780,8 +780,8 @@ void UnloadChatModule(void)
 	if (!bInited)
 		return;
 
-	mir_free(chatApi.szActiveWndID);
-	mir_free(chatApi.szActiveWndModule);
+	mir_free(g_chatApi.szActiveWndID);
+	mir_free(g_chatApi.szActiveWndModule);
 
 	FreeMsgLogBitmaps();
 	OptionsUnInit();
@@ -792,8 +792,8 @@ void UnloadChatModule(void)
 	DestroyHookableEvent(hevBuildMenuEvent);
 	DestroyHookableEvent(hHookEvent);
 
-	DestroyHookableEvent(chatApi.hevPreCreate);
-	DestroyHookableEvent(chatApi.hevWinPopup);
+	DestroyHookableEvent(g_chatApi.hevPreCreate);
+	DestroyHookableEvent(g_chatApi.hevWinPopup);
 
 	DestroyMenu(g_hMenu);
 }

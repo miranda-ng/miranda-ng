@@ -303,9 +303,9 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM)
 
 void Chat_ApplyOptions()
 {
-	pci->ReloadSettings();
-	pci->MM_IconsChanged();
-	pci->MM_FontsChanged();
+	g_chatApi.ReloadSettings();
+	g_chatApi.MM_IconsChanged();
+	g_chatApi.MM_FontsChanged();
 	Chat_UpdateOptions();
 	SM_ReconfigureFilters();
 
@@ -350,7 +350,7 @@ void Chat_AddIcons(void)
 {
 	Icon_Register(g_hIconDLL, LPGEN("Message Sessions") "/" LPGEN("Group chat windows"), _icons, _countof(_icons), 0, g_plugin.m_hLang);
 	Icon_Register(g_hIconDLL, LPGEN("Message Sessions") "/" LPGEN("Group chat log"), _logicons, _countof(_logicons), 0, g_plugin.m_hLang);
-	pci->MM_IconsChanged();
+	g_chatApi.MM_IconsChanged();
 }
 
 // get icon by name from the core icon library service
@@ -836,7 +836,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				db_unset(0, CHAT_MODULE, "LogDirectory");
 				db_set_b(0, CHAT_MODULE, "LoggingEnabled", 0);
 			}
-			pci->SM_InvalidateLogDirectories();
+			g_chatApi.SM_InvalidateLogDirectories();
 
 			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_GETPOS, 0, 0);
 			db_set_w(0, CHAT_MODULE, "LoggingLimit", (WORD)iLen);
@@ -883,9 +883,9 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			db_set_w(0, CHAT_MODULE, "LogLimit", (WORD)iLen);
 			mir_free(pszText);
 
-			if (pci->hListBkgBrush)
-				DeleteObject(pci->hListBkgBrush);
-			pci->hListBkgBrush = CreateSolidBrush(M.GetDword(CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
+			if (g_chatApi.hListBkgBrush)
+				DeleteObject(g_chatApi.hListBkgBrush);
+			g_chatApi.hListBkgBrush = CreateSolidBrush(M.GetDword(CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
 			return TRUE;
 		}
 		break;

@@ -218,7 +218,7 @@ void CSend::svcSendMsgExit(const char* szMessage)
 		}
 		
 		int res = GC_RESULT_NOSESSION;
-		int cnt = pci->SM_GetCount(m_pszProto);
+		int cnt = g_chatApi.SM_GetCount(m_pszProto);
 
 		// loop on all gc session to get the right (save) ptszID for the chatroom from m_hContact
 		GC_INFO gci = { 0 };

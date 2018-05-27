@@ -66,7 +66,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	if (si) {
 		m_hContact = si->hContact;
 
-		MODULEINFO *mi = chatApi.MM_FindModule(si->pszModule);
+		MODULEINFO *mi = g_chatApi.MM_FindModule(si->pszModule);
 		if (mi != nullptr) {
 			if (mi->bColor) {
 				m_iFG = 4;
@@ -256,7 +256,7 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			case IDM_CLEAR:
 				m_log.SetText(L"");
-				chatApi.LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
+				g_chatApi.LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
 				m_si->iEventCount = 0;
 				m_si->LastTime = 0;
 				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
@@ -425,7 +425,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 
 	CMStringW wszBuf;
 
-	USERINFO *ui1 = chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
+	USERINFO *ui1 = g_chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
 	if (ui1) {
 		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
@@ -439,7 +439,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 			wszBuf.Format(L"%s: %s\r\n%s: %s\r\n%s: %s",
 				TranslateT("Nickname"), ui1->pszNick,
 				TranslateT("Unique ID"), ui1->pszUID,
-				TranslateT("Status"), chatApi.TM_WordToString(parentdat->pStatuses, ui1->Status));
+				TranslateT("Status"), g_chatApi.TM_WordToString(parentdat->pStatuses, ui1->Status));
 		ti.lpszText = wszBuf.GetBuffer();
 	}
 
@@ -466,7 +466,7 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 		return;
 	}
 
-	USERINFO *ui1 = chatApi.SM_GetUserFromIndex(si->ptszID, si->pszModule, si->currentHovered);
+	USERINFO *ui1 = g_chatApi.SM_GetUserFromIndex(si->ptszID, si->pszModule, si->currentHovered);
 	if (ui1) {
 		CMStringW wszBuf;
 		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
@@ -480,7 +480,7 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 			wszBuf.Format(L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
 				TranslateT("Nick"), ui1->pszNick,
 				TranslateT("Unique ID"), ui1->pszUID,
-				TranslateT("Status"), chatApi.TM_WordToString(si->pStatuses, ui1->Status));
+				TranslateT("Status"), g_chatApi.TM_WordToString(si->pStatuses, ui1->Status));
 
 		CLCINFOTIP ti = { sizeof(ti) };
 		if (CallService("mToolTip/ShowTipW", (WPARAM)wszBuf.c_str(), (LPARAM)&ti))
@@ -591,7 +591,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			int items = m_si->nUsersInNicklist - index;
 			if (rc.bottom - rc.top > items * height) {
 				rc.top = items * height;
-				FillRect(dc, &rc, chatApi.hListBkgBrush);
+				FillRect(dc, &rc, g_chatApi.hListBkgBrush);
 			}
 		}
 		return 1;
@@ -612,7 +612,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			else ScreenToClient(m_nickList.GetHwnd(), &pt);
 
 			int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y)));
-			USERINFO *ui = chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
+			USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, item);
 			if (ui != nullptr) {
 				if (pt.x == -1 && pt.y == -1)
 					pt.y += height - 4;
@@ -844,9 +844,9 @@ void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)
 		return;
 
 	if (m_si != nullptr) {
-		MODULEINFO *pInfo = chatApi.MM_FindModule(m_si->pszModule);
+		MODULEINFO *pInfo = g_chatApi.MM_FindModule(m_si->pszModule);
 		if (pInfo)
-			ShellExecute(m_hwnd, nullptr, chatApi.GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
+			ShellExecute(m_hwnd, nullptr, g_chatApi.GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
 	}
 	else CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
 }
@@ -865,7 +865,7 @@ void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 	ScreenToClient(pList->GetHwnd(), &hti.pt);
 
 	int item = LOWORD(pList->SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-	USERINFO *ui = chatApi.UM_FindUserFromIndex(m_si->pUsers, item);
+	USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si->pUsers, item);
 	if (ui == nullptr)
 		return;
 
@@ -967,7 +967,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
 	m_message.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
-	MODULEINFO *mi = chatApi.MM_FindModule(m_si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
 	if (mi == nullptr)
 		return;
 

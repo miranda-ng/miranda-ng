@@ -9,8 +9,6 @@ static const basic_string <char>::size_type npos = -1;
 char *szProto;
 CMPlugin g_plugin;
 
-CHAT_MANAGER *pci;
-
 HANDLE hTopToolbarButtonShowList;
 HANDLE hMsgWndEvent;
 HGENMENU hMenuItemRemove;
@@ -466,7 +464,7 @@ static int OnGCInEvent(WPARAM, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
 	if (gce->iType == GC_EVENT_MESSAGE) {
-		SESSION_INFO *si = pci->SM_FindSession(gce->ptszID, gce->pszModule);
+		SESSION_INFO *si = g_chatApi.SM_FindSession(gce->ptszID, gce->pszModule);
 		if (si && si->hContact) {
 			// skip old events
 			if (gce->time && gce->time <= GetLastUsedTimeStamp(si->hContact))
@@ -481,7 +479,7 @@ static int OnGCOutEvent(WPARAM, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
 	if (gce->iType == GC_USER_MESSAGE) {
-		SESSION_INFO *si = pci->SM_FindSession(gce->ptszID, gce->pszModule);
+		SESSION_INFO *si = g_chatApi.SM_FindSession(gce->ptszID, gce->pszModule);
 		if (si && si->hContact)
 			SaveLastUsedTimeStamp(si->hContact);
 	}
@@ -546,8 +544,6 @@ static INT_PTR ToggleIgnore(WPARAM hContact, LPARAM)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	pci = Chat_GetInterface();
-
 	CoInitialize(nullptr);
 
 	g_plugin.registerIcon("Recent Contacts", iconList);

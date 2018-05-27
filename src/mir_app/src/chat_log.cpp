@@ -294,7 +294,7 @@ wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time)
 char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	SESSION_INFO *si = streamData->si;
-	MODULEINFO *mi = chatApi.MM_FindModule(si->pszModule);
+	MODULEINFO *mi = g_chatApi.MM_FindModule(si->pszModule);
 
 	// guesstimate amount of memory for the RTF
 	CMStringA buf;
@@ -324,16 +324,16 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 		}
 
 		if (g_Settings->bTimeStampEventColour) {
-			LOGFONT &lf = chatApi.aFonts[0].lf;
+			LOGFONT &lf = g_chatApi.aFonts[0].lf;
 
 			// colored timestamps
 			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 				int iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
-				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
+				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
 			}
 			else {
 				int iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
-				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
+				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / g_chatApi.logPixelSY);
 			}
 		}
 		else buf.AppendFormat("%s ", Log_SetStyle(0));
@@ -389,8 +389,8 @@ char* Log_CreateRtfHeader()
 
 	// get the number of pixels per logical inch
 	HDC hdc = GetDC(nullptr);
-	chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-	chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+	g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+	g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 	ReleaseDC(nullptr, hdc);
 
 	// ### RTF HEADER
@@ -398,13 +398,13 @@ char* Log_CreateRtfHeader()
 	// font table
 	buf.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
-		buf.AppendFormat("{\\f%u\\fnil\\fcharset%u%S;}", i, chatApi.aFonts[i].lf.lfCharSet, chatApi.aFonts[i].lf.lfFaceName);
+		buf.AppendFormat("{\\f%u\\fnil\\fcharset%u%S;}", i, g_chatApi.aFonts[i].lf.lfCharSet, g_chatApi.aFonts[i].lf.lfFaceName);
 
 	// colour table
 	buf.Append("}{\\colortbl ;");
 
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
-		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(chatApi.aFonts[i].color), GetGValue(chatApi.aFonts[i].color), GetBValue(chatApi.aFonts[i].color));
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(g_chatApi.aFonts[i].color), GetGValue(g_chatApi.aFonts[i].color), GetBValue(g_chatApi.aFonts[i].color));
 
 	// new paragraph
 	buf.Append("}\\pard");
@@ -413,11 +413,11 @@ char* Log_CreateRtfHeader()
 	int iIndent = 0;
 
 	if (g_Settings->dwIconFlags) {
-		iIndent += (14 * 1440) / chatApi.logPixelSX;
+		iIndent += (14 * 1440) / g_chatApi.logPixelSX;
 		buf.AppendFormat("\\tx%u", iIndent);
 	}
 	if (g_Settings->bShowTime) {
-		int iSize = (g_Settings->LogTextIndent * 1440) / chatApi.logPixelSX;
+		int iSize = (g_Settings->LogTextIndent * 1440) / g_chatApi.logPixelSX;
 		buf.AppendFormat("\\tx%u", iIndent + iSize);
 		if (g_Settings->bLogIndentEnabled)
 			iIndent += iSize;
@@ -455,7 +455,7 @@ void LoadMsgLogBitmaps(void)
 		pLogIconBmpBits[i] = (char*)mir_alloc(size);
 		size_t rtfHeaderSize = mir_snprintf((char *)pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
 
-		HICON hIcon = chatApi.hIcons[i];
+		HICON hIcon = g_chatApi.hIcons[i];
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, nullptr, DI_NORMAL);
@@ -473,18 +473,18 @@ void LoadMsgLogBitmaps(void)
 	ReleaseDC(nullptr, hdc);
 	DeleteObject(hBkgBrush);
 
-	if (chatApi.logPixelSY == 0) {
+	if (g_chatApi.logPixelSY == 0) {
 		hdc = GetDC(nullptr);
-		chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+		g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 		ReleaseDC(nullptr, hdc);
 	}
 
 	for (int i = 0; i < OPTIONS_FONTCOUNT; i++) {
-		LOGFONT &F = chatApi.aFonts[i].lf;
+		LOGFONT &F = g_chatApi.aFonts[i].lf;
 		mir_snprintf(CHAT_rtfFontsGlobal[i], RTFCACHELINESIZE,
 			"\\f%u\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u", i, i + 1,
-			F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / chatApi.logPixelSY);
+			F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / g_chatApi.logPixelSY);
 	}
 }
 

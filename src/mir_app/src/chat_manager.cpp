@@ -49,21 +49,21 @@ CHAT_MANAGER::CHAT_MANAGER() :
 	arSessions(g_arSessions)
 {}
 
-CHAT_MANAGER chatApi;
+MIR_APP_EXPORT CHAT_MANAGER g_chatApi;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static void SetActiveSession(SESSION_INFO *si)
 {
 	if (si) {
-		replaceStrW(chatApi.szActiveWndID, si->ptszID);
-		replaceStr(chatApi.szActiveWndModule, si->pszModule);
+		replaceStrW(g_chatApi.szActiveWndID, si->ptszID);
+		replaceStr(g_chatApi.szActiveWndModule, si->pszModule);
 	}
 }
 
 static SESSION_INFO* GetActiveSession(void)
 {
-	SESSION_INFO *si = SM_FindSession(chatApi.szActiveWndID, chatApi.szActiveWndModule);
+	SESSION_INFO *si = SM_FindSession(g_chatApi.szActiveWndID, g_chatApi.szActiveWndModule);
 	if (si)
 		return si;
 
@@ -92,15 +92,15 @@ static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 	// contact may have been deleted here already, since function may be called after deleting
 	// contact so the handle may be invalid, therefore db_get_b shall return 0
 	if (si->hContact && db_get_b(si->hContact, si->pszModule, "ChatRoom", 0) != 0) {
-		chatApi.SetOffline(si->hContact, (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) ? TRUE : FALSE);
+		g_chatApi.SetOffline(si->hContact, (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) ? TRUE : FALSE);
 		db_set_s(si->hContact, si->pszModule, "Topic", "");
 		db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 		db_unset(si->hContact, "CList", "StatusMsg");
 	}
 
-	chatApi.UM_RemoveAll(&si->pUsers);
-	chatApi.TM_RemoveAll(&si->pStatuses);
-	chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
+	g_chatApi.UM_RemoveAll(&si->pUsers);
+	g_chatApi.TM_RemoveAll(&si->pStatuses);
+	g_chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
 
 	si->iStatusCount = 0;
 	si->nUsersInNicklist = 0;
@@ -172,13 +172,13 @@ BOOL SM_SetOffline(const char *pszModule, SESSION_INFO *si)
 		return TRUE;
 	}
 
-	chatApi.UM_RemoveAll(&si->pUsers);
+	g_chatApi.UM_RemoveAll(&si->pUsers);
 	si->pMe = nullptr;
 	si->nUsersInNicklist = 0;
 	if (si->iType != GCW_SERVER)
 		si->bInitDone = false;
-	if (chatApi.OnOfflineSession)
-		chatApi.OnOfflineSession(si);
+	if (g_chatApi.OnOfflineSession)
+		g_chatApi.OnOfflineSession(si);
 	return TRUE;
 }
 
@@ -187,11 +187,11 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 	if (!ui || !si)
 		return nullptr;
 
-	STATUSINFO *ti = chatApi.TM_FindStatus(si->pStatuses, chatApi.TM_WordToString(si->pStatuses, ui->Status));
+	STATUSINFO *ti = g_chatApi.TM_FindStatus(si->pStatuses, g_chatApi.TM_WordToString(si->pStatuses, ui->Status));
 	if (ti != nullptr)
-		return chatApi.hIcons[ICON_STATUS0 + ti->iIconIndex];
+		return g_chatApi.hIcons[ICON_STATUS0 + ti->iIconIndex];
 	
-	return chatApi.hIcons[ICON_STATUS0];
+	return g_chatApi.hIcons[ICON_STATUS0];
 }
 
 BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool bIsHighlighted)
@@ -200,7 +200,7 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	if (si == nullptr)
 		return TRUE;
 
-	LOGINFO *li = chatApi.LM_AddEvent(&si->pLog, &si->pLogEnd);
+	LOGINFO *li = g_chatApi.LM_AddEvent(&si->pLog, &si->pLogEnd);
 	si->iEventCount++;
 
 	li->iType = gce->iType;
@@ -214,7 +214,7 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	li->bIsHighlighted = bIsHighlighted;
 
 	if (g_Settings->iEventLimit > 0 && si->iEventCount > g_Settings->iEventLimit + 20) {
-		chatApi.LM_TrimLog(&si->pLog, &si->pLogEnd, si->iEventCount - g_Settings->iEventLimit);
+		g_chatApi.LM_TrimLog(&si->pLog, &si->pLogEnd, si->iEventCount - g_Settings->iEventLimit);
 		si->bTrimmed = true;
 		si->iEventCount = g_Settings->iEventLimit;
 		return FALSE;
@@ -231,7 +231,7 @@ BOOL SM_MoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *psz
 	if (si == nullptr)
 		return FALSE;
 
-	chatApi.UM_SortUser(&si->pUsers, pszUID);
+	g_chatApi.UM_SortUser(&si->pUsers, pszUID);
 	return TRUE;
 }
 
@@ -244,15 +244,15 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 		if ((pszID && mir_wstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
-		USERINFO *ui = chatApi.UM_FindUser(si->pUsers, pszUID);
+		USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, pszUID);
 		if (ui) {
 			si->nUsersInNicklist--;
-			if (chatApi.OnRemoveUser)
-				chatApi.OnRemoveUser(si, ui);
+			if (g_chatApi.OnRemoveUser)
+				g_chatApi.OnRemoveUser(si, ui);
 
 			if (si->pMe == ui)
 				si->pMe = nullptr;
-			chatApi.UM_RemoveUser(&si->pUsers, pszUID);
+			g_chatApi.UM_RemoveUser(&si->pUsers, pszUID);
 
 			if (si->pDlg)
 				si->pDlg->UpdateNickList();
@@ -268,7 +268,7 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 static USERINFO* SM_GetUserFromIndex(const wchar_t *pszID, const char *pszModule, int index)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
-	return (si == nullptr) ? nullptr : chatApi.UM_FindUserFromIndex(si->pUsers, index);
+	return (si == nullptr) ? nullptr : g_chatApi.UM_FindUserFromIndex(si->pUsers, index);
 }
 
 BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus)
@@ -277,7 +277,7 @@ BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (si == nullptr)
 		return FALSE;
 	
-	USERINFO *ui = chatApi.UM_GiveStatus(si->pUsers, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = g_chatApi.UM_GiveStatus(si->pUsers, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->pDlg)
@@ -292,7 +292,7 @@ BOOL SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wcha
 	if (si == nullptr)
 		return FALSE;
 
-	USERINFO *ui = chatApi.UM_SetContactStatus(si->pUsers, pszUID, wStatus);
+	USERINFO *ui = g_chatApi.UM_SetContactStatus(si->pUsers, pszUID, wStatus);
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->pDlg)
@@ -307,7 +307,7 @@ BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (si == nullptr)
 		return FALSE;
 
-	USERINFO *ui = chatApi.UM_TakeStatus(si->pUsers, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = g_chatApi.UM_TakeStatus(si->pUsers, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->pDlg)
@@ -353,8 +353,8 @@ BOOL SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus)
 		db_set_w(si->hContact, si->pszModule, "Status", (WORD)wStatus);
 	}
 
-	if (chatApi.OnSetStatus)
-		chatApi.OnSetStatus(si, wStatus);
+	if (g_chatApi.OnSetStatus)
+		g_chatApi.OnSetStatus(si, wStatus);
 
 	return TRUE;
 }
@@ -366,14 +366,14 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 
 	for (auto &si : g_arSessions) {
 		if ((!pszID || !mir_wstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
-			USERINFO *ui = chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
+			USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
 			if (ui) {
 				replaceStrW(ui->pszNick, gce->ptszText);
 				SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 				if (si->pDlg)
 					si->pDlg->UpdateNickList();
-				if (chatApi.OnChangeNick)
-					chatApi.OnChangeNick(si);
+				if (g_chatApi.OnChangeNick)
+					g_chatApi.OnChangeNick(si);
 			}
 
 			if (pszID)
@@ -535,13 +535,13 @@ static MODULEINFO* MM_AddModule(const char *pszModule)
 	if (pszModule == nullptr)
 		return nullptr;
 
-	if (chatApi.MM_FindModule(pszModule))
+	if (g_chatApi.MM_FindModule(pszModule))
 		return nullptr;
 
 	MODULEINFO *node = (MODULEINFO*)mir_calloc(g_cbModuleInfo);
 	replaceStr(node->pszModule, pszModule);
-	if (chatApi.OnCreateModule)
-		chatApi.OnCreateModule(node);
+	if (g_chatApi.OnCreateModule)
+		g_chatApi.OnCreateModule(node);
 
 	g_arModules.insert(node);
 	return node;
@@ -552,14 +552,14 @@ static void MM_IconsChanged()
 	LoadChatIcons();
 
 	for (auto &mi : g_arModules)
-		if (chatApi.OnCreateModule) // recreate icons
-			chatApi.OnCreateModule(mi);
+		if (g_chatApi.OnCreateModule) // recreate icons
+			g_chatApi.OnCreateModule(mi);
 }
 
 static void MM_FontsChanged()
 {
 	for (auto &mi : g_arModules)
-		mi->pszHeader = chatApi.Log_CreateRtfHeader();
+		mi->pszHeader = g_chatApi.Log_CreateRtfHeader();
 }
 
 static MODULEINFO* MM_FindModule(const char *pszModule)
@@ -573,8 +573,8 @@ static MODULEINFO* MM_FindModule(const char *pszModule)
 static BOOL MM_RemoveAll(void)
 {
 	for (auto &mi : g_arModules) {
-		if (chatApi.OnDestroyModule)
-			chatApi.OnDestroyModule(mi);
+		if (g_chatApi.OnDestroyModule)
+			g_chatApi.OnDestroyModule(mi);
 
 		mir_free(mi->pszModule);
 		mir_free(mi->ptszModDispName);
@@ -593,7 +593,7 @@ STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, in
 	if (!ppStatusList || !pszStatus)
 		return nullptr;
 
-	if (!chatApi.TM_FindStatus(*ppStatusList, pszStatus)) {
+	if (!g_chatApi.TM_FindStatus(*ppStatusList, pszStatus)) {
 		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
 		replaceStrW(node->pszGroup, pszStatus);
 		node->iIconIndex = *iCount;
@@ -719,7 +719,7 @@ static USERINFO* UM_SortUser(USERINFO **ppUserList, const wchar_t *pszUID)
 
 	pLast = nullptr;
 
-	while (ui && chatApi.UM_CompareItem(ui, node->pszNick, node->Status) <= 0) {
+	while (ui && g_chatApi.UM_CompareItem(ui, node->pszNick, node->Status) <= 0) {
 		pLast = ui;
 		ui = ui->next;
 	}
@@ -748,7 +748,7 @@ USERINFO* UM_AddUser(STATUSINFO *pStatusList, USERINFO **ppUserList, const wchar
 		return nullptr;
 
 	USERINFO *ui = *ppUserList, *pLast = nullptr;
-	while (ui && chatApi.UM_CompareItem(ui, pszNick, wStatus) <= 0) {
+	while (ui && g_chatApi.UM_CompareItem(ui, pszNick, wStatus) <= 0) {
 		pLast = ui;
 		ui = ui->next;
 	}
@@ -971,13 +971,13 @@ static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
 	return TRUE;
 }
 
-MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit)
+MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 {
 	if (pInit == nullptr)
-		return &chatApi;
+		return &g_chatApi;
 
 	// wipe out old junk
-	memset(PBYTE(&chatApi) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnCreateModule));
+	memset(PBYTE(&g_chatApi) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnCreateModule));
 
 	if (g_cbSession) { // reallocate old sessions
 		mir_cslock lck(csChat);
@@ -1011,72 +1011,72 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit)
 	g_iFontMode = pInit->iFontMode;
 	g_iChatLang = pInit->iLangId;
 
-	chatApi.SetActiveSession = SetActiveSession;
-	chatApi.GetActiveSession = GetActiveSession;
-	chatApi.SM_FindSession = SM_FindSession;
-	chatApi.SM_GetStatusIcon = SM_GetStatusIcon;
-	chatApi.SM_BroadcastMessage = SM_BroadcastMessage;
-	chatApi.SM_AddCommand = SM_AddCommand;
-	chatApi.SM_GetPrevCommand = SM_GetPrevCommand;
-	chatApi.SM_GetNextCommand = SM_GetNextCommand;
-	chatApi.SM_GetCount = SM_GetCount;
-	chatApi.SM_FindSessionByIndex = SM_FindSessionByIndex;
-	chatApi.SM_GetUserFromIndex = SM_GetUserFromIndex;
-	chatApi.SM_InvalidateLogDirectories = SM_InvalidateLogDirectories;
+	g_chatApi.SetActiveSession = SetActiveSession;
+	g_chatApi.GetActiveSession = GetActiveSession;
+	g_chatApi.SM_FindSession = SM_FindSession;
+	g_chatApi.SM_GetStatusIcon = SM_GetStatusIcon;
+	g_chatApi.SM_BroadcastMessage = SM_BroadcastMessage;
+	g_chatApi.SM_AddCommand = SM_AddCommand;
+	g_chatApi.SM_GetPrevCommand = SM_GetPrevCommand;
+	g_chatApi.SM_GetNextCommand = SM_GetNextCommand;
+	g_chatApi.SM_GetCount = SM_GetCount;
+	g_chatApi.SM_FindSessionByIndex = SM_FindSessionByIndex;
+	g_chatApi.SM_GetUserFromIndex = SM_GetUserFromIndex;
+	g_chatApi.SM_InvalidateLogDirectories = SM_InvalidateLogDirectories;
 
-	chatApi.MM_AddModule = MM_AddModule;
-	chatApi.MM_FindModule = MM_FindModule;
-	chatApi.MM_FontsChanged = MM_FontsChanged;
-	chatApi.MM_IconsChanged = MM_IconsChanged;
-	chatApi.MM_RemoveAll = MM_RemoveAll;
+	g_chatApi.MM_AddModule = MM_AddModule;
+	g_chatApi.MM_FindModule = MM_FindModule;
+	g_chatApi.MM_FontsChanged = MM_FontsChanged;
+	g_chatApi.MM_IconsChanged = MM_IconsChanged;
+	g_chatApi.MM_RemoveAll = MM_RemoveAll;
 
-	chatApi.TM_FindStatus = TM_FindStatus;
-	chatApi.TM_WordToString = TM_WordToString;
-	chatApi.TM_RemoveAll = TM_RemoveAll;
+	g_chatApi.TM_FindStatus = TM_FindStatus;
+	g_chatApi.TM_WordToString = TM_WordToString;
+	g_chatApi.TM_RemoveAll = TM_RemoveAll;
 
-	chatApi.UM_SetStatusEx = UM_SetStatusEx;
-	chatApi.UM_AddUser = UM_AddUser;
-	chatApi.UM_SortUser = UM_SortUser;
-	chatApi.UM_FindUser = UM_FindUser;
-	chatApi.UM_FindUserFromIndex = UM_FindUserFromIndex;
-	chatApi.UM_GiveStatus = UM_GiveStatus;
-	chatApi.UM_SetContactStatus = UM_SetContactStatus;
-	chatApi.UM_TakeStatus = UM_TakeStatus;
-	chatApi.UM_FindUserAutoComplete = UM_FindUserAutoComplete;
-	chatApi.UM_RemoveUser = UM_RemoveUser;
-	chatApi.UM_RemoveAll = UM_RemoveAll;
-	chatApi.UM_CompareItem = UM_CompareItem;
+	g_chatApi.UM_SetStatusEx = UM_SetStatusEx;
+	g_chatApi.UM_AddUser = UM_AddUser;
+	g_chatApi.UM_SortUser = UM_SortUser;
+	g_chatApi.UM_FindUser = UM_FindUser;
+	g_chatApi.UM_FindUserFromIndex = UM_FindUserFromIndex;
+	g_chatApi.UM_GiveStatus = UM_GiveStatus;
+	g_chatApi.UM_SetContactStatus = UM_SetContactStatus;
+	g_chatApi.UM_TakeStatus = UM_TakeStatus;
+	g_chatApi.UM_FindUserAutoComplete = UM_FindUserAutoComplete;
+	g_chatApi.UM_RemoveUser = UM_RemoveUser;
+	g_chatApi.UM_RemoveAll = UM_RemoveAll;
+	g_chatApi.UM_CompareItem = UM_CompareItem;
 
-	chatApi.LM_AddEvent = LM_AddEvent;
-	chatApi.LM_TrimLog = LM_TrimLog;
-	chatApi.LM_RemoveAll = LM_RemoveAll;
+	g_chatApi.LM_AddEvent = LM_AddEvent;
+	g_chatApi.LM_TrimLog = LM_TrimLog;
+	g_chatApi.LM_RemoveAll = LM_RemoveAll;
 
-	chatApi.SetOffline = SetOffline;
-	chatApi.SetAllOffline = SetAllOffline;
-	chatApi.AddEvent = AddEvent;
-	chatApi.FindRoom = FindRoom;
-	chatApi.DoRtfToTags = DoRtfToTags;
+	g_chatApi.SetOffline = SetOffline;
+	g_chatApi.SetAllOffline = SetAllOffline;
+	g_chatApi.AddEvent = AddEvent;
+	g_chatApi.FindRoom = FindRoom;
+	g_chatApi.DoRtfToTags = DoRtfToTags;
 
-	chatApi.Log_CreateRTF = Log_CreateRTF;
-	chatApi.Log_CreateRtfHeader = Log_CreateRtfHeader;
-	chatApi.LoadMsgDlgFont = LoadMsgDlgFont;
-	chatApi.MakeTimeStamp = MakeTimeStamp;
+	g_chatApi.Log_CreateRTF = Log_CreateRTF;
+	g_chatApi.Log_CreateRtfHeader = Log_CreateRtfHeader;
+	g_chatApi.LoadMsgDlgFont = LoadMsgDlgFont;
+	g_chatApi.MakeTimeStamp = MakeTimeStamp;
 
-	chatApi.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
-	chatApi.DoTrayIcon = DoTrayIcon;
-	chatApi.DoPopup = DoPopup;
-	chatApi.ShowPopup = ShowPopup;
-	chatApi.LogToFile = LogToFile;
-	chatApi.GetChatLogsFilename = GetChatLogsFilename;
-	chatApi.Log_SetStyle = Log_SetStyle;
+	g_chatApi.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
+	g_chatApi.DoTrayIcon = DoTrayIcon;
+	g_chatApi.DoPopup = DoPopup;
+	g_chatApi.ShowPopup = ShowPopup;
+	g_chatApi.LogToFile = LogToFile;
+	g_chatApi.GetChatLogsFilename = GetChatLogsFilename;
+	g_chatApi.Log_SetStyle = Log_SetStyle;
 
-	chatApi.IsHighlighted = IsHighlighted;
-	chatApi.RemoveFormatting = RemoveFormatting;
-	chatApi.ReloadSettings = LoadGlobalSettings;
+	g_chatApi.IsHighlighted = IsHighlighted;
+	g_chatApi.RemoveFormatting = RemoveFormatting;
+	g_chatApi.ReloadSettings = LoadGlobalSettings;
 
-	chatApi.pLogIconBmpBits = pLogIconBmpBits;
+	g_chatApi.pLogIconBmpBits = pLogIconBmpBits;
 
 	RegisterFonts();
 	OptionsInit();
-	return &chatApi;
+	return &g_chatApi;
 }

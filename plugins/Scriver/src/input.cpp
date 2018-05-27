@@ -70,14 +70,14 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 	mwpd.hMenu = hSubMenu;
 	mwpd.selection = 0;
 	mwpd.pt = pt;
-	NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
+	NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
 
 	int selection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, GetParent(hwnd), nullptr);
 
 	// Second notification
 	mwpd.selection = selection;
 	mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
-	NotifyEventHooks(pci->hevWinPopup, 0, (LPARAM)&mwpd);
+	NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
 
 	switch (selection) {
 	case IDM_UNDO:

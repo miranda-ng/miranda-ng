@@ -187,13 +187,13 @@ passed:
 	COLORREF clr = 0;
 
 	if ((iNewEvent & GC_EVENT_HIGHLIGHT)) {
-		clr = pci->aFonts[16].color;
+		clr = g_chatApi.aFonts[16].color;
 		iNewEvent &= ~GC_EVENT_HIGHLIGHT;
 	}
 
 	if (iNewEvent == GC_EVENT_MESSAGE) {
-		ShowPopup(si->hContact, si, pci->hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : pci->aFonts[9].color,
-			TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, pci->RemoveFormatting(gce->ptszText));
+		ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : g_chatApi.aFonts[9].color,
+			TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, g_chatApi.RemoveFormatting(gce->ptszText));
 	}
 	else oldDoPopup(si, gce);
 
@@ -221,14 +221,14 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 
 	if (dat) {
 		HWND hwndTab = GetParent(si->pDlg->GetHwnd());
-		BOOL bForcedIcon = (p->hNotifyIcon == pci->hIcons[ICON_HIGHLIGHT] || p->hNotifyIcon == pci->hIcons[ICON_MESSAGE]);
+		BOOL bForcedIcon = (p->hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || p->hNotifyIcon == g_chatApi.hIcons[ICON_MESSAGE]);
 
 		if ((p->iEvent & si->iLogTrayFlags) || bForcedIcon) {
 			if (!p->bActiveTab) {
-				if (p->hNotifyIcon == pci->hIcons[ICON_HIGHLIGHT])
+				if (p->hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT])
 					dat->m_iFlashIcon = p->hNotifyIcon;
 				else {
-					if (dat->m_iFlashIcon != pci->hIcons[ICON_HIGHLIGHT] && dat->m_iFlashIcon != pci->hIcons[ICON_MESSAGE])
+					if (dat->m_iFlashIcon != g_chatApi.hIcons[ICON_HIGHLIGHT] && dat->m_iFlashIcon != g_chatApi.hIcons[ICON_MESSAGE])
 						dat->m_iFlashIcon = p->hNotifyIcon;
 				}
 				dat->m_bCanFlashTab = TRUE;
@@ -272,7 +272,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 			}
 
 			HICON hIcon = (HICON)SendMessage(dat->m_pContainer->m_hwnd, WM_GETICON, ICON_BIG, 0);
-			if (p->hNotifyIcon == pci->hIcons[ICON_HIGHLIGHT] || (hIcon != pci->hIcons[ICON_MESSAGE] && hIcon != pci->hIcons[ICON_HIGHLIGHT])) {
+			if (p->hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || (hIcon != g_chatApi.hIcons[ICON_MESSAGE] && hIcon != g_chatApi.hIcons[ICON_HIGHLIGHT])) {
 				SendMessage(dat->m_pContainer->m_hwnd, DM_SETICON, (WPARAM)dat, (LPARAM)p->hNotifyIcon);
 				dat->m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
 			}
@@ -327,7 +327,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (g_Settings.bFlashWindowHighlight && params->bInactive)
 			params->bMustFlash = TRUE;
 		params->bMustAutoswitch = TRUE;
-		params->hNotifyIcon = pci->hIcons[ICON_HIGHLIGHT];
+		params->hNotifyIcon = g_chatApi.hIcons[ICON_HIGHLIGHT];
 	}
 	else {
 		// do blinking icons in tray
@@ -347,28 +347,28 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			case GC_EVENT_JOIN:
 				params->sound = "ChatJoin";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[ICON_JOIN];
+					params->hNotifyIcon = g_chatApi.hIcons[ICON_JOIN];
 				break;
 			case GC_EVENT_PART:
 				params->sound = "ChatPart";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[ICON_PART];
+					params->hNotifyIcon = g_chatApi.hIcons[ICON_PART];
 				break;
 			case GC_EVENT_QUIT:
 				params->sound = "ChatQuit";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[ICON_QUIT];
+					params->hNotifyIcon = g_chatApi.hIcons[ICON_QUIT];
 				break;
 			case GC_EVENT_ADDSTATUS:
 			case GC_EVENT_REMOVESTATUS:
 				params->sound = "ChatMode";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[params->iEvent == GC_EVENT_ADDSTATUS ? ICON_ADDSTATUS : ICON_REMSTATUS];
+					params->hNotifyIcon = g_chatApi.hIcons[params->iEvent == GC_EVENT_ADDSTATUS ? ICON_ADDSTATUS : ICON_REMSTATUS];
 				break;
 			case GC_EVENT_KICK:
 				params->sound = "ChatKick";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[ICON_KICK];
+					params->hNotifyIcon = g_chatApi.hIcons[ICON_KICK];
 				break;
 			case GC_EVENT_MESSAGE:
 				params->sound = "ChatMessage";
@@ -380,56 +380,56 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			case GC_EVENT_ACTION:
 				params->sound = "ChatAction";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[ICON_ACTION];
+					params->hNotifyIcon = g_chatApi.hIcons[ICON_ACTION];
 				break;
 			case GC_EVENT_NICK:
 				params->sound = "ChatNick";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[ICON_NICK];
+					params->hNotifyIcon = g_chatApi.hIcons[ICON_NICK];
 				break;
 			case GC_EVENT_NOTICE:
 				params->sound = "ChatNotice";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[ICON_NOTICE];
+					params->hNotifyIcon = g_chatApi.hIcons[ICON_NOTICE];
 				break;
 			case GC_EVENT_TOPIC:
 				params->sound = "ChatTopic";
 				if (params->bInactive)
-					params->hNotifyIcon = pci->hIcons[ICON_TOPIC];
+					params->hNotifyIcon = g_chatApi.hIcons[ICON_TOPIC];
 				break;
 			}
 		}
 		else {
 			switch (params->iEvent) {
 			case GC_EVENT_JOIN:
-				params->hNotifyIcon = pci->hIcons[ICON_JOIN];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_JOIN];
 				break;
 			case GC_EVENT_PART:
-				params->hNotifyIcon = pci->hIcons[ICON_PART];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_PART];
 				break;
 			case GC_EVENT_QUIT:
-				params->hNotifyIcon = pci->hIcons[ICON_QUIT];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_QUIT];
 				break;
 			case GC_EVENT_KICK:
-				params->hNotifyIcon = pci->hIcons[ICON_KICK];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_KICK];
 				break;
 			case GC_EVENT_ACTION:
-				params->hNotifyIcon = pci->hIcons[ICON_ACTION];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_ACTION];
 				break;
 			case GC_EVENT_NICK:
-				params->hNotifyIcon = pci->hIcons[ICON_NICK];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_NICK];
 				break;
 			case GC_EVENT_NOTICE:
-				params->hNotifyIcon = pci->hIcons[ICON_NOTICE];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_NOTICE];
 				break;
 			case GC_EVENT_TOPIC:
-				params->hNotifyIcon = pci->hIcons[ICON_TOPIC];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_TOPIC];
 				break;
 			case GC_EVENT_ADDSTATUS:
-				params->hNotifyIcon = pci->hIcons[ICON_ADDSTATUS];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_ADDSTATUS];
 				break;
 			case GC_EVENT_REMOVESTATUS:
-				params->hNotifyIcon = pci->hIcons[ICON_REMSTATUS];
+				params->hNotifyIcon = g_chatApi.hIcons[ICON_REMSTATUS];
 				break;
 			}
 		}
@@ -438,7 +438,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			params->bMustAutoswitch = TRUE;
 			if (g_Settings.bFlashWindow)
 				params->bMustFlash = TRUE;
-			params->hNotifyIcon = pci->hIcons[ICON_MESSAGE];
+			params->hNotifyIcon = g_chatApi.hIcons[ICON_MESSAGE];
 		}
 	}
 	if (dat && bFlagUnread) {
@@ -536,7 +536,7 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 
 	for (USERINFO *ui = si->pUsers; ui; ui = ui->next) {
 		if (!mir_wstrcmp(ui->pszNick, ptszNick)) {
-			STATUSINFO *ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
+			STATUSINFO *ti = g_chatApi.TM_FindStatus(si->pStatuses, g_chatApi.TM_WordToString(si->pStatuses, ui->Status));
 			if (ti) {
 				if (iNickIndex)
 					*iNickIndex = ti->iIconIndex; // color table's index is not zero-based

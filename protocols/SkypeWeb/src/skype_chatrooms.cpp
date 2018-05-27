@@ -34,7 +34,7 @@ void CSkypeProto::InitGroupChatModule()
 
 MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 {
-	SESSION_INFO *si = pci->SM_FindSession(_A2T(chatname), m_szModuleName);
+	SESSION_INFO *si = g_chatApi.SM_FindSession(_A2T(chatname), m_szModuleName);
 	return si ? si->hContact : 0;
 }
 

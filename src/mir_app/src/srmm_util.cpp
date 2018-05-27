@@ -33,7 +33,7 @@ MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pb
 		// create the RTF
 		if (lstrdat->buffer == nullptr) {
 			lstrdat->bufferOffset = 0;
-			lstrdat->buffer = chatApi.Log_CreateRTF(lstrdat);
+			lstrdat->buffer = g_chatApi.Log_CreateRTF(lstrdat);
 			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
 		}
 

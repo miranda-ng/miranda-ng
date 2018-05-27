@@ -33,7 +33,6 @@ HANDLE g_hWindowList;
 pfnDoPopup oldDoPopup, oldLogToFile;
 pfnDoTrayIcon oldDoTrayIcon;
 
-CHAT_MANAGER *pci;
 TMUCSettings g_Settings;
 
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
@@ -119,13 +118,13 @@ static void OnLoadSettings()
 	}
 
 	LOGFONT lf;
-	pci->LoadMsgDlgFont(18, &lf, nullptr);
+	g_chatApi.LoadMsgDlgFont(18, &lf, nullptr);
 	g_Settings.UserListFonts[CHAT_STATUS_NORMAL] = CreateFontIndirect(&lf);
 
-	pci->LoadMsgDlgFont(19, &lf, nullptr);
+	g_chatApi.LoadMsgDlgFont(19, &lf, nullptr);
 	g_Settings.UserListFonts[CHAT_STATUS_AWAY] = CreateFontIndirect(&lf);
 
-	pci->LoadMsgDlgFont(5, &lf, nullptr);
+	g_chatApi.LoadMsgDlgFont(5, &lf, nullptr);
 	g_Settings.UserListFonts[CHAT_STATUS_OFFLINE] = CreateFontIndirect(&lf);
 
 	int ih = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListFonts[CHAT_STATUS_NORMAL], false);
@@ -217,30 +216,30 @@ int Chat_Load()
 	Utils::RTF_CTableInit();
 
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Group chats"), FONTMODE_ALTER, g_plugin.m_hLang };
-	pci = Chat_GetInterface(&data);
+	Chat_CustomizeApi(&data);
 	
-	pci->OnCreateModule = OnCreateModule;
-	pci->OnNewUser = OnNewUser;
+	g_chatApi.OnCreateModule = OnCreateModule;
+	g_chatApi.OnNewUser = OnNewUser;
 
-	pci->OnSetTopic = OnSetTopic;
+	g_chatApi.OnSetTopic = OnSetTopic;
 
-	pci->OnCreateSession = OnCreateSession;
-	pci->OnReplaceSession = OnReplaceSession;
+	g_chatApi.OnCreateSession = OnCreateSession;
+	g_chatApi.OnReplaceSession = OnReplaceSession;
 
-	pci->OnChangeNick = OnChangeNick;
-	pci->ShowRoom = stubShowRoom;
-	pci->OnLoadSettings = OnLoadSettings;
+	g_chatApi.OnChangeNick = OnChangeNick;
+	g_chatApi.ShowRoom = stubShowRoom;
+	g_chatApi.OnLoadSettings = OnLoadSettings;
 
 	// this operation is unsafe, that's why we restore the old pci state on exit
-	pci->DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
-	pci->IsHighlighted = IsHighlighted;
-	oldLogToFile = pci->LogToFile; pci->LogToFile = LogToFile;
-	oldDoPopup = pci->DoPopup; pci->DoPopup = DoPopup;
-	oldDoTrayIcon = pci->DoTrayIcon; pci->ShowPopup = ShowPopup;
-	pci->Log_CreateRTF = Log_CreateRTF;
-	pci->Log_CreateRtfHeader = Log_CreateRtfHeader;
-	pci->UM_CompareItem = UM_CompareItem;
-	pci->ReloadSettings();
+	g_chatApi.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
+	g_chatApi.IsHighlighted = IsHighlighted;
+	oldLogToFile = g_chatApi.LogToFile; g_chatApi.LogToFile = LogToFile;
+	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
+	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.ShowPopup = ShowPopup;
+	g_chatApi.Log_CreateRTF = Log_CreateRTF;
+	g_chatApi.Log_CreateRtfHeader = Log_CreateRtfHeader;
+	g_chatApi.UM_CompareItem = UM_CompareItem;
+	g_chatApi.ReloadSettings();
 
 	g_Settings.Highlight = new CMUCHighlight();
 	return 0;

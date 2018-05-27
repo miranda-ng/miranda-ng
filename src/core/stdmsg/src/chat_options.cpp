@@ -375,7 +375,7 @@ public:
 		if (PopupInstalled)
 			SaveBranch(branch6, _countof(branch6));
 
-		pci->ReloadSettings();
+		g_chatApi.ReloadSettings();
 		Chat_UpdateOptions();
 	}
 
@@ -510,7 +510,7 @@ public:
 			db_set_ws(0, CHAT_MODULE, "LogDirectory", pszText);
 		else
 			db_unset(0, CHAT_MODULE, "LogDirectory");
-		pci->SM_InvalidateLogDirectories();
+		g_chatApi.SM_InvalidateLogDirectories();
 
 		pszText = rtrimw(edtLogTimestamp.GetText());
 		if (*pszText)
@@ -553,7 +553,7 @@ public:
 		else
 			db_unset(0, CHAT_MODULE, "NicklistRowDist");
 
-		pci->ReloadSettings();
+		g_chatApi.ReloadSettings();
 		Chat_UpdateOptions();
 	}
 

@@ -42,7 +42,7 @@ static int IconsChanged(WPARAM, LPARAM)
 
 static int OnShutdown(WPARAM, LPARAM)
 {
-	for (auto &si : pci->arSessions)
+	for (auto &si : g_chatApi.arSessions)
 		if (si->pDlg)
 			si->pDlg->Close();
 

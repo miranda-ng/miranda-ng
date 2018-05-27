@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CHAT_MANAGER *pci;
 CMPlugin g_plugin;
 
 HWND g_hwndHeartbeat;
@@ -59,8 +58,6 @@ IconItem g_iconList[] =
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	pci = Chat_GetInterface();
-
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 
 	g_plugin.registerIcon("Discord", g_iconList);

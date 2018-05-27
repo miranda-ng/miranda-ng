@@ -840,7 +840,7 @@ void CThumbMUC::renderContent()
 	if (si == nullptr)
 		return;
 
-	const MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+	const MODULEINFO *mi = g_chatApi.MM_FindModule(si->pszModule);
 	if (mi) {
 		wchar_t szTemp[250];
 		if (m_dat->m_dwUnread) {

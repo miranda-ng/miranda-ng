@@ -265,7 +265,7 @@ void CDiscordProto::ParseSpecialChars(SESSION_INFO *si, CMStringW &str)
 			if (wszWord[1] == '!')
 				iStart++;
 
-			USERINFO *ui = pci->UM_FindUser(si->pUsers, wszWord.c_str() + iStart);
+			USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, wszWord.c_str() + iStart);
 			if (ui != nullptr)
 				str.Replace(L"<" + wszWord + L">", CMStringW('@') + ui->pszNick);
 		}

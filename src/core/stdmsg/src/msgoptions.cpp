@@ -556,7 +556,7 @@ public:
 		db_set_b(0, CHAT_MODULE, "TabCloseOnDblClick", m_chkTabsClose.GetState());
 		db_set_b(0, CHAT_MODULE, "TabRestore", m_chkTabsRestore.GetState());
 
-		pci->ReloadSettings();
+		g_chatApi.ReloadSettings();
 
 		if (bOldValue != db_get_b(0, CHAT_MODULE, "Tabs", 1)) {
 			if (g_pTabDialog != nullptr)

@@ -359,11 +359,9 @@ struct CHAT_MANAGER
 	void (*OnFlashHighlight)(SESSION_INFO*, int bInactive);
 };
 
-#ifndef MIR_APP_EXPORTS
-extern CHAT_MANAGER *pci;
-#endif
+extern MIR_APP_EXPORT CHAT_MANAGER g_chatApi;
 
-EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = nullptr);
+EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pData);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
