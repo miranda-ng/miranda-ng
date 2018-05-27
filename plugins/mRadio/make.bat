@@ -17,6 +17,8 @@ md tmp
 
 rem brcc32.exe mradio.rc -fomradio.res
 
+rc version.rc
+
 %FPCBIN% @..\..\plugins\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
 if errorlevel 1 exit /b 1
 

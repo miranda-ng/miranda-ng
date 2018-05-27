@@ -148,9 +148,6 @@
 			<RcCompile Include="hpp_resource.rc">
 				<Form>hpp_resource.res</Form>
 			</RcCompile>
-			<RcCompile Include="hpp_res_ver.rc">
-				<Form>hpp_res_ver.res</Form>
-			</RcCompile>
 			<RcCompile Include="hpp_opt_dialog.rc">
 				<Form>hpp_opt_dialog.res</Form>
 			</RcCompile>

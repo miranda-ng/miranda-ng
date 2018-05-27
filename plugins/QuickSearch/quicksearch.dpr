@@ -7,6 +7,7 @@
 library quicksearch;
 
 {$R qs.res}
+{$R version.res}
 
 uses
 //  FastMM4,

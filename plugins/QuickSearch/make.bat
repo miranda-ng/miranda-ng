@@ -16,6 +16,7 @@ if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
 
 rem brcc32.exe qs.rc -foqs.res
+rc version.rc
 
 %FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
 if errorlevel 1 exit /b 1

@@ -60,6 +60,7 @@ uses
   scheduler in 'tasks\scheduler.pas';
 
 {$r options.res}
+{$r version.res}
 
 const
   PluginName  = 'Action Manager';

@@ -40,7 +40,7 @@ uses
   ImportTxtDlg in 'ImportTxtDlg.pas',
   ImportTxtWiz in 'ImportTxtWiz.pas';
 
-{$R imptxt_ver.res}
+{$R version.res}
 
 const MIID_IMPORTTEXT:TGUID = '{6F376B33-D3F4-4c4f-A96B-77DA08043B06}';
 

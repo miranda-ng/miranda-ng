@@ -19,6 +19,7 @@ rem brcc32.exe %myopts% options.rc     -fooptions.res
 rem brcc32.exe %myopts% hooks\hooks.rc -fohooks\hooks.res
 rem brcc32.exe %myopts% tasks\tasks.rc -fotasks\tasks.res
 rem brcc32.exe %myopts% ua\ua.rc       -foua\ua.res
+rc version.rc
 
 %FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
 if errorlevel 1 exit /b 1

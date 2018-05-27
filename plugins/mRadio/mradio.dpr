@@ -17,6 +17,7 @@ uses
 
 {$include mr_rc.inc}
 {$r mradio.res}
+{$r version.res}
 
 {$include i_search.inc}
 {$include i_variables.inc}

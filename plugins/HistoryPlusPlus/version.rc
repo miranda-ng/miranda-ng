@@ -1,0 +1,53 @@
+// Microsoft Visual C++ generated resource script.
+//
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+#include "..\..\include\m_version.h"
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+#pragma code_page(1252)
+#endif //_WIN32
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,5,1,5
+ PRODUCTVERSION MIRANDA_VERSION_FILEVERSION
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "CompanyName", "Miranda Open Source Project\000"
+            VALUE "FileDescription", "History++ plugin for Miranda NG\000"
+            VALUE "FileVersion", "1.5.1.5\000"
+            VALUE "InternalName", "historypp\000"
+            VALUE "LegalCopyright", "© 2006-2009 theMIROn, 2003-2006 Art Fedorov.\000"
+            VALUE "LegalTrademarks", "Gnu General Public License V2\000"
+            VALUE "OriginalFilename", "historypp.dll\000"
+            VALUE "ProductName", "History PlusPlus Module\000"
+            VALUE "ProductVersion", "1.5.1.5\000"
+            VALUE "Comments", "Easy, fast and feature complete history viewer\000"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////

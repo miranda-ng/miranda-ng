@@ -32,6 +32,7 @@ uses
 {$include resource.inc}
 
 {$Resource res\watrack.res}
+{$Resource version.res}
 
 {$include i_vars.inc}
 

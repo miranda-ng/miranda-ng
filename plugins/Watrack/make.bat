@@ -25,6 +25,7 @@ rem brcc32.exe proto\proto.rc         -foproto\proto.res
 rem brcc32.exe stat\stat.rc           -fostat\stat.res
 rem brcc32.exe status\status.rc       -fostatus\status.res
 rem brcc32.exe templates\templates.rc -fotemplates\templates.res
+rc version.rc
 
 %FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
 if errorlevel 1 exit /b 1
