@@ -188,9 +188,9 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 						VS_FIXEDFILEINFO *vsffi;
 						VerQueryValue(&pSecStart[dwVersion], L"\\", (PVOID*)&vsffi, &blockSize);
 
-						UINT v[4] = { MIRANDA_VERSION_FILEVERSION };
-						if (MAKELONG(v[1], v[0]) == vsffi->dwProductVersionMS && MAKELONG(v[3], v[2]) == vsffi->dwProductVersionLS)
-							nChecks++;
+						// UINT v[4] = { MIRANDA_VERSION_FILEVERSION };
+						// if (MAKELONG(v[1], v[0]) == vsffi->dwProductVersionMS && MAKELONG(v[3], v[2]) == vsffi->dwProductVersionLS)
+						//	nChecks++;
 					}
 				}
 			}
@@ -204,6 +204,6 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 		CloseHandle(hFile);
 	};
 
-	bIsPlugin = nChecks == 2;
+	bIsPlugin = nChecks != 0;
 	return pResult;
 }
