@@ -18,31 +18,26 @@
 #pragma comment(lib, "version.lib")
 
 int debug = 0;
-DWORD dwVersion;
 
-static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase, DWORD dwType);
+static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase);
 
-static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, PBYTE pBase, DWORD dwType)
+static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, PBYTE pBase)
 {
 	if (pIRDE->DataIsDirectory)
-		PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY(pBase + pIRDE->OffsetToDirectory), pBase, dwType == 0 ? pIRDE->Name : dwType);
-	else if (dwType == 16) {
-		PIMAGE_RESOURCE_DATA_ENTRY pItem = PIMAGE_RESOURCE_DATA_ENTRY(pBase + pIRDE->OffsetToData);
-		dwVersion = pItem->OffsetToData;
-	}
+		PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY(pBase + pIRDE->OffsetToDirectory), pBase);
 }
 
-static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase, DWORD dwType)
+static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
 {
 	UINT i;
 	pIRD->TimeDateStamp = 0;
 
 	PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE = PIMAGE_RESOURCE_DIRECTORY_ENTRY(pIRD + 1);
 	for (i = 0; i < pIRD->NumberOfNamedEntries; i++, pIRDE++)
-		PatchResourceEntry(pIRDE, pBase, dwType);
+		PatchResourceEntry(pIRDE, pBase);
 
 	for (i = 0; i < pIRD->NumberOfIdEntries; i++, pIRDE++)
-		PatchResourceEntry(pIRDE, pBase, dwType);
+		PatchResourceEntry(pIRDE, pBase);
 }
 
 __forceinline bool Contains(PIMAGE_SECTION_HEADER pISH, DWORD address, DWORD size = 0)
@@ -219,21 +214,9 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 
 						// patch resources
 						if (resSize > 0 && resAddr >= pISH->VirtualAddress && resAddr + resSize <= pISH->VirtualAddress + pISH->SizeOfRawData) {
-							dwVersion = 0;
-
 							DWORD shift = resAddr - pISH->VirtualAddress + pISH->PointerToRawData;
 							IMAGE_RESOURCE_DIRECTORY *pIRD = (IMAGE_RESOURCE_DIRECTORY*)(ptr + shift);
-							PatchResourcesDirectory(pIRD, ptr + shift, 0);
-
-							// patch version
-							if (dwVersion) {
-								shift = dwVersion - pISH->VirtualAddress + pISH->PointerToRawData;
-
-								UINT blockSize;
-								VS_FIXEDFILEINFO *vsffi;
-								VerQueryValue(ptr + shift, L"\\", (PVOID*)&vsffi, &blockSize);
-								vsffi->dwProductVersionLS = vsffi->dwProductVersionMS = 0;
-							}
+							PatchResourcesDirectory(pIRD, ptr + shift);
 						}
 
 						// rebase to zero address

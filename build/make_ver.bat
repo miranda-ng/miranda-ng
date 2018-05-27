@@ -28,6 +28,7 @@ for /f "delims=/ tokens=1-3" %%a in ("%DATE:~4%") do (
 
 copy m_version.h.in "%TempFileName%"
 
+echo #define MIRANDA_VERSION_COREVERSION %1,%2,%3,0                                >> "%TempFileName%"
 echo #define MIRANDA_VERSION_FILEVERSION %1,%2,%3,%4                               >> "%TempFileName%"
 echo #define MIRANDA_VERSION_STRING      "%1.%2.%3.%4"                             >> "%TempFileName%"
 echo #define MIRANDA_VERSION_DISPLAY     "%1.%2.%3 alpha build #%4 (%5)"           >> "%TempFileName%"
