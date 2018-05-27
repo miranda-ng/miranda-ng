@@ -7,4 +7,4 @@ cd /d %~dp0
 
 rc version.rc
 
-MsBuild.exe ..\plugins\HistoryPlusPlus\historypp.dproj /t:Rebuild /p:Configuration=Release;Platform=Win%tp% /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
+MsBuild.exe historypp.dproj /t:Rebuild /p:Configuration=Release;Platform=Win%tp% /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
