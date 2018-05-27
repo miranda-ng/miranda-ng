@@ -137,7 +137,7 @@ public:
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
 		pData = nullptr;
-		timeout = 20 * 1000;
+		timeout = 600 * 1000;
 
 		NotifyErrors = true;
 		Persistent = DEFAULT;

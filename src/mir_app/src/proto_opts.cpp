@@ -751,8 +751,10 @@ LRESULT CAccountListCtrl::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONUP:
 		{
 			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			if ((m_iItem >= 0) && PtInRect(&m_rcCheck, pt))
+			if ((m_iItem >= 0) && PtInRect(&m_rcCheck, pt)) {
+				PARENT()->m_iPrevSel = m_iItem;
 				PARENT()->OnAccountCheck(m_iItem);
+			}
 			m_iItem = -1;
 		}
 		break;

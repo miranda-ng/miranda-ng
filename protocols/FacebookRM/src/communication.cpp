@@ -54,10 +54,49 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	if (request->requestType == REQUEST_POST)
 		request->Headers << CHAR_PARAM("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
+	mir_cslockfull s(fcb_conn_lock_); s.unlock();
+
+	// Set persistent connection (or not)
+	switch (request->Persistent) {
+	case HttpRequest::PersistentType::NONE:
+		request->nlc = nullptr;
+		request->flags &= ~NLHRF_PERSISTENT;
+		break;
+	case HttpRequest::PersistentType::CHANNEL:
+		request->nlc = hChannelCon;
+		request->flags |= NLHRF_PERSISTENT;
+		break;
+	case HttpRequest::PersistentType::MESSAGES:
+		request->nlc = hMessagesCon;
+		request->flags |= NLHRF_PERSISTENT;
+		break;
+	case HttpRequest::PersistentType::DEFAULT:
+		s.lock();
+		request->nlc = hFcbCon;
+		request->flags |= NLHRF_PERSISTENT;
+		break;
+	}
+
 	parent->debugLogA("@@@ Sending request to '%s'", request->szUrl);
 
 	// Send the request	
 	NETLIBHTTPREQUEST *pnlhr = request->Send(handle_);
+
+	// Remember the persistent connection handle (or not)
+	switch (request->Persistent) {
+	case HttpRequest::PersistentType::NONE:
+		break;
+	case HttpRequest::PersistentType::CHANNEL:
+		hChannelCon = pnlhr ? pnlhr->nlc : nullptr;
+		break;
+	case HttpRequest::PersistentType::MESSAGES:
+		hMessagesCon = pnlhr ? pnlhr->nlc : nullptr;
+		break;
+	case HttpRequest::PersistentType::DEFAULT:
+		s.unlock();
+		hFcbCon = pnlhr ? pnlhr->nlc : nullptr;
+		break;
+	}
 
 	// Check and copy response data
 	if (pnlhr != nullptr) {
@@ -1099,7 +1138,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = const_cast<char*>(url.c_str());
-	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_NODUMP;
+	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_PERSISTENT | NLHRF_NODUMP;
 	req.nlc = nlc;
 
 	bool ret = false;

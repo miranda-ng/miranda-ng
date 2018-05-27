@@ -38,6 +38,11 @@ public:
 	{
 	}
 
+	HNETLIBCONN hChannelCon;
+	HNETLIBCONN hMessagesCon;
+	HNETLIBCONN hFcbCon;
+	mir_cs fcb_conn_lock_;
+
 	// Random generator value for this client
 
 	unsigned int random_ = 0;
