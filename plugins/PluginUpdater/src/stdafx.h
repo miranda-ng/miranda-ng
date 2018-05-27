@@ -229,7 +229,6 @@ wchar_t* GetDefaultUrl();
 bool   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
 
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
-void  __stdcall RestartMe(void*);
 void  __stdcall OpenPluginOptions(void*);
 void  CheckUpdateOnStartup();
 void  InitTimer(void *type);

@@ -15,6 +15,8 @@
 #define RESULT_INVALID		50
 #define RESULT_NONE			100
 
+#pragma comment(lib, "version.lib")
+
 int debug = 0;
 DWORD dwVersion = 0;
 
@@ -224,8 +226,11 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 							// patch version
 							if (dwVersion) {
 								shift = dwVersion - pISH->VirtualAddress + pISH->PointerToRawData;
-								VS_FIXEDFILEINFO *pVersion = (VS_FIXEDFILEINFO*)(ptr + shift);
-								pVersion->dwProductVersionLS = pVersion->dwProductVersionMS = 0;
+
+								UINT blockSize;
+								VS_FIXEDFILEINFO *vsffi;
+								VerQueryValue(ptr + shift, L"\\", (PVOID*)&vsffi, &blockSize);
+								vsffi->dwProductVersionLS = vsffi->dwProductVersionMS = 0;
 							}
 						}
 

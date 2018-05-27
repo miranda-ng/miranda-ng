@@ -19,6 +19,8 @@
 int debug = 0;
 DWORD dwVersion = 0;
 
+#pragma comment(lib, "version.lib")
+
 struct MFileMapping
 {
 	PBYTE  ptr;
@@ -205,8 +207,11 @@ LBL_NotPE:
 				// patch version
 				if (dwVersion) {
 					shift = dwVersion - pISH->VirtualAddress + pISH->PointerToRawData;
-					VS_FIXEDFILEINFO *pVersion = (VS_FIXEDFILEINFO*)(map.ptr + shift);
-					pVersion->dwProductVersionLS = pVersion->dwProductVersionMS = 0;
+
+					UINT blockSize;
+					VS_FIXEDFILEINFO *vsffi;
+					VerQueryValue(map.ptr + shift, L"\\", (PVOID*)&vsffi, &blockSize);
+					vsffi->dwProductVersionLS = vsffi->dwProductVersionMS = 0;
 				}
 			}
 
