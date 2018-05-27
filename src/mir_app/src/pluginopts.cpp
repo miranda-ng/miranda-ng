@@ -62,7 +62,15 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 {
 	wchar_t buf[MAX_PATH];
 	mir_snwprintf(buf, L"%s\\Plugins\\%s", path, fd->cFileName);
+
+	// try to check a plugin without loading it first
 	HINSTANCE hInst = GetModuleHandle(buf);
+	if (hInst == nullptr) {
+		bool bIsPlugin = false;
+		mir_ptr<MUUID> pIds(GetPluginInterfaces(buf, bIsPlugin));
+		if (!bIsPlugin)
+			return TRUE;
+	}
 
 	BASIC_PLUGIN_INFO pi;
 	if (checkAPI(buf, &pi, CHECKAPI_NONE) == 0)
