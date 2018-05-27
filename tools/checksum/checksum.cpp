@@ -18,7 +18,7 @@
 #pragma comment(lib, "version.lib")
 
 int debug = 0;
-DWORD dwVersion = 0;
+DWORD dwVersion;
 
 static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase, DWORD dwType);
 
@@ -219,6 +219,8 @@ int PEChecksum(wchar_t *filename, BYTE digest[16])
 
 						// patch resources
 						if (resSize > 0 && resAddr >= pISH->VirtualAddress && resAddr + resSize <= pISH->VirtualAddress + pISH->SizeOfRawData) {
+							dwVersion = 0;
+
 							DWORD shift = resAddr - pISH->VirtualAddress + pISH->PointerToRawData;
 							IMAGE_RESOURCE_DIRECTORY *pIRD = (IMAGE_RESOURCE_DIRECTORY*)(ptr + shift);
 							PatchResourcesDirectory(pIRD, ptr + shift, 0);
