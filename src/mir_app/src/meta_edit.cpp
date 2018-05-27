@@ -446,6 +446,6 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 INT_PTR Meta_Edit(WPARAM wParam, LPARAM)
 {
-	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_METAEDIT), g_CLI.hwndContactList, Meta_EditDialogProc, (LPARAM)wParam);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_METAEDIT), g_clistApi.hwndContactList, Meta_EditDialogProc, (LPARAM)wParam);
 	return 0;
 }

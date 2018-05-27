@@ -329,7 +329,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 
 		cle.hIcon = Skin_LoadIcon(SKINICON_AUTH_REQUEST);
 		cle.pszService = MS_AUTH_SHOWREQUEST;
-		g_CLI.pfnAddEvent(&cle);
+		g_clistApi.pfnAddEvent(&cle);
 	}
 	else if (dbei.eventType == EVENTTYPE_ADDED) {
 		Skin_PlaySound("AddedEvent");
@@ -340,7 +340,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 
 		cle.hIcon = Skin_LoadIcon(SKINICON_AUTH_ADD);
 		cle.pszService = MS_AUTH_SHOWADDED;
-		g_CLI.pfnAddEvent(&cle);
+		g_clistApi.pfnAddEvent(&cle);
 	}
 	return 0;
 }

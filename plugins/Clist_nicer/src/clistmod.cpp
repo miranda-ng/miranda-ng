@@ -35,7 +35,7 @@ extern ImageItem *g_CLUIImageItem;
 
 static INT_PTR GetStatusMode(WPARAM, LPARAM)
 {
-	return(g_maxStatus == ID_STATUS_OFFLINE ? g_CLI.currentDesiredStatusMode : g_maxStatus);
+	return(g_maxStatus == ID_STATUS_OFFLINE ? g_clistApi.currentDesiredStatusMode : g_maxStatus);
 }
 
 int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact)
@@ -166,10 +166,10 @@ int ShowHide()
 {
 	BOOL bShow = FALSE;
 
-	int iVisibleState = g_CLI.pfnGetWindowVisibleState(g_CLI.hwndContactList, 0, 0);
+	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
 
-	if (IsIconic(g_CLI.hwndContactList)) {
-		SendMessage(g_CLI.hwndContactList, WM_SYSCOMMAND, SC_RESTORE, 0);
+	if (IsIconic(g_clistApi.hwndContactList)) {
+		SendMessage(g_clistApi.hwndContactList, WM_SYSCOMMAND, SC_RESTORE, 0);
 		bShow = TRUE;
 	}
 	else {
@@ -193,22 +193,22 @@ int ShowHide()
 	if (bShow == TRUE) {
 		RECT rcWindow;
 
-		SetWindowPos(g_CLI.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
+		SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
 		if (!db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
-			SetWindowPos(g_CLI.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
-		SetForegroundWindow(g_CLI.hwndContactList);
-		//SetActiveWindow(g_CLI.hwndContactList);
-		ShowWindow(g_CLI.hwndContactList, SW_SHOW);
+			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
+		SetForegroundWindow(g_clistApi.hwndContactList);
+		//SetActiveWindow(g_clistApi.hwndContactList);
+		ShowWindow(g_clistApi.hwndContactList, SW_SHOW);
 		db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
 
-		GetWindowRect(g_CLI.hwndContactList, &rcWindow);
+		GetWindowRect(g_clistApi.hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
-			MoveWindow(g_CLI.hwndContactList, rcWindow.left, rcWindow.top,
+			MoveWindow(g_clistApi.hwndContactList, rcWindow.left, rcWindow.top,
 				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 		}
 	}
 	else {                      //It needs to be hidden
-		ShowWindow(g_CLI.hwndContactList, SW_HIDE);
+		ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
 		db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 		if (db_get_b(NULL, "CList", "DisableWorkingSet", 1))
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);

@@ -253,7 +253,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			if (!restorePos) {
 				RECT rect;
-				if (GetWindowRect(g_CLI.hwndContactList, &rect)) {
+				if (GetWindowRect(g_clistApi.hwndContactList, &rect)) {
 					WINDOWPLACEMENT wp;
 
 					wp.length = sizeof(wp);
@@ -264,7 +264,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					int width = db_get_dw(NULL, MODULENAME, szSettingName, -1);
 
 					int right = rect.left - 6;
-					if (!IsWindowVisible(g_CLI.hwndContactList)) right = rect.right;
+					if (!IsWindowVisible(g_clistApi.hwndContactList)) right = rect.right;
 
 					wp.rcNormalPosition.left = right - width;
 					wp.rcNormalPosition.top = rect.top;

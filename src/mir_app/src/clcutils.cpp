@@ -115,9 +115,9 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 			*flags |= CLCHT_INLEFTMARGIN | CLCHT_NOWHERE;
 		return -1;
 	}
-	int hit = g_CLI.pfnRowHitTest(dat, dat->yScroll + testy);
+	int hit = g_clistApi.pfnRowHitTest(dat, dat->yScroll + testy);
 	if (hit != -1)
-		hit = g_CLI.pfnGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
+		hit = g_clistApi.pfnGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
 	if (hit == -1) {
 		if (flags)
 			*flags |= CLCHT_NOWHERE | CLCHT_BELOWITEMS;
@@ -205,7 +205,7 @@ void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
 	
-	int maxy = g_CLI.pfnGetRowTotalHeight(dat) - clRect.bottom;
+	int maxy = g_clistApi.pfnGetRowTotalHeight(dat) - clRect.bottom;
 	if (desty > maxy)
 		desty = maxy;
 	if (desty < 0)
@@ -227,7 +227,7 @@ void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 			if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == nullptr)
 				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, nullptr, nullptr, nullptr, nullptr, SW_INVALIDATE);
 			else
-				g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
+				g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 			previousy = dat->yScroll;
 			SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
 			UpdateWindow(hwnd);
@@ -238,13 +238,13 @@ void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 	if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == nullptr)
 		ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, nullptr, nullptr, nullptr, nullptr, SW_INVALIDATE);
 	else
-		g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
+		g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 	SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
 }
 
 MIR_APP_DLL(void) Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk)
 {
-	int itemy = g_CLI.pfnGetRowTopY(dat, iItem), itemh = g_CLI.pfnGetRowHeight(dat, iItem), newY = 0;
+	int itemy = g_clistApi.pfnGetRowTopY(dat, iItem), itemh = g_clistApi.pfnGetRowHeight(dat, iItem), newY = 0;
 	int moved = 0;
 	RECT clRect;
 
@@ -270,7 +270,7 @@ MIR_APP_DLL(void) Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int pa
 		}
 	}
 	if (moved)
-		g_CLI.pfnScrollTo(hwnd, dat, newY, 0);
+		g_clistApi.pfnScrollTo(hwnd, dat, newY, 0);
 }
 
 void fnRecalcScrollBar(HWND hwnd, ClcData *dat)
@@ -285,7 +285,7 @@ void fnRecalcScrollBar(HWND hwnd, ClcData *dat)
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = g_CLI.pfnGetRowTotalHeight(dat)-1;
+	si.nMax = g_clistApi.pfnGetRowTotalHeight(dat)-1;
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
 
@@ -295,7 +295,7 @@ void fnRecalcScrollBar(HWND hwnd, ClcData *dat)
 	}
 	else SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 
-	g_CLI.pfnScrollTo(hwnd, dat, dat->yScroll, 1);
+	g_clistApi.pfnScrollTo(hwnd, dat, dat->yScroll, 1);
 
 	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_LISTSIZECHANGE;
@@ -320,22 +320,22 @@ void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState)
 			return;
 		group->expanded = newState != 0;
 	}
-	g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
-	contentCount = g_CLI.pfnGetGroupContentsCount(group, 1);
-	groupy = g_CLI.pfnGetRowsPriorTo(&dat->list, group, -1);
+	g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
+	contentCount = g_clistApi.pfnGetGroupContentsCount(group, 1);
+	groupy = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, -1);
 	if (dat->selection > groupy && dat->selection < groupy + contentCount)
 		dat->selection = groupy;
 	GetClientRect(hwnd, &clRect);
 	newY = dat->yScroll;
-	posY = g_CLI.pfnGetRowBottomY(dat, groupy + contentCount);
+	posY = g_clistApi.pfnGetRowBottomY(dat, groupy + contentCount);
 	if (posY >= newY + clRect.bottom)
 		newY = posY - clRect.bottom;
-	posY = g_CLI.pfnGetRowTopY(dat, groupy);
+	posY = g_clistApi.pfnGetRowTopY(dat, groupy);
 	if (newY > posY)
 		newY = posY;
-	g_CLI.pfnRecalcScrollBar(hwnd, dat);
+	g_clistApi.pfnRecalcScrollBar(hwnd, dat);
 	if (group->expanded)
-		g_CLI.pfnScrollTo(hwnd, dat, newY, 0);
+		g_clistApi.pfnScrollTo(hwnd, dat, newY, 0);
 	nm.hdr.code = CLN_EXPANDED;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
@@ -353,11 +353,11 @@ MIR_APP_DLL(void) Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 	dat->szQuickSearch[0] = 0;
 
 	ClcContact *contact;
-	if (g_CLI.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) == -1)
+	if (g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) == -1)
 		return;
 
 	if (contact->type == CLCIT_GROUP)
-		g_CLI.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
+		g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
 	if (contact->type == CLCIT_CONTACT)
 		Clist_ContactDoubleClicked(contact->hContact);
 
@@ -393,8 +393,8 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 				ClcGroup *contactGroup = group;
 				int contactScanIndex = group->scanIndex;
 				for (; group; group = group->parent)
-					g_CLI.pfnSetGroupExpand(hwnd, dat, group, 1);
-				return g_CLI.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
+					g_clistApi.pfnSetGroupExpand(hwnd, dat, group, 1);
+				return g_clistApi.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
 			}
 			if (cc->type == CLCIT_GROUP) {
 				if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || cc->group->expanded) {
@@ -421,7 +421,7 @@ MIR_APP_DLL(void) Clist_EndRename(ClcData *dat, int save)
 		GetWindowText(hwndEdit, text, _countof(text));
 
 		ClcContact *contact;
-		if (g_CLI.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) != -1) {
+		if (g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) != -1) {
 			if (mir_wstrcmp(contact->szText, text) && !wcsstr(text, L"\\")) {
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
@@ -434,7 +434,7 @@ MIR_APP_DLL(void) Clist_EndRename(ClcData *dat, int save)
 						Clist_GroupRename(contact->groupId, text);
 				}
 				else if (contact->type == CLCIT_CONTACT) {
-					g_CLI.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
+					g_clistApi.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
 					wchar_t* otherName = Clist_GetContactDisplayName(contact->hContact, GCDNF_NOMYHANDLE);
 					if (!text[0] || !mir_wstrcmp(otherName, text))
 						db_unset(contact->hContact, "CList", "MyHandle");
@@ -455,7 +455,7 @@ MIR_APP_DLL(void) Clist_DeleteFromContactList(HWND hwnd, ClcData *dat)
 		return;
 	
 	dat->szQuickSearch[0] = 0;
-	if (g_CLI.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) == -1)
+	if (g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) == -1)
 		return;
 	
 	switch (contact->type) {
@@ -507,7 +507,7 @@ void fnBeginRenameSelection(HWND hwnd, ClcData *dat)
 
 	ClcGroup *group;
 	ClcContact *contact;
-	dat->selection = g_CLI.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
+	dat->selection = g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
 	if (dat->selection == -1 || (contact->type != CLCIT_CONTACT && contact->type != CLCIT_GROUP))
 		return;
 
@@ -516,8 +516,8 @@ void fnBeginRenameSelection(HWND hwnd, ClcData *dat)
 
 	POINT pt;
 	Clist_CalcEipPosition(dat, contact, group, &pt);
-	int h = g_CLI.pfnGetRowHeight(dat, dat->selection);
-	dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, pt.x, pt.y, clRect.right - pt.x, h, hwnd, nullptr, g_CLI.hInst, nullptr);
+	int h = g_clistApi.pfnGetRowHeight(dat, dat->selection);
+	dat->hwndRenameEdit = CreateWindow(L"EDIT", contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, pt.x, pt.y, clRect.right - pt.x, h, hwnd, nullptr, g_clistApi.hInst, nullptr);
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM)(contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
 	SendMessage(dat->hwndRenameEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
@@ -531,7 +531,7 @@ MIR_APP_DLL(void) Clist_CalcEipPosition(ClcData *dat, ClcContact *, ClcGroup *gr
 	int indent;
 	for (indent = 0; group->parent; indent++, group = group->parent);
 	result->x = indent * dat->groupIndent + dat->iconXSpace - 2;
-	result->y = g_CLI.pfnGetRowTopY(dat, dat->selection) - dat->yScroll;
+	result->y = g_clistApi.pfnGetRowTopY(dat, dat->selection) - dat->yScroll;
 }
 
 int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
@@ -546,8 +546,8 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 	ClcContact *contact, *movecontact;
 	ClcGroup *group, *movegroup;
 	DWORD hitFlags;
-	int hit = g_CLI.pfnHitTest(hwnd, dat, pt.x, pt.y, &contact, &group, &hitFlags);
-	g_CLI.pfnGetRowByIndex(dat, dat->iDragItem, &movecontact, &movegroup);
+	int hit = g_clistApi.pfnHitTest(hwnd, dat, pt.x, pt.y, &contact, &group, &hitFlags);
+	g_clistApi.pfnGetRowByIndex(dat, dat->iDragItem, &movecontact, &movegroup);
 	if (hit == dat->iDragItem)
 		return DROPTARGET_ONSELF;
 	if (hit == -1 || movecontact == nullptr || (hitFlags & CLCHT_ONITEMEXTRA))
@@ -558,21 +558,21 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 		ClcGroup *topgroup = nullptr;
 		int topItem = -1, bottomItem = -1;
 		int ok = 0;
-		if (pt.y + dat->yScroll < g_CLI.pfnGetRowTopY(dat, hit) + dat->insertionMarkHitHeight) {
+		if (pt.y + dat->yScroll < g_clistApi.pfnGetRowTopY(dat, hit) + dat->insertionMarkHitHeight) {
 			//could be insertion mark (above)
 			topItem = hit - 1;
 			bottomItem = hit;
 			bottomcontact = contact;
-			topItem = g_CLI.pfnGetRowByIndex(dat, topItem, &topcontact, &topgroup);
+			topItem = g_clistApi.pfnGetRowByIndex(dat, topItem, &topcontact, &topgroup);
 			ok = 1;
 		}
-		if (pt.y + dat->yScroll >= g_CLI.pfnGetRowBottomY(dat, hit+1) - dat->insertionMarkHitHeight) {
+		if (pt.y + dat->yScroll >= g_clistApi.pfnGetRowBottomY(dat, hit+1) - dat->insertionMarkHitHeight) {
 			//could be insertion mark (below)
 			topItem = hit;
 			bottomItem = hit + 1;
 			topcontact = contact;
 			topgroup = group;
-			bottomItem = g_CLI.pfnGetRowByIndex(dat, bottomItem, &bottomcontact, nullptr);
+			bottomItem = g_clistApi.pfnGetRowByIndex(dat, bottomItem, &bottomcontact, nullptr);
 			ok = 1;
 		}
 		if (ok) {
@@ -703,7 +703,7 @@ void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 
 MIR_APP_DLL(void) Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 {
-	g_CLI.pfnGetDefaultFontSetting(i, lf, colour);
+	g_clistApi.pfnGetDefaultFontSetting(i, lf, colour);
 
 	char idstr[20];
 	mir_snprintf(idstr, "Font%dName", i);
@@ -754,7 +754,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->quickSearchColour = db_get_dw(0, "CLC", "QuickSearchColour", CLCDEFAULT_QUICKSEARCHCOLOUR);
 	dat->bUseWindowsColours = db_get_b(0, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) != 0;
 
-	if (g_CLI.hwndContactTree != nullptr && hwnd != g_CLI.hwndContactTree) {
+	if (g_clistApi.hwndContactTree != nullptr && hwnd != g_clistApi.hwndContactTree) {
 		dat->bkChanged = true; // block custom background
 		dat->bkColour = GetSysColor(COLOR_WINDOW);
 		if (dat->hBmpBackground) {
@@ -843,10 +843,10 @@ MIR_APP_DLL(void) Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked)
 	for (auto &cc : group->cl) {
 		if (cc->type == CLCIT_GROUP) {
 			Clist_SetGroupChildCheckboxes(cc->group, checked);
-			g_CLI.pfnSetContactCheckboxes(cc, checked);
+			g_clistApi.pfnSetContactCheckboxes(cc, checked);
 		}
 		else if (cc->type == CLCIT_CONTACT)
-			g_CLI.pfnSetContactCheckboxes(cc, checked);
+			g_clistApi.pfnSetContactCheckboxes(cc, checked);
 	}
 }
 
@@ -857,9 +857,9 @@ MIR_APP_DLL(void) Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem)
 
 	RECT rc;
 	GetClientRect(hwnd, &rc);
-	rc.top = g_CLI.pfnGetRowTopY(dat, iItem) - dat->yScroll;
-	rc.bottom = rc.top + g_CLI.pfnGetRowHeight(dat, iItem);
-	g_CLI.pfnInvalidateRect(hwnd, &rc, FALSE);
+	rc.top = g_clistApi.pfnGetRowTopY(dat, iItem) - dat->yScroll;
+	rc.bottom = rc.top + g_clistApi.pfnGetRowHeight(dat, iItem);
+	g_clistApi.pfnInvalidateRect(hwnd, &rc, FALSE);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -877,7 +877,7 @@ int fnGetRowBottomY(ClcData *dat, int item)
 
 int fnGetRowTotalHeight(ClcData *dat)
 {
-	return dat->rowHeight * g_CLI.pfnGetGroupContentsCount(&dat->list, 1);
+	return dat->rowHeight * g_clistApi.pfnGetGroupContentsCount(&dat->list, 1);
 }
 
 int fnGetRowHeight(ClcData *dat, int)

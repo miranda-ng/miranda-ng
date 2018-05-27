@@ -103,7 +103,7 @@ MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int mode, int flags)
 
 HICON fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status)
 {
-	return ImageList_GetIcon(hCListImages, g_CLI.pfnIconFromStatusMode(szProto, status, hContact), ILD_NORMAL);
+	return ImageList_GetIcon(hCListImages, g_clistApi.pfnIconFromStatusMode(szProto, status, hContact), ILD_NORMAL);
 }
 
 int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
@@ -128,7 +128,7 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 MIR_APP_DLL(int) Clist_GetContactIcon(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	return g_CLI.pfnIconFromStatusMode(szProto,
+	return g_clistApi.pfnIconFromStatusMode(szProto,
 		szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
 }
 
@@ -181,7 +181,7 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 	Menu_ReloadProtoMenus();
 	Clist_TrayIconIconsChanged();
 
-	g_CLI.bAutoRebuild = true;
+	g_clistApi.bAutoRebuild = true;
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 	return 0;
@@ -229,7 +229,7 @@ static int CListIconsChanged(WPARAM, LPARAM)
 	}
 
 	Clist_TrayIconIconsChanged();
-	g_CLI.pfnInvalidateRect(g_CLI.hwndContactList, nullptr, TRUE);
+	g_clistApi.pfnInvalidateRect(g_clistApi.hwndContactList, nullptr, TRUE);
 	return 0;
 }
 
@@ -309,7 +309,7 @@ int fnShowHide()
 {
 	BOOL bShow = FALSE;
 
-	int iVisibleState = g_CLI.pfnGetWindowVisibleState(g_CLI.hwndContactList, 0, 0);
+	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
 
 	//bShow is FALSE when we enter the switch.
 	switch (iVisibleState) {
@@ -324,34 +324,34 @@ int fnShowHide()
 	case GWVS_VISIBLE:     //This is not needed, but goes for readability.
 		bShow = FALSE;
 		break;
-	case -1:               //We can't get here, both g_CLI.hwndContactList and iStepX and iStepY are right.
+	case -1:               //We can't get here, both g_clistApi.hwndContactList and iStepX and iStepY are right.
 		return 0;
 	}
 
 	if (bShow == TRUE) {
-		ShowWindow(g_CLI.hwndContactList, SW_RESTORE);
+		ShowWindow(g_clistApi.hwndContactList, SW_RESTORE);
 		if (!db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
-			SetWindowPos(g_CLI.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 		else
-			SetWindowPos(g_CLI.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
-		SetForegroundWindow(g_CLI.hwndContactList);
+		SetForegroundWindow(g_clistApi.hwndContactList);
 		db_set_b(0, "CList", "State", SETTING_STATE_NORMAL);
 
 		// this forces the window onto the visible screen
 		RECT rcWindow;
-		GetWindowRect(g_CLI.hwndContactList, &rcWindow);
+		GetWindowRect(g_clistApi.hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1)
-			MoveWindow(g_CLI.hwndContactList, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
+			MoveWindow(g_clistApi.hwndContactList, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 	}
 	else { // It needs to be hidden
 		if (db_get_b(0, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ||
 			db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
-			ShowWindow(g_CLI.hwndContactList, SW_HIDE);
+			ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
 			db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
 		}
 		else {
-			ShowWindow(g_CLI.hwndContactList, SW_MINIMIZE);
+			ShowWindow(g_clistApi.hwndContactList, SW_MINIMIZE);
 			db_set_b(0, "CList", "State", SETTING_STATE_MINIMIZED);
 		}
 
@@ -372,11 +372,11 @@ MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon)
 
 MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hContact2)
 {
-	ClcData *dat = (ClcData*)GetWindowLongPtr(g_CLI.hwndContactTree, 0);
+	ClcData *dat = (ClcData*)GetWindowLongPtr(g_clistApi.hwndContactTree, 0);
 	if (dat != nullptr) {
 		ClcContact *p1, *p2;
-		if (Clist_FindItem(g_CLI.hwndContactTree, dat, hContact1, &p1, nullptr, nullptr) && Clist_FindItem(g_CLI.hwndContactTree, dat, hContact2, &p2, nullptr, nullptr))
-			return g_CLI.pfnCompareContacts(p1, p2);
+		if (Clist_FindItem(g_clistApi.hwndContactTree, dat, hContact1, &p1, nullptr, nullptr) && Clist_FindItem(g_clistApi.hwndContactTree, dat, hContact2, &p2, nullptr, nullptr))
+			return g_clistApi.pfnCompareContacts(p1, p2);
 	}
 
 	return 0;

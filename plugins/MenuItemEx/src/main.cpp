@@ -425,7 +425,7 @@ static INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 	if (flags&PF4_NOCUSTOMAUTH)
 		ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)L"");
 	else
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AUTHREQ), g_CLI.hwndContactList, AuthReqWndProc, (LPARAM)hContact);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AUTHREQ), g_clistApi.hwndContactList, AuthReqWndProc, (LPARAM)hContact);
 
 	return 0;
 }

@@ -237,7 +237,7 @@ void DeinitMessagePump()
 INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 {
 	CLCINFOTIP *clcit = (CLCINFOTIP *)lParam;
-	HWND clist = g_CLI.hwndContactTree;
+	HWND clist = g_clistApi.hwndContactTree;
 	
 	if (clcit->isGroup) return 0; // no group tips (since they're pretty useless)
 	if (clcit->isTreeFocused == 0 && !opt.bShowNoFocus && clist == WindowFromPoint(clcit->ptCursor)) return 0;
@@ -269,7 +269,7 @@ int ShowTipHook(WPARAM wParam, LPARAM lParam)
 INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 {
 	CLCINFOTIP *clcit = (CLCINFOTIP *)lParam;
-	HWND clist = g_CLI.hwndContactTree;
+	HWND clist = g_clistApi.hwndContactTree;
 
 	if (clcit->isGroup) return 0; // no group tips (since they're pretty useless)
 	if (clcit->isTreeFocused == 0 && !opt.bShowNoFocus && clist == WindowFromPoint(clcit->ptCursor)) return 0;

@@ -91,7 +91,7 @@ int SnapPluginStart(WPARAM, LPARAM)
 
 	HookEvent(ME_MSG_WINDOWEVENT, PluginMessageWindowEvent);
 
-	WindowOpen(g_CLI.hwndContactList);
+	WindowOpen(g_clistApi.hwndContactList);
 	return 0;
 }
 

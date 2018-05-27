@@ -912,7 +912,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				POINT pt;
 				RECT rcCLUI;
 
-				GetWindowRect(g_CLI.hwndContactList, &rcCLUI);
+				GetWindowRect(g_clistApi.hwndContactList, &rcCLUI);
 				GetCursorPos(&pt);
 				if (PtInRect(&rcCLUI, pt))
 					break;
@@ -962,7 +962,7 @@ clvm_reset_command:
 			cfg::dat.bFilterEffective = 0;
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			SetDlgItemText(hwnd, IDC_SELECTMODE, TranslateT("No view mode"));
-			g_CLI.pfnSetHideOffline(cfg::dat.boldHideOffline);
+			g_clistApi.pfnSetHideOffline(cfg::dat.boldHideOffline);
 			cfg::dat.boldHideOffline = (BYTE)-1;
 			SetButtonStates();
 			cfg::dat.current_viewmode[0] = 0;
@@ -1012,7 +1012,7 @@ void CreateViewModeFrame()
 	frame.height = 22;
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
 	frame.align = alBottom;
-	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, g_CLI.hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
+	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, g_clistApi.hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
 	g_hwndViewModeFrame = frame.hWnd;
 	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);
@@ -1101,7 +1101,7 @@ void ApplyViewMode(const char *name)
 	if (cfg::dat.boldHideOffline == (BYTE)-1)
 		cfg::dat.boldHideOffline = db_get_b(NULL, "CList", "HideOffline", 0);
 
-	g_CLI.pfnSetHideOffline(false);
+	g_clistApi.pfnSetHideOffline(false);
 	SetWindowTextA(hwndSelector, name);
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	SetButtonStates();

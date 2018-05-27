@@ -114,7 +114,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 		cle.flags |= CLEF_UNICODE;
 		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 		cle.pszService = "SRFile/RecvFile";
-		g_CLI.pfnAddEvent(&cle);
+		g_clistApi.pfnAddEvent(&cle);
 	}
 }
 
@@ -306,9 +306,9 @@ static int SRFileProtoAck(WPARAM, LPARAM lParam)
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type == ACKTYPE_FILE) {
 		int iEvent = 0;
-		while (CLISTEVENT *cle = g_CLI.pfnGetEvent(ack->hContact, iEvent++))
+		while (CLISTEVENT *cle = g_clistApi.pfnGetEvent(ack->hContact, iEvent++))
 			if (cle->lParam == (LPARAM)ack->hProcess)
-				g_CLI.pfnRemoveEvent(ack->hContact, cle->hDbEvent);
+				g_clistApi.pfnRemoveEvent(ack->hContact, cle->hDbEvent);
 	}
 	return 0;
 }

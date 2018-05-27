@@ -145,13 +145,13 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM, LPARAM)
 		tbdat.mtb_useWinColors = db_get_b(0, "ToolBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		tbdat.mtb_backgroundBmpUse = db_get_b(0, "ToolBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
-	PostMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
+	PostMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 	return 0;
 }
 
 static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT *rect, ModernToolbarCtrl* pMTBInfo)
 {
-	BOOL bFloat = (GetParent(hwnd) != g_CLI.hwndContactList);
+	BOOL bFloat = (GetParent(hwnd) != g_clistApi.hwndContactList);
 	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {
 		HBRUSH hbr;
 
@@ -190,7 +190,7 @@ static void sttDrawNonLayeredSkinedBar(HWND hwnd, HDC hdc)
 	HDC hdc2 = CreateCompatibleDC(hdc);
 	HBITMAP hbmp = ske_CreateDIB32(rc.right, rc.bottom);
 	HBITMAP hbmpo = (HBITMAP)SelectObject(hdc2, hbmp);
-	if (GetParent(hwnd) != g_CLI.hwndContactList) {
+	if (GetParent(hwnd) != g_clistApi.hwndContactList) {
 		HBRUSH br = GetSysColorBrush(COLOR_3DFACE);
 		FillRect(hdc2, &rc, br);
 	}
@@ -218,7 +218,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-			BOOL bFloat = (GetParent(hwnd) != g_CLI.hwndContactList);
+			BOOL bFloat = (GetParent(hwnd) != g_clistApi.hwndContactList);
 			if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {
 				BeginPaint(hwnd, &ps);
 				if ((!g_CluiData.fLayered || bFloat) && !g_CluiData.fDisableSkinEngine)
@@ -232,7 +232,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == BUTTONNEEDREDRAW)
-			g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
+			g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		return 0;
 
 	case MTBM_LAYEREDPAINT:

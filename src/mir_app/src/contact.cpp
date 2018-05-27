@@ -41,7 +41,7 @@ MIR_APP_DLL(void) Clist_LoadContactTree(void)
 	for (auto &hContact : Contacts()) {
 		int status = GetContactStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
-			Clist_ChangeContactIcon(hContact, g_CLI.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact));
+			Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact));
 	}
 	Clist_EndRebuild();
 }

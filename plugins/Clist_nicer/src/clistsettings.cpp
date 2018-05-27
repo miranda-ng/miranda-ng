@@ -27,6 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR GetContactStatusMessage(WPARAM wParam, LPARAM lParam)
 {
 	if (!cfg::shutDown)
-		return SendMessage(g_CLI.hwndContactTree, CLM_GETSTATUSMSG, wParam, lParam);
+		return SendMessage(g_clistApi.hwndContactTree, CLM_GETSTATUSMSG, wParam, lParam);
 	return 0;
 }

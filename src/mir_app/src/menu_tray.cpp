@@ -98,7 +98,7 @@ static INT_PTR TrayMenuOnAddService(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ShowHideStub(WPARAM, LPARAM)
 {
-	return g_CLI.pfnShowHide();
+	return g_clistApi.pfnShowHide();
 }
 
 void InitTrayMenus(void)

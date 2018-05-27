@@ -125,7 +125,7 @@ BOOL  CLCPaint::IsForegroundWindow(HWND hWnd)
 HFONT CLCPaint::ChangeToFont(HDC hdc, ClcData *dat, int id, int *fontHeight)
 {
 	if (!dat)
-		dat = (ClcData*)GetWindowLongPtr(g_CLI.hwndContactTree, 0);
+		dat = (ClcData*)GetWindowLongPtr(g_clistApi.hwndContactTree, 0);
 
 	if (!dat)
 		return nullptr;
@@ -137,7 +137,7 @@ HFONT CLCPaint::ChangeToFont(HDC hdc, ClcData *dat, int id, int *fontHeight)
 		*fontHeight = dat->fontModernInfo[id].fontHeight;
 	ske_ResetTextEffect(hdc);
 
-	if (dat->hWnd == g_CLI.hwndContactTree && dat->fontModernInfo[id].effect != 0)
+	if (dat->hWnd == g_clistApi.hwndContactTree && dat->fontModernInfo[id].effect != 0)
 		ske_SelectTextEffect(hdc, dat->fontModernInfo[id].effect - 1, dat->fontModernInfo[id].effectColour1, dat->fontModernInfo[id].effectColour2);
 	else
 		ske_ResetTextEffect(hdc);
@@ -605,7 +605,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 	// Let calc placeholder
 	int minheight = dat->row_min_heigh;
 	int mode2 = -1;
-	BOOL InClistWindow = (dat->hWnd == g_CLI.hwndContactTree);
+	BOOL InClistWindow = (dat->hWnd == g_clistApi.hwndContactTree);
 	int height = RowHeight_CalcRowHeight(dat, Drawing, -1);
 	ClcCacheEntry *pdnce = Drawing->pce;
 
@@ -1233,7 +1233,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 								break;
 							case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
 								{
-									int item = g_CLI.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
+									int item = g_clistApi.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 									if (item != -1)
 										_DrawStatusIcon(Drawing, dat, item, hdcMem,
 											p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
@@ -2471,7 +2471,7 @@ void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing,
 				overlayIdx = g_pAvatarOverlayIcons[GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE].listID;
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
-				overlayIdx = g_CLI.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
+				overlayIdx = g_clistApi.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
 				overlayIdx = Drawing->iImage;
@@ -2545,7 +2545,7 @@ void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing,
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
 				{
-					int item = g_CLI.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
+					int item = g_clistApi.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 					if (item != -1)
 						_DrawStatusIcon(Drawing, dat, item, hdcMem,
 							ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT,
@@ -2790,7 +2790,7 @@ void CLCPaint::_DrawContactItems(HDC hdcMem, ClcData *dat, ClcContact *Drawing, 
 void CLCPaint::_PaintRowItems(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint)
 {
 	// Extended LAYOUT
-	if (gl_RowRoot && (dat->hWnd == g_CLI.hwndContactTree)) {
+	if (gl_RowRoot && (dat->hWnd == g_clistApi.hwndContactTree)) {
 		_PaintRowItemsEx(hdcMem, dat, Drawing, row_rc, free_row_rc, selected, hottrack);
 		ske_ResetTextEffect(hdcMem);
 		return;

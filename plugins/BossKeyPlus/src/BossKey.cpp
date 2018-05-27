@@ -334,7 +334,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 		}
 
-		Clist_TrayIconDestroy(g_CLI.hwndContactList);
+		Clist_TrayIconDestroy(g_clistApi.hwndContactList);
 
 		if (g_wMask & OPT_TRAYICON)
 			CreateTrayIcon(true);
@@ -410,12 +410,12 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		if (g_TrayIcon) CreateTrayIcon(false);
 
-		g_CLI.pfnTrayIconInit(g_CLI.hwndContactList);
+		g_clistApi.pfnTrayIconInit(g_clistApi.hwndContactList);
 
 		// force a redraw
 		// should prevent drawing problems
-		InvalidateRect(g_CLI.hwndContactList, nullptr, true);
-		UpdateWindow(g_CLI.hwndContactList);
+		InvalidateRect(g_clistApi.hwndContactList, nullptr, true);
+		UpdateWindow(g_clistApi.hwndContactList);
 
 		PostMessage(hWnd, WM_MOUSEMOVE, 0, (LPARAM)MAKELONG(2, 2)); // reset core's IDLE
 		g_bWindowHidden = false;
@@ -438,7 +438,7 @@ VOID CALLBACK WinEventProc(HWINEVENTHOOK, DWORD event, HWND hwnd, LONG idObject,
 {
 	if (g_bWindowHidden && idObject == OBJID_WINDOW && (event == EVENT_OBJECT_CREATE || event == EVENT_OBJECT_SHOW) && (IsWindowVisible(hwnd)))
 	{
-		if (hwnd == g_CLI.hwndContactList)
+		if (hwnd == g_clistApi.hwndContactList)
 			ShowWindow(hwnd, SW_HIDE);
 		else
 			EnumWindows(EnumWindowsProc, 0);
@@ -631,7 +631,7 @@ static int MirandaLoaded(WPARAM, LPARAM)
 
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
 
-	GetWindowThreadProcessId(g_CLI.hwndContactList, &g_dwMirandaPID);
+	GetWindowThreadProcessId(g_clistApi.hwndContactList, &g_dwMirandaPID);
 
 	WNDCLASS winclass = { 0 };
 	winclass.lpfnWndProc = ListenWndProc;
@@ -641,7 +641,7 @@ static int MirandaLoaded(WPARAM, LPARAM)
 
 	if (RegisterClass(&winclass))
 	{
-		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO, BOSSKEY_LISTEN_INFO, WS_POPUP, 0, 0, 5, 5, g_CLI.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
+		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO, BOSSKEY_LISTEN_INFO, WS_POPUP, 0, 0, 5, 5, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 		WTSRegisterSessionNotification(g_hListenWindow, 0);
 	}
 

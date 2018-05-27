@@ -38,7 +38,7 @@ INT_PTR TTBInternalMainMenuButt(WPARAM, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(Menu_GetMainMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, g_CLI.hwndContactList, nullptr);
+	TrackPopupMenu(Menu_GetMainMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, g_clistApi.hwndContactList, nullptr);
 	return 0;
 }
 
@@ -46,7 +46,7 @@ INT_PTR TTBInternalStatusMenuButt(WPARAM, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(Menu_GetStatusMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, g_CLI.hwndContactList, nullptr);
+	TrackPopupMenu(Menu_GetStatusMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, g_clistApi.hwndContactList, nullptr);
 	return 0;
 }
 
@@ -61,7 +61,7 @@ INT_PTR TTBInternalSoundsOnOff(WPARAM, LPARAM)
 
 void InitInternalButtons()
 {
-	hwndContactTree = g_CLI.hwndContactTree;
+	hwndContactTree = g_clistApi.hwndContactTree;
 
 	CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff);
 	CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt);

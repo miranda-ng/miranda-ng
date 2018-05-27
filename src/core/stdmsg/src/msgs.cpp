@@ -90,7 +90,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 		return 0;
 
-	g_CLI.pfnRemoveEvent(hContact, 1);
+	g_clistApi.pfnRemoveEvent(hContact, 1);
 	/* does a window for the contact exist? */
 	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd) {
@@ -127,7 +127,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = MS_MSG_READMESSAGE;
 	cle.szTooltip.w = toolTip;
-	g_CLI.pfnAddEvent(&cle);
+	g_clistApi.pfnAddEvent(&cle);
 	return 0;
 }
 
@@ -200,7 +200,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
 
 		if (g_dat.bShowTypingClist) {
-			g_CLI.pfnRemoveEvent(hContact, 1);
+			g_clistApi.pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
@@ -209,7 +209,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 			cle.pszService = MS_MSG_READMESSAGE;
 			cle.szTooltip.w = szTip;
-			g_CLI.pfnAddEvent(&cle);
+			g_clistApi.pfnAddEvent(&cle);
 
 			IcoLib_ReleaseIcon(cle.hIcon);
 		}
@@ -304,7 +304,7 @@ static void RestoreUnreadMessageAlerts(void)
 		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(e->hContact));
 		cle.hContact = e->hContact;
 		cle.hDbEvent = e->hEvent;
-		g_CLI.pfnAddEvent(&cle);
+		g_clistApi.pfnAddEvent(&cle);
 	}
 }
 

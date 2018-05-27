@@ -56,7 +56,7 @@ struct NotifyMenuItemExData
 
 static CLISTEVENT* MyGetEvent(int iSelection)
 {
-	for (auto &it : *g_CLI.events)
+	for (auto &it : *g_clistApi.events)
 		if (it->menuId == iSelection)
 			return it;
 
@@ -142,7 +142,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		g_CluiData.hUpdateContact = p->hContact;
 	}
 
-	if (g_CLI.events->getCount() > 0) {
+	if (g_clistApi.events->getCount() > 0) {
 		g_CluiData.bEventAreaEnabled = true;
 		if (g_CluiData.bNotifyActive == false) {
 			g_CluiData.bNotifyActive = true;
@@ -159,7 +159,7 @@ int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
 	// Find the event that should be removed
 	CListEvent *pEvent = nullptr;
-	for (auto &it : *g_CLI.events)
+	for (auto &it : *g_clistApi.events)
 		if (it->hContact == hContact && it->hDbEvent == hDbEvent) {
 			pEvent = it;
 			break;
@@ -186,7 +186,7 @@ int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 
 	int res = corecli.pfnRemoveEvent(hContact, hDbEvent);
 
-	if (g_CLI.events->getCount() == 0) {
+	if (g_clistApi.events->getCount() == 0) {
 		g_CluiData.bNotifyActive = false;
 		EventArea_HideShowNotifyFrame();
 	}
@@ -212,7 +212,7 @@ static event_area_t event_area;
 
 static BOOL sttDrawEventAreaBackground(HWND hwnd, HDC hdc, RECT *rect)
 {
-	BOOL bFloat = (GetParent(hwnd) != g_CLI.hwndContactList);
+	BOOL bFloat = (GetParent(hwnd) != g_clistApi.hwndContactList);
 	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {
 		RECT rc;
 		if (rect)
@@ -247,13 +247,13 @@ static int ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 		event_area.useWinColors = db_get_b(0, "EventArea", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		event_area.backgroundBmpUse = db_get_w(0, "EventArea", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
-	PostMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
+	PostMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 	return 0;
 }
 
 void EventArea_ConfigureEventArea()
 {
-	int iCount = g_CLI.events->getCount();
+	int iCount = g_clistApi.events->getCount();
 
 	g_CluiData.dwFlags &= ~(CLUI_FRAME_AUTOHIDENOTIFY | CLUI_FRAME_SHOWALWAYS);
 	if (db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 1) g_CluiData.dwFlags |= CLUI_FRAME_AUTOHIDENOTIFY;
@@ -325,7 +325,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 static int EventArea_Draw(HWND hwnd, HDC hDC)
 {
 	if (hwnd == (HWND)-1) return 0;
-	if (GetParent(hwnd) == g_CLI.hwndContactList)
+	if (GetParent(hwnd) == g_clistApi.hwndContactList)
 		return EventArea_DrawWorker(hwnd, hDC);
 
 	cliInvalidateRect(hwnd, nullptr, FALSE);
@@ -407,7 +407,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 						// event we're interested in was removed by the service (nasty one...)
 						cle1 = MyGetEvent(iSelection);
 						if (cle1 != nullptr)
-							g_CLI.pfnRemoveEvent(cle->hContact, cle->hDbEvent);
+							g_clistApi.pfnRemoveEvent(cle->hContact, cle->hDbEvent);
 					}
 				}
 			}
@@ -424,9 +424,9 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		return 1;
 
 	case WM_PAINT:
-		if (GetParent(hwnd) == g_CLI.hwndContactList && g_CluiData.fLayered)
+		if (GetParent(hwnd) == g_clistApi.hwndContactList && g_CluiData.fLayered)
 			CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)hwnd, 0);
-		else if (GetParent(hwnd) == g_CLI.hwndContactList && !g_CluiData.fLayered) {
+		else if (GetParent(hwnd) == g_clistApi.hwndContactList && !g_CluiData.fLayered) {
 			RECT rc = { 0 };
 			GetClientRect(hwnd, &rc);
 			rc.right++;

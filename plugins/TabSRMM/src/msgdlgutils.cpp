@@ -778,7 +778,7 @@ void CTabBaseDlg::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 		cle.hDbEvent = hEvent;
 		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = MS_MSG_READMESSAGE;
-		g_CLI.pfnAddEvent(&cle);
+		g_clistApi.pfnAddEvent(&cle);
 
 		m_dwFlagsEx |= MWF_SHOW_FLASHCLIST;
 		m_hFlashingEvent = hEvent;

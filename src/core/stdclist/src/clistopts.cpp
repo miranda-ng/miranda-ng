@@ -178,7 +178,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				Clist_TrayIconIconsChanged();
 				Clist_LoadContactTree();  /* this won't do job properly since it only really works when changes happen */
-				g_CLI.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);        /* force reshuffle */
+				g_clistApi.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);        /* force reshuffle */
 				return TRUE;
 			}
 			break;

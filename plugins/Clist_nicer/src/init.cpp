@@ -110,7 +110,7 @@ static int systemModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) CListInitialise()
 {
 	Clist_GetInterface();
-	coreCli = g_CLI;
+	coreCli = g_clistApi;
 
 	API::onInit();
 
@@ -172,41 +172,41 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	wcslwr(cfg::dat.tszProfilePath);
 
 	// get the clist interface
-	g_CLI.hInst = g_plugin.getInst();
-	g_CLI.pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
-	g_CLI.pfnCompareContacts = CompareContacts;
-	g_CLI.pfnCreateClcContact = CreateClcContact;
-	g_CLI.pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
-	g_CLI.pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
-	g_CLI.pfnGetDefaultFontSetting = GetDefaultFontSetting;
-	g_CLI.pfnGetRowBottomY = RowHeight::getItemBottomY;
-	g_CLI.pfnGetRowHeight = RowHeight::getHeight;
-	g_CLI.pfnGetRowTopY = RowHeight::getItemTopY;
-	g_CLI.pfnGetRowTotalHeight = RowHeight::getTotalHeight;
-	g_CLI.pfnGetWindowVisibleState = GetWindowVisibleState;
-	g_CLI.pfnHitTest = HitTest;
-	g_CLI.pfnOnCreateClc = OnCreateClc;
-	g_CLI.pfnPaintClc = PaintClc;
-	g_CLI.pfnRebuildEntireList = RebuildEntireList;
-	g_CLI.pfnRowHitTest = RowHeight::hitTest;
-	g_CLI.pfnScrollTo = ScrollTo;
-	g_CLI.pfnSetHideOffline = SetHideOffline;
-	g_CLI.pfnShowHide = ShowHide;
+	g_clistApi.hInst = g_plugin.getInst();
+	g_clistApi.pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
+	g_clistApi.pfnCompareContacts = CompareContacts;
+	g_clistApi.pfnCreateClcContact = CreateClcContact;
+	g_clistApi.pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
+	g_clistApi.pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
+	g_clistApi.pfnGetDefaultFontSetting = GetDefaultFontSetting;
+	g_clistApi.pfnGetRowBottomY = RowHeight::getItemBottomY;
+	g_clistApi.pfnGetRowHeight = RowHeight::getHeight;
+	g_clistApi.pfnGetRowTopY = RowHeight::getItemTopY;
+	g_clistApi.pfnGetRowTotalHeight = RowHeight::getTotalHeight;
+	g_clistApi.pfnGetWindowVisibleState = GetWindowVisibleState;
+	g_clistApi.pfnHitTest = HitTest;
+	g_clistApi.pfnOnCreateClc = OnCreateClc;
+	g_clistApi.pfnPaintClc = PaintClc;
+	g_clistApi.pfnRebuildEntireList = RebuildEntireList;
+	g_clistApi.pfnRowHitTest = RowHeight::hitTest;
+	g_clistApi.pfnScrollTo = ScrollTo;
+	g_clistApi.pfnSetHideOffline = SetHideOffline;
+	g_clistApi.pfnShowHide = ShowHide;
 
-	g_CLI.pfnAddContactToGroup = AddContactToGroup;
+	g_clistApi.pfnAddContactToGroup = AddContactToGroup;
 
-	g_CLI.pfnAddEvent = AddEvent;
-	g_CLI.pfnRemoveEvent = RemoveEvent;
+	g_clistApi.pfnAddEvent = AddEvent;
+	g_clistApi.pfnRemoveEvent = RemoveEvent;
 
-	g_CLI.pfnAddGroup = AddGroup;
-	g_CLI.pfnAddInfoItemToGroup = AddInfoItemToGroup;
-	g_CLI.pfnContactListControlWndProc = ContactListControlWndProc;
-	g_CLI.pfnContactListWndProc = ContactListWndProc;
-	g_CLI.pfnIconFromStatusMode = IconFromStatusMode;
-	g_CLI.pfnLoadClcOptions = LoadClcOptions;
-	g_CLI.pfnProcessExternalMessages = ProcessExternalMessages;
-	g_CLI.pfnRecalcScrollBar = RecalcScrollBar;
-	g_CLI.pfnTrayIconProcessMessage = TrayIconProcessMessage;
+	g_clistApi.pfnAddGroup = AddGroup;
+	g_clistApi.pfnAddInfoItemToGroup = AddInfoItemToGroup;
+	g_clistApi.pfnContactListControlWndProc = ContactListControlWndProc;
+	g_clistApi.pfnContactListWndProc = ContactListWndProc;
+	g_clistApi.pfnIconFromStatusMode = IconFromStatusMode;
+	g_clistApi.pfnLoadClcOptions = LoadClcOptions;
+	g_clistApi.pfnProcessExternalMessages = ProcessExternalMessages;
+	g_clistApi.pfnRecalcScrollBar = RecalcScrollBar;
+	g_clistApi.pfnTrayIconProcessMessage = TrayIconProcessMessage;
 
 	int rc = LoadContactListModule();
 	if (rc == 0)
@@ -230,8 +230,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (IsWindow(g_CLI.hwndContactList))
-		DestroyWindow(g_CLI.hwndContactList);
+	if (IsWindow(g_clistApi.hwndContactList))
+		DestroyWindow(g_clistApi.hwndContactList);
 	ClcShutdown(0, 0);
 	UnLoadCLUIFramesModule();
 	return 0;

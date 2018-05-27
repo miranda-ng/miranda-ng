@@ -330,7 +330,7 @@ void BlinkIcon(MCONTACT hContact, HICON hIcon, wchar_t *stzText)
 	cle.hIcon = hIcon;
 	cle.pszService = "UserOnline/Description";
 	cle.szTooltip.w = stzText;
-	g_CLI.pfnAddEvent(&cle);
+	g_clistApi.pfnAddEvent(&cle);
 }
 
 void PlayChangeSound(MCONTACT hContact, const char *name)

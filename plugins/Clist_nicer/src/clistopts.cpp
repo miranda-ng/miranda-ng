@@ -171,11 +171,11 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ConfigureCLUIGeometry(1);
 				ConfigureEventArea();
 				HideShowNotifyFrame();
-				SendMessage(g_CLI.hwndContactTree, WM_SIZE, 0, 0);
-				SendMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
+				SendMessage(g_clistApi.hwndContactTree, WM_SIZE, 0, 0);
+				SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 				Clist_LoadContactTree(); /* this won't do job properly since it only really works when changes happen */
 				Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
-				PostMessage(g_CLI.hwndContactList, CLUIINTM_REDRAW, 0, 0);
+				PostMessage(g_clistApi.hwndContactList, CLUIINTM_REDRAW, 0, 0);
 
 				opt_gen_opts_changed = 0;
 				return TRUE;

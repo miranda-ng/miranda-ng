@@ -224,7 +224,7 @@ int TrafficCounter_PaintCallbackProc(HWND hWnd, HDC hDC, RECT*, HRGN, DWORD, voi
 int TrafficCounter_Draw(HWND hwnd, HDC hDC)
 {
 	if (hwnd == (HWND)-1) return 0;
-	if (GetParent(hwnd) == g_CLI.hwndContactList)
+	if (GetParent(hwnd) == g_clistApi.hwndContactList)
 		return PaintTrafficCounterWindow(hwnd, hDC);
 	else
 		InvalidateRect(hwnd, nullptr, FALSE);
@@ -1141,7 +1141,7 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_NETLIB_FASTRECV, TrafficRecv);
 	HookEvent(ME_NETLIB_FASTSEND, TrafficSend);
 
-	CreateTrafficWindow(g_CLI.hwndContactList);
+	CreateTrafficWindow(g_clistApi.hwndContactList);
 	UpdateFonts(0, 0);	//Load and create fonts here
 	return 0;
 }

@@ -109,7 +109,7 @@ static int OnOptsInit(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR GetStatusMode(WPARAM, LPARAM)
 {
-	return g_CLI.currentDesiredStatusMode;
+	return g_clistApi.currentDesiredStatusMode;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -121,19 +121,19 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	g_bSortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
 
 	Clist_GetInterface();
-	coreCli = g_CLI;
-	g_CLI.hInst = g_plugin.getInst();
-	g_CLI.pfnPaintClc = PaintClc;
-	g_CLI.pfnContactListWndProc = ContactListWndProc;
-	g_CLI.pfnContactListControlWndProc = ContactListControlWndProc;
-	g_CLI.pfnRebuildEntireList = RebuildEntireList;
-	g_CLI.pfnSetGroupExpand = SetGroupExpand;
-	g_CLI.pfnRecalcScrollBar = RecalcScrollBar;
-	g_CLI.pfnScrollTo = ScrollTo;
-	g_CLI.pfnLoadClcOptions = LoadClcOptions;
-	g_CLI.pfnGetRowHeight = GetRowHeight;
-	g_CLI.pfnSortCLC = SortCLC;
-	g_CLI.pfnCompareContacts = CompareContacts;
+	coreCli = g_clistApi;
+	g_clistApi.hInst = g_plugin.getInst();
+	g_clistApi.pfnPaintClc = PaintClc;
+	g_clistApi.pfnContactListWndProc = ContactListWndProc;
+	g_clistApi.pfnContactListControlWndProc = ContactListControlWndProc;
+	g_clistApi.pfnRebuildEntireList = RebuildEntireList;
+	g_clistApi.pfnSetGroupExpand = SetGroupExpand;
+	g_clistApi.pfnRecalcScrollBar = RecalcScrollBar;
+	g_clistApi.pfnScrollTo = ScrollTo;
+	g_clistApi.pfnLoadClcOptions = LoadClcOptions;
+	g_clistApi.pfnGetRowHeight = GetRowHeight;
+	g_clistApi.pfnSortCLC = SortCLC;
+	g_clistApi.pfnCompareContacts = CompareContacts;
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 
@@ -383,7 +383,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		dat->szQuickSearch[0] = 0;
-		g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
+		g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		Clist_EnsureVisible(hwnd, (ClcData*)dat, dat->selection, 0);
 		UpdateWindow(hwnd);
 		break;

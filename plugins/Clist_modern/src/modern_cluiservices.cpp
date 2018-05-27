@@ -34,7 +34,7 @@ int CLUIUnreadEmailCountChanged(WPARAM, LPARAM)
 
 void cliCluiProtocolStatusChanged(int, const char * proto)
 {
-	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)g_CLI.hwndStatus, 0);
+	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)g_clistApi.hwndStatus, 0);
 	if (proto)
 		Clist_TrayIconUpdateBase(proto);
 }

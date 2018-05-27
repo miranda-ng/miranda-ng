@@ -588,7 +588,7 @@ static int ModernSkinButtonErase(int l, int t, int r, int b)
 	if (!g_pCachedWindow->hImageDC || !g_pCachedWindow->hBackDC) return 0;
 	if (!(l || r || t || b)) {
 		for (i = 0; i < ButtonsCount; i++) {
-			if (g_CLI.hwndContactList && Buttons[i].hwnd != nullptr) {
+			if (g_clistApi.hwndContactList && Buttons[i].hwnd != nullptr) {
 				//TODO: Erase button
 				BitBlt(g_pCachedWindow->hImageDC, Buttons[i].bct->Left, Buttons[i].bct->Top, Buttons[i].bct->Right - Buttons[i].bct->Left, Buttons[i].bct->Bottom - Buttons[i].bct->Top,
 					g_pCachedWindow->hBackDC, Buttons[i].bct->Left, Buttons[i].bct->Top, SRCCOPY);
@@ -623,8 +623,8 @@ int ModernSkinButtonRedrawAll()
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	g_mutex_bLockUpdating++;
 	for (DWORD i = 0; i < ButtonsCount; i++) {
-		if (g_CLI.hwndContactList && Buttons[i].hwnd == nullptr)
-			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct, g_CLI.hwndContactList);
+		if (g_clistApi.hwndContactList && Buttons[i].hwnd == nullptr)
+			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct, g_clistApi.hwndContactList);
 		ModernSkinButtonPaintWorker(Buttons[i].hwnd, nullptr);
 	}
 	g_mutex_bLockUpdating--;

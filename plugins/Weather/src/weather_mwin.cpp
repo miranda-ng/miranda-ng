@@ -238,7 +238,7 @@ static void addWindow(MCONTACT hContact)
 	db_free(&dbv);
 
 	HWND hWnd = CreateWindow(L"WeatherFrame", L"", WS_CHILD | WS_VISIBLE,
-		0, 0, 10, 10, g_CLI.hwndContactList, nullptr, g_plugin.getInst(), (void*)hContact);
+		0, 0, 10, 10, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), (void*)hContact);
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
 	CLISTFrame Frame = { 0 };

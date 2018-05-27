@@ -77,7 +77,7 @@ int OpenBrowser(WPARAM hContact, LPARAM)
 	if (proto && !mir_strcmp(proto, MODULENAME)) {
 		Account *curAcc = GetAccountByContact(hContact);
 		PUDeletePopup(curAcc->popUpHwnd);
-		g_CLI.pfnRemoveEvent(curAcc->hContact, 1);
+		g_clistApi.pfnRemoveEvent(curAcc->hContact, 1);
 		if (GetKeyState(VK_SHIFT) >> 8 || optionWindowIsOpen)
 			return FALSE;
 
@@ -118,7 +118,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
 		curAcc->popUpHwnd = nullptr;
-		g_CLI.pfnRemoveEvent(hContact, 1);
+		g_clistApi.pfnRemoveEvent(hContact, 1);
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -132,7 +132,7 @@ void NotifyUser(Account *curAcc)
 	switch (curAcc->results_num) {
 	case 0:
 		PUDeletePopup(curAcc->popUpHwnd);
-		g_CLI.pfnRemoveEvent(curAcc->hContact, 1);
+		g_clistApi.pfnRemoveEvent(curAcc->hContact, 1);
 		if (curAcc->oldResults_num != 0)
 			db_set_w(curAcc->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
 		break;
@@ -160,7 +160,7 @@ void NotifyUser(Account *curAcc)
 			}
 		}
 		if (opt.notifierOnTray&&newMails > 0) {
-			g_CLI.pfnRemoveEvent(curAcc->hContact, 1);
+			g_clistApi.pfnRemoveEvent(curAcc->hContact, 1);
 
 			CLISTEVENT cle = {};
 			cle.hContact = curAcc->hContact;
@@ -169,7 +169,7 @@ void NotifyUser(Account *curAcc)
 			cle.hIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_OCCUPIED);
 			cle.pszService = "GmailMNotifier/Notifying";
 			cle.szTooltip.a = curAcc->results.next->content;
-			g_CLI.pfnAddEvent(&cle);
+			g_clistApi.pfnAddEvent(&cle);
 		}
 
 		if (opt.notifierOnPop&&newMails > 0) {

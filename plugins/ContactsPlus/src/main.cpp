@@ -80,7 +80,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		cle.pszService = MS_CONTACTS_RECEIVE;
 		cle.szTooltip.w = caToolTip;
 		cle.flags |= CLEF_UNICODE;
-		g_CLI.pfnAddEvent(&cle);
+		g_clistApi.pfnAddEvent(&cle);
 	}
 	return 0; //continue processing by other hooks
 }

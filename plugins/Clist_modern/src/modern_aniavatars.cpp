@@ -229,7 +229,7 @@ static void CALLBACK _AniAva_SyncCallerUserAPCProc(DWORD_PTR dwParam)
 static INT_PTR _AniAva_CreateAvatarWindowSync_Worker(WPARAM tszName, LPARAM)
 {
 	HWND hwnd = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_NOPARENTNOTIFY, ANIAVAWINDOWCLASS,
-		(wchar_t*)tszName, WS_POPUP, 0, 0, 1, 1, g_CLI.hwndContactList, nullptr, g_CLI.hInst, nullptr);
+		(wchar_t*)tszName, WS_POPUP, 0, 0, 1, 1, g_clistApi.hwndContactList, nullptr, g_clistApi.hInst, nullptr);
 	return (INT_PTR)hwnd;
 }
 
@@ -474,9 +474,9 @@ static void _AniAva_LoadOptions()
 static void _AniAva_InvalidateParent(ANIAVA_WINDOWINFO * dat)
 {
 	if (!IMMEDIATE_DRAW) return;
-	HWND hwndParent = g_CLI.hwndContactTree;
+	HWND hwndParent = g_clistApi.hwndContactTree;
 	RECT rcPos = dat->rcPos;
-	g_CLI.pfnInvalidateRect(hwndParent, &rcPos, FALSE);
+	g_clistApi.pfnInvalidateRect(hwndParent, &rcPos, FALSE);
 }
 
 static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent = nullptr, RECT *rcInParent = nullptr)
@@ -571,7 +571,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent = nullpt
 
 		// intersect visible area
 		// update layered window
-		GetWindowRect(g_CLI.hwndContactTree, &clistRect);
+		GetWindowRect(g_clistApi.hwndContactTree, &clistRect);
 		if (dat->rcPos.top < 0) {
 			pt_from.y += -dat->rcPos.top;
 			szWnd.cy += dat->rcPos.top;
@@ -596,7 +596,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent = nullpt
 				exStyle |= WS_EX_LAYERED;
 				SetWindowLongPtr(dat->hWindow, GWL_EXSTYLE, exStyle);
 				if (!IMMEDIATE_DRAW)
-					SetWindowPos(g_CLI.hwndContactTree, dat->hWindow, 0, 0, 0, 0, SWP_ASYNCWINDOWPOS | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
+					SetWindowPos(g_clistApi.hwndContactTree, dat->hWindow, 0, 0, 0, 0, SWP_ASYNCWINDOWPOS | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
 				UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA);
 			}
 
@@ -695,10 +695,10 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if (dat->bOrderTop)
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS);
 		else {
-			LONG exStyle = GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE);
-			SetWindowPos(g_CLI.hwndContactList, hwnd, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+			LONG exStyle = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE);
+			SetWindowPos(g_clistApi.hwndContactList, hwnd, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 			if (!(exStyle & WS_EX_TOPMOST))
-				SetWindowPos(g_CLI.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+				SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 		}
 		return 0;
 
@@ -710,10 +710,10 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			if (dat->bOrderTop)
 				SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS);
 			else {
-				LONG exStyle = GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE);
-				SetWindowPos(g_CLI.hwndContactList, hwnd, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+				LONG exStyle = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE);
+				SetWindowPos(g_clistApi.hwndContactList, hwnd, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 				if (!(exStyle&WS_EX_TOPMOST))
-					SetWindowPos(g_CLI.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+					SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 			}
 		}
 
@@ -915,7 +915,7 @@ int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha
 		_itoa((int)hContact, szName + 10, 16);
 
 		HWND hwnd = _AniAva_CreateAvatarWindowSync(_A2T(szName));
-		HWND parent = GetAncestor(g_CLI.hwndContactList, GA_PARENT);
+		HWND parent = GetAncestor(g_clistApi.hwndContactList, GA_PARENT);
 		pai->hWindow = hwnd;
 		SendMessage(hwnd, AAM_SETPARENT, (WPARAM)parent, 0);
 
@@ -957,7 +957,7 @@ int AniAva_UpdateOptions()
 	}
 
 	if (bReloadAvatars)
-		PostMessage(g_CLI.hwndContactTree, INTM_AVATARCHANGED, 0, 0);
+		PostMessage(g_clistApi.hwndContactTree, INTM_AVATARCHANGED, 0, 0);
 	else
 		AniAva_RedrawAllAvatars(TRUE);
 	return 0;
@@ -970,7 +970,7 @@ void AniAva_UpdateParent()
 {
 	aacheck;
 	mir_cslock lck(s_CS);
-	HWND parent = GetAncestor(g_CLI.hwndContactList, GA_PARENT);
+	HWND parent = GetAncestor(g_clistApi.hwndContactList, GA_PARENT);
 	for (auto &it : s_Objects)
 		SendMessage(it->hWindow, AAM_SETPARENT, (WPARAM)parent, 0);
 }

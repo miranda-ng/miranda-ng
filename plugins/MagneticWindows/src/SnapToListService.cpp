@@ -3,7 +3,7 @@
 INT_PTR SnapToList(WPARAM wParam, LPARAM Align)
 {
 	HWND hWnd = (HWND)wParam;
-	HWND hWndList = g_CLI.hwndContactList;
+	HWND hWndList = g_clistApi.hwndContactList;
 
 	RECT WndRect, ListRect;
 	GetWindowRect(hWnd, &WndRect);

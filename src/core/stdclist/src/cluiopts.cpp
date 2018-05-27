@@ -168,11 +168,11 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				wchar_t title[256];
 				GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
 				db_set_ws(NULL, "CList", "TitleText", title);
-				SetWindowText(g_CLI.hwndContactList, title);
+				SetWindowText(g_clistApi.hwndContactList, title);
 			}
 
-			g_CLI.pfnLoadCluiGlobalOpts();
-			SetWindowPos(g_CLI.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST,
+			g_clistApi.pfnLoadCluiGlobalOpts();
+			SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST,
 				0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_TOOLWND)) {
@@ -180,50 +180,50 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				// See http://msdn.microsoft.com/library/en-us/shellcc/platform/shell/programmersguide/shell_int/shell_int_programming/taskbar.asp
 				WINDOWPLACEMENT p;
 				p.length = sizeof(p);
-				GetWindowPlacement(g_CLI.hwndContactList, &p);
-				ShowWindow(g_CLI.hwndContactList, SW_HIDE);
-				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE,
-					GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) & ~WS_EX_APPWINDOW | WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
-				SetWindowPlacement(g_CLI.hwndContactList, &p);
+				GetWindowPlacement(g_clistApi.hwndContactList, &p);
+				ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
+				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE,
+					GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) & ~WS_EX_APPWINDOW | WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
+				SetWindowPlacement(g_clistApi.hwndContactList, &p);
 			}
 			else
-				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) & ~WS_EX_TOOLWINDOW | WS_EX_APPWINDOW);
+				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) & ~WS_EX_TOOLWINDOW | WS_EX_APPWINDOW);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
 				HWND hProgMan = FindWindow(L"Progman", nullptr);
 				if (hProgMan)
-					SetParent(g_CLI.hwndContactList, hProgMan);
+					SetParent(g_clistApi.hwndContactList, hProgMan);
 			}
 			else
-				SetParent(g_CLI.hwndContactList, nullptr);
+				SetParent(g_clistApi.hwndContactList, nullptr);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION)) {
-				int style = GetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
-				SetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE, style);
+				int style = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_STYLE, style);
 			}
 			else {
-				SetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE,
-					GetWindowLongPtr(g_CLI.hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX));
+				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_STYLE,
+					GetWindowLongPtr(g_clistApi.hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX));
 			}
 
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
-				SetMenu(g_CLI.hwndContactList, nullptr);
+				SetMenu(g_clistApi.hwndContactList, nullptr);
 			else
-				SetMenu(g_CLI.hwndContactList, g_CLI.hMenuMain);
+				SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 
-			SetWindowPos(g_CLI.hwndContactList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
-			RedrawWindow(g_CLI.hwndContactList, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE);
+			SetWindowPos(g_clistApi.hwndContactList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+			RedrawWindow(g_clistApi.hwndContactList, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE);
 
-			if (IsIconic(g_CLI.hwndContactList) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_TOOLWND))
-				ShowWindow(g_CLI.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_MIN2TRAY) ? SW_HIDE : SW_SHOW);
+			if (IsIconic(g_clistApi.hwndContactList) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_TOOLWND))
+				ShowWindow(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_MIN2TRAY) ? SW_HIDE : SW_SHOW);
 			if (IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
-				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
-				SetLayeredWindowAttributes(g_CLI.hwndContactList, RGB(0, 0, 0), (BYTE)db_get_b(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetLayeredWindowAttributes(g_clistApi.hwndContactList, RGB(0, 0, 0), (BYTE)db_get_b(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 			}
 			else
-				SetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_CLI.hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 
-			SendMessage(g_CLI.hwndContactTree, WM_SIZE, 0, 0);        //forces it to send a cln_listsizechanged
+			SendMessage(g_clistApi.hwndContactTree, WM_SIZE, 0, 0);        //forces it to send a cln_listsizechanged
 
 			return TRUE;
 		}
@@ -283,22 +283,22 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			db_set_b(NULL, "CLUI", "SBarRightClk", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RIGHTMIRANDA));
 			db_set_b(NULL, "CLUI", "EqualSections", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS));
 			db_set_b(NULL, "CLUI", "SBarBevel", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SBPANELBEVEL));
-			g_CLI.pfnLoadCluiGlobalOpts();
+			g_clistApi.pfnLoadCluiGlobalOpts();
 			if (db_get_b(NULL, "CLUI", "ShowGrip", 1) != (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP)) {
-				HWND parent = GetParent(g_CLI.hwndStatus);
+				HWND parent = GetParent(g_clistApi.hwndStatus);
 				int flags = WS_CHILD | CCS_BOTTOM;
 				db_set_b(NULL, "CLUI", "ShowGrip", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP));
-				ShowWindow(g_CLI.hwndStatus, SW_HIDE);
-				DestroyWindow(g_CLI.hwndStatus);
+				ShowWindow(g_clistApi.hwndStatus, SW_HIDE);
+				DestroyWindow(g_clistApi.hwndStatus);
 				flags |= db_get_b(NULL, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
 				flags |= db_get_b(NULL, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
-				g_CLI.hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), nullptr);
+				g_clistApi.hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), nullptr);
 			}
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR))
-				ShowWindow(g_CLI.hwndStatus, SW_SHOW);
+				ShowWindow(g_clistApi.hwndStatus, SW_SHOW);
 			else
-				ShowWindow(g_CLI.hwndStatus, SW_HIDE);
-			SendMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
+				ShowWindow(g_clistApi.hwndStatus, SW_HIDE);
+			SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 			return TRUE;
 		}
 		break;

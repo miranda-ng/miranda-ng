@@ -96,112 +96,112 @@ BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND, UINT msg, WPARAM wParam, LPARAM 
 
 static INT_PTR CLUIFrames_SetFramePaintProc(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SETFRAMEPAINTPROC, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SETFRAMEPAINTPROC, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_AddFrame(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_ADDFRAME, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_ADDFRAME, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_RemoveFrame(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_REMOVEFRAME, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_REMOVEFRAME, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_SetFrameOptions(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SETFRAMEOPTIONS, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SETFRAMEOPTIONS, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_GetFrameOptions(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_GETFRAMEOPTIONS, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_GETFRAMEOPTIONS, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_UpdateFrame(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_UPDATEFRAME, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_UPDATEFRAME, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_ShowHideFrameTitle(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SHOWHIDEFRAMETITLE, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SHOWHIDEFRAMETITLE, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_ShowTitles(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SHOWTITLES, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SHOWTITLES, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_HideTitles(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_HIDETITLES, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_HIDETITLES, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_ShowHideFrame(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SHOWHIDEFRAME, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SHOWHIDEFRAME, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_ShowAllFrames(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SHOWALL, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SHOWALL, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_LockFrame(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_LOCKFRAME, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_LOCKFRAME, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_CollapseFrame(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_COLLAPSEFRAME, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_COLLAPSEFRAME, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_SetFrameBorder(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SETFRAMEBORDER, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SETFRAMEBORDER, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_SetFrameAlign(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SETFRAMEALIGN, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SETFRAMEALIGN, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_MoveFrame(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_MOVEFRAME, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_MOVEFRAME, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_MoveFrameUp(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_MOVEFRAMEUP, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_MOVEFRAMEUP, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_MoveFrameDown(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_MOVEFRAMEDOWN, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_MOVEFRAMEDOWN, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_AlignFrameTop(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_ALIGNFRAMETOP, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_ALIGNFRAMETOP, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_AlignFrameClient(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_ALIGNFRAMEBOTTOM, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_ALIGNFRAMEBOTTOM, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_AlignFrameBottom(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_ALIGNFRAMECLIENT, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_ALIGNFRAMECLIENT, wParam, lParam) : 0;
 }
 
 static INT_PTR CLUIFrames_SetFrameFloat(WPARAM wParam, LPARAM lParam)
 {
-	return (g_CLI.hwndContactList) ? SendMessage(g_CLI.hwndContactList, CFM_SETFRAMEFLOAT, wParam, lParam) : 0;
+	return (g_clistApi.hwndContactList) ? SendMessage(g_clistApi.hwndContactList, CFM_SETFRAMEFLOAT, wParam, lParam) : 0;
 }
 
 static void CreateCluiFramesServices()

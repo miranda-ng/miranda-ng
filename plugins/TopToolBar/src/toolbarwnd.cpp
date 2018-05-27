@@ -240,7 +240,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 void CALLBACK OnEventFire()
 {
-	HWND parent = g_CLI.hwndContactList;
+	HWND parent = g_clistApi.hwndContactList;
 	if (parent == nullptr) // no clist, no buttons
 		return;
 

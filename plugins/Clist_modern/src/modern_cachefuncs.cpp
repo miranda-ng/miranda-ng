@@ -47,10 +47,10 @@ static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFun
 void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 {
 	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
-	if (dat == nullptr && g_CLI.hwndContactTree)
-		dat = (ClcData *)GetWindowLongPtr(g_CLI.hwndContactTree, 0);
+	if (dat == nullptr && g_clistApi.hwndContactTree)
+		dat = (ClcData *)GetWindowLongPtr(g_clistApi.hwndContactTree, 0);
 
-	if (dat && dat->hWnd == g_CLI.hwndContactTree) {
+	if (dat && dat->hWnd == g_clistApi.hwndContactTree) {
 		DWORD flags = dat->contact_time_show_only_if_different ? TZF_DIFONLY : 0;
 		pdnce->hTimeZone = TimeZone_CreateByContact(hContact, nullptr, flags);
 	}

@@ -30,7 +30,7 @@ static LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 void FreeDisplayNameCache(void)
 {
 	for (auto &it : clistCache) {
-		g_CLI.pfnFreeCacheItem(it);
+		g_clistApi.pfnFreeCacheItem(it);
 		mir_free(it);
 	}
 
@@ -87,16 +87,16 @@ MIR_APP_DLL(ClcCacheEntry*) Clist_GetCacheEntry(MCONTACT hContact)
 	ClcCacheEntry *p;
 	int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
 	if (idx == -1) {
-		p = g_CLI.pfnCreateCacheItem(hContact);
+		p = g_clistApi.pfnCreateCacheItem(hContact);
 		if (p == nullptr)
 			return nullptr;
 
 		clistCache.insert(p);
-		g_CLI.pfnInvalidateDisplayNameCacheEntry(hContact);
+		g_clistApi.pfnInvalidateDisplayNameCacheEntry(hContact);
 	}
 	else p = clistCache[idx];
 
-	g_CLI.pfnCheckCacheItem(p);
+	g_clistApi.pfnCheckCacheItem(p);
 	return p;
 }
 
@@ -104,12 +104,12 @@ void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 {
 	if (hContact == INVALID_CONTACT_ID) {
 		FreeDisplayNameCache();
-		Clist_InitAutoRebuild(g_CLI.hwndContactTree);
+		Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 	}
 	else {
 		int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
 		if (idx != -1)
-			g_CLI.pfnFreeCacheItem(clistCache[idx]);
+			g_clistApi.pfnFreeCacheItem(clistCache[idx]);
 	}
 }
 
@@ -142,7 +142,7 @@ MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	Clist_ChangeContactIcon(hContact, g_CLI.pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, 0));
+	Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, 0));
 	return 0;
 }
 
@@ -152,7 +152,7 @@ int ContactDeleted(WPARAM hContact, LPARAM)
 
 	int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
 	if (idx != -1) {
-		g_CLI.pfnFreeCacheItem(clistCache[idx]);
+		g_clistApi.pfnFreeCacheItem(clistCache[idx]);
 		mir_free(clistCache[idx]);
 		clistCache.remove(idx);
 	}
@@ -160,7 +160,7 @@ int ContactDeleted(WPARAM hContact, LPARAM)
 	// remove events for a contact
 	for (auto &it : g_cliEvents.rev_iter())
 		if (it->hContact == hContact)
-			g_CLI.pfnRemoveEvent(hContact, it->hDbEvent);
+			g_clistApi.pfnRemoveEvent(hContact, it->hDbEvent);
 
 	return 0;
 }
@@ -203,22 +203,22 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail")) {
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			replaceStrW(pdnce->tszName, nullptr);
-			g_CLI.pfnCheckCacheItem(pdnce);
+			g_clistApi.pfnCheckCacheItem(pdnce);
 		}
 		else if (!strcmp(cws->szSetting, "Status")) {
 			if (!db_get_b(hContact, "CList", "Hidden", 0))
-				Clist_ChangeContactIcon(hContact, g_CLI.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact));
+				Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact));
 		}
 	}
 	else if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "Hidden")) {
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0)
-				Clist_ChangeContactIcon(hContact, g_CLI.pfnIconFromStatusMode(szProto, szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact));
+				Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(szProto, szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact));
 		}
 		else if (!strcmp(cws->szSetting, "MyHandle")) {
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			replaceStrW(pdnce->tszName, nullptr);
-			g_CLI.pfnCheckCacheItem(pdnce);
+			g_clistApi.pfnCheckCacheItem(pdnce);
 		}
 		else if (!strcmp(cws->szSetting, "Group")) {
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
@@ -232,7 +232,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			else
 				szProto = cws->value.pszVal;
 			Clist_ChangeContactIcon(hContact,
-				g_CLI.pfnIconFromStatusMode(szProto, szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact));
+				g_clistApi.pfnIconFromStatusMode(szProto, szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact));
 		}
 	}
 	return 0;

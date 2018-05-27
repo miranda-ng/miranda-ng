@@ -277,7 +277,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 	if (m_dwFlagsEx & MWF_SHOW_FLASHCLIST) {
 		m_dwFlagsEx &= ~MWF_SHOW_FLASHCLIST;
 		if (m_hFlashingEvent != 0)
-			g_CLI.pfnRemoveEvent(m_hContact, m_hFlashingEvent);
+			g_clistApi.pfnRemoveEvent(m_hContact, m_hFlashingEvent);
 		m_hFlashingEvent = 0;
 	}
 	m_pContainer->dwFlags &= ~CNT_NEED_UPDATETITLE;

@@ -104,8 +104,8 @@ void CChatRoomDlg::OnActivate()
 		FlashWindow(m_pOwner->GetHwnd(), FALSE);
 	if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 		db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
-	if (g_CLI.pfnGetEvent(m_hContact, 0))
-		g_CLI.pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
+	if (g_clistApi.pfnGetEvent(m_hContact, 0))
+		g_clistApi.pfnRemoveEvent(m_hContact, GC_FAKE_EVENT);
 }
 
 void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)

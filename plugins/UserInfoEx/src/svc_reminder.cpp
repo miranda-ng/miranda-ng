@@ -335,7 +335,7 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 	// pszService = "dummy" get 'service not fount' and continue;
 	cle.pszService = "dummy";
 	cle.lParam = NULL;
-	g_CLI.pfnAddEvent(&cle);
+	g_clistApi.pfnAddEvent(&cle);
 }
 
 /**

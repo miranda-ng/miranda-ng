@@ -1514,7 +1514,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				pPs->dwFlags &= ~PSF_CHANGED;
 				EnableWindow(GetDlgItem(hDlg, IDAPPLY), FALSE);
-				g_CLI.pfnInvalidateDisplayNameCacheEntry(pPs->hContact);
+				g_clistApi.pfnInvalidateDisplayNameCacheEntry(pPs->hContact);
 
 				// need to upload owners settings
 				if (!pPs->hContact && myGlobals.CanChangeDetails && db_get_b(NULL, MODULENAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE)) {

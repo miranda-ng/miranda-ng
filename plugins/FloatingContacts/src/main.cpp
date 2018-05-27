@@ -867,10 +867,10 @@ static int OnModulesLoded(WPARAM, LPARAM)
 	HookEvent(ME_CLIST_STATUSMODECHANGE, OnStatusModeChange);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 
-	hwndMiranda = g_CLI.hwndContactList;
+	hwndMiranda = g_clistApi.hwndContactList;
 	mir_subclassWindow(hwndMiranda, newMirandaWndProc);
 
-	UINT_PTR dwStyle = SendMessageW(g_CLI.hwndContactTree, CLM_GETEXSTYLE, 0, 0);
+	UINT_PTR dwStyle = SendMessageW(g_clistApi.hwndContactTree, CLM_GETEXSTYLE, 0, 0);
 	if (dwStyle & CLS_EX_DISABLEDRAGDROP)
 		MessageBox(hwndMiranda,
 			TranslateT("Floating contacts plugin won't work until you uncheck the \"Disable drag and drop of items\" option in Options - Contact list"),

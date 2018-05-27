@@ -85,7 +85,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 					return 0;
 
 				for (int idx = 0;; idx++) {
-					CLISTEVENT *cle = g_CLI.pfnGetEvent(pdata->hContact, idx);
+					CLISTEVENT *cle = g_clistApi.pfnGetEvent(pdata->hContact, idx);
 					if (cle == nullptr)
 						break;
 
@@ -104,7 +104,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 			EVENT_DATA_EX *eventData = pdata->firstEventData;
 			pdata->iLock = 1;
 			while (eventData) {
-				g_CLI.pfnRemoveEvent(pdata->hContact, eventData->hEvent);
+				g_clistApi.pfnRemoveEvent(pdata->hContact, eventData->hEvent);
 				db_event_markRead(pdata->hContact, eventData->hEvent);			
 				eventData = eventData->next;
 			}		

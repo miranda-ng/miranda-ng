@@ -408,8 +408,8 @@ void CTabbedWindow::TabClicked()
 		if (s->wState & GC_EVENT_HIGHLIGHT) {
 			s->wState &= ~GC_EVENT_HIGHLIGHT;
 
-			if (g_CLI.pfnGetEvent(s->hContact, 0))
-				g_CLI.pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
+			if (g_clistApi.pfnGetEvent(s->hContact, 0))
+				g_clistApi.pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
 		}
 
 		FixTabIcons(pDlg);

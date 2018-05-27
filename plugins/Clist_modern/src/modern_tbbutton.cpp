@@ -433,7 +433,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		else
 			bct->hIcon = nullptr;
 		InvalidateRect(hwndDlg, nullptr, TRUE);
-		g_CLI.pfnInvalidateRect(GetParent(GetParent(hwndDlg)), nullptr, TRUE);
+		g_clistApi.pfnInvalidateRect(GetParent(GetParent(hwndDlg)), nullptr, TRUE);
 		return 1;
 
 	case MBM_UPDATETRANSPARENTFLAG:

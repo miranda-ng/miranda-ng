@@ -35,14 +35,14 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 	switch (msg) {
 	case CLM_DELETEITEM:
 		Clist_DeleteItemFromTree(hwnd, wParam);
-		clcSetDelayTimer(TIMERID_DELAYEDRESORTCLC, hwnd, 1); //g_CLI.pfnSortCLC(hwnd, dat, 1);
-		clcSetDelayTimer(TIMERID_RECALCSCROLLBAR, hwnd, 2); //g_CLI.pfnRecalcScrollBar(hwnd, dat);
+		clcSetDelayTimer(TIMERID_DELAYEDRESORTCLC, hwnd, 1); //g_clistApi.pfnSortCLC(hwnd, dat, 1);
+		clcSetDelayTimer(TIMERID_RECALCSCROLLBAR, hwnd, 2); //g_clistApi.pfnRecalcScrollBar(hwnd, dat);
 		return 0;
 
 	case CLM_AUTOREBUILD:
 		if (dat->bForceInDialog) {
 			Clist_SaveStateAndRebuildList(hwnd, dat);
-			g_CLI.bAutoRebuild = false;
+			g_clistApi.bAutoRebuild = false;
 		}
 		else clcSetDelayTimer(TIMERID_REBUILDAFTER, hwnd);
 		return 0;
@@ -190,7 +190,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group, nullptr))
 				break;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
-				g_CLI.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
+				g_clistApi.pfnSetGroupExpand(hwnd, dat, tgroup, 1);
 
 			if (!contact->iSubNumber) {
 				index = group->cl.indexOf(contact);
@@ -211,7 +211,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 				}
 			}
 
-			dat->selection = g_CLI.pfnGetRowsPriorTo(&dat->list, group, index);
+			dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, index);
 			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		}
 		return 0;

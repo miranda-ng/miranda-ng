@@ -113,7 +113,7 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
 	{
 		pMes = (PCWPRETSTRUCT)lParam; // Get message details
 		if (!hMirandaWnd)
-			hMirandaWnd = g_CLI.hwndContactList;
+			hMirandaWnd = g_clistApi.hwndContactList;
 
 		if (pMes->hwnd == hMirandaWnd)
 		{

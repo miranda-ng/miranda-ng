@@ -99,7 +99,7 @@ static int OnOptsInit(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR GetStatusMode(WPARAM, LPARAM)
 {
-	return g_CLI.currentDesiredStatusMode;
+	return g_clistApi.currentDesiredStatusMode;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -111,11 +111,11 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	g_bSortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
 
 	Clist_GetInterface();
-	coreCli = g_CLI;
-	g_CLI.hInst = g_plugin.getInst();
-	g_CLI.pfnPaintClc = PaintClc;
-	g_CLI.pfnLoadClcOptions = LoadClcOptions;
-	g_CLI.pfnCompareContacts = CompareContacts;
+	coreCli = g_clistApi;
+	g_clistApi.hInst = g_plugin.getInst();
+	g_clistApi.pfnPaintClc = PaintClc;
+	g_clistApi.pfnLoadClcOptions = LoadClcOptions;
+	g_clistApi.pfnCompareContacts = CompareContacts;
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 

@@ -742,7 +742,7 @@ void HandlePopupData(PopupData *tData)  {
 		if (tData->flags & MSN_HOTMAIL_POPUP) {
 			MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, nullptr);
 			if (hContact)
-				g_CLI.pfnRemoveEvent(hContact, 1);
+				g_clistApi.pfnRemoveEvent(hContact, 1);
 			if (tData->flags & MSN_ALLOW_ENTER)
 				tData->proto->MsnInvokeMyURL(true, tData->url);
 		}
@@ -755,7 +755,7 @@ void RemovePopupData(PopupData *tData) {
 	if (tData != nullptr && (tData->flags & MSN_HOTMAIL_POPUP)) {
 		MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, nullptr);
 		if (hContact)
-			g_CLI.pfnRemoveEvent(hContact, 1);
+			g_clistApi.pfnRemoveEvent(hContact, 1);
 	}
 }
 

@@ -339,7 +339,7 @@ public:
 			tvi.hItem = m_nameOrder.GetNextSibling(tvi.hItem);
 		}
 		db_set_blob(0, "Contact", "NameOrder", nameOrder, _countof(nameOrderDescr));
-		g_CLI.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);
+		g_clistApi.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);
 	}
 
 	void OnBeginDrag(CCtrlTreeView::TEventInfo *evt)

@@ -48,7 +48,7 @@ static int MsgWindowEvent(WPARAM, LPARAM lParam)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	windowAdd(g_CLI.hwndContactList, true);
+	windowAdd(g_clistApi.hwndContactList, true);
 
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWindowEvent);
 

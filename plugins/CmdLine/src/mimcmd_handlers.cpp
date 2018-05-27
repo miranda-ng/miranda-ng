@@ -483,7 +483,7 @@ void HandleClistCommand(PCommand command, TArgument *argv, int argc, PReply repl
 	switch (argc) {
 	case 2:
 		{
-			int state = IsWindowVisible(g_CLI.hwndContactList);
+			int state = IsWindowVisible(g_clistApi.hwndContactList);
 			Set2StateReply(reply, state, 0, LPGENW("Contact list is currently shown."), L"", LPGENW("Contact list is currently hidden."), L"");
 
 			return;
@@ -495,18 +495,18 @@ void HandleClistCommand(PCommand command, TArgument *argv, int argc, PReply repl
 
 			switch (Get2StateValue(argv[2])) {
 			case STATE_ON:
-				ShowWindow(g_CLI.hwndContactList, SW_SHOW);
+				ShowWindow(g_clistApi.hwndContactList, SW_SHOW);
 				state = TRUE;
 				break;
 
 			case STATE_OFF:
-				ShowWindow(g_CLI.hwndContactList, SW_HIDE);
+				ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
 				state = FALSE;
 				break;
 
 			case STATE_TOGGLE:
-				state = !IsWindowVisible(g_CLI.hwndContactList);
-				ShowWindow(g_CLI.hwndContactList, (state) ? SW_SHOW : SW_HIDE);
+				state = !IsWindowVisible(g_clistApi.hwndContactList);
+				ShowWindow(g_clistApi.hwndContactList, (state) ? SW_SHOW : SW_HIDE);
 				break;
 
 			default:
@@ -531,7 +531,7 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 			CallService("CloseAction", 0, 0);
 
 			// try another quit method
-			PostMessage(g_CLI.hwndContactList, WM_COMMAND, ID_ICQ_EXIT, 0);
+			PostMessage(g_clistApi.hwndContactList, WM_COMMAND, ID_ICQ_EXIT, 0);
 
 			reply->code = MIMRES_SUCCESS;
 			mir_snwprintf(reply->message, TranslateT("Issued a quit command."));
@@ -548,7 +548,7 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 				CallService("CloseAction", 0, 0);
 
 				//try another quit method
-				PostMessage(g_CLI.hwndContactList, WM_COMMAND, ID_ICQ_EXIT, 0);
+				PostMessage(g_clistApi.hwndContactList, WM_COMMAND, ID_ICQ_EXIT, 0);
 
 				reply->code = MIMRES_SUCCESS;
 				mir_snwprintf(reply->message, TranslateT("Issued a quit and wait command."));

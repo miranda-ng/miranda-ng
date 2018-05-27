@@ -444,7 +444,7 @@ void CreateFrame()
 	RegisterClass(&wndclass);
 
 	hwnd_plugin = CreateWindow(L"BassInterfaceFrame", TranslateT("BASS Interface"),
-		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, g_CLI.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
+		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
 	Frame.tname = TranslateT("BASS Interface");
@@ -506,7 +506,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 		EnPreview = db_get_b(NULL, MODULENAME, OPT_PREVIEW, 0);
 		StatMask = db_get_w(NULL, MODULENAME, OPT_STATUS, 0x3ff);
 
-		BASS_Init(device, 44100, 0, g_CLI.hwndContactList, nullptr);
+		BASS_Init(device, 44100, 0, g_clistApi.hwndContactList, nullptr);
 
 		Volume = db_get_b(NULL, MODULENAME, OPT_VOLUME, 33);
 		BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);

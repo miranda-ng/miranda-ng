@@ -68,7 +68,7 @@ static INT_PTR GroupMenu_OnAddService(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR CommandHelper(WPARAM wParam, LPARAM)
 {
-	SendMessage(g_CLI.hwndContactList, WM_COMMAND, MAKELONG(wParam, BN_CLICKED), 1);
+	SendMessage(g_clistApi.hwndContactList, WM_COMMAND, MAKELONG(wParam, BN_CLICKED), 1);
 	return 0;
 }
 

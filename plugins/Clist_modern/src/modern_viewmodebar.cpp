@@ -991,10 +991,10 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_NCPAINT:
 	case WM_PAINT:
-		if (GetParent(hwnd) == g_CLI.hwndContactList && g_CluiData.fLayered)
+		if (GetParent(hwnd) == g_clistApi.hwndContactList && g_CluiData.fLayered)
 			ValidateRect(hwnd, nullptr);
 
-		else if (GetParent(hwnd) != g_CLI.hwndContactList || !g_CluiData.fLayered) {
+		else if (GetParent(hwnd) != g_clistApi.hwndContactList || !g_CluiData.fLayered) {
 			RECT rc = { 0 };
 			GetClientRect(hwnd, &rc);
 			rc.right++;
@@ -1007,7 +1007,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (g_CluiData.fDisableSkinEngine)
 				sttDrawViewModeBackground(hwnd, hdc2, &rc);
 			else {
-				if (GetParent(hwnd) != g_CLI.hwndContactList) {
+				if (GetParent(hwnd) != g_clistApi.hwndContactList) {
 					HBRUSH br = GetSysColorBrush(COLOR_3DFACE);
 					FillRect(hdc2, &rc, br);
 				}
@@ -1041,13 +1041,13 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == BUTTONNEEDREDRAW)
-			g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
+			g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		return 0;
 
 	case WM_TIMER:
 		if (wParam == TIMERID_VIEWMODEEXPIRE) {
 			RECT rcCLUI;
-			GetWindowRect(g_CLI.hwndContactList, &rcCLUI);
+			GetWindowRect(g_clistApi.hwndContactList, &rcCLUI);
 
 			POINT pt;
 			GetCursorPos(&pt);
@@ -1131,7 +1131,7 @@ static view_mode_t view_mode;
 
 static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect)
 {
-	BOOL bFloat = (GetParent(hwnd) != g_CLI.hwndContactList);
+	BOOL bFloat = (GetParent(hwnd) != g_clistApi.hwndContactList);
 	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {
 		RECT rc;
 		if (rect)
@@ -1166,7 +1166,7 @@ static int ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 		view_mode.useWinColors = db_get_b(0, "ViewMode", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		view_mode.backgroundBmpUse = db_get_w(0, "ViewMode", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
-	PostMessage(g_CLI.hwndContactList, WM_SIZE, 0, 0);
+	PostMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 	return 0;
 }
 
@@ -1196,7 +1196,7 @@ void CreateViewModeFrame()
 	frame.TBtname = TranslateT("View modes");
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
 	frame.align = alBottom;
-	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", _A2W(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, g_CLI.hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
+	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", _A2W(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, g_clistApi.hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
 	g_hwndViewModeFrame = frame.hWnd;
 	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);
@@ -1238,7 +1238,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
 		SetDlgItemText(g_hwndViewModeFrame, IDC_SELECTMODE, TranslateT("All contacts"));
 		if (g_CluiData.boldHideOffline != (BYTE)-1)
-			g_CLI.pfnSetHideOffline(g_CluiData.boldHideOffline);
+			g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
 		if (g_CluiData.bOldUseGroups != (BYTE)-1)
 			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0);
 		g_CluiData.boldHideOffline = (BYTE)-1;
@@ -1326,10 +1326,10 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 			if (g_CluiData.boldHideOffline == (BYTE)-1)
 				g_CluiData.boldHideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 
-			g_CLI.pfnSetHideOffline(false);
+			g_clistApi.pfnSetHideOffline(false);
 		}
 		else if (g_CluiData.boldHideOffline != (BYTE)-1) {
-			g_CLI.pfnSetHideOffline(g_CluiData.boldHideOffline);
+			g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
 			g_CluiData.boldHideOffline = -1;
 		}
 
@@ -1355,7 +1355,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 	SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((Name[0] == 13) ? Name + 1 : Name)));
 
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
-	cliInvalidateRect(g_CLI.hwndStatus, nullptr, FALSE);
+	cliInvalidateRect(g_clistApi.hwndStatus, nullptr, FALSE);
 }
 
 static int SkinSetViewMode(WPARAM wParam /*char * name*/, LPARAM lParam /*int index*/)

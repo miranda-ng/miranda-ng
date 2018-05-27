@@ -181,7 +181,7 @@ INT_PTR ToggleEnabled(WPARAM wParam, LPARAM) {
 INT_PTR EditContact(WPARAM wParam, LPARAM)
 {
 	PINGLIST pl;
-	HWND hwndList = g_CLI.hwndContactList;
+	HWND hwndList = g_clistApi.hwndContactList;
 
 	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {

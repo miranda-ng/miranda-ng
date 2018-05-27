@@ -73,10 +73,10 @@ static void OnCreateModule(MODULEINFO *mi)
 {
 	OnDestroyModule(mi);
 
-	mi->OnlineIconIndex = g_CLI.pfnIconFromStatusMode(mi->pszModule, ID_STATUS_ONLINE, 0);
+	mi->OnlineIconIndex = g_clistApi.pfnIconFromStatusMode(mi->pszModule, ID_STATUS_ONLINE, 0);
 	mi->hOnlineIcon = ImageList_GetIcon(Clist_GetImageList(), mi->OnlineIconIndex, ILD_TRANSPARENT);
 
-	mi->OfflineIconIndex = g_CLI.pfnIconFromStatusMode(mi->pszModule, ID_STATUS_OFFLINE, 0);
+	mi->OfflineIconIndex = g_clistApi.pfnIconFromStatusMode(mi->pszModule, ID_STATUS_OFFLINE, 0);
 	mi->hOfflineIcon = ImageList_GetIcon(Clist_GetImageList(), mi->OfflineIconIndex, ILD_TRANSPARENT);
 }
 

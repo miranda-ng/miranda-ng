@@ -85,7 +85,7 @@ static INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 
 void OpenContactList()
 {
-	HWND hWnd = g_CLI.hwndContactList;
+	HWND hWnd = g_clistApi.hwndContactList;
 	ShowWindow(hWnd, SW_RESTORE);
 	ShowWindow(hWnd, SW_SHOW);
 }

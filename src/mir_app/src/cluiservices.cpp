@@ -41,11 +41,11 @@ EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup)
 
 EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 {
-	if (g_CLI.hwndContactTree == nullptr)
+	if (g_clistApi.hwndContactTree == nullptr)
 		return;
 
 	bool bRebuild = false;
-	LONG_PTR dwStyle = GetWindowLongPtr(g_CLI.hwndContactTree, GWL_STYLE);
+	LONG_PTR dwStyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
 
 	// CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
 	if ((db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
@@ -73,8 +73,8 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 	}
 
 	if (bRebuild) {
-		SetWindowLongPtr(g_CLI.hwndContactTree, GWL_STYLE, dwStyle);
-		Clist_InitAutoRebuild(g_CLI.hwndContactTree);
+		SetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE, dwStyle);
+		Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 	}
 }
 
@@ -84,18 +84,18 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 void fnCluiProtocolStatusChanged(int, const char*)
 {
 	if (g_menuProtos.getCount() == 0) {
-		SendMessage(g_CLI.hwndStatus, SB_SETPARTS, 0, 0);
-		SendMessage(g_CLI.hwndStatus, SB_SETTEXT, SBT_OWNERDRAW, 0);
+		SendMessage(g_clistApi.hwndStatus, SB_SETPARTS, 0, 0);
+		SendMessage(g_clistApi.hwndStatus, SB_SETTEXT, SBT_OWNERDRAW, 0);
 		return;
 	}
 
 	int borders[3];
-	SendMessage(g_CLI.hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
+	SendMessage(g_clistApi.hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 
 	int *partWidths = (int*)alloca(g_menuProtos.getCount() * sizeof(int));
 	if (db_get_b(0, "CLUI", "EqualSections", 0)) {
 		RECT rc;
-		GetClientRect(g_CLI.hwndStatus, &rc);
+		GetClientRect(g_clistApi.hwndStatus, &rc);
 		rc.right -= borders[0] * 2 + (db_get_b(0, "CLUI", "ShowGrip", 1) ? GetSystemMetrics(SM_CXVSCROLL) : 0);
 		for (int i = 0; i < g_menuProtos.getCount(); i++)
 			partWidths[i] = (i + 1) * rc.right / g_menuProtos.getCount() - (borders[2] >> 1);
@@ -105,7 +105,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 		BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 
 		HDC hdc = GetDC(nullptr);
-		HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendMessage(g_CLI.hwndStatus, WM_GETFONT, 0, 0));
+		HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendMessage(g_clistApi.hwndStatus, WM_GETFONT, 0, 0));
 		for (int i = 0; i < g_menuProtos.getCount(); i++) {  //count down since built in ones tend to go at the end
 			int x = 2;
 			if (showOpts & 1)
@@ -137,13 +137,13 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	}
 
 	partWidths[g_menuProtos.getCount()-1] = -1;
-	SendMessage(g_CLI.hwndStatus, SB_SETMINHEIGHT, g_IconHeight, 0);
-	SendMessage(g_CLI.hwndStatus, SB_SETPARTS, g_menuProtos.getCount(), (LPARAM)partWidths);
+	SendMessage(g_clistApi.hwndStatus, SB_SETMINHEIGHT, g_IconHeight, 0);
+	SendMessage(g_clistApi.hwndStatus, SB_SETPARTS, g_menuProtos.getCount(), (LPARAM)partWidths);
 	
 	int flags = SBT_OWNERDRAW;
 	if (db_get_b(0, "CLUI", "SBarBevel", 1) == 0)
 		flags |= SBT_NOBORDERS;
 	
 	for (int i = 0; i < g_menuProtos.getCount(); i++)
-		SendMessage(g_CLI.hwndStatus, SB_SETTEXT, i | flags, (LPARAM)g_menuProtos[i].szProto);
+		SendMessage(g_clistApi.hwndStatus, SB_SETTEXT, i | flags, (LPARAM)g_menuProtos[i].szProto);
 }

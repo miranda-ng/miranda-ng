@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 {
-	ClcContact* newItem = g_CLI.pfnCreateClcContact();
+	ClcContact* newItem = g_clistApi.pfnCreateClcContact();
 	newItem->type = CLCIT_DIVIDER;
 	newItem->flags = 0;
 	newItem->szText[0] = '\0';
@@ -85,7 +85,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags
 			if (groupId == 0)
 				return nullptr;
 
-			ClcContact *cc = g_CLI.pfnAddItemToGroup(group, i);
+			ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
 			cc->type = CLCIT_GROUP;
 			mir_wstrncpy(cc->szText, pThisField, _countof(cc->szText));
 			cc->groupId = (WORD)(pNextField ? 0 : groupId);
@@ -130,7 +130,7 @@ void FreeGroup(ClcGroup *group)
 		return;
 
 	for (auto &it : group->cl) {
-		g_CLI.pfnFreeContact(it);
+		g_clistApi.pfnFreeContact(it);
 		mir_free(it);
 	}
 	group->cl.destroy();
@@ -153,7 +153,7 @@ ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszT
 			if (group->cl[i]->type != CLCIT_INFO)
 				break;
 
-	ClcContact *cc = g_CLI.pfnAddItemToGroup(group, i);
+	ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
 	iInfoItemUniqueHandle = LOWORD(iInfoItemUniqueHandle + 1);
 	if (iInfoItemUniqueHandle == 0)
 		++iInfoItemUniqueHandle;
@@ -184,7 +184,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	ClcCacheEntry *pce = Clist_GetCacheEntry(hContact);
 	replaceStrW(pce->tszGroup, nullptr);
 
-	ClcContact *cc = g_CLI.pfnAddItemToGroup(group, index + 1);
+	ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, index + 1);
 	cc->type = CLCIT_CONTACT;
 	cc->iImage = Clist_GetContactIcon(hContact);
 	cc->hContact = hContact;
@@ -228,7 +228,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 	if (tszGroup == nullptr)
 		group = &dat->list;
 	else {
-		group = g_CLI.pfnAddGroup(hwnd, dat, tszGroup, (DWORD)-1, 0, 0);
+		group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroup, (DWORD)-1, 0, 0);
 		if (group == nullptr) {
 			if (!(style & CLS_HIDEEMPTYGROUPS))
 				return;
@@ -255,9 +255,9 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 
 				size_t len = mir_wstrlen(szGroupName);
 				if (!wcsncmp(szGroupName, tszGroup, len) && tszGroup[len] == '\\')
-					g_CLI.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 1);
+					g_clistApi.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 1);
 			}
-			group = g_CLI.pfnAddGroup(hwnd, dat, tszGroup, groupFlags, i, 1);
+			group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroup, groupFlags, i, 1);
 		}
 	}
 
@@ -268,7 +268,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 			return;
 		}
 	}
-	g_CLI.pfnAddContactToGroup(dat, group, hContact);
+	g_clistApi.pfnAddContactToGroup(dat, group, hContact);
 	if (updateTotalCount)
 		group->totalMembers++;
 }
@@ -283,10 +283,10 @@ MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, Clc
 		if (updateTotalCount)
 			group->totalMembers--;
 
-		g_CLI.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
+		g_clistApi.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
 	}
 
-	g_CLI.pfnFreeContact(group->cl[iContact]);
+	g_clistApi.pfnFreeContact(group->cl[iContact]);
 	mir_free(group->cl[iContact]);
 	group->cl.remove(iContact);
 
@@ -356,11 +356,11 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 		wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
 		if (szGroupName == nullptr)
 			break;
-		g_CLI.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
+		g_clistApi.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
 	}
 
 	for (auto &hContact : Contacts()) {
-		int nHiddenStatus = g_CLI.pfnGetContactHiddenStatus(hContact, nullptr, dat);
+		int nHiddenStatus = g_clistApi.pfnGetContactHiddenStatus(hContact, nullptr, dat);
 		if (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus) {
 			ClcCacheEntry *pce = Clist_GetCacheEntry(hContact);
 			if (pce->szProto == nullptr)
@@ -371,7 +371,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 			if (tszGroupName == nullptr)
 				group = &dat->list;
 			else {
-				group = g_CLI.pfnAddGroup(hwnd, dat, tszGroupName, (DWORD)-1, 0, 0);
+				group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroupName, (DWORD)-1, 0, 0);
 				if (group == nullptr && style & CLS_SHOWHIDDEN)
 					group = &dat->list;
 			}
@@ -385,18 +385,18 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 					wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
 
 					if (wcsstr(lowered_name, lowered_search))
-						g_CLI.pfnAddContactToGroup(dat, group, hContact);
+						g_clistApi.pfnAddContactToGroup(dat, group, hContact);
 				}
 				else if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					char *szProto = GetContactProto(hContact);
 					if (szProto == nullptr) {
-						if (!Clist_IsHiddenMode(dat, ID_STATUS_OFFLINE) || g_CLI.pfnIsVisibleContact(pce, group))
-							g_CLI.pfnAddContactToGroup(dat, group, hContact);
+						if (!Clist_IsHiddenMode(dat, ID_STATUS_OFFLINE) || g_clistApi.pfnIsVisibleContact(pce, group))
+							g_clistApi.pfnAddContactToGroup(dat, group, hContact);
 					}
-					else if (!Clist_IsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)) || g_CLI.pfnIsVisibleContact(pce, group))
-						g_CLI.pfnAddContactToGroup(dat, group, hContact);
+					else if (!Clist_IsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)) || g_clistApi.pfnIsVisibleContact(pce, group))
+						g_clistApi.pfnAddContactToGroup(dat, group, hContact);
 				}
-				else g_CLI.pfnAddContactToGroup(dat, group, hContact);
+				else g_clistApi.pfnAddContactToGroup(dat, group, hContact);
 			}
 		}
 	}
@@ -427,7 +427,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 		}
 	}
 
-	g_CLI.pfnSortCLC(hwnd, dat, 0);
+	g_clistApi.pfnSortCLC(hwnd, dat, 0);
 	ExtraIcon_SetAll();
 }
 
@@ -469,7 +469,7 @@ static int __cdecl ContactSortProc(const void* p1, const void* p2)
 {
 	ClcContact **contact1 = (ClcContact**)p1, **contact2 = (ClcContact**)p2;
 
-	int result = g_CLI.pfnCompareContacts(contact1[0], contact2[0]);
+	int result = g_clistApi.pfnCompareContacts(contact1[0], contact2[0]);
 	if (result)
 		return result;
 	//nothing to distinguish them, so make sure they stay in the same order
@@ -540,7 +540,7 @@ static void SortGroup(ClcData *dat, ClcGroup *group, int useInsertionSort)
 				prevContactOnline = 1;
 			else {
 				if (prevContactOnline) {
-					ClcContact *cc = g_CLI.pfnAddItemToGroup(group, i);
+					ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
 					cc->type = CLCIT_DIVIDER;
 					mir_wstrcpy(cc->szText, TranslateT("Offline"));
 				}
@@ -557,7 +557,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 	if (dat->bNeedsResort) {
 		MCONTACT hSelItem;
 		ClcContact *selcontact;
-		if (g_CLI.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) == -1)
+		if (g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) == -1)
 			hSelItem = 0;
 		else
 			hSelItem = Clist_ContactToHItem(selcontact);
@@ -584,13 +584,13 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 		if (hSelItem) {
 			ClcGroup *selgroup;
 			if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, nullptr))
-				dat->selection = g_CLI.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+				dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 		}
 
-		g_CLI.pfnRecalcScrollBar(hwnd, dat);
+		g_clistApi.pfnRecalcScrollBar(hwnd, dat);
 	}
 	dat->bNeedsResort = false;
-	g_CLI.pfnInvalidateRect(hwnd, nullptr, FALSE);
+	g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 }
 
 struct SavedContactState_t
@@ -663,7 +663,7 @@ MIR_APP_DLL(void) Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 	}
 
 	FreeGroup(&dat->list);
-	g_CLI.pfnRebuildEntireList(hwnd, dat);
+	g_clistApi.pfnRebuildEntireList(hwnd, dat);
 
 	group = &dat->list;
 	group->scanIndex = 0;
@@ -709,14 +709,14 @@ MIR_APP_DLL(void) Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			group = contact->group;
 		}
 	
-		ClcContact *cc = g_CLI.pfnAddInfoItemToGroup(group, it->contact.flags, L"");
+		ClcContact *cc = g_clistApi.pfnAddInfoItemToGroup(group, it->contact.flags, L"");
 		*cc = it->contact;
 	}
 
 	dat->bLockScrollbar = false;
 	Clist_RecalculateGroupCheckboxes(dat);
 
-	g_CLI.pfnRecalcScrollBar(hwnd, dat);
+	g_clistApi.pfnRecalcScrollBar(hwnd, dat);
 
 	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_LISTREBUILT;

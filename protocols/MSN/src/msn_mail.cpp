@@ -282,7 +282,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
 	if (hContact) {
-		g_CLI.pfnRemoveEvent(hContact, 1);
+		g_clistApi.pfnRemoveEvent(hContact, 1);
 		displayEmailCount(hContact);
 
 		if (ShowPopup && !getByte("DisableHotmailTray", 1)) {
@@ -296,7 +296,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_SENDEMAIL);
 			cle.szTooltip.w = tBuffer2;
 			cle.pszService = buf;
-			g_CLI.pfnAddEvent(&cle);
+			g_clistApi.pfnAddEvent(&cle);
 		}
 	}
 

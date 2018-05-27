@@ -842,7 +842,7 @@ void AttachToClist(bool attach)
 
 void InitList()
 {
-	hwnd_clist = g_CLI.hwndContactList;
+	hwnd_clist = g_clistApi.hwndContactList;
 
 	WNDCLASS wndclass;
 

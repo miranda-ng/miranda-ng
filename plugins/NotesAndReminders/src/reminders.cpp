@@ -140,12 +140,12 @@ static void RemoveReminderSystemEvent(REMINDERDATA *p)
 {
 	if (p->SystemEventQueued) {
 		for (int i = 0;; i++) {
-			CLISTEVENT *pev = g_CLI.pfnGetEvent(-1, i);
+			CLISTEVENT *pev = g_clistApi.pfnGetEvent(-1, i);
 			if (!pev)
 				break;
 
 			if ((ULONG)pev->lParam == p->uid && !pev->hContact && pev->pszService && !mir_strcmp(pev->pszService, MODULENAME"/OpenTriggeredReminder")) {
-				if (!g_CLI.pfnRemoveEvent(pev->hContact, pev->hDbEvent)) {
+				if (!g_clistApi.pfnRemoveEvent(pev->hContact, pev->hDbEvent)) {
 					p->SystemEventQueued = FALSE;
 					if (QueuedReminderCount)
 						QueuedReminderCount--;
@@ -529,7 +529,7 @@ static void FireReminder(REMINDERDATA *pReminder, BOOL *pHasPlayedSound)
 		ev.lParam = (LPARAM)pReminder->uid;
 		ev.pszService = MODULENAME"/OpenTriggeredReminder";
 		ev.szTooltip.a = Translate("Reminder");
-		g_CLI.pfnAddEvent(&ev);
+		g_clistApi.pfnAddEvent(&ev);
 	}
 
 	pReminder->SystemEventQueued = TRUE;
