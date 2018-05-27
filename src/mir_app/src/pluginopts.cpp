@@ -135,8 +135,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 			void *pVerInfo = mir_alloc(verInfoSize);
 			GetFileVersionInfo(buf, 0, verInfoSize, pVerInfo);
 			VerQueryValue(pVerInfo, L"\\", (LPVOID*)&fi, &blockSize);
-			mir_snwprintf(buf, L"%d.%d.%d.%d", HIWORD(fi->dwProductVersionMS),
-				LOWORD(fi->dwProductVersionMS), HIWORD(fi->dwProductVersionLS), LOWORD(fi->dwProductVersionLS));
+			mir_snwprintf(buf, L"%d.%d.%d.%d", HIWORD(fi->dwFileVersionMS), LOWORD(fi->dwFileVersionMS), HIWORD(fi->dwFileVersionLS), LOWORD(fi->dwFileVersionLS));
 			mir_free(pVerInfo);
 		}
 		else
