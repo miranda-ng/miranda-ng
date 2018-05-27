@@ -208,7 +208,7 @@ wchar_t* InsertBuiltinVarsIntoMsg(wchar_t *in, const char *szProto, int)
 				mir_snwprintf(substituteStr, L"%d", GetRandom(ran_from, ran_to));
 				for (k = i + 1; msg[k]; k++) if (msg[k] == '%') { k++; break; }
 
-				if (mir_wstrlen(substituteStr) > k - i)
+				if ((int)mir_wstrlen(substituteStr) > k - i)
 					msg = (wchar_t *)mir_realloc(msg, (mir_wstrlen(msg) + 1 + mir_wstrlen(substituteStr) - (k - i)) * sizeof(wchar_t));
 
 				memmove(msg + i + mir_wstrlen(substituteStr), msg + i + (k - i), (mir_wstrlen(msg) - i - (k - i - 1)) * sizeof(wchar_t));
@@ -724,18 +724,17 @@ void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, wcha
 
 INT_PTR ShowStatusMessageDialogInternal(WPARAM, LPARAM lParam)
 {
-	struct MsgBoxInitData *box_data;
-	BOOL idvstatusmsg = FALSE;
+	bool idvstatusmsg = false;
 
 	if (Miranda_IsTerminated())
 		return 0;
 
 	if (hTTBButton) {
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButton, (LPARAM)0);
-		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM((WORD)TTBO_TIPNAME, (WORD)hTTBButton), (LPARAM)Translate("Change status message"));
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButton, 0);
+		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, (LPARAM)hTTBButton), (LPARAM)Translate("Change status message"));
 	}
 
-	box_data = (struct MsgBoxInitData *)mir_alloc(sizeof(struct MsgBoxInitData));
+	MsgBoxInitData *box_data = (struct MsgBoxInitData *)mir_alloc(sizeof(struct MsgBoxInitData));
 
 	if (accounts->statusMsgCount == 1) {
 		for (int i = 0; i < accounts->count; ++i) {
@@ -775,7 +774,7 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM, LPARAM lParam)
 				box_data->m_iStatusModes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
 				box_data->m_iStatusMsgModes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 
-				idvstatusmsg = TRUE;
+				idvstatusmsg = true;
 				break;
 			}
 		}
@@ -1372,17 +1371,16 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int CSStatusChange(WPARAM wParam, LPARAM)
+static int CSStatusChange(WPARAM wParam, LPARAM iCount)
 {
 	PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
-	int status_mode, CSProtoCount;
+	int status_mode;
 	char szSetting[80];
 	wchar_t *msg = nullptr;
 
 	if (ps == nullptr) return -1;
 
-	CSProtoCount = CallService(MS_CS_GETPROTOCOUNT, 0, 0);
-	for (int i = 0; i < CSProtoCount; ++i) {
+	for (int i = 0; i < iCount; ++i) {
 		if (ps[i]->m_szName == nullptr || !*ps[i]->m_szName) continue;
 		if (ps[i]->m_status == ID_STATUS_IDLE)
 			status_mode = ps[i]->m_lastStatus;
