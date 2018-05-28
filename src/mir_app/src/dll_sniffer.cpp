@@ -180,9 +180,14 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 
 					// patch version
 					if (dwVersion) {
+						BYTE *pVersionRes = &pSecStart[dwVersion];
+						size_t cbLen = *(WORD*)pVersionRes;
+						mir_ptr<BYTE> pData((BYTE*)mir_alloc(cbLen));
+						memcpy(pData, pVersionRes, cbLen);
+
 						UINT blockSize;
 						VS_FIXEDFILEINFO *vsffi;
-						VerQueryValue(&pSecStart[dwVersion], L"\\", (PVOID*)&vsffi, &blockSize);
+						VerQueryValue(pData, L"\\", (PVOID*)&vsffi, &blockSize);
 
 						UINT v[4] = { MIRANDA_VERSION_COREVERSION };
 						if (MAKELONG(v[1], v[0]) == (int)vsffi->dwProductVersionMS && MAKELONG(v[3], v[2]) == (int)vsffi->dwProductVersionLS)
