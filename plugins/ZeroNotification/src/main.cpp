@@ -83,7 +83,7 @@ static INT_PTR NoSoundMenuCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	if (!db_get_b(NULL, MODULENAME, "HideMenu", 1)) {
 		CreateServiceFunction(MODULENAME "/MenuCommand", NoSoundMenuCommand);
@@ -102,12 +102,5 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SoundSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

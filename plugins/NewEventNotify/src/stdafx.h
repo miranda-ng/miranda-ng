@@ -151,6 +151,8 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 struct PLUGIN_OPTIONS

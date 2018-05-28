@@ -231,7 +231,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog);
 
@@ -250,7 +250,7 @@ extern "C" int __declspec(dllexport) Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	WindowList_Destroy(hChangeSoundDlgList);
 	return 0;

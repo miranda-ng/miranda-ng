@@ -130,7 +130,7 @@ int HookedOptions(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
 	HookEvent(ME_OPT_INITIALISE, HookedOptions);
@@ -139,12 +139,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	return 0;
-}
 
 //-------------------------------------
 //---Check Window Message function

@@ -18,6 +18,8 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 #define DEFAULT_NOSOUND		0x00000000

@@ -67,7 +67,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return CTooltipNotify::GetObjInstance()->ModulesLoaded(wParam, lParam);
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	g_pTooltipNotify = new CTooltipNotify();
 	assert(g_pTooltipNotify!=nullptr);
@@ -78,7 +78,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	if (g_hContactSettingChanged) UnhookEvent(g_hContactSettingChanged);
 	if (g_hProtoContactIsTyping) UnhookEvent(g_hProtoContactIsTyping);

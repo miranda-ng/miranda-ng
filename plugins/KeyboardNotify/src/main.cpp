@@ -924,7 +924,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	GetWindowsVersion();
 	OpenKeyboardDevice();
@@ -937,7 +937,7 @@ extern "C" __declspec(dllexport) int Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unload
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	UnhookWindowsHooks();
 

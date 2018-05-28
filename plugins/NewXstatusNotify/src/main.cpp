@@ -1144,7 +1144,7 @@ static int OnShutdown(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	g_plugin.registerIcon(LPGEN("New Status Notify"), iconList, MODULE);
 
@@ -1188,7 +1188,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	DestroyHookableEvent(hHookContactStatusChanged);
 	return 0;
