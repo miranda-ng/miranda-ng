@@ -1,5 +1,8 @@
 #include "stdafx.h"
 
+HANDLE g_hCLibsFolder = nullptr;
+HANDLE g_hScriptsFolder = nullptr;
+
 CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L)
 	: L(L)
 {

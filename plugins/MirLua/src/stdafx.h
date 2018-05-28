@@ -37,7 +37,7 @@
 
 class CMLuaScript;
 
-#include "mplugin.h"
+#include "plugin.h"
 #include "modules.h"
 #include "environment.h"
 #include "script.h"
@@ -49,7 +49,8 @@ class CMLuaScript;
 
 #define MODULENAME "MirLua"
 
-extern int hMLuaLangpack;
+extern int g_hMLuaLangpack;
+extern PLUGININFOEX g_pluginInfoEx;
 
 extern HANDLE g_hCLibsFolder;
 extern HANDLE g_hScriptsFolder;
@@ -59,12 +60,18 @@ extern HANDLE g_hScriptsFolder;
 	#define MIRLUA_PATHT MIRANDA_PATH "\\Scripts"
 #endif
 
-/* modules */
+extern HNETLIBUSER g_hNetlib;
+void LoadNetlib();
+void UnloadNetlib();
 
+void LoadIcons();
+HICON GetIcon(int iconId);
+HANDLE GetIconHandle(int iconId);
+
+int OnOptionsInit(WPARAM wParam, LPARAM);
 
 /* utils */
 
-extern HNETLIBUSER hNetlib;
 void Log(const char *format, ...);
 void Log(const wchar_t *format, ...);
 
@@ -80,7 +87,3 @@ int luaM_pcall(lua_State *L, int n = 0, int r = 0);
 int luaM_getenv(lua_State *L);
 
 bool luaM_toboolean(lua_State *L, int idx);
-
-void InitIcons();
-HICON GetIcon(int iconId);
-HANDLE GetIconHandle(int iconId);

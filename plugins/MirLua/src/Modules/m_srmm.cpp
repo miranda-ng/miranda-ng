@@ -51,8 +51,7 @@ static int lua_AddButton(lua_State *L)
 	HANDLE res = Srmm_AddButton(&bbb, hScriptLangpack);
 	CleanBBButton(bbb);
 	
-	if (!res)
-	{
+	if (!res) {
 		lua_pushnil(L);
 		return 1;
 	}
@@ -82,8 +81,7 @@ static int lua_RemoveButton(lua_State *L)
 {
 	BBButton bbb = {};
 
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TSTRING:
 		bbb.pszModuleName = mir_utf8decodeA(lua_tostring(L, 1));
 		bbb.dwButtonID = luaL_checkinteger(L, 2);

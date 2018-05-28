@@ -165,7 +165,7 @@ static const luaL_Reg contentApi[] =
 static NETLIBHTTPREQUEST* response_Create(lua_State *L, NETLIBHTTPREQUEST *request)
 {
 	NETLIBHTTPREQUEST **response = (NETLIBHTTPREQUEST**)lua_newuserdata(L, sizeof(NETLIBHTTPREQUEST*));
-	*response = Netlib_HttpTransaction(hNetlib, request);
+	*response = Netlib_HttpTransaction(g_hNetlib, request);
 	luaL_setmetatable(L, MT_NETLIBHTTPRESPONSE);
 
 	return *response;

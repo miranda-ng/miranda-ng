@@ -1,8 +1,21 @@
 #include "stdafx.h"
 
-extern PLUGININFOEX pluginInfoEx;
+int g_hMLuaLangpack;
+CMPlugin g_plugin;
 
-int hMLuaLangpack;
+PLUGININFOEX pluginInfoEx =
+{
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {27d41d81-991f-4dc6-8749-b0321c87e694}
+	{ 0x27d41d81, 0x991f, 0x4dc6,{ 0x87, 0x49, 0xb0, 0x32, 0x1c, 0x87, 0xe6, 0x94 } }
+};
 
 CMPlugin::CMPlugin()
 	: PLUGIN(MODULENAME, pluginInfoEx),
@@ -10,7 +23,7 @@ CMPlugin::CMPlugin()
 	Scripts(1)
 {
 	MUUID muidLast = MIID_LAST;
-	hMLuaLangpack = GetPluginLangId(muidLast, 0);
+	g_hMLuaLangpack = GetPluginLangId(muidLast, 0);
 
 	RegisterProtocol(PROTOTYPE_FILTER);
 
@@ -19,12 +32,7 @@ CMPlugin::CMPlugin()
 	CreatePluginService(MS_LUA_EVAL, &CMPlugin::Eval);
 }
 
-CMPlugin::~CMPlugin()
-{
-	Unload();
-}
-
-int CMPlugin::Load()
+void CMPlugin::LoadLua()
 {
 	Log("Loading lua engine");
 	L = luaL_newstate();
@@ -36,31 +44,58 @@ int CMPlugin::Load()
 	CMLuaFunctionLoader::Load(L);
 	CMLuaModuleLoader::Load(L);
 	CMLuaScriptLoader::Load(L);
-	return 0;
 }
 
-int CMPlugin::Unload()
+void CMPlugin::UnloadLua()
 {
 	Log("Unloading lua engine");
 
 	Scripts.destroy();
 
-	KillModuleIcons(hMLuaLangpack);
-	KillModuleSounds(hMLuaLangpack);
-	KillModuleMenus(hMLuaLangpack);
-	KillModuleHotkeys(hMLuaLangpack);
+	KillModuleIcons(g_hMLuaLangpack);
+	KillModuleSounds(g_hMLuaLangpack);
+	KillModuleMenus(g_hMLuaLangpack);
+	KillModuleHotkeys(g_hMLuaLangpack);
 
 	KillObjectEventHooks(L);
 	KillObjectServices(L);
 
 	lua_close(L);
-	return 0;
 }
 
 void CMPlugin::Reload()
 {
 	Unload();
 	Load();
+}
+
+/***********************************************/
+
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	g_hCLibsFolder = FoldersRegisterCustomPathT(MODULENAME, "CLibsFolder", MIRLUA_PATHT, TranslateT("C libs folder"));
+	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULENAME, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
+
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
+	return 0;
+}
+
+int CMPlugin::Load()
+{
+	LoadIcons();
+	LoadNetlib();
+	LoadLua();
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+
+	return 0;
+}
+
+int CMPlugin::Unload()
+{
+	UnloadLua();
+	UnloadNetlib();
+	return 0;
 }
 
 /***********************************************/

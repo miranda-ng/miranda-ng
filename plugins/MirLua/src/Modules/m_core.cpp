@@ -89,12 +89,12 @@ static int core_HookTemporaryEvent(lua_State *L)
 static int core_UnhookEvent(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
-	HANDLE hEvent = lua_touserdata(L, 1);
+	HANDLE hHook = lua_touserdata(L, 1);
 
 	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
 	int res = env != nullptr
-		? env->UnhookEvent(hEvent)
-		: UnhookEvent(hEvent);
+		? env->UnhookEvent(hHook)
+		: UnhookEvent(hHook);
 	lua_pushboolean(L, !res);
 
 	return 1;

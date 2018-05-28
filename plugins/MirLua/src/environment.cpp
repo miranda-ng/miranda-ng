@@ -46,7 +46,7 @@ int CMLuaEnvironment::GetEnvironmentId(lua_State *L)
 	CMLuaEnvironment *env = GetEnvironment(L);
 	return env != nullptr
 		? env->m_hLang
-		: hMLuaLangpack;
+		: g_hMLuaLangpack;
 }
 
 static int HookEventEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)

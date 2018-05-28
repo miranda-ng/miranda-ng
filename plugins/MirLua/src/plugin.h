@@ -1,5 +1,4 @@
-#ifndef _LUA_CORE_H_
-#define _LUA_CORE_H_
+#pragma once
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
@@ -7,6 +6,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 private:
 	lua_State *L;
+
+	void LoadLua();
+	void UnloadLua();
 
 	INT_PTR __cdecl Eval(WPARAM, LPARAM);
 	INT_PTR __cdecl Call(WPARAM, LPARAM);
@@ -16,12 +18,9 @@ public:
 	OBJLIST<CMLuaScript> Scripts;
 
 	CMPlugin();
-	~CMPlugin();
+
+	void Reload();
 
 	int Load() override;
 	int Unload() override;
-
-	void Reload();
 };
-
-#endif //_LUA_CORE_H_

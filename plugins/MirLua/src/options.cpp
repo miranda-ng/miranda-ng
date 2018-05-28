@@ -129,3 +129,18 @@ void CMLuaOptions::OnReload(CCtrlBase*)
 	LoadScripts();
 	isScriptListInit = true;
 }
+
+/***********************************************/
+
+int OnOptionsInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.hInstance = g_plugin.getInst();
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
+	odp.szGroup.w = LPGENW("Services");
+	odp.szTitle.w = L"Lua";
+	odp.szTab.w = LPGENW("Scripts");
+	odp.pDialog = new CMLuaOptions();
+	g_plugin.addOptions(wParam, &odp);
+	return 0;
+}

@@ -1,5 +1,7 @@
 #include "../stdafx.h"
 
+#define MT_CONTACT "CONTACT"
+
 void luaM_pushdbvt(lua_State *L, const DBVARIANT &value)
 {
 	switch (value.type) {
@@ -134,7 +136,7 @@ static int db_GetContactInfo(lua_State *L)
 
 static int db_GetEventCount(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 
 	int res = db_event_count(hContact);
 	lua_pushinteger(L, res);
@@ -144,7 +146,7 @@ static int db_GetEventCount(lua_State *L)
 
 static int db_GetFirstEvent(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 
 	MEVENT res = db_event_first(hContact);
 	lua_pushinteger(L, res);
@@ -154,7 +156,7 @@ static int db_GetFirstEvent(lua_State *L)
 
 static int db_GetPrevEvent(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 	MEVENT hDbEvent = luaL_checkinteger(L, 2);
 
 	MEVENT res = db_event_prev(hContact, hDbEvent);
@@ -165,7 +167,7 @@ static int db_GetPrevEvent(lua_State *L)
 
 static int db_GetNextEvent(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 	MEVENT hDbEvent = luaL_checkinteger(L, 2);
 
 	MEVENT res = db_event_next(hContact, hDbEvent);
@@ -176,7 +178,7 @@ static int db_GetNextEvent(lua_State *L)
 
 static int db_GetLastEvent(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 
 	MEVENT res = db_event_last(hContact);
 	lua_pushinteger(L, res);
@@ -186,7 +188,7 @@ static int db_GetLastEvent(lua_State *L)
 
 static int db_GetFirstUnreadEvent(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 
 	MEVENT res = db_event_firstUnread(hContact);
 	lua_pushinteger(L, res);
@@ -216,7 +218,7 @@ static int db_EventIterator(lua_State *L)
 
 static int db_Events(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 
 	lua_pushinteger(L, hContact);
 	lua_pushinteger(L, NULL);
@@ -247,7 +249,7 @@ static int db_EventReverseIterator(lua_State *L)
 
 static int db_EventsFromEnd(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 
 	lua_pushinteger(L, hContact);
 	lua_pushinteger(L, NULL);
@@ -276,7 +278,7 @@ static int db_UnreadEventIterator(lua_State *L)
 
 static int db_UnreadEvents(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 
 	lua_pushinteger(L, hContact);
 	lua_pushinteger(L, NULL);
@@ -327,8 +329,8 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 
 static int db_AddEvent(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
-	
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
+
 	DBEVENTINFO dbei;
 	MakeDbEvent(L, dbei);
 	MEVENT hDbEvent = db_event_add(hContact, &dbei);
@@ -341,9 +343,20 @@ static int db_AddEvent(lua_State *L)
 	return 1;
 }
 
+static int db_DeleteEvent(lua_State *L)
+{
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
+	MEVENT hDbEvent = luaL_checkinteger(L, 2);
+
+	int res = db_event_delete(hContact, hDbEvent);
+	lua_pushboolean(L, res == 0);
+
+	return 1;
+}
+
 static int db_MarkReadEvent(lua_State *L)
 {
-	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 	MEVENT hDbEvent = luaL_checkinteger(L, 2);
 
 	int res = db_event_markRead(hContact, hDbEvent);
@@ -398,7 +411,7 @@ static int db_Modules(lua_State *L)
 
 static int db_DeleteModule(lua_State *L)
 {
-	MCONTACT hContact = lua_tointeger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 	const char *szModule = luaL_checkstring(L, 2);
 
 	INT_PTR res = db_delete_module(hContact, szModule);
@@ -437,7 +450,7 @@ static int db_SettingIterator(lua_State *L)
 
 static int db_Settings(lua_State *L)
 {
-	MCONTACT hContact = lua_tointeger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 	const char* szModule = luaL_checkstring(L, 2);
 
 	LIST<char> *param = new LIST<char>(5, PtrKeySortT);
@@ -452,7 +465,7 @@ static int db_Settings(lua_State *L)
 
 static int db_GetSetting(lua_State *L)
 {
-	MCONTACT hContact = lua_tointeger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 	const char *szModule = luaL_checkstring(L, 2);
 	const char *szSetting = luaL_checkstring(L, 3);
 
@@ -475,7 +488,7 @@ static int db_GetSetting(lua_State *L)
 
 static int db_WriteSetting(lua_State *L)
 {
-	MCONTACT hContact = lua_tointeger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 	const char *szModule = luaL_checkstring(L, 2);
 	const char *szSetting = luaL_checkstring(L, 3);
 	luaL_checkany(L, 4);
@@ -549,7 +562,7 @@ static int db_WriteSetting(lua_State *L)
 
 static int db_DeleteSetting(lua_State *L)
 {
-	MCONTACT hContact = lua_tointeger(L, 1);
+	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 	LPCSTR szModule = luaL_checkstring(L, 2);
 	LPCSTR szSetting = luaL_checkstring(L, 3);
 
@@ -577,6 +590,7 @@ static luaL_Reg databaseApi[] =
 	{ "EventsFromEnd", db_EventsFromEnd },
 	{ "UnreadEvents", db_UnreadEvents },
 	{ "AddEvent", db_AddEvent },
+	{ "DeleteEvent", db_DeleteEvent },
 	{ "MarkReadEvent", db_MarkReadEvent },
 
 	{ "Settings", db_Settings },

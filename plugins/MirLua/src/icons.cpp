@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-IconItem Icons[] =
+static IconItem Icons[] =
 {
 	{ LPGEN("Script"), "script", IDI_SCRIPT },
 	{ LPGEN("Loaded"), "loaded", IDI_LOADED },
@@ -9,7 +9,7 @@ IconItem Icons[] =
 	{ LPGEN("Reload"), "reload", IDI_RELOAD },
 };
 
-void InitIcons()
+void LoadIcons()
 {
 	g_plugin.registerIcon(MODULENAME, Icons, MODULENAME);
 }
