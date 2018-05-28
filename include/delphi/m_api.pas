@@ -143,6 +143,7 @@ type
 type
   PCMPlugin = ^CMPlugin;
   CMPlugin = record
+    vft        : pointer;  // virtual function table
     m_hInst    : THANDLE;
     m_szModule : PAnsiChar;
     m_pInfo    : PPLUGININFOEX;
