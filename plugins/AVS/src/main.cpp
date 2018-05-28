@@ -356,7 +356,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	LoadACC();
 
@@ -384,7 +384,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	UninitPolls();
 	UnloadCache();
