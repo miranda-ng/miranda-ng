@@ -126,7 +126,10 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 			// Export information entry
 			DWORD expAddr = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
 			DWORD expSize = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
-			if (expSize < sizeof(IMAGE_EXPORT_DIRECTORY)) __leave;
+			if (expSize == 0)
+				nChecks++;
+			else if (expSize < sizeof(IMAGE_EXPORT_DIRECTORY))
+				__leave;
 
 			BYTE* pImage = ptr + pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
 
@@ -144,21 +147,14 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 					DWORD *ptrFuncList = (DWORD*)&pSecStart[pED->AddressOfFunctions];
 
 					MUUID *pIds = nullptr;
-					bool bHasLoad = false, bHasUnload = false, bHasMuuids = false;
+					bool bHasMuuids = false;
 					for (size_t i = 0; i < pED->NumberOfNames; i++, ptrRVA++, ptrOrdRVA++) {
 						char *szName = (char*)&pSecStart[*ptrRVA];
-						if (!mir_strcmp(szName, "Load"))
-							bHasLoad = true;
-						else if (!mir_strcmp(szName, "Unload"))
-							bHasUnload = true;
-						else if (!mir_strcmp(szName, "MirandaInterfaces")) {
+						if (!mir_strcmp(szName, "MirandaInterfaces")) {
 							bHasMuuids = true;
 							pIds = (MUUID*)&pSecStart[ptrFuncList[*ptrOrdRVA]];
 						}
 					}
-
-					if (!bHasLoad || !bHasUnload)
-						__leave;
 
 					nChecks++;
 
