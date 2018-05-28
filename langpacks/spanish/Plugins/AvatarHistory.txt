@@ -35,12 +35,12 @@ Acciones
 Previsualizar
 [Avatars]
 Avatares
-[History]
-Historial
 [Do nothing]
 No hacer nada
 [Close popup]
 Cerrar popup
+[History]
+Historial
 [Popups]
 Ventanas emergentes
 [Unknown protocol]

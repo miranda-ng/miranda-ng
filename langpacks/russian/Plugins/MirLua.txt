@@ -17,12 +17,6 @@
 Общее
 [Popup on obsolete methods]
 Показать всплывающее окно при вызове устаревших методов
-[Services]
-Службы
-[C libs folder]
-Папка с библиотеками C
-[Scripts folder]
-Папка со скриптами
 [Script]
 Скрипт
 [Loaded]
@@ -35,3 +29,9 @@
 Перегрузить
 [Common scripts]
 Общие скрипты
+[Services]
+Службы
+[C libs folder]
+Папка с библиотеками C
+[Scripts folder]
+Папка со скриптами

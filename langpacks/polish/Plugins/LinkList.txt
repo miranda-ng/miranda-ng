@@ -128,8 +128,6 @@ Filtr wyszukiwania
 [no settings]
 brak ustawień
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[&Create Linklist]
-&Utwórz listę linków
 [History]
 Historia
 [Processing history...]
@@ -138,6 +136,8 @@ Przetwarzanie historii...
 Nie można utworzyć okna!
 [Could not allocate memory!]
 Nie można przydzielić pamięci!
+[&Create Linklist]
+&Utwórz listę linków
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist plugin]
 Lista linków

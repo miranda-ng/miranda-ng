@@ -128,8 +128,6 @@ Odlazni
 [no settings]
 
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[&Create Linklist]
-
 [History]
 Istorija
 [Processing history...]
@@ -137,6 +135,8 @@ Istorija
 [Could not create window!]
 
 [Could not allocate memory!]
+
+[&Create Linklist]
 
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist plugin]

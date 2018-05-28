@@ -53,6 +53,18 @@ WUMF: Текущие соединения
 Будут доступны в следующей версии
 [Show current connections]
 Показать соединения
+[Popup plugin not found!]
+Не установлен плагин Popup!
+[Error]
+Ошибка
+[Common Dialog Error 0x%lx]
+Ошибка диалога 0x%lx
+[Not implemented yet...]
+Ещё не реализовано...
+[Who uses my files]
+Используемые файлы
+[Services]
+Службы
 [User]
 Пользователь
 [File]
@@ -67,24 +79,12 @@ WUMF: Текущие соединения
 Ошибка выделения памяти
 [Error creating menu]
 Ошибка создания меню
-[Popup plugin not found!]
-Не установлен плагин Popup!
-[Error]
-Ошибка
 [Enable WUMF popups]
 Включить окна WUMF
 [Disable WUMF popups]
 Выключить окна WUMF
-[Common Dialog Error 0x%lx]
-Ошибка диалога 0x%lx
-[Not implemented yet...]
-Ещё не реализовано...
 [Show connections list]
 Показать список подключений
-[Who uses my files]
-Используемые файлы
-[Services]
-Службы
 [Popups]
 Всплывающие окна
 [WUMF: Show connections]

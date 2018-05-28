@@ -36,12 +36,11 @@ Aber Unterkont. des Prot. in Liste lassen, wenn Metakont. verst. ist
 Namen eingeben:
 [Show all contacts (Ctrl+A)]
 Alle Kontakte anzeigen (Strg+A)
-;file \plugins\QuickContacts\src\options.cpp
-[Quick Contacts]
-Schnellkontakte
-;file \plugins\QuickContacts\src\quickcontacts.cpp
-[Open dialog]
-Dialog öffnen
+;file \plugins\QuickContacts\src\dialog.cpp
+[Show all contacts]
+Alle Kontakte zeigen
+[Send message]
+Nachricht senden
 [Send file]
 Datei senden
 [Send URL]
@@ -52,9 +51,11 @@ Benutzerprofil öffnen
 Verlauf öffnen
 [Open contact menu]
 Kontaktmenü öffnen
-[Show all contacts]
-Alle Kontakte zeigen
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Schnellkontakte
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Dialog öffnen
 [Quick Contacts...]
 Schnellkontakte...
-[Send message]
-Nachricht senden

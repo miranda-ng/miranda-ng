@@ -125,8 +125,6 @@
 Пошуковий фільтр
 [no settings]
 без налаштувань
-[&Create Linklist]
-&Створити список
 [History]
 Історія
 [Processing history...]
@@ -135,6 +133,8 @@
 Неможливо створити вікно!
 [Could not allocate memory!]
 Не вдається виділити пам'ять!
+[&Create Linklist]
+&Створити список
 [Linklist plugin]
 Плагін Linklist
 [Matches for searchtext]

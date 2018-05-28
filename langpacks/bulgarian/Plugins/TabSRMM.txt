@@ -1661,8 +1661,6 @@ Latin I
 Вертикални бутони с аватари
 [This version of TabSRMM requires Windows 2000 or later.]
 TabSRMM изисква Windows версия 2000 или по-нова.
-[TabSRMM message (%s)]
-TabSRMM съобщение (%s)
 [Previews not available when using History++ plugin for message log display.]
 Миниатюрите не са налични при ползване на приставката History++ за изобразяване на дневника
 [%d unread]
@@ -1871,6 +1869,8 @@ TabSRMM съобщение (%s)
 Винаги IEView
 [Set messaging options for %s]
 Настройки на разговорите с %s
+[TabSRMM message (%s)]
+TabSRMM съобщение (%s)
 [Important release notes|A test warning message]
 Важни бележки за изданието|Съобщение за тест
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]

@@ -129,8 +129,6 @@ Kontakt změnil svůj avatar
 [Contact removed avatar]
 Kontakt odstranil svůj avatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
-[History]
-Historie
 [Avatar overlay]
 Překrytí avataru
 ;file \plugins\AvatarHistory\src\options.cpp
@@ -146,6 +144,8 @@ Zobrazit historii kontaktu
 Testovací kontakt
 [Test description]
 Testovací popis
+[History]
+Historie
 [Avatar]
 Avatar
 [Popups]

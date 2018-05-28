@@ -17,12 +17,6 @@
 Загальне
 [Popup on obsolete methods]
 Спливаючі вікна при виклику застарілих методів
-[Services]
-Служби
-[C libs folder]
-Папка з бібліотеками C
-[Scripts folder]
-Папка зі скриптами
 [Script]
 Скрипт
 [Loaded]
@@ -35,3 +29,9 @@
 Перезавантажити
 [Common scripts]
 Загальні скрипти
+[Services]
+Служби
+[C libs folder]
+Папка з бібліотеками C
+[Scripts folder]
+Папка зі скриптами

@@ -125,8 +125,6 @@
 Фильтр поиска
 [no settings]
 без настроек
-[&Create Linklist]
-&Создать Линк-лист
 [History]
 История
 [Processing history...]
@@ -135,6 +133,8 @@
 Невозможно создать окно!
 [Could not allocate memory!]
 Невозможно распределить память!
+[&Create Linklist]
+&Создать Линк-лист
 [Linklist plugin]
 Плагин Linklist
 [Matches for searchtext]

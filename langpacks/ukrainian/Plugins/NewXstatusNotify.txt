@@ -229,6 +229,10 @@ xСтатуси
 ** Усі контакти **
 [(default sound)]
 (за замовчанням)
+[Notification enabled]
+Сповіщення ввімкнено
+[Notification disabled]
+Сповіщення вимкнено
 [<no status message>]
 <немає повідомлення статусу>
 [Contact]
@@ -345,14 +349,10 @@ xСтатуси
 Увімкнути сповіщення про зміну статусу
 [Disable status notification]
 Вимкнути сповіщення про зміну статусу
-[Notification enabled]
-Сповіщення ввімкнено
-[Notification disabled]
-Сповіщення вимкнено
-[New Status Notify]
-Зміна статусу
 [Toggle status notification]
 Увімк./вимк. сповіщення про зміну статусу
+[New Status Notify]
+Зміна статусу
 [Status change]
 Зміна статусу
 [All Files]

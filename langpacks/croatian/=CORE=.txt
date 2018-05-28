@@ -923,11 +923,9 @@ Zahtjev za prihvaćanje
 
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 
-[e.g., dbx mmap]
-
 [Driver]
 
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
 
 [Download more plugins]
 
@@ -2082,7 +2080,7 @@ Prika&ži/sakrij popis nadimaka
 
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 
 [Miranda was unable to open '%s', it's in an unknown format.]
 

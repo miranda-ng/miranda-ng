@@ -149,9 +149,9 @@ Ukryj moje dane
 Poprzednie konto
 [Next account]
 Następne konto
+;file \plugins\MyDetails\src\options.cpp
 [Contact list]
 Lista kontaktów
-;file \plugins\MyDetails\src\options.cpp
 ;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Ustaw mój nick dla %s

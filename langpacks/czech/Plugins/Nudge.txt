@@ -79,22 +79,22 @@ Statický
 [Shaking Message Window Options]
 Možnosti komunikačního okna
 ;file \plugins\Nudge\src\main.cpp
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Upozornění: Drcnutí lze opakovat jen jednou za %d sek. (%d sek. zbývá)
-[Nudge]
-Drcnutí
-[Default Nudge]
-Výchozí drcnutí
 [Nudge as Default]
 Drcnutí jako výchozí
-[Send nudge]
-Drc-drc
-[Send &nudge]
-&Drc-drc
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Upozornění: Drcnutí lze opakovat jen jednou za %d sek. (%d sek. zbývá)
 [Show Nudge]
 Drcnutí
 [Nudge for %s]
 Drcnutí v síti %s
+[Nudge]
+Drcnutí
+[Default Nudge]
+Výchozí drcnutí
+[Send nudge]
+Drc-drc
+[Send &nudge]
+&Drc-drc
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 No tak, probuď se!

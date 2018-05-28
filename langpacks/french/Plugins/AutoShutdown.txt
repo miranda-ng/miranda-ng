@@ -75,8 +75,6 @@ EN PAUSE
 Figer le compte à rebours
 [&Cancel countdown]
 &Annuler le compte à rebours
-[AutoShutdown]
-
 [Countdown on frame]
 Compte à rebours en image
 [Background]
@@ -185,6 +183,9 @@ Vous déconnecte de tous vos protocoles et coupe votre connexion Internet.
 Notifications
 [Automatic shutdown countdown]
 Compte à rebours de Automatic Shutdown
+;file \plugins\AutoShutdown\src\stdafx.h
+[AutoShutdown]
+
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle automatic shutdown]
 Automatic Shutdown

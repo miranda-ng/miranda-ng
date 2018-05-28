@@ -121,8 +121,6 @@ Avatar History: Аватарът не може да бъде записан
 Контакт смени аватар
 [Contact removed avatar]
 Контакт премахна аватар
-[History]
-История
 [Avatar overlay]
 Насложени над аватара икони
 [Do nothing]
@@ -137,6 +135,8 @@ Avatar History: Аватарът не може да бъде записан
 Тестови контакт
 [Test description]
 Тестово описание
+[History]
+История
 [Avatar]
 Аватар
 [Popups]

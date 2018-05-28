@@ -128,8 +128,6 @@ Suchfilter
 [no settings]
 keine Einstellungen
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[&Create Linklist]
-Linkliste erstellen
 [History]
 Verlauf
 [Processing history...]
@@ -138,6 +136,8 @@ Verlauf wird verarbeitet...
 Fenster konnte nicht erzeugt werden!
 [Could not allocate memory!]
 Speicher konnte nicht belegt werden!
+[&Create Linklist]
+Linkliste erstellen
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist plugin]
 Linklisten-Plugin

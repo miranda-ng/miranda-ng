@@ -77,22 +77,22 @@
 Статычны
 [Shaking Message Window Options]
 Трасенне вакна паведамленняў
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Нельга пасылаць шмат падтрэсванняў (толькі 1 кожныя %d сек, %d сек засталося)
-[Nudge]
-Трасенне
-[Default Nudge]
-Буздільнік па змаўчанні
 [Nudge as Default]
 Абудзіць (па змаўчанні)
-[Send nudge]
-Страсянуць
-[Send &nudge]
-Абудзіць
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Нельга пасылаць шмат падтрэсванняў (толькі 1 кожныя %d сек, %d сек засталося)
 [Show Nudge]
 Патрэсці
 [Nudge for %s]
 Будзільнік для %s
+[Nudge]
+Трасенне
+[Default Nudge]
+Буздільнік па змаўчанні
+[Send nudge]
+Страсянуць
+[Send &nudge]
+Абудзіць
 [You received a nudge]
 Вас падтрэслі
 [You sent a nudge]

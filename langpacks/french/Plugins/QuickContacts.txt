@@ -36,11 +36,10 @@ Contacts
 
 [Show all contacts (Ctrl+A)]
 
-;file \plugins\QuickContacts\src\options.cpp
-[Quick Contacts]
+;file \plugins\QuickContacts\src\dialog.cpp
+[Show all contacts]
 
-;file \plugins\QuickContacts\src\quickcontacts.cpp
-[Open dialog]
+[Send message]
 
 [Send file]
 Envoyer un fichier
@@ -52,9 +51,11 @@ Envoyer un fichier
 Ouvrir historique
 [Open contact menu]
 
-[Show all contacts]
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
 
 [Quick Contacts...]
-
-[Send message]
 

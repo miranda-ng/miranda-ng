@@ -79,22 +79,22 @@ Statyczne
 [Shaking Message Window Options]
 Opcje potrząsania oknem rozmowy
 ;file \plugins\Nudge\src\main.cpp
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Nie możesz wysyłać za dużo nudge'ów (tylko 1 co %d s, zostało %d s)
-[Nudge]
-Poproś o uwagę
-[Default Nudge]
-Domyślny Nudge
 [Nudge as Default]
 Nudge jako domyślny
-[Send nudge]
-Wyślij nudge
-[Send &nudge]
-Wyślij &nudge
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Nie możesz wysyłać za dużo nudge'ów (tylko 1 co %d s, zostało %d s)
 [Show Nudge]
 Pokaż Nudge
 [Nudge for %s]
 Nudge dla %s
+[Nudge]
+Poproś o uwagę
+[Default Nudge]
+Domyślny Nudge
+[Send nudge]
+Wyślij nudge
+[Send &nudge]
+Wyślij &nudge
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 Otrzymałeś nudge

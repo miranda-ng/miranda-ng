@@ -54,6 +54,19 @@ Podaj nazwę komputera wraz z nazwą użytkownika w powiadomieniu
 Wyłączone opcje będą dostępne w następnej wersji
 [Show current connections]
 Pokaż aktualne połączenia
+;file \plugins\WhoUsesMyFiles\src\options.cpp
+[Popup plugin not found!]
+Nie znaleziono wtyczki Popup!
+[Error]
+Błąd
+[Common Dialog Error 0x%lx]
+Powszechny błąd dialogu 0x%lx
+[Not implemented yet...]
+Jeszcze nie zaimplementowano...
+[Who uses my files]
+Who uses my files
+[Services]
+Usługi
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
 Użytkownik
@@ -70,24 +83,12 @@ Błąd alokacji pamięci
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Błąd tworzenia menu
-[Popup plugin not found!]
-Nie znaleziono wtyczki Popup!
-[Error]
-Błąd
 [Enable WUMF popups]
 Włącz popupy WUMF
 [Disable WUMF popups]
 Wyłącz popupy WUMF
-[Common Dialog Error 0x%lx]
-Powszechny błąd dialogu 0x%lx
-[Not implemented yet...]
-Jeszcze nie zaimplementowano...
 [Show connections list]
 Pokaż listę połączeń
-[Who uses my files]
-Who uses my files
-[Services]
-Usługi
 [Popups]
 Popupy
 [WUMF: Show connections]

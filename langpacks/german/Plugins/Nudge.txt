@@ -79,22 +79,22 @@ Statisch
 [Shaking Message Window Options]
 Schütteln des Nachrichtenfensters
 ;file \plugins\Nudge\src\main.cpp
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Sie dürfen nur 1 Nudge in %d Sekunden senden, warten Sie noch %d Sekunden.
-[Nudge]
-Nudge
-[Default Nudge]
-Standardnudge
 [Nudge as Default]
 Standard Nudge
-[Send nudge]
-Nudge senden
-[Send &nudge]
-&Nudge senden
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Sie dürfen nur 1 Nudge in %d Sekunden senden, warten Sie noch %d Sekunden.
 [Show Nudge]
 Zeige Nudge
 [Nudge for %s]
 Nudge für %s
+[Nudge]
+Nudge
+[Default Nudge]
+Standardnudge
+[Send nudge]
+Nudge senden
+[Send &nudge]
+&Nudge senden
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 Sie bekamen ein Nudge

@@ -149,9 +149,9 @@ Skrýt informace o sobě
 Předchozí účet
 [Next account]
 Další účet
+;file \plugins\MyDetails\src\options.cpp
 [Contact list]
 Seznam kontaktů
-;file \plugins\MyDetails\src\options.cpp
 ;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Nastavit přezdívku pro %s

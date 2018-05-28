@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Popup.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.12
+;  Version: 2.1.1.14
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -357,8 +357,6 @@ Popup Plus Предупреждение
 Обновяване на списъка
 [Notify]
 Уведомяване
-[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-Обликът който се опитвате да заредите е разработен\r\nза по-нова версия на Popup Plus. Затова\r\nняма да работи нормално.\r\n\r\nМоля, изберете друг облик.
 [Auto]
 Авто
 [Favorite]

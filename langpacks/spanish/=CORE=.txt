@@ -913,12 +913,10 @@ Perfil
 Ejemplo: Trabajo
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Puede seleccionar un controlador de perfil diferente del predeterminado, puede ofrecer más características o habilidades, en caso de duda usar el predeterminado.
-[e.g., dbx mmap]
-Ejemplo: dbx mmap
 [Driver]
 Controlador
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Problema: No se puede encontrar ningún controlador de base de datos, esto significa que no se puede crear un nuevo perfil, necesita obtener dbx_mmap.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
+Problema: No se puede encontrar ningún controlador de base de datos, esto significa que no se puede crear un nuevo perfil, necesita obtener dbx_mdbx.dll
 [Download more plugins]
 Descargar más plugins
 [Author(s):]
@@ -1927,8 +1925,8 @@ Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover
 Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el perfil %s a la nueva ubicación %s automáticamente\nLo más probable es por falta de privilegios. Por favor, mueva el perfil manualmente.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mmap.dll
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
+Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda no pudo abrir '%s', está en un formato desconocido.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

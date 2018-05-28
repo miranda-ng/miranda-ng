@@ -75,8 +75,6 @@ Zatrzymano
 &Wstrzymaj odliczanie
 [&Cancel countdown]
 &Anuluj odliczanie
-[AutoShutdown]
-Autowyłączanie
 [Countdown on frame]
 Odliczanie w ramce
 [Background]
@@ -185,6 +183,9 @@ Ustawia status wszystkich protokołów na Rozłączony i zamyka połączenia RAS
 Alarmy
 [Automatic shutdown countdown]
 Odliczanie autowyłączania
+;file \plugins\AutoShutdown\src\stdafx.h
+[AutoShutdown]
+Autowyłączanie
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle automatic shutdown]
 Przełącznik autowyłączania

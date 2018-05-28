@@ -923,12 +923,10 @@ Profil
 z. B. Arbeitsplatz
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Sie können einen anderen Datenbanktreiber mit mehr Funktionen und Möglichkeiten als der Standardtreiber verwenden, wenn Sie sich unsicher sind, verwenden Sie den Standardtreiber.
-[e.g., dbx mmap]
-z. B. dbx mmap
 [Driver]
 Treiber
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Problem: Kann keinen Datenbanktreiber finden, das heißt, dass Sie kein neues Profil erstellen können, Sie benötigen dbx_mmap.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
+Problem: Kann keinen Datenbanktreiber finden, das heißt, dass Sie kein neues Profil erstellen können, Sie benötigen dbx_mdbx.dll
 [Download more plugins]
 Weitere Plugins herunterladen
 [Author(s):]
@@ -2082,8 +2080,8 @@ Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an de
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht automatisch an den neuen Ort %s verschieben\nvermutlich wegen unzureichender Berechtigungen. Bitte verschieben Sie das Profil manuell.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil kann nicht im Miranda-Hauptverzeichnis abgelegt werden.\nBitte verschieben Sie Ihr Miranda-Profil an einen anderen Ort.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mmap.dll oder ein vergleichbares Plugin installiert sein.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
+Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mdbx.dll oder ein vergleichbares Plugin installiert sein.
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda konnte Profil '%s' nicht öffnen, da es in einem unbekannten Format vorliegt.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

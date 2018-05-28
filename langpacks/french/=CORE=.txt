@@ -923,12 +923,10 @@ Profil
 ex : Lieu de travail
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibilités, mais dans le doute, utilisez le pilote par défaut.
-[e.g., dbx mmap]
-ex : dbx mmap
 [Driver]
 Pilote
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Impossible de trouver un plugin de base de données, cela signifie que vous ne pouvez pas créer un nouveau profil, vous devez installer "dbx_mmap.dll"
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
+Impossible de trouver un plugin de base de données, cela signifie que vous ne pouvez pas créer un nouveau profil, vous devez installer "dbx_mdbx.dll"
 [Download more plugins]
 Télécharger plus de plugins
 [Author(s):]
@@ -2082,8 +2080,8 @@ Miranda tente de mettre à jour la structure de votre profil.\nIl ne peut pas d�
 
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Le profil ne peut être placé dans le dossier racine de Miranda.\nVeuillez déplacer le profil à un autre endroit.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Miranda est incapable d'ouvrir '% s' parce que vous n'avez pas de plugins de profil installés.\nVous devez installer dbx_mmap.dll
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
+Miranda est incapable d'ouvrir '% s' parce que vous n'avez pas de plugins de profil installés.\nVous devez installer dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda n'a pas pu ouvrir '%s', ce fichier est dans un format inconnu.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

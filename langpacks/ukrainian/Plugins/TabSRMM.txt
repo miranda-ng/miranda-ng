@@ -1743,8 +1743,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Розширений вигляд з аватарами, вертикальна орієнтація
 [This version of TabSRMM requires Windows 2000 or later.]
 Потрібна Windows 2000 або новіша операційа система.
-[TabSRMM message (%s)]
-TabSRMM: %s
 [Previews not available when using History++ plugin for message log display.]
 Попередній перегляд недоступний при використанні History++ як журналу повідомлень.
 [%d unread]
@@ -1969,6 +1967,8 @@ TabSRMM: %s
 Примусово IEView
 [Set messaging options for %s]
 Налаштування бесід для %s
+[TabSRMM message (%s)]
+TabSRMM: %s
 [Important release notes|A test warning message]
 Важлива інформація про версію|Тестове попередження
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]

@@ -54,6 +54,19 @@ Computername mit Benutzernamen alarmieren
 Deaktivierte Optionen in nächster Version verfügbar
 [Show current connections]
 Aktuelle Verbindungen zeigen
+;file \plugins\WhoUsesMyFiles\src\options.cpp
+[Popup plugin not found!]
+Popup-Plugin nicht gefunden!
+[Error]
+Fehler
+[Common Dialog Error 0x%lx]
+Common Dialog Error 0x%lx
+[Not implemented yet...]
+Noch nicht implementiert...
+[Who uses my files]
+WUMF
+[Services]
+Dienste
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
 Benutzer
@@ -70,24 +83,12 @@ Fehler bei der Speicherzuweisung
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Fehler beim Erstellen des Menus
-[Popup plugin not found!]
-Popup-Plugin nicht gefunden!
-[Error]
-Fehler
 [Enable WUMF popups]
 WUMF-Popups aktivieren
 [Disable WUMF popups]
 WUMF-Popups deaktivieren
-[Common Dialog Error 0x%lx]
-Common Dialog Error 0x%lx
-[Not implemented yet...]
-Noch nicht implementiert...
 [Show connections list]
 Verbindungsliste anzeigen
-[Who uses my files]
-WUMF
-[Services]
-Dienste
 [Popups]
 Popups
 [WUMF: Show connections]

@@ -233,6 +233,10 @@ Plik dźwiękowy
 [(default sound)]
 (domyślny dźwięk)
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Notification enabled]
+Włączono powiadomienia
+[Notification disabled]
+Wyłączono powiadomienia
 [<no status message>]
 <brak opisu>
 [Contact]
@@ -349,14 +353,10 @@ usunięto xStatus
 Włącz powiadomienie o statusie
 [Disable status notification]
 Wyłącz powiadomienia o statusach
-[Notification enabled]
-Włączono powiadomienia
-[Notification disabled]
-Wyłączono powiadomienia
-[New Status Notify]
-Status
 [Toggle status notification]
 Przełącz powiadomienia o statusie
+[New Status Notify]
+Status
 [Status change]
 Zmiana statusu
 ;file \plugins\NewXstatusNotify\src\options.cpp

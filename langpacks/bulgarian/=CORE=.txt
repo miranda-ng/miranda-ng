@@ -891,12 +891,10 @@ URL адреси
 напр. raboten
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Можете да изберете драйвер за базата данни, който предлага повече функции. Ако имате съмнения използвайте стандартния.
-[e.g., dbx mmap]
-напр. dbx mmap driver
 [Driver]
 Драйвер
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Проблем: Не е намерен нито един драйвер за базата данни. Поради това не можете да създадете нов профил. Необходим е dbx_mmap.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
+Проблем: Не е намерен нито един драйвер за базата данни. Поради това не можете да създадете нов профил. Необходим е dbx_mdbx.dll
 [Download more plugins]
 Сваляне на още приставки
 [Author(s):]
@@ -1973,8 +1971,8 @@ Popups за изобразяване
 Грешка при надграждане структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно Miranda NG не разполага с необходимите права. Моля, преместете файла ръчно.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Не може да съхранявате профили в основната директория на Miranda NG.\nМоля, преместете профила в друга папка.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mmap.dll
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
+Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
 "%s" не може да бъде отворен - неизвестен формат.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

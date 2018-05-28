@@ -913,12 +913,10 @@
 наприклад, "Робочий"
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Виберіть драйвер бази даних. Інший драйвер може мати більше функцій та можливостей. Якщо не впевнені, користуйтеся стандартним драйвером.
-[e.g., dbx mmap]
-наприклад, dbx_mmap
 [Driver]
 Драйвер
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Проблема: Не знайдено жодного драйвера бази даних. Неможливо створити новий профіль, вам необхідний файл dbx_mmap.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
+Проблема: Не знайдено жодного драйвера бази даних. Неможливо створити новий профіль, вам необхідний файл dbx_mdbx.dll
 [Download more plugins]
 Завантажити більше плагінів
 [Author(s):]
@@ -2021,8 +2019,8 @@ Miranda намагається оновити вашу структуру збе
 Miranda намагається оновити вашу структуру зберігання профілів.\nНе вдається автоматично перемістити профіль %s на нове місце %s. Імовірно, у програми недостатньо прав. Перемістіть профіль вручну.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Файл профілю не повинен знаходится в корневій папці Miranda. Перемістіть свій профіль на інше місце.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Miranda не може відкрити "%s", оскільки не встановлено жодного драйвера бази.\nНеобхідно встановити dbx_mmap.dll або його аналог.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
+Miranda не може відкрити "%s", оскільки не встановлено жодного драйвера бази.\nНеобхідно встановити dbx_mdbx.dll або його аналог.
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda не може відкрити "%s", формат профілю невідомий.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

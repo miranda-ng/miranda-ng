@@ -36,12 +36,11 @@ Je-li Meta skryto, ponechat podkontakty vybraných protokolů
 Zadejte uživatele:
 [Show all contacts (Ctrl+A)]
 Zobrazit všechny kontakty (Ctrl+A)
-;file \plugins\QuickContacts\src\options.cpp
-[Quick Contacts]
-Rychlé kontakty
-;file \plugins\QuickContacts\src\quickcontacts.cpp
-[Open dialog]
-Otevřít dialog
+;file \plugins\QuickContacts\src\dialog.cpp
+[Show all contacts]
+Zobrazit všechny kontakty
+[Send message]
+Poslat zprávu
 [Send file]
 Poslat soubor
 [Send URL]
@@ -52,9 +51,11 @@ Otevřít informace o kontaktu
 Otevřít historii
 [Open contact menu]
 Zobrazit nabídku kontaktu
-[Show all contacts]
-Zobrazit všechny kontakty
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Rychlé kontakty
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Otevřít dialog
 [Quick Contacts...]
 Rychlé kontakty...
-[Send message]
-Poslat zprávu

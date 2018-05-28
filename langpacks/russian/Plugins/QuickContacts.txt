@@ -35,10 +35,10 @@
 Введите имя пользователя:
 [Show all contacts (Ctrl+A)]
 Показать все контакты (Ctrl+A)
-[Quick Contacts]
-Быстрые контакты
-[Open dialog]
-Открыть диалог
+[Show all contacts]
+Показать все контакты
+[Send message]
+Отправить
 [Send file]
 Отправить файл
 [Send URL]
@@ -49,9 +49,9 @@
 История
 [Open contact menu]
 Открыть меню контакта
-[Show all contacts]
-Показать все контакты
+[Quick Contacts]
+Быстрые контакты
+[Open dialog]
+Открыть диалог
 [Quick Contacts...]
 Быстрые контакты...
-[Send message]
-Отправить

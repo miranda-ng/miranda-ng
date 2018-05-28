@@ -17,12 +17,6 @@
 Агульнае
 [Popup on obsolete methods]
 
-[Services]
-Службы
-[C libs folder]
-
-[Scripts folder]
-Каталог скыптоў
 [Script]
 Скрыпт
 [Loaded]
@@ -35,3 +29,9 @@
 Перагрузіць
 [Common scripts]
 Агульныя скрыпты
+[Services]
+Службы
+[C libs folder]
+
+[Scripts folder]
+Каталог скыптоў
