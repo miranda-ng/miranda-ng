@@ -255,10 +255,7 @@ void Plugin_Uninit(pluginEntry *p)
 {
 	// if the basic API check had passed, call Unload if Load(void) was ever called
 	if (p->bLoaded) {
-		if (p->bpi.pfnUnload)
-			p->bpi.pfnUnload();
-		else
-			p->bpi.pPlugin->Unload();
+		p->bpi.Unload();
 		p->bLoaded = false;
 	}
 
@@ -395,7 +392,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 			// copy the dblink stuff
 			p->bpi = bpi;
 
-			if (bpi.pfnLoad() != 0)
+			if (bpi.Load() != 0)
 				p->bFailed = true;
 			else
 				p->bLoaded = true;
@@ -506,7 +503,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 	// contact list is loaded via clistlink, db - via DATABASELINK
 	// so we should call Load() only for usual plugins
 	if (!p->bLoaded && !p->bIsClist && !p->bIsDatabase) {
-		if (p->bpi.pfnLoad() != 0)
+		if (p->bpi.Load() != 0)
 			return false;
 
 		p->bLoaded = true;
@@ -640,8 +637,7 @@ int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
 	if (!p->bLoaded) {
-		int res = (p->bpi.pfnLoad == 0) ? p->bpi.pPlugin->Load() : p->bpi.pfnLoad();
-		if (res != ERROR_SUCCESS) {
+		if (p->bpi.Load() != ERROR_SUCCESS) {
 			Plugin_Uninit(p);
 			return SERVICE_FAILED;
 		}

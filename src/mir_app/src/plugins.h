@@ -23,6 +23,14 @@ struct BASIC_PLUGIN_INFO
 	CList_Initialise      clistlink;
 	CMPluginBase*         pPlugin;
 	MUUID*                Interfaces; // array of supported interfaces
+
+	int Load()
+	{	return (pfnLoad == nullptr) ? pPlugin->Load() : pfnLoad();
+	}
+
+	int Unload()
+	{	return (pfnUnload == nullptr) ? pPlugin->Unload() : pfnUnload();
+	}
 };
 
 struct pluginEntry
