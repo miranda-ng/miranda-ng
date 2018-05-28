@@ -21,15 +21,16 @@
 [But keep subcontacts of protocols in above list if meta is hidden]
 [Enter username:]
 [Show all contacts (Ctrl+A)]
-;file \plugins\QuickContacts\src\options.cpp
-[Quick Contacts]
-;file \plugins\QuickContacts\src\quickcontacts.cpp
-[Open dialog]
+;file \plugins\QuickContacts\src\dialog.cpp
+[Show all contacts]
+[Send message]
 [Send file]
 [Send URL]
 [Open user info]
 [Open history]
 [Open contact menu]
-[Show all contacts]
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
 [Quick Contacts...]
-[Send message]

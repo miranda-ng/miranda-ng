@@ -121,6 +121,8 @@
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Notification enabled]
+[Notification disabled]
 [<no status message>]
 [Contact]
 [<unknown>]
@@ -179,10 +181,8 @@
 [Extra status message removed]
 [Enable status notification]
 [Disable status notification]
-[Notification enabled]
-[Notification disabled]
-[New Status Notify]
 [Toggle status notification]
+[New Status Notify]
 [Status change]
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]

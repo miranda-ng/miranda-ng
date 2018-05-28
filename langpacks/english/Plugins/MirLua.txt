@@ -12,15 +12,15 @@
 [Popup on script error]
 [General]
 [Popup on obsolete methods]
-;file \plugins\MirLua\src\main.cpp
-[Services]
-[C libs folder]
-[Scripts folder]
-;file \plugins\MirLua\src\mlua_icons.cpp
+;file \plugins\MirLua\src\icons.cpp
 [Script]
 [Loaded]
 [Failed]
 [Open]
 [Reload]
-;file \plugins\MirLua\src\mlua_options.cpp
+;file \plugins\MirLua\src\options.cpp
 [Common scripts]
+[Services]
+;file \plugins\MirLua\src\plugin.cpp
+[C libs folder]
+[Scripts folder]

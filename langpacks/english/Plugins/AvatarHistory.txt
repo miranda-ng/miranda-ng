@@ -69,7 +69,6 @@
 [Contact changed avatar]
 [Contact removed avatar]
 ;file \plugins\AvatarHistory\src\icolib.cpp
-[History]
 [Avatar overlay]
 ;file \plugins\AvatarHistory\src\options.cpp
 [Do nothing]
@@ -78,6 +77,7 @@
 [Show contact history]
 [Test contact]
 [Test description]
+[History]
 [Avatar]
 [Popups]
 [Avatar change]
