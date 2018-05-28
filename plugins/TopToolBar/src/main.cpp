@@ -39,7 +39,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	g_plugin.registerIcon(TTB_OPTDIR, iconList, TTB_OPTDIR);
 
@@ -49,7 +49,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	UnloadToolbarModule();
 	return 0;

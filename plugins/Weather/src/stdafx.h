@@ -522,5 +522,8 @@ void   ReleaseIconEx(HICON hIcon);
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 

@@ -249,6 +249,8 @@ private:
 struct CMPlugin : public ACCPROTOPLUGIN<CToxProto>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 #endif //_TOX_PROTO_H_

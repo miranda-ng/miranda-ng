@@ -89,7 +89,7 @@ CMPlugin::CMPlugin() :
 // We defer initialization until Miranda's module loading process completed and return 0 to
 // mark success, everything else will cause the plugin to be freed right away.
 
-EXTERN_C int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	g_bInitialized = false;
 	
@@ -103,7 +103,7 @@ EXTERN_C int __declspec(dllexport) Load()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Called by Miranda when the plugin should unload itself.
 
-EXTERN_C int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload(void)
 {
 	if(!g_bInitialized) {
 		TRACE(L"ERROR: Unload requested, but plugin is not initialized?!\n");		

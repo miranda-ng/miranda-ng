@@ -90,7 +90,7 @@ int OnAccChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
@@ -110,7 +110,7 @@ extern "C" int __declspec(dllexport) Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's exit point
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	if (g_KSEnabled)
 		KeepStatusUnload();

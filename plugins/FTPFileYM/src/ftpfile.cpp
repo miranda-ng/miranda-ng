@@ -372,7 +372,7 @@ static int Shutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 #ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -395,12 +395,5 @@ extern "C" int __declspec(dllexport) Load(void)
 	opt.loadOptions();
 	deleteTimer.init();
 	ftpList.init();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

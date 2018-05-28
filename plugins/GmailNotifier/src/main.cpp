@@ -84,7 +84,7 @@ static int OnMirandaStart(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	g_plugin.addSound("Gmail", LPGENW("Other"), LPGENW("Gmail: New thread(s)"));
 	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);
@@ -149,7 +149,7 @@ extern "C" int __declspec(dllexport) Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	if (hTimer)
 		KillTimer(nullptr, hTimer);

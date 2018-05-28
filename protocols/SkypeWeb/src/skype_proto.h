@@ -422,6 +422,9 @@ private:
 struct CMPlugin : public ACCPROTOPLUGIN<CSkypeProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif //_SKYPE_PROTO_H_

@@ -85,7 +85,7 @@ CMPlugin::CMPlugin() :
 
 // ============================================================================
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	// загружаем (из БД) настройки плагина
 	code_Close = db_get_dw(0, MODULENAME, "Close", 0);
@@ -123,11 +123,8 @@ int initializeOptions(WPARAM wParam, LPARAM)
 
 // ============================================================================
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	UnhookWindowsHookEx(hHook);
 	return 0;
 }
-
-// ============================================================================
-

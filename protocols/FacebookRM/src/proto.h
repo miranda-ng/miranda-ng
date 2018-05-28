@@ -290,4 +290,6 @@ public:
 struct CMPlugin : public ACCPROTOPLUGIN<FacebookProto>
 {
 	CMPlugin();
+
+	int Load() override;
 };

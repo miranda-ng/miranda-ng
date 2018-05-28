@@ -116,6 +116,9 @@ BOOL  del_marked(PWumf* l);
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 extern WUMF_OPTIONS WumfOptions;

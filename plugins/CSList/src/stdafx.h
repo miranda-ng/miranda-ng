@@ -60,6 +60,8 @@ Offers List of your Custom Statuses.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 //====[ LIMITS ]=============================================================

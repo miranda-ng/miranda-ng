@@ -421,6 +421,9 @@ private:
 struct CMPlugin : public ACCPROTOPLUGIN<CIrcProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif // _IRCPROTO_H_

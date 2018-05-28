@@ -34,6 +34,8 @@ typedef std::wstring tstring;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 extern char const *answeredSetting;

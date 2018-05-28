@@ -145,7 +145,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 
@@ -179,7 +179,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	WindowList_Destroy(hWindowList);
 	DestroyCursor(splitCursor);

@@ -64,6 +64,9 @@ wchar_t *any_to_Idle(MCONTACT hContact, const char *module_name, const char *set
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 //#define UM_CHECKHOOKS (WM_USER+1)

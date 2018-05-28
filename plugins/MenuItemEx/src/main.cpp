@@ -1049,7 +1049,7 @@ static int PluginInit(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	g_plugin.registerIcon(LPGEN("MenuItemEx"), iconList);
 	g_plugin.registerIcon(LPGEN("MenuItemEx"), overlayIconList);
@@ -1079,7 +1079,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	DestroyIcon(hIcons[3]);
 	DestroyIcon(hIcons[4]);

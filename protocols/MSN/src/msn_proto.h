@@ -470,6 +470,9 @@ struct CMsnProto : public PROTO<CMsnProto>
 struct CMPlugin : public ACCPROTOPLUGIN<CMsnProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif

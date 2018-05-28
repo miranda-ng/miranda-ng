@@ -81,6 +81,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #define VI_FLAG_FORMAT  1

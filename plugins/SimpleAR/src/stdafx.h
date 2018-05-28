@@ -27,6 +27,8 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 extern INT interval;

@@ -63,7 +63,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	::InitializeCriticalSection(&pluginVars.m_CS);
 	pluginVars.IsUpdateInProgress = false;
@@ -75,7 +75,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	::DeleteCriticalSection(&pluginVars.m_CS);
 	return 0;

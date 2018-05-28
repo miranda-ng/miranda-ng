@@ -224,6 +224,9 @@ int ICQStatusToGeneralStatus(int bICQStat); // TODO: get rid of these protocol-s
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 struct SetAwayMsgData

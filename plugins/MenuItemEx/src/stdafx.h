@@ -33,6 +33,9 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #define MIIM_STRING	0x00000040

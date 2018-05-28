@@ -91,7 +91,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	g_pUserInfo = WindowList_Create();
 	g_hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
@@ -118,7 +118,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	UninitFileOutput();
 	UnloadWatchedProtos();

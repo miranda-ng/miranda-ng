@@ -41,6 +41,8 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam);

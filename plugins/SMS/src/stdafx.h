@@ -34,6 +34,8 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 // структура содержащая информацию по построению меню или расширенных иконок

@@ -59,7 +59,7 @@ static int ShutdownModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	INITCOMMONCONTROLSEX icc;
 	icc.dwSize = sizeof(icc);
@@ -80,7 +80,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	UninitOptions();
 	UninitWatcher(); /* before UninitFrame() */

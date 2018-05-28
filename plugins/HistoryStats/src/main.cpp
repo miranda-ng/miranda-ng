@@ -381,7 +381,7 @@ static int EventModulesLoaded(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // external interface
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	// init COM, needed for GUID generation
 	CoInitialize(nullptr);
@@ -433,7 +433,7 @@ extern "C" __declspec(dllexport) int Load()
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Unload()
+int CMPlugin::Unload()
 {
 	// free global settings object
 	delete g_pSettings;

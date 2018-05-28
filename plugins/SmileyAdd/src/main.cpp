@@ -85,7 +85,7 @@ static int MirandaShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 		ReportError(TranslateT("Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory"));
@@ -130,7 +130,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	RemoveDialogBoxHook();
 

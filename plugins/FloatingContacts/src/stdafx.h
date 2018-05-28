@@ -37,6 +37,9 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif	// #ifndef __STDHDR_H__

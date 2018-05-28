@@ -165,6 +165,8 @@ public:
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 #include "ui.h"

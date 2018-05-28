@@ -57,6 +57,9 @@ using namespace std;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 extern MWindowList hInternalWindowList;

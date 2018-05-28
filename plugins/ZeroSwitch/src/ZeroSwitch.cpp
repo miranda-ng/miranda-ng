@@ -6,6 +6,9 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 }
 g_plugin;
 
@@ -131,7 +134,7 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	if (IsWinVerVistaPlus()) {
 		MessageBox(nullptr, TranslateT("Plugin works under Windows XP only"), TranslateT("ZeroSwitch plugin failed"), MB_ICONSTOP);
@@ -147,7 +150,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	if (hHook)
 		UnhookWindowsHookEx(hHook);

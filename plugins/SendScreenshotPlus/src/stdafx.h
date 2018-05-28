@@ -121,6 +121,9 @@ typedef struct _MGLOBAL {
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 extern ATOM g_clsTargetHighlighter;

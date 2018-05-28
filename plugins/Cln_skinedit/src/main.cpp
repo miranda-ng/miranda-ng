@@ -893,16 +893,9 @@ static INT_PTR SkinEdit_Invoke(WPARAM, LPARAM lParam)
 	return (INT_PTR)psd->hwndSkinEdit;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	CreateServiceFunction(MS_CLNSE_INVOKE, SkinEdit_Invoke);
 	CreateServiceFunction(MS_CLNSE_FILLBYCURRENTSEL, SkinEdit_FillByCurrentSel);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

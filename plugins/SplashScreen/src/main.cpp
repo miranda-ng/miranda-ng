@@ -227,7 +227,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
@@ -239,7 +239,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	UnregisterClass(SPLASH_CLASS, g_plugin.getInst());
 	return 0;

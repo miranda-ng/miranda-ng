@@ -49,16 +49,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	InitIcons();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Unload - destroy the plugin instance
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

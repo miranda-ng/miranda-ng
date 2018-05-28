@@ -147,7 +147,7 @@ static int EventAdded(WPARAM wparam, LPARAM hDbEvent)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	CreateServiceFunction(MS_QC_SHOW_DIALOG, ShowDialog);
 
@@ -160,7 +160,7 @@ extern "C" __declspec(dllexport) int Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	FreeContacts();
 

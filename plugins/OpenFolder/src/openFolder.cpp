@@ -3,6 +3,8 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 }
 g_plugin;
 
@@ -78,7 +80,7 @@ HICON LoadIconExEx(const char* IcoLibName, int)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	CreateServiceFunction(MS_OPENFOLDER_OPEN, MenuCommand_OpenFolder);
 
@@ -106,12 +108,5 @@ extern "C" int __declspec(dllexport) Load()
 	mi.pszService = MS_OPENFOLDER_OPEN;
 	Menu_AddMainMenuItem(&mi);
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload()
-{
 	return 0;
 }

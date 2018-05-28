@@ -1126,6 +1126,9 @@ struct SKINDESC
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif /* _MSGS_H */

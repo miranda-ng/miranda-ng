@@ -130,15 +130,7 @@ extern "C" __declspec(dllexport) int CListInitialise()
 /////////////////////////////////////////////////////////////////////////////////////////
 // a plugin loader aware of CList exports will never call this.
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	return 1;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// a plugin unloader
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	return 0;
 }

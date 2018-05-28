@@ -216,7 +216,7 @@ int InitTopToolbar(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	LoadOptions();
 
@@ -256,7 +256,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	KillTimer(nullptr, 777);
 	if (hLogger)

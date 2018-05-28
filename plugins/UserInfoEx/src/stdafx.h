@@ -161,6 +161,9 @@ unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 typedef struct _MGLOBAL

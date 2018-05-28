@@ -64,7 +64,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, WaMpdOptInit);
@@ -73,7 +73,7 @@ extern "C" __declspec(dllexport) int Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	mir_free(gbHost);
 	mir_free(gbPassword);

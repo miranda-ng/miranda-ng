@@ -701,7 +701,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 
@@ -728,7 +728,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	WindowList_Destroy(g_hReadWndList);
 	return 0;

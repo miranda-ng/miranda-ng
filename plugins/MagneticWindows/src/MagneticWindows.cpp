@@ -106,7 +106,7 @@ int SnapPluginShutDown(WPARAM, LPARAM)
 // Exportet Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, SnapPluginStart);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SnapPluginShutDown);
@@ -117,10 +117,5 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction(MS_MW_SNAPTOLIST, SnapToList);
 
 	WindowStart();
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload()
-{
 	return 0;
 }

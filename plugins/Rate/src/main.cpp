@@ -40,6 +40,8 @@ static HANDLE hExtraIcon = nullptr;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 }
 g_plugin;
 
@@ -113,7 +115,7 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
@@ -123,12 +125,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_RegisterIcolib("contact_rate", LPGEN("Contact rate"), "rate_high");
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

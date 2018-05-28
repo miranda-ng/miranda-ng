@@ -130,6 +130,9 @@ typedef struct {
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #define _mstrlen(x) (_countof(x) - 1)

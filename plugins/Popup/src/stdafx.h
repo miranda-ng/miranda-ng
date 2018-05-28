@@ -105,10 +105,12 @@ https://miranda-ng.org/distr/
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #include "resource.h"
-#include "defs.h"
 #include "version.h"
 #include "config.h"
 #include "common.h"

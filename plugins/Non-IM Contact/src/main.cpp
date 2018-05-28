@@ -111,7 +111,7 @@ IconItem iconList[] =
 	{ LPGEN("Main Icon"), MODNAME, IDI_MAIN },
 };
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	g_plugin.registerIcon(LPGEN("Non-IM Contact"), iconList);
 
@@ -188,7 +188,7 @@ extern "C" __declspec(dllexport) int Load()
 // Description : Unloads plugin
 //=====================================================
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	killTimer();
 	return 0;

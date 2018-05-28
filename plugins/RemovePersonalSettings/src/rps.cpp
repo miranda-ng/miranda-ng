@@ -31,6 +31,8 @@ Based on work by nullbie
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 }
 g_plugin;
 
@@ -585,7 +587,7 @@ static INT_PTR RemoveAllService(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	CMenuItem mi(g_plugin);
 	SET_UID(mi, 0x2f9f21df, 0xf33c, 0x4640, 0xb9, 0x63, 0xd3, 0x26, 0x8a, 0xb8, 0xb1, 0xf0);
@@ -625,12 +627,5 @@ extern "C" int __declspec(dllexport) Load()
 		}
 	}
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

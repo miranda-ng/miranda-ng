@@ -46,7 +46,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	InitAssocList();
 	InitDde();
@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	UninitDde();
 	UninitAssocList();

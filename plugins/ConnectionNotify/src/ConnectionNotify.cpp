@@ -839,7 +839,7 @@ static int preshutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	#ifdef _DEBUG
 	_OutputDebugString(L"Entering Load dll");
@@ -874,7 +874,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	WaitForSingleObjectEx(hConnectionCheckThread, INFINITE, FALSE);
 	if (hConnectionCheckThread)CloseHandle(hConnectionCheckThread);

@@ -120,6 +120,9 @@ extern HNETLIBUSER hNetlibUser;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif

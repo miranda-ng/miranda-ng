@@ -59,17 +59,9 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Unload - destroy the plugin instance
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }
 

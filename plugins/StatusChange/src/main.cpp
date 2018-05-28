@@ -331,18 +331,11 @@ int StatusChangeOptInit(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_OPT_INITIALISE, StatusChangeOptInit);
 	HookEvent(ME_DB_EVENT_ADDED, StatusChangeGetMessage);
 
 	LoadOptions();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

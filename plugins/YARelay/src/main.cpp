@@ -213,7 +213,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	// Load plugin options from DB
 	hForwardFrom = (MCONTACT)db_get_dw(NULL, MODULENAME, "ForwardFrom", 0);
@@ -238,12 +238,5 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_PROTO_ACK, ProtoAck);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

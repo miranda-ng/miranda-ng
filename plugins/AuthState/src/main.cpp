@@ -162,7 +162,7 @@ int onModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
@@ -181,10 +181,5 @@ extern "C" int __declspec(dllexport) Load(void)
 	// IcoLib support
 	g_plugin.registerIcon(LPGEN("Auth state"), iconList);
 
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

@@ -265,7 +265,7 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 
 /******************************* INSTALLATION PROCEDURES *****************************/
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	g_MsgIDSkypeControlAPIAttach = ::RegisterWindowMessage(L"SkypeControlAPIAttach");
 	g_MsgIDSkypeControlAPIDiscover = ::RegisterWindowMessage(L"SkypeControlAPIDiscover");
@@ -294,12 +294,5 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_PROTO_ACK, SSC_OnProtocolAck);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SSC_OnPreShutdown);
 	HookEvent(ME_OPT_INITIALISE, SSC_OptInitialise);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)		// Executed on DLL unload
-{
 	return 0;
 }

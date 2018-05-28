@@ -313,7 +313,7 @@ IconItem iconList[] =
 	{ LPGEN("Apply"),          "apply",          IDI_APPLY     }
 };
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	iCodePage = Langpack_GetDefaultCodePage();
 
@@ -340,7 +340,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	UnhookEvent(hSettingChangedEvent);
 	UnhookEvent(hEventDeleted);

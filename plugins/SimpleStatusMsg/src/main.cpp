@@ -1673,7 +1673,7 @@ static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	hwndSAMsgDialog = nullptr;
 	accounts = (PROTOACCOUNTS *)mir_alloc(sizeof(PROTOACCOUNTS));
@@ -1698,7 +1698,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	UnhookEvent(h_statusmodechange);
 	UnhookProtoEvents();

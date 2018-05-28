@@ -129,7 +129,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_USEREX_CLASSES };
 	InitCommonControlsEx(&icex);
@@ -140,10 +140,5 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
 
 	CreateServiceFunction(MS_ADDCONTACTPLUS_SHOW, AddContactPlusDialog);
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

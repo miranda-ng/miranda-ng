@@ -811,7 +811,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
 	if (!hHttpAcceptConnectionsService) {
@@ -909,7 +909,7 @@ extern "C" __declspec(dllexport) int Load()
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-extern "C"  __declspec(dllexport) int Unload()
+int CMPlugin::Unload()
 {
 	nSystemShutdown(0, 0);
 	if (hwndStatsticView)

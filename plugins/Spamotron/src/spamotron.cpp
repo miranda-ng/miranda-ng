@@ -501,7 +501,7 @@ void RemoveNotOnListSettings()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	srand((unsigned)time(0));
 	bayesdb = nullptr;
@@ -522,7 +522,7 @@ extern "C" __declspec(dllexport) int Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" _declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	RemoveNotOnListSettings();
 	UnhookEvent(hOptInitialize);

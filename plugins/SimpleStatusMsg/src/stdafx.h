@@ -49,6 +49,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #include "simplestatusmsg.h"

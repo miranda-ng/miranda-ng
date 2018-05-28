@@ -119,4 +119,7 @@ inline tstring quotes_a2t(const char* s)
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };

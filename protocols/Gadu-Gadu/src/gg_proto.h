@@ -316,6 +316,9 @@ void crc_gentable(void);
 struct CMPlugin : public ACCPROTOPLUGIN<GaduProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif

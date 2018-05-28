@@ -512,7 +512,7 @@ static int MessagePrebuild(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	GetModuleFileName(g_plugin.getInst(), tszPath, _countof(tszPath));
 	*(wcsrchr(tszPath, '\\') + 1) = '\0';
@@ -562,7 +562,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	if (pTimer)
 		KillTimer(nullptr, pTimer);

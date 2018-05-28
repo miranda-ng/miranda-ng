@@ -50,15 +50,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHIST
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	LoadHistoryModule();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

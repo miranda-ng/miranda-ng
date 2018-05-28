@@ -55,7 +55,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	g_contactCache = new CContactCache;
 
@@ -71,7 +71,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	UninitServices();
 	UninitMenu();

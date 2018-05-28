@@ -49,7 +49,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	Log("%s", "Entering function " __FUNCTION__);
 
@@ -136,7 +136,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	Log("%s", "Entering function " __FUNCTION__);
 

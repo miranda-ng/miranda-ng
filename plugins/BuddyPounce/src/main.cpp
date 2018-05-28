@@ -212,7 +212,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load (hook ModulesLoaded)
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UserOnlineSettingChanged);
@@ -231,7 +231,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	WindowList_Destroy(hWindowList);
 	return 0;

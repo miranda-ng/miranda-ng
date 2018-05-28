@@ -261,7 +261,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec (dllexport) int Load()
+int CMPlugin::Load()
 {
 	// Ensure that the common control DLL is loaded (for listview)
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_LISTVIEW_CLASSES };
@@ -281,7 +281,7 @@ extern "C" __declspec (dllexport) int Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec (dllexport) int Unload(void)
+int CMPlugin::Unload(void)
 {
 	RemoveReadEvents();
 	return 0;

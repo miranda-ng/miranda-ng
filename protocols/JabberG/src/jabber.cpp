@@ -148,7 +148,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 ///////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	char mirVer[100];
 	Miranda_GetVersionText(mirVer, _countof(mirVer));
@@ -176,7 +176,7 @@ extern "C" int __declspec(dllexport) Load()
 ///////////////////////////////////////////////////////////////////////////////
 // Unload - destroy the plugin instance
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	g_XstatusIconsUninit();
 	JabberUserInfoUninit();

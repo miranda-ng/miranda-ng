@@ -26,6 +26,9 @@ void UnloadSslModule(void);
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 }
 g_plugin;
 
@@ -55,14 +58,14 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SSL, M
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	return LoadSslModule();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	UnloadSslModule();
 	return 0;

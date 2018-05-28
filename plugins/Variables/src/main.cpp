@@ -45,7 +45,7 @@ CMPlugin::CMPlugin() :
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load - plugin's entry point
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	LoadVarModule();
 	return 0;
@@ -54,7 +54,7 @@ extern "C" int __declspec(dllexport) Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unload - destroys plugin from memory
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	UnloadVarModule();
 	return 0;

@@ -898,6 +898,9 @@ struct CIcqProto : public PROTO<CIcqProto>
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif

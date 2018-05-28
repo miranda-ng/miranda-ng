@@ -350,7 +350,7 @@ static int PreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	hMsftedit = LoadLibrary(L"Msftedit.dll");
 	if (hMsftedit == nullptr)
@@ -390,7 +390,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	DestroyAllWindows();
 

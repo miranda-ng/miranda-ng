@@ -32,7 +32,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
@@ -42,12 +42,5 @@ extern "C" int __declspec(dllexport) Load(void)
 	hExtraXStatus = ExtraIcon_RegisterIcolib("steam_game", LPGEN("Steam game"), iconName);
 
 	CSteamProto::InitMenus();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

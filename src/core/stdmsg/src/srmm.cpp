@@ -50,7 +50,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	Load_ChatModule();
 	return LoadSendRecvMessageModule();
@@ -58,7 +58,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	SplitmsgShutdown();
 	Unload_ChatModule();

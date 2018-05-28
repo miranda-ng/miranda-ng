@@ -266,7 +266,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	hmiranda = GetModuleHandle(nullptr);
 
@@ -293,7 +293,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	CloseNotesList();
 	CloseReminderList();

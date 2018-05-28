@@ -645,7 +645,7 @@ int onShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	InitOptions();
 
@@ -682,7 +682,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	KillTimer(nullptr, timer_id);
 

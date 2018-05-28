@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 static HANDLE g_hEvents[1];
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	InitIcons();
 
@@ -80,7 +80,7 @@ extern "C" int __declspec(dllexport) Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unload
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	for (size_t i=0; i < _countof(g_hEvents); i++)
 		UnhookEvent(g_hEvents[i]);

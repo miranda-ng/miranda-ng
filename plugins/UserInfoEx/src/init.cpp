@@ -138,7 +138,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {
  *
  * @return	0
  **/
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	FreeLibrary(hDwmApi);
 	return 0;
@@ -149,7 +149,7 @@ extern "C" int __declspec(dllexport) Unload(void)
  *
  * @return	0
  **/
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	// init common controls
 	INITCOMMONCONTROLSEX ccEx;

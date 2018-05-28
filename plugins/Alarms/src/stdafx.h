@@ -54,6 +54,8 @@ typedef struct ALARM_tag {
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 extern HANDLE hTopToolbarButton;

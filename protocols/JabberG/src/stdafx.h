@@ -113,6 +113,9 @@ struct CJabberProto;
 struct CMPlugin : public ACCPROTOPLUGIN<CJabberProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 class CJabberDlgBase : public CProtoDlgBase<CJabberProto>

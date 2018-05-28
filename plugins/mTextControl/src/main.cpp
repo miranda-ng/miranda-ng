@@ -50,7 +50,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	MyCreateTextServices = nullptr;
 	hMsfteditDll = LoadLibrary(L"msftedit.dll");
@@ -67,7 +67,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	UnloadTextUsers();
 	UnloadRichEdit();

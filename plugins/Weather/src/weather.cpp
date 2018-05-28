@@ -154,7 +154,7 @@ void InitVar()
 	ModuleLoaded = FALSE;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	// initialize global variables
 	InitVar();
@@ -211,7 +211,7 @@ extern "C" int __declspec(dllexport) Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // unload function
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	DestroyMwin();
 	DestroyWindow(hPopupWindow);

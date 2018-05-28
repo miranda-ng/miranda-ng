@@ -23,6 +23,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	int Load() override;
+
 	void Init();
 
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);

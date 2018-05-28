@@ -1146,7 +1146,7 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_OPT_INITIALISE, TrafficCounterOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, TrafficCounterModulesLoaded);
@@ -1161,7 +1161,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	// Удаляем шрифт.
 	if (Traffic_h_font) {

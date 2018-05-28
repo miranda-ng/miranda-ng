@@ -132,7 +132,7 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
@@ -149,13 +149,5 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	RegisterDbrw();
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Unload a plugin
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

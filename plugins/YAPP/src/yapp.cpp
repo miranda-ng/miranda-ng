@@ -207,7 +207,7 @@ static int PreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	InitMessagePump();
 	InitOptions();
@@ -223,7 +223,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	DeleteObject(hFontFirstLine);
 	DeleteObject(hFontSecondLine);

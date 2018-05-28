@@ -3,6 +3,8 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 }
 g_plugin;
 
@@ -40,7 +42,7 @@ static IconItem iconList[] =
 	{ LPGEN("Restart"), "rst_restart_icon", IDI_RESTARTICON }
 };
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	// IcoLib support
 	g_plugin.registerIcon(LPGEN("Restart Plugin"), iconList);
@@ -55,12 +57,5 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

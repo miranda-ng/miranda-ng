@@ -116,7 +116,7 @@ static IconItem iconList[] =
 	{ LPGEN("Disabled"), "ping_disabled", IDI_ICON_DISABLED },
 };
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	use_raw_ping = false;
 	db_set_b(0, MODULENAME, "UsingRawSockets", (BYTE)use_raw_ping);
@@ -143,7 +143,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	SavePingList(0, 0);
 

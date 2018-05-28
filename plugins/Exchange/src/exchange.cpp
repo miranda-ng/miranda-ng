@@ -48,7 +48,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	hiMailIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MAIL));
 	InitServices();
@@ -58,7 +58,7 @@ extern "C" int __declspec(dllexport) Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	DestroyServices();
 	UnhookEvents();

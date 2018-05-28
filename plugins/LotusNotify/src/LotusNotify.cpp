@@ -1671,7 +1671,7 @@ static int preshutdown(WPARAM, LPARAM)
 }
 
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	Plugin_Terminated = false;
 
@@ -1738,7 +1738,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	log(L"Unload: start");
 	Plugin_Terminated = true;

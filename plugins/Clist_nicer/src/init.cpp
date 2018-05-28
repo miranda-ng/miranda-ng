@@ -221,14 +221,14 @@ extern "C" int __declspec(dllexport) CListInitialise()
 /////////////////////////////////////////////////////////////////////////////////////////
 // a plugin loader aware of CList exports will never call this.
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	if (IsWindow(g_clistApi.hwndContactList))
 		DestroyWindow(g_clistApi.hwndContactList);

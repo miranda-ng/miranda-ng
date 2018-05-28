@@ -71,4 +71,6 @@ static const ttemplate templates[] =
 struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
 {
 	CMPlugin();
+
+	int Load() override;
 };

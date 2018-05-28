@@ -120,6 +120,8 @@ CCloudService* FindService(const char *szProto);
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 #endif //_COMMON_H_

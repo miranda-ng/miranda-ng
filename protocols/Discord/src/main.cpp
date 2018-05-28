@@ -56,7 +56,7 @@ IconItem g_iconList[] =
 	{ LPGEN("Group chats"), "groupchat", IDI_GROUPCHAT }
 };
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 
@@ -67,7 +67,7 @@ extern "C" int __declspec(dllexport) Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unload
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	DestroyWindow(g_hwndHeartbeat);
 	return 0;

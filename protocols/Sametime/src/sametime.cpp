@@ -229,13 +229,3 @@ void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 	m_iStatus = iNewStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previous_status, m_iStatus);
 }
-
-extern "C" int __declspec(dllexport) Load(void)
-{
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload()
-{
-	return 0;
-}

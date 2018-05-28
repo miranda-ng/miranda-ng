@@ -277,6 +277,8 @@ protected:
 struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 int OnReloadIcons(WPARAM wParam, LPARAM lParam);

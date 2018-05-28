@@ -50,15 +50,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRAWAY
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	LoadAwayMsgModule();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

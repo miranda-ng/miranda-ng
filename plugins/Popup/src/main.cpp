@@ -319,7 +319,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-MIRAPI int Load(void)
+int CMPlugin::Load()
 {
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
@@ -404,7 +404,7 @@ MIRAPI int Load(void)
 // Prepare the plugin to stop
 // Called by Miranda when it will exit or when the plugin gets deselected
 
-MIRAPI int Unload(void)
+int CMPlugin::Unload()
 {
 	DeleteObject(fonts.title);
 	DeleteObject(fonts.clock);

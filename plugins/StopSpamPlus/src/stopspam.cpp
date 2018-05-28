@@ -24,7 +24,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
 
@@ -44,12 +44,5 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.pszService = "StopSpam/RemoveTempContacts";
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, RemoveTempContacts);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

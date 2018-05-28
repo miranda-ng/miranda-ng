@@ -90,14 +90,14 @@ extern "C" __declspec(dllexport) int CListInitialise()
 /////////////////////////////////////////////////////////////////////////////////////////
 // never called by a newer plugin loader.
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load(void)
 {
 	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload(void)
 {
 	TRACE("Unloading Clist Modern\r\n");
 

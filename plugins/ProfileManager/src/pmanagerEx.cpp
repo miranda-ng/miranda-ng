@@ -16,6 +16,8 @@ There is no warranty.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 }
 g_plugin;
 
@@ -79,7 +81,7 @@ static MUUID uids[_countof(iconList)] =
 	{ 0x5A2EDCCD, 0xB43B, 0x48FA, 0x8A, 0xE8, 0xB5, 0x8B, 0xD7, 0xA5, 0x5A, 0x13 }
 };
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	g_plugin.registerIcon(LPGEN("Profile manager"), iconList);
 
@@ -100,12 +102,5 @@ extern "C" __declspec(dllexport) int Load(void)
 
 		Menu_AddMainMenuItem(&mi);
 	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

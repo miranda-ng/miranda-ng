@@ -591,19 +591,12 @@ static IconItem iconList[] =
 	{ LPGEN("Sounds disabled"), "BASSSoundOff", IDI_BASSSoundOff }
 };
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
 
 	g_plugin.registerIcon(MODULENAME, iconList);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

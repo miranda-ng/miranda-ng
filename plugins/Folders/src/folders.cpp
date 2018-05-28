@@ -45,7 +45,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	InitServices();
 	InitEvents();
@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload()
+int CMPlugin::Unload()
 {
 	DestroyEvents();
 	return 0;

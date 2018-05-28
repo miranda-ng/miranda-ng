@@ -232,7 +232,7 @@ static void LoadPlugins()
 	}
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
@@ -330,7 +330,7 @@ static void UnloadPlugins()
 	hDllPlugins = nullptr;
 }
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 #ifdef _DEBUG
 	UnInitDebug();

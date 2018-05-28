@@ -76,6 +76,9 @@ Boston, MA 02111-1307, USA.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 extern HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;

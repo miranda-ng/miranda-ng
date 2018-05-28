@@ -234,7 +234,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	hTaskMainMenu = nullptr;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
@@ -259,7 +259,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	if (g_hMainThread)
 		CloseHandle(g_hMainThread);

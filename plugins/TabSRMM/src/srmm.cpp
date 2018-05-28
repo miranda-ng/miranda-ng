@@ -61,7 +61,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	if (WinVerMajor() < 5) {
 		MessageBox(nullptr, TranslateT("This version of TabSRMM requires Windows 2000 or later."), L"tabSRMM", MB_OK | MB_ICONERROR);
@@ -77,7 +77,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	FreeLogFonts();
 	Chat_Unload();

@@ -130,4 +130,7 @@ public:
 struct CMPlugin : public ACCPROTOPLUGIN<MinecraftDynmapProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };

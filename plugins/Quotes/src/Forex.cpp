@@ -305,7 +305,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-EXTERN_C int __declspec(dllexport) Load(void)
+int CMPlugin::Load(void)
 {
 	if (!CModuleInfo::Verify())
 		return 1;
@@ -329,7 +329,7 @@ EXTERN_C int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-EXTERN_C __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload(void)
 {
 	WaitForWorkingThreads();
 

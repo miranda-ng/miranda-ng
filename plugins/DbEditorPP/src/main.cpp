@@ -169,7 +169,7 @@ static INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	hwnd2mainWindow = nullptr;
 
@@ -197,7 +197,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	freeAllWatches();
 	return 0;

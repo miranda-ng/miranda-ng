@@ -43,7 +43,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	if (InitServer())
 		MessageBox(nullptr, TranslateT("Could not initialize CmdLine plugin property"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
@@ -54,7 +54,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	bWaitForUnload = 0;
 

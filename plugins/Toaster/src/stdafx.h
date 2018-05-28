@@ -35,6 +35,8 @@ const wchar_t AppUserModelID[] = L"MirandaNG";
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 class ToastNotification;

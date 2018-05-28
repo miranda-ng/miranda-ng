@@ -278,7 +278,7 @@ static INT_PTR CALLBACK FirstRunDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	CoInitialize(nullptr);
 
@@ -339,7 +339,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	WindowList_Destroy(hAvatarWindowsList);
 	return 0;

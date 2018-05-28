@@ -31,6 +31,9 @@ Distributed under GNU's GPL 2 or later
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 // Settings defaults

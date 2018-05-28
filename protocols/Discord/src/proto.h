@@ -365,4 +365,7 @@ public:
 struct CMPlugin : public ACCPROTOPLUGIN<CDiscordProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };

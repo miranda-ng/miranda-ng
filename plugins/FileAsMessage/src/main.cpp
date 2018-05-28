@@ -183,7 +183,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	InitCRC32();
 
@@ -209,7 +209,7 @@ extern "C" __declspec(dllexport) int Load(void)
 // Unload()
 // Called by Miranda when Plugin is unloaded.
 //
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	WindowList_Destroy(hFileList);
 	if (hHookSkinIconsChanged != nullptr)

@@ -241,7 +241,7 @@ IconItem iconList[] =
 	{ LPGEN("Enable Auto&reply"), "Enable Auto&reply", IDI_ON }
 };
 
-extern "C" int __declspec(dllexport)Load(void)
+int CMPlugin::Load()
 {
 	CreateServiceFunction(MODULENAME"/ToggleEnable", ToggleEnable);
 	CreateServiceFunction(MODULENAME"/ToggleAutoanswer", Toggle);
@@ -266,12 +266,5 @@ extern "C" int __declspec(dllexport)Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, CheckDefaults);
 
 	g_plugin.registerIcon("Simple Auto Replier", iconList);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport)int Unload(void)
-{
 	return 0;
 }

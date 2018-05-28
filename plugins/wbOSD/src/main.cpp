@@ -38,7 +38,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	logmsg("Load");
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
@@ -47,7 +47,7 @@ extern "C" __declspec(dllexport) int Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload()
+int CMPlugin::Unload()
 {
 	logmsg("Unload");
 

@@ -51,6 +51,8 @@ Features:
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 extern MCONTACT hForwardFrom, hForwardTo;

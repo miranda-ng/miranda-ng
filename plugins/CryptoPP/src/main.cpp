@@ -41,7 +41,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	DisableThreadLibraryCalls(g_plugin.getInst());
 
@@ -50,13 +50,6 @@ extern "C" __declspec(dllexport) int Load()
 
 	// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload()
-{
 	return 0;
 }
 

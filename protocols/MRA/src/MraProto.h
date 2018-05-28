@@ -343,4 +343,7 @@ struct CMraProto : public PROTO<CMraProto>
 struct CMPlugin : public ACCPROTOPLUGIN<CMraProto>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };

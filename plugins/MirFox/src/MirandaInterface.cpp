@@ -134,7 +134,7 @@ static int OnShutdown(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
@@ -160,7 +160,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec (dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	MFLogger::getInstance()->log(L"Unload: start");
 

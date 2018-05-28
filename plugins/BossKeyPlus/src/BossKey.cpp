@@ -680,7 +680,7 @@ static int MirandaLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	g_wMaskAdv = db_get_w(NULL, MOD_NAME, "optsmaskadv", 0);
 	g_bOldSetting = db_get_b(NULL, MOD_NAME, "OldSetting", 0);
@@ -706,7 +706,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	UninitIdleTimer();
 

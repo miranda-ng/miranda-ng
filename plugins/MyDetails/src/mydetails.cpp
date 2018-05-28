@@ -129,7 +129,7 @@ static int MainUninit(WPARAM, LPARAM)
 
 // Load ///////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	// Hook event to load messages and show first one
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
@@ -157,7 +157,7 @@ extern "C" __declspec(dllexport) int Load()
 
 // Unload /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	DeInitProtocolData();
 	return 0;

@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	if (IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
@@ -65,7 +65,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	if (pTaskbarInterface)
 		pTaskbarInterface->Release();

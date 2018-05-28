@@ -149,7 +149,7 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
@@ -159,10 +159,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hExtraIcon = ExtraIcon_RegisterIcolib("ignore", LPGEN("Ignore State"), "ignore_full");
 
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

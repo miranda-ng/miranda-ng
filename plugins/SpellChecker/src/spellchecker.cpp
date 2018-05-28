@@ -223,7 +223,7 @@ static IconItem iconList[] =
 	{ LPGEN("Unknown"), "spellchecker_unknown", IDI_UNKNOWN_FLAG }
 };
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	// icons
 	g_plugin.registerIcon(LPGEN("Spell Checker"), iconList);
@@ -245,7 +245,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	DeleteObject(hCheckedBmp);
 	FreeDictionaries(languages);

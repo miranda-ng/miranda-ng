@@ -327,7 +327,7 @@ INT_PTR CALLBACK EMPDlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-extern "C" int __declspec(dllexport) __cdecl Load()
+int CMPlugin::Load()
 {
 	g_lan = new CMLan();
 
@@ -356,7 +356,7 @@ extern "C" int __declspec(dllexport) __cdecl Load()
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) __cdecl Unload()
+int CMPlugin::Unload()
 {
 	delete g_lan;
 	return 0;

@@ -42,16 +42,9 @@ PLUGININFOEX pluginInfoEx = {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	g_plugin.Init();
 	g_plugin.positionClist();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

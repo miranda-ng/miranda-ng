@@ -96,7 +96,7 @@ static int OnPreshutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	// support for ComboBoxEx
 	INITCOMMONCONTROLSEX icc;
@@ -130,13 +130,6 @@ extern "C" __declspec(dllexport) int Load()
 
 	// if we load a plugin dynamically, it will work, otherwise fail
 	OnCreateMenuItems(0, 0);
-	return 0;
-}
-
-//====[ UNLOADER ]===========================================================
-
-extern "C" __declspec(dllexport) int Unload()
-{
 	return 0;
 }
 

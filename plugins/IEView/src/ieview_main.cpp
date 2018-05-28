@@ -58,7 +58,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	int wdsize = GetCurrentDirectory(0, nullptr);
 	wchar_t *workingDir = new wchar_t[wdsize];
@@ -81,7 +81,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	Options::uninit();
 	DestroyHookableEvent(hHookOptionsChanged);

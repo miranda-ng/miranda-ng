@@ -73,7 +73,7 @@ IconItem iconList[] =
 	{ LPGEN("Expand string edit"), "ICO_EXPANDSTRINGEDIT", IDI_EXPANDSTRINGEDIT }
 };
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	srand(time(0));
 	_tzset();
@@ -99,7 +99,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	// destroying contact menu
 	g_MenuUninit();

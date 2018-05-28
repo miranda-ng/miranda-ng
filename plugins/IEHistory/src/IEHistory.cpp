@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHIST
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	INITCOMMONCONTROLSEX icex;
 	icex.dwSize = sizeof(icex);
@@ -92,7 +92,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	WindowList_Broadcast(hOpenWindowsList, WM_CLOSE, 0, 0);
 	WindowList_Destroy(hOpenWindowsList);

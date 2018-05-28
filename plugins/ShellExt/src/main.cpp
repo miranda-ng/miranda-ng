@@ -151,16 +151,11 @@ STDAPI DllUnregisterServer()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	InvokeThreadServer();
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
 	DllRegisterServer();
 	CheckRegisterServer();
-	return 0;
-}
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

@@ -295,7 +295,7 @@ void GaduProto::OnBuildProtoMenu()
 //////////////////////////////////////////////////////////
 // When plugin is loaded
 //
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
 
@@ -306,7 +306,7 @@ extern "C" int __declspec(dllexport) Load(void)
 //////////////////////////////////////////////////////////
 // When plugin is unloaded
 //
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	WSACleanup();
 	return 0;

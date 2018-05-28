@@ -59,7 +59,7 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 
@@ -79,7 +79,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	DestroyHookableEvent(g_hCallEvent);
 	return 0;

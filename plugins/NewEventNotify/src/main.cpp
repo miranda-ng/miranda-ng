@@ -139,9 +139,8 @@ int CMPlugin::Load()
 	return 0;
 }
 
-
-//-------------------------------------
-//---Check Window Message function
+/////////////////////////////////////////////////////////////////////////////////////////
+// Check Window Message function
 
 // Took this snippet of code from "EventNotify" by micron-x, thx *g*
 // checks if the message-dialog window is already opened

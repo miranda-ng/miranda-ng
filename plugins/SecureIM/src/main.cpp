@@ -273,7 +273,7 @@ static int onShutdown(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-extern "C" __declspec(dllexport) int __cdecl Load(void)
+int CMPlugin::Load(void)
 {
 	INITCOMMONCONTROLSEX icce = { sizeof(icce), ICC_LISTVIEW_CLASSES | ICC_TAB_CLASSES };
 	InitCommonControlsEx(&icce);
@@ -350,7 +350,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unload
 
-extern "C" __declspec(dllexport) int __cdecl Unload()
+int CMPlugin::Unload()
 {
 	freelib();
 	return 0;

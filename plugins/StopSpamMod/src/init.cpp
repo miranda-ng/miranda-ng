@@ -128,7 +128,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	CreateServiceFunction("/RemoveTmp", (MIRANDASERVICE)RemoveTmp);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
@@ -145,12 +145,5 @@ extern "C" int __declspec(dllexport) Load()
 	mi.pszService = "/RemoveTmp";
 	Menu_AddMainMenuItem(&mi);
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

@@ -62,7 +62,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	g_plugin.registerIcon("Console", iconList);
 
@@ -71,7 +71,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	ShutdownConsole();
 	return 0;

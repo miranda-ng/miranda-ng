@@ -66,6 +66,9 @@ Boston, MA 02111-1307, USA.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 extern bool g_bFramesExist, g_bAvsExist;

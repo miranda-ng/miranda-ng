@@ -52,6 +52,9 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #define KEY_DOWN(key) ((GetAsyncKeyState(key) & 0x8000) ? (true) : (false))

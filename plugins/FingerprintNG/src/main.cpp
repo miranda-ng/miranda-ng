@@ -49,7 +49,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int	__declspec(dllexport) Load(void)
+int CMPlugin::Load(void)
 {
 	InitFingerModule();
 	return 0;
@@ -57,7 +57,7 @@ extern "C" int	__declspec(dllexport) Load(void)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-extern "C" int	__declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	HeapDestroy(hHeap);
 	ClearFI();

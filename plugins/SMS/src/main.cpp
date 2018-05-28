@@ -112,7 +112,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN,OnPreShutdown);
@@ -121,12 +121,5 @@ extern "C" int __declspec(dllexport) Load(void)
 	RecvSMSWindowInitialize();
 
 	LoadServices();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

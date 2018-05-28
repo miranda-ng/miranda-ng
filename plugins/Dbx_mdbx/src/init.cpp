@@ -96,15 +96,8 @@ static DATABASELINK dblink =
 	loadDatabase
 };
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	RegisterDatabasePlugin(&dblink);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

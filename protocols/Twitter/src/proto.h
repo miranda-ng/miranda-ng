@@ -130,6 +130,8 @@ private:
 struct CMPlugin : public ACCPROTOPLUGIN<TwitterProto>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 // TODO: remove this

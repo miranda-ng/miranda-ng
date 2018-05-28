@@ -115,6 +115,9 @@ typedef struct _foundInfo
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 void ClearFI();

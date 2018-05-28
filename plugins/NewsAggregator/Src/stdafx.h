@@ -71,6 +71,9 @@ extern wchar_t tszRoot[MAX_PATH];
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 //============  STRUCT USED TO MAKE AN UPDATE LIST  ============

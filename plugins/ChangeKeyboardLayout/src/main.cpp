@@ -44,7 +44,7 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	memset(hklLayouts, 0, sizeof(hklLayouts));
 	bLayNum = GetKeyboardLayoutList(20, hklLayouts);
@@ -64,7 +64,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	for (int i = 0; i < bLayNum; i++)
 		mir_free(ptszLayStrings[i]);

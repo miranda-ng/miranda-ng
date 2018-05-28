@@ -404,4 +404,6 @@ private:
 struct CMPlugin : public ACCPROTOPLUGIN<CVkProto>
 {
 	CMPlugin();
+
+	int Load() override;
 };

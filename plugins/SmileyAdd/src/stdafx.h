@@ -99,6 +99,9 @@ extern LIST<void> menuHandleArray;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #define DM_REMAKELOG         (WM_USER + 11)

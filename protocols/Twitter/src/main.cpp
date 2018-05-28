@@ -52,18 +52,10 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	InitIcons();
 	InitContactMenus();
 	TwitterInitSounds();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Unload
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

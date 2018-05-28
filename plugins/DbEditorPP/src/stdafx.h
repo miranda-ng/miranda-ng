@@ -50,6 +50,9 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #define msg(a)		MessageBox(hwnd2mainWindow,a,_A2T(modFullname),MB_OK)

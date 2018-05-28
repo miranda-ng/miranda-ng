@@ -56,6 +56,9 @@ Boston, MA 02111-1307, USA.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 //add a new hotkey so it has a default and can be changed in the options dialog

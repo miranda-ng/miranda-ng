@@ -901,7 +901,7 @@ static int OnPreshutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load()
+int CMPlugin::Load()
 {
 	g_plugin.registerIconW(_A2W(MODULE), g_iconList);
 	LoadMenus();
@@ -927,7 +927,7 @@ extern "C" int __declspec(dllexport) Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload()
+int CMPlugin::Unload()
 {
 	if (hLTEdgesPen)
 		DeleteObject(hLTEdgesPen);

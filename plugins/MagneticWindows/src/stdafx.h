@@ -28,6 +28,8 @@ struct TWorkingVariables
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 void WindowStart();

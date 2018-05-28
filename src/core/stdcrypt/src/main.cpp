@@ -49,14 +49,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CRYPTO
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	return LoadEncryptionModule();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
-	return 0;
 }

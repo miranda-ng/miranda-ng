@@ -105,4 +105,6 @@ public:
 struct CMPlugin : public ACCPROTOPLUGIN<OmegleProto>
 {
 	CMPlugin();
+
+	int Load() override;
 };

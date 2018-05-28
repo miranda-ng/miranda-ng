@@ -30,6 +30,8 @@ Copyright (C) 2010, 2011 tico-tico
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 #define OPT_VOLUME		"Volume"

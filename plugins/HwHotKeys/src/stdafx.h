@@ -42,6 +42,9 @@ LRESULT CALLBACK key_hook(INT, WPARAM, LPARAM);
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 extern HWND hDialogWnd; // глобально используется для вывода туда в реалтайме сканкодов клавы, из хука

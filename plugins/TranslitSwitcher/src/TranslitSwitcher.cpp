@@ -22,6 +22,8 @@ Boston, MA 02111-1307, USA.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 }
 g_plugin;
 
@@ -109,7 +111,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	CreateServiceFunction(MS_TS_SWITCHLAYOUT, ServiceSwitch);
 	CreateServiceFunction(MS_TS_TRANSLITLAYOUT, ServiceTranslit);
@@ -157,12 +159,5 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT + HKCOMB_A, 'Y') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = true;
 	g_plugin.addHotkey(&hkd);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
 	return 0;
 }

@@ -262,7 +262,7 @@ int hook_SystemPreShutdown(WPARAM, LPARAM)
 
 ATOM g_clsTargetHighlighter = 0;
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	/// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
@@ -325,7 +325,7 @@ extern "C" __declspec(dllexport) int Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Prepare the plugin to stop
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	if (g_clsTargetHighlighter)
 		UnregisterClass((wchar_t*)g_clsTargetHighlighter, g_plugin.getInst()), g_clsTargetHighlighter = 0;

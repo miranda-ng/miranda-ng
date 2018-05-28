@@ -137,7 +137,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load()
+int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
@@ -185,7 +185,7 @@ extern "C" __declspec(dllexport) int Load()
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	WindowList_Destroy(hInternalWindowList);
 	bUseInternalViewer(false);

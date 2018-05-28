@@ -110,7 +110,7 @@ static int PreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 
@@ -125,15 +125,5 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	SetBackupTimer();
-
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	return 0;
-}
-
-

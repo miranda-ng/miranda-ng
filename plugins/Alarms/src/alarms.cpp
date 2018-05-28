@@ -143,7 +143,7 @@ static int MainDeInit(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	// ensure datetime picker is loaded
 	INITCOMMONCONTROLSEX ccx;
@@ -162,12 +162,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

@@ -48,7 +48,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	DEBUGOUTA("LOAD MIROTR");
 
@@ -85,7 +85,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	DEBUGOUTA("UNLOAD MIROTR");
 	DeinitSRMM();

@@ -49,6 +49,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 #define	ICON_ADD "AddContactPlus_Icon"

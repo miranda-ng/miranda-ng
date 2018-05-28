@@ -51,7 +51,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IDLE, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	LoadIdleModule();
 	return 0;
@@ -59,7 +59,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void)
+int CMPlugin::Unload()
 {
 	UnloadIdleModule();
 	return 0;

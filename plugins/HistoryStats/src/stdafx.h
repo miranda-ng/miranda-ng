@@ -127,6 +127,9 @@ namespace ext
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 #endif // HISTORYSTATS_GUARD__GLOABLS_H

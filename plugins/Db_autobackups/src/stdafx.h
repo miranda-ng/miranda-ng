@@ -30,6 +30,8 @@ namespace fs = std::experimental::filesystem;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
 };
 
 #include "options.h"

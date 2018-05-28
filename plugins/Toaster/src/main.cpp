@@ -43,7 +43,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
 	if (!IsWinVer8Plus()) {
 		MessageBox(nullptr, TranslateT("This plugin requires Windows 8 or higher"), _T(MODULENAME), MB_OK | MB_ICONERROR);
@@ -64,12 +64,5 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 	else MessageBox(nullptr, TranslateT("Failed to create temporary directory"), _T(MODULENAME), MB_OK | MB_ICONERROR);
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
 	return 0;
 }

@@ -26,6 +26,9 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
 };
 
 //for MirandaUtils.h and MirfoxData.h and MirfoxMiranda.h

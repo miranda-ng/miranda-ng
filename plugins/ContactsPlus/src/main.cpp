@@ -190,7 +190,7 @@ static INT_PTR ServiceReceiveCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+int CMPlugin::Load()
 {
 	InitCommonControls();
 
@@ -213,7 +213,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Unload(void)
+int CMPlugin::Unload()
 {
 	WindowList_Destroy(g_hSendWindowList);
 	WindowList_Destroy(g_hRecvWindowList);
