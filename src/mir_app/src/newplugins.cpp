@@ -202,26 +202,27 @@ static int checkPI(BASIC_PLUGIN_INFO *bpi, const PLUGININFOEX *pi)
 	return TRUE;
 }
 
-int checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, int checkTypeAPI)
+bool checkAPI(wchar_t *plugin, BASIC_PLUGIN_INFO *bpi, int checkTypeAPI)
 {
 	SetErrorMode(SEM_FAILCRITICALERRORS); // disable error messages
 	HINSTANCE h = LoadLibrary(plugin);
 	SetErrorMode(0);							  // reset the system default
 	if (h == nullptr)
-		return 0;
+		return false;
 
 	// loaded, check for exports
 	CMPluginBase &pPlugin = GetPluginByInstance(h);
-	bpi->Load = (Miranda_Plugin_Load)GetProcAddress(h, "Load");
-	bpi->Unload = (Miranda_Plugin_Unload)GetProcAddress(h, "Unload");
+	bpi->pfnLoad = (Miranda_Plugin_Load)GetProcAddress(h, "Load");
+	bpi->pfnUnload = (Miranda_Plugin_Unload)GetProcAddress(h, "Unload");
 
-	// Load & Unload shall be defined anyway, and a dll must register itself during LoadLibrary
-	if (!bpi->Load || !bpi->Unload || pPlugin.getInst() != h) {
+	// dll must register itself during LoadLibrary
+	if (pPlugin.getInst() != h) {
 LBL_Error:
 		FreeLibrary(h);
-		return 0;
+		return false;
 	}
 
+	bpi->pPlugin = &pPlugin;
 	bpi->Interfaces = (MUUID*)GetProcAddress(h, "MirandaInterfaces");
 	if (bpi->Interfaces == nullptr) {
 		// MirandaPluginInterfaces function is actual only for the only plugin, HistoryPlusPlus
@@ -236,18 +237,15 @@ LBL_Error:
 	if (!checkPI(bpi, &pi))
 		goto LBL_Error;
 
-	bpi->pluginInfo = &pi;
 	// basic API is present
-	if (checkTypeAPI == CHECKAPI_NONE) {
-LBL_Ok:
-		bpi->hInst = h;
-		return 1;
-	}
-	// check clist ?
+	if (checkTypeAPI == CHECKAPI_NONE)
+		return true;
+	
+	// check clist?
 	if (checkTypeAPI == CHECKAPI_CLIST) {
 		bpi->clistlink = (CList_Initialise)GetProcAddress(h, "CListInitialise");
 		if ((pi.flags & UNICODE_AWARE) && bpi->clistlink)
-			goto LBL_Ok;
+			return true;
 	}
 	goto LBL_Error;
 }
@@ -257,13 +255,17 @@ void Plugin_Uninit(pluginEntry *p)
 {
 	// if the basic API check had passed, call Unload if Load(void) was ever called
 	if (p->bLoaded) {
-		p->bpi.Unload();
+		if (p->bpi.pfnUnload)
+			p->bpi.pfnUnload();
+		else
+			p->bpi.pPlugin->Unload();
 		p->bLoaded = false;
 	}
 
 	// release the library
-	HINSTANCE hInst = p->bpi.hInst;
-	if (hInst != nullptr) {
+	if (p->bpi.pPlugin != nullptr) {
+		HINSTANCE hInst = p->bpi.pPlugin->getInst();
+
 		// we need to kill all resources which belong to that DLL before calling FreeLibrary
 		KillModuleEventHooks(hInst);
 		KillModuleServices(hInst);
@@ -284,21 +286,22 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 	if (p == nullptr)
 		return true;
 
-	if (p->bpi.hInst) {
-		if (CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
+	CMPluginBase *ppb = p->bpi.pPlugin;
+	if (HINSTANCE hInst = ppb->getInst()) {
+		if (CallPluginEventHook(hInst, hOkToExitEvent, 0, 0) != 0)
 			return false;
 
-		KillModuleAccounts(p->bpi.hInst);
-		KillModuleSubclassing(p->bpi.hInst);
+		KillModuleAccounts(hInst);
+		KillModuleSubclassing(hInst);
 
-		CallPluginEventHook(p->bpi.hInst, hPreShutdownEvent, 0, 0);
-		CallPluginEventHook(p->bpi.hInst, hShutdownEvent, 0, 0);
+		CallPluginEventHook(hInst, hPreShutdownEvent, 0, 0);
+		CallPluginEventHook(hInst, hShutdownEvent, 0, 0);
 
-		KillModuleEventHooks(p->bpi.hInst);
-		KillModuleServices(p->bpi.hInst);
+		KillModuleEventHooks(hInst);
+		KillModuleServices(hInst);
 	}
 
-	int _hLang = GetPluginLangByInstance(p->bpi.hInst);
+	int _hLang = ppb->m_hLang;
 	if (_hLang != 0) {
 		KillModuleMenus(_hLang);
 		KillModuleFonts(_hLang);
@@ -313,7 +316,7 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 		KillModuleOptions(_hLang);
 	}
 
-	NotifyFastHook(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
+	NotifyFastHook(hevUnloadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 
 	// mark default plugins to be loaded
 	if (!p->bIsCore)
@@ -392,7 +395,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 			// copy the dblink stuff
 			p->bpi = bpi;
 
-			if (bpi.Load() != 0)
+			if (bpi.pfnLoad() != 0)
 				p->bFailed = true;
 			else
 				p->bLoaded = true;
@@ -463,7 +466,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 	if (!bDynamic && !isPluginOnWhiteList(p->pluginname))
 		return false;
 
-	if (p->bpi.hInst == nullptr) {
+	if (p->bpi.pPlugin == nullptr) {
 		if (!p->bHasBasicApi) {
 			wchar_t exe[MAX_PATH], tszFullPath[MAX_PATH];
 			GetModuleFileName(nullptr, exe, _countof(exe));
@@ -503,7 +506,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 	// contact list is loaded via clistlink, db - via DATABASELINK
 	// so we should call Load() only for usual plugins
 	if (!p->bLoaded && !p->bIsClist && !p->bIsDatabase) {
-		if (p->bpi.Load() != 0)
+		if (p->bpi.pfnLoad() != 0)
 			return false;
 
 		p->bLoaded = true;
@@ -547,11 +550,12 @@ LBL_Error:
 	if (!TryLoadPlugin(pPlug, true))
 		goto LBL_Error;
 
+	CMPluginBase *ppb = pPlug->bpi.pPlugin;
 	if (bModulesLoadedFired) {
-		if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
+		if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
 			goto LBL_Error;
 
-		NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
+		NotifyEventHooks(hevLoadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 	}
 	mr.pImpl = pPlug;
 	return true;
@@ -620,7 +624,7 @@ int UnloadPlugin(wchar_t* buf, int bufLen)
 {
 	for (auto &it : pluginList.rev_iter()) {
 		if (!mir_wstrcmpi(it->pluginname, buf)) {
-			GetModuleFileName(it->bpi.hInst, buf, bufLen);
+			GetModuleFileName(it->bpi.pPlugin->getInst(), buf, bufLen);
 			Plugin_Uninit(it);
 			return TRUE;
 		}
@@ -636,7 +640,8 @@ int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
 	if (!p->bLoaded) {
-		if (p->bpi.Load() != ERROR_SUCCESS) {
+		int res = (p->bpi.pfnLoad == 0) ? p->bpi.pPlugin->Load() : p->bpi.pfnLoad();
+		if (res != ERROR_SUCCESS) {
 			Plugin_Uninit(p);
 			return SERVICE_FAILED;
 		}
@@ -712,7 +717,7 @@ int LoadProtocolPlugins(void)
 	/* now loop thru and load all the other plugins, do this in one pass */
 	for (int i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
-		if (!p->bIsProtocol || p->bpi.hInst != nullptr)
+		if (!p->bIsProtocol || p->bpi.pPlugin != nullptr)
 			continue;
 
 		wchar_t tszFullPath[MAX_PATH];

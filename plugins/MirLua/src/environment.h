@@ -23,5 +23,5 @@ public:
 	HANDLE CreateServiceFunction(const char *name, int ref);
 	void DestroyServiceFunction(HANDLE hService);
 
-	bool Load();
+	int Load() override;
 };

@@ -78,7 +78,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 
 	PluginListItemData *dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
-	dat->flags = pi.pluginInfo->flags;
+	dat->flags = pi.pPlugin->getInfo().flags;
 
 	dat->stdPlugin = 0;
 	if (pi.Interfaces) {
@@ -119,16 +119,17 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		it.pszText = fd->cFileName;
 		ListView_SetItem(hwndList, &it);
 
-		dat->author = sttUtf8auto(pi.pluginInfo->author);
-		dat->copyright = sttUtf8auto(pi.pluginInfo->copyright);
-		dat->description = sttUtf8auto(pi.pluginInfo->description);
-		dat->homepage = sttUtf8auto(pi.pluginInfo->homepage);
-		if (pi.pluginInfo->cbSize == sizeof(PLUGININFOEX))
-			dat->uuid = pi.pluginInfo->uuid;
+		const PLUGININFOEX &ppi = pi.pPlugin->getInfo();
+		dat->author = sttUtf8auto(ppi.author);
+		dat->copyright = sttUtf8auto(ppi.copyright);
+		dat->description = sttUtf8auto(ppi.description);
+		dat->homepage = sttUtf8auto(ppi.homepage);
+		if (ppi.cbSize == sizeof(PLUGININFOEX))
+			dat->uuid = ppi.uuid;
 		else
 			memset(&dat->uuid, 0, sizeof(dat->uuid));
 
-		wchar_t *shortNameT = mir_a2u(pi.pluginInfo->shortName);
+		wchar_t *shortNameT = mir_a2u(ppi.shortName);
 		// column 3: plugin short name
 		if (shortNameT) {
 			ListView_SetItemText(hwndList, iRow, 2, shortNameT);
@@ -146,17 +147,14 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 			mir_snwprintf(buf, L"%d.%d.%d.%d", HIWORD(fi->dwFileVersionMS), LOWORD(fi->dwFileVersionMS), HIWORD(fi->dwFileVersionLS), LOWORD(fi->dwFileVersionLS));
 			mir_free(pVerInfo);
 		}
-		else
-			mir_snwprintf(buf, L"%d.%d.%d.%d", HIBYTE(HIWORD(pi.pluginInfo->version)),
-				LOBYTE(HIWORD(pi.pluginInfo->version)), HIBYTE(LOWORD(pi.pluginInfo->version)),
-				LOBYTE(LOWORD(pi.pluginInfo->version)));
+		else mir_snwprintf(buf, L"%d.%d.%d.%d", HIBYTE(HIWORD(ppi.version)), LOBYTE(HIWORD(ppi.version)), HIBYTE(LOWORD(ppi.version)), LOBYTE(LOWORD(ppi.version)));
 
 		ListView_SetItemText(hwndList, iRow, 3, buf);
 		arPluginList.insert(dat);
 	}
-	else
-		mir_free(dat);
-	FreeLibrary(pi.hInst);
+	else mir_free(dat);
+	
+	FreeLibrary(pi.pPlugin->getInst());
 	return TRUE;
 }
 
@@ -186,12 +184,13 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 	if (!TryLoadPlugin(pPlug, true))
 		goto LBL_Error;
 
-	if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
+	CMPluginBase *ppb = pPlug->bpi.pPlugin;
+	if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
 		goto LBL_Error;
 
 	// if dynamically loaded plugin contains protocols, initialize the corresponding accounts
 	for (auto &pd : g_arProtos) {
-		if (pd->hInst != pPlug->bpi.hInst)
+		if (pd->hInst != ppb->getInst())
 			continue;
 
 		for (auto &pa : accounts) {
@@ -205,8 +204,8 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 		}
 	}
 
-	dat->hInst = pPlug->bpi.hInst;
-	NotifyFastHook(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
+	dat->hInst = ppb->getInst();
+	NotifyFastHook(hevLoadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 	return true;
 }
 

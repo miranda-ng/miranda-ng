@@ -9,27 +9,27 @@
 #define DEFMOD_REMOVED_PROTOCOLNETLIB   22
 
 // basic export prototypes
-typedef int (__cdecl * Miranda_Plugin_Load) (void);
-typedef int (__cdecl * Miranda_Plugin_Unload) (void);
+typedef int(__cdecl *Miranda_Plugin_Load) (void);
+typedef int(__cdecl *Miranda_Plugin_Unload) (void);
 
 // prototype for clists
-typedef int (__cdecl * CList_Initialise) (void);
+typedef int(__cdecl *CList_Initialise) (void);
 
 // can all be nullptr
 struct BASIC_PLUGIN_INFO
 {
-	HINSTANCE hInst;
-	Miranda_Plugin_Load Load;
-	Miranda_Plugin_Unload Unload;
-	CList_Initialise clistlink;
-	const PLUGININFOEX *pluginInfo;	 // must be freed if hInst == nullptr then its a copy
-	MUUID *Interfaces;                // array of supported interfaces
+	Miranda_Plugin_Load   pfnLoad;
+	Miranda_Plugin_Unload pfnUnload;
+	CList_Initialise      clistlink;
+	CMPluginBase*         pPlugin;
+	MUUID*                Interfaces; // array of supported interfaces
 };
 
 struct pluginEntry
 {
 	wchar_t pluginname[64];
-	struct {
+	struct
+	{
 		bool bFailed : 1;      // not a valid plugin, or API is invalid, pluginname is valid
 		bool bOk : 1;			  // plugin should be loaded, if DB means nothing
 		bool bLoaded : 1;      // Load(void) has been called, Unload() should be called.
@@ -45,7 +45,7 @@ struct pluginEntry
 		bool bIsClist : 1;	  // a CList implementation
 		bool bIsCrypto : 1;	  // crypto provider
 	};
-		
+
 	BASIC_PLUGIN_INFO bpi;
 };
 
@@ -56,13 +56,13 @@ int PluginOptionsInit(WPARAM, LPARAM);
 void LoadPluginOptions();
 void UnloadPluginOptions();
 
-int isPluginOnWhiteList(const wchar_t* pluginname);
-void SetPluginOnWhiteList(const wchar_t* pluginname, int allow);
+int isPluginOnWhiteList(const wchar_t *pluginname);
+void SetPluginOnWhiteList(const wchar_t *pluginname, int allow);
 
-int  getDefaultPluginIdx(const MUUID& muuid);
+int  getDefaultPluginIdx(const MUUID &muuid);
 bool hasMuuid(const BASIC_PLUGIN_INFO&, const MUUID&);
-bool hasMuuid(const MUUID* pFirst, const MUUID&);
-int  checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, int checkTypeAPI);
+bool hasMuuid(const MUUID *pFirst, const MUUID&);
+bool checkAPI(wchar_t *plugin, BASIC_PLUGIN_INFO *bpi, int checkTypeAPI);
 
 pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path);
 
@@ -70,7 +70,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic);
 void Plugin_Uninit(pluginEntry *p);
 bool Plugin_UnloadDyn(pluginEntry *p);
 
-typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, wchar_t *path, WPARAM wParam, LPARAM lParam);
+typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA *fd, wchar_t *path, WPARAM wParam, LPARAM lParam);
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam);
 
 struct MuuidReplacement
@@ -80,6 +80,6 @@ struct MuuidReplacement
 	pluginEntry* pImpl; // replacement plugin
 };
 
-bool LoadCorePlugin( MuuidReplacement& );
+bool LoadCorePlugin(MuuidReplacement&);
 
-MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin);
+MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin);

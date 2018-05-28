@@ -26,20 +26,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "plugins.h"
 
 static int sttFakeID = -100;
-static LIST<CMPluginBase> pluginListAddr(10, HandleKeySortT);
+
+static int Compare(const CMPluginBase *p1, const CMPluginBase *p2)
+{
+	return INT_PTR(p1->getInst()) - INT_PTR(p2->getInst());
+}
+
+static LIST<CMPluginBase> pluginListAddr(10, Compare);
 
 void RegisterModule(CMPluginBase *pPlugin)
 {
 	pluginListAddr.insert(pPlugin);
 }
 
-MIR_APP_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
+MIR_APP_DLL(HINSTANCE) GetInstByAddress(void *codePtr)
 {
 	if (pluginListAddr.getCount() == 0)
 		return nullptr;
 
 	int idx;
-	List_GetIndex((SortedList*)&pluginListAddr, (CMPluginBase*)&codePtr, &idx);
+	void *boo[2] = { 0, codePtr };
+	List_GetIndex((SortedList*)&pluginListAddr, (CMPluginBase*)&boo, &idx);
 	if (idx > 0)
 		idx--;
 
@@ -85,19 +92,22 @@ MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
 
 char* GetPluginNameByInstance(HINSTANCE hInst)
 {
-	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
+	HINSTANCE boo[2] = { 0, hInst };
+	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&boo);
 	return (pPlugin == nullptr) ? nullptr : pPlugin->getInfo().shortName;
 }
 
 MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
 {
-	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
+	HINSTANCE boo[2] = { 0, hInst };
+	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&boo);
 	return (pPlugin == nullptr) ? g_plugin : *pPlugin;
 }
 
 MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInst)
 {
-	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&hInst);
+	HINSTANCE boo[2] = { 0, hInst };
+	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&boo);
 	return (pPlugin == nullptr) ? 0 : pPlugin->m_hLang;
 }
 
@@ -138,6 +148,20 @@ CMPluginBase::~CMPluginBase()
 
 	pluginListAddr.remove(this);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CMPluginBase::Load()
+{
+	return 0;
+}
+
+int CMPluginBase::Unload()
+{
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMPluginBase::tryOpenLog()
 {

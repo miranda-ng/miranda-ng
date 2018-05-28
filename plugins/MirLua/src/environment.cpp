@@ -138,7 +138,7 @@ void CMLuaEnvironment::CreateEnvironmentTable()
 	lua_setmetatable(L, -2);
 }
 
-bool CMLuaEnvironment::Load()
+int CMLuaEnvironment::Load()
 {
 	luaL_checktype(L, -1, LUA_TFUNCTION);
 

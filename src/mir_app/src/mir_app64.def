@@ -614,3 +614,6 @@ UnregisterPlugin @633
 ?addTTB@CMPluginBase@@QEAAPEAXPEBUTTBButton@@@Z @643 NONAME
 ?g_clistApi@@3UCLIST_INTERFACE@@A @644 NONAME
 ?g_chatApi@@3UCHAT_MANAGER@@A @645 NONAME
+??_7CMPluginBase@@6B@ @646 NONAME
+?Load@CMPluginBase@@UEAAHXZ @647 NONAME
+?Unload@CMPluginBase@@UEAAHXZ @648 NONAME

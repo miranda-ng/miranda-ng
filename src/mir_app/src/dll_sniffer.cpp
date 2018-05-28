@@ -56,7 +56,7 @@ __forceinline bool Contains(PIMAGE_SECTION_HEADER pISH, DWORD address, DWORD siz
 	return (address >= pISH->VirtualAddress && address + size <= pISH->VirtualAddress + pISH->SizeOfRawData);
 }
 
-MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
+MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 {
 	int nChecks = 0;
 	bIsPlugin = false;
@@ -65,8 +65,8 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 	if (hFile == INVALID_HANDLE_VALUE)
 		return nullptr;
 
-	MUUID* pResult = nullptr;
-	BYTE* ptr = nullptr;
+	MUUID *pResult = nullptr;
+	BYTE *ptr = nullptr;
 	HANDLE hMap = CreateFileMapping(hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
 
 	__try {
@@ -143,7 +143,7 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 					WORD  *ptrOrdRVA = (WORD*)&pSecStart[pED->AddressOfNameOrdinals];
 					DWORD *ptrFuncList = (DWORD*)&pSecStart[pED->AddressOfFunctions];
 
-					MUUID* pIds = nullptr;
+					MUUID *pIds = nullptr;
 					bool bHasLoad = false, bHasUnload = false, bHasMuuids = false;
 					for (size_t i = 0; i < pED->NumberOfNames; i++, ptrRVA++, ptrOrdRVA++) {
 						char *szName = (char*)&pSecStart[*ptrRVA];
@@ -165,7 +165,7 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 					// a plugin might have no interfaces
 					if (bHasMuuids) {
 						int nLength = 1; // one for MIID_LAST
-						for (MUUID* p = pIds; *p != miid_last; p++)
+						for (MUUID *p = pIds; *p != miid_last; p++)
 							nLength++;
 
 						pResult = (MUUID*)mir_alloc(sizeof(MUUID)*nLength);
@@ -189,8 +189,8 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 						VerQueryValue(&pSecStart[dwVersion], L"\\", (PVOID*)&vsffi, &blockSize);
 
 						UINT v[4] = { MIRANDA_VERSION_COREVERSION };
-						if (MAKELONG(v[1], v[0]) == vsffi->dwProductVersionMS && MAKELONG(v[3], v[2]) == vsffi->dwProductVersionLS)
-						nChecks++;
+						if (MAKELONG(v[1], v[0]) == (int)vsffi->dwProductVersionMS && MAKELONG(v[3], v[2]) == (int)vsffi->dwProductVersionLS)
+							nChecks++;
 					}
 				}
 			}

@@ -154,7 +154,10 @@ typedef struct PROTO_INTERFACE* (*pfnInitProto)(const char* szModuleName, const 
 // deallocates an account instance
 typedef int(*pfnUninitProto)(PROTO_INTERFACE*);
 
-class MIR_APP_EXPORT CMPluginBase
+#pragma warning(push)
+#pragma warning(disable:4275)
+
+class MIR_APP_EXPORT CMPluginBase : public MNonCopyable
 {
 	void tryOpenLog();
 
@@ -181,6 +184,9 @@ public:
 
 	__forceinline HINSTANCE getInst() const { return m_hInst; }
 	__forceinline void setInst(HINSTANCE hInst) { m_hInst = hInst; }
+
+	virtual int Load();
+	virtual int Unload();
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// registering module's resources
@@ -365,6 +371,8 @@ public:
 		db_set_ws(hContact, m_szModuleName, name, value);
 	}
 };
+
+#pragma warning(pop)
 
 extern struct CMPlugin g_plugin;
 

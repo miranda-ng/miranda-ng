@@ -17,8 +17,6 @@ private:
 	const wchar_t *fileName;
 	wchar_t filePath[MAX_PATH];
 
-	void Unload();
-
 public:
 	CMLuaScript(lua_State *L, const wchar_t *path);
 	CMLuaScript(const CMLuaScript &script);
@@ -33,6 +31,8 @@ public:
 
 	Status GetStatus() const;
 
-	bool Load();
+	int Load() override;
+	int Unload() override;
+
 	bool Reload();
 };

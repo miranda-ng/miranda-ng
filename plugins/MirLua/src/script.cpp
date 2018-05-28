@@ -62,7 +62,7 @@ CMLuaScript::Status CMLuaScript::GetStatus() const
 	return status;
 }
 
-bool CMLuaScript::Load()
+int CMLuaScript::Load()
 {
 	status = Failed;
 
@@ -114,7 +114,7 @@ bool CMLuaScript::Load()
 	return true;
 }
 
-void CMLuaScript::Unload()
+int CMLuaScript::Unload()
 {
 	if (status == Loaded) {
 		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
@@ -129,6 +129,7 @@ void CMLuaScript::Unload()
 	lua_pushnil(L);
 	lua_setfield(L, -2, m_szModuleName);
 	lua_pop(L, 1);
+	return 0;
 }
 
 bool CMLuaScript::Reload()

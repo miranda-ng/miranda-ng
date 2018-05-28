@@ -24,7 +24,7 @@ CMPlugin::~CMPlugin()
 	Unload();
 }
 
-void CMPlugin::Load()
+int CMPlugin::Load()
 {
 	Log("Loading lua engine");
 	L = luaL_newstate();
@@ -36,9 +36,10 @@ void CMPlugin::Load()
 	CMLuaFunctionLoader::Load(L);
 	CMLuaModuleLoader::Load(L);
 	CMLuaScriptLoader::Load(L);
+	return 0;
 }
 
-void CMPlugin::Unload()
+int CMPlugin::Unload()
 {
 	Log("Unloading lua engine");
 
@@ -53,6 +54,7 @@ void CMPlugin::Unload()
 	KillObjectServices(L);
 
 	lua_close(L);
+	return 0;
 }
 
 void CMPlugin::Reload()
