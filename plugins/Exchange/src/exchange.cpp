@@ -32,9 +32,9 @@ CExchangeServer exchangeServer;
 PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
-	__PLUGIN_DISPLAY_NAME,
+	__PLUGIN_NAME,
 	__VERSION_DWORD,
-	__DESC,
+	__DESCRIPTION,
 	__AUTHOR,
 	__COPYRIGHT,
 	__AUTHORWEB,

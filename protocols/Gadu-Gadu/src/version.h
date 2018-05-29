@@ -26,6 +26,7 @@
 #include <stdver.h>
 
 #define __PLUGIN_NAME             "Gadu-Gadu protocol"
+#define __FILENAME                "GG.dll"
 #define __DESCRIPTION             "Gadu-Gadu protocol support for Miranda NG."
 #define __AUTHOR                  "Bartosz Bialek, Adam Strzelecki"
 #define __COPYRIGHT               "© 2009-2012 Bartosz Bialek, 2003-2009 Adam Strzelecki"

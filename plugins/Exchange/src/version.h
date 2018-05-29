@@ -28,11 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdver.h>
 
-#define __DESC                  "Notifies you if you have unread email on an exchange server."
+#define __PLUGIN_NAME           "Exchange notifier plugin"
+#define __FILENAME              "Exchange.dll"
+#define __DESCRIPTION           "Notifies you if you have unread email on an exchange server."
 #define __AUTHOR                "Cristian Libotean, Attila Vajda, MaKaR (NG)"
 #define __COPYRIGHT             "© 2006-13 Cristian Libotean and Attila Vajda"
 #define __AUTHORWEB             "https://miranda-ng.org/p/Exchange/"
-
-#define __PLUGIN_DISPLAY_NAME   "Exchange notifier plugin"
 
 #endif //M_EXCHANGE_VERSION_H
