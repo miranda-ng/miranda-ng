@@ -184,20 +184,20 @@ bool pluginEntry::checkAPI(wchar_t *plugin, int checkTypeAPI)
 	if (h == nullptr)
 		return false;
 
-	// loaded, check for exports
-	CMPluginBase &ppb = GetPluginByInstance(h);
-	pfnLoad = (Miranda_Plugin_Load)GetProcAddress(h, "Load");
-	pfnUnload = (Miranda_Plugin_Unload)GetProcAddress(h, "Unload");
-
 	// dll must register itself during LoadLibrary
+	CMPluginBase &ppb = GetPluginByInstance(h);
 	if (ppb.getInst() != h) {
 LBL_Error:
+		bFailed = true;
 		clear();
 		FreeLibrary(h);
 		return false;
 	}
 
 	m_pPlugin = &ppb;
+	pfnLoad = (Miranda_Plugin_Load)GetProcAddress(h, "Load");
+	pfnUnload = (Miranda_Plugin_Unload)GetProcAddress(h, "Unload");
+	
 	m_pInterfaces = (MUUID*)GetProcAddress(h, "MirandaInterfaces");
 	if (m_pInterfaces == nullptr) {
 		// MirandaPluginInterfaces function is actual only for the only plugin, HistoryPlusPlus
@@ -381,7 +381,6 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 			else
 				p->bLoaded = true;
 		}
-		else p->bFailed = true;
 	}
 	// plugin declared that it's a contact list. mark it for the future load
 	else if (hasMuuid(pIds, MIID_CLIST)) {
@@ -398,15 +397,11 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	// load it for a profile manager's window
 	else if (hasMuuid(pIds, MIID_SERVICEMODE)) {
 		if (p->checkAPI(tszFullPath, CHECKAPI_NONE)) {
-			p->bOk = true;
 			if (hasMuuid(pIds, MIID_SERVICEMODE)) {
 				p->bIsService = true;
 				servicePlugins.insert(p);
 			}
 		}
-		else
-			// didn't have basic APIs or DB exports - failed.
-			p->bFailed = true;
 	}
 	else if (hasMuuid(pIds, MIID_PROTOCOL) || !mir_wstrcmpi(tszFileName, L"mradio.dll") || !mir_wstrcmpi(tszFileName, L"watrack.dll"))
 		p->bIsProtocol = true;
@@ -454,12 +449,8 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 				*slice = 0;
 
 			mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->bIsCore) ? L"Core" : L"Plugins", p->pluginname);
-			if (!p->checkAPI(tszFullPath, CHECKAPI_NONE)) {
-				p->bFailed = true;
+			if (!p->checkAPI(tszFullPath, CHECKAPI_NONE))
 				return false;
-			}
-
-			p->bOk = true;
 		}
 
 		if (p->m_pInterfaces) {
@@ -546,7 +537,7 @@ static bool loadClistModule(wchar_t *exe, pluginEntry *p)
 	g_bReadyToInitClist = true;
 
 	if (p->checkAPI(exe, CHECKAPI_CLIST)) {
-		p->bIsLast = p->bOk = true;
+		p->bIsLast = true;
 
 		hCListImages = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 13, 0);
 		ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
@@ -676,7 +667,7 @@ void UnloadNewPlugins(void)
 {
 	// unload everything but the special db/clist plugins
 	for (auto &it : pluginList.rev_iter())
-		if (!it->bIsLast && it->bOk)
+		if (!it->bIsLast && !it->bFailed)
 			Plugin_Uninit(it);
 }
 
@@ -696,9 +687,7 @@ int LoadProtocolPlugins(void)
 
 		wchar_t tszFullPath[MAX_PATH];
 		mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, L"Plugins", p->pluginname);
-
-		if (p->checkAPI(tszFullPath, CHECKAPI_NONE))
-			p->bOk = true;
+		p->checkAPI(tszFullPath, CHECKAPI_NONE);
 	}
 
 	return 0;

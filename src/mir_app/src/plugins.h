@@ -21,9 +21,7 @@ struct pluginEntry
 	struct
 	{
 		bool bFailed : 1;      // not a valid plugin, or API is invalid, pluginname is valid
-		bool bOk : 1;			  // plugin should be loaded, if DB means nothing
 		bool bLoaded : 1;      // Load(void) has been called, Unload() should be called.
-		bool bStopped : 1;     // wasn't loaded cos plugin name not on white list
 
 		bool bIsCore : 1;		  // a plugin from the /Core directory
 		bool bIsService : 1;	  // has Service Mode implementation
@@ -31,9 +29,9 @@ struct pluginEntry
 
 		bool bHasBasicApi : 1; // has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
 		bool bIsProtocol : 1;  // protocol module
-		bool bIsDatabase : 1;  // has MUUID_DATABASE in its interfaces, and PCLASS_BASICAPI has to be set too
-		bool bIsClist : 1;	  // a CList implementation
-		bool bIsCrypto : 1;	  // crypto provider
+		bool bIsClist : 1;	  // has MIID_CLIST in its interfaces
+		bool bIsCrypto : 1;	  // has MIID_CRYPTO in its interfaces
+		bool bIsDatabase : 1;  // has MUUID_DATABASE in its interfaces
 	};
 
 	void clear()
@@ -45,7 +43,7 @@ struct pluginEntry
 	}
 
 	// old stubs for pascal plugins
-	Miranda_Plugin_Load   pfnLoad;
+	Miranda_Plugin_Load pfnLoad;
 	Miranda_Plugin_Unload pfnUnload;
 
 	MUUID* m_pInterfaces;          // array of supported interfaces or NULL
