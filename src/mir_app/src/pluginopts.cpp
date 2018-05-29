@@ -65,24 +65,37 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 
 	// try to check a plugin without loading it first
 	HINSTANCE hInst = GetModuleHandle(buf);
-	if (hInst == nullptr) {
-		bool bIsPlugin = false;
-		mir_ptr<MUUID> pIds(GetPluginInterfaces(buf, bIsPlugin));
-		if (!bIsPlugin)
-			return TRUE;
-	}
 
-	BASIC_PLUGIN_INFO pi;
-	if (checkAPI(buf, &pi, CHECKAPI_NONE) == 0)
-		return TRUE;
+	bool bIsPlugin = false, bNeedsFree = false;
+	mir_ptr<MUUID> pIds(GetPluginInterfaces(buf, bIsPlugin));
+	if (!bIsPlugin)
+		return true;
+
+	CMPluginBase *ppb;
+	if (hInst == nullptr) {
+		SetErrorMode(SEM_FAILCRITICALERRORS); // disable error messages
+		HINSTANCE h = LoadLibraryW(buf);
+		SetErrorMode(0);							  // reset the system default
+		if (h == nullptr)
+			return true;
+
+		ppb = &GetPluginByInstance(h);
+		if (ppb->getInst() != h) {
+			FreeLibrary(h);
+			return true;
+		}
+		
+		bNeedsFree = true;
+	}
+	else ppb = &GetPluginByInstance(hInst);
 
 	PluginListItemData *dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
-	dat->flags = pi.pPlugin->getInfo().flags;
+	dat->flags = ppb->getInfo().flags;
 
 	dat->stdPlugin = 0;
-	if (pi.Interfaces) {
-		MUUID *piface = pi.Interfaces;
+	if (pIds != nullptr) {
+		MUUID *piface = pIds;
 		for (int i = 0; piface[i] != miid_last; i++) {
 			int idx = getDefaultPluginIdx(piface[i]);
 			if (idx != -1) {
@@ -102,7 +115,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	it.mask = LVIF_PARAM | LVIF_IMAGE;
 	it.iImage = (hInst != nullptr) ? 2 : 3;
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
-	if (bNoCheckbox || hasMuuid(pi, MIID_CLIST))
+	if (bNoCheckbox || hasMuuid(pIds, MIID_CLIST))
 		it.iImage += 2;
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
@@ -119,7 +132,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		it.pszText = fd->cFileName;
 		ListView_SetItem(hwndList, &it);
 
-		const PLUGININFOEX &ppi = pi.pPlugin->getInfo();
+		const PLUGININFOEX &ppi = ppb->getInfo();
 		dat->author = sttUtf8auto(ppi.author);
 		dat->copyright = sttUtf8auto(ppi.copyright);
 		dat->description = sttUtf8auto(ppi.description);
@@ -153,9 +166,10 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		arPluginList.insert(dat);
 	}
 	else mir_free(dat);
-	
-	FreeLibrary(pi.pPlugin->getInst());
-	return TRUE;
+
+	if (bNeedsFree)
+		FreeLibrary(ppb->getInst());
+	return true;
 }
 
 static int uuidToString(const MUUID uuid, char *szStr, int cbLen)
@@ -184,7 +198,7 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 	if (!TryLoadPlugin(pPlug, true))
 		goto LBL_Error;
 
-	CMPluginBase *ppb = pPlug->bpi.pPlugin;
+	CMPluginBase *ppb = pPlug->m_pPlugin;
 	if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
 		goto LBL_Error;
 

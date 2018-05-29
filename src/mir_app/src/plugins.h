@@ -15,24 +15,6 @@ typedef int(__cdecl *Miranda_Plugin_Unload) (void);
 // prototype for clists
 typedef int(__cdecl *CList_Initialise) (void);
 
-// can all be nullptr
-struct BASIC_PLUGIN_INFO
-{
-	Miranda_Plugin_Load   pfnLoad;
-	Miranda_Plugin_Unload pfnUnload;
-	CList_Initialise      clistlink;
-	CMPluginBase*         pPlugin;
-	MUUID*                Interfaces; // array of supported interfaces
-
-	int Load()
-	{	return (pfnLoad == nullptr) ? pPlugin->Load() : pfnLoad();
-	}
-
-	int Unload()
-	{	return (pfnUnload == nullptr) ? pPlugin->Unload() : pfnUnload();
-	}
-};
-
 struct pluginEntry
 {
 	wchar_t pluginname[64];
@@ -54,7 +36,31 @@ struct pluginEntry
 		bool bIsCrypto : 1;	  // crypto provider
 	};
 
-	BASIC_PLUGIN_INFO bpi;
+	void clear()
+	{
+		pfnLoad = 0;
+		pfnUnload = 0;
+		m_pInterfaces = 0;
+		m_pPlugin = 0;
+	}
+
+	// old stubs for pascal plugins
+	Miranda_Plugin_Load   pfnLoad;
+	Miranda_Plugin_Unload pfnUnload;
+
+	MUUID* m_pInterfaces;          // array of supported interfaces or NULL
+	CMPluginBase* m_pPlugin;      // pointer to a plugin's instance
+	CList_Initialise m_pClistlink; // link to a clist plugin
+
+	bool checkAPI(wchar_t *plugin, int checkTypeAPI);
+
+	int load()
+	{	return (pfnLoad == nullptr) ? m_pPlugin->Load() : pfnLoad();
+	}
+
+	int unload()
+	{	return (pfnUnload == nullptr) ? m_pPlugin->Unload() : pfnUnload();
+	}
 };
 
 extern LIST<pluginEntry> pluginList, servicePlugins, clistPlugins;
@@ -68,9 +74,7 @@ int isPluginOnWhiteList(const wchar_t *pluginname);
 void SetPluginOnWhiteList(const wchar_t *pluginname, int allow);
 
 int  getDefaultPluginIdx(const MUUID &muuid);
-bool hasMuuid(const BASIC_PLUGIN_INFO&, const MUUID&);
 bool hasMuuid(const MUUID *pFirst, const MUUID&);
-bool checkAPI(wchar_t *plugin, BASIC_PLUGIN_INFO *bpi, int checkTypeAPI);
 
 pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path);
 
