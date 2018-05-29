@@ -28,10 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdver.h>
 
+#define __PLUGIN_NAME           "Connection Notify"
+#define __FILENAME              "ConnectionNotify.dll"
 #define __DESCRIPTION           "Notify with popup if some connection established"
 #define __AUTHOR                "MaKaR"
 #define __COPYRIGHT             "© 2011-13 MaKaRSoFT"
 #define __AUTHORWEB             "https://miranda-ng.org/p/ConnectionNotify/"
-#define __PLUGIN_DISPLAY_NAME   "ConnectionNotify"
 
 #endif //M_EXCHANGE_VERSION_H
