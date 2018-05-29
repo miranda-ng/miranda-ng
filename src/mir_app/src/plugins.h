@@ -1,9 +1,5 @@
 #pragma once
 
-// returns true if the API exports were good, otherwise, passed in data is returned
-#define CHECKAPI_NONE 	 0
-#define CHECKAPI_CLIST   1
-
 // block these plugins
 #define DEFMOD_REMOVED_UIPLUGINOPTS     21
 #define DEFMOD_REMOVED_PROTOCOLNETLIB   22
@@ -11,9 +7,6 @@
 // basic export prototypes
 typedef int(__cdecl *Miranda_Plugin_Load) (void);
 typedef int(__cdecl *Miranda_Plugin_Unload) (void);
-
-// prototype for clists
-typedef int(__cdecl *CList_Initialise) (void);
 
 struct pluginEntry
 {
@@ -48,9 +41,8 @@ struct pluginEntry
 
 	MUUID* m_pInterfaces;          // array of supported interfaces or NULL
 	CMPluginBase* m_pPlugin;      // pointer to a plugin's instance
-	CList_Initialise m_pClistlink; // link to a clist plugin
 
-	bool checkAPI(wchar_t *plugin, int checkTypeAPI);
+	bool checkAPI(wchar_t *plugin);
 
 	int load()
 	{	return (pfnLoad == nullptr) ? m_pPlugin->Load() : pfnLoad();

@@ -176,7 +176,7 @@ static bool validInterfaceList(const MUUID *piface)
 	return true;
 }
 
-bool pluginEntry::checkAPI(wchar_t *plugin, int checkTypeAPI)
+bool pluginEntry::checkAPI(wchar_t *plugin)
 {
 	SetErrorMode(SEM_FAILCRITICALERRORS); // disable error messages
 	HINSTANCE h = LoadLibrary(plugin);
@@ -222,20 +222,8 @@ LBL_Error:
 		goto LBL_Error;
 
 	// basic API is present
-	if (checkTypeAPI == CHECKAPI_NONE) {
-		bHasBasicApi = true;
-		return true;
-	}
-	
-	// check clist?
-	if (checkTypeAPI == CHECKAPI_CLIST) {
-		m_pClistlink = (CList_Initialise)GetProcAddress(h, "CListInitialise");
-		if ((pInfo.flags & UNICODE_AWARE) && m_pClistlink) {
-			bHasBasicApi = true;
-			return true;
-		}
-	}
-	goto LBL_Error;
+	bHasBasicApi = true;
+	return true;
 }
 
 // perform any API related tasks to freeing
@@ -368,7 +356,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	// plugin declared that it's a database or a cryptor. load it asap!
 	bool bIsDb = hasMuuid(pIds, MIID_DATABASE);
 	if (bIsDb || hasMuuid(pIds, MIID_CRYPTO)) {
-		if (p->checkAPI(tszFullPath, CHECKAPI_NONE)) {
+		if (p->checkAPI(tszFullPath)) {
 			// plugin is valid
 			p->bIsLast = true;
 			if (bIsDb)
@@ -396,7 +384,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	// plugin declared that it's a service mode plugin.
 	// load it for a profile manager's window
 	else if (hasMuuid(pIds, MIID_SERVICEMODE)) {
-		if (p->checkAPI(tszFullPath, CHECKAPI_NONE)) {
+		if (p->checkAPI(tszFullPath)) {
 			if (hasMuuid(pIds, MIID_SERVICEMODE)) {
 				p->bIsService = true;
 				servicePlugins.insert(p);
@@ -449,7 +437,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 				*slice = 0;
 
 			mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->bIsCore) ? L"Core" : L"Plugins", p->pluginname);
-			if (!p->checkAPI(tszFullPath, CHECKAPI_NONE))
+			if (!p->checkAPI(tszFullPath))
 				return false;
 		}
 
@@ -536,7 +524,7 @@ static bool loadClistModule(wchar_t *exe, pluginEntry *p)
 {
 	g_bReadyToInitClist = true;
 
-	if (p->checkAPI(exe, CHECKAPI_CLIST)) {
+	if (p->checkAPI(exe)) {
 		p->bIsLast = true;
 
 		hCListImages = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 13, 0);
@@ -550,7 +538,7 @@ static bool loadClistModule(wchar_t *exe, pluginEntry *p)
 		ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN);
 		ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPSHUT);
 
-		if (p->m_pClistlink() == 0) {
+		if (p->load() == 0) {
 			p->bLoaded = true;
 			pluginDefault[0].pImpl = p;
 
@@ -687,7 +675,7 @@ int LoadProtocolPlugins(void)
 
 		wchar_t tszFullPath[MAX_PATH];
 		mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, L"Plugins", p->pluginname);
-		p->checkAPI(tszFullPath, CHECKAPI_NONE);
+		p->checkAPI(tszFullPath);
 	}
 
 	return 0;

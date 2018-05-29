@@ -67,7 +67,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int CListInitialise()
+int CMPlugin::Load(void)
 {
 	g_dwMainThreadID = GetCurrentThreadId();
 	g_hMirApp = GetModuleHandleA("mir_app.mir");
@@ -81,18 +81,7 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	CHECKRES(ClcLoadModule());
 	CHECKRES(ToolbarButtonLoadModule());
 	CHECKRES(ToolbarLoadModule());
-
-	TRACE("CListInitialise Modern Contact List ... Done\r\n");
-
-	return S_OK;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// never called by a newer plugin loader.
-
-int CMPlugin::Load(void)
-{
-	return 1;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

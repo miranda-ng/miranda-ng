@@ -107,7 +107,7 @@ static int systemModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) CListInitialise()
+int CMPlugin::Load()
 {
 	Clist_GetInterface();
 	coreCli = g_clistApi;
@@ -216,14 +216,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 	return rc;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// a plugin loader aware of CList exports will never call this.
-
-int CMPlugin::Load()
-{
-	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

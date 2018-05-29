@@ -115,7 +115,7 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // main clist initialization routine
 
-extern "C" int __declspec(dllexport) CListInitialise()
+int CMPlugin::Load()
 {
 	g_bSortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
 	g_bSortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
@@ -143,14 +143,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 
 	InitCustomMenus();
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// a plugin loader aware of CList exports will never call this.
-
-int CMPlugin::Load()
-{
-	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
