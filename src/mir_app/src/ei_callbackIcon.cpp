@@ -23,9 +23,9 @@ Boston, MA 02111-1307, USA.
 
 #include "extraicons.h"
 
-CallbackExtraIcon::CallbackExtraIcon(int _id, const char *_name, const wchar_t *_description, const char *_descIcon,
+CallbackExtraIcon::CallbackExtraIcon(const char *_name, const wchar_t *_description, const char *_descIcon,
 		MIRANDAHOOK _RebuildIcons, MIRANDAHOOK _ApplyIcon, MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
-	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param),
+	BaseExtraIcon(_name, _description, _descIcon, _OnClick, _param),
 	m_pfnRebuildIcons(_RebuildIcons), m_pfnApplyIcon(_ApplyIcon), m_needToRebuild(true)
 {
 }
@@ -61,15 +61,15 @@ void CallbackExtraIcon::applyIcon(MCONTACT hContact)
 	m_pfnApplyIcon(hContact, 0);
 }
 
-int CallbackExtraIcon::setIcon(int id, MCONTACT hContact, HANDLE icon)
+int CallbackExtraIcon::setIcon(MCONTACT hContact, HANDLE icon)
 {
-	if (!isEnabled() || hContact == 0 || id != m_id)
+	if (!isEnabled() || hContact == 0)
 		return -1;
 
 	return ClistSetExtraIcon(hContact, icon);
 }
 
-int CallbackExtraIcon::setIconByName(int, MCONTACT, const char*)
+int CallbackExtraIcon::setIconByName(MCONTACT, const char*)
 {
 	return -1;
 }

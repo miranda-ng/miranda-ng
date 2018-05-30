@@ -507,7 +507,7 @@ LBL_Error:
 		goto LBL_Error;
 
 	CMPluginBase *ppb = ppe->m_pPlugin;
-	if (bModulesLoadedFired) {
+	if (g_bModulesLoadedFired) {
 		if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
 			goto LBL_Error;
 

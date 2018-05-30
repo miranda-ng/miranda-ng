@@ -25,8 +25,6 @@ Boston, MA 02111-1307, USA.
 
 #include "extraicons.h"
 
-ExtraIcon* GetExtraIcon(HANDLE id);
-
 ////////////////////////////////////////////////////////////////////////////////////////
 // DB extra icons
 
@@ -61,11 +59,8 @@ static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 			hIcolib = Skin_GetIconHandle(SKINICON_OTHER_VISIBLE_ALL);
 	}
 
-	if (hIcolib != nullptr || clear) {
-		ExtraIcon *extra = GetExtraIcon(hExtraIcon);
-		if (extra)
-			extra->setIcon((INT_PTR)hExtraIcon, hContact, hIcolib);
-	}
+	if (hIcolib != nullptr || clear)
+		ExtraIcon_SetIcon(hExtraIcon, hContact, hIcolib);
 }
 
 static void SetGender(MCONTACT hContact, int gender, bool clear)
@@ -90,11 +85,8 @@ static void SetGender(MCONTACT hContact, int gender, bool clear)
 	else
 		ico = nullptr;
 
-	if (ico != nullptr || clear) {
-		ExtraIcon *extra = GetExtraIcon(hExtraGender);
-		if (extra)
-			extra->setIconByName((INT_PTR)hExtraGender, hContact, ico);
-	}
+	if (ico != nullptr || clear)
+		ExtraIcon_SetIconByName(hExtraGender, hContact, ico);
 }
 
 struct Info

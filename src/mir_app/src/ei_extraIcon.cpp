@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 #include "extraicons.h"
 
 ExtraIcon::ExtraIcon(const char *name) :
-	m_szName(mir_strdup(name)), m_slot(-1), m_position(1000), m_hLangpack(0)
+	m_szName(mir_strdup(name))
 {
 }
 
@@ -62,6 +62,14 @@ bool ExtraIcon::isEnabled() const
 	return m_slot >= 0;
 }
 
+void ExtraIcon::doApply(MCONTACT hContact)
+{
+	if (m_pParent)
+		m_pParent->applyIcon(hContact);
+	else
+		applyIcon(hContact);
+}
+
 void ExtraIcon::applyIcons()
 {
 	if (!isEnabled())
@@ -70,6 +78,6 @@ void ExtraIcon::applyIcons()
 	for (auto &hContact : Contacts()) {
 		// Clear to assert that it will be cleared
 		Clist_SetExtraIcon(hContact, m_slot, INVALID_HANDLE_VALUE);
-		applyIcon(hContact);
+		doApply(hContact);
 	}
 }

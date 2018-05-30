@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 #include "extraicons.h"
 
 ExtraIconGroup::ExtraIconGroup(const char *_name) :
-	ExtraIcon(_name), m_setValidExtraIcon(false), m_insideApply(false),
+	ExtraIcon(_name),
 	m_items(1)
 {
 	db_set_resident(EI_MODULE_NAME, _name);
@@ -95,24 +95,26 @@ void ExtraIconGroup::onClick(MCONTACT hContact)
 		m_pCurrentItem->onClick(hContact);
 }
 
-int ExtraIconGroup::setIcon(int id, MCONTACT hContact, HANDLE value)
+int ExtraIconGroup::setIcon(MCONTACT, HANDLE)
 {
-	return internalSetIcon(id, hContact, (void*)value, false);
+	return -1;
+	// return internalSetIcon(hContact, (void*)value, false);
 }
 
-int ExtraIconGroup::setIconByName(int id, MCONTACT hContact, const char *value)
+int ExtraIconGroup::setIconByName(MCONTACT, const char*)
 {
-	return internalSetIcon(id, hContact, (void*)value, true);
+	return -1;
+	// return internalSetIcon(hContact, (void*)value, true);
 }
 
-int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, HANDLE value, bool bByName)
+int ExtraIconGroup::internalSetIcon(ExtraIcon *pChild, MCONTACT hContact, HANDLE value, bool bByName)
 {
 	if (m_insideApply) {
 		for (auto &p : m_items)
-			if (p->getID() == id) {
+			if (p == pChild) {
 				if (bByName)
-					return p->setIconByName(id, hContact, (const char*)value);
-				return p->setIcon(id, hContact, value);
+					return p->setIconByName(hContact, (const char*)value);
+				return p->setIcon(hContact, value);
 			}
 
 		return -1;
@@ -121,7 +123,7 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, HANDLE value, boo
 	int currentPos = m_items.getCount();
 	int storePos = m_items.getCount();
 	for (int i = 0; i < m_items.getCount(); i++) {
-		if (m_items[i]->getID() == id)
+		if (m_items[i] == pChild)
 			storePos = i;
 
 		if (m_items[i] == m_pCurrentItem)
@@ -137,14 +139,13 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, HANDLE value, boo
 	}
 
 	// Ok, we have to set the icon, but we have to assert it is a valid icon
-
 	m_setValidExtraIcon = false;
 
 	int ret;
 	if (bByName)
-		ret = m_items[storePos]->setIconByName(id, hContact, (const char*)value);
+		ret = m_items[storePos]->setIconByName(hContact, (const char*)value);
 	else
-		ret = m_items[storePos]->setIcon(id, hContact, (HANDLE)value);
+		ret = m_items[storePos]->setIcon(hContact, (HANDLE)value);
 
 	if (storePos < currentPos) {
 		if (m_setValidExtraIcon)

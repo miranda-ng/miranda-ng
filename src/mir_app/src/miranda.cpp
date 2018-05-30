@@ -51,7 +51,7 @@ ITaskbarList3 *pTaskbarInterface;
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
 HANDLE hShutdownEvent, hPreShutdownEvent;
 DWORD hMainThreadId;
-bool bModulesLoadedFired = false, bMirandaTerminated = false;
+bool g_bModulesLoadedFired = false, g_bMirandaTerminated = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
 
 CMPlugin g_plugin;
@@ -316,7 +316,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 	int result = 0;
 	if (LoadDefaultModules()) {
-		bMirandaTerminated = true;
+		g_bMirandaTerminated = true;
 		NotifyEventHooks(hPreShutdownEvent, 0, 0);
 		NotifyEventHooks(hShutdownEvent, 0, 0);
 		UnloadDefaultModules();
@@ -326,7 +326,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	else {
 		InitPathVar();
 		NotifyEventHooks(hModulesLoadedEvent, 0, 0);
-		bModulesLoadedFired = true;
+		g_bModulesLoadedFired = true;
 
 		// ensure that the kernel hooks the SystemShutdownProc() after all plugins
 		HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);
@@ -364,7 +364,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 				}
 				else if (!dying) {
 					dying++;
-					bMirandaTerminated = true;
+					g_bMirandaTerminated = true;
 					NotifyEventHooks(hPreShutdownEvent, 0, 0);
 
 					// this spins and processes the msg loop, objects and APC.
@@ -398,7 +398,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 MIR_APP_DLL(bool) Miranda_IsTerminated()
 {
-	return bMirandaTerminated;
+	return g_bMirandaTerminated;
 }
 
 MIR_APP_DLL(bool) Miranda_OkToExit()

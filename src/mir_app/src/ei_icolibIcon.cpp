@@ -26,8 +26,8 @@ Boston, MA 02111-1307, USA.
 
 #include "IcoLib.h"
 
-IcolibExtraIcon::IcolibExtraIcon(int _id, const char *_name, const wchar_t *_description, const char *_descIcon, MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
-	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param)
+IcolibExtraIcon::IcolibExtraIcon(const char *_name, const wchar_t *_description, const char *_descIcon, MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
+	BaseExtraIcon(_name, _description, _descIcon, _OnClick, _param)
 {
 	db_set_resident(EI_MODULE_NAME, _name);
 }
@@ -59,9 +59,9 @@ void IcolibExtraIcon::applyIcon(MCONTACT hContact)
 	ClistSetExtraIcon(hContact, hImage);
 }
 
-int IcolibExtraIcon::setIcon(int id, MCONTACT hContact, HANDLE hIcoLib)
+int IcolibExtraIcon::setIcon(MCONTACT hContact, HANDLE hIcoLib)
 {
-	if (hContact == 0 || id != m_id)
+	if (hContact == 0)
 		return -1;
 
 	if (hIcoLib == INVALID_HANDLE_VALUE)
@@ -83,9 +83,9 @@ int IcolibExtraIcon::setIcon(int id, MCONTACT hContact, HANDLE hIcoLib)
 	return 0;
 }
 
-int IcolibExtraIcon::setIconByName(int id, MCONTACT hContact, const char *icon)
+int IcolibExtraIcon::setIconByName(MCONTACT hContact, const char *icon)
 {
-	if (hContact == 0 || id != m_id)
+	if (hContact == 0)
 		return -1;
 
 	if (icon == INVALID_HANDLE_VALUE)

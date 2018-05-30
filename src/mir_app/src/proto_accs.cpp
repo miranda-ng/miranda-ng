@@ -283,7 +283,7 @@ bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
 
 	if (bIsDynamic) {
-		if (bModulesLoadedFired)
+		if (g_bModulesLoadedFired)
 			pa->ppro->OnModulesLoaded();
 		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
 			pa->ppro->OnBuildProtoMenu();
@@ -431,7 +431,9 @@ void UnloadAccount(PROTOACCOUNT *pa, int flags)
 	if (!(flags & DAF_DYNAMIC))
 		delete pa;
 	else {
-		replaceStrW(pa->tszAccountName, 0);		replaceStr(pa->szProtoName, 0);		replaceStr(pa->szUniqueId, 0);
+		replaceStrW(pa->tszAccountName, 0);
+		replaceStr(pa->szProtoName, 0);
+		replaceStr(pa->szUniqueId, 0);
 	}
 }
 

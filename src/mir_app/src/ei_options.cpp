@@ -265,6 +265,8 @@ public:
 		ImageList_AddIcon(hImageList, hBlankIcon);
 
 		for (auto &extra : registeredExtraIcons) {
+			extra->setID(registeredExtraIcons.indexOf(&extra) + 1);
+
 			HICON hIcon = IcoLib_GetIcon(extra->getDescIcon());
 			if (hIcon == nullptr)
 				ImageList_AddIcon(hImageList, hBlankIcon);
@@ -300,10 +302,9 @@ public:
 		int *oldSlots = new int[registeredExtraIcons.getCount()];
 		int lastUsedSlot = -1;
 		for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
-			if (extraIconsByHandle[i] == registeredExtraIcons[i])
+			if (registeredExtraIcons[i]->getType() != EXTRAICON_TYPE_GROUP)
 				oldSlots[i] = registeredExtraIcons[i]->getSlot();
-			else
-				// Remove old slot for groups to re-set images
+			else // Remove old slot for groups to re-set images
 				oldSlots[i] = -1;
 			lastUsedSlot = max(lastUsedSlot, registeredExtraIcons[i]->getSlot());
 		}
@@ -322,7 +323,7 @@ public:
 			tvi.hItem = ht;
 			m_tree.GetItem(&tvi);
 
-			intlist*ids = (intlist*)tvi.lParam;
+			intlist *ids = (intlist*)tvi.lParam;
 			if (ids == nullptr || ids->count < 1)
 				continue; // ???
 
@@ -389,14 +390,9 @@ public:
 
 		// Apply icons to new slots
 		RebuildListsBasedOnGroups(groups);
-		for (auto &extra : extraIconsBySlot) {
-			if (extra->getType() != EXTRAICON_TYPE_GROUP)
-				if (oldSlots[((BaseExtraIcon *)extra)->getID() - 1] == extra->getSlot())
-					continue;
-
+		for (auto &extra : extraIconsBySlot)
 			if (extra->isEnabled())
 				extra->applyIcons();
-		}
 
 		delete[] oldSlots;
 	}

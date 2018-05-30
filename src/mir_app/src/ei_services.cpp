@@ -35,16 +35,13 @@ int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2)
 	if (ret != 0)
 		return ret;
 
-	int id1 = (p1->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*)p1)->getID() : 0;
-	int id2 = (p2->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*)p2)->getID() : 0;
-	return id1 - id2;
+	return p1->getID() - p2->getID();
 }
 
-LIST<ExtraIcon> extraIconsByHandle(10), extraIconsBySlot(10, SortFunc);
-LIST<BaseExtraIcon> registeredExtraIcons(10);
+LIST<ExtraIcon> extraIconsBySlot(10, SortFunc);
+LIST<BaseExtraIcon> registeredExtraIcons(10, PtrKeySortT);
 
-BOOL clistRebuildAlreadyCalled = FALSE;
-BOOL clistApplyAlreadyCalled = FALSE;
+static bool clistRebuildAlreadyCalled = false, clistApplyAlreadyCalled = false;
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
@@ -85,24 +82,6 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 
 	SendMessage(g_clistApi.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol, hImage));
 	return 0;
-}
-
-ExtraIcon* GetExtraIcon(HANDLE id)
-{
-	int i = (INT_PTR)id;
-	if (i < 1 || i > extraIconsByHandle.getCount())
-		return nullptr;
-
-	return extraIconsByHandle[i - 1];
-}
-
-ExtraIcon* GetExtraIconBySlot(int slot)
-{
-	for (auto &extra : extraIconsBySlot)
-		if (extra->getSlot() == slot)
-			return extra;
-
-	return nullptr;
 }
 
 BaseExtraIcon* GetExtraIconByName(const char *name)
@@ -163,10 +142,8 @@ static ExtraIconGroup* IsInGroup(LIST<ExtraIconGroup> &groups, BaseExtraIcon *ex
 
 void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 {
-	extraIconsByHandle.destroy();
-
-	for (auto &it : registeredExtraIcons)
-		extraIconsByHandle.insert(it);
+	for (auto &extra : registeredExtraIcons)
+		extra->setParent(nullptr);
 
 	for (auto &extra : extraIconsBySlot)
 		if (extra->getType() == EXTRAICON_TYPE_GROUP)
@@ -175,17 +152,44 @@ void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 
 	for (auto &group : groups) {
 		for (auto &it : group->m_items)
-			extraIconsByHandle.put(it->getID()-1, group);
+			it->setParent(group);
 
 		extraIconsBySlot.insert(group);
 	}
 
-	for (auto &extra : extraIconsByHandle)
-		if (extra->getType() != EXTRAICON_TYPE_GROUP)
+	for (auto &extra : registeredExtraIcons)
+		if (extra->getParent() == nullptr)
 			extraIconsBySlot.insert(extra);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+static void ResetSlots(BaseExtraIcon *extra, ExtraIconGroup *group)
+{
+	int slot = 0, oldMaxSlot = -1;
+	for (auto &ex : extraIconsBySlot) {
+		if (ex->getSlot() < 0)
+			continue;
+
+		int oldSlot = ex->getSlot();
+		if (oldSlot > oldMaxSlot)
+			oldMaxSlot = oldSlot+1;
+
+		ex->setSlot(slot++);
+
+		if (clistApplyAlreadyCalled && (ex == group || ex == extra || oldSlot != slot))
+			ex->applyIcons();
+	}
+
+	// slots were freed, we need to clear one or more items
+	if (extra == nullptr)
+		for (int i = slot; i < oldMaxSlot; i++)
+			for (auto &hContact : Contacts())
+				Clist_SetExtraIcon(hContact, i, INVALID_HANDLE_VALUE);
+
+	if (!g_bMirandaTerminated)
+		Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
+}
 
 MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 {
@@ -204,7 +208,7 @@ MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 	LIST<ExtraIconGroup> groups(1);
 	LoadGroups(groups);
 	RebuildListsBasedOnGroups(groups);
-	ExtraIcon_SetAll();
+	ResetSlots(0, 0);
 
 	for (auto &it : arIcons)
 		delete it;
@@ -214,7 +218,7 @@ MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 
 int ClistExtraListRebuild(WPARAM, LPARAM)
 {
-	clistRebuildAlreadyCalled = TRUE;
+	clistRebuildAlreadyCalled = true;
 
 	ResetIcons();
 
@@ -229,10 +233,10 @@ int ClistExtraImageApply(WPARAM hContact, LPARAM)
 	if (hContact == 0)
 		return 0;
 
-	clistApplyAlreadyCalled = TRUE;
+	clistApplyAlreadyCalled = true;
 
 	for (auto &it : extraIconsBySlot)
-		it->applyIcon(hContact);
+		it->doApply(hContact);
 
 	return 0;
 }
@@ -329,7 +333,6 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags)
 	extra->setSlot(slot);
 
 	registeredExtraIcons.insert(extra);
-	extraIconsByHandle.insert(extra);
 
 	LIST<ExtraIconGroup> groups(1);
 	LoadGroups(groups);
@@ -348,17 +351,7 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags)
 		if (clistRebuildAlreadyCalled)
 			extra->rebuildIcons();
 
-		slot = 0;
-		for (auto &ex : extraIconsBySlot) {
-			if (ex->getSlot() < 0)
-				continue;
-
-			int oldSlot = ex->getSlot();
-			ex->setSlot(slot++);
-
-			if (clistApplyAlreadyCalled && (ex == group || ex == extra || oldSlot != slot))
-				extra->applyIcons();
-		}
+		ResetSlots(extra, group);
 	}
 }
 
@@ -379,11 +372,10 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 
 	ptrW tszDesc(mir_a2u(description));
 
-	int id = registeredExtraIcons.getCount() + 1;
-	BaseExtraIcon *extra = new CallbackExtraIcon(id, name, tszDesc, descIcon == nullptr ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
+	BaseExtraIcon *extra = new CallbackExtraIcon(name, tszDesc, descIcon == nullptr ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
 	extra->m_hLangpack = GetPluginLangByInstance(GetInstByAddress(RebuildIcons));
 	EI_PostCreate(extra, name, flags);
-	return (HANDLE)id;
+	return extra;
 }
 
 EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon,
@@ -410,17 +402,16 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 			if (clistRebuildAlreadyCalled)
 				extra->rebuildIcons();
 			if (clistApplyAlreadyCalled)
-				extraIconsByHandle[extra->getID() - 1]->applyIcons();
+				extra->applyIcons();
 		}
-
-		return (HANDLE)extra->getID();
 	}
-
-	int id = registeredExtraIcons.getCount() + 1;
-	extra = new IcolibExtraIcon(id, name, tszDesc, descIcon == nullptr ? "" : descIcon, OnClick, onClickParam);
-	extra->m_hLangpack = GetPluginLangByInstance(GetInstByAddress((void*)name));
-	EI_PostCreate(extra, name, flags);
-	return (HANDLE)id;
+	else {
+		extra = new IcolibExtraIcon(name, tszDesc, descIcon == nullptr ? "" : descIcon, OnClick, onClickParam);
+		extra->m_hLangpack = GetPluginLangByInstance(GetInstByAddress((void*)name));
+		EI_PostCreate(extra, name, flags);
+	}
+	
+	return extra;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -430,11 +421,14 @@ MIR_APP_DLL(int) ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact, HANDLE 
 	if (hExtraIcon == nullptr || hContact == 0)
 		return -1;
 
-	ExtraIcon *extra = GetExtraIcon(hExtraIcon);
+	BaseExtraIcon *extra = registeredExtraIcons.find((BaseExtraIcon*)hExtraIcon);
 	if (extra == nullptr)
 		return -1;
 
-	return extra->setIcon((INT_PTR)hExtraIcon, hContact, hImage);
+	if (extra->getParent())
+		return extra->getParent()->internalSetIcon(extra, hContact, hImage, false);
+
+	return extra->setIcon(hContact, hImage);
 }
 
 MIR_APP_DLL(int) ExtraIcon_SetIconByName(HANDLE hExtraIcon, MCONTACT hContact, const char *icoName)
@@ -442,11 +436,14 @@ MIR_APP_DLL(int) ExtraIcon_SetIconByName(HANDLE hExtraIcon, MCONTACT hContact, c
 	if (hExtraIcon == nullptr || hContact == 0)
 		return -1;
 
-	ExtraIcon *extra = GetExtraIcon(hExtraIcon);
+	BaseExtraIcon *extra = registeredExtraIcons.find((BaseExtraIcon*)hExtraIcon);
 	if (extra == nullptr)
 		return -1;
 
-	return extra->setIconByName((INT_PTR)hExtraIcon, hContact, icoName);
+	if (extra->getParent())
+		return extra->getParent()->internalSetIcon(extra, hContact, (HANDLE)icoName, true);
+
+	return extra->setIconByName(hContact, icoName);
 }
 
 MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
@@ -454,11 +451,14 @@ MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
 	if (hExtraIcon == nullptr || hContact == 0)
 		return -1;
 
-	ExtraIcon *extra = GetExtraIcon(hExtraIcon);
+	BaseExtraIcon *extra = registeredExtraIcons.find((BaseExtraIcon*)hExtraIcon);
 	if (extra == nullptr)
 		return -1;
 
-	return extra->setIcon((INT_PTR)hExtraIcon, hContact, nullptr);
+	if (extra->getParent())
+		return extra->getParent()->internalSetIcon(extra, hContact, nullptr, false);
+
+	return extra->setIcon(hContact, nullptr);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
