@@ -204,6 +204,7 @@ MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 	LIST<ExtraIconGroup> groups(1);
 	LoadGroups(groups);
 	RebuildListsBasedOnGroups(groups);
+	ExtraIcon_SetAll();
 
 	for (auto &it : arIcons)
 		delete it;
@@ -291,22 +292,17 @@ MIR_APP_DLL(void) ExtraIcon_SetAll(MCONTACT hContact)
 	if (g_clistApi.hwndContactTree == nullptr)
 		return;
 
-	bool hcontgiven = (hContact != 0);
-
 	if (!bImageCreated)
 		ExtraIcon_Reload();
 
 	SendMessage(g_clistApi.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
 
-	if (hContact == 0)
-		hContact = db_find_first();
-
-	for (; hContact; hContact = db_find_next(hContact)) {
-		NotifyEventHooks(hEventExtraImageApplying, hContact, 0);
-		if (hcontgiven)
-			break;
+	if (hContact == 0) {
+		for (auto &it : Contacts())
+			NotifyEventHooks(hEventExtraImageApplying, it, 0);
 	}
-
+	else NotifyEventHooks(hEventExtraImageApplying, hContact, 0);
+	
 	g_clistApi.pfnInvalidateRect(g_clistApi.hwndContactTree, nullptr, FALSE);
 }
 

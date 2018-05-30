@@ -62,16 +62,15 @@ void ExtraIconGroup::applyIcon(MCONTACT hContact)
 	m_setValidExtraIcon = false;
 	m_insideApply = true;
 
-	int i;
-	for (i = 0; i < m_items.getCount(); i++) {
-		m_items[i]->applyIcon(hContact);
-		if (m_setValidExtraIcon)
+	for (auto &p : m_items) {
+		p->applyIcon(hContact);
+		if (m_setValidExtraIcon) {
+			m_pCurrentItem = p;
 			break;
+		}
 	}
 
 	m_insideApply = false;
-
-	db_set_dw(hContact, EI_MODULE_NAME, m_szName, m_setValidExtraIcon ? m_items[i]->getID() : 0);
 }
 
 int ExtraIconGroup::getPosition() const
@@ -90,24 +89,10 @@ void ExtraIconGroup::setSlot(int slot)
 		p->setSlot(slot);
 }
 
-ExtraIcon * ExtraIconGroup::getCurrentItem(MCONTACT hContact) const
-{
-	int id = (int)db_get_dw(hContact, EI_MODULE_NAME, m_szName, 0);
-	if (id < 1)
-		return nullptr;
-
-	for (auto &p : m_items)
-		if (id == p->getID())
-			return p;
-
-	return nullptr;
-}
-
 void ExtraIconGroup::onClick(MCONTACT hContact)
 {
-	ExtraIcon *extra = getCurrentItem(hContact);
-	if (extra != nullptr)
-		extra->onClick(hContact);
+	if (m_pCurrentItem != nullptr)
+		m_pCurrentItem->onClick(hContact);
 }
 
 int ExtraIconGroup::setIcon(int id, MCONTACT hContact, HANDLE value)
@@ -133,14 +118,13 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, HANDLE value, boo
 		return -1;
 	}
 
-	ExtraIcon *current = getCurrentItem(hContact);
 	int currentPos = m_items.getCount();
 	int storePos = m_items.getCount();
 	for (int i = 0; i < m_items.getCount(); i++) {
 		if (m_items[i]->getID() == id)
 			storePos = i;
 
-		if (m_items[i] == current)
+		if (m_items[i] == m_pCurrentItem)
 			currentPos = i;
 	}
 
@@ -164,24 +148,23 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, HANDLE value, boo
 
 	if (storePos < currentPos) {
 		if (m_setValidExtraIcon)
-			db_set_dw(hContact, EI_MODULE_NAME, m_szName, m_items[storePos]->getID());
+			m_pCurrentItem = m_items[storePos];
 	}
 	else if (storePos == currentPos) {
 		if (!m_setValidExtraIcon) {
-			db_set_dw(hContact, EI_MODULE_NAME, m_szName, 0);
+			m_pCurrentItem = nullptr;
 
 			m_insideApply = true;
 
 			for (++storePos; storePos < m_items.getCount(); ++storePos) {
 				m_items[storePos]->applyIcon(hContact);
-				if (m_setValidExtraIcon)
+				if (m_setValidExtraIcon) {
+					m_pCurrentItem = m_items[storePos];
 					break;
+				}
 			}
 
 			m_insideApply = false;
-
-			if (m_setValidExtraIcon && storePos < m_items.getCount())
-				db_set_dw(hContact, EI_MODULE_NAME, m_szName, m_items[storePos]->getID());
 		}
 	}
 

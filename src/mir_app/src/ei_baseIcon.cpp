@@ -43,11 +43,6 @@ void BaseExtraIcon::setOnClick(MIRANDAHOOKPARAM pFunc, LPARAM pParam)
 	m_onClickParam = pParam;
 }
 
-int BaseExtraIcon::getID() const
-{
-	return m_id;
-}
-
 const wchar_t* BaseExtraIcon::getDescription() const
 {
 	return TranslateW_LP(m_tszDescription, m_hLangpack);

@@ -81,12 +81,13 @@ public:
 	BaseExtraIcon(int id, const char *name, const wchar_t *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~BaseExtraIcon();
 
-	virtual int getID() const;
-	virtual const wchar_t *getDescription() const;
+	__forceinline int getID() const { return m_id; }
+
+	virtual const wchar_t* getDescription() const;
 	virtual void setDescription(const wchar_t *desc);
-	virtual const char *getDescIcon() const;
+	virtual const char* getDescIcon() const;
 	virtual void setDescIcon(const char *icon);
-	virtual int getType() const =0;
+	virtual int getType() const = 0;
 
 	virtual void onClick(MCONTACT hContact);
 	virtual void setOnClick(MIRANDAHOOKPARAM OnClick, LPARAM param);
@@ -151,6 +152,7 @@ public:
 class ExtraIconGroup : public ExtraIcon
 {
 	int  internalSetIcon(int id, MCONTACT hContact, HANDLE icon, bool bByName);
+
 public:
 	ExtraIconGroup(const char *name);
 	virtual ~ExtraIconGroup();
@@ -179,8 +181,8 @@ protected:
 	ptrW m_tszDescription;
 	bool m_setValidExtraIcon;
 	bool m_insideApply;
-
-	virtual ExtraIcon *getCurrentItem(MCONTACT hContact) const;
+	
+	ExtraIcon *m_pCurrentItem = nullptr;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
