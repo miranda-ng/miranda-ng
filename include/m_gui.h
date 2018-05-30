@@ -1271,6 +1271,7 @@ public:
 	CCallback<TEventInfo> OnItemExpanded;
 	CCallback<TEventInfo> OnItemExpanding;
 	CCallback<TEventInfo> OnKeyDown;
+	CCallback<TEventInfo> OnRightClick;
 	CCallback<TEventInfo> OnSelChanged;
 	CCallback<TEventInfo> OnSelChanging;
 	CCallback<TEventInfo> OnSetDispInfo;

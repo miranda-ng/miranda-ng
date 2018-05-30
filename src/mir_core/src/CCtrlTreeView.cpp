@@ -253,6 +253,7 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 	TEventInfo evt = { this, pnmh };
 
 	switch (pnmh->code) {
+	case NM_RCLICK:			 OnRightClick(&evt);      return TRUE;
 	case TVN_BEGINLABELEDIT: OnBeginLabelEdit(&evt);  return TRUE;
 	case TVN_BEGINRDRAG:     OnBeginRDrag(&evt);      return TRUE;
 	case TVN_DELETEITEM:     OnDeleteItem(&evt);      return TRUE;
