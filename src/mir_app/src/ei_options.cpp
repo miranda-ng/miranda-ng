@@ -251,7 +251,7 @@ public:
 
 	virtual void OnInitDialog()
 	{
-		int numSlots = GetNumberOfSlots();
+		int numSlots = EXTRA_ICON_COUNT;
 		if (numSlots < (int)registeredExtraIcons.getCount()) {
 			HWND label = GetDlgItem(m_hwnd, IDC_MAX_ICONS_L);
 			SetWindowText(label, CMStringW(FORMAT, TranslateT("*only the first %d icons will be shown"), numSlots));
@@ -307,7 +307,7 @@ public:
 				oldSlots[i] = -1;
 			lastUsedSlot = max(lastUsedSlot, registeredExtraIcons[i]->getSlot());
 		}
-		lastUsedSlot = min(lastUsedSlot, GetNumberOfSlots());
+		lastUsedSlot = min(lastUsedSlot, EXTRA_ICON_COUNT);
 
 		// Get user data and create new groups
 		LIST<ExtraIconGroup> groups(1);
@@ -328,7 +328,7 @@ public:
 
 			bool enabled = ((tvi.state & INDEXTOSTATEIMAGEMASK(3)) == INDEXTOSTATEIMAGEMASK(2));
 			int slot = (enabled ? firstEmptySlot++ : -1);
-			if (slot >= GetNumberOfSlots())
+			if (slot >= EXTRA_ICON_COUNT)
 				slot = -1;
 
 			if (ids->count == 1) {
@@ -451,9 +451,6 @@ public:
 
 int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
-	if (GetNumberOfSlots() < 1)
-		return 0;
-
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.szTitle.a = LPGEN("Extra icons");

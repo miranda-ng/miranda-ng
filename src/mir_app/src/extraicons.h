@@ -190,7 +190,6 @@ extern LIST<ExtraIcon> extraIconsByHandle, extraIconsBySlot;
 void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups);
 ExtraIcon * GetExtraIconBySlot(int slot);
 
-int GetNumberOfSlots();
 int ConvertToClistSlot(int slot);
 
 int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage);

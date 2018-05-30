@@ -57,11 +57,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int GetNumberOfSlots()
-{
-	return EXTRA_ICON_COUNT;
-}
-
 int ConvertToClistSlot(int slot)
 {
 	if (slot < 0)
