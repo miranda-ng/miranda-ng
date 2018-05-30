@@ -187,8 +187,10 @@ static void ResetSlots(BaseExtraIcon *extra, ExtraIconGroup *group)
 			for (auto &hContact : Contacts())
 				Clist_SetExtraIcon(hContact, i, INVALID_HANDLE_VALUE);
 
-	if (!g_bMirandaTerminated)
+	if (!g_bMirandaTerminated) {
 		Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
+		eiOptionsRefresh();
+	}
 }
 
 MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)

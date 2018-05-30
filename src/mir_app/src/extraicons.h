@@ -201,6 +201,8 @@ extern LIST<BaseExtraIcon> registeredExtraIcons;
 void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups);
 extern LIST<ExtraIcon> extraIconsBySlot;
 
+void eiOptionsRefresh(void);
+
 int ConvertToClistSlot(int slot);
 
 int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage);

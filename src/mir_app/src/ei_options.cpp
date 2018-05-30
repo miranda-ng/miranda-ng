@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 #include "extraicons.h"
 
-#define ICON_SIZE 				16
+static class CExtraIconOptsDlg *pGlgOptions;
 
 int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2);
 
@@ -240,17 +240,24 @@ class CExtraIconOptsDlg : public CDlgBase
 	}
 
 	CCtrlTreeView m_tree;
+	CTimer m_timer;
 
 public:
 	CExtraIconOptsDlg() :
 		CDlgBase(g_plugin, IDD_EI_OPTIONS),
-		m_tree(this, IDC_EXTRAORDER)
+		m_tree(this, IDC_EXTRAORDER),
+		m_timer(this, 1)
 	{
 		m_tree.SetFlags(MTREE_DND | MTREE_MULTISELECT);
+		m_tree.OnRightClick = Callback(this, &CExtraIconOptsDlg::onRClick);
+
+		m_timer.OnEvent = Callback(this, &CExtraIconOptsDlg::onTimer);
 	}
 
 	virtual void OnInitDialog()
 	{
+		pGlgOptions = this;
+
 		int numSlots = EXTRA_ICON_COUNT;
 		if (numSlots < (int)registeredExtraIcons.getCount()) {
 			HWND label = GetDlgItem(m_hwnd, IDC_MAX_ICONS_L);
@@ -258,42 +265,7 @@ public:
 			ShowWindow(label, SW_SHOW);
 		}
 
-		int cx = g_iIconSX;
-		HIMAGELIST hImageList = ImageList_Create(cx, cx, ILC_COLOR32 | ILC_MASK, 2, 2);
-
-		HICON hBlankIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx, 0);
-		ImageList_AddIcon(hImageList, hBlankIcon);
-
-		for (auto &extra : registeredExtraIcons) {
-			extra->setID(registeredExtraIcons.indexOf(&extra) + 1);
-
-			HICON hIcon = IcoLib_GetIcon(extra->getDescIcon());
-			if (hIcon == nullptr)
-				ImageList_AddIcon(hImageList, hBlankIcon);
-			else {
-				ImageList_AddIcon(hImageList, hIcon);
-				IcoLib_ReleaseIcon(hIcon);
-			}
-		}
-		m_tree.SetImageList(hImageList, TVSIL_NORMAL);
-		DestroyIcon(hBlankIcon);
-
-		for (auto &extra : extraIconsBySlot) {
-			if (extra->getType() == EXTRAICON_TYPE_GROUP) {
-				ExtraIconGroup *group = (ExtraIconGroup *)extra;
-				intlist ids;
-				for (auto &p : group->m_items)
-					ids.add(p->getID());
-				Tree_AddExtraIconGroup(ids, extra->isEnabled());
-			}
-			else Tree_AddExtraIcon((BaseExtraIcon *)extra, extra->isEnabled());
-		}
-
-		TVSORTCB sort = {};
-		sort.hParent = nullptr;
-		sort.lParam = 0;
-		sort.lpfnCompare = CompareFunc;
-		m_tree.SortChildrenCB(&sort, 0);
+		BuildIconList();
 	}
 
 	virtual void OnApply()
@@ -399,6 +371,8 @@ public:
 
 	virtual void OnDestroy()
 	{
+		pGlgOptions = nullptr;
+
 		HTREEITEM hItem = m_tree.GetRoot();
 		while (hItem) {
 			delete Tree_GetIDs(hItem);
@@ -408,40 +382,90 @@ public:
 		ImageList_Destroy(m_tree.GetImageList(TVSIL_NORMAL));
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	void onRClick(CCtrlTreeView::TEventInfo*)
 	{
-		if (msg == WM_NOTIFY) {
-			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-			if (lpnmhdr->idFrom == IDC_EXTRAORDER && lpnmhdr->code == NM_RCLICK) {
-				HTREEITEM hSelected = m_tree.GetDropHilight();
-				if (hSelected != nullptr && !m_tree.IsSelected(hSelected)) {
-					m_tree.UnselectAll();
-					m_tree.SelectItem(hSelected);
-				}
+		HTREEITEM hSelected = m_tree.GetDropHilight();
+		if (hSelected != nullptr && !m_tree.IsSelected(hSelected)) {
+			m_tree.UnselectAll();
+			m_tree.SelectItem(hSelected);
+		}
 
-				int sels = m_tree.GetNumSelected();
-				if (sels > 1) {
-					if (ShowPopup(0) == ID_GROUP) {
-						GroupSelectedItems();
-						NotifyChange();
-					}
-				}
-				else if (sels == 1) {
-					HTREEITEM hItem = m_tree.GetSelection();
-					intlist *ids = Tree_GetIDs(hItem);
-					if (ids->count > 1) {
-						if (ShowPopup(1) == ID_UNGROUP) {
-							UngroupSelectedItems();
-							NotifyChange();
-						}
-					}
+		int sels = m_tree.GetNumSelected();
+		if (sels > 1) {
+			if (ShowPopup(0) == ID_GROUP) {
+				GroupSelectedItems();
+				NotifyChange();
+			}
+		}
+		else if (sels == 1) {
+			HTREEITEM hItem = m_tree.GetSelection();
+			intlist *ids = Tree_GetIDs(hItem);
+			if (ids->count > 1) {
+				if (ShowPopup(1) == ID_UNGROUP) {
+					UngroupSelectedItems();
+					NotifyChange();
 				}
 			}
 		}
+	}
 
-		return CDlgBase::DlgProc(msg, wParam, lParam);
+	void BuildIconList()
+	{
+		HIMAGELIST hImageList = ImageList_Create(g_iIconSX, g_iIconSX, ILC_COLOR32 | ILC_MASK, 2, 2);
+
+		HICON hBlankIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, g_iIconSX, g_iIconSX, 0);
+		ImageList_AddIcon(hImageList, hBlankIcon);
+
+		for (auto &extra : registeredExtraIcons) {
+			extra->setID(registeredExtraIcons.indexOf(&extra)+1);
+
+			HICON hIcon = IcoLib_GetIcon(extra->getDescIcon());
+			if (hIcon == nullptr)
+				ImageList_AddIcon(hImageList, hBlankIcon);
+			else {
+				ImageList_AddIcon(hImageList, hIcon);
+				IcoLib_ReleaseIcon(hIcon);
+			}
+		}
+		m_tree.SetImageList(hImageList, TVSIL_NORMAL);
+		DestroyIcon(hBlankIcon);
+
+		for (auto &extra : extraIconsBySlot) {
+			if (extra->getType() == EXTRAICON_TYPE_GROUP) {
+				ExtraIconGroup *group = (ExtraIconGroup *)extra;
+				intlist ids;
+				for (auto &p : group->m_items)
+					ids.add(p->getID());
+				Tree_AddExtraIconGroup(ids, extra->isEnabled());
+			}
+			else Tree_AddExtraIcon((BaseExtraIcon*)extra, extra->isEnabled());
+		}
+
+		TVSORTCB sort = {};
+		sort.hParent = nullptr;
+		sort.lParam = 0;
+		sort.lpfnCompare = CompareFunc;
+		m_tree.SortChildrenCB(&sort, 0);
+	}
+
+	void onTimer(CTimer*)
+	{
+		m_timer.Stop();
+		m_tree.DeleteAllItems();
+		BuildIconList();
+	}
+
+	void ResetIconList()
+	{
+		m_timer.Start(100);
 	}
 };
+
+void eiOptionsRefresh()
+{
+	if (pGlgOptions)
+		pGlgOptions->ResetIconList();
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
