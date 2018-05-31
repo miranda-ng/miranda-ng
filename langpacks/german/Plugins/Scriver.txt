@@ -81,7 +81,7 @@ Min. Größe Eingabefeld
 [lines]
 Linien
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
-
+Sie können Variablen verwenden: %name% für den Namen des Kontaktes, %status% für seinen Status, %statusmsg% für seine Statusnachricht und %account% für den Kontonamen.
 [Message window event log]
 Nachrichtenfenster-Ereignisverlauf
 [Enable IEView]
