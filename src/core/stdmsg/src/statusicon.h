@@ -5,7 +5,6 @@ extern HANDLE hHookIconPressedEvt;
 extern int status_icon_list_size;
 
 int InitStatusIcons();
-int DeinitStatusIcons();
 
 int  GetStatusIconsCount(MCONTACT hContact);
 void DrawStatusIcons(MCONTACT hContact, HDC hdc, const RECT &rc, int gap);

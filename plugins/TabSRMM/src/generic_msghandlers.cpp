@@ -1352,7 +1352,6 @@ void CTabBaseDlg::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 // status icon stuff (by sje, used for indicating encryption status in the status bar
 // this is now part of the message window api
 
-static HANDLE hHookIconPressedEvt;
 
 static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 {
@@ -1459,7 +1458,7 @@ void CTabBaseDlg::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int co
 		sicd.dwId = sid->dwId;
 		sicd.szModule = sid->szModule;
 		sicd.flags = (code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
-		NotifyEventHooks(hHookIconPressedEvt, m_hContact, (LPARAM)&sicd);
+		Srmm_ClickStatusIcon(m_hContact, &sicd);
 		InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
 	}
 }
@@ -1534,13 +1533,5 @@ int SI_InitStatusIcons()
 	Srmm_AddIcon(&sid, g_plugin.m_hLang);
 
 	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);
-
-	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
-	return 0;
-}
-
-int SI_DeinitStatusIcons()
-{
-	DestroyHookableEvent(hHookIconPressedEvt);
 	return 0;
 }

@@ -479,8 +479,6 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 int PreshutdownSendRecv(WPARAM, LPARAM)
 {
 	Srmm_Broadcast(DM_CLOSETAB, 0, 0);
-
-	DeinitStatusIcons();
 	return 0;
 }
 

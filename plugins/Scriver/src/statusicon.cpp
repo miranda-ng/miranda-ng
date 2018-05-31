@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HANDLE hHookIconPressedEvt;
-
 void DrawStatusIcons(MCONTACT hContact, HDC hDC, const RECT &r, int gap)
 {
 	int x = r.left;
@@ -56,7 +54,7 @@ void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, const RECT
 	sicd.dwId = si->dwId;
 	sicd.szModule = si->szModule;
 	sicd.flags = click_flags;
-	NotifyEventHooks(hHookIconPressedEvt, hContact, (LPARAM)&sicd);
+	Srmm_ClickStatusIcon(hContact, &sicd);
 }
 
 static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
@@ -74,14 +72,6 @@ static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 int InitStatusIcons()
 {
 	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);
-
-	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
-	return 0;
-}
-
-int DeinitStatusIcons()
-{
-	DestroyHookableEvent(hHookIconPressedEvt);
 	return 0;
 }
 

@@ -200,6 +200,9 @@ struct StatusIconClickData
 // catch to be notified about the icon list's change.
 #define ME_MSG_ICONSCHANGED   "MessageAPI/IconsChanged"
 
+// emulates click on a status bar icon
+EXTERN_C MIR_APP_DLL(void) Srmm_ClickStatusIcon(MCONTACT hContact, const StatusIconClickData *sid);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // srmm toolbar icons' support
 

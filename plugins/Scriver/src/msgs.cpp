@@ -598,7 +598,6 @@ int OnSystemPreshutdown(WPARAM, LPARAM)
 {
 	Srmm_Broadcast(WM_CLOSE, 0, 0);
 	WindowList_Broadcast(g_dat.hParentWindowList, WM_CLOSE, 0, 0);
-	DeinitStatusIcons();
 	return 0;
 }
 

@@ -67,20 +67,12 @@ void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, const RECT
 	sicd.dwId = sid->dwId;
 	sicd.szModule = sid->szModule;
 	sicd.flags = click_flags;
-	NotifyEventHooks(hHookIconPressedEvt, hContact, (LPARAM)&sicd);
+	Srmm_ClickStatusIcon(hContact, &sicd);
 }
 
 int InitStatusIcons()
 {
 	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);
-
-	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
-	return 0;
-}
-
-int DeinitStatusIcons()
-{
-	DestroyHookableEvent(hHookIconPressedEvt);
 	return 0;
 }
 

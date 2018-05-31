@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 HCURSOR g_hCurHyperlinkHand;
+HANDLE hHookSrmmEvent;
+
+static HANDLE hHookIconsChanged, hHookIconPressedEvt;
 
 void LoadSrmmToolbarModule();
 void UnloadSrmmToolbarModule();
@@ -78,8 +81,6 @@ static int CompareIcons(const StatusIconMain *p1, const StatusIconMain *p2)
 }
 
 static OBJLIST<StatusIconMain> arIcons(3, CompareIcons);
-
-HANDLE hHookIconsChanged, hHookSrmmEvent;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -195,6 +196,13 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(void) Srmm_ClickStatusIcon(MCONTACT hContact, const StatusIconData *sid)
+{
+	NotifyEventHooks(hHookIconPressedEvt, hContact, (LPARAM)sid);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void KillModuleSrmmIcons(int _hLang)
 {
 	auto T = arIcons.rev_iter();
@@ -211,6 +219,7 @@ int LoadSrmmModule()
 	
 	hHookSrmmEvent = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
+	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
 	return 0;
 }
 
@@ -220,6 +229,7 @@ void UnloadSrmmModule()
 
 	DestroyHookableEvent(hHookIconsChanged);
 	DestroyHookableEvent(hHookSrmmEvent);
+	DestroyHookableEvent(hHookIconPressedEvt);
 
 	DestroyCursor(g_hCurHyperlinkHand);
 

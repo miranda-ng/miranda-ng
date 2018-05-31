@@ -1100,7 +1100,6 @@ struct SIDEBARITEM {
 #define MSG_ICON_SOUND   2
 
 int SI_InitStatusIcons();
-int SI_DeinitStatusIcons();
 
 struct SKINDESC
 {
