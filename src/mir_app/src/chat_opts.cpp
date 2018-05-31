@@ -323,18 +323,6 @@ int OptionsInit(void)
 	g_Settings->UserListHeadingsFont = nullptr;
 	g_Settings->iWidth = db_get_dw(0, CHAT_MODULE, "roomwidth", -1);
 	g_Settings->iHeight = db_get_dw(0, CHAT_MODULE, "roomheight", -1);
-
-	Skin_AddSound("ChatMessage",   LPGENW("Group chats"), LPGENW("Incoming message"));
-	Skin_AddSound("ChatHighlight", LPGENW("Group chats"), LPGENW("Message is highlighted"));
-	Skin_AddSound("ChatAction",    LPGENW("Group chats"), LPGENW("User has performed an action"));
-	Skin_AddSound("ChatJoin",      LPGENW("Group chats"), LPGENW("User has joined"));
-	Skin_AddSound("ChatPart",      LPGENW("Group chats"), LPGENW("User has left"));
-	Skin_AddSound("ChatKick",      LPGENW("Group chats"), LPGENW("User has kicked some other user"));
-	Skin_AddSound("ChatMode",      LPGENW("Group chats"), LPGENW("User's status was changed"));
-	Skin_AddSound("ChatNick",      LPGENW("Group chats"), LPGENW("User has changed name"));
-	Skin_AddSound("ChatNotice",    LPGENW("Group chats"), LPGENW("User has sent a notice"));
-	Skin_AddSound("ChatQuit",      LPGENW("Group chats"), LPGENW("User has disconnected"));
-	Skin_AddSound("ChatTopic",     LPGENW("Group chats"), LPGENW("The topic has been changed"));
 	return 0;
 }
 

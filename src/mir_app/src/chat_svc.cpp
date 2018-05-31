@@ -771,6 +771,18 @@ int LoadChatModule(void)
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_SRMM));
 	TranslateMenu(g_hMenu);
 
+	Skin_AddSound("ChatMessage", LPGENW("Group chats"), LPGENW("Incoming message"));
+	Skin_AddSound("ChatHighlight", LPGENW("Group chats"), LPGENW("Message is highlighted"));
+	Skin_AddSound("ChatAction", LPGENW("Group chats"), LPGENW("User has performed an action"));
+	Skin_AddSound("ChatJoin", LPGENW("Group chats"), LPGENW("User has joined"));
+	Skin_AddSound("ChatPart", LPGENW("Group chats"), LPGENW("User has left"));
+	Skin_AddSound("ChatKick", LPGENW("Group chats"), LPGENW("User has kicked some other user"));
+	Skin_AddSound("ChatMode", LPGENW("Group chats"), LPGENW("User's status was changed"));
+	Skin_AddSound("ChatNick", LPGENW("Group chats"), LPGENW("User has changed name"));
+	Skin_AddSound("ChatNotice", LPGENW("Group chats"), LPGENW("User has sent a notice"));
+	Skin_AddSound("ChatQuit", LPGENW("Group chats"), LPGENW("User has disconnected"));
+	Skin_AddSound("ChatTopic", LPGENW("Group chats"), LPGENW("The topic has been changed"));
+
 	bInited = true;
 	return 0;
 }
