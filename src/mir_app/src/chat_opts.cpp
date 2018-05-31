@@ -301,7 +301,7 @@ int Chat_GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
 	HDC hdc = GetDC(nullptr);
 	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 
-	RECT rc = { 0 };
+	RECT rc = {};
 	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(nullptr, hdc);
@@ -323,18 +323,6 @@ int OptionsInit(void)
 	g_Settings->UserListHeadingsFont = nullptr;
 	g_Settings->iWidth = db_get_dw(0, CHAT_MODULE, "roomwidth", -1);
 	g_Settings->iHeight = db_get_dw(0, CHAT_MODULE, "roomheight", -1);
-
-	g_plugin.addSound("ChatMessage",   LPGENW("Group chats"), LPGENW("Incoming message"));
-	g_plugin.addSound("ChatHighlight", LPGENW("Group chats"), LPGENW("Message is highlighted"));
-	g_plugin.addSound("ChatAction",    LPGENW("Group chats"), LPGENW("User has performed an action"));
-	g_plugin.addSound("ChatJoin",      LPGENW("Group chats"), LPGENW("User has joined"));
-	g_plugin.addSound("ChatPart",      LPGENW("Group chats"), LPGENW("User has left"));
-	g_plugin.addSound("ChatKick",      LPGENW("Group chats"), LPGENW("User has kicked some other user"));
-	g_plugin.addSound("ChatMode",      LPGENW("Group chats"), LPGENW("User's status was changed"));
-	g_plugin.addSound("ChatNick",      LPGENW("Group chats"), LPGENW("User has changed name"));
-	g_plugin.addSound("ChatNotice",    LPGENW("Group chats"), LPGENW("User has sent a notice"));
-	g_plugin.addSound("ChatQuit",      LPGENW("Group chats"), LPGENW("User has disconnected"));
-	g_plugin.addSound("ChatTopic",     LPGENW("Group chats"), LPGENW("The topic has been changed"));
 	return 0;
 }
 

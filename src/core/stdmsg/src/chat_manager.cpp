@@ -231,7 +231,7 @@ void Load_ChatModule()
 	AddIcons();
 	RegisterFonts();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Chat module"), FONTMODE_USE };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Chat module"), FONTMODE_USE, g_plugin.m_hLang };
 	Chat_CustomizeApi(&data);
 
 	g_chatApi.OnCreateModule = OnCreateModule;

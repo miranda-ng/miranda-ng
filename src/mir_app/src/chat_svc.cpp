@@ -771,6 +771,18 @@ int LoadChatModule(void)
 	g_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SRMM));
 	TranslateMenu(g_hMenu);
 
+	g_plugin.addSound("ChatMessage", LPGENW("Group chats"), LPGENW("Incoming message"));
+	g_plugin.addSound("ChatHighlight", LPGENW("Group chats"), LPGENW("Message is highlighted"));
+	g_plugin.addSound("ChatAction", LPGENW("Group chats"), LPGENW("User has performed an action"));
+	g_plugin.addSound("ChatJoin", LPGENW("Group chats"), LPGENW("User has joined"));
+	g_plugin.addSound("ChatPart", LPGENW("Group chats"), LPGENW("User has left"));
+	g_plugin.addSound("ChatKick", LPGENW("Group chats"), LPGENW("User has kicked some other user"));
+	g_plugin.addSound("ChatMode", LPGENW("Group chats"), LPGENW("User's status was changed"));
+	g_plugin.addSound("ChatNick", LPGENW("Group chats"), LPGENW("User has changed name"));
+	g_plugin.addSound("ChatNotice", LPGENW("Group chats"), LPGENW("User has sent a notice"));
+	g_plugin.addSound("ChatQuit", LPGENW("Group chats"), LPGENW("User has disconnected"));
+	g_plugin.addSound("ChatTopic", LPGENW("Group chats"), LPGENW("The topic has been changed"));
+
 	bInited = true;
 	return 0;
 }
