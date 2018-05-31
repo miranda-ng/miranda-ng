@@ -145,15 +145,18 @@ public:
 		}
 		db_set_s(NULL, MODULENAME, "protoList", out.str().c_str());
 	}
+
 	void onClick_ADD(CCtrlButton*)
 	{
 		list_USEDPROTO.AddString(list_ALLPROTO.GetItemText(list_ALLPROTO.GetCurSel()));
 		list_ALLPROTO.DeleteString(list_ALLPROTO.GetCurSel());
+		this->NotifyChange();
 	}
 	void onClick_REMOVE(CCtrlButton*)
 	{
 		list_ALLPROTO.AddString(list_USEDPROTO.GetItemText(list_USEDPROTO.GetCurSel()));
 		list_USEDPROTO.DeleteString(list_USEDPROTO.GetCurSel());
+		this->NotifyChange();
 	}
 	void onClick_ADDALL(CCtrlButton*)
 	{
@@ -164,6 +167,7 @@ public:
 			list_USEDPROTO.AddString(list_ALLPROTO.GetItemText(0));
 			list_ALLPROTO.DeleteString(0);
 		}
+		this->NotifyChange();
 	}
 	void onClick_REMOVEALL(CCtrlButton*)
 	{
@@ -174,6 +178,7 @@ public:
 			list_ALLPROTO.AddString(list_USEDPROTO.GetItemText(0));
 			list_USEDPROTO.DeleteString(0);
 		}
+		this->NotifyChange();
 	}
 private:
 	CCtrlListBox list_USEDPROTO, list_ALLPROTO;
