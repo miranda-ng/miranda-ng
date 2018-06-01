@@ -253,36 +253,24 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 
 LBL_Exit:
 	if (info->mIsMainThread) {
-		/*
-		if (!isConnectSuccess && !usingGateway && m_iDesiredStatus != ID_STATUS_OFFLINE) {
-			msnNsThread = NULL;
-			usingGateway = true;
+		msnNsThread = nullptr;
 
-			ThreadData* newThread = new ThreadData;
-			newThread->mType = SERVER_NOTIFICATION;
-			newThread->mIsMainThread = true;
-
-			newThread->startThread(&CMsnProto::MSNServerThread, this);
+		if (hKeepAliveThreadEvt) {
+			msnPingTimeout *= -1;
+			SetEvent(hKeepAliveThreadEvt);
 		}
-		else*/ {
-			if (hKeepAliveThreadEvt) {
-				msnPingTimeout *= -1;
-				SetEvent(hKeepAliveThreadEvt);
-			}
 
-			if (info->s == nullptr)
-				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
-			else
-				MSN_CloseConnections();
+		if (info->s == nullptr)
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
+		else
+			MSN_CloseConnections();
 
-			if (hHttpsConnection) {
-				Netlib_CloseHandle(hHttpsConnection);
-				hHttpsConnection = nullptr;
-			}
-
-			MSN_GoOffline();
-			msnNsThread = nullptr;
+		if (hHttpsConnection) {
+			Netlib_CloseHandle(hHttpsConnection);
+			hHttpsConnection = nullptr;
 		}
+
+		MSN_GoOffline();
 	}
 
 	debugLogA("Thread [%08X] ending now", GetCurrentThreadId());
