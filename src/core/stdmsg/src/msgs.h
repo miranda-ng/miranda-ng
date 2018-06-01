@@ -49,8 +49,9 @@ class CMsgDialog : public CSrmmBaseDialog
 
 protected:
 	CCtrlButton m_btnOk;
+	CTabbedWindow *m_pOwner;
 
-	CMsgDialog(int idDialog, SESSION_INFO *si = nullptr);
+	CMsgDialog(CTabbedWindow *pOwner, int idDialog, SESSION_INFO *si = nullptr);
 
 	virtual int GetImageId() const PURE;
 
@@ -63,6 +64,9 @@ protected:
 
 public:
 	void CloseTab() override;
+
+	void StartFlash();
+	void StopFlash();
 
 	__forceinline SESSION_INFO* getChat() const { return m_si; }
 };
@@ -117,7 +121,6 @@ public:
 
 	HBITMAP m_avatarPic;
 	wchar_t *m_wszInitialText;
-	CTabbedWindow *m_pOwner;
 
 public:
 	CSrmmWindow(CTabbedWindow*, MCONTACT hContact);
@@ -173,7 +176,6 @@ class CChatRoomDlg : public CMsgDialog
 
 	CCtrlButton m_btnOk;
 	CSplitter m_splitterX, m_splitterY;
-	CTabbedWindow *m_pOwner;
 
 	int m_iSplitterX, m_iSplitterY;
 

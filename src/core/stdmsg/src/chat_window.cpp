@@ -28,9 +28,8 @@ static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pContainer, SESSION_INFO *si) :
-	CSuper(IDD_CHANNEL, si),
-	m_pOwner(pContainer),
+CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pOwner, SESSION_INFO *si) :
+	CSuper(pOwner, IDD_CHANNEL, si),
 	m_btnOk(this, IDOK),
 	
 	m_splitterX(this, IDC_SPLITTERX),
@@ -100,8 +99,7 @@ void CChatRoomDlg::OnActivate()
 	g_chatApi.SetActiveSession(m_si);
 	UpdateStatusBar();
 
-	if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-		FlashWindow(m_pOwner->GetHwnd(), FALSE);
+	StopFlash();
 	if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 		db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 	if (g_clistApi.pfnGetEvent(m_hContact, 0))
@@ -1100,11 +1098,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 		}
-		break;
-
-	case WM_TIMER:
-		if (wParam == TIMERID_FLASHWND)
-			FlashWindow(m_pOwner->GetHwnd(), TRUE);
 		break;
 
 	case WM_ACTIVATE:

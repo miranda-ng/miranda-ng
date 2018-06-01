@@ -166,8 +166,8 @@ public:
 
 	void AddPage(SESSION_INFO*, int insertAt = -1);
 	void FixTabIcons(CMsgDialog*);
-	void SetMessageHighlight(CChatRoomDlg*);
-	void SetTabHighlight(CChatRoomDlg*);
+	void SetMessageHighlight(CMsgDialog*);
+	void SetTabHighlight(CMsgDialog*);
 	void TabClicked();
 
 	virtual void OnInitDialog() override;

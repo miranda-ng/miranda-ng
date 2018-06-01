@@ -24,9 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMsgDialog::CMsgDialog(int iDialogId, SESSION_INFO *si)
-	: CSuper(g_plugin, iDialogId, si),
-	m_btnOk(this, IDOK)
+CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
+	CSuper(g_plugin, iDialogId, si),
+	m_btnOk(this, IDOK),
+	m_pOwner(pOwner)
 {
 	m_autoClose = 0;
 	m_forceResizable = true;
@@ -49,6 +50,11 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			OnActivate();
 		break;
 
+	case WM_TIMER:
+		if (wParam == TIMERID_FLASHWND)
+			FlashWindow(m_pOwner->GetHwnd(), TRUE);
+		break;
+
 	case WM_MOUSEACTIVATE:
 		OnActivate();
 		SetFocus(m_message.GetHwnd());
@@ -56,6 +62,17 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return CSuper::DlgProc(uMsg, wParam, lParam);
+}
+
+void CMsgDialog::StartFlash()
+{
+	::SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
+}
+
+void CMsgDialog::StopFlash()
+{
+	if (::KillTimer(m_hwnd, TIMERID_FLASHWND))
+		::FlashWindow(m_pOwner->GetHwnd(), FALSE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

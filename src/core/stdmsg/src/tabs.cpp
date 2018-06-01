@@ -337,7 +337,7 @@ void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
 	}
 }
 
-void CTabbedWindow::SetMessageHighlight(CChatRoomDlg *pDlg)
+void CTabbedWindow::SetMessageHighlight(CMsgDialog *pDlg)
 {
 	if (pDlg != nullptr) {
 		if (m_tab.GetDlgIndex(pDlg) == -1)
@@ -346,12 +346,12 @@ void CTabbedWindow::SetMessageHighlight(CChatRoomDlg *pDlg)
 		pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
 		FixTabIcons(pDlg);
 		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
+			pDlg->StartFlash();
 	}
 	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
 
-void CTabbedWindow::SetTabHighlight(CChatRoomDlg *pDlg)
+void CTabbedWindow::SetTabHighlight(CMsgDialog *pDlg)
 {
 	if (pDlg != nullptr) {
 		if (m_tab.GetDlgIndex(pDlg) == -1)
@@ -359,7 +359,7 @@ void CTabbedWindow::SetTabHighlight(CChatRoomDlg *pDlg)
 
 		FixTabIcons(pDlg);
 		if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
+			pDlg->StartFlash();
 	}
 	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
@@ -539,11 +539,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			tci.pszText = pDlg->m_si->ptszName;
 			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
 		}
-		break;
-
-	case WM_TIMER:
-		if (wParam == TIMERID_FLASHWND)
-			FlashWindow(m_hwnd, TRUE);
 		break;
 
 	case WM_MOVE:

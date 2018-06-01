@@ -85,12 +85,11 @@ static void SetEditorText(HWND hwnd, const wchar_t* txt)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CSrmmWindow::CSrmmWindow(CTabbedWindow *pOwner, MCONTACT hContact) :
-	CSuper(IDD_MSG),
+	CSuper(pOwner, IDD_MSG),
 	m_splitter(this, IDC_SPLITTERY),
 	m_avatar(this, IDC_AVATAR),
 	m_cmdList(20),
-	m_bNoActivate(g_dat.bDoNotStealFocus),
-	m_pOwner(pOwner)
+	m_bNoActivate(g_dat.bDoNotStealFocus)
 {
 	m_hContact = hContact;
 
@@ -242,7 +241,7 @@ void CSrmmWindow::OnInitDialog()
 
 	if (m_bNoActivate) {
 		SetWindowPos(m_hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
-		SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+		StartFlash();
 	}
 	else {
 		SetWindowPos(m_hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
@@ -314,8 +313,7 @@ void CSrmmWindow::OnActivate()
 	SetFocus(m_message.GetHwnd());
 	UpdateTitle();
 	UpdateLastMessage();
-	if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-		FlashWindow(m_pOwner->GetHwnd(), FALSE);
+	StopFlash();
 	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 }
 
@@ -1176,10 +1174,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
 							GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
 							if ((si.nPos + (int)si.nPage + 5) < si.nMax)
-								SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+								StartFlash();
 						}
 					}
-					else SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+					else StartFlash();
 				}
 			}
 		}
@@ -1192,10 +1190,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_FLASHWND) {
-			FlashWindow(m_pOwner->GetHwnd(), TRUE);
 			if (m_nFlash > 2 * g_dat.nFlashMax) {
-				KillTimer(m_hwnd, TIMERID_FLASHWND);
-				FlashWindow(m_pOwner->GetHwnd(), FALSE);
+				StopFlash();
 				m_nFlash = 0;
 			}
 			m_nFlash++;
@@ -1386,8 +1382,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
 					GetScrollInfo((HWND)lParam, SB_VERT, &si);
 					if ((si.nPos + (int)si.nPage + 5) >= si.nMax)
-						if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-							FlashWindow(m_pOwner->GetHwnd(), FALSE);
+						StopFlash();
 				}
 				break;
 			}
