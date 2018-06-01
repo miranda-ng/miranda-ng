@@ -196,7 +196,7 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) Srmm_ClickStatusIcon(MCONTACT hContact, const StatusIconData *sid)
+MIR_APP_DLL(void) Srmm_ClickStatusIcon(MCONTACT hContact, const StatusIconClickData *sid)
 {
 	NotifyEventHooks(hHookIconPressedEvt, hContact, (LPARAM)sid);
 }

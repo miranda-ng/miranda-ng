@@ -618,3 +618,4 @@ UnregisterPlugin @633
 ?Load@CMPluginBase@@UEAAHXZ @647 NONAME
 ?Unload@CMPluginBase@@UEAAHXZ @648 NONAME
 Srmm_ClickStatusIcon @649
+?getModule@CMPluginBase@@QEBAPEBDXZ @650 NONAME
