@@ -366,112 +366,111 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CLayoutOptionsDlg : public CPluginDlgBase
 {
-	int bChecked;
-	char str[10];
+	CCtrlCheck chkTransparency, chkShowTitlebar;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SHOWSTATUSBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWTITLEBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR) ? BST_CHECKED : BST_UNCHECKED);
-		SetWindowText(GetDlgItem(hwndDlg, IDC_TITLEFORMAT), g_dat.wszTitleFormat);
-		CheckDlgButton(hwndDlg, IDC_SHOWTOOLBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWINFOBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, db_get_b(0, SRMM_MODULE, SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0, 255));
-		SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_SETPOS, TRUE, db_get_dw(0, SRMM_MODULE, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA));
-		SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0, 255));
-		SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_SETPOS, TRUE, db_get_dw(0, SRMM_MODULE, SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA));
-		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
-		SetDlgItemTextA(hwndDlg, IDC_ATRANSPARENCYPERC, str);
-		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
-		SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
-		SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
-		SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES));
+public:
+	CLayoutOptionsDlg() : 
+		CPluginDlgBase(g_plugin, IDD_OPT_LAYOUT, SRMM_MODULE),
+		chkTransparency(this, IDC_TRANSPARENCY),
+		chkShowTitlebar(this, IDC_SHOWTITLEBAR)
+	{
+		m_OnFinishWizard = Callback(this, &CLayoutOptionsDlg::onFinish);
 
-		bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTITLEBAR);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_TITLEFORMAT), bChecked);
-
-		bChecked = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYVALUE), bChecked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYPERC), bChecked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ITRANSPARENCYVALUE), bChecked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ITRANSPARENCYPERC), bChecked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT1), bChecked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT2), bChecked);
-
-		CheckDlgButton(hwndDlg, IDC_SHOWPROGRESS, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AVATARSUPPORT, g_dat.flags & SMF_AVATAR);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_TRANSPARENCY:
-			bChecked = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYVALUE), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYPERC), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ITRANSPARENCYVALUE), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ITRANSPARENCYPERC), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT1), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT2), bChecked);
-			break;
-
-		case IDC_SHOWTITLEBAR:
-			bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTITLEBAR);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TITLEFORMAT), bChecked);
-
-		case IDC_INPUTLINES:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-				return 0;
-			break;
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_HSCROLL:
-		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
-		SetDlgItemTextA(hwndDlg, IDC_ATRANSPARENCYPERC, str);
-		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
-		SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_WIZFINISH:
-				ApplyOptions();
-				break;
-
-			case PSN_APPLY:
-				GetWindowText(GetDlgItem(hwndDlg, IDC_TITLEFORMAT), g_dat.wszTitleFormat, _countof(g_dat.wszTitleFormat));
-				db_set_ws(0, SRMM_MODULE, SRMSGSET_WINDOWTITLE, g_dat.wszTitleFormat);
-
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWSTATUSBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUSBAR));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWTITLEBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTITLEBAR));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWBUTTONLINE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTOOLBAR));
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWINFOBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWINFOBAR));
-
-				db_set_b(0, SRMM_MODULE, SRMSGSET_USETRANSPARENCY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY));
-				db_set_dw(0, SRMM_MODULE, SRMSGSET_ACTIVEALPHA, SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0));
-				db_set_dw(0, SRMM_MODULE, SRMSGSET_INACTIVEALPHA, SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0));
-
-				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWPROGRESS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWPROGRESS));
-
-				db_set_b(0, SRMM_MODULE, SRMSGSET_AVATARENABLE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATARSUPPORT));
-
-				db_set_w(0, SRMM_MODULE, SRMSGSET_AUTORESIZELINES, (WORD)SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_GETPOS, 0, 0));
-				LoadInfobarFonts();
-				return TRUE;
-			}
-		}
-		break;
+		chkTransparency.OnChange = Callback(this, &CLayoutOptionsDlg::onChange_Transparency);
+		chkShowTitlebar.OnChange = Callback(this, &CLayoutOptionsDlg::onChange_ShowTitlebar);
 	}
-	return FALSE;
-}
+
+	void OnInitDialog() override
+	{
+		CheckDlgButton(m_hwnd, IDC_SHOWSTATUSBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWTITLEBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR) ? BST_CHECKED : BST_UNCHECKED);
+		SetWindowText(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), g_dat.wszTitleFormat);
+		CheckDlgButton(m_hwnd, IDC_SHOWTOOLBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWINFOBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TRANSPARENCY, db_get_b(0, SRMM_MODULE, SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY) ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0, 255));
+		SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_SETPOS, TRUE, db_get_dw(0, SRMM_MODULE, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA));
+		SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0, 255));
+		SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_SETPOS, TRUE, db_get_dw(0, SRMM_MODULE, SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA));
+
+		char str[10];
+		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
+		SetDlgItemTextA(m_hwnd, IDC_ATRANSPARENCYPERC, str);
+
+		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
+		SetDlgItemTextA(m_hwnd, IDC_ITRANSPARENCYPERC, str);
+
+		SendDlgItemMessage(m_hwnd, IDC_INPUTLINESSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
+		SendDlgItemMessage(m_hwnd, IDC_INPUTLINESSPIN, UDM_SETPOS, 0, db_get_w(0, SRMM_MODULE, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES));
+
+		onChange_Transparency(0);
+		onChange_ShowTitlebar(0);
+
+		CheckDlgButton(m_hwnd, IDC_SHOWPROGRESS, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_AVATARSUPPORT, g_dat.flags & SMF_AVATAR);
+	}
+
+	void OnApply() override
+	{
+		GetWindowText(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), g_dat.wszTitleFormat, _countof(g_dat.wszTitleFormat));
+		db_set_ws(0, SRMM_MODULE, SRMSGSET_WINDOWTITLE, g_dat.wszTitleFormat);
+
+		db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWSTATUSBAR, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWSTATUSBAR));
+		db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWTITLEBAR, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTITLEBAR));
+		db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWBUTTONLINE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTOOLBAR));
+		db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWINFOBAR, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWINFOBAR));
+
+		db_set_b(0, SRMM_MODULE, SRMSGSET_USETRANSPARENCY, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENCY));
+		db_set_dw(0, SRMM_MODULE, SRMSGSET_ACTIVEALPHA, SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0));
+		db_set_dw(0, SRMM_MODULE, SRMSGSET_INACTIVEALPHA, SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0));
+
+		db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWPROGRESS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWPROGRESS));
+
+		db_set_b(0, SRMM_MODULE, SRMSGSET_AVATARENABLE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AVATARSUPPORT));
+
+		db_set_w(0, SRMM_MODULE, SRMSGSET_AUTORESIZELINES, (WORD)SendDlgItemMessage(m_hwnd, IDC_INPUTLINESSPIN, UDM_GETPOS, 0, 0));
+		LoadInfobarFonts();
+	}
+
+	void onFinish(void*)
+	{
+		ApplyOptions();
+	}
+
+	void onChange_Transparency(CCtrlCheck*)
+	{
+		int bChecked = IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENCY);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_ATRANSPARENCYVALUE), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_ATRANSPARENCYPERC), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_ITRANSPARENCYVALUE), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_ITRANSPARENCYPERC), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_TRANSPARENCYTEXT1), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_TRANSPARENCYTEXT2), bChecked);
+	}
+
+	void onChange_ShowTitlebar(CCtrlCheck*)
+	{
+		int bChecked = IsDlgButtonChecked(m_hwnd, IDC_SHOWTITLEBAR);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), bChecked);
+	}
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_HSCROLL) {
+			char str[10];
+			mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
+			SetDlgItemTextA(m_hwnd, IDC_ATRANSPARENCYPERC, str);
+			
+			mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
+			SetDlgItemTextA(m_hwnd, IDC_ITRANSPARENCYPERC, str);
+			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
+		}
+
+		return CPluginDlgBase::DlgProc(msg, wParam, lParam);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -973,13 +972,12 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Tabs");
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LAYOUT);
-	odp.pfnDlgProc = DlgProcLayoutOptions;
+	odp.pszTemplate = nullptr;
+	odp.pfnDlgProc = nullptr;
+	odp.pDialog = new CLayoutOptionsDlg();
 	odp.szTab.a = LPGEN("Layout");
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pszTemplate = nullptr;
-	odp.pfnDlgProc = nullptr;
 	odp.pDialog = new CLogOptionsDlg();
 	odp.szTab.a = LPGEN("Event log");
 	g_plugin.addOptions(wParam, &odp);
