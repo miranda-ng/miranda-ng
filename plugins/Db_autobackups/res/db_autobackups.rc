@@ -59,7 +59,7 @@ CAPTION "Backup progress"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER,7,24,172,9
-    CTEXT           "",IDC_PROGRESSMESSAGE,31,7,114,13
+    CTEXT           "",IDC_PROGRESSMESSAGE,12,7,162,13
     PUSHBUTTON      "Cancel",IDCANCEL,58,39,67,12
 END
 
