@@ -50,10 +50,9 @@ class CMsgDialog : public CSrmmBaseDialog
 protected:
 	CCtrlButton m_btnOk;
 	CTabbedWindow *m_pOwner;
+	DWORD m_nFlash = 0;
 
 	CMsgDialog(CTabbedWindow *pOwner, int idDialog, SESSION_INFO *si = nullptr);
-
-	virtual int GetImageId() const PURE;
 
 	virtual const char* GetProto() const PURE;
 	virtual int GetStatus() const PURE;
@@ -63,6 +62,8 @@ protected:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 public:
+	virtual int GetImageId() const PURE;
+
 	void CloseTab() override;
 
 	void StartFlash();
@@ -99,7 +100,6 @@ class CSrmmWindow : public CMsgDialog
 	RECT m_minEditInit;
 
 	int m_windowWasCascaded;
-	DWORD m_nFlash;
 	int m_nTypeSecs, m_nTypeMode;
 	int m_limitAvatarH;
 	DWORD m_nLastTyping;

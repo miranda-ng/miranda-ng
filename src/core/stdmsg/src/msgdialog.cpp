@@ -453,6 +453,9 @@ void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
 
 int CSrmmWindow::GetImageId() const
 {
+	if (m_nFlash & 1)
+		return 0;
+
 	return (WORD)g_clistApi.pfnIconFromStatusMode(m_szProto, m_wStatus, m_hContact);
 }
 
@@ -1190,11 +1193,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_FLASHWND) {
-			if (m_nFlash > 2 * g_dat.nFlashMax) {
+			if (m_nFlash > 2 * g_dat.nFlashMax)
 				StopFlash();
-				m_nFlash = 0;
-			}
-			m_nFlash++;
 		}
 		else if (wParam == TIMERID_TYPE) {
 			ShowTime(false);

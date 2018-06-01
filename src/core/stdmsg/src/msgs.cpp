@@ -51,8 +51,11 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_TIMER:
-		if (wParam == TIMERID_FLASHWND)
+		if (wParam == TIMERID_FLASHWND) {
+			m_pOwner->FixTabIcons(this);
 			FlashWindow(m_pOwner->GetHwnd(), TRUE);
+			m_nFlash++;
+		}
 		break;
 
 	case WM_MOUSEACTIVATE:
@@ -71,8 +74,12 @@ void CMsgDialog::StartFlash()
 
 void CMsgDialog::StopFlash()
 {
-	if (::KillTimer(m_hwnd, TIMERID_FLASHWND))
+	if (::KillTimer(m_hwnd, TIMERID_FLASHWND)) {
 		::FlashWindow(m_pOwner->GetHwnd(), FALSE);
+
+		m_nFlash = 0;
+		m_pOwner->FixTabIcons(this);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

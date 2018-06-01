@@ -78,16 +78,11 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			if (idx != -1) {
 				CMsgDialog *pDlg = (CMsgDialog*)pOwner->m_tab.GetNthPage(idx);
 				if (pDlg) {
-					SESSION_INFO *si = pDlg->getChat();
-					if (si != nullptr) {
-						bool bOnline = db_get_w(si->hContact, si->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE;
-						MODULEINFO *mi = g_chatApi.MM_FindModule(si->pszModule);
-						bDragging = true;
-						iBeginIndex = idx;
-						ImageList_BeginDrag(Clist_GetImageList(), bOnline ? mi->OnlineIconIndex : mi->OfflineIconIndex, 8, 8);
-						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
-						SetCapture(hwnd);
-					}
+					bDragging = true;
+					iBeginIndex = idx;
+					ImageList_BeginDrag(Clist_GetImageList(), pDlg->GetImageId(), 8, 8);
+					ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
+					SetCapture(hwnd);
 				}
 				return TRUE;
 			}

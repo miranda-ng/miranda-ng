@@ -197,7 +197,7 @@ void CChatRoomDlg::onSplitterY(CSplitter *pSplitter)
 
 int CChatRoomDlg::GetImageId() const
 {
-	if (m_si->wState & GC_EVENT_HIGHLIGHT)
+	if ((m_si->wState & GC_EVENT_HIGHLIGHT) && (m_nFlash & 1))
 		return 0;
 
 	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
