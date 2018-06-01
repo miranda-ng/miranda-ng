@@ -40,9 +40,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,69,292,10
     CONTROL         "Minimize on send",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,80,292,10
     CONTROL         "Hide windows on close",IDC_HIDECONTAINERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,91,292,10
-    CONTROL         "Send message on 'Enter'",IDC_SENDONENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,102,292,10
-    CONTROL         "Send message on double 'Enter'",IDC_SENDONDBLENTER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,113,292,10
+    CONTROL         "Send message on 'Enter'",IDC_SENDONENTER,"Button", BS_AUTORADIOBUTTON | WS_TABSTOP,8,102,292,10
+    CONTROL         "Send message on double 'Enter'",IDC_SENDONDBLENTER, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP,8,113,292,10
     CONTROL         "Remember unsent messages",IDC_SAVEDRAFTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,124,292,10
     CONTROL         "Delete temporary contacts on closing",IDC_DELTEMP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,292,10
