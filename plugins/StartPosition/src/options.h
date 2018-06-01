@@ -70,7 +70,7 @@ struct StartPositionOptions
     StartPositionOptions();
 };
 
-class COptionsDlg : public CPluginDlgBase
+class COptionsDlg : public CDlgBase
 {
     CCtrlCheck chkPositionTop, chkPositionBottom, chkPositionSide, chkFromLeft, chkFromRight, chkWidth;
     CCtrlEdit edtPositionTop, edtPositionBottom, edtPositionSide, edtWidth;

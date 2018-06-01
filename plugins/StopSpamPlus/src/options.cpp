@@ -2,14 +2,14 @@
 
 const wchar_t pluginDescription[] = LPGENW("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
 
-class COptMainDlg : public CPluginDlgBase
+class COptMainDlg : public CDlgBase
 {
 	CCtrlEdit edtCount, edtDescr;
 	CCtrlCheck chk1, chk2, chk3, chk4, chk5, chk6;
 
 public:
 	COptMainDlg() :
-		CPluginDlgBase(g_plugin, IDD_MAIN, MODULENAME),
+		CDlgBase(g_plugin, IDD_MAIN),
 		edtCount(this, ID_MAXQUESTCOUNT),
 		edtDescr(this, ID_DESCRIPTION),
 		chk1(this, ID_INFTALKPROT),
@@ -37,14 +37,14 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptMessageDlg : public CPluginDlgBase
+class COptMessageDlg : public CDlgBase
 {
 	CCtrlButton btnHelp, btnRestore;
 	CCtrlEdit edtQuestion, edtAnswer, edtCongrat, edtReply, edtDivider;
 
 public:
 	COptMessageDlg() :
-		CPluginDlgBase(g_plugin, IDD_MESSAGES, MODULENAME),
+		CDlgBase(g_plugin, IDD_MESSAGES),
 		btnHelp(this, IDC_VARS),
 		btnRestore(this, ID_RESTOREDEFAULTS),
 		edtQuestion(this, ID_QUESTION),
@@ -88,13 +88,13 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptAccountDlg : public CPluginDlgBase
+class COptAccountDlg : public CDlgBase
 {
 	CCtrlListView m_accounts;
 
 public:
 	COptAccountDlg() :
-		CPluginDlgBase(g_plugin, IDD_PROTO, MODULENAME),
+		CDlgBase(g_plugin, IDD_PROTO),
 		m_accounts(this, IDC_PROTO)
 	{
 		m_accounts.OnItemChanged = Callback(this, &COptAccountDlg::list_OnItemChanged);

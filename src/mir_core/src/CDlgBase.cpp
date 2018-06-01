@@ -113,6 +113,18 @@ void CDlgBase::Show(int nCmdShow)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CDlgBase::CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
+{
+	ctrl.CreateDbLink(m_pPlugin.getModule(), szSetting, type, iValue);
+}
+
+void CDlgBase::CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue)
+{
+	ctrl.CreateDbLink(m_pPlugin.getModule(), szSetting, szValue);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // virtual methods
 
 int CDlgBase::Resizer(UTILRESIZECONTROL*)

@@ -1,7 +1,7 @@
 #ifndef _OPTIONS_H_
 #define _OPTIONS_H_
 
-class COptionsMain : public CPluginDlgBase
+class COptionsMain : public CDlgBase
 {
 private:
 	CCtrlListView m_feeds;

@@ -6,15 +6,15 @@ CMOption<bool> g_SSEnabled(MODULENAME, SSMODULENAME "_enabled", true);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CSubPluginsOptionsDlg : public CPluginDlgBase
+class CSubPluginsOptionsDlg : public CDlgBase
 {
 	CCtrlCheck m_enableKeepStatus;
 	CCtrlCheck m_enableStartupStatus;
 	CCtrlCheck m_enableAdvancedAutoAway;
 
 public:
-	CSubPluginsOptionsDlg()
-		: CPluginDlgBase(g_plugin, IDD_OPT_SUBPLUGINS, MODULENAME),
+	CSubPluginsOptionsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_SUBPLUGINS),
 		m_enableKeepStatus(this, IDC_ENABLE_KEEPSTATUS),
 		m_enableStartupStatus(this, IDC_ENABLE_STARTUPSTATUS),
 		m_enableAdvancedAutoAway(this, IDC_ENABLE_ADVANCEDAUTOAWAY)

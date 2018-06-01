@@ -21,7 +21,7 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULE, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 	}
 	else {
 		DBVARIANT dbv;
-		if (!db_get_ws(0, MODULE, "Folder", &dbv)) {
+		if (!db_get_ws(0, MODULENAME, "Folder", &dbv)) {
 			wcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
 			db_free(&dbv);
 		}

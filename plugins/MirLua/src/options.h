@@ -1,6 +1,6 @@
 #pragma once
 
-class CMLuaOptions : public CPluginDlgBase
+class CMLuaOptions : public CDlgBase
 {
 private:
 	bool isScriptListInit;

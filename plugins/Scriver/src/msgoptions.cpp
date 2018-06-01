@@ -366,13 +366,13 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CLayoutOptionsDlg : public CPluginDlgBase
+class CLayoutOptionsDlg : public CDlgBase
 {
 	CCtrlCheck chkTransparency, chkShowTitlebar;
 
 public:
 	CLayoutOptionsDlg() : 
-		CPluginDlgBase(g_plugin, IDD_OPT_LAYOUT, SRMM_MODULE),
+		CDlgBase(g_plugin, IDD_OPT_LAYOUT),
 		chkTransparency(this, IDC_TRANSPARENCY),
 		chkShowTitlebar(this, IDC_SHOWTITLEBAR)
 	{
@@ -468,7 +468,7 @@ public:
 			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
 		}
 
-		return CPluginDlgBase::DlgProc(msg, wParam, lParam);
+		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };
 

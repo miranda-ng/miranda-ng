@@ -1,7 +1,7 @@
 #ifndef _OPTIONS_H_
 #define _OPTIONS_H_
 
-class COptionsMainDlg : public CPluginDlgBase
+class COptionsMainDlg : public CDlgBase
 {
 private:
 	CCtrlCombo m_defaultService;

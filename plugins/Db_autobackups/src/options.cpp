@@ -1,23 +1,23 @@
 #include "stdafx.h"
 
 Options::Options() :
-	backup_types(MODULE, "BackupType", BT_PERIODIC),
-	period(MODULE, "Period", 1),
-	period_type(MODULE, "PeriodType", PT_DAYS),
-	num_backups(MODULE, "NumBackups", 3),
-	disable_progress(MODULE, "NoProgress", 0),
-	disable_popups(MODULE, "NoPopups", 0),
-	use_zip(MODULE, "UseZip", 0),
-	backup_profile(MODULE, "BackupProfile", 0),
-	use_cloudfile(MODULE, "UseCloudFile", 0),
-	cloudfile_service(MODULE, "CloudFileService", nullptr)
+	backup_types(MODULENAME, "BackupType", BT_PERIODIC),
+	period(MODULENAME, "Period", 1),
+	period_type(MODULENAME, "PeriodType", PT_DAYS),
+	num_backups(MODULENAME, "NumBackups", 3),
+	disable_progress(MODULENAME, "NoProgress", 0),
+	disable_popups(MODULENAME, "NoPopups", 0),
+	use_zip(MODULENAME, "UseZip", 0),
+	backup_profile(MODULENAME, "BackupProfile", 0),
+	use_cloudfile(MODULENAME, "UseCloudFile", 0),
+	cloudfile_service(MODULENAME, "CloudFileService", nullptr)
 {
 }
 
 Options options;
 
 COptionsDlg::COptionsDlg()
-	: CPluginDlgBase(g_plugin, IDD_OPTIONS, MODULE),
+	: CDlgBase(g_plugin, IDD_OPTIONS),
 	m_disable(this, IDC_RAD_DISABLED), m_backupOnStart(this, IDC_RAD_START),
 	m_backupOnExit(this, IDC_RAD_EXIT), m_backupPeriodic(this, IDC_RAD_PERIODIC),
 	m_backup(this, IDC_BUT_NOW), m_backupProfile(this, IDC_BACKUPPROFILE),
@@ -133,7 +133,7 @@ void COptionsDlg::OnApply()
 			MessageBox(nullptr, msg, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
 			return;
 		}
-		db_set_ws(0, MODULE, "Folder", folder);
+		db_set_ws(0, MODULENAME, "Folder", folder);
 	}
 
 	int currentService = m_cloudFileService.GetCurSel();

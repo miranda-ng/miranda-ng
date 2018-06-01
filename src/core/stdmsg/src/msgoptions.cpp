@@ -150,7 +150,7 @@ statusValues[] =
 	{ PF2_ONTHEPHONE, LPGENW("On the phone") }
 };
 
-class COptionMainDlg : public CPluginDlgBase
+class COptionMainDlg : public CDlgBase
 {
 	CCtrlEdit  edtNFlash, edtAvatarH, edtSecs;
 	CCtrlCheck chkAutoMin, chkAutoClose, chkSavePerContact, chkDoNotStealFocus;
@@ -193,7 +193,7 @@ class COptionMainDlg : public CPluginDlgBase
 
 public:
 	COptionMainDlg() :
-		CPluginDlgBase(g_plugin, IDD_OPT_MSGDLG, SRMMMOD),
+		CDlgBase(g_plugin, IDD_OPT_MSGDLG),
 		tree(this, IDC_POPLIST),
 		edtSecs(this, IDC_SECONDS),
 		edtNFlash(this, IDC_NFLASHES),
@@ -305,7 +305,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptionLogDlg : public CPluginDlgBase
+class COptionLogDlg : public CDlgBase
 {
 	HBRUSH hBkgColourBrush;
 
@@ -315,7 +315,7 @@ class COptionLogDlg : public CPluginDlgBase
 
 public:
 	COptionLogDlg() :
-		CPluginDlgBase(g_plugin, IDD_OPT_MSGLOG, SRMMMOD),
+		CDlgBase(g_plugin, IDD_OPT_MSGLOG),
 		chkSecs(this, IDC_SHOWSECS),
 		chkDate(this, IDC_SHOWDATES),
 		chkTime(this, IDC_SHOWTIMES),
@@ -409,7 +409,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptionTypingDlg : public CPluginDlgBase
+class COptionTypingDlg : public CDlgBase
 {
 	HANDLE hItemNew, hItemUnknown;
 
@@ -418,7 +418,7 @@ class COptionTypingDlg : public CPluginDlgBase
 
 public:
 	COptionTypingDlg() :
-		CPluginDlgBase(g_plugin, IDD_OPT_MSGTYPE, SRMMMOD),
+		CDlgBase(g_plugin, IDD_OPT_MSGTYPE),
 		clist(this, IDC_CLIST),
 		chkType(this, IDC_SHOWNOTIFY),
 		chkTypeWin(this, IDC_TYPEWIN),

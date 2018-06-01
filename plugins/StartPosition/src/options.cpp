@@ -16,7 +16,7 @@ StartPositionOptions::StartPositionOptions() :
 }
 
 COptionsDlg::COptionsDlg() :
-	CPluginDlgBase(g_plugin, IDD_OPTIONS, MODULENAME),
+	CDlgBase(g_plugin, IDD_OPTIONS),
 	chkPositionTop(this, IDC_CLTOPENABLE),
 	edtPositionTop(this, IDC_CLTOP),
 	chkPositionBottom(this, IDC_CLBOTTOMENABLE),

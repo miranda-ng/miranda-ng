@@ -243,7 +243,7 @@ int Backup(wchar_t *backup_filename)
 		}
 		SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
 		UpdateWindow(progress_dialog);
-		db_set_dw(0, MODULE, "LastBackupTimestamp", (DWORD)time(0));
+		db_set_dw(0, MODULENAME, "LastBackupTimestamp", (DWORD)time(0));
 
 		if (options.use_cloudfile)
 		{

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 COptionsMainDlg::COptionsMainDlg()
-	: CPluginDlgBase(g_plugin, IDD_OPTIONS_MAIN, MODULENAME),
+	: CDlgBase(g_plugin, IDD_OPTIONS_MAIN),
 	m_defaultService(this, IDC_DEFAULTSERVICE),
 	m_doNothingOnConflict(this, IDC_DONOTHINGONCONFLICT),
 	m_renameOnConflict(this, IDC_RENAMEONCONFLICT),

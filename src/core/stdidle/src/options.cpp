@@ -35,7 +35,7 @@ int IdleGetStatusIndex(WORD status)
 	return 0;
 }
 
-class COptionsDlg : public CPluginDlgBase
+class COptionsDlg : public CDlgBase
 {
 	CCtrlEdit edt1sttime;
 	CCtrlSpin spinIdle;
@@ -57,7 +57,7 @@ class COptionsDlg : public CPluginDlgBase
 
 public:
 	COptionsDlg() :
-		CPluginDlgBase(g_plugin, IDD_OPT_IDLE, MODULENAME),
+		CDlgBase(g_plugin, IDD_OPT_IDLE),
 		edt1sttime(this, IDC_IDLE1STTIME),
 		spinIdle(this, IDC_IDLESPIN),
 		cmbAAStatus(this, IDC_AASTATUS),

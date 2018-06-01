@@ -56,7 +56,7 @@ struct Options
 	Options();
 };
 
-class COptionsDlg : public CPluginDlgBase
+class COptionsDlg : public CDlgBase
 {
 	CCtrlCheck m_disable;
 	CCtrlCheck m_backupOnStart;

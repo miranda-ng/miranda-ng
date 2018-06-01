@@ -25,7 +25,7 @@ namespace fs = std::experimental::filesystem;
 #include <m_folders.h>
 #include <m_cloudfile.h>
 
-#define MODULE "AutoBackups"
+#define MODULENAME "AutoBackups"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

@@ -461,6 +461,16 @@ protected:
 	void AddControl(CCtrlBase *ctrl);
 	void AddTimer(CTimer *timer);
 
+	// options support
+	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
+	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
+
+	template<class T>
+	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
+	{
+		ctrl.CreateDbLink(new CMOptionLink<T>(option));
+	}
+
 	// win32 stuff
 	void ThemeDialogBackground(BOOL tabbed);
 
@@ -1490,29 +1500,6 @@ public:
 
 protected:
 	TProto* m_proto;
-};
-
-class CPluginDlgBase : public CDlgBase
-{
-	const char *m_szModule;
-public:
-	CPluginDlgBase(CMPluginBase &pPlug, int idDialog, const char *module) : 
-		CDlgBase(pPlug, idDialog), m_szModule(module)
-	{};
-
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
-	{
-		ctrl.CreateDbLink(m_szModule, szSetting, type, iValue);
-	}
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue)
-	{
-		ctrl.CreateDbLink(m_szModule, szSetting, szValue);
-	}
-	template<class T>
-	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
-	{
-		ctrl.CreateDbLink(new CMOptionLink<T>(option));
-	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

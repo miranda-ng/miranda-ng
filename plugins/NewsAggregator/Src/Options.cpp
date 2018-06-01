@@ -892,8 +892,8 @@ void COptionsMain::UpdateList()
 	UpdateListFlag = FALSE;
 }
 
-COptionsMain::COptionsMain()
-	: CPluginDlgBase(g_plugin, IDD_OPTIONS, MODULENAME),
+COptionsMain::COptionsMain() :
+	CDlgBase(g_plugin, IDD_OPTIONS),
 	m_feeds(this, IDC_FEEDLIST),
 	m_add(this, IDC_ADD),
 	m_change(this, IDC_CHANGE),
