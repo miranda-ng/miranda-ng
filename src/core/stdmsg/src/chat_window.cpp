@@ -297,6 +297,8 @@ void CChatRoomDlg::UpdateOptions()
 
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 
+	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), GetIconHandle("window"));
+
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 
 	CHARFORMAT2 cf;

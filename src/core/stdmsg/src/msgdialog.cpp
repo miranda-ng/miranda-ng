@@ -619,7 +619,8 @@ void CSrmmWindow::UpdateIcon(WPARAM wParam)
 			m_hStatusIcon = hIcon;
 		}
 
-		SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+		if (g_dat.bUseStatusWinIcon)
+			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 	}
 }
 
@@ -655,12 +656,17 @@ void CSrmmWindow::UpdateTitle()
 	if (m_hContact && m_szProto) {
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
-		wchar_t *szStatus = Clist_GetStatusModeDescription(m_wStatus, 0);
-		mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
+		
+		if (g_dat.bUseStatusWinIcon)
+			mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
+		else {
+			wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
+			mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
+		}
 
 		m_wOldStatus = m_wStatus;
 	}
-	else mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
+	else wcsncpy_s(newtitle, TranslateT("Message session"), _TRUNCATE);
 
 	if (this == m_pOwner->CurrPage()) {
 		wchar_t oldtitle[256];

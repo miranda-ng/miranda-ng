@@ -309,7 +309,12 @@ void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 	// set the container's icon only if we're processing the current page
 	if (pDlg == CurrPage()) {
 		Window_FreeIcon_IcoLib(m_hwnd);
-		Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
+		if (g_dat.bUseStatusWinIcon)
+			Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
+		else if (pDlg->isChat())
+			Window_SetIcon_IcoLib(m_hwnd, GetIconHandle("window"));
+		else
+			Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_EVENT_MESSAGE);
 	}
 }
 
@@ -412,12 +417,13 @@ void CTabbedWindow::TabClicked()
 				g_clistApi.pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
 		}
 
-		FixTabIcons(pDlg);
 		if (!s->pDlg) {
 			g_chatApi.ShowRoom(s);
 			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
 	}
+
+	FixTabIcons(pDlg);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
