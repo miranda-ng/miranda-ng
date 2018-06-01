@@ -393,9 +393,9 @@ public:
 		db_set_b(0, SRMM_MODULE, SRMSGSET_SEPARATECHATSCONTAINERS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SEPARATECHATSCONTAINERS));
 	}
 
-	void onChange_UseTabs(CCtrlCheck *pCheck)
+	void onChange_UseTabs(CCtrlCheck*)
 	{
-		int bChecked = pCheck->GetState();
+		int bChecked = chkUseTabs.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_ALWAYSSHOWTABS), bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_TABSATBOTTOM), bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_SWITCHTOACTIVE), bChecked);
@@ -409,31 +409,31 @@ public:
 		onChange_SeparateChats(0);
 	}
 
-	void onChange_LimitTabs(CCtrlCheck *pCheck)
+	void onChange_LimitTabs(CCtrlCheck*)
 	{
-		int bChecked = chkUseTabs.GetState() && pCheck->GetState();
+		int bChecked = chkUseTabs.GetState() && chkLimitTabs.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITTABSNUM), bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITTABSNUMSPIN), bChecked);
 	}
 
-	void onChange_SeparateChats(CCtrlCheck *pCheck)
+	void onChange_SeparateChats(CCtrlCheck*)
 	{
-		int bChecked = chkUseTabs.GetState() && pCheck->GetState();
+		int bChecked = chkUseTabs.GetState() && chkSeparateChats.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITCHATSTABS), bChecked);
 
 		onChange_LimitChatTabs(0);
 	}
 
-	void onChange_LimitChatTabs(CCtrlCheck *pCheck)
+	void onChange_LimitChatTabs(CCtrlCheck*)
 	{
-		int bChecked = chkUseTabs.GetState() && IsDlgButtonChecked(m_hwnd, IDC_SEPARATECHATSCONTAINERS) && pCheck->GetState();
+		int bChecked = chkUseTabs.GetState() && IsDlgButtonChecked(m_hwnd, IDC_SEPARATECHATSCONTAINERS) && chkLimitChatTabs.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITCHATSTABSNUM), bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITCHATSTABSNUMSPIN), bChecked);
 	}
 
-	void onChange_LimitNames(CCtrlCheck *pCheck)
+	void onChange_LimitNames(CCtrlCheck*)
 	{
-		int bChecked = chkUseTabs.GetState() && pCheck->GetState();
+		int bChecked = chkUseTabs.GetState() && chkLimitNames.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITNAMESLEN), bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITNAMESLENSPIN), bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHARS), bChecked);
