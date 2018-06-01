@@ -620,10 +620,8 @@ public:
 		int idx = m_accList.GetCurSel();
 		if (idx != -1) {
 			PROTOACCOUNT *pa = (PROTOACCOUNT*)m_accList.GetItemData(idx);
-			if (pa) {
+			if (pa)
 				pa->bAccMgrUIChanged = true;
-				NotifyChange();
-			}
 		}
 	}
 };
