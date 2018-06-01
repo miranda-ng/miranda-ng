@@ -101,10 +101,10 @@
   # Accepting de facto replacements of the Romanian comma acuted letters
   SET UTF-8
   ICONV 4
-  ICONV ÅŸ È™
-  ICONV Å£ È›
-  ICONV Å È˜
-  ICONV Å¢ Èš
+  ICONV Ğ•ÑŸ Ğ˜â„¢
+  ICONV Ğ•Ğˆ Ğ˜â€º
+  ICONV Ğ•Ñ› Ğ˜Â˜
+  ICONV Ğ•Ñ Ğ˜Ñ™
 
     Typical usage of ICONV/OCONV is to manage an inner format for a segmental
     writing system, like the Ethiopic script of the Amharic language.
@@ -113,8 +113,8 @@
     sandhi feature of Telugu and other writing systems.
 
   - SIMPLIFIEDTRIPLE compound word feature: allow simplified Swedish and
-    Norwegian compound word forms, like tillÃ¥ta (till|lÃ¥ta) and
-    bussjÃ¥fÃ¸r (buss|sjÃ¥fÃ¸r)
+    Norwegian compound word forms, like tillĞ“Òta (till|lĞ“Òta) and
+    bussjĞ“ÒfĞ“Ñ‘r (buss|sjĞ“ÒfĞ“Ñ‘r)
 
   - wordforms: word generator script for dictionary developers (Hunspell
     version of unmunch).
@@ -232,7 +232,7 @@
   - portability fixes
 
 2007-08-23: Hunspell 1.1.10 release:
-  - pronounciation based suggestion using Björn Jacke's original Aspell
+  - pronounciation based suggestion using BjÑ†rn Jacke's original Aspell
     phonetic transcription algorithm (http://aspell.net), relicensed under
     GPL/LGPL/MPL tri-license with the permission of the author
 
@@ -278,7 +278,7 @@
     - -i option: custom input encoding
     - use locale data for default dictionary names. 
     - tools/hunspell.cxx: fix 8-bit tokenization (letters without
-      casing, like ÃŸ or Hebrew characters now are handled well) 
+      casing, like Ğ“ÑŸ or Hebrew characters now are handled well) 
     - dictionary search path (automatic detection of OpenOffice.org directories)
     - DICPATH environmental variable
     - -D option: show directory path of loaded dictionary
@@ -500,8 +500,8 @@ An example in a language with rich morphology:
 
 8. Misisipiben (instead of Mississippiben [`in Mississippi' in Hungarian]):
 
-O: Misikédéiben, Pisisedéiben, Misikéiéiben, Pisisekéiben, Misikéiben,
-        Misikéidéiben, Misikékéiben, Misikéikéiben, Misikéiméiben, Mississippiiben
+O: MisikĞ¹dĞ¹iben, PisisedĞ¹iben, MisikĞ¹iĞ¹iben, PisisekĞ¹iben, MisikĞ¹iben,
+        MisikĞ¹idĞ¹iben, MisikĞ¹kĞ¹iben, MisikĞ¹ikĞ¹iben, MisikĞ¹imĞ¹iben, Mississippiiben
 
 N: Mississippiben, Mississippiiben, Misiiben
 
@@ -610,29 +610,29 @@ SFX D   us          ech        [^ighk]os
 SFX D   us          y          [^i]os
 SFX Q   os          ech        [^ghk]es
 SFX M   o           ech        [^ghkei]a
-SFX J   ém          ej         ám
-SFX J   ém          ejme       ám
-SFX J   ém          ejte       ám
-SFX A   ou¾it       up         oupit
-SFX A   ou¾it       upme       oupit
-SFX A   ou¾it       upte       oupit
-SFX A   nout        l          [aeiouyáéíóúıùìr][^aeiouyáéíóúıùìrl][^aeiouy
-SFX A   nout        l          [aeiouyáéíóúıùìr][^aeiouyáéíóúıùìrl][^aeiouy
+SFX J   Ğ¹m          ej         Ğ±m
+SFX J   Ğ¹m          ejme       Ğ±m
+SFX J   Ğ¹m          ejte       Ğ±m
+SFX A   ouÑ•it       up         oupit
+SFX A   ouÑ•it       upme       oupit
+SFX A   ouÑ•it       upte       oupit
+SFX A   nout        l          [aeiouyĞ±Ğ¹Ğ½ÑƒÑŠÑÑ‰Ğ¼r][^aeiouyĞ±Ğ¹Ğ½ÑƒÑŠÑÑ‰Ğ¼rl][^aeiouy
+SFX A   nout        l          [aeiouyĞ±Ğ¹Ğ½ÑƒÑŠÑÑ‰Ğ¼r][^aeiouyĞ±Ğ¹Ğ½ÑƒÑŠÑÑ‰Ğ¼rl][^aeiouy
 
 es_ES
 warning - incompatible stripping characters and condition:
-SFX W umar úse [ae]husar
-SFX W emir iñáis eñir
+SFX W umar ÑŠse [ae]husar
+SFX W emir iÑĞ±is eÑir
 
 es_NEW
 warning - incompatible stripping characters and condition:
-SFX I unan únen unar
+SFX I unan ÑŠnen unar
 
 es_MX
 warning - incompatible stripping characters and condition:
 SFX A a ote e
-SFX W umar úse [ae]husar
-SFX W emir iñáis eñir
+SFX W umar ÑŠse [ae]husar
+SFX W emir iÑĞ±is eÑir
 
 lt_LT
 warning - incompatible stripping characters and condition:
@@ -642,21 +642,21 @@ SFX U ti      siesi           tis
 SFX U ti      siesi           tis       
 SFX U ti      sis             tis       
 SFX U ti      sis             tis       
-SFX U ti      simës           tis       
-SFX U ti      simës           tis       
-SFX U ti      sitës           tis       
-SFX U ti      sitës           tis       
+SFX U ti      simĞ»s           tis       
+SFX U ti      simĞ»s           tis       
+SFX U ti      sitĞ»s           tis       
+SFX U ti      sitĞ»s           tis       
 
 nn_NO
 warning - incompatible stripping characters and condition:
 SFX D   ar  rar  [^fmk]er
-SFX U   Øre  orde  ere
-SFX U   Øre  ort  ere
+SFX U   Ğ¨re  orde  ere
+SFX U   Ğ¨re  ort  ere
 
 pt_PT
 warning - incompatible stripping characters and condition:
-SFX g   ãos        oas        ão
-SFX g   ãos        oas        ão
+SFX g   Ğ³os        oas        Ğ³o
+SFX g   Ğ³os        oas        Ğ³o
 
 ro_RO
 warning - bad field number:
@@ -672,22 +672,22 @@ SFX I   a          ei         [^cg] a
 
 sk_SK
 warning - incompatible stripping characters and condition:
-SFX T   µa»         olú        kla»
-SFX T   µa»         olúc       kla»
-SFX T   sµa»        ¹lú        sla»
-SFX T   sµa»        ¹lúc       sla»
-SFX R   µc»         lèiem      åc»
-SFX R   iás»        ätie       mias»
-SFX R   iez»        iem        [^i]ez»
-SFX R   iez»        ie¹        [^i]ez»
-SFX R   iez»        ie         [^i]ez»
-SFX R   iez»        eme        [^i]ez»
-SFX R   iez»        ete        [^i]ez»
-SFX R   iez»        ú          [^i]ez»
-SFX R   iez»        úc         [^i]ez»
-SFX R   iez»        z          [^i]ez»
-SFX R   iez»        me         [^i]ez»
-SFX R   iez»        te         [^i]ez»
+SFX T   ÂµaÂ»         olÑŠ        klaÂ»
+SFX T   ÂµaÂ»         olÑŠc       klaÂ»
+SFX T   sÂµaÂ»        â„–lÑŠ        slaÂ»
+SFX T   sÂµaÂ»        â„–lÑŠc       slaÂ»
+SFX R   ÂµcÂ»         lĞ¸iem      ĞµcÂ»
+SFX R   iĞ±sÂ»        Ğ´tie       miasÂ»
+SFX R   iezÂ»        iem        [^i]ezÂ»
+SFX R   iezÂ»        ieâ„–        [^i]ezÂ»
+SFX R   iezÂ»        ie         [^i]ezÂ»
+SFX R   iezÂ»        eme        [^i]ezÂ»
+SFX R   iezÂ»        ete        [^i]ezÂ»
+SFX R   iezÂ»        ÑŠ          [^i]ezÂ»
+SFX R   iezÂ»        ÑŠc         [^i]ezÂ»
+SFX R   iezÂ»        z          [^i]ezÂ»
+SFX R   iezÂ»        me         [^i]ezÂ»
+SFX R   iezÂ»        te         [^i]ezÂ»
 
 sv_SE
 warning - bad field number:
