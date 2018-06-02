@@ -12,6 +12,7 @@ else()
 endif()
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/include/msapi ${CMAKE_SOURCE_DIR}/plugins/ExternalAPI)
 
+add_subdirectory(build)
 add_subdirectory(libs)
 add_subdirectory(src)
 add_subdirectory(plugins)
