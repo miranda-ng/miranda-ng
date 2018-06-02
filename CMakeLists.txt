@@ -16,7 +16,6 @@ set(SSL_EAY_RELEASE ${PREBUILT_DIR}/ssleay32.lib CACHE FILEPATH "ssleay release 
 find_package(OpenSSL)
 
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "_UNICODE;UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS")
-link_directories(${PREBUILT_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/include/msapi ${CMAKE_SOURCE_DIR}/plugins/ExternalAPI)
 
 add_subdirectory(build)

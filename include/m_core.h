@@ -582,12 +582,4 @@ inline int mir_vsnwprintf(_Pre_notnull_ _Always_(_Post_z_) wchar_t(&buffer)[_Siz
 
 #endif
 
-#ifndef MIR_CORE_EXPORTS
-	#pragma comment(lib, "mir_core.lib")
-#endif
-
-#ifndef MIR_APP_EXPORTS
-	#pragma comment(lib, "mir_app.lib")
-#endif
-
 #endif // M_CORE_H
