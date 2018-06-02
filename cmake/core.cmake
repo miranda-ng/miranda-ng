@@ -13,3 +13,4 @@ set_target_properties(${TARGET} PROPERTIES
 	LINK_FLAGS "/SUBSYSTEM:WINDOWS"
 	RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/$<CONFIG>/Core"
 )
+target_link_libraries(${TARGET} mir_core cmstub)
