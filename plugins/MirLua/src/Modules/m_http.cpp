@@ -1,23 +1,22 @@
 #include "../stdafx.h"
 
-/***********************************************/
-
 #define MT_NETLIBHTTPHEADERS "NETLIBHTTPHEADERS"
 
-struct NETLIBHTTPHEADERS
+static NETLIBHTTPREQUEST* CreateRequest()
 {
-	const NETLIBHTTPHEADER *headers;
-	int count;
-};
+	NETLIBHTTPREQUEST *request = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
+	request->cbSize = sizeof(NETLIBHTTPREQUEST);
+	request->flags = NLHRF_HTTP11 | NLHRF_NODUMP;
+	return request;
+}
 
-static void AddHeader(NETLIBHTTPREQUEST *request, const char *name, const char *value)
+static void SetUrl(NETLIBHTTPREQUEST *request, const char *url)
 {
-	request->headers = (NETLIBHTTPHEADER*)mir_realloc(request->headers,
-		sizeof(NETLIBHTTPHEADER)*(request->headersCount + 1));
-	NETLIBHTTPHEADER &header = request->headers[request->headersCount];
-	header.szName = mir_strdup(name);
-	header.szValue = mir_strdup(value);
-	request->headersCount++;
+	request->szUrl = mir_strdup(url);
+	if (mir_strncmpi(request->szUrl, "https", 5) == 0)
+		request->flags |= NLHRF_SSL;
+	else
+		request->flags &= ~(NLHRF_SSL);
 }
 
 static void SetHeader(NETLIBHTTPREQUEST *request, const char *name, const char *value)
@@ -29,8 +28,56 @@ static void SetHeader(NETLIBHTTPREQUEST *request, const char *name, const char *
 			return;
 		}
 	}
-	AddHeader(request, name, value);
+
+	request->headers = (NETLIBHTTPHEADER*)mir_realloc(request->headers,
+		sizeof(NETLIBHTTPHEADER)*(request->headersCount + 1));
+	NETLIBHTTPHEADER &header = request->headers[request->headersCount];
+	header.szName = mir_strdup(name);
+	header.szValue = mir_strdup(value);
+	request->headersCount++;
 }
+
+static void DropHeader(NETLIBHTTPREQUEST *request, const char *name)
+{
+	for (int i = 0; i < request->headersCount - 1; i++) {
+		if (mir_strcmp(request->headers[i].szName, name) == 0) {
+			mir_free(request->headers[i].szName);
+			mir_free(request->headers[i].szValue);
+			request->headersCount--;
+			request->headers[i].szName = request->headers[request->headersCount].szName;
+			request->headers[i].szValue = request->headers[request->headersCount].szValue;
+		}
+	}
+	request->headers = (NETLIBHTTPHEADER*)mir_realloc(request->headers,
+		sizeof(NETLIBHTTPHEADER)*(request->headersCount + 1));
+}
+
+static void ClearHeaders(NETLIBHTTPREQUEST *request)
+{
+	for (int i = 0; i < request->headersCount; i++) {
+		mir_free(request->headers[i].szName);
+		mir_free(request->headers[i].szValue);
+	}
+	request->headersCount = 0;
+	request->headers = (NETLIBHTTPHEADER*)mir_realloc(request->headers,
+			sizeof(NETLIBHTTPHEADER)*(request->headersCount + 1));
+}
+
+static void SetContent(NETLIBHTTPREQUEST *request, const char *data, size_t length)
+{
+	if (request->pData != nullptr)
+		mir_free(request->pData);
+	request->pData = mir_strdup(data);
+	request->dataLength = length;
+}
+
+/***********************************************/
+
+struct NETLIBHTTPHEADERS
+{
+	const NETLIBHTTPHEADER *headers;
+	int count;
+};
 
 static int headers_Iterator(lua_State *L)
 {
@@ -51,7 +98,7 @@ static int headers_Iterator(lua_State *L)
 	return 1;
 }
 
-static int headers__call(lua_State *L)
+static int headers__pairs(lua_State *L)
 {
 	NETLIBHTTPHEADERS *headers = (NETLIBHTTPHEADERS*)luaL_checkudata(L, 1, MT_NETLIBHTTPHEADERS);
 
@@ -91,15 +138,13 @@ static int headers__index(lua_State *L)
 static int headers__len(lua_State *L)
 {
 	NETLIBHTTPHEADERS *headers = (NETLIBHTTPHEADERS*)luaL_checkudata(L, 1, MT_NETLIBHTTPHEADERS);
-
 	lua_pushinteger(L, headers->count);
-
 	return 1;
 }
 
 static const luaL_Reg headersApi[] =
 {
-	{ "__call", headers__call },
+	{ "__pairs", headers__pairs },
 	{ "__index", headers__index },
 	{ "__len", headers__len },
 
@@ -134,18 +179,14 @@ static int content__index(lua_State *L)
 static int content__len(lua_State *L)
 {
 	NETLIBHTTPCONTENT *content = (NETLIBHTTPCONTENT*)luaL_checkudata(L, 1, MT_NETLIBHTTPCONTENT);
-
 	lua_pushinteger(L, content->length);
-
 	return 1;
 }
 
 static int content__tostring(lua_State *L)
 {
 	NETLIBHTTPCONTENT *content = (NETLIBHTTPCONTENT*)luaL_checkudata(L, 1, MT_NETLIBHTTPCONTENT);
-
 	lua_pushlstring(L, content->data, content->length);
-
 	return 1;
 }
 
@@ -164,11 +205,11 @@ static const luaL_Reg contentApi[] =
 
 static NETLIBHTTPREQUEST* response_Create(lua_State *L, NETLIBHTTPREQUEST *request)
 {
-	NETLIBHTTPREQUEST **response = (NETLIBHTTPREQUEST**)lua_newuserdata(L, sizeof(NETLIBHTTPREQUEST*));
-	*response = Netlib_HttpTransaction(g_hNetlib, request);
+	NETLIBHTTPREQUEST *response = Netlib_HttpTransaction(g_hNetlib, request);
+	NETLIBHTTPREQUEST **udata = (NETLIBHTTPREQUEST**)lua_newuserdata(L, sizeof(NETLIBHTTPREQUEST*));
+	*udata = response;
 	luaL_setmetatable(L, MT_NETLIBHTTPRESPONSE);
-
-	return *response;
+	return response;
 }
 
 static int response__index(lua_State *L)
@@ -176,7 +217,17 @@ static int response__index(lua_State *L)
 	NETLIBHTTPREQUEST *response = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPRESPONSE);
 	const char *key = lua_tostring(L, 2);
 
-	if (mir_strcmpi(key, "Headers") == 0) {
+	if (mir_strcmpi(key, "IsSuccess") == 0) {
+		lua_pushboolean(L, response != nullptr && HTTP_CODE_SUCCESS(response->resultCode));
+		return 1;
+	}
+	if (response == nullptr) {
+		lua_pushnil(L);
+		return 1;
+	}
+	if (mir_strcmpi(key, "StatusCode") == 0)
+		lua_pushinteger(L, response->resultCode);
+	else if (mir_strcmpi(key, "Headers") == 0) {
 		NETLIBHTTPHEADERS *headers = (NETLIBHTTPHEADERS*)lua_newuserdata(L, sizeof(NETLIBHTTPHEADERS));
 		headers->headers = response->headers;
 		headers->count = response->headersCount;
@@ -188,11 +239,6 @@ static int response__index(lua_State *L)
 		content->length = response->dataLength;
 		luaL_setmetatable(L, MT_NETLIBHTTPCONTENT);
 	}
-	else if (mir_strcmpi(key, "StatusCode") == 0)
-		lua_pushinteger(L, response->resultCode);
-	else if (mir_strcmpi(key, "IsSuccess") == 0) {
-		lua_pushboolean(L, HTTP_CODE_SUCCESS(response->resultCode));
-	}
 	else
 		lua_pushnil(L);
 
@@ -202,9 +248,7 @@ static int response__index(lua_State *L)
 static int response__gc(lua_State *L)
 {
 	NETLIBHTTPREQUEST **response = (NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPRESPONSE);
-
 	Netlib_FreeHttpRequest(*response);
-
 	return 0;
 }
 
@@ -218,168 +262,175 @@ static const luaL_Reg responseApi[] =
 
 /***********************************************/
 
+struct HttpRequestParam
+{
+	lua_State *L;
+	int threadRef;
+	int callbackRef;
+
+	NETLIBHTTPREQUEST *request;
+};
+
+static void __cdecl SendHttpRequestThread(HttpRequestParam *param)
+{
+	Thread_SetName(MODULENAME ": SendHttpRequestThread");
+
+	lua_rawgeti(param->L, LUA_REGISTRYINDEX, param->callbackRef);
+	response_Create(param->L, param->request);
+	luaM_pcall(param->L, 0, 1);
+
+	luaL_unref(param->L, LUA_REGISTRYINDEX, param->callbackRef);
+	luaL_unref(param->L, LUA_REGISTRYINDEX, param->threadRef);
+	delete param;
+}
+
+static void SendRequestAsync(lua_State *L, int idx, NETLIBHTTPREQUEST *request)
+{
+	HttpRequestParam *param = new HttpRequestParam();
+	param->request = request;
+	param->L = lua_newthread(L);
+	param->threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
+	lua_pushvalue(L, idx);
+	param->callbackRef = luaL_ref(L, LUA_REGISTRYINDEX);
+	mir_forkThread<HttpRequestParam>(SendHttpRequestThread, param);
+}
+
+/***********************************************/
+
 #define MT_NETLIBHTTPREQUEST "NETLIBHTTPREQUEST"
 
-static NETLIBHTTPREQUEST* CreateRequest(lua_State *L)
+static const char *httpMethods[] = { "GET", "POST", "PUT", "DELETE", nullptr };
+
+static int request_SetMethod(lua_State *L)
 {
-	NETLIBHTTPREQUEST **request = (NETLIBHTTPREQUEST**)lua_newuserdata(L, sizeof(NETLIBHTTPREQUEST*));
-	*request = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
-	(*request)->cbSize = sizeof(NETLIBHTTPREQUEST);
-	(*request)->flags = NLHRF_HTTP11 | NLHRF_NODUMP;
-
-	luaL_setmetatable(L, MT_NETLIBHTTPREQUEST);
-
-	return *request;
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
+	request->requestType = (1 << (luaL_checkoption(L, 2, nullptr, httpMethods)));
+	lua_pushvalue(L, 1);
+	return 1;
 }
 
-static void request_SetUrl(lua_State *L, int idx, NETLIBHTTPREQUEST *request)
+static int request_SetUrl(lua_State *L)
 {
-	const char *url = luaL_checkstring(L, idx);
-	request->szUrl = mir_strdup(url);
-	if (mir_strncmpi(request->szUrl, "https", 5) == 0)
-		request->flags |= NLHRF_SSL;
-	else
-		request->flags &= ~(NLHRF_SSL);
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
+	const char *url = luaL_checkstring(L, 2);
+
+	SetUrl(request, url);
+	lua_pushvalue(L, 1);
+
+	return 1;
 }
 
-static void request_SetHeaders(lua_State *L, int idx, NETLIBHTTPREQUEST *request)
+static int request_SetHeaders(lua_State *L)
 {
-	if (lua_isnoneornil(L, idx))
-		return;
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
+	luaL_checktype(L, 2, LUA_TTABLE);
 
-	luaL_checktype(L, idx, LUA_TTABLE);
-
-	idx = lua_absindex(L, idx);
-	for (lua_pushnil(L); lua_next(L, idx); lua_pop(L, 2)) {
-		lua_pushvalue(L, -2);
-		const char *name = lua_tostring(L, -1);
-		const char *value = lua_tostring(L, -2);
-		AddHeader(request, name, value);
+	ClearHeaders(request);
+	for (lua_pushnil(L); lua_next(L, 2); lua_pop(L, 1)) {
+		const char *name = lua_tostring(L, -2);
+		const char *value = lua_tostring(L, -1);
+		SetHeader(request, name, value);
 	}
+
+	lua_pushvalue(L, 1);
+	return 1;
 }
 
-static void request_SetContent(lua_State *L, int idx, NETLIBHTTPREQUEST *request)
+static int request_SetContent(lua_State *L)
 {
-	CMStringA data;
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
 
-	switch (lua_type(L, idx))
-	{
+	switch (lua_type(L, 2)) {
 	case LUA_TNONE:
 	case LUA_TNIL:
-		return;
+		SetContent(request, nullptr, 0);
+		DropHeader(request, "Content-Type");
+		break;
 	case LUA_TSTRING:
-		data = lua_tostring(L, idx);
+	{
+		const char *data = lua_tostring(L, 2);
+		SetContent(request, data, mir_strlen(data));
 		SetHeader(request, "Content-Type", "text/plain");
 		break;
+	}
 	case LUA_TTABLE:
 	{
-		idx = lua_absindex(L, idx);
-		for (lua_pushnil(L); lua_next(L, idx); lua_pop(L, 2)) {
-			lua_pushvalue(L, -2);
-			const char *name = lua_tostring(L, -1);
-			const char *value = lua_tostring(L, -2);
-			data.AppendFormat("&%s=%s", name, value);
+		CMStringA formData;
+		for (lua_pushnil(L); lua_next(L, 2); lua_pop(L, 1)) {
+			const char *name = lua_tostring(L, -2);
+			const char *value = lua_tostring(L, -1);
+			formData.AppendFormat("&%s=%s", name, value);
 		}
-		data.Delete(0);
+		formData.Delete(0);
+		SetContent(request, formData.GetString(), formData.GetLength());
 		SetHeader(request, "Content-Type", "application/x-www-form-urlencoded");
 		break;
 	}
 	default:
-		luaL_argerror(L, idx, luaL_typename(L, idx));
+		luaL_argerror(L, 2, luaL_typename(L, 2));
 	}
 
-	request->pData = mir_strdup(data);
-	request->dataLength = data.GetLength();
+	lua_pushvalue(L, 1);
+	return 1;
 }
 
-static void request_SetContentType(lua_State *L, int idx, NETLIBHTTPREQUEST *request)
+static int request_SetContentType(lua_State *L)
 {
-	if (!lua_isstring(L, idx))
-		return;
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
+	if (!lua_isstring(L, 2)) {
+		lua_pushvalue(L, 1);
+		return 1;
+	}
 
-	const char *type = lua_tostring(L, idx);
+	const char *type = lua_tostring(L, 2);
 	SetHeader(request, "Content-Type", type);
+
+	lua_pushvalue(L, 1);
+	return 1;
 }
 
-static const char *httpMethods[] = { "GET", "POST", "PUT", "DELETE", nullptr };
+static int request_SetTimeout(lua_State *L)
+{
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
+	request->timeout = luaL_optinteger(L, -1, 0);
+	lua_pushvalue(L, 1);
+	return 1;
+}
 
 static int request_Send(lua_State *L)
 {
-	luaL_checktype(L, 1, LUA_TTABLE);
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
 
-	NETLIBHTTPREQUEST *request = CreateRequest(L);
-
-	lua_getfield(L, 1, "Method");
-	request->requestType = (1 << (luaL_checkoption(L, -1, nullptr, httpMethods)));
-	lua_pop(L, 1);
-
-	lua_getfield(L, 1, "Url");
-	request_SetUrl(L, -1, request);
-	lua_pop(L, 1);
-
-	lua_getfield(L, 1, "Headers");
-	request_SetHeaders(L, -1, request);
-	lua_pop(L, 1);
-
-	lua_getfield(L, 1, "Content");
-	request_SetContent(L, -1, request);
-	lua_pop(L, 1);
-
-	lua_getfield(L, 1, "Timeout");
-	request->timeout = luaL_optinteger(L, -1, 0);
-	lua_pop(L, 1);
+	if (lua_isfunction(L, 2)) {
+		SendRequestAsync(L, 2, request);
+		return 0;
+	}
 
 	response_Create(L, request);
-
 	return 1;
 }
 
-static int request_Get(lua_State *L)
+static int request__index(lua_State *L)
 {
-	NETLIBHTTPREQUEST *request = CreateRequest(L);
-	request->requestType = REQUEST_GET;
-	request_SetUrl(L, 1, request);
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
+	const char *key = lua_tostring(L, 2);
 
-	response_Create(L, request);
-
-	return 1;
-}
-
-static int request_Post(lua_State *L)
-{
-	NETLIBHTTPREQUEST *request = CreateRequest(L);
-	request->requestType = REQUEST_POST;
-	request_SetUrl(L, 1, request);
-	request_SetContent(L, 2, request);
-	request_SetContentType(L, 3, request);
-
-	response_Create(L, request);
-
-	return 1;
-}
-
-static int request_Put(lua_State *L)
-{
-	NETLIBHTTPREQUEST *request = CreateRequest(L);
-	request->requestType = REQUEST_PUT;
-	request_SetUrl(L, 1, request);
-	request_SetContent(L, 2, request);
-	request_SetContentType(L, 3, request);
-
-	response_Create(L, request);
-
-	return 1;
-}
-
-static int request_Delete(lua_State *L)
-{
-	NETLIBHTTPREQUEST *request = CreateRequest(L);
-	request->requestType = REQUEST_DELETE;
-	request_SetUrl(L, 1, request);
-	request_SetContent(L, 2, request);
-	request_SetContentType(L, 2, request);
-
-	response_Create(L, request);
+	if (mir_strcmpi(key, "Method") == 0)
+		lua_pushcfunction(L, request_SetMethod);
+	else if (mir_strcmpi(key, "Url") == 0)
+		lua_pushcfunction(L, request_SetUrl);
+	else if (mir_strcmpi(key, "Headers") == 0)
+		lua_pushcfunction(L, request_SetHeaders);
+	else if (mir_strcmpi(key, "Content") == 0)
+		lua_pushcfunction(L, request_SetContent);
+	else if (mir_strcmpi(key, "ContentType") == 0)
+		lua_pushcfunction(L, request_SetContentType);
+	else if (mir_strcmpi(key, "Timeout") == 0)
+		lua_pushcfunction(L, request_SetTimeout);
+	else if (mir_strcmpi(key, "Send") == 0)
+		lua_pushcfunction(L, request_Send);
+	else
+		lua_pushnil(L);
 
 	return 1;
 }
@@ -401,6 +452,7 @@ static int request__gc(lua_State *L)
 
 static const luaL_Reg requestApi[] =
 {
+	{ "__index", request__index },
 	{ "__gc", request__gc },
 
 	{ nullptr, nullptr }
@@ -408,13 +460,117 @@ static const luaL_Reg requestApi[] =
 
 /***********************************************/
 
+static int http_Request(lua_State *L)
+{
+	NETLIBHTTPREQUEST *request = CreateRequest();
+	NETLIBHTTPREQUEST **udata = (NETLIBHTTPREQUEST**)lua_newuserdata(L, sizeof(NETLIBHTTPREQUEST*));
+	*udata = request;
+	request->requestType = (1 << (luaL_checkoption(L, 1, nullptr, httpMethods)));
+	SetUrl(request, luaL_checkstring(L, 2));
+	luaL_setmetatable(L, MT_NETLIBHTTPREQUEST);
+
+	return 1;
+}
+
+static int http_Get(lua_State *L)
+{
+	NETLIBHTTPREQUEST *request = CreateRequest();
+	request->requestType = REQUEST_GET;
+
+	const char *url = luaL_checkstring(L, 1);
+	SetUrl(request, url);
+
+	if (lua_isfunction(L, 2)) {
+		SendRequestAsync(L, 2, request);
+		return 0;
+	}
+
+	response_Create(L, request);
+	return 1;
+}
+
+static int http_Post(lua_State *L)
+{
+	NETLIBHTTPREQUEST *request = CreateRequest();
+	request->requestType = REQUEST_POST;
+	
+	const char *url = luaL_checkstring(L, 1);
+	SetUrl(request, url);
+
+	lua_pushvalue(L, 2);
+	lua_pushcfunction(L, request_SetContent);
+	luaM_pcall(L, 2, 1);
+
+	lua_pushvalue(L, 3);
+	lua_pushcfunction(L, request_SetContentType);
+	luaM_pcall(L, 2, 1);
+
+	if (lua_isfunction(L, 2)) {
+		SendRequestAsync(L, 2, request);
+		return 0;
+	}
+
+	response_Create(L, request);
+	return 1;
+}
+
+static int http_Put(lua_State *L)
+{
+	NETLIBHTTPREQUEST *request = CreateRequest();
+	request->requestType = REQUEST_PUT;
+
+	const char *url = luaL_checkstring(L, 1);
+	SetUrl(request, url);
+
+	lua_pushvalue(L, 2);
+	lua_pushcfunction(L, request_SetContent);
+	luaM_pcall(L, 2, 1);
+
+	lua_pushvalue(L, 3);
+	lua_pushcfunction(L, request_SetContentType);
+	luaM_pcall(L, 2, 1);
+
+	if (lua_isfunction(L, 2)) {
+		SendRequestAsync(L, 2, request);
+		return 0;
+	}
+
+	response_Create(L, request);
+	return 1;
+}
+
+static int http_Delete(lua_State *L)
+{
+	NETLIBHTTPREQUEST *request = CreateRequest();
+	request->requestType = REQUEST_DELETE;
+
+	const char *url = luaL_checkstring(L, 1);
+	SetUrl(request, url);
+
+	lua_pushvalue(L, 2);
+	lua_pushcfunction(L, request_SetContent);
+	luaM_pcall(L, 2, 1);
+
+	lua_pushvalue(L, 3);
+	lua_pushcfunction(L, request_SetContentType);
+	luaM_pcall(L, 2, 1);
+
+	if (lua_isfunction(L, 2)) {
+		SendRequestAsync(L, 2, request);
+		return 0;
+	}
+
+	response_Create(L, request);
+	return 1;
+}
+
 static const luaL_Reg httpApi[] =
 {
-	{ "Send", request_Send },
-	{ "Get", request_Get },
-	{ "Post", request_Post },
-	{ "Put", request_Put },
-	{ "Delete", request_Delete },
+	{ "Request", http_Request },
+	{ "Get", http_Get },
+	{ "Post", http_Post },
+	{ "Put", http_Put },
+	{ "Delete", http_Delete },
 
 	{ nullptr, nullptr }
 };

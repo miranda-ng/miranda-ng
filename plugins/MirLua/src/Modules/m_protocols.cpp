@@ -96,8 +96,7 @@ static int lua_GetAccount(lua_State *L)
 {
 	const char *name = nullptr;
 
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TNUMBER:
 		name = GetContactProto(lua_tonumber(L, 1));
 		break;
@@ -128,8 +127,7 @@ static int lua_AccountIterator(lua_State *L)
 		while (i < count && mir_strcmp(szProto, accounts[i]->szProtoName))
 			i++;
 
-	if (i < count)
-	{
+	if (i < count) {
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
 		MT<PROTOACCOUNT>::Apply(L, accounts[i]);
@@ -144,8 +142,7 @@ static int lua_Accounts(lua_State *L)
 {
 	const char *szProto = nullptr;
 
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TNONE:
 		break;
 	case LUA_TSTRING:
@@ -178,8 +175,7 @@ static int lua_CallService(lua_State *L)
 {
 	const char *szModule = nullptr;
 
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TNUMBER:
 		szModule = GetContactProto(lua_tonumber(L, 1));
 		break;

@@ -1,7 +1,5 @@
 #include "../stdafx.h"
 
-#define MT_CONTACT "CONTACT"
-
 void luaM_pushdbvt(lua_State *L, const DBVARIANT &value)
 {
 	switch (value.type) {

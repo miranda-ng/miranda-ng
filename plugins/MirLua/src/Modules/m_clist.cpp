@@ -1,7 +1,5 @@
 #include "../stdafx.h"
 
-
-
 void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {
 	mi.langId = CMLuaEnvironment::GetEnvironmentId(L);
