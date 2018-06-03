@@ -2297,7 +2297,7 @@ void TSAPI ReflashContainer(TContainerData *pContainer)
 {
 	DWORD dwStartTime = pContainer->dwFlashingStarted;
 
-	if (GetForegroundWindow() == pContainer->m_hwnd || GetActiveWindow() == pContainer->m_hwnd)       // dont care about active windows
+	if (pContainer->IsActive())       // dont care about active windows
 		return;
 
 	if (pContainer->dwFlags & CNT_NOFLASH || pContainer->dwFlashingStarted == 0)

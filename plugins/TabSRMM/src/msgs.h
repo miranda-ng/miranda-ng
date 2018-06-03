@@ -232,6 +232,10 @@ struct TContainerData
 	void ClearMargins()
 	{	memset(&mOld, 0xfe, sizeof(mOld));
 	}
+
+	bool IsActive()
+	{	return GetActiveWindow() == m_hwnd && GetForegroundWindow() == m_hwnd;
+	}
 };
 
 struct SESSION_INFO;
@@ -379,6 +383,11 @@ public:
 	static LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	__forceinline CCtrlRichEdit& GetEntry() { return m_message; }
+
+	bool IsActive() const override
+	{
+		return m_pContainer->IsActive() && m_pContainer->m_hwndActive == m_hwnd;
+	}
 
 	HWND  DM_CreateClist();
 	void  DM_EventAdded(WPARAM wParam, LPARAM lParam);

@@ -2123,7 +2123,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_INPUTLANGCHANGE:
-		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == m_message.GetHwnd() && m_pContainer->m_hwndActive == m_hwnd && GetForegroundWindow() == m_pContainer->m_hwnd && GetActiveWindow() == m_pContainer->m_hwnd) {
+		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == m_message.GetHwnd() && IsActive()) {
 			DM_SaveLocale(wParam, lParam);
 			m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 			return 1;

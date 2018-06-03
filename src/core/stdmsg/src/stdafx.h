@@ -161,6 +161,11 @@ public:
 
 	CTabbedWindow();
 
+	bool IsActive() const
+	{
+		return GetActiveWindow() == m_hwnd && GetForegroundWindow() == m_hwnd;
+	}
+
 	CTabbedWindow* AddPage(MCONTACT hContact, wchar_t *pwszText = nullptr, int iActivate = -1);
 	CMsgDialog* CurrPage() const;
 

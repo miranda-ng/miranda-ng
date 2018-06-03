@@ -90,6 +90,11 @@ public:
 	virtual void LoadSettings() override;
 	virtual void SetStatusText(const wchar_t*, HICON) override;
 
+	bool IsActive() const
+	{
+		return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->hwndActive == m_hwnd;
+	}
+
 	void Reattach(HWND hwndContainer);
 
 	ParentWindowData *m_pParent;

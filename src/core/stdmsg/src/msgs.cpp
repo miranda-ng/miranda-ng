@@ -67,6 +67,14 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CSuper::DlgProc(uMsg, wParam, lParam);
 }
 
+bool CMsgDialog::IsActive() const
+{
+	if (!g_Settings.bTabsEnable)
+		return true;
+
+	return m_pOwner->m_tab.GetActivePage() == this && m_pOwner->IsActive();
+}
+
 void CMsgDialog::StartFlash()
 {
 	::SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);

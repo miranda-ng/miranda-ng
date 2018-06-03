@@ -160,7 +160,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case DM_SETLOCALE:
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
 			break;
-		if (m_pContainer->m_hwndActive == m_hwnd && PluginConfig.m_bAutoLocaleSupport && m_pContainer->m_hwnd == GetForegroundWindow() && m_pContainer->m_hwnd == GetActiveWindow()) {
+		if (PluginConfig.m_bAutoLocaleSupport && IsActive()) {
 			if (lParam)
 				m_hkl = (HKL)lParam;
 
@@ -355,7 +355,7 @@ int TSAPI MessageWindowOpened(MCONTACT hContact, HWND _hwnd)
 				return 0;
 		}
 		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
-			if (!IsIconic(pContainer->m_hwnd) && GetForegroundWindow() != pContainer->m_hwnd && GetActiveWindow() != pContainer->m_hwnd)
+			if (!IsIconic(pContainer->m_hwnd) && !pContainer->IsActive())
 				return 0;
 		}
 		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {

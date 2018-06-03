@@ -334,29 +334,23 @@ void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
 
 void CTabbedWindow::SetMessageHighlight(CMsgDialog *pDlg)
 {
-	if (pDlg != nullptr) {
-		if (m_tab.GetDlgIndex(pDlg) == -1)
-			return;
+	if (m_tab.GetDlgIndex(pDlg) == -1)
+		return;
 
-		pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
-		FixTabIcons(pDlg);
-		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			pDlg->StartFlash();
-	}
-	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+	pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
+	FixTabIcons(pDlg);
+	if (g_Settings.bFlashWindowHighlight && pDlg != m_tab.GetActivePage())
+		pDlg->StartFlash();
 }
 
 void CTabbedWindow::SetTabHighlight(CMsgDialog *pDlg)
 {
-	if (pDlg != nullptr) {
-		if (m_tab.GetDlgIndex(pDlg) == -1)
-			return;
+	if (m_tab.GetDlgIndex(pDlg) == -1)
+		return;
 
-		FixTabIcons(pDlg);
-		if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			pDlg->StartFlash();
-	}
-	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+	FixTabIcons(pDlg);
+	if (g_Settings.bFlashWindow && pDlg != m_tab.GetActivePage())
+		pDlg->StartFlash();
 }
 
 void CTabbedWindow::SetWindowPosition()

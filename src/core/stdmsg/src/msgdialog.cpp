@@ -1149,7 +1149,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
-			bool isActive = GetActiveWindow() == m_pOwner->GetHwnd() && GetForegroundWindow() == m_pOwner->GetHwnd();
+			bool isActive = IsActive();
 			if (DbEventIsShown(&dbei)) {
 				// Sounds *only* for sent messages, not for custom events
 				if (isMessage && !isSent) {

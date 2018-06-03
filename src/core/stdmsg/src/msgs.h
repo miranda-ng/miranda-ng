@@ -65,6 +65,7 @@ public:
 	virtual int GetImageId() const PURE;
 
 	void CloseTab() override;
+	bool IsActive() const override;
 
 	void StartFlash();
 	void StopFlash();
