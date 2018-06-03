@@ -162,6 +162,9 @@ void CDropboxService::CreateFolder(const std::string &path)
 	DropboxAPI::CreateFolderRequest request(token, path.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
+	if (response == nullptr)
+		throw Exception(HttpStatusToError());
+
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		GetJsonResponse(response);
 		return;
