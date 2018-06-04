@@ -225,6 +225,7 @@ static const struct CheckBoxValues_t statusValues[] =
 class CMainOptionsDlg : public CBaseOptionDlg
 {
 	CCtrlCheck chkAutoPopup, chkCascade, chkSavePerContact;
+	CCtrlCheck chkSendOnEnter, chkSendOnDblEnter, chkSendOnCtrlEnter;
 	CCtrlTreeView m_tree;
 
 	void FillCheckBoxTree(const struct CheckBoxValues_t *values, int nValues, DWORD style)
@@ -263,6 +264,9 @@ public:
 		m_tree(this, IDC_POPLIST),
 		chkCascade(this, IDC_CASCADE),
 		chkAutoPopup(this, IDC_AUTOPOPUP),
+		chkSendOnEnter(this, IDC_SENDONENTER),
+		chkSendOnDblEnter(this, IDC_SENDONDBLENTER),
+		chkSendOnCtrlEnter(this, IDC_SENDONCTRLENTER),
 		chkSavePerContact(this, IDC_SAVEPERCONTACT)
 	{
 		chkCascade.OnChange = Callback(this, &CMainOptionsDlg::onChange_Cascade);
@@ -275,19 +279,25 @@ public:
 		SetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE, (GetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE) & ~WS_BORDER) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		FillCheckBoxTree(statusValues, _countof(statusValues), db_get_dw(0, SRMM_MODULE, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
 		chkAutoPopup.SetState(db_get_b(0, SRMM_MODULE, SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP));
+
 		CheckDlgButton(m_hwnd, IDC_STAYMINIMIZED, db_get_b(0, SRMM_MODULE, SRMSGSET_STAYMINIMIZED, SRMSGDEFSET_STAYMINIMIZED) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_AUTOMIN, db_get_b(0, SRMM_MODULE, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SAVEDRAFTS, db_get_b(0, SRMM_MODULE, SRMSGSET_SAVEDRAFTS, SRMSGDEFSET_SAVEDRAFTS) ? BST_CHECKED : BST_UNCHECKED);
-
+		CheckDlgButton(m_hwnd, IDC_HIDECONTAINERS, db_get_b(0, SRMM_MODULE, SRMSGSET_HIDECONTAINERS, SRMSGDEFSET_HIDECONTAINERS) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DELTEMP, db_get_b(0, SRMM_MODULE, SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP) ? BST_CHECKED : BST_UNCHECKED);
+
 		SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_SETRANGE, 0, MAKELONG(60, 4));
 		SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_SETPOS, 0, db_get_dw(0, SRMM_MODULE, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT) / 1000);
 
 		chkCascade.SetState(db_get_b(0, SRMM_MODULE, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE));
 		chkSavePerContact.SetState(db_get_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT));
-		CheckDlgButton(m_hwnd, IDC_SENDONENTER, db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SENDONDBLENTER, db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_HIDECONTAINERS, db_get_b(0, SRMM_MODULE, SRMSGSET_HIDECONTAINERS, SRMSGDEFSET_HIDECONTAINERS) ? BST_CHECKED : BST_UNCHECKED);
+
+		if (db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))
+			CheckDlgButton(m_hwnd, IDC_SENDONENTER, BST_CHECKED);
+		else if (db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER))
+			CheckDlgButton(m_hwnd, IDC_SENDONDBLENTER, BST_CHECKED);
+		else
+			CheckDlgButton(m_hwnd, IDC_SENDONCTRLENTER, BST_CHECKED);
 
 		onChange_AutoPopup(0);
 	}
@@ -305,6 +315,8 @@ public:
 
 		db_set_b(0, SRMM_MODULE, SRMSGSET_SENDONENTER, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SENDONENTER));
 		db_set_b(0, SRMM_MODULE, SRMSGSET_SENDONDBLENTER, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SENDONDBLENTER));
+		db_set_b(0, SRMM_MODULE, SRMSGSET_SENDONCTRLENTER, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SENDONCTRLENTER));
+
 		db_set_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, chkSavePerContact.GetState());
 		db_set_b(0, SRMM_MODULE, SRMSGSET_CASCADE, chkCascade.GetState());
 
