@@ -69,10 +69,11 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 bool CMsgDialog::IsActive() const
 {
-	if (!g_Settings.bTabsEnable)
-		return true;
+	bool bRes = m_pOwner->IsActive();
+	if (g_Settings.bTabsEnable && bRes)
+		bRes &= m_pOwner->m_tab.GetActivePage() == this;
 
-	return m_pOwner->m_tab.GetActivePage() == this && m_pOwner->IsActive();
+	return bRes;
 }
 
 void CMsgDialog::StartFlash()
