@@ -148,6 +148,6 @@ int CMPlugin::Load()
 	InitCommonControlsEx(&icex);
 
 	RegisterDbrw();
-
+	RegisterMContacts();
 	return 0;
 }

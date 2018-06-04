@@ -99,3 +99,5 @@ extern bool g_bServiceMode, g_bSendQuit;
 
 HANDLE GetIconHandle(int iIconId);
 void   RegisterIcons(void);
+
+void RegisterMContacts();
