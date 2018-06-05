@@ -210,6 +210,7 @@
 [Maximum number of flashes]
 [Close the message window on send]
 [Minimize the message window on send]
+[Use the contact's status icon as the window icon]
 [Save the window size and location individually for each contact]
 [Cascade new windows]
 [Support CTRL+Up/Down in message area to show previously sent messages]
@@ -1004,6 +1005,8 @@
 [Nick list members (away)]
 [Message typing area]
 [Chat log symbols (Webdings)]
+;file \src\mir_app\src\chat_svc.cpp
+[&Leave chat]
 [Message is highlighted]
 [User has performed an action]
 [User has kicked some other user]
@@ -1011,8 +1014,6 @@
 [User has changed name]
 [User has sent a notice]
 [The topic has been changed]
-;file \src\mir_app\src\chat_svc.cpp
-[&Leave chat]
 ;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 [%s speaks in %s]
