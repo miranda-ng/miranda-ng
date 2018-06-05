@@ -26,7 +26,7 @@ library historypp;
 {$IMAGEBASE $02630000}
 
 {$R 'hpp_resource.res' 'hpp_resource.rc'}
-{$R 'hpp_res_ver.res' 'hpp_res_ver.rc'}
+{$R 'version.res'}
 {$R 'hpp_opt_dialog.res' 'hpp_opt_dialog.rc'}
 
 uses

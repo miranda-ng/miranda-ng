@@ -36,6 +36,11 @@ MsBuild.exe "mir_full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr
 MsBuild.exe "mir_icons.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
 
 call pascal%tp%.bat
+
+pushd ..\plugins\HistoryPlusPlus
+call make.bat %tp%
+popd
+
 pushd ..\plugins\NotifyAnything\SendLog 
 call compile%tp%.bat "%comp%"
 popd
