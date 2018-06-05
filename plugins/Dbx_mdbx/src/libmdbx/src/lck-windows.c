@@ -27,30 +27,62 @@
 /*----------------------------------------------------------------------------*/
 /* rthc */
 
-static CRITICAL_SECTION rthc_critical_section;
-
-void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
-  (void)module;
+static void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
   (void)reserved;
   switch (reason) {
   case DLL_PROCESS_ATTACH:
-    InitializeCriticalSection(&rthc_critical_section);
+    mdbx_rthc_global_init();
     break;
   case DLL_PROCESS_DETACH:
-    DeleteCriticalSection(&rthc_critical_section);
+    mdbx_rthc_global_dtor();
     break;
 
   case DLL_THREAD_ATTACH:
     break;
   case DLL_THREAD_DETACH:
-    mdbx_rthc_cleanup();
+    mdbx_rthc_thread_dtor(module);
     break;
   }
 }
 
-void mdbx_rthc_lock(void) { EnterCriticalSection(&rthc_critical_section); }
+/* *INDENT-OFF* */
+/* clang-format off */
+#if defined(_MSC_VER)
+#  pragma const_seg(push)
+#  pragma data_seg(push)
 
-void mdbx_rthc_unlock(void) { LeaveCriticalSection(&rthc_critical_section); }
+#  ifdef _WIN64
+     /* kick a linker to create the TLS directory if not already done */
+#    pragma comment(linker, "/INCLUDE:_tls_used")
+     /* Force some symbol references. */
+#    pragma comment(linker, "/INCLUDE:mdbx_tls_callback")
+     /* specific const-segment for WIN64 */
+#    pragma const_seg(".CRT$XLB")
+     const
+#  else
+     /* kick a linker to create the TLS directory if not already done */
+#    pragma comment(linker, "/INCLUDE:__tls_used")
+     /* Force some symbol references. */
+#    pragma comment(linker, "/INCLUDE:_mdbx_tls_callback")
+     /* specific data-segment for WIN32 */
+#    pragma data_seg(".CRT$XLB")
+#  endif
+
+   PIMAGE_TLS_CALLBACK mdbx_tls_callback = tls_callback;
+#  pragma data_seg(pop)
+#  pragma const_seg(pop)
+
+#elif defined(__GNUC__)
+#  ifdef _WIN64
+     const
+#  endif
+   PIMAGE_TLS_CALLBACK mdbx_tls_callback __attribute__((section(".CRT$XLB"), used))
+     = tls_callback;
+#else
+#  error FIXME
+#endif
+/* *INDENT-ON* */
+/* clang-format on */
 
 /*----------------------------------------------------------------------------*/
 
@@ -123,7 +155,10 @@ int mdbx_rdt_lock(MDBX_env *env) {
   /* transite from S-? (used) to S-E (locked), e.g. exclusive lock upper-part */
   if (flock(env->me_lfd, LCK_EXCLUSIVE | LCK_WAITFOR, LCK_UPPER))
     return MDBX_SUCCESS;
-  return GetLastError();
+
+  int rc = GetLastError();
+  mdbx_shlock_releaseShared(&env->me_remap_guard);
+  return rc;
 }
 
 void mdbx_rdt_unlock(MDBX_env *env) {
@@ -462,10 +497,12 @@ int mdbx_rpid_clear(MDBX_env *env) {
  *   or otherwise the errcode. */
 int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid) {
   (void)env;
-  HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid);
+  HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, pid);
   int rc;
-  if (hProcess) {
+  if (likely(hProcess)) {
     rc = WaitForSingleObject(hProcess, 0);
+    if (unlikely(rc == WAIT_FAILED))
+      rc = GetLastError();
     CloseHandle(hProcess);
   } else {
     rc = GetLastError();
@@ -487,68 +524,88 @@ int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid) {
   }
 }
 
-/*----------------------------------------------------------------------------*/
-/* shared lock
-   Copyright (C) 1995-2002 Brad Wilson
-*/
+//----------------------------------------------------------------------------
+// shared lock
+//  Copyright (C) 1995-2002 Brad Wilson
 
-void mdbx_shlock_init(MDBX_shlock *lck)
-{
-	lck->readerCount = lck->writerCount = 0;
+typedef void (WINAPI *pfnSrwFunc)(PSRWLOCK);
+
+static pfnSrwFunc fnLockInit = 0, fnLockShared = 0, fnUnlockShared = 0, fnLockExcl = 0, fnUnlockExcl = 0;
+
+void mdbx_shlock_init(MDBX_shlock *lck) {
+  HINSTANCE hInst = GetModuleHandleA("kernel32.dll");
+  fnLockInit = (pfnSrwFunc)GetProcAddress(hInst, "InitializeSRWLock");
+  if (fnLockInit != NULL) {
+    fnLockShared = (pfnSrwFunc)GetProcAddress(hInst, "AcquireSRWLockShared");
+    fnUnlockShared = (pfnSrwFunc)GetProcAddress(hInst, "ReleaseSRWLockShared");
+    fnLockExcl = (pfnSrwFunc)GetProcAddress(hInst, "AcquireSRWLockExclusive");
+    fnUnlockExcl = (pfnSrwFunc)GetProcAddress(hInst, "ReleaseSRWLockExclusive");
+
+    fnLockInit(&lck->srwLock);
+  } else
+    lck->readerCount = lck->writerCount = 0;
 }
 
-void mdbx_shlock_acquireShared(MDBX_shlock *lck)
-{
-	while (1) {
-		//  If there's a writer already, spin without unnecessarily
-		//  interlocking the CPUs
+void mdbx_shlock_acquireShared(MDBX_shlock *lck) {
+  if (fnLockShared) {
+    fnLockShared(&lck->srwLock);
+    return;
+  }
 
-		if (lck->writerCount != 0) {
-			YieldProcessor();
-			continue;
-		}
+  while (1) {
+    //  If there's a writer already, spin without unnecessarily
+    //  interlocking the CPUs
 
-		//  Add to the readers list
+    if (lck->writerCount != 0) {
+      YieldProcessor();
+      continue;
+    }
 
-		_InterlockedIncrement((long*)&lck->readerCount);
+    //  Add to the readers list
 
-		//  Check for writers again (we may have been pre-empted). If
-		//  there are no writers writing or waiting, then we're done.
+    _InterlockedIncrement((long *)&lck->readerCount);
 
-		if (lck->writerCount == 0)
-			break;
+    // Check for writers again (we may have been pre-empted). If
+    // there are no writers writing or waiting, then we're done.
+    if (lck->writerCount == 0)
+      break;
 
-		//  Remove from the readers list, spin, try again
-
-		_InterlockedDecrement((long*)&lck->readerCount);
-		YieldProcessor();
-	}
+    // Remove from the readers list, spin, try again
+    _InterlockedDecrement((long *)&lck->readerCount);
+    YieldProcessor();
+  }
 }
 
-void mdbx_shlock_releaseShared(MDBX_shlock *lck)
-{
-	_InterlockedDecrement((long*)&lck->readerCount);
+void mdbx_shlock_releaseShared(MDBX_shlock *lck) {
+  if (fnUnlockShared)
+    fnUnlockShared(&lck->srwLock);
+  else
+    _InterlockedDecrement((long *)&lck->readerCount);
 }
 
-void mdbx_shlock_acquireExclusive(MDBX_shlock *lck)
-{
-	//  See if we can become the writer (expensive, because it inter-
-	//  locks the CPUs, so writing should be an infrequent process)
+void mdbx_shlock_acquireExclusive(MDBX_shlock *lck) {
+  if (fnLockExcl) {
+    fnLockShared(&lck->srwLock);
+    return;
+  }
 
-	while (_InterlockedExchange((long*)&lck->writerCount, 1) == 1) {
-		YieldProcessor();
-	}
+  // See if we can become the writer (expensive, because it inter-
+  // locks the CPUs, so writing should be an infrequent process)
+  while (_InterlockedExchange((long *)&lck->writerCount, 1) == 1) {
+    YieldProcessor();
+  }
 
-	//  Now we're the writer, but there may be outstanding readers.
-	//  Spin until there aren't any more; new readers will wait now
-	//  that we're the writer.
-
-	while (lck->readerCount != 0) {
-		YieldProcessor();
-	}
+  // Now we're the writer, but there may be outstanding readers.
+  // Spin until there aren't any more; new readers will wait now
+  // that we're the writer.
+  while (lck->readerCount != 0) {
+    YieldProcessor();
+  }
 }
 
-void mdbx_shlock_releaseExclusive(MDBX_shlock *lck)
-{
-	lck->writerCount = 0;
+void mdbx_shlock_releaseExclusive(MDBX_shlock *lck) {
+  if (fnUnlockExcl)
+    fnUnlockExcl(&lck->srwLock);
+  else
+    lck->writerCount = 0;
 }

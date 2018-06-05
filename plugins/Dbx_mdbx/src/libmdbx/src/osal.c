@@ -19,8 +19,6 @@
 #if defined(_WIN32) || defined(_WIN64)
 #include <winternl.h>
 
-typedef BOOL (WINAPI *pfnGetFileInformationByHandleEx)(HANDLE, FILE_INFO_BY_HANDLE_CLASS, LPVOID, DWORD);
-
 static int waitstatus2errcode(DWORD result) {
   switch (result) {
   case WAIT_OBJECT_0:
@@ -701,39 +699,6 @@ int mdbx_ftruncate(mdbx_filehandle_t fd, uint64_t length) {
 }
 
 /*----------------------------------------------------------------------------*/
-
-int mdbx_thread_key_create(mdbx_thread_key_t *key) {
-#if defined(_WIN32) || defined(_WIN64)
-  *key = TlsAlloc();
-  return (*key != TLS_OUT_OF_INDEXES) ? MDBX_SUCCESS : GetLastError();
-#else
-  return pthread_key_create(key, mdbx_rthc_dtor);
-#endif
-}
-
-void mdbx_thread_key_delete(mdbx_thread_key_t key) {
-#if defined(_WIN32) || defined(_WIN64)
-  mdbx_ensure(NULL, TlsFree(key));
-#else
-  mdbx_ensure(NULL, pthread_key_delete(key) == 0);
-#endif
-}
-
-void *mdbx_thread_rthc_get(mdbx_thread_key_t key) {
-#if defined(_WIN32) || defined(_WIN64)
-  return TlsGetValue(key);
-#else
-  return pthread_getspecific(key);
-#endif
-}
-
-void mdbx_thread_rthc_set(mdbx_thread_key_t key, const void *value) {
-#if defined(_WIN32) || defined(_WIN64)
-  mdbx_ensure(NULL, TlsSetValue(key, (void *)value));
-#else
-  mdbx_ensure(NULL, pthread_setspecific(key, value) == 0);
-#endif
-}
 
 int mdbx_thread_create(mdbx_thread_t *thread,
                        THREAD_RESULT(THREAD_CALL *start_routine)(void *),

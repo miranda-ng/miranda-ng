@@ -27,12 +27,6 @@ EXTERN_C void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved);
 
 CMPlugin g_plugin;
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID reserved)
-{
-	tls_callback(hInstDLL, reason, reserved);
-	return TRUE;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfoEx =
