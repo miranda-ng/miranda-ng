@@ -22,10 +22,6 @@
 
 [Hide windows on close]
 
-[Send message on 'Enter']
-
-[Send message on double 'Enter']
-
 [Remember unsent messages]
 
 [Delete temporary contacts on closing]
@@ -34,6 +30,12 @@
 
 [seconds]
 sekundi
+[Send message on 'Enter']
+
+[Send message on double 'Enter']
+
+[Send message on 'Ctrl+Enter']
+
 [Tabs]
 kartice
 [Enable tabs]

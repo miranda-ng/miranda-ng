@@ -412,6 +412,8 @@ Maksymalna liczba mignięć
 Zamknij okno rozmowy po wysłaniu
 [Minimize the message window on send]
 Minimalizuj okno rozmowy po wysłaniu
+[Use the contact's status icon as the window icon]
+Użyj ikony statusu kontaktu jako ikony okna
 [Save the window size and location individually for each contact]
 Zapamiętaj rozmiar i położenie okna oddzielnie dla każdego kontaktu
 [Cascade new windows]
@@ -1960,6 +1962,9 @@ Członkowie listy użytkowników (Zaraz wracam)
 Obszar pisania wiadomości
 [Chat log symbols (Webdings)]
 Symbole dziennika czatowego
+;file \src\mir_app\src\chat_svc.cpp
+[&Leave chat]
+&Opuść czat
 [Message is highlighted]
 Podświetlona wiadomość
 [User has performed an action]
@@ -1974,9 +1979,6 @@ Użytkownik zmienił nick
 Użytkownik wysłał powiadomienie
 [The topic has been changed]
 Temat został zmieniony
-;file \src\mir_app\src\chat_svc.cpp
-[&Leave chat]
-&Opuść czat
 ;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 %s chce twojej uwagi w pokoju: %s

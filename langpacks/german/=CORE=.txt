@@ -412,6 +412,8 @@ Maximale Anzahl Blinken
 Nachrichtenfenster beim Senden schließen
 [Minimize the message window on send]
 Nachrichtenfenster beim Senden minimieren
+[Use the contact's status icon as the window icon]
+Statusicon des Kontaktes als Fenstericon verwenden
 [Save the window size and location individually for each contact]
 Fenstergröße und Position für jeden Kontakt einzeln speichern
 [Cascade new windows]
@@ -1960,6 +1962,9 @@ Benutzerliste (abwesend)
 Nachrichteneingabefeld
 [Chat log symbols (Webdings)]
 Chatverlaufssymbole (Webdings)
+;file \src\mir_app\src\chat_svc.cpp
+[&Leave chat]
+Chat ver&lassen
 [Message is highlighted]
 Nachricht ist hervorgehoben
 [User has performed an action]
@@ -1974,9 +1979,6 @@ Benutzer hat Namen geändert
 Benutzer hat eine Notiz geschickt
 [The topic has been changed]
 Das Thema wurde geändert
-;file \src\mir_app\src\chat_svc.cpp
-[&Leave chat]
-Chat ver&lassen
 ;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 %s benötigt Ihre Aufmerksamkeit in %s

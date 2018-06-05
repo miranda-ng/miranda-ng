@@ -407,6 +407,8 @@
 Зачыняць вакно пасля адпраўкі
 [Minimize the message window on send]
 Згортваць вакно пасля адпраўкі
+[Use the contact's status icon as the window icon]
+Выкарыстоўваць у якасці абразка вакна абразок статусу кантакту
 [Save the window size and location individually for each contact]
 Захоўваць памер і становішча вакна для кожнага кантакту
 [Cascade new windows]
@@ -1915,6 +1917,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Поле набору тэксту
 [Chat log symbols (Webdings)]
 Знакі ў чаце (шрыфт Webdings)
+[&Leave chat]
+Пакінуць чат
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]
@@ -1929,8 +1933,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Кантакт адправіў абвестку
 [The topic has been changed]
 Тэма змянілася
-[&Leave chat]
-Пакінуць чат
 [%s wants your attention in %s]
 %s патрабуе Вашай увагі ў %s
 [%s speaks in %s]

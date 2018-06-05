@@ -22,10 +22,6 @@ Größe und Position pro Kontakt speichern
 Beim Senden minimieren
 [Hide windows on close]
 Fenster beim Schließen verstecken
-[Send message on 'Enter']
-'Enter' sendet Nachricht
-[Send message on double 'Enter']
-Doppel-'Enter' sendet Nachricht
 [Remember unsent messages]
 Ungesendete Nachrichten merken
 [Delete temporary contacts on closing]
@@ -34,6 +30,12 @@ Temporäre Kontakte beim Schließen entfernen
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [seconds]
 Sekunden
+[Send message on 'Enter']
+'Enter' sendet Nachricht
+[Send message on double 'Enter']
+Doppel-'Enter' sendet Nachricht
+[Send message on 'Ctrl+Enter']
+'Ctrl+Eingabe' sendet Nachricht
 [Tabs]
 Tabs
 [Enable tabs]

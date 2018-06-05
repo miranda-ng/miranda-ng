@@ -22,10 +22,6 @@ Sauver taille/position pour chaque contact
 Minimiser à l'envoi
 [Hide windows on close]
 Cacher les fenêtres à la fermeture
-[Send message on 'Enter']
-Taper 1 fois "Entrée" pour envoyer
-[Send message on double 'Enter']
-Taper 2 fois "Entrée" pour envoyer
 [Remember unsent messages]
 Se rappeler des messages non envoyés
 [Delete temporary contacts on closing]
@@ -34,6 +30,12 @@ Supprimer les contacts temporaires à la fermeture
 M'alerter quand le message n'a pas été reçu après
 [seconds]
 secondes
+[Send message on 'Enter']
+Taper 1 fois "Entrée" pour envoyer
+[Send message on double 'Enter']
+Taper 2 fois "Entrée" pour envoyer
+[Send message on 'Ctrl+Enter']
+
 [Tabs]
 Onglets
 [Enable tabs]

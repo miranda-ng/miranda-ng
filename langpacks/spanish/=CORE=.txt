@@ -407,6 +407,8 @@ Número máximo de destellos
 Cerrar la ventana de mensaje al enviar
 [Minimize the message window on send]
 Minimizar la ventana de mensaje al enviar
+[Use the contact's status icon as the window icon]
+Usar el icono de estado del contacto como el icono de la ventana
 [Save the window size and location individually for each contact]
 Guardar el tamaño de la ventana y la ubicación de forma individual para cada contacto
 [Cascade new windows]

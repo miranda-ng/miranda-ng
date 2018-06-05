@@ -403,6 +403,8 @@
 Затваряне на прозореца след изпращане
 [Minimize the message window on send]
 Минимизиране на прозореца след изпращане
+[Use the contact's status icon as the window icon]
+Ползване на иконата за състояние на контакта като икона на прозореца
 [Save the window size and location individually for each contact]
 Индивидуален размер и позиция на прозореца за всеки контакт
 [Cascade new windows]
@@ -1861,6 +1863,8 @@ Popups за изобразяване
 Списък с прякори (Отсъстващ)
 [Message typing area]
 Поле за въвеждане на съобщения
+[&Leave chat]
+Излизане
 [Message is highlighted]
 Отличаване на съобщение
 [User has performed an action]
@@ -1875,8 +1879,6 @@ Popups за изобразяване
 Получаване на известие
 [The topic has been changed]
 Промяна на тема
-[&Leave chat]
-Излизане
 [%s wants your attention in %s]
 %s изисква вниманието ви в %s
 [%s speaks in %s]

@@ -407,6 +407,8 @@
 Закривати вікно після надсилання
 [Minimize the message window on send]
 Згортати вікно після надсилання
+[Use the contact's status icon as the window icon]
+Значок статусу контакту в заголовку вікна
 [Save the window size and location individually for each contact]
 Зберігати розмір і розташування вікна для кожного контакту
 [Cascade new windows]
@@ -1909,6 +1911,8 @@ UIN, E-mail тощо
 Поле вводу повідомлення
 [Chat log symbols (Webdings)]
 Символи в чаті (шрифт Webdings)
+[&Leave chat]
+&Вийти з чату
 [Message is highlighted]
 Підсвічені повідомлення
 [User has performed an action]
@@ -1923,8 +1927,6 @@ UIN, E-mail тощо
 Приватні повідомлення
 [The topic has been changed]
 Зміни теми
-[&Leave chat]
-&Вийти з чату
 [%s wants your attention in %s]
 %s потребує вашої уваги в %s
 [%s speaks in %s]

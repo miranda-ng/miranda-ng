@@ -1,7 +1,7 @@
 #muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
 ;============================================================
 ;  File: Exchange.dll
-;  Plugin: Exchange
+;  Plugin: Exchange notifier plugin
 ;  Version: 0.1.3.4
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================

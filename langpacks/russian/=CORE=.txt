@@ -407,6 +407,8 @@
 Закрывать окно после отправки
 [Minimize the message window on send]
 Сворачивать окно после отправки
+[Use the contact's status icon as the window icon]
+Использовать в качестве значка окна значок статуса контакта
 [Save the window size and location individually for each contact]
 Сохранять размер и положение окна для каждого контакта
 [Cascade new windows]
@@ -426,11 +428,11 @@
 [Show toolbar buttons on top row]
 Показывать кнопки в верхней строке
 [Send message on double 'Enter']
-Посылать по двойному "Enter"
+Отправлять по двойному "Enter"
 [Send message on 'Enter']
-Посылать по "Enter"
+Отправлять по "Enter"
 [Send message on 'Ctrl+Enter']
-Посылать по "Ctrl+Enter"
+Отправлять по "Ctrl+Enter"
 [Show warning when message has not been received after]
 Сообщать, если сообщение не удалось отправить за
 [Send error]
@@ -1913,6 +1915,8 @@ Miranda не смогла загрузить встроенную систему
 Поле набора текста
 [Chat log symbols (Webdings)]
 Символы в чате (шрифт Webdings)
+[&Leave chat]
+Покинуть чат
 [Message is highlighted]
 Сообщение выделено
 [User has performed an action]
@@ -1927,8 +1931,6 @@ Miranda не смогла загрузить встроенную систему
 Пользователь отправил уведомление
 [The topic has been changed]
 Тема изменилась
-[&Leave chat]
-Покинуть чат
 [%s wants your attention in %s]
 %s требует вашего внимания в %s
 [%s speaks in %s]

@@ -21,10 +21,6 @@
 Згортати після надсилання
 [Hide windows on close]
 Ховати вікна при закритті
-[Send message on 'Enter']
-Надсилати натисканням Enter
-[Send message on double 'Enter']
-Надсилати подвійним натисканням Enter
 [Remember unsent messages]
 Пам'ятати ненадіслані повідомлення
 [Delete temporary contacts on closing]
@@ -33,6 +29,12 @@
 Сповіщати, якщо повідомл. не вдалося надіслати протягом
 [seconds]
 секунд
+[Send message on 'Enter']
+Надсилати натисканням Enter
+[Send message on double 'Enter']
+Надсилати подвійним натисканням Enter
+[Send message on 'Ctrl+Enter']
+Надсилати натисканням Ctrl+Enter
 [Tabs]
 Вкладки
 [Enable tabs]
