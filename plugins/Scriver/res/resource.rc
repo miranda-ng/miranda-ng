@@ -25,31 +25,31 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_OPT_MSGDLG DIALOGEX 2, 0, 304, 230
+IDD_OPT_MSGDLG DIALOGEX 2, 0, 304, 186
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Behavior",IDC_STATIC,0,0,304,176
+    GROUPBOX        "Behavior",IDC_STATIC,0,0,304,182
     CONTROL         "Automatically pop up the window when",IDC_AUTOPOPUP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,12,155,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,12,155,10
     CONTROL         "Tree1",IDC_POPLIST,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,163,12,98,44
     CONTROL         "and stay minimized",IDC_STAYMINIMIZED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,23,141,10
-    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,58,292,10
+    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,58,293,10
     CONTROL         "Save size and location for each contact",IDC_SAVEPERCONTACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,69,292,10
-    CONTROL         "Minimize on send",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,80,292,10
-    CONTROL         "Hide windows on close",IDC_HIDECONTAINERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,91,292,10
-    CONTROL         "Send message on 'Enter'",IDC_SENDONENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,102,292,10
-    CONTROL         "Send message on double 'Enter'",IDC_SENDONDBLENTER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,113,292,10
-    CONTROL         "Remember unsent messages",IDC_SAVEDRAFTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,124,292,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,69,293,10
+    CONTROL         "Minimize on send",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,80,293,10
+    CONTROL         "Hide windows on close",IDC_HIDECONTAINERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,91,293,10
+    CONTROL         "Remember unsent messages",IDC_SAVEDRAFTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,103,293,10
     CONTROL         "Delete temporary contacts on closing",IDC_DELTEMP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,292,10
-    LTEXT           "Show warning when message has not been received after",IDC_STATIC,8,148,201,8
-    EDITTEXT        IDC_SECONDS,213,146,35,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "",IDC_SECONDSSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,239,146,11,14
-    LTEXT           "seconds",IDC_STATIC,253,148,44,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,114,293,10
+    LTEXT           "Show warning when message has not been received after",IDC_STATIC,6,127,201,8
+    EDITTEXT        IDC_SECONDS,213,125,35,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "",IDC_SECONDSSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,239,125,11,14
+    LTEXT           "seconds",IDC_STATIC,253,127,44,8
+    CONTROL         "Send message on 'Enter'",IDC_SENDONENTER,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,6,144,293,10
+    CONTROL         "Send message on double 'Enter'",IDC_SENDONDBLENTER,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,6,156,293,10
+    CONTROL         "Send message on 'Ctrl+Enter'",IDC_SENDONCTRLENTER,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,6,168,293,10
 END
 
 IDD_OPT_MSGTABS DIALOGEX 2, 0, 304, 230
@@ -334,11 +334,11 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_MSGDLG, DIALOG
     BEGIN
-        VERTGUIDE, 8
+        VERTGUIDE, 6
         VERTGUIDE, 22
         VERTGUIDE, 51
-        VERTGUIDE, 148
-        VERTGUIDE, 300
+        VERTGUIDE, 90
+        VERTGUIDE, 299
     END
 
     IDD_OPT_MSGTABS, DIALOG

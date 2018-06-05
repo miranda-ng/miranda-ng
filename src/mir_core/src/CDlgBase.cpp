@@ -90,6 +90,11 @@ void CDlgBase::EndModal(INT_PTR nResult)
 
 void CDlgBase::NotifyChange(void)
 {
+	if (!m_initialized)
+		return;
+
+	OnChange();
+
 	if (m_hwndParent)
 		SendMessage(m_hwndParent, PSM_CHANGED, (WPARAM)m_hwnd, 0);
 }

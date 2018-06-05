@@ -24,9 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMsgDialog::CMsgDialog(int iDialogId, SESSION_INFO *si)
-	: CSuper(g_hInst, iDialogId, si),
-	m_btnOk(this, IDOK)
+CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
+	CSuper(g_hInst, iDialogId, si),
+	m_btnOk(this, IDOK),
+	m_pOwner(pOwner)
 {
 	m_autoClose = 0;
 	m_forceResizable = true;
@@ -49,6 +50,14 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			OnActivate();
 		break;
 
+	case WM_TIMER:
+		if (wParam == TIMERID_FLASHWND) {
+			m_pOwner->FixTabIcons(this);
+			FlashWindow(m_pOwner->GetHwnd(), TRUE);
+			m_nFlash++;
+		}
+		break;
+
 	case WM_MOUSEACTIVATE:
 		OnActivate();
 		SetFocus(m_message.GetHwnd());
@@ -56,6 +65,30 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return CSuper::DlgProc(uMsg, wParam, lParam);
+}
+
+bool CMsgDialog::IsActive() const
+{
+	bool bRes = m_pOwner->IsActive();
+	if (g_Settings.bTabsEnable && bRes)
+		bRes &= m_pOwner->m_tab.GetActivePage() == this;
+
+	return bRes;
+}
+
+void CMsgDialog::StartFlash()
+{
+	::SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
+}
+
+void CMsgDialog::StopFlash()
+{
+	if (::KillTimer(m_hwnd, TIMERID_FLASHWND)) {
+		::FlashWindow(m_pOwner->GetHwnd(), FALSE);
+
+		m_nFlash = 0;
+		m_pOwner->FixTabIcons(this);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

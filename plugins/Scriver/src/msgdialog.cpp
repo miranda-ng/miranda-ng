@@ -1416,6 +1416,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (m_hDbEventFirst == 0)
 				m_hDbEventFirst = hDbEvent;
 			if (DbEventIsShown(dbei)) {
+				bool bIsActive = IsActive();
 				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
 					/* store the event when the container is hidden so that clist notifications can be removed */
 					if (!IsWindowVisible(m_hwndParent) && m_hDbUnreadEventFirst == 0)

@@ -136,6 +136,7 @@
 #define IDC_ERRORTEXT                   1596
 #define IDC_MSGTEXT                     1597
 #define IDC_SHOWNOTIFY                  1600
+#define IDC_STATUSWIN                   1601
 #define IDC_TYPEWIN                     1602
 #define IDC_CHARCOUNT                   1603
 #define IDC_TYPETRAY                    1603

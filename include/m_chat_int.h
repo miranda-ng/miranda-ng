@@ -258,6 +258,7 @@ struct CHAT_MANAGER
 
 	void          (*SetActiveSession)(SESSION_INFO *si);
 	SESSION_INFO* (*GetActiveSession)(void);
+
 	SESSION_INFO* (*SM_FindSession)(const wchar_t *pszID, const char *pszModule);
 	HICON         (*SM_GetStatusIcon)(SESSION_INFO *si, USERINFO * ui);
 	BOOL          (*SM_PostMessage)(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -449,6 +450,7 @@ public:
 
 	virtual void AddLog();
 	virtual void CloseTab() {}
+	virtual bool IsActive() const PURE;
 	virtual void LoadSettings() PURE;
 	virtual void RedrawLog() {}
 	virtual void ScrollToBottom() {}

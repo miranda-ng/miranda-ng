@@ -129,6 +129,7 @@ GlobalMessageData::GlobalMessageData() :
 	bDeleteTempCont(SRMMMOD, "DeleteTempCont", false),
 	bSavePerContact(SRMMMOD, "SavePerContact", false),
 	bDoNotStealFocus(SRMMMOD, "DoNotStealFocus", false),
+	bUseStatusWinIcon(SRMMMOD, "UseStatusWinIcon", true),
 
 	bLimitAvatarHeight(SRMMMOD, "AvatarLimitHeight", true),
 	iAvatarHeight(SRMMMOD, "AvatarHeight", 60),

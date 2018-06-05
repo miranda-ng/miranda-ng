@@ -78,16 +78,11 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			if (idx != -1) {
 				CMsgDialog *pDlg = (CMsgDialog*)pOwner->m_tab.GetNthPage(idx);
 				if (pDlg) {
-					SESSION_INFO *si = pDlg->getChat();
-					if (si != nullptr) {
-						bool bOnline = db_get_w(si->hContact, si->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE;
-						MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-						bDragging = true;
-						iBeginIndex = idx;
-						ImageList_BeginDrag(Clist_GetImageList(), bOnline ? mi->OnlineIconIndex : mi->OfflineIconIndex, 8, 8);
-						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
-						SetCapture(hwnd);
-					}
+					bDragging = true;
+					iBeginIndex = idx;
+					ImageList_BeginDrag(Clist_GetImageList(), pDlg->GetImageId(), 8, 8);
+					ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
+					SetCapture(hwnd);
 				}
 				return TRUE;
 			}
@@ -309,7 +304,12 @@ void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 	// set the container's icon only if we're processing the current page
 	if (pDlg == CurrPage()) {
 		Window_FreeIcon_IcoLib(m_hwnd);
-		Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
+		if (g_dat.bUseStatusWinIcon)
+			Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
+		else if (pDlg->isChat())
+			Window_SetIcon_IcoLib(m_hwnd, GetIconHandle("window"));
+		else
+			Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_EVENT_MESSAGE);
 	}
 }
 
@@ -332,31 +332,25 @@ void CTabbedWindow::SaveWindowPosition(bool bUpdateSession)
 	}
 }
 
-void CTabbedWindow::SetMessageHighlight(CChatRoomDlg *pDlg)
+void CTabbedWindow::SetMessageHighlight(CMsgDialog *pDlg)
 {
-	if (pDlg != nullptr) {
-		if (m_tab.GetDlgIndex(pDlg) == -1)
-			return;
+	if (m_tab.GetDlgIndex(pDlg) == -1)
+		return;
 
-		pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
-		FixTabIcons(pDlg);
-		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
-	}
-	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+	pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
+	FixTabIcons(pDlg);
+	if (g_Settings.bFlashWindowHighlight && pDlg != m_tab.GetActivePage())
+		pDlg->StartFlash();
 }
 
-void CTabbedWindow::SetTabHighlight(CChatRoomDlg *pDlg)
+void CTabbedWindow::SetTabHighlight(CMsgDialog *pDlg)
 {
-	if (pDlg != nullptr) {
-		if (m_tab.GetDlgIndex(pDlg) == -1)
-			return;
+	if (m_tab.GetDlgIndex(pDlg) == -1)
+		return;
 
-		FixTabIcons(pDlg);
-		if (g_Settings.bFlashWindow && GetActiveWindow() != m_hwnd && GetForegroundWindow() != m_hwnd)
-			SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
-	}
-	else RedrawWindow(m_tab.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+	FixTabIcons(pDlg);
+	if (g_Settings.bFlashWindow && pDlg != m_tab.GetActivePage())
+		pDlg->StartFlash();
 }
 
 void CTabbedWindow::SetWindowPosition()
@@ -412,12 +406,13 @@ void CTabbedWindow::TabClicked()
 				pcli->pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
 		}
 
-		FixTabIcons(pDlg);
 		if (!s->pDlg) {
 			pci->ShowRoom(s);
 			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
 	}
+
+	FixTabIcons(pDlg);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -533,11 +528,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			tci.pszText = pDlg->m_si->ptszName;
 			TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
 		}
-		break;
-
-	case WM_TIMER:
-		if (wParam == TIMERID_FLASHWND)
-			FlashWindow(m_hwnd, TRUE);
 		break;
 
 	case WM_MOVE:

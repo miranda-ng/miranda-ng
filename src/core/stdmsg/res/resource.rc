@@ -41,19 +41,21 @@ BEGIN
     
     CONTROL         "Close the message window on send",IDC_AUTOCLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,50,289,10
     CONTROL         "Minimize the message window on send",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,62,289,10
+    CONTROL         "Use the contact's status icon as the window icon",IDC_STATUSWIN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,75,290,10
     CONTROL         "Save the window size and location individually for each contact",IDC_SAVEPERCONTACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,86,289,10
-    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,98,289,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,88,289,10
+    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,100,289,10
     CONTROL         "Support CTRL+Up/Down in message area to show previously sent messages",IDC_CTRLSUPPORT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,110,289,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,112,289,10
     CONTROL         "Delete temporary contacts when closing message window",IDC_DELTEMP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,122,287,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,124,287,10
     CONTROL         "Enable avatar support in the message window",IDC_AVATARSUPPORT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,289,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,137,289,10
 
-    CONTROL         "Limit avatar height to",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,149,126,10
-    EDITTEXT        IDC_AVATARHEIGHT,148,148,28,13,ES_AUTOHSCROLL
-    LTEXT           "pixels",IDC_STATIC,181,150,35,8
+    CONTROL         "Limit avatar height to",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,151,126,10
+    EDITTEXT        IDC_AVATARHEIGHT,148,150,28,13,ES_AUTOHSCROLL
+    LTEXT           "pixels",IDC_STATIC,181,152,35,8
 
     CONTROL         "Show 'Send' button",IDC_SHOWSENDBTN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,166,135,10
     CONTROL         "Show character count",IDC_CHARCOUNT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,179,135,10

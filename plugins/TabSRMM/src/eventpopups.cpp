@@ -780,7 +780,7 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 			goto passed;
 
 		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED)
-			if (!IsIconic(pContainer->m_hwnd) && GetForegroundWindow() != pContainer->m_hwnd && GetActiveWindow() != pContainer->m_hwnd)
+			if (!IsIconic(pContainer->m_hwnd) && !pContainer->IsActive())
 				goto passed;
 
 		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {

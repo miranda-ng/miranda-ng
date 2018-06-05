@@ -155,13 +155,18 @@ public:
 
 	CTabbedWindow();
 
+	bool IsActive() const
+	{
+		return GetActiveWindow() == m_hwnd && GetForegroundWindow() == m_hwnd;
+	}
+
 	CTabbedWindow* AddPage(MCONTACT hContact, wchar_t *pwszText = nullptr, int iActivate = -1);
 	CMsgDialog* CurrPage() const;
 
 	void AddPage(SESSION_INFO*, int insertAt = -1);
 	void FixTabIcons(CMsgDialog*);
-	void SetMessageHighlight(CChatRoomDlg*);
-	void SetTabHighlight(CChatRoomDlg*);
+	void SetMessageHighlight(CMsgDialog*);
+	void SetTabHighlight(CMsgDialog*);
 	void TabClicked();
 
 	virtual void OnInitDialog() override;

@@ -85,12 +85,11 @@ static void SetEditorText(HWND hwnd, const wchar_t* txt)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CSrmmWindow::CSrmmWindow(CTabbedWindow *pOwner, MCONTACT hContact) :
-	CSuper(IDD_MSG),
+	CSuper(pOwner, IDD_MSG),
 	m_splitter(this, IDC_SPLITTERY),
 	m_avatar(this, IDC_AVATAR),
 	m_cmdList(20),
-	m_bNoActivate(g_dat.bDoNotStealFocus),
-	m_pOwner(pOwner)
+	m_bNoActivate(g_dat.bDoNotStealFocus)
 {
 	m_hContact = hContact;
 
@@ -242,7 +241,7 @@ void CSrmmWindow::OnInitDialog()
 
 	if (m_bNoActivate) {
 		SetWindowPos(m_hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
-		SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+		StartFlash();
 	}
 	else {
 		SetWindowPos(m_hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
@@ -314,8 +313,7 @@ void CSrmmWindow::OnActivate()
 	SetFocus(m_message.GetHwnd());
 	UpdateTitle();
 	UpdateLastMessage();
-	if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-		FlashWindow(m_pOwner->GetHwnd(), FALSE);
+	StopFlash();
 	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 }
 
@@ -455,6 +453,9 @@ void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
 
 int CSrmmWindow::GetImageId() const
 {
+	if (m_nFlash & 1)
+		return 0;
+
 	return (WORD)pcli->pfnIconFromStatusMode(m_szProto, m_wStatus, m_hContact);
 }
 
@@ -619,7 +620,8 @@ void CSrmmWindow::UpdateIcon(WPARAM wParam)
 			m_hStatusIcon = hIcon;
 		}
 
-		SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+		if (g_dat.bUseStatusWinIcon)
+			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 	}
 }
 
@@ -655,12 +657,17 @@ void CSrmmWindow::UpdateTitle()
 	if (m_hContact && m_szProto) {
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
-		wchar_t *szStatus = Clist_GetStatusModeDescription(m_wStatus, 0);
-		mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
+		
+		if (g_dat.bUseStatusWinIcon)
+			mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
+		else {
+			wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);
+			mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
+		}
 
 		m_wOldStatus = m_wStatus;
 	}
-	else mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
+	else wcsncpy_s(newtitle, TranslateT("Message session"), _TRUNCATE);
 
 	if (this == m_pOwner->CurrPage()) {
 		wchar_t oldtitle[256];
@@ -1146,6 +1153,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
 			bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
+			bool isActive = IsActive();
 			if (DbEventIsShown(&dbei)) {
 				// Sounds *only* for sent messages, not for custom events
 				if (isMessage && !isSent) {
@@ -1165,17 +1173,17 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				// Flash window *only* for messages, not for custom events
 				if (isMessage && !isSent) {
-					if (GetActiveWindow() == m_pOwner->GetHwnd() && GetForegroundWindow() == m_pOwner->GetHwnd()) {
+					if (isActive) {
 						if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
 							SCROLLINFO si = {};
 							si.cbSize = sizeof(si);
 							si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
 							GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
 							if ((si.nPos + (int)si.nPage + 5) < si.nMax)
-								SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+								StartFlash();
 						}
 					}
-					else SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+					else StartFlash();
 				}
 			}
 		}
@@ -1188,13 +1196,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_FLASHWND) {
-			FlashWindow(m_pOwner->GetHwnd(), TRUE);
-			if (m_nFlash > 2 * g_dat.nFlashMax) {
-				KillTimer(m_hwnd, TIMERID_FLASHWND);
-				FlashWindow(m_pOwner->GetHwnd(), FALSE);
-				m_nFlash = 0;
-			}
-			m_nFlash++;
+			if (m_nFlash > 2 * g_dat.nFlashMax)
+				StopFlash();
 		}
 		else if (wParam == TIMERID_TYPE) {
 			ShowTime(false);
@@ -1382,8 +1385,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
 					GetScrollInfo((HWND)lParam, SB_VERT, &si);
 					if ((si.nPos + (int)si.nPage + 5) >= si.nMax)
-						if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-							FlashWindow(m_pOwner->GetHwnd(), FALSE);
+						StopFlash();
 				}
 				break;
 			}

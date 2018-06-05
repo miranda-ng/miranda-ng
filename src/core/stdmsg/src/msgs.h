@@ -50,10 +50,10 @@ class CMsgDialog : public CSrmmBaseDialog
 
 protected:
 	CCtrlButton m_btnOk;
+	CTabbedWindow *m_pOwner;
+	DWORD m_nFlash = 0;
 
-	CMsgDialog(int idDialog, SESSION_INFO *si = nullptr);
-
-	virtual int GetImageId() const PURE;
+	CMsgDialog(CTabbedWindow *pOwner, int idDialog, SESSION_INFO *si = nullptr);
 
 	virtual const char* GetProto() const PURE;
 	virtual int GetStatus() const PURE;
@@ -63,7 +63,13 @@ protected:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 public:
+	virtual int GetImageId() const PURE;
+
 	void CloseTab() override;
+	bool IsActive() const override;
+
+	void StartFlash();
+	void StopFlash();
 
 	__forceinline SESSION_INFO* getChat() const { return m_si; }
 };
@@ -96,7 +102,6 @@ class CSrmmWindow : public CMsgDialog
 	RECT m_minEditInit;
 
 	int m_windowWasCascaded;
-	DWORD m_nFlash;
 	int m_nTypeSecs, m_nTypeMode;
 	int m_limitAvatarH;
 	DWORD m_nLastTyping;
@@ -118,7 +123,6 @@ public:
 
 	HBITMAP m_avatarPic;
 	wchar_t *m_wszInitialText;
-	CTabbedWindow *m_pOwner;
 
 public:
 	CSrmmWindow(CTabbedWindow*, MCONTACT hContact);
@@ -174,7 +178,6 @@ class CChatRoomDlg : public CMsgDialog
 
 	CCtrlButton m_btnOk;
 	CSplitter m_splitterX, m_splitterY;
-	CTabbedWindow *m_pOwner;
 
 	int m_iSplitterX, m_iSplitterY;
 

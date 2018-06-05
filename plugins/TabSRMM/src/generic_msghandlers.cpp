@@ -1087,7 +1087,7 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 			SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			SendMessage(hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		}
-		if (IsIconic(hwndContainer) || GetForegroundWindow() != hwndContainer || GetActiveWindow() != hwndContainer) {
+		if (IsIconic(hwndContainer) || !IsActive()) {
 			SetWindowText(hwndContainer, m_wszStatusBar);
 			m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
 			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
@@ -1223,7 +1223,7 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 				DM_AddDivider();
 		}
 		else if (PluginConfig.m_bUseDividers) {
-			if ((GetForegroundWindow() != m_pContainer->m_hwnd || GetActiveWindow() != m_pContainer->m_hwnd))
+			if (!m_pContainer->IsActive())
 				DM_AddDivider();
 			else if (m_pContainer->m_hwndActive != m_hwnd)
 				DM_AddDivider();
@@ -1294,8 +1294,8 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 
 	// flash window if it is not focused
 	if (!bDisableNotify && !bIsStatusChangeEvent)
-		if ((GetActiveWindow() != m_pContainer->m_hwnd || GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei.flags & DBEF_SENT)) {
-			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && (GetActiveWindow() != m_pContainer->m_hwnd || GetForegroundWindow() != m_pContainer->m_hwnd))
+		if (!IsActive() && !(dbei.flags & DBEF_SENT)) {
+			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && !m_pContainer->IsActive())
 				FlashContainer(m_pContainer, 1, 0);
 			SendMessage(m_pContainer->m_hwnd, DM_SETICON, (WPARAM)this, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;

@@ -28,9 +28,8 @@ static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pContainer, SESSION_INFO *si) :
-	CSuper(IDD_CHANNEL, si),
-	m_pOwner(pContainer),
+CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pOwner, SESSION_INFO *si) :
+	CSuper(pOwner, IDD_CHANNEL, si),
 	m_btnOk(this, IDOK),
 	
 	m_splitterX(this, IDC_SPLITTERX),
@@ -100,8 +99,7 @@ void CChatRoomDlg::OnActivate()
 	pci->SetActiveSession(m_si);
 	UpdateStatusBar();
 
-	if (KillTimer(m_hwnd, TIMERID_FLASHWND))
-		FlashWindow(m_pOwner->GetHwnd(), FALSE);
+	StopFlash();
 	if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 		db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 	if (pcli->pfnGetEvent(m_hContact, 0))
@@ -199,7 +197,7 @@ void CChatRoomDlg::onSplitterY(CSplitter *pSplitter)
 
 int CChatRoomDlg::GetImageId() const
 {
-	if (m_si->wState & GC_EVENT_HIGHLIGHT)
+	if ((m_si->wState & GC_EVENT_HIGHLIGHT) && (m_nFlash & 1))
 		return 0;
 
 	MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
@@ -296,6 +294,8 @@ void CChatRoomDlg::UpdateOptions()
 	}
 
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+
+	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), GetIconHandle("window"));
 
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 
@@ -1098,11 +1098,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 		}
-		break;
-
-	case WM_TIMER:
-		if (wParam == TIMERID_FLASHWND)
-			FlashWindow(m_pOwner->GetHwnd(), TRUE);
 		break;
 
 	case WM_ACTIVATE:

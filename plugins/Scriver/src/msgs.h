@@ -90,6 +90,11 @@ public:
 	virtual void LoadSettings() override;
 	virtual void SetStatusText(const wchar_t*, HICON) override;
 
+	bool IsActive() const
+	{
+		return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->hwndActive == m_hwnd;
+	}
+
 	void Reattach(HWND hwndContainer);
 
 	ParentWindowData *m_pParent;
@@ -374,6 +379,8 @@ extern int fontOptionsListSize;
 #define SRMSGDEFSET_SENDONENTER		1
 #define SRMSGSET_SENDONDBLENTER		"SendOnDblEnter"
 #define SRMSGDEFSET_SENDONDBLENTER	0
+#define SRMSGSET_SENDONCTRLENTER		"SendOnCtrlEnter"
+#define SRMSGDEFSET_SENDONCTRLENTER	0
 #define SRMSGSET_SENDBUTTON			"UseSendButton"
 #define SRMSGDEFSET_SENDBUTTON		0
 #define SRMSGSET_CHARCOUNT			"ShowCharCount"

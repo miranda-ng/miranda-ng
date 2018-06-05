@@ -90,24 +90,24 @@ static void OnReplaceSession(SESSION_INFO *si)
 
 static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 {
-	if (!bInactive)
+	if (!bInactive || si->pDlg == nullptr)
 		return;
 
-	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindowHighlight)
-		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, nullptr);
-	if (g_Settings.bTabsEnable && si->pDlg)
+	if (g_Settings.bTabsEnable)
 		g_pTabDialog->SetMessageHighlight(si->pDlg);
+	else if (g_Settings.bFlashWindowHighlight)
+		si->pDlg->StartFlash();
 }
 
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 {
-	if (!bInactive)
+	if (!bInactive || si->pDlg == nullptr)
 		return;
 
-	if (!g_Settings.bTabsEnable && si->pDlg && g_Settings.bFlashWindow)
-		SetTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND, 900, nullptr);
-	if (g_Settings.bTabsEnable && si->pDlg)
+	if (g_Settings.bTabsEnable)
 		g_pTabDialog->SetTabHighlight(si->pDlg);
+	else if (g_Settings.bFlashWindow)
+		si->pDlg->StartFlash();
 }
 
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)

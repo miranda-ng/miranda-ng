@@ -52,6 +52,7 @@ struct GlobalMessageData
 	CMOption<bool> bDoNotStealFocus;
 	CMOption<bool> bCascade;
 	CMOption<bool> bDeleteTempCont;
+	CMOption<bool> bUseStatusWinIcon;
 
 	CMOption<bool> bLimitAvatarHeight;
 	CMOption<WORD> iAvatarHeight;
