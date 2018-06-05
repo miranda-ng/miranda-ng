@@ -277,10 +277,11 @@ static void __cdecl SendHttpRequestThread(HttpRequestParam *param)
 
 	lua_rawgeti(param->L, LUA_REGISTRYINDEX, param->callbackRef);
 	response_Create(param->L, param->request);
-	luaM_pcall(param->L, 0, 1);
+	luaM_pcall(param->L, 1, 0);
 
 	luaL_unref(param->L, LUA_REGISTRYINDEX, param->callbackRef);
 	luaL_unref(param->L, LUA_REGISTRYINDEX, param->threadRef);
+	Netlib_FreeHttpRequest(param->request);
 	delete param;
 }
 
@@ -401,12 +402,30 @@ static int request_Send(lua_State *L)
 {
 	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
 
+	NETLIBHTTPREQUEST *newRequest = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
+	newRequest->cbSize = sizeof(NETLIBHTTPREQUEST);
+	newRequest->flags = request->flags;
+	newRequest->requestType = request->requestType;
+	newRequest->szUrl = mir_strdup(request->szUrl);
+	newRequest->headersCount = request->headersCount;
+	newRequest->headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER)*(request->headersCount + 1));
+	for (int i = 0; i < request->headersCount; i++) {
+		newRequest->headers[i].szName = mir_strdup(request->headers[i].szName);
+		newRequest->headers[i].szValue = mir_strdup(request->headers[i].szValue);
+	}
+	newRequest->dataLength = request->dataLength;
+	newRequest->pData = (char*)mir_calloc(request->dataLength + 1);
+	memcpy(newRequest->pData, request->pData, request->dataLength);
+	newRequest->timeout = request->timeout;
+
 	if (lua_isfunction(L, 2)) {
-		SendRequestAsync(L, 2, request);
+		SendRequestAsync(L, 2, newRequest);
 		return 0;
 	}
 
-	response_Create(L, request);
+	response_Create(L, newRequest);
+	Netlib_FreeHttpRequest(newRequest);
+
 	return 1;
 }
 
@@ -437,16 +456,8 @@ static int request__index(lua_State *L)
 
 static int request__gc(lua_State *L)
 {
-	NETLIBHTTPREQUEST **request = (NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
-
-	mir_free((*request)->szUrl);
-	for (int i = 0; i < (*request)->headersCount; i++) {
-		mir_free((*request)->headers[i].szName);
-		mir_free((*request)->headers[i].szValue);
-	}
-	mir_free((*request)->headers);
-	mir_free((*request)->pData);
-
+	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
+	Netlib_FreeHttpRequest(request);
 	return 0;
 }
 
@@ -486,6 +497,8 @@ static int http_Get(lua_State *L)
 	}
 
 	response_Create(L, request);
+	Netlib_FreeHttpRequest(request);
+
 	return 1;
 }
 
@@ -497,20 +510,24 @@ static int http_Post(lua_State *L)
 	const char *url = luaL_checkstring(L, 1);
 	SetUrl(request, url);
 
-	lua_pushvalue(L, 2);
 	lua_pushcfunction(L, request_SetContent);
+	lua_pushvalue(L, -1);
+	lua_pushvalue(L, 2);
 	luaM_pcall(L, 2, 1);
 
-	lua_pushvalue(L, 3);
 	lua_pushcfunction(L, request_SetContentType);
+	lua_pushvalue(L, -1);
+	lua_pushvalue(L, 3);
 	luaM_pcall(L, 2, 1);
 
-	if (lua_isfunction(L, 2)) {
-		SendRequestAsync(L, 2, request);
+	if (lua_isfunction(L, 4)) {
+		SendRequestAsync(L, 4, request);
 		return 0;
 	}
 
 	response_Create(L, request);
+	Netlib_FreeHttpRequest(request);
+
 	return 1;
 }
 
@@ -522,20 +539,24 @@ static int http_Put(lua_State *L)
 	const char *url = luaL_checkstring(L, 1);
 	SetUrl(request, url);
 
-	lua_pushvalue(L, 2);
 	lua_pushcfunction(L, request_SetContent);
+	lua_pushvalue(L, -1);
+	lua_pushvalue(L, 2);
 	luaM_pcall(L, 2, 1);
 
-	lua_pushvalue(L, 3);
 	lua_pushcfunction(L, request_SetContentType);
+	lua_pushvalue(L, -1);
+	lua_pushvalue(L, 3);
 	luaM_pcall(L, 2, 1);
 
-	if (lua_isfunction(L, 2)) {
-		SendRequestAsync(L, 2, request);
+	if (lua_isfunction(L, 4)) {
+		SendRequestAsync(L, 4, request);
 		return 0;
 	}
 
 	response_Create(L, request);
+	Netlib_FreeHttpRequest(request);
+
 	return 1;
 }
 
@@ -547,20 +568,23 @@ static int http_Delete(lua_State *L)
 	const char *url = luaL_checkstring(L, 1);
 	SetUrl(request, url);
 
-	lua_pushvalue(L, 2);
 	lua_pushcfunction(L, request_SetContent);
+	lua_pushvalue(L, -1);
+	lua_pushvalue(L, 2);
 	luaM_pcall(L, 2, 1);
 
-	lua_pushvalue(L, 3);
 	lua_pushcfunction(L, request_SetContentType);
+	lua_pushvalue(L, -1);
+	lua_pushvalue(L, 3);
 	luaM_pcall(L, 2, 1);
 
-	if (lua_isfunction(L, 2)) {
-		SendRequestAsync(L, 2, request);
+	if (lua_isfunction(L, 4)) {
+		SendRequestAsync(L, 4, request);
 		return 0;
 	}
 
 	response_Create(L, request);
+
 	return 1;
 }
 

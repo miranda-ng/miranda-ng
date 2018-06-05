@@ -97,3 +97,16 @@ bool luaM_toboolean(lua_State *L, int idx)
 		return lua_tonumber(L, idx) > 0;
 	return lua_toboolean(L, idx) > 0;
 }
+
+bool luaM_isarray(lua_State *L, int idx)
+{
+	luaL_checktype(L, idx, LUA_TTABLE);
+	int i = 0;
+	for (lua_pushnil(L); lua_next(L, idx); lua_pop(L, 2)) {
+		if (lua_rawgeti(L, idx, ++i) == LUA_TNIL) {
+			lua_pop(L, 3);
+			return false;
+		}
+	}
+	return true;
+}

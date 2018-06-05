@@ -2,67 +2,92 @@
 
 #define MT_JSON "JSON"
 
-static void lua2json(lua_State *L, JSONNode &node)
+static void json2lua(lua_State *L, const JSONNode &node)
 {
-	switch (lua_type(L, -1)) {
+	switch (node.type()) {
+	case JSON_NULL:
+		lua_pushnil(L);
+		break;
+	case JSON_STRING:
+		lua_pushstring(L, node.as_string().c_str());
+		break;
+	case JSON_NUMBER:
+	{
+		lua_getglobal(L, "tonumber");
+		lua_pushstring(L, node.as_string().c_str());
+		luaM_pcall(L, 1, 1);
+		break;
+	}
+	case JSON_BOOL:
+		lua_pushboolean(L, node.as_bool());
+		break;
+	case JSON_ARRAY:
+	case JSON_NODE:
+		JSONNode * *udata = (JSONNode**)lua_newuserdata(L, sizeof(JSONNode*));
+		*udata = json_copy(&node);
+		luaL_setmetatable(L, MT_JSON);
+	}
+}
+
+static void lua2json(lua_State *L, int idx, JSONNode &node)
+{
+	switch (lua_type(L, idx)) {
 	case LUA_TNIL:
 		node.nullify();
 		break;
 	case LUA_TSTRING:
-		node = lua_tostring(L, -1);
+		node = lua_tostring(L, idx);
 		break;
 	case LUA_TBOOLEAN:
-		node = lua_toboolean(L, -1) != 0;
+		node = lua_toboolean(L, idx) != 0;
 		break;
 	case LUA_TNUMBER:
 	{
-		lua_Integer val = lua_tointeger(L, -1);
-		if (lua_isinteger(L, -1) && val >= LONG_MIN && val <= LONG_MAX)
-			node = (long)val;
-		else
-			node = lua_tonumber(L, -1);
+		if (!lua_isinteger(L, idx)) {
+			node = lua_tonumber(L, idx);
+			break;
+		}
+		lua_Integer val = lua_tointeger(L, idx);
+		node = val >= LONG_MIN && val <= LONG_MAX
+			? (long)val
+			: lua_tonumber(L, idx);
 		break;
 	}
 	case LUA_TTABLE:
 	{
 		ptrA name(mir_strdup(node.name()));
-		node.cast(JSON_ARRAY);
-		node.set_name((char*)name);
+		if (luaM_isarray(L, idx)) {
+			node.cast(JSON_ARRAY);
+			node.set_name((char*)name);
+		}
 
-		lua_pushnil(L);
-		while (lua_next(L, -2) != 0) {
+		for (lua_pushnil(L); lua_next(L, idx); lua_pop(L, 1)) {
 			JSONNode child;
-			if (!lua_isnumber(L, -2)) {
-				if (node.type() == JSON_ARRAY) {
-					node.cast(JSON_NODE);
-					node.set_name((char*)name);
-				}
+			if (node.type() != JSON_ARRAY) {
 				const char *key = lua_tostring(L, -2);
 				child.set_name(key);
 			}
-			lua2json(L, child);
+			lua2json(L, lua_absindex(L, -1), child);
 			node << child;
-
-			lua_pop(L, 1);
 		}
 
 		break;
 	}
 	case LUA_TLIGHTUSERDATA:
-		if (lua_touserdata(L, -1))
-			luaL_argerror(L, -1, luaL_typename(L, -1));
+		if (lua_touserdata(L, idx))
+			luaL_argerror(L, idx, luaL_typename(L, idx));
 		node.nullify();
 		break;
 	case LUA_TUSERDATA:
 	{
 		ptrA name(mir_strdup(node.name()));
-		JSONNode *other = *(JSONNode**)luaL_checkudata(L, -1, MT_JSON);
+		JSONNode *other = *(JSONNode**)luaL_checkudata(L, idx, MT_JSON);
 		node = other->duplicate();
 		node.set_name((char*)name);
 		break;
 	}
 	default:
-		luaL_argerror(L, -1, luaL_typename(L, -1));
+		luaL_argerror(L, idx, luaL_typename(L, idx));
 	}
 }
 
@@ -73,7 +98,7 @@ static int json__index(lua_State *L)
 	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
 
 	JSONNode *child;
-	if (node->type() == JSON_ARRAY) {
+	if (node->type() == JSON_ARRAY || lua_isinteger(L, 2)) {
 		int idx = lua_tointeger(L, 2);
 		child = &node->at(idx - 1);
 	}
@@ -82,26 +107,7 @@ static int json__index(lua_State *L)
 		child = &node->at(key);
 	}
 
-	switch (child->type())
-	{
-	case JSON_NULL:
-		lua_pushnil(L);
-		break;
-	case JSON_STRING:
-		lua_pushstring(L, child->as_string().c_str());
-		break;
-	case JSON_NUMBER:
-		lua_pushnumber(L, child->as_int());
-		break;
-	case JSON_BOOL:
-		lua_pushboolean(L, child->as_bool());
-		break;
-	case JSON_ARRAY:
-	case JSON_NODE:
-		JSONNode **udata = (JSONNode**)lua_newuserdata(L, sizeof(JSONNode*));
-		*udata = child;
-		luaL_setmetatable(L, MT_JSON);
-	}
+	json2lua(L, *child);
 
 	return 1;
 }
@@ -109,26 +115,66 @@ static int json__index(lua_State *L)
 static int json__newindex(lua_State *L)
 {
 	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
-	const char *key = lua_tostring(L, 2);
 
-	if (json_type(node) == JSON_ARRAY) {
+	if (json_type(node) == JSON_ARRAY || lua_isinteger(L, 2)) {
 		int idx = lua_tointeger(L, 2);
 		JSONNode *child = json_at(node, idx - 1);
-		lua2json(L, *child);
+		lua2json(L, 3, *child);
 		return 0;
 	}
 
+	const char *key = lua_tostring(L, 2);
 	JSONNode *child = json_get(node, key);
 	if (json_type(child) == JSON_NULL) {
 		json_set_name(child, key);
-		lua2json(L, *child);
+		lua2json(L, 3, *child);
 		json_push_back(node, child);
 		return 0;
 	}
 
-	lua2json(L, *child);
+	lua2json(L, 3, *child);
 
 	return 0;
+}
+
+static int json__pairsIterator(lua_State *L)
+{
+	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
+	int i = lua_tointeger(L, lua_upvalueindex(1));
+
+	setlocale(LC_NUMERIC, "C");
+
+	if (i < node->size()) {
+		JSONNode *child = json_at(node, i);
+		if (json_type(node) == JSON_ARRAY)
+			lua_pushinteger(L, i + 1);
+		else
+			lua_pushstring(L, child->name());
+
+		json2lua(L, *child);
+		setlocale(LC_NUMERIC, "");
+
+		lua_pushinteger(L, (i + 1));
+		lua_replace(L, lua_upvalueindex(1));
+
+		return 2;
+	}
+
+	setlocale(LC_NUMERIC, "");
+	lua_pushnil(L);
+
+	return 1;
+}
+
+static int json__pairs(lua_State *L)
+{
+	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
+
+	lua_pushinteger(L, 0);
+	lua_pushcclosure(L, json__pairsIterator, 1);
+	lua_pushvalue(L, 1);
+
+	return 2;
 }
 
 static int json__len(lua_State *L)
@@ -142,9 +188,7 @@ static int json__len(lua_State *L)
 static int json__tostring(lua_State *L)
 {
 	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
-
 	lua_pushstring(L, node->write().c_str());
-
 	return 1;
 }
 
@@ -161,6 +205,7 @@ const struct luaL_Reg jsonApi[] =
 {
 	{ "__index", json__index },
 	{ "__newindex", json__newindex },
+	{ "__pairs", json__pairs },
 	{ "__len", json__len },
 	{ "__tostring", json__tostring },
 	{ "__gc", json__gc },
@@ -182,70 +227,13 @@ static int lua_Decode(lua_State *L)
 	return 1;
 }
 
-/***********************************************/
-
 static int lua_Encode(lua_State *L)
 {
-	//JSONNode node;
-	//lua_pushnil(L);
-	//lua_pushvalue(L, 1);
-	//lua2json(L, node);
-	//lua_pop(L, 2);
-	//lua_pushstring(L, node.write().c_str());
-	
-	switch (lua_type(L, 1)) {
-		case LUA_TNIL:
-			lua_pushliteral(L, "null");
-			break;
-		case LUA_TBOOLEAN:
-			lua_pushstring(L, lua_toboolean(L, 1) ? "true" : "false");
-			break;
-		case LUA_TNUMBER:
-		{
-			if (lua_isinteger(L, 1)) {
-				lua_pushfstring(L, "%I", lua_tointeger(L, 1));
-				break;
-			}
-			char decpoint = lua_getlocaledecpoint();
-			if (decpoint != '.') {
-				char p[2] = { decpoint };
-				luaL_gsub(L, lua_tostring(L, 1), p, ".");
-			}
-			else
-				lua_pushfstring(L, "%f", lua_tonumber(L, 1));
-			break;
-		}
-		case LUA_TSTRING:
-			lua_pushfstring(L, "\"%s\"", lua_tostring(L, 1));
-			break;
-		case LUA_TTABLE:
-		{
-			JSONNode node;
-			lua_pushnil(L);
-			lua_pushvalue(L, 1);
-			lua2json(L, node);
-			lua_pop(L, 2);
-			lua_pushstring(L, node.write().c_str());
-			break;
-		}
-		case LUA_TUSERDATA:
-		{
-			JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
-			lua_pushstring(L, node->write().c_str());
-			break;
-		}
-		case LUA_TLIGHTUSERDATA:
-			if (lua_touserdata(L, 1) == nullptr)
-			{
-				lua_pushliteral(L, "null");
-				break;
-			}
-		default:
-			luaL_argerror(L, 1, luaL_typename(L, 1));
-		}
-
-		return 1;
-	}
+	JSONNode node;
+	lua2json(L, 1, node);
+	lua_pushstring(L, node.write().c_str());
+	return 1;
+}
 
 static const luaL_Reg methods[] =
 {

@@ -19,21 +19,10 @@ static int mlua_print(lua_State *L)
 			data.AppendFormat("%s", lua_toboolean(L, i) ? "true" : "false");
 			break;
 		case LUA_TNUMBER:
-		{
-			if (lua_isinteger(L, i)) {
-				data.AppendFormat("%d", lua_tointeger(L, i));
-				break;
-			}
-			char decpoint = lua_getlocaledecpoint();
-			if (decpoint != '.') {
-				char p[2] = { decpoint };
-				data.Append(luaL_gsub(L, lua_tostring(L, i), p, "."));
-				lua_pop(L, 1);
-			}
-			else
-				data.AppendFormat("%f", lua_tonumber(L, i));
+			setlocale(LC_NUMERIC, "C");
+			data.Append(lua_tostring(L, i));
+			setlocale(LC_NUMERIC, "");
 			break;
-		}
 		case LUA_TSTRING:
 			data.AppendFormat("'%s'", lua_tostring(L, i));
 			break;

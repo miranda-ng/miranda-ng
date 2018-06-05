@@ -87,3 +87,5 @@ int luaM_pcall(lua_State *L, int n = 0, int r = 0);
 int luaM_getenv(lua_State *L);
 
 bool luaM_toboolean(lua_State *L, int idx);
+
+bool luaM_isarray(lua_State *L, int idx);
