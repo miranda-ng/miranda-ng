@@ -141,9 +141,14 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cb
 	const wchar_t *szFileType = L".jpg";
 	ptrW wszUrl(getWStringA(hContact, "AvatarUrl"));
 	if (wszUrl) {
-		wchar_t *p = wcsrchr(wszUrl, '.');
+		wchar_t *p = wcschr(wszUrl, '?');
+		if (p != nullptr)
+			*p = 0;
+
+		p = wcsrchr(wszUrl, '.');
 		if (p != nullptr)
 			szFileType = p;
+
 	}
 
 	LONG id = getDword(hContact, "ID", VK_INVALID_USER);

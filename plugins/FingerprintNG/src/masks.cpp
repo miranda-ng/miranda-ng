@@ -1,4 +1,4 @@
-/*
+﻿/*
 Fingerprint NG (client version) icons module for Miranda NG
 Copyright © 2006-18 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors.
 
@@ -238,7 +238,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Colloquy", L"Colloquy*", L"Colloquy", IDI_COLLOQUY, JABBER_CASE, TRUE },
 	{ "client_CommuniGate", L"*CommuniGate*", L"CommuniGate Pro", IDI_COMMUNIGATE, JABBER_CASE, TRUE },
 	{ "client_Conference", L"Conference*", L"Conference Bot (GMail)", IDI_CONFERENCE, JABBER_CASE, TRUE },
-	{ "client_Conversations", L"*http://conversations.im*", L"Conversations", IDI_CONVERSATIONS, JABBER_CASE, TRUE },
+	{ "client_Conversations", L"*http://conversations.im*|Conversations IM*", L"Conversations", IDI_CONVERSATIONS, JABBER_CASE, TRUE },
 	{ "client_Crosstalk", L"*Cross*talk*", L"Crosstalk", IDI_CROSSTALK, JABBER_CASE, TRUE },
 	{ "client_Cudumar", L"*Cudumar*", L"Cudumar", IDI_CUDUMAR, JABBER_CASE, TRUE },
 	{ "client_CyclopsChat", L"*Cyclops*", L"Cyclops Chat", IDI_CYCLOPS_CHAT, JABBER_CASE, TRUE },

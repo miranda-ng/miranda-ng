@@ -624,6 +624,9 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 		if (userID == VK_INVALID_USER || !IsOnline() || userID == VK_FEED_USER)
 			return 1;
 
+		if (!IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "Deactivated"))))
+			return 1;
+
 		if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnTyping)
 			MarkMessagesRead(hContact);
 
