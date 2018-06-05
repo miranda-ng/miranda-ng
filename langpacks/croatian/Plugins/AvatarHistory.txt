@@ -129,8 +129,6 @@ akcije
 [Contact removed avatar]
 
 ;file \plugins\AvatarHistory\src\icolib.cpp
-[History]
-Povijest
 [Avatar overlay]
 
 ;file \plugins\AvatarHistory\src\options.cpp
@@ -146,6 +144,8 @@ Povijest
 
 [Test description]
 
+[History]
+Povijest
 [Avatar]
 
 [Popups]

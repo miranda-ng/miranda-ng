@@ -1,4 +1,5 @@
 [Enable docking]
+[Send message on 'Ctrl+Enter']
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 [Use custom login (domain login picked up automatically)]
 [Insert submenu]

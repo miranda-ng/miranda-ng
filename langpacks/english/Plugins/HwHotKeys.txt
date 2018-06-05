@@ -5,8 +5,8 @@
 ;  Version: 1.0.0.6
 ;  Authors: Eugene f2065
 ;============================================================
-;file \plugins\HwHotKeys\res\HwHotKeys.rc
 [Allows you to assign expanded multimedia keys (only for PS/2 keyboards).]
+;file \plugins\HwHotKeys\res\HwHotKeys.rc
 [Close Miranda]
 [Assign]
 [Clear]

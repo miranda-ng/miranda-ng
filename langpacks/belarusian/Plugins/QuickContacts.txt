@@ -35,10 +35,10 @@
 Увядзіце імя:
 [Show all contacts (Ctrl+A)]
 Паказаць усе кантакты (Ctrl+A)
-[Quick Contacts]
-Шпаркія кантакты
-[Open dialog]
-Адкрыць гутарку
+[Show all contacts]
+Паказаць усе кантакты
+[Send message]
+Адправіць
 [Send file]
 Перадаць файл
 [Send URL]
@@ -49,9 +49,9 @@
 Гісторыя
 [Open contact menu]
 Адкрыць меню кантакту
-[Show all contacts]
-Паказаць усе кантакты
+[Quick Contacts]
+Шпаркія кантакты
+[Open dialog]
+Адкрыць гутарку
 [Quick Contacts...]
 Шпаркія кантакты...
-[Send message]
-Адправіць

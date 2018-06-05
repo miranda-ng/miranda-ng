@@ -1,7 +1,7 @@
 #muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
 ;============================================================
 ;  File: ConnectionNotify.dll
-;  Plugin: ConnectionNotify
+;  Plugin: Connection Notify
 ;  Version: 0.1.0.5
 ;  Authors: MaKaR
 ;============================================================

@@ -407,6 +407,8 @@
 Зачыняць вакно пасля адпраўкі
 [Minimize the message window on send]
 Згортваць вакно пасля адпраўкі
+[Use the contact's status icon as the window icon]
+Выкарыстоўваць у якасці абразка вакна абразок статусу кантакту
 [Save the window size and location individually for each contact]
 Захоўваць памер і становішча вакна для кожнага кантакту
 [Cascade new windows]
@@ -915,12 +917,10 @@
 напр. "Працоўны"
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Вы можаце абраць іншы драйвер базы дадзеных, які мае больш магчымасцяў. Калі не ўпэўнены, выкарыстоўвайце драйвер па змаўчанні.
-[e.g., dbx mmap]
-напрыклад, dbx_mmap
 [Driver]
 Драйвер
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Не знойдзены рухавікі базы дадзеных, вы не можаце стварыць новы профіль. Вам неабходны файл dbx_mmap.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
+Не знойдзены рухавікі базы дадзеных, вы не можаце стварыць новы профіль. Вам неабходны файл dbx_mdbx.dll
 [Download more plugins]
 Запампаваць іншыя плагіны
 [Author(s):]
@@ -1917,6 +1917,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Поле набору тэксту
 [Chat log symbols (Webdings)]
 Знакі ў чаце (шрыфт Webdings)
+[&Leave chat]
+Пакінуць чат
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]
@@ -1931,8 +1933,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Кантакт адправіў абвестку
 [The topic has been changed]
 Тэма змянілася
-[&Leave chat]
-Пакінуць чат
 [%s wants your attention in %s]
 %s патрабуе Вашай увагі ў %s
 [%s speaks in %s]
@@ -2027,8 +2027,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nхутчэй за ўсё, з-за недахопу правоў доступу. Калі ласка, наладзьце профіль уручную.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Профіль не можа быць змешчаны ў каранёвую тэчку Міранды.\nКалі ласка, абярыце профілю іншае месца.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Miranda не можа адкрыць '%s', бо плагіны для падтрымкі профіляў не ўсталяваны.\nВам трэба ўсталяваць dbx_mmap.dll
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
+Miranda не можа адкрыць '%s', бо плагіны для падтрымкі профіляў не ўсталяваны.\nВам трэба ўсталяваць dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda NG не можа адчыніць '%s', профіль у невядомым фармаце.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

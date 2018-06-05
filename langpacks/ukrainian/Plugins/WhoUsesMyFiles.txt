@@ -53,6 +53,18 @@ WUMF: Поточні з'єднання
 Будуть доступні в наступній версії
 [Show current connections]
 Показати з'єднання
+[Popup plugin not found!]
+Не встановлений плагін сплив. вікон!
+[Error]
+Помилка
+[Common Dialog Error 0x%lx]
+Помилка діалогу 0x%lx
+[Not implemented yet...]
+Ще не реалізовано...
+[Who uses my files]
+Використання файлів
+[Services]
+Служби
 [User]
 Користувач
 [File]
@@ -67,24 +79,12 @@ WUMF: Поточні з'єднання
 Помилка розподілу пам'яті
 [Error creating menu]
 Помилка створення меню
-[Popup plugin not found!]
-Не встановлений плагін сплив. вікон!
-[Error]
-Помилка
 [Enable WUMF popups]
 Увімкнути вікна WUMF
 [Disable WUMF popups]
 Вимкнути вікна WUMF
-[Common Dialog Error 0x%lx]
-Помилка діалогу 0x%lx
-[Not implemented yet...]
-Ще не реалізовано...
 [Show connections list]
 Показати список підключень
-[Who uses my files]
-Використання файлів
-[Services]
-Служби
 [Popups]
 Спливаючі вікна
 [WUMF: Show connections]

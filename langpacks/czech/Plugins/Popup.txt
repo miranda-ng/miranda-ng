@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Popup.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.12
+;  Version: 2.1.1.14
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -406,9 +406,6 @@ Nelze zaregistrovat třídu vlastního edit boxu.\r\n\r\ncbSize: %i\r\nstyle: %p
 ;file \plugins\Popup\src\services.cpp
 [Notify]
 Oznámení
-;file \plugins\Popup\src\skin.cpp
-[The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-Pokoušíte se načíst skin, který je navržen pro\r\nnovější verzi doplňku Popup Plus a nebude proto\r\nsprávně zobrazen.\r\n\r\nZvolte prosím jiný skin.
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Výchozí

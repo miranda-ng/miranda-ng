@@ -35,10 +35,10 @@
 Ввести ім'я:
 [Show all contacts (Ctrl+A)]
 Показати всі контакти (Ctrl+A)
-[Quick Contacts]
-Швидкі контакти
-[Open dialog]
-Відкрити діалог
+[Show all contacts]
+Показати всі контакти
+[Send message]
+Надіслати
 [Send file]
 Надіслати файл
 [Send URL]
@@ -49,9 +49,9 @@
 Історія
 [Open contact menu]
 Відкрити меню контакту
-[Show all contacts]
-Показати всі контакти
+[Quick Contacts]
+Швидкі контакти
+[Open dialog]
+Відкрити діалог
 [Quick Contacts...]
 Швидкі контакти...
-[Send message]
-Надіслати

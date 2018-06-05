@@ -75,8 +75,6 @@ Pauza
 &Pozastavit odpočítávání
 [&Cancel countdown]
 &Zrušit odpočítávání
-[AutoShutdown]
-Automatické ukončení
 [Countdown on frame]
 Rámeček: Odpočítávání
 [Background]
@@ -185,6 +183,9 @@ Přepne všechny protokoly do stavu offline a ukončí vzdálená připojení.
 Upozornění
 [Automatic shutdown countdown]
 Automatické ukončení (odpočítávání)
+;file \plugins\AutoShutdown\src\stdafx.h
+[AutoShutdown]
+Automatické ukončení
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle automatic shutdown]
 Aktivovat automatické ukončení

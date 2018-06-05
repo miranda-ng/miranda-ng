@@ -29,8 +29,6 @@ Authorisation request
 Run program when Miranda NG starts (e.g. tail -f, dbgview, etc.):
 [e.g., Workplace]
 e.g. Workplace
-[e.g., dbx mmap]
-e.g. dbx mmap
 [Fonts and colors]
 Fonts and colours
 [Color/background]

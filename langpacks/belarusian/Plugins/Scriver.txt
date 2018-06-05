@@ -21,10 +21,6 @@
 Згортваць пасля адпраўкі
 [Hide windows on close]
 Хаваць вокны пры зачыненні
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
 [Remember unsent messages]
 Памятаць неадпраўленыя паведамленні
 [Delete temporary contacts on closing]
@@ -33,6 +29,12 @@
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [seconds]
 секунд
+[Send message on 'Enter']
+Пасылаць па "Enter"
+[Send message on double 'Enter']
+Пасылаць па падвойным "Enter"
+[Send message on 'Ctrl+Enter']
+Пасылаць па "Ctrl+Enter"
 [Tabs]
 Укладкі
 [Enable tabs]
@@ -79,6 +81,8 @@
 Мін. памер поля ўводу
 [lines]
 ліній
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
+
 [Message window event log]
 Журнал гутаркі
 [Enable IEView]

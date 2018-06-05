@@ -54,6 +54,19 @@ Boje operativnog sistema
 
 [Show current connections]
 
+;file \plugins\WhoUsesMyFiles\src\options.cpp
+[Popup plugin not found!]
+
+[Error]
+Greška
+[Common Dialog Error 0x%lx]
+
+[Not implemented yet...]
+
+[Who uses my files]
+
+[Services]
+
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
 
@@ -70,23 +83,11 @@ Datoteka
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 
-[Popup plugin not found!]
-
-[Error]
-Greška
 [Enable WUMF popups]
 
 [Disable WUMF popups]
 
-[Common Dialog Error 0x%lx]
-
-[Not implemented yet...]
-
 [Show connections list]
-
-[Who uses my files]
-
-[Services]
 
 [Popups]
 Balončići

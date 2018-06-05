@@ -11,11 +11,11 @@ Color de fondo
 Color de texto
 [Use windows colors]
 Usar colores de Windows
-[File]
-Archivo
 [Error]
 Error
 [Services]
 Servicios
+[File]
+Archivo
 [Popups]
 Ventanas emergentes

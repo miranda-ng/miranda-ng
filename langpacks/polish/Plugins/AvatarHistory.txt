@@ -129,8 +129,6 @@ Kontakt zmienił awatar
 [Contact removed avatar]
 Kontakt usunął awatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
-[History]
-Historia
 [Avatar overlay]
 Otoczka awatara
 ;file \plugins\AvatarHistory\src\options.cpp
@@ -146,6 +144,8 @@ Pokaż historię kontaktu
 Testowy kontakt
 [Test description]
 Testowy opis
+[History]
+Historia
 [Avatar]
 Awatar
 [Popups]

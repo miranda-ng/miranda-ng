@@ -16,7 +16,7 @@ Kein Blinken (Liste), wenn:
 Kein Blinken (Tray), wenn:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Menüpunkt verstecken (erfordert Neustart von Miranda)
-;file \plugins\ZeroNotification\src\main.cpp
+;file \plugins\ZeroNotification\src\options.cpp
 [Zero Notifications]
 Keine Benachrichtigungen
 [Plugins]

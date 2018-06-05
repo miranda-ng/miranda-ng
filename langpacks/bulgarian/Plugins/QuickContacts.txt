@@ -35,10 +35,10 @@
 Въведете име на потребител:
 [Show all contacts (Ctrl+A)]
 Показване на всички контакти (Ctrl+A)
-[Quick Contacts]
-Quick Contacts
-[Open dialog]
-Отваря прозорец
+[Show all contacts]
+Показва всички контакти
+[Send message]
+Изпраща съобщение
 [Send file]
 Изпраща файл
 [Send URL]
@@ -49,9 +49,9 @@ Quick Contacts
 Отваря историята
 [Open contact menu]
 Отваря менюто на контакта
-[Show all contacts]
-Показва всички контакти
+[Quick Contacts]
+Quick Contacts
+[Open dialog]
+Отваря прозорец
 [Quick Contacts...]
 Quick Contacts...
-[Send message]
-Изпраща съобщение

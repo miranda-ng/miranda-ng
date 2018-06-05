@@ -22,10 +22,6 @@ Poređaj novootvorene prozore
 
 [Hide windows on close]
 
-[Send message on 'Enter']
-Slanje jednim 'Enter'
-[Send message on double 'Enter']
-Slanje dvostrukim 'Enter'
 [Remember unsent messages]
 
 [Delete temporary contacts on closing]
@@ -34,6 +30,12 @@ Slanje dvostrukim 'Enter'
 Upozori me ukoliko poruka nije primljena posle
 [seconds]
 sekundi
+[Send message on 'Enter']
+Slanje jednim 'Enter'
+[Send message on double 'Enter']
+Slanje dvostrukim 'Enter'
+[Send message on 'Ctrl+Enter']
+Slanje jednim 'Ctrl+Enter'
 [Tabs]
 Jezičci
 [Enable tabs]
@@ -79,6 +81,8 @@ Prikaži avatare
 [Min input area size]
 
 [lines]
+
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
 [Message window event log]
 Log događaja tokom razgovora

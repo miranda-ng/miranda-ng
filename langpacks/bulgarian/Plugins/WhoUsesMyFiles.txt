@@ -13,15 +13,15 @@
 Образец
 [Use windows colors]
 Цветове от Windows
+[Error]
+Грешка
+[Services]
+Услуги
 [User]
 Потребител
 [File]
 Файл
 [Error opening file]
 Грешка при отварянето на файла
-[Error]
-Грешка
-[Services]
-Услуги
 [Popups]
 Рopups

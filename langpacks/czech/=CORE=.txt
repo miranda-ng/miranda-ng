@@ -412,6 +412,8 @@ Maximální počet bliknutí
 Zavřít okno kliknutím na 'Poslat'
 [Minimize the message window on send]
 Minimalizovat okno kliknutím na 'Poslat'
+[Use the contact's status icon as the window icon]
+Použít v liště okna ikonu aktuálního stavu
 [Save the window size and location individually for each contact]
 Uložit velikost a umístění okna pro každý kontakt zvlášť
 [Cascade new windows]
@@ -923,12 +925,10 @@ Profil
 např. Práce
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a možností. Pokud si však nejste jisti, ponechte výchozí.
-[e.g., dbx mmap]
-např. dbx mmap
 [Driver]
 Ovladač
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Problém: Nelze nalézt žádný ovladač databáze, nemůžete tedy vytvářet nové profily, musíte nejprve sehnat dbx_mmap.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
+Problém: Nelze nalézt žádný ovladač databáze, nemůžete tedy vytvářet nové profily, musíte nejprve sehnat dbx_mdbx.dll
 [Download more plugins]
 Stáhnout další doplňky
 [Author(s):]
@@ -1962,6 +1962,9 @@ Seznam účastníků (pryč)
 Oblast se zprávou
 [Chat log symbols (Webdings)]
 Symboly v záznamu chatu (Webdings)
+;file \src\mir_app\src\chat_svc.cpp
+[&Leave chat]
+Op&ustit diskusi
 [Message is highlighted]
 Zvýraznění zprávy
 [User has performed an action]
@@ -1976,9 +1979,6 @@ Změna přezdívky
 Odeslání poznámky
 [The topic has been changed]
 Změna tématu diskuse
-;file \src\mir_app\src\chat_svc.cpp
-[&Leave chat]
-Op&ustit diskusi
 ;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 %s žádá o pozornost na kanále %s
@@ -2082,8 +2082,8 @@ Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže b
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s automaticky,\nnejspíše kvůli nedostatečným oprávněním. Přesuňte prosím profil ručně.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mmap.dll.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
+Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mdbx.dll.
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda nemůže otevřít '%s', který má neznámý formát.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

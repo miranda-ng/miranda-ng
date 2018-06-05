@@ -16,7 +16,7 @@
 
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 
-;file \plugins\ZeroNotification\src\main.cpp
+;file \plugins\ZeroNotification\src\options.cpp
 [Zero Notifications]
 
 [Plugins]

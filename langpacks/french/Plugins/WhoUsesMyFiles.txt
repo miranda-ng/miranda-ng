@@ -54,6 +54,19 @@ Utiliser les couleurs de Windows
 
 [Show current connections]
 
+;file \plugins\WhoUsesMyFiles\src\options.cpp
+[Popup plugin not found!]
+
+[Error]
+Erreur
+[Common Dialog Error 0x%lx]
+
+[Not implemented yet...]
+
+[Who uses my files]
+
+[Services]
+Services
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
 Utilisateur
@@ -70,24 +83,12 @@ Fichier
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 
-[Popup plugin not found!]
-
-[Error]
-Erreur
 [Enable WUMF popups]
 
 [Disable WUMF popups]
 
-[Common Dialog Error 0x%lx]
-
-[Not implemented yet...]
-
 [Show connections list]
 
-[Who uses my files]
-
-[Services]
-Services
 [Popups]
 Popups
 [WUMF: Show connections]

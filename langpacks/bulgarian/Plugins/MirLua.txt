@@ -2,16 +2,16 @@
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.8.8
+;  Version: 0.11.8.9
 ;  Authors: Miranda NG team
 ;============================================================
 [General]
 Основни
-[Services]
-Услуги
 [Script]
 Скрипт
 [Failed]
 Неуспешно
 [Reload]
 Обновяване
+[Services]
+Услуги

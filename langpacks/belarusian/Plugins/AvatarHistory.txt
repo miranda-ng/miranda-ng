@@ -125,8 +125,6 @@
 Кантакт змяніў выяву
 [Contact removed avatar]
 Кантакт выдаліў выяву
-[History]
-Гісторыя
 [Avatar overlay]
 Адбітак аватара
 [Do nothing]
@@ -141,6 +139,8 @@
 Тэставы кантакт
 [Test description]
 Тэставае апісанне
+[History]
+Гісторыя
 [Avatar]
 Аватар
 [Popups]

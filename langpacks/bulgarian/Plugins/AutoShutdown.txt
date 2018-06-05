@@ -73,8 +73,6 @@
 Пауза на отброяването
 [&Cancel countdown]
 Отказ от изключване
-[AutoShutdown]
-AutoShutdown
 [Countdown on frame]
 Отброяване в рамка
 [Background]
@@ -167,6 +165,8 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Уведомявания
 [Automatic shutdown countdown]
 Брояч за автоматично изключване
+[AutoShutdown]
+AutoShutdown
 [Toggle automatic shutdown]
 Вкл./Изкл. автоматичното изключване
 [Main]

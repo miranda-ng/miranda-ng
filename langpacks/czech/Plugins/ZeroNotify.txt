@@ -16,7 +16,7 @@ Vypnout blikání v seznamu při:
 Vypnout blikání v liště při:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Skrýt položku v hlavní nabídce pro zvuky (vyžaduje restart Mirandy)
-;file \plugins\ZeroNotification\src\main.cpp
+;file \plugins\ZeroNotification\src\options.cpp
 [Zero Notifications]
 Bez upozornění
 [Plugins]

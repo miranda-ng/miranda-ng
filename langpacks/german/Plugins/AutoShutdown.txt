@@ -75,8 +75,6 @@ Countdown &fortsetzen
 Countdown &pausieren
 [&Cancel countdown]
 Countdown &abbrechen
-[AutoShutdown]
-Automatisches Beenden
 [Countdown on frame]
 Countdown in Frame
 [Background]
@@ -185,6 +183,9 @@ Setzt alle Protokolle auf "offline" und trennt alle aktiven DFÜ-Netzwerkverbind
 Hinweise
 [Automatic shutdown countdown]
 AutoBeenden-Countdown
+;file \plugins\AutoShutdown\src\stdafx.h
+[AutoShutdown]
+Automatisches Beenden
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle automatic shutdown]
 Automatisches Beenden ein-/ausschalten

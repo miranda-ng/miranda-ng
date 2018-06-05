@@ -30,6 +30,13 @@
 [Alert computer name with username]
 [Disabled options will be available in the next version]
 [Show current connections]
+;file \plugins\WhoUsesMyFiles\src\options.cpp
+[Popup plugin not found!]
+[Error]
+[Common Dialog Error 0x%lx]
+[Not implemented yet...]
+[Who uses my files]
+[Services]
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
 [File]
@@ -39,14 +46,8 @@
 [Error memory allocation]
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
-[Popup plugin not found!]
-[Error]
 [Enable WUMF popups]
 [Disable WUMF popups]
-[Common Dialog Error 0x%lx]
-[Not implemented yet...]
 [Show connections list]
-[Who uses my files]
-[Services]
 [Popups]
 [WUMF: Show connections]

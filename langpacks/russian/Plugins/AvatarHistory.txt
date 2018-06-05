@@ -125,8 +125,6 @@
 Контакт сменил аватар
 [Contact removed avatar]
 Контакт удалил аватар
-[History]
-История
 [Avatar overlay]
 Оверлей аватара
 [Do nothing]
@@ -141,6 +139,8 @@
 Тестовый контакт
 [Test description]
 Тестовое описание
+[History]
+История
 [Avatar]
 Аватар
 [Popups]

@@ -77,22 +77,22 @@
 Статический
 [Shaking Message Window Options]
 Тряска окна сообщений
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Нельзя отправлять много встрясок (только 1 каждые %d сек, %d сек осталось)
-[Nudge]
-Тряска
-[Default Nudge]
-Встряска по-умолчанию
 [Nudge as Default]
 Встряхнуть (по умолчанию)
-[Send nudge]
-Встряхнуть
-[Send &nudge]
-&Встряхнуть
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Нельзя отправлять много встрясок (только 1 каждые %d сек, %d сек осталось)
 [Show Nudge]
 Тряска
 [Nudge for %s]
 Встряска для %s
+[Nudge]
+Тряска
+[Default Nudge]
+Встряска по-умолчанию
+[Send nudge]
+Встряхнуть
+[Send &nudge]
+&Встряхнуть
 [You received a nudge]
 Вас встряхнули
 [You sent a nudge]

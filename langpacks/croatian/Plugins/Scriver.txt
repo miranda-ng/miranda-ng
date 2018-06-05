@@ -22,10 +22,6 @@
 
 [Hide windows on close]
 
-[Send message on 'Enter']
-
-[Send message on double 'Enter']
-
 [Remember unsent messages]
 
 [Delete temporary contacts on closing]
@@ -34,6 +30,12 @@
 
 [seconds]
 sekundi
+[Send message on 'Enter']
+
+[Send message on double 'Enter']
+
+[Send message on 'Ctrl+Enter']
+
 [Tabs]
 kartice
 [Enable tabs]
@@ -79,6 +81,8 @@ prikaži naslovnu traku
 [Min input area size]
 
 [lines]
+
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
 [Message window event log]
 

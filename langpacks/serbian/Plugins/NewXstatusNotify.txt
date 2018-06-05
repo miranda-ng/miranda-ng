@@ -233,6 +233,10 @@ Status
 [(default sound)]
 
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Notification enabled]
+
+[Notification disabled]
+
 [<no status message>]
 
 [Contact]
@@ -349,13 +353,9 @@ Povezivanje
 
 [Disable status notification]
 
-[Notification enabled]
-
-[Notification disabled]
+[Toggle status notification]
 
 [New Status Notify]
-
-[Toggle status notification]
 
 [Status change]
 

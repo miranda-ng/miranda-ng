@@ -128,8 +128,6 @@ Vyhledávací filtr
 [no settings]
 bez nastavení
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[&Create Linklist]
-&Vytvořit seznam odkazů
 [History]
 Historie
 [Processing history...]
@@ -138,6 +136,8 @@ Zpracování historie...
 Nelze sestavit a otevřít okno!
 [Could not allocate memory!]
 Nelze alokovat požadovanou paměť!
+[&Create Linklist]
+&Vytvořit seznam odkazů
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist plugin]
 Doplněk 'Linklist'

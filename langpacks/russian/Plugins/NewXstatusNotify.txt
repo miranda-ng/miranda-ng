@@ -229,6 +229,10 @@ xСтатус
 ** Все контакты **
 [(default sound)]
 (по умолчанию)
+[Notification enabled]
+Уведомление включено
+[Notification disabled]
+Уведомление выключено
 [<no status message>]
 <нет сообщения статуса>
 [Contact]
@@ -345,14 +349,10 @@ xСтатус изменён
 Включить уведомления о смене статуса
 [Disable status notification]
 Выключить уведомления о смене статуса
-[Notification enabled]
-Уведомление включено
-[Notification disabled]
-Уведомление выключено
-[New Status Notify]
-Смена статуса
 [Toggle status notification]
 Вкл/Выкл уведомления о смене статуса
+[New Status Notify]
+Смена статуса
 [Status change]
 Смена статуса
 [All Files]

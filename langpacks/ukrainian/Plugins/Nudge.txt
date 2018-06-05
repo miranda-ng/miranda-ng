@@ -77,22 +77,22 @@
 Статичний
 [Shaking Message Window Options]
 Тряска вікна повідомлень
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Не можна надсилати багато струсів (тільки 1 кожні %d с, %d с залишилося)
-[Nudge]
-Тряска
-[Default Nudge]
-Струс за замовчанням
 [Nudge as Default]
 Струсити (за замовчанням)
-[Send nudge]
-Струсити
-[Send &nudge]
-&Струсити
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Не можна надсилати багато струсів (тільки 1 кожні %d с, %d с залишилося)
 [Show Nudge]
 Тряска
 [Nudge for %s]
 Струс для %s
+[Nudge]
+Тряска
+[Default Nudge]
+Струс за замовчанням
+[Send nudge]
+Струсити
+[Send &nudge]
+&Струсити
 [You received a nudge]
 Вас струснули
 [You sent a nudge]

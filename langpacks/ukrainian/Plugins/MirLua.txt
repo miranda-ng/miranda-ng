@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.8.8
+;  Version: 0.11.8.9
 ;  Authors: Miranda NG team
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
@@ -17,12 +17,6 @@
 Загальне
 [Popup on obsolete methods]
 Спливаючі вікна при виклику застарілих методів
-[Services]
-Служби
-[C libs folder]
-Папка з бібліотеками C
-[Scripts folder]
-Папка зі скриптами
 [Script]
 Скрипт
 [Loaded]
@@ -35,3 +29,9 @@
 Перезавантажити
 [Common scripts]
 Загальні скрипти
+[Services]
+Служби
+[C libs folder]
+Папка з бібліотеками C
+[Scripts folder]
+Папка зі скриптами

@@ -22,10 +22,6 @@ Zapisz rozmiar i położenie okna dla każdego kontaktu
 Minimalizuj po wysłaniu
 [Hide windows on close]
 Ukryj okna przy zamykaniu
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
 [Remember unsent messages]
 Zapamiętaj niewysłane wiadomości
 [Delete temporary contacts on closing]
@@ -34,6 +30,12 @@ Kasuj niezapisane kontakty przy zamykaniu
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [seconds]
 s
+[Send message on 'Enter']
+Enter wysyła wiadomość
+[Send message on double 'Enter']
+Podwójny Enter wysyła wiadomość
+[Send message on 'Ctrl+Enter']
+Ctrl+Enter wysyła wiadomość
 [Tabs]
 Karty
 [Enable tabs]
@@ -80,6 +82,8 @@ nieaktywny
 Wysokość okna wpisywania tekstu
 [lines]
 linie
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
+
 [Message window event log]
 Dziennik okna rozmowy
 [Enable IEView]

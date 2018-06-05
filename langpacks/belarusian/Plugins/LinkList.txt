@@ -125,8 +125,6 @@
 Фільтр пошуку
 [no settings]
 без налад
-[&Create Linklist]
-&Стварыць Лінк-ліст
 [History]
 Гісторыя
 [Processing history...]
@@ -135,6 +133,8 @@
 Немагчыма стварыць вакно!
 [Could not allocate memory!]
 Немагчыма размеркаваць памяць!
+[&Create Linklist]
+&Стварыць Лінк-ліст
 [Linklist plugin]
 Плагін Linklist
 [Matches for searchtext]

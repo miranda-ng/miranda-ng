@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.8.8
+;  Version: 0.11.8.9
 ;  Authors: Miranda NG team
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
@@ -18,14 +18,7 @@ Oznámení při chybě skriptu
 Obecné
 [Popup on obsolete methods]
 Oznámení při použití zastaralých metod
-;file \plugins\MirLua\src\main.cpp
-[Services]
-Služby
-[C libs folder]
-Složka s knihovnami C
-[Scripts folder]
-Složka se skripty
-;file \plugins\MirLua\src\mlua_icons.cpp
+;file \plugins\MirLua\src\icons.cpp
 [Script]
 Skript
 [Loaded]
@@ -36,6 +29,13 @@ Selhalo
 Otevřít
 [Reload]
 Načíst znovu
-;file \plugins\MirLua\src\mlua_options.cpp
+;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Obecné skripty
+[Services]
+Služby
+;file \plugins\MirLua\src\plugin.cpp
+[C libs folder]
+Složka s knihovnami C
+[Scripts folder]
+Složka se skripty

@@ -79,21 +79,21 @@ Statique
 [Shaking Message Window Options]
 Tremblement de la fenêtre de message
 ;file \plugins\Nudge\src\main.cpp
+[Nudge as Default]
+
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 Vous ne pouvez pas envoyer tant de wizz (uniquement 1 toutes les %d sec, %d sec restantes)
+[Show Nudge]
+
+[Nudge for %s]
+
 [Nudge]
 
 [Default Nudge]
 
-[Nudge as Default]
-
 [Send nudge]
 
 [Send &nudge]
-
-[Show Nudge]
-
-[Nudge for %s]
 
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]

@@ -149,9 +149,9 @@ Pozadina
 
 [Next account]
 
+;file \plugins\MyDetails\src\options.cpp
 [Contact list]
 lista kontakata
-;file \plugins\MyDetails\src\options.cpp
 ;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 

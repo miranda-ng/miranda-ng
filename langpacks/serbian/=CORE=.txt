@@ -412,6 +412,8 @@ Maksimalno žmiganja
 Zatvori prozor nakon slanja poruke
 [Minimize the message window on send]
 Spusti prozor nakon slanja poruke
+[Use the contact's status icon as the window icon]
+Ikonica kontakta je ikonica prozora
 [Save the window size and location individually for each contact]
 Zasebna veličina i pozicija prozora svakog kontakta
 [Cascade new windows]
@@ -923,12 +925,10 @@ Profil
 Radno mesto
 [You can select a different database driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Odabir posebnog drajvera baze je dozvoljen, kao i dodatne mogućnosti istih. Bez više informacija izaberi obične.
-[e.g., dbx mmap]
-Npr. dbx map
 [Driver]
 Drajver
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Problem: drajver baze nije na raspolaganju i kreiranje profila nije moguće. Neophodan dbx_mmap.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mdbx.dll]
+Problem: drajver baze nije na raspolaganju i kreiranje profila nije moguće. Neophodan dbx_mdbx.dll
 [Download more plugins]
 Preuzimanje plug-inova
 [Author(s):]
@@ -1962,6 +1962,9 @@ Korisnici (neaktivni)
 Polje za unos poruke
 [Chat log symbols (Webdings)]
 Znakovi log-a razgovora (Webdings)
+;file \src\mir_app\src\chat_svc.cpp
+[&Leave chat]
+&Završi razgovor
 [Message is highlighted]
 Poruka je istaknuta
 [User has performed an action]
@@ -1976,9 +1979,6 @@ Korisnik je promenio nadimak
 Korisnik je poslao naznaku
 [The topic has been changed]
 Tema je promenjena
-;file \src\mir_app\src\chat_svc.cpp
-[&Leave chat]
-&Završi razgovor
 ;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 %s traži tvoje prisustvo u: %s
@@ -2082,8 +2082,8 @@ Miranda ne uspeva da poboljša organizaciju profila.\nProfil %s ne može da bude
 Miranda ne uspeva da poboljša organizaciju profila.\nProfil %s ne može da bude sačuvan u: %s po automatizaciji\nNajverovatnije usled ograničenih prava pristupa podacima na računaru. Profil morate prebaciti ručno.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil ne može biti sačuvan u 'root' folderu.\nProfil premestite na drugo mesto.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Miranda ne uspeva da otvori '%s' jer nije instaliran odgovarajući plug-in.\nPotrebna je biblioteka dbx_mmap.dll
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
+Miranda ne uspeva da otvori '%s' jer nije instaliran odgovarajući plug-in.\nPotrebna je biblioteka dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
 Miranda ne uspeva da otvori '%s', u pitanju je nepoznat format.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

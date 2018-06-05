@@ -73,8 +73,6 @@
 Спыніць адлік
 [&Cancel countdown]
 Адмяніць адлік
-[AutoShutdown]
-Аўтавыключэнне
 [Countdown on frame]
 Адлік
 [Background]
@@ -179,6 +177,8 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Абвесткі
 [Automatic shutdown countdown]
 Зваротны адлік аўтавыключэння
+[AutoShutdown]
+Аўтавыключэнне
 [Toggle automatic shutdown]
 Пераключыць аўтавыключэнне
 [Main]

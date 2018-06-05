@@ -75,8 +75,6 @@ Otkazivanje
 
 [&Cancel countdown]
 
-[AutoShutdown]
-
 [Countdown on frame]
 
 [Background]
@@ -184,6 +182,9 @@ Nepoznati
 [Alerts]
 Upozorenja
 [Automatic shutdown countdown]
+
+;file \plugins\AutoShutdown\src\stdafx.h
+[AutoShutdown]
 
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle automatic shutdown]

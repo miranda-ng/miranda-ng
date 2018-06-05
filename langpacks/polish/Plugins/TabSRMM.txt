@@ -1779,8 +1779,6 @@ Zaawansowany układ awatarów, orientacja pionowa
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
 Ta wersja TabSRMM wymaga Windows 2000 lub nowszego.
-[TabSRMM message (%s)]
-Wiadomość TabSRMM (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Podglądy niedostępne, gdy History++ jest używany do wyświetlania dziennika wiadomości.
@@ -2014,6 +2012,8 @@ Wymuś IEView
 [Set messaging options for %s]
 Ustawienia opcji rozmowy dla %s
 ;file \plugins\TabSRMM\src\utils.cpp
+[TabSRMM message (%s)]
+Wiadomość TabSRMM (%s)
 [Important release notes|A test warning message]
 Ważne informacje o wydaniu|Ostrzeżenie testowe
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]

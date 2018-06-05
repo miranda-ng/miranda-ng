@@ -1,3 +1,5 @@
+[Send message on 'Ctrl+Enter']
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 [Save logs]
 [Trim to]
 [(0 means default setting, -1 means indefinite time)]

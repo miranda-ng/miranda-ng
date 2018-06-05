@@ -36,12 +36,11 @@ Ale trzymaj je na liście poniżej, jeśli metakontakty są ukryte
 Nazwa użytkownika:
 [Show all contacts (Ctrl+A)]
 Pokaż wszystkie kontakty (Ctrl+A)
-;file \plugins\QuickContacts\src\options.cpp
-[Quick Contacts]
-Szybkie kontakty
-;file \plugins\QuickContacts\src\quickcontacts.cpp
-[Open dialog]
-Otwórz okno szybkich kontaktów
+;file \plugins\QuickContacts\src\dialog.cpp
+[Show all contacts]
+Pokaż wszystkie kontakty
+[Send message]
+Wyślij wiadomość
 [Send file]
 Wyślij plik
 [Send URL]
@@ -52,9 +51,11 @@ Otwórz dane kontaktu
 Otwórz historię
 [Open contact menu]
 Otwórz menu kontaktu
-[Show all contacts]
-Pokaż wszystkie kontakty
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Szybkie kontakty
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Otwórz okno szybkich kontaktów
 [Quick Contacts...]
 Szybkie kontakty...
-[Send message]
-Wyślij wiadomość

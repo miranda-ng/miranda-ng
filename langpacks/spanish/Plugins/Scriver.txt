@@ -9,14 +9,16 @@
 Comportamiento
 [Cascade new windows]
 Ventanas en cascada nueva
-[Send message on 'Enter']
-Enviar mensaje con 'Intro'
-[Send message on double 'Enter']
-Enviar mensaje con doble 'Intro'
 [Show warning when message has not been received after]
 Mostrar aviso cuando el mensaje no se ha recibido después de
 [seconds]
 segundos
+[Send message on 'Enter']
+Enviar mensaje con 'Intro'
+[Send message on double 'Enter']
+Enviar mensaje con doble 'Intro'
+[Send message on 'Ctrl+Enter']
+Enviar mensaje con 'Ctrl+Intro'
 [Tabs]
 Pestañas
 [Show title bar]

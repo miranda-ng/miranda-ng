@@ -68,11 +68,11 @@
 [Search filter]
 [no settings]
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[&Create Linklist]
 [History]
 [Processing history...]
 [Could not create window!]
 [Could not allocate memory!]
+[&Create Linklist]
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist plugin]
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

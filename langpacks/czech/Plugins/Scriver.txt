@@ -22,10 +22,6 @@ Uložit velikost a umístění okna pro každý kontakt zvlášť
 Minimalizovat po odeslání
 [Hide windows on close]
 Při zavření okno pouze skrýt
-[Send message on 'Enter']
-Odeslat zprávu klávesou ENTER
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým ENTER
 [Remember unsent messages]
 Uložit neodeslané zprávy
 [Delete temporary contacts on closing]
@@ -34,6 +30,12 @@ Při zavření smazat dočasné kontakty
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [seconds]
 sek.
+[Send message on 'Enter']
+Odeslat zprávu klávesou ENTER
+[Send message on double 'Enter']
+Odeslat zprávu dvojitým ENTER
+[Send message on 'Ctrl+Enter']
+Odeslat zprávu CTRL+ENTER
 [Tabs]
 Panely
 [Enable tabs]
@@ -80,6 +82,8 @@ Neakt.
 Min. velikost pole pro zadávání textu:
 [lines]
 řádky
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
+
 [Message window event log]
 Záznam událostí
 [Enable IEView]

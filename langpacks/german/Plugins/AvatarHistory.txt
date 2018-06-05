@@ -129,8 +129,6 @@ Kontakt ändert Avatar
 [Contact removed avatar]
 Kontakt entfernt Avatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
-[History]
-Verlauf
 [Avatar overlay]
 Avataroverlay
 ;file \plugins\AvatarHistory\src\options.cpp
@@ -146,6 +144,8 @@ Gesprächsverlauf zeigen
 Test-Kontakt
 [Test description]
 Test-Beschreibung
+[History]
+Verlauf
 [Avatar]
 Avatar
 [Popups]

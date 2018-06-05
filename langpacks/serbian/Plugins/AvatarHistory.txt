@@ -129,8 +129,6 @@ Avatari
 [Contact removed avatar]
 
 ;file \plugins\AvatarHistory\src\icolib.cpp
-[History]
-Istorija
 [Avatar overlay]
 
 ;file \plugins\AvatarHistory\src\options.cpp
@@ -146,6 +144,8 @@ Istorija
 
 [Test description]
 
+[History]
+Istorija
 [Avatar]
 
 [Popups]

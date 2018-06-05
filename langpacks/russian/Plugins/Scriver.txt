@@ -21,10 +21,6 @@
 Сворачивать после отправки
 [Hide windows on close]
 Прятать окна при закрытии
-[Send message on 'Enter']
-Отправлять по Enter
-[Send message on double 'Enter']
-Отправлять по двойному Enter
 [Remember unsent messages]
 Помнить неотправленные сообщения
 [Delete temporary contacts on closing]
@@ -33,6 +29,12 @@
 Сообщать, если сообщение не удалось отправить за
 [seconds]
 секунд
+[Send message on 'Enter']
+Отправлять по Enter
+[Send message on double 'Enter']
+Отправлять по двойному Enter
+[Send message on 'Ctrl+Enter']
+Отправлять по "Ctrl+Enter"
 [Tabs]
 Вкладки
 [Enable tabs]
@@ -79,6 +81,8 @@
 Минимальный размер поля ввода
 [lines]
 строк
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
+Допускаются переменные: %name% - имя контакта, %status% - его статус, %statusmsg% - сообщение статуса, %account% - имя учётной записи
 [Message window event log]
 Журнал окна сообщений
 [Enable IEView]
