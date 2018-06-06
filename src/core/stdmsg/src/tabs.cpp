@@ -22,25 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "statusicon.h"
 
-struct CSavedTab
-{
-	CSavedTab(const char *szModule, const wchar_t *wszId) :
-		m_szModule(mir_strdup(szModule)),
-		m_id(mir_wstrdup(wszId))
-	{}
-
-	ptrW m_id;
-	ptrA m_szModule;
-};
-
-static OBJLIST<CSavedTab> arSavedTabs(1);
-
-void TB_SaveSession(SESSION_INFO *si)
-{
-	if (si)
-		arSavedTabs.insert(new CSavedTab(si->pszModule, si->ptszID));
-}
-
 CTabbedWindow *g_pTabDialog = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -187,16 +168,6 @@ void CTabbedWindow::OnInitDialog()
 
 	TabCtrl_SetMinTabWidth(m_tab.GetHwnd(), 80);
 	TabCtrl_SetImageList(m_tab.GetHwnd(), Clist_GetImageList());
-
-	// restore previous tabs
-	if (g_Settings.bTabRestore) {
-		for (auto &p : arSavedTabs) {
-			SESSION_INFO *si = g_chatApi.SM_FindSession(p->m_id, p->m_szModule);
-			if (si)
-				AddPage(si);
-		}
-		arSavedTabs.destroy();
-	}
 }
 
 void CTabbedWindow::OnDestroy()
@@ -694,6 +665,4 @@ void UninitTabs()
 		g_pTabDialog->Close();
 		g_pTabDialog = nullptr;
 	}
-
-	arSavedTabs.destroy();
 }

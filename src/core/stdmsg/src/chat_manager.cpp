@@ -135,7 +135,6 @@ static void OnLoadSettings()
 	g_Settings.iY = db_get_dw(0, CHAT_MODULE, "roomy", -1);
 
 	g_Settings.bTabsEnable = db_get_b(0, CHAT_MODULE, "Tabs", 1) != 0;
-	g_Settings.bTabRestore = db_get_b(0, CHAT_MODULE, "TabRestore", 0) != 0;
 	g_Settings.bTabsAtBottom = db_get_b(0, CHAT_MODULE, "TabBottom", 0) != 0;
 	g_Settings.bTabCloseOnDblClick = db_get_b(0, CHAT_MODULE, "TabCloseOnDblClick", 0) != 0;
 

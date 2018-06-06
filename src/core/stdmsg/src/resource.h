@@ -155,7 +155,6 @@
 #define IDC_POPLIST                     1616
 #define IDC_USETABS                     1620
 #define IDC_CLOSETABS                   1621
-#define IDC_RESTORETABS                 1622
 #define IDC_TABSBOTTOM                  1623
 #define IDM_CUT                         40000
 #define IDM_COPY                        40001

@@ -316,7 +316,7 @@ static void SetContainerWindowStyle(ParentWindowData *dat)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TabCtrlData *dat = (TabCtrlData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 

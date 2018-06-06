@@ -127,9 +127,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Use a tabbed interface",IDC_USETABS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,11,263,13
     CONTROL         "Close tab on double click",IDC_CLOSETABS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,26,246,10
-    CONTROL         "Restore previously open tabs when showing the window",IDC_RESTORETABS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,39,250,10
-    CONTROL         "Show tabs at the bottom",IDC_TABSBOTTOM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,52,233,10
+    CONTROL         "Show tabs at the bottom",IDC_TABSBOTTOM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,39,250,10
 END
 
 IDD_OPT_MSGTYPE DIALOGEX 0, 0, 283, 234
