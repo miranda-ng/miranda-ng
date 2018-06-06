@@ -530,6 +530,7 @@ IDI_FACEBOOK_MESSENGER  ICON                    "Facebook\\facebook_messenger.ic
 IDI_FACEBOOK_OTHER      ICON                    "Facebook\\facebook_other.ico"
 IDI_VK                  ICON                    "VKontakte\\VK.ico"
 IDI_VK_KATE             ICON                    "VKontakte\\kate.ico"
+IDI_VK_MESSENGER        ICON                    "VKontakte\\vkmessenger.ico"
 IDI_SKYPE               ICON                    "others\\Skype.ico"
 IDI_TWITTER             ICON                    "others\\Twitter.ico"
 IDI_HANGOUTS            ICON                    "others\\Google+ Hangouts.ico"
