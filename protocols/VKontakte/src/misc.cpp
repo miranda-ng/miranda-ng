@@ -670,6 +670,9 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 	case 7:
 		MirVer = L"VKontakte (Website)";
 		break;
+	case 5027722:
+		MirVer = L"VK Messenger";
+		break;
 	default:
 		MirVer = L"VKontakte (Other)";
 		bSetFlag = OldMirVer.IsEmpty();
