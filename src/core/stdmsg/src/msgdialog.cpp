@@ -1193,8 +1193,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_FLASHWND) {
-			if (m_nFlash > 2 * g_dat.nFlashMax)
+			if (m_nFlash > 2 * g_dat.nFlashMax) {
 				StopFlash();
+				return 0;
+			}
 		}
 		else if (wParam == TIMERID_TYPE) {
 			ShowTime(false);
