@@ -1069,3 +1069,4 @@ IsTerminalDisconnected @1245
 CallObjectEventHook @1259
 ?db_get_sm@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPEBD0@Z @1260 NONAME
 ?db_get_wsm@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@IPEBD0@Z @1261 NONAME
+?CheckRowCount@CCtrlPages@@AEAAXXZ @1262 NONAME

@@ -101,7 +101,7 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 {
 	int iX, iY;
 	int iSplitterX, iSplitterY;
-	bool bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick, bTabRestore;
+	bool bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick;
 
 	HFONT MessageAreaFont;
 	COLORREF MessageAreaColor;
@@ -180,7 +180,5 @@ extern CTabbedWindow *g_pTabDialog;
 
 void UninitTabs(void);
 CTabbedWindow* GetContainer();
-
-void TB_SaveSession(SESSION_INFO *si);
 
 #pragma comment(lib,"comctl32.lib")

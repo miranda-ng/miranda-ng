@@ -135,7 +135,7 @@ void CCtrlPages::AddPage(const wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 			ShowPage(m_pActivePage);
 		}
 	}
-	else m_pages.insert(info);
+	m_pages.insert(info);
 }
 
 void CCtrlPages::ActivatePage(int iPage)
@@ -158,6 +158,16 @@ void CCtrlPages::ActivatePage(int iPage)
 	TabCtrl_SetCurSel(m_hwnd, iPage);
 	ShowPage(m_pActivePage);
 	::SendMessage(m_pActivePage->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+}
+
+void CCtrlPages::CheckRowCount()
+{
+	int iRowCount = TabCtrl_GetRowCount(m_hwnd);
+	if (m_numRows != iRowCount) {
+		m_numRows = iRowCount;
+		for (auto &p : m_pages)
+			p->m_bScheduledResize = true;
+	}
 }
 
 int CCtrlPages::GetCount()
@@ -226,6 +236,8 @@ void CCtrlPages::InsertPage(TPageInfo *pPage)
 	}
 
 	TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
+
+	CheckRowCount();
 }
 
 void CCtrlPages::RemovePage(int iPage)
@@ -236,6 +248,8 @@ void CCtrlPages::RemovePage(int iPage)
 
 	TabCtrl_DeleteItem(m_hwnd, iPage);
 	delete p;
+
+	CheckRowCount();
 }
 
 void CCtrlPages::ShowPage(CDlgBase *pDlg)

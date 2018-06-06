@@ -527,15 +527,14 @@ public:
 
 class COptionsTabDlg : public CDlgBase
 {
-	CCtrlCheck m_chkTabs, m_chkTabsBottom, m_chkTabsClose, m_chkTabsRestore;
+	CCtrlCheck m_chkTabs, m_chkTabsBottom, m_chkTabsClose;
 
 public:
 	COptionsTabDlg() :
 		CDlgBase(g_hInst, IDD_OPT_TABS),
 		m_chkTabs(this, IDC_USETABS),
 		m_chkTabsBottom(this, IDC_TABSBOTTOM),
-		m_chkTabsClose(this, IDC_CLOSETABS),
-		m_chkTabsRestore(this, IDC_RESTORETABS)
+		m_chkTabsClose(this, IDC_CLOSETABS)
 	{
 		m_chkTabs.OnChange = Callback(this, &COptionsTabDlg::onChange_Tabs);
 	}
@@ -545,7 +544,6 @@ public:
 		m_chkTabs.SetState(g_Settings.bTabsEnable);
 		m_chkTabsBottom.SetState(g_Settings.bTabsAtBottom);
 		m_chkTabsClose.SetState(g_Settings.bTabCloseOnDblClick);
-		m_chkTabsRestore.SetState(g_Settings.bTabRestore);
 		onChange_Tabs(&m_chkTabs);
 	}
 
@@ -556,7 +554,6 @@ public:
 		db_set_b(0, CHAT_MODULE, "Tabs", m_chkTabs.GetState());
 		db_set_b(0, CHAT_MODULE, "TabBottom", m_chkTabsBottom.GetState());
 		db_set_b(0, CHAT_MODULE, "TabCloseOnDblClick", m_chkTabsClose.GetState());
-		db_set_b(0, CHAT_MODULE, "TabRestore", m_chkTabsRestore.GetState());
 
 		pci->ReloadSettings();
 
@@ -573,7 +570,6 @@ public:
 		bool bEnabled = pCheck->GetState() != 0;
 		m_chkTabsBottom.Enable(bEnabled);
 		m_chkTabsClose.Enable(bEnabled);
-		m_chkTabsRestore.Enable(bEnabled);
 	}
 };
 
