@@ -22,17 +22,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+static volatile long g_order = 1;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlPages
 
 struct CCtrlPages::TPageInfo : public MZeroedObject
 {
+	TPageInfo()
+	{
+		m_iOrder = InterlockedIncrement(&g_order);
+	}
+
 	~TPageInfo()
 	{
 		if (m_hIcon)
 			DestroyIcon(m_hIcon);
 	}
 
+	int m_iOrder;
 	ptrW m_ptszHeader;
 	HICON m_hIcon;
 	bool m_bChanged, m_bScheduledResize;
@@ -43,7 +51,7 @@ CCtrlPages::CCtrlPages(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId),
 	m_hIml(nullptr),
 	m_pActivePage(nullptr),
-	m_pages(4)
+	m_pages(4, NumericKeySortT)
 {}
 
 void CCtrlPages::OnInit()
@@ -247,6 +255,7 @@ void CCtrlPages::RemovePage(int iPage)
 		return;
 
 	TabCtrl_DeleteItem(m_hwnd, iPage);
+	m_pages.remove(p);
 	delete p;
 
 	CheckRowCount();
