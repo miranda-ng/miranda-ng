@@ -3,9 +3,9 @@ if "%1" == "" (
    exit 1
 )
 
-git checkout %1
-
 git reset --hard
+
+git checkout %1
 
 git pull --rebase=true --progress -v
 
