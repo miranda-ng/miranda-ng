@@ -1152,7 +1152,8 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_UPDATETITLE:
-		UpdateTitle();
+		if (lParam == 0 || lParam == m_hContact)
+			UpdateTitle();
 		break;
 	
 	case DM_CLOSETAB:
