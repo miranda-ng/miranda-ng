@@ -1067,3 +1067,4 @@ CallObjectEventHook @1259
 ?db_get_wsm@@YG?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@IPBD0@Z @1261 NONAME
 ?CreateLink@CDlgBase@@IAEXAAVCCtrlData@@PBDEK@Z @1262 NONAME
 ?CreateLink@CDlgBase@@IAEXAAVCCtrlData@@PBDPA_W@Z @1263 NONAME
+?CheckRowCount@CCtrlPages@@AAEXXZ @1264 NONAME

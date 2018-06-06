@@ -1319,6 +1319,19 @@ class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
+	HIMAGELIST m_hIml;
+	CDlgBase *m_pActivePage;
+	int m_numRows = 1;
+
+	struct TPageInfo;
+	void InsertPage(TPageInfo *pPage);
+	void ShowPage(CDlgBase *pDlg);
+
+	void CheckRowCount();
+	TPageInfo* GetCurrPage();
+	TPageInfo* GetItemPage(int iPage);
+	LIST<TPageInfo> m_pages;
+
 public:
 	CCtrlPages(CDlgBase *dlg, int ctrlId);
 
@@ -1326,9 +1339,10 @@ public:
 	void ActivatePage(int iPage);
 	int  GetCount(void);
 	int  GetDlgIndex(CDlgBase*);
-	CDlgBase* GetNthPage(int iPage);
 	void RemovePage(int iPage);
 	void SwapPages(int idx1, int idx2);
+
+	CDlgBase* GetNthPage(int iPage);
 
 	__forceinline CDlgBase* GetActivePage() const
 	{	return m_pActivePage;
@@ -1344,19 +1358,6 @@ protected:
 	void OnReset() override;
 
 	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-private:
-	HIMAGELIST m_hIml;
-	CDlgBase *m_pActivePage;
-
-	struct TPageInfo;
-
-	void InsertPage(TPageInfo *pPage);
-	void ShowPage(CDlgBase *pDlg);
-
-	TPageInfo* GetCurrPage();
-	TPageInfo* GetItemPage(int iPage);
-	LIST<TPageInfo> m_pages;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
