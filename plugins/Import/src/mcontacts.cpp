@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <memory>
 #include <vector>
 
-#define HEADER_STR "BHBF"
+#define HEADER_STR "HB"
 
 static int mc_makeDatabase(const wchar_t*)
 {
@@ -39,19 +39,23 @@ static int mc_makeDatabase(const wchar_t*)
 
 struct MC_FileHeader
 {
-	unsigned char signature[4];
-	unsigned char version;
-	unsigned char extraFlags;
-	unsigned short int reserved;
-	unsigned int codepage;
-	unsigned short int dataStart;
+	uint8_t  signature[2];
+	uint32_t version;
+	uint32_t dataSize;
 };
 
 struct MC_MsgHeader
 {
-	DWORD timestamp;
-	WORD eventType;
-	WORD flags;
+	uint32_t cbSize;    // size of the structure in bytes
+	uint32_t szModule;  // pointer to name of the module that 'owns' this
+							  // event, ie the one that is in control of the data format
+	uint32_t timestamp; // seconds since 00:00, 01/01/1970. Gives us times until
+							  // 2106 unless you use the standard C library which is
+							  // signed and can only do until 2038. In GMT.
+	uint32_t flags;	  // the omnipresent flags
+	uint32_t eventType; // module-defined event type field
+	uint32_t cbBlob;    // size of pBlob in bytes
+	uint32_t pBlob;     // pointer to buffer containing module-defined event data
 };
 
 #pragma pack(pop)
@@ -92,14 +96,16 @@ public:
 	{
 		MC_MsgHeader hdr;
 
-		while (true) {
+		for (uint32_t pos = 0; pos < m_hdr.dataSize; pos += sizeof(hdr)) {
 			DWORD dwPos = SetFilePointer(m_hFile, 0, 0, FILE_CURRENT), dwRead;
 			BOOL r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
-			if (!r || dwPos < sizeof(hdr))
+			if (!r || dwRead < sizeof(hdr))
+				return;
+			if (hdr.cbSize < sizeof(hdr))
 				return;
 
-			readString();
 			m_events.push_back(dwPos);
+			SetFilePointer(m_hFile, hdr.cbSize - sizeof(hdr) + hdr.cbBlob, 0, FILE_CURRENT);
 		}
 	}
 
@@ -114,27 +120,62 @@ public:
 		if (!r)
 			return EGROKPRF_CANTREAD;
 
-		return memcmp(&m_hdr.signature, HEADER_STR, 4) ? EGROKPRF_UNKHEADER : EGROKPRF_NOERROR;
+		return memcmp(&m_hdr.signature, HEADER_STR, 2) ? EGROKPRF_UNKHEADER : EGROKPRF_NOERROR;
 	}
 
 	STDMETHODIMP_(BOOL) IsRelational(void) override { return FALSE; }
-	STDMETHODIMP_(void) SetCacheSafetyMode(BOOL) override {};
 
+	// mcontacts format always store history for one contact only
 	STDMETHODIMP_(LONG) GetContactCount(void) override
 	{
 		return 1;
 	}
+
+	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
+	{
+		return (LONG)m_events.size();
+	}
+
+	STDMETHODIMP_(BOOL) GetEvent(MEVENT dwOffset, DBEVENTINFO *dbei) override
+	{
+		if (INVALID_SET_FILE_POINTER == SetFilePointer(m_hFile, dwOffset, 0, FILE_BEGIN))
+			return 0;
+
+		DWORD dwRead;
+		MC_MsgHeader hdr;
+		BOOL r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, nullptr);
+		if (!r || dwRead < sizeof(hdr) || hdr.cbSize < sizeof(hdr))
+			return 0;
+
+		dbei->eventType = hdr.eventType;
+		dbei->cbBlob = hdr.cbBlob;
+		dbei->flags = hdr.flags;
+		dbei->timestamp = hdr.timestamp;
+
+		if (hdr.cbBlob) {
+			dbei->pBlob = (PBYTE)mir_alloc(hdr.cbBlob + 1);
+			if (!ReadFile(m_hFile, dbei->pBlob, hdr.cbBlob, &dwRead, 0) || dwRead != hdr.cbBlob) {
+				mir_free(dbei->pBlob);
+				dbei->pBlob = 0;
+				return 0;
+			}
+
+			dbei->pBlob[hdr.cbBlob] = 0;
+		}
+
+		return 0;
+	}
+
+	STDMETHODIMP_(void) SetCacheSafetyMode(BOOL) override {};
 
 	STDMETHODIMP_(LONG) DeleteContact(MCONTACT) override { return 1; }
 	STDMETHODIMP_(MCONTACT) AddContact(void) override { return 0; }
 	STDMETHODIMP_(BOOL) IsDbContact(MCONTACT contactID) override { return contactID == 1; }
 	STDMETHODIMP_(LONG) GetContactSize(void) override { return sizeof(DBCachedContact); }
 
-	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override { return (LONG)m_events.size(); }
 	STDMETHODIMP_(MEVENT) AddEvent(MCONTACT, DBEVENTINFO*) override { return 0; }
 	STDMETHODIMP_(BOOL) DeleteEvent(MCONTACT, MEVENT) override { return 1; }
 	STDMETHODIMP_(LONG) GetBlobSize(MEVENT) override { return 0; }
-	STDMETHODIMP_(BOOL) GetEvent(MEVENT, DBEVENTINFO*) override { return 0; }
 	STDMETHODIMP_(BOOL) MarkEventRead(MCONTACT, MEVENT) override { return 1; }
 	STDMETHODIMP_(MCONTACT) GetEventContact(MEVENT) override { return 0; }
 	
