@@ -27,7 +27,7 @@
 /*----------------------------------------------------------------------------*/
 /* rthc */
 
-static void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
+void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
   (void)reserved;
   switch (reason) {
   case DLL_PROCESS_ATTACH:
@@ -44,45 +44,6 @@ static void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
     break;
   }
 }
-
-/* *INDENT-OFF* */
-/* clang-format off */
-#if defined(_MSC_VER)
-#  pragma const_seg(push)
-#  pragma data_seg(push)
-
-#  ifdef _WIN64
-     /* kick a linker to create the TLS directory if not already done */
-#    pragma comment(linker, "/INCLUDE:_tls_used")
-     /* Force some symbol references. */
-#    pragma comment(linker, "/INCLUDE:mdbx_tls_callback")
-     /* specific const-segment for WIN64 */
-#    pragma const_seg(".CRT$XLB")
-     const
-#  else
-     /* kick a linker to create the TLS directory if not already done */
-#    pragma comment(linker, "/INCLUDE:__tls_used")
-     /* Force some symbol references. */
-#    pragma comment(linker, "/INCLUDE:_mdbx_tls_callback")
-     /* specific data-segment for WIN32 */
-#    pragma data_seg(".CRT$XLB")
-#  endif
-
-   PIMAGE_TLS_CALLBACK mdbx_tls_callback = tls_callback;
-#  pragma data_seg(pop)
-#  pragma const_seg(pop)
-
-#elif defined(__GNUC__)
-#  ifdef _WIN64
-     const
-#  endif
-   PIMAGE_TLS_CALLBACK mdbx_tls_callback __attribute__((section(".CRT$XLB"), used))
-     = tls_callback;
-#else
-#  error FIXME
-#endif
-/* *INDENT-ON* */
-/* clang-format on */
 
 /*----------------------------------------------------------------------------*/
 
