@@ -1192,13 +1192,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_TIMER:
-		if (wParam == TIMERID_FLASHWND) {
-			if (m_nFlash > 2 * g_dat.nFlashMax) {
-				StopFlash();
-				return 0;
-			}
-		}
-		else if (wParam == TIMERID_TYPE) {
+		if (wParam == TIMERID_TYPE) {
 			ShowTime(false);
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
 				NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
