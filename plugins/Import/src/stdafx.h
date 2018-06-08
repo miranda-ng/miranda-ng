@@ -51,8 +51,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // Global constants
 
-#define IMPORT_MODULE  "MIMImport"        // Module name
-#define IMPORT_SERVICE "MIMImport/Import" // Service for menu item
+#define IMPORT_MODULE  "MIMImport"
+
+#define MS_IMPORT_SERVICE "MIMImport/Import"        // Service for main menu item
+#define MS_IMPORT_CONTACT "MIMImport/ImportContact" // Service for contact menu item
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
@@ -80,6 +82,7 @@ struct WizardDlgParam
 	LPARAM lParam;
 };
 
+INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK MirandaPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
@@ -91,11 +94,12 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 
 int CreateGroup(const wchar_t *name, MCONTACT hContact);
 
-extern HWND hwndWizard, hwndAccMerge;
-extern int nImportOptions;
-extern wchar_t importFile[];
+extern HWND g_hwndWizard, g_hwndAccMerge;
+extern wchar_t importFile[MAX_PATH];
 extern time_t dwSinceDate;
 extern bool g_bServiceMode, g_bSendQuit;
+extern int g_iImportOptions;
+extern MCONTACT g_hImportContact;
 
 HANDLE GetIconHandle(int iIconId);
 void   RegisterIcons(void);

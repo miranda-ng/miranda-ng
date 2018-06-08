@@ -287,7 +287,7 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		hwndAccMerge = hwndDlg;
+		g_hwndAccMerge = hwndDlg;
 		hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 		{
 			LVCOLUMN col = { 0 };
@@ -338,7 +338,7 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		break;
 
 	case WM_DESTROY:
-		hwndAccMerge = nullptr;
+		g_hwndAccMerge = nullptr;
 		break;
 
 	case WM_NOTIFY:
@@ -466,7 +466,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 		if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ACCMERGE), nullptr, AccountsMatcherProc) != IDOK)
 			return false;
 
-	bool bImportSysAll = (nImportOptions & IOPT_SYS_SETTINGS) != 0;
+	bool bImportSysAll = (g_iImportOptions & IOPT_SYS_SETTINGS) != 0;
 
 	LIST<AccountMap> arIndexedMap(arAccountMap.getCount(), CompareAccByIds);
 	for (auto &it : arAccountMap)
@@ -532,6 +532,9 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 
 static MCONTACT MapContact(MCONTACT hSrc)
 {
+	if (g_hImportContact != 0 && hSrc == 1)
+		return g_hImportContact;
+
 	ContactMap *pDestContact = arContactMap.find((ContactMap*)&hSrc);
 	return (pDestContact == nullptr) ? INVALID_CONTACT_ID : pDestContact->dstID;
 }
@@ -945,24 +948,24 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 						bSkipThis = 1;
 						switch (dbei.eventType) {
 						case EVENTTYPE_MESSAGE:
-							if ((bIsSent ? IOPT_MSGSENT : IOPT_MSGRECV) & nImportOptions)
+							if ((bIsSent ? IOPT_MSGSENT : IOPT_MSGRECV) & g_iImportOptions)
 								bSkipThis = false;
 							break;
 						case EVENTTYPE_FILE:
-							if ((bIsSent ? IOPT_FILESENT : IOPT_FILERECV) & nImportOptions)
+							if ((bIsSent ? IOPT_FILESENT : IOPT_FILERECV) & g_iImportOptions)
 								bSkipThis = false;
 							break;
 						case EVENTTYPE_URL:
-							if ((bIsSent ? IOPT_URLSENT : IOPT_URLRECV) & nImportOptions)
+							if ((bIsSent ? IOPT_URLSENT : IOPT_URLRECV) & g_iImportOptions)
 								bSkipThis = false;
 							break;
 						default:
-							if ((bIsSent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & nImportOptions)
+							if ((bIsSent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & g_iImportOptions)
 								bSkipThis = false;
 							break;
 						}
 					}
-					else if (!(nImportOptions & IOPT_SYSTEM))
+					else if (!(g_iImportOptions & IOPT_SYSTEM))
 						bSkipThis = true;
 				}
 
@@ -974,7 +977,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 				continue;
 
 			// check for duplicate entries
-			if ((nImportOptions & IOPT_COMPLETE) != IOPT_COMPLETE && IsDuplicateEvent(hDst, dbei)) {
+			if ((g_iImportOptions & IOPT_COMPLETE) != IOPT_COMPLETE && IsDuplicateEvent(hDst, dbei)) {
 				nDupes++;
 				continue;
 			}
@@ -1064,12 +1067,12 @@ void MirandaImport(HWND hdlg)
 	}
 
 	// copy system settings if needed
-	if (nImportOptions & IOPT_SYS_SETTINGS)
+	if (g_iImportOptions & IOPT_SYS_SETTINGS)
 		srcDb->EnumModuleNames(CopySystemSettings, &arSkippedAccs);
 	arSkippedAccs.destroy();
 
 	// Import Groups
-	if (nImportOptions & IOPT_GROUPS) {
+	if (g_iImportOptions & IOPT_GROUPS) {
 		AddMessage(LPGENW("Importing groups."));
 		nGroupsCount = ImportGroups();
 		if (nGroupsCount == -1)
@@ -1080,7 +1083,7 @@ void MirandaImport(HWND hdlg)
 	// End of Import Groups
 
 	// Import Contacts
-	if (nImportOptions & IOPT_CONTACTS) {
+	if (g_iImportOptions & IOPT_CONTACTS) {
 		AddMessage(LPGENW("Importing contacts."));
 		int i = 1;
 		MCONTACT hContact = srcDb->FindFirstContact();
@@ -1110,7 +1113,7 @@ void MirandaImport(HWND hdlg)
 	// End of Import Contacts
 
 	// Import NULL contact message chain
-	if (nImportOptions & IOPT_SYSTEM) {
+	if (g_iImportOptions & IOPT_SYSTEM) {
 		AddMessage(LPGENW("Importing system history."));
 
 		int protoCount;
@@ -1124,7 +1127,7 @@ void MirandaImport(HWND hdlg)
 	AddMessage(L"");
 
 	// Import other contact messages
-	if (nImportOptions & IOPT_HISTORY) {
+	if (g_iImportOptions & IOPT_HISTORY) {
 		AddMessage(LPGENW("Importing history."));
 		MCONTACT hContact = srcDb->FindFirstContact();
 		for (int i = 1; hContact != NULL; i++) {

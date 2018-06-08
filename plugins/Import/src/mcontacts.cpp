@@ -94,8 +94,10 @@ public:
 
 	void Load()
 	{
-		MC_MsgHeader hdr;
+		// mcontacts operates with the only contact with pseudo id=1
+		m_cache->AddContactToCache(1);
 
+		MC_MsgHeader hdr;
 		for (uint32_t pos = 0; pos < m_hdr.dataSize; pos += sizeof(hdr)) {
 			DWORD dwPos = SetFilePointer(m_hFile, 0, 0, FILE_CURRENT), dwRead;
 			BOOL r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);

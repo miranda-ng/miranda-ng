@@ -97,7 +97,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		Window_SetIcon_IcoLib(hdlg, GetIconHandle(IDI_IMPORT));
-		hwndWizard = hdlg;
+		g_hwndWizard = hdlg;
 		{
 			WizardDlgParam *param = (WizardDlgParam*)lParam;
 			if (param)
@@ -165,7 +165,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_DESTROY:
-		hwndWizard = hwndPage = nullptr;
+		g_hwndWizard = hwndPage = nullptr;
 		if (g_bSendQuit)
 			PostQuitMessage(0);
 	}

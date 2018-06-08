@@ -22,12 +22,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int nImportOptions;
-
-INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+int g_iImportOptions;
+MCONTACT g_hImportContact;
 
 bool g_bServiceMode = false, g_bSendQuit = false;
-HWND hwndWizard, hwndAccMerge;
+HWND g_hwndWizard, g_hwndAccMerge;
+
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -65,13 +65,17 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = GetIconHandle(IDI_IMPORT);
 	mi.name.a = LPGEN("&Import...");
 	mi.position = 500050000;
-	mi.pszService = IMPORT_SERVICE;
+	mi.pszService = MS_IMPORT_SERVICE;
 	Menu_AddMainMenuItem(&mi);
+
+	SET_UID(mi, 0x4D237903, 0x24F1, 0x41AD, 0x82, 0xeb, 0x8f, 0xff, 0xb7, 0x3c, 0x28, 0xcc);
+	mi.pszService = MS_IMPORT_CONTACT;
+	Menu_AddContactMenuItem(&mi);
 
 	if (!db_get_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 0)) {
 		// Only autorun import wizard if at least one protocol is installed
 		if (Accounts().getCount() > 0) {
-			CallService(IMPORT_SERVICE, 0, 0);
+			CallService(MS_IMPORT_SERVICE, 0, 0);
 			db_set_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
 		}
 	}
@@ -80,10 +84,10 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 static int OnExit(WPARAM, LPARAM)
 {
-	if (hwndWizard)
-		SendMessage(hwndWizard, WM_CLOSE, 0, 0);
-	if (hwndAccMerge)
-		SendMessage(hwndAccMerge, WM_CLOSE, 0, 0);
+	if (g_hwndWizard)
+		SendMessage(g_hwndWizard, WM_CLOSE, 0, 0);
+	if (g_hwndAccMerge)
+		SendMessage(g_hwndAccMerge, WM_CLOSE, 0, 0);
 	return 0;
 }
 
@@ -93,7 +97,7 @@ static INT_PTR ServiceMode(WPARAM, LPARAM)
 
 	ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
 	if (!_waccess(wszFullName, 0)) {
-		nImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE;
+		g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE;
 		wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
 
 		WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
@@ -112,7 +116,31 @@ static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 {
 	MImportOptions *opts = (MImportOptions*)wParam;
 	wcsncpy_s(importFile, MAX_PATH, opts->pwszFileName, _TRUNCATE);
-	nImportOptions = opts->dwFlags;
+	g_iImportOptions = opts->dwFlags;
+	g_hImportContact = 0;
+
+	WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
+	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+}
+
+static INT_PTR ImportContact(WPARAM hContact, LPARAM)
+{
+	CMStringW text(FORMAT, L"%s (*.dat,*.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c", TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+	ofn.lpstrFilter = text;
+	ofn.lpstrDefExt = L"dat";
+	ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_DONTADDTORECENT;
+	ofn.lpstrFile = importFile;
+	ofn.nMaxFile = _countof(importFile);
+	if (!GetOpenFileName(&ofn)) {
+		importFile[0] = 0;
+		return 0;
+	}
+
+	g_hImportContact = hContact;
+	g_iImportOptions = IOPT_HISTORY;
 
 	WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
 	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
@@ -120,9 +148,9 @@ static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 
 static INT_PTR ImportCommand(WPARAM, LPARAM)
 {
-	if (IsWindow(hwndWizard)) {
-		SetForegroundWindow(hwndWizard);
-		SetFocus(hwndWizard);
+	if (IsWindow(g_hwndWizard)) {
+		SetForegroundWindow(g_hwndWizard);
+		SetFocus(g_hwndWizard);
 	}
 	else {
 		WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
@@ -134,7 +162,8 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
+	CreateServiceFunction(MS_IMPORT_CONTACT, ImportContact);
+	CreateServiceFunction(MS_IMPORT_SERVICE, ImportCommand);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	CreateServiceFunction(MS_IMPORT_RUN, CustomImport);
 	RegisterIcons();
