@@ -86,9 +86,9 @@ protected:
 	int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
-	virtual void CloseTab() override;
-	virtual void LoadSettings() override;
-	virtual void SetStatusText(const wchar_t*, HICON) override;
+	void CloseTab() override;
+	void LoadSettings() override;
+	void SetStatusText(const wchar_t*, HICON) override;
 
 	bool IsActive() const
 	{
@@ -110,8 +110,8 @@ class CSrmmWindow : public CScriverWindow
 	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnDetails;
 	CSplitter m_splitter;
 
-	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam);
-	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	bool   m_bIncoming, m_bShowTyping;
 	
@@ -162,13 +162,14 @@ public:
 public:
 	CSrmmWindow(MCONTACT hContact, bool bIncoming);
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	void OnInitDialog() override;
+	void OnDestroy() override;
 
-	virtual void UpdateStatusBar() override;
-	virtual void UpdateTitle() override;
+	void ScrollToBottom() override;
+	void UpdateStatusBar() override;
+	void UpdateTitle() override;
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void onClick_Ok(CCtrlButton*);
 	void onClick_Add(CCtrlButton*);
@@ -192,9 +193,9 @@ class CChatRoomDlg : public CScriverWindow
 	void MessageDialogResize(int w, int h);
 	void TabAutoComplete(void);
 
-	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -205,19 +206,19 @@ class CChatRoomDlg : public CScriverWindow
 public:
 	CChatRoomDlg(SESSION_INFO *si);
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	void OnInitDialog() override;
+	void OnDestroy() override;
 
-	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 	
-	virtual void RedrawLog() override;
-	virtual void ScrollToBottom() override;
-	virtual void ShowFilterMenu() override;
-	virtual void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
-	virtual void UpdateNickList() override;
-	virtual void UpdateOptions() override;
-	virtual void UpdateStatusBar() override;
-	virtual void UpdateTitle() override;
+	void RedrawLog() override;
+	void ScrollToBottom() override;
+	void ShowFilterMenu() override;
+	void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
+	void UpdateNickList() override;
+	void UpdateOptions() override;
+	void UpdateStatusBar() override;
+	void UpdateTitle() override;
 
 	void onChange_Message(CCtrlEdit*);
 
@@ -237,7 +238,6 @@ public:
 #define DM_OPTIONSAPPLIED      (WM_USER+14)
 #define DM_APPENDTOLOG         (WM_USER+17)
 #define DM_ERRORDECIDED        (WM_USER+18)
-#define DM_SCROLLLOGTOBOTTOM   (WM_USER+19)
 #define DM_TYPING              (WM_USER+20)
 #define DM_UPDATELASTMESSAGE   (WM_USER+22)
 #define DM_USERNAMETOCLIP      (WM_USER+23)
@@ -282,7 +282,7 @@ class CErrorDlg : public CDlgBase
 	CCtrlButton m_btnOk, m_btnCancel;
 
 protected:
-	virtual void OnInitDialog() override;
+	void OnInitDialog() override;
 
 public:
 	CErrorDlg(const wchar_t *pwszDescr, HWND, MessageSendQueueItem*);

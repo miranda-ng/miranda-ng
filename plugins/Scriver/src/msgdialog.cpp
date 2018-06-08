@@ -660,6 +660,33 @@ void CSrmmWindow::NotifyTyping(int mode)
 	CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
 }
 
+void CSrmmWindow::ScrollToBottom()
+{
+	if (m_hwndIeview != nullptr) {
+		IEVIEWWINDOW ieWindow;
+		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+		ieWindow.iType = IEW_SCROLLBOTTOM;
+		ieWindow.hwnd = m_hwndIeview;
+		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
+		return;
+	}
+
+	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
+		SCROLLINFO si = { sizeof(si) };
+		si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
+		if (GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si)) {
+			if (m_log.GetHwnd() != GetFocus()) {
+				si.fMask = SIF_POS;
+				si.nPos = si.nMax - si.nPage + 1;
+				SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
+
+				PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+			}
+		}
+		RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+	}
+}
+
 void CSrmmWindow::SetDialogToType()
 {
 	BOOL showToolbar = SendMessage(m_hwndParent, CM_GETTOOLBARSTATUS, 0, 0);
@@ -1376,32 +1403,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			StreamInEvents(m_hDbEventFirst, -1, 0);
 
 		InvalidateRect(m_log.GetHwnd(), nullptr, FALSE);
-		break;
-
-	case DM_SCROLLLOGTOBOTTOM:
-		if (m_hwndIeview == nullptr) {
-			if ((GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
-				break;
-
-			SCROLLINFO si = { sizeof(si) };
-			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-			if (GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si)) {
-				if (m_log.GetHwnd() != GetFocus()) {
-					si.fMask = SIF_POS;
-					si.nPos = si.nMax - si.nPage + 1;
-					SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
-					PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-				}
-			}
-			RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
-		}
-		else {
-			IEVIEWWINDOW ieWindow;
-			ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-			ieWindow.iType = IEW_SCROLLBOTTOM;
-			ieWindow.hwnd = m_hwndIeview;
-			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-		}
 		break;
 
 	case HM_DBEVENTADDED:
