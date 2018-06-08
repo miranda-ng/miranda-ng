@@ -104,14 +104,6 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 
-		case IDC_PLUGENABLED:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				BOOL en = IsDlgButtonChecked(m_hwndDialog, IDC_PLUGENABLED) == BST_CHECKED;
-				EnableWindow(GetDlgItem(m_hwndDialog, IDC_SMLBUT), en);
-				SetChanged();
-			}
-			break;
-
 		case IDC_ADDCATEGORY:
 			if (HIWORD(wParam) == BN_CLICKED)
 				AddCategory();
@@ -350,7 +342,6 @@ void OptionsDialogType::InitDialog(void)
 {
 	TranslateDialogDefault(m_hwndDialog);
 
-	CheckDlgButton(m_hwndDialog, IDC_PLUGENABLED, opt.PluginSupportEnabled ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_SPACES, opt.EnforceSpaces ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_SCALETOTEXTHEIGHT, opt.ScaleToTextheight ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_USESTDPACK, opt.UseOneForAll ? BST_UNCHECKED : BST_CHECKED);
@@ -370,7 +361,6 @@ void OptionsDialogType::InitDialog(void)
 	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Show"));
 
 	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_SETCURSEL, opt.ButtonStatus, 0);
-	EnableWindow(GetDlgItem(m_hwndDialog, IDC_SMLBUT), opt.PluginSupportEnabled);
 	EnableWindow(GetDlgItem(m_hwndDialog, IDC_USEPHYSPROTO), !opt.UseOneForAll);
 
 	SendDlgItemMessage(m_hwndDialog, IDC_MAXCUSTSPIN, UDM_SETRANGE32, 0, 99);
@@ -420,7 +410,6 @@ void OptionsDialogType::ApplyChanges(void)
 	ProcessAllInputAreas(true);
 	CloseSmileys();
 
-	opt.PluginSupportEnabled = IsDlgButtonChecked(m_hwndDialog, IDC_PLUGENABLED) == BST_CHECKED;
 	opt.EnforceSpaces = IsDlgButtonChecked(m_hwndDialog, IDC_SPACES) == BST_CHECKED;
 	opt.ScaleToTextheight = IsDlgButtonChecked(m_hwndDialog, IDC_SCALETOTEXTHEIGHT) == BST_CHECKED;
 	opt.UseOneForAll = IsDlgButtonChecked(m_hwndDialog, IDC_USESTDPACK) == BST_UNCHECKED;
@@ -543,7 +532,6 @@ void OptionsDialogType::ShowSmileyPreview(void)
 
 void OptionsType::Save(void)
 {
-	db_set_b(NULL, MODULENAME, "PluginSupportEnabled", PluginSupportEnabled);
 	db_set_b(NULL, MODULENAME, "EnforceSpaces", EnforceSpaces);
 	db_set_b(NULL, MODULENAME, "ScaleToTextheight", ScaleToTextheight);
 	db_set_b(NULL, MODULENAME, "UseOneForAll", UseOneForAll);
@@ -565,7 +553,6 @@ void OptionsType::Save(void)
 
 void OptionsType::Load(void)
 {
-	PluginSupportEnabled = db_get_b(NULL, MODULENAME, "PluginSupportEnabled", TRUE) != 0;
 	EnforceSpaces = db_get_b(NULL, MODULENAME, "EnforceSpaces", FALSE) != 0;
 	ScaleToTextheight = db_get_b(NULL, MODULENAME, "ScaleToTextheight", FALSE) != 0;
 	UseOneForAll = db_get_b(NULL, MODULENAME, "UseOneForAll", TRUE) != 0;

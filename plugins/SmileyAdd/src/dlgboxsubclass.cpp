@@ -50,8 +50,6 @@ struct MsgWndData : public MZeroedObject
 		bbd.pszModuleName = MODULENAME;
 		if (!doSmileyButton)
 			bbd.bbbFlags = BBBF_DISABLED;
-		else if (!opt.PluginSupportEnabled)
-			bbd.bbbFlags = BBBF_HIDDEN;
 		Srmm_SetButtonState(hContact, &bbd);
 	}
 };
@@ -90,31 +88,14 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		dat->CreateSmileyButton();
 
 	LRESULT result = mir_callNextSubclass(hwnd, MessageDlgSubclass, uMsg, wParam, lParam);
-	if (!opt.PluginSupportEnabled)
-		return result;
 
-	switch (uMsg) {
-	case WM_DESTROY:
-		{
-			mir_cslock lck(csWndList);
-			int ind = g_MsgWndList.getIndex((MsgWndData*)&hwnd);
-			if (ind != -1) {
-				delete g_MsgWndList[ind];
-				g_MsgWndList.remove(ind);
-			}
+	if (uMsg == WM_DESTROY) {
+		mir_cslock lck(csWndList);
+		int ind = g_MsgWndList.getIndex((MsgWndData*)&hwnd);
+		if (ind != -1) {
+			delete g_MsgWndList[ind];
+			g_MsgWndList.remove(ind);
 		}
-		break;
-
-	case DM_REMAKELOG:
-		if (dat->doSmileyReplace) {
-			SmileyPackCType *smcp;
-			SmileyPackType *SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
-			if (SmileyPack != nullptr) {
-				static const CHARRANGE sel = { 0, LONG_MAX };
-				ReplaceSmileys(dat->hwndLog, SmileyPack, smcp, sel, false, false, false);
-			}
-		}
-		break;
 	}
 
 	return result;

@@ -1,11 +1,10 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\Others\SVN\MirandaNG\trunk\plugins\SmileyAdd\res\resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by w:\miranda-ng\plugins\SmileyAdd\res\resource.rc
 //
 #define IDI_SMILINGICON                 124
 #define IDD_OPT_SMILEYS                 245
 #define IDC_CATEGORYLIST                1017
-#define IDC_PLUGENABLED                 1019
 #define IDC_INPUTSMILEYS                1020
 #define IDC_DCURSORSMILEY               1021
 #define IDC_LIBNAME                     1023
