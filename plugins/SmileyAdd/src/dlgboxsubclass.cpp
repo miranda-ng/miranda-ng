@@ -50,8 +50,6 @@ struct MsgWndData : public MZeroedObject
 		bbd.pszModuleName = MODULENAME;
 		if (!doSmileyButton)
 			bbd.bbbFlags = BBBF_DISABLED;
-		else if (!opt.PluginSupportEnabled)
-			bbd.bbbFlags = BBBF_HIDDEN;
 		Srmm_SetButtonState(hContact, &bbd);
 	}
 };
@@ -86,59 +84,18 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 	if (dat == nullptr)
 		return 0;
 
-	switch (uMsg) {
-	case DM_OPTIONSAPPLIED:
+	if (uMsg == DM_OPTIONSAPPLIED)
 		dat->CreateSmileyButton();
-		break;
-
-	case DM_APPENDTOLOG:
-		if (opt.PluginSupportEnabled) {
-			// get length of text now before things can get added...
-			GETTEXTLENGTHEX gtl;
-			gtl.codepage = 1200;
-			gtl.flags = GTL_PRECISE | GTL_NUMCHARS;
-			dat->idxLastChar = (int)SendMessage(dat->hwndLog, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-		}
-		break;
-	}
 
 	LRESULT result = mir_callNextSubclass(hwnd, MessageDlgSubclass, uMsg, wParam, lParam);
-	if (!opt.PluginSupportEnabled)
-		return result;
 
-	switch (uMsg) {
-	case WM_DESTROY:
-		{
-			mir_cslock lck(csWndList);
-			int ind = g_MsgWndList.getIndex((MsgWndData*)&hwnd);
-			if (ind != -1) {
-				delete g_MsgWndList[ind];
-				g_MsgWndList.remove(ind);
-			}
+	if (uMsg == WM_DESTROY) {
+		mir_cslock lck(csWndList);
+		int ind = g_MsgWndList.getIndex((MsgWndData*)&hwnd);
+		if (ind != -1) {
+			delete g_MsgWndList[ind];
+			g_MsgWndList.remove(ind);
 		}
-		break;
-
-	case DM_APPENDTOLOG:
-		if (dat->doSmileyReplace) {
-			SmileyPackCType *smcp;
-			SmileyPackType *SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
-			if (SmileyPack != nullptr) {
-				const CHARRANGE sel = { dat->idxLastChar, LONG_MAX };
-				ReplaceSmileys(dat->hwndLog, SmileyPack, smcp, sel, false, false, false);
-			}
-		}
-		break;
-
-	case DM_REMAKELOG:
-		if (dat->doSmileyReplace) {
-			SmileyPackCType *smcp;
-			SmileyPackType *SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
-			if (SmileyPack != nullptr) {
-				static const CHARRANGE sel = { 0, LONG_MAX };
-				ReplaceSmileys(dat->hwndLog, SmileyPack, smcp, sel, false, false, false);
-			}
-		}
-		break;
 	}
 
 	return result;

@@ -197,7 +197,7 @@ static void ActivateChild(ParentWindowData *dat, HWND child)
 		pDlg->UpdateTitle();
 		SendMessage(dat->hwndActive, WM_SIZE, 0, 0);
 		ShowWindow(dat->hwndActive, SW_SHOWNOACTIVATE);
-		SendMessage(dat->hwndActive, DM_SCROLLLOGTOBOTTOM, 0, 0);
+		pDlg->ScrollToBottom();
 		if (prev != nullptr)
 			ShowWindow(prev, SW_HIDE);
 	}

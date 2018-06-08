@@ -369,7 +369,8 @@ void CChatRoomDlg::UpdateTitle()
 		break;
 	}
 
-	SetWindowText(m_pOwner->GetHwnd(), szTemp);
+	if (this == m_pOwner->CurrPage())
+		SetWindowText(m_pOwner->GetHwnd(), szTemp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -436,7 +437,7 @@ void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 	m_log.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
 
 	// do smileys
-	if (SmileyAddInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
+	if (g_dat.bSmileyInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
 		CHARRANGE newsel;
 		newsel.cpMax = -1;
 		newsel.cpMin = sel.cpMin;

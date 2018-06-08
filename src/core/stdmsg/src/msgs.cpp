@@ -53,7 +53,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 		if (wParam == TIMERID_FLASHWND) {
 			m_pOwner->FixTabIcons(this);
-			FlashWindow(m_pOwner->GetHwnd(), TRUE);
+			if (m_nFlash < 2 * g_dat.nFlashMax)
+				FlashWindow(m_pOwner->GetHwnd(), TRUE);
 			m_nFlash++;
 		}
 		break;

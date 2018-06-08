@@ -327,7 +327,7 @@ class COptMainDlg : public CDlgBase
 		CheckHeading(hListHeading3);
 		CheckHeading(hListHeading4);
 		CheckHeading(hListHeading5);
-		if (PopupInstalled)
+		if (g_dat.bPopupInstalled)
 			CheckHeading(hListHeading6);
 	}
 
@@ -355,7 +355,7 @@ public:
 		FillBranch(hListHeading4, branch4, _countof(branch4), 0x0000);
 		FillBranch(hListHeading5, branch5, _countof(branch5), 0x1000);
 		
-		if (PopupInstalled) {
+		if (g_dat.bPopupInstalled) {
 			hListHeading6 = InsertBranch(LPGEN("Popups to display"), db_get_b(0, CHAT_MODULE, "Branch6Exp", 0) ? TRUE : FALSE);
 			FillBranch(hListHeading6, branch6, _countof(branch6), 0x0000);
 		}
@@ -369,7 +369,7 @@ public:
 		SaveBranch(branch3, _countof(branch3));
 		SaveBranch(branch4, _countof(branch4));
 		SaveBranch(branch5, _countof(branch5));
-		if (PopupInstalled)
+		if (g_dat.bPopupInstalled)
 			SaveBranch(branch6, _countof(branch6));
 
 		pci->ReloadSettings();
@@ -389,7 +389,7 @@ public:
 		b = checkBoxes.GetItemState(hListHeading5, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch5Exp", b);
 
-		if (PopupInstalled) {
+		if (g_dat.bPopupInstalled) {
 			b = checkBoxes.GetItemState(hListHeading6, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 			db_set_b(0, CHAT_MODULE, "Branch6Exp", b);
 		}
@@ -676,7 +676,7 @@ int ChatOptionsInitialize(WPARAM wParam)
 	odp.pDialog = new COptLogDlg();
 	Options_AddPage(wParam, &odp);
 
-	if (PopupInstalled) {
+	if (g_dat.bPopupInstalled) {
 		odp.position = 910000002;
 		odp.szTitle.a = LPGEN("Chat");
 		odp.szGroup.a = LPGEN("Popups");

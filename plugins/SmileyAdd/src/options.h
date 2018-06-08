@@ -26,7 +26,6 @@ int SmileysOptionsInitialize(WPARAM wParam, LPARAM lParam);
 class OptionsType
 {
 public:
-	bool PluginSupportEnabled;
 	bool EnforceSpaces;
 	bool ScaleToTextheight;
 	bool UseOneForAll;
@@ -39,7 +38,7 @@ public:
 	bool InputSmileys;
 	bool DCursorSmiley;
 	bool DisableCustom;
-    bool HQScaling;
+	bool HQScaling;
 	bool HorizontalSorting;
 	unsigned ButtonStatus;
 	unsigned SelWndBkgClr;

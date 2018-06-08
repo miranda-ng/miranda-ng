@@ -113,7 +113,6 @@ extern GlobalLogSettings g_Settings;
 extern HMENU g_hMenu;
 
 extern HINSTANCE g_hInst;
-extern BOOL SmileyAddInstalled, PopupInstalled;
 
 // main.cpp
 void LoadIcons(void);
