@@ -109,7 +109,7 @@ void SmileyType::MoveToNextFrame()
 {
 	m_index = m_xepimg->SelectNextFrame(m_index);
 
-	for (auto &it : m_arSmileys)
+	for (auto &it : m_arSmileys.rev_iter())
 		it->Draw();
 
 	SetFrameDelay(); // reset timer
