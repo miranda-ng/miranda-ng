@@ -369,7 +369,8 @@ void CChatRoomDlg::UpdateTitle()
 		break;
 	}
 
-	SetWindowText(m_pOwner->GetHwnd(), szTemp);
+	if (this == m_pOwner->CurrPage())
+		SetWindowText(m_pOwner->GetHwnd(), szTemp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
