@@ -106,7 +106,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 #define DM_REMAKELOG         (WM_USER + 11)
 #define DM_OPTIONSAPPLIED    (WM_USER + 14)
-#define DM_APPENDTOLOG       (WM_USER + 17)
 
 #define WM_REMAKERICH        (WM_USER + 0x3457)
 

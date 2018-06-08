@@ -425,8 +425,20 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 		if (!bottomScroll)
 			m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
 	}
+
+	FINDTEXTEXA fi;
 	if (bAppend) {
 		sel.cpMin = sel.cpMax = -1;
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		fi.chrg.cpMin = 0;
+	}
+	else {
+		GETTEXTLENGTHEX gtxl = { 0 };
+		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
+		gtxl.codepage = 1200;
+		fi.chrg.cpMin = m_log.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+
+		sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 
@@ -442,6 +454,27 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	else {
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
 		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
+	}
+
+	if (g_dat.bSmileyInstalled) {
+		SMADD_RICHEDIT3 smre;
+		smre.cbSize = sizeof(SMADD_RICHEDIT3);
+		smre.hwndRichEditControl = m_log.GetHwnd();
+
+		MCONTACT hContact = db_mc_getSrmmSub(m_hContact);
+		smre.Protocolname = (hContact != 0) ? GetContactProto(hContact) : m_szProto;
+
+		if (fi.chrg.cpMin > 0) {
+			sel.cpMin = fi.chrg.cpMin;
+			sel.cpMax = -1;
+			smre.rangeToReplace = &sel;
+		}
+		else smre.rangeToReplace = nullptr;
+
+		smre.disableRedraw = TRUE;
+		smre.hContact = m_hContact;
+		smre.flags = 0;
+		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
 	}
 
 	m_log.SendMsg(WM_SETREDRAW, TRUE, 0);

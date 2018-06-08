@@ -64,6 +64,8 @@ struct GlobalMessageData
 
 	CMOption<BYTE>  iLoadHistory;
 	CMOption<WORD>  nLoadCount, nLoadTime;
+
+	bool bSmileyInstalled = false, bPopupInstalled = false;
 };
 
 void InitGlobals();

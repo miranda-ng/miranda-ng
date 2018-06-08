@@ -57,8 +57,6 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 
 HMENU g_hMenu = nullptr;
 
-BOOL SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
-
 GlobalLogSettings g_Settings;
 
 static void OnDestroyModule(MODULEINFO *mi)
@@ -220,8 +218,8 @@ static void ShowRoom(SESSION_INFO *si)
 
 int OnCheckPlugins(WPARAM, LPARAM)
 {
-	SmileyAddInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
-	PopupInstalled = ServiceExists(MS_POPUP_ADDPOPUPT);
+	g_dat.bSmileyInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
+	g_dat.bPopupInstalled = ServiceExists(MS_POPUP_ADDPOPUPT);
 	return 0;
 }
 

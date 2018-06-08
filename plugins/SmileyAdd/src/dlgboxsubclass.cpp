@@ -86,21 +86,8 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 	if (dat == nullptr)
 		return 0;
 
-	switch (uMsg) {
-	case DM_OPTIONSAPPLIED:
+	if (uMsg == DM_OPTIONSAPPLIED)
 		dat->CreateSmileyButton();
-		break;
-
-	case DM_APPENDTOLOG:
-		if (opt.PluginSupportEnabled) {
-			// get length of text now before things can get added...
-			GETTEXTLENGTHEX gtl;
-			gtl.codepage = 1200;
-			gtl.flags = GTL_PRECISE | GTL_NUMCHARS;
-			dat->idxLastChar = (int)SendMessage(dat->hwndLog, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-		}
-		break;
-	}
 
 	LRESULT result = mir_callNextSubclass(hwnd, MessageDlgSubclass, uMsg, wParam, lParam);
 	if (!opt.PluginSupportEnabled)
@@ -114,17 +101,6 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			if (ind != -1) {
 				delete g_MsgWndList[ind];
 				g_MsgWndList.remove(ind);
-			}
-		}
-		break;
-
-	case DM_APPENDTOLOG:
-		if (dat->doSmileyReplace) {
-			SmileyPackCType *smcp;
-			SmileyPackType *SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
-			if (SmileyPack != nullptr) {
-				const CHARRANGE sel = { dat->idxLastChar, LONG_MAX };
-				ReplaceSmileys(dat->hwndLog, SmileyPack, smcp, sel, false, false, false);
 			}
 		}
 		break;

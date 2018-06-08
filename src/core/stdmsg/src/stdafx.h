@@ -119,8 +119,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern GlobalLogSettings g_Settings;
 extern HMENU g_hMenu;
 
-extern BOOL SmileyAddInstalled, PopupInstalled;
-
 // main.cpp
 void LoadIcons(void);
 void Unload_ChatModule(void);
