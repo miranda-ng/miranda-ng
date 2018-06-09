@@ -63,12 +63,9 @@ BEGIN
     LTEXT           "Minimum smiley height",IDC_STATIC,198,148,115,8
     GROUPBOX        "Smiley selector",IDC_STATIC,6,160,310,52
     CONTROL         "Animate",IDC_ANIMATESEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,218,200,85,10
-    GROUPBOX        "Input area",IDC_STATIC,6,213,145,36
-    CONTROL         "Enable smileys",IDC_INPUTSMILEYS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,226,130,8
-    CONTROL         "Don't replace at cursor",IDC_DCURSORSMILEY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,237,130,8
-    GROUPBOX        "Built-in message dialog support",IDC_STATIC,155,213,162,36
-    LTEXT           "Smiley button",IDC_STATIC,161,226,72,8
-    COMBOBOX        IDC_SMLBUT,249,226,60,35,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Input area",IDC_STATIC,6,213,310,36
+    CONTROL         "Enable smileys",IDC_INPUTSMILEYS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,226,291,8
+    CONTROL         "Don't replace at cursor",IDC_DCURSORSMILEY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,237,291,8
     CONTROL         "Surround inserted smiley with spaces",IDC_APPENDSPACES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,170,220,11
     CONTROL         "Use first smiley for selection size",IDC_SCALEALLSMILEYS,

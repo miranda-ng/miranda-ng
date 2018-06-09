@@ -27,16 +27,14 @@ struct MsgWndData : public MZeroedObject
 {
 	HWND hwnd, hwndLog, hwndInput;
 	int  idxLastChar;
-	bool doSmileyReplace, doSmileyButton;
+	bool doSmileyReplace;
 	MCONTACT hContact;
 	char ProtocolName[52];
 
 	void CreateSmileyButton(void)
 	{
-		doSmileyButton = opt.ButtonStatus != 0;
-
 		SmileyPackType *SmileyPack = GetSmileyPack(ProtocolName, hContact);
-		doSmileyButton &= SmileyPack != nullptr && SmileyPack->VisibleSmileyCount() != 0;
+		bool doSmileyButton = SmileyPack != nullptr && SmileyPack->VisibleSmileyCount() != 0;
 
 		doSmileyReplace = true;
 

@@ -26,7 +26,6 @@
 #define IDC_NEWCATEGORY                 1058
 #define IDC_ADDCATEGORY                 1059
 #define IDC_DELETECATEGORY              1060
-#define IDC_SMLBUT                      1061
 #define IDC_MAXCUSTSMSZ                 1062
 #define IDC_MAXCUSTSPIN                 1063
 #define IDC_MINSMSZ                     1064

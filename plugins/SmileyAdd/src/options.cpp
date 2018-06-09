@@ -132,10 +132,6 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (HIWORD(wParam) == BN_CLICKED)
 				SetChanged();
 			break;
-		case IDC_SMLBUT:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-				SetChanged();
-			break;
 
 		case IDC_MAXCUSTSMSZ:
 		case IDC_MINSMSZ:
@@ -357,10 +353,6 @@ void OptionsDialogType::InitDialog(void)
 	CheckDlgButton(m_hwndDialog, IDC_HQSCALING, opt.HQScaling ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_SORTING_HORIZONTAL, opt.HorizontalSorting ? BST_CHECKED : BST_UNCHECKED);
 
-	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Hide"));
-	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Show"));
-
-	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_SETCURSEL, opt.ButtonStatus, 0);
 	EnableWindow(GetDlgItem(m_hwndDialog, IDC_USEPHYSPROTO), !opt.UseOneForAll);
 
 	SendDlgItemMessage(m_hwndDialog, IDC_MAXCUSTSPIN, UDM_SETRANGE32, 0, 99);
@@ -425,7 +417,6 @@ void OptionsDialogType::ApplyChanges(void)
 	opt.HQScaling = IsDlgButtonChecked(m_hwndDialog, IDC_HQSCALING) == BST_CHECKED;
 	opt.HorizontalSorting = IsDlgButtonChecked(m_hwndDialog, IDC_SORTING_HORIZONTAL) == BST_CHECKED;
 
-	opt.ButtonStatus = (unsigned)SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_GETCURSEL, 0, 0);
 	opt.MaxCustomSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MAXCUSTSMSZ, nullptr, FALSE);
 	opt.MinSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MINSMSZ, nullptr, FALSE);
 
@@ -545,7 +536,6 @@ void OptionsType::Save(void)
 	db_set_b(NULL, MODULENAME, "DCursorSmiley", DCursorSmiley);
 	db_set_b(NULL, MODULENAME, "DisableCustom", DisableCustom);
 	db_set_b(NULL, MODULENAME, "HQScaling", HQScaling);
-	db_set_b(NULL, MODULENAME, "ButtonStatus", (BYTE)ButtonStatus);
 	db_set_dw(NULL, MODULENAME, "MaxCustomSmileySize", MaxCustomSmileySize);
 	db_set_dw(NULL, MODULENAME, "MinSmileySize", MinSmileySize);
 	db_set_b(NULL, MODULENAME, "HorizontalSorting", HorizontalSorting);
@@ -567,7 +557,6 @@ void OptionsType::Load(void)
 	DisableCustom = db_get_b(NULL, MODULENAME, "DisableCustom", FALSE) != 0;
 	HQScaling = db_get_b(NULL, MODULENAME, "HQScaling", FALSE) != 0;
 
-	ButtonStatus = db_get_b(NULL, MODULENAME, "ButtonStatus", 1);
 	SelWndBkgClr = db_get_dw(NULL, MODULENAME, "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
 	MaxCustomSmileySize = db_get_dw(NULL, MODULENAME, "MaxCustomSmileySize", 0);
 	MinSmileySize = db_get_dw(NULL, MODULENAME, "MinSmileySize", 0);
