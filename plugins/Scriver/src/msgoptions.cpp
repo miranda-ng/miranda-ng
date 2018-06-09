@@ -225,7 +225,7 @@ static const struct CheckBoxValues_t statusValues[] =
 class CMainOptionsDlg : public CBaseOptionDlg
 {
 	CCtrlCheck chkAutoPopup, chkCascade, chkSavePerContact;
-	CCtrlCheck chkSendOnEnter, chkSendOnDblEnter, chkSendOnCtrlEnter;
+	CCtrlCombo cmbSendMode;
 	CCtrlTreeView m_tree;
 
 	void FillCheckBoxTree(const struct CheckBoxValues_t *values, int nValues, DWORD style)
@@ -263,10 +263,8 @@ public:
 		CBaseOptionDlg(IDD_OPT_MSGDLG),
 		m_tree(this, IDC_POPLIST),
 		chkCascade(this, IDC_CASCADE),
+		cmbSendMode(this, IDC_SENDMODE),
 		chkAutoPopup(this, IDC_AUTOPOPUP),
-		chkSendOnEnter(this, IDC_SENDONENTER),
-		chkSendOnDblEnter(this, IDC_SENDONDBLENTER),
-		chkSendOnCtrlEnter(this, IDC_SENDONCTRLENTER),
 		chkSavePerContact(this, IDC_SAVEPERCONTACT)
 	{
 		chkCascade.OnChange = Callback(this, &CMainOptionsDlg::onChange_Cascade);
@@ -292,12 +290,11 @@ public:
 		chkCascade.SetState(db_get_b(0, SRMM_MODULE, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE));
 		chkSavePerContact.SetState(db_get_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT));
 
-		if (db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))
-			CheckDlgButton(m_hwnd, IDC_SENDONENTER, BST_CHECKED);
-		else if (db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER))
-			CheckDlgButton(m_hwnd, IDC_SENDONDBLENTER, BST_CHECKED);
-		else
-			CheckDlgButton(m_hwnd, IDC_SENDONCTRLENTER, BST_CHECKED);
+		cmbSendMode.AddString(L"Enter");
+		cmbSendMode.AddString(LPGENW("Double 'Enter'"));
+		cmbSendMode.AddString(L"Ctrl+Enter");
+		cmbSendMode.AddString(L"Shift+Enter");
+		cmbSendMode.SetCurSel(g_dat.sendMode);
 
 		onChange_AutoPopup(0);
 	}
@@ -313,9 +310,7 @@ public:
 		db_set_b(0, SRMM_MODULE, SRMSGSET_DELTEMP, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DELTEMP));
 		db_set_dw(0, SRMM_MODULE, SRMSGSET_MSGTIMEOUT, (DWORD)SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_GETPOS, 0, 0) * 1000);
 
-		db_set_b(0, SRMM_MODULE, SRMSGSET_SENDONENTER, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SENDONENTER));
-		db_set_b(0, SRMM_MODULE, SRMSGSET_SENDONDBLENTER, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SENDONDBLENTER));
-		db_set_b(0, SRMM_MODULE, SRMSGSET_SENDONCTRLENTER, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SENDONCTRLENTER));
+		db_set_b(0, SRMM_MODULE, SRMSGSET_SENDMODE, cmbSendMode.GetCurSel());
 
 		db_set_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, chkSavePerContact.GetState());
 		db_set_b(0, SRMM_MODULE, SRMSGSET_CASCADE, chkCascade.GetState());

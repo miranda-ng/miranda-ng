@@ -298,6 +298,22 @@ void InitGlobals()
 	memset(&g_dat, 0, sizeof(struct GlobalMessageData));
 	g_dat.hParentWindowList = WindowList_Create();
 
+	if (!db_get_b(0, "Compatibility", "Scriver", 0)) {
+		if (g_plugin.getByte("SendOnEnter"))
+			g_dat.sendMode = SEND_ON_ENTER;
+		else if (g_plugin.getByte("SendOnDblEnter"))
+			g_dat.sendMode = SEND_ON_DBL_ENTER;
+		else if (g_plugin.getByte("SendOnCtrlEnter"))
+			g_dat.sendMode = SEND_ON_CTRL_ENTER;
+
+		g_plugin.setByte(SRMSGSET_SENDMODE, g_dat.sendMode);
+
+		g_plugin.delSetting("SendOnEnter");
+		g_plugin.delSetting("SendOnDblEnter");
+		g_plugin.delSetting("SendOnCtrlEnter");
+		db_set_b(0, "Compatibility", "Scriver", 1);
+	}
+
 	HookEvent(ME_PROTO_ACK, ackevent);
 	ReloadGlobals();
 	g_dat.lastParent = nullptr;
@@ -376,13 +392,10 @@ void ReloadGlobals()
 
 	if (db_get_b(0, SRMM_MODULE, SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP))
 		g_dat.flags |= SMF_DELTEMP;
-	if (db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))
-		g_dat.flags |= SMF_SENDONENTER;
-	if (db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER))
-		g_dat.flags |= SMF_SENDONDBLENTER;
 	if (db_get_b(0, SRMM_MODULE, SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT))
 		g_dat.flags |= SMF_INDENTTEXT;
 
+	g_dat.sendMode = (SendMode)db_get_b(0, SRMM_MODULE, SRMSGSET_SENDMODE, SRMSGDEFSET_SENDMODE);
 	g_dat.openFlags = db_get_dw(0, SRMM_MODULE, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS);
 	g_dat.indentSize = db_get_w(0, SRMM_MODULE, SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE);
 	g_dat.logLineColour = db_get_dw(0, SRMM_MODULE, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);

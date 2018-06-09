@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by w:\miranda-ng\plugins\Scriver\res\resource.rc
 //
 #define VS_VERSION_INFO                 1
 #define IDD_MSGWIN                      100
@@ -106,12 +106,10 @@
 #define IDC_LOADCOUNTSPIN               1040
 #define IDC_SHOWSTATUSBAR               1041
 #define IDC_SHOWTOOLBAR                 1042
-#define IDC_SENDONENTER                 1043
-#define IDC_SENDONDBLENTER              1044
+#define IDC_SENDMODE                    1043
 #define IDC_LOADTIMEN                   1045
 #define IDC_LOADTIMESPIN                1046
 #define IDC_LOADTIME                    1047
-#define IDC_SENDONCTRLENTER             1048
 #define IDC_SHOWTITLEBAR                1050
 #define IDC_STMINSOLD                   1051
 #define IDC_SHOWPROGRESS                1052
@@ -248,9 +246,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        103
+#define _APS_NEXT_RESOURCE_VALUE        104
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1003
+#define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

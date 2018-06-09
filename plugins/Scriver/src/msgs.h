@@ -83,7 +83,8 @@ class CScriverWindow : public CSrmmBaseDialog
 protected:
 	CScriverWindow(int iDialog, SESSION_INFO* = nullptr);
 
-	int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	bool CheckSend();
+	int  InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
 	void CloseTab() override;
@@ -375,12 +376,6 @@ extern int fontOptionsListSize;
 #define SRMSGDEFSET_AUTOMIN			0
 #define SRMSGSET_AUTOCLOSE			"AutoClose"
 #define SRMSGDEFSET_AUTOCLOSE		0
-#define SRMSGSET_SENDONENTER		"SendOnEnter"
-#define SRMSGDEFSET_SENDONENTER		1
-#define SRMSGSET_SENDONDBLENTER		"SendOnDblEnter"
-#define SRMSGDEFSET_SENDONDBLENTER	0
-#define SRMSGSET_SENDONCTRLENTER		"SendOnCtrlEnter"
-#define SRMSGDEFSET_SENDONCTRLENTER	0
 #define SRMSGSET_SENDBUTTON			"UseSendButton"
 #define SRMSGDEFSET_SENDBUTTON		0
 #define SRMSGSET_CHARCOUNT			"ShowCharCount"
@@ -485,4 +480,8 @@ extern int fontOptionsListSize;
 
 #define SRMSGSET_AUTORESIZELINES	"AutoResizeLines"
 #define SRMSGDEFSET_AUTORESIZELINES	2
+
+#define SRMSGSET_SENDMODE "SendMode"
+#define SRMSGDEFSET_SENDMODE 0
+
 #endif

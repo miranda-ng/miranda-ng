@@ -29,8 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SMF_MINIMIZEONSEND			0x00000008
 #define SMF_SAVEDRAFTS				0x00000040
 #define SMF_DELTEMP					0x00000080
-#define SMF_SENDONENTER				0x00000100
-#define SMF_SENDONDBLENTER			0x00000200
 #define SMF_SHOWPROGRESS			0x00000400
 #define SMF_AVATAR					0x00000800
 #define SMF_RTL						0x00004000
@@ -76,6 +74,13 @@ typedef struct ImageListUsageEntry_tag
 	int used;
 } ImageListUsageEntry;
 
+enum SendMode
+{
+	SEND_ON_ENTER,
+	SEND_ON_DBL_ENTER,
+	SEND_ON_CTRL_ENTER,
+	SEND_ON_SHIFT_ENTER
+};
 
 struct GlobalMessageData
 {
@@ -85,6 +90,7 @@ struct GlobalMessageData
 	DWORD      limitNamesLength;
 	int        activeAlpha;
 	int        inactiveAlpha;
+	SendMode   sendMode;
 	int        tabIconListUsageSize;
 	int        smileyAddInstalled;
 	int        popupInstalled;

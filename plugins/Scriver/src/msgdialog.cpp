@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define VALID_AVATAR(x)      (x==PA_FORMAT_PNG||x==PA_FORMAT_JPEG||x==PA_FORMAT_ICON||x==PA_FORMAT_BMP||x==PA_FORMAT_GIF)
 
-#define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
-
 static wchar_t* GetQuotedTextW(wchar_t *text)
 {
 	size_t i, j, l = mir_wstrlen(text);
@@ -1021,26 +1019,11 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	if (result != -1)
 		return result;
 
-	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
-	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
-
 	switch (msg) {
 	case WM_KEYDOWN:
 		if (wParam == VK_RETURN) {
-			if ((isCtrl != 0) ^ (0 != (g_dat.flags & SMF_SENDONENTER))) {
-				PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+			if (CheckSend())
 				return 0;
-			}
-			if (g_dat.flags & SMF_SENDONDBLENTER) {
-				if (m_iLastEnterTime + ENTERCLICKTIME < GetTickCount())
-					m_iLastEnterTime = GetTickCount();
-				else {
-					m_log.SendMsg(WM_KEYDOWN, VK_BACK, 0);
-					m_log.SendMsg(WM_KEYUP, VK_BACK, 0);
-					PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-					return 0;
-				}
-			}
 		}
 		else m_iLastEnterTime = 0;
 		break;
@@ -1059,7 +1042,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SYSCHAR:
 		m_iLastEnterTime = 0;
-		if ((wParam == 's' || wParam == 'S') && isAlt) {
+		if ((wParam == 's' || wParam == 'S') && (GetKeyState(VK_MENU) & 0x8000)) {
 			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
 			return 0;
 		}

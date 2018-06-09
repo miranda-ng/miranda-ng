@@ -665,22 +665,8 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 		if (wParam == VK_RETURN) {
-			replaceStrW(m_wszSearchQuery, nullptr);
-			replaceStrW(m_wszSearchResult, nullptr);
-			if ((isCtrl != 0) ^ (0 != db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
-				PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+			if (CheckSend())
 				return 0;
-			}
-			if (db_get_b(0, SRMM_MODULE, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
-				if (m_iLastEnterTime + 2 < time(0))
-					m_iLastEnterTime = time(0);
-				else {
-					m_message.SendMsg(WM_KEYDOWN, VK_BACK, 0);
-					m_message.SendMsg(WM_KEYUP, VK_BACK, 0);
-					PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-					return 0;
-				}
-			}
 		}
 		else m_iLastEnterTime = 0;
 
