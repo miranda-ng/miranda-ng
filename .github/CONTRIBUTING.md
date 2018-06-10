@@ -4,7 +4,7 @@
 * Search the *issues* for an existing bug report for your problem.
 
 ## Effective bug reporting
-Using the following tips will **greatly** increase the chances of your issue being '''noticed''' and '''fixed''' quickly.
+Using the following tips will **greatly** increase the chances of your issue being ***noticed*** and ***fixed*** quickly.
 
 * Have a well-written bug **Summary** field – describe the issue clearly, in simple words.
 * **Description** field – provide step-by-step instructions so we can reproduce the issue (*We can't fix what we can't reproduce*).
