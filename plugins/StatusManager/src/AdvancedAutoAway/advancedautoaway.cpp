@@ -228,6 +228,8 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			bTrigger |= IsScreenSaverRunning();
 		if (it->optionFlags & FLAG_ONLOCK)
 			bTrigger |= IsWorkstationLocked();
+		if (it->optionFlags & FLAG_ONTS)
+			bTrigger |= IsTerminalDisconnected();
 		if (it->optionFlags & FLAG_FULLSCREEN)
 			bTrigger |= IsFullScreen();
 

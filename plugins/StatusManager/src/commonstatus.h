@@ -88,6 +88,7 @@ bool IsSuitableProto(PROTOACCOUNT *pa);
 #define FLAG_MONITORMIRANDA 0x0040 // db: monitor miranda activity only
 #define FLAG_ONLOCK         0x0080 // db: on work station lock
 #define FLAG_FULLSCREEN     0x0100 // db: on full screen
+#define FLAG_ONTS           0x0200 // db: on terminal session disconnect
 
 typedef enum
 {

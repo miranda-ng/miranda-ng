@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by E:\Projects\C++\miranda-ng\plugins\StatusManager\res\resource.rc
+// Used by w:\miranda-ng\plugins\StatusManager\res\resource.rc
 //
 #define IDD_OPT_KS_BASIC                101
 #define IDD_CONFIRMDIALOG               102
@@ -64,17 +64,18 @@
 #define IDC_SAMESETTINGS                1051
 #define IDC_RESETSTATUS                 1052
 #define IDC_SETSTSMSG                   1053
-#define IDC_DEFAULTCOLORS               1057
-#define IDC_ONLOCK                      1057
-#define IDC_LOGINERR                    1057
-#define IDC_LV2ONINACTIVE               1062
-#define IDC_CNCOTHERLOC                 1062
-#define IDC_PUCONNLOST                  1062
-#define IDC_DLGTIMEOUT                  1063
-#define IDC_AWAYCHECKTIMEINSECS         1063
+#define IDC_DEFAULTCOLORS               1054
+#define IDC_ONLOCK                      1055
+#define IDC_LOGINERR                    1056
+#define IDC_ONTSDISCONNECT              1057
+#define IDC_LV2ONINACTIVE               1058
+#define IDC_CNCOTHERLOC                 1059
+#define IDC_PUCONNLOST                  1060
+#define IDC_DLGTIMEOUT                  1061
+#define IDC_AWAYCHECKTIMEINSECS         1062
 #define IDC_STSMSG                      1063
-#define IDC_PINGHOST                    1063
-#define IDC_CONFIRMDELAY                1064
+#define IDC_PINGHOST                    1064
+#define IDC_CONFIRMDELAY                1065
 #define IDC_PROTOCOLLIST                1066
 #define IDC_LCANCEL                     1068
 #define IDC_RNOTHING                    1069

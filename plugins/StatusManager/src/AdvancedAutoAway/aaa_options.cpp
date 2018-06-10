@@ -49,14 +49,19 @@ static int WriteAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 
 static void SetDialogItems(HWND hwndDlg, SMProto *setting)
 {
-	bool bIsTimed = (setting->optionFlags & FLAG_ONMOUSE) != 0;
 	bool bSetNA = (setting->optionFlags & FLAG_SETNA) != 0;
+
+	bool bIsTimed = (setting->optionFlags & FLAG_ONMOUSE) != 0;
 	bool bSaver = (setting->optionFlags & FLAG_ONSAVER) != 0;
 	bool bFullScr = (setting->optionFlags & FLAG_FULLSCREEN) != 0;
+	bool bOnLock = (setting->optionFlags & FLAG_ONLOCK) != 0;
+	bool bOnTS = (setting->optionFlags & FLAG_ONTS) != 0;
+	bool bAnyOption = bIsTimed | bSaver | bFullScr | bOnLock | bOnTS;
 
 	CheckDlgButton(hwndDlg, IDC_FULLSCREEN, bFullScr ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_SCREENSAVE, bSaver ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_ONLOCK, (setting->optionFlags & FLAG_ONLOCK) != 0 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_ONTSDISCONNECT, bOnTS ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_TIMED, bIsTimed ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_SETNA, bSetNA ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CONFIRM, (setting->optionFlags & FLAG_CONFIRM) != 0 ? BST_CHECKED : BST_UNCHECKED);
@@ -72,14 +77,17 @@ static void SetDialogItems(HWND hwndDlg, SMProto *setting)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_MONITORMIRANDA), bIsTimed);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_AWAYTIME), bIsTimed);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_LV1AFTERSTR), bIsTimed);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_LV1STATUS), bIsTimed || bSaver || bFullScr);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSLIST), bIsTimed || bSaver || bFullScr);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_RESETSTATUS), (bIsTimed || bSaver || bFullScr) && IsDlgButtonChecked(hwndDlg, IDC_LV2ONINACTIVE));
-	EnableWindow(GetDlgItem(hwndDlg, IDC_CONFIRM), (bIsTimed || bSaver || bFullScr) && IsDlgButtonChecked(hwndDlg, IDC_LV2ONINACTIVE) && IsDlgButtonChecked(hwndDlg, IDC_RESETSTATUS));
+
+	EnableWindow(GetDlgItem(hwndDlg, IDC_LV1STATUS), bAnyOption);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSLIST), bAnyOption);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_RESETSTATUS), bAnyOption && IsDlgButtonChecked(hwndDlg, IDC_LV2ONINACTIVE));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_CONFIRM), bAnyOption && IsDlgButtonChecked(hwndDlg, IDC_LV2ONINACTIVE) && IsDlgButtonChecked(hwndDlg, IDC_RESETSTATUS));
+
 	EnableWindow(GetDlgItem(hwndDlg, IDC_NATIME), bSetNA && bIsTimed);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SETNASTR), bSetNA && bIsTimed);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SETNASTR), bSetNA && bIsTimed);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_LV2STATUS), bSetNA && bIsTimed);
+	
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOCOL), !bSettingSame);
 }
 
@@ -245,6 +253,11 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 		case IDC_ONLOCK:
 			setting->optionFlags ^= FLAG_ONLOCK;
+			SetDialogItems(hwndDlg, setting);
+			break;
+
+		case IDC_ONTSDISCONNECT:
+			setting->optionFlags ^= FLAG_ONTS;
 			SetDialogItems(hwndDlg, setting);
 			break;
 
