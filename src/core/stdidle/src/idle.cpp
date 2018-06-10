@@ -28,14 +28,10 @@ Settings S;
 
 static bool bModuleInitialized = false;
 
-struct IdleObject
-{
-	UINT_PTR hTimer;
-	int idleType;
-	int bIsIdle;
-};
+static UINT_PTR g_hTimer;
+static int g_idleType;
+static int g_bIsIdle;
 
-static IdleObject gIdleObject;
 static HANDLE hIdleEvent;
 
 void CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime);
@@ -43,16 +39,17 @@ int IdleOptInit(WPARAM wParam, LPARAM);
 
 void IdleObject_Create()
 {
-	memset(&gIdleObject, 0, sizeof(gIdleObject));
-	gIdleObject.hTimer = SetTimer(nullptr, 0, 2000, IdleTimer);
+	g_idleType = g_bIsIdle = 0;
+	g_hTimer = SetTimer(nullptr, 0, 2000, IdleTimer);
 }
 
 void IdleObject_Destroy()
 {
-	if (gIdleObject.bIsIdle)
+	if (g_bIsIdle) {
 		NotifyEventHooks(hIdleEvent, 0, 0);
-	gIdleObject.bIsIdle = false;
-	KillTimer(nullptr, gIdleObject.hTimer);
+		g_bIsIdle = false;
+	}
+	KillTimer(nullptr, g_hTimer);
 }
 
 static int IdleObject_IsUserIdle()
@@ -70,7 +67,7 @@ static int IdleObject_IsUserIdle()
 	return FALSE;
 }
 
-static void IdleObject_Tick(IdleObject *obj)
+static void IdleObject_Tick()
 {
 	bool idle = false;
 	int idleType = 0, flags = 0;
@@ -94,23 +91,23 @@ static void IdleObject_Tick(IdleObject *obj)
 	if (S.bIdlePrivate)
 		flags |= IDF_PRIVACY;
 
-	if (!obj->bIsIdle && idle) {
-		obj->bIsIdle = true;
-		obj->idleType = idleType;
+	if (!g_bIsIdle && idle) {
+		g_bIsIdle = true;
+		g_idleType = idleType;
 		NotifyEventHooks(hIdleEvent, 0, IDF_ISIDLE | flags);
 	}
 	
-	if (obj->bIsIdle && !idle) {
-		obj->bIsIdle = false;
-		obj->idleType = 0;
+	if (g_bIsIdle && !idle) {
+		g_bIsIdle = false;
+		g_idleType = 0;
 		NotifyEventHooks(hIdleEvent, 0, flags);
 	}
 }
 
 void CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
-	if (gIdleObject.hTimer == idEvent)
-		IdleObject_Tick(&gIdleObject);
+	if (g_hTimer == idEvent)
+		IdleObject_Tick();
 }
 
 static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
@@ -124,7 +121,7 @@ static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
 	mii->aaStatus = (S.bAAEnable) ? S.bAAStatus : 0;
 	mii->aaLock = S.bIdleStatusLock;
 	mii->idlesoundsoff = S.bIdleSoundsOff;
-	mii->idleType = gIdleObject.idleType;
+	mii->idleType = g_idleType;
 	return 0;
 }
 
