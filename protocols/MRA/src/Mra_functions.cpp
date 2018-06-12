@@ -867,6 +867,7 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 		szErrDescription[dwErrDescriptionSize] = 0;
 		mir_snwprintf(szErrorText, L"%s %lu: %s", TranslateW(lpwszErrText), dwErrorCode, szErrDescription);
 	}
+	debugLogA("Error happened: %S", szErrorText);
 	MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, szErrorText);
 }
 

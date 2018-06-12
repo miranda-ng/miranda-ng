@@ -641,10 +641,12 @@ int CMraProto::OnGroupChanged(WPARAM hContact, LPARAM lParam)
 		if (cgc->pszOldName == nullptr)
 			return 0;
 
+		debugLogA("removing group %S", cgc->pszOldName);
 		MraGroupItem *pGrp = nullptr;
 		for (auto &it : m_groups) {
 			if (!mir_wstrcmp(it->m_name, cgc->pszOldName)) {
 				pGrp = it;
+				debugLogA("found a group at the server, idx = %d", it->m_id);
 				break;
 			}
 		}

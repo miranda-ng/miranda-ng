@@ -237,7 +237,10 @@ DWORD CMraProto::MraModifyContact(MCONTACT hContact, DWORD *pdwID, DWORD *pdwCon
 	buf.SetUL(dwID);
 	buf.SetUL(dwContactFlag | CONTACT_FLAG_UNICODE_NAME);
 	buf.SetUL(dwGroupID);
-	buf.SetLPSLowerCase(szEmail);
+	if (hContact)
+		buf.SetLPSLowerCase(szEmail);
+	else
+		buf.SetLPSW(wszCustomName);
 	buf.SetLPSW(wszCustomName);
 	buf.SetLPS(szPhones);
 
