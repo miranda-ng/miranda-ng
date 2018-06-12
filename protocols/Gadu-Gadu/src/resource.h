@@ -102,6 +102,8 @@
 #define IDC_DIRECTPORT_L                470
 #define IDC_FORWARDHOST_L               471
 #define IDC_FORWARDPORT_L               472
+#define IDC_GC_COUNT_TOTAL_SPIN         473
+#define IDC_GC_COUNT_UNKNOWN_SPIN       474
 #define IDC_HEADERBAR                   1001
 #define IDC_SESSIONS                    1002
 #define IDC_SIGNOUTALL                  1003
@@ -122,7 +124,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1000
-#define _APS_NEXT_SYMED_VALUE           473
+#define _APS_NEXT_CONTROL_VALUE         477
+#define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

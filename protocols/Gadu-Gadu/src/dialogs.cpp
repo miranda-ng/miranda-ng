@@ -482,69 +482,6 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////
-// Proc: Conference options dialog
-//
-static INT_PTR CALLBACK gg_confoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	GaduProto *gg = (GaduProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	DWORD num;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		gg = (GaduProto *)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-
-		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_SETCURSEL, gg->getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL), 0);
-
-		if (num = gg->getWord(GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL))
-			SetDlgItemTextA(hwndDlg, IDC_GC_COUNT_TOTAL, ditoa(num));
-
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_SETCURSEL, gg->getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN), 0);
-
-		if (num = gg->getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))
-			SetDlgItemTextA(hwndDlg, IDC_GC_COUNT_UNKNOWN, ditoa(num));
-
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
-		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_SETCURSEL, gg->getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT), 0);
-		break;
-
-	case WM_COMMAND:
-		if ((LOWORD(wParam) == IDC_GC_COUNT_TOTAL || LOWORD(wParam) == IDC_GC_COUNT_UNKNOWN)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			char str[128];
-
-			// Write groupchat policy
-			gg->setWord(GG_KEY_GC_POLICY_TOTAL, (WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_GETCURSEL, 0, 0));
-			gg->setWord(GG_KEY_GC_POLICY_UNKNOWN, (WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_GETCURSEL, 0, 0));
-			gg->setWord(GG_KEY_GC_POLICY_DEFAULT, (WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_GETCURSEL, 0, 0));
-
-			GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_TOTAL, str, _countof(str));
-			gg->setWord(GG_KEY_GC_COUNT_TOTAL, (WORD)atoi(str));
-			GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_UNKNOWN, str, _countof(str));
-			gg->setWord(GG_KEY_GC_COUNT_UNKNOWN, (WORD)atoi(str));
-		}
-		break;
-	}
-	return FALSE;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // Info Page : Data
 struct GGDETAILSDLGDATA
@@ -770,14 +707,15 @@ int GaduProto::options_init(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = gg_genoptsdlgproc;
 	g_plugin.addOptions(wParam, &odp);
 
+	odp.pszTemplate = nullptr;
+
 	odp.szTab.w = LPGENW("Conference");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_CONFERENCE);
-	odp.pfnDlgProc = gg_confoptsdlgproc;
+	odp.position = 1;
+	odp.pDialog = new GaduOptionsDlgConference(this);
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.position = 2;
-	odp.pszTemplate = nullptr;
 	odp.pDialog = new GaduOptionsDlgAdvanced(this);
 	g_plugin.addOptions(wParam, &odp);
 

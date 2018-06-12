@@ -18,6 +18,41 @@
 LANGUAGE LANG_POLISH, SUBLANG_DEFAULT
 #pragma code_page(1250)
 
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Polish (Poland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -104,11 +139,13 @@ BEGIN
     GROUPBOX        "Conference policy",IDC_STATIC,4,2,298,66
     LTEXT           "if total participant count greater than:",IDC_STATIC,85,18,143,8
     COMBOBOX        IDC_GC_POLICY_TOTAL,11,15,70,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_GC_COUNT_TOTAL,234,15,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_GC_COUNT_TOTAL_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,258,15,11,13
     LTEXT           "if unknown participant count greater than:",IDC_STATIC,85,34,143,8
-    EDITTEXT        IDC_GC_COUNT_TOTAL,234,16,35,13,ES_AUTOHSCROLL | ES_NUMBER
     COMBOBOX        IDC_GC_POLICY_UNKNOWN,11,31,70,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_GC_COUNT_UNKNOWN,234,31,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_GC_COUNT_UNKNOWN_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,258,31,11,14
     LTEXT           "in other case",IDC_STATIC,85,50,143,8
-    EDITTEXT        IDC_GC_COUNT_UNKNOWN,234,32,35,13,ES_AUTOHSCROLL | ES_NUMBER
     COMBOBOX        IDC_GC_POLICY_DEFAULT,11,47,70,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
@@ -356,31 +393,6 @@ BEGIN
 END
 
 
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "..\\src\\resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""afxres.h""\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -389,7 +401,35 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_OPT_GG_CONFERENCE, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_GG_ADVANCED, DIALOG
+    BEGIN
+    END
+
+    IDD_REMOVEACCOUNT, DIALOG
+    BEGIN
+    END
+
+    IDD_CHPASS, DIALOG
+    BEGIN
+    END
+
+    IDD_IMAGE_RECV, DIALOG
+    BEGIN
+    END
+
+    IDD_IMAGE_SEND, DIALOG
+    BEGIN
+    END
+
+    IDD_CONFERENCE, DIALOG
+    BEGIN
+    END
+
+    IDD_ACCMGRUI, DIALOG
     BEGIN
     END
 END
@@ -406,7 +446,17 @@ BEGIN
     0
 END
 
-#endif    // Polish (Poland) resources
+IDD_OPT_GG_CONFERENCE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ACCMGRUI AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English resources
 /////////////////////////////////////////////////////////////////////////////
 
 

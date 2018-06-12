@@ -24,6 +24,24 @@ struct GaduOptions
 
 using GaduDlgBase = CProtoDlgBase<GaduProto>;
 
+class GaduOptionsDlgConference : public GaduDlgBase
+{
+private:
+	CCtrlCombo cmbPolicyForAllChatParticipants;
+	CCtrlSpin edtNumberOfAllChatParticipants;
+
+	CCtrlCombo cmbPolicyForUnknownChatParticipants;
+	CCtrlSpin edtNumberOfUnknownChatParticipants;
+
+	CCtrlCombo cmbDefaultChatPolicy;
+
+public:
+	GaduOptionsDlgConference(GaduProto *proto);
+
+	void OnInitDialog() override;
+	void OnApply() override;
+};
+
 class GaduOptionsDlgAdvanced : public GaduDlgBase
 {
 private:
