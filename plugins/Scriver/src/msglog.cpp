@@ -836,7 +836,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
 
 	m_hDbEventLast = streamData.hDbEventLast;
-	ScrollToBottom();
+	PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
 }
 
 #define RTFPICTHEADERMAXSIZE   78

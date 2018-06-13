@@ -1380,6 +1380,10 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 
+	case DM_SCROLLLOGTOBOTTOM:
+		ScrollToBottom();
+		return 0;
+
 	case DM_REMAKELOG:
 		m_lastEventType = -1;
 		if (wParam == 0 || wParam == m_hContact)
