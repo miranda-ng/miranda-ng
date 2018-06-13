@@ -9,7 +9,7 @@ private:
 	void CreateEnvironmentTable();
 
 public:
-	lua_State * L;
+	lua_State *L;
 
 	CMLuaEnvironment(lua_State *L);
 	virtual ~CMLuaEnvironment();

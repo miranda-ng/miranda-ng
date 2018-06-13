@@ -37,6 +37,7 @@
 
 class CMLuaScript;
 
+#include "lua.h"
 #include "plugin.h"
 #include "modules.h"
 #include "environment.h"
@@ -59,6 +60,10 @@ extern HANDLE g_hScriptsFolder;
 #else
 	#define MIRLUA_PATHT MIRANDA_PATH "\\Scripts"
 #endif
+
+#define LUACLIBSCRIPTEXT L"dll"
+#define LUATEXTSCRIPTEXT L"lua"
+#define LUAPRECSCRIPTEXT L"luac"
 
 extern HNETLIBUSER g_hNetlib;
 void LoadNetlib();

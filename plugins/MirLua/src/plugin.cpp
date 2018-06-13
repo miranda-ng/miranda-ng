@@ -17,10 +17,15 @@ PLUGININFOEX pluginInfoEx =
 	{ 0x27d41d81, 0x991f, 0x4dc6,{ 0x87, 0x49, 0xb0, 0x32, 0x1c, 0x87, 0xe6, 0x94 } }
 };
 
+static int ScriptsCompare(const CMLuaScript* p1, const CMLuaScript* p2)
+{
+	return mir_wstrcmpi(p1->GetName(), p2->GetName());
+}
+
 CMPlugin::CMPlugin()
 	: PLUGIN(MODULENAME, pluginInfoEx),
-	L(nullptr),
-	Scripts(1)
+	lua(nullptr),
+	Scripts(1, ScriptsCompare)
 {
 	MUUID muidLast = MIID_LAST;
 	g_hMLuaLangpack = GetPluginLangId(muidLast, 0);
@@ -34,22 +39,15 @@ CMPlugin::CMPlugin()
 
 void CMPlugin::LoadLua()
 {
-	Log("Loading lua engine");
-	L = luaL_newstate();
-	Log("Loading standard modules");
-	luaL_openlibs(L);
-
-	lua_atpanic(L, luaM_atpanic);
-
-	CMLuaFunctionLoader::Load(L);
-	CMLuaModuleLoader::Load(L);
-	CMLuaScriptLoader::Load(L);
+	lua = new CMLua();
+	lua->Load();
+	CMLuaFunctionLoader::Load(lua->L);
+	CMLuaModuleLoader::Load(lua->L);
+	CMLuaScriptLoader::Load(lua->L);
 }
 
 void CMPlugin::UnloadLua()
 {
-	Log("Unloading lua engine");
-
 	Scripts.destroy();
 
 	KillModuleIcons(g_hMLuaLangpack);
@@ -57,10 +55,13 @@ void CMPlugin::UnloadLua()
 	KillModuleMenus(g_hMLuaLangpack);
 	KillModuleHotkeys(g_hMLuaLangpack);
 
-	KillObjectEventHooks(L);
-	KillObjectServices(L);
+	KillObjectEventHooks(lua->L);
+	KillObjectServices(lua->L);
 
-	lua_close(L);
+	if (lua != nullptr) {
+		delete lua;
+		lua = nullptr;
+	}
 }
 
 void CMPlugin::Reload()
@@ -126,17 +127,17 @@ INT_PTR CMPlugin::Call(WPARAM wParam, LPARAM lParam)
 	const wchar_t *module = (const wchar_t*)wParam;
 	const wchar_t *function = (const wchar_t*)lParam;
 
-	lua_pushstring(L, ptrA(mir_utf8encodeW(module)));
-	lua_pushstring(L, ptrA(mir_utf8encodeW(function)));
+	lua_pushstring(lua->L, ptrA(mir_utf8encodeW(module)));
+	lua_pushstring(lua->L, ptrA(mir_utf8encodeW(function)));
 
-	lua_newtable(L);
-	lua_pushcclosure(L, mlua_call, 1);
+	lua_newtable(lua->L);
+	lua_pushcclosure(lua->L, mlua_call, 1);
 
-	CMLuaEnvironment env(L);
+	CMLuaEnvironment env(lua->L);
 	env.Load();
 
-	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
-	lua_pop(L, 1);
+	wchar_t *result = mir_utf8decodeW(lua_tostring(lua->L, -1));
+	lua_pop(lua->L, 1);
 
 	return (INT_PTR)result;
 }
@@ -145,16 +146,16 @@ INT_PTR CMPlugin::Eval(WPARAM, LPARAM lParam)
 {
 	const wchar_t *script = (const wchar_t*)lParam;
 
-	if (luaL_loadstring(L, ptrA(mir_utf8encodeW(script)))) {
-		ReportError(L);
+	if (luaL_loadstring(lua->L, ptrA(mir_utf8encodeW(script)))) {
+		ReportError(lua->L);
 		return NULL;
 	}
 
-	CMLuaEnvironment env(L);
+	CMLuaEnvironment env(lua->L);
 	env.Load();
 
-	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
-	lua_pop(L, 1);
+	wchar_t *result = mir_utf8decodeW(lua_tostring(lua->L, -1));
+	lua_pop(lua->L, 1);
 
 	return (INT_PTR)result;
 }
@@ -163,16 +164,16 @@ INT_PTR CMPlugin::Exec(WPARAM, LPARAM lParam)
 {
 	const wchar_t *path = (const wchar_t*)lParam;
 
-	if (luaL_loadfile(L, ptrA(mir_utf8encodeW(path)))) {
-		ReportError(L);
+	if (luaL_loadfile(lua->L, ptrA(mir_utf8encodeW(path)))) {
+		ReportError(lua->L);
 		return NULL;
 	}
 
-	CMLuaEnvironment env(L);
+	CMLuaEnvironment env(lua->L);
 	env.Load();
 
-	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
-	lua_pop(L, 1);
+	wchar_t *result = mir_utf8decodeW(lua_tostring(lua->L, -1));
+	lua_pop(lua->L, 1);
 
 	return (INT_PTR)result;
 }

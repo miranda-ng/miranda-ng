@@ -5,7 +5,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	friend class CMLuaOptions;
 
 private:
-	lua_State *L;
+	CMLua *lua;
 
 	void LoadLua();
 	void UnloadLua();

@@ -15,15 +15,29 @@ CMLuaOptions::CMLuaOptions()
 	m_reload.OnClick = Callback(this, &CMLuaOptions::OnReload);
 }
 
+static int ScriptStatusToIcon(ScriptStatus status)
+{
+	switch (status)
+	{
+	case ScriptStatus::None:
+		return -1;
+	case ScriptStatus::Loaded:
+		return 0;
+	case ScriptStatus::Failed:
+		return 1;
+	}
+}
+
 void CMLuaOptions::LoadScripts()
 {
-	for (auto &script : g_plugin.Scripts) {
-		wchar_t *fileName = NEWWSTR_ALLOCA(script->GetFileName());
-		int iIcon = script->GetStatus() - 1;
-		int iItem = m_scripts.AddItem(fileName, iIcon, (LPARAM)script);
+	for (auto &script : g_plugin.Scripts.rev_iter()) {
+		int iIcon = ScriptStatusToIcon(script->GetStatus());
+		int iItem = m_scripts.AddItem(script->GetName(), iIcon, (LPARAM)script);
 		m_scripts.SetCheckState(iItem, script->IsEnabled());
 		m_scripts.SetItem(iItem, 1, TranslateT("Open"), 2);
 		m_scripts.SetItem(iItem, 2, TranslateT("Reload"), 3);
+		if (!script->IsBinary())
+			m_scripts.SetItem(iItem, 3, TranslateT("Compile"), 4);
 	}
 }
 
@@ -38,10 +52,11 @@ void CMLuaOptions::OnInitDialog()
 	ImageList_AddIcon(hImageList, GetIcon(IDI_FAILED));
 	ImageList_AddIcon(hImageList, GetIcon(IDI_OPEN));
 	ImageList_AddIcon(hImageList, GetIcon(IDI_RELOAD));
+	ImageList_AddIcon(hImageList, GetIcon(IDI_COMPILE));
 
 	wchar_t scriptDir[MAX_PATH];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
-	
+
 	wchar_t relativeScriptDir[MAX_PATH];
 	PathToRelativeW(scriptDir, relativeScriptDir, nullptr);
 
@@ -51,6 +66,7 @@ void CMLuaOptions::OnInitDialog()
 	m_scripts.AddColumn(0, L"Script", 380);
 	m_scripts.AddColumn(1, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
 	m_scripts.AddColumn(2, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scripts.AddColumn(3, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
 
 	LoadScripts();
 
@@ -112,7 +128,18 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 		script->Reload();
 		lvi.mask = LVIF_IMAGE;
 		lvi.iSubItem = 0;
-		lvi.iImage = script->GetStatus() - 1;
+		lvi.iImage = ScriptStatusToIcon(script->GetStatus());
+		m_scripts.SetItem(&lvi);
+		m_scripts.Update(lvi.iItem);
+		break;
+
+	case 3:
+		if (script->IsBinary())
+			break;
+		script->Compile();
+		lvi.mask = LVIF_IMAGE;
+		lvi.iSubItem = 0;
+		lvi.iImage = ScriptStatusToIcon(script->GetStatus());
 		m_scripts.SetItem(&lvi);
 		m_scripts.Update(lvi.iItem);
 		break;

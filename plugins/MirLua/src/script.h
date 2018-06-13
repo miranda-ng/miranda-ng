@@ -1,21 +1,20 @@
 #pragma once
 
+enum class ScriptStatus
+{
+	None,
+	Loaded,
+	Failed,
+};
+
 class CMLuaScript : public CMLuaEnvironment
 {
-public:
-	enum Status
-	{
-		None,
-		Loaded,
-		Failed
-	};
-
 private:
-	Status status;
-	int unloadRef;
-
-	const wchar_t *fileName;
+	wchar_t *scriptName;
 	wchar_t filePath[MAX_PATH];
+	bool isBinary;
+	ScriptStatus status;
+	int unloadRef;
 
 public:
 	CMLuaScript(lua_State *L, const wchar_t *path);
@@ -23,16 +22,20 @@ public:
 	~CMLuaScript();
 
 	const wchar_t* GetFilePath() const;
-	const wchar_t* GetFileName() const;
+	const wchar_t* GetName() const;
 
-	bool IsEnabled();
+	bool IsBinary() const;
+
+	bool IsEnabled() const;
 	void Enable();
 	void Disable();
 
-	Status GetStatus() const;
+	ScriptStatus GetStatus() const;
 
 	int Load() override;
 	int Unload() override;
 
 	bool Reload();
+
+	bool Compile();
 };

@@ -3,33 +3,38 @@
 #define MT_SCRIPT "SCRIPT"
 
 CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
-	: CMLuaEnvironment(L), status(None), unloadRef(LUA_NOREF)
+	: CMLuaEnvironment(L), isBinary(false),
+	status(ScriptStatus::None), unloadRef(LUA_NOREF)
 {
 	mir_wstrcpy(filePath, path);
 
-	fileName = wcsrchr(filePath, L'\\') + 1;
+	const wchar_t *fileName = wcsrchr(filePath, L'\\') + 1;
 	const wchar_t *dot = wcsrchr(fileName, '.');
 
 	size_t length = mir_wstrlen(fileName) - mir_wstrlen(dot) + 1;
 
-	ptrW name((wchar_t*)mir_calloc(sizeof(wchar_t) * (length + 1)));
-	mir_wstrncpy(name, fileName, length);
+	scriptName = (wchar_t*)mir_calloc(sizeof(wchar_t) * (length + 1));
+	mir_wstrncpy(scriptName, fileName, length);
 
-	m_szModuleName = mir_utf8encodeW(name);
+	m_szModuleName = mir_utf8encodeW(scriptName);
+
+	isBinary = mir_wstrcmpi(dot + 1, LUAPRECSCRIPTEXT) == 0;
 }
 
 CMLuaScript::CMLuaScript(const CMLuaScript &script)
-	: CMLuaEnvironment(script.L), status(None), unloadRef(LUA_NOREF)
+	: CMLuaEnvironment(script.L), isBinary(script.isBinary),
+	status(ScriptStatus::None), unloadRef(LUA_NOREF)
 {
 	mir_wstrcpy(filePath, script.filePath);
-	fileName = mir_wstrdup(script.fileName);
+	scriptName = mir_wstrdup(script.scriptName);
 	m_szModuleName = mir_strdup(script.m_szModuleName);
 }
 
 CMLuaScript::~CMLuaScript()
 {
 	Unload();
-	mir_free((char*)m_szModuleName);
+	mir_free((void*)m_szModuleName);
+	mir_free((void*)scriptName);
 }
 
 const wchar_t* CMLuaScript::GetFilePath() const
@@ -37,34 +42,39 @@ const wchar_t* CMLuaScript::GetFilePath() const
 	return filePath;
 }
 
-const wchar_t* CMLuaScript::GetFileName() const
+const wchar_t* CMLuaScript::GetName() const
 {
-	return fileName;
+	return scriptName;
 }
 
-bool CMLuaScript::IsEnabled()
+bool CMLuaScript::IsBinary() const
 {
-	return db_get_b(NULL, MODULENAME, _T2A(fileName), 1);
+	return isBinary;
+}
+
+bool CMLuaScript::IsEnabled() const
+{
+	return db_get_b(NULL, MODULENAME, _T2A(scriptName), 1);
 }
 
 void CMLuaScript::Enable()
 {
-	db_unset(NULL, MODULENAME, _T2A(fileName));
+	db_unset(NULL, MODULENAME, _T2A(scriptName));
 }
 
 void CMLuaScript::Disable()
 {
-	db_set_b(NULL, MODULENAME, _T2A(fileName), 0);
+	db_set_b(NULL, MODULENAME, _T2A(scriptName), 0);
 }
 
-CMLuaScript::Status CMLuaScript::GetStatus() const
+ScriptStatus CMLuaScript::GetStatus() const
 {
 	return status;
 }
 
 int CMLuaScript::Load()
 {
-	status = Failed;
+	status = ScriptStatus::Failed;
 
 	if (luaL_loadfile(L, _T2A(filePath))) {
 		ReportError(L);
@@ -76,8 +86,7 @@ int CMLuaScript::Load()
 		return false;
 	}
 
-	status = Loaded;
-	Log(L"%s:OK", filePath);
+	status = ScriptStatus::Loaded;
 
 	if (lua_isnoneornil(L, -1))
 		return true;
@@ -116,13 +125,13 @@ int CMLuaScript::Load()
 
 int CMLuaScript::Unload()
 {
-	if (status == Loaded) {
+	if (status == ScriptStatus::Loaded) {
 		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
 		if (lua_isfunction(L, -1))
 			luaM_pcall(L);
 		lua_pushnil(L);
 		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
-		status = None;
+		status = ScriptStatus::None;
 	}
 
 	luaL_getsubtable(L, LUA_REGISTRYINDEX, LUA_LOADED_TABLE);
@@ -136,5 +145,51 @@ bool CMLuaScript::Reload()
 {
 	Log(L"Reloading script %s", filePath);
 	Unload();
+	return Load();
+}
+
+static int luc_Writer(lua_State* /*L*/, const void *p, size_t sz, void *u)
+{
+	return (fwrite(p, sz, 1, (FILE*)u) != 1) && (sz != 0);
+}
+
+bool CMLuaScript::Compile()
+{
+	Unload();
+
+	Log(L"Compiling script %s", filePath);
+
+	wchar_t scriptDir[MAX_PATH];
+	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
+	wchar_t fullPath[MAX_PATH];
+	mir_snwprintf(fullPath, L"%s\\%s.%s", scriptDir, scriptName, LUAPRECSCRIPTEXT);
+	wchar_t path[MAX_PATH];
+	PathToRelativeW(fullPath, path);
+
+	FILE *file = _wfopen(path, L"wb");
+	if (file == nullptr) {
+		Log(L"Failed to save compiled script to %s", file);
+		return false;
+	}
+
+	if (luaL_loadfile(L, _T2A(filePath))) {
+		ReportError(L);
+		fclose(file);
+		return false;
+	}
+
+	int res = lua_dump(L, luc_Writer, file, 1);
+	if (res != 0) {
+		fclose(file);
+		return false;
+	}
+
+	fclose(file);
+
+	ptrW newPath(mir_wstrdup(filePath));
+	newPath[mir_wstrlen(newPath) - 1] = L'_';
+	MoveFile(filePath, newPath);
+	mir_wstrcpy(filePath, path);
+
 	return Load();
 }

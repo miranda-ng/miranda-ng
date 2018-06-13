@@ -9,7 +9,7 @@ private:
 	
 	void SetPaths();
 
-	void LoadScript(const wchar_t *scriptDir, const wchar_t *file);
+	void LoadScript(const wchar_t *scriptDir, const wchar_t *fileName);
 	void LoadScripts();
 
 public:
