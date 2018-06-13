@@ -1423,7 +1423,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 
 				if (!(dbei.flags & DBEF_SENT) && !DbEventIsCustomForMsgWindow(&dbei)) {
-					if (bIsActive) {
+					if (!bIsActive) {
 						m_iShowUnread = 1;
 						SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
 						SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, nullptr);
