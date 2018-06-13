@@ -28,6 +28,7 @@
 #define SETTING_MSGCUSTOM    "Custom"
 #define SETTING_STATUSMSG    "Msg"
 #define SETTING_CONFIRMDELAY "ConfirmTimeout"
+#define SETTING_ENTERIDLE    "EnterIdle"
 
 #define SETTING_AWAYTIME_DEFAULT 5
 #define SETTING_NATIME_DEFAULT  20

@@ -57,6 +57,11 @@ extern LIST<DATABASELINK> arDbPlugins;
 int  InitIni(void);
 void UninitIni(void);
 
+/**** idle.cpp *************************************************************************/
+
+int  LoadIdleModule(void);
+void UnloadIdleModule(void);
+
 /**** miranda.cpp **********************************************************************/
 
 extern DWORD hMainThreadId;

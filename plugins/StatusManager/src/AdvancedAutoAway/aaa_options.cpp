@@ -66,6 +66,7 @@ static void SetDialogItems(HWND hwndDlg, SMProto *setting)
 	CheckDlgButton(hwndDlg, IDC_SETNA, bSetNA ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CONFIRM, (setting->optionFlags & FLAG_CONFIRM) != 0 ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_RESETSTATUS, (setting->optionFlags & FLAG_RESET) != 0 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_ENTERIDLE, (setting->optionFlags & FLAG_ENTERIDLE) != 0 ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_MONITORMIRANDA, (setting->optionFlags & FLAG_MONITORMIRANDA) != 0 ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_LV2ONINACTIVE, (setting->optionFlags & FLAG_LV2ONINACTIVE) != 0 ? BST_CHECKED : BST_UNCHECKED);
 
@@ -296,6 +297,11 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 		case IDC_MONITORMIRANDA:
 			setting->optionFlags ^= FLAG_MONITORMIRANDA;
+			SetDialogItems(hwndDlg, setting);
+			break;
+
+		case IDC_ENTERIDLE:
+			setting->optionFlags ^= FLAG_ENTERIDLE;
 			SetDialogItems(hwndDlg, setting);
 			break;
 		}

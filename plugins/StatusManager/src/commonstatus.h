@@ -89,6 +89,7 @@ bool IsSuitableProto(PROTOACCOUNT *pa);
 #define FLAG_ONLOCK         0x0080 // db: on work station lock
 #define FLAG_FULLSCREEN     0x0100 // db: on full screen
 #define FLAG_ONTS           0x0200 // db: on terminal session disconnect
+#define FLAG_ENTERIDLE      0x0400 // db: enter idle with AA mode
 
 typedef enum
 {

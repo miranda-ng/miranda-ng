@@ -25,6 +25,37 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
+IDD_OPT_IDLE DIALOGEX 0, 0, 312, 193
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Become idle if the following is left unattended:",IDC_IDLESHORT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,18,259,9
+    CONTROL         "Windows",IDC_IDLEONWINDOWS,"Button",BS_AUTORADIOBUTTON,45,31,104,9
+    CONTROL         "Miranda",IDC_IDLEONMIRANDA,"Button",BS_AUTORADIOBUTTON,45,43,103,9
+    EDITTEXT        IDC_IDLE1STTIME,59,59,27,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin2",IDC_IDLESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,86,59,11,14
+    CONTROL         "Become idle if the screen saver is active",IDC_SCREENSAVER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,83,265,9
+    CONTROL         "Become idle if the computer is locked",IDC_LOCKED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,105,265,9
+    CONTROL         "Become idle if a terminal session is disconnected",IDC_IDLETERMINAL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,116,265,10
+    CONTROL         "Do not let protocols report any idle information",IDC_IDLEPRIVATE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,131,251,9
+    LTEXT           "minute(s)",IDC_STATIC,99,61,76,9
+    RTEXT           "for",IDC_STATIC,12,62,41,8
+    COMBOBOX        IDC_AASTATUS,161,146,64,50,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Change my status mode to:",IDC_AASHORTIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,147,132,11
+    CONTROL         "Do not set status back to online when returning from idle",IDC_IDLESTATUSLOCK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,35,164,254,10
+    GROUPBOX        "Idle options",IDC_STATIC,3,1,304,192
+    CONTROL         "Become idle if application full screen",IDC_FULLSCREEN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,94,265,9
+    CONTROL         "Disable sounds on idle",IDC_IDLESOUNDSOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,177,265,9
+END
+
 #endif    // APSTUDIO_INVOKED
 
 /////////////////////////////////////////////////////////////////////////////

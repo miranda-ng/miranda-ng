@@ -47,7 +47,6 @@ Core\StdClist.dll
 Core\StdCrypt.dll
 Core\StdEmail.dll
 Core\StdFile.dll
-Core\StdIdle.dll
 Core\StdMsg.dll
 Core\StdSSL.dll
 Core\StdUIHist.dll

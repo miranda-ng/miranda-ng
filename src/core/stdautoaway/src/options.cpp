@@ -73,41 +73,41 @@ public:
 		chkFullScreen(this, IDC_FULLSCREEN),
 		chkScreenSaver(this, IDC_SCREENSAVER)
 	{
-		CreateLink(chkShort, S.bIdleCheck);
-		CreateLink(chkLocked, S.bIdleOnLock);
-		CreateLink(chkPrivate, S.bIdlePrivate);
-		CreateLink(chkTerminal, S.bIdleOnTerminal);
-		CreateLink(chkShortIdle, S.bAAEnable);
-		CreateLink(chkOnMiranda, S.bIdleMethod);
-		CreateLink(chkSoundsOff, S.bIdleSoundsOff);
-		CreateLink(chkStatusLock, S.bIdleStatusLock);
-		CreateLink(chkFullScreen, S.bIdleOnFullScr);
-		CreateLink(chkScreenSaver, S.bIdleOnSaver);
+		CreateLink(chkShort, g_plugin.bIdleCheck);
+		CreateLink(chkLocked, g_plugin.bIdleOnLock);
+		CreateLink(chkPrivate, g_plugin.bIdlePrivate);
+		CreateLink(chkTerminal, g_plugin.bIdleOnTerminal);
+		CreateLink(chkShortIdle, g_plugin.bAAEnable);
+		CreateLink(chkOnMiranda, g_plugin.bIdleMethod);
+		CreateLink(chkSoundsOff, g_plugin.bIdleSoundsOff);
+		CreateLink(chkStatusLock, g_plugin.bIdleStatusLock);
+		CreateLink(chkFullScreen, g_plugin.bIdleOnFullScr);
+		CreateLink(chkScreenSaver, g_plugin.bIdleOnSaver);
 
 		chkShortIdle.OnChange = chkShort.OnChange = Callback(this, &COptionsDlg::onChange);
 	}
 
 	virtual void OnInitDialog() override
 	{
-		chkOnWindows.SetState(!S.bIdleMethod);
+		chkOnWindows.SetState(!g_plugin.bIdleMethod);
 
 		spinIdle.SetRange(60, 1);
-		spinIdle.SetPosition(S.iIdleTime1st);
+		spinIdle.SetPosition(g_plugin.iIdleTime1st);
 
 		for (auto &it : aa_Status)
 			cmbAAStatus.AddString(Clist_GetStatusModeDescription(it, 0));
-		cmbAAStatus.SetCurSel(IdleGetStatusIndex(S.bAAStatus));
+		cmbAAStatus.SetCurSel(IdleGetStatusIndex(g_plugin.bAAStatus));
 
 		ShowHide();
 	}
 
 	virtual void OnApply() override
 	{
-		S.iIdleTime1st = spinIdle.GetPosition();
+		g_plugin.iIdleTime1st = spinIdle.GetPosition();
 
 		int curSel = cmbAAStatus.GetCurSel();
 		if (curSel != CB_ERR)
-			S.bAAStatus = aa_Status[curSel];
+			g_plugin.bAAStatus = aa_Status[curSel];
 
 		// destroy any current idle and reset settings.
 		IdleObject_Destroy();

@@ -622,3 +622,5 @@ Srmm_ClickStatusIcon @649
 ?LockName@MDatabaseCommon@@IAE_NPB_W@Z @651 NONAME
 ?UnlockName@MDatabaseCommon@@IAEXXZ @652 NONAME
 Profile_CheckOpened @653
+Idle_Enter @654 NONAME
+Idle_GetInfo @655 NONAME

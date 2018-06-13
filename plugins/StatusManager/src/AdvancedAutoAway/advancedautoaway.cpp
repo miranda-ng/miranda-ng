@@ -116,7 +116,7 @@ int LoadAutoAwaySetting(SMProto &autoAwaySetting, char* protoName)
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_OptionFlags", protoName);
-	autoAwaySetting.optionFlags = db_get_w(0, AAAMODULENAME, setting, FLAG_LV2ONINACTIVE | FLAG_RESET);
+	autoAwaySetting.optionFlags = db_get_w(0, AAAMODULENAME, setting, FLAG_LV2ONINACTIVE | FLAG_RESET | FLAG_ENTERIDLE);
 	mir_snprintf(setting, "%s_AwayTime", protoName);
 	autoAwaySetting.awayTime = db_get_w(0, AAAMODULENAME, setting, SETTING_AWAYTIME_DEFAULT);
 	mir_snprintf(setting, "%s_NATime", protoName);
@@ -173,7 +173,7 @@ static char* status2descr(int status)
 	return "ERROR";
 }
 
-static int changeState(SMProto &setting, STATES newState)
+static int changeState(SMProto &setting, int mode, STATES newState)
 {
 	if (setting.curState == newState)
 		return 0;
@@ -198,6 +198,13 @@ static int changeState(SMProto &setting, STATES newState)
 		setting.m_szMsg = nullptr;
 	}
 
+	if (setting.optionFlags & FLAG_ENTERIDLE) {
+		if (newState == ACTIVE) // we're returning back
+			Idle_Enter(-1);
+		else
+			Idle_Enter(mode);
+	}
+
 	return 0;
 }
 
@@ -209,7 +216,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 	for (auto &it : protoList) {
 		it->aaaStatus = ID_STATUS_DISABLED;
 
-		BOOL bTrigger = false;
+		int mode = 0;
 
 		if (it->optionFlags & FLAG_MONITORMIRANDA)
 			mouseStationaryTimer = (GetTickCount() - lastMirandaInput) / 1000;
@@ -225,45 +232,48 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		int currentMode = Proto_GetStatus(it->m_szName);
 
 		if (it->optionFlags & FLAG_ONSAVER)
-			bTrigger |= IsScreenSaverRunning();
-		if (it->optionFlags & FLAG_ONLOCK)
-			bTrigger |= IsWorkstationLocked();
-		if (it->optionFlags & FLAG_ONTS)
-			bTrigger |= IsTerminalDisconnected();
-		if (it->optionFlags & FLAG_FULLSCREEN)
-			bTrigger |= IsFullScreen();
+			mode = 1;
+		else if (it->optionFlags & FLAG_ONLOCK)
+			mode = 2;
+		else if (it->optionFlags & FLAG_ONTS)
+			mode = 3;
+		else if (it->optionFlags & FLAG_FULLSCREEN)
+			mode = 4;
 
 		/* check states */
 		if (it->curState == ACTIVE) {
-			if (((mouseStationaryTimer >= sts1Time && (it->optionFlags & FLAG_ONMOUSE)) || bTrigger) && currentMode != it->lv1Status && it->statusFlags&StatusModeToProtoFlag(currentMode)) {
+			if (((mouseStationaryTimer >= sts1Time && (it->optionFlags & FLAG_ONMOUSE)) || mode) && currentMode != it->lv1Status && it->statusFlags&StatusModeToProtoFlag(currentMode)) {
+				if (it->optionFlags & FLAG_ONMOUSE)
+					mode = 5;
+
 				/* from ACTIVE to STATUS1_SET */
 				it->m_lastStatus = it->originalStatusMode = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv1Status;
 				it->sts1setTimer = GetTickCount();
 				sts1setTime = 0;
 				it->bStatusChanged = statusChanged = true;
-				changeState(*it, STATUS1_SET);
+				changeState(*it, mode, STATUS1_SET);
 			}
 			else if (mouseStationaryTimer >= sts2Time && currentMode == it->lv1Status && currentMode != it->lv2Status && (it->optionFlags & FLAG_SETNA) && (it->statusFlags & StatusModeToProtoFlag(currentMode))) {
 				/* from ACTIVE to STATUS2_SET */
 				it->m_lastStatus = it->originalStatusMode = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
 				it->bStatusChanged = statusChanged = true;
-				changeState(*it, STATUS2_SET);
+				changeState(*it, mode, STATUS2_SET);
 			}
 		}
 
 		if (it->curState == STATUS1_SET) {
-			if ((mouseStationaryTimer < sts1Time && !bTrigger) && !(it->optionFlags & FLAG_RESET)) {
+			if ((mouseStationaryTimer < sts1Time && !mode) && !(it->optionFlags & FLAG_RESET)) {
 				/* from STATUS1_SET to HIDDEN_ACTIVE */
-				changeState(*it, HIDDEN_ACTIVE);
+				changeState(*it, mode, HIDDEN_ACTIVE);
 				it->m_lastStatus = Proto_GetStatus(it->m_szName);
 			}
-			else if (((mouseStationaryTimer < sts1Time) && !bTrigger) &&
-				((it->optionFlags & FLAG_LV2ONINACTIVE) || (!(it->optionFlags&FLAG_SETNA))) &&
+			else if (((mouseStationaryTimer < sts1Time) && !mode) &&
+				((it->optionFlags & FLAG_LV2ONINACTIVE) || (!(it->optionFlags & FLAG_SETNA))) &&
 				(it->optionFlags & FLAG_RESET)) {
 				/* from STATUS1_SET to SET_ORGSTATUS */
-				changeState(*it, SET_ORGSTATUS);
+				changeState(*it, mode, SET_ORGSTATUS);
 			}
 			else if ((it->optionFlags & FLAG_SETNA) && sts1setTime >= sts2Time) {
 				/* when set STATUS2, currentMode doesn't have to be in the selected status list (statusFlags) */
@@ -271,19 +281,19 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				it->m_lastStatus = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
 				it->bStatusChanged = statusChanged = true;
-				changeState(*it, STATUS2_SET);
+				changeState(*it, mode, STATUS2_SET);
 			}
 		}
 
 		if (it->curState == STATUS2_SET) {
-			if (mouseStationaryTimer < sts2Time && !bTrigger && (it->optionFlags & FLAG_RESET)) {
+			if (mouseStationaryTimer < sts2Time && !mode && (it->optionFlags & FLAG_RESET)) {
 				/* from STATUS2_SET to SET_ORGSTATUS */
-				changeState(*it, SET_ORGSTATUS);
+				changeState(*it, mode, SET_ORGSTATUS);
 			}
-			else if (mouseStationaryTimer < sts2Time && !bTrigger && !(it->optionFlags & FLAG_RESET)) {
+			else if (mouseStationaryTimer < sts2Time && !mode && !(it->optionFlags & FLAG_RESET)) {
 				/* from STATUS2_SET to HIDDEN_ACTIVE */
 				/* Remember: after status1 is set, and "only on inactive" is NOT set, it implies !reset. */
-				changeState(*it, HIDDEN_ACTIVE);
+				changeState(*it, mode, HIDDEN_ACTIVE);
 				it->m_lastStatus = Proto_GetStatus(it->m_szName);
 			}
 		}
@@ -292,7 +302,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			if (it->bManualStatus) {
 				/* HIDDEN_ACTIVE to ACTIVE */
 				// it->bStatusChanged = false;
-				changeState(*it, ACTIVE);
+				changeState(*it, mode, ACTIVE);
 				it->sts1setTimer = 0;
 				it->bManualStatus = false;
 			}
@@ -303,7 +313,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				it->m_lastStatus = it->originalStatusMode = Proto_GetStatus(it->m_szName);
 				it->aaaStatus = it->lv2Status;
 				it->bStatusChanged = statusChanged = true;
-				changeState(*it, STATUS2_SET);
+				changeState(*it, mode, STATUS2_SET);
 			}
 		}
 		if (it->curState == SET_ORGSTATUS) {
@@ -312,7 +322,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			it->aaaStatus = it->originalStatusMode;
 			confirm = (it->optionFlags & FLAG_CONFIRM) ? TRUE : confirm;
 			it->bStatusChanged = statusChanged = true;
-			changeState(*it, ACTIVE);
+			changeState(*it, mode, ACTIVE);
 			it->sts1setTimer = 0;
 		}
 		it->bManualStatus = false;

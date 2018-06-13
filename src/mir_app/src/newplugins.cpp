@@ -109,6 +109,7 @@ static const MUUID pluginBannedList[] =
 	{ 0x3750a5a3, 0xbf0d, 0x490e, { 0xb6, 0x5d, 0x41, 0xac, 0x4d, 0x29, 0xae, 0xb3 } },  // aim
 	{ 0x7c070f7c, 0x459e, 0x46b7, { 0x8e, 0x6d, 0xbc, 0x6e, 0xfa, 0xa2, 0x2f, 0x78 } },  // advaimg
 	{ 0xa0138fc6, 0x4c52, 0x4501, { 0xaf, 0x93, 0x7d, 0x3e, 0x20, 0xbc, 0xae, 0x5b } },  // dbchecker
+	{ 0x53ac190b, 0xe223, 0x4341, { 0x82, 0x5f, 0x70, 0x9d, 0x85, 0x20, 0x21, 0x5b } },  // stdidle
 };
 
 static bool isPluginBanned(const MUUID &u1)
@@ -131,10 +132,9 @@ static MuuidReplacement pluginDefault[] =
 	{ MIID_SREMAIL,    L"stdemail",      nullptr }, // 3
 	{ MIID_SRFILE,     L"stdfile",       nullptr }, // 4
 	{ MIID_UIHISTORY,  L"stduihist",     nullptr }, // 5
-	{ MIID_IDLE,       L"stdidle",       nullptr }, // 6
-	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 7
-	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 8
-	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 9
+	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 6
+	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 7
+	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 8
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)

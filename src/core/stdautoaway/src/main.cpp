@@ -41,8 +41,21 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bIdleCheck(IDLENAME, "UserIdleCheck", 0),
+	bIdleMethod(IDLENAME, "IdleMethod", 0),
+	bIdleOnSaver(IDLENAME, "IdleOnSaver", 0),
+	bIdleOnFullScr(IDLENAME, "IdleOnFullScr", 0),
+	bIdleOnLock(IDLENAME, "IdleOnLock", 0),
+	bIdlePrivate(IDLENAME, "IdlePrivate", 0),
+	bIdleSoundsOff(IDLENAME, "IdleSoundsOff", 1),
+	bIdleOnTerminal(IDLENAME, "IdleOnTerminalDisconnect", 0),
+	bIdleStatusLock(IDLENAME, "IdleStatusLock", 0),
+	bAAEnable(IDLENAME, "AAEnable", 0),
+	bAAStatus(IDLENAME, "AAStatus", 0),
+	iIdleTime1st(IDLENAME, "IdleTime1st", 10)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

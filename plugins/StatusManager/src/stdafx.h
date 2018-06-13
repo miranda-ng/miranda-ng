@@ -15,6 +15,7 @@
 #include <m_skin.h>
 #include <m_clistint.h>
 #include <m_utils.h>
+#include <m_idle.h>
 #include <m_icolib.h>
 #include <m_options.h>
 #include <m_protosvc.h>

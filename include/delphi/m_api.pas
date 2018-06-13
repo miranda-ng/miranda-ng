@@ -221,7 +221,6 @@ var
   {$include m_icolib.inc}
   {$include m_iconheader.inc}
   {$include m_icq.inc}
-  {$include m_idle.inc}
   {$include m_ignore.inc}
   {$include m_imgsrvc.inc}
   {$include m_json.inc}

@@ -45,6 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_netlib.h>
+#include <m_clist.h>
 #include <m_crypto.h>
 #include <m_langpack.h>
 #include <m_button.h>
@@ -60,16 +61,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_idle.h>
 #include <m_icolib.h>
 #include <m_timezones.h>
+#include <m_gui.h>
 
 #include "version.h"
 
 #include "../../mir_app/src/resource.h"
 
 #define MODULENAME "AutoAway"
+#define IDLENAME   "Idle"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
 	int Load() override;
+
+	CMOption<BYTE> bIdleCheck, bIdleMethod, bIdleOnSaver, bIdleOnFullScr, bIdleOnLock;
+	CMOption<BYTE> bIdlePrivate, bIdleSoundsOff, bIdleOnTerminal, bIdleStatusLock;
+	CMOption<BYTE> bAAEnable;
+	CMOption<WORD> bAAStatus;
+	CMOption<DWORD> iIdleTime1st;
 };
+
+void IdleObject_Destroy();
+void IdleObject_Create();
