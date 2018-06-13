@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.1
+;  Version: 1.2.0.2
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -55,8 +55,10 @@
 Профиль
 [Message]
 Сообщение
-[Account]
-Учётная запись
+[Account:]
+Учётная запись:
+[Away mode]
+Отсутствие
 [Set]
 Выбрать
 [when full-screen mode is active]
@@ -65,10 +67,14 @@
 при запуске заставки
 [when workstation is locked]
 при блокировке компьютера
+[when terminal session is disconnected]
+при завершении удалённой сессии
 [after]
 через
 [minutes of inactivity]
 минут неактивности
+[After away]
+Дальнейшее отсутствие
 [minutes of level 1 mode]
 минут режима 1
 [only set when inactive]
@@ -79,6 +85,8 @@
 Восстановить статус при возвращении
 [Confirm resetting status]
 Подтвердить сброс статуса
+[Enter idle mode]
+Входить в режим ожидания
 [Only set if current status is]
 Только если статус:
 [Command line]
@@ -219,6 +227,8 @@ Cтатус-профиль
 Откл. проверку
 [Set status message]
 Установить сообщение статуса
+[Account]
+Учётная запись
 [Status]
 Статус
 [Add...]

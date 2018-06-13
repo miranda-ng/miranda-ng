@@ -1,8 +1,32 @@
-﻿;============================================================
+;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+[Become idle if the following is left unattended:]
+Перейти в режим ожидания, если неактивны:
+[Become idle if the screen saver is active]
+Режим ожидания, если включена заставка
+[Become idle if the computer is locked]
+Режим ожидания, если компьютер заблокирован
+[Become idle if a terminal session is disconnected]
+Режим ожидания, если удалённая сессия завершена
+[Do not let protocols report any idle information]
+Не позволять протоколам сообщать информацию об ожидании
+[minute(s)]
+минут(ы)
+[for]
+в течение
+[Change my status mode to:]
+Сменить статус на:
+[Do not set status back to online when returning from idle]
+Не восстанавливать статус при возвращении из режима ожидания
+[Idle options]
+Режим ожидания
+[Become idle if application full screen]
+Режим ожидания, если приложение запущено в полноэкранном режиме
+[Disable sounds on idle]
+Отключить звуки при переходе в режим ожидания
 [%s message for %s]
 %s сообщение для %s
 [&Cancel]
@@ -373,30 +397,6 @@
 Дописать " (1)" и т.д.
 [You will always be asked about files from people not on your contact list]
 Запрос всегда будет показан, если человек не в списке контактов
-[Become idle if the following is left unattended:]
-Перейти в режим ожидания, если неактивны:
-[Become idle if the screen saver is active]
-Режим ожидания, если включена заставка
-[Become idle if the computer is locked]
-Режим ожидания, если компьютер заблокирован
-[Become idle if a terminal session is disconnected]
-Режим ожидания, если удалённая сессия завершена
-[Do not let protocols report any idle information]
-Не позволять протоколам сообщать информацию об ожидании
-[minute(s)]
-минут(ы)
-[for]
-в течение
-[Change my status mode to:]
-Сменить статус на:
-[Do not set status back to online when returning from idle]
-Не восстанавливать статус при возвращении из режима ожидания
-[Idle options]
-Режим ожидания
-[Become idle if application full screen]
-Режим ожидания, если приложение запущено в полноэкранном режиме
-[Disable sounds on idle]
-Отключить звуки при переходе в режим ожидания
 [Automatically popup window when:]
 Открывать окно, если:
 [In background]
@@ -469,8 +469,6 @@
 Использовать вкладки
 [Close tab on double click]
 Закрывать по двойному щелчку
-[Restore previously open tabs when showing the window]
-Восстанавливать открытые вкладки при показе окна
 [Show tabs at the bottom]
 Вкладки внизу
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1185,6 +1183,10 @@ UIN, E-mail и т.д.
 Google Карты
 [Google Translate]
 Переводчик Google
+[Status]
+Статус
+[Idle]
+Ожидание
 [Re&ad %s message]
 &Прочитать сообщение "%s"
 [Re&ad status message]
@@ -1211,8 +1213,6 @@ Google Карты
 Ммм... поесть бы.
 [idleeeeeeee]
 ожидание...
-[Status]
-Статус
 [Standard contacts]
 Стандартные контакты
 [Online contacts to whom you have a different visibility]
@@ -1361,8 +1361,6 @@ Google Карты
 Передача и проверка на вирусы завершены
 [Outgoing]
 Исходящие
-[Idle]
-Ожидание
 [Message sessions]
 Беседы
 [Chat module]

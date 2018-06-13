@@ -1,2 +1,5 @@
 [Lorem ipsum dolor sit amet,]
 [consectetur adipisicing elit]
+[Enter]
+[Ctrl+Enter]
+[Shift+Enter]
