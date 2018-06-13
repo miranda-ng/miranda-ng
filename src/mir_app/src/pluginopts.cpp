@@ -115,7 +115,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	it.mask = LVIF_PARAM | LVIF_IMAGE;
 	it.iImage = (hInst != nullptr) ? 2 : 3;
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
-	if (bNoCheckbox || hasMuuid(pIds, MIID_CLIST))
+	if (bNoCheckbox || hasMuuid(pIds, MIID_CLIST) || hasMuuid(pIds, MIID_SSL))
 		it.iImage += 2;
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
