@@ -619,3 +619,6 @@ UnregisterPlugin @633
 ?Unload@CMPluginBase@@UAEHXZ @648 NONAME
 Srmm_ClickStatusIcon @649
 ?getModule@CMPluginBase@@QBEPBDXZ @650 NONAME
+?LockName@MDatabaseCommon@@IAE_NPB_W@Z @651 NONAME
+?UnlockName@MDatabaseCommon@@IAEXXZ @652 NONAME
+Profile_CheckOpened @653

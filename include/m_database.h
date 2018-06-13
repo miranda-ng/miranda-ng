@@ -458,8 +458,10 @@ EXTERN_C MIR_APP_DLL(int) Profile_GetPathW(size_t cbLen, wchar_t *pwszDest);
 
 // Sets the default profile name programmatically
 // Analog of Database/DefaultProfile in mirandaboot.ini
-
 EXTERN_C MIR_APP_DLL(void) Profile_SetDefault(const wchar_t *pwszPath);
+
+// Checks if a profile is opened
+EXTERN_C MIR_APP_DLL(bool) Profile_CheckOpened(const wchar_t *pwszProfileName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact services

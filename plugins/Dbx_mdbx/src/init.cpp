@@ -67,7 +67,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_DATABA
 static int makeDatabase(const TCHAR *profile)
 {
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, 0));
-	return (db->Map() == MDBX_SUCCESS) ? 0 : EGROKPRF_CANTREAD;
+	return db->Map();
 }
 
 // returns 0 if the given profile has a valid header

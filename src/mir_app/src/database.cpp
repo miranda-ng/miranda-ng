@@ -431,38 +431,21 @@ static int tryCreateDatabase(const wchar_t *ptszProfile)
 	return -1; // no suitable driver found
 }
 
-typedef struct
-{
-	wchar_t *profile;
-	UINT msg;
-	ATOM aPath;
-	int found;
-} ENUMMIRANDAWINDOW;
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 {
 	wchar_t classname[256];
-	ENUMMIRANDAWINDOW *x = (ENUMMIRANDAWINDOW *)lParam;
-	DWORD_PTR res = 0;
 	if (GetClassName(hwnd, classname, _countof(classname)) && mir_wstrcmp(L"Miranda", classname) == 0) {
-		if (SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res) {
-			x->found++;
+		DWORD_PTR res = 0;
+		if (SendMessageTimeout(hwnd, uMsgProcessProfile, lParam, 0, SMTO_ABORTIFHUNG, 100, &res) && res)
 			return FALSE;
-		}
 	}
+
 	return TRUE;
 }
 
-int findMirandaForProfile(wchar_t *szProfile)
-{
-	ENUMMIRANDAWINDOW x = {};
-	x.profile = szProfile;
-	x.msg = RegisterWindowMessage(L"Miranda::ProcessProfile");
-	x.aPath = GlobalAddAtom(szProfile);
-	EnumWindows(EnumMirandaWindows, (LPARAM)&x);
-	GlobalDeleteAtom(x.aPath);
-	return x.found;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static wchar_t tszNoDrivers[] = LPGENW("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll");
 static wchar_t tszUnknownFormat[] = LPGENW("Miranda was unable to open '%s', it's in an unknown format.");
@@ -484,15 +467,18 @@ int LoadDatabaseModule(void)
 	ptszFileName = (ptszFileName) ? ptszFileName + 1 : szProfile;
 
 	if (arDbPlugins.getCount() == 0) {
-		MessageBox(nullptr,
-			CMStringW(FORMAT, TranslateW(tszNoDrivers), ptszFileName),
-			TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, CMStringW(FORMAT, TranslateW(tszNoDrivers), ptszFileName), TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
 	// if this profile is already opened in another miranda, silently return
-	if (findMirandaForProfile(szProfile))
+	if (Profile_CheckOpened(szProfile)) {
+		uMsgProcessProfile = RegisterWindowMessage(L"Miranda::ProcessProfile");
+		ATOM aPath = GlobalAddAtom(szProfile);
+		EnumWindows(EnumMirandaWindows, (LPARAM)aPath);
+		GlobalDeleteAtom(aPath);
 		return 1;
+	}
 
 	// find a driver to support the given profile
 	bool retry;

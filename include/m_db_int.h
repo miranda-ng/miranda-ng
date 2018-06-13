@@ -133,6 +133,7 @@ interface MIR_APP_EXPORT MIDatabase
 
 class MIR_APP_EXPORT MDatabaseCommon : public MIDatabase
 {
+	HANDLE m_hLock;
 
 protected:
 	int m_codePage;
@@ -142,7 +143,9 @@ protected:
 	MIDatabaseCache* m_cache;
 
 protected:
-	int CheckProto(DBCachedContact *cc, const char *proto);
+	bool LockName(const wchar_t *pwszProfileName);
+	int  CheckProto(DBCachedContact *cc, const char *proto);
+	void UnlockName();
 
 	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) PURE;
 

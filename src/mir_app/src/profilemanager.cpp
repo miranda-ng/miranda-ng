@@ -270,7 +270,7 @@ class CChooseProfileDlg : public CDlgBase
 				mir_snwprintf(sizeBuf, L"%.3lf", (double)statbuf.st_size / 1024.0);
 				mir_wstrcpy(sizeBuf + 5, L" KB");
 			}
-			bFileLocked = findMirandaForProfile(tszFullPath) != 0;
+			bFileLocked = Profile_CheckOpened(tszFullPath);
 		}
 		else bFileLocked = true;
 

@@ -35,7 +35,6 @@ struct PROFILEMANAGERDATA
 	DATABASELINK *dblink; // out
 };
 
-int findMirandaForProfile(wchar_t *szProfile);
 char* makeFileName(const wchar_t *tszOriginalName);
 int touchDatabase(const wchar_t *tszProfile, DATABASELINK **pDblink);
 int getProfileManager(PROFILEMANAGERDATA *pd);
@@ -46,3 +45,4 @@ bool shouldAutoCreate(wchar_t *szProfile);
 
 extern wchar_t g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
 extern bool  g_bDbCreated;
+extern UINT uMsgProcessProfile;

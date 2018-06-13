@@ -150,7 +150,7 @@ int CDbxMDBX::Load()
 }
 
 size_t iDefHeaderOffset = 0;
-BYTE bDefHeader[] = { 0 };
+BYTE bDefHeader[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0 };
 
 int CDbxMDBX::Check(void)
 {
@@ -215,6 +215,9 @@ STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 
 int CDbxMDBX::Map()
 {
+	if (!LockName(m_tszProfileName))
+		return EGROKPRF_CANTREAD;
+
 	#ifdef _WIN64
 		__int64 upperLimit = 0x400000000ul;
 	#else
@@ -229,13 +232,16 @@ int CDbxMDBX::Map()
 		512ul << 10,   // 512K shrink threshold
 		         -1);  // default page size
 	if (rc != MDBX_SUCCESS)
-		return rc;
+		return EGROKPRF_CANTREAD;
 
 	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC | MDBX_COALESCE;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
 
-	return mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664);
+	if (mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664) != MDBX_SUCCESS)
+		return EGROKPRF_CANTREAD;
+
+	return EGROKPRF_NOERROR;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -71,3 +71,19 @@ MIR_APP_DLL(void) Profile_SetDefault(const wchar_t *pwszPath)
 	extern wchar_t* g_defaultProfile;
 	replaceStrW(g_defaultProfile, pwszPath);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(bool) Profile_CheckOpened(const wchar_t *pwszProfileName)
+{
+	CMStringW wszPhysName(pwszProfileName);
+	wszPhysName.Replace(L"\\", L"_");
+	wszPhysName.Insert(0, L"Global\\");
+
+	HANDLE hMutex = ::OpenMutexW(SYNCHRONIZE, false, wszPhysName);
+	if (hMutex == nullptr)
+		return false;
+
+	::CloseHandle(hMutex);
+	return true;
+}

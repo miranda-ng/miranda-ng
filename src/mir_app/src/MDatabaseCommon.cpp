@@ -38,6 +38,7 @@ MDatabaseCommon::MDatabaseCommon() :
 
 MDatabaseCommon::~MDatabaseCommon()
 {
+	UnlockName();
 	delete (MDatabaseCache*)m_cache;
 }
 
@@ -58,6 +59,39 @@ int MDatabaseCommon::CheckProto(DBCachedContact *cc, const char *proto)
 	}
 
 	return !mir_strcmp(cc->szProto, proto);
+}
+
+bool MDatabaseCommon::LockName(const wchar_t *pwszProfileName)
+{
+	if (m_hLock != nullptr)
+		return true;
+
+	if (pwszProfileName == nullptr)
+		return false;
+
+	CMStringW wszPhysName(pwszProfileName);
+	wszPhysName.Replace(L"\\", L"_");
+	wszPhysName.Insert(0, L"Global\\");
+
+	HANDLE hMutex = ::CreateMutexW(nullptr, false, wszPhysName);
+	if (hMutex == nullptr)
+		return false;
+
+	if (GetLastError() == ERROR_ALREADY_EXISTS) {
+		::CloseHandle(hMutex);
+		return false;
+	}
+
+	m_hLock = hMutex;
+	return true;
+}
+
+void MDatabaseCommon::UnlockName()
+{
+	if (m_hLock) {
+		CloseHandle(m_hLock);
+		m_hLock = nullptr;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
