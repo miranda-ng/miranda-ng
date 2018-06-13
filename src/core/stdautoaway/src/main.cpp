@@ -65,6 +65,13 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AUTOAW
 
 int CMPlugin::Load()
 {
+	LoadIdleModule();
 	LoadAutoAwayModule();
+	return 0;
+}
+
+int CMPlugin::Unload()
+{
+	UnloadIdleModule();
 	return 0;
 }

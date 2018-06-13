@@ -73,12 +73,11 @@ void IdleObject_Destroy()
 	KillTimer(nullptr, g_hTimer);
 }
 
-int LoadIdleModule(void)
+void LoadIdleModule(void)
 {
 	IdleObject_Create();
 
 	HookEvent(ME_OPT_INITIALISE, IdleOptInit);
-	return 0;
 }
 
 void UnloadIdleModule()

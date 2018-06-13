@@ -75,6 +75,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMPlugin();
 
 	int Load() override;
+	int Unload() override;
 
 	CMOption<BYTE> bIdleCheck, bIdleMethod, bIdleOnSaver, bIdleOnFullScr, bIdleOnLock;
 	CMOption<BYTE> bIdlePrivate, bIdleSoundsOff, bIdleOnTerminal, bIdleStatusLock;
@@ -85,3 +86,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 void IdleObject_Destroy();
 void IdleObject_Create();
+
+void LoadIdleModule();
+void UnloadIdleModule();
