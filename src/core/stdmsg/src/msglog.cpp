@@ -449,7 +449,6 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	if (bottomScroll) {
 		sel.cpMin = sel.cpMax = -1;
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-		ScrollToBottom();
 	}
 	else {
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
@@ -478,8 +477,10 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	}
 
 	m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
-	if (bottomScroll)
+	if (bottomScroll) {
+		ScrollToBottom();
 		RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+	}
 
 	m_hDbEventLast = streamData.hDbEventLast;
 }
