@@ -23,6 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// constructor & destructor
+
 CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
@@ -35,11 +38,6 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 		m_hwndTimer = CreateWindowExW(0, L"STATIC", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 		::SetWindowLongPtr(m_hwndTimer, GWLP_USERDATA, (LONG_PTR)this);
 	}
-
-	mdbx_env_create(&m_env);
-	mdbx_env_set_maxdbs(m_env, 10);
-	mdbx_env_set_maxreaders(m_env, 244);
-	mdbx_env_set_userctx(m_env, this);
 }
 
 CDbxMDBX::~CDbxMDBX()
@@ -70,6 +68,8 @@ CDbxMDBX::~CDbxMDBX()
 
 	mir_free(m_tszProfileName);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int CDbxMDBX::Load()
 {
@@ -149,6 +149,8 @@ int CDbxMDBX::Load()
 	return EGROKPRF_NOERROR;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 size_t iDefHeaderOffset = 0;
 BYTE bDefHeader[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0 };
 
@@ -167,6 +169,8 @@ int CDbxMDBX::Check(void)
 
 	return (memcmp(buf, bDefHeader, _countof(bDefHeader))) ? EGROKPRF_UNKHEADER : 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL CDbxMDBX::Compact()
 {
@@ -188,11 +192,6 @@ BOOL CDbxMDBX::Compact()
 		DeleteFileW(m_tszProfileName);
 		MoveFileW(wszTmpFile, m_tszProfileName);
 
-		mdbx_env_create(&m_env);
-		mdbx_env_set_maxdbs(m_env, 10);
-		mdbx_env_set_maxreaders(m_env, 244);
-		mdbx_env_set_userctx(m_env, this);
-
 		Map();
 		Load();
 	}
@@ -201,11 +200,15 @@ BOOL CDbxMDBX::Compact()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CDbxMDBX::PrepareCheck()
 {
 	InitModules();
 	return InitCrypt();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 {
@@ -213,10 +216,17 @@ STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 	DBFlush(true);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CDbxMDBX::Map()
 {
 	if (!LockName(m_tszProfileName))
 		return EGROKPRF_CANTREAD;
+
+	mdbx_env_create(&m_env);
+	mdbx_env_set_maxdbs(m_env, 10);
+	mdbx_env_set_maxreaders(m_env, 244);
+	mdbx_env_set_userctx(m_env, this);
 
 	#ifdef _WIN64
 		__int64 upperLimit = 0x400000000ul;
