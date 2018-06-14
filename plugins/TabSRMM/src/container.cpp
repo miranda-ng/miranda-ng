@@ -1322,6 +1322,14 @@ panel_found:
 
 		if (LOWORD(wParam) != WA_ACTIVE) {
 			pContainer->MenuBar->Cancel();
+
+			int curItem = TabCtrl_GetCurSel(hwndTab);
+			if (curItem >= 0) {
+				TCITEM item;
+				tci.mask = TCIF_PARAM;
+				TabCtrl_GetItem(hwndTab, curItem, &item);
+				SendMessage((HWND)item.lParam, WM_ACTIVATE, WA_INACTIVE, 0);
+			}
 			break;
 		}
 
