@@ -125,23 +125,27 @@ void CCtrlBase::SetInt(int value)
 
 wchar_t* CCtrlBase::GetText()
 {
-	int length = GetWindowTextLength(m_hwnd) + 1;
-	wchar_t *result = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
-	GetWindowText(m_hwnd, result, length);
+	int length = GetWindowTextLengthW(m_hwnd);
+	wchar_t *result = (wchar_t *)mir_alloc((length+1) * sizeof(wchar_t));
+	if (length)
+		GetWindowTextW(m_hwnd, result, length+1);
+	result[length] = 0;
 	return result;
 }
 
 char* CCtrlBase::GetTextA()
 {
-	int length = GetWindowTextLength(m_hwnd) + 1;
-	char *result = (char *)mir_alloc(length * sizeof(char));
-	GetWindowTextA(m_hwnd, result, length);
+	int length = GetWindowTextLengthA(m_hwnd);
+	char *result = (char *)mir_alloc((length+1) * sizeof(char));
+	if (length)
+		GetWindowTextA(m_hwnd, result, length+1);
+	result[length] = 0;
 	return result;
 }
 
 wchar_t* CCtrlBase::GetText(wchar_t *buf, int size)
 {
-	GetWindowText(m_hwnd, buf, size);
+	GetWindowTextW(m_hwnd, buf, size);
 	buf[size - 1] = 0;
 	return buf;
 }
@@ -155,9 +159,9 @@ char* CCtrlBase::GetTextA(char *buf, int size)
 
 int CCtrlBase::GetInt()
 {
-	int length = GetWindowTextLength(m_hwnd) + 1;
+	int length = GetWindowTextLengthW(m_hwnd) + 1;
 	wchar_t *result = (wchar_t *)_alloca(length * sizeof(wchar_t));
-	GetWindowText(m_hwnd, result, length);
+	GetWindowTextW(m_hwnd, result, length);
 	return _wtoi(result);
 }
 
