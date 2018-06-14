@@ -1932,13 +1932,12 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_ACTIVATE:
+	case WM_MOUSEACTIVATE:
 		if (LOWORD(wParam) != WA_ACTIVE) {
 			m_pContainer->hwndSaved = nullptr;
 			break;
 		}
-		__fallthrough;
 
-	case WM_MOUSEACTIVATE:
 		UpdateWindowState(WM_ACTIVATE);
 		return 1;
 

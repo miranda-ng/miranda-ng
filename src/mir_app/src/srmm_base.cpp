@@ -680,6 +680,13 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_ACTIVATE:
+		if (m_si && LOWORD(wParam) == WA_INACTIVE) {
+			m_si->wState &= ~GC_EVENT_HIGHLIGHT;
+			m_si->wState &= ~STATE_TALK;
+		}
+		break;
+
 	case WM_CBD_RECREATE:
 		Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 		break;

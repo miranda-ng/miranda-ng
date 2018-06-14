@@ -1101,15 +1101,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_ACTIVATE:
-		if (LOWORD(wParam) == WA_INACTIVE) {
-			if (g_Settings.bTabsEnable) {
-				m_si->wState &= ~GC_EVENT_HIGHLIGHT;
-				m_si->wState &= ~STATE_TALK;
-			}
-		}
-		break;
-
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case EN_MSGFILTER:
