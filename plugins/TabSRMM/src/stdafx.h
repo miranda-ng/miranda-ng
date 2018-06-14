@@ -233,6 +233,7 @@ extern pfnDoTrayIcon oldDoTrayIcon;
 int  LoadSendRecvMessageModule(void);
 int  SplitmsgShutdown(void);
 int  Chat_Load(), Chat_Unload();
+void Chat_Options(WPARAM);
 void FreeLogFonts();
 
 INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam);
@@ -252,9 +253,6 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM wParam, LPARAM lPar
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int TSAPI TBStateConvert2Flat(int state);

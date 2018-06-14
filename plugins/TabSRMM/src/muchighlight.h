@@ -40,12 +40,6 @@ public:
 
 	CMUCHighlight()
 	{
-		m_fInitialized = false;
-		m_TextPatternString = m_NickPatternString = nullptr;
-		m_NickPatterns = m_TextPatterns = nullptr;
-		m_iNickPatterns = m_iTextPatterns = 0;
-		m_dwFlags = 0;
-		m_Valid = true;
 		init();
 	}
 
@@ -58,21 +52,19 @@ public:
 	void cleanup();
 	bool match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwFlags = MATCH_NICKNAME);
 
-	static INT_PTR CALLBACK dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);		   // option page dlg proc
-
 private:
-	void    tokenize(wchar_t *tszString, wchar_t**& patterns, UINT& nr);
+	void tokenize(wchar_t *tszString, wchar_t** &patterns, UINT &nr);
 
-	DWORD   m_dwFlags;
-	bool    m_fInitialized;
-	wchar_t** m_NickPatterns;
-	wchar_t** m_TextPatterns;
-	UINT    m_iNickPatterns;
-	UINT    m_iTextPatterns;
-	wchar_t  *m_NickPatternString;
-	wchar_t  *m_TextPatternString;
-	bool    m_Valid;
-	bool    m_fHighlightMe;
+	DWORD     m_dwFlags = 0;
+	bool      m_fInitialized = false;
+	wchar_t **m_NickPatterns = nullptr;
+	wchar_t **m_TextPatterns = nullptr;
+	UINT      m_iNickPatterns = 0;
+	UINT      m_iTextPatterns = 0;
+	wchar_t  *m_NickPatternString = nullptr;
+	wchar_t  *m_TextPatternString = nullptr;
+	bool      m_Valid = true;
+	bool      m_fHighlightMe;
 };
 
 struct THighLightEdit

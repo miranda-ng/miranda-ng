@@ -588,7 +588,7 @@ public:
 	virtual void OnInitDialog() override
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0, FALSE);
-		
+
 		chkAvaPreserve.SetState(M.GetByte("dontscaleavatars", 0));
 
 		spnAvaSize.SetRange(150);
@@ -713,7 +713,7 @@ public:
 
 		spnLoadCount.SetRange(100);
 		spnLoadCount.SetPosition(db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
-		
+
 		spnLoadTime.SetRange(24 * 60);
 		spnLoadTime.SetPosition(db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
@@ -1043,7 +1043,7 @@ public:
 		spnLimit.SetRange(20, 5);
 		spnLimit.SetPosition(db_get_w(0, SRMSGMOD_T, "cut_at", 15));
 		onChange_Cut(&chkLimit);
-		
+
 		cmbEscMode.AddString(TranslateT("Normal - close tab, if last tab is closed also close the window"));
 		cmbEscMode.AddString(TranslateT("Minimize the window to the task bar"));
 		cmbEscMode.AddString(TranslateT("Close or hide window, depends on the close button setting above"));
@@ -1057,7 +1057,7 @@ public:
 		db_set_b(0, SRMSGMOD_T, "escmode", cmbEscMode.GetCurSel());
 
 		TreeViewToDB(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, SRMSGMOD_T, nullptr);
-		
+
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
 	}
@@ -1139,7 +1139,7 @@ public:
 		spnTabLimit.SetRange(1000, 1);
 		spnTabLimit.SetPosition(M.GetDword("maxtabs", 1));
 		onChangeLimits(nullptr);
-		
+
 		chkSingle.SetState(M.GetByte("singlewinmode", 0));
 		chkDefault.SetState(!(chkGroup.GetState() || chkLimits.GetState() || chkSingle.GetState()));
 
@@ -1156,7 +1156,7 @@ public:
 			cmbAeroEffect.InsertString(TranslateW(CSkin::m_aeroEffects[i].tszName), -1);
 		cmbAeroEffect.SetCurSel(CSkin::m_aeroEffect);
 		cmbAeroEffect.Enable(PluginConfig.m_bIsVista);
-		
+
 		chkUseAero.Enable(PluginConfig.m_bIsVista);
 		chkUseAeroPeek.Enable(PluginConfig.m_bIsWin7);
 		if (PluginConfig.m_bIsVista)
@@ -1175,7 +1175,7 @@ public:
 		db_set_b(0, SRMSGMOD_T, "nrflash", spnNumFlash.GetPosition());
 		db_set_b(0, SRMSGMOD_T, "useAero", chkUseAero.GetState());
 		db_set_b(0, SRMSGMOD_T, "useAeroPeek", chkUseAeroPeek.GetState());
-		
+
 		CSkin::setAeroEffect(cmbAeroEffect.GetCurSel());
 		if (M.getAeroState() != fOldAeroState) {
 			SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOMPOSITIONCHANGED, 0, 0);	// simulate aero state change
@@ -1288,7 +1288,6 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 
 	OPTIONSDIALOGPAGE odpnew = {};
 	odpnew.position = 910000000;
-	odpnew.hInstance = g_plugin.getInst();
 	odpnew.flags = ODPF_BOLDGROUPS;
 	odpnew.szTitle.a = LPGEN("Message sessions");
 
@@ -1343,27 +1342,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	g_plugin.addOptions(wParam, &odp);
 
 	// group chats
-	odp.szGroup.a = LPGEN("Message sessions");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
-	odp.szTitle.a = LPGEN("Group chats");
-	odp.szTab.a = LPGEN("Settings");
-	odp.pfnDlgProc = DlgProcOptions1;
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
-	odp.szTab.a = LPGEN("Log formatting");
-	odp.pfnDlgProc = DlgProcOptions2;
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS3);
-	odp.szTab.a = LPGEN("Events and filters");
-	odp.pfnDlgProc = DlgProcOptions3;
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS4);
-	odp.szTab.a = LPGEN("Highlighting");
-	odp.pfnDlgProc = CMUCHighlight::dlgProc;
-	g_plugin.addOptions(wParam, &odp);
+	Chat_Options(wParam);
 	return 0;
 }
 

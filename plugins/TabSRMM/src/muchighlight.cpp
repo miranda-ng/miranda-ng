@@ -28,8 +28,6 @@
 
 #include "stdafx.h"
 
-void Chat_ApplyOptions();
-
 void CMUCHighlight::cleanup()
 {
 	mir_free(m_NickPatternString);
@@ -176,106 +174,4 @@ skip_textpatterns:
 	}
 
 	return result || nResult;
-}
-
-/**
- * Dialog procedure to handle global highlight settings
- *
- * @param Standard Windows dialog procedure parameters
- */
-INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			DBVARIANT dbv = { 0 };
-			if (!db_get_ws(0, CHAT_MODULE, "HighlightWords", &dbv)) {
-				::SetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, dbv.ptszVal);
-				::db_free(&dbv);
-			}
-
-			if (!db_get_ws(0, CHAT_MODULE, "HighlightNames", &dbv)) {
-				::SetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, dbv.ptszVal);
-				::db_free(&dbv);
-			}
-
-			DWORD dwFlags = M.GetByte(CHAT_MODULE, "HighlightEnabled", MATCH_TEXT);
-
-			::CheckDlgButton(hwndDlg, IDC_HIGHLIGHTNICKENABLE, dwFlags & MATCH_NICKNAME ? BST_CHECKED : BST_UNCHECKED);
-			::CheckDlgButton(hwndDlg, IDC_HIGHLIGHTNICKUID, dwFlags & MATCH_UIN ? BST_CHECKED : BST_UNCHECKED);
-			::CheckDlgButton(hwndDlg, IDC_HIGHLIGHTTEXTENABLE, dwFlags & MATCH_TEXT ? BST_CHECKED : BST_UNCHECKED);
-			::CheckDlgButton(hwndDlg, IDC_HIGHLIGHTME, M.GetByte(CHAT_MODULE, "HighlightMe", 1) ? BST_CHECKED : BST_UNCHECKED);
-
-			::SendMessage(hwndDlg, WM_USER + 100, 0, 0);
-		}
-		return TRUE;
-
-	case WM_USER + 100:
-		Utils::enableDlgControl(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN,
-			::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTTEXTENABLE) ? TRUE : FALSE);
-
-		Utils::enableDlgControl(hwndDlg, IDC_HIGHLIGHTNICKPATTERN,
-			::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKENABLE) ? TRUE : FALSE);
-
-		Utils::enableDlgControl(hwndDlg, IDC_HIGHLIGHTNICKUID,
-			::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKENABLE) ? TRUE : FALSE);
-
-		Utils::enableDlgControl(hwndDlg, IDC_HIGHLIGHTME,
-			::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTTEXTENABLE) ? TRUE : FALSE);
-		return FALSE;
-
-	case WM_COMMAND:
-		if ((LOWORD(wParam) == IDC_HIGHLIGHTNICKPATTERN
-			|| LOWORD(wParam) == IDC_HIGHLIGHTTEXTPATTERN)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != ::GetFocus()))
-			return 0;
-
-		::SendMessage(hwndDlg, WM_USER + 100, 0, 0);
-		if (lParam != 0)
-			::SendMessage(::GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_WIZFINISH:
-				Chat_ApplyOptions();
-				break;
-
-			case PSN_APPLY:
-				wchar_t*	szBuf = nullptr;
-				int iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTNICKPATTERN));
-				if (iLen) {
-					szBuf = reinterpret_cast<wchar_t *>(mir_alloc((iLen + 2) * sizeof(wchar_t)));
-					::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, szBuf, iLen + 1);
-					db_set_ws(0, CHAT_MODULE, "HighlightNames", szBuf);
-				}
-				else db_set_ws(0, CHAT_MODULE, "HighlightNames", L"");
-
-				iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN));
-				if (iLen) {
-					szBuf = reinterpret_cast<wchar_t *>(mir_realloc(szBuf, sizeof(wchar_t) * (iLen + 2)));
-					::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, szBuf, iLen + 1);
-					db_set_ws(0, CHAT_MODULE, "HighlightWords", szBuf);
-				}
-				else db_set_ws(0, CHAT_MODULE, "HighlightWords", L"");
-
-				mir_free(szBuf);
-				BYTE dwFlags = (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKENABLE) ? MATCH_NICKNAME : 0) |
-					(::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTTEXTENABLE) ? MATCH_TEXT : 0);
-
-				if (dwFlags & MATCH_NICKNAME)
-					dwFlags |= (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKUID) ? MATCH_UIN : 0);
-
-				db_set_b(0, CHAT_MODULE, "HighlightEnabled", dwFlags);
-				db_set_b(0, CHAT_MODULE, "HighlightMe", ::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTME) ? 1 : 0);
-				g_Settings.Highlight->init();
-				return TRUE;
-			}
-		}
-		break;
-	}
-	return FALSE;
 }
