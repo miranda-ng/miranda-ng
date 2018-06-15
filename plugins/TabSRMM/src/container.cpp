@@ -1325,10 +1325,11 @@ panel_found:
 
 			int curItem = TabCtrl_GetCurSel(hwndTab);
 			if (curItem >= 0) {
-				TCITEM item;
+				TCITEM item = {};
 				tci.mask = TCIF_PARAM;
 				if (TabCtrl_GetItem(hwndTab, curItem, &item))
-					SendMessage((HWND)item.lParam, WM_ACTIVATE, WA_INACTIVE, 0);
+					if (item.lParam)
+						SendMessage((HWND)item.lParam, WM_ACTIVATE, WA_INACTIVE, 0);
 			}
 			break;
 		}
