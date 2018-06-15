@@ -1327,8 +1327,8 @@ panel_found:
 			if (curItem >= 0) {
 				TCITEM item;
 				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(hwndTab, curItem, &item);
-				SendMessage((HWND)item.lParam, WM_ACTIVATE, WA_INACTIVE, 0);
+				if (TabCtrl_GetItem(hwndTab, curItem, &item))
+					SendMessage((HWND)item.lParam, WM_ACTIVATE, WA_INACTIVE, 0);
 			}
 			break;
 		}
