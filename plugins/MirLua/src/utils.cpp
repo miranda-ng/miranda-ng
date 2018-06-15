@@ -75,15 +75,13 @@ int luaM_getenv(lua_State *L)
 	lua_Debug ar;
 	if (lua_getstack(L, 1, &ar) == 0 ||
 		lua_getinfo(L, "f", &ar) == 0 ||
-		lua_iscfunction(L, -1))
-	{
+		lua_iscfunction(L, -1)) {
 		lua_pop(L, 1);
 		return 0;
 	}
 
 	const char *env = lua_getupvalue(L, -1, 1);
-	if (!env || strcmp(env, "_ENV") != 0)
-	{
+	if (!env || strcmp(env, "_ENV") != 0) {
 		lua_pop(L, 1);
 		return 0;
 	}

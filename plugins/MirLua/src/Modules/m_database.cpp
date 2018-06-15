@@ -19,17 +19,15 @@ void luaM_pushdbvt(lua_State *L, const DBVARIANT &value)
 		lua_pushstring(L, value.pszVal);
 		break;
 	case DBVT_WCHAR:
-		lua_pushstring(L, ptrA(mir_utf8encodeW(value.pwszVal)));
+		lua_pushstring(L, T2Utf(value.pwszVal));
 		break;
 	case DBVT_BLOB:
-	{
 		lua_createtable(L, value.cpbVal, 0);
 		for (int i = 0; i < value.cpbVal; i++) {
 			lua_pushinteger(L, value.pbVal[i]);
 			lua_rawseti(L, -2, i + 1);
 		}
-	}
-	break;
+		break;
 	default:
 		lua_pushnil(L);
 	}
@@ -545,8 +543,8 @@ static int db_WriteSetting(lua_State *L)
 			dbv.pbVal[i] = lua_tointeger(L, -1);
 			lua_pop(L, 1);
 		}
-	}
 		break;
+	}
 	default:
 		lua_pushboolean(L, false);
 		return 1;
