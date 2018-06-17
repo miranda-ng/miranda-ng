@@ -41,7 +41,7 @@ static TContainerData* TSAPI RemoveContainerFromList(TContainerData*);
 
 static bool fForceOverlayIcons = false;
 
-HWND GetTabWindow(HWND hwndTab, int i)
+HWND TSAPI GetTabWindow(HWND hwndTab, int i)
 {
 	if (i < 0)
 		return nullptr;
