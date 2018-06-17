@@ -1141,12 +1141,9 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 		int tabCount = TabCtrl_GetItemCount(m_hwndParent);
 		ptrA szFromStream(m_message.GetRichTextRtf(!m_SendFormat));
 
-		TCITEM tci = {};
-		tci.mask = TCIF_PARAM;
 		for (int i = 0; i < tabCount; i++) {
-			TabCtrl_GetItem(m_hwndParent, i, &tci);
 			// get the contact from the tabs lparam which hopefully is the tabs hwnd so we can get its userdata.... hopefully
-			HWND contacthwnd = (HWND)tci.lParam;
+			HWND contacthwnd = GetTabWindow(m_hwndParent, i);
 			if (IsWindow(contacthwnd)) {
 				// if the contact hwnd is the current contact then ignore it and let the normal code deal with the msg
 				if (contacthwnd != m_hwnd) {
@@ -3013,15 +3010,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					i++;
 				TabCtrl_SetCurSel(m_hwndParent, i);
 
-				TCITEM item = {};
-				item.mask = TCIF_PARAM;
-				TabCtrl_GetItem(m_hwndParent, i, &item);         // retrieve dialog hwnd for the now active tab...
-
-				m_pContainer->m_hwndActive = (HWND)item.lParam;
+				// retrieve dialog hwnd for the now active tab...
+				m_pContainer->m_hwndActive = GetTabWindow(m_hwndParent, i);
 
 				SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 				SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
-				ShowWindow((HWND)item.lParam, SW_SHOW);
+				ShowWindow(m_pContainer->m_hwndActive, SW_SHOW);
 				SetForegroundWindow(m_pContainer->m_hwndActive);
 				SetFocus(m_pContainer->m_hwndActive);
 			}

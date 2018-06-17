@@ -80,7 +80,7 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 TContainerData* TSAPI FindContainerByName(const wchar_t *name);
 
 int   TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd);
-HWND  TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx);
+HWND  TSAPI GetTabWindow(HWND hwndTab, int idx);
 int   TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt);
 void  TSAPI CloseOtherTabs(HWND hwndTab, CTabBaseDlg &dat);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);

@@ -611,9 +611,6 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		InvalidateRect(hwnd, nullptr, FALSE);
 	tabdat->iHoveredTabIndex = hotItem;
 
-	TCITEM tci = {};
-	tci.mask = TCIF_PARAM;
-
 	tabdat->fAeroTabs = (CSkin::m_fAeroSkinsValid && (isAero || PluginConfig.m_fillColor)) ? TRUE : FALSE;
 	tabdat->fCloseButton = (tabdat->pContainer->dwFlagsEx & TCF_CLOSEBUTTON ? TRUE : FALSE);
 	tabdat->helperDat = nullptr;
@@ -846,10 +843,9 @@ page_done:
 		if (i == iActive)
 			continue;
 
-		TabCtrl_GetItem(hwnd, i, &tci);
 		CSrmmWindow *dat = nullptr;
-		if (tci.lParam)
-			dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tci.lParam, GWLP_USERDATA);
+		if (HWND hDlg = GetTabWindow(hwnd, i))
+			dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		TabCtrl_GetItemRect(hwnd, i, &rcItem);
 		if (!bClassicDraw && uiBottom) {
 			rcItem.top -= PluginConfig.tabConfig.m_bottomAdjust;
@@ -881,9 +877,8 @@ page_done:
 		int nHint = 0;
 
 		rcItem = rctActive;
-		TabCtrl_GetItem(hwnd, iActive, &tci);
-		if (tci.lParam)
-			dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tci.lParam, GWLP_USERDATA);
+		if (HWND hDlg = GetTabWindow(hwnd, iActive))
+			dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 
 		if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
 			InflateRect(&rcItem, 2, 2);
@@ -1110,14 +1105,12 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			if (DragDetect(hwnd, pt) && TabCtrl_GetItemCount(hwnd) > 1) {
 				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
-					TCITEM tc;
-					tc.mask = TCIF_PARAM;
-					TabCtrl_GetItem(hwnd, i, &tc);
-					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					HWND hDlg = GetTabWindow(hwnd, i);
+					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;
-						tabdat->hwndDrag = (HWND)tc.lParam;
+						tabdat->hwndDrag = hDlg;
 						tabdat->dragDat = dat;
 						tabdat->fSavePos = TRUE;
 						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
@@ -1137,15 +1130,12 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			if (DragDetect(hwnd, pt) && TabCtrl_GetItemCount(hwnd) > 1) {
 				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
-					TCITEM tc;
-					tc.mask = TCIF_PARAM;
-					TabCtrl_GetItem(hwnd, i, &tc);
-
-					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					HWND hDlg = GetTabWindow(hwnd, i);
+					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;
-						tabdat->hwndDrag = (HWND)tc.lParam;
+						tabdat->hwndDrag = hDlg;
 						tabdat->dragDat = dat;
 						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
 						tabdat->fSavePos = FALSE;
@@ -1257,18 +1247,13 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				ti.cbSize = sizeof(ti);
 				ti.ptCursor = pt;
 
-				TCITEM item = {};
-				item.mask = TCIF_PARAM;
 				int nItem = GetTabItemFromMouse(hwnd, &pt);
 				if (nItem >= 0 && nItem < TabCtrl_GetItemCount(hwnd)) {
-					TabCtrl_GetItem(hwnd, nItem, &item);
-
-					/*
-					 * get the message window data for the session to which this tab item belongs
-					 */
+					// get the message window data for the session to which this tab item belongs
+					HWND hDlg = GetTabWindow(hwnd, nItem);
 					CSrmmWindow *dat = nullptr;
-					if (IsWindow((HWND)item.lParam) && item.lParam != 0)
-						dat = (CSrmmWindow*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+					if (IsWindow(hDlg) && hDlg != 0)
+						dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
 						tabdat->fTipActive = TRUE;
 						ti.isGroup = 0;

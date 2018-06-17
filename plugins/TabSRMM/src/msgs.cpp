@@ -617,11 +617,8 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	pContainer->iTabIndex = iCount;
 	if (iCount > 0) {
-		TCITEM item = {};
 		for (int i = iCount - 1; i >= 0; i--) {
-			item.mask = TCIF_PARAM;
-			TabCtrl_GetItem(hwndTab, i, &item);
-			HWND hwnd = (HWND)item.lParam;
+			HWND hwnd = GetTabWindow(hwndTab, i);
 			CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			if (dat) {
 				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);

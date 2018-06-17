@@ -771,15 +771,12 @@ void CChatRoomDlg::CloseTab()
 			i++;
 		TabCtrl_SetCurSel(m_hwndParent, i);
 
-		TCITEM item = {};
-		item.mask = TCIF_PARAM;
-		TabCtrl_GetItem(m_hwndParent, i, &item); // retrieve dialog hwnd for the now active tab...
-		m_pContainer->m_hwndActive = (HWND)item.lParam;
+		m_pContainer->m_hwndActive = GetTabWindow(m_hwndParent, i);
 
 		RECT rc;
 		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 		SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
-		ShowWindow((HWND)item.lParam, SW_SHOW);
+		ShowWindow(m_pContainer->m_hwndActive, SW_SHOW);
 		SetForegroundWindow(m_pContainer->m_hwndActive);
 		SetFocus(m_pContainer->m_hwndActive);
 		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
@@ -2458,11 +2455,8 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 
 	pContainer->iTabIndex = iCount;
 	if (iCount > 0) {
-		TCITEM item = {};
 		for (int i = iCount - 1; i >= 0; i--) {
-			item.mask = TCIF_PARAM;
-			TabCtrl_GetItem(hwndTab, i, &item);
-			HWND hwnd = (HWND)item.lParam;
+			HWND hwnd = GetTabWindow(hwndTab, i);
 			CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			if (dat) {
 				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);

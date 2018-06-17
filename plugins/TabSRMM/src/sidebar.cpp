@@ -496,17 +496,14 @@ void CSideBar::populateAll()
 
 	int iItems = (int)TabCtrl_GetItemCount(hwndTab);
 
-	TCITEM item = {};
-	item.mask = TCIF_PARAM;
-
 	m_iTopButtons = 0;
 
 	for (int i = 0; i < iItems; i++) {
-		TabCtrl_GetItem(hwndTab, i, &item);
-		if (item.lParam == 0 || !IsWindow((HWND)item.lParam))
+		HWND hDlg = GetTabWindow(hwndTab, i);
+		if (hDlg == 0 || !IsWindow(hDlg))
 			continue;
 
-		CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+		CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		if (dat == nullptr)
 			continue;
 

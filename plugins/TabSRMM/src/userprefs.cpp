@@ -400,7 +400,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	TCITEM tci;
+	HWND hwndTab = GetDlgItem(hwndDlg, IDC_OPTIONSTAB);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -418,23 +418,23 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			mir_snwprintf(szBuffer, TranslateT("Set messaging options for %s"), Clist_GetContactDisplayName(hContact));
 			SetWindowText(hwndDlg, szBuffer);
 
-			memset(&tci, 0, sizeof(tci));
+			TCITEM tci;
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
 			tci.lParam = (LPARAM)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERPREFS), hwndDlg, DlgProcUserPrefs, hContact);
 			tci.pszText = TranslateT("General");
-			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0, &tci);
+			TabCtrl_InsertItem(hwndTab, 0, &tci);
 			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
 			ShowWindow((HWND)tci.lParam, SW_SHOW);
 			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERPREFS1), hwndDlg, DlgProcUserPrefsLogOptions, hContact);
 			tci.pszText = TranslateT("Message Log");
-			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 1, &tci);
+			TabCtrl_InsertItem(hwndTab, 1, &tci);
 			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
 			ShowWindow((HWND)tci.lParam, SW_HIDE);
 			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 		}
-		TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0);
+		TabCtrl_SetCurSel(hwndTab, 0);
 		ShowWindow(hwndDlg, SW_SHOW);
 		return TRUE;
 
@@ -443,15 +443,11 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_OPTIONSTAB:
 			switch (((LPNMHDR)lParam)->code) {
 			case TCN_SELCHANGING:
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
-				ShowWindow((HWND)tci.lParam, SW_HIDE);
+				ShowWindow(GetTabWindow(hwndTab, TabCtrl_GetCurSel(hwndTab)), SW_HIDE);
 				break;
 
 			case TCN_SELCHANGE:
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
-				ShowWindow((HWND)tci.lParam, SW_SHOW);
+				ShowWindow(GetTabWindow(hwndTab, TabCtrl_GetCurSel(hwndTab)), SW_SHOW);
 				break;
 			}
 			break;
@@ -466,15 +462,12 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDOK:
 			DWORD	dwActionToTake = 0;			// child pages request which action to take
-			HWND	hwnd = Srmm_FindWindow(hContact);
+			HWND hwnd = Srmm_FindWindow(hContact);
 
-			tci.mask = TCIF_PARAM;
+			int count = TabCtrl_GetItemCount(hwndTab);
+			for (int i = 0; i < count; i++)
+				SendMessage(GetTabWindow(hwndTab, i), WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
 
-			int count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_OPTIONSTAB));
-			for (int i = 0; i < count; i++) {
-				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), i, &tci);
-				SendMessage((HWND)tci.lParam, WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
-			}
 			if (hwnd) {
 				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (dat) {

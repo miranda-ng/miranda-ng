@@ -41,7 +41,7 @@ static TContainerData* TSAPI RemoveContainerFromList(TContainerData*);
 
 static bool fForceOverlayIcons = false;
 
-static HWND GetTabWindow(HWND hwndTab, int i)
+HWND GetTabWindow(HWND hwndTab, int i)
 {
 	if (i < 0)
 		return nullptr;
@@ -1942,22 +1942,12 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 {
 	int iItems = TabCtrl_GetItemCount(hwndTab);
 
-	TCITEM item = {};
-	item.mask = TCIF_PARAM;
 	for (int i = 0; i < iItems; i++) {
-		TabCtrl_GetItem(hwndTab, i, &item);
-		if ((HWND)item.lParam == hwnd)
+		HWND pDlg = GetTabWindow(hwndTab, i);
+		if (pDlg == hwnd)
 			return i;
 	}
 	return -1;
-}
-
-HWND TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx)
-{
-	TCITEM item = {};
-	item.mask = TCIF_PARAM;
-	TabCtrl_GetItem(hwndTab, idx, &item);
-	return (HWND)item.lParam;
 }
 
 // activates the tab belonging to the given client HWND (handle of the actual
@@ -1981,7 +1971,7 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 void TSAPI CloseOtherTabs(HWND hwndTab, CTabBaseDlg &dat)
 {
 	for (int idxt = 0; idxt < dat.m_pContainer->iChilds;) {
-		HWND otherTab = GetHWNDFromTabIndex(hwndTab, idxt);
+		HWND otherTab = GetTabWindow(hwndTab, idxt);
 		if (otherTab != nullptr && otherTab != dat.GetHwnd())
 			SendMessage(otherTab, WM_CLOSE, 1, 0);
 		else
@@ -2307,14 +2297,11 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 		return;
 	HWND hwndTab = GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS);
 
-	TCITEM item = {};
-	item.mask = TCIF_PARAM;
-
 	int nCount = TabCtrl_GetItemCount(hwndTab);
 	for (int i = 0; i < nCount; i++) {
-		TabCtrl_GetItem(hwndTab, i, &item);
-		if (IsWindow((HWND)item.lParam))
-			SendMessage((HWND)item.lParam, message, wParam, lParam);
+		HWND hDlg = GetTabWindow(hwndTab, i);
+		if (IsWindow(hDlg))
+			SendMessage(hDlg, message, wParam, lParam);
 	}
 }
 
