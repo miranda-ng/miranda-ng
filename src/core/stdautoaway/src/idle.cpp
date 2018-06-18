@@ -45,22 +45,26 @@ static int IdleObject_IsUserIdle()
 
 static void CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
-	if (g_hTimer == idEvent) {
-		if (g_plugin.bIdleCheck && IdleObject_IsUserIdle())
-			Idle_Enter(1);
+	if (g_hTimer != idEvent)
+		return;
 
-		else if (g_plugin.bIdleOnSaver && IsScreenSaverRunning())
-			Idle_Enter(2);
+	if (g_plugin.bIdleCheck && IdleObject_IsUserIdle())
+		Idle_Enter(1);
 
-		else if (g_plugin.bIdleOnFullScr && IsFullScreen())
-			Idle_Enter(3);
+	else if (g_plugin.bIdleOnSaver && IsScreenSaverRunning())
+		Idle_Enter(2);
 
-		else if (g_plugin.bIdleOnLock && IsWorkstationLocked())
-			Idle_Enter(4);
+	else if (g_plugin.bIdleOnFullScr && IsFullScreen())
+		Idle_Enter(3);
 
-		else if (g_plugin.bIdleOnTerminal && IsTerminalDisconnected())
-			Idle_Enter(5);
-	}
+	else if (g_plugin.bIdleOnLock && IsWorkstationLocked())
+		Idle_Enter(4);
+
+	else if (g_plugin.bIdleOnTerminal && IsTerminalDisconnected())
+		Idle_Enter(5);
+
+	else // not idle
+		Idle_Enter(-1);
 }
 
 void IdleObject_Create()
