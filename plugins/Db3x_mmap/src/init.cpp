@@ -85,8 +85,9 @@ static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 			return nullptr;
 		}
 
-		if (IDYES != MessageBoxW(nullptr, TranslateT(CONVERT_MSG), L"Miranda NG", MB_YESNO))
-			return nullptr;
+		if (!Profile_GetSettingInt(L"Database/SilentUpgrade"))
+			if (IDYES != MessageBoxW(nullptr, TranslateT(CONVERT_MSG), L"Miranda NG", MB_YESNO))
+				return nullptr;
 
 		int errorCode;
 		CMStringW wszBackupName(profile);
