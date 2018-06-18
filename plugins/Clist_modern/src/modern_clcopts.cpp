@@ -35,23 +35,6 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 #define FONTF_ITALIC	2
 #define FONTF_UNDERLINE	4
 
-struct FontOptionsList {
-	DWORD dwFlags;
-	int fontID;
-	wchar_t *szGroup;
-	wchar_t *szDescr;
-	COLORREF defColour;
-	wchar_t *szDefFace;
-	BYTE defCharset, defStyle;
-	char defSize;
-	FONTEFFECT defeffect;
-
-	COLORREF colour;
-	wchar_t szFace[LF_FACESIZE];
-	BYTE charset, style;
-	char size;
-};
-
 #define CLCGROUP			LPGENW("Contact list") L"/" LPGENW("Contact names")
 #define CLCLINESGROUP		LPGENW("Contact list") L"/" LPGENW("Row items")
 #define CLCFRAMESGROUP		LPGENW("Contact list") L"/" LPGENW("Frame texts")
@@ -67,7 +50,25 @@ struct FontOptionsList {
 #define DEFAULT_SIZE		-11
 #define DEFAULT_SMALLSIZE	-8
 
-static struct FontOptionsList fontOptionsList[] = {
+struct
+{
+	DWORD dwFlags;
+	int fontID;
+	const wchar_t *szGroup;
+	const wchar_t *szDescr;
+	COLORREF defColour;
+	const wchar_t *szDefFace;
+	BYTE defCharset, defStyle;
+	char defSize;
+	FONTEFFECT defeffect;
+
+	COLORREF colour;
+	wchar_t szFace[LF_FACESIZE];
+	BYTE charset, style;
+	char size;
+}
+static fontOptionsList[] =
+{
 	{ FIDF_CLASSGENERAL, FONTID_CONTACTS, CLCGROUP, LPGENW("Standard contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
 	{ FIDF_CLASSGENERAL, FONTID_AWAY, CLCGROUP, LPGENW("Away contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
 	{ FIDF_CLASSGENERAL, FONTID_DND, CLCGROUP, LPGENW("Do not disturb contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
@@ -96,15 +97,18 @@ static struct FontOptionsList fontOptionsList[] = {
 	{ FIDF_CLASSGENERAL, FONTID_VIEMODES, CLCFRAMESGROUP, LPGENW("Current view mode text"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
 };
 
-struct ColourOptionsList {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct
+{
 	char *chGroup;
 	char *chName;
 	wchar_t *szGroup;
 	wchar_t *szDescr;
 	COLORREF defColour;
-};
-
-static struct ColourOptionsList colourOptionsList[] = {
+}
+static colourOptionsList[] =
+{
 	{ "CLC", "BkColour", CLCGROUP, LPGENW("Background"), CLCDEFAULT_BKCOLOUR },
 
 	{ "CLC", "HotTextColour", CLCCOLOURSGROUP, LPGENW("Hot text"), CLCDEFAULT_MODERN_HOTTEXTCOLOUR },
@@ -123,10 +127,9 @@ void RegisterCLUIFonts(void)
 	if (registered)
 		return;
 
-	FontIDW fontid = { 0 };
-	EffectIDW effectid = { 0 };
+	FontIDW fontid = {};
+	EffectIDW effectid = {};
 	char idstr[10];
-	int index = 0;
 
 	fontid.cbSize = sizeof(fontid);
 	mir_strncpy(fontid.dbSettingsGroup, "CLC", _countof(fontid.dbSettingsGroup));
@@ -134,47 +137,50 @@ void RegisterCLUIFonts(void)
 	effectid.cbSize = sizeof(effectid);
 	mir_strncpy(effectid.dbSettingsGroup, "CLC", _countof(effectid.dbSettingsGroup));
 
-	for (int i = 0; i < _countof(fontOptionsList); i++, index++) {
+	int index = 1;
+	for (auto &p : fontOptionsList) {
 		fontid.flags = FIDF_DEFAULTVALID | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_ALLOWREREGISTER | FIDF_NOAS;
-		fontid.flags |= fontOptionsList[i].dwFlags;
+		fontid.flags |= p.dwFlags;
 
-		mir_wstrncpy(fontid.group, fontOptionsList[i].szGroup, _countof(fontid.group));
-		mir_wstrncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
-		mir_snprintf(idstr, "Font%d", fontOptionsList[i].fontID);
-		mir_strncpy(fontid.prefix, idstr, _countof(fontid.prefix));
-		fontid.order = i + 1;
+		wcsncpy_s(fontid.group, p.szGroup, _TRUNCATE);
+		wcsncpy_s(fontid.name, p.szDescr, _TRUNCATE);
+		mir_snprintf(idstr, "Font%d", p.fontID);
+		strncpy_s(fontid.prefix, idstr, _TRUNCATE);
+		fontid.order = index;
 
-		fontid.deffontsettings.charset = fontOptionsList[i].defCharset;
-		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
-		fontid.deffontsettings.size = fontOptionsList[i].defSize;
-		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
-		mir_wstrncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
+		fontid.deffontsettings.charset = p.defCharset;
+		fontid.deffontsettings.colour = p.defColour;
+		fontid.deffontsettings.size = p.defSize;
+		fontid.deffontsettings.style = p.defStyle;
+		wcsncpy_s(fontid.deffontsettings.szFace, p.szDefFace, _TRUNCATE);
 
 		g_plugin.addFont(&fontid);
 
-		mir_wstrncpy(effectid.group, fontOptionsList[i].szGroup, _countof(effectid.group));
-		mir_wstrncpy(effectid.name, fontOptionsList[i].szDescr, _countof(effectid.name));
-		mir_snprintf(idstr, "Font%d", fontOptionsList[i].fontID);
-		mir_strncpy(effectid.setting, idstr, _countof(effectid.setting));
-		effectid.order = i + 1;
+		wcsncpy_s(effectid.group, p.szGroup, _TRUNCATE);
+		wcsncpy_s(effectid.name, p.szDescr, _TRUNCATE);
+		mir_snprintf(idstr, "Font%d", p.fontID);
+		strncpy_s(effectid.setting, idstr, _TRUNCATE);
+		effectid.order = index;
 
-		effectid.defeffect.effectIndex = fontOptionsList[i].defeffect.effectIndex;
-		effectid.defeffect.baseColour = fontOptionsList[i].defeffect.baseColour;
-		effectid.defeffect.secondaryColour = fontOptionsList[i].defeffect.secondaryColour;
+		effectid.defeffect.effectIndex = p.defeffect.effectIndex;
+		effectid.defeffect.baseColour = p.defeffect.baseColour;
+		effectid.defeffect.secondaryColour = p.defeffect.secondaryColour;
 
 		g_plugin.addEffect(&effectid);
+		index++;
 	}
 
-	ColourIDW colourid = { 0 };
+	ColourIDW colourid = {};
 	colourid.cbSize = sizeof(colourid);
 
-	for (int i = 0; i < _countof(colourOptionsList); i++) {
-		mir_wstrncpy(colourid.group, colourOptionsList[i].szGroup, _countof(colourid.group));
-		mir_wstrncpy(colourid.name, colourOptionsList[i].szDescr, _countof(colourid.group));
-		mir_strncpy(colourid.setting, colourOptionsList[i].chName, _countof(colourid.setting));
-		mir_strncpy(colourid.dbSettingsGroup, colourOptionsList[i].chGroup, _countof(colourid.dbSettingsGroup));
-		colourid.defcolour = colourOptionsList[i].defColour;
-		colourid.order = i + 1;
+	index = 1;
+	for (auto &p : colourOptionsList) {
+		wcsncpy_s(colourid.group, p.szGroup, _TRUNCATE);
+		wcsncpy_s(colourid.name, p.szDescr, _TRUNCATE);
+		strncpy_s(colourid.setting, p.chName, _TRUNCATE);
+		strncpy_s(colourid.dbSettingsGroup, p.chGroup, _TRUNCATE);
+		colourid.defcolour = p.defColour;
+		colourid.order = index++;
 		g_plugin.addColor(&colourid);
 	}
 	registered = true;
@@ -193,38 +199,37 @@ DWORD GetDefaultExStyle(void)
 
 void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF *eColour1, COLORREF *eColour2)
 {
-	char idstr[32];
+	for (auto &p : fontOptionsList) {
+		if (p.fontID == i) {
+			COLORREF col = Font_GetW(p.szGroup, p.szDescr, lf);
 
-	int index;
-	for (index = 0; index < _countof(fontOptionsList); index++)
-		if (fontOptionsList[index].fontID == i)
+			if (colour)
+				*colour = col;
+
+			if (effect) {
+				char idstr[32];
+				mir_snprintf(idstr, "Font%dEffect", i);
+				*effect = db_get_b(0, "CLC", idstr, 0);
+				mir_snprintf(idstr, "Font%dEffectCol1", i);
+				*eColour1 = db_get_dw(0, "CLC", idstr, 0);
+				mir_snprintf(idstr, "Font%dEffectCol2", i);
+				*eColour2 = db_get_dw(0, "CLC", idstr, 0);
+			}
 			break;
-
-	if (index == _countof(fontOptionsList))
-		return;
-
-	COLORREF col = Font_GetW(fontOptionsList[index].szGroup, fontOptionsList[index].szDescr, lf);
-
-	if (colour)
-		*colour = col;
-
-	if (effect) {
-		mir_snprintf(idstr, "Font%dEffect", i);
-		*effect = db_get_b(0, "CLC", idstr, 0);
-		mir_snprintf(idstr, "Font%dEffectCol1", i);
-		*eColour1 = db_get_dw(0, "CLC", idstr, 0);
-		mir_snprintf(idstr, "Font%dEffectCol2", i);
-		*eColour2 = db_get_dw(0, "CLC", idstr, 0);
+		}
 	}
 }
 
-struct CheckBoxToStyleEx_t {
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct
+{
 	int id;
 	DWORD flag;
 	int neg;
-};
-
-static const struct CheckBoxToStyleEx_t checkBoxToStyleEx[] = {
+}
+static const checkBoxToStyleEx[] =
+{
 	{ IDC_DISABLEDRAGDROP, CLS_EX_DISABLEDRAGDROP, 0 },
 	{ IDC_NOTEDITLABELS, CLS_EX_EDITLABELS, 1 },
 	{ IDC_SHOWSELALWAYS, CLS_EX_SHOWSELALWAYS, 0 },
@@ -238,6 +243,8 @@ static const struct CheckBoxToStyleEx_t checkBoxToStyleEx[] = {
 	{ IDC_SORTGROUPSALPHA, CLS_EX_SORTGROUPSALPHA, 0 },
 	{ IDC_NOTNOSMOOTHSCROLLING, CLS_EX_NOSMOOTHSCROLLING, 1 }
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct CheckBoxValues_t {
 	DWORD style;
@@ -408,7 +415,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMOOTHTIME), IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
 		if (LOWORD(wParam) == IDC_GREYOUT)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
-		if ((/*LOWORD(wParam) == IDC_LEFTMARGIN  || */ LOWORD(wParam) == IDC_SMOOTHTIME || LOWORD(wParam) == IDC_GROUPINDENT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+		if ((LOWORD(wParam) == IDC_SMOOTHTIME || LOWORD(wParam) == IDC_GROUPINDENT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		break;
 
@@ -1492,20 +1499,19 @@ int BackgroundsUnloadModule(void)
 
 struct
 {
-	char *name;			// Tab name
-	int id;					// Dialog id
-	DLGPROC wnd_proc;		// Dialog function
-	DWORD flag;				// Expertonly
+	char *name;          // Tab name
+	int id;              // Dialog id
+	DLGPROC wnd_proc;    // Dialog function
 }
 static clist_opt_items[] =
 {
-	{ LPGEN("General"), IDD_OPT_CLIST, DlgProcClistOpts, 0 },
-	{ LPGEN("Tray"), IDD_OPT_TRAY, DlgProcTrayOpts, 0 },
-	{ LPGEN("List"), IDD_OPT_CLC, DlgProcClistListOpts, 0 },
-	{ LPGEN("Window"), IDD_OPT_CLUI, DlgProcClistWindowOpts, 0 },
-	{ LPGEN("Behavior"), IDD_OPT_CLUI_2, DlgProcClistBehaviourOpts, 0 },
-	{ LPGEN("Status bar"), IDD_OPT_SBAR, DlgProcSBarOpts, 0 },
-	{ LPGEN("Additional stuff"), IDD_OPT_META_CLC, DlgProcClistAdditionalOpts, 0 }
+	{ LPGEN("General"), IDD_OPT_CLIST, DlgProcClistOpts },
+	{ LPGEN("Tray"), IDD_OPT_TRAY, DlgProcTrayOpts},
+	{ LPGEN("List"), IDD_OPT_CLC, DlgProcClistListOpts },
+	{ LPGEN("Window"), IDD_OPT_CLUI, DlgProcClistWindowOpts },
+	{ LPGEN("Behavior"), IDD_OPT_CLUI_2, DlgProcClistBehaviourOpts },
+	{ LPGEN("Status bar"), IDD_OPT_SBAR, DlgProcSBarOpts },
+	{ LPGEN("Additional stuff"), IDD_OPT_META_CLC, DlgProcClistAdditionalOpts }
 };
 
 int ClcOptInit(WPARAM wParam, LPARAM)
@@ -1521,7 +1527,6 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(it.id);
 		odp.szTab.a = it.name;
 		odp.pfnDlgProc = it.wnd_proc;
-		odp.flags = ODPF_BOLDGROUPS | it.flag;
 		g_plugin.addOptions(wParam, &odp);
 	}
 
