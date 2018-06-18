@@ -72,7 +72,7 @@ bool IsInsideRootDir(wchar_t* profiledir, bool exact)
 int getProfilePath(wchar_t *buf, size_t)
 {
 	wchar_t profiledir[MAX_PATH];
-	Profile_GetSetting(L"Database/ProfileDir", profiledir, mirandabootini);
+	Profile_GetSetting(L"Database/ProfileDir", profiledir);
 
 	if (profiledir[0] == 0)
 		mir_wstrcpy(profiledir, L"%miranda_path%\\Profiles");
