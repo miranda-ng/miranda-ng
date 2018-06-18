@@ -102,9 +102,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		case IDOK:
 			GetDlgItemText(hwndDlg, IDC_USERPASS, param->newPass, _countof(param->newPass));
 			
-			wchar_t tszPath[MAX_PATH];
-			PathToAbsoluteW(L"\\mirandaboot.ini", tszPath);
-			if (GetPrivateProfileInt(L"Database", L"RememberPassword", 0, tszPath)) {
+			if (Profile_GetSettingInt(L"Database/RememberPassword")) {
 				CREDENTIAL cred = { 0 };
 				cred.Type = CRED_TYPE_GENERIC;
 				cred.TargetName = L"Miranda NG/Database";

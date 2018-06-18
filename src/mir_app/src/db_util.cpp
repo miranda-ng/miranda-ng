@@ -66,6 +66,46 @@ MIR_APP_DLL(int) Profile_GetNameW(size_t cbLen, wchar_t *pwszDest)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(bool) Profile_GetSetting(const wchar_t *pwszSetting, wchar_t *pwszBuf, size_t cbLen, const wchar_t *pwszDefault)
+{
+	if (pwszSetting == nullptr) {
+		*pwszBuf = 0;
+		return false;
+	}
+
+	if (pwszDefault == nullptr)
+		pwszDefault = L"";
+
+	wchar_t *pBuf = NEWWSTR_ALLOCA(pwszSetting);
+
+	wchar_t *p = wcschr(pBuf, '/');
+	if (p) {
+		*p = 0; p++;
+		GetPrivateProfileStringW(pBuf, p, pwszDefault, pwszBuf, (DWORD)cbLen, mirandabootini);
+	}
+	else GetPrivateProfileStringW(pBuf, L"", pwszDefault, pwszBuf, (DWORD)cbLen, mirandabootini);
+
+	return pwszBuf[0] != 0;
+}
+
+MIR_APP_DLL(int) Profile_GetSettingInt(const wchar_t *pwszSetting, int iDefault)
+{
+	if (pwszSetting == nullptr)
+		return iDefault;
+
+	wchar_t *pBuf = NEWWSTR_ALLOCA(pwszSetting);
+
+	wchar_t *p = wcschr(pBuf, '/');
+	if (p) {
+		*p = 0; p++;
+		return GetPrivateProfileIntW(pBuf, p, iDefault, mirandabootini);
+	}
+	
+	return GetPrivateProfileIntW(pBuf, L"", iDefault, mirandabootini);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(void) Profile_SetDefault(const wchar_t *pwszPath)
 {
 	extern wchar_t* g_defaultProfile;

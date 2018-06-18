@@ -624,3 +624,5 @@ Srmm_ClickStatusIcon @649
 Profile_CheckOpened @653
 Idle_Enter @654 NONAME
 Idle_GetInfo @655 NONAME
+Profile_GetSetting @656
+Profile_GetSettingInt @657

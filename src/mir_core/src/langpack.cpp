@@ -637,9 +637,8 @@ void GetDefaultLang()
 		PathToAbsoluteW(L".", g_tszRoot);
 
 	// look into mirandaboot.ini
-	wchar_t tszPath[MAX_PATH], tszLangName[256];
-	PathToAbsoluteW(L"\\mirandaboot.ini", tszPath);
-	GetPrivateProfileString(L"Language", L"DefaultLanguage", L"", tszLangName, _countof(tszLangName), tszPath);
+	wchar_t tszLangName[256];
+	Profile_GetSetting(L"Language/DefaultLanguage", tszLangName);
 	if (tszLangName[0]) {
 		if (!mir_wstrcmpi(tszLangName, L"default")) {
 			db_set_ws(NULL, "Langpack", "Current", L"default");
@@ -652,6 +651,7 @@ void GetDefaultLang()
 	}
 	
 	// try to load langpack that matches UserDefaultUILanguage
+	wchar_t tszPath[MAX_PATH];
 	if (GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, tszLangName, _countof(tszLangName))) {
 		mir_snwprintf(tszPath, L"langpack_%s.txt", wcslwr(tszLangName));
 		if (!LoadLangPack(tszPath)) {

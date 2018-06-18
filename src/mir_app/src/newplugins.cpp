@@ -752,7 +752,7 @@ int LoadNewPluginsModuleInfos(void)
 
 	LoadPluginOptions();
 
-	// remember where the mirandaboot.ini goes
+	// remember where the mirandaboot.ini lays
 	PathToAbsoluteW(L"mirandaboot.ini", mirandabootini);
 
 	// look for all *.dll's

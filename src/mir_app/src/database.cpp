@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 MDatabaseCommon *currDb = nullptr;
 DATABASELINK *currDblink = nullptr;
 
-// contains the location of mirandaboot.ini
 bool g_bDbCreated;
 wchar_t g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
 wchar_t* g_defaultProfile;
@@ -73,7 +72,7 @@ bool IsInsideRootDir(wchar_t* profiledir, bool exact)
 int getProfilePath(wchar_t *buf, size_t)
 {
 	wchar_t profiledir[MAX_PATH];
-	GetPrivateProfileString(L"Database", L"ProfileDir", L"", profiledir, _countof(profiledir), mirandabootini);
+	Profile_GetSetting(L"Database/ProfileDir", profiledir, mirandabootini);
 
 	if (profiledir[0] == 0)
 		mir_wstrcpy(profiledir, L"%miranda_path%\\Profiles");
@@ -102,7 +101,7 @@ static bool showProfileManager(void)
 		return 1;
 
 	// wanna show it?
-	GetPrivateProfileString(L"Database", L"ShowProfileMgr", L"never", Mgr, _countof(Mgr), mirandabootini);
+	Profile_GetSetting(L"Database/ShowProfileMgr", Mgr, L"never");
 	return (mir_wstrcmpi(Mgr, L"yes") == 0);
 }
 
@@ -112,14 +111,14 @@ bool shouldAutoCreate(wchar_t *szProfile)
 		return false;
 
 	wchar_t ac[32];
-	GetPrivateProfileString(L"Database", L"AutoCreate", L"", ac, _countof(ac), mirandabootini);
+	Profile_GetSetting(L"Database/AutoCreate", ac);
 	return mir_wstrcmpi(ac, L"yes") == 0;
 }
 
 static void getDefaultProfile(wchar_t *szProfile, size_t cch)
 {
 	wchar_t defaultProfile[MAX_PATH];
-	GetPrivateProfileString(L"Database", L"DefaultProfile", L"", defaultProfile, _countof(defaultProfile), mirandabootini);
+	Profile_GetSetting(L"Database/DefaultProfile", defaultProfile);
 
 	if (defaultProfile[0] == 0)
 		return;
@@ -285,7 +284,7 @@ static int getProfileAutoRun(wchar_t *szProfile)
 		return false;
 
 	wchar_t Mgr[32];
-	GetPrivateProfileString(L"Database", L"ShowProfileMgr", L"", Mgr, _countof(Mgr), mirandabootini);
+	Profile_GetSetting(L"Database/ShowProfileMgr", Mgr);
 	if (mir_wstrcmpi(Mgr, L"never"))
 		return 0;
 
