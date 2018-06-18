@@ -246,7 +246,8 @@ static const checkBoxToStyleEx[] =
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CheckBoxValues_t {
+struct CheckBoxValues_t
+{
 	DWORD style;
 	wchar_t *szDescr;
 };
@@ -600,9 +601,10 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL));
 		}
-		CheckDlgButton(hwndDlg, IDC_ALWAYSSTATUS, db_get_b(0, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 
+		CheckDlgButton(hwndDlg, IDC_ALWAYSSTATUS, db_get_b(0, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_DISABLEBLINK, db_get_b(0, "CList", "DisableTrayFlash", SETTING_DISABLETRAYFLASH_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BLINKTIME), 0);		// set buddy
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETRANGE, 0, MAKELONG(0x3FFF, 250));
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CList", "IconFlashTime", SETTING_ICONFLASHTIME_DEFAULT), 0));
@@ -624,13 +626,12 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 					if (!mir_strcmp(pa->szModuleName, db_get_sa(0, "CList", "tiAccV")))
 						siV = item;
-
 				}
 			}
-			
+
 			// the empty list item must not be selected
 			if (siS < 0) siS = 0; if (siV < 0) siV = 0;
-			
+
 			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_SETCURSEL, siS, 0);
 			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_SETCURSEL, siV, 0);
 		}
@@ -733,7 +734,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				// icon cycling timeout.
 				db_set_w(0, "CList", "CycleTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
-				
+
 				// icon modes
 				db_set_b(0, "CList", "tiModeS",
 					IsDlgButtonChecked(hwndDlg, IDC_ICON_GLOBAL_S) << 0
@@ -1104,16 +1105,16 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_HSCROLL:
-	{
-		char str[10];
-		mir_snprintf(str, "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
-		SetDlgItemTextA(hwndDlg, IDC_INACTIVEPERC, str);
-		mir_snprintf(str, "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
-		SetDlgItemTextA(hwndDlg, IDC_ACTIVEPERC, str);
-	}
-	if (wParam != 0x12345678)
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-	break;
+		{
+			char str[10];
+			mir_snprintf(str, "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
+			SetDlgItemTextA(hwndDlg, IDC_INACTIVEPERC, str);
+			mir_snprintf(str, "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
+			SetDlgItemTextA(hwndDlg, IDC_ACTIVEPERC, str);
+		}
+		if (wParam != 0x12345678)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
+		break;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
@@ -1136,21 +1137,22 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			db_set_b(0, "CLUI", "DragToScroll", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
 
-			{ //======  Non-Layered Mode ======
-				db_set_b(0, "CList", "ToolWindow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TOOLWND));
-				db_set_b(0, "CLUI", "ShowCaption", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION));
-				db_set_b(0, "CLUI", "ShowMainMenu", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU));
-				db_set_b(0, "CList", "ThinBorder", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BORDER));
-				db_set_b(0, "CList", "NoBorder", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOBORDERWND));
-				{
-					wchar_t title[256];
-					GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
-					db_set_ws(0, "CList", "TitleText", title);
-				}
-				db_set_b(0, "CList", "Min2Tray", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MIN2TRAY));
-				db_set_b(0, "CList", "WindowShadow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DROPSHADOW));
-				db_set_b(0, "CLC", "RoundCorners", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ROUNDCORNERS));
-			} //======  End of Non-Layered Mode ======
+			//======  Non-Layered Mode ======
+			db_set_b(0, "CList", "ToolWindow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TOOLWND));
+			db_set_b(0, "CLUI", "ShowCaption", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION));
+			db_set_b(0, "CLUI", "ShowMainMenu", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU));
+			db_set_b(0, "CList", "ThinBorder", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BORDER));
+			db_set_b(0, "CList", "NoBorder", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOBORDERWND));
+			{
+				wchar_t title[256];
+				GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
+				db_set_ws(0, "CList", "TitleText", title);
+			}
+			db_set_b(0, "CList", "Min2Tray", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MIN2TRAY));
+			db_set_b(0, "CList", "WindowShadow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DROPSHADOW));
+			db_set_b(0, "CLC", "RoundCorners", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ROUNDCORNERS));
+			//======  End of Non-Layered Mode ======
+
 			g_mutex_bChangingMode = TRUE;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
@@ -1292,72 +1294,72 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		return TRUE;
 
 	case M_BKGR_GETSTATE:
-	{
-		int indx = wParam;
-		if (indx == CB_ERR || indx >= dat->count)
-			break;
+		{
+			int indx = wParam;
+			if (indx == CB_ERR || indx >= dat->count)
+				break;
 
-		indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
+			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
-		dat->item[indx].useBitmap = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
-		dat->item[indx].useWinColours = IsDlgButtonChecked(hwndDlg, IDC_USEWINCOL);
-		dat->item[indx].bkColor = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
-		dat->item[indx].selColor = SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_GETCOLOUR, 0, 0);
+			dat->item[indx].useBitmap = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
+			dat->item[indx].useWinColours = IsDlgButtonChecked(hwndDlg, IDC_USEWINCOL);
+			dat->item[indx].bkColor = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
+			dat->item[indx].selColor = SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_GETCOLOUR, 0, 0);
 
-		GetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename, _countof(dat->item[indx].filename));
+			GetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename, _countof(dat->item[indx].filename));
 
-		WORD flags = 0;
-		if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH)) flags |= CLB_STRETCHH;
-		if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHV)) flags |= CLB_STRETCHV;
-		if (IsDlgButtonChecked(hwndDlg, IDC_TILEH)) flags |= CLBF_TILEH;
-		if (IsDlgButtonChecked(hwndDlg, IDC_TILEV)) flags |= CLBF_TILEV;
-		if (IsDlgButtonChecked(hwndDlg, IDC_SCROLL)) flags |= CLBF_SCROLL;
-		if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
-		if (IsDlgButtonChecked(hwndDlg, IDC_TILEVROWH)) flags |= CLBF_TILEVTOROWHEIGHT;
-		dat->item[indx].flags = flags;
-	}
-	break;
+			WORD flags = 0;
+			if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH)) flags |= CLB_STRETCHH;
+			if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHV)) flags |= CLB_STRETCHV;
+			if (IsDlgButtonChecked(hwndDlg, IDC_TILEH)) flags |= CLBF_TILEH;
+			if (IsDlgButtonChecked(hwndDlg, IDC_TILEV)) flags |= CLBF_TILEV;
+			if (IsDlgButtonChecked(hwndDlg, IDC_SCROLL)) flags |= CLBF_SCROLL;
+			if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
+			if (IsDlgButtonChecked(hwndDlg, IDC_TILEVROWH)) flags |= CLBF_TILEVTOROWHEIGHT;
+			dat->item[indx].flags = flags;
+		}
+		break;
 
 	case M_BKGR_SETSTATE:
-	{
-		int flags;
-		int indx = wParam;
-		if (indx == -1) break;
-		flags = dat->item[indx].flags;
-		if (indx == CB_ERR || indx >= dat->count) break;
-		indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
+		{
+			int indx = wParam;
+			if (indx == CB_ERR || indx >= dat->count)
+				break;
 
-		CheckDlgButton(hwndDlg, IDC_BITMAP, dat->item[indx].useBitmap ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_USEWINCOL, dat->item[indx].useWinColours ? BST_CHECKED : BST_UNCHECKED);
+			int flags = dat->item[indx].flags;
+			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), !dat->item[indx].useWinColours);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SELCOLOUR), !dat->item[indx].useWinColours);
+			CheckDlgButton(hwndDlg, IDC_BITMAP, dat->item[indx].useBitmap ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_USEWINCOL, dat->item[indx].useWinColours ? BST_CHECKED : BST_UNCHECKED);
 
-		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, DEFAULT_BKCOLOUR);
-		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].bkColor);
-		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETDEFAULTCOLOUR, 0, DEFAULT_SELBKCOLOUR);
-		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].selColor);
-		SetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), !dat->item[indx].useWinColours);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SELCOLOUR), !dat->item[indx].useWinColours);
 
-		CheckDlgButton(hwndDlg, IDC_STRETCHH, flags&CLB_STRETCHH ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_STRETCHV, flags&CLB_STRETCHV ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TILEH, flags&CLBF_TILEH ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TILEV, flags&CLBF_TILEV ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SCROLL, flags&CLBF_SCROLL ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, flags&CLBF_PROPORTIONAL ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TILEVROWH, flags&CLBF_TILEVTOROWHEIGHT ? BST_CHECKED : BST_UNCHECKED);
+			SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, DEFAULT_BKCOLOUR);
+			SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].bkColor);
+			SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETDEFAULTCOLOUR, 0, DEFAULT_SELBKCOLOUR);
+			SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].selColor);
+			SetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename);
 
-		SendMessage(hwndDlg, M_BKGR_UPDATE, 0, 0);
-	}
-	break;
+			CheckDlgButton(hwndDlg, IDC_STRETCHH, flags&CLB_STRETCHH ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_STRETCHV, flags&CLB_STRETCHV ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TILEH, flags&CLBF_TILEH ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TILEV, flags&CLBF_TILEV ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SCROLL, flags&CLBF_SCROLL ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, flags&CLBF_PROPORTIONAL ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TILEVROWH, flags&CLBF_TILEVTOROWHEIGHT ? BST_CHECKED : BST_UNCHECKED);
+
+			SendMessage(hwndDlg, M_BKGR_UPDATE, 0, 0);
+		}
+		break;
 
 	case M_BKGR_UPDATE:
-	{
-		int isChecked = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
-		for (auto &it : bitmapRelatedControls)
-			EnableWindow(GetDlgItem(hwndDlg, it), isChecked);
-	}
-	break;
+		{
+			int isChecked = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
+			for (auto &it : bitmapRelatedControls)
+				EnableWindow(GetDlgItem(hwndDlg, it), isChecked);
+		}
+		break;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_BROWSE) {
