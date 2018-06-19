@@ -30,8 +30,6 @@ struct AAMSGSETTING
 	char* msg;
 };
 
-char *StatusModeToDbSetting(int status, const char *suffix);
-
 void DisableDialog(HWND hwndDlg)
 {
 	EnableWindow(GetDlgItem(hwndDlg, IDC_STATUS), FALSE);

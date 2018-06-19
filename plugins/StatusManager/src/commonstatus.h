@@ -22,26 +22,7 @@
 #ifndef COMMONSTATUSHEADER
 #define COMMONSTATUSHEADER
 
-#include <windows.h>
-#include <shlobj.h>
-#include <uxtheme.h>
-#include <stdio.h>
-
-#include <newpluginapi.h>
-#include <m_system.h>
-#include <m_awaymsg.h>
-#include <m_database.h>
-#include <m_protosvc.h>
-#include <m_clist.h>
-#include <m_string.h>
-#include <m_langpack.h>
-#include <m_popup.h>
-#include <m_variables.h>
-#include <m_netlib.h>
-#include "m_statusplugins.h"
-#include <m_utils.h>
-#include <m_NewAwaySys.h>
-#include <win2k.h>
+#define MODULENAME "StatusManager"
 
 #if defined( _WIN64 )
 #define __PLATFORM_NAME  "64"

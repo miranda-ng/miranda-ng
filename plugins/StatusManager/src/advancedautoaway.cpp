@@ -54,85 +54,8 @@ DWORD lastMirandaInput = 0;
 static UINT_PTR hAutoAwayTimer;
 // prototypes
 extern DWORD StatusModeToProtoFlag(int status);
-static int HookWindowsHooks(int hookMiranda, int hookAll);
-static int UnhookWindowsHooks();
-static LRESULT CALLBACK MouseHookFunction(int code, WPARAM wParam, LPARAM lParam);
-static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam);
-static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM lParam);
-static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam);
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 
-static VOID CALLBACK AutoAwayTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
-extern int AutoAwayOptInitialise(WPARAM wParam, LPARAM lParam);
-extern char *StatusModeToDbSetting(int status, const char *suffix);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Load from DB
-
-void AAAUnloadOptions()
-{
-	UnhookWindowsHooks();
-	if (hAutoAwayTimer != 0)
-		KillTimer(nullptr, hAutoAwayTimer);
-}
-
-void AAALoadOptions()
-{
-	// if bOverride is enabled, samesettings will be ignored (for options loading)
-	int monitorMiranda = FALSE; // use windows hooks?
-	int monitorAll = FALSE; // use windows hooks?
-
-	AAAUnloadOptions();
-
-	ignoreLockKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNLOCK, FALSE);
-	ignoreSysKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, FALSE);
-	ignoreAltCombo = db_get_b(0, AAAMODULENAME, SETTING_IGNALTCOMBO, FALSE);
-	monitorMouse = db_get_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, TRUE);
-	monitorKeyboard = db_get_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, TRUE);
-	lastInput = lastMirandaInput = GetTickCount();
-
-	for (auto &it : protoList) {
-		char* protoName;
-		if (g_bAAASettingSame)
-			protoName = SETTING_ALL;
-		else
-			protoName = it->m_szName;
-		LoadAutoAwaySetting(*it, protoName);
-
-		if (it->optionFlags & FLAG_MONITORMIRANDA)
-			monitorMiranda = TRUE;
-		else if (ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
-			monitorAll = TRUE;
-	}
-
-	HookWindowsHooks(monitorMiranda, monitorAll);
-	hAutoAwayTimer = SetTimer(nullptr, 0, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
-}
-
-int LoadAutoAwaySetting(SMProto &autoAwaySetting, char* protoName)
-{
-	char setting[128];
-	mir_snprintf(setting, "%s_OptionFlags", protoName);
-	autoAwaySetting.optionFlags = db_get_w(0, AAAMODULENAME, setting, FLAG_LV2ONINACTIVE | FLAG_RESET | FLAG_ENTERIDLE);
-	mir_snprintf(setting, "%s_AwayTime", protoName);
-	autoAwaySetting.awayTime = db_get_w(0, AAAMODULENAME, setting, SETTING_AWAYTIME_DEFAULT);
-	mir_snprintf(setting, "%s_NATime", protoName);
-	autoAwaySetting.naTime = db_get_w(0, AAAMODULENAME, setting, SETTING_NATIME_DEFAULT);
-	mir_snprintf(setting, "%s_StatusFlags", protoName);
-	autoAwaySetting.statusFlags = db_get_w(0, AAAMODULENAME, setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
-
-	int flags;
-	if (g_bAAASettingSame)
-		flags = 0xFFFFFF;
-	else
-		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
-	mir_snprintf(setting, "%s_Lv1Status", protoName);
-	autoAwaySetting.lv1Status = db_get_w(0, AAAMODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
-	mir_snprintf(setting, "%s_Lv2Status", protoName);
-	autoAwaySetting.lv2Status = db_get_w(0, AAAMODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
-
-	return 0;
-}
+int AutoAwayOptInitialise(WPARAM wParam, LPARAM lParam);
 
 static int ProcessProtoAck(WPARAM, LPARAM lParam)
 {
@@ -348,35 +271,6 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Windows hooks 
 
-static int HookWindowsHooks(int hookMiranda, int hookAll)
-{
-	if (hookMiranda) {
-		if (monitorKeyboard && hMirandaKeyBoardHook == nullptr)
-			hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, MirandaKeyBoardHookFunction, nullptr, GetCurrentThreadId());
-		if (monitorMouse && hMirandaMouseHook == nullptr)
-			hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE, MirandaMouseHookFunction, nullptr, GetCurrentThreadId());
-	}
-	if (hookAll) {
-		if (monitorKeyboard && hKeyBoardHook == nullptr)
-			hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, nullptr, GetCurrentThreadId());
-		if (monitorMouse && hMouseHook == nullptr)
-			hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, nullptr, GetCurrentThreadId());
-	}
-
-	return 0;
-}
-
-static int UnhookWindowsHooks()
-{
-	UnhookWindowsHookEx(hMouseHook);
-	UnhookWindowsHookEx(hKeyBoardHook);
-	UnhookWindowsHookEx(hMirandaMouseHook);
-	UnhookWindowsHookEx(hMirandaKeyBoardHook);
-
-	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = nullptr;
-	return 0;
-}
-
 static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code >= 0) {
@@ -503,6 +397,102 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 	return CallNextHookEx(hKeyBoardHook, code, wParam, lParam);
 }
 
+static int HookWindowsHooks(int hookMiranda, int hookAll)
+{
+	if (hookMiranda) {
+		if (monitorKeyboard && hMirandaKeyBoardHook == nullptr)
+			hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, MirandaKeyBoardHookFunction, nullptr, GetCurrentThreadId());
+		if (monitorMouse && hMirandaMouseHook == nullptr)
+			hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE, MirandaMouseHookFunction, nullptr, GetCurrentThreadId());
+	}
+	if (hookAll) {
+		if (monitorKeyboard && hKeyBoardHook == nullptr)
+			hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, nullptr, GetCurrentThreadId());
+		if (monitorMouse && hMouseHook == nullptr)
+			hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, nullptr, GetCurrentThreadId());
+	}
+
+	return 0;
+}
+
+static int UnhookWindowsHooks()
+{
+	UnhookWindowsHookEx(hMouseHook);
+	UnhookWindowsHookEx(hKeyBoardHook);
+	UnhookWindowsHookEx(hMirandaMouseHook);
+	UnhookWindowsHookEx(hMirandaKeyBoardHook);
+
+	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = nullptr;
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Load from DB
+
+int LoadAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
+{
+	char setting[128];
+	mir_snprintf(setting, "%s_OptionFlags", protoName);
+	autoAwaySetting.optionFlags = db_get_w(0, AAAMODULENAME, setting, FLAG_LV2ONINACTIVE | FLAG_RESET | FLAG_ENTERIDLE);
+	mir_snprintf(setting, "%s_AwayTime", protoName);
+	autoAwaySetting.awayTime = db_get_w(0, AAAMODULENAME, setting, SETTING_AWAYTIME_DEFAULT);
+	mir_snprintf(setting, "%s_NATime", protoName);
+	autoAwaySetting.naTime = db_get_w(0, AAAMODULENAME, setting, SETTING_NATIME_DEFAULT);
+	mir_snprintf(setting, "%s_StatusFlags", protoName);
+	autoAwaySetting.statusFlags = db_get_w(0, AAAMODULENAME, setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
+
+	int flags;
+	if (g_bAAASettingSame)
+		flags = 0xFFFFFF;
+	else
+		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+	mir_snprintf(setting, "%s_Lv1Status", protoName);
+	autoAwaySetting.lv1Status = db_get_w(0, AAAMODULENAME, setting, (flags & StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
+	mir_snprintf(setting, "%s_Lv2Status", protoName);
+	autoAwaySetting.lv2Status = db_get_w(0, AAAMODULENAME, setting, (flags & StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
+
+	return 0;
+}
+
+void AAAUnloadOptions()
+{
+	UnhookWindowsHooks();
+	if (hAutoAwayTimer != 0)
+		KillTimer(nullptr, hAutoAwayTimer);
+}
+
+void AAALoadOptions()
+{
+	// if bOverride is enabled, samesettings will be ignored (for options loading)
+	AAAUnloadOptions();
+
+	bool monitorMiranda = false, monitorAll = false;
+
+	ignoreLockKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNLOCK, FALSE);
+	ignoreSysKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, FALSE);
+	ignoreAltCombo = db_get_b(0, AAAMODULENAME, SETTING_IGNALTCOMBO, FALSE);
+	monitorMouse = db_get_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, TRUE) != 0;
+	monitorKeyboard = db_get_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, TRUE) != 0;
+	lastInput = lastMirandaInput = GetTickCount();
+
+	for (auto &it : protoList) {
+		char *protoName;
+		if (g_bAAASettingSame)
+			protoName = SETTING_ALL;
+		else
+			protoName = it->m_szName;
+		LoadAutoAwaySetting(*it, protoName);
+
+		if (it->optionFlags & FLAG_MONITORMIRANDA)
+			monitorMiranda = true;
+		else if (ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
+			monitorAll = true;
+	}
+
+	HookWindowsHooks(monitorMiranda, monitorAll);
+	hAutoAwayTimer = SetTimer(nullptr, 0, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Inits & stuff
 
@@ -512,7 +502,7 @@ static int AutoAwayShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int AAAModuleLoaded(WPARAM, LPARAM)
+static int AAAModuleLoaded(WPARAM, LPARAM)
 {
 	hEvents[0] = HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
 	hEvents[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, AutoAwayShutdown);
@@ -520,8 +510,6 @@ int AAAModuleLoaded(WPARAM, LPARAM)
 	
 	mouseStationaryTimer = 0;
 	lastInput = lastMirandaInput = GetTickCount();
-
-	////////////////////////////////////////////////////////////////////////////////////////
 
 	AAALoadOptions();
 	return 0;

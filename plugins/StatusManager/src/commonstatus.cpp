@@ -78,15 +78,9 @@ TProtoSettings::TProtoSettings(const TProtoSettings &p)
 		insert(new SMProto(*it));
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// prototypes
-
-char* StatusModeToDbSetting(int status, const char *suffix);
-DWORD StatusModeToProtoFlag(int status);
-
 // some helpers from awaymsg.c ================================================================
 
-char *StatusModeToDbSetting(int status, const char *suffix)
+char* StatusModeToDbSetting(int status, const char *suffix)
 {
 	char *prefix;
 	static char str[64];
