@@ -796,13 +796,14 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   SectionSize.QuadPart = size;
   rc = NtCreateSection(
       &map->section,
-      /* DesiredAccess */ (flags & MDBX_WRITEMAP)
+      /* DesiredAccess */
+          (flags & MDBX_WRITEMAP)
           ? SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE |
                 SECTION_MAP_WRITE
           : SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE,
       /* ObjectAttributes */ NULL, /* MaximumSize (InitialSize) */ &SectionSize,
-      /* SectionPageProtection */ (flags & MDBX_RDONLY) ? PAGE_READONLY
-                                                        : PAGE_READWRITE,
+      /* SectionPageProtection */
+          (flags & MDBX_RDONLY) ? PAGE_READONLY : PAGE_READWRITE,
       /* AllocationAttributes */ SEC_RESERVE, map->fd);
   if (!NT_SUCCESS(rc))
     return ntstatus2errcode(rc);
@@ -815,8 +816,8 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
       /* SectionOffset */ NULL, &ViewSize,
       /* InheritDisposition */ ViewUnmap,
       /* AllocationType */ (flags & MDBX_RDONLY) ? 0 : MEM_RESERVE,
-      /* Win32Protect */ (flags & MDBX_WRITEMAP) ? PAGE_READWRITE
-                                                 : PAGE_READONLY);
+      /* Win32Protect */
+          (flags & MDBX_WRITEMAP) ? PAGE_READWRITE : PAGE_READONLY);
   if (!NT_SUCCESS(rc)) {
     NtClose(map->section);
     map->section = 0;
@@ -851,11 +852,6 @@ int mdbx_munmap(mdbx_mmap_t *map) {
   if (!NT_SUCCESS(rc))
     ntstatus2errcode(rc);
 
-  if (map->filesize != map->current &&
-      mdbx_filesize(map->fd, &map->filesize) == MDBX_SUCCESS &&
-      map->filesize != map->current)
-    (void)mdbx_ftruncate(map->fd, map->current);
-
   map->length = 0;
   map->current = 0;
   map->address = nullptr;
@@ -881,8 +877,11 @@ int mdbx_mresize(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
     /* growth rw-section */
     SectionSize.QuadPart = size;
     status = NtExtendSection(map->section, &SectionSize);
-    if (NT_SUCCESS(status))
-      map->filesize = map->current = size;
+    if (NT_SUCCESS(status)) {
+      map->current = size;
+      if (map->filesize < size)
+        map->filesize = size;
+    }
     return ntstatus2errcode(status);
   }
 
@@ -902,10 +901,10 @@ int mdbx_mresize(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   }
 
   /* Windows unable:
-    *  - shrink a mapped file;
-    *  - change size of mapped view;
-    *  - extend read-only mapping;
-    * Therefore we should unmap/map entire section. */
+   *  - shrink a mapped file;
+   *  - change size of mapped view;
+   *  - extend read-only mapping;
+   * Therefore we should unmap/map entire section. */
   status = NtUnmapViewOfSection(GetCurrentProcess(), map->address);
   if (!NT_SUCCESS(status))
     return ntstatus2errcode(status);
@@ -957,14 +956,15 @@ retry_file_and_section:
   SectionSize.QuadPart = size;
   status = NtCreateSection(
       &map->section,
-      /* DesiredAccess */ (flags & MDBX_WRITEMAP)
+      /* DesiredAccess */
+          (flags & MDBX_WRITEMAP)
           ? SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE |
                 SECTION_MAP_WRITE
           : SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE,
       /* ObjectAttributes */ NULL,
       /* MaximumSize (InitialSize) */ &SectionSize,
-      /* SectionPageProtection */ (flags & MDBX_RDONLY) ? PAGE_READONLY
-                                                        : PAGE_READWRITE,
+      /* SectionPageProtection */
+          (flags & MDBX_RDONLY) ? PAGE_READONLY : PAGE_READWRITE,
       /* AllocationAttributes */ SEC_RESERVE, map->fd);
 
   if (!NT_SUCCESS(status))
@@ -988,8 +988,8 @@ retry_mapview:;
       /* SectionOffset */ NULL, &ViewSize,
       /* InheritDisposition */ ViewUnmap,
       /* AllocationType */ (flags & MDBX_RDONLY) ? 0 : MEM_RESERVE,
-      /* Win32Protect */ (flags & MDBX_WRITEMAP) ? PAGE_READWRITE
-                                                 : PAGE_READONLY);
+      /* Win32Protect */
+          (flags & MDBX_WRITEMAP) ? PAGE_READWRITE : PAGE_READONLY);
 
   if (!NT_SUCCESS(status)) {
     if (status == /* STATUS_CONFLICTING_ADDRESSES */ 0xC0000018 &&

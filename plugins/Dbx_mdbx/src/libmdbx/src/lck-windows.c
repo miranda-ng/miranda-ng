@@ -52,7 +52,8 @@ void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
 #define LCK_WAITFOR 0
 #define LCK_DONTWAIT LOCKFILE_FAIL_IMMEDIATELY
 
-static __inline BOOL flock(mdbx_filehandle_t fd, DWORD flags, uint64_t offset, size_t bytes) {
+static __inline BOOL flock(mdbx_filehandle_t fd, DWORD flags, uint64_t offset,
+                           size_t bytes) {
   return TRUE;
 }
 
@@ -81,8 +82,9 @@ int mdbx_txn_lock(MDBX_env *env, bool dontwait) {
     EnterCriticalSection(&env->me_windowsbug_lock);
   }
 
-  if (flock(env->me_fd, dontwait ? (LCK_EXCLUSIVE | LCK_DONTWAIT)
-                                 : (LCK_EXCLUSIVE | LCK_WAITFOR),
+  if (flock(env->me_fd,
+            dontwait ? (LCK_EXCLUSIVE | LCK_DONTWAIT)
+                     : (LCK_EXCLUSIVE | LCK_WAITFOR),
             LCK_BODY))
     return MDBX_SUCCESS;
   int rc = GetLastError();
@@ -307,7 +309,7 @@ static int internal_seize_lck(HANDLE lfd) {
                "?-E(middle) >> S-E(locked)", rc);
 
   /* 8) now on S-E (locked) or still on ?-E (middle),
-  *    transite to S-? (used) or ?-? (free) */
+   *    transite to S-? (used) or ?-? (free) */
   if (!funlock(lfd, LCK_UPPER))
     mdbx_panic("%s(%s) failed: errcode %u", mdbx_func_,
                "X-E(locked/middle) >> X-?(used/free)", GetLastError());

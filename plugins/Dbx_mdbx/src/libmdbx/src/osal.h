@@ -21,14 +21,13 @@
 
 #ifdef _MSC_VER
 #pragma warning(push, 1)
-#pragma warning(disable : 4548) /* expression before comma has no effect; \ \                                                                             \
+#pragma warning(disable : 4548) /* expression before comma has no effect;      \
                                    expected expression with side - effect */
-#pragma warning(disable : 4530) /* C++ exception handler used, but unwind \ \                                                                             \
+#pragma warning(disable : 4530) /* C++ exception handler used, but unwind      \
                                  * semantics are not enabled. Specify /EHsc */
-#pragma warning(                                                               \
-    disable : 4577) /* 'noexcept' used with no exception handling  \ \                                                                             \
-                     * mode specified; termination on exception is \ \ not                                                                           \
-                     * guaranteed. Specify /EHsc */
+#pragma warning(disable : 4577) /* 'noexcept' used with no exception handling  \
+                                 * mode specified; termination on exception is \
+                                 * not guaranteed. Specify /EHsc */
 #if !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -323,8 +322,8 @@ static __inline void mdbx_memory_barrier(void) {
 #endif
 }
 
-  /*----------------------------------------------------------------------------*/
-  /* Cache coherence and invalidation */
+/*----------------------------------------------------------------------------*/
+/* Cache coherence and invalidation */
 
 #ifndef MDBX_CACHE_IS_COHERENT
 #if defined(__ia32__) || defined(__e2k__) || defined(__hppa) ||                \
@@ -375,8 +374,8 @@ static __inline void mdbx_invalidate_cache(void *addr, size_t nbytes) {
 #endif
 }
 
-  /*----------------------------------------------------------------------------*/
-  /* libc compatibility stuff */
+/*----------------------------------------------------------------------------*/
+/* libc compatibility stuff */
 
 #ifndef mdbx_assert_fail
 void mdbx_assert_fail(const MDBX_env *env, const char *msg, const char *func,
@@ -578,11 +577,11 @@ void mdbx_shlock_acquireExclusive(MDBX_shlock *lck);
 void mdbx_shlock_releaseExclusive(MDBX_shlock *lck);
 
 /* Checks reader by pid.
-*
-* Returns:
-*   MDBX_RESULT_TRUE, if pid is live (unable to acquire lock)
-*   MDBX_RESULT_FALSE, if pid is dead (lock acquired)
-*   or otherwise the errcode. */
+ *
+ * Returns:
+ *   MDBX_RESULT_TRUE, if pid is live (unable to acquire lock)
+ *   MDBX_RESULT_FALSE, if pid is dead (lock acquired)
+ *   or otherwise the errcode. */
 int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid);
 
 /*----------------------------------------------------------------------------*/
@@ -597,11 +596,11 @@ int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid);
 /* LY: nothing required */
 #elif defined(_MSC_VER)
 #pragma warning(disable : 4163) /* 'xyz': not available as an intrinsic */
-#pragma warning(disable : 4133) /* 'function': incompatible types - from \ \                                                                             \
+#pragma warning(disable : 4133) /* 'function': incompatible types - from       \
                                    'size_t' to 'LONGLONG' */
-#pragma warning(disable : 4244) /* 'return': conversion from 'LONGLONG' to \ \                                                                             \
+#pragma warning(disable : 4244) /* 'return': conversion from 'LONGLONG' to     \
                                    'std::size_t', possible loss of data */
-#pragma warning(disable : 4267) /* 'function': conversion from 'size_t' to \ \                                                                             \
+#pragma warning(disable : 4267) /* 'function': conversion from 'size_t' to     \
                                    'long', possible loss of data */
 #pragma intrinsic(_InterlockedExchangeAdd, _InterlockedCompareExchange)
 #pragma intrinsic(_InterlockedExchangeAdd64, _InterlockedCompareExchange64)
@@ -611,80 +610,80 @@ int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid);
 #error FIXME atomic-ops
 #endif
 
-  static __inline uint32_t mdbx_atomic_add32(volatile uint32_t *p, uint32_t v) {
+static __inline uint32_t mdbx_atomic_add32(volatile uint32_t *p, uint32_t v) {
 #if !defined(__cplusplus) && defined(ATOMIC_VAR_INIT)
-    assert(atomic_is_lock_free(p));
-    return atomic_fetch_add((_Atomic uint32_t *)p, v);
+  assert(atomic_is_lock_free(p));
+  return atomic_fetch_add((_Atomic uint32_t *)p, v);
 #elif defined(__GNUC__) || defined(__clang__)
-    return __sync_fetch_and_add(p, v);
+  return __sync_fetch_and_add(p, v);
 #else
 #ifdef _MSC_VER
-    return _InterlockedExchangeAdd(p, v);
+  return _InterlockedExchangeAdd(p, v);
 #endif
 #ifdef __APPLE__
-    return OSAtomicAdd32(v, (volatile int32_t *)p);
+  return OSAtomicAdd32(v, (volatile int32_t *)p);
 #endif
 #endif
-  }
+}
 
-  static __inline uint64_t mdbx_atomic_add64(volatile uint64_t *p, uint64_t v) {
+static __inline uint64_t mdbx_atomic_add64(volatile uint64_t *p, uint64_t v) {
 #if !defined(__cplusplus) && defined(ATOMIC_VAR_INIT)
-    assert(atomic_is_lock_free(p));
-    return atomic_fetch_add((_Atomic uint64_t *)p, v);
+  assert(atomic_is_lock_free(p));
+  return atomic_fetch_add((_Atomic uint64_t *)p, v);
 #elif defined(__GNUC__) || defined(__clang__)
-    return __sync_fetch_and_add(p, v);
+  return __sync_fetch_and_add(p, v);
 #else
 #ifdef _MSC_VER
 #ifdef _WIN64
-    return _InterlockedExchangeAdd64((volatile int64_t *)p, v);
+  return _InterlockedExchangeAdd64((volatile int64_t *)p, v);
 #else
-    return InterlockedExchangeAdd64((volatile int64_t *)p, v);
+  return InterlockedExchangeAdd64((volatile int64_t *)p, v);
 #endif
 #endif /* _MSC_VER */
 #ifdef __APPLE__
-    return OSAtomicAdd64(v, (volatile int64_t *)p);
+  return OSAtomicAdd64(v, (volatile int64_t *)p);
 #endif
 #endif
-  }
+}
 
 #define mdbx_atomic_sub32(p, v) mdbx_atomic_add32(p, 0 - (v))
 #define mdbx_atomic_sub64(p, v) mdbx_atomic_add64(p, 0 - (v))
 
-  static __inline bool mdbx_atomic_compare_and_swap32(volatile uint32_t *p,
-                                                      uint32_t c, uint32_t v) {
+static __inline bool mdbx_atomic_compare_and_swap32(volatile uint32_t *p,
+                                                    uint32_t c, uint32_t v) {
 #if !defined(__cplusplus) && defined(ATOMIC_VAR_INIT)
-    assert(atomic_is_lock_free(p));
-    return atomic_compare_exchange_strong((_Atomic uint32_t *)p, &c, v);
+  assert(atomic_is_lock_free(p));
+  return atomic_compare_exchange_strong((_Atomic uint32_t *)p, &c, v);
 #elif defined(__GNUC__) || defined(__clang__)
-    return __sync_bool_compare_and_swap(p, c, v);
+  return __sync_bool_compare_and_swap(p, c, v);
 #else
 #ifdef _MSC_VER
-    return c == _InterlockedCompareExchange(p, v, c);
+  return c == _InterlockedCompareExchange(p, v, c);
 #endif
 #ifdef __APPLE__
-    return c == OSAtomicCompareAndSwap32Barrier(c, v, (volatile int32_t *)p);
+  return c == OSAtomicCompareAndSwap32Barrier(c, v, (volatile int32_t *)p);
 #endif
 #endif
-  }
+}
 
-  static __inline bool mdbx_atomic_compare_and_swap64(volatile uint64_t *p,
-                                                      uint64_t c, uint64_t v) {
+static __inline bool mdbx_atomic_compare_and_swap64(volatile uint64_t *p,
+                                                    uint64_t c, uint64_t v) {
 #if !defined(__cplusplus) && defined(ATOMIC_VAR_INIT)
-    assert(atomic_is_lock_free(p));
-    return atomic_compare_exchange_strong((_Atomic uint64_t *)p, &c, v);
+  assert(atomic_is_lock_free(p));
+  return atomic_compare_exchange_strong((_Atomic uint64_t *)p, &c, v);
 #elif defined(__GNUC__) || defined(__clang__)
-    return __sync_bool_compare_and_swap(p, c, v);
+  return __sync_bool_compare_and_swap(p, c, v);
 #else
 #ifdef _MSC_VER
-    return c == _InterlockedCompareExchange64((volatile int64_t *)p, v, c);
+  return c == _InterlockedCompareExchange64((volatile int64_t *)p, v, c);
 #endif
 #ifdef __APPLE__
-    return c == OSAtomicCompareAndSwap64Barrier(c, v, (volatile uint64_t *)p);
+  return c == OSAtomicCompareAndSwap64Barrier(c, v, (volatile uint64_t *)p);
 #endif
 #endif
-  }
+}
 
-    /*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 
 #if defined(_MSC_VER) && _MSC_VER >= 1900 && _MSC_VER < 1920
 /* LY: MSVC 2015/2017 has buggy/inconsistent PRIuPTR/PRIxPTR macros
