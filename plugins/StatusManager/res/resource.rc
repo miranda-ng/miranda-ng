@@ -290,7 +290,6 @@ BEGIN
     EDITTEXT        IDC_AWAYCHECKTIMEINSECS,240,122,22,14,ES_AUTOHSCROLL
     RTEXT           "Confirm dialog timeout (secs)",IDC_STATIC,7,142,227,8
     EDITTEXT        IDC_CONFIRMDELAY,240,138,22,14,ES_AUTOHSCROLL
-    CTEXT           "This options are ignored because you enabled ""Change my status mode to"" in the ""Idle"" options dialog.",IDC_IDLEWARNING,7,164,255,20,NOT WS_VISIBLE
     CONTROL         "Monitor keyboard activity",IDC_MONITORKEYBOARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,77,255,10
     CONTROL         "Monitor mouse activity",IDC_MONITORMOUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,88,255,10
     CONTROL         "Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys",IDC_IGNSYSKEYS,

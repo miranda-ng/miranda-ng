@@ -105,9 +105,6 @@ void AAALoadOptions()
 			monitorAll = TRUE;
 	}
 
-	if (db_get_b(0, "Idle", "AAEnable", 0))
-		return;
-
 	HookWindowsHooks(monitorMiranda, monitorAll);
 	hAutoAwayTimer = SetTimer(nullptr, 0, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
 }
@@ -208,6 +205,23 @@ static int changeState(SMProto &setting, int mode, STATES newState)
 	return 0;
 }
 
+static int getIdleMode(int options)
+{
+	if ((options & FLAG_ONSAVER) && IsScreenSaverRunning())
+		return 1;
+
+	if ((options & FLAG_ONLOCK) && IsWorkstationLocked())
+		return 2;
+	
+	if ((options & FLAG_ONTS) && IsTerminalDisconnected())
+		return 3;
+	
+	if ((options & FLAG_FULLSCREEN) && IsFullScreen())
+		return 4;
+
+	return 0;
+}
+
 static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	int statusChanged = FALSE;
@@ -215,8 +229,6 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 
 	for (auto &it : protoList) {
 		it->aaaStatus = ID_STATUS_DISABLED;
-
-		int mode = 0;
 
 		if (it->optionFlags & FLAG_MONITORMIRANDA)
 			mouseStationaryTimer = (GetTickCount() - lastMirandaInput) / 1000;
@@ -231,18 +243,11 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		int sts1setTime = it->sts1setTimer == 0 ? 0 : (GetTickCount() - it->sts1setTimer) / 1000;
 		int currentMode = Proto_GetStatus(it->m_szName);
 
-		if (it->optionFlags & FLAG_ONSAVER)
-			mode = 1;
-		else if (it->optionFlags & FLAG_ONLOCK)
-			mode = 2;
-		else if (it->optionFlags & FLAG_ONTS)
-			mode = 3;
-		else if (it->optionFlags & FLAG_FULLSCREEN)
-			mode = 4;
+		int mode = getIdleMode(it->optionFlags);
 
 		/* check states */
 		if (it->curState == ACTIVE) {
-			if (((mouseStationaryTimer >= sts1Time && (it->optionFlags & FLAG_ONMOUSE)) || mode) && currentMode != it->lv1Status && it->statusFlags&StatusModeToProtoFlag(currentMode)) {
+			if (((mouseStationaryTimer >= sts1Time && (it->optionFlags & FLAG_ONMOUSE)) || mode) && currentMode != it->lv1Status && it->statusFlags & StatusModeToProtoFlag(currentMode)) {
 				if (it->optionFlags & FLAG_ONMOUSE)
 					mode = 5;
 

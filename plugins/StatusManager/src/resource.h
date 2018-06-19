@@ -99,7 +99,6 @@
 #define IDC_PROTOLIST                   1079
 #define IDC_ENABLECHECKING              1080
 #define IDC_DISABLECHECKING             1081
-#define IDC_IDLEWARNING                 1084
 #define IDC_DESCRIPTION                 1085
 #define IDC_CONTCHECK                   1087
 #define IDC_BYPING                      1088

@@ -386,11 +386,6 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 		SetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5), FALSE);
 		SetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5), FALSE);
 		CheckDlgButton(hwndDlg, bSettingSame ? IDC_SAMESETTINGS : IDC_PERPROTOCOLSETTINGS, BST_CHECKED);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_IDLEWARNING), db_get_b(0, "Idle", "AAEnable", 0));
-		break;
-
-	case WM_SHOWWINDOW:
-		ShowWindow(GetDlgItem(hwndDlg, IDC_IDLEWARNING), (db_get_b(0, "Idle", "AAEnable", 0)));
 		break;
 
 	case WM_COMMAND:
