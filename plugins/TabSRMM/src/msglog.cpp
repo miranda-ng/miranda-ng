@@ -452,6 +452,13 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
 		dat->m_cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
+	BOOL isSent = (dbei.flags & DBEF_SENT);
+	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
+	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+		db_event_markRead(hContact, hDbEvent);
+		g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
+	}
+
 	CMStringW msg(ptrW(DbEvent_GetTextW(&dbei, CP_UTF8)));
 	if (msg.IsEmpty()) {
 		mir_free(dbei.pBlob);
@@ -461,7 +468,6 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 	dat->FormatRaw(msg, 1, FALSE);
 
 	CMStringA str;
-	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
 	if (dat->m_isAutoRTL & 2) {                                     // means: last \\par was deleted to avoid new line at end of log
 		str.Append("\\par");
@@ -478,12 +484,6 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 
 	dat->m_bIsHistory = (dbei.timestamp < dat->m_cache->getSessionStart() && dbei.markedRead());
 	int iFontIDOffset = dat->m_bIsHistory ? 8 : 0;     // offset into the font table for either history (old) or new events... (# of fonts per configuration set)
-	BOOL isSent = (dbei.flags & DBEF_SENT);
-
-	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-		db_event_markRead(hContact, hDbEvent);
-		g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
-	}
 
 	g_groupBreak = TRUE;
 
