@@ -17,13 +17,179 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "..\stdafx.h"
+#include "stdafx.h"
 
 int LoadAutoAwaySetting(SMProto &autoAwaySetting, char* protoName);
 
-INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+bool g_bAAASettingSame;
 
-static BOOL bSettingSame = FALSE;
+struct AAMSGSETTING
+{
+	short useCustom;
+	int   status;
+	char* msg;
+};
+
+char *StatusModeToDbSetting(int status, const char *suffix);
+
+void DisableDialog(HWND hwndDlg)
+{
+	EnableWindow(GetDlgItem(hwndDlg, IDC_STATUS), FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_RADUSECUSTOM), FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_RADUSEMIRANDA), FALSE);
+}
+
+INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	static AAMSGSETTING** settings;
+	static int last, count;
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			ShowWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), ServiceExists(MS_VARS_SHOWHELP) ? SW_SHOW : SW_HIDE);
+			count = 0;
+			last = -1;
+
+			PROTOACCOUNT** proto;
+			int protoCount = 0;
+			Proto_EnumAccounts(&protoCount, &proto);
+			if (protoCount <= 0) {
+				DisableDialog(hwndDlg);
+				break;
+			}
+
+			DWORD protoModeMsgFlags = 0;
+			for (int i = 0; i < protoCount; i++)
+				if (CallProtoService(proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG)
+					protoModeMsgFlags |= CallProtoService(proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+
+			if (protoModeMsgFlags == 0) {
+				DisableDialog(hwndDlg);
+				break;
+			}
+
+			settings = (AAMSGSETTING**)mir_alloc(sizeof(AAMSGSETTING*));
+			count = 0;
+			for (auto &it : statusModes) {
+				if (!(protoModeMsgFlags & Proto_Status2Flag(it.iStatus)))
+					continue;
+
+				int j = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)Clist_GetStatusModeDescription(it.iStatus, 0));
+				SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, j, it.iStatus);
+				settings = (AAMSGSETTING**)mir_realloc(settings, (count + 1) * sizeof(AAMSGSETTING*));
+				settings[count] = (AAMSGSETTING*)mir_alloc(sizeof(AAMSGSETTING));
+				settings[count]->status = it.iStatus;
+
+				DBVARIANT dbv;
+				if (!db_get(0, AAAMODULENAME, StatusModeToDbSetting(it.iStatus, SETTING_STATUSMSG), &dbv)) {
+					settings[count]->msg = (char*)mir_alloc(mir_strlen(dbv.pszVal) + 1);
+					mir_strcpy(settings[count]->msg, dbv.pszVal);
+					db_free(&dbv);
+				}
+				else settings[count]->msg = nullptr;
+
+				settings[count]->useCustom = db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(it.iStatus, SETTING_MSGCUSTOM), FALSE);
+				count += 1;
+			}
+			SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETCURSEL, 0, 0);
+			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
+		}
+		break;
+
+	case WM_COMMAND:
+		if (((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) && ((HWND)lParam == GetFocus()))
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+
+		switch (LOWORD(wParam)) {
+		case IDC_RADUSEMIRANDA:
+			CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_RADUSEMIRANDA) ? BST_CHECKED : BST_UNCHECKED);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
+			settings[SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETCURSEL, 0, 0)]->useCustom = IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM);
+			break;
+
+		case IDC_RADUSECUSTOM:
+			CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM) ? BST_CHECKED : BST_UNCHECKED);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
+			settings[SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETCURSEL, 0, 0)]->useCustom = IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM);
+			break;
+
+		case IDC_STATUS:
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
+				int i = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETCURSEL, 0, 0);
+				int len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
+				if (last != -1) {
+					if (settings[last]->msg == nullptr)
+						settings[last]->msg = (char*)mir_alloc(len + 1);
+					else
+						settings[last]->msg = (char*)mir_realloc(settings[last]->msg, len + 1);
+					GetDlgItemTextA(hwndDlg, IDC_STATUSMSG, settings[last]->msg, (len + 1));
+				}
+
+				if (i != -1) {
+					if (settings[i]->msg != nullptr)
+						SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, settings[i]->msg);
+					else {
+						ptrW msgw((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, settings[i]->status, 0));
+						SetDlgItemText(hwndDlg, IDC_STATUSMSG, (msgw != nullptr) ? msgw : L"");
+					}
+
+					if (settings[i]->useCustom) {
+						EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), TRUE);
+						CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, BST_CHECKED);
+						CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, BST_UNCHECKED);
+					}
+					else {
+						EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), FALSE);
+						CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, BST_CHECKED);
+						CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, BST_UNCHECKED);
+					}
+				}
+				last = i;
+			}
+			break;
+
+		case IDC_VARIABLESHELP:
+			CallService(MS_VARS_SHOWHELP, (WPARAM)GetDlgItem(hwndDlg, IDC_STATUSMSG), 0);
+			break;
+		}
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_WIZFINISH:
+			AAALoadOptions();
+			break;
+
+		case PSN_APPLY:
+			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
+			for (int i = 0; i < count; i++) {
+				db_set_b(0, AAAMODULENAME, StatusModeToDbSetting(settings[i]->status, SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
+				if ((settings[i]->useCustom) && (settings[i]->msg != nullptr) && (settings[i]->msg[0] != '\0'))
+					db_set_s(0, AAAMODULENAME, StatusModeToDbSetting(settings[i]->status, SETTING_STATUSMSG), settings[i]->msg);
+			}
+			break;
+		}
+		break;
+
+	case WM_DESTROY:
+		for (int i = 0; i < count; i++) {
+			mir_free(settings[i]->msg);
+			mir_free(settings[i]);
+		}
+		mir_free(settings);
+		break;
+	}
+
+	return FALSE;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Dialog service functions
@@ -89,12 +255,12 @@ static void SetDialogItems(HWND hwndDlg, SMProto *setting)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SETNASTR), bSetNA && bIsTimed);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_LV2STATUS), bSetNA && bIsTimed);
 	
-	EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOCOL), !bSettingSame);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOCOL), !g_bAAASettingSame);
 }
 
 static SMProto* GetSetting(HWND hwndDlg, SMProto *sameSetting)
 {
-	if (bSettingSame)
+	if (g_bAAASettingSame)
 		return sameSetting;
 
 	int iItem = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_GETCURSEL, 0, 0);
@@ -181,19 +347,19 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				ListView_DeleteAllItems(hList);
 
 				int flags = 0;
-				if (!bSettingSame)
+				if (!g_bAAASettingSame)
 					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 
 				LVITEM lvItem = { 0 };
 				lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 				lvItem.iItem = 0;
 				lvItem.iSubItem = 0;
-				for (int i = 0; i < _countof(statusModeList); i++) {
-					if ((flags & statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE) || (bSettingSame)) {
-						lvItem.pszText = Clist_GetStatusModeDescription(statusModeList[i], 0);
-						lvItem.lParam = (LPARAM)statusModePf2List[i];
+				for (auto &it : statusModes) {
+					if ((flags & it.iFlag) || (it.iFlag == PF2_OFFLINE) || (g_bAAASettingSame)) {
+						lvItem.pszText = Clist_GetStatusModeDescription(it.iStatus, 0);
+						lvItem.lParam = (LPARAM)it.iFlag;
 						ListView_InsertItem(hList, &lvItem);
-						ListView_SetCheckState(hList, lvItem.iItem, setting->statusFlags & statusModePf2List[i] ? TRUE : FALSE);
+						ListView_SetCheckState(hList, lvItem.iItem, setting->statusFlags & it.iFlag ? TRUE : FALSE);
 						lvItem.iItem++;
 					}
 				}
@@ -202,24 +368,24 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			// status dropdown boxes
 			{
 				int flags = 0;
-				if (!bSettingSame)
+				if (!g_bAAASettingSame)
 					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 
 				// clear box and add new status, loop status and check if compatible with proto
 				SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_RESETCONTENT, 0, 0);
 				SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_RESETCONTENT, 0, 0);
-				for (int i = 0; i < _countof(statusModeList); i++) {
-					if ((flags & statusModePf2List[i]) || statusModePf2List[i] == PF2_OFFLINE || bSettingSame) {
-						wchar_t *statusMode = Clist_GetStatusModeDescription(statusModeList[i], 0);
+				for (auto &it : statusModes) {
+					if ((flags & it.iFlag) || it.iFlag == PF2_OFFLINE || g_bAAASettingSame) {
+						wchar_t *statusMode = Clist_GetStatusModeDescription(it.iStatus, 0);
 						int item = SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
-						SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_SETITEMDATA, item, (LPARAM)statusModeList[i]);
+						SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_SETITEMDATA, item, it.iStatus);
 						item = SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
-						SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_SETITEMDATA, item, (LPARAM)statusModeList[i]);
-						if (statusModeList[i] == setting->lv1Status) {
+						SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_SETITEMDATA, item, it.iStatus);
+						if (it.iStatus == setting->lv1Status) {
 							SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_SETCURSEL, (WPARAM)item, 0);
 							SetDlgItemText(hwndDlg, IDC_SETNASTR, CMStringW(FORMAT, TranslateT("minutes of %s mode"), statusMode));
 						}
-						if (statusModeList[i] == setting->lv2Status)
+						if (it.iStatus == setting->lv2Status)
 							SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_SETCURSEL, (WPARAM)item, 0);
 					}
 				}
@@ -353,7 +519,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			break;
 
 		case PSN_APPLY:
-			if (bSettingSame)
+			if (g_bAAASettingSame)
 				WriteAutoAwaySetting(*sameSetting, SETTING_ALL);
 			else {
 				for (auto &it : optionSettings)
@@ -385,7 +551,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 		CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, db_get_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, BST_CHECKED) != 0 ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5), FALSE);
 		SetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5), FALSE);
-		CheckDlgButton(hwndDlg, bSettingSame ? IDC_SAMESETTINGS : IDC_PERPROTOCOLSETTINGS, BST_CHECKED);
+		CheckDlgButton(hwndDlg, g_bAAASettingSame ? IDC_SAMESETTINGS : IDC_PERPROTOCOLSETTINGS, BST_CHECKED);
 		break;
 
 	case WM_COMMAND:
@@ -403,7 +569,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 
 		case IDC_SAMESETTINGS:
 		case IDC_PERPROTOCOLSETTINGS:
-			bSettingSame = IsDlgButtonChecked(hwndDlg, IDC_SAMESETTINGS);
+			g_bAAASettingSame = IsDlgButtonChecked(hwndDlg, IDC_SAMESETTINGS);
 			break;
 		}
 		break;
@@ -419,7 +585,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 				db_set_b(0, AAAMODULENAME, SETTING_IGNLOCK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNLOCK));
 				db_set_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
 				db_set_b(0, AAAMODULENAME, SETTING_IGNALTCOMBO, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
-				db_set_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, (BYTE)bSettingSame);
+				db_set_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, (BYTE)g_bAAASettingSame);
 				db_set_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, (WORD)GetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, nullptr, FALSE));
 				db_set_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, nullptr, FALSE));
 				db_set_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));

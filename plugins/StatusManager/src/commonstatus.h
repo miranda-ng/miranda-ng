@@ -63,9 +63,6 @@
 #define MAX_STATUS						ID_STATUS_CURRENT
 #define MIN_STATUS						ID_STATUS_OFFLINE
 #define DEF_CLOSE_TIME					5 //secs
-#define PF2_OFFLINE						0x00000200
-static int statusModeList[] = { ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_ONTHEPHONE, ID_STATUS_OUTTOLUNCH };
-static int statusModePf2List[] = { PF2_OFFLINE, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, PF2_HEAVYDND, PF2_FREECHAT, PF2_INVISIBLE, PF2_ONTHEPHONE, PF2_OUTTOLUNCH };
 
 wchar_t *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int status);
 int GetActualStatus(PROTOCOLSETTINGEX *protoSetting);
@@ -91,14 +88,23 @@ bool IsSuitableProto(PROTOACCOUNT *pa);
 #define FLAG_ONTS           0x0200 // db: on terminal session disconnect
 #define FLAG_ENTERIDLE      0x0400 // db: enter idle with AA mode
 
-typedef enum
+#define PF2_OFFLINE			 0x0200
+
+struct StatusModeMap
+{
+	int iStatus, iFlag;
+};
+
+extern StatusModeMap statusModes[MAX_STATUS_COUNT];
+
+enum STATES
 {
 	ACTIVE, // user is active
 	STATUS1_SET, // first status change happened
 	STATUS2_SET, // second status change happened
 	SET_ORGSTATUS, // user was active again, original status will be restored
 	HIDDEN_ACTIVE // user is active, but this is not shown to the outside world
-} STATES;
+};
 
 struct SMProto : public PROTOCOLSETTINGEX, public MZeroedObject
 {

@@ -26,18 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClInclude Include="src\KeepStatus\*.h" />
-    <ClCompile Include="src\KeepStatus\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClInclude Include="src\StartupStatus\*.h" />
-    <ClCompile Include="src\StartupStatus\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClInclude Include="src\AdvancedAutoAway\*.h" />
-    <ClCompile Include="src\AdvancedAutoAway\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="..\helpers\gen_helpers.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

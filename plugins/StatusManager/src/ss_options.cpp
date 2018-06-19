@@ -17,7 +17,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "..\stdafx.h"
+#include "stdafx.h"
 
 char* OptName(int i, const char* setting)
 {
@@ -539,10 +539,10 @@ class CSSAdvancedOptDlg : public CDlgBase
 
 			int flags = (CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_2, 0))&~(CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_5, 0));
 			lstStatus.ResetContent();
-			for (int i = 0; i < _countof(statusModeList); i++) {
-				if ((flags & statusModePf2List[i]) || (statusModeList[i] == ID_STATUS_OFFLINE)) {
-					int item = lstStatus.AddString(Clist_GetStatusModeDescription(statusModeList[i], 0), statusModeList[i]);
-					if (ps->m_status == statusModeList[i])
+			for (auto &it : statusModes) {
+				if ((flags & it.iFlag) || (it.iStatus == ID_STATUS_OFFLINE)) {
+					int item = lstStatus.AddString(Clist_GetStatusModeDescription(it.iStatus, 0), it.iStatus);
+					if (ps->m_status == it.iStatus)
 						lstStatus.SetCurSel(item);
 				}
 			}

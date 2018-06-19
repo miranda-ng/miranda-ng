@@ -38,9 +38,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 #include "commonstatus.h"
-#include "KeepStatus\keepstatus.h"
-#include "StartupStatus\startupstatus.h"
-#include "AdvancedAutoAway\advancedautoaway.h"
+#include "keepstatus.h"
+#include "startupstatus.h"
+#include "advancedautoaway.h"
 
 extern bool g_bMirandaLoaded;
 extern int AAALangPack, KSLangPack, SSLangPack;

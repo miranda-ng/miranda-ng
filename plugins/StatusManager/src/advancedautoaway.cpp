@@ -20,7 +20,7 @@
 	Some code is copied from Miranda's AutoAway module
 */
 
-#include "..\stdafx.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define SECS_PER_MINUTE		20 /* speedup */
@@ -93,7 +93,7 @@ void AAALoadOptions()
 
 	for (auto &it : protoList) {
 		char* protoName;
-		if ((db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0)))
+		if (g_bAAASettingSame)
 			protoName = SETTING_ALL;
 		else
 			protoName = it->m_szName;
@@ -122,7 +122,7 @@ int LoadAutoAwaySetting(SMProto &autoAwaySetting, char* protoName)
 	autoAwaySetting.statusFlags = db_get_w(0, AAAMODULENAME, setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
 
 	int flags;
-	if (db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0))
+	if (g_bAAASettingSame)
 		flags = 0xFFFFFF;
 	else
 		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
@@ -530,6 +530,8 @@ int AAAModuleLoaded(WPARAM, LPARAM)
 void AdvancedAutoAwayLoad()
 {
 	AAALangPack = GetPluginLangId(MIID_LAST, 0);
+
+	g_bAAASettingSame = db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0);
 
 	if (g_bMirandaLoaded)
 		AAAModuleLoaded(0, 0);

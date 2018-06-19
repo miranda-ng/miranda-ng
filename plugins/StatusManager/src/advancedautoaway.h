@@ -43,4 +43,6 @@ void AdvancedAutoAwayUnload();
 int  LoadAutoAwaySetting(SMProto&, char *protoName);
 void AAALoadOptions();
 
+extern bool g_bAAASettingSame;
+
 #endif

@@ -338,19 +338,20 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					actualStatus = currentStatus;
 				}
 
-				for (int i = 0; i < _countof(statusModeList); i++) {
-					if (((flags & statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE)) && (!((!(flags)& Proto_Status2Flag(statusModePf2List[i]))) || ((CallProtoService(proto->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0)&Proto_Status2Flag(statusModePf2List[i]))))) {
-						wchar_t *statusMode = Clist_GetStatusModeDescription(statusModeList[i], 0);
+				for (auto &it : statusModes) {
+					int pf5 = CallProtoService(proto->m_szName, PS_GETCAPS, PFLAGNUM_5, 0);
+					if (((flags & it.iFlag) || it.iFlag == PF2_OFFLINE) && (!((!(flags) & Proto_Status2Flag(it.iFlag))) || (pf5 & Proto_Status2Flag(it.iFlag)))) {
+						wchar_t *statusMode = Clist_GetStatusModeDescription(it.iStatus, 0);
 						item = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
-						SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, statusModeList[i]);
-						if (statusModeList[i] == proto->m_status)
+						SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, it.iStatus);
+						if (it.iStatus == proto->m_status)
 							SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETCURSEL, item, 0);
 					}
 				}
 
 				// enable status box
 				EnableWindow(GetDlgItem(hwndDlg, IDC_STATUS), (ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_STARTUPLIST), -1, LVNI_SELECTED) >= 0));
-				if ((!((CallProtoService(proto->m_szName, PS_GETCAPS, PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->m_szName, PS_GETCAPS, PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))
+				if ((!((CallProtoService(proto->m_szName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) & ~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->m_szName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(actualStatus))))
 					EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), FALSE);
 				else if (proto->m_status == ID_STATUS_LAST || proto->m_status == ID_STATUS_CURRENT)
 					EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), TRUE);

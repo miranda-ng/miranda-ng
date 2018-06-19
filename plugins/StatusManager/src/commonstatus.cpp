@@ -21,6 +21,20 @@
 
 #include "stdafx.h"
 
+StatusModeMap statusModes[MAX_STATUS_COUNT] =
+{
+	{ ID_STATUS_OFFLINE,    PF2_OFFLINE },
+	{ ID_STATUS_ONLINE,     PF2_ONLINE },
+	{ ID_STATUS_AWAY,       PF2_SHORTAWAY },
+	{ ID_STATUS_NA,         PF2_LONGAWAY },
+	{ ID_STATUS_OCCUPIED,   PF2_LIGHTDND },
+	{ ID_STATUS_DND,        PF2_HEAVYDND },
+	{ ID_STATUS_FREECHAT,   PF2_FREECHAT },
+	{ ID_STATUS_INVISIBLE,  PF2_INVISIBLE },
+	{ ID_STATUS_ONTHEPHONE, PF2_ONTHEPHONE },
+	{ ID_STATUS_OUTTOLUNCH, PF2_OUTTOLUNCH }
+};
+
 // handles for hooks and other Miranda thingies
 static HANDLE hCSStatusChangedExEvent;
 
