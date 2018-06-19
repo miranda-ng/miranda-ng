@@ -95,9 +95,9 @@ struct MWaitableObject
 			::CloseHandle(m_hEvent);
 	}
 
-	bool m_bOwnsEvent;
 	HANDLE m_hEvent;
 	MWaitableStub m_pFunc;
+	bool m_bOwnsEvent;
 };
 
 static OBJLIST<MWaitableObject> arWaitableObjects(1, HandleKeySortT);
@@ -343,9 +343,10 @@ int WINAPI mir_main(LPTSTR cmdLine)
 			BOOL dying = FALSE;
 			DWORD rc = myWait();
 			if (rc < WAIT_OBJECT_0 + arWaitableObjects.getCount()) {
-				rc -= WAIT_OBJECT_0;
-				(*arWaitableObjects[rc].m_pFunc)();
-				arWaitableObjects.remove(rc);
+				auto &pWait = arWaitableObjects[rc - WAIT_OBJECT_0];
+				(*pWait.m_pFunc)();
+				if (pWait.m_bOwnsEvent)
+					arWaitableObjects.remove(&pWait);
 			}
 
 			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {

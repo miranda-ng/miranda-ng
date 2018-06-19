@@ -510,10 +510,5 @@ int LoadDatabaseModule(void)
 	}
 		while (retry);
 
-	if (rc == ERROR_SUCCESS) {
-		InitIni();
-		return 0;
-	}
-
 	return rc;
 }

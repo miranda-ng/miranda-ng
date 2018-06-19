@@ -128,6 +128,7 @@ int LoadDefaultModules(void)
 		plugin_service = nullptr;
 	}
 
+	InitIni();
 	if (LoadSkinSounds()) return 1;
 	if (LoadSkinHotkeys()) return 1;
 	if (LoadFontserviceModule()) return 1;
