@@ -8,14 +8,14 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_COMMAND:
-	{
-		wchar_t* ptszPath = (wchar_t*)PUGetPluginData(hWnd);
-		if (ptszPath != nullptr)
-			ShellExecute(nullptr, L"open", ptszPath, nullptr, nullptr, SW_SHOW);
+		{
+			wchar_t* ptszPath = (wchar_t*)PUGetPluginData(hWnd);
+			if (ptszPath != nullptr)
+				ShellExecute(nullptr, L"open", ptszPath, nullptr, nullptr, SW_SHOW);
 
-		PUDeletePopup(hWnd);
-		break;
-	}
+			PUDeletePopup(hWnd);
+			break;
+		}
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
 		break;
@@ -84,11 +84,9 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 	size_t count = 0;
 	OBJLIST<ZipFile> lstFiles(15);
 
-	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator(); ++it)
-	{
+	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator(); ++it) {
 		const auto& file = it->path();
-		if (!fs::is_directory(file) && file.string().find(fs::path((char*)_T2A(szDest)).string().c_str()) == std::string::npos)
-		{
+		if (!fs::is_directory(file) && file.string().find(fs::path((char*)_T2A(szDest)).string().c_str()) == std::string::npos) {
 			const std::string &filepath = file.string();
 			const std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
 
@@ -96,12 +94,11 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 			count++;
 		}
 	}
-	if (count == 0) 
+	if (count == 0)
 		return 1;
 
-	CreateZipFile(_T2A(szDest), lstFiles, [&](size_t i)->bool
-	{ 
-		SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 * i / count), 0); 
+	CreateZipFile(_T2A(szDest), lstFiles, [&](size_t i)->bool {
+		SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 * i / count), 0);
 		return GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1;
 	});
 
@@ -117,7 +114,7 @@ bool MakeZip(wchar_t *tszSource, wchar_t *tszDest, wchar_t *dbname, HWND progres
 	OBJLIST<ZipFile> lstFiles(15);
 	lstFiles.insert(new ZipFile((char*)_T2A(tszSource), (char*)szSourceName));
 
-	CreateZipFile(_T2A(tszDest), lstFiles, [&](size_t)->bool{ SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100), 0); return true; });
+	CreateZipFile(_T2A(tszDest), lstFiles, [&](size_t)->bool { SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100), 0); return true; });
 
 	return true;
 }
@@ -165,11 +162,11 @@ int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
 		bf = bftmp;
 		wcsncpy_s(bf[i].Name, FindFileData.cFileName, _TRUNCATE);
 		bf[i].CreationTime = FindFileData.ftCreationTime;
-		i ++;
+		i++;
 	} while (FindNextFile(hFind, &FindFileData));
 	if (i > 0)
 		qsort(bf, i, sizeof(backupFile), Comp); /* Sort the list of found files by date in descending order. */
-	for (; i >= options.num_backups; i --) {
+	for (; i >= options.num_backups; i--) {
 		mir_snwprintf(backupfolderTmp, L"%s\\%s", backupfolder, bf[(i - 1)].Name);
 		DeleteFile(backupfolderTmp);
 	}
@@ -178,7 +175,6 @@ err_out:
 	mir_free(bf);
 	return 0;
 }
-
 
 int Backup(wchar_t *backup_filename)
 {
@@ -224,14 +220,13 @@ int Backup(wchar_t *backup_filename)
 	VARSW profile_path(L"%miranda_userdata%");
 	mir_snwprintf(source_file, L"%s\\%s", profile_path, dbname);
 	BOOL res = 0;
-	if (bZip)
-	{
-		res = options.backup_profile 
+	if (bZip) {
+		res = options.backup_profile
 			? MakeZip_Dir(_T2A(profile_path), dest_file, _T2A(dbname), progress_dialog)
 			: MakeZip(source_file, dest_file, dbname, progress_dialog);
 	}
-	else
-		res = CopyFile(source_file, dest_file, 0);
+	else res = CopyFile(source_file, dest_file, 0);
+
 	if (res) {
 		if (!bZip) { // Set the backup file to the current time for rotator's correct  work
 			FILETIME ft;
@@ -245,8 +240,7 @@ int Backup(wchar_t *backup_filename)
 		UpdateWindow(progress_dialog);
 		db_set_dw(0, MODULENAME, "LastBackupTimestamp", (DWORD)time(0));
 
-		if (options.use_cloudfile)
-		{
+		if (options.use_cloudfile) {
 			CFUPLOADDATA ui =
 			{
 				options.cloudfile_service,

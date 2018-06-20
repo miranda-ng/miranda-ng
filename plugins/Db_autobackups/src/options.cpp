@@ -123,18 +123,19 @@ void COptionsDlg::OnApply()
 	options.period_type = m_periodType.GetCurSel();
 
 	ptrW folder(m_folder.GetText());
-	{
-		wchar_t backupfolder[MAX_PATH];
-		PathToAbsoluteW(VARSW(folder), backupfolder);
-		int err = CreateDirectoryTreeW(backupfolder);
-		if (err != ERROR_ALREADY_EXISTS && err != 0) {
-			wchar_t msg[512];
-			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, err, 0, msg, 512, nullptr);
-			MessageBox(nullptr, msg, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
-			return;
-		}
-		db_set_ws(0, MODULENAME, "Folder", folder);
+
+	wchar_t backupfolder[MAX_PATH];
+	PathToAbsoluteW(VARSW(folder), backupfolder);
+	int err = CreateDirectoryTreeW(backupfolder);
+	if (err != ERROR_ALREADY_EXISTS && err != 0) {
+		wchar_t msg[512];
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, err, 0, msg, 512, nullptr);
+		MessageBox(nullptr, msg, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
+		return;
 	}
+
+	wcsncpy_s(options.folder, folder, _TRUNCATE);
+	db_set_ws(0, MODULENAME, "Folder", folder);
 
 	int currentService = m_cloudFileService.GetCurSel();
 	options.cloudfile_service = currentService >= 0
