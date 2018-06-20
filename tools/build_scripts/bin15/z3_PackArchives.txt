@@ -79,6 +79,7 @@ Icons\xStatus_Jabber.dll
 Plugins\AVS.dll
 Plugins\Clist_modern.dll
 Plugins\CrashDumper.dll
+Plugins\Db_autobackups.dll
 Plugins\Dbx_mdbx.dll
 Plugins\Dbx_mmap.dll
 Plugins\Dummy.dll
