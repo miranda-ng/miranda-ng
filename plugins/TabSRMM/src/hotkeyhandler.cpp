@@ -384,35 +384,10 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		db_event_markRead(wParam, lParam);
 		return 0;
 
-	case DM_SETLOCALE:
-		{
-			HKL hkl = (HKL)lParam;
-			MCONTACT hContact = wParam;
-
-			HWND	hWnd = Srmm_FindWindow(hContact);
-			if (hWnd) {
-				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-				if (dat) {
-					if (hkl) {
-						dat->m_hkl = hkl;
-						PostMessage(dat->GetHwnd(), DM_SETLOCALE, 0, 0);
-					}
-
-					DBVARIANT  dbv;
-					if (0 == db_get_ws(hContact, SRMSGMOD_T, "locale", &dbv)) {
-						dat->GetLocaleID(dbv.ptszVal);
-						db_free(&dbv);
-						dat->UpdateReadChars();
-					}
-				}
-			}
-		}
-		return 0;
-
-	// react to changes in the desktop composition state
-	// (enable/disable DWM, change to a non-aero visual style
-	// or classic Windows theme
 	case WM_DWMCOMPOSITIONCHANGED:
+		// react to changes in the desktop composition state
+		// (enable/disable DWM, change to a non-aero visual style
+		// or classic Windows theme
 		SendMessage(hwndDlg, WM_THEMECHANGED, 0, 0);
 		{
 			bool bNewAero = M.getAeroState(); // refresh dwm state

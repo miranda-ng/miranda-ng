@@ -204,12 +204,6 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		if (m_dwFlags & MWF_NEEDCHECKSIZE)
 			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
 
-		if (PluginConfig.m_bAutoLocaleSupport) {
-			if (hkl == nullptr)
-				DM_LoadLocale();
-			else
-				SendMessage(m_hwnd, DM_SETLOCALE, 0, 0);
-		}
 		SetFocus(m_message.GetHwnd());
 		m_dwLastActivity = GetTickCount();
 		m_pContainer->dwLastActivity = m_dwLastActivity;
@@ -1400,14 +1394,6 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		RefreshButtonStatus();
 		break;
 
-	case WM_INPUTLANGCHANGE:
-		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == m_message.GetHwnd() && IsActive()) {
-			DM_SaveLocale(wParam, lParam);
-			m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-			return 1;
-		}
-		break;
-
 	case WM_ERASEBKGND:
 		return !CSkin::m_skinEnabled;
 	}
@@ -2339,12 +2325,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			pt.x = pt.y = 0;
 			m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&pt);
-			if (PluginConfig.m_bAutoLocaleSupport) {
-				if (hkl == nullptr)
-					DM_LoadLocale();
-				else
-					PostMessage(m_hwnd, DM_SETLOCALE, 0, 0);
-			}
 		}
 		else {
 			Resize();

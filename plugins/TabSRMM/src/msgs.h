@@ -393,10 +393,8 @@ public:
 	void  DM_EventAdded(WPARAM wParam, LPARAM lParam);
 	void  DM_InitRichEdit();
 	void  DM_InitTip();
-	void  DM_LoadLocale();
 	void  DM_NotifyTyping(int mode);
 	void  DM_RecalcPictureSize();
-	void  DM_SaveLocale(WPARAM wParam, LPARAM lParam);
 	void  DM_SaveLogAsRTF() const;
 	void  DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
 	void  DM_Typing(bool fForceOff);
@@ -433,7 +431,6 @@ public:
 	bool  GetAvatarVisibility();
 	void  GetClientIcon();
 	LONG  GetDefaultMinimumInputHeight() const;
-	void  GetLocaleID(const wchar_t *szKLName);
 	HICON GetMyContactIcon(LPCSTR szSetting);
 	void  GetMYUIN();
 	void  GetMyNick();
@@ -756,7 +753,6 @@ struct TIconDescW
 #define DM_SELECTTAB             (TM_USER+23)
 #define DM_CLOSETABATMOUSE       (TM_USER+24)
 #define DM_STATUSICONCHANGE      (TM_USER+25)
-#define DM_SETLOCALE             (TM_USER+26)
 #define DM_QUERYLASTUNREAD       (TM_USER+28)
 #define DM_QUERYPENDING          (TM_USER+29)
 #define DM_UPDATEPICLAYOUT       (TM_USER+30)

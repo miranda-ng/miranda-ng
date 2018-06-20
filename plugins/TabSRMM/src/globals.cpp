@@ -139,7 +139,6 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_bSendOnShiftEnter = M.GetBool("sendonshiftenter", false);
 	m_bSendOnEnter = M.GetBool(SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER);
 	m_bSendOnDblEnter = M.GetBool("SendOnDblEnter", false);
-	m_bAutoLocaleSupport = M.GetBool("al", false);
 	m_bAutoSwitchTabs = M.GetBool("autoswitchtabs", true);
 	m_iTabNameLimit = db_get_w(0, SRMSGMOD_T, "cut_at", 15);
 	m_bCutContactNameOnTabs = M.GetBool("cuttitle", false);

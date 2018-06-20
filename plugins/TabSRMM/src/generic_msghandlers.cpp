@@ -710,46 +710,6 @@ void CTabBaseDlg::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 		InvalidateRect(m_log.GetHwnd(), nullptr, FALSE);
 }
 
-static void LoadKLThread(LPVOID _param)
-{
-	Thread_SetName("TabSRMM: LoadKLThread");
-
-	DBVARIANT dbv;
-	if (!db_get_ws((UINT_PTR)_param, SRMSGMOD_T, "locale", &dbv)) {
-		HKL hkl = LoadKeyboardLayout(dbv.ptszVal, 0);
-		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)_param, (LPARAM)hkl);
-		db_free(&dbv);
-	}
-}
-
-void CTabBaseDlg::DM_LoadLocale()
-{
-	if (!PluginConfig.m_bAutoLocaleSupport)
-		return;
-
-	if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
-		return;
-
-	DBVARIANT dbv;
-	if (!db_get_ws(m_hContact, SRMSGMOD_T, "locale", &dbv))
-		db_free(&dbv);
-	else {
-		wchar_t szKLName[KL_NAMELENGTH + 1];
-		if (!PluginConfig.m_bDontUseDefaultKbd) {
-			wchar_t	szBuf[20];
-			GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
-			mir_snwprintf(szKLName, L"0000%s", szBuf);
-			db_set_ws(m_hContact, SRMSGMOD_T, "locale", szKLName);
-		}
-		else {
-			GetKeyboardLayoutName(szKLName);
-			db_set_ws(m_hContact, SRMSGMOD_T, "locale", szKLName);
-		}
-	}
-
-	mir_forkthread(LoadKLThread, (void*)m_hContact);
-}
-
 void CTabBaseDlg::DM_RecalcPictureSize()
 {
 	HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
@@ -794,24 +754,6 @@ void CTabBaseDlg::DM_UpdateLastMessage() const
 	}
 
 	SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// save current keyboard layout for the given contact
-
-void CTabBaseDlg::DM_SaveLocale(WPARAM, LPARAM lParam)
-{
-	if (PluginConfig.m_bAutoLocaleSupport && m_hContact && m_pContainer->m_hwndActive == m_hwnd) {
-		wchar_t szKLName[KL_NAMELENGTH + 1];
-		if ((HKL)lParam != m_hkl) {
-			m_hkl = (HKL)lParam;
-			ActivateKeyboardLayout(m_hkl, 0);
-			GetKeyboardLayoutName(szKLName);
-			db_set_ws(m_hContact, SRMSGMOD_T, "locale", szKLName);
-			GetLocaleID(szKLName);
-			UpdateReadChars();
-		}
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

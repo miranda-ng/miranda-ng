@@ -85,7 +85,6 @@ public:
 	bool        m_bSendOnShiftEnter;
 	bool        m_bSendOnEnter;
 	bool        m_bSendOnDblEnter;
-	bool        m_bAutoLocaleSupport;
 	bool        m_bAutoSwitchTabs;
 	bool        m_bCutContactNameOnTabs;
 	bool        m_bHideOnClose;

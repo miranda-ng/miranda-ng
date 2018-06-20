@@ -290,13 +290,6 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 	if (m_dwFlags & MWF_NEEDCHECKSIZE)
 		PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
 
-	if (PluginConfig.m_bAutoLocaleSupport) {
-		if (m_hkl == nullptr)
-			DM_LoadLocale();
-		else
-			SendMessage(m_hwnd, DM_SETLOCALE, 0, 0);
-	}
-
 	m_pContainer->hIconTaskbarOverlay = nullptr;
 	m_pContainer->UpdateTitle(m_hContact);
 
@@ -2119,14 +2112,6 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_INPUTLANGCHANGE:
-		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == m_message.GetHwnd() && IsActive()) {
-			DM_SaveLocale(wParam, lParam);
-			m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-			return 1;
-		}
-		break;
-
 	case WM_ERASEBKGND:
 		return(CSkin::m_skinEnabled ? 0 : 1);
 
@@ -2686,12 +2671,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			m_dwFlags &= ~MWF_WASBACKGROUNDCREATE;
 			Resize();
 			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
-			if (PluginConfig.m_bAutoLocaleSupport) {
-				if (m_hkl == nullptr)
-					DM_LoadLocale();
-				else
-					PostMessage(m_hwnd, DM_SETLOCALE, 0, 0);
-			}
+
 			if (m_hwndIEView != nullptr)
 				SetFocus(m_message.GetHwnd());
 			if (m_pContainer->dwFlags & CNT_SIDEBAR)

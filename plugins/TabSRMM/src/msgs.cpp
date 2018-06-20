@@ -157,18 +157,6 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		ActivateExistingTab(m_pContainer, m_hwnd);
 		return 0;
 
-	case DM_SETLOCALE:
-		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
-			break;
-		if (PluginConfig.m_bAutoLocaleSupport && IsActive()) {
-			if (lParam)
-				m_hkl = (HKL)lParam;
-
-			if (m_hkl)
-				ActivateKeyboardLayout(m_hkl, 0);
-		}
-		return 0;
-		
 	case DM_QUERYCONTAINER: // container API support functions
 		if (lParam)
 			*(TContainerData**)lParam = m_pContainer;
