@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "../../libs/zlib/src/zip.h"
 
-int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback)
+int CreateZipFile(const wchar_t *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback)
 {
-	zipFile hZip = zipOpen2_64(_A2T(szDestPath), APPEND_STATUS_CREATE, nullptr, nullptr);
+	zipFile hZip = zipOpen2_64(szDestPath, APPEND_STATUS_CREATE, nullptr, nullptr);
 	if (!hZip) return 1;
 
 	zip_fileinfo fi = { 0 };

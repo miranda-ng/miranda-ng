@@ -55,7 +55,7 @@ struct ZipFile
 	__forceinline ZipFile(const std::string &path, const std::string &zpath) : sPath(path), sZipPath(zpath) {}
 };
 
-int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback);
+int CreateZipFile(const wchar_t *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback);
 
 extern char g_szMirVer[];
 

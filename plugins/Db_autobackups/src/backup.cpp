@@ -97,7 +97,7 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 	if (count == 0)
 		return 1;
 
-	CreateZipFile(_T2A(szDest), lstFiles, [&](size_t i)->bool {
+	CreateZipFile(szDest, lstFiles, [&](size_t i)->bool {
 		SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 * i / count), 0);
 		return GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1;
 	});
@@ -114,7 +114,7 @@ bool MakeZip(wchar_t *tszSource, wchar_t *tszDest, wchar_t *dbname, HWND progres
 	OBJLIST<ZipFile> lstFiles(15);
 	lstFiles.insert(new ZipFile((char*)_T2A(tszSource), (char*)szSourceName));
 
-	CreateZipFile(_T2A(tszDest), lstFiles, [&](size_t)->bool { SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100), 0); return true; });
+	CreateZipFile(tszDest, lstFiles, [&](size_t)->bool { SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100), 0); return true; });
 
 	return true;
 }
