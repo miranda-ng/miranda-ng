@@ -431,7 +431,8 @@ int mdbx_openfile(const char *pathname, int flags, mode_t mode,
     break;
   case O_RDWR:
     DesiredAccess = GENERIC_READ | GENERIC_WRITE;
-    ShareMode = exclusive ? 0 : (FILE_SHARE_READ | FILE_SHARE_WRITE);
+    ShareMode =
+        exclusive ? FILE_SHARE_READ : (FILE_SHARE_READ | FILE_SHARE_WRITE);
     break;
   }
 
