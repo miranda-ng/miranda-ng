@@ -17,7 +17,6 @@
 #include "./bits.h"
 
 #if defined(_WIN32) || defined(_WIN64)
-#include <winternl.h>
 
 static int waitstatus2errcode(DWORD result) {
   switch (result) {
@@ -105,13 +104,31 @@ extern NTSTATUS NTAPI NtFreeVirtualMemory(IN HANDLE ProcessHandle,
                                           IN OUT PSIZE_T RegionSize,
                                           IN ULONG FreeType);
 
+#ifndef WOF_CURRENT_VERSION
+typedef struct _WOF_EXTERNAL_INFO {
+  DWORD Version;
+  DWORD Provider;
+} WOF_EXTERNAL_INFO, *PWOF_EXTERNAL_INFO;
+#endif /* WOF_CURRENT_VERSION */
+
+#ifndef WIM_PROVIDER_CURRENT_VERSION
+#define WIM_PROVIDER_HASH_SIZE 20
+
+typedef struct _WIM_PROVIDER_EXTERNAL_INFO {
+  DWORD Version;
+  DWORD Flags;
+  LARGE_INTEGER DataSourceId;
+  BYTE ResourceHash[WIM_PROVIDER_HASH_SIZE];
+} WIM_PROVIDER_EXTERNAL_INFO, *PWIM_PROVIDER_EXTERNAL_INFO;
+#endif /* WIM_PROVIDER_CURRENT_VERSION */
+
 #ifndef FILE_PROVIDER_CURRENT_VERSION
 typedef struct _FILE_PROVIDER_EXTERNAL_INFO_V1 {
   ULONG Version;
   ULONG Algorithm;
   ULONG Flags;
 } FILE_PROVIDER_EXTERNAL_INFO_V1, *PFILE_PROVIDER_EXTERNAL_INFO_V1;
-#endif
+#endif /* FILE_PROVIDER_CURRENT_VERSION */
 
 #ifndef STATUS_OBJECT_NOT_EXTERNALLY_BACKED
 #define STATUS_OBJECT_NOT_EXTERNALLY_BACKED ((NTSTATUS)0xC000046DL)
@@ -119,14 +136,6 @@ typedef struct _FILE_PROVIDER_EXTERNAL_INFO_V1 {
 #ifndef STATUS_INVALID_DEVICE_REQUEST
 #define STATUS_INVALID_DEVICE_REQUEST ((NTSTATUS)0xC0000010L)
 #endif
-
-extern NTSTATUS
-NtFsControlFile(IN HANDLE FileHandle, IN OUT HANDLE Event,
-                IN OUT PVOID /* PIO_APC_ROUTINE */ ApcRoutine,
-                IN OUT PVOID ApcContext, OUT PIO_STATUS_BLOCK IoStatusBlock,
-                IN ULONG FsControlCode, IN OUT PVOID InputBuffer,
-                IN ULONG InputBufferLength, OUT OPTIONAL PVOID OutputBuffer,
-                IN ULONG OutputBufferLength);
 
 #endif /* _WIN32 || _WIN64 */
 
@@ -400,19 +409,20 @@ int mdbx_fastmutex_release(mdbx_fastmutex_t *fastmutex) {
 /*----------------------------------------------------------------------------*/
 
 int mdbx_openfile(const char *pathname, int flags, mode_t mode,
-                  mdbx_filehandle_t *fd) {
+                  mdbx_filehandle_t *fd, bool exclusive) {
   *fd = INVALID_HANDLE_VALUE;
 #if defined(_WIN32) || defined(_WIN64)
   (void)mode;
 
-  DWORD DesiredAccess;
-  DWORD ShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
+  DWORD DesiredAccess, ShareMode;
   DWORD FlagsAndAttributes = FILE_ATTRIBUTE_NORMAL;
   switch (flags & (O_RDONLY | O_WRONLY | O_RDWR)) {
   default:
     return ERROR_INVALID_PARAMETER;
   case O_RDONLY:
     DesiredAccess = GENERIC_READ;
+    ShareMode =
+        exclusive ? FILE_SHARE_READ : (FILE_SHARE_READ | FILE_SHARE_WRITE);
     break;
   case O_WRONLY: /* assume for MDBX_env_copy() and friends output */
     DesiredAccess = GENERIC_WRITE;
@@ -421,6 +431,7 @@ int mdbx_openfile(const char *pathname, int flags, mode_t mode,
     break;
   case O_RDWR:
     DesiredAccess = GENERIC_READ | GENERIC_WRITE;
+    ShareMode = exclusive ? 0 : (FILE_SHARE_READ | FILE_SHARE_WRITE);
     break;
   }
 
@@ -459,7 +470,7 @@ int mdbx_openfile(const char *pathname, int flags, mode_t mode,
     }
   }
 #else
-
+  (void)exclusive;
 #ifdef O_CLOEXEC
   flags |= O_CLOEXEC;
 #endif
@@ -735,51 +746,118 @@ int mdbx_msync(mdbx_mmap_t *map, size_t offset, size_t length, int async) {
 #endif
 }
 
+int mdbx_check4nonlocal(mdbx_filehandle_t handle, int flags) {
+#if defined(_WIN32) || defined(_WIN64)
+  if (GetFileType(handle) != FILE_TYPE_DISK)
+    return ERROR_FILE_OFFLINE;
+
+  if (mdbx_GetFileInformationByHandleEx) {
+    FILE_REMOTE_PROTOCOL_INFO RemoteProtocolInfo;
+    if (mdbx_GetFileInformationByHandleEx(handle, FileRemoteProtocolInfo,
+                                          &RemoteProtocolInfo,
+                                          sizeof(RemoteProtocolInfo))) {
+
+      if ((RemoteProtocolInfo.Flags & REMOTE_PROTOCOL_INFO_FLAG_OFFLINE) &&
+          !(flags & MDBX_RDONLY))
+        return ERROR_FILE_OFFLINE;
+      if (!(RemoteProtocolInfo.Flags & REMOTE_PROTOCOL_INFO_FLAG_LOOPBACK) &&
+          !(flags & MDBX_EXCLUSIVE))
+        return ERROR_REMOTE_STORAGE_MEDIA_ERROR;
+    }
+  }
+
+  if (mdbx_NtFsControlFile) {
+    NTSTATUS rc;
+    struct {
+      WOF_EXTERNAL_INFO wof_info;
+      union {
+        WIM_PROVIDER_EXTERNAL_INFO wim_info;
+        FILE_PROVIDER_EXTERNAL_INFO_V1 file_info;
+      };
+      size_t reserved_for_microsoft_madness[42];
+    } GetExternalBacking_OutputBuffer;
+    IO_STATUS_BLOCK StatusBlock;
+    rc = mdbx_NtFsControlFile(handle, NULL, NULL, NULL, &StatusBlock,
+                              FSCTL_GET_EXTERNAL_BACKING, NULL, 0,
+                              &GetExternalBacking_OutputBuffer,
+                              sizeof(GetExternalBacking_OutputBuffer));
+    if (NT_SUCCESS(rc)) {
+      if (!(flags & MDBX_EXCLUSIVE))
+        return ERROR_REMOTE_STORAGE_MEDIA_ERROR;
+    } else if (rc != STATUS_OBJECT_NOT_EXTERNALLY_BACKED &&
+               rc != STATUS_INVALID_DEVICE_REQUEST)
+      return ntstatus2errcode(rc);
+  }
+
+  if (mdbx_GetVolumeInformationByHandleW && mdbx_GetFinalPathNameByHandleW) {
+    WCHAR PathBuffer[INT16_MAX];
+    DWORD VolumeSerialNumber, FileSystemFlags;
+    if (!mdbx_GetVolumeInformationByHandleW(handle, PathBuffer, INT16_MAX,
+                                            &VolumeSerialNumber, NULL,
+                                            &FileSystemFlags, NULL, 0))
+      return GetLastError();
+
+    if ((flags & MDBX_RDONLY) == 0) {
+      if (FileSystemFlags & (FILE_SEQUENTIAL_WRITE_ONCE |
+                             FILE_READ_ONLY_VOLUME | FILE_VOLUME_IS_COMPRESSED))
+        return ERROR_REMOTE_STORAGE_MEDIA_ERROR;
+    }
+
+    if (!mdbx_GetFinalPathNameByHandleW(handle, PathBuffer, INT16_MAX,
+                                        FILE_NAME_NORMALIZED | VOLUME_NAME_NT))
+      return GetLastError();
+
+    if (_wcsnicmp(PathBuffer, L"\\Device\\Mup\\", 12) == 0) {
+      if (!(flags & MDBX_EXCLUSIVE))
+        return ERROR_REMOTE_STORAGE_MEDIA_ERROR;
+    } else if (mdbx_GetFinalPathNameByHandleW(handle, PathBuffer, INT16_MAX,
+                                              FILE_NAME_NORMALIZED |
+                                                  VOLUME_NAME_DOS)) {
+      UINT DriveType = GetDriveTypeW(PathBuffer);
+      if (DriveType == DRIVE_NO_ROOT_DIR &&
+          wcsncmp(PathBuffer, L"\\\\?\\", 4) == 0 &&
+          wcsncmp(PathBuffer + 5, L":\\", 2) == 0) {
+        PathBuffer[7] = 0;
+        DriveType = GetDriveTypeW(PathBuffer + 4);
+      }
+      switch (DriveType) {
+      case DRIVE_CDROM:
+        if (flags & MDBX_RDONLY)
+          break;
+      // fall through
+      case DRIVE_UNKNOWN:
+      case DRIVE_NO_ROOT_DIR:
+      case DRIVE_REMOTE:
+      default:
+        if (!(flags & MDBX_EXCLUSIVE))
+          return ERROR_REMOTE_STORAGE_MEDIA_ERROR;
+      // fall through
+      case DRIVE_REMOVABLE:
+      case DRIVE_FIXED:
+      case DRIVE_RAMDISK:
+        break;
+      }
+    }
+  }
+#else
+  (void)handle;
+  /* TODO: check for NFS handle ? */
+  (void)flags;
+#endif
+  return MDBX_SUCCESS;
+}
+
 int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   assert(size <= limit);
 #if defined(_WIN32) || defined(_WIN64)
-  NTSTATUS rc;
   map->length = 0;
   map->current = 0;
   map->section = NULL;
   map->address = nullptr;
 
-  if (GetFileType(map->fd) != FILE_TYPE_DISK)
-    return ERROR_FILE_OFFLINE;
-
-#if defined(_WIN64) && defined(WOF_CURRENT_VERSION)
-  struct {
-    WOF_EXTERNAL_INFO wof_info;
-    union {
-      WIM_PROVIDER_EXTERNAL_INFO wim_info;
-      FILE_PROVIDER_EXTERNAL_INFO_V1 file_info;
-    };
-    size_t reserved_for_microsoft_madness[42];
-  } GetExternalBacking_OutputBuffer;
-  IO_STATUS_BLOCK StatusBlock;
-  rc = NtFsControlFile(map->fd, NULL, NULL, NULL, &StatusBlock,
-                       FSCTL_GET_EXTERNAL_BACKING, NULL, 0,
-                       &GetExternalBacking_OutputBuffer,
-                       sizeof(GetExternalBacking_OutputBuffer));
-  if (rc != STATUS_OBJECT_NOT_EXTERNALLY_BACKED &&
-      rc != STATUS_INVALID_DEVICE_REQUEST)
-    return NT_SUCCESS(rc) ? ERROR_FILE_OFFLINE : ntstatus2errcode(rc);
-#endif
-
-  WCHAR PathBuffer[INT16_MAX];
-  typedef BOOL (WINAPI *pfnGetVolumeInformationByHandle)(HANDLE, LPWSTR, DWORD, LPDWORD, LPDWORD, LPDWORD, LPWSTR, DWORD);
-  pfnGetVolumeInformationByHandle pvol = (pfnGetVolumeInformationByHandle)GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetVolumeInformationByHandleW");
-  if (pvol) {
-    DWORD VolumeSerialNumber, FileSystemFlags;
-    if (!pvol(map->fd, PathBuffer, INT16_MAX, &VolumeSerialNumber, NULL, &FileSystemFlags, NULL, 0))
-      return GetLastError();
-    
-    if ((flags & MDBX_RDONLY) == 0) {
-      if (FileSystemFlags & (FILE_SEQUENTIAL_WRITE_ONCE | FILE_READ_ONLY_VOLUME |
-                             FILE_VOLUME_IS_COMPRESSED))
-        return ERROR_FILE_OFFLINE;
-    }
-  }
+  NTSTATUS rc = mdbx_check4nonlocal(map->fd, flags);
+  if (rc != MDBX_SUCCESS)
+    return rc;
 
   rc = mdbx_filesize(map->fd, &map->filesize);
   if (rc != MDBX_SUCCESS)
@@ -796,14 +874,13 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   SectionSize.QuadPart = size;
   rc = NtCreateSection(
       &map->section,
-      /* DesiredAccess */
-          (flags & MDBX_WRITEMAP)
+      /* DesiredAccess */ (flags & MDBX_WRITEMAP)
           ? SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE |
                 SECTION_MAP_WRITE
           : SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE,
       /* ObjectAttributes */ NULL, /* MaximumSize (InitialSize) */ &SectionSize,
-      /* SectionPageProtection */
-          (flags & MDBX_RDONLY) ? PAGE_READONLY : PAGE_READWRITE,
+      /* SectionPageProtection */ (flags & MDBX_RDONLY) ? PAGE_READONLY
+                                                        : PAGE_READWRITE,
       /* AllocationAttributes */ SEC_RESERVE, map->fd);
   if (!NT_SUCCESS(rc))
     return ntstatus2errcode(rc);
@@ -816,8 +893,8 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
       /* SectionOffset */ NULL, &ViewSize,
       /* InheritDisposition */ ViewUnmap,
       /* AllocationType */ (flags & MDBX_RDONLY) ? 0 : MEM_RESERVE,
-      /* Win32Protect */
-          (flags & MDBX_WRITEMAP) ? PAGE_READWRITE : PAGE_READONLY);
+      /* Win32Protect */ (flags & MDBX_WRITEMAP) ? PAGE_READWRITE
+                                                 : PAGE_READONLY);
   if (!NT_SUCCESS(rc)) {
     NtClose(map->section);
     map->section = 0;
@@ -852,6 +929,11 @@ int mdbx_munmap(mdbx_mmap_t *map) {
   if (!NT_SUCCESS(rc))
     ntstatus2errcode(rc);
 
+  if (map->filesize != map->current &&
+      mdbx_filesize(map->fd, &map->filesize) == MDBX_SUCCESS &&
+      map->filesize != map->current)
+    (void)mdbx_ftruncate(map->fd, map->current);
+
   map->length = 0;
   map->current = 0;
   map->address = nullptr;
@@ -877,11 +959,8 @@ int mdbx_mresize(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
     /* growth rw-section */
     SectionSize.QuadPart = size;
     status = NtExtendSection(map->section, &SectionSize);
-    if (NT_SUCCESS(status)) {
-      map->current = size;
-      if (map->filesize < size)
-        map->filesize = size;
-    }
+    if (NT_SUCCESS(status))
+      map->filesize = map->current = size;
     return ntstatus2errcode(status);
   }
 
@@ -956,15 +1035,14 @@ retry_file_and_section:
   SectionSize.QuadPart = size;
   status = NtCreateSection(
       &map->section,
-      /* DesiredAccess */
-          (flags & MDBX_WRITEMAP)
+      /* DesiredAccess */ (flags & MDBX_WRITEMAP)
           ? SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE |
                 SECTION_MAP_WRITE
           : SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE,
       /* ObjectAttributes */ NULL,
       /* MaximumSize (InitialSize) */ &SectionSize,
-      /* SectionPageProtection */
-          (flags & MDBX_RDONLY) ? PAGE_READONLY : PAGE_READWRITE,
+      /* SectionPageProtection */ (flags & MDBX_RDONLY) ? PAGE_READONLY
+                                                        : PAGE_READWRITE,
       /* AllocationAttributes */ SEC_RESERVE, map->fd);
 
   if (!NT_SUCCESS(status))
@@ -988,8 +1066,8 @@ retry_mapview:;
       /* SectionOffset */ NULL, &ViewSize,
       /* InheritDisposition */ ViewUnmap,
       /* AllocationType */ (flags & MDBX_RDONLY) ? 0 : MEM_RESERVE,
-      /* Win32Protect */
-          (flags & MDBX_WRITEMAP) ? PAGE_READWRITE : PAGE_READONLY);
+      /* Win32Protect */ (flags & MDBX_WRITEMAP) ? PAGE_READWRITE
+                                                 : PAGE_READONLY);
 
   if (!NT_SUCCESS(status)) {
     if (status == /* STATUS_CONFLICTING_ADDRESSES */ 0xC0000018 &&

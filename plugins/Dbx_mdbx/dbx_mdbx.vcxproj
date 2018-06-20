@@ -46,6 +46,7 @@
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">MDB_DEBUG=5;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MDBX_CONFIG_MANUAL_TLS_CALLBACK=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

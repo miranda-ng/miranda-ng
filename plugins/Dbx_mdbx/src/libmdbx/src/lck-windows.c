@@ -24,13 +24,17 @@
  * LY
  */
 
-/*----------------------------------------------------------------------------*/
-/* rthc */
+static void mdbx_winnt_import(void);
 
-void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
+#if !MDBX_CONFIG_MANUAL_TLS_CALLBACK
+static
+#endif /* !MDBX_CONFIG_MANUAL_TLS_CALLBACK */
+    void NTAPI
+    mdbx_dll_callback(PVOID module, DWORD reason, PVOID reserved) {
   (void)reserved;
   switch (reason) {
   case DLL_PROCESS_ATTACH:
+    mdbx_winnt_import();
     mdbx_rthc_global_init();
     break;
   case DLL_PROCESS_DETACH:
@@ -45,6 +49,46 @@ void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
   }
 }
 
+#if !MDBX_CONFIG_MANUAL_TLS_CALLBACK
+/* *INDENT-OFF* */
+/* clang-format off */
+#if defined(_MSC_VER)
+#  pragma const_seg(push)
+#  pragma data_seg(push)
+
+#  ifdef _WIN64
+     /* kick a linker to create the TLS directory if not already done */
+#    pragma comment(linker, "/INCLUDE:_tls_used")
+     /* Force some symbol references. */
+#    pragma comment(linker, "/INCLUDE:mdbx_tls_anchor")
+     /* specific const-segment for WIN64 */
+#    pragma const_seg(".CRT$XLB")
+     const
+#  else
+     /* kick a linker to create the TLS directory if not already done */
+#    pragma comment(linker, "/INCLUDE:__tls_used")
+     /* Force some symbol references. */
+#    pragma comment(linker, "/INCLUDE:_mdbx_tls_anchor")
+     /* specific data-segment for WIN32 */
+#    pragma data_seg(".CRT$XLB")
+#  endif
+
+   __declspec(allocate(".CRT$XLB")) PIMAGE_TLS_CALLBACK mdbx_tls_anchor = mdbx_dll_callback;
+#  pragma data_seg(pop)
+#  pragma const_seg(pop)
+
+#elif defined(__GNUC__)
+#  ifdef _WIN64
+     const
+#  endif
+   PIMAGE_TLS_CALLBACK mdbx_tls_anchor __attribute__((section(".CRT$XLB"), used)) = mdbx_dll_callback;
+#else
+#  error FIXME
+#endif
+/* *INDENT-ON* */
+/* clang-format on */
+#endif /* !MDBX_CONFIG_MANUAL_TLS_CALLBACK */
+
 /*----------------------------------------------------------------------------*/
 
 #define LCK_SHARED 0
@@ -54,11 +98,17 @@ void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved) {
 
 static __inline BOOL flock(mdbx_filehandle_t fd, DWORD flags, uint64_t offset,
                            size_t bytes) {
-  return TRUE;
+  OVERLAPPED ov;
+  ov.hEvent = 0;
+  ov.Offset = (DWORD)offset;
+  ov.OffsetHigh = HIGH_DWORD(offset);
+  return LockFileEx(fd, flags, 0, (DWORD)bytes, HIGH_DWORD(bytes), &ov);
 }
 
-static __inline BOOL funlock(mdbx_filehandle_t fd, uint64_t offset, size_t bytes) {
-  return TRUE;
+static __inline BOOL funlock(mdbx_filehandle_t fd, uint64_t offset,
+                             size_t bytes) {
+  return UnlockFile(fd, (DWORD)offset, HIGH_DWORD(offset), (DWORD)bytes,
+                    HIGH_DWORD(bytes));
 }
 
 /*----------------------------------------------------------------------------*/
@@ -82,9 +132,9 @@ int mdbx_txn_lock(MDBX_env *env, bool dontwait) {
     EnterCriticalSection(&env->me_windowsbug_lock);
   }
 
-  if (flock(env->me_fd,
-            dontwait ? (LCK_EXCLUSIVE | LCK_DONTWAIT)
-                     : (LCK_EXCLUSIVE | LCK_WAITFOR),
+  if ((env->me_flags & MDBX_EXCLUSIVE) ||
+      flock(env->me_fd, dontwait ? (LCK_EXCLUSIVE | LCK_DONTWAIT)
+                                 : (LCK_EXCLUSIVE | LCK_WAITFOR),
             LCK_BODY))
     return MDBX_SUCCESS;
   int rc = GetLastError();
@@ -93,7 +143,8 @@ int mdbx_txn_lock(MDBX_env *env, bool dontwait) {
 }
 
 void mdbx_txn_unlock(MDBX_env *env) {
-  int rc = funlock(env->me_fd, LCK_BODY);
+  int rc = (env->me_flags & MDBX_EXCLUSIVE) ? TRUE
+                                            : funlock(env->me_fd, LCK_BODY);
   LeaveCriticalSection(&env->me_windowsbug_lock);
   if (!rc)
     mdbx_panic("%s failed: errcode %u", mdbx_func_, GetLastError());
@@ -111,26 +162,28 @@ void mdbx_txn_unlock(MDBX_env *env) {
 #define LCK_UPPER LCK_UP_OFFSET, LCK_UP_LEN
 
 int mdbx_rdt_lock(MDBX_env *env) {
-  mdbx_shlock_acquireShared(&env->me_remap_guard);
+  mdbx_srwlock_AcquireShared(&env->me_remap_guard);
   if (env->me_lfd == INVALID_HANDLE_VALUE)
     return MDBX_SUCCESS; /* readonly database in readonly filesystem */
 
   /* transite from S-? (used) to S-E (locked), e.g. exclusive lock upper-part */
-  if (flock(env->me_lfd, LCK_EXCLUSIVE | LCK_WAITFOR, LCK_UPPER))
+  if ((env->me_flags & MDBX_EXCLUSIVE) ||
+      flock(env->me_lfd, LCK_EXCLUSIVE | LCK_WAITFOR, LCK_UPPER))
     return MDBX_SUCCESS;
 
   int rc = GetLastError();
-  mdbx_shlock_releaseShared(&env->me_remap_guard);
+  mdbx_srwlock_ReleaseShared(&env->me_remap_guard);
   return rc;
 }
 
 void mdbx_rdt_unlock(MDBX_env *env) {
   if (env->me_lfd != INVALID_HANDLE_VALUE) {
     /* transite from S-E (locked) to S-? (used), e.g. unlock upper-part */
-    if (!funlock(env->me_lfd, LCK_UPPER))
+    if ((env->me_flags & MDBX_EXCLUSIVE) == 0 &&
+        !funlock(env->me_lfd, LCK_UPPER))
       mdbx_panic("%s failed: errcode %u", mdbx_func_, GetLastError());
   }
-  mdbx_shlock_releaseShared(&env->me_remap_guard);
+  mdbx_srwlock_ReleaseShared(&env->me_remap_guard);
 }
 
 static int suspend_and_append(mdbx_handle_array_t **array,
@@ -309,7 +362,7 @@ static int internal_seize_lck(HANDLE lfd) {
                "?-E(middle) >> S-E(locked)", rc);
 
   /* 8) now on S-E (locked) or still on ?-E (middle),
-   *    transite to S-? (used) or ?-? (free) */
+  *    transite to S-? (used) or ?-? (free) */
   if (!funlock(lfd, LCK_UPPER))
     mdbx_panic("%s(%s) failed: errcode %u", mdbx_func_,
                "X-E(locked/middle) >> X-?(used/free)", GetLastError());
@@ -322,6 +375,9 @@ int mdbx_lck_seize(MDBX_env *env) {
   int rc;
 
   assert(env->me_fd != INVALID_HANDLE_VALUE);
+  if (env->me_flags & MDBX_EXCLUSIVE)
+    return MDBX_RESULT_TRUE /* files were must be opened non-shareable */;
+
   if (env->me_lfd == INVALID_HANDLE_VALUE) {
     /* LY: without-lck mode (e.g. on read-only filesystem) */
     mdbx_jitter4testing(false);
@@ -364,6 +420,9 @@ int mdbx_lck_downgrade(MDBX_env *env, bool complete) {
   assert(env->me_fd != INVALID_HANDLE_VALUE);
   assert(env->me_lfd != INVALID_HANDLE_VALUE);
 
+  if (env->me_flags & MDBX_EXCLUSIVE)
+    return MDBX_SUCCESS /* files were must be opened non-shareable */;
+
   /* 1) must be at E-E (exclusive-write) */
   if (!complete) {
     /* transite from E-E to E_? (exclusive-read) */
@@ -398,6 +457,10 @@ int mdbx_lck_upgrade(MDBX_env *env) {
   /* Transite from locked state (S-E) to exclusive-write (E-E) */
   assert(env->me_fd != INVALID_HANDLE_VALUE);
   assert(env->me_lfd != INVALID_HANDLE_VALUE);
+  assert((env->me_flags & MDBX_EXCLUSIVE) == 0);
+
+  if (env->me_flags & MDBX_EXCLUSIVE)
+    return MDBX_RESULT_TRUE /* files were must be opened non-shareable */;
 
   /* 1) must be at S-E (locked), transite to ?_E (middle) */
   if (!funlock(env->me_lfd, LCK_LOWER))
@@ -436,7 +499,49 @@ int mdbx_lck_upgrade(MDBX_env *env) {
 }
 
 void mdbx_lck_destroy(MDBX_env *env) {
-  SetLastError(ERROR_SUCCESS);
+  int rc;
+
+  if (env->me_lfd != INVALID_HANDLE_VALUE) {
+    /* double `unlock` for robustly remove overlapped shared/exclusive locks */
+    while (funlock(env->me_lfd, LCK_LOWER))
+      ;
+    rc = GetLastError();
+    assert(rc == ERROR_NOT_LOCKED);
+    (void)rc;
+    SetLastError(ERROR_SUCCESS);
+
+    while (funlock(env->me_lfd, LCK_UPPER))
+      ;
+    rc = GetLastError();
+    assert(rc == ERROR_NOT_LOCKED);
+    (void)rc;
+    SetLastError(ERROR_SUCCESS);
+  }
+
+  if (env->me_fd != INVALID_HANDLE_VALUE) {
+    /* explicitly unlock to avoid latency for other processes (windows kernel
+     * releases such locks via deferred queues) */
+    while (funlock(env->me_fd, LCK_BODY))
+      ;
+    rc = GetLastError();
+    assert(rc == ERROR_NOT_LOCKED);
+    (void)rc;
+    SetLastError(ERROR_SUCCESS);
+
+    while (funlock(env->me_fd, LCK_META))
+      ;
+    rc = GetLastError();
+    assert(rc == ERROR_NOT_LOCKED);
+    (void)rc;
+    SetLastError(ERROR_SUCCESS);
+
+    while (funlock(env->me_fd, LCK_WHOLE))
+      ;
+    rc = GetLastError();
+    assert(rc == ERROR_NOT_LOCKED);
+    (void)rc;
+    SetLastError(ERROR_SUCCESS);
+  }
 }
 
 /*----------------------------------------------------------------------------*/
@@ -488,87 +593,120 @@ int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid) {
 }
 
 //----------------------------------------------------------------------------
-// shared lock
-//  Copyright (C) 1995-2002 Brad Wilson
+// Stub for slim read-write lock
+// Copyright (C) 1995-2002 Brad Wilson
 
-typedef void (WINAPI *pfnSrwFunc)(PSRWLOCK);
-
-static pfnSrwFunc fnLockInit = 0, fnLockShared = 0, fnUnlockShared = 0, fnLockExcl = 0, fnUnlockExcl = 0;
-
-void mdbx_shlock_init(MDBX_shlock *lck) {
-  HINSTANCE hInst = GetModuleHandleA("kernel32.dll");
-  fnLockInit = (pfnSrwFunc)GetProcAddress(hInst, "InitializeSRWLock");
-  if (fnLockInit != NULL) {
-    fnLockShared = (pfnSrwFunc)GetProcAddress(hInst, "AcquireSRWLockShared");
-    fnUnlockShared = (pfnSrwFunc)GetProcAddress(hInst, "ReleaseSRWLockShared");
-    fnLockExcl = (pfnSrwFunc)GetProcAddress(hInst, "AcquireSRWLockExclusive");
-    fnUnlockExcl = (pfnSrwFunc)GetProcAddress(hInst, "ReleaseSRWLockExclusive");
-
-    fnLockInit(&lck->srwLock);
-  } else
-    lck->readerCount = lck->writerCount = 0;
+static void WINAPI stub_srwlock_Init(MDBX_srwlock *srwl) {
+  srwl->readerCount = srwl->writerCount = 0;
 }
 
-void mdbx_shlock_acquireShared(MDBX_shlock *lck) {
-  if (fnLockShared) {
-    fnLockShared(&lck->srwLock);
-    return;
-  }
+static void WINAPI stub_srwlock_AcquireShared(MDBX_srwlock *srwl) {
+  while (true) {
+    assert(srwl->writerCount >= 0 && srwl->readerCount >= 0);
 
-  while (1) {
     //  If there's a writer already, spin without unnecessarily
     //  interlocking the CPUs
-
-    if (lck->writerCount != 0) {
+    if (srwl->writerCount != 0) {
       YieldProcessor();
       continue;
     }
 
     //  Add to the readers list
-
-    _InterlockedIncrement((long *)&lck->readerCount);
+    _InterlockedIncrement(&srwl->readerCount);
 
     // Check for writers again (we may have been pre-empted). If
     // there are no writers writing or waiting, then we're done.
-    if (lck->writerCount == 0)
+    if (srwl->writerCount == 0)
       break;
 
     // Remove from the readers list, spin, try again
-    _InterlockedDecrement((long *)&lck->readerCount);
+    _InterlockedDecrement(&srwl->readerCount);
     YieldProcessor();
   }
 }
 
-void mdbx_shlock_releaseShared(MDBX_shlock *lck) {
-  if (fnUnlockShared)
-    fnUnlockShared(&lck->srwLock);
-  else
-    _InterlockedDecrement((long *)&lck->readerCount);
+static void WINAPI stub_srwlock_ReleaseShared(MDBX_srwlock *srwl) {
+  assert(srwl->readerCount > 0);
+  _InterlockedDecrement(&srwl->readerCount);
 }
 
-void mdbx_shlock_acquireExclusive(MDBX_shlock *lck) {
-  if (fnLockExcl) {
-    fnLockShared(&lck->srwLock);
-    return;
-  }
+static void WINAPI stub_srwlock_AcquireExclusive(MDBX_srwlock *srwl) {
+  while (true) {
+    assert(srwl->writerCount >= 0 && srwl->readerCount >= 0);
 
-  // See if we can become the writer (expensive, because it inter-
-  // locks the CPUs, so writing should be an infrequent process)
-  while (_InterlockedExchange((long *)&lck->writerCount, 1) == 1) {
-    YieldProcessor();
+    //  If there's a writer already, spin without unnecessarily
+    //  interlocking the CPUs
+    if (srwl->writerCount != 0) {
+      YieldProcessor();
+      continue;
+    }
+
+    // See if we can become the writer (expensive, because it inter-
+    // locks the CPUs, so writing should be an infrequent process)
+    if (_InterlockedExchange(&srwl->writerCount, 1) == 0)
+      break;
   }
 
   // Now we're the writer, but there may be outstanding readers.
   // Spin until there aren't any more; new readers will wait now
   // that we're the writer.
-  while (lck->readerCount != 0) {
+  while (srwl->readerCount != 0) {
+    assert(srwl->writerCount >= 0 && srwl->readerCount >= 0);
     YieldProcessor();
   }
 }
 
-void mdbx_shlock_releaseExclusive(MDBX_shlock *lck) {
-  if (fnUnlockExcl)
-    fnUnlockExcl(&lck->srwLock);
-  else
-    lck->writerCount = 0;
+static void WINAPI stub_srwlock_ReleaseExclusive(MDBX_srwlock *srwl) {
+  assert(srwl->writerCount == 1 && srwl->readerCount >= 0);
+  srwl->writerCount = 0;
+}
+
+MDBX_srwlock_function mdbx_srwlock_Init, mdbx_srwlock_AcquireShared,
+    mdbx_srwlock_ReleaseShared, mdbx_srwlock_AcquireExclusive,
+    mdbx_srwlock_ReleaseExclusive;
+
+/*----------------------------------------------------------------------------*/
+
+MDBX_GetFileInformationByHandleEx mdbx_GetFileInformationByHandleEx;
+MDBX_GetVolumeInformationByHandleW mdbx_GetVolumeInformationByHandleW;
+MDBX_GetFinalPathNameByHandleW mdbx_GetFinalPathNameByHandleW;
+MDBX_NtFsControlFile mdbx_NtFsControlFile;
+
+static void mdbx_winnt_import(void) {
+  const HINSTANCE hKernel32dll = GetModuleHandleA("kernel32.dll");
+  const MDBX_srwlock_function init =
+      (MDBX_srwlock_function)GetProcAddress(hKernel32dll, "InitializeSRWLock");
+  if (init != NULL) {
+    mdbx_srwlock_Init = init;
+    mdbx_srwlock_AcquireShared = (MDBX_srwlock_function)GetProcAddress(
+        hKernel32dll, "AcquireSRWLockShared");
+    mdbx_srwlock_ReleaseShared = (MDBX_srwlock_function)GetProcAddress(
+        hKernel32dll, "ReleaseSRWLockShared");
+    mdbx_srwlock_AcquireExclusive = (MDBX_srwlock_function)GetProcAddress(
+        hKernel32dll, "AcquireSRWLockExclusive");
+    mdbx_srwlock_ReleaseExclusive = (MDBX_srwlock_function)GetProcAddress(
+        hKernel32dll, "ReleaseSRWLockExclusive");
+  } else {
+    mdbx_srwlock_Init = stub_srwlock_Init;
+    mdbx_srwlock_AcquireShared = stub_srwlock_AcquireShared;
+    mdbx_srwlock_ReleaseShared = stub_srwlock_ReleaseShared;
+    mdbx_srwlock_AcquireExclusive = stub_srwlock_AcquireExclusive;
+    mdbx_srwlock_ReleaseExclusive = stub_srwlock_ReleaseExclusive;
+  }
+
+  mdbx_GetFileInformationByHandleEx =
+      (MDBX_GetFileInformationByHandleEx)GetProcAddress(
+          hKernel32dll, "GetFileInformationByHandleEx");
+
+  mdbx_GetVolumeInformationByHandleW =
+      (MDBX_GetVolumeInformationByHandleW)GetProcAddress(
+          hKernel32dll, "GetVolumeInformationByHandleW");
+
+  mdbx_GetFinalPathNameByHandleW =
+      (MDBX_GetFinalPathNameByHandleW)GetProcAddress(
+          hKernel32dll, "GetFinalPathNameByHandleW");
+
+  const HINSTANCE hNtdll = GetModuleHandleA("ntdll.dll");
+  mdbx_NtFsControlFile =
+      (MDBX_NtFsControlFile)GetProcAddress(hNtdll, "NtFsControlFile");
 }

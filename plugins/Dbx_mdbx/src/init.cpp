@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-EXTERN_C void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved);
-
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +51,7 @@ EXTERN_C void NTAPI tls_callback(PVOID module, DWORD reason, PVOID reserved);
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID reserved)
 {
-	tls_callback(hInstDLL, reason, reserved);
+	mdbx_dll_callback(hInstDLL, reason, reserved);
 	return TRUE;
 }
 

@@ -65,9 +65,11 @@
 /* Systems includes */
 
 #if defined(_WIN32) || defined(_WIN64)
+#define WIN32_LEAN_AND_MEAN
 #include <tlhelp32.h>
 #include <windows.h>
 #include <winnt.h>
+#include <winternl.h>
 #define HAVE_SYS_STAT_H
 #define HAVE_SYS_TYPES_H
 typedef HANDLE mdbx_thread_t;
@@ -475,7 +477,7 @@ int mdbx_filesize_sync(mdbx_filehandle_t fd);
 int mdbx_ftruncate(mdbx_filehandle_t fd, uint64_t length);
 int mdbx_filesize(mdbx_filehandle_t fd, uint64_t *length);
 int mdbx_openfile(const char *pathname, int flags, mode_t mode,
-                  mdbx_filehandle_t *fd);
+                  mdbx_filehandle_t *fd, bool exclusive);
 int mdbx_closefile(mdbx_filehandle_t fd);
 
 typedef struct mdbx_mmap_param {
@@ -508,6 +510,7 @@ int mdbx_suspend_threads_before_remap(MDBX_env *env,
 int mdbx_resume_threads_after_remap(mdbx_handle_array_t *array);
 #endif /* Windows */
 int mdbx_msync(mdbx_mmap_t *map, size_t offset, size_t length, int async);
+int mdbx_check4nonlocal(mdbx_filehandle_t handle, int flags);
 
 static __inline mdbx_pid_t mdbx_getpid(void) {
 #if defined(_WIN32) || defined(_WIN64)
@@ -560,21 +563,52 @@ LIBMDBX_API void mdbx_txn_unlock(MDBX_env *env);
 int mdbx_rpid_set(MDBX_env *env);
 int mdbx_rpid_clear(MDBX_env *env);
 
-typedef struct MDBX_shlock {
-	union {
-		struct {
-			__declspec(align(64)) long volatile readerCount;
-			__declspec(align(64)) long volatile writerCount;
-		};
-		RTL_SRWLOCK srwLock;
-	};
-} MDBX_shlock;
+#if defined(_WIN32) || defined(_WIN64)
+typedef struct MDBX_srwlock {
+  union {
+    struct {
+      long volatile readerCount;
+      long volatile writerCount;
+    };
+    RTL_SRWLOCK native;
+  };
+} MDBX_srwlock;
 
-void mdbx_shlock_init(MDBX_shlock *lck);
-void mdbx_shlock_acquireShared(MDBX_shlock *lck);
-void mdbx_shlock_releaseShared(MDBX_shlock *lck);
-void mdbx_shlock_acquireExclusive(MDBX_shlock *lck);
-void mdbx_shlock_releaseExclusive(MDBX_shlock *lck);
+typedef void(WINAPI *MDBX_srwlock_function)(MDBX_srwlock *);
+extern MDBX_srwlock_function mdbx_srwlock_Init, mdbx_srwlock_AcquireShared,
+    mdbx_srwlock_ReleaseShared, mdbx_srwlock_AcquireExclusive,
+    mdbx_srwlock_ReleaseExclusive;
+
+typedef BOOL(WINAPI *MDBX_GetFileInformationByHandleEx)(
+    _In_ HANDLE hFile, _In_ FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
+    _Out_ LPVOID lpFileInformation, _In_ DWORD dwBufferSize);
+extern MDBX_GetFileInformationByHandleEx mdbx_GetFileInformationByHandleEx;
+
+typedef BOOL(WINAPI *MDBX_GetVolumeInformationByHandleW)(
+    _In_ HANDLE hFile, _Out_opt_ LPWSTR lpVolumeNameBuffer,
+    _In_ DWORD nVolumeNameSize, _Out_opt_ LPDWORD lpVolumeSerialNumber,
+    _Out_opt_ LPDWORD lpMaximumComponentLength,
+    _Out_opt_ LPDWORD lpFileSystemFlags,
+    _Out_opt_ LPWSTR lpFileSystemNameBuffer, _In_ DWORD nFileSystemNameSize);
+
+extern MDBX_GetVolumeInformationByHandleW mdbx_GetVolumeInformationByHandleW;
+
+typedef DWORD(WINAPI *MDBX_GetFinalPathNameByHandleW)(_In_ HANDLE hFile,
+                                                      _Out_ LPWSTR lpszFilePath,
+                                                      _In_ DWORD cchFilePath,
+                                                      _In_ DWORD dwFlags);
+extern MDBX_GetFinalPathNameByHandleW mdbx_GetFinalPathNameByHandleW;
+
+typedef NTSTATUS(NTAPI *MDBX_NtFsControlFile)(
+    IN HANDLE FileHandle, IN OUT HANDLE Event,
+    IN OUT PVOID /* PIO_APC_ROUTINE */ ApcRoutine, IN OUT PVOID ApcContext,
+    OUT PIO_STATUS_BLOCK IoStatusBlock, IN ULONG FsControlCode,
+    IN OUT PVOID InputBuffer, IN ULONG InputBufferLength,
+    OUT OPTIONAL PVOID OutputBuffer, IN ULONG OutputBufferLength);
+
+extern MDBX_NtFsControlFile mdbx_NtFsControlFile;
+
+#endif /* Windows */
 
 /* Checks reader by pid.
  *

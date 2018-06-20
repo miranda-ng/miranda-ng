@@ -20,8 +20,6 @@ libmdbx
    6. [Asynchronous lazy data flushing](https://sites.fas.harvard.edu/~cs265/papers/kathuria-2008.pdf) to disk(s);
    7. etc...
 
-Don't miss [Java Native Interface](https://github.com/castortech/mdbxjni) by [Castor Technologies](https://castortech.com/).
-
 -----
 
 Nowadays MDBX intended for Linux, and support Windows (since
@@ -405,7 +403,7 @@ Improvements over LMDB
 
 13. Fixed `mdbx_cursor_count()`, which returns correct count of duplicated for all table types and any cursor position.
 
-14. Ability to open DB in exclusive mode via `mdbx_env_open_ex()`, e.g. for integrity check.
+14. Ability to open DB in exclusive mode with `MDBX_EXCLUSIVE` flag, e.g. for integrity check.
 
 15. Ability to close DB in "dirty" state (without data flush and creation of steady synchronization point)
     via `mdbx_env_close_ex()`.
