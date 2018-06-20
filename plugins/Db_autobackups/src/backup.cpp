@@ -78,7 +78,7 @@ wchar_t* DoubleSlash(wchar_t *sorce)
 	return ret;
 }
 
-bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progress_dialog)
+bool MakeZip_Dir(LPCWSTR szDir, LPCWSTR szDest, LPCWSTR /* szDbName */, HWND progress_dialog)
 {
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 	size_t count = 0;
@@ -87,8 +87,8 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator(); ++it) {
 		const auto& file = it->path();
 		if (!fs::is_directory(file) && file.string().find(fs::path((char*)_T2A(szDest)).string().c_str()) == std::string::npos) {
-			const std::string &filepath = file.string();
-			const std::string rpath = filepath.substr(filepath.find(szDir) + mir_strlen(szDir) + 1);
+			const std::wstring &filepath = file.wstring();
+			const std::wstring rpath = filepath.substr(filepath.find(szDir) + mir_wstrlen(szDir) + 1);
 
 			lstFiles.insert(new ZipFile(filepath, rpath));
 			count++;
@@ -109,10 +109,9 @@ bool MakeZip(wchar_t *tszSource, wchar_t *tszDest, wchar_t *dbname, HWND progres
 {
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 
-	ptrA szSourceName(mir_u2a(dbname));
 	ptrW tszDestPath(DoubleSlash(tszDest));
 	OBJLIST<ZipFile> lstFiles(15);
-	lstFiles.insert(new ZipFile((char*)_T2A(tszSource), (char*)szSourceName));
+	lstFiles.insert(new ZipFile(tszSource, dbname));
 
 	CreateZipFile(tszDest, lstFiles, [&](size_t)->bool { SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100), 0); return true; });
 
@@ -222,7 +221,7 @@ int Backup(wchar_t *backup_filename)
 	BOOL res = 0;
 	if (bZip) {
 		res = options.backup_profile
-			? MakeZip_Dir(_T2A(profile_path), dest_file, _T2A(dbname), progress_dialog)
+			? MakeZip_Dir(profile_path, dest_file, dbname, progress_dialog)
 			: MakeZip(source_file, dest_file, dbname, progress_dialog);
 	}
 	else res = CopyFile(source_file, dest_file, 0);

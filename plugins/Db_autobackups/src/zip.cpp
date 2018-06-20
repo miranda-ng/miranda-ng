@@ -12,9 +12,9 @@ int CreateZipFile(const wchar_t *szDestPath, OBJLIST<ZipFile> &lstFiles, const s
 	for (int i = 0; i < lstFiles.getCount(); i++) {
 		ZipFile &zf = lstFiles[i];
 
-		HANDLE hSrcFile = CreateFileA(zf.sPath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+		HANDLE hSrcFile = CreateFileW(zf.sPath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hSrcFile != INVALID_HANDLE_VALUE) {
-			int iOpenRes = zipOpenNewFileInZip(hZip, zf.sZipPath.c_str(), &fi, nullptr, 0, nullptr, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION);
+			int iOpenRes = zipOpenNewFileInZip(hZip, _T2A(zf.sZipPath.c_str()), &fi, nullptr, 0, nullptr, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION);
 
 			if (iOpenRes == ZIP_OK) {
 				DWORD dwRead;
