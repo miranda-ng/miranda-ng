@@ -206,7 +206,6 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 void CGlobals::reloadAdv()
 {
 	m_bSoundOnTyping = M.GetBool("adv_soundontyping", false);
-	m_bDontUseDefaultKbd = M.GetBool("adv_leaveKeyboardAlone", true);
 
 	if (m_bSoundOnTyping && m_TypingSoundAdded == false) {
 		g_plugin.addSound("SoundOnTyping", LPGENW("Other"), LPGENW("TabSRMM: typing"));

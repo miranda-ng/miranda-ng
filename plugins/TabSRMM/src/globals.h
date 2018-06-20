@@ -97,7 +97,6 @@ public:
 	bool        m_bFlashOnClist;
 	bool        m_bAlwaysFullToolbarWidth;
 	bool        m_bIdleDetect;
-	bool        m_bDontUseDefaultKbd;
 
 	int         m_MsgTimeout;
 	int         m_EscapeCloses;
