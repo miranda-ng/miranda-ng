@@ -571,6 +571,8 @@
 #define IDI_STEAM                       9008
 #define IDI_VK_KATE                     9009
 #define IDI_VK_MESSENGER                9010
+#define IDI_VK_PHOENIX_FULL             9011
+#define IDI_VK_PHOENIX_LITE             9012
 
 #define IDD_DIALOG                      10000
 #define IDC_GROUP_MIRANDA               10025

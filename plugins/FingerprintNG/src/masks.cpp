@@ -579,6 +579,8 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_VK", L"|*VKontakte*|*vk.com*", L"VKontakte", IDI_VK, VK_CASE },
 	{ "client_VK_Kate", L"*Kate*Mobile*", L"Kate Mobile", IDI_VK_KATE, VK_CASE },
 	{ "client_VK_Messenger", L"VK Messenger*", L"VK Messenger", IDI_VK_MESSENGER, VK_CASE },
+	{ "client_VK_Phoenix_Full", L"Phoenix*Full*", L"Phoenix Full", IDI_VK_PHOENIX_FULL, VK_CASE },
+	{ "client_VK_Phoenix_Lite", L"Phoenix*Lite*", L"Phoenix Lite", IDI_VK_PHOENIX_LITE, VK_CASE },
 
 	//#########################################################################################################################################################################
 	//#################################   OTHER CLIENTS   #####################################################################################################################
