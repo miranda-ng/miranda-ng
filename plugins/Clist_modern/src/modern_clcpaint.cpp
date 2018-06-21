@@ -1473,7 +1473,7 @@ int CLCPaint::_DetermineDrawMode(HWND hWnd, ClcData *dat)
 	return paintMode;
 }
 
-void CLCPaint::_PreparePaintContext(ClcData *dat, HDC hdc, int paintMode, RECT& clRect, _PaintContext& pc)
+void CLCPaint::_PreparePaintContext(ClcData *dat, HDC hdc, int paintMode, RECT &clRect, _PaintContext &pc)
 {
 	if ((paintMode & DM_GRAY) && !(paintMode & DM_LAYERED)) {
 		pc.hdcMem2 = CreateCompatibleDC(hdc);
@@ -1525,7 +1525,7 @@ void CLCPaint::_PreparePaintContext(ClcData *dat, HDC hdc, int paintMode, RECT& 
 	SetBrushOrgEx(pc.hdcMem, org.x, org.y, nullptr);
 }
 
-void CLCPaint::_DrawBackground(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint, RECT& clRect, _PaintContext& pc)
+void CLCPaint::_DrawBackground(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint, RECT &clRect, _PaintContext &pc)
 {
 	if (paintMode & (DM_FLOAT | DM_CONTROL)) {
 		HBRUSH hBrush = CreateSolidBrush(pc.tmpbkcolour);
@@ -1550,7 +1550,7 @@ void CLCPaint::_DrawBackground(HWND hWnd, ClcData *dat, int paintMode, RECT *rcP
 	}
 }
 
-void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint, RECT& clRect, _PaintContext &pc)
+void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint, RECT &clRect, _PaintContext &pc)
 {
 	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
@@ -1803,7 +1803,7 @@ void CLCPaint::_DrawInsertionMark(ClcData *dat, RECT &clRect, _PaintContext &pc)
 	DeleteObject(hBrush);
 }
 
-void CLCPaint::_CopyPaintToDest(HDC hdc, int paintMode, RECT* rcPaint, _PaintContext& pc)
+void CLCPaint::_CopyPaintToDest(HDC hdc, int paintMode, RECT *rcPaint, _PaintContext &pc)
 {
 	if (!(paintMode & DM_GRAY) && (paintMode & DM_DRAW_OFFSCREEN))
 		BitBlt(hdc, rcPaint->left, rcPaint->top, rcPaint->right - rcPaint->left, rcPaint->bottom - rcPaint->top, pc.hdcMem, rcPaint->left, rcPaint->top, SRCCOPY);
