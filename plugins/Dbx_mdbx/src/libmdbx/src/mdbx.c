@@ -5580,8 +5580,9 @@ static int __cold mdbx_setup_lck(MDBX_env *env, char *lck_pathname,
   assert(env->me_fd != INVALID_HANDLE_VALUE);
   assert(env->me_lfd == INVALID_HANDLE_VALUE);
 
+  uint32_t bExclusive = (env->me_flags & MDBX_EXCLUSIVE);
   int err = mdbx_openfile(lck_pathname, O_RDWR | O_CREAT, mode, &env->me_lfd,
-                          (env->me_flags & MDBX_EXCLUSIVE) ? true : false);
+                          (bExclusive) ? true : false);
   if (err != MDBX_SUCCESS) {
     if (err != MDBX_EROFS || (env->me_flags & MDBX_RDONLY) == 0)
       return err;
@@ -5625,7 +5626,7 @@ static int __cold mdbx_setup_lck(MDBX_env *env, char *lck_pathname,
       size = wanna;
     }
   } else {
-    if (env->me_flags & MDBX_EXCLUSIVE)
+    if (bExclusive)
       return MDBX_BUSY;
     if (size > SSIZE_MAX || (size & (env->me_os_psize - 1)) ||
         size < env->me_os_psize) {
@@ -5642,7 +5643,8 @@ static int __cold mdbx_setup_lck(MDBX_env *env, char *lck_pathname,
   }
   env->me_maxreaders = (unsigned)maxreaders;
 
-  err = mdbx_mmap(MDBX_WRITEMAP, &env->me_lck_mmap, (size_t)size, (size_t)size);
+  err = mdbx_mmap(MDBX_WRITEMAP | bExclusive, &env->me_lck_mmap, (size_t)size,
+                  (size_t)size);
   if (unlikely(err != MDBX_SUCCESS))
     return err;
 
