@@ -596,6 +596,8 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	else memset(&dat->thirdLine, 0, sizeof(dat->thirdLine));
 
 	dat->rightMargin = db_get_b(0, "CLC", "RightMargin", CLCDEFAULT_RIGHTMARGIN);
+	dat->topMargin = db_get_b(0, "CLC", "TopMargin", 0);
+	dat->bottomMargin = db_get_b(0, "CLC", "BottomMargin", 0);
 	dat->bForceInDialog = (g_clistApi.hwndContactTree) ? (hwnd != g_clistApi.hwndContactTree) : 0;
 	dat->subIndent = db_get_b(0, "CLC", "SubIndent", CLCDEFAULT_GROUPINDENT);
 

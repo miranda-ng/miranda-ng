@@ -238,7 +238,7 @@ struct ClcData : public ClcDataBase
 	time_t last_tick_time;
 	bool bForceInDialog, bPlaceOfflineToRoot, bMetaIgnoreEmptyExtra, bMetaExpanding;
 	int  subIndent;
-	int  rightMargin;
+	int  rightMargin, topMargin, bottomMargin;
 	HBITMAP hMenuBackground;
 	DWORD MenuBkColor, MenuBkHiColor, MenuTextColor, MenuTextHiColor;
 	int  MenuBmpUse;

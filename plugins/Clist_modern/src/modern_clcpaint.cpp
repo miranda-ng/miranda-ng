@@ -1843,6 +1843,9 @@ void CLCPaint::_PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *_rcPaint)
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
 
+	clRect.top += dat->topMargin;
+	clRect.bottom -= dat->bottomMargin;
+
 	RECT *rcPaint = _rcPaint ? _rcPaint : &clRect;       // if null is transmitted - use whole client area
 
 	// Invalidate ani avatars, avatars have to be validated in row paint routine below
