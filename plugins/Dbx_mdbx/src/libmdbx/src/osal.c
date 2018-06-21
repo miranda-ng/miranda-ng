@@ -856,7 +856,7 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   map->section = NULL;
   map->address = nullptr;
 
-  if (flags & MDBX_EXCLUSIVE) {
+  if (!(flags & MDBX_EXCLUSIVE)) {
     NTSTATUS rc = mdbx_check4nonlocal(map->fd, flags);
     if (rc != MDBX_SUCCESS)
       return rc;
