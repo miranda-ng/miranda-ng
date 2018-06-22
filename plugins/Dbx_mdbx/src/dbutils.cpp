@@ -45,3 +45,37 @@ int DBSettingKey::Compare(const MDBX_val *ax, const MDBX_val *bx)
 	CMP_UINT(a->dwModuleId, b->dwModuleId);
 	return strcmp(a->szSettingName, b->szSettingName);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+txn_ptr_ro::txn_ptr_ro(CMDBX_txn_ro &_txn) : 
+	txn(_txn),
+	lock(txn.cs)
+{
+	for (int nRetries = 0; nRetries < 5; nRetries++) {
+		int rc = mdbx_txn_renew(txn);
+		if (rc == MDBX_SUCCESS)
+			break;
+
+		#ifdef _DEBUG
+			DebugBreak();
+		#endif
+		Netlib_Logf(nullptr, "txn_ptr_ro::txn_ptr_ro failed with error=%d, retrying...", rc);
+		Sleep(0);
+	}
+}
+
+txn_ptr_ro::~txn_ptr_ro()
+{
+	for (int nRetries = 0; nRetries < 5; nRetries++) {
+		int rc = mdbx_txn_reset(txn);
+		if (rc == MDBX_SUCCESS)
+			break;
+
+		#ifdef _DEBUG
+			DebugBreak();
+		#endif
+		Netlib_Logf(nullptr, "txn_ptr_ro::~txn_ptr_ro failed with error=%d, retrying...", rc);
+		Sleep(0);
+	}
+}

@@ -109,18 +109,9 @@ class txn_ptr_ro
 	mir_cslock lock;
 
 public:
-	__forceinline txn_ptr_ro(CMDBX_txn_ro &_txn) : txn(_txn), lock(txn.cs)
-	{
-		int rc = mdbx_txn_renew(txn);
-		if (rc != MDBX_SUCCESS)
-			DebugBreak();
-	}
-	__forceinline ~txn_ptr_ro()
-	{
-		int rc = mdbx_txn_reset(txn);
-		if (rc != MDBX_SUCCESS)
-			DebugBreak();
-	}
+	txn_ptr_ro(CMDBX_txn_ro &_txn);
+	~txn_ptr_ro();
+
 	__forceinline operator MDBX_txn*() const { return txn; }
 };
 
