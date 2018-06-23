@@ -264,100 +264,11 @@ int AniAva_RenderAvatar(MCONTACT hContact, HDC hdcMem, RECT *rc);
 /* move to list module */
 typedef void(*ItemDestuctor)(void*);
 
-#ifdef __cplusplus
-const ROWCELL * rowAddCell(ROWCELL* &, int);
+const ROWCELL* rowAddCell(ROWCELL* &, int);
 void rowDeleteTree(ROWCELL *cell);
 BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &sequence, ROWCELL** RowTabAccess);
 void rowSizeWithReposition(ROWCELL* &root, int width);
-#endif
 
 #define UNPACK_POINT(X) { (short)LOWORD(X), (short)HIWORD(X) }
-
-//////////////////////////////////////////////////////////////////////////
-// Specific class for quick implementation of map<string, *> list
-// with some more fast searching it is
-// hash_map alternative - for  faked hash search;
-// the items are stored no by char* key but both int(hash),char*.
-// have items sorted in map firstly via hash, secondly via string
-// the method is case insensitive
-// To use this simple define like
-// 	typedef std::map<HashStringKeyNoCase, _Type > map_Type;
-//	map_Type myMap;
-// and access it as usual via simpe char* indexing:
-//  myList[ "first"  ]=_Type_value;
-//  myList[ "second" ]=_Type_value;
-//  _Type a = myList[ "second"];
-
-class HashStringKeyNoCase
-{
-public:
-
-	HashStringKeyNoCase(const char* szKey)
-	{
-		_strKey = _strdup(szKey);
-		_CreateHashKey();
-	}
-
-	HashStringKeyNoCase(const HashStringKeyNoCase& hsKey)
-	{
-		_strKey = _strdup(hsKey._strKey);
-		_dwKey = hsKey._dwKey;
-	}
-
-	HashStringKeyNoCase& operator= (const HashStringKeyNoCase& hsKey)
-	{
-		_strKey = _strdup(hsKey._strKey);
-		_dwKey = hsKey._dwKey;
-		return *this;
-	}
-
-#ifdef _UNICODE
-	HashStringKeyNoCase(const wchar_t* szKey)
-	{
-		int codepage = 0;
-		int cbLen = WideCharToMultiByte(codepage, 0, szKey, -1, nullptr, 0, nullptr, nullptr);
-		char* result = (char*)malloc(cbLen + 1);
-		WideCharToMultiByte(codepage, 0, szKey, -1, result, cbLen, nullptr, nullptr);
-		result[cbLen] = 0;
-
-		_strKey = result;
-		_CreateHashKey();
-	}
-#endif
-
-	~HashStringKeyNoCase()
-	{
-		free(_strKey);
-		_strKey = nullptr;
-		_dwKey = 0;
-	}
-
-private:
-	char*   _strKey;
-	DWORD   _dwKey;
-
-	void  _CreateHashKey()
-	{
-		_strKey = _strupr(_strKey);
-		_dwKey = mod_CalcHash(_strKey);
-	}
-
-public:
-	bool operator< (const HashStringKeyNoCase& second) const
-	{
-		if (this->_dwKey != second._dwKey)
-			return (this->_dwKey < second._dwKey);
-		else
-			return (mir_strcmp(this->_strKey, second._strKey) < 0); // already maked upper so in any case - will be case insensitive
-	}
-
-	struct HashKeyLess
-	{
-		bool operator() (const HashStringKeyNoCase& first, const HashStringKeyNoCase& second) const
-		{
-			return (first < second);
-		}
-	};
-};
 
 #endif // commonheaders_h__
