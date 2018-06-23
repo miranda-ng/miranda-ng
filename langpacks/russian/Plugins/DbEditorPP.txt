@@ -1,4 +1,4 @@
-#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
@@ -40,7 +40,7 @@
 [Use popups when watched settings change values]
 Всплывающие окна при изменении наблюдаемых значений
 [Popup timeout (0 for infinite)]
-Длительность (0 = оставить)
+Длительность (0 = бесконечно)
 [Background color]
 Цвет фона
 [Add a module to contact]
