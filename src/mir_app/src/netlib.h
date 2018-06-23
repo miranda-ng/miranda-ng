@@ -146,6 +146,9 @@ void NetlibLeaveNestedCS(NetlibNestedCriticalSection *nlncs);
 extern mir_cs csNetlibUser;
 extern LIST<NetlibUser> netlibUser;
 
+extern HANDLE hEventConnected;
+extern HANDLE hEventDisconnected;
+
 // netlibautoproxy.c
 void NetlibLoadIeProxy(void);
 void NetlibUnloadIeProxy(void);

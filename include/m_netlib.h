@@ -201,6 +201,16 @@ struct NETLIBUSERSETTINGS
 EXTERN_C MIR_APP_DLL(int) Netlib_GetUserSettings(HNETLIBUSER nlu, NETLIBUSERSETTINGS *result);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//Gets the user-configured settings for a netlib user idetified by name
+//
+//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//This function behaves like Netlib_GetUserSettings but the user is identified
+//by the name provided by registration. When the name is not found NETLIBUSERSETTINGS is set to NULL.
+//Errors: ERROR_INVALID_PARAMETER
+
+EXTERN_C MIR_APP_DLL(int) Netlib_GetUserSettingsByName(char * UserSettingsName, NETLIBUSERSETTINGS *result);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Changes the user-configurable settings for a netlib user
 //
 // Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
@@ -211,6 +221,16 @@ EXTERN_C MIR_APP_DLL(int) Netlib_GetUserSettings(HNETLIBUSER nlu, NETLIBUSERSETT
 // Errors: ERROR_INVALID_PARAMETER
 
 EXTERN_C MIR_APP_DLL(int) Netlib_SetUserSettings(HNETLIBUSER nlu, const NETLIBUSERSETTINGS *result);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//Changes the user-configurable settings for a netlib user idetified by name
+//
+//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//This function behaves like Netlib_SetUserSettings but the user is identified
+//by the name provided by registration. Nothing will be changed when the name is not found.
+//Errors: ERROR_INVALID_PARAMETER
+
+EXTERN_C MIR_APP_DLL(int) Netlib_SetUserSettingsByName(char * UserSettingsName, NETLIBUSERSETTINGS *result);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Closes a netlib handle
@@ -761,5 +781,27 @@ struct NETLIBNOTIFY
 #define ME_NETLIB_FASTRECV "Netlib/OnRecv"  // being called on every receive
 #define ME_NETLIB_FASTSEND "Netlib/OnSend"  // being called on every send
 #define ME_NETLIB_FASTDUMP "Netlib/OnDump"  // being called on every dump
+
+struct NETLIBCONNECTIONEVENTINFO
+{
+	BOOL connected;      // 1-opening socket   0-closing socket
+	BOOL listening;      // 1-bind             0-connect
+	SOCKADDR_IN local;   // local IP+port (always used)
+	SOCKADDR_IN remote;  // remote IP+port (only connect (opening + closing only if no proxy))
+	SOCKADDR_IN proxy;   // proxy IP+port (only connect when used)
+	char *szSettingsModule; // name of the registered Netlib user that requested the action
+};
+
+//This event is sent as a new port is bound or a new connection opened.
+//It is NOT sent for sigle HTTP(S) requests.
+//wParam=(WPARAM)(NETLIBCONNECTIONEVENTINFO*)hInfo
+//lParam=(LPARAM)0 (not used)
+#define ME_NETLIB_EVENT_CONNECTED "Netlib/Event/Connected"
+
+//This event is sent if coneection or listening socket is closed.
+//It is NOT sent for sigle HTTP(S) requests.
+//wParam=(WPARAM)(NETLIBCONNECTIONEVENTINFO*)hInfo
+//lParam=(LPARAM)0 (not used)
+#define ME_NETLIB_EVENT_DISCONNECTED "Netlib/Event/Disconnected"
 
 #endif // M_NETLIB_H__
