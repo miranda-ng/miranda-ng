@@ -26,7 +26,7 @@
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Wininet.lib;winmm.lib;Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>false</GenerateMapFile>
       <SubSystem>Windows</SubSystem>

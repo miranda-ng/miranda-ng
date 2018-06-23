@@ -1,0 +1,162 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1250)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_LOGO                ICON    "logo.ico"
+IDI_PROXY               ICON    "proxy.ico"
+IDI_NOTIF_1             ICON    "notif-yes.ico"
+IDI_NOTIF_0             ICON    "notif-no.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 295
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 184
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 302, 191
+STYLE DS_MODALFRAME | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Network Addresses",IDC_STATIC,7,5,287,56,WS_GROUP
+    CONTROL         "Direct connection",IDC_STATIC,"Static",SS_SIMPLE,15,20,
+                    84,8
+    EDITTEXT        IDC_EDIT_NOPROXY,101,17,183,14,ES_AUTOHSCROLL
+    CONTROL         "Use proxy",IDC_STATIC,"Static",SS_SIMPLE,40,40,61,8
+    EDITTEXT        IDC_EDIT_USEPROXY,101,37,183,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "?",IDC_BTN_HELP,15,39,14,12,BS_FLAT | NOT WS_TABSTOP
+    GROUPBOX        "General",IDC_STATIC,7,65,144,118,WS_GROUP
+    CONTROL         "Manage Miranda IM proxy",IDC_CHECK_MIRANDA,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,78,131,10
+    CONTROL         "Manage Internet Explorer proxy",IDC_CHECK_IE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,92,132,10
+    CONTROL         "Manage Firefox proxy",IDC_CHECK_FIREFOX,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,106,132,10
+    CONTROL         "Reconnect if IP address changes",
+                    IDC_CHECK_ALWAY_RECONNECT,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,15,120,132,10
+    CONTROL         "Display 'Show my IP' in menu",IDC_CHECK_SHOWMYIPMENU,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,134,130,10
+    CONTROL         "Display 'Proxy && IP' submenu",IDC_CHECK_PROXYIPMENU,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,148,131,10
+    LTEXT           "Hide interfaces",IDC_STATIC,15,165,62,8
+    EDITTEXT        IDC_EDIT_HIDEINTF,80,161,62,14,ES_AUTOHSCROLL
+    GROUPBOX        "PopUp Options",IDC_STATIC,160,65,134,118,WS_GROUP
+    CONTROL         "Enable popups",IDC_CHECK_POPUPS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,168,78,122,10
+    CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,168,94,39,11
+    CONTROL         "Text color",IDC_STATIC,"Static",SS_SIMPLE,215,94,75,8
+    CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,168,111,39,11
+    CONTROL         "Background color",IDC_STATIC,"Static",SS_SIMPLE,215,111,
+                    75,8
+    CONTROL         "Use default popup colors",IDC_CHECK_DEFAULTCOLORS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,129,122,10
+    CONTROL         "Show proxy status on change",IDC_CHECK_SHOWPROXYSTATUS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,143,123,10
+    CTEXT           "Restart of IM Miranda is required.",IDC_RESTARTREQUIRED,
+                    164,164,127,8,NOT WS_VISIBLE
+    LTEXT           "Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tip/bits\t(10.0.0.1/24)\t\tip/mask\t(10.0.0.1/255.255.255.0)\n\tip1-2\t(10.0.0.1-50)\t\tip1-ip2\t(10.0.0.1-10.0.2.255)",
+                    IDC_HELP_1,7,66,287,32,NOT WS_VISIBLE | NOT WS_GROUP
+    LTEXT           "Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The program checks the IP addresses in the following way:",
+                    IDC_HELP_2,7,98,287,27,NOT WS_VISIBLE | NOT WS_GROUP
+    LTEXT           "\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or any at all addresses found",
+                    IDC_HELP_3,7,125,287,59,NOT WS_VISIBLE | NOT WS_GROUP
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Czech resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CSY)
+#ifdef _WIN32
+LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+#pragma code_page(1250)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Czech resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
