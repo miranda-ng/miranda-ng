@@ -210,18 +210,18 @@ MIR_APP_DLL(int) Netlib_GetUserSettings(HNETLIBUSER nlu, NETLIBUSERSETTINGS *nlu
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
+
 	*nlus = nlu->settings;
 	return 1;
 }
 
-MIR_APP_DLL(int) NetlibGetUserSettingsByName(char * UserSettingsName, NETLIBUSERSETTINGS *nlus)
+MIR_APP_DLL(int) Netlib_GetUserSettingsByName(char * UserSettingsName, NETLIBUSERSETTINGS *nlus)
 {
 	mir_cslock lck(csNetlibUser);
-	for (int i = 0; i < netlibUser.getCount(); i++)
-		if (!mir_strcmp(netlibUser[i]->user.szSettingsModule, UserSettingsName)) {
-			int out = Netlib_GetUserSettings(netlibUser[i], nlus);
-			return out;
-		}
+	for (auto &it : netlibUser)
+		if (!mir_strcmp(it->user.szSettingsModule, UserSettingsName))
+			return Netlib_GetUserSettings(it, nlus);
+
 	SetLastError(ERROR_INVALID_PARAMETER);
 	return 0;
 }
@@ -232,18 +232,18 @@ MIR_APP_DLL(int) Netlib_SetUserSettings(HNETLIBUSER nlu, const NETLIBUSERSETTING
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
+
 	NetlibSaveUserSettingsStruct(nlu->user.szSettingsModule, nlus);
 	return 1;
 }
 
-MIR_APP_DLL(int) NetlibSetUserSettingsByName(char * UserSettingsName, NETLIBUSERSETTINGS *nlus)
+MIR_APP_DLL(int) Netlib_SetUserSettingsByName(char * UserSettingsName, NETLIBUSERSETTINGS *nlus)
 {
 	mir_cslock lck(csNetlibUser);
-	for (int i = 0; i < netlibUser.getCount(); i++)
-		if (!mir_strcmp(netlibUser[i]->user.szSettingsModule, UserSettingsName)) {
-			int out = Netlib_SetUserSettings(netlibUser[i], nlus);
-			return out;
-		}
+	for (auto &it : netlibUser)
+		if (!mir_strcmp(it->user.szSettingsModule, UserSettingsName))
+			return Netlib_SetUserSettings(it, nlus);
+	
 	SetLastError(ERROR_INVALID_PARAMETER);
 	return 0;
 }

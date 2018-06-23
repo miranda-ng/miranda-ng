@@ -626,3 +626,5 @@ Idle_Enter @654 NONAME
 Idle_GetInfo @655 NONAME
 Profile_GetSetting @656
 Profile_GetSettingInt @657
+Netlib_GetUserSettingsByName @658
+Netlib_SetUserSettingsByName @659
