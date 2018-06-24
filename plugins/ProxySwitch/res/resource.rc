@@ -63,7 +63,7 @@ STYLE DS_MODALFRAME | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg"
 BEGIN
-    GROUPBOX        "Network Addresses",IDC_STATIC,7,5,287,56,WS_GROUP
+    GROUPBOX        "Network addresses",IDC_STATIC,7,5,287,56,WS_GROUP
     CONTROL         "Direct connection",IDC_STATIC,"Static",SS_SIMPLE,15,20,
                     84,8
     EDITTEXT        IDC_EDIT_NOPROXY,101,17,183,14,ES_AUTOHSCROLL
@@ -86,7 +86,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,148,131,10
     LTEXT           "Hide interfaces",IDC_STATIC,15,165,62,8
     EDITTEXT        IDC_EDIT_HIDEINTF,80,161,62,14,ES_AUTOHSCROLL
-    GROUPBOX        "PopUp Options",IDC_STATIC,160,65,134,118,WS_GROUP
+    GROUPBOX        "Popup options",IDC_STATIC,160,65,134,118,WS_GROUP
     CONTROL         "Enable popups",IDC_CHECK_POPUPS,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,168,78,122,10
     CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,168,94,39,11

@@ -130,7 +130,7 @@ int Create_NIF_List_Ex(NETWORK_INTERFACE_LIST *list)
 		delay++;
 	}
 	if (out == -2)
-		ERRORMSG(TranslateT("Cannot retrieve IP or Adapter data."));
+		ERRORMSG(TranslateT("Cannot retrieve IP or adapter data."));
 	return out < 0 ? -1 : out;
 }
 
