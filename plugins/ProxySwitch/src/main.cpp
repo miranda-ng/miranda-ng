@@ -30,9 +30,9 @@ CMPlugin::CMPlugin() :
 HGENMENU hEnableDisablePopupMenu = 0;
 
 NETWORK_INTERFACE_LIST NIF_List;
-CRITICAL_SECTION csNIF_List;
+mir_cs csNIF_List;
 ACTIVE_CONNECTION_LIST Connection_List;
-CRITICAL_SECTION csConnection_List;
+mir_cs csConnection_List;
 HANDLE hEventRebound = NULL;
 
 wchar_t opt_useProxy[MAX_IPLIST_LENGTH];
@@ -122,19 +122,16 @@ static int ProxyDisable(WPARAM wParam, LPARAM lParam)
 
 void CopyIP2Clipboard(UCHAR idx)
 {
-	EnterCriticalSection(&csNIF_List);
+	mir_cslock lck(csNIF_List);
 	if (NIF_List.item[idx].IPcount == 0) {
-		LeaveCriticalSection(&csNIF_List);
 		return;
 	}
 	if (!OpenClipboard(NULL)) {
-		LeaveCriticalSection(&csNIF_List);
 		return;
 	}
 	EmptyClipboard();
 	SetClipboardData(CF_UNICODETEXT, (HANDLE)NIF_List.item[idx].IPstr);
 	CloseClipboard();
-	LeaveCriticalSection(&csNIF_List);
 }
 
 static int CopyIP2Clipboard0(WPARAM wParam, LPARAM lParam)
@@ -183,7 +180,7 @@ void UpdateInterfacesMenu(void)
 	if (!opt_showProxyIP && !opt_not_restarted)
 		return;
 
-	EnterCriticalSection(&csNIF_List);
+	mir_cslock lck(csNIF_List);
 	for (idx = 0; idx < NIF_List.count; idx++) {
 		if (NIF_List.item[idx].MenuItem) {
 			// set new name and flags
@@ -244,7 +241,6 @@ void UpdateInterfacesMenu(void)
 			}
 		}
 	}
-	LeaveCriticalSection(&csNIF_List);
 }
 
 /* ################################################################################ */
@@ -296,9 +292,6 @@ int CMPlugin::Load()
 	opt_not_restarted = FALSE;
 
 	LoadSettings();
-
-	InitializeCriticalSection(&csConnection_List);
-	InitializeCriticalSection(&csNIF_List);
 
 	ZeroMemory(&Connection_List, sizeof(Connection_List));
 	Create_NIF_List_Ex(&NIF_List);
@@ -413,10 +406,7 @@ int CMPlugin::Unload()
 {
 	if (hEventRebound)
 		CloseHandle(hEventRebound);
-	EnterCriticalSection(&csNIF_List);
+	mir_cslock lck(csNIF_List);
 	Free_NIF_List(&NIF_List);
-	LeaveCriticalSection(&csNIF_List);
-	DeleteCriticalSection(&csNIF_List);
-	DeleteCriticalSection(&csConnection_List);
 	return 0;
 }

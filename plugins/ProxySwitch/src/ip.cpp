@@ -7,47 +7,10 @@ the proxy settings of Miranda and Internet Explorer accordingly.
 
 #include "stdafx.h"
 
-//#define IP_DEBUG
-#ifdef IP_DEBUG
-#pragma comment (lib, "user32")
-#pragma comment (lib, "iphlpapi")
-#pragma comment (lib, "ws2_32")
-#define PopupMyIPAddrs(x) printf("PopupMyIPAddrs(%s)\n", x);
-#define GetCurrentProcessId() 13604
-NETWORK_INTERFACE_LIST NIF_List;
-CRITICAL_SECTION csNIF_List;
-char opt_hideIntf[MAX_IPLIST_LENGTH];
-void UpdateInterfacesMenu(void) { }
-PLUGINLINK *pluginLink;
-int main(void) {
-	NETWORK_INTERFACE_LIST list;
-	char opt[200] = "2.252.83.0-2.252.85.0;10.100.0.0/16;2.252.83.32-38;;;32.64.128.0/255.255.255.0";
-	IP_RANGE_LIST range;
-	InitializeCriticalSection(&csNIF_List);
-	lstrcpy(opt_hideIntf, "VMnet*");
-	printf("Started\n");
-	printf("IP Helper procs: %s\n", Load_ExIpHelper_Procedures() ? "Loaded" : "Not found");
-	if (Create_NIF_List(&list) >= 0) {
-		printf("%s\n", Print_NIF_List(list, NULL));
-
-		Create_Range_List(&range, opt, FALSE);
-		printf("'%s' matches: %s\n", opt, Match_Range_List(range, list) ? "yes" : "no");
-		Free_Range_List(&range);
-
-
-		Free_NIF_List(&list);
-	}
-	DeleteCriticalSection(&csNIF_List);
-	printf("Finished\n");
-	return 0;
-}
-#endif
-
 wchar_t tempstr[MAX_SECONDLINE];
 
 /* ################################################################################ */
 
-#ifndef IP_DEBUG
 void IP_WatchDog(void *arg)
 {
 	OVERLAPPED overlap;
@@ -79,7 +42,7 @@ void IP_WatchDog(void *arg)
 			if (Create_NIF_List_Ex(&list) >= 0) {
 				int change = INCUPD_INTACT;
 
-				EnterCriticalSection(&csNIF_List);
+				mir_cslock lck(csNIF_List);
 				change = IncUpdate_NIF_List(&NIF_List, list);
 				if (change != INCUPD_INTACT && change != INCUPD_CONN_BIND) {
 					char proxy = -1;
@@ -146,8 +109,6 @@ void IP_WatchDog(void *arg)
 						Connect_All_Protocols(&protocols);
 					}
 				}
-				LeaveCriticalSection(&csNIF_List);
-
 				Free_NIF_List(&list);
 			}
 		}
@@ -160,7 +121,6 @@ void IP_WatchDog(void *arg)
 	WSACloseEvent(hand);
 	WSACloseEvent(overlap.hEvent);
 }
-#endif
 
 /* ################################################################################ */
 
@@ -343,14 +303,13 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	mir_free(pAdapterInfo);
 	mir_free(pAddresses);
 
-	EnterCriticalSection(&csConnection_List);
+	mir_cslock lck(csConnection_List);
 	for (idx = 0; idx < Connection_List.count; idx++) {
 		nif = Find_NIF_IP(*list, Connection_List.item[idx].IP);
 		if (nif) {
 			nif->Bound = 1;
 		}
 	}
-	LeaveCriticalSection(&csConnection_List);
 
 	return 0;
 }
@@ -748,7 +707,7 @@ int ManageConnections(WPARAM wParam, LPARAM lParam)
 	int found;
 	UCHAR i;
 
-	EnterCriticalSection(&csConnection_List);
+	mir_cslock lck(csConnection_List);
 	found = -1;
 	for (i = 0; i < Connection_List.count; i++) {
 		if (Connection_List.item[i].IP == info->local.sin_addr.s_addr && Connection_List.item[i].Port == info->local.sin_port) {
@@ -757,7 +716,6 @@ int ManageConnections(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	if ((found >= 0 && info->connected) || (found == -1 && !info->connected)) {
-		LeaveCriticalSection(&csConnection_List);
 		return 0;
 	}
 	if (found >= 0) {
@@ -774,7 +732,6 @@ int ManageConnections(WPARAM wParam, LPARAM lParam)
 		Connection_List.item[Connection_List.count].Port = info->local.sin_port;
 		Connection_List.count++;
 	}
-	LeaveCriticalSection(&csConnection_List);
 
 	SetEvent(hEventRebound);
 
@@ -791,7 +748,7 @@ void UnboundConnections(LONG *OldIP, LONG *NewIP)
 		while (IP != NULL && *IP != 0 && *IP != *OldIP)
 			IP++;
 		if (IP == NULL || *IP != *OldIP) {
-			EnterCriticalSection(&csConnection_List);
+			mir_cslock lck(csConnection_List);
 			i = 0;
 			while (i < Connection_List.count) {
 				if (Connection_List.item[i].IP == (ULONG)*OldIP) {
@@ -803,7 +760,6 @@ void UnboundConnections(LONG *OldIP, LONG *NewIP)
 					i++;
 				}
 			}
-			LeaveCriticalSection(&csConnection_List);
 		}
 		OldIP++;
 	}

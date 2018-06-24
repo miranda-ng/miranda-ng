@@ -85,8 +85,8 @@ typedef struct {
 
 extern NETWORK_INTERFACE_LIST NIF_List;
 extern ACTIVE_CONNECTION_LIST Connection_List;
-extern CRITICAL_SECTION csNIF_List;
-extern CRITICAL_SECTION csConnection_List;
+extern mir_cs csNIF_List;
+extern mir_cs csConnection_List;
 extern HANDLE hEventRebound;
 
 /**** Options ******************************************************************************/
