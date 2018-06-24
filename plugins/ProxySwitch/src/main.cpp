@@ -56,12 +56,6 @@ UINT opt_popupPluginInstalled;
 
 static HANDLE hEventConnect = NULL;
 static HANDLE hEventDisconnect = NULL;
-static HANDLE hSvcCopyClip0 = NULL;
-static HANDLE hSvcCopyClip1 = NULL;
-static HANDLE hSvcCopyClip2 = NULL;
-static HANDLE hSvcCopyClip3 = NULL;
-static HANDLE hSvcCopyClip4 = NULL;
-static HANDLE hSvcCopyClip5 = NULL;
 static HANDLE hSvcPopupSwitch = NULL;
 static HANDLE hSvcProxyDisable = NULL;
 static HANDLE hSvcProxyEnable = NULL;
@@ -120,53 +114,18 @@ static INT_PTR ProxyDisable(WPARAM, LPARAM)
 
 /* ################################################################################ */
 
-void CopyIP2Clipboard(UCHAR idx)
+static INT_PTR CopyIP2Clipboard(WPARAM, LPARAM, LPARAM idx)
 {
 	mir_cslock lck(csNIF_List);
-	if (NIF_List.item[idx].IPcount == 0) {
-		return;
-	}
-	if (!OpenClipboard(NULL)) {
-		return;
-	}
+	if (NIF_List.item[idx].IPcount == 0)
+		return 0;
+
+	if (!OpenClipboard(NULL))
+		return 0;
+
 	EmptyClipboard();
 	SetClipboardData(CF_UNICODETEXT, (HANDLE)NIF_List.item[idx].IPstr);
 	CloseClipboard();
-}
-
-static INT_PTR CopyIP2Clipboard0(WPARAM, LPARAM)
-{
-	CopyIP2Clipboard(0);
-	return 0;
-}
-
-static INT_PTR CopyIP2Clipboard1(WPARAM, LPARAM)
-{
-	CopyIP2Clipboard(1);
-	return 0;
-}
-
-static INT_PTR CopyIP2Clipboard2(WPARAM, LPARAM)
-{
-	CopyIP2Clipboard(2);
-	return 0;
-}
-
-static INT_PTR CopyIP2Clipboard3(WPARAM, LPARAM)
-{
-	CopyIP2Clipboard(3);
-	return 0;
-}
-
-static INT_PTR CopyIP2Clipboard4(WPARAM, LPARAM)
-{
-	CopyIP2Clipboard(4);
-	return 0;
-}
-
-static INT_PTR CopyIP2Clipboard5(WPARAM, LPARAM)
-{
-	CopyIP2Clipboard(5);
 	return 0;
 }
 
@@ -174,7 +133,6 @@ void UpdateInterfacesMenu(void)
 {
 	UCHAR idx;
 	CMenuItem mi(g_plugin);
-	char svc[60];
 
 	if (!opt_showProxyIP && !opt_not_restarted)
 		return;
@@ -192,6 +150,7 @@ void UpdateInterfacesMenu(void)
 		}
 		else {
 			// add a new menu item
+			char svc[60];
 			sprintf(svc, "%s%d", MS_PROXYSWITCH_COPYIP2CLIP, idx);
 			mi.position = 0xC00000;
 			mi.flags = CMIF_UNICODE;
@@ -215,27 +174,27 @@ void UpdateInterfacesMenu(void)
 			// create and register service for this menu item
 			switch (idx) {
 			case 0:
-				hSvcCopyClip0 = CreateServiceFunction(svc, CopyIP2Clipboard0);
+				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 0);
 				break;
 
 			case 1: 
-				hSvcCopyClip1 = CreateServiceFunction(svc, CopyIP2Clipboard1);
+				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 1);
 				break;
 
 			case 2: 
-				hSvcCopyClip2 = CreateServiceFunction(svc, CopyIP2Clipboard2);
+				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 2);
 				break;
 
 			case 3:
-				hSvcCopyClip3 = CreateServiceFunction(svc, CopyIP2Clipboard3);
+				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 3);
 				break;
 
 			case 4:
-				hSvcCopyClip4 = CreateServiceFunction(svc, CopyIP2Clipboard4);
+				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 4);
 				break;
 
 			case 5:
-				hSvcCopyClip5 = CreateServiceFunction(svc, CopyIP2Clipboard5);
+				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 5);
 				break;
 			}
 		}
