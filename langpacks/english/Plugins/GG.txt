@@ -118,9 +118,6 @@
 [You need to specify your registration e-mail first.]
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-[Allow]
-[Ask]
-[Ignore]
 [Your details has been uploaded to the public directory.]
 [You have to be logged in before you can change your details.]
 [Network]
@@ -202,6 +199,10 @@
 ;file \protocols\Gadu-Gadu\src\links.cpp
 [Gadu-Gadu account chooser]
 [Gadu-Gadu Link Protocol]
+;file \protocols\Gadu-Gadu\src\options.cpp
+[Allow]
+[Ask]
+[Ignore]
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 [Password was sent to your e-mail.]

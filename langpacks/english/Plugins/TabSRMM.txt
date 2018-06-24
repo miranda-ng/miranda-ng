@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.9
+;  Version: 3.5.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -536,9 +536,6 @@
 [Message Sessions]
 [Group chat windows]
 [Group chat log]
-[Appearance and functionality of chat room windows]
-[Appearance of the message log]
-[Chat rooms]
 [Voiced]
 [Half operators]
 [Channel operators]
@@ -550,6 +547,9 @@
 [Fields background]
 [Nick list background]
 [Group chat log background]
+[Appearance and functionality of chat room windows]
+[Appearance of the message log]
+[Chat rooms]
 [nick of current contact (if defined)]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 [user-defined account name of current contact (if defined).]
@@ -580,6 +580,10 @@
 [No markers]
 [Show as icons]
 [Show as text symbols]
+[Settings]
+[Log formatting]
+[Events and filters]
+[Highlighting]
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 ;file \plugins\TabSRMM\src\chat_window.cpp
@@ -823,10 +827,6 @@
 [Message window]
 [Load and apply]
 [Window layout tweaks]
-[Settings]
-[Log formatting]
-[Events and filters]
-[Highlighting]
 [Choose status modes]
 ;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]
@@ -941,7 +941,6 @@
 [Error feedback]
 [Enable typing sounds]
 [Close current tab on send]
-[Automatic keyboard layout: Do not load the system default for new contacts]
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 [Show client description in info panel]
 [On tab control]
@@ -1010,7 +1009,6 @@
 [New windows are minimized (the option above MUST be active)]
 [Activate a minimized window when a new tab is created inside it]
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-[Remember and set keyboard layout per contact]
 [Close button only hides message windows]
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]
 [Add offline contacts to multisend list]
