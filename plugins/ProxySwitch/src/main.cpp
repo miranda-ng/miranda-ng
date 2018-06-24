@@ -84,7 +84,7 @@ void PopupMyIPAddrs(wchar_t *msg)
 			wcsncpy_s(ppd.lpwzContactName, TranslateT("Current IP address"), _TRUNCATE);
 			ppd.colorBack = opt_defaultColors ? 0 : opt_bgColor;
 			ppd.colorText = opt_defaultColors ? 0 : opt_txtColor;
-			CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
+			PUAddPopupW(&ppd);
 		}
 		else {
 			MessageBox(NULL, ppd.lpwzText, _A2T(MODULENAME), MB_OK | MB_ICONINFORMATION);
