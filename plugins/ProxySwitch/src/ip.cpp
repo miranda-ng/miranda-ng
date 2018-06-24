@@ -25,7 +25,7 @@ void IP_WatchDog(void *arg)
 		ret = NotifyAddrChange(&hand, &overlap);
 		if (ret != NO_ERROR && WSAGetLastError() != WSA_IO_PENDING) {
 			wchar_t err[100];
-			mir_snwprintf(err, L"NotifyAddrChange Error: %d/nRestart Miranda IM to restore IP monitor.", WSAGetLastError());
+			mir_snwprintf(err, L"NotifyAddrChange Error: %d/nRestart Miranda NG to restore IP monitor.", WSAGetLastError());
 			ERRORMSG(err);
 			break;
 		}

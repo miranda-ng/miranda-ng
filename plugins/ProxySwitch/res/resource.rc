@@ -71,7 +71,7 @@ BEGIN
     EDITTEXT        IDC_EDIT_USEPROXY,101,37,183,14,ES_AUTOHSCROLL
     PUSHBUTTON      "?",IDC_BTN_HELP,15,39,14,12,BS_FLAT | NOT WS_TABSTOP
     GROUPBOX        "General",IDC_STATIC,7,65,144,118,WS_GROUP
-    CONTROL         "Manage Miranda IM proxy",IDC_CHECK_MIRANDA,"Button",
+    CONTROL         "Manage Miranda NG proxy",IDC_CHECK_MIRANDA,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,78,131,10
     CONTROL         "Manage Internet Explorer proxy",IDC_CHECK_IE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,92,132,10
@@ -98,7 +98,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,129,122,10
     CONTROL         "Show proxy status on change",IDC_CHECK_SHOWPROXYSTATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,143,123,10
-    CTEXT           "Restart of IM Miranda is required.",IDC_RESTARTREQUIRED,
+    CTEXT           "Restart of Miranda NG is required.",IDC_RESTARTREQUIRED,
                     164,164,127,8,NOT WS_VISIBLE
     LTEXT           "Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tip/bits\t(10.0.0.1/24)\t\tip/mask\t(10.0.0.1/255.255.255.0)\n\tip1-2\t(10.0.0.1-50)\t\tip1-ip2\t(10.0.0.1-10.0.2.255)",
                     IDC_HELP_1,7,66,287,32,NOT WS_VISIBLE | NOT WS_GROUP
