@@ -29,7 +29,7 @@ CMPlugin::CMPlugin() :
 
 HGENMENU hEnableDisablePopupMenu = 0;
 
-OBJLIST<ACTIVE_CONNECTION> g_arConnections(10);
+OBJLIST<ACTIVE_CONNECTION> g_arConnections(10, PtrKeySortT);
 mir_cs csConnection_List;
 
 OBJLIST<NETWORK_INTERFACE> g_arNIF(10);

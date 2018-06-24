@@ -631,15 +631,14 @@ int ManageConnections(WPARAM wParam, LPARAM)
 			break;
 		}
 
-	if ((pFound && info->connected) || (!pFound && !info->connected))
-		return 0;
-
-	if (!pFound)
+	if (!pFound && info->connected) {
 		g_arConnections.insert(new ACTIVE_CONNECTION(info->local.sin_addr.s_addr, info->local.sin_port));
-	else
-		g_arConnections.remove(g_arConnections.indexOf(&pFound));
-
-	SetEvent(hEventRebound);
+		SetEvent(hEventRebound);
+	}
+	else if (pFound && !info->connected) {
+		g_arConnections.remove(pFound);
+		SetEvent(hEventRebound);
+	}
 	return 0;
 }
 
