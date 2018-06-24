@@ -28,7 +28,7 @@ int Enum_Settings(const char *szSetting, LPARAM lParam)
 	return 0;
 }
 
-int Enum_Modules(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam) 
+int Enum_Modules(const char *szModuleName, DWORD, LPARAM lParam) 
 {
 	//DBCONTACTENUMSETTINGS e;
 	MCONTACT hContact = NULL;
@@ -286,9 +286,8 @@ char Firefox_Installed(void)
 
 	if (SHGetSpecialFolderPath(NULL, path, CSIDL_APPDATA, 0)) {
 		mir_wstrcat(path, L"\\Mozilla\\Firefox\\Profiles");
-		if (_wstat(path, &info) == 0 && info.st_mode & _S_IFDIR == _S_IFDIR) {
+		if (_wstat(path, &info) == 0 && (info.st_mode & _S_IFDIR) == _S_IFDIR)
 			return 1;
-		}
 	}
 	return 0;
 }
@@ -297,7 +296,7 @@ char Firefox_Installed(void)
 
 void Disconnect_All_Protocols(PPROTO_SETTINGS settings, int disconnect) 
 {
-	int count, c, i, status;
+	int count = 0, c, i, status;
 	PROTOCOLDESCRIPTOR **plist;
 
 	Proto_EnumProtocols(&c, &plist);

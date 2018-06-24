@@ -11,7 +11,7 @@ wchar_t tempstr[MAX_SECONDLINE];
 
 /* ################################################################################ */
 
-void IP_WatchDog(void *arg)
+void IP_WatchDog(void*)
 {
 	OVERLAPPED overlap;
 	DWORD ret;
@@ -158,12 +158,10 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	PIP_ADAPTER_INFO pAdapterInfo, pAdapt;
 	PIP_ADDR_STRING pAddrStr;
 	PIP_ADAPTER_ADDRESSES pAddresses, pAddr;
-	PNETWORK_INTERFACE nif;
 	ULONG outBufLen;
 	wchar_t *tmp_opt, *intf, *rest, *name;
 	BOOL skip;
 	DWORD out;
-	UCHAR idx;
 
 	// prepare and load IP_ADAPTER_ADDRESSES
 	outBufLen = 0;
@@ -212,7 +210,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 		// add a new interface into the list
 		list->count++;
 		list->item = (PNETWORK_INTERFACE)mir_realloc(list->item, list->count * sizeof(NETWORK_INTERFACE));
-		nif = &(list->item[list->count - 1]);
+		PNETWORK_INTERFACE nif = &(list->item[list->count - 1]);
 		ZeroMemory(nif, sizeof(NETWORK_INTERFACE));
 
 		// copy AdapterName
@@ -272,7 +270,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 		while (pAddrStr) {
 			if (mir_strcmp("0.0.0.0", pAddrStr->IpAddress.String)) {
 				nif->IPcount++; // count IP addresses
-				outBufLen += strlen(pAddrStr->IpAddress.String); // count length of IPstr
+				outBufLen += (ULONG)strlen(pAddrStr->IpAddress.String); // count length of IPstr
 			}
 			pAddrStr = pAddrStr->Next;
 			if (pAddrStr) outBufLen += 2; // count length of IPstr (add ", ")
@@ -304,11 +302,10 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	mir_free(pAddresses);
 
 	mir_cslock lck(csConnection_List);
-	for (idx = 0; idx < Connection_List.count; idx++) {
-		nif = Find_NIF_IP(*list, Connection_List.item[idx].IP);
-		if (nif) {
+	for (auto &it : g_arConnections) {
+		PNETWORK_INTERFACE nif = Find_NIF_IP(*list, it->IP);
+		if (nif)
 			nif->Bound = 1;
-		}
 	}
 
 	return 0;
@@ -701,65 +698,44 @@ void Free_Range_List(IP_RANGE_LIST *list)
 }
 
 
-int ManageConnections(WPARAM wParam, LPARAM lParam)
+int ManageConnections(WPARAM wParam, LPARAM)
 {
 	NETLIBCONNECTIONEVENTINFO *info = (NETLIBCONNECTIONEVENTINFO *)wParam;
-	int found;
-	UCHAR i;
 
+	ACTIVE_CONNECTION *pFound = nullptr;
 	mir_cslock lck(csConnection_List);
-	found = -1;
-	for (i = 0; i < Connection_List.count; i++) {
-		if (Connection_List.item[i].IP == info->local.sin_addr.s_addr && Connection_List.item[i].Port == info->local.sin_port) {
-			found = i;
+	for (auto &it : g_arConnections)
+		if (it->IP == info->local.sin_addr.s_addr && it->Port == info->local.sin_port) {
+			pFound = it;
 			break;
 		}
-	}
-	if ((found >= 0 && info->connected) || (found == -1 && !info->connected)) {
+
+	if ((pFound && info->connected) || (!pFound && !info->connected))
 		return 0;
-	}
-	if (found >= 0) {
-		Connection_List.count--;
-		for (i = found; i < Connection_List.count; i++)
-			memcpy(&(Connection_List.item[i]), &(Connection_List.item[i + 1]), sizeof(ACTIVE_CONNECTION));
-	}
-	else {
-		if (Connection_List.count >= Connection_List._alloc) {
-			Connection_List._alloc += 10;
-			Connection_List.item = (PACTIVE_CONNECTION)mir_realloc(Connection_List.item, Connection_List._alloc * sizeof(ACTIVE_CONNECTION));
-		}
-		Connection_List.item[Connection_List.count].IP = info->local.sin_addr.s_addr;
-		Connection_List.item[Connection_List.count].Port = info->local.sin_port;
-		Connection_List.count++;
-	}
+
+	if (!pFound)
+		g_arConnections.insert(new ACTIVE_CONNECTION(info->local.sin_addr.s_addr, info->local.sin_port));
+	else
+		g_arConnections.remove(g_arConnections.indexOf(&pFound));
 
 	SetEvent(hEventRebound);
-
 	return 0;
 }
 
 void UnboundConnections(LONG *OldIP, LONG *NewIP)
 {
-	UCHAR i, j;
 	LONG *IP;
 
 	while (OldIP != NULL && *OldIP != 0) {
 		IP = NewIP;
 		while (IP != NULL && *IP != 0 && *IP != *OldIP)
 			IP++;
+
 		if (IP == NULL || *IP != *OldIP) {
 			mir_cslock lck(csConnection_List);
-			i = 0;
-			while (i < Connection_List.count) {
-				if (Connection_List.item[i].IP == (ULONG)*OldIP) {
-					Connection_List.count--;
-					for (j = i; j < Connection_List.count; j++)
-						memcpy(&(Connection_List.item[j]), &(Connection_List.item[j + 1]), sizeof(ACTIVE_CONNECTION));
-				}
-				else {
-					i++;
-				}
-			}
+			for (auto &it : g_arConnections.rev_iter())
+				if (it->IP == (ULONG)*OldIP)
+					g_arConnections.remove(g_arConnections.indexOf(&it));
 		}
 		OldIP++;
 	}

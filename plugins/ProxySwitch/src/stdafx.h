@@ -68,23 +68,22 @@ typedef struct {
 } NETWORK_INTERFACE_LIST;
 
 // structure holding an information about local end of an active connections
-typedef struct {
-	ULONG  IP;
+struct ACTIVE_CONNECTION
+{
+	ACTIVE_CONNECTION(ULONG _ip, unsigned short _port) :
+		IP(_ip),
+		Port(_port)
+	{}
+
+	ULONG IP;
 	unsigned short Port;
-} ACTIVE_CONNECTION, *PACTIVE_CONNECTION;
+};
 
-// list of structures holding local end of active connections
-typedef struct {
-	PACTIVE_CONNECTION item;
-	UCHAR count;
-	UCHAR _alloc;
-} ACTIVE_CONNECTION_LIST;
-
+extern OBJLIST<ACTIVE_CONNECTION> g_arConnections;
 
 /**** Global variables *********************************************************************/
 
 extern NETWORK_INTERFACE_LIST NIF_List;
-extern ACTIVE_CONNECTION_LIST Connection_List;
 extern mir_cs csNIF_List;
 extern mir_cs csConnection_List;
 extern HANDLE hEventRebound;

@@ -29,10 +29,12 @@ CMPlugin::CMPlugin() :
 
 HGENMENU hEnableDisablePopupMenu = 0;
 
+OBJLIST<ACTIVE_CONNECTION> g_arConnections(10, PtrKeySortT);
+mir_cs csConnection_List;
+
 NETWORK_INTERFACE_LIST NIF_List;
 mir_cs csNIF_List;
-ACTIVE_CONNECTION_LIST Connection_List;
-mir_cs csConnection_List;
+
 HANDLE hEventRebound = NULL;
 
 wchar_t opt_useProxy[MAX_IPLIST_LENGTH];
@@ -251,7 +253,6 @@ int CMPlugin::Load()
 
 	LoadSettings();
 
-	ZeroMemory(&Connection_List, sizeof(Connection_List));
 	Create_NIF_List_Ex(&NIF_List);
 
 	if (opt_ie || opt_miranda || opt_firefox) {
