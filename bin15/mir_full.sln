@@ -443,6 +443,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Encryption", "Encryption", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{703CFA44-C8E8-4547-B597-AE239F4F6DD9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1AD312F8-831B-4255-9888-3897A11B6C27}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProxySwitch", "..\plugins\ProxySwitch\ProxySwitch.vcxproj", "{7446276D-5845-4258-A245-83D1D4D3CEC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1993,6 +1997,14 @@ Global
 		{7DC23E4E-2448-4811-AABD-F5D069F6E74A}.Release|Win32.Build.0 = Release|Win32
 		{7DC23E4E-2448-4811-AABD-F5D069F6E74A}.Release|x64.ActiveCfg = Release|x64
 		{7DC23E4E-2448-4811-AABD-F5D069F6E74A}.Release|x64.Build.0 = Release|x64
+		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Debug|Win32.Build.0 = Debug|Win32
+		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Debug|x64.ActiveCfg = Debug|x64
+		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Debug|x64.Build.0 = Debug|x64
+		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Release|Win32.ActiveCfg = Release|Win32
+		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Release|Win32.Build.0 = Release|Win32
+		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Release|x64.ActiveCfg = Release|x64
+		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -105,6 +105,7 @@ Plugins\ping.dll
 Plugins\pluginupdater.dll
 Plugins\pmanagerex.dll
 Plugins\popup.dll
+Plugins\proxyswitch.dll
 Plugins\quickcontacts.dll
 Plugins\quickmessages.dll
 Plugins\quickreplies.dll
