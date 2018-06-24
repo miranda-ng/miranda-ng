@@ -289,7 +289,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	for (auto &it : g_arConnections) {
 		NETWORK_INTERFACE* nif = Find_NIF_IP(*list, it->IP);
 		if (nif)
-			nif->Bound = 1;
+			nif->Bound = true;
 	}
 
 	return 0;
@@ -325,7 +325,7 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST &src)
 		NETWORK_INTERFACE *nif = Find_NIF_AdapterName(*trg, it->AdapterName);
 		if (nif) {
 			if (nif->Disabled)
-				nif->Disabled = 0;
+				nif->Disabled = false;
 			if (mir_strcmp(NVL(nif->IPstr), NVL(it->IPstr))) {
 				if (nif->IPstr)
 					mir_free(nif->IPstr);
@@ -384,7 +384,7 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST &src)
 		}
 	}
 	
-	for (auto *it : *trg) {
+	for (auto &it : *trg) {
 		if (it->Disabled)
 			continue;
 		
@@ -404,8 +404,8 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST &src)
 			it->IPstr = NULL;
 			it->IPcount = 0;
 			it->IP = NULL;
-			it->Bound = FALSE;
-			it->Disabled = 1;
+			it->Bound = false;
+			it->Disabled = true;
 		}
 	}
 	return change;
