@@ -3,6 +3,31 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+;file \src\core\stdautoaway\res\resource.rc
+[Become idle if the following is left unattended:]
+Pasivni režim usled navedenih događaja:
+[Become idle if the screen saver is active]
+Pasivni režim zbog skrin-sejvera
+[Become idle if the computer is locked]
+Pasivni režim usled zaključavanja računara
+[Become idle if a terminal session is disconnected]
+Pasivni režim po prekidu veze u terminalu
+[Do not let protocols report any idle information]
+Ne prosleđuj protokolima informacije o pasivnom režimu
+[minute(s)]
+minut(a)
+[for]
+u toku
+[Change my status mode to:]
+Izmeni status:
+[Do not set status back to online when returning from idle]
+Ne menjaj status na 'Prisutan' po povratku iz pasivnog režima
+[Idle options]
+Podešavanja pasivnog režima
+[Become idle if application full screen]
+Pasivni režim zbog aplikacije preko celog ekrana
+[Disable sounds on idle]
+Pasivni režim bez zvukova
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s poruka za %s
@@ -376,31 +401,6 @@ Pitaj me
 Preimenuj (dodaj " (1)", itd)
 [You will always be asked about files from people not on your contact list]
 Pitanje će uvek biti postavljeno ako je datoteka stigla od nepoznatog kontakta
-;file \src\core\stdidle\res\resource.rc
-[Become idle if the following is left unattended:]
-Pasivni režim usled navedenih događaja:
-[Become idle if the screen saver is active]
-Pasivni režim zbog skrin-sejvera
-[Become idle if the computer is locked]
-Pasivni režim usled zaključavanja računara
-[Become idle if a terminal session is disconnected]
-Pasivni režim po prekidu veze u terminalu
-[Do not let protocols report any idle information]
-Ne prosleđuj protokolima informacije o pasivnom režimu
-[minute(s)]
-minut(a)
-[for]
-u toku
-[Change my status mode to:]
-Izmeni status:
-[Do not set status back to online when returning from idle]
-Ne menjaj status na 'Prisutan' po povratku iz pasivnog režima
-[Idle options]
-Podešavanja pasivnog režima
-[Become idle if application full screen]
-Pasivni režim zbog aplikacije preko celog ekrana
-[Disable sounds on idle]
-Pasivni režim bez zvukova
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Odmah prikaži prozor kada:
@@ -474,8 +474,6 @@ minuta starosti
 Upotreba interfesa sa jezičcima
 [Close tab on double click]
 Dvoklik zatvara jezičak
-[Restore previously open tabs when showing the window]
-Prikaz prethodno otvorenih jezičaka po otvaranju prozora
 [Show tabs at the bottom]
 Jezičci u dnu
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1193,6 +1191,11 @@ Pronađi reč
 
 [Google Translate]
 
+;file \src\core\stdautoaway\src\options.cpp
+[Status]
+Status
+[Idle]
+Pasivni režim
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Čitaj &poruku od: "%s"
@@ -1221,8 +1224,6 @@ Mislim da je to bio telefon.
 Mmm... hrana.
 [idleeeeeeee]
 neaktivnooo
-[Status]
-Status
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Klasični kontakti
@@ -1386,9 +1387,6 @@ Prenos podataka i provera virusa dovršeni
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Odlazni
-;file \src\core\stdidle\src\options.cpp
-[Idle]
-Pasivni režim
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Celi razgovori

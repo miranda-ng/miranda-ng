@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.0.2
+;  Version: 0.3.1.0
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -45,12 +45,6 @@
 Увімкнути смайли
 [Don't replace at cursor]
 Не замінювати під курсором
-[Built-in message dialog support]
-Підтримка плагінів повідомлень
-[Enable]
-Увімкнути
-[Smiley button]
-Кнопка смайла
 [Surround inserted smiley with spaces]
 Вставити смайл з пробілами
 [Use first smiley for selection size]
@@ -75,10 +69,6 @@ HTTP-з'єднання SmileyAdd
 Колір фону
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Може бути запущена тільки одна копія SmileyAdd.\nВидаліть дублікат з папки Plugins.
-[Hide]
-Сховати
-[Show]
-Показати
 [Smiley packs]
 Набір смайлів
 [All files]

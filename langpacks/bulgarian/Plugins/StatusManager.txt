@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.1
+;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
 [Startup status]
@@ -37,8 +37,8 @@
 Профил
 [Message]
 Съобщение
-[Account]
-Акаунт
+[Account:]
+Акаунт:
 [Set]
 Задай
 [when screen saver engages]
@@ -187,6 +187,8 @@ Dial-up (експериментално)
 Без проверяване
 [Set status message]
 Задаване на текст за състояние
+[Account]
+Акаунт
 [Status]
 Състояние
 [Add...]
@@ -225,6 +227,14 @@ Dial-up (експериментално)
 неуспешни пингове
 [Continuously check interval (secs)]
 Интервал за периодично проверяване (сек)
+[minutes of %s mode]
+минути "%s"
+[Auto away]
+Авто "Отсъстващ"
+[Rules]
+Правила
+[Status messages]
+Текст за състояние
 [Set %s message for %s.]
 Задаване на текст "%s" за акаунт %s.
 [<last>]
@@ -237,14 +247,6 @@ Dial-up (експериментално)
 Протокол
 [Closing in %d]
 Затваряне след %d
-[minutes of %s mode]
-минути "%s"
-[Auto away]
-Авто "Отсъстващ"
-[Rules]
-Правила
-[Status messages]
-Текст за състояние
 [Resetting status... (last try (%d))]
 Задаване на състояние... (последен опит (%d))
 [Resetting status... (next retry (%d) in %d s)]

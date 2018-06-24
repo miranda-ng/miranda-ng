@@ -3,6 +3,31 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+;file \src\core\stdautoaway\res\resource.rc
+[Become idle if the following is left unattended:]
+Přejít do stavu nečinnosti pokud se nic neděje v:
+[Become idle if the screen saver is active]
+Přejít do stavu nečinnosti pokud běží spořič obrazovky
+[Become idle if the computer is locked]
+Přejít do stavu nečinnosti pokud je počítač uzamčen
+[Become idle if a terminal session is disconnected]
+Přejít do stavu nečinnosti po odpojení vzdáleného uživatele
+[Do not let protocols report any idle information]
+Zakázat protokolům poskytovat informaci o nečinnosti
+[minute(s)]
+min.
+[for]
+po dobu
+[Change my status mode to:]
+Změnit stav na:
+[Do not set status back to online when returning from idle]
+Po příchodu zpět neměnit stav na 'Online'
+[Idle options]
+Možnosti při nečinnosti
+[Become idle if application full screen]
+Přejít do stavu nečinnosti v celoobrazovkovém režimu
+[Disable sounds on idle]
+Vypnout zvuky při nečinnosti
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Stav: '%s', uživatel: %s
@@ -376,31 +401,6 @@ Zeptat se
 Přejmenovat (přidá " (1)" atd.)
 [You will always be asked about files from people not on your contact list]
 Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
-;file \src\core\stdidle\res\resource.rc
-[Become idle if the following is left unattended:]
-Přejít do stavu nečinnosti pokud se nic neděje v:
-[Become idle if the screen saver is active]
-Přejít do stavu nečinnosti pokud běží spořič obrazovky
-[Become idle if the computer is locked]
-Přejít do stavu nečinnosti pokud je počítač uzamčen
-[Become idle if a terminal session is disconnected]
-Přejít do stavu nečinnosti po odpojení vzdáleného uživatele
-[Do not let protocols report any idle information]
-Zakázat protokolům poskytovat informaci o nečinnosti
-[minute(s)]
-min.
-[for]
-po dobu
-[Change my status mode to:]
-Změnit stav na:
-[Do not set status back to online when returning from idle]
-Po příchodu zpět neměnit stav na 'Online'
-[Idle options]
-Možnosti při nečinnosti
-[Become idle if application full screen]
-Přejít do stavu nečinnosti v celoobrazovkovém režimu
-[Disable sounds on idle]
-Vypnout zvuky při nečinnosti
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Automaticky vyvolat okno při:
@@ -474,8 +474,6 @@ min.
 Použít systém záložek
 [Close tab on double click]
 Zavřít záložku dvojím kliknutím
-[Restore previously open tabs when showing the window]
-Obnovit všechny záložky z poslední relace
 [Show tabs at the bottom]
 Zobrazit záložky v dolní části okna
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1193,6 +1191,11 @@ Wikipedia (en)
 Mapy Google
 [Google Translate]
 Překladač Google
+;file \src\core\stdautoaway\src\options.cpp
+[Status]
+Stavy
+[Idle]
+Nečinnost
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Přečíst &automatickou odpověď
@@ -1221,8 +1224,6 @@ Právě telefonuji
 Mňam... jídlo
 [idleeeeeeee]
 Chrrrrrrrrrrrr
-[Status]
-Stavy
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standardní kontakty
@@ -1386,9 +1387,6 @@ Přenos a kontrola antivirem dokončena
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Odchozí
-;file \src\core\stdidle\src\options.cpp
-[Idle]
-Nečinnost
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Komunikace

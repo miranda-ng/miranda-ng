@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.9
+;  Version: 3.5.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1060,12 +1060,6 @@ Komunikace
 Okna skupinových rozhovorů
 [Group chat log]
 Záznam skupinových rozhovorů
-[Appearance and functionality of chat room windows]
-Nastavení vzhledu a funkcí komunikačních oken
-[Appearance of the message log]
-Nastavení vzhledu záznamu komunikace
-[Chat rooms]
-Místnosti chatu
 [Voiced]
 Zvýrazněný
 [Half operators]
@@ -1088,6 +1082,12 @@ Pozadí polí
 Pozadí seznamu účastníků
 [Group chat log background]
 Pozadí skupinového rozhovoru
+[Appearance and functionality of chat room windows]
+Nastavení vzhledu a funkcí komunikačních oken
+[Appearance of the message log]
+Nastavení vzhledu záznamu komunikace
+[Chat rooms]
+Místnosti chatu
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1148,6 +1148,14 @@ Bez oddělovačů
 Zobrazit jako ikony
 [Show as text symbols]
 Zobrazit jako textové symboly
+[Settings]
+Nastavení
+[Log formatting]
+Formát záznamu
+[Events and filters]
+Události a filtry
+[Highlighting]
+Zvýrazňování
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 %s%s říká:%s %s
@@ -1618,14 +1626,6 @@ Komunikační okno
 Použití
 [Window layout tweaks]
 Rozvržení okna
-[Settings]
-Nastavení
-[Log formatting]
-Formát záznamu
-[Events and filters]
-Události a filtry
-[Highlighting]
-Zvýrazňování
 [Choose status modes]
 Vyberte stavy
 ;file \plugins\TabSRMM\src\msgs.cpp
@@ -1842,8 +1842,6 @@ Hlášení o chybách
 Povolit zvuky psaní
 [Close current tab on send]
 Zavřít panel po odeslání
-[Automatic keyboard layout: Do not load the system default for new contacts]
-Automatické rozložení klávesnice: Nenahrávat výchozí rozložení systému pro nový kontakt
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Povolit bezobslužné odesílání (experimentální funkce vyžadovaná pro mnohonásobné či zpožděné odesílání) (*)
 [Show client description in info panel]
@@ -1980,8 +1978,6 @@ Nová okna jsou minimalizována (pouze pokud je povoleno nastavení nad tímto n
 Aktivovat minimalizované okno pokud je v něm vytvořen nový panel
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 Automaticky přepínat existující panely v minimalizovaném okně při příchozích zprávách (ignorováno při použití Aero náhledu v hlavním panelu)
-[Remember and set keyboard layout per contact]
-Zapamatovat a nastavit rozložení klávesnice pro každý kontakt zvlášť
 [Close button only hides message windows]
 Zavírací tlačítko pouze skryje komunikační okno
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]

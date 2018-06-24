@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.9
+;  Version: 3.5.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1060,12 +1060,6 @@ Okno rozmowy
 Okno czatu
 [Group chat log]
 Dziennik czatu
-[Appearance and functionality of chat room windows]
-Wygląd i funkcjonalność okna czatu
-[Appearance of the message log]
-Wygląd dziennika wiadomości
-[Chat rooms]
-Pokoje czatu
 [Voiced]
 Głos członków
 [Half operators]
@@ -1088,6 +1082,12 @@ Tło pola
 Tło listy użytkowników
 [Group chat log background]
 Tło dziennika czatu grupowego
+[Appearance and functionality of chat room windows]
+Wygląd i funkcjonalność okna czatu
+[Appearance of the message log]
+Wygląd dziennika wiadomości
+[Chat rooms]
+Pokoje czatu
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1148,6 +1148,14 @@ Brak znaków
 Pokaż ikony
 [Show as text symbols]
 Pokaż symbole tekstowe
+[Settings]
+Ustawienia
+[Log formatting]
+Formatowanie dziennika
+[Events and filters]
+Zdarzenia i filtry
+[Highlighting]
+Podświetlanie
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 %s%s mówi: %s %s
@@ -1618,14 +1626,6 @@ Okno rozmowy
 Wczytaj i zastosuj
 [Window layout tweaks]
 Wygląd kart
-[Settings]
-Ustawienia
-[Log formatting]
-Formatowanie dziennika
-[Events and filters]
-Zdarzenia i filtry
-[Highlighting]
-Podświetlanie
 [Choose status modes]
 Wybierz tryby statusu
 ;file \plugins\TabSRMM\src\msgs.cpp
@@ -1842,8 +1842,6 @@ Błędy
 Włącz dźwięki przy pisaniu
 [Close current tab on send]
 Zamknij kartę po wysłaniu wiadomości
-[Automatic keyboard layout: Do not load the system default for new contacts]
-Automatyczny układ klawiatury: Nie ładuj domyślnie dla nowych kontaktów
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy) (*)
 [Show client description in info panel]
@@ -1980,8 +1978,6 @@ Nowe okna zminimalizowane
 Aktywuj zminimalizowane okno, gdy tworzona jest nowa karta
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 Automatycznie przełączaj istniejące karty w zminimalizowanych oknach dla przychodzących wiadomości (ignorowane przy użyciu funkcji Aero Peek)
-[Remember and set keyboard layout per contact]
-Pamiętaj i ustaw układ klawiatury dla każdego z kontaktów
 [Close button only hides message windows]
 Przycisk zamykania tylko ukrywa okno rozmowy
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]

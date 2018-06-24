@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.0.2
+;  Version: 0.3.1.0
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -46,12 +46,6 @@ Zone de saisie
 
 [Don't replace at cursor]
 
-[Built-in message dialog support]
-
-[Enable]
-Activer
-[Smiley button]
-Position du bouton
 [Surround inserted smiley with spaces]
 Espace de chaque côté des smileys
 [Use first smiley for selection size]
@@ -80,10 +74,6 @@ Couleur de fond
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Un seul fois SmileyAdd peut être exécuté à la fois.\nEffacer le doublon du répertoire 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
-[Hide]
-Cacher
-[Show]
-Afficher
 [Smiley packs]
 Pack de Smiley
 [All files]

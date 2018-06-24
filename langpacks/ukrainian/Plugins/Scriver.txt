@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.8
+;  Version: 3.0.1.10
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -29,12 +29,16 @@
 Сповіщати, якщо повідомл. не вдалося надіслати протягом
 [seconds]
 секунд
-[Send message on 'Enter']
-Надсилати натисканням Enter
-[Send message on double 'Enter']
-Надсилати подвійним натисканням Enter
-[Send message on 'Ctrl+Enter']
-Надсилати натисканням Ctrl+Enter
+[Send message on:]
+Надсилати натисканням:
+[Enter]
+Enter
+[Double 'Enter']
+подвійним Enter
+[Ctrl+Enter]
+Ctrl+Enter
+[Shift+Enter]
+Shift+Enter
 [Tabs]
 Вкладки
 [Enable tabs]

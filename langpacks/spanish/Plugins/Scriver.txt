@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.8
+;  Version: 3.0.1.10
 ;  Authors: Miranda NG team
 ;============================================================
 [Behavior]
@@ -13,12 +13,16 @@ Ventanas en cascada nueva
 Mostrar aviso cuando el mensaje no se ha recibido después de
 [seconds]
 segundos
-[Send message on 'Enter']
-Enviar mensaje con 'Intro'
-[Send message on double 'Enter']
-Enviar mensaje con doble 'Intro'
-[Send message on 'Ctrl+Enter']
-Enviar mensaje con 'Ctrl+Intro'
+[Send message on:]
+Enviar mensaje con:
+[Enter]
+Intro
+[Double 'Enter']
+doble 'Intro'
+[Ctrl+Enter]
+Ctrl+Intro
+[Shift+Enter]
+Shift+Intro
 [Tabs]
 Pestañas
 [Show title bar]

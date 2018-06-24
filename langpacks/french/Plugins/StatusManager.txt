@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.1
+;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -56,8 +56,10 @@ Annuler
 Profil
 [Message]
 Message
-[Account]
-Compte
+[Account:]
+Compte :
+[Away mode]
+
 [Set]
 OK
 [when full-screen mode is active]
@@ -66,9 +68,13 @@ OK
 
 [when workstation is locked]
 
+[when terminal session is disconnected]
+
 [after]
 
 [minutes of inactivity]
+
+[After away]
 
 [minutes of level 1 mode]
 
@@ -79,6 +85,8 @@ OK
 [Reset status on return]
 
 [Confirm resetting status]
+
+[Enter idle mode]
 
 [Only set if current status is]
 
@@ -202,8 +210,6 @@ Utiliser %time% et %date% pour l'heure et la date actuelles.
 
 [Confirm dialog timeout (secs)]
 
-[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
-
 [Monitor keyboard activity]
 
 [Monitor mouse activity]
@@ -220,6 +226,8 @@ Comptes
 
 [Set status message]
 
+[Account]
+Compte
 [Status]
 État
 [Add...]
@@ -286,6 +294,15 @@ secondes
 
 [Leaving second auto-away status]
 
+;file \plugins\StatusManager\src\aaa_options.cpp
+[minutes of %s mode]
+minutes en mode %s
+[Auto away]
+Absence automatique
+[Rules]
+
+[Status messages]
+Messages d'état
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 
@@ -299,19 +316,7 @@ secondes
 Protocole
 [Closing in %d]
 Fermeture dans %d
-;file \plugins\StatusManager\src\options.cpp
-[Status manager]
-
-;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
-[minutes of %s mode]
-minutes en mode %s
-[Auto away]
-Absence automatique
-[Rules]
-
-[Status messages]
-Messages d'état
-;file \plugins\StatusManager\src\KeepStatus\keepstatus.cpp
+;file \plugins\StatusManager\src\keepstatus.cpp
 [%s connected from another location]
 %s est connecté depuis un autre site
 [%s login error, cancel reconnecting]
@@ -336,7 +341,7 @@ Pas de connexion Internet... (dernière tentative (%d))
 L'état est réglé
 [Giving up]
 Abandon
-;file \plugins\StatusManager\src\KeepStatus\ks_options.cpp
+;file \plugins\StatusManager\src\ks_options.cpp
 [You broke the Internet!]
 
 [Basic]
@@ -345,7 +350,10 @@ Basique
 Avancé
 [Popups]
 Popups
-;file \plugins\StatusManager\src\StartupStatus\ss_options.cpp
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+
+;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <inconnu>
 [Right]
@@ -372,8 +380,8 @@ Inconnu
 Au moins un profil doit exister
 [Your default profile will be changed]
 Votre profil par défaut a été modifié
-;file \plugins\StatusManager\src\StartupStatus\ss_profiles.cpp
-;file \plugins\StatusManager\src\StartupStatus\ss_toolbars.cpp
+;file \plugins\StatusManager\src\ss_profiles.cpp
+;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]
 
 [Released toolbar icon]

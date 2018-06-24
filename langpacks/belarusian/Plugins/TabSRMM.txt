@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.9
+;  Version: 3.5.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1053,12 +1053,6 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 Вокны чата
 [Group chat log]
 Журнал чата
-[Appearance and functionality of chat room windows]
-Выгляд і функцыянальнасць вокнаў чата
-[Appearance of the message log]
-Вонкавы выгляд лога паведамленняў
-[Chat rooms]
-
 [Voiced]
 Карыстачы з правам голасу
 [Half operators]
@@ -1081,6 +1075,12 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 Фон спісу карыстачоў
 [Group chat log background]
 Фон журнала чата
+[Appearance and functionality of chat room windows]
+Выгляд і функцыянальнасць вокнаў чата
+[Appearance of the message log]
+Вонкавы выгляд лога паведамленняў
+[Chat rooms]
+
 [nick of current contact (if defined)]
 мянушка бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1141,6 +1141,14 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Абразкі
 [Show as text symbols]
 Тэкставыя знакі
+[Settings]
+Налады
+[Log formatting]
+Фармат лога
+[Events and filters]
+Падзеі і фільтры
+[Highlighting]
+Падсвятленне
 [%s%s says:%s %s]
 %s%s піша:%s %s
 [Expand or collapse the side bar]
@@ -1595,14 +1603,6 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Загрузіць і ўжыць
 [Window layout tweaks]
 Выгляд укладак
-[Settings]
-Налады
-[Log formatting]
-Фармат лога
-[Events and filters]
-Падзеі і фільтры
-[Highlighting]
-Падсвятленне
 [Choose status modes]
 Выбар рэжымаў статусу
 [A message delivery has failed.\nClick to open the message window.]
@@ -1807,8 +1807,6 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Уключыць гук набору тэксту
 [Close current tab on send]
 Зачыняць укладку пры адпраўцы
-[Automatic keyboard layout: Do not load the system default for new contacts]
-Аўтаматычная раскладка клавіятуры: не загружаць раскладку сістэмы па змаўчанні для новых кантактаў
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Уключыць аўтаматычную адпраўку (эксперыментальная опцыя, неабходна для мультыадпраўкі і адпраўкі з затрымкай) (*)
 [Show client description in info panel]
@@ -1945,8 +1943,6 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Адкрыць згорнутае вакно пры стварэнні новай укладкі ўсярэдзіне гэтага вакна
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 Аўтаматычная змена ўкладак у згорнутым вакне пры ўваходных паведамленнях (ігнаруецца пры выкарыстанні Aero Peek)
-[Remember and set keyboard layout per contact]
-Запамінаць раскладку клавіятуры дя кожнага кантакта
 [Close button only hides message windows]
 Кнопка зачыніць толькі хавае вокны паведамленняў
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]

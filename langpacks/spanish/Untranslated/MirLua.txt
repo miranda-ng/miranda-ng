@@ -8,6 +8,7 @@
 [Failed]
 [Open]
 [Reload]
+[Compile]
 [Common scripts]
 [C libs folder]
 [Scripts folder]

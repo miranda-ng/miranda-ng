@@ -3,6 +3,30 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+[Become idle if the following is left unattended:]
+Pasar a reposo, si el siguiente queda desatendido:
+[Become idle if the screen saver is active]
+Pasar a inactivo si el salvapantallas está activo
+[Become idle if the computer is locked]
+Pasar a inactivo si el equipo está bloqueado
+[Become idle if a terminal session is disconnected]
+Pasar a inactivo si una sesión de terminal se desconecta
+[Do not let protocols report any idle information]
+No permitir a los protocolos reportar cualquier información de estado libre
+[minute(s)]
+minuto(s)
+[for]
+para
+[Change my status mode to:]
+Cambiar mi modo de estado a:
+[Do not set status back to online when returning from idle]
+No establecer estado a en línea al volver de inactividad
+[Idle options]
+Opciones de inactividad
+[Become idle if application full screen]
+Pasar a inactivo si aplicación pasa a pantalla completa
+[Disable sounds on idle]
+Desactivar los sonidos en inactividad
 [%s message for %s]
 %s Mensaje(S) para %s
 [&Cancel]
@@ -373,30 +397,6 @@ Preguntarme
 Renombrar (añadir " (1)", etc.)
 [You will always be asked about files from people not on your contact list]
 Siempre que se pregunte sobre archivos de personas que no están en la lista
-[Become idle if the following is left unattended:]
-Pasar a reposo, si el siguiente queda desatendido:
-[Become idle if the screen saver is active]
-Pasar a inactivo si el salvapantallas está activo
-[Become idle if the computer is locked]
-Pasar a inactivo si el equipo está bloqueado
-[Become idle if a terminal session is disconnected]
-Pasar a inactivo si una sesión de terminal se desconecta
-[Do not let protocols report any idle information]
-No permitir a los protocolos reportar cualquier información de estado libre
-[minute(s)]
-minuto(s)
-[for]
-para
-[Change my status mode to:]
-Cambiar mi modo de estado a:
-[Do not set status back to online when returning from idle]
-No establecer estado a en línea al volver de inactividad
-[Idle options]
-Opciones de inactividad
-[Become idle if application full screen]
-Pasar a inactivo si aplicación pasa a pantalla completa
-[Disable sounds on idle]
-Desactivar los sonidos en inactividad
 [Automatically popup window when:]
 Ventana emergente automáticamente cuando:
 [In background]
@@ -469,8 +469,6 @@ minutos de pasado
 Usar interfaz con pestañas
 [Close tab on double click]
 Cerrar pestaña con doble clic
-[Restore previously open tabs when showing the window]
-Restaurar pestañas previamente abiertas al mostrar la ventana
 [Show tabs at the bottom]
 Mostrar pestañas en la parte inferior
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1119,6 +1117,10 @@ Lista
 Limpiar re&gistro
 [Word lookup]
 Palabra de búsqueda
+[Status]
+Estado
+[Idle]
+Inactivo
 [Re&ad %s message]
 Leer %s mensaje(s)
 [Re&ad status message]
@@ -1145,8 +1147,6 @@ Estoy al teléfono.
 Mmm... comida.
 [idleeeeeeee]
 libreeeeeeee
-[Status]
-Estado
 [Standard contacts]
 Contactos estándar
 [Online contacts to whom you have a different visibility]
@@ -1295,8 +1295,6 @@ Análisis en busca de virus...
 Transferencia y Análisis en busca de virus finalizado
 [Outgoing]
 Saliendo
-[Idle]
-Inactivo
 [Message sessions]
 Sesiones de mensaje
 [Chat module]

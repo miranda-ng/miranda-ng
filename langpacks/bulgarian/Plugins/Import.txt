@@ -109,14 +109,14 @@ URL адреси
 Пропуснати контакти - %d и %d филтрирани събития.
 [&Import...]
 Внос...
-[The given file does not exist. Please check that you have entered the name correctly.]
-Файлът не съществува. Моля, проверете правилно ли е въведено името.
-[Miranda Import]
-Miranda внос
 [Miranda NG database]
 База от данни на Miranda NG
 [All Files]
 Всички файлове
+[The given file does not exist. Please check that you have entered the name correctly.]
+Файлът не съществува. Моля, проверете правилно ли е въведено името.
+[Miranda Import]
+Miranda внос
 [Skipping duplicate group %s.]
 Пропускане на дублираща се група %s.
 [Import...]

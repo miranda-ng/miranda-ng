@@ -3,6 +3,31 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+;file \src\core\stdautoaway\res\resource.rc
+[Become idle if the following is left unattended:]
+
+[Become idle if the screen saver is active]
+
+[Become idle if the computer is locked]
+
+[Become idle if a terminal session is disconnected]
+
+[Do not let protocols report any idle information]
+
+[minute(s)]
+
+[for]
+
+[Change my status mode to:]
+
+[Do not set status back to online when returning from idle]
+
+[Idle options]
+
+[Become idle if application full screen]
+
+[Disable sounds on idle]
+
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s poruka za %s
@@ -376,31 +401,6 @@ p&ovijest
 
 [You will always be asked about files from people not on your contact list]
 
-;file \src\core\stdidle\res\resource.rc
-[Become idle if the following is left unattended:]
-
-[Become idle if the screen saver is active]
-
-[Become idle if the computer is locked]
-
-[Become idle if a terminal session is disconnected]
-
-[Do not let protocols report any idle information]
-
-[minute(s)]
-
-[for]
-
-[Change my status mode to:]
-
-[Do not set status back to online when returning from idle]
-
-[Idle options]
-
-[Become idle if application full screen]
-
-[Disable sounds on idle]
-
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 
@@ -473,8 +473,6 @@ p&ovijest
 [Use a tabbed interface]
 
 [Close tab on double click]
-
-[Restore previously open tabs when showing the window]
 
 [Show tabs at the bottom]
 
@@ -1193,6 +1191,11 @@ popis
 
 [Google Translate]
 
+;file \src\core\stdautoaway\src\options.cpp
+[Status]
+
+[Idle]
+
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 
@@ -1220,8 +1223,6 @@ popis
 [Mmm... food.]
 
 [idleeeeeeee]
-
-[Status]
 
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -1385,9 +1386,6 @@ sve datoteke
 
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
-
-;file \src\core\stdidle\src\options.cpp
-[Idle]
 
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]

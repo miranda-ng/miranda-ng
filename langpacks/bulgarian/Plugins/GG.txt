@@ -175,10 +175,6 @@ Gadu-Gadu номер:
 Паролата ще бъде изпратена на имейла посочен в регистрацията.\nНаистина ли желаете това?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Необходимо е да излезете от мрежата преди да промените акаунта за постоянно.\nЖелаете ли да излезете сега?
-[Allow]
-Позволи
-[Ignore]
-Игнориране
 [Your details has been uploaded to the public directory.]
 Вашите подробности са качени в публичната директория.
 [You have to be logged in before you can change your details.]
@@ -289,6 +285,10 @@ Gadu-Gadu номер
 Изнасяне на списъка в текстови файл...
 [Gadu-Gadu Link Protocol]
 Протокол за Gadu-Gadu връзки
+[Allow]
+Позволи
+[Ignore]
+Игнориране
 [Password was sent to your e-mail.]
 Паролата е изпратена на вашия имейл.
 [Notify]

@@ -3,6 +3,31 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+;file \src\core\stdautoaway\res\resource.rc
+[Become idle if the following is left unattended:]
+Untätig werden, wenn keine Aktion innerhalb von:
+[Become idle if the screen saver is active]
+Untätig werden, wenn Bildschirmschoner aktiviert wird
+[Become idle if the computer is locked]
+Untätig werden, wenn Computer gesperrt wird
+[Become idle if a terminal session is disconnected]
+Untätig werden, wenn Terminalsitzung getrennt wurde
+[Do not let protocols report any idle information]
+Protokolle sollen keine Untätigkeitsinformationen senden
+[minute(s)]
+Minute(n)
+[for]
+für
+[Change my status mode to:]
+Meinen Status ändern zu:
+[Do not set status back to online when returning from idle]
+Status nicht automatisch zu 'Online' ändern, sobald Untätigktät vorbei
+[Idle options]
+Untätigkeits-Einstellungen
+[Become idle if application full screen]
+Untätig werden, wenn eine Vollbildanwendung aktiviert wird
+[Disable sounds on idle]
+Klänge bei Untätigkeit deaktivieren
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 '%s'-Nachricht von %s
@@ -376,31 +401,6 @@ Nachfragen
 Umbenennen (Zusatz: (1), (2), ...)
 [You will always be asked about files from people not on your contact list]
 Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
-;file \src\core\stdidle\res\resource.rc
-[Become idle if the following is left unattended:]
-Untätig werden, wenn keine Aktion innerhalb von:
-[Become idle if the screen saver is active]
-Untätig werden, wenn Bildschirmschoner aktiviert wird
-[Become idle if the computer is locked]
-Untätig werden, wenn Computer gesperrt wird
-[Become idle if a terminal session is disconnected]
-Untätig werden, wenn Terminalsitzung getrennt wurde
-[Do not let protocols report any idle information]
-Protokolle sollen keine Untätigkeitsinformationen senden
-[minute(s)]
-Minute(n)
-[for]
-für
-[Change my status mode to:]
-Meinen Status ändern zu:
-[Do not set status back to online when returning from idle]
-Status nicht automatisch zu 'Online' ändern, sobald Untätigktät vorbei
-[Idle options]
-Untätigkeits-Einstellungen
-[Become idle if application full screen]
-Untätig werden, wenn eine Vollbildanwendung aktiviert wird
-[Disable sounds on idle]
-Klänge bei Untätigkeit deaktivieren
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Fenster automatisch öffnen, wenn:
@@ -474,8 +474,6 @@ Minuten alt
 Chatfenster mit Tabs verwenden
 [Close tab on double click]
 Tabs mit Doppelklick schließen
-[Restore previously open tabs when showing the window]
-Vorher geöffnete Tabs beim Öffnen des Fensters wiederherstellen
 [Show tabs at the bottom]
 Tabs unten anzeigen
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1193,6 +1191,11 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
+;file \src\core\stdautoaway\src\options.cpp
+[Status]
+Status
+[Idle]
+Untätigkeit
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 '%s'-N&achricht lesen
@@ -1221,8 +1224,6 @@ Bin gerade am Telefon
 Hmm... Essen.
 [idleeeeeeee]
 Langweilig
-[Status]
-Status
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standardkontakte
@@ -1386,9 +1387,6 @@ Untersuche auf Viren...
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Ausgehend
-;file \src\core\stdidle\src\options.cpp
-[Idle]
-Untätigkeit
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Nachrichtensitzungen

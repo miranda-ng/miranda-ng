@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mdbx.dll
 ;  Plugin: Miranda NG MDBX database driver
-;  Version: 0.95.8.7
+;  Version: 0.95.9.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -33,8 +33,8 @@
 Повний
 [Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
-Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в профілі в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
 [Set password]
 Встановити пароль
 [Change/remove password]

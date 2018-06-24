@@ -3,6 +3,31 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+;file \src\core\stdautoaway\res\resource.rc
+[Become idle if the following is left unattended:]
+Przejdź w bezczynność jeśli aktywności nie wykazuje:
+[Become idle if the screen saver is active]
+Przejdź w bezczynność gdy działa wygaszacz ekranu
+[Become idle if the computer is locked]
+Przejdź w bezczynność gdy komputer jest zablokowany
+[Become idle if a terminal session is disconnected]
+Przejdź w stan bezczynności jeśli terminal sesji jest rozłączony
+[Do not let protocols report any idle information]
+Nie pozwalaj protokołom raportować bezczynności
+[minute(s)]
+minut(y)
+[for]
+przez
+[Change my status mode to:]
+Zmień mój status na:
+[Do not set status back to online when returning from idle]
+Nie zmieniaj mojego statusu na "Dostępny" gdy wracam z bezczynności
+[Idle options]
+Opcje bezczynności
+[Become idle if application full screen]
+Przejdź w bezczynność gdy uruchomiona jest aplikacja pełnoekranowa
+[Disable sounds on idle]
+Wyłącz dźwięki kiedy bezczynny
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Opis statusu "%s" - %s
@@ -376,31 +401,6 @@ Pytaj mnie
 Zmień nazwę (dodaj " (1)", itp.)
 [You will always be asked about files from people not on your contact list]
 Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
-;file \src\core\stdidle\res\resource.rc
-[Become idle if the following is left unattended:]
-Przejdź w bezczynność jeśli aktywności nie wykazuje:
-[Become idle if the screen saver is active]
-Przejdź w bezczynność gdy działa wygaszacz ekranu
-[Become idle if the computer is locked]
-Przejdź w bezczynność gdy komputer jest zablokowany
-[Become idle if a terminal session is disconnected]
-Przejdź w stan bezczynności jeśli terminal sesji jest rozłączony
-[Do not let protocols report any idle information]
-Nie pozwalaj protokołom raportować bezczynności
-[minute(s)]
-minut(y)
-[for]
-przez
-[Change my status mode to:]
-Zmień mój status na:
-[Do not set status back to online when returning from idle]
-Nie zmieniaj mojego statusu na "Dostępny" gdy wracam z bezczynności
-[Idle options]
-Opcje bezczynności
-[Become idle if application full screen]
-Przejdź w bezczynność gdy uruchomiona jest aplikacja pełnoekranowa
-[Disable sounds on idle]
-Wyłącz dźwięki kiedy bezczynny
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Automatycznie pokazuj okno gdy:
@@ -474,8 +474,6 @@ minut(y)
 Użyj kart
 [Close tab on double click]
 Dwuklik zamyka kartę
-[Restore previously open tabs when showing the window]
-Przywróć ostatnio używane karty po otworzeniu okna
 [Show tabs at the bottom]
 Pokaż karty na dole
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1193,6 +1191,11 @@ Wikipedia
 Google Maps
 [Google Translate]
 Google Translate
+;file \src\core\stdautoaway\src\options.cpp
+[Status]
+Status
+[Idle]
+Bezczynność
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Po&każ opis "%s"
@@ -1221,8 +1224,6 @@ Muszę odebrać telefon.
 Mmm... jedzonko.
 [idleeeeeeee]
 Bezczynnyyyyyyy
-[Status]
-Status
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standardowe kontakty
@@ -1386,9 +1387,6 @@ Ukończono przesyłanie i skanowanie wirusów
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Wychodzące
-;file \src\core\stdidle\src\options.cpp
-[Idle]
-Bezczynność
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Okno rozmowy

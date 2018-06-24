@@ -61,8 +61,6 @@ Femenino
 <no especificado>
 [System tray icon]
 Icono de la bandeja de sistema
-[Ignore]
-Ignorar
 [Network]
 Red
 [General]
@@ -77,6 +75,8 @@ Archivos de texto
 Todos los archivos
 [contacts]
 contactos
+[Ignore]
+Ignorar
 [Notify]
 Notificar
 [Error]

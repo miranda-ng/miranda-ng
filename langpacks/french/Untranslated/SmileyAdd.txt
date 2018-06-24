@@ -8,7 +8,6 @@
 [Minimum smiley height]
 [Enable smileys]
 [Don't replace at cursor]
-[Built-in message dialog support]
 [Horizontal sorting]
 [SmileyAdd]
 [Smiley cache]

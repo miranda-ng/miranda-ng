@@ -3,6 +3,30 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+[Become idle if the following is left unattended:]
+Перайсці ў рэжым чакання, калі неактыўныя:
+[Become idle if the screen saver is active]
+Рэжым чакання, калі ўключана застаўка
+[Become idle if the computer is locked]
+Рэжым чакання, калі кампутар заблакаваны
+[Become idle if a terminal session is disconnected]
+Рэжым чакання, калі аддаленая сесія завершана
+[Do not let protocols report any idle information]
+Не дазваляць пратаколам паведамляць інфармацыю пра чаканне
+[minute(s)]
+хвіліны(ы)
+[for]
+на працягу
+[Change my status mode to:]
+Змяніць статус на:
+[Do not set status back to online when returning from idle]
+Не аднаўляць статус пры вяртанні з рэжыму чакання
+[Idle options]
+Рэжым чакання
+[Become idle if application full screen]
+Рэжым чакання, калі прыкладанне запушчана ў поўнаэкранным рэжыме
+[Disable sounds on idle]
+Адключыць гукі пры пераходзе ў рэжым чакання
 [%s message for %s]
 %s (%s)
 [&Cancel]
@@ -373,30 +397,6 @@
 Дапісаць "(1)" і г. д.
 [You will always be asked about files from people not on your contact list]
 Запыт заўсёды будзе паказаны, калі чалавек не ў спісе
-[Become idle if the following is left unattended:]
-Перайсці ў рэжым чакання, калі неактыўныя:
-[Become idle if the screen saver is active]
-Рэжым чакання, калі ўключана застаўка
-[Become idle if the computer is locked]
-Рэжым чакання, калі кампутар заблакаваны
-[Become idle if a terminal session is disconnected]
-Рэжым чакання, калі аддаленая сесія завершана
-[Do not let protocols report any idle information]
-Не дазваляць пратаколам паведамляць інфармацыю пра чаканне
-[minute(s)]
-хвіліны(ы)
-[for]
-на працягу
-[Change my status mode to:]
-Змяніць статус на:
-[Do not set status back to online when returning from idle]
-Не аднаўляць статус пры вяртанні з рэжыму чакання
-[Idle options]
-Рэжым чакання
-[Become idle if application full screen]
-Рэжым чакання, калі прыкладанне запушчана ў поўнаэкранным рэжыме
-[Disable sounds on idle]
-Адключыць гукі пры пераходзе ў рэжым чакання
 [Automatically popup window when:]
 Адкрываць вакно, калі:
 [In background]
@@ -469,8 +469,6 @@
 Выкарыстоўваць укладкі
 [Close tab on double click]
 Зачыняць па падвойнай пстрычцы
-[Restore previously open tabs when showing the window]
-Аднаўляць адкрытыя ўкладкі пры паказе вакна
 [Show tabs at the bottom]
 Укладкі ўнізе
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1185,6 +1183,10 @@ UIN, E-mail і г.д.
 
 [Google Translate]
 
+[Status]
+Статус
+[Idle]
+Чаканне
 [Re&ad %s message]
 &Прачытаць паведамленне "%s"
 [Re&ad status message]
@@ -1211,8 +1213,6 @@ UIN, E-mail і г.д.
 Ммм... е-е-ежа...
 [idleeeeeeee]
 чаканне...
-[Status]
-Статус
 [Standard contacts]
 Стандартныя кантакты
 [Online contacts to whom you have a different visibility]
@@ -1363,8 +1363,6 @@ UIN, E-mail і г.д.
 Перадача і праверка на вірусы завершаны
 [Outgoing]
 Выходныя
-[Idle]
-Чаканне
 [Message sessions]
 Гутаркі
 [Chat module]

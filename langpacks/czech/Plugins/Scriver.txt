@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.8
+;  Version: 3.0.1.10
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -30,12 +30,8 @@ Při zavření smazat dočasné kontakty
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [seconds]
 sek.
-[Send message on 'Enter']
-Odeslat zprávu klávesou ENTER
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým ENTER
-[Send message on 'Ctrl+Enter']
-Odeslat zprávu CTRL+ENTER
+[Send message on:]
+Odeslat zprávu:
 [Tabs]
 Panely
 [Enable tabs]
@@ -718,6 +714,14 @@ Neviditelný
 Na obědě
 [On the phone]
 Na telefonu
+[Enter]
+klávesou ENTER
+[Double 'Enter']
+dvojitým ENTER
+[Ctrl+Enter]
+CTRL+ENTER
+[Shift+Enter]
+SHIFT+ENTER
 [** New contacts **]
 ** nové kontakty **
 [** Unknown contacts **]

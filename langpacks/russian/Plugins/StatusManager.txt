@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.2
+;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -209,8 +209,6 @@ Cтатус-профиль
 Интервал проверки (сек)
 [Confirm dialog timeout (secs)]
 Интервал подтверждения (сек)
-[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
-Эти настройки будут проигнорированы, поскольку вы включили функцию смены статуса в разделе настроек "Ожидание".
 [Monitor keyboard activity]
 Следить за активностью клавиатуры
 [Monitor mouse activity]
@@ -281,6 +279,14 @@ Cтатус-профиль
 Интервал проверки (сек)
 [Pre-conditions]
 Предварительные условия
+[minutes of %s mode]
+минут режима "%s"
+[Auto away]
+Отсутствие
+[Rules]
+Правила
+[Status messages]
+Сообщения статуса
 [Set %s message for %s.]
 Установить %s сообщение для %s.
 [<last>]
@@ -293,16 +299,6 @@ Cтатус-профиль
 Протокол
 [Closing in %d]
 Закрыть (%d)
-[Status manager]
-Менеджер статусов
-[minutes of %s mode]
-минут режима "%s"
-[Auto away]
-Отсутствие
-[Rules]
-Правила
-[Status messages]
-Сообщения статуса
 [%s connected from another location]
 %s подключён из другого места
 [%s login error, cancel reconnecting]
@@ -335,6 +331,8 @@ Cтатус-профиль
 Дополнительно
 [Popups]
 Всплывающие окна
+[Status manager]
+Менеджер статусов
 [<unknown>]
 <неизвестно>
 [Right]

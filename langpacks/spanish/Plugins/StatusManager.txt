@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.1
+;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
 [Allows you to define the status Miranda should set on startup, configurable per account.]
@@ -43,8 +43,8 @@ Cancelar
 Perfil
 [Message]
 Mensaje
-[Account]
-Cuenta
+[Account:]
+Cuenta:
 [Set]
 Establecer
 [when screen saver engages]
@@ -203,6 +203,8 @@ Habilitar comprobación
 Deshabilitar comprobación
 [Set status message]
 Establecer mensaje de estado
+[Account]
+Cuenta
 [Status]
 Estado
 [Add...]
@@ -269,6 +271,14 @@ Datos de activación
 Ser activo sin cambio de estado
 [Leaving second auto-away status]
 Dejando segundo estado auto-fuera
+[minutes of %s mode]
+minutos de modo %s
+[Auto away]
+Auto fuera
+[Rules]
+Reglas
+[Status messages]
+Mensajes de estado
 [Set %s message for %s.]
 Establecer mensaje %s para %s.
 [<last>]
@@ -281,14 +291,6 @@ Establecer mensaje %s para %s.
 Protocolo
 [Closing in %d]
 Cerrando en %d
-[minutes of %s mode]
-minutos de modo %s
-[Auto away]
-Auto fuera
-[Rules]
-Reglas
-[Status messages]
-Mensajes de estado
 [Advanced]
 Avanzado
 [Popups]

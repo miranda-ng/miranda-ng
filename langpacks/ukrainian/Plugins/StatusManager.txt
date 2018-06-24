@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.1
+;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -51,8 +51,8 @@
 Профіль
 [Message]
 Повідомлення
-[Account]
-Обліковий запис
+[Account:]
+Обліковий запис:
 [Set]
 Вибрати
 [when full-screen mode is active]
@@ -213,6 +213,8 @@
 Вимкнути перевірку
 [Set status message]
 Встановити статусне повідомлення
+[Account]
+Обліковий запис
 [Status]
 Статус
 [Add...]
@@ -265,6 +267,14 @@
 Інтервал перевірки (с)
 [Pre-conditions]
 Попередні умови
+[minutes of %s mode]
+хвилин режиму "%s"
+[Auto away]
+Відсутність
+[Rules]
+Правила
+[Status messages]
+Статусні повідомлення
 [Set %s message for %s.]
 Встановити повідомлення %s для %s.
 [<last>]
@@ -277,14 +287,6 @@
 Протокол
 [Closing in %d]
 Закрити (%d)
-[minutes of %s mode]
-хвилин режиму "%s"
-[Auto away]
-Відсутність
-[Rules]
-Правила
-[Status messages]
-Статусні повідомлення
 [%s connected from another location]
 %s підключено з іншого місця
 [%s login error, cancel reconnecting]

@@ -5,6 +5,7 @@
 [Popup on obsolete methods]
 [Script]
 [Loaded]
+[Compile]
 [Common scripts]
 [C libs folder]
 [Scripts folder]

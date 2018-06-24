@@ -9,6 +9,7 @@
 [Failed]
 [Open]
 [Reload]
+[Compile]
 [Common scripts]
 [Services]
 [C libs folder]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.1
+;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -56,8 +56,10 @@ Anuluj
 Profil
 [Message]
 Opis
-[Account]
-Konto
+[Account:]
+Konto:
+[Away mode]
+
 [Set]
 Ustaw
 [when full-screen mode is active]
@@ -66,10 +68,14 @@ gdy aktywny tryb pełnoekranowy
 gdy włączy się wygaszacz
 [when workstation is locked]
 kiedy komputer jest zablokowany
+[when terminal session is disconnected]
+
 [after]
 po
 [minutes of inactivity]
 minutach bezczynności
+[After away]
+
 [minutes of level 1 mode]
 minutach trybu poziomu 1
 [only set when inactive]
@@ -80,6 +86,8 @@ Monitoruj tylko aktywność Mirandy
 Przywróć status po powrocie
 [Confirm resetting status]
 Potwierdź resetowanie statusu
+[Enter idle mode]
+
 [Only set if current status is]
 Ustaw tylko, gdy obecny status to:
 [Command line]
@@ -202,8 +210,6 @@ Ignoruj Caps Lock, Num Lock i Scroll Lock
 Sprawdzaj co (s)
 [Confirm dialog timeout (secs)]
 Czas wyświetlania okna potwierdzenia
-[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
-
 [Monitor keyboard activity]
 Śledź aktywność klawiatury
 [Monitor mouse activity]
@@ -220,6 +226,8 @@ Włącz sprawdzanie
 Wyłącz sprawdzanie
 [Set status message]
 Ustaw opis
+[Account]
+Konto
 [Status]
 Status
 [Add...]
@@ -286,6 +294,15 @@ Wywoływanie danych
 Przywracanie aktywności bez zmiany statusu
 [Leaving second auto-away status]
 Zostawianie drugiego statusu auto-away
+;file \plugins\StatusManager\src\aaa_options.cpp
+[minutes of %s mode]
+minutach "%s"
+[Auto away]
+Zmiany statusu
+[Rules]
+Zasady
+[Status messages]
+Opisy
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Ustaw opis %s dla %s.
@@ -299,19 +316,7 @@ Ustaw opis %s dla %s.
 Protokół
 [Closing in %d]
 Zamykanie w %d
-;file \plugins\StatusManager\src\options.cpp
-[Status manager]
-Menedżer statusu
-;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
-[minutes of %s mode]
-minutach "%s"
-[Auto away]
-Zmiany statusu
-[Rules]
-Zasady
-[Status messages]
-Opisy
-;file \plugins\StatusManager\src\KeepStatus\keepstatus.cpp
+;file \plugins\StatusManager\src\keepstatus.cpp
 [%s connected from another location]
 %s połączono z innej lokalizacji.
 [%s login error, cancel reconnecting]
@@ -336,7 +341,7 @@ Brak połączenia z internetem... (następna próba (%d) za %d s)
 Status przywrócony pomyślnie.
 [Giving up]
 Rezygnacja z przywracania statusu.
-;file \plugins\StatusManager\src\KeepStatus\ks_options.cpp
+;file \plugins\StatusManager\src\ks_options.cpp
 [You broke the Internet!]
 Problem z nawiązaniem połączenia!
 [Basic]
@@ -345,7 +350,10 @@ Podstawowe
 Zaawansowane
 [Popups]
 Popupy
-;file \plugins\StatusManager\src\StartupStatus\ss_options.cpp
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+Menedżer statusu
+;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <nieznany>
 [Right]
@@ -372,8 +380,8 @@ nieznany
 Musi istnieć przynajmniej 1 profil
 [Your default profile will be changed]
 Twój domyślny profil zostanie zmieniony
-;file \plugins\StatusManager\src\StartupStatus\ss_profiles.cpp
-;file \plugins\StatusManager\src\StartupStatus\ss_toolbars.cpp
+;file \plugins\StatusManager\src\ss_profiles.cpp
+;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]
 Wciśnięty przycisk
 [Released toolbar icon]

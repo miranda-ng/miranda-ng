@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.1
+;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -56,8 +56,10 @@ Zrušit
 Profil
 [Message]
 Zpráva
-[Account]
-Účet
+[Account:]
+Účet:
+[Away mode]
+
 [Set]
 Nastavit
 [when full-screen mode is active]
@@ -66,10 +68,14 @@ při celoobrazovkovém režimu
 při aktivaci spořiče obrazovky
 [when workstation is locked]
 při zamknutí počítače
+[when terminal session is disconnected]
+
 [after]
 po
 [minutes of inactivity]
 min. nečinnosti
+[After away]
+
 [minutes of level 1 mode]
 min. v módu Level 1
 [only set when inactive]
@@ -80,6 +86,8 @@ Monitorovat pouze program Miranda
 Po návratu obnovit původní stav
 [Confirm resetting status]
 Potvrdit návrat do původního stavu
+[Enter idle mode]
+
 [Only set if current status is]
 Nastavit pouze tehdy, je-li stav
 [Command line]
@@ -202,8 +210,6 @@ Ignorovat klávesy Caps Lock, Num Lock a Scroll Lock
 Interval zjišťování stavu (v sek.)
 [Confirm dialog timeout (secs)]
 Dialog zavřít po (v sek.)
-[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
-Tato nastavení jsou ignorována, protože máte aktivovanou volbu 'Změnit můj stav na' na stránce 'Nečinnost'.
 [Monitor keyboard activity]
 Monitorovat psaní na klávesnici
 [Monitor mouse activity]
@@ -220,6 +226,8 @@ Zapnout kontrolu
 Vypnout kontrolu
 [Set status message]
 Nastavit zprávy stavu
+[Account]
+Účet
 [Status]
 Stavy
 [Add...]
@@ -286,6 +294,15 @@ Data spouštěče
 Návrat z nečinnosti bez změny stavu
 [Leaving second auto-away status]
 Návrat z druhého automatického stavu
+;file \plugins\StatusManager\src\aaa_options.cpp
+[minutes of %s mode]
+min. ve stavu '%s'
+[Auto away]
+Automatické stavy
+[Rules]
+Pravidla
+[Status messages]
+Stavové zprávy
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Nastavit %s zprávu pro %s.
@@ -299,19 +316,7 @@ Nastavit %s zprávu pro %s.
 Protokol
 [Closing in %d]
 Zavře se za %d sek.
-;file \plugins\StatusManager\src\options.cpp
-[Status manager]
-
-;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
-[minutes of %s mode]
-min. ve stavu '%s'
-[Auto away]
-Automatické stavy
-[Rules]
-Pravidla
-[Status messages]
-Stavové zprávy
-;file \plugins\StatusManager\src\KeepStatus\keepstatus.cpp
+;file \plugins\StatusManager\src\keepstatus.cpp
 [%s connected from another location]
 Připojení z jiného místa (%s)
 [%s login error, cancel reconnecting]
@@ -336,7 +341,7 @@ Nefunguje připojení k internetu... (další pokus (č.%d) za %d sek.)
 Stav úspěšně obnoven
 [Giving up]
 Stav nelze obnovit
-;file \plugins\StatusManager\src\KeepStatus\ks_options.cpp
+;file \plugins\StatusManager\src\ks_options.cpp
 [You broke the Internet!]
 Kolečko se polámalo!
 [Basic]
@@ -345,7 +350,10 @@ Obecné
 Extra
 [Popups]
 Oznámení
-;file \plugins\StatusManager\src\StartupStatus\ss_options.cpp
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+
+;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <neznámý>
 [Right]
@@ -372,8 +380,8 @@ neznámý
 Musí být založen nejméně jeden profil!
 [Your default profile will be changed]
 Výchozí profil bude změněn.
-;file \plugins\StatusManager\src\StartupStatus\ss_profiles.cpp
-;file \plugins\StatusManager\src\StartupStatus\ss_toolbars.cpp
+;file \plugins\StatusManager\src\ss_profiles.cpp
+;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]
 Stisknutá ikona tlačitkové lišty
 [Released toolbar icon]

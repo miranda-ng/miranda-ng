@@ -158,15 +158,15 @@ Nouveau compte
 ;file \plugins\Import\src\main.cpp
 [&Import...]
 &Importer...
+[Miranda NG database]
+Profil Miranda-IM
+[All Files]
+Tous les fichiers
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Le fichier donné n'existe pas. Veuillez vérifier que vous avez entré correctement le nom.
 [Miranda Import]
 
-[Miranda NG database]
-Profil Miranda-IM
-[All Files]
-Tous les fichiers
 [You cannot import your current profile into itself]
 
 ;file \plugins\Import\src\utils.cpp

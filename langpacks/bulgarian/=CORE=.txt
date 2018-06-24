@@ -3,6 +3,28 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+[Become idle if the following is left unattended:]
+Бездействащ при липса на активност в:
+[Become idle if the screen saver is active]
+Бездействащ при активен screen saver
+[Become idle if the computer is locked]
+Бездействащ при заключване на компютъра
+[Do not let protocols report any idle information]
+Без изпращане на информация за бездействие
+[minute(s)]
+минута (и)
+[for]
+за
+[Change my status mode to:]
+Промяна на състоянието ми на:
+[Do not set status back to online when returning from idle]
+Без задаване на старото състояние след излизане от бездействие
+[Idle options]
+Настройки
+[Become idle if application full screen]
+Бездействащ при програма работеща на целия екран
+[Disable sounds on idle]
+Изключване на звука при бездействие
 [%s message for %s]
 Текст "%s" на %s
 [&Cancel]
@@ -371,28 +393,6 @@
 Преименуване (наставка (1),(2)...)
 [You will always be asked about files from people not on your contact list]
 Винаги ще бъдете питани за файлове, пратени от хора извън списъка ви с контакти
-[Become idle if the following is left unattended:]
-Бездействащ при липса на активност в:
-[Become idle if the screen saver is active]
-Бездействащ при активен screen saver
-[Become idle if the computer is locked]
-Бездействащ при заключване на компютъра
-[Do not let protocols report any idle information]
-Без изпращане на информация за бездействие
-[minute(s)]
-минута (и)
-[for]
-за
-[Change my status mode to:]
-Промяна на състоянието ми на:
-[Do not set status back to online when returning from idle]
-Без задаване на старото състояние след излизане от бездействие
-[Idle options]
-Настройки
-[Become idle if application full screen]
-Бездействащ при програма работеща на целия екран
-[Disable sounds on idle]
-Изключване на звука при бездействие
 [Automatically popup window when:]
 Изскачане на прозореца при състояние:
 [In background]
@@ -463,8 +463,6 @@
 Ползване на табове
 [Close tab on double click]
 Затваряне на таб при двукратно натискане
-[Restore previously open tabs when showing the window]
-Възстановяване на последно отворените табове при показване на прозореца
 [Show tabs at the bottom]
 Табове на дъното
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1145,6 +1143,10 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
+[Status]
+Състояние
+[Idle]
+Бездействие
 [Re&ad %s message]
 Показване на текста "%s"
 [Re&ad status message]
@@ -1171,8 +1173,6 @@ Google Translate
 Ммм... храна.
 [idleeeeeeee]
 бездействаммм
-[Status]
-Състояние
 [Standard contacts]
 Стандартни контакти
 [Online contacts to whom you have a different visibility]
@@ -1323,8 +1323,6 @@ Google Translate
 Прехвърлянето и сканирането за вируси завърши.
 [Outgoing]
 Изходящи
-[Idle]
-Бездействие
 [Message sessions]
 Разговори
 [Chat module]

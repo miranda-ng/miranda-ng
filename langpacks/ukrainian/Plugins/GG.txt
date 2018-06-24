@@ -223,12 +223,6 @@
 Ваш пароль буде надіслано на реєстраційний E-mail.\nПродовжити?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Для зміни налаштувань облікового запису необхідно відключитися.\nВідключитися зараз?
-[Allow]
-Дозволити
-[Ask]
-Запитати
-[Ignore]
-Ігнорувати
 [Network]
 Мережа
 [General]
@@ -365,6 +359,12 @@ HTTP невідома помилка
 Вибір облікового запису Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Протокол Gadu-Gadu
+[Allow]
+Дозволити
+[Ask]
+Запитати
+[Ignore]
+Ігнорувати
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Неможливо нагадати пароль через помилку:\n\t%s (Помилка: %d)
 [Password was sent to your e-mail.]

@@ -3,6 +3,30 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+[Become idle if the following is left unattended:]
+Перейти до режиму очікування, якщо неактивні:
+[Become idle if the screen saver is active]
+Режим очікування, якщо працює заставка екрану
+[Become idle if the computer is locked]
+Режим очікування, якщо комп'ютер заблоковано
+[Become idle if a terminal session is disconnected]
+Режим очікування, якщо віддалену сесію завершено
+[Do not let protocols report any idle information]
+Не дозволяти протоколам повідомляти про очікування
+[minute(s)]
+хвилин
+[for]
+протягом
+[Change my status mode to:]
+Змінити статус на:
+[Do not set status back to online when returning from idle]
+Не відновлювати статус при поверненні з режиму очікування
+[Idle options]
+Режим очікування
+[Become idle if application full screen]
+Режим очікування, якщо запущена повноекранна програма
+[Disable sounds on idle]
+Вимикати звуки при переході до режиму очікування
 [%s message for %s]
 %s (%s)
 [&Cancel]
@@ -373,30 +397,6 @@
 Перейменувати: додати "(1)"
 [You will always be asked about files from people not on your contact list]
 Запит буде показано завжди, якщо відправник поза списком контактів
-[Become idle if the following is left unattended:]
-Перейти до режиму очікування, якщо неактивні:
-[Become idle if the screen saver is active]
-Режим очікування, якщо працює заставка екрану
-[Become idle if the computer is locked]
-Режим очікування, якщо комп'ютер заблоковано
-[Become idle if a terminal session is disconnected]
-Режим очікування, якщо віддалену сесію завершено
-[Do not let protocols report any idle information]
-Не дозволяти протоколам повідомляти про очікування
-[minute(s)]
-хвилин
-[for]
-протягом
-[Change my status mode to:]
-Змінити статус на:
-[Do not set status back to online when returning from idle]
-Не відновлювати статус при поверненні з режиму очікування
-[Idle options]
-Режим очікування
-[Become idle if application full screen]
-Режим очікування, якщо запущена повноекранна програма
-[Disable sounds on idle]
-Вимикати звуки при переході до режиму очікування
 [Automatically popup window when:]
 Відкривати вікно, якщо:
 [In background]
@@ -469,8 +469,6 @@
 Увімкнути вкладки
 [Close tab on double click]
 Закривати подвійним клацанням
-[Restore previously open tabs when showing the window]
-Відновлювати попередньо відкриті вкладки при показі вікна
 [Show tabs at the bottom]
 Вкладки внизу
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1181,6 +1179,10 @@ UIN, E-mail тощо
 Мапи Google
 [Google Translate]
 Перекладач Google
+[Status]
+Статус
+[Idle]
+Очікування
 [Re&ad %s message]
 Читати повідомлення "%s"
 [Re&ad status message]
@@ -1207,8 +1209,6 @@ UIN, E-mail тощо
 Ммм... поїсти б...
 [idleeeeeeee]
 очікування...
-[Status]
-Статус
 [Standard contacts]
 Звичайні контакти
 [Online contacts to whom you have a different visibility]
@@ -1359,8 +1359,6 @@ UIN, E-mail тощо
 Передачу та перевірку на віруси завершено
 [Outgoing]
 Вихідні
-[Idle]
-Очікування
 [Message sessions]
 Бесіди
 [Chat module]

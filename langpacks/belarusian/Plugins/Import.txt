@@ -155,14 +155,14 @@ Miranda знайшла наступныя профілі. Абярыце про�
 Прапушчана %d дублікатаў і %d адфільтраваных падзей.
 [&Import...]
 &Імпарт
-[The given file does not exist. Please check that you have entered the name correctly.]
-Дадзены файл не існуе. Праверце імя файла.
-[Miranda Import]
-Імпарт Miranda
 [Miranda NG database]
 База Miranda NG/IM
 [All Files]
 Усе файлы
+[The given file does not exist. Please check that you have entered the name correctly.]
+Дадзены файл не існуе. Праверце імя файла.
+[Miranda Import]
+Імпарт Miranda
 [You cannot import your current profile into itself]
 
 [Skipping duplicate group %s.]

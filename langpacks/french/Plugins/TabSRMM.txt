@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.9
+;  Version: 3.5.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1060,12 +1060,6 @@ Sessions de message
 
 [Group chat log]
 
-[Appearance and functionality of chat room windows]
-Apparence et fonctionnalités des fenêtres de salon
-[Appearance of the message log]
-Apparence du journal des messages
-[Chat rooms]
-
 [Voiced]
 
 [Half operators]
@@ -1087,6 +1081,12 @@ Texte sélectionné
 [Nick list background]
 Fond de la liste
 [Group chat log background]
+
+[Appearance and functionality of chat room windows]
+Apparence et fonctionnalités des fenêtres de salon
+[Appearance of the message log]
+Apparence du journal des messages
+[Chat rooms]
 
 [nick of current contact (if defined)]
 
@@ -1147,6 +1147,14 @@ Sélectionnez un répertoire
 [Show as icons]
 
 [Show as text symbols]
+
+[Settings]
+Paramètres
+[Log formatting]
+
+[Events and filters]
+
+[Highlighting]
 
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
@@ -1618,14 +1626,6 @@ Fenêtre de message
 Charger et appliquer
 [Window layout tweaks]
 
-[Settings]
-Paramètres
-[Log formatting]
-
-[Events and filters]
-
-[Highlighting]
-
 [Choose status modes]
 Choisir les modes d'état...
 ;file \plugins\TabSRMM\src\msgs.cpp
@@ -1842,8 +1842,6 @@ Changer le skin
 
 [Close current tab on send]
 Fermer l'onglet en cours dés l'envoi
-[Automatic keyboard layout: Do not load the system default for new contacts]
-
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 
 [Show client description in info panel]
@@ -1980,8 +1978,6 @@ Bulle détaillée sur les onglets (requière Tipper)
 
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 
-[Remember and set keyboard layout per contact]
-Se rappeler du keyboard layout de chaques contacts.
 [Close button only hides message windows]
 
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]

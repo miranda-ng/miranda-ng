@@ -227,12 +227,6 @@ Musisz najpierw wpisać w konfiguracji swój e-mail rejestracyjny.
 Twoje hasło zostanie wysłane na twój e-mail rejestracyjny.\nChcesz kontynuować ?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Powinieneś się rozłączyć przed wszelkimi trwałymi zmianami twojego konta.\nCzy chcesz się rozłączyć ?
-[Allow]
-Zezwól
-[Ask]
-Pytaj
-[Ignore]
-Ignorowanie
 [Your details has been uploaded to the public directory.]
 Twoje dane zostały wysłane do katalogu publicznego.
 [You have to be logged in before you can change your details.]
@@ -387,6 +381,13 @@ Eksportuj listę do &pliku
 Wybór konta Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Powiązanie protokołu Gadu-Gadu
+;file \protocols\Gadu-Gadu\src\options.cpp
+[Allow]
+Zezwól
+[Ask]
+Pytaj
+[Ignore]
+Ignorowanie
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Hasło nie mogło zostać przypomniane z powodu błędu:\n\t%s (błąd: %d)

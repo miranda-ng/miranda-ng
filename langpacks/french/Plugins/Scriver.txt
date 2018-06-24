@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.8
+;  Version: 3.0.1.10
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -30,11 +30,7 @@ Supprimer les contacts temporaires à la fermeture
 M'alerter quand le message n'a pas été reçu après
 [seconds]
 secondes
-[Send message on 'Enter']
-Taper 1 fois "Entrée" pour envoyer
-[Send message on double 'Enter']
-Taper 2 fois "Entrée" pour envoyer
-[Send message on 'Ctrl+Enter']
+[Send message on:]
 
 [Tabs]
 Onglets
@@ -718,6 +714,14 @@ Invisible
 Parti manger
 [On the phone]
 Au téléphone
+[Enter]
+
+[Double 'Enter']
+
+[Ctrl+Enter]
+
+[Shift+Enter]
+
 [** New contacts **]
 ** Nouveaux contacts **
 [** Unknown contacts **]

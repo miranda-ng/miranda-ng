@@ -1,5 +1,5 @@
-[Tool style main window]
 [Become idle if a terminal session is disconnected]
+[Tool style main window]
 [Show formatting]
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
 [Open contact's chat window]

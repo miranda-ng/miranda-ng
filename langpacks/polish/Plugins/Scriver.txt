@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.8
+;  Version: 3.0.1.10
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -30,12 +30,8 @@ Kasuj niezapisane kontakty przy zamykaniu
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [seconds]
 s
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
-[Send message on 'Ctrl+Enter']
-Ctrl+Enter wysyła wiadomość
+[Send message on:]
+
 [Tabs]
 Karty
 [Enable tabs]
@@ -718,6 +714,14 @@ Niewidoczny
 Na obiedzie
 [On the phone]
 Pod telefonem
+[Enter]
+
+[Double 'Enter']
+
+[Ctrl+Enter]
+
+[Shift+Enter]
+
 [** New contacts **]
 ** Nowe kontakty **
 [** Unknown contacts **]

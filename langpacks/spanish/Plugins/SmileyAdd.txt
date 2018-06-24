@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.0.2
+;  Version: 0.3.1.0
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Name:]
@@ -11,14 +11,8 @@ Nombre:
 Versión
 [Preview]
 Previsualizar
-[Enable]
-Habilitar
-[Smiley button]
-Botón de emoticono
 [Background color]
 Color de fondo
-[Show]
-Mostrar
 [All files]
 Todos los archivos
 [Customize]

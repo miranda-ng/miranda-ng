@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.9
+;  Version: 3.5.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Actions]
@@ -255,20 +255,22 @@ Resaltado (10x10)
 Información (10x10)
 [Message Sessions]
 Sesiones de mensaje
-[Appearance and functionality of chat room windows]
-Apariencia y funcionalidad de ventanas de chat
-[Appearance of the message log]
-Apariencia del registro de mensajes
 [Selected text]
 Texto seleccionado
 [Nick list background]
 Fondo de lista de usuarios
+[Appearance and functionality of chat room windows]
+Apariencia y funcionalidad de ventanas de chat
+[Appearance of the message log]
+Apariencia del registro de mensajes
 [Variables]
 Variables
 [All files]
 Todos los archivos
 [Select folder]
 Seleccionar carpeta
+[Settings]
+Ajustes
 [hours]
 horas
 [minutes]
@@ -333,8 +335,6 @@ Registro de mensaje
 Notificación de escritura
 [Event notifications]
 Notificaciones de eventos
-[Settings]
-Ajustes
 [Smiley button]
 Botón de emoticono
 [Background color]

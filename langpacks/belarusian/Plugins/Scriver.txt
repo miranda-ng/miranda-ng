@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.8
+;  Version: 3.0.1.10
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -29,12 +29,8 @@
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [seconds]
 секунд
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
-[Send message on 'Ctrl+Enter']
-Пасылаць па "Ctrl+Enter"
+[Send message on:]
+Пасылаць па:
 [Tabs]
 Укладкі
 [Enable tabs]
@@ -709,6 +705,14 @@ URL атрыманы
 Абедаю
 [On the phone]
 На тэлефоне
+[Enter]
+Enter
+[Double 'Enter']
+падвойным "Enter"
+[Ctrl+Enter]
+Ctrl+Enter
+[Shift+Enter]
+Shift+Enter
 [** New contacts **]
 ** Новыя кантакты **
 [** Unknown contacts **]

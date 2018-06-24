@@ -3,6 +3,31 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+;file \src\core\stdautoaway\res\resource.rc
+[Become idle if the following is left unattended:]
+Devient "Inactif" si inactivité de :
+[Become idle if the screen saver is active]
+Devient "Inactif" si l'écran de veille est activé.
+[Become idle if the computer is locked]
+Devenir inactif si la session est vérouillée
+[Become idle if a terminal session is disconnected]
+Devenir absent si le terminal est déconnecté
+[Do not let protocols report any idle information]
+Ne pas autoriser les autres protocoles à signaler l'inactivité.
+[minute(s)]
+minute(s)
+[for]
+pendant
+[Change my status mode to:]
+Changer mon état en :
+[Do not set status back to online when returning from idle]
+Ne pas mettre l'état "En ligne" quand vous revenez d'inactif.
+[Idle options]
+Options d'inactivité
+[Become idle if application full screen]
+Devenir inactif si une application est en plein-écran
+[Disable sounds on idle]
+Désactiver les sons quand inactif
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Message %s pour %s
@@ -376,31 +401,6 @@ Me demander
 Renommer (ajouter (1), (2), etc.)
 [You will always be asked about files from people not on your contact list]
 Vous serez avisé des fichiers ne provenant pas de votre liste de contacts
-;file \src\core\stdidle\res\resource.rc
-[Become idle if the following is left unattended:]
-Devient "Inactif" si inactivité de :
-[Become idle if the screen saver is active]
-Devient "Inactif" si l'écran de veille est activé.
-[Become idle if the computer is locked]
-Devenir inactif si la session est vérouillée
-[Become idle if a terminal session is disconnected]
-Devenir absent si le terminal est déconnecté
-[Do not let protocols report any idle information]
-Ne pas autoriser les autres protocoles à signaler l'inactivité.
-[minute(s)]
-minute(s)
-[for]
-pendant
-[Change my status mode to:]
-Changer mon état en :
-[Do not set status back to online when returning from idle]
-Ne pas mettre l'état "En ligne" quand vous revenez d'inactif.
-[Idle options]
-Options d'inactivité
-[Become idle if application full screen]
-Devenir inactif si une application est en plein-écran
-[Disable sounds on idle]
-Désactiver les sons quand inactif
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Fenêtre en popup quand :
@@ -474,8 +474,6 @@ minutes
 Utiliser une interface à onglets
 [Close tab on double click]
 Fermer l'onglet par un double-clic
-[Restore previously open tabs when showing the window]
-Restaurer les derniers onglets ouverts lors de l'ouverture de la fenêtre
 [Show tabs at the bottom]
 Onglets en bas
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -1193,6 +1191,11 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
+;file \src\core\stdautoaway\src\options.cpp
+[Status]
+État
+[Idle]
+Inactif
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 &Message d'état de "%s"
@@ -1221,8 +1224,6 @@ Ce sera le téléphone.
 Mmm... Manger.
 [idleeeeeeee]
 Occupééééé
-[Status]
-État
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Contacts standards
@@ -1386,9 +1387,6 @@ Transfert et analyse de virus achevés
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Sortant
-;file \src\core\stdidle\src\options.cpp
-[Idle]
-Inactif
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Sessions de message

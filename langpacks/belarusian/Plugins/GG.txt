@@ -223,12 +223,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Ваш пароль будзе высланы на рэгістрацыйны e-mail.\nПрацягнуць?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Вы павінны адключыцца перад зменай параметраў карыстача.\nВырабіць адключэнне?
-[Allow]
-Дазволіць
-[Ask]
-Спытаць
-[Ignore]
-Ігнараваць
 [Your details has been uploaded to the public directory.]
 Ваша інфармацыя была запісаная на агульным каталогу.
 [You have to be logged in before you can change your details.]
@@ -375,6 +369,12 @@ HTTP невядомая памылка
 Выбар конта Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Спасылка Gadu-Gadu
+[Allow]
+Дазволіць
+[Ask]
+Спытаць
+[Ignore]
+Ігнараваць
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Пароль немагчыма нагадаць з-за памылкі:\n\t%s (Памылка: %d)
 [Password was sent to your e-mail.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.1
+;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -55,8 +55,10 @@
 Профіль
 [Message]
 Паведамленне
-[Account]
-Конт
+[Account:]
+Конт:
+[Away mode]
+
 [Set]
 Абраць
 [when full-screen mode is active]
@@ -65,10 +67,14 @@
 пры запуску застаўкі
 [when workstation is locked]
 пры блакаванні кампутара
+[when terminal session is disconnected]
+
 [after]
 праз
 [minutes of inactivity]
 хвілін неактыўнасці
+[After away]
+
 [minutes of level 1 mode]
 хвілін рэжыму 1
 [only set when inactive]
@@ -79,6 +85,8 @@
 Аднавіць статус пры вяртанні
 [Confirm resetting status]
 Пацвердзіць скід статусу
+[Enter idle mode]
+
 [Only set if current status is]
 Толькі калі статус:
 [Command line]
@@ -201,8 +209,6 @@ Dial-up (эксперыментальна)
 Правяраць праз (сек):
 [Confirm dialog timeout (secs)]
 Падцвердзіць праз(сек)
-[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
-
 [Monitor keyboard activity]
 Сачыць за актыўнасцю клавіятуры
 [Monitor mouse activity]
@@ -219,6 +225,8 @@ Dial-up (эксперыментальна)
 Не правяраць
 [Set status message]
 Усталяваць статуснае паведамленне
+[Account]
+Конт
 [Status]
 Статус
 [Add...]
@@ -285,6 +293,14 @@ Dial-up (эксперыментальна)
 Не змяняць статус пры вяртанні
 [Leaving second auto-away status]
 Выдаленне другога статуса аўта-адсутнасці
+[minutes of %s mode]
+хвілін рэжыму "%s"
+[Auto away]
+Адсутнасць
+[Rules]
+Кіравала
+[Status messages]
+Паведамленні статусу
 [Set %s message for %s.]
 Уст. %s паведамленне для %s.
 [<last>]
@@ -297,16 +313,6 @@ Dial-up (эксперыментальна)
 Пратакол
 [Closing in %d]
 Зачыніць (%d)
-[Status manager]
-
-[minutes of %s mode]
-хвілін рэжыму "%s"
-[Auto away]
-Адсутнасць
-[Rules]
-Кіравала
-[Status messages]
-Паведамленні статусу
 [%s connected from another location]
 %s далучаны з іншага месца
 [%s login error, cancel reconnecting]
@@ -339,6 +345,8 @@ Dial-up (эксперыментальна)
 Дадаткова
 [Popups]
 Усплывальныя вокны
+[Status manager]
+
 [<unknown>]
 <невядома>
 [Right]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.8
+;  Version: 3.0.1.10
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -30,11 +30,7 @@
 
 [seconds]
 sekundi
-[Send message on 'Enter']
-
-[Send message on double 'Enter']
-
-[Send message on 'Ctrl+Enter']
+[Send message on:]
 
 [Tabs]
 kartice
@@ -717,6 +713,14 @@ očisti
 [Out to lunch]
 
 [On the phone]
+
+[Enter]
+
+[Double 'Enter']
+
+[Ctrl+Enter]
+
+[Shift+Enter]
 
 [** New contacts **]
 

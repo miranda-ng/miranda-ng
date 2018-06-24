@@ -158,15 +158,15 @@ Import abgeschlossen nach %d Sekunden.
 ;file \plugins\Import\src\main.cpp
 [&Import...]
 &Importieren...
+[Miranda NG database]
+Miranda-NG-Datenbank
+[All Files]
+Alle Dateien
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Die angegebene Datei existiert nicht. Bitte eingegebenen Dateinamen überprüfen.
 [Miranda Import]
 Miranda-Import
-[Miranda NG database]
-Miranda-NG-Datenbank
-[All Files]
-Alle Dateien
 [You cannot import your current profile into itself]
 Sie können ein Profil nicht in sich selbst importieren.
 ;file \plugins\Import\src\utils.cpp

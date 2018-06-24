@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.9
+;  Version: 3.5.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1009,10 +1009,6 @@ UIN
 Прозорци за групов чат
 [Group chat log]
 Дневник за груповите чатове
-[Appearance and functionality of chat room windows]
-Външен вид и функционалност на чат стаите
-[Appearance of the message log]
-Външен вид на дневника за съобщения
 [Voiced]
 (Voice) Можещ да говори
 [Half operators]
@@ -1033,6 +1029,10 @@ UIN
 Фон на списъка с прякори
 [Group chat log background]
 Фон на дневника за групов чат
+[Appearance and functionality of chat room windows]
+Външен вид и функционалност на чат стаите
+[Appearance of the message log]
+Външен вид на дневника за съобщения
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1083,6 +1083,14 @@ UIN
 Икона
 [Show as text symbols]
 Текстови символ
+[Settings]
+Настройки
+[Log formatting]
+Формат на дневника
+[Events and filters]
+Събития и филтри
+[Highlighting]
+Отличаване
 [%s%s says:%s %s]
 %s%s каза:%s %s
 [Expand or collapse the side bar]
@@ -1517,14 +1525,6 @@ Latin I
 Прозорец за съобщения
 [Load and apply]
 Зареждане и прилагане
-[Settings]
-Настройки
-[Log formatting]
-Формат на дневника
-[Events and filters]
-Събития и филтри
-[Highlighting]
-Отличаване
 [Choose status modes]
 Избор на състояния
 [A message delivery has failed.\nClick to open the message window.]
@@ -1705,8 +1705,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Включване на звука при писане
 [Close current tab on send]
 Затваряне на таба след изпращане
-[Automatic keyboard layout: Do not load the system default for new contacts]
-Автоматично избиране на клавиатурна подредба: Без зареждане на стандартната системна подредба за нови контакти
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)*
 [Show client description in info panel]
@@ -1841,8 +1839,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Активиране на минимизиран прозорец при създаването на нов таб в него
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 Автопревключване на табове в минимизирани прозорци (игнорира се при ползване функцията Aero Peek на лентата със задачи)
-[Remember and set keyboard layout per contact]
-Запаметяване на избраната клавиатурна подредба по отделно за всеки контакт (чат стая)
 [Close button only hides message windows]
 Бутон "Затваряне" само скрива прозореца за съобщения
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]

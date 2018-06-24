@@ -158,15 +158,15 @@ Novi nalog
 ;file \plugins\Import\src\main.cpp
 [&Import...]
 
+[Miranda NG database]
+
+[All Files]
+Sve datoteke
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 
 [Miranda Import]
 
-[Miranda NG database]
-
-[All Files]
-Sve datoteke
 [You cannot import your current profile into itself]
 
 ;file \plugins\Import\src\utils.cpp

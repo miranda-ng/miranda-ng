@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.0.2
+;  Version: 0.3.1.0
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -41,12 +41,6 @@
 Включване на усмивките
 [Don't replace at cursor]
 Без замяна при посочване
-[Built-in message dialog support]
-Прозорец за съобщения
-[Enable]
-Включване
-[Smiley button]
-Бутон "Усмивки"
 [Surround inserted smiley with spaces]
 Ограждане на вмъкнатите усмивки с интервал
 [Use first smiley for selection size]
@@ -65,10 +59,6 @@ HTTP връзки на SmileyAdd
 Задаване на категория усмивки
 [Background color]
 Цвят на фона
-[Hide]
-Скриване
-[Show]
-Показване
 [Smiley packs]
 Пакети усмивки
 [All files]

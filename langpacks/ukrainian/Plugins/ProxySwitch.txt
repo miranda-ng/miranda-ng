@@ -1,0 +1,15 @@
+#muuid {4df0c267-6efb-4410-b651-385f87158509}
+;============================================================
+;  File: ProxySwitch.dll
+;  Plugin: ProxySwitch
+;  Version: 1.0.0.1
+;  Authors: Petr Smejkal
+;============================================================
+[General]
+Загальне
+[Text color]
+Колір тексту
+[Background color]
+Колір фону
+[Popups]
+Спливаючі вікна

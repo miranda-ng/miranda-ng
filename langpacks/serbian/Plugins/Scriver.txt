@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.8
+;  Version: 3.0.1.10
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -30,12 +30,8 @@ Poređaj novootvorene prozore
 Upozori me ukoliko poruka nije primljena posle
 [seconds]
 sekundi
-[Send message on 'Enter']
-Slanje jednim 'Enter'
-[Send message on double 'Enter']
-Slanje dvostrukim 'Enter'
-[Send message on 'Ctrl+Enter']
-Slanje jednim 'Ctrl+Enter'
+[Send message on:]
+Slanje:
 [Tabs]
 Jezičci
 [Enable tabs]
@@ -718,6 +714,14 @@ Nevidljiv
 Na ručku
 [On the phone]
 Telefoniram
+[Enter]
+jednim 'Enter'
+[Double 'Enter']
+dvostrukim 'Enter'
+[Ctrl+Enter]
+jednim 'Ctrl+Enter'
+[Shift+Enter]
+jednim 'Shift+Enter'
 [** New contacts **]
 ** Novi kontakti **
 [** Unknown contacts **]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.9
+;  Version: 3.5.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1060,12 +1060,6 @@ Nachrichtensitzungen
 Gruppenchat-Fenster
 [Group chat log]
 Gruppenchat-Verlauf
-[Appearance and functionality of chat room windows]
-Aussehen und Funktionen des Chatfensters
-[Appearance of the message log]
-Aussehen des Verlaufsfensters
-[Chat rooms]
-Chaträume
 [Voiced]
 Stimmhaft
 [Half operators]
@@ -1088,6 +1082,12 @@ Felder-Hintergrund
 Hintergrund Benutzerliste
 [Group chat log background]
 Gruppenchat-Verlaufshintergrund
+[Appearance and functionality of chat room windows]
+Aussehen und Funktionen des Chatfensters
+[Appearance of the message log]
+Aussehen des Verlaufsfensters
+[Chat rooms]
+Chaträume
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1148,6 +1148,14 @@ Keine Markierungen
 Als Icons anzeigen
 [Show as text symbols]
 Als Textsymbole anzeigen
+[Settings]
+Einstellungen
+[Log formatting]
+Verlaufsformatierung
+[Events and filters]
+Ereignisse und Filter
+[Highlighting]
+Hervorhebungen
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 %s%s sagt:%s %s
@@ -1618,14 +1626,6 @@ Nachrichtenfenster
 Laden und Übernehmen
 [Window layout tweaks]
 Fenster-Anordnung
-[Settings]
-Einstellungen
-[Log formatting]
-Verlaufsformatierung
-[Events and filters]
-Ereignisse und Filter
-[Highlighting]
-Hervorhebungen
 [Choose status modes]
 Wähle Statusmodi
 ;file \plugins\TabSRMM\src\msgs.cpp
@@ -1842,8 +1842,6 @@ Fehlermeldung
 Tipp-Klänge aktivieren
 [Close current tab on send]
 Aktuellen Tab nach dem Senden schließen
-[Automatic keyboard layout: Do not load the system default for new contacts]
-Automatisches Tastaturlayout: Lade nicht das Systemstandard-Layout für neue Kontakte
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Unbeaufsichtigtes Senden aktivieren (experimentell, benötigt für multisend und 'später senden' (*)
 [Show client description in info panel]
@@ -1980,8 +1978,6 @@ Neue Fenster minimiert erzeugen (die Option darüber MUSS aktiviert sein!)
 Minimierte Fenster in Vordergrund bringen, wenn ein neuer Tab erzeugt wird
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 Automatisch zu existierenden Tabs in minimierten Fenstern bei eingehenden Nachrichten wechseln (ignoriert, wenn Aero Peek Taskleisten-Funktionen benutzt wird)
-[Remember and set keyboard layout per contact]
-Tastaturschema für jeden Kontakt speichern und wiederherstellen
 [Close button only hides message windows]
 "Schließen"-Schaltfläche versteckt nur das Nachrichtenfenster
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]
