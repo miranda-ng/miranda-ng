@@ -32,7 +32,7 @@ void ShowHelp(HWND hdlg, int showhide_help)
 	ShowWindow(GetDlgItem(hdlg, IDC_EDIT_HIDEINTF), showhide_others);
 }
 
-BOOL CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam) 
+INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam) 
 {
 	switch (msg) {
 

@@ -69,7 +69,7 @@ static HANDLE hSvcShowMyIP = NULL;
 
 /* ################################################################################ */
 
-static int ShowMyIPAddrs(WPARAM wParam, LPARAM lParam)
+static INT_PTR ShowMyIPAddrs(WPARAM, LPARAM)
 {
 	PopupMyIPAddrs(NULL);
 	return 0;
@@ -102,7 +102,7 @@ void PopupMyIPAddrs(wchar_t *msg)
 	}
 }
 
-static int ProxyEnable(WPARAM wParam, LPARAM lParam)
+static INT_PTR ProxyEnable(WPARAM, LPARAM)
 {
 	Set_IE_Proxy_Status(1);
 	Set_Miranda_Proxy_Status(1);
@@ -110,7 +110,7 @@ static int ProxyEnable(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ProxyDisable(WPARAM wParam, LPARAM lParam)
+static INT_PTR ProxyDisable(WPARAM, LPARAM)
 {
 	Set_IE_Proxy_Status(0);
 	Set_Miranda_Proxy_Status(0);
@@ -134,42 +134,41 @@ void CopyIP2Clipboard(UCHAR idx)
 	CloseClipboard();
 }
 
-static int CopyIP2Clipboard0(WPARAM wParam, LPARAM lParam)
+static INT_PTR CopyIP2Clipboard0(WPARAM, LPARAM)
 {
 	CopyIP2Clipboard(0);
 	return 0;
 }
 
-static int CopyIP2Clipboard1(WPARAM wParam, LPARAM lParam)
+static INT_PTR CopyIP2Clipboard1(WPARAM, LPARAM)
 {
 	CopyIP2Clipboard(1);
 	return 0;
 }
 
-static int CopyIP2Clipboard2(WPARAM wParam, LPARAM lParam)
+static INT_PTR CopyIP2Clipboard2(WPARAM, LPARAM)
 {
 	CopyIP2Clipboard(2);
 	return 0;
 }
 
-static int CopyIP2Clipboard3(WPARAM wParam, LPARAM lParam)
+static INT_PTR CopyIP2Clipboard3(WPARAM, LPARAM)
 {
 	CopyIP2Clipboard(3);
 	return 0;
 }
 
-static int CopyIP2Clipboard4(WPARAM wParam, LPARAM lParam)
+static INT_PTR CopyIP2Clipboard4(WPARAM, LPARAM)
 {
 	CopyIP2Clipboard(4);
 	return 0;
 }
 
-static int CopyIP2Clipboard5(WPARAM wParam, LPARAM lParam)
+static INT_PTR CopyIP2Clipboard5(WPARAM, LPARAM)
 {
 	CopyIP2Clipboard(5);
 	return 0;
 }
-
 
 void UpdateInterfacesMenu(void)
 {
@@ -273,7 +272,7 @@ void UpdatePopupMenu(BOOL State)
 	//CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisablePopupMenu, (LPARAM)&mi);
 }
 
-static int PopupSwitch(WPARAM wParam, LPARAM lParam)
+static INT_PTR PopupSwitch(WPARAM, LPARAM)
 {
 	opt_popups = !opt_popups;
 	UpdatePopupMenu(opt_popups);
@@ -331,7 +330,7 @@ int CMPlugin::Load()
 	return 0;
 }
 
-int Init(WPARAM wParam, LPARAM lParam)
+int Init(WPARAM, LPARAM)
 {
 	CMenuItem mi(g_plugin);
 
