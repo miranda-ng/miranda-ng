@@ -59,8 +59,8 @@ IconItem ICONS_BTN[ICO_BTN_END_] =
 	{ LPGEN("Edit"), "edit", IDI_EDIT },
 	{ LPGEN("Edit on"), "editon", IDI_EDITON },
 	{ LPGEN("Copy"), "copy", IDI_COPY },
-	{ LPGEN("BBC"), "bbc", IDI_BBC },
-	{ LPGEN("BBC link"), "bbclnk", IDI_BBC2 },
+	{ LPGEN("BBCode"), "bbc", IDI_BBC },
+	{ LPGEN("BBCode link"), "bbclnk", IDI_BBC2 },
 	{ LPGEN("Down arrow"), "downarrow", IDI_DOWNARROW },
 };
 
