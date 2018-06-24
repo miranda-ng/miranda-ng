@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME             "ProxySwitch"
 #define __FILENAME                "ProxySwitch.dll"
-#define __DESCRIPTION             "The plugin watches IP address changes, displays popups, and adjusts the proxy settings of Miranda, Internet Explorer and Firefox."
+#define __DESCRIPTION             "Watches IP address changes, displays popups, and adjusts the proxy settings of Miranda, Internet Explorer and Firefox."
 #define __AUTHOR                  "Petr Smejkal"
 #define __AUTHORWEB               "https://miranda-ng.org/p/ProxySwitch/"
-#define __COPYRIGHT               "© 2005 Petr Smejkal"
+#define __COPYRIGHT               "© 2005 Petr Smejkal, 2018 Miranda NG team"
