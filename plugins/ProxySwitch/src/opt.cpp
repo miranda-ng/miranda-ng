@@ -146,8 +146,8 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = OptionsProc;
-	odp.szGroup.w = LPGENW("Network");
-	odp.szTitle.w = LPGENW("proxySwitch");
+	odp.szGroup.w = LPGENW("Services");
+	odp.szTitle.w = LPGENW("ProxySwitch");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	g_plugin.addOptions(wParam, &odp);
 
