@@ -137,12 +137,42 @@ void CopyIP2Clipboard(UCHAR idx)
 	LeaveCriticalSection(&csNIF_List);
 }
 
-static int CopyIP2Clipboard0(WPARAM wParam, LPARAM lParam) { CopyIP2Clipboard(0); return 0; }
-static int CopyIP2Clipboard1(WPARAM wParam, LPARAM lParam) { CopyIP2Clipboard(1); return 0; }
-static int CopyIP2Clipboard2(WPARAM wParam, LPARAM lParam) { CopyIP2Clipboard(2); return 0; }
-static int CopyIP2Clipboard3(WPARAM wParam, LPARAM lParam) { CopyIP2Clipboard(3); return 0; }
-static int CopyIP2Clipboard4(WPARAM wParam, LPARAM lParam) { CopyIP2Clipboard(4); return 0; }
-static int CopyIP2Clipboard5(WPARAM wParam, LPARAM lParam) { CopyIP2Clipboard(5); return 0; }
+static int CopyIP2Clipboard0(WPARAM wParam, LPARAM lParam)
+{
+	CopyIP2Clipboard(0);
+	return 0;
+}
+
+static int CopyIP2Clipboard1(WPARAM wParam, LPARAM lParam)
+{
+	CopyIP2Clipboard(1);
+	return 0;
+}
+
+static int CopyIP2Clipboard2(WPARAM wParam, LPARAM lParam)
+{
+	CopyIP2Clipboard(2);
+	return 0;
+}
+
+static int CopyIP2Clipboard3(WPARAM wParam, LPARAM lParam)
+{
+	CopyIP2Clipboard(3);
+	return 0;
+}
+
+static int CopyIP2Clipboard4(WPARAM wParam, LPARAM lParam)
+{
+	CopyIP2Clipboard(4);
+	return 0;
+}
+
+static int CopyIP2Clipboard5(WPARAM wParam, LPARAM lParam)
+{
+	CopyIP2Clipboard(5);
+	return 0;
+}
+
 
 void UpdateInterfacesMenu(void)
 {
@@ -150,7 +180,8 @@ void UpdateInterfacesMenu(void)
 	CMenuItem mi(g_plugin);
 	char svc[60];
 
-	if (!opt_showProxyIP && !opt_not_restarted) return;
+	if (!opt_showProxyIP && !opt_not_restarted)
+		return;
 
 	EnterCriticalSection(&csNIF_List);
 	for (idx = 0; idx < NIF_List.count; idx++) {
@@ -187,12 +218,29 @@ void UpdateInterfacesMenu(void)
 			}
 			// create and register service for this menu item
 			switch (idx) {
-			case 0: hSvcCopyClip0 = CreateServiceFunction(svc, CopyIP2Clipboard0); break;
-			case 1: hSvcCopyClip1 = CreateServiceFunction(svc, CopyIP2Clipboard1); break;
-			case 2: hSvcCopyClip2 = CreateServiceFunction(svc, CopyIP2Clipboard2); break;
-			case 3: hSvcCopyClip3 = CreateServiceFunction(svc, CopyIP2Clipboard3); break;
-			case 4: hSvcCopyClip4 = CreateServiceFunction(svc, CopyIP2Clipboard4); break;
-			case 5: hSvcCopyClip5 = CreateServiceFunction(svc, CopyIP2Clipboard5); break;
+			case 0:
+				hSvcCopyClip0 = CreateServiceFunction(svc, CopyIP2Clipboard0);
+				break;
+
+			case 1: 
+				hSvcCopyClip1 = CreateServiceFunction(svc, CopyIP2Clipboard1);
+				break;
+
+			case 2: 
+				hSvcCopyClip2 = CreateServiceFunction(svc, CopyIP2Clipboard2);
+				break;
+
+			case 3:
+				hSvcCopyClip3 = CreateServiceFunction(svc, CopyIP2Clipboard3);
+				break;
+
+			case 4:
+				hSvcCopyClip4 = CreateServiceFunction(svc, CopyIP2Clipboard4);
+				break;
+
+			case 5:
+				hSvcCopyClip5 = CreateServiceFunction(svc, CopyIP2Clipboard5);
+				break;
 			}
 		}
 	}
@@ -205,7 +253,8 @@ void UpdatePopupMenu(BOOL State)
 {
 	CMenuItem mi(g_plugin);
 
-	if (!hEnableDisablePopupMenu) return;
+	if (!hEnableDisablePopupMenu)
+		return;
 
 	//ZeroMemory(&mi, sizeof(mi));
 	//mi.cbSize = sizeof(mi);
@@ -256,22 +305,28 @@ int CMPlugin::Load()
 
 	if (opt_ie || opt_miranda || opt_firefox) {
 		Create_Range_List(&range, opt_useProxy, TRUE);
-		if (Match_Range_List(range, NIF_List)) proxy = 1;
+		if (Match_Range_List(range, NIF_List))
+			proxy = 1;
 		Free_Range_List(&range);
 		if (proxy == -1) {
 			Create_Range_List(&range, opt_noProxy, FALSE);
-			if (Match_Range_List(range, NIF_List)) proxy = 0;
+			if (Match_Range_List(range, NIF_List))
+				proxy = 0;
 			Free_Range_List(&range);
 		}
 		if (proxy == -1) {
 			Create_Range_List(&range, opt_useProxy, FALSE);
-			if (Match_Range_List(range, NIF_List)) proxy = 1;
+			if (Match_Range_List(range, NIF_List)) 
+				proxy = 1;
 			Free_Range_List(&range);
 		}
 		if (proxy != -1) {
-			if (opt_miranda && Get_Miranda_Proxy_Status() != proxy) Set_Miranda_Proxy_Status(proxy);
-			if (opt_ie && Get_IE_Proxy_Status() != proxy) Set_IE_Proxy_Status(proxy);
-			if (opt_firefox && Get_Firefox_Proxy_Status() != proxy) Set_Firefox_Proxy_Status(proxy);
+			if (opt_miranda && Get_Miranda_Proxy_Status() != proxy)
+				Set_Miranda_Proxy_Status(proxy);
+			if (opt_ie && Get_IE_Proxy_Status() != proxy)
+				Set_IE_Proxy_Status(proxy);
+			if (opt_firefox && Get_Firefox_Proxy_Status() != proxy)
+				Set_Firefox_Proxy_Status(proxy);
 		}
 	}
 

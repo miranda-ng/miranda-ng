@@ -51,33 +51,33 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 // structure holding network interface description and information
 typedef struct {
-  char *AdapterName;
-  wchar_t *FriendlyName;
-  char *IPstr;
-  LONG *IP;
-  UCHAR IPcount;
-  HGENMENU  MenuItem;
-  BOOL  Bound;
-  BOOL  Disabled;
+	char *AdapterName;
+	wchar_t *FriendlyName;
+	char *IPstr;
+	LONG *IP;
+	UCHAR IPcount;
+	HGENMENU  MenuItem;
+	BOOL  Bound;
+	BOOL  Disabled;
 } NETWORK_INTERFACE, *PNETWORK_INTERFACE;
 
 // list of structures holding network interfaces description and information
 typedef struct {
-  PNETWORK_INTERFACE item;
-  UCHAR count;
+	PNETWORK_INTERFACE item;
+	UCHAR count;
 } NETWORK_INTERFACE_LIST;
 
 // structure holding an information about local end of an active connections
 typedef struct {
-  ULONG  IP;
-  unsigned short Port;
+	ULONG  IP;
+	unsigned short Port;
 } ACTIVE_CONNECTION, *PACTIVE_CONNECTION;
 
 // list of structures holding local end of active connections
 typedef struct {
-  PACTIVE_CONNECTION item;
-  UCHAR count;
-  UCHAR _alloc;
+	PACTIVE_CONNECTION item;
+	UCHAR count;
+	UCHAR _alloc;
 } ACTIVE_CONNECTION_LIST;
 
 
@@ -117,8 +117,8 @@ void SaveSettings(void);
 
 void PopupMyIPAddrs(wchar_t *msg);
 
-int OptInit(WPARAM wParam,LPARAM lParam);
-int Init (WPARAM wParam,LPARAM lParam);
+int OptInit(WPARAM wParam, LPARAM lParam);
+int Init(WPARAM wParam, LPARAM lParam);
 void UpdateInterfacesMenu(void);
 void UpdatePopupMenu(BOOL State);
 
@@ -139,33 +139,33 @@ void UpdatePopupMenu(BOOL State);
 #define CMP_END  3
 
 typedef struct {
-  unsigned char cmpType;
-  union { ULONG loIP; ULONG net;   };
-  union { ULONG hiIP; ULONG mask; };
+	unsigned char cmpType;
+	union { ULONG loIP; ULONG net; };
+	union { ULONG hiIP; ULONG mask; };
 } IP_RANGE, *PIP_RANGE;
 
 typedef struct {
-  PIP_RANGE item;
-  UCHAR count;
+	PIP_RANGE item;
+	UCHAR count;
 } IP_RANGE_LIST;
 
-void IP_WatchDog (void *arg);
+void IP_WatchDog(void *arg);
 
-int Create_NIF_List  (NETWORK_INTERFACE_LIST *list);
-int Create_NIF_List_Ex  (NETWORK_INTERFACE_LIST *list);
-BOOL Compare_NIF_Lists  (NETWORK_INTERFACE_LIST list1, NETWORK_INTERFACE_LIST list2);
-int IncUpdate_NIF_List (NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src);
-wchar_t *Print_NIF_List  (NETWORK_INTERFACE_LIST list, wchar_t *msg);
-wchar_t *Print_NIF  (PNETWORK_INTERFACE nif);
-void Free_NIF  (PNETWORK_INTERFACE nif);
-void Free_NIF_List  (NETWORK_INTERFACE_LIST *list);
+int Create_NIF_List(NETWORK_INTERFACE_LIST *list);
+int Create_NIF_List_Ex(NETWORK_INTERFACE_LIST *list);
+BOOL Compare_NIF_Lists(NETWORK_INTERFACE_LIST list1, NETWORK_INTERFACE_LIST list2);
+int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src);
+wchar_t *Print_NIF_List(NETWORK_INTERFACE_LIST list, wchar_t *msg);
+wchar_t *Print_NIF(PNETWORK_INTERFACE nif);
+void Free_NIF(PNETWORK_INTERFACE nif);
+void Free_NIF_List(NETWORK_INTERFACE_LIST *list);
 
-int Create_Range_List  (IP_RANGE_LIST *list, wchar_t *str, BOOL prioritized );
-int Match_Range_List (IP_RANGE_LIST range, NETWORK_INTERFACE_LIST ip);
-void Free_Range_List  (IP_RANGE_LIST *list);
+int Create_Range_List(IP_RANGE_LIST *list, wchar_t *str, BOOL prioritized);
+int Match_Range_List(IP_RANGE_LIST range, NETWORK_INTERFACE_LIST ip);
+void Free_Range_List(IP_RANGE_LIST *list);
 
-int ManageConnections (WPARAM wParam,LPARAM lParam);
-void UnboundConnections (LONG *OldIP, LONG *NewIP);
+int ManageConnections(WPARAM wParam, LPARAM lParam);
+void UnboundConnections(LONG *OldIP, LONG *NewIP);
 
 /**** Proxy/Connection Modification and Query routines *************************************/
 
@@ -177,36 +177,36 @@ void UnboundConnections (LONG *OldIP, LONG *NewIP);
 #define PROXY_ENABLED    1
 
 typedef struct {
-  char ModuleName[MAXLABELLENGTH];
-  char SettingName[MAXLABELLENGTH];
+	char ModuleName[MAXLABELLENGTH];
+	char SettingName[MAXLABELLENGTH];
 } PROXY_SETTING, *PPROXY_SETTING;
 
 typedef struct {
-  PPROXY_SETTING item;
-  UCHAR count;
-  const char *_current_module;
-  UCHAR _alloc;
+	PPROXY_SETTING item;
+	UCHAR count;
+	const char *_current_module;
+	UCHAR _alloc;
 } PROXY_SETTINGS, *PPROXY_SETTINGS;
 
 typedef struct {
-  char ProtoName[MAXLABELLENGTH];
-  DWORD Status;
+	char ProtoName[MAXLABELLENGTH];
+	DWORD Status;
 } PROTO_SETTING, *PPROTO_SETTING;
 
 typedef struct {
-  PPROTO_SETTING item;
-  UCHAR count;
+	PPROTO_SETTING item;
+	UCHAR count;
 } PROTO_SETTINGS, *PPROTO_SETTINGS;
 
-void Create_Proxy_Settings_List ( PPROXY_SETTINGS ps );
-void Free_Proxy_Settings_List( PPROXY_SETTINGS ps );
-char Get_Miranda_Proxy_Status (void);
-void Set_Miranda_Proxy_Status (char proxy);
-char Get_IE_Proxy_Status (void);
-void Set_IE_Proxy_Status (char proxy);
-char Get_Firefox_Proxy_Status (void);
-void Set_Firefox_Proxy_Status (char proxy);
+void Create_Proxy_Settings_List(PPROXY_SETTINGS ps);
+void Free_Proxy_Settings_List(PPROXY_SETTINGS ps);
+char Get_Miranda_Proxy_Status(void);
+void Set_Miranda_Proxy_Status(char proxy);
+char Get_IE_Proxy_Status(void);
+void Set_IE_Proxy_Status(char proxy);
+char Get_Firefox_Proxy_Status(void);
+void Set_Firefox_Proxy_Status(char proxy);
 char Firefox_Installed(void);
-void Disconnect_All_Protocols (PPROTO_SETTINGS settings, int disconnect);
-void Connect_All_Protocols (PPROTO_SETTINGS settings);
+void Disconnect_All_Protocols(PPROTO_SETTINGS settings, int disconnect);
+void Connect_All_Protocols(PPROTO_SETTINGS settings);
 #endif
