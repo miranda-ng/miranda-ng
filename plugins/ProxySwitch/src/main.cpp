@@ -29,10 +29,10 @@ CMPlugin::CMPlugin() :
 
 HGENMENU hEnableDisablePopupMenu = 0;
 
-OBJLIST<ACTIVE_CONNECTION> g_arConnections(10, PtrKeySortT);
+OBJLIST<ACTIVE_CONNECTION> g_arConnections(10);
 mir_cs csConnection_List;
 
-NETWORK_INTERFACE_LIST NIF_List;
+OBJLIST<NETWORK_INTERFACE> g_arNIF(10);
 mir_cs csNIF_List;
 
 HANDLE hEventRebound = NULL;
@@ -73,13 +73,9 @@ static INT_PTR ShowMyIPAddrs(WPARAM, LPARAM)
 
 void PopupMyIPAddrs(wchar_t *msg)
 {
-	POPUPDATAW ppd;
-	NETWORK_INTERFACE_LIST list;
-
-	ZeroMemory(&ppd, sizeof(ppd));
-
+	OBJLIST<NETWORK_INTERFACE> list(10);
 	if (Create_NIF_List_Ex(&list) >= 0) {
-
+		POPUPDATAW ppd = {};
 		wcsncpy_s(ppd.lpwzText, Print_NIF_List(list, msg), _TRUNCATE);
 
 		if (opt_popupPluginInstalled) {
@@ -93,8 +89,6 @@ void PopupMyIPAddrs(wchar_t *msg)
 		else {
 			MessageBox(NULL, ppd.lpwzText, _A2T(MODULENAME), MB_OK | MB_ICONINFORMATION);
 		}
-
-		Free_NIF_List(&list);
 	}
 }
 
@@ -119,38 +113,34 @@ static INT_PTR ProxyDisable(WPARAM, LPARAM)
 static INT_PTR CopyIP2Clipboard(WPARAM, LPARAM, LPARAM idx)
 {
 	mir_cslock lck(csNIF_List);
-	if (NIF_List.item[idx].IPcount == 0)
+	if (g_arNIF[idx].IPcount == 0)
 		return 0;
 
 	if (!OpenClipboard(NULL))
 		return 0;
 
 	EmptyClipboard();
-	SetClipboardData(CF_UNICODETEXT, (HANDLE)NIF_List.item[idx].IPstr);
+	SetClipboardData(CF_UNICODETEXT, (HANDLE)g_arNIF[idx].IPstr);
 	CloseClipboard();
 	return 0;
 }
 
 void UpdateInterfacesMenu(void)
 {
-	UCHAR idx;
 	CMenuItem mi(g_plugin);
 
 	if (!opt_showProxyIP && !opt_not_restarted)
 		return;
 
 	mir_cslock lck(csNIF_List);
-	for (idx = 0; idx < NIF_List.count; idx++) {
-		if (NIF_List.item[idx].MenuItem) {
-			// set new name and flags
-			//mi.name.w = Print_NIF(&(NIF_List.item[idx]));
-			//if (NIF_List.item[idx].IPcount == 0) mi.flags |= CMIF_GRAYED;
-			//mi.flags |= CMIM_FLAGS | CMIM_NAME;
+	for (auto &it : g_arNIF) {
+		if (it->MenuItem) {
 			// update menu item
-			Menu_ModifyItem(NIF_List.item[idx].MenuItem, Print_NIF(&(NIF_List.item[idx])), INVALID_HANDLE_VALUE, CMIF_GRAYED);
-			//CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)NIF_List.item[idx].MenuItem, (LPARAM)&mi);
+			Menu_ModifyItem(it->MenuItem, Print_NIF(it), INVALID_HANDLE_VALUE, CMIF_GRAYED);
 		}
 		else {
+			int idx = g_arNIF.indexOf(&it);
+			
 			// add a new menu item
 			char svc[60];
 			sprintf(svc, "%s%d", MS_PROXYSWITCH_COPYIP2CLIP, idx);
@@ -160,45 +150,16 @@ void UpdateInterfacesMenu(void)
 			Menu_ConfigureItem(mi.root, MCI_OPT_UID, "68AB766F-09F1-4C4C-9AE1-4135617741C9");
 
 			SET_UID(mi, 0x8295e40d, 0xa262, 0x434b, 0xa4, 0xb3, 0x57, 0x6b, 0xe0, 0xfc, 0x8f, 0x68);
-			mi.name.w = Print_NIF(&(NIF_List.item[idx]));
+			mi.name.w = Print_NIF(it);
 			mi.pszService = svc;
-			//mi.pszPopupName = Translate("Proxy Settings && Interfaces");
-			//mi.popupPosition = 0xC0000000;
-			NIF_List.item[idx].MenuItem = Menu_AddMainMenuItem(&mi);
+			it->MenuItem = Menu_AddMainMenuItem(&mi);
 			// menu cannot be grayed when creating, so we have to do it after that
-			if (NIF_List.item[idx].IPcount == 0) {
-				//ZeroMemory(&mi, sizeof(mi));
-				//mi.cbSize = sizeof(mi);
-				//mi.flags |= CMIF_GRAYED;
-				Menu_ModifyItem(NIF_List.item[idx].MenuItem, Print_NIF(&(NIF_List.item[idx])), INVALID_HANDLE_VALUE, CMIF_GRAYED);
-				//CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)NIF_List.item[idx].MenuItem, (LPARAM)&mi);
-			}
+			if (it->IPcount == 0)
+				Menu_ModifyItem(it->MenuItem, Print_NIF(it), INVALID_HANDLE_VALUE, CMIF_GRAYED);
+
 			// create and register service for this menu item
-			switch (idx) {
-			case 0:
-				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 0);
-				break;
-
-			case 1: 
-				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 1);
-				break;
-
-			case 2: 
-				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 2);
-				break;
-
-			case 3:
-				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 3);
-				break;
-
-			case 4:
-				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 4);
-				break;
-
-			case 5:
-				CreateServiceFunctionParam(svc, CopyIP2Clipboard, 5);
-				break;
-			}
+			if (idx >= 0 && idx < 6)
+				CreateServiceFunctionParam(svc, CopyIP2Clipboard, idx);
 		}
 	}
 }
@@ -253,22 +214,22 @@ int CMPlugin::Load()
 
 	LoadSettings();
 
-	Create_NIF_List_Ex(&NIF_List);
+	Create_NIF_List_Ex(&g_arNIF);
 
 	if (opt_ie || opt_miranda || opt_firefox) {
 		Create_Range_List(&range, opt_useProxy, TRUE);
-		if (Match_Range_List(range, NIF_List))
+		if (Match_Range_List(range, g_arNIF))
 			proxy = 1;
 		Free_Range_List(&range);
 		if (proxy == -1) {
 			Create_Range_List(&range, opt_noProxy, FALSE);
-			if (Match_Range_List(range, NIF_List))
+			if (Match_Range_List(range, g_arNIF))
 				proxy = 0;
 			Free_Range_List(&range);
 		}
 		if (proxy == -1) {
 			Create_Range_List(&range, opt_useProxy, FALSE);
-			if (Match_Range_List(range, NIF_List)) 
+			if (Match_Range_List(range, g_arNIF))
 				proxy = 1;
 			Free_Range_List(&range);
 		}
@@ -365,7 +326,8 @@ int CMPlugin::Unload()
 {
 	if (hEventRebound)
 		CloseHandle(hEventRebound);
+
 	mir_cslock lck(csNIF_List);
-	Free_NIF_List(&NIF_List);
+	g_arNIF.destroy();
 	return 0;
 }

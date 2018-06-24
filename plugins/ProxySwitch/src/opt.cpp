@@ -139,12 +139,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-int OptInit(WPARAM wParam, LPARAM lParam) 
+int OptInit(WPARAM wParam, LPARAM) 
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-
-	//ZeroMemory(&odp,sizeof(odp));
-	//odp.cbSize=sizeof(odp);
 	odp.position = 95600;
 	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);

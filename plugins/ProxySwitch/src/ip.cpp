@@ -7,8 +7,6 @@ the proxy settings of Miranda and Internet Explorer accordingly.
 
 #include "stdafx.h"
 
-wchar_t tempstr[MAX_SECONDLINE];
-
 /* ################################################################################ */
 
 void IP_WatchDog(void*)
@@ -37,13 +35,12 @@ void IP_WatchDog(void*)
 		if (ret == WAIT_IO_COMPLETION && Miranda_IsTerminated())
 			break;
 		if (ret == WAIT_OBJECT_0 || ret == WAIT_TIMEOUT || ret == (WAIT_OBJECT_0 + 1)) {
-			NETWORK_INTERFACE_LIST list;
-
+			NETWORK_INTERFACE_LIST list(10);
 			if (Create_NIF_List_Ex(&list) >= 0) {
 				int change = INCUPD_INTACT;
 
 				mir_cslock lck(csNIF_List);
-				change = IncUpdate_NIF_List(&NIF_List, list);
+				change = IncUpdate_NIF_List(&g_arNIF, list);
 				if (change != INCUPD_INTACT && change != INCUPD_CONN_BIND) {
 					char proxy = -1;
 					int change_Miranda = 0;
@@ -54,19 +51,19 @@ void IP_WatchDog(void*)
 
 					if (proxy == -1) {
 						Create_Range_List(&range, opt_useProxy, TRUE);
-						if (Match_Range_List(range, NIF_List))
+						if (Match_Range_List(range, g_arNIF))
 							proxy = 1;
 						Free_Range_List(&range);
 					}
 					if (proxy == -1) {
 						Create_Range_List(&range, opt_noProxy, FALSE);
-						if (Match_Range_List(range, NIF_List))
+						if (Match_Range_List(range, g_arNIF))
 							proxy = 0;
 						Free_Range_List(&range);
 					}
 					if (proxy == -1) {
 						Create_Range_List(&range, opt_useProxy, FALSE);
-						if (Match_Range_List(range, NIF_List))
+						if (Match_Range_List(range, g_arNIF))
 							proxy = 1;
 						Free_Range_List(&range);
 					}
@@ -109,7 +106,6 @@ void IP_WatchDog(void*)
 						Connect_All_Protocols(&protocols);
 					}
 				}
-				Free_NIF_List(&list);
 			}
 		}
 
@@ -138,19 +134,14 @@ int Create_NIF_List_Ex(NETWORK_INTERFACE_LIST *list)
 	return out < 0 ? -1 : out;
 }
 
-PNETWORK_INTERFACE Find_NIF_IP(NETWORK_INTERFACE_LIST list, const LONG IP)
+NETWORK_INTERFACE* Find_NIF_IP(NETWORK_INTERFACE_LIST &list, const LONG IP)
 {
-	UCHAR idx = 0;
-	UCHAR i;
+	for (auto &it : list)
+		for (int i = 0; i < it->IPcount; i++)
+			if (it->IP[i] == IP)
+				return it;
 
-	while (idx < list.count) {
-		for (i = 0; i < list.item[idx].IPcount; i++) {
-			if (list.item[idx].IP[i] == IP)
-				return &(list.item[idx]);
-		}
-		idx++;
-	}
-	return NULL;
+	return nullptr;
 }
 
 int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
@@ -160,7 +151,6 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	PIP_ADAPTER_ADDRESSES pAddresses, pAddr;
 	ULONG outBufLen;
 	wchar_t *tmp_opt, *intf, *rest, *name;
-	BOOL skip;
 	DWORD out;
 
 	// prepare and load IP_ADAPTER_ADDRESSES
@@ -202,32 +192,25 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 		return -1;
 	}
 
-	ZeroMemory(list, sizeof(NETWORK_INTERFACE_LIST));
+	list->destroy();
 
 	pAdapt = pAdapterInfo;
 	while (pAdapt) {
-
 		// add a new interface into the list
-		list->count++;
-		list->item = (PNETWORK_INTERFACE)mir_realloc(list->item, list->count * sizeof(NETWORK_INTERFACE));
-		PNETWORK_INTERFACE nif = &(list->item[list->count - 1]);
-		ZeroMemory(nif, sizeof(NETWORK_INTERFACE));
+		NETWORK_INTERFACE* nif = new NETWORK_INTERFACE();
 
 		// copy AdapterName
-		nif->AdapterName = (char*)mir_alloc(mir_strlen(pAdapt->AdapterName) + 4);
 		nif->AdapterName = mir_strdup(pAdapt->AdapterName);
 
 		// find its FriendlyName and copy it
 		pAddr = pAddresses;
-		while (pAddr && mir_strcmp(pAddr->AdapterName, pAdapt->AdapterName)) {
+		while (pAddr && mir_strcmp(pAddr->AdapterName, pAdapt->AdapterName))
 			pAddr = pAddr->Next;
-		}
-		if (pAddr) {
-			nif->FriendlyName = (wchar_t*)mir_alloc(wcslen(pAddr->FriendlyName) + 4);
-			nif->FriendlyName = mir_wstrdup(pAddr->FriendlyName);
-		}
 
-		skip = FALSE;
+		if (pAddr)
+			nif->FriendlyName = mir_wstrdup(pAddr->FriendlyName);
+
+		bool skip = false;
 		tmp_opt = intf = rest = mir_wstrdup(opt_hideIntf);
 		while (rest && rest[0] && !skip) {
 			rest = wcschr(rest, ';');
@@ -239,10 +222,10 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 				if (intf[mir_wstrlen(intf) - 1] == '*' && mir_wstrlen(intf) - 1 <= mir_wstrlen(nif->FriendlyName)) {
 					intf[mir_wstrlen(intf) - 1] = 0;
 					name = nif->FriendlyName;
-					skip = TRUE;
+					skip = true;
 					while (intf[0]) {
 						if (intf[0] != name[0]) {
-							skip = FALSE;
+							skip = false;
 							break;
 						}
 						intf++;
@@ -250,7 +233,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 					}
 				}
 				if (mir_wstrcmp(nif->FriendlyName, intf) == 0) {
-					skip = TRUE;
+					skip = true;
 				}
 			}
 			intf = rest;
@@ -258,11 +241,12 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 		mir_free(tmp_opt);
 
 		if (skip) {
-			list->count--;
-			list->item = (PNETWORK_INTERFACE)mir_realloc(list->item, list->count * sizeof(NETWORK_INTERFACE));
+			delete nif;
 			pAdapt = pAdapt->Next;
 			continue;
 		}
+
+		list->insert(nif);
 
 		// get required size for IPstr and IP
 		outBufLen = 0;
@@ -303,7 +287,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 
 	mir_cslock lck(csConnection_List);
 	for (auto &it : g_arConnections) {
-		PNETWORK_INTERFACE nif = Find_NIF_IP(*list, it->IP);
+		NETWORK_INTERFACE* nif = Find_NIF_IP(*list, it->IP);
 		if (nif)
 			nif->Bound = 1;
 	}
@@ -313,87 +297,58 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 
 /* ################################################################################ */
 
-PNETWORK_INTERFACE Find_NIF_AdapterName(NETWORK_INTERFACE_LIST list, const char *AdapterName)
+NETWORK_INTERFACE* Find_NIF_AdapterName(NETWORK_INTERFACE_LIST &list, const char *AdapterName)
 {
-	UCHAR idx = 0;
+	for (auto &it : list)
+		if (mir_strcmp(it->AdapterName, AdapterName) == 0)
+			return it;
 
-	while (idx < list.count) {
-		if (mir_strcmp(list.item[idx].AdapterName, AdapterName) == 0)
-			return &(list.item[idx]);
-		idx++;
-	}
-	return NULL;
+	return nullptr;
 }
 
-PNETWORK_INTERFACE Find_NIF_MenuItem(NETWORK_INTERFACE_LIST list, const HGENMENU MenuItem)
+NETWORK_INTERFACE* Find_NIF_MenuItem(NETWORK_INTERFACE_LIST &list, const HGENMENU MenuItem)
 {
-	UCHAR idx = 0;
+	for (auto &it : list)
+		if (it->MenuItem == MenuItem)
+			return it;
 
-	while (idx < list.count) {
-		if (list.item[idx].MenuItem == MenuItem)
-			return &(list.item[idx]);
-		idx++;
-	}
-	return NULL;
+	return nullptr;
 }
 
 /* ################################################################################ */
 
-BOOL Compare_NIF_Lists(NETWORK_INTERFACE_LIST list1, NETWORK_INTERFACE_LIST list2)
+int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST &src)
 {
-	UCHAR idx = 0;
-
-	if (list1.count != list2.count)
-		return 1;
-
-	while (idx < list1.count) {
-		if (mir_strcmp(list1.item[idx].AdapterName, list2.item[idx].AdapterName))
-			return 1;
-		if (mir_strcmp(list1.item[idx].IPstr, list2.item[idx].IPstr))
-			return 1;
-		if (mir_wstrcmp(list1.item[idx].FriendlyName, list2.item[idx].FriendlyName))
-			return 1;
-		idx++;
-	}
-	return 0;
-}
-
-/* ################################################################################ */
-
-int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src)
-{
-	UCHAR idx;
-	PNETWORK_INTERFACE nif;
 	int change = INCUPD_INTACT;
 
-	for (idx = 0; idx < src.count; idx++) {
-		nif = Find_NIF_AdapterName(*trg, src.item[idx].AdapterName);
+	for (auto &it : src) {
+		NETWORK_INTERFACE *nif = Find_NIF_AdapterName(*trg, it->AdapterName);
 		if (nif) {
 			if (nif->Disabled)
 				nif->Disabled = 0;
-			if (mir_strcmp(NVL(nif->IPstr), NVL(src.item[idx].IPstr))) {
+			if (mir_strcmp(NVL(nif->IPstr), NVL(it->IPstr))) {
 				if (nif->IPstr)
 					mir_free(nif->IPstr);
-				nif->IPstr = src.item[idx].IPstr ? mir_strdup(src.item[idx].IPstr) : NULL;
+				nif->IPstr = it->IPstr ? mir_strdup(it->IPstr) : NULL;
 				INCUPD(change, INCUPD_UPDATED);
 			}
-			if (mir_wstrcmp(NVLW(nif->FriendlyName), NVLW(src.item[idx].FriendlyName))) {
+			if (mir_wstrcmp(NVLW(nif->FriendlyName), NVLW(it->FriendlyName))) {
 				if (nif->FriendlyName)
 					mir_free(nif->FriendlyName);
-				nif->FriendlyName = src.item[idx].FriendlyName ? mir_wstrdup(src.item[idx].FriendlyName) : NULL;
+				nif->FriendlyName = it->FriendlyName ? mir_wstrdup(it->FriendlyName) : NULL;
 				INCUPD(change, INCUPD_UPDATED);
 			}
-			if (nif->IPcount != src.item[idx].IPcount) {
-				if (nif->IPcount > src.item[idx].IPcount && nif->Bound) {
+			if (nif->IPcount != it->IPcount) {
+				if (nif->IPcount > it->IPcount && nif->Bound) {
 					INCUPD(change, INCUPD_CONN_LOST);
-					UnboundConnections(nif->IP, src.item[idx].IP);
+					UnboundConnections(nif->IP, it->IP);
 				}
-				nif->IPcount = src.item[idx].IPcount;
+				nif->IPcount = it->IPcount;
 				if (nif->IP)
 					mir_free(nif->IP);
-				if (src.item[idx].IP) {
+				if (it->IP) {
 					nif->IP = (LONG*)mir_alloc((nif->IPcount + 1) * sizeof(LONG));
-					memcpy(nif->IP, src.item[idx].IP, (nif->IPcount + 1) * sizeof(LONG));
+					memcpy(nif->IP, it->IP, (nif->IPcount + 1) * sizeof(LONG));
 				}
 				else {
 					nif->IP = NULL;
@@ -401,56 +356,56 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src)
 				INCUPD(change, INCUPD_UPDATED);
 			}
 			else {
-				if (nif->IPcount > 0 && memcmp(nif->IP, src.item[idx].IP, nif->IPcount * sizeof(LONG))) {
+				if (nif->IPcount > 0 && memcmp(nif->IP, it->IP, nif->IPcount * sizeof(LONG))) {
 					mir_free(nif->IP);
 					nif->IP = (LONG*)mir_alloc((nif->IPcount + 1) * sizeof(LONG));
-					memcpy(nif->IP, src.item[idx].IP, (nif->IPcount + 1) * sizeof(LONG));
+					memcpy(nif->IP, it->IP, (nif->IPcount + 1) * sizeof(LONG));
 					INCUPD(change, INCUPD_UPDATED);
 				}
 			}
-			if (nif->Bound != src.item[idx].Bound) {
-				nif->Bound = src.item[idx].Bound;
+			if (nif->Bound != it->Bound) {
+				nif->Bound = it->Bound;
 				INCUPD(change, INCUPD_CONN_BIND);
 			}
 		}
 		else {
-			trg->count++;
-			trg->item = (PNETWORK_INTERFACE)mir_realloc(trg->item, trg->count * sizeof(NETWORK_INTERFACE));
-			nif = &(trg->item[trg->count - 1]);
-			ZeroMemory(nif, sizeof(NETWORK_INTERFACE));
-			nif->AdapterName = src.item[idx].AdapterName ? mir_strdup(src.item[idx].AdapterName) : NULL;
-			nif->FriendlyName = src.item[idx].FriendlyName ? mir_wstrdup(src.item[idx].FriendlyName) : NULL;
-			nif->IPstr = src.item[idx].IPstr ? strdup(src.item[idx].IPstr) : NULL;
-			nif->IPcount = src.item[idx].IPcount;
-			nif->Bound = src.item[idx].Bound;
+			nif = new NETWORK_INTERFACE();
+			nif->AdapterName = it->AdapterName ? mir_strdup(it->AdapterName) : NULL;
+			nif->FriendlyName = it->FriendlyName ? mir_wstrdup(it->FriendlyName) : NULL;
+			nif->IPstr = it->IPstr ? strdup(it->IPstr) : NULL;
+			nif->IPcount = it->IPcount;
+			nif->Bound = it->Bound;
 			if (nif->IPcount > 0) {
 				nif->IP = (LONG*)mir_alloc((nif->IPcount + 1) * sizeof(LONG));
-				memcpy(nif->IP, src.item[idx].IP, (nif->IPcount + 1) * sizeof(LONG));
+				memcpy(nif->IP, it->IP, (nif->IPcount + 1) * sizeof(LONG));
 			}
+			trg->insert(nif);
 			INCUPD(change, INCUPD_UPDATED);
 		}
 	}
-	for (idx = 0; idx < trg->count; idx++) {
-		if (trg->item[idx].Disabled)
+	
+	for (auto *it : *trg) {
+		if (it->Disabled)
 			continue;
-		nif = Find_NIF_AdapterName(src, trg->item[idx].AdapterName);
+		
+		NETWORK_INTERFACE *nif = Find_NIF_AdapterName(src, it->AdapterName);
 		if (!nif) {
-			if (trg->item[idx].Bound) {
+			if (it->Bound) {
 				INCUPD(change, INCUPD_CONN_LOST);
-				UnboundConnections(trg->item[idx].IP, NULL);
+				UnboundConnections(it->IP, NULL);
 			}
 			else {
 				INCUPD(change, INCUPD_UPDATED);
 			}
-			if (trg->item[idx].IPstr)
-				mir_free(trg->item[idx].IPstr);
-			if (trg->item[idx].IP)
-				mir_free(trg->item[idx].IP);
-			trg->item[idx].IPstr = NULL;
-			trg->item[idx].IPcount = 0;
-			trg->item[idx].IP = NULL;
-			trg->item[idx].Bound = FALSE;
-			trg->item[idx].Disabled = 1;
+			if (it->IPstr)
+				mir_free(it->IPstr);
+			if (it->IP)
+				mir_free(it->IP);
+			it->IPstr = NULL;
+			it->IPcount = 0;
+			it->IP = NULL;
+			it->Bound = FALSE;
+			it->Disabled = 1;
 		}
 	}
 	return change;
@@ -458,58 +413,29 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src)
 
 /* ################################################################################ */
 
-wchar_t *Print_NIF(PNETWORK_INTERFACE nif)
+static CMStringW wszTemp;
+
+wchar_t* Print_NIF(NETWORK_INTERFACE* nif)
 {
-	ZeroMemory(tempstr, sizeof(tempstr));
-	mir_snwprintf(tempstr, L"%s:\t%s", nif->FriendlyName, nif->IPstr ? _A2T(nif->IPstr) : TranslateT("disconnected"));
-	return tempstr;
+	wszTemp.Format(L"%s:\t%s", nif->FriendlyName, nif->IPstr ? _A2T(nif->IPstr) : TranslateT("disconnected"));
+	return wszTemp.GetBuffer();
 }
 
-wchar_t *Print_NIF_List(NETWORK_INTERFACE_LIST list, wchar_t *msg)
+wchar_t* Print_NIF_List(NETWORK_INTERFACE_LIST &list, wchar_t *msg)
 {
-	UCHAR idx;
-	int pos = 0;
-
-	ZeroMemory(tempstr, sizeof(tempstr));
-	for (idx = 0; idx < list.count; idx++) {
-		pos += mir_snwprintf(tempstr + pos, _countof(tempstr), L"%s:\t%s%s%s\n",
-			list.item[idx].FriendlyName,
-			list.item[idx].Bound ? L"[u]" : L"",
-			list.item[idx].IPstr ? _A2T(list.item[idx].IPstr) : TranslateT("disconnected"),
-			list.item[idx].Bound ? L"[/u]" : L""
+	wszTemp = L"";
+	for (auto &it : list) {
+		wszTemp.AppendFormat(L"%s:\t%s%s%s\n",
+			it->FriendlyName,
+			it->Bound ? L"[u]" : L"",
+			it->IPstr ? _A2T(it->IPstr) : TranslateT("disconnected"),
+			it->Bound ? L"[/u]" : L""
 		);
 	}
+
 	if (msg)
-		mir_wstrcat(tempstr, msg);
-	else
-		tempstr[mir_wstrlen(tempstr) - 1] = 0;
-	return tempstr;
-}
-
-/* ################################################################################ */
-
-void Free_NIF(PNETWORK_INTERFACE nif)
-{
-	if (nif->AdapterName)
-		mir_free(nif->AdapterName);
-	if (nif->FriendlyName)
-		mir_free(nif->FriendlyName);
-	if (nif->IPstr)
-		mir_free(nif->IPstr);
-	if (nif->IP)
-		mir_free(nif->IP);
-	ZeroMemory(nif, sizeof(NETWORK_INTERFACE));
-}
-
-void Free_NIF_List(NETWORK_INTERFACE_LIST *list)
-{
-	UCHAR idx;
-
-	for (idx = 0; idx < list->count; idx++) {
-		Free_NIF(&(list->item[idx]));
-	}
-	mir_free(list->item);
-	ZeroMemory(list, sizeof(NETWORK_INTERFACE_LIST));
+		wszTemp.Append(msg);
+	return wszTemp.GetBuffer();
 }
 
 /* ################################################################################ */
@@ -646,25 +572,20 @@ int Create_Range_List(IP_RANGE_LIST *list, wchar_t *str, BOOL prioritized)
 	return 0;
 }
 
-int Match_Range_List(IP_RANGE_LIST range, NETWORK_INTERFACE_LIST nif)
+int Match_Range_List(IP_RANGE_LIST range, OBJLIST<NETWORK_INTERFACE> &nif)
 {
-	PIP_RANGE rng;
-	UCHAR idx;
-	ULONG *ip;
-
-	if (range.count == 0 || nif.count == 0)
+	if (range.count == 0 || nif.getCount() == 0)
 		return 0;
 
-	rng = range.item;
+	PIP_RANGE rng = range.item;
 	while (rng->cmpType != CMP_END) {
-
 		switch (rng->cmpType) {
 		case CMP_SKIP:
 			break;
 
 		case CMP_MASK:
-			for (idx = 0; idx < nif.count; idx++) {
-				ip = (ULONG *)nif.item[idx].IP;
+			for (auto &it : nif) {
+				ULONG *ip = (ULONG *)it->IP;
 				while (ip && *ip) {
 					if ((ULONG)(*ip & rng->mask) == rng->net)
 						return 1;
@@ -674,8 +595,8 @@ int Match_Range_List(IP_RANGE_LIST range, NETWORK_INTERFACE_LIST nif)
 			break;
 
 		case CMP_SPAN:
-			for (idx = 0; idx < nif.count; idx++) {
-				ip = (ULONG *)nif.item[idx].IP;
+			for (auto &it : nif) {
+				ULONG *ip = (ULONG *)it->IP;
 				while (ip && *ip) {
 					if ((NETORDER(rng->loIP) <= NETORDER(*ip)) && (NETORDER(*ip) <= NETORDER(rng->hiIP)))
 						return 1;

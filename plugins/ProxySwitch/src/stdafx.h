@@ -50,22 +50,26 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 /**** Types ********************************************************************************/
 
 // structure holding network interface description and information
-typedef struct {
-	char *AdapterName;
-	wchar_t *FriendlyName;
-	char *IPstr;
+struct NETWORK_INTERFACE : public MZeroedObject
+{
+	~NETWORK_INTERFACE()
+	{
+		mir_free(IP);
+	}
+
+	ptrA  AdapterName;
+	ptrW  FriendlyName;
+	ptrA  IPstr;
 	LONG *IP;
 	UCHAR IPcount;
-	HGENMENU  MenuItem;
-	BOOL  Bound;
-	BOOL  Disabled;
-} NETWORK_INTERFACE, *PNETWORK_INTERFACE;
+	HGENMENU MenuItem;
+	bool  Bound, Disabled;
+};
 
-// list of structures holding network interfaces description and information
-typedef struct {
-	PNETWORK_INTERFACE item;
-	UCHAR count;
-} NETWORK_INTERFACE_LIST;
+typedef OBJLIST<NETWORK_INTERFACE> NETWORK_INTERFACE_LIST;
+
+extern NETWORK_INTERFACE_LIST g_arNIF;
+extern mir_cs csNIF_List;
 
 // structure holding an information about local end of an active connections
 struct ACTIVE_CONNECTION
@@ -80,12 +84,10 @@ struct ACTIVE_CONNECTION
 };
 
 extern OBJLIST<ACTIVE_CONNECTION> g_arConnections;
+extern mir_cs csConnection_List;
 
 /**** Global variables *********************************************************************/
 
-extern NETWORK_INTERFACE_LIST NIF_List;
-extern mir_cs csNIF_List;
-extern mir_cs csConnection_List;
 extern HANDLE hEventRebound;
 
 /**** Options ******************************************************************************/
@@ -152,15 +154,12 @@ void IP_WatchDog(void *arg);
 
 int Create_NIF_List(NETWORK_INTERFACE_LIST *list);
 int Create_NIF_List_Ex(NETWORK_INTERFACE_LIST *list);
-BOOL Compare_NIF_Lists(NETWORK_INTERFACE_LIST list1, NETWORK_INTERFACE_LIST list2);
-int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src);
-wchar_t *Print_NIF_List(NETWORK_INTERFACE_LIST list, wchar_t *msg);
-wchar_t *Print_NIF(PNETWORK_INTERFACE nif);
-void Free_NIF(PNETWORK_INTERFACE nif);
-void Free_NIF_List(NETWORK_INTERFACE_LIST *list);
+int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST &src);
+wchar_t *Print_NIF_List(NETWORK_INTERFACE_LIST &list, wchar_t *msg);
+wchar_t *Print_NIF(NETWORK_INTERFACE *nif);
 
 int Create_Range_List(IP_RANGE_LIST *list, wchar_t *str, BOOL prioritized);
-int Match_Range_List(IP_RANGE_LIST range, NETWORK_INTERFACE_LIST ip);
+int Match_Range_List(IP_RANGE_LIST range, NETWORK_INTERFACE_LIST &ip);
 void Free_Range_List(IP_RANGE_LIST *list);
 
 int ManageConnections(WPARAM wParam, LPARAM lParam);
