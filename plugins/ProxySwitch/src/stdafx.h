@@ -116,7 +116,7 @@ void SaveSettings(void);
 
 /**** Service & Event handlers *************************************************************/
 
-void PopupMyIPAddrs(wchar_t *msg);
+void PopupMyIPAddrs(const wchar_t *msg);
 
 int OptInit(WPARAM wParam, LPARAM lParam);
 int Init(WPARAM wParam, LPARAM lParam);
@@ -155,7 +155,7 @@ void IP_WatchDog(void *arg);
 int Create_NIF_List(NETWORK_INTERFACE_LIST *list);
 int Create_NIF_List_Ex(NETWORK_INTERFACE_LIST *list);
 int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST &src);
-wchar_t *Print_NIF_List(NETWORK_INTERFACE_LIST &list, wchar_t *msg);
+wchar_t *Print_NIF_List(NETWORK_INTERFACE_LIST &list, const wchar_t *msg);
 wchar_t *Print_NIF(NETWORK_INTERFACE *nif);
 
 int Create_Range_List(IP_RANGE_LIST *list, wchar_t *str, BOOL prioritized);

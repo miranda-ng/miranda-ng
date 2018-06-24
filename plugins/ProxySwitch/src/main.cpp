@@ -71,7 +71,7 @@ static INT_PTR ShowMyIPAddrs(WPARAM, LPARAM)
 	return 0;
 }
 
-void PopupMyIPAddrs(wchar_t *msg)
+void PopupMyIPAddrs(const wchar_t *msg)
 {
 	OBJLIST<NETWORK_INTERFACE> list(10);
 	if (Create_NIF_List_Ex(&list) >= 0) {

@@ -12,15 +12,11 @@ the proxy settings of Miranda and Internet Explorer accordingly.
 void IP_WatchDog(void*)
 {
 	OVERLAPPED overlap;
-	DWORD ret;
-	wchar_t msg[300];
-	HANDLE event_list[2];
-	HANDLE hand = WSACreateEvent();
-	overlap.hEvent = WSACreateEvent();
+	overlap.hEvent = CreateEvent(0, TRUE, FALSE, 0);
 
-	for (;;) {
-
-		ret = NotifyAddrChange(&hand, &overlap);
+	while (true) {
+		HANDLE hResult;
+		DWORD ret = NotifyAddrChange(&hResult, &overlap);
 		if (ret != NO_ERROR && WSAGetLastError() != WSA_IO_PENDING) {
 			wchar_t err[100];
 			mir_snwprintf(err, L"NotifyAddrChange Error: %d/nRestart Miranda NG to restore IP monitor.", WSAGetLastError());
@@ -28,6 +24,7 @@ void IP_WatchDog(void*)
 			break;
 		}
 
+		HANDLE event_list[2];
 		event_list[0] = overlap.hEvent;
 		event_list[1] = hEventRebound;
 
@@ -77,21 +74,20 @@ void IP_WatchDog(void*)
 					if (opt_alwayReconnect)
 						reset_Miranda = 1;
 
-					mir_wstrcpy(msg, L"");
-					if (opt_showProxyState && change_Miranda) {
-						mir_wstrcat(msg, TranslateT("\nMiranda	"));
-						mir_wstrcat(msg, proxy ? TranslateT("Proxy") : TranslateT("Direct"));
-					}
-					if (opt_showProxyState && change_IE) {
-						mir_wstrcat(msg, TranslateT("\nExplorer	"));
-						mir_wstrcat(msg, proxy ? TranslateT("Proxy") : TranslateT("Direct"));
-					}
-					if (opt_showProxyState && change_Firefox) {
-						mir_wstrcat(msg, TranslateT("\nFirefox	"));
-						mir_wstrcat(msg, proxy ? TranslateT("Proxy") : TranslateT("Direct"));
+					const wchar_t *wszProxy = proxy ? TranslateT("Proxy") : TranslateT("Direct");
+					CMStringW msg;
+					if (opt_showProxyState) {
+						if (change_Miranda)
+							msg.AppendFormat(L"\n%s\t%s", TranslateT("Miranda"), wszProxy);
+
+						if (change_IE)
+							msg.AppendFormat(L"\n%s\t%s", TranslateT("Miranda"), wszProxy);
+
+						if (change_Firefox)
+							msg.AppendFormat(L"\n%s\t%s", TranslateT("Miranda"), wszProxy);
 					}
 					UpdateInterfacesMenu();
-					PopupMyIPAddrs(mir_wstrlen(msg) ? msg : NULL);
+					PopupMyIPAddrs(msg.IsEmpty() ? nullptr : msg.c_str());
 
 					if (change_IE)
 						Set_IE_Proxy_Status(proxy);
@@ -110,12 +106,10 @@ void IP_WatchDog(void*)
 		}
 
 		ResetEvent(hEventRebound);
-		WSAResetEvent(hand);
-		WSAResetEvent(overlap.hEvent);
+		ResetEvent(overlap.hEvent);
 	}
 
-	WSACloseEvent(hand);
-	WSACloseEvent(overlap.hEvent);
+	CloseHandle(overlap.hEvent);
 }
 
 /* ################################################################################ */
@@ -421,7 +415,7 @@ wchar_t* Print_NIF(NETWORK_INTERFACE* nif)
 	return wszTemp.GetBuffer();
 }
 
-wchar_t* Print_NIF_List(NETWORK_INTERFACE_LIST &list, wchar_t *msg)
+wchar_t* Print_NIF_List(NETWORK_INTERFACE_LIST &list, const wchar_t *msg)
 {
 	wszTemp = L"";
 	for (auto &it : list) {
