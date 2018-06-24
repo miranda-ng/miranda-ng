@@ -13,7 +13,7 @@ int Enum_Settings(const char *szSetting, LPARAM lParam)
 {
 	PPROXY_SETTINGS ps = (PPROXY_SETTINGS)lParam;
 
-	if (strcmp(szSetting, "NLUseProxy") != 0 && stricmp(szSetting, "useproxy") != 0)
+	if (mir_strcmp(szSetting, "NLUseProxy") != 0 && mir_strcmpi(szSetting, "useproxy") != 0)
 		return 0;
 
 	if (ps->count >= ps->_alloc) {
@@ -21,8 +21,8 @@ int Enum_Settings(const char *szSetting, LPARAM lParam)
 		ps->item = (PPROXY_SETTING)mir_realloc(ps->item, ps->_alloc * sizeof(PROXY_SETTING));
 		ZeroMemory(&(ps->item[ps->count]), 10 * sizeof(PROXY_SETTING));
 	}
-	strncpy(ps->item[ps->count].ModuleName, ps->_current_module, MAXLABELLENGTH - 1);
-	strncpy(ps->item[ps->count].SettingName, szSetting, MAXLABELLENGTH - 1);
+	mir_strncpy(ps->item[ps->count].ModuleName, ps->_current_module, MAXLABELLENGTH - 1);
+	mir_strncpy(ps->item[ps->count].SettingName, szSetting, MAXLABELLENGTH - 1);
 	ps->count++;
 
 	return 0;
@@ -67,7 +67,7 @@ void Create_Proxy_Settings_List(PPROXY_SETTINGS ps)
 void Free_Proxy_Settings_List(PPROXY_SETTINGS ps) 
 {
 	if (ps->item)
-		free(ps->item);
+		mir_free(ps->item);
 	ZeroMemory(ps, sizeof(PROXY_SETTINGS));
 }
 
@@ -334,6 +334,6 @@ void Connect_All_Protocols(PPROTO_SETTINGS settings)
 	for (i = 0; i < settings->count; i++) {
 		CallProtoService(settings->item[i].ProtoName, PS_SETSTATUS, settings->item[i].Status, 0);
 	}
-	free(settings->item);
+	mir_free(settings->item);
 	ZeroMemory(settings, sizeof(PROTO_SETTINGS));
 }

@@ -208,13 +208,13 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	// prepare and load IP_ADAPTER_ADDRESSES
 	outBufLen = 0;
 	if (GetAdaptersAddresses(AF_INET, 0, NULL, NULL, &outBufLen) == ERROR_BUFFER_OVERFLOW) {
-		pAddresses = (PIP_ADAPTER_ADDRESSES)malloc(outBufLen);
+		pAddresses = (PIP_ADAPTER_ADDRESSES)mir_alloc(outBufLen);
 		if (pAddresses == NULL) {
 			ERRORMSG(TranslateT("Cannot allocate memory for pAddresses"));
 			return -1;
 		}
 		if ((out = GetAdaptersAddresses(AF_INET, 0, NULL, pAddresses, &outBufLen)) != ERROR_SUCCESS) {
-			free(pAddresses);
+			mir_free(pAddresses);
 			return -2;
 		}
 	}
@@ -226,21 +226,21 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	// prepare and load IP_ADAPTER_INFO
 	outBufLen = 0;
 	if (GetAdaptersInfo(NULL, &outBufLen) == ERROR_BUFFER_OVERFLOW) {
-		pAdapterInfo = (PIP_ADAPTER_INFO)malloc(outBufLen);
+		pAdapterInfo = (PIP_ADAPTER_INFO)mir_alloc(outBufLen);
 		if (pAdapterInfo == NULL) {
 			ERRORMSG(TranslateT("Cannot allocate memory for pAdapterInfo"));
-			free(pAddresses);
+			mir_free(pAddresses);
 			return -1;
 		}
 		if (GetAdaptersInfo(pAdapterInfo, &outBufLen) != NO_ERROR) {
-			free(pAdapterInfo);
-			free(pAddresses);
+			mir_free(pAdapterInfo);
+			mir_free(pAddresses);
 			return -2;
 		}
 	}
 	else {
 		ERRORMSG(TranslateT("GetAdaptersInfo sizing failed"));
-		free(pAddresses);
+		mir_free(pAddresses);
 		return -1;
 	}
 
@@ -297,7 +297,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 			}
 			intf = rest;
 		}
-		free(tmp_opt);
+		mir_free(tmp_opt);
 
 		if (skip) {
 			list->count--;
@@ -310,7 +310,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 		outBufLen = 0;
 		pAddrStr = &(pAdapt->IpAddressList);
 		while (pAddrStr) {
-			if (strcmp("0.0.0.0", pAddrStr->IpAddress.String)) {
+			if (mir_strcmp("0.0.0.0", pAddrStr->IpAddress.String)) {
 				nif->IPcount++; // count IP addresses
 				outBufLen += strlen(pAddrStr->IpAddress.String); // count length of IPstr
 			}
@@ -321,27 +321,27 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 		// create IPstr and IP
 		if (nif->IPcount) {
 			nif->IPstr = (char*)mir_alloc(outBufLen + 4);
-			strcpy(nif->IPstr, "");
+			mir_strcpy(nif->IPstr, "");
 			nif->IP = (LONG*)mir_alloc((nif->IPcount + 1) * sizeof(LONG));
 			outBufLen = 0;
 			pAddrStr = &(pAdapt->IpAddressList);
 			while (pAddrStr) {
-				if (strcmp("0.0.0.0", pAddrStr->IpAddress.String)) {
-					strcat(nif->IPstr, pAddrStr->IpAddress.String);
+				if (mir_strcmp("0.0.0.0", pAddrStr->IpAddress.String)) {
+					mir_strcat(nif->IPstr, pAddrStr->IpAddress.String);
 					nif->IP[outBufLen] = inet_addr(pAddrStr->IpAddress.String);
 					outBufLen++;
 				}
 				pAddrStr = pAddrStr->Next;
 				if (pAddrStr)
-					strcat(nif->IPstr, ", ");
+					mir_strcat(nif->IPstr, ", ");
 			}
 			nif->IP[outBufLen] = 0L;
 		}
 		pAdapt = pAdapt->Next;
 	}
 
-	free(pAdapterInfo);
-	free(pAddresses);
+	mir_free(pAdapterInfo);
+	mir_free(pAddresses);
 
 	EnterCriticalSection(&csConnection_List);
 	for (idx = 0; idx < Connection_List.count; idx++) {
@@ -362,7 +362,7 @@ PNETWORK_INTERFACE Find_NIF_AdapterName(NETWORK_INTERFACE_LIST list, const char 
 	UCHAR idx = 0;
 
 	while (idx < list.count) {
-		if (strcmp(list.item[idx].AdapterName, AdapterName) == 0)
+		if (mir_strcmp(list.item[idx].AdapterName, AdapterName) == 0)
 			return &(list.item[idx]);
 		idx++;
 	}
@@ -415,15 +415,15 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src)
 		if (nif) {
 			if (nif->Disabled)
 				nif->Disabled = 0;
-			if (strcmp(NVL(nif->IPstr), NVL(src.item[idx].IPstr))) {
+			if (mir_strcmp(NVL(nif->IPstr), NVL(src.item[idx].IPstr))) {
 				if (nif->IPstr)
-					free(nif->IPstr);
+					mir_free(nif->IPstr);
 				nif->IPstr = src.item[idx].IPstr ? mir_strdup(src.item[idx].IPstr) : NULL;
 				INCUPD(change, INCUPD_UPDATED);
 			}
 			if (mir_wstrcmp(NVLW(nif->FriendlyName), NVLW(src.item[idx].FriendlyName))) {
 				if (nif->FriendlyName)
-					free(nif->FriendlyName);
+					mir_free(nif->FriendlyName);
 				nif->FriendlyName = src.item[idx].FriendlyName ? mir_wstrdup(src.item[idx].FriendlyName) : NULL;
 				INCUPD(change, INCUPD_UPDATED);
 			}
@@ -434,7 +434,7 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src)
 				}
 				nif->IPcount = src.item[idx].IPcount;
 				if (nif->IP)
-					free(nif->IP);
+					mir_free(nif->IP);
 				if (src.item[idx].IP) {
 					nif->IP = (LONG*)mir_alloc((nif->IPcount + 1) * sizeof(LONG));
 					memcpy(nif->IP, src.item[idx].IP, (nif->IPcount + 1) * sizeof(LONG));
@@ -446,7 +446,7 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src)
 			}
 			else {
 				if (nif->IPcount > 0 && memcmp(nif->IP, src.item[idx].IP, nif->IPcount * sizeof(LONG))) {
-					free(nif->IP);
+					mir_free(nif->IP);
 					nif->IP = (LONG*)mir_alloc((nif->IPcount + 1) * sizeof(LONG));
 					memcpy(nif->IP, src.item[idx].IP, (nif->IPcount + 1) * sizeof(LONG));
 					INCUPD(change, INCUPD_UPDATED);
@@ -487,9 +487,9 @@ int IncUpdate_NIF_List(NETWORK_INTERFACE_LIST *trg, NETWORK_INTERFACE_LIST src)
 				INCUPD(change, INCUPD_UPDATED);
 			}
 			if (trg->item[idx].IPstr)
-				free(trg->item[idx].IPstr);
+				mir_free(trg->item[idx].IPstr);
 			if (trg->item[idx].IP)
-				free(trg->item[idx].IP);
+				mir_free(trg->item[idx].IP);
 			trg->item[idx].IPstr = NULL;
 			trg->item[idx].IPcount = 0;
 			trg->item[idx].IP = NULL;
@@ -535,13 +535,13 @@ wchar_t *Print_NIF_List(NETWORK_INTERFACE_LIST list, wchar_t *msg)
 void Free_NIF(PNETWORK_INTERFACE nif)
 {
 	if (nif->AdapterName)
-		free(nif->AdapterName);
+		mir_free(nif->AdapterName);
 	if (nif->FriendlyName)
-		free(nif->FriendlyName);
+		mir_free(nif->FriendlyName);
 	if (nif->IPstr)
-		free(nif->IPstr);
+		mir_free(nif->IPstr);
 	if (nif->IP)
-		free(nif->IP);
+		mir_free(nif->IP);
 	ZeroMemory(nif, sizeof(NETWORK_INTERFACE));
 }
 
@@ -552,7 +552,7 @@ void Free_NIF_List(NETWORK_INTERFACE_LIST *list)
 	for (idx = 0; idx < list->count; idx++) {
 		Free_NIF(&(list->item[idx]));
 	}
-	free(list->item);
+	mir_free(list->item);
 	ZeroMemory(list, sizeof(NETWORK_INTERFACE_LIST));
 }
 
@@ -685,7 +685,7 @@ int Create_Range_List(IP_RANGE_LIST *list, wchar_t *str, BOOL prioritized)
 	ZeroMemory(&(list->item[idx]), sizeof(IP_RANGE));
 	list->item[idx].cmpType = CMP_END;
 
-	free(tmp);
+	mir_free(tmp);
 
 	return 0;
 }
@@ -737,7 +737,7 @@ int Match_Range_List(IP_RANGE_LIST range, NETWORK_INTERFACE_LIST nif)
 void Free_Range_List(IP_RANGE_LIST *list)
 {
 	if (list->item)
-		free(list->item);
+		mir_free(list->item);
 	ZeroMemory(list, sizeof(IP_RANGE_LIST));
 }
 

@@ -161,19 +161,19 @@ void LoadSettings(void)
 {
 	DBVARIANT dbv;
 	if (db_get(NULL, MODULENAME, "UseProxyIPNets", &dbv))
-		lstrcpy(opt_useProxy, L"");
+		mir_wstrcpy(opt_useProxy, L"");
 	else
-		lstrcpy(opt_useProxy, dbv.pwszVal);
+		mir_wstrcpy(opt_useProxy, dbv.pwszVal);
 	db_free(&dbv);
 	if (db_get(NULL, MODULENAME, "NoProxyIPNets", &dbv))
-		lstrcpy(opt_noProxy, L"");
+		mir_wstrcpy(opt_noProxy, L"");
 	else
-		lstrcpy(opt_noProxy, dbv.pwszVal);
+		mir_wstrcpy(opt_noProxy, dbv.pwszVal);
 	db_free(&dbv);
 	if (db_get(NULL, MODULENAME, "HideInterfaces", &dbv))
-		lstrcpy(opt_hideIntf, L"");
+		mir_wstrcpy(opt_hideIntf, L"");
 	else
-		lstrcpy(opt_hideIntf, dbv.pwszVal);
+		mir_wstrcpy(opt_hideIntf, dbv.pwszVal);
 	db_free(&dbv);
 	opt_miranda = db_get_b(NULL, MODULENAME, "ManageMirandaProxy", TRUE);
 	opt_ie = db_get_b(NULL, MODULENAME, "ManageIEProxy", FALSE);
