@@ -1,9 +1,0 @@
-#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
-;============================================================
-;  File: SmileyAdd.dll
-;  Plugin: SmileyAdd
-;  Version: 0.2.3.17
-;  Authors: Peacow, nightwish, bid, borkra
-;============================================================
-[All files]
-모든 파일

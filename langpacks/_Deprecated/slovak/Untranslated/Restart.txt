@@ -1,2 +1,0 @@
-[Restart]
-[Restart Plugin]

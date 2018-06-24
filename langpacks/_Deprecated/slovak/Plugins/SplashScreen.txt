@@ -1,9 +1,0 @@
-#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
-;============================================================
-;  File: SplashScreen.dll
-;  Plugin: Splash screen
-;  Version: 0.1.2.3
-;  Authors: nullbie, Thief
-;============================================================
-[Shows a splash at Miranda startup.]
-Zobrazí okno s logom pri spustení Mirandy.
