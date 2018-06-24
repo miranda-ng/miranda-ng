@@ -790,7 +790,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		size = sizeof(SOCKADDR_IN);
 		getpeername(nlc->s, (SOCKADDR *)&ncei.remote, &size);
 	}
-	NotifyEventHooks(hEventConnected, (WPARAM)&ncei, 0);
+	NotifyFastHook(hEventConnected, (WPARAM)&ncei, 0);
 
 	if (NLOCF_SSL & nloc->flags)
 		return Netlib_StartSsl(nlc, nullptr) != 0;

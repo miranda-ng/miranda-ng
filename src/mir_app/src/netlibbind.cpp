@@ -119,7 +119,7 @@ int NetlibFreeBoundPort(NetlibBoundPort *nlbp)
 	ncei.szSettingsModule = nlbp->nlu->user.szSettingsModule;
 	int size = sizeof(SOCKADDR_IN);
 	getsockname(nlbp->s, (SOCKADDR *)&ncei.local, &size);
-	NotifyEventHooks(hEventDisconnected, (WPARAM)&ncei, 0);
+	NotifyFastHook(hEventDisconnected, (WPARAM)&ncei, 0);
 
 	nlbp->close();
 	if (nlbp->hThread)
@@ -298,7 +298,7 @@ LBL_Error:
 	ncei.listening = 1;
 	ncei.szSettingsModule = nlu->user.szSettingsModule;
 	memcpy(&ncei.local, &sin, sizeof(sin));
-	NotifyEventHooks(hEventConnected, (WPARAM)&ncei, 0);
+	NotifyFastHook(hEventConnected, (WPARAM)&ncei, 0);
 
 	return nlbp;
 }

@@ -278,7 +278,7 @@ void NetlibDoCloseSocket(NetlibConnection *nlc, bool noShutdown)
 		getpeername(nlc->s, (SOCKADDR *)&ncei.remote, &size);
 
 	}
-	NotifyEventHooks(hEventDisconnected, (WPARAM)&ncei, 0);
+	NotifyFastHook(hEventDisconnected, (WPARAM)&ncei, 0);
 
 	closesocket(nlc->s);
 	nlc->s = INVALID_SOCKET;
