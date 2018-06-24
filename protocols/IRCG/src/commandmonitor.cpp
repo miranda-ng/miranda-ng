@@ -2117,7 +2117,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage *pmsg)
 					channel = (command.c_str() + 1);
 					mess.Format(L"/MODE %s +b *!*@%s%%newl/KICK %s %s %%question=\"%s\",\"%s\",\"%s\"",
 						channel.c_str(), host.c_str(), channel.c_str(), nick.c_str(),
-						TranslateT("Please enter the reason"), TranslateT("Ban'n Kick"), TranslateT("Jerk"));
+						TranslateT("Please enter the reason"), TranslateT("Ban'n Kick"), "");
 					break;
 				}
 

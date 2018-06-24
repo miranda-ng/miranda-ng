@@ -632,7 +632,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 					break;
 				case 6:
 					PostIrcMessage(L"/KICK %s %s %%question=\"%s\",\"%s\",\"%s\"",
-						p1, gch->ptszUID, TranslateT("Please enter the reason"), TranslateT("Kick"), TranslateT("Jerk"));
+						p1, gch->ptszUID, TranslateT("Please enter the reason"), TranslateT("Kick"), "");
 					break;
 				case 7:
 					DoUserhostWithReason(1, L"B" + (CMStringW)p1, true, L"%s", gch->ptszUID);
