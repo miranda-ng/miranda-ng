@@ -190,9 +190,9 @@ Otvori folder
 
 [Edit on]
 
-[BBC]
+[BBCode]
 
-[BBC link]
+[BBCode link]
 
 [Down arrow]
 Strelica na dole

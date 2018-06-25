@@ -613,6 +613,7 @@ VBR чи ні
 Шрифт...
 [Genres]
 Жанри
+;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Скробблити з
 [Timeout, ms]
@@ -621,6 +622,7 @@ VBR чи ні
 Інформація про серії
 [Episode]
 Епізод
+;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
 Помилка Last.fm:\s
 [Client is banned]
@@ -629,8 +631,10 @@ VBR чи ні
 Помилка авторизації. Перевірте логін і пароль.
 [Bad TimeStamp]
 Неправильний час
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
 [Similar artists]
 Схожі виконавці
+;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
 Інформація про музику від\s
 [You Get Error]
@@ -648,3 +652,7 @@ VBR чи ні
 Увімкнути WATrack
 [Disable WATrack]
 Вимкнути WATrack
+[Check unknown formats]
+
+[Check unknown file formats if player gives info.]
+

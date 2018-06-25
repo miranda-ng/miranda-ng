@@ -7,10 +7,12 @@
 ;============================================================
 [Prevent Miranda from storing any history.]
 Забороняє збереження історії повідомлень у Miranda NG.
+;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
 Зберігати історію контакту
 [Disable history for this contact]
 Не зберігати історію контакту
+;file \plugins\NoHistory\src\dllmain.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Ця операція повністю видалить історію цього контакту.\nВи впевнені?
 [Clear History]
@@ -23,6 +25,7 @@
 Історія ввімкнена
 [History Disabled]
 Історія вимкнена
+;file \plugins\NoHistory\src\icons.cpp
 [Disable]
 Вимкнути
 [Enable]
@@ -31,6 +34,7 @@
 Очистити
 [No History]
 Без історії
+;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Усі контакти **
 [History]

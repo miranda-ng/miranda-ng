@@ -7,6 +7,7 @@
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Підтримка протоколу Steam у Miranda NG.
+;file \protocols\Steam\res\Resource.rc
 [Username:]
 Користувач:
 [Password:]
@@ -25,6 +26,8 @@
 Показувати зміни стану чату (наприклад, користувач закрив вікно)
 [Connection]
 Підключення
+[Error limit before logout:]
+
 [Captcha]
 Перевірочний код
 [Cancel]
@@ -41,10 +44,14 @@
 Зберегти пароль
 [Enter the password to continue.]
 Введіть пароль для продовження.
+[Security code]
+
 [As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
 Обліковий запис захищено двохетапною авторизацією. Для надання доступу до нього введіть код, отриманий на мобільний телефон.
+;file \protocols\Steam\src\main.cpp
 [Steam game]
 Гра Steam
+;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 Хочете грати
 [Looking to trade]
@@ -59,18 +66,27 @@
 %s знову у вашому списку контактів
 [%s has been removed from your contact list]
 %s видалений з вашого списку контактів
+[%s has added you to contact list]
+
+;file \protocols\Steam\src\steam_login.cpp
 [Cannot obtain connection token.]
 Не вдалося отримати токен з'єднання.
+;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Вибір меню Steam
+[Unblock]
+
 [Join to game]
 Приєднатися до гри
+;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 Невідома помилка
+;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Ім'я
 [Network]
 Мережа
+;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Протоколи
 [Protocol icon]
@@ -81,5 +97,7 @@
 З'єднання %s
 [You cannot send messages when you are offline.]
 Для надсилання повідомлень необхідно підключитися до мережі.
+;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 закрив вікно чату
+;file \protocols\Steam\src\steam_xstatus.cpp

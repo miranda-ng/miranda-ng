@@ -7,6 +7,7 @@
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
 Поддержка протокола Jabber (XMPP) в Miranda NG.
+;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 Редактировать заметку
 [Tags:]
@@ -321,6 +322,8 @@ JID / URL:
 Избранные
 [Refresh]
 Обновить
+[JID:]
+JID:
 [Node:]
 Узел:
 [Member Information]
@@ -377,6 +380,7 @@ XML Консоль
 Очистить лог
 [Send]
 Отправить
+;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Протокол Jabber
 [Frame title]
@@ -387,6 +391,7 @@ XML Консоль
 Занятие Jabber
 [Jabber Mood]
 Настроение Jabber
+;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Ошибка %s %s
 [Select Command]
@@ -405,6 +410,7 @@ XML Консоль
 Jabber Ad-Hoc команды на %s
 [Sending Ad-Hoc command to %s]
 Отправить Ad-Hoc команду %s
+;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Регистрация агента Jabber
 [No message]
@@ -413,6 +419,7 @@ Jabber Ad-Hoc команды на %s
 Регистрация
 [Please wait...]
 Подождите, пожалуйста...
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Имя закладки
 [Address (JID or URL)]
@@ -423,8 +430,10 @@ Jabber Ad-Hoc команды на %s
 Комнаты чата
 [Links]
 Ссылки
+;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
 Bytestream Proxy недоступно
+;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
 Информация о службах
 [Supports Service Discovery items list]
@@ -517,8 +526,10 @@ xHTML формат чат сообщений
 Получение сведений об устройствах OMEMO
 [Supports message carbons (XEP-0280)]
 Поддержка синхронизации между включёнными устройствами (XEP-0280)
+;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Введите текст, который видите
+;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Нет
 [Member]
@@ -673,12 +684,14 @@ xHTML формат чат сообщений
 Изменить ник в %s
 [Reason to destroy %s]
 Причина уничтожения %s
+;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Невозможно отправить - не в сети.
 [Jabber Error]
 Jabber ошибка
 [Outgoing XML parsing error]
 Ошибка при разборе исходящего XML
+;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 таймаут запроса.
 [Node hierarchy]
@@ -729,6 +742,7 @@ Jabber ошибка
 Скопировать имя
 [Copy node information]
 Скопировать информацию
+;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Идентификаторы
 [category]
@@ -745,8 +759,10 @@ Jabber ошибка
 Ошибка запроса информации
 [Items request error]
 Ошибка запроса значений
+;file \protocols\JabberG\src\jabber_filterlist.cpp
 [Set filter...]
 Фильтр...
+;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Ошибка запроса списка комнат с сервера.
 [No rooms available on server.]
@@ -769,6 +785,7 @@ Jabber ошибка
 установил(а) тему:
 [Group chat invitation to\n%s]
 Приглашение в конференцию\n%s
+;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Значки статуса
 [transport]
@@ -857,6 +874,7 @@ Jabber ошибка
 Просмотр
 [Privacy]
 Приватность
+;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for %s.]
 Аутентификация не прошла для %s.
 [Jabber Authentication]
@@ -869,6 +887,7 @@ Jabber ошибка
 Пароль не может быть изменён
 [Jabber Bookmarks Error]
 Ошибка закладок Jabber
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d пункта(ов) (%s)
 [Voice List]
@@ -887,8 +906,10 @@ Jabber ошибка
 Причина бана
 [Removing %s?]
 Удалить %s?
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Получен запрос HTTP авторизации
+;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Выбор учётной записи Jabber
 [Convert]
@@ -945,6 +966,8 @@ Jabber ошибка
 Высочайший приоритет (по выбору сервера)
 [Status Message]
 Статусное сообщение
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 В
 [From]
@@ -953,6 +976,7 @@ Jabber ошибка
 в обе стороны
 [Errors]
 Ошибки
+;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Входящая заметка от %s
 [Send note to %s]
@@ -967,10 +991,12 @@ Jabber ошибка
 Вы уверены?
 [Incoming note]
 Входящая заметка
+;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
 Создать сессию OMEMO с новым устройством:
 [OMEMO: New session]
 OMEMO: Новая сессия
+;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Афар
 [Abkhazian]
@@ -1467,18 +1493,34 @@ XML для MS Excel (кодировка UTF-8)
 Защищённая сеть XMPP
 [Secure XMPP Network (old style)]
 Защищённая сеть XMPP (старый стиль)
+[Google Talk!]
+Google Talk!
+[Hipchat]
+Hipchat
 [LiveJournal Talk]
-ЖЖ
+Живой Журнал (ЖЖ)
+[League Of Legends (EU Nordic)]
+League Of Legends (EU Nordic)
+[League Of Legends (EU West)]
+League Of Legends (EU West)
+[League Of Legends (Oceania)]
+League Of Legends (Oceania)
+[League Of Legends (US)]
+League Of Legends (US)
 [Odnoklassniki]
 Одноклассники
+[S.ms]
+S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
 Некоторые изменения вступят в силу при следующем подключении к сети Jabber.
+;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
 Установка нового пароля для %s@%S
 [New password does not match.]
 Новые пароли не совпадают
 [Current password is incorrect.]
 Текущий пароль неверен
+;file \protocols\JabberG\src\jabber_privacy.cpp
 [Sending request, please wait...]
 Отправка запроса, пожалуйста, подождите...
 [Warning: privacy lists were changed on server.]
@@ -1601,12 +1643,14 @@ XML для MS Excel (кодировка UTF-8)
 Невозможно сохранить список, т.к. вы не в сети.
 [List Editor...]
 Редактор списков...
+;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer mechanism exists]
 Не найдено ни одного совместимого механизма передачи файлов
 [Protocol is offline or no JID]
 Протокол не в сети или нет JID
 [No valid OMEMO session exists]
 Не существует действительной сессии OMEMO
+;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Команда выполнена успешно
 [Error occurred during processing command]
@@ -1673,6 +1717,7 @@ XML для MS Excel (кодировка UTF-8)
 Нет чатов для отключения
 [Choose the group chats you want to leave]
 Выберите чаты, которые желаете покинуть
+;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Ошибка %s %s\r\nПожалуйста, выберите другой сервер
 [Error: unknown reply received\r\nPlease select other server]
@@ -1687,6 +1732,7 @@ XML для MS Excel (кодировка UTF-8)
 Подождите...\r\nПодключение к серверу поиска...
 [You have to be connected to server]
 Необходимо подключение к серверу
+;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 закрыл окно чата
 [sent subscription request]
@@ -1705,6 +1751,7 @@ XML для MS Excel (кодировка UTF-8)
 Статус:
 [Real JID:]
 Реальный JID:
+;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Введите пароль для %s
 [Error: Not enough memory]
@@ -1721,6 +1768,7 @@ XML для MS Excel (кодировка UTF-8)
 Сообщение переслано от %s\r\n%s
 [Sending registration information...]
 Отправка регистрационной информации...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Ресурс
 [<not specified>]
@@ -1787,6 +1835,7 @@ XML для MS Excel (кодировка UTF-8)
 <Нет фото>
 [Photo]
 Фото
+;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]
 Перенаправление
 [Bad request]
@@ -1831,22 +1880,27 @@ XML для MS Excel (кодировка UTF-8)
 Настроение...
 [Set activity...]
 Занятие...
+;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Мужской
 [Female]
 Женский
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Поддерживаются только изображения JPG, GIF и BMP, которые меньше 40 Кб.
+[Jabber vCard]
+Jabber vCard
 [Jabber vCard: Edit Email Address]
-Jabber vCard: редактирование E-mail
+Jabber vCard: редактирование e-mail
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: редактирование телефона
 [Contacts]
 Контакты
 [Note]
 Заметка
+;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
 %s подключение
+;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <слот расширенного статуса>
 [Afraid]
@@ -2185,6 +2239,7 @@ Jabber vCard: редактирование телефона
 Настроения
 [Activities]
 Занятия
+;file \protocols\JabberG\src\stdafx.h
 [I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
 Я использую Miranda NG (https://miranda-ng.org/.)
 [/me slaps %s around a bit with a large trout]

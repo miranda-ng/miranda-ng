@@ -7,6 +7,7 @@
 ;============================================================
 [Database autobackuper plugin.]
 Авторезервирование базы данных.
+;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Automatic backups]
 Авторезервирование базы данных
 [Backup NOW]
@@ -41,6 +42,7 @@
 Процесс резервного копирования
 [Cancel]
 Отменить
+;file \plugins\Db_autobackups\src\backup.cpp
 [Backup in progress]
 Резервирование в процессе
 [Copying database file...]
@@ -53,6 +55,7 @@
 База данных зарезервирована
 [Database back up in process...]
 Производится резервирование базы данных...
+;file \plugins\Db_autobackups\src\main.cpp
 [Miranda NG databases]
 Базы данных Miranda NG
 [Compressed Miranda NG databases]
@@ -69,6 +72,7 @@
 Резервирование базы данных
 [Backup folder]
 Папка резервирования
+;file \plugins\Db_autobackups\src\options.cpp
 [days]
 дней
 [hours]
@@ -99,5 +103,7 @@
 Ошибка при создании папки для резервного копирования
 [Select backup folder]
 Выберите папку для хранения резервных копий
+;file \plugins\Db_autobackups\src\stdafx.h
+;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]
 Резервная копия базы Miranda NG [%s]

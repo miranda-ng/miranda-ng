@@ -190,10 +190,10 @@ Dalej
 Aktualizacja
 [Edit on]
 Edycja włączona
-[BBC]
-BBC
-[BBC link]
-BBC link
+[BBCode]
+BBCode
+[BBCode link]
+BBCode link
 [Down arrow]
 Strzałka w dół
 [Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]

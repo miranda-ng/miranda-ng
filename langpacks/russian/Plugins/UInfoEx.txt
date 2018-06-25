@@ -7,6 +7,7 @@
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 Расширенное отображение информации о пользователе. Позволяет редактировать и добавлять (локально) любую информацию о контакте.
+;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Редактировать данные контакта
 [This list gives you some overview about all your contact's anniversaries.]
@@ -93,6 +94,8 @@
 Добавить e-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Введите адрес E-mail\n(например, john.doe@provider.com)
+[Enter a representative name for the e-mail address here:]
+
 [Enter the e-mail address here:]
 Введите электронный адрес:
 [Show menu items]
@@ -327,6 +330,7 @@
 Очистить всё
 [&Export]
 &Экспорт
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 Овен
 [Taurus]
@@ -357,6 +361,7 @@
 Обновление настроенных дней рождений
 [Keeps your custom birthday up to date.]
 Резервирует настроенные дни рождения.
+;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 Из-за ошибки в параметре, один из элементов дерева не может быть добавлен!
 [A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
@@ -369,18 +374,21 @@
 Показать:
 [Reset to defaults]
 Стандартные
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
 Ошибка при создании имени для страницы с %d, код ошибки %d
 [Creating the label for a page failed with %d and error code %d]
 Ошибка при создании названия для страницы с %d, код ошибки %d
 [The dialog template type is no longer supported]
 Шаблон диалога больше не поддерживается
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Добавить новый праздник
 [Delete an existing anniversary]
 Удалить существующий праздник
 [Unspecified]
 Не указано
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit e-mail]
 Редактировать e-mail
 [Edit phone number]
@@ -401,6 +409,7 @@
 Удалить выбранную запись?\n\t%s\n\t%s
 [Other]
 Другое
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Осталось дней
 [Contact]
@@ -423,6 +432,7 @@
 Откл. напоминания
 [Popup anniversary list]
 Показать список праздников
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
 Ещё раз
 [Yes]
@@ -435,6 +445,7 @@
 Игнорировать
 [Error]
 Ошибка
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Upload details]
 Закачать детали
 [Protocol '%s' is offline]
@@ -485,6 +496,7 @@
 Ваши детали не загружены.\nОни сохранены локально.
 [updating]
 обновление
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 Имя в IM
 [Password]
@@ -587,12 +599,14 @@
 Внимание: Набор значков не найден ни в одной из папок: 'customize\\icons', 'icons' или 'plugins'!
 [Main]
 Главный
+;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Личные данные
 [Dialogs]
 Диалоги
 [Buttons]
 Кнопки
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Экспорт/Импорт контакта
 [User &details]
@@ -623,16 +637,19 @@
 &экспорт xml
 [&Import xml]
 &импорт xml
+;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Мои заметки:
 [About:]
 Информация:
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Пожалуйста, введите правильное описание сначала!
 [No valid date selected for editing!]
 Нет выбранной даты для редактирования!
 [Do you really want to delete the %s?]
 Вы действительно хотите удалить %s?
+;file \plugins\UserInfoEx\src\psp_contact.cpp
 [home]
 дом
 [Open in browser]
@@ -647,6 +664,7 @@
 Контакты
 [company]
 Компания
+;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Вопрос
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -675,6 +693,7 @@
 Диалоги
 [Popups]
 Всплывающие окна
+;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Прошлое
 [Affiliation]
@@ -693,6 +712,7 @@
 Удалить запись
 [Do you really want to delete this entry?]
 Вы действительно хотите удалить это?
+;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Африкаанс
 [Albanian]
@@ -1033,6 +1053,10 @@ Web Дизайн
 ВУЗ
 [University]
 Университет
+[TmplPast Work Place]
+
+[TmplPast Organization]
+
 [Single]
 В одиночестве
 [Close relationships]
@@ -1059,14 +1083,18 @@ Web Дизайн
 мл.
 [sen.]
 ст.
+;file \plugins\UserInfoEx\src\svc_constants.h
+;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Отправить e-mail
 [Memory allocation error!]
 Ошибка выделения памяти!
 [E-mail (UInfoEx)]
 Почта (uinfoex)
+;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (UInfoEx)]
 Пол (uinfoex)
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 У пользователя нет правильной домашней страницы
 [View Homepage]
@@ -1075,8 +1103,10 @@ Web Дизайн
 &Сайт
 [Homepage (UInfoEx)]
 Сайт (uinfoex)
+;file \plugins\UserInfoEx\src\svc_phone.cpp
 [Phone (UInfoEx)]
 Телефон (uinfoex)
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d контактов осталось
 [Abort Refreshing Contact Details]
@@ -1087,6 +1117,7 @@ Web Дизайн
 Протоколы должны быть в сети для обновления данных!
 [The function caused an exception!]
 Функция вызвала исключение!
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
 %s отмечает сегодня %s.
 [an anniversary]
@@ -1127,10 +1158,12 @@ Web Дизайн
 Напоминание о празднике
 [Reminder (UInfoEx)]
 Напоминание (uinfoex)
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 идентификация контакта
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 Контакт %s(%s) не имеет уникального номера в vCard,\nно в списке контактов есть контакт с таким же псевдонимом и протоколом.\nВы хотите использовать его номер для этого контакта?
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 Импортирование нового контакта прервано!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
@@ -1143,12 +1176,14 @@ Web Дизайн
 Настройки: %S
 [Events: %S]
 События: %S
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
 Все контакты
 [Required modules]
 Обязательные модули
 [Optional modules]
 Дополнительные модули
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Shows Miranda's installation directory.]
 Показывать папку установки Miranda NG.
 [Shows the directory with all your Miranda's profiles.]
@@ -1157,6 +1192,7 @@ Web Дизайн
 OpenFileDialog вернул ошибку: %d!
 [The SaveFileDialog returned an error: %d!]
 SaveFileDialog вернул ошибку: %d!
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 INI файл "%s"\nдля сохранения контакта не может быть открыт.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
@@ -1169,12 +1205,14 @@ INI файл "%s"\nдля сохранения контакта не может 
 Добавлено %d из %d контактов из ini-файла.
 [The ini-file "%s"\nfor reading contact information could not be opened.]
 INI файл "%s"\nдля чтения контакта не может быть открыт.
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Все контакты
 [Select a destination file...]
 Выберите имя файла для экспорта...
 [Import User Details from VCard]
 Импорт деталей пользователя из vCard
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Невозможно создать XML файл!\n%S
 [Export took %f ms]
@@ -1205,5 +1243,7 @@ INI файл "%s"\nдля чтения контакта не может быть
 Добавлено контактов: %u / %u\nДобавлено настроек: %u / %u\nДобавлено событий: %u / %u\nДублирующих событий: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 ФАТАЛЬНО: Ошибка при импортировании контактов из xml карточки!
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (UInfoEx)]
 Флаги (uinfoex)
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

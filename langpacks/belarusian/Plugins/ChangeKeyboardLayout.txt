@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
 Плагін для змены раскладак тэксту.
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Гарачыя клавішы
 [Changing layout:]
@@ -71,6 +72,7 @@
 Правая пстрычка
 [Preview]
 Прагляд
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 Змена раскладкі
 [Changing Case]
@@ -79,7 +81,9 @@
 Гутаркі
 [Popups]
 Усплывальныя вокны
+;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Вакно
+;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 Змена раскладкі

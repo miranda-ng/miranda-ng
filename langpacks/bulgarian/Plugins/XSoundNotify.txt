@@ -5,23 +5,45 @@
 ;  Version: 1.0.1.3
 ;  Authors: Roman Torsten
 ;============================================================
+[Provides extended options for sound notifications.]
+
+;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Account:]
 Акаунт:
 [Nick:]
 Прякор:
 [Sound:]
 Звук:
+[Not set]
+
+[Choose]
+
+[Test play]
+
 [Reset]
 Анулиране
+[Ignore sound for this contact]
+
 [Cancel]
 Отказ
+;file \plugins\XSoundNotify\src\dialog.cpp
+[Custom sound for %s (%s)]
+
 [Sound files]
 Файлове със звуци
 [WAV files]
 WAV файлове
+;file \plugins\XSoundNotify\src\options.cpp
 [All contacts]
 Всички контакти
 [(Unknown contact)]
 (Непознат контакт)
 [Sounds]
 Звук
+[XSound Notify]
+
+;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Self status]
+
+[Custom contact sound]
+

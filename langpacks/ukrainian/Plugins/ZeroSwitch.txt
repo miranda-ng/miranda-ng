@@ -7,6 +7,7 @@
 ;============================================================
 [Adds Miranda NG icon into Alt-Tab switch dialog even if Miranda's main window has style other Title bar.]
 Додає значок Miranda NG в діалог перемикання між вікнами, що викликається по Alt+Tab.
+;file \plugins\ZeroSwitch\src\ZeroSwitch.cpp
 [Plugin works under Windows XP only]
 Плагін працює тільки у Windows XP
 [ZeroSwitch plugin failed]

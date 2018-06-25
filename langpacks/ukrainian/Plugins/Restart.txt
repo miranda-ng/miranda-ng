@@ -7,6 +7,7 @@
 ;============================================================
 [Adds Restart menu item.]
 Додає пункт "Перезапуск" у головне меню програми.
+;file \plugins\Restart\src\restart.cpp
 [Restart]
 Перезапуск
 [Restart Plugin]

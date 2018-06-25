@@ -1,0 +1,6 @@
+[%dd %dh %dm]
+[Copy item]
+[Arrow up]
+[Arrow down]
+[%dy %dd %dh %dm]
+[%dd]

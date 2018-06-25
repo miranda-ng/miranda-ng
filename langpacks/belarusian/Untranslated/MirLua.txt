@@ -1,0 +1,6 @@
+[Reload all]
+[Popup on script error]
+[Popup on obsolete methods]
+[Loaded]
+[Compile]
+[C libs folder]

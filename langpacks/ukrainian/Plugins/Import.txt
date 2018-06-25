@@ -7,6 +7,7 @@
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Імпортує контакти та повідомлення з інших профілів Miranda NG або сторонніх програм.
+;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Виберіть, звідки необхідно виконати імпорт даних:
 [From a Miranda NG database.]
@@ -81,6 +82,7 @@
 Інше
 [Choose appropriate accounts for import]
 Пошук відповідних облікових записів
+;file \plugins\Import\src\import.cpp
 [<New account>]
 <Новий обліковий запис>
 [Old account]
@@ -153,19 +155,25 @@
 Пропущено %d контактів.
 [Skipped %d duplicates and %d filtered events.]
 Пропущено %d дублікатів та %d відфільтрованих подій.
+;file \plugins\Import\src\main.cpp
 [&Import...]
 &Імпорт...
 [Miranda NG database]
 База даних Miranda NG
 [All Files]
 Усі файли
+;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Даний файл не існує. Перевірте ім'я файлу.
 [Miranda Import]
 Імпорт Miranda NG
+[You cannot import your current profile into itself]
+
+;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Пропуск дубліката групи %s
 [Import...]
 Імпорт...
+;file \plugins\Import\src\wizard.cpp
 [Finish]
 Завершити

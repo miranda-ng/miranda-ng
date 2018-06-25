@@ -1,0 +1,4 @@
+[mRadio off]
+[mRadio on]
+[Quick Open]
+[bass.dll not found! Choose bass.dll path manually]

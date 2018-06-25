@@ -7,6 +7,7 @@
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
 Сканіраванне сеткавых карыстальнікаў вашых агульных файлаў, і абвестка ўсплывальнымі вокнамі.
+;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Бягучыя злучэнні
 [Popup delay settings]
@@ -53,6 +54,7 @@ WUMF: Бягучыя злучэнні
 Будуць даступныя ў наступнай версіі
 [Show current connections]
 Паказаць злучэнні
+;file \plugins\WhoUsesMyFiles\src\options.cpp
 [Popup plugin not found!]
 Popup плагін не знойдзены!
 [Error]
@@ -65,6 +67,7 @@ Popup плагін не знойдзены!
 
 [Services]
 Службы
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
 Кантакт
 [File]
@@ -77,6 +80,7 @@ Popup плагін не знойдзены!
 Памылка адкрыцця файла
 [Error memory allocation]
 Памылка размеркавання памяці
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Памылка стварэння меню
 [Enable WUMF popups]

@@ -7,6 +7,7 @@
 ;============================================================
 [Sessions Manager for Miranda NG.]
 Менеджер сесій Miranda NG.
+;file \plugins\Sessions\res\Sessions.rc
 [Action on Startup]
 Дія при старті
 [Open Sessions Manager dialog]
@@ -75,6 +76,7 @@
 Скасувати
 [Save your current session?]
 Зберегти поточну сесію?
+;file \plugins\Sessions\Src\Main.cpp
 [Favorite Session]
 Обрана сесія
 [Not favorite Session]
@@ -113,9 +115,11 @@
 Закрити сесію
 [Load last session]
 Завантажити останню сесію
+;file \plugins\Sessions\Src\Options.cpp
 [View]
 Вигляд
 [Message sessions]
 Бесіди
+;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
 Сесія до останнього збою

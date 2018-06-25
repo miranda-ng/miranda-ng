@@ -5,7 +5,16 @@
 ;  Version: 0.0.0.5
 ;  Authors: Roman Gemini
 ;============================================================
+[Adds a menu item to change or load a different profile of Miranda NG or restart.]
+
+;file \plugins\ProfileManager\src\pmanagerEx.cpp
+[Load profile]
+
+[Change profile]
+
 [Restart]
 Рестартиране
+[Profile manager]
+
 [Database]
 База от данни

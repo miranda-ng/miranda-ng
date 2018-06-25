@@ -43,6 +43,8 @@
 WATrack: запрос информации
 [Artist: %s\\nTitle: %s\\nAlbum: %s]
 Артист: %s\\nTitle: %s\\nAlbum: %s
+[WATrack: %s]
+WATrack: %s
 [WATrack: request denied]
 WATrack: запрос запрещён
 [Imitate IEView API]
@@ -111,6 +113,10 @@ WATrack: запрос запрещён
 &Выделить всё
 [SMS Message]
 Сообщение SMS
+[WebPager]
+WebPager
+[EMail Express]
+EMail Express
 [Other event]
 Другое событие
 [Global History Search]

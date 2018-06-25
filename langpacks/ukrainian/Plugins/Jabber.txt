@@ -7,6 +7,7 @@
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
 Підтримка протоколу Jabber (XMPP) у Miranda NG.
+;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 Редагувати нотатку
 [Tags:]
@@ -321,6 +322,8 @@ JID / URL:
 Обрані
 [Refresh]
 Оновити
+[JID:]
+
 [Node:]
 Вузол:
 [Member Information]
@@ -377,6 +380,7 @@ XML-консоль
 Очистити журнал
 [Send]
 Надіслати
+;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Протокол Jabber
 [Frame title]
@@ -387,6 +391,7 @@ XML-консоль
 Заняття Jabber
 [Jabber Mood]
 Настрій Jabber
+;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Помилка %s %s
 [Select Command]
@@ -405,6 +410,7 @@ XML-консоль
 Команди Ad-Hoc на %s
 [Sending Ad-Hoc command to %s]
 Надіслати команду Ad-Hoc %s
+;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Реєстрація агента Jabber
 [No message]
@@ -413,6 +419,7 @@ XML-консоль
 Реєстрація
 [Please wait...]
 Будь ласка, зачекайте...
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Ім'я закладки
 [Address (JID or URL)]
@@ -423,8 +430,10 @@ XML-консоль
 Чат-кімнати
 [Links]
 Посилання
+;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
 Bytestream Proxy недоступний
+;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
 Інформація про служби
 [Supports Service Discovery items list]
@@ -515,8 +524,12 @@ xHTML-формат повідомлень чату
 Підтримка прямих запрошень до чату (XEP-0249)
 [Receives information about OMEMO devices]
 Прийом інформації про пристрої OMEMO
+[Supports message carbons (XEP-0280)]
+
+;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Введіть текст, який бачите
+;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Немає
 [Member]
@@ -671,12 +684,14 @@ xHTML-формат повідомлень чату
 Змінити нік у %s
 [Reason to destroy %s]
 Причина знищення %s
+;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Неможливо надіслати - не в мережі.
 [Jabber Error]
 Помилка Jabber
 [Outgoing XML parsing error]
 Помилка аналізу вихідного XML
+;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 таймаут запиту.
 [Node hierarchy]
@@ -727,6 +742,7 @@ xHTML-формат повідомлень чату
 Копіювати ім'я
 [Copy node information]
 Копіювати інформацію
+;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Ідентифікатори
 [category]
@@ -743,8 +759,10 @@ xHTML-формат повідомлень чату
 Помилка запиту інформації
 [Items request error]
 Помилка запиту значень
+;file \protocols\JabberG\src\jabber_filterlist.cpp
 [Set filter...]
 Фільтр...
+;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Помилка запиту списку кімнат на сервері.
 [No rooms available on server.]
@@ -767,6 +785,7 @@ xHTML-формат повідомлень чату
 встановив(ла) тему:
 [Group chat invitation to\n%s]
 Запрошення в конференцію\n%s
+;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Статуси
 [transport]
@@ -855,6 +874,7 @@ xHTML-формат повідомлень чату
 Перегляд
 [Privacy]
 Приватність
+;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for %s.]
 Аутентифікація не пройшла для %s.
 [Jabber Authentication]
@@ -867,6 +887,7 @@ xHTML-формат повідомлень чату
 Пароль не може бути змінений
 [Jabber Bookmarks Error]
 Помилка закладок Jabber
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d пунктів (%s)
 [Voice List]
@@ -885,8 +906,10 @@ xHTML-формат повідомлень чату
 Причина бану
 [Removing %s?]
 Видалити %s?
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Отримано запит HTTP-авторизації
+;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Вибір облікового запису Jabber
 [Convert]
@@ -943,6 +966,8 @@ xHTML-формат повідомлень чату
 Найвищий пріоритет (за вибором сервера)
 [Status Message]
 Статусне повідомлення
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 До
 [From]
@@ -951,6 +976,7 @@ xHTML-формат повідомлень чату
 Обидві
 [Errors]
 Помилки
+;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Вхідна нотатка від %s
 [Send note to %s]
@@ -965,6 +991,12 @@ xHTML-формат повідомлень чату
 Ви впевнені?
 [Incoming note]
 Вхідна нотатка
+;file \protocols\JabberG\src\jabber_omemo.cpp
+[Do you want to create OMEMO session with new device:]
+
+[OMEMO: New session]
+
+;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Афар
 [Abkhazian]
@@ -1371,6 +1403,10 @@ xHTML-формат повідомлень чату
 Автоматично зберігати прийняті нотатки
 [Enable server-side history (XEP-0136)]
 Увімкнути історію на сервері (XEP-0136) (тільки при підтримці на стороні сервера)
+[Receive conversations from other devices (XEP-0280)]
+
+[Use Stream Management (XEP-0198) if possible (Testing)]
+
 [Server options]
 Налаштування сервера
 [Disable SASL authentication (for old servers)]
@@ -1405,6 +1441,8 @@ xHTML-формат повідомлень чату
 Дозволяти передачу файлів тільки всередині потоку (не розкривати свій IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Приймати запити аутентифікації HTTP (XEP-0070)
+[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+
 [General]
 Загальне
 [Autoaccept multiuser chat invitations]
@@ -1461,16 +1499,28 @@ Google Hangouts
 Hipchat
 [LiveJournal Talk]
 ЖЖ
+[League Of Legends (EU Nordic)]
+
+[League Of Legends (EU West)]
+
+[League Of Legends (Oceania)]
+
+[League Of Legends (US)]
+
 [Odnoklassniki]
 Однокласники
+[S.ms]
+
 [Some changes will take effect the next time you connect to the Jabber network.]
 Деякі зміни наберуть чинності при наступному вході в мережу Jabber.
+;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
 Установка нового пароля для %s@%S
 [New password does not match.]
 Новий пароль не збігається
 [Current password is incorrect.]
 Поточний пароль неправильний
+;file \protocols\JabberG\src\jabber_privacy.cpp
 [Sending request, please wait...]
 Відправка запиту, будь ласка, зачекайте...
 [Warning: privacy lists were changed on server.]
@@ -1593,10 +1643,14 @@ Hipchat
 Неможливо зберегти список, тому що ви не в мережі.
 [List Editor...]
 Редактор списків...
+;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer mechanism exists]
 Не знайдено жодного сумісного механізму передачі файлів
 [Protocol is offline or no JID]
 Протокол не в мережі або JID немає
+[No valid OMEMO session exists]
+
+;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Команда виконана успішно
 [Error occurred during processing command]
@@ -1663,6 +1717,7 @@ Hipchat
 Немає чатів для відключення
 [Choose the group chats you want to leave]
 Виберіть чати, з яких потрібно вийти
+;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Помилка %s %s\r\nБудь ласка, виберіть інший сервер
 [Error: unknown reply received\r\nPlease select other server]
@@ -1677,6 +1732,7 @@ Hipchat
 Зачекайте...\r\nЗ'єднання з пошуковим сервером...
 [You have to be connected to server]
 Потрібно підключення до сервера
+;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 закрив вікно чату
 [sent subscription request]
@@ -1695,6 +1751,7 @@ Hipchat
 Статус:
 [Real JID:]
 Реальний JID:
+;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Введіть пароль для %s
 [Error: Not enough memory]
@@ -1711,6 +1768,7 @@ Hipchat
 Повідомлення переадресовано від %s\r\n%s
 [Sending registration information...]
 Надсилання реєстраційної інформації...
+;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Ресурс
 [<not specified>]
@@ -1777,6 +1835,7 @@ Hipchat
 <Немає фото>
 [Photo]
 Фото
+;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]
 Перенаправлення
 [Bad request]
@@ -1821,12 +1880,15 @@ Hipchat
 Настрій...
 [Set activity...]
 Заняття...
+;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Чоловіча
 [Female]
 Жіноча
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Підтримуються тільки зображення JPG, GIF і BMP, менші 40 КБ.
+[Jabber vCard]
+
 [Jabber vCard: Edit Email Address]
 Jabber vCard: редагування E-mail
 [Jabber vCard: Edit Phone Number]
@@ -1835,8 +1897,10 @@ Jabber vCard: редагування телефону
 Контакти
 [Note]
 Нотатка
+;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
 З'єднання %s
+;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <розширений статус>
 [Afraid]
@@ -2175,6 +2239,7 @@ Jabber vCard: редагування телефону
 Настрої
 [Activities]
 Заняття
+;file \protocols\JabberG\src\stdafx.h
 [I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
 Я використовую Miranda NG (https://miranda-ng.org/)
 [/me slaps %s around a bit with a large trout]

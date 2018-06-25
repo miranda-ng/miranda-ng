@@ -199,3 +199,5 @@ mRadio ввімк
 Новий
 [Quick Open]
 Відкрити
+[bass.dll not found! Choose bass.dll path manually]
+

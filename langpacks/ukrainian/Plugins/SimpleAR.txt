@@ -7,6 +7,7 @@
 ;============================================================
 [Simple Auto Replier.]
 Простий автовідповідач.
+;file \plugins\SimpleAR\res\Resource.rc
 [Enable Auto Replier]
 Увімкнути автовідповідь
 [Reply Message Heading:]
@@ -19,6 +20,7 @@
 хв
 [&Default]
 За замовчанням
+;file \plugins\SimpleAR\src\Main.cpp
 [I am currently away. I will reply to you when I am back.]
 Зараз мене немає на місці, відповім як тільки повернуся.
 [I am currently very busy and can't spare any time to talk with you. Sorry...]
@@ -41,6 +43,7 @@
 Увімкнути автовідповідач
 [Dear %user%, the owner left the following message:]
 Вітаю %user%, %username% залишив вам повідомлення:
+;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 Автовідповідач
 [Message sessions]

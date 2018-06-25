@@ -7,6 +7,7 @@
 ;============================================================
 [RSS/Atom news aggregator.]
 Каналы новостей RSS/Atom.
+;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Добавить
 [Change]
@@ -71,12 +72,14 @@
 Каналы для импорта:
 [&Import]
 &Импорт
+;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Введите имя пользователя
 [Error]
 Ошибка
 [Enter your password]
 Введите пароль
+;file \plugins\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\nдействительно существует.
 [News Aggregator]
@@ -85,6 +88,7 @@
 %s\nнеправильный адрес канала
 [empty]
 Пусто
+;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Значок протокола
 [Check All Feeds]
@@ -99,10 +103,13 @@
 Автообновление включено
 [Auto Update Disabled]
 Автообновление выключено
+;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Проверить канал
 [Change feed]
 Изменить канал
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
+;file \plugins\NewsAggregator\Src\Options.cpp
 [OPML files]
 Файлы OPML
 [Not valid import file.]
@@ -147,9 +154,11 @@ URL страницы с комментариями к новости.
 Удаление контакта
 [Network]
 Сеть
+;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
 Аватары
 [Enable/disable auto update]
 Вкл/Выкл автообновление
+;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 HTTP подключение каналов новостей

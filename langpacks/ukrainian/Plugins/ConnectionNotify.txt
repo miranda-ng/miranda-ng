@@ -7,6 +7,7 @@
 ;============================================================
 [Notify with popup if some connection established]
 Сповіщає в спливаючих вікнах про встановлене з'єднання
+;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
 Кольори
 [Popup options]
@@ -55,6 +56,7 @@
 Дозволені символи підстановки ? і * (у полі "Порт" - цифри або *)
 [Remote IP:Port]
 Віддалений IP:Порт
+;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Показати
 [Hide]
@@ -77,5 +79,6 @@
 Плагіни
 [New Connection Notification]
 Сповіщення про нове підключення
+;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 Спочатку закрийте вікно налаштувань

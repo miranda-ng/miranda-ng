@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin replaces message boxes (those having only OK button) with popups.]
 Замінює діалогові вікна (у яких є тільки кнопка OK) на спливаючі вікна.
+;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 З зірочкою
 [Background color]
@@ -27,6 +28,7 @@
 Спеціальні значення "Тайм-аут":\n-1 - нескінченність, 0 - значення за замовчанням
 [Emit a sound]
 Використовувати звук
+;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
 Помилка VirtualProtect. Код %d\nСпробуйте зв'язатися з автором.
 [Error]
@@ -37,6 +39,7 @@
 Діалогові вікна
 [Popups]
 Спливаючі вікна
+;file \plugins\MsgPopup\src\options.cpp
 [Message with question]
 Повідомлення з запитанням
 [Message with exclamation]

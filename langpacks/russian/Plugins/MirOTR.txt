@@ -7,6 +7,7 @@
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 Поддержка OTR (Off-the-Record) в Miranda NG (использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE)).
+;file \plugins\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 OTR Создание личного ключа
 [Generating new private key - please wait.]
@@ -79,6 +80,7 @@ OTR Создание личного ключа
 Остановить& OTR-сессию
 [&Verify Fingerprint]
 &Проверка отпечатков
+;file \plugins\MirOTR\src\language.h
 [Start OTR]
 Запустить OTR
 [Stop OTR]
@@ -229,14 +231,17 @@ OTR-Идентификация с: %s (%s)
 OTR: установлен SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Вы используете SecureIM. MirOTR будет работать только с контактами с отключённым SecureIM.
+;file \plugins\MirOTR\src\mirotrmenu.cpp
 [MirOTR menu]
 Меню MirOTR
 [OTR Status]
 Статус OTR
+;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 Личные данные
 [Services]
 Службы
+;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
 \nиспользуя старый протокол версии %i
 [Attempting to start a private conversation...]
@@ -247,11 +252,24 @@ OTR: установлен SecureIM
 '%s' уже закрыл приватную связь с вами; вы должны поступать так же
 [Error setting up private conversation: %s]
 Ошибка создания приватной беседы: %s
+[Malformed message received]
+
 [We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
 Вы получаете свои собственные сообщения OTR.\nВы пытаетесь общаться сами с собой, либо кто-то пересылает обратно ваши собственные сообщения
+[The last message to '%s' was resent]
+
 [The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
 Полученное от '%s' зашифрованное сообщение невозможно прочитать, поскольку вы, в настоящий момент, не ведёте приватную беседу
 [We received an unreadable encrypted message from '%s']
 Получено нечитаемое зашифрованное сообщение от '%s'
+[We received a malformed data message from '%s']
+
+[The following message received from '%s' was NOT encrypted:\n\n%s]
+
+['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
+
 [unknown OTR message received, please report that to Miranda NG developers]
 получено неизвестное сообщение OTR, сообщите об этом разработчикам Miranda NG
+;file \plugins\MirOTR\src\otr.h
+[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
+

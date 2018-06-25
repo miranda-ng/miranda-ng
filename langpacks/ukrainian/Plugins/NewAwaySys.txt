@@ -7,6 +7,7 @@
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
 Зручне керування статусними повідомленнями.
+;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Enable autoreply]
 Увімкнути автовідповідач
 [On event...]
@@ -155,6 +156,7 @@
 &Перейменувати
 [Set as &default for]
 Вст. за &замовчанням для
+;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
 [Create new message]
 Додати повідомлення
 [Create new category]
@@ -235,6 +237,7 @@
 Обідаю
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 Зараз ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,вечеряю,обідаю),снідаю),вечеряю) з %nas_awaysince_time%.
+;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle Off]
 Вимкнути
 [Toggle On]
@@ -243,6 +246,8 @@
 Крапка
 [Ignore]
 Ігнорувати
+[Indefinite]
+
 [Set status message]
 Встановити статусне повідомлення
 [Add]
@@ -299,6 +304,7 @@
 Використовувати за замовчанням
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Вхідний запит статусного повідомлення
+;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Ви змінили одразу кілька дерев повідомлень.\r\nЗберегти зміни в діалозі "
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
@@ -307,12 +313,15 @@ NewAwaySys: Вхідний запит статусного повідомлен�
 Справді видалити цю категорію з усіма її повідомленнями?
 [Do you really want to delete this message?]
 Справді видалити це повідомлення?
+;file \plugins\NewAwaySysMod\src\Notification.cpp
 [Error #%d]
 Помилка #%d
 [Can't open log file ]
 Неможливо відкрити файл журналу\s
+;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
 &Закрити
+;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
 [Save, replacing the selected message]
 Зберегти, замінивши виділене повідомлення
 [Save as a new message]
@@ -335,10 +344,13 @@ NewAwaySys: Вхідний запит статусного повідомлен�
 повідомлення для статусу
 [for]
 для
+[available autoreply only]
+
 [all accounts]
 усі облікові записи
 [Closing in %d]
 Закрити (%d)
+;file \plugins\NewAwaySysMod\src\stdafx.h
 [Miranda NG autoreply >\r\n%extratext%]
 Автовідповідь Miranda NG >\r\n%extratext%
 [extended status]

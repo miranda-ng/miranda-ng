@@ -7,6 +7,7 @@
 ;============================================================
 [A contact list for blind folks.]
 Список контактов для людей с нарушениями зрения.
+;file \plugins\Clist_blind\res\resource.rc
 [Delete contact]
 Удалить контакт
 [Are you sure you want to delete %s?]
@@ -29,6 +30,8 @@
 Прочитать сообщение
 [Web search:]
 Поиск в web:
+[URL:]
+URL:
 [Open in new browser window]
 Открыть в новом окне
 [Show options]
@@ -189,6 +192,7 @@
 На &телефоне\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обед&аю\tCtrl+9
+;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Не в фокусе
 [Offline]
@@ -219,8 +223,11 @@
 Инфо: %s
 [List]
 Список
+;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Глобальные
+;file \plugins\Clist_blind\src\cluiopts.cpp
+;file \plugins\Clist_blind\src\init.cpp
 [Unknown protocol]
 Неизвестный протокол
 [Expanded]

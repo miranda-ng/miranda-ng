@@ -7,6 +7,7 @@
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Підтримка протоколу Facebook у Miranda NG.
+;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 Пошта:
 [Password:]
@@ -45,6 +46,10 @@
 Великі аватари
 [Prefer real names instead of nicknames]
 Показувати справжні імена замість ніків
+[Load also Messenger contacts at login (not only Facebook friends)]
+
+[Use Invisible status for Facebook Pages (instead of Offline)]
+
 [Popup notifications]
 Спливаючі вікна
 [Show notifications]
@@ -83,6 +88,10 @@
 Дозволити публікувати статуси на своїх сторінках (уповільнює вхід)
 [Advanced]
 Розширений
+[Send typing notifications even when Invisible]
+
+[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
+
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
@@ -115,14 +124,26 @@
 Для доступу до облікового запису з невідомого браузера необхідно ввести перевірочний код.\n\nОтримайте код через мобільний додаток Facebook або натисніть кнопку нижче, щоб отримати SMS з кодом.
 [Send SMS]
 Надіслати SMS
+;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Введіть текст, який бачите
+;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 &Запросити користувача...
+[E&xit chat session]
+
+[&Destroy chat session]
+
 [User &details]
 &Дані контакту
 [User &history]
 &Історія користувача
+[Delete conversation]
+
+[This will permanently delete the conversation history]
+
+[Former]
+
 [Myself]
 Я
 [Friend]
@@ -133,6 +154,7 @@
 Сповіщення
 [%s and more (%d)]
 %s і ще %d
+;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Помилка входу: %s
 [Unknown error]
@@ -175,10 +197,12 @@
 Помилка при запиті SMS з кодом підтвердження.
 [Verification SMS code was sent to your mobile phone.]
 SMS з кодом підтвердження відправлено на ваш телефон.
+;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Будь ласка, введіть ім'я користувача.
 [Please enter a password.]
 Будь ласка, введіть пароль.
+;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Контакт видалено зі списку на сервері.
 [Error occurred when removing contact from server.]
@@ -199,6 +223,7 @@ SMS з кодом підтвердження відправлено на ваш 
 Запит дружби проігноровано.
 [Error occurred when ignoring friendship request.]
 Помилка під час ігнорування запиту дружби.
+;file \protocols\FacebookRM\src\dialogs.cpp
 [Top News]
 Популярні новини
 [Most Recent]
@@ -227,6 +252,7 @@ SMS з кодом підтвердження відправлено на ваш 
 << Контакти
 [What's on your mind, %s?]
 Про що ви думаєте, %s?
+;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 стікер
 [a GIF]
@@ -241,10 +267,14 @@ SMS з кодом підтвердження відправлено на ваш 
 Контакт надіслав %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Контакт надіслав вкладення, що не підримується. Для перегляду перейдіть на сайт.
+[Reaction]
+
 [%s is typing a message...]
 %s друкує вам повідомлення...
+;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Для надсилання повідомлень необхідно підключитися до мережі.
+;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 Контакт доданий у список на сервері.
 [Contact is no longer on server-list.]
@@ -261,12 +291,23 @@ SMS з кодом підтвердження відправлено на ваш 
 Завантаження спогадів...
 [On this day]
 Цього дня
+[Found %d memories.]
+
 [Loading notifications...]
 Завантаження сповіщень...
+[Found %d notifications.]
+
 [Loading friendship requests...]
 Завантаження запитів дружби...
+[Found %d friendship requests (%d seen).]
+
+[Found %d friendship requests.]
+
 [Loading wall posts...]
 Завантаження записів зі стіни...
+[Found %d wall posts.]
+
+;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 З'єднання з сервером %s
 [Unable to initialize Netlib for %s.]
@@ -325,6 +366,7 @@ SMS з кодом підтвердження відправлено на ваш 
 Повідомлення прочитане о %s користувачем %s
 [Message read: %s]
 Повідомлення прочитане о %s
+;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Значок Facebook
 [Mind]

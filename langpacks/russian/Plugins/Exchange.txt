@@ -7,6 +7,7 @@
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
 Уведомляет о непрочитанной почте на сервере Exchange.
+;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
 Непрочитанные письма
 [Close]
@@ -39,12 +40,14 @@
 раз, прежде чем отказаться
 [Show email notifications using popup module]
 Показывать уведомления о почте во всплывающих окнах
+;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
 ID записи
 [Subject]
 Тема
 [Sender]
 Отправитель
+;file \plugins\Exchange\src\emails.cpp
 [Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
 Исчерпано ограничение количества попыток.\nПлагин прекратит попытки подключиться автоматически.
 [Server not available]
@@ -61,6 +64,7 @@ ID записи
 Почта Exchange
 [Do you want to see the email headers?]
 Вы хотите видеть заголовки писем?
+;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]
 Проверить почтовый ящик Exchange
 [Exchange notify]
@@ -69,5 +73,6 @@ ID записи
 Плагины
 [Forcefully reconnecting to Exchange server ...]
 Принудительное подключение к серверу Exchange...
+;file \plugins\Exchange\src\MirandaExchange.cpp
 [Connecting to Exchange ...]
 Подключение к Exchange...

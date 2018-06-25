@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin for quick insert pre-defined messages in message input area.]
 Дазваляе ўстаўляць загатаваныя фразы ў вакно паведамленняў
+;file \plugins\QuickMessages\res\quickmessages.rc
 [Button Right-Click value]
 Функцыя правай кнопкі мышы
 [Button Left-Click menu]
@@ -51,8 +52,10 @@
 - Імя кантакту
 [- Contact last name]
 - Прозвішча кантакту
+;file \plugins\QuickMessages\src\main.cpp
 [Quick Messages]
 Шпаркія паведамленні
+;file \plugins\QuickMessages\src\options.cpp
 [Enter Value]
 Увядзіце значэнне
 [Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
@@ -65,5 +68,6 @@
 Новы пункт меню
 [Message sessions]
 Гутаркі
+;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]
 Кнопка хуткага паведамлення %u

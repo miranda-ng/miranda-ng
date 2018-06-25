@@ -7,6 +7,7 @@
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
 Позволяет другим плагинам сохранять свои данные в произвольных папках. Поддерживаются переменные.
+;file \plugins\Folders\res\folders.rc
 [Custom folders]
 Папки
 [Preview]
@@ -21,6 +22,7 @@
 Помощь по переменным (Папки)
 [Close]
 Закрыть
+;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now?]
 Изменения не сохранены. Применить изменения?
 [Changes not saved]

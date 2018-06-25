@@ -7,6 +7,7 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Проверка входящей почты Gmail
+;file \plugins\GmailNotifier\res\options.rc
 [Gmail account]
 Учётная запись Gmail
 [Name:]
@@ -53,6 +54,7 @@
 Отключить автоматическую проверку почты
 [Log unread threads into database (enable history)]
 Записывать непрочтённое в базу (включает сохранение истории)
+;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Проверка...
 [Can't send account data!]
@@ -61,14 +63,18 @@
 Неправильное имя или пароль!
 [Can't get RSS feed!]
 Не могу прочитать RSS-ленту!
+;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Другое
 [Gmail: New thread(s)]
 Gmail: Новая почта
+[Gmail Notifier connection]
+
 [&Check all Gmail inboxes]
 Проверить все ящики Gmail
 [&Check Gmail inbox]
 Проверить ящик Gmail
+;file \plugins\GmailNotifier\src\options.cpp
 [GmailNotifier]
 Уведомление о почте Gmail
 [Network]

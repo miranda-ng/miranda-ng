@@ -7,6 +7,7 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Tox в Miranda NG.
+;file \protocols\Tox\res\resource.rc
 [Tox ID:]
 Tox ID:
 [Create]
@@ -37,6 +38,16 @@ Tox ID:
 Включване на UDP (в противен случай Tox ще ползва TCP)
 [Enable IPv6]
 Включване на IPv6
+[Max connect retries:]
+
+[Max reconnect retries:]
+
+[Enable UDP hole-punching]
+
+[Enable local network peer discovery]
+
+[Remove password]
+
 [Change password]
 Промяна на паролата
 [Set password]
@@ -63,24 +74,43 @@ IPv6 адрес (незадължително)
 Порт
 [Public key]
 Публичен ключ
+[Old password:]
+
 [New password:]
 Нова парола:
 [Confirm password:]
 Потвърдете паролата:
+;file \protocols\Tox\src\main.cpp
 [Profiles folder]
 Папка на профилите
 [Tox link protocol]
 Протокол за Tox връзки
+;file \protocols\Tox\src\tox_connection.cpp
+[Unable to initialize Tox core]
+
+;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Икона на протокола
+[Action icon]
+
+[Correction icon]
+
 [Protocols]
 Протоколи
+;file \protocols\Tox\src\tox_menus.cpp
 [Password]
 Парола
+[Create password]
+
+;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Действие
+[You cannot send when you are offline.]
+
+;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s връзка
+;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Tox профил
 [All files]
@@ -97,6 +127,8 @@ Tox профил
 Въведете IPv4
 [Error]
 Грешка
+[Enter port]
+
 [Enter public key]
 Въведете публичен ключ
 [Common nodes]
@@ -113,11 +145,57 @@ Tox профил
 Акаунт
 [Nodes]
 Възли
+;file \protocols\Tox\src\tox_profile.cpp
+[Unable to open Tox profile]
+
+[Unable to read Tox profile]
+
+[Unable to decrypt Tox profile]
+
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+
+[New password is empty]
+
+[New password is not equal to confirmation]
+
+[Old password is not valid]
+
+;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Не може да добавите себе си в списъка с контакти
 [Contact already in your contact list]
 Контактът вече присъства в списъка ви с контакти
+;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Търсене
+;file \protocols\Tox\src\tox_utils.cpp
+[One of the arguments is missing]
+
+[Unable to allocate enough memory]
+
+[Unable to bind to a port]
+
+[The proxy type is not valid]
+
+[The proxy host is not valid]
+
+[The proxy port is not valid]
+
+[The proxy address could not be resolved]
+
+[The profile is encrypted]
+
+[The data format is not valid]
+
 [Unknown error]
 Непозната грешка
+[The friend ID did not designate a valid friend]
+
+[This client is currently not connected to the friend]
+
+[An allocation error occurred while increasing the send queue size]
+
+[Message length exceeded TOX_MAX_MESSAGE_LENGTH]
+
+[Attempted to send a zero-length message]
+

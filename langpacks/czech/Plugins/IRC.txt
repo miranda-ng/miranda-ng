@@ -352,8 +352,6 @@ Filtrování
 Zadejte prosím důvod
 [Ban'n Kick]
 Zakázat a vykopnout
-[Jerk]
-
 [*Disconnected*]
 *Odpojen od serveru*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]

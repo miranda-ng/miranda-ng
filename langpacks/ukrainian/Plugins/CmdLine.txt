@@ -7,10 +7,12 @@
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
 Дозволяє керувати Miranda через командний рядок.
+;file \plugins\CmdLine\src\CmdLine.cpp
 [Could not initialize CmdLine plugin property]
 Не вдалося ініціалізувати власності CmdLine
 [Error]
 Помилка
+;file \plugins\CmdLine\src\mimcmd_data.h
 [Changes account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is an optional parameter specifying the account to set the status for. If it's not specified then the command will issue a global status change.]
 Зміна статусу облікового запису або глобального статусу.\nВикористання: status <статус> [<обліковий запис>].\nМожливі значення <статус>: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Обліковий запис> - додатковий параметр, який вказує ім'я облікового запису для установки статусу. Якщо не вказано - буде встановлено глобальний статус.
 [Changes away message either globally or per account.\nUsage: awaymsg <message> [<account>].\n<Message> is the new away message.\n<Account> is an optional parameter specifying the account to set the away message for. If not specified then the away message will be set globally.]
@@ -49,6 +51,9 @@
 Змінює нік користувача на вказаному протоколі.\nВикористання: setnickname <протокол> новий_нік.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Встановлення або зняття прапора "ігнорувати" для вказаних контактів.\nВикористання: ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда перемкне (встановить або зніме) ігнорування для вказаних контактів.
+[Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]
+
+;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Wrong number of parameters for command '%s'.]
 Неправильна кількість параметрів для команди '%s'
 [Unknown parameter '%s' for command '%s'.]
@@ -103,6 +108,8 @@
 Список контактів згорнуто.
 [Issued a quit command.]
 Виконано команду "Вихід".
+[Issued a quit and wait command.]
+
 [Issued check email command to Exchange plugin.]
 Відправлена команда перевірки пошти для плагіна Exchange.
 [Exchange plugin is not running.]
@@ -137,6 +144,10 @@
 рядок:'%s'
 [wide string:'%S']
 юнікод:'%S'
+[utf8:'%s']
+
+[blob:N/A]
+
 [unknown value]
 невідоме значення
 [Setting '%s/%s' deleted.]
@@ -179,10 +190,12 @@
 Помилка зміни ніку на '%s' для протоколу '%s'.
 [Command '%s' is not currently supported.]
 Команда '%s' не підтримується.
+;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 Неможливо створити сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]
 Ви можете запускати тільки одну копію плагіна CmdLine.
+;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 Сповіщення
 [Warning]

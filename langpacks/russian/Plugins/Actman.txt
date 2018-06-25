@@ -521,10 +521,18 @@ UTF16+сигнатура
 Показывает все фреймы
 [Show All Titlebars]
 Показывает названия
+[will never return the user's custom name]
+
 [will return Unicode instead of AnsiChar]
 вернёт Unicode вместо AnsiChar
+[will not use the cache]
+
+[Gets the string that the contact list will use to represent a contact]
+
 [int hMenu handle]
 целочисленный хендл hMenu
+[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
+
 [Show All Users]
 Показывает всех пользователей
 [Show only Online Users]
@@ -561,6 +569,8 @@ UTF16+сигнатура
 Завершает работу программы
 [Show or hide netlog console window]
 Показывает или скрывает окно сетевой консоли
+[int Value]
+
 [Returns contact amount, excluding user account]
 Возвращает кол-во контактов за исключением учётной записи пользователя
 [Ansi Text]
@@ -573,6 +583,8 @@ UTF16+сигнатура
 Импортирует настройки/контакты из файла
 [Opens or activate database editor]
 Открывает или активирует редактор базы
+[Opens or activate user search dialog]
+
 [displays File Transfer window]
 Показывает окно передачи файлов
 [on Desktop]
@@ -621,20 +633,32 @@ UTF16+сигнатура
 Перезапускает Miranda
 [Station name]
 Название станции
+[wParam is Handle]
+
 [wParam is Ansi station name]
 wParam содержит имя станции в кодировке Ansi
 [wParam is Unicode station name]
 wParam содержит имя станции в кодировке Unicode
+[Starting or stopping radio station]
+
 [Stop cycle]
 Останавливает цикл
 [Start cycle]
 Запускает цикл
+[Start/stops the cycling through protocols]
+
 [All protocols]
 Все протоколы
 [Protocol]
 Протокол
+[signed -2 if proto can't set this, -1 on protocol not found, else 0]
+
 [Shows a dialog to set the avatar for all possible protocols]
 Вызывает окно установки аватара для всех доступных протоколов
+[Shows the next protocol in the frame]
+
+[Shows the previous protocol in the frame]
+
 [Open Options dialog]
 Открывает окно настроек программы
 [Opens the options dialog, optionally at the specified page]
@@ -661,20 +685,36 @@ YAPP или Popup
 Текст Unicode
 [Enables or disables Popup windows (maybe deprecated)]
 Включает или отключает всплывающие окна (возможно, не поддерживается)
+[result of protocol service call]
+
+[Send a general request through the protocol chain for a contact]
+
+[str, account name]
+
+[Return account name associated to contact (no need to free it)]
+
 [displays the Account Manager]
 Открывает менеджер учётных записей
 [Show the dialog to select the contact]
 Показывает окно выбора контакта
+[filter text]
+
 [wParam is unicode]
 wParam в Unicode
 [wParam is Ansi]
 wParam в ANSI
+[Reserved]
+Зарезервировано
+[Open main QuickSearch window with text filter]
+
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Воспроизводит звук, добавленный с помощью Skin/Sounds/AddNew. Если звук не найден, будет воспроизведён стандартный звук Windows
 [Send Email to contact]
 Отправляет контакту письмо по электронной почте
 [struct]
 структура
+[Returns the received files folder for a contact]
+
 [Open contact received file directory]
 Открывает папку с принятым от контакта файлом
 [Send file to contact.]
@@ -687,6 +727,8 @@ wParam в ANSI
 Вызывает окно настроек аватара контакта
 [Filename]
 Имя файла
+[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
+
 [Shows contact property window.]
 Показывает окно со свойствами контакта
 [Open URL in current window]
@@ -701,8 +743,20 @@ wParam в ANSI
 Без форматирования
 [Returns a string containing the versioninfo post]
 Возвращает строку, содержащую сообщение с информацией о версии
+[Show or save (call default action) Modules version Info]
+
+[Show popup or Info window with current music information.]
+
+[log filename]
+
+[report filename]
+
 [int 0, if unsuccessful]
 целочисленный 0 в случае неудачи
+[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
+
+[display birthdays window]
+
 [Manage Jabber Bookmarks]
 Управляет закладками Jabber
 [text]

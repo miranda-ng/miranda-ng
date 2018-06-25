@@ -5,6 +5,11 @@
 ;  Version: 0.2.0.0
 ;  Authors: Robert Pösel
 ;============================================================
+[Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
+
+;file \protocols\Dummy\res\resource.rc
+[Protocol template:]
+
 [Unique ID setting:]
 Настройката с уникален ИД:
 [Name of setting that holds unique identifier of contacts]
@@ -15,19 +20,45 @@
 Видимо име на уникалния идентификатор на контактите
 [Restart is required to apply these changes.]
 За да бъдат приложени промените е необходимо да рестартирате.
+[Allow sending messages to contacts]
+
+;file \protocols\Dummy\src\dummy.h
 [Custom]
 Избор
+[Screen name]
+
 [User name]
 Потребителско име
+[Facebook ID]
+
 [Gadu-Gadu number]
 Gadu-Gadu номер
+[User ID]
+
 [ICQ number]
 ICQ номер
 [Nickname]
 Прякор
+[Visible name]
+
 [E-mail address]
 Имейл
 [Live ID]
 Live ID
+[Skype name]
+
+[Steam ID]
+
+[Tlen login]
+
+[Tox ID]
+
 [Username]
 Потребител
+[VKontakte ID]
+
+[WhatsApp ID]
+
+;file \protocols\Dummy\src\dummy_proto.cpp
+[This Dummy account has disabled sending messages. Enable it in account options.]
+

@@ -7,6 +7,7 @@
 ;============================================================
 [Generates a list of extracted URIs from the history.]
 Створює і показує список посилань з історії контакту.
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Пошук
 [Close]
@@ -105,6 +106,7 @@
 Копіювати в буфер
 [Show message]
 Показати повідомлення
+;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
 Історія посилань
 [History is empty!]
@@ -125,6 +127,7 @@
 Пошуковий фільтр
 [no settings]
 без налаштувань
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [History]
 Історія
 [Processing history...]
@@ -135,8 +138,10 @@
 Не вдається виділити пам'ять!
 [&Create Linklist]
 &Створити список
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist plugin]
 Плагін Linklist
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [Matches for searchtext]
 Виявлення відповідностей при пошуку
 [Processing list...]

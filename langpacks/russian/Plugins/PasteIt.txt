@@ -7,6 +7,7 @@
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
 Загружает текст на веб-страницу и отправляет URL друзьям.
+;file \plugins\PasteIt\res\PasteIt.rc
 [Settings]
 Настройки
 [Default web page]
@@ -65,6 +66,7 @@ Web-страница для настройки
 Кодирование
 [Recode]
 Запись
+;file \plugins\PasteIt\src\Options.cpp
 [Use default codepage]
 Кодировка по умолчанию
 [Thai]
@@ -109,6 +111,7 @@ Web-страница для настройки
 Главный
 [Web page]
 Web-страница
+;file \plugins\PasteIt\src\PasteIt.cpp
 [All Files (*.*)]
 Все файлы (*.*)
 [Paste It - Select file]
@@ -121,6 +124,7 @@ Web-страница
 Разместить из файла
 [Paste It HTTP connections]
 HTTP подключение Paste It
+;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Вы можете разместить только 1 файл
 [Cannot get data from clipboard]
@@ -137,6 +141,7 @@ HTTP подключение Paste It
 Невозможно открыть файл '%s'
 [File '%s' is empty]
 Файл '%s' пуст
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
 [Error during sending text to web page: %s]
 Ошибка при отправке текста на web-страницу: %s
 [Error during sending text to web page]
@@ -155,3 +160,4 @@ HTTP подключение Paste It
 1 день
 [1 month]
 1 месяц
+;file \plugins\PasteIt\src\PasteToWeb2.cpp

@@ -7,6 +7,7 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого плагина GPG и SecureIM.
+;file \plugins\New_GPG\res\new_gpg.rc
 [Load public GPG key]
 Загрузить публичный GPG ключ
 [Load from file]
@@ -159,10 +160,13 @@ ID ключа:
 Экспорт ключей
 [Import keys]
 Импорт ключей
+;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
 Отключить шифрование
 [GPG Turn on encryption]
 Включить шифрование
+[Toggle GPG encryption]
+
 [Send public key]
 Отправить публичный ключ
 [Export GPG Public keys]
@@ -171,6 +175,7 @@ ID ключа:
 Импортировать публичные GPG ключи
 [GPG encryption status]
 Статус шифрования GPG
+;file \plugins\New_GPG\src\main.cpp
 [GPG binary is set and valid (this is good).\n]
 Исполняемый файл GPG указан и работоспособен (это хорошо).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -187,12 +192,16 @@ ID ключа:
 \nGPG не будет работать, пока вы не решите указанные проблемы
 [GPG plugin problems]
 Проблемы с плагином GPG
+[Your secret key with ID: ]
+
 [ for account ]
  для учётной записи 
 [ deleted from GPG secret keyring.\nDo you want to set another key?]
  удаляется из секретного брелока GPG.\nХотите установить еще один ключ?
 [Own secret key warning]
 Собственное предупреждение секретного ключа
+[ expired and will not work.\nDo you want to set another key?]
+
 [You didn't set a private key.\nWould you like to set it now?]
 Вы не выбрали приватный ключ.\nВы хотите сделать это сейчас?
 [Own private key warning]
@@ -201,12 +210,18 @@ ID ключа:
 Загрузить ключ для всех субконтактов?
 [Metacontact detected]
 Обнаружен метаконтакт
+;file \plugins\New_GPG\src\messages.cpp
+[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
+
 [Warning]
 Предупреждение
+[Do you want to try to decrypt encrypted message?]
+
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Пытаемся зашифровать с помощью недоверенного ключа. Вы хотите доверять этому ключу постоянно?
 [Something is wrong, GPG does not understand us, aborting encryption.]
 Что-то не так, GPG не понимает нас, прерываю шифрование.
+;file \plugins\New_GPG\src\options.cpp
 [Contact]
 Контакт
 [Key ID]
@@ -261,6 +276,12 @@ ID ключа:
 Загрузить публичный ключ GPG для 
 [Turn off encryption]
 Выключить шифрование
+[ found in presence, and exists in keyring.)]
+
+[Load Public GPG Key (Key ID: ]
+
+[ found in presence.)]
+
 [This is not public or private key]
 Это не публичный или приватный ключ
 [Key already in secret keyring.]
@@ -285,6 +306,7 @@ ID ключа:
 Сообщения
 [Advanced]
 Дополнительно
+;file \plugins\New_GPG\src\ui.cpp
 [New passwords do not match]
 Новые пароли не совпадают
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
@@ -303,6 +325,8 @@ ID ключа:
 Ключ
 [Generating new random key, please wait]
 Генерируется новый случайный ключ, пожалуйста, подождите
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+
 [Wrong GPG binary location found in system.\nPlease choose another location]
 Исполняемый файл GPG не найден в системе.\nПожалуйста, укажите другое путь
 [Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
@@ -335,22 +359,39 @@ ID ключа:
 Неверный e-mail
 [Generating new key, please wait...]
 Генерация нового ключа, пожалуйста подождите...
+[Expiration date]
+
 [Failed to export public key.]
 Не удалось экспортировать открытый ключ.
+;file \plugins\New_GPG\src\utilities.cpp
+[Do you want to toggle encryption for all subcontacts?]
+
 [Turn off GPG encryption]
 Выключить шифрование GPG
 [Turn on GPG encryption]
 Включить шифрование GPG
 [Target file exists, do you want to replace it?]
 Целевой файл уже существует, хотите заменить его?
+[Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
+
 [File transfer warning]
 Предупреждения о передаче файлов
+[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
+
 [encrypting file for transfer]
 шифрование файла для передачи
+[We have successfully exported %d public keys and all private keys.]
+
 [We have successfully exported all private keys.]
 Все закрытые ключи, успешно экспортировали.
+[We have successfully exported %d public keys.]
+
 [Keys export result]
 Результат экспорта ключей
+[We have successfully processed %d public keys and some private keys.]
+
+[We have successfully processed %d public keys.]
+
 [Keys import result]
 Результат импорта ключей
 [GPG binary does not exist.\nPlease choose another location]
@@ -359,3 +400,4 @@ ID ключа:
 Выберите директорию c GnuPG
 [Please set keyring's home directory]
 Выберите директорию с ключами GnuPG
+;file \plugins\New_GPG\src\utilities.h

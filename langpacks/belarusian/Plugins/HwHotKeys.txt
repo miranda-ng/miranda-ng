@@ -7,6 +7,7 @@
 ;============================================================
 [Allows you to assign expanded multimedia keys (only for PS/2 keyboards).]
 
+;file \plugins\HwHotKeys\res\HwHotKeys.rc
 [Close Miranda]
 Зачыніць Miranda
 [Assign]
@@ -25,6 +26,7 @@
 
 [Combination of keys for assignment]
 
+;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
 [Customize]
 Тонкая налада
 [Hardware HotKeys]

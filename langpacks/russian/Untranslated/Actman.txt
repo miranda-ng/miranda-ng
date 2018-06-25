@@ -15,7 +15,6 @@
 [str, account name]
 [Return account name associated to contact (no need to free it)]
 [filter text]
-[Reserved]
 [Open main QuickSearch window with text filter]
 [Returns the received files folder for a contact]
 [Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]

@@ -7,6 +7,7 @@
 ;============================================================
 [IE Based Chat Log.]
 Журнал на движку IE.
+;file \plugins\IEView\res\ieview.rc
 [Copy]
 Копіювати
 [Copy Link]
@@ -65,6 +66,9 @@
 Літерний формат дати
 [Use relative timestamp]
 Відносна дата
+[Download more templates]
+
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Вихідний файл
 [Incoming File Transfer]
@@ -73,14 +77,34 @@
 Надіслано URL
 [URL received]
 Отримано URL
+;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Невідомий контакт)
 [ requested authorization]
  запитав(ла) авторизацію
 [ was added.]
  додано до списку.
+;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+
 [RESULT]
 Результат
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+;file \plugins\IEView\src\ieview_main.cpp
+[RTL On]
+
+[RTL Off]
+
+[Group On]
+
+[Group Off]
+
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s увійшов.
 [%s has left.]
@@ -89,6 +113,7 @@
 Тема %s
 [Error]
 Помилка
+;file \plugins\IEView\src\Options.cpp
 [General]
 Загальне
 [Message Log]
@@ -113,6 +138,7 @@
 Усі зображення
 [Style Sheet]
 Таблиця стилів
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Сьогодні
 [Yesterday]
@@ -121,3 +147,5 @@
 Надіслано файл
 [File received]
 Отримано файл
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

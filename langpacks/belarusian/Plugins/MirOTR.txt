@@ -7,6 +7,7 @@
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 OTR (Off-The-Record) плагін для Міранды NG (з дапамогай кода і ідэй з SecureIM, Pidgin-OTR і старога Міранда OTR (by SJE)).
+;file \plugins\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 OTR Стварэнне закрытага ключа
 [Generating new private key - please wait.]
@@ -79,6 +80,7 @@ OTR-статус
 Спыніць& OTR-сесію
 [&Verify Fingerprint]
 &Праверка адбіткаў
+;file \plugins\MirOTR\src\language.h
 [Start OTR]
 Запусціць OTR
 [Stop OTR]
@@ -229,14 +231,17 @@ OTR-Ідэнтыфікацыя з: %s (%s)
 OTR: усталяваны SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Вы выкарыстоўваеце SecureIM. MirOTR будзе працаваць толькі з кантактамі з адключаным SecureIM.
+;file \plugins\MirOTR\src\mirotrmenu.cpp
 [MirOTR menu]
 Меню MirOTR
 [OTR Status]
 OTR Статус
+;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 Асабістыя дадзеныя
 [Services]
 Службы
+;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
 
 [Attempting to start a private conversation...]
@@ -265,5 +270,6 @@ OTR Статус
 
 [unknown OTR message received, please report that to Miranda NG developers]
 
+;file \plugins\MirOTR\src\otr.h
 [ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
 

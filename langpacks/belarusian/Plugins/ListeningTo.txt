@@ -7,6 +7,7 @@
 ;============================================================
 [Handles listening information to/for contacts.]
 Адсылае інфармацыю пра праслухоўваемую Вамі музыку.
+;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
 Зараз грае
 [Enable sending listening information to contacts:]
@@ -89,6 +90,7 @@ foobar2000 (усталюйце плагін уручную)
 %listening% - наладжаная вышэй інфармацыя
 [When nothing is playing, replace %listening% with:]
 Калі нічога не грае, пісаць:
+;file \plugins\ListeningTo\src\listeningto.cpp
 [Listening to (enabled)]
 Слухаю (укл.)
 [Listening to (disabled)]
@@ -133,6 +135,7 @@ foobar2000 (усталюйце плагін уручную)
 Уключыць ListeningTo (для ўсіх пратаколаў)
 [ListeningTo]
 Слухаю
+;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 Невядома
 [<Nothing is playing now>]
@@ -145,7 +148,9 @@ foobar2000 (усталюйце плагін уручную)
 Фармат
 [Players]
 Плэеры
+;file \plugins\ListeningTo\src\players\generic.cpp
 [Miranda ListeningTo receiver]
 Прымаць у 'Слухаю'
+;file \plugins\ListeningTo\src\players\wmp.cpp
 [Miranda ListeningTo WMP receiver]
 Прымаць у 'Слухаю' з WMP

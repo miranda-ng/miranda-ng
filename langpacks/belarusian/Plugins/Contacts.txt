@@ -7,6 +7,7 @@
 ;============================================================
 [Allows you to send and receive contacts.]
 Дазваляе вам пасылаць і атрымліваць кантакты.
+;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 Паслаць кантакты
 [&Add]
@@ -47,6 +48,7 @@
 Пра кантакт
 [Send Message]
 Адправіць
+;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 Атрыманы кантакты ад
 [Contacts]
@@ -57,6 +59,7 @@
 Уваходныя кантакты
 [Outgoing Contacts]
 Выходныя кантакты
+;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
 Мянушка
 [First Name]
@@ -73,5 +76,6 @@
 Меню кантакта
 [Contacts from]
 Кантакты ад
+;file \plugins\ContactsPlus\src\send.cpp
 [Send Contacts to]
 Адаслаць кантаты

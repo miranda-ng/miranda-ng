@@ -7,6 +7,7 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Забяспечвае падтрымку шыфравання GPG.
+;file \plugins\New_GPG\res\new_gpg.rc
 [Load public GPG key]
 
 [Load from file]
@@ -159,6 +160,7 @@ ID ключа:
 
 [Import keys]
 
+;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
 
 [GPG Turn on encryption]
@@ -173,6 +175,7 @@ ID ключа:
 
 [GPG encryption status]
 Статус шыфравання GPG
+;file \plugins\New_GPG\src\main.cpp
 [GPG binary is set and valid (this is good).\n]
 
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -207,6 +210,7 @@ ID ключа:
 
 [Metacontact detected]
 
+;file \plugins\New_GPG\src\messages.cpp
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 
 [Warning]
@@ -217,6 +221,7 @@ ID ключа:
 
 [Something is wrong, GPG does not understand us, aborting encryption.]
 
+;file \plugins\New_GPG\src\options.cpp
 [Contact]
 Кантакт
 [Key ID]
@@ -301,6 +306,7 @@ ID ключа:
 Паведамленні
 [Advanced]
 Дадаткова
+;file \plugins\New_GPG\src\ui.cpp
 [New passwords do not match]
 Новыя паролі не супадаюць
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
@@ -357,6 +363,7 @@ ID ключа:
 
 [Failed to export public key.]
 
+;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 
 [Turn off GPG encryption]
@@ -393,3 +400,4 @@ ID ключа:
 Вылучыце дырэкторыю з GnuPG
 [Please set keyring's home directory]
 Вылучыце дырэкторыю з ключамі GnuPG
+;file \plugins\New_GPG\src\utilities.h

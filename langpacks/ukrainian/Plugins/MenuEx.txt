@@ -7,6 +7,7 @@
 ;============================================================
 [Adds some useful options to a contacts menu.]
 Додає додаткові пункти меню контактів.
+;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
 Текст запиту авторизації
 [&Send]
@@ -51,6 +52,7 @@
 * Ctrl+клік для відображення спливаючого вікна з текстом
 [Hide contact on 'Ignore all']
 Ховати при "Ignore all"
+;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Повідомлення статусу
 [xStatus title]
@@ -99,5 +101,6 @@
 Запитати авторизацію
 [MenuItemEx]
 Дод. пункти меню
+;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Тонке налаштування

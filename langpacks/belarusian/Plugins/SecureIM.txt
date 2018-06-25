@@ -7,6 +7,7 @@
 ;============================================================
 [SecureIM plugin for Miranda NG.]
 Падтрымка шыфравання ў Miranda
+;file \plugins\SecureIM\res\resource.rc
 [User List]
 Спіс
 [Enable Secure Offline messages]
@@ -171,6 +172,7 @@ Secure IM Выключаны
 
 [Delete public key]
 
+;file \plugins\SecureIM\src\language.cpp
 [SecureIM established...]
 Бяспечнае злучэнне ўсталявана...
 [Key exchange failed...]
@@ -325,6 +327,7 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 Атрыманы публічны ключ RSA ад"%s"\n\nНовы SHA1: %s\n\Стары SHA1: %s\n\nЗамяніць ключ?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Аўтаматычна прыняты публічны ключ RSA ад: %s uin: %s Новы SHA1: %s Стары SHA1: %s
+;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 Спіс кантактаў
 [Connection Disabled]
@@ -365,6 +368,7 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 Рэжым GPG
 [RSA/AES mode]
 Рэжым RSA/AES
+;file \plugins\SecureIM\src\main.cpp
 [SecureIM]
 Шыфраванне
 [Icons]
@@ -375,6 +379,7 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 Выходнае шыфраванае паведамленне
 [SecureIM status]
 Статус шыфравання
+;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 Выкананыя файлы
 [Select GnuPG Executable]
@@ -395,12 +400,14 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 
 [Services]
 Службы
+;file \plugins\SecureIM\src\popupOptions.cpp
 [Key Popup]
 Усплывальнае вакно ключа
 [Secure Popup]
 Усплывальнае вакно бяспекі
 [Message Popup]
 Усплывальнае вакно паведамлення
+;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
 Шыфраванне (па змаўчанні)
 [SecureIM [PGP]]

@@ -7,6 +7,7 @@
 ;============================================================
 [Provides extended options for sound notifications.]
 Падае пашыраныя опцыі гукавых абвестак пра ўваходныя паведамленні.
+;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Account:]
 Конт:
 [Nick:]
@@ -25,12 +26,14 @@
 Ігнараваць гук для гэтага кантакту
 [Cancel]
 Скасаваць
+;file \plugins\XSoundNotify\src\dialog.cpp
 [Custom sound for %s (%s)]
 Карыстацкі гук для %s (%s)
 [Sound files]
 Гукавыя файлы
 [WAV files]
 Файлы WAV
+;file \plugins\XSoundNotify\src\options.cpp
 [All contacts]
 Усе кантакты
 [(Unknown contact)]
@@ -39,6 +42,7 @@
 Гукі
 [XSound Notify]
 Карыстацкія гукі
+;file \plugins\XSoundNotify\src\xsn_main.cpp
 [Self status]
 Свой статус
 [Custom contact sound]

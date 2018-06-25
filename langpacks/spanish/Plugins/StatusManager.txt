@@ -5,8 +5,21 @@
 ;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
+[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
+
+;file \plugins\StatusManager\res\resource.rc
+[Available modules]
+
+[Keep status]
+
+[Automatically reconnects your accounts after protocol error or internet drop.]
+
+[Startup status]
+
 [Allows you to define the status Miranda should set on startup, configurable per account.]
 Le permite definir el estado Miranda a establecer en el arranque, configurable por protocolo.
+[Advanced auto away]
+
 [Improved auto away module with some more options than the built in, configurable per account.]
 Un módulo Auto Fuera con un poco de más opciones que el original.
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -45,16 +58,24 @@ Perfil
 Mensaje
 [Account:]
 Cuenta:
+[Away mode]
+
 [Set]
 Establecer
+[when full-screen mode is active]
+
 [when screen saver engages]
 Cuando el protector de pantalla cuando se acopla
 [when workstation is locked]
 cuando la estación de trabajo está bloqueada
+[when terminal session is disconnected]
+
 [after]
 después
 [minutes of inactivity]
 minutos de inactividad
+[After away]
+
 [minutes of level 1 mode]
 minutos de modo de nivel 1
 [only set when inactive]
@@ -65,6 +86,8 @@ Monitorear sólo la actividad de Miranda
 Restablecer el estado al volver
 [Confirm resetting status]
 Confirmar el reajuste de estado
+[Enter idle mode]
+
 [Only set if current status is]
 Sólo establecer si el estado actual es
 [Command line]
@@ -271,6 +294,7 @@ Datos de activación
 Ser activo sin cambio de estado
 [Leaving second auto-away status]
 Dejando segundo estado auto-fuera
+;file \plugins\StatusManager\src\aaa_options.cpp
 [minutes of %s mode]
 minutos de modo %s
 [Auto away]
@@ -279,6 +303,7 @@ Auto fuera
 Reglas
 [Status messages]
 Mensajes de estado
+;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Establecer mensaje %s para %s.
 [<last>]
@@ -291,10 +316,44 @@ Establecer mensaje %s para %s.
 Protocolo
 [Closing in %d]
 Cerrando en %d
+;file \plugins\StatusManager\src\keepstatus.cpp
+[%s connected from another location]
+
+[%s login error, cancel reconnecting]
+
+[%s login error (next retry (%d) in %d s)]
+
+[%s status error (next retry (%d) in %d s)]
+
+[Status error (next retry (%d) in %d s)]
+
+[Resetting status... (last try (%d))]
+
+[Resetting status... (next retry (%d) in %d s)]
+
+[%s\t(will be set to %s)\r\n]
+
+[No internet connection seems available... (last try (%d))]
+
+[No internet connection seems available... (next retry (%d) in %d s)]
+
+[Status was set ok]
+
+[Giving up]
+
+;file \plugins\StatusManager\src\ks_options.cpp
+[You broke the Internet!]
+
+[Basic]
+
 [Advanced]
 Avanzado
 [Popups]
 Ventanas emergentes
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+
+;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <desconocido>
 [Right]
@@ -321,6 +380,8 @@ desconocido
 Por lo menos un perfil debe existir
 [Your default profile will be changed]
 Su perfil predeterminado se cambiará
+;file \plugins\StatusManager\src\ss_profiles.cpp
+;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]
 Icono de la barra prensada
 [Released toolbar icon]

@@ -5,7 +5,6 @@
 [Display data in popup on alert]
 [Display data in popup]
 [You may need to restart Miranda NG for this change to take effect.]
-[URL:]
 [Whole web page]
 [Copy strings to alerts]
 [Double click action]

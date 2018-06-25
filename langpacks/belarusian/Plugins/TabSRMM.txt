@@ -7,6 +7,7 @@
 ;============================================================
 [IM and group chat module for Miranda NG.]
 Плагін асабістых і гуртавых гутарак для Miranda NG.
+;file \plugins\TabSRMM\res\chat.rc
 [Show these events]
 Паказваць элементы
 [Actions]
@@ -95,6 +96,7 @@
 Словы для падсвятлення, дапускаюцца маскі выгляду * і ?, некалькі слоў для падсвятлення падзяляюцца прабеламі. Пакіньце пустым, калі жадаеце падсвятляць толькі сваю мянушку.
 [Highlight messages containing my own nickname]
 Падсвятляць паведамленні, якія змяшчаюць сваю мянушку
+;file \plugins\TabSRMM\res\msgwindow.rc
 [&Retry]
 Паўтарыць
 [&Cancel]
@@ -105,6 +107,7 @@
 &Дадаць
 [&Remove]
 Выдаліць
+;file \plugins\TabSRMM\res\resource.rc
 [Customize the panel]
 Наладзіць інфа-панэль
 [Scope of settings]
@@ -769,6 +772,7 @@ RTL па змаўчанні
 Паказваць для ўсіх вокнаў гутаркі, калі яны неактыўныя
 [Save current window position as default]
 Захаваць бягучую пазіцыю вакна
+;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol button]
 Меню кантакту
 [Info button]
@@ -803,6 +807,7 @@ RTL па змаўчанні
 Фільтр падзей - пстрычка правай кнопкай для налады, левай - укл/выкл
 [Channel manager]
 Кіраванне каналам
+;file \plugins\TabSRMM\src\chat_log.cpp
 [%s has joined]
 %s увайшоў
 [You have joined %s]
@@ -829,8 +834,10 @@ RTL па змаўчанні
 %s уключае статус '%s' для %s
 [%s disables '%s' status for %s]
 %s выключае статус '%s' для %s
+;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Гутаркі
+;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Фон поля ўводу
 [Log background]
@@ -1149,8 +1156,10 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Падзеі і фільтры
 [Highlighting]
 Падсвятленне
+;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 %s%s піша:%s %s
+;file \plugins\TabSRMM\src\chat_window.cpp
 [Expand or collapse the side bar]
 Разгарнуць і згарнуць бакавую панэль
 [The filter cannot be enabled, because there are no event types selected either global or for this chat room]
@@ -1181,12 +1190,14 @@ ID бягучага кантакту (калі вызначаны). Напрык
 %s: гутарка
 [%s: message session (%u users)]
 %s: гутарка (%u удзельнікаў)
+;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Гутарка...
 [Default container]
 Кантэйнер по змаўчанню
 [Attach to]
 Аб'яднаць з:
+;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Агульныя параметры
 [Window layout]
@@ -1231,6 +1242,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Паказваць у ніжнім вакне, калі ёсць
 [Don't show them]
 Не паказваць
+;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 &Карыстач
 [&Room]
@@ -1247,6 +1259,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Спіс укладак.\nНажміце левай кнопкай мышы, каб адкрыць спіс укладак.\nНажміце правай кнопкай мышы, каб атрымаць доступ да абранага і хутка наладзіць паводзіны вакна паведамленняў
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Адпраўляецца %d паведамленняў. Даўжыня паведамлення: %d байт, абмежаванне даўжыні: %d байт\n\n%d паведамленняў у чэргі для наступнай дастаўкі
+;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 Адно з дзеянняў усплываючых вокнаў наладжана на "Адмовіць падзею".\nГэта можа зрабіць нежаданы эфект, так як пазначае падзею прачытанай.\nЯк вынік, падзеі не будуць паказаны "новымі". Калі гэта не тое, што вы хацелі, перагледзьце налады ў раздзеле "Паведамленьні".
 [TabSRMM warning message]
@@ -1263,6 +1276,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Новыя паведамленні:\s
 [Unknown module or contact]
 Невядомы плагін ці кантакт
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Файл RTF
 [No status message]
@@ -1281,6 +1295,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 %s набірае паведамленне
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Аўтапрагортка адключана, %d паведамленняў у чэргі (націсніце F12 для ўключэння)
+;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Паведамленні IM
 [Incoming (focused window)]
@@ -1315,6 +1330,7 @@ TabSRMM: Набірае
 далучаны(а) (%s).
 [changed status from %s to %s.]
 змяняе статус з %s на %s.
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 [Most recent unread session]
 Апошнія непрачытаныя паведамленні
 [Paste and send]
@@ -1355,6 +1371,7 @@ TabSRMM: Набірае
 Пераключыць фільтр
 [Show server window]
 Паказаць вакно сервера
+;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Чаканне: %dh,%02dm
 [  Client: %s]
@@ -1411,6 +1428,7 @@ TabSRMM: Набірае
 Паказваць заўсёды (калі ёсць)
 [Never show it at all]
 Ніколі не паказваць
+;file \plugins\TabSRMM\src\mim.cpp
 [TabSRMM]
 Гутаркі
 [Data path]
@@ -1425,8 +1443,10 @@ TabSRMM: Набірае
 Тэчка логаў
 [Typing notification]
 Абвестка пра набор тэксту
+;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Уставіць тэг [img] / пазначыць вылучаны тэкст [img][/img]
+;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Дадаць гэты кантакт у спіс кантактаў
 [Do not add this contact permanently]
@@ -1463,6 +1483,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 час адпраўкі мінула
 [Contact is offline and this protocol does not support sending files to offline users.]
 Кантакт не далучаны а гэты пратакол не падтрымлівае афлайн паведамленні.
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 Памылка стварэння шляху прызначэння
 [Save contact picture]
@@ -1481,6 +1502,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 '(Невядомы кантакт)'
 [JPEG-compressed images]
 Файлы jpeg
+;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 Тайскі
 [Japanese]
@@ -1555,6 +1577,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Сёння
 [Yesterday]
 Учора
+;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 <без скіна>
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]
@@ -1605,6 +1628,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Выгляд укладак
 [Choose status modes]
 Выбар рэжымаў статусу
+;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Дастаўка паведамлення не атрымалася.\nНажміце для адкрыцця вакна гутаркі
 [Message Log Options]
@@ -1681,12 +1705,14 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 
 [Disable typing notification]
 
+;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Вокны паведамленняў - IM
 [Message windows - all]
 Вокны паведамленняў - усё
 [Message windows - group chats]
 Гутаркі - чаты
+;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Абярыце кантэйнер для %s
 [You cannot delete the default container]
@@ -1697,6 +1723,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Нельга пераназваць гэты кантэйнер
 [This name is already in use]
 Гэта імя ўжо выкарыстоўваецца
+;file \plugins\TabSRMM\src\sendlater.cpp
 [A send later job completed successfully.\nThe original message: %s]
 Задача адпраўкі з затрымкай паспяхова выканана. \nАрыгінальнае паведамленне: %s
 [A send later job failed to complete.\nThe original message: %s]
@@ -1725,6 +1752,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Інфармацыя пра апошнюю адпраўку
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 Вы збіраецеся змяніць стан аднаго ці некалькіх элементаў у чэргі адпраўкі. Патрабаванае дзеянне(я) будзе выканана пры наступнай запланаванай апрацоўцы чаргі. Гэта дзеянне не можа быць адменена.
+;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Паведамленне не можа быць адпраўлена на некалькі атрымальнікаў ці з затрымкай, таму што яно перавышае максімальную даўжыню паведамлення ў %d байтаў.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -1739,6 +1767,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Дастаўка з затрымкай не падтрымліваецца дадзеным пратаколам
 [\n(Sent delayed. Original timestamp %s)]
 \n(Адпраўлена з затрымкай. Час адпраўкі %s)
+;file \plugins\TabSRMM\src\sidebar.cpp
 [Like tabs, vertical text orientation]
 Як укладкі,вертыкальная арыентацыя тэксту
 [Compact layout, horizontal buttons]
@@ -1747,8 +1776,10 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Пашыранае месцаванне з аватарамі
 [Advanced with avatars, vertical orientation]
 Пашыранае месцаванне з аватарамі, вертыкальная арыентацыя
+;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
 атрабуецца Windows 2000 ці больш новая сістэма.
+;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Прадпрагляд недаступны пры выкарыстанні History++ у якасці лога паведамленняў.
 [%d unread]
@@ -1759,6 +1790,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 %d карыстачоў
 [Server window]
 Вакно сервера
+;file \plugins\TabSRMM\src\templates.cpp
 [Message In]
 
 [Message Out]
@@ -1779,8 +1811,10 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Выдаленне ўсіх шаблонаў і скід на шаблоны па змаўчанні. Вы ўпэўнены, што жадаеце гэтага?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Шаблоны скінуты. Калі ласка, зачыніце і адкрыйце зноў усе вокны паведамленняў. Гэта вакно зараз будзе зачынена.
+;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 Тэмы TabSRMM
+;file \plugins\TabSRMM\src\themes.cpp
 [No effect]
 Без эфекту
 [Milky Glass]
@@ -1797,6 +1831,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Перад зменай скіна трэба закрыць усе кантэйнеры\nПрацягнуць?
 [Change skin]
 Змяніць скін
+;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 Налады вакна паведамленняў
 [Display metacontact icons]
@@ -1949,6 +1984,8 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Дазволіць табуляцыю ўсярэдзіне поля ўводу паведамленняў (адключыць пераключэнне фокусу па Tab клавішы)
 [Add offline contacts to multisend list]
 Дадаць у спіс рассылання адключаныя кантакты
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 Выключыць абвесткі пра набор тэксту
 [Enable &typing notification]
@@ -1961,6 +1998,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Кантакт пачаў набор паведамлення
 [Contact stopped typing]
 Кантакт скончыў набор паведамлення
+;file \plugins\TabSRMM\src\userprefs.cpp
 [Force default message log]
 лог па змаўчанні
 [Force History++]
@@ -1969,6 +2007,7 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Прымусова IEView
 [Set messaging options for %s]
 Налады гутарак для %s
+;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 tabSRMM: %s
 [Important release notes|A test warning message]

@@ -7,6 +7,7 @@
 ;============================================================
 [RSS/Atom news aggregator.]
 Четец за RSS/Atom новини.
+;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Добавяне
 [Change]
@@ -45,6 +46,8 @@ URL
 Визуализация
 [Display news using the following format:]
 Формат за показване на новините:
+[All item's tags are valid. Put them between #. Example: #<author>#]
+
 [Reset]
 Анулиране
 [0 - check manually]
@@ -69,18 +72,23 @@ URL
 Емисии за внасяне:
 [&Import]
 Внос
+;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Въведете потребител
 [Error]
 Грешка
 [Enter your password]
 Въведете парола
+;file \plugins\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\nе валиден адрес на емисия.
+[News Aggregator]
+
 [%s\nis not a valid feed's address.]
 %s\nне е валиден адрес на емисия.
 [empty]
 празно
+;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Икона на протокола
 [Check All Feeds]
@@ -95,14 +103,19 @@ URL
 Автообновяването е включено
 [Auto Update Disabled]
 Автообновяването е изключено
+;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Проверка за новини
 [Change feed]
 Редактиране на емисията
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
+;file \plugins\NewsAggregator\Src\Options.cpp
 [OPML files]
 OPML файлове
 [Not valid import file.]
 Файлът за импортиране не е валиден.
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+
 [Imported %d feed(s).]
 Внесени са %d емисии.
 [Change Feed]
@@ -113,6 +126,8 @@ OPML файлове
 Въведете URL адрес на емисията
 [Are you sure?]
 Сигурни ли сте?
+[Tags Mask Reset]
+
 [The title of the item.]
 Заглавие на новината.
 [The item synopsis.]
@@ -127,6 +142,8 @@ URL адрес на страницата за коментари към нови
 Низ, уникален идентификатор за новината.
 [Specify one or more categories that the item belongs to.]
 Определя една или повече категории към които принадлежи новината.
+[Feed Tag Help]
+
 [Enter Feed name]
 Въведете име на емисията
 [Enter message format]
@@ -137,9 +154,11 @@ URL адрес на страницата за коментари към нови
 Изтриване на контакт
 [Network]
 Мрежа
+;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
 Аватари
 [Enable/disable auto update]
 Вкл / Изкл на автоматично обновяване
+;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 HTTP връзки на NewsAggregator

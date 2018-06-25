@@ -7,6 +7,7 @@
 ;============================================================
 [Un4seen's BASS interface Miranda NG plugin.]
 Поддержка библиотеки BASS для Miranda NG.
+;file \plugins\BASS_interface\res\Bass.rc
 [Un4seen's BASS interface]
 Поддержка библиотеки BASS
 [bass.dll loading error]
@@ -47,6 +48,7 @@
 Обедаю
 [Preview]
 Тест
+;file \plugins\BASS_interface\src\Main.cpp
 [Un4seen's BASS version: %d.%d.%d.%d]
 Версия библиотеки BASS: %d.%d.%d.%d
 [--default device--]
@@ -69,3 +71,4 @@
 Звуки включены
 [Sounds disabled]
 Звуки выключены
+;file \plugins\BASS_interface\src\stdafx.h

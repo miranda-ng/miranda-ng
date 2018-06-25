@@ -7,6 +7,7 @@
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 Экспорт сообщений, ссылок или принятых файлов в текстовый файл.
+;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Обзор
 [Use internal viewer]
@@ -31,6 +32,8 @@ UTF8 в новых файлах
 Каталог экспорта
 [Max column width]
 Макс. ширина строки
+[Note: 0 = no limit]
+
 [Time format]
 Формат времени
 [Export format]
@@ -71,14 +74,25 @@ UTF8 в новых файлах
 Имя файла по умолчанию
 [Copy]
 Копировать
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Failed to write to the Rich Edit the buffer was to small.]
+
 [Error: Optimal buffer size decreased to a too low size!]
 Ошибка: Оптимальный размер буфера уменьшился до чересчур малого значения!
 [Internal error! (lExtraRead >= 0)]
 Внутренняя ошибка! (lExtraRead >= 0)
+[Failed to execute external file view]
+
 [Failed to load Rich Edit (Msftedit.dll)]
 Не удалось загрузить Rich Edit (Msftedit.dll)
+[Failed to get handle to Rich Edit!]
+
+[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
+
 [Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
 Не удалось открыть файл\r\n%s\r\n\r\nСобытий в базе: %d
+[With scroll to bottom %d\n]
+
 [Search string was not found!]
 Строка не найдена!
 [Save as RTF]
@@ -95,8 +109,12 @@ UTF8 в новых файлах
 Ошибка сохранения файла
 [History was saved successfully in file\r\n]
 История успешно сохранена в файл\r\n
+[Failed to create history dialog]
+
+;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Эк&спортированная история
+;file \plugins\Msg_Export\src\options.cpp
 [Reading database information (Phase 1 of 2)]
 Шаг 1: Чтение базы данных
 [Sorting and writing database information (Phase 2 of 2)]
@@ -107,6 +125,8 @@ UTF8 в новых файлах
 Нет контактов для экспорта
 [Failed to export at least one contact]
 Не удалось экспортировать как минимум 1 контакт
+[Max line width must be at least %d. Or use 0 for no limit.]
+
 [You need to restart Miranda to change the history function]
 Изменения функции истории вступят в силу после перезапуска программы
 [File]
@@ -123,6 +143,10 @@ UTF8 в новых файлах
 Исполняемые файлы
 [All files]
 Все файлы
+[Failed to get the shells allocator!]
+
+[Failed to Allocate buffer space]
+
 [Select Destination Directory]
 Выбрать папку для записи
 [Export Protocols]
@@ -135,6 +159,14 @@ UTF8 в новых файлах
 Общее
 [Additional]
 Дополнительно
+;file \plugins\Msg_Export\src\stdafx.h
+[Miranda NG (Message Export Plugin)]
+
+;file \plugins\Msg_Export\src\utils.cpp
+[No_Group]
+
+[Database: Attempt to get wrong type of value, string]
+
 [(Unknown Contact)]
 (Неизвестный контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
@@ -151,6 +183,42 @@ UTF8 в новых файлах
 Все файлы\0*.*\0Текстовые файлы\0*.txt\0\0
 [Failed to move to the end of the file :\n]
 Не удалось перейти к концу файла:\n
+[Failed to UTF8 byte order code to file :\n]
+
+[      History for\r\n]
+
+[User      : %User%\r\n]
+
+[Protocol  : %Proto%\r\n]
+
+[UIN       : %UIN%\r\n]
+
+[FirstName : %FirstName%\r\n]
+
+[LastName  : %LastName%\r\n]
+
+[Age       : %Age%\r\n]
+
+[Gender    : %Gender%\r\n]
+
+[e-mail    : %e-mail%\r\n]
+
+[Nick      : %Nick%\r\n]
+
+[City      : %City%\r\n]
+
+[State     : %State%\r\n]
+
+[Phone     : %Phone%\r\n]
+
+[Homepage  : %Homepage%\r\n]
+
+[- About -\r\n%About%\r\n]
+
+[Failed to write user details to file :\n]
+
+[Failed to write timestamp and username to file :\n]
+
 [Failed to write message to the file :\n]
 Не удалось записать сообщение в файл:\n
 [URL: ]
@@ -167,12 +235,22 @@ URL:\s
 Имя       :
 [LastName  :]
 Фамилия   :
+[e-mail    :]
+
 [Reason    :]
 Причина   :
+[Invalid Database event received. Type %d, size %d]
+
+[Failed to write Invalid Database event the file :\n]
+
 [The following user made an authorization request:]
 Следующий пользователь запросил авторизацию:
 [The following user added you to their contact list:]
 Пользователь добавил вас в свой список контактов:
+[UIN       :]
+
+[Failed to write AUTHREQUEST or ADDED to the file :\n]
+
 [EmailExpress from:]
 EmailExpress от:
 [WebPager from:]
@@ -191,3 +269,5 @@ WebPager от:
 Контакт удалён. Хотите удалить файл?
 [Failed to delete the file]
 Не удалось удалить файл
+[No_Nick]
+

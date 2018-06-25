@@ -7,6 +7,7 @@
 ;============================================================
 [Handles listening information to/for contacts.]
 Отправляет информацию о прослушиваемой музыке вашим контактам.
+;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
 Информация о прослушиваемой музыке
 [Enable sending listening information to contacts:]
@@ -89,6 +90,7 @@ foobar2000 (установите плагин вручную)
 %listening% - преднастроенная выше информация
 [When nothing is playing, replace %listening% with:]
 Когда ничего не играет, писать:
+;file \plugins\ListeningTo\src\listeningto.cpp
 [Listening to (enabled)]
 Музыка (включено)
 [Listening to (disabled)]
@@ -133,6 +135,7 @@ foobar2000 (установите плагин вручную)
 Включить ListeningTo (для всех протоколов)
 [ListeningTo]
 Музыка в статусе
+;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Неизвестно>
 [<Nothing is playing now>]
@@ -145,3 +148,9 @@ foobar2000 (установите плагин вручную)
 Формат
 [Players]
 Плееры
+;file \plugins\ListeningTo\src\players\generic.cpp
+[Miranda ListeningTo receiver]
+
+;file \plugins\ListeningTo\src\players\wmp.cpp
+[Miranda ListeningTo WMP receiver]
+

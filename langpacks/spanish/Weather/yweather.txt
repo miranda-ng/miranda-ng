@@ -2,6 +2,10 @@
 ;  File: yweather.ini
 ;  Plugin: Weather
 ;============================================================
+[ENE]
+
+[ESE]
+
 [E]
 E
 [East]
@@ -34,6 +38,10 @@ Mayormente nublado
 Mayormente soleado
 [NE]
 NE
+[NNE]
+
+[NNW]
+
 [NW]
 NO
 [N]
@@ -50,6 +58,10 @@ Parcialmente nublado
 Parcialmente soleado
 [SE]
 SE
+[SSE]
+
+[SSW]
+
 [SW]
 SO
 [S]
@@ -72,6 +84,10 @@ Soleado
 Jue
 [Tue]
 Mar
+[WNW]
+
+[WSW]
+
 [W]
 O
 [Wed]

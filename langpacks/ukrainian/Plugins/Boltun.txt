@@ -7,6 +7,7 @@
 ;============================================================
 [Boltun, the chat bot in the russian language.]
 Базіка, чат-бот для російської мови.
+;file \plugins\Boltun\res\Boltun.rc
 [Boltun]
 Базіка
 [Boltun Autochat everybody]
@@ -45,6 +46,7 @@
 Починати відповіді з маленької літери.
 [Don't use "I don't understand"-like answers]
 Не використовувати відповіді типу "Не зрозумів?"
+;file \plugins\Boltun\src\stdafx.h
 [Message sessions]
 Бесіди
 [Mind Files]

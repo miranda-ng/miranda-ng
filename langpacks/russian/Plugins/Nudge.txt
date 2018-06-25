@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin to shake the contact list and chat window.]
 Трясёт список контактов и окно сообщений.
+;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Настройки протокола
 [Specify options for each protocol]
@@ -77,6 +78,7 @@
 Статический
 [Shaking Message Window Options]
 Тряска окна сообщений
+;file \plugins\Nudge\src\main.cpp
 [Nudge as Default]
 Встряхнуть (по умолчанию)
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
@@ -93,10 +95,12 @@
 Встряхнуть
 [Send &nudge]
 &Встряхнуть
+;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 Вас встряхнули
 [You sent a nudge]
 Вы встряхнули
+;file \plugins\Nudge\src\options.cpp
 [Events]
 События
 [Window Shaking]

@@ -175,6 +175,8 @@
 Змін.
 [Structure size]
 Размір структури
+[Use MMI]
+
 [Structure help]
 Допомога по структурі
 [Name]
@@ -519,6 +521,18 @@ UTF16+сигнатури
 Показує всі фрейми
 [Show All Titlebars]
 Показує назви
+[will never return the user's custom name]
+
+[will return Unicode instead of AnsiChar]
+
+[will not use the cache]
+
+[Gets the string that the contact list will use to represent a contact]
+
+[int hMenu handle]
+
+[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
+
 [Show All Users]
 показує всіх користувачів
 [Show only Online Users]
@@ -555,18 +569,28 @@ UTF16+сигнатури
 Завершує роботу програми
 [Show or hide netlog console window]
 Показує або ховає мережеву консоль
+[int Value]
+
 [Returns contact amount, excluding user account]
 Повертає кількість контактів (без облікового запису користувача)
 [Ansi Text]
 Текст ANSI
 [Removes all settings for the specified module]
 Видаляє всі налаштування вказаного модуля
+[int 0]
+
 [Import settings/contacts from file]
 Імпортує налаштування/контакти з файлу
+[Opens or activate database editor]
+
+[Opens or activate user search dialog]
+
 [displays File Transfer window]
 Відкриває вікно передачі файлів
 [on Desktop]
 на робочому столі
+[parent window handle]
+
 [Show "About..." window]
 Показує вікно "Про Miranda NG"
 [Open support (originally - Miranda wiki) page]
@@ -581,6 +605,8 @@ UTF16+сигнатури
 Відкриває історію контакту (або системну історію, якщо wParam=0)
 [Erases contact's history. hContact can be NULL(0) to empty system history]
 Видаляє історію контакту. Якщо hContact NULL(0), то буде видалено системну історію.
+[Show Global history search window. If already opened, bring it to front.]
+
 [Ignore all]
 ігнорувати все
 [Ignore messages]
@@ -607,24 +633,46 @@ UTF16+сигнатури
 Перезапускає Miranda
 [Station name]
 Ім'я станції
+[wParam is Handle]
+
 [wParam is Ansi station name]
 wParam містить ім'я станції в ANSI
 [wParam is Unicode station name]
 wParam містить ім'я станції в Unicode
+[Starting or stopping radio station]
+
+[Stop cycle]
+
+[Start cycle]
+
+[Start/stops the cycling through protocols]
+
 [All protocols]
 усі протоколи
 [Protocol]
 Протокол
+[signed -2 if proto can't set this, -1 on protocol not found, else 0]
+
 [Shows a dialog to set the avatar for all possible protocols]
 Відкриває вікно встановлення аватару для всіх доступних протоколів
+[Shows the next protocol in the frame]
+
+[Shows the previous protocol in the frame]
+
 [Open Options dialog]
 Відкриває вікно налаштувань програми
+[Opens the options dialog, optionally at the specified page]
+
 [Check for updates]
 Перевіряє наявність оновлень
 [with confirmation]
 з підтвердженням
 [without confirmation]
 без підтвердження
+[Empty updater download folder]
+
+[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+
 [Enables or disables Popup windows]
 Вмикає або вимикає спливаючі вікна
 [Notify]
@@ -637,26 +685,50 @@ YAPP або Popup
 Текст Unicode
 [Enables or disables Popup windows (maybe deprecated)]
 Вмикає або вимикає спливаючі вікна (можливо, не підтримується)
+[result of protocol service call]
+
+[Send a general request through the protocol chain for a contact]
+
+[str, account name]
+
+[Return account name associated to contact (no need to free it)]
+
 [displays the Account Manager]
 Відкриває менеджер облікових записів
 [Show the dialog to select the contact]
 Відкриває вікно вибору контакту
+[filter text]
+
 [wParam is unicode]
 wParam в Unicode
 [wParam is Ansi]
 wParam в ANSI
+[Reserved]
+
+[Open main QuickSearch window with text filter]
+
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Програє звук, доданий за допомогою Skin/Sounds/AddNew. Якщо звук не знайдено, буде програватися стандартний звук Windows.
+[Send Email to contact]
+
 [struct]
 структура
+[Returns the received files folder for a contact]
+
+[Open contact received file directory]
+
 [Send file to contact.]
 Відправляє контакту файл
 [Opens message window for contact with handle in wparam]
 Відкриває вікно повідомлень з контактом, handle якого знаходиться у wParam
 [remove all temporary contacts from db]
 Видаляє з бази всі тимчасові контакти
+[Call avatar option dialog for contact]
+
 [Filename]
 Ім'я файлу
+[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
+
 [Shows contact property window.]
 Відкриває вікно з інформацією про користувача
 [Open URL in current window]
@@ -669,8 +741,22 @@ wParam в ANSI
 з форматуванням
 [Don't use formating]
 без форматування
+[Returns a string containing the versioninfo post]
+
+[Show or save (call default action) Modules version Info]
+
+[Show popup or Info window with current music information.]
+
+[log filename]
+
+[report filename]
+
 [int 0, if unsuccessful]
 0 якщо невдало
+[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
+
+[display birthdays window]
+
 [Manage Jabber Bookmarks]
 Керує закладками Jabber
 [text]

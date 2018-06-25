@@ -7,6 +7,7 @@
 ;============================================================
 [Take a screenshot and send it to a contact.]
 Створення та надсилання знімків екрану контактам.
+;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Діалог
 [All]
@@ -53,6 +54,8 @@
 Розмір (ВхШ):
 [C&lient area]
 В&міст
+[Indirect capture]
+
 [Target tool]
 Приціл
 [File:]
@@ -67,14 +70,24 @@
 &Копіювати
 [Close]
 Закрити
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Resulting URL from\n]
+
 [Copy]
 Копіювати
+[Copy BBCode]
+
+[Copy BBCode w/ link]
+
+[%s requires a valid contact!]
+
 [Error]
 Помилка
 [GCHAT error]
 Помилка GCHAT
 [An unknown error has occurred.]
 Невідома помилка.
+;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 Не вдалося ініціювати %s.
 [MAPI error (%i):\n%s.]
@@ -83,8 +96,16 @@
 Невідома відповідь від %s (%i)
 [Got no response from %s (%i)]
 Немає відповіді від %s (%i)
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
+[CloudFile transfer]
+
 [%s (%i):\nCould not add a share to the CloudFile plugin.]
 %s (%i):\nНеможливо додати ресурс у плагін CloudFile.
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+
 [The specified attachment was not found]
 Вкладення не знайдено
 [The specified attachment could not be opened]
@@ -111,16 +132,27 @@
 Користувач скасував одне з діалогових вікон
 [Unknown Error]
 Невідома помилка
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
 Передача файлу
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 Передача FTPFile
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 %s (%i):\nНеможливо додати ресурс у плагін FTP File.
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
+[Image upload]
+
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[HTTPServer transfer]
+
 [Could not start the HTTP Server plugin.]
 Неможливо запустити плагін HTTP Server.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 %s (%i):\nНеможливо додати ресурс у плагін HTTP Server.
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Ще раз
 [Yes]
@@ -131,6 +163,7 @@
 Скасувати
 [Ignore]
 Ігнорувати
+;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
 Головний значок
 [Target Cursor]
@@ -155,6 +188,12 @@
 Наступне
 [Update]
 Оновити
+[Edit on]
+
+[BBCode]
+
+[BBCode link]
+
 [Down arrow]
 Стрілка вниз
 [Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
@@ -179,10 +218,13 @@ HTTP-з'єднання SendSS
 Надіслати знімок усього екрану
 [Open SendSS+]
 Відкрити SendSS
+;file \plugins\SendScreenshotPlus\src\stdafx.h
 [SendScreenshot - Error]
 Помилка SendSS
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Автори
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перетягніть приціл на потрібне вікно.
 [Send screenshot to %s]

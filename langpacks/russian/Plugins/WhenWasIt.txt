@@ -7,6 +7,7 @@
 ;============================================================
 [Notifies you of upcoming birthdays.]
 Напоминает о предстоящих днях рождения.
+;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 Напоминать о днях рождения:
 [Popups]
@@ -83,6 +84,7 @@
 Удалить
 [Upcoming birthdays]
 Наступающие дни рождения
+;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Upcoming age]
 Будущий возраст
 [Current age]
@@ -137,12 +139,14 @@
 Закрытие через %d секунд
 [Closing in %d second]
 Закрытие через %d секунд
+;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Check for birthdays]
 Проверить дни рождения
 [Birthdays]
 Дни рождения
 [Contacts]
 Контакты
+;file \plugins\WhenWasIt\src\icons.cpp
 [WhenWasIt]
 Дни рождения
 [Check birthdays menu item]
@@ -167,6 +171,7 @@
 Более %d дней до праздника
 [WhenWasIt birthday reminder]
 Дни рождения
+;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 Близких дней рождения нет.
 [%s has birthday in %d days.]
@@ -193,6 +198,7 @@
 %s\n%s исполнится %d.
 [%s\n%s just turned %d.]
 %s\n%s исполнилось %d.
+;file \plugins\WhenWasIt\src\services.cpp
 [Starting to refresh user details]
 Начало обновления информации о пользователях
 [Done refreshing user details]
@@ -229,6 +235,7 @@
 Внимание! Пожалуйста, не путайте экспортированные файлы в кодировках Unicode и ANSI. Необходима та же версию WhenWasIt (ANSI/Unicode), которая использовалась для экспорта.\n
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 Этот файл был создан Unicode-версией WhenWasIt. Пожалуйста, используйте только Unicode-версию плагина для импорта дней рождения.\n
+;file \plugins\WhenWasIt\src\WhenWasIt.cpp
 [Birthdays (When Was It)]
 Дни рождения
 [Add/change user &birthday]

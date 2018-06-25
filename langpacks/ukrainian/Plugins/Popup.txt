@@ -7,6 +7,7 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Надає службу спливаючих вікон для інших плагінів.
+;file \plugins\Popup\res\resource.rc
 [Content and Style]
 Стиль вікон
 [Go to Customize -> Fonts and Colors for fonts and colors options]
@@ -201,6 +202,7 @@ History++ для історії вікон
 Повний екран
 [Debug]
 Налагодження
+;file \plugins\Popup\src\actions.cpp
 [Quick reply]
 Швидка відповідь
 [Send message]
@@ -221,6 +223,7 @@ History++ для історії вікон
 Немає дії
 [Action]
 Дія
+;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Бурмоковт
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
@@ -235,8 +238,10 @@ History++ для історії вікон
 Це попередження
 [This is an error message]
 Це повідомлення про помилку
+;file \plugins\Popup\src\effects.cpp
 [Square fading]
 Шахматика
+;file \plugins\Popup\src\font.h
 [Popups]
 Спливаючі вікна
 [Title]
@@ -257,10 +262,12 @@ History++ для історії вікон
 Підкреслення заголовка
 [Avatar border]
 Рамка аватару
+;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Історія спливаючих вікон вимкнена
 [Popup History message]
 Історія спливаючих вікон
+;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 Вікна ввімкнені
 [Popups are disabled]
@@ -293,6 +300,7 @@ History++ для історії вікон
 Закріплене
 [Add contact permanently]
 Додати контакт постійно
+;file \plugins\Popup\src\main.cpp
 [Classes]
 Класи
 [Actions]
@@ -311,14 +319,17 @@ History++ для історії вікон
 Спливаючі вікна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Помилка: не вдалося зареєструвати клас Popup Window.\r\nПлагін не працюватиме.
+;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без ефекту
 [Fade in/out]
 Плавний показ
+;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
 Групи плагінів
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 У своїй оселі в Р'льєху мертвий Ктулху спить і чекає.
+;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Не в мережі
 [Online]
@@ -363,6 +374,7 @@ History++ для історії вікон
 Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nУвімкнути впорядкування (зсув) вікон?\r\n
 [Popup plus warning]
 Попередження Popup plus
+;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 Не вдалося зареєструвати клас %s.
 [Skin preview]
@@ -385,12 +397,16 @@ History++ для історії вікон
 Глобальні налаштування
 [Refresh List]
 Оновити список
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
 [Failed to GetClassInfoExW from EDIT class.]
 Не вдалося виконати GetClassInfoExW з класу EDIT.
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 Не вдалося зареєструвати клас custom edit box window.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n
+;file \plugins\Popup\src\services.cpp
 [Notify]
 Сповіщення
+;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Авто
 [Favorite]

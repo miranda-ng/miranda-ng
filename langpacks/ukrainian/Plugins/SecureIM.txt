@@ -7,6 +7,7 @@
 ;============================================================
 [SecureIM plugin for Miranda NG.]
 Шифрування бесід для Miranda NG.
+;file \plugins\SecureIM\res\resource.rc
 [User List]
 Список
 [Enable Secure Offline messages]
@@ -49,6 +50,8 @@
 Не в мережі:
 [RSA Key]
 Ключ RSA
+[SHA1:]
+
 [Public]
 Публічний
 [&Copy SHA1]
@@ -169,6 +172,7 @@ Secure IM вимкнено
 Імпорт відкритого ключа
 [Delete public key]
 Видалення відкритого ключа
+;file \plugins\SecureIM\src\language.cpp
 [SecureIM established...]
 Безпечне з'єднання встановлено...
 [Key exchange failed...]
@@ -323,6 +327,7 @@ SecureIM: отримано зашифроване повідомлення:\n
 Отримано новий публічний ключ RSA від "%s"\n\nНовий SHA1: %s\n\nСтарий SHA1: %s\n\nЗамінити ключ?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Автоматично прийнятий публічний ключ RSA від: %s UIN: %s Новий SHA1: %s Старий SHA1: %s
+;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 Список контактів
 [Connection Disabled]
@@ -363,6 +368,7 @@ SecureIM: отримано зашифроване повідомлення:\n
 Режим GPG
 [RSA/AES mode]
 Режим RSA/AES
+;file \plugins\SecureIM\src\main.cpp
 [SecureIM]
 Шифрування
 [Icons]
@@ -373,6 +379,7 @@ SecureIM: отримано зашифроване повідомлення:\n
 Вихідне шифроване повідомлення
 [SecureIM status]
 Статус шифрування
+;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 Виконувані файли
 [Select GnuPG Executable]
@@ -393,12 +400,14 @@ SecureIM: отримано зашифроване повідомлення:\n
 Завантаження публічного ключа
 [Services]
 Служби
+;file \plugins\SecureIM\src\popupOptions.cpp
 [Key Popup]
 Спливаюче вікно ключа
 [Secure Popup]
 Спливаюче вікно безпеки
 [Message Popup]
 Спливаюче вікно повідомлення
+;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
 Шифрування (за замовчанням)
 [SecureIM [PGP]]

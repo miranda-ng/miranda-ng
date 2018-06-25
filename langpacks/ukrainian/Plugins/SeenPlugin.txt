@@ -7,6 +7,7 @@
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
 Запам'ятовує, коли користувач останній раз з'являвся в мережі і хто був в мережі, поки ви були відсутні.
+;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Параметри останньої появи
 [Last seen menu item]
@@ -75,10 +76,12 @@
 Інформація про користувача
 [Send Instant Message]
 Надіслати миттєве повідомлення
+;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 історія останньої зустрічі
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Дата: %d.%m.%y(%Y)\n Опис: %W - %w - %E - %e\n Час: %H:%M:%S (%h-%p)\n Користувач: %n - %u\n Статус: %s\n IP: %i - %r
+;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 Остання поява
 [User status change]
@@ -89,10 +92,12 @@
 Користувач відключився
 [User Logged In]
 Користувач підключився
+;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <невідомо>
 [Last seen]
 Остання поява
+;file \plugins\SeenPlugin\src\options.cpp
 [year (4 digits)]
 рік (4 цифри)
 [year (2 digits)]
@@ -113,6 +118,8 @@
 години (24)
 [hours (12)]
 години (12)
+[AM/PM]
+
 [minutes]
 хвилини
 [seconds]
@@ -165,12 +172,15 @@
 Контакти
 [Popups]
 Спливаючі вікна
+;file \plugins\SeenPlugin\src\stdafx.h
 [%n is %s (%u)]
 %n %s (%u)
 [%i(%r)%bWas %o]
 %i(%r)%bбув %o
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 Ім'я:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bЧас:%t%H:%M:%S%bПопередній статус:%t%o%b%b%P ID:%t%u%bЗовнішній IP:%t%i%bВнутрішній IP:%t%r%bКлієнт: %t%C%b%bПовідомлення статусу:%t%T
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
 Неділя
 [Monday]

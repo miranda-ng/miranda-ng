@@ -1,5 +1,3 @@
-[Live ID:]
-[Live ID]
 [IID_IOleObject failed.]
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]

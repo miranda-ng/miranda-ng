@@ -7,6 +7,7 @@
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
 Надсилання SMS-повідомлень на мобільні телефони за допомогою IM-мереж.
+;file \plugins\SMS\res\resource.rc
 [Received SMS]
 Отримане SMS
 [&Reply]
@@ -69,18 +70,22 @@ ID повідомлення:
 Джерело:
 [Network:]
 Оператор:
+;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
 Від %s:\r\n\r\n
 [Events]
 Події
+;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 SMS-повідомлення по %S для %s не надіслано: %S
 [SMS Message from %s]
 SMS від %s
 [SMS Confirmation from %s]
 SMS підтвердження від %s
+;file \plugins\SMS\src\recvdlg.cpp
 [Received SMS Confirmation]
 Отримане SMS підтвердження
+;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Історія повідомлень
 [Add Number To The Multiple List]
@@ -111,10 +116,12 @@ SMS підтвердження від %s
 Неправильний номер телефону
 [<< Single]
 << Одному
+;file \plugins\SMS\src\SMSConstans.h
 [Send &SMS...]
 Надіслати SMS...
 [&SMS Message]
 Повідомлення SMS
+;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Вхідне SMS
 [Incoming SMS Confirmation]

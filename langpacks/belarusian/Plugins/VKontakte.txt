@@ -7,6 +7,7 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Падтрымка пратаколу ВКонтакте ў Miranda NG.
+;file \protocols\VKontakte\res\resource.rc
 [Show in protocol menu ]
 
 [Create new chat]
@@ -201,6 +202,7 @@
 Спасылка:
 [Only for friends]
 
+;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 
 [Notification icon]
@@ -335,6 +337,7 @@
 
 [User was deactivated (banned)]
 
+;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Удзельнікі
 [Owners]
@@ -389,6 +392,7 @@
 Выкінуць
 [%s is typing a message...]
 %s набірае тэкст...
+;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
 [Wall message for %s]
@@ -401,6 +405,7 @@
 
 [Deleting %s from contact list]
 
+;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 
 [New notifications]
@@ -425,6 +430,7 @@
 
 [Topic text:]
 
+;file \protocols\VKontakte\src\vk_files.cpp
 [Protocol is offline]
 Конт адключаны
 [File does not exist]
@@ -459,6 +465,7 @@
 
 [Unknown error occurred]
 
+;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
@@ -477,10 +484,12 @@
 
 [Loading messages for %s is completed.]
 
+;file \protocols\VKontakte\src\vk_messages.cpp
 [Edited message:\n]
 
 [\nOriginal message:\n]
 
+;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Сеціва
 [Account]
@@ -527,6 +536,7 @@
 
 [VKontakte protocol]
 
+;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [VKontakte newsfeed & notification event]
@@ -569,14 +579,17 @@
 
 [Cannot add this user to friends as you put him on blacklist]
 
+;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
 
 [Waiting...]
 Чаканне...
 [Enter new status message]
 
+;file \protocols\VKontakte\src\vk_struct.cpp
 [I'm back]
 
+;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
 
 [%s is listening to]

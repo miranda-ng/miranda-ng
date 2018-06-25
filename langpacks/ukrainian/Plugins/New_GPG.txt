@@ -7,6 +7,9 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагін шифрування GPG, створений на основі вихідного коду старого плагіна GPG і SecureIM.
+;file \plugins\New_GPG\res\new_gpg.rc
+[Load public GPG key]
+
 [Load from file]
 Імпорт з файлу
 [Select existing]
@@ -99,10 +102,18 @@ ID ключа:
 Імпортувати
 [Select keyserver for key search:]
 Вибрати сервер ключів для пошуку:
+[Received encrypted file]
+
+[Decrypt]
+
 [Received encrypted file from contact with disabled encryption.]
 Отримано зашифрований файл від контакту з обмеженими можливостями шифрування.
+[Remember choice]
+
 [Choose which keys to export]
 Виберіть ключі для експорту
+[Export public keys (only set for contacts)]
+
 [Export all private keys]
 Експорт усіх приватних ключів
 [Export public and private keys]
@@ -121,6 +132,8 @@ ID ключа:
 Увімк. запис налагодження
 [Use Jabber API on Miranda NG (recommended)]
 Використовувати Jabber API Miranda NG (Рекомендується)
+[Default key]
+
 [Encrypt file transfers]
 Шифрована передача файлів
 [Automatic key exchange]
@@ -147,6 +160,13 @@ ID ключа:
 Експорт ключів
 [Import keys]
 Імпорт ключів
+;file \plugins\New_GPG\src\init.cpp
+[GPG Turn off encryption]
+
+[GPG Turn on encryption]
+
+[Toggle GPG encryption]
+
 [Send public key]
 Надіслати публічний ключ
 [Export GPG Public keys]
@@ -155,6 +175,7 @@ ID ключа:
 Імпортувати публічні ключі GPG
 [GPG encryption status]
 Статус шифрування GPG
+;file \plugins\New_GPG\src\main.cpp
 [GPG binary is set and valid (this is good).\n]
 Виконуваний файл GPG вказаний і є придатним (Це добре).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -171,6 +192,16 @@ ID ключа:
 \nДля роботи GPG необхідно вирішити вказані проблеми
 [GPG plugin problems]
 Проблеми з плагіном GPG
+[Your secret key with ID: ]
+
+[ for account ]
+
+[ deleted from GPG secret keyring.\nDo you want to set another key?]
+
+[Own secret key warning]
+
+[ expired and will not work.\nDo you want to set another key?]
+
 [You didn't set a private key.\nWould you like to set it now?]
 Ви не вибрали приватний ключ.\nВи хочете зробити це зараз?
 [Own private key warning]
@@ -179,8 +210,18 @@ ID ключа:
 Завантажити ключ для всіх субконтактів?
 [Metacontact detected]
 Виявлено метаконтакт
+;file \plugins\New_GPG\src\messages.cpp
+[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
+
 [Warning]
 Попередження
+[Do you want to try to decrypt encrypted message?]
+
+[We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
+
+[Something is wrong, GPG does not understand us, aborting encryption.]
+
+;file \plugins\New_GPG\src\options.cpp
 [Contact]
 Контакт
 [Key ID]
@@ -195,26 +236,66 @@ ID ключа:
 Основний приватний ключ
 [not set]
 Не встановлено
+[This key is not used by any contact. Do you want to remove it from public keyring?]
+
+[Key info]
+
+[we have secret key for this public key, do not removing from GPG keyring]
+
 [info]
 Інфо
+[Key removed from GPG keyring]
+
 [Do you want to remove key from entire metacontact (all subcontacts)?]
 Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
 [Export public key]
 Експорт відкритого ключа
 [.asc pubkey file]
 Файл публічного ключа (.asc)
+[Failed to allocate memory]
+
 [Error]
 Помилка
+[Failed to lock memory with error %d]
+
+[Failed write to clipboard with error %d]
+
+[Failed to open clipboard with error %d]
+
+[Set log file]
+
 [LOG files]
 Файли журналу
+[Choose gpg.exe]
+
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Вибраний вами exe не GnuPG!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
+[Set home directory]
+
+[Load Public GPG Key for ]
+
 [Turn off encryption]
 Вимкнути шифрування
+[ found in presence, and exists in keyring.)]
+
+[Load Public GPG Key (Key ID: ]
+
+[ found in presence.)]
+
+[This is not public or private key]
+
+[Key already in secret keyring.]
+
 [Info]
 Інфо
+[Set file containing GPG public key]
+
+[GPG public key file]
+
 [Failed to open file]
 Неможливо відкрити файл
+[There is no public or private key.]
+
 [Services]
 Служби
 [Main]
@@ -225,12 +306,15 @@ ID ключа:
 Повідомлення
 [Advanced]
 Додатково
+;file \plugins\New_GPG\src\ui.cpp
 [New passwords do not match]
 Нові паролі не збігаються
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
 Старий пароль не збігається, ви можете продовжити, але GPG не прийме неправильний пароль.\nПродовжити?
 [Creation date]
 Дата створення
+[Expire date]
+
 [Key length]
 Довжина ключа
 [Accounts]
@@ -239,8 +323,16 @@ ID ключа:
 За замовчанням
 [key ID]
 Ключ
+[Generating new random key, please wait]
+
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+
+[Wrong GPG binary location found in system.\nPlease choose another location]
+
 [Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Ваша версія GnuPG не підтримується і може працювати неправильно!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
+
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версія GPG підтримується. Мовні файли знайдені.\nПлагін повинен працювати нормально.\nНатисніть ОК.
 [There is existing key for contact, would you like to replace it with new key?]
@@ -253,23 +345,59 @@ ID ключа:
 Прийняти
 [Received key from %s]
 Отримано ключ від %s
+[You must set encryption algorithm first]
+
 [Key length must be of length from 1024 to 4096 bits]
 Довжина ключа має бути від 1024 до 4096 біт
+[Invalid date]
+
 [Name must contain at least 5 characters]
 Ім'я має містити щонайменше 5 символів
 [Name cannot contain '(' or ')']
 Ім'я не може містити '(' чи ')'
 [Invalid Email]
 Неправильний E-mail
+[Generating new key, please wait...]
+
+[Expiration date]
+
+[Failed to export public key.]
+
+;file \plugins\New_GPG\src\utilities.cpp
+[Do you want to toggle encryption for all subcontacts?]
+
 [Turn off GPG encryption]
 Вимкнути шифрування GPG
 [Turn on GPG encryption]
 Увімкнути шифрування GPG
+[Target file exists, do you want to replace it?]
+
+[Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
+
+[File transfer warning]
+
+[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
+
+[encrypting file for transfer]
+
+[We have successfully exported %d public keys and all private keys.]
+
+[We have successfully exported all private keys.]
+
+[We have successfully exported %d public keys.]
+
 [Keys export result]
 Результат експорту ключів
+[We have successfully processed %d public keys and some private keys.]
+
+[We have successfully processed %d public keys.]
+
 [Keys import result]
 Результат імпорту ключів
+[GPG binary does not exist.\nPlease choose another location]
+
 [Please choose GPG binary location]
 Виберіть директорію з GnuPG
 [Please set keyring's home directory]
 Виберіть директорію з ключами GnuPG
+;file \plugins\New_GPG\src\utilities.h

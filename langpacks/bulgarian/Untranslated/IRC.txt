@@ -27,7 +27,6 @@
 [Op]
 [Halfop]
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-[Jerk]
 [*Disconnected*]
 [The buddy check function is enabled]
 [The buddy check function is disabled]

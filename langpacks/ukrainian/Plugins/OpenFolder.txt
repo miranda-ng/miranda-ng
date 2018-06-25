@@ -7,6 +7,7 @@
 ;============================================================
 [Adds a menu/toolbar item which opens the main Miranda NG folder.]
 Додає пункт меню/панелі кнопок, який відкриває папку, де встановлена Miranda NG.
+;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
 Відкрити папку
 [Main]

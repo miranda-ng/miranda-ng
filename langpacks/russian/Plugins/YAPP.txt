@@ -7,6 +7,7 @@
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 Предоставляет сервис всплывающих окон для различных плагинов.
+;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 История всплывающих окон
 [Close]
@@ -59,14 +60,17 @@
 Установить длительность
 [Timeout value (0 = default):]
 Длительность (0 = по умолчанию):
+;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
 Всплывающие окна включены
 [Popups are disabled]
 Всплывающие окна выключены
 [Popup History]
 История вспл. окон
+;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
 Всплывающие окна
+;file \plugins\YAPP\src\options.cpp
 [Example]
 Пример
 [The quick brown fox jumped over the lazy dog.]
@@ -123,10 +127,12 @@
 Настройки
 [Classes]
 Классы
+;file \plugins\YAPP\src\services.cpp
 [Disable Popups]
 Отключить всплывающие окна
 [Enable Popups]
 Включить всплывающие окна
+;file \plugins\YAPP\src\yapp.cpp
 [Toggle Popups]
 Вкл/Выкл вспл. окна
 [First line]
@@ -141,6 +147,7 @@
 Врезка
 [Title underline]
 Подчёркивание заголовка
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Копировать заголовок в буфер обмена
 [Copy message to clipboard]

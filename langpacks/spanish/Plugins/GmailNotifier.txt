@@ -5,6 +5,11 @@
 ;  Version: 1.0.1.1
 ;  Authors: Mixwind
 ;============================================================
+[Check your Gmail inboxes locally.]
+
+;file \plugins\GmailNotifier\res\options.rc
+[Gmail account]
+
 [Name:]
 Nombre:
 [Password:]
@@ -15,11 +20,62 @@ Añadir
 Guardar
 [Delete]
 Eliminar
+[Configuration]
+
+[Check Gmail inbox every]
+
 [minutes]
 minutos
+[Notify using:]
+
+[Duration:]
+
 [seconds]
 segundos
+[Text|Background:]
+
+[On double click:]
+
+[System tray]
+
+[Popup plugin]
+
+[Login using default browser]
+
+[Login using Internet Explorer]
+
+[Run custom program]
+
+[Use online contacts when no new mail]
+
+[Enable icon selection and icon in status bar (restart)]
+
+[This is a shared computer so disable auto login]
+
+[Log unread threads into database (enable history)]
+
+;file \plugins\GmailNotifier\src\check.cpp
+[Checking...]
+
+[Can't send account data!]
+
+[Wrong name or password!]
+
+[Can't get RSS feed!]
+
+;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Otro
+[Gmail: New thread(s)]
+
+[Gmail Notifier connection]
+
+[&Check all Gmail inboxes]
+
+[&Check Gmail inbox]
+
+;file \plugins\GmailNotifier\src\options.cpp
+[GmailNotifier]
+
 [Network]
 Red

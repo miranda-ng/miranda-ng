@@ -7,10 +7,18 @@
 ;============================================================
 [This will tell Miranda to run the specified command.]
 Така ще окажете на Miranda да изпълни определена команда.
+;file \plugins\MimCmd\src\commands.cpp
+[No help for '%s'.]
+
 [Available commands: ]
 Налични команди:\s
+[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
+
+;file \plugins\MimCmd\src\MimCmd.cpp
 [%s usage:\n]
 %s употреба:\n
+[%s <command> [<param> [<param> [...]]].\n]
+
 [This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
 Така ще окажете на Miranda да изпълни определена команда. Командите може да са без параметър, с един или повече параметри. Ползвайте "%s help" за да получите пълния списък с команди.\n
 [No command can have more than %d parameters.\n]

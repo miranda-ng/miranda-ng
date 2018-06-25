@@ -7,6 +7,7 @@
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
 Дазваляе іншым плагінам захоўваць свае дадзеныя ў адвольных тэчках. Падтрымліваюцца зменныя.
+;file \plugins\Folders\res\folders.rc
 [Custom folders]
 Тэчкі
 [Preview]
@@ -21,6 +22,7 @@
 Дапамога па зменных (Тэчкі)
 [Close]
 Зачыніць
+;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now?]
 Змены не захаваны. Ужыць змены?
 [Changes not saved]

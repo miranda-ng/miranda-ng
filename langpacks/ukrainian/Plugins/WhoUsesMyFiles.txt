@@ -7,6 +7,7 @@
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
 Сканує мережу в пошуках користувачів, які використовують ваші файли, відкриті для доступу з мережі, і сповіщає в спливаючих вікнах.
+;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Поточні з'єднання
 [Popup delay settings]
@@ -53,6 +54,7 @@ WUMF: Поточні з'єднання
 Будуть доступні в наступній версії
 [Show current connections]
 Показати з'єднання
+;file \plugins\WhoUsesMyFiles\src\options.cpp
 [Popup plugin not found!]
 Не встановлений плагін сплив. вікон!
 [Error]
@@ -65,6 +67,7 @@ WUMF: Поточні з'єднання
 Використання файлів
 [Services]
 Служби
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
 Користувач
 [File]
@@ -77,6 +80,7 @@ WUMF: Поточні з'єднання
 Помилка читання файлу
 [Error memory allocation]
 Помилка розподілу пам'яті
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Помилка створення меню
 [Enable WUMF popups]

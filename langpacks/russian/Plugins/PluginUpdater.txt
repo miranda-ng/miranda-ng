@@ -7,6 +7,7 @@
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
 Устанавливает и обновляет плагины и другие компоненты Miranda NG.
+;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Найдены обновления!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
@@ -97,6 +98,7 @@
 Ниже перечислены все отсутствующие компоненты Miranda NG. Выберите компоненты, которые вы хотите установить.\n\nНажмите на значок информации, чтобы перейти на страницу компонента на сайте.
 [Download]
 Загрузка
+;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Downloading...]
 Загрузка...
 [Succeeded.]
@@ -127,6 +129,7 @@
 Список пуст.
 [List loading already started!]
 Список загружается!
+;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Удалено!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
@@ -153,12 +156,16 @@
 Обновлений нет.
 [Update checking already started!]
 Обновление уже запущено!
+;file \plugins\PluginUpdater\src\Events.cpp
 [Plugin updater URI scheme]
 Установка компонентов
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
 Закрыть всплывающее окно
 [Do nothing]
 Ничего не делать
+;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 Резервировать базу перед обновлением
 [Stable version (incompatible with current development version)]
@@ -173,6 +180,7 @@
 Тест
 [Services]
 Службы
+;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
 Проверить обновления
 [Available components list]
@@ -181,9 +189,11 @@
 Обновление завершено
 [Update failed]
 Сбой обновления
+;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Информация о плагинах
 [Plugin Updater HTTP connections]
 HTTP подключения Plugin Updater
 [An error occurred while checking for new updates.]
 Во время проверки обновления произошла ошибка.
+;file \plugins\PluginUpdater\src\Compat\compat.h

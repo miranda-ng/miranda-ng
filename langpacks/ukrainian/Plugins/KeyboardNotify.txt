@@ -7,6 +7,7 @@
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
 Додає блимання світлодіодів клавіатури при отриманні повідомлень.
+;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 Перевіряти облікові записи
 [Events to react on]
@@ -83,6 +84,12 @@
 xСтатуси
 [Keys to flash]
 Чим блимати
+[Num Lock]
+
+[Caps Lock]
+
+[Scroll Lock]
+
 [Flashing effects]
 Блимати
 [All at the same time]
@@ -135,6 +142,12 @@ xСтатуси
 Скасувати
 [Set LEDs for events]
 Встановити для подій
+[Num]
+
+[Caps]
+
+[Scroll]
+
 [Message events]
 Повідомлення
 [File events]
@@ -165,10 +178,12 @@ xСтатуси
 Ігнорувати
 [Set xStatus list]
 Список xСтатусів
+;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Усі контакти **
 [** Unknown contacts **]
 ** Невідомі контакти **
+;file \plugins\KeyboardNotify\src\options.cpp
 [left -> right]
 ліво -> право
 [right -> left]

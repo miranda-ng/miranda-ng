@@ -7,6 +7,7 @@
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
 Сповіщення в треї при зміні статусу контакту.
+;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Виберіть протоколи
 [Choose contacts]
@@ -67,6 +68,7 @@
 Контакти
 [Idle]
 Очікування
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 Спливаючі сповіщення
 [Other status]

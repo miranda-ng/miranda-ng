@@ -7,6 +7,7 @@
 ;============================================================
 [Scriver - send and receive instant messages.]
 Плагін асабістых і гуртавых гутарак для Miranda NG.
+;file \plugins\Scriver\res\resource.rc
 [Behavior]
 Паводзіны
 [Automatically pop up the window when]
@@ -279,10 +280,12 @@ KB
 Зачыніць іншыя ўкладкі
 [Close tab]
 Зачыніць укладку
+;file \plugins\Scriver\src\chat_main.cpp
 [Messaging]
 Паведамленні
 [Group chats]
 Чаты
+;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
 [Flash when a word is highlighted]
@@ -451,6 +454,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Паказаць у новым вакне, калі 'Фільтр падзей' уключаны
 [Select folder]
 Абраць тэчку
+;file \plugins\Scriver\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]
@@ -465,6 +469,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Асабісты конт
 [Status]
 Статус
+;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Дадаць кантакт
 [User's details]
@@ -587,6 +592,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 В'етнамскі
 [Korean (Johab)]
 Карэйскі (Johab)
+;file \plugins\Scriver\src\input.cpp
 [Navigate: Previous tab]
 Навігацыя: Папярэдняя ўкладка
 [Navigate: Next tab]
@@ -613,6 +619,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Дзеянне: Паслаць усім
 [Action: Paste and send]
 Дзеянне: Уставіць і адправіць
+;file \plugins\Scriver\src\msgdialog.cpp
 [Sending in progress: %d message(s) left...]
 Адпраўка паведамлення: %d засталося...
 [%s is typing a message...]
@@ -625,6 +632,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Няма слоў для пошуку
 [User menu - %s]
 Меню кантакта - %s
+;file \plugins\Scriver\src\msglog.cpp
 [Me]
 Я
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -649,6 +657,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 URL адасланы
 [URL received]
 URL атрыманы
+;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Выходныя паведамленні
 [Outgoing background]
@@ -727,6 +736,7 @@ Shift+Enter
 Набірае тэкст
 [Popups]
 Усплывальныя вокны
+;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Паведамленне ад %s
 [%s is typing a message]
@@ -803,9 +813,12 @@ Miranda не змагла загрузіць убудаваную сістэму
 Кантакт пачаў пісаць
 [Contact stopped typing]
 Кантакт скончыў пісаць
+;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невядомая памылка.
+;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
+;file \plugins\Scriver\src\tabs.cpp
 [Always on top]
 Па-над усімі вокнамі

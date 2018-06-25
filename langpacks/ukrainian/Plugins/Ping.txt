@@ -7,6 +7,7 @@
 ;============================================================
 [Ping labelled IP addresses or domain names.]
 Пінгування IP-адрес та доменних імен.
+;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Затримка між пінгами (с):
 [Timeout]
@@ -97,8 +98,10 @@ TCP-з'єднання
 Налаштування...
 [Hosts...]
 Хости...
+;file \plugins\Ping\src\menu.cpp
 [Ping]
 Пінг
+;file \plugins\Ping\src\options.cpp
 [Text Files (*.txt)]
 Текстові файли (*.txt)
 [All Files]
@@ -113,6 +116,7 @@ TCP-з'єднання
 Налаштування
 [Hosts]
 Хости
+;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Плагін Ping
 [Responding]
@@ -123,6 +127,7 @@ TCP-з'єднання
 Тестування
 [Disabled]
 Вимкнено
+;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Показувати лінії
 [Show stats]
@@ -137,6 +142,7 @@ TCP-з'єднання
 МІН %hd мс
 [Ping Graph]
 Граф пінгів
+;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%S' (%d)]
 %d - встановлення статусу протоколу '%S' (%d)
 [Ping Reply]
@@ -157,8 +163,10 @@ TCP-з'єднання
 Показати/сховати вікно
 [List]
 Список
+;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Хост %s вимагає зменшити кількість трафіку, що надходить від вас.
+;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
 Невідома адреса
 [Unknown]

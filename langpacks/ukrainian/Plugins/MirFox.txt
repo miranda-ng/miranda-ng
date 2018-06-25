@@ -7,6 +7,7 @@
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Miranda NG) - частина интеграції Miranda NG до Firefox.
+;file \plugins\MirFox\res\resource.rc
 [Send to contact action]
 Дія при надсиланні контактові
 [on left mouse button click]
@@ -15,6 +16,10 @@ MirFox (Miranda NG) - частина интеграції Miranda NG до Firefo
 по клацанню правою кнопкою миші
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 по клацанню середньою кнопкою миші\n(Примітка: користуйтеся середньою кнопкою миші, щоб надсилати кілька повідомлень з Firefox)
+[Firefox menu]
+
+[Add account to contact name]
+
 [Firefox profiles]
 Профілі Firefox
 [Show Miranda menu only in these Firefox profiles (comma delimited)]
@@ -23,10 +28,12 @@ MirFox (Miranda NG) - частина интеграції Miranda NG до Firefo
 Показувати ці контакти в меню Firefox "Надіслати..."
 [Show these accounts in 'Set status message' option in Firefox]
 Показувати ці облікові записи в опції Firefox "Встановити статусне повідомлення"
+;file \plugins\MirFox\src\MirandaInterface.cpp
 [MirFox/Notification]
 MirFox/Сповіщення
 [MirFox/Error]
 MirFox/Помилка
+;file \plugins\MirFox\src\MirandaOptions.cpp
 [just send message]
 просто надіслати повідомлення
 [send message and open message window]
@@ -45,6 +52,7 @@ MirFox/Помилка
 Контакти
 [Accounts]
 Облікові записи
+;file \plugins\MirFox\src\MirandaUtils.cpp
 [MirFox log]
 Журнал MirFox
 [Message sent to %s]
@@ -71,6 +79,7 @@ MirFox/Помилка
 Не вдалося встановити статусне повідомлення для %s
 [Cannot set status message]
 Не вдалося встановити статусне повідомлення
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
 [This MirFox (Miranda) plugin is too old. Please update it.]
 Плагін MirFox (Miranda) застарів. Будь ласка, оновіть його.
 [MirFox (Miranda) - Error]

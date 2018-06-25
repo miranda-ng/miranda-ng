@@ -7,6 +7,7 @@
 ;============================================================
 [Take a screenshot and send it to a contact.]
 Стварэння здымкаў і адсылка кантакту.
+;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Гутарка
 [All]
@@ -69,6 +70,7 @@
 &Капіяваць
 [Close]
 Зачыніць
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Resulting URL from\n]
 
 [Copy]
@@ -85,6 +87,7 @@
 Памылка GCHAT
 [An unknown error has occurred.]
 Невядомая памылка.
+;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 Не ўдалося ініцыяваць %s.
 [MAPI error (%i):\n%s.]
@@ -93,10 +96,12 @@
 Невядомы адказ ад %s (%i)
 [Got no response from %s (%i)]
 Няма адказу ад %s (%i)
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
 [CloudFile transfer]
 
 [%s (%i):\nCould not add a share to the CloudFile plugin.]
 
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
 
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
@@ -127,20 +132,27 @@
 
 [Unknown Error]
 Невядомая памылка
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
 Перадача файла
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 
 [Could not start the HTTP Server plugin.]
 Не магу запусціць плагін HTTP Server.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Яшчэ раз
 [Yes]
@@ -151,6 +163,7 @@
 Скасаваць
 [Ignore]
 Ігнараваць
+;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
 Галоўны абразок
 [Target Cursor]
@@ -177,9 +190,9 @@
 Абнавіць
 [Edit on]
 
-[BBC]
+[BBCode]
 
-[BBC link]
+[BBCode link]
 
 [Down arrow]
 Стрэлка ўніз
@@ -205,10 +218,13 @@ HTTP далучэнне SendSS
 Адправіць скрыншот экрана
 [Open SendSS+]
 Адчыніць SendSS+
+;file \plugins\SendScreenshotPlus\src\stdafx.h
 [SendScreenshot - Error]
 SendScreenshot - Памылка
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Аўтары
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае вакно.
 [Send screenshot to %s]

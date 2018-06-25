@@ -7,6 +7,7 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Падае сэрвіс усплывальных вокнаў для розных плагінаў.
+;file \plugins\Popup\res\resource.rc
 [Content and Style]
 Стыль вокнаў
 [Go to Customize -> Fonts and Colors for fonts and colors options]
@@ -201,6 +202,7 @@ History++ для гісторыі вокнаў
 Поўны экран
 [Debug]
 Адладка
+;file \plugins\Popup\src\actions.cpp
 [Quick reply]
 Хуткі адказ
 [Send message]
@@ -221,6 +223,7 @@ History++ для гісторыі вокнаў
 няма дзеяння
 [Action]
 Дзеянне
+;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Пустаслоўе
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
@@ -235,8 +238,10 @@ History++ для гісторыі вокнаў
 Гэта заўвага
 [This is an error message]
 Гэта паведамленне пра памылку
+;file \plugins\Popup\src\effects.cpp
 [Square fading]
 
+;file \plugins\Popup\src\font.h
 [Popups]
 Усплывальныя вокны
 [Title]
@@ -257,10 +262,12 @@ History++ для гісторыі вокнаў
 Падкрэсленне загалоўка
 [Avatar border]
 Мяжа аватара
+;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Гісторыя ўсплывальных вокнаў адключана
 [Popup History message]
 Гісторыя ўсплывальных вокнаў
+;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 Вокны ўключаны
 [Popups are disabled]
@@ -293,6 +300,7 @@ History++ для гісторыі вокнаў
 Замацаванае
 [Add contact permanently]
 Дадаць кантакт заўсёды
+;file \plugins\Popup\src\main.cpp
 [Classes]
 Класы
 [Actions]
@@ -311,14 +319,17 @@ History++ для гісторыі вокнаў
 Вокны
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 
+;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без эфекту
 [Fade in/out]
 Плыўны паказ
+;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
 Гурты плагінаў
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 
+;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Адключаны
 [Online]
@@ -363,6 +374,7 @@ History++ для гісторыі вокнаў
 
 [Popup plus warning]
 Заўвага Popup plus
+;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 
 [Skin preview]
@@ -385,12 +397,16 @@ History++ для гісторыі вокнаў
 Глабальныя налады
 [Refresh List]
 Абнавіць спіс
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
 [Failed to GetClassInfoExW from EDIT class.]
 
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 
+;file \plugins\Popup\src\services.cpp
 [Notify]
 Абвестка
+;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Аўта
 [Favorite]

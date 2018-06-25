@@ -7,6 +7,7 @@
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Дозволяє завантажити файл на FTP-сервер і надіслати посилання своїм контактам. Підтримується стиснення перед відправкою і шифрування за допомогою SFTP і FTPS.
+;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP accounts]
 Облікові записи FTP
 [Host name]
@@ -111,6 +112,8 @@
 Замінити
 [File with the same name already exists on the server.]
 На севері вже є файл з таким ім'ям.
+[How to proceed?]
+
 [Copy URL]
 Копіювати посилання
 [Close dialog after upload finishes]
@@ -123,6 +126,7 @@
 Видалити зі списку
 [Copy Link]
 Копіювати посилання
+;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Про користувача
 [Copy Link to Clipboard]
@@ -135,6 +139,7 @@
 %d днів
 [Do you really want to cancel all running jobs?]
 Скасувати всі запущені завдання?
+;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
 FTP-сервер 1
 [FTP Server 2]
@@ -175,6 +180,7 @@ FTP-сервер 5
 Завантаження файлу завершено
 [Upload canceled]
 Завантаження скасовано
+;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
 Усі файли (*.*)
 [FTP File - Select files]
@@ -201,12 +207,20 @@ FTP-сервер 5
 Очікування...
 [UNKNOWN]
 Невідомо
+;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occurred when zipping the file(s).]
 Помилка під час архівації файлів.
+[%0.1f kB/s]
+
+[%0.1f%% (%d kB/%d kB)]
+
+[%s (%d kB/%d kB)]
+
 [Do you really want to cancel this upload?]
 Ви дійсно хочете скасувати це завантаження?
 [Status: %s\r\nFile: %s\r\nServer: %S]
 Статус: %s\r\nФайл: %s\r\nСервер: %S
+;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
 Файл уже існує - %s
 [Error occurred when opening local file.\nAborting file upload...]
@@ -221,10 +235,20 @@ FTP-сервер 5
 Ви дійсно хочете скасувати завантаження?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
 %s\r\nШвидкість: %s\r\nЗавершено: %s\r\nЗалишилося: %s
+;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 Необхідно додати хоча б один FTP-сервер у налаштуваннях.
 [Clear All]
 Очистити все
+;file \plugins\FTPFileYM\src\options.cpp
+[FTP (Standard)]
+
+[FTP+SSL (Explicit)]
+
+[FTP+SSL (Implicit)]
+
+[SFTP (Secure FTP over SSH)]
+
 [minutes]
 хвилин
 [hours]
@@ -237,3 +261,5 @@ FTP-сервер 5
 Облікові записи
 [Advanced]
 Додатково
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp

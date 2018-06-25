@@ -1,0 +1,69 @@
+#muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
+;============================================================
+;  File: Dbx_mdbx.dll
+;  Plugin: Miranda NG MDBX database driver
+;  Version: 0.95.9.1
+;  Authors: Miranda-NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+
+;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
+[Select crypto provider]
+
+[Cancel]
+
+[Total encryption (Recommended only for paranoid users)]
+
+[Login to Miranda NG]
+
+[New password]
+
+[Please enter your new password]
+
+[Enter password]
+
+[Change password]
+
+[Change]
+
+[Remove]
+
+[Old password]
+
+[Database encryption mode]
+
+[Standard]
+
+[Total]
+
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+
+[Set password]
+
+;file \plugins\Dbx_mdbx\src\dbintf.h
+[Change/remove password]
+
+;file \plugins\Dbx_mdbx\src\ui.cpp
+[Wrong old password entered!]
+
+[Password is too short!]
+
+[Passwords do not match!]
+
+[Database]
+
+[Compact]
+
+;file \plugins\Dbx_mdbx\src\ui.h
+[Logo]
+
+[Password]
+
+[Too many errors!]
+
+[Password is not correct!]
+
+[Please type in your password]
+

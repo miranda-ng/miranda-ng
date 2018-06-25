@@ -7,6 +7,7 @@
 ;============================================================
 [Discord support for Miranda NG.]
 Поддержка протокола Discord в Miranda NG.
+;file \protocols\Discord\res\discord.rc
 [User details]
 О пользователе
 [E-mail:]
@@ -21,8 +22,10 @@
 Не открывать окно чата при входе в комнату чата
 [Nick:]
 Ник:
+;file \protocols\Discord\src\dispatch.cpp
 [edited at]
 изменено в
+;file \protocols\Discord\src\groupchat.cpp
 [Change &nickname]
 Изменить &ник
 [Channel control]
@@ -43,10 +46,12 @@
 Укажите новую тему
 [Enter your new nick name:]
 Введите свой новый ник:
+;file \protocols\Discord\src\main.cpp
 [Main icon]
 Главный значок
 [Group chats]
 Чаты
+;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 Укажите имя комнаты чаты
 [Enter invitation code you received]
@@ -63,16 +68,21 @@
 Создать новую комнату чата
 [Copy Discord ID]
 Копировать Discord ID
+;file \protocols\Discord\src\options.cpp
 [Network]
 Сеть
 [Account]
 Учётная запись
+;file \protocols\Discord\src\proto.cpp
 [%s server connection]
 %s подключение к серверу
+[%s gateway connection]
+
 [User ID]
 ID пользователя
 [Protocol is offline or user isn't authorized yet]
 Протокол не в сети или пользователь ещё не авторизовался
+;file \protocols\Discord\src\utils.cpp
 [Attachment]
 Вложение
 [Embed]

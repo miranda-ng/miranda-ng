@@ -5,6 +5,9 @@
 ;  Version: 0.5.1.2
 ;  Authors: George Hazan
 ;============================================================
+[Discord support for Miranda NG.]
+
+;file \protocols\Discord\res\discord.rc
 [User details]
 Про користувача
 [E-mail:]
@@ -15,23 +18,74 @@
 Контакти
 [Default group:]
 Група:
+[Hide guild chats on startup]
+
 [Nick:]
 Нік:
+;file \protocols\Discord\src\dispatch.cpp
+[edited at]
+
+;file \protocols\Discord\src\groupchat.cpp
 [Change &nickname]
 Змінити &нік
+[Channel control]
+
+[Change &topic]
+
+[&Rename channel]
+
+[&Destroy channel]
+
 [&Invite a user]
 &Запросити користувача
+[Do you really want to destroy this channel? This action is non-revertable.]
+
+[Enter new channel name:]
+
+[Enter new topic:]
+
+[Enter your new nick name:]
+
+;file \protocols\Discord\src\main.cpp
 [Main icon]
 Головний значок
 [Group chats]
 Групові чати
+;file \protocols\Discord\src\menus.cpp
+[Enter channel name]
+
+[Enter invitation code you received]
+
+[Do you really want to leave the guild?]
+
+[Join guild]
+
+[Copy my Discord ID]
+
+[Leave guild]
+
+[Create new channel]
+
+[Copy Discord ID]
+
+;file \protocols\Discord\src\options.cpp
 [Network]
 Мережа
 [Account]
 Обліковий запис
+;file \protocols\Discord\src\proto.cpp
 [%s server connection]
 З'єднання з сервером %s
+[%s gateway connection]
+
 [User ID]
 ID користувача
+[Protocol is offline or user isn't authorized yet]
+
+;file \protocols\Discord\src\utils.cpp
+[Attachment]
+
+[Embed]
+
 [Preview]
 Тест

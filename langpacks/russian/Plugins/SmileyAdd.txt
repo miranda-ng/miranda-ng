@@ -7,6 +7,7 @@
 ;============================================================
 [Smiley support for Miranda NG.]
 Поддержка смайлов в Miranda NG.
+;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 Категории смайлов
 [Specify smiley pack for each category]
@@ -53,14 +54,17 @@
 Окно в стиле IEView
 [Horizontal sorting]
 Горизонтальная сортировка
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Показать окно для выбора смайла
+;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 Смайлы
 [Smiley cache]
 Кэш смайлов
 [SmileyAdd HTTP connections]
 HTTP-подключения SmileyAdd
+;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 Кнопка смайла
 [Assign smiley category]
@@ -69,6 +73,7 @@ HTTP-подключения SmileyAdd
 Цвет фона
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Только одна копия SmileyAdd может быть запущена.\nУдалите дубликат из папки "Plugins"
+;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 Наборы смайлов
 [All files]
@@ -77,8 +82,10 @@ HTTP-подключения SmileyAdd
 Смайлы
 [Customize]
 Тонкая настройка
+;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 В соответствии с протоколом
+;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Не найден набор смайлов %s для категории "%s".\nВыберите набор смайлов в разделе "Настройки -> Тонкая настройка -> Смайлы".
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
@@ -91,5 +98,6 @@ HTTP-подключения SmileyAdd
 Стандартные
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Ошибочное регулярное выражение "%s" в наборе смайлов "%s".
+;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 Ох!

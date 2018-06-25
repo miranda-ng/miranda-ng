@@ -7,6 +7,7 @@
 ;============================================================
 [Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
 Протокол-заглушка для Miranda NG. Предназначен для создания виртуальных контактов или для сохранения истории и контактов, оставшихся от неподдерживаемых протоколов.
+;file \protocols\Dummy\res\resource.rc
 [Protocol template:]
 Шаблон протокола:
 [Unique ID setting:]
@@ -21,12 +22,15 @@
 Для применения настроек нужен перезапуск.
 [Allow sending messages to contacts]
 Разрешить отправку сообщений
+;file \protocols\Dummy\src\dummy.h
 [Custom]
 Настроить
 [Screen name]
 Ник
 [User name]
 Имя пользователя
+[Facebook ID]
+Facebook ID
 [Gadu-Gadu number]
 Номер Gadu-Gadu
 [User ID]
@@ -39,9 +43,22 @@ ID пользователя
 Видимое имя
 [E-mail address]
 Адрес e-mail
+[Live ID]
+Live ID
 [Skype name]
 Логин Skype
+[Steam ID]
+Steam ID
+[Tlen login]
+Tlen login
+[Tox ID]
+Tox ID
 [Username]
 Имя пользователя
+[VKontakte ID]
+VKontakte ID
+[WhatsApp ID]
+WhatsApp ID
+;file \protocols\Dummy\src\dummy_proto.cpp
 [This Dummy account has disabled sending messages. Enable it in account options.]
 Отправка сообщений запрещена. Включите её в настройках этой учётной записи-заглушки.

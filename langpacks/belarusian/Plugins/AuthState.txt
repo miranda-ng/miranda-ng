@@ -7,6 +7,7 @@
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Гэты плагін змесціць абразок насупраць імя, калі кантакт не аўтарызаваў вас, ці вы яго.
+;file \plugins\AuthState\res\authstate.rc
 [Show Request icon]
 Паказваць абразок "Запыт"
 [Show Grant icon]
@@ -17,6 +18,7 @@
 Дадаць пункт меню
 [Show icons only for recently added contacts]
 Значкі толькі для нядаўна дададзеных
+;file \plugins\AuthState\src\main.cpp
 [Request]
 Запыт
 [Grant]
@@ -29,5 +31,6 @@
 Укл. значкі стану аўтарызацыі
 [Auth state]
 Стан аўтарызацыі
+;file \plugins\AuthState\src\options.cpp
 [Icons]
 Абразкі

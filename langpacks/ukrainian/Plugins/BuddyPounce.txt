@@ -7,6 +7,7 @@
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
 Автоматично надсилає повідомлення контактам, коли вони змінюють статус.
+;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 Підтвердження відправки відкладених
 [Send]
@@ -51,6 +52,7 @@
 Повідомл. про доставку
 [These settings are also used when sending a "Simple" pounce]
 Ці параметри також використовуються для "простих" відкл. повідомлень
+;file \plugins\BuddyPounce\src\dialog.cpp
 [Send If My Status Is...]
 Надсилати, якщо мій статус...
 [Send If They Change Status to...]
@@ -133,6 +135,7 @@
 Повідомлення успішно надіслано %s
 [Message failed to send to %s]
 Помилка надсилання повідомлення для %s
+;file \plugins\BuddyPounce\src\main.cpp
 [&Buddy Pounce]
 &Відкладене повідомлення
 [Message sessions]

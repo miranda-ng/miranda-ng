@@ -7,6 +7,7 @@
 ;============================================================
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
 Очистка системної історії, історії всіх контактів або лише вказаних; може видаляти історію старішу за вказаний час; видалення можливе при запуску або виході з програми.
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 Очистка історії
 [Sweep history for these contacts:]
@@ -21,10 +22,12 @@
 Клацання по значкові на панелі статусів змінює налаштування
 [Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
 Режим НЕБЕЗПЕЧНИЙ (швидший, але є ризик пошкодження бази даних)
+;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]
 Усі події зберігаються в історії
 [Delete all events]
 Усі події видаляються з історії
+;file \plugins\HistorySweeperLight\src\options.cpp
 [Delete older than 1 day]
 Видалити все старіше 1 дня
 [Delete older than 3 days]

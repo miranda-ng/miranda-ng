@@ -43,6 +43,8 @@
 WATrack: запит інформації
 [Artist: %s\\nTitle: %s\\nAlbum: %s]
 Артист: %s\\nНазва: %s\\nАльбом: %s
+[WATrack: %s]
+WATrack: %s
 [WATrack: request denied]
 WATrack: запит заборонений
 [Imitate IEView API]
@@ -111,6 +113,10 @@ WATrack: запит заборонений
 &Виділити все
 [SMS Message]
 Повідомлення SMS
+[WebPager]
+WebPager
+[EMail Express]
+EMail Express
 [Other event]
 Інша подія
 [Global History Search]
@@ -429,6 +435,8 @@ Enter для подробиць події
 Вихідне посилання
 [Selected background]
 Фон виділення
+[SMTP Simple]
+
 [Show sender information]
 Інформація про відправника
 [Show receiver information]

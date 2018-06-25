@@ -7,6 +7,7 @@
 ;============================================================
 [Advanced Database Editor.]
 Редактор на базата от данни за напреднали.
+;file \plugins\DbEditorPP\res\resource.rc
 [Search and replace]
 Търсене и заместване
 [Search for]
@@ -21,6 +22,8 @@
 Име на настройката
 [Setting value]
 Стойност на настройката
+[Case sensitive]
+
 [&Cancel]
 Отказ
 [Replace with]
@@ -55,6 +58,8 @@ Popup времетраене (0=безкрайност)
 Име
 [Value]
 Стойност
+[Base]
+
 [Hexadecimal]
 Шестнадесетичнa
 [Decimal]
@@ -95,6 +100,8 @@ Database Editor++
 Действия
 [&Search and replace]
 Търсене и замяна
+[Delete &resident settings]
+
 [&Delete module]
 Изтриване на модул
 [&Watches]
@@ -127,6 +134,14 @@ Database Editor++
 Показване само на заредените
 [Show only &unloaded]
 Показване само на незаредените
+[Edit &Bytes in Hex]
+
+[Edit &Words in Hex]
+
+[Edit &Dwords in Hex]
+
+[&Inline edit]
+
 [&Restore position]
 Възстановяване на позицията
 [&Open options]
@@ -187,6 +202,10 @@ BLOB
 Прозорец на наблюдаваните стойности
 [Reload watch list]
 Обновяване списъка за наблюдение
+;file \plugins\DbEditorPP\src\copymodule.cpp
+[Copy module "%s"]
+
+;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Желаете ли модулът "%s" да бъде изтрит?
 [Delete module from database]
@@ -195,6 +214,7 @@ BLOB
 Изтриване на модула от базата от данни... Зареждане
 [Delete from all contacts (including Settings)]
 Изтриване от всички Контакти (и Настройки)
+;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI файлове
 [All Files]
@@ -203,8 +223,11 @@ INI файлове
 Износ във файл
 [Couldn't open file for writing]
 Файлът не може да бъде отворен за писане
+[Import to "%s"]
+
 [Import from files]
 Внос от файл
+;file \plugins\DbEditorPP\src\findwindow.cpp
 [Result]
 Резултат
 [Contact]
@@ -227,6 +250,7 @@ INI файлове
 Търсене...
 [Finished. Items found: %d / replaced: %d / deleted: %d]
 Готово. Бяха намерени %d елемента. %d елемента бяха заменени. %d елемента бяха изтрити.
+;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Главна икона
 [Closed module]
@@ -241,6 +265,25 @@ INI файлове
 Непознат контакт
 [Known contact]
 Познат контакт
+[Open user tree]
+
+[Empty setting]
+
+[BLOB setting]
+
+[Byte setting]
+
+[Word setting]
+
+[Dword setting]
+
+[String setting]
+
+[Unicode setting]
+
+[Handle]
+
+;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Отваряне на Database Editor++
 [Database]
@@ -249,23 +292,53 @@ INI файлове
 Отваряне на контакта в DBE++
 [<UNKNOWN>]
 <НЕИЗВЕСТНО>
+[[UNLOADED]]
+
+;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
+[Delete resident settings from database?]
+
+[%d items deleted.]
+
+;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]
 Грешка при зареждане на списъка с модули
 [Error loading setting list]
 Грешка при зареждането на списъка с настройки
+;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 Зареждане на контактите...
 [Loading modules...]
 Зареждане на модулите...
 [Contacts]
 Контакти
+;file \plugins\DbEditorPP\src\options.cpp
+;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 Добавяне на модул към "%s"
+;file \plugins\DbEditorPP\src\settinglist.cpp
 [Type]
 Тип
 [Size]
 Размер
+[Unable to store value in this data type!]
+
+[Are you sure you want to delete setting(s): %d?]
+
+[*** encrypted ***]
+
+[*** buggy resident ***]
+
+;file \plugins\DbEditorPP\src\settingsdlg.cpp
+[Unknown DBVariant type!]
+
+[Edit setting (%s)]
+
+[New setting (%s)]
+
+;file \plugins\DbEditorPP\src\watchedvars.cpp
+[*** resident ***]
+
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Промяна в базата от данни: \nМодул: "%s", Настройка: "%s"\nНова стойност (%s): "%s"

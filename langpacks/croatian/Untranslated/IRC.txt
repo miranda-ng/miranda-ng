@@ -161,7 +161,6 @@
 [Ignore]
 [Please enter the reason]
 [Ban'n Kick]
-[Jerk]
 [*Disconnected*]
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
 [IRC Error]

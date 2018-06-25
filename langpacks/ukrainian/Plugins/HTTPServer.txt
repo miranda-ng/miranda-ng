@@ -7,6 +7,7 @@
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
 HTTP веб-сервер для Miranda NG.
+;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 IP-адреса 1
 [IPAddress2]
@@ -83,6 +84,10 @@ IP-адреса 2
 Відкрити в браузері
 [&Copy link]
 &Копіювати посилання
+;file \plugins\HTTPServer\src\Glob.h
+[Miranda NG HTTP-Server]
+
+;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 Розшарити поточну папку
 [All files]
@@ -109,6 +114,12 @@ IP-адреса 2
 Вибрано посилання на файл нульового розміру
 [Failed to get access to clipboard]
 Не вдалося отримати доступ до буфера обміну
+[Failed to get close the clipboard]
+
+[Failed to set clipboard data]
+
+[ListView_GetItem failed]
+
 [No share selected]
 Папка не вибрана
 [Current IP Address: ]
@@ -117,6 +128,8 @@ IP-адреса 2
 Поточна адреса:\s
 [IP Address: ]
 IP-адреса:\s
+[You are browsing from]
+
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nза: %s
 [You need to restart Miranda to change the main menu]
@@ -127,17 +140,25 @@ HTTP-сервер
 Мережа
 [HTTP Share new file]
 HTTP Новий розшарений файл
+;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Шару видалено
+;file \plugins\HTTPServer\src\main.cpp
 [Failed to open or create log file]
 Помилка відкриття або створення журналу
 [Failed to move to the end of the log file]
 Помилка переміщення в кінець журналу
+[Failed to write some part of the log file]
+
 [Failed to open or create file ]
 Помилка відкриття або створення файлу\s
 [Failed to write xml header to file ]
 Помилка запису в заголовок XML файлу\s
 [Failed to write xml data to file ]
 Помилка запису в XML файл\s
+[Failed to write xml tail to file ]
+
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+
 [Disable HTTP server]
 Вимкнути HTTP-сервер

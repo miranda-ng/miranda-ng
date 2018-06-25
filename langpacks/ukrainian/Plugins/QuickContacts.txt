@@ -7,6 +7,7 @@
 ;============================================================
 [Open contact-specific windows by hotkey.]
 Відкриває вікно з контактом з гарячої клавіші.
+;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 Остання відправлена подія
 [Enable last-sent-to]
@@ -35,6 +36,7 @@
 Ввести ім'я:
 [Show all contacts (Ctrl+A)]
 Показати всі контакти (Ctrl+A)
+;file \plugins\QuickContacts\src\dialog.cpp
 [Show all contacts]
 Показати всі контакти
 [Send message]
@@ -49,8 +51,10 @@
 Історія
 [Open contact menu]
 Відкрити меню контакту
+;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
 Швидкі контакти
+;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 Відкрити діалог
 [Quick Contacts...]

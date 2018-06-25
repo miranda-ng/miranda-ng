@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
 Керування зміною розкладки по гарячих клавішах.
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Гарячі клавіші
 [Changing layout:]
@@ -71,6 +72,7 @@
 Правий клік
 [Preview]
 Тест
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 Зміна розкладки
 [Changing Case]
@@ -79,7 +81,9 @@
 Бесіди
 [Popups]
 Спливаючі вікна
+;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Спливаюче вікно
+;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 Зміна розкладки

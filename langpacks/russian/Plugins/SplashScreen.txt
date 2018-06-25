@@ -7,6 +7,7 @@
 ;============================================================
 [Shows a splash at Miranda startup.]
 Показывает всплывающее окно при старте Miranda NG.
+;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 Настройки заставки
 [Show splash]
@@ -37,6 +38,7 @@
 Просмотр...
 [Download more splash screens]
 Скачать всплывающие окна
+;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Графические файлы
 [Sound Files]

@@ -7,6 +7,7 @@
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
 Пашырае функцыянал Miranda NG з дапамогай lua скрыптоў.
+;file \plugins\MirLua\res\resource.rc
 [Reload all]
 
 [Scripts]
@@ -17,6 +18,7 @@
 Агульнае
 [Popup on obsolete methods]
 
+;file \plugins\MirLua\src\icons.cpp
 [Script]
 Скрыпт
 [Loaded]
@@ -29,10 +31,12 @@
 Перагрузіць
 [Compile]
 
+;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Агульныя скрыпты
 [Services]
 Службы
+;file \plugins\MirLua\src\plugin.cpp
 [C libs folder]
 
 [Scripts folder]

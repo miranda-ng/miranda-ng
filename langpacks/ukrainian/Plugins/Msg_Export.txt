@@ -7,6 +7,7 @@
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 Експорт повідомлень, посилань чи отриманих файлів у текстовий файл.
+;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Огляд
 [Use internal viewer]
@@ -73,8 +74,25 @@ UTF8 у нових файлах
 Ім'я файлу за замовчанням
 [Copy]
 Копіювати
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Failed to write to the Rich Edit the buffer was to small.]
+
+[Error: Optimal buffer size decreased to a too low size!]
+
+[Internal error! (lExtraRead >= 0)]
+
+[Failed to execute external file view]
+
 [Failed to load Rich Edit (Msftedit.dll)]
 Не вдалося завантажити Rich Edit (Msftedit.dll)
+[Failed to get handle to Rich Edit!]
+
+[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
+
+[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+
+[With scroll to bottom %d\n]
+
 [Search string was not found!]
 Рядок не знайдено!
 [Save as RTF]
@@ -89,8 +107,14 @@ UTF8 у нових файлах
 Помилка створення файлу
 [Failed to save file]
 Помилка збереження файлу
+[History was saved successfully in file\r\n]
+
+[Failed to create history dialog]
+
+;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 &Експортована історія
+;file \plugins\Msg_Export\src\options.cpp
 [Reading database information (Phase 1 of 2)]
 Крок 1: Читання бази даних
 [Sorting and writing database information (Phase 2 of 2)]
@@ -101,6 +125,8 @@ UTF8 у нових файлах
 Немає контактів для експорту
 [Failed to export at least one contact]
 Не вдалося експортувати як мінімум 1 контакт
+[Max line width must be at least %d. Or use 0 for no limit.]
+
 [You need to restart Miranda to change the history function]
 Зміни функції історії набудуть чинності після перезапуску Miranda
 [File]
@@ -117,6 +143,10 @@ UTF8 у нових файлах
 Виконувані файли
 [All files]
 Усі файли
+[Failed to get the shells allocator!]
+
+[Failed to Allocate buffer space]
+
 [Select Destination Directory]
 Вибрати папку для запису
 [Export Protocols]
@@ -129,6 +159,14 @@ UTF8 у нових файлах
 Загальне
 [Additional]
 Додатково
+;file \plugins\Msg_Export\src\stdafx.h
+[Miranda NG (Message Export Plugin)]
+
+;file \plugins\Msg_Export\src\utils.cpp
+[No_Group]
+
+[Database: Attempt to get wrong type of value, string]
+
 [(Unknown Contact)]
 (Невідомий контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
@@ -145,6 +183,42 @@ UTF8 у нових файлах
 Усі файли\0*.*\0Текстові файли\0*.txt\0\0
 [Failed to move to the end of the file :\n]
 Не вдалося перейти до кінця файлу:\n
+[Failed to UTF8 byte order code to file :\n]
+
+[      History for\r\n]
+
+[User      : %User%\r\n]
+
+[Protocol  : %Proto%\r\n]
+
+[UIN       : %UIN%\r\n]
+
+[FirstName : %FirstName%\r\n]
+
+[LastName  : %LastName%\r\n]
+
+[Age       : %Age%\r\n]
+
+[Gender    : %Gender%\r\n]
+
+[e-mail    : %e-mail%\r\n]
+
+[Nick      : %Nick%\r\n]
+
+[City      : %City%\r\n]
+
+[State     : %State%\r\n]
+
+[Phone     : %Phone%\r\n]
+
+[Homepage  : %Homepage%\r\n]
+
+[- About -\r\n%About%\r\n]
+
+[Failed to write user details to file :\n]
+
+[Failed to write timestamp and username to file :\n]
+
 [Failed to write message to the file :\n]
 Не вдалося записати повідомлення у файл:\n
 [URL: ]
@@ -165,10 +239,18 @@ UTF8 у нових файлах
 Пошта     :
 [Reason    :]
 Причина   :
+[Invalid Database event received. Type %d, size %d]
+
+[Failed to write Invalid Database event the file :\n]
+
 [The following user made an authorization request:]
 Користувач запросив авторизацію:
 [The following user added you to their contact list:]
 Користувач додав вас у свій список контактів:
+[UIN       :]
+
+[Failed to write AUTHREQUEST or ADDED to the file :\n]
+
 [EmailExpress from:]
 EmailExpress від:
 [WebPager from:]
@@ -187,3 +269,5 @@ WebPager від:
 Контакт видалений. Видалити файл?
 [Failed to delete the file]
 Не вдалося видалити файл
+[No_Nick]
+

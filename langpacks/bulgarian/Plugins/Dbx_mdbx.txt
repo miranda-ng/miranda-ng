@@ -7,8 +7,13 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
+;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
+[Select crypto provider]
+
 [Cancel]
 Отказ
+[Total encryption (Recommended only for paranoid users)]
+
 [Login to Miranda NG]
 Вписване в Miranda NG
 [New password]
@@ -37,8 +42,10 @@
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
 [Set password]
 Задаване на парола
+;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Промяна/премахване на парола
+;file \plugins\Dbx_mdbx\src\ui.cpp
 [Wrong old password entered!]
 Въведената стара парола е грешна!
 [Password is too short!]
@@ -47,6 +54,11 @@
 Паролите не са еднакви!
 [Database]
 База от данни
+[Compact]
+
+;file \plugins\Dbx_mdbx\src\ui.h
+[Logo]
+
 [Password]
 Парола
 [Too many errors!]

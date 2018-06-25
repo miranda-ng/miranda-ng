@@ -7,6 +7,7 @@
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Быстрая смена статусов и предустановленных сообщений статуса.
+;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s message for %s]
 %s сообщение для %s
 [&Cancel]
@@ -111,6 +112,42 @@
 Независимая настройка для каждого протокола
 [Pop up dialog asking for status message]
 Показывать диалог запроса смены статуса
+[Fortune]
+
+[?cinfo(contact,property)]
+
+[?contact(string,property)]
+
+[?mstatus(protocol)]
+
+[?lsdate(contact,format)]
+
+[?lsstatus(contact)]
+
+[?lstime(contact,format)]
+
+[?dbsetting(contact,module,setting)]
+
+[?txtfile(file,line)]
+
+[?if(condition,true,false)]
+
+[?strcmp(string1,string2)]
+
+[?stricmp(string1,string2)]
+
+[?cdate(format)]
+
+[?ctime(format)]
+
+[?replace(sub,string1,string2)]
+
+[?lower(string)]
+
+[?upper(string)]
+
+[?scroll(string,numchars,numchars)]
+
 [More variables...]
 Ещё переменные...
 [Cut]
@@ -123,6 +160,7 @@
 Удалить
 [Select all]
 Выделить всё
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 Не удалось получить сообщение %s.
 [&Close]
@@ -139,6 +177,7 @@
 Скопировать сообщение "Отсутствую"
 [&Go to URL in Away message]
 О&ткрыть ссылку в сообщении "Отсутствую"
+;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change status message]
 Сменить сообщение статуса
 [Open status message dialog]
@@ -157,6 +196,9 @@
 Относящееся к Miranda NG
 [get the date (Simple Status Message compatible)]
 получает дату (совместимо с Simple Status Message)
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[<startup>]
+
 [<current>]
 <текущий>
 [Clear history]
@@ -173,6 +215,7 @@
 Вы уверены, что хотите удалить историю сообщений статуса?
 [Confirm clearing history]
 Подтверждение удаления истории
+;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Глобальный статус
 [Open string formatting help]
@@ -199,6 +242,7 @@
 Общее
 [Advanced]
 Дополнительно
+;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Recent message]
 Последнее сообщение
 [Predefined message]

@@ -7,6 +7,7 @@
 ;============================================================
 [IE Based Chat Log.]
 Журнал на IE рухавічку.
+;file \plugins\IEView\res\ieview.rc
 [Copy]
 Капіяваць
 [Copy Link]
@@ -67,6 +68,7 @@
 Адносны час
 [Download more templates]
 
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Выходныя перадачы файлаў
 [Incoming File Transfer]
@@ -75,12 +77,14 @@
 URL адпраўлены
 [URL received]
 URL атрыманы
+;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Невядомы кантакт)
 [ requested authorization]
  запрасіў аўтарызацыю
 [ was added.]
  быў дададзены.
+;file \plugins\IEView\src\IEView.cpp
 [IID_IOleObject failed.]
 
 [RESULT]
@@ -91,6 +95,7 @@ URL атрыманы
 
 [C++ Event Sink]
 
+;file \plugins\IEView\src\ieview_main.cpp
 [RTL On]
 
 [RTL Off]
@@ -99,6 +104,7 @@ URL атрыманы
 
 [Group Off]
 
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s увайшоў.
 [%s has left.]
@@ -107,6 +113,7 @@ URL атрыманы
 Тэма %s
 [Error]
 Памылка
+;file \plugins\IEView\src\Options.cpp
 [General]
 Агульнае
 [Message Log]
@@ -131,6 +138,7 @@ URL атрыманы
 Усе малюнкі
 [Style Sheet]
 Табліца стыляў
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Сёння
 [Yesterday]
@@ -139,3 +147,5 @@ URL атрыманы
 Пасылка файла
 [File received]
 Файл атрыманы
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

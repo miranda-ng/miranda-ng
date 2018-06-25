@@ -7,6 +7,7 @@
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Правярае наяўнасць далучэння і аўтаматычна перадалучае пры парывах. Дазваляе вам наладзіць, які статус будзе пры запуску Miranda у кожнага конта.
+;file \plugins\StatusManager\res\resource.rc
 [Available modules]
 
 [Keep status]
@@ -293,6 +294,7 @@ Dial-up (эксперыментальна)
 Не змяняць статус пры вяртанні
 [Leaving second auto-away status]
 Выдаленне другога статуса аўта-адсутнасці
+;file \plugins\StatusManager\src\aaa_options.cpp
 [minutes of %s mode]
 хвілін рэжыму "%s"
 [Auto away]
@@ -301,6 +303,7 @@ Dial-up (эксперыментальна)
 Кіравала
 [Status messages]
 Паведамленні статусу
+;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Уст. %s паведамленне для %s.
 [<last>]
@@ -313,6 +316,7 @@ Dial-up (эксперыментальна)
 Пратакол
 [Closing in %d]
 Зачыніць (%d)
+;file \plugins\StatusManager\src\keepstatus.cpp
 [%s connected from another location]
 %s далучаны з іншага месца
 [%s login error, cancel reconnecting]
@@ -337,6 +341,7 @@ Dial-up (эксперыментальна)
 Статус усталяваны
 [Giving up]
 Спыняю
+;file \plugins\StatusManager\src\ks_options.cpp
 [You broke the Internet!]
 Злучэнне з Інтэрнэт разарвана!
 [Basic]
@@ -345,8 +350,10 @@ Dial-up (эксперыментальна)
 Дадаткова
 [Popups]
 Усплывальныя вокны
+;file \plugins\StatusManager\src\options.cpp
 [Status manager]
 
+;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <невядома>
 [Right]
@@ -373,6 +380,8 @@ Dial-up (эксперыментальна)
 Мінімум адзін профіль павінен існаваць
 [Your default profile will be changed]
 Профіль па змаўчанні будзе зменены
+;file \plugins\StatusManager\src\ss_profiles.cpp
+;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]
 Націснуты абразок панэлі
 [Released toolbar icon]

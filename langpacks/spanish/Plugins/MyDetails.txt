@@ -5,22 +5,79 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
+[Shows and allows you to edit your details for all accounts.]
+
+;file \plugins\MyDetails\res\resource.rc
+[Set my nickname]
+
 [Nickname:]
 Apodo:
 [Cancel]
 Cancelar
 [General]
 General
+[RTL]
+
+[Align text to right]
+
+[Auto-resize frame]
+
+[Use contact list smileys]
+
+[Replace smileys]
+
+[Resize smileys]
+
+[Global on...]
+
+[...avatar]
+
+[...nickname]
+
+[...status]
+
+[...status message]
+
 [Account]
 Cuenta
+[Show account name]
+
+[Show account cycle button]
+
+[Cycle through accounts every:]
+
 [seconds]
 segundos
+[Avatar]
+
+[Custom size:]
+
 [pixels]
 píxeles
+[Allow it to grow]
+
 [Draw border]
 Dibujar borde
 [Round corners]
 Esquinas redondeadas
+[Custom corner size:]
+
+[Use free space (under avatar) to other texts]
+
+[Frame options]
+
+[Top:]
+
+[Bottom:]
+
+[Left:]
+
+[Right:]
+
+[Set my status message for all status]
+
+[Status message:]
+
 [&Offline]
 &Fuera de línea
 [On&line]
@@ -41,11 +98,62 @@ No &molestar
 En el &teléfono
 [Out to &lunch]
 Salí a &comer
+[Set my avatar...]
+
+[Set my nickname...]
+
+[Set my status message...]
+
+[Enable listening to]
+
+[Show next account]
+
+[Show previous account]
+
+[Cycle through accounts]
+
+[Don't cycle through accounts]
+
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+
+;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
 Apodo
 [Status]
 Estado
+[Status message]
+
+[Listening to]
+
+[My details]
+
 [Background]
 Fondo
+[Avatar border]
+
+[Show my details]
+
+[Enable listening to for %s]
+
+[Set my avatar for %s...]
+
+[Set my nickname for %s...]
+
+[Set my status message for %s...]
+
+[Hide my details]
+
+;file \plugins\MyDetails\src\mydetails.cpp
+[Previous account]
+
+[Next account]
+
+;file \plugins\MyDetails\src\options.cpp
 [Contact list]
 Lista de contactos
+;file \plugins\MyDetails\src\services.cpp
+[Set my nickname for %s]
+
+[Set my status message for %s]
+

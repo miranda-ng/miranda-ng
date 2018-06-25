@@ -7,6 +7,7 @@
 ;============================================================
 [Shows new message/status change info using on-screen display.]
 Отображает новые сообщения/изменения статуса, используя OSD.
+;file \plugins\wbOSD\res\wbOSD.rc
 [General]
 Общие
 [Align]
@@ -53,8 +54,10 @@
 Нажатие открывает окно сообщений
 [Show when my status is:]
 Показывать OSD, когда мой статус:
+;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s сейчас %s
+;file \plugins\wbOSD\src\options.cpp
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
 Переменные:\n  %n : Имя\n  %m : Сообщение\n  %l : Новая строка
 [Help]

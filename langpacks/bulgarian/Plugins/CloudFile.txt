@@ -5,21 +5,70 @@
 ;  Version: 0.11.0.6
 ;  Authors: Miranda NG team
 ;============================================================
+[Allows you to transfer files via cloud services.]
+
+;file \plugins\CloudFile\res\resource.rc
+[Default service]
+
 [General]
 Основни
 [Autosend download link to contact]
 Автоизпращане на връзка за сваляне на контакта
+[Paste download link into message input area]
+
+[Copy download link to clipboard]
+
+[Download link]
+
 [Do nothing]
 Нищо
+[Try to rename]
+
+[Try to replace]
+
+[On conflict when upload]
+
 [Authorization]
 Упълномощаване
 [Cancel]
 Отказ
+[Enter authorization code:]
+
+[To allow Miranda NG access to %s:]
+
+[Go to this link]
+
+[Request access]
+
+[Revoke access]
+
+;file \plugins\CloudFile\src\icons.cpp
 [Upload file(s)]
 Качване на файл(ове)
+[Dropbox]
+
+[Google Drive]
+
+[OneDrive]
+
+[Yandex.Disk]
+
+;file \plugins\CloudFile\src\menus.cpp
+[Upload to...]
+
 [Upload]
 Качване
+;file \plugins\CloudFile\src\options.cpp
 [None]
 Няма
 [Services]
 Услуги
+;file \plugins\CloudFile\src\srmm.cpp
+[Upload files to...]
+
+;file \plugins\CloudFile\src\Services\dropbox_service.cpp
+[Server does not respond]
+
+;file \plugins\CloudFile\src\Services\google_service.cpp
+;file \plugins\CloudFile\src\Services\microsoft_service.cpp
+;file \plugins\CloudFile\src\Services\yandex_service.cpp

@@ -5,9 +5,99 @@
 ;  Version: 0.3.1.0
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
+[Smiley support for Miranda NG.]
+
+;file \plugins\SmileyAdd\res\resource.rc
+[Smiley categories]
+
+[Specify smiley pack for each category]
+
+[Name:]
+
+[Author:]
+
+[Version:]
+
+[Preview]
+
+[Use per protocol global smiley packs]
+
+[Display]
+
+[Replace only smileys surrounded by spaces]
+
+[Scale smiley to text height]
+
+[Disable custom smileys]
+
+[High quality smiley scaling]
+
+[Animate]
+
+[Maximum 'Custom smiley' height]
+
+[Minimum smiley height]
+
+[Smiley selector]
+
+[Input area]
+
+[Enable smileys]
+
+[Don't replace at cursor]
+
+[Surround inserted smiley with spaces]
+
+[Use first smiley for selection size]
+
+[IEView style window]
+
+[Horizontal sorting]
+
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+[Show smiley selection window]
+
+;file \plugins\SmileyAdd\src\download.cpp
+[SmileyAdd]
+
+[Smiley cache]
+
+[SmileyAdd HTTP connections]
+
+;file \plugins\SmileyAdd\src\main.cpp
+[Button smiley]
+
+[Assign smiley category]
+
 [Background color]
 Background colour
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
+
+;file \plugins\SmileyAdd\src\options.cpp
+[Smiley packs]
+
+[All files]
+
+[Smileys]
+
 [Customize]
 Customise
+;file \plugins\SmileyAdd\src\services.cpp
+[Protocol specific]
+
+;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customise -> Smileys.
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
+
+[Smiley #%u in file %s for smiley pack %s not found.]
+
+[%s global smiley pack]
+
+[Standard]
+
+[Regular expression "%s" in smiley pack "%s" malformed.]
+
+;file \plugins\SmileyAdd\src\smltool.cpp
+[d'Oh!]
+

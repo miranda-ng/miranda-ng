@@ -51,16 +51,10 @@ Použít výchozí barvy
 [\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or any at all addresses found]
 
 ;file \plugins\ProxySwitch\src\ip.cpp
-[\nMiranda	]
-
 [Proxy]
 
 [Direct]
 Přímo
-[\nExplorer	]
-
-[\nFirefox	]
-
 [Cannot retrieve IP or adapter data.]
 
 [Cannot allocate memory for pAddresses]

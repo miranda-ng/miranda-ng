@@ -7,8 +7,11 @@
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
 Підтримка протоколу Lotus Sametime у Miranda NG.
+;file \protocols\Sametime\res\resource.rc
 [Connection]
 Підключення
+[ID:]
+
 [Password:]
 Пароль
 [Server name:]
@@ -57,6 +60,7 @@ ID та версія клієнта
 Вибрати все
 [Invert\nselection]
 Обернути\nвиділення
+;file \protocols\Sametime\src\conference.cpp
 [I'm outa here.]
 Мене немає.
 [Invitation rejected - already present.]
@@ -73,16 +77,20 @@ ID та версія клієнта
 Вийти з чату
 [Start conference]
 Створити чат-кімнату
+;file \protocols\Sametime\src\files.cpp
+;file \protocols\Sametime\src\messaging.cpp
 [No common encryption method. Try to enable encryption in protocol options.]
 Шифрування недоступне. Спробуйте ввімкнути шифрування в налаштуваннях протоколу.
 [SERVICE NOT IMPLEMENTED. %s]
 Служба не реалізована. %s
+;file \protocols\Sametime\src\options.cpp
 [Client protocol version: %03d.%03d]
 Версія протоколу клієнта: %03d.%03d
 [Server protocol version: %03d.%03d]
 Версія протоколу сервера: %03d.%03d
 [Network]
 Мережа
+;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
 Значок протоколу
 [Announce]
@@ -91,8 +99,10 @@ ID та версія клієнта
 Сповіщення
 [Error]
 Помилка
+;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 З'єднання %s
+;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 Повідомлення адміністратора Sametime
 [Session announcement - from '%s']
@@ -103,8 +113,10 @@ ID та версія клієнта
 Відсутнє з'єднання з сервером!
 [Send announcement...]
 Надіслати оголошення...
+;file \protocols\Sametime\src\session_announce_win.cpp
 [Recipients]
 Отримувачі
+;file \protocols\Sametime\src\userlist.cpp
 [Failed to upload contacts - storage service unavailable.]
 Не вдалося закачати контакти - служба зберігання недоступна.
 [Name]
@@ -117,14 +129,20 @@ ID та версія клієнта
 Правда
 [False]
 Брехня
+;file \protocols\Sametime\src\utils.cpp
 [%s\n\nSametime error %S\n%s]
 %s\n\nПомилка Sametime %S\n%s
+;file \protocols\Sametime\src\meanwhile\src\error.c
 [Success]
 Успішно
+[General failure]
+
 [Request delayed]
 Запит відкладений
 [Request is invalid]
 Неправильний запит
+[Not logged in]
+
 [Not authorized]
 Не авторизований
 [Operation aborted]
@@ -151,10 +169,16 @@ ID та версія клієнта
 Протокол не підтримується
 [Version is not supported]
 Ця версія не підтримується
+[User is invalid or not trusted]
+
+[Already initialized]
+
 [Not an owner]
 Не власник
 [Invalid token]
 Неправильний токен
+[Token expired]
+
 [Token mismatch]
 Токен не збігається
 [Port in use]
@@ -163,24 +187,42 @@ ID та версія клієнта
 Помилка мережі
 [Master channel error]
 Помилка головного каналу
+[Already subscribed]
+
+[Not subscribed]
+
 [Encryption method not supported]
 Метод шифрування не підтримується
 [Encryption not initialized]
 Шифрування не ініціалізоване
+[Encryption too low]
+
 [Invalid encrypted data]
 Неправильні дані шифрування
 [No common encryption method]
 Немає сумісного методу шифрування
+[Channel destroyed]
+
+[Channel redirected]
+
+[Incorrect entry]
+
 [Version mismatch]
 Версія несумісна
+[Not enough buffers memory]
+
 [Not in use]
 Не використовується
+[Not enough sockets]
+
 [Hardware error]
 Помилка обладнання
 [Host error]
 Помилка хоста
 [Host unreachable]
 Хост недоступний
+[Internet protocol error]
+
 [Message is too large]
 Повідомлення занадто довге
 [Proxy error]
@@ -195,14 +237,24 @@ ID та версія клієнта
 Користувач видалений
 [Sametime protocol error]
 Помилка протоколу Sametime
+[User restricted]
+
 [Incorrect Username/Password]
 Неправильне ім'я користувача або пароль
 [Encryption mismatch]
 Шифрування не збігається
+[User unregistered]
+
+[Login verification down or unavailable]
+
 [User too idle]
 Користувач неактивний
+[The guest name is currently being used]
+
 [User exists]
 Користувач існує
+[User relogin]
+
 [Bad name]
 Неправильне ім'я
 [Registration error]
@@ -225,20 +277,30 @@ DNS не знайдено
 З'єднання відхилено
 [Connection reset]
 З'єднання скинуто
+[Connection timed out]
+
 [Connection closed]
 З'єднання закрито
 [Login to two different servers concurrently (1)]
 Підключення до двох серверів одночасно (1)
 [Login to two different servers concurrently (2)]
 Підключення до двох серверів одночасно (2)
+[Already logged on, disconnected]
+
+[Already logged on]
+
 [Server misconfiguration]
 Проблема налаштувань сервера
 [Server needs upgrade]
 Сервер потребує оновлення
+[Applet Logout]
+
 [User is in Do Not Disturb mode]
 Статус користувача "Не турбувати"
 [Already logged in elsewhere]
 Уже підключений з іншого місця
+[Cannot register a reserved type]
+
 [Requested type is already registered]
 Тип уже зареєстрований
 [Requested type is not registered]
@@ -247,12 +309,20 @@ DNS не знайдено
 Визначення не завершено
 [Resolve name not unique]
 Ім'я не унікальне
+[Resolve name not resolvable]
+
 [Operation succeeded]
 Операція успішна
 [Operation failed]
 Операція невдала
 [Request accepted but will be served later]
 Запит прийнятий, але буде оброблений пізніше
+[Request is invalid due to invalid state or parameters]
+
+[Not logged in to community]
+
+[Unauthorized to perform an action or access a resource]
+
 [Operation has been aborted]
 Операцію скасовано
 [The element is non-existent]
@@ -279,12 +349,20 @@ DNS не знайдено
 Ця версія не підтримується
 [Not an owner of the requested resource]
 Не власник запитуваного ресурсу
+[Token has expired]
+
 [Token IP mismatch]
 IP токену не збігається
+[WK port is in use]
+
 [Low-level network error occurred]
 Мережева помилка низького рівня
 [No master channel exists]
 Головний канал не існує
+[Already subscribed to object(s) or event(s)]
+
+[Not subscribed to object(s) or event(s)]
+
 [Encryption is not supported or failed unexpectedly]
 Шифрування не підтримується або сталася його помилка
 [Encryption mechanism has not been initialized yet]
@@ -295,10 +373,24 @@ IP токену не збігається
 Дані шифрування неправильні або пошкоджені
 [There is no common encryption method]
 Немає сумісного методу шифрування
+[The channel is destroyed after a recommendation is made connect elsewhere]
+
+[The channel has been redirected to another destination]
+
+[Incorrect entry for server in cluster document]
+
 [Versions don't match]
 Версії не збігаються
+[Not enough resources for connection (buffers)]
+
+[Not enough resources for connection (socket id)]
+
 [Hardware error occurred]
 Помилка обладнання
+[Network down]
+
+[Host down]
+
 [TCP/IP protocol error]
 Помилка протоколу TCP/IP
 [The message is too large]
@@ -313,8 +405,20 @@ IP токену не збігається
 Користувач видалений з сервера
 [Virtual Places protocol error]
 Помилка протоколу Virtual Places
+[Cannot connect because user has been restricted]
+
+[Incorrect login]
+
+[User is unregistered]
+
+[Verification service down]
+
 [User has been idle for too long]
 Користувач був неактивним занадто довго
+[The user is already signed on]
+
+[The user has signed on again]
+
 [The name cannot be used]
 Це ім'я не можна використати
 [The registration mode is not supported]
@@ -331,10 +435,14 @@ IP токену не збігається
 Ім'я сервера не знайдене
 [The connection has been broken]
 З'єднання розірвано
+[An established connection was aborted by the software in the host machine]
+
 [The connection has been refused]
 З'єднання відхилено
 [The connection has been reset]
 З'єднання скинуто
+[The connection has timed out]
+
 [The connection has been closed]
 З'єднання закрито
 [Disconnected due to login in two Sametime servers concurrently (1)]
@@ -349,6 +457,8 @@ IP токену не збігається
 Неможливо підключитися: сервер недоступний або налаштований неправильно.
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
 Неможливо підключитися до домашнього сервера Sametime через вказаний сервер: ваш домашній сервер необхідно оновити.
+[The applet was logged out with this reason. Perform relogin and you will return to the former state.]
+
 [The user is not online]
 Користувач не в мережі
 [The user is in do not disturb mode]
@@ -363,5 +473,7 @@ IP токену не збігається
 Процес визначення не завершено, доступна часткова відповідь
 [The name was found, but is not unique (request was for unique only)]
 Знайдене ім'я не унікальне (запит був лише на унікальне)
+[The name is not resolvable due to its format, for example an Internet email address]
+
 [Unknown error code]
 Невідомий код помилки

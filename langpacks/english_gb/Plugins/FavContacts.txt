@@ -7,23 +7,69 @@
 ;============================================================
 [Favorite contacts menu.]
 Favourite contacts menu.
+;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Customise
+[Show second line]
+
+[Show avatars]
+
+[Draw avatar border]
+
+[Round corners by]
+
+[px.]
+
+[Hide for transparent avatars]
+
 [Use system colors and fonts]
 Use system colours and fonts
 [Hotkey shows menu centered on screen]
 Hotkey shows menu centred on screen
+[Menu item preview:]
+
 [Favorite Contacts]
 Favourite Contacts
+[Enable groups]
+
+[Multicolumn menu]
+
 [Configure fonts and colors...]
 Configure fonts and colours...
+[Align to the right]
+
+[Dim idle contact icons]
+
+[Show]
+
+[recent contacts]
+
+;file \plugins\FavContacts\src\favlist.h
+[<no group>]
+
+;file \plugins\FavContacts\src\main.cpp
 [Favorite Contact]
 Favourite Contact
+[Regular Contact]
+
 [Favorites]
 Favourites
+;file \plugins\FavContacts\src\menu.cpp
+;file \plugins\FavContacts\src\options.cpp
+[Contacts]
+
+;file \plugins\FavContacts\src\services.cpp
+[Contact name]
+
+[Second line]
+
 [Selected contact name (color)]
 Selected contact name (colour)
 [Selected second line (color)]
 Selected second line (colour)
+[Background]
+
+[Selected background]
+
 [Show favorite contacts]
 Show favourite contacts

@@ -1,6 +1,0 @@
-[Num Lock]
-[Caps Lock]
-[Scroll Lock]
-[Num]
-[Caps]
-[Scroll]

@@ -7,6 +7,7 @@
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
 HTTP веб-сервер для Miranda.
+;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 IP-адрес 1
 [IPAddress2]
@@ -23,6 +24,10 @@ IP-адрес 2
 Разрешённые IP
 [HTTP Server statistics view]
 Статистика просмотров HTTP сервера
+[Display hidden shares]
+
+[New share]
+
 [Show HTTP server statistics]
 Статистика НТТР сервера
 [Set to default]
@@ -79,12 +84,18 @@ IP-адрес 2
 &Открыть в браузере
 [&Copy link]
 &Копировать ссылку
+;file \plugins\HTTPServer\src\Glob.h
+[Miranda NG HTTP-Server]
+
+;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 Сделать текущую папку общей
 [All files]
 Все файлы
 [Specify a file to share]
 Файл для доступа
+[Failed to share new file]
+
 [Max Downloads]
 Макс. закачки
 [Allowed Mask]
@@ -103,6 +114,12 @@ IP-адрес 2
 Выбрана ссылка на файл нулевого размера
 [Failed to get access to clipboard]
 Не удалось получить доступ к буферу обмена
+[Failed to get close the clipboard]
+
+[Failed to set clipboard data]
+
+[ListView_GetItem failed]
+
 [No share selected]
 Папка не выбрана
 [Current IP Address: ]
@@ -111,6 +128,8 @@ IP-адрес 2
 Текущий адрес:\s
 [IP Address: ]
 IP-адрес:\s
+[You are browsing from]
+
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш внешний IP определён как %d.%d.%d.%d\r\nс: %s
 [You need to restart Miranda to change the main menu]
@@ -121,12 +140,24 @@ HTTP сервер
 Сеть
 [HTTP Share new file]
 HTTP Новый общий файл
+;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Общее удалено
+;file \plugins\HTTPServer\src\main.cpp
 [Failed to open or create log file]
 Не удалось открыть или создать файл журнала
+[Failed to move to the end of the log file]
+
+[Failed to write some part of the log file]
+
 [Failed to open or create file ]
 Не удалось открыть или создать файл\s
+[Failed to write xml header to file ]
+
+[Failed to write xml data to file ]
+
+[Failed to write xml tail to file ]
+
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 Не удалось выполнить привязку к порту %s\r\nВероятно, это вызвано тем, что этот порт уже используется другой программой или службой
 [Disable HTTP server]

@@ -7,6 +7,7 @@
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Поддержка протокола Facebook в Miranda NG.
+;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 Почта:
 [Password:]
@@ -21,6 +22,8 @@
 Видно:
 [Text:]
 Текст:
+[URL:]
+URL:
 [Place:]
 Место:
 [Contacts >>]
@@ -121,8 +124,10 @@
 Для доступа к вашей учётной записи из незнакомого браузера требуется ввести проверочный код.\n\nВы можете получить его через мобильное приложение Facebook или нажать расположенную ниже кнопку, чтобы получить SMS с кодом.
 [Send SMS]
 Отправить SMS
+;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Введите текст, который видите
+;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 &Пригласить пользователя...
 [E&xit chat session]
@@ -149,6 +154,7 @@
 Уведомления
 [%s and more (%d)]
 %s и ещё (%d)
+;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Ошибка входа: %s
 [Unknown error]
@@ -191,10 +197,12 @@
 Произошла ошибка при запросе SMS с кодом подтверждения.
 [Verification SMS code was sent to your mobile phone.]
 SMS с кодом подтверждения отправлено на ваш мобильный телефон.
+;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Пожалуйста, введите имя пользователя.
 [Please enter a password.]
 Пожалуйста, введите пароль.
+;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Контакт удалён из списка на сервере.
 [Error occurred when removing contact from server.]
@@ -215,6 +223,7 @@ SMS с кодом подтверждения отправлено на ваш м
 Запрос дружбы был проигнорирован.
 [Error occurred when ignoring friendship request.]
 Произошла ошибка игнорирования запроса дружбы.
+;file \protocols\FacebookRM\src\dialogs.cpp
 [Top News]
 Популярные новости
 [Most Recent]
@@ -243,6 +252,7 @@ SMS с кодом подтверждения отправлено на ваш м
 << Контакты
 [What's on your mind, %s?]
 О чём вы думаете, %s?
+;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 стикер
 [a GIF]
@@ -261,8 +271,10 @@ SMS с кодом подтверждения отправлено на ваш м
 Реакция
 [%s is typing a message...]
 %s набирает текст...
+;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
+;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 Контакт снова в списке на сервере.
 [Contact is no longer on server-list.]
@@ -295,6 +307,7 @@ SMS с кодом подтверждения отправлено на ваш м
 Загрузка записей со стены...
 [Found %d wall posts.]
 Найдено сообщений со стены: %d.
+;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Подключение к серверу %s
 [Unable to initialize Netlib for %s.]
@@ -353,6 +366,7 @@ SMS с кодом подтверждения отправлено на ваш м
 Сообщение прочтено в: %s пользователем %s
 [Message read: %s]
 Сообщение прочтено в: %s
+;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Значок Facebook
 [Mind]

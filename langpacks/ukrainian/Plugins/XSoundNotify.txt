@@ -7,6 +7,7 @@
 ;============================================================
 [Provides extended options for sound notifications.]
 Надає розширені функції для звукового сповіщення.
+;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Account:]
 Обліковий запис:
 [Nick:]
@@ -25,18 +26,23 @@
 Ігнорувати звук для цього контакту
 [Cancel]
 Скасувати
+;file \plugins\XSoundNotify\src\dialog.cpp
 [Custom sound for %s (%s)]
 Вибір звуку для %s (%s)
 [Sound files]
 Звукові файли
 [WAV files]
 Файли WAV
+;file \plugins\XSoundNotify\src\options.cpp
 [All contacts]
 Усі контакти
 [(Unknown contact)]
 Невідомий контакт
 [Sounds]
 Звуки
+[XSound Notify]
+
+;file \plugins\XSoundNotify\src\xsn_main.cpp
 [Self status]
 Свій статус
 [Custom contact sound]

@@ -7,6 +7,7 @@
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Нотатки та нагадування для Miranda NG.
+;file \plugins\NotesAndReminders\res\resource.rc
 [Default Note Size]
 Розмір нотатки
 [Width (Pixels)]
@@ -75,6 +76,8 @@
 &Закрити
 [&View Reminders]
 &Перегляд нагадувань
+[reftime]
+
 [Reminder]
 Нагадування
 [After:]
@@ -99,6 +102,8 @@
 &Видалити нагадування
 [D&elete All Reminders]
 В&идалити всі нагадування
+[Context Menu Note Popup]
+
 [&Hide Note]
 &Сховати нотатку
 [&Always On Top]
@@ -147,8 +152,10 @@
 Видалити &всі нотатки
 [&Show / Hide Notes]
 &Показати/Сховати нотатки
+;file \plugins\NotesAndReminders\src\globals.h
 [Notes & Reminders]
 Нотатки і нагадування
+;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Нова нотатка
 [Toggle Notes Visibility]
@@ -157,6 +164,7 @@
 Перемістити нотатки на передній план
 [New Reminder]
 Нове нагадування
+;file \plugins\NotesAndReminders\src\main.cpp
 [Are you sure you want to delete all notes?]
 Впевнені, що хочете видалити всі нотатки?!
 [Are you sure you want to delete all reminders?]
@@ -213,6 +221,7 @@
 Перемістити на передній план
 [Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Неможливо завантажити плагін Notes & Reminders, оскільки Msftedit.dll відсутній. Якщо ви використовуєте WINE, будь ласка, переконайтеся, що Msftedit.dll встановлено. Натисніть "Так", щоб продовжити запуск Miranda NG.
+;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Чорний
 [Maroon]
@@ -259,6 +268,7 @@
 Нотатка
 [Date/Title]
 Дата/заголовок
+;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 Заголовок
 [Sticky Note Background Color]
@@ -269,6 +279,7 @@
 Виконувані файли\0*.exe\0Усі файли\0*.*\0\0
 [Select Executable]
 Вибрати програму...
+;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
 хвилин
 [Hours]

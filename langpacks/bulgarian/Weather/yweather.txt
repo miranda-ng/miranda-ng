@@ -26,6 +26,8 @@
 Днес: _Прогноза
 [Fri]
 пет
+[Heat Index]
+
 [Mon]
 пон
 [Mostly Clear]

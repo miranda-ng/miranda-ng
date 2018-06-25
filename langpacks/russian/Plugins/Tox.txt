@@ -7,6 +7,9 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
+;file \protocols\Tox\res\resource.rc
+[Tox ID:]
+Tox ID:
 [Create]
 Создать
 [Import]
@@ -77,12 +80,15 @@ IPv6 адрес (необязательно)
 Новый пароль:
 [Confirm password:]
 Подтверждение пароля:
+;file \protocols\Tox\src\main.cpp
 [Profiles folder]
 Папка профилей
 [Tox link protocol]
 Протокол Tox
+;file \protocols\Tox\src\tox_connection.cpp
 [Unable to initialize Tox core]
 Невозможно инициализировать ядро Tox
+;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Значок протокола
 [Action icon]
@@ -91,16 +97,20 @@ IPv6 адрес (необязательно)
 Значок исправления
 [Protocols]
 Протоколы
+;file \protocols\Tox\src\tox_menus.cpp
 [Password]
 Пароль
 [Create password]
 Создать пароль
+;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Действие
 [You cannot send when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
+;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s подключение
+;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Профиль Tox
 [All files]
@@ -135,6 +145,7 @@ IPv6 адрес (необязательно)
 Учётная запись
 [Nodes]
 Ноды
+;file \protocols\Tox\src\tox_profile.cpp
 [Unable to open Tox profile]
 Невозможно открыть профиль
 [Unable to read Tox profile]
@@ -149,12 +160,15 @@ IPv6 адрес (необязательно)
 Пароли не совпадают
 [Old password is not valid]
 Старый пароль не совпадает
+;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов
+;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запрос
+;file \protocols\Tox\src\tox_utils.cpp
 [One of the arguments is missing]
 Пропущен один из аргументов
 [Unable to allocate enough memory]

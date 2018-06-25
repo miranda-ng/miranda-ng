@@ -7,6 +7,7 @@
 ;============================================================
 [Scriver - send and receive instant messages.]
 Личные и групповые чаты для Miranda NG.
+;file \plugins\Scriver\res\resource.rc
 [Behavior]
 Поведение
 [Automatically pop up the window when]
@@ -279,10 +280,12 @@ Google Карты
 Закрыть остальные вкладки
 [Close tab]
 Закрыть вкладку
+;file \plugins\Scriver\src\chat_main.cpp
 [Messaging]
 Сообщения
 [Group chats]
 Чаты
+;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]
@@ -451,6 +454,7 @@ ID текущего контакта (если определён). Наприм
 Показать в новом окне, если 'Фильтр событий' включён
 [Select folder]
 Выбрать папку
+;file \plugins\Scriver\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s: комната чата (%u пользователь)
 [%s: chat room (%u users)]
@@ -465,6 +469,7 @@ ID текущего контакта (если определён). Наприм
 Уник. ID
 [Status]
 Статус
+;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Добавить контакт
 [User's details]
@@ -587,6 +592,7 @@ ID текущего контакта (если определён). Наприм
 Вьетнамский
 [Korean (Johab)]
 Корейский (Johab)
+;file \plugins\Scriver\src\input.cpp
 [Navigate: Previous tab]
 Навигация: предыдущая вкладка
 [Navigate: Next tab]
@@ -613,6 +619,7 @@ ID текущего контакта (если определён). Наприм
 Действие: Отправить всем
 [Action: Paste and send]
 Действие: Вставить и отправить
+;file \plugins\Scriver\src\msgdialog.cpp
 [Sending in progress: %d message(s) left...]
 Отправка сообщения: %d осталось...
 [%s is typing a message...]
@@ -625,6 +632,7 @@ ID текущего контакта (если определён). Наприм
 Нет слов для просмотра
 [User menu - %s]
 Меню пользователя - %s
+;file \plugins\Scriver\src\msglog.cpp
 [Me]
 Я
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -633,6 +641,10 @@ ID текущего контакта (если определён). Наприм
 разносить врагов Твоих на маленькие кусочки
 [My contact]
 Мой контакт
+[Lorem ipsum dolor sit amet,]
+Lorem ipsum dolor sit amet,
+[consectetur adipisicing elit]
+consectetur adipisicing elit
 [Today]
 Сегодня
 [Yesterday]
@@ -645,6 +657,7 @@ ID текущего контакта (если определён). Наприм
 Отправлен URL
 [URL received]
 Получен URL
+;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Исходящие сообщения
 [Outgoing background]
@@ -701,8 +714,14 @@ ID текущего контакта (если определён). Наприм
 Обедаю
 [On the phone]
 На телефоне
+[Enter]
+Enter
 [Double 'Enter']
 двойному "Enter"
+[Ctrl+Enter]
+Ctrl+Enter
+[Shift+Enter]
+Shift+Enter
 [** New contacts **]
 ** Новые контакты **
 [** Unknown contacts **]
@@ -717,6 +736,7 @@ ID текущего контакта (если определён). Наприм
 Набирает текст
 [Popups]
 Всплывающие окна
+;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Сообщение от %s
 [%s is typing a message]
@@ -793,9 +813,12 @@ Miranda не смогла загрузить встроенную систему
 Контакт начал набор текста
 [Contact stopped typing]
 Контакт закончил набор текста
+;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Неизвестная ошибка.
+;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Таймаут отправки сообщения
+;file \plugins\Scriver\src\tabs.cpp
 [Always on top]
 Поверх всех окон

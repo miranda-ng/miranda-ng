@@ -7,6 +7,7 @@
 ;============================================================
 [Allows inline skin item editing for Clist nicer.]
 Редактор скинов для плагина Clist nicer.
+;file \plugins\Cln_skinedit\res\skinedit.rc
 [Skin items]
 Элементы скина
 [General]
@@ -57,6 +58,7 @@
 Диалог
 [Not yet supported]
 Не поддерживается
+;file \plugins\Cln_skinedit\src\main.cpp
 [Copy from]
 Копировать из
 [<None>]

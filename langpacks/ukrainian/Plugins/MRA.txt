@@ -7,6 +7,7 @@
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Підтримка протоколу Mail.ru Агент (MRA) у Miranda NG.
+;file \protocols\MRA\res\resource.rc
 [E-mail:]
 Пошта
 [Password:]
@@ -157,6 +158,7 @@ xСтатус "%s"
 Написав:
 [Select e-mail]
 Вибір електронної пошти
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
 [Male]
 Чоловіча
 [Female]
@@ -209,20 +211,25 @@ xСтатус "%s"
 Водолій
 [Pisces]
 Риби
+;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 З'єднання аватарів
 [Avatars: server return HTTP code: %lu]
 Аватари: сервер повернув HTTP-код: %lu
 [Avatars: can't open file %s, error]
 Аватари: неможливо відкрити файл %s, помилка
+;file \protocols\MRA\src\MraChat.cpp
 [Owners]
 Власники
+[Inviter]
+
 [Visitors]
 Відвідувачі
 [invite sender]
 запросити відправника
 [invite new members]
 запросити нових користувачів
+;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
 Ваш співрозмовник будить вас
 [Display &Inbox]
@@ -283,6 +290,7 @@ xСтатус "%s"
 Нова пошта в папці "Вхідні"
 [Please authorize me]
 Будь ласка, авторизуйте мене
+;file \protocols\MRA\src\MraFilesQueue.cpp
 [Receive files: can't allocate disk space for file, size %lu bytes, error]
 Передача файлів: неможливо виділити пам'ять для файлу, розмір %lu байт, помилка
 [Receive files: can't open file %s, error]
@@ -293,10 +301,13 @@ xСтатус "%s"
 Відправка файлів: неможливо відкрити файл %s, помилка
 [Send files: requested file: %S - not found in send files list.]
 Відправка файлів: файл %S не знайдений серед файлів, підготовлених до відправлення
+;file \protocols\MRA\src\MraIcons.cpp
 [Main icon]
 Головний значок
 [Protocols]
 Протоколи
+[MRA]
+
 [Main Menu]
 Головне меню
 [Contact Menu]
@@ -305,6 +316,7 @@ xСтатус "%s"
 Додатковий статус
 [Custom Status]
 xСтатус
+;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Немає
 [Debug]
@@ -321,6 +333,7 @@ xСтатус
 Нова пошта
 [Popups]
 Спливаючі вікна
+;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 З'єднання %s
 [Mail.ru xStatus]
@@ -329,6 +342,7 @@ Mail.ru xСтатус
 Mail.ru додатково
 [E-mail address]
 Адреса E-mail
+;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 Непрочитана пошта: %lu/%lu повідомлень
 [From: %S\r\nSubject: %S\r\n%s]
@@ -343,10 +357,12 @@ Mail.ru додатково
 Статус мого блогу
 [Written]
 Написав
+;file \protocols\MRA\src\Mra_menus.cpp
 [Are you sure?]
 Ви впевнені?
 [Services...]
 Служби...
+;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Мережа
 [Account]
@@ -357,6 +373,7 @@ Mail.ru додатково
 Файли
 [Avatars]
 Аватари
+;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 Будь ласка, введіть E-mail у налаштуваннях
 [Please, setup password in options]
@@ -387,6 +404,7 @@ MRIM_CS_CONTACT_LIST2: невідома помилка сервера, код: %
 MRIM_CS_SMS_ACK: не знайдений у черзі
 [Mail.ru System notify]
 Системне повідомлення від адміністрації Mail.ru
+;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
 Хворий
 [Home]

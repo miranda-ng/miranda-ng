@@ -7,6 +7,7 @@
 ;============================================================
 [Take a screenshot and send it to a contact.]
 Создание и отправка снимков экрана контакту.
+;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Диалог
 [All]
@@ -69,14 +70,24 @@
 &Копировать
 [Close]
 Закрыть
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Resulting URL from\n]
+
 [Copy]
 Копировать
+[Copy BBCode]
+
+[Copy BBCode w/ link]
+
+[%s requires a valid contact!]
+
 [Error]
 Ошибка
 [GCHAT error]
 Ошибка GCHAT
 [An unknown error has occurred.]
 Неизвестная ошибка.
+;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 Не удалось инициировать %s.
 [MAPI error (%i):\n%s.]
@@ -85,34 +96,63 @@
 Неизвестный ответ от %s (%i)
 [Got no response from %s (%i)]
 Нет ответа от %s (%i)
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
 [CloudFile transfer]
 Передача через CloudFile
 [%s (%i):\nCould not add a share to the CloudFile plugin.]
 %s (%i):\nНе удалось поделиться файлом через плагин CloudFile.
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+
 [The specified attachment was not found]
 Вложение не найдено
 [The specified attachment could not be opened]
 Невозможно открыть вложение
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+
 [One or more unspecified errors occurred]
 Одна или несколько неизвестных ошибок
 [There was insufficient memory to proceed]
 Недостаточно памяти для продолжения
+[One or more recipients were invalid or did not resolve to any address]
+
+[There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
+
 [The text in the message was too large]
 Сообщение слишком длинное
 [There were too many file attachments]
 Слишком много вложенных файлов
 [There were too many recipients]
 Слишком много получателей
+[A recipient did not appear in the address list]
+
+[The user canceled one of the dialog boxes]
+
 [Unknown Error]
 Неизвестная ошибка
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
 Передача файла
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+[FTPFile transfer]
+
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 Загрузка изображения
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 Передача HTTPServer
 [Could not start the HTTP Server plugin.]
 Не могу запустить плагин HTTP Server.
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Ещё раз
 [Yes]
@@ -123,6 +163,7 @@
 Отмена
 [Ignore]
 Игнорировать
+;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
 Главный значок
 [Target Cursor]
@@ -147,6 +188,12 @@
 Вперёд
 [Update]
 Обновить
+[Edit on]
+
+[BBCode]
+BBCode
+[BBCode link]
+
 [Down arrow]
 Вниз
 [Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
@@ -161,6 +208,8 @@ HTTP подключение SendSS
 Снимки экрана
 [Buttons]
 Кнопки
+[Could not register Miranda service.]
+
 [Take a screenshot]
 Сделать скриншот
 [Send screenshot]
@@ -169,10 +218,13 @@ HTTP подключение SendSS
 Отправить скриншот экрана
 [Open SendSS+]
 Открыть SendSS+
+;file \plugins\SendScreenshotPlus\src\stdafx.h
 [SendScreenshot - Error]
 SendScreenshot - Ошибка
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Благодарности
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перетащите прицел на нужное окно.
 [Send screenshot to %s]
@@ -205,6 +257,8 @@ Upload Pie (1 дн)
 Upload Pie (1 нед)
 [Information]
 Информация
+[Fill description textbox.]
+
 [Delete after send]
 Удалить после отправки
 [Capture]

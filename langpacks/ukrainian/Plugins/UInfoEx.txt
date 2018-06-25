@@ -7,6 +7,7 @@
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 Розширене відображення інформації про користувача. Дозволяє редагувати і додавати (локально) будь-яку інформацію про контакт.
+;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Редагувати дані контакту
 [This list gives you some overview about all your contact's anniversaries.]
@@ -329,6 +330,7 @@
 Зняти вибір
 [&Export]
 &Експорт
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 Овен
 [Taurus]
@@ -359,6 +361,7 @@
 Оновлення налаштованих днів народжень
 [Keeps your custom birthday up to date.]
 Резервує налаштовані дні народження.
+;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 Неможливо додати один з елементів дерева через помилку в параметрі.
 [A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
@@ -371,18 +374,21 @@
 Показати:
 [Reset to defaults]
 Стандартні
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
 Помилка %d при створенні імені для сторінки, код %d
 [Creating the label for a page failed with %d and error code %d]
 Помилка %d при створенні назви для сторінки, код %d
 [The dialog template type is no longer supported]
 Шаблон діалогу більше не підтримується
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Додати нове свято
 [Delete an existing anniversary]
 Видалити свято
 [Unspecified]
 Не вказано
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit e-mail]
 Змінити E-mail
 [Edit phone number]
@@ -403,6 +409,7 @@
 Видалити вибраний запис?\n\t%s\n\t%s
 [Other]
 Інше
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Залишилось днів
 [Contact]
@@ -425,6 +432,7 @@
 Вимкнути нагадування
 [Popup anniversary list]
 Показати список свят
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
 Ще раз
 [Yes]
@@ -437,6 +445,7 @@
 Ігнорувати
 [Error]
 Помилка
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Upload details]
 Завантажити деталі
 [Protocol '%s' is offline]
@@ -487,6 +496,7 @@
 Ваші дані не завантажено.\nВони збережені в локальній базі даних.
 [updating]
 оновлення
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 Ім'я в IM
 [Password]
@@ -589,12 +599,14 @@
 Увага: набір значків не знайдено в жодній з папок: Customize\Icons, Icons чи Plugins.
 [Main]
 Головний
+;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Особисті дані
 [Dialogs]
 Діалоги
 [Buttons]
 Кнопки
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Експорт/Імпорт контакту
 [User &details]
@@ -625,16 +637,19 @@
 &Експорт XML
 [&Import xml]
 &Імпорт XML
+;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Мої нотатки:
 [About:]
 Інформація:
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Будь ласка, введіть спочатку правильний опис.
 [No valid date selected for editing!]
 Немає вибраної дати для редагування.
 [Do you really want to delete the %s?]
 Ви дійсно хочете видалити %s?
+;file \plugins\UserInfoEx\src\psp_contact.cpp
 [home]
 дім
 [Open in browser]
@@ -649,6 +664,7 @@
 Контакти
 [company]
 Компанія
+;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Запитання
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -663,6 +679,8 @@
 Нагадування відключені
 [Everything]
 Усі нагадування
+[mBirthday]
+
 [UserInfo (default)]
 Особисті дані (за замовчанням)
 [This is the reminder message]
@@ -675,6 +693,7 @@
 Діалоги
 [Popups]
 Спливаючі вікна
+;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Минуле
 [Affiliation]
@@ -693,6 +712,7 @@
 Видалити запис
 [Do you really want to delete this entry?]
 Ви дійсно хочете видалити це?
+;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Африкаанс
 [Albanian]
@@ -1033,6 +1053,10 @@ Web-дизайн
 Коледж
 [University]
 Університет
+[TmplPast Work Place]
+
+[TmplPast Organization]
+
 [Single]
 Неодружений/Незаміжня
 [Close relationships]
@@ -1053,18 +1077,24 @@ Web-дизайн
 Закоханий(а)
 [It's complicated]
 Усе складно
+[In a civil union]
+
 [jun.]
 мол.
 [sen.]
 ст.
+;file \plugins\UserInfoEx\src\svc_constants.h
+;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Надіслати E-mail
 [Memory allocation error!]
 Помилка розподілу пам'яті.
 [E-mail (UInfoEx)]
 Пошта (UInfoEx)
+;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (UInfoEx)]
 Стать (UInfoEx)
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 У користувача немає правильної домашньої сторінки
 [View Homepage]
@@ -1073,8 +1103,10 @@ Web-дизайн
 &Сайт
 [Homepage (UInfoEx)]
 Сайт (UInfoEx)
+;file \plugins\UserInfoEx\src\svc_phone.cpp
 [Phone (UInfoEx)]
 Телефон (UInfoEx)
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d контактів залишилось
 [Abort Refreshing Contact Details]
@@ -1085,6 +1117,7 @@ Web-дизайн
 Для оновлення даних необхідно, щоб протоколи були в мережі.
 [The function caused an exception!]
 Функція спричинила помилку.
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
 %s святкує %s сьогодні.
 [an anniversary]
@@ -1125,10 +1158,12 @@ Web-дизайн
 Нагадування про свято
 [Reminder (UInfoEx)]
 Нагадування (UInfoEx)
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 ідентифікація контакту
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 У користувача %s(%s) немає унікального номера у vCard,\nале в списку контактів є контакт з таким самим ніком і протоколом.\nВикористати його номер для цього контакту?
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 Імпорт нового контакту скасовано.
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
@@ -1141,12 +1176,14 @@ Web-дизайн
 Налаштування: %S
 [Events: %S]
 Події: %S
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
 Усі контакти
 [Required modules]
 Обов'язкові модулі
 [Optional modules]
 Додаткові модулі
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Shows Miranda's installation directory.]
 Показувати папку, де встановлена Miranda NG.
 [Shows the directory with all your Miranda's profiles.]
@@ -1155,6 +1192,7 @@ Web-дизайн
 OpenFileDialog повернув помилку: %d
 [The SaveFileDialog returned an error: %d!]
 SaveFileDialog повернув помилку: %d
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 Файл INI "%s"\nне можна відкрити для збереження контакту.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
@@ -1167,12 +1205,14 @@ SaveFileDialog повернув помилку: %d
 Додано %d з %d контактів з ini-файлу.
 [The ini-file "%s"\nfor reading contact information could not be opened.]
 Файл INI "%s"\nне можна відкрити для читання контакту.
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Усі контакти
 [Select a destination file...]
 Виберіть ім'я файлу для експорту
 [Import User Details from VCard]
 Імпорт деталей користувача з vCard
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Неможливо створити XML-файл.\n%S
 [Export took %f ms]
@@ -1203,5 +1243,7 @@ SaveFileDialog повернув помилку: %d
 Додано контактів: %u / %u\nДодано налаштувань: %u / %u\nДодано подій %u / %u\nПродубльовано подій: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 Фатальна помилка при імпорті контактів з XML-картки!
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (UInfoEx)]
 Прапори (UInfoEx)
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

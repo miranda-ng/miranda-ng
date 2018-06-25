@@ -7,6 +7,7 @@
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
 Інтеграція Miranda NG в контекстне меню оболонки ОС.
+;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 Відображати контакти по групах (якщо є)
 [Only if/when the contact list is using them]
@@ -29,6 +30,7 @@
 Не показувати в меню значки статусу
 [Do not show contacts that are offline, even if my contact list does]
 Не показувати контакти, які знаходяться не в мережі
+;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
 Проблема! Інтеграція в оболонку відсутня!
 [Successfully created shell registration.]
@@ -43,6 +45,7 @@
 Вимкнути/Видалити ShlExt
 [Services]
 Служби
+;file \plugins\ShellExt\src\shlcom.cpp
 [Recently]
 Останні
 [Clear entries]
@@ -55,5 +58,9 @@
 Не вдалося видалити ключ реєстру, що відповідає за інтеграцію в контекстне меню файлів, можливо його вже видалено або потрібні права адміністратора.
 [Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights.]
 Не вдалося видалити ключ реєстру, що відповідає за інтеграцію в контекстне меню папок, можливо його вже видалено або потрібні права адміністратора.
+[Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.]
+
 [Shell context menus requires your permission to register with Windows Explorer (one time only).]
 Для інтеграції в контекстне меню оболонки операційної системи потрібен ваш дозвіл (один раз).
+[Miranda NG - Shell context menus (shellext.dll)]
+

@@ -7,6 +7,7 @@
 ;============================================================
 [Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
 Перемещение, сворачивание и активация окон программы таким образом, словно это единое окно.
+;file \plugins\AsSingleWindow\res\optionsPage.rc
 [Windows moving]
 Перемещение окон
 [Contact list on the left]
@@ -23,6 +24,7 @@
 Объединить только первое окно
 [Don't merge windows until closing]
 Не объединять окна до закрытия
+;file \plugins\AsSingleWindow\src\Options.cpp
 [AsSingleWindow]
 Единое окно
 [Customize]

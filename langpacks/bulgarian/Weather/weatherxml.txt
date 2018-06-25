@@ -2,12 +2,18 @@
 ;  File: weatherxml.ini
 ;  Plugin: Weather
 ;============================================================
+[AM Rain]
+
 [Am Clouds / Pm Sun]
 Облаци сутрин / Слънце следобед
 [Am Light Rain]
 Слаб дъжд сутрин
 [Am Rain / Snow Showers]
 Дъжд сутрин / Снежни превалявания
+[Am Rain / Snow]
+
+[Am Rain]
+
 [Am Showers / Wind]
 Превалявания от дъжд сутрин / Вятър
 [Am Showers]
@@ -16,10 +22,18 @@
 Снежни превалявания сутрин / Вятър
 [Am Snow Showers]
 Снежни превалявания сутрин
+[Am Snow]
+
+[Am T-Storms]
+
+[Clear / Wind]
+
 [Clouds Early / Clearing Late]
 Денем облачно / Нощем ясно
 [Cloudy / Wind]
 Облачно / Вятър
+[Cloudy / Windy]
+
 [Cloudy And Windy]
 Облачно и ветровито
 [Cloudy]
@@ -32,6 +46,10 @@
 ИЮИ
 [E]
 И
+[Fair / Windy]
+
+[Fair And Windy]
+
 [Fair]
 Ясно с малко облаци
 [Feel]
@@ -44,8 +62,12 @@
 Няколко снежни превалявания
 [First Quarter]
 Първа четвърт
+[Fog / Windy]
+
 [Fog And Windy]
 Мъгливо и ветровито
+[Fog Late]
+
 [Fog]
 Мъгла
 [Forecast Day 0]
@@ -68,18 +90,42 @@
 Ден 8: _Прогноза
 [Forecast Day 9]
 Ден 9: _Прогноза
+[Forecast Update VAR]
+
+[Forecast Update]
+
+[Freezing Drizzle / Windy]
+
+[Freezing Rain / Windy]
+
 [Full Moon]
 Пълнолуние
 [Haze]
 Мараня
+[Heat Index]
+
+[Heavy Rain / Wind]
+
+[Heavy Rain]
+
 [Heavy Snow And Windy]
 Обилен снеговалеж и вятър
 [Heavy Snow Shower]
 Обилни снежни превалявания
 [Heavy Snow]
 Обилен снеговалеж
+[Heavy T-Storm]
+
+[Heavy T-Storms]
+
+[Ice Crystals]
+
+[Isolated T-Storms / Wind]
+
 [Isolated T-Storms]
 Отделни гръмотевична буря
+[Jun]
+
 [Last Quarter]
 Последна четвърт
 [Latitude]
@@ -90,8 +136,20 @@
 Слаб ръмеж и вятър
 [Light Drizzle]
 Слаб ръмеж
+[Light Freezing Rain / Fog]
+
+[Light Freezing Rain / Windy]
+
+[Light Rain / Fog]
+
+[Light Rain / Freezing Rain]
+
+[Light Rain / Wind Early]
+
 [Light Rain / Wind]
 Слаб дъжд / Вятър
+[Light Rain / Windy]
+
 [Light Rain And Windy]
 Слаб дъжд и вятър
 [Light Rain Early]
@@ -108,6 +166,8 @@
 Слаб дъжд
 [Light Showers Rain]
 Слаб и краткотраен дъжд
+[Light Snow / Fog]
+
 [Light Snow And Windy]
 Лек снеговалеж и вятър
 [Light Snow Early]
@@ -140,8 +200,12 @@
 Значителна облачност и вятър
 [Mostly Cloudy]
 Значителна облачност
+[Mostly Sunny / Wind]
+
 [Mostly Sunny]
 Предимно слънчево
+[N/A%]
+
 [N/a]
 НД
 [NE]
@@ -162,6 +226,10 @@
 Обсерватория
 [Overcast]
 Плътна облачност
+[Partly Cloudy / Wind]
+
+[Partly Cloudy / Windy]
+
 [Partly Cloudy And Windy]
 Незначителна облачност и вятър
 [Partly Cloudy]
@@ -170,16 +238,34 @@
 Частично слънчево
 [Pm Light Rain]
 Слаб дъжд следобед
+[Pm Rain / Snow]
+
+[Pm Rain / Wind]
+
+[Pm Rain]
+
+[Pm Showers / Wind]
+
 [Pm Showers]
 Превалявания следобед
 [Pm Snow Showers]
 Снежни превалявания следобед
+[Pm Snow]
+
 [Pm T-Storms]
 Гръмотевична буря следобед
 [Pressure Tendency]
 Налягането (тенденция)
+[Rain / Freezing Rain / Wind]
+
+[Rain / Freezing Rain]
+
 [Rain / Snow / Wind]
 Дъжд / Сняг / Вятър
+[Rain / Snow Early]
+
+[Rain / Snow Late]
+
 [Rain / Snow Showers Early]
 Дъжд / Снежни превалявания сутрин
 [Rain / Snow Showers Late]
@@ -190,8 +276,18 @@
 Дъжд/Сняг
 [Rain / Thunder]
 Дъжд / Гръмотевици
+[Rain / Wind Early]
+
+[Rain / Wind]
+
 [Rain And Snow]
 Дъжд и сняг
+[Rain Early]
+
+[Rain Late]
+
+[Rain Shower]
+
 [Rain To Snow]
 Дъжд към сняг
 [Rain]
@@ -206,24 +302,46 @@
 ЮЗ
 [S]
 Ю
+[Sand]
+
 [Scattered Showers]
 Разпръснати превалявания
 [Scattered Snow Showers]
 Разпръснати снежни превалявания
+[Scattered T-Storms / Wind]
+
 [Scattered T-Storms]
 Разпръснати гръмотевична буря
 [Shallow Fog]
 Слаба мъгла
+[Showers / Wind Late]
+
+[Showers / Wind]
+
 [Showers Early]
 Превалявания денем
+[Showers In The Vicinity]
+
 [Showers Late]
 Превалявания нощем
 [Showers Rain]
 Краткотраен дъжд
 [Showers]
 Краткотрайни превалявания
+[Sleet And Windy]
+
+[Sleet]
+
+[Smoke]
+
+[Snow / Wind Early]
+
 [Snow / Wind]
 Сняг / Вятър
+[Snow / Windy]
+
+[Snow And Sleet]
+
 [Snow Early]
 Снеговалеж денем
 [Snow Shower / Wind]
@@ -240,18 +358,42 @@
 Снежни превалявания нощем
 [Snow To Rain]
 Сняг към дъжд
+[Snow To Wintry Mix]
+
 [Snow]
 Снеговалеж
+[Sunny / Wind]
+
+[Sunny / Windy]
+
 [Sunny]
 Слънчево
+[T-Showers Early]
+
+[T-Showers]
+
 [T-Storm]
 Гръмотевична буря
+[T-Storms Early]
+
+[T-Storms Late]
+
 [T-Storms]
 Гръмотевична буря
+[Thunder In The Vicinity]
+
 [Thunderstorm Rain]
 Дъжд с гръмотевична буря
 [Thunderstorm]
 Гръмотевична буря
+[UV Index]
+
+[UVI]
+
+[UV]
+
+[Update VAR]
+
 [WNW]
 ЗНЗ
 [WSW]
@@ -272,6 +414,10 @@
 Вятър (посока)
 [Wind Speed]
 Вятър (скорост)
+[WindDir]
+
+[Wintry Mix / Wind]
+
 [falling]
 понижаване
 [rising]

@@ -7,6 +7,7 @@
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
 Передача файлов на основе сервиса сообщений - через простой текст.
+;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
 Файл через сообщения
 [Filename:]
@@ -37,6 +38,7 @@
 Только буквенно-цифровая кодировка для передачи
 [Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]
 Дополнительные настройки находятся в группе "Приём файлов" раздела "Настройки -> События -> Передача файлов"
+;file \plugins\FileAsMessage\src\dialog.cpp
 [Receive file]
 Получить файл
 [Send file]
@@ -85,6 +87,7 @@
 Отменено пользователем
 [Transfer is in progress. Do you really want to close?]
 Идёт передача файла. Прервать?
+;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Пуск
 [Pause]
@@ -99,5 +102,6 @@
 События
 [File As Message...]
 Файл через сообщение...
+;file \plugins\FileAsMessage\src\stdafx.h
 [File As Message]
 Файл через сообщения

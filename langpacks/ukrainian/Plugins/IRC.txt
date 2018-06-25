@@ -7,6 +7,7 @@
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Підтримка протоколу Internet Relay Chat (IRC) у Miranda NG.
+;file \protocols\IRCG\res\IRC.rc
 [Default network]
 Мережа за замовчанням
 [Enable]
@@ -267,8 +268,10 @@ Wildcard пошук по мережі
 Сервер:
 [Password:]
 Пароль:
+;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запит СТСР-чату від %s
+;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s встановлює режим %s
 [%s sets mode %s%s]
@@ -355,6 +358,7 @@ DCC: Запит на продовження закачування файлу в
 Використання /AWAY в буфері виконання обмежене,\nоскільки IRC автоматично надсилає цю команду.
 [IRC Error]
 Помилка IRC
+;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 Функція перевірки приятелів увімкнена
 [The buddy check function is disabled]
@@ -397,10 +401,12 @@ DCC: Запит на продовження закачування файлу в
 Введення команди
 [Please enter the reply]
 Введіть відповідь
+;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 Не вдалося підключитися до
 [DCC ERROR: Unable to bind local port for passive file transfer]
 Помилка DCC: Неможливо відкрити локальний порт для пасивної передачі файлів
+;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]
 З'єднання з сервером %s
 [%s client-to-client connections]
@@ -423,6 +429,7 @@ DCC-запит на передачу файлу надісланий %s [%s]
 Виберіть мережу IRC. Ця мережа буде встановлена за замовчанням.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Неможливо встановити з'єднання. Ви не ввели всі необхідні дані (нік, ID користувача та ім'я).
+;file \protocols\IRCG\src\options.cpp
 [Main]
 Головний
 [Add]
@@ -547,6 +554,7 @@ DCC-запит на передачу файлу надісланий %s [%s]
 DCC і CTCP
 [Advanced]
 Додатково
+;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps від %s:\s
 [%s invites you to %s]
@@ -561,6 +569,7 @@ WallOps від %s:\s
 СТСР %s відповідь надіслана для %s: %s
 [Notice to %s: ]
 Повідомлення для %s:\s
+;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Швидке з'єдання
 [&Join channel]
@@ -739,8 +748,10 @@ Nickserv вбити фантома
 &Додати в контакти
 [Connecting to]
 З'єднання з
+;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Не в мережі
+;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Швидше: шукає в мережі нік, який точно збігається із вказаним. Маска вузла необов'язкова, але додає безпеки при використанні. Дозволені символи підстановки (? і *).
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
@@ -749,6 +760,7 @@ Nickserv вбити фантома
 Налаштування не збережені.\n\nПоле "Нік" має містити щонайменше чотири символи (включаючи маски) і збігатися з ніком за замовчанням для цього контакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Налаштування не збережені.\n\nДля цього режиму виявлення повинна бути встановлена повна маска вузла.
+;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Будь ласка, зачекайте...
 [Channel]

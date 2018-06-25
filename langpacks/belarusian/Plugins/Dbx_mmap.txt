@@ -7,6 +7,7 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Падтрымка базы Miranda NG.
+;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Select crypto provider]
 
 [Cancel]
@@ -39,6 +40,7 @@
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль. Рэкамендуем толькі для паранаідальных карыстальнікаў
 [Set password]
 Усталяваць пароль
+;file \plugins\Db3x_mmap\src\database.cpp
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Міранда знайшла пашкоджанні ў базе дадзеных. Міранда будзе зачынена.
 [Disk is full. Miranda will now shut down.]
@@ -49,18 +51,22 @@
 Памылка базы
 [Database Panic]
 Праблема з базай
+;file \plugins\Db3x_mmap\src\dbheaders.cpp
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
 
 [Obsolete database format]
 
+;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Змяніць/выдаліць пароль
+;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 
 [To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
 
 [To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
 
+;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Меню
 [Password]

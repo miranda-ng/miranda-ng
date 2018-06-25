@@ -7,18 +7,18 @@
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
 Расширяет функциональность Miranda NG с помощью скриптов на языке Lua.
+;file \plugins\MirLua\res\resource.rc
 [Reload all]
 Перезагрузить всё
 [Scripts]
 Скрипты
-[Compile]
-Собрать
 [Popup on script error]
 Показать всплывающее окно при ошибке скрипта
 [General]
 Общее
 [Popup on obsolete methods]
 Показать всплывающее окно при вызове устаревших методов
+;file \plugins\MirLua\src\icons.cpp
 [Script]
 Скрипт
 [Loaded]
@@ -29,10 +29,14 @@
 Открыть
 [Reload]
 Перегрузить
+[Compile]
+Собрать
+;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Общие скрипты
 [Services]
 Службы
+;file \plugins\MirLua\src\plugin.cpp
 [C libs folder]
 Папка с библиотеками C
 [Scripts folder]

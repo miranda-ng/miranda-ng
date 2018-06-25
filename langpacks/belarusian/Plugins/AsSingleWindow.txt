@@ -7,6 +7,7 @@
 ;============================================================
 [Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
 Палягчае маніпуляцыі з вокнамі, як быццам гэта адно акно.
+;file \plugins\AsSingleWindow\res\optionsPage.rc
 [Windows moving]
 Перамяшчэнне вокнаў
 [Contact list on the left]
@@ -23,6 +24,7 @@
 "Прыляпляць" толькі першае акно
 [Don't merge windows until closing]
 Адключыць "злепванне" да зачынення
+;file \plugins\AsSingleWindow\src\Options.cpp
 [AsSingleWindow]
 Як_адно_вакно
 [Customize]

@@ -7,6 +7,7 @@
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 Позволяет по нажатию "горячей клавиши" прятать Miranda NG от посторонних глаз.
+;file \plugins\BossKeyPlus\res\BossKey.rc
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
 Перейти в раздел "Тонкая настройка -> Горячие клавиши"
 [When I press the hotkey:]
@@ -55,6 +56,7 @@ Windows не активен
 Пункт в главном меню
 [Restore hiding on startup after failure]
 Восстанавливать скрытие при запуске после "падения"
+;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Password is not correct!\nPlease, enter correct password.]
 Неправильный пароль!\nВведите правильный пароль.
 [Hide Miranda NG]
@@ -67,6 +69,7 @@ Windows не активен
 АнтиБосс
 [get the BossKey name]
 Получить клавишу блокировки из АнтиБосс+
+;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 События
 [Main]

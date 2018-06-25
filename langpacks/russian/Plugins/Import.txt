@@ -7,6 +7,7 @@
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Импортирует контакты и сообщения из других профилей Miranda NG или из сторонних программ.
+;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Выберите, откуда произвести импорт данных:
 [From a Miranda NG database.]
@@ -81,6 +82,7 @@ Miranda нашла следующие профили. Выберите проф�
 Другое
 [Choose appropriate accounts for import]
 Поиск соответствующих учётных записей
+;file \plugins\Import\src\import.cpp
 [<New account>]
 <Новая учётная запись>
 [Old account]
@@ -153,21 +155,25 @@ Miranda нашла следующие профили. Выберите проф�
 Пропущено %d контактов.
 [Skipped %d duplicates and %d filtered events.]
 Пропущено %d дубликатов и %d отфильтрованных событий.
+;file \plugins\Import\src\main.cpp
 [&Import...]
 &Импорт...
 [Miranda NG database]
 База данных Miranda NG
 [All Files]
 Все файлы
+;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Данный файл не существует. Проверьте имя файла.
 [Miranda Import]
 Импорт Miranda NG
 [You cannot import your current profile into itself]
 Невозможно импортировать текущий профиль в самого себя
+;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Пропуск дубликата группы %s
 [Import...]
 Импорт...
+;file \plugins\Import\src\wizard.cpp
 [Finish]
 Завершить

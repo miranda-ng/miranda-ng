@@ -7,6 +7,7 @@
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
 Добавляет мигание светодиодов клавиатуры при прибывших сообщениях.
+;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 Проверять учётные записи
 [Events to react on]
@@ -83,6 +84,12 @@
 xСтатусы
 [Keys to flash]
 Чем мигать
+[Num Lock]
+Num Lock
+[Caps Lock]
+Caps Lock
+[Scroll Lock]
+Scroll Lock
 [Flashing effects]
 Мигать
 [All at the same time]
@@ -135,6 +142,12 @@ xСтатусы
 Отмена
 [Set LEDs for events]
 Установить по событию
+[Num]
+Num
+[Caps]
+Caps
+[Scroll]
+Scroll
 [Message events]
 Сообщения
 [File events]
@@ -165,10 +178,12 @@ xСтатусы
 Игнорировать
 [Set xStatus list]
 Список xСтатусов
+;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Все контакты **
 [** Unknown contacts **]
 ** Неизвестные контакты **
+;file \plugins\KeyboardNotify\src\options.cpp
 [left -> right]
 лево -> право
 [right -> left]

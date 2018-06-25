@@ -7,6 +7,7 @@
 ;============================================================
 [Notify about new mail in Lotus Database]
 Сповіщає про нову пошту в Lotus Database
+;file \plugins\LotusNotify\res\LotusNotify.rc
 [Lotus connection settings]
 Налаштування з'єднання Lotus
 [Primary server:]
@@ -65,6 +66,7 @@
 Кому / Копія Кому
 [Offline status mean:]
 Автономний статус:
+;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Не вдається завантажити всі необхідні функцій Lotus API
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]

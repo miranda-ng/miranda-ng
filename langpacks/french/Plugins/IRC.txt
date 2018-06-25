@@ -352,8 +352,6 @@ Ignorer
 Indiquer le motif
 [Ban'n Kick]
 Ban && Kick
-[Jerk]
-Idiot
 [*Disconnected*]
 *Déconnecté*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]

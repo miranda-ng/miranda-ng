@@ -5,5 +5,92 @@
 ;  Version: 0.8.0.5
 ;  Authors: Bethoven
 ;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
+
+;file \plugins\TopToolBar\res\main.rc
+[Buttons order and visibility]
+
+[Button height]
+
+[Button width]
+
+[Interval between buttons]
+
+[Use flat mode]
+
+[Auto resize]
+
+[Single line]
+
+[Buttons order:]
+
+[Add separator]
+
+[Add launch]
+
+[Delete separator/launch button]
+
+[Name:]
+
+[Path:]
+
+[Set]
+
+;file \plugins\TopToolBar\src\InternalButtons.cpp
+[Show main menu]
+
+[Show options page]
+
+[Show accounts manager]
+
+[Find/add contacts]
+
+[Show status menu]
+
+[Show/hide offline contacts]
+
+[Show offline contacts]
+
+[Hide offline contacts]
+
+[Enable/disable metacontacts]
+
+[Enable metacontacts]
+
+[Disable metacontacts]
+
+[Enable/disable groups]
+
+[Disable groups]
+
+[Enable groups]
+
+[Enable/disable sounds]
+
+[Enable sounds]
+
+[Disable sounds]
+
 [Minimize contact list]
 Minimise contact list
+[Exit]
+
+;file \plugins\TopToolBar\src\main.cpp
+[Execute]
+
+[Separator]
+
+;file \plugins\TopToolBar\src\toolbar.cpp
+[TopToolBar background]
+
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download]
+
+[TopToolBar]
+
+;file \plugins\TopToolBar\src\ttbopt.cpp
+[Default]
+
+[Contact list]
+
+[Toolbar]
+

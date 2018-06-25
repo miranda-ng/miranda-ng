@@ -7,6 +7,7 @@
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
 Запоминает, когда пользователь последний раз появлялся в сети и кто был в сети, пока вы отсутствовали.
+;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Параметры последнего появления
 [Last seen menu item]
@@ -75,10 +76,12 @@
 Информация о пользователе
 [Send Instant Message]
 Отправить мгновенное сообщение
+;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 история последней встречи
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Дата: %d.%m.%y(%Y)\n Описание: %W - %w - %E - %e\n Время: %H:%M:%S (%h-%p)\n Пользователь: %n - %u\n Статус: %s\n IP: %i - %r
+;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 Последнее появление
 [User status change]
@@ -89,10 +92,12 @@
 Пользователь отключён
 [User Logged In]
 Пользователь подключён
+;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <неизвестно>
 [Last seen]
 Последнее появление
+;file \plugins\SeenPlugin\src\options.cpp
 [year (4 digits)]
 год (4 цифры)
 [year (2 digits)]
@@ -167,12 +172,15 @@
 Контакты
 [Popups]
 Всплывающие окна
+;file \plugins\SeenPlugin\src\stdafx.h
 [%n is %s (%u)]
 %n %s (%u)
 [%i(%r)%bWas %o]
 %i(%r)%bбыл %o
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 Имя:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bВремя:%t%H:%M:%S%bПредыдущий статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутренний IP:%t%r%bКлиент: %t%C%b%bСообщение статуса:%t%T
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
 Воскресенье
 [Monday]

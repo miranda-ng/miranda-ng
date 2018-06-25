@@ -7,6 +7,7 @@
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
 Уведомления о различных событиях, инициируемых получением UDP-пакета.
+;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Security]
 Безопасность
 [Only listen to localhost]
@@ -31,15 +32,21 @@
 Запись в файл
 [Message debugging]
 Отладка сообщений
+;file \plugins\NotifyAnything\src\main.cpp
+[Notify Anything]
+
 [NotifyAnything: Failed to format error message]
 NotifyAnything: Ошибка форматирования сообщения об ошибке
 [NotifyAnything: FormatMessage failed, error code was 0x]
 NotifyAnything: Ошибка FormatMessage, код: 0x
 [Error]
 Ошибка
+;file \plugins\NotifyAnything\src\options.cpp
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 Журналы (*.log)\0*.log\0Текстовые файлы (*.txt)\0*.txt\0Все файлы (*.*)\0*.*\0
 [Invalid port number]
 Неправильный номер порта
+[NotifyAnything]
+
 [Plugins]
 Плагины

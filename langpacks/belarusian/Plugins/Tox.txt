@@ -7,6 +7,7 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 
+;file \protocols\Tox\res\resource.rc
 [Tox ID:]
 
 [Create]
@@ -79,12 +80,15 @@
 Новы пароль:
 [Confirm password:]
 Пацвердзіць пароль:
+;file \protocols\Tox\src\main.cpp
 [Profiles folder]
 
 [Tox link protocol]
 Спасылка Tox
+;file \protocols\Tox\src\tox_connection.cpp
 [Unable to initialize Tox core]
 
+;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Абразок пратаколу
 [Action icon]
@@ -93,16 +97,20 @@
 
 [Protocols]
 Пратаколы
+;file \protocols\Tox\src\tox_menus.cpp
 [Password]
 Пароль
 [Create password]
 
+;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Дзеянне
 [You cannot send when you are offline.]
 
+;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Злучэнне %s
+;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 
 [All files]
@@ -137,6 +145,7 @@
 Конт
 [Nodes]
 
+;file \protocols\Tox\src\tox_profile.cpp
 [Unable to open Tox profile]
 
 [Unable to read Tox profile]
@@ -151,12 +160,15 @@
 
 [Old password is not valid]
 
+;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 
 [Contact already in your contact list]
 Кантакт ужо ў вашым спісе
+;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запыт
+;file \protocols\Tox\src\tox_utils.cpp
 [One of the arguments is missing]
 
 [Unable to allocate enough memory]

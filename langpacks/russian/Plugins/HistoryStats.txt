@@ -7,6 +7,9 @@
 ;============================================================
 [Creates detailed, colorful and highly customizable statistics using your message history.]
 Создаёт подробную, разноцветную и настраиваемую статистику вашей истории сообщений.
+;file \plugins\HistoryStats\res\resource.rc
+[Band]
+
 [HistoryStats - Working...]
 HistoryStats - Работаю...
 [Cancel]
@@ -61,6 +64,7 @@ HistoryStats - Фильтр слов/сообщений
 Настроить HistoryStats
 [Apply]
 Применить
+;file \plugins\HistoryStats\src\colbase_words.cpp
 [Extract words from]
 Брать слова из
 [Incoming messages]
@@ -79,6 +83,7 @@ HistoryStats - Фильтр слов/сообщений
 Фильтровать слова/сообщения
 [Define...]
 Определить...
+;file \plugins\HistoryStats\src\column_chatduration.cpp
 [Chat duration type]
 Тип продолжительности беседы
 [Minimum]
@@ -113,8 +118,10 @@ HistoryStats - Фильтр слов/сообщений
 (Максимально) #{amount}
 [[Sum] #{amount}]
 (Всего) #{amount}
+;file \plugins\HistoryStats\src\column_chatduration.h
 [Column holding the amount of time you have chatted with the given contact.]
 Колонка содержит время, на протяжении которого вы общались с данным контактом.
+;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 Считать события
 [URLs (incoming)]
@@ -141,14 +148,18 @@ URL (все)
 Входящие файлы
 [Outgoing files]
 Исходящие файлы
+;file \plugins\HistoryStats\src\column_events.h
 [Events]
 События
 [Column holding event counts for incoming, outgoing or total number of files or URLs.]
 Колонка содержит количество входящих/исходящих/всего файлов или URL.
+;file \plugins\HistoryStats\src\column_group.cpp
 [Group]
 Группа
+;file \plugins\HistoryStats\src\column_group.h
 [Column holding the contact list's group name the contact is in.]
 Колонка содержит имя группы, в которой находится контакт.
+;file \plugins\HistoryStats\src\column_inout.cpp
 [Data source]
 Источник данных
 [Display as]
@@ -201,10 +212,12 @@ URL (все)
 месяц
 [#{data} per #{unit}]
 \#{data} за #{unit}
+;file \plugins\HistoryStats\src\column_inout.h
 [In/out]
 Входящие/Исходящие
 [Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
 Колонка содержит количество входящих, исходящих или всех символов, сообщений или бесед. Эта колонка может отображать абсолютные и средние значения.
+;file \plugins\HistoryStats\src\column_inoutgraph.cpp
 [Show sum of incoming and outgoing]
 Показать сумму входящих/исходящих
 [In/out details (tooltip)]
@@ -223,10 +236,12 @@ URL (все)
 (Исх) #{out_amount} (#{out_ratio}) / (Вх) #{in_amount} (#{in_ratio})
 [[Out] #{out_amount} / [In] #{in_amount}]
 (Исх) #{out_amount} / (Вх) #{in_amount}
+;file \plugins\HistoryStats\src\column_inoutgraph.h
 [In/out graph]
 График "Входящие/Исходящие"
 [Column holding in/out bar graphs for characters, messages or chats.]
 Колонка содержит график "Входящие/Исходящие" для символов, сообщений или бесед.
+;file \plugins\HistoryStats\src\column_nick.cpp
 [First/last message time (tooltip)]
 Время первого/последнего сообщения (подсказка)
 [Show contact count for omitted/totals (tooltip)]
@@ -243,16 +258,24 @@ URL (все)
 Пропущено
 [Totals]
 Всего
+;file \plugins\HistoryStats\src\column_nick.h
 [Column holding the contact's nick and first/last message time if selected.]
 Колонка содержит ник контакта и время первого/последнего сообщения (если выбрано).
+;file \plugins\HistoryStats\src\column_protocol.cpp
 [Protocol]
 Протокол
+;file \plugins\HistoryStats\src\column_protocol.h
 [Column holding the contact's protocol.]
 Колонка содержит протокол контакта.
+;file \plugins\HistoryStats\src\column_rank.cpp
 [Rank]
 Ранг
+[#{rank}.]
+
+;file \plugins\HistoryStats\src\column_rank.h
 [Column holding the contact's placing according to your sorting criteria.]
 Колонка содержит место контакта согласно вашим критериям сортировки.
+;file \plugins\HistoryStats\src\column_split.cpp
 ["Split" type]
 Тип "Разбивки"
 [Hours of day]
@@ -321,8 +344,16 @@ wday3:Птн
 wday3:Сбт
 [wday3:Sun]
 wday3:Вск
+[[#{hour}:00-#{hour}:59] #{amount}]
+
+[[#{day}] #{amount}]
+
+[#{amount}]
+
+;file \plugins\HistoryStats\src\column_split.h
 [Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
 Колонка содержит графическое представление бесед, разбитых по дням недели или по времени суток. Доступно разное измерение статистики бесед.
+;file \plugins\HistoryStats\src\column_splittimeline.cpp
 [Drop everything older than (days, 0=no limit)]
 Выбросить всё старше, чем (дней, 0 = без ограничений)
 [Number of days to group]
@@ -357,18 +388,26 @@ wday3:Вск
 соотношение вх/исх сообщений
 [in/out ratio of chats]
 соотношение вх/исх бесед
+;file \plugins\HistoryStats\src\column_splittimeline.h
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available.]
 Колонка содержит графическое представление бесед (исходящие, входящие, всего, соотношение входящих к исходящим) от первого дня истории до последнего. Информация располагается по осям X и Y, и значения окрашиваются в цвета. Доступно разное измерение статистики бесед.
+;file \plugins\HistoryStats\src\column_timeline.cpp
 [Timeline for #{data}]
 Шкала времени для #{data}
 [Timeline]
 Шкала времени
+[[#{start_date}-#{end_date}] #{amount}]
+
+[[#{date}] #{amount}]
+
 [[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
 \[#{start_date}-#{end_date}] #{out_amount} (исх) / #{in_amount} (вх)
 [[#{date}] #{out_amount} (out) / #{in_amount} (in)]
 \[#{date}] #{out_amount} (исх) / #{in_amount} (вх)
+;file \plugins\HistoryStats\src\column_timeline.h
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 Колонка содержит графическое представление бесед (исходящие, входящие, всего, соотношение входящих к исходящим) от первого дня истории до последнего на основании дней. Дни могут быть сгруппированы. Доступно разное измерение статистики бесед.
+;file \plugins\HistoryStats\src\column_wordcount.cpp
 [Word count type]
 Тип подсчёта слов
 [Total words]
@@ -389,10 +428,12 @@ wday3:Вск
 \#{words} всего
 [#{words} total / #{distict_words} distinct]
 \#{words} всего / #{distict_words} отличных
+;file \plugins\HistoryStats\src\column_wordcount.h
 [Word count]
 Количество слов
 [Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
 Колонка содержит количество слов, использованных вами/контактом/всего.
+;file \plugins\HistoryStats\src\column_words.cpp
 [Words type]
 Тип слов
 [Most common words]
@@ -413,16 +454,20 @@ wday3:Вск
 Выделять слова цветом согласно соотношению вх/исх
 [[Out] #{out_words} / [In] #{in_words}]
 (Исходящие) #{out_words} / (Входящие) #{in_words}
+;file \plugins\HistoryStats\src\column_words.h
 [Words]
 Слова
 [Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
 Колонка содержит список наиболее/наименее используемых слов или самых длинных слов, использованных вами/контактом/всего.
+;file \plugins\HistoryStats\src\contact.cpp
 [(multiple)]
 (несколько)
+;file \plugins\HistoryStats\src\dlgconfigure.cpp
 [You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
 Вы не можете открыть отдельное окно настроек HistoryStats, поскольку открыто окно настроек Miranda NG. Закройте его и попытайтесь снова.\r\n\r\nПримечание: настройки в обоих окнах одинаковы.
 [HistoryStats - Warning]
 HistoryStats - Предупреждение
+;file \plugins\HistoryStats\src\dlgfilterwords.cpp
 [Add set]
 Добавить набор
 [Delete set]
@@ -445,6 +490,7 @@ HistoryStats - Предупреждение
 Фильтровать сообщения с окончанием
 [The selected set is in use by at least one other column. If you remove it, it won't be available to all other columns that use it. Are you sure you want to remove the set?]
 Выбранный набор используется по крайней мере ещё одной колонкой. Если его удалить, он будет недоступен всем другим колонкам. Вы уверены, что хотите удалить набор?
+;file \plugins\HistoryStats\src\dlgoption.cpp
 [Global]
 Глобальные
 [Global settings]
@@ -483,6 +529,7 @@ HistoryStats - Предупреждение
 Показать статистику
 [There are some potential conflicts in your settings. However, this is only a warning and can in general be ignored. The details:]
 В ваших настройках есть потенциальные проблемы. В любом случае, это только предупреждение, и на него можно не обращать внимания. Детали:
+;file \plugins\HistoryStats\src\dlgoption_subcolumns.cpp
 [Add column...]
 Добавить колонку...
 [Delete column]
@@ -523,8 +570,10 @@ HTML вывод невозможен.
 Переключение в HTML режим по установке
 [Setting ignored due to PNG output.]
 Настройка пропущена, поскольку включён вывод PNG.
+;file \plugins\HistoryStats\src\dlgoption_subexclude.cpp
 [** All contacts **]
 ** Все контакты **
+;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
 [Integration]
 Интеграция
 [Create statistics on Miranda NG startup]
@@ -563,6 +612,7 @@ HTML вывод невозможен.
 Поддерживаемые плагины (двойной щелчок для информации):
 [HistoryStats supports several plugins. Click to hide info...]
 HistoryStats поддерживает некоторые плагины. Нажмите для скрытия информации...
+;file \plugins\HistoryStats\src\dlgoption_subinput.cpp
 [History interpretation]
 Интерпретация истории
 [Time a chat session must last to be counted (seconds)]
@@ -613,6 +663,7 @@ HistoryStats поддерживает некоторые плагины. Наж�
 Вырезать из сообщений управляющие теги RTF
 [Strip BBCode tags from messages]
 Вырезать из сообщений BBCode
+;file \plugins\HistoryStats\src\dlgoption_suboutput.cpp
 [Contact filtering and totals]
 Общая статистика и фильтр контактов
 [Remove contacts with empty history]
@@ -767,6 +818,7 @@ HistoryStats поддерживает некоторые плагины. Наж�
 Беседы (все, среднее по неделе)
 [Chat duration (total, hours)]
 Продолжительность беседы (всего, часов)
+;file \plugins\HistoryStats\src\iconlib.cpp
 [Create statistics (main menu)]
 Создать статистику (главное меню)
 [Show statistics (main menu)]
@@ -817,6 +869,7 @@ HistoryStats поддерживает некоторые плагины. Наж�
 Выбор даты/времени
 [Date/time picker (disabled)]
 Выбор даты/времени (отключено)
+;file \plugins\HistoryStats\src\main.cpp
 [The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
 Статистика не найдена. Она ещё не была создана, либо перемещена в другую папку.
 [Statistics]
@@ -825,8 +878,12 @@ HistoryStats поддерживает некоторые плагины. Наж�
 Настройка...
 [Configure statistics...]
 Настроить статистику...
+[You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?]
+
 [HistoryStats - Confirm]
 HistoryStats - Подтверждение
+[Successfully read #{success} events of which #{fail_add} couldn't be added to the target history. #{fail} events couldn't be read from the source history.]
+
 [HistoryStats - Information]
 HistoryStats - Информация
 [Exclude from statistics]
@@ -837,14 +894,19 @@ HistoryStats - Информация
 Вставить историю...
 [History]
 История
+;file \plugins\HistoryStats\src\mirandacontact.cpp
+;file \plugins\HistoryStats\src\mirandahistory.cpp
 [(Unknown)]
 (неизвестный)
 [(none)]
 (нет)
+;file \plugins\HistoryStats\src\optionsctrlimpl_datetime.cpp
 [none]
 нет
+;file \plugins\HistoryStats\src\settings.cpp
 [(default nick)]
 (ник по умолчанию)
+;file \plugins\HistoryStats\src\statistic.cpp
 [HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
 HistoryStats не может создать папку (#{folder}).\r\n\r\nПожалуйста, проверьте имя файла и папки, а также возможность записи в файл/папку/диск.
 [Omitted contacts]
@@ -887,6 +949,7 @@ HistoryStats не может открыть файл для записи (#{file
 Уже существующий файл
 [HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
 Уже запущен процесс создания статистики. Пожалуйста подождите, пока он закончится, или отмените его и попытайтесь снова.
+;file \plugins\HistoryStats\src\utils.cpp
 [month3:Jan]
 month3:Янв
 [monthF:January]
@@ -963,3 +1026,11 @@ wdayF:Суббота
 wday2:Вс
 [wdayF:Sunday]
 wdayF:Воскресенье
+[pm]
+
+[am]
+
+[PM]
+
+[AM]
+

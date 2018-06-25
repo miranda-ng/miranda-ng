@@ -7,6 +7,7 @@
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 Надає можливість швидко додати контакт.
+;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Додати контакт
 [Add a contact to your contact list]
@@ -33,6 +34,7 @@ ID користувача:
 &Додати
 [&Cancel]
 &Скасувати
+;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Будь ласка, авторизуйте мене і внесіть до свого списку контактів.
 [None]
@@ -41,6 +43,7 @@ ID користувача:
 Неможливо додати контакт до вашого списку контактів. Переконайтеся, що ви вказали правильний ID користувача.
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 Неможливо додати контакт до вашого списку контактів. Якщо ви не підключені до цієї мережі, спробуйте підключитися. Також переконайтеся, що ви вказали правильний ID користувача.
+;file \plugins\AddContactPlus\src\main.cpp
 [&Add contact...]
 &Додати контакт...
 [Open add contact dialog]

@@ -7,6 +7,7 @@
 ;============================================================
 [Smiley support for Miranda NG.]
 Підтримка смайлів у Miranda NG.
+;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 Категорії смайлів
 [Specify smiley pack for each category]
@@ -53,14 +54,17 @@
 Вікно в стилі IEView
 [Horizontal sorting]
 Впорядкувати горизонтально
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Показати вікно вибору смайлів
+;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 Смайли
 [Smiley cache]
 Кеш смайлів
 [SmileyAdd HTTP connections]
 HTTP-з'єднання SmileyAdd
+;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 Кнопка смайла
 [Assign smiley category]
@@ -69,6 +73,7 @@ HTTP-з'єднання SmileyAdd
 Колір фону
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Може бути запущена тільки одна копія SmileyAdd.\nВидаліть дублікат з папки Plugins.
+;file \plugins\SmileyAdd\src\options.cpp
 [Smiley packs]
 Набір смайлів
 [All files]
@@ -77,8 +82,10 @@ HTTP-з'єднання SmileyAdd
 Смайли
 [Customize]
 Тонке налаштування
+;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 Згідно з протоколом
+;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Набір смайлів %s для категорії "%s" не знайдено.\nВиберіть набір смайлів: Налаштування -> Тонке налаштування -> Смайли.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
@@ -91,3 +98,6 @@ HTTP-з'єднання SmileyAdd
 Стандартні
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Помилковий регулярний вираз "%s" в наборі смайлів "%s".
+;file \plugins\SmileyAdd\src\smltool.cpp
+[d'Oh!]
+

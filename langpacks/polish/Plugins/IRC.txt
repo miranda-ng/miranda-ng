@@ -352,8 +352,6 @@ Ignorowanie
 Proszę podać powód
 [Ban'n Kick]
 Zablokuj i wywal
-[Jerk]
-Szarpnij
 [*Disconnected*]
 *Rozłączony*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]

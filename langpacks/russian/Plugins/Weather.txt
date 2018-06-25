@@ -7,6 +7,7 @@
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
 Запрос и отображение информации о погоде в вашем списке контактов.
+;file \plugins\Weather\res\resource.rc
 [Update]
 Обновить
 [Brief Info]
@@ -253,6 +254,7 @@ URL доп. информации
 К старым
 [To default]
 По умолчанию
+;file \plugins\Weather\src\stdafx.h
 [N/A]
 Недоступен
 [Invalid ID format, missing "/" (10)]
@@ -315,6 +317,8 @@ INI файл погоды для этой станции не найден (20)
 %c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n в %u:	%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
+[%n   (%u)]
+%n   (%u)
 [%c, %t\\nToday:  High %h, Low %l]
 %c, %t\\nСегодня:  макс. %h, мин. %l
 [Temperature: %[Temperature]]
@@ -333,6 +337,7 @@ INI файл погоды для этой станции не найден (20)
 Не указан URL для полного прогноза погоды. Укажите его в настройках.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
+;file \plugins\Weather\src\weather.cpp
 [Enable/disable auto update]
 Вкл/Выкл автообновление
 [Auto Update Enabled]
@@ -343,6 +348,7 @@ INI файл погоды для этой станции не найден (20)
 Weather: Погода изменилась
 [Weather Alert Issued]
 Weather: Погодное предупреждение
+;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Текущая информация о погоде для %s.
 [%s is now the default weather station]
@@ -355,6 +361,7 @@ Weather: Погодное предупреждение
 <Введите название города>
 [<Enter station ID here>]
 <Введите ID города>
+;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Журнал погоды не ведётся.
 [Get city name from ID]
@@ -371,6 +378,7 @@ Weather: Погодное предупреждение
 Текстовые файлы
 [All Files]
 Все файлы
+;file \plugins\Weather\src\weather_conv.cpp
 [mb]
 мбар
 [in]
@@ -383,12 +391,15 @@ Weather: Погодное предупреждение
 <Ошибка>
 [HTTP Error %i]
 Ошибка HTTP %i
+;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <Введите название города>
 [Error when obtaining data: %s]
 Ошибка при получении данных: %s
+;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 HTTP подключение Weather
+;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
 Значок протокола
 [Update Disabled]
@@ -409,6 +420,7 @@ HTTP подключение Weather
 Без окон
 [Edit Settings]
 Изменить настройки
+;file \plugins\Weather\src\weather_info.cpp
 [Name]
 Имя
 [Author]
@@ -447,18 +459,21 @@ HTTP подключение Weather
 байт
 [Description:]
 Описание:
+;file \plugins\Weather\src\weather_ini.cpp
 [All update data has been reloaded.]
 Все обновлённые данные перезагружены.
 [Invalid ini format for: %s]
 Собственный формат ini для: %s
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Не найдено ни одного файла INI. Пожалуйста, проверьте папку Plugins\\Weather.
+;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
 Шрифт фрейма
 [Frame Title Font]
 Шрифт заголовка фрейма
 [Frame Background]
 Фон фрейма
+;file \plugins\Weather\src\weather_opt.cpp
 [Weather Protocol Text Preview]
 Просмотр протокола погоды
 [Network]
@@ -469,6 +484,8 @@ HTTP подключение Weather
 Показывать
 [Popups]
 Всплывающие окна
+;file \plugins\Weather\src\weather_popup.cpp
+;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 ID города
 [Disable &weather notification]
@@ -495,8 +512,10 @@ ID города
 Уведомление о погоде
 [Display in a frame]
 Показывать во фрейме
+;file \plugins\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Невозможно найти информацию о погоде для %s
+;file \plugins\Weather\src\weather_userinfo.cpp
 [Variable]
 Переменная
 [Information]

@@ -7,6 +7,7 @@
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
 Підтримка протоколу E-mage LAN у Miranda NG.
+;file \protocols\EmLanProto\res\amdproto.rc
 [Select your IP address]
 Виберіть IP-адресу
 [LAN Settings]
@@ -17,6 +18,7 @@
 Ваше ім'я
 [Select your name]
 Виберіть ім'я
+;file \protocols\EmLanProto\src\amdproto.cpp
 [User name or '*']
 Ім'я користувача або '*'
 [E-mage LAN protocol]

@@ -5,6 +5,151 @@
 ;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
+[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
+
+;file \plugins\StatusManager\res\resource.rc
+[Available modules]
+
+[Keep status]
+
+[Automatically reconnects your accounts after protocol error or internet drop.]
+
+[Startup status]
+
+[Allows you to define the status Miranda should set on startup, configurable per account.]
+
+[Advanced auto away]
+
+[Improved auto away module with some more options than the built in, configurable per account.]
+
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+
+[General]
+
+[Show popups]
+
+[Account connection]
+
+[Check connection]
+
+[Maximum retries (0 - infinite)]
+
+[Delay between retries (secs)]
+
+[Accounts to check]
+
+[Dial-up]
+
+[Don't reconnect if no internet connection seems available]
+
+[Continuously check for internet connection]
+
+[Do so by pinging host]
+
+[Confirm status]
+
+[Close]
+
+[Cancel]
+
+[Profile]
+
+[Message]
+
+[Account:]
+
+[Away mode]
+
+[Set]
+
+[when full-screen mode is active]
+
+[when screen saver engages]
+
+[when workstation is locked]
+
+[when terminal session is disconnected]
+
+[after]
+
+[minutes of inactivity]
+
+[After away]
+
+[minutes of level 1 mode]
+
+[only set when inactive]
+
+[Monitor Miranda's activity only]
+
+[Reset status on return]
+
+[Confirm resetting status]
+
+[Enter idle mode]
+
+[Only set if current status is]
+
+[Command line]
+
+[Copy to clipboard]
+
+[Command line:]
+
+[Create shortcut]
+
+[Add new profile]
+
+[Profile name]
+
+[Set window state]
+
+[Show dialog]
+
+[Set status to offline before exit]
+
+[Show CMDL]
+
+[Activate status profile]
+
+[Set docked]
+
+[Other]
+
+[Status on startup]
+
+[ms]
+
+[Set after]
+
+[Timeout]
+
+[s]
+
+[Set window location]
+
+[Left]
+
+[Top]
+
+[Set window size]
+
+[Width]
+
+[Height]
+
+[Allow override]
+
+[Note: status profiles can be created in the 'Status profiles' options screen]
+
+[Window on startup]
+
+[Automatically dial on startup]
+
+[Automatically hang up on exit]
+
+[Dial-up (experimental)]
+
 [Background color]
 Background colour
 [Text color]
@@ -13,7 +158,231 @@ Text colour
 Use Windows colours
 [Use default colors]
 Use default colours
+[Delay]
+
+[On left click]
+
+[On right click]
+
+[Do nothing]
+
+[Close popup]
+
+[Cancel reconnecting]
+
 [Colors]
 Colours
+[Preview]
+
+[Events]
+
+[Show when connection is lost]
+
+[Show when a connection attempt is made]
+
+[Show when reconnection has finished]
+
+[Show other messages]
+
+[From popup plugin]
+
+[Custom]
+
+[Permanent]
+
+[Show additional information in popups]
+
+[Use Miranda's message setting]
+
+[Use this message:]
+
+[Use %time% for the current time, %date% for the current date]
+
+[Variables...]
+
+[Specify settings for each account]
+
+[Use same settings for all accounts]
+
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+
+[Check interval (secs)]
+
+[Confirm dialog timeout (secs)]
+
+[Monitor keyboard activity]
+
+[Monitor mouse activity]
+
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+
+[Ignore any key combination with above keys]
+
+[Accounts]
+
+[Enable checking]
+
+[Disable checking]
+
+[Set status message]
+
+[Account]
+
+[Status]
+
+[Add...]
+
+[Delete]
+
+[Create a TopToolBar button]
+
+[Show confirm dialog when loading]
+
+[Create a main menu item]
+
+[Status profiles]
+
+[Hotkey]
+
+[In submenu]
+
+[Timers]
+
+[Maximum delay (secs)]
+
+[Maximum account connecting time (secs)]
+
+[Reconnecting]
+
+[Ignore locked status of accounts]
+
+[Increase delay exponential]
+
+[Set account offline before a connection attempt]
+
+[Cancel all if an account connects from another location]
+
+[Reconnect on APM resume]
+
+[React on login errors]
+
+[Stop trying to reconnect]
+
+[Set delay to]
+
+[seconds]
+
+[Consider connection lost after]
+
+[failed pings]
+
+[Continuously check interval (secs)]
+
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Pre-conditions]
+
+[Status: The status the account will change to\r\nAccount: The account changing state]
+
+[TriggerData]
+
+[Becoming active without status change]
+
+[Leaving second auto-away status]
+
+;file \plugins\StatusManager\src\aaa_options.cpp
+[minutes of %s mode]
+
+[Auto away]
+
+[Rules]
+
+[Status messages]
+
+;file \plugins\StatusManager\src\confirmdialog.cpp
+[Set %s message for %s.]
+
+[<last>]
+
+[<current>]
+
+[<n/a>]
+
+[Protocol]
+
+[Closing in %d]
+
+;file \plugins\StatusManager\src\keepstatus.cpp
+[%s connected from another location]
+
+[%s login error, cancel reconnecting]
+
+[%s login error (next retry (%d) in %d s)]
+
+[%s status error (next retry (%d) in %d s)]
+
+[Status error (next retry (%d) in %d s)]
+
+[Resetting status... (last try (%d))]
+
+[Resetting status... (next retry (%d) in %d s)]
+
+[%s\t(will be set to %s)\r\n]
+
+[No internet connection seems available... (last try (%d))]
+
+[No internet connection seems available... (next retry (%d) in %d s)]
+
+[Status was set ok]
+
+[Giving up]
+
+;file \plugins\StatusManager\src\ks_options.cpp
+[You broke the Internet!]
+
+[Basic]
+
+[Advanced]
+
+[Popups]
+
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+
+;file \plugins\StatusManager\src\ss_options.cpp
+[<unknown>]
+
+[Right]
+
+[None]
+
+[size: %d x %d]
+
+[loc: %d x %d]
+
+[Hidden]
+
 [Minimized]
 Minimised
+[Normal]
+
+[Create a status menu item]
+
+[default]
+
+[unknown]
+
+[At least one profile must exist]
+
+[Your default profile will be changed]
+
+;file \plugins\StatusManager\src\ss_profiles.cpp
+;file \plugins\StatusManager\src\ss_toolbars.cpp
+[Pressed toolbar icon]
+
+[Released toolbar icon]
+

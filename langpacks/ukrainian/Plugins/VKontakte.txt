@@ -7,6 +7,7 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
+;file \protocols\VKontakte\res\resource.rc
 [Show in protocol menu ]
 Показувати в меню протоколу\s
 [Create new chat]
@@ -51,6 +52,8 @@
 Скорочувати посилання для аудіовкладень
 [Use non-standard popups for news and event notifications]
 Нестандартні спливаючі вікна для новин і подій
+[Add message link to messages with attachments]
+
 [News and event notifications]
 Новини і сповіщення
 [WARNING: Causes excessive network traffic!!!]
@@ -129,6 +132,8 @@
 Заміняти вкладеннями посилання на пости, зображення, музику, відео
 [and load sent attachments]
 і завантажувати надіслані вкладення
+[Notify about changes of contacts audio broadcast]
+
 [When I ban user...]
 При блокуванні користувача...
 [Report abuse]
@@ -163,8 +168,12 @@
 Позначати повідомлення прочитаними:
 [Sync history on protocol online:]
 Синхронізувати історію при підключенні:
+[Load last messages when message window open and local history is empty]
+
 [Use local time for received messages]
 Місцевий час для прийнятих повідомлень
+[Load only friends to local contact list]
+
 [Server-side delivery confirmation]
 Підтвердження доставки зі сторони серверу
 [Bots challenge test]
@@ -193,6 +202,7 @@
 Посилання:
 [Only for friends]
 Тільки друзям
+;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Значок форми з капчею
 [Notification icon]
@@ -235,6 +245,14 @@
 Один із заданих параметрів відсутній або неправильний
 [Access to adding post denied]
 Денний ліміт публікацій вичерпано
+[Can't send messages for users from blacklist]
+
+[Can't send messages for users without dialogs]
+
+[Can't send messages to this user due to their privacy settings]
+
+[Message is too long]
+
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 Введіть цифри, пропущені між %s і %s у телефонному номері, прив'язаному до вашого облікового запису
 [Attention!]
@@ -313,10 +331,19 @@
 Повідомлення від
 [at]
 о
+[User restored control over own page]
+
+[User was deactivated (deleted)]
+
+[User was deactivated (banned)]
+
+;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Учасники
 [Owners]
 Власники
+[Message link]
+
 [create chat]
 створив(ла) чат
 [kick user]
@@ -329,6 +356,10 @@
 повернувся
 [change chat title to]
 встановив(ла) тему
+[pin message]
+
+[unpin message]
+
 [changed chat cover:]
 змінив обкладинку чату:
 [deleted chat cover]
@@ -361,10 +392,20 @@
 &Вигнати
 [%s is typing a message...]
 %s друкує вам повідомлення...
+;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Введіть текст, який бачите
 [Wall message for %s]
 Повідомлення на стіну %s
+[You delete %s from the contact list.\nWhat needs to be done additionally?]
+
+[Remove %s from your friend list]
+
+[Clear server history with %s]
+
+[Deleting %s from contact list]
+
+;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 Новини
 [New notifications]
@@ -389,6 +430,7 @@
 Запис:
 [Topic text:]
 Тема:
+;file \protocols\VKontakte\src\vk_files.cpp
 [Protocol is offline]
 Протокол не в мережі
 [File does not exist]
@@ -423,8 +465,11 @@ ID отримувача помилковий або невідомий
 Неправильний розмір файлу
 [Unknown error occurred]
 Невідома помилка
+;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Ви впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
+[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
+
 [Error loading message history from server.]
 Помилка при завантаженні повідомлень з сервера.
 [Loading messages for all contacts is completed.]
@@ -433,8 +478,18 @@ ID отримувача помилковий або невідомий
 Завантаження історії
 [Error loading message history for %s from server.]
 Помилка при завантаженні повідомлень для %s з сервера.
+[%x at %X]
+
+[Edited message (updated %s):\n]
+
 [Loading messages for %s is completed.]
 Завершено завантаження повідомлень для %s.
+;file \protocols\VKontakte\src\vk_messages.cpp
+[Edited message:\n]
+
+[\nOriginal message:\n]
+
+;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Мережа
 [Account]
@@ -481,6 +536,7 @@ ID отримувача помилковий або невідомий
 Зміни наберуть чинності після перезапуску.\nПерезапустити зараз?
 [VKontakte protocol]
 Протокол ВКонтакті
+;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 З'єднання з сервером %s
 [VKontakte newsfeed & notification event]
@@ -513,6 +569,8 @@ ID отримувача помилковий або невідомий
 Помилки
 [Notification]
 Сповіщення
+[VK user activate/deactivate action]
+
 [User %s added as friend]
 %s доданий до вашого списку друзів
 [You cannot add yourself as friend]
@@ -521,16 +579,21 @@ ID отримувача помилковий або невідомий
 Неможливо додати користувача до списку друзів, тому що ви у нього в чорному списку
 [Cannot add this user to friends as you put him on blacklist]
 Неможливо додати користувача до списку друзів, тому що він у вас у чорному списку
+;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
 Завантаження статусного повідомлення з vk.com.\nЦе може тривати деякий час.
 [Waiting...]
 Очікування...
 [Enter new status message]
 Введіть нове статусне повідомлення
+;file \protocols\VKontakte\src\vk_struct.cpp
 [I'm back]
 Я повернувся
+;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
 Сервісне повідомлення
+[%s is listening to]
+
 [Interests]
 Інтереси
 [Activities]

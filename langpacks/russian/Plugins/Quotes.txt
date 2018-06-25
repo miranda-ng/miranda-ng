@@ -7,6 +7,7 @@
 ;============================================================
 [Shows currency rates and economic quotes.]
 Позволяет наблюдать за изменениями курсов валют и биржевых котировок.
+;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Переменные
 [Edit Settings]
@@ -117,8 +118,10 @@
 &Отслеживаемые котировки:
 [Status &Message:]
 Сообщение &статуса:
+;file \plugins\Quotes\src\Chart.h
 [There is nothing to show]
 Нечего показывать
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 секунд
 [Minutes]
@@ -131,10 +134,12 @@
 Введите целое число между 1 и 24.
 [Enter text to display in contact list.]
 Введите текст для отображения в списке контактов.
+;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 Информация предоставлена
 [Enter positive number.]
 Введите положительное число.
+;file \plugins\Quotes\src\Forex.cpp
 [Auto Update Enabled]
 Автоматическое обновление включено
 [Auto Update Disabled]
@@ -169,8 +174,10 @@
 Символ котировки
 [Network]
 Сеть
+;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 HTTP подключение Quotes
+;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 Значок протокола
 [Quote/Rate up]
@@ -189,18 +196,23 @@ HTTP подключение Quotes
 Поменять местами
 [Import]
 Импорт
+;file \plugins\Quotes\src\ImportExport.cpp
 [XML File (*.xml)]
 Файл XML (*.xml)
 [All files (*.*)]
 Все файлы (*.*)
+;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 Не удалось загрузить плагин Quotes. Отсутствует парсер XML.
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 Не удалось загрузить плагин Quotes. Отсутствует парсер Microsoft HTML.
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during HTML parsing.]
 Ошибка в процессе обработки HTML.
 [Error occurred during site access.]
 Ошибка при доступе к сайту.
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Name]
 Название котировки
 [From Currency Full Name]
@@ -245,6 +257,7 @@ HTTP подключение Quotes
 Значение на предыдущее закрытие
 [Change]
 Изменение
+;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Журналы (*.txt,*.log)
 [Enter integer value]

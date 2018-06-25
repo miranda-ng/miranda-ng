@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
 Приставка за промяна на клавиатурната подредба на текста (много подредби).
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Клавишни комбинации
 [Changing layout:]
@@ -55,6 +56,8 @@
 Текст
 [Timeout]
 Времетраене
+[From popup plugin]
+
 [Permanent]
 Постоянно
 [Custom]
@@ -69,6 +72,7 @@
 Десен бутон
 [Preview]
 Образец
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 Смяна на клавиатурната подредба
 [Changing Case]
@@ -77,7 +81,9 @@
 Разговори
 [Popups]
 Рopups
+;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Рopup
+;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 ChangeKeyboardLayout

@@ -7,12 +7,14 @@
 ;============================================================
 [This will tell Miranda to run the specified command.]
 Передача Miranda вказаної команди на виконання.
+;file \plugins\MimCmd\src\commands.cpp
 [No help for '%s'.]
 Немає допомоги для '%s'.
 [Available commands: ]
 Доступні команди:\s
 [Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 Miranda була закрита або сталася помилка при очікуванні результату, неможливо обробити запит.
+;file \plugins\MimCmd\src\MimCmd.cpp
 [%s usage:\n]
 %s використання:\n
 [%s <command> [<param> [<param> [...]]].\n]

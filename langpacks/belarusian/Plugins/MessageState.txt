@@ -7,8 +7,10 @@
 ;============================================================
 [Displays icons in message window showing whether your last outgoing message was read / is still unread.]
 
+;file \plugins\MessageState\src\clist_extra.cpp
 [MessageState unread extra icon]
 
+;file \plugins\MessageState\src\messagestate.cpp
 [Unread message icon]
 
 [Read message icon]

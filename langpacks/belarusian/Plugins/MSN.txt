@@ -7,6 +7,7 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Падтрымка пратаколу Microsoft Network (MSN).
+;file \protocols\MSN\res\msn.rc
 [Live ID:]
 
 [Password:]
@@ -109,6 +110,7 @@
 С&касаваць
 [Add]
 Дадаць
+;file \protocols\MSN\src\msn_chat.cpp
 [Admin]
 Адмін
 [User]
@@ -129,12 +131,15 @@
 
 [&Deop user]
 
+;file \protocols\MSN\src\msn_commands.cpp
 [%I64u bytes]
 %I64u байт
 [MSN Alert]
 Абвестка MSN
+;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Кантакт не далучаны
+;file \protocols\MSN\src\msn_ieembed.cpp
 [IID_IOleObject failed.]
 
 [RESULT]
@@ -145,12 +150,15 @@
 
 [C++ Event Sink]
 
+;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 Спасылка MSN
+;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Кантакт %s быў выдалены з сервера.\nЦі хочаце вы пакінуць яго ў лакальным спісе, каб захаваць гісторыю?
 [%s protocol]
 %s конт
+;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Тэма: %s
 [Hotmail from %s (%S)]
@@ -159,6 +167,7 @@
 Пошта Hotmail ад %s
 [Unread mail is available: %d in Inbox and %d in other folders.]
 Маецца непрачытаная пошта: %d уваходных пісьмаў і %d у іншых тэчках.
+;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
 Разблакаваць
 [&Block]
@@ -175,6 +184,7 @@
 Прагледзець &профіль
 [Setup Live &Alerts]
 Налады Live &Alerts
+;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Свае смайлы
 [Notify]
@@ -183,6 +193,7 @@
 Памылка
 [MSN Protocol]
 Пратакол MSN
+;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 Абразок конту
 [Hotmail Inbox]
@@ -233,6 +244,7 @@
 Спіс на серверы
 [Notifications]
 Абвесткі
+;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Пошта Live
 [Live Alert]
@@ -253,6 +265,7 @@
 Паведамленні MSN абмежаваны 1202 знакамі UTF-8
 [Offline messaging is not allowed for LCS contacts]
 Паведамленні адключаным LCS кантактам немагчымыя
+;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для MSN затрымка адпраўлення паведамлення павінна быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш плагін гутаркі.
 [Convert to Chat]

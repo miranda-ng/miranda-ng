@@ -1,2 +1,1 @@
 [Extended flag (1xx), Hardware scan code (x23), KeyName]
-[Hardware HotKeys]

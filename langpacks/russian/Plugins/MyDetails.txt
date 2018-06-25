@@ -7,6 +7,7 @@
 ;============================================================
 [Shows and allows you to edit your details for all accounts.]
 Показывает во фрейме ваши данные (ник, аватар, статус) для всех учётных записей и позволяет их редактировать.
+;file \plugins\MyDetails\res\resource.rc
 [Set my nickname]
 Мой ник
 [Nickname:]
@@ -113,8 +114,10 @@
 Менять учётные записи
 [Don't cycle through accounts]
 Не менять учётные записи
+;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <нет имени статуса>
+;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
 Ник
 [Status]
@@ -141,12 +144,15 @@
 Изменить статусное сообщение для %s...
 [Hide my details]
 Скрыть мои данные
+;file \plugins\MyDetails\src\mydetails.cpp
 [Previous account]
 Предыдущая учётная запись
 [Next account]
 Следующая учётная запись
+;file \plugins\MyDetails\src\options.cpp
 [Contact list]
 Список контактов
+;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Сменить мой ник для %s
 [Set my status message for %s]

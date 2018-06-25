@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
 Быстрая вставка (или отправка) определённых сообщений в окно отправки.
+;file \plugins\QuickReplies\res\resources.rc
 [Quick Replies]
 Быстрые ответы
 [Send replies immediately]
@@ -21,7 +22,9 @@
 - Добавьте "---" для разделителя.
 [- Press [v] button for variable's help.]
 - Нажмите [v] для помощи по переменным.
+;file \plugins\QuickReplies\src\events.cpp
 [Button]
 Кнопка
+;file \plugins\QuickReplies\src\options.cpp
 [Message sessions]
 Беседы

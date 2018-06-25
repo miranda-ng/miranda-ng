@@ -7,6 +7,7 @@
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
 Позволяет вам отправлять сообщения контактам, если они меняют статус.
+;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 Подтверждение отправки отложенных
 [Send]
@@ -51,6 +52,7 @@
 Показ. доставл. сообщения
 [These settings are also used when sending a "Simple" pounce]
 Эти настройки также используются для "простых" отлож. сообщений
+;file \plugins\BuddyPounce\src\dialog.cpp
 [Send If My Status Is...]
 Отправлять, если мой статус...
 [Send If They Change Status to...]
@@ -133,6 +135,7 @@
 Сообщение успешно послано %s
 [Message failed to send to %s]
 Ошибка отправки сообщения для %s
+;file \plugins\BuddyPounce\src\main.cpp
 [&Buddy Pounce]
 &Отложенное сообщение
 [Message sessions]

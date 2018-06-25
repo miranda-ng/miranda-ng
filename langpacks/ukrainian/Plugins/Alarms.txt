@@ -7,6 +7,7 @@
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
 Установка щоденних, щотижневих та разових повідомлень.
+;file \plugins\Alarms\res\resource.rc
 [New]
 Нове
 [Delete]
@@ -95,6 +96,8 @@
 Не спрацьовувати при старті
 [No reminder]
 Не показувати в списку
+[Selected days]
+
 [Mon]
 Пн
 [Tue]
@@ -127,8 +130,11 @@
 &Налаштування...
 [&New alarm...]
 &Нове нагадування...
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
 [Set alarm]
 Встановити нагадування
+;file \plugins\Alarms\src\alarm_win.cpp
 [Example alarm]
 Приклад нагадування
 [Some example text. Example, example, example.]
@@ -151,6 +157,7 @@
 Фон
 [Window]
 Вікно
+;file \plugins\Alarms\src\frame.cpp
 [%dh %dm]
 %d год %d хв
 [%dm]
@@ -163,6 +170,7 @@
 Фрейми
 [Alarm reminders]
 Нагадування
+;file \plugins\Alarms\src\icons.cpp
 [Menu: Set alarm]
 Меню: Дані нагадування
 [Reminder: Soon]
@@ -173,6 +181,7 @@
 Трей
 [Menu: Show/Hide reminders]
 Меню: Показати/сховати нагадування
+;file \plugins\Alarms\src\options.cpp
 [Sunday]
 Неділя
 [Monday]

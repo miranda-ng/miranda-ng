@@ -7,6 +7,7 @@
 ;============================================================
 [History viewer for Miranda NG.]
 Переглядач історії для Miranda NG.
+;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message history]
 Історія повідомлень
 [Settings]
@@ -137,6 +138,7 @@
 Виконувати завдання для певних контактів
 [Cancel]
 Скасувати
+;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 Відкрити історію
 [View &history]
@@ -165,6 +167,7 @@
 Мінус в експорті
 [History]
 Історія
+;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Усі події
 [Default history events]
@@ -177,6 +180,7 @@
 Я
 [Invalid message]
 Пошкоджене повідомлення
+;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s files (*.%s)]
 Файли %s (*.%s)
 [Import]
@@ -187,6 +191,7 @@
 Файл не містить обраного контакту
 [File is corrupted]
 Файл пошкоджений
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Ця операція повністю видалить історію цього контакту.\nВи впевнені?
 [Are you sure?]
@@ -241,6 +246,7 @@ dat (плагін mContacts)
 Помилка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Кількість записів історії, які буде видалено: %d.\nВи дійсно цього хочете?
+;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Повідомлення
 [File transfer]
@@ -399,18 +405,22 @@ dat (плагін mContacts)
 Імпорт з:
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 ** <date> вставляє дату, <ext> - розширення, <contact> - ім'я контакту
+;file \plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 [History log]
 Перегляд історії
 [Filter:]
 Фільтр:
 [Conversation started at %s]
 Розмова почалася %s
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 [Menu]
 Меню
 [Open all]
 Відкрити всі
 [Close all]
 Закрити всі
+;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 Історія
 [Contacts]
@@ -453,6 +463,7 @@ FTP-шлях не може містити <date> в задачі імпорту.
 Завдання '%s' завершено
 [Task '%s' execution failed:]
 Не вдалося виконати завдання '%s':
+;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" не знайдено
 [Search]
@@ -461,3 +472,4 @@ FTP-шлях не може містити <date> в задачі імпорту.
 Ви досягли кінця групи
 [You have reached the end of the history.]
 Ви досягли кінця історії
+;file \plugins\BasicHistory\src\TxtExport.cpp

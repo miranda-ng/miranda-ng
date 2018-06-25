@@ -7,6 +7,7 @@
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Швидка зміна статусів і встановлених повідомлень статусу.
+;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s message for %s]
 %s (%s)
 [&Cancel]
@@ -111,6 +112,42 @@
 Незалежне налаштування для кожного протоколу
 [Pop up dialog asking for status message]
 Показувати діалог запиту зміни статусу
+[Fortune]
+
+[?cinfo(contact,property)]
+
+[?contact(string,property)]
+
+[?mstatus(protocol)]
+
+[?lsdate(contact,format)]
+
+[?lsstatus(contact)]
+
+[?lstime(contact,format)]
+
+[?dbsetting(contact,module,setting)]
+
+[?txtfile(file,line)]
+
+[?if(condition,true,false)]
+
+[?strcmp(string1,string2)]
+
+[?stricmp(string1,string2)]
+
+[?cdate(format)]
+
+[?ctime(format)]
+
+[?replace(sub,string1,string2)]
+
+[?lower(string)]
+
+[?upper(string)]
+
+[?scroll(string,numchars,numchars)]
+
 [More variables...]
 Більше змінних...
 [Cut]
@@ -123,6 +160,7 @@
 Видалити
 [Select all]
 Виділити всі
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 Неможливо встановити повідомлення %s.
 [&Close]
@@ -139,6 +177,7 @@
 Копіювати повідомлення статусу
 [&Go to URL in Away message]
 &Відкрити посилання в повідомленні "Відсутній"
+;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change status message]
 Змінити повідомлення статусу
 [Open status message dialog]
@@ -151,8 +190,13 @@
 %s (заблокований)
 [External Applications]
 Зовнішні програми
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+
 [Miranda Related]
 Пов'язане з Miranda NG
+[get the date (Simple Status Message compatible)]
+
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 <стартовий>
 [<current>]
@@ -171,6 +215,7 @@
 Ви впевнені, що хочете видалити історію повідомлень статусу?
 [Confirm clearing history]
 Підтвердження видалення історії
+;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Глобальний статус
 [Open string formatting help]
@@ -197,6 +242,7 @@
 Загальне
 [Advanced]
 Додатково
+;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Recent message]
 Останнє повідомлення
 [Predefined message]

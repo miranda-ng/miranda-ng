@@ -2,6 +2,8 @@
 ;  File: Intellicast.ini
 ;  Plugin: Weather
 ;============================================================
+[Ceiling]
+
 [Mon]
 Lun
 [Tue]
@@ -16,8 +18,22 @@ Vie
 Sab
 [Sun]
 Dom
+[Full]
+
 [Sunny]
 Soleado
+[Waning Crescent]
+
+[Waning Gibbous]
+
+[Waxing Crescent]
+
+[Waxing Gibbous]
+
+[Last Quarter]
+
+[First Quarter]
+
 [Partly Sunny]
 Parcialmente soleado
 [Mostly Sunny]
@@ -28,12 +44,46 @@ Parcialmente nublado
 Mayormente nublado
 [Mostly Clear]
 Despejado
+[Scattered Thunderstorms]
+
 [Feel]
 Tocar
 [Forecast Day 1]
 pronóstico día 1
+[Forecast Day 2]
+
+[Forecast Day 3]
+
+[Forecast Day 4]
+
+[Forecast Day 5]
+
+[Forecast Day 6]
+
+[Forecast Day 7]
+
+[Forecast Day 8]
+
+[Forecast Day 9]
+
+[Forecast Day 10]
+
+[Forecast today]
+
 [Heat Index]
 Índice de calor
+[Moon]
+
+[MoonRise]
+
+[MoonSet]
+
+[Update1]
+
+[Update2]
+
+[Wind Chill]
+
 [Wind Direction]
 Dirección del viento
 [Wind Speed]
@@ -54,6 +104,28 @@ NE
 SO
 [SE]
 SE
+[NNW]
+
+[NNE]
+
+[SSW]
+
+[SSE]
+
+[ENE]
+
+[WSW]
+
+[WNW]
+
+[ESE]
+
+[WindDir1]
+
+[WindDir2]
+
+[Broken Clouds]
+
 [Scattered Clouds]
 Nubes dispersas
 [North]

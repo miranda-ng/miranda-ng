@@ -7,6 +7,7 @@
 ;============================================================
 [Handles listening information to/for contacts.]
 Повідомляє вашим контактам, яку музику ви слухаєте.
+;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
 Слухаю
 [Enable sending listening information to contacts:]
@@ -89,6 +90,7 @@ foobar2000 (встановіть плагін вручну)
 %listening% - вказана вище інформація
 [When nothing is playing, replace %listening% with:]
 Коли нічого не грає, писати:
+;file \plugins\ListeningTo\src\listeningto.cpp
 [Listening to (enabled)]
 Музика (ввімкнено)
 [Listening to (disabled)]
@@ -133,6 +135,7 @@ foobar2000 (встановіть плагін вручну)
 Увімкнути "Слухаю" (для всіх протоколів)
 [ListeningTo]
 Музика в статусі
+;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Невідомо>
 [<Nothing is playing now>]
@@ -145,3 +148,9 @@ foobar2000 (встановіть плагін вручну)
 Формат
 [Players]
 Плеєри
+;file \plugins\ListeningTo\src\players\generic.cpp
+[Miranda ListeningTo receiver]
+
+;file \plugins\ListeningTo\src\players\wmp.cpp
+[Miranda ListeningTo WMP receiver]
+

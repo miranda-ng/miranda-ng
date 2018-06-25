@@ -1,5 +1,0 @@
-[&E-mail]
-[Ctrl + ]
-[Alt + ]
-[Shift + ]
-[Win + ]

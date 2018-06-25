@@ -7,6 +7,7 @@
 ;============================================================
 [Shows currency rates and economic quotes.]
 Дозволяє спостерігати за змінами курсів валют і біржових котувань.
+;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Змінні
 [Edit Settings]
@@ -117,8 +118,10 @@
 &Відслідковані котування:
 [Status &Message:]
 Повідомлення &статусу:
+;file \plugins\Quotes\src\Chart.h
 [There is nothing to show]
 Немає даних для показу
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 секунд
 [Minutes]
@@ -129,10 +132,14 @@
 Введіть ціле число від 1 до 60.
 [Enter integer value between 1 and 24.]
 Введіть ціле число від 1 до 24.
+[Enter text to display in contact list.]
+
+;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 Інформація надана
 [Enter positive number.]
 Додатнє число.
+;file \plugins\Quotes\src\Forex.cpp
 [Auto Update Enabled]
 Автооновлення увімкнено
 [Auto Update Disabled]
@@ -167,8 +174,10 @@
 Символ котування
 [Network]
 Мережа
+;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 HTTP-з'єднання Quotes
+;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 Значок протоколу
 [Quote/Rate up]
@@ -187,18 +196,23 @@ HTTP-з'єднання Quotes
 Поміняти місцями
 [Import]
 Імпорт
+;file \plugins\Quotes\src\ImportExport.cpp
 [XML File (*.xml)]
 Файл XML (*.xml)
 [All files (*.*)]
 Усі файли (*.*)
+;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 Не вдалося завантажити плагін Quotes. Відсутній парсер XML.
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 Не вдалося завантажити плагін Quotes. Відсутній парсер Microsoft HTML.
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during HTML parsing.]
 Помилка під час аналізу html.
 [Error occurred during site access.]
 Помилка при доступі до сайту.
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Name]
 Назва котування
 [From Currency Full Name]
@@ -243,5 +257,16 @@ HTTP-з'єднання Quotes
 Значення на попереднє закриття
 [Change]
 Зміна
+;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Журнали (*.txt,*.log)
+[Enter integer value]
+
+[Enter log file name.]
+
+[Enter log file format.]
+
+[Enter history format.]
+
+[Enter popup window format.]
+

@@ -7,6 +7,7 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Показывает контакты, события, статусы протоколов с расширенными функциями оформления (скины). Мультиоконная модификация, расширенная поддержка метаконтактов.
+;file \plugins\Clist_modern\res\resource.rc
 [Settings]
 Настройки
 [Background color:]
@@ -577,6 +578,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 На &телефоне\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обед&аю\tCtrl+9
+;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Показывать
 [&Show title]
@@ -611,6 +613,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Показывать названия
 [Hide all title bars]
 Скрыть названия
+;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 С&крыть/Показать
 [&Find/add contacts...]
@@ -621,6 +624,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 О &программе
 [&Show offline users in here]
 &Показать отключённых в группе
+;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него?
 [Converting to metacontact]
@@ -659,6 +663,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Фон панели статусов
 [Frames title bar background]
 Фон заголовка фреймов
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Контакты
 [Row items]
@@ -777,12 +782,14 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Список
 [Window]
 Окно
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [No events]
 Событий нет
 [Event area background]
 Фон области событий
 [Event area]
 Область событий
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 Рейтинг &контакта
 [None]
@@ -803,6 +810,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Рейтинг контакта: высокий
 [Show even if offline]
 Показывать, даже если не в сети
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Аватар
 [Icon]
@@ -821,8 +829,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Строка
 [Row design]
 Дизайн
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Неизвестный контакт)
+;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
 Показать аватар
 [Hide avatar]
@@ -835,6 +845,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Мои контакты
 [My Contacts]
 Мои контакты
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Main]
 Главный
 [Close Miranda]
@@ -843,6 +854,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Восстановить последнее состояние статуса
 [Show/Hide offline users]
 Показать/Скрыть отключённых
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Очистить %s ячейку
 [column]
@@ -857,6 +869,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 %s, содержит %s
 [ layered]
  слои
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( неизвестно )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -887,6 +900,8 @@ Angeli-Ka (графика), FYR (шаблон)
 Стандартный скин
 [%Default Skin%]
 %Стандартный скин%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Общее>>
 [Left]
@@ -899,6 +914,7 @@ Angeli-Ka (графика), FYR (шаблон)
 Верх
 [Bottom]
 Внизу
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Главное меню
 [Status menu]
@@ -933,6 +949,7 @@ Angeli-Ka (графика), FYR (шаблон)
 Фон панели кнопок
 [Toolbar upgrade]
 Обновление панели кнопок
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Контакты вне групп
 [And]

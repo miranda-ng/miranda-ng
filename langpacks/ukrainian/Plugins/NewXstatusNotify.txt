@@ -7,6 +7,7 @@
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Сповіщає про зміни статусів, xСтатусів та статусних повідомлень контактів.
+;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when contact changes to one of these statuses]
 Сповіщати, коли статус контакту змінюється на:
 [Online]
@@ -215,6 +216,7 @@ xСтатуси
 Записувати видалення статусних повідомлень
 [Log status message when opening message window]
 Записувати статусні повідомлення при відкритті вікна повідомлень
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Звукові файли
 [All files]
@@ -227,8 +229,10 @@ xСтатуси
 Звук
 [** All contacts **]
 ** Усі контакти **
+;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (за замовчанням)
+;file \plugins\NewXstatusNotify\src\main.cpp
 [Notification enabled]
 Сповіщення ввімкнено
 [Notification disabled]
@@ -355,6 +359,7 @@ xСтатуси
 Зміна статусу
 [Status change]
 Зміна статусу
+;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Усі файли
 [Log]
@@ -377,6 +382,7 @@ xСтатус
 Запис статусів
 [Filtering]
 Фільтрація
+;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (був(ла) %s)
 [Open message window]
@@ -391,10 +397,12 @@ xСтатус
 Відкрити історію контакту
 [Do nothing]
 Нічого не робити
+;file \plugins\NewXstatusNotify\src\utils.cpp
 [Can't open the log file!]
 Неможливо відкрити файл журналу!
 [NewXstatusNotify]
 Сповіщення про зміну статусів
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 Настрій
 [Activity]
@@ -405,6 +413,7 @@ xСтатус
 <без заголовка>
 [%s changed %s]
 %s змінив(ла) %s
+;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]
 змінив(ла) %n на: %t
 [removed %n]

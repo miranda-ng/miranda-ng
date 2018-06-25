@@ -7,6 +7,7 @@
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
 Створення звітів про помилки в разі аварійного завершення роботи програми, а також звітів про версії.
+;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Інформація про версії
 [Close]
@@ -41,6 +42,7 @@
 Ко&піювати все
 [Select &All]
 Вибрати &все
+;file \plugins\CrashDumper\src\crshdmp.cpp
 [Version Info stored into file %s]
 Версії збережені у файлі %s
 [Version Info file %s is inaccessible]
@@ -77,14 +79,18 @@
 Копіювати версії в буфер обміну
 [Show Version Info]
 Показати версії
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 [Crash Dumper]
 Звіти про помилки і версії
+;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is not available]
 Шлях для запису звіту про помилку недоступний
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda NG була завершена аварійно. Звіт збережено в\n %s\n\nЗберегти його в буфер обміну?
+;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Інформація про версії (з бібліотеками)
+;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 Інформацію про версії успішно завантажено.
 [Cannot upload Version Info. Incorrect username or password]

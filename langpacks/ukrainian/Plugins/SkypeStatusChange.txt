@@ -7,12 +7,14 @@
 ;============================================================
 [Skype status change according to Miranda status.]
 Зміна статусу Skype відповідно до статусу Miranda.
+;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 [Synchronize status message]
 Синхронізувати статусні повідомлення
 [&Check any protocol or any status to exclude it from synchronization:]
 &Позначені протоколи та статуси не будуть синхронізуватися
 [Synchronize if current status differs from previous one]
 Синхронізувати, якщо статус відрізняється від попереднього
+;file \plugins\SkypeStatusChange\src\options.cpp
 [Change Skype status]
 Зміна статусу Skype
 [Plugins]

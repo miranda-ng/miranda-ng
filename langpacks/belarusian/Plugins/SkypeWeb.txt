@@ -7,6 +7,7 @@
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Падтрымка пратаколу Skype у Miranda NG. Заснавана на Skype для Web.
+;file \protocols\SkypeWeb\res\resource.rc
 [Create group chat]
 Стварыць чат
 [Cancel]
@@ -45,8 +46,10 @@
 Захаваць пароль
 [Enter the password to continue.]
 
+;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Спасылка Skype
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 Адмін
 [User]
@@ -75,8 +78,10 @@
 
 [Enter new chatroom topic]
 Увядзіце новую тэму чату
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Вы ўпэўнены?
+;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 
 [Edited message]
@@ -95,6 +100,7 @@ URI аб'ект
 Файл
 [Unknown event]
 Невядомая з'ява
+;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 
 [[b]Original message:[/b]\n%s\n]
@@ -115,6 +121,7 @@ URI аб'ект
 Перадача файла:\n\tІмя файла: %s \n\tПамер: %lld байт \n
 [Unknown event, please send this text for developer: "%s"]
 
+;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Абразок пратаколу
 [Create new chat icon]
@@ -135,6 +142,7 @@ URI аб'ект
 
 [Protocols]
 Пратаколы
+;file \protocols\SkypeWeb\src\skype_login.cpp
 [Authentication failed. Invalid username.]
 Памылка ўваходу. Неправільнае імя карыстальніка.
 [Authentication failed. Bad username or password.]
@@ -143,6 +151,7 @@ URI аб'ект
 Вельмі многа спроб увайсці з гэтага імя карыстальніка або IP.
 [Authentication failed. Unknown error.]
 Памылка ўваходу. Невядомая памылка.
+;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Get server history]
 Атрымаць гісторыю паведамленняў
 [Block contact]
@@ -151,29 +160,36 @@ URI аб'ект
 Разблакаваць карыстальніка
 [Create new chat]
 Стварыць чат
+;file \protocols\SkypeWeb\src\skype_messages.cpp
 [You cannot send when you are offline.]
 
 [Unknown error!]
 Невядомая памылка
 [Network error!]
 Сеткавая памылка
+;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
 
+;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 Злучэнне %s
+;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Сеціва
+;file \protocols\SkypeWeb\src\skype_popups.cpp
 [Notifications]
 Абвесткі
 [Errors]
 Памылкі
 [Calls]
 
+;file \protocols\SkypeWeb\src\skype_proto.cpp
 [Incoming call sound]
 
 [Incoming call canceled sound]
 
 [Skypename]
 
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Incoming call from %s]
 

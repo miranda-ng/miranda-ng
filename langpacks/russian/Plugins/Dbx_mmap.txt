@@ -7,6 +7,7 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
+;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Select crypto provider]
 Выберите поставщика криптографии
 [Cancel]
@@ -35,10 +36,11 @@
 Полный
 [Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 Шифрование только критических данных (пароли, токены авторизации и т.д.). Остальные настройки, включая историю, остаются незашифрованными. Быстрый и эффективный, подходит в большинстве случаев
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в базе в случае утери пароля. Рекомендуется только параноидальным пользователям
 [Set password]
 Установить пароль
+;file \plugins\Db3x_mmap\src\database.cpp
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Miranda нашла повреждения в вашей базе. Miranda будет закрыта.
 [Disk is full. Miranda will now shut down.]
@@ -49,18 +51,22 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Ошибка базы
 [Database Panic]
 Проблема с базой
+;file \plugins\Db3x_mmap\src\dbheaders.cpp
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
 Формат вашей базы является устаревшим. Чтобы получать обновления через PluginUpdater, нужно преобразовать базу в современный формат.\n\nНажмите Да, чтобы получить информацию, как это исправить.
 [Obsolete database format]
 Устаревший формат базы
+;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Изменить/удалить пароль
+;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 Формат вашей базы является устаревшим. Нажмите "Да", чтобы преобразовать её в новый формат или "Нет", чтобы вернуться назад
 [To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
 Для открытия этой базы требуется плагин dbx_mdbx. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
 [To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
 Для открытия этой базы требуется плагин Import. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
+;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Логотип
 [Password]

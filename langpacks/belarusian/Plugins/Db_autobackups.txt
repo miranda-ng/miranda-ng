@@ -7,6 +7,7 @@
 ;============================================================
 [Database autobackuper plugin.]
 Плагін стварэння рэзервовых копій профілю.
+;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Automatic backups]
 Аўтаматычнае рэзерваванне
 [Backup NOW]
@@ -41,6 +42,7 @@
 Ход працэсу рэзервавання
 [Cancel]
 Скасаваць
+;file \plugins\Db_autobackups\src\backup.cpp
 [Backup in progress]
 Рэзерваванне падчас
 [Copying database file...]
@@ -53,6 +55,7 @@
 Профіль зарэзерваваны
 [Database back up in process...]
 Рэзерваванне профілю...
+;file \plugins\Db_autobackups\src\main.cpp
 [Miranda NG databases]
 Базы данных Miranda NG
 [Compressed Miranda NG databases]
@@ -69,6 +72,7 @@
 Рэзерваванне профіля
 [Backup folder]
 Тэчка рэзервавання
+;file \plugins\Db_autobackups\src\options.cpp
 [days]
 дзён
 [hours]
@@ -99,5 +103,7 @@
 Памылка пры стварэнні тэчкі для рэзервовага капіравання
 [Select backup folder]
 Абярыце тэчку для рэзервовых копій
+;file \plugins\Db_autobackups\src\stdafx.h
+;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]
 Рэзервовая копія профіля Miranda NG [%s]

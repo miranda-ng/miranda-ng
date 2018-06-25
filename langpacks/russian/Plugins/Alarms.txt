@@ -7,6 +7,7 @@
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
 Установка ежедневных, еженедельных и разовых уведомлений.
+;file \plugins\Alarms\res\resource.rc
 [New]
 Создать
 [Delete]
@@ -129,8 +130,11 @@
 &Настройки...
 [&New alarm...]
 Новое напоминание...
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
 [Set alarm]
 Дать напоминание
+;file \plugins\Alarms\src\alarm_win.cpp
 [Example alarm]
 Пример напоминания
 [Some example text. Example, example, example.]
@@ -153,6 +157,7 @@
 Фон
 [Window]
 Окно
+;file \plugins\Alarms\src\frame.cpp
 [%dh %dm]
 %dчас(ов) %dмин
 [%dm]
@@ -165,6 +170,7 @@
 Фреймы
 [Alarm reminders]
 Напоминания
+;file \plugins\Alarms\src\icons.cpp
 [Menu: Set alarm]
 Меню: Дать напоминание
 [Reminder: Soon]
@@ -175,6 +181,7 @@
 Трей
 [Menu: Show/Hide reminders]
 Меню: Показать/Скрыть напоминания
+;file \plugins\Alarms\src\options.cpp
 [Sunday]
 Воскресенье
 [Monday]

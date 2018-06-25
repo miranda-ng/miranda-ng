@@ -7,6 +7,9 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Підтримка протоколу Microsoft Network (MSN) у Miranda NG.
+;file \protocols\MSN\res\msn.rc
+[Live ID:]
+
 [Password:]
 Пароль:
 [Nickname:]
@@ -99,12 +102,15 @@
 Заблокувати
 [Invite Contact To Chat]
 Запросити контакт у чат
+[Live ID]
+
 [&Invite]
 &Запросити
 [&Cancel]
 &Скасувати
 [Add]
 Додати
+;file \protocols\MSN\src\msn_chat.cpp
 [Admin]
 Адмін
 [User]
@@ -125,20 +131,34 @@
 Зробити користувача &адміном
 [&Deop user]
 &Забрати права адміністратора
+;file \protocols\MSN\src\msn_commands.cpp
 [%I64u bytes]
 %I64u байт
 [MSN Alert]
 Сповіщення MSN
+;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Користувач не в мережі
+;file \protocols\MSN\src\msn_ieembed.cpp
+[IID_IOleObject failed.]
+
 [RESULT]
 Результат
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 Протокол MSN
+;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контакт %s був видалений з сервера.\nХочете залишити його в локальному списку, щоб зберегти історію?
 [%s protocol]
 Протокол %s
+;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Тема: %s
 [Hotmail from %s (%S)]
@@ -147,6 +167,7 @@
 Пошта Hotmail від %s
 [Unread mail is available: %d in Inbox and %d in other folders.]
 Непрочитана пошта: %d вхідних листів і %d в інших папках.
+;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
 &Розблокувати
 [&Block]
@@ -163,6 +184,7 @@
 Переглянути &профіль
 [Setup Live &Alerts]
 Налаштування Live &Alerts
+;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Користувацькі смайли
 [Notify]
@@ -171,6 +193,7 @@
 Помилка
 [MSN Protocol]
 Протокол MSN
+;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 Значок протоколу
 [Hotmail Inbox]
@@ -221,6 +244,7 @@
 Список на сервері
 [Notifications]
 Сповіщення
+;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Пошта Live
 [Live Alert]
@@ -241,6 +265,7 @@ HTTPS-з'єднання %s
 Повідомлення MSN обмежені 1202 символами UTF-8
 [Offline messaging is not allowed for LCS contacts]
 Повідомлення відключеним LCS-контактам неможливі
+;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для мережі MSN таймаут відправлення повідомлення повинен бути не менш ніж 60 секунд. Будь ласка, налаштуйте свій плагін повідомлень.
 [Convert to Chat]

@@ -7,6 +7,7 @@
 ;============================================================
 [Scriver - send and receive instant messages.]
 Особисті та групові чати для Miranda NG.
+;file \plugins\Scriver\res\resource.rc
 [Behavior]
 Поведінка
 [Automatically pop up the window when]
@@ -31,14 +32,6 @@
 секунд
 [Send message on:]
 Надсилати натисканням:
-[Enter]
-Enter
-[Double 'Enter']
-подвійним Enter
-[Ctrl+Enter]
-Ctrl+Enter
-[Shift+Enter]
-Shift+Enter
 [Tabs]
 Вкладки
 [Enable tabs]
@@ -85,6 +78,8 @@ Shift+Enter
 Мінімальна висота поля вводу
 [lines]
 рядків
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
+
 [Message window event log]
 Журнал у вікні повідомлень
 [Enable IEView]
@@ -251,6 +246,8 @@ Shift+Enter
 Пошук слова
 [Yandex]
 Яндекс
+[Wikipedia (en)]
+
 [Google Maps]
 Мапи Google
 [Google Translate]
@@ -283,10 +280,12 @@ Shift+Enter
 Закрити всі, крім цієї
 [Close tab]
 Закрити вкладку
+;file \plugins\Scriver\src\chat_main.cpp
 [Messaging]
 Бесіди
 [Group chats]
 Чати
+;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Блимання вікна, якщо є нове повідомлення
 [Flash when a word is highlighted]
@@ -455,6 +454,7 @@ ID поточного контакту (якщо визначено). Напри
 Показувати в новому вікні, якщо "Фільтр подій" увімкнений
 [Select folder]
 Вибрати папку
+;file \plugins\Scriver\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s - чат (%u)
 [%s: chat room (%u users)]
@@ -469,6 +469,7 @@ ID поточного контакту (якщо визначено). Напри
 Унікальний ID
 [Status]
 Статус
+;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Додати контакт
 [User's details]
@@ -591,6 +592,7 @@ ID поточного контакту (якщо визначено). Напри
 В'єтнамська
 [Korean (Johab)]
 Корейська (Johab)
+;file \plugins\Scriver\src\input.cpp
 [Navigate: Previous tab]
 Навігація: попередня вкладка
 [Navigate: Next tab]
@@ -617,6 +619,7 @@ ID поточного контакту (якщо визначено). Напри
 Дія: Надіслати всім
 [Action: Paste and send]
 Дія: Вставити й надіслати
+;file \plugins\Scriver\src\msgdialog.cpp
 [Sending in progress: %d message(s) left...]
 Відправлення: залишилося %d повідомлень...
 [%s is typing a message...]
@@ -629,10 +632,19 @@ ID поточного контакту (якщо визначено). Напри
 Нічого шукати
 [User menu - %s]
 Меню користувача - %s
+;file \plugins\Scriver\src\msglog.cpp
 [Me]
 Я
+[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
+
+[to tiny bits, in Thy mercy]
+
 [My contact]
 Співрозмовник
+[Lorem ipsum dolor sit amet,]
+
+[consectetur adipisicing elit]
+
 [Today]
 Сьогодні
 [Yesterday]
@@ -645,6 +657,7 @@ ID поточного контакту (якщо визначено). Напри
 Надіслано посилання
 [URL received]
 Отримано посилання
+;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Вихідні повідомлення
 [Outgoing background]
@@ -701,6 +714,14 @@ ID поточного контакту (якщо визначено). Напри
 Обідаю
 [On the phone]
 Телефоную
+[Enter]
+Enter
+[Double 'Enter']
+подвійним Enter
+[Ctrl+Enter]
+Ctrl+Enter
+[Shift+Enter]
+Shift+Enter
 [** New contacts **]
 ** Нові контакти **
 [** Unknown contacts **]
@@ -715,6 +736,7 @@ ID поточного контакту (якщо визначено). Напри
 Сповіщення про друк
 [Popups]
 Спливаючі вікна
+;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Повідомлення від %s
 [%s is typing a message]
@@ -791,9 +813,12 @@ ID поточного контакту (якщо визначено). Напри
 Співрозмовник почав друкувати
 [Contact stopped typing]
 Співрозмовник закінчив друкувати
+;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невідома помилка.
+;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Час надсилання повідомлення вичерпано.
+;file \plugins\Scriver\src\tabs.cpp
 [Always on top]
 Поверх усіх вікон

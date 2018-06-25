@@ -7,6 +7,7 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Падтрымка базы Miranda NG.
+;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
 [Select crypto provider]
 
 [Cancel]
@@ -41,8 +42,10 @@
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль. Рэкамендуем толькі для паранаідальных карыстальнікаў
 [Set password]
 Усталяваць пароль
+;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Змяніць/выдаліць пароль
+;file \plugins\Dbx_mdbx\src\ui.cpp
 [Wrong old password entered!]
 Няслушны стары пароль!
 [Password is too short!]
@@ -53,6 +56,7 @@
 Профіль
 [Compact]
 
+;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 Меню
 [Password]

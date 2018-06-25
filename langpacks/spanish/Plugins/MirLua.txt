@@ -5,7 +5,39 @@
 ;  Version: 0.11.9.0
 ;  Authors: Miranda NG team
 ;============================================================
+[Extends Miranda NG functionality with Lua scripts.]
+
+;file \plugins\MirLua\res\resource.rc
+[Reload all]
+
+[Scripts]
+
+[Popup on script error]
+
 [General]
 General
+[Popup on obsolete methods]
+
+;file \plugins\MirLua\src\icons.cpp
+[Script]
+
+[Loaded]
+
+[Failed]
+
+[Open]
+
+[Reload]
+
+[Compile]
+
+;file \plugins\MirLua\src\options.cpp
+[Common scripts]
+
 [Services]
 Servicios
+;file \plugins\MirLua\src\plugin.cpp
+[C libs folder]
+
+[Scripts folder]
+

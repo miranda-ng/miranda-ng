@@ -7,6 +7,9 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Поддержка протокола Microsoft Network (MSN) в Miranda NG.
+;file \protocols\MSN\res\msn.rc
+[Live ID:]
+Live ID:
 [Password:]
 Пароль:
 [Nickname:]
@@ -99,12 +102,15 @@
 Заблокировать
 [Invite Contact To Chat]
 Пригласить контакт в чат
+[Live ID]
+Live ID
 [&Invite]
 &Пригласить
 [&Cancel]
 О&тмена
 [Add]
 Добавить
+;file \protocols\MSN\src\msn_chat.cpp
 [Admin]
 Админ
 [User]
@@ -125,20 +131,34 @@
 &Сделать пользователя админом
 [&Deop user]
 &Снять с пользователя админ права
+;file \protocols\MSN\src\msn_commands.cpp
 [%I64u bytes]
 %I64u байт
 [MSN Alert]
 MSN уведомление
+;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Пользователь не в сети
+;file \protocols\MSN\src\msn_ieembed.cpp
+[IID_IOleObject failed.]
+
 [RESULT]
 РЕЗУЛЬТАТ
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 Протокол MSN
+;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контакт %s был удалён с сервера.\nХотите ли вы оставить его в локальном списке, чтобы сохранить историю?
 [%s protocol]
 Протокол %s
+;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Тема: %s
 [Hotmail from %s (%S)]
@@ -147,6 +167,7 @@ MSN уведомление
 Почта Hotmail от %s
 [Unread mail is available: %d in Inbox and %d in other folders.]
 Имеется непрочитанная почта: %d входящих писем и %d в других папках.
+;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
 &Разблокировать
 [&Block]
@@ -163,6 +184,7 @@ MSN уведомление
 Просмотреть &профиль
 [Setup Live &Alerts]
 Настройки Live &Alerts
+;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Смайлы
 [Notify]
@@ -171,6 +193,7 @@ MSN уведомление
 Ошибка
 [MSN Protocol]
 Протокол MSN
+;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 Значок протокола
 [Hotmail Inbox]
@@ -221,6 +244,7 @@ MSN уведомление
 Список на сервере
 [Notifications]
 Уведомления
+;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live почта
 [Live Alert]
@@ -241,6 +265,7 @@ Live уведомление
 Сообщения MSN ограничены 1202 символами UTF-8
 [Offline messaging is not allowed for LCS contacts]
 Сообщения отключённым LCS контактам невозможны
+;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для сети MSN таймаут отправления сообщения должен быть не менее, чем 60 секунд. Пожалуйста, настройте свой плагин сообщений.
 [Convert to Chat]

@@ -7,6 +7,7 @@
 ;============================================================
 [Tooltip notification windows.]
 Спливаючі підказки для списку контактів.
+;file \plugins\TipperYM\res\resource.rc
 [Layout]
 Розміщення
 [Text indent:]
@@ -187,8 +188,10 @@
 Ховати відключених
 [Append protocol name]
 Додати ім'я протоколу
+;file \plugins\TipperYM\src\mir_smileys.cpp
 [Tipper smileys]
 Підказки Tipper
+;file \plugins\TipperYM\src\options.cpp
 [You must enter a label]
 Ви повинні ввести мітку
 [Invalid Substitution]
@@ -247,6 +250,7 @@
 Підказки в треї
 [Extra]
 Інше
+;file \plugins\TipperYM\src\options.h
 [Show for all contact types]
 Показувати для всіх типів контактів
 [Show only for contacts]
@@ -281,6 +285,7 @@ xСтатус
 Прапор країни
 [Client]
 Клієнт
+;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заблокований)
 [%s ago]
@@ -317,6 +322,7 @@ xСтатус:
 Інше
 [Miranda uptime:]
 Час роботи Miranda NG:
+;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Обліковий запис
 [Account:]
@@ -439,14 +445,17 @@ xСтатус:
 (weather.dll) Вітер
 [Wind:]
 Вітер:
+;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# Заливка кольором
+;file \plugins\TipperYM\src\subst.cpp
 [%dd %dh %dm]
 %dдн %dгод %dхв
 [%dh %dm]
 %dгод %dхв
 [%dm]
 %dхв
+;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон
 [Dividers]
@@ -463,10 +472,17 @@ xСтатус:
 Заголовок у треї
 [Tipper]
 Підказки
+[Copy item]
+
+[Arrow up]
+
+[Arrow down]
+
 [Reload]
 Оновити
 [Apply]
 Застосувати
+;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Жіноча
 [Male]
@@ -521,6 +537,7 @@ xСтатус: порожнє ім'я в ім'я за замовчанням
 Слово - в назву місяця (1..12, 1 - січень)
 [BYTE to language (ICQ)]
 Байт - в мову (ICQ)
+;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 Африкаанс
 [Albanian]

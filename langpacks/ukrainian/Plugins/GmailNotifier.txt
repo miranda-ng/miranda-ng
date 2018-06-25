@@ -7,6 +7,7 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Перевірка вхідної пошти Gmail.
+;file \plugins\GmailNotifier\res\options.rc
 [Gmail account]
 Обліковий запис Gmail
 [Name:]
@@ -53,6 +54,7 @@
 Вимкнути автоперевірку пошти
 [Log unread threads into database (enable history)]
 Записувати непрочитане в базу (вмикає збереження історії)
+;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Перевірка...
 [Can't send account data!]
@@ -61,14 +63,18 @@
 Неправильне ім'я користувача або пароль!
 [Can't get RSS feed!]
 Не можу прочитати стрічку RSS!
+;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Інше
 [Gmail: New thread(s)]
 Gmail: нова пошта
+[Gmail Notifier connection]
+
 [&Check all Gmail inboxes]
 Перевірити всі скриньки Gmail
 [&Check Gmail inbox]
 Перевірити скриньку Gmail
+;file \plugins\GmailNotifier\src\options.cpp
 [GmailNotifier]
 Сповіщення про пошту Gmail
 [Network]

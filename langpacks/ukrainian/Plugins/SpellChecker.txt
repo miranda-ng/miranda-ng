@@ -7,6 +7,7 @@
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
 Перевірка орфографії у вікні повідомлень. Використовує Hunspell для перевірки.
+;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Заміни
 [Enable auto-replacements]
@@ -63,6 +64,7 @@
 Використовувати словники з інших програм
 [Avoid removing underscores (slows down checking of long texts)]
 Не видаляти підкреслення (уповільнює перевірку великих текстів)
+;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
 Слово з помилкою не може бути порожнім!
 [Wrong Correction]
@@ -71,10 +73,12 @@
 Виправлення не може бути порожнім!
 [The correction can't be equal to the wrong word!]
 Виправлення та слово з помилкою не можуть збігатися!
+;file \plugins\SpellChecker\src\dictionary.cpp
 [Tagalog (Philippines)]
 Тагальська (Філіппіни)
 [German (Germany)]
 Німецька (Німеччина)
+;file \plugins\SpellChecker\src\options.cpp
 [Message sessions]
 Бесіди
 [Auto-replacements]
@@ -97,6 +101,7 @@
 Неправильне слово
 [Correction]
 Виправлення
+;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 Словники
 [Custom Dictionaries]
@@ -113,6 +118,7 @@
 Вимкнено
 [Unknown]
 Невідомо
+;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 Є %d орфографічних помилок. Ви впевнені, що хочете відправити це повідомлення?
 [Other...]

@@ -7,6 +7,7 @@
 ;============================================================
 [Adds a menu item to change or load a different profile of Miranda NG or restart.]
 Додає пункти меню для зміни або завантаження іншого профілю і перезапуску Miranda NG.
+;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Load profile]
 Завантажити профіль
 [Change profile]

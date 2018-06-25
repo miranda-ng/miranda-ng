@@ -7,6 +7,7 @@
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
 Fingerprint NG (версия на клиенти) иконен модул за Miranda NG. Представя с икона кой клиент и коя версия ползват контактите Ви.
+;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
 Fingerprint, икони за наслагване
 [Miranda clients]
@@ -59,8 +60,10 @@ VKontakte клиенти
 Други икони
 [Show client icon in message window status bar]
 Икона на клиента в лентата за състояние на прозореца за съобщения
+;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Fingerprint
+;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
 Икони за клиенти
 [Pack overlays]
@@ -79,6 +82,7 @@ Fingerprint
 Сигурност
 [Protocol]
 Протокол
+;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 Miranda NG (стабилна версия)
 [Miranda IM (old versions)]
@@ -259,5 +263,6 @@ NewGPG
 MirOTR
 [SecureIM overlay]
 SecureIM
+;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Икони

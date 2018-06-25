@@ -7,6 +7,7 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
 Показує контакти, події, статуси протоколів.
+;file \plugins\Clist_nicer\res\resource.rc
 [Clist nicer exception]
 Виняток у Clist nicer
 [Copy to clipboard]
@@ -127,6 +128,8 @@
 Не відокремлювати відключені контакти
 [Hide as offline]
 Прих. як не в мережі
+[Tree hide offline]
+
 [Right align contacts]
 Вирівнювання по правому краю
 [Avatars]
@@ -255,6 +258,8 @@
 Сховати смугу прокрутки
 [Gray out entire list when:]
 Зробити сірим, якщо:
+[Tree gray out]
+
 [Contact list background]
 Фон списку контактів
 [Use Windows colors]
@@ -333,6 +338,8 @@
 Автоматично скидати цей режим після
 [View mode options]
 Налаштування режиму перегляду
+[Editing view mode]
+
 [Last message]
 Останнє повідомлення
 [Per contact skins:]
@@ -449,6 +456,7 @@
 &Телефоную\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обід&аю\tCtrl+9
+;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Меню
 [Show/Hide offline contacts]
@@ -473,6 +481,7 @@
 Налаштувати режими перегляду
 [Clear view mode]
 Очистити режим перегляду
+;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Список неактивний
 [Offline]
@@ -545,8 +554,10 @@
 Додатково
 [Skins]
 Скіни
+;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 Подій немає...
+;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Додати до списку
 [Revert to default]
@@ -565,8 +576,10 @@
 Налаштування показу та ігнорування для %s
 [&Contact list settings...]
 Налаштування списку...
+;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Глобальні
+;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Увімк./вимк. користувачів не в мережі
 [Toggle groups]
@@ -641,6 +654,7 @@
 Швидкий пошук
 [Embedded frames border]
 Межа фреймів
+;file \plugins\Clist_nicer\src\cluiframes.cpp
 [&FrameTitle]
 &Заголовок фрейму
 [&Visible]
@@ -689,6 +703,7 @@
 Показати назви
 [Hide all title bars]
 Сховати назви
+;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Заголовок
 [Tool Window]
@@ -697,12 +712,15 @@
 Тонка рамка
 [No border]
 Без рамки
+;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Неможливо паркувати список контактів при використанні кордону і заголовка за замовчанням. Використовуйте стиль "Без кордонів" або "Панель".
 [Contact list docking]
 Дозволити парковку вікна
+;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Завантажити та застосувати
+;file \plugins\Clist_nicer\src\groupmenu.cpp
 [Show metacontact protocol icons]
 Показувати значки метаконтактів
 [Show additional buttons]
@@ -717,6 +735,7 @@
 Зовнішній вигляд
 [&Options...]
 &Налаштування...
+;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Контакти поза групами
 [And]

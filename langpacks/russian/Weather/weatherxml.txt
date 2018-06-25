@@ -94,6 +94,8 @@
 Обновление прогноза VAR
 [Forecast Update]
 Обновление прогноза
+[Freezing Drizzle / Windy]
+
 [Freezing Rain / Windy]
 Ледяной дождь / ветрено
 [Full Moon]
@@ -116,6 +118,8 @@
 Сильная гроза
 [Heavy T-Storms]
 Сильные грозы
+[Ice Crystals]
+
 [Isolated T-Storms / Wind]
 Местами грозы / ветер
 [Isolated T-Storms]
@@ -298,6 +302,8 @@
 ЮЗ
 [S]
 Ю
+[Sand]
+
 [Scattered Showers]
 Местами дожди
 [Scattered Snow Showers]
@@ -362,6 +368,10 @@
 Солнечно / ветрено
 [Sunny]
 Солнечно
+[T-Showers Early]
+
+[T-Showers]
+
 [T-Storm]
 Гроза
 [T-Storms Early]

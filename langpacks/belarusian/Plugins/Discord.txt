@@ -7,6 +7,7 @@
 ;============================================================
 [Discord support for Miranda NG.]
 
+;file \protocols\Discord\res\discord.rc
 [User details]
 Пра кантакт
 [E-mail:]
@@ -21,8 +22,10 @@
 
 [Nick:]
 Мянушка:
+;file \protocols\Discord\src\dispatch.cpp
 [edited at]
 
+;file \protocols\Discord\src\groupchat.cpp
 [Change &nickname]
 Змяніць мянушку
 [Channel control]
@@ -43,10 +46,12 @@
 
 [Enter your new nick name:]
 
+;file \protocols\Discord\src\main.cpp
 [Main icon]
 Галоўны абразок
 [Group chats]
 Чаты
+;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 
 [Enter invitation code you received]
@@ -63,10 +68,12 @@
 
 [Copy Discord ID]
 
+;file \protocols\Discord\src\options.cpp
 [Network]
 Сеціва
 [Account]
 Уліковы запіс
+;file \protocols\Discord\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [%s gateway connection]
@@ -75,6 +82,7 @@
 ID кантакта
 [Protocol is offline or user isn't authorized yet]
 
+;file \protocols\Discord\src\utils.cpp
 [Attachment]
 
 [Embed]

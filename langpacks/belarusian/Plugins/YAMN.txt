@@ -7,6 +7,7 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Абвесткі і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
+;file \plugins\YAMN\res\YAMN.rc
 [Installed plugins]
 Усталяваныя плагіны
 [Version:]
@@ -155,6 +156,7 @@
 Колер фону
 [Text color]
 Колер тэксту
+;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Праверыць пошту
 [Check &mail (This Account)]
@@ -169,14 +171,17 @@
 Праверыць пошту
 [Connect Fail]
 Абрыў злучэння
+;file \plugins\YAMN\src\main.h
 [YAMN: new mail message]
 YAMN: новы ліст
 [YAMN: connect failed]
 YAMN: збой далучэння
+;file \plugins\YAMN\src\services.cpp
 [Nick]
 Мянушка
 [No new mail message]
 Няма новых лістоў
+;file \plugins\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - памылка злучэння
 [An error occurred. Error code: %d]
@@ -185,6 +190,7 @@ YAMN: збой далучэння
 Невядомая памылка
 [ - connection error]
  - памылка далучэння
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 %s - %d новых лістоў, %d усяго
 [%s : %d new mail message(s), %d total]
@@ -223,12 +229,15 @@ YAMN: збой далучэння
 Выдаліць %d лістоў?
 [Delete confirmation]
 Пацверджанне выдалення
+;file \plugins\YAMN\src\mails\mime.cpp
 [Translate header error]
 Перавесці памылак загалоўка
 [Part]
 Частка
+;file \plugins\YAMN\src\proto\netlib.cpp
 [%s connection]
 Злучэнне %s
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Адключаны
 [POP3 protocol (internal)]
@@ -305,6 +314,7 @@ OpenSSL не загружаны
 Не магу прачытаць SSL дадзеныя.
 [Error %d-%d-%d-%d:]
 Памылка %d-%d-%d-%d:
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Сеціва
 [Accounts]

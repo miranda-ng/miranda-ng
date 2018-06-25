@@ -7,6 +7,7 @@
 ;============================================================
 [Advanced Database Editor.]
 Розширений редактор бази даних.
+;file \plugins\DbEditorPP\res\resource.rc
 [Search and replace]
 Знайти і замінити
 [Search for]
@@ -165,6 +166,8 @@
 &Юнікод
 [New]
 Створити
+[BL&OB]
+
 [&Watch]
 &Спостерігати
 [&Refresh]
@@ -199,8 +202,10 @@
 Вікно спостережень
 [Reload watch list]
 Оновити список спостережень
+;file \plugins\DbEditorPP\src\copymodule.cpp
 [Copy module "%s"]
 Копіювати модуль "%s"
+;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Видалити модуль "%s"?
 [Delete module from database]
@@ -209,6 +214,7 @@
 Видалення модуля з бази... Завантаження
 [Delete from all contacts (including Settings)]
 З усіх контактів (а також з Налаштувань)
+;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 Файли INI
 [All Files]
@@ -221,6 +227,7 @@
 Імпортувати в "%s"
 [Import from files]
 Імпорт з файлів
+;file \plugins\DbEditorPP\src\findwindow.cpp
 [Result]
 Результат
 [Contact]
@@ -243,6 +250,7 @@
 Пошук...
 [Finished. Items found: %d / replaced: %d / deleted: %d]
 Пошук завершено. Знайдено: %d елементів / замінено: %d / видалено: %d
+;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Головний значок
 [Closed module]
@@ -275,6 +283,7 @@ BLOB
 Unicode
 [Handle]
 ID користувача
+;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Відкрити редактор бази
 [Database]
@@ -283,24 +292,32 @@ ID користувача
 Відкрити в редакторі бази
 [<UNKNOWN>]
 <НЕВІДОМО>
+[[UNLOADED]]
+
+;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Видалити контакт "%s"?
 [Delete resident settings from database?]
 Видалити резидентні налаштування з бази?
 [%d items deleted.]
 Видалено %d елементів.
+;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]
 Помилка завантаження списку модулів
 [Error loading setting list]
 Помилка завантаження списку налаштувань
+;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 Завантаження контактів...
 [Loading modules...]
 Завантаження модулів...
 [Contacts]
 Контакти
+;file \plugins\DbEditorPP\src\options.cpp
+;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 Додати модуль до "%s"
+;file \plugins\DbEditorPP\src\settinglist.cpp
 [Type]
 Тип
 [Size]
@@ -311,11 +328,17 @@ ID користувача
 Видалити налаштування: %d?
 [*** encrypted ***]
 ***зашифровано***
+[*** buggy resident ***]
+
+;file \plugins\DbEditorPP\src\settingsdlg.cpp
 [Unknown DBVariant type!]
 Невідомий тип DBVariant!
 [Edit setting (%s)]
 Редагувати налаштування (%s)
 [New setting (%s)]
 Нове налаштування (%s)
+;file \plugins\DbEditorPP\src\watchedvars.cpp
+[*** resident ***]
+
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Змінено налаштування бази:\nмодуль: "%s", настройка: "%s"\nНове значення (%s): "%s"

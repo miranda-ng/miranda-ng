@@ -5,8 +5,21 @@
 ;  Version: 0.12.2.5
 ;  Authors: Miranda NG team
 ;============================================================
+[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+
+;file \protocols\SkypeWeb\res\resource.rc
+[Create group chat]
+
 [Cancel]
 Отказ
+[Mark users you want to invite to a new chat]
+
+[Invite user to chat]
+
+[Choose one of your contacts to be invited:]
+
+[Skypename:]
+
 [Password:]
 Парола:
 [Default group:]
@@ -15,59 +28,168 @@
 Акаунт
 [Others]
 Други
+[Automatic messages synchronization]
+
+[Always notify as unread for all incoming message]
+
 [Place:]
 Място:
+[Use hostname]
+
+[Use BBCode]
+
 [Change password]
 Промяна на паролата
 [Enter password]
 Въведете парола
 [Save password]
 Запис на паролата
+[Enter the password to continue.]
+
+;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Протокол за Skype връзки
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 Администратор
 [User]
 Потребител
+[Enter new nickname]
+
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
 [Warning]
 Предупреждение
 [&Invite user...]
 Покани потребител...
 [&Leave chat session]
 Напускане от разговора
+[&Change topic...]
+
+[Kick &user]
+
 [Set &role]
 Задаване на роля
 [&Admin]
 Администратор
 [&User]
 Потребител
+[Change nick...]
+
+[Enter new chatroom topic]
+
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Сигурни ли сте?
+;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 Входящо обаждане
+[Edited message]
+
 [Action]
 Действие
+[Call information]
+
+[File transfer information]
+
+[URI object]
+
+[Moji]
+
 [File]
 Файл
 [Unknown event]
 Неизвестно събитие
+;file \protocols\SkypeWeb\src\skype_events.cpp
+[SkypeWeb error: Invalid data!]
+
+[[b]Original message:[/b]\n%s\n]
+
+[Original message:\n%s\n]
+
+[[b]Edited at %s:[/b]\n%s\n]
+
+[Edited at %s:\n%s\n]
+
 [Call]
 Обаждане
+[Call missed]
+
+[Call ended (%s)]
+
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Прехвърляне на файл:\n\tИме на файла: %s \n\tРазмер: %lld байта \n
+[Unknown event, please send this text for developer: "%s"]
+
+;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Икона на протокола
+[Create new chat icon]
+
+[Sync history icon]
+
+[Block user icon]
+
+[Unblock user icon]
+
+[Incoming call icon]
+
+[Notification icon]
+
+[Error icon]
+
+[Action icon]
+
 [Protocols]
 Протоколи
+;file \protocols\SkypeWeb\src\skype_login.cpp
+[Authentication failed. Invalid username.]
+
+[Authentication failed. Bad username or password.]
+
+[Too many failed authentication attempts with given username or IP.]
+
+[Authentication failed. Unknown error.]
+
+;file \protocols\SkypeWeb\src\skype_menus.cpp
+[Get server history]
+
 [Block contact]
 Блокиране на контакта
+[Unblock contact]
+
+[Create new chat]
+
+;file \protocols\SkypeWeb\src\skype_messages.cpp
+[You cannot send when you are offline.]
+
+[Unknown error!]
+
+[Network error!]
+
+;file \protocols\SkypeWeb\src\skype_mslogin.cpp
+[Enter confirmation code]
+
+;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 %s връзка
+;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Мрежа
+;file \protocols\SkypeWeb\src\skype_popups.cpp
 [Notifications]
 Уведомявания
 [Errors]
 Грешки
+[Calls]
+
+;file \protocols\SkypeWeb\src\skype_proto.cpp
+[Incoming call sound]
+
+[Incoming call canceled sound]
+
+[Skypename]
+
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Incoming call from %s]
 Входящо обаждане от %s

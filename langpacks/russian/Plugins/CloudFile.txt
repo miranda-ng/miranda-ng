@@ -7,6 +7,7 @@
 ;============================================================
 [Allows you to transfer files via cloud services.]
 Загрузка и пересылка файлов с помощью облачных хранилищ.
+;file \plugins\CloudFile\res\resource.rc
 [Default service]
 Служба по умолчанию
 [General]
@@ -41,19 +42,33 @@
 Предоставить доступ
 [Revoke access]
 Отозвать доступ
+;file \plugins\CloudFile\src\icons.cpp
 [Upload file(s)]
 Загрузить файл(ы)
+[Dropbox]
+Dropbox
+[Google Drive]
+Google Drive
+[OneDrive]
+OneDrive
 [Yandex.Disk]
 Яндекс.Диск
+;file \plugins\CloudFile\src\menus.cpp
 [Upload to...]
 Загрузить на...
 [Upload]
 Загрузить
+;file \plugins\CloudFile\src\options.cpp
 [None]
 Нет
 [Services]
 Службы
+;file \plugins\CloudFile\src\srmm.cpp
 [Upload files to...]
 Загрузить файл в...
+;file \plugins\CloudFile\src\Services\dropbox_service.cpp
 [Server does not respond]
 Сервер не отвечает
+;file \plugins\CloudFile\src\Services\google_service.cpp
+;file \plugins\CloudFile\src\Services\microsoft_service.cpp
+;file \plugins\CloudFile\src\Services\yandex_service.cpp

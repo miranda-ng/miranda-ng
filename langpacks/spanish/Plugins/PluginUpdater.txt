@@ -5,6 +5,9 @@
 ;  Version: 0.2.0.1
 ;  Authors: Mataes, George Hazan
 ;============================================================
+[Installs and updates plugins and other Miranda NG components.]
+
+;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 ¡Actualizaciones encontradas!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
@@ -23,12 +26,18 @@ Elegir &nada
 Tecla de acceso directo
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
 Vaya a Opciones -> Personalizar -> Teclas de acceso directo para cambiar la tecla de acceso directo
+[Update options]
+
 [On startup]
 Al inicio
 [(but only once a day)]
 (pero sólo una vez al día)
 [Every]
 Cada
+[Silent mode]
+
+[Backup database before update (requires Db_autobackups plugin)]
+
 [Files source]
 Archivos fuente
 [Stable version]
@@ -39,6 +48,10 @@ Versión en desarrollo (menos estable)
 Versión en desarrollo con símbolos de depuración
 [Custom version]
 Versión personalizada
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+
+[Change platform to 32-bit]
+
 [Notifications]
 Notificaciones
 [Restart]
@@ -57,6 +70,8 @@ Colores
 &Personalizados
 [Use &Windows colors]
 Usar colores de &Windows
+[Use defa&ult colors]
+
 [Preview]
 Previsualizar
 [Click action]
@@ -73,6 +88,8 @@ Tiempo de espera
 -1 = Infinito
 [Sec]
 Seg
+[For "Restart" popup setting is always infinity]
+
 [Popups]
 Ventanas emergentes
 [Component list]
@@ -81,6 +98,7 @@ Lista de componentes
 Esta es la lista completa de los componentes que faltan en Miranda NG. Revise los componentes que desea descargar.\n\nHaga clic en el icono de info para ver la página de información de componentes.
 [Download]
 Descargar
+;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Downloading...]
 Descargando...
 [Succeeded.]
@@ -111,35 +129,71 @@ Otro
 La lista está vacía.
 [List loading already started!]
 ¡La carga de la lista ya comenzó!
+;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 ¡Será eliminado!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Actualización completa. Pulse Sí para reiniciar Miranda ahora o en No para posponer el reinicio hasta la salida.
+[Miranda NG Core]
+
+[Deprecated!]
+
+[Update found!]
+
 [<< Details]
 << Detalles
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+
+[%d component(s) was updated]
+
+[You need to restart your Miranda to apply installed updates.]
+
+[Would you like to restart it now?]
+
 [Checking for new updates...]
 Comprobando nuevas versiones...
 [No updates found.]
 No se encontraron actualizaciones.
 [Update checking already started!]
 ¡La comprobación de actualización ya ha comenzado!
+;file \plugins\PluginUpdater\src\Events.cpp
+[Plugin updater URI scheme]
+
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
 Cerrar popup
 [Do nothing]
 No hacer nada
+;file \plugins\PluginUpdater\src\Options.cpp
+[Backup database before update]
+
+[Stable version (incompatible with current development version)]
+
 [hours]
 horas
 [days]
 días
+[Change platform to 64-bit]
+
 [Test]
 Prueba
 [Services]
 Servicios
+;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
 Buscar actualizaciones de plugin
 [Available components list]
 Mostrar lista de plugins completa
+[Update completed]
+
+[Update failed]
+
+;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Información del plugin
+[Plugin Updater HTTP connections]
+
 [An error occurred while checking for new updates.]
 Se ha producido un error al comprobar nuevas actualizaciones.
+;file \plugins\PluginUpdater\src\Compat\compat.h

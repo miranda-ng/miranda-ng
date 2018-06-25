@@ -1,0 +1,4 @@
+[Backup profile folder]
+[Use CloudFile]
+[Uploading to cloud failed]
+[path to folder containing Miranda profiles]

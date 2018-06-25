@@ -5,6 +5,9 @@
 ;  Version: 0.1.0.101
 ;  Authors: Dioksin
 ;============================================================
+[Shows currency rates and economic quotes.]
+
+;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Списък с променливи
 [Edit Settings]
@@ -69,6 +72,8 @@ Popup настройки...
 Цвят на текста
 [Delay]
 Закъснение
+[From popup plugin]
+
 [Custom]
 Избор
 [Permanent]
@@ -113,8 +118,10 @@ Quote\\Инф. за курса
 Наблюдавани стойности:
 [Status &Message:]
 Текст за състояние:
+;file \plugins\Quotes\src\Chart.h
 [There is nothing to show]
 Няма за изобразяване
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 Секунди
 [Minutes]
@@ -127,14 +134,18 @@ Quote\\Инф. за курса
 Въведете цяла стойност между 1 и 24.
 [Enter text to display in contact list.]
 Въведете текст за изобразяване в списъка с контакти.
+;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 Източник
 [Enter positive number.]
 Въведете положително число.
+;file \plugins\Quotes\src\Forex.cpp
 [Auto Update Enabled]
 Автообновяването е включено
 [Auto Update Disabled]
 Автообновяването е изключено
+[Quotes]
+
 [Enable/Disable Auto Update]
 Вкл / Изкл на автоматично обновяване
 [Refresh All Quotes\\Rates]
@@ -153,12 +164,20 @@ Quote\\Инф. за курса
 Диаграма...
 [Edit Settings...]
 Редактиране на настройките...
+[Enable/Disable Quotes Auto Update]
+
+[Quotes Auto Update Enabled]
+
+[Quotes Auto Update Disabled]
+
 [Quote Symbol]
 Символ на стойността
 [Network]
 Мрежа
+;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 HTTP връзки на Quotes
+;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 Икона на протокола
 [Quote/Rate up]
@@ -167,6 +186,8 @@ HTTP връзки на Quotes
 Спадане на акции/курс
 [Quote/Rate not changed]
 Акции/Курс без промяна
+[Quote Section]
+
 [Quote]
 Quote
 [Export]
@@ -175,14 +196,23 @@ Quote
 Бутон за размяна
 [Import]
 Внос
+;file \plugins\Quotes\src\ImportExport.cpp
 [XML File (*.xml)]
 XML файлове (*.xml)
 [All files (*.*)]
 Всички файлове (*.*)
+;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft XML parser.
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft HTML parser.
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+[Error occurred during HTML parsing.]
+
+[Error occurred during site access.]
+
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Name]
 Име на стойността
 [From Currency Full Name]
@@ -209,10 +239,14 @@ XML файлове (*.xml)
 Часа и дата на получаване
 [Percentage Character (%)]
 Знак за проценти (%)
+[Tabulation]
+
 [Left slash (\\)]
 Черта наклонена наляво
 [Open Price]
 Цена при отваряне
+[Percent Change to After Hours]
+
 [Percent Change to Yesterday Close]
 Промяна в % от затварянето вчера
 [Day's High]
@@ -223,9 +257,16 @@ XML файлове (*.xml)
 Цена при предходното затваряне
 [Change]
 Промяна
+;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+
+[Enter integer value]
+
 [Enter log file name.]
 Въведете име на дневника.
 [Enter log file format.]
 Въведете формат за името.
 [Enter history format.]
 Въведете формат за историята.
+[Enter popup window format.]
+

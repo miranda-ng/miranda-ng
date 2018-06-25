@@ -352,8 +352,6 @@ Ignorieren
 Bitte den Grund angeben
 [Ban'n Kick]
 Bann und Kick
-[Jerk]
-Sie sind hier nicht erwünscht!
 [*Disconnected*]
 *Getrennt*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]

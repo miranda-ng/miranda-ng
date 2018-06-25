@@ -7,6 +7,7 @@
 ;============================================================
 [Shows the history for a given contact using IEView.]
 Просмотрщик истории, использующий движок IE.
+;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 Диалог
 [Close]
@@ -47,6 +48,7 @@
 Вверх
 [Down]
 Вниз
+;file \plugins\IEHistory\src\dlgHandlers.cpp
 [System History]
 Системная история
 [Out of a total of]
@@ -65,8 +67,10 @@
 Поиск закончен. Больше результатов нет...
 [Information]
 Информация
+;file \plugins\IEHistory\src\events.cpp
 [History]
 История
+;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 &История
 [&System History]

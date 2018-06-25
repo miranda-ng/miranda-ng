@@ -7,6 +7,7 @@
 ;============================================================
 [History viewer for Miranda NG.]
 Просмотрщик истории для Miranda NG.
+;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message history]
 История сообщений
 [Settings]
@@ -137,6 +138,7 @@
 Выполнять задачу для определённых контактов
 [Cancel]
 Отмена
+;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 Открыть историю
 [View &history]
@@ -165,6 +167,7 @@
 Минус в экспорте
 [History]
 История
+;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Все события
 [Default history events]
@@ -177,6 +180,7 @@
 Я
 [Invalid message]
 Сообщение повреждено
+;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s files (*.%s)]
 Файлы %s (*.%s)
 [Import]
@@ -187,6 +191,7 @@
 Выбранный контакт в файле отсутствует.
 [File is corrupted]
 Файл повреждён
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Эта операция полностью удалит историю этого контакта.\nВы уверены?
 [Are you sure?]
@@ -241,6 +246,7 @@ Dat (плагин mContacts)
 Ошибка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Количество удаляемых пунктов истории: %d.\nВы действительно этого хотите?
+;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Сообщение
 [File transfer]
@@ -399,18 +405,22 @@ Dat (плагин mContacts)
 Импорт из:
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 ** <date> - вставляет дату, <ext> - расширение, <contact> - имя контакта
+;file \plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 [History log]
 Просмотр истории
 [Filter:]
 Фильтр
 [Conversation started at %s]
 Беседа начата в %s
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 [Menu]
 Меню
 [Open all]
 Открыть всё
 [Close all]
 Закрыть всё
+;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 История
 [Contacts]
@@ -453,6 +463,7 @@ FTP путь не должен содержать <date> в имени зада�
 Задача '%s' завершена успешно
 [Task '%s' execution failed:]
 Выполнение задачи '%s' прервано из-за ошибки:
+;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" не найдено
 [Search]
@@ -461,3 +472,4 @@ FTP путь не должен содержать <date> в имени зада�
 Вы достигли конца группы
 [You have reached the end of the history.]
 Вы добрались до конца истории.
+;file \plugins\BasicHistory\src\TxtExport.cpp

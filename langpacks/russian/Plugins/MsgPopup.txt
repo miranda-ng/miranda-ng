@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin replaces message boxes (those having only OK button) with popups.]
 Заменяет диалоговые окна (которые имеют лишь кнопку ОК) на всплывающие окна.
+;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 Звёздочка
 [Background color]
@@ -27,6 +28,7 @@
 Специальные значения "таймаута":\n -1 - постоянно, 0 - значение по умолчанию
 [Emit a sound]
 Играть звук
+;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
 Ошибка виртуальной защиты. Код %d\nОтправьте сообщение об ошибке
 [Error]
@@ -37,6 +39,7 @@
 Диалоговые окна
 [Popups]
 Всплывающие окна
+;file \plugins\MsgPopup\src\options.cpp
 [Message with question]
 Сообщение с вопросом
 [Message with exclamation]

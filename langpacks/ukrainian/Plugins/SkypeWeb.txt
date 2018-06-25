@@ -7,6 +7,7 @@
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Підтримка протоколу Skype в Miranda NG. На основі Skype для Web.
+;file \protocols\SkypeWeb\res\resource.rc
 [Create group chat]
 Створити чат-кімнату
 [Cancel]
@@ -45,8 +46,10 @@
 Зберегти пароль
 [Enter the password to continue.]
 Введіть пароль для продовження.
+;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Протокол Skype
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 Адмін
 [User]
@@ -75,8 +78,10 @@
 Змінити ім'я...
 [Enter new chatroom topic]
 Введіть нову тему для чат-кімнати
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Ви впевнені?
+;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 Вхідний дзвінок
 [Edited message]
@@ -95,6 +100,7 @@
 Файл
 [Unknown event]
 Невідома подія
+;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 Помилка SkypeWeb: Неправильні дані!
 [[b]Original message:[/b]\n%s\n]
@@ -115,6 +121,7 @@
 Передача файлу:\n\tНазва: %s \n\tРозмір: %lld байт \n
 [Unknown event, please send this text for developer: "%s"]
 Невідома подія, будь ласка, надішліть авторові плагіна цей текст: "%s"
+;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Значок протоколу
 [Create new chat icon]
@@ -135,6 +142,7 @@
 Дія
 [Protocols]
 Протоколи
+;file \protocols\SkypeWeb\src\skype_login.cpp
 [Authentication failed. Invalid username.]
 Помилка авторизації. Неправильне ім'я користувача.
 [Authentication failed. Bad username or password.]
@@ -143,6 +151,7 @@
 Перевищено допустиму кількість невдалих спроб авторизації з таким ім'ям користувача або з цього IP.
 [Authentication failed. Unknown error.]
 Не вдалося авторизуватися через невідому помилку.
+;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Get server history]
 Синхронізувати історію
 [Block contact]
@@ -151,29 +160,36 @@
 Розблокувати контакт
 [Create new chat]
 Створити новий чат
+;file \protocols\SkypeWeb\src\skype_messages.cpp
 [You cannot send when you are offline.]
 Для надсилання повідомлень необхідно підключитися до мережі.
 [Unknown error!]
 Невідома помилка!
 [Network error!]
 Помилка мережі!
+;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
 Введіть код підтвердження
+;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 З'єднання %s
+;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Мережа
+;file \protocols\SkypeWeb\src\skype_popups.cpp
 [Notifications]
 Сповіщення
 [Errors]
 Помилки
 [Calls]
 Дзвінки
+;file \protocols\SkypeWeb\src\skype_proto.cpp
 [Incoming call sound]
 Вхідний дзвінок
 [Incoming call canceled sound]
 Вхідний дзвінок скасовано
 [Skypename]
 Логін Skype
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Incoming call from %s]
 Вхідний дзвінок від %s

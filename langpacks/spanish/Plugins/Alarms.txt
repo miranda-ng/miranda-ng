@@ -5,20 +5,51 @@
 ;  Version: 0.4.0.6
 ;  Authors: Scott Ellis
 ;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
+
+;file \plugins\Alarms\res\resource.rc
 [New]
 Nuevo
 [Delete]
 Eliminar
 [Edit]
 Editar
+[Alarms]
+
+[Use popup plugin]
+
+[Default snooze:]
+
 [minutes]
 minutos
 [Row height:]
 Alto de fila:
+[Indent:]
+
+[Reminder frame]
+
+[Auto hide/show]
+
+[Loop sound]
+
+[Period (hours):]
+
+[Hide/show with clist]
+
+[Auto size vertically]
+
+[Transparency (%):]
+
+[Alert window]
+
 [Round corners]
 Esquinas redondeadas
+[Don't steal focus unless idle]
+
 [Preview]
 Previsualizar
+[Alarm]
+
 [Cancel]
 Cancelar
 [Title:]
@@ -27,8 +58,46 @@ Título:
 Detalles:
 [Actions]
 Acciones
+[Popup window]
+
 [Sound:]
 Sonido:
+[Run command:]
+
+[Parameters:]
+
+[Alert 1]
+
+[Alert 2]
+
+[Alert 3]
+
+[Speak]
+
+[Occurrence]
+
+[Once]
+
+[Weekly]
+
+[Daily]
+
+[Weekdays]
+
+[Yearly]
+
+[i'm hiding]
+
+[Date and time]
+
+[Disable next occurrence]
+
+[Don't trigger on startup]
+
+[No reminder]
+
+[Selected days]
+
 [Mon]
 Lun
 [Tue]
@@ -43,17 +112,95 @@ Vie
 Sab
 [Sun]
 Dom
+[Monthly]
+
+[Dismiss]
+
+[Snooze]
+
+[Static]
+
+[&Suspend]
+
+[&Edit...]
+
 [&Delete]
 &Borrar
 [&Options...]
 &Opciones
+[&New alarm...]
+
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[Set alarm]
+
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example alarm]
+
+[Some example text. Example, example, example.]
+
+[5 mins]
+
+[15 mins]
+
+[30 mins]
+
+[1 hour]
+
+[1 day]
+
+[1 week]
+
+[Title]
+
 [Background]
 Fondo
 [Window]
 Ventana
+;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+
+[%dm]
+
+[Hide reminders]
+
+[Show reminders]
+
 [Frames]
 Marcos
+[Alarm reminders]
+
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set alarm]
+
+[Reminder: Soon]
+
+[Reminder: Very soon]
+
+[Alarm: System tray]
+
+[Menu: Show/Hide reminders]
+
+;file \plugins\Alarms\src\options.cpp
+[Sunday]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[Please enter a title for this alarm.]
+
 [Error]
 Error
+[The alarm time you have selected is in the past.]
+
 [Events]
 Eventos

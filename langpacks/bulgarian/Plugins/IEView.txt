@@ -5,6 +5,9 @@
 ;  Version: 1.5.0.1
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
+[IE Based Chat Log.]
+
+;file \plugins\IEView\res\ieview.rc
 [Copy]
 Копиране
 [Copy Link]
@@ -31,6 +34,8 @@
 Замяна на усмивките в потребителските имена
 [Hide window border]
 Без рамка на прозореца
+[Embed YouTube videos]
+
 [Size:]
 Размер:
 [Mode]
@@ -61,6 +66,9 @@
 Дълг формат за датата
 [Use relative timestamp]
 Кратка времева марка
+[Download more templates]
+
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Изходящо прехвърляне на файл
 [Incoming File Transfer]
@@ -69,18 +77,43 @@
 изпратени URL адреси
 [URL received]
 получени URL адреси
+;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Непознат контакт)
 [ requested authorization]
  заявено упълномощаване
 [ was added.]
  беше добавен.
+;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+
 [RESULT]
 РЕЗУЛТАТ
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+;file \plugins\IEView\src\ieview_main.cpp
+[RTL On]
+
+[RTL Off]
+
+[Group On]
+
+[Group Off]
+
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+
+[%s has left.]
+
 [The topic is %s.]
 Темата е %s.
 [Error]
 Грешка
+;file \plugins\IEView\src\Options.cpp
 [General]
 Основни
 [Message Log]
@@ -103,6 +136,9 @@ IEView
 Всички файлове
 [All Images]
 Всички изображения
+[Style Sheet]
+
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Днес
 [Yesterday]
@@ -111,3 +147,5 @@ IEView
 Файлът е изпратен
 [File received]
 Файлът е получен
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

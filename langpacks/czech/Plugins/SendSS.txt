@@ -190,9 +190,9 @@ Další
 Aktualizovat
 [Edit on]
 Úpravy
-[BBC]
-
-[BBC link]
+[BBCode]
+BBCode
+[BBCode link]
 
 [Down arrow]
 Šipka dolů

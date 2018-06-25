@@ -7,6 +7,7 @@
 ;============================================================
 [Omegle protocol support for Miranda NG.]
 Підтримка протоколу Omegle в Miranda NG.
+;file \protocols\Omegle\res\omegle.rc
 [Server:]
 Сервер:
 [Language:]
@@ -35,6 +36,7 @@
 Шукати незнайомців із спільними інтересами
 [Your interests (separated by commas):]
 Ваші інтереси (розділяти комою):
+;file \protocols\Omegle\src\chat.cpp
 [Server]
 Сервер
 [Last question is empty.]
@@ -61,6 +63,7 @@
 Omegle - чудовий спосіб знайти нових друзів!
 [You]
 Ви
+;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
 Помилка підключення.
 [Connected to server %s. There are %s users online now.]
@@ -89,6 +92,7 @@ Omegle - чудовий спосіб знайти нових друзів!
 Помилка: %s
 [We are still waiting...]
 Ми досі чекаємо...
+;file \protocols\Omegle\src\connection.cpp
 [Connecting canceled.]
 Підключення скасовано.
 [Disconnecting...]
@@ -99,12 +103,14 @@ Omegle - чудовий спосіб знайти нових друзів!
 Підключення...
 [Waiting for Stranger...]
 Очікування незнайомця...
+;file \protocols\Omegle\src\constants.h
 [Random]
 Випадковий
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
 Незнайомець використовує мобільну сторінку Omegle (з телефону або планшету)
 [You both speak the same language.]
 Ви говорите однією мовою.
+;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 З'єднання з сервером %s
 [Unable to initialize Netlib for %s.]
@@ -123,5 +129,6 @@ Omegle - чудовий спосіб знайти нових друзів!
 Мережа
 [Account]
 Обліковий запис
+;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
 Значок протоколу

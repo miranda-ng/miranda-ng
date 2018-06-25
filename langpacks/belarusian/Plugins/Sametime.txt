@@ -7,6 +7,7 @@
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
 
+;file \protocols\Sametime\res\resource.rc
 [Connection]
 Далучэнне
 [ID:]
@@ -59,6 +60,7 @@
 Вылучыць усё
 [Invert\nselection]
 
+;file \protocols\Sametime\src\conference.cpp
 [I'm outa here.]
 
 [Invitation rejected - already present.]
@@ -75,16 +77,20 @@
 
 [Start conference]
 
+;file \protocols\Sametime\src\files.cpp
+;file \protocols\Sametime\src\messaging.cpp
 [No common encryption method. Try to enable encryption in protocol options.]
 
 [SERVICE NOT IMPLEMENTED. %s]
 
+;file \protocols\Sametime\src\options.cpp
 [Client protocol version: %03d.%03d]
 
 [Server protocol version: %03d.%03d]
 
 [Network]
 Сеціва
+;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
 Абразок пратаколу
 [Announce]
@@ -93,8 +99,10 @@
 Абвестка
 [Error]
 Памылка
+;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 Злучэнне %s
+;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 
 [Session announcement - from '%s']
@@ -105,8 +113,10 @@
 
 [Send announcement...]
 
+;file \protocols\Sametime\src\session_announce_win.cpp
 [Recipients]
 
+;file \protocols\Sametime\src\userlist.cpp
 [Failed to upload contacts - storage service unavailable.]
 
 [Name]
@@ -119,8 +129,10 @@
 
 [False]
 
+;file \protocols\Sametime\src\utils.cpp
 [%s\n\nSametime error %S\n%s]
 
+;file \protocols\Sametime\src\meanwhile\src\error.c
 [Success]
 
 [General failure]

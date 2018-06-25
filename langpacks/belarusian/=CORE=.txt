@@ -3,6 +3,7 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.9
 ;============================================================
+;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
 Перайсці ў рэжым чакання, калі неактыўныя:
 [Become idle if the screen saver is active]
@@ -27,6 +28,7 @@
 Рэжым чакання, калі прыкладанне запушчана ў поўнаэкранным рэжыме
 [Disable sounds on idle]
 Адключыць гукі пры пераходзе ў рэжым чакання
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s (%s)
 [&Cancel]
@@ -49,6 +51,7 @@
 Змяніць паведамленне "%s"
 [Closing in %d]
 Зачыніць (%d)
+;file \src\core\stdclist\res\resource.rc
 [Delete contact]
 Выдаліць кантакт
 [No]
@@ -271,6 +274,7 @@
 На тэле&фоне\tCtrl+8
 [Out to &lunch\tCtrl+9]
 А&бедаю\tCtrl+9
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Адправіць файл(ы)
 [&Send]
@@ -397,6 +401,7 @@
 Дапісаць "(1)" і г. д.
 [You will always be asked about files from people not on your contact list]
 Запыт заўсёды будзе паказаны, калі чалавек не ў спісе
+;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Адкрываць вакно, калі:
 [In background]
@@ -591,6 +596,7 @@
 Уставіць і адправіць
 [Delete]
 Выдаліць
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Знайсці
 [&Find next]
@@ -601,6 +607,7 @@
 Гісторыя паведамленняў
 [&Find...]
 &Знайсці
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Дадаць тэлефон
 [Enter country, area code and phone number:]
@@ -673,6 +680,7 @@
 Пасада:
 [Website:]
 Сайт:
+;file \src\mir_app\res\resource.rc
 [Enter account name (for example, My Google)]
 Увядзіце імя конта
 [Choose the protocol type]
@@ -1183,14 +1191,17 @@ UIN, E-mail і г.д.
 
 [Google Translate]
 
+;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Статус
 [Idle]
 Чаканне
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 &Прачытаць паведамленне "%s"
 [Re&ad status message]
 Чытаць статуснае паведамленне
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Адышоў %time%. Хутка буду.
 [Give it up, I'm not in!]
@@ -1213,6 +1224,7 @@ UIN, E-mail і г.д.
 Ммм... е-е-ежа...
 [idleeeeeeee]
 чаканне...
+;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Стандартныя кантакты
 [Online contacts to whom you have a different visibility]
@@ -1233,6 +1245,7 @@ UIN, E-mail і г.д.
 Пад курсорам
 [Quicksearch text]
 Хуткі пошук
+;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Не ў фокусе
 [Offline]
@@ -1257,16 +1270,21 @@ UIN, E-mail і г.д.
 На тэлефоне
 [List background]
 Фон спісу
+;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Глабальныя
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Звычайны шыфравальнік
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Карыстач не зарэгістраваў свой адрас e-mail.
 [Send e-mail]
 Адправіць e-mail
 [&E-mail]
 &E-mail
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Файл ад %s
 [bytes]
@@ -1283,14 +1301,17 @@ UIN, E-mail і г.д.
 Памылка
 [Denied]
 Адмоўлена
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 %s файл
 [All files]
 Усе файлы
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Выкананыя файлы
 [Events]
 Падзеі
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [Select folder]
 Абраць тэчку
 [My received files]
@@ -1307,10 +1328,12 @@ UIN, E-mail і г.д.
 Скасавана
 [This file transfer has been canceled by the other side]
 
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d файла(аў)
 [%d directories]
 %d каталога(аў)
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Гэты файл яшчэ не правяраўся антывірусам. Вы ўсё ж і жадаеце адкрыць яго?
 [File received]
@@ -1361,8 +1384,10 @@ UIN, E-mail і г.д.
 Праверка на вірусы...
 [Transfer and virus scan complete]
 Перадача і праверка на вірусы завершаны
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Выходныя
+;file \src\core\stdmsg\src\chat_manager.cpp
 [Message sessions]
 Гутаркі
 [Chat module]
@@ -1377,6 +1402,7 @@ UIN, E-mail і г.д.
 Колер ліній спісу
 [Nick list background (selected)]
 Заліванне спісу (абрана)
+;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Міргаць вакном, пры новым паведамленні
 [Flash window when a word is highlighted]
@@ -1605,6 +1631,7 @@ UIN, E-mail і г.д.
 Чат
 [Popups]
 Усплывальныя вокны
+;file \src\core\stdmsg\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]
@@ -1617,22 +1644,27 @@ UIN, E-mail і г.д.
 Мянушка
 [Unique ID]
 Асабісты конт
+;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
+;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Уваходнае паведамленне (10x10)
 [Outgoing message (10x10)]
 Выходнае паведамленне (10x10)
+;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
 [Message session]
 Гутарка
 [%s is typing a message...]
 %s набірае тэкст...
+;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 Я
 [File sent]
 Пасылка файла
+;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Выходныя паведамленні
 [Incoming messages]
@@ -1663,6 +1695,7 @@ UIN, E-mail і г.д.
 Лог
 [Typing notify]
 Набірае тэкст
+;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Паведамленне ад %s
 [%s is typing a message]
@@ -1719,12 +1752,15 @@ Miranda не здолела загрузіць убудаваную сістэм
 Кантакт пачаў пісаць
 [Contact stopped typing]
 Кантакт скончыў пісаць
+;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невядомая памылка.
+;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Кліент не можа дэкадаваць паведамлення хаста. Магчымыя прычыны: вузел не падтрымлівае SSL ці патрабуе неіснуючы пакет бяспекі
 [Host we are connecting to is not the one certificate was issued for]
 Выдадзены сертыфікат не адпавядае хасту далчэння
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Паведамленне пашкоджана
 [Outgoing message]
@@ -1747,6 +1783,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 Выдаліць гісторыю
 [View &history]
 &Гісторыя
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit e-mail address]
 Рэдагаваць адрас e-mail
 [Edit phone number]
@@ -1767,6 +1804,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 Працоўны тэлефон
 [Work fax]
 Працоўны факс
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Мужчынскі
 [Female]
@@ -1807,18 +1845,22 @@ Miranda не здолела загрузіць убудаваную сістэм
 Біяграфія
 [Notes]
 Нататкі
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Уладальнік
 [View/change my &details...]
 Асабістыя дадзеныя
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s далучаны
 [Alerts]
 Абвесткі
+;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 Дадаць %s
 [Please authorize my request and add me to your contact list.]
 Калі ласка, дазвольце дадаць Вас у мой спіс кантактаў.
+;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 Невядома
 [%s requested authorization\n%u (%s) on %s]
@@ -1847,10 +1889,12 @@ Miranda не здолела загрузіць убудаваную сістэм
 %u дадаў(ла) вас у свой спіс
 [Added event]
 Падзея дадання
+;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 Зайсці
 [&Open chat window]
 Адчыніць гутарку
+;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s увайшоў
 [You have joined %s]
@@ -1879,6 +1923,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 %s выключае статус '%s' для %s
 [<invalid>]
 <няверна>
+;file \src\mir_app\src\chat_opts.cpp
 [Others nicknames]
 Іншыя мянушкі
 [Your nickname]
@@ -1915,6 +1960,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 Поле набору тэксту
 [Chat log symbols (Webdings)]
 Знакі ў чаце (шрыфт Webdings)
+;file \src\mir_app\src\chat_svc.cpp
 [&Leave chat]
 Пакінуць чат
 [Message is highlighted]
@@ -1931,6 +1977,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 Кантакт адправіў абвестку
 [The topic has been changed]
 Тэма змянілася
+;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 %s патрабуе Вашай увагі ў %s
 [%s speaks in %s]
@@ -1971,6 +2018,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Няма слоў для пошуку
 [&Message %s]
 &Паведамленне %s
+;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistgroups.cpp
 [New group]
 Новы гурт
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1983,12 +2032,15 @@ Miranda не здолела загрузіць убудаваную сістэм
 Пераназваць гурт
 [This group]
 Гэты гурт
+;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Далучэнне
 [Connecting (attempt %d)]
 Далучэнне (спроба %d)
+;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
+;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Гэты кантакт знаходзіцца ў сістэме абмену імгненнымі паведамленнямі, якая захоўвае спісы кантактаў на серверы. Кантакт будзе выдалены з сервера і з лакальнага спісу пры наступным злучэнні.
 [De&lete]
@@ -1997,6 +2049,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Пераназваць
 [&Add permanently to list]
 Дадаць у сталы спіс
+;file \src\mir_app\src\colorchooser.cpp
+;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Зададзенае імя (заўсёды першае)
 [Nick]
@@ -2019,6 +2073,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 '(Невядомы кантакт)'
 [Contact names]
 Кантакты
+;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nбо профіль з такой назвай ужо існуе. Калі ласка, вырашыце праблему ўручную.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2039,12 +2094,14 @@ Miranda не можа адкрыць '%s'\nНе ўсталяваны неабх�
 Miranda NG не можа адкрыць гэты профіль
 [Miranda can't understand that profile]
 Miranda не можа распазнаць гэты профіль
+;file \src\mir_app\src\db_events.cpp
 [Authorization request from %s%s: %s]
 Запыт аўтарызацыі от %s%s: %s
 [You were added by %s%s]
 Вас дадаў %s%s
 [Contacts: ]
 Кантакты:\s
+;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад кожнай вырабленай зменай.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2059,14 +2116,18 @@ Miranda не можа распазнаць гэты профіль
 Невядома, ці будзе змена бяспечнай.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Наслушны тып налады для '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h ці n.
+;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 Сайт
 [Phone/SMS]
 
 [Chat activity]
 Актыўнасць у чаце
+;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Экстра абразкі
+;file \src\mir_app\src\ei_services.cpp
+;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Вы не запоўнілі поле для пошуку. Калі ласка, увядзіце запыт для пошуку і паспрабуйце яшчэ раз.
 [Search]
@@ -2085,6 +2146,7 @@ Ctrl+Шукаць дадае карыстальніка
 Назва
 [&Find/add contacts...]
 Дадаць кантакты
+;file \src\mir_app\src\FontOptions.cpp
 [Failed to create file]
 Памылка стварэння файла
 [<none>]
@@ -2111,12 +2173,14 @@ Ctrl+Шукаць дадае карыстальніка
 Памылка запісу ў файл
 [Customize]
 Тонкая налада
+;file \src\mir_app\src\FontService.cpp
 [Headers]
 Загалоўкі
 [Generic text]
 Асноўны тэкст
 [Small text]
 Дадатковы тэкст
+;file \src\mir_app\src\help.cpp
 [< Copyright]
 < Правы
 [&Help]
@@ -2129,6 +2193,7 @@ Ctrl+Шукаць дадае карыстальніка
 А&фіцыйны сайт Miranda NG
 [&Report bug]
 Паведаміць пра памылку
+;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 
 [Browser: Forward]
@@ -2191,8 +2256,10 @@ Ctrl+Шукаць дадае карыстальніка
 Спалучэнне ў сістэме
 [Miranda scope]
 Спалучэнне ў Miranda
+;file \src\mir_app\src\ignore.cpp
 [** All contacts **]
 ** Усе кантакты **
+;file \src\mir_app\src\keyboard.cpp
 [Show/Hide contact list]
 Паказаць/Схаваць спіс кантактаў
 [Read message]
@@ -2203,6 +2270,7 @@ Ctrl+Шукаць дадае карыстальніка
 Налады лога сеціва
 [Open 'Find user' dialog]
 Адкрыць дыялог пошуку кантактаў
+;file \src\mir_app\src\lpopts.cpp
 [built-in]
 убудаваны
 [(incompatible)]
@@ -2211,6 +2279,7 @@ Ctrl+Шукаць дадае карыстальніка
 Невядома
 [Languages]
 Мовы
+;file \src\mir_app\src\menu_clist.cpp
 [Custom status]
 xСтатус
 [%s (locked)]
@@ -2219,16 +2288,20 @@ xСтатус
 Меню статусаў
 [Main menu]
 Галоўнае меню
+;file \src\mir_app\src\menu_frames.cpp
 [Frame menu]
 Меню фрэймаў
+;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Меню гуртоў
 [Subgroup menu]
 Меню падгуртоў
+;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 
 [Menus]
 Меню
+;file \src\mir_app\src\menu_tray.cpp
 [Tray menu]
 Меню ў трэі
 [&Hide/show]
@@ -2237,10 +2310,13 @@ xСтатус
 &Налады
 [&About]
 Пра праграму
+;file \src\mir_app\src\menu_utils.cpp
 [Menu icons]
 Меню
+;file \src\mir_app\src\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Выдаліць метакантакт?
+;file \src\mir_app\src\meta_addto.cpp
 [Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
 Няма яшчэ ніводнага метакантакту ў базе (у гэтым выпадку трэба спачатку канверсаваць адзін просты кантакт у метакантакт).\n Як варыянт пераўтварыце гэты кантакт у новы метакантакт.\n\n Пераўтварыць гэты кантакт у метакантакт?
 [This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
@@ -2265,6 +2341,7 @@ xСтатус
 Не атрымалася дадаць да метакантакту.
 [Assignment failure]
 Няўдалае прызначэнне
+;file \src\mir_app\src\meta_edit.cpp
 [Protocol]
 Пратакол
 [Send offline]
@@ -2273,6 +2350,7 @@ xСтатус
 У &анлайн
 [Delete metacontact?]
 Выдаліць метакантакт?
+;file \src\mir_app\src\meta_main.cpp
 [Toggle off]
 Выключыць
 [Toggle on]
@@ -2287,6 +2365,7 @@ xСтатус
 Па змаўчанні
 [MetaContacts]
 Метакантакты
+;file \src\mir_app\src\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
 Выяўлена праблема дадання кантакту да метакантакту
 [This will remove the metacontact permanently.\n\nProceed anyway?]
@@ -2309,12 +2388,15 @@ xСтатус
 Выдаліць метакантакт
 [Subcontacts]
 Субкантакты
+;file \src\mir_app\src\meta_options.cpp
 [Metacontacts]
 Метакантакты
+;file \src\mir_app\src\meta_services.cpp
 [No online contacts found.]
 Няма далучаных кантактаў.
 [Select metacontact]
 Выберыце метакантакт
+;file \src\mir_app\src\meta_utils.cpp
 [Could not retrieve contact protocol]
 Не магу запытаць пратакол кантакту
 [Assignment error]
@@ -2331,10 +2413,12 @@ xСтатус
 Памылка запісу ўнікальнага ID кантакту ў метакантакт
 [Could not write nickname of contact to metacontact]
 Не магу запісаць мянушку кантакту ў метакантакт
+;file \src\mir_app\src\movetogroup.cpp
 [<Root group>]
 <Каранёвы гурт>
 [&Move to group]
 Перасунуць у
+;file \src\mir_app\src\netliblog.cpp
 [Standard Netlib log]
 Стандартны журнал Netlib
 [No times]
@@ -2351,12 +2435,14 @@ xСтатус
 Абраць шлях ды файла лога
 [Select program to be run]
 Абраць праграму для запуску
+;file \src\mir_app\src\netlibopts.cpp
 [<mixed>]
 <розныя>
 [<All connections>]
 <Усе далучэнні>
 [Network]
 Сеціва
+;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "StdMsg.dll"
 ['%s' is disabled, re-enable?]
@@ -2373,6 +2459,7 @@ xСтатус
 Немагчыма загрузіць ніводны з усталяваных плагінаў спісу кантактаў. Нават адключаныя ў наладах не запускаюцца.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не знойдзены плагін спісу канактаў. Вам патрэбны StdClist ці Clist_*.
+;file \src\mir_app\src\options.cpp
 [<all modules>]
 <усе плагіны>
 [<core modules>]
@@ -2383,10 +2470,12 @@ xСтатус
 %s налады
 [Miranda NG options]
 Налады Miranda
+;file \src\mir_app\src\path.cpp
 [Avatars]
 Аватары
 [Avatars root folder]
 Каранёвая тэчка аватараў
+;file \src\mir_app\src\pluginopts.cpp
 [Plugin]
 Плагін
 [Version]
@@ -2397,6 +2486,7 @@ xСтатус
 Вы жадаеце перазагрузіць зараз?
 [Plugins]
 Плагіны
+;file \src\mir_app\src\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профіль '%s' ўжо існуе. Хочаце перамясціць яго ў Сметніцу?\n\nУвага: Профіль будзе выдалены, калі ён адключаны.\nУвага: Профіль можа ўтрымліваць канфідэнцыйную інфармацыю і павінен быць правільна выдалены.
 [The profile already exists]
@@ -2433,6 +2523,7 @@ xСтатус
 Мае профілі
 [New profile]
 Стварыць профіль
+;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 УВАГА! Конт будзе выдалены. Гэта азначае, што ўсе налады, кантакты і гісторыя таксама будуць выдаленыя.\n\nВы абсалютна ўпэўненыя?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2485,12 +2576,15 @@ ID конта
 Імя ўліковага запісу павінна быць унікальным. Калі ласка, увядзіце іншае імя.
 [&Accounts...]
 Уліковыя запісы...
+;file \src\mir_app\src\proto_order.cpp
+;file \src\mir_app\src\proto_utils.cpp
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
 [Revoke authorization]
 Адазваць аўтарызацыю
+;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не магу запусціць пошук па %s. Калі ласка, праверце далучэнне да пратакола %s.
 [Could not search on any of the protocols, are you online?]
@@ -2505,8 +2599,10 @@ ID конта
 Знойдзена %d кантактаў (
 [No users found]
 Кантакты не знойдзены
+;file \src\mir_app\src\skin2opts.cpp
 [Icon sets]
 Наборы абразкоў
+;file \src\mir_app\src\skinicons.cpp
 [URL]
 Спасылка
 [User online]
@@ -2583,14 +2679,18 @@ ANSI плагін
 %s абразкі
 [Main icons]
 Галоўныя
+;file \src\mir_app\src\sounds.cpp
 [Sound files]
 Файлы гукаў
 [WAV files]
 Файлы гукаў
+;file \src\mir_app\src\srmm_base.cpp
+;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Падзельнік>
 [Toolbar]
 Панэль кнопак
+;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Не пазначана
 [Afghanistan]
@@ -3091,6 +3191,8 @@ ANSI плагін
 Замбія
 [Zimbabwe]
 Зімбабвэ
+;file \src\mir_app\src\visibility.cpp
+;file \src\mir_core\src\bitmaps.cpp
 [All Files]
 Усе файлы
 [Windows bitmaps]
@@ -3101,5 +3203,6 @@ BMP
 Выявы GIF
 [PNG bitmaps]
 Выявы PNG
+;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <не пазначана>

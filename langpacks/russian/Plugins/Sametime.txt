@@ -7,8 +7,11 @@
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
 Реализация обмена мгновенными сообщениями по протоколу Lotus Sametime в Miranda NG.
+;file \protocols\Sametime\res\resource.rc
 [Connection]
 Соединения
+[ID:]
+ID:
 [Password:]
 Пароль
 [Server name:]
@@ -57,6 +60,7 @@ ID и версия клиента
 Выделить всё
 [Invert\nselection]
 Обратить\nвыделение
+;file \protocols\Sametime\src\conference.cpp
 [I'm outa here.]
 Меня здесь нет.
 [Invitation rejected - already present.]
@@ -73,16 +77,20 @@ ID и версия клиента
 Покинуть комнату чата
 [Start conference]
 Создать комнату чата
+;file \protocols\Sametime\src\files.cpp
+;file \protocols\Sametime\src\messaging.cpp
 [No common encryption method. Try to enable encryption in protocol options.]
 Шифрование недоступно. Попробуйте включить шифрование в настройках протокола.
 [SERVICE NOT IMPLEMENTED. %s]
 СЛУЖБА НЕ РЕАЛИЗОВАНА. %s
+;file \protocols\Sametime\src\options.cpp
 [Client protocol version: %03d.%03d]
 Версия протокола клиента: %03d.%03d
 [Server protocol version: %03d.%03d]
 Версия протокола сервера: : %03d.%03d
 [Network]
 Сеть
+;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
 Значок протокола
 [Announce]
@@ -91,8 +99,10 @@ ID и версия клиента
 Уведомление
 [Error]
 Ошибка
+;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 Соединение %s
+;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 Сообщение администратора Sametime
 [Session announcement - from '%s']
@@ -103,8 +113,10 @@ ID и версия клиента
 Нет соединения с сервером!
 [Send announcement...]
 Отправить объявление...
+;file \protocols\Sametime\src\session_announce_win.cpp
 [Recipients]
 Получатели
+;file \protocols\Sametime\src\userlist.cpp
 [Failed to upload contacts - storage service unavailable.]
 Не удалось выгрузить контакты - недоступна служба хранения.
 [Name]
@@ -117,8 +129,10 @@ ID и версия клиента
 Истина
 [False]
 Ложь
+;file \protocols\Sametime\src\utils.cpp
 [%s\n\nSametime error %S\n%s]
 %s\n\nОшибка Sametime %S\n%s
+;file \protocols\Sametime\src\meanwhile\src\error.c
 [Success]
 Успешно
 [General failure]
@@ -127,6 +141,8 @@ ID и версия клиента
 Запрос отложен
 [Request is invalid]
 Неправильный запрос
+[Not logged in]
+
 [Not authorized]
 Не авторизован
 [Operation aborted]
@@ -153,10 +169,16 @@ ID и версия клиента
 Протокол не поддерживается
 [Version is not supported]
 Эта версия не поддерживается
+[User is invalid or not trusted]
+
+[Already initialized]
+
 [Not an owner]
 Не владелец
 [Invalid token]
 Неправильний токен
+[Token expired]
+
 [Token mismatch]
 Токен не совпадает
 [Port in use]
@@ -165,26 +187,42 @@ ID и версия клиента
 Ошибка сети
 [Master channel error]
 Ошибка главного канала
+[Already subscribed]
+
+[Not subscribed]
+
 [Encryption method not supported]
 Метод шифрования не поддерживается
 [Encryption not initialized]
 Шифрование не инициализировано
+[Encryption too low]
+
 [Invalid encrypted data]
 Неверные данные шифрования
 [No common encryption method]
 Нет совместимого метода шифрования
 [Channel destroyed]
 Канал уничтожен
+[Channel redirected]
+
+[Incorrect entry]
+
 [Version mismatch]
 Версия не совместима
+[Not enough buffers memory]
+
 [Not in use]
 Не используется
+[Not enough sockets]
+
 [Hardware error]
 Ошибка оборудования
 [Host error]
 Ошибка хоста
 [Host unreachable]
 Хост недоступен
+[Internet protocol error]
+
 [Message is too large]
 Сообщение слишком длинное
 [Proxy error]
@@ -199,14 +237,24 @@ ID и версия клиента
 Пользователь удалён
 [Sametime protocol error]
 Ошибка протокола Sametime
+[User restricted]
+
 [Incorrect Username/Password]
 Неверное имя пользователя или пароль
 [Encryption mismatch]
 Шифрование не совпадает
+[User unregistered]
+
+[Login verification down or unavailable]
+
 [User too idle]
 Пользователь неактивен
+[The guest name is currently being used]
+
 [User exists]
 Пользователь существует
+[User relogin]
+
 [Bad name]
 Неверное имя
 [Registration error]
@@ -229,20 +277,30 @@ DNS не найден
 Соединение отклонено
 [Connection reset]
 Соединение сброшено
+[Connection timed out]
+
 [Connection closed]
 Соединение закрыто
 [Login to two different servers concurrently (1)]
 Подключение к двум серверам одновременно (1)
 [Login to two different servers concurrently (2)]
 Подключение к двум серверам одновременно (2)
+[Already logged on, disconnected]
+
+[Already logged on]
+
 [Server misconfiguration]
 Проблема настроек сервера
 [Server needs upgrade]
 Сервер требует обновления
+[Applet Logout]
+
 [User is in Do Not Disturb mode]
 Статус пользователя "Не беспокоить"
 [Already logged in elsewhere]
 Уже подключён из другого места
+[Cannot register a reserved type]
+
 [Requested type is already registered]
 Тип уже зарегистрирован
 [Requested type is not registered]
@@ -251,12 +309,20 @@ DNS не найден
 Определение не завершено
 [Resolve name not unique]
 Имя не уникально
+[Resolve name not resolvable]
+
 [Operation succeeded]
 Операция успешна
 [Operation failed]
 Операция не удалась
 [Request accepted but will be served later]
 Запрос принят, но будет обработан позже
+[Request is invalid due to invalid state or parameters]
+
+[Not logged in to community]
+
+[Unauthorized to perform an action or access a resource]
+
 [Operation has been aborted]
 Операция отменена
 [The element is non-existent]
@@ -287,10 +353,16 @@ DNS не найден
 Токен просрочен
 [Token IP mismatch]
 IP токена не совпадает
+[WK port is in use]
+
 [Low-level network error occurred]
 Сетевая ошибка низкого уровня
 [No master channel exists]
 Главный канал не существует
+[Already subscribed to object(s) or event(s)]
+
+[Not subscribed to object(s) or event(s)]
+
 [Encryption is not supported or failed unexpectedly]
 Шифрование не поддерживается или произошла его ошибка
 [Encryption mechanism has not been initialized yet]
@@ -301,10 +373,24 @@ IP токена не совпадает
 Данные шифрования неверны или повреждены
 [There is no common encryption method]
 Нет совместимого метода шифрования
+[The channel is destroyed after a recommendation is made connect elsewhere]
+
+[The channel has been redirected to another destination]
+
+[Incorrect entry for server in cluster document]
+
 [Versions don't match]
 Версии не совпадают
+[Not enough resources for connection (buffers)]
+
+[Not enough resources for connection (socket id)]
+
 [Hardware error occurred]
 Ошибка оборудования
+[Network down]
+
+[Host down]
+
 [TCP/IP protocol error]
 Ошибка протокола TCP/IP
 [The message is too large]
@@ -319,8 +405,20 @@ IP токена не совпадает
 Пользователь удалён с сервера
 [Virtual Places protocol error]
 Ошибка протокола Virtual Places
+[Cannot connect because user has been restricted]
+
+[Incorrect login]
+
+[User is unregistered]
+
+[Verification service down]
+
 [User has been idle for too long]
 Пользователь был неактивен слишком долго
+[The user is already signed on]
+
+[The user has signed on again]
+
 [The name cannot be used]
 Это имя нельзя использовать
 [The registration mode is not supported]
@@ -337,10 +435,14 @@ IP токена не совпадает
 Имя сервера не найдено
 [The connection has been broken]
 Соединение разорвано
+[An established connection was aborted by the software in the host machine]
+
 [The connection has been refused]
 Соединение отклонено
 [The connection has been reset]
 Соединение сброшено
+[The connection has timed out]
+
 [The connection has been closed]
 Соединение закрыто
 [Disconnected due to login in two Sametime servers concurrently (1)]
@@ -355,6 +457,8 @@ IP токена не совпадает
 Невозможно подключиться, так как сервер недоступен или настроен неправильно.
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
 Невозможно подключиться к домашнему серверу Sametime через указанный сервер: обновите ваш домашний сервер.
+[The applet was logged out with this reason. Perform relogin and you will return to the former state.]
+
 [The user is not online]
 Пользователь не в сети
 [The user is in do not disturb mode]
@@ -369,5 +473,7 @@ IP токена не совпадает
 Процесс определения не завершён, доступен частичный ответ
 [The name was found, but is not unique (request was for unique only)]
 Найденное имя не уникально (запрос был только на уникальное)
+[The name is not resolvable due to its format, for example an Internet email address]
+
 [Unknown error code]
 Неизвестный код ошибки

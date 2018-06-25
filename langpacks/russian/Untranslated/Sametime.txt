@@ -1,4 +1,3 @@
-[ID:]
 [Not logged in]
 [User is invalid or not trusted]
 [Already initialized]

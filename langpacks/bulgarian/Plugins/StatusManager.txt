@@ -5,22 +5,41 @@
 ;  Version: 1.2.0.3
 ;  Authors: P Boon
 ;============================================================
+[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
+
+;file \plugins\StatusManager\res\resource.rc
+[Available modules]
+
+[Keep status]
+
+[Automatically reconnects your accounts after protocol error or internet drop.]
+
 [Startup status]
 Състояние при стартиране
 [Allows you to define the status Miranda should set on startup, configurable per account.]
 Позволява ви да определите състояние за всеки протокол по отделно при стартиране.
+[Advanced auto away]
+
+[Improved auto away module with some more options than the built in, configurable per account.]
+
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Бележка: За осъществяване на промени е необходимо да рестартирате Miranda.
 [General]
 Основни
 [Show popups]
 Показване на popups
+[Account connection]
+
 [Check connection]
 Проверяване на връзката
 [Maximum retries (0 - infinite)]
 Максимален брой опити (0 - безкрайно)
 [Delay between retries (secs)]
 Пауза между 2 опита (сек)
+[Accounts to check]
+
+[Dial-up]
+
 [Don't reconnect if no internet connection seems available]
 Без автовписване, когато връзката с интернет се възстанови
 [Continuously check for internet connection]
@@ -39,16 +58,26 @@
 Съобщение
 [Account:]
 Акаунт:
+[Away mode]
+
 [Set]
 Задай
+[when full-screen mode is active]
+
 [when screen saver engages]
 при включване на screen saver
 [when workstation is locked]
 при заключване на работната станция
+[when terminal session is disconnected]
+
 [after]
 след
 [minutes of inactivity]
 минути бездействие
+[After away]
+
+[minutes of level 1 mode]
+
 [only set when inactive]
 задаване само при липса на активност
 [Monitor Miranda's activity only]
@@ -57,6 +86,8 @@
 Анулиране на състоянието при завръщане
 [Confirm resetting status]
 Изискване на потвърждение за анулирането
+[Enter idle mode]
+
 [Only set if current status is]
 Само при състояние:
 [Command line]
@@ -107,6 +138,8 @@ ms
 Ширина
 [Height]
 Височина
+[Allow override]
+
 [Note: status profiles can be created in the 'Status profiles' options screen]
 Можете да създадете нов профил от таб "Профили на състоянията"
 [Window on startup]
@@ -151,6 +184,8 @@ Dial-up (експериментално)
 Показване след приключване на повторно свързване
 [Show other messages]
 Показване на други съобщения
+[From popup plugin]
+
 [Custom]
 Избор
 [Permanent]
@@ -165,6 +200,10 @@ Dial-up (експериментално)
 Използвайте %time% и %date% за текущ час и дата.
 [Variables...]
 Променливи...
+[Specify settings for each account]
+
+[Use same settings for all accounts]
+
 [Ignore Caps Lock, Num Lock and Scroll Lock keys]
 Игнориране на Caps Lock, Num Lock и Scroll Lock клавишите
 [Check interval (secs)]
@@ -207,12 +246,24 @@ Dial-up (експериментално)
 Клавишна комбинация
 [In submenu]
 В подменю
+[Timers]
+
 [Maximum delay (secs)]
 Макс. пауза (сек)
+[Maximum account connecting time (secs)]
+
 [Reconnecting]
 Повторно свързване
+[Ignore locked status of accounts]
+
 [Increase delay exponential]
 Експоненциално увеличаване на паузата между опитите
+[Set account offline before a connection attempt]
+
+[Cancel all if an account connects from another location]
+
+[Reconnect on APM resume]
+
 [React on login errors]
 Ако възникне грешка при вписване
 [Stop trying to reconnect]
@@ -227,6 +278,23 @@ Dial-up (експериментално)
 неуспешни пингове
 [Continuously check interval (secs)]
 Интервал за периодично проверяване (сек)
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Pre-conditions]
+
+[Status: The status the account will change to\r\nAccount: The account changing state]
+
+[TriggerData]
+
+[Becoming active without status change]
+
+[Leaving second auto-away status]
+
+;file \plugins\StatusManager\src\aaa_options.cpp
 [minutes of %s mode]
 минути "%s"
 [Auto away]
@@ -235,6 +303,7 @@ Dial-up (експериментално)
 Правила
 [Status messages]
 Текст за състояние
+;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Задаване на текст "%s" за акаунт %s.
 [<last>]
@@ -247,6 +316,17 @@ Dial-up (експериментално)
 Протокол
 [Closing in %d]
 Затваряне след %d
+;file \plugins\StatusManager\src\keepstatus.cpp
+[%s connected from another location]
+
+[%s login error, cancel reconnecting]
+
+[%s login error (next retry (%d) in %d s)]
+
+[%s status error (next retry (%d) in %d s)]
+
+[Status error (next retry (%d) in %d s)]
+
 [Resetting status... (last try (%d))]
 Задаване на състояние... (последен опит (%d))
 [Resetting status... (next retry (%d) in %d s)]
@@ -259,12 +339,21 @@ Dial-up (експериментално)
 Няма налична връзка с интернет... (нов опит (%d) след %dсек)
 [Status was set ok]
 Зададено е състояние
+[Giving up]
+
+;file \plugins\StatusManager\src\ks_options.cpp
+[You broke the Internet!]
+
 [Basic]
 Основни
 [Advanced]
 Разширени
 [Popups]
 Рopups
+;file \plugins\StatusManager\src\options.cpp
+[Status manager]
+
+;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <неизвестно>
 [Right]
@@ -291,3 +380,9 @@ Dial-up (експериментално)
 Необходимо е да има поне един профил
 [Your default profile will be changed]
 Стандартният ви профил ще бъде сменен
+;file \plugins\StatusManager\src\ss_profiles.cpp
+;file \plugins\StatusManager\src\ss_toolbars.cpp
+[Pressed toolbar icon]
+
+[Released toolbar icon]
+

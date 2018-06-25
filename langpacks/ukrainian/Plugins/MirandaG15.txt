@@ -7,6 +7,7 @@
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 Додає можливість використання Miranda NG на РК-екрані різних пристроїв Logitech.
+;file \plugins\MirandaG15\res\MirandaG15.rc
 [General settings]
 Загальне
 [Show softkey labels]
@@ -193,6 +194,7 @@
 Закривати чат після
 [When in background]
 Коли у фоні
+;file \plugins\MirandaG15\src\CConfig.cpp
 [Appearance]
 Зовнішній вигляд
 [Notifications]
