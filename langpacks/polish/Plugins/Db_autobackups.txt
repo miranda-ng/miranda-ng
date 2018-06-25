@@ -48,7 +48,7 @@ Tworzenie kopii zapasowej...
 [Copying database file...]
 Kopiowanie pliku profilu...
 [Uploading to cloud failed]
-
+Przesyłanie do chmury nie powiodło się
 [Error]
 Błąd
 [Database backed up]

@@ -168,7 +168,7 @@ Dany plik nie istnieje. Sprawdź czy wpisałeś poprawnie jego nazwę.
 [Miranda Import]
 Import Mirandy
 [You cannot import your current profile into itself]
-
+Nie możesz zaimportować obecnego profilu do niego samego
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Pomijanie zduplikowanej grupy %s.

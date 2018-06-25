@@ -1,2 +1,0 @@
-[Use Stream Management (XEP-0198) if possible (Testing)]
-[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]

@@ -2512,7 +2512,7 @@ Czy na pewno chcesz usunąć profil "%s"?
 [Run]
 Uruchom
 [Compact]
-
+Skompaktuj
 [Size]
 Rozmiar
 [Created]
