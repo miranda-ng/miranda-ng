@@ -1,4 +1,3 @@
-[Watches IP address changes, displays popups, and adjusts the proxy settings of Miranda, Internet Explorer and Firefox.]
 [Network addresses]
 [Direct connection]
 [Manage Miranda NG proxy]

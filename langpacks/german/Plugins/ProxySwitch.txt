@@ -1,4 +1,4 @@
-#muuid {4df0c267-6efb-4410-b651-385f87158509}
+﻿#muuid {4df0c267-6efb-4410-b651-385f87158509}
 ;============================================================
 ;  File: ProxySwitch.dll
 ;  Plugin: ProxySwitch
@@ -6,7 +6,7 @@
 ;  Authors: Petr Smejkal
 ;============================================================
 [Watches IP address changes, displays popups, and adjusts the proxy settings of Miranda, Internet Explorer and Firefox.]
-
+Beobachtet Änderungen der IP-Adresse, zeigt Popups an und passt die Proxy-Einstellungen von Miranda, Internet Explorer und Firefox an.
 ;file \plugins\ProxySwitch\res\resource.rc
 [Network addresses]
 
