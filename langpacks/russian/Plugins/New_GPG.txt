@@ -381,17 +381,17 @@ ID ключа:
 [encrypting file for transfer]
 шифрование файла для передачи
 [We have successfully exported %d public keys and all private keys.]
-
+Успешно импортированы %d публичных ключей и все приватные ключи.
 [We have successfully exported all private keys.]
 Все закрытые ключи, успешно экспортировали.
 [We have successfully exported %d public keys.]
-
+Успешно экспортированы %d публичных ключей.
 [Keys export result]
 Результат экспорта ключей
 [We have successfully processed %d public keys and some private keys.]
-
+Успешно обработаны %d публичных ключей и несколько приватных ключей.
 [We have successfully processed %d public keys.]
-
+Успешно обработаны %d публичных ключей.
 [Keys import result]
 Результат импорта ключей
 [GPG binary does not exist.\nPlease choose another location]

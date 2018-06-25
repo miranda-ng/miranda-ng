@@ -253,7 +253,7 @@ OTR: установлен SecureIM
 [Error setting up private conversation: %s]
 Ошибка создания приватной беседы: %s
 [Malformed message received]
-
+Получено некорректно сформированное сообщение
 [We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
 Вы получаете свои собственные сообщения OTR.\nВы пытаетесь общаться сами с собой, либо кто-то пересылает обратно ваши собственные сообщения
 [The last message to '%s' was resent]

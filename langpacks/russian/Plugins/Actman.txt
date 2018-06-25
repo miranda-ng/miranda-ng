@@ -746,7 +746,7 @@ wParam в ANSI
 [Show or save (call default action) Modules version Info]
 
 [Show popup or Info window with current music information.]
-
+Показывает всплывающее или информационное окно со сведениями о воспроизводимой музыке.
 [log filename]
 
 [report filename]

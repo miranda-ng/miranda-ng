@@ -240,7 +240,7 @@ URL:\s
 [Reason    :]
 Причина   :
 [Invalid Database event received. Type %d, size %d]
-
+Получено некорректное событие базы. Тип %d, размер %d
 [Failed to write Invalid Database event the file :\n]
 
 [The following user made an authorization request:]

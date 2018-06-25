@@ -6,22 +6,22 @@
 ;  Authors: Petr Smejkal
 ;============================================================
 [Watches IP address changes, displays popups, and adjusts the proxy settings of Miranda, Internet Explorer and Firefox.]
-
+Отслеживает изменение IP-адреса, уведомляя об этом и настраивая прокси в Miranda, Internet Explorer и Firefox.
 ;file \plugins\ProxySwitch\res\resource.rc
 [Network addresses]
-
+Сетевые адреса
 [Direct connection]
-
+Прямое соединение
 [Use proxy]
 Использовать прокси
 [General]
 Общее
 [Manage Miranda NG proxy]
-
+Управлять прокси Miranda NG
 [Manage Internet Explorer proxy]
-
+Управлять прокси Internet Explorer
 [Manage Firefox proxy]
-
+Управлять прокси Firefox
 [Reconnect if IP address changes]
 
 [Display 'Show my IP' in menu]
@@ -29,7 +29,7 @@
 [Display 'Proxy && IP' submenu]
 
 [Hide interfaces]
-
+Скрыть интерфейсы
 [Popup options]
 Настройки всплывающих окон
 [Enable popups]
@@ -41,9 +41,9 @@
 [Use default popup colors]
 Цвета Popup
 [Show proxy status on change]
-
+Показать состояние прокси при изменении
 [Restart of Miranda NG is required.]
-
+Требуется перезапуск Miranda NG.
 [Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tip/bits\t(10.0.0.1/24)\t\tip/mask\t(10.0.0.1/255.255.255.0)\n\tip1-2\t(10.0.0.1-50)\t\tip1-ip2\t(10.0.0.1-10.0.2.255)]
 
 [Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The program checks the IP addresses in the following way:]
@@ -52,38 +52,38 @@
 
 ;file \plugins\ProxySwitch\src\ip.cpp
 [Proxy]
-
+Прокси
 [Direct]
-
+Напрямую
 [Cannot retrieve IP or adapter data.]
-
+Невозможно получить IP или сведения об адаптере.
 [Cannot allocate memory for pAddresses]
-
+Невозможно выделить память для pAddresses
 [GetAdaptersAddresses sizing failed]
 
 [Cannot allocate memory for pAdapterInfo]
-
+Невозможно выделить память для pAdapterInfo
 [GetAdaptersInfo sizing failed]
 
 [disconnected]
 отключён
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
-
+Текущий IP-адрес
 [Proxy settings && interfaces]
-
+Настройки прокси && интерфейсы
 [Enable &IP change notification]
-
+Включить уведомление об изменении &IP-адреса
 [Disable &IP change notification]
-
+Отключить уведомление об изменении &IP-адреса
 [Show my &IP addresses]
-
+Показать мои &IP-адреса
 [Disable proxy]
-
+Отключить прокси
 [Enable proxy]
-
+Включить прокси
 [IP change notification]
-
+Уведомление об изменении IP-адреса
 [Popups]
 Всплывающие окна
 ;file \plugins\ProxySwitch\src\opt.cpp

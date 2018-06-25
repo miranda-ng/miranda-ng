@@ -1,6 +1,5 @@
 [Display hidden shares]
 [New share]
-[Miranda NG HTTP-Server]
 [Failed to share new file]
 [Failed to get close the clipboard]
 [Failed to set clipboard data]
