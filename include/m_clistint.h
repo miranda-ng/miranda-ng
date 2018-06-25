@@ -114,7 +114,6 @@ struct ClcContactBase
 	};
 	WORD  iExtraImage[EXTRA_ICON_COUNT];
 	wchar_t szText[120-EXTRA_ICON_COUNT];
-	char *proto; // MS_PROTO_GETBASEPROTO
 	ClcCacheEntry *pce; // cache is persistent, contacts aren't
 };
 

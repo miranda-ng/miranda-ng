@@ -544,7 +544,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr))
 			break;
 
-		contact->proto = GetContactProto(wParam);
+		contact->pce->szProto = GetContactProto(wParam);
 		g_clistApi.pfnInvalidateDisplayNameCacheEntry(wParam);
 		mir_wstrncpy(contact->szText, Clist_GetContactDisplayName(wParam), _countof(contact->szText));
 		SortClcByTimer(hwnd);

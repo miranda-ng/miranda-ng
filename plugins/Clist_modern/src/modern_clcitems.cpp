@@ -63,7 +63,6 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 
 		p.iImage = Clist_GetContactIcon(pdnce->hContact);
 		memset(p.iExtraImage, 0xFF, sizeof(p.iExtraImage));
-		p.proto = pdnce->szProto;
 		p.type = CLCIT_CONTACT;
 		p.flags = 0;
 		p.iSubNumber = i + 1;
@@ -129,7 +128,6 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	cont->lastPaintCounter = 0;
 	cont->bImageIsSpecial = false;
 	cont->hContact = hContact;
-	cont->proto = szProto;
 
 	if (szProto != nullptr && !Clist_IsHiddenMode(dat, pdnce->m_iStatus))
 		cont->flags |= CONTACTF_ONLINE;

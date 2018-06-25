@@ -952,7 +952,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 			if (contSour->isChat())
 				break;
-			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
+			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->pce->szProto, META_PROTO)) {
 				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else
@@ -965,7 +965,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 			if (contSour->isChat() || contDest->isChat())
 				break;
-			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
+			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->pce->szProto, META_PROTO)) {
 				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else if (contSour->subcontacts == contDest)
@@ -980,7 +980,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 			if (contSour->isChat() || contDest->isChat())
 				break;
-			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
+			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->pce->szProto, META_PROTO)) {
 				if (!contSour->iSubNumber)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 				else if (contDest->subcontacts == contSour->subcontacts)
@@ -1084,7 +1084,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				break;
 			if (contSour->type == CLCIT_CONTACT) {
 				MCONTACT hcontact = contSour->hContact;
-				if (mir_strcmp(contSour->proto, META_PROTO)) {
+				if (mir_strcmp(contSour->pce->szProto, META_PROTO)) {
 					if (!contSour->iSubNumber) {
 						MCONTACT hDest = contDest->hContact;
 						mir_snwprintf(Wording, TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it?"), contDest->szText, contSour->szText);
@@ -1121,7 +1121,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT) {
-				if (!mir_strcmp(contSour->proto, META_PROTO))
+				if (!mir_strcmp(contSour->pce->szProto, META_PROTO))
 					break;
 				if (!contSour->iSubNumber) {
 					MCONTACT hcontact = contSour->hContact;
@@ -1163,7 +1163,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT) {
-				if (!mir_strcmp(contSour->proto, META_PROTO))
+				if (!mir_strcmp(contSour->pce->szProto, META_PROTO))
 					break;
 				if (!contSour->iSubNumber) {
 					MCONTACT hcontact = contSour->hContact;

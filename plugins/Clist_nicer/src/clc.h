@@ -117,6 +117,9 @@ struct TExtraCache
 	BOOL		isChatRoom;
 };
 
+struct ClcCacheEntry : public ClcCacheEntryBase
+{};
+
 struct ClcContact : public ClcContactBase
 {
 	BOOL     bIsMeta;

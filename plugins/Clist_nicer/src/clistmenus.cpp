@@ -105,7 +105,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 					SetWindowText(hWnd, szTitle);
 					Window_SetSkinIcon_IcoLib(hWnd, SKINICON_OTHER_MIRANDA);
-					pCaps = CallProtoService(contact ? contact->proto : GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1, 0);
+					pCaps = CallProtoService(contact ? contact->pce->szProto : GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1, 0);
 					Utils::enableDlgControl(hWnd, IDC_IGN_ALWAYSONLINE, pCaps & PF1_INVISLIST ? TRUE : FALSE);
 					Utils::enableDlgControl(hWnd, IDC_IGN_ALWAYSOFFLINE, pCaps & PF1_VISLIST ? TRUE : FALSE);
 					CheckDlgButton(hWnd, IDC_IGN_PRIORITY, db_get_b(hContact, "CList", "Priority", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -287,7 +287,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			ClcContact *contact = nullptr;
 			if (Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
 				if (contact) {
-					WORD wApparentMode = db_get_w(contact->hContact, contact->proto, "ApparentMode", 0);
+					WORD wApparentMode = db_get_w(contact->hContact, contact->pce->szProto, "ApparentMode", 0);
 
 					CheckDlgButton(hWnd, IDC_IGN_ALWAYSOFFLINE, wApparentMode == ID_STATUS_OFFLINE ? BST_CHECKED : BST_UNCHECKED);
 					CheckDlgButton(hWnd, IDC_IGN_ALWAYSONLINE, wApparentMode == ID_STATUS_ONLINE ? BST_CHECKED : BST_UNCHECKED);

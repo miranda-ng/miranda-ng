@@ -125,9 +125,9 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 			break;
 
 		case SORTBY_PROTO:
-			if (contact1->proto == nullptr || contact2->proto == nullptr)
+			if (contact1->pce->szProto == nullptr || contact2->pce->szProto == nullptr)
 				continue;
-			r = GetProtoIndex(contact1->proto) - GetProtoIndex(contact2->proto);
+			r = GetProtoIndex(contact1->pce->szProto) - GetProtoIndex(contact2->pce->szProto);
 			break;
 
 		case SORTBY_RATE:

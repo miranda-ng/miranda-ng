@@ -407,7 +407,7 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 	}
 	dat->selection = hit;
 
-	if (!mir_strcmp(contact->proto, META_PROTO))
+	if (!mir_strcmp(contact->pce->szProto, META_PROTO))
 		return DROPTARGET_ONMETACONTACT;
 	if (contact->iSubNumber)
 		return DROPTARGET_ONSUBCONTACT;

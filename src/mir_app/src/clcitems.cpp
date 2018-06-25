@@ -188,7 +188,6 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	cc->type = CLCIT_CONTACT;
 	cc->iImage = Clist_GetContactIcon(hContact);
 	cc->hContact = hContact;
-	cc->proto = szProto;
 	cc->pce = pce;
 	if (szProto != nullptr && !Clist_IsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 		cc->flags |= CONTACTF_ONLINE;

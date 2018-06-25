@@ -387,31 +387,30 @@ wchar_t* GetStatusName(struct ClcContact *item)
 	int status;
 
 	status_name[0] = '\0';
-	if (item->hContact == NULL || item->proto == nullptr)
+	if (item->hContact == NULL || item->pce->szProto == nullptr)
 		return status_name;
 
 	// Get XStatusName
-	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusName", status_name, _countof(status_name), nullptr);
+	MyDBGetContactSettingTString(item->hContact, item->pce->szProto, "XStatusName", status_name, _countof(status_name), nullptr);
 	if (status_name[0] != '\0')
 		return status_name;
 
 	// Get status name
-	status = db_get_w(item->hContact, item->proto, "Status", ID_STATUS_OFFLINE);
+	status = db_get_w(item->hContact, item->pce->szProto, "Status", ID_STATUS_OFFLINE);
 	mir_wstrncpy(status_name, Clist_GetStatusModeDescription(status, 0), _countof(status_name));
 
 	return status_name;
 }
 
-
 wchar_t status_message[256];
 wchar_t* GetStatusMessage(struct ClcContact *item)
 {
 	status_message[0] = '\0';
-	if (item->hContact == NULL || item->proto == nullptr)
+	if (item->hContact == NULL || item->pce->szProto == nullptr)
 		return status_message;
 
 	// Get XStatusMsg
-	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusMsg", status_message, _countof(status_message), nullptr);
+	MyDBGetContactSettingTString(item->hContact, item->pce->szProto, "XStatusMsg", status_message, _countof(status_message), nullptr);
 	if (status_message[0] != '\0')
 		return status_message;
 
@@ -430,15 +429,15 @@ wchar_t* GetProtoName(struct ClcContact *item)
 	#endif
 
 	proto_name[0] = '\0';
-	if (item->hContact == NULL || item->proto == nullptr) {
+	if (item->hContact == NULL || item->pce->szProto == nullptr) {
 		mir_wstrncpy(proto_name, TranslateT("Unknown protocol"), _countof(proto_name));
 		return proto_name;
 	}
 
-	PROTOACCOUNT *acc = Proto_GetAccount(item->proto);
+	PROTOACCOUNT *acc = Proto_GetAccount(item->pce->szProto);
 	if (acc == nullptr) {
 		#ifdef UNICODE
-		CallProtoService(item->proto, PS_GETNAME, sizeof(description), (LPARAM)description);
+		CallProtoService(item->pce->szProto, PS_GETNAME, sizeof(description), (LPARAM)description);
 		mir_snwprintf(proto_name, L"%S", description);
 		#else
 		CallProtoService(item->proto, PS_GETNAME, sizeof(proto_name), (LPARAM)proto_name);

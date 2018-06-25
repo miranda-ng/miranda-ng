@@ -519,7 +519,7 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 			}
 			else _AddParamShort(mpModernMask, hi_Type, hi_Contact);
 
-			AddParam(mpModernMask, HASH[hi_Protocol], Drawing->proto, 0);
+			AddParam(mpModernMask, HASH[hi_Protocol], Drawing->pce->szProto, 0);
 			_AddParamShort(mpModernMask, hi_RootGroup, (group && group->parent == nullptr) ? hi_True : hi_False);
 			switch (GetContactCachedStatus(Drawing->hContact)) {
 			case ID_STATUS_ONLINE:      _AddParamShort(mpModernMask, hi_Status, hi_ONLINE);    break;
@@ -1233,7 +1233,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 								break;
 							case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
 								{
-									int item = g_clistApi.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
+									int item = g_clistApi.pfnIconFromStatusMode(Drawing->pce->szProto, Drawing->pce->szProto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 									if (item != -1)
 										_DrawStatusIcon(Drawing, dat, item, hdcMem,
 											p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
@@ -2474,7 +2474,7 @@ void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing,
 				overlayIdx = g_pAvatarOverlayIcons[GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE].listID;
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
-				overlayIdx = g_clistApi.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
+				overlayIdx = g_clistApi.pfnIconFromStatusMode(Drawing->pce->szProto, Drawing->pce->szProto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
 				overlayIdx = Drawing->iImage;
@@ -2548,7 +2548,7 @@ void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing,
 				break;
 			case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
 				{
-					int item = g_clistApi.pfnIconFromStatusMode(Drawing->proto, Drawing->proto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
+					int item = g_clistApi.pfnIconFromStatusMode(Drawing->pce->szProto, Drawing->pce->szProto == nullptr ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
 					if (item != -1)
 						_DrawStatusIcon(Drawing, dat, item, hdcMem,
 							ptOverlay.x, ptOverlay.y, ICON_HEIGHT, ICON_HEIGHT,

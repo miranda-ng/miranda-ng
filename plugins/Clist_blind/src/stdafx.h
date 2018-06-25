@@ -46,6 +46,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Load() override;
 };
 
+struct ClcCacheEntry : public ClcCacheEntryBase {};
+
 struct ClcContact : public ClcContactBase {};
 
 struct ClcData : public ClcDataBase

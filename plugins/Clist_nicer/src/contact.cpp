@@ -160,14 +160,13 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 {
 	wchar_t *namea, *nameb;
 	int statusa, statusb;
-	char *szProto1, *szProto2;
 	int rc;
 
 	if (c1 == nullptr || c2 == nullptr)
 		return 0;
 
-	szProto1 = c1->proto;
-	szProto2 = c2->proto;
+	char *szProto1 = c1->pce->szProto;
+	char *szProto2 = c2->pce->szProto;
 	statusa = c1->wStatus;
 	statusb = c2->wStatus;
 	// make sure, sticky contacts are always at the beginning of the group/list
@@ -221,9 +220,9 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 
 	case SORTBY_PROTO:
 		if (c1->bIsMeta)
-			szProto1 = c1->metaProto ? c1->metaProto : c1->proto;
+			szProto1 = c1->metaProto ? c1->metaProto : c1->pce->szProto;
 		if (c2->bIsMeta)
-			szProto2 = c2->metaProto ? c2->metaProto : c2->proto;
+			szProto2 = c2->metaProto ? c2->metaProto : c2->pce->szProto;
 
 		rc = GetProtoIndex(szProto1) - GetProtoIndex(szProto2);
 

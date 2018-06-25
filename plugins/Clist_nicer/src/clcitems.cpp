@@ -96,11 +96,11 @@ ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hCo
 {
 	ClcContact *p = coreCli.pfnAddContactToGroup(dat, group, hContact);
 
-	p->wStatus = db_get_w(hContact, p->proto, "Status", ID_STATUS_OFFLINE);
-	p->xStatus = db_get_b(hContact, p->proto, "XStatusId", 0);
+	p->wStatus = db_get_w(hContact, p->pce->szProto, "Status", ID_STATUS_OFFLINE);
+	p->xStatus = db_get_b(hContact, p->pce->szProto, "XStatusId", 0);
 
-	if (p->proto)
-		p->bIsMeta = !mir_strcmp(p->proto, META_PROTO);
+	if (p->pce->szProto)
+		p->bIsMeta = !mir_strcmp(p->pce->szProto, META_PROTO);
 	else
 		p->bIsMeta = FALSE;
 	if (p->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
@@ -119,10 +119,10 @@ ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hCo
 	if (dat->bisEmbedded)
 		p->pExtra = nullptr;
 	else {
-		p->pExtra = cfg::getCache(p->hContact, p->proto);
+		p->pExtra = cfg::getCache(p->hContact, p->pce->szProto);
 		GetExtendedInfo(p, dat);
 		if (p->pExtra)
-			p->pExtra->proto_status_item = GetProtocolStatusItem(p->bIsMeta ? p->metaProto : p->proto);
+			p->pExtra->proto_status_item = GetProtocolStatusItem(p->bIsMeta ? p->metaProto : p->pce->szProto);
 
 		LoadAvatarForContact(p);
 		// notify other plugins to re-supply their extra images (icq for xstatus, mBirthday etc...)
@@ -317,7 +317,7 @@ void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 	if (dat->bisEmbedded || contact == nullptr)
 		return;
 
-	if (contact->proto == nullptr || contact->hContact == 0)
+	if (contact->pce->szProto == nullptr || contact->hContact == 0)
 		return;
 
 	TExtraCache *p = contact->pExtra;
@@ -329,7 +329,7 @@ void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 		return;
 
 	p->valid = TRUE;
-	p->isChatRoom = db_get_b(contact->hContact, contact->proto, "ChatRoom", 0);
+	p->isChatRoom = db_get_b(contact->hContact, contact->pce->szProto, "ChatRoom", 0);
 }
 
 void LoadSkinItemToCache(TExtraCache *cEntry)

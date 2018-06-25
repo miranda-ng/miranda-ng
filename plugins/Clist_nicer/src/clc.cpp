@@ -464,7 +464,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				p = cfg::getCache(wParam, nullptr);
 			else {
 				p = contact->pExtra;
-				szProto = contact->proto;
+				szProto = contact->pce->szProto;
 			}
 			GetCachedStatusMsg(p, szProto);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, contact ? contact->hContact : 0);
@@ -473,7 +473,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	case INTM_STATUSCHANGED:
 		if (Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr)) {
-			WORD wStatus = db_get_w(wParam, contact->proto, "Status", ID_STATUS_OFFLINE);
+			WORD wStatus = db_get_w(wParam, contact->pce->szProto, "Status", ID_STATUS_OFFLINE);
 			if (cfg::dat.bNoOfflineAvatars && wStatus != ID_STATUS_OFFLINE && contact->wStatus == ID_STATUS_OFFLINE) {
 				contact->wStatus = wStatus;
 				if (cfg::dat.bAvatarServiceAvail && contact->ace == nullptr)
@@ -488,7 +488,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr))
 			break;
 
-		contact->proto = GetContactProto(wParam);
+		contact->pce->szProto = GetContactProto(wParam);
 		g_clistApi.pfnInvalidateDisplayNameCacheEntry(wParam);
 		mir_wstrncpy(contact->szText, Clist_GetContactDisplayName(wParam), _countof(contact->szText));
 

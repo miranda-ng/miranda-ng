@@ -58,8 +58,8 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 	MCONTACT a = c1->hContact, b = c2->hContact;
 	wchar_t namea[128], *nameb;
 
-	int statusa = db_get_w(a, c1->proto, "Status", ID_STATUS_OFFLINE);
-	int statusb = db_get_w(b, c2->proto, "Status", ID_STATUS_OFFLINE);
+	int statusa = db_get_w(a, c1->pce->szProto, "Status", ID_STATUS_OFFLINE);
+	int statusb = db_get_w(b, c2->pce->szProto, "Status", ID_STATUS_OFFLINE);
 
 	if (g_bSortByProto) {
 		/* deal with statuses, online contacts have to go above offline */
@@ -67,8 +67,8 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 			return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 		}
 		/* both are online, now check protocols */
-		if (c1->proto != nullptr && c2->proto != nullptr) {
-			int rc = mir_strcmp(c1->proto, c2->proto);
+		if (c1->pce->szProto != nullptr && c2->pce->szProto != nullptr) {
+			int rc = mir_strcmp(c1->pce->szProto, c2->pce->szProto);
 			if (rc != 0)
 				return rc;
 		}
