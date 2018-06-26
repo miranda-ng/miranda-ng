@@ -47,11 +47,7 @@ typedef struct {
 	int profile;
 } HKINFO;
 
-#define UM_REINITPROFILES   WM_USER + 1
 #define UM_ADDPROFILE       WM_USER + 5
-#define UM_REINITDOCKED     WM_USER + 7
-#define UM_REINITWINSTATE   WM_USER + 8
-#define UM_REINITWINSIZE    WM_USER + 9
 
 #define CLUIINTM_REDRAW (WM_USER+100)
 
@@ -116,8 +112,6 @@ char* OptName(int i, const char *setting);
 void StartupStatusLoad();
 void StartupStatusUnload();
 
-int SSLoadMainOptions();
-
 // profile
 void FillStatus(SMProto &ps, int profile);
 int GetProfile(int profileID, TProtoSettings &arSettings);
@@ -130,6 +124,9 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam);
 extern HANDLE hTTBModuleLoadedHook;
 void RemoveTopToolbarButtons();
 int  CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam);
+
+int RegisterHotKeys();
+void UnregisterHotKeys();
 
 int LoadProfileModule();
 int InitProfileModule();

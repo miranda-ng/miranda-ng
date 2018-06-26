@@ -242,7 +242,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 	return TRUE;
 }
 
-static int UnregisterHotKeys()
+void UnregisterHotKeys()
 {
 	if (hkInfo != nullptr) {
 		for (int i = 0; i < hkiCount; i++) {
@@ -256,12 +256,10 @@ static int UnregisterHotKeys()
 	hkiCount = 0;
 	hkInfo = nullptr;
 	hMessageWindow = nullptr;
-
-	return 0;
 }
 
 // assumes UnregisterHotKeys was called before
-static int RegisterHotKeys()
+int RegisterHotKeys()
 {
 	hMessageWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 	SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
@@ -290,18 +288,6 @@ static int RegisterHotKeys()
 	if (hkiCount == 0)
 		UnregisterHotKeys();
 
-	return 0;
-}
-
-int SSLoadMainOptions()
-{
-	if (hTTBModuleLoadedHook) {
-		RemoveTopToolbarButtons();
-		CreateTopToolbarButtons(0, 0);
-	}
-
-	UnregisterHotKeys();
-	RegisterHotKeys();
 	return 0;
 }
 

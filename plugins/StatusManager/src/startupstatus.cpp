@@ -72,7 +72,7 @@ static int IsValidStatusDesc(char* statusDesc)
 	return 0;
 }
 
-static void ProcessCommandLineOptions(TProtoSettings& protoSettings)
+static void ProcessCommandLineOptions(TProtoSettings &protoSettings)
 {
 	if (protoSettings.getCount() == 0)
 		return;
@@ -183,7 +183,7 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 		return 0;
 
 	if (wParam != 0) {
-		PROTOCOLSETTINGEX** ps = *(PROTOCOLSETTINGEX***)wParam;
+		PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
 		if (ps == nullptr)
 			return -1;
 
