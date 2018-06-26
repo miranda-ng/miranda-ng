@@ -44,7 +44,7 @@ const CLSID IID_ITextDocument = { 0x8CC497C0, 0xA1DF, 0x11CE, { 0x80, 0x98, 0x00
 // checking if theres's protected text at the point
 // emulates EN_LINK WM_NOTIFY to parent to process links
 
-static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bUrlNeeded)
+static BOOL CheckCustomLink(HWND hwndRich, POINT *ptClient, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bUrlNeeded)
 {
 	long res = 0, cnt = 0;
 	long cpMin = 0, cpMax = 0;
@@ -56,10 +56,10 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wPa
 	BOOL bIsCustomLink = FALSE;
 
 	POINT pt = *ptClient;
-	ClientToScreen(hwndDlg, &pt);
+	ClientToScreen(hwndRich, &pt);
 
 	do {
-		if (!SendMessage(hwndDlg, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle)) break;
+		if (!SendMessage(hwndRich, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle)) break;
 		if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK) break;
 		if (TextDocument->RangeFromPoint(pt.x, pt.y, &TextRange) != S_OK) break;
 
@@ -105,7 +105,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wPa
 
 	if (bIsCustomLink) {
 		ENLINK enlink = {};
-		enlink.nmhdr.hwndFrom = hwndDlg;
+		enlink.nmhdr.hwndFrom = hwndRich;
 		enlink.nmhdr.idFrom = IDC_SRMM_LOG;
 		enlink.nmhdr.code = EN_LINK;
 		enlink.msg = uMsg;
@@ -113,7 +113,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wPa
 		enlink.lParam = lParam;
 		enlink.chrg.cpMin = cpMin;
 		enlink.chrg.cpMax = cpMax;
-		SendMessage(GetParent(hwndDlg), WM_NOTIFY, IDC_SRMM_LOG, (LPARAM)&enlink);
+		SendMessage(GetParent(hwndRich), WM_NOTIFY, IDC_SRMM_LOG, (LPARAM)&enlink);
 	}
 	return bIsCustomLink;
 }
@@ -281,7 +281,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top = 0;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - iSplitterX : urc->dlgNewSize.cx;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(23);
 		if (!bToolbar || bBottomToolbar)
 			urc->rcItem.bottom += DPISCALEY_S(21);
 		if (bInfoPanel)
@@ -301,7 +301,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX + 2;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(23);
 		if (!bToolbar || bBottomToolbar)
 			urc->rcItem.bottom += DPISCALEY_S(21);
 		if (bInfoPanel)
@@ -320,7 +320,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_SPLITTERX:
 		urc->rcItem.right = urc->dlgNewSize.cx - iSplitterX + 2;
 		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(23);
 		if (!bToolbar || bBottomToolbar)
 			urc->rcItem.bottom += DPISCALEY_S(21);
 		urc->rcItem.top = 0;
@@ -330,7 +330,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SPLITTERY:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + DPISCALEY_S(23);
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY;
 		urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
 		urc->rcItem.left = 0;
 		urc->rcItem.bottom++;
@@ -339,7 +339,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SRMM_MESSAGE:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3 + DPISCALEY_S(23);
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
 		urc->rcItem.bottom = urc->dlgNewSize.cy;
 		if (bBottomToolbar && bToolbar)
 			urc->rcItem.bottom -= DPISCALEY_S(22);
@@ -1882,8 +1882,9 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			ScreenToClient(m_hwnd, &pt);
 
 			m_iSplitterY = rc.bottom - pt.y + DPISCALEY_S(1);
-			if (m_iSplitterY < DPISCALEY_S(23))
-				m_iSplitterY = DPISCALEY_S(23);
+			int iMinHeight = DPISCALEY_S(23) + ((m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? 21 : 0);
+			if (m_iSplitterY < iMinHeight)
+				m_iSplitterY = iMinHeight;
 			if (m_iSplitterY > rc.bottom - rc.top - DPISCALEY_S(40))
 				m_iSplitterY = rc.bottom - rc.top - DPISCALEY_S(40);
 			m_pContainer->settings->iSplitterY = m_iSplitterY;
