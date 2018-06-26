@@ -78,22 +78,26 @@ wchar_t* DoubleSlash(wchar_t *sorce)
 	return ret;
 }
 
-bool MakeZip_Dir(LPCWSTR szDir, LPCWSTR szDest, LPCWSTR /* szDbName */, HWND progress_dialog)
+bool MakeZip_Dir(LPCWSTR szDir, LPCWSTR szDest, LPCWSTR pwszBackupFolder, HWND progress_dialog)
 {
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
-	size_t count = 0;
+	size_t count = 0, folderNameLen = mir_wstrlen(pwszBackupFolder);
 	OBJLIST<ZipFile> lstFiles(15);
 
 	for (auto it = fs::recursive_directory_iterator(fs::path(szDir)); it != fs::recursive_directory_iterator(); ++it) {
 		const auto& file = it->path();
-		if (!fs::is_directory(file) && file.string().find(fs::path((char*)_T2A(szDest)).string().c_str()) == std::string::npos) {
-			const std::wstring &filepath = file.wstring();
-			const std::wstring rpath = filepath.substr(filepath.find(szDir) + mir_wstrlen(szDir) + 1);
+		if (fs::is_directory(file))
+			continue;
 
-			lstFiles.insert(new ZipFile(filepath, rpath));
-			count++;
-		}
+		const std::wstring &filepath = file.wstring();
+		if (filepath.find(szDest) != std::wstring::npos || !mir_wstrncmpi(filepath.c_str(), pwszBackupFolder, folderNameLen))
+			continue;
+
+		const std::wstring rpath = filepath.substr(filepath.find(szDir) + mir_wstrlen(szDir) + 1);
+		lstFiles.insert(new ZipFile(filepath, rpath));
+		count++;
 	}
+
 	if (count == 0)
 		return 1;
 
@@ -180,26 +184,28 @@ int Backup(wchar_t *backup_filename)
 	bool bZip = false;
 	wchar_t dbname[MAX_PATH], source_file[MAX_PATH] = { 0 }, dest_file[MAX_PATH];
 	HWND progress_dialog = nullptr;
-	SYSTEMTIME st;
 
 	Profile_GetNameW(_countof(dbname), dbname);
 
-	if (backup_filename == nullptr) {
-		int err;
-		wchar_t backupfolder[MAX_PATH], buffer[MAX_COMPUTERNAME_LENGTH + 1];
-		DWORD size = _countof(buffer);
+	wchar_t backupfolder[MAX_PATH];
+	PathToAbsoluteW(VARSW(options.folder), backupfolder);
 
+	// ensure the backup folder exists (either create it or return non-zero signifying error)
+	int err = CreateDirectoryTreeW(backupfolder);
+	if (err != ERROR_ALREADY_EXISTS && err != 0) {
+		mir_free(backupfolder);
+		return 1;
+	}
+
+	if (backup_filename == nullptr) {
 		bZip = options.use_zip != 0;
-		PathToAbsoluteW(VARSW(options.folder), backupfolder);
-		// ensure the backup folder exists (either create it or return non-zero signifying error)
-		err = CreateDirectoryTreeW(backupfolder);
-		if (err != ERROR_ALREADY_EXISTS && err != 0) {
-			mir_free(backupfolder);
-			return 1;
-		}
 		RotateBackups(backupfolder, dbname);
 
+		SYSTEMTIME st;
 		GetLocalTime(&st);
+
+		wchar_t buffer[MAX_COMPUTERNAME_LENGTH + 1];
+		DWORD size = _countof(buffer);
 		GetComputerName(buffer, &size);
 		mir_snwprintf(dest_file, L"%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s", backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? L"zip" : L"dat");
 	}
@@ -221,16 +227,18 @@ int Backup(wchar_t *backup_filename)
 	BOOL res = 0;
 	if (bZip) {
 		res = options.backup_profile
-			? MakeZip_Dir(profile_path, dest_file, dbname, progress_dialog)
+			? MakeZip_Dir(profile_path, dest_file, backupfolder, progress_dialog)
 			: MakeZip(source_file, dest_file, dbname, progress_dialog);
 	}
 	else res = CopyFile(source_file, dest_file, 0);
 
 	if (res) {
 		if (!bZip) { // Set the backup file to the current time for rotator's correct  work
-			FILETIME ft;
-			HANDLE hFile = CreateFile(dest_file, FILE_WRITE_ATTRIBUTES, NULL, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+			SYSTEMTIME st;
 			GetSystemTime(&st);
+
+			HANDLE hFile = CreateFile(dest_file, FILE_WRITE_ATTRIBUTES, NULL, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+			FILETIME ft;
 			SystemTimeToFileTime(&st, &ft);
 			SetFileTime(hFile, nullptr, nullptr, &ft);
 			CloseHandle(hFile);
@@ -240,12 +248,7 @@ int Backup(wchar_t *backup_filename)
 		db_set_dw(0, MODULENAME, "LastBackupTimestamp", (DWORD)time(0));
 
 		if (options.use_cloudfile) {
-			CFUPLOADDATA ui =
-			{
-				options.cloudfile_service,
-				dest_file,
-				L"Backups"
-			};
+			CFUPLOADDATA ui = { options.cloudfile_service, dest_file, L"Backups" };
 			if (CallService(MS_CLOUDFILE_UPLOAD, (LPARAM)&ui))
 				ShowPopup(TranslateT("Uploading to cloud failed"), TranslateT("Error"), nullptr);
 		}
