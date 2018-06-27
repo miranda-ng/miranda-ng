@@ -18,6 +18,20 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\AutoUpdateDisabled.ico" />
+    <Image Include="res\CurrencyConverter.ico" />
+    <Image Include="res\down.ico" />
+    <Image Include="res\Export quotes.ico" />
+    <Image Include="res\Import quotes.ico" />
+    <Image Include="res\main.ico" />
+    <Image Include="res\notchanged.ico" />
+    <Image Include="res\quote.ico" />
+    <Image Include="res\Refresh.ico" />
+    <Image Include="res\Section.ico" />
+    <Image Include="res\swap.ico" />
+    <Image Include="res\up.ico" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C619A811-8023-4441-B3D7-785388A09DF0}</ProjectGuid>
     <ProjectName>Quotes</ProjectName>

@@ -27,17 +27,29 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICON_MAIN           ICON                    "main.ico"
+
 IDI_ICON_SECTION        ICON                    "Section.ico"
+
 IDI_ICON_QUOTE          ICON                    "quote.ico"
+
 IDI_ICON_UP             ICON                    "up.ico"
+
 IDI_ICON_DOWN           ICON                    "down.ico"
+
 IDI_ICON_CURRENCY_CONVERTER ICON                    "CurrencyConverter.ico"
+
 IDI_ICON_REFRESH        ICON                    "Refresh.ico"
+
 IDI_ICON_EXPORT         ICON                    "Export quotes.ico"
+
 IDI_ICON_SWAP           ICON                    "swap.ico"
+
 IDI_ICON_IMPORT         ICON                    "Import quotes.ico"
+
 IDI_ICON_NOTCHANGED     ICON                    "notchanged.ico"
+
 IDI_ICON_DISABLED       ICON                    "AutoUpdateDisabled.ico"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -131,7 +143,7 @@ BEGIN
     PUSHBUTTON      "Convert",IDC_BUTTON_CONVERT,134,24,79,14
     EDITTEXT        IDC_EDIT_RESULT,7,44,328,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
     CONTROL         "Info provided by <a href=""http://www.google.com"">Google</a>",IDC_SYSLINK_PROVIDER,
-                    "SysLink",WS_TABSTOP,7,61,159,11
+                    "SysLink",WS_TABSTOP,7,61,328,11
     PUSHBUTTON      "Close",IDCANCEL,148,80,50,14
 END
 
@@ -391,6 +403,17 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_CURRENCY_CONVERTER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

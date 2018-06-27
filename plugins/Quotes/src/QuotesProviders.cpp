@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include "QuotesProviderCurrencyConverter.h"
 
 #define LAST_RUN_VERSION "LastRunVersion"
 
@@ -27,9 +28,9 @@ template<class T>void create_provider(CQuotesProviders::TQuotesProviders& apProv
 void CQuotesProviders::CreateProviders()
 {
 	create_provider<CQuotesProviderDukasCopy>(m_apProviders);
-	create_provider<CQuotesProviderGoogle>(m_apProviders);
 	create_provider<CQuotesProviderGoogleFinance>(m_apProviders);
 	create_provider<CQuotesProviderYahoo>(m_apProviders);
+	create_provider<CQuotesProviderCurrencyConverter>(m_apProviders);
 }
 
 void CQuotesProviders::ClearProviders()

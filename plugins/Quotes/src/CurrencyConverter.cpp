@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include "QuotesProviderCurrencyConverter.h"
 
 #define WINDOW_PREFIX "CurrenyConverter_"
 
@@ -6,36 +7,37 @@
 #define DB_STR_CC_QUOTE_TO_ID "CurrencyConverter_ToID"
 #define DB_STR_CC_AMOUNT "CurrencyConverter_Amount"
 
-static CQuotesProviderGoogle* get_google_provider()
+static CQuotesProviderCurrencyConverter* get_currency_converter_provider()
 {
 	CModuleInfo::TQuotesProvidersPtr pProviders = CModuleInfo::GetQuoteProvidersPtr();
 	const CQuotesProviders::TQuotesProviders& rapQuotesProviders = pProviders->GetProviders();
 	for (CQuotesProviders::TQuotesProviders::const_iterator i = rapQuotesProviders.begin(); i != rapQuotesProviders.end(); ++i) {
 		const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
-		CQuotesProviderGoogle* pGoogle = dynamic_cast<CQuotesProviderGoogle*>(pProvider.get());
-		if (pGoogle)
-			return pGoogle;
+		if (auto p = dynamic_cast<CQuotesProviderCurrencyConverter*>(pProvider.get()))
+		{
+			return p;
+		}
 	}
 
 	assert(!"We should never get here!");
 	return nullptr;
 }
 
-CQuotesProviderGoogle::CQuoteSection get_quotes(const CQuotesProviderGoogle* pProvider = nullptr)
+CQuotesProviderBase::CQuoteSection get_quotes(const CQuotesProviderCurrencyConverter* pProvider = nullptr)
 {
 	if (nullptr == pProvider)
-		pProvider = get_google_provider();
+		pProvider = get_currency_converter_provider();
 
 	if (pProvider) {
-		const CQuotesProviderGoogle::CQuoteSection& rQuotes = pProvider->GetQuotes();
+		const auto& rQuotes = pProvider->GetQuotes();
 		if (rQuotes.GetSectionCount() > 0)
 			return rQuotes.GetSection(0);
 	}
 
-	return CQuotesProviderGoogle::CQuoteSection();
+	return CQuotesProviderBase::CQuoteSection();
 }
 
-inline tstring make_quote_name(const CQuotesProviderGoogle::CQuote& rQuote)
+inline tstring make_quote_name(const CQuotesProviderBase::CQuote& rQuote)
 {
 	const tstring& rsDesc = rQuote.GetName();
 	return((false == rsDesc.empty()) ? rsDesc : rQuote.GetSymbol());
@@ -97,11 +99,11 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			tstring sFromQuoteID = Quotes_DBGetStringT(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_FROM_ID);
 			tstring sToQuoteID = Quotes_DBGetStringT(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_TO_ID);
 
-			const CQuotesProviderGoogle* pProvider = get_google_provider();
-			const CQuotesProviderGoogle::CQuoteSection& rSection = get_quotes(pProvider);
-			size_t cQuotes = rSection.GetQuoteCount();
-			for (size_t i = 0; i < cQuotes; ++i) {
-				const CQuotesProviderGoogle::CQuote& rQuote = rSection.GetQuote(i);
+			const auto pProvider = get_currency_converter_provider();
+			const auto& rSection = get_quotes(pProvider);
+			auto cQuotes = rSection.GetQuoteCount();
+			for (auto i = 0u; i < cQuotes; ++i) {
+				const auto& rQuote = rSection.GetQuote(i);
 				tstring sName = make_quote_name(rQuote);
 				LPCTSTR pszName = sName.c_str();
 				LRESULT nFrom = ::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
@@ -193,17 +195,16 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
 					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
-						const CQuotesProviderGoogle::CQuoteSection& rSection = get_quotes();
+						const auto& rSection = get_quotes();
 						size_t cQuotes = rSection.GetQuoteCount();
 						if ((nFrom < cQuotes) && (nTo < cQuotes)) {
-							CQuotesProviderGoogle::CRateInfo ri;
-							CQuotesProviderGoogle::CQuote from = rSection.GetQuote(nFrom);
-							CQuotesProviderGoogle::CQuote to = rSection.GetQuote(nTo);
+							auto from = rSection.GetQuote(nFrom);
+							auto to = rSection.GetQuote(nTo);
 
 							db_set_ws(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_FROM_ID, from.GetID().c_str());
 							db_set_ws(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_TO_ID, to.GetID().c_str());
 
-							const CQuotesProviderGoogle* pProvider = get_google_provider();
+							const auto pProvider = get_currency_converter_provider();
 							assert(pProvider);
 							if (pProvider) {
 								tstring sResult;

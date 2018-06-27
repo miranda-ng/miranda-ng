@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include "QuotesProviderCurrencyConverter.h"
 
 LPCTSTR g_pszXmlValue = L"Value";
 LPCTSTR g_pszXmlName = L"Name";
@@ -462,7 +463,7 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 		MCONTACT GetContact()const { return m_hContact; }
 
 	private:
-		virtual void Visit(const CQuotesProviderDukasCopy& rProvider)
+		virtual void Visit(const CQuotesProviderDukasCopy& rProvider)override
 		{
 			tstring sQuoteID = GetXMLNodeValue(DB_STR_QUOTE_ID);
 			if (false == sQuoteID.empty()) {
@@ -470,9 +471,8 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 			}
 		}
 
-		virtual void Visit(const CQuotesProviderGoogle& rProvider)
+		virtual void Visit(const CQuotesProviderCurrencyConverter& rProvider)override
 		{
-			// 				USES_CONVERSION;
 			static const tstring g_sFromID = quotes_a2t(DB_STR_FROM_ID);//A2CT(DB_STR_FROM_ID);
 			static const tstring g_sToID = quotes_a2t(DB_STR_TO_ID);//A2CT(DB_STR_TO_ID);
 
@@ -497,7 +497,7 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 			}
 		}
 
-		virtual void Visit(const CQuotesProviderFinance& rProvider)
+		virtual void Visit(const CQuotesProviderFinance& rProvider)override
 		{
 			tstring sQuoteID = GetXMLNodeValue(DB_STR_QUOTE_ID);
 			if (false == sQuoteID.empty()) {

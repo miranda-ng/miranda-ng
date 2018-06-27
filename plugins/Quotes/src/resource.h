@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Code\My code\MirandaNG\plugins\Quotes\res\Forex.rc
+// Used by C:\Code\miranda-ng-from-github\plugins\Quotes\res\Forex.rc
 //
 #define IDD_DIALOG_ECONOMIC_RATES       101
 #define IDI_ICON_MAIN                   102
@@ -96,7 +96,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        124
+#define _APS_NEXT_RESOURCE_VALUE        125
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1073
 #define _APS_NEXT_SYMED_VALUE           101

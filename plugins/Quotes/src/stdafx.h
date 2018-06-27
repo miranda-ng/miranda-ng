@@ -96,7 +96,6 @@ inline tstring quotes_a2t(const char* s)
 #include "QuotesProviders.h"
 #include "QuotesProviderBase.h"
 #include "QuotesProviderFinance.h"
-#include "QuotesProviderGoogle.h"
 #include "QuotesProviderYahoo.h"
 #include "QuotesProviderDukasCopy.h"
 #include "QuotesProviderGoogleFinance.h"

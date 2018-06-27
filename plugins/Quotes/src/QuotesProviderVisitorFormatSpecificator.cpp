@@ -14,15 +14,6 @@ void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderDukasC
 	m_aSpecificators.push_back(CFormatSpecificator(L"%d", TranslateT("Quote Name")));
 }
 
-void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderGoogle&/* rProvider*/)
-{
-	m_aSpecificators.push_back(CFormatSpecificator(L"%F", TranslateT("From Currency Full Name")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%f", TranslateT("From Currency Short Name")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%I", TranslateT("Into Currency Full Name")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%i", TranslateT("Into Currency Short Name")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("Short notation for \"%f/%i\"")));
-}
-
 void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderBase&/* rProvider*/)
 {
 	m_aSpecificators.push_back(CFormatSpecificator(L"%S", TranslateT("Source of Information")));
@@ -59,4 +50,13 @@ void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderYahoo&
 	m_aSpecificators.push_back(CFormatSpecificator(L"%g", TranslateT("Day's Low")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%P", TranslateT("Previous Close")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%c", TranslateT("Change")));
+}
+
+void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderCurrencyConverter&)
+{
+	m_aSpecificators.push_back(CFormatSpecificator(L"%F", TranslateT("From Currency Full Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%f", TranslateT("From Currency Short Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%I", TranslateT("Into Currency Full Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%i", TranslateT("Into Currency Short Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("Short notation for \"%f/%i\"")));
 }

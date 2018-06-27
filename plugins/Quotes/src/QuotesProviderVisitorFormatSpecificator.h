@@ -21,12 +21,11 @@ public:
 	const TFormatSpecificators& GetSpecificators()const;
 
 private:
-	virtual void Visit(const CQuotesProviderDukasCopy& rProvider);
-	virtual void Visit(const CQuotesProviderGoogle& rProvider);
-	virtual void Visit(const CQuotesProviderBase& rProvider);
-	virtual void Visit(const CQuotesProviderGoogleFinance& rProvider);
-	virtual void Visit(const CQuotesProviderYahoo& rProvider);
-
+	virtual void Visit(const CQuotesProviderDukasCopy& rProvider)override;
+	virtual void Visit(const CQuotesProviderBase& rProvider)override;
+	virtual void Visit(const CQuotesProviderGoogleFinance& rProvider)override;
+	virtual void Visit(const CQuotesProviderYahoo& rProvider)override;
+	virtual void Visit(const CQuotesProviderCurrencyConverter& rProvider)override;
 private:
 	TFormatSpecificators m_aSpecificators;
 };

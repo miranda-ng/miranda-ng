@@ -68,34 +68,6 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderDukasCopy&/* r
 	m_pszDbTendencyFormat = "DC_TendencyFormat";
 }
 
-void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderGoogle&/* rProvider*/)
-{
-	m_pszDbRefreshRateType = DB_STR_GOOGLE_REFRESH_RATE_TYPE;
-	m_pszDbRefreshRateValue = DB_STR_GOOGLE_REFRESH_RATE_VALUE;
-	m_pszDbDisplayNameFormat = DB_STR_GOOGLE_DISPLAY_NAME_FORMAT;
-	m_pszDefDisplayFormat = L"1 %f = %r %i";
-	m_pszXMLIniFileName = L"Google.xml";
-	m_pszDbStatusMsgFormat = "Google_StatusMessageFormat";
-
-	m_pszDbLogMode = "Google_LogMode";
-	m_pszDbHistoryFormat = "Google_HistoryFormat";
-	m_pszDbHistoryCondition = "Google_AddToHistoryOnlyIfValueIsChanged";
-	m_pszDbLogFile = "Google_LogFile";
-	m_pszDbLogFormat = "Google_LogFileFormat";
-	m_pszDbLogCondition = "Google_AddToLogOnlyIfValueIsChanged";
-	m_pszDbPopupFormat = "Google_PopupFormat";
-	m_pszDbPopupCondition = "Google_ShowPopupOnlyIfValueChanged";
-
-	m_pszDbPopupColourMode = "Google_PopupColourMode";
-	m_pszDbPopupBkColour = "Google_PopupColourBk";
-	m_pszDbPopupTextColour = "Google_PopupColourText";
-	m_pszDbPopupDelayMode = "Google_PopupDelayMode";
-	m_pszDbPopupDelayTimeout = "Google_PopupDelayTimeout";
-	m_pszDbPopupHistoryFlag = "Google_PopupHistoryFlag";
-
-	m_pszDbTendencyFormat = "Google_TendencyFormat";
-}
-
 void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderGoogleFinance&/* rProvider*/)
 {
 	m_pszDbRefreshRateType = "GoogleFinance_RefreshRateType";
@@ -150,4 +122,32 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderYahoo&)
 	m_pszDbPopupHistoryFlag = "Yahoo_PopupHistoryFlag";
 
 	m_pszDbTendencyFormat = "Yahoo_TendencyFormat";
+}
+
+void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderCurrencyConverter&)
+{
+	m_pszDbRefreshRateType = "CC_RefreshRateType";
+	m_pszDbRefreshRateValue = "CC_RefreshRateValue";
+	m_pszDbDisplayNameFormat = "CC_DspNameFrmt";
+	m_pszDefDisplayFormat = L"1 %f = %r %i";
+	m_pszXMLIniFileName = L"CC.xml";
+	m_pszDbStatusMsgFormat = "CC_StatusMessageFormat";
+
+	m_pszDbLogMode = "CC_LogMode";
+	m_pszDbHistoryFormat = "CC_HistoryFormat";
+	m_pszDbHistoryCondition = "CC_AddToHistoryOnlyIfValueIsChanged";
+	m_pszDbLogFile = "CC_LogFile";
+	m_pszDbLogFormat = "CC_LogFileFormat";
+	m_pszDbLogCondition = "CC_AddToLogOnlyIfValueIsChanged";
+	m_pszDbPopupFormat = "CC_PopupFormat";
+	m_pszDbPopupCondition = "CC_ShowPopupOnlyIfValueChanged";
+
+	m_pszDbPopupColourMode = "CC_PopupColourMode";
+	m_pszDbPopupBkColour = "CC_PopupColourBk";
+	m_pszDbPopupTextColour = "CC_PopupColourText";
+	m_pszDbPopupDelayMode = "CC_PopupDelayMode";
+	m_pszDbPopupDelayTimeout = "CC_PopupDelayTimeout";
+	m_pszDbPopupHistoryFlag = "CC_PopupHistoryFlag";
+
+	m_pszDbTendencyFormat = "CC_TendencyFormat";
 }

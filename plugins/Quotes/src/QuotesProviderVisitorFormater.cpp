@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include "QuotesProviderCurrencyConverter.h"
 
 CQuotesProviderVisitorFormater::CQuotesProviderVisitorFormater(MCONTACT hContact, wchar_t chr, int nWidth)
 	: m_hContact(hContact),
@@ -20,24 +21,6 @@ void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderDukasCopy&)
 {
 	if ('d' == m_chr || 'D' == m_chr)
 		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_DESCRIPTION);
-}
-
-void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderGoogle&)
-{
-	switch (m_chr) {
-	case 'F':
-		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
-		break;
-	case 'f':
-		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_FROM_ID);
-		break;
-	case 'I':
-		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
-		break;
-	case 'i':
-		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_TO_ID);
-		break;
-	}
 }
 
 static bool get_fetch_time(MCONTACT hContact, time_t& rTime)
@@ -163,6 +146,24 @@ void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderYahoo&)
 		break;
 	case 'n':
 		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_DESCRIPTION);
+		break;
+	}
+}
+
+void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderCurrencyConverter&)
+{
+	switch (m_chr) {
+	case 'F':
+		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
+		break;
+	case 'f':
+		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_FROM_ID);
+		break;
+	case 'I':
+		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
+		break;
+	case 'i':
+		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_TO_ID);
 		break;
 	}
 }
