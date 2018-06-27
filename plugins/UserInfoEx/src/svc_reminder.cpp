@@ -664,28 +664,6 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 	return 0;
 }
 
-#define TBB_IDBTN		"CheckAnniv"
-#define TBB_ICONAME	TOOLBARBUTTON_ICONIDPREFIX TBB_IDBTN TOOLBARBUTTON_ICONIDPRIMARYSUFFIX
-
-/**
-* This function is called by the ME_TTB_MODULELOADED event.
-* It adds a set of buttons to the TopToolbar plugin.
-*
-* @param	none
-*
-* @return	nothing
-**/
-
-void SvcReminderOnTopToolBarLoaded()
-{
-	TTBButton ttb = {};
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
-	ttb.name = ttb.pszTooltipUp = LPGEN("Check anniversaries");
-	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_BIRTHDAY);
-	g_plugin.addTTB(&ttb);
-}
-
 /***********************************************************************************************************
  * services
  ***********************************************************************************************************/
@@ -884,10 +862,6 @@ void SvcReminderOnModulesLoaded(void)
 
 /**
 * This function initially loads all required stuff for reminder.
-*
-* @param	none
-*
-* @return	nothing
 **/
 
 void SvcReminderLoadModule(void)
@@ -915,10 +889,6 @@ void SvcReminderLoadModule(void)
 
 /**
 * This function unloads the reminder module.
-*
-* @param	none
-*
-* @return	nothing
 **/
 
 void SvcReminderUnloadModule(void)

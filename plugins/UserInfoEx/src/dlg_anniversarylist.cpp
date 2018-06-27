@@ -945,34 +945,6 @@ INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
  * loading and unloading module
  ***********************************************************************************************************/
 
-#define TBB_IDBTN		"AnnivList"
-#define TBB_ICONAME		TOOLBARBUTTON_ICONIDPREFIX TBB_IDBTN TOOLBARBUTTON_ICONIDPRIMARYSUFFIX
-
-/**
- * This function is called by the ME_TTB_MODULELOADED event.
- * It adds a set of buttons to the TopToolbar plugin.
- *
- * @param	wParam	- none
- *
- * @return	nothing
- **/
-void DlgAnniversaryListOnTopToolBarLoaded()
-{
-	TTBButton ttb = {};
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttb.pszService = MS_USERINFO_REMINDER_LIST;
-	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_ANNIVERSARY);
-	ttb.name = ttb.pszTooltipUp = LPGEN("Anniversary list");
-	g_plugin.addTTB(&ttb);
-}
-
-/**
- * This function initially loads all required stuff for the anniversary list.
- *
- * @param	none
- *
- * @return	nothing
- **/
 void DlgAnniversaryListLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_REMINDER_LIST, DlgAnniversaryListShow);

@@ -594,44 +594,9 @@ void DlgContactInfoInitTreeIcons()
 	}
 }
 
-/**
-* @name	UnLoadModule()
-* @desc	unload the UserInfo Module
-*
-* @return	nothing
-**/
-void DlgContactInfoUnLoadModule()
-{
-	WindowList_Destroy(g_hWindowList);
-	DestroyHookableEvent(g_hDetailsInitEvent);
-}
-
-/**
-* @name	LoadModule()
-* @desc	load the UserInfo Module
-*
-* @return	nothing
-**/
-void DlgContactInfoLoadModule()
-{
-	g_hDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
-
-	CreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDialog);
-	CreateServiceFunction("UserInfo/AddPage", AddPage);
-
-	HookEvent(ME_DB_CONTACT_DELETED, OnDeleteContact);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
-	HookEvent(ME_USERINFO_INITIALISE, InitDetails);
-	g_hWindowList = WindowList_Create();
-
-	// check whether changing my details via UserInfoEx is basically possible
-	myGlobals.CanChangeDetails = FALSE;
-
-	for (auto &pa : Accounts())
-		if (IsProtoAccountEnabled(pa)) // update my contact information on icq server
-			if (myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pa->szModuleName, PS_CHANGEINFOEX, NULL, NULL)))
-				break;
-}
+/*============================================================================================
+	PropertySheet's Dialog Procedures
+  ============================================================================================*/
 
 static void ResetUpdateInfo(LPPS pPs)
 {
@@ -641,10 +606,6 @@ static void ResetUpdateInfo(LPPS pPs)
 	MIR_FREE(pPs->infosUpdated);
 	pPs->nSubContacts = 0;
 }
-
-/*============================================================================================
-	PropertySheet's Dialog Procedures
-  ============================================================================================*/
 
 /**
 * @name	DlgProc()
@@ -1630,4 +1591,39 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		mir_free(pPs); pPs = nullptr;
 	}
 	return FALSE;
+}
+
+/**
+* @name	LoadModule()
+* @desc	load the UserInfo Module
+**/
+void DlgContactInfoLoadModule()
+{
+	g_hDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
+
+	CreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDialog);
+	CreateServiceFunction("UserInfo/AddPage", AddPage);
+
+	HookEvent(ME_DB_CONTACT_DELETED, OnDeleteContact);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
+	HookEvent(ME_USERINFO_INITIALISE, InitDetails);
+	g_hWindowList = WindowList_Create();
+
+	// check whether changing my details via UserInfoEx is basically possible
+	myGlobals.CanChangeDetails = FALSE;
+
+	for (auto &pa : Accounts())
+		if (IsProtoAccountEnabled(pa)) // update my contact information on icq server
+			if (myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pa->szModuleName, PS_CHANGEINFOEX, NULL, NULL)))
+				break;
+}
+
+/**
+* @name	UnLoadModule()
+* @desc	unload the UserInfo Module
+**/
+void DlgContactInfoUnLoadModule()
+{
+	WindowList_Destroy(g_hWindowList);
+	DestroyHookableEvent(g_hDetailsInitEvent);
 }

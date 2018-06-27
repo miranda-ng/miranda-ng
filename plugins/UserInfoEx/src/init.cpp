@@ -61,8 +61,23 @@ CMPlugin::CMPlugin() :
  **/
 static int OnTopToolBarLoaded(WPARAM, LPARAM)
 {
-	DlgAnniversaryListOnTopToolBarLoaded();
-	SvcReminderOnTopToolBarLoaded();
+	TTBButton ttb = {};
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.pszService = MS_USERINFO_SHOWDIALOG;
+	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_MAIN);
+	ttb.name = ttb.pszTooltipUp = LPGEN("User &details");
+	g_plugin.addTTB(&ttb);
+
+	ttb.dwFlags = TTBBF_SHOWTOOLTIP;
+	ttb.pszService = MS_USERINFO_REMINDER_LIST;
+	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_ANNIVERSARY);
+	ttb.name = ttb.pszTooltipUp = LPGEN("Anniversary list");
+	g_plugin.addTTB(&ttb);
+
+	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
+	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_BIRTHDAY);
+	ttb.name = ttb.pszTooltipUp = LPGEN("Check anniversaries");
+	g_plugin.addTTB(&ttb);
 	return 0;
 }
 
