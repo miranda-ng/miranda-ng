@@ -11,18 +11,18 @@ CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L)
 void CMLuaScriptLoader::SetPaths()
 {
 	wchar_t path[MAX_PATH];
+	ptrA pathA(nullptr);
 
 	lua_getglobal(L, LUA_LOADLIBNAME);
 
 	FoldersGetCustomPathT(g_hCLibsFolder, path, _countof(path), VARSW(MIRLUA_PATHT));
-	lua_pushfstring(L, "%s\\?.%s", T2Utf(path), _T2A(LUACLIBSCRIPTEXT));
+	pathA = mir_utf8encodeW(path);
+	lua_pushfstring(L, "%s\\?.%s", pathA, _T2A(LUACLIBSCRIPTEXT));
 	lua_setfield(L, -2, "cpath");
 
 	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARSW(MIRLUA_PATHT));
-	lua_pushfstring(L, "%s\\?.%s", T2Utf(path), _T2A(LUATEXTSCRIPTEXT));
-	lua_setfield(L, -2, "path");
-
-	lua_pushfstring(L, "%s\\?.%s", T2Utf(path), _T2A(LUAPRECSCRIPTEXT));
+	pathA = mir_utf8encodeW(path);
+	lua_pushfstring(L, "%s\\?.%s;%s\\?.%s", pathA, _T2A(LUATEXTSCRIPTEXT), pathA, _T2A(LUAPRECSCRIPTEXT));
 	lua_setfield(L, -2, "path");
 
 	lua_pop(L, 1);
