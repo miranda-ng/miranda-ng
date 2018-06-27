@@ -556,9 +556,12 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) == WA_INACTIVE)
 			break;
 
-		idx = TabCtrl_GetCurSel(m_tab.GetHwnd());
-		if (idx != -1)
-			m_tab.ActivatePage(idx);
+		if (!m_pEmbed) {
+			idx = TabCtrl_GetCurSel(m_tab.GetHwnd());
+			if (idx != -1)
+				m_tab.ActivatePage(idx);
+		}
+		else m_pEmbed->OnActivate();
 		break;
 
 	case WM_NOTIFY:
