@@ -615,6 +615,17 @@ static int ShutdownUserInfo(WPARAM, LPARAM)
 	return 0;
 }
 
+static int OnTopToolBarLoaded(WPARAM, LPARAM)
+{
+	TTBButton ttb = {};
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.pszService = MS_USERINFO_SHOWDIALOG;
+	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
+	ttb.name = ttb.pszTooltipUp = LPGEN("User &details");
+	g_plugin.addTTB(&ttb);
+	return 0;
+}
+
 int LoadUserInfoModule(void)
 {
 	CreateServiceFunction("UserInfo/AddPage", AddDetailsPage);
@@ -622,6 +633,7 @@ int LoadUserInfoModule(void)
 
 	hDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
 
+	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
 	HookEvent(ME_USERINFO_INITIALISE, DetailsInit);
 	HookEvent(ME_DB_CONTACT_DELETED, UserInfoContactDelete);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownUserInfo);
