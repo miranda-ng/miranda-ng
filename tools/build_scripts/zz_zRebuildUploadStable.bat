@@ -18,7 +18,7 @@ del /F /Q version.txt
 pushd build
 copy build.no.stable build.no
 copy make_ver_stable.bat make_ver.bat
-for /F "tokens=1,2,3 delims= " %%i in (build.no) do set MirVer=%%i.%%j.%%k
+for /F "tokens=1,2,3,4 delims= " %%i in (build.no.stable) do set MirVer=%%i.%%j.%%k.%%l
 popd
 
 echo v%MirVer% > version.txt

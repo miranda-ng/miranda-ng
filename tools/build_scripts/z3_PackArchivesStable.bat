@@ -1,6 +1,6 @@
 set tp=%1
 if  "%tp%"=="" (echo "please specify target platform 32 or 64!"&&pause&&goto :EOF)
-for /F "tokens=1,2,3 delims= " %%i in (build\build.no) do set MirVer=%%i.%%j.%%k
+for /F "tokens=1,2,3,4 delims= " %%i in (build\build.no.stable) do set MirVer=%%i.%%j.%%k.%%l
 if /i '%tp%' == '64' set bit=_x64
 if /i '%tp%' == '32' set CompileString=..\Tools\InnoSetup5\ISCC.exe /Dptx86 /DAppVer=%MirVer% "MirandaNG.iss" 
 if /i '%tp%' == '64' set CompileString=..\Tools\InnoSetup5\ISCC.exe /DAppVer=%MirVer% "MirandaNG.iss"
