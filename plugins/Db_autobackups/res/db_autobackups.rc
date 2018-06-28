@@ -44,11 +44,11 @@ BEGIN
     EDITTEXT        IDC_ED_FOLDER,17,130,177,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse...",IDC_BUT_BROWSE,199,129,49,14
     CONTROL         "Go to the ""Options -> Customize -> Folders"" to change settings",IDC_LNK_FOLDERS,
-                    "Hyperlink",NOT WS_VISIBLE | WS_TABSTOP,18,132,231,17
-    CONTROL         "Compress backup to zip-archive",IDC_CHK_USEZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,153,231,10
-    CONTROL         "Disable progress bar",IDC_CHK_NOPROG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,164,231,10
-    CONTROL         "Disable popups",IDC_CHK_NOPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,173,231,11
-    CONTROL         "Backup profile folder",IDC_BACKUPPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,184,176,10
+                    "Hyperlink",NOT WS_VISIBLE | WS_TABSTOP,17,126,231,17
+    CONTROL         "Compress backup to zip-archive",IDC_CHK_USEZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,149,231,10
+    CONTROL         "Backup profile folder",IDC_BACKUPPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,161,176,10
+    CONTROL         "Disable progress bar",IDC_CHK_NOPROG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,184,231,10
+    CONTROL         "Disable popups",IDC_CHK_NOPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,172,231,11
     CONTROL         "Use CloudFile",IDC_CLOUDFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,195,105,10
     COMBOBOX        IDC_CLOUDFILESEVICE,131,194,117,30,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
 END
@@ -59,7 +59,7 @@ CAPTION "Backup progress"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER,7,24,172,9
-    CTEXT           "",IDC_PROGRESSMESSAGE,12,7,162,13
+    CTEXT           "",IDC_PROGRESSMESSAGE,31,7,114,13
     PUSHBUTTON      "Cancel",IDCANCEL,58,39,67,12
 END
 
