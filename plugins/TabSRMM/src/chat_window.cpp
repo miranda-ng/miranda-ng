@@ -281,7 +281,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top = 0;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - iSplitterX : urc->dlgNewSize.cx;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(23);
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
 		if (!bToolbar || bBottomToolbar)
 			urc->rcItem.bottom += DPISCALEY_S(21);
 		if (bInfoPanel)
@@ -301,7 +301,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.top = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX + 2;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(23);
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
 		if (!bToolbar || bBottomToolbar)
 			urc->rcItem.bottom += DPISCALEY_S(21);
 		if (bInfoPanel)
@@ -320,7 +320,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_SPLITTERX:
 		urc->rcItem.right = urc->dlgNewSize.cx - iSplitterX + 2;
 		urc->rcItem.left = urc->dlgNewSize.cx - iSplitterX;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY - DPISCALEY_S(23);
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
 		if (!bToolbar || bBottomToolbar)
 			urc->rcItem.bottom += DPISCALEY_S(21);
 		urc->rcItem.top = 0;
@@ -330,7 +330,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SPLITTERY:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + DPISCALEY_S(23);
 		urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
 		urc->rcItem.left = 0;
 		urc->rcItem.bottom++;
@@ -339,7 +339,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SRMM_MESSAGE:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
+		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3 + DPISCALEY_S(23);
 		urc->rcItem.bottom = urc->dlgNewSize.cy;
 		if (bBottomToolbar && bToolbar)
 			urc->rcItem.bottom -= DPISCALEY_S(22);
@@ -1881,7 +1881,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.x = 0, pt.y = wParam;
 			ScreenToClient(m_hwnd, &pt);
 
-			m_iSplitterY = rc.bottom - pt.y + DPISCALEY_S(1);
+			m_iSplitterY = rc.bottom - pt.y + 3 + DPISCALEY_S(23);
 			int iMinHeight = DPISCALEY_S(23) + ((m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? 21 : 0);
 			if (m_iSplitterY < iMinHeight)
 				m_iSplitterY = iMinHeight;

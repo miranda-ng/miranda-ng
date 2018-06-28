@@ -1321,7 +1321,7 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 			urc->rcItem.right -= (m_iMultiSplit + 3);
 		urc->rcItem.bottom -= m_iSplitterY - m_originalSplitterY;
 		if (!bShowToolbar || bBottomToolbar)
-			urc->rcItem.bottom += 21;
+			urc->rcItem.bottom += DPISCALEY_S(21);
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
 		urc->rcItem.bottom += 3;
