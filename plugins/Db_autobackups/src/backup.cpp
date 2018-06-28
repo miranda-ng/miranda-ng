@@ -143,15 +143,16 @@ int Comp(const void *i, const void *j)
 
 int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
 {
-	backupFile *bf = nullptr, *bftmp;
-	HANDLE hFind;
-	wchar_t backupfolderTmp[MAX_PATH];
-	WIN32_FIND_DATA FindFileData;
+	if (options.num_backups == 0) // Rotation disabled?
+		return 0; 
 
-	if (options.num_backups == 0)
-		return 0; /* Roration disabled. */
-	mir_snwprintf(backupfolderTmp, L"%s\\%s*", backupfolder, dbname);
-	hFind = FindFirstFile(backupfolderTmp, &FindFileData);
+	backupFile *bf = nullptr, *bftmp;
+
+	wchar_t backupfolderTmp[MAX_PATH];
+	mir_snwprintf(backupfolderTmp, L"%s\\%s*.%s", backupfolder, dbname, options.use_zip ? L"zip" : L"dat");
+
+	WIN32_FIND_DATA FindFileData;
+	HANDLE hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
