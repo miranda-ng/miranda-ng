@@ -394,5 +394,6 @@ int CMPlugin::Unload()
 	DestroyHookableEvent(hMyAvatarChanged);
 
 	CloseHandle(hLoaderEvent);
+	UnregisterClassW(AVATAR_CONTROL_CLASS, 0);
 	return 0;
 }
