@@ -127,6 +127,7 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(BOOL, MetaSplitHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
 
 	STDMETHOD_(BOOL, Compact)(void) PURE;
+	STDMETHOD_(BOOL, Backup)(LPCWSTR) PURE;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -173,6 +174,7 @@ public:
 	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName);
 	
 	STDMETHODIMP_(BOOL) Compact(void);
+	STDMETHODIMP_(BOOL) Backup(LPCWSTR);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

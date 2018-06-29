@@ -268,6 +268,7 @@ public:
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 
 	STDMETHODIMP_(BOOL)     Compact();
+	STDMETHODIMP_(BOOL)     Backup(LPCWSTR);
 
 public:
 	MICryptoEngine *m_crypto;

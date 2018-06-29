@@ -200,6 +200,23 @@ BOOL CDbxMDBX::Compact()
 	return 0;
 }
 
+BOOL CDbxMDBX::Backup(const wchar_t *pwszPath)
+{
+	HANDLE pFile = ::CreateFile(pwszPath, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (pFile == nullptr) {
+		Netlib_Logf(0, "Backup file <%S> cannot be created", pwszPath);
+		return 1;
+	}
+
+	int res = mdbx_env_copy2fd(m_env, pFile, 0);
+	CloseHandle(pFile);
+	if (res == MDBX_SUCCESS)
+		return 0;
+
+	DeleteFileW(pwszPath);
+	return res;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CDbxMDBX::PrepareCheck()

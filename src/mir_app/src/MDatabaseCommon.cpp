@@ -121,6 +121,11 @@ BOOL MDatabaseCommon::Compact(void)
 	return ERROR_NOT_SUPPORTED;
 }
 
+BOOL MDatabaseCommon::Backup(LPCWSTR)
+{
+	return ERROR_NOT_SUPPORTED;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contacts
 
