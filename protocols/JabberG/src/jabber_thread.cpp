@@ -529,15 +529,14 @@ recvRest:
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 
-			m_StrmMgmt.OnDisconnect();
-
 			// Set all contacts to offline
 			if (!m_StrmMgmt.IsResumeIdPresent())
 			{
-				debugLogA("1");
+				m_StrmMgmt.ResetState(); //fully reset strm_mgmt state
+//				debugLogA("1"); //i think this log calls does not needed anymore ? //sss
 				for (auto &hContact : AccContacts())
 					SetContactOfflineStatus(hContact);
-				debugLogA("2");
+//				debugLogA("2");
 			}
 
 			mir_free(m_szJabberJID);

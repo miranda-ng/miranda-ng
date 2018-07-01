@@ -213,14 +213,15 @@ void strm_mgmt::HandleOutgoingNode(HXML node)
 		RequestAck();
 }
 
-void strm_mgmt::OnDisconnect()
+void strm_mgmt::ResetState()
 {
-	//TODO: following should be redone once resumption implemented
 	//reset state of stream management
 	m_bStrmMgmtEnabled = false;
 	m_bStrmMgmtPendingEnable = false;
 	//reset stream management h counters
 	m_nStrmMgmtLocalHCount = m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount = 0;
+	//clear resume id
+	m_sStrmMgmtResumeId.clear();
 }
 
 void strm_mgmt::HandleIncommingNode(HXML node)

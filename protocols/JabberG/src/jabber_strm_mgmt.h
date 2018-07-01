@@ -52,7 +52,7 @@ public:
 	void OnProcessFailed(HXML node, ThreadData * info);
 	void CheckStreamFeatures(HXML node);
 	void CheckState();
-	void OnDisconnect();
+	void ResetState();
 	void SendAck();
 	void RequestAck();
 	bool IsSessionResumed();

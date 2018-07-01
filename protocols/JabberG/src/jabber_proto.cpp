@@ -1130,6 +1130,7 @@ int CJabberProto::SetStatus(int iNewStatus)
 	m_iDesiredStatus = iNewStatus;
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
+		m_StrmMgmt.ResetState();
 		if (m_ThreadInfo) {
 			if(m_bEnableStreamMgmt)
 				m_StrmMgmt.SendAck();
