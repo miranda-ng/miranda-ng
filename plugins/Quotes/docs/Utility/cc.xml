@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<<<<<<< .mine<?xml version="1.0" encoding="utf-8"?>
 
 <Provider>
   <name>Currency Converter API</name>
@@ -515,4 +515,521 @@
 		<id>ZWL</id><symbol>ZWL</symbol><description>Zimbabwean Dollar (2009) (ZWL)</description>
 	</quote>
 </section>
-</Provider>
+=======<?xml version="1.0" encoding="utf-8"?>
+
+<Provider>
+  <name>Currency Converter API</name>
+  <ref>https://www.currencyconverterapi.com/</ref>
+  <url>https://free.currencyconverterapi.com/api/v5/convert</url>  
+
+<section>
+	<name>Currencies</name>
+	<quote>
+		<id>AED</id><symbol>AED</symbol><description>United Arab Emirates Dirham (AED)</description>
+	</quote>
+	<quote>
+		<id>AFN</id><symbol>AFN</symbol><description>Afghan Afghani (AFN)</description>
+	</quote>
+	<quote>
+		<id>ALL</id><symbol>ALL</symbol><description>Albanian Lek (ALL)</description>
+	</quote>
+	<quote>
+		<id>AMD</id><symbol>AMD</symbol><description>Armenian Dram (AMD)</description>
+	</quote>
+	<quote>
+		<id>ANG</id><symbol>ANG</symbol><description>Netherlands Antillean Gulden (ANG)</description>
+	</quote>
+	<quote>
+		<id>AOA</id><symbol>AOA</symbol><description>Angolan Kwanza (AOA)</description>
+	</quote>
+	<quote>
+		<id>ARS</id><symbol>ARS</symbol><description>Argentine Peso (ARS)</description>
+	</quote>
+	<quote>
+		<id>AUD</id><symbol>AUD</symbol><description>Australian Dollar (AUD)</description>
+	</quote>
+	<quote>
+		<id>AWG</id><symbol>AWG</symbol><description>Aruban Florin (AWG)</description>
+	</quote>
+	<quote>
+		<id>AZN</id><symbol>AZN</symbol><description>Azerbaijani Manat (AZN)</description>
+	</quote>
+	<quote>
+		<id>BAM</id><symbol>BAM</symbol><description>Bosnia-Herzegovina Convertible Mark (BAM)</description>
+	</quote>
+	<quote>
+		<id>BBD</id><symbol>BBD</symbol><description>Barbadian Dollar (BBD)</description>
+	</quote>
+	<quote>
+		<id>BDT</id><symbol>BDT</symbol><description>Bangladeshi Taka (BDT)</description>
+	</quote>
+	<quote>
+		<id>BGN</id><symbol>BGN</symbol><description>Bulgarian Lev (BGN)</description>
+	</quote>
+	<quote>
+		<id>BHD</id><symbol>BHD</symbol><description>Bahraini Dinar (BHD)</description>
+	</quote>
+	<quote>
+		<id>BIF</id><symbol>BIF</symbol><description>Burundian Franc (BIF)</description>
+	</quote>
+	<quote>
+		<id>BMD</id><symbol>BMD</symbol><description>Bermudan Dollar (BMD)</description>
+	</quote>
+	<quote>
+		<id>BND</id><symbol>BND</symbol><description>Brunei Dollar (BND)</description>
+	</quote>
+	<quote>
+		<id>BOB</id><symbol>BOB</symbol><description>Bolivian Boliviano (BOB)</description>
+	</quote>
+	<quote>
+		<id>BRL</id><symbol>BRL</symbol><description>Brazilian Real (BRL)</description>
+	</quote>
+	<quote>
+		<id>BSD</id><symbol>BSD</symbol><description>Bahamian Dollar (BSD)</description>
+	</quote>
+	<quote>
+		<id>BTC</id><symbol>BTC</symbol><description>Bitcoin (BTC)</description>
+	</quote>
+	<quote>
+		<id>BTN</id><symbol>BTN</symbol><description>Bhutanese Ngultrum (BTN)</description>
+	</quote>
+	<quote>
+		<id>BWP</id><symbol>BWP</symbol><description>Botswana Pula (BWP)</description>
+	</quote>
+	<quote>
+		<id>BYN</id><symbol>BYN</symbol><description>Belarusian Ruble (BYN)</description>
+	</quote>
+	<quote>
+		<id>BYR</id><symbol>BYR</symbol><description>Belarusian Ruble (2000–2016) (BYR)</description>
+	</quote>
+	<quote>
+		<id>BZD</id><symbol>BZD</symbol><description>Belize Dollar (BZD)</description>
+	</quote>
+	<quote>
+		<id>CAD</id><symbol>CAD</symbol><description>Canadian Dollar (CAD)</description>
+	</quote>
+	<quote>
+		<id>CDF</id><symbol>CDF</symbol><description>Congolese Franc (CDF)</description>
+	</quote>
+	<quote>
+		<id>CHF</id><symbol>CHF</symbol><description>Swiss Franc (CHF)</description>
+	</quote>
+	<quote>
+		<id>CLF</id><symbol>CLF</symbol><description>Chilean Unit of Account (UF) (CLF)</description>
+	</quote>
+	<quote>
+		<id>CLP</id><symbol>CLP</symbol><description>Chilean Peso (CLP)</description>
+	</quote>
+	<quote>
+		<id>CNH</id><symbol>CNH</symbol><description>CNH (CNH)</description>
+	</quote>
+	<quote>
+		<id>CNY</id><symbol>CNY</symbol><description>Chinese Yuan (CNY)</description>
+	</quote>
+	<quote>
+		<id>COP</id><symbol>COP</symbol><description>Colombian Peso (COP)</description>
+	</quote>
+	<quote>
+		<id>CRC</id><symbol>CRC</symbol><description>Costa Rican Colón (CRC)</description>
+	</quote>
+	<quote>
+		<id>CUP</id><symbol>CUP</symbol><description>Cuban Peso (CUP)</description>
+	</quote>
+	<quote>
+		<id>CVE</id><symbol>CVE</symbol><description>Cape Verdean Escudo (CVE)</description>
+	</quote>
+	<quote>
+		<id>CZK</id><symbol>CZK</symbol><description>Czech Koruna (CZK)</description>
+	</quote>
+	<quote>
+		<id>DEM</id><symbol>DEM</symbol><description>German Mark (DEM)</description>
+	</quote>
+	<quote>
+		<id>DJF</id><symbol>DJF</symbol><description>Djiboutian Franc (DJF)</description>
+	</quote>
+	<quote>
+		<id>DKK</id><symbol>DKK</symbol><description>Danish Krone (DKK)</description>
+	</quote>
+	<quote>
+		<id>DOP</id><symbol>DOP</symbol><description>Dominican Peso (DOP)</description>
+	</quote>
+	<quote>
+		<id>DZD</id><symbol>DZD</symbol><description>Algerian Dinar (DZD)</description>
+	</quote>
+	<quote>
+		<id>EGP</id><symbol>EGP</symbol><description>Egyptian Pound (EGP)</description>
+	</quote>
+	<quote>
+		<id>ERN</id><symbol>ERN</symbol><description>Eritrean Nakfa (ERN)</description>
+	</quote>
+	<quote>
+		<id>ETB</id><symbol>ETB</symbol><description>Ethiopian Birr (ETB)</description>
+	</quote>
+	<quote>
+		<id>EUR</id><symbol>EUR</symbol><description>Euro (EUR)</description>
+	</quote>
+	<quote>
+		<id>FIM</id><symbol>FIM</symbol><description>Finnish Markka (FIM)</description>
+	</quote>
+	<quote>
+		<id>FJD</id><symbol>FJD</symbol><description>Fijian Dollar (FJD)</description>
+	</quote>
+	<quote>
+		<id>FKP</id><symbol>FKP</symbol><description>Falkland Islands Pound (FKP)</description>
+	</quote>
+	<quote>
+		<id>FRF</id><symbol>FRF</symbol><description>French Franc (FRF)</description>
+	</quote>
+	<quote>
+		<id>GBP</id><symbol>GBP</symbol><description>British Pound (GBP)</description>
+	</quote>
+	<quote>
+		<id>GEL</id><symbol>GEL</symbol><description>Georgian Lari (GEL)</description>
+	</quote>
+	<quote>
+		<id>GHS</id><symbol>GHS</symbol><description>Ghanaian Cedi (GHS)</description>
+	</quote>
+	<quote>
+		<id>GIP</id><symbol>GIP</symbol><description>Gibraltar Pound (GIP)</description>
+	</quote>
+	<quote>
+		<id>GMD</id><symbol>GMD</symbol><description>Gambian Dalasi (GMD)</description>
+	</quote>
+	<quote>
+		<id>GNF</id><symbol>GNF</symbol><description>Guinean Franc (GNF)</description>
+	</quote>
+	<quote>
+		<id>GTQ</id><symbol>GTQ</symbol><description>Guatemalan Quetzal (GTQ)</description>
+	</quote>
+	<quote>
+		<id>GYD</id><symbol>GYD</symbol><description>Guyanaese Dollar (GYD)</description>
+	</quote>
+	<quote>
+		<id>HKD</id><symbol>HKD</symbol><description>Hong Kong Dollar (HKD)</description>
+	</quote>
+	<quote>
+		<id>HNL</id><symbol>HNL</symbol><description>Honduran Lempira (HNL)</description>
+	</quote>
+	<quote>
+		<id>HRK</id><symbol>HRK</symbol><description>Croatian Kuna (HRK)</description>
+	</quote>
+	<quote>
+		<id>HTG</id><symbol>HTG</symbol><description>Haitian Gourde (HTG)</description>
+	</quote>
+	<quote>
+		<id>HUF</id><symbol>HUF</symbol><description>Hungarian Forint (HUF)</description>
+	</quote>
+	<quote>
+		<id>IDR</id><symbol>IDR</symbol><description>Indonesian Rupiah (IDR)</description>
+	</quote>
+	<quote>
+		<id>IEP</id><symbol>IEP</symbol><description>Irish Pound (IEP)</description>
+	</quote>
+	<quote>
+		<id>ILS</id><symbol>ILS</symbol><description>Israeli New Shekel (ILS)</description>
+	</quote>
+	<quote>
+		<id>INR</id><symbol>INR</symbol><description>Indian Rupee (INR)</description>
+	</quote>
+	<quote>
+		<id>IQD</id><symbol>IQD</symbol><description>Iraqi Dinar (IQD)</description>
+	</quote>
+	<quote>
+		<id>IRR</id><symbol>IRR</symbol><description>Iranian Rial (IRR)</description>
+	</quote>
+	<quote>
+		<id>ISK</id><symbol>ISK</symbol><description>Icelandic Króna (ISK)</description>
+	</quote>
+	<quote>
+		<id>ITL</id><symbol>ITL</symbol><description>Italian Lira (ITL)</description>
+	</quote>
+	<quote>
+		<id>JMD</id><symbol>JMD</symbol><description>Jamaican Dollar (JMD)</description>
+	</quote>
+	<quote>
+		<id>JOD</id><symbol>JOD</symbol><description>Jordanian Dinar (JOD)</description>
+	</quote>
+	<quote>
+		<id>JPY</id><symbol>JPY</symbol><description>Japanese Yen (JPY)</description>
+	</quote>
+	<quote>
+		<id>KES</id><symbol>KES</symbol><description>Kenyan Shilling (KES)</description>
+	</quote>
+	<quote>
+		<id>KGS</id><symbol>KGS</symbol><description>Kyrgystani Som (KGS)</description>
+	</quote>
+	<quote>
+		<id>KHR</id><symbol>KHR</symbol><description>Cambodian Riel (KHR)</description>
+	</quote>
+	<quote>
+		<id>KMF</id><symbol>KMF</symbol><description>Comorian Franc (KMF)</description>
+	</quote>
+	<quote>
+		<id>KPW</id><symbol>KPW</symbol><description>North Korean Won (KPW)</description>
+	</quote>
+	<quote>
+		<id>KRW</id><symbol>KRW</symbol><description>South Korean Won (KRW)</description>
+	</quote>
+	<quote>
+		<id>KWD</id><symbol>KWD</symbol><description>Kuwaiti Dinar (KWD)</description>
+	</quote>
+	<quote>
+		<id>KYD</id><symbol>KYD</symbol><description>Cayman Islands Dollar (KYD)</description>
+	</quote>
+	<quote>
+		<id>KZT</id><symbol>KZT</symbol><description>Kazakhstani Tenge (KZT)</description>
+	</quote>
+	<quote>
+		<id>LAK</id><symbol>LAK</symbol><description>Laotian Kip (LAK)</description>
+	</quote>
+	<quote>
+		<id>LBP</id><symbol>LBP</symbol><description>Lebanese Pound (LBP)</description>
+	</quote>
+	<quote>
+		<id>LKR</id><symbol>LKR</symbol><description>Sri Lankan Rupee (LKR)</description>
+	</quote>
+	<quote>
+		<id>LRD</id><symbol>LRD</symbol><description>Liberian Dollar (LRD)</description>
+	</quote>
+	<quote>
+		<id>LSL</id><symbol>LSL</symbol><description>Lesotho Loti (LSL)</description>
+	</quote>
+	<quote>
+		<id>LTL</id><symbol>LTL</symbol><description>Lithuanian Litas (LTL)</description>
+	</quote>
+	<quote>
+		<id>LVL</id><symbol>LVL</symbol><description>Latvian Lats (LVL)</description>
+	</quote>
+	<quote>
+		<id>LYD</id><symbol>LYD</symbol><description>Libyan Dinar (LYD)</description>
+	</quote>
+	<quote>
+		<id>MAD</id><symbol>MAD</symbol><description>Moroccan Dirham (MAD)</description>
+	</quote>
+	<quote>
+		<id>MDL</id><symbol>MDL</symbol><description>Moldovan Leu (MDL)</description>
+	</quote>
+	<quote>
+		<id>MGA</id><symbol>MGA</symbol><description>Malagasy Ariary (MGA)</description>
+	</quote>
+	<quote>
+		<id>MKD</id><symbol>MKD</symbol><description>Macedonian Denar (MKD)</description>
+	</quote>
+	<quote>
+		<id>MNT</id><symbol>MNT</symbol><description>Mongolian Tugrik (MNT)</description>
+	</quote>
+	<quote>
+		<id>MOP</id><symbol>MOP</symbol><description>Macanese Pataca (MOP)</description>
+	</quote>
+	<quote>
+		<id>MRO</id><symbol>MRO</symbol><description>Mauritanian Ouguiya (MRO)</description>
+	</quote>
+	<quote>
+		<id>MUR</id><symbol>MUR</symbol><description>Mauritian Rupee (MUR)</description>
+	</quote>
+	<quote>
+		<id>MVR</id><symbol>MVR</symbol><description>Maldivian Rufiyaa (MVR)</description>
+	</quote>
+	<quote>
+		<id>MWK</id><symbol>MWK</symbol><description>Malawian Kwacha (MWK)</description>
+	</quote>
+	<quote>
+		<id>MXN</id><symbol>MXN</symbol><description>Mexican Peso (MXN)</description>
+	</quote>
+	<quote>
+		<id>MYR</id><symbol>MYR</symbol><description>Malaysian Ringgit (MYR)</description>
+	</quote>
+	<quote>
+		<id>MZN</id><symbol>MZN</symbol><description>Mozambican Metical (MZN)</description>
+	</quote>
+	<quote>
+		<id>NAD</id><symbol>NAD</symbol><description>Namibian Dollar (NAD)</description>
+	</quote>
+	<quote>
+		<id>NGN</id><symbol>NGN</symbol><description>Nigerian Naira (NGN)</description>
+	</quote>
+	<quote>
+		<id>NIO</id><symbol>NIO</symbol><description>Nicaraguan Córdoba (NIO)</description>
+	</quote>
+	<quote>
+		<id>NOK</id><symbol>NOK</symbol><description>Norwegian Krone (NOK)</description>
+	</quote>
+	<quote>
+		<id>NPR</id><symbol>NPR</symbol><description>Nepalese Rupee (NPR)</description>
+	</quote>
+	<quote>
+		<id>NZD</id><symbol>NZD</symbol><description>New Zealand Dollar (NZD)</description>
+	</quote>
+	<quote>
+		<id>OMR</id><symbol>OMR</symbol><description>Omani Rial (OMR)</description>
+	</quote>
+	<quote>
+		<id>PAB</id><symbol>PAB</symbol><description>Panamanian Balboa (PAB)</description>
+	</quote>
+	<quote>
+		<id>PEN</id><symbol>PEN</symbol><description>Peruvian Nuevo Sol (PEN)</description>
+	</quote>
+	<quote>
+		<id>PGK</id><symbol>PGK</symbol><description>Papua New Guinean Kina (PGK)</description>
+	</quote>
+	<quote>
+		<id>PHP</id><symbol>PHP</symbol><description>Philippine Peso (PHP)</description>
+	</quote>
+	<quote>
+		<id>PKG</id><symbol>PKG</symbol><description>PKG (PKG)</description>
+	</quote>
+	<quote>
+		<id>PKR</id><symbol>PKR</symbol><description>Pakistani Rupee (PKR)</description>
+	</quote>
+	<quote>
+		<id>PLN</id><symbol>PLN</symbol><description>Polish Zloty (PLN)</description>
+	</quote>
+	<quote>
+		<id>PYG</id><symbol>PYG</symbol><description>Paraguayan Guarani (PYG)</description>
+	</quote>
+	<quote>
+		<id>QAR</id><symbol>QAR</symbol><description>Qatari Riyal (QAR)</description>
+	</quote>
+	<quote>
+		<id>RON</id><symbol>RON</symbol><description>New Romanian Leu (RON)</description>
+	</quote>
+	<quote>
+		<id>RSD</id><symbol>RSD</symbol><description>Serbian Dinar (RSD)</description>
+	</quote>
+	<quote>
+		<id>RUB</id><symbol>RUB</symbol><description>Russian Ruble (RUB)</description>
+	</quote>
+	<quote>
+		<id>RWF</id><symbol>RWF</symbol><description>Rwandan Franc (RWF)</description>
+	</quote>
+	<quote>
+		<id>SAR</id><symbol>SAR</symbol><description>Saudi Riyal (SAR)</description>
+	</quote>
+	<quote>
+		<id>SBD</id><symbol>SBD</symbol><description>Solomon Islands Dollar (SBD)</description>
+	</quote>
+	<quote>
+		<id>SCR</id><symbol>SCR</symbol><description>Seychellois Rupee (SCR)</description>
+	</quote>
+	<quote>
+		<id>SDG</id><symbol>SDG</symbol><description>Sudanese Pound (SDG)</description>
+	</quote>
+	<quote>
+		<id>SEK</id><symbol>SEK</symbol><description>Swedish Krona (SEK)</description>
+	</quote>
+	<quote>
+		<id>SGD</id><symbol>SGD</symbol><description>Singapore Dollar (SGD)</description>
+	</quote>
+	<quote>
+		<id>SHP</id><symbol>SHP</symbol><description>St. Helena Pound (SHP)</description>
+	</quote>
+	<quote>
+		<id>SKK</id><symbol>SKK</symbol><description>Slovak Koruna (SKK)</description>
+	</quote>
+	<quote>
+		<id>SLL</id><symbol>SLL</symbol><description>Sierra Leonean Leone (SLL)</description>
+	</quote>
+	<quote>
+		<id>SOS</id><symbol>SOS</symbol><description>Somali Shilling (SOS)</description>
+	</quote>
+	<quote>
+		<id>SRD</id><symbol>SRD</symbol><description>Surinamese Dollar (SRD)</description>
+	</quote>
+	<quote>
+		<id>STD</id><symbol>STD</symbol><description>São Tomé and Príncipe Dobra (STD)</description>
+	</quote>
+	<quote>
+		<id>SVC</id><symbol>SVC</symbol><description>Salvadoran Colón (SVC)</description>
+	</quote>
+	<quote>
+		<id>SYP</id><symbol>SYP</symbol><description>Syrian Pound (SYP)</description>
+	</quote>
+	<quote>
+		<id>SZL</id><symbol>SZL</symbol><description>Swazi Lilangeni (SZL)</description>
+	</quote>
+	<quote>
+		<id>THB</id><symbol>THB</symbol><description>Thai Baht (THB)</description>
+	</quote>
+	<quote>
+		<id>TJS</id><symbol>TJS</symbol><description>Tajikistani Somoni (TJS)</description>
+	</quote>
+	<quote>
+		<id>TMT</id><symbol>TMT</symbol><description>Turkmenistani Manat (TMT)</description>
+	</quote>
+	<quote>
+		<id>TND</id><symbol>TND</symbol><description>Tunisian Dinar (TND)</description>
+	</quote>
+	<quote>
+		<id>TOP</id><symbol>TOP</symbol><description>Tongan Paʻanga (TOP)</description>
+	</quote>
+	<quote>
+		<id>TRY</id><symbol>TRY</symbol><description>Turkish Lira (TRY)</description>
+	</quote>
+	<quote>
+		<id>TTD</id><symbol>TTD</symbol><description>Trinidad and Tobago Dollar (TTD)</description>
+	</quote>
+	<quote>
+		<id>TWD</id><symbol>TWD</symbol><description>New Taiwan Dollar (TWD)</description>
+	</quote>
+	<quote>
+		<id>TZS</id><symbol>TZS</symbol><description>Tanzanian Shilling (TZS)</description>
+	</quote>
+	<quote>
+		<id>UAH</id><symbol>UAH</symbol><description>Ukrainian Hryvnia (UAH)</description>
+	</quote>
+	<quote>
+		<id>UGX</id><symbol>UGX</symbol><description>Ugandan Shilling (UGX)</description>
+	</quote>
+	<quote>
+		<id>USD</id><symbol>USD</symbol><description>United States Dollar (USD)</description>
+	</quote>
+	<quote>
+		<id>UYU</id><symbol>UYU</symbol><description>Uruguayan Peso (UYU)</description>
+	</quote>
+	<quote>
+		<id>UZS</id><symbol>UZS</symbol><description>Uzbekistani Som (UZS)</description>
+	</quote>
+	<quote>
+		<id>VEF</id><symbol>VEF</symbol><description>Venezuelan Bolívar (VEF)</description>
+	</quote>
+	<quote>
+		<id>VND</id><symbol>VND</symbol><description>Vietnamese Dong (VND)</description>
+	</quote>
+	<quote>
+		<id>VUV</id><symbol>VUV</symbol><description>Vanuatu Vatu (VUV)</description>
+	</quote>
+	<quote>
+		<id>WST</id><symbol>WST</symbol><description>Samoan Tala (WST)</description>
+	</quote>
+	<quote>
+		<id>XAF</id><symbol>XAF</symbol><description>Central African CFA Franc (FCFA)</description>
+	</quote>
+	<quote>
+		<id>XCD</id><symbol>XCD</symbol><description>East Caribbean Dollar (XCD)</description>
+	</quote>
+	<quote>
+		<id>XDR</id><symbol>XDR</symbol><description>Special Drawing Rights (XDR)</description>
+	</quote>
+	<quote>
+		<id>XOF</id><symbol>XOF</symbol><description>West African CFA Franc (CFA)</description>
+	</quote>
+	<quote>
+		<id>XPF</id><symbol>XPF</symbol><description>CFP Franc (CFPF)</description>
+	</quote>
+	<quote>
+		<id>YER</id><symbol>YER</symbol><description>Yemeni Rial (YER)</description>
+	</quote>
+	<quote>
+		<id>ZAR</id><symbol>ZAR</symbol><description>South African Rand (ZAR)</description>
+	</quote>
+	<quote>
+		<id>ZMK</id><symbol>ZMK</symbol><description>Zambian Kwacha (1968–2012) (ZMK)</description>
+	</quote>
+	<quote>
+		<id>ZMW</id><symbol>ZMW</symbol><description>Zambian Kwacha (ZMW)</description>
+	</quote>
+	<quote>
+		<id>ZWL</id><symbol>ZWL</symbol><description>Zimbabwean Dollar (2009) (ZWL)</description>
+	</quote>
+</section>
+>>>>>>> .theirs</Provider>
