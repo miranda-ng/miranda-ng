@@ -105,6 +105,7 @@ typedef DWORD mdbx_tid_t;
 #define MDBX_EIO ERROR_WRITE_FAULT
 #define MDBX_EPERM ERROR_INVALID_FUNCTION
 #define MDBX_EINTR ERROR_CANCELLED
+#define MDBX_ENOFILE ERROR_FILE_NOT_FOUND
 
 #else
 
@@ -125,6 +126,8 @@ typedef pthread_t mdbx_tid_t;
 #define MDBX_EIO EIO
 #define MDBX_EPERM EPERM
 #define MDBX_EINTR EINTR
+#define MDBX_ENOFILE ENOENT
+
 #endif
 
 #ifdef _MSC_VER
@@ -170,7 +173,7 @@ typedef pthread_t mdbx_tid_t;
 /*--------------------------------------------------------------------------*/
 
 #define MDBX_VERSION_MAJOR 0
-#define MDBX_VERSION_MINOR 1
+#define MDBX_VERSION_MINOR 2
 
 #if defined(LIBMDBX_EXPORTS)
 #define LIBMDBX_API __dll_export
@@ -700,7 +703,8 @@ LIBMDBX_API int mdbx_env_open(MDBX_env *env, const char *path, unsigned flags,
  *      NOTE: Currently it fails if the environment has suffered a page leak.
  *
  * Returns A non-zero error value on failure and 0 on success. */
-LIBMDBX_API int mdbx_env_copy(MDBX_env *env, const char *path, unsigned flags);
+LIBMDBX_API int mdbx_env_copy(MDBX_env *env, const char *dest_path,
+                              unsigned flags);
 
 /* Copy an MDBX environment to the specified file descriptor,
  * with options.
@@ -1657,7 +1661,9 @@ typedef int MDBX_pgvisitor_func(uint64_t pgno, unsigned pgnumber, void *ctx,
 LIBMDBX_API int mdbx_env_pgwalk(MDBX_txn *txn, MDBX_pgvisitor_func *visitor,
                                 void *ctx);
 
-typedef struct mdbx_canary { uint64_t x, y, z, v; } mdbx_canary;
+typedef struct mdbx_canary {
+  uint64_t x, y, z, v;
+} mdbx_canary;
 
 LIBMDBX_API int mdbx_canary_put(MDBX_txn *txn, const mdbx_canary *canary);
 LIBMDBX_API int mdbx_canary_get(MDBX_txn *txn, mdbx_canary *canary);

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -133,8 +133,9 @@ int mdbx_txn_lock(MDBX_env *env, bool dontwait) {
   }
 
   if ((env->me_flags & MDBX_EXCLUSIVE) ||
-      flock(env->me_fd, dontwait ? (LCK_EXCLUSIVE | LCK_DONTWAIT)
-                                 : (LCK_EXCLUSIVE | LCK_WAITFOR),
+      flock(env->me_fd,
+            dontwait ? (LCK_EXCLUSIVE | LCK_DONTWAIT)
+                     : (LCK_EXCLUSIVE | LCK_WAITFOR),
             LCK_BODY))
     return MDBX_SUCCESS;
   int rc = GetLastError();
@@ -143,8 +144,8 @@ int mdbx_txn_lock(MDBX_env *env, bool dontwait) {
 }
 
 void mdbx_txn_unlock(MDBX_env *env) {
-  int rc = (env->me_flags & MDBX_EXCLUSIVE) ? TRUE
-                                            : funlock(env->me_fd, LCK_BODY);
+  int rc =
+      (env->me_flags & MDBX_EXCLUSIVE) ? TRUE : funlock(env->me_fd, LCK_BODY);
   LeaveCriticalSection(&env->me_windowsbug_lock);
   if (!rc)
     mdbx_panic("%s failed: errcode %u", mdbx_func_, GetLastError());
@@ -362,7 +363,7 @@ static int internal_seize_lck(HANDLE lfd) {
                "?-E(middle) >> S-E(locked)", rc);
 
   /* 8) now on S-E (locked) or still on ?-E (middle),
-  *    transite to S-? (used) or ?-? (free) */
+   *    transite to S-? (used) or ?-? (free) */
   if (!funlock(lfd, LCK_UPPER))
     mdbx_panic("%s(%s) failed: errcode %u", mdbx_func_,
                "X-E(locked/middle) >> X-?(used/free)", GetLastError());

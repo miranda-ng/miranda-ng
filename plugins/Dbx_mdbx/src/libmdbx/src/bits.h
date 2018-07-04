@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -370,19 +370,19 @@ typedef struct MDBX_page {
 #define PAGEHDRSZ ((unsigned)offsetof(MDBX_page, mp_data))
 
 /* The maximum size of a database page.
-*
-* It is 64K, but value-PAGEHDRSZ must fit in MDBX_page.mp_upper.
-*
-* MDBX will use database pages < OS pages if needed.
-* That causes more I/O in write transactions: The OS must
-* know (read) the whole page before writing a partial page.
-*
-* Note that we don't currently support Huge pages. On Linux,
-* regular data files cannot use Huge pages, and in general
-* Huge pages aren't actually pageable. We rely on the OS
-* demand-pager to read our data and page it out when memory
-* pressure from other processes is high. So until OSs have
-* actual paging support for Huge pages, they're not viable. */
+ *
+ * It is 64K, but value-PAGEHDRSZ must fit in MDBX_page.mp_upper.
+ *
+ * MDBX will use database pages < OS pages if needed.
+ * That causes more I/O in write transactions: The OS must
+ * know (read) the whole page before writing a partial page.
+ *
+ * Note that we don't currently support Huge pages. On Linux,
+ * regular data files cannot use Huge pages, and in general
+ * Huge pages aren't actually pageable. We rely on the OS
+ * demand-pager to read our data and page it out when memory
+ * pressure from other processes is high. So until OSs have
+ * actual paging support for Huge pages, they're not viable. */
 #define MAX_PAGESIZE 0x10000u
 #define MIN_PAGESIZE 512u
 
@@ -411,7 +411,7 @@ typedef struct MDBX_lockinfo {
   volatile uint32_t mti_envmode;
 
 #ifdef MDBX_OSAL_LOCK
-  /* Mutex protecting write access to this table. */
+  /* Mutex protecting write-txn. */
   union {
     MDBX_OSAL_LOCK mti_wmutex;
     uint8_t pad_mti_wmutex[MDBX_OSAL_LOCK_SIZE % sizeof(size_t)];
@@ -736,14 +736,17 @@ struct MDBX_env {
   /* Max MDBX_lockinfo.mti_numreaders of interest to mdbx_env_close() */
   unsigned me_close_readers;
   mdbx_fastmutex_t me_dbi_lock;
-  MDBX_dbi me_numdbs;          /* number of DBs opened */
-  MDBX_dbi me_maxdbs;          /* size of the DB table */
-  mdbx_pid_t me_pid;           /* process ID of this env */
-  mdbx_thread_key_t me_txkey;  /* thread-key for readers */
-  char *me_path;               /* path to the DB files */
-  void *me_pbuf;               /* scratch area for DUPSORT put() */
-  MDBX_txn *me_txn;            /* current write transaction */
-  MDBX_txn *me_txn0;           /* prealloc'd write transaction */
+  MDBX_dbi me_numdbs;         /* number of DBs opened */
+  MDBX_dbi me_maxdbs;         /* size of the DB table */
+  mdbx_pid_t me_pid;          /* process ID of this env */
+  mdbx_thread_key_t me_txkey; /* thread-key for readers */
+  char *me_path;              /* path to the DB files */
+  void *me_pbuf;              /* scratch area for DUPSORT put() */
+  MDBX_txn *me_txn;           /* current write transaction */
+  MDBX_txn *me_txn0;          /* prealloc'd write transaction */
+#ifdef MDBX_OSAL_LOCK
+  MDBX_OSAL_LOCK *me_wmutex; /* write-txn mutex */
+#endif
   MDBX_dbx *me_dbxs;           /* array of static DB info */
   uint16_t *me_dbflags;        /* array of flags from MDBX_db.md_flags */
   unsigned *me_dbiseqs;        /* array of dbi sequence numbers */
@@ -788,6 +791,7 @@ struct MDBX_env {
   /* Workaround for LockFileEx and WriteFile multithread bug */
   CRITICAL_SECTION me_windowsbug_lock;
 #else
+  mdbx_fastmutex_t me_lckless_wmutex;
   mdbx_fastmutex_t me_remap_guard;
 #endif
 };

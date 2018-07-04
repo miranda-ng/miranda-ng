@@ -1,4 +1,4 @@
-﻿/* https://en.wikipedia.org/wiki/Operating_system_abstraction_layer */
+/* https://en.wikipedia.org/wiki/Operating_system_abstraction_layer */
 
 /*
  * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
@@ -191,7 +191,7 @@ __cold void mdbx_panic(const char *fmt, ...) {
   abort();
 }
 
-  /*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 
 #ifndef mdbx_asprintf
 int mdbx_asprintf(char **strp, const char *fmt, ...) {
@@ -408,6 +408,13 @@ int mdbx_fastmutex_release(mdbx_fastmutex_t *fastmutex) {
 
 /*----------------------------------------------------------------------------*/
 
+int mdbx_removefile(const char *pathname) {
+#if defined(_WIN32) || defined(_WIN64)
+  return DeleteFileA(pathname) ? MDBX_SUCCESS : GetLastError();
+#else
+  return unlink(pathname) ? errno : MDBX_SUCCESS;
+#endif
+}
 int mdbx_openfile(const char *pathname, int flags, mode_t mode,
                   mdbx_filehandle_t *fd, bool exclusive) {
   *fd = INVALID_HANDLE_VALUE;
@@ -431,8 +438,7 @@ int mdbx_openfile(const char *pathname, int flags, mode_t mode,
     break;
   case O_RDWR:
     DesiredAccess = GENERIC_READ | GENERIC_WRITE;
-    ShareMode =
-        exclusive ? FILE_SHARE_READ : (FILE_SHARE_READ | FILE_SHARE_WRITE);
+    ShareMode = exclusive ? 0 : (FILE_SHARE_READ | FILE_SHARE_WRITE);
     break;
   }
 
@@ -856,13 +862,11 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   map->section = NULL;
   map->address = nullptr;
 
-  if (!(flags & MDBX_EXCLUSIVE)) {
-    NTSTATUS rc = mdbx_check4nonlocal(map->fd, flags);
-    if (rc != MDBX_SUCCESS)
-      return rc;
-  }
+  NTSTATUS rc = mdbx_check4nonlocal(map->fd, flags);
+  if (rc != MDBX_SUCCESS)
+    return rc;
 
-  NTSTATUS rc = mdbx_filesize(map->fd, &map->filesize);
+  rc = mdbx_filesize(map->fd, &map->filesize);
   if (rc != MDBX_SUCCESS)
     return rc;
   if ((flags & MDBX_RDONLY) == 0 && map->filesize != size) {
@@ -878,13 +882,13 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   rc = NtCreateSection(
       &map->section,
       /* DesiredAccess */
-          (flags & MDBX_WRITEMAP)
+      (flags & MDBX_WRITEMAP)
           ? SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE |
                 SECTION_MAP_WRITE
           : SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE,
       /* ObjectAttributes */ NULL, /* MaximumSize (InitialSize) */ &SectionSize,
       /* SectionPageProtection */
-          (flags & MDBX_RDONLY) ? PAGE_READONLY : PAGE_READWRITE,
+      (flags & MDBX_RDONLY) ? PAGE_READONLY : PAGE_READWRITE,
       /* AllocationAttributes */ SEC_RESERVE, map->fd);
   if (!NT_SUCCESS(rc))
     return ntstatus2errcode(rc);
@@ -898,7 +902,7 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
       /* InheritDisposition */ ViewUnmap,
       /* AllocationType */ (flags & MDBX_RDONLY) ? 0 : MEM_RESERVE,
       /* Win32Protect */
-          (flags & MDBX_WRITEMAP) ? PAGE_READWRITE : PAGE_READONLY);
+      (flags & MDBX_WRITEMAP) ? PAGE_READWRITE : PAGE_READONLY);
   if (!NT_SUCCESS(rc)) {
     NtClose(map->section);
     map->section = 0;
@@ -933,11 +937,6 @@ int mdbx_munmap(mdbx_mmap_t *map) {
   if (!NT_SUCCESS(rc))
     ntstatus2errcode(rc);
 
-  if (map->filesize != map->current &&
-      mdbx_filesize(map->fd, &map->filesize) == MDBX_SUCCESS &&
-      map->filesize != map->current)
-    (void)mdbx_ftruncate(map->fd, map->current);
-
   map->length = 0;
   map->current = 0;
   map->address = nullptr;
@@ -963,8 +962,11 @@ int mdbx_mresize(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
     /* growth rw-section */
     SectionSize.QuadPart = size;
     status = NtExtendSection(map->section, &SectionSize);
-    if (NT_SUCCESS(status))
-      map->filesize = map->current = size;
+    if (NT_SUCCESS(status)) {
+      map->current = size;
+      if (map->filesize < size)
+        map->filesize = size;
+    }
     return ntstatus2errcode(status);
   }
 
@@ -1040,14 +1042,14 @@ retry_file_and_section:
   status = NtCreateSection(
       &map->section,
       /* DesiredAccess */
-          (flags & MDBX_WRITEMAP)
+      (flags & MDBX_WRITEMAP)
           ? SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE |
                 SECTION_MAP_WRITE
           : SECTION_QUERY | SECTION_MAP_READ | SECTION_EXTEND_SIZE,
       /* ObjectAttributes */ NULL,
       /* MaximumSize (InitialSize) */ &SectionSize,
       /* SectionPageProtection */
-          (flags & MDBX_RDONLY) ? PAGE_READONLY : PAGE_READWRITE,
+      (flags & MDBX_RDONLY) ? PAGE_READONLY : PAGE_READWRITE,
       /* AllocationAttributes */ SEC_RESERVE, map->fd);
 
   if (!NT_SUCCESS(status))
@@ -1072,7 +1074,7 @@ retry_mapview:;
       /* InheritDisposition */ ViewUnmap,
       /* AllocationType */ (flags & MDBX_RDONLY) ? 0 : MEM_RESERVE,
       /* Win32Protect */
-          (flags & MDBX_WRITEMAP) ? PAGE_READWRITE : PAGE_READONLY);
+      (flags & MDBX_WRITEMAP) ? PAGE_READWRITE : PAGE_READONLY);
 
   if (!NT_SUCCESS(status)) {
     if (status == /* STATUS_CONFLICTING_ADDRESSES */ 0xC0000018 &&
