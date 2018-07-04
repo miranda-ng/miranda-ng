@@ -80,7 +80,7 @@ BEGIN
     CONTROL         "Reconnect if IP address changes",
                     IDC_CHECK_ALWAY_RECONNECT,"Button",BS_AUTOCHECKBOX |
                     WS_TABSTOP,15,120,132,10
-    CONTROL         "Display 'Show my IP' in menu",IDC_CHECK_SHOWMYIPMENU,
+    CONTROL         "Display 'Show my IP addresses' in menu",IDC_CHECK_SHOWMYIPMENU,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,134,130,10
     CONTROL         "Display 'Proxy && IP' submenu",IDC_CHECK_PROXYIPMENU,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,148,131,10
@@ -100,9 +100,9 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,143,123,10
     CTEXT           "Restart of Miranda NG is required.",IDC_RESTARTREQUIRED,
                     164,164,127,8,NOT WS_VISIBLE
-    LTEXT           "Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tip/bits\t(10.0.0.1/24)\t\tip/mask\t(10.0.0.1/255.255.255.0)\n\tip1-2\t(10.0.0.1-50)\t\tip1-ip2\t(10.0.0.1-10.0.2.255)",
+    LTEXT           "Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tIP/bits\t(10.0.0.1/24)\t\tIP/mask\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)",
                     IDC_HELP_1,7,66,287,32,NOT WS_VISIBLE | NOT WS_GROUP
-    LTEXT           "Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The program checks the IP addresses in the following way:",
+    LTEXT           "Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The plugin checks the IP addresses in the following way:",
                     IDC_HELP_2,7,98,287,27,NOT WS_VISIBLE | NOT WS_GROUP
     LTEXT           "\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or any at all addresses found",
                     IDC_HELP_3,7,125,287,59,NOT WS_VISIBLE | NOT WS_GROUP
