@@ -152,7 +152,7 @@ int CDbxMDBX::Load()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 size_t iDefHeaderOffset = 0;
-BYTE bDefHeader[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0 };
+BYTE bDefHeader[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 int CDbxMDBX::Check(void)
 {
@@ -208,7 +208,7 @@ BOOL CDbxMDBX::Backup(const wchar_t *pwszPath)
 		return 1;
 	}
 
-	int res = mdbx_env_copy2fd(m_env, pFile, MDBX_CP_COMPACT);
+	int res = mdbx_env_copy2fd(m_env, pFile, 0);
 	CloseHandle(pFile);
 	if (res == MDBX_SUCCESS)
 		return 0;
