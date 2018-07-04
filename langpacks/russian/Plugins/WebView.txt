@@ -218,7 +218,7 @@ URL:
 [Cannot write to file]
 Невозможно записать в файл
 [Last updated on]
-
+Последнее обновление:
 [Start/end strings not found or strings not set.]
 
 [Alert start/end strings not found or strings not set.]
@@ -230,7 +230,7 @@ URL:
 [Download successful; about to process data...]
 
 [Unknown alert type.]
-
+Неизвестный тип оповещения.
 [Cannot read from file]
 Невозможно прочитать из файла
 [Cannot write to file 1]
@@ -294,7 +294,7 @@ URL:
 [Processing data (Stage 8)]
 Обработка данных (этап 8)
 [Alert!]
-
+Оповещение!
 [Online]
 В сети
 [A site is already downloading, try again in a moment.]
@@ -348,6 +348,6 @@ URL:
 [Missing "psite.bat" file.]
 Отсутствует файл "psite.bat".
 [Site URL]
-
+Адрес веб-страницы
 [Please select site in Find/Add contacts...]
 Пожалуйста, выберите страницу в Добавить контакты...

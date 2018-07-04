@@ -570,7 +570,7 @@ UTF16+сигнатура
 [Show or hide netlog console window]
 Показывает или скрывает окно сетевой консоли
 [int Value]
-
+Целочисленное значение
 [Returns contact amount, excluding user account]
 Возвращает кол-во контактов за исключением учётной записи пользователя
 [Ansi Text]
@@ -634,7 +634,7 @@ UTF16+сигнатура
 [Station name]
 Название станции
 [wParam is Handle]
-
+wParam содержит хэндл
 [wParam is Ansi station name]
 wParam содержит имя станции в кодировке Ansi
 [wParam is Unicode station name]
