@@ -422,10 +422,7 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 
 	wchar_t profpn[MAX_PATH];
 	mir_snwprintf(profpn, L"%s\\%s", profpathfull, profname);
-
-	DATABASELINK *db = FindDatabasePlugin(profpn);
-
-	buffer.AppendFormat(L"Profile: %s (%s)\r\n", profpn, db->szFullName);
+	buffer.AppendFormat(L"Profile: %s\r\n", profpn);
 
 	if (flags & VI_FLAG_PRNVAR) {
 		WIN32_FIND_DATA FindFileData;
@@ -442,9 +439,6 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 
 	GetLanguagePackString(buffer);
 	buffer.Append(L"\r\n");
-
-	// buffer.AppendFormat(L"Nightly: %s\r\n"), wcsstr(vertxt, L"alpha")) ? L"Yes") : L"No")); 
-	// buffer.AppendFormat(L"Unicode: %s\r\n"), wcsstr(vertxt, L"Unicode")) ? L"Yes") : L"No")); 
 
 	GetPluginsString(buffer, flags);
 

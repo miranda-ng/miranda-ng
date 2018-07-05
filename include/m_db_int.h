@@ -134,7 +134,7 @@ interface MIR_APP_EXPORT MIDatabase
 
 class MIR_APP_EXPORT MDatabaseCommon : public MIDatabase
 {
-	HANDLE m_hLock;
+	HANDLE m_hLock = nullptr;
 
 protected:
 	int m_codePage;
