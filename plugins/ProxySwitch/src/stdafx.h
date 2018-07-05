@@ -44,7 +44,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 #define NVL(x) x == NULL ? "" : x
 #define NVLW(x) x == NULL ? L"" : x
-#define ERRORMSG(msg) MessageBox(NULL,msg,_A2T(MODULENAME),MB_OK | MB_ICONERROR);
+
 #define MAX_IPLIST_LENGTH 500
 
 /**** Types ********************************************************************************/

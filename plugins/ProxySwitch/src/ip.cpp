@@ -18,9 +18,7 @@ void IP_WatchDog(void*)
 		HANDLE hResult;
 		DWORD ret = NotifyAddrChange(&hResult, &overlap);
 		if (ret != NO_ERROR && WSAGetLastError() != WSA_IO_PENDING) {
-			wchar_t err[100];
-			mir_snwprintf(err, L"NotifyAddrChange Error: %d/nRestart Miranda NG to restore IP monitor.", WSAGetLastError());
-			ERRORMSG(err);
+			Netlib_Logf(0, "NotifyAddrChange Error: %d/nRestart Miranda NG to restore IP monitor.", WSAGetLastError());
 			break;
 		}
 
@@ -124,7 +122,7 @@ int Create_NIF_List_Ex(NETWORK_INTERFACE_LIST *list)
 		delay++;
 	}
 	if (out == -2)
-		ERRORMSG(TranslateT("Cannot retrieve IP or adapter data."));
+		Netlib_Logf(0, "Cannot retrieve IP or adapter data.");
 	return out < 0 ? -1 : out;
 }
 
@@ -152,7 +150,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	if (GetAdaptersAddresses(AF_INET, 0, NULL, NULL, &outBufLen) == ERROR_BUFFER_OVERFLOW) {
 		pAddresses = (PIP_ADAPTER_ADDRESSES)mir_alloc(outBufLen);
 		if (pAddresses == NULL) {
-			ERRORMSG(TranslateT("Cannot allocate memory for pAddresses"));
+			Netlib_Logf(0, "Cannot allocate memory for pAddresses");
 			return -1;
 		}
 		if ((out = GetAdaptersAddresses(AF_INET, 0, NULL, pAddresses, &outBufLen)) != ERROR_SUCCESS) {
@@ -161,7 +159,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 		}
 	}
 	else {
-		ERRORMSG(TranslateT("GetAdaptersAddresses sizing failed"));
+		Netlib_Logf(0, "GetAdaptersAddresses sizing failed");
 		return -1;
 	}
 
@@ -170,7 +168,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	if (GetAdaptersInfo(NULL, &outBufLen) == ERROR_BUFFER_OVERFLOW) {
 		pAdapterInfo = (PIP_ADAPTER_INFO)mir_alloc(outBufLen);
 		if (pAdapterInfo == NULL) {
-			ERRORMSG(TranslateT("Cannot allocate memory for pAdapterInfo"));
+			Netlib_Logf(0, "Cannot allocate memory for pAdapterInfo");
 			mir_free(pAddresses);
 			return -1;
 		}
@@ -181,7 +179,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 		}
 	}
 	else {
-		ERRORMSG(TranslateT("GetAdaptersInfo sizing failed"));
+		Netlib_Logf(0, "GetAdaptersInfo sizing failed");
 		mir_free(pAddresses);
 		return -1;
 	}
