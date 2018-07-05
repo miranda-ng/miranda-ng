@@ -191,7 +191,7 @@ __cold void mdbx_panic(const char *fmt, ...) {
   abort();
 }
 
-/*----------------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------*/
 
 #ifndef mdbx_asprintf
 int mdbx_asprintf(char **strp, const char *fmt, ...) {
@@ -862,11 +862,13 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   map->section = NULL;
   map->address = nullptr;
 
-  NTSTATUS rc = mdbx_check4nonlocal(map->fd, flags);
-  if (rc != MDBX_SUCCESS)
-    return rc;
+  if (!(flags & MDBX_EXCLUSIVE)) {
+    NTSTATUS rc = mdbx_check4nonlocal(map->fd, flags);
+    if (rc != MDBX_SUCCESS)
+      return rc;
+  }
 
-  rc = mdbx_filesize(map->fd, &map->filesize);
+  NTSTATUS rc = mdbx_filesize(map->fd, &map->filesize);
   if (rc != MDBX_SUCCESS)
     return rc;
   if ((flags & MDBX_RDONLY) == 0 && map->filesize != size) {
