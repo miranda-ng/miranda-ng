@@ -492,13 +492,13 @@ int CreateFrame()
 			0, 0, 10, 10, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 		CLISTFrame Frame = { sizeof(CLISTFrame) };
-		Frame.tname = TranslateT("Alarms");
+		Frame.szName.a = LPGEN("Alarms");
 		Frame.hWnd = hwnd_plugin;
 		Frame.align = alBottom;
-		Frame.Flags = F_UNICODE | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
+		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 		Frame.height = 30;
 		Frame.hIcon = hIconMenuSet;
-		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+		frame_id = g_plugin.addFrame(&Frame);
 	}
 	else {
 		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);

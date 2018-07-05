@@ -221,6 +221,11 @@ int CMPluginBase::addEffect(EffectIDW *pEffect)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CMPluginBase::addFrame(const CLISTFrame *F)
+{
+	return (int)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)F, m_hLang);
+}
+
 int CMPluginBase::addHotkey(const HOTKEYDESC *hk)
 {
 	return Hotkey_Register(hk, m_hLang);

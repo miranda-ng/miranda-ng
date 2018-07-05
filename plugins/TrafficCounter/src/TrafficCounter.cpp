@@ -65,7 +65,7 @@ unsigned short int Traffic_LineHeight;
 wchar_t Traffic_CounterFormat[512];
 wchar_t Traffic_TooltipFormat[512];
 //
-HANDLE Traffic_FrameID = nullptr;
+int Traffic_FrameID = 0;
 
 char Traffic_AdditionSpace;
 
@@ -139,8 +139,8 @@ int TrafficCounterShutdown(WPARAM, LPARAM)
 
 	// Удаляем фрейм.
 	if ((ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME)) && Traffic_FrameID) {
-		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)Traffic_FrameID, 0);
-		Traffic_FrameID = nullptr;
+		CallService(MS_CLIST_FRAMES_REMOVEFRAME, Traffic_FrameID, 0);
+		Traffic_FrameID = 0;
 	}
 	return 0;
 }
@@ -766,7 +766,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 					OverallInfo.Total.Timer = (CurrentTimeMs - OverallInfo.Total.TimeAtStart) / 1000;
 				}
 
-				CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)Traffic_FrameID, FU_FMREDRAW);
+				CallService(MS_CLIST_FRAMES_UPDATEFRAME, Traffic_FrameID, FU_FMREDRAW);
 			}
 			break;
 
@@ -834,10 +834,9 @@ void CreateTrafficWindow(HWND hCluiWnd)
 		f.height = TrafficWindowHeight();
 		f.Flags = unOptions.FrameIsVisible | F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER;
 		f.hWnd = TrafficHwnd;
-		f.TBname = ("Traffic counter");
-		f.name = ("Traffic counter");
+		f.szName.a = f.szTBname.a = LPGEN("Traffic counter");
 		// Создаём фрейм
-		Traffic_FrameID = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&f, 0);
+		Traffic_FrameID = g_plugin.addFrame(&f);
 		CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)f.hWnd, (LPARAM)TrafficCounter_PaintCallbackProc);
 	}
 
@@ -849,10 +848,10 @@ void CreateTrafficWindow(HWND hCluiWnd)
 INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM)
 {
 	unOptions.FrameIsVisible = !unOptions.FrameIsVisible;
-	if (Traffic_FrameID == nullptr)
+	if (Traffic_FrameID == 0)
 		ShowWindow(TrafficHwnd, unOptions.FrameIsVisible ? SW_SHOW : SW_HIDE);
 	else
-		CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)Traffic_FrameID, 0);
+		CallService(MS_CLIST_FRAMES_SHFRAME, Traffic_FrameID, 0);
 	db_set_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, unOptions.Flags);
 	//
 	return 0;
@@ -973,7 +972,7 @@ int UpdateFonts(WPARAM, LPARAM)
 
 void UpdateTrafficWindowSize(void)
 {
-	if (Traffic_FrameID != nullptr)
+	if (Traffic_FrameID != 0)
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, Traffic_FrameID), TrafficWindowHeight());
 }
 

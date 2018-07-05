@@ -1577,18 +1577,18 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM)
 
 	Frames[nFramescount].dwFlags = clfrm->Flags;
 
-	if (clfrm->name == nullptr || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->wname) : mir_strlen(clfrm->name)) == 0) {
+	if (clfrm->szName.a == nullptr || ((clfrm->Flags & F_UNICODE) ? mir_wstrlen(clfrm->szName.w) : mir_strlen(clfrm->szName.a)) == 0) {
 		wchar_t ptszClassName[256];
 		GetClassName(Frames[nFramescount].hWnd, ptszClassName, _countof(ptszClassName));
 		Frames[nFramescount].name = mir_wstrdup(ptszClassName);
 	}
-	else Frames[nFramescount].name = (clfrm->Flags & F_UNICODE) ? mir_wstrdup(clfrm->wname) : mir_a2u(clfrm->name);
+	else Frames[nFramescount].name = (clfrm->Flags & F_UNICODE) ? mir_wstrdup(clfrm->szName.w) : mir_a2u(clfrm->szName.a);
 
-	if (IsBadCodePtr((FARPROC)clfrm->TBname) || clfrm->TBname == nullptr
-		|| ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->TBwname) : mir_strlen(clfrm->TBname)) == 0)
+	if (IsBadCodePtr((FARPROC)clfrm->szTBname.a) || clfrm->szTBname.a == nullptr
+		|| ((clfrm->Flags & F_UNICODE) ? mir_wstrlen(clfrm->szTBname.w) : mir_strlen(clfrm->szTBname.a)) == 0)
 		Frames[nFramescount].TitleBar.tbname = mir_wstrdup(Frames[nFramescount].name);
 	else
-		Frames[nFramescount].TitleBar.tbname = (clfrm->Flags & F_UNICODE) ? mir_wstrdup(clfrm->TBwname) : mir_a2u(clfrm->TBname);
+		Frames[nFramescount].TitleBar.tbname = (clfrm->Flags & F_UNICODE) ? mir_wstrdup(clfrm->szTBname.w) : mir_a2u(clfrm->szTBname.a);
 	Frames[nFramescount].needhide = FALSE;
 	Frames[nFramescount].TitleBar.ShowTitleBar = (clfrm->Flags & F_SHOWTB ? TRUE : FALSE);
 	Frames[nFramescount].TitleBar.ShowTitleBarTip = (clfrm->Flags & F_SHOWTBTIP ? TRUE : FALSE);

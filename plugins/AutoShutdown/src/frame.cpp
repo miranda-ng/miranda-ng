@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Show Frame */
 static HWND hwndCountdownFrame;
-static WORD hFrame;
+static int hFrame;
 /* Misc */
 static HANDLE hHookModulesLoaded;
 
@@ -494,18 +494,18 @@ void ShowCountdownFrame(WORD fTimeFlags)
 	if (hwndCountdownFrame == nullptr) return;
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		CLISTFrame clf = { sizeof(clf) };
-		clf.hIcon = IcoLib_GetIcon("AutoShutdown_Active"); /* CListFrames does not make a copy */
-		clf.align = alBottom;
-		clf.height = GetSystemMetrics(SM_CYICON);
-		clf.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_SKINNED;
-		clf.name = Translate(MODULENAME);
-		clf.TBname = Translate("Automatic shutdown");
-		clf.hWnd = hwndCountdownFrame;
-		hFrame = (WORD)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&clf, 0);
+		CLISTFrame Frame = { sizeof(Frame) };
+		Frame.hIcon = IcoLib_GetIcon("AutoShutdown_Active"); /* CListFrames does not make a copy */
+		Frame.align = alBottom;
+		Frame.height = GetSystemMetrics(SM_CYICON);
+		Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_SKINNED;
+		Frame.szName.a = MODULENAME;
+		Frame.szTBname.a = LPGEN("Automatic shutdown");
+		Frame.hWnd = hwndCountdownFrame;
+		hFrame = g_plugin.addFrame(&Frame);
 		if (hFrame) {
 			ShowWindow(hwndCountdownFrame, SW_SHOW);
-			CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrame), (LPARAM)clf.name);
+			CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrame), (LPARAM)MODULENAME);
 			/* HACKS TO FIX CLUI FRAMES:
 			 * *** why is CLUIFrames is horribly buggy??! *** date: sept 2005, nothing changed until sept 2006
 			 * workaround #1: MS_CLIST_FRAMES_REMOVEFRAME does not finish with destroy cycle (clist_modern, clist_nicer crashes) */

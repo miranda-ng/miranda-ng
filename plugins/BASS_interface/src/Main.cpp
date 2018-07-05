@@ -63,11 +63,11 @@ static BOOL QuietTime, Preview, EnPreview;
 static int Volume;
 static int device = -1;
 static int newBass = 0;
+static int frame_id = 0;
 
 HWND hwndSlider = nullptr, hwndMute = nullptr, hwndOptSlider = nullptr, hwnd_plugin = nullptr;
 COLORREF clBack = 0;
 HBRUSH hBkgBrush = nullptr;
-HANDLE frame_id = nullptr;
 HANDLE hBASSFolder = nullptr, hPlaySound = nullptr;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
@@ -447,13 +447,13 @@ void CreateFrame()
 		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
-	Frame.tname = TranslateT("BASS Interface");
+	Frame.szName.a = LPGEN("BASS Interface");
 	Frame.hWnd = hwnd_plugin;
 	Frame.align = alBottom;
-	Frame.Flags = F_UNICODE | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
+	Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 	Frame.height = 22;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	frame_id = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	frame_id = g_plugin.addFrame(&Frame);
 
 	ColourIDW colourid = { 0 };
 	colourid.cbSize = sizeof(ColourIDW);
@@ -475,7 +475,7 @@ void DeleteFrame()
 	if (hBkgBrush)
 		DeleteObject(hBkgBrush);
 
-	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
+	CallService(MS_CLIST_FRAMES_REMOVEFRAME, frame_id, 0);
 }
 
 void LoadBassLibrary(const wchar_t *ptszPath)

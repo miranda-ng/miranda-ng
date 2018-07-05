@@ -279,13 +279,13 @@ void CustomizeToolbar(HWND hwnd)
 	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
 
 	CLISTFrame Frame = { sizeof(Frame) };
-	Frame.tname = L"Toolbar";
+	Frame.szName.a = "Toolbar";
 	Frame.hWnd = hwnd;
 	Frame.align = alTop;
-	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_UNICODE | F_NO_SUBCONTAINER;
+	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_NO_SUBCONTAINER;
 	Frame.height = 18;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	pMTBInfo->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	pMTBInfo->hFrame = g_plugin.addFrame(&Frame);
 
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)hwnd, (LPARAM)ToolBar_LayeredPaintProc);
 

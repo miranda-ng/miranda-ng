@@ -149,7 +149,7 @@ struct TTBCtrlButton
 struct TTBCtrl
 {
 	HWND   hWnd;
-	HANDLE hFrame;
+	int    hFrame;
 	int    nButtonWidth;
 	int    nButtonHeight;
 	int    nButtonSpace;

@@ -274,17 +274,15 @@ int CreateFrame()
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My details"), WS_CHILD | WS_VISIBLE,
 			0, 0, 10, 10, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
-		CLISTFrame Frame = { 0 };
-
+		CLISTFrame Frame = {};
 		Frame.cbSize = sizeof(Frame);
-		Frame.tname = TranslateT("My details");
-		Frame.cbSize = sizeof(CLISTFrame);
+		Frame.szName.a = LPGEN("My details");
 		Frame.hWnd = hwnd_frame;
 		Frame.align = alTop;
 		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED | F_UNICODE;
+		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED;
 		Frame.height = 100;
-		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+		frame_id = g_plugin.addFrame(&Frame);
 
 		if (db_get_b(NULL, "MyDetails", "ForceHideFrame", 0)) {
 			int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
@@ -303,14 +301,14 @@ int CreateFrame()
 		}
 	}
 	else {
-		wndclass.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;//CS_HREDRAW | CS_VREDRAW;
+		wndclass.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;
 		wndclass.lpfnWndProc = FrameContainerWindowProc;
 		wndclass.cbClsExtra = 0;
 		wndclass.cbWndExtra = 0;
 		wndclass.hInstance = g_plugin.getInst();
 		wndclass.hIcon = nullptr;
 		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		wndclass.hbrBackground = nullptr; //(HBRUSH)(COLOR_3DFACE+1);
+		wndclass.hbrBackground = nullptr;
 		wndclass.lpszMenuName = nullptr;
 		wndclass.lpszClassName = CONTAINER_CLASS_NAME;
 		RegisterClass(&wndclass);

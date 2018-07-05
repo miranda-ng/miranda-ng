@@ -42,7 +42,7 @@ struct CListImlIcon
 
 static int iconsOn;
 
-HANDLE hNotifyFrame = (HANDLE)-1;
+int hNotifyFrame = -1;
 
 void HideShowNotifyFrame()
 {
@@ -56,11 +56,11 @@ void HideShowNotifyFrame()
 
 	if (desired) {
 		if (!dwVisible)
-			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
+			CallService(MS_CLIST_FRAMES_SHFRAME, hNotifyFrame, 0);
 	}
 	else {
 		if (dwVisible)
-			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
+			CallService(MS_CLIST_FRAMES_SHFRAME, hNotifyFrame, 0);
 	}
 }
 

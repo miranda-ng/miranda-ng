@@ -1109,7 +1109,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	return TRUE;
 }
 
-static HWND hCLVMFrame;
+static int hCLVMFrame;
 HWND g_hwndViewModeFrame;
 
 struct view_mode_t
@@ -1190,20 +1190,19 @@ void CreateViewModeFrame()
 
 	CLISTFrame frame = { 0 };
 	frame.cbSize = sizeof(frame);
-	frame.tname = L"View modes";
+	frame.szName.a = frame.szTBname.a = "View modes";
 	frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame.height = 18;
-	frame.TBtname = TranslateT("View modes");
-	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
+	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER;
 	frame.align = alBottom;
 	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", _A2W(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, g_clistApi.hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
 	g_hwndViewModeFrame = frame.hWnd;
-	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
-	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);
+	hCLVMFrame = g_plugin.addFrame(&frame);
+	CallService(MS_CLIST_FRAMES_UPDATEFRAME, hCLVMFrame, FU_FMPOS);
 
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)frame.hWnd, (LPARAM)ViewModePaintCallbackProc); //$$$$$ register sub for frame
 
-	ApplyViewMode(nullptr); //Apply last selected view mode
+	ApplyViewMode(nullptr); // Apply last selected view mode
 }
 
 void ApplyViewMode(const char *Name, bool onlySelector)

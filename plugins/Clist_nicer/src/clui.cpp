@@ -41,7 +41,7 @@ static RECT rcWPC;
 static int transparentFocus = 1;
 static byte oldhideoffline;
 static int disableautoupd = 1;
-HANDLE hFrameContactTree;
+static int hFrameContactTree;
 extern RECT old_window_rect, new_window_rect;
 
 extern BOOL g_trayTooltipActive;
@@ -63,9 +63,8 @@ RECT cluiPos;
 wchar_t *statusNames[12];
 
 extern LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-extern HANDLE hNotifyFrame;
+extern int hNotifyFrame;
 
-int LoadCluiServices(void);
 void MF_InitCheck(void);
 void InitGroupMenus();
 void FS_RegisterFonts();
@@ -181,16 +180,16 @@ static int CreateCLC()
 	{
 		CLISTFrame frame = { 0 };
 		frame.cbSize = sizeof(frame);
-		frame.tname = L"EventArea";
-		frame.TBtname = TranslateT("Event area");
+		frame.szName.a = "EventArea";
+		frame.szTBname.a = LPGEN("Event area");
 		frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 		frame.height = 20;
-		frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
+		frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER;
 		frame.align = alBottom;
 		frame.hWnd = CreateWindowExA(0, "EventAreaClass", "evt", WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, g_clistApi.hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
 		g_hwndEventArea = frame.hWnd;
-		hNotifyFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
-		CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hNotifyFrame, FU_FMPOS);
+		hNotifyFrame = g_plugin.addFrame(&frame);
+		CallService(MS_CLIST_FRAMES_UPDATEFRAME, hNotifyFrame, FU_FMPOS);
 		HideShowNotifyFrame();
 		CreateViewModeFrame();
 	}
@@ -200,11 +199,11 @@ static int CreateCLC()
 		Frame.hWnd = g_clistApi.hwndContactTree;
 		Frame.align = alClient;
 		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
-		Frame.tname = L"My contacts";
-		Frame.TBtname = TranslateT("My contacts");
+		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER;
+		Frame.szName.a = "My contacts";
+		Frame.szTBname.a = LPGEN("My contacts");
 		Frame.height = 200;
-		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+		hFrameContactTree = g_plugin.addFrame(&Frame);
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME | FO_UNICODETEXT, hFrameContactTree), (LPARAM)TranslateT("My contacts"));
 
 		// ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
@@ -583,7 +582,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 
 	if (Docking_IsDocked(0, 0))
 		return;
-	if (hFrameContactTree == nullptr)
+	if (hFrameContactTree == 0)
 		return;
 
 	maxHeight = db_get_b(NULL, "CLUI", "MaxSizeHeight", 75);

@@ -411,10 +411,10 @@ HRESULT CLUI::CreateCLC()
 	Frame.hWnd = g_clistApi.hwndContactTree;
 	Frame.align = alClient;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NO_SUBCONTAINER | F_UNICODE;
-	Frame.tname = LPGENW("My contacts");
-	Frame.TBtname = TranslateT("My contacts");
-	hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NO_SUBCONTAINER;
+	Frame.szName.a = LPGEN("My contacts");
+	Frame.szTBname.a = LPGEN("My contacts");
+	hFrameContactTree = (HWND)g_plugin.addFrame(&Frame);
 
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)CLCPaint::PaintCallbackProc);
 	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrameContactTree), (LPARAM)Translate("My Contacts"));

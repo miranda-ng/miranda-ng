@@ -31,110 +31,101 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*               CLUI Frames Support				                    */
 /************************************************************************/
 
+// frame alignment
+#define alTop                0x00001
+#define alBottom             0x00002
+#define alClient             0x00004 // only one alClient frame
 
-// Constants used below
-typedef struct tagCLISTFrame {
+#define alLeft               0x00011 // frame is vertical
+#define alRight              0x00012
+
+#define alVertFrameMask      0x00010
+
+// frame flags
+#define F_VISIBLE            0x00001 // Frame visible
+#define F_SHOWTB             0x00002 // Show TitleBar
+#define F_UNCOLLAPSED        0x00004 // UnCollapse frame
+#define F_LOCKED             0x00008 // Lock Frame
+#define F_NOBORDER           0x00010 // Dont apply WS_BORDER style for window
+#define F_SHOWTBTIP          0x00020 // Show titlebar tooltip
+#define F_CANBEVERTICAL      0x00040 // frames can be vertical
+#define F_CANNOTBEHORIZONTAL 0x00080 // frames can NOT be horizontal	F_CANBEVERTICAL have to be set
+#define F_NO_SUBCONTAINER    0x00400 // Support skining no subcontainer needed
+#define F_SKINNED            0x00800 // skinned frame (for owned subframe only)
+#define F_UNICODE            0x08000 // Use unicode text
+
+struct CLISTFrame
+{
 	DWORD cbSize;
-	HWND hWnd ;
+	HWND hWnd;
 	HICON hIcon;
-	int align;	//al flags below
+	int align;              // al flags below
 	union {
 		int height;
-		int minSize;   //the actual meaning depends from type of frame
+		int minSize;         // the actual meaning depends from type of frame
 	};
-	int Flags;	//F_flags below
-	union {
-		char *name; //frame window name indentifier (DO NOT TRANSLATE)
-		wchar_t *wname;
-		LPTSTR tname;
-	};
-	union {
-		char *TBname; //titlebar & menu caption
-		wchar_t *TBwname;
-		LPTSTR TBtname;
-	};
-} CLISTFrame;
+	int Flags;              // F_flags below
+	MAllStrings szName;     // frame window name indentifier (DO NOT TRANSLATE)
+	MAllStrings szTBname;   // titlebar & menu caption
+};
 
-#define F_VISIBLE			1 //Frame visible
-#define F_SHOWTB			2 //Show TitleBar
-#define F_UNCOLLAPSED		4 //UnCollapse frame
-#define F_LOCKED			8 //Lock Frame
-#define F_NOBORDER			16 //Dont apply WS_BORDER style for window
-#define F_SHOWTBTIP			32 //Show titlebar tooltip
-#define F_CANBEVERTICAL		64 //frames can be vertical
-#define F_CANNOTBEHORIZONTAL 128 //frames can NOT be horizontal	F_CANBEVERTICAL have to be set
-#define F_NO_SUBCONTAINER   1024   //Support skining no subcontainer needed
-#define F_SKINNED           2048    // skinned frame (for owned subframe only)
-#define F_UNICODE			32768 //Use unicode text
+#define FU_TBREDRAW        1 // redraw titlebar
+#define FU_FMREDRAW        2 // redraw Frame
+#define FU_FMPOS           4 // update Frame position
 
-// frame alignment
-#define alTop		0x00000001
-#define alBottom	0x00000002
-#define alClient	0x00000004				//only one alClient frame
+#define FO_FLAGS      0x0001 // return set of F_VISIBLE,F_SHOWTB,F_UNCOLLAPSED,F_LOCKED,F_NOBORDER,F_SHOWTBTIP
+#define FO_NAME       0x0002 // Change m_cacheTName
+#define FO_TBNAME     0x0003 // Change TB caption
+#define FO_TBSTYLE    0x0004 // Change TB style
+#define FO_TBEXSTYLE  0x0005 // Change TB exstyle
+#define FO_ICON       0x0006 // Change icon
+#define FO_HEIGHT     0x0007 // Change height
+#define FO_ALIGN      0x0008 // Change align
+#define FO_TBTIPNAME  0x0009 // Change TB tooltip
+#define FO_FLOATING   0x000a // Change floating mode
 
-// since 0.7.0.20
-#define alLeft		0x00000011			   // frame is vertical
-#define alRight		0x00000012
-
-#define alVertFrameMask 0x00000010
-
-#define FU_TBREDRAW			1 //redraw titlebar
-#define FU_FMREDRAW			2 //redraw Frame
-#define FU_FMPOS			4 //update Frame position
-
-#define FO_FLAGS		0x0001 //return set of F_VISIBLE,F_SHOWTB,F_UNCOLLAPSED,F_LOCKED,F_NOBORDER,F_SHOWTBTIP
-#define FO_NAME			0x0002 //Change m_cacheTName
-#define FO_TBNAME		0x0003 //Change TB caption
-#define FO_TBSTYLE		0x0004 //Change TB style
-#define FO_TBEXSTYLE	0x0005 //Change TB exstyle
-#define FO_ICON			0x0006 //Change icon
-#define FO_HEIGHT		0x0007 //Change height
-#define FO_ALIGN		0x0008 //Change align
-#define FO_TBTIPNAME	0x0009 //Change TB tooltip
-#define FO_FLOATING		0x000a //Change floating mode
-
-#define FO_UNICODETEXT	0x8000 // flag for	FO_NAME,FO_TBNAME, FO_TBTIPNAME set/get lPAram as unicode wchar_t
+#define FO_UNICODETEXT 0x8000 // flag for	FO_NAME,FO_TBNAME, FO_TBTIPNAME set/get lPAram as unicode wchar_t
 
 //////////////////////////////////////////////////////////////////////////
-//want show tooltip for statusbar
-//wparam=(char *)protocolname
-//lparam=0
-#define ME_CLIST_FRAMES_SB_SHOW_TOOLTIP							"CListFrames/StatusBarShowToolTip"
+// want show tooltip for statusbar
+// wparam=(char *)protocolname
+// lparam=0
+#define ME_CLIST_FRAMES_SB_SHOW_TOOLTIP "CListFrames/StatusBarShowToolTip"
 
 //////////////////////////////////////////////////////////////////////////
 //want hide tooltip for statusbar
 //wparam=lparam=0
-#define ME_CLIST_FRAMES_SB_HIDE_TOOLTIP							"CListFrames/StatusBarHideToolTip"
+#define ME_CLIST_FRAMES_SB_HIDE_TOOLTIP "CListFrames/StatusBarHideToolTip"
 
 //////////////////////////////////////////////////////////////////////////
-//adds a frame window
-//wParam=(CLISTFrame*)
-//lParam=0
-//returns an integer, the frame id.
-#define MS_CLIST_FRAMES_ADDFRAME			"CListFrames/AddFrame"
+// adds a frame window
+// wParam=(CLISTFrame*)
+// lParam=0
+// returns an integer, the frame id.
+#define MS_CLIST_FRAMES_ADDFRAME "CListFrames/AddFrame"
 
 //////////////////////////////////////////////////////////////////////////
 // remove frame. It destroy your window
 //
-#define MS_CLIST_FRAMES_REMOVEFRAME			"CListFrames/RemoveFrame"
+#define MS_CLIST_FRAMES_REMOVEFRAME "CListFrames/RemoveFrame"
 
 //////////////////////////////////////////////////////////////////////////
 //shows all frames
 //wParam=lParam=0
 //returns 0 on success, -1 on failure
-#define MS_CLIST_FRAMES_SHOWALLFRAMES		"CListFrames/ShowALLFrames"
+#define MS_CLIST_FRAMES_SHOWALLFRAMES "CListFrames/ShowALLFrames"
 
 //////////////////////////////////////////////////////////////////////////
 //shows the titlebars of all frames
 //wParam=lParam=0
 //returns 0 on success, -1 on failure
-#define MS_CLIST_FRAMES_SHOWALLFRAMESTB		"CListFrames/ShowALLFramesTB"
+#define MS_CLIST_FRAMES_SHOWALLFRAMESTB "CListFrames/ShowALLFramesTB"
 
 //////////////////////////////////////////////////////////////////////////
 //hides the titlebars of all frames
 //wParam=lParam=0
 //returns 0 on success, -1 on failure
-#define MS_CLIST_FRAMES_HIDEALLFRAMESTB		"CListFrames/HideALLFramesTB"
+#define MS_CLIST_FRAMES_HIDEALLFRAMESTB "CListFrames/HideALLFramesTB"
 
 //////////////////////////////////////////////////////////////////////////
 //shows the frame if it is hidden,
@@ -143,7 +134,7 @@ typedef struct tagCLISTFrame {
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
 //note that Frame number will be taken only if wParam == 0
-#define MS_CLIST_FRAMES_SHFRAME				"CListFrames/SHFrame"
+#define MS_CLIST_FRAMES_SHFRAME "CListFrames/SHFrame"
 
 //////////////////////////////////////////////////////////////////////////
 //shows the frame titlebar if it is hidden,
@@ -152,7 +143,7 @@ typedef struct tagCLISTFrame {
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
 //note that Frame number will be taken only if wParam == 0
-#define MS_CLIST_FRAMES_SHFRAMETITLEBAR		"CListFrame/SHFrameTitleBar"
+#define MS_CLIST_FRAMES_SHFRAMETITLEBAR "CListFrame/SHFrameTitleBar"
 
 //////////////////////////////////////////////////////////////////////////
 //locks the frame if it is unlocked,
@@ -161,7 +152,7 @@ typedef struct tagCLISTFrame {
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
 //note that Frame number will be taken only if wParam == 0
-#define MS_CLIST_FRAMES_ULFRAME				"CListFrame/ULFrame"
+#define MS_CLIST_FRAMES_ULFRAME "CListFrame/ULFrame"
 
 //////////////////////////////////////////////////////////////////////////
 //collapses the frame if it is uncollapsed,
@@ -170,7 +161,7 @@ typedef struct tagCLISTFrame {
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
 //note that Frame number will be taken only if wParam == 0
-#define MS_CLIST_FRAMES_UCOLLFRAME			"CListFrame/UCOLLFrame"
+#define MS_CLIST_FRAMES_UCOLLFRAME "CListFrame/UCOLLFrame"
 
 //////////////////////////////////////////////////////////////////////////
 //trigger border flags
@@ -178,20 +169,20 @@ typedef struct tagCLISTFrame {
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
 //note that Frame number will be taken only if wParam == 0
-#define MS_CLIST_FRAMES_SETUNBORDER			"CListFrame/SetUnBorder"
+#define MS_CLIST_FRAMES_SETUNBORDER "CListFrame/SetUnBorder"
 
 //////////////////////////////////////////////////////////////////////////
 //trigger skinned flags
 //wparam=frameid
 //lparam=0
-#define MS_CLIST_FRAMES_SETSKINNED			"CListFrame/SetSkinnedFrame"
+#define MS_CLIST_FRAMES_SETSKINNED "CListFrame/SetSkinnedFrame"
 
 //////////////////////////////////////////////////////////////////////////
 //redraws the frame
 //wParam=FrameId, -1 for all frames
 //lparam=FU_flags
 //returns a pointer to option, -1 on failure
-#define MS_CLIST_FRAMES_UPDATEFRAME			"CListFrame/UpdateFrame"
+#define MS_CLIST_FRAMES_UPDATEFRAME "CListFrame/UpdateFrame"
 
 //////////////////////////////////////////////////////////////////////////
 //gets the frame options
@@ -199,14 +190,14 @@ typedef struct tagCLISTFrame {
 //(LOWORD)wParam=FO_flag
 //lParam=0
 //returns a pointer to option, -1 on failure
-#define MS_CLIST_FRAMES_GETFRAMEOPTIONS			"CListFrame/GetFrameOptions"
+#define MS_CLIST_FRAMES_GETFRAMEOPTIONS "CListFrame/GetFrameOptions"
 
 //sets the frame options
 //(HIWORLD)wParam=FrameId
 //(LOWORD)wParam=FO_flag
 //lParam=value
 //returns 0 on success, -1 on failure
-#define MS_CLIST_FRAMES_SETFRAMEOPTIONS			"CListFrame/SetFrameOptions"
+#define MS_CLIST_FRAMES_SETFRAMEOPTIONS "CListFrame/SetFrameOptions"
 
 //////////////////////////////////////////////////////////////////////////
 //Frames related menu stuff
@@ -230,7 +221,7 @@ __forceinline HGENMENU Menu_AddContextFrameMenuItem(TMO_MenuItem *pmi)
 //wparam=frameid
 //lParam=0
 //returns a HMENU on success, or NULL on failure
-#define MS_CLIST_MENUBUILDFRAMECONTEXT				"CList/BuildContextFrameMenu"
+#define MS_CLIST_MENUBUILDFRAMECONTEXT "CList/BuildContextFrameMenu"
 
 //////////////////////////////////////////////////////////////////////////
 //	the frame menu is about to be built
@@ -247,11 +238,11 @@ __forceinline HGENMENU Menu_AddContextFrameMenuItem(TMO_MenuItem *pmi)
 //			MS_CLIST_ADDMAINMENUITEM
 //			MS_CLIST_REMOVEMAINMENUITEM
 //
-#define ME_CLIST_PREBUILDFRAMEMENU					"CList/PreBuildFrameMenu"
+#define ME_CLIST_PREBUILDFRAMEMENU "CList/PreBuildFrameMenu"
 
 //////////////////////////////////////////////////////////////////////////
 //needed by cluiframes module to add frames menu to main menu.
 //it just calls NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,lParam);
-#define MS_CLIST_FRAMEMENUNOTIFY					"CList/ContextFrameMenuNotify"
+#define MS_CLIST_FRAMEMENUNOTIFY "CList/ContextFrameMenuNotify"
 
 #endif /* M_CLUIFRAMES_H__ */

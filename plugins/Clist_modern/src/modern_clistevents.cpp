@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /**************************************************/
 
 /* Declarations */
-static HANDLE hNotifyFrame = nullptr;
+static int hNotifyFrame = 0;
 
 /**************************************************/
 
@@ -77,11 +77,11 @@ static void EventArea_HideShowNotifyFrame()
 
 	if (desired) {
 		if (!dwVisible)
-			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
+			CallService(MS_CLIST_FRAMES_SHFRAME, hNotifyFrame, 0);
 	}
 	else {
 		if (dwVisible)
-			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
+			CallService(MS_CLIST_FRAMES_SHFRAME, hNotifyFrame, 0);
 	}
 }
 
@@ -502,11 +502,11 @@ int EventArea_Create(HWND hCluiWnd)
 	Frame.hWnd = g_CluiData.hwndEventFrame;
 	Frame.align = alBottom;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	Frame.Flags = (db_get_b(0, "CLUI", "ShowEventArea", SETTING_SHOWEVENTAREAFRAME_DEFAULT) ? F_VISIBLE : 0) | F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
+	Frame.Flags = (db_get_b(0, "CLUI", "ShowEventArea", SETTING_SHOWEVENTAREAFRAME_DEFAULT) ? F_VISIBLE : 0) | F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER;
 	Frame.height = h;
-	Frame.tname = L"EventArea"; //do not translate
-	Frame.TBtname = TranslateT("Event area");
-	hNotifyFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	Frame.szName.a = "EventArea";
+	Frame.szTBname.a = LPGEN("Event area");
+	hNotifyFrame = g_plugin.addFrame(&Frame);
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)EventArea_PaintCallbackProc); //$$$$$ register sub for frame
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, -1, 0);
 	EventArea_HideShowNotifyFrame();

@@ -862,15 +862,14 @@ void InitList()
 		hpwnd = CreateWindow(_A2W(MODULENAME) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, nullptr, g_plugin.getInst(), nullptr);
 
 		CLISTFrame frame = { 0 };
-		frame.name = MODULENAME;
 		frame.cbSize = sizeof(CLISTFrame);
+		frame.szName.a = MODULENAME;
+		frame.szTBname.a = LPGEN("Ping");
 		frame.hWnd = hpwnd;
 		frame.align = alBottom;
 		frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 		frame.height = 30;
-		frame.TBname = Translate("Ping");
-
-		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
+		frame_id = g_plugin.addFrame(&frame);
 	}
 	else {
 		hpwnd = CreateWindowEx(WS_EX_TOOLWINDOW, _A2W(MODULENAME) L"WindowClass", L"Ping",

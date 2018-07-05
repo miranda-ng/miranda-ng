@@ -11,7 +11,6 @@ POINT lastpnt;
 #define TM_STATUSBARHIDE 23435235
 
 HWND hModernStatusBar = nullptr;
-HANDLE hFramehModernStatusBar = nullptr;
 
 #define DBFONTF_BOLD       1
 #define DBFONTF_ITALIC     2
@@ -877,13 +876,14 @@ HWND StatusBar_Create(HWND parent)
 	Frame.hWnd = hModernStatusBar;
 	Frame.align = alBottom;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	Frame.Flags = F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
+	Frame.Flags = F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER;
 	if (db_get_b(0, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT))
 		Frame.Flags |= F_VISIBLE;
 	Frame.height = h;
-	Frame.tname = L"Status bar";
-	Frame.TBtname = TranslateT("Status bar");
-	hFramehModernStatusBar = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	Frame.szName.a = "Status bar";
+	Frame.szTBname.a = LPGEN("Status bar");
+	g_plugin.addFrame(&Frame);
+	
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)NewStatusPaintCallbackProc); //$$$$$ register sub for frame
 
 	LoadStatusBarData();

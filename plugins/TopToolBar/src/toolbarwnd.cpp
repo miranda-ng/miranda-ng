@@ -270,15 +270,15 @@ void CALLBACK OnEventFire()
 		InitInternalButtons();
 
 	// if there's no customized frames, create our own
-	if (g_ctrl->hFrame == nullptr) {
+	if (g_ctrl->hFrame == 0) {
 		CLISTFrame Frame = { sizeof(Frame) };
-		Frame.tname = L"Toolbar";
+		Frame.szName.a = "Toolbar";
 		Frame.hWnd = g_ctrl->hWnd;
 		Frame.align = alTop;
-		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_UNICODE;
+		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED;
 		Frame.height = g_ctrl->nLastHeight;
 		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-		g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+		g_ctrl->hFrame = g_plugin.addFrame(&Frame);
 	}
 
 	// receive buttons

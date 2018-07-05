@@ -242,14 +242,14 @@ static void addWindow(MCONTACT hContact)
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
 	CLISTFrame Frame = { 0 };
-	Frame.tname = winname;
+	Frame.szName.w = winname;
 	Frame.hIcon = LoadIconEx("main", FALSE);
 	Frame.cbSize = sizeof(Frame);
 	Frame.hWnd = hWnd;
 	Frame.align = alBottom;
 	Frame.Flags = F_VISIBLE | F_NOBORDER | F_UNICODE;
 	Frame.height = 32;
-	DWORD frameID = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	int frameID = g_plugin.addFrame(&Frame);
 
 	db_set_dw(hContact, WEATHERPROTONAME, "mwin", frameID);
 	db_set_b(hContact, "CList", "Hidden", TRUE);

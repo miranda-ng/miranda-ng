@@ -117,6 +117,7 @@ struct FRAMEWND
 	POINT FloatingPos;
 	POINT FloatingSize;
 	int order;
+	int hLang;
 	DockOpt dockOpt;
 	HWND OwnerWindow;
 	tPaintCallbackProc PaintCallbackProc;
