@@ -183,7 +183,7 @@ BOOL CDbxMDBX::Compact()
 	}
 
 	mir_cslock lck(m_csDbAccess);
-	int res = mdbx_env_copy2fd(m_env, pFile, MDBX_CP_COMPACT);
+	int res = mdbx_env_copy2fd(m_env, pFile, /*MDBX_CP_COMPACT*/0);
 	CloseHandle(pFile);
 
 	if (res == MDBX_SUCCESS) {
