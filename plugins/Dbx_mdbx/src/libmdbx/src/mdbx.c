@@ -5793,7 +5793,7 @@ int __cold mdbx_env_open(MDBX_env *env, const char *path, unsigned flags,
   }
 
   const uint32_t saved_me_flags = env->me_flags;
-  env->me_flags = flags | MDBX_ENV_ACTIVE;
+  env->me_flags = (flags & ~MDBX_FATAL_ERROR) | MDBX_ENV_ACTIVE;
   if (rc)
     goto bailout;
 
@@ -5915,7 +5915,7 @@ int __cold mdbx_env_open(MDBX_env *env, const char *path, unsigned flags,
 bailout:
   if (rc) {
     mdbx_env_close0(env);
-    env->me_flags = saved_me_flags;
+    env->me_flags = saved_me_flags | MDBX_FATAL_ERROR;
   }
   free(lck_pathname);
   return rc;
@@ -10448,8 +10448,8 @@ static int __cold mdbx_env_compact(MDBX_env *env, mdbx_filehandle_t fd) {
 
   /* update signature */
   meta->mp_meta.mm_datasync_sign = mdbx_meta_sign(&meta->mp_meta);
+  memcpy(ctx.mc_wbuf[0], buffer, ctx.mc_wlen[0] = pgno2bytes(env, NUM_METAS));
 
-  ctx.mc_wlen[0] = pgno2bytes(env, NUM_METAS);
   ctx.mc_txn = txn;
   rc = mdbx_env_cwalk(&ctx, &root, 0);
   if (rc == MDBX_SUCCESS && root != new_root) {
