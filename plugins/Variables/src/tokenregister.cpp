@@ -59,8 +59,8 @@ int registerIntToken(wchar_t *szToken, wchar_t *(*parseFunction)(ARGUMENTSINFO *
 	//tr.memType = TR_MEM_VARIABLES;
 	tr.memType = TR_MEM_MIRANDA;
 	tr.szHelpText = szHelpText;
-	tr.tszTokenString = szToken;
-	tr.parseFunctionT = parseFunction;
+	tr.szTokenString.w = szToken;
+	tr.parseFunctionW = parseFunction;
 
 	return registerToken(0, (LPARAM)&tr);
 }
@@ -83,8 +83,8 @@ int deRegisterToken(wchar_t *token)
 	if (!(tre->tr.flags & TRF_PARSEFUNC) && tre->tr.szService != nullptr)
 		mir_free(tre->tr.szService);
 
-	if (tre->tr.tszTokenString != nullptr)
-		mir_free(tre->tr.tszTokenString);
+	if (tre->tr.szTokenString.w != nullptr)
+		mir_free(tre->tr.szTokenString.w);
 
 	if (tre->tr.szHelpText != nullptr)
 		mir_free(tre->tr.szHelpText);
@@ -101,15 +101,15 @@ INT_PTR registerToken(WPARAM, LPARAM lParam)
 	DWORD hash;
 
 	TOKENREGISTEREX *newVr = (TOKENREGISTEREX*)lParam;
-	if (newVr == nullptr || newVr->szTokenString == nullptr || newVr->cbSize <= 0)
+	if (newVr == nullptr || newVr->szTokenString.w == nullptr || newVr->cbSize <= 0)
 		return -1;
 
 	if (newVr->flags & TRF_TCHAR) {
-		deRegisterToken(newVr->tszTokenString);
-		hash = NameHashFunction(newVr->tszTokenString);
+		deRegisterToken(newVr->szTokenString.w);
+		hash = NameHashFunction(newVr->szTokenString.w);
 	}
 	else {
-		WCHAR *wtoken = mir_a2u(newVr->szTokenString);
+		wchar_t *wtoken = mir_a2u(newVr->szTokenString.a);
 		deRegisterToken(wtoken);
 		hash = NameHashFunction(wtoken);
 		mir_free(wtoken);
@@ -121,16 +121,16 @@ INT_PTR registerToken(WPARAM, LPARAM lParam)
 
 	memcpy(&tre->tr, newVr, newVr->cbSize);
 	tre->nameHash = hash;
-	if (!mir_wstrcmp(newVr->tszTokenString, L"alias"))
+	if (!mir_wstrcmp(newVr->szTokenString.w, L"alias"))
 		log_debugA("alias");
 
 	if (!(newVr->flags & TRF_PARSEFUNC) && newVr->szService != nullptr)
 		tre->tr.szService = mir_strdup(newVr->szService);
 
 	if (newVr->flags & TRF_TCHAR)
-		tre->tr.tszTokenString = mir_wstrdup(newVr->tszTokenString);
+		tre->tr.szTokenString.w = mir_wstrdup(newVr->szTokenString.w);
 	else
-		tre->tr.tszTokenString = mir_a2u(newVr->szTokenString);
+		tre->tr.szTokenString.w = mir_a2u(newVr->szTokenString.a);
 
 	if (newVr->szHelpText != nullptr)
 		tre->tr.szHelpText = mir_strdup(newVr->szHelpText);
@@ -158,7 +158,7 @@ TOKENREGISTEREX *searchRegister(wchar_t *tvar, int type)
 
 wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 {
-	if (ai == nullptr || ai->argc == 0 || ai->targv[0] == nullptr)
+	if (ai == nullptr || ai->argc == 0 || ai->argv.w[0] == nullptr)
 		return nullptr;
 
 	INT_PTR callRes = 0;
@@ -167,7 +167,7 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 	mir_cslock lck(csRegister);
 
 	/* note the following limitation: you cannot add/remove tokens during a call from a different thread */
-	TOKENREGISTEREX *thisVr = searchRegister(ai->targv[0], 0);
+	TOKENREGISTEREX *thisVr = searchRegister(ai->argv.w[0], 0);
 	if (thisVr == nullptr)
 		return nullptr;
 
@@ -178,9 +178,9 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 		// unicode variables calls a non-unicode plugin
 		ARGUMENTSINFO cAi;
 		memcpy(&cAi, ai, sizeof(ARGUMENTSINFO));
-		cAi.argv = (char**)mir_alloc(ai->argc*sizeof(char *));
+		cAi.argv.a = (char**)mir_alloc(ai->argc*sizeof(char *));
 		for (unsigned j = 0; j < ai->argc; j++)
-			cAi.argv[j] = mir_u2a(ai->targv[j]);
+			cAi.argv.a[j] = mir_u2a(ai->argv.w[j]);
 
 		if (thisVr->flags & TRF_PARSEFUNC)
 			callRes = (INT_PTR)thisVr->parseFunction(&cAi);
@@ -188,7 +188,7 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 			callRes = CallService(thisVr->szService, 0, (LPARAM)&cAi);
 
 		for (unsigned j = 0; j < cAi.argc; j++)
-			mir_free(cAi.argv[j]);
+			mir_free(cAi.argv.a[j]);
 
 		if ((char *)callRes != nullptr)
 			res = mir_a2u((char*)callRes);
@@ -196,7 +196,7 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 	else {
 		// unicode variables calls unicode plugin
 		if (thisVr->flags & TRF_PARSEFUNC)
-			callRes = (INT_PTR)thisVr->parseFunctionT(ai);
+			callRes = (INT_PTR)thisVr->parseFunctionW(ai);
 		else if (thisVr->szService != nullptr)
 			callRes = CallService(thisVr->szService, 0, (LPARAM)ai);
 
@@ -207,7 +207,7 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 	if (callRes != NULL) {
 		if (trCopy.flags & TRF_CLEANUP) {
 			if (trCopy.flags & TRF_CLEANUPFUNC)
-				trCopy.cleanupFunctionT((wchar_t*)callRes);
+				trCopy.cleanupFunctionW((wchar_t*)callRes);
 			else if (trCopy.szCleanupService != nullptr)
 				CallService(trCopy.szCleanupService, 0, (LPARAM)callRes);
 		}
@@ -242,8 +242,8 @@ int deinitTokenRegister()
 		if (!(tre->tr.flags & TRF_PARSEFUNC) && tre->tr.szService != nullptr)
 			mir_free(tre->tr.szService);
 
-		if (tre->tr.tszTokenString != nullptr)
-			mir_free(tre->tr.tszTokenString);
+		if (tre->tr.szTokenString.w != nullptr)
+			mir_free(tre->tr.szTokenString.w);
 
 		if (tre->tr.szHelpText != nullptr)
 			mir_free(tre->tr.szHelpText);

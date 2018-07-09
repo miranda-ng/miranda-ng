@@ -140,16 +140,6 @@ The contact function will return either a unique contact according to the argume
 // if a different struct internally is used, we can use TOKENREGISTEREX
 #define TOKENREGISTEREX TOKENREGISTER
 
-// old struct
-typedef struct {
-	int cbSize;
-	char *szFormat;
-	char *szSource;
-	MCONTACT hContact;
-	int pCount;  // number of succesful parses
-	int eCount;	 // number of failures
-} FORMATINFOV1;
-
 struct ParseOptions {
 	BOOL bStripEOL;
 	BOOL bStripWS;
@@ -172,8 +162,7 @@ TOKENREGISTEREX *searchRegister(wchar_t *var, int type);
 wchar_t *parseFromRegister(ARGUMENTSINFO *ai);
 TOKENREGISTEREX *getTokenRegister(int i);
 int  getTokenRegisterCount();
-TOKENREGISTER *getTokenRegisterByIndex(int i);
-void deRegisterTemporaryVariables();
+
 int  initTokenRegister();
 int  deinitTokenRegister();
 // contact.c

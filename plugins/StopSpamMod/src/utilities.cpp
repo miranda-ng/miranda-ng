@@ -91,17 +91,15 @@ int RemoveTmp(WPARAM, LPARAM)
 wstring variables_parse(wstring const &tstrFormat, MCONTACT hContact)
 {
 	if (gbVarsServiceExist) {
-		FORMATINFO fi;
-		wchar_t *tszParsed;
-		wstring tstrResult;
-
-		memset(&fi, 0, sizeof(fi));
+		FORMATINFO fi = {};
 		fi.cbSize = sizeof(fi);
-		fi.tszFormat = wcsdup(tstrFormat.c_str());
+		fi.szFormat.w = wcsdup(tstrFormat.c_str());
 		fi.hContact = hContact;
-		fi.flags |= FIF_TCHAR;
-		tszParsed = (wchar_t *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
-		free(fi.tszFormat);
+		fi.flags = FIF_UNICODE;
+		wchar_t *tszParsed = (wchar_t*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+		free(fi.szFormat.w);
+
+		wstring tstrResult;
 		if (tszParsed) {
 			tstrResult = tszParsed;
 			mir_free(tszParsed);
@@ -112,14 +110,12 @@ wstring variables_parse(wstring const &tstrFormat, MCONTACT hContact)
 }
 
 // case-insensitive mir_wstrcmp
-//by nullbie as i remember...
-#define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : mir_wstrcpy((wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(A)+1)),A)
 const int Stricmp(const wchar_t *str, const wchar_t *substr)
 {
 	int i = 0;
 
-	wchar_t *str_up = NEWTSTR_MALLOC(str);
-	wchar_t *substr_up = NEWTSTR_MALLOC(substr);
+	wchar_t *str_up = mir_wstrdup(str);
+	wchar_t *substr_up = mir_wstrdup(substr);
 
 	CharUpperBuff(str_up, (int)mir_wstrlen(str_up));
 	CharUpperBuff(substr_up, (int)mir_wstrlen(substr_up));
@@ -178,7 +174,7 @@ BOOL IsUrlContains(wchar_t * Str)
 	};
 
 	if (Str && mir_wstrlen(Str) > 0) {
-		wchar_t *StrLower = NEWTSTR_MALLOC(Str);
+		wchar_t *StrLower = mir_wstrdup(Str);
 		CharLowerBuff(StrLower, (int)mir_wstrlen(StrLower));
 		for (int i = 0; i < CountUrl; i++)
 			if (wcsstr(StrLower, URL[i])) {

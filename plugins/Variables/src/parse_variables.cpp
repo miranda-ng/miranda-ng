@@ -67,13 +67,13 @@ static wchar_t *parsePut(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	//	ai->flags |= AIF_DONTPARSE;
-	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
+	if (addToVariablesRegister(ai->argv.w[1], ai->argv.w[2]))
 		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
-	fi.tszFormat = ai->targv[2];
-	fi.flags |= FIF_TCHAR;
+	fi.szFormat.w = ai->argv.w[2];
+	fi.flags |= FIF_UNICODE;
 	return formatString(&fi);
 }
 
@@ -82,7 +82,7 @@ static wchar_t *parsePuts(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return nullptr;
 
-	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
+	if (addToVariablesRegister(ai->argv.w[1], ai->argv.w[2]))
 		return nullptr;
 
 	return mir_wstrdup(L"");
@@ -93,7 +93,7 @@ static wchar_t *parseGet(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return nullptr;
 
-	return searchVariableRegister(ai->targv[1]);
+	return searchVariableRegister(ai->argv.w[1]);
 }
 
 void registerVariablesTokens()

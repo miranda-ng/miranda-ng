@@ -30,13 +30,13 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 
 	if (ai->argc != 5) return nullptr;
 
-	if (!mir_wstrcmp(ai->targv[1], L"overall")) {
+	if (!mir_wstrcmp(ai->argv.w[1], L"overall")) {
 		tmpsn = OverallInfo.CurrentSentTraffic;
 		tmprn = OverallInfo.CurrentRecvTraffic;
 		tmpst = OverallInfo.TotalSentTraffic;
 		tmprt = OverallInfo.TotalRecvTraffic;
 	}
-	else if (!mir_wstrcmp(ai->targv[1], L"summary")) {
+	else if (!mir_wstrcmp(ai->argv.w[1], L"summary")) {
 		for (ed = 0; ed < NumberOfAccounts; ed++)
 			if (ProtoList[ed].Visible) {
 				tmpsn += ProtoList[ed].CurrentSentTraffic;
@@ -49,7 +49,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 		for (tmp = ed = 0; ed < NumberOfAccounts; ed++) {
 			if (!ProtoList[ed].name) continue;
 			wchar_t *buf = mir_a2u(ProtoList[ed].name);
-			if (!mir_wstrcmp(buf, ai->targv[1])) {
+			if (!mir_wstrcmp(buf, ai->argv.w[1])) {
 				tmpsn = ProtoList[ed].CurrentSentTraffic;
 				tmprn = ProtoList[ed].CurrentRecvTraffic;
 				tmpst = ProtoList[ed].TotalSentTraffic;
@@ -61,31 +61,31 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 		if (tmp != 0xAA) return nullptr;
 	}
 
-	if (!mir_wstrcmp(ai->targv[2], L"now")) {
-		if (!mir_wstrcmp(ai->targv[3], L"sent")) tmp = tmpsn;
+	if (!mir_wstrcmp(ai->argv.w[2], L"now")) {
+		if (!mir_wstrcmp(ai->argv.w[3], L"sent")) tmp = tmpsn;
 		else
-			if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprn;
+			if (!mir_wstrcmp(ai->argv.w[3], L"received")) tmp = tmprn;
 			else
-				if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprn + tmpsn;
+				if (!mir_wstrcmp(ai->argv.w[3], L"both")) tmp = tmprn + tmpsn;
 				else return nullptr;
 	}
-	else if (!mir_wstrcmp(ai->targv[2], L"total")) {
-		if (!mir_wstrcmp(ai->targv[3], L"sent")) tmp = tmpst;
+	else if (!mir_wstrcmp(ai->argv.w[2], L"total")) {
+		if (!mir_wstrcmp(ai->argv.w[3], L"sent")) tmp = tmpst;
 		else
-			if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprt;
+			if (!mir_wstrcmp(ai->argv.w[3], L"received")) tmp = tmprt;
 			else
-				if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprt + tmpst;
+				if (!mir_wstrcmp(ai->argv.w[3], L"both")) tmp = tmprt + tmpst;
 				else return nullptr;
 	}
 	else return nullptr;
 
-	if (!mir_wstrcmp(ai->targv[4], L"b"))
+	if (!mir_wstrcmp(ai->argv.w[4], L"b"))
 		ed = 0;
-	else if (!mir_wstrcmp(ai->targv[4], L"k"))
+	else if (!mir_wstrcmp(ai->argv.w[4], L"k"))
 		ed = 1;
-	else if (!mir_wstrcmp(ai->targv[4], L"m"))
+	else if (!mir_wstrcmp(ai->argv.w[4], L"m"))
 		ed = 2;
-	else if (!mir_wstrcmp(ai->targv[4], L"d"))
+	else if (!mir_wstrcmp(ai->argv.w[4], L"d"))
 		ed = 3;
 	else
 		return nullptr;
@@ -114,11 +114,11 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 		wchar_t *buf;
 		if (!ProtoList[ed].name) continue;
 		buf = mir_a2u(ProtoList[ed].name);
-		if (!mir_wstrcmp(buf, ai->targv[1])) {
+		if (!mir_wstrcmp(buf, ai->argv.w[1])) {
 			flag = 0xAA;
-			if (!mir_wstrcmp(ai->targv[2], L"now"))
+			if (!mir_wstrcmp(ai->argv.w[2], L"now"))
 				Duration = ProtoList[ed].Session.Timer;
-			else if (!mir_wstrcmp(ai->targv[2], L"total"))
+			else if (!mir_wstrcmp(ai->argv.w[2], L"total"))
 				Duration = ProtoList[ed].Total.Timer;
 			else
 				flag = 0;
@@ -127,11 +127,11 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 		mir_free(buf);
 	}
 
-	if ((flag != 0xAA) && !mir_wstrcmp(ai->targv[1], L"summary")) {
+	if ((flag != 0xAA) && !mir_wstrcmp(ai->argv.w[1], L"summary")) {
 		flag = 0xAA;
-		if (!mir_wstrcmp(ai->targv[2], L"now"))
+		if (!mir_wstrcmp(ai->argv.w[2], L"now"))
 			Duration = OverallInfo.Session.Timer;
-		else if (!mir_wstrcmp(ai->targv[2], L"total"))
+		else if (!mir_wstrcmp(ai->argv.w[2], L"total"))
 			Duration = OverallInfo.Total.Timer;
 		else flag = 0;
 	}
@@ -141,12 +141,12 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
-	size_t l = GetDurationFormatM(Duration, ai->targv[3], nullptr, 0);
+	size_t l = GetDurationFormatM(Duration, ai->argv.w[3], nullptr, 0);
 	wchar_t *res = (wchar_t*)mir_alloc(l * sizeof(wchar_t));
 	if (!res)
 		return nullptr;
 	
-	GetDurationFormatM(Duration, ai->targv[3], res, l);
+	GetDurationFormatM(Duration, ai->argv.w[3], res, l);
 	return res;
 }
 
@@ -160,15 +160,15 @@ void RegisterVariablesTokens(void)
 	trs.cbSize = sizeof(TOKENREGISTER);
 
 	// Функция, возвращающая трафик
-	trs.tszTokenString = L"tc_GetTraffic";
-	trs.parseFunctionT = GetTraffic;
+	trs.szTokenString.w = L"tc_GetTraffic";
+	trs.parseFunctionW = GetTraffic;
 	trs.szHelpText = "Traffic counter\t(A,B,C,D)\tGet traffic counter value. A: <ProtocolName> OR overall OR summary; B: now OR total; C: sent OR received OR both; D: b - in bytes, k - in kilobytes, m - in megabytes, d - dynamic";
 	trs.flags = TRF_TCHAR | TRF_PARSEFUNC | TRF_FUNCTION | TRF_FREEMEM;
 	trs.memType = TR_MEM_MIRANDA;
 	CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&trs);
 	// Функция, возвращающая время
-	trs.tszTokenString = L"tc_GetTime";
-	trs.parseFunctionT = GetTime;
+	trs.szTokenString.w = L"tc_GetTime";
+	trs.parseFunctionW = GetTime;
 	trs.szHelpText = "Traffic counter\t(A,B,C)\tGet time counter value. A: <ProtocolName> OR summary; B: now OR total; C: format";
 	CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&trs);
 }

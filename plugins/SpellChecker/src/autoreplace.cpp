@@ -169,9 +169,9 @@ CMStringW AutoReplaceMap::autoReplace(const wchar_t * word)
 wchar_t* AutoReplaceMap::filterText(const wchar_t *find)
 {
 	wchar_t *ret = mir_wstrdup(find);
-	int len = mir_wstrlen(ret);
+	size_t len = mir_wstrlen(ret);
 	int pos = 0;
-	for (int i = 0; i < len; i++)
+	for (size_t i = 0; i < len; i++)
 		if (isWordChar(find[i]))
 			ret[pos++] = ret[i];
 	ret[pos] = 0;

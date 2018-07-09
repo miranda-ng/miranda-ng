@@ -24,7 +24,7 @@ static wchar_t *parseUrlEnc(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return nullptr;
 
-	char *res = mir_u2a(ai->targv[1]);
+	char *res = mir_u2a(ai->argv.w[1]);
 	if (res == nullptr)
 		return nullptr;
 
@@ -55,7 +55,7 @@ static wchar_t *parseUrlDec(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return nullptr;
 
-	char *res = mir_u2a(ai->targv[1]);
+	char *res = mir_u2a(ai->argv.w[1]);
 	if (res == nullptr)
 		return nullptr;
 
@@ -83,7 +83,7 @@ static wchar_t *parseNToA(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	struct in_addr in;
-	in.s_addr = ttoi(ai->targv[1]);
+	in.s_addr = ttoi(ai->argv.w[1]);
 	return mir_a2u(inet_ntoa(in));
 }
 
@@ -93,7 +93,7 @@ static wchar_t *parseHToA(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	struct in_addr in;
-	in.s_addr = htonl(ttoi(ai->targv[1]));
+	in.s_addr = htonl(ttoi(ai->argv.w[1]));
 	return mir_a2u(inet_ntoa(in));
 }
 

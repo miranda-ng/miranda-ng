@@ -73,13 +73,13 @@ static wchar_t *replaceArguments(wchar_t *res, wchar_t *tArg, wchar_t *rArg)
 
 static wchar_t *parseTranslateAlias(ARGUMENTSINFO *ai)
 {
-	ALIASREGISTER *areg = searchAliasRegister(ai->targv[0]);
+	ALIASREGISTER *areg = searchAliasRegister(ai->argv.w[0]);
 	if (areg == nullptr || areg->argc != ai->argc - 1)
 		return nullptr;
 
 	wchar_t *res = mir_wstrdup(areg->szTranslation);
 	for (unsigned i = 0; i < areg->argc; i++) {
-		res = replaceArguments(res, areg->argv[i], ai->targv[i + 1]);
+		res = replaceArguments(res, areg->argv[i], ai->argv.w[i + 1]);
 		if (res == nullptr)
 			return nullptr;
 	}
@@ -141,17 +141,17 @@ static wchar_t *parseAddAlias(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	char *szHelp, *szArgsA;
-	wchar_t *cur = ai->targv[1];
+	wchar_t *cur = ai->argv.w[1];
 	while (isValidTokenChar(*cur))
 		cur++;
 
-	ptrW alias(mir_wstrndup(ai->targv[1], cur - ai->targv[1]));
+	ptrW alias(mir_wstrndup(ai->argv.w[1], cur - ai->argv.w[1]));
 
 	TArgList argv;
 	getArguments(cur, argv);
 
 	deRegisterToken(alias);
-	addToAliasRegister(alias, argv.getCount(), argv.getArray(), ai->targv[2]);
+	addToAliasRegister(alias, argv.getCount(), argv.getArray(), ai->argv.w[2]);
 	wchar_t *szArgs = nullptr;
 	for (int i = 0; i < argv.getCount(); i++) {
 		if (i == 0)

@@ -478,18 +478,18 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	ARGUMENTSINFO *ai = (ARGUMENTSINFO*)lParam;
 	ai->flags = AIF_DONTPARSE;
 	TCString Result;
-	if (!mir_wstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : L"H:mm", Result.GetBuffer(256), 256);
+	if (!mir_wstrcmp(ai->argv.w[0], VAR_AWAYSINCE_TIME)) {
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->argv.w[1]) ? ai->argv.w[1] : L"H:mm", Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_wstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
-		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : nullptr, Result.GetBuffer(256), 256);
+	else if (!mir_wstrcmp(ai->argv.w[0], VAR_AWAYSINCE_DATE)) {
+		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->argv.w[1]) ? ai->argv.w[1] : nullptr, Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_wstrcmp(ai->targv[0], VAR_STATDESC)) {
+	else if (!mir_wstrcmp(ai->argv.w[0], VAR_STATDESC)) {
 		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : Clist_GetStatusModeDescription(g_ProtoStates[VarParseData.szProto].m_status, 0);
 	}
-	else if (!mir_wstrcmp(ai->targv[0], VAR_MYNICK)) {
+	else if (!mir_wstrcmp(ai->argv.w[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
 			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (wchar_t*)nullptr);
 
@@ -499,15 +499,15 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		if (Result == nullptr)
 			Result = TranslateT("Stranger");
 	}
-	else if (!mir_wstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
+	else if (!mir_wstrcmp(ai->argv.w[0], VAR_REQUESTCOUNT)) {
 		mir_snwprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MODULENAME, DB_REQUESTCOUNT, 0));
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_wstrcmp(ai->targv[0], VAR_MESSAGENUM)) {
+	else if (!mir_wstrcmp(ai->argv.w[0], VAR_MESSAGENUM)) {
 		mir_snwprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MODULENAME, DB_MESSAGECOUNT, 0));
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_wstrcmp(ai->targv[0], VAR_TIMEPASSED)) {
+	else if (!mir_wstrcmp(ai->argv.w[0], VAR_TIMEPASSED)) {
 		ULARGE_INTEGER ul_AwaySince, ul_Now;
 		SYSTEMTIME st;
 		GetLocalTime(&st);
@@ -524,7 +524,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 			mir_snwprintf(Result, 256, TranslateT("%d seconds"), ul_Now.LowPart);
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_wstrcmp(ai->targv[0], VAR_PREDEFINEDMESSAGE)) {
+	else if (!mir_wstrcmp(ai->argv.w[0], VAR_PREDEFINEDMESSAGE)) {
 		ai->flags = 0; // reset AIF_DONTPARSE flag
 		if (ai->argc != 2)
 			return NULL;
@@ -534,7 +534,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		TreeCtrl->DBToMem(CString(MODULENAME));
 
 		for (int i = 0; i < TreeCtrl->m_value.GetSize(); i++) {
-			if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP) && !mir_wstrcmpi(TreeCtrl->m_value[i].Title, ai->targv[1])) {
+			if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP) && !mir_wstrcmpi(TreeCtrl->m_value[i].Title, ai->argv.w[1])) {
 				Result = TreeCtrl->m_value[i].User_Str1;
 				break;
 			}
@@ -542,7 +542,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		if (Result == nullptr) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}
-	else if (!mir_wstrcmp(ai->targv[0], VAR_PROTOCOL)) {
+	else if (!mir_wstrcmp(ai->argv.w[0], VAR_PROTOCOL)) {
 		if (VarParseData.szProto) {
 			CString AnsiResult;
 			CallProtoService(VarParseData.szProto, PS_GETNAME, 256, (LPARAM)AnsiResult.GetBuffer(256));
@@ -690,7 +690,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		tr.memType = TR_MEM_OWNER;
 		for (int i = 0; i < _countof(Variables); i++) {
 			tr.flags = Variables[i].Flags | TRF_CALLSVC | TRF_TCHAR;
-			tr.tszTokenString = Variables[i].Name;
+			tr.szTokenString.w = Variables[i].Name;
 			tr.szHelpText = Variables[i].Descr;
 			CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 		}

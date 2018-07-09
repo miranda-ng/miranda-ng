@@ -662,8 +662,8 @@ static int MirandaLoaded(WPARAM, LPARAM)
 		tr.memType = TR_MEM_OWNER;
 		tr.flags = TRF_FIELD | TRF_TCHAR | TRF_PARSEFUNC;
 
-		tr.tszTokenString = L"bosskeyname";
-		tr.parseFunctionT = VariablesBossKey;
+		tr.szTokenString.w = L"bosskeyname";
+		tr.parseFunctionW = VariablesBossKey;
 		tr.szHelpText = LPGEN("BossKey") "\t" LPGEN("get the BossKey name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 	}

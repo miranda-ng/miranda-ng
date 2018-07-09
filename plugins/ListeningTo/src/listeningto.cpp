@@ -237,53 +237,53 @@ int ModulesLoaded(WPARAM, LPARAM)
 		tr.memType = TR_MEM_MIRANDA;
 		tr.flags = TRF_FREEMEM | TRF_PARSEFUNC | TRF_FIELD | TRF_TCHAR;
 
-		tr.tszTokenString = L"listening_info";
-		tr.parseFunctionT = VariablesParseInfo;
+		tr.szTokenString.w = L"listening_info";
+		tr.parseFunctionW = VariablesParseInfo;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Listening info as set in the options");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_type";
-		tr.parseFunctionT = VariablesParseType;
+		tr.szTokenString.w = L"listening_type";
+		tr.parseFunctionW = VariablesParseType;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Media type: Music, Video, etc.");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_artist";
-		tr.parseFunctionT = VariablesParseArtist;
+		tr.szTokenString.w = L"listening_artist";
+		tr.parseFunctionW = VariablesParseArtist;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Artist name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_album";
-		tr.parseFunctionT = VariablesParseAlbum;
+		tr.szTokenString.w = L"listening_album";
+		tr.parseFunctionW = VariablesParseAlbum;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Album name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_title";
-		tr.parseFunctionT = VariablesParseTitle;
+		tr.szTokenString.w = L"listening_title";
+		tr.parseFunctionW = VariablesParseTitle;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_track";
-		tr.parseFunctionT = VariablesParseTrack;
+		tr.szTokenString.w = L"listening_track";
+		tr.parseFunctionW = VariablesParseTrack;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Track number");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_year";
-		tr.parseFunctionT = VariablesParseYear;
+		tr.szTokenString.w = L"listening_year";
+		tr.parseFunctionW = VariablesParseYear;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song year");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_genre";
-		tr.parseFunctionT = VariablesParseGenre;
+		tr.szTokenString.w = L"listening_genre";
+		tr.parseFunctionW = VariablesParseGenre;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song genre");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_length";
-		tr.parseFunctionT = VariablesParseLength;
+		tr.szTokenString.w = L"listening_length";
+		tr.parseFunctionW = VariablesParseLength;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song length");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		tr.tszTokenString = L"listening_player";
-		tr.parseFunctionT = VariablesParsePlayer;
+		tr.szTokenString.w = L"listening_player";
+		tr.parseFunctionW = VariablesParsePlayer;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Player name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 	}

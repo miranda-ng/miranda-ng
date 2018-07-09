@@ -1578,14 +1578,14 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		tr.cbSize = sizeof(TOKENREGISTER);
 		tr.memType = TR_MEM_MIRANDA;
 		tr.flags = TRF_FREEMEM | TRF_FIELD | TRF_TCHAR | TRF_PARSEFUNC;
-		tr.tszTokenString = L"winampsong";
-		tr.parseFunctionT = ParseWinampSong;
+		tr.szTokenString.w = L"winampsong";
+		tr.parseFunctionW = ParseWinampSong;
 		tr.szHelpText = LPGEN("External Applications") "\t" LPGEN("retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		if (db_get_b(NULL, MODULENAME, "ExclDateToken", 0) != 0) {
-			tr.tszTokenString = L"date";
-			tr.parseFunctionT = ParseDate;
+			tr.szTokenString.w = L"date";
+			tr.parseFunctionW = ParseDate;
 			tr.szHelpText = LPGEN("Miranda Related") "\t" LPGEN("get the date (Simple Status Message compatible)");
 			CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 		}

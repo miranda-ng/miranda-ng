@@ -105,12 +105,12 @@ int isValidTokenChar(wchar_t tc)
 /* pretty much the main loop */
 static wchar_t* replaceDynVars(FORMATINFO *fi)
 {
-	if (fi->tszFormat == nullptr)
+	if (fi->szFormat.w == nullptr)
 		return nullptr;
 
 	int i, scurPos, curPos, tmpVarPos;
 
-	wchar_t *string = mir_wstrdup(fi->tszFormat);
+	wchar_t *string = mir_wstrdup(fi->szFormat.w);
 	if (string == nullptr)
 		return nullptr;
 
@@ -187,7 +187,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 			tmpVarPos = -1;
 			if (*cur == FIELD_CHAR) {
 				for (i = 0; i < fi->cbTemporaryVarsSize; i += 2) {
-					if (!mir_wstrcmp(fi->tszaTemporaryVars[i], token)) {
+					if (!mir_wstrcmp(fi->szTemporaryVars.w[i], token)) {
 						tmpVarPos = i;
 						break;
 					}
@@ -206,7 +206,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 
 		scur = cur; // store this pointer for later use
 		if (*cur == FIELD_CHAR) {
-			size_t len = mir_wstrlen(tr != nullptr ? tr->tszTokenString : fi->tszaTemporaryVars[tmpVarPos]);
+			size_t len = mir_wstrlen(tr != nullptr ? tr->szTokenString.w : fi->szTemporaryVars.w[tmpVarPos]);
 			cur++;
 			if (cur[len] != FIELD_CHAR) { // the next char after the token should be %
 				fi->eCount++;
@@ -215,7 +215,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 			cur += len + 1;
 		}
 		else if ((*cur == FUNC_CHAR) || (*cur == FUNC_ONCE_CHAR)) {
-			cur += mir_wstrlen(tr->tszTokenString) + 1;
+			cur += mir_wstrlen(tr->szTokenString.w) + 1;
 			wchar_t *argcur = getArguments(cur, argv);
 			if (argcur == cur || argcur == nullptr) {
 				fi->eCount++;
@@ -228,12 +228,12 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 				if (tr->flags & TRF_UNPARSEDARGS)
 					continue;
 
-				afi.tszFormat = argv[i];
+				afi.szFormat.w = argv[i];
 				afi.eCount = afi.pCount = 0;
 				argv.put(i, formatString(&afi));
 				fi->eCount += afi.eCount;
 				fi->pCount += afi.pCount;
-				mir_free(afi.szFormat);
+				mir_free(afi.szFormat.w);
 			}
 		}
 
@@ -241,18 +241,18 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 		ARGUMENTSINFO ai = { 0 };
 		ptrW parsedToken;
 		if (tr != nullptr) {
-			argv.insert(mir_wstrdup(tr->tszTokenString), 0);
+			argv.insert(mir_wstrdup(tr->szTokenString.w), 0);
 
 			ai.cbSize = sizeof(ai);
 			ai.argc = argv.getCount();
-			ai.targv = argv.getArray();
+			ai.argv.w = argv.getArray();
 			ai.fi = fi;
 			if ((*scur == FUNC_ONCE_CHAR) || (*scur == FIELD_CHAR))
 				ai.flags |= AIF_DONTPARSE;
 
 			parsedToken = parseFromRegister(&ai);
 		}
-		else parsedToken = mir_wstrdup(fi->tszaTemporaryVars[tmpVarPos + 1]);
+		else parsedToken = mir_wstrdup(fi->szTemporaryVars.w[tmpVarPos + 1]);
 
 		argv.destroy();
 
@@ -302,56 +302,34 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 */
 static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 {
+	FORMATINFO *pfi = (FORMATINFO*)wParam;
+	if (pfi->cbSize != sizeof(FORMATINFO))
+		return 0;
+
+	// prevent the original structure from being altered
+	FORMATINFO tmpfi = *pfi;
+	bool copied;
+	wchar_t *tszFormat, *tszSource;
+	if (tmpfi.flags & FIF_UNICODE) {
+		copied = false;
+		tszFormat = tmpfi.szFormat.w;
+		tszSource = tmpfi.szExtraText.w;
+	}
+	else {
+		copied = true;
+		tszFormat = mir_a2u(tmpfi.szFormat.a);
+		tszSource = mir_a2u(tmpfi.szExtraText.a);
+		for (int i = 0; i < tmpfi.cbTemporaryVarsSize; i++)
+			tmpfi.szTemporaryVars.w[i] = mir_a2u(tmpfi.szTemporaryVars.a[i]);
+	}
+
+	tmpfi.szFormat.w = tszFormat;
+	tmpfi.szExtraText.w = tszSource;
+
+	wchar_t *tRes = formatString(&tmpfi);
+
 	INT_PTR res;
-	int i;
-	BOOL copied;
-	FORMATINFO *fi, tempFi;
-	wchar_t *tszFormat, *orgFormat, *tszSource, *orgSource, *tRes;
-
-	if (((FORMATINFO *)wParam)->cbSize >= sizeof(FORMATINFO)) {
-		memset(&tempFi, 0, sizeof(FORMATINFO));
-		memcpy(&tempFi, (FORMATINFO *)wParam, sizeof(FORMATINFO));
-		fi = &tempFi;
-	}
-	else if (((FORMATINFO *)wParam)->cbSize == FORMATINFOV2_SIZE) {
-		memset(&tempFi, 0, sizeof(FORMATINFO));
-		memcpy(&tempFi, (FORMATINFO *)wParam, FORMATINFOV2_SIZE);
-		fi = &tempFi;
-	}
-	else {
-		// old struct, must be ANSI
-		FORMATINFOV1 *fiv1 = (FORMATINFOV1 *)wParam;
-		memset(&tempFi, 0, sizeof(FORMATINFO));
-		tempFi.cbSize = sizeof(FORMATINFO);
-		tempFi.hContact = fiv1->hContact;
-		tempFi.szFormat = fiv1->szFormat;
-		tempFi.szExtraText = fiv1->szSource;
-		fi = &tempFi;
-	}
-	orgFormat = fi->tszFormat;
-	orgSource = fi->tszExtraText;
-
-	if (!(fi->flags & FIF_TCHAR)) {
-		copied = TRUE;
-		log_debugA("mir_a2u (%s)", fi->szExtraText);
-		tszFormat = fi->szFormat != nullptr ? mir_a2u(fi->szFormat) : nullptr;
-		tszSource = fi->szExtraText != nullptr ? mir_a2u(fi->szExtraText) : nullptr;
-		for (i = 0; i < fi->cbTemporaryVarsSize; i++) {
-			fi->tszaTemporaryVars[i] = fi->szaTemporaryVars[i] != nullptr ? mir_a2u(fi->szaTemporaryVars[i]) : nullptr;
-		}
-	}
-	else {
-		copied = FALSE;
-		tszFormat = fi->tszFormat;
-		tszSource = fi->tszExtraText;
-	}
-
-	fi->tszFormat = tszFormat;
-	fi->tszExtraText = tszSource;
-
-	tRes = formatString(fi);
-
-	if (!(fi->flags & FIF_TCHAR)) {
+	if (!(tmpfi.flags & FIF_UNICODE)) {
 		res = (INT_PTR)mir_u2a(tRes);
 		mir_free(tRes);
 	}
@@ -360,19 +338,12 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 	if (copied) {
 		mir_free(tszFormat);
 		mir_free(tszSource);
-		for (i = 0; i < fi->cbTemporaryVarsSize; i++)
-			mir_free(fi->tszaTemporaryVars);
+		for (int i = 0; i < tmpfi.cbTemporaryVarsSize; i++)
+			mir_free(tmpfi.szTemporaryVars.w);
 	}
 
-	if (((FORMATINFO *)wParam)->cbSize == sizeof(FORMATINFOV1)) {
-		((FORMATINFOV1 *)wParam)->eCount = fi->eCount;
-		((FORMATINFOV1 *)wParam)->pCount = fi->pCount;
-	}
-	else {
-		((FORMATINFO *)wParam)->eCount = fi->eCount;
-		((FORMATINFO *)wParam)->pCount = fi->pCount;
-	}
-
+	((FORMATINFO *)wParam)->eCount = tmpfi.eCount;
+	((FORMATINFO *)wParam)->pCount = tmpfi.pCount;
 	return res;
 }
 
@@ -450,10 +421,10 @@ int LoadVarModule()
 	if (db_get_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, 0)) {
 		FORMATINFO fi = { 0 };
 		fi.cbSize = sizeof(fi);
-		fi.tszFormat = db_get_wsa(NULL, MODULENAME, SETTING_STARTUPTEXT);
-		if (fi.tszFormat != nullptr) {
+		fi.szFormat.w = db_get_wsa(NULL, MODULENAME, SETTING_STARTUPTEXT);
+		if (fi.szFormat.w != nullptr) {
 			mir_free(formatString(&fi));
-			mir_free(fi.tszFormat);
+			mir_free(fi.szFormat.w);
 		}
 	}
 	log_debugA("Variables: Init done");

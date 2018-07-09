@@ -24,7 +24,7 @@ static wchar_t *parseGetParent(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return nullptr;
 
-	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
+	MCONTACT hContact = getContactFromString(ai->argv.w[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
 		return nullptr;
 
@@ -52,7 +52,7 @@ static wchar_t *parseGetDefault(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return nullptr;
 
-	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
+	MCONTACT hContact = getContactFromString(ai->argv.w[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
 		return nullptr;
 
@@ -80,7 +80,7 @@ static wchar_t *parseGetMostOnline(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return nullptr;
 
-	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
+	MCONTACT hContact = getContactFromString(ai->argv.w[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
 		return nullptr;
 

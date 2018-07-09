@@ -34,12 +34,12 @@ static wchar_t *parseRegExpCheck(ARGUMENTSINFO *ai)
 
 	ai->flags = AIF_FALSE;
 
-	pcre16 *ppat = pcre16_compile(ai->targv[1], 0, &err, &erroffset, nullptr);
+	pcre16 *ppat = pcre16_compile(ai->argv.w[1], 0, &err, &erroffset, nullptr);
 	if (ppat == nullptr)
 		return nullptr;
 
 	pcre16_extra *extra = pcre16_study(ppat, 0, &err);
-	int nmat = pcre16_exec(ppat, extra, ai->targv[2], (int)mir_wstrlen(ai->targv[2]), 0, 0, offsets, 99);
+	int nmat = pcre16_exec(ppat, extra, ai->argv.w[2], (int)mir_wstrlen(ai->argv.w[2]), 0, 0, offsets, 99);
 	if (nmat > 0) {
 		ai->flags &= ~AIF_FALSE;
 		_ltoa(nmat, szVal, 10);
@@ -62,21 +62,21 @@ static wchar_t *parseRegExpSubstr(ARGUMENTSINFO *ai)
 	if (ai->argc != 4)
 		return nullptr;
 
-	number = _wtoi(ai->targv[3]);
+	number = _wtoi(ai->argv.w[3]);
 	if (number < 0)
 		return nullptr;
 
 	ai->flags = AIF_FALSE;
-	pcre16 *ppat = pcre16_compile(ai->targv[1], 0, &err, &erroffset, nullptr);
+	pcre16 *ppat = pcre16_compile(ai->argv.w[1], 0, &err, &erroffset, nullptr);
 	if (ppat == nullptr)
 		return nullptr;
 
 	pcre16_extra *extra = pcre16_study(ppat, 0, &err);
-	int nmat = pcre16_exec(ppat, extra, ai->targv[2], (int)mir_wstrlen(ai->targv[2]), 0, 0, offsets, 99);
+	int nmat = pcre16_exec(ppat, extra, ai->argv.w[2], (int)mir_wstrlen(ai->argv.w[2]), 0, 0, offsets, 99);
 	if (nmat >= 0)
 		ai->flags &= ~AIF_FALSE;
 
-	if (pcre16_get_substring(ai->targv[2], offsets, nmat, number, &substring) < 0)
+	if (pcre16_get_substring(ai->argv.w[2], offsets, nmat, number, &substring) < 0)
 		ai->flags |= AIF_FALSE;
 	else {
 		wchar_t *tres = mir_wstrdup(substring);
