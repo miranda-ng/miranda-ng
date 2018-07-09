@@ -664,7 +664,7 @@ static void oft_newConnectionReceived(HNETLIBCONN hNewConnection, DWORD dwRemote
 	otsi->listener = listener;
 
 	// Start a new thread for the incomming connection
-	listener->ppro->ForkThread((CIcqProto::MyThreadFunc)&CIcqProto::oft_connectionThread, otsi);
+	listener->ppro->ForkThread(&CIcqProto::oft_connectionThread, otsi);
 }
 
 static char* oftGetFileContainer(oscar_filetransfer* oft, const char** files, int iFile)
@@ -1073,23 +1073,30 @@ int CIcqProto::CreateOscarProxyConnection(oscar_connection *oc)
 	return 1; // Success
 }
 
-void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
+void __cdecl CIcqProto::oft_connectionThread(void *param)
 {
-	oscar_connection oc = { 0 };
-	oscar_listener *source;
-
 	Thread_SetName("ICQ: oft_connectionThread");
 
-	oc.hContact = otsi->hContact;
-	oc.hConnection = otsi->hConnection;
-	oc.type = otsi->type;
-	oc.incoming = otsi->incoming;
-	oc.ft = otsi->ft;
-	source = otsi->listener;
+	DWORD dwRemoteIP;
+	oscar_connection oc = {};
+	oscar_listener *source;
+	{
+		oscarthreadstartinfo *otsi = (oscarthreadstartinfo*)param;
+		source = otsi->listener;
+		dwRemoteIP = otsi->dwRemoteIP;
+
+		oc.hContact = otsi->hContact;
+		oc.hConnection = otsi->hConnection;
+		oc.type = otsi->type;
+		oc.incoming = otsi->incoming;
+		oc.ft = otsi->ft;
+		SAFE_FREE((void**)&otsi);
+	}
+
 	if (oc.incoming) {
 		if (IsValidOscarTransfer(source->ft)) {
 			oc.ft = source->ft;
-			oc.ft->dwRemoteExternalIP = otsi->dwRemoteIP;
+			oc.ft->dwRemoteExternalIP = dwRemoteIP;
 			oc.hContact = oc.ft->hContact;
 			oc.ft->connection = &oc;
 			oc.status = OCS_CONNECTED;
@@ -1099,12 +1106,9 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 
 			CloseOscarConnection(&oc);
 			ReleaseOscarListener(&source);
-
-			SAFE_FREE((void**)&otsi);
 			return;
 		}
 	}
-	SAFE_FREE((void**)&otsi);
 
 	if (oc.hContact)  // Load contact information
 		getContactUid(oc.hContact, &oc.dwUin, &oc.szUid);

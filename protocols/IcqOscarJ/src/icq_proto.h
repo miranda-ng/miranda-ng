@@ -825,7 +825,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   proxy_sendJoinTunnel(oscar_connection *oc, WORD wPort);
 
 	//----| stdpackets.cpp |--------------------------------------------------------------
-	void   __cdecl oft_connectionThread(struct oscarthreadstartinfo *otsi);
+	void   __cdecl oft_connectionThread(void *otsi);
 
 	int    oft_handlePackets(oscar_connection *oc, BYTE *buf, size_t len);
 	int    oft_handleFileData(oscar_connection *oc, BYTE *buf, size_t len);
