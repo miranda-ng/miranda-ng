@@ -422,15 +422,17 @@ int CIcqProto::OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	int bIdle = (lParam & IDF_ISIDLE);
 	int bPrivacy = (lParam & IDF_PRIVACY);
-	if (bPrivacy)
+	if (bPrivacy) {
+		debugLogA("ICQ: idle mode ignored due to the private mode: %08x", lParam);
 		return 0;
+	}
 
 	setDword("IdleTS", bIdle ? time(0) : 0);
 
 	if (m_bTempVisListEnabled) // remove temporary visible users
 		sendEntireListServ(ICQ_BOS_FAMILY, ICQ_CLI_REMOVETEMPVISIBLE, BUL_TEMPVISIBLE);
 
-	icq_setidle(bIdle ? 1 : 0);
+	icq_setidle(bIdle != 0);
 	return 0;
 }
 

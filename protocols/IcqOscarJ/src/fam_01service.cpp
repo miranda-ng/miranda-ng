@@ -774,7 +774,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 	packDWord(&packet, 0x00000000);
 
 	sendServPacket(&packet);
-	m_bIdleAllow = 0;
+	m_bIdleMode = false;
 
 	// Change status
 	SetCurrentStatus(m_iDesiredStatus);

@@ -151,14 +151,14 @@ struct CIcqProto : public PROTO<CIcqProto>
 	mir_cs localSeqMutex;
 	mir_cs connectionHandleMutex;
 
-	int   m_bIdleAllow;
+	bool  m_bIdleMode;
 	DWORD m_dwLocalUIN;
-	BYTE m_bConnectionLost;
+	BYTE  m_bConnectionLost;
 
-	char m_szPassword[PASSWORDMAXLEN+1];
-	BYTE m_bRememberPwd;
+	char  m_szPassword[PASSWORDMAXLEN+1];
+	BYTE  m_bRememberPwd;
 
-	int cheekySearchId;
+	int   cheekySearchId;
 	DWORD cheekySearchUin;
 	char* cheekySearchUid;
 
@@ -672,7 +672,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	void   icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandler)(HNETLIBCONN hConn, char* cookie, size_t cookieLen));
 
-	void   icq_setidle(int bAllow);
+	void   icq_setidle(bool bIsIdle);
 	void   icq_setstatus(WORD wStatus, const char *szStatusNote = nullptr);
 	DWORD  icq_sendGetInfoServ(MCONTACT hContact, DWORD, int);
 	DWORD  icq_sendGetAimProfileServ(MCONTACT hContact, char *szUid);

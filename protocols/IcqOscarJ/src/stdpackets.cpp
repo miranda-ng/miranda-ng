@@ -216,23 +216,27 @@ void CIcqProto::icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandl
 	sendServPacket(&packet);
 }
 
-void CIcqProto::icq_setidle(int bAllow)
+void CIcqProto::icq_setidle(bool bIsIdle)
 {
-	if (bAllow != m_bIdleAllow) {
-		/* SNAC 1,11 */
-		icq_packet packet;
-		serverPacketInit(&packet, 14);
-		packFNACHeader(&packet, ICQ_SERVICE_FAMILY, ICQ_CLIENT_SET_IDLE);
-		if (bAllow == 1)
-			packDWord(&packet, 0x0000003C);
-		else
-			packDWord(&packet, 0x00000000);
-
-		m_bIdleAllow = bAllow;
-		sendServPacket(&packet);
+	// if mode isn't changed, don't spam the server
+	if (bIsIdle == m_bIdleMode) {
+		debugLogA("ICQ: idle mode wasn't changed (%d)", bIsIdle);
+		return;
 	}
-}
 
+	/* SNAC 1,11 */
+	debugLogA("ICQ: set idle %d", bIsIdle);
+	icq_packet packet;
+	serverPacketInit(&packet, 14);
+	packFNACHeader(&packet, ICQ_SERVICE_FAMILY, ICQ_CLIENT_SET_IDLE);
+	if (bIsIdle)
+		packDWord(&packet, 0x0000003C);
+	else
+		packDWord(&packet, 0x00000000);
+
+	m_bIdleMode = bIsIdle;
+	sendServPacket(&packet);
+}
 
 void CIcqProto::icq_setstatus(WORD wStatus, const char *szStatusNote)
 {
