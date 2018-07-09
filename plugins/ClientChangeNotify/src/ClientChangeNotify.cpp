@@ -19,8 +19,7 @@
 
 #include "stdafx.h"
 
-HANDLE    g_hMainThread;
-HGENMENU  g_hTogglePopupsMenuItem;
+HGENMENU g_hTogglePopupsMenuItem;
 
 CMPlugin g_plugin;
 
@@ -60,16 +59,17 @@ static int CALLBACK MenuWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
-// wParam = hContact
+static VOID CALLBACK ShowContactMenu(void *param)
 {
+	MCONTACT hContact = (ULONG_PTR)param;
+
 	POINT pt;
 	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MODULENAME) L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
-	HMENU hMenu = Menu_BuildContactMenu(wParam);
+	HMENU hMenu = Menu_BuildContactMenu(hContact);
 	GetCursorPos(&pt);
 	SetForegroundWindow(hMenuWnd);
-	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, nullptr), MPCF_CONTACTMENU, wParam);
+	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, nullptr), MPCF_CONTACTMENU, hContact);
 	PostMessage(hMenuWnd, WM_NULL, 0, 0);
 	DestroyMenu(hMenu);
 	DestroyWindow(hMenuWnd);
@@ -86,7 +86,7 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA*)
 
 	case PCA_OPENMENU: // open contact menu
 		if (hContact && hContact != INVALID_CONTACT_ID)
-			QueueUserAPC(ShowContactMenu, g_hMainThread, (ULONG_PTR)hContact);
+			CallFunctionAsync(ShowContactMenu, (void*)hContact);
 		break;
 
 	case PCA_OPENDETAILS: // open contact details window
@@ -347,7 +347,7 @@ static int MirandaLoaded(WPARAM, LPARAM)
 int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, THREAD_SET_CONTEXT, false, 0);
+
 	InitOptions();
 
 	if (db_get_b(NULL, MODULENAME, DB_SETTINGSVER, 0) < 1) {
@@ -358,13 +358,5 @@ int CMPlugin::Load()
 
 		db_set_b(NULL, MODULENAME, DB_SETTINGSVER, 1);
 	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int CMPlugin::Unload()
-{
-	CloseHandle(g_hMainThread);
 	return 0;
 }
