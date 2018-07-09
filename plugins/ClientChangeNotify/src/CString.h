@@ -2,19 +2,19 @@
 	TCString.h - TCString class
 	Copyright (c) 2005-2008 Chervov Dmitry
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #pragma once
@@ -28,30 +28,30 @@
 #include "m_system.h"
 #include "m_database.h"
 
-__inline int My_lstrlen(LPCSTR lpString) {return (int)mir_strlen(lpString);}
-__inline int My_lstrlen(LPCWSTR lpString) {return (int)mir_wstrlen(lpString);}
-__inline int My_lstrcmp(LPCSTR lpString1, LPCSTR lpString2) {return mir_strcmp(lpString1, lpString2);}
-__inline int My_lstrcmp(LPCWSTR lpString1, LPCWSTR lpString2) {return mir_wstrcmp(lpString1, lpString2);}
-__inline LPCSTR My_strstr(LPCSTR lpString1, LPCSTR lpString2) {return strstr(lpString1, lpString2);}
-__inline LPWSTR My_strstr(LPCWSTR lpString1, LPCWSTR lpString2) {return (LPWSTR)wcsstr(lpString1, lpString2);}
-__inline LPSTR My_lstrcpy(LPSTR lpString1, LPCSTR lpString2) {return mir_strcpy(lpString1, lpString2);}
-__inline LPWSTR My_lstrcpy(LPWSTR lpString1, LPCWSTR lpString2) {return mir_wstrcpy(lpString1, lpString2);}
-__inline LPSTR My_strncpy(LPSTR lpString1, LPCSTR lpString2, int Len) {return strncpy(lpString1, lpString2, Len);}
-__inline LPWSTR My_strncpy(LPWSTR lpString1, LPCWSTR lpString2, int Len) {return wcsncpy(lpString1, lpString2, Len);}
-__inline LPSTR My_strlwr(LPSTR lpString) {return _strlwr(lpString);}
-__inline LPWSTR My_strlwr(LPWSTR lpString) {return _wcslwr(lpString);}
+__inline int My_lstrlen(LPCSTR lpString) { return (int)mir_strlen(lpString); }
+__inline int My_lstrlen(LPCWSTR lpString) { return (int)mir_wstrlen(lpString); }
+__inline int My_lstrcmp(LPCSTR lpString1, LPCSTR lpString2) { return mir_strcmp(lpString1, lpString2); }
+__inline int My_lstrcmp(LPCWSTR lpString1, LPCWSTR lpString2) { return mir_wstrcmp(lpString1, lpString2); }
+__inline LPCSTR My_strstr(LPCSTR lpString1, LPCSTR lpString2) { return strstr(lpString1, lpString2); }
+__inline LPWSTR My_strstr(LPCWSTR lpString1, LPCWSTR lpString2) { return (LPWSTR)wcsstr(lpString1, lpString2); }
+__inline LPSTR My_lstrcpy(LPSTR lpString1, LPCSTR lpString2) { return mir_strcpy(lpString1, lpString2); }
+__inline LPWSTR My_lstrcpy(LPWSTR lpString1, LPCWSTR lpString2) { return mir_wstrcpy(lpString1, lpString2); }
+__inline LPSTR My_strncpy(LPSTR lpString1, LPCSTR lpString2, int Len) { return strncpy(lpString1, lpString2, Len); }
+__inline LPWSTR My_strncpy(LPWSTR lpString1, LPCWSTR lpString2, int Len) { return wcsncpy(lpString1, lpString2, Len); }
+__inline LPSTR My_strlwr(LPSTR lpString) { return _strlwr(lpString); }
+__inline LPWSTR My_strlwr(LPWSTR lpString) { return _wcslwr(lpString); }
 
 template <class T>
 class TString
 {
 public:
-	TString(): pBuf(NULL), nBufSize(0), nAllocSize(0) {}
-	TString(const T *pStr): pBuf(NULL), nBufSize(0), nAllocSize(0) {*this = pStr;}
-  TString(const TString<T> &Str): pBuf(NULL), nBufSize(0), nAllocSize(0) {*this = Str.pBuf;}
-	~TString() {Free();}
+	TString() : pBuf(NULL), nBufSize(0), nAllocSize(0) {}
+	TString(const T *pStr) : pBuf(NULL), nBufSize(0), nAllocSize(0) { *this = pStr; }
+	TString(const TString<T> &Str) : pBuf(NULL), nBufSize(0), nAllocSize(0) { *this = Str.pBuf; }
+	~TString() { Free(); }
 
-	int GetLen() const {return (nBufSize) ? (nBufSize - 1) : 0;};
-	int IsEmpty() const {return (!GetLen());};
+	int GetLen() const { return (nBufSize) ? (nBufSize - 1) : 0; };
+	int IsEmpty() const { return (!GetLen()); };
 	T *GetBuffer(int nNewLen = -1);
 	void ReleaseBuffer(int nNewLen = -1);
 	TString<T>& Cat(const T *pStr);
@@ -65,26 +65,28 @@ public:
 	TString<T> ToLower() const;
 	void Empty();
 	void Free();
-	T& operator [] (int nIndex) {_ASSERT(nIndex >= 0 && nIndex <= GetLen()); return pBuf[nIndex];}
-	operator const T*() const {return pBuf;}
-	operator T*() {return pBuf;}
+	T& operator [] (int nIndex) { _ASSERT(nIndex >= 0 && nIndex <= GetLen()); return pBuf[nIndex]; }
+	operator const T*() const { return pBuf; }
+	operator T*() { return pBuf; }
 	TString<T>& operator=(const T *pStr);
-	TString<T>& operator=(const TString<T> &Str) {return *this = Str.pBuf;}
-//	TCString& operator + (const char *pStr)
-//		{_ASSERT(pBuf && pStr); TCString Result(*this); return Result.Cat(pStr);}
+	TString<T>& operator=(const TString<T> &Str) { return *this = Str.pBuf; }
+	//	TCString& operator + (const char *pStr)
+	//		{_ASSERT(pBuf && pStr); TCString Result(*this); return Result.Cat(pStr);}
 	friend TString<T> operator + (const TString<T> &Str1, const T *Str2)
-		{_ASSERT(Str1.pBuf && Str2); TString<T> Result(Str1); return Result.Cat(Str2);}
-/*	friend TCString operator + (const char *Str1, const TCString &Str2)
-		{_ASSERT(Str1 && Str2.pBuf); TCString Result(Str1); return Result.Cat(Str2);}*/
-	TString<T>& operator+=(const T *pStr) {_ASSERT(pBuf && pStr); return this->Cat(pStr);}
-	TString<T>& operator+=(const T c) {_ASSERT(pBuf); return this->Cat(c);}
-	int operator == (const T *pStr) const {return (!pBuf || !pStr) ? (pBuf == pStr) : !My_lstrcmp(pBuf, pStr);}
-	int operator != (const T *pStr) const {return (!pBuf || !pStr) ? (pBuf != pStr) : My_lstrcmp(pBuf, pStr);}
-	int operator < (const T *pStr) const {_ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) > 0;}
-	int operator > (const T *pStr) const {_ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) < 0;}
-	int operator <= (const T *pStr) const {_ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) >= 0;}
-	int operator >= (const T *pStr) const {_ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) <= 0;}
-//	TCString& Format(char *pszFormat, ...);
+	{
+		_ASSERT(Str1.pBuf && Str2); TString<T> Result(Str1); return Result.Cat(Str2);
+	}
+	/*	friend TCString operator + (const char *Str1, const TCString &Str2)
+			{_ASSERT(Str1 && Str2.pBuf); TCString Result(Str1); return Result.Cat(Str2);}*/
+	TString<T>& operator+=(const T *pStr) { _ASSERT(pBuf && pStr); return this->Cat(pStr); }
+	TString<T>& operator+=(const T c) { _ASSERT(pBuf); return this->Cat(c); }
+	int operator == (const T *pStr) const { return (!pBuf || !pStr) ? (pBuf == pStr) : !My_lstrcmp(pBuf, pStr); }
+	int operator != (const T *pStr) const { return (!pBuf || !pStr) ? (pBuf != pStr) : My_lstrcmp(pBuf, pStr); }
+	int operator < (const T *pStr) const { _ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) > 0; }
+	int operator > (const T *pStr) const { _ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) < 0; }
+	int operator <= (const T *pStr) const { _ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) >= 0; }
+	int operator >= (const T *pStr) const { _ASSERT(pBuf && pStr); return My_lstrcmp(pBuf, pStr) <= 0; }
+	//	TCString& Format(char *pszFormat, ...);
 
 private:
 	void SetBufSize(int nNewBufSize);
@@ -106,15 +108,12 @@ __inline CHARARRAY WCHAR2ANSI_ARRAY(CHARARRAY &c)
 {
 	CHARARRAY Result;
 	int Len = WideCharToMultiByte(CP_ACP, 0, (WCHAR*)c.GetData(), c.GetSize() / sizeof(WCHAR), NULL, 0, NULL, NULL);
-	if (Len)
-	{
+	if (Len) {
 		Result.SetAtGrow(Len - 1);
-		if (!WideCharToMultiByte(CP_ACP, 0, (WCHAR*)c.GetData(), c.GetSize() / sizeof(WCHAR), Result.GetData(), Len, NULL, NULL))
-		{
+		if (!WideCharToMultiByte(CP_ACP, 0, (WCHAR*)c.GetData(), c.GetSize() / sizeof(WCHAR), Result.GetData(), Len, NULL, NULL)) {
 			Result.RemoveAll();
 		}
-		if (Result.GetSize())
-		{
+		if (Result.GetSize()) {
 			Result.RemoveElem(Result.GetSize() - 1); // remove the null terminator
 		}
 	}
@@ -125,15 +124,12 @@ __inline CHARARRAY ANSI2WCHAR_ARRAY(CHARARRAY &c)
 {
 	CHARARRAY Result;
 	int Len = MultiByteToWideChar(CP_ACP, 0, c.GetData(), c.GetSize(), NULL, 0);
-	if (Len)
-	{
+	if (Len) {
 		Result.SetAtGrow(Len * sizeof(WCHAR) - 1);
-		if (!MultiByteToWideChar(CP_ACP, 0, c.GetData(), c.GetSize(), (WCHAR*)Result.GetData(), Len))
-		{
+		if (!MultiByteToWideChar(CP_ACP, 0, c.GetData(), c.GetSize(), (WCHAR*)Result.GetData(), Len)) {
 			Result.RemoveAll();
 		}
-		if (Result.GetSize())
-		{
+		if (Result.GetSize()) {
 			Result.RemoveElem(Result.GetSize() - 1);
 			Result.RemoveElem(Result.GetSize() - 1); // remove the null terminator
 		}
@@ -146,11 +142,9 @@ __inline CHARARRAY WCHAR2UTF8(WCString Str)
 {
 	CHARARRAY Result;
 	int Len = WideCharToMultiByte(CP_UTF8, 0, Str, -1, NULL, 0, NULL, NULL);
-	if (Len)
-	{
+	if (Len) {
 		Result.SetAtGrow(Len - 1);
-		if (!WideCharToMultiByte(CP_UTF8, 0, Str, -1, Result.GetData(), Len, NULL, NULL))
-		{
+		if (!WideCharToMultiByte(CP_UTF8, 0, Str, -1, Result.GetData(), Len, NULL, NULL)) {
 			Result.RemoveAll();
 		}
 	}

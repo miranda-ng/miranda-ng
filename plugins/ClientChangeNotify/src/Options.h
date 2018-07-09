@@ -2,19 +2,19 @@
 	Options.h
 	Copyright (c) 2005-2008 Chervov Dmitry
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #pragma once
@@ -28,8 +28,7 @@ public:
 	COptItem() {}
 	COptItem(int m_dlgItemID, char *szDBSetting, int nValueSize, int lParam = 0, bool m_bReadOnly = false) :
 		m_dlgItemID(m_dlgItemID), nValueSize(nValueSize), sDBSetting(szDBSetting), lParam(lParam), m_bEnabled(true), m_bReadOnly(m_bReadOnly), m_bModified(false)
-	{
-	}
+	{}
 
 	virtual ~COptItem() {}
 
@@ -45,14 +44,14 @@ public:
 	virtual void SetDefValue(INT_PTR) {}
 	virtual INT_PTR GetValue() { return 0; }
 	virtual INT_PTR GetDefValue() { return 0; }
-	
+
 	INT_PTR GetDBValue(const CString &sModule, CString *sDBSettingPrefix = NULL) { DBToMem(sModule, sDBSettingPrefix); return GetValue(); }
 	void    SetDBValue(const CString &sModule, INT_PTR m_value, CString *sDBSettingPrefix = NULL) { SetValue(m_value); MemToDB(sModule, sDBSettingPrefix); }
 	INT_PTR GetDBValueCopy(const CString &sModule, CString *sDBSettingPrefix = NULL) { COptItem* Item = Copy(); Item->DBToMem(sModule, sDBSettingPrefix); INT_PTR m_value = Item->GetValue(); delete Item; return m_value; } // retrieves DB value, but doesn't affect current page/item state; beware! it doesn't work with string values / other dynamic pointers
 	void    SetDBValueCopy(const CString &sModule, INT_PTR m_value, CString *sDBSettingPrefix = NULL) { COptItem* Item = Copy(); Item->SetValue(m_value); Item->MemToDB(sModule, sDBSettingPrefix); delete Item; }
 	INT_PTR GetWndValue(HWND hWnd) { WndToMem(hWnd); return GetValue(); }
 	void    SetWndValue(HWND hWnd, INT_PTR m_value) { SetValue(m_value); MemToWnd(hWnd); }
-	
+
 	void SetDlgItemID(int _DlgItemID) { m_dlgItemID = _DlgItemID; }
 	bool GetModified() { return m_bModified; }
 	void SetModified(bool _Modified) { m_bModified = _Modified; }
@@ -93,16 +92,16 @@ public:
 	COptItem_Edit() {}
 	COptItem_Edit(int m_dlgItemID, char *szDBSetting, int nMaxLen, wchar_t *szDefValue, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, nMaxLen, lParam, m_bReadOnly), sDefValue(szDefValue)
-		{}
+	{}
 
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { sValue = GetStrDBVal(sModule, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetStrDBVal(sModule, sValue, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { GetDlgItemText(hWnd, m_dlgItemID, sValue.GetBuffer(nValueSize), nValueSize); sValue.ReleaseBuffer(); COptItem::MemToWnd(hWnd); }
 	void MemToWnd(HWND hWnd) { SetDlgItemText(hWnd, m_dlgItemID, sValue); COptItem::MemToWnd(hWnd); }
-	
+
 	virtual void SetValue(INT_PTR m_value) { sValue = *(TCString*)m_value; COptItem::SetValue(m_value); }
 	virtual void SetDefValue(INT_PTR m_defValue) { sDefValue = *(TCString*)m_defValue; COptItem::SetDefValue(m_defValue); }
-	
+
 	virtual INT_PTR GetValue() { return (INT_PTR)&sValue; }
 	virtual INT_PTR GetDefValue() { return (INT_PTR)&sDefValue; }
 
@@ -119,16 +118,16 @@ public:
 	COptItem_IntEdit() {}
 	COptItem_IntEdit(int m_dlgItemID, char *szDBSetting, int nValueSize = DBVT_BYTE, int bSigned = true, int m_defValue = 0, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), bSigned(bSigned)
-		{}
-	
+	{}
+
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, bSigned, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { m_value = GetDlgItemInt(hWnd, m_dlgItemID, NULL, bSigned); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { SetDlgItemInt(hWnd, m_dlgItemID, m_value, bSigned); COptItem::MemToWnd(hWnd); }
-	
+
 	virtual void SetValue(INT_PTR _Value) { this->m_value = _Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = _DefValue; COptItem::SetDefValue(_DefValue); }
-	
+
 	virtual INT_PTR GetValue() { return m_value; }
 	virtual INT_PTR GetDefValue() { return m_defValue; }
 	virtual COptItem* Copy() { return new COptItem_IntEdit(*this); }
@@ -145,7 +144,7 @@ public:
 	COptItem_Checkbox() {}
 	COptItem_Checkbox(int m_dlgItemID, char *szDBSetting, int nValueSize = DBVT_BYTE, int m_defValue = 0, int m_valueMask = 0, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), m_valueMask(m_valueMask)
-		{}
+	{}
 
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL);
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL);
@@ -154,10 +153,10 @@ public:
 
 	virtual void SetValue(INT_PTR _Value) { this->m_value = _Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = _DefValue; COptItem::SetDefValue(_DefValue); }
-	
+
 	virtual INT_PTR GetValue() { return m_value; }
 	virtual INT_PTR GetDefValue() { return m_defValue; }
-	
+
 	virtual COptItem* Copy() { return new COptItem_Checkbox(*this); }
 
 	int m_value;
@@ -171,7 +170,7 @@ public:
 	COptItem_Radiobutton() {}
 	COptItem_Radiobutton(int m_dlgItemID, char *szDBSetting, int nValueSize, int m_defValue, int m_valueMask, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), m_valueMask(m_valueMask)
-		{}
+	{}
 
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = (GetIntDBVal(sModule, false, sDBSettingPrefix) == m_valueMask) ? BST_CHECKED : BST_UNCHECKED; COptItem::DBToMem(sModule, sDBSettingPrefix); }
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { if ((m_value == BST_CHECKED)) SetIntDBVal(sModule, m_valueMask, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
@@ -180,10 +179,10 @@ public:
 
 	virtual void SetValue(INT_PTR _Value) { this->m_value = _Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = _DefValue; COptItem::SetDefValue(_DefValue); }
-	
+
 	virtual INT_PTR GetValue() { return m_value; }
 	virtual INT_PTR GetDefValue() { return m_defValue; }
-	
+
 	virtual COptItem* Copy() { return new COptItem_Radiobutton(*this); }
 
 	int m_value;
@@ -197,19 +196,19 @@ public:
 	COptItem_Combobox() {}
 	COptItem_Combobox(int m_dlgItemID, char *szDBSetting, int nValueSize = DBVT_BYTE, int m_defValue = 0, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0)
-		{}
-	
+	{}
+
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { m_value = SendDlgItemMessage(hWnd, m_dlgItemID, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hWnd, m_dlgItemID, CB_GETCURSEL, 0, 0), 0); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { SendDlgItemMessage(hWnd, m_dlgItemID, CB_SETCURSEL, m_value, 0); COptItem::MemToWnd(hWnd); }
-	
+
 	virtual void SetValue(INT_PTR _Value) { this->m_value = _Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = _DefValue; COptItem::SetDefValue(_DefValue); }
-	
+
 	virtual INT_PTR GetValue() { return m_value; }
 	virtual INT_PTR GetDefValue() { return m_defValue; }
-	
+
 	virtual COptItem* Copy() { return new COptItem_Combobox(*this); }
 
 	int m_defValue;
@@ -222,19 +221,19 @@ public:
 	COptItem_Colourpicker() {}
 	COptItem_Colourpicker(int m_dlgItemID, char *szDBSetting, int m_defValue = 0, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, DBVT_DWORD, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0)
-		{}
-	
+	{}
+
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { m_value = SendDlgItemMessage(hWnd, m_dlgItemID, CPM_GETCOLOUR, 0, 0); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { SendDlgItemMessage(hWnd, m_dlgItemID, CPM_SETCOLOUR, 0, m_value); COptItem::MemToWnd(hWnd); }
-	
+
 	virtual void SetValue(INT_PTR _Value) { this->m_value = _Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = _DefValue; COptItem::SetDefValue(_DefValue); }
-	
+
 	virtual INT_PTR GetValue() { return m_value; }
 	virtual INT_PTR GetDefValue() { return m_defValue; }
-	
+
 	virtual COptItem* Copy() { return new COptItem_Colourpicker(*this); }
 
 	DWORD m_defValue;
@@ -248,16 +247,16 @@ public:
 	COptItem_Slider() {}
 	COptItem_Slider(int m_dlgItemID, char *szDBSetting, int nValueSize = DBVT_BYTE, int m_defValue = 0, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0)
-		{}
-	
+	{}
+
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { m_value = SendDlgItemMessage(hWnd, m_dlgItemID, TBM_GETPOS, 0, 0); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { SendDlgItemMessage(hWnd, m_dlgItemID, TBM_SETPOS, true, m_value); COptItem::MemToWnd(hWnd); }
-	
+
 	virtual void SetValue(INT_PTR _Value) { this->m_value = _Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = _DefValue; COptItem::SetDefValue(_DefValue); }
-	
+
 	virtual INT_PTR GetValue() { return m_value; }
 	virtual INT_PTR GetDefValue() { return m_defValue; }
 	virtual COptItem* Copy() { return new COptItem_Slider(*this); }
@@ -273,13 +272,13 @@ public:
 	COptItem_IntDBSetting() {}
 	COptItem_IntDBSetting(int m_dlgItemID, char *szDBSetting, int nValueSize = DBVT_BYTE, int bSigned = true, int m_defValue = 0, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), bSigned(bSigned)
-		{}
-	
+	{}
+
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, bSigned, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { COptItem::MemToWnd(hWnd); }
-	
+
 	virtual void SetValue(INT_PTR _Value) { this->m_value = _Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = _DefValue; COptItem::SetDefValue(_DefValue); }
 
@@ -326,13 +325,13 @@ public:
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetStrDBVal(sModule, sValue, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { COptItem::MemToWnd(hWnd); }
-	
+
 	virtual void SetValue(INT_PTR _Value) { sValue = *(TCString*)_Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { sDefValue = *(TCString*)_DefValue; COptItem::SetDefValue(_DefValue); }
 
 	virtual INT_PTR GetValue() { return (INT_PTR)&sValue; }
 	virtual INT_PTR GetDefValue() { return (INT_PTR)&sDefValue; }
-	
+
 	virtual COptItem* Copy() { return new COptItem_StrDBSetting(*this); }
 
 	TCString sDefValue;
@@ -364,8 +363,7 @@ public:
 	CTreeItem();
 	CTreeItem(TCString Title, int ParentID, int ID, int Flags = 0, TCString User_Str1 = NULL) :
 		CBaseTreeItem(Title, ID, Flags & ~TIF_ROOTITEM), ParentID(ParentID), User_Str1(User_Str1)
-	{
-	}
+	{}
 
 	int ParentID;
 	TCString User_Str1;
@@ -414,13 +412,13 @@ public:
 	void WndToMem(HWND hWnd);
 	void MemToWnd(HWND hWnd);
 	void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = NULL);
-	
+
 	virtual void SetValue(INT_PTR _Value) { this->m_value = *(TreeItemArray*)_Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = *(TreeItemArray*)_DefValue; COptItem::SetDefValue(_DefValue); }
-	
+
 	virtual INT_PTR GetValue() { return (INT_PTR)&m_value; }
 	virtual INT_PTR GetDefValue() { return (INT_PTR)&m_defValue; }
-	
+
 	virtual COptItem* Copy() { return new COptItem_TreeCtrl(*this); }
 
 	int IDToOrder(int ID);
@@ -466,13 +464,13 @@ public:
 	void WndToMem(HWND hWnd);
 	void MemToWnd(HWND hWnd);
 	void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = NULL);
-	
+
 	virtual void SetValue(INT_PTR _Value) { this->m_value = *(ListItemArray*)_Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = *(ListItemArray*)_DefValue; COptItem::SetDefValue(_DefValue); }
-	
+
 	virtual INT_PTR GetValue() { return (INT_PTR)&m_value; }
 	virtual INT_PTR GetDefValue() { return (INT_PTR)&m_defValue; }
-	
+
 	virtual COptItem* Copy() { return new COptItem_ListCtrl(*this); }
 
 	int GetSelectedItemID(HWND hWnd); // returns -1 if there's no selection
@@ -504,21 +502,21 @@ public:
 	COptItem* Find(int m_dlgItemID);
 	INT_PTR GetValue(int m_dlgItemID) { return Find(m_dlgItemID)->GetValue(); }
 	void SetValue(int m_dlgItemID, INT_PTR m_value) { Find(m_dlgItemID)->SetValue(m_value); }
-	
+
 	INT_PTR GetDBValue(int m_dlgItemID) { return Find(m_dlgItemID)->GetDBValue(sModule, &sDBSettingPrefix); }
 	void SetDBValue(int m_dlgItemID, INT_PTR m_value) { Find(m_dlgItemID)->SetDBValue(sModule, m_value, &sDBSettingPrefix); }
-	
+
 	INT_PTR GetDBValueCopy(int m_dlgItemID) { return Find(m_dlgItemID)->GetDBValueCopy(sModule, &sDBSettingPrefix); }
 	void SetDBValueCopy(int m_dlgItemID, INT_PTR m_value) { Find(m_dlgItemID)->SetDBValueCopy(sModule, m_value, &sDBSettingPrefix); }
-	
+
 	INT_PTR GetWndValue(int m_dlgItemID) { return Find(m_dlgItemID)->GetWndValue(hWnd); }
 	void SetWndValue(int m_dlgItemID, INT_PTR m_value) { Find(m_dlgItemID)->SetWndValue(hWnd, m_value); }
-	
+
 	HWND GetWnd() { return hWnd; }
 	void SetWnd(HWND _hWnd) { _ASSERT(!this->hWnd || !_hWnd); this->hWnd = _hWnd; }
-	
+
 	void Enable(int m_dlgItemID, bool m_bEnabled) { Find(m_dlgItemID)->Enable(m_bEnabled); }
-	
+
 	bool GetModified();
 	void SetModified(bool m_bModified);
 

@@ -76,25 +76,25 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	static int ChangeLock = 0;
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		TranslateDialogDefault(hwndDlg);
-		ChangeLock++;
-		g_PopupOptPage.SetWnd(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_POPUPDELAY, EM_LIMITTEXT, 4, 0);
-		SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_IGNORESTRINGS, EM_LIMITTEXT, IGNORESTRINGS_MAX_LEN, 0);
-		SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_POPUPDELAY_SPIN, UDM_SETRANGE32, -1, 9999);
+		{
+			TranslateDialogDefault(hwndDlg);
+			ChangeLock++;
+			g_PopupOptPage.SetWnd(hwndDlg);
+			SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_POPUPDELAY, EM_LIMITTEXT, 4, 0);
+			SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_IGNORESTRINGS, EM_LIMITTEXT, IGNORESTRINGS_MAX_LEN, 0);
+			SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_POPUPDELAY_SPIN, UDM_SETRANGE32, -1, 9999);
 
-		HWND hLCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_LCLICK_ACTION);
-		HWND hRCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_RCLICK_ACTION);
-		for (int i = 0; i < _countof(PopupActions); i++) {
-			SendMessage(hLCombo, CB_SETITEMDATA, SendMessage(hLCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
-			SendMessage(hRCombo, CB_SETITEMDATA, SendMessage(hRCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
+			HWND hLCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_LCLICK_ACTION);
+			HWND hRCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_RCLICK_ACTION);
+			for (int i = 0; i < _countof(PopupActions); i++) {
+				SendMessage(hLCombo, CB_SETITEMDATA, SendMessage(hLCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
+				SendMessage(hRCombo, CB_SETITEMDATA, SendMessage(hRCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
+			}
+			g_PopupOptPage.DBToMemToPage();
+			EnablePopupOptDlgControls();
+			ChangeLock--;
 		}
-		g_PopupOptPage.DBToMemToPage();
-		EnablePopupOptDlgControls();
-		ChangeLock--;
-	}
-	return true;
+		return true;
 
 	case WM_NOTIFY:
 		switch (((NMHDR*)lParam)->code) {

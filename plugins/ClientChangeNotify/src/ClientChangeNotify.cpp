@@ -178,15 +178,17 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	SHOWPOPUP_DATA sd = { 0 };
-	char *szProto = GetContactProto(hContact);
-	if (g_PreviewOptPage)
-		sd.MirVer = L"Miranda NG ICQ 0.93.5.3007";
+	if (g_PreviewOptPage) {
+		char szVersion[200];
+		Miranda_GetVersionText(szVersion, _countof(szVersion));
+		sd.MirVer = _A2T(szVersion);
+	}
 	else {
 		if (!hContact) // exit if hContact == NULL and it's not a popup preview
 			return 0;
 
-		_ASSERT(szProto);
-		if (!strcmp(szProto, META_PROTO)) // workaround for metacontacts
+		char *szProto = GetContactProto(hContact);
+		if (!mir_strcmp(szProto, META_PROTO)) // workaround for metacontacts
 			return 0;
 
 		sd.MirVer = db_get_s(hContact, szProto, DB_MIRVER, L"");

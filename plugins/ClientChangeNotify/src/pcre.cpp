@@ -2,19 +2,19 @@
 	Pcre.cpp
 	Copyright (c) 2007-2008 Chervov Dmitry
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
@@ -41,13 +41,10 @@ TMyArray<sPcreCompileData> PcreCompileData;
 void FreePcreCompileData()
 {
 	int I;
-	for (I = 0; I < PcreCompileData.GetSize(); I++)
-	{
-		if (PcreCompileData[I].pPcre)
-		{
+	for (I = 0; I < PcreCompileData.GetSize(); I++) {
+		if (PcreCompileData[I].pPcre) {
 			pcre16_free(PcreCompileData[I].pPcre);
-			if (PcreCompileData[I].pExtra)
-			{
+			if (PcreCompileData[I].pExtra) {
 				pcre16_free(PcreCompileData[I].pExtra);
 			}
 		}
@@ -62,26 +59,22 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 	sPcreCompileData s = {};
 	int NewID = PcreCompileData.AddElem(s);
 	PcreCompileData[NewID].ID = ID;
-	if (!bAddAsUsualSubstring)
-	{
+	if (!bAddAsUsualSubstring) {
 		const char *Err;
 		int ErrOffs;
 		int Flags = PCRE_CASELESS;
-		if (Regexp[0] == '/')
-		{
+		if (Regexp[0] == '/') {
 			TCString OrigRegexp = Regexp;
 			Regexp = Regexp.Right(Regexp.GetLen() - 1);
 			wchar_t *pRegexpEnd = (wchar_t*)Regexp + Regexp.GetLen();
 			wchar_t *p = wcsrchr(Regexp.GetBuffer(), '/');
-			if (!p)
-			{
+			if (!p) {
 				Regexp = OrigRegexp;
-			} else
-			{
+			}
+			else {
 				*p = 0;
 				Flags = 0;
-				while (++p < pRegexpEnd)
-				{
+				while (++p < pRegexpEnd) {
 					switch (*p) {
 					case 'i':
 						Flags |= PCRE_CASELESS;
@@ -124,12 +117,12 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 		if (PcreCompileData[NewID].pPcre) {
 			PcreCompileData[NewID].pExtra = nullptr;
 			PcreCompileData[NewID].pExtra = pcre16_study(PcreCompileData[NewID].pPcre, 0, &Err);
-		} 
+		}
 		else {
 			// Result += LogMessage(TranslateT("Syntax error in regexp\n%s\nat offset %d: %s."), (wchar_t*)Regexp, ErrOffs, (wchar_t*)ANSI2TCHAR(Err)) + L"\n\n";
 			PcreCompileData[NewID].Pattern = Regexp;
-	 	}
-	} 
+		}
+	}
 	else PcreCompileData[NewID].Pattern = Regexp;
 
 	return Result;
@@ -138,35 +131,28 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 int PcreCheck(TCString Str, int StartingID)
 { // StartingID specifies the pattern from which to start checking, i.e. the check starts from the next pattern after the one that has ID == StartingID
 	int I;
-	if (StartingID == -1)
-	{
+	if (StartingID == -1) {
 		I = 0;
-	} else
-	{
-		for (I = 0; I < PcreCompileData.GetSize(); I++)
-		{
-			if (PcreCompileData[I].ID == StartingID)
-			{
+	}
+	else {
+		for (I = 0; I < PcreCompileData.GetSize(); I++) {
+			if (PcreCompileData[I].ID == StartingID) {
 				I++;
 				break;
 			}
 		}
 	}
-	for (; I < PcreCompileData.GetSize(); I++)
-	{
-		if (PcreCompileData[I].pPcre)
-		{
+	for (; I < PcreCompileData.GetSize(); I++) {
+		if (PcreCompileData[I].pPcre) {
 
 			int Res = pcre16_exec(PcreCompileData[I].pPcre, PcreCompileData[I].pExtra, Str, Str.GetLen() - 1, 0, PCRE_NOTEMPTY | PCRE_NO_UTF8_CHECK, nullptr, 0);
-			
-			if (Res >= 0)
-			{
+
+			if (Res >= 0) {
 				return PcreCompileData[I].ID;
 			}
-		} else
-		{
-			if (wcsstr(Str.ToLower(), PcreCompileData[I].Pattern.ToLower()))
-			{
+		}
+		else {
+			if (wcsstr(Str.ToLower(), PcreCompileData[I].Pattern.ToLower())) {
 				return PcreCompileData[I].ID;
 			}
 		}

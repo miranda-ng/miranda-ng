@@ -2,19 +2,19 @@
 	Options.cpp
 	Copyright (c) 2005-2008 Chervov Dmitry
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
@@ -259,7 +259,7 @@ struct sTreeReadEnumData
 		TreeCtrl(_p1),
 		sModule(_p2),
 		sDBSettingPrefix(_p3)
-		{}
+	{}
 
 	COptItem_TreeCtrl *TreeCtrl;
 	const CString &sModule, &sDBSettingPrefix;
@@ -609,7 +609,7 @@ void COptItem_TreeCtrl::MoveItem(HWND hWnd, HTREEITEM hItem, HTREEITEM hMoveTo)
 
 	if (ItemOrder <= TREECTRL_ROOTORDEROFFS)
 		return; // can't move root items
-	
+
 	if (m_value[ItemOrder].Flags & TIF_GROUP) { // need to check for a case when trying to move a group to its own subgroup.
 		int Order = MoveToOrder;
 		while (Order >= 0) {

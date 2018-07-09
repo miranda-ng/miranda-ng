@@ -2,19 +2,19 @@
 	TCString.cpp - TCString class
 	Copyright (c) 2005-2008 Chervov Dmitry
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
@@ -23,7 +23,6 @@
 #define STR_GROWBY 64
 
 #define min(a,b) (((a) < (b)) ? (a) : (b))
-
 
 template <class T>
 void TString<T>::Empty()
@@ -37,7 +36,7 @@ void TString<T>::Empty()
 template <class T>
 void TString<T>::Free()
 {
-//	HeapFree(GetProcessHeap(), 0, pBuf);
+	//	HeapFree(GetProcessHeap(), 0, pBuf);
 	free(pBuf);
 	pBuf = nullptr;
 	nBufSize = 0;
@@ -48,8 +47,7 @@ void TString<T>::Free()
 template <class T>
 T *TString<T>::GetBuffer(int nNewLen)
 {
-	if (nNewLen != -1)
-	{
+	if (nNewLen != -1) {
 		SetBufSize(nNewLen + 1);
 	}
 	_ASSERT(pBuf);
@@ -60,11 +58,10 @@ T *TString<T>::GetBuffer(int nNewLen)
 template <class T>
 void TString<T>::ReleaseBuffer(int nNewLen)
 {
-	if (nNewLen == -1)
-	{
+	if (nNewLen == -1) {
 		nBufSize = My_lstrlen(pBuf) + 1;
-	} else
-	{
+	}
+	else {
 		nBufSize = nNewLen + 1;
 		pBuf[nNewLen] = 0;
 		_ASSERT(My_lstrlen(pBuf) == nNewLen);
@@ -78,9 +75,8 @@ void TString<T>::SetAllocSize(int nNewAllocSize)
 {
 	_ASSERT(nNewAllocSize > 0);
 	T *pNewBuf = /*(char *)HeapAlloc(GetProcessHeap(), 0, sizeof(char) * nNewAllocSize);*/
-(T *)malloc(sizeof(T) * nNewAllocSize);
-	if (pBuf)
-	{
+		(T *)malloc(sizeof(T) * nNewAllocSize);
+	if (pBuf) {
 		memcpy(pNewBuf, pBuf, sizeof(T) * min(nBufSize, nNewAllocSize));
 		//HeapFree(GetProcessHeap(), 0, pBuf);
 		free(pBuf);
@@ -94,13 +90,11 @@ template <class T>
 void TString<T>::SetBufSize(int nNewBufSize)
 {
 	_ASSERT(nNewBufSize >= 0);
-	if (nNewBufSize < nBufSize)
-	{
+	if (nNewBufSize < nBufSize) {
 		_ASSERT(pBuf);
 		pBuf[nNewBufSize - 1] = 0;
 	}
-	if ((unsigned)(nAllocSize - nNewBufSize) / STR_GROWBY)
-	{
+	if ((unsigned)(nAllocSize - nNewBufSize) / STR_GROWBY) {
 		SetAllocSize((nNewBufSize + STR_GROWBY - 1) - (nNewBufSize + STR_GROWBY - 1) % STR_GROWBY);
 	}
 	nBufSize = nNewBufSize;
@@ -148,8 +142,7 @@ TString<T>& TString<T>::DiffCat(const T *pStart, const T *pEnd)
 template <class T>
 TString<T>& TString<T>::Replace(const T *szFind, const T *szReplaceBy)
 {
-	if (!pBuf)
-	{
+	if (!pBuf) {
 		return *this;
 	}
 	T *pCurPos = pBuf;
@@ -158,8 +151,7 @@ TString<T>& TString<T>::Replace(const T *szFind, const T *szReplaceBy)
 	TString<T> Result;
 	Result.GetBuffer(1)[0] = '\0';
 	Result.ReleaseBuffer(0); // set the string to ""; we can't do it in a usual way (using a constructor or an assignment) because we don't know whether "" needs to be unicode or ansi
-	while (p = ( T* )My_strstr(pCurPos, szFind))
-	{
+	while (p = (T*)My_strstr(pCurPos, szFind)) {
 		Result.DiffCat(pCurPos, p);
 		Result += szReplaceBy;
 		pCurPos = p + FindLen;
@@ -173,20 +165,17 @@ TString<T>& TString<T>::Replace(const T *szFind, const T *szReplaceBy)
 template <class T>
 TString<T>& TString<T>::Replace(int nIndex, int nCount, const T *szReplaceBy)
 {
-	if (!pBuf || !szReplaceBy || nIndex < 0 || nCount < 0)
-	{
+	if (!pBuf || !szReplaceBy || nIndex < 0 || nCount < 0) {
 		return *this;
 	}
 
 	TString<T> Result;
 	Result.GetBuffer(1)[0] = '\0';
 	Result.ReleaseBuffer(0); // set the string to ""; we can't do it in a usual way (using a constructor or an assignment) because we don't know whether "" needs to be unicode or ansi
-	if (nIndex > GetLen())
-	{
+	if (nIndex > GetLen()) {
 		nIndex = GetLen();
 	}
-	if (nIndex + nCount > GetLen())
-	{
+	if (nIndex + nCount > GetLen()) {
 		nCount = GetLen() - nIndex;
 	}
 	Result.DiffCat(pBuf, pBuf + nIndex);
@@ -211,11 +200,10 @@ template <class T>
 TString<T> TString<T>::Right(int nCount) const
 {
 	_ASSERT(nCount >= 0);
-	if (nCount < GetLen())
-	{
+	if (nCount < GetLen()) {
 		return &pBuf[GetLen() - nCount];
-	} else
-	{
+	}
+	else {
 		return *this;
 	}
 }
@@ -226,12 +214,11 @@ TString<T> TString<T>::SubStr(int nIndex, int nCount) const
 {
 	_ASSERT(nIndex >= 0 && nCount >= 0);
 	TString<T> Result;
-	if (nIndex < GetLen())
-	{
+	if (nIndex < GetLen()) {
 		My_strncpy(Result.GetBuffer(nCount), &pBuf[nIndex], nCount);
 		Result.ReleaseBuffer();
-	} else
-	{
+	}
+	else {
 		Result.GetBuffer(1)[0] = '\0';
 		Result.ReleaseBuffer(0);
 	}
@@ -243,8 +230,7 @@ template <class T>
 TString<T> TString<T>::ToLower() const
 {
 	TString<T> Result(*this);
-	if (!pBuf)
-	{
+	if (!pBuf) {
 		return Result; // return NULL string
 	}
 	My_strlwr((T*)Result);
@@ -255,14 +241,13 @@ TString<T> TString<T>::ToLower() const
 template <class T>
 TString<T>& TString<T>::operator=(const T *pStr)
 {
-	if (pStr)
-	{
+	if (pStr) {
 		int StrLen = My_lstrlen(pStr);
 		SetBufSize(StrLen + 1);
 		My_lstrcpy(GetBuffer(), pStr);
 		ReleaseBuffer(StrLen);
-	} else
-	{
+	}
+	else {
 		Free();
 	}
 	return *this;
@@ -274,28 +259,27 @@ template class TString<WCHAR>;
 
 CString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
 {
-	ptrA p( db_get_sa(hContact, szModule, szSetting));
+	ptrA p(db_get_sa(hContact, szModule, szSetting));
 	return CString(p == NULL ? szDefaultValue : p);
 }
 
 TCString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szDefaultValue)
 {
-	ptrW p( db_get_wsa(hContact, szModule, szSetting));
+	ptrW p(db_get_wsa(hContact, szModule, szSetting));
 	return TCString(p == NULL ? szDefaultValue : p);
 }
 
 TCString DBGetContactSettingAsString(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szDefaultValue)
-{ // also converts numeric values to a string
-	DBVARIANT dbv = {0};
+{
+	// also converts numeric values to a string
+	DBVARIANT dbv = { 0 };
 	int iRes = db_get_ws(hContact, szModule, szSetting, &dbv);
 
 	TCString Result;
-	if (!iRes && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR))
-	{
+	if (!iRes && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)) {
 		Result = dbv.ptszVal;
 	}
-	else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)
-	{
+	else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD) {
 		long value = (dbv.type == DBVT_DWORD) ? dbv.dVal : (dbv.type == DBVT_WORD ? dbv.wVal : dbv.bVal);
 		_ultow(value, Result.GetBuffer(64), 10);
 		Result.ReleaseBuffer();
