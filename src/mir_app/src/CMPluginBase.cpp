@@ -293,5 +293,12 @@ void CMPluginBase::RegisterProtocol(int type, pfnInitProto fnInit, pfnUninitProt
 
 void CMPluginBase::SetUniqueId(const char *pszUniqueId)
 {
-	::Proto_SetUniqueId(m_szModuleName, pszUniqueId);
+	if (pszUniqueId == nullptr)
+		return;
+
+	MBaseProto tmp;
+	tmp.szName = (char*)m_szModuleName;
+	MBaseProto *pd = g_arProtos.find(&tmp);
+	if (pd != nullptr)
+		pd->szUniqueId = mir_strdup(pszUniqueId);
 }
