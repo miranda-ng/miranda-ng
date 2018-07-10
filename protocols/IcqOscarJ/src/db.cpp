@@ -33,11 +33,11 @@ void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 		const SettingItem &si = setting[i];
 		if (si.displayType == LI_DIVIDER)
 			continue;
-		
+
 		SettingItemData &sid = settingData[i];
 		if (keepChanged && sid.changed)
 			continue;
-		
+
 		if (si.dbType == DBVT_ASCIIZ || si.dbType == DBVT_UTF8)
 			SAFE_FREE((void**)(char**)&sid.value);
 		else if (!keepChanged)

@@ -30,39 +30,38 @@
 
 struct oscar_tlv
 {
-  WORD wType;
-  WORD wLen;
-  BYTE *pData;
+	WORD wType;
+	WORD wLen;
+	BYTE *pData;
 };
-
 
 struct oscar_tlv_chain
 {
-  oscar_tlv tlv;
-  oscar_tlv_chain *next;
+	oscar_tlv tlv;
+	oscar_tlv_chain *next;
 
-  WORD getChainLength();
+	WORD getChainLength();
 
-  oscar_tlv* getTLV(WORD wType, WORD wIndex);
-  oscar_tlv* putTLV(WORD wType, size_t wLen, BYTE *pData, BOOL bReplace);
-  oscar_tlv_chain* removeTLV(oscar_tlv *tlv);
-  WORD getLength(WORD wType, WORD wIndex);
+	oscar_tlv* getTLV(WORD wType, WORD wIndex);
+	oscar_tlv* putTLV(WORD wType, size_t wLen, BYTE *pData, BOOL bReplace);
+	oscar_tlv_chain* removeTLV(oscar_tlv *tlv);
+	WORD getLength(WORD wType, WORD wIndex);
 
-  DWORD getDWord(WORD wType, WORD wIndex);
-  WORD getWord(WORD wType, WORD wIndex);
-  BYTE getByte(WORD wType, WORD wIndex);
-  int getNumber(WORD wType, WORD wIndex);
-  double getDouble(WORD wType, WORD wIndex);
-  char* getString(WORD wType, WORD wIndex);
+	DWORD getDWord(WORD wType, WORD wIndex);
+	WORD getWord(WORD wType, WORD wIndex);
+	BYTE getByte(WORD wType, WORD wIndex);
+	int getNumber(WORD wType, WORD wIndex);
+	double getDouble(WORD wType, WORD wIndex);
+	char* getString(WORD wType, WORD wIndex);
 };
 
 
 struct oscar_tlv_record_list
 {
-  oscar_tlv_chain *item;
-  oscar_tlv_record_list *next;
+	oscar_tlv_chain *item;
+	oscar_tlv_record_list *next;
 
-  oscar_tlv_chain* getRecordByTLV(WORD wType, int nValue);
+	oscar_tlv_chain* getRecordByTLV(WORD wType, int nValue);
 };
 
 /*---------* Functions *---------------*/

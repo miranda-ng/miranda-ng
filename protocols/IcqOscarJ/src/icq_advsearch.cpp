@@ -45,7 +45,7 @@ static void InitComboBox(HWND hwndCombo, const FieldNamesItem *names)
 
 INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hwndDlg, UINT message, WPARAM, LPARAM)
 {
-	switch(message) {
+	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		InitComboBox(GetDlgItem(hwndDlg, IDC_GENDER), genderField);
@@ -104,19 +104,19 @@ static PBYTE createAdvancedSearchStructureTLV(HWND hwndDlg, size_t *length)
 	searchPackTLVLNTS(&buf, &buflen, hwndDlg, IDC_POSITION, TLV_POSITION);
 	searchPackTLVLNTS(&buf, &buflen, hwndDlg, IDC_KEYWORDS, TLV_KEYWORDS);
 
-	ppackLETLVDWord(&buf, &buflen, (DWORD)getCurItemData(hwndDlg, IDC_AGERANGE),      TLV_AGERANGE,  0);
+	ppackLETLVDWord(&buf, &buflen, (DWORD)getCurItemData(hwndDlg, IDC_AGERANGE), TLV_AGERANGE, 0);
 
-	BYTE b = (BYTE)getCurItemData(hwndDlg,  IDC_GENDER);
+	BYTE b = (BYTE)getCurItemData(hwndDlg, IDC_GENDER);
 	switch (b) {
-		case 'F': b = 1; break;
-		case 'M': b = 2; break;
-		default: b = 0;
+	case 'F': b = 1; break;
+	case 'M': b = 2; break;
+	default: b = 0;
 	}
-	ppackLETLVByte(&buf,  &buflen, b, TLV_GENDER, 0);
-	ppackLETLVByte(&buf,  &buflen, (BYTE)getCurItemData(hwndDlg,  IDC_MARITALSTATUS), TLV_MARITAL,   0);
-	ppackLETLVWord(&buf,  &buflen, (WORD)getCurItemData(hwndDlg,  IDC_LANGUAGE),      TLV_LANGUAGE,  0);
-	ppackLETLVWord(&buf,  &buflen, (WORD)getCurItemData(hwndDlg,  IDC_COUNTRY),       TLV_COUNTRY,   0);
-	ppackLETLVWord(&buf,  &buflen, (WORD)getCurItemData(hwndDlg,  IDC_WORKFIELD),     TLV_OCUPATION, 0);
+	ppackLETLVByte(&buf, &buflen, b, TLV_GENDER, 0);
+	ppackLETLVByte(&buf, &buflen, (BYTE)getCurItemData(hwndDlg, IDC_MARITALSTATUS), TLV_MARITAL, 0);
+	ppackLETLVWord(&buf, &buflen, (WORD)getCurItemData(hwndDlg, IDC_LANGUAGE), TLV_LANGUAGE, 0);
+	ppackLETLVWord(&buf, &buflen, (WORD)getCurItemData(hwndDlg, IDC_COUNTRY), TLV_COUNTRY, 0);
+	ppackLETLVWord(&buf, &buflen, (WORD)getCurItemData(hwndDlg, IDC_WORKFIELD), TLV_OCUPATION, 0);
 
 	WORD w = (WORD)getCurItemData(hwndDlg, IDC_PASTCAT);
 	searchPackTLVWordLNTS(&buf, &buflen, hwndDlg, IDC_PASTKEY, w, TLV_PASTINFO);

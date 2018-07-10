@@ -108,7 +108,7 @@ int unpackSessionDataItem(oscar_tlv_chain *pChain, WORD wItemType, BYTE **ppItem
 		len -= 4;
 
 		// just some validity check
-		if (itemLen > len) 
+		if (itemLen > len)
 			itemLen = len;
 
 		if (itemType == wItemType) {
@@ -218,8 +218,8 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 
 			unpackDWord(&pBuffer, &dwRealIP);
 			unpackDWord(&pBuffer, &dwPort);
-			unpackByte(&pBuffer,  &nTCPFlag);
-			unpackWord(&pBuffer,  &wVersion);
+			unpackByte(&pBuffer, &nTCPFlag);
+			unpackWord(&pBuffer, &wVersion);
 			unpackDWord(&pBuffer, &dwDirectConnCookie);
 			unpackDWord(&pBuffer, &dwWebPort); // Web front port
 			pBuffer += 4; // Client features
@@ -289,7 +289,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 	time_t tIdleTS = 0;
 	if (wIdleTimer) {
 		time(&tIdleTS);
-		tIdleTS -= (wIdleTimer*60);
+		tIdleTS -= (wIdleTimer * 60);
 	}
 
 	if (wIdleTimer)
@@ -367,14 +367,14 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 		}
 
 		if (capLen) {
-			#ifdef _DEBUG
-				for (WORD i = 0; i < capLen; i += BINARY_CAP_SIZE) {
-					char tmp[100];
-					bin2hex(capBuf + i, BINARY_CAP_SIZE, tmp);
-					debugLogA("Capability: %s", tmp);
-				}
-			#endif
-			
+#ifdef _DEBUG
+			for (WORD i = 0; i < capLen; i += BINARY_CAP_SIZE) {
+				char tmp[100];
+				bin2hex(capBuf + i, BINARY_CAP_SIZE, tmp);
+				debugLogA("Capability: %s", tmp);
+			}
+#endif
+
 			// Update the contact's capabilies if present in packet
 			SetCapabilitiesFromBuffer(hContact, capBuf, capLen, wOldStatus == ID_STATUS_OFFLINE);
 
@@ -475,7 +475,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 
 		// if no detection, set uknown
 		if (!szClient)
-			szClient = (nIsICQ ? "Unknown" : "Unknown AIM");		
+			szClient = (nIsICQ ? "Unknown" : "Unknown AIM");
 
 		if (szClient != (char*)-1) {
 			db_set_utf(hContact, m_szModuleName, "MirVer", szClient);
@@ -493,7 +493,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 			if (dwRealIP)
 				setDword(hContact, "RealIP", dwRealIP);
 		}
-		setWord(hContact,  "Status", (WORD)IcqStatusToMiranda(wStatus));
+		setWord(hContact, "Status", (WORD)IcqStatusToMiranda(wStatus));
 
 		// Update info?
 		if (dwUIN) {
@@ -617,8 +617,7 @@ void CIcqProto::handleUserOffline(BYTE *buf, size_t wLen)
 
 		// Release memory
 		disposeChain(&pChain);
-	}
-	while (wLen >= 1);
+	} while (wLen >= 1);
 }
 
 
@@ -676,7 +675,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, MCONTACT hContact, osc
 		}
 		// Check if the status note was changed
 		if (dwStatusNoteTS > getDword(hContact, DBSETTING_STATUS_NOTE_TIME, 0)) {
-			DBVARIANT dbv = {DBVT_DELETED};
+			DBVARIANT dbv = { DBVT_DELETED };
 
 			if (mir_strlen(szStatusNote) || (!getString(hContact, DBSETTING_STATUS_NOTE, &dbv) && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && mir_strlen(dbv.pszVal)))
 				debugLogA("%s changed status note to \"%s\"", strUID(dwUin, szUid), szStatusNote ? szStatusNote : "");

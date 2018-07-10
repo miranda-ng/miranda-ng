@@ -201,7 +201,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				break;
 
 			case PSN_INFOCHANGED:
-				CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				CIcqProto * ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				if (!ppro)
 					break;
 

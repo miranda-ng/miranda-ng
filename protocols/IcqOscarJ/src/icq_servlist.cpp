@@ -1157,9 +1157,7 @@ DWORD CIcqProto::icq_addServerPrivacyItem(MCONTACT hContact, DWORD dwUin, char *
 }
 
 /*****************************************
-*
-*     --- Contact DB Utilities ---
-*
+* --- Contact DB Utilities ---
 */
 
 /// TODO: do not check by plugin version, check by ServListStructures version!
@@ -1217,7 +1215,7 @@ void* CIcqProto::collectBuddyGroup(WORD wGroupID, int *count)
 // Look thru DB and collect all GroupIDs
 void* CIcqProto::collectGroups(int *count)
 {
-	WORD* buf = nullptr;
+	WORD *buf = nullptr;
 	int cnt = 0;
 	int i;
 	WORD wGroupID;
@@ -1228,7 +1226,8 @@ void* CIcqProto::collectGroups(int *count)
 				if (buf[i] == wGroupID)
 					break;
 
-			if (i == cnt) { // not preset, add
+			// not preset, add
+			if (i == cnt) {
 				cnt++;
 				buf = (WORD*)SAFE_REALLOC(buf, cnt*sizeof(WORD));
 				buf[i] = wGroupID;
@@ -1253,7 +1252,8 @@ static int GroupLinksEnumProc(const char *szSetting, void *lParam)
 }
 
 void CIcqProto::removeGroupPathLinks(WORD wGroupID)
-{ // remove miranda grouppath links targeting to this groupid
+{
+	// remove miranda grouppath links targeting to this groupid
 	char szModule[MAX_PATH];
 	char* pars[3];
 

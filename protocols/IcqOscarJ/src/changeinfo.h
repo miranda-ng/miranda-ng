@@ -52,17 +52,17 @@
 
 struct SettingItem
 {
-  const char *szDescription;
-  unsigned displayType;    //LI_ constant
-  int dbType;              //DBVT_ constant
-  const char *szDbSetting;
-  const void *pList;
+	const char *szDescription;
+	unsigned displayType;    //LI_ constant
+	int dbType;              //DBVT_ constant
+	const char *szDbSetting;
+	const void *pList;
 };
 
 struct SettingItemData
 {
-  LPARAM value;
-  int changed;
+	LPARAM value;
+	int changed;
 };
 
 // contants.c
@@ -72,41 +72,41 @@ extern const int settingCount;
 //dlgproc.c
 struct ChangeInfoData : public MZeroedObject
 {
-  HWND  hwndDlg;
-  CIcqProto *ppro;
-  HFONT hListFont;
-  HWND  hwndList;
-  int   editTopIndex;
-  int   iEditItem;
-  char  Password[PASSWORDMAXLEN+1];
+	HWND  hwndDlg;
+	CIcqProto *ppro;
+	HFONT hListFont;
+	HWND  hwndList;
+	int   editTopIndex;
+	int   iEditItem;
+	char  Password[PASSWORDMAXLEN + 1];
 
-  SettingItemData *settingData;
+	SettingItemData *settingData;
 
-  HANDLE hAckHook;
-  HANDLE hUpload[2];
+	HANDLE hAckHook;
+	HANDLE hUpload[2];
 
-  ChangeInfoData() { settingData = (SettingItemData*)SAFE_MALLOC(sizeof(SettingItemData) * settingCount); hAckHook = nullptr; hUpload[0] = nullptr; hUpload[1] = nullptr;}
-  ~ChangeInfoData() { SAFE_FREE((void**)&settingData); }
+	ChangeInfoData() { settingData = (SettingItemData*)SAFE_MALLOC(sizeof(SettingItemData) * settingCount); hAckHook = nullptr; hUpload[0] = nullptr; hUpload[1] = nullptr; }
+	~ChangeInfoData() { SAFE_FREE((void**)&settingData); }
 
-  char* GetItemSettingText(int i, char *buf, size_t buf_size);
-  void PaintItemSetting(HDC hdc, RECT *rc, int i, UINT itemState);
+	char* GetItemSettingText(int i, char *buf, size_t buf_size);
+	void PaintItemSetting(HDC hdc, RECT *rc, int i, UINT itemState);
 
-  //db.cpp
-  void LoadSettingsFromDb(int keepChanged);
-  void FreeStoredDbSettings(void);
-  int  ChangesMade(void);
-  void ClearChangeFlags(void);
-  int  SaveSettingsToDb(void);
+	//db.cpp
+	void LoadSettingsFromDb(int keepChanged);
+	void FreeStoredDbSettings(void);
+	int  ChangesMade(void);
+	void ClearChangeFlags(void);
+	int  SaveSettingsToDb(void);
 
-  //upload.cpp
-  int  UploadSettings(void);
+	//upload.cpp
+	int  UploadSettings(void);
 
-  //editstring.cpp
-  void BeginStringEdit(int iItem,RECT *rc,int i,WORD wVKey);
-  void EndStringEdit(int save);
-  //editlist.cpp
-  void BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey);
-  void EndListEdit(int save);
+	//editstring.cpp
+	void BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey);
+	void EndStringEdit(int save);
+	//editlist.cpp
+	void BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey);
+	void EndListEdit(int save);
 };
 
 INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

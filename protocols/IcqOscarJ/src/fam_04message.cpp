@@ -1528,7 +1528,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 					DWORD dwExtraLen = *(DWORD*)pMsg;
 
 					if (dwExtraLen < dwDataLen && !strncmp(szMsg, "{\\rtf", 5)) { // it is icq5 sending us crap, get real message from it
-						WCHAR* usMsg = (WCHAR*)_alloca((dwExtraLen + 1)*sizeof(WCHAR));
+						WCHAR* usMsg = (WCHAR*)_alloca((dwExtraLen + 1) * sizeof(WCHAR));
 						// make sure it is null-terminated
 						wcsncpy(usMsg, (WCHAR*)(pMsg + 4), dwExtraLen);
 						usMsg[dwExtraLen] = '\0';
@@ -2349,7 +2349,6 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, size_t wLen, DWORD dwSequence)
 	}
 }
 
-
 void CIcqProto::handleServerAck(BYTE *buf, size_t wLen, DWORD dwSequence)
 {
 	DWORD dwUin;
@@ -2423,7 +2422,6 @@ void CIcqProto::handleServerAck(BYTE *buf, size_t wLen, DWORD dwSequence)
 			debugLogA("Ignored a server ack I did not ask for");
 	}
 }
-
 
 void CIcqProto::handleMissedMsg(BYTE *buf, size_t wLen)
 {
@@ -2499,7 +2497,6 @@ void CIcqProto::handleMissedMsg(BYTE *buf, size_t wLen)
 	AddEvent(HContactFromUID(dwUin, szUid, &bAdded), ICQEVENTTYPE_MISSEDMESSAGE, time(0), 0, sizeof(wError), (PBYTE)&wError);
 }
 
-
 void CIcqProto::handleOffineMessagesReply(DWORD dwRef)
 {
 	cookie_offline_messages *cookie;
@@ -2532,7 +2529,6 @@ void CIcqProto::handleOffineMessagesReply(DWORD dwRef)
 	}
 	else debugLogA("Error: Received unexpected end of offline msgs.");
 }
-
 
 void CIcqProto::handleTypingNotification(BYTE *buf, size_t wLen)
 {
@@ -2599,7 +2595,6 @@ void CIcqProto::handleTypingNotification(BYTE *buf, size_t wLen)
 		break;
 	}
 }
-
 
 void CIcqProto::sendTypingNotification(MCONTACT hContact, WORD wMTNCode)
 {

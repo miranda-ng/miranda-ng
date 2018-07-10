@@ -145,7 +145,7 @@ void CIcqProto::icq_EnableUserLookup(BOOL bEnable)
 		SetEvent(hInfoQueueEvent);
 }
 
-void __cdecl CIcqProto::InfoUpdateThread( void* )
+void __cdecl CIcqProto::InfoUpdateThread(void*)
 {
 	int i;
 	DWORD dwWait = WAIT_OBJECT_0;

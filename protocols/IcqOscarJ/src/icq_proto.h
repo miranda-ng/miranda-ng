@@ -334,8 +334,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	MCONTACT HContactFromRecordName(const char *szRecordName, int *bAdded);
 
-	void   processCListReply(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData);
-
 	void   icq_sendServerBeginOperation(int bImport);
 	void   icq_sendServerEndOperation();
 	void   sendRosterAck(void);
@@ -455,9 +453,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   icq_CancelFileTransfer(filetransfer* ft);
 
 	//----| icq_filetransfer.cpp |--------------------------------------------------------
-	void   icq_AcceptFileTransfer(MCONTACT hContact, filetransfer *ft);
 	void   icq_sendFileResume(filetransfer *ft, int action, const char *szFilename);
-	void   icq_InitFileSend(filetransfer *ft);
 
 	void   handleFileTransferPacket(directconnect *dc, PBYTE buf, size_t wLen);
 	void   handleFileTransferIdle(directconnect *dc);

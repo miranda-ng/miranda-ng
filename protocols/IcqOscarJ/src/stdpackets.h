@@ -32,9 +32,9 @@
 
 struct icq_contactsend_s
 {
-  DWORD uin;
-  char *uid;
-  char *szNick;
+	DWORD uin;
+	char *uid;
+	char *szNick;
 };
 
 

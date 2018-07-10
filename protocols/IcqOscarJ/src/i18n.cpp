@@ -359,7 +359,7 @@ int __stdcall utf8_decode_codepage(const char *from, char **to, WORD wCp)
 			return 0;
 		}
 
-		*to = (char*)SAFE_MALLOC((chars + 1)*sizeof(char));
+		*to = (char*)SAFE_MALLOC((chars + 1) * sizeof(char));
 		if (*to == nullptr) {
 #ifdef _DEBUG
 			fprintf(stderr, "Out of memory processing string to local charset\n");
@@ -479,7 +479,7 @@ char* __stdcall unicode_to_ansi(const WCHAR *unicode)
 		return nullptr;
 	}
 
-	char* ansi = (char*)SAFE_MALLOC((chars + 1)*sizeof(char));
+	char* ansi = (char*)SAFE_MALLOC((chars + 1) * sizeof(char));
 	if (ansi == nullptr) {
 #ifdef _DEBUG
 		fprintf(stderr, "Out of memory processing string to local charset\n");

@@ -135,7 +135,7 @@ static int GroupEnumIdsEnumProc(const char *szSetting, void *lParam)
 		if (db_get_static(NULL, (char*)lParam, szSetting, val, MAX_PATH))
 			return 0; // this converts all string types to DBVT_ASCIIZ
 
-		pwGroupIds = (WORD*)SAFE_REALLOC(pwGroupIds, (cbGroupIds + 1)*sizeof(WORD));
+		pwGroupIds = (WORD*)SAFE_REALLOC(pwGroupIds, (cbGroupIds + 1) * sizeof(WORD));
 		pwGroupIds[cbGroupIds] = (WORD)strtoul(szSetting, nullptr, 0x10);
 		cbGroupIds++;
 	}
@@ -171,7 +171,7 @@ static DWORD sendUploadBuddy(CIcqProto* ppro, MCONTACT hContact, WORD wAction, D
 	cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 	if (ack == nullptr)
 		return 0;
-	
+
 	// we have cookie good, go on
 	ack->hContact = hContact;
 	ack->wContactId = wContactId;

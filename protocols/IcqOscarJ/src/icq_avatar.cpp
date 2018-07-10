@@ -30,7 +30,7 @@
 #include "stdafx.h"
 #include "m_folders.h"
 
-BYTE hashEmptyAvatar[9] = {0x00, 0x01, 0x00, 0x05, 0x02, 0x01, 0xD2, 0x04, 0x72};
+BYTE hashEmptyAvatar[9] = { 0x00, 0x01, 0x00, 0x05, 0x02, 0x01, 0xD2, 0x04, 0x72 };
 
 avatars_request::avatars_request(int type)
 {
@@ -56,7 +56,7 @@ avatars_request::~avatars_request()
 
 wchar_t* CIcqProto::GetOwnAvatarFileName()
 {
-	DBVARIANT dbvFile = {DBVT_DELETED};
+	DBVARIANT dbvFile = { DBVT_DELETED };
 	if (getWString(NULL, "AvatarFile", &dbvFile))
 		return nullptr;
 
@@ -215,7 +215,7 @@ void CIcqProto::StartAvatarThread(HNETLIBCONN hConn, char *cookie, size_t cookie
 		SAFE_FREE((void**)&cookie);
 		return;
 	}
-	
+
 	if (m_avatarsConnection)
 		m_avatarsConnection->closeConnection();
 	m_avatarsConnection = new avatars_server_connection(this, hConn, cookie, cookieLen); // the old connection should not be used anymore
@@ -853,7 +853,7 @@ void avatars_server_connection::checkRequestQueue()
 			}
 			return; // end processing
 		}
-		
+
 		ppro->m_arAvatars.remove(int(0));
 		alck.unlock();
 
@@ -1044,7 +1044,7 @@ void avatars_server_connection::handleLoginChannel(BYTE *buf)
 
 void avatars_server_connection::handleDataChannel(BYTE *buf, size_t datalen)
 {
-	snac_header snacHeader = {0};
+	snac_header snacHeader = { 0 };
 	if (!unpackSnacHeader(&snacHeader, &buf, &datalen) || !snacHeader.bValid)
 		ppro->debugLogA("Error: Failed to parse SNAC header");
 	else {
@@ -1236,8 +1236,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 								ppro->debugLogA("Warning: DB error (no hash in DB).");
 								// the hash was lost, try to fix that
 								if (ppro->setSettingBlob(pCookieData->hContact, "AvatarSaved", pCookieData->hash, (int)pCookieData->hashlen) ||
-									 ppro->setSettingBlob(pCookieData->hContact, "AvatarHash", pCookieData->hash, (int)pCookieData->hashlen))
-								{
+									ppro->setSettingBlob(pCookieData->hContact, "AvatarHash", pCookieData->hash, (int)pCookieData->hashlen)) {
 									ppro->debugLogA("Failed to save avatar hash to DB");
 								}
 							}

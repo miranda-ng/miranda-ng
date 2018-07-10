@@ -27,8 +27,8 @@
 
 struct FieldNamesItem
 {
-  int code;
-  char *text;
+	int code;
+	char *text;
 };
 
 extern       FieldNamesItem timezonesField[];

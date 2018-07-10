@@ -80,7 +80,7 @@ void CIcqProto::handleFileAck(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCooki
 		unpackString(&buf, pszFileName, wFilenameLength);
 		pszFileName[wFilenameLength] = '\0';
 	}
-	wLen -= wFilenameLength+2;
+	wLen -= wFilenameLength + 2;
 
 	if (wLen >= 4)
 		unpackLEDWord(&buf, &dwFileSize);

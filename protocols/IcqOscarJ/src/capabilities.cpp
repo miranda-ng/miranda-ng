@@ -80,7 +80,7 @@ static const icq_capability_name CapabilityNames[] =
 
 void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCapabilities)
 {
-	char szBuffer[MAX_PATH] = {0};
+	char szBuffer[MAX_PATH] = { 0 };
 
 	if (!fdwCapabilities) return;
 
@@ -141,7 +141,7 @@ void CIcqProto::SetContactCapabilities(MCONTACT hContact, DWORD fdwCapabilities)
 BOOL CIcqProto::CheckContactCapabilities(MCONTACT hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
-	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
+	DWORD fdwContactCaps = getDword(hContact, DBSETTING_CAPABILITIES, 0);
 
 	// Check if all requested capabilities are supported
 	if ((fdwContactCaps & fdwCapabilities) == fdwCapabilities)

@@ -48,8 +48,8 @@
 
 struct CIcqProto;
 // callback prototypes for pending operation mechanism:
-typedef int (__cdecl CIcqProto::*PENDING_GROUP_CALLBACK)(const char* pszGroup, WORD wGroupId, LPARAM lParam, int nResult);
-typedef int (__cdecl CIcqProto::*PENDING_CONTACT_CALLBACK)(MCONTACT hContact, WORD wContactId, WORD wGroupId, LPARAM lParam, int nResult);
+typedef int(__cdecl CIcqProto::*PENDING_GROUP_CALLBACK)(const char* pszGroup, WORD wGroupId, LPARAM lParam, int nResult);
+typedef int(__cdecl CIcqProto::*PENDING_CONTACT_CALLBACK)(MCONTACT hContact, WORD wContactId, WORD wGroupId, LPARAM lParam, int nResult);
 
 // cookie struct for SSI actions
 struct cookie_servlist_action
@@ -123,45 +123,45 @@ struct cookie_servlist_action
 // server-list request handler item
 struct servlistgroupitem
 { // generic parent
-  DWORD dwOperation;
-  cookie_servlist_action* cookie;
-  icq_packet packet;
-  // perhaps add some dummy bytes
+	DWORD dwOperation;
+	cookie_servlist_action* cookie;
+	icq_packet packet;
+	// perhaps add some dummy bytes
 };
 
-struct servlistgroupitemdouble: public servlistgroupitem
+struct servlistgroupitemdouble : public servlistgroupitem
 {
-  icq_packet packet2;
-  WORD wAction2;
+	icq_packet packet2;
+	WORD wAction2;
 };
 
 struct ssiqueueditems
 {
-  time_t tAdded;
-  int dwTimeout;
-  int nItems;
-  servlistgroupitem* pItems[MAX_SERVLIST_PACKET_ITEMS];
+	time_t tAdded;
+	int dwTimeout;
+	int nItems;
+	servlistgroupitem* pItems[MAX_SERVLIST_PACKET_ITEMS];
 };
 
 
 // cookie structs for pending records
 struct servlistpendingoperation
 {
-  DWORD flags;
-  PENDING_GROUP_CALLBACK callback;
-  LPARAM param;
+	DWORD flags;
+	PENDING_GROUP_CALLBACK callback;
+	LPARAM param;
 };
 
 struct servlistpendingitem
 {
-  int nType;
-  MCONTACT hContact;
-  char* szGroup;
-  WORD wContactID;
-  WORD wGroupID;
+	int nType;
+	MCONTACT hContact;
+	char* szGroup;
+	WORD wContactID;
+	WORD wGroupID;
 
-  servlistpendingoperation* operations;
-  int operationsCount;
+	servlistpendingoperation* operations;
+	int operationsCount;
 };
 
 

@@ -27,14 +27,14 @@
 
 INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
+	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
 		ppro = (CIcqProto*)lParam;
-		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
 		{

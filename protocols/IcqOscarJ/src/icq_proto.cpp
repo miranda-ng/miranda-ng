@@ -286,7 +286,7 @@ MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		ICQSEARCHRESULT *isr = (ICQSEARCHRESULT*)psr;
 		if (isr->uin)
 			return AddToListByUIN(isr->uin, flags);
-		
+
 		// aim contact
 		if (isr->hdr.flags & PSR_UNICODE)
 			unicode_to_ansi_static((WCHAR*)isr->hdr.id.w, szUid, MAX_PATH);
@@ -1685,7 +1685,7 @@ HANDLE CIcqProto::GetAwayMsg(MCONTACT hContact)
 			WORD wVer = getWord(hContact, "Version", 0) <= 8 ? 8 : ICQ_VERSION;
 			if (CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES))
 				return (HANDLE)icq_sendGetAwayMsgServExt(hContact, dwUin, szUID, wMessageType, wVer);
-			
+
 			return (HANDLE)icq_sendGetAwayMsgServ(hContact, dwUin, wMessageType, wVer);
 		}
 	}

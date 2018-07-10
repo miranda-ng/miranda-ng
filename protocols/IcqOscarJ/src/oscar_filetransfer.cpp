@@ -29,7 +29,7 @@
 
 #include "stdafx.h"
 
-struct oscarthreadstartinfo 
+struct oscarthreadstartinfo
 {
 	int type;
 	int incoming;
@@ -61,7 +61,7 @@ char* FindFilePathContainer(const char **files, int iFile, char *szContainer)
 				const char *pszLastBackslash;
 
 				if (((pszLastBackslash = strrchr(files[i], '\\')) == nullptr) &&
-					 ((pszLastBackslash = strrchr(files[i], '/')) == nullptr)) {
+					((pszLastBackslash = strrchr(files[i], '/')) == nullptr)) {
 					mir_strcpy(szContainer, files[i]);
 				}
 				else {
@@ -364,7 +364,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 								str = ApplyEncoding((char*)pszDescription, szEnc);
 							}
 							else str = null_strdup(str);
-							
+
 							// eliminate HTML tags
 							pszDescription = EliminateHtml(str, mir_strlen(str));
 
@@ -872,7 +872,7 @@ DWORD CIcqProto::oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*
 
 	if (!IsValidOscarTransfer(ft))
 		return 1; // Invalid transfer
-		
+
 	if (ft->hContact != hContact)
 		return 1; // Bad contact or hTransfer
 
@@ -896,7 +896,7 @@ DWORD CIcqProto::oftFileCancel(MCONTACT hContact, HANDLE hTransfer)
 
 	if (!IsValidOscarTransfer(ft))
 		return 1; // Invalid transfer
-	
+
 	if (ft->hContact != hContact)
 		return 1; // Bad contact or hTransfer
 
@@ -984,7 +984,7 @@ void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const wchar_t 
 		sendOFT2FramePacket(oc, OFT_TYPE_RESUMEREQUEST);
 		return;
 	}
-	
+
 	if (action == FILERESUME_SKIP) // we are skipping the file, send "we are done"
 		oc->status = OCS_NEGOTIATION;
 
@@ -1261,12 +1261,12 @@ void __cdecl CIcqProto::oft_connectionThread(void *param)
 				oc.type = OCT_PROXY_INIT;
 		}
 	}
-	
+
 	if (!oc.hConnection) { // one more sanity check
 		NetLog_Direct("Error: No OFT connection.");
 		return;
 	}
-	
+
 	if (oc.status != OCS_PROXY) { // Connected, notify FT UI
 		ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, oc.ft, 0);
 
@@ -1395,7 +1395,7 @@ int CIcqProto::oft_handlePackets(oscar_connection *oc, BYTE *buf, size_t len)
 #ifdef _DEBUG
 		NetLog_Direct("OFT2: Type %u, Length %u bytes", datatype, datalen);
 #endif
-		handleOFT2FramePacket(oc, datatype, pBuf, datalen-8);
+		handleOFT2FramePacket(oc, datatype, pBuf, datalen - 8);
 
 		/* Increase pointers so we can check for more data */
 		buf += datalen;
@@ -1623,7 +1623,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 	switch (datatype) {
 
 	case OFT_TYPE_REQUEST:
-	{ // Sender ready
+		// Sender ready
 		if (ft->flags & OFTF_SENDING) { // just sanity check - this is only for receiving client
 			NetLog_Direct("Error: Invalid Packet, closing.");
 			CloseOscarConnection(oc);
@@ -1729,20 +1729,22 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			NetLog_Direct("Invalid path information");
 			break;
 		}
-		
-		char *szFullPath = (char*)SAFE_MALLOC(mir_strlen(ft->szSavePath) + mir_strlen(ft->szThisPath) + mir_strlen(ft->szThisFile) + 3);
-		mir_strcpy(szFullPath, ft->szSavePath);
-		NormalizeBackslash(szFullPath);
-		mir_strcat(szFullPath, ft->szThisPath);
-		NormalizeBackslash(szFullPath);
-		// make sure the dest dir exists
-		if (MakeDirUtf(szFullPath))
-			NetLog_Direct("Failed to create destination directory!");
 
-		mir_strcat(szFullPath, ft->szThisFile);
-		// we joined the full path to dest file
-		SAFE_FREE(&ft->szThisFile);
-		ft->szThisFile = szFullPath;
+		{
+			char *szFullPath = (char*)SAFE_MALLOC(mir_strlen(ft->szSavePath) + mir_strlen(ft->szThisPath) + mir_strlen(ft->szThisFile) + 3);
+			mir_strcpy(szFullPath, ft->szSavePath);
+			NormalizeBackslash(szFullPath);
+			mir_strcat(szFullPath, ft->szThisPath);
+			NormalizeBackslash(szFullPath);
+			// make sure the dest dir exists
+			if (MakeDirUtf(szFullPath))
+				NetLog_Direct("Failed to create destination directory!");
+
+			mir_strcat(szFullPath, ft->szThisFile);
+			// we joined the full path to dest file
+			SAFE_FREE(&ft->szThisFile);
+			ft->szThisFile = szFullPath;
+		}
 
 		ft->qwFileBytesDone = 0;
 
@@ -1781,7 +1783,6 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			oft_handleFileData(oc, &buf, 0);
 		}
 		return;
-	}
 
 	case OFT_TYPE_READY:
 	case OFT_TYPE_RESUMEACK:
@@ -1800,27 +1801,26 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			CloseOscarConnection(oc);
 			return;
 		}
-		{
-			DWORD dwResumeCheck, dwResumeOffset, dwFileCheck;
-			// Read Resume Frame data
-			pBuffer += 44;
-			unpackDWord(&pBuffer, &dwResumeOffset);
-			unpackDWord(&pBuffer, &dwResumeCheck);
 
-			dwFileCheck = oft_calc_file_checksum(ft->fileId, dwResumeOffset);
-			if (dwFileCheck == dwResumeCheck && dwResumeOffset <= ft->qwThisFileSize) { // resume seems ok
-				ft->qwFileBytesDone = dwResumeOffset;
-				ft->qwBytesDone += dwResumeOffset;
-				_lseek(ft->fileId, dwResumeOffset, SEEK_SET);
+		DWORD dwResumeCheck, dwResumeOffset, dwFileCheck;
+		// Read Resume Frame data
+		pBuffer += 44;
+		unpackDWord(&pBuffer, &dwResumeOffset);
+		unpackDWord(&pBuffer, &dwResumeCheck);
 
-				NetLog_Direct("OFT: Resume request, ready.");
-			}
-			else
-				NetLog_Direct("OFT: Resume request, restarting.");
+		dwFileCheck = oft_calc_file_checksum(ft->fileId, dwResumeOffset);
+		if (dwFileCheck == dwResumeCheck && dwResumeOffset <= ft->qwThisFileSize) { // resume seems ok
+			ft->qwFileBytesDone = dwResumeOffset;
+			ft->qwBytesDone += dwResumeOffset;
+			_lseek(ft->fileId, dwResumeOffset, SEEK_SET);
 
-			// Ready for resume
-			sendOFT2FramePacket(oc, OFT_TYPE_RESUMEREADY);
+			NetLog_Direct("OFT: Resume request, ready.");
 		}
+		else
+			NetLog_Direct("OFT: Resume request, restarting.");
+
+		// Ready for resume
+		sendOFT2FramePacket(oc, OFT_TYPE_RESUMEREADY);
 		break;
 
 	case OFT_TYPE_RESUMEREADY:
@@ -1830,39 +1830,37 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			CloseOscarConnection(oc);
 			return;
 		}
-		{
-			DWORD dwResumeOffset, dwResumeCheck;
-			// Read Resume Reply data
-			pBuffer += 44;
-			unpackDWord(&pBuffer, &dwResumeOffset);
-			unpackDWord(&pBuffer, &dwResumeCheck);
 
-			if (ft->qwFileBytesDone != dwResumeOffset) {
-				ft->qwBytesDone -= (ft->qwFileBytesDone - dwResumeOffset);
-				ft->qwFileBytesDone = dwResumeOffset;
-				if (dwResumeOffset)
-					ft->dwRecvFileCheck = dwResumeCheck;
-				else // Restarted resume (data mismatch)
-					ft->dwRecvFileCheck = 0xFFFF0000;
-			}
-			_lseek(ft->fileId, dwResumeOffset, SEEK_SET);
+		// Read Resume Reply data
+		pBuffer += 44;
+		unpackDWord(&pBuffer, &dwResumeOffset);
+		unpackDWord(&pBuffer, &dwResumeCheck);
 
-			if (ft->qwThisFileSize != ft->qwFileBytesDone)
-				NetLog_Direct("OFT: Resuming from offset %u.", dwResumeOffset);
+		if (ft->qwFileBytesDone != dwResumeOffset) {
+			ft->qwBytesDone -= (ft->qwFileBytesDone - dwResumeOffset);
+			ft->qwFileBytesDone = dwResumeOffset;
+			if (dwResumeOffset)
+				ft->dwRecvFileCheck = dwResumeCheck;
+			else // Restarted resume (data mismatch)
+				ft->dwRecvFileCheck = 0xFFFF0000;
+		}
+		_lseek(ft->fileId, dwResumeOffset, SEEK_SET);
 
-			// Prepare to receive data
-			oc->status = OCS_DATA;
+		if (ft->qwThisFileSize != ft->qwFileBytesDone)
+			NetLog_Direct("OFT: Resuming from offset %u.", dwResumeOffset);
 
-			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+		// Prepare to receive data
+		oc->status = OCS_DATA;
 
-			// Ready for receive
-			sendOFT2FramePacket(oc, OFT_TYPE_RESUMEACK);
+		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 
-			if (ft->qwThisFileSize == ft->qwFileBytesDone) { // all data already processed
-				BYTE buf;
+		// Ready for receive
+		sendOFT2FramePacket(oc, OFT_TYPE_RESUMEACK);
 
-				oft_handleFileData(oc, &buf, 0);
-			}
+		if (ft->qwThisFileSize == ft->qwFileBytesDone) { // all data already processed
+			BYTE buf;
+
+			oft_handleFileData(oc, &buf, 0);
 		}
 		break;
 
@@ -2017,7 +2015,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	mir_strcpy(pszThisFileName, szThisContainer);
 	NormalizeBackslash(pszThisFileName);
 	mir_strcat(pszThisFileName, ExtractFileName(ft->szThisFile));
-	
+
 	// convert backslashes to dir markings
 	for (size_t i = 0; i < mir_strlen(pszThisFileName); i++)
 		if (pszThisFileName[i] == '\\' || pszThisFileName[i] == '/')

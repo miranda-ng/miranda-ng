@@ -39,11 +39,11 @@ struct rates_group
 	DWORD dwAlertLevel;
 	DWORD dwLimitLevel;
 	DWORD dwMaxLevel;
-	
+
 	// current level
 	int rCurrentLevel;
 	int tCurrentLevel;
-	
+
 	// links
 	WORD *pPairs;
 	int nPairs;
@@ -52,7 +52,7 @@ struct rates_group
 struct rates : public MZeroedObject
 {
 private:
-	CIcqProto *ppro;
+	CIcqProto * ppro;
 	int nGroups;
 	rates_group groups[MAX_RATES_GROUP_COUNT];
 
@@ -96,7 +96,7 @@ struct rates_queue_item : public MZeroedObject
 {
 	friend class rates_queue;
 protected:
-	CIcqProto *ppro;
+	CIcqProto * ppro;
 	BOOL bCreated;
 	WORD wGroup;
 
@@ -127,7 +127,7 @@ class rates_queue : public MZeroedObject
 
 	mir_cs csLists;  // we need to be thread safe
 	LIST<rates_queue_item> lstPending;
-	
+
 protected:
 	void cleanup();
 	void initDelay(int nDelay);

@@ -133,7 +133,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 			}
 			if (dwError == WSAESHUTDOWN) // ok, we're going offline
 				break;
-			
+
 			debugLogA("Abortive closure of server socket, error: %d", dwError);
 			break;
 		}
@@ -181,7 +181,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	for (auto &hContact : AccContacts()) {
 		if (getContactStatus(hContact) == ID_STATUS_OFFLINE)
 			continue;
-				
+
 		setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 		DWORD dwUIN;
@@ -234,8 +234,7 @@ int CIcqProto::handleServerPackets(BYTE *buf, int len, serverthread_info *info)
 	WORD datalen;
 	int bytesUsed = 0;
 
-	while (len > 0)
-	{
+	while (len > 0) {
 		if (info->bReinitRecver)
 			break;
 
@@ -336,7 +335,7 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 void __cdecl CIcqProto::SendPacketAsyncThread(icq_packet* pkt)
 {
 	Thread_SetName("ICQ: SendPacketAsyncThread");
-	sendServPacket( pkt );
+	sendServPacket(pkt);
 	SAFE_FREE((void**)&pkt);
 }
 

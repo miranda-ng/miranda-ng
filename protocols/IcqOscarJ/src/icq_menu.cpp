@@ -48,7 +48,7 @@ static INT_PTR IcqMenuHandleOpenProfile(WPARAM wParam, LPARAM lParam)
 	return (ppro) ? ppro->OpenWebProfile(wParam, lParam) : 0;
 }
 
-static int IcqPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
+static int IcqPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	Menu_ShowItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], FALSE);
 	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], FALSE);
@@ -72,7 +72,7 @@ void g_MenuInit(void)
 
 	CMenuItem mi(g_plugin);
 	mi.pszService = str;
-	
+
 	// "Add to server list"
 	mir_strcpy(pszDest, MS_ICQ_ADDSERVCONTACT); CreateServiceFunction(str, IcqMenuHandleAddServContact);
 	SET_UID(mi, 0x3928ba10, 0x69bc, 0x4ec9, 0x96, 0x48, 0xa4, 0x1b, 0xbe, 0x58, 0x4a, 0x7e);
@@ -80,15 +80,15 @@ void g_MenuInit(void)
 	mi.position = -2049999999;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
 	g_hContactMenuItems[ICMI_ADD_TO_SERVLIST] = Menu_AddContactMenuItem(&mi);
-	
+
 	// "Show custom status details"
- 	mir_strcpy(pszDest, MS_XSTATUS_SHOWDETAILS); CreateServiceFunction(str, IcqMenuHandleXStatusDetails);
+	mir_strcpy(pszDest, MS_XSTATUS_SHOWDETAILS); CreateServiceFunction(str, IcqMenuHandleXStatusDetails);
 	SET_UID(mi, 0x4767918b, 0x898b, 0x4cb6, 0x9c, 0x54, 0x8c, 0x56, 0x6a, 0xc4, 0xed, 0x42);
 	mi.name.a = LPGEN("Show custom status details");
 	mi.position = -2000004999;
 	mi.hIcolibItem = nullptr;
 	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = Menu_AddContactMenuItem(&mi);
-	
+
 	// "Open ICQ profile"
 	mir_strcpy(pszDest, MS_OPEN_PROFILE); CreateServiceFunction(str, IcqMenuHandleOpenProfile);
 	SET_UID(mi, 0x4f006492, 0x9fe5, 0x4d10, 0x88, 0xce, 0x47, 0x53, 0xba, 0x27, 0xe9, 0xc9);
@@ -116,21 +116,21 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	if (icqOnline()) {
-		BOOL bCtrlPressed = (GetKeyState(VK_CONTROL)&0x8000 ) != 0;
+		BOOL bCtrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
 		DWORD dwUin = getContactUin(hContact);
 
 		Menu_ShowItem(m_hmiReqAuth, dwUin && (bCtrlPressed || (getByte(hContact, "Auth", 0) && getWord(hContact, DBSETTING_SERVLIST_ID, 0))));
 		Menu_ShowItem(m_hmiGrantAuth, dwUin && (bCtrlPressed || getByte(hContact, "Grant", 0)));
 		Menu_ShowItem(m_hmiRevokeAuth, dwUin && (bCtrlPressed || (getByte("PrivacyItems", 0) && !getByte(hContact, "Grant", 0))));
-		
+
 		Menu_ShowItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST],
 			m_bSsiEnabled && !getWord(hContact, DBSETTING_SERVLIST_ID, 0) &&
 			!getWord(hContact, DBSETTING_SERVLIST_IGNORE, 0) &&
 			!db_get_b(hContact, "CList", "NotOnList", 0));
 	}
 
-	Menu_ShowItem(g_hContactMenuItems[ICMI_OPEN_PROFILE],getContactUin(hContact) != 0);
+	Menu_ShowItem(g_hContactMenuItems[ICMI_OPEN_PROFILE], getContactUin(hContact) != 0);
 	BYTE bXStatus = getContactXStatus(hContact);
 
 	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);

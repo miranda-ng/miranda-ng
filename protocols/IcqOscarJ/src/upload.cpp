@@ -27,12 +27,12 @@
 
 #include "stdafx.h"
 
-int CIcqProto::StringToListItemId(const char *szSetting,int def)
+int CIcqProto::StringToListItemId(const char *szSetting, int def)
 {
 	int i;
 
-	for(i=0;i<settingCount;i++)
-		if (!mir_strcmp(szSetting,setting[i].szDbSetting))
+	for (i = 0; i < settingCount; i++)
+		if (!mir_strcmp(szSetting, setting[i].szDbSetting))
 			break;
 
 	if (i == settingCount)
@@ -44,7 +44,7 @@ int CIcqProto::StringToListItemId(const char *szSetting,int def)
 	if (!szValue)
 		return def;
 
-	for (i=0; list[i].text; i++)
+	for (i = 0; list[i].text; i++)
 		if (!mir_strcmp(list[i].text, szValue))
 			break;
 
@@ -72,7 +72,7 @@ int ChangeInfoData::UploadSettings(void)
 			mir_strcpy(Password, tmp);
 			// update password in protocol
 			mir_strcpy(ppro->m_szPassword, tmp);
-			
+
 			hUpload[1] = (HANDLE)ppro->icq_changeUserPasswordServ(tmp);
 
 			// password is stored in DB, update

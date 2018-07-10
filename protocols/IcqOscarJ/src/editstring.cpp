@@ -30,127 +30,111 @@
 static ChangeInfoData *dataStringEdit = nullptr;
 static HWND hwndEdit = nullptr, hwndExpandButton = nullptr, hwndUpDown = nullptr;
 
-static const char escapes[]={'a','\a',
-'b','\b',
-'e',27,
-'f','\f',
-'r','\r',
-'t','\t',
-'v','\v',
-'\\','\\'};
+static const char escapes[] = 
+{
+	'a','\a',
+	'b','\b',
+	'e',27,
+	'f','\f',
+	'r','\r',
+	't','\t',
+	'v','\v',
+	'\\','\\'
+};
 
-static void EscapesToMultiline(WCHAR *str,PDWORD selStart,PDWORD selEnd)
-{ //converts "\\n" and "\\t" to "\r\n" and "\t" because a multi-line edit box can show them properly
+static void EscapesToMultiline(WCHAR *str, PDWORD selStart, PDWORD selEnd)
+{
+	// converts "\\n" and "\\t" to "\r\n" and "\t" because a multi-line edit box can show them properly
 	DWORD i;
 
-	for(i=0; *str; str++, i++) 
-	{
+	for (i = 0; *str; str++, i++) {
 		if (*str != '\\') continue;
-		if (str[1] == 'n') 
-		{
-			*str++ = '\r'; 
-			i++; 
+		if (str[1] == 'n') {
+			*str++ = '\r';
+			i++;
 			*str = '\n';
 		}
-		else if (str[1] == 't') 
-		{
+		else if (str[1] == 't') {
 			*str = '\t';
-			memmove(str+1, str+2, sizeof(WCHAR)*(mir_wstrlen(str)-1));
+			memmove(str + 1, str + 2, sizeof(WCHAR)*(mir_wstrlen(str) - 1));
 
-			if (*selStart>i) --*selStart;
-			if (*selEnd>i) --*selEnd;
+			if (*selStart > i)--*selStart;
+			if (*selEnd > i)--*selEnd;
 		}
 	}
 }
 
-
-
 static void EscapesToBinary(char *str)
 {
-	for (;*str;str++) 
-	{
-		if (*str!='\\') continue;
-		if(str[1]=='n') {*str++='\r'; *str='\n'; continue;}
-		if(str[1]=='0') 
-		{
+	for (; *str; str++) {
+		if (*str != '\\') continue;
+		if (str[1] == 'n') { *str++ = '\r'; *str = '\n'; continue; }
+		if (str[1] == '0') {
 			char *codeend;
-			*str=(char)strtol(str+1,&codeend,8);
-			if (*str==0) {*str='\\'; continue;}
-			memmove(str+1,codeend,mir_strlen(codeend)+1);
+			*str = (char)strtol(str + 1, &codeend, 8);
+			if (*str == 0) { *str = '\\'; continue; }
+			memmove(str + 1, codeend, mir_strlen(codeend) + 1);
 			continue;
 		}
-		for(int i=0;i<_countof(escapes);i+=2)
-			if(str[1]==escapes[i]) 
-			{
-				*str=escapes[i+1];
-				memmove(str+1,str+2,mir_strlen(str)-1);
+		for (int i = 0; i < _countof(escapes); i += 2)
+			if (str[1] == escapes[i]) {
+				*str = escapes[i + 1];
+				memmove(str + 1, str + 2, mir_strlen(str) - 1);
 				break;
 			}
 	}
 }
-
-
 
 char *BinaryToEscapes(char *str)
 {
 	int extra = 10, len = (int)mir_strlen(str) + 11, i;
 	char *out, *pout;
 
-	out=pout=(char*)SAFE_MALLOC(len);
-	for (;*str;str++) 
-	{
-		if ((unsigned char)*str>=' ') 
-		{
-			*pout++=*str; 
+	out = pout = (char*)SAFE_MALLOC(len);
+	for (; *str; str++) {
+		if ((unsigned char)*str >= ' ') {
+			*pout++ = *str;
 			continue;
 		}
-		if(str[0]=='\r' && str[1]=='\n') 
-		{
-			*pout++='\\'; 
-			*pout++='n';
+		if (str[0] == '\r' && str[1] == '\n') {
+			*pout++ = '\\';
+			*pout++ = 'n';
 			str++;
 			continue;
 		}
-		if(extra<3) 
-		{
-			extra+=8; len+=8;
-			pout=out=(char*)SAFE_REALLOC(out,len);
+		if (extra < 3) {
+			extra += 8; len += 8;
+			pout = out = (char*)SAFE_REALLOC(out, len);
 		}
-		*pout++='\\';
-		for(i = 0; i < _countof(escapes); i += 2)
-			if (*str==escapes[i+1]) 
-			{
-				*pout++=escapes[i];
+		*pout++ = '\\';
+		for (i = 0; i < _countof(escapes); i += 2)
+			if (*str == escapes[i + 1]) {
+				*pout++ = escapes[i];
 				extra--;
 				break;
 			}
-			if(i < _countof(escapes)) continue;
-			*pout++='0'; extra--;
-			if (*str>=8) 
-			{
-				*pout++=(*str>>3)+'0';
-				extra--;
-			}
-			*pout++=(*str&7)+'0'; extra--;
+		if (i < _countof(escapes)) continue;
+		*pout++ = '0'; extra--;
+		if (*str >= 8) {
+			*pout++ = (*str >> 3) + '0';
+			extra--;
+		}
+		*pout++ = (*str & 7) + '0'; extra--;
 	}
-	*pout='\0';
+	*pout = '\0';
 	return out;
 }
 
-
-
-static LRESULT CALLBACK StringEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+static LRESULT CALLBACK StringEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_KEYDOWN:
-		if (wParam==VK_ESCAPE) 
-		{
+		if (wParam == VK_ESCAPE) {
 			if (dataStringEdit)
-				dataStringEdit->EndStringEdit(0); 
+				dataStringEdit->EndStringEdit(0);
 			return 0;
 		}
-		if (wParam==VK_RETURN) 
-		{
+		if (wParam == VK_RETURN) {
 			if (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_MULTILINE && !(GetKeyState(VK_CONTROL) & 0x8000)) break;
 			if (dataStringEdit)
 				dataStringEdit->EndStringEdit(1);
@@ -296,8 +280,8 @@ void ChangeInfoData::EndStringEdit(int save)
 			int *range = (int*)si.pList;
 			newValue = atoi(text);
 			if (newValue) {
-				if (newValue<range[0]) newValue = range[0];
-				if (newValue>range[1]) newValue = range[1];
+				if (newValue < range[0]) newValue = range[0];
+				if (newValue > range[1]) newValue = range[1];
 			}
 			sid.changed = sid.value != newValue;
 			sid.value = newValue;
@@ -310,7 +294,7 @@ void ChangeInfoData::EndStringEdit(int save)
 				EscapesToBinary(text);
 			}
 			if ((si.displayType & LIF_PASSWORD && mir_strcmp(text, "                ")) ||
-				 (!(si.displayType & LIF_PASSWORD) && mir_strcmp(text, (char*)sid.value) && (mir_strlen(text) + mir_strlen((char*)sid.value)))) {
+				(!(si.displayType & LIF_PASSWORD) && mir_strcmp(text, (char*)sid.value) && (mir_strlen(text) + mir_strlen((char*)sid.value)))) {
 				SAFE_FREE((void**)&sid.value);
 				if (mir_strlen(text))
 					sid.value = (LPARAM)text;

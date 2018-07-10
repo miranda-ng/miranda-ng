@@ -75,7 +75,7 @@ const SettingItem setting[] =
 	{ LPGEN("Phone number"), LI_STRING, DBVT_UTF8, "Phone" },
 	{ LPGEN("Fax number"), LI_STRING, DBVT_UTF8, "Fax" },
 	{ LPGEN("Cellular number"), LI_STRING, DBVT_UTF8, "Cellular" },
-	
+
 	// more
 	{ LPGEN("Personal Detail"), LI_DIVIDER },
 	{ LPGEN("Timezone"), LI_LIST | LIF_ZEROISVALID | LIF_SIGNED, DBVT_BYTE, "Timezone", timezonesField },

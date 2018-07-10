@@ -38,8 +38,7 @@ int icq_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQU
 	BYTE *buf;
 	char szSid[33], szHttpServer[256], szHttpGetUrl[300], szHttpPostUrl[300];
 
-	if (nlhr->dataLength < 31)
-	{
+	if (nlhr->dataLength < 31) {
 		SetLastError(ERROR_INVALID_DATA);
 		return 0;
 	}
@@ -56,8 +55,7 @@ int icq_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQU
 	mir_snprintf(szSid, "%08x%08x%08x%08x", dwSid1, dwSid2, dwSid3, dwSid4);
 	unpackWord(&buf, &wIpLen);
 
-	if(nlhr->dataLength < 30 + wIpLen || wIpLen == 0 || wIpLen > sizeof(szHttpServer) - 1)
-	{
+	if (nlhr->dataLength < 30 + wIpLen || wIpLen == 0 || wIpLen > sizeof(szHttpServer) - 1) {
 		SetLastError(ERROR_INVALID_DATA);
 		return 0;
 	}
@@ -91,7 +89,7 @@ int icq_httpGatewayBegin(HNETLIBCONN hConn, NETLIBOPENCONNECTION* nloc)
 	packWord(&packet, (WORD)serverNameLen);
 	packBuffer(&packet, (LPBYTE)nloc->szHost, serverNameLen);
 	packWord(&packet, nloc->wPort);
-	INT_PTR res = Netlib_Send(hConn, (char*)packet.pData, packet.wLen, MSG_DUMPPROXY|MSG_NOHTTPGATEWAYWRAP);
+	INT_PTR res = Netlib_Send(hConn, (char*)packet.pData, packet.wLen, MSG_DUMPPROXY | MSG_NOHTTPGATEWAYWRAP);
 	SAFE_FREE((void**)&packet.pData);
 
 	return res != SOCKET_ERROR;
@@ -105,8 +103,7 @@ int icq_httpGatewayWrapSend(HNETLIBCONN hConn, PBYTE buf, int len, int flags)
 	int sendLen = len;
 	int sendResult = 0;
 
-	while (sendLen > 0)
-	{ // imitate polite behaviour of icq5.1 and split large packets
+	while (sendLen > 0) { // imitate polite behaviour of icq5.1 and split large packets
 		icq_packet packet;
 		WORD curLen;
 		int curResult;
@@ -118,7 +115,7 @@ int icq_httpGatewayWrapSend(HNETLIBCONN hConn, PBYTE buf, int len, int flags)
 		packBuffer(&packet, sendBuf, curLen);
 
 		curResult = Netlib_Send(hConn, (char*)packet.pData, packet.wLen, flags);
-		
+
 		SAFE_FREE((void**)&packet.pData);
 
 		// sending failed, end loop
@@ -144,8 +141,7 @@ PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST*, PBYTE buf, int len, int* out
 	size_t i = 0;
 
 	tbuf = buf;
-	for(;;)
-	{
+	for (;;) {
 		if (tbuf - buf + 2 > len)
 			break;
 		unpackWord(&tbuf, &wLen);
@@ -157,31 +153,27 @@ PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST*, PBYTE buf, int len, int* out
 		unpackWord(&tbuf, &wType);
 		tbuf += 4;    /* flags */
 		unpackDWord(&tbuf, &dwPackSeq);
-		if (wType == HTTP_PACKETTYPE_FLAP)
-		{ // it is normal data packet
+		if (wType == HTTP_PACKETTYPE_FLAP) { // it is normal data packet
 			size_t copyBytes = wLen - 12;
-			if (copyBytes > len - i)
-			{
+			if (copyBytes > len - i) {
 				/* invalid data - do our best to get something out of it */
 				copyBytes = len - i;
 			}
 			memcpy(buf + i, tbuf, copyBytes);
 			i += copyBytes;
 		}
-		else if (wType == HTTP_PACKETTYPE_LOGINREPLY)
-		{ // our "virtual connection" was established, good
+		else if (wType == HTTP_PACKETTYPE_LOGINREPLY) { // our "virtual connection" was established, good
 			BYTE bRes;
 
 			unpackByte(&tbuf, &bRes);
 			wLen -= 1;
 			if (!bRes)
-				Netlib_Logf( nullptr, "Gateway Connection #%d Established.", dwPackSeq);
+				Netlib_Logf(nullptr, "Gateway Connection #%d Established.", dwPackSeq);
 			else
-				Netlib_Logf( nullptr, "Gateway Connection #%d Failed, error: %d", dwPackSeq, bRes);
+				Netlib_Logf(nullptr, "Gateway Connection #%d Failed, error: %d", dwPackSeq, bRes);
 		}
-		else if (wType == HTTP_PACKETTYPE_CLOSEREPLY)
-		{ // "virtual connection" closed - only received if any other "virual connection" still active
-			Netlib_Logf( nullptr, "Gateway Connection #%d Closed.", dwPackSeq);
+		else if (wType == HTTP_PACKETTYPE_CLOSEREPLY) { // "virtual connection" closed - only received if any other "virual connection" still active
+			Netlib_Logf(nullptr, "Gateway Connection #%d Closed.", dwPackSeq);
 		}
 		tbuf += wLen - 12;
 	}
@@ -189,8 +181,6 @@ PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST*, PBYTE buf, int len, int* out
 
 	return buf;
 }
-
-
 
 int icq_httpGatewayWalkTo(HNETLIBCONN hConn, NETLIBOPENCONNECTION* nloc)
 { // this is bad simplification - for avatars to work we need to handle
@@ -200,7 +190,7 @@ int icq_httpGatewayWalkTo(HNETLIBCONN hConn, NETLIBOPENCONNECTION* nloc)
 
 	packet.wLen = 0;
 	write_httphdr(&packet, HTTP_PACKETTYPE_CLOSE, dwGatewaySeq);
-	Netlib_Send(hConn, (char*)packet.pData, packet.wLen, MSG_DUMPPROXY|MSG_NOHTTPGATEWAYWRAP);
+	Netlib_Send(hConn, (char*)packet.pData, packet.wLen, MSG_DUMPPROXY | MSG_NOHTTPGATEWAYWRAP);
 	// we closed virtual connection, open new one
 	dwGatewaySeq++;
 	SetGatewayIndex(hConn, dwGatewaySeq);

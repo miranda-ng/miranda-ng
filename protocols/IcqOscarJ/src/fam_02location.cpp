@@ -43,11 +43,11 @@ void CIcqProto::handleLocationFam(BYTE *pBuffer, size_t wBufferLength, snac_head
 		break;
 
 	case ICQ_ERROR:
-		{ 
+		{
 			WORD wError;
 			if (wBufferLength >= 2)
 				unpackWord(&pBuffer, &wError);
-			else 
+			else
 				wError = 0;
 
 			if (wError == 4) {
@@ -188,7 +188,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCook
 			}
 
 			setString(hContact, "About", szMsg);
-			ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1 ,0);
+			ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 
 			SAFE_FREE((void**)&szMsg);
 		}

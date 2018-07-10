@@ -194,7 +194,7 @@ int CIcqProto::icq_sendFileSendDirectv8(filetransfer *ft, const char *pszFiles)
 
 	if (!utf8_decode(pszFiles, &szFilesAnsi))
 		szFilesAnsi = _strdup(pszFiles);		// Legacy fix
-	size_t wFilesLen = mir_strlen(szFilesAnsi)+1;
+	size_t wFilesLen = mir_strlen(szFilesAnsi) + 1;
 
 	icq_packet packet;
 	packDirectMsgHeader(&packet, 0x2E + 22 + wDescrLen + wFilesLen, DIRECT_MESSAGE, (WORD)ft->dwCookie, MTYPE_PLUGIN, 0, 0, 0);
@@ -227,18 +227,17 @@ DWORD CIcqProto::icq_SendDirectMessage(MCONTACT hContact, const char *szMessage,
 	icq_packet packet;
 	packDirectMsgHeader(&packet, nBodyLength + (szCap ? 53 : 11), DIRECT_MESSAGE, dwCookie, (BYTE)pCookieData->bMessageType, 0, 0, 0);
 
-	packLEWord(&packet, WORD(nBodyLength+1));            // Length of message
-	packBuffer(&packet, (LPBYTE)szMessage, nBodyLength+1); // Message
+	packLEWord(&packet, WORD(nBodyLength + 1));            // Length of message
+	packBuffer(&packet, (LPBYTE)szMessage, nBodyLength + 1); // Message
 	packMsgColorInfo(&packet);
-	if (szCap)
-	{
+	if (szCap) {
 		packLEDWord(&packet, 0x00000026);                    // length of GUID
 		packBuffer(&packet, (LPBYTE)szCap, 0x26);                    // UTF-8 GUID
 	}
 
 	if (SendDirectMessage(hContact, &packet))
 		return dwCookie; // Success
-	
+
 	FreeCookie(dwCookie); // release cookie
 	return 0; // Failure
 }

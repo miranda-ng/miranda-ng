@@ -194,7 +194,7 @@ void CIcqProto::ReleaseCookie(DWORD dwCookie)
 {
 	mir_cslock l(cookieMutex);
 
-	int i = cookies.getIndex(( icq_cookie_info* )&dwCookie );
+	int i = cookies.getIndex((icq_cookie_info*)&dwCookie);
 	if (i != -1) { // Cookie found, remove from list
 		SAFE_FREE((void**)&cookies[i].pvExtra);
 		cookies.remove(i);
@@ -212,8 +212,7 @@ void CIcqProto::InitMessageCookie(cookie_message_data *pCookie)
 		// ensure that message ids are unique
 		dwMsgID1 = time(0);
 		dwMsgID2 = RandRange(0, 0x0FFFF);
-	}
-		while (FindMessageCookie(dwMsgID1, dwMsgID2, nullptr, nullptr, nullptr));
+	} while (FindMessageCookie(dwMsgID1, dwMsgID2, nullptr, nullptr, nullptr));
 
 	if (pCookie) {
 		pCookie->dwMsgID1 = dwMsgID1;

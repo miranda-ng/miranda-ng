@@ -29,7 +29,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 {
 	WORD wCommand;
 	WORD wCookie;
-	BYTE bMsgType,bMsgFlags;
+	BYTE bMsgType, bMsgFlags;
 	WORD wStatus;
 	WORD wFlags;
 	WORD wTextLen;
@@ -58,7 +58,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 
 	// Sequence number
 	unpackLEWord(&buf, &wCookie);
-	wLen -=2;
+	wLen -= 2;
 
 	// Unknown, always zeroes
 	buf += 12;
@@ -90,9 +90,8 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 	// Messagetext. This is either the status message or the actual message
 	// when this is a PEER_MSG_MSG packet
 	unpackLEWord(&buf, &wTextLen);
-	if (wTextLen > 0)
-	{
-		pszText = (char*)_alloca(wTextLen+1);
+	if (wTextLen > 0) {
+		pszText = (char*)_alloca(wTextLen + 1);
 		unpackString(&buf, pszText, wTextLen);
 		pszText[wTextLen] = '\0';
 	}
@@ -192,7 +191,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 			}
 		}
 	}
-	else if (wCommand == DIRECT_CANCEL) 
+	else if (wCommand == DIRECT_CANCEL)
 		NetLog_Direct("Cannot handle abort messages yet... :(");
 	else
 		NetLog_Direct("Unknown wCommand, packet skipped");

@@ -116,7 +116,7 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 		szThisFileNameAnsi = _strdup(pszThisFileName);	// Legacy fix
 	if (!utf8_decode(szThisSubDir, &szThisSubDirAnsi))
 		szThisSubDirAnsi = _strdup(szThisSubDir);		// Legacy fix
-	
+
 	size_t wThisFileNameLen = mir_strlen(szThisFileNameAnsi);
 	size_t wThisSubDirLen = mir_strlen(szThisSubDirAnsi);
 
@@ -261,7 +261,7 @@ void CIcqProto::icq_sendFileResume(filetransfer *ft, int action, const char *szF
 void NormalizeBackslash(char* path)
 {
 	size_t len = mir_strlen(path);
-	if (len && path[len-1] != '\\')
+	if (len && path[len - 1] != '\\')
 		mir_strcat(path, "\\");
 }
 
@@ -345,7 +345,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wL
 			unpackLEWord(&buf, &wThisFilenameLen);
 			if (wLen < 19 + wThisFilenameLen)
 				return;
-			
+
 			SAFE_FREE(&dc->ft->szThisFile);
 			char *szAnsi = (char *)_alloca(wThisFilenameLen + 1);
 			memcpy(szAnsi, buf, wThisFilenameLen);

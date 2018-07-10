@@ -45,12 +45,12 @@ extern const int moodXStatus[];
 // from fam_04message.cpp
 struct icq_mode_messages
 {
-  char *szOnline;
-  char *szAway;
-  char *szNa;
-  char *szDnd;
-  char *szOccupied;
-  char *szFfc;
+	char *szOnline;
+	char *szAway;
+	char *szNa;
+	char *szDnd;
+	char *szOccupied;
+	char *szFfc;
 };
 
 void g_MenuInit();

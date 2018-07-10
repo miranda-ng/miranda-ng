@@ -101,7 +101,7 @@ void CIcqProto::sendClientAuth(const char *szKey, size_t wKeyLen, BOOL bSecure)
 	}
 
 	// Pack client identification details.
-	packTLV(&packet, 0x0003, (WORD)sizeof(CLIENT_ID_STRING)-1, (LPBYTE)CLIENT_ID_STRING);
+	packTLV(&packet, 0x0003, (WORD)sizeof(CLIENT_ID_STRING) - 1, (LPBYTE)CLIENT_ID_STRING);
 	packTLVWord(&packet, 0x0017, CLIENT_VERSION_MAJOR);
 	packTLVWord(&packet, 0x0018, CLIENT_VERSION_MINOR);
 	packTLVWord(&packet, 0x0019, CLIENT_VERSION_LESSER);
@@ -120,7 +120,7 @@ void CIcqProto::sendClientAuth(const char *szKey, size_t wKeyLen, BOOL bSecure)
 
 void CIcqProto::handleAuthKeyResponse(BYTE *buf, size_t wPacketLen, serverthread_info *info)
 {
-	char szKey[64] = {0};
+	char szKey[64] = { 0 };
 	mir_md5_state_t state;
 	BYTE digest[16];
 
@@ -153,7 +153,7 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, size_t wPacketLen, serverthread
 	mir_md5_init(&state);
 	mir_md5_append(&state, (LPBYTE)szKey, (int)wKeyLen);
 	mir_md5_append(&state, digest, 16);
-	mir_md5_append(&state, (LPBYTE)CLIENT_MD5_STRING, sizeof(CLIENT_MD5_STRING)-1);
+	mir_md5_append(&state, (LPBYTE)CLIENT_MD5_STRING, sizeof(CLIENT_MD5_STRING) - 1);
 	mir_md5_finish(&state, digest);
 
 	debugLogA("Sending ICQ_SIGNON_LOGIN_REQUEST to login server");

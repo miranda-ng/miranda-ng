@@ -774,10 +774,10 @@ char* ApplyEncoding(const char *string, const char *pszEncoding)
 
 		if (!_strnicmp(pszEncoding, "unicode-2-0", 11)) { // it is UCS-2 encoded
 			size_t wLen = mir_wstrlen((WCHAR*)string) + 1;
-			WCHAR *szStr = (WCHAR*)_alloca(wLen*2);
+			WCHAR *szStr = (WCHAR*)_alloca(wLen * 2);
 			BYTE *tmp = (BYTE*)string;
 
-			unpackWideString(&tmp, szStr, wLen*2);
+			unpackWideString(&tmp, szStr, wLen * 2);
 
 			return make_utf8_string(szStr);
 		}
@@ -1237,7 +1237,7 @@ char* time2text(time_t time)
 		str[24] = '\0'; // remove new line
 		return str;
 	}
-	
+
 	return "<invalid>";
 }
 
@@ -1273,9 +1273,9 @@ bool CIcqProto::validateStatusMessageRequest(MCONTACT hContact, WORD byMessageTy
 	if ((byMessageType == MTYPE_AUTOONLINE && m_iStatus != ID_STATUS_ONLINE) ||
 		(byMessageType == MTYPE_AUTOAWAY && m_iStatus != ID_STATUS_AWAY) ||
 		(byMessageType == MTYPE_AUTOBUSY && m_iStatus != ID_STATUS_OCCUPIED) ||
-		(byMessageType == MTYPE_AUTONA   && m_iStatus != ID_STATUS_NA) ||
-		(byMessageType == MTYPE_AUTODND  && m_iStatus != ID_STATUS_DND) ||
-		(byMessageType == MTYPE_AUTOFFC  && m_iStatus != ID_STATUS_FREECHAT)) {
+		(byMessageType == MTYPE_AUTONA && m_iStatus != ID_STATUS_NA) ||
+		(byMessageType == MTYPE_AUTODND && m_iStatus != ID_STATUS_DND) ||
+		(byMessageType == MTYPE_AUTOFFC && m_iStatus != ID_STATUS_FREECHAT)) {
 		return false;
 	}
 
@@ -1324,8 +1324,7 @@ DWORD ICQWaitForSingleObject(HANDLE hObject, DWORD dwMilliseconds, int bWaitAlwa
 
 	do { // will get WAIT_IO_COMPLETION for QueueUserAPC(), ignore it unless terminating
 		dwResult = WaitForSingleObjectEx(hObject, dwMilliseconds, TRUE);
-	}
-	while (dwResult == WAIT_IO_COMPLETION && (bWaitAlways || !Miranda_IsTerminated()));
+	} while (dwResult == WAIT_IO_COMPLETION && (bWaitAlways || !Miranda_IsTerminated()));
 
 	return dwResult;
 }
@@ -1347,7 +1346,7 @@ HNETLIBBIND CIcqProto::NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* l
 	nlb.pfnNewConnectionV2 = pFunc;
 	nlb.pExtra = lParam;
 	SetLastError(ERROR_INVALID_PARAMETER); // this must be here - NetLib does not set any error :((
-	
+
 	HNETLIBBIND hBoundPort = Netlib_BindPort(m_hDirectNetlibUser, &nlb);
 
 	if (pwPort) *pwPort = nlb.wPort;
@@ -1591,7 +1590,7 @@ int OpenFileUtf(const char *filename, int oflag, int pmode)
 WCHAR *GetWindowTextUcs(HWND hWnd)
 {
 	int nLen = GetWindowTextLengthW(hWnd);
-	WCHAR *utext = (WCHAR*)SAFE_MALLOC((nLen + 2)*sizeof(WCHAR));
+	WCHAR *utext = (WCHAR*)SAFE_MALLOC((nLen + 2) * sizeof(WCHAR));
 	GetWindowTextW(hWnd, utext, nLen + 1);
 	return utext;
 }

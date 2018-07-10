@@ -280,7 +280,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								FillRect(cd->nmcd.hdc, &rcItem, GetSysColorBrush(COLOR_3DFACE));
 							}
 							else if ((cd->nmcd.uItemState & CDIS_SELECTED || dat->iEditItem == (int)cd->nmcd.dwItemSpec)
-										&& setting[cd->nmcd.lItemlParam].displayType != LI_DIVIDER) {  // Selected item
+								&& setting[cd->nmcd.lItemlParam].displayType != LI_DIVIDER) {  // Selected item
 								SetTextColor(cd->nmcd.hdc, GetSysColor(COLOR_HIGHLIGHTTEXT));
 								FillRect(cd->nmcd.hdc, &rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 							}
@@ -370,7 +370,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					dat->EndStringEdit(1);
 					dat->EndListEdit(1);
 					if (nm->wVKey == VK_SPACE || nm->wVKey == VK_RETURN || nm->wVKey == VK_F2) nm->wVKey = 0;
-					if (nm->wVKey && (nm->wVKey<'0' || (nm->wVKey>'9' && nm->wVKey<'A') || (nm->wVKey>'Z' && nm->wVKey < VK_NUMPAD0) || nm->wVKey >= VK_F1))
+					if (nm->wVKey && (nm->wVKey < '0' || (nm->wVKey > '9' && nm->wVKey < 'A') || (nm->wVKey > 'Z' && nm->wVKey < VK_NUMPAD0) || nm->wVKey >= VK_F1))
 						break;
 					lvi.mask = LVIF_PARAM | LVIF_STATE;
 					lvi.stateMask = 0xFFFFFFFF;
@@ -439,7 +439,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_SIZE:
 		if (IsIconic(hwndDlg))
 			break;
-		
+
 		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO), ChangeInfoDlg_Resize);
 		{
 			RECT rc; // update listview column widths

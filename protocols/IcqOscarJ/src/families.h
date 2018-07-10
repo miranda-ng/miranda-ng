@@ -30,16 +30,16 @@
 #ifndef __FAMILIES_H
 #define __FAMILIES_H
 
-struct message_ack_params 
+struct message_ack_params
 {
-  BYTE bType;
-  DWORD dwUin;
-  DWORD dwMsgID1;
-  DWORD dwMsgID2;
-  directconnect *pDC;
-  WORD wCookie;
-  int msgType;
-  BYTE bFlags;
+	BYTE bType;
+	DWORD dwUin;
+	DWORD dwMsgID1;
+	DWORD dwMsgID2;
+	directconnect *pDC;
+	WORD wCookie;
+	int msgType;
+	BYTE bFlags;
 };
 
 #define MAT_SERVER_ADVANCED 0
@@ -52,11 +52,11 @@ struct message_ack_params
 #define MTF_STATUS_EXTENDED 4
 
 
-struct UserInfoRecordItem 
+struct UserInfoRecordItem
 {
-  WORD wTLV;
-  int dbType;
-  char *szDbSetting;
+	WORD wTLV;
+	int dbType;
+	char *szDbSetting;
 };
 
 /*---------* Functions *---------------*/

@@ -618,7 +618,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 		NetLog_Direct("Received PEER_MSG from %u", dc->dwRemoteUin);
 
 		if (dc->initialised)
-			handleDirectMessage(dc, buf+1, wLen-1);
+			handleDirectMessage(dc, buf + 1, wLen - 1);
 		else
 			NetLog_Direct("Received %s on uninitialised DC, ignoring.", "PEER_MSG");
 

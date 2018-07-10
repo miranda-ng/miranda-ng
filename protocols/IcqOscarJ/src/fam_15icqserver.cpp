@@ -127,7 +127,7 @@ void CIcqProto::handleExtensionServerInfo(BYTE *buf, size_t wPackLen, WORD wFlag
 		debugLogA("Error: Broken snac 15/3 %d", 2);
 		return;
 	}
-	
+
 	BYTE *databuf = dataTlv->pData;
 	wPackLen -= 4;
 
@@ -769,7 +769,7 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 			SAFE_FREE(&szUid);
 			return;
 		}
-		
+
 		debugLogA("Received user info for %s from directory", szUid);
 		SAFE_FREE(&szUid);
 	}

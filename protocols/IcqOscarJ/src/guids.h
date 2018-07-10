@@ -33,30 +33,30 @@
 typedef DWORD plugin_guid[4];
 
 // Message Capability GUIDs
-static const plugin_guid MCAP_SRV_RELAY_FMT    = {MCAP_SRV_RELAY_FMT_s};
-static const plugin_guid MCAP_REVERSE_DC_REQ   = {MCAP_REVERSE_DC_REQ_s};
-static const plugin_guid MCAP_FILE_TRANSFER    = {MCAP_FILE_TRANSFER_s};
-static const plugin_guid MCAP_CONTACTS         = {MCAP_CONTACTS_s};
+static const plugin_guid MCAP_SRV_RELAY_FMT = { MCAP_SRV_RELAY_FMT_s };
+static const plugin_guid MCAP_REVERSE_DC_REQ = { MCAP_REVERSE_DC_REQ_s };
+static const plugin_guid MCAP_FILE_TRANSFER = { MCAP_FILE_TRANSFER_s };
+static const plugin_guid MCAP_CONTACTS = { MCAP_CONTACTS_s };
 
 // Plugin GUIDs
-static const plugin_guid PSIG_MESSAGE          = {PSIG_MESSAGE_s};
-static const plugin_guid PSIG_INFO_PLUGIN      = {PSIG_INFO_PLUGIN_s};
-static const plugin_guid PSIG_STATUS_PLUGIN    = {PSIG_STATUS_PLUGIN_s};
+static const plugin_guid PSIG_MESSAGE = { PSIG_MESSAGE_s };
+static const plugin_guid PSIG_INFO_PLUGIN = { PSIG_INFO_PLUGIN_s };
+static const plugin_guid PSIG_STATUS_PLUGIN = { PSIG_STATUS_PLUGIN_s };
 
 // Plugin Message GUIDs
-static const plugin_guid PMSG_QUERY_INFO       = {PMSG_QUERY_INFO_s};
-static const plugin_guid PMSG_QUERY_STATUS     = {PMSG_QUERY_STATUS_s};
+static const plugin_guid PMSG_QUERY_INFO = { PMSG_QUERY_INFO_s };
+static const plugin_guid PMSG_QUERY_STATUS = { PMSG_QUERY_STATUS_s };
 
 // Message GUIDs
-static const plugin_guid MGTYPE_MESSAGE        = {MGTYPE_MESSAGE_s};
-static const plugin_guid MGTYPE_STATUSMSGEXT   = {MGTYPE_STATUSMSGEXT_s};
-static const plugin_guid MGTYPE_FILE           = {MGTYPE_FILE_s};
-static const plugin_guid MGTYPE_WEBURL         = {MGTYPE_WEBURL_s};
-static const plugin_guid MGTYPE_CONTACTS       = {MGTYPE_CONTACTS_s};
-static const plugin_guid MGTYPE_GREETING_CARD  = {MGTYPE_GREETING_CARD_s};
-static const plugin_guid MGTYPE_CHAT           = {MGTYPE_CHAT_s};
-static const plugin_guid MGTYPE_SMS_MESSAGE    = {MGTYPE_SMS_MESSAGE_s};
-static const plugin_guid MGTYPE_XTRAZ_SCRIPT   = {MGTYPE_XTRAZ_SCRIPT_s};
+static const plugin_guid MGTYPE_MESSAGE = { MGTYPE_MESSAGE_s };
+static const plugin_guid MGTYPE_STATUSMSGEXT = { MGTYPE_STATUSMSGEXT_s };
+static const plugin_guid MGTYPE_FILE = { MGTYPE_FILE_s };
+static const plugin_guid MGTYPE_WEBURL = { MGTYPE_WEBURL_s };
+static const plugin_guid MGTYPE_CONTACTS = { MGTYPE_CONTACTS_s };
+static const plugin_guid MGTYPE_GREETING_CARD = { MGTYPE_GREETING_CARD_s };
+static const plugin_guid MGTYPE_CHAT = { MGTYPE_CHAT_s };
+static const plugin_guid MGTYPE_SMS_MESSAGE = { MGTYPE_SMS_MESSAGE_s };
+static const plugin_guid MGTYPE_XTRAZ_SCRIPT = { MGTYPE_XTRAZ_SCRIPT_s };
 
 // make GUID checks easy
 __forceinline bool CompareGUIDs(DWORD q1, DWORD q2, DWORD q3, DWORD q4, const plugin_guid guid)
@@ -67,11 +67,10 @@ __forceinline bool CompareGUIDs(DWORD q1, DWORD q2, DWORD q3, DWORD q4, const pl
 // pack entire GUID into icq packet
 static __inline void packGUID(icq_packet *packet, const plugin_guid guid)
 {
-  packDWord(packet, guid[0]);
-  packDWord(packet, guid[1]);
-  packDWord(packet, guid[2]);
-  packDWord(packet, guid[3]);
+	packDWord(packet, guid[0]);
+	packDWord(packet, guid[1]);
+	packDWord(packet, guid[2]);
+	packDWord(packet, guid[3]);
 }
-
 
 #endif /* __GUIDS_H */

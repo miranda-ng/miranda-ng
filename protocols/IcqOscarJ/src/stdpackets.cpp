@@ -277,7 +277,7 @@ void CIcqProto::icq_setstatus(WORD wStatus, const char *szStatusNote)
 			packWord(&packet, 0);              // Encoding not specified (utf-8 is default)
 		}
 		else packWord(&packet, 0);            // Flags + Item Length
-		
+
 		packWord(&packet, 0x0E);              // Item Type
 		packWord(&packet, WORD(wStatusMoodLen));    // Flags + Item Length
 		if (wStatusMoodLen)
@@ -1270,7 +1270,7 @@ DWORD CIcqProto::icq_sendAdvancedSearchServ(BYTE* fieldsBuffer, size_t bufferLen
 	cookie_search *pCookie = (cookie_search*)SAFE_MALLOC(sizeof(cookie_search));
 	if (pCookie == nullptr)
 		return 0;
-	
+
 	pCookie->bSearchType = SEARCHTYPE_DETAILS;
 	DWORD dwCookie = AllocateCookie(CKT_SEARCH, 0, 0, pCookie);
 
@@ -1293,7 +1293,7 @@ DWORD CIcqProto::icq_searchAimByEmail(const char* pszEmail, DWORD dwSearchId)
 
 	if (!pCookie)
 		return 0;
-		
+
 	pCookie->dwMainId = dwSearchId;
 	pCookie->szObject = null_strdup(pszEmail);
 	DWORD dwCookie = AllocateCookie(CKT_SEARCH, ICQ_LOOKUP_REQUEST, 0, pCookie);
@@ -1396,7 +1396,7 @@ DWORD CIcqProto::icq_sendSMSServ(const char *szPhoneNumber, const char *szMsg)
 		packDWord(&packet, 0);
 		packWord(&packet, 0);
 		packWord(&packet, WORD(wBufferLen + 1));
-		packBuffer(&packet, (LPBYTE)szBuffer, wBufferLen+1);
+		packBuffer(&packet, (LPBYTE)szBuffer, wBufferLen + 1);
 
 		sendServPacket(&packet);
 	}
@@ -1721,7 +1721,7 @@ void CIcqProto::oft_sendFileRequest(DWORD dwUin, char *szUid, oscar_filetransfer
 		packTLVWord(&packet, 0x05, pListener->wPort);
 		packTLVWord(&packet, 0x15, WORD((pListener->wPort) ^ 0x0FFFF));
 	}
-	
+
 	// TLV(0x2711)
 	packWord(&packet, 0x2711);
 	packWord(&packet, WORD(9 + mir_strlen(pszFiles)));
@@ -1731,7 +1731,7 @@ void CIcqProto::oft_sendFileRequest(DWORD dwUin, char *szUid, oscar_filetransfer
 	packBuffer(&packet, (LPBYTE)pszFiles, mir_strlen(pszFiles) + 1);
 
 	packTLV(&packet, 0x2712, 5, (LPBYTE)"utf-8");
-	
+
 	// TLV(0x2713)
 	packWord(&packet, 0x2713);
 	packWord(&packet, 8);

@@ -188,7 +188,7 @@ int __fastcall getUIDLen(DWORD dwUin, const char *szUid)
 {
 	if (dwUin)
 		return getUINLen(dwUin);
-	
+
 	return (int)mir_strlen(szUid);
 }
 

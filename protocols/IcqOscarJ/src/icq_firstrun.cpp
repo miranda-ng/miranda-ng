@@ -34,21 +34,21 @@ static void accountLoadDetails(CIcqProto *ppro, HWND hwndDlg)
 		SetDlgItemTextA(hwndDlg, IDC_UIN, pszUIN);
 	}
 
-	char pszPwd[PASSWORDMAXLEN+1];
+	char pszPwd[PASSWORDMAXLEN + 1];
 	if (ppro->GetUserStoredPassword(pszPwd))
 		SetDlgItemTextA(hwndDlg, IDC_PW, pszPwd);
 }
 
 INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
+	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
 		ppro = (CIcqProto*)lParam;
-		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
 

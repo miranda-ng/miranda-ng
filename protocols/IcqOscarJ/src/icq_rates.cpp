@@ -404,10 +404,11 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 
 	if (lstPending.getCount() != 1)
 		return;
-	
+
 	// queue was empty setup timer
 	int nDelay;
-	{	mir_cslock rlck(ppro->m_ratesMutex);
+	{
+		mir_cslock rlck(ppro->m_ratesMutex);
 		nDelay = ppro->m_rates->getDelayToLimitLevel(pItem->wGroup, waitLevel);
 	}
 

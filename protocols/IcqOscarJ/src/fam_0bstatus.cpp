@@ -30,25 +30,20 @@ void CIcqProto::handleStatusFam(unsigned char *pBuffer, size_t wBufferLength, sn
 	switch (pSnacHeader->wSubtype) {
 
 	case ICQ_STATS_MINREPORTINTERVAL:
-		{
-			WORD wInterval;
-			unpackWord(&pBuffer, &wInterval);
-			debugLogA("Server sent SNAC(x0B,x02) - SRV_SET_MINREPORTINTERVAL (Value: %u hours)", wInterval);
-		}
+		WORD wInterval;
+		unpackWord(&pBuffer, &wInterval);
+		debugLogA("Server sent SNAC(x0B,x02) - SRV_SET_MINREPORTINTERVAL (Value: %u hours)", wInterval);
 		break;
 
 	case ICQ_ERROR:
-		{
-			WORD wError;
+		WORD wError;
+		if (wBufferLength >= 2)
+			unpackWord(&pBuffer, &wError);
+		else
+			wError = 0;
 
-			if (wBufferLength >= 2)
-				unpackWord(&pBuffer, &wError);
-			else
-				wError = 0;
-
-			LogFamilyError(ICQ_STATS_FAMILY, wError);
-			break;
-		}
+		LogFamilyError(ICQ_STATS_FAMILY, wError);
+		break;
 
 	default:
 		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_STATS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);

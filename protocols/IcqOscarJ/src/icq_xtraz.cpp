@@ -101,7 +101,8 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 							SAFE_FREE(&szXName);
 							SAFE_FREE(&szXMsg);
 
-							struct rates_xstatus_response : public rates_queue_item {
+							struct rates_xstatus_response : public rates_queue_item
+							{
 							protected:
 								virtual rates_queue_item* copyItem(rates_queue_item *aDest = nullptr)
 								{
@@ -191,7 +192,7 @@ void CIcqProto::handleXtrazNotifyResponse(MCONTACT hContact, WORD wCookie, char*
 
 		ProtoBroadcastAck(hContact, ICQACKTYPE_XTRAZNOTIFY_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, (LPARAM)szRes);
 
-	NextVal:
+NextVal:
 		szNode = strstrnull(szRes, "<val srv_id=");
 		if (szNode) szEnd = strstrnull(szNode, ">"); else szEnd = nullptr;
 
@@ -277,7 +278,6 @@ static char* getXmlPidItem(const char* szData)
 	return nullptr;
 }
 
-
 void CIcqProto::handleXtrazInvitation(DWORD dwUin, char* szMsg, BOOL bThruDC)
 {
 	MCONTACT hContact = HContactFromUIN(dwUin, nullptr);
@@ -287,12 +287,11 @@ void CIcqProto::handleXtrazInvitation(DWORD dwUin, char* szMsg, BOOL bThruDC)
 	char *szPluginID = getXmlPidItem(szMsg);
 	if (!mir_strcmp(szPluginID, "ICQChatRecv"))  // it is a invitation to multi-user chat
 		;
-	else 
+	else
 		NetLog_Uni(bThruDC, "Error: Unknown plugin \"%s\" in Xtraz message", szPluginID);
 
 	SAFE_FREE(&szPluginID);
 }
-
 
 void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 {
@@ -347,7 +346,6 @@ void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 	SAFE_FREE(&szPluginID);
 }
 
-
 // Functions really sending Xtraz stuff
 DWORD CIcqProto::SendXtrazNotifyRequest(MCONTACT hContact, char* szQuery, char* szNotify, int bForced)
 {
@@ -378,7 +376,6 @@ DWORD CIcqProto::SendXtrazNotifyRequest(MCONTACT hContact, char* szQuery, char* 
 
 	return dwCookie;
 }
-
 
 void CIcqProto::SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szResponse, size_t nResponseLen, BOOL bThruDC)
 {

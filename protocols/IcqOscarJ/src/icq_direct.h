@@ -26,7 +26,7 @@
 #ifndef __ICQ_DIRECT_H
 #define __ICQ_DIRECT_H
 
-struct filetransfer: public basic_filetransfer
+struct filetransfer : public basic_filetransfer
 {
 	int status;
 	int sending;

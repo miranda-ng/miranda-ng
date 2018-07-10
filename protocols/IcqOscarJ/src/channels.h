@@ -30,14 +30,14 @@
 #ifndef __CHANNELS_H
 #define __CHANNELS_H
 
-struct snac_header 
+struct snac_header
 {
-  BOOL  bValid;
-  WORD  wFamily;
-  WORD  wSubtype;
-  WORD  wFlags;
-  DWORD dwRef;
-  WORD  wVersion;
+	BOOL  bValid;
+	WORD  wFamily;
+	WORD  wSubtype;
+	WORD  wFlags;
+	DWORD dwRef;
+	WORD  wVersion;
 };
 
 int unpackSnacHeader(snac_header *pSnacHeader, BYTE **pBuffer, size_t *pwBufferLength);

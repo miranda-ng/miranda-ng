@@ -128,7 +128,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 
 				serverPacketInit(&packet, 16);
 				ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-				if (ack)  { // TODO: rewrite - use get list service for empty list
+				if (ack) { // TODO: rewrite - use get list service for empty list
 					// we try to use standalone cookie if available
 					ack->dwAction = SSA_CHECK_ROSTER; // loading list
 					dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_CLI_CHECK, 0, ack);
@@ -317,75 +317,75 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 		break;
 
 	case ICQ_SERVER_REDIRECT_SERVICE: // reply to family request, got new connection point
-	{
-		oscar_tlv_chain *pChain = nullptr;
-		cookie_family_request *pCookieData;
+		{
+			oscar_tlv_chain *pChain = nullptr;
+			cookie_family_request *pCookieData;
 
-		if (!(pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0))) {
-			debugLogA("Received Broken Redirect Service SNAC(1,5).");
-			break;
-		}
-
-		// pick request data
-		WORD wFamily = pChain->getWord(0x0D, 1);
-		if ((!FindCookie(pSnacHeader->dwRef, nullptr, (void**)&pCookieData)) || (pCookieData->wFamily != wFamily)) {
-			disposeChain(&pChain);
-			debugLogA("Received unexpected SNAC(1,5), skipping.");
-			break;
-		}
-
-		FreeCookie(pSnacHeader->dwRef);
-
-		// new family entry point received
-		char *pServer = pChain->getString(0x05, 1);
-		BYTE bServerSSL = pChain->getNumber(0x8E, 1);
-		char *pCookie = pChain->getString(0x06, 1);
-		WORD wCookieLen = pChain->getLength(0x06, 1);
-
-		if (!pServer || !pCookie) {
-			debugLogA("Server returned invalid data, family unavailable.");
-
-			SAFE_FREE(&pServer);
-			SAFE_FREE(&pCookie);
-			SAFE_FREE((void**)&pCookieData);
-			disposeChain(&pChain);
-			break;
-		}
-
-		// Get new family server ip and port
-		WORD wPort = info->wServerPort; // get default port
-		parseServerAddress(pServer, &wPort);
-
-		// establish connection
-		NETLIBOPENCONNECTION nloc = { 0 };
-		if (m_bGatewayMode)
-			nloc.flags |= NLOCF_HTTPGATEWAY;
-		nloc.szHost = pServer;
-		nloc.wPort = wPort;
-
-		HNETLIBCONN hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : nullptr, &nloc);
-
-		if (hConnection == nullptr)
-			debugLogA("Unable to connect to ICQ new family server.");
-		// we want the handler to be called even if the connecting failed
-		else if (bServerSSL) { /* Start SSL session if requested */
-			debugLogA("(%p) Starting SSL negotiation", Netlib_GetSocket(hConnection));
-
-			if (!Netlib_StartSsl(hConnection, nullptr)) {
-				debugLogA("Unable to connect to ICQ new family server, SSL could not be negotiated");
-				NetLib_CloseConnection(&hConnection, FALSE);
+			if (!(pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0))) {
+				debugLogA("Received Broken Redirect Service SNAC(1,5).");
+				break;
 			}
+
+			// pick request data
+			WORD wFamily = pChain->getWord(0x0D, 1);
+			if ((!FindCookie(pSnacHeader->dwRef, nullptr, (void**)&pCookieData)) || (pCookieData->wFamily != wFamily)) {
+				disposeChain(&pChain);
+				debugLogA("Received unexpected SNAC(1,5), skipping.");
+				break;
+			}
+
+			FreeCookie(pSnacHeader->dwRef);
+
+			// new family entry point received
+			char *pServer = pChain->getString(0x05, 1);
+			BYTE bServerSSL = pChain->getNumber(0x8E, 1);
+			char *pCookie = pChain->getString(0x06, 1);
+			WORD wCookieLen = pChain->getLength(0x06, 1);
+
+			if (!pServer || !pCookie) {
+				debugLogA("Server returned invalid data, family unavailable.");
+
+				SAFE_FREE(&pServer);
+				SAFE_FREE(&pCookie);
+				SAFE_FREE((void**)&pCookieData);
+				disposeChain(&pChain);
+				break;
+			}
+
+			// Get new family server ip and port
+			WORD wPort = info->wServerPort; // get default port
+			parseServerAddress(pServer, &wPort);
+
+			// establish connection
+			NETLIBOPENCONNECTION nloc = { 0 };
+			if (m_bGatewayMode)
+				nloc.flags |= NLOCF_HTTPGATEWAY;
+			nloc.szHost = pServer;
+			nloc.wPort = wPort;
+
+			HNETLIBCONN hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : nullptr, &nloc);
+
+			if (hConnection == nullptr)
+				debugLogA("Unable to connect to ICQ new family server.");
+			// we want the handler to be called even if the connecting failed
+			else if (bServerSSL) { /* Start SSL session if requested */
+				debugLogA("(%p) Starting SSL negotiation", Netlib_GetSocket(hConnection));
+
+				if (!Netlib_StartSsl(hConnection, nullptr)) {
+					debugLogA("Unable to connect to ICQ new family server, SSL could not be negotiated");
+					NetLib_CloseConnection(&hConnection, FALSE);
+				}
+			}
+
+			(this->*pCookieData->familyHandler)(hConnection, pCookie, wCookieLen);
+
+			// Free allocated memory
+			// NOTE: "cookie" will get freed when we have connected to the avatar server.
+			disposeChain(&pChain);
+			SAFE_FREE(&pServer);
+			SAFE_FREE((void**)&pCookieData);
+			break;
 		}
-
-		(this->*pCookieData->familyHandler)(hConnection, pCookie, wCookieLen);
-
-		// Free allocated memory
-		// NOTE: "cookie" will get freed when we have connected to the avatar server.
-		disposeChain(&pChain);
-		SAFE_FREE(&pServer);
-		SAFE_FREE((void**)&pCookieData);
-		break;
-	}
 
 	case ICQ_SERVER_EXTSTATUS: // our session data
 		debugLogA("Received owner session data.");
@@ -441,15 +441,15 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 		break;
 
 	case ICQ_ERROR: // Something went wrong, probably the request for avatar family failed
-	{
-		WORD wError;
-		if (wBufferLength >= 2)
-			unpackWord(&pBuffer, &wError);
-		else
-			wError = 0;
+		{
+			WORD wError;
+			if (wBufferLength >= 2)
+				unpackWord(&pBuffer, &wError);
+			else
+				wError = 0;
 
-		LogFamilyError(ICQ_SERVICE_FAMILY, wError);
-	}
+			LogFamilyError(ICQ_SERVICE_FAMILY, wError);
+		}
 		break;
 
 		// Stuff we don't care about
@@ -509,8 +509,8 @@ char* CIcqProto::buildUinList(int subtype, size_t wMaxLen, MCONTACT *hContactRes
 				// not in our SS list, or are awaiting authorization, to our
 				// client side list
 				if (m_bSsiEnabled && getWord(hContact, DBSETTING_SERVLIST_ID, 0) &&
-					 !getByte(hContact, "Auth", 0))
-					 add = 0;
+					!getByte(hContact, "Auth", 0))
+					add = 0;
 
 				// Never add hidden contacts to CS list
 				if (db_get_b(hContact, "CList", "Hidden", 0))
@@ -556,8 +556,7 @@ void CIcqProto::sendEntireListServ(WORD wFamily, WORD wSubtype, int listType)
 		}
 
 		SAFE_FREE((void**)&szList);
-	}
-	while (hResumeContact);
+	} while (hResumeContact);
 }
 
 

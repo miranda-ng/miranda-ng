@@ -62,7 +62,7 @@ char *FindFilePathContainer(const char **files, int iFile, char *szContainer);
 #define OFTF_FILE_RECEIVING         0x0020  // receiving file contents
 #define OFTF_FILE_DONE              0x0040  // file finished
 
-struct oscar_filetransfer: public basic_filetransfer
+struct oscar_filetransfer : public basic_filetransfer
 {
 	int flags; // combination of OFTF_*
 	int containerCount;
@@ -77,13 +77,13 @@ struct oscar_filetransfer: public basic_filetransfer
 	WORD wRemotePort;
 	char *szSavePath;
 	char *szDescription;
-	char *szThisFile; 
+	char *szThisFile;
 	char *szThisPath;
 	// Request sequence
 	WORD wReqNum;
 	// OFT2 header data
 	WORD wEncrypt, wCompress;
-	WORD wFilesCount,wFilesLeft;
+	WORD wFilesCount, wFilesLeft;
 	WORD wPartsCount, wPartsLeft;
 	DWORD64 qwTotalSize;
 	DWORD64 qwThisFileSize;
@@ -118,7 +118,7 @@ struct oscar_filetransfer: public basic_filetransfer
 #define OFT_TYPE_RESUMEREADY        0x0106 // Ok, I am ready to send it
 #define OFT_TYPE_RESUMEACK          0x0207 // Fine, ready to receive
 
-struct oscar_connection 
+struct oscar_connection
 {
 	MCONTACT hContact;
 	HNETLIBCONN hConnection;

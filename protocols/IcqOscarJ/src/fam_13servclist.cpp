@@ -1356,7 +1356,7 @@ void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wItem
 	FreeServerID(wItemId, wItemType == SSI_ITEM_GROUP ? SSIT_GROUP : SSIT_ITEM);
 }
 
-void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
+void CIcqProto::handleRecvAuthRequest(BYTE *buf, size_t wLen)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -1407,7 +1407,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 	SAFE_FREE(&szReason);
 }
 
-void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
+void CIcqProto::handleRecvAdded(BYTE *buf, size_t wLen)
 {
 	PBYTE pBlob, pCurBlob;
 	DBVARIANT dbv = { 0 };
@@ -1461,7 +1461,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
 	AddEvent(NULL, EVENTTYPE_ADDED, time(0), 0, cbBlob, pBlob);
 }
 
-void CIcqProto::handleRecvAuthResponse(unsigned char *buf, size_t wLen)
+void CIcqProto::handleRecvAuthResponse(BYTE *buf, size_t wLen)
 {
 	DWORD dwUin;
 	uid_str szUid;
