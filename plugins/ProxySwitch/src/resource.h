@@ -8,6 +8,7 @@
 #define IDD_OPTIONS                     103
 #define IDI_NOTIF_0                     104
 #define IDI_NOTIF_1                     105
+#define IDD_HELP                        106
 #define IDC_EDIT_USEPROXY               1002
 #define IDC_EDIT_NOPROXY                1004
 #define IDC_CHECK_DEFAULTCOLORS         1009
@@ -16,8 +17,6 @@
 #define IDC_CHECK_IE                    1015
 #define IDC_CHECK_IE2                   1016
 #define IDC_CHECK_FIREFOX               1016
-#define IDC_CHECK_SHOWMYIPMENU          1021
-#define IDC_CHECK_PROXYIPMENU           1022
 #define IDC_CHECK_ALWAY_RECONNECT       1024
 #define IDC_EDIT_HIDEINTF               1025
 #define IDC_RESTARTREQUIRED             1026

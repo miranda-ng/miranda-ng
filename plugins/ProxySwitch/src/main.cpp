@@ -28,6 +28,7 @@ CMPlugin::CMPlugin() :
 {}
 
 HGENMENU hEnableDisablePopupMenu = 0;
+HGENMENU hMenuRoot;
 
 OBJLIST<ACTIVE_CONNECTION> g_arConnections(10, PtrKeySortT);
 mir_cs csConnection_List;
@@ -46,8 +47,6 @@ UINT opt_showProxyState;
 UINT opt_miranda;
 UINT opt_ie;
 UINT opt_firefox;
-UINT opt_showMyIP;
-UINT opt_showProxyIP;
 UINT opt_alwayReconnect;
 UINT opt_startup;
 UINT opt_not_restarted;
@@ -129,9 +128,6 @@ void UpdateInterfacesMenu(void)
 {
 	CMenuItem mi(g_plugin);
 
-	if (!opt_showProxyIP && !opt_not_restarted)
-		return;
-
 	mir_cslock lck(csNIF_List);
 	for (auto &it : g_arNIF) {
 		if (it->MenuItem) {
@@ -146,8 +142,7 @@ void UpdateInterfacesMenu(void)
 			sprintf(svc, "%s%d", MS_PROXYSWITCH_COPYIP2CLIP, idx);
 			mi.position = 0xC00000;
 			mi.flags = CMIF_UNICODE;
-			mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Proxy settings && interfaces"), 0xC0000000);
-			Menu_ConfigureItem(mi.root, MCI_OPT_UID, "68AB766F-09F1-4C4C-9AE1-4135617741C9");
+			mi.root = hMenuRoot;
 
 			SET_UID(mi, 0x8295e40d, 0xa262, 0x434b, 0xa4, 0xb3, 0x57, 0x6b, 0xe0, 0xfc, 0x8f, 0x68);
 			mi.name.w = Print_NIF(it);
@@ -253,68 +248,60 @@ int CMPlugin::Load()
 
 int Init(WPARAM, LPARAM)
 {
-	CMenuItem mi(g_plugin);
-
 	opt_popupPluginInstalled = ServiceExists(MS_POPUP_ADDPOPUP);
-
 
 	hEventRebound = CreateEvent(NULL, TRUE, FALSE, NULL);
 	mir_forkthread(IP_WatchDog, 0);
 
-	if (opt_showMyIP) {
-		hSvcShowMyIP = CreateServiceFunction(MS_PROXYSWITCH_SHOWMYIPADDRS, ShowMyIPAddrs);
-		//ZeroMemory(&mi, sizeof(mi));
-		//mi.cbSize = sizeof(mi);
-		SET_UID(mi, 0x53b0835b, 0x7162, 0x4272, 0x83, 0x3b, 0x3f, 0x60, 0x9e, 0xe, 0x76, 0x4a);
-		mi.position = 0xC0000000;
-		mi.flags = CMIF_UNICODE;
-		mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LOGO));
-		mi.name.w = LPGENW("Show my &IP addresses");
-		mi.pszService = MS_PROXYSWITCH_SHOWMYIPADDRS;
-		Menu_AddMainMenuItem(&mi);
+	// menu item
+	CMenuItem mi(g_plugin);
+	SET_UID(mi, 0x53b0835b, 0x7162, 0x4272, 0x83, 0x3b, 0x3f, 0x60, 0x9e, 0xe, 0x76, 0x4a);
+	mi.position = 0xC0000000;
+	mi.flags = CMIF_UNICODE;
+	mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LOGO));
+	mi.name.w = LPGENW("Show my &IP addresses");
+	mi.pszService = MS_PROXYSWITCH_SHOWMYIPADDRS;
+	HGENMENU hMenu = Menu_AddMainMenuItem(&mi);
+	hSvcShowMyIP = CreateServiceFunction(mi.pszService, ShowMyIPAddrs);
+
+	int opt_showMyIP = db_get_b(NULL, MODULENAME, "ShowMyIP", 100);
+	if (opt_showMyIP != 100) {
+		Menu_SetVisible(hMenu, opt_showMyIP != 0);
+		db_unset(NULL, MODULENAME, "ShowMyIP");
 	}
 
-	if (opt_showProxyIP) {
+	hMenuRoot = mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Proxy settings && interfaces"), 0xC0000000);
+	Menu_ConfigureItem(hMenuRoot, MCI_OPT_UID, "A9684E9E-E621-4962-986F-576897928D27");
 
-		hSvcProxyDisable = CreateServiceFunction(MS_PROXYSWITCH_PROXYDISABLE, ProxyDisable);
-		//ZeroMemory(&mi, sizeof(mi));
-		//mi.cbSize = sizeof(mi);
-		SET_UID(mi, 0xf93289a9, 0x3bad, 0x424b, 0xb2, 0x72, 0x14, 0xa7, 0x45, 0xa5, 0x8, 0x9c);
-		mi.position = 1;
-		mi.name.w = LPGENW("Disable proxy");
-		mi.pszService = MS_PROXYSWITCH_PROXYDISABLE;
-		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Proxy settings && interfaces"), 0xC0000000);
-		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "A9684E9E-E621-4962-986F-576897928D27");
-		//mi.pszPopupName = Translate("Proxy settings && interfaces");
-		//mi.popupPosition = 0xC0000000;
-		Menu_AddMainMenuItem(&mi);
+	SET_UID(mi, 0xf93289a9, 0x3bad, 0x424b, 0xb2, 0x72, 0x14, 0xa7, 0x45, 0xa5, 0x8, 0x9c);
+	mi.position = 1;
+	mi.name.w = LPGENW("Disable proxy");
+	mi.pszService = MS_PROXYSWITCH_PROXYDISABLE;
+	Menu_AddMainMenuItem(&mi);
+	hSvcProxyDisable = CreateServiceFunction(mi.pszService, ProxyDisable);
 
-		hSvcProxyEnable = CreateServiceFunction(MS_PROXYSWITCH_PROXYENABLE, ProxyEnable);
-		//ZeroMemory(&mi, sizeof(mi));
-		//mi.cbSize = sizeof(mi);
-		mi.position = 1;
-		mi.name.w = LPGENW("Enable proxy");
-		mi.pszService = MS_PROXYSWITCH_PROXYENABLE;
-		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Proxy settings && interfaces"), 0xC0000000);
-		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "B37E5BBE-19CF-4C78-AE53-A0DB11656C36");
-		//mi.pszPopupName = Translate("Proxy settings && interfaces");
-		//mi.popupPosition = 0xC0000000;
-		Menu_AddMainMenuItem(&mi);
+	SET_UID(mi, 0xf93289a9, 0x3bad, 0x424b, 0xb2, 0x72, 0x14, 0xa7, 0x45, 0xa5, 0x8, 0x9D);
+	mi.position = 2;
+	mi.name.w = LPGENW("Enable proxy");
+	mi.pszService = MS_PROXYSWITCH_PROXYENABLE;
+	Menu_AddMainMenuItem(&mi);
+	hSvcProxyEnable = CreateServiceFunction(mi.pszService, ProxyEnable);
 
-		UpdateInterfacesMenu();
+	int opt_showProxyIP = db_get_b(NULL, MODULENAME, "ShowProxyIP", 100);
+	if (opt_showProxyIP != 100) {
+		Menu_SetVisible(mi.root, opt_showProxyIP != 0);
+		db_unset(NULL, MODULENAME, "ShowProxyIP");
 	}
+
+	UpdateInterfacesMenu();
 
 	if (opt_popupPluginInstalled) {
-		hSvcPopupSwitch = CreateServiceFunction(MS_PROXYSWITCH_POPUPSWITCH, PopupSwitch);
-		//ZeroMemory(&mi, sizeof(mi));
-		//mi.cbSize = sizeof(mi);
+		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0xC0000000);
 		mi.name.w = LPGENW("IP change notification");
 		mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LOGO));
-		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0xC0000000);
-		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "185AC334-E90E-46C6-83A2-D4E36CB257D9");
-		//mi.pszPopupName = Translate("Popups");
 		mi.pszService = MS_PROXYSWITCH_POPUPSWITCH;
 		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
+		hSvcPopupSwitch = CreateServiceFunction(mi.pszService, PopupSwitch);
 
 		UpdatePopupMenu(opt_popups);
 	}

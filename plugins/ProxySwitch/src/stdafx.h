@@ -101,8 +101,6 @@ extern UINT opt_showProxyState;
 extern UINT opt_miranda;
 extern UINT opt_ie;
 extern UINT opt_firefox;
-extern UINT opt_showMyIP;
-extern UINT opt_showProxyIP;
 extern UINT opt_alwayReconnect;
 extern UINT opt_startup;
 extern UINT opt_not_restarted;

@@ -9,27 +9,24 @@ the proxy settings of Miranda and Internet Explorer accordingly.
 
 int help_shown;
 
-void ShowHelp(HWND hdlg, int showhide_help)
+static INT_PTR CALLBACK HelpProc(HWND hdlg, UINT msg, WPARAM wParam, LPARAM)
 {
-	int showhide_others = showhide_help == SW_SHOW ? SW_HIDE : SW_SHOW;
-	help_shown = showhide_help;
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hdlg);
+		return 1;
 
-	ShowWindow(GetDlgItem(hdlg, IDC_HELP_1), showhide_help);
-	ShowWindow(GetDlgItem(hdlg, IDC_HELP_2), showhide_help);
-	ShowWindow(GetDlgItem(hdlg, IDC_HELP_3), showhide_help);
+	case WM_COMMAND:
+		if (wParam == IDOK || wParam == IDCANCEL)
+			EndDialog(hdlg, 0);
+		break;
 
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_MIRANDA), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_IE), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_FIREFOX), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_PROXYIPMENU), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_SHOWMYIPMENU), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_DEFAULTCOLORS), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_SHOWPROXYSTATUS), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_ALWAY_RECONNECT), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_CHECK_POPUPS), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_BGCOLOR), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_TEXTCOLOR), showhide_others);
-	ShowWindow(GetDlgItem(hdlg, IDC_EDIT_HIDEINTF), showhide_others);
+	case WM_CLOSE:
+		EndDialog(hdlg, 0);
+		break;
+	}
+
+	return 0;
 }
 
 INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam) 
@@ -39,14 +36,11 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 	case WM_INITDIALOG:
 		opt_startup = TRUE;
 		LoadSettings();
-		ShowHelp(hdlg, SW_HIDE);
 		SetDlgItemText(hdlg, IDC_EDIT_USEPROXY, opt_useProxy);
 		SetDlgItemText(hdlg, IDC_EDIT_NOPROXY, opt_noProxy);
 		CheckDlgButton(hdlg, IDC_CHECK_MIRANDA, opt_miranda ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CHECK_IE, opt_ie ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CHECK_FIREFOX, opt_firefox ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_SHOWMYIPMENU, opt_showMyIP ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_PROXYIPMENU, opt_showProxyIP ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CHECK_ALWAY_RECONNECT, opt_alwayReconnect ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemText(hdlg, IDC_EDIT_HIDEINTF, opt_hideIntf);
 		SendDlgItemMessage(hdlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, opt_bgColor);
@@ -68,7 +62,6 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lparam)->code) {
 		case PSN_APPLY:
-			opt_not_restarted = opt_not_restarted || IsDlgButtonChecked(hdlg, IDC_CHECK_PROXYIPMENU) != opt_showProxyIP || IsDlgButtonChecked(hdlg, IDC_CHECK_SHOWMYIPMENU) != opt_showMyIP;
 			ShowWindow(GetDlgItem(hdlg, IDC_RESTARTREQUIRED), opt_not_restarted ? SW_SHOW : SW_HIDE);
 			GetDlgItemText(hdlg, IDC_EDIT_NOPROXY, opt_noProxy, MAX_IPLIST_LENGTH);
 			GetDlgItemText(hdlg, IDC_EDIT_USEPROXY, opt_useProxy, MAX_IPLIST_LENGTH);
@@ -76,8 +69,6 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			opt_miranda = IsDlgButtonChecked(hdlg, IDC_CHECK_MIRANDA);
 			opt_ie = IsDlgButtonChecked(hdlg, IDC_CHECK_IE);
 			opt_firefox = IsDlgButtonChecked(hdlg, IDC_CHECK_FIREFOX);
-			opt_showMyIP = IsDlgButtonChecked(hdlg, IDC_CHECK_SHOWMYIPMENU);
-			opt_showProxyIP = IsDlgButtonChecked(hdlg, IDC_CHECK_PROXYIPMENU);
 			opt_alwayReconnect = IsDlgButtonChecked(hdlg, IDC_CHECK_ALWAY_RECONNECT);
 			opt_popups = IsDlgButtonChecked(hdlg, IDC_CHECK_POPUPS);
 			opt_defaultColors = IsDlgButtonChecked(hdlg, IDC_CHECK_DEFAULTCOLORS);
@@ -93,12 +84,13 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 	case WM_COMMAND:
 		if (opt_startup)
 			return 0;
+
 		if (HIWORD(wparam) == BN_CLICKED && GetFocus() == (HWND)lparam && LOWORD(wparam) != IDC_BTN_HELP)
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-		switch (LOWORD(wparam)) {
 
+		switch (LOWORD(wparam)) {
 		case IDC_BTN_HELP:
-			ShowHelp(hdlg, help_shown == SW_SHOW ? SW_HIDE : SW_SHOW);
+			DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HELP), 0, HelpProc);
 			break;
 
 		case IDC_EDIT_USEPROXY:
@@ -112,11 +104,6 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		case IDC_TEXTCOLOR:
 			if (HIWORD(wparam) == CPN_COLOURCHANGED)
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_CHECK_PROXYIPMENU:
-		case IDC_CHECK_SHOWMYIPMENU:
-			ShowWindow(GetDlgItem(hdlg, IDC_RESTARTREQUIRED), opt_not_restarted || (IsDlgButtonChecked(hdlg, IDC_CHECK_PROXYIPMENU) != opt_showProxyIP || IsDlgButtonChecked(hdlg, IDC_CHECK_SHOWMYIPMENU) != opt_showMyIP) ? SW_SHOW : SW_HIDE);
 			break;
 
 		case IDC_CHECK_DEFAULTCOLORS:
@@ -156,28 +143,28 @@ int OptInit(WPARAM wParam, LPARAM)
 
 void LoadSettings(void) 
 {
-	DBVARIANT dbv;
-	if (db_get(NULL, MODULENAME, "UseProxyIPNets", &dbv))
-		mir_wstrcpy(opt_useProxy, L"");
+	ptrW wszStr(db_get_wsa(NULL, MODULENAME, "UseProxyIPNets"));
+	if (!wszStr)
+		opt_useProxy[0] = 0;
 	else
-		mir_wstrcpy(opt_useProxy, dbv.pwszVal);
-	db_free(&dbv);
-	if (db_get(NULL, MODULENAME, "NoProxyIPNets", &dbv))
-		mir_wstrcpy(opt_noProxy, L"");
+		wcsncpy_s(opt_useProxy, wszStr, _TRUNCATE);
+
+	wszStr = db_get_wsa(NULL, MODULENAME, "NoProxyIPNets");
+	if (!wszStr)
+		opt_noProxy[0] = 0;
 	else
-		mir_wstrcpy(opt_noProxy, dbv.pwszVal);
-	db_free(&dbv);
-	if (db_get(NULL, MODULENAME, "HideInterfaces", &dbv))
-		mir_wstrcpy(opt_hideIntf, L"");
+		wcsncpy_s(opt_noProxy, wszStr, _TRUNCATE);
+
+	wszStr = db_get_wsa(NULL, MODULENAME, "HideInterfaces");
+	if (!wszStr)
+		opt_hideIntf[0] = 0;
 	else
-		mir_wstrcpy(opt_hideIntf, dbv.pwszVal);
-	db_free(&dbv);
+		wcsncpy_s(opt_hideIntf, wszStr, _TRUNCATE);
+	
 	opt_miranda = db_get_b(NULL, MODULENAME, "ManageMirandaProxy", TRUE);
 	opt_ie = db_get_b(NULL, MODULENAME, "ManageIEProxy", FALSE);
 	opt_firefox = db_get_b(NULL, MODULENAME, "ManageFirefoxProxy", FALSE) && Firefox_Installed();
 	opt_alwayReconnect = db_get_b(NULL, MODULENAME, "AlwaysReconnect", FALSE);
-	opt_showMyIP = db_get_b(NULL, MODULENAME, "ShowMyIP", TRUE);
-	opt_showProxyIP = db_get_b(NULL, MODULENAME, "ShowProxyIP", TRUE);
 	opt_popups = db_get_b(NULL, MODULENAME, "PopupEnabled", TRUE);
 	opt_defaultColors = db_get_b(NULL, MODULENAME, "PopupDefaultColors", TRUE);
 	opt_showProxyState = db_get_b(NULL, MODULENAME, "ShowProxyStatus", TRUE);
@@ -194,8 +181,6 @@ void SaveSettings(void)
 	db_set_b(NULL, MODULENAME, "ManageIEProxy", (BYTE)opt_ie);
 	db_set_b(NULL, MODULENAME, "ManageFirefoxProxy", (BYTE)opt_firefox);
 	db_set_b(NULL, MODULENAME, "AlwaysReconnect", (BYTE)opt_alwayReconnect);
-	db_set_b(NULL, MODULENAME, "ShowMyIP", (BYTE)opt_showMyIP);
-	db_set_b(NULL, MODULENAME, "ShowProxyIP", (BYTE)opt_showProxyIP);
 	db_set_b(NULL, MODULENAME, "PopupEnabled", (BYTE)opt_popups);
 	db_set_b(NULL, MODULENAME, "PopupDefaultColors", (BYTE)opt_defaultColors);
 	db_set_b(NULL, MODULENAME, "ShowProxyStatus", (BYTE)opt_showProxyState);
