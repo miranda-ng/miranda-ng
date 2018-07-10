@@ -32,6 +32,25 @@ extern bool bIconsDisabled;
 extern int DefaultImageListColorDepth;
 void RebuildProtoMenus();
 
+MIR_APP_DLL(void) Menu_SetVisible(TMO_IntMenuItem *pimi, bool bVisible)
+{
+	if ((pimi = MO_GetIntMenuItem(pimi)) == nullptr)
+		return;
+
+	char szModule[256], menuItemName[256];
+	mir_snprintf(szModule, "%s_Items", pimi->parent->pszName);
+	bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
+
+	ptrW wszValue(db_get_wsa(0, szModule, menuItemName));
+	if (wszValue == nullptr)
+		wszValue = mir_wstrdup(L"1;;;");
+
+	wszValue[0] = bVisible ? '1' : '0';
+	db_set_ws(0, szModule, menuItemName, wszValue);
+
+	Menu_ShowItem(pimi, bVisible);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct MenuItemOptData : public MZeroedObject

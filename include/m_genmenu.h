@@ -171,7 +171,7 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(int hMenuObject, int key);
 EXTERN_C MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// changes menu item's visibility
+// temporarily changes menu item's visibility
 
 EXTERN_C MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow);
 
@@ -179,6 +179,11 @@ EXTERN_C MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow);
 // turns a menu item's check on & off
 
 EXTERN_C MIR_APP_DLL(void) Menu_SetChecked(HGENMENU hMenuItem, bool bSet);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// sets menu item's Visible checkbox programmatically and write it to the options
+
+EXTERN_C MIR_APP_DLL(void) Menu_SetVisible(HGENMENU pimi, bool bVisible);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Creates a new menu object

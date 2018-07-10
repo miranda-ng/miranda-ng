@@ -630,3 +630,4 @@ Netlib_GetUserSettingsByName @658
 Netlib_SetUserSettingsByName @659
 ?Backup@MDatabaseCommon@@UEAAHPEB_W@Z @660 NONAME
 ?addFrame@CMPluginBase@@QEAAHPEBUCLISTFrame@@@Z @661 NONAME
+Menu_SetVisible @662
