@@ -28,7 +28,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>src\libgadu;%(AdditionalIncludeDirectories);$(SolutionDir)..\libs\zlib\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src\libgadu;$(ProjectDir)..\..\libs\zlib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PrecompiledHeaderFile>gg.h</PrecompiledHeaderFile>
     </ClCompile>
