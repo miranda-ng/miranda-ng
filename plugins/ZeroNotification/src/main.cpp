@@ -85,18 +85,21 @@ static INT_PTR NoSoundMenuCommand(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	if (!db_get_b(NULL, MODULENAME, "HideMenu", 1)) {
-		CreateServiceFunction(MODULENAME "/MenuCommand", NoSoundMenuCommand);
+	CMenuItem mi(g_plugin);
+	SET_UID(mi, 0x6bd635eb, 0xc4bb, 0x413b, 0xb9, 0x3, 0x81, 0x6d, 0x8f, 0xf1, 0x9b, 0xb0);
+	mi.position = -0x7FFFFFFF;
+	mi.flags = CMIF_UNICODE;
+	mi.pszService = MODULENAME "/MenuCommand";
+	noSoundMenu = Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, NoSoundMenuCommand);
 
-		CMenuItem mi(g_plugin);
-		SET_UID(mi, 0x6bd635eb, 0xc4bb, 0x413b, 0xb9, 0x3, 0x81, 0x6d, 0x8f, 0xf1, 0x9b, 0xb0);
-		mi.position = -0x7FFFFFFF;
-		mi.flags = CMIF_UNICODE;
-		mi.pszService = MODULENAME "/MenuCommand";
-		noSoundMenu = Menu_AddMainMenuItem(&mi);
-
-		UpdateMenuItem();
+	int bHideMenu = db_get_b(NULL, MODULENAME, "HideMenu", 100);
+	if (bHideMenu != 100) {
+		Menu_SetVisible(noSoundMenu, !bHideMenu);
+		db_unset(0, MODULENAME, "HideMenu");
 	}
+
+	UpdateMenuItem();
 
 	HookEvent(ME_PROTO_ACK, ProtoAck);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SoundSettingChanged);

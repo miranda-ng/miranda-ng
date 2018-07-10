@@ -6,7 +6,6 @@
 #define IDC_NOSOUND                     1000
 #define IDC_NOBLINK                     1002
 #define IDC_NOCLCBLINK                  1003
-#define IDC_HIDEMENU                    1008
 
 // Next default values for new objects
 // 
