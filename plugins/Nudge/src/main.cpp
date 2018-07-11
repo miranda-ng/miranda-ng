@@ -353,7 +353,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	p->hEvent = hevent;
 
 	wchar_t soundDesc[MAXMODULELABELLENGTH + 10];
-	mir_snwprintf(soundDesc, LPGENW("Nudge for %s"), proto->tszAccountName);
+	mir_snwprintf(soundDesc, TranslateT("Nudge for %s"), proto->tszAccountName);
 	g_plugin.addSound(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
 
 	arNudges.insert(p);
