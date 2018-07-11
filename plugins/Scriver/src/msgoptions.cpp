@@ -290,10 +290,10 @@ public:
 		chkCascade.SetState(db_get_b(0, SRMM_MODULE, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE));
 		chkSavePerContact.SetState(db_get_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT));
 
-		cmbSendMode.AddString(LPGENW("Enter"));
-		cmbSendMode.AddString(LPGENW("Double 'Enter'"));
-		cmbSendMode.AddString(LPGENW("Ctrl+Enter"));
-		cmbSendMode.AddString(LPGENW("Shift+Enter"));
+		cmbSendMode.AddString(TranslateT("Enter"));
+		cmbSendMode.AddString(TranslateT("Double 'Enter'"));
+		cmbSendMode.AddString(TranslateT("Ctrl+Enter"));
+		cmbSendMode.AddString(TranslateT("Shift+Enter"));
 		cmbSendMode.SetCurSel(g_dat.sendMode);
 
 		onChange_AutoPopup(0);
