@@ -105,9 +105,9 @@
 [Row gap]
 Промежуток между строками
 [Minimum row height:]
-Мин. высота строки
+Минимальная высота строки
 [Group row height]
-Мин. высота группы
+Минимальная высота группы
 [Indent groups by:]
 Отступ для групп:
 [Inner row vertical padding]
@@ -355,7 +355,7 @@
 [Unload skin]
 Убрать скин
 [Make selection shape equal to selected item]
-Выделяемая область равна выбранному эл-ту
+Выделяемая область равна выбранному элементу
 [Blend selection with background]
 Смешивать выделение с фоном
 [Automatically fill background with wallpaper (tiled wallpaper only)]
