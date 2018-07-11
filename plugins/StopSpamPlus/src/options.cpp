@@ -31,7 +31,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		edtDescr.SetText(pluginDescription);
+		edtDescr.SetText(TranslateW(pluginDescription));
 		return true;
 	}
 };
