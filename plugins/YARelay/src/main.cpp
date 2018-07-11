@@ -19,8 +19,6 @@ Features:
 
 #include "stdafx.h"
 
-#include "../../utils/mir_buffer.h"
-
 CMPlugin g_plugin;
 
 MCONTACT hForwardFrom, hForwardTo;
@@ -130,11 +128,11 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 	tm *tm_time = gmtime(&tTime);
 
 	// build a message
-	Buffer<char> szUtfMsg;
+	CMStringA szUtfMsg;
 	T2Utf szTemplate(tszForwardTemplate);
 	for (char *p = szTemplate; *p; p++) {
 		if (*p != '%') {
-			szUtfMsg.append(*p);
+			szUtfMsg.AppendChar(*p);
 			continue;
 		}
 
@@ -142,7 +140,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		switch(*++p) {
 		case 'u':
 		case 'U':
-			szUtfMsg.append(T2Utf(Clist_GetContactDisplayName(hContact)));
+			szUtfMsg.Append(T2Utf(Clist_GetContactDisplayName(hContact)));
 			break;
 
 		case 'i':
@@ -154,43 +152,43 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 				else
 					mir_snwprintf(buf, L"%p", hContact);
 			}
-			szUtfMsg.append(T2Utf(buf));
+			szUtfMsg.Append(T2Utf(buf));
 			break;
 
 		case 't':
 		case 'T':
 			wcsftime(buf, 10, L"%H:%M", tm_time);
-			szUtfMsg.append(T2Utf(buf));
+			szUtfMsg.Append(T2Utf(buf));
 			break;
 
 		case 'd':
 		case 'D':
 			wcsftime(buf, 12, L"%d/%m/%Y", tm_time);
-			szUtfMsg.append(T2Utf(buf));
-			break;
+			szUtfMsg.Append(T2Utf(buf));
+			break;	
 
 		case 'm':
 		case 'M':
 			if (dbei.flags & DBEF_UTF)
-				szUtfMsg.append((char*)dbei.pBlob, dbei.cbBlob);
+				szUtfMsg.Append((char*)dbei.pBlob, dbei.cbBlob);
 			else
-				szUtfMsg.append(ptrA(mir_utf8encode((char*)dbei.pBlob)));
+				szUtfMsg.Append(ptrA(mir_utf8encode((char*)dbei.pBlob)));
 			break;
 
 		case '%':
-			szUtfMsg.append('%');
+			szUtfMsg.AppendChar('%');
 			break;
 		}
 	}
 
 	int iPartCount = 1;
-	size_t cbMsgSize = szUtfMsg.len, cbPortion = cbMsgSize;
+	size_t cbMsgSize = szUtfMsg.GetLength(), cbPortion = cbMsgSize;
 	if (iSplit > 0) {
-		iPartCount = min(iSendParts, int((szUtfMsg.len + iSplitMaxSize) / iSplitMaxSize));
+		iPartCount = min(iSendParts, int((szUtfMsg.GetLength() + iSplitMaxSize) / iSplitMaxSize));
 		cbPortion = iSplitMaxSize;
 	}
 
-	char *szBuf = szUtfMsg.str;
+	const char *szBuf = szUtfMsg;
 	for (int i=0; i < iPartCount; i++, szBuf += cbPortion) {
 		char *szMsgPart = (char*)mir_alloc(cbPortion+1);
 		strncpy(szMsgPart, szBuf, cbPortion);
