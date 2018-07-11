@@ -400,7 +400,7 @@ Chat_UpdateOptions @418 NONAME
 ?UpdateOptions@CSrmmBaseDialog@@UAEXXZ @420 NONAME
 ?ShowColorChooser@CSrmmBaseDialog@@QAEXH@Z @421 NONAME
 ?ShowFilterMenu@CSrmmBaseDialog@@UAEXXZ @422 NONAME
-?OnInitDialog@CSrmmBaseDialog@@MAEXXZ @423 NONAME
+?OnInitDialog@CSrmmBaseDialog@@MAE_NXZ @423 NONAME
 ?StreamInEvents@CSrmmBaseDialog@@UAEXPAULOGINFO@@_N@Z @424 NONAME
 ?AddLog@CSrmmBaseDialog@@UAEXXZ @425 NONAME
 ?RedrawLog2@CSrmmBaseDialog@@QAEXXZ @426 NONAME

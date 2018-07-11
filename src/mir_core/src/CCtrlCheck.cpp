@@ -35,12 +35,13 @@ BOOL CCtrlCheck::OnCommand(HWND, WORD, WORD)
 	return TRUE;
 }
 
-void CCtrlCheck::OnApply()
+bool CCtrlCheck::OnApply()
 {
 	CSuper::OnApply();
 
 	if (m_dbLink != nullptr)
 		SaveInt(GetState());
+	return true;
 }
 
 void CCtrlCheck::OnReset()

@@ -172,8 +172,8 @@ public:
 	CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess);
 
 protected:
-	void OnInitDialog();
-	int Resizer(UTILRESIZECONTROL *urc);
+	bool OnInitDialog() override;
+		int Resizer(UTILRESIZECONTROL *urc);
 
 private:
 	CNoteItem *m_pNote;
@@ -201,10 +201,11 @@ private:
 		EndDialog(m_hwnd, TRUE);
 	}
 
-	void OnClose()
+	bool OnClose() override
 	{
-		if (m_fnProcess) (m_proto->*m_fnProcess)(m_pNote, false);
-		CSuper::OnClose();
+		if (m_fnProcess)
+			(m_proto->*m_fnProcess)(m_pNote, false);
+		return CSuper::OnClose();
 	}
 };
 
@@ -233,7 +234,7 @@ CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TF
 	m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
 }
 
-void CJabberDlgNoteItem::OnInitDialog()
+bool CJabberDlgNoteItem::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
@@ -251,6 +252,7 @@ void CJabberDlgNoteItem::OnInitDialog()
 	m_txtTitle.SetText(m_pNote->GetTitle());
 	m_txtText.SetText(m_pNote->GetText());
 	m_txtTags.SetText(m_pNote->GetTagsStr());
+	return true;
 }
 
 int CJabberDlgNoteItem::Resizer(UTILRESIZECONTROL *urc)
@@ -440,8 +442,8 @@ public:
 	void UpdateData();
 
 protected:
-	void OnInitDialog();
-	void OnClose();
+	bool OnInitDialog() override;
+	bool OnClose() override;
 	void OnDestroy();
 	int Resizer(UTILRESIZECONTROL *urc);
 
@@ -635,7 +637,7 @@ void CJabberDlgNotes::UpdateData()
 	EnableControls();
 }
 
-void CJabberDlgNotes::OnInitDialog()
+bool CJabberDlgNotes::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
@@ -650,21 +652,19 @@ void CJabberDlgNotes::OnInitDialog()
 	m_lstNotes.SetFonts(m_hfntNormal, m_hfntSmall, m_hfntBold);
 
 	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
+	return true;
 }
 
-void CJabberDlgNotes::OnClose()
+bool CJabberDlgNotes::OnClose()
 {
-	if (m_proto->m_notes.IsModified()) {
-		if (IDYES != MessageBox(m_hwnd, TranslateT("Notes are not saved, close this window without uploading data to server?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2)) {
-			m_lresult = TRUE;
-			return;
-		}
-	}
+	if (m_proto->m_notes.IsModified())
+		if (IDYES != MessageBox(m_hwnd, TranslateT("Notes are not saved, close this window without uploading data to server?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2))
+			return false;
 
 	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
 	DeleteObject(m_hfntSmall);
 	DeleteObject(m_hfntBold);
-	CSuper::OnClose();
+	return CSuper::OnClose();
 }
 
 void CJabberDlgNotes::OnDestroy()

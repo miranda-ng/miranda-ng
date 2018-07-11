@@ -50,7 +50,7 @@ public:
 		ctrlDevelopers.UseSystemColors();
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		ptrW wszCopyright(mir_utf8decodeW(LEGAL_COPYRIGHT));
 		if (wszCopyright == nullptr)
@@ -82,9 +82,10 @@ public:
 		ctrlCredits.Hide();
 
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_MIRANDA);
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		pAboutDialog = nullptr;
 		Window_FreeIcon_IcoLib(m_hwnd);

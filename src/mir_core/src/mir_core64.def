@@ -738,13 +738,13 @@ mir_wstrcmpi                  @280
 ?MapIndexToID@CCtrlListView@@QEAAII@Z @909 NONAME
 ?NotifyChange@CCtrlBase@@QEAAXXZ @910 NONAME
 ?NotifyControls@CDlgBase@@AEAAXP8CCtrlBase@@EAAXXZ@Z @911 NONAME
-?OnApply@CCtrlBase@@UEAAXXZ @912 NONAME
-?OnApply@CCtrlCheck@@UEAAXXZ @913 NONAME
-?OnApply@CCtrlCombo@@UEAAXXZ @914 NONAME
-?OnApply@CCtrlEdit@@UEAAXXZ @915 NONAME
-?OnApply@CDlgBase@@MEAAXXZ @916 NONAME
+?OnApply@CCtrlBase@@UEAA_NXZ @912 NONAME
+?OnApply@CCtrlCheck@@UEAA_NXZ @913 NONAME
+?OnApply@CCtrlCombo@@UEAA_NXZ @914 NONAME
+?OnApply@CCtrlEdit@@UEAA_NXZ @915 NONAME
+?OnApply@CDlgBase@@MEAA_NXZ @916 NONAME
 ?OnChange@CDlgBase@@MEAAXXZ @917 NONAME
-?OnClose@CDlgBase@@MEAAXXZ @918 NONAME
+?OnClose@CDlgBase@@MEAA_NXZ @918 NONAME
 ?OnCommand@CCtrlBase@@UEAAHPEAUHWND__@@GG@Z @919 NONAME
 ?OnCommand@CCtrlButton@@UEAAHPEAUHWND__@@GG@Z @920 NONAME
 ?OnCommand@CCtrlCheck@@UEAAHPEAUHWND__@@GG@Z @921 NONAME
@@ -762,7 +762,7 @@ mir_wstrcmpi                  @280
 ?OnInit@CCtrlData@@UEAAXXZ @934 NONAME
 ?OnInit@CCtrlMButton@@UEAAXXZ @936 NONAME
 ?OnInit@CCtrlPages@@MEAAXXZ @937 NONAME
-?OnInitDialog@CDlgBase@@MEAAXXZ @938 NONAME
+?OnInitDialog@CDlgBase@@MEAA_NXZ @938 NONAME
 ?OnMeasureItem@CCtrlBase@@UEAAHPEAUtagMEASUREITEMSTRUCT@@@Z @939 NONAME
 ?OnNotify@CCtrlBase@@UEAAHHPEAUtagNMHDR@@@Z @940 NONAME
 ?OnNotify@CCtrlClc@@MEAAHHPEAUtagNMHDR@@@Z @941 NONAME
@@ -907,8 +907,7 @@ mir_wstrcmpi                  @280
 ?UnselectAll@CCtrlTreeView@@QEAAXXZ @1093 NONAME
 ?MoveItemAbove@CCtrlTreeView@@AEAAPEAU_TREEITEM@@PEAU2@00@Z @1094 NONAME
 ?GetCurrPage@CCtrlPages@@AEAAPEAUTPageInfo@1@XZ @1095 NONAME
-?Fail@CDlgBase@@QEAAXXZ @1096 NONAME
-?OnApply@CCtrlPages@@MEAAXXZ @1097 NONAME
+?OnApply@CCtrlPages@@MEAA_NXZ @1097 NONAME
 ?OnReset@CCtrlPages@@MEAAXXZ @1098 NONAME
 Bitmap_GetFilter @1099 
 Bitmap_Load @1100
@@ -1056,7 +1055,7 @@ IsTerminalDisconnected @1245
 ?Default_OnClick@CCtrlHyperlink@@IEAAXPEAV1@@Z @1250 NONAME
 ?GetUrl@CCtrlHyperlink@@QEAAPEBDXZ @1251 NONAME
 ?IsChecked@CCtrlCheck@@QEAA_NXZ @1252 NONAME
-?OnApply@CCtrlSpin@@UEAAXXZ @1253 NONAME
+?OnApply@CCtrlSpin@@UEAA_NXZ @1253 NONAME
 ?OnReset@CCtrlSpin@@UEAAXXZ @1254 NONAME
 ?SetUrl@CCtrlHyperlink@@QEAAXPEBD@Z @1255 NONAME
 ??0CCtrlLabel@@QEAA@PEAVCDlgBase@@H@Z @1256 NONAME
@@ -1068,3 +1067,4 @@ CallObjectEventHook @1259
 ?CreateLink@CDlgBase@@IEAAXAEAVCCtrlData@@PEBDEK@Z @1262 NONAME
 ?CreateLink@CDlgBase@@IEAAXAEAVCCtrlData@@PEBDPEA_W@Z @1263 NONAME
 ?CheckRowCount@CCtrlPages@@AEAAXXZ @1264 NONAME
+?VerifyControls@CDlgBase@@AEAA_NP8CCtrlBase@@EAA_NXZ@Z @1265 NONAME

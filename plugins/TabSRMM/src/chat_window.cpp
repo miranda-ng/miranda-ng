@@ -497,7 +497,7 @@ void CChatRoomDlg::tabClearLog()
 	}
 }
 
-void CChatRoomDlg::OnInitDialog()
+bool CChatRoomDlg::OnInitDialog()
 {
 	CTabBaseDlg::OnInitDialog();
 
@@ -566,6 +566,7 @@ void CChatRoomDlg::OnInitDialog()
 	UpdateNickList();
 	m_pContainer->m_hwndActive = m_hwnd;
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
+	return true;
 }
 
 void CChatRoomDlg::OnDestroy()

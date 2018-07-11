@@ -579,7 +579,7 @@ public:
 		m_btnDeny.OnClick = Callback(this, &CJabberDlgHttpAuth::btnDeny_OnClick);
 	}
 
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 
@@ -589,6 +589,7 @@ public:
 		SetDlgItemText(m_hwnd, IDC_TXT_FROM, m_pParams->m_szFrom);
 		SetDlgItemText(m_hwnd, IDC_TXT_ID, m_pParams->m_szId);
 		SetDlgItemText(m_hwnd, IDC_TXT_METHOD, m_pParams->m_szMethod);
+		return true;
 	}
 
 	BOOL SendReply(BOOL bAuthorized)

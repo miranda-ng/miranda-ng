@@ -52,22 +52,22 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		PROTO_INTERFACE(pszModuleName, ptszUserName)
 	{}
 
-	virtual MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override
 	{
 		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLIST, flags, (LPARAM)psr);
 	}
 
-	virtual MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override
+	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override
 	{
 		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLISTBYEVENT, MAKELONG(flags, iContact), hDbEvent);
 	}
 
-	virtual int Authorize(MEVENT hDbEvent) override
+	int Authorize(MEVENT hDbEvent) override
 	{
 		return (int)ProtoCallService(m_szModuleName, PS_AUTHALLOW, (WPARAM)hDbEvent, 0);
 	}
 
-	virtual int AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override
+	int AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override
 	{
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, (LPARAM)szReason);
@@ -75,13 +75,13 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, _T2A(szReason));
 	}
 
-	virtual int AuthRecv(MCONTACT hContact, PROTORECVEVENT *evt) override
+	int AuthRecv(MCONTACT hContact, PROTORECVEVENT *evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_AUTH, 0, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_AUTH, 0, (LPARAM)&ccs);
 	}
 
-	virtual int AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override
+	int AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override
 	{
 		CCSDATA ccs = { hContact, PSS_AUTHREQUEST, 0, (LPARAM)szMessage };
 		if (m_iVersion > 1)
@@ -93,7 +93,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	virtual HANDLE FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath) override
+	HANDLE FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath) override
 	{
 		CCSDATA ccs = { hContact, PSS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
 		if (m_iVersion > 1)
@@ -105,13 +105,13 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	virtual int FileCancel(MCONTACT hContact, HANDLE hTransfer) override
+	int FileCancel(MCONTACT hContact, HANDLE hTransfer) override
 	{
 		CCSDATA ccs = { hContact, PSS_FILECANCEL, (WPARAM)hTransfer, 0 };
 		return (int)ProtoCallService(m_szModuleName, PSS_FILECANCEL, 0, (LPARAM)&ccs);
 	}
 
-	virtual int FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason) override
+	int FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason) override
 	{
 		CCSDATA ccs = { hContact, PSS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
 		if (m_iVersion > 1)
@@ -137,18 +137,18 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	virtual INT_PTR GetCaps(int type, MCONTACT hContact) override
+	INT_PTR GetCaps(int type, MCONTACT hContact) override
 	{
 		return ProtoCallService(m_szModuleName, PS_GETCAPS, type, hContact);
 	}
 
-	virtual int GetInfo(MCONTACT hContact, int flags) override
+	int GetInfo(MCONTACT hContact, int flags) override
 	{
 		CCSDATA ccs = { hContact, PSS_GETINFO, (WPARAM)flags, 0 };
 		return ProtoCallService(m_szModuleName, PSS_GETINFO, 0, (LPARAM)&ccs);
 	}
 
-	virtual HANDLE SearchBasic(const wchar_t* id) override
+	HANDLE SearchBasic(const wchar_t* id) override
 	{
 		if (m_iVersion > 1)
 			return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, (LPARAM)id);
@@ -156,14 +156,14 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, _T2A(id));
 	}
 
-	virtual HANDLE SearchByEmail(const wchar_t* email) override
+	HANDLE SearchByEmail(const wchar_t* email) override
 	{
 		if (m_iVersion > 1)
 			return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, (LPARAM)email);
 		return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, _T2A(email));
 	}
 
-	virtual HANDLE SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName) override
+	HANDLE SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName) override
 	{
 		PROTOSEARCHBYNAME psn;
 		psn.pszNick = (wchar_t*)mir_u2a(nick);
@@ -177,48 +177,48 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	}
 
-	virtual HWND SearchAdvanced(HWND owner) override
+	HWND SearchAdvanced(HWND owner) override
 	{
 		return (HWND)ProtoCallService(m_szModuleName, PS_SEARCHBYADVANCED, 0, (LPARAM)owner);
 	}
 
-	virtual HWND CreateExtendedSearchUI(HWND owner) override
+	HWND CreateExtendedSearchUI(HWND owner) override
 	{
 		return (HWND)ProtoCallService(m_szModuleName, PS_CREATEADVSEARCHUI, 0, (LPARAM)owner);
 	}
 
-	virtual int RecvContacts(MCONTACT hContact, PROTORECVEVENT* evt) override
+	int RecvContacts(MCONTACT hContact, PROTORECVEVENT* evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_CONTACTS, 0, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	virtual int RecvFile(MCONTACT hContact, PROTORECVFILE* evt) override
+	int RecvFile(MCONTACT hContact, PROTORECVFILE* evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)evt };
 		return ProtoCallService(m_szModuleName, PSR_FILE, 0, (LPARAM)&ccs);
 	}
 
-	virtual int RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt) override
+	int RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)evt };
 		INT_PTR res = ProtoCallService(m_szModuleName, PSR_MESSAGE, 0, (LPARAM)&ccs);
 		return (res == CALLSERVICE_NOTFOUND) ? -1 : (int)res;
 	}
 
-	virtual int RecvUrl(MCONTACT hContact, PROTORECVEVENT* evt) override
+	int RecvUrl(MCONTACT hContact, PROTORECVEVENT* evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_URL, 0, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_URL, 0, (LPARAM)&ccs);
 	}
 
-	virtual int SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override
+	int SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override
 	{
 		CCSDATA ccs = { hContact, PSS_CONTACTS, MAKEWPARAM(flags, nContacts), (LPARAM)hContactsList };
 		return (int)ProtoCallService(m_szModuleName, PSS_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	virtual HANDLE SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles) override
+	HANDLE SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles) override
 	{
 		CCSDATA ccs = { hContact, PSS_FILE, (WPARAM)szDescription, (LPARAM)ppszFiles };
 
@@ -233,49 +233,49 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	virtual int SendMsg(MCONTACT hContact, int /*flags*/, const char *msg) override
+	int SendMsg(MCONTACT hContact, int /*flags*/, const char *msg) override
 	{
 		CCSDATA ccs = { hContact, PSS_MESSAGE, 0, (LPARAM)msg };
 		return (int)ProtoCallService(m_szModuleName, PSS_MESSAGE, 0, (LPARAM)&ccs);
 	}
 
-	virtual int SendUrl(MCONTACT hContact, int flags, const char* url) override
+	int SendUrl(MCONTACT hContact, int flags, const char* url) override
 	{
 		CCSDATA ccs = { hContact, PSS_URL, (WPARAM)flags, (LPARAM)url };
 		return (int)ProtoCallService(m_szModuleName, PSS_URL, 0, (LPARAM)&ccs);
 	}
 
-	virtual int SetApparentMode(MCONTACT hContact, int mode) override
+	int SetApparentMode(MCONTACT hContact, int mode) override
 	{
 		CCSDATA ccs = { hContact, PSS_SETAPPARENTMODE, (WPARAM)mode, 0 };
 		return (int)ProtoCallService(m_szModuleName, PSS_SETAPPARENTMODE, 0, (LPARAM)&ccs);
 	}
 
-	virtual int SetStatus(int iNewStatus) override
+	int SetStatus(int iNewStatus) override
 	{
 		return (int)ProtoCallService(m_szModuleName, PS_SETSTATUS, iNewStatus, 0);
 	}
 
-	virtual HANDLE GetAwayMsg(MCONTACT hContact) override
+	HANDLE GetAwayMsg(MCONTACT hContact) override
 	{
 		CCSDATA ccs = { hContact, PSS_GETAWAYMSG, 0, 0 };
 		return (HANDLE)ProtoCallService(m_szModuleName, PSS_GETAWAYMSG, 0, (LPARAM)&ccs);
 	}
 
-	virtual int RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt) override
+	int RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_AWAYMSG, (WPARAM)statusMode, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_AWAYMSG, 0, (LPARAM)&ccs);
 	}
 
-	virtual int SetAwayMsg(int iStatus, const wchar_t *msg) override
+	int SetAwayMsg(int iStatus, const wchar_t *msg) override
 	{
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)msg);
 		return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, _T2A(msg));
 	}
 
-	virtual int UserIsTyping(MCONTACT hContact, int type) override
+	int UserIsTyping(MCONTACT hContact, int type) override
 	{
 		CCSDATA ccs = { hContact, PSS_USERISTYPING, hContact, type };
 		return ProtoCallService(m_szModuleName, PSS_USERISTYPING, 0, (LPARAM)&ccs);

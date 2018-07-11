@@ -7,7 +7,7 @@ CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto)
 	m_ok.OnClick = Callback(this, &CSteamPasswordEditor::OnOk);
 }
 
-void CSteamPasswordEditor::OnInitDialog()
+bool CSteamPasswordEditor::OnInitDialog()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
@@ -16,6 +16,7 @@ void CSteamPasswordEditor::OnInitDialog()
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 64, 0);
 
 	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "PasswordWindow");
+	return true;
 }
 
 void CSteamPasswordEditor::OnOk(CCtrlButton*)
@@ -27,9 +28,10 @@ void CSteamPasswordEditor::OnOk(CCtrlButton*)
 	EndDialog(m_hwnd, DIALOG_RESULT_OK);
 }
 
-void CSteamPasswordEditor::OnClose()
+bool CSteamPasswordEditor::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "PasswordWindow");
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +47,7 @@ CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, const char *domain)
 	m_ok.OnClick = Callback(this, &CSteamGuardDialog::OnOk);
 }
 
-void CSteamGuardDialog::OnInitDialog()
+bool CSteamGuardDialog::OnInitDialog()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
@@ -54,6 +56,7 @@ void CSteamGuardDialog::OnInitDialog()
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 5, 0);
 
 	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
+	return true;
 }
 
 void CSteamGuardDialog::OnOk(CCtrlButton*)
@@ -62,9 +65,10 @@ void CSteamGuardDialog::OnOk(CCtrlButton*)
 	EndDialog(m_hwnd, DIALOG_RESULT_OK);
 }
 
-void CSteamGuardDialog::OnClose()
+bool CSteamGuardDialog::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
+	return true;
 }
 
 const char* CSteamGuardDialog::GetGuardCode()
@@ -83,7 +87,7 @@ m_text(this, IDC_TEXT)
 	m_ok.OnClick = Callback(this, &CSteamTwoFactorDialog::OnOk);
 }
 
-void CSteamTwoFactorDialog::OnInitDialog()
+bool CSteamTwoFactorDialog::OnInitDialog()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
@@ -92,6 +96,7 @@ void CSteamTwoFactorDialog::OnInitDialog()
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 5, 0);
 
 	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "TwoFactorWindow");
+	return true;
 }
 
 void CSteamTwoFactorDialog::OnOk(CCtrlButton*)
@@ -100,9 +105,10 @@ void CSteamTwoFactorDialog::OnOk(CCtrlButton*)
 	EndDialog(m_hwnd, DIALOG_RESULT_OK);
 }
 
-void CSteamTwoFactorDialog::OnClose()
+bool CSteamTwoFactorDialog::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "TwoFactorWindow");
+	return true;
 }
 
 const char* CSteamTwoFactorDialog::GetTwoFactorCode()
@@ -130,7 +136,7 @@ CSteamCaptchaDialog::~CSteamCaptchaDialog()
 		mir_free(m_captchaImage);
 }
 
-void CSteamCaptchaDialog::OnInitDialog()
+bool CSteamCaptchaDialog::OnInitDialog()
 {
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
@@ -139,6 +145,7 @@ void CSteamCaptchaDialog::OnInitDialog()
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 6, 0);
 
 	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "CaptchaWindow");
+	return true;
 }
 
 void CSteamCaptchaDialog::OnOk(CCtrlButton*)
@@ -147,9 +154,10 @@ void CSteamCaptchaDialog::OnOk(CCtrlButton*)
 	EndDialog(m_hwnd, DIALOG_RESULT_OK);
 }
 
-void CSteamCaptchaDialog::OnClose()
+bool CSteamCaptchaDialog::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "CaptchaWindow");
+	return true;
 }
 
 INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

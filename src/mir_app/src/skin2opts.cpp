@@ -177,8 +177,8 @@ public:
 		m_preview.OnBeginDrag = Callback(this, &CIconImportDlg::OnBeginDragPreview);
 	}
 
-	virtual void OnInitDialog() override;
-	virtual void OnClose() override;
+	bool OnInitDialog() override;
+	bool OnClose() override;
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override
 	{
@@ -270,7 +270,7 @@ public:
 		MySetCursor(IDC_ARROW);
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override; // forward declaration
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override; // forward declaration
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -563,7 +563,7 @@ public:
 		m_categoryList.OnBuildMenu = Callback(this, &CIcoLibOptsDlg::OnTreeMenu);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		// Reset temporary data & upload sections list
 		{
@@ -584,9 +584,10 @@ public:
 		m_preview.SetIconSpacing(56, 67);
 
 		RebuildTree();
+		return true;
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
 		case WM_NOTIFY:
@@ -623,7 +624,7 @@ public:
 		}
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		{
 			mir_cslock lck(csIconList);
@@ -646,9 +647,10 @@ public:
 		}
 
 		DoIconsChanged();
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		HTREEITEM hti = m_categoryList.GetRoot();
 		while (hti != nullptr) {
@@ -821,7 +823,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIconImportDlg::OnInitDialog()
+bool CIconImportDlg::OnInitDialog()
 {
 	m_preview.SetImageList(ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 100), LVSIL_NORMAL);
 	m_preview.SetIconSpacing(56, 67);
@@ -845,11 +847,13 @@ void CIconImportDlg::OnInitDialog()
 
 	SHAutoComplete(m_iconSet.GetHwnd(), 1);
 	m_iconSet.SetText(L"icons.dll");
+	return true;
 }
 
-void CIconImportDlg::OnClose()
+bool CIconImportDlg::OnClose()
 {
 	m_pParent->m_btnImport.Enable();
+	return true;
 }
 
 INT_PTR CIconImportDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

@@ -342,7 +342,7 @@ public:
 		checkBoxes.OnItemChanged = Callback(this, &COptMainDlg::onChange_Tree);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		SetWindowLongPtr(checkBoxes.GetHwnd(), GWL_STYLE, GetWindowLongPtr(checkBoxes.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
@@ -363,9 +363,10 @@ public:
 			FillBranch(hListHeading6, branch6, _countof(branch6), 0x0000);
 		}
 		FixHeadings();
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		SaveBranch(branch1, _countof(branch1));
 		SaveBranch(branch2, _countof(branch2));
@@ -377,9 +378,10 @@ public:
 
 		g_chatApi.ReloadSettings();
 		Chat_UpdateOptions();
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		BYTE b = checkBoxes.GetItemState(hListHeading1, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch1Exp", b);
@@ -464,7 +466,7 @@ public:
 		btnFontChoose.OnClick = Callback(this, &COptLogDlg::onClick_Font);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		spin2.SetRange(5000);
 		spin2.SetPosition(db_get_w(0, CHAT_MODULE, "LogLimit", 100));
@@ -493,9 +495,10 @@ public:
 
 		chkLogging.SetState(g_Settings.bLoggingEnabled);
 		onChange_Logging(nullptr);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		ptrW pszText(rtrimw(edtHighlight.GetText()));
 		if (*pszText) {
@@ -555,6 +558,7 @@ public:
 
 		g_chatApi.ReloadSettings();
 		Chat_UpdateOptions();
+		return true;
 	}
 
 	void onChange_Logging(CCtrlCheck*)
@@ -610,7 +614,7 @@ public:
 		chkRadio1.OnChange = chkRadio2.OnChange = chkRadio3.OnChange = Callback(this, &COptPopupDlg::onChange_Radio);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		SendDlgItemMessage(m_hwnd, IDC_BKG, CPM_SETCOLOUR, 0, g_Settings.crPUBkgColour);
 		SendDlgItemMessage(m_hwnd, IDC_TEXT, CPM_SETCOLOUR, 0, g_Settings.crPUTextColour);
@@ -627,9 +631,10 @@ public:
 
 		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(100, -1));
 		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETPOS, 0, MAKELONG(g_Settings.iPopupTimeout, 0));
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		int iLen;
 		if (IsDlgButtonChecked(m_hwnd, IDC_RADIO2) == BST_CHECKED)
@@ -649,6 +654,7 @@ public:
 		db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)SendDlgItemMessage(m_hwnd, IDC_BKG, CPM_GETCOLOUR, 0, 0));
 		g_Settings.crPUTextColour = SendDlgItemMessage(m_hwnd, IDC_TEXT, CPM_GETCOLOUR, 0, 0);
 		db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)SendDlgItemMessage(m_hwnd, IDC_TEXT, CPM_GETCOLOUR, 0, 0));
+		return true;
 	}
 	
 	void onChange_Radio(CCtrlCheck*)

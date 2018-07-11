@@ -28,7 +28,7 @@ private:
 	CCtrlSpin m_maxReconnectRetries;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
 
 	void PasswordCreate_OnClick(CCtrlButton*);
 	void PasswordChange_OnClick(CCtrlButton*);
@@ -41,7 +41,7 @@ protected:
 	void ProfileImport_OnClick(CCtrlButton*);
 	void ProfileExport_OnClick(CCtrlButton*);
 
-	void OnApply();
+	bool OnApply() override;
 
 public:
 	CToxOptionsMain(CToxProto *proto, int idDialog);
@@ -75,9 +75,10 @@ private:
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	bool OnClose() override;
+
 	void OnOk(CCtrlBase*);
-	void OnClose();
 
 public:
 	CToxNodeEditor(int iItem, CCtrlListView *m_list);
@@ -96,8 +97,8 @@ private:
 	CCtrlButton m_updateNodes;
 
 protected:
-	void OnInitDialog();
-	void OnApply();
+	bool OnInitDialog() override;
+	bool OnApply() override;
 
 	void ReloadNodeList();
 

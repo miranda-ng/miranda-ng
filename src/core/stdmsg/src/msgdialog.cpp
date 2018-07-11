@@ -97,7 +97,7 @@ CSrmmWindow::CSrmmWindow(CTabbedWindow *pOwner, MCONTACT hContact) :
 	m_splitter.OnChange = Callback(this, &CSrmmWindow::OnSplitterMoved);
 }
 
-void CSrmmWindow::OnInitDialog()
+bool CSrmmWindow::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -251,6 +251,7 @@ void CSrmmWindow::OnInitDialog()
 
 	SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
+	return true;
 }
 
 void CSrmmWindow::OnDestroy()

@@ -353,7 +353,7 @@ void CCtrlPages::OnReset()
 	}
 }
 
-void CCtrlPages::OnApply()
+bool CCtrlPages::OnApply()
 {
 	PSHNOTIFY pshn;
 	pshn.hdr.idFrom = 0;
@@ -362,10 +362,8 @@ void CCtrlPages::OnApply()
 	if (m_pActivePage != nullptr) {
 		pshn.hdr.code = PSN_KILLACTIVE;
 		pshn.hdr.hwndFrom = m_pActivePage->GetHwnd();
-		if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn)) {
-			m_parentWnd->Fail();
-			return;
-		}
+		if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn))
+			return false;
 	}
 
 	pshn.hdr.code = PSN_APPLY;
@@ -383,12 +381,12 @@ void CCtrlPages::OnApply()
 				m_pActivePage->Hide();
 			m_pActivePage = p->m_pDlg;
 			m_pActivePage->Show();
-			m_parentWnd->Fail();
-			return;
+			return false;
 		}
 	}
 	
 	CSuper::OnApply();
+	return true;
 }
 
 void CCtrlPages::OnDestroy()

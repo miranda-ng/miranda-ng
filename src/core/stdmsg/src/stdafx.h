@@ -173,11 +173,11 @@ public:
 	void SetTabHighlight(CMsgDialog*);
 	void TabClicked();
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	bool OnInitDialog() override;
+	void OnDestroy() override;
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
 };
 
 extern CTabbedWindow *g_pTabDialog;

@@ -35,8 +35,8 @@ class CVkAccMgrForm : public CVkDlgBase
 
 public:
 	CVkAccMgrForm(CVkProto *proto, HWND hwndParent);
-	void OnInitDialog();
-	void OnApply();
+	bool OnInitDialog() override;
+	bool OnApply() override;
 };
 
 ////////////////////// Account page //////////////////////////////////////////
@@ -61,8 +61,8 @@ class CVkOptionAccountForm : public CVkDlgBase
 
 public:
 	CVkOptionAccountForm(CVkProto *proto);
-	void OnInitDialog();
-	void OnApply();
+	bool OnInitDialog() override;
+	bool OnApply() override;
 };
 
 ////////////////////// Advanced page /////////////////////////////////////////
@@ -95,8 +95,8 @@ class CVkOptionAdvancedForm : public CVkDlgBase
 
 public:
 	CVkOptionAdvancedForm(CVkProto  *proto);
-	void OnInitDialog();
-	void OnApply();
+	bool OnInitDialog() override;
+	bool OnApply() override;
 	void On_cbForceInvisibleStatusChange(CCtrlCheck*);
 	void On_cbSendVKLinksAsAttachmentsChange(CCtrlCheck*);
 };
@@ -140,7 +140,8 @@ class CVkOptionFeedsForm : public CVkDlgBase
 
 public:
 	CVkOptionFeedsForm(CVkProto *proto);
-	void OnInitDialog();
+
+	bool OnInitDialog() override;
 
 	void On_cbNewsEnabledChange(CCtrlCheck*);
 	void On_cbNotificationsEnabledChange(CCtrlCheck*);
@@ -172,8 +173,8 @@ class CVkOptionViewForm : public CVkDlgBase
 
 public:
 	CVkOptionViewForm(CVkProto *proto);
-	void OnInitDialog();
-	void OnApply();
+	bool OnInitDialog() override;
+	bool OnApply() override;
 };
 
 ////////////////////// Menu page /////////////////////////////////////////////
@@ -190,5 +191,5 @@ class CVkOptionMenuForm : public CVkDlgBase
 
 public:
 	CVkOptionMenuForm(CVkProto *proto);
-	void OnApply();
+	bool OnApply() override;
 };

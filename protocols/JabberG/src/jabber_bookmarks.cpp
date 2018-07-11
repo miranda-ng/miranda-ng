@@ -170,14 +170,14 @@ public:
 	void UpdateData();
 
 protected:
-	void OnInitDialog();
-	void OnClose();
-	void OnDestroy();
-	int Resizer(UTILRESIZECONTROL *urc);
+	bool OnInitDialog() override;
+	bool OnClose() override;
+	void OnDestroy() override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	void OnProtoCheckOnline(WPARAM wParam, LPARAM lParam);
-	void OnProtoRefresh(WPARAM wParam, LPARAM lParam);
+	void OnProtoRefresh(WPARAM, LPARAM);
 	void OpenBookmark();
 
 private:
@@ -269,7 +269,7 @@ void CJabberDlgBookmarks::UpdateData()
 			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(L"storage", L"storage:bookmarks"));
 }
 
-void CJabberDlgBookmarks::OnInitDialog()
+bool CJabberDlgBookmarks::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -294,9 +294,10 @@ void CJabberDlgBookmarks::OnInitDialog()
 	m_lvBookmarks.AddGroup(1, TranslateT("Links"));
 
 	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
+	return true;
 }
 
-void CJabberDlgBookmarks::OnClose()
+bool CJabberDlgBookmarks::OnClose()
 {
 	LVCOLUMN lvc = {0};
 	lvc.mask = LVCF_WIDTH;
@@ -309,7 +310,7 @@ void CJabberDlgBookmarks::OnClose()
 
 	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
 
-	CSuper::OnClose();
+	return CSuper::OnClose();
 }
 
 void CJabberDlgBookmarks::OnDestroy()

@@ -300,7 +300,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		m_autoClose = CLOSE_ON_CANCEL;
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		int i = m_owner->m_serverCombo.GetCount();
 		for (int index = 0; index < i; index++) {
@@ -340,14 +340,16 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		EnableWindow(GetDlgItem(m_hwnd, IDC_AUTO), bEnableSsl);
 
 		SetFocus(m_groupCombo.GetHwnd());
+		return true;
 	}
 
-	virtual void OnClose()
+	bool OnClose() override
 	{
 		m_owner->m_serverCombo.Enable();
 		m_owner->m_add.Enable();
 		m_owner->m_edit.Enable();
 		m_owner->m_del.Enable();
+		return true;
 	}
 
 	void OnOk(CCtrlButton*)
@@ -480,7 +482,7 @@ CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto* _pro)
 	m_channelAway.OnChange = Callback(this, &CConnectPrefsDlg::OnChannelAway);
 }
 
-void CConnectPrefsDlg::OnInitDialog()
+bool CConnectPrefsDlg::OnInitDialog()
 {
 	m_proto->m_hwndConnect = m_hwnd;
 
@@ -556,6 +558,7 @@ void CConnectPrefsDlg::OnInitDialog()
 	m_port.Enable(!m_proto->m_disableDefaultServer);
 	m_port2.Enable(!m_proto->m_disableDefaultServer);
 	m_pass.Enable(!m_proto->m_disableDefaultServer);
+	return true;
 }
 
 void CConnectPrefsDlg::OnServerCombo(CCtrlData*)
@@ -676,7 +679,7 @@ void CConnectPrefsDlg::OnChannelAway(CCtrlData*)
 	m_limit.Enable(m_onlineNotif.GetState() && m_channelAway.GetState());
 }
 
-void CConnectPrefsDlg::OnApply()
+bool CConnectPrefsDlg::OnApply()
 {
 	//Save the setting in the CONNECT dialog
 	if (m_enableServer.GetState()) {
@@ -772,6 +775,7 @@ void CConnectPrefsDlg::OnApply()
 	}
 
 	m_proto->WriteSettings(ConnectSettings, _countof(ConnectSettings));
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -811,7 +815,7 @@ CCtcpPrefsDlg::CCtcpPrefsDlg(CIrcProto* _pro)
 	m_fromServer.OnChange = Callback(this, &CCtcpPrefsDlg::OnClicked);
 }
 
-void CCtcpPrefsDlg::OnInitDialog()
+bool CCtcpPrefsDlg::OnInitDialog()
 {
 	m_userInfo.SetText(m_proto->m_userInfo);
 
@@ -863,6 +867,7 @@ void CCtcpPrefsDlg::OnInitDialog()
 			else m_ip.SetText(TranslateT("<Automatic>"));
 		}
 	}
+	return true;
 }
 
 void CCtcpPrefsDlg::OnClicked(CCtrlData*)
@@ -890,7 +895,7 @@ void CCtcpPrefsDlg::OnClicked(CCtrlData*)
 	}
 }
 
-void CCtcpPrefsDlg::OnApply()
+bool CCtcpPrefsDlg::OnApply()
 {
 	m_userInfo.GetText(m_proto->m_userInfo, _countof(m_proto->m_userInfo));
 
@@ -919,6 +924,7 @@ void CCtcpPrefsDlg::OnApply()
 		m_proto->m_DCCChatAccept = 3;
 
 	m_proto->WriteSettings(CtcpSettings, _countof(CtcpSettings));
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -993,7 +999,7 @@ COtherPrefsDlg::COtherPrefsDlg(CIrcProto* _pro)
 	m_delete.OnClick = Callback(this, &COtherPrefsDlg::OnDelete);
 }
 
-void COtherPrefsDlg::OnInitDialog()
+bool COtherPrefsDlg::OnInitDialog()
 {
 	mir_subclassWindow(m_alias.GetHwnd(), EditSubclassProc);
 	mir_subclassWindow(m_quitMessage.GetHwnd(), EditSubclassProc);
@@ -1039,6 +1045,7 @@ void COtherPrefsDlg::OnInitDialog()
 	m_performCombo.SetCurSel(0);
 	OnPerformCombo(nullptr);
 	m_autodetect.SetState(m_proto->m_utfAutodetect);
+	return true;
 }
 
 void COtherPrefsDlg::OnPerformCombo(CCtrlData*)
@@ -1128,7 +1135,7 @@ void COtherPrefsDlg::OnDestroy()
 	}
 }
 
-void COtherPrefsDlg::OnApply()
+bool COtherPrefsDlg::OnApply()
 {
 	mir_free(m_proto->m_alias);
 	m_proto->m_alias = m_alias.GetText();
@@ -1159,6 +1166,7 @@ void COtherPrefsDlg::OnApply()
 		}
 	}
 	m_proto->WriteSettings(OtherSettings, _countof(OtherSettings));
+	return true;
 }
 
 void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
@@ -1194,7 +1202,7 @@ CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const wchar_t* mask, CIgnorePrefsD
 	m_Ok.OnClick = Callback(this, &CAddIgnoreDlg::OnOk);
 }
 
-void CAddIgnoreDlg::OnInitDialog()
+bool CAddIgnoreDlg::OnInitDialog()
 {
 	if (szOldMask[0] == 0) {
 		if (m_proto->IsConnected())
@@ -1205,6 +1213,7 @@ void CAddIgnoreDlg::OnInitDialog()
 		CheckDlgButton(m_hwnd, IDC_D, BST_CHECKED);
 		CheckDlgButton(m_hwnd, IDC_C, BST_CHECKED);
 	}
+	return true;
 }
 
 void CAddIgnoreDlg::OnOk(CCtrlButton*)
@@ -1235,9 +1244,10 @@ void CAddIgnoreDlg::OnOk(CCtrlButton*)
 	}
 }
 
-void CAddIgnoreDlg::OnClose()
+bool CAddIgnoreDlg::OnClose()
 {
 	m_owner->FixButtons();
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1400,7 +1410,7 @@ CIgnorePrefsDlg::CIgnorePrefsDlg(CIrcProto* _pro)
 	m_list.OnColumnClick = Callback(this, &CIgnorePrefsDlg::List_OnColumnClick);
 }
 
-void CIgnorePrefsDlg::OnInitDialog()
+bool CIgnorePrefsDlg::OnInitDialog()
 {
 	m_proto->m_ignoreDlg = this;
 	mir_subclassWindow(m_list.GetHwnd(), ListviewSubclassProc);
@@ -1437,6 +1447,7 @@ void CIgnorePrefsDlg::OnInitDialog()
 
 	ListView_SetExtendedListViewStyle(GetDlgItem(m_hwnd, IDC_INFO_LISTVIEW), LVS_EX_FULLROWSELECT);
 	RebuildList();
+	return true;
 }
 
 INT_PTR CIgnorePrefsDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1534,7 +1545,7 @@ void CIgnorePrefsDlg::List_OnColumnClick(CCtrlListView::TEventInfo*)
 	UpdateList();
 }
 
-void CIgnorePrefsDlg::OnApply()
+bool CIgnorePrefsDlg::OnApply()
 {
 	m_proto->m_DCCFileEnabled = !m_ignoreFile.GetState();
 	m_proto->m_DCCChatEnabled = !m_ignoreChat.GetState();
@@ -1542,6 +1553,7 @@ void CIgnorePrefsDlg::OnApply()
 	m_proto->m_ignoreChannelDefault = m_ignoreChannel.GetState();
 	m_proto->m_DCCChatIgnore = m_ignoreUnknown.GetState() ? 2 : 1;
 	m_proto->WriteSettings(IgnoreSettings, _countof(IgnoreSettings));
+	return true;
 }
 
 void CIgnorePrefsDlg::OnDestroy()
@@ -1741,7 +1753,7 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 		m_serverCombo.OnChange = Callback(this, &CDlgAccMgrUI::OnChangeCombo);
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		for (auto &si : g_servers)
 			m_serverCombo.AddStringA(si->m_name, LPARAM(si));
@@ -1761,9 +1773,10 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 		m_nick2.SetText(m_proto->m_alternativeNick);
 		m_userID.SetText(m_proto->m_userID);
 		m_name.SetText(m_proto->m_name);
+		return true;
 	}
 
-	virtual void OnApply()
+	bool OnApply() override
 	{
 		m_proto->m_serverComboSelection = m_serverCombo.GetCurSel();
 		m_server.GetTextA(m_proto->m_serverName, _countof(m_proto->m_serverName));
@@ -1780,6 +1793,7 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 		removeSpaces(m_proto->m_userID);
 		m_name.GetText(m_proto->m_name, _countof(m_proto->m_name));
 		m_proto->WriteSettings(ConnectSettings, _countof(ConnectSettings));
+		return true;
 	}
 
 	void OnChangeCombo(CCtrlCombo*)

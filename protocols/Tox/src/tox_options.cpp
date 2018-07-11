@@ -37,7 +37,7 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	m_profileExport.OnClick = Callback(this, &CToxOptionsMain::ProfileExport_OnClick);
 }
 
-void CToxOptionsMain::OnInitDialog()
+bool CToxOptionsMain::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
 
@@ -68,6 +68,7 @@ void CToxOptionsMain::OnInitDialog()
 
 	m_maxConnectRetries.SetRange(255, 1);
 	m_maxReconnectRetries.SetRange(255, 1);
+	return true;
 }
 
 void CToxOptionsMain::PasswordCreate_OnClick(CCtrlButton*)
@@ -226,7 +227,7 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 		CopyFile(defaultProfilePath, profilePath, FALSE);
 }
 
-void CToxOptionsMain::OnApply()
+bool CToxOptionsMain::OnApply()
 {
 	ptrW group(m_group.GetText());
 	if (mir_wstrcmp(group, m_proto->m_defaultGroup)) {
@@ -242,6 +243,7 @@ void CToxOptionsMain::OnApply()
 
 		m_proto->SaveToxProfile(m_proto->m_toxThread->Tox());
 	}
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -257,7 +259,7 @@ CToxNodeEditor::CToxNodeEditor(int iItem, CCtrlListView *m_nodes)
 	m_ok.OnClick = Callback(this, &CToxNodeEditor::OnOk);
 }
 
-void CToxNodeEditor::OnInitDialog()
+bool CToxNodeEditor::OnInitDialog()
 {
 	SetWindowText(m_hwnd, m_iItem == -1 ? TranslateT("Add node") : TranslateT("Change node"));
 
@@ -286,6 +288,7 @@ void CToxNodeEditor::OnInitDialog()
 	}
 
 	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULE, "EditNodeDlg");
+	return true;
 }
 
 void CToxNodeEditor::OnOk(CCtrlBase*)
@@ -325,11 +328,11 @@ void CToxNodeEditor::OnOk(CCtrlBase*)
 	EndDialog(m_hwnd, 1);
 }
 
-void CToxNodeEditor::OnClose()
+bool CToxNodeEditor::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULE, "EditNodeDlg");
+	return true;
 }
-
 
 /****************************************/
 
@@ -345,7 +348,7 @@ CToxOptionsNodeList::CToxOptionsNodeList(CToxProto *proto)
 	m_nodes.OnKeyDown = Callback(this, &CToxOptionsNodeList::OnNodeListKeyDown);
 }
 
-void CToxOptionsNodeList::OnInitDialog()
+bool CToxOptionsNodeList::OnInitDialog()
 {
 	m_nodes.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
 
@@ -367,6 +370,7 @@ void CToxOptionsNodeList::OnInitDialog()
 	m_nodes.AddGroup(1, TranslateT("User nodes"));
 
 	ReloadNodeList();
+	return true;
 }
 
 void CToxOptionsNodeList::OnAddNode(CCtrlBase*)
@@ -484,7 +488,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 	}
 }
 
-void CToxOptionsNodeList::OnApply()
+bool CToxOptionsNodeList::OnApply()
 {
 	char setting[MAX_PATH];
 	wchar_t tszText[MAX_PATH];
@@ -543,6 +547,7 @@ void CToxOptionsNodeList::OnApply()
 		db_unset(NULL, module, setting);
 	}
 	db_set_b(NULL, module, TOX_SETTINGS_NODE_COUNT, itemCount);
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////

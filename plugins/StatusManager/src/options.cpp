@@ -24,7 +24,7 @@ public:
 		CreateLink(m_enableAdvancedAutoAway, g_AAAEnabled);
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		bool bEnabled = m_enableKeepStatus.GetState();
 		if (bEnabled != g_KSEnabled) {
@@ -49,6 +49,7 @@ public:
 			else
 				AdvancedAutoAwayUnload();
 		}
+		return true;
 	}
 };
 

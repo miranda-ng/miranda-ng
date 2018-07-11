@@ -91,7 +91,7 @@ void CTabBaseDlg::LoadSettings()
 	LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG, FONTMODULE);
 }
 
-void CTabBaseDlg::OnInitDialog()
+bool CTabBaseDlg::OnInitDialog()
 {
 	CSrmmBaseDialog::OnInitDialog();
 
@@ -119,6 +119,7 @@ void CTabBaseDlg::OnInitDialog()
 	m_cache->updateUIN();
 
 	m_bIsAutosizingInput = IsAutoSplitEnabled();
+	return true;
 }
 
 INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

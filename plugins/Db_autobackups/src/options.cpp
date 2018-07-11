@@ -172,7 +172,7 @@ public:
 		m_foldersPageLink.OnClick = Callback(this, &COptionsDlg::FoldersPageLink_OnClick);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		m_disable.SetState(options.backup_types == BT_DISABLED);
 		m_backupOnStart.SetState(options.backup_types & BT_START ? TRUE : FALSE);
@@ -220,9 +220,10 @@ public:
 		}
 
 		SetDialogState();
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		BYTE backupTypes = BT_DISABLED;
 
@@ -256,7 +257,7 @@ public:
 			wchar_t msg[512];
 			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, err, 0, msg, 512, nullptr);
 			MessageBox(nullptr, msg, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
-			return;
+			return false;
 		}
 
 		wcsncpy_s(options.folder, folder, _TRUNCATE);
@@ -266,6 +267,7 @@ public:
 		options.cloudfile_service = currentService >= 0
 			? (char*)m_cloudFileService.GetItemData(currentService)
 			: nullptr;
+		return true;
 	}
 
 	void OnTimer(CTimer*) override

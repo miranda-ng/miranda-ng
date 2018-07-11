@@ -29,8 +29,8 @@ private:
 	CCtrlCombo  m_combo;
 
 protected:
-
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	
 	void btnOk_OnOk(CCtrlButton*);
 
 public:
@@ -48,15 +48,13 @@ private:
 	CCtrlClc    m_clc;
 
 protected:
+	bool OnInitDialog() override;
 
-	void OnInitDialog();
 	void btnOk_OnOk(CCtrlButton*);
 	void FilterList(CCtrlClc*);
 	void ResetListOptions(CCtrlClc*);
 
-
 public:
-
 	LIST<char> m_ContactsList;
 
 	CSkypeGCCreateDlg(CSkypeProto *proto);

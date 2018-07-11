@@ -22,7 +22,8 @@ public:
 	COptWaMpdDlg() : CDlgBase(g_plugin, IDD_OPT_WA_MPD),
 		edit_PORT(this, IDC_PORT), edit_SERVER(this, IDC_SERVER), edit_PASSWORD(this, IDC_PASSWORD)
 	{}
-	virtual void OnInitDialog() override
+
+	bool OnInitDialog() override
 	{
 		edit_PORT.SetInt(db_get_w(NULL, MODULENAME, "Port", 6600));
 		wchar_t *tmp = UniGetContactSettingUtf(NULL, MODULENAME, "Server", L"127.0.0.1");
@@ -31,8 +32,10 @@ public:
 		tmp = UniGetContactSettingUtf(NULL, MODULENAME, "Password", L"");
 		edit_PASSWORD.SetText(tmp);
 		mir_free(tmp);
+		return true;
 	}
-	virtual void OnApply() override
+
+	bool OnApply() override
 	{
 		db_set_w(NULL, MODULENAME, "Port", (WORD)edit_PORT.GetInt());
 		gbPort = edit_PORT.GetInt();
@@ -40,7 +43,9 @@ public:
 		mir_wstrcpy(gbHost, edit_SERVER.GetText());
 		db_set_ws(NULL, MODULENAME, "Password", edit_PASSWORD.GetText());
 		mir_wstrcpy(gbPassword, edit_PASSWORD.GetText());
+		return true;
 	}
+
 private:
 	CCtrlSpin edit_PORT;
 	CCtrlEdit edit_SERVER, edit_PASSWORD;

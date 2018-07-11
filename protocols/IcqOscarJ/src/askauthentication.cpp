@@ -43,13 +43,14 @@ public:
 		m_btnOk.OnClick = Callback(this, &AskAuthProcDlg::onOk);
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		if (!m_hContact || !m_proto->icqOnline())
 			EndDialog(m_hwnd, 0);
 
 		m_auth.SendMsg(EM_LIMITTEXT, 255, 0);
 		m_auth.SetText(TranslateT("Please authorize me to add you to my contact list."));
+		return true;
 	}
 
 	void onOk(CCtrlButton*)

@@ -405,10 +405,10 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 protected:
 	CSrmmBaseDialog(CMPluginBase&, int idDialog, SESSION_INFO *si = nullptr);
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	bool OnInitDialog() override;
+	void OnDestroy() override;
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	int  NotifyEvent(int code);
 	bool ProcessHotkeys(int key, bool bShift, bool bCtrl, bool bAlt);

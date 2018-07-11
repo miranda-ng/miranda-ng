@@ -47,7 +47,7 @@ CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pOwner, SESSION_INFO *si) :
 	m_iSplitterY = g_Settings.iSplitterY;
 }
 
-void CChatRoomDlg::OnInitDialog()
+bool CChatRoomDlg::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 	m_si->pDlg = this;
@@ -71,6 +71,7 @@ void CChatRoomDlg::OnInitDialog()
 	UpdateTitle();
 
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
+	return true;
 }
 
 void CChatRoomDlg::OnDestroy()

@@ -65,7 +65,7 @@ public:
 		m_btnOk.OnClick = Callback(this, &CAddContactDlg::OnOk);
 	}
 
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_ADDCONTACT);
 
@@ -107,6 +107,7 @@ public:
 			m_authReq.Enable(m_chkAuth.Enabled());
 			m_authReq.SetText(TranslateT("Please authorize my request and add me to your contact list."));
 		}
+		return true;
 	}
 
 	void OnDestroy()

@@ -620,7 +620,7 @@ public:
 		m_btnSeparator.OnClick = Callback(this, &CSrmmToolbarOptions::btnSeparatorClicked);
 	}
 	
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		BuildMenuObjectsTree();
 
@@ -630,15 +630,16 @@ public:
 
 		m_gap.SetRange(10);
 		m_gap.SetPosition(db_get_b(0, BB_MODULE_NAME, "ButtonsBarGap", 1));
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		ImageList_Destroy(m_toolBar.GetImageList(TVSIL_NORMAL));
 		ImageList_Destroy(m_toolBar.GetImageList(TVSIL_STATE));
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		OnTreeSelChanging(nullptr);  // save latest changes
 		SaveTree();               // save the whole tree then
@@ -655,6 +656,7 @@ public:
 		m_btnIM.Disable();
 		m_btnChat.Disable();
 		m_btnHidden.Disable();
+		return true;
 	}
 
 	virtual void OnReset() override

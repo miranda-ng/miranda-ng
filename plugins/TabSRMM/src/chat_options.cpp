@@ -600,7 +600,7 @@ public:
 		treeCheck(this, IDC_CHECKBOXES)
 	{}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		SetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE) | (TVS_NOHSCROLL));
 		
@@ -615,9 +615,10 @@ public:
 
 		ptrW pszGroup(db_get_wsa(0, CHAT_MODULE, "AddToGroup"));
 		SetDlgItemText(m_hwnd, IDC_GROUP, (pszGroup != nullptr) ? pszGroup : TranslateT("Chat rooms"));
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		int iLen = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_GROUP));
 		if (iLen > 0) {
@@ -630,6 +631,7 @@ public:
 
 		SaveBranch(branch1, _countof(branch1));
 		SaveBranch(branch2, _countof(branch2));
+		return true;
 	}
 
 	void OnDestroy() override
@@ -643,7 +645,7 @@ public:
 		TreeViewDestroy(treeCheck.GetHwnd());
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_CHECKBOXES)
 			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
@@ -678,7 +680,7 @@ public:
 		m_timer.OnEvent = Callback(this, &CChatLogOptionDlg::onTimer);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN2, UDM_SETRANGE, 0, MAKELONG(5000, 0));
 		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN2, UDM_SETPOS, 0, MAKELONG(db_get_w(0, CHAT_MODULE, "LogLimit", 100), 0));
@@ -731,9 +733,10 @@ public:
 		hPathTip = CreateToolTip(GetDlgItem(m_hwnd, IDC_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"));
 		if (hPathTip)
 			m_timer.Start(3000);
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		char *pszText = nullptr;
 
@@ -800,6 +803,7 @@ public:
 		if (g_chatApi.hListBkgBrush)
 			DeleteObject(g_chatApi.hListBkgBrush);
 		g_chatApi.hListBkgBrush = CreateSolidBrush(M.GetDword(CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
+		return true;
 	}
 
 	void OnDestroy() override
@@ -922,7 +926,7 @@ public:
 		CChatBaseOptionDlg(IDD_OPTIONS3)
 	{}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		DWORD dwFilterFlags = M.GetDword(CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 		DWORD dwTrayFlags = M.GetDword(CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
@@ -945,9 +949,10 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_LOGICONTYPE, CB_SETCURSEL, (g_Settings.bLogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)), 0);
 
 		CheckDlgButton(m_hwnd, IDC_TRAYONLYFORINACTIVE, M.GetByte(CHAT_MODULE, "TrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		DWORD dwFilterFlags = 0, dwTrayFlags = 0,
 			dwPopupFlags = 0, dwLogFlags = 0;
@@ -971,6 +976,7 @@ public:
 		db_set_b(0, CHAT_MODULE, "LogSymbols", lr == 2 ? 1 : 0);
 
 		db_set_b(0, CHAT_MODULE, "TrayIconInactiveOnly", IsDlgButtonChecked(m_hwnd, IDC_TRAYONLYFORINACTIVE) ? 1 : 0);
+		return true;
 	}
 };
 
@@ -994,7 +1000,7 @@ public:
 		chkText.OnChange = Callback(this, &CHighlighOptionDlg::onChange_Text);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		ptrW wszText(db_get_wsa(0, CHAT_MODULE, "HighlightWords"));
 		if (wszText)
@@ -1011,6 +1017,7 @@ public:
 		
 		::CheckDlgButton(m_hwnd, IDC_HIGHLIGHTNICKUID, dwFlags & CMUCHighlight::MATCH_UIN ? BST_CHECKED : BST_UNCHECKED);
 		::CheckDlgButton(m_hwnd, IDC_HIGHLIGHTME, M.GetByte(CHAT_MODULE, "HighlightMe", 1) ? BST_CHECKED : BST_UNCHECKED);
+		return true;
 	}
 
 	void onChange_Text(CCtrlCheck*) 
@@ -1027,7 +1034,7 @@ public:
 		Utils::enableDlgControl(m_hwnd, IDC_HIGHLIGHTNICKUID, chkNick.GetState());
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		db_set_ws(0, CHAT_MODULE, "HighlightNames", ptrW(edtNick.GetText()));
 		db_set_ws(0, CHAT_MODULE, "HighlightWords", ptrW(edtText.GetText()));
@@ -1039,6 +1046,7 @@ public:
 		db_set_b(0, CHAT_MODULE, "HighlightEnabled", dwFlags);
 		db_set_b(0, CHAT_MODULE, "HighlightMe", ::IsDlgButtonChecked(m_hwnd, IDC_HIGHLIGHTME) ? 1 : 0);
 		g_Settings.Highlight->init();
+		return true;
 	}
 };
 

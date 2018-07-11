@@ -321,7 +321,7 @@ public:
 	}
 
 	//---- init dialog -------------------------------------------
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		iInitMenuValue = db_get_b(0, "CList", "MoveProtoMenus", TRUE);
 		
@@ -339,9 +339,10 @@ public:
 		
 		m_menuObjects.SetCurSel(0);
 		RebuildCurrent();
+		return true;
 	}
 
-	virtual void OnApply()
+	bool OnApply() override
 	{
 		bIconsDisabled = m_enableIcons.GetState() == 0;
 		db_set_b(0, "CList", "DisableMenuIcons", bIconsDisabled);
@@ -355,9 +356,10 @@ public:
 			iInitMenuValue = iNewMenuValue;
 		}
 		RebuildCurrent();
+		return true;
 	}
 
-	virtual void OnDestroy()
+	void OnDestroy() override
 	{
 		FreeTreeData();
 	}

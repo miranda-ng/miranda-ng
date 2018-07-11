@@ -143,7 +143,7 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 	btnResetAll.OnClick = Callback(this, &CTemplateEditDlg::onClick_Reset);
 }
 
-void CTemplateEditDlg::OnInitDialog()
+bool CTemplateEditDlg::OnInitDialog()
 {
 	// set hContact to the first found contact so that we can use the Preview window properly
 	// also, set other parameters needed by the streaming function to display events
@@ -184,6 +184,7 @@ void CTemplateEditDlg::OnInitDialog()
 	SendDlgItemMessage(m_hwnd, IDC_COLOR4, CPM_SETCOLOUR, 0, M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
 	SendDlgItemMessage(m_hwnd, IDC_COLOR5, CPM_SETCOLOUR, 0, M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
 	SendDlgItemMessage(m_hwnd, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
+	return true;
 }
 
 void CTemplateEditDlg::OnDestroy()

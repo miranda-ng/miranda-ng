@@ -16,8 +16,8 @@ private:
 protected:
 	CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent = NULL);
 
-	void OnInitDialog();
-	void OnApply();
+	bool OnInitDialog() override;
+	bool OnApply() override;
 
 public:
 	static CDlgBase *CreateAccountManagerPage(void *param, HWND owner)
@@ -42,7 +42,7 @@ private:
 	CCtrlButton m_add;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
 	void OnBlock(CCtrlButton*);
 
 public:

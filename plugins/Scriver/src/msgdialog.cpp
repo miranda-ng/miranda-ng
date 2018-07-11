@@ -175,7 +175,7 @@ CSrmmWindow::CSrmmWindow(MCONTACT hContact, bool bIncoming)
 	m_splitter.OnChange = Callback(this, &CSrmmWindow::onChanged_Splitter);
 }
 
-void CSrmmWindow::OnInitDialog()
+bool CSrmmWindow::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -371,6 +371,7 @@ void CSrmmWindow::OnInitDialog()
 		SendMessage(m_hwnd, DM_SHOWMESSAGESENDING, 0, 0);
 
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
+	return true;
 }
 
 void CSrmmWindow::OnDestroy()

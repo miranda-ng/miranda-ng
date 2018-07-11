@@ -356,7 +356,7 @@ public:
 		m_btnCancel.OnClick = Callback(this, &CJabberDlgPrivacyRule::btnCancel_OnClick);
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 
@@ -404,6 +404,7 @@ public:
 
 		if (m_pRule->GetValue() && (m_pRule->GetType() == Jid || m_pRule->GetType() == Group))
 			SetDlgItemText(m_hwnd, IDC_EDIT_VALUE, m_pRule->GetValue());
+		return true;
 	}
 
 	void cbType_OnChange(CCtrlData*)
@@ -566,8 +567,8 @@ protected:
 	static int idSimpleControls[];
 	static int idAdvancedControls[];
 
-	void OnInitDialog();
-	void OnClose();
+	bool OnInitDialog() override;
+	bool OnClose() override;
 	void OnDestroy();
 	void OnProtoRefresh(WPARAM, LPARAM);
 	int Resizer(UTILRESIZECONTROL *urc);
@@ -756,7 +757,7 @@ CJabberDlgPrivacyLists::CJabberDlgPrivacyLists(CJabberProto *proto):
 	m_clcClist.OnClick = Callback(this, &CJabberDlgPrivacyLists::clcClist_OnClick);
 }
 
-void CJabberDlgPrivacyLists::OnInitDialog()
+bool CJabberDlgPrivacyLists::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -833,15 +834,16 @@ void CJabberDlgPrivacyLists::OnInitDialog()
 	SetStatusText(TranslateT("Loading..."));
 
 	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "plistsWnd_sz");
+	return true;
 }
 
-void CJabberDlgPrivacyLists::OnClose()
+bool CJabberDlgPrivacyLists::OnClose()
 {
-	if (CanExit()) {
-		DestroyWindow(m_hwnd);
-		CSuper::OnClose();
-	}
-	else m_lresult = TRUE;
+	if (!CanExit())
+		return false;
+
+	DestroyWindow(m_hwnd);
+	return CSuper::OnClose();
 }
 
 void CJabberDlgPrivacyLists::OnDestroy()

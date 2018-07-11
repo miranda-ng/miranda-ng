@@ -113,9 +113,8 @@ class CAccountFormDlg : public CDlgBase
 public:
 	CAccountFormDlg(CAccountManagerDlg *pParent, int action, PROTOACCOUNT *pa);
 
-	virtual void OnInitDialog() override;
-
-	void OnOk(CCtrlButton*);
+	bool OnInitDialog() override;
+	bool OnApply() override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -270,7 +269,7 @@ public:
 		m_btnNetwork.OnClick = Callback(this, &CAccountManagerDlg::OnNetwork);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_ACCMGR);
 
@@ -317,9 +316,10 @@ public:
 		Refresh();
 
 		Utils_RestoreWindowPositionNoSize(m_hwnd, 0, "AccMgr", "");
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		PSHNOTIFY pshn;
 		pshn.hdr.idFrom = 0;
@@ -331,6 +331,7 @@ public:
 				pa->bAccMgrUIChanged = FALSE;
 			}
 		}
+		return true;
 	}
 
 	virtual void OnReset() override
@@ -347,7 +348,7 @@ public:
 		}
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		for (auto &pa : accounts) {
 			pa->bAccMgrUIChanged = FALSE;
@@ -813,10 +814,9 @@ CAccountFormDlg::CAccountFormDlg(CAccountManagerDlg *pParent, int action, PROTOA
 	m_pParent(pParent)
 {
 	m_hwndParent = pParent->GetHwnd();
-	m_btnOk.OnClick = Callback(this, &CAccountFormDlg::OnOk);
 }
 
-void CAccountFormDlg::OnInitDialog()
+bool CAccountFormDlg::OnInitDialog()
 {
 	int cnt = 0;
 	for (auto &it : g_arProtos)
@@ -846,16 +846,17 @@ void CAccountFormDlg::OnInitDialog()
 	}
 
 	m_internalName.SendMsg(EM_LIMITTEXT, 40, 0);
+	return true;
 }
 
-void CAccountFormDlg::OnOk(CCtrlButton*)
+bool CAccountFormDlg::OnApply()
 {
 	wchar_t tszAccName[256];
 	m_accName.GetText(tszAccName, _countof(tszAccName));
 	rtrimw(tszAccName);
 	if (tszAccName[0] == 0) {
 		MessageBox(m_hwnd, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
-		return;
+		return false;
 	}
 
 	if (m_action == PRAC_ADDED) {
@@ -863,7 +864,7 @@ void CAccountFormDlg::OnOk(CCtrlButton*)
 		m_internalName.GetTextA(buf, _countof(buf));
 		if (FindAccountByName(rtrim(buf))) {
 			MessageBox(m_hwnd, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
-			return;
+			return false;
 		}
 	}
 
@@ -901,6 +902,7 @@ void CAccountFormDlg::OnOk(CCtrlButton*)
 
 	m_pParent->Refresh();
 	EndModal(IDOK);
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

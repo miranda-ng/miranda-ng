@@ -11,7 +11,8 @@ private:
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	
 	void Password_OnChange(CCtrlBase*);
 	void OnOk(CCtrlButton*);
 
@@ -32,7 +33,8 @@ private:
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	
 	void Password_OnChange(CCtrlBase*);
 	void OnOk(CCtrlButton*);
 
@@ -55,7 +57,8 @@ private:
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	
 	void Password_OnChange(CCtrlBase*);
 	void OnOk(CCtrlButton*);
 

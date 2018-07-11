@@ -51,7 +51,7 @@ void CCtrlCombo::OnInit()
 	OnReset();
 }
 
-void CCtrlCombo::OnApply()
+bool CCtrlCombo::OnApply()
 {
 	CSuper::OnApply();
 
@@ -64,6 +64,7 @@ void CCtrlCombo::OnApply()
 	else if (GetDataType() != DBVT_DELETED) {
 		SaveInt(GetInt());
 	}
+	return true;
 }
 
 void CCtrlCombo::OnReset()

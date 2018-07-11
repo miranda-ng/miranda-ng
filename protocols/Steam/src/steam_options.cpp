@@ -19,7 +19,7 @@ CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwnd
 	}
 }
 
-void CSteamOptionsMain::OnInitDialog()
+bool CSteamOptionsMain::OnInitDialog()
 {
 	CSteamDlgBase::OnInitDialog();
 
@@ -28,9 +28,10 @@ void CSteamOptionsMain::OnInitDialog()
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
 
 	m_pollingErrorLimit.SetRange(255, 0);
+	return true;
 }
 
-void CSteamOptionsMain::OnApply()
+bool CSteamOptionsMain::OnApply()
 {
 	ptrW group(m_group.GetText());
 	if (mir_wstrcmp(group, m_proto->m_defaultGroup)) {
@@ -46,6 +47,7 @@ void CSteamOptionsMain::OnApply()
 	}
 	if (m_password.IsChanged())
 		m_proto->delSetting("TokenSecret");
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -59,12 +61,13 @@ CSteamOptionsBlockList::CSteamOptionsBlockList(CSteamProto *proto)
 	m_add.OnClick = Callback(this, &CSteamOptionsBlockList::OnBlock);
 }
 
-void CSteamOptionsBlockList::OnInitDialog()
+bool CSteamOptionsBlockList::OnInitDialog()
 {
 	m_list.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
 
 	m_list.AddColumn(0, TranslateT("Name"), 220);
 	m_list.AddColumn(1, L"", 32 - GetSystemMetrics(SM_CXVSCROLL));
+	return true;
 }
 
 void CSteamOptionsBlockList::OnBlock(CCtrlButton*)

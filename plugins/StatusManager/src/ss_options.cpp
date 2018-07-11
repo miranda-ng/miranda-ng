@@ -151,11 +151,12 @@ public:
 		GetProfile(iProfileNo, ps);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		char* cmdl = GetCMDL(ps);
 		SetDlgItemTextA(m_hwnd, IDC_CMDL, cmdl);
 		mir_free(cmdl);
+		return true;
 	}
 
 	void onClick_Copy(CCtrlButton*)
@@ -320,7 +321,7 @@ public:
 		chkSetWinLocation.OnChange = Callback(this, &CSSMainOptDlg::onChange_SetWinLocation);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		CheckDlgButton(m_hwnd, IDC_SETPROFILE, db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_OVERRIDE, db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) ? BST_CHECKED : BST_UNCHECKED);
@@ -362,9 +363,10 @@ public:
 
 		ReinitProfiles();
 		timer.Start(100);
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		bool bChecked = chkSetProfile.GetState();
 		db_set_b(0, SSMODULENAME, SETTING_SETPROFILE, bChecked);
@@ -406,6 +408,7 @@ public:
 		db_set_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_OFFLINECLOSE));
 		db_set_b(0, SSMODULENAME, SETTING_AUTODIAL, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTODIAL));
 		db_set_b(0, SSMODULENAME, SETTING_AUTOHANGUP, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOHANGUP));
+		return true;
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -495,15 +498,17 @@ public:
 		edtProfile.OnChange = Callback(this, &CAddProfileDlg::onChange_Edit);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		btnOk.Disable();
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		ptrW profileName(edtProfile.GetText());
 		SendMessage(m_hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName.get());
+		return true;
 	}
 
 	void OnDestroy() override
@@ -660,7 +665,7 @@ public:
 		lstAccount.OnSelChange = Callback(this, &CSSAdvancedOptDlg::onChange_Account);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		chkCreateMMI.SetText(TranslateT("Create a status menu item"));
 
@@ -705,9 +710,10 @@ public:
 
 		ReinitProfiles();
 		ShowWindow(GetDlgItem(m_hwnd, IDC_VARIABLESHELP), ServiceExists(MS_VARS_SHOWHELPEX) ? SW_SHOW : SW_HIDE);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		int oldCount = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
 		for (int i = 0; i < oldCount; i++) {
@@ -747,6 +753,7 @@ public:
 		// Rebuild status menu
 		if (bNeedRebuildMenu)
 			Menu_ReloadProtoMenus();
+		return true;
 	}
 
 	// add a profile

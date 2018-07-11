@@ -49,7 +49,7 @@ COptionsDlg::COptionsDlg() :
 	chkStartState.OnChange = Callback(this, &COptionsDlg::onCheck_StartState);
 }
 
-void COptionsDlg::OnInitDialog()
+bool COptionsDlg::OnInitDialog()
 {
 	if (g_plugin.spOptions.clistState == ClistState::normal)
 		chkStartNormal.SetState(true);
@@ -71,9 +71,10 @@ void COptionsDlg::OnInitDialog()
 	edtPositionBottom.Enable(chkPositionBottom.GetState());
 	edtPositionSide.Enable(chkPositionSide.GetState());
 	edtWidth.Enable(chkWidth.GetState());
+	return true;
 }
 
-void COptionsDlg::OnApply()
+bool COptionsDlg::OnApply()
 {
 	removeOldSettings();
 
@@ -86,6 +87,7 @@ void COptionsDlg::OnApply()
 		g_plugin.spOptions.clistAlign = ClistAlign::right;
 	else
 		g_plugin.spOptions.clistAlign = ClistAlign::left;
+	return true;
 }
 
 void COptionsDlg::removeOldSettings()

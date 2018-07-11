@@ -158,12 +158,13 @@ public:
 		m_order.OnDeleteItem = Callback(this, &CProtocolOrderOpts::onOrder_DeleteItem);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		FillTree();
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		// assume all accounts are disabled
 		for (auto &it : accounts)
@@ -201,6 +202,7 @@ public:
 		Clist_TrayIconIconsChanged();
 		Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 		Clist_Broadcast(INTM_INVALIDATE, 0, 0);
+		return true;
 	}
 
 	void onReset_Click(CCtrlButton*)

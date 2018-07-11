@@ -57,9 +57,9 @@ class CLangpackDlg : public CDlgBase
 	void DisplayPackInfo(const LANGPACK_INFO *pack);
 
 protected:
-	void OnInitDialog();
-	void OnApply();
-	void OnDestroy();
+	bool OnInitDialog() override;
+	bool OnApply() override;
+	void OnDestroy() override;
 
 	void Languages_OnChange(CCtrlBase*);
 	void Reload_OnClick(CCtrlBase*);
@@ -80,10 +80,11 @@ CLangpackDlg::CLangpackDlg()
 	m_reload.OnClick = Callback(this, &CLangpackDlg::Reload_OnClick);
 }
 
-void CLangpackDlg::OnInitDialog()
+bool CLangpackDlg::OnInitDialog()
 {
 	m_languages.ResetContent();
 	LoadLangpacks();
+	return true;
 }
 
 void CLangpackDlg::LoadLangpacks()
@@ -217,7 +218,7 @@ void CLangpackDlg::Reload_OnClick(CCtrlBase*)
 	m_reload.Enable(TRUE);
 }
 
-void CLangpackDlg::OnApply()
+bool CLangpackDlg::OnApply()
 {
 	wchar_t tszPath[MAX_PATH]; tszPath[0] = 0;
 	int idx = m_languages.GetCurSel();
@@ -241,6 +242,7 @@ void CLangpackDlg::OnApply()
 			mir_forkthread(ReloadOptions, hwndParent);
 		}
 	}
+	return true;
 }
 
 void CLangpackDlg::OnDestroy()

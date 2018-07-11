@@ -38,12 +38,13 @@ BOOL CCtrlSpin::OnNotify(int, NMHDR *pnmh)
 	return FALSE;
 }
 
-void CCtrlSpin::OnApply()
+bool CCtrlSpin::OnApply()
 {
 	CSuper::OnApply();
 
 	if (m_dbLink != nullptr)
 		SaveInt(GetPosition());
+	return true;
 }
 
 void CCtrlSpin::OnReset()

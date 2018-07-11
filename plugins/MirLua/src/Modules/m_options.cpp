@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	void OnInitDialog() override 
+	bool OnInitDialog() override 
 	{
 		if (m_onInitDialogRef)
 		{
@@ -22,9 +22,10 @@ public:
 			lua_pushlightuserdata(L, m_hwnd);
 			luaM_pcall(L, 1, 0);
 		}
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		if (m_onApplyRef)
 		{
@@ -32,6 +33,7 @@ public:
 			lua_pushlightuserdata(L, m_hwnd);
 			luaM_pcall(L, 1, 0);
 		}
+		return true;
 	}
 
 	void OnDestroy() override

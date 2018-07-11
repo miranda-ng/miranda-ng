@@ -163,7 +163,7 @@ public:
 public:
 	CSrmmWindow(MCONTACT hContact, bool bIncoming);
 
-	void OnInitDialog() override;
+	bool OnInitDialog() override;
 	void OnDestroy() override;
 
 	void ScrollToBottom() override;
@@ -207,7 +207,7 @@ class CChatRoomDlg : public CScriverWindow
 public:
 	CChatRoomDlg(SESSION_INFO *si);
 
-	void OnInitDialog() override;
+	bool OnInitDialog() override;
 	void OnDestroy() override;
 
 	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
@@ -284,7 +284,7 @@ class CErrorDlg : public CDlgBase
 	CCtrlButton m_btnOk, m_btnCancel;
 
 protected:
-	void OnInitDialog() override;
+	bool OnInitDialog() override;
 
 public:
 	CErrorDlg(const wchar_t *pwszDescr, HWND, MessageSendQueueItem*);

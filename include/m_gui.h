@@ -412,7 +412,6 @@ public:
 	void SetCaption(const wchar_t *ptszCaption);
 	void NotifyChange(void); // sends a notification to a parent window
 
-	__forceinline void Fail() { m_lresult = false; }
 	__forceinline HINSTANCE GetInst() const { return m_pPlugin.getInst(); }
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline void Hide() { Show(SW_HIDE); }
@@ -424,14 +423,13 @@ public:
 	static CDlgBase* Find(HWND hwnd);
 
 protected:
-	HWND    m_hwnd;  // must be the first data item
-	HWND    m_hwndParent;
+	HWND    m_hwnd = nullptr;  // must be the first data item
+	HWND    m_hwndParent = nullptr;
 	int     m_idDialog;
-	bool    m_isModal;
-	bool    m_initialized;
-	bool    m_forceResizable;
-	bool    m_bExiting; // window received WM_CLOSE and gonna die soon
-	LRESULT m_lresult;
+	bool    m_isModal = false;
+	bool    m_initialized = false;
+	bool    m_forceResizable = false;
+	bool    m_bExiting = false; // window received WM_CLOSE and gonna die soon
 
 	CMPluginBase &m_pPlugin;
 
@@ -440,17 +438,17 @@ protected:
 
 	// override this handlers to provide custom functionality
 	// general messages
-	virtual void OnInitDialog() { }
-	virtual void OnClose() { }
-	virtual void OnDestroy() { }
+	virtual bool OnInitDialog();
+	virtual bool OnApply();
+	virtual bool OnClose();
+	virtual void OnDestroy();
 
-	virtual void OnTimer(CTimer*) {}
+	virtual void OnTimer(CTimer*);
 
 	// miranda-related stuff
 	virtual int Resizer(UTILRESIZECONTROL *urc);
-	virtual void OnApply() {}
-	virtual void OnReset() {}
-	virtual void OnChange() {}
+	virtual void OnReset();
+	virtual void OnChange();
 
 	// main dialog procedure
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
@@ -479,6 +477,7 @@ private:
 	LIST<CCtrlBase> m_controls;
 
 	void NotifyControls(void (CCtrlBase::*fn)());
+	bool VerifyControls(bool (CCtrlBase::*fn)());
 
 	CTimer* FindTimer(int idEvent);
 
@@ -567,7 +566,7 @@ public:
 	virtual void OnInit();
 	virtual void OnDestroy();
 
-	virtual void OnApply();
+	virtual bool OnApply();
 	virtual void OnReset();
 
 protected:
@@ -819,7 +818,7 @@ public:
 	CCtrlCheck(CDlgBase *dlg, int ctrlId);
 	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) override;
 
-	void OnApply() override;
+	bool OnApply() override;
 	void OnReset() override;
 
 	int GetState();
@@ -839,7 +838,7 @@ public:
 	CCtrlEdit(CDlgBase *dlg, int ctrlId);
 	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
 
-	void OnApply() override;
+	bool OnApply() override;
 	void OnReset() override;
 
 	void SetMaxLength(unsigned int len);
@@ -882,7 +881,7 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlData
 public:
 	CCtrlSpin(CDlgBase *dlg, int ctrlId);
 
-	void OnApply() override;
+	bool OnApply() override;
 	void OnReset() override;
 
 	WORD GetPosition();
@@ -942,7 +941,7 @@ public:
 
 	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
 	void OnInit() override;
-	void OnApply() override;
+	bool OnApply() override;
 	void OnReset() override;
 
 	// Control interface
@@ -1354,7 +1353,7 @@ protected:
 	void OnInit() override;
 	void OnDestroy() override;
 
-	void OnApply() override;
+	bool OnApply() override;
 	void OnReset() override;
 
 	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;

@@ -272,7 +272,7 @@ public:
 		chkSavePerContact.OnChange = Callback(this, &CMainOptionsDlg::onChange_SavePerContact);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		SetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE, (GetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE) & ~WS_BORDER) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		FillCheckBoxTree(statusValues, _countof(statusValues), db_get_dw(0, SRMM_MODULE, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
@@ -297,9 +297,10 @@ public:
 		cmbSendMode.SetCurSel(g_dat.sendMode);
 
 		onChange_AutoPopup(0);
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		db_set_dw(0, SRMM_MODULE, SRMSGSET_POPFLAGS, MakeCheckBoxTreeFlags());
 		db_set_b(0, SRMM_MODULE, SRMSGSET_AUTOPOPUP, chkAutoPopup.GetState());
@@ -316,6 +317,7 @@ public:
 		db_set_b(0, SRMM_MODULE, SRMSGSET_CASCADE, chkCascade.GetState());
 
 		db_set_b(0, SRMM_MODULE, SRMSGSET_HIDECONTAINERS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_HIDECONTAINERS));
+		return true;
 	}
 
 	void onChange_AutoPopup(CCtrlCheck*)
@@ -358,7 +360,7 @@ public:
 		chkSeparateChats.OnChange = Callback(this, &CTabsOptionsDlg::onChange_SeparateChats);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		CheckDlgButton(m_hwnd, IDC_USETABS, db_get_b(0, SRMM_MODULE, SRMSGSET_USETABS, SRMSGDEFSET_USETABS) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_ALWAYSSHOWTABS, !db_get_b(0, SRMM_MODULE, SRMSGSET_HIDEONETAB, SRMSGDEFSET_HIDEONETAB) ? BST_CHECKED : BST_UNCHECKED);
@@ -380,9 +382,10 @@ public:
 		CheckDlgButton(m_hwnd, IDC_SEPARATECHATSCONTAINERS, db_get_b(0, SRMM_MODULE, SRMSGSET_SEPARATECHATSCONTAINERS, SRMSGDEFSET_SEPARATECHATSCONTAINERS) ? BST_CHECKED : BST_UNCHECKED);
 
 		onChange_UseTabs(0);
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		db_set_b(0, SRMM_MODULE, SRMSGSET_USETABS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_USETABS));
 		db_set_b(0, SRMM_MODULE, SRMSGSET_TABSATBOTTOM, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TABSATBOTTOM));
@@ -398,6 +401,7 @@ public:
 		db_set_b(0, SRMM_MODULE, SRMSGSET_SWITCHTOACTIVE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SWITCHTOACTIVE));
 		db_set_b(0, SRMM_MODULE, SRMSGSET_TABCLOSEBUTTON, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TABCLOSEBUTTON));
 		db_set_b(0, SRMM_MODULE, SRMSGSET_SEPARATECHATSCONTAINERS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SEPARATECHATSCONTAINERS));
+		return true;
 	}
 
 	void onChange_UseTabs(CCtrlCheck*)
@@ -463,7 +467,7 @@ public:
 		chkShowTitlebar.OnChange = Callback(this, &CLayoutOptionsDlg::onChange_ShowTitlebar);
 	}
 
-	void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		CheckDlgButton(m_hwnd, IDC_SHOWSTATUSBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SHOWTITLEBAR, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR) ? BST_CHECKED : BST_UNCHECKED);
@@ -491,9 +495,10 @@ public:
 
 		CheckDlgButton(m_hwnd, IDC_SHOWPROGRESS, db_get_b(0, SRMM_MODULE, SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_AVATARSUPPORT, g_dat.flags & SMF_AVATAR);
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		GetWindowText(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), g_dat.wszTitleFormat, _countof(g_dat.wszTitleFormat));
 		db_set_ws(0, SRMM_MODULE, SRMSGSET_WINDOWTITLE, g_dat.wszTitleFormat);
@@ -513,6 +518,7 @@ public:
 
 		db_set_w(0, SRMM_MODULE, SRMSGSET_AUTORESIZELINES, (WORD)SendDlgItemMessage(m_hwnd, IDC_INPUTLINESSPIN, UDM_GETPOS, 0, 0));
 		LoadInfobarFonts();
+		return true;
 	}
 
 	void onChange_Transparency(CCtrlCheck*)
@@ -607,7 +613,7 @@ public:
 		chkIndentText.OnChange = Callback(this, &CLogOptionsDlg::onChange_IndentText);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		switch (db_get_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
 		case LOADHISTORY_UNREAD:
@@ -669,9 +675,10 @@ public:
 		m_log.SetReadOnly(true);
 
 		OnChange();
+		return true;
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		if (IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT))
 			db_set_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
@@ -698,6 +705,7 @@ public:
 
 		FreeMsgLogIcons();
 		LoadMsgLogIcons();
+		return true;
 	}
 
 	void onClick_Fonts(CCtrlHyperlink*)

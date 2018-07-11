@@ -11,9 +11,10 @@ COptions::COptions()
 	m_enabled.OnChange = Callback(this, &COptions::Enabled_OnChange);
 }
 
-void COptions::OnInitDialog()
+bool COptions::OnInitDialog()
 {
 	m_enabled.SetState(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS));
+	return true;
 }
 
 void COptions::Shortcut_OnClick(CCtrlBase*)

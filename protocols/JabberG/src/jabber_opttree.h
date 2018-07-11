@@ -39,10 +39,10 @@ public:
 
 	void AddOption(wchar_t *szOption, CMOption<BYTE> &option);
 
-	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
-	void OnDestroy();
-	void OnInit();
-	void OnApply();
+	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
+	void OnDestroy() override;
+	void OnInit() override;
+	bool OnApply() override;
 
 protected:
 	struct COptionsItem

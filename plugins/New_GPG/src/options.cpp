@@ -50,7 +50,7 @@ public:
 		check_JABBER_API.OnChange = Callback(this, &COptGpgMainDlg::onChange_JABBER_API);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		list_USERLIST.AddColumn(0, TranslateT("Contact"), 60);
 		list_USERLIST.AddColumn(1, TranslateT("Key ID"), 50);
@@ -131,9 +131,10 @@ public:
 		////////////////
 
 		list_USERLIST.OnItemChanged = Callback(this, &COptGpgMainDlg::onItemChanged_USERLIST);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		db_set_b(NULL, MODULENAME, "bDebugLog", globals.bDebugLog = check_DEBUG_LOG.GetState());
 
@@ -148,6 +149,7 @@ public:
 		}
 		db_set_b(NULL, MODULENAME, "bAutoExchange", globals.bAutoExchange = check_AUTO_EXCHANGE.GetState());
 		db_set_ws(NULL, MODULENAME, "szLogFilePath", ptrW(edit_LOG_FILE_EDIT.GetText()));
+		return true;
 	}
 
 	void onClick_DELETE_KEY_BUTTON(CCtrlButton*)
@@ -382,13 +384,14 @@ public:
 
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		edit_BIN_PATH.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"gpg.exe")));
 		edit_HOME_DIR.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"gpg")));
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		wchar_t tmp[8192];
 		db_set_ws(NULL, MODULENAME, "szGpgBinPath", edit_BIN_PATH.GetText());
@@ -396,6 +399,7 @@ public:
 		while (tmp[mir_wstrlen(tmp) - 1] == '\\')
 			tmp[mir_wstrlen(tmp) - 1] = '\0';
 		db_set_ws(NULL, MODULENAME, "szHomePath", tmp);
+		return true;
 	}
 
 	void onClick_SET_BIN_PATH(CCtrlButton*)
@@ -473,7 +477,7 @@ public:
 		edit_IN_OPEN_TAG(this, IDC_IN_OPEN_TAG), edit_IN_CLOSE_TAG(this, IDC_IN_CLOSE_TAG), edit_OUT_OPEN_TAG(this, IDC_OUT_OPEN_TAG), edit_OUT_CLOSE_TAG(this, IDC_OUT_CLOSE_TAG)
 	{}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		check_APPEND_TAGS.SetState(db_get_b(NULL, MODULENAME, "bAppendTags", 0));
 		check_STRIP_TAGS.SetState(db_get_b(NULL, MODULENAME, "bStripTags", 0));
@@ -481,9 +485,10 @@ public:
 		edit_IN_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szInCloseTag", L"</GPGdec>")));
 		edit_OUT_OPEN_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szOutOpenTag", L"<GPGenc>")));
 		edit_OUT_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szOutCloseTag", L"</GPGenc>")));
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		db_set_b(NULL, MODULENAME, "bAppendTags", globals.bAppendTags = check_APPEND_TAGS.GetState());
 		db_set_b(NULL, MODULENAME, "bStripTags", globals.bStripTags = check_STRIP_TAGS.GetState());
@@ -505,6 +510,7 @@ public:
 			mir_free(globals.outclosetag);
 			globals.outclosetag = tmp;
 		}
+		return true;
 	}
 };
 
@@ -522,15 +528,17 @@ public:
 		btn_IMPORT.OnClick = Callback(this, &COptGpgAdvDlg::onClick_IMPORT);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		check_PRESCENSE_SUBSCRIPTION.SetState(db_get_b(NULL, MODULENAME, "bPresenceSigning", 0));
 		check_PRESCENSE_SUBSCRIPTION.Enable(globals.bJabberAPI);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		db_set_b(NULL, MODULENAME, "bPresenceSigning", globals.bPresenceSigning = check_PRESCENSE_SUBSCRIPTION.GetState());
+		return true;
 	}
 
 	void onClick_EXPORT(CCtrlButton*)
@@ -581,7 +589,7 @@ public:
 		btn_IMPORT.OnClick = Callback(this, &CDlgLoadPubKeyDlg::onClick_IMPORT);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		hContact = user_data[1];
 		SetWindowPos(m_hwnd, nullptr, globals.load_key_rect.left, globals.load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
@@ -663,6 +671,7 @@ public:
 			edit_PUBLIC_KEY_EDIT.SetText(!str.empty() ? str.c_str() : L"");
 		}
 		edit_p_PubKeyEdit = &edit_PUBLIC_KEY_EDIT;
+		return true;
 	}
 
 	virtual void OnDestroy() override

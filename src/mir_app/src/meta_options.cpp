@@ -70,7 +70,7 @@ public:
 	{
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		m_btnLock.SetState(g_metaOptions.bLockHandle);
 		m_btnCheck.SetState(g_metaOptions.bSuppressStatus);
@@ -90,9 +90,10 @@ public:
 			m_btnNick.SetState(true);
 		else
 			m_btnName.SetState(true);
+		return true;
 	}
 
-	virtual void OnApply()
+	bool OnApply() override
 	{
 		g_metaOptions.bLockHandle = m_btnLock.GetState() != 0;
 		g_metaOptions.bSuppressStatus = m_btnCheck.GetState() != 0;
@@ -111,6 +112,7 @@ public:
 
 		Meta_SuppressStatus(g_metaOptions.bSuppressStatus);
 		Meta_SetAllNicks();
+		return true;
 	}
 };
 

@@ -43,9 +43,9 @@ protected:
 	CCtrlButton m_btnOk;
 	CCtrlButton m_btnCancel;
 
-	void OnInitDialog();
-	int Resizer(UTILRESIZECONTROL *urc);
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	bool OnInitDialog() override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void StopTimer();
 
@@ -61,7 +61,7 @@ CJabberDlgPepBase::CJabberDlgPepBase(CJabberProto *proto, int id) :
 {
 }
 
-void CJabberDlgPepBase::OnInitDialog()
+bool CJabberDlgPepBase::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -70,6 +70,7 @@ void CJabberDlgPepBase::OnInitDialog()
 	wchar_t buf[128];
 	mir_snwprintf(buf, TranslateT("OK (%d)"), m_time);
 	m_btnOk.SetText(buf);
+	return true;
 }
 
 int CJabberDlgPepBase::Resizer(UTILRESIZECONTROL *urc)
@@ -132,8 +133,8 @@ protected:
 	CCtrlCombo m_cbModes;
 	CCtrlEdit m_txtDescription;
 
-	void OnInitDialog();
-	int Resizer(UTILRESIZECONTROL *urc);
+	bool OnInitDialog() override;
+		int Resizer(UTILRESIZECONTROL *urc);
 
 	UI_MESSAGE_MAP(CJabberDlgPepSimple, CSuper);
 		UI_MESSAGE(WM_MEASUREITEM, OnWmMeasureItem);
@@ -220,7 +221,7 @@ wchar_t* CJabberDlgPepSimple::GetStatusText()
 	return m_text;
 }
 
-void CJabberDlgPepSimple::OnInitDialog()
+bool CJabberDlgPepSimple::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -240,6 +241,7 @@ void CJabberDlgPepSimple::OnInitDialog()
 
 	if (m_activeText)
 		m_txtDescription.SetText(m_activeText);
+	return true;
 }
 
 int CJabberDlgPepSimple::Resizer(UTILRESIZECONTROL *urc)

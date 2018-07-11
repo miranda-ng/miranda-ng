@@ -105,7 +105,7 @@ public:
 		m_yPosition = IsWindowVisible(hwndChooser) ? rc.top - 1 : rc.top + 20;
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		int iSquareRoot = (int)sqrt(static_cast<float>(16));
 
@@ -127,9 +127,10 @@ public:
 		m_text.SetText(m_bForeground ? TranslateT("Text color") : TranslateT("Background color"));
 		SetWindowPos(m_text.GetHwnd(), nullptr, 0, 0, width, 20, 0);
 		SetWindowPos(m_hwnd, nullptr, m_xPosition, m_yPosition, width, height, SWP_SHOWWINDOW);
+		return true;
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
 		case WM_COMMAND:
@@ -265,9 +266,10 @@ public:
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	virtual void OnClose() override
+	bool OnClose() override
 	{
 		SetFocus(m_hwndTarget);
+		return true;
 	}
 };
 

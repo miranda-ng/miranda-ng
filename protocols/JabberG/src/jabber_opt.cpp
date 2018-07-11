@@ -240,14 +240,15 @@ public:
 	}
 
 protected:
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		wchar_t text[256];
 		mir_snwprintf(text, STR_FORMAT, TranslateT("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
 		SetDlgItemText(m_hwnd, IDC_REG_STATUS, text);
+		return true;
 	}
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
 		case WM_JABBER_REGDLG_UPDATE:	// wParam=progress (0-100), lparam=status string
@@ -288,8 +289,6 @@ private:
 
 		m_btnOk.SetText(TranslateT("Cancel"));
 		m_bProcessStarted = true;
-
-		m_lresult = TRUE;
 	}
 };
 
@@ -419,7 +418,7 @@ public:
 	}
 
 protected:
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 
@@ -475,9 +474,10 @@ protected:
 			chkUseDomainLogin_OnChange(&m_chkUseDomainLogin);
 
 		CheckRegistration();
+		return true;
 	}
 
-	void OnApply()
+	bool OnApply() override
 	{
 		// clear saved password
 		m_proto->m_savedPassword = nullptr;
@@ -511,6 +511,7 @@ protected:
 
 			m_proto->SendPresence(m_proto->m_iStatus, true);
 		}
+		return true;
 	}
 
 	void OnChange(CCtrlBase*)
@@ -519,7 +520,7 @@ protected:
 			CheckRegistration();
 	}
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
 		case WM_ACTIVATE:
@@ -815,15 +816,16 @@ public:
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)"), m_proto->m_bUseOMEMO);
 	}
 
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 
 		chkDirect_OnChange(&m_chkDirect);
 		chkProxy_OnChange(&m_chkProxy);
+		return true;
 	}
 
-	void OnApply()
+	bool OnApply() override
 	{
 		if (m_proto->m_bDisableFrame != m_oldFrameValue) {
 			m_proto->InitInfoFrame(); // create or destroy a frame
@@ -855,6 +857,7 @@ public:
 			m_proto->m_omemo.deinit();
 		m_proto->m_clientCapsManager.UpdateFeatHash();
 		m_proto->SendPresence(m_proto->m_iStatus, true);
+		return true;
 	}
 
 	void chkDirect_OnChange(CCtrlData *)
@@ -1570,7 +1573,7 @@ public:
 protected:
 	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_HIPCHAT, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS };
 
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 
@@ -1703,9 +1706,10 @@ protected:
 			chkUseDomainLogin_OnChange(&m_chkUseDomainLogin);
 
 		CheckRegistration();
+		return true;
 	}
 
-	void OnApply()
+	bool OnApply() override
 	{
 		// clear saved password
 		m_proto->m_savedPassword = nullptr;
@@ -1806,6 +1810,7 @@ protected:
 
 			m_proto->SendPresence(m_proto->m_iStatus, true);
 		}
+		return true;
 	}
 
 	void OnChange(CCtrlBase*)
@@ -1814,7 +1819,7 @@ protected:
 			CheckRegistration();
 	}
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
 		case WM_JABBER_REFRESH:

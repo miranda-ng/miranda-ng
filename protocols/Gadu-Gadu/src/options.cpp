@@ -32,7 +32,7 @@ GaduOptionsDlgConference::GaduOptionsDlgConference(GaduProto *proto) :
 	CreateLink(cmbDefaultChatPolicy, GG_KEY_GC_POLICY_DEFAULT, DBVT_WORD, GG_KEYDEF_GC_POLICY_DEFAULT);
 }
 
-void GaduOptionsDlgConference::OnInitDialog()
+bool GaduOptionsDlgConference::OnInitDialog()
 {
 	cmbPolicyForAllChatParticipants.AddString(TranslateT("Allow"), 0L);
 	cmbPolicyForAllChatParticipants.AddString(TranslateT("Ask"), 1L);
@@ -55,9 +55,10 @@ void GaduOptionsDlgConference::OnInitDialog()
 	cmbDefaultChatPolicy.AddString(TranslateT("Ignore"), 2L);
 	listIndex = m_proto->getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT);
 	cmbDefaultChatPolicy.SetCurSel(listIndex);
+	return true;
 }
 
-void GaduOptionsDlgConference::OnApply()
+bool GaduOptionsDlgConference::OnApply()
 {
 	int selectionIndex = cmbPolicyForAllChatParticipants.GetCurSel();
 	m_proto->setWord(GG_KEY_GC_POLICY_TOTAL, cmbPolicyForAllChatParticipants.GetItemData(selectionIndex));
@@ -67,8 +68,10 @@ void GaduOptionsDlgConference::OnApply()
 
 	selectionIndex = cmbDefaultChatPolicy.GetCurSel();
 	m_proto->setWord(GG_KEY_GC_POLICY_DEFAULT, cmbDefaultChatPolicy.GetItemData(selectionIndex));
+	return true;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
 GaduOptionsDlgAdvanced::GaduOptionsDlgAdvanced(GaduProto *proto) :
 	GaduDlgBase(proto, IDD_OPT_GG_ADVANCED),
@@ -114,7 +117,7 @@ GaduOptionsDlgAdvanced::GaduOptionsDlgAdvanced(GaduProto *proto) :
 	edtForwardPort.OnChange = Callback(this, &GaduOptionsDlgAdvanced::showRecconectRequired);
 }
 
-void GaduOptionsDlgAdvanced::OnInitDialog()
+bool GaduOptionsDlgAdvanced::OnInitDialog()
 {
 	chkKeepConnectionAlive.Disable();
 	chkSslConnection.Disable();
@@ -136,6 +139,7 @@ void GaduOptionsDlgAdvanced::OnInitDialog()
 	txtForwardPortLabel.Enable(useForwarding);
 
 	txtReconnectRequired.Hide();
+	return true;
 }
 
 void GaduOptionsDlgAdvanced::onCheck_ManualHosts(CCtrlCheck *)

@@ -17,8 +17,7 @@ CMLuaOptions::CMLuaOptions()
 
 static int ScriptStatusToIcon(ScriptStatus status)
 {
-	switch (status)
-	{
+	switch (status) {
 	case ScriptStatus::None:
 		return -1;
 	case ScriptStatus::Loaded:
@@ -41,7 +40,7 @@ void CMLuaOptions::LoadScripts()
 	}
 }
 
-void CMLuaOptions::OnInitDialog()
+bool CMLuaOptions::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
@@ -71,9 +70,10 @@ void CMLuaOptions::OnInitDialog()
 	LoadScripts();
 
 	isScriptListInit = true;
+	return true;
 }
 
-void CMLuaOptions::OnApply()
+bool CMLuaOptions::OnApply()
 {
 	int count = m_scripts.GetItemCount();
 	for (int iItem = 0; iItem < count; iItem++) {
@@ -83,6 +83,7 @@ void CMLuaOptions::OnApply()
 		else
 			script->Enable();
 	}
+	return true;
 }
 
 INT_PTR CMLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

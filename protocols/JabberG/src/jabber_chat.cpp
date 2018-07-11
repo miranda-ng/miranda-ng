@@ -712,7 +712,7 @@ public:
 		mir_free(m_room);
 	}
 
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 
@@ -724,6 +724,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 		ResetListOptions(&m_clc);
 		FilterList(&m_clc);
+		return true;
 	}
 
 	void OnCommand_AddJid(CCtrlButton*)

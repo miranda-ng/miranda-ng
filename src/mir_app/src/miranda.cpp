@@ -200,48 +200,41 @@ class CWaitRestartDlg : public CDlgBase
 	CCtrlButton m_cancel;
 
 protected:
-	void OnInitDialog();
-	
-	void Timer_OnEvent(CTimer*);
+	bool OnInitDialog() override
+	{
+		m_progress.SetRange(MIRANDA_PROCESS_WAIT_STEPS);
+		m_progress.SetStep(1);
+		m_timer.Start(MIRANDA_PROCESS_WAIT_RESOLUTION);
+		return true;
+	}
 
-	void Cancel_OnClick(CCtrlBase*);
+	void Timer_OnEvent(CTimer*)
+	{
+		if (m_progress.Move() == MIRANDA_PROCESS_WAIT_STEPS)
+			EndModal(0);
+		if (WaitForSingleObject(m_hProcess, 1) != WAIT_TIMEOUT) {
+			m_progress.SetPosition(MIRANDA_PROCESS_WAIT_STEPS);
+			EndModal(0);
+		}
+	}
+
+	void Cancel_OnClick(CCtrlBase*)
+	{
+		m_progress.SetPosition(MIRANDA_PROCESS_WAIT_STEPS);
+		EndModal(1);
+	}
 
 public:
-	CWaitRestartDlg(HANDLE hProcess);
-};
-
-CWaitRestartDlg::CWaitRestartDlg(HANDLE hProcess)
-	: CDlgBase(g_plugin, IDD_WAITRESTART), m_timer(this, 1),
-	m_progress(this, IDC_PROGRESSBAR), m_cancel(this, IDCANCEL)
-{
-	m_autoClose = 0;
-	m_hProcess = hProcess;
-	m_timer.OnEvent = Callback(this, &CWaitRestartDlg::Timer_OnEvent);
-	m_cancel.OnClick = Callback(this, &CWaitRestartDlg::Cancel_OnClick);
-}
-
-void CWaitRestartDlg::OnInitDialog()
-{
-	m_progress.SetRange(MIRANDA_PROCESS_WAIT_STEPS);
-	m_progress.SetStep(1);
-	m_timer.Start(MIRANDA_PROCESS_WAIT_RESOLUTION);
-}
-
-void CWaitRestartDlg::Timer_OnEvent(CTimer*)
-{
-	if (m_progress.Move() == MIRANDA_PROCESS_WAIT_STEPS)
-		EndModal(0);
-	if (WaitForSingleObject(m_hProcess, 1) != WAIT_TIMEOUT) {
-		m_progress.SetPosition(MIRANDA_PROCESS_WAIT_STEPS);
-		EndModal(0);
+	CWaitRestartDlg(HANDLE hProcess)
+		: CDlgBase(g_plugin, IDD_WAITRESTART), m_timer(this, 1),
+		m_progress(this, IDC_PROGRESSBAR), m_cancel(this, IDCANCEL)
+	{
+		m_autoClose = 0;
+		m_hProcess = hProcess;
+		m_timer.OnEvent = Callback(this, &CWaitRestartDlg::Timer_OnEvent);
+		m_cancel.OnClick = Callback(this, &CWaitRestartDlg::Cancel_OnClick);
 	}
-}
-
-void CWaitRestartDlg::Cancel_OnClick(CCtrlBase*)
-{
-	m_progress.SetPosition(MIRANDA_PROCESS_WAIT_STEPS);
-	EndModal(1);
-}
+};
 
 INT_PTR CheckRestart()
 {

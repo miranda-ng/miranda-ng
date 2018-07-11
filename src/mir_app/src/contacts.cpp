@@ -314,7 +314,7 @@ public:
 		m_nameOrder.OnBeginDrag = Callback(this, &CContactOptsDlg::OnBeginDrag);
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
@@ -325,9 +325,10 @@ public:
 			tvis.item.pszText = TranslateW(nameOrderDescr[nameOrder[i]]);
 			m_nameOrder.InsertItem(&tvis);
 		}
+		return true;
 	}
 
-	virtual void OnApply()
+	bool OnApply() override
 	{
 		TVITEMEX tvi;
 		tvi.hItem = m_nameOrder.GetRoot();
@@ -340,6 +341,7 @@ public:
 		}
 		db_set_blob(0, "Contact", "NameOrder", nameOrder, _countof(nameOrderDescr));
 		g_clistApi.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);
+		return true;
 	}
 
 	void OnBeginDrag(CCtrlTreeView::TEventInfo *evt)

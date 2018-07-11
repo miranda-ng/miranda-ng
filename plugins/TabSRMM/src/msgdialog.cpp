@@ -603,7 +603,7 @@ CThumbBase* CSrmmWindow::tabCreateThumb(CProxyWindow *pProxy) const
 	return new CThumbIM(pProxy);
 }
 
-void CSrmmWindow::OnInitDialog()
+bool CSrmmWindow::OnInitDialog()
 {
 	CTabBaseDlg::OnInitDialog();
 
@@ -850,6 +850,7 @@ void CSrmmWindow::OnInitDialog()
 		m_pContainer->dwFlags &= ~CNT_CREATE_MINIMIZED;
 		m_pContainer->m_hwndActive = m_hwnd;
 	}
+	return true;
 }
 
 void CSrmmWindow::OnDestroy()

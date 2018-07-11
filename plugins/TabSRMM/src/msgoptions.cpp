@@ -585,7 +585,7 @@ public:
 		btnReset.OnClick = Callback(this, &COptMainDlg::onClick_Reset);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0, FALSE);
 
@@ -593,9 +593,10 @@ public:
 
 		spnAvaSize.SetRange(150);
 		spnAvaSize.SetPosition(M.GetDword("avatarheight", 100));
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		db_set_dw(0, SRMSGMOD_T, "avatarheight", spnAvaSize.GetPosition());
 		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", chkAvaPreserve.GetState());
@@ -604,9 +605,10 @@ public:
 		TreeViewToDB(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS));
 	}
@@ -617,7 +619,7 @@ public:
 		db_set_dw(0, SRMSGMOD_T, "cWarningsH", 0);
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_WINDOWOPTIONS)
 			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
@@ -682,7 +684,7 @@ public:
 		have_hpp = ServiceExists("History++/ExtGrid/NewWindow") != 0;
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
@@ -744,9 +746,10 @@ public:
 
 		SetDlgItemText(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, TranslateT("You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++."));
 		ShowHide();
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		LRESULT msglogmode = cmbLogDisplay.GetCurSel();
 		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
@@ -790,9 +793,10 @@ public:
 			db_set_dw(0, SRMSGMOD_T, "maxhist", 0);
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_LOGOPTIONS));
 	}
@@ -833,7 +837,7 @@ public:
 		ShowHide();
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_LOGOPTIONS)
 			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
@@ -910,7 +914,7 @@ public:
 		chkNotifyPopup.OnChange = Callback(this, &COptTypingDlg::onCheck_NotifyPopup);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		CLCINFOITEM cii = { sizeof(cii) };
 		cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
@@ -951,9 +955,10 @@ public:
 			Utils::showDlgControl(m_hwnd, IDC_STATIC111, SW_HIDE);
 			Utils::showDlgControl(m_hwnd, IDC_MTN_POPUPMODE, SW_HIDE);
 		}
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		SaveList();
 		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPING, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
@@ -965,9 +970,10 @@ public:
 		db_set_b(0, SRMSGMOD, "ShowTypingPopup", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP));
 		db_set_b(0, SRMSGMOD_T, "MTN_PopupMode", (BYTE)SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_GETCURSEL, 0, 0));
 		PluginConfig.reloadSettings();
+		return true;
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_NOTIFY && ((NMHDR*)lParam)->idFrom == IDC_CLIST) {
 			switch (((NMHDR*)lParam)->code) {
@@ -1035,7 +1041,7 @@ public:
 		chkLimit.OnChange = Callback(this, &COptTabbedDlg::onChange_Cut);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, 0, FALSE);
 
@@ -1048,9 +1054,10 @@ public:
 		cmbEscMode.AddString(TranslateT("Minimize the window to the task bar"));
 		cmbEscMode.AddString(TranslateT("Close or hide window, depends on the close button setting above"));
 		cmbEscMode.SetCurSel(PluginConfig.m_EscapeCloses);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		db_set_w(0, SRMSGMOD_T, "cut_at", spnLimit.GetPosition());
 		db_set_b(0, SRMSGMOD_T, "cuttitle", chkLimit.GetState());
@@ -1060,9 +1067,10 @@ public:
 
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS));
 	}
@@ -1080,7 +1088,7 @@ public:
 		spnLimit.Enable(bEnabled);
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_COMMAND && wParam == DM_STATUSMASKSET)
 			db_set_dw(0, SRMSGMOD_T, "autopopupmask", (DWORD)lParam);
@@ -1131,7 +1139,7 @@ public:
 		chkLimits.OnChange = chkSingle.OnChange = chkGroup.OnChange = chkDefault.OnChange = Callback(this, &COptContainersDlg::onChangeLimits);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		chkGroup.SetState(M.GetByte("useclistgroups", 0));
 		chkLimits.SetState(M.GetByte("limittabs", 0));
@@ -1161,9 +1169,10 @@ public:
 		chkUseAeroPeek.Enable(PluginConfig.m_bIsWin7);
 		if (PluginConfig.m_bIsVista)
 			Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, chkUseAero.GetState() != 0);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		bool fOldAeroState = M.getAeroState();
 
@@ -1182,6 +1191,7 @@ public:
 			SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOLORIZATIONCOLORCHANGED, 0, 0);	// simulate aero state change
 		}
 		BuildContainerMenu();
+		return true;
 	}
 };
 
@@ -1205,7 +1215,7 @@ public:
 		btnRevert.OnClick = Callback(this, &COptAdvancedDlg::onClick_Revert);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0, FALSE);
 
@@ -1214,9 +1224,10 @@ public:
 
 		spnHistSize.SetRange(255, 15);
 		spnHistSize.SetPosition(M.GetByte("historysize", 0));
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		TreeViewToDB(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, SRMSGMOD_T, nullptr);
 
@@ -1226,14 +1237,15 @@ public:
 
 		db_set_b(0, SRMSGMOD_T, "historysize", spnHistSize.GetPosition());
 		PluginConfig.reloadAdv();
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE));
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_PLUS_CHECKTREE)
 			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);

@@ -52,7 +52,7 @@ CAuthRequest::CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact)
 	m_ok.OnClick = Callback(this, &CAuthRequest::OnOk);
 }
 
-void CAuthRequest::OnInitDialog()
+bool CAuthRequest::OnInitDialog()
 {
 	if (m_pDlg) {
 		ptrW strfeedtitle(m_pDlg->m_feedtitle.GetText());
@@ -78,6 +78,7 @@ void CAuthRequest::OnInitDialog()
 			}
 		}
 	}
+	return true;
 }
 
 void CAuthRequest::OnOk(CCtrlBase*)

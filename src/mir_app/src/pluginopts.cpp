@@ -272,7 +272,7 @@ public:
 		m_plugList.OnKeyDown = Callback(this, &CPluginOptDlg::list_OnKeyDown);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNICODE);
@@ -322,9 +322,10 @@ public:
 			m_plugList.SetColumnWidth(2, max);
 
 		m_plugList.SortItems(SortPlugins, (LPARAM)m_hwnd);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		CMStringW bufRestart(TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 		bufRestart.AppendChar('\n');
@@ -385,9 +386,10 @@ public:
 			if (MessageBox(m_hwnd, bufRestart, L"Miranda NG", MB_ICONWARNING | MB_YESNO) == IDYES)
 				CallService(MS_SYSTEM_RESTART, 1, 0);
 		}
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		arPluginList.destroy();
 

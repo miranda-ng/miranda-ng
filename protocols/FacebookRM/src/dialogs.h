@@ -46,10 +46,11 @@ private:
 	CCtrlButton m_sms;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	bool OnClose() override;
+
 	void OnOk(CCtrlButton*);
 	void OnSms(CCtrlButton*);
-	void OnClose();
 
 public:
 	CFacebookGuardDialog(FacebookProto *proto, const char *fb_dtsg);

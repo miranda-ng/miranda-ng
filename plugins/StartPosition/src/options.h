@@ -79,8 +79,8 @@ class COptionsDlg : public CDlgBase
 public:
     COptionsDlg();
 
-    void OnInitDialog() override;
-    void OnApply() override;
+    bool OnInitDialog() override;
+    bool OnApply() override;
 
 private:
     void removeOldSettings();

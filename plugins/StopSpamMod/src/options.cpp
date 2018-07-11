@@ -31,9 +31,9 @@ public:
 		chk_HIDECONTACTS(this, ID_HIDECONTACTS), chk_IGNORESPAMMERS(this, ID_IGNORESPAMMERS), chk_LOGSPAMTOFILE(this, ID_LOGSPAMTOFILE),
 		ctrl_DESCRIPTION(this, ID_DESCRIPTION), edit_MAXQUESTCOUNT(this, ID_MAXQUESTCOUNT)
 	{
-
 	}
-	virtual void OnInitDialog() override
+
+	bool OnInitDialog() override
 	{
 		ctrl_DESCRIPTION.SetText(TranslateW(pluginDescription));
 		edit_MAXQUESTCOUNT.SetInt(gbMaxQuestCount);
@@ -43,9 +43,10 @@ public:
 		chk_HIDECONTACTS.SetState(gbHideContacts);
 		chk_IGNORESPAMMERS.SetState(gbIgnoreContacts);
 		chk_LOGSPAMTOFILE.SetState(gbLogToFile);
-
+		return true;
 	}
-	virtual void OnApply() override
+
+	bool OnApply() override
 	{
 		db_set_dw(NULL, MODULENAME, "maxQuestCount", gbMaxQuestCount = edit_MAXQUESTCOUNT.GetInt());
 		db_set_b(NULL, MODULENAME, "infTalkProtection", gbInfTalkProtection = chk_INFTALKPROT.GetState());
@@ -54,7 +55,9 @@ public:
 		db_set_b(NULL, MODULENAME, "HideContacts", gbHideContacts = chk_HIDECONTACTS.GetState());
 		db_set_b(NULL, MODULENAME, "IgnoreContacts", gbIgnoreContacts = chk_IGNORESPAMMERS.GetState());
 		db_set_b(NULL, MODULENAME, "LogSpamToFile", gbLogToFile = chk_LOGSPAMTOFILE.GetState());
+		return true;
 	}
+
 private:
 	CCtrlCheck chk_INFTALKPROT, chk_ADDPERMANENT, chk_HANDLEAUTHREQ, chk_HIDECONTACTS, chk_IGNORESPAMMERS, chk_LOGSPAMTOFILE;
 	CCtrlData ctrl_DESCRIPTION;
@@ -72,7 +75,8 @@ public:
 		btn_VARS.OnClick = Callback(this, &COptMessagesDlg::onClick_VARS);
 
 	}
-	virtual void OnInitDialog() override
+
+	bool OnInitDialog() override
 	{
 		edit_QUESTION.SetText(gbQuestion.c_str());
 		edit_ANSWER.SetText(gbAnswer.c_str());
@@ -82,8 +86,10 @@ public:
 			edit_ANSWER.Disable();
 		variables_skin_helpbutton(m_hwnd, IDC_VARS);
 		gbVarsServiceExist ? btn_VARS.Enable() : btn_VARS.Disable();
+		return true;
 	}
-	virtual void OnApply() override
+
+	bool OnApply() override
 	{
 		db_set_ws(NULL, MODULENAME, "question", edit_QUESTION.GetText());
 		gbQuestion = DBGetContactSettingStringPAN(NULL, MODULENAME, "question", TranslateW(defQuestion));
@@ -93,7 +99,9 @@ public:
 		gbAuthRepl = DBGetContactSettingStringPAN(NULL, MODULENAME, "authrepl", TranslateW(defAuthReply));
 		db_set_ws(NULL, MODULENAME, "congratulation", edit_CONGRATULATION.GetText());
 		gbCongratulation = DBGetContactSettingStringPAN(NULL, MODULENAME, "congratulation", TranslateW(defCongrats));
+		return true;
 	}
+
 	void onClick_RESTOREDEFAULTS(CCtrlButton*)
 	{
 		edit_QUESTION.SetText(TranslateW(defQuestion));
@@ -124,16 +132,17 @@ public:
 		btn_REMOVEALL.OnClick = Callback(this, &COptProtoDlg::onClick_REMOVEALL);
 	}
 	
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		for (auto &pa : Accounts()) {
 			wchar_t *str = mir_utf8decodeW(pa->szModuleName);
 			ProtoInList(pa->szModuleName) ? list_USEDPROTO.AddString(str) : list_ALLPROTO.AddString(str);
 			mir_free(str);
 		}
+		return true;
 	}
 	
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		
 		LRESULT count = list_USEDPROTO.GetCount();
@@ -144,6 +153,7 @@ public:
 			mir_free(str);
 		}
 		db_set_s(NULL, MODULENAME, "protoList", out.str().c_str());
+		return true;
 	}
 
 	void onClick_ADD(CCtrlButton*)
@@ -198,7 +208,7 @@ public:
 	{
 		btn_MATH_DETAILS.OnClick = Callback(this, &COptAdvancedDlg::onClick_MATH_DETAILS);
 	}
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		chk_INVIS_DISABLE.SetState(gbInvisDisable);
 		chk_CASE_INSENSITIVE.SetState(gbCaseInsensitive);
@@ -215,8 +225,10 @@ public:
 		chk_HISTORY_LOG.SetState(gbHistoryLog);
 		chk_MATH_QUESTION.SetState(gbMathExpression);
 		edit_AUTOADDGROUP.SetText(gbAutoAuthGroup.c_str());
+		return true;
 	}
-	virtual void OnApply() override
+
+	bool OnApply() override
 	{
 		db_set_b(NULL, MODULENAME, "CaseInsensitive", gbCaseInsensitive = chk_CASE_INSENSITIVE.GetState());
 		db_set_b(NULL, MODULENAME, "DisableInInvis", gbInvisDisable = chk_INVIS_DISABLE.GetState());
@@ -254,20 +266,19 @@ public:
 					Clist_GroupCreate(0, gbAutoAuthGroup.c_str());
 			}
 		}
+		return true;
 	}
+
 	void onClick_MATH_DETAILS(CCtrlButton*)
 	{
 		MessageBox(m_hwnd, TranslateT("If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces."), TranslateT("Info"), MB_OK);
 	}
+
 private:
 	CCtrlCheck chk_INVIS_DISABLE, chk_CASE_INSENSITIVE, chk_SPECIALGROUP, chk_EXCLUDE, chk_REMOVE_TMP, chk_REMOVE_TMP_ALL, chk_IGNOREURL, chk_AUTOAUTH, chk_ADDTOSRVLST, chk_REQAUTH, chk_REGEX, chk_HISTORY_LOG, chk_MATH_QUESTION;
 	CCtrlEdit edit_SPECIALGROUPNAME, edit_AUTOADDGROUP;
 	CCtrlButton btn_MATH_DETAILS;
-
 };
-
-
-
 
 int OnOptInit(WPARAM w, LPARAM l)
 {

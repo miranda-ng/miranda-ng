@@ -32,13 +32,14 @@ CVkCaptchaForm::CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS *param) :
 	m_edtValue.OnChange = Callback(this, &CVkCaptchaForm::On_edtValue_Change);
 }
 
-void CVkCaptchaForm::OnInitDialog()
+bool CVkCaptchaForm::OnInitDialog()
 {
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_KEYS));
 
 	m_btnOk.Disable();
 	m_btnOpenInBrowser.Enable((m_param->bmp != nullptr));
 	m_instruction.SetText(TranslateT("Enter the text you see"));
+	return true;
 }
 
 INT_PTR CVkCaptchaForm::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -115,7 +116,7 @@ CVkWallPostForm::CVkWallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS *param) :
 	m_edtUrl.OnChange = Callback(this, &CVkWallPostForm::On_edtValue_Change);
 }
 
-void CVkWallPostForm::OnInitDialog()
+bool CVkWallPostForm::OnInitDialog()
 {
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WALL));
 
@@ -123,6 +124,7 @@ void CVkWallPostForm::OnInitDialog()
 	SetCaption(wszTitle);
 
 	m_btnShare.Disable();
+	return true;
 }
 
 void CVkWallPostForm::OnDestroy()
@@ -155,11 +157,12 @@ CVkInviteChatForm::CVkInviteChatForm(CVkProto *proto) :
 	m_btnOk.OnClick = Callback(this, &CVkInviteChatForm::btnOk_OnOk);
 }
 
-void CVkInviteChatForm::OnInitDialog()
+bool CVkInviteChatForm::OnInitDialog()
 {
 	for (auto &hContact : m_proto->AccContacts())
 		if (!m_proto->isChatRoom(hContact))
 			m_cbxCombo.AddString(Clist_GetContactDisplayName(hContact), hContact);
+	return true;
 }
 
 void CVkInviteChatForm::btnOk_OnOk(CCtrlButton*)
@@ -180,13 +183,14 @@ CVkGCCreateForm::CVkGCCreateForm(CVkProto *proto) :
 	m_clCList.OnListRebuilt = Callback(this, &CVkGCCreateForm::FilterList);
 }
 
-void CVkGCCreateForm::OnInitDialog()
+bool CVkGCCreateForm::OnInitDialog()
 {
 	SetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE)
 		| CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
 	m_clCList.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
 	ResetListOptions(&m_clCList);
+	return true;
 }
 
 void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
@@ -253,7 +257,7 @@ CVkContactDeleteForm::CVkContactDeleteForm(CVkProto *proto, CONTACTDELETE_FORM_P
 	m_btnOk.OnClick = Callback(this, &CVkContactDeleteForm::btnOk_OnOk);
 }
 
-void CVkContactDeleteForm::OnInitDialog()
+bool CVkContactDeleteForm::OnInitDialog()
 {
 	CMStringW szText(FORMAT, TranslateT("You delete %s from the contact list.\nWhat needs to be done additionally?"),
 		m_param->pwszNick);
@@ -271,6 +275,7 @@ void CVkContactDeleteForm::OnInitDialog()
 
 	szText.Format(TranslateT("Deleting %s from contact list"), m_param->pwszNick);
 	SetCaption(szText.c_str());
+	return true;
 }
 
 void CVkContactDeleteForm::btnOk_OnOk(CCtrlButton*)

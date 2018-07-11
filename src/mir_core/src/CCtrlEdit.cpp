@@ -36,7 +36,7 @@ BOOL CCtrlEdit::OnCommand(HWND, WORD, WORD idCode)
 	return TRUE;
 }
 
-void CCtrlEdit::OnApply()
+bool CCtrlEdit::OnApply()
 {
 	CSuper::OnApply();
 
@@ -49,6 +49,7 @@ void CCtrlEdit::OnApply()
 	else if (GetDataType() != DBVT_DELETED) {
 		SaveInt(GetInt());
 	}
+	return true;
 }
 
 void CCtrlEdit::OnReset()

@@ -179,7 +179,7 @@ public:
 	{
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_INITDIALOG)
 			lParam = m_lParam;
@@ -714,7 +714,7 @@ public:
 		m_timerRebuild.OnEvent = Callback(this, &COptionsDlg::onNewPageTimer);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		Utils_RestoreWindowPositionNoSize(m_hwnd, 0, "Options", "");
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_OPTIONS);
@@ -787,9 +787,10 @@ public:
 
 		FillFilterCombo();
 		RebuildPageTree();
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		ClearFilterStrings();
 		m_szFilterString[0] = 0;
@@ -824,7 +825,7 @@ public:
 		pOptionsDlg = nullptr;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		m_btnApply.Disable();
 		SetFocus(m_pageTree.GetHwnd());
@@ -836,7 +837,7 @@ public:
 			pshn.hdr.code = PSN_KILLACTIVE;
 			pshn.hdr.hwndFrom = opd->getHwnd();
 			if (SendMessage(opd->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn))
-				return;
+				return false;
 		}
 
 		LIST<OptionsPageData> arChanged(10, CompareOPD);
@@ -863,7 +864,7 @@ public:
 				if (opd)
 					opd->pDialog->Show();
 				m_bInsideApply = false;
-				return;
+				return false;
 			}
 		}
 		m_bInsideApply = false;
@@ -886,6 +887,7 @@ public:
 
 			SendMessage(p->pDialog->GetHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn);
 		}
+		return true;
 	}
 
 	void btnApply_Click(CCtrlButton*)
@@ -1038,7 +1040,7 @@ public:
 		SetFocus(m_pageTree.GetHwnd());
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
 		case PSM_CHANGED:

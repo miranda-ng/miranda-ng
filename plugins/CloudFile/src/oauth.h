@@ -11,7 +11,7 @@ class COAuthDlg : public CDlgBase
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog() override;
+	bool OnInitDialog() override;
 
 	void Code_OnChange(CCtrlBase*);
 	void Ok_OnClick(CCtrlButton*);

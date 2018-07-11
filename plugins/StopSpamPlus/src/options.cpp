@@ -29,9 +29,10 @@ public:
 		CreateLink(chk6, g_sets.HistLog);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		edtDescr.SetText(pluginDescription);
+		return true;
 	}
 };
 
@@ -63,10 +64,11 @@ public:
 		CreateLink(edtDivider, g_sets.AnswSplitString);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		variables_skin_helpbutton(m_hwnd, IDC_VARS);
 		btnHelp.Enable(ServiceExists(MS_VARS_FORMATSTRING));
+		return true;
 	}
 
 	void onHelp(CCtrlButton*)
@@ -100,7 +102,7 @@ public:
 		m_accounts.OnItemChanged = Callback(this, &COptAccountDlg::list_OnItemChanged);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		m_accounts.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 		m_accounts.DeleteAllItems();
@@ -124,9 +126,10 @@ public:
 			int idx = m_accounts.InsertItem(&item);
 			m_accounts.SetCheckState(idx, g_sets.ProtoDisabled(pa->szModuleName));
 		}
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		std::ostringstream out;
 
@@ -143,6 +146,7 @@ public:
 		}
 
 		g_sets.DisabledProtoList = (char*)out.str().c_str();
+		return true;
 	}
 
 	void list_OnItemChanged(CCtrlListView::TEventInfo*)

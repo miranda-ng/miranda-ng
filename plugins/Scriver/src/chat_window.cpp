@@ -207,7 +207,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_splitterY.OnChange = Callback(this, &CChatRoomDlg::OnSplitterY);
 }
 
-void CChatRoomDlg::OnInitDialog()
+bool CChatRoomDlg::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 	m_si->pDlg = this;
@@ -263,6 +263,7 @@ void CChatRoomDlg::OnInitDialog()
 	SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)this, 0);
 	UpdateNickList();
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
+	return true;
 }
 
 void CChatRoomDlg::OnDestroy()

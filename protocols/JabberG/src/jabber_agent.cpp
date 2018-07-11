@@ -42,14 +42,15 @@ public:
 		m_ok.OnClick = Callback(this, &CAgentRegProgressDlg::OnOk);
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		m_proto->m_hwndRegProgress = m_hwnd;
 		SetWindowText(m_hwnd, TranslateT("Jabber Agent Registration"));
 		TranslateDialogDefault(m_hwnd);
+		return true;
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_JABBER_REGDLG_UPDATE) {
 			if ((wchar_t*)lParam == nullptr)
@@ -96,7 +97,7 @@ public:
 		m_submit.OnClick = Callback(this, &CAgentRegDlg::OnSubmit);
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		EnableWindow(GetParent(m_hwnd), FALSE);
 		m_proto->m_hwndAgentRegInput = m_hwnd;
@@ -112,9 +113,10 @@ public:
 		LONG_PTR frameExStyle = GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE);
 		frameExStyle |= WS_EX_CONTROLPARENT;
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE, frameExStyle);
+		return true;
 	}
 
-	virtual void OnDestroy()
+	void OnDestroy() override
 	{
 		xmlDestroyNode(m_agentRegIqNode);
 		JabberFormDestroyUI(GetDlgItem(m_hwnd, IDC_FRAME));
@@ -123,7 +125,7 @@ public:
 		SetActiveWindow(GetParent(m_hwnd));
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch(msg) {
 		case WM_CTLCOLORSTATIC:

@@ -373,8 +373,8 @@ public:
 	CTabBaseDlg(int iDialogId, SESSION_INFO* = nullptr);
 	virtual ~CTabBaseDlg();
 
-	virtual void OnInitDialog() override;
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	bool OnInitDialog() override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const = 0;
 	virtual void tabClearLog() = 0;
@@ -486,14 +486,14 @@ public:
 public:
 	CSrmmWindow();
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	bool OnInitDialog() override;
+	void OnDestroy() override;
 
-	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
 	
-	virtual void UpdateTitle() override;
+	void UpdateTitle() override;
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void onClick_Ok(CCtrlButton*);
 	void onClick_Add(CCtrlButton*);
@@ -534,23 +534,23 @@ class CChatRoomDlg : public CTabBaseDlg
 public:
 	CChatRoomDlg(SESSION_INFO*);
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	bool OnInitDialog() override;
+	void OnDestroy() override;
 
-	virtual int Resizer(UTILRESIZECONTROL *urc) override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
 	
-	virtual void AddLog() override;
-	virtual void CloseTab() override;
-	virtual void RedrawLog() override;
-	virtual void ScrollToBottom() override;
-	virtual void ShowFilterMenu() override;
-	virtual void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
-	virtual void UpdateNickList() override;
-	virtual void UpdateOptions() override;
-	virtual void UpdateStatusBar() override;
-	virtual void UpdateTitle() override;
+	void AddLog() override;
+	void CloseTab() override;
+	void RedrawLog() override;
+	void ScrollToBottom() override;
+	void ShowFilterMenu() override;
+	void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
+	void UpdateNickList() override;
+	void UpdateOptions() override;
+	void UpdateStatusBar() override;
+	void UpdateTitle() override;
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void onClick_OK(CCtrlButton*);
 	void onClick_Filter(CCtrlButton*);
@@ -585,10 +585,10 @@ class CTemplateEditDlg : public CTabBaseDlg
 public:
 	CTemplateEditDlg(BOOL rtl, HWND hwndParent);
 
-	virtual void OnInitDialog() override;
-	virtual void OnDestroy() override;
+	bool OnInitDialog() override;
+	void OnDestroy() override;
 
-	virtual INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 
 	void onChange_Text(CCtrlEdit*);
 

@@ -51,10 +51,7 @@ CDlgBase::CDlgBase(CMPluginBase &pPlug, int idDialog)
 	m_pPlugin(pPlug)
 {
 	m_idDialog = idDialog;
-	m_hwnd = m_hwndParent = nullptr;
-	m_isModal = m_initialized = m_bExiting = false;
 	m_autoClose = CLOSE_ON_OK | CLOSE_ON_CANCEL;
-	m_forceResizable = false;
 }
 
 CDlgBase::~CDlgBase()
@@ -63,6 +60,36 @@ CDlgBase::~CDlgBase()
 	if (m_hwnd)
 		DestroyWindow(m_hwnd);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// events
+
+bool CDlgBase::OnInitDialog()
+{
+	return true;
+}
+
+bool CDlgBase::OnClose()
+{
+	return true;
+}
+
+bool CDlgBase::OnApply()
+{
+	return true;
+}
+
+void CDlgBase::OnChange()
+{}
+
+void CDlgBase::OnDestroy()
+{}
+
+void CDlgBase::OnReset()
+{}
+
+void CDlgBase::OnTimer(CTimer*)
+{}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // methods
@@ -181,7 +208,8 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		::EnumChildWindows(m_hwnd, &GlobalFieldEnum, LPARAM(this));
 
 		NotifyControls(&CCtrlBase::OnInit);
-		OnInitDialog();
+		if (!OnInitDialog())
+			return FALSE;
 
 		m_initialized = true;
 		return TRUE;
@@ -244,16 +272,15 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				// close dialog automatically if 'OK' button is pressed
 				if (idCtrl == IDOK && (m_autoClose & CLOSE_ON_OK)) {
 					// validate dialog data first
-					m_bExiting = true;
-					m_lresult = TRUE;
-					NotifyControls(&CCtrlBase::OnApply);
-					OnApply();
+					if (VerifyControls(&CCtrlBase::OnApply)) {
+						m_bExiting = true;
 
-					// everything ok? good, let's close it
-					if (m_lresult == TRUE)
-						PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-					else
-						m_bExiting = false;
+						// everything ok? good, let's close it
+						if (OnApply())
+							PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+						else
+							m_bExiting = false;
+					}
 				}
 			}
 		}
@@ -269,10 +296,10 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (LPPSHNOTIFY(lParam)->lParam != 3) // IDC_APPLY
 						m_bExiting = true;
 
-					m_lresult = true;
-					NotifyControls(&CCtrlBase::OnApply);
-					if (m_lresult)
-						OnApply();
+					if (!VerifyControls(&CCtrlBase::OnApply))
+						m_bExiting = false;
+					else if (!OnApply())
+						m_bExiting = false;
 					break;
 
 				case PSN_RESET:
@@ -312,10 +339,8 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	case WM_CLOSE:
-		m_bExiting = true;
-		m_lresult = FALSE;
-		OnClose();
-		if (!m_lresult) {
+		if (OnClose()) {
+			m_bExiting = true;
 			if (m_isModal)
 				EndModal(0);
 			else
@@ -382,6 +407,15 @@ void CDlgBase::NotifyControls(void (CCtrlBase::*fn)())
 {
 	for (auto &it : m_controls)
 		(it->*fn)();
+}
+
+bool CDlgBase::VerifyControls(bool (CCtrlBase::*fn)())
+{
+	for (auto &it : m_controls)
+		if (!(it->*fn)())
+			return false;
+
+	return true;
 }
 
 CCtrlBase* CDlgBase::FindControl(int idCtrl)

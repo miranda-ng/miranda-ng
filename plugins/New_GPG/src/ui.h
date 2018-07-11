@@ -22,7 +22,7 @@ class CDlgEncryptedFileMsgBox : public CDlgBase
 {
 public:
 	CDlgEncryptedFileMsgBox();
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 	void onClick_IGNORE(CCtrlButton*);
 	void onClick_DECRYPT(CCtrlButton*);
 
@@ -35,7 +35,7 @@ class CDlgExportKeysMsgBox : public CDlgBase
 {
 public:
 	CDlgExportKeysMsgBox();
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 	void onClick_OK(CCtrlButton*);
 	void onClick_CANCEL(CCtrlButton*);
 
@@ -59,7 +59,7 @@ class CDlgFirstRun : public CDlgBase
 public:
 	CDlgFirstRun();
 
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 	void onClick_COPY_PUBKEY(CCtrlButton*);
 	void onClick_EXPORT_PRIVATE(CCtrlButton*);
 	void onClick_CHANGE_PASSWD(CCtrlButton*);
@@ -86,7 +86,7 @@ class CDlgGpgBinOpts : public CDlgBase
 {
 public:
 	CDlgGpgBinOpts();
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 	void onClick_SET_BIN_PATH(CCtrlButton*);
 	void onClick_SET_HOME_DIR(CCtrlButton*);
 	void onClick_OK(CCtrlButton*);
@@ -102,7 +102,7 @@ class CDlgNewKey : public CDlgBase
 {
 public:
 	CDlgNewKey(MCONTACT hContact, wstring new_key);
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 	virtual void OnDestroy() override;
 	void onClick_IMPORT(CCtrlButton*);
 	void onClick_IMPORT_AND_USE(CCtrlButton*);
@@ -118,7 +118,7 @@ class CDlgKeyGen : public CDlgBase //TODO: in modal mode window destroying on an
 {
 public:
 	CDlgKeyGen();
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 
 	void onClick_OK(CCtrlButton*);
 	void onClick_CANCEL(CCtrlButton*);
@@ -136,7 +136,7 @@ class CDlgLoadExistingKey : public CDlgBase
 {
 public:
 	CDlgLoadExistingKey();
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 	virtual void OnDestroy() override;
 	void onClick_OK(CCtrlButton*);
 	void onClick_CANCEL(CCtrlButton*);
@@ -151,7 +151,7 @@ class CDlgImportKey : public CDlgBase
 {
 public:
 	CDlgImportKey(MCONTACT hContact);
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 	virtual void OnDestroy() override;
 	void onClick_IMPORT(CCtrlButton*);
 private:
@@ -164,7 +164,7 @@ class CDlgKeyPasswordMsgBox : public CDlgBase //always modal
 {
 public:
 	CDlgKeyPasswordMsgBox(MCONTACT _hContact);
-	virtual void OnInitDialog() override;
+	bool OnInitDialog() override;
 	virtual void OnDestroy() override;
 	void onClick_OK(CCtrlButton*);
 	void onClick_CANCEL(CCtrlButton*);

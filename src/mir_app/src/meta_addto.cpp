@@ -94,8 +94,8 @@ static int BuildList(HWND list, BOOL sort)
 *
 * @param hwndDlg : HANDLE to the <b>'Add To'</b> Dialog.
 * @param uMsg : Specifies the message received by this dialog.
-* @param wParam : Specifies additional message-specific information. 
-* @param lParam : Specifies additional message-specific information. 
+* @param wParam : Specifies additional message-specific information.
+* @param lParam : Specifies additional message-specific information.
 *
 * @return TRUE if the dialog processed the message, FALSE if it did not.
 */
@@ -112,9 +112,9 @@ class CMetaSelectDlg : public CDlgBase
 	CCtrlCheck m_sortCheck;
 
 protected:
-	void OnInitDialog();
-	void OnApply();
-	void OnDestroy();
+	bool OnInitDialog() override;
+	bool OnApply() override;
+	void OnDestroy() override;
 
 	void MetaList_OnDblClick(CCtrlListBox*);
 	void SortCheck_OnChange(CCtrlCheck*);
@@ -131,31 +131,24 @@ CMetaSelectDlg::CMetaSelectDlg(MCONTACT hContact)
 	m_sortCheck.OnChange = Callback(this, &CMetaSelectDlg::SortCheck_OnChange);
 }
 
-void CMetaSelectDlg::OnInitDialog()
+bool CMetaSelectDlg::OnInitDialog()
 {
 	DBCachedContact *cc = currDb->getCache()->GetCachedContact(m_hContact);
 	if (cc == nullptr)
-	{
-		Close();
-		return;
-	}
+		return false;
 
-	if (cc->IsMeta())
-	{
+	if (cc->IsMeta()) {
 		MessageBox(GetHwnd(),
 			TranslateT("This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another."),
 			TranslateT("Metacontact conflict"), MB_ICONERROR);
-		Close();
-		return;
+		return false;
 	}
 
-	if (cc->IsSub())
-	{
+	if (cc->IsSub()) {
 		MessageBox(GetHwnd(),
 			TranslateT("This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts."),
 			TranslateT("Multiple metacontacts"), MB_ICONERROR);
-		Close();
-		return;
+		return false;
 	}
 
 	Window_SetIcon_IcoLib(GetHwnd(), Meta_GetIconHandle(I_ADD));
@@ -163,33 +156,29 @@ void CMetaSelectDlg::OnInitDialog()
 	// Initialize the graphical part
 	CheckDlgButton(GetHwnd(), IDC_ONLYAVAIL, BST_CHECKED); // Initially checked; display all metacontacts is only an option
 														 // Besides, we can check if there is at least one metacontact to add the contact to.
-	if (BuildList(GetDlgItem(GetHwnd(), IDC_METALIST), FALSE) <= 0)
-	{
+	if (BuildList(GetDlgItem(GetHwnd(), IDC_METALIST), FALSE) <= 0) {
 		if (MessageBox(GetHwnd(), TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 			Meta_Convert(m_hContact, 0);
-		Close();
-		return;
+		return false;
 	}
-	else
-	{
-		// get contact display name from clist
-		wchar_t *ptszCDN = Clist_GetContactDisplayName(m_hContact);
-		if (!ptszCDN)
-			ptszCDN = TranslateT("a contact");
 
-		// ... and set it to the Window title.
-		wchar_t buf[256];
-		mir_snwprintf(buf, TranslateT("Adding %s..."), ptszCDN);
-		SetWindowText(GetHwnd(), buf);
-	}
+	// get contact display name from clist
+	wchar_t *ptszCDN = Clist_GetContactDisplayName(m_hContact);
+	if (!ptszCDN)
+		ptszCDN = TranslateT("a contact");
+
+	// ... and set it to the Window title.
+	wchar_t buf[256];
+	mir_snwprintf(buf, TranslateT("Adding %s..."), ptszCDN);
+	SetWindowText(GetHwnd(), buf);
 	ShowWindow(GetHwnd(), SW_SHOWNORMAL);
+	return true;
 }
 
-void CMetaSelectDlg::OnApply()
+bool CMetaSelectDlg::OnApply()
 {
 	int item = m_metaList.GetCurSel();
-	if (item == -1)
-	{
+	if (item == -1) {
 		BOOL result = IDOK == MessageBox(GetHwnd(), TranslateT("Please select a metacontact"), TranslateT("No metacontact selected"), MB_ICONHAND);
 		EndModal(result);
 	}
@@ -197,6 +186,7 @@ void CMetaSelectDlg::OnApply()
 	MCONTACT hMeta = (MCONTACT)m_metaList.GetItemData(item);
 	if (!Meta_Assign(m_hContact, hMeta, FALSE))
 		MessageBox(GetHwnd(), TranslateT("Assignment to the metacontact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
+	return true;
 }
 
 void CMetaSelectDlg::OnDestroy()
@@ -216,8 +206,7 @@ void CMetaSelectDlg::MetaList_OnDblClick(CCtrlListBox*)
 void CMetaSelectDlg::SortCheck_OnChange(CCtrlCheck*)
 {
 	SetWindowLongPtr(m_metaList.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_metaList.GetHwnd(), GWL_STYLE) ^ LBS_SORT);
-	if (BuildList(m_metaList.GetHwnd(), m_sortCheck.GetState() ? TRUE : FALSE) <= 0)
-	{
+	if (BuildList(m_metaList.GetHwnd(), m_sortCheck.GetState() ? TRUE : FALSE) <= 0) {
 		if (MessageBox(GetHwnd(), TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 			Meta_Convert(m_hContact, 0);
 		Close();

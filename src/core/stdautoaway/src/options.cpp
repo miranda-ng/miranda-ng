@@ -87,7 +87,7 @@ public:
 		chkShortIdle.OnChange = chkShort.OnChange = Callback(this, &COptionsDlg::onChange);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		chkOnWindows.SetState(!g_plugin.bIdleMethod);
 
@@ -99,9 +99,10 @@ public:
 		cmbAAStatus.SetCurSel(IdleGetStatusIndex(g_plugin.bAAStatus));
 
 		ShowHide();
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		g_plugin.iIdleTime1st = spinIdle.GetPosition();
 
@@ -112,6 +113,7 @@ public:
 		// destroy any current idle and reset settings.
 		IdleObject_Destroy();
 		IdleObject_Create();
+		return true;
 	}
 
 	void onChange(CCtrlCheck*)

@@ -632,13 +632,14 @@ CFacebookGuardDialog::CFacebookGuardDialog(FacebookProto *proto, const char *fb_
 	m_sms.OnClick = Callback(this, &CFacebookGuardDialog::OnSms);
 }
 
-void CFacebookGuardDialog::OnInitDialog()
+bool CFacebookGuardDialog::OnInitDialog()
 {
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle("facebook"));
 
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 6, 0);
 
 	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "GuardWindow");
+	return true;
 }
 
 void CFacebookGuardDialog::OnOk(CCtrlButton*)
@@ -653,9 +654,10 @@ void CFacebookGuardDialog::OnSms(CCtrlButton *btn)
 	m_proto->facy.sms_code(m_fb_dtsg);
 }
 
-void CFacebookGuardDialog::OnClose()
+bool CFacebookGuardDialog::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "GuardWindow");
+	return true;
 }
 
 const char* CFacebookGuardDialog::GetCode()

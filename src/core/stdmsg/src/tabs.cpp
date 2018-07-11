@@ -144,7 +144,7 @@ CTabbedWindow::CTabbedWindow() :
 {
 }
 
-void CTabbedWindow::OnInitDialog()
+bool CTabbedWindow::OnInitDialog()
 {
 	SetWindowLongPtr(m_tab.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_tab.GetHwnd(), ::TabSubclassProc);
@@ -156,7 +156,7 @@ void CTabbedWindow::OnInitDialog()
 
 	if (!g_Settings.bTabsEnable) {
 		m_tab.Hide();
-		return;
+		return false;
 	}
 
 	LONG_PTR mask = GetWindowLongPtr(m_tab.GetHwnd(), GWL_STYLE);
@@ -168,6 +168,7 @@ void CTabbedWindow::OnInitDialog()
 
 	TabCtrl_SetMinTabWidth(m_tab.GetHwnd(), 80);
 	TabCtrl_SetImageList(m_tab.GetHwnd(), Clist_GetImageList());
+	return true;
 }
 
 void CTabbedWindow::OnDestroy()

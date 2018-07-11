@@ -581,11 +581,11 @@ public:
 	CJabberDlgDiscovery(CJabberProto *proto, wchar_t *jid);
 
 protected:
-	void OnInitDialog();
-	void OnClose();
-	void OnDestroy();
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
-	int Resizer(UTILRESIZECONTROL *urc);
+	bool OnInitDialog() override;
+	bool OnClose() override;
+	void OnDestroy() override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
 private:
 	wchar_t *m_jid;
@@ -628,7 +628,7 @@ CJabberDlgDiscovery::CJabberDlgDiscovery(CJabberProto *proto, wchar_t *jid) :
 	m_lstDiscoTree.OnFilterChanged = Callback(this, &CJabberDlgDiscovery::lstDiscoTree_OnFilter);
 }
 
-void CJabberDlgDiscovery::OnInitDialog()
+bool CJabberDlgDiscovery::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -702,9 +702,10 @@ void CJabberDlgDiscovery::OnInitDialog()
 	PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
 
 	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "discoWnd_");
+	return true;
 }
 
-void CJabberDlgDiscovery::OnClose()
+bool CJabberDlgDiscovery::OnClose()
 {
 	m_proto->setByte("discoWnd_useTree", IsDlgButtonChecked(m_hwnd, IDC_BTN_VIEWTREE));
 
@@ -721,7 +722,7 @@ void CJabberDlgDiscovery::OnClose()
 	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "discoWnd_");
 	DestroyWindow(m_hwnd);
 
-	CSuper::OnClose();
+	return CSuper::OnClose();
 }
 
 void CJabberDlgDiscovery::OnDestroy()

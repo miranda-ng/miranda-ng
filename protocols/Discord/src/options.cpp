@@ -39,20 +39,22 @@ public:
 		CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		ptrW buf(m_proto->getWStringA(DB_KEY_PASSWORD));
 		if (buf)
 			m_edPassword.SetText(buf);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		if (mir_wstrcmp(m_proto->m_wszDefaultGroup, m_wszOldGroup))
 			Clist_GroupCreate(0, m_proto->m_wszDefaultGroup);
 
 		ptrW buf(m_edPassword.GetText());
 		m_proto->setWString(DB_KEY_PASSWORD, buf);
+		return true;
 	}
 };
 

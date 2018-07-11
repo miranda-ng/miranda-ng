@@ -37,11 +37,12 @@ CSkypeInviteDlg::CSkypeInviteDlg(CSkypeProto *proto) :
 	m_ok.OnClick = Callback(this, &CSkypeInviteDlg::btnOk_OnOk);
 }
 
-void CSkypeInviteDlg::OnInitDialog()
+bool CSkypeInviteDlg::OnInitDialog()
 {
 	for (auto &hContact : m_proto->AccContacts())
 		if (!m_proto->isChatRoom(hContact))
 			m_combo.AddString(Clist_GetContactDisplayName(hContact), hContact);
+	return true;
 }
 
 void CSkypeInviteDlg::btnOk_OnOk(CCtrlButton*)
@@ -64,13 +65,14 @@ CSkypeGCCreateDlg::~CSkypeGCCreateDlg()
 	m_ContactsList.destroy();
 }
 
-void CSkypeGCCreateDlg::OnInitDialog()
+bool CSkypeGCCreateDlg::OnInitDialog()
 {
 	SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE,
 		GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
 	m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
 	ResetListOptions(&m_clc);
+	return true;
 }
 
 void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)

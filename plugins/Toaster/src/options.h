@@ -9,7 +9,7 @@ private:
 	CCtrlCheck  m_enabled;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
 
 	void Shortcut_OnClick(CCtrlBase*);
 	void Preview_OnClick(CCtrlBase*);

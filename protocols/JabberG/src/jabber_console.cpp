@@ -319,12 +319,13 @@ public:
 	CJabberDlgConsole(CJabberProto *proto);
 
 protected:
-	void OnInitDialog();
-	void OnClose();
-	void OnDestroy();
+	bool OnInitDialog() override;
+	bool OnClose() override;
+	void OnDestroy() override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
 	void OnProtoRefresh(WPARAM wParam, LPARAM lParam);
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
-	int Resizer(UTILRESIZECONTROL *urc);
 };
 
 CJabberDlgConsole::CJabberDlgConsole(CJabberProto *proto):
@@ -332,7 +333,7 @@ CJabberDlgConsole::CJabberDlgConsole(CJabberProto *proto):
 {
 }
 
-void CJabberDlgConsole::OnInitDialog()
+bool CJabberDlgConsole::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -391,9 +392,10 @@ void CJabberDlgConsole::OnInitDialog()
 	EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTER_REFRESH), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
 
 	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
+	return true;
 }
 
-void CJabberDlgConsole::OnClose()
+bool CJabberDlgConsole::OnClose()
 {
 	m_proto->setByte("consoleWnd_msg", m_proto->m_filterInfo.msg);
 	m_proto->setByte("consoleWnd_presence", m_proto->m_filterInfo.presence);
@@ -403,7 +405,7 @@ void CJabberDlgConsole::OnClose()
 
 	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
 	DestroyWindow(m_hwnd);
-	CSuper::OnClose();
+	return CSuper::OnClose();
 }
 
 void CJabberDlgConsole::OnDestroy()

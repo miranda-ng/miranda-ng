@@ -13,8 +13,8 @@ private:
 	CCtrlCheck m_checkonstartup;
 
 protected:
-	void OnInitDialog();
-	void OnApply();
+	bool OnInitDialog() override;
+	bool OnApply() override;
 
 	void OnAddButtonClick(CCtrlBase*);
 	void OnChangeButtonClick(CCtrlBase*);
@@ -53,12 +53,13 @@ private:
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	bool OnClose() override;
+
 	void OnCheckFeed(CCtrlBase*);
 	void OnReset(CCtrlBase*);
 	void OnHelp(CCtrlBase*);
 	void OnOk(CCtrlBase*);
-	void OnClose();
 	void OnUseAuth(CCtrlBase*);
 
 public:
@@ -89,14 +90,15 @@ private:
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	bool OnClose() override;
+
 	void OnBrowseFile(CCtrlBase*);
 	void OnAddFeed(CCtrlBase*);
 	void OnRemoveFeed(CCtrlBase*);
 	void OnAddAllFeeds(CCtrlBase*);
 	void OnRemoveAllFeeds(CCtrlBase*);
 	void OnOk(CCtrlBase*);
-	void OnClose();
 
 	void OnFeedsList(CCtrlBase*);
 	void OnFeedsImportList(CCtrlBase*);
@@ -119,14 +121,15 @@ private:
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+	bool OnClose() override;
+
 	void OnAddFeed(CCtrlBase*);
 	void OnRemoveFeed(CCtrlBase*);
 	void OnAddAllFeeds(CCtrlBase*);
 	void OnRemoveAllFeeds(CCtrlBase*);
 	void OnOk(CCtrlBase*);
-	void OnClose();
-
+	
 	void OnFeedsList(CCtrlBase*);
 	void OnFeedsExportList(CCtrlBase*);
 
@@ -148,7 +151,8 @@ private:
 	CCtrlButton m_ok;
 
 protected:
-	void OnInitDialog();
+	bool OnInitDialog() override;
+
 	void OnOk(CCtrlBase*);
 
 public:

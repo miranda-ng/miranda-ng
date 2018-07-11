@@ -126,7 +126,7 @@ public:
 public:
 	CSrmmWindow(CTabbedWindow*, MCONTACT hContact);
 
-	void OnInitDialog() override;
+	bool OnInitDialog() override;
 	void OnDestroy() override;
 	void OnActivate() override;
 
@@ -183,7 +183,7 @@ class CChatRoomDlg : public CMsgDialog
 public:
 	CChatRoomDlg(CTabbedWindow*, SESSION_INFO*);
 
-	void OnInitDialog() override;
+	bool OnInitDialog() override;
 	void OnDestroy() override;
 	void OnActivate() override;
 

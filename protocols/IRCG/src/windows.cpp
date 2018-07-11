@@ -76,7 +76,7 @@ CWhoisDlg::CWhoisDlg(CIrcProto *_pro)
 	m_Query.OnClick = Callback(this, &CWhoisDlg::OnQuery);
 }
 
-void CWhoisDlg::OnInitDialog()
+bool CWhoisDlg::OnInitDialog()
 {
 	LOGFONT lf;
 	HFONT hFont = (HFONT)m_AwayTime.SendMsg(WM_GETFONT, 0, 0);
@@ -88,12 +88,14 @@ void CWhoisDlg::OnInitDialog()
 	CCoolIrcDlg::OnInitDialog();
 
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WHOIS));
+	return true;
 }
 
-void CWhoisDlg::OnClose()
+bool CWhoisDlg::OnClose()
 {
 	ShowWindow(m_hwnd, SW_HIDE);
 	SendMessage(m_hwnd, WM_SETREDRAW, FALSE, 0);
+	return true;
 }
 
 void CWhoisDlg::OnDestroy()
@@ -205,7 +207,7 @@ CNickDlg::CNickDlg(CIrcProto *_pro)
 	m_Ok.OnClick = Callback(this, &CNickDlg::OnOk);
 }
 
-void CNickDlg::OnInitDialog()
+bool CNickDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_RENAME));
@@ -218,6 +220,7 @@ void CNickDlg::OnInitDialog()
 
 		db_free(&dbv);
 	}
+	return true;
 }
 
 void CNickDlg::OnDestroy()
@@ -263,7 +266,7 @@ CListDlg::CListDlg(CIrcProto *_pro)
 	m_filter.OnChange = Callback(this, &CListDlg::onChange_Filter);
 }
 
-void CListDlg::OnInitDialog()
+bool CListDlg::OnInitDialog()
 {
 	RECT screen;
 
@@ -295,6 +298,7 @@ void CListDlg::OnInitDialog()
 	m_list2.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_LIST));
 	m_status.SetText(TranslateT("Please wait..."));
+	return true;
 }
 
 INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -498,7 +502,7 @@ CJoinDlg::CJoinDlg(CIrcProto *_pro)
 	m_Ok.OnClick = Callback(this, &CJoinDlg::OnOk);
 }
 
-void CJoinDlg::OnInitDialog()
+bool CJoinDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
 
@@ -513,6 +517,7 @@ void CJoinDlg::OnInitDialog()
 		}
 		db_free(&dbv);
 	}
+	return true;
 }
 
 void CJoinDlg::OnDestroy()
@@ -558,7 +563,7 @@ CQuickDlg::CQuickDlg(CIrcProto *_pro)
 	m_serverCombo.OnChange = Callback(this, &CQuickDlg::OnServerCombo);
 }
 
-void CQuickDlg::OnInitDialog()
+bool CQuickDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
 
@@ -600,6 +605,7 @@ void CQuickDlg::OnInitDialog()
 		OnServerCombo(nullptr);
 	}
 	else EnableWindow(GetDlgItem(m_hwnd, IDOK), false);
+	return true;
 }
 
 void CQuickDlg::OnDestroy()
@@ -708,17 +714,19 @@ CQuestionDlg::CQuestionDlg(CIrcProto *_pro, CManagerDlg *owner)
 	m_Ok.OnClick = Callback(this, &CQuestionDlg::OnOk);
 }
 
-void CQuestionDlg::OnInitDialog()
+bool CQuestionDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
 
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_IRCQUESTION));
+	return true;
 }
 
-void CQuestionDlg::OnClose()
+bool CQuestionDlg::OnClose()
 {
 	if (m_owner)
 		m_owner->CloseQuestion();
+	return true;
 }
 
 void CQuestionDlg::OnOk(CCtrlButton*)
@@ -861,7 +869,7 @@ LRESULT CALLBACK MgrEditSubclassProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARA
 	return mir_callNextSubclass(m_hwnd, MgrEditSubclassProc, msg, wParam, lParam);
 }
 
-void CManagerDlg::OnInitDialog()
+bool CManagerDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
 
@@ -886,16 +894,15 @@ void CManagerDlg::OnInitDialog()
 	if (!strchr(modes, 'p')) m_check7.Disable();
 	if (!strchr(modes, 's')) m_check8.Disable();
 	if (!strchr(modes, 'c')) m_check9.Disable();
+	return true;
 }
 
-void CManagerDlg::OnClose()
+bool CManagerDlg::OnClose()
 {
 	if (m_applyModes.Enabled() || m_applyTopic.Enabled()) {
 		int i = MessageBox(nullptr, TranslateT("You have not applied all changes!\n\nApply before exiting?"), TranslateT("IRC warning"), MB_YESNOCANCEL | MB_ICONWARNING | MB_DEFBUTTON3);
-		if (i == IDCANCEL) {
-			m_lresult = TRUE;
-			return;
-		}
+		if (i == IDCANCEL)
+			return false;
 
 		if (i == IDYES) {
 			if (m_applyModes.Enabled())
@@ -927,6 +934,7 @@ void CManagerDlg::OnClose()
 		mir_free(p);
 	}
 	DestroyWindow(m_hwnd);
+	return true;
 }
 
 void CManagerDlg::OnDestroy()
@@ -1373,7 +1381,7 @@ CCoolIrcDlg::CCoolIrcDlg(CIrcProto* _pro, int dlgId)
 	: CProtoDlgBase<CIrcProto>(_pro, dlgId)
 {}
 
-void CCoolIrcDlg::OnInitDialog()
+bool CCoolIrcDlg::OnInitDialog()
 {
 	HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDC_CAPTION, WM_GETFONT, 0, 0);
 
@@ -1385,6 +1393,7 @@ void CCoolIrcDlg::OnInitDialog()
 	SendDlgItemMessage(m_hwnd, IDC_CAPTION, WM_SETFONT, (WPARAM)hFont, 0);
 
 	SendDlgItemMessage(m_hwnd, IDC_LOGO, STM_SETICON, (LPARAM)(HICON)LoadIconEx(IDI_LOGO), 0);
+	return true;
 }
 
 void CCoolIrcDlg::OnDestroy()

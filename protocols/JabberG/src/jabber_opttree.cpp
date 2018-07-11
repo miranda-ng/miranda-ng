@@ -171,7 +171,7 @@ void CCtrlTreeOpts::OnDestroy()
 	ImageList_Destroy(GetImageList(TVSIL_NORMAL));
 }
 
-void CCtrlTreeOpts::OnApply()
+bool CCtrlTreeOpts::OnApply()
 {
 	CCtrlTreeView::OnApply();
 
@@ -180,6 +180,7 @@ void CCtrlTreeOpts::OnApply()
 		GetItem(it->m_hItem, &tvi);
 		*it->m_option = ((tvi.iImage == IMG_CHECK) || (tvi.iImage == IMG_RCHECK)) ? 1 : 0;
 	}
+	return true;
 }
 
 void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)

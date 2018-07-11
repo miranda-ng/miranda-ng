@@ -38,8 +38,8 @@ private:
 public:
 	GaduOptionsDlgConference(GaduProto *proto);
 
-	void OnInitDialog() override;
-	void OnApply() override;
+	bool OnInitDialog() override;
+	bool OnApply() override;
 };
 
 class GaduOptionsDlgAdvanced : public GaduDlgBase
@@ -70,7 +70,7 @@ private:
 public:
 	GaduOptionsDlgAdvanced(GaduProto *proto);
 
-	void OnInitDialog() override;
+	bool OnInitDialog() override;
 
 private:
 	void onCheck_ManualHosts(CCtrlCheck*);

@@ -34,8 +34,8 @@ private:
 protected:
 	CSkypeOptionsMain(CSkypeProto *proto, int idDialog);
 
-	void OnInitDialog();
-	void OnApply();
+	bool OnInitDialog() override;
+	bool OnApply() override;
 	void OnUsehostnameCheck(CCtrlCheck*);
 
 public:

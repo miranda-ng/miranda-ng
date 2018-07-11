@@ -17,7 +17,7 @@ COptionsMainDlg::COptionsMainDlg()
 	CreateLink(m_urlCopyToClipboard, "UrlCopyToClipboard", DBVT_BYTE, 0);
 }
 
-void COptionsMainDlg::OnInitDialog()
+bool COptionsMainDlg::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
@@ -50,9 +50,10 @@ void COptionsMainDlg::OnInitDialog()
 		m_doNothingOnConflict.SetState(TRUE);
 		break;
 	}
+	return true;
 }
 
-void COptionsMainDlg::OnApply()
+bool COptionsMainDlg::OnApply()
 {
 	int iItem = m_defaultService.GetCurSel();
 	CCloudService *service = (CCloudService*)m_defaultService.GetItemData(iItem);
@@ -67,6 +68,7 @@ void COptionsMainDlg::OnApply()
 		db_set_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
 	else
 		db_unset(NULL, MODULENAME, "ConflictStrategy");
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -96,11 +98,12 @@ CAccountManagerDlg::CAccountManagerDlg(CCloudService *service)
 	m_revokeAccess.OnClick = Callback(this, &CAccountManagerDlg::RevokeAccess_OnClick);
 }
 
-void CAccountManagerDlg::OnInitDialog()
+bool CAccountManagerDlg::OnInitDialog()
 {
 	ptrA token(m_proto->getStringA("TokenSecret"));
 	m_requestAccess.Enable(!token);
 	m_revokeAccess.Enable(token);
+	return true;
 }
 
 void CAccountManagerDlg::RequestAccess_OnClick(CCtrlButton*)

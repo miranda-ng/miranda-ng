@@ -38,9 +38,10 @@ public:
 		CreateLink(m_chkOnlyForRecent, Options.bIconsForRecentContacts);
 	}
 
-	void OnApply() override
+	bool OnApply() override
 	{
 		for (auto &hContact : Contacts())
 			onExtraImageApplying((WPARAM)hContact, 0);
+		return true;
 	}
 };

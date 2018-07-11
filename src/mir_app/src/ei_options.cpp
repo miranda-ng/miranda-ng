@@ -254,7 +254,7 @@ public:
 		m_timer.OnEvent = Callback(this, &CExtraIconOptsDlg::onTimer);
 	}
 
-	virtual void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		pGlgOptions = this;
 
@@ -266,9 +266,10 @@ public:
 		}
 
 		BuildIconList();
+		return true;
 	}
 
-	virtual void OnApply()
+	bool OnApply() override
 	{
 		// Store old slots
 		int *oldSlots = new int[registeredExtraIcons.getCount()];
@@ -367,9 +368,10 @@ public:
 				extra->applyIcons();
 
 		delete[] oldSlots;
+		return true;
 	}
 
-	virtual void OnDestroy()
+	void OnDestroy() override
 	{
 		pGlgOptions = nullptr;
 

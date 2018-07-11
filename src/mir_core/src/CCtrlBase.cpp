@@ -67,9 +67,10 @@ void CCtrlBase::OnDestroy()
 	m_hwnd = nullptr;
 }
 
-void CCtrlBase::OnApply()
+bool CCtrlBase::OnApply()
 {
 	m_bChanged = false;
+	return true;
 }
 
 void CCtrlBase::OnReset()

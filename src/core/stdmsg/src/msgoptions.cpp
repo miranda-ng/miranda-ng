@@ -245,7 +245,7 @@ public:
 		CreateLink(chkDoNotStealFocus, g_dat.bDoNotStealFocus);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		FillCheckBoxTree(g_dat.popupFlags);
 
@@ -256,9 +256,10 @@ public:
 
 		chkCascade.Enable(!g_dat.bSavePerContact);
 		chkCtrlSupport.Enable(!g_dat.bAutoClose);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		g_dat.popupFlags = MakeCheckBoxTreeFlags();
 
@@ -268,6 +269,7 @@ public:
 		g_dat.msgTimeout = msgTimeout;
 
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
+		return true;
 	}
 
 	void onChange_AutoMin(CCtrlCheck*)
@@ -342,7 +344,7 @@ public:
 		CreateLink(chkShowNames, g_dat.bShowNames);
 	}
 	
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		switch (g_dat.iLoadHistory) {
 		case LOADHISTORY_UNREAD:
@@ -366,9 +368,10 @@ public:
 		spinTime.SetPosition(g_dat.nLoadTime);
 
 		onChange_Time(nullptr);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		if (chkLoadCount.GetState())
 			g_dat.iLoadHistory = LOADHISTORY_COUNT;
@@ -382,9 +385,10 @@ public:
 		FreeMsgLogIcons();
 		LoadMsgLogIcons();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		DeleteObject(hBkgColourBrush);
 	}
@@ -474,7 +478,7 @@ public:
 		}
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		CLCINFOITEM cii = { sizeof(cii) };
 		cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
@@ -491,12 +495,14 @@ public:
 		clist.OnOptionsChanged = Callback(this, &COptionTypingDlg::ResetCList);
 
 		onChange_ShowNotify(nullptr);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		SaveList();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
+		return true;
 	}
 
 	void onChange_Clist(CCtrlClc::TEventInfo*)
@@ -539,15 +545,16 @@ public:
 		m_chkTabs.OnChange = Callback(this, &COptionsTabDlg::onChange_Tabs);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		m_chkTabs.SetState(g_Settings.bTabsEnable);
 		m_chkTabsBottom.SetState(g_Settings.bTabsAtBottom);
 		m_chkTabsClose.SetState(g_Settings.bTabCloseOnDblClick);
 		onChange_Tabs(&m_chkTabs);
+		return true;
 	}
 
-	virtual void OnApply() override
+	bool OnApply() override
 	{
 		BYTE bOldValue = db_get_b(0, CHAT_MODULE, "Tabs", 1);
 
@@ -563,6 +570,7 @@ public:
 			g_Settings.bTabsEnable = db_get_b(0, CHAT_MODULE, "Tabs", 1) != 0;
 		}
 		else Chat_UpdateOptions();
+		return true;
 	}
 
 	void onChange_Tabs(CCtrlCheck *pCheck)

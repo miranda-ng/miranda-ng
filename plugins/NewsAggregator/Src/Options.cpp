@@ -36,7 +36,7 @@ CExportFeed::CExportFeed()
 	m_feedsexportlist.OnDblClick = Callback(this, &CExportFeed::OnFeedsExportList);
 }
 
-void CExportFeed::OnInitDialog()
+bool CExportFeed::OnInitDialog()
 {
 	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULENAME, "ExportDlg");
 	for (auto &hContact : Contacts(MODULENAME)) {
@@ -53,6 +53,7 @@ void CExportFeed::OnInitDialog()
 		m_addfeed.Disable();
 		m_addallfeeds.Disable();
 	}
+	return true;
 }
 
 void CExportFeed::OnAddFeed(CCtrlBase*)
@@ -243,12 +244,15 @@ void CExportFeed::OnOk(CCtrlBase*)
 	}
 }
 
-void CExportFeed::OnClose()
+bool CExportFeed::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ExportDlg");
 	if (pExportDialog)
 		pExportDialog = nullptr;
+	return true;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 CImportFeed::CImportFeed(CCtrlListView *m_feeds)
 	: CSuper(g_plugin, IDD_FEEDIMPORT),
@@ -270,7 +274,7 @@ CImportFeed::CImportFeed(CCtrlListView *m_feeds)
 	m_feedsimportlist.OnDblClick = Callback(this, &CImportFeed::OnFeedsImportList);
 }
 
-void CImportFeed::OnInitDialog()
+bool CImportFeed::OnInitDialog()
 {
 	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULENAME, "ImportDlg");
 	m_removefeed.Disable();
@@ -278,6 +282,7 @@ void CImportFeed::OnInitDialog()
 	m_ok.Disable();
 	m_addfeed.Disable();
 	m_addallfeeds.Disable();
+	return true;
 }
 
 void CImportFeed::OnBrowseFile(CCtrlBase*)
@@ -653,12 +658,15 @@ void CImportFeed::OnOk(CCtrlBase*)
 	}
 }
 
-void CImportFeed::OnClose()
+bool CImportFeed::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ImportDlg");
 	if (pImportDialog)
 		pImportDialog = nullptr;
+	return true;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact)
 	: CSuper(g_plugin, IDD_ADDFEED),
@@ -678,7 +686,7 @@ CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact)
 	m_ok.OnClick = Callback(this, &CFeedEditor::OnOk);
 }
 
-void CFeedEditor::OnInitDialog()
+bool CFeedEditor::OnInitDialog()
 {
 	if (m_iItem == -1 && m_hContact == NULL)
 		SetWindowText(m_hwnd, TranslateT("Add Feed"));
@@ -764,6 +772,7 @@ void CFeedEditor::OnInitDialog()
 		g_arFeeds.insert(this);
 		Utils_RestoreWindowPositionNoSize(m_hwnd, m_hContact, MODULENAME, "ChangeDlg");
 	}
+	return true;
 }
 
 void CFeedEditor::OnCheckFeed(CCtrlBase*)
@@ -858,12 +867,13 @@ void CFeedEditor::OnOk(CCtrlBase*)
 	}
 }
 
-void CFeedEditor::OnClose()
+bool CFeedEditor::OnClose()
 {
 	g_arFeeds.remove(this);
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, m_iItem == -1 ? "AddDlg" : "ChangeDlg");
 	if (pAddFeedDialog == this)
 		pAddFeedDialog = nullptr;
+	return true;
 }
 
 void CFeedEditor::OnUseAuth(CCtrlBase*)
@@ -915,7 +925,7 @@ COptionsMain::COptionsMain() :
 
 }
 
-void COptionsMain::OnInitDialog()
+bool COptionsMain::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 	m_change.Disable();
@@ -924,9 +934,10 @@ void COptionsMain::OnInitDialog()
 	m_feeds.AddColumn(0, TranslateT("Feed"), 160);
 	m_feeds.AddColumn(1, TranslateT("URL"), 276);
 	UpdateList();
+	return true;
 }
 
-void COptionsMain::OnApply()
+bool COptionsMain::OnApply()
 {
 	for (auto &hContact : Contacts(MODULENAME)) {
 		ptrW dbNick(db_get_wsa(hContact, MODULENAME, "Nick"));
@@ -943,6 +954,7 @@ void COptionsMain::OnApply()
 			}
 		}
 	}
+	return true;
 }
 
 void COptionsMain::OnAddButtonClick(CCtrlBase*)

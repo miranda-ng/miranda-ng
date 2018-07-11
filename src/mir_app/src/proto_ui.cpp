@@ -94,17 +94,17 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	// Protocol events
 	case WM_PROTO_ACTIVATE:
 		OnProtoActivate(wParam, lParam);
-		return m_lresult;
+		return 0;
 
 	case WM_PROTO_CHECK_ONLINE:
 		if (m_hwndStatus)
 			UpdateStatusBar();
 		OnProtoCheckOnline(wParam, lParam);
-		return m_lresult;
+		return 0;
 
 	case WM_PROTO_REFRESH:
 		OnProtoRefresh(wParam, lParam);
-		return m_lresult;
+		return 0;
 	}
 
 	return CSuper::DlgProc(msg, wParam, lParam);

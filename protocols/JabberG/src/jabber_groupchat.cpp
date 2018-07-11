@@ -392,12 +392,12 @@ public:
 protected:
 	wchar_t *m_jid;
 
-	void OnInitDialog();
-	void OnDestroy();
+	bool OnInitDialog() override;
+		void OnDestroy();
 
 	void OnBtnOk(CCtrlButton*);
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 };
 
 CJabberDlgGcJoin::CJabberDlgGcJoin(CJabberProto *proto, wchar_t *jid) :
@@ -413,7 +413,7 @@ CJabberDlgGcJoin::~CJabberDlgGcJoin()
 	mir_free(m_jid);
 }
 
-void CJabberDlgGcJoin::OnInitDialog()
+bool CJabberDlgGcJoin::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -475,6 +475,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 		SetDlgItemText(m_hwnd, IDC_RECENT1 + i, jid);
 	}
 	sttJoinDlgShowRecentItems(m_hwnd, i);
+	return true;
 }
 
 void CJabberDlgGcJoin::OnDestroy()
@@ -1147,7 +1148,7 @@ public:
 		m_accept.OnClick = Callback(this, &CGroupchatInviteAcceptDlg::OnCommand_Accept);
 	}
 
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 
@@ -1162,6 +1163,7 @@ public:
 		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
 
 		SetFocus(GetDlgItem(m_hwnd, IDC_NICK));
+		return true;
 	}
 
 	void OnCommand_Accept(CCtrlButton*)

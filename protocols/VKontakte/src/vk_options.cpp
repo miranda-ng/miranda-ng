@@ -39,7 +39,7 @@ CVkAccMgrForm::CVkAccMgrForm(CVkProto *proto, HWND hwndParent) :
 	CreateLink(m_edtLogin, "Login", L"");
 }
 
-void CVkAccMgrForm::OnInitDialog()
+bool CVkAccMgrForm::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
@@ -49,9 +49,10 @@ void CVkAccMgrForm::OnInitDialog()
 	m_pwszOldPass = m_proto->GetUserStoredPassword();
 	m_edtPassword.SetText(m_pwszOldPass);
 	m_edtPassword.SendMsg(EM_LIMITTEXT, 1024, 0);
+	return true;
 }
 
-void CVkAccMgrForm::OnApply()
+bool CVkAccMgrForm::OnApply()
 {
 	pass_ptrW pwszNewPass(m_edtPassword.GetText());
 	bool bPassChanged = mir_wstrcmp(m_pwszOldPass, pwszNewPass) != 0;
@@ -66,6 +67,7 @@ void CVkAccMgrForm::OnApply()
 	if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
 		m_proto->ClearAccessToken();
 	m_pwszOldLogin = pwszNewLogin;
+	return true;
 }
 
 ////////////////////// Options ///////////////////////////////////////////////
@@ -157,7 +159,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
 	CreateLink(m_cbLoadOnlyFriends, m_proto->m_vkOptions.bLoadOnlyFriends);
 }
 
-void CVkOptionAccountForm::OnInitDialog()
+bool CVkOptionAccountForm::OnInitDialog()
 {
 	m_pwszOldLogin = m_edtLogin.GetText();
 	m_edtLogin.SendMsg(EM_LIMITTEXT, 1024, 0);
@@ -191,10 +193,10 @@ void CVkOptionAccountForm::OnInitDialog()
 			iListIndex = i;
 	}
 	m_cbxVKLang.SetCurSel(iListIndex);
-
+	return true;
 }
 
-void CVkOptionAccountForm::OnApply()
+bool CVkOptionAccountForm::OnApply()
 {
 	m_proto->m_vkOptions.iSyncHistoryMetod = m_cbxSyncHistory.GetItemData(m_cbxSyncHistory.GetCurSel());
 	m_proto->m_vkOptions.iMarkMessageReadOn = m_cbxMarkAsRead.GetItemData(m_cbxMarkAsRead.GetCurSel());
@@ -219,7 +221,7 @@ void CVkOptionAccountForm::OnApply()
 	if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
 		m_proto->ClearAccessToken();
 	m_pwszOldLogin = pwszNewLogin;
-
+	return true;
 }
 
 ////////////////////// Advanced page /////////////////////////////////////////
@@ -263,7 +265,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
 	m_cbSendVKLinksAsAttachments.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbSendVKLinksAsAttachmentsChange);
 }
 
-void CVkOptionAdvancedForm::OnInitDialog()
+bool CVkOptionAdvancedForm::OnInitDialog()
 {
 	m_cbMusicSendOff.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendNone);
 	m_cbMusicSendBroadcastAndStatus.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastAndStatus);
@@ -275,9 +277,10 @@ void CVkOptionAdvancedForm::OnInitDialog()
 
 	On_cbForceInvisibleStatusChange(&m_cbForceInvisibleStatus);
 	On_cbSendVKLinksAsAttachmentsChange(&m_cbSendVKLinksAsAttachments);
+	return true;
 }
 
-void CVkOptionAdvancedForm::OnApply()
+bool CVkOptionAdvancedForm::OnApply()
 {
 	if (m_cbMusicSendOff.GetState())
 		m_proto->m_vkOptions.iMusicSendMetod = MusicSendMetod::sendNone;
@@ -290,6 +293,7 @@ void CVkOptionAdvancedForm::OnApply()
 
 	if (m_cbSendVKLinksAsAttachments.GetState() == 0)
 		m_proto->m_vkOptions.bLoadSentAttachments = false;
+	return true;
 }
 
 void CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange(CCtrlCheck *)
@@ -364,7 +368,7 @@ CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto) :
 
 }
 
-void CVkOptionFeedsForm::OnInitDialog()
+bool CVkOptionFeedsForm::OnInitDialog()
 {
 	m_spNewsInterval.SetRange(60 * 24, 1);
 	m_spNewsInterval.SetPosition(m_proto->m_vkOptions.iNewsInterval);
@@ -374,6 +378,7 @@ void CVkOptionFeedsForm::OnInitDialog()
 
 	On_cbNewsEnabledChange(&m_cbNewsEnabled);
 	On_cbNotificationsEnabledChange(&m_cbNotificationsEnabled);
+	return true;
 }
 
 void CVkOptionFeedsForm::On_cbNewsEnabledChange(CCtrlCheck*)
@@ -436,7 +441,7 @@ CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto) :
 	CreateLink(m_cbUseNonStandardNotifications, m_proto->m_vkOptions.bUseNonStandardNotifications);
 }
 
-void CVkOptionViewForm::OnInitDialog()
+bool CVkOptionViewForm::OnInitDialog()
 {
 	m_cbIMGBBCSupportOff.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgNo);
 	m_cbIMGBBCSupportFullSize.SetState(m_proto->m_vkOptions.iIMGBBCSupport == IMGBBCSypport::imgFullSize);
@@ -450,9 +455,10 @@ void CVkOptionViewForm::OnInitDialog()
 	m_cbBBCForAttachmentsOff.SetState(m_proto->m_vkOptions.iBBCForAttachments == BBCSupport::bbcNo);
 	m_cbBBCForAttachmentsBasic.SetState(m_proto->m_vkOptions.iBBCForAttachments == BBCSupport::bbcBasic);
 	m_cbBBCForAttachmentsAdvanced.SetState(m_proto->m_vkOptions.iBBCForAttachments == BBCSupport::bbcAdvanced);
+	return true;
 }
 
-void CVkOptionViewForm::OnApply()
+bool CVkOptionViewForm::OnApply()
 {
 	if (m_cbIMGBBCSupportOff.GetState())
 		m_proto->m_vkOptions.iIMGBBCSupport = IMGBBCSypport::imgNo;
@@ -476,6 +482,7 @@ void CVkOptionViewForm::OnApply()
 		m_proto->m_vkOptions.iBBCForAttachments = BBCSupport::bbcBasic;
 	if (m_cbBBCForAttachmentsAdvanced.GetState())
 		m_proto->m_vkOptions.iBBCForAttachments = BBCSupport::bbcAdvanced;
+	return true;
 }
 
 ////////////////////// Menu page /////////////////////////////////////////////
@@ -499,10 +506,11 @@ CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto) :
 	CreateLink(m_cbMenuEnabled6, m_proto->m_vkOptions.bShowProtoMenuItem6);
 }
 
-void CVkOptionMenuForm::OnApply()
+bool CVkOptionMenuForm::OnApply()
 {
 	if (MessageBoxW(nullptr,
 		TranslateT("These changes will take effect after Miranda NG restart.\nWould you like to restart it now?"),
 		TranslateT("VKontakte protocol"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES)
 		CallServiceSync(MS_SYSTEM_RESTART, 1, 0);
+	return true;
 }

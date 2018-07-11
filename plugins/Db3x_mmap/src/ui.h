@@ -19,7 +19,7 @@ public:
 		m_combo.OnChange = Callback(this, &CSelectCryptoDialog::OnComboChanged);
 	}
 
-	void OnInitDialog()
+	bool OnInitDialog() override
 	{
 		for (size_t i = 0; i < m_provscount; i++)
 		{
@@ -28,11 +28,13 @@ public:
 		}
 		m_combo.SetCurSel(0);
 		SetDescr(m_provs[0]);
+		return true;
 	}
 
-	void OnClose()
+	bool OnClose() override
 	{
 		m_selected = m_provs[ m_combo.GetItemData(m_combo.GetCurSel()) ];
+		return true;
 	}
 
 	void OnComboChanged(CCtrlCombo*)

@@ -52,21 +52,21 @@ public:
 		btnDetails.OnClick = Callback(this, &CAuthReqDlg::onClick_Details);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		Button_SetIcon_IcoLib(m_hwnd, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View user's details"));
 		Button_SetIcon_IcoLib(m_hwnd, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
 
 		int iBlobSize = db_event_getBlobSize(m_hDbEvent);
 		if (iBlobSize == -1)
-			return;
+			return false;
 
 		// blob is: uin(DWORD), hcontact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = iBlobSize;
 		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 		if (db_event_get(m_hDbEvent, &dbei))
-			return;
+			return false;
 
 		m_szProto = dbei.szModule;
 
@@ -131,9 +131,10 @@ public:
 			chkAdd.SetState(false);
 		}
 		else chkAdd.SetState(true);
+		return true;
 	}
 
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_ADD);
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_DETAILS);
@@ -198,7 +199,7 @@ public:
 		btnDetails.OnClick = Callback(this, &CAddedDlg::onClick_Details);
 	}
 
-	virtual void OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		Button_SetIcon_IcoLib(m_hwnd, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View user's details"));
 		Button_SetIcon_IcoLib(m_hwnd, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
@@ -255,9 +256,10 @@ public:
 
 		if (m_hContact == INVALID_CONTACT_ID || !db_get_b(m_hContact, "CList", "NotOnList", 0))
 			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
+		return true;
 	}
 			
-	virtual void OnDestroy() override
+	void OnDestroy() override
 	{
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_ADD);
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_DETAILS);
