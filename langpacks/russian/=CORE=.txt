@@ -1,4 +1,4 @@
-;============================================================
+﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
 ;  Version: 0.95.9
@@ -481,7 +481,7 @@
 [Show typing notifications when a user is typing a message]
 Показывать уведомления о наборе текста
 [Update inactive message window icons when a user is typing]
-Обновить значок неактивного окна при наборе контактом сообщения вам
+Обновить значок неактивного окна при наборе контактом сообщения
 [Show typing notification when no message dialog is open]
 Уведомлять о наборе текста, когда окно беседы не открыто
 [Flash in the system tray and in the contact list]
@@ -541,7 +541,7 @@
 [Add new rooms to group:]
 Добавлять комнаты чата в группу:
 [Nick list row distance (pixels):]
-Расстояние между строками (пикс.):
+Расстояние между строками (пикселей):
 [Use same style as in the message log]
 Тот же стиль, что и в журнале
 [Use default colors]
@@ -990,7 +990,7 @@ Cлужба:
 [Account order and visibility]
 Порядок учётных записей
 [Note: Miranda NG will have to be restarted for changes to take effect.]
-Важно: Изменения вступят в силу после перезапуска программы.
+Важно: изменения вступят в силу после перезапуска программы.
 [Key bindings]
 Горячие клавиши
 [Shortcut:]
@@ -1048,7 +1048,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [*only the first %d icons will be shown]
 * будут отображаться только первые %d значков
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Вы можете группировать/разгруппировывать значки, выделяя их (CTRL+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
+Вы можете группировать/разгруппировывать значки, выделяя их (Ctrl+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
 [Add to existing metacontact]
 Добавить к метаконтакту
 [Please select a metacontact:]
@@ -1703,39 +1703,39 @@ Google Карты
 [Typing notification]
 Уведомление о наборе текста
 [View user's history (CTRL+H)]
-История сообщений (CTRL+H)
+История сообщений (Ctrl+H)
 [&Bold]
 &Жирный
 [Make the text bold (CTRL+B)]
-Сделать текст жирным (CTRL+B)
+Сделать текст жирным (Ctrl+B)
 [&Italic]
 &Курсив
 [Make the text italicized (CTRL+I)]
-Сделать текст курсивом (CTRL+I)
+Сделать текст курсивом (Ctrl+I)
 [&Underline]
 &Подчёркнутый
 [Make the text underlined (CTRL+U)]
-Подчеркнуть текст (CTRL+U)
+Подчеркнуть текст (Ctrl+U)
 [&Color]
 &Цвет
 [Select a foreground color for the text (CTRL+K)]
-Выбрать цвет текста (CTRL+K)
+Выбрать цвет текста (Ctrl+K)
 [&Background color]
 Цвет &фона
 [Select a background color for the text (CTRL+L)]
-Выбрать фон текста (CTRL+L)
+Выбрать фон текста (Ctrl+L)
 [&Room settings]
 &Настройки
 [Control this room (CTRL+O)]
-Управление комнатой чата (CTRL+O)
+Управление комнатой чата (Ctrl+O)
 [&Show/hide nick list]
 &Показать/Скрыть список пользователей
 [Show/hide the nick list (CTRL+N)]
-Показать/скрыть список пользователей (CTRL+N)
+Показать/скрыть список пользователей (Ctrl+N)
 [&Filter]
 &Фильтр
 [Enable/disable the event filter (CTRL+F)]
-Включить/выключить фильтр событий (CTRL+F)
+Включить/выключить фильтр событий (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
 [Instant messages]

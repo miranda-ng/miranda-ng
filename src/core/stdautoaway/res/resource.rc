@@ -44,7 +44,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,116,265,10
     CONTROL         "Do not let protocols report any idle information",IDC_IDLEPRIVATE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,131,251,9
-    LTEXT           "minute(s)",IDC_STATIC,99,61,76,9
+    LTEXT           "minute(s)",IDC_STATIC,94,61,76,9
     RTEXT           "for",IDC_STATIC,12,62,41,8
     COMBOBOX        IDC_AASTATUS,161,146,64,50,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Change my status mode to:",IDC_AASHORTIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,147,132,11

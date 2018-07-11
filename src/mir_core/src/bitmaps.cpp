@@ -45,5 +45,5 @@ MIR_CORE_DLL(void) Bitmap_GetFilter(wchar_t *dest, size_t destLen)
 		L"%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"
 		L"%s (*.gif)%c*.GIF%c"
 		L"%s (*.png)%c*.PNG%c%c",
-		TranslateW_LP(L"All Files"), 0, 0, TranslateW_LP(L"Windows bitmaps"), 0, 0, TranslateW_LP(L"JPEG bitmaps"), 0, 0, TranslateW_LP(L"GIF bitmaps"), 0, 0, TranslateW_LP(L"PNG bitmaps"), 0, 0, 0);
+		TranslateW_LP(L"All files"), 0, 0, TranslateW_LP(L"Windows bitmaps"), 0, 0, TranslateW_LP(L"JPEG bitmaps"), 0, 0, TranslateW_LP(L"GIF bitmaps"), 0, 0, TranslateW_LP(L"PNG bitmaps"), 0, 0, 0);
 }
