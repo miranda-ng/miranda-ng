@@ -18,6 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\libmdbx\libmdbx.vcxproj">
+      <Project>{6d19209b-ece7-4b9c-941c-0aa2b484f199}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Dbx_mdbx</ProjectName>
     <ProjectGuid>{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}</ProjectGuid>
@@ -26,28 +31,9 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
-  <ItemGroup>
-    <ClCompile Include="src\libmdbx\src\lck-windows.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\libmdbx\src\mdbx.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\libmdbx\src\osal.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\libmdbx\src\version.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\libmdbx\mdbx.h" />
-  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">MDB_DEBUG=5;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions>MDBX_CONFIG_MANUAL_TLS_CALLBACK=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

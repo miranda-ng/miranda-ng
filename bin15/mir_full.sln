@@ -447,6 +447,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProxySwitch", "..\plugins\ProxySwitch\ProxySwitch.vcxproj", "{7446276D-5845-4258-A245-83D1D4D3CEC3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmdbx", "..\libs\libmdbx\libmdbx.vcxproj", "{6D19209B-ECE7-4B9C-941C-0AA2B484F199}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2005,6 +2007,14 @@ Global
 		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Release|Win32.Build.0 = Release|Win32
 		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Release|x64.ActiveCfg = Release|x64
 		{7446276D-5845-4258-A245-83D1D4D3CEC3}.Release|x64.Build.0 = Release|x64
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Debug|Win32.Build.0 = Debug|Win32
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Debug|x64.ActiveCfg = Debug|x64
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Debug|x64.Build.0 = Debug|x64
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Release|Win32.ActiveCfg = Release|Win32
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Release|Win32.Build.0 = Release|Win32
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Release|x64.ActiveCfg = Release|x64
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2130,6 +2140,7 @@ Global
 		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E} = {37EDFBEA-8446-4BF3-9F2E-655908CDFB62}
 		{7DC23E4E-2448-4811-AABD-F5D069F6E74A} = {F9C41695-3353-4564-A154-58106829B19C}
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199} = {37EDFBEA-8446-4BF3-9F2E-655908CDFB62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}
