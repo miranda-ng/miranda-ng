@@ -405,71 +405,36 @@ ProtocolInfo* GetProtoInfo(char *proto)
 	return nullptr;
 }
 
-static void ReplaceVars(Buffer<wchar_t> *buffer, MCONTACT hContact, wchar_t **variables, int numVariables)
+static void ReplaceVars(CMStringW &buffer, MCONTACT hContact, wchar_t **variables, int numVariables)
 {
-	if (buffer->len < 3)
-		return;
+	buffer.Replace(L"\\n", L"");
+	buffer.Replace(L"%contact%", Clist_GetContactDisplayName(hContact));
+	
+	wchar_t tmp[128];
+	TimeZone_ToStringT(time(0), L"d s", tmp, _countof(tmp));
+	buffer.Replace(L"%date%", tmp);
 
-	if (numVariables < 0)
-		return;
-
-	for (size_t i = buffer->len - 1; i > 0; i--) {
-		if (buffer->str[i] == '%') {
-			// Find previous
-			size_t j;
-			for (j = i - 1; j > 0 && ((buffer->str[j] >= 'a' && buffer->str[j] <= 'z')
-				|| (buffer->str[j] >= 'A' && buffer->str[j] <= 'Z')
-				|| buffer->str[j] == '-'
-				|| buffer->str[j] == '_'); j--);
-
-			if (buffer->str[j] == '%') {
-				size_t foundLen = i - j + 1;
-				if (foundLen == 9 && wcsncmp(&buffer->str[j], L"%contact%", 9) == 0) {
-					buffer->replace(j, i + 1, Clist_GetContactDisplayName(hContact));
-				}
-				else if (foundLen == 6 && wcsncmp(&buffer->str[j], L"%date%", 6) == 0) {
-					wchar_t tmp[128];
-					TimeZone_ToStringT(time(0), L"d s", tmp, _countof(tmp));
-					buffer->replace(j, i + 1, tmp);
-				}
-				else {
-					for (int k = 0; k < numVariables; k += 2) {
-						size_t len = mir_wstrlen(variables[k]);
-						if (foundLen == len + 2 && wcsncmp(&buffer->str[j] + 1, variables[k], len) == 0) {
-							buffer->replace(j, i + 1, variables[k + 1]);
-							break;
-						}
-					}
-				}
-			}
-
-			i = j;
-			if (i == 0)
-				break;
-		}
-		else if (buffer->str[i] == '\\' && i + 1 <= buffer->len - 1 && buffer->str[i + 1] == 'n') {
-			buffer->str[i] = '\r';
-			buffer->str[i + 1] = '\n';
-		}
+	for (int k = 0; k < numVariables; k += 2) {
+		CMStringW find('%');
+		find.Append(variables[k]);
+		find.AppendChar('%');
+		buffer.Replace(find, variables[k+1]);
 	}
 }
 
-void ReplaceTemplate(Buffer<wchar_t> *out, MCONTACT hContact, wchar_t *templ, wchar_t **vars, int numVars)
+void ReplaceTemplate(CMStringW &out, MCONTACT hContact, wchar_t *templ, wchar_t **vars, int numVars)
 {
-
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		wchar_t *tmp = variables_parse_ex(templ, nullptr, hContact, vars, numVars);
 		if (tmp != nullptr) {
-			out->append(tmp);
+			out.Append(tmp);
 			mir_free(tmp);
-			out->pack();
 			return;
 		}
 	}
 
-	out->append(templ);
+	out.Append(templ);
 	ReplaceVars(out, hContact, vars, numVars);
-	out->pack();
 }
 
 void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = nullptr)
@@ -511,14 +476,14 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = nullptr)
 					L"listening", opts.nothing
 				};
 
-				Buffer<wchar_t> name;
-				ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, _countof(fr));
-				Buffer<wchar_t> msg;
-				ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
+				CMStringW name;
+				ReplaceTemplate(name, NULL, opts.xstatus_name, fr, _countof(fr));
+				CMStringW msg;
+				ReplaceTemplate(msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
 				ics.flags = CSSF_UNICODE | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
-				ics.ptszName = name.str;
-				ics.ptszMessage = msg.str;
+				ics.ptszName = name.GetBuffer();
+				ics.ptszMessage = msg.GetBuffer();
 
 				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 			}
@@ -592,17 +557,16 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = nullptr)
 				L"type", UNKNOWN(lti->ptszType)
 			};
 
-			Buffer<wchar_t> name;
-			ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, _countof(fr));
-			Buffer<wchar_t> msg;
-			ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
+			CMStringW name;
+			ReplaceTemplate(name, NULL, opts.xstatus_name, fr, _countof(fr));
+			CMStringW msg;
+			ReplaceTemplate(msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
 			status = XSTATUS_MUSIC;
 			ics.flags = CSSF_UNICODE | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 			ics.status = &status;
-			ics.ptszName = name.str;
-			ics.ptszMessage = msg.str;
-
+			ics.ptszName = name.GetBuffer();
+			ics.ptszMessage = msg.GetBuffer();
 			CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 
 			mir_free(fr[1]);
@@ -685,7 +649,7 @@ INT_PTR GetTextFormat(WPARAM, LPARAM)
 	return (INT_PTR)mir_wstrdup(opts.templ);
 }
 
-wchar_t *GetParsedFormat(LISTENINGTOINFO *lti)
+wchar_t* GetParsedFormat(LISTENINGTOINFO *lti)
 {
 	if (lti == nullptr)
 		return nullptr;
@@ -702,9 +666,9 @@ wchar_t *GetParsedFormat(LISTENINGTOINFO *lti)
 		L"type", UNKNOWN(lti->ptszType)
 	};
 
-	Buffer<wchar_t> ret;
-	ReplaceTemplate(&ret, NULL, opts.templ, fr, _countof(fr));
-	return ret.detach();
+	CMStringW ret;
+	ReplaceTemplate(ret, NULL, opts.templ, fr, _countof(fr));
+	return ret.Detach();
 }
 
 INT_PTR GetParsedFormat(WPARAM, LPARAM lParam)

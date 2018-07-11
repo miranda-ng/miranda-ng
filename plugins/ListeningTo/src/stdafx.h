@@ -39,6 +39,8 @@ Boston, MA 02111-1307, USA.
 #include <m_genmenu.h>
 #include <m_hotkeys.h>
 #include <m_extraicons.h>
+#include <m_variables.h>
+#include <m_timezones.h>
 
 #include <m_metacontacts.h>
 #include <m_proto_listeningto.h>
@@ -56,7 +58,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 #include "../../utils/mir_options.h"
-#include "../../utils/mir_buffer.h"
 
 #include "music.h"
 #include "resource.h"
@@ -120,7 +121,7 @@ static bool IsEmpty(const WCHAR *str)
 
 void InitServices();
 
-void ReplaceTemplate(Buffer<wchar_t> *out, MCONTACT hContact, wchar_t *templ, wchar_t **vars, int numVars);
+void ReplaceTemplate(CMStringW &out, MCONTACT hContact, wchar_t *templ, wchar_t **vars, int numVars);
 
 wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai);
 wchar_t* VariablesParseType(ARGUMENTSINFO *ai);

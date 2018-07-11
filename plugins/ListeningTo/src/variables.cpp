@@ -42,9 +42,9 @@ wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai)
 		L"type", UNKNOWN(lti->ptszType)
 	};
 
-	Buffer<wchar_t> ret;
-	ReplaceTemplate(&ret, NULL, opts.templ, fr, _countof(fr));
-	return ret.detach();
+	CMStringW ret;
+	ReplaceTemplate(ret, NULL, opts.templ, fr, _countof(fr));
+	return ret.Detach();
 }
 
 #define VARIABLES_PARSE_BODY(__field__) \
