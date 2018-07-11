@@ -732,6 +732,7 @@ int LoadNewPluginsModule(void)
 			Plugin_Uninit(it);
 
 	HookEvent(ME_OPT_INITIALISE, PluginOptionsInit);
+	HookEvent(ME_LANGPACK_CHANGED, PluginsLoadLangpack);
 	return 0;
 }
 

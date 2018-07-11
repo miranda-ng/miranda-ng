@@ -32,25 +32,25 @@ static int Compare(const CMPluginBase *p1, const CMPluginBase *p2)
 	return INT_PTR(p1->getInst()) - INT_PTR(p2->getInst());
 }
 
-static LIST<CMPluginBase> pluginListAddr(10, Compare);
+static LIST<CMPluginBase> g_arPlugins(10, Compare);
 
 void RegisterModule(CMPluginBase *pPlugin)
 {
-	pluginListAddr.insert(pPlugin);
+	g_arPlugins.insert(pPlugin);
 }
 
 MIR_APP_DLL(HINSTANCE) GetInstByAddress(void *codePtr)
 {
-	if (pluginListAddr.getCount() == 0)
+	if (g_arPlugins.getCount() == 0)
 		return nullptr;
 
 	int idx;
 	void *boo[2] = { 0, codePtr };
-	List_GetIndex((SortedList*)&pluginListAddr, (CMPluginBase*)&boo, &idx);
+	List_GetIndex((SortedList*)&g_arPlugins, (CMPluginBase*)&boo, &idx);
 	if (idx > 0)
 		idx--;
 
-	HINSTANCE result = pluginListAddr[idx]->getInst();
+	HINSTANCE result = g_arPlugins[idx]->getInst();
 	if (result < g_plugin.getInst() && codePtr > g_plugin.getInst())
 		return g_plugin.getInst();
 	
@@ -62,7 +62,7 @@ MIR_APP_DLL(HINSTANCE) GetInstByAddress(void *codePtr)
 
 MIR_APP_DLL(CMPluginBase*) GetPluginByLangId(int _hLang)
 {
-	for (auto &it : pluginListAddr)
+	for (auto &it : g_arPlugins)
 		if (it->m_hLang == _hLang)
 			return it;
 
@@ -74,7 +74,7 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 	if (uuid == miid_last)
 		return --sttFakeID;
 
-	for (auto &it : pluginListAddr)
+	for (auto &it : g_arPlugins)
 		if (it->getInfo().uuid == uuid)
 			return (_hLang) ? _hLang : --sttFakeID;
 
@@ -83,7 +83,7 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 
 MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
 {
-	for (auto &it : pluginListAddr)
+	for (auto &it : g_arPlugins)
 		if (it->getInfo().uuid == uuid)
 			return it->getInst() != nullptr;
 
@@ -93,21 +93,21 @@ MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
 char* GetPluginNameByInstance(HINSTANCE hInst)
 {
 	HINSTANCE boo[2] = { 0, hInst };
-	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&boo);
+	CMPluginBase *pPlugin = g_arPlugins.find((CMPluginBase*)&boo);
 	return (pPlugin == nullptr) ? nullptr : pPlugin->getInfo().shortName;
 }
 
 MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
 {
 	HINSTANCE boo[2] = { 0, hInst };
-	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&boo);
+	CMPluginBase *pPlugin = g_arPlugins.find((CMPluginBase*)&boo);
 	return (pPlugin == nullptr) ? g_plugin : *pPlugin;
 }
 
 MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInst)
 {
 	HINSTANCE boo[2] = { 0, hInst };
-	CMPluginBase *pPlugin = pluginListAddr.find((CMPluginBase*)&boo);
+	CMPluginBase *pPlugin = g_arPlugins.find((CMPluginBase*)&boo);
 	return (pPlugin == nullptr) ? 0 : pPlugin->m_hLang;
 }
 
@@ -117,14 +117,23 @@ MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInst)
 EXTERN_C MIR_APP_DLL(void) RegisterPlugin(CMPluginBase *pPlugin)
 {
 	if (pPlugin->getInst() != nullptr)
-		pluginListAddr.insert(pPlugin);
+		g_arPlugins.insert(pPlugin);
 
 	mir_getLP(&pPlugin->getInfo(), &pPlugin->m_hLang);
 }
 
 EXTERN_C MIR_APP_DLL(void) UnregisterPlugin(CMPluginBase *pPlugin)
 {
-	pluginListAddr.remove(pPlugin);
+	g_arPlugins.remove(pPlugin);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int PluginsLoadLangpack(WPARAM, LPARAM)
+{
+	for (auto &it : g_arPlugins)
+		mir_getLP(&it->getInfo(), &it->m_hLang);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +143,7 @@ CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
 	m_pInfo(pInfo)
 {
 	if (m_hInst != nullptr)
-		pluginListAddr.insert(this);
+		g_arPlugins.insert(this);
 
 	mir_getLP(&pInfo, &m_hLang);
 }
@@ -146,7 +155,7 @@ CMPluginBase::~CMPluginBase()
 		m_hLogger = nullptr;
 	}
 
-	pluginListAddr.remove(this);
+	g_arPlugins.remove(this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
