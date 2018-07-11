@@ -38,8 +38,9 @@ class CChatRoomDlg : public CSrmmBaseDialog
 };
 
 extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
+extern HPLUGIN g_pChatPlugin;
 extern GlobalLogSettingsBase *g_Settings;
-extern int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
+extern int g_cbSession, g_cbModuleInfo, g_iFontMode;
 extern wchar_t *g_szFontGroup;
 extern mir_cs csChat;
 

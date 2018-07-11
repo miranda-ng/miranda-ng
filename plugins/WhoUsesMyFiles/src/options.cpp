@@ -268,9 +268,8 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 
 int OptionsInit(WPARAM wparam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 945000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = LPGEN("Who uses my files");
 	odp.pfnDlgProc = OptionsDlgProc;

@@ -551,8 +551,7 @@ extern INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wPara
 
 int OnOptInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = MODULENAME;
 	odp.flags = ODPF_BOLDGROUPS;

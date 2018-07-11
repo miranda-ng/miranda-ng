@@ -84,7 +84,7 @@ struct TopButtonInt : public MZeroedObject
 	LPARAM lParamDown;
 	WPARAM wParamDown;
 
-	int    hLangpack;
+	HPLUGIN pPlugin;
 	wchar_t *ptszTooltipUp, *ptszTooltipDn;
 };
 

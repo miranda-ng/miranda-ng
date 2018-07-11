@@ -600,9 +600,8 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 
 int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 1000000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Auto away");
@@ -610,16 +609,16 @@ int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = DlgProcAutoAwayGeneralOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENAUTOAWAY);
-	Options_AddPage(wParam, &odp, AAALangPack);
+	Options_AddPage(wParam, &odp, &AAAPlugin);
 
 	odp.szTab.a = LPGEN("Rules");
 	odp.pfnDlgProc = DlgProcAutoAwayRulesOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTOAWAY);
-	Options_AddPage(wParam, &odp, AAALangPack);
+	Options_AddPage(wParam, &odp, &AAAPlugin);
 
 	odp.szTab.a = LPGEN("Status messages");
 	odp.pfnDlgProc = DlgProcAutoAwayMsgOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTOAWAYMSG);
-	Options_AddPage(wParam, &odp, AAALangPack);
+	Options_AddPage(wParam, &odp, &AAAPlugin);
 	return 0;
 }

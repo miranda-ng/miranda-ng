@@ -310,8 +310,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 int CluiOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	odp.szTitle.a = LPGEN("Window");
 	odp.szGroup.a = LPGEN("Contact list");

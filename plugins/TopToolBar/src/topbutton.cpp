@@ -171,6 +171,6 @@ void TopButtonInt::SetBitmap()
 			pTooltip = ptszTooltipUp;
 		}
 		if (pTooltip)
-			SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateW_LP(pTooltip, hLangpack), BATF_UNICODE);
+			SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateW_LP(pTooltip, pPlugin), BATF_UNICODE);
 	}
 }

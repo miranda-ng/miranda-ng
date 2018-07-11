@@ -284,7 +284,7 @@ int OnOptInit(WPARAM w, LPARAM l)
 {
 	UNREFERENCED_PARAMETER(l);
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.w = LPGENW("Message sessions");
 	odp.szTitle.w = LPGENW("StopSpam");
 	odp.position = -1;

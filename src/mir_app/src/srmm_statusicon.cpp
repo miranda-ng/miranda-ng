@@ -67,7 +67,7 @@ struct StatusIconMain : public MZeroedObject
 
 	StatusIconData sid;
 
-	int hLangpack;
+	HPLUGIN pPlugin;
 	OBJLIST<StatusIconChild> arChildren;
 };
 
@@ -84,7 +84,7 @@ static OBJLIST<StatusIconMain> arIcons(3, CompareIcons);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLangpack)
+MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin)
 {
 	if (sid == nullptr)
 		return 1;
@@ -95,7 +95,7 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLangpack)
 
 	p = new StatusIconMain;
 	memcpy(&p->sid, sid, sizeof(p->sid));
-	p->hLangpack = _hLangpack;
+	p->pPlugin = pPlugin;
 	p->sid.szModule = mir_strdup(sid->szModule);
 	if (sid->flags & MBF_UNICODE)
 		p->sid.tszTooltip = mir_wstrdup(sid->wszTooltip);
@@ -185,7 +185,7 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 				if (pc->tszTooltip) res.tszTooltip = pc->tszTooltip;
 				res.flags = pc->flags;
 			}
-			res.tszTooltip = TranslateW_LP(res.tszTooltip, it->hLangpack);
+			res.tszTooltip = TranslateW_LP(res.tszTooltip, it->pPlugin);
 			return &res;
 		}
 		nVis++;
@@ -203,11 +203,11 @@ MIR_APP_DLL(void) Srmm_ClickStatusIcon(MCONTACT hContact, const StatusIconClickD
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void KillModuleSrmmIcons(int _hLang)
+void KillModuleSrmmIcons(HPLUGIN pPlugin)
 {
 	auto T = arIcons.rev_iter();
 	for (auto &it : T)
-		if (it->hLangpack == _hLang)
+		if (it->pPlugin == pPlugin)
 			arIcons.remove(T.indexOf(&it));
 }
 

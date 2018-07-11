@@ -54,7 +54,7 @@ private:
 
 int WaMpdOptInit(WPARAM wParam,LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = LPGENW("Winamp Track");
 	odp.szGroup.w = LPGENW("Plugins");
 	odp.szTab.w = LPGENW("Watrack MPD");

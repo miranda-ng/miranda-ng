@@ -1178,8 +1178,7 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	m_bPhotoChanged = FALSE;
 	m_szPhotoFileName[0] = 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
 	odp.szTitle.w = m_tszUserName;

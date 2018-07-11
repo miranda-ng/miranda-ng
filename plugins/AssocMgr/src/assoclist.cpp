@@ -912,8 +912,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 static int AssocListOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ASSOCLIST);
 	odp.position = 900000100; // network opts  =  900000000
 	odp.szGroup.a = LPGEN("Services"); // autotranslated

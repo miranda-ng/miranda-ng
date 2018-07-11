@@ -486,9 +486,8 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 
 int OptionsInit(WPARAM wparam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
 	odp.szGroup.w = LPGENW("Contacts");

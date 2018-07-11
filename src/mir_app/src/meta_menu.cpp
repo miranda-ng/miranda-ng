@@ -356,7 +356,7 @@ INT_PTR Meta_OnOff(WPARAM, LPARAM)
 
 void InitMenus()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	// main menu item
 	SET_UID(mi, 0x8999a6ca, 0x9c66, 0x49c1, 0xad, 0xe1, 0x48, 0x17, 0x28, 0xb, 0x94, 0x86);

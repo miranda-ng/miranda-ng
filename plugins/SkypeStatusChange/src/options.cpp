@@ -299,9 +299,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg,UINT msg,WPARAM wp,LPARAM lp)
 
 int SSC_OptInitialise(WPARAM wp, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = LPGEN("Change Skype status");
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_SETTINGS);

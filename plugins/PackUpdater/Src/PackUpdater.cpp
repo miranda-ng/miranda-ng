@@ -64,7 +64,7 @@ int CMPlugin::Load()
 	// Add cheking update menu item
 	CreateServiceFunction(MODULENAME"/CheckUpdates", MenuCommand);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x326495e8, 0xab0a, 0x47d2, 0xb2, 0x22, 0x2a, 0x8e, 0xa8, 0xae, 0x53, 0x1a);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_UNICODE;

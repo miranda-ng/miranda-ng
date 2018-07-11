@@ -223,7 +223,7 @@ begin
     end;
     FrameHeight:=CLFrame.height;
 
-    PWATFrameData(FrameCtrl.CustomData).FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,twparam(@CLFrame),0);
+    PWATFrameData(FrameCtrl.CustomData).FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,twparam(@CLFrame),lparam(@g_Plugin));
     if PWATFrameData(FrameCtrl.CustomData).FrameId>=0 then
     begin
       plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);

@@ -270,9 +270,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.szTitle.a = LPGEN("GmailNotifier");
 	odp.szGroup.a = LPGEN("Network");

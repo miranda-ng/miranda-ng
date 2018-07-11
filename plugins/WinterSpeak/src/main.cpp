@@ -69,8 +69,7 @@ int protocolAck(WPARAM, LPARAM lParam)
 
 int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.w = LPGENW("Speak");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 

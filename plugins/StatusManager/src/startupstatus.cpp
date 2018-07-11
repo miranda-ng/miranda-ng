@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-int SSLangPack;
+CFakePlugin SSPlugin(SSMODULENAME);
 
 static HANDLE hServices[3], hEvents[3];
 static UINT_PTR setStatusTimerId = 0;
@@ -413,8 +413,6 @@ static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
 
 void StartupStatusLoad()
 {
-	SSLangPack = GetPluginLangId(MIID_LAST, 0);
-
 	if (g_bMirandaLoaded)
 		SSModuleLoaded(0, 0);
 	else
@@ -445,7 +443,7 @@ void StartupStatusUnload()
 	if (g_bMirandaLoaded)
 		OnShutdown(0, 0);
 
-	KillModuleOptions(SSLangPack);
+	KillModuleOptions(&SSPlugin);
 
 	for (auto &it : hServices) {
 		DestroyServiceFunction(it);

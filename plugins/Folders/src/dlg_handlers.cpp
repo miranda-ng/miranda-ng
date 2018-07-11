@@ -245,9 +245,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 static int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FOLDERS);
 	odp.szTitle.a = LPGEN("Folders");
 	odp.szGroup.a = LPGEN("Customize");

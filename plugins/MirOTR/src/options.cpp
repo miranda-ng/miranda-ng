@@ -826,9 +826,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 
 static int OpenOptions(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100;
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Services");
 	odp.szTitle.w = L"OTR";
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;

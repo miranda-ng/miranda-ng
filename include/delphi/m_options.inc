@@ -58,8 +58,7 @@ type
     szTab                 :TChar;   // [TRANSLATED-BY-CORE]
     pfnDlgProc            :pointer;
     pszTemplate           :PAnsiChar;
-    hInstance             :THANDLE;
-    hLangpack             :int;
+    pPlugin               :Pointer;
     flags                 :dword;   // 
     dwInitParam           :LPARAM;  // a value to pass to lParam of WM_INITDIALOG message
   end;
@@ -73,9 +72,9 @@ const
 const
   PSM_GETBOLDFONT   = WM_USER+102;   //returns HFONT used for group box titles
 
-function _Options_AddPage(param:WPARAM; opts:POPTIONSDIALOGPAGE; lang:int) : int; stdcall; external AppDll name 'Options_AddPage';
+function _Options_AddPage(param:WPARAM; opts:POPTIONSDIALOGPAGE; lang:Pointer) : int; stdcall; external AppDll name 'Options_AddPage';
 
-function _Options_Open(group,page,tab:PWideChar; lang:int):int_ptr; stdcall; external AppDll name 'Options_Open';
-function _Options_OpenPage(group,page,tab:PWideChar; lang:int):HWND; stdcall; external AppDll name 'Options_OpenPage';
+function _Options_Open(group,page,tab:PWideChar; lang:Pointer):int_ptr; stdcall; external AppDll name 'Options_Open';
+function _Options_OpenPage(group,page,tab:PWideChar; lang:Pointer):HWND; stdcall; external AppDll name 'Options_OpenPage';
 
 {$ENDIF}

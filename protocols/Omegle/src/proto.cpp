@@ -157,8 +157,7 @@ void OmegleProto::OnShutdown()
 
 int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;

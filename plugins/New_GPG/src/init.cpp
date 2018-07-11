@@ -109,12 +109,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	sid.dwId = 0x00000001;
 	sid.hIcon = IcoLib_GetIcon("secured");
 	sid.szTooltip = LPGEN("GPG Turn off encryption");
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 0x00000002;
 	sid.hIcon = IcoLib_GetIcon("unsecured");
 	sid.szTooltip = LPGEN("GPG Turn on encryption");
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	if(globals.bJabberAPI)
 		GetJabberInterface(0,0);
@@ -151,7 +151,7 @@ int CMPlugin::Load()
 	CreateServiceFunction("/ExportGPGKeys",ExportGpGKeys);
 	CreateServiceFunction("/ImportGPGKeys",ImportGpGKeys);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	SET_UID(mi, 0xbd22e3f8, 0xc19c, 0x45a8, 0xb7, 0x37, 0x6b, 0x3b, 0x27, 0xf0, 0x8c, 0xbb);
 	mi.position = -0x7FFFFFFF;

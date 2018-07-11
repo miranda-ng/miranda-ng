@@ -126,7 +126,7 @@ static INT_PTR CopyIP2Clipboard(WPARAM, LPARAM, LPARAM idx)
 
 void UpdateInterfacesMenu(void)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	mir_cslock lck(csNIF_List);
 	for (auto &it : g_arNIF) {
@@ -163,7 +163,7 @@ void UpdateInterfacesMenu(void)
 
 void UpdatePopupMenu(BOOL State)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	if (!hEnableDisablePopupMenu)
 		return;
@@ -254,7 +254,7 @@ int Init(WPARAM, LPARAM)
 	mir_forkthread(IP_WatchDog, 0);
 
 	// menu item
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x53b0835b, 0x7162, 0x4272, 0x83, 0x3b, 0x3f, 0x60, 0x9e, 0xe, 0x76, 0x4a);
 	mi.position = 0xC0000000;
 	mi.flags = CMIF_UNICODE;

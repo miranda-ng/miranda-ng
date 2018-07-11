@@ -695,14 +695,14 @@ MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item, int _hLang)
+MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item, HPLUGIN pPlugin)
 {
 	if (nItems > 0)
 		AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 
 	HMENU hSubMenu = nullptr;
 	for (int i = 0; i < nItems; i++) {
-		wchar_t *ptszText = TranslateW_LP(Item[i].pszDesc, _hLang);
+		wchar_t *ptszText = TranslateW_LP(Item[i].pszDesc, pPlugin);
 		DWORD dwState = Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (Item[i].uType == MENU_NEWPOPUP) {

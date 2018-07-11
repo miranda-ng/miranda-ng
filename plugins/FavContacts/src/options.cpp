@@ -253,9 +253,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 int ProcessOptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.a = LPGEN("Contacts");
 	odp.szTitle.a = LPGEN("Favorites");

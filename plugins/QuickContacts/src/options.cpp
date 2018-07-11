@@ -49,8 +49,7 @@ void LoadOptions()
 
 int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.w = LPGENW("Contacts");
 	odp.szTitle.w = LPGENW("Quick Contacts");
 	odp.pfnDlgProc = OptionsDlgProc;

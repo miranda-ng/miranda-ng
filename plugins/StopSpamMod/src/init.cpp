@@ -137,7 +137,7 @@ int CMPlugin::Load()
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptInit);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x60ce7660, 0x5a5, 0x4234, 0x99, 0xb6, 0x55, 0x21, 0xed, 0xa0, 0xb8, 0x32);
 	mi.position = -0x7FFFFFFF;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);

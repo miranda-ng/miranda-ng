@@ -105,8 +105,7 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static int ShutdownOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHUTDOWN);
 	odp.position = 900000002;
 	odp.szGroup.w = LPGENW("Events"); /* autotranslated */

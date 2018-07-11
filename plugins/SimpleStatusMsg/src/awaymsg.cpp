@@ -382,7 +382,7 @@ int LoadAwayMsgModule(void)
 	hWindowList = WindowList_Create();
 	hWindowList2 = WindowList_Create();
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 
 	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);

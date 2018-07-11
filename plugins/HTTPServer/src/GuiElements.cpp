@@ -1338,9 +1338,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 900000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_HTTP_SERVER);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("HTTP Server");
@@ -1473,7 +1472,7 @@ void InitGuiElements()
 	hShareNewFileService = CreateServiceFunction(MS_SHARE_NEW_FILE, nShareNewFile);
 	hShowStatisticsViewService = CreateServiceFunction(MS_SHOW_STATISTICS_VIEW, nShowStatisticsView);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	SET_UID(mi, 0xb30a6ab5, 0x17a8, 0x4e2e, 0x84, 0x52, 0x5f, 0xbc, 0x83, 0x35, 0xf2, 0x6);
 	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));

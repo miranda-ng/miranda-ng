@@ -223,7 +223,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_WUMF_SWITCHPOPUP, WumfMenuCommand);
 	CreateServiceFunction(MS_WUMF_CONNECTIONSSHOW, WumfShowConnections);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	SET_UID(mi, 0xcfce6487, 0x907b, 0x4822, 0xb0, 0x49, 0x18, 0x4e, 0x47, 0x17, 0x0, 0x69);
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 1999990000);

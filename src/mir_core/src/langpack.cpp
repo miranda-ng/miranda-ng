@@ -142,6 +142,14 @@ static unsigned int __fastcall hashstrW(const char *key)
 	return mir_hash(buf, len);
 }
 
+static const MUUID* GetMuid(HPLUGIN pPlugin)
+{
+	if (!pPlugin)
+		return nullptr;
+
+	return &pPlugin->getInfo().uuid;
+}
+
 static int SortLangPackHashesProc(LangPackEntry *arg1, LangPackEntry *arg2)
 {
 	if (arg1->englishHash < arg2->englishHash) return -1;
@@ -455,7 +463,7 @@ static int SortLangPackHashesProc2(LangPackEntry *arg1, LangPackEntry *arg2)
 	return 0;
 }
 
-char* LangPackTranslateString(MUUID *pUuid, const char *szEnglish, const int W)
+char* LangPackTranslateString(const MUUID *pUuid, const char *szEnglish, const int W)
 {
 	if (g_entryCount == 0 || szEnglish == nullptr)
 		return (char*)szEnglish;
@@ -508,19 +516,19 @@ MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(char*) TranslateA_LP(const char *str, int _hLangpack)
+MIR_CORE_DLL(char*) TranslateA_LP(const char *str, HPLUGIN pPlugin)
 {
-	return (char*)LangPackTranslateString(Langpack_LookupUuid(_hLangpack), str, FALSE);
+	return (char*)LangPackTranslateString(GetMuid(pPlugin), str, FALSE);
 }
 
-MIR_CORE_DLL(WCHAR*) TranslateW_LP(const WCHAR *str, int _hLangpack)
+MIR_CORE_DLL(WCHAR*) TranslateW_LP(const WCHAR *str, HPLUGIN pPlugin)
 {
-	return (WCHAR*)LangPackTranslateString(Langpack_LookupUuid(_hLangpack), (LPCSTR)str, TRUE);
+	return (WCHAR*)LangPackTranslateString(GetMuid(pPlugin), (LPCSTR)str, TRUE);
 }
 
-MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int _hLangpack)
+MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, HPLUGIN pPlugin)
 {
-	MUUID *uuid = Langpack_LookupUuid(_hLangpack);
+	const MUUID *uuid = &pPlugin->getInfo().uuid;
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -542,11 +550,11 @@ MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int _hLangpack)
 		}
 
 		if (mii.hSubMenu != nullptr)
-			TranslateMenu_LP(mii.hSubMenu, _hLangpack);
+			TranslateMenu_LP(mii.hSubMenu, pPlugin);
 	}
 }
 
-static void TranslateWindow(MUUID *pUuid, HWND hwnd)
+static void TranslateWindow(const MUUID *pUuid, HWND hwnd)
 {
 	wchar_t title[2048];
 	GetWindowText(hwnd, title, _countof(title));
@@ -558,8 +566,8 @@ static void TranslateWindow(MUUID *pUuid, HWND hwnd)
 
 static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 {
-	int _hLangpack = (int)lParam;
-	MUUID *uuid = Langpack_LookupUuid(_hLangpack);
+	HPLUGIN pPlugin = (HPLUGIN)lParam;
+	const MUUID *uuid = GetMuid(pPlugin);
 
 	wchar_t szClass[32];
 	GetClassName(hwnd, szClass, _countof(szClass));
@@ -572,28 +580,13 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 	return TRUE;
 }
 
-MIR_CORE_DLL(void) TranslateDialog_LP(HWND hDlg, int _hLangpack)
+MIR_CORE_DLL(void) TranslateDialog_LP(HWND hDlg, HPLUGIN pPlugin)
 {
-	TranslateWindow(Langpack_LookupUuid(_hLangpack), hDlg);
-	EnumChildWindows(hDlg, TranslateDialogEnumProc, _hLangpack);
+	TranslateWindow(GetMuid(pPlugin), hDlg);
+	EnumChildWindows(hDlg, TranslateDialogEnumProc, (LPARAM)pPlugin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_CORE_DLL(MUUID*) Langpack_LookupUuid(WPARAM wParam)
-{
-	int idx = (wParam >> 16) & 0xFFFF;
-	return (idx > 0 && idx <= lMuuids.getCount()) ? lMuuids[idx - 1] : nullptr;
-}
-
-MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(const MUUID &uuid)
-{
-	int idx = lMuuids.getIndex((MUUID*)&uuid);
-	if (idx == -1)
-		return 0;
-
-	return (idx + 1) << 16;
-}
 
 MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 {
@@ -679,14 +672,6 @@ void GetDefaultLang()
 		FindClose(hFind);
 	}
 	else db_set_ws(NULL, "Langpack", "Current", L"default");
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang)
-{
-	if (_hLang && pInfo)
-		*(int*)_hLang = GetPluginLangId(pInfo->uuid, Langpack_MarkPluginLoaded(pInfo->uuid));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

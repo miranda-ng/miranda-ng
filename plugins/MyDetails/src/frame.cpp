@@ -325,7 +325,7 @@ int CreateFrame()
 
 		// Create menu item
 
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("My details"), 500010000);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "8C1C981C-4F28-4C4C-9121-544156210CE9");
 

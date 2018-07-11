@@ -629,9 +629,8 @@ static INT_PTR CALLBACK DlgProcSmileysOptions(HWND hwndDlg, UINT msg, WPARAM wPa
 
 int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMILEYS);
 	odp.szTitle.a = LPGEN("Smileys");
 	odp.szGroup.a = LPGEN("Customize");

@@ -32,10 +32,10 @@ struct SoundItem
 	ptrW pwszSection;
 	ptrW pwszDescription;
 	ptrW ptszTempFile;
-	int  hLangpack;
+	HPLUGIN pPlugin;
 
-	__inline wchar_t* getSection() const { return TranslateW_LP(pwszSection, hLangpack); }
-	__inline wchar_t* getDescr() const { return TranslateW_LP(pwszDescription, hLangpack); }
+	__inline wchar_t* getSection() const { return TranslateW_LP(pwszSection, pPlugin); }
+	__inline wchar_t* getDescr() const { return TranslateW_LP(pwszDescription, pPlugin); }
 };
 
 static int CompareSounds(const SoundItem* p1, const SoundItem* p2)
@@ -47,11 +47,11 @@ static OBJLIST<SoundItem> arSounds(10, CompareSounds);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleSounds(int _hLang)
+MIR_APP_DLL(void) KillModuleSounds(HPLUGIN pPlugin)
 {
 	auto T = arSounds.rev_iter();
 	for (auto &it : T)
-		if (it->hLangpack == _hLang)
+		if (it->pPlugin == pPlugin)
 			arSounds.remove(T.indexOf(&it));
 }
 
@@ -67,7 +67,7 @@ int CMPluginBase::addSound(const char *pszName, const wchar_t *pwszSection, cons
 	SoundItem *item = new SoundItem; // due to OBJLIST
 	item->name = mir_strdup(pszName);
 	item->ptszTempFile = nullptr;
-	item->hLangpack = m_hLang;
+	item->pPlugin = this;
 	arSounds.insert(item);
 
 	item->pwszDescription = mir_wstrdup(pwszDescription);
@@ -434,9 +434,8 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 static int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -200000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SOUND);
 	odp.szTitle.a = LPGEN("Sounds");
 	odp.pfnDlgProc = DlgProcSoundOpts;

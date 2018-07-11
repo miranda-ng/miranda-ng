@@ -26,7 +26,7 @@ CMPlugin::CMPlugin() :
 
 static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, LPCSTR szUid, HICON hicon, LPCSTR service, int flags = 0, WPARAM wParam = 0)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = flags | CMIF_HIDDEN | CMIF_UNICODE;
 	mi.position = pos;
 	mi.hIcolibItem = hicon;
@@ -39,7 +39,7 @@ static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, LPCSTR szUid, HICON hicon, 
 
 static HGENMENU MyAddSubItem(HGENMENU hRoot, LPCSTR name, int pos, int poppos, LPCSTR service, WPARAM wParam = 0)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_HIDDEN | CMIF_SYSTEM;
 	mi.position = pos;
 	mi.name.a = (char*)name;

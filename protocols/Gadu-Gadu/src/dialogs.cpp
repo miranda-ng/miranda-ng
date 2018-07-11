@@ -693,10 +693,9 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 //
 int GaduProto::options_init(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_UNICODE;
 	odp.position = 1003000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
@@ -745,9 +744,8 @@ int GaduProto::details_init(WPARAM wParam, LPARAM lParam)
 		pszTemplate = MAKEINTRESOURCEA(IDD_INFO_GG);
 	}
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_DONTTRANSLATE | ODPF_UNICODE;
-	odp.hInstance = g_plugin.getInst();
 	odp.pfnDlgProc = gg_detailsdlgproc;
 	odp.position = -1900000000;
 	odp.pszTemplate = pszTemplate;

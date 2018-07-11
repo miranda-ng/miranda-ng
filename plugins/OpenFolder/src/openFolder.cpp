@@ -99,7 +99,7 @@ int CMPlugin::Load()
 	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
 	g_plugin.addHotkey(&hotkey);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xbba6ad01, 0x755a, 0x4d01, 0x94, 0xee, 0x57, 0x84, 0x18, 0x70, 0x77, 0x4f);
 	mi.position = 0x7FFFFFFF;
 	mi.flags = CMIF_UNICODE;

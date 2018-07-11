@@ -222,12 +222,12 @@ void SrmmMenu_Load()
 	sid.dwId = 0;
 	sid.szTooltip = LPGEN("History Enabled");
 	sid.hIcon = sid.hIconDisabled = hIconKeep;
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
 	sid.szTooltip = LPGEN("History Disabled");
 	sid.hIcon = sid.hIconDisabled = hIconRemove;
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 		
 	// hook the window events so that we can can change the status of the icon
 	HookEvent(ME_MSG_WINDOWEVENT, WindowEvent);
@@ -239,7 +239,7 @@ void SrmmMenu_Load()
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	// create contact menu item
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 
 	SET_UID(mi, 0xede12697, 0x3e9d, 0x47ca, 0x83, 0xe0, 0xc1, 0x40, 0x69, 0xbf, 0x2d, 0xab);

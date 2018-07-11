@@ -54,7 +54,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	UpdateTimers();
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xcbfbfd3d, 0x5002, 0x4c64, 0x92, 0xb, 0x9c, 0x12, 0x4b, 0x6, 0x51, 0x2a);
 	mi.hIcolibItem = hiMailIcon;
 	mi.position = 10000000;
@@ -72,9 +72,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 //add the exchange options dialog to miranda
 int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXCHANGE);
 	odp.szTitle.w = LPGENW("Exchange notify");
 	odp.szGroup.w = LPGENW("Plugins");

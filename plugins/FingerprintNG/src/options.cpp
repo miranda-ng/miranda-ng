@@ -111,8 +111,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int OnOptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.w = LPGENW("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG);
 	odp.szTitle.w = LPGENW("Fingerprint");

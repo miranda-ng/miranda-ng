@@ -554,7 +554,7 @@ bool CToxOptionsNodeList::OnApply()
 
 int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.szGroup.w = LPGENW("Network");

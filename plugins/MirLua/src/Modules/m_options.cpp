@@ -45,8 +45,7 @@ public:
 
 void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 {
-	odp.hInstance = g_plugin.getInst();
-	odp.langId = CMLuaEnvironment::GetEnvironmentId(L);
+	odp.pPlugin = CMLuaEnvironment::GetEnvironmentId(L);
 
 	lua_getfield(L, -1, "Flags");
 	odp.flags = luaL_optinteger(L, -1, ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE);
@@ -91,7 +90,7 @@ int opt_AddPage(lua_State *L)
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	WPARAM wParam = (WPARAM)lua_touserdata(L, 1);
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	MakeOptionDialogPage(L, odp);
 
 	INT_PTR res = g_plugin.addOptions(wParam, &odp);

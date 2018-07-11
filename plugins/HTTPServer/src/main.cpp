@@ -876,7 +876,7 @@ int CMPlugin::Load()
 	indexCreationMode = (eIndexCreationMode)db_get_b(NULL, MODULENAME, "IndexCreationMode", 2);
 
 	if (db_get_b(NULL, MODULENAME, "AddAcceptConMenuItem", 1)) {
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0xf0a68784, 0xc30e, 0x4245, 0xb6, 0x2b, 0xb8, 0x71, 0x7e, 0xe6, 0xe1, 0x73);
 		mi.flags = CMIF_UNICODE;
 		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));

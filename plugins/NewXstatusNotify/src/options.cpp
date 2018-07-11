@@ -1172,9 +1172,8 @@ INT_PTR CALLBACK DlgProcLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Status Notify");
 	odp.szGroup.a = LPGEN("Status");

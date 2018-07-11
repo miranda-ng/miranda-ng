@@ -211,7 +211,7 @@ int LoadEncryptionModule(void)
 	cp.pszName = "AES (Rjindale)";
 	cp.szDescr.a = LPGEN("Standard crypto provider");
 	cp.pFactory = builder;
-	cp.iLangId = g_plugin.m_hLang;
+	cp.pPlugin = &g_plugin;
 	CallService(MS_CRYPTO_REGISTER_ENGINE, 0, LPARAM(&cp));
 	return 0;
 }

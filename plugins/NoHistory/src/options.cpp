@@ -218,10 +218,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
    odp.flags       = ODPF_BOLDGROUPS|ODPF_UNICODE;
    odp.position    = -790000000;
-   odp.hInstance   = g_plugin.getInst();
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
    odp.szTitle.w   = LPGENW("No History");
    odp.szGroup.w   = LPGENW("History");

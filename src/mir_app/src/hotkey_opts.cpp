@@ -1022,8 +1022,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 int HotkeyOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -180000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HOTKEYS);

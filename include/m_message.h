@@ -163,7 +163,7 @@ struct StatusIconData
 #define MBCF_RIGHTBUTTON   0x01     // if this flag is specified, the click was a right button - otherwize it was a left click
 
 // adds an icon
-EXTERN_C MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int langId);
+EXTERN_C MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin);
 
 // removes an icon
 EXTERN_C MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId);
@@ -244,7 +244,7 @@ struct BBButton
 
 // adds a new toolbar button
 // returns button's handle on success or NULL otherwise
-EXTERN_C MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, int langId);
+EXTERN_C MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN);
 
 // modifies the existing toolbar button
 // returns 0 on success and nonzero value otherwise

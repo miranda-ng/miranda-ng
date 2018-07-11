@@ -269,8 +269,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 
 int HSOptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORYSWEEPER);
 	odp.szTitle.a = ModuleName;
 	odp.szGroup.a = LPGEN("History");

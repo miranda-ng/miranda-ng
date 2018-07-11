@@ -156,7 +156,7 @@ type
     szName    :TCHAR;
     flags     :integer;
     hIcon     :HICON;   // or hIcolibItem:THANDLE;
-    hLangpack :int;
+    pPlugin   :Pointer;
     uid       :MUUID;
   end;
 

@@ -115,7 +115,6 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 	opt.szTitle.a = LPGEN("Shell context menus");
 	opt.position = -1066;
 	opt.pszTemplate = MAKEINTRESOURCEA(IDD_SHLOPTS);
-	opt.hInstance = g_plugin.getInst();
 	opt.pfnDlgProc = OptDialogProc;
 	g_plugin.addOptions(wParam, &opt);
 	return 0;

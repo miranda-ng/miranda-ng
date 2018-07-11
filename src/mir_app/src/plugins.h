@@ -57,7 +57,6 @@ extern LIST<pluginEntry> pluginList, servicePlugins, clistPlugins;
 extern MUUID miid_last;
 
 int PluginOptionsInit(WPARAM, LPARAM);
-int PluginsLoadLangpack(WPARAM, LPARAM);
 
 void LoadPluginOptions();
 void UnloadPluginOptions();

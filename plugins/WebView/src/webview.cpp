@@ -290,8 +290,7 @@ void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 
 static int OptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.szGroup.a = LPGEN("Network");
 	odp.szTitle.a = MODULENAME;

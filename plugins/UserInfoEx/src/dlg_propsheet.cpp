@@ -505,8 +505,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
 		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && db_get_b(NULL, MODULENAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		if (lParam || bChangeDetailsEnabled) {
-			OPTIONSDIALOGPAGE odp = { 0 };
-			odp.hInstance = g_plugin.getInst();
+			OPTIONSDIALOGPAGE odp = {};
 			odp.flags = ODPF_ICON | ODPF_UNICODE;
 			odp.szGroup.w = IcoLib_GetDefaultIconFileName();
 

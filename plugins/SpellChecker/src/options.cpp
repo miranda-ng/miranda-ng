@@ -55,8 +55,7 @@ static OptPageControl autoReplaceControls[] = {
 
 int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Spell Checker");
 	odp.pfnDlgProc = OptionsDlgProc;
@@ -65,7 +64,6 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	memset(&odp, 0, sizeof(odp));
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Auto-replacements");
 	odp.pfnDlgProc = AutoreplaceDlgProc;

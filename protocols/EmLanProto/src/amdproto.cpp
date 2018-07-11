@@ -273,9 +273,8 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 int __cdecl EMPCreateOptionsDlg(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_EMP_FORM_OPT);
 	odp.szTitle.a = LPGEN("E-mage LAN protocol");
 	odp.szGroup.a = LPGEN("Network");

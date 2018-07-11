@@ -339,9 +339,9 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG)
-		Chat_AddMenuItems(gcmi->hMenu, _countof(LogMenuItems), LogMenuItems, g_plugin.m_hLang);
+		Chat_AddMenuItems(gcmi->hMenu, _countof(LogMenuItems), LogMenuItems, &g_plugin);
 	else if (gcmi->Type == MENU_ON_NICKLIST)
-		Chat_AddMenuItems(gcmi->hMenu, _countof(NickMenuItems), NickMenuItems, g_plugin.m_hLang);
+		Chat_AddMenuItems(gcmi->hMenu, _countof(NickMenuItems), NickMenuItems, &g_plugin);
 	return 0;
 }
 

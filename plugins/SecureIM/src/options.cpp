@@ -1686,8 +1686,7 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 
 int onRegisterOptions(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSTAB);
 	odp.szTitle.a = (char*)MODULENAME;
 	odp.szGroup.a = LPGEN("Services");

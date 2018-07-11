@@ -110,13 +110,11 @@ int initializeOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE OptDlgPg = { sizeof(OptDlgPg) };
 	OptDlgPg.position = 100000000;
-	OptDlgPg.hInstance = g_plugin.getInst();
 	OptDlgPg.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	OptDlgPg.pszTemplate = MAKEINTRESOURCEA(dlg_options);
 	OptDlgPg.szGroup.w = LPGENW("Customize");
 	OptDlgPg.szTitle.w = LPGENW("Hardware HotKeys");
 	OptDlgPg.pfnDlgProc = OptDlgProc;
-	OptDlgPg.langId = g_plugin.m_hLang;
 	g_plugin.addOptions(wParam, &OptDlgPg);
 	return 0;
 }

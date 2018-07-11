@@ -178,7 +178,7 @@ static int ExtraImgModulesLoaded(WPARAM, LPARAM)
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME; // dwID = 0
 	sid.flags = MBF_HIDDEN;
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWndEvent);
 	return 0;

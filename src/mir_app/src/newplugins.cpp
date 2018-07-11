@@ -274,20 +274,17 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 		KillModuleServices(hInst);
 	}
 
-	int _hLang = ppb->m_hLang;
-	if (_hLang != 0) {
-		KillModuleMenus(_hLang);
-		KillModuleFonts(_hLang);
-		KillModuleColours(_hLang);
-		KillModuleEffects(_hLang);
-		KillModuleIcons(_hLang);
-		KillModuleHotkeys(_hLang);
-		KillModuleSounds(_hLang);
-		KillModuleExtraIcons(_hLang);
-		KillModuleSrmmIcons(_hLang);
-		KillModuleToolbarIcons(_hLang);
-		KillModuleOptions(_hLang);
-	}
+	KillModuleMenus(ppb);
+	KillModuleFonts(ppb);
+	KillModuleColours(ppb);
+	KillModuleEffects(ppb);
+	KillModuleIcons(ppb);
+	KillModuleHotkeys(ppb);
+	KillModuleSounds(ppb);
+	KillModuleExtraIcons(ppb);
+	KillModuleSrmmIcons(ppb);
+	KillModuleToolbarIcons(ppb);
+	KillModuleOptions(ppb);
 
 	NotifyFastHook(hevUnloadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 
@@ -732,7 +729,6 @@ int LoadNewPluginsModule(void)
 			Plugin_Uninit(it);
 
 	HookEvent(ME_OPT_INITIALISE, PluginOptionsInit);
-	HookEvent(ME_LANGPACK_CHANGED, PluginsLoadLangpack);
 	return 0;
 }
 

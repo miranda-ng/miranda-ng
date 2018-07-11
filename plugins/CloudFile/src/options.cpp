@@ -75,7 +75,7 @@ bool COptionsMainDlg::OnApply()
 
 int OnOptionsInitialized(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = _A2W(MODULENAME);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.szGroup.w = LPGENW("Services");

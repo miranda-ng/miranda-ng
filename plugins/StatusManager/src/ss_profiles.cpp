@@ -57,7 +57,7 @@ static INT_PTR profileService(WPARAM, LPARAM, LPARAM param)
 
 static int CreateMainMenuItems(WPARAM, LPARAM)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.position = 2000100000;
 	mi.flags = CMIF_UNICODE;
 	mcount = 0;

@@ -26,7 +26,6 @@ begin
   FillChar(odp,SizeOf(odp),0);
   odp.flags      :=ODPF_BOLDGROUPS;
   odp.Position   :=900003000;
-  odp.hInstance  :=hInstance;
   odp.szGroup.a  :='Services';
   odp.szTitle.a  :='Actions';
   odp.szTab.a    :='Actions';

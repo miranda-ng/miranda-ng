@@ -1,8 +1,6 @@
 LIBRARY mir_core.mir
 
 EXPORTS
-Langpack_LookupUuid             @3
-Langpack_MarkPluginLoaded       @4
 CallFunctionAsync               @5
 CallPluginEventHook             @7
 CallService                     @8
@@ -923,7 +921,6 @@ WindowList_Remove @1108
 Utils_AssertInsideScreen @1110
 Utils_RestoreWindowPosition @1111
 Utils_SaveWindowPosition @1112
-mir_getLP @1113
 TimeZone_CreateByContact @1114
 TimeZone_CreateByName @1115
 TimeZone_GetDescription @1116

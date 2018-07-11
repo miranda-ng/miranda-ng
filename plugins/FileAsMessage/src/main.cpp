@@ -151,7 +151,6 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 int OnOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = SERVICE_TITLE;
 	odp.szGroup.a = LPGEN("Events");
@@ -172,7 +171,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xe4a98d2a, 0xa54a, 0x4db1, 0x8d, 0x29, 0xd, 0x5c, 0xf1, 0x10, 0x69, 0x35);
 	mi.position = 200011;
 	mi.hIcolibItem = iconList[ICON_MAIN].hIcolib;

@@ -199,14 +199,16 @@ struct OptionsPageData : public MZeroedObject
 {
 	OptionsPageData(const OPTIONSDIALOGPAGE &src)
 	{
-		if (src.hInstance != nullptr && src.pszTemplate != nullptr)
-			pDialog = new COptionPageDialog(::GetPluginByInstance(src.hInstance), (INT_PTR)src.pszTemplate, src.pfnDlgProc, src.dwInitParam);
+		if (src.pszTemplate != nullptr) {
+			CMPluginBase *p = (CMPluginBase*)src.pPlugin;
+			pDialog = new COptionPageDialog(*p, (INT_PTR)src.pszTemplate, src.pfnDlgProc, src.dwInitParam);
+		}
 		else
 			pDialog = src.pDialog;
 		assert(pDialog != nullptr);
 
 		flags = src.flags;
-		langId = src.langId;
+		pPlugin = src.pPlugin;
 
 		if (src.flags & ODPF_UNICODE)
 			ptszTitle = mir_wstrdup(src.szTitle.w);
@@ -231,7 +233,7 @@ struct OptionsPageData : public MZeroedObject
 	}
 
 	CDlgBase *pDialog;
-	int langId;
+	HPLUGIN pPlugin;
 	ptrW ptszTitle, ptszGroup, ptszTab;
 	HTREEITEM hTreeItem;
 	bool bChanged, bInsideTab;
@@ -246,7 +248,7 @@ struct OptionsPageData : public MZeroedObject
 	{
 		if (flags & ODPF_DONTTRANSLATE)
 			return ptszStr;
-		return TranslateW_LP(ptszStr, langId);
+		return TranslateW_LP(ptszStr, pPlugin);
 	}
 
 	HWND CreateOptionWindow(HWND hWndParent) const
@@ -565,9 +567,9 @@ class COptionsDlg : public CDlgBase
 				continue;
 
 			opd = m_arOpd[i];
-			wchar_t *ptszGroup = TranslateW_LP(opd->ptszGroup, opd->langId);
+			wchar_t *ptszGroup = TranslateW_LP(opd->ptszGroup, opd->pPlugin);
 			wchar_t *ptszTitle = opd->getString(opd->ptszTitle), *useTitle;
-			wchar_t *ptszTab = TranslateW_LP(opd->ptszTab, opd->langId);
+			wchar_t *ptszTab = TranslateW_LP(opd->ptszTab, opd->pPlugin);
 
 			tvis.hParent = nullptr;
 			useTitle = ptszTitle;
@@ -987,7 +989,7 @@ public:
 				if (mir_wstrcmp(opd->ptszTitle, p->ptszTitle) || mir_wstrcmp(opd->ptszGroup, p->ptszGroup))
 					continue;
 
-				tie.pszText = TranslateW_LP(p->ptszTab, p->langId);
+				tie.pszText = TranslateW_LP(p->ptszTab, p->pPlugin);
 				tie.lParam = i;
 				TabCtrl_InsertItem(hwndTab, pages, &tie);
 				if (!mir_wstrcmp(opd->ptszTab, p->ptszTab))
@@ -1106,18 +1108,18 @@ public:
 		RebuildPageTree();
 	}
 
-	void Locate(const wchar_t *pszGroup, const wchar_t *pszPage, int _hLang)
+	void Locate(const wchar_t *pszGroup, const wchar_t *pszPage, HPLUGIN pPlugin)
 	{
 		ShowWindow(GetHwnd(), SW_RESTORE);
 		SetForegroundWindow(m_hwnd);
 		if (pszPage != nullptr) {
 			HTREEITEM hItem = nullptr;
 			if (pszGroup != nullptr) {
-				hItem = FindNamedTreeItem(nullptr, TranslateW_LP(pszGroup, _hLang));
+				hItem = FindNamedTreeItem(nullptr, TranslateW_LP(pszGroup, pPlugin));
 				if (hItem != nullptr)
-					hItem = FindNamedTreeItem(hItem, TranslateW_LP(pszPage, _hLang));
+					hItem = FindNamedTreeItem(hItem, TranslateW_LP(pszPage, pPlugin));
 			}
-			else hItem = FindNamedTreeItem(nullptr, TranslateW_LP(pszPage, _hLang));
+			else hItem = FindNamedTreeItem(nullptr, TranslateW_LP(pszPage, pPlugin));
 
 			if (hItem != nullptr)
 				m_pageTree.SelectItem(hItem);
@@ -1138,10 +1140,10 @@ public:
 		}
 	}
 
-	void KillModule(int _hLang)
+	void KillModule(HPLUGIN pPlugin)
 	{
 		for (auto &opd : m_arOpd) {
-			if (opd->langId != _hLang)
+			if (opd->pPlugin != pPlugin)
 				continue;
 
 			if (opd->pDialog != nullptr) {
@@ -1173,7 +1175,7 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 	pOptionsDlg->Show();
 }
 
-static void OpenOptionsNow(int _hLang, const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, bool bSinglePage)
+static void OpenOptionsNow(HPLUGIN pPlugin, const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, bool bSinglePage)
 {
 	if (pOptionsDlg == nullptr) {
 		OptionsPageList arPages(1);
@@ -1184,24 +1186,24 @@ static void OpenOptionsNow(int _hLang, const wchar_t *pszGroup, const wchar_t *p
 		pOptionsDlg = new COptionsDlg(TranslateT("Miranda NG options"), pszGroup, pszPage, pszTab, bSinglePage, arPages);
 		pOptionsDlg->Show();
 	}
-	else pOptionsDlg->Locate(pszGroup, pszPage, _hLang);
+	else pOptionsDlg->Locate(pszGroup, pszPage, pPlugin);
 }
 
-MIR_APP_DLL(int) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, int _hLangpack)
+MIR_APP_DLL(int) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN pPlugin)
 {
-	OpenOptionsNow(_hLangpack, pszGroup, pszPage, pszTab, false);
+	OpenOptionsNow(pPlugin, pszGroup, pszPage, pszTab, false);
 	return 0;
 }
 
-MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, int _hLangpack)
+MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN pPlugin)
 {
-	OpenOptionsNow(_hLangpack, pszGroup, pszPage, pszTab, true);
+	OpenOptionsNow(pPlugin, pszGroup, pszPage, pszTab, true);
 	return pOptionsDlg->GetHwnd();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int langId)
+MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, HPLUGIN pPlugin)
 {
 	OptionsPageList *pList = (OptionsPageList*)wParam;
 	if (odp == nullptr)
@@ -1209,7 +1211,7 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int lang
 
 	OptionsPage *dst = new OptionsPage();
 	memcpy(dst, odp, sizeof(OPTIONSDIALOGPAGE));
-	dst->langId = langId;
+	dst->pPlugin = pPlugin;
 
 	if (odp->szTitle.w != nullptr) {
 		if (odp->flags & ODPF_UNICODE)
@@ -1251,10 +1253,10 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int lang
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleOptions(int _hLang)
+MIR_APP_DLL(void) KillModuleOptions(HPLUGIN pPlugin)
 {
 	if (pOptionsDlg != nullptr)
-		pOptionsDlg->KillModule(_hLang);
+		pOptionsDlg->KillModule(pPlugin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1274,7 +1276,7 @@ static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
 
 static int OptModulesLoaded(WPARAM, LPARAM)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xc1284523, 0x548d, 0x4744, 0xb0, 0x9, 0xfb, 0xa0, 0x4, 0x8e, 0xa8, 0x67);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.position = 1900000000;

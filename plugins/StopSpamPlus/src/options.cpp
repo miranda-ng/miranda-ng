@@ -161,7 +161,7 @@ public:
 
 int OnOptInit(WPARAM w, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = MODULENAME;
 

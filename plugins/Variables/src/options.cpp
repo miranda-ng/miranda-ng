@@ -129,12 +129,11 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 
 int OptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = 150000000;
 	odp.szGroup.a = LPGEN("Services");
 	odp.szTitle.a = LPGEN("Variables");
-	odp.hInstance = g_plugin.getInst();
 	odp.pfnDlgProc = SetOptsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS_DIALOG);
 	g_plugin.addOptions(wParam, &odp);

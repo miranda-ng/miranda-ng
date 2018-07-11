@@ -939,7 +939,7 @@ INT_PTR CIconImportDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -180000000;
 	odp.pDialog = new CIcoLibOptsDlg();

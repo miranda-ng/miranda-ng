@@ -553,7 +553,7 @@ int CLUIFramesGetalClientFrame(void)
 
 static HGENMENU addFrameMenuItem(TMO_MenuItem *pmi, int frameid, bool bMain)
 {
-	pmi->langId = g_plugin.m_hLang;
+	pmi->pPlugin = &g_plugin;
 	HGENMENU res = (bMain) ? Menu_AddMainMenuItem(pmi) : Menu_AddContextFrameMenuItem(pmi);
 	if (pmi->pszService != nullptr)
 		Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, frameid);
@@ -568,7 +568,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 	int framepos = id2pos(frameid);
 	FrameMenuHandles &fmh = (frameid == -1) ? cont : Frames[framepos].MenuHandles;
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.root = root;
 	mi.position = popuppos++;
@@ -1323,7 +1323,7 @@ static int CLUIFramesLoadMainMenu()
 	g_frameMenus.destroy();
 
 	// create frames menu
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = cont.MainMenuItem;
 	mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
 	int separator = (int)3000200000;
@@ -2937,7 +2937,7 @@ int LoadCLUIFramesModule(void)
 	RegisterClass(&cntclass);
 
 	// create root menu
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x3931AC4, 0x7A32, 0x4D9C, 0x99, 0x92, 0x94, 0xD4, 0xB5, 0x9B, 0xD6, 0xB6);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;

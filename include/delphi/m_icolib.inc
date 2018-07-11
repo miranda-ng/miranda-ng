@@ -33,7 +33,7 @@ const
   returns a handle to the newly added item
 }
 
-function IcoLib_AddIcon(pIcon:PSKINICONDESC; iLang:int):THANDLE; stdcall;
+function IcoLib_AddIcon(pIcon:PSKINICONDESC; pPlugin:Pointer):THANDLE; stdcall;
                  external AppDLL name 'IcoLib_AddIcon';
 
 {

@@ -271,9 +271,8 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 
 static int VisibilityOptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 850000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VISIBILITY);
 	odp.szTitle.a = LPGEN("Visibility");
 	odp.szGroup.a = LPGEN("Contacts");

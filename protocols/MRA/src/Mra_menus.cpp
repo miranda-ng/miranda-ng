@@ -283,14 +283,14 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 		wchar_t szItem[MAX_PATH + 64];
 		mir_snwprintf(szItem, L"%s Custom Status", m_tszUserName);
 
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		mi.root = Menu_GetProtocolMenu(m_szModuleName);
 		mi.name.w = szItem;
 		mi.position = 10001;
 		hRoot = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	}
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.position = 2000060000;
 	mi.root = hRoot;
 	mi.flags = CMIF_UNICODE;
@@ -331,7 +331,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 
 	char szServiceFunction[MAX_PATH];
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	HGENMENU hRootMenu, (__stdcall *fnAddFunc)(TMO_MenuItem*, const char*);
 	if (bIsMain) {

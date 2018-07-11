@@ -100,7 +100,7 @@ struct CLISTFrame
 //////////////////////////////////////////////////////////////////////////
 // adds a frame window
 // wParam=(CLISTFrame*)
-// lParam=0
+// lParam=(HPLUGIN)&g_plugin
 // returns an integer, the frame id.
 #define MS_CLIST_FRAMES_ADDFRAME "CListFrames/AddFrame"
 

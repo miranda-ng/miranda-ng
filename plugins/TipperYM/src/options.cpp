@@ -2080,10 +2080,9 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_APPEARANCE);
 	odp.szTab.a = LPGEN("Appearance");

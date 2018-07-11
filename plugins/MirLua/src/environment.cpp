@@ -8,16 +8,14 @@ CMLuaEnvironment::CMLuaEnvironment(lua_State *_l) :
 	CMPluginBase(nullptr, pluginInfoEx),
 	L(_l)
 {
-	MUUID muidLast = MIID_LAST;
-	m_hLang = GetPluginLangId(muidLast, 0);
 }
 
 CMLuaEnvironment::~CMLuaEnvironment()
 {
-	KillModuleIcons(m_hLang);
-	KillModuleSounds(m_hLang);
-	KillModuleMenus(m_hLang);
-	KillModuleHotkeys(m_hLang);
+	KillModuleIcons(this);
+	KillModuleSounds(this);
+	KillModuleMenus(this);
+	KillModuleHotkeys(this);
 
 	KillObjectEventHooks(this);
 	KillObjectServices(this);
@@ -41,12 +39,10 @@ CMLuaEnvironment* CMLuaEnvironment::GetEnvironment(lua_State *L)
 	return env;
 }
 
-int CMLuaEnvironment::GetEnvironmentId(lua_State *L)
+HPLUGIN CMLuaEnvironment::GetEnvironmentId(lua_State *L)
 {
 	CMLuaEnvironment *env = GetEnvironment(L);
-	return env != nullptr
-		? env->m_hLang
-		: g_hMLuaLangpack;
+	return env != nullptr ? HPLUGIN(env) : &g_plugin;
 }
 
 static int HookEventEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)

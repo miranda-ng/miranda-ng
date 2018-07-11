@@ -116,7 +116,6 @@ var
 begin
   ZeroMemory(@odp,sizeof(odp));
   odp.Position   :=900003000;
-  odp.hInstance  :=hInstance;
   odp.pszTemplate:=PAnsiChar(IDD_DIALOG1);
   odp.szTitle.a  :=qs_name;
   odp.szGroup.a  :='Contacts';

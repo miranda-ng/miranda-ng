@@ -61,9 +61,8 @@ HANDLE   hTTButton;
 
 static int OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = MODULNAME_PLU;
 
@@ -173,7 +172,7 @@ INT_PTR svcShowHistory(WPARAM, LPARAM)
 
 void InitMenuItems(void)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 
 	HANDLE hIcon = GetIconHandle(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP);

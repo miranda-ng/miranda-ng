@@ -203,7 +203,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_INITDIALOG:
 		m_initialized = false;
-		TranslateDialog_LP(m_hwnd, GetPluginLangByInstance(m_pPlugin.getInst()));
+		TranslateDialog_LP(m_hwnd, &m_pPlugin);
 
 		::EnumChildWindows(m_hwnd, &GlobalFieldEnum, LPARAM(this));
 

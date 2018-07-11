@@ -515,9 +515,8 @@ static int AwayMsgOptInitialise(WPARAM wParam, LPARAM)
 	if (protoModeMsgFlags == 0)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 870000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AWAYMSG);
 	odp.szTitle.a = LPGEN("Status messages");
 	odp.szGroup.a = LPGEN("Status");

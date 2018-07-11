@@ -15,7 +15,7 @@ public:
 	virtual ~CMLuaEnvironment();
 
 	static CMLuaEnvironment* GetEnvironment(lua_State *L);
-	static int GetEnvironmentId(lua_State *L);
+	static HPLUGIN GetEnvironmentId(lua_State *L);
 
 	HANDLE HookEvent(const char *name, int ref);
 	int UnhookEvent(HANDLE hHook);

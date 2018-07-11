@@ -190,8 +190,7 @@ int HookedInit(WPARAM, LPARAM)
 int HookedOptions(WPARAM wParam, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.hInstance = g_plugin.getInst();
+		OPTIONSDIALOGPAGE odp = {};
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 		odp.szTitle.w = LPGENW("MessagePopup");
 		odp.szGroup.w = LPGENW("Popups");

@@ -213,9 +213,8 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 
 int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.dwInitParam = (LPARAM)this;
-	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.w = m_tszUserName;
 	odp.szGroup.w = LPGENW("Network");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;

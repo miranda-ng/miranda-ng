@@ -70,7 +70,7 @@ void g_MenuInit(void)
 	char str[MAXMODULELABELLENGTH], *pszDest = str + 3;
 	mir_strcpy(str, "ICQ");
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.pszService = str;
 
 	// "Add to server list"

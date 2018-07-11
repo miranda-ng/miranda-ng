@@ -126,7 +126,7 @@ int CMPlugin::Load()
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	if ( db_get_b(NULL, MODULENAME, MENU_OFF, 0)) {
 		//value is 0 if menu is enabled

@@ -97,8 +97,8 @@ struct FontIDW
 };
 
 // register a font
-EXTERN_C MIR_APP_DLL(int) Font_Register(FontID *pFont, int langId);
-EXTERN_C MIR_APP_DLL(int) Font_RegisterW(FontIDW *pFont, int langId);
+EXTERN_C MIR_APP_DLL(int) Font_Register(FontID *pFont, HPLUGIN);
+EXTERN_C MIR_APP_DLL(int) Font_RegisterW(FontIDW *pFont, HPLUGIN);
 
 // get a font
 // will fill the logfont structure passed in with the user's choices, or the default if it was set and the user has not chosen a font yet,
@@ -161,8 +161,8 @@ struct ColourIDW
 // [note - a colour with name 'Background' [translated!] has special meaning and will be used as the background colour of
 // the font list box in the options, for the given group]
 
-EXTERN_C MIR_APP_DLL(int) Colour_Register(ColourID *pFont, int langId);
-EXTERN_C MIR_APP_DLL(int) Colour_RegisterW(ColourIDW *pFont, int langId);
+EXTERN_C MIR_APP_DLL(int) Colour_Register(ColourID *pFont, HPLUGIN);
+EXTERN_C MIR_APP_DLL(int) Colour_RegisterW(ColourIDW *pFont, HPLUGIN);
 
 // get a colour
 EXTERN_C MIR_APP_DLL(COLORREF) Colour_Get(const char *szGroup, const char *szName);
@@ -221,8 +221,8 @@ struct EffectIDW
 // wparam = (EffectID *)&effect_id
 // lparam = 0
 
-EXTERN_C MIR_APP_DLL(int) Effect_Register(EffectID *pEffect, int langId);
-EXTERN_C MIR_APP_DLL(int) Effect_RegisterW(EffectIDW *pEffect, int langId);
+EXTERN_C MIR_APP_DLL(int) Effect_Register(EffectID *pEffect, HPLUGIN);
+EXTERN_C MIR_APP_DLL(int) Effect_RegisterW(EffectIDW *pEffect, HPLUGIN);
 
 // get a effect
 // wparam = (EffectID *)&effect_id (only name and group matter)
@@ -236,8 +236,8 @@ EXTERN_C MIR_APP_DLL(int) Effect_GetW(const wchar_t *wszGroup, const wchar_t *sz
 // wparam = lparam = 0
 #define ME_EFFECT_RELOAD      "Effect/Reload"
 
-EXTERN_C MIR_APP_DLL(void) KillModuleFonts(int langId);
-EXTERN_C MIR_APP_DLL(void) KillModuleColours(int langId);
-EXTERN_C MIR_APP_DLL(void) KillModuleEffects(int langId);
+EXTERN_C MIR_APP_DLL(void) KillModuleFonts(HPLUGIN);
+EXTERN_C MIR_APP_DLL(void) KillModuleColours(HPLUGIN);
+EXTERN_C MIR_APP_DLL(void) KillModuleEffects(HPLUGIN);
 
 #endif // _FONT_SERVICE_API_INC

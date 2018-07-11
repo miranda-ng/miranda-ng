@@ -122,7 +122,7 @@ static int __cdecl ProtoPrebuildContactMenu(WPARAM, LPARAM)
 void InitProtoMenus(void)
 {
 	// "Request authorization"
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
 	mi.pszService = "Proto/Menu/ReqAuth";
 	mi.name.a = LPGEN("Request authorization");

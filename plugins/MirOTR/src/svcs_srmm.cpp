@@ -86,7 +86,7 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 
 int SVC_ButtonsBarLoaded(WPARAM, LPARAM)
 {
-	Srmm_AddButton(&OTRButton, g_plugin.m_hLang);
+	Srmm_AddButton(&OTRButton, &g_plugin);
 	return 0;
 }
 
@@ -121,12 +121,12 @@ void InitSRMM()
 	sid.hIconDisabled = hIconNotSecure;
 	sid.flags = MBF_DISABLED | MBF_HIDDEN;
 	sid.szTooltip = LANG_OTR_TOOLTIP;
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
 	sid.hIcon = hIconPrivate;
 	sid.hIconDisabled = hIconUnverified;
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 		
 	// hook the window events so that we can can change the status of the icon
 	HookEvent(ME_MSG_ICONPRESSED, SVC_IconPressed);

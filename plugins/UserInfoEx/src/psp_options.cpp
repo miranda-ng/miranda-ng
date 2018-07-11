@@ -1028,9 +1028,8 @@ static int OnInitOptions(WPARAM wParam, LPARAM)
 {
 	DlgContactInfoInitTreeIcons();
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 95400;
-	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = MODULELONGNAME;
 	odp.szGroup.a = LPGEN("Contacts");
 

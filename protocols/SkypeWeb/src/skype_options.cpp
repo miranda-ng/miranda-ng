@@ -72,7 +72,6 @@ bool CSkypeOptionsMain::OnApply()
 int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.szGroup.w = LPGENW("Network");

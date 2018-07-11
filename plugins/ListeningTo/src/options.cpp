@@ -70,8 +70,7 @@ static OptPageControl playersControls[] = {
 
 int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.szGroup.a = LPGEN("Status");

@@ -164,12 +164,11 @@ int OnOptInitialized(WPARAM wParam, LPARAM)
 	char tabName[32];
 	mir_snprintf(tabName, "%s %x", Translate("Button"), iNumber + 1);
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Quick Replies");
 	odp.szTab.a = tabName;
 	odp.position = iNumber;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);
 	odp.pfnDlgProc = DlgProcOptionsPage;
 	g_plugin.addOptions(wParam, &odp);

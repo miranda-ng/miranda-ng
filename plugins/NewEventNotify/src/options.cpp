@@ -289,8 +289,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.hInstance = hInst;
+		OPTIONSDIALOGPAGE odp = {};
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 		odp.szTitle.a = LPGEN("Event Notify");
 		odp.szGroup.a = LPGEN("Popups");

@@ -496,8 +496,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int PingOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = LPGENW("Ping");

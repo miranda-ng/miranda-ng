@@ -150,7 +150,7 @@ int LoadHelpModule(void)
 {
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownHelpModule);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("&Help"), 2000090000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "8824ECA5-6942-46D7-9D07-1BA600E0D02E");
 

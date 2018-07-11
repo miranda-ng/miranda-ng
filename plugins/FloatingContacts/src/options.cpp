@@ -332,8 +332,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
 	odp.szTitle.a = LPGEN("Floating Contacts");
 	odp.szGroup.a = LPGEN("Contact list");

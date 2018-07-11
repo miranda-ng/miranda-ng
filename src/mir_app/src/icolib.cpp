@@ -461,7 +461,7 @@ void IcolibItem::clear()
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_AddIcon
 
-MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, int _hLang)
+MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, HPLUGIN pPlugin)
 {
 	mir_cslock lck(csIconList);
 
@@ -499,7 +499,7 @@ MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, int _hLang)
 
 	item->cx = sid->cx;
 	item->cy = sid->cy;
-	item->hLangpack = _hLang;
+	item->pPlugin = pPlugin;
 
 	if (sid->hDefaultIcon) {
 		bool big;
@@ -592,7 +592,7 @@ MIR_APP_DLL(void) IcoLib_RemoveIconByHandle(HANDLE hIcoLib)
 	}
 }
 
-MIR_APP_DLL(void) KillModuleIcons(int _hLang)
+MIR_APP_DLL(void) KillModuleIcons(HPLUGIN pPlugin)
 {
 	if (!bModuleInitialized)
 		return;
@@ -600,7 +600,7 @@ MIR_APP_DLL(void) KillModuleIcons(int _hLang)
 	mir_cslock lck(csIconList);
 	auto T = iconList.rev_iter();
 	for (auto &it : T)
-		if (it->hLangpack == _hLang) {
+		if (it->pPlugin == pPlugin) {
 			delete it;
 			iconList.remove(T.indexOf(&it));
 		}

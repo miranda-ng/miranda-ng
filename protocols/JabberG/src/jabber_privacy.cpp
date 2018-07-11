@@ -2092,7 +2092,7 @@ INT_PTR __cdecl CJabberProto::menuSetPrivacyList(WPARAM, LPARAM, LPARAM iList)
 
 void CJabberProto::BuildPrivacyMenu()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.position = 200005;
 	mi.hIcolibItem = GetIconHandle(IDI_AGENTS);
 	mi.flags = CMIF_UNMOVABLE | CMIF_HIDDEN;
@@ -2122,7 +2122,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	char srvFce[MAX_PATH + 64];
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.position = 2000040000;
 	mi.flags = CMIF_UNMOVABLE | CMIF_UNICODE;
 	mi.root = m_hPrivacyMenuRoot;

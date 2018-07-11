@@ -26,8 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern SESSION_INFO g_TabSession;
 
+HPLUGIN g_pChatPlugin;
 GlobalLogSettingsBase *g_Settings;
-int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
+int g_cbSession, g_cbModuleInfo, g_iFontMode;
 wchar_t *g_szFontGroup;
 
 #define FONTF_BOLD   1
@@ -177,7 +178,7 @@ void RegisterFonts(void)
 		fontid.deffontsettings.colour = FO.defColour;
 		fontid.deffontsettings.size = FO.defSize;
 		fontid.deffontsettings.style = FO.defStyle;
-		Font_RegisterW(&fontid, g_iChatLang);
+		Font_RegisterW(&fontid, g_pChatPlugin);
 	}
 }
 

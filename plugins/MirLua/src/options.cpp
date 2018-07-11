@@ -25,6 +25,8 @@ static int ScriptStatusToIcon(ScriptStatus status)
 	case ScriptStatus::Failed:
 		return 1;
 	}
+
+	return 0;
 }
 
 void CMLuaOptions::LoadScripts()
@@ -163,7 +165,6 @@ void CMLuaOptions::OnReload(CCtrlBase*)
 int OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.szGroup.w = LPGENW("Services");
 	odp.szTitle.w = L"Lua";

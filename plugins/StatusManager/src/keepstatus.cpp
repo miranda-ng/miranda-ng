@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-int KSLangPack;
+CFakePlugin KSPlugin(KSMODULENAME);
 
 static HANDLE hConnectionEvent = nullptr;
 static HANDLE hServices[4], hEvents[2];
@@ -93,18 +93,18 @@ int KSLoadOptions()
 {
 	KSUnloadOptions();
 
-	if (db_get_b(0, KSMODULENAME, SETTING_CHECKCONNECTION, FALSE)) {
-		if (db_get_b(0, KSMODULENAME, SETTING_CONTCHECK, FALSE)) {
-			if (db_get_b(0, KSMODULENAME, SETTING_BYPING, FALSE)) {
+	if (KSPlugin.getByte(SETTING_CHECKCONNECTION, FALSE)) {
+		if (KSPlugin.getByte(SETTING_CONTCHECK, FALSE)) {
+			if (KSPlugin.getByte(SETTING_BYPING, FALSE)) {
 				WSADATA wsaData;
 				WSAStartup(MAKEWORD(2, 2), &wsaData);
 			}
 			StartTimer(IDT_CHECKCONTIN, 0, FALSE);
 		}
-		increaseExponential = db_get_b(0, KSMODULENAME, SETTING_INCREASEEXPONENTIAL, FALSE);
-		currentDelay = initDelay = 1000 * db_get_dw(0, KSMODULENAME, SETTING_INITDELAY, DEFAULT_INITDELAY);
-		maxDelay = 1000 * db_get_dw(0, KSMODULENAME, SETTING_MAXDELAY, DEFAULT_MAXDELAY);
-		maxRetries = db_get_b(0, KSMODULENAME, SETTING_MAXRETRIES, 0);
+		increaseExponential = KSPlugin.getByte(SETTING_INCREASEEXPONENTIAL, FALSE);
+		currentDelay = initDelay = 1000 * KSPlugin.getDword(SETTING_INITDELAY, DEFAULT_INITDELAY);
+		maxDelay = 1000 * KSPlugin.getDword(SETTING_MAXDELAY, DEFAULT_MAXDELAY);
+		maxRetries = KSPlugin.getByte(SETTING_MAXRETRIES, 0);
 		if (maxRetries == 0)
 			maxRetries = -1;
 		hProtoAckHook = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
@@ -112,7 +112,7 @@ int KSLoadOptions()
 		if (ServiceExists(ME_CS_STATUSCHANGE))
 			hCSStatusChangeHook = HookEvent(ME_CS_STATUSCHANGE, CSStatusChange);
 		hCSStatusChangeExHook = HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChangeEx);
-		if (db_get_b(0, KSMODULENAME, SETTING_CHECKAPMRESUME, 0)) {
+		if (KSPlugin.getByte(SETTING_CHECKAPMRESUME, 0)) {
 			if (!IsWindow(hMessageWindow)) {
 				hMessageWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 				SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
@@ -132,7 +132,7 @@ int SMProto::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 		return -1;
 	if (iStatus != ID_STATUS_OFFLINE && m_status == ID_STATUS_DISABLED)
 		return -2;
-	if (!db_get_b(0, KSMODULENAME, SETTING_NOLOCKED, 0) && Proto_GetAccount(m_szName)->IsLocked())
+	if (!KSPlugin.getByte(SETTING_NOLOCKED, 0) && Proto_GetAccount(m_szName)->IsLocked())
 		return -3;
 
 	mir_cslock lck(GenStatusCS);
@@ -140,7 +140,7 @@ int SMProto::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 	char dbSetting[128];
 	mir_snprintf(dbSetting, "%s_enabled", m_szName);
 	m_lastStatus = (iLastStatus == 0) ? m_status : iLastStatus;
-	if (!db_get_b(0, KSMODULENAME, dbSetting, 1))
+	if (!KSPlugin.getByte(dbSetting, 1))
 		m_status = ID_STATUS_DISABLED;
 	else if (iStatus == ID_STATUS_LAST)
 		m_status = m_lastStatus;
@@ -192,7 +192,7 @@ static int SetCurrentStatus()
 		log_infoA("KeepStatus: status for %s differs: stored = %d, real = %d", p->m_szName, curStatus, realStatus);
 
 		// force offline before reconnecting?
-		if (realStatus != ID_STATUS_OFFLINE && db_get_b(0, KSMODULENAME, SETTING_FIRSTOFFLINE, FALSE)) {
+		if (realStatus != ID_STATUS_OFFLINE && KSPlugin.getByte(SETTING_FIRSTOFFLINE, FALSE)) {
 			log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", p->m_szName);
 			CallProtoService(p->m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 		}
@@ -333,7 +333,7 @@ static INT_PTR CALLBACK StartTimerApcProc(void *param)
 					KillTimer(nullptr, checkContinTimerId);
 
 				if (ti->timeout == 0)
-					ti->timeout = 1000 * db_get_dw(0, KSMODULENAME, SETTING_CNTDELAY, CHECKCONTIN_DELAY);
+					ti->timeout = 1000 * KSPlugin.getDword(SETTING_CNTDELAY, CHECKCONTIN_DELAY);
 				checkContinTimerId = SetTimer(nullptr, 0, ti->timeout, CheckContinueslyTimer);
 			}
 		}
@@ -434,7 +434,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 
 	char dbSetting[128];
 	mir_snprintf(dbSetting, "%s_enabled", ack->szModule);
-	if (!db_get_b(0, KSMODULENAME, dbSetting, 1))
+	if (!KSPlugin.getByte(dbSetting, 1))
 		return 0;
 
 	if (ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
@@ -451,7 +451,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 			for (auto &it : protoList) {
 				if (!mir_strcmp(ack->szModule, it->m_szName)) {
 					it->AssignStatus(ID_STATUS_OFFLINE);
-					if (db_get_b(0, KSMODULENAME, SETTING_CNCOTHERLOC, 0)) {
+					if (KSPlugin.getByte(SETTING_CNCOTHERLOC, 0)) {
 						StopTimer(IDT_PROCESSACK);
 						for (auto &jt : protoList)
 							jt->AssignStatus(ID_STATUS_OFFLINE);
@@ -466,7 +466,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 			// login failed
 			NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
 			
-			switch (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING)) {
+			switch (KSPlugin.getByte(SETTING_LOGINERR, LOGINERR_NOTHING)) {
 			case LOGINERR_CANCEL:
 				log_infoA("KeepStatus: cancel on login error (%s)", ack->szModule);
 				for (auto &it : protoList)
@@ -479,7 +479,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 
 			case LOGINERR_SETDELAY:
 				{
-					int newDelay = 1000 * db_get_dw(0, KSMODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
+					int newDelay = 1000 * KSPlugin.getDword(SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
 					log_infoA("KeepStatus: set delay to %d ms on login error (%s)", newDelay, ack->szModule);
 					StartTimer(IDT_CHECKCONN, newDelay, TRUE);
 				}
@@ -504,7 +504,7 @@ static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 	for (auto &it : protoList) {
 		int curStatus = it->GetStatus();
 		if (IsStatusConnecting(curStatus)) { // connecting
-			int maxConnectingTime = db_get_dw(0, KSMODULENAME, SETTING_MAXCONNECTINGTIME, 0);
+			int maxConnectingTime = KSPlugin.getDword(SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0) {
 				if ((unsigned int)maxConnectingTime <= ((GetTickCount() - it->lastStatusAckTime) / 1000)) {
 					// set offline
@@ -529,7 +529,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 			continue;
 
 		if (IsStatusConnecting(newStatus)) { // connecting
-			int maxConnectingTime = db_get_dw(0, KSMODULENAME, SETTING_MAXCONNECTINGTIME, 0);
+			int maxConnectingTime = KSPlugin.getDword(SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0)
 				StartTimer(IDT_CHECKCONNECTING, (maxConnectingTime * 1000 - (GetTickCount() - it->lastStatusAckTime)), FALSE);
 		}
@@ -575,7 +575,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 		if (increaseExponential)
 			currentDelay = min(2 * currentDelay, maxDelay);
 
-		if (((db_get_b(0, KSMODULENAME, SETTING_CHKINET, 0)) && (!InternetGetConnectedState(nullptr, 0))) || ((db_get_b(0, KSMODULENAME, SETTING_BYPING, FALSE)) && (!bLastPingResult))) {
+		if (((KSPlugin.getByte(SETTING_CHKINET, 0)) && (!InternetGetConnectedState(nullptr, 0))) || ((KSPlugin.getByte(SETTING_BYPING, FALSE)) && (!bLastPingResult))) {
 			// no network
 			NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_RETRYNOCONN, (LPARAM)retryCount + 1);
 			ProcessPopup(KS_CONN_STATE_RETRYNOCONN, 0);
@@ -670,7 +670,7 @@ static void CheckContinuouslyFunction(void *)
 		return;
 	}
 
-	BOOL ping = db_get_b(0, KSMODULENAME, SETTING_BYPING, FALSE);
+	BOOL ping = KSPlugin.getByte(SETTING_BYPING, FALSE);
 	if (ping) {
 		DBVARIANT dbv;
 		if (db_get(0, KSMODULENAME, SETTING_PINGHOST, &dbv))
@@ -748,7 +748,7 @@ static void CheckContinuouslyFunction(void *)
 		log_infoA("KeepStatus: connection lost! (continuesly check)");
 		NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, 0);
 		ProcessPopup(KS_CONN_STATE_LOST, 0);
-		maxRetries = db_get_b(0, KSMODULENAME, SETTING_MAXRETRIES, 0);
+		maxRetries = KSPlugin.getByte(SETTING_MAXRETRIES, 0);
 		if (maxRetries == 0)
 			maxRetries = -1;
 		StartTimer(IDT_CHECKCONN, initDelay, FALSE);
@@ -757,7 +757,7 @@ static void CheckContinuouslyFunction(void *)
 
 static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
 {
-	if (db_get_b(0, KSMODULENAME, SETTING_BYPING, FALSE))
+	if (KSPlugin.getByte(SETTING_BYPING, FALSE))
 		mir_forkthread(CheckContinuouslyFunction);
 	else
 		CheckContinuouslyFunction(nullptr);
@@ -772,19 +772,19 @@ static INT_PTR ShowPopup(const wchar_t *msg, HICON hIcon)
 	ppd.lchIcon = hIcon;
 	wcsncpy(ppd.lptzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
 	wcsncpy(ppd.lptzText, msg, MAX_SECONDLINE);
-	if (db_get_b(0, KSMODULENAME, SETTING_POPUP_USEWINCOLORS, 0)) {
+	if (KSPlugin.getByte(SETTING_POPUP_USEWINCOLORS, 0)) {
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	}
-	else if (!db_get_b(0, KSMODULENAME, SETTING_POPUP_USEDEFCOLORS, 0)) {
-		ppd.colorBack = db_get_dw(0, KSMODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
-		ppd.colorText = db_get_dw(0, KSMODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC);
+	else if (!KSPlugin.getByte(SETTING_POPUP_USEDEFCOLORS, 0)) {
+		ppd.colorBack = KSPlugin.getDword(SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
+		ppd.colorText = KSPlugin.getDword(SETTING_POPUP_TEXTCOLOR, 0x0000CC);
 	}
 	ppd.PluginWindowProc = KSPopupDlgProc;
 
-	switch (db_get_b(0, KSMODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
+	switch (KSPlugin.getByte(SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
 	case POPUP_DELAYCUSTOM:
-		ppd.iSeconds = (int)db_get_dw(0, KSMODULENAME, SETTING_POPUP_TIMEOUT, 0);
+		ppd.iSeconds = (int)KSPlugin.getDword(SETTING_POPUP_TIMEOUT, 0);
 		if (ppd.iSeconds == 0)
 			ppd.iSeconds = currentDelay / 1000 - 1;
 		break;
@@ -809,7 +809,7 @@ static wchar_t* GetHumanName(LPARAM lParam)
 
 static int ProcessPopup(int reason, LPARAM lParam)
 {
-	if (!db_get_b(0, KSMODULENAME, SETTING_SHOWCONNECTIONPOPUPS, FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPT))
+	if (!KSPlugin.getByte(SETTING_SHOWCONNECTIONPOPUPS, FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPT))
 		return -1;
 
 	HICON hIcon = nullptr;
@@ -817,7 +817,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 	switch (reason) {
 	case KS_CONN_STATE_OTHERLOCATION: // lParam = 1 proto
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
+		if (!KSPlugin.getByte(SETTING_PUOTHER, TRUE))
 			return -1;
 
 		hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
@@ -825,20 +825,20 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		break;
 
 	case KS_CONN_STATE_LOGINERROR:	// lParam = 1 proto
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
+		if (!KSPlugin.getByte(SETTING_PUOTHER, TRUE))
 			return -1;
 
 		hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-		if (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
+		if (KSPlugin.getByte(SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
 			wszText.Format(TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
-		else if (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
-			wszText.Format(TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, db_get_dw(0, KSMODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
+		else if (KSPlugin.getByte(SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
+			wszText.Format(TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, KSPlugin.getDword(SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
 		else
 			return -1;
 		break;
 
 	case KS_CONN_STATE_LOST: // lParam = 1 proto, or nullptr
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUCONNLOST, TRUE))
+		if (!KSPlugin.getByte(SETTING_PUCONNLOST, TRUE))
 			return -1;
 
 		if (lParam) { // указатель на имя модуля. 
@@ -849,7 +849,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		break;
 
 	case KS_CONN_STATE_RETRY:  // lParam = PROTOCOLSETTINGEX**
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUCONNRETRY, TRUE))
+		if (!KSPlugin.getByte(SETTING_PUCONNRETRY, TRUE))
 			return -1;
 		
 		if (lParam) {
@@ -866,7 +866,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 					continue;
 				
 				if (mir_wstrlen(p->m_tszAccName) > 0)
-					if (db_get_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE))
+					if (KSPlugin.getByte(SETTING_PUSHOWEXTRA, TRUE))
 						wszText.AppendFormat(TranslateT("%s\t(will be set to %s)\r\n"), p->m_tszAccName, Clist_GetStatusModeDescription(p->m_status, 0));
 			}
 
@@ -876,7 +876,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		break;
 
 	case KS_CONN_STATE_RETRYNOCONN: // lParam = nullptr
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
+		if (!KSPlugin.getByte(SETTING_PUOTHER, TRUE))
 			return -1;
 
 		if (retryCount == maxRetries - 1)
@@ -886,7 +886,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		break;
 
 	case KS_CONN_STATE_STOPPEDCHECKING: // lParam == BOOL succes
-		if (!db_get_b(0, KSMODULENAME, SETTING_PURESULT, TRUE))
+		if (!KSPlugin.getByte(SETTING_PURESULT, TRUE))
 			return -1;
 
 		if (lParam) {
@@ -946,7 +946,7 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 
 	char dbSetting[128];
 	mir_snprintf(dbSetting, "%s_enabled", szProto);
-	if (!db_get_b(0, KSMODULENAME, dbSetting, 1)) // 'hard' disabled
+	if (!KSPlugin.getByte(dbSetting, 1)) // 'hard' disabled
 		return -1;
 
 	int ret = -2;
@@ -970,7 +970,7 @@ INT_PTR IsProtocolEnabledService(WPARAM, LPARAM lParam)
 
 	char dbSetting[128];
 	mir_snprintf(dbSetting, "%s_enabled", szProto);
-	if (!db_get_b(0, KSMODULENAME, dbSetting, 1))
+	if (!KSPlugin.getByte(dbSetting, 1))
 		return FALSE;
 
 	for (auto &it : protoList)
@@ -1066,8 +1066,6 @@ int KSModuleLoaded(WPARAM, LPARAM)
 
 void KeepStatusLoad()
 {
-	KSLangPack = GetPluginLangId(MIID_LAST, 0);
-
 	if (g_bMirandaLoaded)
 		KSModuleLoaded(0, 0);
 	else
@@ -1086,7 +1084,7 @@ void KeepStatusUnload()
 	if (g_bMirandaLoaded)
 		onShutdown(0, 0);
 
-	KillModuleOptions(KSLangPack);
+	KillModuleOptions(&KSPlugin);
 
 	for (auto &it : hServices) {
 		DestroyServiceFunction(it);

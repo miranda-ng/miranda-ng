@@ -283,7 +283,7 @@ int CMPlugin::Load()
 	srv_reg(Send2ImageShack);
 
 	// menu items
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = GetIconHandle(ICO_MAINXS);
 

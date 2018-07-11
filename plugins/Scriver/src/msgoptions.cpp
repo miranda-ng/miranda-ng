@@ -897,9 +897,8 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 int OptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 
@@ -943,7 +942,6 @@ int OptInitialise(WPARAM wParam, LPARAM)
 
 	if (g_dat.popupInstalled) {
 		odp.position = 910000002;
-		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
 		odp.szGroup.a = LPGEN("Popups");
 		odp.szTitle.a = LPGEN("Messaging");

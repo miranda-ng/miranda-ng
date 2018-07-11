@@ -68,7 +68,7 @@ int CMPlugin::Load()
 
 	hAddBirthdayWndsList = WindowList_Create();
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.position = 10000000;
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Birthdays (When Was It)"), mi.position);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "95D842AE-FCCE-43C9-87E3-C28546B7E00E");

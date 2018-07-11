@@ -669,9 +669,8 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
  */
 int OptInit(WPARAM wParam, LPARAM) {
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = LPGEN(PLUGIN_OPTIONS_NAME);
 	odp.szGroup.a = LPGEN("Services");
 	odp.flags = ODPF_BOLDGROUPS;

@@ -3,17 +3,12 @@
 int InitOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE Opts = { 0 };
-
 	Opts.szTitle.a = LPGEN("AsSingleWindow");
 	Opts.szGroup.a = LPGEN("Customize");
-
 	Opts.pfnDlgProc = cbOptionsDialog;
 	Opts.pszTemplate = MAKEINTRESOURCEA(IDD_ASW_OPTIONSPAGE);
-	Opts.hInstance = g_plugin.getInst();
 	Opts.flags = ODPF_BOLDGROUPS;
-
 	g_plugin.addOptions(wParam, &Opts);
-
 	return 0;
 }
 

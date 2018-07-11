@@ -111,7 +111,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
 	if (!bReplaceHistory) {
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
 		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
 		mi.position = 1000090100;

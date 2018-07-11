@@ -1075,8 +1075,7 @@ void COptionsMain::OnFeedListDoubleClick(CCtrlBase*)
 
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = LPGENW("News Aggregator");

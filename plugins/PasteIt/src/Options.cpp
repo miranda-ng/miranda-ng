@@ -677,9 +677,8 @@ void Options::SetCodepageCB(HWND hwndCB, unsigned int codepage)
 
 int Options::InitOptions(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("Paste It");
 	odp.szGroup.w = LPGENW("Services");

@@ -895,17 +895,16 @@ public:
 int StartupStatusOptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Startup status");
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.szTab.a = LPGEN("General");
 	odp.pDialog = new CSSMainOptDlg();
-	Options_AddPage(wparam, &odp, SSLangPack);
+	SSPlugin.addOptions(wparam, &odp);
 
 	odp.szTab.a = LPGEN("Status profiles");
 	odp.pDialog = new CSSAdvancedOptDlg();
-	Options_AddPage(wparam, &odp, SSLangPack);
+	SSPlugin.addOptions(wparam, &odp);
 	return 0;
 }

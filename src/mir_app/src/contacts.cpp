@@ -354,7 +354,7 @@ public:
 
 static int ContactOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -1000000000;
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.szTitle.a = LPGEN("Contact names");

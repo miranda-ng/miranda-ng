@@ -147,7 +147,7 @@ void CVkProto::InitMenus()
 	for (int i = 0; i < PMI_COUNT; i++)
 		m_hProtoMenuItems[i] = nullptr;
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 
 	// Proto menu

@@ -300,9 +300,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Database");
@@ -327,7 +326,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	// main menu item
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000, iconList[0].hIcolib);

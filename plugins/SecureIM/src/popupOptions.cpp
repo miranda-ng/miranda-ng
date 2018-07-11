@@ -162,8 +162,7 @@ void RefreshPopupOptionsDlg(HWND hec, HWND hdc, HWND hss, HWND hsr, HWND hks, HW
 int onRegisterPopOptions(WPARAM wParam, LPARAM)
 {
 	if (bPopupExists) {
-		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.hInstance = g_plugin.getInst();
+		OPTIONSDIALOGPAGE odp = {};
 		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
 		odp.szTitle.a = (char*)MODULENAME;
 		odp.szGroup.a = LPGEN("Popups");

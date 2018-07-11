@@ -2,18 +2,11 @@
 
 CMLua::CMLua() : L(nullptr)
 {
-	//MUUID muidLast = MIID_LAST;
-	//g_hMLuaLangpack = GetPluginLangId(muidLast, 0);
 }
 
 CMLua::~CMLua()
 {
 	Log("Unloading lua engine");
-
-	KillModuleIcons(g_hMLuaLangpack);
-	KillModuleSounds(g_hMLuaLangpack);
-	KillModuleMenus(g_hMLuaLangpack);
-	KillModuleHotkeys(g_hMLuaLangpack);
 
 	KillObjectEventHooks(L);
 	KillObjectServices(L);

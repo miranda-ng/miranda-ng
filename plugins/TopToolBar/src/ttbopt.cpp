@@ -540,8 +540,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int TTBOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.position = -1000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BUTORDER);

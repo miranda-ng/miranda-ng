@@ -1383,8 +1383,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 // **
 int InitializeOptions(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = LPGEN("Keyboard Flash");
 	odp.szGroup.a = LPGEN("Events");

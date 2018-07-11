@@ -571,7 +571,7 @@ void CSametimeProto::InitSessionMenu()
 
 	CreateProtoService(MS_SAMETIME_MENUANNOUNCESESSION, &CSametimeProto::SessionAnnounce);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.position = 2000060000;
 	mi.name.w = LPGENW("Send announcement...");

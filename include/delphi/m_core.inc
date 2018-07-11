@@ -198,10 +198,10 @@ type
   tagIconItemW = tIconItemW;
 
 procedure mir_Icon_Register(hInst:HINST; const szSection:PAnsiChar; pIcons:pIconItem;
-    iCount:size_t; prefix:PAnsiChar; hLangpack:int=0); stdcall;
+    iCount:size_t; prefix:PAnsiChar; pPlugin:Pointer); stdcall;
                  external CoreDLL name 'Icon_Register';
 procedure mir_Icon_RegisterW(hInst:HINST; const szSection:PWideChar; pIcons:pIconItemW;
-    iCount:size_t; prefix:PAnsiChar; hLangpack:int=0); stdcall;
+    iCount:size_t; prefix:PAnsiChar; pPlugin:Pointer); stdcall;
                  external CoreDLL name 'Icon_RegisterT';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -226,13 +226,13 @@ function LoadLangPack(const szLangPack:PWideChar):int; stdcall;
 procedure ReloadLangpack(pszStr:PWideChar); stdcall;
                  external CoreDLL name 'ReloadLangpack';
 
-function TranslateA_LP(const str:PAnsiChar; hLang:int):PAnsiChar; stdcall;
+function TranslateA_LP(const str:PAnsiChar; pPlugin:Pointer):PAnsiChar; stdcall;
                  external CoreDLL name 'TranslateA_LP';
-function TranslateW_LP(const str:PWideChar; hLang:int):PWideChar; stdcall;
+function TranslateW_LP(const str:PWideChar; pPlugin:Pointer):PWideChar; stdcall;
                  external CoreDLL name 'TranslateW_LP';
-procedure TranslateMenu_LP(hMenu:HMENU; hLang:int); stdcall;
+procedure TranslateMenu_LP(hMenu:HMENU; pPlugin:Pointer); stdcall;
                  external CoreDLL name 'TranslateMenu_LP';
-procedure TranslateDialog_LP(hDlg:HWND; hLang:int); stdcall;
+procedure TranslateDialog_LP(hDlg:HWND; pPlugin:Pointer); stdcall;
                  external CoreDLL name 'TranslateDialog_LP';
 
 function mir_hash(const key:pointer; len:uint):uint; stdcall;

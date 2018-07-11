@@ -193,13 +193,13 @@ static void ResetSlots(BaseExtraIcon *extra, ExtraIconGroup *group)
 	}
 }
 
-MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
+MIR_APP_DLL(void) KillModuleExtraIcons(HPLUGIN pPlugin)
 {
 	LIST<ExtraIcon> arIcons(1);
 
 	auto T = registeredExtraIcons.rev_iter();
 	for (auto &it : T)
-		if (it->m_hLangpack == _hLang) {
+		if (it->m_pPlugin == pPlugin) {
 			arIcons.insert(it);
 			registeredExtraIcons.remove(T.indexOf(&it));
 		}
@@ -375,7 +375,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 	ptrW tszDesc(mir_a2u(description));
 
 	BaseExtraIcon *extra = new CallbackExtraIcon(name, tszDesc, descIcon == nullptr ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
-	extra->m_hLangpack = GetPluginLangByInstance(GetInstByAddress(RebuildIcons));
+	extra->m_pPlugin = &GetPluginByInstance(GetInstByAddress(RebuildIcons));
 	EI_PostCreate(extra, name, flags);
 	return extra;
 }
@@ -409,7 +409,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 	}
 	else {
 		extra = new IcolibExtraIcon(name, tszDesc, descIcon == nullptr ? "" : descIcon, OnClick, onClickParam);
-		extra->m_hLangpack = GetPluginLangByInstance(GetInstByAddress((void*)name));
+		extra->m_pPlugin = &GetPluginByInstance(GetInstByAddress((void*)name));
 		EI_PostCreate(extra, name, flags);
 	}
 	

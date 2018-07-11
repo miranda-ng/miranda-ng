@@ -1,8 +1,22 @@
 #include "..\stdafx.h"
 #include "yandex_api.h"
 
-CYandexService::CYandexService(const char *protoName, const wchar_t *userName)
-	: CCloudService(protoName, userName)
+struct CMPluginYandex : public CMPluginBase
+{
+	CMPluginYandex() :
+		CMPluginBase(MODULENAME "/YandexDisk", pluginInfoEx)
+	{
+		m_hInst = g_plugin.getInst();
+
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CYandexService::Init, (pfnUninitProto)CYandexService::UnInit);
+	}
+}
+g_pluginYandex;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CYandexService::CYandexService(const char *protoName, const wchar_t *userName) :
+	CCloudService(protoName, userName, &g_pluginYandex)
 {
 	m_hProtoIcon = GetIconHandle(IDI_YADISK);
 }
@@ -274,17 +288,3 @@ void CYandexService::Upload(FileTransferParam *ftp)
 		}
 	} while (ftp->NextFile());
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPluginYandex : public CMPluginBase
-{
-	CMPluginYandex() :
-		CMPluginBase(MODULENAME "/YandexDisk", pluginInfoEx)
-	{
-		m_hInst = g_plugin.getInst();
-
-		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CYandexService::Init, (pfnUninitProto)CYandexService::UnInit);
-	}
-}
-g_pluginYandex;

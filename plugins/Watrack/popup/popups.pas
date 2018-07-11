@@ -350,7 +350,6 @@ begin
   FillChar(odp,SizeOf(odp),0);
   odp.flags      :=ODPF_BOLDGROUPS;
   odp.Position   :=900003000;
-  odp.hInstance  :=hInstance;
   odp.szTitle.a  :=PluginName;
 
   odp.szGroup.a  :='Popups';

@@ -539,7 +539,7 @@ public:
 				m_plugList.GetItemText(hdr->iItem, 2, buf, _countof(buf));
 				SetDlgItemText(m_hwnd, IDC_PLUGININFOFRAME, sel ? buf : L"");
 				m_author.SetText(sel ? dat->author : L"");
-				m_plugInfo.SetText(sel ? TranslateW_LP(dat->description, GetPluginLangByInstance(dat->hInst)) : L"");
+				m_plugInfo.SetText(sel ? TranslateW_LP(dat->description, &GetPluginByInstance(dat->hInst)) : L"");
 				m_copyright.SetText(sel ? dat->copyright : L"");
 
 				szUrl = sel ? _T2A(dat->homepage) : "";
@@ -561,8 +561,7 @@ public:
 
 int PluginOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pDialog = new CPluginOptDlg();
 	odp.position = 1300000000;
 	odp.szTitle.a = LPGEN("Plugins");

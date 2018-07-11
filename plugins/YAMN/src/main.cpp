@@ -122,7 +122,7 @@ void CheckMenuItems()
 int SystemModulesLoaded(WPARAM, LPARAM)
 {
 	//Insert "Check mail (YAMN)" item to Miranda's menu
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	SET_UID(mi, 0xa01ff3d9, 0x53cb, 0x4406, 0x85, 0xd9, 0xf1, 0x90, 0x3a, 0x94, 0xed, 0xf4);
 	mi.position = 0xb0000000;

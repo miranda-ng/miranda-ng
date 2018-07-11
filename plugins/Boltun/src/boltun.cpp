@@ -432,9 +432,8 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 static int MessageOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = BOLTUN_GROUP;
 	odp.szTitle.a = BOLTUN_NAME;
 	odp.pfnDlgProc = MainDlgProc;
@@ -527,7 +526,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(SERV_CONTACT_NOT_TO_CHAT, ContactClickNotToChat);
 	CreateServiceFunction(SERV_CONTACT_START_CHATTING, ContactClickStartChatting);
 	{
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 
 		SET_UID(mi, 0xea31f628, 0x1445, 0x4b62, 0x98, 0x19, 0xce, 0x15, 0x81, 0x49, 0xa, 0xbd);
 		mi.position = -50010002; //TODO: check the warning

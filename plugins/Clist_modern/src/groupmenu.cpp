@@ -56,7 +56,7 @@ void InitGroupMenus(void)
 
 	InitSubGroupMenus();
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	SET_UID(mi, 0xe386678a, 0x5aee, 0x4bfa, 0xa8, 0x23, 0xd, 0xa0, 0x11, 0x99, 0xb1, 0x98);
 	mi.position = 500;
@@ -132,7 +132,7 @@ void InitSubGroupMenus(void)
 	// add exit command to menu
 	GroupMenuParam gmp = { POPUP_GROUPSHOWOFFLINE, 0 };
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x7E081A28, 0x19B3, 0x407F, 0x80, 0x6B, 0x70, 0xC3, 0xC3, 0xA9, 0xD2, 0xA4);
 	mi.position = 1002;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";

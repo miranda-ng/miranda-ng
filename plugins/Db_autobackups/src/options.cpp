@@ -348,7 +348,7 @@ public:
 
 int OptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Automatic backups");
 	odp.szGroup.a = LPGEN("Database");

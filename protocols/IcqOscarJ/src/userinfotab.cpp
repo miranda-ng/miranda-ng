@@ -268,9 +268,8 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if ((!IsICQContact(lParam)) && lParam)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.hInstance = g_plugin.getInst();
 	odp.dwInitParam = LPARAM(this);
 	odp.pfnDlgProc = IcqDlgProc;
 	odp.position = -1900000000;

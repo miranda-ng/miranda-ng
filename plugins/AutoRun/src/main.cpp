@@ -102,9 +102,8 @@ static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 
 static int AutorunOptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100100000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTORUN);
 	odp.szTitle.a = MODULENAME;
 	odp.szGroup.a = LPGEN("Services");

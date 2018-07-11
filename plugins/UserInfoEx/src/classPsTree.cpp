@@ -127,8 +127,7 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 		psh._pPages	 = _pItems;
 		psh._numPages = _numItems;
 
-		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.hInstance = g_plugin.getInst();
+		OPTIONSDIALOGPAGE odp = {};
 		odp.flags = ODPF_UNICODE;
 		odp.szTitle.w = mir_utf8decodeW(pszGroup);
 		

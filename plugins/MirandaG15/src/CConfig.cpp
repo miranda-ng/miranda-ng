@@ -241,9 +241,8 @@ void CConfig::OnConnectionChanged()
 
 int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 847000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("MirandaG15");
 	odp.flags = ODPF_BOLDGROUPS;
 

@@ -140,8 +140,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN_OPTION_FORM);
 	odp.szTitle.a = MODULENAME;
 	odp.szGroup.a = LPGEN("Message sessions");

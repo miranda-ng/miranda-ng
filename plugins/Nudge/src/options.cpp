@@ -372,9 +372,8 @@ static INT_PTR CALLBACK DlgProcNudgeOpt(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 int NudgeOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NUDGE);
 	odp.szTitle.a = LPGEN("Nudge");
 	odp.szGroup.a = LPGEN("Events");

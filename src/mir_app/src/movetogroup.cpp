@@ -66,7 +66,7 @@ static wchar_t* PrepareGroupName(wchar_t* str)
 
 static void AddGroupItem(HGENMENU hRoot, wchar_t* name, int pos, WPARAM param, bool checked)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = hRoot;
 	mi.position = pos;
 	mi.name.w = PrepareGroupName(name);
@@ -133,7 +133,7 @@ void MTG_OnmodulesLoad()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuBuild);
 	CreateServiceFunction(MTG_MOVE, MTG_DOMOVE);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x403c548, 0x4ac6, 0x4ced, 0xa7, 0x6c, 0x4e, 0xb9, 0xc8, 0xba, 0x94, 0x5);
 	mi.position = 100000;
 	mi.name.a = LPGEN("&Move to group");

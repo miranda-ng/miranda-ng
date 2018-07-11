@@ -322,7 +322,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 		// the item to insert brings along an icon?
 		if (odp->flags & ODPF_ICON) {
 			// is it uinfoex item?
-			if (odp->hInstance == g_plugin.getInst()) {
+			if (odp->pPlugin == &g_plugin) {
 
 				// the pszGroup holds the iconfile for items added by uinfoex
 				sid.defaultFile.w = odp->szGroup.w;
@@ -383,9 +383,9 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 	wchar_t szTitle[ MAXSETTING ];
 
 	// check parameter
-	if (pPsh && pPsh->_dwSize == sizeof(CPsHdr) && odp && PtrIsValid(odp->hInstance)) {
+	if (pPsh && pPsh->_dwSize == sizeof(CPsHdr) && odp && PtrIsValid(odp->pPlugin)) {
 		// instance value
-		_hInst = odp->hInstance;
+		_hInst = odp->pPlugin->getInst();
 		_dwFlags = odp->flags;
 		_initParam = odp->dwInitParam;
 

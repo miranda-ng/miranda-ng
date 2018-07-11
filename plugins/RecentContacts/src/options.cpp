@@ -57,8 +57,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int onOptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_LASTUC_OPT);
 	odp.szTitle.a = LPGEN("Recent Contacts");

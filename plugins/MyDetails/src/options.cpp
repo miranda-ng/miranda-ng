@@ -161,9 +161,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -200000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
 	odp.szGroup.w = LPGENW("Contact list");

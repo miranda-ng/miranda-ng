@@ -120,9 +120,8 @@ void InitIcons(void)
 
 static int OnOptInitialise(WPARAM w, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 900002000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_STNOTEOPTIONS);
 	odp.szTitle.a = SECTIONNAME;
 	odp.szGroup.a = LPGEN("Plugins");
@@ -198,7 +197,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	g_AddContListMI = (BOOL)db_get_dw(0, MODULENAME, "AddContactMenuItems", 1);
 
 	// register menus
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Notes && Reminders"), 1600000000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "A5E140BC-D697-4689-B75B-8ECFB6FE5931");
 	mi.flags = CMIF_UNICODE;

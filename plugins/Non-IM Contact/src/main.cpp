@@ -47,8 +47,7 @@ int LCStatus = ID_STATUS_OFFLINE;
 //
 int NimcOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.szTitle.a = LPGEN("Non-IM Contacts");
@@ -133,7 +132,7 @@ int CMPlugin::Load()
 	CreateServiceFunction("TestStringReplaceLine", testStringReplacer);
 	CreateServiceFunction("NIM_Contact/DoubleClick", doubleClick);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("&Non-IM Contact"), 600090000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "D7CE61C5-1178-41BA-B2ED-5A711BB21AE9");
 

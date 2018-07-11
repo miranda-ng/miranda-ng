@@ -224,9 +224,8 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 int FileOptInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 900000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILETRANSFER);
 	odp.szTitle.a = LPGEN("File transfers");
 	odp.szGroup.a = LPGEN("Events");

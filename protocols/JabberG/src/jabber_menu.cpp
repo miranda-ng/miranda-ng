@@ -152,7 +152,7 @@ void g_MenuInit(void)
 
 	hChooserMenu = Menu_AddObject("JabberAccountChooser", LPGEN("Jabber account chooser"), nullptr, "Jabber/MenuChoose");
 	{
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		mi.name.a = "Cancel";
 		mi.position = 9999999;
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
@@ -162,7 +162,7 @@ void g_MenuInit(void)
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNMOVABLE;
 
 	// "Convert Chat/Contact"
@@ -370,7 +370,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	}
 
 	char text[256];
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_SYSTEM;
 	mi.pszService = text;
 
@@ -530,7 +530,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 
 void CJabberProto::OnBuildProtoMenu()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = m_hMenuRoot = Menu_GetProtocolRoot(this);
 	mi.flags = CMIF_UNMOVABLE;
 
@@ -659,7 +659,7 @@ void CJabberProto::BuildPriorityMenu()
 	if (m_hMenuPriorityRoot)
 		Menu_RemoveItem(m_hMenuPriorityRoot);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.pszService = nullptr;
 	mi.position = 200006;
 	mi.root = m_hMenuRoot;
@@ -729,7 +729,7 @@ void CJabberProto::GlobalMenuInit()
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Account chooser menu
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNMOVABLE | CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 	mi.position = iChooserMenuPos++;
 	mi.name.w = m_tszUserName;

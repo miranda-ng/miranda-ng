@@ -166,7 +166,7 @@ void InitMirOTRMenu(void)
 	Menu_ConfigureObject(hMirOTRMenuObject, MCO_OPT_ONADD_SERVICE, "MIROTRMENUS/OnAddMenuItemMirOTRMenu");
 
 	// menu items
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_DISABLED | CMIF_UNICODE;
 	mi.name.w = LPGENW("OTR Status");
 	mi.position = 0;

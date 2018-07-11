@@ -37,12 +37,11 @@ int UnhookEvents()
 
 int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
 	odp.szTitle.w = LPGENW("History");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;

@@ -68,9 +68,8 @@ static int OnDbChanged(WPARAM hContact, LPARAM lparam)
 
 static int OnInitOptions(WPARAM wparam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 955000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = CSOptionsProc;
 	odp.szGroup.w = L"Status";
@@ -210,7 +209,7 @@ void addProtoStatusMenuItem(char *protoName)
 	if (!ServiceExists(buf))
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = forms[0].hIcoLibItem;
 	mi.name.w = MODULENAME;

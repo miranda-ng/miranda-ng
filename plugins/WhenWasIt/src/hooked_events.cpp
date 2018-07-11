@@ -42,9 +42,8 @@ static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
 
 static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
 	odp.szTitle.w = LPGENW("Birthdays");
 	odp.szGroup.w = LPGENW("Contacts");

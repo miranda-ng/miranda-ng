@@ -40,7 +40,7 @@ type
   end;
 
 
-function _Hotkey_Register(hk:PHOTKEYDESC; _hLang:int): int; stdcall; external AppDll name 'Hotkey_Register';
+function _Hotkey_Register(hk:PHOTKEYDESC; pPlugin:Pointer): int; stdcall; external AppDll name 'Hotkey_Register';
 function Hotkey_Unregister(hk:PAnsiChar): int; stdcall; external AppDll;
 
 {

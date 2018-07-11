@@ -473,7 +473,7 @@ void eiOptionsRefresh()
 
 int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.szTitle.a = LPGEN("Extra icons");
 	odp.szTab.a = LPGEN("General");

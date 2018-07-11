@@ -120,7 +120,7 @@ public:
 
 int Meta_OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Metacontacts");

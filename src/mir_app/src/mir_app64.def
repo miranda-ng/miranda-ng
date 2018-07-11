@@ -104,7 +104,6 @@ Skin_GetIconName           @24
 ?setWString@PROTO_INTERFACE@@QEAAXPEBDPEB_W@Z @107 NONAME
 ?setWord@PROTO_INTERFACE@@QEAAXIPEBDG@Z @108 NONAME
 ?setWord@PROTO_INTERFACE@@QEAAXPEBDG@Z @109 NONAME
-GetPluginLangByInstance @110
 ProtoBroadcastAck @111
 ProtoCreateHookableEvent @113
 ProtoCreateService @114
@@ -592,7 +591,6 @@ Contact_GetStatus @609
 ??0PROTOACCOUNT@@QEAA@PEBD@Z @621 NONAME
 ??1PROTOACCOUNT@@QEAA@XZ @622 NONAME
 ?addSound@CMPluginBase@@QEAAHPEBDPEB_W11@Z @623 NONAME
-GetPluginByLangId @624
 GetInstByAddress @625
 GetPluginByInstance @626
 ?addUserInfo@CMPluginBase@@QEAAH_KPEAUOPTIONSDIALOGPAGE@@@Z @627 NONAME

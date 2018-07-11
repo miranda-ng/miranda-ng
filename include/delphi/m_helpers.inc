@@ -29,7 +29,7 @@ function TranslateWideString(const sz:WideString):WideString;
 function TranslateUnicodeString(sz: UnicodeString): UnicodeString;
 procedure TranslateDialogDefault(hwndDlg: THANDLE);
 procedure TranslateMenu(hMenu: HMENU);
-function Langpack_Register:int_ptr;
+function Langpack_Register:Pointer;
 
 function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; serviceProc: TMIRANDASERVICE): int_ptr;
 
@@ -61,16 +61,9 @@ function Options_Open(group,page,tab:PWideChar):int_ptr;
 procedure MIcoTab_AddItem (hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
 procedure MIcoTab_AddItemW(hwnd:HWND; lptzName:PWideChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
 
-function  Crypto_RegisterEngine(pProvider:PCRYPTO_PROVIDER):THANDLE;
-procedure Crypto_EnumProviders(var numProvs:int; var pResult:array of PCRYPTO_PROVIDER);
-function  Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
-
 {$ELSE}
 
-var
-  hLangpack:int = 0;
-
-function _Srmm_AddButton(bbdi:pBBButton;_hLang:int) : integer; stdcall; 
+function _Srmm_AddButton(bbdi:pBBButton; pPlugin:Pointer) : integer; stdcall; 
              external AppDll name 'Srmm_AddButton';
 
 function _AddMainMenuItem(mi:PMO_MenuItem) : HGENMENU; stdcall;
@@ -219,43 +212,43 @@ end;
 
 function TranslateW(sz: PWideChar): PWideChar;
 begin
-  result:=TranslateW_LP(sz, hLangpack);
+  result:=TranslateW_LP(sz, @g_plugin);
 end;
 
 function Translate(sz: PAnsiChar): PAnsiChar;
 begin
-  result:=TranslateA_LP(sz, hLangpack);
+  result:=TranslateA_LP(sz, @g_plugin);
 end;
 
 function TranslateString(const sz:AnsiString):AnsiString;
 begin
-  Result:=AnsiString(TranslateA_LP(PAnsiChar(sz),hLangpack));
+  Result:=AnsiString(TranslateA_LP(PAnsiChar(sz),@g_plugin));
 end;
 
 function TranslateWideString(const sz:WideString):WideString;
 begin
-  Result:=WideString(TranslateW_LP(PWideChar(sz),hLangpack));
+  Result:=WideString(TranslateW_LP(PWideChar(sz),@g_plugin));
 end;
 
 function TranslateUnicodeString(sz: UnicodeString): UnicodeString;
 begin
-  Result:=UnicodeString(TranslateW_LP(PWideChar(sz),hLangpack));
+  Result:=UnicodeString(TranslateW_LP(PWideChar(sz),@g_plugin));
 end;
 
 procedure TranslateDialogDefault(hwndDlg: THANDLE);
 begin
-  TranslateDialog_LP(hwndDlg,hLangpack);
+  TranslateDialog_LP(hwndDlg,@g_plugin);
 end;
 
 procedure TranslateMenu(hMenu: HMENU);
 begin
-  TranslateMenu_LP(hMenu,hLangpack);
+  TranslateMenu_LP(hMenu,@g_plugin);
 end;
 
-function Langpack_Register:int_ptr;
+function Langpack_Register:Pointer;
 begin
   cli := Clist_GetInterface();
-  result := hLangpack;
+  result := @g_plugin;
 end;
 
 
@@ -276,83 +269,83 @@ end;
 
 function Menu_AddContextFrameMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
+  mi^.pPlugin:=@g_plugin;
   result:=CallService(MS_CLIST_ADDCONTEXTFRAMEMENUITEM, 0,LPARAM(mi));
 end;
 
 function Menu_AddMainMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
+  mi^.pPlugin:=@g_plugin;
   result:=_AddMainMenuItem(mi);
 end;
 
 function Menu_AddContactMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
+  mi^.pPlugin:=@g_plugin;
   result:=_AddContactMenuItem(mi, nil);
 end;
 
 function Menu_AddStatusMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
+  mi^.pPlugin:=@g_plugin;
   result:=_AddStatusMenuItem(mi, nil);
 end;
 
 function Menu_AddProtoMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
+  mi^.pPlugin:=@g_plugin;
   result:=_AddProtoMenuItem(mi, nil);
 end;
 
 function Menu_AddTrayMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
+  mi^.pPlugin:=@g_plugin;
   result:=_AddTrayMenuItem(mi);
 end;
 
 function Hotkey_Register(hk:PHOTKEYDESC):int_ptr;
 begin
-	result:=_Hotkey_Register(hk, hLangpack);
+	result:=_Hotkey_Register(hk, @g_plugin);
 end;
 
 function Skin_AddIcon(si:PSKINICONDESC):THANDLE;
 begin
-  result:=IcoLib_AddIcon(si, hLangpack);
+  result:=IcoLib_AddIcon(si, @g_plugin);
 end;
 
 procedure Icon_Register(hInst:HINST; const szSection:PAnsiChar; pIcons:pIconItem; iCount:size_t; prefix:PAnsiChar);
 begin
-	mir_Icon_Register(hInst, szSection, pIcons, iCount, prefix, hLangpack);
+	mir_Icon_Register(hInst, szSection, pIcons, iCount, prefix, @g_plugin);
 end;
 
 procedure Icon_RegisterW(hInst:HINST; const szSection:PWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar);
 begin
-	mir_Icon_RegisterW(hInst, szSection, pIcons, iCount, prefix, hLangpack);
+	mir_Icon_RegisterW(hInst, szSection, pIcons, iCount, prefix, @g_plugin);
 end;
 
 procedure FontRegister(pFontID:pFontID);
 begin
-   Font_Register(pFontID, hLangpack);
+   Font_Register(pFontID, @g_plugin);
 end;
 
 procedure ColourRegister(pColorID:pColourID);
 begin
-	Colour_Register(pColorID, hLangpack);
+	Colour_Register(pColorID, @g_plugin);
 end;
 
 function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
 begin
-  result:=CallService(MS_TTB_ADDBUTTON, WPARAM(pButton), hLangpack);
+  result:=CallService(MS_TTB_ADDBUTTON, WPARAM(pButton), LPARAM(@g_plugin));
 end;
 
 function Options_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 begin
-  result:=_Options_AddPage(wParam, odp, hLangpack);
+  result:=_Options_AddPage(wParam, odp, @g_plugin);
 end;
 
 function Options_Open(group,page,tab:PWideChar):int_ptr;
 begin
-	result:=_Options_Open(group,page,tab,hLangpack);
+	result:=_Options_Open(group,page,tab,@g_plugin);
 end;
 
 procedure MIcoTab_AddItem(hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
@@ -385,22 +378,7 @@ end;
 
 procedure Srmm_AddButton(bbdi:pBBButton);
 begin
-   _Srmm_AddButton(bbdi,hLangpack);
-end;
-
-function Crypto_RegisterEngine(pProvider:PCRYPTO_PROVIDER):THANDLE;
-begin
-	result:=THANDLE(CallService(MS_CRYPTO_REGISTER_ENGINE, hLangpack, LPARAM(pProvider)));
-end;
-
-procedure Crypto_EnumProviders(var numProvs:int; var pResult:array of PCRYPTO_PROVIDER);
-begin
-	CallService(MS_CRYPTO_ENUM_PROVIDERS, WPARAM(numProvs), LPARAM(@pResult));
-end;
-
-function Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
-begin
-	result:=PCRYPTO_PROVIDER(CallService(MS_CRYPTO_GET_PROVIDER, 0, LPARAM(pszName)));
+   _Srmm_AddButton(bbdi,@g_plugin);
 end;
 
 function UuidFromStringA(StringUuid:PAnsiChar; var Uuid:TGUID) : integer; stdcall; external 'Rpcrt4.dll';

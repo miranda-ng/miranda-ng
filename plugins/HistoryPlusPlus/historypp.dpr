@@ -401,7 +401,6 @@ var
   odp: TOPTIONSDIALOGPAGE;
 begin
   ZeroMemory(@odp,SizeOf(odp));
-  odp.hInstance := hInstance;
   odp.pszTemplate := MakeIntResourceA(IDD_OPT_HISTORYPP);
   odp.szTitle.a := 'History';
   odp.szGroup.a := nil;

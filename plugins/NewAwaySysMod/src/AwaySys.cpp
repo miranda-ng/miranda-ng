@@ -619,7 +619,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].m_status).Autoreply;
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xa379c361, 0x9e3f, 0x468d, 0xb2, 0xac, 0xc4, 0x89, 0xbb, 0xfc, 0x81, 0x15);
 	mi.position = 1000020000;
 	mi.flags = CMIF_UNICODE | CMIF_NOTOFFLINE;

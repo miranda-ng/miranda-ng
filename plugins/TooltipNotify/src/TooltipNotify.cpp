@@ -255,9 +255,8 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = LPGEN("Tooltip Notify");
 	odp.szGroup.a = LPGEN("Popups");

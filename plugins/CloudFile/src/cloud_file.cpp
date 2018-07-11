@@ -1,10 +1,9 @@
 #include "stdafx.h"
 
-CCloudService::CCloudService(const char *protoName, const wchar_t *userName)
-	: PROTO<CCloudService>(protoName, userName)
+CCloudService::CCloudService(const char *protoName, const wchar_t *userName, HPLUGIN pPlugin)
+	: PROTO<CCloudService>(protoName, userName),
+	m_pPlugin(pPlugin)
 {
-	m_hLangpack = GetPluginLangId(MIID_LAST, 0);
-
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = (char*)protoName;
@@ -22,12 +21,12 @@ CCloudService::~CCloudService()
 
 void CCloudService::OnErase()
 {
-	KillModuleMenus(m_hLangpack);
+	KillModuleMenus(m_pPlugin);
 }
 
-int CCloudService::GetId() const
+HPLUGIN CCloudService::GetId() const
 {
-	return m_hLangpack;
+	return m_pPlugin;
 }
 
 const char* CCloudService::GetAccountName() const

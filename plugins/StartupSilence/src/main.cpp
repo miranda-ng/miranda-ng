@@ -240,7 +240,7 @@ static INT_PTR SilenceConnection(WPARAM wParam, LPARAM)
 
 static INT_PTR InitMenu()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x9100c881, 0x6f76, 0x4cb5, 0x97, 0x66, 0xeb, 0xf5, 0xc5, 0x22, 0x46, 0x1f);
 	mi.position = 100000000;
 	mi.hIcolibItem = GetIconHandle(MENU_NAME);
@@ -412,8 +412,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int InitializeOptions(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SSOPT);
 	odp.szGroup.a = LPGEN("Events");//FIXME: move to...Group?
 	odp.szTitle.a = MENU_NAME;

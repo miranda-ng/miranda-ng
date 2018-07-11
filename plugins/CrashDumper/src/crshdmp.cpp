@@ -199,7 +199,6 @@ int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = MODULENAME;
 	odp.szGroup.a = LPGEN("Services");
@@ -253,7 +252,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		FoldersPathChanged(0, 0);
 	}
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Version Information"), 2000089999, GetIconHandle(IDI_VI));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "9A7A9C76-7FD8-4C05-B402-6C46060C2D78");
 

@@ -67,7 +67,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x6787c12d, 0xdc85, 0x409d, 0xaa, 0x6c, 0x1f, 0xfe, 0x5f, 0xe8, 0xc1, 0x18);
 	mi.position = 500000;
 	mi.flags = CMIF_UNICODE;

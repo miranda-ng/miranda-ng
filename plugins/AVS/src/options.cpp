@@ -706,8 +706,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szGroup.a = LPGEN("Contacts");
 	odp.szTitle.a = LPGEN("Avatars");
@@ -1098,8 +1097,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 
 int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.a = LPGEN("Avatar");
 
 	MCONTACT hContact = lParam;

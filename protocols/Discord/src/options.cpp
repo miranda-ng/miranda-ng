@@ -70,7 +70,7 @@ INT_PTR CDiscordProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
 
 int CDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Network");

@@ -46,7 +46,7 @@ void COptions::Enabled_OnChange(CCtrlCheck* chk)
 
 int OnOptionsInitialized(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = L"Popups"; //_T(MODULENAME);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.position = -790000000;

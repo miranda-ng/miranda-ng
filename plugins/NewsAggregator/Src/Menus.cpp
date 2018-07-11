@@ -23,7 +23,7 @@ HGENMENU hService2[7];
 
 void InitMenu()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE | CMIF_NOTOFFLINE;
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("News Aggregator"), 500099000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "D9733E4F-1946-4390-8EB3-591E8687222E");

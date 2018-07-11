@@ -72,7 +72,6 @@ int icqOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.szTitle.a = protoName;
 	odp.pfnDlgProc = icqOptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQCORP);
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Network");
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);

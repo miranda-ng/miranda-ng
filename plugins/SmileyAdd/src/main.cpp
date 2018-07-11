@@ -54,7 +54,7 @@ static IconItem iconList[] =
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x5ba238de, 0xe16b, 0x4928, 0xa0, 0x70, 0xff, 0x43, 0xf6, 0x1f, 0x16, 0xd4);
 	mi.position = 2000070050;
 	mi.hIcolibItem = iconList[0].hIcolib;

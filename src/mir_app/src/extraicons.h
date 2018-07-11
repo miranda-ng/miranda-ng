@@ -73,7 +73,7 @@ public:
 
 	virtual int ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage) = 0;
 
-	int m_hLangpack = 0;
+	HPLUGIN m_pPlugin = nullptr;
 
 protected:
 	ptrA m_szName;

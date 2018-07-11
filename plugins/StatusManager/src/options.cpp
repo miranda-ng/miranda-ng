@@ -55,8 +55,7 @@ public:
 
 int OnCommonOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Status");
 	odp.szTitle.w = LPGENW("Status manager");

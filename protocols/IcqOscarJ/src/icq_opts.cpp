@@ -505,9 +505,8 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -800000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Network");
 	odp.dwInitParam = LPARAM(this);
 	odp.szTitle.w = m_tszUserName;

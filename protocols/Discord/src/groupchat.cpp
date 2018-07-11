@@ -61,7 +61,7 @@ int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG)
-		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, g_plugin.m_hLang);
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 
 	return 0;
 }

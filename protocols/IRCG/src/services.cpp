@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CIrcProto::OnBuildProtoMenu()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.name.a = LPGEN("&Quick connect");
@@ -104,7 +104,7 @@ void InitContactMenus(void)
 	char temp[MAXMODULELABELLENGTH];
 	char *d = temp + mir_snprintf(temp, "IRC");
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.pszService = temp;
 
 	SET_UID(mi, 0x5f01196f, 0xfbcd, 0x4034, 0xbd, 0x90, 0x12, 0xa0, 0x20, 0x68, 0x15, 0xc0);
@@ -796,7 +796,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 		if (!mir_strcmpi(gcmi->pszModule, m_szModuleName)) {
 			if (gcmi->Type == MENU_ON_LOG) {
 				if (mir_wstrcmpi(gcmi->pszID, SERVERWINDOW))
-					Chat_AddMenuItems(gcmi->hMenu, _countof(logItems), logItems, g_plugin.m_hLang);
+					Chat_AddMenuItems(gcmi->hMenu, _countof(logItems), logItems, &g_plugin);
 			}
 
 			if (gcmi->Type == MENU_ON_NICKLIST) {
@@ -829,7 +829,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 				nickItems[7].bDisabled = nickItems[8].bDisabled = nickItems[9].bDisabled = nickItems[10].bDisabled = !(bForceEnable || bOwner);
 				nickItems[11].bDisabled = nickItems[12].bDisabled = nickItems[13].bDisabled = nickItems[14].bDisabled = !(bForceEnable || bOp || bAdmin || bOwner);
 
-				Chat_AddMenuItems(gcmi->hMenu, _countof(nickItems), nickItems, g_plugin.m_hLang);
+				Chat_AddMenuItems(gcmi->hMenu, _countof(nickItems), nickItems, &g_plugin);
 			}
 		}
 	}

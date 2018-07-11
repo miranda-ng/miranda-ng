@@ -153,8 +153,7 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 int YAMNOptInitSvc(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Network");
 	odp.szTitle.a = LPGEN("YAMN");
 	odp.flags = ODPF_BOLDGROUPS;

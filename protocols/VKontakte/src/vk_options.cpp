@@ -74,7 +74,7 @@ bool CVkAccMgrForm::OnApply()
 
 int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;

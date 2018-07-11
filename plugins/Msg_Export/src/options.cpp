@@ -1226,9 +1226,8 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 {
 	bUnaplyedChanges = FALSE;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("Message export");

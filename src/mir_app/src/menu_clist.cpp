@@ -425,7 +425,7 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			if (reset || check) {
 				TMO_IntMenuItem *timiParent = MO_GetIntMenuItem(pimi->mi.root);
 				if (timiParent) {
-					LPTSTR ptszName = TranslateW_LP(pimi->mi.hIcolibItem ? pimi->mi.name.w : LPGENW("Custom status"), pimi->mi.langId);
+					LPTSTR ptszName = TranslateW_LP(pimi->mi.hIcolibItem ? pimi->mi.name.w : LPGENW("Custom status"), pimi->mi.pPlugin);
 
 					timiParent = MO_GetIntMenuItem(pimi->mi.root);
 
@@ -727,7 +727,7 @@ void RebuildMenuOrder(void)
 		int pos = 0;
 
 		// adding root
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 		mi.position = pos++;
 		mi.hIcon = ic = (HICON)CallProtoServiceInt(0, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
@@ -824,7 +824,7 @@ void RebuildMenuOrder(void)
 			if (!(flags & it.Pf2flag))
 				continue;
 
-			CMenuItem mi(g_plugin);
+			CMenuItem mi(&g_plugin);
 			mi.flags = CMIF_UNICODE;
 			if (it.iStatus == ID_STATUS_OFFLINE)
 				mi.flags |= CMIF_CHECKED;
@@ -1086,7 +1086,7 @@ void InitCustomMenus(void)
 	HookEvent(ME_LANGPACK_CHANGED, sttRebuildHotkeys);
 
 	// add exit command to menu
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x707c8962, 0xc33f, 0x4893, 0x8e, 0x36, 0x30, 0xb1, 0x7c, 0xd8, 0x61, 0x40);
 	mi.position = 0x7fffffff;
 	mi.pszService = "CloseAction";

@@ -1329,7 +1329,6 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	g_plugin.addOptions(wParam, &odpnew);
 
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = 910000000;
 

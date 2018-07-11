@@ -115,7 +115,7 @@ void CGlobals::reloadSystemModulesChanged()
 
 	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x58d8dc1, 0x1c25, 0x49c0, 0xb8, 0x7c, 0xa3, 0x22, 0x2b, 0x3d, 0xf1, 0xd8);
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
@@ -294,7 +294,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (nen_options.bTraySupport)
 		::CreateSystrayIcon(TRUE);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x9f68b822, 0xff97, 0x477d, 0xb7, 0x6d, 0xa5, 0x59, 0x33, 0x1c, 0x54, 0x40);
 	mi.position = -500050005;
 	mi.hIcolibItem = PluginConfig.g_iconContainer;

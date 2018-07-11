@@ -55,6 +55,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct TMO_IntMenuItem* HGENMENU;
 
+class CMPluginBase;
+typedef const CMPluginBase* HPLUGIN;
+
 #define MIR_APP_DLL(T) MIR_APP_EXPORT T __stdcall
 
 #pragma warning(disable:4201 4127 4312 4706)
@@ -155,33 +158,31 @@ MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl);
 ///////////////////////////////////////////////////////////////////////////////
 // icons support
 
-typedef struct tagIconItem
+struct IconItem
 {
 	char  *szDescr, *szName;
 	int    defIconID, size;
 	HANDLE hIcolib;
-}
-	IconItem;
+};
 
-typedef struct tagIconItemT
+struct IconItemT
 {
 	wchar_t *tszDescr;
 	char  *szName;
 	int    defIconID, size;
 	HANDLE hIcolib;
-}
-	IconItemT;
+};
 
-MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, const char *prefix, int langId);
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, const char *prefix, int langId);
+MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconItem *pIcons, size_t iCount, const char *prefix, HPLUGIN pPlugin);
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t *szSection, IconItemT *pIcons, size_t iCount, const char *prefix, HPLUGIN pPlugin);
 
 ///////////////////////////////////////////////////////////////////////////////
 // language packs support
 
-MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len);
+MIR_CORE_DLL(unsigned int) mir_hash(const void *key, unsigned int len);
 
 #pragma optimize("gt", on)
-__forceinline unsigned int mir_hashstr(const char * key)
+__forceinline unsigned int mir_hashstr(const char *key)
 {
 	if (key == nullptr) return 0;
 	else {
@@ -189,7 +190,7 @@ __forceinline unsigned int mir_hashstr(const char * key)
 		return mir_hash(key, len);
 }	}
 
-__forceinline unsigned int mir_hashstrW(const wchar_t * key)
+__forceinline unsigned int mir_hashstrW(const wchar_t *key)
 {
 	if (key == nullptr) return 0;
 	else {

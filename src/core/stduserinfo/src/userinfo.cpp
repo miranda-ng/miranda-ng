@@ -45,7 +45,8 @@ struct DetailsPageData
 	LPARAM  dlgParam;
 	HWND hwnd;
 	HTREEITEM hItem;
-	int changed, hLangpack;
+	HPLUGIN pPlugin;
+	int changed;
 	wchar_t *ptszTitle, *ptszTab;
 };
 
@@ -66,12 +67,12 @@ struct DetailsData
 
 wchar_t* getTitle(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTitle.w : TranslateW_LP(p->szTitle.w, p->langId);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTitle.w : TranslateW_LP(p->szTitle.w, p->pPlugin);
 }
 
 wchar_t* getTab(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTab.w : TranslateW_LP(p->szTab.w, p->langId);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTab.w : TranslateW_LP(p->szTab.w, p->pPlugin);
 }
 
 static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
@@ -141,7 +142,7 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount + 1));
 	OPTIONSDIALOGPAGE *dst = opi->odp + opi->pageCount;
 	memset(dst, 0, sizeof(OPTIONSDIALOGPAGE));
-	dst->hInstance = odp->hInstance;
+	dst->pPlugin = odp->pPlugin;
 	dst->pfnDlgProc = odp->pfnDlgProc;
 	dst->position = odp->position;
 	dst->pszTemplate = ((DWORD_PTR)odp->pszTemplate & 0xFFFF0000) ? mir_strdup(odp->pszTemplate) : odp->pszTemplate;
@@ -155,7 +156,6 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 		dst->szTab.w = (odp->flags & ODPF_USERINFOTAB) ? mir_a2u(odp->szTab.a) : nullptr;
 	}
 
-	dst->langId = odp->langId;
 	dst->flags = odp->flags;
 	dst->dwInitParam = odp->dwInitParam;
 	opi->pageCount++;
@@ -180,7 +180,7 @@ static void CreateDetailsTabs(HWND hwndDlg, DetailsData *dat, DetailsPageData *p
 		if (!odp.ptszTab || mir_wstrcmp(odp.ptszTitle, ppg->ptszTitle))
 			continue;
 
-		tie.pszText = TranslateW_LP(odp.ptszTab, odp.hLangpack);
+		tie.pszText = TranslateW_LP(odp.ptszTab, odp.pPlugin);
 		tie.lParam = i;
 		TabCtrl_InsertItem(hwndTab, pages, &tie);
 		if (!mir_wstrcmp(odp.ptszTab, ppg->ptszTab))
@@ -280,15 +280,15 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			HWND hwndTree = GetDlgItem(hwndDlg, IDC_PAGETREE);
 			for (i = 0; i < dat->pageCount; i++) {
 				DetailsPageData &p = dat->opd[i];
-				p.pTemplate = (LPDLGTEMPLATE)LockResource(LoadResource(odp[i].hInstance,
-					FindResourceA(odp[i].hInstance, odp[i].pszTemplate, MAKEINTRESOURCEA(5))));
+				HINSTANCE hInst = odp[i].pPlugin->getInst();
+				p.pTemplate = (LPDLGTEMPLATE)LockResource(LoadResource(hInst, FindResourceA(hInst, odp[i].pszTemplate, MAKEINTRESOURCEA(5))));
 				p.dlgProc = odp[i].pfnDlgProc;
 				p.dlgParam = odp[i].dwInitParam;
-				p.hInst = odp[i].hInstance;
+				p.hInst = hInst;
 
 				p.ptszTitle = odp[i].szTitle.w;
 				p.ptszTab = odp[i].szTab.w;
-				p.hLangpack = odp[i].langId;
+				p.pPlugin = odp[i].pPlugin;
 
 				if (i && p.ptszTab && !mir_wstrcmp(dat->opd[i - 1].ptszTitle, p.ptszTitle)) {
 					p.hItem = dat->opd[i - 1].hItem;
@@ -303,7 +303,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (odp[i].flags & ODPF_DONTTRANSLATE)
 					tvis.item.pszText = p.ptszTitle;
 				else
-					tvis.item.pszText = TranslateW_LP(p.ptszTitle, p.hLangpack);
+					tvis.item.pszText = TranslateW_LP(p.ptszTitle, p.pPlugin);
 				if (ptszLastTab && !mir_wstrcmp(tvis.item.pszText, ptszLastTab))
 					dat->currentPage = i;
 				p.hItem = TreeView_InsertItem(hwndTree, &tvis);
@@ -638,7 +638,7 @@ int LoadUserInfoModule(void)
 	HookEvent(ME_DB_CONTACT_DELETED, UserInfoContactDelete);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownUserInfo);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xe8731d53, 0x95af, 0x42cf, 0xae, 0x27, 0xc7, 0xa7, 0xa, 0xbf, 0x14, 0x1c);
 	mi.position = 1000050000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);

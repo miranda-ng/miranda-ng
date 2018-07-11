@@ -313,8 +313,7 @@ static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 // lParam = current contact
 int UserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
 	odp.szTitle.a = WEATHERPROTONAME;
 

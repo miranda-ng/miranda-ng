@@ -78,7 +78,7 @@ LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
 		return pimi->mi.name.w;
 
-	return TranslateW_LP(pimi->mi.name.w, pimi->mi.langId);
+	return TranslateW_LP(pimi->mi.name.w, pimi->mi.pPlugin);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -240,7 +240,7 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 			return p;
 
 	// create protocol root in the main menu
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.name.w = pThis->m_tszUserName;
 	mi.position = 500090000;
 	mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
@@ -609,29 +609,29 @@ MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem)
 
 struct KillMenuItemsParam
 {
-	KillMenuItemsParam(int _hLangpack) :
-		langId(_hLangpack),
+	KillMenuItemsParam(HPLUGIN _pPlugin) :
+		pPlugin(_pPlugin),
 		arItems(10)
 	{
 	}
 
-	int langId;
+	HPLUGIN pPlugin;
 	LIST<TMO_IntMenuItem> arItems;
 };
 
 int KillMenuItems(TMO_IntMenuItem *pimi, KillMenuItemsParam* param)
 {
-	if (pimi->mi.langId == param->langId)
+	if (pimi->mi.pPlugin == param->pPlugin)
 		param->arItems.insert(pimi);
 	return FALSE;
 }
 
-MIR_APP_DLL(void) KillModuleMenus(int _hLang)
+MIR_APP_DLL(void) KillModuleMenus(HPLUGIN pPlugin)
 {
 	if (!bIsGenMenuInited)
 		return;
 
-	KillMenuItemsParam param(_hLang);
+	KillMenuItemsParam param(pPlugin);
 
 	mir_cslock lck(csMenuHook);
 	for (auto &p : g_menus)
@@ -675,7 +675,7 @@ static int FindRoot(TMO_IntMenuItem *pimi, void *param)
 	return FALSE;
 }
 
-MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int position, HANDLE hIcoLib, int _hLang)
+MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int position, HANDLE hIcoLib, HPLUGIN pPlugin)
 {
 	mir_cslock lck(csMenuHook);
 	TIntMenuObject *pmo = GetMenuObjbyId(hMenuObject);
@@ -686,10 +686,10 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 	if (oldroot != nullptr)
 		return oldroot;
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = hIcoLib;
-	mi.langId = _hLang;
+	mi.pPlugin = pPlugin;
 	mi.name.w = (wchar_t*)ptszName;
 	mi.position = position;
 	return Menu_AddItem(hMenuObject, &mi, nullptr);

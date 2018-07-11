@@ -65,7 +65,7 @@ static void CB_RegisterSeparators()
 		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = i + 1;
 		bbd.dwDefPos = 410 + i;
-		Srmm_AddButton(&bbd, g_plugin.m_hLang);
+		Srmm_AddButton(&bbd, &g_plugin);
 	}
 }
 
@@ -79,7 +79,7 @@ MIR_APP_DLL(int) Srmm_GetButtonCount(void)
 	return arButtonsList.getCount();
 }
 
-MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, int _hLang)
+MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang)
 {
 	if (bbdi == nullptr)
 		return nullptr;
@@ -99,7 +99,7 @@ MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	
 	cbd->m_bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) != 0;
 	cbd->m_bPushButton = (bbdi->bbbFlags & BBBF_ISPUSHBUTTON) != 0;
-	cbd->m_iLangId = _hLang;
+	cbd->m_pPlugin = _hLang;
 
 	cbd->m_dwOrigFlags.bit1 = cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
 	cbd->m_dwOrigFlags.bit2 = cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0; 
@@ -687,7 +687,7 @@ public:
 		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = ++dwSepCount;
 
-		CustomButtonData *cbd = (CustomButtonData*)Srmm_AddButton(&bbd, g_plugin.m_hLang);
+		CustomButtonData *cbd = (CustomButtonData*)Srmm_AddButton(&bbd, &g_plugin);
 
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
@@ -772,7 +772,7 @@ public:
 
 static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Toolbar");
@@ -784,11 +784,11 @@ static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void KillModuleToolbarIcons(int _hLang)
+void KillModuleToolbarIcons(HPLUGIN pPlugin)
 {
 	auto T = arButtonsList.rev_iter();
 	for (auto &cbd : T)
-		if (cbd->m_iLangId == _hLang) {
+		if (cbd->m_pPlugin == pPlugin) {
 			delete cbd;
 			arButtonsList.remove(T.indexOf(&cbd));
 		}

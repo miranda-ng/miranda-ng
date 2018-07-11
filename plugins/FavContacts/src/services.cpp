@@ -151,7 +151,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	sid.szTooltip = LPGEN("Favorite Contacts");
 	sid.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	sid.hIconDisabled = IcoLib_GetIconByHandle(iconList[1].hIcolib);
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	HookEvent(ME_MSG_ICONPRESSED, ProcessSrmmIconClick);
 	HookEvent(ME_MSG_WINDOWEVENT, ProcessSrmmEvent);

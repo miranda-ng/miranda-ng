@@ -27,7 +27,7 @@ CMPlugin::CMPlugin() :
 
 int MainInit(WPARAM, LPARAM)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x719c1596, 0xb0fd, 0x4c74, 0xb7, 0xe4, 0xeb, 0x22, 0xf4, 0x99, 0xd7, 0x68);
 	mi.position = 10;
 	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POUNCE));
@@ -76,9 +76,8 @@ int MsgAck(WPARAM, LPARAM lParam)
 
 int BuddyPounceOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.w = LPGENW("Message sessions");
 	odp.szTitle.w = LPGENW("Buddy Pounce");

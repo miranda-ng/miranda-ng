@@ -342,9 +342,8 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 int TrafficCounterOptInitialise(WPARAM wParam, LPARAM)
 {
 	// Main options page
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 900000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TRAFFIC);
 	odp.szGroup.a = LPGEN("Services");
 	odp.szTab.a = LPGEN("Options");

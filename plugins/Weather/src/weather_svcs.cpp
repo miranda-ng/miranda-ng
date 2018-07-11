@@ -262,7 +262,7 @@ INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
 // copied and modified form "modified MSN Protocol"
 void AddMenuItems(void)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	// contact menu
 	SET_UID(mi, 0x266ef52b, 0x869a, 0x4cac, 0xa9, 0xf8, 0xea, 0x5b, 0xb8, 0xab, 0xe0, 0x24);

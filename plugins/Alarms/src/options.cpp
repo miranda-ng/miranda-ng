@@ -811,7 +811,7 @@ void AddMenuItem()
 {
 	if (hMainMenuItem) return;
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Alarms"), mi.position);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "24F03563-01BE-4118-8297-E94375A783E7");
@@ -1210,9 +1210,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
 	odp.szTitle.a = LPGEN("Alarms");
 	odp.szGroup.a = LPGEN("Events");

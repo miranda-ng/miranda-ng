@@ -247,7 +247,7 @@ struct CHAT_MANAGER_INITDATA
 	int cbModuleInfo, cbSession;
 	wchar_t *szFontGroup;
 	int iFontMode;
-   int iLangId;
+	HPLUGIN pPlugin;
 };
 
 typedef BOOL (*pfnDoTrayIcon)(SESSION_INFO *si, GCEVENT *gce);

@@ -251,7 +251,7 @@ static INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam)
 
 static void InitMenuItems()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	SET_UID(mi, 0x33ecc112, 0x6, 0x487d, 0xbb, 0x8b, 0x76, 0xb4, 0x17, 0x9b, 0xdb, 0xc5);
 	mi.flags = CMIF_UNICODE;
@@ -277,7 +277,7 @@ static void InitMenuItems()
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hDefWebMenu, MCI_OPT_EXECPARAM, DEF_PAGES_START - 1);
 
-	CMenuItem mi2(g_plugin);
+	CMenuItem mi2(&g_plugin);
 	mi2.pszService = MS_PASTEIT_CONTACTMENU;
 	mi2.root = hDefWebMenu;
 	for (int i = 0; i < PasteToWeb::pages; ++i) {
@@ -309,7 +309,7 @@ static void InitTabsrmmButton()
 	btn.hIcon = iconList[0].hIcolib;
 	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
 	btn.pwszTooltip = TranslateT("Paste It");
-	Srmm_AddButton(&btn, g_plugin.m_hLang);
+	Srmm_AddButton(&btn, &g_plugin);
 
 	if (hTabsrmmButtonPressed != nullptr)
 		UnhookEvent(hTabsrmmButtonPressed);

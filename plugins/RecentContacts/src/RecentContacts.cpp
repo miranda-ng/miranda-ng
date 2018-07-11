@@ -437,7 +437,7 @@ int Create_TopToolbarShowList(WPARAM, LPARAM)
 
 int Create_MenuitemShowList(void)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xe22ce213, 0x362a, 0x444a, 0xa5, 0x82, 0xc, 0xcf, 0xf5, 0x4b, 0xd1, 0x8e);
 	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.a = LPGEN("Recent Contacts");

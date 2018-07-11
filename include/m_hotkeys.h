@@ -53,7 +53,7 @@ struct HOTKEYDESC
 // Registers new hotkey
 // Returns 0 on failure or hotkey atom id on success
 
-EXTERN_C MIR_APP_DLL(int) Hotkey_Register(const HOTKEYDESC *hk, int langId);
+EXTERN_C MIR_APP_DLL(int) Hotkey_Register(const HOTKEYDESC *hk, HPLUGIN pPlugin);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unregister existing hotkey
@@ -88,6 +88,6 @@ EXTERN_C MIR_APP_DLL(void) Hotkey_Unsubclass(HWND hwndEdit);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-EXTERN_C MIR_APP_DLL(void) KillModuleHotkeys(int langId);
+EXTERN_C MIR_APP_DLL(void) KillModuleHotkeys(HPLUGIN pPlugin);
 
 #endif // M_HOTKEYS_H__

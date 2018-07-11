@@ -490,9 +490,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 int TN_OptionsInitialize(WPARAM wParam, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		OPTIONSDIALOGPAGE odp = { 0 };
+		OPTIONSDIALOGPAGE odp = {};
 		odp.position = 100000000;
-		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TYPINGNOTIFYPOPUP);
 		odp.szTitle.a = LPGEN("Typing notify");
 		odp.szGroup.a = LPGEN("Popups");
@@ -531,7 +530,7 @@ int TN_ModuleInit()
 	if (PluginConfig.g_bPopupAvail && ShowMenu) {
 		CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0xe18fd2cf, 0xcf90, 0x459e, 0xb6, 0xe6, 0x70, 0xec, 0xad, 0xc6, 0x73, 0xef);
 		if (!Disabled) {
 			mi.name.a = LPGEN("Disable &typing notification");

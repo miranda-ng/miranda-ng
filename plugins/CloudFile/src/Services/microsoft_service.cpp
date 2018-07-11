@@ -1,8 +1,22 @@
 #include "..\stdafx.h"
 #include "microsoft_api.h"
 
-COneDriveService::COneDriveService(const char *protoName, const wchar_t *userName)
-	: CCloudService(protoName, userName)
+struct CMPluginOnedrive : public CMPluginBase
+{
+	CMPluginOnedrive() :
+		CMPluginBase(MODULENAME "/OneDrive", pluginInfoEx)
+	{
+		m_hInst = g_plugin.getInst();
+
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)COneDriveService::Init, (pfnUninitProto)COneDriveService::UnInit);
+	}
+}
+g_pluginOnedrive;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+COneDriveService::COneDriveService(const char *protoName, const wchar_t *userName) :
+	CCloudService(protoName, userName, &g_pluginOnedrive)
 {
 	m_hProtoIcon = GetIconHandle(IDI_ONEDRIVE);
 }
@@ -253,17 +267,3 @@ void COneDriveService::Upload(FileTransferParam *ftp)
 		}
 	} while (ftp->NextFile());
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPluginOnedrive : public CMPluginBase
-{
-	CMPluginOnedrive() :
-		CMPluginBase(MODULENAME "/OneDrive", pluginInfoEx)
-	{
-		m_hInst = g_plugin.getInst();
-
-		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)COneDriveService::Init, (pfnUninitProto)COneDriveService::UnInit);
-	}
-}
-g_pluginOnedrive;

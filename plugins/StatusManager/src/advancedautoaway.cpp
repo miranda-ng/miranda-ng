@@ -30,7 +30,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int AAALangPack;
+CFakePlugin AAAPlugin(AAAMODULENAME);
 
 static HANDLE hEvents[3];
 
@@ -517,9 +517,7 @@ static int AAAModuleLoaded(WPARAM, LPARAM)
 
 void AdvancedAutoAwayLoad()
 {
-	AAALangPack = GetPluginLangId(MIID_LAST, 0);
-
-	g_bAAASettingSame = db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0);
+	g_bAAASettingSame = AAAPlugin.getByte(SETTING_SAMESETTINGS);
 
 	if (g_bMirandaLoaded)
 		AAAModuleLoaded(0, 0);
@@ -532,7 +530,7 @@ void AdvancedAutoAwayUnload()
 	if (g_bMirandaLoaded)
 		AutoAwayShutdown(0, 0);
 
-	KillModuleOptions(AAALangPack);
+	KillModuleOptions(&AAAPlugin);
 
 	for (auto &it : hEvents) {
 		UnhookEvent(it);

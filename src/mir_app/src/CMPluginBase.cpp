@@ -60,15 +60,6 @@ MIR_APP_DLL(HINSTANCE) GetInstByAddress(void *codePtr)
 	return result;
 }
 
-MIR_APP_DLL(CMPluginBase*) GetPluginByLangId(int _hLang)
-{
-	for (auto &it : g_arPlugins)
-		if (it->m_hLang == _hLang)
-			return it;
-
-	return nullptr;
-}
-
 MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 {
 	if (uuid == miid_last)
@@ -104,13 +95,6 @@ MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
 	return (pPlugin == nullptr) ? g_plugin : *pPlugin;
 }
 
-MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInst)
-{
-	HINSTANCE boo[2] = { 0, hInst };
-	CMPluginBase *pPlugin = g_arPlugins.find((CMPluginBase*)&boo);
-	return (pPlugin == nullptr) ? 0 : pPlugin->m_hLang;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // stubs for pascal plugins
 
@@ -118,22 +102,11 @@ EXTERN_C MIR_APP_DLL(void) RegisterPlugin(CMPluginBase *pPlugin)
 {
 	if (pPlugin->getInst() != nullptr)
 		g_arPlugins.insert(pPlugin);
-
-	mir_getLP(&pPlugin->getInfo(), &pPlugin->m_hLang);
 }
 
 EXTERN_C MIR_APP_DLL(void) UnregisterPlugin(CMPluginBase *pPlugin)
 {
 	g_arPlugins.remove(pPlugin);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int PluginsLoadLangpack(WPARAM, LPARAM)
-{
-	for (auto &it : g_arPlugins)
-		mir_getLP(&it->getInfo(), &it->m_hLang);
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -144,8 +117,6 @@ CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
 {
 	if (m_hInst != nullptr)
 		g_arPlugins.insert(this);
-
-	mir_getLP(&pInfo, &m_hLang);
 }
 
 CMPluginBase::~CMPluginBase()
@@ -181,83 +152,83 @@ void CMPluginBase::tryOpenLog()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMPluginBase::addOptions(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp)
+int CMPluginBase::addOptions(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 {
-	return ::Options_AddPage(wParam, odp, m_hLang);
+	return ::Options_AddPage(wParam, odp, this);
 }
 
 void CMPluginBase::openOptions(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab)
 {
-	::Options_Open(pszGroup, pszPage, pszTab, m_hLang);
+	::Options_Open(pszGroup, pszPage, pszTab, this);
 }
 
 void CMPluginBase::openOptionsPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab)
 {
-	::Options_OpenPage(pszGroup, pszPage, pszTab, m_hLang);
+	::Options_OpenPage(pszGroup, pszPage, pszTab, this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CMPluginBase::addFont(FontID *pFont)
 {
-	return Font_Register(pFont, m_hLang);
+	return Font_Register(pFont, this);
 }
 
 int CMPluginBase::addFont(FontIDW *pFont)
 {
-	return Font_RegisterW(pFont, m_hLang);
+	return Font_RegisterW(pFont, this);
 }
 
 int CMPluginBase::addColor(ColourID *pColor)
 {
-	return Colour_Register(pColor, m_hLang);
+	return Colour_Register(pColor, this);
 }
 
 int CMPluginBase::addColor(ColourIDW *pColor)
 {
-	return Colour_RegisterW(pColor, m_hLang);
+	return Colour_RegisterW(pColor, this);
 }
 
 int CMPluginBase::addEffect(EffectID *pEffect)
 {
-	return Effect_Register(pEffect, m_hLang);
+	return Effect_Register(pEffect, this);
 }
 
 int CMPluginBase::addEffect(EffectIDW *pEffect)
 {
-	return Effect_RegisterW(pEffect, m_hLang);
+	return Effect_RegisterW(pEffect, this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CMPluginBase::addFrame(const CLISTFrame *F)
 {
-	return (int)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)F, m_hLang);
+	return (int)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)F, (LPARAM)this);
 }
 
 int CMPluginBase::addHotkey(const HOTKEYDESC *hk)
 {
-	return Hotkey_Register(hk, m_hLang);
+	return Hotkey_Register(hk, this);
 }
 
 HANDLE CMPluginBase::addIcon(const SKINICONDESC *sid)
 {
-	return IcoLib_AddIcon(sid, m_hLang);
+	return IcoLib_AddIcon(sid, this);
 }
 
 HGENMENU CMPluginBase::addRootMenu(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib)
 {
-	return Menu_CreateRoot(hMenuObject, ptszName, position, hIcoLib, m_hLang);
+	return Menu_CreateRoot(hMenuObject, ptszName, position, hIcoLib, this);
 }
 
 HANDLE CMPluginBase::addTTB(const struct TTBButton *pButton)
 {
-	return (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)pButton, m_hLang);
+	return (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)pButton, (LPARAM)this);
 }
 
 int CMPluginBase::addUserInfo(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 {
-	odp->langId = m_hLang;
+	odp->pPlugin = this;
 	return CallService("UserInfo/AddPage", wParam, (LPARAM)odp);
 }
 

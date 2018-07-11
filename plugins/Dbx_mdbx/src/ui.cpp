@@ -186,7 +186,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	// main menu item
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000, iconList[0].hIcolib);

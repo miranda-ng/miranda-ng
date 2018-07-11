@@ -224,7 +224,7 @@ public:
 
 int ProtocolOrderOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -10000000;
 	odp.szTitle.a = LPGEN("Accounts");
 	odp.szGroup.a = LPGEN("Contact list");

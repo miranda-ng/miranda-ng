@@ -351,7 +351,6 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
-		odp.hInstance = g_plugin.getInst();
 		odp.dwInitParam = (LPARAM)this;
 		odp.szTitle.w = m_tszUserName;
 

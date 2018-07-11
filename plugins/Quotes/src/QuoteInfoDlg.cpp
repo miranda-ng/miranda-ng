@@ -107,8 +107,7 @@ int QuotesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM lp)
 
 	g_hContact = hContact;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pfnDlgProc = QuoteInfoDlgProc;
 	odp.position = -2000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_QUOTE_INFO);

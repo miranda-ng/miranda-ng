@@ -735,7 +735,7 @@ static int CLUIFramesGetalClientFrame(void)
 
 static HGENMENU addFrameMenuItem(TMO_MenuItem *pmi, FRAMEWND &F, int frameid, bool bMain)
 {
-	pmi->langId = F.hLang;
+	pmi->pPlugin = F.pPlugin;
 	HGENMENU res = (bMain) ? Menu_AddMainMenuItem(pmi) : Menu_AddContextFrameMenuItem(pmi);
 	if (pmi->pszService != nullptr)
 		Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, frameid);
@@ -751,7 +751,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	auto &F = g_pfwFrames[framepos];
 	FrameMenuHandles &fmh = (frameid == -1) ? cont : F.MenuHandles;
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Visible");
@@ -1041,7 +1041,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			fw.TitleBar.tbname = mir_a2u((char*)lParam);
 
 		if (fw.floating && (fw.TitleBar.tbname != nullptr))
-			SetWindowText(fw.ContainerWnd, TranslateW_LP(fw.TitleBar.tbname, fw.hLang));
+			SetWindowText(fw.ContainerWnd, TranslateW_LP(fw.TitleBar.tbname, fw.pPlugin));
 		return 0;
 
 	case FO_TBTIPNAME:
@@ -1473,7 +1473,7 @@ static int CLUIFramesLoadMainMenu()
 	g_frameMenus.destroy();
 
 	// create frames menu
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = cont.MainMenuItem;
 	int separator = 3000200000;
 	for (int i = 0; i < g_nFramesCount; i++) {
@@ -1525,7 +1525,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 	F.hWnd = clfrm->hWnd;
 	F.height = clfrm->height;
 	F.TitleBar.hicon = clfrm->hIcon;
-	F.hLang = (int)lParam;
+	F.pPlugin = (HPLUGIN)lParam;
 	F.floating = FALSE;
 	if (clfrm->Flags & F_NO_SUBCONTAINER || !g_CluiData.fLayered)
 		F.OwnerWindow = (HWND)-2;
@@ -1560,7 +1560,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 
 	//Frames[nFramescount].OwnerWindow = 0;
 
-	F.TitleBar.hwnd = CreateWindow(CLUIFrameTitleBarClassName, TranslateW_LP(F.name, F.hLang),
+	F.TitleBar.hwnd = CreateWindow(CLUIFrameTitleBarClassName, TranslateW_LP(F.name, F.pPlugin),
 		(db_get_b(0, CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
 		| WS_CHILD | WS_CLIPCHILDREN |
 		(F.TitleBar.ShowTitleBar ? WS_VISIBLE : 0) |
@@ -2492,7 +2492,7 @@ int DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid)
 		textrc.top += 2;
 	}
 
-	wchar_t *wszTitle = TranslateW_LP(F.TitleBar.tbname, F.hLang);
+	wchar_t *wszTitle = TranslateW_LP(F.TitleBar.tbname, F.pPlugin);
 	ske_TextOut(hdcMem, textrc.left, textrc.top, wszTitle, (int)mir_wstrlen(wszTitle));
 
 	if (!AlignCOLLIconToLeft)
@@ -3315,7 +3315,7 @@ int LoadCLUIFramesModule(void)
 	InitGroupMenus();
 	{
 		// create root menu
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0x3931AC4, 0x7A32, 0x4D9C, 0x99, 0x92, 0x94, 0xD4, 0xB5, 0x9B, 0xD6, 0xB6);
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 		mi.position = 3000090000;

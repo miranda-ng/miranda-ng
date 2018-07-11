@@ -110,22 +110,22 @@ void SrmmMenu_Load()
 	sid.dwId = 0;
 	sid.szTooltip = LPGEN("Popup Mode: Auto");
 	sid.hIcon = sid.hIconDisabled = LoadIconEx(IDI_POPUP);
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
 	sid.szTooltip = LPGEN("Popup Mode: Favorite");
 	sid.hIcon = sid.hIconDisabled = LoadIconEx(IDI_OPT_FAVORITE);
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 2;
 	sid.szTooltip = LPGEN("Popup Mode: Ignore fullscreen");
 	sid.hIcon = sid.hIconDisabled = LoadIconEx(IDI_OPT_FULLSCREEN);
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 3;
 	sid.szTooltip = LPGEN("Popup Mode: Block contact");
 	sid.hIcon = sid.hIconDisabled = LoadIconEx(IDI_NOPOPUP);
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 
 	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
 	HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);

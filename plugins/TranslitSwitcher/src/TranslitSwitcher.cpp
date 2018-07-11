@@ -91,21 +91,21 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 30;
-	Srmm_AddButton(&bbd, g_plugin.m_hLang);
+	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.pszModuleName = "Translit and Send";
 	bbd.pwszTooltip = TranslateT("Translit and Send");
 	bbd.hIcon = iconList[1].hIcolib;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 40;
-	Srmm_AddButton(&bbd, g_plugin.m_hLang);
+	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.pszModuleName = "Invert Case and Send";
 	bbd.pwszTooltip = TranslateT("Invert Case and Send");
 	bbd.hIcon = iconList[2].hIcolib;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 50;
-	Srmm_AddButton(&bbd, g_plugin.m_hLang);
+	Srmm_AddButton(&bbd, &g_plugin);
 	return 0;
 }
 

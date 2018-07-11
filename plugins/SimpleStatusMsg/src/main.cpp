@@ -1269,7 +1269,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 	if (!iStatusMsgFlags || !iStatusMenuItemCount)
 		return 0;
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	if (!db_get_b(NULL, MODULENAME, "ShowStatusMenuItem", 1))
 		mi.flags |= CMIF_HIDDEN;

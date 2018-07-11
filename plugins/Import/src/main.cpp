@@ -60,7 +60,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IMPORT
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	// menu item
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x20ffaf55, 0xafa0, 0x4da3, 0xa9, 0x46, 0x20, 0x51, 0xa0, 0x24, 0xb, 0x41);
 	mi.hIcolibItem = GetIconHandle(IDI_IMPORT);
 	mi.name.a = LPGEN("&Import...");

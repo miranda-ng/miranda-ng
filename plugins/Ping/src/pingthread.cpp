@@ -880,7 +880,7 @@ void InitList()
 
 		CreateServiceFunction(MODULENAME "/ShowWindow", PingPlugShowWindow);
 
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Ping"), 1000200001);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "7CFBF239-86B5-48B2-8D5B-39E09A7DB514");
 

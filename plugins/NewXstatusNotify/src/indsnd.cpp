@@ -595,9 +595,8 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 int UserInfoInitialise(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam) {
-		OPTIONSDIALOGPAGE odp = { 0 };
+		OPTIONSDIALOGPAGE odp = {};
 		odp.position = 100000000;
-		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SOUNDS);
 		odp.szTitle.a = LPGEN("Status Notify");
 		odp.pfnDlgProc = DlgProcSoundUIPage;

@@ -60,7 +60,7 @@ extern "C"
 // Adds an icon into the icon library
 // returns a handle to the newly added item
 
-MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, int langId);
+MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, HPLUGIN pPlugin);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Removes an icon from icon library by icon's name or handle
@@ -117,7 +117,7 @@ MIR_APP_DLL(void)   Window_FreeIcon_IcoLib(HWND hWnd);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void)   KillModuleIcons(int langId);
+MIR_APP_DLL(void)   KillModuleIcons(HPLUGIN pPlugin);
 
 #if defined(__cplusplus)
 }

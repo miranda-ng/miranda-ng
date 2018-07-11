@@ -6,7 +6,7 @@ HANDLE hEventMenuBuild;
 void InitMenus()
 {
 	// main menu
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Ping"), 500099900);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "FF273885-6AEC-4C8A-B8BC-9247D920F223");

@@ -31,9 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct FontInternal : public FontIDW
 {
 	FontSettingsW value;
-	int hLangpack;
+	HPLUGIN pPlugin;
 
-	__inline wchar_t* getName() const { return TranslateW_LP(name, hLangpack); }
+	__inline wchar_t* getName() const { return TranslateW_LP(name, pPlugin); }
 
 	__inline bool isHeader() const
 	{
@@ -49,17 +49,17 @@ struct FontInternal : public FontIDW
 
 struct ColourInternal : public ColourIDW
 {
-	__inline wchar_t* getName() const { return TranslateW_LP(name, hLangpack); }
+	__inline wchar_t* getName() const { return TranslateW_LP(name, pPlugin); }
 
 	COLORREF value;
-	int hLangpack;
+	HPLUGIN pPlugin;
 };
 
 struct EffectInternal : public EffectIDW
 {
-	__inline wchar_t* getName() const { return TranslateW_LP(name, hLangpack); }
+	__inline wchar_t* getName() const { return TranslateW_LP(name, pPlugin); }
 
-	int hLangpack;
+	HPLUGIN pPlugin;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -570,10 +570,8 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 // register the weather option pages
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
-
 	// plugin options
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 95600;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = OptionsProc;

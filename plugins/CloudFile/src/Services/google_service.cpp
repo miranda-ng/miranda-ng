@@ -1,8 +1,23 @@
 #include "..\stdafx.h"
 #include "google_api.h"
 
-CGDriveService::CGDriveService(const char *protoName, const wchar_t *userName)
-	: CCloudService(protoName, userName)
+
+struct CMPluginGoogle : public CMPluginBase
+{
+	CMPluginGoogle() :
+		CMPluginBase(MODULENAME "/GDrive", pluginInfoEx)
+	{
+		m_hInst = g_plugin.getInst();
+
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CGDriveService::Init, (pfnUninitProto)CGDriveService::UnInit);
+	}
+}
+g_pluginGoogle;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CGDriveService::CGDriveService(const char *protoName, const wchar_t *userName) :
+	CCloudService(protoName, userName, &g_pluginGoogle)
 {
 	m_hProtoIcon = GetIconHandle(IDI_GDRIVE);
 }
@@ -280,17 +295,3 @@ void CGDriveService::Upload(FileTransferParam *ftp)
 		}
 	} while (ftp->NextFile());
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPluginGoogle : public CMPluginBase
-{
-	CMPluginGoogle() :
-		CMPluginBase(MODULENAME "/GDrive", pluginInfoEx)
-	{
-		m_hInst = g_plugin.getInst();
-
-		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CGDriveService::Init, (pfnUninitProto)CGDriveService::UnInit);
-	}
-}
-g_pluginGoogle;

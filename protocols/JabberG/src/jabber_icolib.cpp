@@ -126,7 +126,7 @@ void CIconPool::RegisterIcon(const char *name, wchar_t *filename, int iconid, wc
 	sid.description.w = szDescription;
 	sid.flags = SIDF_ALL_UNICODE;
 	sid.iDefaultIndex = iconid;
-	item->m_hIcolibItem = IcoLib_AddIcon(&sid, g_plugin.m_hLang);
+	item->m_hIcolibItem = IcoLib_AddIcon(&sid, &g_plugin);
 
 	m_items.insert(item);
 }

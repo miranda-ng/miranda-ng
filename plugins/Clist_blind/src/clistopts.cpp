@@ -180,9 +180,8 @@ static UINT expertOnlyControls[] = { IDC_ALWAYSSTATUS };
 
 int CListOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -1000000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST);
 	odp.szTitle.a = LPGEN("Contact list");
 	odp.pfnDlgProc = DlgProcGenOpts;

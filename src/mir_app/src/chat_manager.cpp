@@ -1009,7 +1009,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 	g_cbSession = pInit->cbSession;
 	g_cbModuleInfo = pInit->cbModuleInfo;
 	g_iFontMode = pInit->iFontMode;
-	g_iChatLang = pInit->iLangId;
+	g_pChatPlugin = pInit->pPlugin;
 
 	g_chatApi.SetActiveSession = SetActiveSession;
 	g_chatApi.GetActiveSession = GetActiveSession;

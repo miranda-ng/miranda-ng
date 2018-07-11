@@ -80,7 +80,6 @@ int InitOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE Opt = { sizeof(Opt) };
 	Opt.pfnDlgProc = OptionsDlgProc;
 	Opt.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAGNETICWINDOWS);
-	Opt.hInstance = g_plugin.getInst();
 	Opt.szGroup.a = LPGEN("Customize");
 	Opt.szTitle.a = LPGEN("Magnetic Windows");
 	Opt.flags = ODPF_BOLDGROUPS;

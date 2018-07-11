@@ -307,8 +307,7 @@ static UINT expertOnlyControls[] =
 
 int CluiOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	odp.szTitle.a = LPGEN("Window");
 	odp.szGroup.a = LPGEN("Contact list");

@@ -89,7 +89,7 @@ int CDiscordProto::OnMenuPrebuild(WPARAM hContact, LPARAM)
 
 void CDiscordProto::InitMenus()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 	mi.flags = CMIF_UNMOVABLE;
 
@@ -109,7 +109,7 @@ void CDiscordProto::InitMenus()
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Contact menu items
-	CMenuItem mi2(g_plugin);
+	CMenuItem mi2(&g_plugin);
 	mi2.pszService = "/LeaveGuild";
 	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuLeaveGuild);
 	mi2.name.a = LPGEN("Leave guild");

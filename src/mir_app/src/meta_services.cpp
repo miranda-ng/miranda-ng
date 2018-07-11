@@ -652,7 +652,7 @@ int Meta_ModulesLoaded(WPARAM, LPARAM)
 	sid.flags = MBF_UNICODE;
 	sid.tszTooltip = LPGENW("Select metacontact");
 	sid.hIcon = Skin_LoadProtoIcon(META_PROTO, ID_STATUS_ONLINE);
-	Srmm_AddIcon(&sid, g_plugin.m_hLang);
+	Srmm_AddIcon(&sid, &g_plugin);
 	return 0;
 }
 

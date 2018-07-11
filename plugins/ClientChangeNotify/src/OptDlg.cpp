@@ -167,7 +167,6 @@ int OptionsDlgInit(WPARAM wParam, LPARAM)
 		optDi.szTitle.a = LPGEN("ClientChangeNotify");
 		optDi.pfnDlgProc = PopupOptDlg;
 		optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
-		optDi.hInstance = g_plugin.getInst();
 		optDi.flags = ODPF_BOLDGROUPS;
 		g_plugin.addOptions(wParam, &optDi);
 	}

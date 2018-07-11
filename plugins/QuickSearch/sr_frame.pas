@@ -171,7 +171,7 @@ begin
       TBName.w:='Quick search';
     end;
 
-    FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,wparam(@Frame),0);
+    FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,wparam(@Frame),lparam(@g_Plugin));
     if FrameId>=0 then
     begin
       CallService(MS_CLIST_FRAMES_UPDATEFRAME,FrameId, FU_FMPOS);

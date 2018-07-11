@@ -78,8 +78,7 @@ void CSteamOptionsBlockList::OnBlock(CCtrlButton*)
 
 int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Network");

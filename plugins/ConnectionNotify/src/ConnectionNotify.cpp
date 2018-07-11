@@ -585,7 +585,6 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 int ConnectionNotifyOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
 	odp.szTitle.w = _A2W(PLUGINNAME);
 	odp.szGroup.w = LPGENW("Plugins");

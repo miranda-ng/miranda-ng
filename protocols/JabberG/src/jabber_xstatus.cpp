@@ -470,7 +470,7 @@ void CPepGuiService::RebuildMenu()
 	char szService[128];
 	mir_snprintf(szService, "/AdvStatusSet/%s", m_name);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = hJabberRoot;
 	mi.pszService = szService;
 	mi.position = 200010;

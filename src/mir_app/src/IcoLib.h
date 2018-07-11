@@ -84,7 +84,7 @@ struct IcolibItem : public MZeroedObject
 	IconSourceFile* default_file;
 	int             default_indx;
 	int             cx, cy;
-	int             hLangpack;
+	HPLUGIN         pPlugin;
 
 	IconSourceItem* source_small;
 	IconSourceItem* source_big;
@@ -95,7 +95,7 @@ struct IcolibItem : public MZeroedObject
 	BOOL            temp_reset;
 
 	__inline ~IcolibItem() { clear(); }
-	__inline wchar_t* getDescr() const { return TranslateW_LP(description, hLangpack); }
+	__inline wchar_t* getDescr() const { return TranslateW_LP(description, pPlugin); }
 
 	void clear();
 };

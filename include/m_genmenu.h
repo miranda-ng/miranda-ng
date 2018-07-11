@@ -40,7 +40,7 @@ struct TMO_MenuItem
 		HICON hIcon;
 		HANDLE hIcolibItem;
 	};
-	int langId;
+	const CMPluginBase *pPlugin;
 	MUUID uid;
 };
 
@@ -50,10 +50,10 @@ struct TMO_MenuItem
 #ifdef __cplusplus
 struct CMenuItem : public TMO_MenuItem
 {
-	CMenuItem(const CMPluginBase &pPlugin)
+	CMenuItem(HPLUGIN _p)
 	{
 		memset(this, 0, sizeof(CMenuItem));
-		this->langId = pPlugin.m_hLang;
+		this->pPlugin = _p;
 	}
 };
 #endif
@@ -107,7 +107,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pItem
 // Adds new submenu
 // Returns HGENMENU on success, or NULL on failure
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib, int langId);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib, HPLUGIN pPlugin);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // process a WM_DRAWITEM message for user context menus      v0.1.1.0+
@@ -254,7 +254,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis);
 /////////////////////////////////////////////////////////////////////////////////////////
 // kills all menu items & submenus that belong to the language id given
 
-EXTERN_C MIR_APP_DLL(void) KillModuleMenus(int langId);
+EXTERN_C MIR_APP_DLL(void) KillModuleMenus(HPLUGIN pPlugin);
 
 #endif // M_GENMENU_H__
 

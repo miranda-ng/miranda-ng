@@ -171,13 +171,12 @@ void load_settings()
 
 int OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(NA_OPTIONS);
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.szTitle.a = LPGEN("Notify Anything");
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.position = 100000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;

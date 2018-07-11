@@ -94,8 +94,7 @@ INT_PTR CALLBACK DlgProcPopups(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 
 int NotifyOptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
 	odp.szTitle.a = LPGEN("YAPP Popups");
 	odp.flags = ODPF_BOLDGROUPS;

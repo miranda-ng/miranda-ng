@@ -1518,8 +1518,7 @@ static clist_opt_items[] =
 
 int ClcOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.szTitle.a = LPGEN("Contact list");
 	odp.pfnDlgProc = DlgProcClistListOpts;

@@ -65,8 +65,7 @@ struct OPTIONSDIALOGPAGE
 	MAllStrings szTitle, szGroup, szTab; // [TRANSLATED-BY-CORE]
 	DLGPROC pfnDlgProc;
 	char *pszTemplate;
-	HINSTANCE hInstance;
-	int langId;
+	HPLUGIN pPlugin;
 	DWORD flags;
 
 	union {
@@ -82,9 +81,9 @@ struct OPTIONSDIALOGPAGE
 
 #define PSM_GETBOLDFONT   (WM_USER+102)   //returns HFONT used for group box titles
 
-EXTERN_C MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int langId);
+EXTERN_C MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, HPLUGIN);
 
-EXTERN_C MIR_APP_DLL(void) KillModuleOptions(int langId);
+EXTERN_C MIR_APP_DLL(void) KillModuleOptions(HPLUGIN);
 
 // The behaviour if the options dialog is already open is that it will just be
 // activated, the page won't be changed. This may change in the future.
@@ -95,9 +94,9 @@ EXTERN_C MIR_APP_DLL(void) KillModuleOptions(int langId);
 
 // Opens the options dialog, optionally at the specified page
 // Returns 0 on success, nonzero on failure
-EXTERN_C MIR_APP_DLL(int) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, int langId);
+EXTERN_C MIR_APP_DLL(int) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN);
 
 // Opens the options dialog, with only specified page
-EXTERN_C MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, int langId);
+EXTERN_C MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN);
 
 #endif  //M_OPTIONS_H__

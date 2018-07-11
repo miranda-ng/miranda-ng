@@ -245,7 +245,7 @@ void UpdateFontSettings(FontIDW *font_id, FontSettingsW *fontsettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterFont service
 
-static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
+static int sttRegisterFontWorker(FontIDW *font_id, HPLUGIN pPlugin)
 {
 	if (font_id->cbSize != sizeof(FontIDW))
 		return -1;
@@ -261,7 +261,7 @@ static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
 	FontInternal* newItem = new FontInternal;
 	memset(newItem, 0, sizeof(FontInternal));
 	memcpy(newItem, font_id, font_id->cbSize);
-	newItem->hLangpack = _hLang;
+	newItem->pPlugin = pPlugin;
 
 	if (!mir_wstrcmp(newItem->deffontsettings.szFace, L"MS Shell Dlg")) {
 		LOGFONT lf;
@@ -278,16 +278,16 @@ static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
 	return 0;
 }
 
-MIR_APP_DLL(int) Font_RegisterW(FontIDW *pFont, int _hLang)
+MIR_APP_DLL(int) Font_RegisterW(FontIDW *pFont, HPLUGIN pPlugin)
 {
-	return sttRegisterFontWorker(pFont, _hLang);
+	return sttRegisterFontWorker(pFont, pPlugin);
 }
 
-MIR_APP_DLL(int) Font_Register(FontID *pFont, int _hLang)
+MIR_APP_DLL(int) Font_Register(FontID *pFont, HPLUGIN pPlugin)
 {
 	FontIDW temp;
 	if (!ConvertFontID(pFont, &temp)) return -1;
-	return sttRegisterFontWorker(&temp, _hLang);
+	return sttRegisterFontWorker(&temp, pPlugin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -333,11 +333,11 @@ static INT_PTR ReloadFonts(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleFonts(int _hLang)
+MIR_APP_DLL(void) KillModuleFonts(HPLUGIN pPlugin)
 {
 	auto T = font_id_list.rev_iter();
 	for (auto &it : T) {
-		if (it->hLangpack == _hLang) {
+		if (it->pPlugin == pPlugin) {
 			font_id_list.remove(T.indexOf(&it));
 			notifyOptions();
 		}
@@ -352,7 +352,7 @@ void UpdateColourSettings(ColourIDW *colour_id, COLORREF *colour)
 	*colour = (COLORREF)db_get_dw(0, colour_id->dbSettingsGroup, colour_id->setting, colour_id->defcolour);
 }
 
-static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
+static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, HPLUGIN pPlugin)
 {
 	if (colour_id->cbSize != sizeof(ColourIDW))
 		return -1;
@@ -364,7 +364,7 @@ static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
 	ColourInternal* newItem = new ColourInternal;
 	memset(newItem, 0, sizeof(ColourInternal));
 	memcpy(newItem, colour_id, sizeof(ColourIDW));
-	newItem->hLangpack = _hLang;
+	newItem->pPlugin = pPlugin;
 	UpdateColourSettings(colour_id, &newItem->value);
 	colour_id_list.insert(newItem);
 
@@ -372,16 +372,16 @@ static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
 	return 0;
 }
 
-MIR_APP_DLL(int) Colour_RegisterW(ColourIDW *pFont, int _hLang)
+MIR_APP_DLL(int) Colour_RegisterW(ColourIDW *pFont, HPLUGIN pPlugin)
 {
-	return sttRegisterColourWorker(pFont, _hLang);
+	return sttRegisterColourWorker(pFont, pPlugin);
 }
 
-MIR_APP_DLL(int) Colour_Register(ColourID *pFont, int _hLang)
+MIR_APP_DLL(int) Colour_Register(ColourID *pFont, HPLUGIN pPlugin)
 {
 	ColourIDW temp;
 	if (!ConvertColourID(pFont, &temp)) return -1;
-	return sttRegisterColourWorker(&temp, _hLang);
+	return sttRegisterColourWorker(&temp, pPlugin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -414,11 +414,11 @@ static INT_PTR ReloadColours(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleColours(int _hLang)
+MIR_APP_DLL(void) KillModuleColours(HPLUGIN pPlugin)
 {
 	auto T = colour_id_list.rev_iter();
 	for (auto &it : T) {
-		if (it->hLangpack == _hLang) {
+		if (it->pPlugin == pPlugin) {
 			colour_id_list.remove(T.indexOf(&it));
 			notifyOptions();
 		}
@@ -444,7 +444,7 @@ void UpdateEffectSettings(EffectIDW *effect_id, FONTEFFECT *effectsettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterEffect service
 
-static int sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
+static int sttRegisterEffectWorker(EffectIDW *effect_id, HPLUGIN pPlugin)
 {
 	if (effect_id->cbSize != sizeof(EffectIDW))
 		return -1;
@@ -456,7 +456,7 @@ static int sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
 	EffectInternal* newItem = new EffectInternal;
 	memset(newItem, 0, sizeof(EffectInternal));
 	memcpy(newItem, effect_id, sizeof(EffectIDW));
-	newItem->hLangpack = _hLang;
+	newItem->pPlugin = pPlugin;
 	UpdateEffectSettings(effect_id, &newItem->value);
 	effect_id_list.insert(newItem);
 
@@ -464,16 +464,16 @@ static int sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
 	return 0;
 }
 
-MIR_APP_DLL(int) Effect_RegisterW(EffectIDW *pFont, int _hLang)
+MIR_APP_DLL(int) Effect_RegisterW(EffectIDW *pFont, HPLUGIN pPlugin)
 {
-	return sttRegisterEffectWorker(pFont, _hLang);
+	return sttRegisterEffectWorker(pFont, pPlugin);
 }
 
-MIR_APP_DLL(int) Effect_Register(EffectID *pFont, int _hLang)
+MIR_APP_DLL(int) Effect_Register(EffectID *pFont, HPLUGIN pPlugin)
 {
 	EffectIDW temp;
 	if (!ConvertEffectID(pFont, &temp)) return -1;
-	return sttRegisterEffectWorker(&temp, _hLang);
+	return sttRegisterEffectWorker(&temp, pPlugin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -503,11 +503,11 @@ MIR_APP_DLL(int) Effect_Get(const char *szGroup, const char *szName, FONTEFFECT 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleEffects(int _hLang)
+MIR_APP_DLL(void) KillModuleEffects(HPLUGIN pPlugin)
 {
 	auto T = colour_id_list.rev_iter();
 	for (auto &it : T)
-		if (it->hLangpack == _hLang)
+		if (it->pPlugin == pPlugin)
 			effect_id_list.remove(T.indexOf(&it));
 }
 

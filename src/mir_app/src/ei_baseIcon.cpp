@@ -45,7 +45,7 @@ void BaseExtraIcon::setOnClick(MIRANDAHOOKPARAM pFunc, LPARAM pParam)
 
 const wchar_t* BaseExtraIcon::getDescription() const
 {
-	return TranslateW_LP(m_tszDescription, m_hLangpack);
+	return TranslateW_LP(m_tszDescription, m_pPlugin);
 }
 
 void BaseExtraIcon::setDescription(const wchar_t *desc)

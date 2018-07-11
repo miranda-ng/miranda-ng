@@ -318,8 +318,7 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 int StatusChangeOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.w = LPGENW("Status Change");
 	odp.szGroup.w = LPGENW("Status");

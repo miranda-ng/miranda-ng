@@ -54,7 +54,7 @@ int GaduProto::gc_init()
 void GaduProto::gc_menus_init(HGENMENU hRoot)
 {
 	if (gc_enabled) {
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 		mi.flags = CMIF_UNICODE;
 		mi.root = hRoot;
 

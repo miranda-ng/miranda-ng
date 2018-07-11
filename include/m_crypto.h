@@ -69,7 +69,7 @@ struct CRYPTO_PROVIDER
 {
 	DWORD	dwSize;
 	DWORD	dwFlags; // one of CPF_* constants
-   int iLangId;
+	HPLUGIN pPlugin;
 
 	char *pszName; // unique id
 	MAllStrings szDescr;  // description

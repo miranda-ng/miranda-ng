@@ -88,9 +88,8 @@ INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPA
 
 int OptInitialise(WPARAM wParam,LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
-	odp.hInstance = ssSMSSettings.hInstance;
 	odp.szGroup.a = LPGEN("Events");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMSPLUGIN);

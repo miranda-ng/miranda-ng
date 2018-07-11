@@ -101,7 +101,7 @@ struct EXTRAICON_INFO
 	LPARAM onClickParam;
 };
 
-EXTERN_C MIR_APP_DLL(void) KillModuleExtraIcons(int langId);
+EXTERN_C MIR_APP_DLL(void) KillModuleExtraIcons(HPLUGIN pPlugin);
 
 #pragma warning(disable:4505)
 

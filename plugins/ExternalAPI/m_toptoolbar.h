@@ -58,7 +58,7 @@ Called when the toolbar services are available
 /*
 toptoolbar/addbutton service
 wparam = (TTBButton*)lpTTBButton
-lparam = hLangpack
+lparam = (HPLUGIN)&g_pPlugin
 returns: hTTBButton - handle of added button on success, -1 on failure.
 */
 

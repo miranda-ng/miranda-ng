@@ -309,7 +309,7 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	TopButtonInt *b = CreateButton(but);
-	b->hLangpack = (int)lParam;
+	b->pPlugin = (HPLUGIN)lParam;
 	b->LoadSettings();
 	b->CreateWnd();
 	if (b->hwnd == nullptr) {
@@ -553,13 +553,13 @@ int OnPluginLoad(WPARAM, LPARAM lParam)
 
 int OnPluginUnload(WPARAM, LPARAM lParam)
 {
-	int lang = GetPluginLangByInstance((HINSTANCE)lParam);
-	if (lang) {
+	HPLUGIN pPlugin = &GetPluginByInstance((HINSTANCE)lParam);
+	if (pPlugin) {
 		bool bNeedUpdate = false;
 		mir_cslock lck(csButtonsHook);
 
 		for (auto &it : Buttons.rev_iter())
-			if (it->hLangpack == lang) {
+			if (it->pPlugin == pPlugin) {
 				TTBRemoveButton(it->id, 0);
 				bNeedUpdate = true;
 			}

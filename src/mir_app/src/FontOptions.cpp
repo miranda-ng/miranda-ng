@@ -316,7 +316,7 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wc
 	return nullptr;
 }
 
-static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const wchar_t *groupName, int _hLang)
+static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const wchar_t *groupName, HPLUGIN pPlugin)
 {
 	wchar_t itemName[1024];
 	wchar_t* sectionName;
@@ -335,7 +335,7 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const wchar_t *groupNam
 		if (sectionName = wcschr(sectionName, '/'))
 			*sectionName = 0;
 
-		pItemName = TranslateW_LP(pItemName, _hLang);
+		pItemName = TranslateW_LP(pItemName, pPlugin);
 
 		hItem = sttFindNamedTreeItemAt(hwndTree, hSection, pItemName);
 		if (!sectionName || !hItem) {
@@ -555,19 +555,19 @@ static void RebuildTree(HWND hwndDlg)
 	for (auto &F : font_id_list_w2) {
 		// sync settings with database
 		UpdateFontSettings(F, &F->value);
-		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), F->group, F->hLangpack);
+		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), F->group, F->pPlugin);
 	}
 
 	for (auto &C : colour_id_list_w2) {
 		// sync settings with database
 		UpdateColourSettings(C, &C->value);
-		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), C->group, C->hLangpack);
+		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), C->group, C->pPlugin);
 	}
 
 	for (auto &E : effect_id_list_w2) {
 		// sync settings with database
 		UpdateEffectSettings(E, &E->value);
-		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), E->group, E->hLangpack);
+		sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), E->group, E->pPlugin);
 	}
 }
 
@@ -1183,9 +1183,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FONTS);
 	odp.szTitle.a = LPGEN("Fonts and colors");
 	odp.szGroup.a = LPGEN("Customize");

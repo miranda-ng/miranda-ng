@@ -158,7 +158,7 @@ void InitMenu()
 	CreateServiceFunction(MS_OTR_MENUVERIFY, SVC_VerifyOTR);
 	CreateServiceFunction(MS_OTR_MENUTOGGLEHTML, SVC_ToggleHTMLOTR);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_NOTOFFLINE | CMIF_UNICODE;
 	mi.position = -400000;
 

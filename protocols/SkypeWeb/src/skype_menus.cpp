@@ -58,7 +58,7 @@ void CSkypeProto::InitMenus()
 
 	//hChooserMenu = Menu_AddObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 
 	mi.pszService = MODULE"/GetHistory";
@@ -88,7 +88,7 @@ void CSkypeProto::InitMenus()
 
 void CSkypeProto::OnBuildProtoMenu()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.pszService = "/CreateNewChat";

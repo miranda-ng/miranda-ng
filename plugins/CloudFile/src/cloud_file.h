@@ -11,7 +11,7 @@ enum OnConflict
 class CCloudService : public PROTO<CCloudService>
 {
 protected:
-	int m_hLangpack;
+	HPLUGIN m_pPlugin;
 	HNETLIBUSER m_hConnection;
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
@@ -34,7 +34,7 @@ protected:
 public:
 	std::map<MCONTACT, HWND> InterceptedContacts;
 
-	CCloudService(const char *protoName, const wchar_t *userName);
+	CCloudService(const char *protoName, const wchar_t *userName, HPLUGIN);
 	virtual ~CCloudService();
 
 	INT_PTR GetCaps(int type, MCONTACT) override;
@@ -42,7 +42,7 @@ public:
 	int FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
 	HANDLE SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles) override;
 
-	int GetId() const;
+	HPLUGIN GetId() const;
 	virtual const char* GetModuleName() const = 0;
 	const char* GetAccountName() const;
 	const wchar_t* GetUserName() const;

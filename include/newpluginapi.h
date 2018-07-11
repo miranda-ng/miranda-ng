@@ -139,12 +139,6 @@ struct PLUGININFOEX
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// initializes the plugin-specific translation context  v0.10.0+
-// always returns 0
-
-EXTERN_C MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // plugin's class
 
 // initializes an empty account
@@ -174,8 +168,6 @@ protected:
 	void SetUniqueId(const char *pszUniqueId);
 
 public:
-	int m_hLang;
-
 	void debugLogA(LPCSTR szFormat, ...);
 	void debugLogW(LPCWSTR wszFormat, ...);
 
@@ -194,13 +186,13 @@ public:
 	template <size_t _Size>
 	__forceinline void registerIcon(const char *szSection, IconItem(&pIcons)[_Size], const char *prefix = nullptr)
 	{
-		Icon_Register(m_hInst, szSection, pIcons, _Size, prefix, m_hLang);
+		Icon_Register(m_hInst, szSection, pIcons, _Size, prefix, this);
 	}
 
 	template <size_t _Size>
 	__forceinline void registerIconW(const wchar_t *szSection, IconItemT(&pIcons)[_Size], const char *prefix = nullptr)
 	{
-		Icon_RegisterT(m_hInst, szSection, pIcons, _Size, prefix, m_hLang);
+		Icon_RegisterT(m_hInst, szSection, pIcons, _Size, prefix, this);
 	}
 
 	int addOptions(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);
@@ -477,7 +469,6 @@ OBJLIST<P> ACCPROTOPLUGIN<P>::g_arInstances(1, PtrKeySortT);
 #endif
 
 EXTERN_C MIR_APP_DLL(HINSTANCE) GetInstByAddress(void* codePtr);
-EXTERN_C MIR_APP_DLL(CMPluginBase*) GetPluginByLangId(int langId);
 EXTERN_C MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst);
 
 #endif // M_NEWPLUGINAPI_H__

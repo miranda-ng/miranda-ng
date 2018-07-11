@@ -27,7 +27,7 @@ int LoadModules(void)
 	char szServiceFunction[MAX_PATH];
 	mir_snprintf(szServiceFunction, "%s%s", MODULENAME, SMS_SEND);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 
 	SET_UID(mi, 0x3ce387db, 0xbaac, 0x490f, 0xac, 0xab, 0x8c, 0xf7, 0xe9, 0xcd, 0x86, 0xa1);
 	mi.position = 300050000;

@@ -726,7 +726,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x2bb76d5, 0x740d, 0x4fd2, 0x8f, 0xee, 0x7c, 0xa4, 0x5a, 0x74, 0x65, 0xa6);
 	mi.position = -2000090001;
 	mi.flags = CMIF_DEFAULT;

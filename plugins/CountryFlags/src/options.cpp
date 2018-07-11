@@ -82,8 +82,7 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARA
 
 int OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
 	odp.position = 900000002;
 	odp.szGroup.a = LPGEN("Icons");  /* autotranslated */

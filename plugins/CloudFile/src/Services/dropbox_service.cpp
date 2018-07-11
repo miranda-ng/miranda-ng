@@ -1,8 +1,22 @@
 #include "..\stdafx.h"
 #include "dropbox_api.h"
 
-CDropboxService::CDropboxService(const char *protoName, const wchar_t *userName)
-	: CCloudService(protoName, userName)
+struct CMPluginDropbox : public PLUGIN<CMPluginDropbox>
+{
+	CMPluginDropbox() :
+		PLUGIN<CMPluginDropbox>(MODULENAME "/Dropbox", pluginInfoEx)
+	{
+		m_hInst = g_plugin.getInst();
+
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
+	}
+}
+g_pluginDropbox;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CDropboxService::CDropboxService(const char *protoName, const wchar_t *userName) :
+	CCloudService(protoName, userName, &g_pluginDropbox)
 {
 	m_hProtoIcon = GetIconHandle(IDI_DROPBOX);
 }
@@ -286,17 +300,3 @@ void CDropboxService::Upload(FileTransferParam *ftp)
 		}
 	} while (ftp->NextFile());
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct CMPluginDropbox : public PLUGIN<CMPluginDropbox>
-{
-	CMPluginDropbox() :
-		PLUGIN<CMPluginDropbox>(MODULENAME "/Dropbox", pluginInfoEx)
-	{
-		m_hInst = g_plugin.getInst();
-
-		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
-	}
-}
-g_pluginDropbox;

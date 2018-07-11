@@ -45,7 +45,6 @@ CMPlugin::CMPlugin() :
 static int InitOptionsDlg(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("History");
 	odp.szTitle.a = LPGEN("History Linklist");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_DLG);
@@ -149,7 +148,7 @@ int CMPlugin::Load()
 {
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x2964dc6c, 0x9cf9, 0x4f20, 0x8f, 0x8a, 0xc6, 0xfe, 0xe2, 0x65, 0xac, 0xc9);
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LINKLISTICON));

@@ -285,7 +285,7 @@ void InitGroupMenus(void)
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuOnAddService");
 	{
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 
 		SET_UID(mi, 0x2f75bc72, 0xd836, 0x4922, 0x9f, 0xe, 0xed, 0x9e, 0xe7, 0x2b, 0x84, 0xf0);
 		mi.position = 100000;
@@ -346,7 +346,7 @@ void InitGroupMenus(void)
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu");
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_CHECK_SERVICE, "CLISTMENUSSubGroup/SubGroupMenuCheckService");
 	{
-		CMenuItem mi(g_plugin);
+		CMenuItem mi(&g_plugin);
 
 		SET_UID(mi, 0xd208f1d2, 0x7220, 0x4d37, 0xb6, 0xe4, 0xd5, 0x4a, 0xe8, 0xa3, 0xf4, 0x53);
 		mi.position = 1000;

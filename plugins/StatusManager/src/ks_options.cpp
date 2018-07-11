@@ -457,7 +457,6 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Keep status");
 	odp.flags = ODPF_BOLDGROUPS;
@@ -465,23 +464,22 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 	odp.szTab.a = LPGEN("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KS_BASIC);
 	odp.pfnDlgProc = DlgProcKSBasicOpts;
-	Options_AddPage(wparam, &odp, KSLangPack);
+	KSPlugin.addOptions(wparam, &odp);
 
 	odp.szTab.a = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KS_ADV);
 	odp.pfnDlgProc = DlgProcKSAdvOpts;
-	Options_AddPage(wparam, &odp, KSLangPack);
+	KSPlugin.addOptions(wparam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		memset(&odp, 0, sizeof(odp));
 		odp.position = 150000000;
 		odp.szGroup.a = LPGEN("Popups");
-		odp.hInstance = g_plugin.getInst();
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
 		odp.szTitle.a = LPGEN("Keep status");
 		odp.pfnDlgProc = PopupOptDlgProc;
 		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wparam, &odp, KSLangPack);
+		KSPlugin.addOptions(wparam, &odp);
 	}
 	return 0;
 }

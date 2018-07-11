@@ -61,7 +61,7 @@ INT_PTR QuotesMenu_EnableDisable(WPARAM, LPARAM)
 
 void InitMenu()
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "B474F556-22B6-42A1-A91E-22FE4F671388");
@@ -260,9 +260,8 @@ int QuotesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 	const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
 	const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.w = _T(QUOTES_PROTOCOL_NAME);
 	odp.szGroup.w = LPGENW("Network");
 	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;

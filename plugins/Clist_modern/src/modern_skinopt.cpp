@@ -48,9 +48,8 @@ int SkinOptInit(WPARAM wParam, LPARAM)
 {
 	if (!g_CluiData.fDisableSkinEngine) {
 		//Tabbed settings
-		OPTIONSDIALOGPAGE odp = { 0 };
+		OPTIONSDIALOGPAGE odp = {};
 		odp.position = -200000000;
-		odp.hInstance = g_plugin.getInst();
 		odp.pfnDlgProc = DlgSkinOpts;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
 		odp.szGroup.w = LPGENW("Skins");

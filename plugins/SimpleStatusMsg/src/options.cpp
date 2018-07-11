@@ -1525,8 +1525,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 	if (accounts->statusCount == 0)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 
 	if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {

@@ -115,7 +115,7 @@ const
   { fired when a user modifies font settings, so reget your fonts }
   ME_FONT_RELOAD:PAnsiChar = 'Font/Reload';
 
-function Font_Register(pFont:pFontID; hLang:int) : int; stdcall; external AppDll;
+function Font_Register(pFont:pFontID; pPlugin:Pointer) : int; stdcall; external AppDll;
 function Font_Get(pGroup,pName:pAnsiChar; pFont:pLogFontA) : longint; stdcall; external AppDll;
 
 type
@@ -151,54 +151,7 @@ const
   { fired when a user modifies font settings, so reget your fonts and colours }
   ME_COLOUR_RELOAD:PAnsiChar = 'Colour/Reload';
 
-function Colour_Register(pColour:pColourID; hLang:int) : int; stdcall; external AppDll;
+function Colour_Register(pColour:pColourID; pPlugin:Pointer) : int; stdcall; external AppDll;
 function Colour_Get(pGroup,pName:pAnsiChar) : longint; stdcall; external AppDll;
-
-//////////////////////////////////////////////////////////////////////////
-//
-//  EFFECTS
-//
-type
-  FONTEFFECT_tag = record
-    effectIndex    :byte;
-    baseColour     :dword; // ARGB
-    secondaryColour:dword; // ARGB
-  end;
-  TFONTEFFECT = FONTEFFECT_tag;
-
-type
-  EffectID_tag = record
-    cbSize         :int;
-    group          :array [0..63] of AnsiChar;
-    name           :array [0..63] of AnsiChar;
-    dbSettingsGroup:array [0..31] of AnsiChar;
-    setting        :array [0..31] of AnsiChar;
-    flags          :dword;
-    defeffect      :TFONTEFFECT;
-    order          :int;
-    value          :TFONTEFFECT;
-  end;
-  PEffectID = ^TEffectID;
-  TEffectID = EffectID_tag;
-
-type
-  EffectIDW_tag = record
-    cbSize         :int;
-    group          :array [0..63] of WideChar;
-    name           :array [0..63] of WideChar;
-    dbSettingsGroup:array [0..31] of AnsiChar;
-    setting        :array [0..31] of AnsiChar;
-    flags          :dword;
-    defeffect      :TFONTEFFECT;
-    order          :int;
-    value          :TFONTEFFECT;
-  end;
-  PEffectIDW = ^TEffectIDW;
-  TEffectIDW = EffectIDW_tag;
-
-const
-// fired when a user modifies font settings, so reget your fonts and colours
-// wparam = lparam = 0
-  ME_EFFECT_RELOAD:PAnsiChar = 'Effect/Reload';
 
 {$ENDIF}

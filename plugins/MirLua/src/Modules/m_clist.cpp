@@ -2,7 +2,7 @@
 
 void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {
-	mi.langId = CMLuaEnvironment::GetEnvironmentId(L);
+	mi.pPlugin = CMLuaEnvironment::GetEnvironmentId(L);
 
 	lua_getfield(L, -1, "Flags");
 	mi.flags = lua_tointeger(L, -1);
@@ -57,7 +57,7 @@ static int clist_AddMainMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	MakeMenuItem(L, mi);
 
 	HGENMENU res = Menu_AddMainMenuItem(&mi);
@@ -88,7 +88,7 @@ static int clist_AddContactMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	MakeMenuItem(L, mi);
 
 	ptrA szProto(mir_utf8decodeA(lua_tostring(L, 2)));
@@ -105,7 +105,7 @@ static int clist_AddTrayMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	MakeMenuItem(L, mi);
 
 	HGENMENU res = Menu_AddTrayMenuItem(&mi);

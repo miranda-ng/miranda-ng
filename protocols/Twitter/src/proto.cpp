@@ -219,7 +219,7 @@ INT_PTR TwitterProto::VisitHomepage(WPARAM wParam, LPARAM)
 
 int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
-	CMenuItem mi(g_plugin);
+	CMenuItem mi(&g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 	mi.flags = CMIF_UNICODE;
 	mi.position = 1001;
@@ -238,9 +238,8 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 
 int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 271828;
-	odp.hInstance = g_plugin.getInst();
 	odp.szGroup.w = LPGENW("Network");
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);

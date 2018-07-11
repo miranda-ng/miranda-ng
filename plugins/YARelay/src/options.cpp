@@ -191,8 +191,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
 int OptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -1;
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);

@@ -44,7 +44,7 @@ struct THotkeyItem
 	LPARAM       lParam;
 	WORD         DefHotkey, Hotkey;
 	bool         Enabled;
-	int          hLangpack;
+	HPLUGIN      pPlugin;
 	ATOM         idHotkey;
 
 	THotkeyItem *rootHotkey;
@@ -60,8 +60,8 @@ struct THotkeyItem
 
 	__inline char* getName() const { return (rootHotkey) ? rootHotkey->pszName : pszName; }
 
-	__inline wchar_t* getSection() const { return TranslateW_LP(pwszSection, hLangpack); }
-	__inline wchar_t* getDescr() const { return TranslateW_LP(pwszDescription, hLangpack); }
+	__inline wchar_t* getSection() const { return TranslateW_LP(pwszSection, pPlugin); }
+	__inline wchar_t* getDescr() const { return TranslateW_LP(pwszDescription, pPlugin); }
 };
 
 extern LIST<THotkeyItem> hotkeys;

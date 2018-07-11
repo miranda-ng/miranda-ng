@@ -540,7 +540,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)
 				sttSetupGcMenuItem(_countof(sttLogListItems), sttLogListItems, IDM_BOOKMARKS, FALSE);
 		}
-		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, g_plugin.m_hLang);
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
 		static DWORD sttRJidItems[] = { IDM_RJID_VCARD, IDM_RJID_ADD, IDM_RJID_COPY, 0 };
@@ -615,7 +615,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			sttListItems[2].uType = 0;
 			sttShowGcMenuItems(_countof(sttListItems), sttListItems, sttRJidItems, 0);
 		}
-		Chat_AddMenuItems(gcmi->hMenu, _countof(sttListItems), sttListItems, g_plugin.m_hLang);
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttListItems), sttListItems, &g_plugin);
 	}
 
 	return 0;

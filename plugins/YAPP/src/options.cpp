@@ -472,10 +472,9 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -790000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.szTitle.a = LPGEN("Popups");
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);

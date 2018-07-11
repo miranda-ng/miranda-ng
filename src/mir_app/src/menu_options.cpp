@@ -527,7 +527,7 @@ public:
 			m_service.SetTextA(szText);
 		}
 
-		CMPluginBase *pPlugin = GetPluginByLangId(iod->pimi->mi.langId);
+		const CMPluginBase *pPlugin = iod->pimi->mi.pPlugin;
 		m_module.SetTextA(pPlugin == nullptr ? "" : pPlugin->getInfo().shortName);
 
 		m_btnInsMenu.Enable(iod->pimi->mi.root == nullptr);
@@ -547,7 +547,7 @@ public:
 
 int GenMenuOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -1000000000;
 	odp.szTitle.a = LPGEN("Menus");
 	odp.szGroup.a = LPGEN("Customize");

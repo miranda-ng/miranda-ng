@@ -409,9 +409,8 @@ xxx:
 
 int OptionsInit(WPARAM wparam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 150000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
 	odp.szGroup.w = LPGENW("Plugins");
 	odp.szTitle.w = LPGENW("OSD");

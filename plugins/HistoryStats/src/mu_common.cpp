@@ -18,7 +18,7 @@ namespace mu
 		HGENMENU addMainMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CMenuItem mi(g_plugin);
+			CMenuItem mi(&g_plugin);
 			mi.name.w = (wchar_t*)pszName;
 			mi.flags = flags | CMIF_UNICODE;
 			mi.position = position;
@@ -32,7 +32,7 @@ namespace mu
 		HGENMENU addContactMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CMenuItem mi(g_plugin);
+			CMenuItem mi(&g_plugin);
 			mi.name.w = (wchar_t*)pszName;
 			mi.flags = flags | CMIF_UNICODE;
 			mi.position = position;
@@ -80,11 +80,10 @@ namespace mu
 	{
 		void addPage(WPARAM addInfo, const wchar_t* pszGroup, const wchar_t* pszTitle, const wchar_t* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags /* = ODPF_BOLDGROUPS */)
 		{
-			OPTIONSDIALOGPAGE odp = { 0 };
+			OPTIONSDIALOGPAGE odp = {};
 			odp.szTitle.w = const_cast<wchar_t*>(pszTitle);
 			odp.pfnDlgProc = pfnDlgProc;
 			odp.pszTemplate = const_cast<char*>(pszTemplate);
-			odp.hInstance = hInstance;
 			odp.szGroup.w = const_cast<wchar_t*>(pszGroup);
 			odp.flags = flags | ODPF_UNICODE;
 			odp.szTab.w = const_cast<wchar_t*>(pszTab);

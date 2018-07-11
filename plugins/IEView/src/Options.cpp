@@ -435,8 +435,7 @@ static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt, char *path, int
 
 int IEViewOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.w = LPGENW("Message sessions");
 	odp.szTitle.w = LPGENW("IEView");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;

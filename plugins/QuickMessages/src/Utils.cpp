@@ -254,7 +254,7 @@ DWORD BalanceButtons(int buttonsWas, int buttonsNow)
 		bb.dwButtonID = buttonsWas++;
 		bb.dwDefPos = 300 + buttonsWas;
 		bb.hIcon = AddIcon(iconname);
-		Srmm_AddButton(&bb, g_plugin.m_hLang);
+		Srmm_AddButton(&bb, &g_plugin);
 	}
 
 	return buttonsNow;
@@ -376,7 +376,7 @@ int RegisterCustomButton(WPARAM, LPARAM)
 		bbd.hIcon = AddIcon(iconname);
 		bbd.pszModuleName = MODULENAME;
 		bbd.pwszTooltip = ld->ptszButtonName;
-		Srmm_AddButton(&bbd, g_plugin.m_hLang);
+		Srmm_AddButton(&bbd, &g_plugin);
 	}
 	return 0;
 }

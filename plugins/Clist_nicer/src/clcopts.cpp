@@ -513,12 +513,10 @@ static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPar
 
 int ClcOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
-
 	////////////////////////////////////////////////////////////////////////////
 	// Main options tabs
 
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -1000000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Contact list");

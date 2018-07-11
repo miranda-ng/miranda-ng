@@ -150,12 +150,11 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 	if ((proto == nullptr || mir_strcmp(proto, protoName)) && lParam)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -1900000000;
 	odp.szTitle.a = protoName;
 	odp.pfnDlgProc = icqUserInfoDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQCORP);
-	odp.hInstance = g_plugin.getInst();
 	g_plugin.addUserInfo(wParam, &odp);
 	return 0;
 }

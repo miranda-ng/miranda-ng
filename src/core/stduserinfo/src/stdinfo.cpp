@@ -607,9 +607,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	if (GetContactProto(lParam) == nullptr)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
-
+	OPTIONSDIALOGPAGE odp = {};
 	odp.pfnDlgProc = SummaryDlgProc;
 	odp.position = -2100000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SUMMARY);

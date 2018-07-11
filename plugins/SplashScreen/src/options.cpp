@@ -335,8 +335,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int OptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_plugin.getInst();
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Skins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPLASH_OPT);
 	odp.szTitle.a = LPGEN("Splash Screen");

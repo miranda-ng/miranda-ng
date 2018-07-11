@@ -1020,7 +1020,6 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE optDi = { sizeof(optDi) };
 	optDi.position = 920000000;
-	optDi.hInstance = g_plugin.getInst();
 	optDi.flags = ODPF_BOLDGROUPS;
 
 	optDi.szTitle.a = OPT_MAINGROUP;

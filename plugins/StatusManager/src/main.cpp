@@ -41,6 +41,12 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
+CFakePlugin::CFakePlugin(const char *szModuleName) :
+	CMPluginBase(szModuleName, pluginInfoEx)
+{
+	m_hInst = g_plugin.getInst();
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // interfaces
 

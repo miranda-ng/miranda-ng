@@ -50,10 +50,10 @@ void CMPlugin::UnloadLua()
 {
 	Scripts.destroy();
 
-	KillModuleIcons(g_hMLuaLangpack);
-	KillModuleSounds(g_hMLuaLangpack);
-	KillModuleMenus(g_hMLuaLangpack);
-	KillModuleHotkeys(g_hMLuaLangpack);
+	KillModuleIcons(this);
+	KillModuleSounds(this);
+	KillModuleMenus(this);
+	KillModuleHotkeys(this);
 
 	KillObjectEventHooks(lua->L);
 	KillObjectServices(lua->L);

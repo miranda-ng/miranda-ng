@@ -929,9 +929,8 @@ static row_opt_items[] =
 
 int CListOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -200000000;
-	odp.hInstance = g_plugin.getInst();
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ITEMS);
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.szTitle.a = LPGEN("Row items");
