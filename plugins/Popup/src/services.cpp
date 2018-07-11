@@ -380,16 +380,17 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	// we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
 	mir_snprintf(setting, "%s/TextCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
+	
 	FontIDW fid = { 0 };
 	fid.cbSize = sizeof(FontIDW);
-	mir_snwprintf(fid.group, _A2W(PU_FNT_AND_COLOR) L"/%S", ptd->pupClass.pszName);
-	mir_strncpy(fid.dbSettingsGroup, PU_MODULCLASS, _countof(fid.dbSettingsGroup) - 1);
+	mir_snwprintf(fid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
+	strncpy_s(fid.dbSettingsGroup, PU_MODULCLASS, _TRUNCATE);
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
-	mir_wstrncpy(fid.deffontsettings.szFace, L"Verdana", _countof(fid.deffontsettings.szFace) - 1);
-	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_TEXT), _countof(fid.name) - 1);
-	mir_strncpy(fid.prefix, setting, _countof(fid.prefix));
+	wcsncpy_s(fid.deffontsettings.szFace, L"Verdana", _TRUNCATE);
+	wcsncpy_s(fid.name, _A2W(PU_FNT_NAME_TEXT), _TRUNCATE);
+	strncpy_s(fid.prefix, setting, _TRUNCATE);
 	mir_snprintf(fid.prefix, "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style = 0;
 	fid.deffontsettings.colour = fonts.clText;
@@ -398,11 +399,12 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	// we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
 	mir_snprintf(setting, "%s/BgCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
+	
 	ColourIDW cid = { 0 };
 	cid.cbSize = sizeof(ColourIDW);
-	mir_snwprintf(cid.group, _A2W(PU_FNT_AND_COLOR) L"/%S", ptd->pupClass.pszName);
-	mir_strncpy(cid.dbSettingsGroup, PU_MODULCLASS, _countof(fid.dbSettingsGroup));
-	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
+	mir_snwprintf(cid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
+	wcsncpy_s(cid.name, PU_COL_BACK_NAME, _TRUNCATE);
+	strncpy_s(cid.dbSettingsGroup, PU_MODULCLASS, _TRUNCATE);
 	mir_snprintf(cid.setting, "%s/BgCol", ptd->pupClass.pszName);
 	cid.defcolour = fonts.clBack;
 	g_plugin.addColor(&cid);
