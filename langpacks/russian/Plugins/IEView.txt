@@ -1,4 +1,4 @@
-#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
@@ -101,9 +101,9 @@
 [RTL Off]
 Откл. RTL
 [Group On]
-
+Вкл. группировку
 [Group Off]
-
+Откл. группировку
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s вошёл.

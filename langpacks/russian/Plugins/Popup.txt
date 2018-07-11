@@ -39,7 +39,7 @@ History++ для истории окон
 [Round corners by]
 Округлить углы на
 [pixels]
-пикселей
+пикс.
 [Avatar size:]
 Аватар:
 [Enable avatar updates]

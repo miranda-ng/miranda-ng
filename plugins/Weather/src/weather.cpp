@@ -196,8 +196,8 @@ int CMPlugin::Load()
 	InitServices();
 
 	// add sound event
-	g_plugin.addSound("weatherupdated", _A2W(WEATHERPROTONAME), LPGENW("Weather Condition Changed"));
-	g_plugin.addSound("weatheralert", _A2W(WEATHERPROTONAME), LPGENW("Weather Alert Issued"));
+	g_plugin.addSound("weatherupdated", _A2W(WEATHERPROTONAME), LPGENW("Condition Changed"));
+	g_plugin.addSound("weatheralert", _A2W(WEATHERPROTONAME), LPGENW("Alert Issued"));
 
 	// window needed for popup commands
 	wchar_t SvcFunc[100];

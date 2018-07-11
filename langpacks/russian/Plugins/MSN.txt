@@ -246,9 +246,9 @@ MSN уведомление
 Уведомления
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
-Live почта
+Почта
 [Live Alert]
-Live уведомление
+Уведомление
 [%s plugin HTTPS connections]
 %s подключение по HTTPS
 [%s plugin connections]

@@ -111,7 +111,7 @@ void ReloadFonts()
 	fonts.clBack = Colour_GetW(_A2W(PU_FNT_AND_COLOR), PU_COL_BACK_NAME);
 	fonts.clAvatarBorder = Colour_GetW(_A2W(PU_FNT_AND_COLOR), PU_COL_AVAT_NAME);
 
-	// update class popupps(only temp at this point, must rework)
+	// update class popups (only temp at this point, must rework)
 	char setting[256];
 	for (auto &it : gTreeData) {
 		if (it->typ == 2) {

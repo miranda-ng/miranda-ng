@@ -90,7 +90,7 @@
 [Nudge]
 Тряска
 [Default Nudge]
-Встряска по-умолчанию
+Встряска по умолчанию
 [Send nudge]
 Встряхнуть
 [Send &nudge]

@@ -51,7 +51,7 @@
 [* Use Ctrl+click to see popup with the copied text]
 * Ctrl+клик для показа всплывающего окна с текстом
 [Hide contact on 'Ignore all']
-Скрывать при 'Ignore all'
+Скрывать при 'Игнорировать все'
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Сообщение статуса
