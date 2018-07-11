@@ -57,7 +57,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 #include "../../utils/mir_options.h"
 #include "../../utils/mir_buffer.h"
-#include "../../utils/utf8_helpers.h"
 
 #include "music.h"
 #include "resource.h"

@@ -860,7 +860,7 @@ INT_PTR SetNewSong(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	if (lParam == LISTENINGTO_ANSI) {
-		CharToWchar data((char *)wParam);
+		ptrW data(mir_a2u((char *)wParam));
 		((GenericPlayer *)players[GENERIC])->NewData(data, mir_wstrlen(data));
 	}
 	else {

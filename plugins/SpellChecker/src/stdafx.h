@@ -54,7 +54,6 @@ using namespace std;
 #include <m_spellchecker.h>
 
 #include <../../utils/mir_options.h>
-#include <../../utils/utf8_helpers.h>
 
 #include <hunspell.hpp>
 
