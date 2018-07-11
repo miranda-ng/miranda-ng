@@ -61,7 +61,7 @@
 [Maximum number of events in the message window]
 Максимальное количество событий в окне чата
 [Group chat nick list row height (pixels)]
-Высота пунктов списка пользователей (пикс.)
+Высота пунктов списка пользователей (пикселей)
 [Open log file base folder]
 Открыть папку с журналами чатов
 [Default settings for known event types]
