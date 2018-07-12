@@ -7,7 +7,6 @@
 #define IDD_QUICKIGNORE                 5
 #define IDD_OPT                         6
 #define IDD_EXCEPTION                   20
-#define IDD_OPTIONSDIALOG               101
 #define IDD_OPT_CLIST                   126
 #define IDI_CLIST                       146
 #define IDI_OPTIONS                     163
