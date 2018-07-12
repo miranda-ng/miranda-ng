@@ -1182,7 +1182,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		bool isShift, isAlt, isCtrl;
 		KbdState(isShift, isCtrl, isAlt);
 
-		if (PluginConfig.m_bSoundOnTyping && !isAlt && !isCtrl && !(m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
+		if (!isAlt && !isCtrl && !(m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
 			Skin_PlaySound("SoundOnTyping");
 
 		if (isCtrl && !isAlt && !isShift)
@@ -1198,7 +1198,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		KbdState(isShift, isCtrl, isAlt);
 
 		// sound on typing..
-		if (PluginConfig.m_bSoundOnTyping && !isAlt && wParam == VK_DELETE)
+		if (!isAlt && wParam == VK_DELETE)
 			Skin_PlaySound("SoundOnTyping");
 
 		if (wParam != VK_ESCAPE)

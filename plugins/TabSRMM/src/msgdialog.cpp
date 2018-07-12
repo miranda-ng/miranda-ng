@@ -1936,7 +1936,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 		KbdState(isShift, isCtrl, isAlt);
 
-		if (PluginConfig.m_bSoundOnTyping && !isAlt && !isCtrl && !(m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
+		if (!isAlt && !isCtrl && !(m_pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
 			Skin_PlaySound("SoundOnTyping");
 
 		if (isCtrl && !isAlt) {
@@ -1989,7 +1989,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		KbdState(isShift, isCtrl, isAlt);
 
-		if (PluginConfig.m_bSoundOnTyping && !isAlt && !(m_pContainer->dwFlags & CNT_NOSOUND) && wParam == VK_DELETE)
+		if (!isAlt && !(m_pContainer->dwFlags & CNT_NOSOUND) && wParam == VK_DELETE)
 			Skin_PlaySound("SoundOnTyping");
 
 		if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {

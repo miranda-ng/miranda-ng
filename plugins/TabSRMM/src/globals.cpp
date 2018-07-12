@@ -205,9 +205,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 
 void CGlobals::reloadAdv()
 {
-	m_bSoundOnTyping = M.GetBool("adv_soundontyping", false);
-
-	if (m_bSoundOnTyping && m_TypingSoundAdded == false) {
+	if (m_TypingSoundAdded == false) {
 		g_plugin.addSound("SoundOnTyping", LPGENW("Other"), LPGENW("TabSRMM: typing"));
 		m_TypingSoundAdded = true;
 	}
