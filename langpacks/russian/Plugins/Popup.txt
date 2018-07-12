@@ -1,4 +1,4 @@
-#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: Popup.dll
 ;  Plugin: Popup plus
@@ -189,7 +189,7 @@ History++ для истории окон
 [Maximum width]
 Максимум
 [Position:]
-Положение:
+Положен.:
 [Layout:]
 Порядок:
 [Reorder popups]
@@ -199,7 +199,7 @@ History++ для истории окон
 [Always (has priority)]
 Всегда (имеет приоритет)
 [Fullscreen mode]
-Полный экран
+Полноэкранный режим
 [Debug]
 Отладка
 ;file \plugins\Popup\src\actions.cpp
