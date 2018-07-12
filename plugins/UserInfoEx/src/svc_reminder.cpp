@@ -867,9 +867,9 @@ void SvcReminderOnModulesLoaded(void)
 void SvcReminderLoadModule(void)
 {
 	// init sounds
-	g_plugin.addSound(SOUND_BIRTHDAY_TODAY, LPGENW("Birthday reminder"), L"Sounds\\BirthDay.wav");
-	g_plugin.addSound(SOUND_BIRTHDAY_SOON, LPGENW("Birthday reminder: it's coming"), L"Sounds\\BirthDayComing.wav");
-	g_plugin.addSound(SOUND_ANNIVERSARY, LPGENW("Anniversary Reminder"), L"Sounds\\Reminder.wav");
+	g_plugin.addSound(SOUND_BIRTHDAY_TODAY, LPGENW("Reminders"), LPGENW("Birthday reminder"));
+	g_plugin.addSound(SOUND_BIRTHDAY_SOON, LPGENW("Reminders"), LPGENW("Birthday reminder: it's coming"));
+	g_plugin.addSound(SOUND_ANNIVERSARY, LPGENW("Reminders"), LPGENW("Anniversary reminder"));
 
 	// create service functions
 	CreateServiceFunction(MS_USERINFO_REMINDER_CHECK, CheckService);
