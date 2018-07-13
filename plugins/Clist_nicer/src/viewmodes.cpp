@@ -393,7 +393,7 @@ void SaveState()
 			BOOL translated;
 			DWORD lmdat = MAKELONG(GetDlgItemInt(sttClvmHwnd, IDC_LASTMSGVALUE, &translated, FALSE),
 				MAKEWORD(SendDlgItemMessage(sttClvmHwnd, IDC_LASTMESSAGEOP, CB_GETCURSEL, 0, 0),
-				SendDlgItemMessage(sttClvmHwnd, IDC_LASTMESSAGEUNIT, CB_GETCURSEL, 0, 0)));
+					SendDlgItemMessage(sttClvmHwnd, IDC_LASTMESSAGEUNIT, CB_GETCURSEL, 0, 0)));
 
 			SaveViewMode(szModeName, newGroupFilter, newProtoFilter, statusMask, dwGlobalMask, options, stickies, operators, lmdat);
 			free(szModeName);
@@ -428,26 +428,26 @@ void UpdateFilters()
 		mir_snwprintf(szTemp, TranslateT("Current view mode: %S"), sttModeName);
 		SetDlgItemText(sttClvmHwnd, IDC_CURVIEWMODE2, szTemp);
 	}
-	
+
 	mir_snprintf(szSetting, "%c%s_PF", 246, szBuf);
 	if (db_get(NULL, CLVM_MODULE, szSetting, &dbv_pf))
 		goto cleanup;
-	
+
 	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
 	if (db_get_ws(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
-	
+
 	mir_snprintf(szSetting, "%c%s_OPT", 246, szBuf);
 	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
 		SendDlgItemMessage(sttClvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 	}
-	
+
 	mir_snprintf(szSetting, "%c%s_SM", 246, szBuf);
 	statusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
-	
+
 	mir_snprintf(szSetting, "%c%s_SSM", 246, szBuf);
 	sttStickyStatusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
-	
+
 	dwFlags = db_get_dw(NULL, CLVM_MODULE, szBuf, 0);
 	{
 		char szMask[256];
@@ -500,7 +500,7 @@ void UpdateFilters()
 			if ((1 << (i - ID_STATUS_OFFLINE)) & statusMask)
 				ListView_SetCheckState(hwndList, i - ID_STATUS_OFFLINE, TRUE)
 			else
-			ListView_SetCheckState(hwndList, i - ID_STATUS_OFFLINE, FALSE);
+				ListView_SetCheckState(hwndList, i - ID_STATUS_OFFLINE, FALSE);
 		}
 	}
 
@@ -587,7 +587,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			UpdateFilters();
 		}
 		else sttClvm_curItem = -1;
-		
+
 		g_ViewModeOptDlg = TRUE;
 
 		for (int i = 0; _page2Controls[i] != 0; i++)
@@ -848,7 +848,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		}
 
 	case WM_SIZE:
-		RECT rcCLVMFrame;	
+		RECT rcCLVMFrame;
 		{
 			HDWP PosBatch = BeginDeferWindowPos(3);
 			GetClientRect(hwnd, &rcCLVMFrame);
@@ -1013,7 +1013,7 @@ void CreateViewModeFrame()
 	frame.align = alBottom;
 	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, g_clistApi.hwndContactList, (HMENU)nullptr, g_plugin.getInst(), nullptr);
 	g_hwndViewModeFrame = frame.hWnd;
-	
+
 	int hCLVMFrame = g_plugin.addFrame(&frame);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, hCLVMFrame, FU_FMPOS);
 }
@@ -1022,75 +1022,77 @@ void ApplyViewMode(const char *name)
 {
 	cfg::dat.bFilterEffective = 0;
 
-	char szSetting[256];
-	mir_snprintf(szSetting, "%c%s_PF", 246, name);
-	ptrA szProtos(db_get_sa(NULL, CLVM_MODULE, szSetting));
-	if (mir_strlen(szProtos) >= 2) {
-		strncpy_s(cfg::dat.protoFilter, szProtos, _TRUNCATE);
-		cfg::dat.bFilterEffective |= CLVM_FILTER_PROTOS;
-	}
-
-	mir_snprintf(szSetting, "%c%s_GF", 246, name);
-	ptrW tszGroups(db_get_wsa(NULL, CLVM_MODULE, szSetting));
-	if (mir_wstrlen(tszGroups) >= 2) {
-		wcsncpy_s(cfg::dat.groupFilter, tszGroups, _TRUNCATE);
-		cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;
-	}
-
-	mir_snprintf(szSetting, "%c%s_SM", 246, name);
-	cfg::dat.statusMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
-	if (cfg::dat.statusMaskFilter >= 1)
-		cfg::dat.bFilterEffective |= CLVM_FILTER_STATUS;
-
-	mir_snprintf(szSetting, "%c%s_SSM", 246, name);
-	cfg::dat.stickyMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
-	if (cfg::dat.stickyMaskFilter != -1)
-		cfg::dat.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
-
-	cfg::dat.filterFlags = db_get_dw(NULL, CLVM_MODULE, name, 0);
-
-	KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
-
-	if (cfg::dat.filterFlags & CLVM_AUTOCLEAR) {
-		DWORD timerexpire;
-		mir_snprintf(szSetting, "%c%s_OPT", 246, name);
-		timerexpire = LOWORD(db_get_dw(NULL, CLVM_MODULE, szSetting, 0));
-		strncpy(cfg::dat.old_viewmode, cfg::dat.current_viewmode, 256);
-		cfg::dat.old_viewmode[255] = 0;
-		SetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, nullptr);
-	}
-	strncpy_s(cfg::dat.current_viewmode, name, _TRUNCATE);
-
-	if (cfg::dat.filterFlags & CLVM_USELASTMSG) {
-		BYTE bSaved = cfg::dat.sortOrder[0];
-
-		cfg::dat.sortOrder[0] = SORTBY_LASTMSG;
-		for (auto &p : cfg::arCache)
-			p->dwLastMsgTime = INTSORT_GetLastMsgTime(p->hContact);
-
-		cfg::dat.sortOrder[0] = bSaved;
-
-		cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG;
-		mir_snprintf(szSetting, "%c%s_LM", 246, name);
-		cfg::dat.lastMsgFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
-		if (LOBYTE(HIWORD(cfg::dat.lastMsgFilter)))
-			cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;
-		else
-			cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG_OLDERTHAN;
-
-		DWORD unit = LOWORD(cfg::dat.lastMsgFilter);
-		switch (HIBYTE(HIWORD(cfg::dat.lastMsgFilter))) {
-		case 0:
-			unit *= 60;
-			break;
-		case 1:
-			unit *= 3600;
-			break;
-		case 2:
-			unit *= 86400;
-			break;
+	if (name != nullptr) {
+		char szSetting[256];
+		mir_snprintf(szSetting, "%c%s_PF", 246, name);
+		ptrA szProtos(db_get_sa(NULL, CLVM_MODULE, szSetting));
+		if (mir_strlen(szProtos) >= 2) {
+			strncpy_s(cfg::dat.protoFilter, szProtos, _TRUNCATE);
+			cfg::dat.bFilterEffective |= CLVM_FILTER_PROTOS;
 		}
-		cfg::dat.lastMsgFilter = unit;
+
+		mir_snprintf(szSetting, "%c%s_GF", 246, name);
+		ptrW tszGroups(db_get_wsa(NULL, CLVM_MODULE, szSetting));
+		if (mir_wstrlen(tszGroups) >= 2) {
+			wcsncpy_s(cfg::dat.groupFilter, tszGroups, _TRUNCATE);
+			cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;
+		}
+
+		mir_snprintf(szSetting, "%c%s_SM", 246, name);
+		cfg::dat.statusMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
+		if (cfg::dat.statusMaskFilter >= 1)
+			cfg::dat.bFilterEffective |= CLVM_FILTER_STATUS;
+
+		mir_snprintf(szSetting, "%c%s_SSM", 246, name);
+		cfg::dat.stickyMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
+		if (cfg::dat.stickyMaskFilter != -1)
+			cfg::dat.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
+
+		cfg::dat.filterFlags = db_get_dw(NULL, CLVM_MODULE, name, 0);
+
+		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
+
+		if (cfg::dat.filterFlags & CLVM_AUTOCLEAR) {
+			DWORD timerexpire;
+			mir_snprintf(szSetting, "%c%s_OPT", 246, name);
+			timerexpire = LOWORD(db_get_dw(NULL, CLVM_MODULE, szSetting, 0));
+			strncpy(cfg::dat.old_viewmode, cfg::dat.current_viewmode, 256);
+			cfg::dat.old_viewmode[255] = 0;
+			SetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, nullptr);
+		}
+		strncpy_s(cfg::dat.current_viewmode, name, _TRUNCATE);
+
+		if (cfg::dat.filterFlags & CLVM_USELASTMSG) {
+			BYTE bSaved = cfg::dat.sortOrder[0];
+
+			cfg::dat.sortOrder[0] = SORTBY_LASTMSG;
+			for (auto &p : cfg::arCache)
+				p->dwLastMsgTime = INTSORT_GetLastMsgTime(p->hContact);
+
+			cfg::dat.sortOrder[0] = bSaved;
+
+			cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG;
+			mir_snprintf(szSetting, "%c%s_LM", 246, name);
+			cfg::dat.lastMsgFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
+			if (LOBYTE(HIWORD(cfg::dat.lastMsgFilter)))
+				cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;
+			else
+				cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG_OLDERTHAN;
+
+			DWORD unit = LOWORD(cfg::dat.lastMsgFilter);
+			switch (HIBYTE(HIWORD(cfg::dat.lastMsgFilter))) {
+			case 0:
+				unit *= 60;
+				break;
+			case 1:
+				unit *= 3600;
+				break;
+			case 2:
+				unit *= 86400;
+				break;
+			}
+			cfg::dat.lastMsgFilter = unit;
+		}
 	}
 
 	if (HIWORD(cfg::dat.filterFlags) > 0)
@@ -1100,7 +1102,13 @@ void ApplyViewMode(const char *name)
 		cfg::dat.boldHideOffline = db_get_b(NULL, "CList", "HideOffline", 0);
 
 	g_clistApi.pfnSetHideOffline(false);
-	SetWindowTextA(hwndSelector, name);
+	if (name == nullptr) {
+		if (cfg::dat.current_viewmode[0])
+			SetWindowTextA(hwndSelector, cfg::dat.current_viewmode);
+		else
+			SetWindowTextW(hwndSelector, TranslateT("No view mode"));
+	}
+	else SetWindowTextA(hwndSelector, name);
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	SetButtonStates();
 

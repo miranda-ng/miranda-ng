@@ -110,6 +110,7 @@ struct FRAMEWND
 	int order;
 	DockOpt dockOpt;
 	HWND OwnerWindow;
+	HPLUGIN pPlugin;
 	bool Skinned;
 	RECT oldWndSize;
 	WNDPROC wndProc;

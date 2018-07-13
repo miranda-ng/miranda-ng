@@ -464,18 +464,16 @@ int LocateStorePosition(int Frameid, int maxstored)
 
 int CLUIFramesLoadFrameSettings(int Frameid)
 {
-	int storpos, maxstored;
-
 	if (FramesSysNotStarted) return -1;
 
 	if (Frameid < 0 || Frameid >= nFramescount)
 		return -1;
 
-	maxstored = db_get_w(NULL, CLUIFrameModule, "StoredFrames", -1);
+	int maxstored = db_get_w(NULL, CLUIFrameModule, "StoredFrames", -1);
 	if (maxstored == -1)
 		return 0;
 
-	storpos = LocateStorePosition(Frameid, maxstored);
+	int storpos = LocateStorePosition(Frameid, maxstored);
 	if (storpos == -1)
 		return 0;
 
@@ -485,19 +483,17 @@ int CLUIFramesLoadFrameSettings(int Frameid)
 
 int CLUIFramesStoreFrameSettings(int Frameid)
 {
-	int maxstored, storpos;
-
 	if (FramesSysNotStarted)
 		return -1;
 
 	if (Frameid < 0 || Frameid >= nFramescount)
 		return -1;
 
-	maxstored = db_get_w(NULL, CLUIFrameModule, "StoredFrames", -1);
+	int maxstored = db_get_w(NULL, CLUIFrameModule, "StoredFrames", -1);
 	if (maxstored == -1)
 		maxstored = 0;
 
-	storpos = LocateStorePosition(Frameid, maxstored);
+	int storpos = LocateStorePosition(Frameid, maxstored);
 	if (storpos == -1) {
 		storpos = maxstored;
 		maxstored++;
@@ -510,8 +506,6 @@ int CLUIFramesStoreFrameSettings(int Frameid)
 
 int CLUIFramesStoreAllFrames()
 {
-	int i;
-
 	if (FramesSysNotStarted)
 		return -1;
 
@@ -519,7 +513,7 @@ int CLUIFramesStoreAllFrames()
 		return -1;
 
 	mir_cslock lck(csFrameHook);
-	for (i = 0; i < nFramescount; i++)
+	for (int i = 0; i < nFramescount; i++)
 		CLUIFramesStoreFrameSettings(i);
 	return 0;
 }
@@ -527,21 +521,18 @@ int CLUIFramesStoreAllFrames()
 // Get client frame
 int CLUIFramesGetalClientFrame(void)
 {
-	int i;
 	if (FramesSysNotStarted)
 		return -1;
 
 	if (alclientFrame != -1) {
 		/* this value could become invalid if RemoveItemFromList was called,
 		 * so we double-check */
-		if (alclientFrame < nFramescount) {
-			if (Frames[alclientFrame].align == alClient) {
+		if (alclientFrame < nFramescount)
+			if (Frames[alclientFrame].align == alClient)
 				return alclientFrame;
-			}
-		}
 	}
 
-	for (i = 0; i < nFramescount; i++)
+	for (int i = 0; i < nFramescount; i++)
 		if (Frames[i].align == alClient) {
 			alclientFrame = i;
 			return i;
@@ -553,7 +544,6 @@ int CLUIFramesGetalClientFrame(void)
 
 static HGENMENU addFrameMenuItem(TMO_MenuItem *pmi, int frameid, bool bMain)
 {
-	pmi->pPlugin = &g_plugin;
 	HGENMENU res = (bMain) ? Menu_AddMainMenuItem(pmi) : Menu_AddContextFrameMenuItem(pmi);
 	if (pmi->pszService != nullptr)
 		Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, frameid);
@@ -568,7 +558,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 	int framepos = id2pos(frameid);
 	FrameMenuHandles &fmh = (frameid == -1) ? cont : Frames[framepos].MenuHandles;
 
-	CMenuItem mi(&g_plugin);
+	CMenuItem mi((frameid == -1) ? &g_plugin : Frames[framepos].pPlugin);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.root = root;
 	mi.position = popuppos++;
@@ -1526,7 +1516,7 @@ static int CLUIFramesReSort()
 }
 
 //wparam=(CLISTFrame*)clfrm
-INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM)
+INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 {
 	int style;
 	CLISTFrame *clfrm = (CLISTFrame *)wParam;
@@ -1550,8 +1540,8 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM)
 	Frames[nFramescount].hWnd = clfrm->hWnd;
 	Frames[nFramescount].height = clfrm->height;
 	Frames[nFramescount].TitleBar.hicon = clfrm->hIcon;
-	//Frames[nFramescount].TitleBar.BackColour;
-	Frames[nFramescount].floating = FALSE;
+	Frames[nFramescount].floating = false;
+	Frames[nFramescount].pPlugin = (HPLUGIN)lParam;
 
 	if (clfrm->Flags & F_NO_SUBCONTAINER)
 		Frames[nFramescount].OwnerWindow = (HWND)-2;
@@ -2202,14 +2192,17 @@ static int DrawTitleBar(HDC dc, RECT rect, int Frameid)
 				SetTextColor(hdcMem, GetSysColor(COLOR_BTNTEXT));
 			}
 
+			const wchar_t *pwszTitle = TranslateW_LP(Frames[pos].TitleBar.tbname, Frames[pos].pPlugin);
+			int iTitleLen = (int)mir_wstrlen(pwszTitle);
+
 			if (!AlignCOLLIconToLeft) {
 				if (Frames[pos].TitleBar.hicon != nullptr) {
 					DrawIconEx(hdcMem, 6 + cfg::dat.bClipBorder, ((TitleBarH >> 1) - 8), Frames[pos].TitleBar.hicon, 16, 16, 0, nullptr, DI_NORMAL);
-					TextOut(hdcMem, 24 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_wstrlen(Frames[pos].TitleBar.tbname));
+					TextOut(hdcMem, 24 + cfg::dat.bClipBorder, fontTop, pwszTitle, iTitleLen);
 				}
-				else TextOut(hdcMem, 6 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_wstrlen(Frames[pos].TitleBar.tbname));
+				else TextOut(hdcMem, 6 + cfg::dat.bClipBorder, fontTop, pwszTitle, iTitleLen);
 			}
-			else TextOut(hdcMem, 18 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_wstrlen(Frames[pos].TitleBar.tbname));
+			else TextOut(hdcMem, 18 + cfg::dat.bClipBorder, fontTop, pwszTitle, iTitleLen);
 
 			if (!AlignCOLLIconToLeft)
 				DrawIconEx(hdcMem, Frames[pos].TitleBar.wndSize.right - 22, ((TitleBarH >> 1) - 8), Frames[pos].collapsed ? Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN) : Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT), 16, 16, 0, nullptr, DI_NORMAL);
@@ -2886,6 +2879,13 @@ static int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 	return 0;
 }
 
+static int CLUIFrameLangChanged(WPARAM, LPARAM)
+{
+	ApplyViewMode(0);
+	g_clistApi.pfnInvalidateRect(g_clistApi.hwndContactList, nullptr, TRUE);
+	return 0;
+}
+
 static int CLUIFrameOnModulesUnload(WPARAM, LPARAM)
 {
 	mf_updatethread_running = FALSE;
@@ -2976,6 +2976,7 @@ int LoadCLUIFramesModule(void)
 	HookEvent(ME_CLIST_PREBUILDFRAMEMENU, CLUIFramesModifyContextMenuForFrame);
 	HookEvent(ME_CLIST_PREBUILDMAINMENU, CLUIFrameOnMainMenuBuild);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, CLUIFrameOnModulesUnload);
+	HookEvent(ME_LANGPACK_CHANGED, CLUIFrameLangChanged);
 
 	CreateServiceFunction(MS_CLIST_FRAMES_ADDFRAME, CLUIFramesAddFrame);
 	CreateServiceFunction(MS_CLIST_FRAMES_REMOVEFRAME, CLUIFramesRemoveFrame);
