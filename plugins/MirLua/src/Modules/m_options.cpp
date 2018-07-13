@@ -9,8 +9,10 @@ private:
 
 public:
 	CMLuaScriptOptionPage(lua_State *_L, int onInitDialogRef, int onApplyRef)
-		: CDlgBase(g_plugin, IDD_SCRIPTOPTIONSPAGE), L(_L),
-		m_onInitDialogRef(onInitDialogRef), m_onApplyRef(onApplyRef)
+		: CDlgBase(g_plugin, IDD_SCRIPTOPTIONSPAGE),
+		L(_L),
+		m_onInitDialogRef(onInitDialogRef),
+		m_onApplyRef(onApplyRef)
 	{
 	}
 

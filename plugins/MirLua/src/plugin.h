@@ -2,24 +2,29 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	friend class CMLuaOptions;
+	friend class CMLuaOptionsMain;
+	friend class CMLuaEvaluateOptions;
 
 private:
-	CMLua *lua;
+	lua_State *L;
 
 	void LoadLua();
 	void UnloadLua();
+
+	OBJLIST<CMLuaScript> m_scripts;
+	void LoadLuaScripts();
+	void UnloadLuaScripts();
+	void ReloadLuaScripts();
+
+	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM);
+	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 
 	INT_PTR __cdecl Eval(WPARAM, LPARAM);
 	INT_PTR __cdecl Call(WPARAM, LPARAM);
 	INT_PTR __cdecl Exec(WPARAM, LPARAM);
 
 public:
-	OBJLIST<CMLuaScript> Scripts;
-
 	CMPlugin();
-
-	void Reload();
 
 	int Load() override;
 	int Unload() override;

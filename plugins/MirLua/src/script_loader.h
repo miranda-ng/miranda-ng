@@ -5,7 +5,9 @@ class CMLuaScriptLoader
 private:
 	lua_State *L;
 
-	CMLuaScriptLoader(lua_State *L);
+	OBJLIST<CMLuaScript> &m_scripts;
+
+	CMLuaScriptLoader(lua_State *L, OBJLIST<CMLuaScript> &scripts);
 	
 	void SetPaths();
 
@@ -13,5 +15,5 @@ private:
 	void LoadScripts();
 
 public:
-	static void Load(lua_State *L);
+	static void Load(lua_State *L, OBJLIST<CMLuaScript> &scripts);
 };

@@ -3,8 +3,8 @@
 HANDLE g_hCLibsFolder = nullptr;
 HANDLE g_hScriptsFolder = nullptr;
 
-CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L)
-	: L(L)
+CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L, OBJLIST<CMLuaScript> &scripts)
+	: L(L), m_scripts(scripts)
 {
 }
 
@@ -37,19 +37,19 @@ void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file
 
 	CMLuaScript *script = new CMLuaScript(L, path);
 
-	const CMLuaScript *found = g_plugin.Scripts.find(script);
+	const CMLuaScript *found = m_scripts.find(script);
 	if (found != nullptr) {
 		Log(L"%s:PASS", script->GetFilePath());
 		delete script;
 		return;
 	}
 
+	m_scripts.insert(script);
+
 	if (!script->IsEnabled()) {
 		Log(L"%s:PASS", path);
 		return;
 	}
-
-	g_plugin.Scripts.insert(script);
 
 	if (script->Load())
 		Log(L"%s:OK", path);
@@ -92,7 +92,7 @@ void CMLuaScriptLoader::LoadScripts()
 	}
 }
 
-void CMLuaScriptLoader::Load(lua_State *L)
+void CMLuaScriptLoader::Load(lua_State *L, OBJLIST<CMLuaScript> &scripts)
 {
-	CMLuaScriptLoader(L).LoadScripts();
+	CMLuaScriptLoader(L, scripts).LoadScripts();
 }

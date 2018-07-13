@@ -1,18 +1,19 @@
 #include "stdafx.h"
 
-CMLuaOptions::CMLuaOptions()
-	: CDlgBase(g_plugin, IDD_OPTIONS),
+CMLuaOptionsMain::CMLuaOptionsMain(CMPlugin &plugin)
+	: CDlgBase(plugin, IDD_OPTIONSMAIN),
+	m_plugin(plugin),
 	isScriptListInit(false),
 	m_popupOnError(this, IDC_POPUPONERROR),
 	m_popupOnObsolete(this, IDC_POPUPONOBSOLETE),
-	m_scripts(this, IDC_SCRIPTS),
+	m_scriptsList(this, IDC_SCRIPTS),
 	m_reload(this, IDC_RELOAD)
 {
 	CreateLink(m_popupOnError, "PopupOnError", DBVT_BYTE, 1);
 	CreateLink(m_popupOnObsolete, "PopupOnObsolete", DBVT_BYTE, 1);
 
-	m_scripts.OnClick = Callback(this, &CMLuaOptions::OnScriptListClick);
-	m_reload.OnClick = Callback(this, &CMLuaOptions::OnReload);
+	m_scriptsList.OnClick = Callback(this, &CMLuaOptionsMain::OnScriptListClick);
+	m_reload.OnClick = Callback(this, &CMLuaOptionsMain::OnReload);
 }
 
 static int ScriptStatusToIcon(ScriptStatus status)
@@ -29,26 +30,26 @@ static int ScriptStatusToIcon(ScriptStatus status)
 	return 0;
 }
 
-void CMLuaOptions::LoadScripts()
+void CMLuaOptionsMain::LoadScripts()
 {
-	for (auto &script : g_plugin.Scripts.rev_iter()) {
+	for (auto &script : m_plugin.m_scripts.rev_iter()) {
 		int iIcon = ScriptStatusToIcon(script->GetStatus());
-		int iItem = m_scripts.AddItem(script->GetName(), iIcon, (LPARAM)script);
-		m_scripts.SetCheckState(iItem, script->IsEnabled());
-		m_scripts.SetItem(iItem, 1, TranslateT("Open"), 2);
-		m_scripts.SetItem(iItem, 2, TranslateT("Reload"), 3);
+		int iItem = m_scriptsList.AddItem(script->GetName(), iIcon, (LPARAM)script);
+		m_scriptsList.SetCheckState(iItem, script->IsEnabled());
+		m_scriptsList.SetItem(iItem, 1, TranslateT("Open"), 2);
+		m_scriptsList.SetItem(iItem, 2, TranslateT("Reload"), 3);
 		if (!script->IsBinary())
-			m_scripts.SetItem(iItem, 3, TranslateT("Compile"), 4);
+			m_scriptsList.SetItem(iItem, 3, TranslateT("Compile"), 4);
 	}
 }
 
-bool CMLuaOptions::OnInitDialog()
+bool CMLuaOptionsMain::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
-	m_scripts.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
+	m_scriptsList.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 
-	HIMAGELIST hImageList = m_scripts.CreateImageList(LVSIL_SMALL);
+	HIMAGELIST hImageList = m_scriptsList.CreateImageList(LVSIL_SMALL);
 	ImageList_AddIcon(hImageList, GetIcon(IDI_LOADED));
 	ImageList_AddIcon(hImageList, GetIcon(IDI_FAILED));
 	ImageList_AddIcon(hImageList, GetIcon(IDI_OPEN));
@@ -64,10 +65,10 @@ bool CMLuaOptions::OnInitDialog()
 	wchar_t header[MAX_PATH + 100];
 	mir_snwprintf(header, L"%s (%s)", TranslateT("Common scripts"), relativeScriptDir);
 
-	m_scripts.AddColumn(0, L"Script", 380);
-	m_scripts.AddColumn(1, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
-	m_scripts.AddColumn(2, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
-	m_scripts.AddColumn(3, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scriptsList.AddColumn(0, L"Script", 370);
+	m_scriptsList.AddColumn(1, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scriptsList.AddColumn(2, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scriptsList.AddColumn(3, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
 
 	LoadScripts();
 
@@ -75,12 +76,12 @@ bool CMLuaOptions::OnInitDialog()
 	return true;
 }
 
-bool CMLuaOptions::OnApply()
+bool CMLuaOptionsMain::OnApply()
 {
-	int count = m_scripts.GetItemCount();
+	int count = m_scriptsList.GetItemCount();
 	for (int iItem = 0; iItem < count; iItem++) {
-		CMLuaScript *script = (CMLuaScript*)m_scripts.GetItemData(iItem);
-		if (!m_scripts.GetCheckState(iItem))
+		CMLuaScript *script = (CMLuaScript*)m_scriptsList.GetItemData(iItem);
+		if (!m_scriptsList.GetCheckState(iItem))
 			script->Disable();
 		else
 			script->Enable();
@@ -88,13 +89,13 @@ bool CMLuaOptions::OnApply()
 	return true;
 }
 
-INT_PTR CMLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CMLuaOptionsMain::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_NOTIFY:
 	{
 		LPNMHDR lpnmHdr = (LPNMHDR)lParam;
-		if (lpnmHdr->idFrom == (UINT_PTR)m_scripts.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED) {
+		if (lpnmHdr->idFrom == (UINT_PTR)m_scriptsList.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED) {
 			LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
 			if (pnmv->uChanged & LVIF_STATE && pnmv->uNewState & LVIS_STATEIMAGEMASK) {
 				if (isScriptListInit)
@@ -107,7 +108,7 @@ INT_PTR CMLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CDlgBase::DlgProc(msg, wParam, lParam);
 }
 
-void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
+void CMLuaOptionsMain::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 {
 	LVITEM lvi = {};
 	lvi.iItem = evt->nmlvia->iItem;
@@ -117,7 +118,7 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	lvi.pszText = (LPTSTR)mir_calloc(MAX_PATH * sizeof(wchar_t));
 	lvi.cchTextMax = MAX_PATH;
 	lvi.mask = LVIF_GROUPID | LVIF_TEXT | LVIF_PARAM;
-	m_scripts.GetItem(&lvi);
+	m_scriptsList.GetItem(&lvi);
 	lvi.iSubItem = evt->nmlvia->iSubItem;
 
 	CMLuaScript *script = (CMLuaScript*)lvi.lParam;
@@ -132,8 +133,8 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 		lvi.mask = LVIF_IMAGE;
 		lvi.iSubItem = 0;
 		lvi.iImage = ScriptStatusToIcon(script->GetStatus());
-		m_scripts.SetItem(&lvi);
-		m_scripts.Update(lvi.iItem);
+		m_scriptsList.SetItem(&lvi);
+		m_scriptsList.Update(lvi.iItem);
 		break;
 
 	case 3:
@@ -143,33 +144,80 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 		lvi.mask = LVIF_IMAGE;
 		lvi.iSubItem = 0;
 		lvi.iImage = ScriptStatusToIcon(script->GetStatus());
-		m_scripts.SetItem(&lvi);
-		m_scripts.Update(lvi.iItem);
+		m_scriptsList.SetItem(&lvi);
+		m_scriptsList.Update(lvi.iItem);
 		break;
 	}
 
 	mir_free(lvi.pszText);
 }
 
-void CMLuaOptions::OnReload(CCtrlBase*)
+void CMLuaOptionsMain::OnReload(CCtrlBase*)
 {
 	isScriptListInit = false;
-	m_scripts.DeleteAllItems();
-	g_plugin.Reload();
+	m_scriptsList.DeleteAllItems();
+	m_plugin.ReloadLuaScripts();
 	LoadScripts();
 	isScriptListInit = true;
 }
 
 /***********************************************/
 
-int OnOptionsInit(WPARAM wParam, LPARAM)
+CMLuaEvaluateOptions::CMLuaEvaluateOptions(CMPlugin &plugin)
+	: CDlgBase(plugin, IDD_OPTIONSEVALUATE),
+	m_script(this, IDC_SCRIPTTEXT),
+	m_result(this, IDC_SCRIPTRESULT),
+	m_autoEval(this, IDC_AUTOEVAL),
+	m_evaluate(this, IDC_EVALUATE)
 {
-	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.szGroup.w = LPGENW("Services");
-	odp.szTitle.w = L"Lua";
-	odp.szTab.w = LPGENW("Scripts");
-	odp.pDialog = new CMLuaOptions();
-	g_plugin.addOptions(wParam, &odp);
-	return 0;
+	this->L = lua_newthread(plugin.L);
+	threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	CreateLink(m_autoEval, "AutoEval", DBVT_BYTE, 0);
+
+	m_autoEval.OnChange = Callback(this, &CMLuaEvaluateOptions::OnAutoEvalChange);
+	m_evaluate.OnClick = Callback(this, &CMLuaEvaluateOptions::OnEvaluate);
 }
+
+CMLuaEvaluateOptions::~CMLuaEvaluateOptions()
+{
+	luaL_unref(L, LUA_REGISTRYINDEX, threadRef);
+	threadRef = 0;
+}
+
+bool CMLuaEvaluateOptions::OnInitDialog()
+{
+	m_script.SetText(m_pPlugin.getMStringW("Script"));
+	if (m_autoEval.IsChecked()) {
+		m_script.OnChange = Callback(this, &CMLuaEvaluateOptions::OnEvaluate);
+		m_evaluate.Click();
+	}
+	return true;
+}
+
+bool CMLuaEvaluateOptions::OnApply()
+{
+	m_pPlugin.setWString("Script", m_script.GetText());
+	return true;
+}
+
+void CMLuaEvaluateOptions::OnAutoEvalChange(CCtrlBase*)
+{
+	if (m_autoEval.IsChecked()) {
+		m_script.OnChange = Callback(this, &CMLuaEvaluateOptions::OnEvaluate);
+		m_evaluate.Click();
+	}
+	else
+		m_script.OnChange = CCallback<CCtrlBase>();
+}
+
+void CMLuaEvaluateOptions::OnEvaluate(CCtrlBase*)
+{
+	ptrW script(m_script.GetText());
+
+	CMLuaEnvironment env(L);
+	m_result.SetText(env.Eval(script));
+	env.Unload();
+}
+
+/***********************************************/

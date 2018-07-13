@@ -3,16 +3,22 @@
 class CMLuaEnvironment : public CMPluginBase
 {
 private:
+	CMPluginBase *m_plugin;
+
 	std::map<HANDLE, int> m_hookRefs;
 	std::map<HANDLE, int> m_serviceRefs;
 
+protected:
 	void CreateEnvironmentTable();
+
+	wchar_t* Error();
 
 public:
 	lua_State *L;
 
 	CMLuaEnvironment(lua_State *L);
-	virtual ~CMLuaEnvironment();
+
+	int Unload() override;
 
 	static CMLuaEnvironment* GetEnvironment(lua_State *L);
 	static HPLUGIN GetEnvironmentId(lua_State *L);
@@ -23,5 +29,7 @@ public:
 	HANDLE CreateServiceFunction(const char *name, int ref);
 	void DestroyServiceFunction(HANDLE hService);
 
-	int Load() override;
+	wchar_t* Call();
+	wchar_t* Eval(const wchar_t *script);
+	wchar_t* Exec(const wchar_t *path);
 };

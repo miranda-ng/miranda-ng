@@ -37,7 +37,6 @@
 
 class CMLuaScript;
 
-#include "lua.h"
 #include "plugin.h"
 #include "modules.h"
 #include "environment.h"
@@ -71,8 +70,6 @@ void UnloadNetlib();
 void LoadIcons();
 HICON GetIcon(int iconId);
 HANDLE GetIconHandle(int iconId);
-
-int OnOptionsInit(WPARAM wParam, LPARAM);
 
 /* utils */
 

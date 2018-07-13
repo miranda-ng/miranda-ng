@@ -4,13 +4,12 @@
 
 extern PLUGININFOEX pluginInfoEx;
 
-CMLuaEnvironment::CMLuaEnvironment(lua_State *_l) :
-	CMPluginBase(nullptr, pluginInfoEx),
-	L(_l)
+CMLuaEnvironment::CMLuaEnvironment(lua_State *L) :
+	CMPluginBase(nullptr, pluginInfoEx), L(L)
 {
 }
 
-CMLuaEnvironment::~CMLuaEnvironment()
+int CMLuaEnvironment::Unload()
 {
 	KillModuleIcons(this);
 	KillModuleSounds(this);
@@ -25,6 +24,8 @@ CMLuaEnvironment::~CMLuaEnvironment()
 
 	for (auto &it : m_serviceRefs)
 		luaL_unref(L, LUA_REGISTRYINDEX, it.second);
+
+	return 0;
 }
 
 CMLuaEnvironment* CMLuaEnvironment::GetEnvironment(lua_State *L)
@@ -121,6 +122,9 @@ void CMLuaEnvironment::DestroyServiceFunction(HANDLE hService)
 
 void CMLuaEnvironment::CreateEnvironmentTable()
 {
+	if (!lua_isfunction(L, -1))
+		return;
+
 	lua_createtable(L, 1, 1);
 	lua_pushlightuserdata(L, this);
 	lua_rawseti(L, -2, NULL);
@@ -132,14 +136,41 @@ void CMLuaEnvironment::CreateEnvironmentTable()
 	lua_getglobal(L, "_G");
 	lua_setfield(L, -2, "__index");
 	lua_setmetatable(L, -2);
+
+	lua_setupvalue(L, -2, 1);
 }
 
-int CMLuaEnvironment::Load()
+/***********************************************/
+
+wchar_t* CMLuaEnvironment::Error()
 {
-	luaL_checktype(L, -1, LUA_TFUNCTION);
+	const char *message = lua_tostring(L, -1);
+	wchar_t *error = mir_utf8decodeW(message);
+	lua_pop(L, 1);
+	return error;
+}
 
+wchar_t* CMLuaEnvironment::Call()
+{
 	CreateEnvironmentTable();
-	lua_setupvalue(L, -2, 1);
+	luaM_pcall(L, 0, 1);
 
-	return lua_pcall(L, 0, 1, 0) == LUA_OK;
+	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
+	lua_pop(L, 1);
+
+	return result;
+}
+
+wchar_t* CMLuaEnvironment::Eval(const wchar_t *script)
+{
+	if (luaL_loadstring(L, T2Utf(script)))
+		return Error();
+	return Call();
+}
+
+wchar_t* CMLuaEnvironment::Exec(const wchar_t *path)
+{
+	if (luaL_loadfile(L, T2Utf(path)))
+		return Error();
+	return Call();
 }

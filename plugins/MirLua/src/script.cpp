@@ -3,8 +3,10 @@
 #define MT_SCRIPT "SCRIPT"
 
 CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
-	: CMLuaEnvironment(L), isBinary(false),
-	status(ScriptStatus::None), unloadRef(LUA_NOREF)
+	: CMLuaEnvironment(L),
+	isBinary(false),
+	status(ScriptStatus::None),
+	unloadRef(LUA_NOREF)
 {
 	mir_wstrcpy(filePath, path);
 
@@ -32,7 +34,7 @@ CMLuaScript::CMLuaScript(const CMLuaScript &script)
 
 CMLuaScript::~CMLuaScript()
 {
-	Unload();
+	//Unload();
 	mir_free((void*)m_szModuleName);
 	mir_free((void*)scriptName);
 }
@@ -81,7 +83,9 @@ int CMLuaScript::Load()
 		return false;
 	}
 
-	if (!CMLuaEnvironment::Load()) {
+	CMLuaEnvironment::CreateEnvironmentTable();
+
+	if (lua_pcall(L, 0, 1, 0) != LUA_OK) {
 		ReportError(L);
 		return false;
 	}
@@ -138,7 +142,8 @@ int CMLuaScript::Unload()
 	lua_pushnil(L);
 	lua_setfield(L, -2, m_szModuleName);
 	lua_pop(L, 1);
-	return 0;
+	
+	return CMLuaEnvironment::Unload();
 }
 
 bool CMLuaScript::Reload()
