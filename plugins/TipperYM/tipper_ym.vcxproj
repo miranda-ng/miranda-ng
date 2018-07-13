@@ -22,12 +22,12 @@
     <ProjectName>Tipper</ProjectName>
     <ProjectGuid>{2C818919-A38F-44FF-BD91-A6A204AC592A}</ProjectGuid>
   </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
+  </ImportGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
       <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
-  </ImportGroup>
 </Project>
