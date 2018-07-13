@@ -733,9 +733,8 @@ static int CLUIFramesGetalClientFrame(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static HGENMENU addFrameMenuItem(TMO_MenuItem *pmi, FRAMEWND &F, int frameid, bool bMain)
+static HGENMENU addFrameMenuItem(TMO_MenuItem *pmi, int frameid, bool bMain)
 {
-	pmi->pPlugin = F.pPlugin;
 	HGENMENU res = (bMain) ? Menu_AddMainMenuItem(pmi) : Menu_AddContextFrameMenuItem(pmi);
 	if (pmi->pszService != nullptr)
 		Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, frameid);
@@ -748,46 +747,45 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 		return nullptr;
 
 	int framepos = id2pos(frameid);
-	auto &F = g_pfwFrames[framepos];
-	FrameMenuHandles &fmh = (frameid == -1) ? cont : F.MenuHandles;
+	FrameMenuHandles &fmh = (frameid == -1) ? cont : g_pfwFrames[framepos].MenuHandles;
 
-	CMenuItem mi(&g_plugin);
+	CMenuItem mi(framepos != -1 ? g_pfwFrames[framepos].pPlugin : &g_plugin);
 	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Visible");
 	mi.flags = CMIF_SYSTEM | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAME;
-	fmh.MIVisible = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MIVisible = addFrameMenuItem(&mi, frameid, bMain);
 
 	popuppos += 100000;
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Show title");
 	mi.pszService = MS_CLIST_FRAMES_SHFRAMETITLEBAR;
-	fmh.MITBVisible = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MITBVisible = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Locked");
 	mi.pszService = MS_CLIST_FRAMES_ULFRAME;
-	fmh.MILock = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MILock = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Expanded");
 	mi.pszService = MS_CLIST_FRAMES_UCOLLFRAME;
-	fmh.MIColl = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MIColl = addFrameMenuItem(&mi, frameid, bMain);
 
 	// floating
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Floating mode");
 	mi.flags = CMIF_SYSTEM;
 	mi.pszService = "Set_Floating";
-	fmh.MIFloating = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MIFloating = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Border");
 	mi.flags = CMIF_SYSTEM | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETUNBORDER;
-	fmh.MIBorder = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MIBorder = addFrameMenuItem(&mi, frameid, bMain);
 
 	popuppos += 100000;
 
@@ -796,43 +794,43 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.name.a = LPGEN("&Align");
 	mi.flags = CMIF_SYSTEM;
 	mi.pszService = nullptr;
-	fmh.MIAlignRoot = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MIAlignRoot = addFrameMenuItem(&mi, frameid, bMain);
 
 	// align top
 	mi.root = fmh.MIAlignRoot;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Top");
 	mi.pszService = CLUIFRAMESSETALIGNALTOP;
-	fmh.MIAlignTop = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MIAlignTop = addFrameMenuItem(&mi, frameid, bMain);
 
 	// align client
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Client");
 	mi.pszService = CLUIFRAMESSETALIGNALCLIENT;
-	fmh.MIAlignClient = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MIAlignClient = addFrameMenuItem(&mi, frameid, bMain);
 
 	// align bottom
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Bottom");
 	mi.pszService = CLUIFRAMESSETALIGNALBOTTOM;
-	fmh.MIAlignBottom = addFrameMenuItem(&mi, F, frameid, bMain);
+	fmh.MIAlignBottom = addFrameMenuItem(&mi, frameid, bMain);
 
 	// position root
 	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Position");
 	mi.pszService = nullptr;
-	mi.root = addFrameMenuItem(&mi, F, frameid, bMain);
+	mi.root = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Up");
 	mi.pszService = CLUIFRAMESMOVEUP;
-	addFrameMenuItem(&mi, F, frameid, bMain);
+	addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Down");
 	mi.pszService = CLUIFRAMESMOVEDOWN;
-	addFrameMenuItem(&mi, F, frameid, bMain);
+	addFrameMenuItem(&mi, frameid, bMain);
 	return nullptr;
 }
 
