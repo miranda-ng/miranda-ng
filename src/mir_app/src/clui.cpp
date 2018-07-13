@@ -63,8 +63,10 @@ static int CluiModulesLoaded(WPARAM, LPARAM)
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_SUBMENU;
+
 		mii.hSubMenu = Menu_GetMainMenu();
 		SetMenuItemInfo(g_clistApi.hMenuMain, 0, TRUE, &mii);
+
 		mii.hSubMenu = Menu_GetStatusMenu();
 		SetMenuItemInfo(g_clistApi.hMenuMain, 1, TRUE, &mii);
 	}
@@ -82,6 +84,20 @@ static void DisconnectAll()
 static int CluiIconsChanged(WPARAM, LPARAM)
 {
 	DrawMenuBar(g_clistApi.hwndContactList);
+	return 0;
+}
+
+static int CluiLangpackChanged(WPARAM, LPARAM)
+{
+	if (g_clistApi.hMenuMain) {
+		RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
+		RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
+		DestroyMenu(g_clistApi.hMenuMain);
+	}
+
+	g_clistApi.hMenuMain = LoadMenuA(g_plugin.getInst(), MAKEINTRESOURCEA(IDR_CLISTMENU));
+	TranslateMenu(g_clistApi.hMenuMain);
+	SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 	return 0;
 }
 
@@ -265,7 +281,6 @@ int LoadCLUIModule(void)
 	wndclass.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true);
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-	wndclass.lpszMenuName = MAKEINTRESOURCE(IDR_CLISTMENU);
 	wndclass.lpszClassName = _T(MIRANDACLASS);
 	wndclass.hIconSm = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	RegisterClassEx(&wndclass);
@@ -303,16 +318,21 @@ int LoadCLUIModule(void)
 
 	g_clistApi.pfnOnCreateClc();
 
+	HookEvent(ME_LANGPACK_CHANGED, CluiLangpackChanged);
+	CluiLangpackChanged(0, 0);
+
 	PostMessage(g_clistApi.hwndContactList, M_RESTORESTATUS, 0, 0);
 
 	int state = db_get_b(0, "CList", "State", SETTING_STATE_NORMAL);
-	g_clistApi.hMenuMain = GetMenu(g_clistApi.hwndContactList);
+	
 	if (!db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
 		SetMenu(g_clistApi.hwndContactList, nullptr);
+
 	if (state == SETTING_STATE_NORMAL)
 		ShowWindow(g_clistApi.hwndContactList, SW_SHOW);
 	else if (state == SETTING_STATE_MINIMIZED)
 		ShowWindow(g_clistApi.hwndContactList, SW_SHOWMINIMIZED);
+	
 	SetWindowPos(g_clistApi.hwndContactList,
 					 db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
 					 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
@@ -1030,6 +1050,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
 		RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
+		DestroyMenu(g_clistApi.hMenuMain);
+		g_clistApi.hMenuMain = nullptr;
 
 		if (g_clistApi.hwndStatus) {
 			DestroyWindow(g_clistApi.hwndStatus);

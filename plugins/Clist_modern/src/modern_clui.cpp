@@ -60,7 +60,6 @@ BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LP
 UINT    g_dwMainThreadID = 0;
 HANDLE  g_hAwayMsgThread = nullptr, g_hGetTextAsyncThread = nullptr, g_hSmoothAnimationThread = nullptr;
 
-HMENU   g_hMenuMain;
 BOOL    g_bTransparentFlag = FALSE;
 
 BOOL    g_mutex_bChangingMode = FALSE, g_mutex_bSizing = FALSE;
@@ -239,17 +238,6 @@ INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM hContact, LPARAM)
 
 HRESULT CLUI::CreateCluiFrames()
 {
-	g_hMenuMain = GetMenu(g_clistApi.hwndContactList);
-
-	MENUITEMINFO mii = { 0 };
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_SUBMENU;
-	mii.hSubMenu = Menu_GetMainMenu();
-	SetMenuItemInfo(g_hMenuMain, 0, TRUE, &mii);
-
-	mii.hSubMenu = Menu_GetStatusMenu();
-	SetMenuItemInfo(g_hMenuMain, 1, TRUE, &mii);
-
 	CreateCLCWindow(g_clistApi.hwndContactList);
 
 	CLUI_ChangeWindowMode();
@@ -688,10 +676,10 @@ void CLUI_ChangeWindowMode()
 
 	CLUI_UpdateAeroGlass();
 
-	if (g_CluiData.fLayered || !db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT)) {
+	if (g_CluiData.fLayered || !db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
 		SetMenu(g_clistApi.hwndContactList, nullptr);
-	}
-	else SetMenu(g_clistApi.hwndContactList, g_hMenuMain);
+	else
+		SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 
 	if (g_CluiData.fLayered && (db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)))
 		ske_UpdateWindowImage();
@@ -2182,7 +2170,7 @@ LRESULT CLUI::OnNcHitTest(UINT, WPARAM wParam, LPARAM lParam)
 
 	if (result == HTMENU) {
 		POINT pt = UNPACK_POINT(lParam);
-		int t = MenuItemFromPoint(m_hWnd, g_hMenuMain, pt);
+		int t = MenuItemFromPoint(m_hWnd, g_clistApi.hMenuMain, pt);
 		if (t == -1 && (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)))
 			return HTCAPTION;
 	}
@@ -2520,9 +2508,9 @@ LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)
 	UnLoadContactListModule();
 	ClcUnloadModule();
 
-	RemoveMenu(g_hMenuMain, 0, MF_BYPOSITION);
-	RemoveMenu(g_hMenuMain, 0, MF_BYPOSITION);
-	DestroyMenu(g_hMenuMain);
+	RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
+	RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
+	DestroyMenu(g_clistApi.hMenuMain);
 
 	Clist_TrayIconDestroy(m_hWnd);
 	mutex_bAnimationInProgress = 0;

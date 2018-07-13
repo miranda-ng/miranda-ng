@@ -733,8 +733,7 @@ static void ShowCLUI(HWND hwnd)
 	int onTop = db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT);
 
 	SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
-	if (!db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
-		SetMenu(g_clistApi.hwndContactList, nullptr);
+
 	if (state == SETTING_STATE_NORMAL) {
 		SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 		ShowWindow(g_clistApi.hwndContactList, SW_SHOWNORMAL);
