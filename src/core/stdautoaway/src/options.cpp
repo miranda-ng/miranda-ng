@@ -126,7 +126,6 @@ int IdleOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_IDLE);
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Idle");
 	odp.flags = ODPF_BOLDGROUPS;
