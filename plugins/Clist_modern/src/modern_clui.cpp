@@ -1846,27 +1846,20 @@ LRESULT CLUI::OnPaint(UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT CLUI::OnCreate(UINT, WPARAM, LPARAM)
 {
-	TranslateMenu(GetMenu(m_hWnd));
-	DrawMenuBar(m_hWnd);
 	cliCluiProtocolStatusChanged(0, nullptr);
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_TYPE | MIIM_DATA;
 	mii.dwItemData = MENU_MIRANDAMENU;
-	mii.fType = MFT_OWNERDRAW;
-	mii.dwTypeData = nullptr;
-	SetMenuItemInfo(GetMenu(m_hWnd), 0, TRUE, &mii);
 
-	// mii.fMask = MIIM_TYPE;
 	mii.fType = MFT_OWNERDRAW;
 	mii.dwItemData = MENU_STATUSMENU;
-	SetMenuItemInfo(GetMenu(m_hWnd), 1, TRUE, &mii);
+	SetMenuItemInfo(g_clistApi.hMenuMain, 1, TRUE, &mii);
 
-	// mii.fMask = MIIM_TYPE;
 	mii.fType = MFT_OWNERDRAW;
 	mii.dwItemData = MENU_MINIMIZE;
-	SetMenuItemInfo(GetMenu(m_hWnd), 2, TRUE, &mii);
+	SetMenuItemInfo(g_clistApi.hMenuMain, 2, TRUE, &mii);
 
 	uMsgGetProfile = RegisterWindowMessage(L"Miranda::GetProfile"); // don't localise
 	bTransparentFocus = 1;
@@ -2410,12 +2403,12 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM, LPARAM lParam)
 	if (dis->itemData == MENU_MIRANDAMENU) {
 		if (!g_CluiData.fLayered) {
 			char buf[255];
-			short offset = 1 + (dis->itemState&ODS_SELECTED ? 1 : 0) - (dis->itemState&ODS_HOTLIGHT ? 1 : 0);
+			short offset = 1 + (dis->itemState & ODS_SELECTED ? 1 : 0) - (dis->itemState & ODS_HOTLIGHT ? 1 : 0);
 
 			HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_MAINMENU);
 
 			CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 1, dis->itemState);
-			mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
+			mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState & ODS_SELECTED) ? "True" : "False", (dis->itemState & ODS_HOTLIGHT) ? "True" : "False");
 			SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
 
 			int x = (dis->rcItem.right + dis->rcItem.left - GetSystemMetrics(SM_CXSMICON)) / 2 + offset;
@@ -2438,7 +2431,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM, LPARAM lParam)
 		if (!g_CluiData.fLayered) {
 			char buf[255] = { 0 };
 			RECT rc = dis->rcItem;
-			short dx = 1 + (dis->itemState&ODS_SELECTED ? 1 : 0) - (dis->itemState&ODS_HOTLIGHT ? 1 : 0);
+			short dx = 1 + (dis->itemState & ODS_SELECTED ? 1 : 0) - (dis->itemState & ODS_HOTLIGHT ? 1 : 0);
 			if (dx > 1) {
 				rc.left += dx;
 				rc.top += dx;
@@ -2449,9 +2442,9 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM, LPARAM lParam)
 			}
 			CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 2, dis->itemState);
 			SetBkMode(dis->hDC, TRANSPARENT);
-			mir_snprintf(buf, "Main,ID=StatusMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
+			mir_snprintf(buf, "Main,ID=StatusMenu,Selected=%s,Hot=%s", (dis->itemState & ODS_SELECTED) ? "True" : "False", (dis->itemState & ODS_HOTLIGHT) ? "True" : "False");
 			SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
-			SetTextColor(dis->hDC, (dis->itemState&ODS_SELECTED/*|dis->itemState&ODS_HOTLIGHT*/) ? dat->MenuTextHiColor : dat->MenuTextColor);
+			SetTextColor(dis->hDC, (dis->itemState & ODS_SELECTED/*|dis->itemState & ODS_HOTLIGHT*/) ? dat->MenuTextHiColor : dat->MenuTextColor);
 			DrawText(dis->hDC, TranslateT("Status"), -1, &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			nStatusMenuState = dis->itemState;
 		}
@@ -2465,10 +2458,10 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM, LPARAM lParam)
 	if (dis->itemData == MENU_MINIMIZE && !g_CluiData.fLayered) {
 		//TODO check if caption is visible
 		char buf[255] = { 0 };
-		short dx = 1 + (dis->itemState&ODS_SELECTED ? 1 : 0) - (dis->itemState&ODS_HOTLIGHT ? 1 : 0);
+		short dx = 1 + (dis->itemState & ODS_SELECTED ? 1 : 0) - (dis->itemState & ODS_HOTLIGHT ? 1 : 0);
 		HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 3, dis->itemState);
-		mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
+		mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState & ODS_SELECTED) ? "True" : "False", (dis->itemState & ODS_HOTLIGHT) ? "True" : "False");
 		SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
 		DrawState(dis->hDC, nullptr, nullptr, (LPARAM)hIcon, 0, (dis->rcItem.right + dis->rcItem.left - GetSystemMetrics(SM_CXSMICON)) / 2 + dx, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + dx, 0, 0, DST_ICON);
 		IcoLib_ReleaseIcon(hIcon);

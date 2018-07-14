@@ -87,7 +87,7 @@ static int CluiIconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static int CluiLangpackChanged(WPARAM, LPARAM)
+static int CluiLangpackChanged(WPARAM, LPARAM lParam)
 {
 	if (g_clistApi.hMenuMain) {
 		RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
@@ -95,9 +95,17 @@ static int CluiLangpackChanged(WPARAM, LPARAM)
 		DestroyMenu(g_clistApi.hMenuMain);
 	}
 
-	g_clistApi.hMenuMain = LoadMenuA(g_plugin.getInst(), MAKEINTRESOURCEA(IDR_CLISTMENU));
+	g_clistApi.hMenuMain = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CLISTMENU));
 	TranslateMenu(g_clistApi.hMenuMain);
-	if (GetMenu(g_clistApi.hwndContactList))
+
+	MENUITEMINFO mii;
+	mii.cbSize = sizeof(mii);
+	mii.fMask = MIIM_TYPE | MIIM_DATA;
+	mii.dwItemData = MENU_MIRANDAMENU;
+	mii.fType = MFT_OWNERDRAW;
+	SetMenuItemInfo(g_clistApi.hMenuMain, 0, TRUE, &mii);
+
+	if (lParam || GetMenu(g_clistApi.hwndContactList))
 		SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 	return 0;
 }
@@ -320,7 +328,7 @@ int LoadCLUIModule(void)
 	g_clistApi.pfnOnCreateClc();
 
 	HookEvent(ME_LANGPACK_CHANGED, CluiLangpackChanged);
-	CluiLangpackChanged(0, 0);
+	CluiLangpackChanged(0, 1);
 
 	PostMessage(g_clistApi.hwndContactList, M_RESTORESTATUS, 0, 0);
 
@@ -441,21 +449,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	}
 
 	switch (msg) {
-	case WM_NCCREATE:
-		{
-			MENUITEMINFO mii = { 0 };
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_TYPE | MIIM_DATA;
-			mii.dwItemData = MENU_MIRANDAMENU;
-			mii.fType = MFT_OWNERDRAW;
-			SetMenuItemInfo(GetMenu(hwnd), 0, TRUE, &mii);
-		}
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-
 	case WM_CREATE:
-		TranslateMenu(GetMenu(hwnd));
-		DrawMenuBar(hwnd);
-
 		//create the status wnd
 		{
 			int flags = WS_CHILD | CCS_BOTTOM;
