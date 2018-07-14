@@ -1473,7 +1473,6 @@ skipbg:
 buttons_done:
 			switch (LOWORD(wParam)) {
 			case ID_TRAY_EXIT:
-			case ID_ICQ_EXIT:
 				cfg::shutDown = 1;
 				if (Miranda_OkToExit())
 					DestroyWindow(hwnd);

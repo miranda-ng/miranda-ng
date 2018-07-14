@@ -481,7 +481,6 @@
 #define IDC_SELECTMODE                  19126
 #define IDC_CONFIGUREMODES              19127
 #define IDC_USEGROUPS                   19128
-#define ID_ICQ_EXIT                     40001
 #define POPUP_NEWSUBGROUP               40004
 #define POPUP_GROUPSHOWOFFLINE          40019
 #define IDC_FRAME_META                  40054

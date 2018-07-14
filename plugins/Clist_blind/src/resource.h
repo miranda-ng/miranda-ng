@@ -133,7 +133,6 @@
 #define IDC_T_GROUP                     1663
 #define IDC_T_DIVIDER                   1664
 #define IDC_T_INFO                      1665
-#define ID_ICQ_EXIT                     40001
 
 // Next default values for new objects
 // 

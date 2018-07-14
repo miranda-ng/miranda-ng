@@ -129,7 +129,6 @@
 #define IDC_WINCOLOUR                   1659
 #define IDC_ICONBLINK                   1660
 #define IDC_STMSDELAY                   1661
-#define ID_ICQ_EXIT                     40001
 
 // Next default values for new objects
 // 

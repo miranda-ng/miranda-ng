@@ -282,7 +282,6 @@
 #define IDC_GROUPALIGN                  25499
 #define IDC_BORDERSTYLE                 25501
 #define IDC_CURVIEWMODE2                25503
-#define ID_ICQ_EXIT                     40001
 #define IDC_STATIC7                     40002
 #define POPUP_HIDEEMPTYGROUPS           40003
 #define POPUP_HIDEOFFLINE               40005
