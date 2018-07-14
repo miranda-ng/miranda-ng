@@ -1072,7 +1072,6 @@ void Chat_Options(WPARAM wParam)
 	odp.pDialog = new CChatEventOptionDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS4);
 	odp.szTab.a = LPGEN("Highlighting");
 	odp.pDialog = new CHighlighOptionDlg();
 	g_plugin.addOptions(wParam, &odp);
