@@ -87,7 +87,7 @@ static int CluiIconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static int CluiLangpackChanged(WPARAM, LPARAM lParam)
+static int CluiLangpackChanged(WPARAM, LPARAM)
 {
 	if (g_clistApi.hMenuMain) {
 		RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
@@ -98,14 +98,7 @@ static int CluiLangpackChanged(WPARAM, LPARAM lParam)
 	g_clistApi.hMenuMain = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CLISTMENU));
 	TranslateMenu(g_clistApi.hMenuMain);
 
-	MENUITEMINFO mii;
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_TYPE | MIIM_DATA;
-	mii.dwItemData = MENU_MIRANDAMENU;
-	mii.fType = MFT_OWNERDRAW;
-	SetMenuItemInfo(g_clistApi.hMenuMain, 0, TRUE, &mii);
-
-	if (lParam || GetMenu(g_clistApi.hwndContactList))
+	if (GetMenu(g_clistApi.hwndContactList))
 		SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 	return 0;
 }
@@ -325,10 +318,19 @@ int LoadCLUIModule(void)
 			SetParent(g_clistApi.hwndContactList, hProgMan);
 	}
 
-	g_clistApi.pfnOnCreateClc();
-
 	HookEvent(ME_LANGPACK_CHANGED, CluiLangpackChanged);
-	CluiLangpackChanged(0, 1);
+	CluiLangpackChanged(0, 0);
+
+	// make menu bar owner-drawn and set it on
+	MENUITEMINFO mii;
+	mii.cbSize = sizeof(mii);
+	mii.fMask = MIIM_TYPE | MIIM_DATA;
+	mii.dwItemData = MENU_MIRANDAMENU;
+	mii.fType = MFT_OWNERDRAW;
+	SetMenuItemInfo(g_clistApi.hMenuMain, 0, TRUE, &mii);
+	SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
+
+	g_clistApi.pfnOnCreateClc();
 
 	PostMessage(g_clistApi.hwndContactList, M_RESTORESTATUS, 0, 0);
 
