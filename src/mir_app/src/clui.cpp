@@ -97,7 +97,8 @@ static int CluiLangpackChanged(WPARAM, LPARAM)
 
 	g_clistApi.hMenuMain = LoadMenuA(g_plugin.getInst(), MAKEINTRESOURCEA(IDR_CLISTMENU));
 	TranslateMenu(g_clistApi.hMenuMain);
-	SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
+	if (GetMenu(g_clistApi.hwndContactList))
+		SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 	return 0;
 }
 
