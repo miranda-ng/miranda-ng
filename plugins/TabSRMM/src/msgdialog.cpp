@@ -1015,11 +1015,11 @@ void CSrmmWindow::UpdateTitle()
 			wchar_t fulluin[256];
 			if (m_bIsMeta)
 				mir_snwprintf(fulluin,
-					TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
+					TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
 					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
 			else
 				mir_snwprintf(fulluin,
-					TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
+					TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
 					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
 
 			SendDlgItemMessage(m_hwnd, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_UNICODE);

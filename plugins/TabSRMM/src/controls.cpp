@@ -959,7 +959,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 
 				if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
 					if (sid->dwId == MSG_ICON_SOUND)
-						mir_snwprintf(wBuf, TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
+						mir_snwprintf(wBuf, TranslateT("Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers"),
 							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
 					else if (sid->dwId == MSG_ICON_UTN && (!dat->isChat() || dat->m_si->iType == GCW_PRIVMESS)) {

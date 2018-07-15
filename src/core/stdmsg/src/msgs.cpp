@@ -379,7 +379,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwDefPos = 40;
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	bbd.pwszText = LPGENW("&History");
-	bbd.pwszTooltip = LPGENW("View user's history (CTRL+H)");
+	bbd.pwszTooltip = LPGENW("View user's history (Ctrl+H)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	// chat buttons
@@ -388,35 +388,35 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwDefPos = 10;
 	bbd.hIcon = GetIconHandle("bold");
 	bbd.pwszText = LPGENW("&Bold");
-	bbd.pwszTooltip = LPGENW("Make the text bold (CTRL+B)");
+	bbd.pwszTooltip = LPGENW("Make the text bold (Ctrl+B)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_ITALICS;
 	bbd.dwDefPos = 15;
 	bbd.hIcon = GetIconHandle("italics");
 	bbd.pwszText = LPGENW("&Italic");
-	bbd.pwszTooltip = LPGENW("Make the text italicized (CTRL+I)");
+	bbd.pwszTooltip = LPGENW("Make the text italicized (Ctrl+I)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_UNDERLINE;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = GetIconHandle("underline");
 	bbd.pwszText = LPGENW("&Underline");
-	bbd.pwszTooltip = LPGENW("Make the text underlined (CTRL+U)");
+	bbd.pwszTooltip = LPGENW("Make the text underlined (Ctrl+U)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_COLOR;
 	bbd.dwDefPos = 25;
 	bbd.hIcon = GetIconHandle("fgcol");
 	bbd.pwszText = LPGENW("&Color");
-	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (CTRL+K)");
+	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (Ctrl+K)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 30;
 	bbd.hIcon = GetIconHandle("bkgcol");
 	bbd.pwszText = LPGENW("&Background color");
-	bbd.pwszTooltip = LPGENW("Select a background color for the text (CTRL+L)");
+	bbd.pwszTooltip = LPGENW("Select a background color for the text (Ctrl+L)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -424,21 +424,21 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwDefPos = 30;
 	bbd.hIcon = GetIconHandle("settings");
 	bbd.pwszText = LPGENW("&Room settings");
-	bbd.pwszTooltip = LPGENW("Control this room (CTRL+O)");
+	bbd.pwszTooltip = LPGENW("Control this room (Ctrl+O)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_SHOWNICKLIST;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = GetIconHandle("nicklist");
 	bbd.pwszText = LPGENW("&Show/hide nick list");
-	bbd.pwszTooltip = LPGENW("Show/hide the nick list (CTRL+N)");
+	bbd.pwszTooltip = LPGENW("Show/hide the nick list (Ctrl+N)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_FILTER;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = GetIconHandle("filter");
 	bbd.pwszText = LPGENW("&Filter");
-	bbd.pwszTooltip = LPGENW("Enable/disable the event filter (CTRL+F)");
+	bbd.pwszTooltip = LPGENW("Enable/disable the event filter (Ctrl+F)");
 	Srmm_AddButton(&bbd, &g_plugin);
 	return 0;
 }

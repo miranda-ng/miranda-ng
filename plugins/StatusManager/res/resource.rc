@@ -292,7 +292,7 @@ BEGIN
     EDITTEXT        IDC_CONFIRMDELAY,240,138,22,14,ES_AUTOHSCROLL
     CONTROL         "Monitor keyboard activity",IDC_MONITORKEYBOARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,77,255,10
     CONTROL         "Monitor mouse activity",IDC_MONITORMOUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,88,255,10
-    CONTROL         "Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys",IDC_IGNSYSKEYS,
+    CONTROL         "Ignore Ctrl, Alt, Shift, Tab, Esc and Windows keys",IDC_IGNSYSKEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,55,255,10
     CONTROL         "Ignore any key combination with above keys",IDC_IGNALTCOMBO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,66,255,10
