@@ -1,4 +1,4 @@
-#muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
+﻿#muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
@@ -247,7 +247,7 @@
 [Ignore]
 Игнорировать
 [Indefinite]
-
+Неопределённо
 [Set status message]
 Установить статусное сообщение
 [Add]
