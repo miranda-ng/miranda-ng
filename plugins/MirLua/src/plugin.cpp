@@ -61,6 +61,7 @@ void CMPlugin::LoadLua()
 
 	CMLuaFunctionLoader::Load(L);
 	CMLuaModuleLoader::Load(L);
+	CMLuaVariablesLoader::Load(L);
 	LoadLuaScripts();
 }
 

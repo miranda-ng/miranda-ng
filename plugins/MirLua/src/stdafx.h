@@ -5,6 +5,8 @@
 #include <wchar.h>
 
 #include <map>
+#include <regex>
+#include <string>
 
 #include <newpluginapi.h>
 #include <m_core.h>
@@ -28,6 +30,7 @@
 #include <m_toptoolbar.h>
 #include <m_json.h>
 #include <m_gui.h>
+#include <m_variables.h>
 
 #include <m_lua.h>
 #include <mirlua.h>
@@ -44,6 +47,7 @@ class CMLuaScript;
 #include "function_loader.h"
 #include "module_loader.h"
 #include "script_loader.h"
+#include "variables_loader.h"
 #include "options.h"
 #include "metatable.h"
 
