@@ -1,4 +1,4 @@
-#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
 ;============================================================
 ;  File: Nudge.dll
 ;  Plugin: Nudge
@@ -6,7 +6,7 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 [Plugin to shake the contact list and chat window.]
-Трясёт список контактов и окно сообщений.
+Встряхивает список контактов и окно сообщений.
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Настройки протокола
@@ -19,11 +19,11 @@
 [Open message window]
 Открыть окно сообщений
 [Enable message window shaking]
-Трясти окно сообщений
+Встряхивать окно сообщений
 [Show as status change]
 Показывать как смену статуса
 [Auto resend nudge after]
-Повторять тряску каждые
+Повторять встряску каждые
 [s]
 с
 [Enable popup notification]
@@ -37,17 +37,17 @@
 [Privacy]
 Приватность
 [Allow sending* one nudge to the same contact every:]
-Отправка тряски одному и тому же контакту каждые:
+Отправка встряски одному и тому же контакту каждые:
 [Allow receiving one nudge from the same contact every:]
-Приём тряски от одного контакта каждые:
+Приём встряски от одного контакта каждые:
 [* Nudge sending delay is hardcoded and cannot be changed.]
-* Это число невозможно изменить, оно задано в коде плагина.
+* Это значение невозможно изменить, оно задано в коде плагина.
 [Preview]
 Тест
 [Text]
 Текст
 [Allow nudges when you're:]
-Разрешать тряску когда вы:
+Разрешать встряску когда вы:
 [Offline]
 Не в сети
 [Online]
@@ -69,7 +69,7 @@
 [Out to lunch]
 Обедаю
 [Shaking contact list options]
-Настройки тряски списка контактов
+Настройки встряски списка контактов
 [Number of moves]
 Кол-во движений
 [Width of move]
@@ -77,18 +77,18 @@
 [Static]
 Статический
 [Shaking Message Window Options]
-Тряска окна сообщений
+Встряска окна сообщений
 ;file \plugins\Nudge\src\main.cpp
 [Nudge as Default]
 Встряхнуть (по умолчанию)
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 Нельзя отправлять много встрясок (только 1 каждые %d сек, %d сек осталось)
 [Show Nudge]
-Тряска
+Встряска
 [Nudge for %s]
 Встряска для %s
 [Nudge]
-Тряска
+Встряска
 [Default Nudge]
 Встряска по умолчанию
 [Send nudge]
@@ -104,4 +104,4 @@
 [Events]
 События
 [Window Shaking]
-Тряска окна
+Встряска окна

@@ -41,7 +41,7 @@
 [Underline]
 Подчёркивание
 [Save individual window positions]
-Сохранять положение для каждого окна
+Сохран. положение для каждого окна
 [Error messages]
 Ошибки
 [Suppress error messages]
