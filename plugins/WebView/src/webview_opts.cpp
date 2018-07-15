@@ -1,23 +1,23 @@
 /*
-* A plugin for Miranda IM which displays web page text in a window Copyright 
-* (C) 2005 Vincent Joyce.
-* 
+* A plugin for Miranda IM which displays web page text in a window 
+* Copyright (C) 2005 Vincent Joyce.
+*
 * Miranda IM: the free icq client for MS Windows  Copyright (C) 2000-2
 * Richard Hughes, Roland Rabien & Tristan Van de Vreede
-* 
+*
 * This program is free software; you can redistribute it and/or modify it
-* under the terms of the GNU General Public License as published by the Free 
+* under the terms of the GNU General Public License as published by the Free
 * Software Foundation; either version 2 of the License, or (at your option)
 * any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful, but
-* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 * for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License along
-* with this program; if not, write to the Free Software Foundation, Inc., 59 
-* Temple Place - Suite 330, Boston, MA  02111-1307, USA. 
+* with this program; if not, write to the Free Software Foundation, Inc., 59
+* Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
@@ -101,38 +101,37 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
-		{
-			delay = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
 
-			// setting popup delay option
-			_itoa(delay, str, 10);
-			SetDlgItemTextA(hdlg, IDC_DELAY, str);
+		delay = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
 
-			BGColour = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
-			TextColour = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, Def_color_txt);
+		// setting popup delay option
+		_itoa(delay, str, 10);
+		SetDlgItemTextA(hdlg, IDC_DELAY, str);
 
-			// Colours. First step is configuring the colours.
-			SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_SETCOLOUR, 0, BGColour);
-			SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_SETCOLOUR, 0, TextColour);
-			// Second step is disabling them if we want to use default Windows
-			// ones.
-			CheckDlgButton(hdlg, IDC_POP_USEWINCOLORS, db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hdlg, IDC_POP_USESAMECOLORS, db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hdlg, IDC_POP_USECUSTCOLORS, db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		BGColour = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
+		TextColour = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, Def_color_txt);
 
-			if (IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS) || IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)) {
-				EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), 0);
-				EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), 0);
-			}
+		// Colours. First step is configuring the colours.
+		SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_SETCOLOUR, 0, BGColour);
+		SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_SETCOLOUR, 0, TextColour);
+		// Second step is disabling them if we want to use default Windows
+		// ones.
+		CheckDlgButton(hdlg, IDC_POP_USEWINCOLORS, db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_POP_USESAMECOLORS, db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_POP_USECUSTCOLORS, db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hdlg, IDC_LCLK_WINDOW, db_get_b(NULL, MODULENAME, LCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hdlg, IDC_LCLK_WEB_PGE, db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hdlg, IDC_LCLK_DISMISS, db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hdlg, IDC_RCLK_WINDOW, db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hdlg, IDC_RCLK_WEB_PGE, db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hdlg, IDC_RCLK_DISMISS, db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		if (IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS) || IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)) {
+			EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), 0);
+			EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), 0);
 		}
+
+		CheckDlgButton(hdlg, IDC_LCLK_WINDOW, db_get_b(NULL, MODULENAME, LCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_LCLK_WEB_PGE, db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_LCLK_DISMISS, db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hdlg, IDC_RCLK_WINDOW, db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_RCLK_WEB_PGE, db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_RCLK_DISMISS, db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -187,70 +186,66 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_PREVIEW:
-			{
-				wchar_t str3[512];
-				POPUPDATAT ppd = { 0 };
+			wchar_t str3[512];
+			POPUPDATAT ppd = { 0 };
 
-				GetDlgItemText(hdlg, IDC_DELAY, str3, _countof(str3));
+			GetDlgItemText(hdlg, IDC_DELAY, str3, _countof(str3));
 
-				if (IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS)) {
-					BGColour = (SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
-					TextColour = (SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0));
-				}
-				if (IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS)) {
-					BGColour = GetSysColor(COLOR_BTNFACE);
-					TextColour = GetSysColor(COLOR_WINDOWTEXT);
-				}
-				if (IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)) {
-					BGColour = BackgoundClr;
-					TextColour = TextClr;
-				}
-				ppd.lchContact = NULL;
-				mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));
-				ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
-				mir_wstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
-				ppd.colorBack = BGColour;
-				ppd.colorText = TextColour;
-				ppd.PluginWindowProc = nullptr;
-				ppd.iSeconds = _wtol(str3);
-				// display popups
-				PUAddPopupT(&ppd);
+			if (IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS)) {
+				BGColour = (SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
+				TextColour = (SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0));
 			}
+			if (IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS)) {
+				BGColour = GetSysColor(COLOR_BTNFACE);
+				TextColour = GetSysColor(COLOR_WINDOWTEXT);
+			}
+			if (IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)) {
+				BGColour = BackgoundClr;
+				TextColour = TextClr;
+			}
+			ppd.lchContact = NULL;
+			mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));
+			ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
+			mir_wstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
+			ppd.colorBack = BGColour;
+			ppd.colorText = TextColour;
+			ppd.PluginWindowProc = nullptr;
+			ppd.iSeconds = _wtol(str3);
+			// display popups
+			PUAddPopupT(&ppd);
 		}
 		break;
 
 	case WM_NOTIFY: // Here we have pressed either the OK or the APPLY button.
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			{
-				int popupdelayval = 0;
-				wchar_t str2[512];
-				GetDlgItemText(hdlg, IDC_DELAY, str2, _countof(str2));
+			int popupdelayval = 0;
+			wchar_t str2[512];
+			GetDlgItemText(hdlg, IDC_DELAY, str2, _countof(str2));
 
-				popupdelayval = _wtol(str2);
-				db_set_dw(NULL, MODULENAME, POP_DELAY_KEY, popupdelayval);
+			popupdelayval = _wtol(str2);
+			db_set_dw(NULL, MODULENAME, POP_DELAY_KEY, popupdelayval);
 
-				db_set_b(NULL, MODULENAME, LCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WINDOW));
-				db_set_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WEB_PGE));
-				db_set_b(NULL, MODULENAME, LCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_DISMISS));
+			db_set_b(NULL, MODULENAME, LCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WINDOW));
+			db_set_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WEB_PGE));
+			db_set_b(NULL, MODULENAME, LCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_DISMISS));
 
-				db_set_b(NULL, MODULENAME, RCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WINDOW));
-				db_set_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WEB_PGE));
-				db_set_b(NULL, MODULENAME, RCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_DISMISS));
+			db_set_b(NULL, MODULENAME, RCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WINDOW));
+			db_set_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WEB_PGE));
+			db_set_b(NULL, MODULENAME, RCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_DISMISS));
 
-				db_set_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS));
-				db_set_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS));
-				db_set_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS));
+			db_set_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS));
+			db_set_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS));
+			db_set_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS));
 
-				BGColour = (SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
-				TextColour = (SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0));
+			BGColour = (SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
+			TextColour = (SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0));
 
-				db_set_dw(NULL, MODULENAME, POP_BG_CLR_KEY, BGColour);
-				db_set_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, TextColour);
+			db_set_dw(NULL, MODULENAME, POP_BG_CLR_KEY, BGColour);
+			db_set_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, TextColour);
 
-				test = 0;
-				return TRUE;
-			}
+			test = 0;
+			return TRUE;
 		}
 		break;
 	}
