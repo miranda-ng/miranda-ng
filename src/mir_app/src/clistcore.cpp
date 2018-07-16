@@ -59,6 +59,7 @@ static int fnIsVisibleContact(ClcCacheEntry*, ClcGroup*)
 void InitClistCore()
 {
 	g_clistApi.menuProtos = &g_menuProtos;
+	g_clistApi.bOwnerDrawMenu = true;
 
 	g_clistApi.pfnContactListControlWndProc = fnContactListControlWndProc;
 

@@ -99,12 +99,14 @@ static int CluiLangpackChanged(WPARAM, LPARAM)
 	TranslateMenu(g_clistApi.hMenuMain);
 
 	// make menu bar owner-drawn and set it on
-	MENUITEMINFO mii;
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_TYPE | MIIM_DATA;
-	mii.dwItemData = MENU_MIRANDAMENU;
-	mii.fType = MFT_OWNERDRAW;
-	SetMenuItemInfo(g_clistApi.hMenuMain, 0, TRUE, &mii);
+	if (g_clistApi.bOwnerDrawMenu) {
+		MENUITEMINFO mii;
+		mii.cbSize = sizeof(mii);
+		mii.fMask = MIIM_TYPE | MIIM_DATA;
+		mii.dwItemData = MENU_MIRANDAMENU;
+		mii.fType = MFT_OWNERDRAW;
+		SetMenuItemInfo(g_clistApi.hMenuMain, 0, TRUE, &mii);
+	}
 
 	if (GetMenu(g_clistApi.hwndContactList))
 		SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);

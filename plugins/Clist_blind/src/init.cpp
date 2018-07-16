@@ -122,6 +122,7 @@ int CMPlugin::Load()
 
 	Clist_GetInterface();
 	coreCli = g_clistApi;
+	g_clistApi.bOwnerDrawMenu = false;
 	g_clistApi.hInst = g_plugin.getInst();
 	g_clistApi.pfnPaintClc = PaintClc;
 	g_clistApi.pfnContactListWndProc = ContactListWndProc;

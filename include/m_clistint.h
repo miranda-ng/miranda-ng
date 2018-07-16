@@ -393,32 +393,32 @@ struct CLIST_INTERFACE
 
 	OBJLIST<CListEvent> *events;
 
-	CListEvent*    (*pfnAddEvent)(CLISTEVENT*);
-	CLISTEVENT*    (*pfnGetEvent)(MCONTACT hContact, int idx);
+	CListEvent* (*pfnAddEvent)(CLISTEVENT*);
+	CLISTEVENT* (*pfnGetEvent)(MCONTACT hContact, int idx);
 
-	int            (*pfnRemoveEvent)(MCONTACT hContact, MEVENT hDbEvent);
-	int            (*pfnGetImlIconIndex)(HICON hIcon);
+	int      (*pfnRemoveEvent)(MCONTACT hContact, MEVENT hDbEvent);
+	int      (*pfnGetImlIconIndex)(HICON hIcon);
 
 	/*************************************************************************************
 	 * version 3 additions
 	 *************************************************************************************/
 
-	int            (*pfnGetWindowVisibleState)(HWND hWnd, int iStepX, int iStepY);
+	int      (*pfnGetWindowVisibleState)(HWND hWnd, int iStepX, int iStepY);
 
 	/*************************************************************************************
-	 * version 4 additions (0.7.0.x) - genmenu
+	 * version 4 additions - genmenu
 	 *************************************************************************************/
 
 	OBJLIST<MenuProto> *menuProtos;
 
 	int      currentDesiredStatusMode;
-	BOOL     bAutoRebuild;
+	bool     bAutoRebuild, bOwnerDrawMenu;
 
 	/*************************************************************************************
-	 * version 5 additions (0.7.0.x) - tray icons
+	 * version 5 additions - tray icons
 	 *************************************************************************************/
 
-	struct   trayIconInfo_t* trayIcon;
+	trayIconInfo_t* trayIcon;
 	int      trayIconCount;
 	int      cycleStep;
 	wchar_t* szTip;
