@@ -137,8 +137,3 @@ void MsnLinks_Init(void)
 	CreateServiceFunction(szService, ServiceParseMsnimLink);
 	AssocMgr_AddNewUrlTypeW("msnim:", TranslateT("MSN Link Protocol"), g_plugin.getInst(), IDI_MSN, szService, 0);
 }
-
-void MsnLinks_Destroy(void)
-{
-	CallService(MS_ASSOCMGR_REMOVEURLTYPE, 0, (LPARAM)"msnim:");
-}

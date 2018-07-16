@@ -30,7 +30,6 @@ CMPlugin g_plugin;
 // Initialization routines
 
 void MsnLinks_Init(void);
-void MsnLinks_Destroy(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Global variables
@@ -95,6 +94,5 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	MSN_RemoveContactMenus();
-	MsnLinks_Destroy();
 	return 0;
 }
