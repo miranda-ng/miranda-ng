@@ -136,9 +136,9 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 	}
 	// return error code if the recieved code is neither 200 OK nor 302 Moved
 	else {
-		*szData = (wchar_t*)mir_alloc(512);
 		// store the error code in szData
-		mir_snwprintf(*szData, 512, L"Error occured! HTTP Error: %i\n", nlhrReply->resultCode);
+		CMStringW wszError(FORMAT, L"Error occured! HTTP Error: %i\n", nlhrReply->resultCode);
+		*szData = wszError.Detach();
 		result = nlhrReply->resultCode;
 	}
 
