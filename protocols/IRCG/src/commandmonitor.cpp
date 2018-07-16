@@ -1553,7 +1553,7 @@ bool CIrcProto::OnIrc_LISTEND(const CIrcMessage *pmsg)
 
 bool CIrcProto::OnIrc_BANLIST(const CIrcMessage *pmsg)
 {
-	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 2) {
+	if (m_managerDlg && pmsg->m_bIncoming && pmsg->parameters.getCount() > 2) {
 		if (m_managerDlg->GetHwnd() && (
 			m_managerDlg->m_radio1.GetState() && pmsg->sCommand == L"367" ||
 			m_managerDlg->m_radio2.GetState() && pmsg->sCommand == L"346" ||
@@ -1582,7 +1582,7 @@ bool CIrcProto::OnIrc_BANLIST(const CIrcMessage *pmsg)
 
 bool CIrcProto::OnIrc_BANLISTEND(const CIrcMessage *pmsg)
 {
-	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 1) {
+	if (m_managerDlg && pmsg->m_bIncoming && pmsg->parameters.getCount() > 1) {
 		if (m_managerDlg->GetHwnd() &&
 			(m_managerDlg->m_radio1.GetState() && pmsg->sCommand == L"368"
 			|| m_managerDlg->m_radio2.GetState() && pmsg->sCommand == L"347"
