@@ -899,7 +899,7 @@ void Meta_InitServices()
 	HookEvent(ME_MC_DEFAULTTCHANGED, Meta_CallMostOnline);
 
 	// redirect nudge events
-	hEventNudge = CreateHookableEvent(META_PROTO "/Nudge");
+	hEventNudge = CreateHookableEvent(META_PROTO PE_NUDGE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

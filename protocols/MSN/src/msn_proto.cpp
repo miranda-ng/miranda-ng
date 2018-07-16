@@ -75,7 +75,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	CreateProtoService(PS_SETMYNICKNAME, &CMsnProto::SetNickName);
 
-	hMSNNudge = CreateProtoEvent("/Nudge");
+	hMSNNudge = CreateProtoEvent(PE_NUDGE);
 	CreateProtoService(PS_SEND_NUDGE, &CMsnProto::SendNudge);
 
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CMsnProto::GetUnreadEmailCount);

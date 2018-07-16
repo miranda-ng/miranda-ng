@@ -32,8 +32,7 @@ CMraProto::CMraProto(const char* _module, const wchar_t* _displayName) :
 	CreateProtoService(PS_SEND_NUDGE, &CMraProto::MraSendNudge);
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CMraProto::GetUnreadEmailCount);
 
-	if (ServiceExists(MS_NUDGE_SEND))
-		m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
+	m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
 
 	wchar_t name[MAX_PATH];
 	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
@@ -64,8 +63,7 @@ CMraProto::~CMraProto()
 {
 	Netlib_CloseHandle(m_hNetlibUser);
 
-	if (m_heNudgeReceived)
-		DestroyHookableEvent(m_heNudgeReceived);
+	DestroyHookableEvent(m_heNudgeReceived);
 
 	MraAvatarsQueueDestroy(hAvatarsQueueHandle);
 	MraMPopSessionQueueDestroy(hMPopSessionQueue);
