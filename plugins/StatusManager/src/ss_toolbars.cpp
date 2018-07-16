@@ -41,7 +41,7 @@ void RemoveTopToolbarButtons()
 int CreateTopToolbarButtons(WPARAM, LPARAM)
 {
 	if (iconList[0].hIcolib == nullptr)
-		g_plugin.registerIcon("Toolbar/StartupStatus", iconList);
+		g_plugin.registerIcon(LPGEN("Toolbar") "/" LPGEN("StartupStatus"), iconList);
 
 	int profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
 

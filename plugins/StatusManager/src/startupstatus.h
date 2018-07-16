@@ -19,7 +19,7 @@
 #ifndef __STARTUPSTATUSHEADER
 #define __STARTUPSTATUSHEADER
 
-#define SSMODULENAME    LPGEN("StartupStatus")
+#define SSMODULENAME "StartupStatus"
 
 struct PROFILEOPTIONS : public MZeroedObject
 {
