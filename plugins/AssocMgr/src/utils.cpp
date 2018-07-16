@@ -42,62 +42,20 @@ void DynamicLoadInit()
 /************************* String Conv ****************************/
 
 // mir_free() the return value
-WCHAR* a2u(const char *pszAnsi, BOOL fMirCp)
-{
-	UINT codepage, cch;
-	WCHAR *psz;
-
-	if (pszAnsi == nullptr) return nullptr;
-	codepage = fMirCp ? Langpack_GetDefaultCodePage() : CP_ACP;
-	cch = MultiByteToWideChar(codepage, 0, pszAnsi, -1, nullptr, 0);
-	if (!cch) return nullptr;
-
-	psz = (WCHAR*)mir_alloc(cch * sizeof(WCHAR));
-	if (psz != nullptr && !MultiByteToWideChar(codepage, 0, pszAnsi, -1, psz, cch)) {
-		mir_free(psz);
-		return nullptr;
-	}
-	return psz;
-}
-
-// mir_free() the return value
-char* u2a(const WCHAR *pszUnicode, BOOL fMirCp)
-{
-	UINT codepage, cch;
-	char *psz;
-	DWORD flags;
-
-	if (pszUnicode == nullptr) return nullptr;
-	codepage = fMirCp ? Langpack_GetDefaultCodePage() : CP_ACP;
-	/* without WC_COMPOSITECHECK some characters might get out strange (see MS blog) */
-	cch = WideCharToMultiByte(codepage, flags = WC_COMPOSITECHECK, pszUnicode, -1, nullptr, 0, nullptr, nullptr);
-	if (!cch) cch = WideCharToMultiByte(codepage, flags = 0, pszUnicode, -1, nullptr, 0, nullptr, nullptr);
-	if (!cch) return nullptr;
-
-	psz = (char*)mir_alloc(cch);
-	if (psz != nullptr && !WideCharToMultiByte(codepage, flags, pszUnicode, -1, psz, cch, nullptr, nullptr)) {
-		mir_free(psz);
-		return nullptr;
-	}
-	return psz;
-}
-
-// mir_free() the return value
 wchar_t* s2t(const void *pszStr, DWORD fUnicode, BOOL fMirCp)
 {
-
-	if (fUnicode) return mir_wstrdup((WCHAR*)pszStr);
-	return a2u((char*)pszStr, fMirCp);
+	if (fUnicode)
+		return mir_wstrdup((WCHAR*)pszStr);
+	return mir_a2u_cp((char*)pszStr, fMirCp);
 
 }
 
 // mir_free() the return value
 void* t2s(const wchar_t *pszStr, DWORD fUnicode, BOOL fMirCp)
 {
-
-	if (!fUnicode) return (void*)u2a(pszStr, fMirCp);
+	if (!fUnicode)
+		return (void*)mir_u2a_cp(pszStr, fMirCp);
 	return (void*)mir_wstrdup(pszStr);
-
 }
 
 /************************* Database *******************************/
@@ -170,7 +128,7 @@ void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, .
 	mbp->lpszText = mir_strdup(szText);
 	mbp->dwStyle = MB_OK | MB_SETFOREGROUND | MB_TASKMODAL;
 	mbp->dwLanguageId = LANGIDFROMLCID(Langpack_GetDefaultLocale());
-	switch (flags&NIIF_ICON_MASK) {
+	switch (flags & NIIF_ICON_MASK) {
 	case NIIF_INFO:    mbp->dwStyle |= MB_ICONINFORMATION; break;
 	case NIIF_WARNING: mbp->dwStyle |= MB_ICONWARNING; break;
 	case NIIF_ERROR:   mbp->dwStyle |= MB_ICONERROR;

@@ -408,7 +408,7 @@ static BOOL AddNewAssocItem_Worker(char *pszClassName, const TYPEDESCHEAD *tdh, 
 	// init new item
 	assoc = &pAssocList[nAssocListCount];
 	assoc->pszClassName = pszClassName; // no dup here
-	assoc->pszDescription = s2t(tdh->pszDescription, tdh->flags&FTDF_UNICODE, TRUE); // does NULL check
+	assoc->pszDescription = s2t(tdh->pszDescription, tdh->flags & FTDF_UNICODE, TRUE); // does NULL check
 	assoc->hInstance = tdh->hInstance; // hInstance is allowed to be NULL for miranda32.exe
 	assoc->nIconResID = (WORD)tdh->nIconResID; // default icon selected later on
 	assoc->pszService = mir_strdup(tdh->pszService); // does NULL check
@@ -483,7 +483,7 @@ static INT_PTR ServiceAddNewFileType(WPARAM, LPARAM lParam)
 	char *pszFileExt = mir_strdup(ftd->pszFileExt);
 	char *pszClassName = MakeFileClassName(ftd->pszFileExt);
 	if (pszFileExt != nullptr && pszClassName != nullptr) {
-		wchar_t *pszVerbDesc = s2t(ftd->pwszVerbDesc, ftd->flags&FTDF_UNICODE, TRUE); // does NULL check
+		wchar_t *pszVerbDesc = s2t(ftd->pwszVerbDesc, ftd->flags & FTDF_UNICODE, TRUE); // does NULL check
 		char *pszMimeType = mir_strdup(ftd->pszMimeType); // does NULL check
 		if (AddNewAssocItem_Worker(pszClassName, (TYPEDESCHEAD*)ftd, pszFileExt, pszVerbDesc, pszMimeType))
 			// no need to free pszClassName,  pszFileExt, pszVerbDesc and pszMimeType, 
@@ -565,7 +565,7 @@ static BOOL InvokeHandler_Worker(const char *pszClassName, const wchar_t *pszPar
 	}
 	// get params
 	pszService = mir_strdup(assoc->pszService);
-	pvParam = t2s(pszParam, assoc->flags&FTDF_UNICODE, FALSE);
+	pvParam = t2s(pszParam, assoc->flags & FTDF_UNICODE, FALSE);
 
 	// call service
 	if (pszService != nullptr && pvParam != nullptr)
@@ -577,16 +577,15 @@ static BOOL InvokeHandler_Worker(const char *pszClassName, const wchar_t *pszPar
 
 INT_PTR InvokeFileHandler(const wchar_t *pszFileName)
 {
-	char *pszClassName, *pszFileExt;
 	INT_PTR res = CALLSERVICE_NOTFOUND;
 
 	// find extension
 	wchar_t *p = (wchar_t*)wcsrchr(pszFileName, '.');
 	if (p != nullptr) {
-		pszFileExt = t2a(p);
+		char *pszFileExt = mir_u2a(p);
 		if (pszFileExt != nullptr) {
 			// class name
-			pszClassName = MakeFileClassName(pszFileExt);
+			char *pszClassName = MakeFileClassName(pszFileExt);
 			if (pszClassName != nullptr)
 				if (!InvokeHandler_Worker(pszClassName, pszFileName, &res)) {
 					// correct registry on error (no longer in list)
@@ -602,17 +601,16 @@ INT_PTR InvokeFileHandler(const wchar_t *pszFileName)
 
 INT_PTR InvokeUrlHandler(const wchar_t *pszUrl)
 {
-	char *pszClassName, *pszProtoPrefix, *p;
 	INT_PTR res = CALLSERVICE_NOTFOUND;
 
 	// find prefix
-	pszProtoPrefix = t2a(pszUrl);
+	char *pszProtoPrefix = mir_u2a(pszUrl);
 	if (pszProtoPrefix != nullptr) {
-		p = strchr(pszProtoPrefix, ':');
+		char *p = strchr(pszProtoPrefix, ':');
 		if (p != nullptr) {
 			*(++p) = 0; // remove trailing :
 			// class name
-			pszClassName = MakeUrlClassName(pszProtoPrefix);
+			char *pszClassName = MakeUrlClassName(pszProtoPrefix);
 			if (pszClassName != nullptr)
 				if (!InvokeHandler_Worker(pszClassName, pszUrl, &res))
 					// correct registry on error (no longer in list)

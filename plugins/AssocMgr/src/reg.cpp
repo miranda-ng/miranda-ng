@@ -314,13 +314,9 @@ static BOOL IsRegStrValue(HKEY hKey, const wchar_t *pszValName, const wchar_t *p
 static BOOL IsRegStrValueA(HKEY hKey, const wchar_t *pszValName, const char *pszCmpVal)
 {
 	BOOL fSame = FALSE;
-	char *pszValA;
 	wchar_t *pszVal = GetRegStrValue(hKey, pszValName);
 	if (pszVal != nullptr) {
-		pszValA = t2a(pszVal);
-		if (pszValA != nullptr)
-			fSame = !mir_strcmp(pszValA, pszCmpVal);
-		mir_free(pszValA); // does NULL check
+		fSame = !mir_strcmp(_T2A(pszVal), pszCmpVal);
 		mir_free(pszVal);
 	}
 	return fSame;
@@ -399,10 +395,8 @@ static void BackupRegTree_Worker(HKEY hKey, const char *pszSubKey, struct Backup
 					if ((res = RegEnumValueA(hKey, index++, pszName, &cchName, nullptr, nullptr, nullptr, nullptr)) == ERROR_SUCCESS) {
 						(*param->ppszDbPrefix)[nDbPrefixLen] = 0;
 						mir_strcat(*param->ppszDbPrefix, pszName); // buffer safe
-						ptrW ptszName(a2t(pszName));
-						if (ptszName != NULL)
-							if (!RegQueryValueEx(hKey, ptszName, nullptr, &dwType, pData, &cbData))
-								WriteDbBackupData(*param->ppszDbPrefix, dwType, pData, cbData);
+						if (!RegQueryValueEx(hKey, _A2T(pszName), nullptr, &dwType, pData, &cbData))
+							WriteDbBackupData(*param->ppszDbPrefix, dwType, pData, cbData);
 					}
 				}
 				if (res == ERROR_NO_MORE_ITEMS)
@@ -476,18 +470,22 @@ static LONG RestoreRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPr
 					if (ReadDbBackupData(ppszSettings[i], &dwType, &pData, &cbData)) {
 						// set value
 						if (!(dwType & REGF_ANSI)) {
-							WCHAR *pwszValName = a2u(pszValName, FALSE);
-							if (pwszValName != nullptr) res = RegSetValueExW(hSubKey, pwszValName, 0, dwType, pData, cbData);
-							else res = ERROR_NOT_ENOUGH_MEMORY;
-							mir_free(pwszValName); // does NULL check
+							ptrW pwszValName(mir_a2u(pszValName));
+							if (pwszValName != nullptr)
+								res = RegSetValueExW(hSubKey, pwszValName, 0, dwType, pData, cbData);
+							else
+								res = ERROR_NOT_ENOUGH_MEMORY;
 						}
 						else res = RegSetValueExA(hSubKey, pszValName, 0, dwType&~REGF_ANSI, pData, cbData);
 						mir_free(pData);
 					}
 					else res = ERROR_INVALID_DATA;
-					if (res) break;
+					if (res)
+						break;
+					
 					db_unset(NULL, MODULENAME, ppszSettings[i]);
-					if (hSubKey != hKey) RegCloseKey(hSubKey);
+					if (hSubKey != hKey)
+						RegCloseKey(hSubKey);
 				}
 				mir_free(ppszSettings[i]);
 			}
@@ -672,20 +670,18 @@ BOOL AddRegClass(const char *pszClassName, const wchar_t *pszTypeDescription, co
 
 BOOL RemoveRegClass(const char *pszClassName)
 {
-	LONG res;
 	HKEY hRootKey, hClassKey, hShellKey, hVerbKey;
-	wchar_t *ptszClassName, *ptszPrevRunCmd;
+	wchar_t *ptszPrevRunCmd;
+
+	if (pszClassName == nullptr)
+		return ERROR_BAD_ARGUMENTS;
 
 	// try to open interactive user's classes key
 	if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Classes", 0, DELETE, &hRootKey))
 		hRootKey = HKEY_CLASSES_ROOT;
 
 	// class name
-	ptszClassName = a2t(pszClassName);
-	if (ptszClassName != nullptr)
-		res = DeleteRegSubTree(hRootKey, ptszClassName);
-	else res = ERROR_OUTOFMEMORY;
-	mir_free(ptszClassName); // does NULL check
+	LONG res = DeleteRegSubTree(hRootKey, _A2T(pszClassName));
 
 	// backup only saved/restored for fUrlProto
 	if (!res) {
@@ -699,7 +695,7 @@ BOOL RemoveRegClass(const char *pszClassName)
 						// command
 						ptszPrevRunCmd = GetRegStrValue(hVerbKey, L"command");
 						if (ptszPrevRunCmd != nullptr && !IsValidRunCommand(ptszPrevRunCmd))
-							res = DeleteRegSubTree(hRootKey, ptszClassName); // backup outdated, remove all
+							res = DeleteRegSubTree(hRootKey, _A2T(pszClassName)); // backup outdated, remove all
 						mir_free(ptszPrevRunCmd); // does NULL check
 						RegCloseKey(hVerbKey);
 					}
@@ -1096,10 +1092,9 @@ void AddRegOpenWithExtEntry(const wchar_t *pszAppFileName, const char *pszFileEx
 		if (!RegOpenKeyEx(hAppsKey, pszAppFileName, 0, KEY_CREATE_SUB_KEY, &hExeKey)) {
 			// supported types
 			if (!RegCreateKeyEx(hExeKey, L"SupportedTypes", 0, nullptr, 0, KEY_SET_VALUE, nullptr, &hTypesKey, nullptr)) {
-				wchar_t *ptszFileExt;
-				ptszFileExt = a2t(pszFileExt);
+				ptrW ptszFileExt(mir_a2u(pszFileExt));
 				if (ptszFileExt != nullptr)
-					RegSetValueEx(hTypesKey, ptszFileExt, 0, REG_SZ, (BYTE*)pszFileDesc, (int)(mir_wstrlen(pszFileDesc) + 1) * sizeof(wchar_t));
+					RegSetValueEx(hTypesKey, ptszFileExt, 0, REG_SZ, (BYTE*)ptszFileExt.get(), (int)(mir_wstrlen(pszFileDesc) + 1) * sizeof(wchar_t));
 				mir_free(ptszFileExt); // does NULL check
 				RegCloseKey(hTypesKey);
 			}
