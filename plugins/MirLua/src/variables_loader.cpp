@@ -166,7 +166,7 @@ INT_PTR FormatString(void *obj, WPARAM wParam, LPARAM)
 
 	lua_pushstring(L, T2Utf(result));
 
-	return (INT_PTR)result;
+	return (INT_PTR)result.detach();
 }
 
 /***********************************************/
@@ -176,7 +176,7 @@ void CMLuaVariablesLoader::LoadVariables()
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 		return;
 
-	CreateServiceFunctionObj(MS_VARS_FORMATSTRING, FormatString, L);
+	// CreateServiceFunctionObj(MS_VARS_FORMATSTRING, FormatString, L);
 
 	Log("Loading variables functions");
 
