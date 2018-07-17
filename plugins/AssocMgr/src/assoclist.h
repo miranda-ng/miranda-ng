@@ -32,7 +32,11 @@ struct ASSOCDATA : public MZeroedObject
 		pszFileExt(mir_strdup(p.pszFileExt)),
 		pszMimeType(mir_strdup(p.pszMimeType)),
 		pszVerbDesc(mir_wstrdup(p.pszVerbDesc))
-	{}
+	{
+		flags = p.flags;
+		hInstance = p.hInstance;
+		nIconResID = p.nIconResID;
+	}
 
 	ptrA pszClassName;    // class name as used in registry and db
 	ptrW pszDescription;

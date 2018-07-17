@@ -62,35 +62,31 @@ static void DeleteAssocEnabledSetting(const ASSOCDATA *assoc)
 
 void CleanupAssocEnabledSettings(void)
 {
-	int nSettingsCount;
-	char **ppszSettings, *pszSuffix;
-	DBVARIANT dbv;
-	int i;
-	HANDLE hFile;
-	wchar_t szDLL[MAX_PATH];
-	char szSetting[MAXMODULELABELLENGTH];
-
 	// delete old enabled_* settings if associated plugin no longer present
+	int nSettingsCount;
+	char **ppszSettings;
 	if (EnumDbPrefixSettings(MODULENAME, "enabled_", &ppszSettings, &nSettingsCount)) {
 		mir_cslock lck(csAssocList);
-		for (i = 0; i < nSettingsCount; ++i) {
-			pszSuffix = &ppszSettings[i][8];
+		for (int i = 0; i < nSettingsCount; ++i) {
+			char *pszSuffix = &ppszSettings[i][8];
+			char szSetting[MAXMODULELABELLENGTH];
 			mir_snprintf(szSetting, "module_%s", pszSuffix);
-			if (!db_get_ws(NULL, MODULENAME, szSetting, &dbv)) {
-				if (PathToAbsoluteW(dbv.ptszVal, szDLL)) {
+			ptrW wszPath(db_get_wsa(NULL, MODULENAME, szSetting));
+			if (wszPath != nullptr) {
+				wchar_t szDLL[MAX_PATH];
+				if (PathToAbsoluteW(wszPath, szDLL)) {
 					// file still exists?
-					hFile = CreateFile(szDLL, 0, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
+					HANDLE hFile = CreateFile(szDLL, 0, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 					if (hFile == INVALID_HANDLE_VALUE) {
 						db_unset(NULL, MODULENAME, ppszSettings[i]);
 						db_unset(NULL, MODULENAME, szSetting);
 					}
 					else CloseHandle(hFile);
 				}
-				mir_free(dbv.ptszVal);
 			}
 			mir_free(ppszSettings[i]);
 		}
-		mir_free(ppszSettings); // does NULL check
+		mir_free(ppszSettings);
 	}
 }
 
@@ -100,8 +96,10 @@ static __inline void RememberMimeTypeAdded(const char *pszMimeType, const char *
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, "mime_%s", pszMimeType);
-	if (fAdded) db_set_s(NULL, MODULENAME, szSetting, pszFileExt);
-	else db_unset(NULL, MODULENAME, szSetting);
+	if (fAdded)
+		db_set_s(NULL, MODULENAME, szSetting, pszFileExt);
+	else
+		db_unset(NULL, MODULENAME, szSetting);
 }
 
 static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
@@ -110,17 +108,18 @@ static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
 	DBVARIANT dbv;
 	BOOL fAdded = FALSE;
 	mir_snprintf(szSetting, "mime_%s", pszMimeType);
-	if (!db_get(NULL, MODULENAME, szSetting, &dbv)) fAdded = TRUE;
-	else db_free(&dbv);
+	if (!db_get(NULL, MODULENAME, szSetting, &dbv))
+		fAdded = TRUE;
+	else
+		db_free(&dbv);
 	return fAdded;
 }
 
 void CleanupMimeTypeAddedSettings(void)
 {
+	// delete old mime_* settings and unregister the associated mime type
 	int nSettingsCount;
 	char **ppszSettings;
-
-	// delete old mime_* settings and unregister the associated mime type
 	if (EnumDbPrefixSettings(MODULENAME, "mime_", &ppszSettings, &nSettingsCount)) {
 		mir_cslock lck(csAssocList);
 		for (int i = 0; i < nSettingsCount; ++i) {
@@ -228,12 +227,11 @@ static wchar_t* GetAssocTypeDesc(const ASSOCDATA *assoc)
 // this function assumes it has got the csAssocList mutex
 static BOOL IsAssocRegistered(const ASSOCDATA *assoc)
 {
-	BOOL fSuccess = FALSE, fIsUrl, fUseMainCmdLine;
-
-	fIsUrl = (assoc->pszFileExt == nullptr);
-	fUseMainCmdLine = (assoc->pszService == nullptr);
+	BOOL fIsUrl = (assoc->pszFileExt == nullptr);
+	BOOL fUseMainCmdLine = (assoc->pszService == nullptr);
 
 	// class
+	BOOL fSuccess = FALSE;
 	wchar_t *pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
 	if (pszRunCmd != nullptr)
 		fSuccess = IsRegClass(assoc->pszClassName, pszRunCmd);
@@ -294,11 +292,8 @@ static BOOL EnsureAssocRegistered(const ASSOCDATA *assoc)
 // call GetLastError() on error to get more error details
 static BOOL UnregisterAssoc(const ASSOCDATA *assoc)
 {
-	BOOL fIsUrl, fUseMainCmdLine;
-	wchar_t *pszAppFileName;
-
-	fIsUrl = (assoc->pszFileExt == nullptr);
-	fUseMainCmdLine = (assoc->pszService == nullptr);
+	BOOL fIsUrl = (assoc->pszFileExt == nullptr);
+	BOOL fUseMainCmdLine = (assoc->pszService == nullptr);
 
 	// class might have been registered by another instance
 	wchar_t *pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
@@ -318,8 +313,9 @@ static BOOL UnregisterAssoc(const ASSOCDATA *assoc)
 				RemoveRegMimeType(assoc->pszMimeType, assoc->pszFileExt);
 				RememberMimeTypeAdded(assoc->pszMimeType, assoc->pszFileExt, FALSE);
 			}
+		
 		// open-with entry
-		pszAppFileName = MakeAppFileName(fUseMainCmdLine);
+		wchar_t *pszAppFileName = MakeAppFileName(fUseMainCmdLine);
 		if (pszAppFileName != nullptr)
 			RemoveRegOpenWithExtEntry(pszAppFileName, assoc->pszFileExt);
 		mir_free(pszAppFileName); // does NULL check
@@ -332,7 +328,7 @@ static BOOL UnregisterAssoc(const ASSOCDATA *assoc)
 // * FILETYPEDESC and URLTYPEDESC structures.
 // * the head is identical for both structures.
 
-typedef struct
+struct TYPEDESCHEAD
 {
 	int cbSize;  // either sizeof(FILETYPEDESC) or sizeof(URLTYPEDESC)
 	const void *pszDescription;
@@ -340,7 +336,7 @@ typedef struct
 	UINT nIconResID;
 	const char *pszService;
 	DWORD flags;
-} TYPEDESCHEAD;
+};
 
 // ownership of pszClassName,  pszFileExt,  pszVerbDesc and pszMimeType is transfered
 // to the storage list on success
@@ -441,7 +437,6 @@ static INT_PTR ServiceRemoveFileType(WPARAM, LPARAM lParam)
 static INT_PTR ServiceAddNewUrlType(WPARAM, LPARAM lParam)
 {
 	const URLTYPEDESC *utd = (URLTYPEDESC*)lParam;
-
 	if (utd->cbSize < sizeof(URLTYPEDESC))
 		return 1;
 	if (utd->pszService == nullptr)
