@@ -25,7 +25,7 @@
 # ifdef HAVE_ALLOCA_H
 #  include <alloca.h>
 # elif !defined(alloca)
-#  if defined(__GNUC__)
+#  if defined(__clang__) || defined(__GNUC__)
 #   define alloca __builtin_alloca
 #  elif defined _AIX
 #   define alloca __alloca
@@ -113,8 +113,8 @@ sodium_memzero(void *const pnt, const size_t len)
 #elif HAVE_WEAK_SYMBOLS
     memset(pnt, 0, len);
     _sodium_dummy_symbol_to_prevent_memzero_lto(pnt, len);
-# ifdef HAVE_AMD64_ASM
-    __asm__ __volatile__ ("" : : "p"(pnt));
+# ifdef HAVE_INLINE_ASM
+    __asm__ __volatile__ ("" : : "r"(pnt) : "memory");
 # endif
 #else
     volatile unsigned char *volatile pnt_ =
@@ -573,15 +573,11 @@ sodium_malloc(const size_t size)
 __attribute__((malloc)) void *
 sodium_allocarray(size_t count, size_t size)
 {
-    size_t total_size;
-
     if (count > (size_t) 0U && size >= (size_t) SIZE_MAX / count) {
         errno = ENOMEM;
         return NULL;
     }
-    total_size = count * size;
-
-    return sodium_malloc(total_size);
+    return sodium_malloc(count * size);
 }
 
 #ifndef HAVE_ALIGNED_MALLOC
