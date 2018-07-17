@@ -42,7 +42,8 @@ extern "C" {
  *****************************************************************************/
 
 
-/** \page core Public core API for Tox clients.
+/**
+ * @page core Public core API for Tox clients.
  *
  * Every function that can fail takes a function-specific error code pointer
  * that can be used to diagnose problems with the Tox state or the function
@@ -81,7 +82,8 @@ extern "C" {
  * part of the ABI.
  */
 
-/** \subsection events Events and callbacks
+/**
+ * @subsection events Events and callbacks
  *
  * Events are handled by callbacks. One callback can be registered per event.
  * All events have a callback function type named `tox_{event}_cb` and a
@@ -104,7 +106,8 @@ extern "C" {
  * their own user data pointer of their own type.
  */
 
-/** \subsection threading Threading implications
+/**
+ * @subsection threading Threading implications
  *
  * It is possible to run multiple concurrent threads with a Tox instance for
  * each thread. It is also possible to run all Tox instances in the same thread.
@@ -126,12 +129,12 @@ extern "C" {
  *
  * E.g. to get the current nickname, one would write
  *
- * \code
+ * @code
  * size_t length = ${tox.self.name.size}(tox);
  * uint8_t *name = malloc(length);
  * if (!name) abort();
  * ${tox.self.name.get}(tox, name);
- * \endcode
+ * @endcode
  *
  * If any other thread calls ${tox.self.name.set} while this thread is allocating
  * memory, the length may have become invalid, and the call to
@@ -179,7 +182,7 @@ const VERSION_MINOR                = 2;
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-const VERSION_PATCH                = 2;
+const VERSION_PATCH                = 3;
 
 /**
  * A macro to check at preprocessing time whether the client code is compatible
@@ -239,6 +242,11 @@ const PUBLIC_KEY_SIZE              = 32;
  * The size of a Tox Secret Key in bytes.
  */
 const SECRET_KEY_SIZE              = 32;
+
+/**
+ * The size of a Tox Conference unique id in bytes.
+ */
+const CONFERENCE_UID_SIZE          = 32;
 
 /**
  * The size of the nospam in bytes when written in a Tox address.
@@ -306,6 +314,16 @@ const FILE_ID_LENGTH              = 32;
  * @deprecated The macro will be removed in 0.3.0. Use the function instead.
  */
 const MAX_FILENAME_LENGTH         = 255;
+
+/**
+ * Maximum length of a hostname, e.g. proxy or bootstrap node names.
+ *
+ * This length includes the NUL byte. Hostnames are NUL-terminated C strings, so
+ * they are 255 characters plus one NUL byte.
+ *
+ * @deprecated The macro will be removed in 0.3.0. Use the function instead.
+ */
+const MAX_HOSTNAME_LENGTH         = 256;
 
 
 /*******************************************************************************
@@ -473,7 +491,9 @@ static class options {
      *
      * Setting this to false will force Tox to use TCP only. Communications will
      * need to be relayed through a TCP relay node, potentially slowing them down.
-     * Disabling UDP support is necessary when using anonymous proxies or Tor.
+     *
+     * If a proxy is enabled, UDP will be disabled if either toxcore or the
+     * proxy don't support proxying UDP messages.
      */
     bool udp_enabled;
 
@@ -494,8 +514,8 @@ static class options {
        * The IP address or DNS name of the proxy to be used.
        *
        * If used, this must be non-NULL and be a valid DNS name. The name must not
-       * exceed 255 characters, and be in a NUL-terminated C string format
-       * (255 chars + 1 NUL byte).
+       * exceed $MAX_HOSTNAME_LENGTH characters, and be in a NUL-terminated C string
+       * format ($MAX_HOSTNAME_LENGTH includes the NUL byte).
        *
        * This member is ignored (it can be NULL) if proxy_type is ${PROXY_TYPE.NONE}.
        *
@@ -744,17 +764,18 @@ uint8_t[size] savedata {
  * This function will attempt to connect to the node using UDP. You must use
  * this function even if ${options.this.udp_enabled} was set to false.
  *
- * @param address The hostname or IP address (IPv4 or IPv6) of the node.
+ * @param host The hostname or IP address (IPv4 or IPv6) of the node. Must be
+ *   at most $MAX_HOSTNAME_LENGTH chars, including the NUL byte.
  * @param port The port on the host on which the bootstrap Tox instance is
  *   listening.
  * @param public_key The long term public key of the bootstrap node
  *   ($PUBLIC_KEY_SIZE bytes).
  * @return true on success.
  */
-bool bootstrap(string address, uint16_t port, const uint8_t[PUBLIC_KEY_SIZE] public_key) {
+bool bootstrap(string host, uint16_t port, const uint8_t[PUBLIC_KEY_SIZE] public_key) {
   NULL,
   /**
-   * The address could not be resolved to an IP address, or the IP address
+   * The hostname could not be resolved to an IP address, or the IP address
    * passed was invalid.
    */
   BAD_HOST,
@@ -772,13 +793,14 @@ bool bootstrap(string address, uint16_t port, const uint8_t[PUBLIC_KEY_SIZE] pub
  * the same bootstrap node, or to add TCP relays without using them as
  * bootstrap nodes.
  *
- * @param address The hostname or IP address (IPv4 or IPv6) of the TCP relay.
+ * @param host The hostname or IP address (IPv4 or IPv6) of the TCP relay.
+ *   Must be at most $MAX_HOSTNAME_LENGTH chars, including the NUL byte.
  * @param port The port on the host on which the TCP relay is listening.
  * @param public_key The long term public key of the TCP relay
  *   ($PUBLIC_KEY_SIZE bytes).
  * @return true on success.
  */
-bool add_tcp_relay(string address, uint16_t port, const uint8_t[PUBLIC_KEY_SIZE] public_key)
+bool add_tcp_relay(string host, uint16_t port, const uint8_t[PUBLIC_KEY_SIZE] public_key)
     with error for bootstrap;
 
 
@@ -1064,7 +1086,7 @@ namespace friend {
    * @param message The message that will be sent along with the friend request.
    * @param length The length of the data byte array.
    *
-   * @return the friend number on success, UINT32_MAX on failure.
+   * @return the friend number on success, an unspecified value on failure.
    */
   uint32_t add(
       const uint8_t[ADDRESS_SIZE] address,
@@ -1120,7 +1142,7 @@ namespace friend {
    * @param public_key A byte array of length $PUBLIC_KEY_SIZE containing the
    *   Public Key (not the Address) of the friend to add.
    *
-   * @return the friend number on success, UINT32_MAX on failure.
+   * @return the friend number on success, an unspecified value on failure.
    * @see $add for a more detailed description of friend numbers.
    */
   uint32_t add_norequest(const uint8_t[PUBLIC_KEY_SIZE] public_key)
@@ -1159,7 +1181,7 @@ namespace friend {
   /**
    * Return the friend number associated with that Public Key.
    *
-   * @return the friend number on success, UINT32_MAX on failure.
+   * @return the friend number on success, an unspecified value on failure.
    * @param public_key A byte array containing the Public Key.
    */
   const uint32_t by_public_key(const uint8_t[PUBLIC_KEY_SIZE] public_key) {
@@ -1633,6 +1655,14 @@ static bool hash(uint8_t[HASH_LENGTH] hash, const uint8_t[length] data);
 
 namespace file {
 
+  /**
+   * A list of pre-defined file kinds. Toxcore itself does not behave
+   * differently for different file kinds. These are a hint to the client
+   * telling it what use the sender intended for the file. The `kind` parameter
+   * in the send function and recv callback are `uint32_t`, not $KIND, because
+   * clients can invent their own file kind. Unknown file kinds should be
+   * treated as ${KIND.DATA}.
+   */
   enum KIND {
     /**
      * Arbitrary file data. Clients can choose to handle it based on the file name
@@ -1879,7 +1909,7 @@ namespace file {
    *
    * @return A file number used as an identifier in subsequent callbacks. This
    *   number is per friend. File numbers are reused after a transfer terminates.
-   *   On failure, this function returns UINT32_MAX. Any pattern in file numbers
+   *   On failure, this function returns an unspecified value. Any pattern in file numbers
    *   should not be relied on.
    */
   uint32_t send(uint32_t friend_number, uint32_t kind, uint64_t file_size,
@@ -2017,7 +2047,7 @@ namespace file {
      *   transfer request.
      * @param file_number The friend-specific file number the data received is
      *   associated with.
-     * @param kind The meaning of the file to be sent.
+     * @param kind The meaning of the file that was sent.
      * @param file_size Size in bytes of the file the client wants to send,
      *   UINT64_MAX if unknown or streaming.
      * @param filename Name of the file. Does not need to be the actual name. This
@@ -2164,7 +2194,7 @@ namespace conference {
    *
    * This function creates a new text conference.
    *
-   * @return conference number on success, or UINT32_MAX on failure.
+   * @return conference number on success, or an unspecified value on failure.
    */
   uint32_t new() {
     /**
@@ -2279,7 +2309,7 @@ namespace conference {
    * @param cookie Received via the `${event invite}` event.
    * @param length The size of cookie.
    *
-   * @return conference number on success, UINT32_MAX on failure.
+   * @return conference number on success, an unspecified value on failure.
    */
   uint32_t join(uint32_t friend_number, const uint8_t[length] cookie) {
     /**
@@ -2429,6 +2459,32 @@ namespace conference {
        */
       CONFERENCE_NOT_FOUND,
     }
+  }
+
+  /**
+   * Get the conference unique ID.
+   *
+   * If uid is NULL, this function has no effect.
+   *
+   * @param uid A memory region large enough to store $CONFERENCE_UID_SIZE bytes.
+   *
+   * @return true on success.
+   */
+  const bool get_uid(uint32_t conference_number, uint8_t[CONFERENCE_UID_SIZE] uid);
+
+  /**
+   * Return the conference number associated with the specified uid.
+   *
+   * @param uid A byte array containing the conference id ($CONFERENCE_UID_SIZE).
+   *
+   * @return the conference number on success, an unspecified value on failure.
+   */
+  const uint32_t by_uid(const uint8_t[CONFERENCE_UID_SIZE] uid) {
+    NULL,
+    /**
+     * No conference with the given uid exists on the conference list.
+     */
+    NOT_FOUND,
   }
 
 }
@@ -2601,6 +2657,43 @@ inline namespace self {
 #ifdef __cplusplus
 }
 #endif
+
+typedef TOX_ERR_OPTIONS_NEW Tox_Err_Options_New;
+typedef TOX_ERR_NEW Tox_Err_New;
+typedef TOX_ERR_BOOTSTRAP Tox_Err_Bootstrap;
+typedef TOX_ERR_SET_INFO Tox_Err_Set_Info;
+typedef TOX_ERR_FRIEND_ADD Tox_Err_Friend_Add;
+typedef TOX_ERR_FRIEND_DELETE Tox_Err_Friend_Delete;
+typedef TOX_ERR_FRIEND_BY_PUBLIC_KEY Tox_Err_Friend_By_Public_Key;
+typedef TOX_ERR_FRIEND_GET_PUBLIC_KEY Tox_Err_Friend_Get_Public_Key;
+typedef TOX_ERR_FRIEND_GET_LAST_ONLINE Tox_Err_Friend_Get_Last_Online;
+typedef TOX_ERR_FRIEND_QUERY Tox_Err_Friend_Query;
+typedef TOX_ERR_SET_TYPING Tox_Err_Set_Typing;
+typedef TOX_ERR_FRIEND_SEND_MESSAGE Tox_Err_Friend_Send_Message;
+typedef TOX_ERR_FILE_CONTROL Tox_Err_File_Control;
+typedef TOX_ERR_FILE_SEEK Tox_Err_File_Seek;
+typedef TOX_ERR_FILE_GET Tox_Err_File_Get;
+typedef TOX_ERR_FILE_SEND Tox_Err_File_Send;
+typedef TOX_ERR_FILE_SEND_CHUNK Tox_Err_File_Send_Chunk;
+typedef TOX_ERR_CONFERENCE_NEW Tox_Err_Conference_New;
+typedef TOX_ERR_CONFERENCE_DELETE Tox_Err_Conference_Delete;
+typedef TOX_ERR_CONFERENCE_PEER_QUERY Tox_Err_Conference_Peer_Query;
+typedef TOX_ERR_CONFERENCE_BY_UID Tox_Err_Conference_By_Uid;
+typedef TOX_ERR_CONFERENCE_INVITE Tox_Err_Conference_Invite;
+typedef TOX_ERR_CONFERENCE_JOIN Tox_Err_Conference_Join;
+typedef TOX_ERR_CONFERENCE_SEND_MESSAGE Tox_Err_Conference_Send_Message;
+typedef TOX_ERR_CONFERENCE_TITLE Tox_Err_Conference_Title;
+typedef TOX_ERR_CONFERENCE_GET_TYPE Tox_Err_Conference_Get_Type;
+typedef TOX_ERR_FRIEND_CUSTOM_PACKET Tox_Err_Friend_Custom_Packet;
+typedef TOX_ERR_GET_PORT Tox_Err_Get_Port;
+typedef TOX_USER_STATUS Tox_User_Status;
+typedef TOX_MESSAGE_TYPE Tox_Message_Type;
+typedef TOX_PROXY_TYPE Tox_Proxy_Type;
+typedef TOX_SAVEDATA_TYPE Tox_Savedata_Type;
+typedef TOX_LOG_LEVEL Tox_Log_Level;
+typedef TOX_CONNECTION Tox_Connection;
+typedef TOX_FILE_CONTROL Tox_File_Control;
+typedef TOX_CONFERENCE_TYPE Tox_Conference_Type;
 
 #endif
 %}

@@ -148,3 +148,5 @@ tox_version_is_compatible
 tox_version_major
 tox_version_minor
 tox_version_patch
+tox_conference_get_uid
+tox_conference_by_uid

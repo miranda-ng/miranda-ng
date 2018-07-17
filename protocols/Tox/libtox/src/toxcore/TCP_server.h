@@ -28,15 +28,6 @@
 #include "list.h"
 #include "onion.h"
 
-#ifdef TCP_SERVER_USE_EPOLL
-#include <sys/epoll.h>
-#endif
-
-// Disable MSG_NOSIGNAL on systems not supporting it, e.g. Windows, FreeBSD
-#if !defined(MSG_NOSIGNAL)
-#define MSG_NOSIGNAL 0
-#endif
-
 #define MAX_INCOMING_CONNECTIONS 256
 
 #define TCP_MAX_BACKLOG MAX_INCOMING_CONNECTIONS
@@ -68,25 +59,19 @@
 #define TCP_PING_FREQUENCY 30
 #define TCP_PING_TIMEOUT 10
 
-#ifdef TCP_SERVER_USE_EPOLL
-#define TCP_SOCKET_LISTENING 0
-#define TCP_SOCKET_INCOMING 1
-#define TCP_SOCKET_UNCONFIRMED 2
-#define TCP_SOCKET_CONFIRMED 3
-#endif
-
-enum {
+typedef enum TCP_Status {
     TCP_STATUS_NO_STATUS,
     TCP_STATUS_CONNECTED,
     TCP_STATUS_UNCONFIRMED,
     TCP_STATUS_CONFIRMED,
-};
+} TCP_Status;
 
 typedef struct TCP_Priority_List TCP_Priority_List;
 
 struct TCP_Priority_List {
     TCP_Priority_List *next;
-    uint16_t size, sent;
+    uint16_t size;
+    uint16_t sent;
     uint8_t data[];
 };
 
@@ -102,16 +87,11 @@ TCP_Server *new_TCP_server(uint8_t ipv6_enabled, uint16_t num_sockets, const uin
 
 /* Run the TCP_server
  */
-void do_TCP_server(TCP_Server *TCP_server);
+void do_TCP_server(TCP_Server *tcp_server);
 
 /* Kill the TCP server
  */
-void kill_TCP_server(TCP_Server *TCP_server);
-
-/* return the amount of data in the tcp recv buffer.
- * return 0 on failure.
- */
-unsigned int TCP_socket_data_recv_buffer(Socket sock);
+void kill_TCP_server(TCP_Server *tcp_server);
 
 /* Read the next two bytes in TCP stream then convert them to
  * length (host byte order).

@@ -34,35 +34,10 @@
 #include "util.h"
 
 #include "crypto_core.h" /* for CRYPTO_PUBLIC_KEY_SIZE */
-#include "network.h" /* for current_time_monotonic */
 
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
-
-
-/* don't call into system billions of times for no reason */
-static uint64_t unix_time_value;
-static uint64_t unix_base_time_value;
-
-/* XXX: note that this is not thread-safe; if multiple threads call unix_time_update() concurrently, the return value of
- * unix_time() may fail to increase monotonically with increasing time */
-void unix_time_update(void)
-{
-    if (unix_base_time_value == 0) {
-        unix_base_time_value = ((uint64_t)time(0) - (current_time_monotonic() / 1000ULL));
-    }
-
-    unix_time_value = (current_time_monotonic() / 1000ULL) + unix_base_time_value;
-}
-
-uint64_t unix_time(void)
-{
-    return unix_time_value;
-}
-
-int is_timeout(uint64_t timestamp, uint64_t timeout)
-{
-    return timestamp + timeout <= unix_time();
-}
 
 
 /* id functions */
@@ -91,83 +66,9 @@ void host_to_net(uint8_t *num, uint16_t numbytes)
 #endif
 }
 
-uint16_t lendian_to_host16(uint16_t lendian)
+void net_to_host(uint8_t *num, uint16_t numbytes)
 {
-#ifdef WORDS_BIGENDIAN
-    return (lendian << 8) | (lendian >> 8);
-#else
-    return lendian;
-#endif
-}
-
-void host_to_lendian32(uint8_t *dest,  uint32_t num)
-{
-#ifdef WORDS_BIGENDIAN
-    num = ((num << 8) & 0xFF00FF00) | ((num >> 8) & 0xFF00FF);
-    num = (num << 16) | (num >> 16);
-#endif
-    memcpy(dest, &num, sizeof(uint32_t));
-}
-
-void lendian_to_host32(uint32_t *dest, const uint8_t *lendian)
-{
-    uint32_t d;
-    memcpy(&d, lendian, sizeof(uint32_t));
-#ifdef WORDS_BIGENDIAN
-    d = ((d << 8) & 0xFF00FF00) | ((d >> 8) & 0xFF00FF);
-    d = (d << 16) | (d >> 16);
-#endif
-    *dest = d;
-}
-
-/* state load/save */
-int load_state(load_state_callback_func load_state_callback, Logger *log, void *outer,
-               const uint8_t *data, uint32_t length, uint16_t cookie_inner)
-{
-    if (!load_state_callback || !data) {
-        LOGGER_ERROR(log, "load_state() called with invalid args.\n");
-        return -1;
-    }
-
-
-    uint32_t length_sub, cookie_type;
-    uint32_t size_head = sizeof(uint32_t) * 2;
-
-    while (length >= size_head) {
-        lendian_to_host32(&length_sub, data);
-        lendian_to_host32(&cookie_type, data + sizeof(length_sub));
-        data += size_head;
-        length -= size_head;
-
-        if (length < length_sub) {
-            /* file truncated */
-            LOGGER_ERROR(log, "state file too short: %u < %u\n", length, length_sub);
-            return -1;
-        }
-
-        if (lendian_to_host16((cookie_type >> 16)) != cookie_inner) {
-            /* something is not matching up in a bad way, give up */
-            LOGGER_ERROR(log, "state file garbled: %04x != %04x\n", (cookie_type >> 16), cookie_inner);
-            return -1;
-        }
-
-        const uint16_t type = lendian_to_host16(cookie_type & 0xFFFF);
-        const int ret = load_state_callback(outer, data, length_sub, type);
-
-        if (ret == -1) {
-            return -1;
-        }
-
-        /* -2 means end of save. */
-        if (ret == -2) {
-            return 0;
-        }
-
-        data += length_sub;
-        length -= length_sub;
-    }
-
-    return length == 0 ? 0 : -1;
+    host_to_net(num, numbytes);
 }
 
 int create_recursive_mutex(pthread_mutex_t *mutex)
@@ -197,6 +98,11 @@ int create_recursive_mutex(pthread_mutex_t *mutex)
 int32_t max_s32(int32_t a, int32_t b)
 {
     return a > b ? a : b;
+}
+
+uint32_t min_u32(uint32_t a, uint32_t b)
+{
+    return a < b ? a : b;
 }
 
 uint64_t min_u64(uint64_t a, uint64_t b)

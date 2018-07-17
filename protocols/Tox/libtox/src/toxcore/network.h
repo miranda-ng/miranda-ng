@@ -24,58 +24,81 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#ifdef PLAN9
-#include <u.h> // Plan 9 requires this is imported first
-// Comment line here to avoid reordering by source code formatters.
-#include <libc.h>
-#endif
-
-#include "ccompat.h"
 #include "logger.h"
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
-#if defined(_WIN32) || defined(__WIN32__) || defined (WIN32) /* Put win32 includes here */
-#ifndef WINVER
-//Windows XP
-#define WINVER 0x0501
-#endif
-
-// The mingw32/64 Windows library warns about including winsock2.h after
-// windows.h even though with the above it's a valid thing to do. So, to make
-// mingw32 headers happy, we include winsock2.h first.
-#include <winsock2.h>
-
-#include <windows.h>
-#include <ws2tcpip.h>
-
-#else // UNIX includes
-
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <unistd.h>
-
-#endif
+#include <stdbool.h>    // bool
+#include <stddef.h>     // size_t
+#include <stdint.h>     // uint*_t
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef short Family;
+typedef struct Family {
+    uint8_t value;
+} Family;
 
-typedef int Socket;
-Socket net_socket(int domain, int type, int protocol);
+bool net_family_is_unspec(Family family);
+bool net_family_is_ipv4(Family family);
+bool net_family_is_ipv6(Family family);
+bool net_family_is_tcp_family(Family family);
+bool net_family_is_tcp_onion(Family family);
+bool net_family_is_tcp_ipv4(Family family);
+bool net_family_is_tcp_ipv6(Family family);
+bool net_family_is_tox_tcp_ipv4(Family family);
+bool net_family_is_tox_tcp_ipv6(Family family);
+
+extern const Family net_family_unspec;
+extern const Family net_family_ipv4;
+extern const Family net_family_ipv6;
+extern const Family net_family_tcp_family;
+extern const Family net_family_tcp_onion;
+extern const Family net_family_tcp_ipv4;
+extern const Family net_family_tcp_ipv6;
+extern const Family net_family_tox_tcp_ipv4;
+extern const Family net_family_tox_tcp_ipv6;
+
+typedef struct Socket {
+    int socket;
+} Socket;
+
+Socket net_socket(Family domain, int type, int protocol);
+
+/* Check if socket is valid.
+ *
+ * return 1 if valid
+ * return 0 if not valid
+ */
+int sock_valid(Socket sock);
+
+extern const Socket net_invalid_socket;
+
+/**
+ * Calls send(sockfd, buf, len, MSG_NOSIGNAL).
+ */
+int net_send(Socket sockfd, const void *buf, size_t len);
+/**
+ * Calls recv(sockfd, buf, len, MSG_NOSIGNAL).
+ */
+int net_recv(Socket sockfd, void *buf, size_t len);
+/**
+ * Calls listen(sockfd, backlog).
+ */
+int net_listen(Socket sockfd, int backlog);
+/**
+ * Calls accept(sockfd, nullptr, nullptr).
+ */
+Socket net_accept(Socket sockfd);
+
+/**
+ * return the amount of data in the tcp recv buffer.
+ * return 0 on failure.
+ */
+size_t net_socket_data_recv_buffer(Socket sock);
 
 #define MAX_UDP_PACKET_SIZE 2048
 
-typedef enum NET_PACKET_TYPE {
+typedef enum Net_Packet_Type {
     NET_PACKET_PING_REQUEST         = 0x00, /* Ping request packet ID. */
     NET_PACKET_PING_RESPONSE        = 0x01, /* Ping response packet ID. */
     NET_PACKET_GET_NODES            = 0x02, /* Get nodes request packet ID. */
@@ -104,7 +127,7 @@ typedef enum NET_PACKET_TYPE {
     BOOTSTRAP_INFO_PACKET_ID        = 0xf0, /* Only used for bootstrap nodes */
 
     NET_PACKET_MAX                  = 0xff, /* This type must remain within a single uint8. */
-} NET_PACKET_TYPE;
+} Net_Packet_Type;
 
 
 #define TOX_PORTRANGE_FROM 33445
@@ -137,7 +160,7 @@ typedef union IP4 {
 } IP4;
 
 IP4 get_ip4_loopback(void);
-extern const IP4 IP4_BROADCAST;
+extern const IP4 ip4_broadcast;
 
 typedef union IP6 {
     uint8_t uint8[16];
@@ -147,15 +170,17 @@ typedef union IP6 {
 } IP6;
 
 IP6 get_ip6_loopback(void);
-extern const IP6 IP6_BROADCAST;
+extern const IP6 ip6_broadcast;
+
+typedef union IP_Union {
+    IP4 v4;
+    IP6 v6;
+} IP_Union;
 
 #define IP_DEFINED
 typedef struct IP {
-    uint8_t family;
-    union {
-        IP4 v4;
-        IP6 v6;
-    } ip;
+    Family family;
+    IP_Union ip;
 } IP;
 
 #define IP_PORT_DEFINED
@@ -180,7 +205,7 @@ size_t net_unpack_u32(const uint8_t *bytes, uint32_t *v);
 size_t net_unpack_u64(const uint8_t *bytes, uint64_t *v);
 
 /* Does the IP6 struct a contain an IPv4 address in an IPv6 one? */
-#define IPV6_IPV4_IN_V6(a) ((a.uint64[0] == 0) && (a.uint32[2] == net_htonl (0xffff)))
+bool ipv6_ipv4_in_v6(IP6 a);
 
 #define SIZE_IP4 4
 #define SIZE_IP6 16
@@ -263,9 +288,9 @@ void ip_reset(IP *ip);
 /* nulls out ip, sets family according to flag */
 void ip_init(IP *ip, bool ipv6enabled);
 /* checks if ip is valid */
-int ip_isset(const IP *ip);
+bool ip_isset(const IP *ip);
 /* checks if ip is valid */
-int ipport_isset(const IP_Port *ipport);
+bool ipport_isset(const IP_Port *ipport);
 /* copies an ip structure */
 void ip_copy(IP *target, const IP *source);
 /* copies an ip_port structure */
@@ -311,8 +336,7 @@ int addr_resolve_or_parse_ip(const char *address, IP *to, IP *extra);
  * Packet data is put into data.
  * Packet length is put into length.
  */
-typedef int (*packet_handler_callback)(void *object, IP_Port ip_port, const uint8_t *data, uint16_t len,
-                                       void *userdata);
+typedef int packet_handler_cb(void *object, IP_Port ip_port, const uint8_t *data, uint16_t len, void *userdata);
 
 typedef struct Networking_Core Networking_Core;
 
@@ -325,13 +349,6 @@ uint16_t net_port(const Networking_Core *net);
  * return -1 on failure
  */
 int networking_at_startup(void);
-
-/* Check if socket is valid.
- *
- * return 1 if valid
- * return 0 if not valid
- */
-int sock_valid(Socket sock);
 
 /* Close the socket.
  */
@@ -365,16 +382,13 @@ int set_socket_reuseaddr(Socket sock);
  */
 int set_socket_dualstack(Socket sock);
 
-/* return current monotonic time in milliseconds (ms). */
-uint64_t current_time_monotonic(void);
-
 /* Basic network functions: */
 
 /* Function to send packet(data) of length length to ip_port. */
 int sendpacket(Networking_Core *net, IP_Port ip_port, const uint8_t *data, uint16_t length);
 
 /* Function to call when packet beginning with byte is received. */
-void networking_registerhandler(Networking_Core *net, uint8_t byte, packet_handler_callback cb, void *object);
+void networking_registerhandler(Networking_Core *net, uint8_t byte, packet_handler_cb *cb, void *object);
 
 /* Call this several times a second. */
 void networking_poll(Networking_Core *net, void *userdata);
@@ -402,7 +416,7 @@ void net_freeipport(IP_Port *ip_ports);
 /* return 1 on success
  * return 0 on failure
  */
-int bind_to_port(Socket sock, int family, uint16_t port);
+int bind_to_port(Socket sock, Family family, uint16_t port);
 
 /* Get the last networking error code.
  *
@@ -442,9 +456,9 @@ void net_kill_strerror(const char *strerror);
  *
  * If error is non NULL it is set to 0 if no issues, 1 if socket related error, 2 if other.
  */
-Networking_Core *new_networking(Logger *log, IP ip, uint16_t port);
-Networking_Core *new_networking_ex(Logger *log, IP ip, uint16_t port_from, uint16_t port_to, unsigned int *error);
-Networking_Core *new_networking_no_udp(Logger *log);
+Networking_Core *new_networking(const Logger *log, IP ip, uint16_t port);
+Networking_Core *new_networking_ex(const Logger *log, IP ip, uint16_t port_from, uint16_t port_to, unsigned int *error);
+Networking_Core *new_networking_no_udp(const Logger *log);
 
 /* Function to cleanup networking stuff (doesn't do much right now). */
 void kill_networking(Networking_Core *net);

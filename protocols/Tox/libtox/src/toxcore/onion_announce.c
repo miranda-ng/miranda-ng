@@ -27,7 +27,11 @@
 
 #include "onion_announce.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 #include "LAN_discovery.h"
+#include "mono_time.h"
 #include "util.h"
 
 #define PING_ID_TIMEOUT ONION_ANNOUNCE_TIMEOUT
@@ -37,7 +41,7 @@
 #define DATA_REQUEST_MIN_SIZE ONION_DATA_REQUEST_MIN_SIZE
 #define DATA_REQUEST_MIN_SIZE_RECV (DATA_REQUEST_MIN_SIZE + ONION_RETURN_3)
 
-typedef struct {
+typedef struct Onion_Announce_Entry {
     uint8_t public_key[CRYPTO_PUBLIC_KEY_SIZE];
     IP_Port ret_ip_port;
     uint8_t ret[ONION_RETURN_3];
@@ -261,7 +265,7 @@ static int in_entries(const Onion_Announce *onion_a, const uint8_t *public_key)
     return -1;
 }
 
-typedef struct {
+typedef struct Cmp_data {
     const uint8_t *base_public_key;
     Onion_Announce_Entry entry;
 } Cmp_data;
@@ -309,14 +313,14 @@ static void sort_onion_announce_list(Onion_Announce_Entry *list, unsigned int le
     // comparison function can use it as the base of comparison.
     VLA(Cmp_data, cmp_list, length);
 
-    for (uint32_t i = 0; i < length; i++) {
+    for (uint32_t i = 0; i < length; ++i) {
         cmp_list[i].base_public_key = comp_public_key;
         cmp_list[i].entry = list[i];
     }
 
     qsort(cmp_list, length, sizeof(Cmp_data), cmp_entry);
 
-    for (uint32_t i = 0; i < length; i++) {
+    for (uint32_t i = 0; i < length; ++i) {
         list[i] = cmp_list[i].entry;
     }
 }
@@ -402,7 +406,7 @@ static int handle_announce_request(void *object, IP_Port source, const uint8_t *
 
     /*Respond with a announce response packet*/
     Node_format nodes_list[MAX_SENT_NODES];
-    unsigned int num_nodes = get_close_nodes(onion_a->dht, plain + ONION_PING_ID_SIZE, nodes_list, 0,
+    unsigned int num_nodes = get_close_nodes(onion_a->dht, plain + ONION_PING_ID_SIZE, nodes_list, net_family_unspec,
                              ip_is_lan(source.ip) == 0, 1);
     uint8_t nonce[CRYPTO_NONCE_SIZE];
     random_nonce(nonce);

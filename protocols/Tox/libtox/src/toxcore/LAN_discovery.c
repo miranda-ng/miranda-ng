@@ -27,6 +27,8 @@
 
 #include "LAN_discovery.h"
 
+#include <string.h>
+
 #include "util.h"
 
 #define MAX_INTERFACES 16
@@ -34,10 +36,21 @@
 
 /* TODO: multiple threads might concurrently try to set these, and it isn't clear that this couldn't lead to undesirable
  * behaviour. Consider storing the data in per-instance variables instead. */
+//!TOKSTYLE-
+// No global mutable state in Tokstyle.
 static int     broadcast_count = -1;
 static IP_Port broadcast_ip_ports[MAX_INTERFACES];
+//!TOKSTYLE+
 
-#if defined(_WIN32) || defined(__WIN32__) || defined (WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
+
+// The mingw32/64 Windows library warns about including winsock2.h after
+// windows.h even though with the above it's a valid thing to do. So, to make
+// mingw32 headers happy, we include winsock2.h first.
+#include <winsock2.h>
+
+#include <windows.h>
+#include <ws2tcpip.h>
 
 #include <iphlpapi.h>
 
@@ -66,9 +79,9 @@ static void fetch_broadcast_info(uint16_t port)
     int count = 0;
     IP_Port ip_ports[MAX_INTERFACES];
 
-    int ret;
+    const int ret = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen);
 
-    if ((ret = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen)) == NO_ERROR) {
+    if (ret == NO_ERROR) {
         IP_ADAPTER_INFO *pAdapter = pAdapterInfo;
 
         while (pAdapter) {
@@ -76,14 +89,14 @@ static void fetch_broadcast_info(uint16_t port)
 
             if (addr_parse_ip(pAdapter->IpAddressList.IpMask.String, &subnet_mask)
                     && addr_parse_ip(pAdapter->GatewayList.IpAddress.String, &gateway)) {
-                if (gateway.family == TOX_AF_INET && subnet_mask.family == TOX_AF_INET) {
+                if (net_family_is_ipv4(gateway.family) && net_family_is_ipv4(subnet_mask.family)) {
                     IP_Port *ip_port = &ip_ports[count];
-                    ip_port->ip.family = TOX_AF_INET;
+                    ip_port->ip.family = net_family_ipv4;
                     uint32_t gateway_ip = net_ntohl(gateway.ip.v4.uint32), subnet_ip = net_ntohl(subnet_mask.ip.v4.uint32);
                     uint32_t broadcast_ip = gateway_ip + ~subnet_ip - 1;
                     ip_port->ip.ip.v4.uint32 = net_htonl(broadcast_ip);
                     ip_port->port = port;
-                    count++;
+                    ++count;
 
                     if (count >= MAX_INTERFACES) {
                         break;
@@ -101,12 +114,18 @@ static void fetch_broadcast_info(uint16_t port)
 
     broadcast_count = count;
 
-    for (uint32_t i = 0; i < count; i++) {
+    for (uint32_t i = 0; i < count; ++i) {
         broadcast_ip_ports[i] = ip_ports[i];
     }
 }
 
 #elif defined(__linux__) || defined(__FreeBSD__)
+
+#include <netinet/in.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #ifdef __linux__
 #include <linux/netdevice.h>
@@ -116,8 +135,6 @@ static void fetch_broadcast_info(uint16_t port)
 #include <net/if.h>
 #endif
 
-#include <sys/ioctl.h>
-
 static void fetch_broadcast_info(uint16_t port)
 {
     /* Not sure how many platforms this will run on,
@@ -125,9 +142,9 @@ static void fetch_broadcast_info(uint16_t port)
      * Definitely won't work like this on Windows...
      */
     broadcast_count = 0;
-    const Socket sock = net_socket(TOX_AF_INET, TOX_SOCK_STREAM, 0);
+    const Socket sock = net_socket(net_family_ipv4, TOX_SOCK_STREAM, 0);
 
-    if (sock < 0) {
+    if (!sock_valid(sock)) {
         return;
     }
 
@@ -135,12 +152,12 @@ static void fetch_broadcast_info(uint16_t port)
     struct ifreq i_faces[MAX_INTERFACES];
     memset(i_faces, 0, sizeof(struct ifreq) * MAX_INTERFACES);
 
-    struct ifconf ifconf;
-    ifconf.ifc_buf = (char *)i_faces;
-    ifconf.ifc_len = sizeof(i_faces);
+    struct ifconf ifc;
+    ifc.ifc_buf = (char *)i_faces;
+    ifc.ifc_len = sizeof(i_faces);
 
-    if (ioctl(sock, SIOCGIFCONF, &ifconf) < 0) {
-        close(sock);
+    if (ioctl(sock.socket, SIOCGIFCONF, &ifc) < 0) {
+        kill_sock(sock);
         return;
     }
 
@@ -151,21 +168,21 @@ static void fetch_broadcast_info(uint16_t port)
     int count = 0;
     IP_Port ip_ports[MAX_INTERFACES];
 
-    /* ifconf.ifc_len is set by the ioctl() to the actual length used;
+    /* ifc.ifc_len is set by the ioctl() to the actual length used;
      * on usage of the complete array the call should be repeated with
      * a larger array, not done (640kB and 16 interfaces shall be
      * enough, for everybody!)
      */
-    int n = ifconf.ifc_len / sizeof(struct ifreq);
+    int n = ifc.ifc_len / sizeof(struct ifreq);
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; ++i) {
         /* there are interfaces with are incapable of broadcast */
-        if (ioctl(sock, SIOCGIFBRDADDR, &i_faces[i]) < 0) {
+        if (ioctl(sock.socket, SIOCGIFBRDADDR, &i_faces[i]) < 0) {
             continue;
         }
 
-        /* moot check: only TOX_AF_INET returned (backwards compat.) */
-        if (i_faces[i].ifr_broadaddr.sa_family != TOX_AF_INET) {
+        /* moot check: only AF_INET returned (backwards compat.) */
+        if (i_faces[i].ifr_broadaddr.sa_family != AF_INET) {
             continue;
         }
 
@@ -176,7 +193,7 @@ static void fetch_broadcast_info(uint16_t port)
         }
 
         IP_Port *ip_port = &ip_ports[count];
-        ip_port->ip.family = TOX_AF_INET;
+        ip_port->ip.family = net_family_ipv4;
         ip_port->ip.ip.v4.uint32 = sock4->sin_addr.s_addr;
 
         if (ip_port->ip.ip.v4.uint32 == 0) {
@@ -184,14 +201,14 @@ static void fetch_broadcast_info(uint16_t port)
         }
 
         ip_port->port = port;
-        count++;
+        ++count;
     }
 
-    close(sock);
+    kill_sock(sock);
 
     broadcast_count = count;
 
-    for (uint32_t i = 0; i < count; i++) {
+    for (uint32_t i = 0; i < count; ++i) {
         broadcast_ip_ports[i] = ip_ports[i];
     }
 }
@@ -221,7 +238,7 @@ static uint32_t send_broadcasts(Networking_Core *net, uint16_t port, const uint8
         return 0;
     }
 
-    for (int i = 0; i < broadcast_count; i++) {
+    for (int i = 0; i < broadcast_count; ++i) {
         sendpacket(net, broadcast_ip_ports[i], data, length);
     }
 
@@ -234,24 +251,22 @@ static IP broadcast_ip(Family family_socket, Family family_broadcast)
     IP ip;
     ip_reset(&ip);
 
-    if (family_socket == TOX_AF_INET6) {
-        if (family_broadcast == TOX_AF_INET6) {
-            ip.family = TOX_AF_INET6;
+    if (net_family_is_ipv6(family_socket)) {
+        if (net_family_is_ipv6(family_broadcast)) {
+            ip.family = net_family_ipv6;
             /* FF02::1 is - according to RFC 4291 - multicast all-nodes link-local */
             /* FE80::*: MUST be exact, for that we would need to look over all
              * interfaces and check in which status they are */
             ip.ip.v6.uint8[ 0] = 0xFF;
             ip.ip.v6.uint8[ 1] = 0x02;
             ip.ip.v6.uint8[15] = 0x01;
-        } else if (family_broadcast == TOX_AF_INET) {
-            ip.family = TOX_AF_INET6;
-            ip.ip.v6 = IP6_BROADCAST;
+        } else if (net_family_is_ipv4(family_broadcast)) {
+            ip.family = net_family_ipv6;
+            ip.ip.v6 = ip6_broadcast;
         }
-    } else if (family_socket == TOX_AF_INET) {
-        if (family_broadcast == TOX_AF_INET) {
-            ip.family = TOX_AF_INET;
-            ip.ip.v4 = IP4_BROADCAST;
-        }
+    } else if (net_family_is_ipv4(family_socket) && net_family_is_ipv4(family_broadcast)) {
+        ip.family = net_family_ipv4;
+        ip.ip.v4 = ip4_broadcast;
     }
 
     return ip;
@@ -260,7 +275,7 @@ static IP broadcast_ip(Family family_socket, Family family_broadcast)
 /* Is IP a local ip or not. */
 bool ip_is_local(IP ip)
 {
-    if (ip.family == TOX_AF_INET) {
+    if (net_family_is_ipv4(ip.family)) {
         IP4 ip4 = ip.ip.v4;
 
         /* Loopback. */
@@ -269,9 +284,9 @@ bool ip_is_local(IP ip)
         }
     } else {
         /* embedded IPv4-in-IPv6 */
-        if (IPV6_IPV4_IN_V6(ip.ip.v6)) {
+        if (ipv6_ipv4_in_v6(ip.ip.v6)) {
             IP ip4;
-            ip4.family = TOX_AF_INET;
+            ip4.family = net_family_ipv4;
             ip4.ip.v4.uint32 = ip.ip.v6.uint32[3];
             return ip_is_local(ip4);
         }
@@ -294,7 +309,7 @@ int ip_is_lan(IP ip)
         return 0;
     }
 
-    if (ip.family == TOX_AF_INET) {
+    if (net_family_is_ipv4(ip.family)) {
         IP4 ip4 = ip.ip.v4;
 
         /* 10.0.0.0 to 10.255.255.255 range. */
@@ -323,7 +338,7 @@ int ip_is_lan(IP ip)
         if ((ip4.uint8[0] == 100) && ((ip4.uint8[1] & 0xC0) == 0x40)) {
             return 0;
         }
-    } else if (ip.family == TOX_AF_INET6) {
+    } else if (net_family_is_ipv6(ip.family)) {
 
         /* autogenerated for each interface: FE80::* (up to FEBF::*)
            FF02::1 is - according to RFC 4291 - multicast all-nodes link-local */
@@ -333,9 +348,9 @@ int ip_is_lan(IP ip)
         }
 
         /* embedded IPv4-in-IPv6 */
-        if (IPV6_IPV4_IN_V6(ip.ip.v6)) {
+        if (ipv6_ipv4_in_v6(ip.ip.v6)) {
             IP ip4;
-            ip4.family = TOX_AF_INET;
+            ip4.family = net_family_ipv4;
             ip4.ip.v4.uint32 = ip.ip.v6.uint32[3];
             return ip_is_lan(ip4);
         }
@@ -359,7 +374,7 @@ static int handle_LANdiscovery(void *object, IP_Port source, const uint8_t *pack
         return 1;
     }
 
-    DHT_bootstrap(dht, source, packet + 1);
+    dht_bootstrap(dht, source, packet + 1);
     return 0;
 }
 
@@ -377,8 +392,8 @@ int lan_discovery_send(uint16_t port, DHT *dht)
     ip_port.port = port;
 
     /* IPv6 multicast */
-    if (net_family(dht_get_net(dht)) == TOX_AF_INET6) {
-        ip_port.ip = broadcast_ip(TOX_AF_INET6, TOX_AF_INET6);
+    if (net_family_is_ipv6(net_family(dht_get_net(dht)))) {
+        ip_port.ip = broadcast_ip(net_family_ipv6, net_family_ipv6);
 
         if (ip_isset(&ip_port.ip)) {
             if (sendpacket(dht_get_net(dht), ip_port, data, 1 + CRYPTO_PUBLIC_KEY_SIZE) > 0) {
@@ -387,8 +402,8 @@ int lan_discovery_send(uint16_t port, DHT *dht)
         }
     }
 
-    /* IPv4 broadcast (has to be IPv4-in-IPv6 mapping if socket is TOX_AF_INET6 */
-    ip_port.ip = broadcast_ip(net_family(dht_get_net(dht)), TOX_AF_INET);
+    /* IPv4 broadcast (has to be IPv4-in-IPv6 mapping if socket is IPv6 */
+    ip_port.ip = broadcast_ip(net_family(dht_get_net(dht)), net_family_ipv4);
 
     if (ip_isset(&ip_port.ip)) {
         if (sendpacket(dht_get_net(dht), ip_port, data, 1 + CRYPTO_PUBLIC_KEY_SIZE)) {

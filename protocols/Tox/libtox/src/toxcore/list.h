@@ -27,16 +27,14 @@
 #define LIST_H
 
 #include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 
-typedef struct {
-    uint32_t n; //number of elements
-    uint32_t capacity; //number of elements memory is allocated for
-    uint32_t element_size; //size of the elements
-    uint8_t *data; //array of elements
-    int *ids; //array of element ids
-} BS_LIST;
+typedef struct BS_List {
+    uint32_t n; // number of elements
+    uint32_t capacity; // number of elements memory is allocated for
+    uint32_t element_size; // size of the elements
+    uint8_t *data; // array of elements
+    int *ids; // array of element ids
+} BS_List;
 
 /* Initialize a list, element_size is the size of the elements in the list and
  * initial_capacity is the number of elements the memory will be initially allocated for
@@ -45,10 +43,10 @@ typedef struct {
  *  1 : success
  *  0 : failure
  */
-int bs_list_init(BS_LIST *list, uint32_t element_size, uint32_t initial_capacity);
+int bs_list_init(BS_List *list, uint32_t element_size, uint32_t initial_capacity);
 
 /* Free a list initiated with list_init */
-void bs_list_free(BS_LIST *list);
+void bs_list_free(BS_List *list);
 
 /* Retrieve the id of an element in the list
  *
@@ -56,7 +54,7 @@ void bs_list_free(BS_LIST *list);
  *  >= 0 : id associated with data
  *  -1   : failure
  */
-int bs_list_find(const BS_LIST *list, const uint8_t *data);
+int bs_list_find(const BS_List *list, const uint8_t *data);
 
 /* Add an element with associated id to the list
  *
@@ -64,7 +62,7 @@ int bs_list_find(const BS_LIST *list, const uint8_t *data);
  *  1 : success
  *  0 : failure (data already in list)
  */
-int bs_list_add(BS_LIST *list, const uint8_t *data, int id);
+int bs_list_add(BS_List *list, const uint8_t *data, int id);
 
 /* Remove element from the list
  *
@@ -72,7 +70,7 @@ int bs_list_add(BS_LIST *list, const uint8_t *data, int id);
  *  1 : success
  *  0 : failure (element not found or id does not match)
  */
-int bs_list_remove(BS_LIST *list, const uint8_t *data, int id);
+int bs_list_remove(BS_List *list, const uint8_t *data, int id);
 
 /* Removes the memory overhead
  *
@@ -80,6 +78,6 @@ int bs_list_remove(BS_LIST *list, const uint8_t *data, int id);
  *  1 : success
  *  0 : failure
  */
-int bs_list_trim(BS_LIST *list);
+int bs_list_trim(BS_List *list);
 
 #endif
