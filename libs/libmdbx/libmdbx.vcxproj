@@ -26,7 +26,7 @@
   <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>MDBX_CONFIG_MANUAL_TLS_CALLBACK=1;LIBMDBX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MDBX_CONFIG_MANUAL_TLS_CALLBACK=1;MDBX_DEBUG=1;LIBMDBX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

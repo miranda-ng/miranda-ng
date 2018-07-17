@@ -51,6 +51,15 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_DATABA
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void logger(int type, const char *function, int line, const char *msg, va_list args)
+{
+	char tmp[4096];
+	_vsnprintf_s(tmp, _countof(tmp), msg, args);
+	Netlib_Logf(nullptr, "MDBX[%d] (%s, %d): %s", type, function, line, tmp);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile)
 {
@@ -90,6 +99,7 @@ static DATABASELINK dblink =
 
 int CMPlugin::Load()
 {
+	mdbx_setup_debug(MDBX_DBG_ASSERT | MDBX_DBG_PRINT, &logger);
 	RegisterDatabasePlugin(&dblink);
 	return 0;
 }
