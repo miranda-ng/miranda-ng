@@ -27,7 +27,7 @@ void CleanupRegTreeBackupSettings(void);
 BOOL AddRegClass(const char *pszClassName,const wchar_t *pszTypeDescription,const wchar_t *pszIconLoc,const wchar_t *pszAppName,const wchar_t *pszRunCmd,const wchar_t *pszDdeCmd,const wchar_t *pszDdeApp,const wchar_t *pszDdeTopic,const wchar_t *pszVerbDesc,BOOL fBrowserAutoOpen,BOOL fUrlProto,BOOL fIsShortcut);
 BOOL RemoveRegClass(const char *pszClassName);
 BOOL IsRegClass(const char *pszClassName,const wchar_t *pszRunCmd);
-HICON LoadRegClassSmallIcon(const char *pszClassName);
+HICON LoadRegClassSmallIcon(struct ASSOCDATA *pszClassName);
 /* Extension */
 BOOL AddRegFileExt(const char *pszFileExt,const char *pszClassName,const char *pszMimeType,BOOL fIsText);
 void RemoveRegFileExt(const char *pszFileExt,const char *pszClassName);

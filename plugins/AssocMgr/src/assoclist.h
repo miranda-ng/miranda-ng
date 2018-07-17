@@ -21,6 +21,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
+struct ASSOCDATA : public MZeroedObject
+{
+	ASSOCDATA() {}
+
+	ASSOCDATA(const ASSOCDATA &p) :
+		pszClassName(mir_strdup(p.pszClassName)),
+		pszDescription(mir_wstrdup(p.pszDescription)),
+		pszService(mir_strdup(p.pszService)),
+		pszFileExt(mir_strdup(p.pszFileExt)),
+		pszMimeType(mir_strdup(p.pszMimeType)),
+		pszVerbDesc(mir_wstrdup(p.pszVerbDesc))
+	{}
+
+	ptrA pszClassName;    // class name as used in registry and db
+	ptrW pszDescription;
+	HINSTANCE hInstance;   // allowed to be NULL for miranda32.exe
+	WORD nIconResID;
+	ptrA pszService;
+	WORD flags;            // set of FTDF_* and UTDF_* flags
+	ptrA pszFileExt;      // file type: NULL for url type
+	ptrA pszMimeType;     // file type: allowed to be NULL
+	ptrW pszVerbDesc;    // file type: allowed to be NULL
+};
+
 /* Assoc Enabled */
 void CleanupAssocEnabledSettings(void);
 /* Mime Reg */
