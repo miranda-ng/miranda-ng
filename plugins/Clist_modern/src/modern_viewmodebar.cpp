@@ -1193,7 +1193,7 @@ void CreateViewModeFrame()
 
 	CLISTFrame frame = { 0 };
 	frame.cbSize = sizeof(frame);
-	frame.szName.a = frame.szTBname.a = "View modes";
+	frame.szName.a = frame.szTBname.a = LPGEN("View modes");
 	frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame.height = 18;
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER;
