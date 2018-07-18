@@ -407,17 +407,15 @@ WORD GetIcon(const wchar_t* cond, WIDATA *Data)
 // this function convert the string to the format with 1 upper case followed by lower case char
 void CaseConv(wchar_t *str)
 {
-	BOOL nextUp = TRUE;
+	bool nextUp = true;
 
-	CharLowerBuff(str, (DWORD)mir_wstrlen(str));
+	CharLowerBuffW(str, (DWORD)mir_wstrlen(str));
 	for (wchar_t *pstr = str; *pstr; pstr++) {
 		if (*pstr == ' ' || *pstr == '-')
-			nextUp = TRUE;
-		else {
-			wchar_t ch = *pstr;
-			if (nextUp)
-				*pstr = (wchar_t)CharUpper((LPTSTR)ch);
-			nextUp = FALSE;
+			nextUp = true;
+		else if (nextUp)  {
+			CharUpperBuffW(pstr, 1);
+			nextUp = false;
 		}
 	}
 }

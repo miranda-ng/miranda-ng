@@ -247,9 +247,8 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				}
 				// free memory
 				mir_free(pData);
-
-				NetlibHttpDisconnect();
 			}
+
 			// give no station name but only ID if the search is unavailable
 			if (str[0] != 0)
 				SetDlgItemText(hwndDlg, IDC_NAME, str);

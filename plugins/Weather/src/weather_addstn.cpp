@@ -280,7 +280,6 @@ int IDSearch(wchar_t *sID, const int searchId)
 			IDSearchProc(sID, searchId, &Item->Data.IDSearch, Item->Data.InternalName, Item->Data.DisplayName);
 			Item = Item->next;
 		}
-		NetlibHttpDisconnect();
 	}
 	// if the station ID is #, return a dummy result and quit the funciton
 	else {
@@ -411,16 +410,14 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 // return 0 if no error
 int NameSearch(wchar_t *name, const int searchId)
 {
-	WIDATALIST *Item = WIHead;
-
 	// search every weather service using the search station name
+	WIDATALIST *Item = WIHead;
 	while (Item != nullptr) {
 		if (Item->Data.NameSearch.Single.Available || Item->Data.NameSearch.Multiple.Available)
 			NameSearchProc(name, searchId, &Item->Data.NameSearch, Item->Data.InternalName, Item->Data.DisplayName);
 		Item = Item->next;
 	}
 
-	NetlibHttpDisconnect();
 	return 0;
 }
 

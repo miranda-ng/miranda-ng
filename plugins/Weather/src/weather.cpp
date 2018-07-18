@@ -95,8 +95,6 @@ int WeatherShutdown(WPARAM, LPARAM)
 	SaveOptions();					// save options once more
 	status = ID_STATUS_OFFLINE;		// set status to offline
 
-	Netlib_Shutdown(hNetlibHttp);
-
 	WindowList_Broadcast(hWindowList, WM_CLOSE, 0, 0);
 	WindowList_Broadcast(hDataWindowList, WM_CLOSE, 0, 0);
 	SendMessage(hWndSetup, WM_CLOSE, 0, 0);
@@ -219,7 +217,6 @@ int CMPlugin::Unload()
 	DestroyHookableEvent(hHookWeatherUpdated);
 	DestroyHookableEvent(hHookWeatherError);
 
-	NetlibHttpDisconnect();
 	Netlib_CloseHandle(hNetlibUser);
 
 	DestroyUpdateList();

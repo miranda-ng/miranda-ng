@@ -293,8 +293,6 @@ static void UpdateThreadProc(void *)
 	while (UpdateListHead != nullptr && !Miranda_IsTerminated())
 		UpdateWeather(UpdateGetFirst());
 
-	NetlibHttpDisconnect();
-
 	// exit the update thread
 	ThreadRunning = FALSE;
 }
