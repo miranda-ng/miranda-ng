@@ -773,24 +773,25 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 
 	Netlib_Logf(nlu, "(%d) Connected to %s:%d", nlc->s, nloc->szHost, nloc->wPort);
 
-	NETLIBCONNECTIONEVENTINFO ncei;
-	ZeroMemory(&ncei, sizeof(ncei));
-	ncei.connected = 1;
-	ncei.szSettingsModule = nlu->user.szSettingsModule;
-	int size = sizeof(SOCKADDR_IN);
-	getsockname(nlc->s, (SOCKADDR *)&ncei.local, &size);
-	if (nlu->settings.useProxy) {
-		size = sizeof(SOCKADDR_IN);
-		getpeername(nlc->s, (SOCKADDR *)&ncei.proxy, &size);
-		ncei.remote.sin_family = AF_INET;
-		ncei.remote.sin_port = htons((short)nloc->wPort);
-		ncei.remote.sin_addr.S_un.S_addr = DnsLookup(nlu, nloc->szHost);
+	if (GetSubscribersCount((THook*)hEventConnected)) {
+		NETLIBCONNECTIONEVENTINFO ncei = {};
+		ncei.connected = 1;
+		ncei.szSettingsModule = nlu->user.szSettingsModule;
+		int size = sizeof(SOCKADDR_IN);
+		getsockname(nlc->s, (SOCKADDR *)&ncei.local, &size);
+		if (nlu->settings.useProxy) {
+			size = sizeof(SOCKADDR_IN);
+			getpeername(nlc->s, (SOCKADDR *)&ncei.proxy, &size);
+			ncei.remote.sin_family = AF_INET;
+			ncei.remote.sin_port = htons((short)nloc->wPort);
+			ncei.remote.sin_addr.S_un.S_addr = DnsLookup(nlu, nloc->szHost);
+		}
+		else {
+			size = sizeof(SOCKADDR_IN);
+			getpeername(nlc->s, (SOCKADDR *)&ncei.remote, &size);
+		}
+		NotifyFastHook(hEventConnected, (WPARAM)&ncei, 0);
 	}
-	else {
-		size = sizeof(SOCKADDR_IN);
-		getpeername(nlc->s, (SOCKADDR *)&ncei.remote, &size);
-	}
-	NotifyFastHook(hEventConnected, (WPARAM)&ncei, 0);
 
 	if (NLOCF_SSL & nloc->flags)
 		return Netlib_StartSsl(nlc, nullptr) != 0;

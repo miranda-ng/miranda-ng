@@ -292,13 +292,14 @@ LBL_Error:
 
 	nlbp->hThread = mir_forkThread<NetlibBoundPort>(NetlibBindAcceptThread, nlbp);
 
-	NETLIBCONNECTIONEVENTINFO ncei;
-	ZeroMemory(&ncei, sizeof(ncei));
-	ncei.connected = 1;
-	ncei.listening = 1;
-	ncei.szSettingsModule = nlu->user.szSettingsModule;
-	memcpy(&ncei.local, &sin, sizeof(sin));
-	NotifyFastHook(hEventConnected, (WPARAM)&ncei, 0);
+	if (GetSubscribersCount((THook*)hEventConnected)) {
+		NETLIBCONNECTIONEVENTINFO ncei = {};
+		ncei.connected = 1;
+		ncei.listening = 1;
+		ncei.szSettingsModule = nlu->user.szSettingsModule;
+		memcpy(&ncei.local, &sin, sizeof(sin));
+		NotifyFastHook(hEventConnected, (WPARAM)&ncei, 0);
+	}
 
 	return nlbp;
 }
