@@ -235,6 +235,15 @@ STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void assert_func(const MDBX_env*, const char *msg, const char *function, unsigned line)
+{
+	Netlib_Logf(nullptr, "MDBX: assertion failed (%s, %d): %s", function, line, msg);
+
+	#if defined(_DEBUG)
+		_wassert(_A2T(msg), _A2T(function), line);
+	#endif
+}
+
 int CDbxMDBX::Map()
 {
 	if (!LockName(m_tszProfileName))
@@ -244,6 +253,7 @@ int CDbxMDBX::Map()
 	mdbx_env_set_maxdbs(m_env, 10);
 	mdbx_env_set_maxreaders(m_env, 244);
 	mdbx_env_set_userctx(m_env, this);
+	mdbx_env_set_assert(m_env, assert_func);
 
 	#ifdef _WIN64
 		__int64 upperLimit = 0x400000000ul;
