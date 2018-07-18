@@ -64,7 +64,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 	// initialize the netlib request
 	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	nlhr.szUrl = szUrl;
 	nlhr.headers = headers;
 	nlhr.headersCount = _countof(headers);
