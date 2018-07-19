@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.0
+;  Version: 0.8.5.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -255,6 +255,9 @@
 [Upload failed]
 [Your details were not uploaded successfully.\nThey were written to database only.]
 [updating]
+;file \plugins\UserInfoEx\src\init.cpp
+[User &details]
+[Check anniversaries]
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 [Password]
@@ -313,7 +316,6 @@
 [Buttons]
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
-[User &details]
 [&Export user details]
 [&Import]
 [&Import user details]
@@ -321,7 +323,6 @@
 [Export all contacts]
 [Import all contacts]
 [Backup birthdays]
-[Check anniversaries]
 [Export/import group]
 [&Export group]
 [&Import group]
@@ -590,9 +591,10 @@
 [\nShe becomes %d years old.]
 [No anniversaries to remind of]
 [Backing up and syncing all birthdays complete!]
+[Reminders]
 [Birthday reminder]
 [Birthday reminder: it's coming]
-[Anniversary Reminder]
+[Anniversary reminder]
 [Reminder (UInfoEx)]
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]

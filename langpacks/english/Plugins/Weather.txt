@@ -176,8 +176,8 @@
 [Enable/disable auto update]
 [Auto Update Enabled]
 [Auto Update Disabled]
-[Weather Condition Changed]
-[Weather Alert Issued]
+[Condition Changed]
+[Alert Issued]
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 [%s is now the default weather station]
