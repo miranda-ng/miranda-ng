@@ -851,3 +851,9 @@ Dodano nowy kontakt do bazy danych
 Usuwanie kontaktu
 [Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]
 Wyświetla modalne okno dialogowe zawierające ikonę systemową, zestaw przycisków oraz krótki komunikat stosowny do aplikacji taki jak informacja o statusie lub błędzie.
+[NOP]
+NIC
+[BREAK]
+PRZERWA
+[JUMP]
+SKOCZ
