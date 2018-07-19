@@ -148,14 +148,11 @@ void CLangpackDlg::LoadLangpack(LANGPACK_INFO *pack)
 	LANGPACK_INFO *pack2 = new LANGPACK_INFO();
 	*pack2 = *pack;
 
-	wchar_t tszName[512];
-	mir_snwprintf(tszName, L"%s [%s]",
-		TranslateW(pack->tszLanguage),
-		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
+	CMStringW wszName(FORMAT, L"%s [%s]", pack->tszLanguage, (pack->flags & LPF_DEFAULT) ? TranslateT("built-in") : pack->tszFileName);
 
 	int idx = (pack->flags & LPF_DEFAULT)
-		? m_languages.InsertString(tszName, 0, (LPARAM)pack2)
-		: m_languages.AddString(tszName, (LPARAM)pack2);
+		? m_languages.InsertString(wszName, 0, (LPARAM)pack2)
+		: m_languages.AddString(wszName, (LPARAM)pack2);
 	if (pack->flags & LPF_ENABLED) {
 		m_languages.SetCurSel(idx);
 		DisplayPackInfo(pack);
