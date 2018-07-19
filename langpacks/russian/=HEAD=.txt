@@ -1,6 +1,6 @@
 Miranda Language Pack Version 1
+Language: Русский
 Locale: 0419
-Last-Modified-Using: 0.95.9
 Authors: Homeric (founder), dartraiden (maintainer),
 Authors: `arag0rn`, +eRRikon, Abyss, al.dexter, Alexander, Alexander Logvinov, Alexander S. Kiselev, apollo2k4,
 Authors: ALeXey, Alexey Yakovlev, Andrey A. Chernov, BasiL, Bergelmir, Bravo123, Buser!, CriS,
@@ -11,3 +11,4 @@ Authors: Mataes, Mikel-Ard-Ri, mitrich, Navy, NightFox, Oleg Makovski, PoWeR, Ra
 Authors: Sergey Morozov, SergoZD, Sledge, theMIROn, thundred, Valery Bragin,
 Authors: Viktor Shanin, Vjacheslav Ogrenich, Vladimir Rozhkovskiy aka Voron, watcher,
 Authors: Yevgeny, YurasiK, Yury A. Marcinchick
+Last-Modified-Using: Miranda NG 0.95.9
