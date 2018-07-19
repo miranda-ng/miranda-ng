@@ -761,40 +761,40 @@ Menú del usuario
 Ver detalles del usuario
 [&History]
 &Historial
-[View user's history (CTRL+H)]
+[View user's history (Ctrl+H)]
 Ver historial del usuario
 [&Bold]
 &Negrita
-[Make the text bold (CTRL+B)]
-Hacer el texto negrita (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Hacer el texto negrita (Ctrl+B)
 [&Italic]
 C&ursiva
-[Make the text italicized (CTRL+I)]
-Hacer el texto cursiva (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Hacer el texto cursiva (Ctrl+I)
 [&Underline]
 S&ubrayar
-[Make the text underlined (CTRL+U)]
-Hacer el texto subrayado (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Hacer el texto subrayado (Ctrl+U)
 [&Color]
 &Color
-[Select a foreground color for the text (CTRL+K)]
-Seleccione un color de primer plano para el texto (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Seleccione un color de primer plano para el texto (Ctrl+K)
 [&Background color]
 Color &de fondo
-[Select a background color for the text (CTRL+L)]
-Seleccione un color de fondo para el texto (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Seleccione un color de fondo para el texto (Ctrl+L)
 [&Room settings]
 Configu&ración de espacio
-[Control this room (CTRL+O)]
-Controlar esta sala (CTRL+O)
+[Control this room (Ctrl+O)]
+Controlar esta sala (Ctrl+O)
 [&Show/hide nick list]
 &Mostrar/ocultar lista de nicks
-[Show/hide the nick list (CTRL+N)]
-Mostrar/ocultar la lista de apodos (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Mostrar/ocultar la lista de apodos (Ctrl+N)
 [&Filter]
 &Filtro
-[Enable/disable the event filter (CTRL+F)]
-Activar/desactivar el filtro de eventos (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Activar/desactivar el filtro de eventos (Ctrl+F)
 [&Message]
 &Mensaje
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

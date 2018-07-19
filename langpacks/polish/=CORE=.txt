@@ -248,32 +248,6 @@ Sekcje tej samej szerokości
 Pokaz separatory na panelach
 [Show resize grip indicator]
 Pokaż wskaźnik rozmiaru uchwytu
-[&Main menu]
-&Menu główne
-[E&xit]
-W&yjdź
-[&Status]
-&Status
-[&Offline\tCtrl+0]
-&Rozłączony\tCtrl+0
-[On&line\tCtrl+1]
-&Dostępny\tCtrl+1
-[&Away\tCtrl+2]
-&Zaraz wracam\tCtrl+2
-[&Not available\tCtrl+3]
-&Wrócę później\tCtrl+3
-[Occ&upied\tCtrl+4]
-Za&jęty\tCtrl+4
-[&Do not disturb\tCtrl+5]
-&Nie przeszkadzać\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Porozmawiajmy\tCtrl+6
-[&Invisible\tCtrl+7]
-N&iewidoczny\tCtrl+7
-[On the &phone\tCtrl+8]
-Pod &telefonem\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Na &obiedzie\tCtrl+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Wyślij plik(i)
@@ -418,7 +392,7 @@ Użyj ikony statusu kontaktu jako ikony okna
 Zapamiętaj rozmiar i położenie okna oddzielnie dla każdego kontaktu
 [Cascade new windows]
 Kaskaduj nowe okna
-[Support CTRL+Up/Down in message area to show previously sent messages]
+[Support Ctrl+Up/Down in message area to show previously sent messages]
 Pozwalaj używać Ctrl+góra/dół w oknie rozmowy by przewijać wysłane wiadomości
 [Delete temporary contacts when closing message window]
 Usuń tymczasowe kontakty po zamknięciu okna rozmowy
@@ -1047,8 +1021,8 @@ Drugi kolor:
 Tylko zaznaczone ikony będą pokazywane na liście kontaktów:
 [*only the first %d icons will be shown]
 * tylko %d pierwszych ikon będzie pokazywane
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Możesz grupować wyświetlane ikony (CTRL+LPM) i użyć menu popup (PPM)
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
+Możesz grupować wyświetlane ikony (Ctrl+LPM) i użyć menu popup (PPM)
 [Add to existing metacontact]
 Dodaj do metakontaktu
 [Please select a metacontact:]
@@ -1135,6 +1109,8 @@ Autorzy >
 Zasobnik
 [&Hide/Show]
 &Pokaż/Ukryj
+[E&xit]
+W&yjdź
 [Nowhere]
 Nigdzie
 [&New group]
@@ -1191,6 +1167,30 @@ Wikipedia
 Google Maps
 [Google Translate]
 Google Translate
+[&Main menu]
+&Menu główne
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Rozłączony\tCtrl+0
+[On&line\tCtrl+1]
+&Dostępny\tCtrl+1
+[&Away\tCtrl+2]
+&Zaraz wracam\tCtrl+2
+[&Not available\tCtrl+3]
+&Wrócę później\tCtrl+3
+[Occ&upied\tCtrl+4]
+Za&jęty\tCtrl+4
+[&Do not disturb\tCtrl+5]
+&Nie przeszkadzać\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Porozmawiajmy\tCtrl+6
+[&Invisible\tCtrl+7]
+N&iewidoczny\tCtrl+7
+[On the &phone\tCtrl+8]
+Pod &telefonem\tCtrl+8
+[Out to &lunch\tCtrl+9]
+Na &obiedzie\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Status
@@ -1702,39 +1702,39 @@ Wiadomość od %s
 %s pisze wiadomość
 [Typing notification]
 Pisanie
-[View user's history (CTRL+H)]
-Zobacz historię użytkownika (CTRL+H)
+[View user's history (Ctrl+H)]
+Zobacz historię użytkownika (Ctrl+H)
 [&Bold]
 &Pogrubienie
-[Make the text bold (CTRL+B)]
+[Make the text bold (Ctrl+B)]
 Pogrub tekst (Ctrl+B)
 [&Italic]
 &Kursywa
-[Make the text italicized (CTRL+I)]
+[Make the text italicized (Ctrl+I)]
 Dodaj kursywę do tekstu (Ctrl+I)
 [&Underline]
 P&odkreślenie
-[Make the text underlined (CTRL+U)]
+[Make the text underlined (Ctrl+U)]
 Podkreśl tekst (Ctrl+U)
 [&Color]
 K&olor
-[Select a foreground color for the text (CTRL+K)]
+[Select a foreground color for the text (Ctrl+K)]
 Wybierz kolor dla tekstu (Ctrl+K)
 [&Background color]
 Kolor &tła
-[Select a background color for the text (CTRL+L)]
+[Select a background color for the text (Ctrl+L)]
 Wybierz kolor tła dla tekstu (Ctrl+L)
 [&Room settings]
 Ustawienia &pokoju
-[Control this room (CTRL+O)]
+[Control this room (Ctrl+O)]
 Kontroluj ten pokój (Ctrl + O)
 [&Show/hide nick list]
 &Pokaż/Ukryj listę nicków
-[Show/hide the nick list (CTRL+N)]
+[Show/hide the nick list (Ctrl+N)]
 Pokaż/Ukryj listę nazw (Ctrl+N)
 [&Filter]
 &Filtr
-[Enable/disable the event filter (CTRL+F)]
+[Enable/disable the event filter (Ctrl+F)]
 Włącz/wyłącz filtr zdarzeń (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda nie może załadować wbudowanego modułu wiadomości, brakuje msftedit.dll. Wciśnij "Tak" aby kontynuować.
@@ -3193,8 +3193,6 @@ Zambia
 Zimbabwe
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Wszystkie pliki
 [Windows bitmaps]
 Mapa bitowa Windows
 [JPEG bitmaps]

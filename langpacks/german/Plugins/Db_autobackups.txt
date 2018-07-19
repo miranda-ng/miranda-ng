@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.11
+;  Version: 0.1.0.1
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -30,12 +30,12 @@ Durchsuchen...
 Gehen Sie zu Customize -> Verzeichnisse, um die Einstellungen zu ändern.
 [Compress backup to zip-archive]
 Sicherungen in Zip-Archiven komprimieren
+[Backup profile folder]
+Profilverzeichnis sichern
 [Disable progress bar]
 Fortschrittsanzeige deaktivieren
 [Disable popups]
 Popups deaktivieren
-[Backup profile folder]
-Profilverzeichnis sichern
 [Use CloudFile]
 CloudFile verwenden
 [Backup progress]

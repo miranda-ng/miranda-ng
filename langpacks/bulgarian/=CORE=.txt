@@ -248,32 +248,6 @@
 Разделител между панелите
 [Show resize grip indicator]
 Индикатор за ръчна промяна на размера
-[&Main menu]
-Главно меню
-[E&xit]
-Изход
-[&Status]
-Състояние
-[&Offline\tCtrl+0]
-Извън линия\tCtrl+0
-[On&line\tCtrl+1]
-На линия\tCtrl+1
-[&Away\tCtrl+2]
-Отсъстващ\tCtrl+2
-[&Not available\tCtrl+3]
-&Недостъпен\tCtrl+3
-[Occ&upied\tCtrl+4]
-Зает\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Не &безпокойте\tCtrl+5
-[&Free for chat\tCtrl+6]
-Готов за чат\tCtrl+6
-[&Invisible\tCtrl+7]
-Невидим\tCtrl+7
-[On the &phone\tCtrl+8]
-На &телефона\tCtrl+8
-[Out to &lunch\tCtrl+9]
-На обя&д\tCtrl+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Изпрати файл(ове)
@@ -418,7 +392,7 @@
 Индивидуален размер и позиция на прозореца за всеки контакт
 [Cascade new windows]
 Каскадно подреждане на новите прозорци
-[Support CTRL+Up/Down in message area to show previously sent messages]
+[Support Ctrl+Up/Down in message area to show previously sent messages]
 Показване на вече изпратените съобщения чрез Ctrl + стрелка нагоре/надолу
 [Delete temporary contacts when closing message window]
 Изтриване на временните контакти след затваряне на прозореца
@@ -1047,8 +1021,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Изберете допълнителни икони за показване в списъка с контакти:
 [*only the first %d icons will be shown]
 *ще бъдат показани само първите %d икони
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Можете да групирате/дегрупирате иконите като ги избирате чрез ляв бутон+CTRL и popup менюто (десен бутон)
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
+Можете да групирате/дегрупирате иконите като ги избирате чрез ляв бутон+Ctrl и popup менюто (десен бутон)
 [Add to existing metacontact]
 Добавяне към съществуващ метаконтакт
 [Please select a metacontact:]
@@ -1135,6 +1109,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Трей
 [&Hide/Show]
 Показване/Скриване
+[E&xit]
+Изход
 [Nowhere]
 Никъде
 [&New group]
@@ -1191,6 +1167,30 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
+[&Main menu]
+Главно меню
+[&Status]
+Състояние
+[&Offline\tCtrl+0]
+Извън линия\tCtrl+0
+[On&line\tCtrl+1]
+На линия\tCtrl+1
+[&Away\tCtrl+2]
+Отсъстващ\tCtrl+2
+[&Not available\tCtrl+3]
+&Недостъпен\tCtrl+3
+[Occ&upied\tCtrl+4]
+Зает\tCtrl+4
+[&Do not disturb\tCtrl+5]
+Не &безпокойте\tCtrl+5
+[&Free for chat\tCtrl+6]
+Готов за чат\tCtrl+6
+[&Invisible\tCtrl+7]
+Невидим\tCtrl+7
+[On the &phone\tCtrl+8]
+На &телефона\tCtrl+8
+[Out to &lunch\tCtrl+9]
+На обя&д\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Състояние
@@ -1702,40 +1702,40 @@ Popups за изобразяване
 %s пише съобщение
 [Typing notification]
 Уведомявания при писане
-[View user's history (CTRL+H)]
-История на съобщенията (CTRL+H)
+[View user's history (Ctrl+H)]
+История на съобщенията (Ctrl+H)
 [&Bold]
 Получер
-[Make the text bold (CTRL+B)]
-Удебеляване (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Удебеляване (Ctrl+B)
 [&Italic]
 Курсив
-[Make the text italicized (CTRL+I)]
-Наклоняване (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Наклоняване (Ctrl+I)
 [&Underline]
 Подчертан
-[Make the text underlined (CTRL+U)]
-Подчертаване (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Подчертаване (Ctrl+U)
 [&Color]
 Цвят
-[Select a foreground color for the text (CTRL+K)]
-Цвят на текста (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Цвят на текста (Ctrl+K)
 [&Background color]
 Фонов цвят
-[Select a background color for the text (CTRL+L)]
-Фон за текста (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Фон за текста (Ctrl+L)
 [&Room settings]
 Настройки на стаята
-[Control this room (CTRL+O)]
-Управление на стаята (CTRL+O)
+[Control this room (Ctrl+O)]
+Управление на стаята (Ctrl+O)
 [&Show/hide nick list]
 Скриване/Показване на списъка с прякори
-[Show/hide the nick list (CTRL+N)]
-Показване/Скриване на списъка с прякори (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Показване/Скриване на списъка с прякори (Ctrl+N)
 [&Filter]
 Филтър
-[Enable/disable the event filter (CTRL+F)]
-Включване/Изключване на филтъра за събития (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Включване/Изключване на филтъра за събития (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 
 [Instant messages]
@@ -3193,8 +3193,6 @@ WAV файлове
 Зимбабве
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Всички файлове
 [Windows bitmaps]
 BMP изображения
 [JPEG bitmaps]

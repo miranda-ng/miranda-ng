@@ -207,7 +207,7 @@ Miranda nie mogła załadować wtyczki Quotes. Brak parsera XML.
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 Miranda nie mogła załadować wtyczki Quotes. Brak parsera Microsoft HTML.
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+;file \plugins\Quotes\src\QuotesProviderCurrencyConverter.cpp
 [Error occurred during HTML parsing.]
 Wystąpił błąd podczas przetwarzania HTML.
 [Error occurred during site access.]
@@ -215,16 +215,6 @@ Wystąpił błąd podczas uzyskiwania dostępu do strony.
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Name]
 Nazwa notowania
-[From Currency Full Name]
-Z waluty pełna nazwa
-[From Currency Short Name]
-Z waluty skrót
-[Into Currency Full Name]
-Na walutę pełna nazwa
-[Into Currency Short Name]
-Na walutę skrót
-[Short notation for "%f/%i"]
-Skrócona notacja dla "%f/%i"
 [Source of Information]
 Źródło informacji
 [Rate Value]
@@ -257,6 +247,16 @@ Najniższa wartość dzienna
 Poprzednie zamknięcie
 [Change]
 Zmień
+[From Currency Full Name]
+Z waluty pełna nazwa
+[From Currency Short Name]
+Z waluty skrót
+[Into Currency Full Name]
+Na walutę pełna nazwa
+[Into Currency Short Name]
+Na walutę skrót
+[Short notation for "%f/%i"]
+Skrócona notacja dla "%f/%i"
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Pliki logu (*.txt, *.log)

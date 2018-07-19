@@ -187,7 +187,7 @@
 [Show line break indicators]
 Паказаць сімвалы пераноса
 [Send messages with Enter, insert line breaks with Ctrl+Enter]
-Адпраўка па Enter, CTRL+Enter - перавод радка
+Адпраўка па Enter, Ctrl+Enter - перавод радка
 [Maximized replying]
 Адказ ў пўнаэкранным рэжыме
 [Close chat after]

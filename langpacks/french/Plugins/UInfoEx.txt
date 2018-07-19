@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.0
+;  Version: 0.8.5.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -496,6 +496,11 @@ Mise à jour échouée
 Vous détails non pas été mis à jour.\nIls ont seulement été écrits dans votre base de données.
 [updating]
 mise à jour
+;file \plugins\UserInfoEx\src\init.cpp
+[User &details]
+&Détails du contact
+[Check anniversaries]
+Vérifier les anniversaires
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 Pseudo - nom
@@ -609,8 +614,6 @@ Principales
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 
-[User &details]
-&Détails du contact
 [&Export user details]
 
 [&Import]
@@ -625,8 +628,6 @@ Exporter tous les contacts
 Importer tous les contacts
 [Backup birthdays]
 
-[Check anniversaries]
-Vérifier les anniversaires
 [Export/import group]
 
 [&Export group]
@@ -1150,11 +1151,13 @@ un anniversaire
 Aucun anniversaire pour
 [Backing up and syncing all birthdays complete!]
 
+[Reminders]
+
 [Birthday reminder]
 Rappel d'anniversaire
 [Birthday reminder: it's coming]
 Rappel d'anniversaire : c'est bientôt
-[Anniversary Reminder]
+[Anniversary reminder]
 Rappel d'anniversaire
 [Reminder (UInfoEx)]
 

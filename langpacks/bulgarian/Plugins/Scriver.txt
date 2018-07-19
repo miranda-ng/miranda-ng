@@ -761,40 +761,40 @@ Shift+Enter
 Подробности за потребителя
 [&History]
 История
-[View user's history (CTRL+H)]
-История на съобщенията (CTRL+H)
+[View user's history (Ctrl+H)]
+История на съобщенията (Ctrl+H)
 [&Bold]
 Получер
-[Make the text bold (CTRL+B)]
-Удебеляване (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Удебеляване (Ctrl+B)
 [&Italic]
 Курсив
-[Make the text italicized (CTRL+I)]
-Наклоняване (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Наклоняване (Ctrl+I)
 [&Underline]
 Подчертан
-[Make the text underlined (CTRL+U)]
-Подчертаване (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Подчертаване (Ctrl+U)
 [&Color]
 Цвят
-[Select a foreground color for the text (CTRL+K)]
-Цвят на текста (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Цвят на текста (Ctrl+K)
 [&Background color]
 Фонов цвят
-[Select a background color for the text (CTRL+L)]
-Фон за текста (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Фон за текста (Ctrl+L)
 [&Room settings]
 Настройки на стаята
-[Control this room (CTRL+O)]
-Управление на стаята (CTRL+O)
+[Control this room (Ctrl+O)]
+Управление на стаята (Ctrl+O)
 [&Show/hide nick list]
 Скриване/Показване на списъка с прякори
-[Show/hide the nick list (CTRL+N)]
-Показване/Скриване на списъка с прякори (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Показване/Скриване на списъка с прякори (Ctrl+N)
 [&Filter]
 Филтър
-[Enable/disable the event filter (CTRL+F)]
-Включване/Изключване на филтъра за събития (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Включване/Изключване на филтъра за събития (Ctrl+F)
 [&Message]
 Съобщение
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

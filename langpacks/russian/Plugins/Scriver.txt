@@ -1,4 +1,4 @@
-﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+#muuid {84636f78-2057-4302-8a65-23a16d46844c}
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
@@ -761,40 +761,40 @@ Shift+Enter
 Информация о пользователе
 [&History]
 &История
-[View user's history (CTRL+H)]
-История сообщений (CTRL+H)
+[View user's history (Ctrl+H)]
+История сообщений (Ctrl+H)
 [&Bold]
 &Жирный
-[Make the text bold (CTRL+B)]
-Сделать текст жирным (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Сделать текст жирным (Ctrl+B)
 [&Italic]
 &Курсив
-[Make the text italicized (CTRL+I)]
-Сделать текст курсивом (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Сделать текст курсивом (Ctrl+I)
 [&Underline]
 &Подчёркнутый
-[Make the text underlined (CTRL+U)]
-Подчеркнуть текст (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Подчеркнуть текст (Ctrl+U)
 [&Color]
 &Цвет
-[Select a foreground color for the text (CTRL+K)]
-Выбрать цвет текста (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Выбрать цвет текста (Ctrl+K)
 [&Background color]
 Цвет &фона
-[Select a background color for the text (CTRL+L)]
-Выбрать фон текста (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Выбрать фон текста (Ctrl+L)
 [&Room settings]
 &Настройки
-[Control this room (CTRL+O)]
-Управление комнатой чата (CTRL+O)
+[Control this room (Ctrl+O)]
+Управление комнатой чата (Ctrl+O)
 [&Show/hide nick list]
 &Показать/Скрыть список ников
-[Show/hide the nick list (CTRL+N)]
-Показать/скрыть список пользователей (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Показать/скрыть список пользователей (Ctrl+N)
 [&Filter]
 &Фильтр
-[Enable/disable the event filter (CTRL+F)]
-Включить/выключить фильтр событий (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Включить/выключить фильтр событий (Ctrl+F)
 [&Message]
 &Сообщение
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

@@ -172,10 +172,10 @@
 [Connect Fail]
 Втрата з'єднання
 ;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
-YAMN: новий лист
-[YAMN: connect failed]
-YAMN: помилка підключення
+[New mail message]
+Новий лист
+[Connect failed]
+Помилка підключення
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Нік

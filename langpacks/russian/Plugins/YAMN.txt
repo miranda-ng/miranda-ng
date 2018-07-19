@@ -172,9 +172,9 @@ YAMN
 [Connect Fail]
 Обрыв соединения
 ;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
+[New mail message]
 Новое письмо
-[YAMN: connect failed]
+[Connect failed]
 Сбой подключения
 ;file \plugins\YAMN\src\services.cpp
 [Nick]

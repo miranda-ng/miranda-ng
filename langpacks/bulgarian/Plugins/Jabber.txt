@@ -94,7 +94,7 @@
 Съвет:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Премахнете горните отметки, ако имате проблеми с изпращането на файлове. Може да причини проблеми с обмена на големи файлове.
-[Jabber Account Registration]
+[Jabber account registration]
 Регистриране на Jabber акаунт
 [Jabber Form]
 Jabber формуляр

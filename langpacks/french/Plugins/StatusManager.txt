@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.3
+;  Version: 1.2.0.4
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -214,7 +214,7 @@ Utiliser %time% et %date% pour l'heure et la date actuelles.
 
 [Monitor mouse activity]
 
-[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore Ctrl, Alt, Shift, Tab, Esc and Windows keys]
 
 [Ignore any key combination with above keys]
 
@@ -356,6 +356,14 @@ Popups
 ;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <inconnu>
+[default]
+Défaut
+[Hidden]
+Caché
+[Minimized]
+Minimisé
+[Normal]
+Normale
 [Right]
 Droite
 [None]
@@ -364,16 +372,8 @@ Aucun
 
 [loc: %d x %d]
 
-[Hidden]
-Caché
-[Minimized]
-Minimisé
-[Normal]
-Normale
 [Create a status menu item]
 Ajouter dans le menu
-[default]
-Défaut
 [unknown]
 Inconnu
 [At least one profile must exist]
@@ -386,3 +386,5 @@ Votre profil par défaut a été modifié
 
 [Released toolbar icon]
 
+[Toolbar]
+Barre d'outils

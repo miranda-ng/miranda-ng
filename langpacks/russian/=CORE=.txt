@@ -248,32 +248,6 @@
 Бордюры на панелях
 [Show resize grip indicator]
 Индикатор изменения размера
-[&Main menu]
-&Главное меню
-[E&xit]
-Вы&ход
-[&Status]
-&Статус
-[&Offline\tCtrl+0]
-Не в с&ети\tCtrl+0
-[On&line\tCtrl+1]
-В &сети\tCtrl+1
-[&Away\tCtrl+2]
-&Отсутствую\tCtrl+2
-[&Not available\tCtrl+3]
-Не&доступен\tCtrl+3
-[Occ&upied\tCtrl+4]
-&Занят\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Не &беспокоить\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Готов болтать\tCtrl+6
-[&Invisible\tCtrl+7]
-&Невидимый\tCtrl+7
-[On the &phone\tCtrl+8]
-На &телефоне\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Обед&аю\tCtrl+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Отправить файл(ы)
@@ -418,7 +392,7 @@
 Сохранять размер и положение окна для каждого контакта
 [Cascade new windows]
 Располагать новые окна каскадом
-[Support CTRL+Up/Down in message area to show previously sent messages]
+[Support Ctrl+Up/Down in message area to show previously sent messages]
 Показывать старые сообщения при нажатии Ctrl+Вверх/Вниз
 [Delete temporary contacts when closing message window]
 Удалять временные контакты при закрытии окна сообщений
@@ -1047,7 +1021,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Выберите, какие экстра значки будут отображаться в списке контактов:
 [*only the first %d icons will be shown]
 * будут отображаться только первые %d значков
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
 Вы можете группировать/разгруппировывать значки, выделяя их (Ctrl+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
 [Add to existing metacontact]
 Добавить к метаконтакту
@@ -1135,6 +1109,8 @@ UIN, E-mail и т.д.
 Трей
 [&Hide/Show]
 С&крыть/Показать
+[E&xit]
+Вы&ход
 [Nowhere]
 Нигде
 [&New group]
@@ -1191,6 +1167,30 @@ UIN, E-mail и т.д.
 Google Карты
 [Google Translate]
 Переводчик Google
+[&Main menu]
+&Главное меню
+[&Status]
+&Статус
+[&Offline\tCtrl+0]
+Не в с&ети\tCtrl+0
+[On&line\tCtrl+1]
+В &сети\tCtrl+1
+[&Away\tCtrl+2]
+&Отсутствую\tCtrl+2
+[&Not available\tCtrl+3]
+Не&доступен\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Занят\tCtrl+4
+[&Do not disturb\tCtrl+5]
+Не &беспокоить\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Готов болтать\tCtrl+6
+[&Invisible\tCtrl+7]
+&Невидимый\tCtrl+7
+[On the &phone\tCtrl+8]
+На &телефоне\tCtrl+8
+[Out to &lunch\tCtrl+9]
+Обед&аю\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Статус
@@ -1702,39 +1702,39 @@ Google Карты
 %s набирает текст
 [Typing notification]
 Уведомление о наборе текста
-[View user's history (CTRL+H)]
+[View user's history (Ctrl+H)]
 История сообщений (Ctrl+H)
 [&Bold]
 &Жирный
-[Make the text bold (CTRL+B)]
+[Make the text bold (Ctrl+B)]
 Сделать текст жирным (Ctrl+B)
 [&Italic]
 &Курсив
-[Make the text italicized (CTRL+I)]
+[Make the text italicized (Ctrl+I)]
 Сделать текст курсивом (Ctrl+I)
 [&Underline]
 &Подчёркнутый
-[Make the text underlined (CTRL+U)]
+[Make the text underlined (Ctrl+U)]
 Подчеркнуть текст (Ctrl+U)
 [&Color]
 &Цвет
-[Select a foreground color for the text (CTRL+K)]
+[Select a foreground color for the text (Ctrl+K)]
 Выбрать цвет текста (Ctrl+K)
 [&Background color]
 Цвет &фона
-[Select a background color for the text (CTRL+L)]
+[Select a background color for the text (Ctrl+L)]
 Выбрать фон текста (Ctrl+L)
 [&Room settings]
 &Настройки
-[Control this room (CTRL+O)]
+[Control this room (Ctrl+O)]
 Управление комнатой чата (Ctrl+O)
 [&Show/hide nick list]
 &Показать/Скрыть список пользователей
-[Show/hide the nick list (CTRL+N)]
+[Show/hide the nick list (Ctrl+N)]
 Показать/скрыть список пользователей (Ctrl+N)
 [&Filter]
 &Фильтр
-[Enable/disable the event filter (CTRL+F)]
+[Enable/disable the event filter (Ctrl+F)]
 Включить/выключить фильтр событий (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
@@ -3193,8 +3193,6 @@ ANSI плагин
 Зимбабве
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Все файлы
 [Windows bitmaps]
 Изображения Windows Bitmap
 [JPEG bitmaps]

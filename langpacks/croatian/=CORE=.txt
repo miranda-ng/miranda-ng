@@ -248,32 +248,6 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Show resize grip indicator]
 
-[&Main menu]
-
-[E&xit]
-
-[&Status]
-
-[&Offline\tCtrl+0]
-
-[On&line\tCtrl+1]
-
-[&Away\tCtrl+2]
-
-[&Not available\tCtrl+3]
-
-[Occ&upied\tCtrl+4]
-
-[&Do not disturb\tCtrl+5]
-
-[&Free for chat\tCtrl+6]
-
-[&Invisible\tCtrl+7]
-
-[On the &phone\tCtrl+8]
-
-[Out to &lunch\tCtrl+9]
-
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 
@@ -418,7 +392,7 @@ p&ovijest
 
 [Cascade new windows]
 
-[Support CTRL+Up/Down in message area to show previously sent messages]
+[Support Ctrl+Up/Down in message area to show previously sent messages]
 
 [Delete temporary contacts when closing message window]
 
@@ -1047,7 +1021,7 @@ Zahtjev za prihvaćanje
 
 [*only the first %d icons will be shown]
 
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
 
 [Add to existing metacontact]
 
@@ -1135,6 +1109,8 @@ Dodani ste.
 
 [&Hide/Show]
 
+[E&xit]
+
 [Nowhere]
 
 [&New group]
@@ -1190,6 +1166,30 @@ popis
 [Google Maps]
 
 [Google Translate]
+
+[&Main menu]
+
+[&Status]
+
+[&Offline\tCtrl+0]
+
+[On&line\tCtrl+1]
+
+[&Away\tCtrl+2]
+
+[&Not available\tCtrl+3]
+
+[Occ&upied\tCtrl+4]
+
+[&Do not disturb\tCtrl+5]
+
+[&Free for chat\tCtrl+6]
+
+[&Invisible\tCtrl+7]
+
+[On the &phone\tCtrl+8]
+
+[Out to &lunch\tCtrl+9]
 
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
@@ -1702,39 +1702,39 @@ sve datoteke
 
 [Typing notification]
 
-[View user's history (CTRL+H)]
+[View user's history (Ctrl+H)]
 
 [&Bold]
 &Podebljano
-[Make the text bold (CTRL+B)]
+[Make the text bold (Ctrl+B)]
 
 [&Italic]
 &Kosa slova
-[Make the text italicized (CTRL+I)]
+[Make the text italicized (Ctrl+I)]
 
 [&Underline]
 Pod&crtano
-[Make the text underlined (CTRL+U)]
+[Make the text underlined (Ctrl+U)]
 
 [&Color]
 &Boja
-[Select a foreground color for the text (CTRL+K)]
+[Select a foreground color for the text (Ctrl+K)]
 
 [&Background color]
 &Boja pozadine
-[Select a background color for the text (CTRL+L)]
+[Select a background color for the text (Ctrl+L)]
 
 [&Room settings]
 Pos&tavke sobe za čavrljanje
-[Control this room (CTRL+O)]
+[Control this room (Ctrl+O)]
 
 [&Show/hide nick list]
 Prika&ži/sakrij popis nadimaka
-[Show/hide the nick list (CTRL+N)]
+[Show/hide the nick list (Ctrl+N)]
 
 [&Filter]
 &Filtriraj
-[Enable/disable the event filter (CTRL+F)]
+[Enable/disable the event filter (Ctrl+F)]
 
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 
@@ -3193,8 +3193,6 @@ zambija
 zimbabve
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-sve datoteke
 [Windows bitmaps]
 windows bitmapovi
 [JPEG bitmaps]

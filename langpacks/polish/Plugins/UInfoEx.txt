@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.0
+;  Version: 0.8.5.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -496,6 +496,11 @@ Błąd wysyłania
 Twoje dane nie zostały załadowane pomyślnie.\nZostały one zapisane tylko w bazie danych.
 [updating]
 Aktualizacja
+;file \plugins\UserInfoEx\src\init.cpp
+[User &details]
+&Dane kontaktu
+[Check anniversaries]
+Sprawdź rocznice
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 Nazewnictwo IM
@@ -609,8 +614,6 @@ Przyciski
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Eksportuj/importuj kontakt
-[User &details]
-&Dane kontaktu
 [&Export user details]
 &Eksportuj dane kontaktu
 [&Import]
@@ -625,8 +628,6 @@ Eksportuj wszystkie kontakty
 Importuj wszystkie kontakty
 [Backup birthdays]
 Kopia zapasowa urodzin
-[Check anniversaries]
-Sprawdź rocznice
 [Export/import group]
 Eksportuj/importuj grupę
 [&Export group]
@@ -1150,11 +1151,13 @@ Ona ma następujące rocznice:
 Brak rocznic do przypomnienia
 [Backing up and syncing all birthdays complete!]
 Wykonywanie kopii zapasowych i synchronizacji wszystkich rocznic kompletny!
+[Reminders]
+
 [Birthday reminder]
 Przypominanie o urodzinach
 [Birthday reminder: it's coming]
 Przypominanie o rocznicach: nadchodzących
-[Anniversary Reminder]
+[Anniversary reminder]
 Przypominanie o rocznicach
 [Reminder (UInfoEx)]
 Rocznice (UInfoEx)

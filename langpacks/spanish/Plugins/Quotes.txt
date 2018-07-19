@@ -207,23 +207,13 @@ Red
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+;file \plugins\Quotes\src\QuotesProviderCurrencyConverter.cpp
 [Error occurred during HTML parsing.]
 
 [Error occurred during site access.]
 
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Name]
-
-[From Currency Full Name]
-
-[From Currency Short Name]
-
-[Into Currency Full Name]
-
-[Into Currency Short Name]
-
-[Short notation for "%f/%i"]
 
 [Source of Information]
 
@@ -256,6 +246,16 @@ Red
 [Previous Close]
 
 [Change]
+
+[From Currency Full Name]
+
+[From Currency Short Name]
+
+[Into Currency Full Name]
+
+[Into Currency Short Name]
+
+[Short notation for "%f/%i"]
 
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]

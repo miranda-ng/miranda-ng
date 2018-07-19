@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.0
+;  Version: 0.8.5.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -496,6 +496,11 @@ ne
 
 [updating]
 
+;file \plugins\UserInfoEx\src\init.cpp
+[User &details]
+Detalji o &Korisniku
+[Check anniversaries]
+
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 
@@ -609,8 +614,6 @@ Strelica dolje
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 
-[User &details]
-Detalji o &Korisniku
 [&Export user details]
 
 [&Import]
@@ -624,8 +627,6 @@ Detalji o &Korisniku
 [Import all contacts]
 
 [Backup birthdays]
-
-[Check anniversaries]
 
 [Export/import group]
 
@@ -1150,11 +1151,13 @@ Detalji o &Korisniku
 
 [Backing up and syncing all birthdays complete!]
 
+[Reminders]
+
 [Birthday reminder]
 
 [Birthday reminder: it's coming]
 
-[Anniversary Reminder]
+[Anniversary reminder]
 
 [Reminder (UInfoEx)]
 

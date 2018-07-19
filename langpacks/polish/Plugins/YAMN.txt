@@ -172,10 +172,10 @@ Sprawdź wiadomości e-mail
 [Connect Fail]
 Błąd połączenia
 ;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
-YAMN: nowa wiadomość e-mail
-[YAMN: connect failed]
-YAMN: połączenie nieudane
+[New mail message]
+Nowa wiadomość e-mail
+[Connect failed]
+Połączenie nieudane
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Nick

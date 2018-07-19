@@ -36,7 +36,7 @@
 [Miscellaneous]
 [Hint:]
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
-[Jabber Account Registration]
+[Jabber account registration]
 [Jabber Form]
 [Instruction:]
 [Submit]

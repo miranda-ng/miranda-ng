@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.3
+;  Version: 1.2.0.4
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -214,7 +214,7 @@ Cтатус-профиль
 Следить за активностью клавиатуры
 [Monitor mouse activity]
 Следить за активностью мыши
-[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore Ctrl, Alt, Shift, Tab, Esc and Windows keys]
 Игнорировать клавиши Ctrl, Alt, Shift, Tab, Esc, Win
 [Ignore any key combination with above keys]
 Игнорировать комбинации с упомянутыми клавишами
@@ -356,6 +356,14 @@ Cтатус-профиль
 ;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <неизвестно>
+[default]
+по умолчанию
+[Hidden]
+Скрытый
+[Minimized]
+Свёрнуто
+[Normal]
+Нормальный
 [Right]
 Справа
 [None]
@@ -364,16 +372,8 @@ Cтатус-профиль
 размер: %d x %d
 [loc: %d x %d]
 позиция: %d x %d
-[Hidden]
-Скрытый
-[Minimized]
-Свёрнуто
-[Normal]
-Нормальный
 [Create a status menu item]
 Создать пункт в меню
-[default]
-по умолчанию
 [unknown]
 неизвестно
 [At least one profile must exist]
@@ -386,3 +386,5 @@ Cтатус-профиль
 Нажатый значок панели
 [Released toolbar icon]
 Отпущенный значок панели
+[Toolbar]
+Панель кнопок

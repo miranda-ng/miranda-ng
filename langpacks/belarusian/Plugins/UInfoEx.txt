@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.0
+;  Version: 0.8.5.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -496,6 +496,11 @@ E-Mail
 Вашыя дэталі не загружаныя.\nЯны захаваныя лакальна.
 [updating]
 абнаўленне
+;file \plugins\UserInfoEx\src\init.cpp
+[User &details]
+&Інфармацыя
+[Check anniversaries]
+Праверыць святы
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 Імя ў IM
@@ -609,8 +614,6 @@ E-Mail
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Экс-/Імпарт кантакт
-[User &details]
-&Інфармацыя
 [&Export user details]
 Экспарт дадзеных
 [&Import]
@@ -625,8 +628,6 @@ E-Mail
 Імпартаваць усе кантакты
 [Backup birthdays]
 Рэзерваваць дні нараджэння
-[Check anniversaries]
-Праверыць святы
 [Export/import group]
 
 [&Export group]
@@ -1150,11 +1151,13 @@ Web Дызайн
 Няма свят, пра якія трэба абвясціць
 [Backing up and syncing all birthdays complete!]
 Рэзерваванне і сінхранізацыя ўсіх Дзён нараджэнняў завершаны!
+[Reminders]
+
 [Birthday reminder]
 Напамінак пра дзень нараджэння
 [Birthday reminder: it's coming]
 Напамінак пра надыходзячы дзень нараджэння
-[Anniversary Reminder]
+[Anniversary reminder]
 Напамінак пра свята
 [Reminder (UInfoEx)]
 Напамінак (UInfoEx)

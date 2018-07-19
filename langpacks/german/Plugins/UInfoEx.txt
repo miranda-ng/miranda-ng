@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.0
+;  Version: 0.8.5.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -496,6 +496,11 @@ Hochladen fehlgeschlagen
 Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Datenbank gespeichert.
 [updating]
 Aktualisieren
+;file \plugins\UserInfoEx\src\init.cpp
+[User &details]
+Kontaktprofil
+[Check anniversaries]
+Suche nach Jahrestagen
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 IM-Benennung
@@ -609,8 +614,6 @@ Schaltflächen
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Kontakt ex-/importieren
-[User &details]
-Kontaktprofil
 [&Export user details]
 Benutzerinfo &exportieren
 [&Import]
@@ -625,8 +628,6 @@ Alle Kontakte exportieren
 Alle Kontakte importieren
 [Backup birthdays]
 Sichere Geburtstage
-[Check anniversaries]
-Suche nach Jahrestagen
 [Export/import group]
 Gruppe ex-/importieren
 [&Export group]
@@ -1150,11 +1151,13 @@ Sie hat folgende Jahrestage:
 Es gibt keine Jahrestage in absehbarer Zeit.
 [Backing up and syncing all birthdays complete!]
 Sicherung und Synchronisation\nder Geburtsdaten fertiggestellt!
+[Reminders]
+Erinnerungen
 [Birthday reminder]
 Geburtstags-Erinnerung
 [Birthday reminder: it's coming]
 Kommende Geburtstage
-[Anniversary Reminder]
+[Anniversary reminder]
 Jahrestagserinnerung
 [Reminder (UInfoEx)]
 Erinnern (UInfoEx)

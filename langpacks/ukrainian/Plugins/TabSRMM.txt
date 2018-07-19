@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.10
+;  Version: 3.5.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -374,7 +374,7 @@ ID користувача в панелі статусу
 Статуси для автоматичного створення вкладок...
 [Limit nicknames on tabs to]
 Обмежити імена на вкладках до
-[ESC key behavior]
+[Esc key behavior]
 Поведінка при натисканні Esc
 [Select container]
 Вибір контейнера
@@ -1247,7 +1247,7 @@ ID поточного контакту (якщо визначено). Напри
 &Користувач
 [&Room]
 Чат-кімната
-[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
+[Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Звук: %s. Клік для перемикання статусу, Shift+клік для всіх відкритих контейнерів
 [disabled]
 вимкнений
@@ -1463,11 +1463,11 @@ TabSRMM: Набирає
 Повторити
 [Send later]
 Надіслати пізніше
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - керування метаконтактом\nСтрілка вниз - додавання/видалення користувача з вибраного.
 [No UID]
 немає UID
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача з вибраного.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Ви знаходитесь в режимі редагування нотаток про користувача. Натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень.
@@ -1838,8 +1838,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Показувати значки метаконтактів
 [Error feedback]
 Помилки доставки повідомлень
-[Enable typing sounds]
-Увімкнути звук набору тексту
 [Close current tab on send]
 Закривати вкладку при надсиланні
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
@@ -1980,7 +1978,7 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Автоперемикання вкладок при нових повідомленнях (без Aero Peek)
 [Close button only hides message windows]
 Кнопка "Закрити" тільки ховає вікно повідомлень
-[Allow TAB key in typing area (this will disable focus selection by TAB key)]
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
 Дозволити табуляцію в полі вводу (відключить перемикання фокусу клавішею Tab)
 [Add offline contacts to multisend list]
 Додати до списку розсилки офлайн-контакти

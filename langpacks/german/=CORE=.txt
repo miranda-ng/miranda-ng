@@ -248,32 +248,6 @@ Alle Protokolle gleiche Breite
 Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
-[&Main menu]
-&Hauptmenü
-[E&xit]
-B&eenden
-[&Status]
-&Status
-[&Offline\tCtrl+0]
-&Offline\tStrg+0
-[On&line\tCtrl+1]
-On&line\tStrg+1
-[&Away\tCtrl+2]
-&Abwesend\tStrg+2
-[&Not available\tCtrl+3]
-Au&ßer Haus\tStrg+3
-[Occ&upied\tCtrl+4]
-Besch&äftigt\tStrg+4
-[&Do not disturb\tCtrl+5]
-Bitte nicht st&ören\tStrg+5
-[&Free for chat\tCtrl+6]
-&Für Chat bereit\tStrg+6
-[&Invisible\tCtrl+7]
-Uns&ichtbar\tStrg+7
-[On the &phone\tCtrl+8]
-Am &Telefon\tStrg+8
-[Out to &lunch\tCtrl+9]
-&Beim Essen\tStrg+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Datei(en) senden
@@ -418,7 +392,7 @@ Statusicon des Kontaktes als Fenstericon verwenden
 Fenstergröße und Position für jeden Kontakt einzeln speichern
 [Cascade new windows]
 Neue Fenster überlappend
-[Support CTRL+Up/Down in message area to show previously sent messages]
+[Support Ctrl+Up/Down in message area to show previously sent messages]
 Zuvor gesendete Nachrichten mit Strg+Auf/Ab erneut abrufen
 [Delete temporary contacts when closing message window]
 Temporäre Kontakte löschen, wenn Nachrichtenfenster geschlossen wird
@@ -1047,7 +1021,7 @@ Zweite Farbe:
 Wählen Sie die Extraicons aus, welche in der Kontaktliste angezeigt werden sollen:
 [*only the first %d icons will be shown]
 Hinweis: Nur die ersten %d Icons werden angezeigt!
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
 Wählen Sie mehrere Elemente mit gedrückter Umschalt- oder Strg-Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
 [Add to existing metacontact]
 Zu Metakontakt hinzufügen
@@ -1135,6 +1109,8 @@ Dank an >
 Tray
 [&Hide/Show]
 Zeigen/&Ausblenden
+[E&xit]
+B&eenden
 [Nowhere]
 Nirgends
 [&New group]
@@ -1191,6 +1167,30 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
+[&Main menu]
+&Hauptmenü
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Offline\tStrg+0
+[On&line\tCtrl+1]
+On&line\tStrg+1
+[&Away\tCtrl+2]
+&Abwesend\tStrg+2
+[&Not available\tCtrl+3]
+Au&ßer Haus\tStrg+3
+[Occ&upied\tCtrl+4]
+Besch&äftigt\tStrg+4
+[&Do not disturb\tCtrl+5]
+Bitte nicht st&ören\tStrg+5
+[&Free for chat\tCtrl+6]
+&Für Chat bereit\tStrg+6
+[&Invisible\tCtrl+7]
+Uns&ichtbar\tStrg+7
+[On the &phone\tCtrl+8]
+Am &Telefon\tStrg+8
+[Out to &lunch\tCtrl+9]
+&Beim Essen\tStrg+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Status
@@ -1702,39 +1702,39 @@ Nachricht von %s
 %s tippt eine Nachricht
 [Typing notification]
 Tippbenachrichtigungen
-[View user's history (CTRL+H)]
-Verlauf anzeigen (CTRL+H)
+[View user's history (Ctrl+H)]
+Verlauf anzeigen (Strg+H)
 [&Bold]
 &Fett
-[Make the text bold (CTRL+B)]
+[Make the text bold (Ctrl+B)]
 Fett (Strg+B)
 [&Italic]
 &Kursiv
-[Make the text italicized (CTRL+I)]
+[Make the text italicized (Ctrl+I)]
 Kursiv (Strg+I)
 [&Underline]
 &Unterstrichen
-[Make the text underlined (CTRL+U)]
+[Make the text underlined (Ctrl+U)]
 Unterstrichen (Strg+U)
 [&Color]
 &Farbe
-[Select a foreground color for the text (CTRL+K)]
+[Select a foreground color for the text (Ctrl+K)]
 Schriftfarbe wählen (Strg+K)
 [&Background color]
 &Hintergrundfarbe
-[Select a background color for the text (CTRL+L)]
+[Select a background color for the text (Ctrl+L)]
 Schrifthintergrundfarbe wählen (Strg+L)
 [&Room settings]
 &Raumeinstellungen
-[Control this room (CTRL+O)]
+[Control this room (Ctrl+O)]
 Diesen Raum kontrollieren (Strg+O)
 [&Show/hide nick list]
 Nickliste &anzeigen/verbergen
-[Show/hide the nick list (CTRL+N)]
+[Show/hide the nick list (Ctrl+N)]
 Benutzerliste anzeigen/verstecken (Strg+N)
 [&Filter]
 &Filter
-[Enable/disable the event filter (CTRL+F)]
+[Enable/disable the event filter (Ctrl+F)]
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda konnte nicht das eingebaute Nachrichtenmodul laden, msftedit.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
@@ -3193,8 +3193,6 @@ Sambia
 Simbabwe
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Alle Dateien
 [Windows bitmaps]
 BMP-Bilder
 [JPEG bitmaps]

@@ -73,7 +73,7 @@
 [Confirm dialog timeout (secs)]
 [Monitor keyboard activity]
 [Monitor mouse activity]
-[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore Ctrl, Alt, Shift, Tab, Esc and Windows keys]
 [Ignore any key combination with above keys]
 [Enable checking]
 [Disable checking]

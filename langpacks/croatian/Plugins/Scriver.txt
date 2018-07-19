@@ -761,39 +761,39 @@ Detalji o &Korisniku
 
 [&History]
 p&ovijest
-[View user's history (CTRL+H)]
+[View user's history (Ctrl+H)]
 
 [&Bold]
 &Podebljano
-[Make the text bold (CTRL+B)]
+[Make the text bold (Ctrl+B)]
 
 [&Italic]
 &Kosa slova
-[Make the text italicized (CTRL+I)]
+[Make the text italicized (Ctrl+I)]
 
 [&Underline]
 Pod&crtano
-[Make the text underlined (CTRL+U)]
+[Make the text underlined (Ctrl+U)]
 
 [&Color]
 &Boja
-[Select a foreground color for the text (CTRL+K)]
+[Select a foreground color for the text (Ctrl+K)]
 
 [&Background color]
 &Boja pozadine
-[Select a background color for the text (CTRL+L)]
+[Select a background color for the text (Ctrl+L)]
 
 [&Room settings]
 Pos&tavke sobe za čavrljanje
-[Control this room (CTRL+O)]
+[Control this room (Ctrl+O)]
 
 [&Show/hide nick list]
 Prika&ži/sakrij popis nadimaka
-[Show/hide the nick list (CTRL+N)]
+[Show/hide the nick list (Ctrl+N)]
 
 [&Filter]
 &Filtriraj
-[Enable/disable the event filter (CTRL+F)]
+[Enable/disable the event filter (Ctrl+F)]
 
 [&Message]
 &Poruka

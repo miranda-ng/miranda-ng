@@ -552,32 +552,6 @@ opcije
 
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 
-[&Main menu]
-
-[E&xit]
-
-[&Status]
-
-[&Offline\tCtrl+0]
-
-[On&line\tCtrl+1]
-
-[&Away\tCtrl+2]
-
-[&Not available\tCtrl+3]
-
-[Occ&upied\tCtrl+4]
-
-[&Do not disturb\tCtrl+5]
-
-[&Free for chat\tCtrl+6]
-
-[&Invisible\tCtrl+7]
-
-[On the &phone\tCtrl+8]
-
-[Out to &lunch\tCtrl+9]
-
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 
@@ -617,6 +591,10 @@ opcije
 [&Hide/show]
 
 [&Find/add contacts...]
+
+[&Main menu]
+
+[&Status]
 
 [&Options...]
 

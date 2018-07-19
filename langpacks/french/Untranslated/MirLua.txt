@@ -3,6 +3,8 @@
 [Scripts]
 [Popup on script error]
 [Popup on obsolete methods]
+[Auto evaluation]
+[Evaluate]
 [Script]
 [Loaded]
 [Compile]

@@ -207,7 +207,7 @@ HTTP далучэнне Quotes
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+;file \plugins\Quotes\src\QuotesProviderCurrencyConverter.cpp
 [Error occurred during HTML parsing.]
 Памылка падчас парсінгу HTML.
 [Error occurred during site access.]
@@ -215,16 +215,6 @@ HTTP далучэнне Quotes
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Name]
 Назва каціроўкі
-[From Currency Full Name]
-Поўная назва зыходнай валюты
-[From Currency Short Name]
-Кароткая назва зыходнай валюты
-[Into Currency Full Name]
-Поўная назва мэтавай валюты
-[Into Currency Short Name]
-Кароткая назва мэтавай валюты
-[Short notation for "%f/%i"]
-Кароткае пазначэнне "%f/%i"
 [Source of Information]
 Крыніца інфармацыі
 [Rate Value]
@@ -257,6 +247,16 @@ HTTP далучэнне Quotes
 Значэнне на папярэдняе зачыненне
 [Change]
 Змена
+[From Currency Full Name]
+Поўная назва зыходнай валюты
+[From Currency Short Name]
+Кароткая назва зыходнай валюты
+[Into Currency Full Name]
+Поўная назва мэтавай валюты
+[Into Currency Short Name]
+Кароткая назва мэтавай валюты
+[Short notation for "%f/%i"]
+Кароткае пазначэнне "%f/%i"
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Лог (*.txt,*.log)

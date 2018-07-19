@@ -552,32 +552,6 @@ Borde
 
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 
-[&Main menu]
-&Menú principal
-[E&xit]
-&Salir
-[&Status]
-E&stado
-[&Offline\tCtrl+0]
-&Fuera de línea\tCtrl+0
-[On&line\tCtrl+1]
-&En línea\tCtrl+1
-[&Away\tCtrl+2]
-Fuer&a\tCtrl+2
-[&Not available\tCtrl+3]
-&No disponible\tCtrl+3
-[Occ&upied\tCtrl+4]
-Oc&upado\tCtrl+4
-[&Do not disturb\tCtrl+5]
-No &molestar\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Libre para el chat\tCtrl+6
-[&Invisible\tCtrl+7]
-&Invisible\tCtrl+7
-[On the &phone\tCtrl+8]
-En el &teléfono\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Salí a &comer\tCtrl+9
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 
@@ -618,6 +592,10 @@ Salí a &comer\tCtrl+9
 &Mostrar/Ocultar
 [&Find/add contacts...]
 &Buscar/Agregar contactos...
+[&Main menu]
+&Menú principal
+[&Status]
+E&stado
 [&Options...]
 &Opciones
 [&About]

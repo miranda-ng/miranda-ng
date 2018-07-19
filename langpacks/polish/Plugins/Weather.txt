@@ -344,9 +344,9 @@ Włącz/Wyłącz autoaktualizacje
 Auto-aktualizacja włączona
 [Auto Update Disabled]
 Auto-aktualizacja wyłączona
-[Weather Condition Changed]
+[Condition Changed]
 Warunki pogodowe uległy zmianie
-[Weather Alert Issued]
+[Alert Issued]
 Ogłoszono alarm pogodowy
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]

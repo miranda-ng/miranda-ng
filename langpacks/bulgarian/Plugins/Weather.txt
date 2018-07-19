@@ -344,9 +344,10 @@ HTTP грешка: Gateway timeout (504)
 Автообновяването е включено
 [Auto Update Disabled]
 Автообновяването е изключено
-[Weather Condition Changed]
+[Condition Changed]
 Промяна на метеорологичните условия
-[Weather Alert Issued]
+
+[Alert Issued]
 
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]

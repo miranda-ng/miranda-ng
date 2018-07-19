@@ -248,32 +248,6 @@
 Бардзюры на панэлях
 [Show resize grip indicator]
 Індыкатар зм. памеру
-[&Main menu]
-Галоўнае меню
-[E&xit]
-Выхад
-[&Status]
-Статус
-[&Offline\tCtrl+0]
-Ад&ключаны\tCtrl+0
-[On&line\tCtrl+1]
-&Далучаны\tCtrl+1
-[&Away\tCtrl+2]
-&Адсутнічаю\tCtrl+2
-[&Not available\tCtrl+3]
-Неда&ступны\tCtrl+3
-[Occ&upied\tCtrl+4]
-Зан&яты\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Не &турбаваць\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Вольны\tCtrl+6
-[&Invisible\tCtrl+7]
-&Нябачны\tCtrl+7
-[On the &phone\tCtrl+8]
-На тэле&фоне\tCtrl+8
-[Out to &lunch\tCtrl+9]
-А&бедаю\tCtrl+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Адправіць файл(ы)
@@ -418,7 +392,7 @@
 Захоўваць памер і становішча вакна для кожнага кантакту
 [Cascade new windows]
 Размяшчаць новыя вокны каскадам
-[Support CTRL+Up/Down in message area to show previously sent messages]
+[Support Ctrl+Up/Down in message area to show previously sent messages]
 Паказваць старыя паведамленні пры націску Ctrl+УГАРУ/УНІЗ
 [Delete temporary contacts when closing message window]
 Выдаляць часавыя кантакты пры зачыненні вакна паведамлення
@@ -1047,8 +1021,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Абярыце якія экстра абразкі будуць адлюстроўвацца ў спісе кантактаў:
 [*only the first %d icons will be shown]
 *будуць адлюстроўвацца толькі першыя %d абразкоў
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Вы можаце гуртаваць/разгуртоўваць абразкі, вылучаючы іх (CTRL+клік левай кнопкай мышы) і выклікаючы меню з дапамогай правай кнопкі мышы.
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
+Вы можаце гуртаваць/разгуртоўваць абразкі, вылучаючы іх (Ctrl+клік левай кнопкай мышы) і выклікаючы меню з дапамогай правай кнопкі мышы.
 [Add to existing metacontact]
 Дадаць да метакантакту
 [Please select a metacontact:]
@@ -1135,6 +1109,8 @@ UIN, E-mail і г.д.
 Трэй
 [&Hide/Show]
 С&хаваць/паказаць
+[E&xit]
+Выхад
 [Nowhere]
 Нідзе
 [&New group]
@@ -1191,6 +1167,30 @@ UIN, E-mail і г.д.
 
 [Google Translate]
 
+[&Main menu]
+Галоўнае меню
+[&Status]
+Статус
+[&Offline\tCtrl+0]
+Ад&ключаны\tCtrl+0
+[On&line\tCtrl+1]
+&Далучаны\tCtrl+1
+[&Away\tCtrl+2]
+&Адсутнічаю\tCtrl+2
+[&Not available\tCtrl+3]
+Неда&ступны\tCtrl+3
+[Occ&upied\tCtrl+4]
+Зан&яты\tCtrl+4
+[&Do not disturb\tCtrl+5]
+Не &турбаваць\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Вольны\tCtrl+6
+[&Invisible\tCtrl+7]
+&Нябачны\tCtrl+7
+[On the &phone\tCtrl+8]
+На тэле&фоне\tCtrl+8
+[Out to &lunch\tCtrl+9]
+А&бедаю\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Статус
@@ -1702,40 +1702,40 @@ UIN, E-mail і г.д.
 %s набірае тэкст
 [Typing notification]
 Абвестка пра набор тэксту
-[View user's history (CTRL+H)]
-Гісторыя паведамленняў (CTRL+H)
+[View user's history (Ctrl+H)]
+Гісторыя паведамленняў (Ctrl+H)
 [&Bold]
 Тлусты
-[Make the text bold (CTRL+B)]
-Зрабіць тэкст тоўстым (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Зрабіць тэкст тоўстым (Ctrl+B)
 [&Italic]
 Курсіў
-[Make the text italicized (CTRL+I)]
-Зрабіць тэкст курсівам (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Зрабіць тэкст курсівам (Ctrl+I)
 [&Underline]
 Падкрэсліць
-[Make the text underlined (CTRL+U)]
-Падкрэсліць тэкст (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Падкрэсліць тэкст (Ctrl+U)
 [&Color]
 Колер
-[Select a foreground color for the text (CTRL+K)]
-Абраць колер тэксту (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Абраць колер тэксту (Ctrl+K)
 [&Background color]
 Колер фона
-[Select a background color for the text (CTRL+L)]
-Абраць фон тэксту (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Абраць фон тэксту (Ctrl+L)
 [&Room settings]
 Налады чата
-[Control this room (CTRL+O)]
-Кантраляваць гэты чат(CTRL+O)
+[Control this room (Ctrl+O)]
+Кантраляваць гэты чат(Ctrl+O)
 [&Show/hide nick list]
 Паказаць/Схаваць спіс
-[Show/hide the nick list (CTRL+N)]
-Паказаць/схаваць спіс кантактаў (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Паказаць/схаваць спіс кантактаў (Ctrl+N)
 [&Filter]
 фільтр
-[Enable/disable the event filter (CTRL+F)]
-Уключыць/выключыць фільтр падзей (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Уключыць/выключыць фільтр падзей (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае msftedit.dll. націсніце "Так" для працягу загрузкі праграмы.
 [Instant messages]
@@ -3193,8 +3193,6 @@ ANSI плагін
 Зімбабвэ
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Усе файлы
 [Windows bitmaps]
 BMP
 [JPEG bitmaps]

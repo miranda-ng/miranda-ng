@@ -344,10 +344,10 @@ INI-файл погоди для цієї станції не знайдений
 Автооновлення ввімкнено
 [Auto Update Disabled]
 Автооновлення вимкнено
-[Weather Condition Changed]
-Weather: Погода змінилася
-[Weather Alert Issued]
-Weather: Погодне попередження
+[Condition Changed]
+Погода змінилася
+[Alert Issued]
+Погодне попередження
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Поточна інформація про погоду для %s.

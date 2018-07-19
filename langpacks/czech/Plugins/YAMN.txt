@@ -172,10 +172,10 @@ Vybrat poštu
 [Connect Fail]
 Chyba při připojování
 ;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
+[New mail message]
 
-[YAMN: connect failed]
-YAMN (chyba připojení)
+[Connect failed]
+Chyba připojení
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Přezdívka

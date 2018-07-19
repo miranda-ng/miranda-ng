@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.0
+;  Version: 0.8.5.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -496,6 +496,11 @@ Aktualizace se nezdařila
 Vaše údaje nebyly úspěšně aktualizovány\nByly pouze zapsány do databáze.
 [updating]
 Aktualizace
+;file \plugins\UserInfoEx\src\init.cpp
+[User &details]
+&Detaily uživatele
+[Check anniversaries]
+Zkontrolovat výročí
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 Ikona klienta
@@ -609,8 +614,6 @@ Tlačítka
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Export/import kontaktu
-[User &details]
-&Detaily uživatele
 [&Export user details]
 &Exportovat detaily uživatele
 [&Import]
@@ -625,8 +628,6 @@ Exportovat všechny kontakty
 Importovat všechny kontakty
 [Backup birthdays]
 Zazálohovat narozeniny
-[Check anniversaries]
-Zkontrolovat výročí
 [Export/import group]
 Export/import skupiny
 [&Export group]
@@ -1150,11 +1151,13 @@ Přezdívka: %s, zbývá dnů: %d
 Není co připomenout z výročí
 [Backing up and syncing all birthdays complete!]
 Zálohování a synchronizace všech narozenin hotova!
+[Reminders]
+
 [Birthday reminder]
 Narozeniny
 [Birthday reminder: it's coming]
 Narozeniny (již brzy!)
-[Anniversary Reminder]
+[Anniversary reminder]
 Upozorňování na výročí
 [Reminder (UInfoEx)]
 Připomínka (UInfoEx)

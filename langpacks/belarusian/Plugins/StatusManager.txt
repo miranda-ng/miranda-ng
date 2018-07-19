@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.3
+;  Version: 1.2.0.4
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -214,7 +214,7 @@ Dial-up (эксперыментальна)
 Сачыць за актыўнасцю клавіятуры
 [Monitor mouse activity]
 Сачыць за актыўнасцю мышы
-[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore Ctrl, Alt, Shift, Tab, Esc and Windows keys]
 Ігнараваць клавішы Ctrl, Alt, Shift, Tab, Esc, Win
 [Ignore any key combination with above keys]
 Ігнараваць камбінацыі са згаданымі клавішамі
@@ -356,6 +356,14 @@ Dial-up (эксперыментальна)
 ;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <невядома>
+[default]
+па змаўчанні
+[Hidden]
+Утоены
+[Minimized]
+Згорнута
+[Normal]
+Звычайны
 [Right]
 Справа
 [None]
@@ -364,16 +372,8 @@ Dial-up (эксперыментальна)
 
 [loc: %d x %d]
 
-[Hidden]
-Утоены
-[Minimized]
-Згорнута
-[Normal]
-Звычайны
 [Create a status menu item]
 Стварыць пункт у меню
-[default]
-па змаўчанні
 [unknown]
 невядома
 [At least one profile must exist]
@@ -386,3 +386,5 @@ Dial-up (эксперыментальна)
 Націснуты абразок панэлі
 [Released toolbar icon]
 Адпушчаны абразок панэлі
+[Toolbar]
+Панэль кнопак

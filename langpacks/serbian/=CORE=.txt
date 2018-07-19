@@ -248,32 +248,6 @@ Odeljci jednake širine
 Ivice na panelima
 [Show resize grip indicator]
 Prikaži indikator pri razvlačenju
-[&Main menu]
-Glavni &meni
-[E&xit]
-&Izlaz
-[&Status]
-&Status
-[&Offline\tCtrl+0]
-&Odsutan\tCtrl+0
-[On&line\tCtrl+1]
-&Prisutan\tCtrl+1
-[&Away\tCtrl+2]
-&Neaktivan\tCtrl+2
-[&Not available\tCtrl+3]
-N&edostupan\tCtrl+3
-[Occ&upied\tCtrl+4]
-&Zauzet\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Ne &uznemiravaj\tCtrl+5
-[&Free for chat\tCtrl+6]
-Spreman za &razgovor\tCtrl+6
-[&Invisible\tCtrl+7]
-Ne&vidljiv\tCtrl+7
-[On the &phone\tCtrl+8]
-&Telefoniram\tCtrl+8
-[Out to &lunch\tCtrl+9]
-N&a ručku\tCtrl+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Šalji datoteke
@@ -418,8 +392,8 @@ Ikonica kontakta je ikonica prozora
 Zasebna veličina i pozicija prozora svakog kontakta
 [Cascade new windows]
 Poređaj novootvorene prozore
-[Support CTRL+Up/Down in message area to show previously sent messages]
-Podrška za CTRL+Gore/Dole kod slanja, za prikaz ranijih poruka
+[Support Ctrl+Up/Down in message area to show previously sent messages]
+Podrška za Ctrl+Gore/Dole kod slanja, za prikaz ranijih poruka
 [Delete temporary contacts when closing message window]
 Izbriši privremene kontakta usled zatvaranja prozora za poruke
 [Enable avatar support in the message window]
@@ -1047,8 +1021,8 @@ Sekundarna boja:
 Odabir dodatnih ikonica za prikaz u listi kontakata:
 [*only the first %d icons will be shown]
 *prikazuje samo prvih %d
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Ikonice grupišeš pomoću 'CTRL i Levi Klik' ili putem menija desnog dugmeta miša
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
+Ikonice grupišeš pomoću 'Ctrl i Levi Klik' ili putem menija desnog dugmeta miša
 [Add to existing metacontact]
 Dodaj postojećem metakontaktu
 [Please select a metacontact:]
@@ -1135,6 +1109,8 @@ Autori >
 Tray
 [&Hide/Show]
 &Sakriti/Prikazati
+[E&xit]
+&Izlaz
 [Nowhere]
 Nigde
 [&New group]
@@ -1191,6 +1167,30 @@ Pronađi reč
 
 [Google Translate]
 
+[&Main menu]
+Glavni &meni
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Odsutan\tCtrl+0
+[On&line\tCtrl+1]
+&Prisutan\tCtrl+1
+[&Away\tCtrl+2]
+&Neaktivan\tCtrl+2
+[&Not available\tCtrl+3]
+N&edostupan\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Zauzet\tCtrl+4
+[&Do not disturb\tCtrl+5]
+Ne &uznemiravaj\tCtrl+5
+[&Free for chat\tCtrl+6]
+Spreman za &razgovor\tCtrl+6
+[&Invisible\tCtrl+7]
+Ne&vidljiv\tCtrl+7
+[On the &phone\tCtrl+8]
+&Telefoniram\tCtrl+8
+[Out to &lunch\tCtrl+9]
+N&a ručku\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Status
@@ -1702,40 +1702,40 @@ Poruka od: %s
 %s kuca poruku
 [Typing notification]
 Obaveštenje o kucanju
-[View user's history (CTRL+H)]
-Vidi istoriju korisnika (CTRL+H)
+[View user's history (Ctrl+H)]
+Vidi istoriju korisnika (Ctrl+H)
 [&Bold]
 &Bold
-[Make the text bold (CTRL+B)]
-Podebljaj tekst (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Podebljaj tekst (Ctrl+B)
 [&Italic]
 &Kurziv
-[Make the text italicized (CTRL+I)]
-Ulepšaj tekst kurzivom (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Ulepšaj tekst kurzivom (Ctrl+I)
 [&Underline]
 &Podvučeno
-[Make the text underlined (CTRL+U)]
-Podvuci tekst (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Podvuci tekst (Ctrl+U)
 [&Color]
 B&oja
-[Select a foreground color for the text (CTRL+K)]
-Boja teksta (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Boja teksta (Ctrl+K)
 [&Background color]
 Boja &pozadine
-[Select a background color for the text (CTRL+L)]
-Boja pozadine teksta (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Boja pozadine teksta (Ctrl+L)
 [&Room settings]
 Parametri so&be
-[Control this room (CTRL+O)]
-Upravljaj sobom za razgovor (CTRL+O)
+[Control this room (Ctrl+O)]
+Upravljaj sobom za razgovor (Ctrl+O)
 [&Show/hide nick list]
 Prikazati/sakriti spis&ak
-[Show/hide the nick list (CTRL+N)]
-Prikaži / skloni listu nadimaka (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Prikaži / skloni listu nadimaka (Ctrl+N)
 [&Filter]
 &Filter
-[Enable/disable the event filter (CTRL+F)]
-Uključi / isključi filter za razgovor (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Uključi / isključi filter za razgovor (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda ne može da upotrebi sopstveni modul za poruke, ne postoji msftedit.dll. Odgovor 'Da' za nastavak učitavanja.
 [Instant messages]
@@ -3193,8 +3193,6 @@ Zambija
 Zimbabve
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Sve datoteke
 [Windows bitmaps]
 Bitmap slike Windows OS-a
 [JPEG bitmaps]

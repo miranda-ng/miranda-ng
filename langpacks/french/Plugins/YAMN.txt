@@ -172,10 +172,10 @@ Vérif. des messages
 [Connect Fail]
 Échec de la connexion
 ;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
-YAMN : nouvel e-mail
-[YAMN: connect failed]
-YAMN : échec connexion
+[New mail message]
+Nouvel e-mail
+[Connect failed]
+Échec connexion
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Pseudo

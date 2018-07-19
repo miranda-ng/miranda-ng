@@ -1,2 +1,0 @@
-[GetAdaptersAddresses sizing failed]
-[GetAdaptersInfo sizing failed]

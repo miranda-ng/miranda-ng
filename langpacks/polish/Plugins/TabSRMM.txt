@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.10
+;  Version: 3.5.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -374,8 +374,8 @@ Inne opcje
 Ustaw statusy dla automatycznego tworzenia kart...
 [Limit nicknames on tabs to]
 Limituj nicki na kartach do
-[ESC key behavior]
-Opcje ESC
+[Esc key behavior]
+Opcje Esc
 [Select container]
 Wybierz kontener
 [Available containers]
@@ -1247,8 +1247,8 @@ Nie pokazuj ich
 &Użytkownik
 [&Room]
 &Pokój
-[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
-Dźwięk jest %s. Kliknij aby przełączyć, przytrzymaj SHIFT i kliknij, aby ustawić dla otwartych kontenerów
+[Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
+Dźwięk jest %s. Kliknij aby przełączyć, przytrzymaj Shift i kliknij, aby ustawić dla otwartych kontenerów
 [disabled]
 wyłączony
 [enabled]
@@ -1463,12 +1463,12 @@ Kliknij, by pokazać menu kontaktu\nKliknij strzałkę, by pokazać ustawienia o
 Gotowy
 [Send later]
 Wyślij później
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (kliknięcie SHIFT -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by dodać lub usunąć kontakt z ulubionych..
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (kliknięcie Shift -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by dodać lub usunąć kontakt z ulubionych..
 [No UID]
 Brak UID
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (kliknięcie SHIFT -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by zmienić status tego kontaktu jako ulubionego.
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (kliknięcie Shift -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by zmienić status tego kontaktu jako ulubionego.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Edytujesz notatki o użytkowniku. Użyj przycisku ponownie lub naciśnij skrót klawiszowy (domyślnie: alt+n), aby zapisać notatki i powrócić do normalnego trybu wiadomości
 [Selection copied to clipboard]
@@ -1838,8 +1838,6 @@ Poprawki okna rozmowy
 Wyświetlaj ikony metakontaktów
 [Error feedback]
 Błędy
-[Enable typing sounds]
-Włącz dźwięki przy pisaniu
 [Close current tab on send]
 Zamknij kartę po wysłaniu wiadomości
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
@@ -1980,8 +1978,8 @@ Aktywuj zminimalizowane okno, gdy tworzona jest nowa karta
 Automatycznie przełączaj istniejące karty w zminimalizowanych oknach dla przychodzących wiadomości (ignorowane przy użyciu funkcji Aero Peek)
 [Close button only hides message windows]
 Przycisk zamykania tylko ukrywa okno rozmowy
-[Allow TAB key in typing area (this will disable focus selection by TAB key)]
-Zezwól na tabulację (TAB przełącza fokus w karcie/oknie)
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Zezwól na tabulację (Tab przełącza fokus w karcie/oknie)
 [Add offline contacts to multisend list]
 Dodaj rozłączone kontakty na listę wysyłania do wielu naraz
 ;file \plugins\TabSRMM\src\trayicon.cpp

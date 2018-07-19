@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.3
+;  Version: 1.2.0.4
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -214,8 +214,8 @@ Dialog zavřít po (v sek.)
 Monitorovat psaní na klávesnici
 [Monitor mouse activity]
 Monitorovat pohyb myši
-[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
-Ignorovat klávesy CTRL, ALT, SHIFT, TAB, ESC a WIN
+[Ignore Ctrl, Alt, Shift, Tab, Esc and Windows keys]
+Ignorovat klávesy Ctrl, Aat, Shift, Tab, Esc a Win
 [Ignore any key combination with above keys]
 Ignorovat kombinace s výše uvedenými klávesami
 [Accounts]
@@ -356,6 +356,14 @@ Oznámení
 ;file \plugins\StatusManager\src\ss_options.cpp
 [<unknown>]
 <neznámý>
+[default]
+výchozí
+[Hidden]
+Skrytý
+[Minimized]
+Minimalizované
+[Normal]
+Normální
 [Right]
 Vpravo
 [None]
@@ -364,16 +372,8 @@ Vpravo
 velikost: %d x %d
 [loc: %d x %d]
 pozice: %d x %d
-[Hidden]
-Skrytý
-[Minimized]
-Minimalizované
-[Normal]
-Normální
 [Create a status menu item]
 Vytvořit položku v hlavní nabídce
-[default]
-výchozí
 [unknown]
 neznámý
 [At least one profile must exist]
@@ -386,3 +386,5 @@ Výchozí profil bude změněn.
 Stisknutá ikona tlačitkové lišty
 [Released toolbar icon]
 Nestisknutá ikona tlačítkové lišty
+[Toolbar]
+Lišta tlačítek

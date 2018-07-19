@@ -172,9 +172,9 @@ Color de texto
 [Connect Fail]
 
 ;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
+[New mail message]
 
-[YAMN: connect failed]
+[Connect failed]
 
 ;file \plugins\YAMN\src\services.cpp
 [Nick]

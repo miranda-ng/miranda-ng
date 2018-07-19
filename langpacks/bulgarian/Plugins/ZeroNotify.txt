@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ZeroNotify.dll
 ;  Plugin: Zero notifications
-;  Version: 0.0.0.5
+;  Version: 0.1.0.1
 ;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
@@ -14,8 +14,6 @@
 Без - в списъка:
 [No SysTray blink when:]
 Без мигане в трея:
-[Hide the "toggle sound" menu item (requires restart of Miranda)]
-Скриване на елемента "Вкл./Изкл. на звука" от менюто (изисква рестартиране на Miranda)
 ;file \plugins\ZeroNotification\src\options.cpp
 [Zero Notifications]
 Zero Notifications

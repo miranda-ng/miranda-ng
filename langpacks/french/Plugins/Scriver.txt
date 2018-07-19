@@ -761,40 +761,40 @@ Menu contact
 Voir les détails du contact
 [&History]
 &Historique
-[View user's history (CTRL+H)]
-Voir l'historique (CTRL+H)
+[View user's history (Ctrl+H)]
+Voir l'historique (Ctrl+H)
 [&Bold]
 &Gras
-[Make the text bold (CTRL+B)]
-Texte en gras (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Texte en gras (Ctrl+B)
 [&Italic]
 &Italique
-[Make the text italicized (CTRL+I)]
-Texte en italique (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Texte en italique (Ctrl+I)
 [&Underline]
 &Souligné
-[Make the text underlined (CTRL+U)]
-Texte souligné (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Texte souligné (Ctrl+U)
 [&Color]
 &Couleur
-[Select a foreground color for the text (CTRL+K)]
-Couleur du texte (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Couleur du texte (Ctrl+K)
 [&Background color]
 &Couleur de fond
-[Select a background color for the text (CTRL+L)]
-Couleur de fond du texte (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Couleur de fond du texte (Ctrl+L)
 [&Room settings]
 
-[Control this room (CTRL+O)]
-Contrôler ce salon (CTRL+O)
+[Control this room (Ctrl+O)]
+Contrôler ce salon (Ctrl+O)
 [&Show/hide nick list]
 
-[Show/hide the nick list (CTRL+N)]
-Afficher/cacher la liste des pseudos (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Afficher/cacher la liste des pseudos (Ctrl+N)
 [&Filter]
 
-[Enable/disable the event filter (CTRL+F)]
-Activer/désactiver les filtres d'évènement (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Activer/désactiver les filtres d'évènement (Ctrl+F)
 [&Message]
 &Message
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

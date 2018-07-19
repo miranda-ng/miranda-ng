@@ -166,32 +166,6 @@
 Бардзюры на панэлях
 [Show resize grip indicator]
 Індыкатар зм. памеру
-[&Main menu]
-Галоўнае меню
-[E&xit]
-Вы&хад
-[&Status]
-Статус
-[&Offline\tCtrl+0]
-Ад&ключаныtCtrl+0
-[On&line\tCtrl+1]
-&Далучаны\tCtrl+1
-[&Away\tCtrl+2]
-&Адсутнічаю\tCtrl+2
-[&Not available\tCtrl+3]
-Неда&ступны\tCtrl+3
-[Occ&upied\tCtrl+4]
-Зан&яты\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Не &турбаваць\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Вольны\tCtrl+6
-[&Invisible\tCtrl+7]
-&Нябачны\tCtrl+7
-[On the &phone\tCtrl+8]
-На тэле&фоне\tCtrl+8
-[Out to &lunch\tCtrl+9]
-А&бедаю\tCtrl+9
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Не ў фокусе

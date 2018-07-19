@@ -94,7 +94,7 @@ Ostatní
 Tip:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Máte-li problémy s přenosem souborů, vypněte všechny výše uvedené možnosti. Na druhou stranu to může zamezit přenosu velkých souborů.
-[Jabber Account Registration]
+[Jabber account registration]
 Jabber :: Registrace účtu
 [Jabber Form]
 Jabber :: Formulář

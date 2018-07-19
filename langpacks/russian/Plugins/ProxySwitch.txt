@@ -24,10 +24,6 @@
 Управлять прокси Firefox
 [Reconnect if IP address changes]
 Переподключаться при изменении IP-адреса
-[Display 'Show my IP' in menu]
-Пункт меню "Показать мои IP-адреса"
-[Display 'Proxy && IP' submenu]
-Пункт меню "Прокси и интерфейсы"
 [Hide interfaces]
 Скрыть интерфейсы
 [Popup options]
@@ -44,48 +40,40 @@
 Показать состояние прокси при изменении
 [Restart of Miranda NG is required.]
 Требуется перезапуск Miranda NG.
-[Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tip/bits\t(10.0.0.1/24)\t\tip/mask\t(10.0.0.1/255.255.255.0)\n\tip1-2\t(10.0.0.1-50)\t\tip1-ip2\t(10.0.0.1-10.0.2.255)]
-Введите список IP-адресов, разделённых точкой с запятой (;). Допустимые форматы:\n\tip/бит\t(10.0.0.1/24)\t\tip/маска\t(10.0.0.1/255.255.255.0)\n\tip1-2\t(10.0.0.1-50)\t\tip1-ip2\t(10.0.0.1-10.0.2.255)
-[Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The program checks the IP addresses in the following way:]
+[Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tIP/bits\t(10.0.0.1/24)\t\tIP/mask\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)]
+Введите список IP-адресов, разделённых точкой с запятой (;). Допустимые форматы:\n\tIP/бит\t(10.0.0.1/24)\t\tIP/маска\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)
+[Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The plugin checks the IP addresses in the following way:]
 Любая запись в списке "Использовать прокси" может предваряться восклицательным знаком (!), чтобы увеличить её приоритет. Записи с некорректным синтаксисом игнорируются. Плагин проверяет IP-адреса следующим образом:
 [\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or any at all addresses found]
 \t1) Использовать прокси, если любой интерфейс имеет приоритетный адрес из списка "Использовать прокси"\n\t2) Не использовать прокси, если любой интерфейс имеет адрес из списка "Прямое соединение"\n\t3) Использовать прокси, если любой интерфейс имеет адрес из списка "Использовать прокси"\n\t4) Ничего не делать, если адрес неизвестен или для него нет правил 
+[Cancel]
+Отмена
 ;file \plugins\ProxySwitch\src\ip.cpp
 [Proxy]
 Прокси
 [Direct]
 Напрямую
-[Cannot retrieve IP or adapter data.]
-Невозможно получить IP или сведения об адаптере.
-[Cannot allocate memory for pAddresses]
-Невозможно выделить память для pAddresses
-[GetAdaptersAddresses sizing failed]
-
-[Cannot allocate memory for pAdapterInfo]
-Невозможно выделить память для pAdapterInfo
-[GetAdaptersInfo sizing failed]
-
 [disconnected]
 отключён
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
 Текущий IP-адрес
-[Proxy settings && interfaces]
-Прокси &и интерфейсы
 [Enable &IP change notification]
 Включить уведомление об изменении &IP-адреса
 [Disable &IP change notification]
 Отключить уведомление об изменении &IP-адреса
 [Show my &IP addresses]
 Показать мои &IP-адреса
+[Proxy settings && interfaces]
+Прокси &и интерфейсы
 [Disable proxy]
 Отключить прокси
 [Enable proxy]
 Включить прокси
-[IP change notification]
-Уведомление об изменении IP-адреса
 [Popups]
 Всплывающие окна
+[IP change notification]
+Уведомление об изменении IP-адреса
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]
 Службы

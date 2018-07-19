@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.3.1
+;  Version: 0.9.3.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -430,32 +430,6 @@ Otro
 
 [Show local time]
 
-[&Main menu]
-&Menú principal
-[E&xit]
-&Salir
-[&Status]
-E&stado
-[&Offline\tCtrl+0]
-&Fuera de línea\tCtrl+0
-[On&line\tCtrl+1]
-&En línea\tCtrl+1
-[&Away\tCtrl+2]
-Fuer&a\tCtrl+2
-[&Not available\tCtrl+3]
-&No disponible\tCtrl+3
-[Occ&upied\tCtrl+4]
-Oc&upado\tCtrl+4
-[&Do not disturb\tCtrl+5]
-No &molestar\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Libre para el chat\tCtrl+6
-[&Invisible\tCtrl+7]
-&Invisible\tCtrl+7
-[On the &phone\tCtrl+8]
-En el &teléfono\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Salí a &comer\tCtrl+9
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 
@@ -731,6 +705,10 @@ Marcos
 &Mostrar/Ocultar
 [&Find/add contacts...]
 &Buscar/Agregar contactos...
+[&Main menu]
+&Menú principal
+[&Status]
+E&stado
 [Appearance]
 Apariencia
 [&Options...]

@@ -9,7 +9,7 @@
 Anti-spamový doplněk pro Mirandu NG.
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question (Ctrl+Enter for carriage return):]
-Otázka (nový řádek pomocí CTRL+ENTER):
+Otázka (nový řádek pomocí Ctrl+Enter):
 [Restore defaults]
 Obnovit původní
 [Answer (Use divider to separate answers):]

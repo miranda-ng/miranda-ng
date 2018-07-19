@@ -207,7 +207,7 @@ HTTP-з'єднання Quotes
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 Не вдалося завантажити плагін Quotes. Відсутній парсер Microsoft HTML.
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+;file \plugins\Quotes\src\QuotesProviderCurrencyConverter.cpp
 [Error occurred during HTML parsing.]
 Помилка під час аналізу html.
 [Error occurred during site access.]
@@ -215,16 +215,6 @@ HTTP-з'єднання Quotes
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Name]
 Назва котування
-[From Currency Full Name]
-Повна назва вихідної валюти
-[From Currency Short Name]
-Коротка назва вихідної валюти
-[Into Currency Full Name]
-Повна назва цільової валюти
-[Into Currency Short Name]
-Коротка назва цільової валюти
-[Short notation for "%f/%i"]
-Коротке позначення "%f/%i"
 [Source of Information]
 Джерело інформації
 [Rate Value]
@@ -257,6 +247,16 @@ HTTP-з'єднання Quotes
 Значення на попереднє закриття
 [Change]
 Зміна
+[From Currency Full Name]
+Повна назва вихідної валюти
+[From Currency Short Name]
+Коротка назва вихідної валюти
+[Into Currency Full Name]
+Повна назва цільової валюти
+[Into Currency Short Name]
+Коротка назва цільової валюти
+[Short notation for "%f/%i"]
+Коротке позначення "%f/%i"
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Журнали (*.txt,*.log)

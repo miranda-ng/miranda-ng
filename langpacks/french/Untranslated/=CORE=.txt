@@ -5,7 +5,7 @@
 [Insert submenu]
 [Error notifications]
 [Font effect]
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
 [When I click on a sub in the popup menu...]
 [Reload langpack]
 [Show in IM chats]

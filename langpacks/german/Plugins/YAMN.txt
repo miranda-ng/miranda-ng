@@ -172,10 +172,10 @@ E-Mails abrufen
 [Connect Fail]
 Verbindungsfehlschlag
 ;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
-YAMN: Neue E-Mail-Nachricht
-[YAMN: connect failed]
-YAMN: Verbindung fehlgeschlagen
+[New mail message]
+Neue E-Mail-Nachricht
+[Connect failed]
+Verbindung fehlgeschlagen
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Nick

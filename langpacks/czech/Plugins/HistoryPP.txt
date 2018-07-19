@@ -376,7 +376,7 @@ Psát standardně zprava doleva
 [Enable BBCodes]
 Povolit BBCode
 [Open event details by Enter]
-Zobrazit dod. informace klávesou ENTER
+Zobrazit dod. informace klávesou Enter
 [Search panel]
 Panel hledání
 [History search]

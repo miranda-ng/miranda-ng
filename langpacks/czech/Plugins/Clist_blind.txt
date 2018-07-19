@@ -166,32 +166,6 @@ Shodná šířka všech položek
 Zobrazit efekt zkosení panelů
 [Show resize grip indicator]
 Zobrazit tlač. změny velik.
-[&Main menu]
-&Hlavní nabídka
-[E&xit]
-U&končit
-[&Status]
-&Stav
-[&Offline\tCtrl+0]
-&Offline\tCtrl+0
-[On&line\tCtrl+1]
-On&line\tCtrl+1
-[&Away\tCtrl+2]
-N&a chvíli pryč\tCtrl+2
-[&Not available\tCtrl+3]
-&Nejsem tady\tCtrl+3
-[Occ&upied\tCtrl+4]
-N&emám čas\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Ne&rušit!\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Mám volno\tCtrl+6
-[&Invisible\tCtrl+7]
-Nev&iditelný\tCtrl+7
-[On the &phone\tCtrl+8]
-Na &telefonu\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Na o&bědě\tCtrl+9
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Neaktivní

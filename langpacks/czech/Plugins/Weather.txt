@@ -344,10 +344,10 @@ Povolit/zakázat automatickou aktualizaci
 Zakázat automatickou aktualizaci
 [Auto Update Disabled]
 Povolit automatickou aktualizaci
-[Weather Condition Changed]
-Počasí (změna počasí)
-[Weather Alert Issued]
-Počasí (varování)
+[Condition Changed]
+Změna počasí
+[Alert Issued]
+Varování
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktuální informace o počasí pro %s.

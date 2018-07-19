@@ -715,13 +715,13 @@ Na obědě
 [On the phone]
 Na telefonu
 [Enter]
-klávesou ENTER
+klávesou Enter
 [Double 'Enter']
-dvojitým ENTER
+dvojitým Enter
 [Ctrl+Enter]
-CTRL+ENTER
+Ctrl+Enter
 [Shift+Enter]
-SHIFT+ENTER
+Shift+Enter
 [** New contacts **]
 ** nové kontakty **
 [** Unknown contacts **]
@@ -761,40 +761,40 @@ Nabídka kontaktu
 Zobrazit osobní údaje
 [&History]
 &Historie
-[View user's history (CTRL+H)]
+[View user's history (Ctrl+H)]
 
 [&Bold]
 &Tučné
-[Make the text bold (CTRL+B)]
-Změní styl písma na tučné (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Změní styl písma na tučné (Ctrl+B)
 [&Italic]
 &Kurzíva
-[Make the text italicized (CTRL+I)]
-Změní styl písma na kurzívu (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Změní styl písma na kurzívu (Ctrl+I)
 [&Underline]
 Pod&tržené
-[Make the text underlined (CTRL+U)]
-Změní styl písma na podtržené (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Změní styl písma na podtržené (Ctrl+U)
 [&Color]
 &Barva
-[Select a foreground color for the text (CTRL+K)]
-Změní barvu textu (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Změní barvu textu (Ctrl+K)
 [&Background color]
 Barva &pozadí
-[Select a background color for the text (CTRL+L)]
-Změní barvu pozadí textu (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Změní barvu pozadí textu (Ctrl+L)
 [&Room settings]
 &Správa místnosti
-[Control this room (CTRL+O)]
-Možnosti řízení kanálu (CTRL+O)
+[Control this room (Ctrl+O)]
+Možnosti řízení kanálu (Ctrl+O)
 [&Show/hide nick list]
 &Přepnout seznam účastníků
-[Show/hide the nick list (CTRL+N)]
-Zobrazí/skryje seznam účastníků (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Zobrazí/skryje seznam účastníků (Ctrl+N)
 [&Filter]
 &Filtr
-[Enable/disable the event filter (CTRL+F)]
-Aktivuje/deaktivuje filtrování událostí (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
 [&Message]
 &Zpráva
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

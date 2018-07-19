@@ -344,9 +344,9 @@ lista kontakata
 
 [Auto Update Disabled]
 
-[Weather Condition Changed]
+[Condition Changed]
 
-[Weather Alert Issued]
+[Alert Issued]
 
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]

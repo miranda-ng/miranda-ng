@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.10
+;  Version: 3.5.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -374,8 +374,8 @@ ID на потребителя в лентата за състояние
 Автосъздаване на табове, когато състояние ми е...
 [Limit nicknames on tabs to]
 Максимална дължина за име на таб:
-[ESC key behavior]
-Действие на клавиша ESC
+[Esc key behavior]
+Действие на клавиша Esc
 [Select container]
 Изберете контейнер
 [Available containers]
@@ -1247,7 +1247,7 @@ UIN
 Потребител
 [&Room]
 Стая
-[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
+[Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Звукът е %s. Натиснете, за да превключите. Задръжте бутона "Shift" и натиснете, за да зададете състояние за всички контейнери
 [disabled]
 изключено
@@ -1463,12 +1463,12 @@ TabSRMM
 Нов опит
 [Send later]
 Изпрати след време
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (SHIFT+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Shift+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 [No UID]
 Няма UID
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (SHIFT+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Редактирате бележките за потребителя.\nЗа запаметяване на промените и връщане към нормалния режим\nза писане/изпращане на съобщения натиснете отново бутона\nили клавишната комбинация, обикновено: Alt+N
 [Selection copied to clipboard]
@@ -1838,8 +1838,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Показване на икони за метаконтакти
 [Error feedback]
 При грешка
-[Enable typing sounds]
-Включване на звука при писане
 [Close current tab on send]
 Затваряне на таба след изпращане
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
@@ -1901,7 +1899,7 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 [Sending messages]
 Изпращане на съобщения
 [Send on Shift+Enter]
-Изпращане със SHIFT+Enter
+Изпращане със Shift+Enter
 [Send message on 'Enter']
 Изпращане на съобщение с "Enter"
 [Send message on double 'Enter']
@@ -1980,8 +1978,8 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Автопревключване на табове в минимизирани прозорци (игнорира се при ползване функцията Aero Peek на лентата със задачи)
 [Close button only hides message windows]
 Бутон "Затваряне" само скрива прозореца за съобщения
-[Allow TAB key in typing area (this will disable focus selection by TAB key)]
-Ползване на клавиша TAB в полето за въвеждане на съобщения (ще отмени функцията му за преместване на фокуса)
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Ползване на клавиша Tab в полето за въвеждане на съобщения (ще отмени функцията му за преместване на фокуса)
 [Add offline contacts to multisend list]
 Включване на контактите "Извън линия" в списъка за многократно изпращане
 ;file \plugins\TabSRMM\src\trayicon.cpp

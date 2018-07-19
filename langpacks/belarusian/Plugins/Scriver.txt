@@ -761,40 +761,40 @@ Shift+Enter
 Пра кантакт
 [&History]
 Гісторыя
-[View user's history (CTRL+H)]
-Гісторыя паведамленняў (CTRL+H)
+[View user's history (Ctrl+H)]
+Гісторыя паведамленняў (Ctrl+H)
 [&Bold]
 Тлусты
-[Make the text bold (CTRL+B)]
-Зрабіць тэкст тоўстым (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Зрабіць тэкст тоўстым (Ctrl+B)
 [&Italic]
 Курсіў
-[Make the text italicized (CTRL+I)]
-Зрабіць тэкст курсівам (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Зрабіць тэкст курсівам (Ctrl+I)
 [&Underline]
 Падкрэсліць
-[Make the text underlined (CTRL+U)]
-Падкрэсліць тэкст (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Падкрэсліць тэкст (Ctrl+U)
 [&Color]
 Колер
-[Select a foreground color for the text (CTRL+K)]
-Абраць колер тэксту (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Абраць колер тэксту (Ctrl+K)
 [&Background color]
 колер фона
-[Select a background color for the text (CTRL+L)]
-Абраць фон тэксту (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Абраць фон тэксту (Ctrl+L)
 [&Room settings]
 Налады
-[Control this room (CTRL+O)]
-Кантраляваць гэты чат (CTRL+O)
+[Control this room (Ctrl+O)]
+Кантраляваць гэты чат (Ctrl+O)
 [&Show/hide nick list]
 Паказаць/Схаваць спіс мянушак
-[Show/hide the nick list (CTRL+N)]
-Паказаць/схаваць спіс кантактаў (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Паказаць/схаваць спіс кантактаў (Ctrl+N)
 [&Filter]
 фільтр
-[Enable/disable the event filter (CTRL+F)]
-Уключыць/выключыць фільтр падзей (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Уключыць/выключыць фільтр падзей (Ctrl+F)
 [&Message]
 &Паведамленне
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

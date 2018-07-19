@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.10
+;  Version: 3.5.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -374,8 +374,8 @@ Ostatní možnosti
 Vybrat stavy pro automatické vytváření panelů...
 [Limit nicknames on tabs to]
 Omezit délku přezdívky na panelu na
-[ESC key behavior]
-Chování klávesy ESC
+[Esc key behavior]
+Chování klávesy Esc
 [Select container]
 Vybrat kontejner
 [Available containers]
@@ -1247,7 +1247,7 @@ Nezobrazovat
 &Uživatel
 [&Room]
 Místnost
-[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
+[Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Zvuky jsou %s. Kliknutím stav změníte, kliknutím se SHIFTem nastavíte pro všechny otevřené kontejnery.
 [disabled]
 deaktivován
@@ -1463,12 +1463,12 @@ Kliknutím zobrazíte uživatelské menu\nKliknutím na šipku možnosti okna
 Znovu
 [Send later]
 Poslat později
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nKliknout pravým pro správu metakontaktů\nTáhnout pro přidání nebo odebrání uživatele z oblíbených.
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Shift klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nKliknout pravým pro správu metakontaktů\nTáhnout pro přidání nebo odebrání uživatele z oblíbených.
 [No UID]
 Žádné UID
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nTáhnout pro změnu oblíbenosti tohoto uživatele.
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Shift klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nTáhnout pro změnu oblíbenosti tohoto uživatele.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Editujete poznámky k uživateli. Stiskněte tlačítko znovu nebo použijte klávesovou zkratku (výchozí: Alt-N) pro uložení poznámek a návrat do normálního režimu
 [Selection copied to clipboard]
@@ -1838,8 +1838,6 @@ Komunikační okno
 Zobrazit ikonu metakontaktu
 [Error feedback]
 Hlášení o chybách
-[Enable typing sounds]
-Povolit zvuky psaní
 [Close current tab on send]
 Zavřít panel po odeslání
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
@@ -1901,11 +1899,11 @@ Chování komunikačního okna
 [Sending messages]
 Odesílání zpráv
 [Send on Shift+Enter]
-Odeslat zprávu pomocí SHIFT+ENTER
+Odeslat zprávu pomocí Shift+Enter
 [Send message on 'Enter']
-Odeslat zprávu klávesou ENTER
+Odeslat zprávu klávesou Enter
 [Send message on double 'Enter']
-Odeslat zprávu dvojitým ENTER
+Odeslat zprávu dvojitým Enter
 [Minimize the message window on send]
 Minimalizovat okno kliknutím na 'Poslat'
 [Close the message window on send]
@@ -1980,8 +1978,8 @@ Aktivovat minimalizované okno pokud je v něm vytvořen nový panel
 Automaticky přepínat existující panely v minimalizovaném okně při příchozích zprávách (ignorováno při použití Aero náhledu v hlavním panelu)
 [Close button only hides message windows]
 Zavírací tlačítko pouze skryje komunikační okno
-[Allow TAB key in typing area (this will disable focus selection by TAB key)]
-Povolit klávesu TAB v části psaní zprávy (vypne označování dalšího prvku okna pomocí klávesy TAB)
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Povolit klávesu Tab v části psaní zprávy (vypne označování dalšího prvku okna pomocí klávesy Tab)
 [Add offline contacts to multisend list]
 Přidávat offline kontakty do seznamu více příjemců
 ;file \plugins\TabSRMM\src\trayicon.cpp

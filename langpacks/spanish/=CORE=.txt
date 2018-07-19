@@ -248,32 +248,6 @@ Igualar anchura de secciones
 Mostrar biseles en los paneles
 [Show resize grip indicator]
 Mostrar indicador de cambio de tamaño
-[&Main menu]
-&Menú principal
-[E&xit]
-&Salir
-[&Status]
-E&stado
-[&Offline\tCtrl+0]
-&Fuera de línea\tCtrl+0
-[On&line\tCtrl+1]
-&En línea\tCtrl+1
-[&Away\tCtrl+2]
-Fuer&a\tCtrl+2
-[&Not available\tCtrl+3]
-&No disponible\tCtrl+3
-[Occ&upied\tCtrl+4]
-Oc&upado\tCtrl+4
-[&Do not disturb\tCtrl+5]
-No &molestar\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Libre para el chat\tCtrl+6
-[&Invisible\tCtrl+7]
-&Invisible\tCtrl+7
-[On the &phone\tCtrl+8]
-En el &teléfono\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Salí a &comer\tCtrl+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Enviar archivo(s)
@@ -418,8 +392,8 @@ Usar el icono de estado del contacto como el icono de la ventana
 Guardar el tamaño de la ventana y la ubicación de forma individual para cada contacto
 [Cascade new windows]
 Ventanas en cascada nueva
-[Support CTRL+Up/Down in message area to show previously sent messages]
-Soporte CTRL+Arriba/Abajo en el área de mensajes para mostrar mensajes previamente enviados
+[Support Ctrl+Up/Down in message area to show previously sent messages]
+Soporte Ctrl+Arriba/Abajo en el área de mensajes para mostrar mensajes previamente enviados
 [Delete temporary contacts when closing message window]
 Eliminar contactos temporales al cerrar la ventana mensaje
 [Enable avatar support in the message window]
@@ -1047,7 +1021,7 @@ Color secundario:
 Seleccione los iconos adicionales que se muestran en la lista de contactos:
 [*only the first %d icons will be shown]
 * sólo los primeros %d iconos se muestran
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
 Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y usando el menú contextual (clic derecho)
 [Add to existing metacontact]
 
@@ -1135,6 +1109,8 @@ Créditos >
 Bandeja
 [&Hide/Show]
 &Mostrar/Ocultar
+[E&xit]
+&Salir
 [Nowhere]
 En ninguna parte
 [&New group]
@@ -1191,6 +1167,30 @@ Palabra de búsqueda
 
 [Google Translate]
 
+[&Main menu]
+&Menú principal
+[&Status]
+E&stado
+[&Offline\tCtrl+0]
+&Fuera de línea\tCtrl+0
+[On&line\tCtrl+1]
+&En línea\tCtrl+1
+[&Away\tCtrl+2]
+Fuer&a\tCtrl+2
+[&Not available\tCtrl+3]
+&No disponible\tCtrl+3
+[Occ&upied\tCtrl+4]
+Oc&upado\tCtrl+4
+[&Do not disturb\tCtrl+5]
+No &molestar\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Libre para el chat\tCtrl+6
+[&Invisible\tCtrl+7]
+&Invisible\tCtrl+7
+[On the &phone\tCtrl+8]
+En el &teléfono\tCtrl+8
+[Out to &lunch\tCtrl+9]
+Salí a &comer\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Estado
@@ -1702,40 +1702,40 @@ Mensaje de
 %s está escribiendo un mensaje
 [Typing notification]
 Escribiendo notificación
-[View user's history (CTRL+H)]
-Ver historial del usuario
+[View user's history (Ctrl+H)]
+Ver historial del usuario (Ctrl+H)
 [&Bold]
 &Negrita
-[Make the text bold (CTRL+B)]
-Hacer el texto negrita (CTRL+B)
+[Make the text bold (Ctrl+B)]
+Hacer el texto negrita (Ctrl+B)
 [&Italic]
 C&ursiva
-[Make the text italicized (CTRL+I)]
-Hacer el texto cursiva (CTRL+I)
+[Make the text italicized (Ctrl+I)]
+Hacer el texto cursiva (Ctrl+I)
 [&Underline]
 S&ubrayar
-[Make the text underlined (CTRL+U)]
-Hacer el texto subrayado (CTRL+U)
+[Make the text underlined (Ctrl+U)]
+Hacer el texto subrayado (Ctrl+U)
 [&Color]
 &Color
-[Select a foreground color for the text (CTRL+K)]
-Seleccione un color de primer plano para el texto (CTRL+K)
+[Select a foreground color for the text (Ctrl+K)]
+Seleccione un color de primer plano para el texto (Ctrl+K)
 [&Background color]
 Color &de fondo
-[Select a background color for the text (CTRL+L)]
-Seleccione un color de fondo para el texto (CTRL+L)
+[Select a background color for the text (Ctrl+L)]
+Seleccione un color de fondo para el texto (Ctrl+L)
 [&Room settings]
 Configu&ración de espacio
-[Control this room (CTRL+O)]
-Controlar esta sala (CTRL+O)
+[Control this room (Ctrl+O)]
+Controlar esta sala (Ctrl+O)
 [&Show/hide nick list]
 &Mostrar/ocultar lista de nicks
-[Show/hide the nick list (CTRL+N)]
-Mostrar/ocultar la lista de apodos (CTRL+N)
+[Show/hide the nick list (Ctrl+N)]
+Mostrar/ocultar la lista de apodos (Ctrl+N)
 [&Filter]
 &Filtro
-[Enable/disable the event filter (CTRL+F)]
-Activar/desactivar el filtro de eventos (CTRL+F)
+[Enable/disable the event filter (Ctrl+F)]
+Activar/desactivar el filtro de eventos (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda no pudo cargar el módulo de mensajes incorporado, falta msftedit.dll. Pulse 'Sí ' para continuar cargando Miranda.
 [Instant messages]
@@ -2390,7 +2390,6 @@ Editar
 
 ;file \src\mir_app\src\meta_options.cpp
 [Metacontacts]
-
 ;file \src\mir_app\src\meta_services.cpp
 [No online contacts found.]
 
@@ -3193,8 +3192,6 @@ Zambia
 Zimbabue
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Todos los archivos
 [Windows bitmaps]
 Mapas de bits de Windows
 [JPEG bitmaps]

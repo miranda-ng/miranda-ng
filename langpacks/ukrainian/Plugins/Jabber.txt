@@ -94,7 +94,7 @@ TLS
 !!!
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Вимкніть усі опції, якщо у вас проблеми з відправкою файлів. Можуть виникнути проблеми з передачею великих файлів.
-[Jabber Account Registration]
+[Jabber account registration]
 Реєстрація облікового запису Jabber
 [Jabber Form]
 Форма Jabber

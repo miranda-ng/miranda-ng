@@ -761,39 +761,39 @@ Benutzer&details
 Benutzerdetails anzeigen
 [&History]
 &Verlauf
-[View user's history (CTRL+H)]
-Verlauf anzeigen (CTRL+H)
+[View user's history (Ctrl+H)]
+Verlauf anzeigen (Strg+H)
 [&Bold]
 &Fett
-[Make the text bold (CTRL+B)]
+[Make the text bold (Ctrl+B)]
 Fett (Strg+B)
 [&Italic]
 &Kursiv
-[Make the text italicized (CTRL+I)]
+[Make the text italicized (Ctrl+I)]
 Kursiv (Strg+I)
 [&Underline]
 &Unterstrichen
-[Make the text underlined (CTRL+U)]
+[Make the text underlined (Ctrl+U)]
 Unterstrichen (Strg+U)
 [&Color]
 &Farbe
-[Select a foreground color for the text (CTRL+K)]
+[Select a foreground color for the text (Ctrl+K)]
 Schriftfarbe wählen (Strg+K)
 [&Background color]
 &Hintergrundfarbe
-[Select a background color for the text (CTRL+L)]
+[Select a background color for the text (Ctrl+L)]
 Schrifthintergrundfarbe wählen (Strg+L)
 [&Room settings]
 &Raumeinstellungen
-[Control this room (CTRL+O)]
+[Control this room (Ctrl+O)]
 Raumeinstellungen (Strg+O)
 [&Show/hide nick list]
 Nickliste &anzeigen/verbergen
-[Show/hide the nick list (CTRL+N)]
+[Show/hide the nick list (Ctrl+N)]
 Benutzerliste anzeigen/verstecken (Strg+N)
 [&Filter]
 &Filter
-[Enable/disable the event filter (CTRL+F)]
+[Enable/disable the event filter (Ctrl+F)]
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [&Message]
 Nachricht

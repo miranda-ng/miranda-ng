@@ -1,6 +1,6 @@
 [From popup plugin]
 [Weather Protocol INI Setup]
-[Weather Alert Issued]
+[Alert Issued]
 [Weather condition was not logged.]
 [in]
 [Update with Clear]

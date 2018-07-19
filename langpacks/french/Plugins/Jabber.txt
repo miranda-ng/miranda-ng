@@ -94,7 +94,7 @@ Divers
 Info :
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Essayer de tout décocher ci-dessous si vous rencontrez des problèmes avec l'envoi de fichier (surtout dans le cas de gros fichiers).
-[Jabber Account Registration]
+[Jabber account registration]
 Enregistrement d'un compte Jabber
 [Jabber Form]
 Formulaire Jabber

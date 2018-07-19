@@ -574,7 +574,7 @@ HTML (*.htm; *.html)|*.htm;*.htm
 [Incoming Url]
 Уваходны URL
 [Make sure you have CAPS LOCK turned off.]
-Пераканаецеся, што CAPS LOCK выключаны.
+Пераканаецеся, што Caps Lock выключаны.
 [Miranda's settings used]
 Выкарыстоўваюцца налады Miranda
 [Nick Font Color]

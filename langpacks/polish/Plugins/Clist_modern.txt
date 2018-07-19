@@ -552,32 +552,6 @@ Przesuń w górę
 Przesuń w dół
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 STRONA OPCJI JEST W BUDOWIE Proszę NIE zgłaszać występujących tu błędów.\n Tylko komentarze o najważniejsze ustawienia są uznawane.
-[&Main menu]
-&Menu główne
-[E&xit]
-W&yjdź
-[&Status]
-&Status
-[&Offline\tCtrl+0]
-&Rozłączony\tCtrl+0
-[On&line\tCtrl+1]
-&Dostępny\tCtrl+1
-[&Away\tCtrl+2]
-&Zaraz wracam\tCtrl+2
-[&Not available\tCtrl+3]
-&Wrócę później\tCtrl+3
-[Occ&upied\tCtrl+4]
-Za&jęty\tCtrl+4
-[&Do not disturb\tCtrl+5]
-&Nie przeszkadzać\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Chętny do rozmowy\tCtrl+6
-[&Invisible\tCtrl+7]
-N&iewidoczny\tCtrl+7
-[On the &phone\tCtrl+8]
-Pod &telefonem\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Na &obiedzie\tCtrl+9
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 &Widoczny
@@ -618,6 +592,10 @@ Ukryj wszystkie paski tytułów
 &Ukryj/pokaż
 [&Find/add contacts...]
 &Szukaj/Dodaj kontakty...
+[&Main menu]
+&Menu główne
+[&Status]
+&Status
 [&Options...]
 &Opcje...
 [&About]

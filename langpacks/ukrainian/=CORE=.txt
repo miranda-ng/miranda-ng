@@ -248,32 +248,6 @@
 Бордюр на панелях
 [Show resize grip indicator]
 Індикатор зміни розміру
-[&Main menu]
-Головне меню
-[E&xit]
-&Вихід
-[&Status]
-Статус
-[&Offline\tCtrl+0]
-Не в м&ережі\tCtrl+0
-[On&line\tCtrl+1]
-В &мережі\tCtrl+1
-[&Away\tCtrl+2]
-&Відсутній\tCtrl+2
-[&Not available\tCtrl+3]
-Не&доступний\tCtrl+3
-[Occ&upied\tCtrl+4]
-&Зайнятий\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Не т&урбувати\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Готовий до чату\tCtrl+6
-[&Invisible\tCtrl+7]
-&Невидимий\tCtrl+7
-[On the &phone\tCtrl+8]
-&Телефоную\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Обід&аю\tCtrl+9
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Надіслати файл(и)
@@ -418,7 +392,7 @@
 Зберігати розмір і розташування вікна для кожного контакту
 [Cascade new windows]
 Розміщувати нові вікна каскадом
-[Support CTRL+Up/Down in message area to show previously sent messages]
+[Support Ctrl+Up/Down in message area to show previously sent messages]
 Показувати попередні повідомлення у полі набору клавішами Ctrl+Вгору/Вниз
 [Delete temporary contacts when closing message window]
 Видаляти тимчасові контакти після закриття вікна повідомлень
@@ -1047,7 +1021,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Виберіть, які додаткові значки буде показано в списку контактів:
 [*only the first %d icons will be shown]
 * буде показано тільки перші %d значків
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
 Значки можна згрупувати/розгрупувати, виділивши їх (Ctrl+ЛКМ) та викликавши меню правою кнопкою миші.
 [Add to existing metacontact]
 Додати до метаконтакту
@@ -1135,6 +1109,8 @@ UIN, E-mail тощо
 Трей
 [&Hide/Show]
 С&ховати/Показати
+[E&xit]
+&Вихід
 [Nowhere]
 Ніде
 [&New group]
@@ -1191,6 +1167,30 @@ UIN, E-mail тощо
 Мапи Google
 [Google Translate]
 Перекладач Google
+[&Main menu]
+Головне меню
+[&Status]
+Статус
+[&Offline\tCtrl+0]
+Не в м&ережі\tCtrl+0
+[On&line\tCtrl+1]
+В &мережі\tCtrl+1
+[&Away\tCtrl+2]
+&Відсутній\tCtrl+2
+[&Not available\tCtrl+3]
+Не&доступний\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Зайнятий\tCtrl+4
+[&Do not disturb\tCtrl+5]
+Не т&урбувати\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Готовий до чату\tCtrl+6
+[&Invisible\tCtrl+7]
+&Невидимий\tCtrl+7
+[On the &phone\tCtrl+8]
+&Телефоную\tCtrl+8
+[Out to &lunch\tCtrl+9]
+Обід&аю\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Статус
@@ -1702,39 +1702,39 @@ UIN, E-mail тощо
 %s друкує вам повідомлення
 [Typing notification]
 Увага!
-[View user's history (CTRL+H)]
-Історія (CTRL+H)
+[View user's history (Ctrl+H)]
+Історія (Ctrl+H)
 [&Bold]
 &Жирний
-[Make the text bold (CTRL+B)]
+[Make the text bold (Ctrl+B)]
 Виділити жирним (Ctrl+B)
 [&Italic]
 &Курсив
-[Make the text italicized (CTRL+I)]
+[Make the text italicized (Ctrl+I)]
 Виділити курсивом (Ctrl+I)
 [&Underline]
 &Підкреслений
-[Make the text underlined (CTRL+U)]
+[Make the text underlined (Ctrl+U)]
 Підкреслити (Ctrl+U)
 [&Color]
 &Колір
-[Select a foreground color for the text (CTRL+K)]
+[Select a foreground color for the text (Ctrl+K)]
 Вибрати колір тексту (Ctrl+K)
 [&Background color]
 Колір фону
-[Select a background color for the text (CTRL+L)]
+[Select a background color for the text (Ctrl+L)]
 Вибрати фон тексту (Ctrl+L)
 [&Room settings]
 &Налаштування кімнати
-[Control this room (CTRL+O)]
+[Control this room (Ctrl+O)]
 Налаштування кімнати (Ctrl+O)
 [&Show/hide nick list]
 &Показати/сховати список
-[Show/hide the nick list (CTRL+N)]
+[Show/hide the nick list (Ctrl+N)]
 Показати/сховати список користувачів (Ctrl+N)
 [&Filter]
 Фільтр
-[Enable/disable the event filter (CTRL+F)]
+[Enable/disable the event filter (Ctrl+F)]
 Увімк./вимк. фільтр подій (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Неможливо завантажити вбудований модуль повідомлень, оскільки Msftedit.dll відсутній. Натисніть "Так" щоб продовжити запуск програми.
@@ -3193,8 +3193,6 @@ ANSI-плагін
 Зімбабве
 ;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Усі файли
 [Windows bitmaps]
 Зображення BMP
 [JPEG bitmaps]

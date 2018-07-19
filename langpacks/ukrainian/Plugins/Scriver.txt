@@ -761,39 +761,39 @@ Shift+Enter
 Про користувача
 [&History]
 &Історія
-[View user's history (CTRL+H)]
-Історія (CTRL+H)
+[View user's history (Ctrl+H)]
+Історія (Ctrl+H)
 [&Bold]
 &Жирний
-[Make the text bold (CTRL+B)]
+[Make the text bold (Ctrl+B)]
 Виділити жирним (Ctrl+B)
 [&Italic]
 &Курсив
-[Make the text italicized (CTRL+I)]
+[Make the text italicized (Ctrl+I)]
 Виділити курсивом (Ctrl+I)
 [&Underline]
 &Підкреслений
-[Make the text underlined (CTRL+U)]
+[Make the text underlined (Ctrl+U)]
 Підкреслити (Ctrl+U)
 [&Color]
 &Колір
-[Select a foreground color for the text (CTRL+K)]
+[Select a foreground color for the text (Ctrl+K)]
 Вибрати колір тексту (Ctrl+K)
 [&Background color]
 Колір фону
-[Select a background color for the text (CTRL+L)]
+[Select a background color for the text (Ctrl+L)]
 Вибрати фон тексту (Ctrl+L)
 [&Room settings]
 &Налаштування кімнати
-[Control this room (CTRL+O)]
+[Control this room (Ctrl+O)]
 Налаштування кімнати (Ctrl+O)
 [&Show/hide nick list]
 &Показати/сховати список
-[Show/hide the nick list (CTRL+N)]
+[Show/hide the nick list (Ctrl+N)]
 Показати/сховати список користувачів (Ctrl+N)
 [&Filter]
 Фільтр
-[Enable/disable the event filter (CTRL+F)]
+[Enable/disable the event filter (Ctrl+F)]
 Увімк./вимк. фільтр подій (Ctrl+F)
 [&Message]
 &Повідомлення

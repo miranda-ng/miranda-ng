@@ -344,9 +344,9 @@ L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y reméd
 
 [Auto Update Disabled]
 
-[Weather Condition Changed]
+[Condition Changed]
 Conditions météo changées
-[Weather Alert Issued]
+[Alert Issued]
 Alerte météo publiée
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]

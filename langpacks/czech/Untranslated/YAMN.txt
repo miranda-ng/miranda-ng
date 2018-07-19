@@ -3,7 +3,7 @@
 [Mail Notifications]
 [..s Popup duration]
 [YAMN Account Folder]
-[YAMN: new mail message]
+[New mail message]
 [No new mail message]
 [%s - connection error]
 [An error occurred. Error code: %d]

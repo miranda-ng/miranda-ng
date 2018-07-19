@@ -270,6 +270,7 @@
 [\nHe becomes %d years old.]
 [\nShe becomes %d years old.]
 [Backing up and syncing all birthdays complete!]
+[Reminders]
 [Reminder (UInfoEx)]
 [contact identification]
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]

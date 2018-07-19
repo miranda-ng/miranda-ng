@@ -172,10 +172,10 @@
 [Connect Fail]
 Абрыў злучэння
 ;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
-YAMN: новы ліст
-[YAMN: connect failed]
-YAMN: збой далучэння
+[New mail message]
+Новы ліст
+[Connect failed]
+Збой далучэння
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Мянушка

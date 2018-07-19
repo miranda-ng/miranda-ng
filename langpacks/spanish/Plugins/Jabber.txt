@@ -94,7 +94,7 @@ Diverso
 Indicio:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Tratar de desactivar todas las marcas de verificación de arriba si usted está experimentando problemas con el envío de archivos. Pero puede causar problemas con la transferencia de archivos de gran tamaño.
-[Jabber Account Registration]
+[Jabber account registration]
 Registro de cuenta Jabber
 [Jabber Form]
 Formulario Jabber

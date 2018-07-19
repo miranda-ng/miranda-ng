@@ -166,32 +166,6 @@
 Бордюр на панелях
 [Show resize grip indicator]
 Індикатор зміни розміру
-[&Main menu]
-Головне меню
-[E&xit]
-&Вихід
-[&Status]
-Статус
-[&Offline\tCtrl+0]
-Не в м&ережі\tCtrl+0
-[On&line\tCtrl+1]
-В &мережі\tCtrl+1
-[&Away\tCtrl+2]
-&Відсутній\tCtrl+2
-[&Not available\tCtrl+3]
-Не&доступний\tCtrl+3
-[Occ&upied\tCtrl+4]
-&Зайнятий\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Не т&урбувати\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Готовий до чату\tCtrl+6
-[&Invisible\tCtrl+7]
-&Невидимий\tCtrl+7
-[On the &phone\tCtrl+8]
-&Телефоную\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Обід&аю\tCtrl+9
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Список неактивний

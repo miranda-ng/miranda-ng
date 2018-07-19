@@ -552,32 +552,6 @@ Podešavanja
 
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 
-[&Main menu]
-Glavni &meni
-[E&xit]
-&Izlaz
-[&Status]
-&Status
-[&Offline\tCtrl+0]
-&Odsutan\tCtrl+0
-[On&line\tCtrl+1]
-&Prisutan\tCtrl+1
-[&Away\tCtrl+2]
-&Neaktivan\tCtrl+2
-[&Not available\tCtrl+3]
-N&edostupan\tCtrl+3
-[Occ&upied\tCtrl+4]
-&Zauzet\tCtrl+4
-[&Do not disturb\tCtrl+5]
-Ne &uznemiravaj\tCtrl+5
-[&Free for chat\tCtrl+6]
-Spreman za &razgovor\tCtrl+6
-[&Invisible\tCtrl+7]
-Ne&vidljiv\tCtrl+7
-[On the &phone\tCtrl+8]
-&Telefoniram\tCtrl+8
-[Out to &lunch\tCtrl+9]
-N&a ručku\tCtrl+9
 ;file \plugins\Clist_modern\src\cluiframes.cpp
 [&Visible]
 
@@ -618,6 +592,10 @@ N&a ručku\tCtrl+9
 &Sakriti/Prikazati
 [&Find/add contacts...]
 %Pretraži/dodaj kontakte...
+[&Main menu]
+Glavni &meni
+[&Status]
+&Status
 [&Options...]
 &Podešavanja...
 [&About]
