@@ -3,7 +3,7 @@
 REM ====== VARIABLES ========
 
 set "language=ukrainian"
-set "oldLangpackPath=Deprecated\langpack_ukrainian_old.txt"
+set "oldLangpackPath="
 set "mirandaPath="
 
 REM =========================
