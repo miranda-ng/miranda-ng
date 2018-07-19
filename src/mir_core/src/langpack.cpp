@@ -310,6 +310,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 	lpinfo.codepage = CP_ACP;
 	lpinfo.flags = 0;
+	lpinfo.tszLanguage[0] = 0;
 
 	fgets(line, LANGPACK_BUF_SIZE, fp);
 	size_t lineLen = strlen(line);
@@ -365,9 +366,13 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 	lpinfo.szAuthors = szAuthors;
 
-	MultiByteToWideChar(lpinfo.codepage, 0, szLanguage, -1, lpinfo.tszLanguage, _countof(lpinfo.tszLanguage));
+	ptrW buf(Utf8DecodeW(szLanguage));
+	if (buf)
+		wcsncpy_s(lpinfo.tszLanguage, buf, _TRUNCATE);
+	else if (lpinfo.Locale != 0)
+		GetLocaleInfo(lpinfo.Locale, LOCALE_SENGLANGUAGE, lpinfo.tszLanguage, _countof(lpinfo.tszLanguage));
 
-	if (!lpinfo.tszLanguage[0] && (lpinfo.Locale == 0) || !GetLocaleInfo(lpinfo.Locale, LOCALE_SENGLANGUAGE, lpinfo.tszLanguage, _countof(lpinfo.tszLanguage))) {
+	if (!lpinfo.tszLanguage[0]) {
 		wchar_t *p = wcschr(lpinfo.tszFileName, '_');
 		wcsncpy_s(lpinfo.tszLanguage, ((p != nullptr) ? (p + 1) : lpinfo.tszFileName), _TRUNCATE);
 		p = wcsrchr(lpinfo.tszLanguage, '.');
