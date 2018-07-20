@@ -188,7 +188,7 @@ typedef struct
 
 	wchar_t* getString(const char *str) const
 	{
-		return (flags & DBEF_UTF) ? Utf8DecodeW(str) : mir_a2u(str);
+		return (flags & DBEF_UTF) ? mir_utf8decodeW(str) : mir_a2u(str);
 	}
 
 #endif

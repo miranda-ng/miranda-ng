@@ -720,7 +720,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 			if (hContact) {
 				bShouldProcessAcks = TRUE;
-				ptrA szMessage(Utf8EncodeW(message));
+				ptrA szMessage(mir_utf8encodeW(message));
 				HANDLE hProcess = (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, szMessage);
 				const int MAX_COUNT = 60;
 				int counter = 0;

@@ -369,7 +369,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 	if (Utf8CheckString(pre->szMessage))
 		szMessage = mir_strdup(pre->szMessage);
 	else 
-		szMessage = Utf8Encode(pre->szMessage);
+		szMessage = mir_utf8encode(pre->szMessage);
 
 	DBEVENTINFO dbei = {};
 	if (!mir_strcmp(ccs->szProtoService, PSR_MESSAGE))

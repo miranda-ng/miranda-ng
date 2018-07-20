@@ -369,7 +369,7 @@ void PROTO_INTERFACE::debugLogW(const wchar_t *wszFormat, ...)
 	va_list args;
 	va_start(args, wszFormat);
 	int res = _vsnwprintf(buf, _countof(buf), wszFormat, args);
-	NetlibLog_Worker(m_hNetlibUser, ptrA(Utf8EncodeW((res != -1) ? buf : CMStringW().FormatV(wszFormat, args))), 0);
+	NetlibLog_Worker(m_hNetlibUser, ptrA(mir_utf8encodeW((res != -1) ? buf : CMStringW().FormatV(wszFormat, args))), 0);
 	va_end(args);
 }
 
@@ -392,7 +392,7 @@ MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, const wchar_t *fmt, ...)
 	wchar_t szText[8000];
 	mir_vsnwprintf(szText, _countof(szText), fmt, va);
 	va_end(va);
-	return NetlibLog_Worker(hUser, ptrA(Utf8EncodeW(szText)), 0);
+	return NetlibLog_Worker(hUser, ptrA(mir_utf8encodeW(szText)), 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -404,7 +404,7 @@ MIR_APP_DLL(int) Netlib_Log(HNETLIBUSER hUser, const char *pszStr)
 
 MIR_APP_DLL(int) Netlib_LogW(HNETLIBUSER hUser, const wchar_t *pwszStr)
 {
-	return NetlibLog_Worker(hUser, ptrA(Utf8EncodeW(pwszStr)), 0);
+	return NetlibLog_Worker(hUser, ptrA(mir_utf8encodeW(pwszStr)), 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

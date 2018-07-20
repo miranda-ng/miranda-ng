@@ -540,13 +540,6 @@ type
   pThreadFuncEx    = function (ptr:pointer):uint_ptr; stdcall;
   pThreadFuncOwner = function (owner:pointer;param:pointer):uint_ptr; cdecl;
 
-function Thread_Push(hInst:HINST; Owner:pointer):int_ptr; stdcall;
-                 external CoreDLL name 'Thread_Push';
-function Thread_Pop():int_ptr; stdcall;
-                 external CoreDLL name 'Thread_Pop';
-procedure Thread_Wait(); stdcall;
-                 external CoreDLL name 'Thread_Wait';
-
 function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE; stdcall;
                  external CoreDLL;
 
@@ -559,71 +552,15 @@ function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer;
 procedure Thread_SetName(const szThreadName:PAnsiChar); stdcall;
                  external CoreDLL name 'Thread_SetName';
 
-procedure KillObjectThreads(pObject:pointer); stdcall;
-                 external CoreDLL name 'KillObjectThreads';
-
-
-///////////////////////////////////////////////////////////////////////////////
-// utf8 interface
-{ commented to avoid newer Delphi version conflicts
-function Utf8Decode(str:PAnsiChar; var ucs2:PWideChar):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8Decode';
-function Utf8DecodeCP(str:PAnsiChar; codepage:int; var ucs2:PWideChar):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8DecodeCP';
-
-function Utf8DecodeW(const str:PAnsiChar):PWideChar;stdcall;
-                 external CoreDLL name 'Utf8DecodeW';
-
-function Utf8Encode(const src:PAnsiChar):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8Encode';
-function Utf8EncodeCP(const src:PAnsiChar;codepage:int):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8EncodeCP';
-
-function Utf8EncodeW(const src:PWideChar):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8EncodeW';
-
-function Ucs2toUtf8Len(const src:PWideChar):int; stdcall;
-                 external CoreDLL name 'Ucs2toUtf8Len';
-
-function Utf8CheckString(const astr:PAnsiChar):bool;stdcall;
-                 external CoreDLL name 'Utf8CheckString';
-}
-// aliases
-function mir_utf8decode(str:PAnsiChar; var ucs2:PWideChar):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8Decode';
-function mir_utf8decodecp(str:PAnsiChar; codepage:int; var ucs2:PWideChar):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8DecodeCP';
-function mir_utf8decodew(const str:PAnsiChar):PWideChar;stdcall;
-                 external CoreDLL name 'Utf8DecodeW';
-
-function mir_utf8encode(const src:PAnsiChar):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8Encode';
-function mir_utf8encodecp(const src:PAnsiChar;codepage:int):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8EncodeCP';
-
-function mir_utf8encodew(const src:PWideChar):PAnsiChar;stdcall;
-                 external CoreDLL name 'Utf8EncodeW';
-
-function mir_utf8lenW(const src:PWideChar):int; stdcall;
-                 external CoreDLL name 'Ucs2toUtf8Len';
-
-function mir_utf8checkstring(const astr:PAnsiChar):bool;stdcall;
-                 external CoreDLL name 'Utf8CheckString';
-
 ///////////////////////////////////////////////////////////////////////////////
 // Window subclassing
 
-procedure mir_subclassWindow(Wnd:HWND; WndProc:TWNDPROC); stdcall;
-                 external CoreDLL name 'mir_subclassWindow';
-procedure mir_subclassWindowFull(Wnd:HWND; WndProc, OldWndProc:TWNDPROC); stdcall;
-                 external CoreDLL name 'mir_subclassWindowFull';
-function  mir_callNextSubclass(Wnd:HWND; WndProc:TWNDPROC; uMsg:uint; wParam:WPARAM; lParam:LPARAM ):LRESULT; stdcall;
-                 external CoreDLL name 'mir_callNextSubclass';
-procedure mir_unsubclassWindow(Wnd:HWND; WndProc:TWNDPROC); stdcall;
-                 external CoreDLL name 'mir_unsubclassWindow';
+procedure mir_subclassWindow(Wnd:HWND; WndProc:TWNDPROC); stdcall; external CoreDLL;
+procedure mir_subclassWindowFull(Wnd:HWND; WndProc, OldWndProc:TWNDPROC); stdcall; external CoreDLL;
+function  mir_callNextSubclass(Wnd:HWND; WndProc:TWNDPROC; uMsg:uint; wParam:WPARAM; lParam:LPARAM ):LRESULT; stdcall; external CoreDLL;
+procedure mir_unsubclassWindow(Wnd:HWND; WndProc:TWNDPROC); stdcall; external CoreDLL;
 
-procedure KillModuleSubclassing(hInst: HMODULE);
-                       external CoreDLL name 'KillModuleSubclassing';
+procedure KillModuleSubclassing(hInst: HMODULE); external CoreDLL;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Windows utilities

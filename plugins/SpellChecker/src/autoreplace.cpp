@@ -64,8 +64,8 @@ void AutoReplaceMap::loadAutoReplaceMap()
 				}
 
 				if (p != nullptr) {
-					ptrW find(Utf8DecodeW(tmp));
-					ptrW replace(Utf8DecodeW(p));
+					ptrW find(mir_utf8decodeW(tmp));
+					ptrW replace(mir_utf8decodeW(p));
 
 					lstrtrim(find);
 					lstrtrim(replace);
@@ -102,8 +102,8 @@ void AutoReplaceMap::writeAutoReplaceMap()
 		for (; it != m_replacements.end(); it++) {
 			AutoReplacement &ar = it->second;
 
-			ptrA find(Utf8EncodeW(it->first.c_str()));
-			ptrA replace(Utf8EncodeW(ar.replace.c_str()));
+			ptrA find(mir_utf8encodeW(it->first.c_str()));
+			ptrA replace(mir_utf8encodeW(ar.replace.c_str()));
 
 			if (ar.useVariables)
 				fprintf(file, "%s-V>%s\n", (const char *)find, (const char *)replace);

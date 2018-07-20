@@ -183,13 +183,13 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 
 		uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 		tox_self_get_name(toxThread.Tox(), nick);
-		ptrW nickname(Utf8DecodeW((char*)nick));
+		ptrW nickname(mir_utf8decodeW((char*)nick));
 		m_proto->setWString("Nick", nickname);
 		m_nickname.SetText(nickname);
 
 		uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
 		tox_self_get_status_message(toxThread.Tox(), statusMessage);
-		m_proto->setWString("StatusMsg", ptrW(Utf8DecodeW((char*)statusMessage)));
+		m_proto->setWString("StatusMsg", ptrW(mir_utf8decodeW((char*)statusMessage)));
 
 		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
 		ShowWindow(m_profileImport.GetHwnd(), FALSE);

@@ -20,7 +20,6 @@ function mir_hashstr (const key:PAnsiChar):uint; {inline;}
 function mir_hashstrW(const key:PWideChar):uint; {inline;}
 function lrtrim (str:PAnsiChar):PAnsiChar; {inline}
 function lrtrimp(str:PAnsiChar):PAnsiChar; {inline}
-function mir_utf8decodeA(const src:PAnsiChar):PAnsiChar; {inline}
 
 function Translate (sz: PAnsiChar): PAnsiChar;
 function Translatew(sz: PWideChar): PWideChar;
@@ -197,18 +196,6 @@ function lrtrimp(str:PAnsiChar):PAnsiChar;
 begin
   result:=ltrimp(rtrim(str));
 end;
-
-function mir_utf8decodeA(const src:PAnsiChar):PAnsiChar;
-type
-  pPWideChar = ^PWidechar;
-var
-  tmp:PAnsiChar;
-begin
-  tmp:=mir_strdup(src);
-  mir_utf8decode(tmp,pPWideChar(nil)^);
-  result:=tmp;
-end;
-
 
 function TranslateW(sz: PWideChar): PWideChar;
 begin

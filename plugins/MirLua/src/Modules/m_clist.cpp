@@ -44,7 +44,7 @@ static int clist_AddMainMenuRoot(lua_State *L)
 	int position = lua_tointeger(L, 2);
 	HANDLE hIcon = (HANDLE)lua_touserdata(L, 3);
 
-	HGENMENU res = g_plugin.addRootMenu(MO_MAIN, ptrW(Utf8DecodeW(name)), position, hIcon);
+	HGENMENU res = g_plugin.addRootMenu(MO_MAIN, ptrW(mir_utf8decodeW(name)), position, hIcon);
 	if (res != nullptr)
 		lua_pushlightuserdata(L, res);
 	else
@@ -75,7 +75,7 @@ static int clist_AddContactMenuRoot(lua_State *L)
 	int position = lua_tointeger(L, 2);
 	HANDLE hIcon = (HANDLE)lua_touserdata(L, 3);
 
-	HGENMENU res = g_plugin.addRootMenu(MO_MAIN, ptrW(Utf8DecodeW(name)), position, hIcon);
+	HGENMENU res = g_plugin.addRootMenu(MO_MAIN, ptrW(mir_utf8decodeW(name)), position, hIcon);
 	if (res != nullptr)
 		lua_pushlightuserdata(L, res);
 	else

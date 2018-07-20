@@ -372,9 +372,9 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	if (bUnicode) {
 		pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
 		for (int i = 0; i < pre->fileCount; i++)
-			pszFiles[i] = Utf8EncodeW(pre->files.w[i]);
+			pszFiles[i] = mir_utf8encodeW(pre->files.w[i]);
 		
-		szDescr = Utf8EncodeW(pre->descr.w);
+		szDescr = mir_utf8encodeW(pre->descr.w);
 	}
 	else {
 		pszFiles = pre->files.a;

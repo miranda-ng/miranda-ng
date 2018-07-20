@@ -60,7 +60,7 @@ static unsigned int getSurrogateValue(const wchar_t *src, unsigned int srclen)
 }
 
 /* query necessary dst length for src string */
-static int Ucs2toUtf8Len(const wchar_t *src, unsigned int srclen)
+static int mir_utf8len(const wchar_t *src, unsigned int srclen)
 {
 	int len;
 	unsigned int val;
@@ -88,12 +88,12 @@ static int Ucs2toUtf8Len(const wchar_t *src, unsigned int srclen)
 	return len;
 }
 
-MIR_CORE_DLL(int) Ucs2toUtf8Len(const wchar_t *src)
+MIR_CORE_DLL(int) mir_utf8lenW(const wchar_t *src)
 {
 	if (src == nullptr)
 		return 0;
 
-	return Ucs2toUtf8Len(src, (int)wcslen(src));
+	return mir_utf8len(src, (int)wcslen(src));
 }
 
 /* wide char to UTF-8 string conversion */
@@ -236,9 +236,9 @@ MIR_CORE_DLL(int) Utf8toUcs2(const char *src, size_t srclen, wchar_t *dst, size_
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Utf8Decode - converts UTF8-encoded string to the UCS2/MBCS format
+// mir_utf8decode - converts UTF8-encoded string to the UCS2/MBCS format
 
-MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
+MIR_CORE_DLL(char*) mir_utf8decodecp(char *str, int codepage, wchar_t **ucs2)
 {
 	bool needs_free = false;
 	wchar_t* tempBuf = nullptr;
@@ -291,12 +291,12 @@ MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 	return str;
 }
 
-MIR_CORE_DLL(char*) Utf8Decode(char *str, wchar_t **ucs2)
+MIR_CORE_DLL(char*) mir_utf8decode(char *str, wchar_t **ucs2)
 {
-	return Utf8DecodeCP(str, Langpack_GetDefaultCodePage(), ucs2);
+	return mir_utf8decodecp(str, Langpack_GetDefaultCodePage(), ucs2);
 }
 
-MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char *str)
+MIR_CORE_DLL(wchar_t*) mir_utf8decodeW(const char *str)
 {
 	if (str == nullptr)
 		return nullptr;
@@ -322,9 +322,9 @@ MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char *str)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Utf8Encode - converts MBCS string to the UTF8-encoded format
+// mir_utf8encode - converts MBCS string to the UTF8-encoded format
 
-MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
+MIR_CORE_DLL(char*) mir_utf8encodecp(const char* src, int codepage)
 {
 	int len;
 	bool needs_free = false;
@@ -348,7 +348,7 @@ MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 
 	len = MultiByteToWideChar(codepage, 0, src, -1, tempBuf, len + 1);
 
-	int destlen = Ucs2toUtf8Len(tempBuf, len);
+	int destlen = mir_utf8len(tempBuf, len);
 	if (destlen >= 0) {
 		result = (char*)mir_alloc(destlen + 1);
 		if (result) {
@@ -363,22 +363,22 @@ MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 	return result;
 }
 
-MIR_CORE_DLL(char*) Utf8Encode(const char* src)
+MIR_CORE_DLL(char*) mir_utf8encode(const char* src)
 {
-	return Utf8EncodeCP(src, Langpack_GetDefaultCodePage());
+	return mir_utf8encodecp(src, Langpack_GetDefaultCodePage());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Utf8Encode - converts UCS2 string to the UTF8-encoded format
+// mir_utf8encode - converts UCS2 string to the UTF8-encoded format
 
-MIR_CORE_DLL(char*) Utf8EncodeW(const wchar_t* src)
+MIR_CORE_DLL(char*) mir_utf8encodeW(const wchar_t* src)
 {
 	if (src == nullptr)
 		return nullptr;
 
 	int len = (int)wcslen(src);
 
-	int destlen = Ucs2toUtf8Len(src, len);
+	int destlen = mir_utf8len(src, len);
 	if (destlen < 0) return nullptr;
 
 	char* result = (char*)mir_alloc(destlen + 1);

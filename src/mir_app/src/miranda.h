@@ -91,7 +91,7 @@ void KillModuleToolbarIcons(HPLUGIN);
 __forceinline char* Utf8DecodeA(const char* src)
 {
 	char* tmp = mir_strdup(src);
-	Utf8Decode(tmp, nullptr);
+	mir_utf8decode(tmp, nullptr);
 	return tmp;
 }
 

@@ -45,7 +45,7 @@ struct virusscanthreadstartinfo {
 wchar_t* PFTS_StringToTchar(int flags, const wchar_t* s)
 {
 	if (flags & PFTS_UTF)
-		return Utf8DecodeW((char*)s);
+		return mir_utf8decodeW((char*)s);
 	if (flags & PFTS_UNICODE)
 		return mir_wstrdup(s);
 	return mir_a2u((char*)s);
@@ -54,7 +54,7 @@ wchar_t* PFTS_StringToTchar(int flags, const wchar_t* s)
 int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const wchar_t *s, wchar_t *r)
 {
 	if (ft->flags & PFTS_UTF) {
-		wchar_t *ts = Utf8DecodeW((char*)s);
+		wchar_t *ts = mir_utf8decodeW((char*)s);
 		int res = mir_wstrcmp(ts, r);
 		mir_free(ts);
 		return res;
@@ -79,7 +79,7 @@ void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_SENT;
 	dbei.timestamp = time(0);
-	char *szFileNames = Utf8EncodeW(dat->szFilenames), *szMsg = Utf8EncodeW(dat->szMsg);
+	char *szFileNames = mir_utf8encodeW(dat->szFilenames), *szMsg = mir_utf8encodeW(dat->szMsg);
 	dbei.flags |= DBEF_UTF;
 
 	dbei.cbBlob = int(sizeof(DWORD) + mir_strlen(szFileNames) + mir_strlen(szMsg) + 2);

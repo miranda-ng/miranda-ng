@@ -71,7 +71,7 @@ public:
 
 			ptrW ptszMsg;
 			if (ResSize >= 3 && pszMsgt[0] == '\xef' && pszMsgt[1] == '\xbb' && pszMsgt[2] == '\xbf')
-				ptszMsg = Utf8DecodeW(pszMsgt + 3);
+				ptszMsg = mir_utf8decodeW(pszMsgt + 3);
 			else
 				ptszMsg = mir_a2u_cp(pszMsgt, 1252);
 			ctrlCredits.SetText(ptszMsg);

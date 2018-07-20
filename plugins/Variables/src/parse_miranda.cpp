@@ -166,7 +166,7 @@ static wchar_t* getDBSetting(MCONTACT hContact, char* module, char* setting, wch
 		var = mir_wstrdup(dbv.pwszVal);
 		break;
 	case DBVT_UTF8:
-		Utf8Decode(dbv.pszVal, &var);
+		mir_utf8decode(dbv.pszVal, &var);
 		break;
 	}
 

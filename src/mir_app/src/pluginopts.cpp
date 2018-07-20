@@ -48,7 +48,7 @@ static wchar_t* sttUtf8auto(const char *src)
 
 	char *p = NEWSTR_ALLOCA(src);
 	wchar_t *pwszRes;
-	return (Utf8Decode(p, &pwszRes) != nullptr) ? pwszRes : mir_a2u_cp(src, 1250);
+	return (mir_utf8decode(p, &pwszRes) != nullptr) ? pwszRes : mir_a2u_cp(src, 1250);
 }
 
 static int sttSortPlugins(const PluginListItemData *p1, const PluginListItemData *p2)

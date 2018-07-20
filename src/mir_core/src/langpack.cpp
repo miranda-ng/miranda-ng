@@ -366,7 +366,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 	lpinfo.szAuthors = szAuthors;
 
-	ptrW buf(Utf8DecodeW(szLanguage));
+	ptrW buf(mir_utf8decodeW(szLanguage));
 	if (buf)
 		wcsncpy_s(lpinfo.tszLanguage, buf, _TRUNCATE);
 	else if (lpinfo.Locale != 0)

@@ -857,7 +857,7 @@ XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML)
 
 #ifndef _XMLWIDECHAR
 	if (characterEncoding != XMLNode::char_encoding_legacy)
-		Utf8Decode((XMLSTR)s, nullptr);
+		mir_utf8decode((XMLSTR)s, nullptr);
 #endif
 
 	return (XMLSTR)s;

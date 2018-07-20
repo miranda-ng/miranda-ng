@@ -187,14 +187,14 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			if (!unspecified) {
 				WCHAR *wszStr;
-				Utf8Decode(dbv.pszVal, &wszStr);
+				mir_utf8decode(dbv.pszVal, &wszStr);
 				SetDlgItemTextW(hwndDlg, idCtrl, TranslateW(wszStr));
 				mir_free(wszStr);
 				goto LBL_Exit;
 			}
 
 			pstr = dbv.pszVal;
-			Utf8Decode(dbv.pszVal, nullptr);
+			mir_utf8decode(dbv.pszVal, nullptr);
 			break;
 
 		default:

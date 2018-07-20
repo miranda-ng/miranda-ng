@@ -480,27 +480,18 @@ MIR_CORE_DLL(void) KillObjectThreads(void* pObject);
 ///////////////////////////////////////////////////////////////////////////////
 // utf8 interface
 
-MIR_CORE_DLL(char*) Utf8Decode(char* str, wchar_t** ucs2);
-MIR_CORE_DLL(char*) Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2);
+MIR_CORE_DLL(BOOL)  Utf8CheckString(const char* str);
 MIR_CORE_DLL(int)   Utf8toUcs2(const char *src, size_t srclen, wchar_t *dst, size_t dstlen); // returns 0 on error
 
-MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char* str);
+MIR_CORE_DLL(char*) mir_utf8decode(char* str, wchar_t** ucs2);
+MIR_CORE_DLL(char*) mir_utf8decodecp(char* str, int codepage, wchar_t** ucs2);
+MIR_CORE_DLL(wchar_t*) mir_utf8decodeW(const char* str);
 
-MIR_CORE_DLL(char*) Utf8Encode(const char* str);
-MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage);
+MIR_CORE_DLL(char*) mir_utf8encode(const char* str);
+MIR_CORE_DLL(char*) mir_utf8encodecp(const char* src, int codepage);
+MIR_CORE_DLL(char*) mir_utf8encodeW(const wchar_t* str);
 
-MIR_CORE_DLL(char*) Utf8EncodeW(const wchar_t* str);
-MIR_CORE_DLL(int)   Ucs2toUtf8Len(const wchar_t *src);
-
-MIR_CORE_DLL(BOOL)  Utf8CheckString(const char* str);
-
-#define mir_utf8decode(A, B)      Utf8Decode(A, B)
-#define mir_utf8decodecp(A, B, C) Utf8DecodeCP(A, B, C)
-#define mir_utf8decodeW(A)   	    Utf8DecodeW(A)
-#define mir_utf8encode(A)         Utf8Encode(A)
-#define mir_utf8encodecp(A, B)    Utf8EncodeCP(A, B)
-#define mir_utf8encodeW(A)        Utf8EncodeW(A)
-#define mir_utf8lenW(A)           Ucs2toUtf8Len(A)
+MIR_CORE_DLL(int)   mir_utf8lenW(const wchar_t *src);
 
 __forceinline char* mir_utf8decodeA(const char* src)
 {

@@ -81,11 +81,11 @@ public:
 		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
 		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
 
-		ptrW lastT(dbei.flags & DBEF_UTF ? Utf8DecodeW(last) : mir_a2u(last));
-		ptrW firstT(dbei.flags & DBEF_UTF ? Utf8DecodeW(first) : mir_a2u(first));
-		ptrW nickT(dbei.flags & DBEF_UTF ? Utf8DecodeW(nick) : mir_a2u(nick));
-		ptrW emailT(dbei.flags & DBEF_UTF ? Utf8DecodeW(email) : mir_a2u(email));
-		ptrW reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeW(reason) : mir_a2u(reason));
+		ptrW lastT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(last) : mir_a2u(last));
+		ptrW firstT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(first) : mir_a2u(first));
+		ptrW nickT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(nick) : mir_a2u(nick));
+		ptrW emailT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(email) : mir_a2u(email));
+		ptrW reasonT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(reason) : mir_a2u(reason));
 
 		wchar_t name[128] = L"";
 		int off = 0;
@@ -223,10 +223,10 @@ public:
 
 		PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
-		ptrW lastT(dbei.flags & DBEF_UTF ? Utf8DecodeW(last) : mir_a2u(last));
-		ptrW firstT(dbei.flags & DBEF_UTF ? Utf8DecodeW(first) : mir_a2u(first));
-		ptrW nickT(dbei.flags & DBEF_UTF ? Utf8DecodeW(nick) : mir_a2u(nick));
-		ptrW emailT(dbei.flags & DBEF_UTF ? Utf8DecodeW(email) : mir_a2u(email));
+		ptrW lastT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(last) : mir_a2u(last));
+		ptrW firstT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(first) : mir_a2u(first));
+		ptrW nickT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(nick) : mir_a2u(nick));
+		ptrW emailT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(email) : mir_a2u(email));
 
 		wchar_t name[128] = L"";
 		int off = 0;
