@@ -1065,15 +1065,20 @@ MCONTACT CJabberProto::CreateTemporaryContact(const wchar_t *szJid, JABBER_LIST_
 
 void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 {
-	HXML xNode, n;
-
 	if (!XmlGetName(node) || mir_wstrcmp(XmlGetName(node), L"message"))
 		return;
 
-	const wchar_t *from, *type = XmlGetAttrValue(node, L"type");
+	const wchar_t *from, *to, *type = XmlGetAttrValue(node, L"type");
 	if ((from = XmlGetAttrValue(node, L"from")) == nullptr)
 		return;
+	if ((to = XmlGetAttrValue(node, L"to")) == nullptr)
+		return;
 
+	if (mir_wstrcmpi(to, m_szJabberJID) && mir_wstrcmpi(to, info->fullJID)) {
+		debugLogA("message sent to wrong addressee: %S", to);
+		return;
+	}
+	
 	const wchar_t *idStr = XmlGetAttrValue(node, L"id");
 	pResourceStatus pFromResource(ResourceInfoFromJID(from));
 
@@ -1090,10 +1095,10 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	if (m_messageManager.HandleMessagePermanent(node, info))
 		return;
 
-	//Handle carbons. The message MUST be coming from our bare JID.
+	// Handle carbons. The message MUST be coming from our bare JID.
 	HXML carbon = nullptr;
 	bool carbonSent = false; //2 cases: received or sent.
-	if (this->IsMyOwnJID(from)) {
+	if (IsMyOwnJID(from)) {
 		carbon = XmlGetChildByTag(node, "received", "xmlns", JABBER_FEAT_CARBONS);
 		if (!carbon) {
 			carbon = XmlGetChildByTag(node, "sent", "xmlns", JABBER_FEAT_CARBONS);
@@ -1101,13 +1106,13 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 				carbonSent = true;
 		}
 		if (carbon) {
-			//If carbons are disabled in options, we should ignore occasional carbons sent to us by server
+			// If carbons are disabled in options, we should ignore occasional carbons sent to us by server
 			if (!m_bEnableCarbons)
 				return;
 
 			HXML forwarded = nullptr;
 			HXML message = nullptr;
-			//Carbons MUST have forwarded/message content
+			// Carbons MUST have forwarded/message content
 			if (!(forwarded = XmlGetChildByTag(carbon, "forwarded", "xmlns", JABBER_XMLNS_FORWARD))
 				|| !(message = XmlGetChild(forwarded, "message")))
 				return;
@@ -1117,13 +1122,13 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 			type = XmlGetAttrValue(node, L"type");
 
 			if (!carbonSent) {
-				//Received should just be treated like incoming messages, except maybe not flash the flasher. Simply unwrap.
+				// Received should just be treated like incoming messages, except maybe not flash the flasher. Simply unwrap.
 				from = XmlGetAttrValue(node, L"from");
 				if (from == nullptr)
 					return;
 			}
 			else {
-				//Sent should set SENT flag and invert from/to.
+				// Sent should set SENT flag and invert from/to.
 				from = XmlGetAttrValue(node, L"to");
 				if (from == nullptr)
 					return;
@@ -1162,6 +1167,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		szMessage = szTmp;
 	}
 
+	HXML n;
 	if (szMessage && (n = XmlGetChildByTag(node, "addresses", "xmlns", JABBER_FEAT_EXT_ADDRESSING))) {
 		HXML addressNode = XmlGetChildByTag(n, "address", "type", L"ofrom");
 		if (addressNode) {
@@ -1268,6 +1274,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	}
 
 	// parsing extensions
+	HXML xNode;
 	for (int i = 0; (xNode = XmlGetChild(node, i)) != nullptr; i++) {
 		if (m_bUseOMEMO)
 		{
@@ -1288,8 +1295,8 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 					}
 				}
 			}
+ 		}
 
-		}
 		if ((xNode = XmlGetNthChild(node, L"x", i + 1)) == nullptr)
 			continue;
 

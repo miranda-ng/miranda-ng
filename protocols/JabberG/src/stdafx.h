@@ -716,26 +716,24 @@ struct TStringPairs
 
 typedef char JabberShaStrBuf[2*MIR_SHA1_HASH_SIZE + 1];
 
-wchar_t*        __stdcall JabberNickFromJID(const wchar_t *jid);
-wchar_t*                  JabberPrepareJid(const wchar_t *jid);
-void          __stdcall JabberUrlDecodeW(WCHAR *str);
-char*         __stdcall JabberSha1(const char *str, JabberShaStrBuf buf);
-wchar_t*        __stdcall JabberStrFixLines(const wchar_t *str);
-void          __stdcall JabberHttpUrlDecode(wchar_t *str);
-int           __stdcall JabberCombineStatus(int status1, int status2);
-wchar_t*        __stdcall JabberErrorStr(int errorCode);
-wchar_t*        __stdcall JabberErrorMsg(HXML errorNode, int *errorCode = nullptr);
-time_t        __stdcall JabberIsoToUnixTime(const wchar_t *stamp);
-wchar_t*        __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t destLen);
-int           __stdcall JabberGetPacketID(HXML n);
-wchar_t*        __stdcall JabberId2string(int id);
-
-const wchar_t *      __stdcall JabberGetPictureType(HXML node, const char *picBuf);
+wchar_t* __stdcall JabberNickFromJID(const wchar_t *jid);
+wchar_t*           JabberPrepareJid(const wchar_t *jid);
+void     __stdcall JabberUrlDecodeW(WCHAR *str);
+char*    __stdcall JabberSha1(const char *str, JabberShaStrBuf buf);
+wchar_t* __stdcall JabberStrFixLines(const wchar_t *str);
+void     __stdcall JabberHttpUrlDecode(wchar_t *str);
+int      __stdcall JabberCombineStatus(int status1, int status2);
+wchar_t* __stdcall JabberErrorStr(int errorCode);
+wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int *errorCode = nullptr);
+time_t   __stdcall JabberIsoToUnixTime(const wchar_t *stamp);
+wchar_t* __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t destLen);
+int      __stdcall JabberGetPacketID(HXML n);
+wchar_t* __stdcall JabberId2string(int id);
 
 wchar_t* time2str(time_t _time, wchar_t *buf, size_t bufLen);
-time_t str2time(const wchar_t*);
+time_t   str2time(const wchar_t*);
 
-const wchar_t*  JabberStrIStr(const wchar_t *str, const wchar_t *substr);
+const wchar_t* JabberStrIStr(const wchar_t *str, const wchar_t *substr);
 void          JabberCopyText(HWND hwnd, const wchar_t *text);
 CJabberProto* JabberChooseInstance(bool bIsLink=false);
 

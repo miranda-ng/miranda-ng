@@ -598,7 +598,14 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 	if (buffer == nullptr)
 		return;
 
-	const wchar_t *szPicType = JabberGetPictureType(n, buffer);
+	const wchar_t *szPicType = nullptr;
+	if (const wchar_t *ptszType = XmlGetText(XmlGetChild(n, "TYPE")))
+		if (ProtoGetAvatarFormatByMimeType(ptszType) != PA_FORMAT_UNKNOWN)
+			szPicType = ptszType;
+
+	if (szPicType == nullptr)
+		szPicType = ProtoGetAvatarMimeType(ProtoGetBufferFormat(buffer));
+
 	if (szPicType == nullptr)
 		return;
 

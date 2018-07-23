@@ -588,18 +588,6 @@ wchar_t* __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t dest
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// JabberGetPictureType - tries to autodetect the picture type from the buffer
-
-const wchar_t *__stdcall JabberGetPictureType(HXML node, const char *picBuf)
-{
-	if (const wchar_t *ptszType = XmlGetText(XmlGetChild(node, "TYPE")))
-		if (ProtoGetAvatarFormatByMimeType(ptszType) != PA_FORMAT_UNKNOWN)
-			return ptszType;
-
-	return ProtoGetAvatarMimeType(ProtoGetBufferFormat(picBuf));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // TStringPairs class members
 
 TStringPairs::TStringPairs(char* buffer) :

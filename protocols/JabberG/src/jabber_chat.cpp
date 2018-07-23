@@ -68,13 +68,14 @@ struct TRoleOrAffiliationInfo
 		if (me->m_affiliation == AFFILIATION_OWNER) return TRUE;
 		if (me == him) return FALSE;
 		if (me->m_affiliation <= him->m_affiliation) return FALSE;
-		if (me->m_role < this->min_role) return FALSE;
-		if (me->m_affiliation < this->min_affiliation) return FALSE;
+		if (me->m_role < min_role) return FALSE;
+		if (me->m_affiliation < min_affiliation) return FALSE;
 		return TRUE;
 	}
+	
 	void translate()
 	{
-		this->title = TranslateW(this->title_en);
+		title = TranslateW(title_en);
 	}
 };
 

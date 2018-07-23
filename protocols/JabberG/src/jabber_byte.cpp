@@ -219,7 +219,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			jbt->hSendEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 			query << XCHILD(L"streamhost") << XATTR(L"jid", m_ThreadInfo->fullJID) << XATTR(L"host", _A2T(localAddr)) << XATTRI(L"port", nlb.wPort);
 
-			NETLIBIPLIST* ihaddr = Netlib_GetMyIp(true);
+			NETLIBIPLIST *ihaddr = Netlib_GetMyIp(true);
 			for (unsigned i=0; i < ihaddr->cbNum; i++)
 				if (mir_strcmp(localAddr, ihaddr->szIp[i]))
 					query << XCHILD(L"streamhost") << XATTR(L"jid", m_ThreadInfo->fullJID) << XATTR(L"host", _A2T(ihaddr->szIp[i])) << XATTRI(L"port", nlb.wPort);
