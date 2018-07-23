@@ -912,7 +912,7 @@ COptionsMain::COptionsMain() :
 	m_export(this, IDC_EXPORT),
 	m_checkonstartup(this, IDC_STARTUPRETRIEVE)
 {
-	CreateLink(m_checkonstartup, "AutoUpdate", DBVT_BYTE, 1);
+	CreateLink(m_checkonstartup, "StartupRetrieve", DBVT_BYTE, 1);
 
 	m_add.OnClick = Callback(this, &COptionsMain::OnAddButtonClick);
 	m_change.OnClick = Callback(this, &COptionsMain::OnChangeButtonClick);
