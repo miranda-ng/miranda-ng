@@ -22,8 +22,7 @@ Boston, MA 02111-1307, USA.
 vector<FILEINFO> Files;
 BOOL DlgDld;
 INT FileCount = 0, CurrentFile = 0, Number = 0;
-BYTE Reminder, AutoUpdate;
-BYTE UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
+BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 INT Period;
 wchar_t tszDialogMsg[2048] = { 0 };
 FILEINFO* pFileInfo = nullptr;

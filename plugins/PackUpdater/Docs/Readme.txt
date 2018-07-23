@@ -80,7 +80,7 @@ Variables in Autoexec_PackUpdater.ini:
 
 	FileCount - number of files for witch needs to check updates. Plugin supports checking for several files, but most time is only one (Pack setup file)
 	
-	AutoUpdate - Check updates automatically with Miranda startup. configured in Events->Pack updates
+	UpdateOnStartup - Check updates automatically with Miranda startup. configured in Events->Pack updates
 
 	File_VersionURL - URL where saved file with infirmation about versions of all files (file1.ini)
 
