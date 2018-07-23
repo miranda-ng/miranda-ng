@@ -16067,8 +16067,8 @@ Benutzer &ignorieren
 Status von Kontakten prüfen
 [Check temporary also]
 Auch temporäre Kontakte
-[Not listed server]
-nicht aufgeführter Server
+[---- Not listed server ----]
+--- nicht aufgeführter Server ---
 [Type new server address here]
 Neue Serveradresse hier eingeben
 [Please enter your password]

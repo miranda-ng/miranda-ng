@@ -14486,8 +14486,8 @@ Nickserv вбити фантома
 Чат-кімната
 [Mode]
 Режим
-[Not listed server]
-Сервер поза списку
+[---- Not listed server ----]
+----Сервер поза списку---
 [Type new server address here]
 Новий адресу сервера
 [Add ban/invite/exception]
