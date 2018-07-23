@@ -205,24 +205,11 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSetting(MCONTACT contactID, LPCST
 		return 1;
 
 	if (dbv->type == DBVT_UTF8) {
-		WCHAR *tmp = nullptr;
-		char *p = NEWSTR_ALLOCA(dbv->pszVal);
-		if (mir_utf8decode(p, &tmp) != nullptr) {
-			BOOL bUsed = FALSE;
-			int  result = WideCharToMultiByte(m_codePage, WC_NO_BEST_FIT_CHARS, tmp, -1, nullptr, 0, nullptr, &bUsed);
-
+		wchar_t *tmp = mir_utf8decodeW(dbv->pszVal);
+		if (tmp != nullptr) {
 			mir_free(dbv->pszVal);
-
-			if (bUsed || result == 0) {
-				dbv->type = DBVT_WCHAR;
-				dbv->pwszVal = tmp;
-			}
-			else {
-				dbv->type = DBVT_ASCIIZ;
-				dbv->pszVal = (char *)mir_alloc(result);
-				WideCharToMultiByte(m_codePage, WC_NO_BEST_FIT_CHARS, tmp, -1, dbv->pszVal, result, nullptr, nullptr);
-				mir_free(tmp);
-			}
+			dbv->type = DBVT_WCHAR;
+			dbv->pwszVal = tmp;
 		}
 		else {
 			dbv->type = DBVT_ASCIIZ;
