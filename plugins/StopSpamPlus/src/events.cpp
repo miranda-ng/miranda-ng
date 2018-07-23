@@ -121,7 +121,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 				// send congratulation
 
-				char * buf = mir_utf8encodeW(variables_parse(g_sets.Congratulation, hContact).c_str());
+				char * buf = mir_utf8encodeW(variables_parse(g_sets.getCongrats(), hContact).c_str());
 				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 
@@ -137,7 +137,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	const wchar_t *pwszPrefix = TranslateT("StopSpam automatic message:\r\n");
 	if ((!g_sets.InfTalkProtection || tstring::npos == message.find(pwszPrefix)) && (!g_sets.MaxQuestCount || db_get_dw(hContact, MODULENAME, questCountSetting, 0) < g_sets.MaxQuestCount)) {
 		// send question
-		tstring q = pwszPrefix + variables_parse(g_sets.Question, hContact);
+		tstring q = pwszPrefix + variables_parse(g_sets.getQuestion(), hContact);
 
 
 		char * buf = mir_utf8encodeW(q.c_str());

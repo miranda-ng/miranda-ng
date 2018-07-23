@@ -68,6 +68,10 @@ public:
 	{
 		variables_skin_helpbutton(m_hwnd, IDC_VARS);
 		btnHelp.Enable(ServiceExists(MS_VARS_FORMATSTRING));
+
+		edtQuestion.SetText(g_sets.getQuestion());
+		edtCongrat.SetText(g_sets.getCongrats());
+		edtReply.SetText(g_sets.getReply());
 		return true;
 	}
 
@@ -78,9 +82,13 @@ public:
 
 	void onRestore(CCtrlButton*)
 	{
-		edtQuestion.SetText(g_sets.Question.Default());
-		edtAnswer.SetText(g_sets.Answer.Default());
-		edtCongrat.SetText(g_sets.Congratulation.Default());
+		g_plugin.delSetting(g_sets.Answer.GetDBSettingName());
+		g_plugin.delSetting(g_sets.Question.GetDBSettingName());
+		g_plugin.delSetting(g_sets.Congratulation.GetDBSettingName());
+
+		edtQuestion.SetText(g_sets.getQuestion());
+		edtAnswer.SetText(g_sets.Answer);
+		edtCongrat.SetText(g_sets.getCongrats());
 		edtReply.SetText(g_sets.AuthRepl.Default());
 		edtDivider.SetText(g_sets.AnswSplitString.Default());
 		

@@ -9,6 +9,10 @@ struct Settings
 	CMOption<char*> DisabledProtoList;
 	CMOption<DWORD> MaxQuestCount;
 
+	const wchar_t* getQuestion();
+	const wchar_t* getReply();
+	const wchar_t* getCongrats();
+
 	bool ProtoDisabled(const char *proto)
 	{
 		std::string temp(proto); temp += ' ';
