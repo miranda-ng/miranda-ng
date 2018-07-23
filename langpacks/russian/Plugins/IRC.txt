@@ -770,7 +770,7 @@ Nickserv убить фантома
 [%s - Filtered - %d items]
 %s - отфильтровано - %d объектов 
 [---- Not listed server ----]
-----Сервер вне списка---
+---- Сервер вне списка ----
 [Type new server address here]
 Новый адрес сервера
 [Add ban/invite/exception]

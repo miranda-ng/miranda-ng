@@ -770,7 +770,7 @@ Nickserv забіць фантому
 [%s - Filtered - %d items]
 %s - адфільтравана - %d
 [---- Not listed server ----]
-----Сервер па-за спісам---
+---- Сервер па-за спісам ----
 [Type new server address here]
 Новы адрас сервера
 [Add ban/invite/exception]

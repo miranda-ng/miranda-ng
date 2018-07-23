@@ -770,7 +770,7 @@ Modus
 [%s - Filtered - %d items]
 %s - gefilterte - %d Elemente
 [---- Not listed server ----]
---- nicht aufgeführter Server ---
+---- nicht aufgeführter Server ----
 [Type new server address here]
 Neue Serveradresse hier eingeben
 [Add ban/invite/exception]
