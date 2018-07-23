@@ -769,8 +769,8 @@ Kanał
 Tryb
 [%s - Filtered - %d items]
 %s - Wybrano - %d elementów
-[---- Not listed server ----]
----- Serwer z poza listy ----
+[Not listed server]
+Serwer z poza listy
 [Type new server address here]
 Wprowadź nowy adres serwera tutaj
 [Add ban/invite/exception]

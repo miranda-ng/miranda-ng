@@ -769,8 +769,8 @@ Nickserv убить фантома
 Режим
 [%s - Filtered - %d items]
 %s - отфильтровано - %d объектов 
-[---- Not listed server ----]
----- Сервер вне списка ----
+[Not listed server]
+Сервер вне списка
 [Type new server address here]
 Новый адрес сервера
 [Add ban/invite/exception]

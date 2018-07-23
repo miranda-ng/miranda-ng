@@ -769,8 +769,8 @@ Voice (имащ право да говори)
 Режим
 [%s - Filtered - %d items]
 %s - Филтриране - %d елемента
-[---- Not listed server ----]
----- Няма въведен сървър ----
+[Not listed server]
+Няма въведен сървър
 [Type new server address here]
 Впишете адреса на новия сървър тук
 [Add ban/invite/exception]

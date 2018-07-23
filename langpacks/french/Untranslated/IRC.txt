@@ -67,5 +67,5 @@
 [Please wait...]
 [Mode]
 [%s - Filtered - %d items]
-[---- Not listed server ----]
+[Not listed server]
 [Type new server address here]

@@ -769,8 +769,8 @@ Channel
 Modus
 [%s - Filtered - %d items]
 %s - gefilterte - %d Elemente
-[---- Not listed server ----]
----- nicht aufgeführter Server ----
+[Not listed server]
+nicht aufgeführter Server
 [Type new server address here]
 Neue Serveradresse hier eingeben
 [Add ban/invite/exception]
