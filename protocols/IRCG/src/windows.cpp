@@ -575,7 +575,8 @@ bool CQuickDlg::OnInitDialog()
 
 	m_si = new SERVER_INFO;
 	m_si->m_group = mir_strdup("");
-	m_si->m_name = mir_strdup(Translate("---- Not listed server ----"));
+	CMStringA szName(FORMAT, "---- %s ----", Translate("Not listed server"));
+	m_si->m_name = szName.GetBuffer();
 
 	DBVARIANT dbv;
 	if (!m_proto->getString("ServerName", &dbv)) {
