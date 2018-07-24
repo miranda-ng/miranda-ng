@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by C:\Code\miranda-ng-from-github\plugins\Quotes\res\Forex.rc
 //
-#define IDD_DIALOG_ECONOMIC_RATES       101
 #define IDI_ICON_MAIN                   102
 #define IDD_DIALOG_QUOTE_INFO           102
 #define IDD_DIALOG_OPT_GOOGLE           103
@@ -16,7 +15,6 @@
 #define IDI_ICON_CURRENCY_CONVERTER     117
 #define IDD_DIALOG_QUOTE_INFO_1         118
 #define IDI_ICON_REFRESH                118
-#define IDD_DIALOG_OPT_FINANCE          119
 #define IDI_ICON_IMPORT                 119
 #define IDI_ICON_EXPORT                 120
 #define IDD_PROVIDER_ADV_SETTINGS       120
@@ -25,7 +23,6 @@
 #define IDI_ICON_MAIN1                  122
 #define IDI_ICON_DISABLED               122
 #define IDD_DIALOG_VARIABLE_LIST        123
-#define IDC_TREE_ECONOMIC_RATES         1001
 #define IDC_EDIT_REFRESH_RATE           1002
 #define IDC_SPIN_REFRESH_RATE           1003
 #define IDC_COMBO_REFRESH_RATE          1004
@@ -69,7 +66,6 @@
 #define IDC_BUTTON_LOG_FILE_DESCRIPTION2 1037
 #define IDC_BUTTON_POPUP_FORMAT_DESCRIPTION 1037
 #define IDC_EDIT_RESULT                 1039
-#define IDC_EDIT_QUOTE                  1059
 #define IDC_BUTTON_SWAP                 1060
 #define IDC_BUTTON_ADVANCED_SETTINGS    1061
 #define IDC_BUTTON_POPUP_SETTINGS       1061

@@ -9,9 +9,6 @@ public:
 
 private:
 	virtual void Visit(const CQuotesProviderBase& rProvider)override;
-	virtual void Visit(const CQuotesProviderDukasCopy& rProvider)override;
-	virtual void Visit(const CQuotesProviderGoogleFinance& rProvider)override;
-	virtual void Visit(const CQuotesProviderYahoo& rProvider)override;
 	virtual void Visit(const CQuotesProviderCurrencyConverter& rProvider)override;
 public:
 	LPCSTR m_pszDbRefreshRateType;

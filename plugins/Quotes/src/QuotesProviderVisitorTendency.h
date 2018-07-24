@@ -11,8 +11,6 @@ public:
 
 private:
 	virtual void Visit(const CQuotesProviderBase& rProvider);
-	virtual void Visit(const CQuotesProviderGoogleFinance& rProvider);
-	virtual void Visit(const CQuotesProviderYahoo& rProvider);
 
 private:
 	void GetValue(LPCSTR pszDbKeyName);

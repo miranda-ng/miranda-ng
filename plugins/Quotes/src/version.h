@@ -5,9 +5,9 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME            "Quotes"
+#define __PLUGIN_NAME            "Currency Rates"
 #define __FILENAME               "Quotes.dll"
-#define __DESCRIPTION            "Shows currency rates and economic quotes."
+#define __DESCRIPTION            "Shows currency rates."
 #define __AUTHOR                 "Dioksin"
 #define __AUTHORWEB              "https://miranda-ng.org/p/Quotes/"
 #define __COPYRIGHT              ""

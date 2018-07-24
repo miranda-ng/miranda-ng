@@ -463,14 +463,6 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 		MCONTACT GetContact()const { return m_hContact; }
 
 	private:
-		virtual void Visit(const CQuotesProviderDukasCopy& rProvider)override
-		{
-			tstring sQuoteID = GetXMLNodeValue(DB_STR_QUOTE_ID);
-			if (false == sQuoteID.empty()) {
-				m_hContact = rProvider.GetContactByQuoteID(sQuoteID);
-			}
-		}
-
 		virtual void Visit(const CQuotesProviderCurrencyConverter& rProvider)override
 		{
 			static const tstring g_sFromID = quotes_a2t(DB_STR_FROM_ID);//A2CT(DB_STR_FROM_ID);
@@ -494,14 +486,6 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 
 			if ((false == sFromID.empty()) && (false == sToID.empty())) {
 				m_hContact = rProvider.GetContactByID(sFromID, sToID);
-			}
-		}
-
-		virtual void Visit(const CQuotesProviderFinance& rProvider)override
-		{
-			tstring sQuoteID = GetXMLNodeValue(DB_STR_QUOTE_ID);
-			if (false == sQuoteID.empty()) {
-				m_hContact = rProvider.GetContactByQuoteID(sQuoteID);
 			}
 		}
 

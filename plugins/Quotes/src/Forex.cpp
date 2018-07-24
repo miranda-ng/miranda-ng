@@ -63,7 +63,7 @@ void InitMenu()
 {
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Currency rates"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "B474F556-22B6-42A1-A91E-22FE4F671388");
 
 	SET_UID(mi, 0x9de6716, 0x3591, 0x48c4, 0x9f, 0x64, 0x1b, 0xfd, 0xc6, 0xd1, 0x34, 0x97);
@@ -76,7 +76,7 @@ void InitMenu()
 	UpdateMenu(g_bAutoUpdate);
 
 	SET_UID(mi, 0x91cbabf6, 0x5073, 0x4a78, 0x84, 0x8, 0x34, 0x61, 0xc1, 0x8a, 0x34, 0xd9);
-	mi.name.w = LPGENW("Refresh All Quotes\\Rates");
+	mi.name.w = LPGENW("Refresh All Rates");
 	mi.position = 20100001;
 	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 	mi.pszService = "Quotes/RefreshAll";
@@ -92,7 +92,7 @@ void InitMenu()
 	CreateServiceFunction(mi.pszService, QuotesMenu_CurrencyConverter);
 
 	SET_UID(mi, 0x7cca4fd9, 0x903f, 0x4b7d, 0x93, 0x7a, 0x18, 0x63, 0x23, 0xd4, 0xa9, 0xa9);
-	mi.name.w = LPGENW("Export All Quotes");
+	mi.name.w = LPGENW("Export All Currency Rates");
 	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
 	mi.pszService = "Quotes/ExportAll";
 	mi.position = 20100003;
@@ -100,7 +100,7 @@ void InitMenu()
 	CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
 
 	SET_UID(mi, 0xa994d3b, 0x77c2, 0x4612, 0x8d, 0x5, 0x6a, 0xae, 0x8c, 0x21, 0xbd, 0xc9);
-	mi.name.w = LPGENW("Import All Quotes");
+	mi.name.w = LPGENW("Import All Currency Rates");
 	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
 	mi.pszService = "Quotes/ImportAll";
 	mi.position = 20100004;
@@ -153,10 +153,10 @@ void InitMenu()
 int Quotes_OnToolbarLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
-	ttb.name = LPGEN("Enable/Disable Quotes Auto Update");
+	ttb.name = LPGEN("Enable/Disable Currency Rates Auto Update");
 	ttb.pszService = g_pszAutoUpdateCmd;
-	ttb.pszTooltipUp = LPGEN("Quotes Auto Update Enabled");
-	ttb.pszTooltipDn = LPGEN("Quotes Auto Update Disabled");
+	ttb.pszTooltipUp = LPGEN("Currency Rates Auto Update Enabled");
+	ttb.pszTooltipDn = LPGEN("Currency Rates Auto Update Disabled");
 	ttb.hIconHandleUp = Quotes_GetIconHandle(IDI_ICON_MAIN);
 	ttb.hIconHandleDn = Quotes_GetIconHandle(IDI_ICON_DISABLED);
 	ttb.dwFlags = ((g_bAutoUpdate) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
@@ -226,7 +226,7 @@ INT_PTR QuoteProtoFunc_GetCaps(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Quote Symbol");
+		return (INT_PTR)Translate("Currency Symbol");
 	}
 
 	return 0;

@@ -3,7 +3,7 @@
 
 #define QUOTES_PROTOCOL_NAME "Quotes"// protocol name
 
-#define QUOTES_MODULE_NAME QUOTES_PROTOCOL_NAME          // db settings module path
+#define QUOTES_MODULE_NAME "Quotes"          // db settings module path
 
 enum ERefreshRateType
 {

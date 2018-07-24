@@ -17,12 +17,6 @@ const tstring& CQuotesProviderVisitorFormater::GetResult()const
 	return m_sResult;
 }
 
-void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderDukasCopy&)
-{
-	if ('d' == m_chr || 'D' == m_chr)
-		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_DESCRIPTION);
-}
-
 static bool get_fetch_time(MCONTACT hContact, time_t& rTime)
 {
 	DBVARIANT dbv;
@@ -85,23 +79,6 @@ void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderBase& rProvider)
 	}
 }
 
-void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderGoogleFinance&/* rProvider*/)
-{
-	switch (m_chr) {
-	case 'o':
-		FormatDoubleHelper(DB_STR_GOOGLE_FINANCE_OPEN_VALUE);
-		break;
-	case 'd':
-		FormatDoubleHelper(DB_STR_GOOGLE_FINANCE_DIFF, L"0");
-		break;
-	case 'y':
-		FormatDoubleHelper(DB_STR_GOOGLE_FINANCE_PERCENT_CHANGE_TO_YERSTERDAY_CLOSE, L"0");
-		break;
-	case 'n':
-		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_DESCRIPTION);
-		break;
-	}
-}
 
 tstring format_double(double dValue, int nWidth)
 {
@@ -124,30 +101,6 @@ void CQuotesProviderVisitorFormater::FormatDoubleHelper(LPCSTR pszDbSet,
 		m_sResult = format_double(d, m_nWidth);
 	else
 		m_sResult = sInvalid;
-}
-
-void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderYahoo&)
-{
-	switch (m_chr) {
-	case 'o':
-		FormatDoubleHelper(DB_STR_YAHOO_OPEN_VALUE);
-		break;
-	case 'h':
-		FormatDoubleHelper(DB_STR_YAHOO_DAY_HIGH);
-		break;
-	case 'P':
-		FormatDoubleHelper(DB_STR_YAHOO_PREVIOUS_CLOSE);
-		break;
-	case 'c':
-		FormatDoubleHelper(DB_STR_YAHOO_CHANGE);
-		break;
-	case 'g':
-		FormatDoubleHelper(DB_STR_YAHOO_DAY_LOW);
-		break;
-	case 'n':
-		m_sResult = Quotes_DBGetStringT(m_hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_DESCRIPTION);
-		break;
-	}
 }
 
 void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderCurrencyConverter&)
