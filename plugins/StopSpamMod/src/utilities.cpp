@@ -99,9 +99,8 @@ wstring variables_parse(wstring const &tstrFormat, MCONTACT hContact)
 		wchar_t *tszParsed = (wchar_t*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 		free(fi.szFormat.w);
 
-		wstring tstrResult;
 		if (tszParsed) {
-			tstrResult = tszParsed;
+			wstring tstrResult = tszParsed;
 			mir_free(tszParsed);
 			return tstrResult;
 		}

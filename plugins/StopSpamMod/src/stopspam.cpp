@@ -70,56 +70,51 @@ int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-int OnDbEventFilterAdd(WPARAM w, LPARAM l)
+int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 {
-	MCONTACT hContact = (MCONTACT)w;
-	if (!l) //fix potential DEP crash
+	if (!l) // fix potential DEP crash
 		return 0;
-	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
 
 	// if event is in protocol that is not despammed
-	if (!ProtoInList(dbei->szModule)) {
-		// ...let the event go its way
-		return 0;
-	}
-	//do not check excluded contact
+	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
+	if (!ProtoInList(dbei->szModule))
+		return 0; // ...let the event go its way
 
+	// do not check excluded contact
 	if (db_get_b(hContact, MODULENAME, "Answered", 0))
 		return 0;
+
 	if (db_get_b(hContact, MODULENAME, "Excluded", 0)) {
 		if (!db_get_b(hContact, "CList", "NotOnList", 0))
 			db_unset(hContact, MODULENAME, "Excluded");
 		return 0;
 	}
-	//we want block not only messages, i seen many types other eventtype flood
+
+	// we want block not only messages, i seen many types other eventtype flood
 	if (dbei->flags & DBEF_READ)
-		// ...let the event go its way
-		return 0;
-	//mark contact which we trying to contact for exclude from check
+		return 0; // ...let the event go its way
+	
+	// mark contact which we trying to contact for exclude from check
 	if ((dbei->flags & DBEF_SENT) && db_get_b(hContact, "CList", "NotOnList", 0)
 		&& (!gbMaxQuestCount || db_get_dw(hContact, MODULENAME, "QuestionCount", 0) < gbMaxQuestCount) && gbExclude) {
 		db_set_b(hContact, MODULENAME, "Excluded", 1);
 		return 0;
 	}
+	
 	// if message is from known or marked Answered contact
 	if (!db_get_b(hContact, "CList", "NotOnList", 0))
-		// ...let the event go its way
-		return 0;
+		return 0; // ...let the event go its way
+	
 	// if message is corrupted or empty it cannot be an answer.
 	if (!dbei->cbBlob || !dbei->pBlob)
 		// reject processing of the event
 		return 1;
 
 	wstring message;
-
-	if (dbei->flags & DBEF_UTF) {
-		wchar_t* msg_u;
-		char* msg_a = mir_strdup((char*)dbei->pBlob);
-		mir_utf8decode(msg_a, &msg_u);
-		message = msg_u;
-	}
+	if (dbei->flags & DBEF_UTF)
+		message = ptrW(mir_utf8decodeW((char*)dbei->pBlob));
 	else
-		message = mir_a2u((char*)(dbei->pBlob));
+		message = _A2T((char*)(dbei->pBlob));
 
 	// if message contains right answer...
 
@@ -158,6 +153,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 			answered = boost::regex_search(msg.begin(), msg.end(), expr);
 		}
 	}
+	
 	if (answered) {
 		// unhide contact
 		db_unset(hContact, "CList", "Hidden");
@@ -174,7 +170,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		// send congratulation
 		if (bSendMsg) {
 			wstring prot = DBGetContactSettingStringPAN(NULL, dbei->szModule, "AM_BaseProto", L"");
-			// for notICQ protocols or disable auto auth. reqwest
+			// for notICQ protocols or disable auto auth. request
 			if ((Stricmp(L"ICQ", prot.c_str())) || (!gbAutoReqAuth)) {
 				char * buf = mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
 				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
@@ -184,14 +180,15 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 			if (!Stricmp(L"ICQ", prot.c_str())) {
 				// grand auth.
 				if (gbAutoAuth)
-					CallProtoService(dbei->szModule, "/GrantAuth", w, 0);
+					CallProtoService(dbei->szModule, "/GrantAuth", hContact, 0);
 				// add contact to server list and local group
 				if (gbAutoAddToServerList) {
 					db_set_ws(hContact, "CList", "Group", gbAutoAuthGroup.c_str());
-					CallProtoService(dbei->szModule, "/AddServerContact", w, 0);
+					CallProtoService(dbei->szModule, "/AddServerContact", hContact, 0);
 					db_unset(hContact, "CList", "NotOnList");
-				};
-				// auto auth. reqwest with send congratulation
+				}
+				
+				// auto auth. request with send congratulation
 				if (gbAutoReqAuth)
 					ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)variables_parse(gbCongratulation, hContact).c_str());
 			}
@@ -209,6 +206,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 			wstring q;
 			if (gbInfTalkProtection)
 				q += L"StopSpam automatic message:\r\n";
+			
 			if (gbMathExpression) { //parse math expression in question
 				wstring tmp_question = gbQuestion;
 				std::list<int> args;
@@ -228,47 +226,38 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 						actions.push_back(gbQuestion[p1]);
 					++p1;
 				}
+				
 				int math_answer = 0;
 				math_answer = args.front();
 				args.pop_front();
 				while (!args.empty()) {
-					if (!actions.empty()) {
-						switch (actions.front()) {
-						case '+':
-							{
-								math_answer += args.front();
-								args.pop_front();
-							}
-							break;
-						case '-':
-							{
-								math_answer -= args.front();
-								args.pop_front();
-							}
-							break;
-						case '/':
-							{
-								math_answer /= args.front();
-								args.pop_front();
-							}
-							break;
-						case '*':
-							{
-								math_answer *= args.front();
-								args.pop_front();
-							}
-							break;
-						}
-						actions.pop_front();
-					}
-					else
+					if (actions.empty())
 						break;
+
+					switch (actions.front()) {
+					case '+':
+						math_answer += args.front();
+						args.pop_front();
+						break;
+					case '-':
+						math_answer -= args.front();
+						args.pop_front();
+						break;
+					case '/':
+						math_answer /= args.front();
+						args.pop_front();
+						break;
+					case '*':
+						math_answer *= args.front();
+						args.pop_front();
+						break;
+					}
+					actions.pop_front();
 				}
 				db_set_dw(hContact, MODULENAME, "MathAnswer", math_answer);
 				q += variables_parse(tmp_question, hContact);
 			}
-			else
-				q += variables_parse(gbQuestion, hContact);
+			else q += variables_parse(gbQuestion, hContact);
 
 			ProtoChainSend(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeW(q.c_str())));
 
