@@ -94,21 +94,18 @@ bool TwitterProto::NegotiateConnection()
 	if (!dbTOK) {
 		oauthToken = dbv.pwszVal;
 		db_free(&dbv);
-		//debugLogW("**NegotiateConnection - we have an oauthToken already in the db - %s", oauthToken);
 	}
 
 	INT_PTR dbTOKSec = getWString(TWITTER_KEY_OAUTH_TOK_SECRET, &dbv);
 	if (!dbTOKSec) {
 		oauthTokenSecret = dbv.pwszVal;
 		db_free(&dbv);
-		//debugLogW("**NegotiateConnection - we have an oauthTokenSecret already in the db - %s", oauthTokenSecret);
 	}
 
 	INT_PTR dbName = getString(TWITTER_KEY_NICK, &dbv);
 	if (!dbName) {
 		screenName = dbv.pszVal;
 		db_free(&dbv);
-		//debugLogW("**NegotiateConnection - we have a username already in the db - %s", screenName);
 	}
 	else {
 		dbName = getString(TWITTER_KEY_UN, &dbv);
@@ -116,7 +113,6 @@ bool TwitterProto::NegotiateConnection()
 			screenName = dbv.pszVal;
 			setString(TWITTER_KEY_NICK, dbv.pszVal);
 			db_free(&dbv);
-			//debugLogW("**NegotiateConnection - we have a username already in the db - %s", screenName);
 		}
 	}
 
@@ -133,28 +129,16 @@ bool TwitterProto::NegotiateConnection()
 		resetOAuthKeys();
 		debugLogA("**NegotiateConnection - Reset OAuth Keys");
 
-		//twit_.set_credentials(ConsumerKey, ConsumerSecret, oauthAccessToken, oauthAccessTokenSecret, L"", false);
-		// i think i was doin the wrong thing here.. i was setting the credentials as oauthAccessToken instead of oauthToken
-		// have to test..
 		debugLogA("**NegotiateConnection - Setting Consumer Keys...");
-		/*debugLogW("**NegotiateConnection - sending set_cred: consumerKey is %s", ConsumerKey);
-		debugLogW("**NegotiateConnection - sending set_cred: consumerSecret is %s", ConsumerSecret);
-		debugLogW("**NegotiateConnection - sending set_cred: oauthToken is %s", oauthToken);
-		debugLogW("**NegotiateConnection - sending set_cred: oauthTokenSecret is %s", oauthTokenSecret);
-		debugLogA("**NegotiateConnection - sending set_cred: no pin");*/
 		twit_.set_credentials("", ConsumerKey, ConsumerSecret, oauthToken, oauthTokenSecret, L"", false);
 		debugLogA("**NegotiateConnection - Requesting oauthTokens");
 		http::response resp = twit_.request_token();
 
-		//wstring rdata_WSTR(resp.data.length(),L' ');
 		wstring rdata_WSTR = UTF8ToWide(resp.data);
 
-		//debugLogW("**NegotiateConnection - REQUEST TOKEN IS %s", rdata_WSTR);
 		OAuthParameters response = twit_.ParseQueryString(rdata_WSTR);
 		oauthToken = response[L"oauth_token"];
 		oauthTokenSecret = response[L"oauth_token_secret"];
-		//debugLogW("**NegotiateConnection - oauthToken is %s", oauthToken);
-		//debugLogW("**NegotiateConnection - oauthTokenSecret is %s", oauthTokenSecret);
 
 		if (oauthToken.length() < 1) {
 			ShowPopup("OAuth Tokens not received, check your internet connection?", 1);
@@ -162,7 +146,7 @@ bool TwitterProto::NegotiateConnection()
 			return false;
 		}
 
-		//write those bitches to the db foe latta
+		// write those bitches to the db foe latta
 		setWString(TWITTER_KEY_OAUTH_TOK, oauthToken.c_str());
 		setWString(TWITTER_KEY_OAUTH_TOK_SECRET, oauthTokenSecret.c_str());
 
@@ -190,22 +174,20 @@ bool TwitterProto::NegotiateConnection()
 		oauthAccessToken = dbv.pwszVal;
 		db_free(&dbv);
 		// this bit is saying "if we have found the db key, but it contains no data, then set dbTOK to 1"
-		if (oauthAccessToken.size() > 1) {
+		if (oauthAccessToken.size() > 1)
 			realAccessTok = true;
-			//debugLogW("**NegotiateConnection - we have an oauthAccessToken already in the db - %s", oauthAccessToken); 
-		}
-		else debugLogA("**NegotiateConnection - oauthAccesToken too small? this is.. weird.");
+		else
+			debugLogA("**NegotiateConnection - oauthAccesToken too small? this is.. weird.");
 	}
 
 	dbTOKSec = getWString(TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET, &dbv);
 	if (!dbTOKSec) {
 		oauthAccessTokenSecret = dbv.pwszVal;
 		db_free(&dbv);
-		if (oauthAccessTokenSecret.size() > 1) {
+		if (oauthAccessTokenSecret.size() > 1)
 			realAccessTokSecret = true;
-			//debugLogW("**NegotiateConnection - we have an oauthAccessTokenSecret already in the db - %s", oauthAccessTokenSecret); 
-		}
-		else { debugLogA("**NegotiateConnection - oauthAccessTokenSecret too small? weird"); }
+		else
+			debugLogA("**NegotiateConnection - oauthAccessTokenSecret too small? weird");
 	}
 
 	if (!realAccessTok || !realAccessTokSecret) {  // if we don't have one of these beasties then lets go get 'em!
@@ -213,7 +195,6 @@ bool TwitterProto::NegotiateConnection()
 		debugLogA("**NegotiateConnection - either the accessToken or accessTokenSecret was not there..");
 		if (!getWString(TWITTER_KEY_OAUTH_PIN, &dbv)) {
 			pin = dbv.pwszVal;
-			//debugLogW("**NegotiateConnection - we have an pin already in the db - %s", pin);
 			db_free(&dbv);
 		}
 		else {
@@ -227,16 +208,10 @@ bool TwitterProto::NegotiateConnection()
 			old_status = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
 			return false;
 		}
 
 		debugLogA("**NegotiateConnection - Setting Consumer Keys and PIN...");
-		/*debugLogW("**NegotiateConnection - sending set_cred: consumerKey is %s", ConsumerKey);
-		debugLogW("**NegotiateConnection - sending set_cred: consumerSecret is %s", ConsumerSecret);
-		debugLogW("**NegotiateConnection - sending set_cred: oauthToken is %s", oauthToken);
-		debugLogW("**NegotiateConnection - sending set_cred: oauthTokenSecret is %s", oauthTokenSecret);
-		debugLogW("**NegotiateConnection - sending set_cred: pin is %s", pin);*/
 
 		twit_.set_credentials("", ConsumerKey, ConsumerSecret, oauthToken, oauthTokenSecret, pin, false);
 
@@ -261,16 +236,10 @@ bool TwitterProto::NegotiateConnection()
 			debugLogA("**NegotiateConnection - Successfully retrieved Access Tokens");
 
 			wstring rdata_WSTR2 = UTF8ToWide(accessResp.data);
-			//debugLogW("**NegotiateConnection - accessToken STring is %s", rdata_WSTR2);
 
 			OAuthParameters accessTokenParameters = twit_.ParseQueryString(rdata_WSTR2);
-
 			oauthAccessToken = accessTokenParameters[L"oauth_token"];
-			//debugLogW("**NegotiateConnection - oauthAccessToken is %s", oauthAccessToken);
-
 			oauthAccessTokenSecret = accessTokenParameters[L"oauth_token_secret"];
-			//debugLogW("**NegotiateConnection - oauthAccessTokenSecret is %s", oauthAccessTokenSecret);
-
 			screenName = WideToUTF8(accessTokenParameters[L"screen_name"]);
 			debugLogA("**NegotiateConnection - screen name is %s", screenName.c_str());
 
@@ -302,10 +271,8 @@ bool TwitterProto::NegotiateConnection()
 	}
 
 	if (!success) {
-		//ShowPopup(TranslateT("Something went wrong with authorization, OAuth keys have been reset.  Please try to reconnect.  If problems persist, please se your doctor"));
 		debugLogA("**NegotiateConnection - Verifying credentials failed!  No internet maybe?");
 
-		//resetOAuthKeys();
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
 
 		// Set to offline
@@ -315,14 +282,11 @@ bool TwitterProto::NegotiateConnection()
 
 		return false;
 	}
-	else {
-		m_iStatus = m_iDesiredStatus;
 
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-		return true;
-	}
+	m_iStatus = m_iDesiredStatus;
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+	return true;
 }
-
 
 void TwitterProto::MessageLoop(void*)
 {

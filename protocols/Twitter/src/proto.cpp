@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utility.h"
 #include "theme.h"
 #include "ui.h"
-#include "oauth.dev.h"
+#include "..\..\..\..\miranda-private-keys\Twitter\oauth.dev.h"
 
 static volatile LONG g_msgid = 1;
 

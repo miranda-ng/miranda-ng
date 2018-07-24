@@ -1,4 +1,0 @@
-#pragma once
-
-#define OAUTH_CONSUMER_KEY L"AwSuQV9A7uXpat81MQB48g"
-#define OAUTH_CONSUMER_SECRET L"x8pPGCCV5wFs26euODb9gv4VQ4kiuxTp3ed2P8Of4"
