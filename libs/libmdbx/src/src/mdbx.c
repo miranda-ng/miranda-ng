@@ -4355,8 +4355,7 @@ static int __cold mdbx_read_header(MDBX_env *env, MDBX_meta *meta,
       return MDBX_INVALID;
     }
 
-    if (page.mp_meta.mm_magic_and_version != MDBX_DATA_MAGIC &&
-        page.mp_meta.mm_magic_and_version != MDBX_DATA_DEBUG) {
+    if (page.mp_meta.mm_magic_and_version != MDBX_DATA_MAGIC && page.mp_meta.mm_magic_and_version != MDBX_DATA_DEBUG) {
       mdbx_error("meta[%u] has invalid magic/version %" PRIx64, meta_number,
                  page.mp_meta.mm_magic_and_version);
       return ((page.mp_meta.mm_magic_and_version >> 8) != MDBX_MAGIC)
@@ -5707,8 +5706,7 @@ static int __cold mdbx_setup_lck(MDBX_env *env, char *lck_pathname,
     env->me_lck->mti_magic_and_version = MDBX_LOCK_MAGIC;
     env->me_lck->mti_os_and_format = MDBX_LOCK_FORMAT;
   } else {
-    if (env->me_lck->mti_magic_and_version != MDBX_LOCK_MAGIC &&
-        env->me_lck->mti_magic_and_version != MDBX_LOCK_DEBUG) {
+    if (env->me_lck->mti_magic_and_version != MDBX_LOCK_MAGIC && env->me_lck->mti_magic_and_version != MDBX_LOCK_DEBUG) {
       mdbx_error("lock region has invalid magic/version");
       return ((env->me_lck->mti_magic_and_version >> 8) != MDBX_MAGIC)
                  ? MDBX_INVALID
