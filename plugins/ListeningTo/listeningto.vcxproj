@@ -31,9 +31,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\utils\mir_buffer.h" />
-    <ClInclude Include="..\..\utils\mir_options.h" />
-    <ClInclude Include="..\..\utils\utf8_helpers.h" />
     <ClInclude Include="src\players\foobar.h" />
     <ClInclude Include="src\players\generic.h" />
     <ClInclude Include="src\players\itunes.h" />
