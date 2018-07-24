@@ -2,6 +2,9 @@
 
 static void SaveButton(HWND hwndDlg, HWND hwndCombo, int curIndex)
 {
+	if (curIndex < 0 || curIndex >= g_accs.getCount())
+		return;
+
 	Account &acc = g_accs[curIndex];
 	if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc.name, _countof(acc.name))) {
 		char *tail = strstr(acc.name, "@");
@@ -12,7 +15,7 @@ static void SaveButton(HWND hwndDlg, HWND hwndCombo, int curIndex)
 		SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
 		db_set_s(acc.hContact, MODULENAME, "name", acc.name);
 		db_set_s(acc.hContact, MODULENAME, "Nick", acc.name);
-		
+
 		GetDlgItemTextA(hwndDlg, IDC_PASS, acc.pass, _countof(acc.pass));
 		db_set_s(acc.hContact, MODULENAME, "Password", acc.pass);
 	}
@@ -128,11 +131,10 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_PRGBROWSE:
+			wchar_t szName[_MAX_PATH];
+			GetDlgItemText(hwndDlg, IDC_PRG, szName, _countof(szName));
 			{
-				OPENFILENAME OpenFileName;
-				wchar_t szName[_MAX_PATH];
-				memset(&OpenFileName, 0, sizeof(OPENFILENAME));
-				GetDlgItemText(hwndDlg, IDC_PRG, szName, _countof(szName));
+				OPENFILENAME OpenFileName = {};
 				OpenFileName.lStructSize = sizeof(OPENFILENAME);
 				OpenFileName.hwndOwner = hwndDlg;
 				OpenFileName.lpstrFilter = L"Executables (*.exe;*.com;*.bat)\0*.exe;*.com;*.bat\0\0";
@@ -145,7 +147,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
-		
+
 		case IDC_BTNADD:
 			{
 				Account *p = new Account();
