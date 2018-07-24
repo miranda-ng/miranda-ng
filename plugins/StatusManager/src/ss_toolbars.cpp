@@ -56,7 +56,7 @@ int CreateTopToolbarButtons(WPARAM, LPARAM)
 
 		DBVARIANT dbv;
 		mir_snprintf(setting, "%d_%s", i, SETTING_PROFILENAME);
-		if (db_get(0, SSMODULENAME, setting, &dbv))
+		if (db_get_s(0, SSMODULENAME, setting, &dbv))
 			continue;
 
 		ttb.hIconHandleDn = iconList[0].hIcolib;

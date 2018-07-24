@@ -123,7 +123,7 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font.%s.Name", dbSetting);
-		if (db_get(NULL, HPPMOD, str, &dbv))
+		if (db_get_s(NULL, HPPMOD, str, &dbv))
 			strncpy_s(lf->lfFaceName, "Verdana", _TRUNCATE);
 		else {
 			strncpy_s(lf->lfFaceName, dbv.pszVal, _TRUNCATE);

@@ -54,21 +54,21 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			DBVARIANT dbv = { 0 };
 			if (!db_get_ws(NULL, MODULENAME, "Path", &dbv)) {
-				mir_wstrcpy(inBuf, dbv.ptszVal);
+				mir_wstrcpy(inBuf, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else mir_wstrcpy(inBuf, L"splash\\splash.png");
 			SetDlgItemText(hwndDlg, IDC_SPLASHPATH, inBuf);
 
 			if (!db_get_ws(NULL, MODULENAME, "Sound", &dbv)) {
-				mir_wstrcpy(inBuf, dbv.ptszVal);
+				mir_wstrcpy(inBuf, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else mir_wstrcpy(inBuf, L"sounds\\startup.wav");
 			SetDlgItemText(hwndDlg, IDC_SNDPATH, inBuf);
 
 			if (!db_get_ws(NULL, MODULENAME, "VersionPrefix", &dbv)) {
-				mir_wstrcpy(inBuf, dbv.ptszVal);
+				mir_wstrcpy(inBuf, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else mir_wstrcpy(inBuf, L"");

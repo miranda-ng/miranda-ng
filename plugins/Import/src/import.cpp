@@ -121,7 +121,7 @@ static int myGetD(MCONTACT hContact, const char *szModule, const char *szSetting
 static wchar_t* myGetWs(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
 	DBVARIANT dbv = { DBVT_WCHAR };
-	return srcDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? nullptr : dbv.ptszVal;
+	return srcDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? nullptr : dbv.pwszVal;
 }
 
 static BOOL myGetS(MCONTACT hContact, const char *szModule, const char *szSetting, char *dest)

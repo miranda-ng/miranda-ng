@@ -298,7 +298,7 @@ void GetData(void *param)
 				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 1)
 					strftime(temptime, 128, "(%b %d,%H:%M:%S)", nTime);
 
-				db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
+				db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pwszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
 					mir_snprintf(tstr, "%s %s", temptime, dbv.pszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)

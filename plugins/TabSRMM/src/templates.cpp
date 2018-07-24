@@ -89,7 +89,7 @@ static void LoadTemplatesFrom(TTemplateSet *tSet, MCONTACT hContact, int rtl)
 		if (db_get_ws(hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[i], &dbv))
 			continue;
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)
-			wcsncpy_s(tSet->szTemplates[i], dbv.ptszVal, _TRUNCATE);
+			wcsncpy_s(tSet->szTemplates[i], dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 }

@@ -121,12 +121,12 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			/* link*/
 			DBVARIANT dbv;
 			if (!db_get_ws(hContact, MODNAME, "ProgramString", &dbv)) {
-				SetDlgItemText(hwnd, IDC_LINK, dbv.ptszVal);
+				SetDlgItemText(hwnd, IDC_LINK, dbv.pwszVal);
 				db_free(&dbv);
 			}
 
 			if (!db_get_ws(hContact, MODNAME, "ProgramParamsString", &dbv)) {
-				SetDlgItemText(hwnd, IDC_PARAMS, dbv.ptszVal);
+				SetDlgItemText(hwnd, IDC_PARAMS, dbv.pwszVal);
 				db_free(&dbv);
 			}
 
@@ -136,7 +136,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				SendDlgItemMessage(hwnd, IDC_GROUP, CB_INSERTSTRING, 0, LPARAM(szGroup));
 
 			if (!db_get_ws(hContact, "CList", "Group", &dbv)) {
-				SetDlgItemText(hwnd, IDC_GROUP, dbv.ptszVal);
+				SetDlgItemText(hwnd, IDC_GROUP, dbv.pwszVal);
 				db_free(&dbv);
 			}
 

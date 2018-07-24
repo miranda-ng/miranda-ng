@@ -266,7 +266,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			LPTSTR ptszLastTab;
 			DBVARIANT dbv;
 			if (!db_get_ws(NULL, MODULENAME, "LastTab", &dbv)) {
-				ptszLastTab = NEWWSTR_ALLOCA(dbv.ptszVal);
+				ptszLastTab = NEWWSTR_ALLOCA(dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else ptszLastTab = nullptr;

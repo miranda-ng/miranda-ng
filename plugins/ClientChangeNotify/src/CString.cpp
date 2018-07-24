@@ -277,7 +277,7 @@ TCString DBGetContactSettingAsString(MCONTACT hContact, const char *szModule, co
 
 	TCString Result;
 	if (!iRes && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)) {
-		Result = dbv.ptszVal;
+		Result = dbv.pwszVal;
 	}
 	else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD) {
 		long value = (dbv.type == DBVT_DWORD) ? dbv.dVal : (dbv.type == DBVT_WORD ? dbv.wVal : dbv.bVal);

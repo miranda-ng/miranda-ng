@@ -38,7 +38,7 @@ static wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, ch
 	out[0] = '\0';
 
 	if (!db_get_ws(hContact, module, setting, &dbv)) {
-		mir_wstrncpy(out, dbv.ptszVal, (int)len);
+		mir_wstrncpy(out, dbv.pwszVal, (int)len);
 		db_free(&dbv);
 	}
 	else {

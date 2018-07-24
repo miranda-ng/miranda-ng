@@ -27,7 +27,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		{
 			DBVARIANT dbv;
 			if (!db_get_ws( NULL, MODULENAME, SETTING_STARTUPTEXT, &dbv )) {
-				SetDlgItemText(hwndDlg, IDC_FORMATTEXT, dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_FORMATTEXT, dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}

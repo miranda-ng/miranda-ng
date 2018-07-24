@@ -273,7 +273,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 
 		case 'G':
 			if (!db_get_ws(hcontact, "CList", "Group", &dbv)) {
-				wcsncpy(szdbsetting, dbv.ptszVal, _countof(szdbsetting));
+				wcsncpy(szdbsetting, dbv.pwszVal, _countof(szdbsetting));
 				db_free(&dbv);
 				charPtr = szdbsetting;
 				goto LBL_charPtr;
@@ -303,7 +303,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			if (db_get_ws(hcontact, "CList", "StatusMsg", &dbv))
 				goto LBL_noData;
 
-			d += mir_snwprintf(d, MAXSIZE - (d - sztemp), L"%s", dbv.ptszVal);
+			d += mir_snwprintf(d, MAXSIZE - (d - sztemp), L"%s", dbv.pwszVal);
 			db_free(&dbv);
 			break;
 
@@ -486,13 +486,13 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	ppd.lchIcon = Skin_LoadProtoIcon(lpzProto, newStatus);
 
 	if (!db_get_ws(NULL, S_MOD, "PopupStamp", &dbv)) {
-		wcsncpy(ppd.lptzContactName, ParseString(dbv.ptszVal, hcontact), MAX_CONTACTNAME);
+		wcsncpy(ppd.lptzContactName, ParseString(dbv.pwszVal, hcontact), MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
 	else wcsncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact), MAX_CONTACTNAME);
 
 	if (!db_get_ws(NULL, S_MOD, "PopupStampText", &dbv)) {
-		wcsncpy(ppd.lptzText, ParseString(dbv.ptszVal, hcontact), MAX_SECONDLINE);
+		wcsncpy(ppd.lptzText, ParseString(dbv.pwszVal, hcontact), MAX_SECONDLINE);
 		db_free(&dbv);
 	}
 	else wcsncpy(ppd.lptzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact), MAX_SECONDLINE);

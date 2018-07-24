@@ -450,7 +450,7 @@ tstring CAppletManager::GetContactGroup(MCONTACT hContact)
 
 	tstring strGroup = L"";
 	if (!res)
-		strGroup = dbv.ptszVal;
+		strGroup = dbv.pwszVal;
 
 	db_free(&dbv);
 	return strGroup;
@@ -1448,7 +1448,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 			DBVARIANT dbv;
 			if (db_get_ws(Event.hContact, szProto, "Nick", &dbv))
 				return 0;
-			CAppletManager::GetInstance()->CreateIRCHistory(Event.hContact, dbv.ptszVal);
+			CAppletManager::GetInstance()->CreateIRCHistory(Event.hContact, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else
@@ -1656,7 +1656,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 			char *szProto = GetContactProto(Event.hContact);
 			if (db_get_ws(Event.hContact, szProto, "Nick", &dbv))
 				return 0;
-			Event.strValue = dbv.ptszVal;
+			Event.strValue = dbv.pwszVal;
 			db_free(&dbv);
 		}
 	}
@@ -1670,7 +1670,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 			DBVARIANT dbv;
 			int res = db_get_ws(hContact, "CList", "Group", &dbv);
 			if (!res)
-				Event.strValue = dbv.ptszVal;
+				Event.strValue = dbv.pwszVal;
 			db_free(&dbv);
 		}
 		else return 0;

@@ -278,7 +278,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 			CMStringW ProtoName = it->GetName();
 			DBVARIANT dbv;
 			if (db_get_ws(NULL, _T2A(ProtoName.GetBuffer()), "AM_BaseProto", &dbv) == 0) {
-				ProtoName = dbv.ptszVal;
+				ProtoName = dbv.pwszVal;
 				db_free(&dbv);
 			}
 			else

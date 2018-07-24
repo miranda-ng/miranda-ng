@@ -250,7 +250,7 @@ void CIrcProto::OnModulesLoaded()
 			if (!getWString(*it, &dbv)) {
 				db_unset(NULL, m_szModuleName, *it);
 				it->MakeUpper();
-				setWString(*it, dbv.ptszVal);
+				setWString(*it, dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}
@@ -302,8 +302,8 @@ MCONTACT CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 		}
 		else {
 			if (!getWString(hContact, "UWildcard", &dbv1)) {
-				S += dbv1.ptszVal;
-				DoUserhostWithReason(2, S, true, dbv1.ptszVal);
+				S += dbv1.pwszVal;
+				DoUserhostWithReason(2, S, true, dbv1.pwszVal);
 				db_free(&dbv1);
 			}
 			else {
@@ -556,7 +556,7 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 			}
 
 			dci->hContact = hContact;
-			dci->sContactName = dbv.ptszVal;
+			dci->sContactName = dbv.pwszVal;
 			dci->iType = DCC_SEND;
 			dci->bReverse = m_DCCPassive ? true : false;
 			dci->bSender = true;
@@ -772,7 +772,7 @@ HANDLE CIrcProto::GetAwayMsg(MCONTACT hContact)
 				return nullptr;
 			}
 			CMStringW S = L"WHOIS ";
-			S += dbv.ptszVal;
+			S += dbv.pwszVal;
 			if (IsConnected())
 				SendIrcMessage(S.c_str(), false);
 			db_free(&dbv);

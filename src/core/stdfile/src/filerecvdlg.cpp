@@ -216,7 +216,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				DBVARIANT dbv;
 				if (db_get_ws(NULL, MODULENAME, idstr, &dbv))
 					break;
-				SendDlgItemMessage(hwndDlg, IDC_FILEDIR, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
+				SendDlgItemMessage(hwndDlg, IDC_FILEDIR, CB_ADDSTRING, 0, (LPARAM)dbv.pwszVal);
 				db_free(&dbv);
 			}
 
@@ -315,7 +315,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						mir_snprintf(idstr, "MruDir%d", i);
 						if (db_get_ws(NULL, MODULENAME, idstr, &dbv)) continue;
 						mir_snprintf(idstr, "MruDir%d", i+1);
-						db_set_ws(NULL, MODULENAME, idstr, dbv.ptszVal);
+						db_set_ws(NULL, MODULENAME, idstr, dbv.pwszVal);
 						db_free(&dbv);
 					}
 					db_set_ws(NULL, MODULENAME, idstr, szRecvDir);

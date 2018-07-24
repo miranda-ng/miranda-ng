@@ -444,11 +444,11 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 	}
 
 	if (lf) {
-		if (db_get(NULL, SRMMMOD, str, &dbv)) {
+		if (db_get_ws(NULL, SRMMMOD, str, &dbv)) {
 			mir_wstrncpy(lf->lfFaceName, fontOptionsList[0].szDefFace, _countof(lf->lfFaceName));
 		}
 		else {
-			mir_wstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
+			mir_wstrncpy(lf->lfFaceName, dbv.pwszVal, _countof(lf->lfFaceName));
 			db_free(&dbv);
 		}
 

@@ -1450,14 +1450,14 @@ panel_found:
 				pContainer->szRelThemeFile[0] = pContainer->szAbsThemeFile[0] = 0;
 				mir_snprintf(szCname, "%s_theme", CONTAINER_PREFIX);
 				if (!db_get_ws(pContainer->hContactFrom, SRMSGMOD_T, szCname, &dbv))
-					szThemeName = dbv.ptszVal;
+					szThemeName = dbv.pwszVal;
 			}
 			else {
 				Utils::ReadPrivateContainerSettings(pContainer);
 				if (szThemeName == nullptr) {
 					mir_snprintf(szCname, "%s%d_theme", CONTAINER_PREFIX, pContainer->iContainerIndex);
 					if (!db_get_ws(0, SRMSGMOD_T, szCname, &dbv))
-						szThemeName = dbv.ptszVal;
+						szThemeName = dbv.pwszVal;
 				}
 			}
 			Utils::SettingsToContainer(pContainer);

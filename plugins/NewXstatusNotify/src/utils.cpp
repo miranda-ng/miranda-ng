@@ -38,7 +38,7 @@ int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSe
 {
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
-		wcsncpy(setting, dbv.ptszVal, size);
+		wcsncpy(setting, dbv.pwszVal, size);
 		db_free(&dbv);
 		return 0;
 	}

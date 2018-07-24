@@ -339,7 +339,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 		DBVARIANT dbv;
 		wchar_t stzSoundFile[MAX_PATH] = { 0 };
 		if (!db_get_ws(hContact, MODULE, name, &dbv)) {
-			wcsncpy(stzSoundFile, dbv.ptszVal, _countof(stzSoundFile) - 1);
+			wcsncpy(stzSoundFile, dbv.pwszVal, _countof(stzSoundFile) - 1);
 			db_free(&dbv);
 		}
 
@@ -710,7 +710,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGREMOVED);
 			}
 			else {
-				str = GetStr(&smi, dbVar.ptszVal);
+				str = GetStr(&smi, dbVar.pwszVal);
 				db_free(&dbVar);
 			}
 		}
@@ -722,7 +722,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGCHANGED);
 			}
 			else {
-				str = GetStr(&smi, dbVar.ptszVal);
+				str = GetStr(&smi, dbVar.pwszVal);
 				db_free(&dbVar);
 			}
 		}

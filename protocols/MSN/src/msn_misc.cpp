@@ -314,11 +314,11 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, wchar_t* pszDest,
 		DBVARIANT dbv = { 0 };
 		if (getWString(hContact, "e-mail", &dbv)) {
 			dbv.type = DBVT_ASCIIZ;
-			dbv.ptszVal = (wchar_t*)mir_alloc(11*sizeof(wchar_t));
-			_ui64tow((UINT_PTR)hContact, dbv.ptszVal, 10);
+			dbv.pwszVal = (wchar_t*)mir_alloc(11*sizeof(wchar_t));
+			_ui64tow((UINT_PTR)hContact, dbv.pwszVal, 10);
 		}
 
-		tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", dbv.ptszVal);
+		tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else {

@@ -705,7 +705,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (db_get_ws(NULL, MODULE, protoname, &dbVar))
 						wcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
 					else {
-						wcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateMsg));
+						wcsncpy(prototemplate->ProtoTemplateMsg, dbVar.pwszVal, _countof(prototemplate->ProtoTemplateMsg));
 						db_free(&dbVar);
 					}
 
@@ -713,7 +713,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (db_get_ws(NULL, MODULE, protoname, &dbVar))
 						wcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
 					else {
-						wcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateRemoved));
+						wcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.pwszVal, _countof(prototemplate->ProtoTemplateRemoved));
 						db_free(&dbVar);
 					}
 

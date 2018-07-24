@@ -547,8 +547,8 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str)
 				}
 				// access the database to get its value
 				if (!db_get_ws(w->hContact, WEATHERCONDITION, name, &dbv)) {
-					if (dbv.ptszVal != TranslateW(NODATA) && dbv.ptszVal != TranslateT("<Error>"))
-						mir_wstrcat(str, dbv.ptszVal);
+					if (dbv.pwszVal != TranslateW(NODATA) && dbv.pwszVal != TranslateT("<Error>"))
+						mir_wstrcat(str, dbv.pwszVal);
 					db_free(&dbv);
 				}
 				break;

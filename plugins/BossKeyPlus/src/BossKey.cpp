@@ -74,15 +74,14 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 	HICON hIcon = nullptr;
 	UINT uid;
 
-	switch (uMsg){
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		g_hDlgPass = hDlg;
 		hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DLGPASSWD));
 		dwOldIcon = SetClassLongPtr(hDlg, GCLP_HICON, (INT_PTR)hIcon); // set alt+tab icon
 		SendDlgItemMessage(hDlg, IDC_EDIT1, EM_LIMITTEXT, MAXPASSLEN, 0);
 
-		if (IsAeroMode())
-		{
+		if (IsAeroMode()) {
 			SetWindowLongPtr(hDlg, GWL_STYLE, GetWindowLongPtr(hDlg, GWL_STYLE) | WS_DLGFRAME | WS_SYSMENU);
 			SetWindowLongPtr(hDlg, GWL_EXSTYLE, GetWindowLongPtr(hDlg, GWL_EXSTYLE) | WS_EX_TOOLWINDOW);
 			RECT rect;
@@ -111,7 +110,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 	case WM_COMMAND:
 		uid = LOWORD(wParam);
-		if (uid == IDOK){
+		if (uid == IDOK) {
 			char password[MAXPASSLEN + 1] = { 0 };
 			int passlen = GetDlgItemTextA(hDlg, IDC_EDIT1, password, _countof(password));
 			if (passlen == 0) {
@@ -148,8 +147,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 static void LanguageChanged(HWND hDlg)
 {
 	HKL LangID = GetKeyboardLayout(0);
-	if (LangID != oldLangID)
-	{
+	if (LangID != oldLangID) {
 		char Lang[3] = { 0 };
 		oldLangID = LangID;
 		GetLocaleInfoA(MAKELCID((LOWORD(LangID) & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
@@ -164,8 +162,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 	DWORD dwWndPID;
 	GetWindowThreadProcessId(hWnd, &dwWndPID);
 
-	if ((g_dwMirandaPID == dwWndPID) && hWnd != g_hDlgPass && IsWindowVisible(hWnd))
-	{
+	if ((g_dwMirandaPID == dwWndPID) && hWnd != g_hDlgPass && IsWindowVisible(hWnd)) {
 		wchar_t szTemp[32];
 		GetClassName(hWnd, szTemp, 32);
 
@@ -176,8 +173,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 		}
 		else if (mir_wstrcmp(szTemp, L"PopupWnd2") == 0 || mir_wstrcmp(szTemp, L"YAPPWinClass") == 0) // destroy opened popups
 			PUDeletePopup(hWnd);
-		else
-		{
+		else {
 			HWND_ITEM *node = new HWND_ITEM;
 			node->hWnd = hWnd;
 			// add to list
@@ -204,8 +200,7 @@ void SetStatus(const char* szProto, unsigned status, wchar_t *tszAwayMsg)
 
 static int ChangeAllProtoStatuses(unsigned statusMode, wchar_t *msg)
 {
-	for (int i = 0; i < protoCount; i++)
-	{
+	for (int i = 0; i < protoCount; i++) {
 		unsigned status = Proto_GetStatus(proto[i]->szModuleName);
 		if (
 			(g_wMask & OPT_ONLINEONLY) ? // check "Change only if current status is Online" option
@@ -213,7 +208,7 @@ static int ChangeAllProtoStatuses(unsigned statusMode, wchar_t *msg)
 			:
 			((status > ID_STATUS_OFFLINE) && (status < ID_STATUS_IDLE) && (status != ID_STATUS_INVISIBLE))) // process all existing statuses except for "invisible" & "offline"
 		{
-			if (g_wMask & OPT_SETONLINEBACK){ // need to save old statuses & status messages
+			if (g_wMask & OPT_SETONLINEBACK) { // need to save old statuses & status messages
 				oldStatus[i] = status;
 				if (ProtoServiceExists(proto[i]->szModuleName, PS_GETMYAWAYMSG))
 					oldStatusMsg[i] = (wchar_t*)CallProtoService(proto[i]->szModuleName, PS_GETMYAWAYMSG, 0, SGMA_UNICODE);
@@ -228,13 +223,10 @@ static int ChangeAllProtoStatuses(unsigned statusMode, wchar_t *msg)
 
 static int BackAllProtoStatuses(void)
 {
-	for (int i = 0; i < protoCount; i++)
-	{
-		if (oldStatus[i])
-		{
+	for (int i = 0; i < protoCount; i++) {
+		if (oldStatus[i]) {
 			SetStatus(proto[i]->szModuleName, oldStatus[i], oldStatusMsg[i]);
-			if (oldStatusMsg[i])
-			{
+			if (oldStatusMsg[i]) {
 				mir_free(oldStatusMsg[i]);
 				oldStatusMsg[i] = nullptr;
 			}
@@ -249,7 +241,7 @@ static void CreateTrayIcon(bool create)
 	NOTIFYICONDATA nim;
 	DBVARIANT dbVar;
 	if (!db_get_ws(NULL, MOD_NAME, "ToolTipText", &dbVar)) {
-		wcsncpy_s(nim.szTip, dbVar.ptszVal, _TRUNCATE);
+		wcsncpy_s(nim.szTip, dbVar.pwszVal, _TRUNCATE);
 		db_free(&dbVar);
 	}
 	else
@@ -285,7 +277,7 @@ static void RestoreOldSettings(void)
 
 LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg){
+	switch (uMsg) {
 	case WM_WTSSESSION_CHANGE:
 		if (wParam == WTS_SESSION_LOCK && g_wMaskAdv & OPT_HIDEIFLOCK && !g_bWindowHidden) // Windows locked
 			PostMessage(hWnd, WM_USER + 40, 0, 0);
@@ -297,132 +289,125 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		return 0;
 
 	case WM_USER + 40: // hide
-	{
-		if (g_bWindowHidden || g_fOptionsOpen) // already hidden or in options, no hiding
-			break;
-
-		DWORD dwWndPID; // remember foreground window
-		HWND hForegroundWnd = GetForegroundWindow();
-		GetWindowThreadProcessId(hForegroundWnd, &dwWndPID);
-		if (g_dwMirandaPID == dwWndPID)
-			hOldForegroundWindow = hForegroundWnd;
-
-		EnumWindows(EnumWindowsProc, 0);
-
-		if (g_wMask & OPT_CHANGESTATUS) // is this even needed?
 		{
-			BYTE bReqMode = db_get_b(NULL, MOD_NAME, "stattype", 2);
-			unsigned uMode = (STATUS_ARR_TO_ID[bReqMode]);
-			DBVARIANT dbVar;
-			if (g_wMask & OPT_USEDEFMSG || db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar))
+			if (g_bWindowHidden || g_fOptionsOpen) // already hidden or in options, no hiding
+				break;
+
+			DWORD dwWndPID; // remember foreground window
+			HWND hForegroundWnd = GetForegroundWindow();
+			GetWindowThreadProcessId(hForegroundWnd, &dwWndPID);
+			if (g_dwMirandaPID == dwWndPID)
+				hOldForegroundWindow = hForegroundWnd;
+
+			EnumWindows(EnumWindowsProc, 0);
+
+			if (g_wMask & OPT_CHANGESTATUS) // is this even needed?
 			{
-				wchar_t *ptszDefMsg = GetDefStatusMsg(uMode, nullptr);
-				ChangeAllProtoStatuses(uMode, ptszDefMsg);
-				mir_free(ptszDefMsg);
-			}
-			else
-			{
-				if (ServiceExists(MS_VARS_FORMATSTRING))
-				{
-					wchar_t *ptszParsed = variables_parse(dbVar.ptszVal, nullptr, 0);
-					ChangeAllProtoStatuses(uMode, ptszParsed);
-					mir_free(ptszParsed);
+				BYTE bReqMode = db_get_b(NULL, MOD_NAME, "stattype", 2);
+				unsigned uMode = (STATUS_ARR_TO_ID[bReqMode]);
+				DBVARIANT dbVar;
+				if (g_wMask & OPT_USEDEFMSG || db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar)) {
+					wchar_t *ptszDefMsg = GetDefStatusMsg(uMode, nullptr);
+					ChangeAllProtoStatuses(uMode, ptszDefMsg);
+					mir_free(ptszDefMsg);
 				}
-				else
-					ChangeAllProtoStatuses(uMode, dbVar.ptszVal);
-				db_free(&dbVar);
+				else {
+					if (ServiceExists(MS_VARS_FORMATSTRING)) {
+						wchar_t *ptszParsed = variables_parse(dbVar.pwszVal, nullptr, 0);
+						ChangeAllProtoStatuses(uMode, ptszParsed);
+						mir_free(ptszParsed);
+					}
+					else ChangeAllProtoStatuses(uMode, dbVar.pwszVal);
+
+					db_free(&dbVar);
+				}
 			}
+
+			Clist_TrayIconDestroy(g_clistApi.hwndContactList);
+
+			if (g_wMask & OPT_TRAYICON)
+				CreateTrayIcon(true);
+
+			// disable popups
+			if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
+				// save current
+				g_bOldSetting |= OLD_POPUP;
+				CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
+			}
+
+			// disable sounds
+			if ((g_wMask & OPT_DISABLESNDS) && db_get_b(NULL, "Skin", "UseSound", 1)) {
+				// save current
+				g_bOldSetting |= OLD_SOUND;
+				db_set_b(NULL, "Skin", "UseSound", 0);
+			}
+
+			g_bWindowHidden = true;
+
+			g_bOldSetting |= OLD_WASHIDDEN;
+			db_set_b(NULL, MOD_NAME, "OldSetting", g_bOldSetting);
 		}
-
-		Clist_TrayIconDestroy(g_clistApi.hwndContactList);
-
-		if (g_wMask & OPT_TRAYICON)
-			CreateTrayIcon(true);
-
-		// disable popups
-		if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1)
-		{
-			// save current
-			g_bOldSetting |= OLD_POPUP;
-			CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
-		}
-
-		// disable sounds
-		if ((g_wMask & OPT_DISABLESNDS) && db_get_b(NULL, "Skin", "UseSound", 1))
-		{
-			// save current
-			g_bOldSetting |= OLD_SOUND;
-			db_set_b(NULL, "Skin", "UseSound", 0);
-		}
-
-		g_bWindowHidden = true;
-
-		g_bOldSetting |= OLD_WASHIDDEN;
-		db_set_b(NULL, MOD_NAME, "OldSetting", g_bOldSetting);
-	}
-	return 0;
+		return 0;
 
 	case WM_USER + 52: // back
-	{
-		if (!g_bWindowHidden || g_fPassRequested)
-			break;
+		{
+			if (!g_bWindowHidden || g_fPassRequested)
+				break;
 
-		if (g_wMask & OPT_REQPASS){  //password request
-			DBVARIANT dbVar;
-			if (!db_get_s(NULL, MOD_NAME, "password", &dbVar)) {
-				g_fPassRequested = true;
+			if (g_wMask & OPT_REQPASS) {  //password request
+				DBVARIANT dbVar;
+				if (!db_get_s(NULL, MOD_NAME, "password", &dbVar)) {
+					g_fPassRequested = true;
 
-				strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
-				db_free(&dbVar);
+					strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
+					db_free(&dbVar);
 
-				int res = DialogBox(g_plugin.getInst(), (MAKEINTRESOURCE(IDD_PASSDIALOGNEW)), GetForegroundWindow(), DlgStdInProc);
+					int res = DialogBox(g_plugin.getInst(), (MAKEINTRESOURCE(IDD_PASSDIALOGNEW)), GetForegroundWindow(), DlgStdInProc);
 
-				g_fPassRequested = false;
-				if (res != IDOK) return 0;
+					g_fPassRequested = false;
+					if (res != IDOK) return 0;
+				}
 			}
+
+			if (g_wMask & OPT_CHANGESTATUS && g_wMask & OPT_SETONLINEBACK) // set back to some status
+				BackAllProtoStatuses();
+
+			HWND_ITEM *pCurWnd = g_pMirWnds;
+			while (pCurWnd != nullptr) {
+				HWND_ITEM *pNextWnd = pCurWnd->next;
+				wchar_t szTemp[32];
+				GetClassName(pCurWnd->hWnd, szTemp, 32);
+
+				if (IsWindow(pCurWnd->hWnd) && mir_wstrcmp(szTemp, L"SysShadow") != 0) // precaution
+					ShowWindow(pCurWnd->hWnd, SW_SHOW);
+
+				delete pCurWnd; // bye-bye
+				pCurWnd = pNextWnd; // traverse to next item
+			}
+			g_pMirWnds = nullptr;
+
+			if (hOldForegroundWindow) {
+				SetForegroundWindow(hOldForegroundWindow);
+				hOldForegroundWindow = nullptr;
+			}
+
+			RestoreOldSettings();
+
+			if (g_TrayIcon) CreateTrayIcon(false);
+
+			g_clistApi.pfnTrayIconInit(g_clistApi.hwndContactList);
+
+			// force a redraw
+			// should prevent drawing problems
+			InvalidateRect(g_clistApi.hwndContactList, nullptr, true);
+			UpdateWindow(g_clistApi.hwndContactList);
+
+			PostMessage(hWnd, WM_MOUSEMOVE, 0, (LPARAM)MAKELONG(2, 2)); // reset core's IDLE
+			g_bWindowHidden = false;
+
+			db_set_b(NULL, MOD_NAME, "OldSetting", 0);
 		}
-
-		if (g_wMask & OPT_CHANGESTATUS && g_wMask & OPT_SETONLINEBACK) // set back to some status
-			BackAllProtoStatuses();
-
-		HWND_ITEM *pCurWnd = g_pMirWnds;
-		while (pCurWnd != nullptr)
-		{
-			HWND_ITEM *pNextWnd = pCurWnd->next;
-			wchar_t szTemp[32];
-			GetClassName(pCurWnd->hWnd, szTemp, 32);
-
-			if (IsWindow(pCurWnd->hWnd) && mir_wstrcmp(szTemp, L"SysShadow") != 0) // precaution
-				ShowWindow(pCurWnd->hWnd, SW_SHOW);
-
-			delete pCurWnd; // bye-bye
-			pCurWnd = pNextWnd; // traverse to next item
-		}
-		g_pMirWnds = nullptr;
-
-		if (hOldForegroundWindow)
-		{
-			SetForegroundWindow(hOldForegroundWindow);
-			hOldForegroundWindow = nullptr;
-		}
-
-		RestoreOldSettings();
-
-		if (g_TrayIcon) CreateTrayIcon(false);
-
-		g_clistApi.pfnTrayIconInit(g_clistApi.hwndContactList);
-
-		// force a redraw
-		// should prevent drawing problems
-		InvalidateRect(g_clistApi.hwndContactList, nullptr, true);
-		UpdateWindow(g_clistApi.hwndContactList);
-
-		PostMessage(hWnd, WM_MOUSEMOVE, 0, (LPARAM)MAKELONG(2, 2)); // reset core's IDLE
-		g_bWindowHidden = false;
-
-		db_set_b(NULL, MOD_NAME, "OldSetting", 0);
-	}
-	return 0;
+		return 0;
 	}
 	return(DefWindowProc(hWnd, uMsg, wParam, lParam));
 }
@@ -436,8 +421,7 @@ static int MsgWinOpening(WPARAM, LPARAM) // hiding new message windows
 
 VOID CALLBACK WinEventProc(HWINEVENTHOOK, DWORD event, HWND hwnd, LONG idObject, LONG, DWORD, DWORD)
 {
-	if (g_bWindowHidden && idObject == OBJID_WINDOW && (event == EVENT_OBJECT_CREATE || event == EVENT_OBJECT_SHOW) && (IsWindowVisible(hwnd)))
-	{
+	if (g_bWindowHidden && idObject == OBJID_WINDOW && (event == EVENT_OBJECT_CREATE || event == EVENT_OBJECT_SHOW) && (IsWindowVisible(hwnd))) {
 		if (hwnd == g_clistApi.hwndContactList)
 			ShowWindow(hwnd, SW_HIDE);
 		else
@@ -456,8 +440,7 @@ static wchar_t *HokeyVkToName(WORD vkKey)
 	static wchar_t buf[32] = { 0 };
 	DWORD code = MapVirtualKey(vkKey, 0) << 16;
 
-	switch (vkKey)
-	{
+	switch (vkKey) {
 	case 0:
 	case VK_CONTROL:
 	case VK_SHIFT:
@@ -607,8 +590,7 @@ static int EnumProtos(WPARAM, LPARAM)
 
 	oldStatus = new unsigned[protoCount];
 	oldStatusMsg = new wchar_t*[protoCount];
-	for (int i = 0; i < protoCount; i++)
-	{
+	for (int i = 0; i < protoCount; i++) {
 		oldStatus[i] = 0;
 		oldStatusMsg[i] = nullptr;
 	}
@@ -639,14 +621,12 @@ static int MirandaLoaded(WPARAM, LPARAM)
 	winclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	winclass.lpszClassName = BOSSKEY_LISTEN_INFO;
 
-	if (RegisterClass(&winclass))
-	{
+	if (RegisterClass(&winclass)) {
 		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO, BOSSKEY_LISTEN_INFO, WS_POPUP, 0, 0, 5, 5, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 		WTSRegisterSessionNotification(g_hListenWindow, 0);
 	}
 
-	if (IsWinVerVistaPlus())
-	{
+	if (IsWinVerVistaPlus()) {
 		hDwmApi = LoadLibrary(L"dwmapi.dll");
 		if (hDwmApi)
 			dwmIsCompositionEnabled = (PFNDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
@@ -655,8 +635,7 @@ static int MirandaLoaded(WPARAM, LPARAM)
 		BossKeyMenuItemInit();
 
 	// Register token for variables plugin
-	if (ServiceExists(MS_VARS_REGISTERTOKEN))
-	{
+	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {
 		TOKENREGISTER tr = { 0 };
 		tr.cbSize = sizeof(TOKENREGISTER);
 		tr.memType = TR_MEM_OWNER;
@@ -713,8 +692,7 @@ int CMPlugin::Unload()
 	if (g_hWinHook != nullptr)
 		UnhookWinEvent(g_hWinHook);
 
-	if (g_hListenWindow)
-	{
+	if (g_hListenWindow) {
 		WTSUnRegisterSessionNotification(g_hListenWindow);
 		DestroyWindow(g_hListenWindow);
 	}
@@ -724,8 +702,7 @@ int CMPlugin::Unload()
 
 	// free all sessions
 	HWND_ITEM *pTemp = g_pMirWnds;
-	while (pTemp != nullptr)
-	{
+	while (pTemp != nullptr) {
 		HWND_ITEM *pNext = pTemp->next;
 		delete pTemp;
 		pTemp = pNext;

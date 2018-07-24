@@ -116,7 +116,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	if( ((HANDLE)wParam) != nullptr) {
 		DBVARIANT dbv;
 		db_get_ws(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
-		mir_wstrncpy(ppd.lptzContactName, dbv.ptszVal, _countof(ppd.lptzContactName));
+		mir_wstrncpy(ppd.lptzContactName, dbv.pwszVal, _countof(ppd.lptzContactName));
 		db_free(&dbv);
 	}
 	else mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));

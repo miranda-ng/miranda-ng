@@ -40,7 +40,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		DBVARIANT dbv;
 		if (!proto->getWString(TWITTER_KEY_GROUP, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_GROUP, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_GROUP, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hwndDlg, IDC_GROUP, L"Twitter");

@@ -156,7 +156,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 
 	DBVARIANT dbv;
 	if (!db_get_ws(NULL, MODULENAME, "message_format", &dbv)) {
-		mir_wstrcpy(buf, dbv.ptszVal);
+		mir_wstrcpy(buf, dbv.pwszVal);
 		db_free(&dbv);
 	}
 

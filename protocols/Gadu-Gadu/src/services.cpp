@@ -192,9 +192,9 @@ INT_PTR GaduProto::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	//directly check if contact has protected user avatar set by AVS, and if yes return it as protocol avatar
 	DBVARIANT dbv;
 	if (!db_get_ws(pai->hContact, "ContactPhoto", "Backup", &dbv)) {
-		if ((mir_wstrlen(dbv.ptszVal)>0) && db_get_b(pai->hContact, "ContactPhoto", "Locked", 0)) {
+		if ((mir_wstrlen(dbv.pwszVal)>0) && db_get_b(pai->hContact, "ContactPhoto", "Locked", 0)) {
 			debugLogA("getavatarinfo(): Incoming request for avatar information. Contact has assigned Locked ContactPhoto. return GAIR_SUCCESS");
-			wcscpy_s(pai->filename, _countof(pai->filename), dbv.ptszVal);
+			wcscpy_s(pai->filename, _countof(pai->filename), dbv.pwszVal);
 			pai->format = ProtoGetAvatarFormat(pai->filename);
 			db_free(&dbv);
 			return GAIR_SUCCESS;

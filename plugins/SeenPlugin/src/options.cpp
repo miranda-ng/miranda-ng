@@ -116,13 +116,13 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		}
 
 		if (!db_get_ws(NULL, S_MOD, "PopupStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_POPUPSTAMP, dbv.ptszVal);
+			SetDlgItemText(hdlg, IDC_POPUPSTAMP, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_POPUPSTAMP, DEFAULT_POPUPSTAMP);
 
 		if (!db_get_ws(NULL, S_MOD, "PopupStampText", &dbv)) {
-			SetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, dbv.ptszVal);
+			SetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, DEFAULT_POPUPSTAMPTEXT);
@@ -247,31 +247,31 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 		EnableWindow(GetDlgItem(hdlg, IDC_COUNT), IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
 
 		if (!db_get_ws(NULL, S_MOD, "MenuStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_MENUSTAMP, dbv.ptszVal);
+			SetDlgItemText(hdlg, IDC_MENUSTAMP, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_MENUSTAMP, DEFAULT_MENUSTAMP);
 
 		if (!db_get_ws(NULL, S_MOD, "UserStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_USERSTAMP, dbv.ptszVal);
+			SetDlgItemText(hdlg, IDC_USERSTAMP, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_USERSTAMP, DEFAULT_USERSTAMP);
 
 		if (!db_get_ws(NULL, S_MOD, "FileStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_FILESTAMP, dbv.ptszVal);
+			SetDlgItemText(hdlg, IDC_FILESTAMP, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_FILESTAMP, DEFAULT_FILESTAMP);
 
 		if (!db_get_ws(NULL, S_MOD, "FileName", &dbv)) {
-			SetDlgItemText(hdlg, IDC_FILENAME, dbv.ptszVal);
+			SetDlgItemText(hdlg, IDC_FILENAME, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_FILENAME, DEFAULT_FILENAME);
 
 		if (!db_get_ws(NULL, S_MOD, "HistoryStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_HISTORYSTAMP, dbv.ptszVal);
+			SetDlgItemText(hdlg, IDC_HISTORYSTAMP, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_HISTORYSTAMP, DEFAULT_HISTORYSTAMP);

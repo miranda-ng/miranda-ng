@@ -47,12 +47,12 @@ SmileyPackType* GetSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCT
 			if (protonam != nullptr) {
 				DBVARIANT dbv;
 				if (db_get_ws(hContact, protonam, "Transport", &dbv) == 0) {
-					categoryName = dbv.ptszVal;
+					categoryName = dbv.pwszVal;
 					db_free(&dbv);
 				}
 				else if (opt.UsePhysProto && db_get_ws(NULL, protonam, "AM_BaseProto", &dbv) == 0) {
 					categoryName = L"AllProto";
-					categoryName += dbv.ptszVal;
+					categoryName += dbv.pwszVal;
 					db_free(&dbv);
 					CMStringW categoryFileName = g_SmileyCategories.GetSmileyCategory(categoryName) ? g_SmileyCategories.GetSmileyCategory(categoryName)->GetFilename() : L"";
 					if (categoryFileName.IsEmpty())

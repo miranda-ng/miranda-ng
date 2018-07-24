@@ -49,13 +49,13 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 			result = ace->szFilename;
 	}
 	if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
-		if (mir_wstrlen(dbv.ptszVal) > 0) {
-			//wchar_t *ext = wcsrchr(dbv.ptszVal, '.');
+		if (mir_wstrlen(dbv.pwszVal) > 0) {
+			//wchar_t *ext = wcsrchr(dbv.pwszVal, '.');
 			if (result == nullptr) {
 				/* relative -> absolute */
-				wcsncpy_s(tmpPath, dbv.ptszVal, _TRUNCATE);
+				wcsncpy_s(tmpPath, dbv.pwszVal, _TRUNCATE);
 				if (wcsncmp(tmpPath, L"http://", 7))
-					PathToAbsoluteW(dbv.ptszVal, tmpPath);
+					PathToAbsoluteW(dbv.pwszVal, tmpPath);
 				result = tmpPath;
 			}
 		}
@@ -168,7 +168,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	if (szAvatarOut == nullptr)
 		szAvatarOut = mir_strdup(szNoAvatar);
 
-	if (!db_get(event->hContact, "CList", "StatusMsg", &dbv)) {
+	if (!db_get_s(event->hContact, "CList", "StatusMsg", &dbv)) {
 		if (mir_strlen(dbv.pszVal) > 0)
 			szStatusMsg = mir_utf8encode(dbv.pszVal);
 		db_free(&dbv);
@@ -341,7 +341,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szAvatarOut = mir_strdup(szNoAvatar);
 
 	if (event->hContact != NULL) {
-		if (!db_get(event->hContact, "CList", "StatusMsg", &dbv)) {
+		if (!db_get_s(event->hContact, "CList", "StatusMsg", &dbv)) {
 			if (mir_strlen(dbv.pszVal) > 0)
 				szStatusMsg = mir_utf8encode(dbv.pszVal);
 			db_free(&dbv);

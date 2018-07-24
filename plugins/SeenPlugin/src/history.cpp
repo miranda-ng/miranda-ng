@@ -53,7 +53,7 @@ void HistoryWrite(MCONTACT hContact)
 	wchar_t *ptszString;
 	DBVARIANT dbv;
 	if (!db_get_ws(NULL, S_MOD, "HistoryStamp", &dbv)) {
-		ptszString = ParseString(dbv.ptszVal, hContact);
+		ptszString = ParseString(dbv.pwszVal, hContact);
 		db_free(&dbv);
 	}
 	else ptszString = ParseString(DEFAULT_HISTORYSTAMP, hContact);
@@ -89,7 +89,7 @@ void LoadHistoryList(MCONTACT hContact, HWND hwnd, int nList)
 
 		DBVARIANT dbv;
 		if (!db_get_ws(hContact, S_MOD, BuildSetting(i), &dbv)) {
-			SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
+			SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)L"");

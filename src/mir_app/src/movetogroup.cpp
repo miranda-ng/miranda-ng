@@ -108,10 +108,10 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		if (db_get_ws(0, "CListGroups", intname, &dbv))
 			break;
 
-		if (dbv.ptszVal[0])
-			groups.insert(new GroupItemSort(dbv.ptszVal + 1, i + 1));
+		if (dbv.pwszVal[0])
+			groups.insert(new GroupItemSort(dbv.pwszVal + 1, i + 1));
 
-		mir_free(dbv.ptszVal);
+		mir_free(dbv.pwszVal);
 	}
 
 	for (auto &p : groups) {

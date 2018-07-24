@@ -63,7 +63,7 @@ static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szPro
 			if (!dbv.pszVal[0]) break;
 		case DBVT_WCHAR:
 			if (!dbv.pwszVal[0]) break;
-			return dbv.ptszVal;
+			return dbv.pwszVal;
 		}
 		db_free(&dbv);
 	}
@@ -143,7 +143,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 	case CNF_COUNTRY:
 	case CNF_COCOUNTRY:
 		if (!GetDatabaseString(hContact, szProto, type == CNF_COUNTRY ? "CountryName" : "CompanyCountryName", &dbv))
-			return dbv.ptszVal;
+			return dbv.pwszVal;
 
 		if (!db_get(hContact, szProto, type == CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv)) {
 			if (dbv.type == DBVT_WORD) {
@@ -237,7 +237,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 							_ltow(value, buf, 10);
 							return mir_wstrdup(buf);
 						}
-						return dbv.ptszVal;
+						return dbv.pwszVal;
 					}
 				}
 				break;

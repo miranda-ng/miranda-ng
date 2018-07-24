@@ -37,7 +37,7 @@ extern int IsTrayProto(const wchar_t *swzProto, BOOL bExtendedTip)
 	DBVARIANT dbv;
 	int result = 1;
 	if (!db_get_ws(NULL, MODULENAME, szSetting, &dbv)) {
-		result = wcsstr(dbv.ptszVal, swzProto) ? 1 : 0;
+		result = wcsstr(dbv.pwszVal, swzProto) ? 1 : 0;
 		db_free(&dbv);
 	}
 
@@ -100,7 +100,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	if (db_get_ws(0, MODULE_ITEMS, setting, &dbv))
 		return false;
 
-	wcsncpy(ds->swzName, dbv.ptszVal, _countof(ds->swzName));
+	wcsncpy(ds->swzName, dbv.pwszVal, _countof(ds->swzName));
 	ds->swzName[_countof(ds->swzName) - 1] = 0;
 	db_free(&dbv);
 
@@ -109,7 +109,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 
 	mir_snprintf(setting, "Module%d", index);
 	ds->szModuleName[0] = 0;
-	if (!db_get(0, MODULE_ITEMS, setting, &dbv)) {
+	if (!db_get_s(0, MODULE_ITEMS, setting, &dbv)) {
 		strncpy(ds->szModuleName, dbv.pszVal, MODULE_NAME_LEN);
 		ds->szModuleName[MODULE_NAME_LEN - 1] = 0;
 		db_free(&dbv);
@@ -117,7 +117,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 
 	mir_snprintf(setting, "Setting%d", index);
 	ds->szSettingName[0] = 0;
-	if (!db_get(0, MODULE_ITEMS, setting, &dbv)) {
+	if (!db_get_s(0, MODULE_ITEMS, setting, &dbv)) {
 		strncpy(ds->szSettingName, dbv.pszVal, SETTING_NAME_LEN);
 		ds->szSettingName[SETTING_NAME_LEN - 1] = 0;
 		db_free(&dbv);
@@ -161,14 +161,14 @@ bool LoadDI(DISPLAYITEM *di, int index)
 	if (db_get_ws(0, MODULE_ITEMS, setting, &dbv))
 		return false;
 
-	wcsncpy(di->swzLabel, dbv.ptszVal, _countof(di->swzLabel));
+	wcsncpy(di->swzLabel, dbv.pwszVal, _countof(di->swzLabel));
 	di->swzLabel[_countof(di->swzLabel) - 1] = 0;
 	db_free(&dbv);
 
 	mir_snprintf(setting, "DIValue%d", index);
 	di->swzValue[0] = 0;
 	if (!db_get_ws(0, MODULE_ITEMS, setting, &dbv)) {
-		wcsncpy(di->swzValue, dbv.ptszVal, _countof(di->swzValue));
+		wcsncpy(di->swzValue, dbv.pwszVal, _countof(di->swzValue));
 		di->swzValue[_countof(di->swzValue) - 1] = 0;
 		db_free(&dbv);
 	}
@@ -308,7 +308,7 @@ void LoadObsoleteSkinSetting()
 		opt.transfMode[i] = (TransformationMode)db_get_b(0, MODULENAME, setting, 0);
 		mir_snprintf(setting, "SImgFile%d", i);
 		if (!db_get_ws(NULL, MODULENAME, setting, &dbv)) {
-			opt.szImgFile[i] = mir_wstrdup(dbv.ptszVal);
+			opt.szImgFile[i] = mir_wstrdup(dbv.pwszVal);
 			db_free(&dbv);
 		}
 
@@ -514,7 +514,7 @@ void LoadOptions()
 	}
 	else if (opt.skinMode == SM_IMAGE) {
 		if (!db_get_ws(NULL, MODULENAME, "SkinName", &dbv)) {
-			wcsncpy(opt.szSkinName, dbv.ptszVal, _countof(opt.szSkinName) - 1);
+			wcsncpy(opt.szSkinName, dbv.pwszVal, _countof(opt.szSkinName) - 1);
 			db_free(&dbv);
 		}
 	}

@@ -751,7 +751,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 		{
 			DBVARIANT dbv;
 			if (!db_get_ws(0, "CList", "ThirdLineText", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}

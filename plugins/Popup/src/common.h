@@ -70,7 +70,7 @@ inline INT_PTR DBGetContactSettingStringX(MCONTACT hContact, const char *ModuleN
 		break;
 	case DBVT_WCHAR:
 		if (!result)
-			ret = (INT_PTR)mir_wstrdup(dbv.ptszVal);
+			ret = (INT_PTR)mir_wstrdup(dbv.pwszVal);
 		else
 			ret = (INT_PTR)mir_a2u(Default);
 		break;

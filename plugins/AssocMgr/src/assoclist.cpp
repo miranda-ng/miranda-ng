@@ -133,9 +133,8 @@ void CleanupMimeTypeAddedSettings(void)
 			
 			if (p == nullptr) { // mime type not in current list
 				DBVARIANT dbv;
-				if (!db_get(NULL, MODULENAME, ppszSettings[i], &dbv)) {
-					if (dbv.type == DBVT_ASCIIZ)
-						RemoveRegMimeType(pszSuffix, dbv.pszVal);
+				if (!db_get_s(NULL, MODULENAME, ppszSettings[i], &dbv)) {
+					RemoveRegMimeType(pszSuffix, dbv.pszVal);
 					db_free(&dbv);
 				}
 				db_unset(NULL, MODULENAME, ppszSettings[i]);

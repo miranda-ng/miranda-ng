@@ -215,8 +215,8 @@ bool CNickDlg::OnInitDialog()
 	DBVARIANT dbv;
 	if (!m_proto->getWString("RecentNicks", &dbv)) {
 		for (int i = 0; i < 10; i++)
-			if (!GetWord(dbv.ptszVal, i).IsEmpty())
-				SendDlgItemMessage(m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)GetWord(dbv.ptszVal, i).c_str());
+			if (!GetWord(dbv.pwszVal, i).IsEmpty())
+				SendDlgItemMessage(m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)GetWord(dbv.pwszVal, i).c_str());
 
 		db_free(&dbv);
 	}
@@ -239,7 +239,7 @@ void CNickDlg::OnOk(CCtrlButton*)
 	DBVARIANT dbv;
 	if (!m_proto->getWString("RecentNicks", &dbv)) {
 		for (int i = 0; i < 10; i++) {
-			CMStringW s = GetWord(dbv.ptszVal, i);
+			CMStringW s = GetWord(dbv.pwszVal, i);
 			if (!s.IsEmpty() && s != szTemp)
 				S += L" " + s;
 		}
@@ -509,8 +509,8 @@ bool CJoinDlg::OnInitDialog()
 	DBVARIANT dbv;
 	if (!m_proto->getWString("RecentChannels", &dbv)) {
 		for (int i = 0; i < 20; i++) {
-			if (!GetWord(dbv.ptszVal, i).IsEmpty()) {
-				CMStringW S = GetWord(dbv.ptszVal, i);
+			if (!GetWord(dbv.pwszVal, i).IsEmpty()) {
+				CMStringW S = GetWord(dbv.pwszVal, i);
 				S.Replace(L"%newl", L" ");
 				SendDlgItemMessage(m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)S.c_str());
 			}
@@ -542,7 +542,7 @@ void CJoinDlg::OnOk(CCtrlButton*)
 	DBVARIANT dbv;
 	if (!m_proto->getWString("RecentChannels", &dbv)) {
 		for (int i = 0; i < 20; i++) {
-			CMStringW W = GetWord(dbv.ptszVal, i);
+			CMStringW W = GetWord(dbv.pwszVal, i);
 			if (!W.IsEmpty() && W != SL)
 				S += L" " + W;
 		}
@@ -1292,7 +1292,7 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 			DBVARIANT dbv;
 			if (!m_proto->getWString(p, &dbv)) {
 				for (int i = 0; i < 5; i++) {
-					CMStringW S = GetWord(dbv.ptszVal, i);
+					CMStringW S = GetWord(dbv.pwszVal, i);
 					if (!S.IsEmpty()) {
 						/* FIXME: What the hell does it mean!? GCC won't compile this on UNICODE */
 #if !defined(__GNUC__) || !defined(UNICODE)

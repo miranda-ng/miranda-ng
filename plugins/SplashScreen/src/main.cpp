@@ -78,14 +78,14 @@ void SplashMain()
 	if (bstartup & (options.active == 1)) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(NULL, MODULENAME, "VersionPrefix", &dbv)) {
-			mir_wstrcpy(szPrefix, dbv.ptszVal);
+			mir_wstrcpy(szPrefix, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else
 			mir_wstrcpy(szPrefix, L"");
 
 		if (!db_get_ws(NULL, MODULENAME, "Path", &dbv)) {
-			mir_wstrcpy(inBuf, dbv.ptszVal);
+			mir_wstrcpy(inBuf, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else mir_wstrcpy(inBuf, L"splash\\splash.png");
@@ -102,7 +102,7 @@ void SplashMain()
 			mir_wstrcpy(szSplashFile, inBuf);
 
 		if (!db_get_ws(NULL, MODULENAME, "Sound", &dbv)) {
-			mir_wstrcpy(inBuf, dbv.ptszVal);
+			mir_wstrcpy(inBuf, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else mir_wstrcpy(inBuf, L"sounds\\startup.wav");

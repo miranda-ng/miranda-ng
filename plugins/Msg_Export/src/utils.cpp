@@ -224,17 +224,12 @@ tstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSet
 {
 	tstring ret;
 	DBVARIANT dbv = { 0 };
-	//db_get
 	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
-		if (dbv.type != DBVT_WCHAR) {
-			MessageBox(nullptr, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
-			ret = pszError;
-		}
-		else ret = (wchar_t*)dbv.pszVal;
+		ret = (wchar_t*)dbv.pszVal;
+		db_free(&dbv);
 	}
 	else ret = pszError;
 	
-	db_free(&dbv);
 	return ret;
 }
 
@@ -242,16 +237,12 @@ string _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSett
 {
 	string ret;
 	DBVARIANT dbv = { 0 };
-	if (!db_get(hContact, szModule, szSetting, &dbv)) {
-		if (dbv.type != DBVT_ASCIIZ) {
-			MessageBox(nullptr, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
-			ret = pszError;
-		}
-		else ret = dbv.pszVal;
+	if (!db_get_s(hContact, szModule, szSetting, &dbv)) {
+		ret = dbv.pszVal;
+		db_free(&dbv);
 	}
 	else ret = pszError;
 	
-	db_free(&dbv);
 	return ret;
 }
 

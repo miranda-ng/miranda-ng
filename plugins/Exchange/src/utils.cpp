@@ -115,11 +115,11 @@ int GetStringFromDatabase(char *szSettingName, wchar_t *szError, wchar_t *szResu
 	dbv.type = DBVT_ASCIIZ;
 	if (db_get_ws(NULL, MODULENAME, szSettingName, &dbv) == 0) {
 		res = 0;
-		size_t tmp = mir_wstrlen(dbv.ptszVal);
+		size_t tmp = mir_wstrlen(dbv.pwszVal);
 		size_t len = (tmp < size - 1) ? tmp : size - 1;
-		wcsncpy(szResult, dbv.ptszVal, len);
+		wcsncpy(szResult, dbv.pwszVal, len);
 		szResult[len] = '\0';
-		mir_free(dbv.ptszVal);
+		mir_free(dbv.pwszVal);
 	}
 	else {
 		res = 1;

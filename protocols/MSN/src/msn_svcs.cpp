@@ -253,7 +253,7 @@ void CMsnProto::OnContactDeleted(MCONTACT hContact)
 	if (isChatRoom(hContact)) {
 		DBVARIANT dbv;
 		if (!getWString(hContact, "ChatRoomID", &dbv)) {
-			MSN_KillChatSession(dbv.ptszVal);
+			MSN_KillChatSession(dbv.pwszVal);
 			db_free(&dbv);
 		}
 	}
@@ -429,7 +429,7 @@ INT_PTR CMsnProto::OnLeaveChat(WPARAM hContact, LPARAM)
 	if (isChatRoom(hContact) != 0) {
 		DBVARIANT dbv;
 		if (getWString(hContact, "ChatRoomID", &dbv) == 0) {
-			MSN_KillChatSession(dbv.ptszVal);
+			MSN_KillChatSession(dbv.pwszVal);
 			db_free(&dbv);
 		}
 	}

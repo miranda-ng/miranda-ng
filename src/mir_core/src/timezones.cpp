@@ -241,7 +241,7 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule
 
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, szModule, "TzName", &dbv)) {
-		HANDLE res = TimeZone_CreateByName(dbv.ptszVal, dwFlags);
+		HANDLE res = TimeZone_CreateByName(dbv.pwszVal, dwFlags);
 		db_free(&dbv);
 		if (res) return res;
 	}
@@ -250,7 +250,7 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule
 	if (timezone == -1) {
 		char *szProto = GetContactProto(hContact);
 		if (!db_get_ws(hContact, szProto, "TzName", &dbv)) {
-			HANDLE res = TimeZone_CreateByName(dbv.ptszVal, dwFlags);
+			HANDLE res = TimeZone_CreateByName(dbv.pwszVal, dwFlags);
 			db_free(&dbv);
 			if (res) return res;
 		}

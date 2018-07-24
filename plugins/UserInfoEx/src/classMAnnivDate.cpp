@@ -637,7 +637,7 @@ int MAnnivDate::DBGetAnniversaryDate(MCONTACT hContact, WORD iIndex)
 		mir_snprintf(szStamp, "Anniv%dDesc", iIndex);
 		DBVARIANT dbv;
 		if (!DB::Setting::GetTString(hContact, USERINFO, szStamp, &dbv)) {
-			_strDesc = dbv.ptszVal;
+			_strDesc = dbv.pwszVal;
 			db_free(&dbv);
 		}
 	}

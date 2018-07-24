@@ -70,8 +70,8 @@ void GaduProto::disconnect()
 				szMsg = mir_utf8encodeW(modemsg.online);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 6, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_ONLINE, "Default"), &dbv, DBVT_WCHAR)) {
-					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeW(dbv.ptszVal);
+					if (dbv.pwszVal && *(dbv.pwszVal))
+						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
 				}
 				break;
@@ -81,8 +81,8 @@ void GaduProto::disconnect()
 				szMsg = mir_utf8encodeW(modemsg.away);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 7, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_AWAY, "Default"), &dbv, DBVT_WCHAR)) {
-					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeW(dbv.ptszVal);
+					if (dbv.pwszVal && *(dbv.pwszVal))
+						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
 				}
 				break;
@@ -92,8 +92,8 @@ void GaduProto::disconnect()
 				szMsg = mir_utf8encodeW(modemsg.dnd);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 8, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_DND, "Default"), &dbv, DBVT_WCHAR)) {
-					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeW(dbv.ptszVal);
+					if (dbv.pwszVal && *(dbv.pwszVal))
+						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
 				}
 				break;
@@ -103,8 +103,8 @@ void GaduProto::disconnect()
 				szMsg = mir_utf8encodeW(modemsg.freechat);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 9, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_FREECHAT, "Default"), &dbv, DBVT_WCHAR)) {
-					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeW(dbv.ptszVal);
+					if (dbv.pwszVal && *(dbv.pwszVal))
+						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
 				}
 				break;
@@ -114,8 +114,8 @@ void GaduProto::disconnect()
 				szMsg = mir_utf8encodeW(modemsg.invisible);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 10, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_INVISIBLE, "Default"), &dbv, DBVT_WCHAR)) {
-					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeW(dbv.ptszVal);
+					if (dbv.pwszVal && *(dbv.pwszVal))
+						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
 				}
 				break;
@@ -881,7 +881,7 @@ retry:
 					gce.ptszText = messageT;
 					wchar_t* nickT;
 					if (!getWString(GG_KEY_NICK, &dbv)) {
-						nickT = mir_wstrdup(dbv.ptszVal);
+						nickT = mir_wstrdup(dbv.pwszVal);
 						db_free(&dbv);
 					}
 					else
@@ -1318,12 +1318,12 @@ int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 		{
 			// Most important... check redundancy (fucking cascading)
 			static int cascade = 0;
-			if (!cascade && dbv.ptszVal)
+			if (!cascade && dbv.pwszVal)
 			{
 				debugLogA("dbsettingchanged(): Conference %s was renamed.", dbv.pszVal);
 				// Mark cascading
 				/* FIXME */ cascade = 1;
-				Chat_ChangeSessionName(m_szModuleName, dbv.ptszVal, ptszVal);
+				Chat_ChangeSessionName(m_szModuleName, dbv.pwszVal, ptszVal);
 				/* FIXME */ cascade = 0;
 			}
 			db_free(&dbv);

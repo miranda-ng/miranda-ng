@@ -186,7 +186,7 @@ static void Dbwcs2tstr(DBCONTACTWRITESETTING *cws, wchar_t* &pStr)
 		break;
 
 	case DBVT_WCHAR:
-		pStr = mir_wstrdup(cws->value.ptszVal);
+		pStr = mir_wstrdup(cws->value.pwszVal);
 		break;
 	}
 }

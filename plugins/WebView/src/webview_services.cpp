@@ -347,7 +347,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 		// check ID to see if the contact already exist in the database
 		if (db_get_ws(hContact, MODULENAME, "URL", &dbv))
 			continue;
-		if (!mir_wstrcmpi(psr->nick.w, dbv.ptszVal)) {
+		if (!mir_wstrcmpi(psr->nick.w, dbv.pwszVal)) {
 			// remove the flag for not on list and hidden, thus make the
 			// contact visible
 			// and add them on the list
@@ -398,7 +398,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 
 	for (auto &hContact2 : Contacts(MODULENAME)) {
 		if (!db_get_ws(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-			if (!mir_wstrcmpi(Newnick, dbv.ptszVal)) {
+			if (!mir_wstrcmpi(Newnick, dbv.pwszVal)) {
 				// remove the flag for not on list and hidden, thus make the
 				// contact visible
 				// and add them on the list

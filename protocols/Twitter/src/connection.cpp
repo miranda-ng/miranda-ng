@@ -177,7 +177,7 @@ bool TwitterProto::NegotiateConnection()
 	}
 
 	if (!getWString(TWITTER_KEY_GROUP, &dbv)) {
-		Clist_GroupCreate(0, dbv.ptszVal);
+		Clist_GroupCreate(0, dbv.pwszVal);
 		db_free(&dbv);
 	}
 
@@ -401,7 +401,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 		return;
 
 	std::string ext = data->url.substr(data->url.rfind('.')); // finds the filetype of the avatar
-	std::wstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (wchar_t*)_A2T(ext.c_str()); // local filename and path
+	std::wstring filename = GetAvatarFolder() + L'\\' + dbv.pwszVal + (wchar_t*)_A2T(ext.c_str()); // local filename and path
 	db_free(&dbv);
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
@@ -537,7 +537,7 @@ void TwitterProto::ShowContactPopup(MCONTACT hContact, const std::string &text, 
 
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, "CList", "MyHandle", &dbv) || !getWString(hContact, TWITTER_KEY_UN, &dbv)) {
-		wcsncpy(popup.lptzContactName, dbv.ptszVal, MAX_CONTACTNAME);
+		wcsncpy(popup.lptzContactName, dbv.pwszVal, MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
 

@@ -65,25 +65,25 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (!bAdvanced) {
 				SetDlgItemText(m_hwnd, IDC_DEFAULT, TranslateW(STR_BASIC));
 				if (!p->ppro->getWString(p->hContact, "Default", &dbv)) {
-					SetDlgItemText(m_hwnd, IDC_WILDCARD, dbv.ptszVal);
+					SetDlgItemText(m_hwnd, IDC_WILDCARD, dbv.pwszVal);
 					db_free(&dbv);
 				}
 			}
 			else {
 				SetDlgItemText(m_hwnd, IDC_DEFAULT, TranslateW(STR_ADVANCED));
 				if (!p->ppro->getWString(p->hContact, "UWildcard", &dbv)) {
-					SetDlgItemText(m_hwnd, IDC_WILDCARD, dbv.ptszVal);
+					SetDlgItemText(m_hwnd, IDC_WILDCARD, dbv.pwszVal);
 					db_free(&dbv);
 				}
 			}
 
 			if (!p->ppro->getWString(p->hContact, "UUser", &dbv)) {
-				SetDlgItemText(m_hwnd, IDC_USER, dbv.ptszVal);
+				SetDlgItemText(m_hwnd, IDC_USER, dbv.pwszVal);
 				db_free(&dbv);
 			}
 
 			if (!p->ppro->getWString(p->hContact, "UHost", &dbv)) {
-				SetDlgItemText(m_hwnd, IDC_HOST, dbv.ptszVal);
+				SetDlgItemText(m_hwnd, IDC_HOST, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			ProtoBroadcastAck(p->ppro->m_szModuleName, p->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
@@ -115,9 +115,9 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (!p->ppro->getWString(p->hContact, "Default", &dbv)) {
 					CMStringW S = STR_ERROR;
 					S += L" (";
-					S += dbv.ptszVal;
+					S += dbv.pwszVal;
 					S += L")";
-					if ((mir_wstrlen(temp) < 4 && mir_wstrlen(temp)) || !WCCmp(CharLower(temp), CharLower(dbv.ptszVal))) {
+					if ((mir_wstrlen(temp) < 4 && mir_wstrlen(temp)) || !WCCmp(CharLower(temp), CharLower(dbv.pwszVal))) {
 						MessageBox(nullptr, TranslateW(S.c_str()), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
 						db_free(&dbv);
 						return FALSE;
@@ -166,7 +166,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			DBVARIANT dbv;
 			if (!p->ppro->getWString(p->hContact, "Default", &dbv)) {
-				SetDlgItemText(m_hwnd, IDC_WILDCARD, dbv.ptszVal);
+				SetDlgItemText(m_hwnd, IDC_WILDCARD, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			EnableWindow(GetDlgItem(m_hwnd, IDC_WILDCARD), FALSE);
@@ -176,7 +176,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 			DBVARIANT dbv;
 			SetDlgItemText(m_hwnd, IDC_DEFAULT, TranslateW(STR_ADVANCED));
 			if (!p->ppro->getWString(p->hContact, "UWildcard", &dbv)) {
-				SetDlgItemText(m_hwnd, IDC_WILDCARD, dbv.ptszVal);
+				SetDlgItemText(m_hwnd, IDC_WILDCARD, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			EnableWindow(GetDlgItem(m_hwnd, IDC_WILDCARD), true);
@@ -201,7 +201,7 @@ int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 
 	DBVARIANT dbv;
 	if (!getWString(hContact, "Default", &dbv)) {
-		if (IsChannel(dbv.ptszVal)) {
+		if (IsChannel(dbv.pwszVal)) {
 			db_free(&dbv);
 			return 0;
 		}

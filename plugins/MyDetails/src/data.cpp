@@ -330,7 +330,7 @@ wchar_t *Protocol::GetListeningTo()
 		return listening_to;
 	}
 
-	lcopystr(listening_to, dbv.ptszVal, _countof(listening_to));
+	lcopystr(listening_to, dbv.pwszVal, _countof(listening_to));
 	db_free(&dbv);
 	return listening_to;
 }

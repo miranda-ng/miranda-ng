@@ -57,7 +57,7 @@ int UpdateWeather(MCONTACT hContact)
 		if (opt.ShowWarnings) {
 			// show warnings by popup
 			mir_snwprintf(str, _countof(str) - 105,
-				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
+				TranslateT("Unable to retrieve weather information for %s"), dbv.pwszVal);
 			mir_wstrncat(str, L"\n", _countof(str) - mir_wstrlen(str));
 			wchar_t *tszError = GetError(code);
 			mir_wstrncat(str, tszError, _countof(str) - mir_wstrlen(str));
@@ -66,7 +66,7 @@ int UpdateWeather(MCONTACT hContact)
 		}
 		// log to netlib
 		Netlib_LogfW(hNetlibUser, L"Error! Update cannot continue... Start to free memory");
-		Netlib_LogfW(hNetlibUser, L"<-- Error occurs while updating station: %s -->", dbv.ptszVal);
+		Netlib_LogfW(hNetlibUser, L"<-- Error occurs while updating station: %s -->", dbv.pwszVal);
 		if (!dbres) db_free(&dbv);
 		return 1;
 	}
@@ -81,19 +81,19 @@ int UpdateWeather(MCONTACT hContact)
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
-			if (mir_wstrcmpi(winfo.cond, dbv.ptszVal))  Ch = TRUE;		// the weather condition is changed
+			if (mir_wstrcmpi(winfo.cond, dbv.pwszVal))  Ch = TRUE;		// the weather condition is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
-			if (mir_wstrcmpi(winfo.temp, dbv.ptszVal))  Ch = TRUE;		// the temperature is changed
+			if (mir_wstrcmpi(winfo.temp, dbv.pwszVal))  Ch = TRUE;		// the temperature is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 	else {	// consider update time change
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
-			if (mir_wstrcmpi(winfo.update, dbv.ptszVal))  Ch = TRUE;		// the update time is changed
+			if (mir_wstrcmpi(winfo.update, dbv.pwszVal))  Ch = TRUE;		// the update time is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
@@ -101,10 +101,10 @@ int UpdateWeather(MCONTACT hContact)
 
 	// have weather alert issued?
 	dbres = db_get_ws(hContact, WEATHERCONDITION, "Alert", &dbv);
-	if (!dbres && dbv.ptszVal[0] != 0) {
+	if (!dbres && dbv.pwszVal[0] != 0) {
 		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
-			mir_snwprintf(str, L"Alert for %s%c%s", winfo.city, 255, dbv.ptszVal);
+			mir_snwprintf(str, L"Alert for %s%c%s", winfo.city, 255, dbv.pwszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
@@ -169,10 +169,10 @@ int UpdateWeather(MCONTACT hContact)
 			if (!db_get_ws(hContact, WEATHERPROTONAME, "Log", &dbv)) {
 				// for the option for overwriting the file, delete old file first
 				if (db_get_b(hContact, WEATHERPROTONAME, "Overwrite", 0))
-					DeleteFile(dbv.ptszVal);
+					DeleteFile(dbv.pwszVal);
 
 				// open the file and set point to the end of file
-				FILE *file = _wfopen(dbv.ptszVal, L"a");
+				FILE *file = _wfopen(dbv.pwszVal, L"a");
 				db_free(&dbv);
 				if (file != nullptr) {
 					// write data to the file and close
@@ -486,7 +486,7 @@ int GetWeatherData(MCONTACT hContact)
 						case '[':  // variable, add the value to the result string
 							hasvar = TRUE;
 							if (!DBGetData(hContact, _T2A(str2), &dbv)) {
-								mir_wstrncat(DataValue, dbv.ptszVal, _countof(DataValue) - mir_wstrlen(DataValue));
+								mir_wstrncat(DataValue, dbv.pwszVal, _countof(DataValue) - mir_wstrlen(DataValue));
 								DataValue[_countof(DataValue) - 1] = 0;
 								db_free(&dbv);
 							}
@@ -510,7 +510,7 @@ int GetWeatherData(MCONTACT hContact)
 					// for the "Break Data=" operation
 					DBVARIANT dbv;
 					if (!DBGetData(hContact, _T2A(Item->Item.Start), &dbv)) {
-						wcsncpy(DataValue, dbv.ptszVal, _countof(DataValue));
+						wcsncpy(DataValue, dbv.pwszVal, _countof(DataValue));
 						DataValue[_countof(DataValue) - 1] = 0;
 						db_free(&dbv);
 					}

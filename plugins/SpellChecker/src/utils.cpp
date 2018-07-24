@@ -724,8 +724,8 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 			return;
 	}
 
-	if (dbv.type == DBVT_WCHAR && dbv.ptszVal != nullptr) {
-		wchar_t *lang = dbv.ptszVal;
+	if (dbv.type == DBVT_WCHAR && dbv.pwszVal != nullptr) {
+		wchar_t *lang = dbv.pwszVal;
 
 		for (auto &dict : languages) {
 			if (mir_wstrcmpi(dict->localized_name, lang) == 0 || mir_wstrcmpi(dict->english_name, lang) == 0 || mir_wstrcmpi(dict->language, lang) == 0) {
@@ -770,18 +770,18 @@ void GetContactLanguage(Dialog *dlg)
 
 	if (dlg->hContact == NULL) {
 		if (!db_get_ws(NULL, MODULENAME, dlg->name, &dbv)) {
-			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+			mir_wstrncpy(dlg->lang_name, dbv.pwszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 	}
 	else {
 		if (!db_get_ws(dlg->hContact, MODULENAME, "TalkLanguage", &dbv)) {
-			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+			mir_wstrncpy(dlg->lang_name, dbv.pwszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 
 		if (dlg->lang_name[0] == '\0' && !db_get_ws(dlg->hContact, "eSpeak", "TalkLanguage", &dbv)) {
-			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+			mir_wstrncpy(dlg->lang_name, dbv.pwszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 
@@ -790,12 +790,12 @@ void GetContactLanguage(Dialog *dlg)
 			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
 			if (hMetaContact != NULL) {
 				if (!db_get_ws(hMetaContact, MODULENAME, "TalkLanguage", &dbv)) {
-					mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+					mir_wstrncpy(dlg->lang_name, dbv.pwszVal, _countof(dlg->lang_name));
 					db_free(&dbv);
 				}
 
 				if (dlg->lang_name[0] == '\0' && !db_get_ws(hMetaContact, "eSpeak", "TalkLanguage", &dbv)) {
-					mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+					mir_wstrncpy(dlg->lang_name, dbv.pwszVal, _countof(dlg->lang_name));
 					db_free(&dbv);
 				}
 			}

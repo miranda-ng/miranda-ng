@@ -887,7 +887,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		if (BYTE xStatus = m_dat->m_cache->getXStatusId()) {
 			wchar_t	*tszXStatusName = nullptr;
 			if (0 == db_get_ws(m_dat->m_cache->getContact(), m_dat->m_cache->getProto(), "XStatusName", &dbv))
-				tszXStatusName = dbv.ptszVal;
+				tszXStatusName = dbv.pwszVal;
 			else if (xStatus > 0 && xStatus <= 31)
 				tszXStatusName = xStatusDescr[xStatus - 1];
 
@@ -896,8 +896,8 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 				str.AppendFormat(L"%s%s%s", tszXStatusName, m_dat->m_cache->getXStatusMsg() ? L" / " : L"",
 					m_dat->m_cache->getXStatusMsg() ? m_dat->m_cache->getXStatusMsg() : L"");
 
-				if (dbv.ptszVal)
-					mir_free(dbv.ptszVal);
+				if (dbv.pwszVal)
+					mir_free(dbv.pwszVal);
 			}
 		}
 
@@ -905,7 +905,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 			str.AppendFormat(TranslateT("\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s"), m_dat->m_cache->getListeningInfo());
 
 		if (0 == db_get_ws(m_dat->m_cache->getActiveContact(), m_dat->m_cache->getActiveProto(), "MirVer", &dbv)) {
-			str.AppendFormat(TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
+			str.AppendFormat(TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.pwszVal);
 			::db_free(&dbv);
 		}
 		str.AppendChar('}');

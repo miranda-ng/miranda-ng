@@ -124,7 +124,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			DBVARIANT dbVar;
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_STATMSG, EM_LIMITTEXT, 1024, 0);
 			if (!db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar)) {
-				SetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, dbVar.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, dbVar.pwszVal);
 				db_free(&dbVar);
 			}
 		}

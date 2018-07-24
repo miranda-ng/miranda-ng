@@ -333,7 +333,7 @@ void CConfig::LoadFontSettings(int iFont)
 	if (db_get_ws(NULL, "MirandaG15", szSetting, &dbv))
 		mir_wstrcpy(m_logfont[iFont].lfFaceName, L"Small Fonts");
 	else {
-		mir_wstrcpy(m_logfont[iFont].lfFaceName, dbv.ptszVal);
+		mir_wstrcpy(m_logfont[iFont].lfFaceName, dbv.pwszVal);
 		db_free(&dbv);
 	}
 

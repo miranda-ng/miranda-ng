@@ -429,10 +429,10 @@ wchar_t* GetIcqXStatus(MCONTACT hContact, char *szProto, char *szValue, wchar_t 
 	int statusID = db_get_b(hContact, szProto, "XStatusId", -1);
 	if (statusID != -1) {
 		if (!db_get_ws(hContact, szProto, szValue, &dbv)) {
-			if ((mir_strcmp(szValue, "XStatusName") == 0) && dbv.ptszVal[0] == 0)
+			if ((mir_strcmp(szValue, "XStatusName") == 0) && dbv.pwszVal[0] == 0)
 				GetDefaultXstatusName(statusID, szProto, buff, bufflen);
 			else
-				wcsncpy(buff, dbv.ptszVal, bufflen);
+				wcsncpy(buff, dbv.pwszVal, bufflen);
 
 			buff[bufflen - 1] = 0;
 			db_free(&dbv);
@@ -450,7 +450,7 @@ wchar_t* GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, 
 
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, szSlot, szValue);
 	if (!db_get_ws(hContact, "AdvStatus", szSetting, &dbv)) {
-		wcsncpy(buff, dbv.ptszVal, bufflen);
+		wcsncpy(buff, dbv.pwszVal, bufflen);
 		buff[bufflen - 1] = 0;
 		db_free(&dbv);
 	}

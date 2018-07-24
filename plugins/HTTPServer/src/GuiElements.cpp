@@ -97,16 +97,12 @@ string DBGetString(MCONTACT hContact, const char *szModule, const char *szSettin
 {
 	string ret;
 	DBVARIANT dbv = { 0 };
-	if (!db_get(hContact, szModule, szSetting, &dbv)) {
-		if (dbv.type != DBVT_ASCIIZ) {
-			MessageBox(nullptr, "DB: Attempt to get wrong type of value, string", MSG_BOX_TITEL, MB_OK);
-			ret = pszError;
-		}
-		else ret = dbv.pszVal;
+	if (!db_get_s(hContact, szModule, szSetting, &dbv)) {
+		ret = dbv.pszVal;
+		db_free(&dbv);
 	}
 	else ret = pszError;
 
-	db_free(&dbv);
 	return ret;
 }
 
@@ -1033,14 +1029,12 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 	if (hContact) {
 		// Try to locate an IP address.
 		DBVARIANT dbv = { 0 };
-		if (!db_get(hContact, "Protocol", "p", &dbv)) {
-			if (dbv.type == DBVT_ASCIIZ) {
-				stNewShare.dwAllowedIP = db_get_dw(hContact, dbv.pszVal, "IP", 0);
-				if (!stNewShare.dwAllowedIP)
-					stNewShare.dwAllowedIP = db_get_dw(hContact, dbv.pszVal, "RealIP", 0);
-				if (!stNewShare.dwAllowedIP)
-					stNewShare.dwAllowedIP = db_get_dw(hContact, MODULENAME, "LastUsedIP", 0);
-			}
+		if (!db_get_s(hContact, "Protocol", "p", &dbv)) {
+			stNewShare.dwAllowedIP = db_get_dw(hContact, dbv.pszVal, "IP", 0);
+			if (!stNewShare.dwAllowedIP)
+				stNewShare.dwAllowedIP = db_get_dw(hContact, dbv.pszVal, "RealIP", 0);
+			if (!stNewShare.dwAllowedIP)
+				stNewShare.dwAllowedIP = db_get_dw(hContact, MODULENAME, "LastUsedIP", 0);
 		}
 		db_free(&dbv);
 

@@ -110,7 +110,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	if (db_get_ws(0, SSMODULENAME, setting, &dbv))
 		return -1;
 
-	wcsncpy(buf, dbv.ptszVal, 128 - 1); buf[127] = 0;
+	wcsncpy(buf, dbv.pwszVal, 128 - 1); buf[127] = 0;
 	db_free(&dbv);
 	return 0;
 }

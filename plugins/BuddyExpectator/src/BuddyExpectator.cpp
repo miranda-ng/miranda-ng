@@ -661,15 +661,10 @@ int CMPlugin::Load()
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 
 	// ensure all contacts are timestamped
-	DBVARIANT dbv;
 	DWORD current_time = (DWORD)time(0);
-
-	for (auto &hContact : Contacts()) {
-		if (!db_get(hContact, MODULENAME, "CreationTime", &dbv))
-			db_free(&dbv);
-		else
+	for (auto &hContact : Contacts())
+		if (!db_get_dw(hContact, MODULENAME, "CreationTime"))
 			db_set_dw(hContact, MODULENAME, "CreationTime", current_time);
-	}
 
 	g_plugin.registerIcon("BuddyExpectator", iconList);
 

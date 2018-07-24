@@ -1262,12 +1262,12 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		}
 		mir_snprintf(szSetting, "%c%s_GF", 246, Name);
 		if (!db_get_ws(0, CLVM_MODULE, szSetting, &dbv)) {
-			if (mir_wstrlen(dbv.ptszVal) >= 2) {
-				mir_wstrncpy(g_CluiData.groupFilter, dbv.ptszVal, _countof(g_CluiData.groupFilter));
+			if (mir_wstrlen(dbv.pwszVal) >= 2) {
+				mir_wstrncpy(g_CluiData.groupFilter, dbv.pwszVal, _countof(g_CluiData.groupFilter));
 				g_CluiData.groupFilter[_countof(g_CluiData.groupFilter) - 1] = 0;
 				g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
 			}
-			mir_free(dbv.ptszVal);
+			mir_free(dbv.pwszVal);
 		}
 		mir_snprintf(szSetting, "%c%s_SM", 246, Name);
 		g_CluiData.statusMaskFilter = db_get_dw(0, CLVM_MODULE, szSetting, -1);

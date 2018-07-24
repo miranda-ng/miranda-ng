@@ -33,7 +33,7 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 		DBVARIANT dbv;
 		if (!gg->getWString(hContact, GG_KEY_PD_FIRSTNAME, &dbv))
 		{
-			char* pszValA = mir_u2a(dbv.ptszVal);
+			char* pszValA = mir_u2a(dbv.pwszVal);
 			string_append(s, dbv.pszVal);
 			mir_free(pszValA);
 			db_free(&dbv);
@@ -42,7 +42,7 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 		// Readup LastName
 		if (!gg->getWString(hContact, GG_KEY_PD_LASTNAME, &dbv))
 		{
-			char* pszValA = mir_u2a(dbv.ptszVal);
+			char* pszValA = mir_u2a(dbv.pwszVal);
 			string_append(s, dbv.pszVal);
 			mir_free(pszValA);
 			db_free(&dbv);
@@ -52,11 +52,11 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 		// Readup Nick
 		if (!db_get_ws(hContact, "CList", "MyHandle", &dbv) || !gg->getWString(hContact, GG_KEY_NICK, &dbv))
 		{
-			char* dbvA = mir_u2a(dbv.ptszVal);
+			char* dbvA = mir_u2a(dbv.pwszVal);
 			DBVARIANT dbv2;
 			if (!gg->getWString(hContact, GG_KEY_PD_NICKNAME, &dbv2))
 			{
-				char* pszValA = mir_u2a(dbv2.ptszVal);
+				char* pszValA = mir_u2a(dbv2.pwszVal);
 				string_append(s, pszValA);
 				mir_free(pszValA);
 				db_free(&dbv2);

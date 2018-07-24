@@ -239,7 +239,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	cfFM.dwEffects = bold | italic | underline;
 
 	if (!db_get_ws(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
-		mir_wstrcpy(cfFM.szFaceName, dbv.ptszVal);
+		mir_wstrcpy(cfFM.szFaceName, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else mir_wstrcpy(cfFM.szFaceName, Def_font_face);

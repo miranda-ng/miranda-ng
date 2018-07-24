@@ -794,7 +794,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 
 		if (db_get_ws(NULL, acc->szModuleName, "AM_BaseProto", &dbv) == 0) {
 			PhysProtoName = L"AllProto";
-			PhysProtoName += dbv.ptszVal;
+			PhysProtoName += dbv.pwszVal;
 			db_free(&dbv);
 		}
 
@@ -861,7 +861,7 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 
 		DBVARIANT dbv;
 		if (!db_get_ws(hContact, proto, "Transport", &dbv)) {
-			bool found = (tname.CompareNoCase(dbv.ptszVal) == 0);
+			bool found = (tname.CompareNoCase(dbv.pwszVal) == 0);
 			db_free(&dbv);
 			if (found)
 				return;
@@ -884,11 +884,11 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, proto, "Transport", &dbv)) {
-		if (dbv.ptszVal[0] == '\0') {
+		if (dbv.pwszVal[0] == '\0') {
 			db_free(&dbv);
 			return;
 		}
-		char *trsp = mir_strdup(_T2A(dbv.ptszVal));
+		char *trsp = mir_strdup(_T2A(dbv.pwszVal));
 		_strlwr(trsp);
 
 		const char *packname = nullptr;
@@ -905,7 +905,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 
 		mir_free(trsp);
 
-		CMStringW displayName = dbv.ptszVal;
+		CMStringW displayName = dbv.pwszVal;
 		if (packname != nullptr) {
 			char path[MAX_PATH];
 			mir_snprintf(path, "Smileys\\nova\\%s.msl", packname);

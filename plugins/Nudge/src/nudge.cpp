@@ -82,7 +82,7 @@ void CNudgeElement::Load(void)
 
 	mir_snprintf(SectionName, "%s-recText", ProtocolName);
 	if (!db_get_ws(NULL, MODULENAME, SectionName, &dbv)) {
-		wcsncpy(this->recText, dbv.ptszVal, TEXT_LEN);
+		wcsncpy(this->recText, dbv.pwszVal, TEXT_LEN);
 		if (wcslen(this->recText) < 1)
 			wcsncpy(this->recText, TranslateT("You received a nudge"), TEXT_LEN);
 		db_free(&dbv);
@@ -91,7 +91,7 @@ void CNudgeElement::Load(void)
 
 	mir_snprintf(SectionName, "%s-senText", ProtocolName);
 	if (!db_get_ws(NULL, MODULENAME, SectionName, &dbv)) {
-		wcsncpy(this->senText, dbv.ptszVal, TEXT_LEN);
+		wcsncpy(this->senText, dbv.pwszVal, TEXT_LEN);
 		if (wcslen(this->senText) < 1)
 			wcsncpy(this->senText, TranslateT("You sent a nudge"), TEXT_LEN);
 		db_free(&dbv);

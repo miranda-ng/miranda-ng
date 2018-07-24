@@ -37,7 +37,7 @@ INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 		mir_wstrncat(filename, L"\\ping_log.txt", wParam - mir_wstrlen(filename));
 	}
 	else {
-		mir_wstrncpy(filename, dbv.ptszVal, wParam);
+		mir_wstrncpy(filename, dbv.pwszVal, wParam);
 		db_free(&dbv);
 	}
 

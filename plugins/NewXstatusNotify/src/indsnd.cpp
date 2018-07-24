@@ -150,7 +150,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						lvi.iItem = ListView_InsertItem(hList, &lvi);
 
 						if (!db_get_ws(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
-							mir_wstrcpy(buff, dbv.ptszVal);
+							mir_wstrcpy(buff, dbv.pwszVal);
 							db_free(&dbv);
 						}
 						else mir_wstrcpy(buff, TranslateW(DEFAULT_SOUND));
@@ -170,7 +170,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					lvi.iItem = ListView_InsertItem(hList, &lvi);
 
 					if (!db_get_ws(hContact, MODULE, StatusList[i].lpzSkinSoundName, &dbv)) {
-						wcsncpy(buff, dbv.ptszVal, _countof(buff)-1);
+						wcsncpy(buff, dbv.pwszVal, _countof(buff)-1);
 						db_free(&dbv);
 					}
 					else wcsncpy(buff, TranslateW(DEFAULT_SOUND), _countof(buff)-1);

@@ -109,7 +109,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 	CONTACTAVATARCHANGEDNOTIFICATION* avatar = (CONTACTAVATARCHANGEDNOTIFICATION*)lParam;
 	if (avatar == nullptr) {
-		if (!ret || !mir_wstrcmp(dbvOldHash.ptszVal, L"-")) {
+		if (!ret || !mir_wstrcmp(dbvOldHash.pwszVal, L"-")) {
 			//avoid duplicate "removed avatar" notifications
 			//do not notify on an empty profile
 			ShowDebugPopup(hContact, L"AVH Debug", L"Removed avatar, no avatar before... skipping");
@@ -125,7 +125,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			ShowPopup(hContact, nullptr, opts.popup_removed);
 	}
 	else {
-		if (ret && !mir_wstrcmp(dbvOldHash.ptszVal, avatar->hash)) {
+		if (ret && !mir_wstrcmp(dbvOldHash.pwszVal, avatar->hash)) {
 			// same avatar hash, skipping
 			ShowDebugPopup(hContact, L"AVH Debug", L"Hashes are the same... skipping");
 			db_free(&dbvOldHash);

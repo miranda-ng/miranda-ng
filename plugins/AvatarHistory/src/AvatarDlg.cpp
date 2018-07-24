@@ -542,7 +542,7 @@ int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 
 	DBVARIANT dbvInitDir = { 0 };
 	if (!db_get_ws(hContact, MODULENAME, "SavedAvatarFolder", &dbvInitDir)) {
-		ofn.lpstrInitialDir = dbvInitDir.ptszVal;
+		ofn.lpstrInitialDir = dbvInitDir.pwszVal;
 		db_free(&dbvInitDir);
 	}
 	else ofn.lpstrInitialDir = L".";

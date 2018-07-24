@@ -162,7 +162,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 	DBVARIANT dbv = { 0 };
 	INT_PTR result = db_get_ws(hContact, "CList", "StatusMsg", &dbv);
-	if (!result && mir_wstrlen(dbv.ptszVal) > 0)
+	if (!result && mir_wstrlen(dbv.pwszVal) > 0)
 		p->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
 		if (!szProto)
@@ -170,11 +170,11 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		if (szProto) {
 			if (!result)
 				db_free(&dbv);
-			if (!(result = db_get_ws(hContact, szProto, "YMsg", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
+			if (!(result = db_get_ws(hContact, szProto, "YMsg", &dbv)) && mir_wstrlen(dbv.pwszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_YIM;
-			else if (!(result = db_get_ws(hContact, szProto, "StatusDescr", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
+			else if (!(result = db_get_ws(hContact, szProto, "StatusDescr", &dbv)) && mir_wstrlen(dbv.pwszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_GG;
-			else if (!(result = db_get_ws(hContact, szProto, "XStatusMsg", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
+			else if (!(result = db_get_ws(hContact, szProto, "XStatusMsg", &dbv)) && mir_wstrlen(dbv.pwszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_XSTATUS;
 		}
 	}
@@ -183,11 +183,11 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		if (!result)
 			db_free(&dbv);
 		result = db_get_ws(hContact, szProto, "XStatusName", &dbv);
-		if (!result && mir_wstrlen(dbv.ptszVal) > 1) {
-			size_t iLen = mir_wstrlen(dbv.ptszVal);
+		if (!result && mir_wstrlen(dbv.pwszVal) > 1) {
+			size_t iLen = mir_wstrlen(dbv.pwszVal);
 			p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
 			p->statusMsg = (wchar_t *)realloc(p->statusMsg, (iLen + 2) * sizeof(wchar_t));
-			wcsncpy(p->statusMsg, dbv.ptszVal, iLen + 1);
+			wcsncpy(p->statusMsg, dbv.pwszVal, iLen + 1);
 		}
 		else {
 			int xStatus;
@@ -213,11 +213,11 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 	if (p->bStatusMsgValid > STATUSMSG_XSTATUSNAME) {
 		int j = 0;
-		p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_wstrlen(dbv.ptszVal) + 2) * sizeof(wchar_t));
-		for (int i = 0; dbv.ptszVal[i]; i++) {
-			if (dbv.ptszVal[i] == (wchar_t)0x0d)
+		p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_wstrlen(dbv.pwszVal) + 2) * sizeof(wchar_t));
+		for (int i = 0; dbv.pwszVal[i]; i++) {
+			if (dbv.pwszVal[i] == (wchar_t)0x0d)
 				continue;
-			p->statusMsg[j] = dbv.ptszVal[i] == (wchar_t)0x0a ? (wchar_t)' ' : dbv.ptszVal[i];
+			p->statusMsg[j] = dbv.pwszVal[i] == (wchar_t)0x0a ? (wchar_t)' ' : dbv.pwszVal[i];
 			j++;
 		}
 		p->statusMsg[j] = 0;

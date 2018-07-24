@@ -222,7 +222,7 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	char buf[256];
 	mir_snprintf(buf, "Address%d", index);
 	if (!db_get_ws(0, "PingPlug", buf, &dbv)) {
-		mir_wstrncpy(pa.pszName, dbv.ptszVal, _countof(pa.pszName));
+		mir_wstrncpy(pa.pszName, dbv.pwszVal, _countof(pa.pszName));
 		db_free(&dbv);
 	}
 	else
@@ -230,7 +230,7 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 
 	mir_snprintf(buf, "Label%d", index);
 	if (!db_get_ws(0, "PingPlug", buf, &dbv)) {
-		mir_wstrncpy(pa.pszLabel, dbv.ptszVal, _countof(pa.pszLabel));
+		mir_wstrncpy(pa.pszLabel, dbv.pwszVal, _countof(pa.pszLabel));
 		db_free(&dbv);
 	}
 	else

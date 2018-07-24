@@ -244,12 +244,12 @@ void LoadAlarms()
 
 		mir_snprintf(buff, "Title%d", i);
 		if (!db_get_ws(0, MODULENAME, buff, &dbv)) {
-			alarm.szTitle = mir_wstrdup(dbv.ptszVal);
+			alarm.szTitle = mir_wstrdup(dbv.pwszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Desc%d", i);
 		if (!db_get_ws(0, MODULENAME, buff, &dbv)) {
-			alarm.szDesc = mir_wstrdup(dbv.ptszVal);
+			alarm.szDesc = mir_wstrdup(dbv.pwszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Occ%d", i);
@@ -302,11 +302,11 @@ void LoadAlarms()
 			if (alarm.action & AAF_COMMAND) {
 				mir_snprintf(buff, "ActionCommand%d", i);
 				if (!db_get_ws(0, MODULENAME, buff, &dbv)) {
-					alarm.szCommand = mir_wstrdup(dbv.ptszVal);
+					alarm.szCommand = mir_wstrdup(dbv.pwszVal);
 					db_free(&dbv);
 					mir_snprintf(buff, "ActionParams%d", i);
 					if (!db_get_ws(0, MODULENAME, buff, &dbv)) {
-						alarm.szCommandParams = mir_wstrdup(dbv.ptszVal);
+						alarm.szCommandParams = mir_wstrdup(dbv.pwszVal);
 						db_free(&dbv);
 					}
 				}

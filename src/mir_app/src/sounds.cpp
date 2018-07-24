@@ -259,7 +259,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				DBVARIANT dbv;
 				if (!db_get_ws(0, "SkinSounds", p->name, &dbv)) {
 					wchar_t szPathFull[MAX_PATH];
-					PathToAbsoluteW(dbv.ptszVal, szPathFull);
+					PathToAbsoluteW(dbv.pwszVal, szPathFull);
 					NotifyEventHooks(hPlayEvent, 1, (LPARAM)szPathFull);
 					db_free(&dbv);
 				}
@@ -289,7 +289,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				if (db_get_b(0, "SkinSoundsOff", p->name, 0) == 0) {
 					DBVARIANT dbv;
 					if (db_get_ws(0, "SkinSounds", p->name, &dbv) == 0) {
-						PathToAbsoluteW(dbv.ptszVal, strdir);
+						PathToAbsoluteW(dbv.pwszVal, strdir);
 						db_free(&dbv);
 					}
 				}
@@ -393,7 +393,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						else {
 							DBVARIANT dbv;
 							if (!db_get_ws(0, "SkinSounds", p->name, &dbv)) {
-								SetDlgItemText(hwndDlg, IDC_LOCATION, dbv.ptszVal);
+								SetDlgItemText(hwndDlg, IDC_LOCATION, dbv.pwszVal);
 								db_free(&dbv);
 							}
 							else SetDlgItemText(hwndDlg, IDC_LOCATION, TranslateT("<not specified>"));

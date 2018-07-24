@@ -279,15 +279,15 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_APPLY), 0);
 
 		if (!db_get_ws(hContact, MODULENAME, ALERT_STRING_KEY, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_ALERT_STRING, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_ALERT_STRING, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		if (!db_get_ws(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_START2, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_START2, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		if (!db_get_ws(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_END2, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_END2, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		CheckDlgButton(hwndDlg, IDC_ENABLE_ALERTS, db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -408,7 +408,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		}
 
 		if (!db_get_ws(hContact, MODULENAME, FILE_KEY, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.pwszVal);
 			db_free(&dbv);
 		}
 
@@ -801,25 +801,25 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 0);
 
 		if (!db_get_ws(hContact, MODULENAME, URL_KEY, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_URL, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_URL, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		if (!db_get_ws(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_START, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_START, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		if (!db_get_ws(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_END, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_END, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		if (db_get_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			db_free(&dbv);
 			db_get_ws(hContact, "CList", "MyHandle", &dbv);
-			db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
+			db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		if (!db_get_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_SITE_NAME, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_SITE_NAME, dbv.pwszVal);
 			db_free(&dbv);
 		}
 
@@ -1063,7 +1063,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hwndDlg, IDC_DATAPOPUP, db_get_b(NULL, MODULENAME, DATA_POPUP_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			if (!db_get_ws(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_TYPEFACE, dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_TYPEFACE, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else SetDlgItemText(hwndDlg, IDC_TYPEFACE, Def_font_face);

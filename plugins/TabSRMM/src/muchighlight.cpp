@@ -50,13 +50,13 @@ void CMUCHighlight::init()
 	m_fInitialized = true;
 
 	if (0 == db_get_ws(0, CHAT_MODULE, "HighlightWords", &dbv)) {
-		m_TextPatternString = dbv.ptszVal;
+		m_TextPatternString = dbv.pwszVal;
 		_wsetlocale(LC_ALL, L"");
 		wcslwr(m_TextPatternString);
 	}
 
 	if (0 == db_get_ws(0, CHAT_MODULE, "HighlightNames", &dbv))
-		m_NickPatternString = dbv.ptszVal;
+		m_NickPatternString = dbv.pwszVal;
 
 	m_dwFlags = M.GetByte(CHAT_MODULE, "HighlightEnabled", MATCH_TEXT);
 	m_fHighlightMe = (M.GetByte(CHAT_MODULE, "HighlightMe", 1) ? true : false);

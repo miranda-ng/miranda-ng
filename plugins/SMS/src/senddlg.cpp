@@ -403,7 +403,8 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 						mir_wstrcat(tszPhone, L" SMS");
 						for (DWORD i = 0; bCont; i++) {
 							mir_snprintf(szBuff, "MyPhone%d", i);
-							if (db_get(psswdWindowData->hMyContact, "UserInfo", szBuff, &dbv)) bCont = FALSE;
+							if (db_get(psswdWindowData->hMyContact, "UserInfo", szBuff, &dbv))
+								bCont = FALSE;
 							db_free(&dbv);
 						}
 						DB_SetStringW(psswdWindowData->hMyContact, "UserInfo", szBuff, tszPhone);

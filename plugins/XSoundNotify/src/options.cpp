@@ -100,7 +100,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					if (!db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), TRUE);
-						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(dbv.ptszVal));
+						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(dbv.pwszVal));
 						db_free(&dbv);
 					}
 					else {
@@ -120,7 +120,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), TRUE);
-						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(dbv.ptszVal));
+						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(dbv.pwszVal));
 						db_free(&dbv);
 					}
 					else {
@@ -202,7 +202,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					DBVARIANT dbv;
 					if (!db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
 						wchar_t longpath[MAX_PATH];
-						PathToAbsoluteW(dbv.ptszVal, longpath);
+						PathToAbsoluteW(dbv.pwszVal, longpath);
 						Skin_PlaySoundFile(longpath);
 						db_free(&dbv);
 					}
@@ -221,7 +221,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					DBVARIANT dbv;
 					if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 						wchar_t longpath[MAX_PATH];
-						PathToAbsoluteW(dbv.ptszVal, longpath);
+						PathToAbsoluteW(dbv.pwszVal, longpath);
 						Skin_PlaySoundFile(longpath);
 						db_free(&dbv);
 					}
@@ -281,7 +281,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					DBVARIANT dbv;
 					if (!db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
 						wchar_t longpath[MAX_PATH];
-						PathToAbsoluteW(dbv.ptszVal, longpath);
+						PathToAbsoluteW(dbv.pwszVal, longpath);
 						XSN_Users.insert(new XSN_Data((LPARAM)pa->szModuleName, longpath, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 0));
 						db_free(&dbv);
 					}
@@ -297,7 +297,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					DBVARIANT dbv;
 					if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 						wchar_t longpath[MAX_PATH];
-						PathToAbsoluteW(dbv.ptszVal, longpath);
+						PathToAbsoluteW(dbv.pwszVal, longpath);
 						XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 1));
 						db_free(&dbv);
 					}

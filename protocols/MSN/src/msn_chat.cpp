@@ -481,7 +481,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 
 				GCEVENT gce = { m_szModuleName, gch->ptszID, GC_EVENT_MESSAGE };
 				gce.dwFlags = GCEF_ADDTOLOG;
-				gce.ptszNick = bError ? L"" : dbv.ptszVal;
+				gce.ptszNick = bError ? L"" : dbv.pwszVal;
 				gce.ptszUID = mir_a2u(MyOptions.szEmail);
 				gce.time = time(0);
 				gce.ptszText = gch->ptszText;

@@ -142,7 +142,7 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%d", i);
-		if (db_get(NULL, TABSRMM_FONTMODULE, str, &dbv))
+		if (db_get_s(NULL, TABSRMM_FONTMODULE, str, &dbv))
 			strncpy_s(lf->lfFaceName, "Verdana", _TRUNCATE);
 		else {
 			strncpy_s(lf->lfFaceName, dbv.pszVal, _TRUNCATE);

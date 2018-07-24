@@ -163,7 +163,7 @@ void TwitterProto::GetAwayMsgWorker(void *arg)
 
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)1, 0);
@@ -252,7 +252,7 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 			Skin_PlaySound("TwitterNewContact");
 			DBVARIANT dbv;
 			if (!getWString(TWITTER_KEY_GROUP, &dbv)) {
-				db_set_ws(hContact, "CList", "Group", dbv.ptszVal);
+				db_set_ws(hContact, "CList", "Group", dbv.pwszVal);
 				db_free(&dbv);
 			}
 

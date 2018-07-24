@@ -62,11 +62,11 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 		case DBVT_WCHAR:
 			if (!getWString(p->name, &dbv)) {
 				if (p->size != -1) {
-					size_t len = min(p->size - 1, mir_wstrlen(dbv.ptszVal));
+					size_t len = min(p->size - 1, mir_wstrlen(dbv.pwszVal));
 					memcpy(ptr, dbv.pszVal, len*sizeof(wchar_t));
 					*(wchar_t*)&ptr[len*sizeof(wchar_t)] = 0;
 				}
-				else *(wchar_t**)ptr = mir_wstrdup(dbv.ptszVal);
+				else *(wchar_t**)ptr = mir_wstrdup(dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else {
@@ -1177,7 +1177,7 @@ void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 	PERFORM_INFO* pPref;
 	DBVARIANT dbv;
 	if (!m_proto->getWString(sSetting.c_str(), &dbv)) {
-		pPref = new PERFORM_INFO(sSetting.c_str(), dbv.ptszVal);
+		pPref = new PERFORM_INFO(sSetting.c_str(), dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else pPref = new PERFORM_INFO(sSetting.c_str(), L"");
@@ -1363,9 +1363,9 @@ void CIrcProto::InitIgnore(void)
 		if (getWString(settingName, &dbv))
 			break;
 
-		CMStringW mask = GetWord(dbv.ptszVal, 0);
-		CMStringW flags = GetWord(dbv.ptszVal, 1);
-		CMStringW network = GetWord(dbv.ptszVal, 2);
+		CMStringW mask = GetWord(dbv.pwszVal, 0);
+		CMStringW flags = GetWord(dbv.pwszVal, 1);
+		CMStringW network = GetWord(dbv.pwszVal, 2);
 		m_ignoreItems.insert(new CIrcIgnoreItem(mask.c_str(), flags.c_str(), network.c_str()));
 		db_free(&dbv);
 	}

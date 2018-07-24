@@ -1006,7 +1006,7 @@ void CSkin::setFileName()
 {
 	DBVARIANT dbv;
 	if (0 == db_get_ws(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
-		PathToAbsoluteW(dbv.ptszVal, m_tszFileName, M.getSkinPath());
+		PathToAbsoluteW(dbv.pwszVal, m_tszFileName, M.getSkinPath());
 		db_free(&dbv);
 	}
 	else

@@ -300,7 +300,7 @@ int LoadCLUIModule(void)
 	if (db_get_ws(0, "CList", "TitleText", &dbv))
 		mir_wstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
 	else {
-		mir_wstrncpy(titleText, dbv.ptszVal, _countof(titleText));
+		mir_wstrncpy(titleText, dbv.pwszVal, _countof(titleText));
 		db_free(&dbv);
 	}
 

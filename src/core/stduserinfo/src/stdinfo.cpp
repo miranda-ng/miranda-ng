@@ -55,7 +55,7 @@ static wchar_t* Proto_GetContactInfoSettingStr(bool proto_service, MCONTACT hCon
 	if (CallProtoService(szModule, PS_GETINFOSETTING, hContact, (LPARAM)&cgs))
 		return nullptr;
 
-	return dbv.ptszVal;
+	return dbv.pwszVal;
 }
 
 static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
@@ -152,7 +152,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					char szSettingName[100];
 					mir_snprintf(szSettingName, "%sName", szSetting);
 					if (!db_get_ws(hContact, szModule, szSettingName, &dbv)) {
-						ptstr = dbv.ptszVal;
+						ptstr = dbv.pwszVal;
 						unspecified = false;
 						break;
 					}

@@ -523,7 +523,7 @@ wchar_t *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, 
 	if (ProtoServiceExists(szModuleName, "/SendXML")) // jabber protocol?
 	{
 		if (!db_get_ws(hContact, szModuleName, szSettingName, &dbv)) {
-			wcsncpy(buff, TranslateW(dbv.ptszVal), bufflen);
+			wcsncpy(buff, TranslateW(dbv.pwszVal), bufflen);
 			buff[bufflen - 1] = 0;
 			return buff;
 		}

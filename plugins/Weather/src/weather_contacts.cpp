@@ -43,7 +43,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!db_get_ws(wParam, WEATHERPROTONAME, "Log", &dbv)) {
 		if (dbv.pszVal[0] != 0)
-			ShellExecute((HWND)lParam, L"open", dbv.ptszVal, L"", L"", SW_SHOW);
+			ShellExecute((HWND)lParam, L"open", dbv.pwszVal, L"", L"", SW_SHOW);
 		db_free(&dbv);
 	}
 	else	// display warning dialog if no path is specified
@@ -159,19 +159,19 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		// start to get the settings
 		// if the setting not exist, leave the dialog box blank
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "ID", &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_ID, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_ID, dbv.pwszVal);
 			// check if the station is a default station
-			CheckDlgButton(hwndDlg, IDC_DEFA, mir_wstrcmp(dbv.ptszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DEFA, mir_wstrcmp(dbv.pwszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
 			db_free(&dbv);
 		}
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_NAME, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_NAME, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "Log", &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_LOG, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_LOG, dbv.pwszVal);
 			// if the log path is not empty, check the checkbox for external log
-			if (dbv.ptszVal[0]) CheckDlgButton(hwndDlg, IDC_External, BST_CHECKED);
+			if (dbv.pwszVal[0]) CheckDlgButton(hwndDlg, IDC_External, BST_CHECKED);
 			db_free(&dbv);
 		}
 		// enable/disable the browse button depending on the value of external log checkbox
@@ -183,11 +183,11 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		CheckDlgButton(hwndDlg, IDC_Internal, db_get_b(hContact, WEATHERPROTONAME, "History", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "InfoURL", &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_IURL, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_IURL, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "MapURL", &dbv)) {
-			SetDlgItemText(hwndDlg, IDC_MURL, dbv.ptszVal);
+			SetDlgItemText(hwndDlg, IDC_MURL, dbv.pwszVal);
 			db_free(&dbv);
 		}
 

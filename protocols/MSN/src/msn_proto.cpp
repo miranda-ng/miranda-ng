@@ -606,7 +606,7 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 	AwayMsgInfo *inf = (AwayMsgInfo*)arg;
 	DBVARIANT dbv;
 	if (!db_get_ws(inf->hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.ptszVal);
+		ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, 0);

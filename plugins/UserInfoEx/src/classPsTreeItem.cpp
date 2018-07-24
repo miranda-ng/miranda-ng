@@ -245,7 +245,7 @@ int CPsTreeItem::ItemLabel(const BYTE bReadDBValue)
 		mir_free(_ptszLabel);
 
 	// try to get custom label from database
-	if (!bReadDBValue || DB::Setting::GetTString(NULL, MODULENAME, GlobalPropertyKey(SET_ITEM_LABEL), &dbv) || (_ptszLabel = dbv.ptszVal) == nullptr) {
+	if (!bReadDBValue || DB::Setting::GetTString(NULL, MODULENAME, GlobalPropertyKey(SET_ITEM_LABEL), &dbv) || (_ptszLabel = dbv.pwszVal) == nullptr) {
 		// extract the name
 		LPSTR pszName = mir_strrchr(_pszName, '\\');
 		if (pszName && pszName[1])

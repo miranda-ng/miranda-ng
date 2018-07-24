@@ -131,7 +131,7 @@ void EraseAllInfo()
 		db_set_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE);
 		// reset logging settings
 		if (!db_get_ws(hContact, WEATHERPROTONAME, "Log", &dbv)) {
-			db_set_b(hContact, WEATHERPROTONAME, "File", (BYTE)(dbv.ptszVal[0] != 0));
+			db_set_b(hContact, WEATHERPROTONAME, "File", (BYTE)(dbv.pwszVal[0] != 0));
 			db_free(&dbv);
 		}
 		else db_set_b(hContact, WEATHERPROTONAME, "File", FALSE);
@@ -142,7 +142,7 @@ void EraseAllInfo()
 
 			opt.DefStn = hContact;
 			if (!db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
-				mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
+				mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.pwszVal);
 				db_free(&dbv);
 				MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
@@ -150,7 +150,7 @@ void EraseAllInfo()
 		// get the handle of the default station
 		if (opt.DefStn == NULL) {
 			if (!db_get_ws(hContact, WEATHERPROTONAME, "ID", &dbv)) {
-				if (!mir_wstrcmp(dbv.ptszVal, opt.Default))
+				if (!mir_wstrcmp(dbv.pwszVal, opt.Default))
 					opt.DefStn = hContact;
 				db_free(&dbv);
 			}
@@ -164,12 +164,12 @@ void EraseAllInfo()
 	// in case where the default station is missing
 	if (opt.DefStn == NULL && ContactCount != 0) {
 		if (!db_get_ws(LastContact, WEATHERPROTONAME, "ID", &dbv)) {
-			wcsncpy(opt.Default, dbv.ptszVal, _countof(opt.Default) - 1);
+			wcsncpy(opt.Default, dbv.pwszVal, _countof(opt.Default) - 1);
 			db_free(&dbv);
 		}
 		opt.DefStn = LastContact;
 		if (!db_get_ws(LastContact, WEATHERPROTONAME, "Nick", &dbv)) {
-			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
+			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.pwszVal);
 			db_free(&dbv);
 			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}

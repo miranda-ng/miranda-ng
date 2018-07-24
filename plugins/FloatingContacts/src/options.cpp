@@ -181,7 +181,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		{
 			DBVARIANT dbv;
 			if (!db_get_ws(NULL, MODULE, "BkBitmap", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.pwszVal);
 				db_free(&dbv);
 			}
 

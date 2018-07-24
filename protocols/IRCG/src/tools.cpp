@@ -42,7 +42,7 @@ void CIrcProto::AddToJTemp(wchar_t op, CMStringW& sCommand)
 
 	DBVARIANT dbv;
 	if (!getWString("JTemp", &dbv)) {
-		res = CMStringW(dbv.ptszVal) + L" " + res;
+		res = CMStringW(dbv.pwszVal) + L" " + res;
 		db_free(&dbv);
 	}
 

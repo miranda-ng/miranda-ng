@@ -42,9 +42,9 @@ inline wchar_t* GetString(char* key, const wchar_t* def)
 	wchar_t* val;
 	if (!db_get_ws(NULL, BOLTUN_KEY, key, &dbv))
 	{
-		size_t len = mir_wstrlen(dbv.ptszVal) + 1;
+		size_t len = mir_wstrlen(dbv.pwszVal) + 1;
 		val = new wchar_t[len];
-		wcscpy_s(val, len, dbv.ptszVal);
+		wcscpy_s(val, len, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else

@@ -27,10 +27,9 @@ int Info(char *title, char *format, ...)
 	int tBytes;
 	va_start(vararg, format);
 	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
-	if (tBytes > 0)
-		{
-			str[tBytes] = 0;
-		}
+	if (tBytes > 0) {
+		str[tBytes] = 0;
+	}
 	va_end(vararg);
 	return MessageBoxA(nullptr, str, title, MB_OK | MB_ICONINFORMATION);
 }
@@ -50,92 +49,87 @@ char *BinToHex(int size, PBYTE data)
 {
 	char *szresult = nullptr;
 	int maxSize = size * 2 + HEX_SIZE + 1;
-	szresult = (char *) new char[ maxSize ];
+	szresult = (char *) new char[maxSize];
 	mir_snprintf(szresult, maxSize, "%0*X", HEX_SIZE, size);
 	return bin2hex(data, size, szresult + HEX_SIZE);
 }
 
 void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 {
-	char buffer[32] = {0};
+	char buffer[32] = { 0 };
 	strcpy(buffer, "0x");
 	strncpy_s(buffer + 2, HEX_SIZE, inData, _TRUNCATE);
 	sscanf(buffer, "%x", &size);
-	outData = (unsigned char*)new char[size*2];
+	outData = (unsigned char*)new char[size * 2];
 
 	char *tmp = inData + HEX_SIZE;
 	buffer[4] = '\0'; //mark the end of the string
 	for (UINT i = 0; i < size; i++) {
-		strncpy_s(buffer + 2, 3, &tmp[i*2], _TRUNCATE);
+		strncpy_s(buffer + 2, 3, &tmp[i * 2], _TRUNCATE);
 		sscanf(buffer, "%hhx", &outData[i]);
 	}
 }
 
 int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	int res = 1;
 	size_t len;
 	dbv.type = DBVT_ASCIIZ;
-	if (db_get(hContact, szModule, szSettingName, &dbv) == 0)
-		{
-			res = 0;
-			size_t tmp = mir_strlen(dbv.pszVal);
+	if (db_get(hContact, szModule, szSettingName, &dbv) == 0) {
+		res = 0;
+		size_t tmp = mir_strlen(dbv.pszVal);
+		len = (tmp < size - 1) ? tmp : size - 1;
+		strncpy(szResult, dbv.pszVal, len);
+		szResult[len] = '\0';
+		mir_free(dbv.pszVal);
+	}
+	else {
+		res = 1;
+		if (szError) {
+			size_t tmp = mir_strlen(szError);
 			len = (tmp < size - 1) ? tmp : size - 1;
-			strncpy(szResult, dbv.pszVal, len);
+			strncpy(szResult, szError, len);
 			szResult[len] = '\0';
-			mir_free(dbv.pszVal);
 		}
-		else{
-			res = 1;
-			if (szError)
-				{
-					size_t tmp = mir_strlen(szError);
-					len = (tmp < size - 1) ? tmp : size - 1;
-					strncpy(szResult, szError, len);
-					szResult[len] = '\0';
-				}
-				else{
-					szResult[0] = '\0';
-				}
+		else {
+			szResult[0] = '\0';
 		}
+	}
 	return res;
 }
 
 int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	int res = 1;
 	size_t len;
 	dbv.type = DBVT_WCHAR;
-	if (db_get_ws(hContact, szModule, szSettingName, &dbv) == 0)
-		{
-			res = 0;
-			if (dbv.type != DBVT_WCHAR)
-			{
-				MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, szResult, (int) count);
-			}
-			else{
-				size_t tmp = mir_wstrlen(dbv.pwszVal);
-				len = (tmp < count - 1) ? tmp : count - 1;
-				wcsncpy(szResult, dbv.pwszVal, len);
-				szResult[len] = L'\0';
-			}
-			mir_free(dbv.pwszVal);
+	if (db_get_ws(hContact, szModule, szSettingName, &dbv) == 0) {
+		res = 0;
+		if (dbv.type != DBVT_WCHAR) {
+			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, szResult, (int)count);
 		}
-		else{
-			res = 1;
-			if (szError)
-				{
-					size_t tmp = mir_wstrlen(szError);
-					len = (tmp < count - 1) ? tmp : count - 1;
-					wcsncpy(szResult, szError, len);
-					szResult[len] = L'\0';
-				}
-				else{
-					szResult[0] = L'\0';
-				}
+		else {
+			size_t tmp = mir_wstrlen(dbv.pwszVal);
+			len = (tmp < count - 1) ? tmp : count - 1;
+			wcsncpy(szResult, dbv.pwszVal, len);
+			szResult[len] = L'\0';
 		}
+		mir_free(dbv.pwszVal);
+	}
+	else {
+		res = 1;
+		if (szError) {
+			size_t tmp = mir_wstrlen(szError);
+			len = (tmp < count - 1) ? tmp : count - 1;
+			wcsncpy(szResult, szError, len);
+			szResult[len] = L'\0';
+		}
+		else {
+			szResult[0] = L'\0';
+		}
+	}
 	return res;
 }
 

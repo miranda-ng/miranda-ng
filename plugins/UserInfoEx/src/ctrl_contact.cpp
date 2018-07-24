@@ -1297,7 +1297,7 @@ int CtrlContactAddItemFromDB(
 		if (cbi.wFlags == CBEXIF_CATREADONLY)
 			cbi.pszVal = nullptr;
 		else { // check the database value
-			cbi.pszVal = dbv.ptszVal;
+			cbi.pszVal = dbv.pwszVal;
 			if (LPTSTR sms = wcsstr(cbi.pszVal, L" SMS")) {
 				cbi.wFlags |= CBEXIF_SMS;
 				*sms = 0;
@@ -1356,9 +1356,9 @@ int CtrlContactAddMyItemsFromDB(
 	{
 		// read value
 		cbi.dwID = hashSetting(pszSetting);
-		cbi.pszVal = dbv.ptszVal;
+		cbi.pszVal = dbv.pwszVal;
 		dbv.type = DBVT_DELETED;
-		dbv.ptszVal = nullptr;
+		dbv.pwszVal = nullptr;
 
 		// read category
 		if (SUCCEEDED(mir_snprintf(pszSetting, szFormatCat, i))) {
@@ -1372,10 +1372,10 @@ int CtrlContactAddMyItemsFromDB(
 					dbv.type = DBVT_DELETED;
 			}
 
-			if (dbv.type > DBVT_DELETED && dbv.ptszVal && *dbv.ptszVal) {
-				cbi.pszCat = dbv.ptszVal;
+			if (dbv.type > DBVT_DELETED && dbv.pwszVal && *dbv.pwszVal) {
+				cbi.pszCat = dbv.pwszVal;
 				dbv.type = DBVT_DELETED;
-				dbv.ptszVal = nullptr;
+				dbv.pwszVal = nullptr;
 			}
 		}
 		if (sms = wcsstr(cbi.pszVal, L" SMS")) {

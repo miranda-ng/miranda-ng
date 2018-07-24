@@ -51,14 +51,11 @@ void LoadDBSettings()
 	LastUCOpt.HideOffline = db_get_b(NULL, MODULENAME, dbLastUC_HideOfflineContacts, 0);
 	LastUCOpt.WindowAutoSize = db_get_b(NULL, MODULENAME, dbLastUC_WindowAutosize, 0);
 
-	DBVARIANT dbv;
-	dbv.type = DBVT_ASCIIZ;
-	dbv.pszVal = nullptr;
-	if (db_get(NULL, MODULENAME, dbLastUC_DateTimeFormat, &dbv) == 0 && dbv.pszVal[0] != 0) {
-		LastUCOpt.DateTimeFormat = dbv.pszVal;
-		db_free(&dbv);
-	}
-	else LastUCOpt.DateTimeFormat = "(%Y-%m-%d %H:%M)  ";
+	ptrA szFormat(db_get_sa(NULL, MODULENAME, dbLastUC_DateTimeFormat));
+	if (szFormat)
+		LastUCOpt.DateTimeFormat = szFormat;
+	else
+		LastUCOpt.DateTimeFormat = "(%Y-%m-%d %H:%M)  ";
 }
 
 void ShowListMainDlgProc_AdjustListPos(HWND hDlg, LASTUC_DLG_DATA *DlgDat)
@@ -208,15 +205,9 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			std::wstring str;
 			char strtim[256 + 16];
 
-			string strtimformat;
-			DBVARIANT dbv;
-			dbv.type = DBVT_ASCIIZ;
-			dbv.pszVal = nullptr;
-			if (db_get(NULL, MODULENAME, dbLastUC_DateTimeFormat, &dbv) == 0) {
-				strtimformat = dbv.pszVal;
-				db_free(&dbv);
-			}
-			else strtimformat = dbLastUC_DateTimeFormatDefault;
+			ptrA szFormat(db_get_sa(NULL, MODULENAME, dbLastUC_DateTimeFormat));
+			if (!szFormat)
+				szFormat = mir_strdup(dbLastUC_DateTimeFormatDefault);
 
 			for (auto curContact = DlgDat->Contacts->begin(); curContact != DlgDat->Contacts->end(); curContact++) {
 				if (curContact->second != NULL && db_get_b(curContact->second, MODULENAME, dbLastUC_IgnoreContact, 0) == 0) {
@@ -234,7 +225,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					lvi.iSubItem = 0;
 					lvi.lParam = (LPARAM)curContact->second;
 
-					strftime(strtim, 256, strtimformat.c_str(), _localtime64(&curContact->first));
+					strftime(strtim, 256, szFormat, _localtime64(&curContact->first));
 					strtim[255] = 0;
 					str = _A2T(strtim);
 					str += cname;

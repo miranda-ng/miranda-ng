@@ -51,7 +51,7 @@ void CIrcProto::FormatMsg(CMStringW& text)
 			if (sNick4Perform == L"") {
 				DBVARIANT dbv;
 				if (!getWString("PNick", &dbv)) {
-					sNick4Perform = dbv.ptszVal;
+					sNick4Perform = dbv.pwszVal;
 					db_free(&dbv);
 				}
 			}
@@ -549,8 +549,8 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 				DBVARIANT dbv1;
 				if (!getWString(hContact, "UWildcard", &dbv1)) {
 					CMStringW S = L"S";
-					S += dbv1.ptszVal;
-					DoUserhostWithReason(2, S.c_str(), true, dbv1.ptszVal);
+					S += dbv1.pwszVal;
+					DoUserhostWithReason(2, S.c_str(), true, dbv1.pwszVal);
 					db_free(&dbv1);
 				}
 				else {
@@ -624,8 +624,8 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 						DBVARIANT dbv1;
 						CMStringW S = L"S";
 						if (!getWString(ccNew, "UWildcard", &dbv1)) {
-							S += dbv1.ptszVal;
-							DoUserhostWithReason(2, S.c_str(), true, dbv1.ptszVal);
+							S += dbv1.pwszVal;
+							DoUserhostWithReason(2, S.c_str(), true, dbv1.pwszVal);
 							db_free(&dbv1);
 						}
 						else {
@@ -804,7 +804,7 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 		return 0;
 
 	if (hContact && !getWString(hContact, "Nick", &dbv)) {
-		mir_wstrncpy(windowname, dbv.ptszVal, 255);
+		mir_wstrncpy(windowname, dbv.pwszVal, 255);
 		db_free(&dbv);
 	}
 	else if (window)

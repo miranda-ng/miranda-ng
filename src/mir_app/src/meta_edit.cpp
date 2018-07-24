@@ -74,7 +74,7 @@ static void FillContactList(HWND hList)
 					wcsncpy_s(buff, _A2T(dbv.pszVal), _TRUNCATE);
 					break;
 				case DBVT_WCHAR:
-					wcsncpy_s(buff, dbv.ptszVal, _TRUNCATE);
+					wcsncpy_s(buff, dbv.pwszVal, _TRUNCATE);
 					break;
 				case DBVT_BYTE:
 					_itow(dbv.bVal, buff, 10);

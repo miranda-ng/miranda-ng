@@ -234,14 +234,14 @@ void importCustomStatuses(CSWindow* csw, int result)
 
 		mir_snprintf(bufTitle, "XStatus%dName", i);
 		if (!db_get_ws(NULL, protoName, bufTitle, &dbv)) {
-			mir_wstrcpy(si->m_tszTitle, dbv.ptszVal);
+			mir_wstrcpy(si->m_tszTitle, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszTitle[0] = 0;
 
 		mir_snprintf(bufMessage, "XStatus%dMsg", i);
 		if (!db_get_ws(NULL, protoName, bufMessage, &dbv)) {
-			mir_wstrcpy(si->m_tszMessage, dbv.ptszVal);
+			mir_wstrcpy(si->m_tszMessage, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszMessage[0] = 0;
@@ -720,14 +720,14 @@ void CSItemsList::loadItems(char *protoName)
 
 		mir_snprintf(dbSetting, "%s_Item%dTitle", protoName, i);
 		if (!getWString(dbSetting, &dbv)) {
-			mir_wstrcpy(item->m_tszTitle, dbv.ptszVal);
+			mir_wstrcpy(item->m_tszTitle, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszTitle[0] = 0;
 
 		mir_snprintf(dbSetting, "%s_Item%dMessage", protoName, i);
 		if (!getWString(dbSetting, &dbv)) {
-			mir_wstrcpy(item->m_tszMessage, dbv.ptszVal);
+			mir_wstrcpy(item->m_tszMessage, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszMessage[0] = 0;

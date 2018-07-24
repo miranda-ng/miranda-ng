@@ -353,8 +353,8 @@ wchar_t* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 	}
 
 	if (!db_get_ws(NULL, MODULENAME, szMEntry, &dbv)) {
-		if (mir_wstrlen(dbv.ptszVal))
-			buffer = mir_wstrdup(dbv.ptszVal);
+		if (mir_wstrlen(dbv.pwszVal))
+			buffer = mir_wstrdup(dbv.pwszVal);
 		db_free(&dbv);
 	}
 

@@ -36,7 +36,7 @@ void LoadOptions()
 	dbv.type = DBVT_WCHAR;
 	memset(&WumfOptions, 0, sizeof(WumfOptions));
 	if (db_get_ws(NULL, MODULENAME, OPT_FILE, &dbv) == 0) {
-		wcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
+		wcsncpy(WumfOptions.LogFile, dbv.pwszVal, 255);
 		db_free(&dbv);
 	}
 	else

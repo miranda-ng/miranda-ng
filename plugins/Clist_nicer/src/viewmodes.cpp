@@ -430,7 +430,7 @@ void UpdateFilters()
 	}
 
 	mir_snprintf(szSetting, "%c%s_PF", 246, szBuf);
-	if (db_get(NULL, CLVM_MODULE, szSetting, &dbv_pf))
+	if (db_get_s(NULL, CLVM_MODULE, szSetting, &dbv_pf))
 		goto cleanup;
 
 	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
@@ -485,7 +485,7 @@ void UpdateFilters()
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
 			mir_snwprintf(szMask, L"%s|", szTemp);
-			if (dbv_gf.ptszVal && wcsstr(dbv_gf.ptszVal, szMask)) {
+			if (dbv_gf.pwszVal && wcsstr(dbv_gf.pwszVal, szMask)) {
 				ListView_SetCheckState(hwndList, i, TRUE);
 			}
 			else {

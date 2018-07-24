@@ -27,7 +27,7 @@ wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModu
 	if (db_get_ws(hContact, szModule, szSetting, &dbv))
 		return mir_wstrdup(szDef);
 	else if (dbv.pszVal)
-		szRes = mir_wstrdup(dbv.ptszVal);
+		szRes = mir_wstrdup(dbv.pwszVal);
 	else
 		szRes = mir_wstrdup(szDef);
 

@@ -66,11 +66,11 @@ void getDefaultMessage(HWND hwnd, UINT control, MCONTACT hContact)
 {
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv)) {
-		SetDlgItemText(hwnd, control, dbv.ptszVal);
+		SetDlgItemText(hwnd, control, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else if (!db_get_ws(NULL, MODULENAME, "PounceMsg", &dbv)) {
-		SetDlgItemText(hwnd, control, dbv.ptszVal);
+		SetDlgItemText(hwnd, control, dbv.pwszVal);
 		db_free(&dbv);
 	}
 }
@@ -513,7 +513,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (db_get_ws(spdps->hContact, MODULENAME, "PounceMsg", &dbv))
 				DestroyWindow(hwnd);
 			else {
-				SetDlgItemText(hwnd, IDC_MESSAGE, dbv.ptszVal);
+				SetDlgItemText(hwnd, IDC_MESSAGE, dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}
@@ -570,7 +570,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv))
 				DestroyWindow(hwnd);
 			else {
-				SetDlgItemText(hwnd, IDC_MESSAGE, dbv.ptszVal);
+				SetDlgItemText(hwnd, IDC_MESSAGE, dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}

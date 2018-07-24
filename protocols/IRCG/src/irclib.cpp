@@ -527,7 +527,7 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t* szNam
 	for (auto &p : m_dcc_xfers) {
 		DBVARIANT dbv;
 		if (!getWString(p->di->hContact, "Nick", &dbv)) {
-			if (p->di->iType == DCC_SEND && !p->di->bSender && !mir_wstrcmpi(szName, dbv.ptszVal) && iPort == p->di->iPort) {
+			if (p->di->iType == DCC_SEND && !p->di->bSender && !mir_wstrcmpi(szName, dbv.pwszVal) && iPort == p->di->iPort) {
 				db_free(&dbv);
 				return p;
 			}

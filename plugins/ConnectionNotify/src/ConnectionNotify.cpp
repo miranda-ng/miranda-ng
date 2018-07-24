@@ -126,15 +126,15 @@ struct CONNECTION* LoadSettingsConnections()
 		struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 		mir_snprintf(buff, "%dFilterIntIp", i);
 		if (!db_get_ws(NULL, PLUGINNAME, buff, &dbv))
-			wcsncpy(conn->strIntIp, dbv.ptszVal, _countof(conn->strIntIp));
+			wcsncpy(conn->strIntIp, dbv.pwszVal, _countof(conn->strIntIp));
 		db_free(&dbv);
 		mir_snprintf(buff, "%dFilterExtIp", i);
 		if (!db_get_ws(NULL, PLUGINNAME, buff, &dbv))
-			wcsncpy(conn->strExtIp, dbv.ptszVal, _countof(conn->strExtIp));
+			wcsncpy(conn->strExtIp, dbv.pwszVal, _countof(conn->strExtIp));
 		db_free(&dbv);
 		mir_snprintf(buff, "%dFilterPName", i);
 		if (!db_get_ws(NULL, PLUGINNAME, buff, &dbv))
-			wcsncpy(conn->PName, dbv.ptszVal, _countof(conn->PName));
+			wcsncpy(conn->PName, dbv.pwszVal, _countof(conn->PName));
 		db_free(&dbv);
 
 		mir_snprintf(buff, "%dFilterIntPort", i);

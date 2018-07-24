@@ -61,7 +61,7 @@ wchar_t* CIcqProto::GetOwnAvatarFileName()
 		return nullptr;
 
 	wchar_t tmp[MAX_PATH * 2];
-	PathToAbsoluteW(dbvFile.ptszVal, tmp);
+	PathToAbsoluteW(dbvFile.pwszVal, tmp);
 	db_free(&dbvFile);
 
 	return null_strdup(tmp);

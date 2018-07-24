@@ -870,7 +870,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 			if (db_get_b(NULL, "CList", "AutoApplyLastViewMode", 0)) {
 				DBVARIANT dbv = { 0 };
-				if (!db_get(NULL, "CList", "LastViewMode", &dbv)) {
+				if (!db_get_s(NULL, "CList", "LastViewMode", &dbv)) {
 					if (mir_strlen(dbv.pszVal) > 2) {
 						if (db_get_dw(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
 							ApplyViewMode((char *)dbv.pszVal);

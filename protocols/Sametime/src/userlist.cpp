@@ -636,7 +636,7 @@ void CSametimeProto::UserRecvAwayMessage(MCONTACT hContact)
 	debugLogW(L"CSametimeProto::UserRecvAwayMessage() start hContact=[%x]", hContact);
 	DBVARIANT dbv;
 	if (!db_get_s((MCONTACT)hContact, "CList", "StatusMsg", &dbv, DBVT_WCHAR)) {
-		ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
+		ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);

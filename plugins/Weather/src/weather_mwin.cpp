@@ -234,7 +234,7 @@ static void addWindow(MCONTACT hContact)
 		return;
 
 	wchar_t winname[512];
-	mir_snwprintf(winname, L"Weather: %s", dbv.ptszVal);
+	mir_snwprintf(winname, L"Weather: %s", dbv.pwszVal);
 	db_free(&dbv);
 
 	HWND hWnd = CreateWindow(L"WeatherFrame", L"", WS_CHILD | WS_VISIBLE,

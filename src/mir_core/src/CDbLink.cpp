@@ -77,7 +77,7 @@ wchar_t* CDbLink::LoadText()
 	if (dbv.type != DBVT_DELETED) db_free(&dbv);
 	if (!db_get_ws(0, m_szModule, m_szSetting, &dbv)) {
 		if (dbv.type == DBVT_WCHAR)
-			return dbv.ptszVal;
+			return dbv.pwszVal;
 		return m_szDefault;
 	}
 

@@ -980,7 +980,7 @@ static void LoadSettings()
 		strncpy_s(settingServerSec, _countof(settingServerSec), dbv.pszVal, _countof(settingServerSec));
 		db_free(&dbv);
 	}
-	if (!db_get(NULL, MODULENAME, "LNPassword", &dbv)) {
+	if (!db_get_s(NULL, MODULENAME, "LNPassword", &dbv)) {
 		strncpy_s(settingPassword, _countof(settingPassword), dbv.pszVal, _countof(settingPassword));
 		db_free(&dbv);
 	}
@@ -994,15 +994,15 @@ static void LoadSettings()
 	}
 
 	if (!db_get_ws(NULL, MODULENAME, "LNFilterSender", &dbv)) {
-		wcsncpy_s(settingFilterSender, dbv.ptszVal, _TRUNCATE);
+		wcsncpy_s(settingFilterSender, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	if (!db_get_ws(NULL, MODULENAME, "LNFilterSubject", &dbv)) {
-		wcsncpy_s(settingFilterSubject, dbv.ptszVal, _TRUNCATE);
+		wcsncpy_s(settingFilterSubject, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	if (!db_get_ws(NULL, MODULENAME, "LNFilterTo", &dbv)) {
-		wcsncpy_s(settingFilterTo, dbv.ptszVal, _TRUNCATE);
+		wcsncpy_s(settingFilterTo, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 

@@ -127,8 +127,8 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			mir_snwprintf(str, L"%S", dbv.pszVal);
 			break;
 		case DBVT_WCHAR:
-			unspecified = (special == SVS_ZEROISUNSPEC && dbv.ptszVal[0] == '\0');
-			ptstr = dbv.ptszVal;
+			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pwszVal[0] == '\0');
+			ptstr = dbv.pwszVal;
 			break;
 		case DBVT_UTF8:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');

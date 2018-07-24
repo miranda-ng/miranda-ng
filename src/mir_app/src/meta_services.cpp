@@ -285,17 +285,14 @@ int Meta_HandleACK(WPARAM, LPARAM lParam)
 	// change the hContact in the avatar info struct, if it's the avatar we're using - else drop it
 	if (ack->type == ACKTYPE_AVATAR) {
 		if (ack->result == ACKRESULT_SUCCESS || ack->result == ACKRESULT_FAILED || ack->result == ACKRESULT_STATUS) {
-			DBVARIANT dbv;
-
 			// change avatar if the most online supporting avatars changes, or if we don't have one
 			MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
 			if (ack->hContact == 0 || ack->hContact != hMostOnline)
 				return 0;
 
-			if (!db_get(ack->hContact, "ContactPhoto", "File", &dbv)) {
-				db_set_ws(cc->contactID, "ContactPhoto", "File", dbv.ptszVal);
-				db_free(&dbv);
-			}
+			ptrW wszFile(db_get_wsa(ack->hContact, "ContactPhoto", "File"));
+			if (wszFile)
+				db_set_ws(cc->contactID, "ContactPhoto", "File", wszFile);
 
 			if (ack->hProcess) {
 				PROTO_AVATAR_INFORMATION ai;
@@ -403,7 +400,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 
 			DBVARIANT dbv;
 			if (proto && !db_get_ws(hContact, proto, "Nick", &dbv)) {
-				db_set_ws(ccMeta->contactID, META_PROTO, buffer, dbv.ptszVal);
+				db_set_ws(ccMeta->contactID, META_PROTO, buffer, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else db_unset(ccMeta->contactID, META_PROTO, buffer);

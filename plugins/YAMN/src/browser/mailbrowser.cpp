@@ -806,7 +806,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 				hContact = PUGetContact(hWnd);
 
-				if (!db_get(hContact, YAMN_DBMODULE, "Id", &dbv)) {
+				if (!db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv)) {
 					Account = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 					db_free(&dbv);
 				}
@@ -870,7 +870,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 			MCONTACT hContact = PUGetContact(hWnd);
 
-			if (!db_get(hContact, YAMN_DBMODULE, "Id", &dbv)) {
+			if (!db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv)) {
 				ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -899,7 +899,7 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 			MCONTACT hContact = PUGetContact(hWnd);
 
-			if (!db_get(hContact, YAMN_DBMODULE, "Id", &dbv)) {
+			if (!db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv)) {
 				ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -962,7 +962,7 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 			MCONTACT hContact = PUGetContact(hWnd);
 
-			if (!db_get(hContact, YAMN_DBMODULE, "Id", &dbv)) {
+			if (!db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv)) {
 				ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}

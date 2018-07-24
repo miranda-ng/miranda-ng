@@ -662,22 +662,22 @@ void Options::LoadTasks()
 		mir_snprintf(buf, "Task_ftpName_%d", i);
 		DBVARIANT var;
 		if (!db_get_ws(0, MODULENAME, buf, &var)) {
-			to.ftpName = var.ptszVal;
+			to.ftpName = var.pwszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, "Task_filterName_%d", i);
 		if (!db_get_ws(0, MODULENAME, buf, &var)) {
-			to.filterName = var.ptszVal;
+			to.filterName = var.pwszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, "Task_filePath_%d", i);
 		if (!db_get_ws(0, MODULENAME, buf, &var)) {
-			to.filePath = var.ptszVal;
+			to.filePath = var.pwszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, "Task_taskName_%d", i);
 		if (!db_get_ws(0, MODULENAME, buf, &var)) {
-			to.taskName = var.ptszVal;
+			to.taskName = var.pwszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, "Task_zipPassword_%d", i);

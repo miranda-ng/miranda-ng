@@ -195,7 +195,7 @@ bool ICQ::logon(unsigned short logonStatus)
 	DBVARIANT dbv;
 	char str[128];
 
-	if (!db_get(NULL, protoName, "Server", &dbv)) {
+	if (!db_get_s(NULL, protoName, "Server", &dbv)) {
 		lstrcpyA(str, dbv.pszVal);
 		db_free(&dbv);
 	}
@@ -219,11 +219,10 @@ bool ICQ::logon(unsigned short logonStatus)
 	updateContactList();
 
 	dwUIN = db_get_dw(NULL, protoName, "UIN", 0);
-	if (!db_get(NULL, protoName, "Password", &dbv)) {
+	if (!db_get_s(NULL, protoName, "Password", &dbv)) {
 		lstrcpyA(str, dbv.pszVal);
 		db_free(&dbv);
 	}
-
 
 	timeStampLastMessage = 0;
 	sequenceVal = 1;

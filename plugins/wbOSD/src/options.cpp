@@ -128,7 +128,7 @@ void loadDBSettings(plgsettings *ps)
 
 	DBVARIANT dbv;
 	if (!db_get_ws(NULL, MODULENAME, "message_format", &dbv)) {
-		mir_wstrcpy(ps->msgformat, dbv.ptszVal);
+		mir_wstrcpy(ps->msgformat, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else mir_wstrcpy(ps->msgformat, DEFAULT_MESSAGEFORMAT);
@@ -150,7 +150,7 @@ void loadDBSettings(plgsettings *ps)
 	ps->lf.lfPitchAndFamily = db_get_b(NULL, MODULENAME, "fntPitchAndFamily", DEFAULT_FNT_PITCHANDFAM);
 
 	if (!db_get_ws(NULL, MODULENAME, "fntFaceName", &dbv)) {
-		mir_wstrcpy(ps->lf.lfFaceName, dbv.ptszVal);
+		mir_wstrcpy(ps->lf.lfFaceName, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else

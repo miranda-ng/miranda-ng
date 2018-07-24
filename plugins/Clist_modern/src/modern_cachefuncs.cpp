@@ -284,7 +284,7 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "XStatusName", &dbv)) {
 			//mir_wstrncpy(text, dbv.pszVal, text_size);
-			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
+			CopySkipUnprintableChars(text, dbv.pwszVal, text_size - 1);
 			db_free(&dbv);
 
 			if (text[0] != '\0')
@@ -303,7 +303,7 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	if (!noAwayMsg && !noXstatus && !xstatus_has_priority && pdnce->hContact && pdnce->szProto) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "XStatusName", &dbv)) {
-			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
+			CopySkipUnprintableChars(text, dbv.pwszVal, text_size - 1);
 			db_free(&dbv);
 
 			if (text[0] != '\0')
@@ -479,7 +479,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "Nick", &dbv)) {
 			wchar_t nick[_countof(contact->szText)];
-			mir_wstrncpy(nick, dbv.ptszVal, _countof(contact->szText));
+			mir_wstrncpy(nick, dbv.pwszVal, _countof(contact->szText));
 			db_free(&dbv);
 
 			// They are the same -> use the name to keep the case

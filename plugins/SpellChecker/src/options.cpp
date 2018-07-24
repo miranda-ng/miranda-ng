@@ -92,7 +92,7 @@ void LoadOptions()
 
 	DBVARIANT dbv;
 	if (!db_get_ws(NULL, MODULENAME, "DefaultLanguage", &dbv)) {
-		mir_wstrncpy(opts.default_language, dbv.ptszVal, _countof(opts.default_language));
+		mir_wstrncpy(opts.default_language, dbv.pwszVal, _countof(opts.default_language));
 		db_free(&dbv);
 	}
 

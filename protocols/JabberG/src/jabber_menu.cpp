@@ -906,8 +906,8 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			WindowList_Remove(hDialogsList, event->hwndWindow);
 
 		DBVARIANT dbv;
-		BOOL bSupportTyping = FALSE;
-		if (!db_get(event->hContact, "SRMsg", "SupportTyping", &dbv)) {
+		bool bSupportTyping = false;
+		if (!db_get_b(event->hContact, "SRMsg", "SupportTyping")) {
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}
@@ -915,6 +915,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}
+		
 		if (!bSupportTyping || !m_bJabberOnline)
 			return 0;
 

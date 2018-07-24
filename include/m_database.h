@@ -151,7 +151,6 @@ typedef struct
 		struct {
 			union {
 				char *pszVal;
-				wchar_t *ptszVal;
 				wchar_t *pwszVal;
 			};
 			WORD cchVal;   //only used for db/contact/getsettingstatic

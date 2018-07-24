@@ -673,7 +673,7 @@ static void CheckContinuouslyFunction(void *)
 	BOOL ping = KSPlugin.getByte(SETTING_BYPING, FALSE);
 	if (ping) {
 		DBVARIANT dbv;
-		if (db_get(0, KSMODULENAME, SETTING_PINGHOST, &dbv))
+		if (db_get_s(0, KSMODULENAME, SETTING_PINGHOST, &dbv))
 			ping = FALSE;
 		else {
 			char *start, *end;

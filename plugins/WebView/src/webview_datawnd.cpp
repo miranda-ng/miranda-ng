@@ -162,7 +162,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			url[0] = '\0';
 			if (!db_get_ws(hContact2, MODULENAME, URL_KEY, &dbv)) {
-				wcsncpy_s(url, dbv.ptszVal, _TRUNCATE);
+				wcsncpy_s(url, dbv.pwszVal, _TRUNCATE);
 				db_free(&dbv);
 			}
 			SetDlgItemText(hwndDlg, IDC_OPEN_URL, FixButtonText(url, _countof(url)));

@@ -20,11 +20,10 @@
 wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, wstring errorValue)
 {
 	DBVARIANT dbv;
-	//if(db_get(hContact, szModule, szSetting, &dbv))
-	if (db_get_ws(hContact, szModule, szSetting, &dbv))
+		if (db_get_ws(hContact, szModule, szSetting, &dbv))
 		return errorValue;
-	//	if(DBVT_WCHAR == dbv.type )
-	errorValue = dbv.ptszVal;
+	
+	errorValue = dbv.pwszVal;
 	db_free(&dbv);
 	return errorValue;
 }
@@ -32,16 +31,15 @@ wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, c
 std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const * szModule, char const * szSetting, std::string errorValue)
 {
 	DBVARIANT dbv;
-	//if(db_get(hContact, szModule, szSetting, &dbv))
 	if (db_get_s(hContact, szModule, szSetting, &dbv))
 		return errorValue;
-	//	if(DBVT_ASCIIZ == dbv.type )
+
 	errorValue = dbv.pszVal;
 	db_free(&dbv);
 	return errorValue;
 }
 
-wstring &GetDlgItemString(HWND hwnd, int id)
+wstring& GetDlgItemString(HWND hwnd, int id)
 {
 	HWND h = GetDlgItem(hwnd, id);
 	int len = GetWindowTextLength(h);

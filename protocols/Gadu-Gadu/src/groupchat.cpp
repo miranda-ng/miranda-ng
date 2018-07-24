@@ -135,7 +135,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 			MCONTACT hNext = db_find_next(hContact);
 			DBVARIANT dbv;
 			if (!getWString(hContact, "ChatRoomID", &dbv)) {
-				if (dbv.ptszVal && !mir_wstrcmp(gch->ptszID, dbv.ptszVal))
+				if (dbv.pwszVal && !mir_wstrcmp(gch->ptszID, dbv.pwszVal))
 					db_delete_contact(hContact);
 				db_free(&dbv);
 			}
@@ -155,7 +155,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		gce.ptszText = gch->ptszText;
 		wchar_t* nickT;
 		if (!getWString(GG_KEY_NICK, &dbv)) {
-			nickT = mir_wstrdup(dbv.ptszVal);
+			nickT = mir_wstrdup(dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else

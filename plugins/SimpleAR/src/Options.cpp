@@ -16,7 +16,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 			DBVARIANT dbv;
 			if (!db_get_ws(NULL, MODULENAME, KEY_HEADING, &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_HEADING, dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_HEADING, dbv.pwszVal);
 				db_free(&dbv);
 			}
 
@@ -30,9 +30,9 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 					if (!db_get_ws(NULL, MODULENAME, tszStatus, &dbv)) {
 						if (c < ID_STATUS_FREECHAT)
-							ptszMessage[c - ID_STATUS_ONLINE - 1] = wcsdup(dbv.ptszVal);
+							ptszMessage[c - ID_STATUS_ONLINE - 1] = wcsdup(dbv.pwszVal);
 						else if (c > ID_STATUS_INVISIBLE)
-							ptszMessage[c - ID_STATUS_ONLINE - 3] = wcsdup(dbv.ptszVal);
+							ptszMessage[c - ID_STATUS_ONLINE - 3] = wcsdup(dbv.pwszVal);
 						db_free(&dbv);
 					}
 				}

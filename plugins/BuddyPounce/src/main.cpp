@@ -50,8 +50,8 @@ int MsgAck(WPARAM, LPARAM lParam)
 				DBEVENTINFO dbei = {};
 				DBVARIANT dbv;
 				int reuse = db_get_b(ack->hContact, MODULENAME, "Reuse", 0);
-				if (!db_get_ws(ack->hContact, MODULENAME, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
-					T2Utf pszUtf(dbv.ptszVal);
+				if (!db_get_ws(ack->hContact, MODULENAME, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
+					T2Utf pszUtf(dbv.pwszVal);
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_UTF | DBEF_SENT;
 					dbei.szModule = (char*)ack->szModule;
@@ -141,7 +141,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 
 		if (newStatus != oldStatus && hContact != NULL && newStatus != ID_STATUS_OFFLINE) {
 			DBVARIANT dbv;
-			if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
+			if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
 				// check my status
 				if (statusCheck(db_get_w(hContact, MODULENAME, "SendIfMyStatusIsFLAG", 0), Proto_GetStatus(szProto))
 					// check the contacts status
@@ -150,14 +150,14 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 					if (CheckDate(hContact)) {
 						if (db_get_w(hContact, MODULENAME, "ConfirmTimeout", 0)) {
 							SendPounceDlgProcStruct *spdps = (SendPounceDlgProcStruct *)mir_alloc(sizeof(SendPounceDlgProcStruct));
-							wchar_t *message = mir_wstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
+							wchar_t *message = mir_wstrdup(dbv.pwszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
 							CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONFIRMSEND), nullptr, SendPounceDlgProc, (LPARAM)spdps);
 							// set the confirmation window to send the msg when the timeout is done
 							mir_free(message);
 						}
-						else SendPounce(dbv.ptszVal, hContact);
+						else SendPounce(dbv.pwszVal, hContact);
 					}
 				}
 				db_free(&dbv);
@@ -196,9 +196,9 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv))
 	{
-		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_wstrlen(dbv.ptszVal) + mir_wstrlen(message) + 1);
+		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_wstrlen(dbv.pwszVal) + mir_wstrlen(message) + 1);
 		if (!newPounce) return 1;
-		mir_wstrcpy(newPounce, dbv.ptszVal);
+		mir_wstrcpy(newPounce, dbv.pwszVal);
 		mir_wstrcat(newPounce, message);
 		db_set_ws(hContact, MODULENAME, "PounceMsg", newPounce);
 		mir_free(newPounce);

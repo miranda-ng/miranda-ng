@@ -432,7 +432,7 @@ void DeleteGlobalUserAvatar()
 		return;
 
 	wchar_t szFilename[MAX_PATH];
-	MyPathToAbsolute(dbv.ptszVal, szFilename);
+	MyPathToAbsolute(dbv.pwszVal, szFilename);
 	db_free(&dbv);
 
 	DeleteFile(szFilename);

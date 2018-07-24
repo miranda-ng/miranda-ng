@@ -95,18 +95,18 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 {
 	DBVARIANT dbv;
 	if (!db_get_ws(NULL, MODULENAME, "ScanCmdLine", &dbv)) {
-		if (dbv.ptszVal[0]) {
+		if (dbv.pwszVal[0]) {
 			STARTUPINFO si = { 0 };
 			si.cb = sizeof(si);
-			wchar_t *pszReplace = wcsstr(dbv.ptszVal, L"%f");
+			wchar_t *pszReplace = wcsstr(dbv.pwszVal, L"%f");
 			wchar_t szCmdLine[768];
 			if (pszReplace) {
 				if (info->szFile[mir_wstrlen(info->szFile) - 1] == '\\')
 					info->szFile[mir_wstrlen(info->szFile) - 1] = '\0';
 				*pszReplace = 0;
-				mir_snwprintf(szCmdLine, L"%s\"%s\"%s", dbv.ptszVal, info->szFile, pszReplace + 2);
+				mir_snwprintf(szCmdLine, L"%s\"%s\"%s", dbv.pwszVal, info->szFile, pszReplace + 2);
 			} else
-				wcsncpy_s(szCmdLine, dbv.ptszVal, _TRUNCATE);
+				wcsncpy_s(szCmdLine, dbv.pwszVal, _TRUNCATE);
 
 			PROCESS_INFORMATION pi;
 			if (CreateProcess(nullptr, szCmdLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {

@@ -5,9 +5,9 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
 	if (wParam == PFLAGNUM_4)
 		return PF4_NOCUSTOMAUTH;
 	if (wParam == PFLAG_UNIQUEIDTEXT)
-        return (INT_PTR) Translate("Nick");
+		return (INT_PTR)Translate("Nick");
 	if (wParam == PFLAG_MAXLENOFMESSAGE)
-        return 400;
+		return 400;
 	if (wParam == PFLAGNUM_2)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	if (wParam == PFLAGNUM_5) {
@@ -20,12 +20,12 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
 
 static INT_PTR Service_GetStatus(WPARAM, LPARAM)
 {
-	return YAMN_STATUS;	
+	return YAMN_STATUS;
 }
 
 static INT_PTR Service_SetStatus(WPARAM wParam, LPARAM)
-{	
-	int newstatus = (wParam != ID_STATUS_OFFLINE)?ID_STATUS_ONLINE:ID_STATUS_OFFLINE;
+{
+	int newstatus = (wParam != ID_STATUS_OFFLINE) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 	if (newstatus != YAMN_STATUS) {
 		int oldstatus = YAMN_STATUS;
 		YAMN_STATUS = newstatus;
@@ -37,18 +37,18 @@ static INT_PTR Service_SetStatus(WPARAM wParam, LPARAM)
 
 static INT_PTR Service_GetName(WPARAM wParam, LPARAM lParam)
 {
-	mir_strncpy((char *) lParam, YAMN_DBMODULE, wParam);
+	mir_strncpy((char *)lParam, YAMN_DBMODULE, wParam);
 	return 0;
 }
 
 static INT_PTR Service_LoadIcon(WPARAM wParam, LPARAM)
 {
-	if ( LOWORD( wParam ) == PLI_PROTOCOL )
+	if (LOWORD(wParam) == PLI_PROTOCOL)
 		return (INT_PTR)CopyIcon(g_LoadIconEx(0)); // noone cares about other than PLI_PROTOCOL
 
 	return (INT_PTR)(HICON)NULL;
 }
- 
+
 INT_PTR ClistContactDoubleclicked(WPARAM, LPARAM lParam)
 {
 	ContactDoubleclicked(((CLISTEVENT*)lParam)->lParam, lParam);
@@ -64,32 +64,32 @@ static int Service_ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
 static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 {
 	char *szProto = GetContactProto(wParam);
-	if ( mir_strcmp(szProto, YAMN_DBMODULE))
+	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return 0;
 
 	DBVARIANT dbv;
-	if ( db_get(wParam, YAMN_DBMODULE, "Id", &dbv))
+	if (db_get_s(wParam, YAMN_DBMODULE, "Id", &dbv))
 		return 0;
 
-	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 	if (ActualAccount != nullptr) {
 		STARTUPINFOW si = { 0 };
 		si.cb = sizeof(si);
-				
-		#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "ContactApplication:ActualAccountSO-read wait\n");
-		#endif
+
+#ifdef DEBUG_SYNCHRO
+		DebugLog(SynchroFile, "ContactApplication:ActualAccountSO-read wait\n");
+#endif
 		if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
-			#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ContactApplication:ualAccountSO-read enter\n");
-			#endif
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ContactApplication:ualAccountSO-read enter\n");
+#endif
 			if (ActualAccount->NewMailN.App != nullptr) {
 				WCHAR *Command;
 				if (ActualAccount->NewMailN.AppParam != nullptr)
-					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App)+mir_wstrlen(ActualAccount->NewMailN.AppParam)+6];
+					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
 				else
-					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App)+6];
-					
+					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
+
 				if (Command != nullptr) {
 					mir_wstrcpy(Command, L"\"");
 					mir_wstrcat(Command, ActualAccount->NewMailN.App);
@@ -103,15 +103,15 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 				}
 			}
 
-			#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ContactApplication:ActualAccountSO-read done\n");
-			#endif
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ContactApplication:ActualAccountSO-read done\n");
+#endif
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
-		#ifdef DEBUG_SYNCHRO
+#ifdef DEBUG_SYNCHRO
 		else
 			DebugLog(SynchroFile, "ContactApplication:ActualAccountSO-read enter failed\n");
-		#endif
+#endif
 	}
 	db_free(&dbv);
 	return 0;
@@ -133,18 +133,18 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		mir_cslock lck(PluginRegCS);
-		#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "AccountCheck:ActualAccountSO-read wait\n");
-		#endif
+#ifdef DEBUG_SYNCHRO
+		DebugLog(SynchroFile, "AccountCheck:ActualAccountSO-read wait\n");
+#endif
 		if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualAccount->AccountAccessSO, 0)) {
-			#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait failed\n");
-			#endif
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait failed\n");
+#endif
 		}
 		else {
-			#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
-			#endif
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
+#endif
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && ActualAccount->Plugin->Fcn->SynchroFcnPtr) {
 				CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam ? YAMN_FORCECHECK : YAMN_NORMALCHECK, nullptr, nullptr };
 
@@ -166,14 +166,14 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
-	if ( mir_strcmp(szProto, YAMN_DBMODULE))
+	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return 0;
 
 	DBVARIANT dbv;
-	if ( db_get(hContact, YAMN_DBMODULE, "Id", &dbv))
+	if (db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv))
 		return 0;
 
-	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 	if (ActualAccount != nullptr) {
 		//we use event to signal, that running thread has all needed stack parameters copied
 		HANDLE ThreadRunningEV;
@@ -183,27 +183,25 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 			return 0;
 		mir_cslock lck(PluginRegCS);
-		#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait\n");
-		#endif
-		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
-		{
-			#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait failed\n");
-			#endif
+#ifdef DEBUG_SYNCHRO
+		DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait\n");
+#endif
+		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait failed\n");
+#endif
 		}
-		else
-		{
-			#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
-			#endif
+		else {
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
+#endif
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
 			{
 				if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr == nullptr)
 					ReadDoneFcn(ActualAccount->AccountAccessSO);
 
 				DWORD tid;
-				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)nullptr, nullptr};
+				struct CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)nullptr, nullptr };
 				if (nullptr == CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
 					ReadDoneFcn(ActualAccount->AccountAccessSO);
 				else
@@ -220,22 +218,22 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 /*static*/ void ContactDoubleclicked(WPARAM wParam, LPARAM)
 {
 	char *szProto = GetContactProto(wParam);
-	if ( mir_strcmp(szProto, YAMN_DBMODULE))
+	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return;
 
 	DBVARIANT dbv;
-	if ( db_get(wParam, YAMN_DBMODULE, "Id", &dbv))
+	if (db_get_s(wParam, YAMN_DBMODULE, "Id", &dbv))
 		return;
 
 	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 	if (ActualAccount != nullptr) {
-		#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read wait\n");
-		#endif
+#ifdef DEBUG_SYNCHRO
+		DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read wait\n");
+#endif
 		if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
-			#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read enter\n");
-			#endif
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read enter\n");
+#endif
 			YAMN_MAILBROWSERPARAM Param = { nullptr, ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr };
 
 			Param.nnflags = Param.nnflags | YAMN_ACC_MSG;			//show mails in account even no new mail in account
@@ -245,17 +243,17 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 			Param.nflags = Param.nflags & ~YAMN_ACC_POP;
 
 			RunMailBrowserSvc((WPARAM)&Param, YAMN_MAILBROWSERVERSION);
-					
-			#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read done\n");
-			#endif
+
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read done\n");
+#endif
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
-		#ifdef DEBUG_SYNCHRO
+#ifdef DEBUG_SYNCHRO
 		else
 			DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read enter failed\n");
-		#endif
-				
+#endif
+
 	}
 	db_free(&dbv);
 }
@@ -269,14 +267,14 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 
 	HBRUSH hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
 
-	BITMAPINFOHEADER bih = {0};
+	BITMAPINFOHEADER bih = { 0 };
 	bih.biSize = sizeof(bih);
 	bih.biBitCount = 24;
 	bih.biPlanes = 1;
 	bih.biCompression = BI_RGB;
 	bih.biHeight = IconSizeY;
-	bih.biWidth = IconSizeX; 
-	
+	bih.biWidth = IconSizeX;
+
 	RECT rc;
 	rc.top = rc.left = 0;
 	rc.right = bih.biWidth;
@@ -292,10 +290,10 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 	return hBmp;
 }
 
-int AddTopToolbarIcon(WPARAM,LPARAM)
+int AddTopToolbarIcon(WPARAM, LPARAM)
 {
-	if ( db_get_b(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
-		if ( ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == nullptr) {
+	if (db_get_b(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
+		if (ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == nullptr) {
 			TTBButton btn = {};
 			btn.pszService = MS_YAMN_FORCECHECK;
 			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -433,7 +431,7 @@ void CreateServiceFunctions(void)
 void RefreshContact(void)
 {
 	HACCOUNT Finder;
-	for (Finder = POP3Plugin->FirstAccount;Finder != nullptr;Finder = Finder->Next) {
+	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
 		if (Finder->hContact != NULL) {
 			if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
 				db_unset(Finder->hContact, "CList", "Hidden");
@@ -448,4 +446,6 @@ void RefreshContact(void)
 			db_set_s(Finder->hContact, "Protocol", "p", YAMN_DBMODULE);
 			db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
 			db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
-}	}	}
+		}
+	}
+}

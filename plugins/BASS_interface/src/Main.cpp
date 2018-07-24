@@ -490,7 +490,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 		BASS_DEVICEINFO info;
 		if (!db_get_ws(NULL, MODULENAME, OPT_OUTDEVICE, &dbv))
 			for (size_t i = 1; BASS_GetDeviceInfo((DWORD)i, &info); i++)
-				if (!mir_wstrcmp(dbv.ptszVal, _A2T(info.name)))
+				if (!mir_wstrcmp(dbv.pwszVal, _A2T(info.name)))
 					device = (int)i;
 
 		db_free(&dbv);
@@ -544,7 +544,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 			db_set_ws(NULL, MODULENAME, OPT_BASSPATH, CurrBassPath);
 		}
 		else {
-			mir_wstrcpy(CurrBassPath, dbv.ptszVal);
+			mir_wstrcpy(CurrBassPath, dbv.pwszVal);
 			db_free(&dbv);
 		}
 	}

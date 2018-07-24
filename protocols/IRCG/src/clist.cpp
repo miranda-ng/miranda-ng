@@ -124,7 +124,7 @@ MCONTACT CIrcProto::CList_SetOffline(CONTACT *user)
 		if (!getWString(hContact, "Default", &dbv)) {
 			setString(hContact, "User", "");
 			setString(hContact, "Host", "");
-			setWString(hContact, "Nick", dbv.ptszVal);
+			setWString(hContact, "Nick", dbv.pwszVal);
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			db_free(&dbv);
 			return hContact;
@@ -149,7 +149,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		}
 		else if (!getWString(hContact, "Default", &dbv)) {
-			setWString(hContact, "Nick", dbv.ptszVal);
+			setWString(hContact, "Nick", dbv.pwszVal);
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			db_free(&dbv);
 		}

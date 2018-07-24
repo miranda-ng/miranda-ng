@@ -89,18 +89,18 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 	DBVARIANT dbv;
 	if (GetStatusModeByte(statusMode, "UsePrev")) {
 		if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(statusMode, "Msg"), &dbv))
-			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
+			dbv.pwszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 	}
 	else {
 		if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(statusMode, "Default"), &dbv))
-			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
+			dbv.pwszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 
-		for (int i = 0; dbv.ptszVal[i]; i++) {
-			if (dbv.ptszVal[i] != '%')
+		for (int i = 0; dbv.pwszVal[i]; i++) {
+			if (dbv.pwszVal[i] != '%')
 				continue;
 
 			wchar_t substituteStr[128];
-			if (!wcsnicmp(dbv.ptszVal + i, L"%time%", 6)) {
+			if (!wcsnicmp(dbv.pwszVal + i, L"%time%", 6)) {
 				MIRANDA_IDLE_INFO mii;
 				Idle_GetInfo(mii);
 
@@ -116,17 +116,17 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 				}
 				else GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, NULL, NULL, substituteStr, _countof(substituteStr));
 			}
-			else if (!wcsnicmp(dbv.ptszVal + i, L"%date%", 6))
+			else if (!wcsnicmp(dbv.pwszVal + i, L"%date%", 6))
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, _countof(substituteStr));
 			else continue;
 
 			if (mir_wstrlen(substituteStr) > 6)
-				dbv.ptszVal = (wchar_t*)mir_realloc(dbv.ptszVal, (mir_wstrlen(dbv.ptszVal) + 1 + mir_wstrlen(substituteStr) - 6) * sizeof(wchar_t));
-			memmove(dbv.ptszVal + i + mir_wstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_wstrlen(dbv.ptszVal) - i - 5) * sizeof(wchar_t));
-			memcpy(dbv.ptszVal + i, substituteStr, mir_wstrlen(substituteStr) * sizeof(wchar_t));
+				dbv.pwszVal = (wchar_t*)mir_realloc(dbv.pwszVal, (mir_wstrlen(dbv.pwszVal) + 1 + mir_wstrlen(substituteStr) - 6) * sizeof(wchar_t));
+			memmove(dbv.pwszVal + i + mir_wstrlen(substituteStr), dbv.pwszVal + i + 6, (mir_wstrlen(dbv.pwszVal) - i - 5) * sizeof(wchar_t));
+			memcpy(dbv.pwszVal + i, substituteStr, mir_wstrlen(substituteStr) * sizeof(wchar_t));
 		}
 	}
-	return dbv.ptszVal;
+	return dbv.pwszVal;
 }
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -390,9 +390,9 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				DBVARIANT dbv;
 				if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(it, "Default"), &dbv))
 					if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(it, "Msg"), &dbv))
-						dbv.ptszVal = mir_wstrdup(GetDefaultMessage(it));
-				mir_wstrcpy(dat->info[j].msg, dbv.ptszVal);
-				mir_free(dbv.ptszVal);
+						dbv.pwszVal = mir_wstrdup(GetDefaultMessage(it));
+				mir_wstrcpy(dat->info[j].msg, dbv.pwszVal);
+				mir_free(dbv.pwszVal);
 			}
 			if (hLst)
 				SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_SETCURSEL, 0, 0);

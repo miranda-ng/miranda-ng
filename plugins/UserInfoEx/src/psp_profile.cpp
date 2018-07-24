@@ -506,7 +506,7 @@ static int ProfileList_AddItemlistFromDB(
 		pItem->idstrListCount = nList;
 		pItem->iListItem = 0;
 		pItem->pszText[0] = nullptr;
-		pItem->pszText[1] = dbvVal.ptszVal;
+		pItem->pszText[1] = dbvVal.pwszVal;
 		pItem->wFlags = wFlags;
 		lvi.lParam = (LPARAM)pItem;
 		

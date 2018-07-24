@@ -99,7 +99,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			HWND wnd = GetDlgItem(hwndDlg, IDC_HANDLE2);
 			DBVARIANT dbv;
 			if (!proto->getWString("Nick", &dbv)) {
-				SetWindowText(wnd, dbv.ptszVal);
+				SetWindowText(wnd, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			EnableWindow(wnd, proto->msnLoggedIn);
@@ -491,7 +491,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			DBVARIANT dbv;
 			if (!proto->getWString("Place", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_PLACE, dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_PLACE, dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}

@@ -157,12 +157,12 @@ void load_settings()
 
 	DBVARIANT dbv;
 	if (!db_get_ws(NULL, MODULENAME, "password", &dbv)) {
-		g_settings.password = dbv.ptszVal;
+		g_settings.password = dbv.pwszVal;
 		db_free(&dbv);
 	}
 
 	if (!db_get_ws(NULL, MODULENAME, "log_filename", &dbv)) {
-		g_settings.log_filename = dbv.ptszVal;
+		g_settings.log_filename = dbv.pwszVal;
 		db_free(&dbv);
 	}
 	else

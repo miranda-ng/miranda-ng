@@ -221,8 +221,8 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 				return nullptr;
 
 			if (!db_get_ws(hContact, MODULENAME, "TempStatusMsg", &dbv)) {
-				if (mir_wstrlen(dbv.ptszVal) != 0)
-					swzMsg = mir_wstrdup(dbv.ptszVal);
+				if (mir_wstrlen(dbv.pwszVal) != 0)
+					swzMsg = mir_wstrdup(dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}
@@ -233,8 +233,8 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 					return nullptr;
 
 			if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
-				if (mir_wstrlen(dbv.ptszVal) != 0)
-					swzMsg = mir_wstrdup(dbv.ptszVal);
+				if (mir_wstrlen(dbv.pwszVal) != 0)
+					swzMsg = mir_wstrdup(dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}

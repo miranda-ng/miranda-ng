@@ -100,11 +100,11 @@ static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 			if (dbe.eventType == EVENTTYPE_MESSAGE && !(dbe.flags & DBEF_SENT)) {
 				DBVARIANT dbv;
 				if (!db_get_ws(NULL, MODULENAME, "Message", &dbv)) {
-					TrimString(dbv.ptszVal);
+					TrimString(dbv.pwszVal);
 					wchar_t *pszMsg = GetMessageText(&dbe.pBlob, &dbe.cbBlob);
-					if (pszMsg != nullptr && wcsstr(pszMsg, dbv.ptszVal) != nullptr)
+					if (pszMsg != nullptr && wcsstr(pszMsg, dbv.pwszVal) != nullptr)
 						ShutdownAndStopWatcher(); /* msg with specified text recvd */
-					mir_free(dbv.ptszVal); /* does NULL check */
+					mir_free(dbv.pwszVal); /* does NULL check */
 				}
 			}
 		mir_free(dbe.pBlob);

@@ -30,11 +30,11 @@ static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		SetDlgItemInt(hWnd, IDC_OPT_UIN, db_get_dw(NULL, protoName, "UIN", 0), FALSE);
-		if (!db_get(NULL, protoName, "Password", &dbv)) {
+		if (!db_get_s(NULL, protoName, "Password", &dbv)) {
 			SetDlgItemTextA(hWnd, IDC_OPT_PASSWORD, dbv.pszVal);
 			db_free(&dbv);
 		}
-		if (!db_get(NULL, protoName, "Server", &dbv)) {
+		if (!db_get_s(NULL, protoName, "Server", &dbv)) {
 			SetDlgItemTextA(hWnd, IDC_OPT_SERVER, dbv.pszVal);
 			db_free(&dbv);
 		}

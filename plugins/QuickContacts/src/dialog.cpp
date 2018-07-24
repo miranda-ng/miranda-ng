@@ -192,8 +192,8 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		if (opts.group_append) {
 			DBVARIANT dbv;
 			if (db_get_ws(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0) {
-				if (dbv.ptszVal != nullptr)
-					mir_wstrncpy(contact->szgroup, dbv.ptszVal, _countof(contact->szgroup));
+				if (dbv.pwszVal != nullptr)
+					mir_wstrncpy(contact->szgroup, dbv.pwszVal, _countof(contact->szgroup));
 
 				db_free(&dbv);
 			}

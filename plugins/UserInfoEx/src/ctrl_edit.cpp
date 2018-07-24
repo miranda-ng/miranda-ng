@@ -137,9 +137,9 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 			break;
 
 		case DBVT_WCHAR:
-			if (dbv.ptszVal) {
-				SetWindowText(_hwnd, dbv.ptszVal);
-				_pszValue = dbv.ptszVal;
+			if (dbv.pwszVal) {
+				SetWindowText(_hwnd, dbv.pwszVal);
+				_pszValue = dbv.pwszVal;
 				break;
 			}
 
@@ -191,7 +191,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 						break;
 
 					case DBVT_WCHAR:
-						dbv.ptszVal = val;
+						dbv.pwszVal = val;
 						break;
 
 					default:

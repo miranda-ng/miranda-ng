@@ -91,7 +91,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			DBVARIANT dbv;
 			if (db_get_ws(NULL, MODULENAME, "ScanCmdLine", &dbv) == 0) {
-				SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else if (SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0)) {

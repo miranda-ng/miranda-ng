@@ -183,7 +183,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		if (proto != nullptr) {
 			DBVARIANT dbv;
 			if (!db_get_ws(hContact, proto, "ListeningTo", &dbv)) {
-				if (dbv.ptszVal != nullptr && dbv.ptszVal[0] != 0)
+				if (dbv.pwszVal != nullptr && dbv.pwszVal[0] != 0)
 					SetExtraIcon(hContact, TRUE);
 
 				db_free(&dbv);
@@ -810,7 +810,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (proto == nullptr || strcmp(cws->szModule, proto) != 0)
 		return 0;
 
-	if (cws->value.type == DBVT_DELETED || cws->value.ptszVal == nullptr || cws->value.ptszVal[0] == 0)
+	if (cws->value.type == DBVT_DELETED || cws->value.pwszVal == nullptr || cws->value.pwszVal[0] == 0)
 		SetExtraIcon(hContact, FALSE);
 	else
 		SetExtraIcon(hContact, TRUE);

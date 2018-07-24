@@ -1141,7 +1141,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 					dbv.type = DBVT_BLOB;
 					dbv.pbVal = (PBYTE)&dwBlogStatusID;
 					dbv.cpbVal = sizeof(DWORDLONG);
-					db_get(dat->hContact, dat->ppro->m_szModuleName, DBSETTING_BLOGSTATUSID, &dbv);
+					db_set(dat->hContact, dat->ppro->m_szModuleName, DBSETTING_BLOGSTATUSID, &dbv);
 				}
 				else {
 					dwFlags = MRIM_BLOG_STATUS_UPDATE;

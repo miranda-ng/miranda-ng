@@ -293,7 +293,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						mir_snwprintf(idstr2, L"%d", i + 2);
 					}
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_EMAILS), lvi.iItem, 1, dbv.ptszVal);
+					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_EMAILS), lvi.iItem, 1, dbv.pwszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}
@@ -306,7 +306,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.pszText = idstr2;
 					mir_snwprintf(idstr2, TranslateT("Custom %d"), i + 1);
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_EMAILS), lvi.iItem, 1, dbv.ptszVal);
+					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_EMAILS), lvi.iItem, 1, dbv.pwszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}
@@ -322,14 +322,14 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (!db_get_ws(hContact, szProto, "Phone", &dbv)) {
 					lvi.pszText = TranslateT("Primary");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
+					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.pwszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}
 				if (!db_get_ws(hContact, szProto, "Fax", &dbv)) {
 					lvi.pszText = TranslateT("Fax");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
+					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.pwszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}
@@ -338,23 +338,23 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
 					if (mir_strlen(dbv.pszVal) > 4 && !mir_strcmp(dbv.pszVal + mir_strlen(dbv.pszVal) - 4, " SMS")) {
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, L"y");
-						dbv.ptszVal[mir_wstrlen(dbv.ptszVal) - 4] = '\0';
+						dbv.pwszVal[mir_wstrlen(dbv.pwszVal) - 4] = '\0';
 					}
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
+					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.pwszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}
 				if (!db_get_ws(hContact, szProto, "CompanyPhone", &dbv)) {
 					lvi.pszText = TranslateT("Work phone");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
+					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.pwszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}
 				if (!db_get_ws(hContact, szProto, "CompanyFax", &dbv)) {
 					lvi.pszText = TranslateT("Work fax");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
+					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.pwszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}
@@ -367,11 +367,11 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.pszText = idstr2;
 					mir_snwprintf(idstr2, TranslateT("Custom %d"), i + 1);
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					if (mir_wstrlen(dbv.ptszVal) > 4 && !mir_wstrcmp(dbv.ptszVal + mir_wstrlen(dbv.ptszVal) - 4, L" SMS")) {
+					if (mir_wstrlen(dbv.pwszVal) > 4 && !mir_wstrcmp(dbv.pwszVal + mir_wstrlen(dbv.pwszVal) - 4, L" SMS")) {
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, L"y");
-						dbv.ptszVal[mir_wstrlen(dbv.ptszVal) - 4] = '\0';
+						dbv.pwszVal[mir_wstrlen(dbv.pwszVal) - 4] = '\0';
 					}
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
+					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.pwszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}

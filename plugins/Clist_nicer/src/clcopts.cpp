@@ -709,7 +709,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			DBVARIANT dbv;
 			if (!db_get_ws(NULL, "CLC", "BkBitmap", &dbv)) {
 				wchar_t szPath[MAX_PATH];
-				if (PathToAbsoluteW(dbv.ptszVal, szPath))
+				if (PathToAbsoluteW(dbv.pwszVal, szPath))
 					SetDlgItemText(hwndDlg, IDC_FILENAME, szPath);
 
 				db_free(&dbv);

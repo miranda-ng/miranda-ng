@@ -1049,7 +1049,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (!pPs->hContact)
 			pszName = TranslateT("Owner");
 		else if (pdbcws && pdbcws->value.type == DBVT_WCHAR)
-			pszName = pdbcws->value.ptszVal;
+			pszName = pdbcws->value.pwszVal;
 		else
 			pszName = Clist_GetContactDisplayName(pPs->hContact);
 

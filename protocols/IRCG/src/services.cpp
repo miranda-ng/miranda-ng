@@ -183,12 +183,12 @@ void CIrcProto::OnContactDeleted(MCONTACT hContact)
 		if (type != 0) {
 			CMStringW S;
 			if (type == GCW_CHATROOM)
-				S = MakeWndID(dbv.ptszVal);
+				S = MakeWndID(dbv.pwszVal);
 			if (type == GCW_SERVER)
 				S = SERVERWINDOW;
 			int i = Chat_Terminate(m_szModuleName, S);
 			if (i && type == GCW_CHATROOM)
-				PostIrcMessage(L"/PART %s %s", dbv.ptszVal, m_userInfo);
+				PostIrcMessage(L"/PART %s %s", dbv.pwszVal, m_userInfo);
 		}
 		else {
 			BYTE bDCC = getByte(hContact, "DCC", 0);
@@ -211,7 +211,7 @@ INT_PTR __cdecl CIrcProto::OnJoinChat(WPARAM wp, LPARAM)
 	DBVARIANT dbv;
 	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
 		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM)
-			PostIrcMessage(L"/JOIN %s", dbv.ptszVal);
+			PostIrcMessage(L"/JOIN %s", dbv.pwszVal);
 		db_free(&dbv);
 	}
 	return 0;
@@ -225,8 +225,8 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 	DBVARIANT dbv;
 	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
 		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM) {
-			PostIrcMessage(L"/PART %s %s", dbv.ptszVal, m_userInfo);
-			Chat_Terminate(m_szModuleName, MakeWndID(dbv.ptszVal));
+			PostIrcMessage(L"/PART %s %s", dbv.pwszVal, m_userInfo);
+			Chat_Terminate(m_szModuleName, MakeWndID(dbv.pwszVal));
 		}
 		db_free(&dbv);
 	}
@@ -241,7 +241,7 @@ INT_PTR __cdecl CIrcProto::OnMenuChanSettings(WPARAM wp, LPARAM)
 	MCONTACT hContact = (MCONTACT)wp;
 	DBVARIANT dbv;
 	if (!getWString(hContact, "Nick", &dbv)) {
-		PostIrcMessageWnd(dbv.ptszVal, NULL, L"/CHANNELMANAGER");
+		PostIrcMessageWnd(dbv.pwszVal, NULL, L"/CHANNELMANAGER");
 		db_free(&dbv);
 	}
 	return 0;
@@ -255,7 +255,7 @@ INT_PTR __cdecl CIrcProto::OnMenuWhois(WPARAM wp, LPARAM)
 	DBVARIANT dbv;
 
 	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
-		PostIrcMessage(L"/WHOIS %s %s", dbv.ptszVal, dbv.ptszVal);
+		PostIrcMessage(L"/WHOIS %s %s", dbv.pwszVal, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	return 0;
@@ -540,7 +540,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 					{
 						DBVARIANT dbv;
 						if (!getWString("Nick", &dbv)) {
-							PostIrcMessage(L"/nickserv SENDPASS %s", dbv.ptszVal);
+							PostIrcMessage(L"/nickserv SENDPASS %s", dbv.pwszVal);
 							db_free(&dbv);
 						}
 					}
@@ -917,7 +917,7 @@ int __cdecl CIrcProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		DBVARIANT dbv;
 		if (!getWString(hContact, "Nick", &dbv)) {
 			if (getByte("MirVerAutoRequest", 1))
-				PostIrcMessage(L"/PRIVMSG %s \001VERSION\001", dbv.ptszVal);
+				PostIrcMessage(L"/PRIVMSG %s \001VERSION\001", dbv.pwszVal);
 			db_free(&dbv);
 		}
 	}

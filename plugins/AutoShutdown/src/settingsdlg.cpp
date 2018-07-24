@@ -123,8 +123,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				DBVARIANT dbv;
 				if (!db_get_ws(NULL, MODULENAME, "Message", &dbv)) {
-					SetDlgItemText(hwndDlg, IDC_EDIT_MESSAGE, dbv.ptszVal);
-					mir_free(dbv.ptszVal);
+					SetDlgItemText(hwndDlg, IDC_EDIT_MESSAGE, dbv.pwszVal);
+					mir_free(dbv.pwszVal);
 				}
 			}
 			/* cpuusage threshold */

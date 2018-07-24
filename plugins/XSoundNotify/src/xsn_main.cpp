@@ -108,7 +108,7 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!isIgnoreSound && !db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
-		PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
+		PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
 		isOwnSound = 0;
 		Skin_PlaySoundFile(PlaySoundPath);
 		db_free(&dbv);
@@ -125,7 +125,7 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 	mir_free(value);
 	if (!isIgnoreAccSound && !db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
-		PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
+		PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
 		isAccSound = 0;
 		Skin_PlaySoundFile(PlaySoundPath);
 		db_free(&dbv);
@@ -153,7 +153,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 			DBVARIANT dbv;
 			if (!isIgnoreSound && !db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
-				PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
+				PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
 				isOwnSound = 0;
 				Skin_PlaySoundFile(PlaySoundPath);
 				db_free(&dbv);
@@ -169,7 +169,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 			mir_free(value);
 			if (!isIgnoreAccSound && !db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
-				PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
+				PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
 				isAccSound = 0;
 				Skin_PlaySoundFile(PlaySoundPath);
 				db_free(&dbv);

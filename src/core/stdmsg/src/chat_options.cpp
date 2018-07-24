@@ -204,7 +204,7 @@ static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefau
 {
 	DBVARIANT dbv;
 	if (!db_get_ws(0, CHAT_MODULE, pszSetting, &dbv)) {
-		replaceStrW(*ppPointer, dbv.ptszVal);
+		replaceStrW(*ppPointer, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else replaceStrW(*ppPointer, pszDefault);

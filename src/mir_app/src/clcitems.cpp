@@ -322,15 +322,15 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 			ClcContact *cc = group->cl[i];
 			if (cc->type == CLCIT_GROUP) {
 				size_t len = mir_wstrlen(cc->szText);
-				if (!wcsncmp(cc->szText, dbv.ptszVal + nameOffset, len) &&
-					(dbv.ptszVal[nameOffset + len] == '\\' || dbv.ptszVal[nameOffset + len] == '\0')) {
+				if (!wcsncmp(cc->szText, dbv.pwszVal + nameOffset, len) &&
+					(dbv.pwszVal[nameOffset + len] == '\\' || dbv.pwszVal[nameOffset + len] == '\0')) {
 					group->totalMembers--;
-					if (dbv.ptszVal[nameOffset + len] == '\0')
+					if (dbv.pwszVal[nameOffset + len] == '\0')
 						break;
 				}
 			}
 		}
-		mir_free(dbv.ptszVal);
+		mir_free(dbv.pwszVal);
 	}
 	else Clist_RemoveItemFromGroup(hwnd, group, contact, 1);
 }

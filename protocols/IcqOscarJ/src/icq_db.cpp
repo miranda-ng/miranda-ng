@@ -170,7 +170,7 @@ void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAns
 		char *oldStatusMsg = nullptr;
 		DBVARIANT dbv;
 		if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
-			oldStatusMsg = make_utf8_string(dbv.ptszVal);
+			oldStatusMsg = make_utf8_string(dbv.pwszVal);
 			db_free(&dbv);
 		}
 
