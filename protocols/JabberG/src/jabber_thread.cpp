@@ -1068,16 +1068,9 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	if (!XmlGetName(node) || mir_wstrcmp(XmlGetName(node), L"message"))
 		return;
 
-	const wchar_t *from, *to, *type = XmlGetAttrValue(node, L"type");
+	const wchar_t *from, *type = XmlGetAttrValue(node, L"type");
 	if ((from = XmlGetAttrValue(node, L"from")) == nullptr)
 		return;
-	if ((to = XmlGetAttrValue(node, L"to")) == nullptr)
-		return;
-
-	if (mir_wstrcmpi(to, m_szJabberJID) && mir_wstrcmpi(to, info->fullJID)) {
-		debugLogA("message sent to wrong addressee: %S", to);
-		return;
-	}
 	
 	const wchar_t *idStr = XmlGetAttrValue(node, L"id");
 	pResourceStatus pFromResource(ResourceInfoFromJID(from));
@@ -2178,5 +2171,4 @@ int ThreadData::send_no_strm_mgmt(HXML node)
 	xmlFree(str);
 
 	return result;
-
 }
