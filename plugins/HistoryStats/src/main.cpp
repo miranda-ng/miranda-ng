@@ -336,15 +336,12 @@ void AddContactMenu()
 
 static int EventOptInitialise(WPARAM wParam, LPARAM)
 {
-	mu::opt::addPage(
-		wParam,
-		TranslateT("History"),
-		TranslateT("Statistics"),
-		nullptr,
-		DlgOption::staticDlgProc,
-		MAKEINTRESOURCEA(IDD_OPTIONS),
-		g_plugin.getInst());
-
+	OPTIONSDIALOGPAGE odp = {};
+	odp.szGroup.a = LPGEN("History");
+	odp.szTitle.a = LPGEN("Statistics");
+	odp.pfnDlgProc = DlgOption::staticDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

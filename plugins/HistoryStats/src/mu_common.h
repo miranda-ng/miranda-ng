@@ -29,15 +29,6 @@ namespace mu
 	}
 
 	/*
-	 * opt
-	 */
-
-	namespace opt
-	{
-		void addPage(WPARAM addInfo, const wchar_t* pszGroup, const wchar_t* pszTitle, const wchar_t* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags = ODPF_BOLDGROUPS);
-	}
-
-	/*
 	 * protosvc
 	 */
 

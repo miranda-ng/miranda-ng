@@ -73,25 +73,6 @@ namespace mu
 	}
 
 	/*
-	 * opt
-	 */
-
-	namespace opt
-	{
-		void addPage(WPARAM addInfo, const wchar_t* pszGroup, const wchar_t* pszTitle, const wchar_t* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags /* = ODPF_BOLDGROUPS */)
-		{
-			OPTIONSDIALOGPAGE odp = {};
-			odp.szTitle.w = const_cast<wchar_t*>(pszTitle);
-			odp.pfnDlgProc = pfnDlgProc;
-			odp.pszTemplate = const_cast<char*>(pszTemplate);
-			odp.szGroup.w = const_cast<wchar_t*>(pszGroup);
-			odp.flags = flags | ODPF_UNICODE;
-			odp.szTab.w = const_cast<wchar_t*>(pszTab);
-			g_plugin.addOptions(addInfo, &odp);
-		}
-	}
-
-	/*
 	 * protosvc
 	 */
 
