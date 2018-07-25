@@ -9,6 +9,24 @@
 #include <m_core.h>
 #endif
 
+struct MBaseFontObject
+{
+	char     group[64];	// [TRANSLATED-BY-CORE]
+	char     name[64];	// [TRANSLATED-BY-CORE]
+	char     dbSettingsGroup[32];
+	char     setting[32];
+	DWORD    flags;
+};
+
+struct MBaseFontObjectW
+{
+	wchar_t    group[64];
+	wchar_t    name[64];
+	char       dbSettingsGroup[32];
+	char       setting[32];
+	DWORD      flags;
+};
+
 //////////////////////////////////////////////////////////////////////////
 //
 //  FONTS
@@ -66,14 +84,8 @@ struct FontSettingsW
 // are translated by the core, which may lead to double translation.
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
 
-struct FontID
+struct FontID : public MBaseFontObject
 {
-	int   cbSize;
-	char  group[64];               // [TRANSLATED-BY-CORE] group the font belongs to - this is the 'Font Group' list in the options page
-	char  name[64];                // [TRANSLATED-BY-CORE] this is the name of the font setting - e.g. 'contacts' in the 'contact list' group
-	char  dbSettingsGroup[32];     // the 'module' in the database where the font data is stored
-	char  prefix[32];              // this is prepended to the settings used to store this font's data in the db
-	DWORD flags;                   // bitwise OR of the FIDF_* flags above
 	FontSettings deffontsettings;  // defaults, valid if flags & FIDF_DEFAULTVALID
 	int   order;                   // controls the order in the font group in which the fonts are listed in the UI (if order fields are equal,
 											 // they will be ordered alphabetically by name)
@@ -81,14 +93,8 @@ struct FontID
 	char  backgroundName[64];
 };
 
-struct FontIDW
+struct FontIDW : public MBaseFontObjectW
 {
-	int     cbSize;
-	wchar_t group[64];             // [TRANSLATED-BY-CORE] group the font belongs to - this is the 'Font Group' list in the options page
-	wchar_t name[64];              // [TRANSLATED-BY-CORE] this is the name of the font setting - e.g. 'contacts' in the 'contact list' group
-	char    dbSettingsGroup[32];   // the 'module' in the database where the font data is stored
-	char    prefix[32];            // this is prepended to the settings used to store this font's data in the db
-	DWORD   flags;                 // bitwise OR of the FIDF_* flags above
 	FontSettingsW deffontsettings; // defaults, valid if flags & FIDF_DEFAULTVALID
 	int     order;                 // controls the order in the font group in which the fonts are listed in the UI (if order fields are equal,
 											 // they will be ordered alphabetically by name)
@@ -132,27 +138,15 @@ __forceinline COLORREF Font_GetW(FontIDW &p, LOGFONTW *pFont)
 // are translated by the core, which may lead to double translation.
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
 
-struct ColourID
+struct ColourID : public MBaseFontObject
 {
-	int      cbSize;
-	char     group[64];	// [TRANSLATED-BY-CORE]
-	char     name[64];	// [TRANSLATED-BY-CORE]
-	char     dbSettingsGroup[32];
-	char     setting[32];
-	DWORD    flags;		// not used
 	COLORREF defcolour; // default value
 	int      order;
 };
 
 // a font identifier structure - used for registering a font, and getting one out again
-struct ColourIDW
+struct ColourIDW : public MBaseFontObjectW
 {
-	int      cbSize;
-	wchar_t  group[64];	// [TRANSLATED-BY-CORE]
-	wchar_t  name[64];	// [TRANSLATED-BY-CORE]
-	char     dbSettingsGroup[32];
-	char     setting[32];
-	DWORD    flags;      // not used
 	COLORREF defcolour;  // default value
 	int      order;
 };
@@ -191,27 +185,15 @@ struct FONTEFFECT
 	DWORD    secondaryColour;   // ARGB
 };
 
-struct EffectID
+struct EffectID : public MBaseFontObject
 {
-	int        cbSize;
-	char       group[64];
-	char       name[64];
-	char       dbSettingsGroup[32];
-	char       setting[32];
-	DWORD      flags;
 	FONTEFFECT defeffect;
 	int        order;
 	FONTEFFECT value;
 };
 
-struct EffectIDW
+struct EffectIDW : public MBaseFontObjectW
 {
-	int        cbSize;
-	wchar_t    group[64];
-	wchar_t    name[64];
-	char       dbSettingsGroup[32];
-	char       setting[32];
-	DWORD      flags;
 	FONTEFFECT defeffect;
 	int        order;
 	FONTEFFECT value;

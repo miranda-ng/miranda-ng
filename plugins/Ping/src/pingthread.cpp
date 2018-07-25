@@ -895,11 +895,10 @@ void InitList()
 		else ShowWindow(hpwnd, SW_SHOW);
 	}
 
-	font_id.cbSize = sizeof(FontIDW);
 	mir_wstrncpy(font_id.group, LPGENW("Ping"), _countof(font_id.group));
 	mir_wstrncpy(font_id.name, LPGENW("List"), _countof(font_id.name));
 	mir_strncpy(font_id.dbSettingsGroup, "PING", _countof(font_id.dbSettingsGroup));
-	mir_strncpy(font_id.prefix, "Font", _countof(font_id.prefix));
+	mir_strncpy(font_id.setting, "Font", _countof(font_id.setting));
 	mir_wstrncpy(font_id.backgroundGroup, L"Ping", _countof(font_id.backgroundGroup));
 	mir_wstrncpy(font_id.backgroundName, L"Background", _countof(font_id.backgroundName));
 	font_id.order = 0;
@@ -912,7 +911,6 @@ void InitList()
 
 	g_plugin.addFont(&font_id);
 
-	bk_col_id.cbSize = sizeof(ColourIDW);
 	mir_wstrncpy(bk_col_id.group, L"Ping", _countof(bk_col_id.group));
 	mir_wstrncpy(bk_col_id.name, L"Background", _countof(bk_col_id.name));
 	mir_strncpy(bk_col_id.dbSettingsGroup, "PING", _countof(bk_col_id.dbSettingsGroup));

@@ -226,9 +226,7 @@ void RegisterFontServiceFonts()
 {
 	char szTemp[100];
 
-	FontID fontid = { 0 };
-	fontid.cbSize = sizeof(FontIDW);
-
+	FontID fontid = {};
 	strncpy(fontid.group, SECTIONNAME, _countof(fontid.group));
 	strncpy(fontid.backgroundGroup, SECTIONNAME, _countof(fontid.backgroundGroup));
 	strncpy(fontid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
@@ -241,7 +239,7 @@ void RegisterFontServiceFonts()
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		fontid.order = i;
 		mir_snprintf(szTemp, "Font%d", i);
-		strncpy(fontid.prefix, szTemp, _countof(fontid.prefix));
+		strncpy(fontid.setting, szTemp, _countof(fontid.setting));
 		strncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 
@@ -256,9 +254,7 @@ void RegisterFontServiceFonts()
 		g_plugin.addFont(&fontid);
 	}
 
-	ColourID colorid = { 0 };
-	colorid.cbSize = sizeof(ColourIDW);
-
+	ColourID colorid = {};
 	strncpy(colorid.group, SECTIONNAME, _countof(colorid.group));
 	strncpy(colorid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
 	colorid.flags = 0;

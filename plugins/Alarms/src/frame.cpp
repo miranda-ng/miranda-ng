@@ -555,15 +555,13 @@ int CreateFrame()
 
 	SendMessage(hwnd_plugin, WMU_INITIALIZE, 0, 0);
 
-	font_id.cbSize = sizeof(font_id);
 	strncpy_s(font_id.group, LPGEN("Frames"), _TRUNCATE);
 	strncpy_s(font_id.name, LPGEN("Alarm reminders"), _TRUNCATE);
 	strncpy_s(font_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
-	strncpy_s(font_id.prefix, "Font", _TRUNCATE);
+	strncpy_s(font_id.setting, "Font", _TRUNCATE);
 	font_id.order = 0;
 	g_plugin.addFont(&font_id);
 
-	framebk_colour_id.cbSize = sizeof(ColourID);
 	strncpy_s(framebk_colour_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	strncpy_s(framebk_colour_id.group, LPGEN("Frames"), _TRUNCATE);
 	strncpy_s(framebk_colour_id.name, LPGEN("Alarm reminders"), _TRUNCATE);

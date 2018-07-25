@@ -158,7 +158,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	FontIDW fontid = { sizeof(fontid) };
+	FontIDW fontid = {};
 	wcsncpy_s(fontid.group, LPGENW("Favorite Contacts"), _TRUNCATE);
 	strncpy_s(fontid.dbSettingsGroup, "FavContacts", _TRUNCATE);
 	wcsncpy_s(fontid.backgroundGroup, LPGENW("Favorite Contacts"), _TRUNCATE);
@@ -171,13 +171,13 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	wcsncpy_s(fontid.backgroundName, LPGENW("Background"), _TRUNCATE);
 
 	wcsncpy_s(fontid.name, LPGENW("Contact name"), _TRUNCATE);
-	strncpy_s(fontid.prefix, "fntName", _TRUNCATE);
+	strncpy_s(fontid.setting, "fntName", _TRUNCATE);
 	fontid.deffontsettings.colour = GetSysColor(COLOR_MENUTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	g_plugin.addFont(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Second line"), _TRUNCATE);
-	strncpy_s(fontid.prefix, "fntSecond", _TRUNCATE);
+	strncpy_s(fontid.setting, "fntSecond", _TRUNCATE);
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_MENUTEXT), GetSysColor(COLOR_MENU));
 	fontid.deffontsettings.style = 0;
 	g_plugin.addFont(&fontid);
@@ -185,20 +185,20 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	wcsncpy_s(fontid.backgroundName, LPGENW("Selected background"), _TRUNCATE);
 
 	wcsncpy_s(fontid.name, LPGENW("Selected contact name (color)"), _TRUNCATE);
-	strncpy_s(fontid.prefix, "fntNameSel", _TRUNCATE);
+	strncpy_s(fontid.setting, "fntNameSel", _TRUNCATE);
 	fontid.deffontsettings.colour = GetSysColor(COLOR_HIGHLIGHTTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	g_plugin.addFont(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Selected second line (color)"), _TRUNCATE);
-	strncpy_s(fontid.prefix, "fntSecondSel", _TRUNCATE);
+	strncpy_s(fontid.setting, "fntSecondSel", _TRUNCATE);
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_HIGHLIGHTTEXT), GetSysColor(COLOR_HIGHLIGHT));
 	fontid.deffontsettings.style = 0;
 	g_plugin.addFont(&fontid);
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	ColourIDW colourid = { sizeof(colourid) };
+	ColourIDW colourid = {};
 	wcsncpy_s(colourid.group, LPGENW("Favorite Contacts"), _TRUNCATE);
 	strncpy_s(colourid.dbSettingsGroup, "FavContacts", _TRUNCATE);
 

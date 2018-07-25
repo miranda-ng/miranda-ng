@@ -1100,12 +1100,11 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 {
 	CreateServiceFunction(MS_CONSOLE_SHOW_HIDE, ShowHideConsole);
 
-	FontIDW fid = { 0 };
-	fid.cbSize = sizeof(fid);
+	FontIDW fid = {};
 	mir_wstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
 	mir_wstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
 	mir_strncpy(fid.dbSettingsGroup, "Console", _countof(fid.dbSettingsGroup));
-	mir_strncpy(fid.prefix, "ConsoleFont", _countof(fid.prefix));
+	mir_strncpy(fid.setting, "ConsoleFont", _countof(fid.setting));
 	mir_wstrncpy(fid.backgroundGroup, LPGENW("Console"), _countof(fid.backgroundGroup));
 	mir_wstrncpy(fid.backgroundName, LPGENW("Background"), _countof(fid.backgroundName));
 	fid.flags = FIDF_DEFAULTVALID;
@@ -1118,8 +1117,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_FONT_RELOAD, OnFontChange);
 
-	ColourIDW cid = { 0 };
-	cid.cbSize = sizeof(cid);
+	ColourIDW cid = {};
 	mir_wstrncpy(cid.group, LPGENW("Console"), _countof(cid.group));
 	mir_wstrncpy(cid.name, LPGENW("Background"), _countof(cid.name));
 	mir_strncpy(cid.dbSettingsGroup, "Console", _countof(cid.dbSettingsGroup));

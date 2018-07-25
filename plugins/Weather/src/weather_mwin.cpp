@@ -316,8 +316,7 @@ void InitMwin(void)
 	wndclass.lpszClassName = L"WeatherFrame";
 	RegisterClass(&wndclass);
 
-	ColourIDW colourid = { 0 };
-	colourid.cbSize = sizeof(ColourIDW);
+	ColourIDW colourid = {};
 	mir_strcpy(colourid.dbSettingsGroup, WEATHERPROTONAME);
 	mir_strcpy(colourid.setting, "ColorMwinFrame");
 	mir_wstrcpy(colourid.name, LPGENW("Frame Background"));
@@ -325,13 +324,12 @@ void InitMwin(void)
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
 	g_plugin.addColor(&colourid);
 
-	FontIDW fontid = { 0 };
-	fontid.cbSize = sizeof(FontIDW);
+	FontIDW fontid = {};
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	mir_strcpy(fontid.dbSettingsGroup, WEATHERPROTONAME);
 	mir_wstrcpy(fontid.group, _A2W(WEATHERPROTONAME));
 	mir_wstrcpy(fontid.name, LPGENW("Frame Font"));
-	mir_strcpy(fontid.prefix, "fnt0");
+	mir_strcpy(fontid.setting, "fnt0");
 
 	HDC hdc = GetDC(nullptr);
 	fontid.deffontsettings.size = -13;
@@ -345,7 +343,7 @@ void InitMwin(void)
 
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	mir_wstrcpy(fontid.name, LPGENW("Frame Title Font"));
-	mir_strcpy(fontid.prefix, "fnt1");
+	mir_strcpy(fontid.setting, "fnt1");
 	g_plugin.addFont(&fontid);
 
 	for (auto &hContact : Contacts(WEATHERPROTONAME))

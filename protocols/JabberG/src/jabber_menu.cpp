@@ -907,7 +907,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 		DBVARIANT dbv;
 		bool bSupportTyping = false;
-		if (!db_get_b(event->hContact, "SRMsg", "SupportTyping")) {
+		if (!db_get(event->hContact, "SRMsg", "SupportTyping", &dbv)) {
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}

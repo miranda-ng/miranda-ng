@@ -264,7 +264,6 @@ procedure RegisterFont(Name:PAnsiChar; Order:integer; const defFont:TFontSetting
 var
   fid: TFontID;
 begin
-  fid.cbSize := sizeof(fid);
   fid.group := hppName;
   fid.dbSettingsGroup := hppDBName;
   fid.flags := FIDF_DEFAULTVALID+FIDF_ALLOWEFFECTS;
@@ -282,7 +281,6 @@ procedure RegisterColor(Name:PAnsiChar; Order:integer; defColor:TColor);
 var
   cid: TColourID;
 begin
-  cid.cbSize := sizeof(cid);
   cid.group := hppName;
   cid.dbSettingsGroup := hppDBName;
   cid.order := Order;

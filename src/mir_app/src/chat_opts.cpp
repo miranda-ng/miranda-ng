@@ -135,7 +135,7 @@ void RegisterFonts(void)
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 
-	FontIDW fontid = { sizeof(fontid) };
+	FontIDW fontid = {};
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
 	wcsncpy_s(fontid.backgroundGroup, g_szFontGroup, _TRUNCATE);
 	wcsncpy_s(fontid.group, g_szFontGroup, _TRUNCATE);
@@ -145,7 +145,7 @@ void RegisterFonts(void)
 		strncpy_s(fontid.dbSettingsGroup, CHATFONT_MODULE, _TRUNCATE);
 		wcsncpy_s(fontid.name, FO.szDescr, _TRUNCATE);
 
-		mir_snprintf(fontid.prefix, "Font%d", index);
+		mir_snprintf(fontid.setting, "Font%d", index);
 		fontid.order = index;
 
 		switch (i) {

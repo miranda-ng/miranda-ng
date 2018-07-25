@@ -146,7 +146,7 @@ static void OnLoadSettings()
 
 static void RegisterFonts()
 {
-	ColourIDW colourid = { sizeof(colourid) };
+	ColourIDW colourid = {};
 	strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
 	wcsncpy(colourid.group, LPGENW("Message sessions") L"/" LPGENW("Chat module"), _countof(colourid.group));
 

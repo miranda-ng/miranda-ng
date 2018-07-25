@@ -67,20 +67,12 @@ type
 // and getting one out again
   PFontID_tag = ^TFontID_tag;
   TFontID_tag = record
-    cbSize         : int;
-    // [TRANSLATED-BY-CORE] group the font belongs to - this is the 'Font Group' list in the options page
     group          : array[0..63] of AnsiChar;
-    // [TRANSLATED-BY-CORE] the name of the font setting e.g. 'contacts' in the 'contact list' group
     name           : array[0..63] of AnsiChar;
-    // the 'module' in the database where the font data is stored
     dbSettingsGroup: array[0..31] of AnsiChar;
-    // prepended to the settings used to store this font's data in the db
     prefix         : array[0..31] of AnsiChar;
-    // bitwise OR of the FIDF_* flags above
     flags          : dword;
     deffontsettings: TFontSettings; // defaults, if flags & FIDF_DEFAULTVALID
-    // controls the order in the font group in which the fonts are listed in the
-    // UI (if order fields are equal, they will be ordered alphabetically by name)
     order          : int;
     backgroundGroup:array [0..63] of AnsiChar;
     backgroundName: array [0..63] of AnsiChar;
@@ -90,20 +82,12 @@ type
 
   PFontIDW_tag = ^TFontIDW_tag;
   TFontIDW_tag = record
-    cbSize         : int;
-    // [TRANSLATED-BY-CORE] group the font belongs to - this is the 'Font Group' list in the options page
     group          : array[0..63] of WideChar;
-    // [TRANSLATED-BY-CORE] the name of the font setting e.g. 'contacts' in the 'contact list' group
     name           : array[0..63] of WideChar;
-    // the 'module' in the database where the font data is stored
     dbSettingsGroup: array[0..31] of AnsiChar;
-    // prepended to the settings used to store this font's data in the db
     prefix         : array[0..31] of AnsiChar;
-    // bitwise OR of the FIDF_* flags above
     flags          : dword;
     deffontsettings: TFontSettingsW; // defaults, if flags & FIDF_DEFAULTVALID
-    // controls the order in the font group in which the fonts are listed in the
-    // UI (if order fields are equal, they will be ordered alphabetically by name)
     order          : int;
     backgroundGroup:array [0..63] of WideChar;
     backgroundName: array [0..63] of WideChar;
@@ -121,7 +105,6 @@ function Font_Get(pGroup,pName:pAnsiChar; pFont:pLogFontA) : longint; stdcall; e
 type
   PColourID_tag = ^TColourID_tag;
   TColourID_tag = record
-    cbSize          : int;
     group           : array[0..63] of AnsiChar;
     name            : array[0..63] of AnsiChar;
     dbSettingsGroup : array[0..31] of AnsiChar;
@@ -135,7 +118,6 @@ type
 
   PColourIDW_tag = ^TColourIDW_tag;
   TColourIDW_tag = record
-    cbSize          : int;
     group           : array[0..63] of WideChar;
     name            : array[0..63] of WideChar;
     dbSettingsGroup : array[0..31] of AnsiChar;

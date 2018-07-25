@@ -183,8 +183,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	// ugly hack to make reset always possible
 	SaveNotificationSettings(ptd, "PopupNotifications");
 
-	FontID fontid = { 0 };
-	fontid.cbSize = sizeof(fontid);
+	FontID fontid = {};
 	mir_snprintf(fontid.group, PU_FNT_AND_COLOR "/%s", notification->lpzGroup);
 	mir_strcpy(fontid.dbSettingsGroup, "PopupNotifications");
 	fontid.flags = FIDF_DEFAULTVALID;
@@ -194,12 +193,11 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_strncpy(fontid.deffontsettings.szFace, "MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 	mir_snprintf(fontid.name, "%s (colors only)", notification->lpzName);
-	mir_snprintf(fontid.prefix, "{%s/%s}text", notification->lpzGroup, notification->lpzName);
+	mir_snprintf(fontid.setting, "{%s/%s}text", notification->lpzGroup, notification->lpzName);
 	fontid.deffontsettings.style = 0;
 	g_plugin.addFont(&fontid);
 
-	ColourID colourid = { 0 };
-	colourid.cbSize = sizeof(colourid);
+	ColourID colourid = {};
 	mir_snprintf(colourid.group, PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
 	mir_strcpy(colourid.dbSettingsGroup, "PopupNotifications");
 	mir_snprintf(colourid.name, "%s (colors only)", notification->lpzName);

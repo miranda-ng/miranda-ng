@@ -131,11 +131,8 @@ void RegisterCLUIFonts(void)
 	EffectIDW effectid = {};
 	char idstr[10];
 
-	fontid.cbSize = sizeof(fontid);
-	mir_strncpy(fontid.dbSettingsGroup, "CLC", _countof(fontid.dbSettingsGroup));
-
-	effectid.cbSize = sizeof(effectid);
-	mir_strncpy(effectid.dbSettingsGroup, "CLC", _countof(effectid.dbSettingsGroup));
+	strncpy_s(fontid.dbSettingsGroup, "CLC", _TRUNCATE);
+	strncpy_s(effectid.dbSettingsGroup, "CLC", _TRUNCATE);
 
 	int index = 1;
 	for (auto &p : fontOptionsList) {
@@ -145,7 +142,7 @@ void RegisterCLUIFonts(void)
 		wcsncpy_s(fontid.group, p.szGroup, _TRUNCATE);
 		wcsncpy_s(fontid.name, p.szDescr, _TRUNCATE);
 		mir_snprintf(idstr, "Font%d", p.fontID);
-		strncpy_s(fontid.prefix, idstr, _TRUNCATE);
+		strncpy_s(fontid.setting, idstr, _TRUNCATE);
 		fontid.order = index;
 
 		fontid.deffontsettings.charset = p.defCharset;
@@ -171,7 +168,6 @@ void RegisterCLUIFonts(void)
 	}
 
 	ColourIDW colourid = {};
-	colourid.cbSize = sizeof(colourid);
 
 	index = 1;
 	for (auto &p : colourOptionsList) {

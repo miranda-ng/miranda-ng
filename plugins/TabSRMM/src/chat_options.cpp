@@ -290,18 +290,15 @@ static wchar_t *chatcolorsnames[] =
 void RegisterFontServiceFonts()
 {
 	LOGFONT lf;
-	FontIDW fid = { 0 };
-	ColourIDW cid = { 0 };
-
-	fid.cbSize = sizeof(FontIDW);
-	cid.cbSize = sizeof(ColourIDW);
+	FontIDW fid = {};
+	ColourIDW cid = {};
 
 	strncpy(fid.dbSettingsGroup, FONTMODULE, _countof(fid.dbSettingsGroup));
 
 	for (int i = 0; i < _countof(IM_fontOptionsList); i++) {
 		fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 		LoadMsgDlgFont(FONTSECTION_IM, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
-		mir_snprintf(fid.prefix, "Font%d", i);
+		mir_snprintf(fid.setting, "Font%d", i);
 		fid.order = i;
 		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
@@ -363,7 +360,7 @@ void RegisterFontServiceFonts()
 	wcsncpy(fid.backgroundName, LPGENW("Fields background"), _countof(fid.backgroundName));
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
-		mir_snprintf(fid.prefix, "Font%d", i + 100);
+		mir_snprintf(fid.setting, "Font%d", i + 100);
 		fid.order = i + 100;
 		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;

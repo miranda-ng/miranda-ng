@@ -108,8 +108,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// init fontservice for info frame
-	FontIDW fontid = { 0 };
-	fontid.cbSize = sizeof(fontid);
+	FontIDW fontid = {};
 	wcsncpy_s(fontid.group, LPGENW("Jabber"), _TRUNCATE);
 	strncpy_s(fontid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
 	wcsncpy_s(fontid.backgroundGroup, L"Jabber", _TRUNCATE);
@@ -123,17 +122,16 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	fontid.deffontsettings.style = 0;
 
 	wcsncpy_s(fontid.name, LPGENW("Frame title"), _TRUNCATE);
-	strncpy_s(fontid.prefix, "fntFrameTitle", _TRUNCATE);
+	strncpy_s(fontid.setting, "fntFrameTitle", _TRUNCATE);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	g_plugin.addFont(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Frame text"), _TRUNCATE);
-	strncpy_s(fontid.prefix, "fntFrameClock", _TRUNCATE);
+	strncpy_s(fontid.setting, "fntFrameClock", _TRUNCATE);
 	fontid.deffontsettings.style = 0;
 	g_plugin.addFont(&fontid);
 
-	ColourIDW colourid = {0};
-	colourid.cbSize = sizeof(colourid);
+	ColourIDW colourid = {};
 	wcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
 	strncpy_s(colourid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
 
@@ -141,7 +139,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	strncpy_s(colourid.setting, "clFrameBack", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	g_plugin.addColor(&colourid);
-
 	return 0;
 }
 

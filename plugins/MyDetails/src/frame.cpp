@@ -73,9 +73,7 @@ char font_sizes[] = { 13, 8, 8, 8, 8 };
 BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
 COLORREF font_colors[] = { RGB(0, 0, 0), RGB(0, 0, 0), RGB(0, 0, 0), RGB(150, 150, 150), RGB(150, 150, 150) };
 
-static ColourID
-bg_colour = { sizeof(bg_colour), LPGEN("My details"), LPGEN("Background"), MODULENAME, "BackgroundColor", 0, GetSysColor(COLOR_BTNFACE) },
-av_colour = { sizeof(av_colour), LPGEN("My details"), LPGEN("Avatar border"), MODULENAME, "AvatarBorderColor", 0, RGB(0, 0, 0) };
+static ColourID bg_colour, av_colour;
 
 int CreateFrame();
 void FixMainMenu();
@@ -225,22 +223,31 @@ int CreateFrame()
 {
 	HDC hdc = GetDC(nullptr);
 
+	strncpy_s(bg_colour.group, LPGEN("My details"), _TRUNCATE);
+	strncpy_s(bg_colour.name, LPGEN("Background"), _TRUNCATE);
+	strncpy_s(bg_colour.dbSettingsGroup, MODULENAME, _TRUNCATE);
+	strncpy_s(bg_colour.setting, "BackgroundColor", _TRUNCATE);
+	bg_colour.defcolour = GetSysColor(COLOR_BTNFACE);
 	g_plugin.addColor(&bg_colour);
+	
+	strncpy_s(av_colour.group, LPGEN("My details"), _TRUNCATE);
+	strncpy_s(av_colour.name, LPGEN("Avatar border"), _TRUNCATE);
+	strncpy_s(av_colour.dbSettingsGroup, MODULENAME, _TRUNCATE);
+	strncpy_s(av_colour.setting, "AvatarBorderColor", _TRUNCATE);
 	g_plugin.addColor(&av_colour);
+
 	ReloadColour(0, 0);
 	HookEvent(ME_COLOUR_RELOAD, ReloadColour);
 
 	for (int i = 0; i < NUM_FONTS; i++) {
 		memset(&font_id[i], 0, sizeof(font_id[i]));
 
-		font_id[i].cbSize = sizeof(FontIDW);
 		mir_wstrncpy(font_id[i].group, LPGENW("My details"), _countof(font_id[i].group));
 		mir_wstrncpy(font_id[i].name, font_names[i], _countof(font_id[i].name));
 		mir_strncpy(font_id[i].dbSettingsGroup, MODULENAME, _countof(font_id[i].dbSettingsGroup));
 		mir_wstrncpy(font_id[i].backgroundName, LPGENW("Background"), _countof(font_id[i].backgroundName));
 		mir_wstrncpy(font_id[i].backgroundGroup, LPGENW("My details"), _countof(font_id[i].backgroundGroup));
-
-		mir_strncpy(font_id[i].prefix, font_settings[i], _countof(font_id[i].prefix));
+		mir_strncpy(font_id[i].setting, font_settings[i], _countof(font_id[i].setting));
 
 		font_id[i].deffontsettings.colour = font_colors[i];
 		font_id[i].deffontsettings.size = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);

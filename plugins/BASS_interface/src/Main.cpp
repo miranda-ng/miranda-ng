@@ -454,9 +454,7 @@ void CreateFrame()
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame_id = g_plugin.addFrame(&Frame);
 
-	ColourIDW colourid = { 0 };
-	colourid.cbSize = sizeof(ColourIDW);
-
+	ColourIDW colourid = {};
 	strcpy_s(colourid.dbSettingsGroup, MODULENAME);
 	strcpy_s(colourid.setting, "ColorFrame");
 	wcscpy_s(colourid.name, LPGENW("Frame background"));

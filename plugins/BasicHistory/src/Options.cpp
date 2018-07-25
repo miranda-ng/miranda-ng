@@ -231,11 +231,9 @@ const int g_hotkeysSize = _countof(g_HotkeyOptionsList);
 
 void Options::Load(void)
 {
-	FontIDW fid = { 0 };
-	ColourIDW cid = { 0 };
+	FontIDW fid = {};
+	ColourIDW cid = {};
 	HOTKEYDESC hid = {};
-	fid.cbSize = sizeof(FontIDW);
-	cid.cbSize = sizeof(ColourIDW);
 	strncpy_s(fid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
 	wcsncpy_s(fid.backgroundGroup, L"History", _TRUNCATE);
 	wcsncpy_s(fid.group, LPGENW("History"), _TRUNCATE);
@@ -246,7 +244,7 @@ void Options::Load(void)
 		fid.deffontsettings.colour = g_FontOptionsList[i].defColour;
 		fid.deffontsettings.style = g_FontOptionsList[i].defStyle;
 		fid.deffontsettings.charset = DEFAULT_CHARSET;
-		mir_snprintf(fid.prefix, _countof(fid.prefix), "Font%d", i);
+		mir_snprintf(fid.setting, _countof(fid.setting), "Font%d", i);
 		wcsncpy_s(fid.name, g_FontOptionsList[i].szDescr, _TRUNCATE);
 		wcsncpy_s(fid.backgroundName, g_FontOptionsList[i].szBackgroundName, _TRUNCATE);
 		fid.flags = FIDF_DEFAULTVALID | FIDF_CLASSGENERAL | g_FontOptionsList[i].flags;

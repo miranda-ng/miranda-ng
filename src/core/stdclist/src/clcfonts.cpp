@@ -51,10 +51,10 @@ static int FS_FontsChanged(WPARAM, LPARAM)
 
 void RegisterCListFonts()
 {
-	FontIDW fontid = { sizeof(fontid) };
+	FontIDW fontid = {};
 	fontid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWREREGISTER | FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS;
-	strncpy(fontid.dbSettingsGroup, "CLC", sizeof(fontid.dbSettingsGroup));
-	wcsncpy(fontid.group, LPGENW("Contact list"), _countof(fontid.group));
+	strncpy_s(fontid.dbSettingsGroup, "CLC", _TRUNCATE);
+	wcsncpy_s(fontid.group, LPGENW("Contact list"), _TRUNCATE);
 
 	HDC hdc = GetDC(nullptr);
 	for (int i = 0; i < _countof(clistFontDescr); i++) {
@@ -70,42 +70,38 @@ void RegisterCListFonts()
 		fontid.flags &= ~FIDF_CLASSMASK;
 		fontid.flags |= clistFontDescr[i].iMask;
 
-		wcsncpy(fontid.name, clistFontDescr[i].tszName, _countof(fontid.name));
+		wcsncpy_s(fontid.name, clistFontDescr[i].tszName, _TRUNCATE);
 
-		char idstr[10];
-		mir_snprintf(idstr, "Font%d", i);
-		strncpy(fontid.prefix, idstr, _countof(fontid.prefix));
+		mir_snprintf(fontid.setting, "Font%d", i);
 		fontid.order = i;
 		g_plugin.addFont(&fontid);
 	}
 	ReleaseDC(nullptr, hdc);
 
 	// and colours
-	ColourIDW colourid = { 0 };
-	colourid.cbSize = sizeof(ColourIDW);
-	colourid.order = 0;
-	strncpy(colourid.dbSettingsGroup, "CLC", sizeof(colourid.dbSettingsGroup));
+	ColourIDW colourid = {};
+	strncpy_s(colourid.dbSettingsGroup, "CLC", _TRUNCATE);
 
-	strncpy(colourid.setting, "BkColour", sizeof(colourid.setting));
-	wcsncpy(colourid.name, LPGENW("Background"), _countof(colourid.name));
-	wcsncpy(colourid.group, LPGENW("Contact list"), _countof(colourid.group));
+	strncpy_s(colourid.setting, "BkColour", _TRUNCATE);
+	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);
+	wcsncpy_s(colourid.group, LPGENW("Contact list"), _TRUNCATE);
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
 	g_plugin.addColor(&colourid);
 
-	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
-	wcsncpy(colourid.name, LPGENW("Selected text"), _countof(colourid.name));
+	strncpy_s(colourid.setting, "SelTextColour", _TRUNCATE);
+	wcsncpy_s(colourid.name, LPGENW("Selected text"), _TRUNCATE);
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
 	g_plugin.addColor(&colourid);
 
-	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
-	wcsncpy(colourid.name, LPGENW("Hottrack text"), _countof(colourid.name));
+	strncpy_s(colourid.setting, "HotTextColour", _TRUNCATE);
+	wcsncpy_s(colourid.name, LPGENW("Hottrack text"), _TRUNCATE);
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
 	g_plugin.addColor(&colourid);
 
-	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
-	wcsncpy(colourid.name, LPGENW("Quicksearch text"), _countof(colourid.name));
+	strncpy_s(colourid.setting, "QuickSearchColour", _TRUNCATE);
+	wcsncpy_s(colourid.name, LPGENW("Quicksearch text"), _TRUNCATE);
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
 	g_plugin.addColor(&colourid);

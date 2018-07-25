@@ -8,10 +8,9 @@
 
 int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, const wchar_t *pszBackgroundGroup, const wchar_t *pszBackgroundName, int position, BOOL bAllowEffects, LOGFONT *plfDefault, COLORREF clrDefault)
 {
-	FontIDW fid = { 0 };
-	fid.cbSize = sizeof(fid);
+	FontIDW fid = {};
 	mir_strncpy(fid.dbSettingsGroup, pszDbModule, sizeof(fid.dbSettingsGroup)); /* buffer safe */
-	mir_strncpy(fid.prefix, pszDbName, sizeof(fid.prefix)); /* buffer safe */
+	mir_strncpy(fid.setting, pszDbName, sizeof(fid.setting)); /* buffer safe */
 	mir_wstrncpy(fid.group, pszSection, _countof(fid.group)); /* buffer safe */
 	mir_wstrncpy(fid.name, pszDescription, _countof(fid.name)); /* buffer safe */
 	mir_wstrncpy(fid.backgroundGroup, pszBackgroundGroup, _countof(fid.backgroundGroup)); /* buffer safe */
@@ -36,8 +35,7 @@ int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, con
 
 int FontService_RegisterColor(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, COLORREF clrDefault)
 {
-	ColourIDW cid = { 0 };
-	cid.cbSize = sizeof(cid);
+	ColourIDW cid = {};
 	cid.defcolour = clrDefault;
 	mir_strncpy(cid.dbSettingsGroup, pszDbModule, sizeof(cid.dbSettingsGroup)); /* buffer safe */
 	mir_strncpy(cid.setting, pszDbName, sizeof(cid.setting)); /* buffer safe */

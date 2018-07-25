@@ -95,7 +95,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 
 void RegisterSRMMFonts(void)
 {
-	FontIDW fontid = { sizeof(fontid) };
+	FontIDW fontid = {};
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		strncpy_s(fontid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
@@ -104,7 +104,7 @@ void RegisterSRMMFonts(void)
 
 		char idstr[10];
 		mir_snprintf(idstr, "SRMFont%d", i);
-		strncpy_s(fontid.prefix, idstr, _TRUNCATE);
+		strncpy_s(fontid.setting, idstr, _TRUNCATE);
 		fontid.order = i;
 
 		fontid.flags &= ~FIDF_CLASSMASK;
@@ -120,7 +120,7 @@ void RegisterSRMMFonts(void)
 		g_plugin.addFont(&fontid);
 	}
 
-	ColourIDW colourid = { sizeof(colourid) };
+	ColourIDW colourid = {};
 	strncpy_s(colourid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
 	strncpy_s(colourid.setting, SRMSGSET_BKGCOLOUR, _TRUNCATE);
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;

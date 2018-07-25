@@ -1086,11 +1086,10 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	OverallInfo.Total.Timer = db_get_dw(NULL, MODULENAME, SETTINGS_TOTAL_ONLINE_TIME, 0);
 
 	//register traffic font
-	TrafficFontID.cbSize = sizeof(FontIDW);
 	mir_wstrcpy(TrafficFontID.group, LPGENW("Traffic counter"));
 	mir_wstrcpy(TrafficFontID.name, LPGENW("Font"));
 	mir_strcpy(TrafficFontID.dbSettingsGroup, MODULENAME);
-	mir_strcpy(TrafficFontID.prefix, "Font");
+	mir_strcpy(TrafficFontID.setting, "Font");
 	TrafficFontID.flags = FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 	TrafficFontID.deffontsettings.charset = DEFAULT_CHARSET;
 	TrafficFontID.deffontsettings.colour = GetSysColor(COLOR_BTNTEXT);
@@ -1101,7 +1100,6 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	g_plugin.addFont(&TrafficFontID);
 
 	// Регистрируем цвет фона
-	TrafficBackgroundColorID.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(TrafficBackgroundColorID.group, LPGENW("Traffic counter"));
 	mir_wstrcpy(TrafficBackgroundColorID.name, LPGENW("Font"));
 	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, MODULENAME);

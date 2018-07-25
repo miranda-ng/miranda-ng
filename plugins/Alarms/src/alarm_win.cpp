@@ -347,29 +347,26 @@ int ReloadFonts(WPARAM, LPARAM)
 
 int AlarmWinModulesLoaded(WPARAM, LPARAM)
 {
-	title_font_id.cbSize = sizeof(FontIDW);
 	wcsncpy_s(title_font_id.group, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(title_font_id.name, LPGENW("Title"), _TRUNCATE);
 	strncpy_s(title_font_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
-	strncpy_s(title_font_id.prefix, "FontTitle", _TRUNCATE);
+	strncpy_s(title_font_id.setting, "FontTitle", _TRUNCATE);
 	wcsncpy_s(title_font_id.backgroundGroup, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(title_font_id.backgroundName, LPGENW("Background"), _TRUNCATE);
 	title_font_id.flags = 0;
 	title_font_id.order = 0;
 	g_plugin.addFont(&title_font_id);
 
-	window_font_id.cbSize = sizeof(FontIDW);
 	wcsncpy_s(window_font_id.group, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(window_font_id.name, LPGENW("Window"), _TRUNCATE);
 	strncpy_s(window_font_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
-	strncpy_s(window_font_id.prefix, "FontWindow", _TRUNCATE);
+	strncpy_s(window_font_id.setting, "FontWindow", _TRUNCATE);
 	wcsncpy_s(window_font_id.backgroundGroup, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(window_font_id.backgroundName, LPGENW("Background"), _TRUNCATE);
 	window_font_id.flags = 0;
 	window_font_id.order = 1;
 	g_plugin.addFont(&window_font_id);
 
-	bk_colour_id.cbSize = sizeof(ColourIDW);
 	strncpy_s(bk_colour_id.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	wcsncpy_s(bk_colour_id.group, LPGENW("Alarms"), _TRUNCATE);
 	wcsncpy_s(bk_colour_id.name, LPGENW("Background"), _TRUNCATE);

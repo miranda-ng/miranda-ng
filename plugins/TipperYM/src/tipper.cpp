@@ -116,7 +116,6 @@ static int ReloadSkinFolder(WPARAM, LPARAM)
 
 static void InitFonts()
 {
-	colourBg.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourBg.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourBg.name, LPGENW("Background"));
 	mir_strcpy(colourBg.dbSettingsGroup, MODULENAME);
@@ -125,7 +124,6 @@ static void InitFonts()
 	colourBg.order = 0;
 	g_plugin.addColor(&colourBg);
 
-	colourBorder.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourBorder.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourBorder.name, LPGENW("Border"));
 	mir_strcpy(colourBorder.dbSettingsGroup, MODULENAME);
@@ -134,7 +132,6 @@ static void InitFonts()
 	colourBorder.order = 0;
 	g_plugin.addColor(&colourBorder);
 
-	colourAvatarBorder.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourAvatarBorder.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourAvatarBorder.name, LPGENW("Avatar border"));
 	mir_strcpy(colourAvatarBorder.dbSettingsGroup, MODULENAME);
@@ -143,7 +140,6 @@ static void InitFonts()
 	colourAvatarBorder.order = 0;
 	g_plugin.addColor(&colourAvatarBorder);
 
-	colourDivider.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourDivider.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourDivider.name, LPGENW("Dividers"));
 	mir_strcpy(colourDivider.dbSettingsGroup, MODULENAME);
@@ -152,7 +148,6 @@ static void InitFonts()
 	colourDivider.order = 0;
 	g_plugin.addColor(&colourDivider);
 
-	colourSidebar.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourSidebar.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourSidebar.name, LPGENW("Sidebar"));
 	mir_strcpy(colourSidebar.dbSettingsGroup, MODULENAME);
@@ -161,12 +156,11 @@ static void InitFonts()
 	colourSidebar.order = 0;
 	g_plugin.addColor(&colourSidebar);
 
-	fontTitle.cbSize = sizeof(FontIDW);
 	fontTitle.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(fontTitle.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTitle.name, LPGENW("Title"));
 	mir_strcpy(fontTitle.dbSettingsGroup, MODULENAME);
-	mir_strcpy(fontTitle.prefix, "FontFirst");
+	mir_strcpy(fontTitle.setting, "FontFirst");
 	mir_wstrcpy(fontTitle.backgroundGroup, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTitle.backgroundName, LPGENW("Background"));
 	fontTitle.order = 0;
@@ -177,12 +171,11 @@ static void InitFonts()
 	fontTitle.deffontsettings.colour = RGB(255, 0, 0);
 	fontTitle.flags |= FIDF_DEFAULTVALID;
 
-	fontLabels.cbSize = sizeof(FontIDW);
 	fontLabels.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(fontLabels.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontLabels.name, LPGENW("Labels"));
 	mir_strcpy(fontLabels.dbSettingsGroup, MODULENAME);
-	mir_strcpy(fontLabels.prefix, "FontLabels");
+	mir_strcpy(fontLabels.setting, "FontLabels");
 	mir_wstrcpy(fontLabels.backgroundGroup, LPGENW("Tooltips"));
 	mir_wstrcpy(fontLabels.backgroundName, LPGENW("Background"));
 	fontLabels.order = 1;
@@ -193,12 +186,11 @@ static void InitFonts()
 	fontLabels.deffontsettings.colour = RGB(128, 128, 128);
 	fontLabels.flags |= FIDF_DEFAULTVALID;
 
-	fontValues.cbSize = sizeof(FontIDW);
 	fontValues.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(fontValues.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontValues.name, LPGENW("Values"));
 	mir_strcpy(fontValues.dbSettingsGroup, MODULENAME);
-	mir_strcpy(fontValues.prefix, "FontValues");
+	mir_strcpy(fontValues.setting, "FontValues");
 	mir_wstrcpy(fontValues.backgroundGroup, LPGENW("Tooltips"));
 	mir_wstrcpy(fontValues.backgroundName, LPGENW("Background"));
 	fontValues.order = 2;
@@ -209,12 +201,11 @@ static void InitFonts()
 	fontValues.deffontsettings.colour = RGB(0, 0, 0);
 	fontValues.flags |= FIDF_DEFAULTVALID;
 
-	fontTrayTitle.cbSize = sizeof(FontIDW);
 	fontTrayTitle.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(fontTrayTitle.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTrayTitle.name, LPGENW("Tray title"));
 	mir_strcpy(fontTrayTitle.dbSettingsGroup, MODULENAME);
-	mir_strcpy(fontTrayTitle.prefix, "FontTrayTitle");
+	mir_strcpy(fontTrayTitle.setting, "FontTrayTitle");
 	mir_wstrcpy(fontTrayTitle.backgroundGroup, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTrayTitle.backgroundName, LPGENW("Background"));
 	fontTrayTitle.order = 0;

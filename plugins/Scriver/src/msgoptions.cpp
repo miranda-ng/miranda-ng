@@ -86,7 +86,7 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 
 void RegisterFontServiceFonts()
 {
-	FontIDW fid = { sizeof(fid) };
+	FontIDW fid = {};
 	wcsncpy_s(fid.group, LPGENW("Messaging"), _TRUNCATE);
 	wcsncpy_s(fid.backgroundGroup, LPGENW("Messaging"), _TRUNCATE);
 	strncpy(fid.dbSettingsGroup, SRMM_MODULE, _countof(fid.dbSettingsGroup));
@@ -96,7 +96,7 @@ void RegisterFontServiceFonts()
 
 		char szTemp[100];
 		mir_snprintf(szTemp, "SRMFont%d", i);
-		strncpy(fid.prefix, szTemp, _countof(fid.prefix));
+		strncpy(fid.setting, szTemp, _countof(fid.setting));
 		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fid.deffontsettings.size = fontOptionsList[i].defSize;
@@ -107,7 +107,7 @@ void RegisterFontServiceFonts()
 		g_plugin.addFont(&fid);
 	}
 
-	ColourIDW cid = { sizeof(cid) };
+	ColourIDW cid = {};
 	wcsncpy_s(cid.group, LPGENW("Messaging"), _TRUNCATE);
 	strncpy(cid.dbSettingsGroup, SRMM_MODULE, _countof(fid.dbSettingsGroup));
 	cid.flags = 0;

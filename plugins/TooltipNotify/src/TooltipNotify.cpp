@@ -72,7 +72,7 @@ CTooltipNotify::~CTooltipNotify()
 
 void CTooltipNotify::RegisterFonts()
 {
-	FontIDW fontId = { sizeof(fontId) };
+	FontIDW fontId = {};
 	wcsncpy(fontId.group, FONTSERV_GROUP, _countof(fontId.group) - 1);
 	strncpy(fontId.dbSettingsGroup, MODULENAME, _countof(fontId.dbSettingsGroup) - 1);
 	fontId.flags = FIDF_DEFAULTVALID;
@@ -84,7 +84,7 @@ void CTooltipNotify::RegisterFonts()
 	fontId.order = 0;
 	wcsncpy(fontId.backgroundGroup, FONTSERV_GROUP, _countof(fontId.backgroundGroup) - 1);
 
-	ColourIDW colorId = { sizeof(colorId) };
+	ColourIDW colorId = {};
 	wcsncpy(colorId.group, FONTSERV_GROUP, _countof(colorId.group) - 1);
 	strncpy(colorId.dbSettingsGroup, MODULENAME, _countof(colorId.dbSettingsGroup) - 1);
 	colorId.flags = 0;
@@ -93,7 +93,7 @@ void CTooltipNotify::RegisterFonts()
 
 	for (int i = 0; i < _countof(s_fontTable); i++) {
 		wcsncpy(fontId.name, s_fontTable[i].name, _countof(fontId.name) - 1);
-		strncpy(fontId.prefix, s_fontTable[i].fontPrefix, _countof(fontId.prefix) - 1);
+		strncpy(fontId.setting, s_fontTable[i].fontPrefix, _countof(fontId.setting) - 1);
 		wcsncpy(fontId.backgroundName, s_fontTable[i].name, _countof(fontId.backgroundName) - 1);
 		::g_plugin.addFont(&fontId);
 

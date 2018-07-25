@@ -381,8 +381,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	mir_snprintf(setting, "%s/TextCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
 	
-	FontIDW fid = { 0 };
-	fid.cbSize = sizeof(FontIDW);
+	FontIDW fid = {};
 	mir_snwprintf(fid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
 	strncpy_s(fid.dbSettingsGroup, PU_MODULCLASS, _TRUNCATE);
 	fid.flags = FIDF_DEFAULTVALID;
@@ -390,8 +389,8 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	fid.deffontsettings.size = -11;
 	wcsncpy_s(fid.deffontsettings.szFace, L"Verdana", _TRUNCATE);
 	wcsncpy_s(fid.name, _A2W(PU_FNT_NAME_TEXT), _TRUNCATE);
-	strncpy_s(fid.prefix, setting, _TRUNCATE);
-	mir_snprintf(fid.prefix, "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
+	strncpy_s(fid.setting, setting, _TRUNCATE);
+	mir_snprintf(fid.setting, "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style = 0;
 	fid.deffontsettings.colour = fonts.clText;
 	g_plugin.addFont(&fid);
@@ -400,8 +399,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	mir_snprintf(setting, "%s/BgCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 	
-	ColourIDW cid = { 0 };
-	cid.cbSize = sizeof(ColourIDW);
+	ColourIDW cid = {};
 	mir_snwprintf(cid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
 	wcsncpy_s(cid.name, PU_COL_BACK_NAME, _TRUNCATE);
 	strncpy_s(cid.dbSettingsGroup, PU_MODULCLASS, _TRUNCATE);

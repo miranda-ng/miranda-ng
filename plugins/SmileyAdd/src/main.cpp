@@ -69,7 +69,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	g_SmileyCategories.AddAllProtocolsAsCategory();
 	g_SmileyCategories.ClearAndLoadAll();
 
-	ColourID cid = { sizeof(cid) };
+	ColourID cid = {};
 	strcpy_s(cid.dbSettingsGroup, MODULENAME);
 	strcpy_s(cid.group, MODULENAME);
 	strcpy_s(cid.name, LPGEN("Background color"));
