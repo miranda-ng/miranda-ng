@@ -776,8 +776,8 @@ BEGIN
     BEGIN
         MENUITEM "Save message log as...",      ID_FILE_SAVEMESSAGELOGAS
         MENUITEM SEPARATOR
-        MENUITEM "Close message session\tCtrl-W", ID_FILE_CLOSEMESSAGESESSION
-        MENUITEM "Close container\tAlt-F4",     ID_FILE_CLOSE
+        MENUITEM "Close message session\tCtrl+W", ID_FILE_CLOSEMESSAGESESSION
+        MENUITEM "Close container\tAlt+F4",     ID_FILE_CLOSE
     END
     POPUP "&View"
     BEGIN

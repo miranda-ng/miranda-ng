@@ -1069,7 +1069,7 @@ void CSrmmWindow::UpdateTitle()
 void CSrmmWindow::onClick_Ok(CCtrlButton*)
 {
 	if (m_bEditNotesActive) {
-		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_PIC, (LPARAM)TranslateT("You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode"));
+		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_PIC, (LPARAM)TranslateT("You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode"));
 		return;
 	}
 
