@@ -278,10 +278,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	g_plugin.addUserInfo(wParam, &odp);
 
 	if (!lParam) {
-		wchar_t buf[200];
-		mir_snwprintf(buf, TranslateT("%s Details"), m_tszUserName);
-		odp.szTitle.w = buf;
-
+		odp.szTitle.w = LPGENW("ICQ Details");
 		odp.position = -1899999999;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO);
 		odp.pfnDlgProc = ChangeInfoDlgProc;
