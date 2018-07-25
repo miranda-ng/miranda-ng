@@ -85,7 +85,7 @@ copy /V /Y ..\plugins\FavContacts\gadget\favcontacts.gadget "Release%tp%\Gadgets
 copy /V /Y ..\plugins\Nudge\docs\Sounds\*.wav "Release%tp%\Sounds\"
 copy /V /Y ..\plugins\ListeningTo\listeningto\*.dll "Release%tp%\Plugins\Listeningto\"
 copy /V /Y ..\plugins\CurrencyRates\docs\Utility\*.xml "Release%tp%\Plugins\CurrencyRates\"
-copy /V /Y ..\plugins\CurrencyRates\QuotesChart\bin\%tp%\QuotesChart.exe "Release%tp%\Plugins\CurrencyRates\"
+copy /V /Y ..\plugins\CurrencyRates\QuotesChart\bin\x%tp%\QuotesChart.exe "Release%tp%\Plugins\CurrencyRates\"
 copy /V /Y ..\plugins\Weather\docs\weather\*.ini "Release%tp%\Plugins\Weather\"
 copy /V /Y ..\plugins\Actman\services.ini "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\Boltun\src\Engine\boltun.mindw "Release%tp%\Plugins\"
