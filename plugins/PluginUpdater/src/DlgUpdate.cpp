@@ -539,6 +539,9 @@ static renameTable[] =
 	{ L"mir_core.dll",                   nullptr },
 	{ L"zlib.dll",                       nullptr },
 
+	{ L"Quotes.dll",                     L"Plugins\\CurrencyRates.dll" },
+	{ L"Proto_Quotes.dll",               L"Icons\\Proto_CurrencyRates.dll" },
+
 	{ L"proto_newsaggr.dll",             L"Icons\\proto_newsaggregator.dll" },
 	{ L"clienticons_*.dll",              L"Icons\\fp_icons.dll" },
 	{ L"fp_*.dll",                       L"Icons\\fp_icons.dll" },
@@ -574,8 +577,6 @@ static renameTable[] =
 	{ L"yahoo.dll",                      nullptr },
 	{ L"yahoogroups.dll",                nullptr },
 	{ L"WART-*.exe",                     nullptr },
-	{ L"Quotes.dll",		L"Plugins\\CurrencyRates.dll" },
-	{ L"Proto_Quotes.dll,	L"Icons\\Proto_CurrencyRates.dll" },
 };
 
 // Checks if file needs to be renamed and copies it in pNewName
