@@ -408,7 +408,7 @@ int CIrcProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilen
 
 			CMStringW sFileWithQuotes = di->sFile;
 
-			// if spaces in the filename surround witrh quotes
+			// if spaces in the filename surround with quotes
 			if (sFileWithQuotes.Find(' ', 0) != -1) {
 				sFileWithQuotes.Insert(0, L"\"");
 				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), L"\"");

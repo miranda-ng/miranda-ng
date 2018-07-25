@@ -539,8 +539,8 @@ static renameTable[] =
 	{ L"mir_core.dll",                   nullptr },
 	{ L"zlib.dll",                       nullptr },
 
-	{ L"Quotes.dll",                     L"Plugins\\CurrencyRates.dll" },
-	{ L"Proto_Quotes.dll",               L"Icons\\Proto_CurrencyRates.dll" },
+	{ L"quotes.dll",                     L"Plugins\\currencyrates.dll" },
+	{ L"proto_quotes.dll",               L"Icons\\proto_currencyrates.dll" },
 
 	{ L"proto_newsaggr.dll",             L"Icons\\proto_newsaggregator.dll" },
 	{ L"clienticons_*.dll",              L"Icons\\fp_icons.dll" },
