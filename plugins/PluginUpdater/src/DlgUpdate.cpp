@@ -574,6 +574,8 @@ static renameTable[] =
 	{ L"yahoo.dll",                      nullptr },
 	{ L"yahoogroups.dll",                nullptr },
 	{ L"WART-*.exe",                     nullptr },
+	{ L"Quotes.dll",		L"Plugins\\CurrencyRates.dll" },
+	{ L"Proto_Quotes.dll,	L"Icons\\Proto_CurrencyRates.dll" },
 };
 
 // Checks if file needs to be renamed and copies it in pNewName
