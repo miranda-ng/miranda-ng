@@ -682,7 +682,8 @@ void CQuickDlg::OnServerCombo(CCtrlData*)
 		CheckDlgButton(m_hwnd, IDC_SSL_AUTO, BST_UNCHECKED);
 	}
 
-	if (!mir_strcmp(pData->m_name, Translate("---- Not listed server ----"))) {
+	CMStringA szDefault(FORMAT, "---- %s ----", Translate("Not listed server"));
+	if (!mir_strcmp(pData->m_name, szDefault)) {
 		SendDlgItemMessage(m_hwnd, IDC_SERVER, EM_SETREADONLY, false, 0);
 		SendDlgItemMessage(m_hwnd, IDC_PORT, EM_SETREADONLY, false, 0);
 		SendDlgItemMessage(m_hwnd, IDC_PORT2, EM_SETREADONLY, false, 0);
