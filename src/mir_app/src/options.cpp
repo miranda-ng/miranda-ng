@@ -408,21 +408,22 @@ class COptionsDlg : public CDlgBase
 		return nullptr;
 	}
 
+	void GetTreeSettingName(int idx, char *buf, size_t bufSize)
+	{
+		mir_snprintf(buf, bufSize, "%s%S", OPTSTATE_PREFIX, (idx < 0) ? m_arOpd[-idx]->ptszGroup : m_arOpd[idx]->ptszTitle);
+	}
+
 	void SaveOptionsTreeState()
 	{
-		wchar_t str[128];
 		TVITEMEX tvi;
-		tvi.mask = TVIF_TEXT | TVIF_STATE;
-		tvi.pszText = str;
-		tvi.cchTextMax = _countof(str);
-		tvi.hItem = m_pageTree.GetRoot();
-		while (tvi.hItem != nullptr) {
-			if (m_pageTree.GetItem(&tvi)) {
-				char buf[130];
-				mir_snprintf(buf, "%s%S", OPTSTATE_PREFIX, str);
-				db_set_b(0, "Options", buf, (BYTE)((tvi.state & TVIS_EXPANDED) ? 1 : 0));
-			}
-			tvi.hItem = m_pageTree.GetNextSibling(tvi.hItem);
+		tvi.mask = TVIF_STATE | TVIF_PARAM;
+		for (tvi.hItem = m_pageTree.GetRoot(); tvi.hItem != nullptr; tvi.hItem = m_pageTree.GetNextSibling(tvi.hItem)) {
+			if (m_pageTree.GetChild(tvi.hItem) == nullptr) continue;
+			if (!m_pageTree.GetItem(&tvi)) continue;
+
+			char buf[130];
+			GetTreeSettingName(tvi.lParam, buf, _countof(buf));
+			db_set_b(0, "Options", buf, (BYTE)((tvi.state & TVIS_EXPANDED) ? 1 : 0));
 		}
 	}
 
@@ -577,7 +578,7 @@ class COptionsDlg : public CDlgBase
 			if (ptszGroup != nullptr) {
 				tvis.hParent = FindNamedTreeItem(nullptr, ptszGroup);
 				if (tvis.hParent == nullptr) {
-					tvis.item.lParam = -1;
+					tvis.item.lParam = -i;
 					tvis.item.pszText = ptszGroup;
 					tvis.hParent = m_pageTree.InsertItem(&tvis);
 				}
@@ -590,11 +591,8 @@ class COptionsDlg : public CDlgBase
 					
 					tvi.mask = TVIF_PARAM;
 					m_pageTree.GetItem(&tvi);
-					if (tvi.lParam == -1) {
-						tvi.lParam = i;
-						m_pageTree.SetItem(&tvi);
+					if (tvi.lParam < 0)
 						continue;
-					}
 				}
 			}
 
@@ -605,13 +603,8 @@ class COptionsDlg : public CDlgBase
 				else
 					hItem = FindNamedTreeItem(tvis.hParent, useTitle);
 				if (hItem != nullptr) {
-					if (i == m_currentPage) {
-						tvi.hItem = hItem;
-						tvi.mask = TVIF_PARAM;
-						tvi.lParam = m_currentPage;
-						m_pageTree.SetItem(&tvi);
+					if (i == m_currentPage)
 						m_hCurrentPage = hItem;
-					}
 					continue;
 				}
 			}
@@ -623,19 +616,14 @@ class COptionsDlg : public CDlgBase
 				m_hCurrentPage = opd->hTreeItem;
 		}
 
-		wchar_t str[128];
-		tvi.mask = TVIF_TEXT | TVIF_STATE;
-		tvi.pszText = str;
-		tvi.cchTextMax = _countof(str);
-		tvi.hItem = m_pageTree.GetRoot();
-		while (tvi.hItem != nullptr) {
-			if (m_pageTree.GetItem(&tvi)) {
-				char buf[130];
-				mir_snprintf(buf, "%s%S", OPTSTATE_PREFIX, str);
-				if (!db_get_b(0, "Options", buf, 1))
-					m_pageTree.Expand(tvi.hItem, TVE_COLLAPSE);
-			}
-			tvi.hItem = m_pageTree.GetNextSibling(tvi.hItem);
+		tvi.mask = TVIF_STATE | TVIF_PARAM;
+		for (tvi.hItem = m_pageTree.GetRoot(); tvi.hItem != nullptr; tvi.hItem = m_pageTree.GetNextSibling(tvi.hItem)) {
+			if (!m_pageTree.GetItem(&tvi)) continue;
+
+			char buf[130];
+			GetTreeSettingName(tvi.lParam, buf, _countof(buf));
+			if (!db_get_b(0, "Options", buf, 1))
+				m_pageTree.Expand(tvi.hItem, TVE_COLLAPSE);
 		}
 
 		if (m_hCurrentPage == nullptr) {
