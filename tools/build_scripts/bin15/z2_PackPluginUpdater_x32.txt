@@ -35,6 +35,7 @@ Plugins\contacts.dll
 Plugins\crashdumper.dll
 Plugins\cryptopp.dll
 Plugins\cslist.dll
+Plugins\currencyrates.dll
 Plugins\cyrtranslit.dll
 Plugins\dbeditorpp.dll
 Plugins\dbx_mdbx.dll
@@ -112,7 +113,6 @@ Plugins\quickcontacts.dll
 Plugins\quickmessages.dll
 Plugins\quickreplies.dll
 Plugins\quicksearch.dll
-Plugins\quotes.dll
 Plugins\rate.dll
 Plugins\recentcontacts.dll
 Plugins\removepersonalsettings.dll
@@ -207,6 +207,7 @@ Scripts\winapi.dll
 Icons\flags_icons.dll
 Icons\fp_icons.dll
 Icons\historypp_icons.dll
+Icons\proto_ñurrencyrates.dll
 Icons\proto_discord.dll
 Icons\proto_dummy.dll
 Icons\proto_facebook.dll
@@ -221,7 +222,6 @@ Icons\proto_mradio.dll
 Icons\proto_msn.dll
 Icons\proto_newsaggregator.dll
 Icons\proto_omegle.dll
-Icons\proto_quotes.dll
 Icons\proto_sametime.dll
 Icons\proto_skype.dll
 Icons\proto_steam.dll

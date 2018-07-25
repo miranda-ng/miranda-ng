@@ -31,7 +31,7 @@
 #include <m_userinfo.h>
 
 #include <m_variables.h>
-#include <m_Quotes.h>
+#include <m_CurrencyRates.h>
 #include <m_toptoolbar.h>
 
 #include <boost\bind.hpp>
