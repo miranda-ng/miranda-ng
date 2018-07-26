@@ -32,7 +32,6 @@ static HANDLE hEventOptionsInitialize = nullptr;
 
 HWND hwndStatsticView = nullptr;
 bool bLastAutoRefress = false;
-HANDLE hMainThread;
 
 bool bShowPopups = true;
 
@@ -1357,9 +1356,9 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void CALLBACK MainThreadCallback(ULONG_PTR dwParam)
+void CALLBACK MainThreadCallback(void *param)
 {
-	POPUPDATAT *pclData = (POPUPDATAT*)dwParam;
+	POPUPDATAT *pclData = (POPUPDATAT*)param;
 	if (db_get_b(NULL, MODULENAME, "WriteLogFile", 0) != 0)
 		LogEvent(pclData->lpzContactName, pclData->lpzText);
 
@@ -1383,7 +1382,7 @@ void CALLBACK MainThreadCallback(ULONG_PTR dwParam)
 // Developer       : KN, Houdini
 /////////////////////////////////////////////////////////////////////
 
-void CALLBACK OpenStatisticViewFromPopupProc(ULONG_PTR /* dwParam */)
+static void CALLBACK OpenStatisticViewFromPopupProc(void*)
 {
 	nShowStatisticsView(0, 0);
 }
@@ -1394,7 +1393,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 	switch (message) {
 	case WM_LBUTTONDOWN:
-		QueueUserAPC(OpenStatisticViewFromPopupProc, hMainThread, 0);
+		CallFunctionAsync(OpenStatisticViewFromPopupProc, 0);
 		PUDeletePopup(hWnd);
 		return 0;
 
@@ -1429,12 +1428,8 @@ void ShowPopupWindow(const char * pszName, const char * pszText, COLORREF ColorB
 	strncpy(pclData->lpzContactName, pszName, sizeof(pclData->lpzContactName) - 1);   // -1 so that there aways will be a null termination !!
 	strncpy(pclData->lpzText, pszText, sizeof(pclData->lpzText) - 1);
 	pclData->colorBack = ColorBack;
-	//ppd.colorText = colorText;
 	pclData->PluginWindowProc = PopupWindowProc;
-	//Now that every field has been filled, we want to see the popup.
-
-	//CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
-	QueueUserAPC(MainThreadCallback, hMainThread, (ULONG_PTR)pclData);
+	CallFunctionAsync(MainThreadCallback, pclData);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -1456,9 +1451,6 @@ void InitGuiElements()
 	stInitCom.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	stInitCom.dwICC = ICC_INTERNET_CLASSES;
 	InitCommonControlsEx(&stInitCom);
-
-	//hMainThread = GetCurrentThread();
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
 	sUrlAddress = DBGetString(NULL, MODULENAME, "UrlAddress", szDefaultUrlAddress);
 	sPageKeyword = DBGetString(NULL, MODULENAME, "PageKeyword", szDefaultPageKeyword);
@@ -1488,22 +1480,4 @@ void InitGuiElements()
 		MessageBox(nullptr, "Failed to HookEvent ME_OPT_INITIALISE", MSG_BOX_TITEL, MB_OK);
 
 	bShowPopups = db_get_b(NULL, MODULENAME, "ShowPopups", bShowPopups) != 0;
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : UninitGuiElements
-// Type            : Global
-// Parameters      : None
-// Returns         : void
-// Description     :
-//
-// References      : -
-// Remarks         : -
-// Created         : 031011, 11 oktober 2003
-// Developer       : KN
-/////////////////////////////////////////////////////////////////////
-
-void UnInitGuiElements()
-{
-	CloseHandle(hMainThread);
 }

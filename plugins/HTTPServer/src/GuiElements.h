@@ -21,7 +21,6 @@
 #include <windows.h>
 
 void InitGuiElements();
-void UnInitGuiElements();
 void UpdateStatisticsView();
 void ShowPopupWindow(const char * pszName, const char * pszText, COLORREF ColorBack = 0);
 void SendLinkToUser(WPARAM wParam, char *pszSrvPath); // Add By Sergio Vieira Rolanski

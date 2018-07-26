@@ -331,16 +331,6 @@ void CSametimeProto::SetSessionAwayMessage(int status, const wchar_t* msgT)
 		SetSessionStatus(status); // update current away message
 }
 
-static VOID CALLBACK NullAPC(DWORD_PTR)
-{
-	// This function intentionally left blank
-}
-
-void WakeThread(HANDLE hThread)
-{
-	QueueUserAPC(NullAPC, hThread, 0);
-}
-
 void __cdecl CSametimeProto::KeepAliveThread(void*)
 {
 	int i = 120;

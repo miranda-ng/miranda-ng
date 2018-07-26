@@ -16,7 +16,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void CALLBACK sttMainThreadCallback(ULONG_PTR dwParam)
+static INT_PTR CALLBACK sttMainThreadCallback(void *dwParam)
 {
 	POPUPDATAT* ppd = (POPUPDATAT*)dwParam;
 
@@ -24,6 +24,7 @@ void CALLBACK sttMainThreadCallback(ULONG_PTR dwParam)
 		PUAddPopupT(ppd);
 
 	free(ppd);
+	return 0;
 }
 
 void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
@@ -48,7 +49,7 @@ void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
 		ppd->PluginWindowProc = NullWindowProc;
 		ppd->PluginData = nullptr;
 
-		QueueUserAPC(sttMainThreadCallback, mainThread, (ULONG_PTR)ppd);
+		CallFunctionSync(sttMainThreadCallback, ppd);
 	}
 	else{
 		MessageBox(nullptr, line2, _A2W(MODULENAME) L" Message", MB_OK | MB_ICONINFORMATION);

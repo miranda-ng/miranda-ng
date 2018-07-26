@@ -790,11 +790,8 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	}
 	pclFirstNode = nullptr;
 
-	UnInitGuiElements();
-
 	db_set_b(NULL, MODULENAME, "IndexCreationMode", (BYTE)indexCreationMode);
 	FreeIndexHTMLTemplate();
-
 	return 0;
 }
 

@@ -22,8 +22,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "HistoryWindow.h"
 
 // Sorry for plain C implementation
-#define MODULENAME				"BasicHistory"
-extern HANDLE  g_hMainThread;
+#define MODULENAME "BasicHistory"
+
 bool bPopupsEnabled;
 bool DoTask(TaskOptions& to);
 bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = nullptr, std::wstring* err = nullptr, std::wstring* errDescr = nullptr);
@@ -217,7 +217,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 	return true;
 }
 
-static void CALLBACK DoRebuildEventsInMainAPCFunc(ULONG_PTR dwParam)
+static INT_PTR CALLBACK DoRebuildEventsInMainAPCFunc(void *dwParam)
 {
 	MCONTACT *contacts = (MCONTACT*)dwParam;
 	size_t size = (size_t)contacts[0];
@@ -225,6 +225,7 @@ static void CALLBACK DoRebuildEventsInMainAPCFunc(ULONG_PTR dwParam)
 		HistoryWindow::RebuildEvents(contacts[i]);
 
 	delete[] contacts;
+	return 0;
 }
 
 bool DoTask(TaskOptions& to)
@@ -416,7 +417,7 @@ bool DoTask(TaskOptions& to)
 				for (std::list<MCONTACT>::iterator it = contactList.begin(); it != contactList.end(); ++it)
 					pContacts[i++] = *it;
 
-				QueueUserAPC(DoRebuildEventsInMainAPCFunc, g_hMainThread, (ULONG_PTR)pContacts);
+				CallFunctionSync(DoRebuildEventsInMainAPCFunc, pContacts);
 			}
 		}
 
@@ -788,11 +789,12 @@ bool GetNextExportTime(bool init, time_t now)
 	return isExport;
 }
 
-static void CALLBACK DoTaskFinishInMainAPCFunc(ULONG_PTR dwParam)
+static INT_PTR CALLBACK DoTaskFinishInMainAPCFunc(void *param)
 {
-	wchar_t *item = (wchar_t*)dwParam;
+	wchar_t *item = (wchar_t*)param;
 	MessageBox(nullptr, item, TranslateT("Task finished"), MB_OK | MB_ICONINFORMATION);
 	delete[] item;
+	return 0;
 }
 
 bool ExecuteCurrentTask(time_t now)
@@ -843,7 +845,7 @@ bool ExecuteCurrentTask(time_t now)
 					mir_snwprintf(name, size, TranslateT("Task '%s' execution failed"), to.taskName.c_str());
 				else
 					mir_snwprintf(name, size, TranslateT("Task '%s' finished successfully"), to.taskName.c_str());
-				QueueUserAPC(DoTaskFinishInMainAPCFunc, g_hMainThread, (ULONG_PTR)name);
+				CallFunctionSync(DoTaskFinishInMainAPCFunc, name);
 			}
 		}
 	}

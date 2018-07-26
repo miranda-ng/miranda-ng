@@ -22,7 +22,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask"
 
 HCURSOR hCurSplitNS, hCurSplitWE;
-HANDLE g_hMainThread = nullptr;
 
 HANDLE *hEventIcons = nullptr;
 int iconsNum = 3;
@@ -237,7 +236,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 int CMPlugin::Load()
 {
 	hTaskMainMenu = nullptr;
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 
 	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
@@ -261,10 +259,6 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	if (g_hMainThread)
-		CloseHandle(g_hMainThread);
-	g_hMainThread = nullptr;
-
 	HistoryWindow::Deinit();
 
 	DestroyCursor(hCurSplitNS);

@@ -4,7 +4,6 @@ int upCount, total = 0;
 
 size_t list_size = 0;
 
-HANDLE mainThread;
 HANDLE hWakeEvent = nullptr;
 
 // thread protected variables

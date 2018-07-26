@@ -121,7 +121,6 @@ int CMPlugin::Load()
 	use_raw_ping = false;
 	db_set_b(0, MODULENAME, "UsingRawSockets", (BYTE)use_raw_ping);
 
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0);
 	hWakeEvent = CreateEvent(nullptr, FALSE, FALSE, L"Local\\ThreadWaitEvent");
 
 	// create services before loading options - so we can have the 'getlogfilename' service!
@@ -146,8 +145,6 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	SavePingList(0, 0);
-
-	CloseHandle(mainThread);
 
 	if (options.logging)
 		CallService(MODULENAME "/Log", (WPARAM)L"stop", 0);

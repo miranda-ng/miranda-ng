@@ -1322,9 +1322,11 @@ DWORD ICQWaitForSingleObject(HANDLE hObject, DWORD dwMilliseconds, int bWaitAlwa
 {
 	DWORD dwResult;
 
-	do { // will get WAIT_IO_COMPLETION for QueueUserAPC(), ignore it unless terminating
+	// will get WAIT_IO_COMPLETION for QueueUserAPC(), ignore it unless terminating
+	do {
 		dwResult = WaitForSingleObjectEx(hObject, dwMilliseconds, TRUE);
-	} while (dwResult == WAIT_IO_COMPLETION && (bWaitAlways || !Miranda_IsTerminated()));
+	}
+		while (dwResult == WAIT_IO_COMPLETION && (bWaitAlways || !Miranda_IsTerminated()));
 
 	return dwResult;
 }

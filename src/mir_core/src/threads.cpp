@@ -40,8 +40,8 @@ static void __stdcall DummyAPCFunc(ULONG_PTR)
 
 static int MirandaWaitForMutex(HANDLE hEvent)
 {
+	// will get WAIT_IO_COMPLETE for QueueUserAPC() which isnt a result
 	for (;;) {
-		// will get WAIT_IO_COMPLETE for QueueUserAPC() which isnt a result
 		DWORD rc = MsgWaitForMultipleObjectsEx(1, &hEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
 		if (rc == WAIT_OBJECT_0 + 1) {
 			MSG msg;

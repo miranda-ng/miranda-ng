@@ -129,7 +129,6 @@ extern HistoryMap history_map;
 extern PINGLIST list_items;
 extern HANDLE reload_event_handle;
 extern mir_cs list_cs;
-extern HANDLE mainThread;
 extern HANDLE hWakeEvent;
 extern mir_cs thread_finished_cs, list_changed_cs, data_list_cs;
 
