@@ -569,11 +569,10 @@ class COptionsDlg : public CDlgBase
 
 			opd = m_arOpd[i];
 			wchar_t *ptszGroup = TranslateW_LP(opd->ptszGroup, opd->pPlugin);
-			wchar_t *ptszTitle = opd->getString(opd->ptszTitle), *useTitle;
 			wchar_t *ptszTab = TranslateW_LP(opd->ptszTab, opd->pPlugin);
+			wchar_t *ptszTitle = opd->getString(opd->ptszTitle);
 
 			tvis.hParent = nullptr;
-			useTitle = ptszTitle;
 
 			if (ptszGroup != nullptr) {
 				tvis.hParent = FindNamedTreeItem(nullptr, ptszGroup);
@@ -584,24 +583,27 @@ class COptionsDlg : public CDlgBase
 				}
 			}
 			else {
-				tvi.hItem = FindNamedTreeItem(nullptr, useTitle);
+				tvi.hItem = FindNamedTreeItem(nullptr, ptszTitle);
 				if (tvi.hItem != nullptr) {
 					if (i == m_currentPage)
 						m_hCurrentPage = tvi.hItem;
 					
 					tvi.mask = TVIF_PARAM;
 					m_pageTree.GetItem(&tvi);
-					if (tvi.lParam < 0)
+					if (tvi.lParam < 0) {
+						tvi.lParam = i;
+						m_pageTree.SetItem(&tvi);
 						continue;
+					}
 				}
 			}
 
 			if (ptszTab != nullptr) {
 				HTREEITEM hItem;
 				if (tvis.hParent == nullptr)
-					hItem = FindNamedTreeItem(nullptr, useTitle);
+					hItem = FindNamedTreeItem(nullptr, ptszTitle);
 				else
-					hItem = FindNamedTreeItem(tvis.hParent, useTitle);
+					hItem = FindNamedTreeItem(tvis.hParent, ptszTitle);
 				if (hItem != nullptr) {
 					if (i == m_currentPage)
 						m_hCurrentPage = hItem;
@@ -609,7 +611,7 @@ class COptionsDlg : public CDlgBase
 				}
 			}
 
-			tvis.item.pszText = useTitle;
+			tvis.item.pszText = ptszTitle;
 			tvis.item.lParam = i;
 			opd->hTreeItem = m_pageTree.InsertItem(&tvis);
 			if (i == m_currentPage)
