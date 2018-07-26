@@ -269,16 +269,18 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
 	odp.dwInitParam = LPARAM(this);
+	odp.szTitle.w = m_tszUserName;
+
 	odp.pfnDlgProc = IcqDlgProc;
 	odp.position = -1900000000;
-	odp.szTitle.w = m_tszUserName;
+	odp.szTab.w = LPGENW("Info");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQ);
 	g_plugin.addUserInfo(wParam, &odp);
 
 	if (!lParam) {
-		odp.szTitle.w = LPGENW("ICQ Details");
+		odp.szTab.w = LPGENW("Account");
 		odp.position = -1899999999;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO);
 		odp.pfnDlgProc = ChangeInfoDlgProc;
