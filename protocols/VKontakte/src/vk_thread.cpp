@@ -187,7 +187,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		return;
 	}
 
-	if (reply->resultCode != 200 || !strstr(reply->pData, "form method=\"post\"")) { // something went wrong
+	if (reply->resultCode != 200 || !reply->pData || !strstr(reply->pData, "form method=\"post\"")) { // something went wrong
 		ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
