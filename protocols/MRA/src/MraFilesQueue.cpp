@@ -269,7 +269,7 @@ DWORD CMraProto::MraFilesQueueAccept(HANDLE hQueue, DWORD dwIDRequest, LPCWSTR l
 	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hQueue, dwIDRequest, &dat);
 	if (dwRetErrorCode == NO_ERROR) {
 		MRA_FILES_THREADPROC_PARAMS *pmftpp = (MRA_FILES_THREADPROC_PARAMS*)mir_calloc(sizeof(MRA_FILES_THREADPROC_PARAMS));
-		dat->lpwszPath = (LPWSTR)mir_calloc((dwPathSize*sizeof(WCHAR)));
+		dat->lpwszPath = (LPWSTR)mir_calloc(((dwPathSize+2)*sizeof(WCHAR)));
 		dat->dwPathSize = dwPathSize;
 		memcpy(dat->lpwszPath, lpwszPath, (dwPathSize*sizeof(WCHAR)));
 
