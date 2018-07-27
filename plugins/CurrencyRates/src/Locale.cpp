@@ -48,12 +48,12 @@ LPCTSTR time_win_2_boost(const tstring& sFrmt)
 	return L"%H:%M:%S";
 }
 
-LPCTSTR Quotes_GetDateFormat(bool bShort)
+LPCTSTR CurrencyRates_GetDateFormat(bool bShort)
 {
 	return date_win_2_boost(get_int_registry_value(bShort ? L"sShortDate" : L"sLongDate"));
 }
 
-LPCTSTR Quotes_GetTimeFormat(bool bShort)
+LPCTSTR CurrencyRates_GetTimeFormat(bool bShort)
 {
 	return time_win_2_boost(get_int_registry_value(bShort ? L"sShortTime" : L"sTimeFormat"));
 }

@@ -1,7 +1,7 @@
 #ifndef __d0f22b66_3135_4bbe_bee5_a31ea631ce58_ModuleInfo__
 #define __d0f22b66_3135_4bbe_bee5_a31ea631ce58_ModuleInfo__
 
-class CQuotesProviders;
+class CCurrencyRatesProviders;
 class IXMLEngine;
 class IHTMLEngine;
 // class IHTMLParser;
@@ -9,7 +9,7 @@ class IHTMLEngine;
 class CModuleInfo
 {
 public:
-	typedef boost::shared_ptr<CQuotesProviders> TQuotesProvidersPtr;
+	typedef boost::shared_ptr<CCurrencyRatesProviders> TCurrencyRatesProvidersPtr;
 	typedef boost::shared_ptr<IXMLEngine> TXMLEnginePtr;
 	typedef boost::shared_ptr<IHTMLEngine> THTMLEnginePtr;
 
@@ -25,7 +25,7 @@ public:
 
 	static bool Verify();
 
-	static TQuotesProvidersPtr GetQuoteProvidersPtr();
+	static TCurrencyRatesProvidersPtr GetCurrencyRateProvidersPtr();
 
 	static TXMLEnginePtr GetXMLEnginePtr();
 	// 	static void SetXMLEnginePtr(TXMLEnginePtr pEngine);

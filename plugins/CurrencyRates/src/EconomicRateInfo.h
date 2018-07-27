@@ -1,9 +1,9 @@
 #ifndef __87d726e0_26c6_485d_8016_1fba819b037d_EconomicRateInfo__
 #define __87d726e0_26c6_485d_8016_1fba819b037d_EconomicRateInfo__
 
-#define QUOTES_PROTOCOL_NAME "Quotes"// protocol name
+#define CURRENCYRATES_PROTOCOL_NAME "CurrencyRates"// protocol name
 
-#define QUOTES_MODULE_NAME "Quotes"          // db settings module path
+#define CURRENCYRATES_MODULE_NAME "CurrencyRates"          // db settings module path
 
 enum ERefreshRateType
 {
@@ -13,13 +13,13 @@ enum ERefreshRateType
 };
 
 #define DB_STR_ENABLE_LOG "EnableLog"
-#define DB_STR_QUOTE_PROVIDER "QuoteProvider"
-#define DB_STR_QUOTE_ID "QuoteID"
-#define DB_STR_QUOTE_SYMBOL "QuoteSymbol"
-#define DB_STR_QUOTE_DESCRIPTION "QuoteDescription"
-#define DB_STR_QUOTE_PREV_VALUE "PreviousQuoteValue"
-#define DB_STR_QUOTE_CURR_VALUE "CurrentQuoteValue"
-#define DB_STR_QUOTE_FETCH_TIME "FetchTime"
+#define DB_STR_CURRENCYRATE_PROVIDER "CurrencyRateProvider"
+#define DB_STR_CURRENCYRATE_ID "CurrencyRateID"
+#define DB_STR_CURRENCYRATE_SYMBOL "CurrencyRateSymbol"
+#define DB_STR_CURRENCYRATE_DESCRIPTION "CurrencyRateDescription"
+#define DB_STR_CURRENCYRATE_PREV_VALUE "PreviousCurrencyRateValue"
+#define DB_STR_CURRENCYRATE_CURR_VALUE "CurrentCurrencyRateValue"
+#define DB_STR_CURRENCYRATE_FETCH_TIME "FetchTime"
 
 
 enum ELogMode
@@ -31,22 +31,22 @@ enum ELogMode
 };
 
 #define DB_STR_CONTACT_SPEC_SETTINGS "ContactSpecSettings"
-#define DB_STR_QUOTE_LOG "Log"
-#define DB_STR_QUOTE_LOG_FILE "LogFile"
-#define DB_STR_QUOTE_FORMAT_LOG_FILE "LogFileFormat"
-#define DB_STR_QUOTE_FORMAT_HISTORY "HistoryFormat"
-#define DB_STR_QUOTE_LOG_FILE_CONDITION "AddToLogOnlyIfValueIsChanged"
-#define DB_STR_QUOTE_HISTORY_CONDITION "AddToHistoryOnlyIfValueIsChanged"
-#define DB_STR_QUOTE_EXTRA_IMAGE_SLOT "ExtraImageSlot"
-#define DB_STR_QUOTE_FORMAT_POPUP "PopupFormat"
-#define DB_STR_QUOTE_POPUP_CONDITION "ShowPopupOnlyIfValueIsChanged"
+#define DB_STR_CURRENCYRATE_LOG "Log"
+#define DB_STR_CURRENCYRATE_LOG_FILE "LogFile"
+#define DB_STR_CURRENCYRATE_FORMAT_LOG_FILE "LogFileFormat"
+#define DB_STR_CURRENCYRATE_FORMAT_HISTORY "HistoryFormat"
+#define DB_STR_CURRENCYRATE_LOG_FILE_CONDITION "AddToLogOnlyIfValueIsChanged"
+#define DB_STR_CURRENCYRATE_HISTORY_CONDITION "AddToHistoryOnlyIfValueIsChanged"
+#define DB_STR_CURRENCYRATE_EXTRA_IMAGE_SLOT "ExtraImageSlot"
+#define DB_STR_CURRENCYRATE_FORMAT_POPUP "PopupFormat"
+#define DB_STR_CURRENCYRATE_POPUP_CONDITION "ShowPopupOnlyIfValueIsChanged"
 
-#define DB_STR_QUOTE_POPUP_COLOUR_MODE "PopupColourMode"
-#define DB_STR_QUOTE_POPUP_COLOUR_BK "PopupColourBk"
-#define DB_STR_QUOTE_POPUP_COLOUR_TEXT "PopupColourText"
-#define DB_STR_QUOTE_POPUP_DELAY_MODE "PopupDelayMode"
-#define DB_STR_QUOTE_POPUP_DELAY_TIMEOUT "PopupDelayTimeout"
-#define DB_STR_QUOTE_POPUP_HISTORY_FLAG "PopupHistoryFlag"
+#define DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE "PopupColourMode"
+#define DB_STR_CURRENCYRATE_POPUP_COLOUR_BK "PopupColourBk"
+#define DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT "PopupColourText"
+#define DB_STR_CURRENCYRATE_POPUP_DELAY_MODE "PopupDelayMode"
+#define DB_STR_CURRENCYRATE_POPUP_DELAY_TIMEOUT "PopupDelayTimeout"
+#define DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG "PopupHistoryFlag"
 
 
 // #define DB_STR_NICK "Nick"

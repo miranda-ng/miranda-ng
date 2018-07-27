@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-CQuotesProviderVisitorDbSettings::CQuotesProviderVisitorDbSettings()
+CCurrencyRatesProviderVisitorDbSettings::CCurrencyRatesProviderVisitorDbSettings()
 	: m_pszDbRefreshRateType(nullptr),
 	m_pszDbRefreshRateValue(nullptr),
 	m_pszDbDisplayNameFormat(nullptr),
@@ -30,18 +30,18 @@ CQuotesProviderVisitorDbSettings::CQuotesProviderVisitorDbSettings()
 {
 }
 
-CQuotesProviderVisitorDbSettings::~CQuotesProviderVisitorDbSettings()
+CCurrencyRatesProviderVisitorDbSettings::~CCurrencyRatesProviderVisitorDbSettings()
 {
 }
 
-void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderBase&/* rProvider*/)
+void CCurrencyRatesProviderVisitorDbSettings::Visit(const CCurrencyRatesProviderBase&/* rProvider*/)
 {
 	m_pszDefLogFileFormat = L"%s\\t%t\\t%r\\n";
 	m_pszDefHistoryFormat = L"%s %r";
 	m_pszDefPopupFormat = L"\\nCurrent = %r\\nPrevious = %p";
 }
 
-void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderCurrencyConverter&)
+void CCurrencyRatesProviderVisitorDbSettings::Visit(const CCurrencyRatesProviderCurrencyConverter&)
 {
 	m_pszDbRefreshRateType = "CC_RefreshRateType";
 	m_pszDbRefreshRateValue = "CC_RefreshRateValue";

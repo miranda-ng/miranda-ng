@@ -6,7 +6,7 @@ namespace
 
 	tstring get_log_file_name()
 	{
-		return CreateFilePath(L"Quotes.log");
+		return CreateFilePath(L"CurrencyRates.log");
 	}
 
 	bool is_log_enabled()
@@ -14,7 +14,7 @@ namespace
 #ifdef _DEBUG
 		return true;
 #else
-		return (1 == db_get_b(NULL, QUOTES_PROTOCOL_NAME, DB_STR_ENABLE_LOG, false));
+		return (1 == db_get_b(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_ENABLE_LOG, false));
 #endif
 	}
 

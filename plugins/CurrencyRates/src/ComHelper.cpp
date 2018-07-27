@@ -24,5 +24,5 @@ void ShowComError(_com_error& e, const tstring& rsAdditionalInfo)
 {
 	tstring sErrorMsg = ComException2Msg(e, rsAdditionalInfo);
 	LogIt(sErrorMsg);
-	Quotes_MessageBox(nullptr, sErrorMsg.c_str(), MB_OK | MB_ICONERROR);
+	CurrencyRates_MessageBox(nullptr, sErrorMsg.c_str(), MB_OK | MB_ICONERROR);
 }

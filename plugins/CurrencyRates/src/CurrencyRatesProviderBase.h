@@ -1,13 +1,13 @@
-#ifndef __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_QuotesProviderBase_h__
-#define __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_QuotesProviderBase_h__
+#ifndef __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_CurrencyRatesProviderBase_h__
+#define __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_CurrencyRatesProviderBase_h__
 
-class CQuotesProviderBase : public IQuotesProvider
+class CCurrencyRatesProviderBase : public ICurrencyRatesProvider
 {
 public:
-	class CQuote
+	class CCurrencyRate
 	{
 	public:
-		CQuote(const tstring& rsID = L"", const tstring& rsSymbol = L"", const tstring& rsName = L"")
+		CCurrencyRate(const tstring& rsID = L"", const tstring& rsSymbol = L"", const tstring& rsName = L"")
 			: m_sSymbol(rsSymbol), m_sName(rsName), m_sID(rsID){}
 
 		const tstring& GetSymbol()const{ return m_sSymbol; }
@@ -20,15 +20,15 @@ public:
 		tstring m_sID;
 	};
 
-	class CQuoteSection
+	class CCurrencyRateSection
 	{
 	public:
-		typedef std::vector<CQuoteSection> TSections;
-		typedef std::vector<CQuote> TQuotes;
+		typedef std::vector<CCurrencyRateSection> TSections;
+		typedef std::vector<CCurrencyRate> TCurrencyRates;
 
 	public:
-		CQuoteSection(const tstring& rsName = L"", const TSections& raSections = TSections(), const TQuotes& raQuotes = TQuotes())
-			: m_sName(rsName), m_aSections(raSections), m_aQuotes(raQuotes){}
+		CCurrencyRateSection(const tstring& rsName = L"", const TSections& raSections = TSections(), const TCurrencyRates& raCurrencyRates = TCurrencyRates())
+			: m_sName(rsName), m_aSections(raSections), m_aCurrencyRates(raCurrencyRates){}
 
 		const tstring& GetName()const
 		{
@@ -39,24 +39,24 @@ public:
 		{
 			return m_aSections.size();
 		}
-		CQuoteSection GetSection(size_t nIndex)const
+		CCurrencyRateSection GetSection(size_t nIndex)const
 		{
-			return ((nIndex < m_aSections.size()) ? m_aSections[nIndex] : CQuoteSection());
+			return ((nIndex < m_aSections.size()) ? m_aSections[nIndex] : CCurrencyRateSection());
 		}
 
-		size_t GetQuoteCount()const
+		size_t GetCurrencyRateCount()const
 		{
-			return m_aQuotes.size();
+			return m_aCurrencyRates.size();
 		}
-		CQuote GetQuote(size_t nIndex)const
+		CCurrencyRate GetCurrencyRate(size_t nIndex)const
 		{
-			return ((nIndex < m_aQuotes.size()) ? m_aQuotes[nIndex] : CQuote());
+			return ((nIndex < m_aCurrencyRates.size()) ? m_aCurrencyRates[nIndex] : CCurrencyRate());
 		}
 
 	private:
 		tstring m_sName;
 		TSections m_aSections;
-		TQuotes m_aQuotes;
+		TCurrencyRates m_aCurrencyRates;
 	};
 
 protected:
@@ -66,11 +66,11 @@ public:
 	struct CXMLFileInfo;
 
 public:
-	CQuotesProviderBase();
-	~CQuotesProviderBase();
+	CCurrencyRatesProviderBase();
+	~CCurrencyRatesProviderBase();
 
 
-	const CQuoteSection& GetQuotes()const;
+	const CCurrencyRateSection& GetCurrencyRates()const;
 	// 	void SetSettingsEvent();
 
 	virtual bool Init();
@@ -78,7 +78,7 @@ public:
 	virtual void AddContact(MCONTACT hContact);
 	virtual void DeleteContact(MCONTACT hContact);
 	virtual void Run();
-	virtual void Accept(CQuotesProviderVisitor& visitor)const;
+	virtual void Accept(CCurrencyRatesProviderVisitor& visitor)const;
 	virtual void RefreshAllContacts();
 	virtual void RefreshSettings();
 	virtual void RefreshContact(MCONTACT hContact);
@@ -92,7 +92,7 @@ protected:
 	void WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol = L"");
 
 private:
-	virtual void RefreshQuotes(TContracts& anContacts) = 0;
+	virtual void RefreshCurrencyRates(TContracts& anContacts) = 0;
 
 private:
 	virtual void OnEndRun();
@@ -116,4 +116,4 @@ private:
 	bool m_bRefreshInProgress;
 };
 
-#endif //__3e6cb4ec_fc47_468f_a2c8_a77941176bc9_QuotesProviderBase_h__
+#endif //__3e6cb4ec_fc47_468f_a2c8_a77941176bc9_CurrencyRatesProviderBase_h__

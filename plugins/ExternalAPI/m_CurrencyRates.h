@@ -1,5 +1,5 @@
-#ifndef __7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_Quotes_h__
-#define __7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_Quotes_h__
+#ifndef __7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_CurrencyRates_h__
+#define __7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_CurrencyRates_h__
 
 /*
  *	Export the contact (or all contacts) to xml file
@@ -10,7 +10,7 @@
  *			    -1 if user canceled export and 
  *				value greater than zero if error occurred during exporting
  */
-#define MS_QUOTES_EXPORT "Quotes/Export"
+#define MS_CURRENCYRATES_EXPORT "CurrencyRates/Export"
 
 /*
  *	Import the contact (or all contacts) from xml file
@@ -23,13 +23,13 @@
  */
 
 // if contact(s) exists user would be asked to overwrite these contacts
-// #define QUOTES_IMPORT_PROMPT_TO_OVERWRITE_EXISTING_CONTACTS 0x0000
+// #define CURRENCYRATES_IMPORT_PROMPT_TO_OVERWRITE_EXISTING_CONTACTS 0x0000
 // if contact(s) exists it would be overwrite without any prompt
-// #define QUOTES_IMPORT_SILENT_OVERWRITE_EXISTING_CONTACTS 0x0001
+// #define CURRENCYRATES_IMPORT_SILENT_OVERWRITE_EXISTING_CONTACTS 0x0001
 // if contact(s) exists during importing it would be ignored
-#define QUOTES_IMPORT_SKIP_EXISTING_CONTACTS 0x0002
+#define CURRENCYRATES_IMPORT_SKIP_EXISTING_CONTACTS 0x0002
 
-#define MS_QUOTES_IMPORT "Quotes/Import"
+#define MS_CURRENCYRATES_IMPORT "CurrencyRates/Import"
 
 
-#endif //__7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_Quotes_h__
+#endif //__7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_CurrencyRates_h__

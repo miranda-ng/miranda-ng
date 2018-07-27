@@ -50,7 +50,7 @@ typedef std::wistream tistream;
 typedef boost::posix_time::wtime_input_facet ttime_input_facet;
 typedef boost::posix_time::wtime_facet ttime_facet;
 
-inline std::string quotes_t2a(const wchar_t* t)
+inline std::string currencyrates_t2a(const wchar_t* t)
 {
 	std::string s;
 	char* p = mir_u2a(t);
@@ -61,7 +61,7 @@ inline std::string quotes_t2a(const wchar_t* t)
 	return s;
 }
 
-inline tstring quotes_a2t(const char* s)
+inline tstring currencyrates_a2t(const char* s)
 {
 	tstring t;
 	wchar_t* p = mir_a2u(s);
@@ -75,7 +75,7 @@ inline tstring quotes_a2t(const char* s)
 #include "resource.h"
 #include "version.h"
 #include "IconLib.h"
-#include "QuoteInfoDlg.h"
+#include "CurrencyRateInfoDlg.h"
 #include "ModuleInfo.h"
 #include "DBUtils.h"
 #include "HTTPSession.h"
@@ -91,17 +91,17 @@ inline tstring quotes_a2t(const char* s)
 #include "Locale.h"
 #include "ExtraImages.h"
 #include "IsWithinAccuracy.h"
-#include "IQuotesProvider.h"
-#include "QuotesProviders.h"
-#include "QuotesProviderBase.h"
-#include "QuotesProviderVisitor.h"
-#include "QuotesProviderVisitorDbSettings.h"
-#include "QuotesProviderVisitorFormater.h"
-#include "QuotesProviderVisitorTendency.h"
-#include "QuotesProviderVisitorFormatSpecificator.h"
+#include "ICurrencyRatesProvider.h"
+#include "CurrencyRatesProviders.h"
+#include "CurrencyRatesProviderBase.h"
+#include "CurrencyRatesProviderVisitor.h"
+#include "CurrencyRatesProviderVisitorDbSettings.h"
+#include "CurrencyRatesProviderVisitorFormater.h"
+#include "CurrencyRatesProviderVisitorTendency.h"
+#include "CurrencyRatesProviderVisitorFormatSpecificator.h"
 #define CHART_IMPLEMENT
 #ifdef CHART_IMPLEMENT
-#include "QuoteChart.h"
+#include "CurrencyRateChart.h"
 #include "Chart.h"
 #endif
 #include "IHTMLParser.h"

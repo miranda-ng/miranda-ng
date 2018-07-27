@@ -28,6 +28,6 @@ tstring CreateFilePath(const tstring& rsName)
 	tstring s(rsName);
 	prepare_name(s);
 	tostringstream o;
-	o << szPath << L"\\Quotes\\" << s;
+	o << szPath << L"\\CurrencyRates\\" << s;
 	return o.str();
 }

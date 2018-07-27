@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "QuotesProviderCurrencyConverter.h"
+#include "CurrencyRatesProviderCurrencyConverter.h"
 
 LPCTSTR g_pszXmlValue = L"Value";
 LPCTSTR g_pszXmlName = L"Name";
@@ -83,7 +83,7 @@ static int enum_contact_settings(const char* szSetting, void *lp)
 
 		IXMLNode::TXMLNodePtr pXmlSet = ctx->m_pXmlEngine->CreateNode(g_pszXmlSetting, tstring());
 		if (pXmlSet) {
-			IXMLNode::TXMLNodePtr pXmlName = ctx->m_pXmlEngine->CreateNode(g_pszXmlName, quotes_a2t(szSetting));
+			IXMLNode::TXMLNodePtr pXmlName = ctx->m_pXmlEngine->CreateNode(g_pszXmlName, currencyrates_a2t(szSetting));
 
 			IXMLNode::TXMLNodePtr pXmlValue = ctx->m_pXmlEngine->CreateNode(g_pszXmlValue, sValue.str());
 			if (pXmlName && pXmlValue) {
@@ -103,7 +103,7 @@ int EnumDbModules(const char *szModuleName, void *lp)
 {
 	CEnumContext *ctx = (CEnumContext*)lp;
 	IXMLNode::TXMLNodePtr pXml = ctx->m_pNode;
-	IXMLNode::TXMLNodePtr pModule = ctx->m_pXmlEngine->CreateNode(g_pszXmlModule, quotes_a2t(szModuleName)/*A2CT(szModuleName)*/);
+	IXMLNode::TXMLNodePtr pModule = ctx->m_pXmlEngine->CreateNode(g_pszXmlModule, currencyrates_a2t(szModuleName)/*A2CT(szModuleName)*/);
 	if (pModule) {
 		ctx->m_pszModule = szModuleName;
 		ctx->m_pNode = pModule;
@@ -200,7 +200,7 @@ bool show_open_file_dialog(bool bOpen, tstring& rsFile)
 	return true;
 }
 
-INT_PTR Quotes_Export(WPARAM wp, LPARAM lp)
+INT_PTR CurrencyRates_Export(WPARAM wp, LPARAM lp)
 {
 	tstring sFileName;
 	const char* pszFile = reinterpret_cast<const char*>(lp);
@@ -208,14 +208,14 @@ INT_PTR Quotes_Export(WPARAM wp, LPARAM lp)
 		if (false == show_open_file_dialog(false, sFileName))
 			return -1;
 	}
-	else sFileName = quotes_a2t(pszFile);//A2CT(pszFile);
+	else sFileName = currencyrates_a2t(pszFile);//A2CT(pszFile);
 
 	CModuleInfo::TXMLEnginePtr pXmlEngine = CModuleInfo::GetInstance().GetXMLEnginePtr();
-	CModuleInfo::TQuotesProvidersPtr pProviders = CModuleInfo::GetInstance().GetQuoteProvidersPtr();
+	CModuleInfo::TCurrencyRatesProvidersPtr pProviders = CModuleInfo::GetInstance().GetCurrencyRateProvidersPtr();
 	IXMLNode::TXMLNodePtr pRoot = pXmlEngine->CreateNode(g_pszXmlContacts, tstring());
 	MCONTACT hContact = MCONTACT(wp);
 	if (hContact) {
-		CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
+		CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
 		if (pProvider) {
 			IXMLNode::TXMLNodePtr pNode = export_contact(hContact, pXmlEngine);
 			if (pNode)
@@ -223,8 +223,8 @@ INT_PTR Quotes_Export(WPARAM wp, LPARAM lp)
 		}
 	}
 	else {
-		for (auto &cc : Contacts(QUOTES_MODULE_NAME)) {
-			CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(cc);
+		for (auto &cc : Contacts(CURRENCYRATES_MODULE_NAME)) {
+			CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = pProviders->GetContactProviderPtr(cc);
 			if (pProvider) {
 				IXMLNode::TXMLNodePtr pNode = export_contact(cc, pXmlEngine);
 				if (pNode)
@@ -248,7 +248,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 	tstring sModuleName = pXmlModule->GetText();
 	if (false == sModuleName.empty()) {
 		DBCONTACTWRITESETTING dbs;
-		std::string s = quotes_t2a(sModuleName.c_str());
+		std::string s = currencyrates_t2a(sModuleName.c_str());
 		dbs.szModule = s.c_str();//T2CA(sModuleName.c_str());
 
 		bool bCListModule = 0 == mir_wstrcmpi(sModuleName.c_str(), L"CList");
@@ -276,7 +276,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 					}
 
 					if ((false == sName.empty()) && (false == sType.empty())) {
-						std::string s1 = quotes_t2a(sName.c_str());
+						std::string s1 = currencyrates_t2a(sName.c_str());
 						dbs.szSetting = s1.c_str();
 						if (0 == mir_wstrcmpi(g_pszXmlTypeByte, sType.c_str())) {
 							tistringstream in(sValue.c_str());
@@ -390,19 +390,19 @@ struct CContactState
 {
 	CContactState() : m_hContact(NULL), m_bNewContact(false) {}
 	MCONTACT m_hContact;
-	CQuotesProviders::TQuotesProviderPtr m_pProvider;
+	CCurrencyRatesProviders::TCurrencyRatesProviderPtr m_pProvider;
 	bool m_bNewContact;
 };
 
-IXMLNode::TXMLNodePtr find_quotes_module(const IXMLNode::TXMLNodePtr& pXmlContact)
+IXMLNode::TXMLNodePtr find_currencyrates_module(const IXMLNode::TXMLNodePtr& pXmlContact)
 {
-	static const tstring g_sQuotes = quotes_a2t(QUOTES_MODULE_NAME);
+	static const tstring g_sCurrencyRates = currencyrates_a2t(CURRENCYRATES_MODULE_NAME);
 	size_t cChild = pXmlContact->GetChildCount();
 	for (size_t i = 0; i < cChild; ++i) {
 		IXMLNode::TXMLNodePtr pNode = pXmlContact->GetChildNode(i);
 		tstring sName = pNode->GetName();
 		if ((0 == mir_wstrcmpi(g_pszXmlModule, sName.c_str()))
-			&& (0 == mir_wstrcmpi(g_sQuotes.c_str(), pNode->GetText().c_str()))) {
+			&& (0 == mir_wstrcmpi(g_sCurrencyRates.c_str(), pNode->GetText().c_str()))) {
 			return pNode;
 		}
 	}
@@ -432,47 +432,47 @@ TNameValue parse_setting_node(const IXMLNode::TXMLNodePtr& pXmlSetting)
 	return std::make_pair(sName, sValue);
 }
 
-CQuotesProviders::TQuotesProviderPtr find_provider(const IXMLNode::TXMLNodePtr& pXmlQuotesModule)
+CCurrencyRatesProviders::TCurrencyRatesProviderPtr find_provider(const IXMLNode::TXMLNodePtr& pXmlCurrencyRatesModule)
 {
 	// 		USES_CONVERSION;
-	static const tstring g_sQuotesProvider = quotes_a2t(DB_STR_QUOTE_PROVIDER);//A2CT(DB_STR_QUOTE_PROVIDER);
-	size_t cChild = pXmlQuotesModule->GetChildCount();
+	static const tstring g_sCurrencyRatesProvider = currencyrates_a2t(DB_STR_CURRENCYRATE_PROVIDER);//A2CT(DB_STR_CURRENCYRATE_PROVIDER);
+	size_t cChild = pXmlCurrencyRatesModule->GetChildCount();
 	for (size_t i = 0; i < cChild; ++i) {
-		IXMLNode::TXMLNodePtr pXMLSetting = pXmlQuotesModule->GetChildNode(i);
+		IXMLNode::TXMLNodePtr pXMLSetting = pXmlCurrencyRatesModule->GetChildNode(i);
 		if (pXMLSetting && (0 == mir_wstrcmpi(g_pszXmlSetting, pXMLSetting->GetName().c_str()))) {
 			TNameValue Item = parse_setting_node(pXMLSetting);
-			if ((0 == mir_wstrcmpi(g_sQuotesProvider.c_str(), Item.first.c_str())) && (false == Item.second.empty())) {
-				return CModuleInfo::GetInstance().GetQuoteProvidersPtr()->FindProvider(Item.second);
+			if ((0 == mir_wstrcmpi(g_sCurrencyRatesProvider.c_str(), Item.first.c_str())) && (false == Item.second.empty())) {
+				return CModuleInfo::GetInstance().GetCurrencyRateProvidersPtr()->FindProvider(Item.second);
 			}
 		}
 	}
 
-	return CQuotesProviders::TQuotesProviderPtr();
+	return CCurrencyRatesProviders::TCurrencyRatesProviderPtr();
 }
 
 bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& cst)
 {
-	class visitor : public CQuotesProviderVisitor
+	class visitor : public CCurrencyRatesProviderVisitor
 	{
 	public:
-		visitor(const IXMLNode::TXMLNodePtr& pXmlQuotes)
-			: m_hContact(NULL), m_pXmlQuotes(pXmlQuotes)
+		visitor(const IXMLNode::TXMLNodePtr& pXmlCurrencyRates)
+			: m_hContact(NULL), m_pXmlCurrencyRates(pXmlCurrencyRates)
 		{
 		}
 
 		MCONTACT GetContact()const { return m_hContact; }
 
 	private:
-		virtual void Visit(const CQuotesProviderCurrencyConverter& rProvider)override
+		virtual void Visit(const CCurrencyRatesProviderCurrencyConverter& rProvider)override
 		{
-			static const tstring g_sFromID = quotes_a2t(DB_STR_FROM_ID);//A2CT(DB_STR_FROM_ID);
-			static const tstring g_sToID = quotes_a2t(DB_STR_TO_ID);//A2CT(DB_STR_TO_ID);
+			static const tstring g_sFromID = currencyrates_a2t(DB_STR_FROM_ID);//A2CT(DB_STR_FROM_ID);
+			static const tstring g_sToID = currencyrates_a2t(DB_STR_TO_ID);//A2CT(DB_STR_TO_ID);
 
 			tstring sFromID;
 			tstring sToID;
-			size_t cChild = m_pXmlQuotes->GetChildCount();
+			size_t cChild = m_pXmlCurrencyRates->GetChildCount();
 			for (size_t i = 0; i < cChild; ++i) {
-				IXMLNode::TXMLNodePtr pNode = m_pXmlQuotes->GetChildNode(i);
+				IXMLNode::TXMLNodePtr pNode = m_pXmlCurrencyRates->GetChildNode(i);
 				if (pNode && (0 == mir_wstrcmpi(g_pszXmlSetting, pNode->GetName().c_str()))) {
 					TNameValue Item = parse_setting_node(pNode);
 					if (0 == mir_wstrcmpi(g_sFromID.c_str(), Item.first.c_str())) {
@@ -491,12 +491,12 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 
 		tstring GetXMLNodeValue(const char* pszXMLNodeName)const
 		{
-			tstring sXMLNodeName = quotes_a2t(pszXMLNodeName);
+			tstring sXMLNodeName = currencyrates_a2t(pszXMLNodeName);
 
 			tstring sValue;
-			size_t cChild = m_pXmlQuotes->GetChildCount();
+			size_t cChild = m_pXmlCurrencyRates->GetChildCount();
 			for (size_t i = 0; i < cChild; ++i) {
-				IXMLNode::TXMLNodePtr pNode = m_pXmlQuotes->GetChildNode(i);
+				IXMLNode::TXMLNodePtr pNode = m_pXmlCurrencyRates->GetChildNode(i);
 				if (pNode && (0 == mir_wstrcmpi(g_pszXmlSetting, pNode->GetName().c_str()))) {
 					TNameValue Item = parse_setting_node(pNode);
 					if (0 == mir_wstrcmpi(Item.first.c_str(), sXMLNodeName.c_str())) {
@@ -511,14 +511,14 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 
 	private:
 		MCONTACT m_hContact;
-		IXMLNode::TXMLNodePtr m_pXmlQuotes;
+		IXMLNode::TXMLNodePtr m_pXmlCurrencyRates;
 	};
 
-	IXMLNode::TXMLNodePtr pXmlQuotes = find_quotes_module(pXmlContact);
-	if (pXmlQuotes) {
-		cst.m_pProvider = find_provider(pXmlQuotes);
+	IXMLNode::TXMLNodePtr pXmlCurrencyRates = find_currencyrates_module(pXmlContact);
+	if (pXmlCurrencyRates) {
+		cst.m_pProvider = find_provider(pXmlCurrencyRates);
 		if (cst.m_pProvider) {
-			visitor vs(pXmlQuotes);
+			visitor vs(pXmlCurrencyRates);
 			cst.m_pProvider->Accept(vs);
 			cst.m_hContact = vs.GetContact();
 			return true;
@@ -539,7 +539,7 @@ bool import_contact(const IXMLNode::TXMLNodePtr& pXmlContact, CImportContext& im
 			cst.m_hContact = db_add_contact();
 			cst.m_bNewContact = true;
 		}
-		else if (impctx.m_nFlags & QUOTES_IMPORT_SKIP_EXISTING_CONTACTS)
+		else if (impctx.m_nFlags & CURRENCYRATES_IMPORT_SKIP_EXISTING_CONTACTS)
 			return true;
 
 		if (cst.m_hContact) {
@@ -604,7 +604,7 @@ bool do_import(const IXMLNode::TXMLNodePtr& pXmlRoot, UINT nFlags)
 	return (handle_contacts_node(pXmlRoot, imctx) > 0);
 }
 
-INT_PTR Quotes_Import(WPARAM wp, LPARAM lp)
+INT_PTR CurrencyRates_Import(WPARAM wp, LPARAM lp)
 {
 	// 	USES_CONVERSION;
 
@@ -614,7 +614,7 @@ INT_PTR Quotes_Import(WPARAM wp, LPARAM lp)
 		if (false == show_open_file_dialog(true, sFileName))
 			return -1;
 	}
-	else sFileName = quotes_a2t(pszFile);//A2CT(pszFile);
+	else sFileName = currencyrates_a2t(pszFile);//A2CT(pszFile);
 
 	CModuleInfo::TXMLEnginePtr pXmlEngine = CModuleInfo::GetInstance().GetXMLEnginePtr();
 	IXMLNode::TXMLNodePtr pXmlRoot = pXmlEngine->LoadFile(sFileName);
@@ -624,12 +624,12 @@ INT_PTR Quotes_Import(WPARAM wp, LPARAM lp)
 	return 1;
 }
 
-INT_PTR QuotesMenu_ImportAll(WPARAM, LPARAM)
+INT_PTR CurrencyRatesMenu_ImportAll(WPARAM, LPARAM)
 {
-	return CallService(MS_QUOTES_IMPORT, 0, 0);
+	return CallService(MS_CURRENCYRATES_IMPORT, 0, 0);
 }
 
-INT_PTR QuotesMenu_ExportAll(WPARAM, LPARAM)
+INT_PTR CurrencyRatesMenu_ExportAll(WPARAM, LPARAM)
 {
-	return CallService(MS_QUOTES_EXPORT, 0, 0);
+	return CallService(MS_CURRENCYRATES_EXPORT, 0, 0);
 }

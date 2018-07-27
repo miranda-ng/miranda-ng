@@ -2,7 +2,7 @@
 
 #define WINDOW_PREFIX_SETTINGS "Edit Settings_"
 
-LPCTSTR g_pszVariableQuoteName = L"%quotename%";
+LPCTSTR g_pszVariableCurrencyRateName = L"%currencyratename%";
 LPCTSTR g_pszVariableUserProfile = L"%miranda_userdata%";
 
 void update_file_controls(HWND hDlg)
@@ -211,7 +211,7 @@ INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM
 						nModeDelay = CPopupSettings::delayCustom;
 					else {
 						prepare_edit_ctrl_for_error(::GetDlgItem(hWnd, IDC_DELAY));
-						Quotes_MessageBox(hWnd, TranslateT("Enter integer value"), MB_OK | MB_ICONERROR);
+						CurrencyRates_MessageBox(hWnd, TranslateT("Enter integer value"), MB_OK | MB_ICONERROR);
 						bError = true;
 					}
 				}
@@ -259,52 +259,52 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			tstring sName = GetContactName(hContact);
 			::SetDlgItemText(hWnd, IDC_EDIT_NAME, sName.c_str());
 
-			CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
+			CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact);
 
-			BYTE bUseContactSpecific = db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0);
+			BYTE bUseContactSpecific = db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0);
 			::CheckDlgButton(hWnd, IDC_CHECK_CONTACT_SPECIFIC, bUseContactSpecific ? BST_CHECKED : BST_UNCHECKED);
 
 			CAdvProviderSettings setGlobal(pProvider.get());
 			// log to history
-			WORD dwLogMode = db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG, setGlobal.GetLogMode());
+			WORD dwLogMode = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG, setGlobal.GetLogMode());
 			UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
-			tstring sHistoryFrmt = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_HISTORY, setGlobal.GetHistoryFormat().c_str());
+			tstring sHistoryFrmt = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, setGlobal.GetHistoryFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_HISTORY_FORMAT, sHistoryFrmt.c_str());
 
-			WORD wOnlyIfChanged = db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_HISTORY_CONDITION, setGlobal.GetHistoryOnlyChangedFlag());
+			WORD wOnlyIfChanged = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_HISTORY_CONDITION, setGlobal.GetHistoryOnlyChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_HISTORY_CONDITION, (1 == wOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 			// log to file
 			nCheck = (dwLogMode&lmExternalFile) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_EXTERNAL_FILE, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
-			tstring sLogFileName = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE);
+			tstring sLogFileName = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
 			if (true == sLogFileName.empty()) {
-				sLogFileName = GenerateLogFileName(setGlobal.GetLogFileName(), Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL), glfnResolveQuoteName);
+				sLogFileName = GenerateLogFileName(setGlobal.GetLogFileName(), CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL), glfnResolveCurrencyRateName);
 			}
 			::SetDlgItemText(hWnd, IDC_EDIT_FILE_NAME, sLogFileName.c_str());
 
-			tstring sLogFileFrmt = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_LOG_FILE, setGlobal.GetLogFormat().c_str());
+			tstring sLogFileFrmt = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, setGlobal.GetLogFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_LOG_FILE_FORMAT, sLogFileFrmt.c_str());
 
-			wOnlyIfChanged = db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE_CONDITION, setGlobal.GetLogOnlyChangedFlag());
+			wOnlyIfChanged = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, setGlobal.GetLogOnlyChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_LOG_FILE_CONDITION, (1 == wOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 			// popup
 			nCheck = (dwLogMode&lmPopup) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP, nCheck ? BST_CHECKED : BST_UNCHECKED);
-			tstring sPopupFrmt = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_POPUP, setGlobal.GetPopupFormat().c_str());
+			tstring sPopupFrmt = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, setGlobal.GetPopupFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_POPUP_FORMAT, sPopupFrmt.c_str());
-			bool bOnlyIfChanged = 1 == db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_CONDITION, setGlobal.GetShowPopupIfValueChangedFlag());
+			bool bOnlyIfChanged = 1 == db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_CONDITION, setGlobal.GetShowPopupIfValueChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED, (bOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 			update_all_controls(hWnd);
 
 			CSettingWindowParam* pParam = new CSettingWindowParam(hContact);
 			::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pParam));
-			Utils_RestoreWindowPositionNoSize(hWnd, hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
+			Utils_RestoreWindowPositionNoSize(hWnd, hContact, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
 			::ShowWindow(hWnd, SW_SHOW);
 		}
 		break;
@@ -315,7 +315,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 		case IDC_BUTTON_LOG_FILE_DESCRIPTION:
 		case IDC_BUTTON_POPUP_FORMAT_DESCRIPTION:
 			if (BN_CLICKED == HIWORD(wp)) {
-				CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(get_param(hWnd)->m_hContact);
+				CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(get_param(hWnd)->m_hContact);
 				show_variable_list(hWnd, pProvider.get());
 			}
 			break;
@@ -345,7 +345,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			if (BN_CLICKED == HIWORD(wp)) {
 				CSettingWindowParam* pParam = get_param(hWnd);
 				if (!pParam->m_pPopupSettings) {
-					CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(pParam->m_hContact);
+					CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(pParam->m_hContact);
 
 					pParam->m_pPopupSettings = new CPopupSettings(pProvider.get());
 					pParam->m_pPopupSettings->InitForContact(pParam->m_hContact);
@@ -388,19 +388,19 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 				if ((nLogMode&lmExternalFile)) {
 					if (true == sLogFile.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFile);
-						Quotes_MessageBox(hWnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
+						CurrencyRates_MessageBox(hWnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
 						bOk = false;
 					}
 					else if (true == sLogFileFormat.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFileFrmt);
-						Quotes_MessageBox(hWnd, TranslateT("Enter log file format."), MB_OK | MB_ICONERROR);
+						CurrencyRates_MessageBox(hWnd, TranslateT("Enter log file format."), MB_OK | MB_ICONERROR);
 						bOk = false;
 					}
 				}
 
 				if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndHistoryFrmt);
-					Quotes_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
+					CurrencyRates_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
 					bOk = false;
 				}
 
@@ -408,7 +408,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 				tstring sPopupFormat = get_window_text(hwndPopupFrmt);
 				if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndPopupFrmt);
-					Quotes_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
+					CurrencyRates_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
 					bOk = false;
 				}
 
@@ -417,15 +417,15 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 					UINT nIfChangedFile = IsDlgButtonChecked(hWnd, IDC_CHECK_LOG_FILE_CONDITION);
 					bool bIfChangedPopup = (1 == IsDlgButtonChecked(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED));
 
-					db_set_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_CONTACT_SPEC_SETTINGS, bUseContactSpec);
-					db_set_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG, nLogMode);
-					db_set_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE_CONDITION, nIfChangedFile);
-					db_set_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_HISTORY_CONDITION, nIfChangedHistory);
-					db_set_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_CONDITION, bIfChangedPopup);
-					db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE, sLogFile.c_str());
-					db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_LOG_FILE, sLogFileFormat.c_str());
-					db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_HISTORY, sHistoryFormat.c_str());
-					db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_POPUP, sPopupFormat.c_str());
+					db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, bUseContactSpec);
+					db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG, nLogMode);
+					db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, nIfChangedFile);
+					db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_HISTORY_CONDITION, nIfChangedHistory);
+					db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_CONDITION, bIfChangedPopup);
+					db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE, sLogFile.c_str());
+					db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, sLogFileFormat.c_str());
+					db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, sHistoryFormat.c_str());
+					db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, sPopupFormat.c_str());
 
 					if (pParam->m_pPopupSettings) {
 						pParam->m_pPopupSettings->SaveForContact(hContact);
@@ -453,7 +453,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 		MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
 		assert(hWL);
 		WindowList_Remove(hWL, hWnd);
-		Utils_SaveWindowPosition(hWnd, pParam->m_hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
+		Utils_SaveWindowPosition(hWnd, pParam->m_hContact, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
 		delete pParam;
 		break;
 	}
@@ -545,12 +545,12 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 				if ((nLogMode&lmExternalFile)) {
 					if (true == sLogFile.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFile);
-						Quotes_MessageBox(hWnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
+						CurrencyRates_MessageBox(hWnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
 						bOk = false;
 					}
 					else if (true == sLogFileFormat.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFileFrmt);
-						Quotes_MessageBox(hWnd, TranslateT("Enter log file format."), MB_OK | MB_ICONERROR);
+						CurrencyRates_MessageBox(hWnd, TranslateT("Enter log file format."), MB_OK | MB_ICONERROR);
 						bOk = false;
 					}
 				}
@@ -559,7 +559,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 				tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
 				if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndHistoryFrmt);
-					Quotes_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
+					CurrencyRates_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
 					bOk = false;
 				}
 
@@ -567,7 +567,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 				tstring sPopupFormat = get_window_text(hwndPopupFrmt);
 				if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndPopupFrmt);
-					Quotes_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
+					CurrencyRates_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
 					bOk = false;
 				}
 
@@ -634,18 +634,18 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 	return FALSE;
 }
 
-CAdvProviderSettings::CAdvProviderSettings(const IQuotesProvider* pQuotesProvider)
-	: m_pQuotesProvider(pQuotesProvider),
+CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider)
+	: m_pCurrencyRatesProvider(pCurrencyRatesProvider),
 	m_wLogMode(lmDisabled),
 	m_bIsOnlyChangedHistory(false),
 	m_bIsOnlyChangedLogFile(false),
 	m_bShowPopupIfValueChanged(false),
 	m_pPopupSettings(nullptr)
 {
-	assert(m_pQuotesProvider);
+	assert(m_pCurrencyRatesProvider);
 
-	CQuotesProviderVisitorDbSettings visitor;
-	m_pQuotesProvider->Accept(visitor);
+	CCurrencyRatesProviderVisitorDbSettings visitor;
+	m_pCurrencyRatesProvider->Accept(visitor);
 
 	assert(visitor.m_pszDefLogFileFormat);
 	assert(visitor.m_pszDefHistoryFormat);
@@ -656,23 +656,23 @@ CAdvProviderSettings::CAdvProviderSettings(const IQuotesProvider* pQuotesProvide
 	assert(visitor.m_pszDbLogFormat);
 	assert(visitor.m_pszDbLogCondition);
 
-	m_wLogMode = db_get_w(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogMode, static_cast<WORD>(lmDisabled));
-	m_sFormatHistory = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbHistoryFormat, visitor.m_pszDefHistoryFormat);
-	m_bIsOnlyChangedHistory = 1 == db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbHistoryCondition, 0);
+	m_wLogMode = db_get_w(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogMode, static_cast<WORD>(lmDisabled));
+	m_sFormatHistory = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryFormat, visitor.m_pszDefHistoryFormat);
+	m_bIsOnlyChangedHistory = 1 == db_get_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryCondition, 0);
 
-	m_sLogFileName = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFile);
+	m_sLogFileName = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFile);
 	if (true == m_sLogFileName.empty()) {
 		m_sLogFileName = g_pszVariableUserProfile;
-		m_sLogFileName += L"\\Quotes\\";
-		m_sLogFileName += g_pszVariableQuoteName;
+		m_sLogFileName += L"\\CurrencyRates\\";
+		m_sLogFileName += g_pszVariableCurrencyRateName;
 		m_sLogFileName += L".log";
 	}
 
-	m_sFormatLogFile = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFormat, visitor.m_pszDefLogFileFormat);
-	m_bIsOnlyChangedLogFile = (1 == db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogCondition, 0));
+	m_sFormatLogFile = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFormat, visitor.m_pszDefLogFileFormat);
+	m_bIsOnlyChangedLogFile = (1 == db_get_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogCondition, 0));
 
-	m_sPopupFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupFormat, visitor.m_pszDefPopupFormat);
-	m_bShowPopupIfValueChanged = (1 == db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupCondition, 0));
+	m_sPopupFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupFormat, visitor.m_pszDefPopupFormat);
+	m_bShowPopupIfValueChanged = (1 == db_get_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupCondition, 0));
 }
 
 CAdvProviderSettings::~CAdvProviderSettings()
@@ -680,15 +680,15 @@ CAdvProviderSettings::~CAdvProviderSettings()
 	delete m_pPopupSettings;
 }
 
-const IQuotesProvider* CAdvProviderSettings::GetProviderPtr()const
+const ICurrencyRatesProvider* CAdvProviderSettings::GetProviderPtr()const
 {
-	return m_pQuotesProvider;
+	return m_pCurrencyRatesProvider;
 }
 
 void CAdvProviderSettings::SaveToDb()const
 {
-	CQuotesProviderVisitorDbSettings visitor;
-	m_pQuotesProvider->Accept(visitor);
+	CCurrencyRatesProviderVisitorDbSettings visitor;
+	m_pCurrencyRatesProvider->Accept(visitor);
 
 	assert(visitor.m_pszDbLogMode);
 	assert(visitor.m_pszDbHistoryFormat);
@@ -703,22 +703,22 @@ void CAdvProviderSettings::SaveToDb()const
 	assert(visitor.m_pszDbPopupDelayTimeout);
 	assert(visitor.m_pszDbPopupHistoryFlag);
 
-	db_set_w(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogMode, m_wLogMode);
-	db_set_ws(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbHistoryFormat, m_sFormatHistory.c_str());
-	db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbHistoryCondition, m_bIsOnlyChangedHistory);
-	db_set_ws(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFile, m_sLogFileName.c_str());
-	db_set_ws(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFormat, m_sFormatLogFile.c_str());
-	db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogCondition, m_bIsOnlyChangedLogFile);
-	db_set_ws(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupFormat, m_sPopupFormat.c_str());
-	db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupCondition, m_bShowPopupIfValueChanged);
+	db_set_w(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogMode, m_wLogMode);
+	db_set_ws(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryFormat, m_sFormatHistory.c_str());
+	db_set_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryCondition, m_bIsOnlyChangedHistory);
+	db_set_ws(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFile, m_sLogFileName.c_str());
+	db_set_ws(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFormat, m_sFormatLogFile.c_str());
+	db_set_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogCondition, m_bIsOnlyChangedLogFile);
+	db_set_ws(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupFormat, m_sPopupFormat.c_str());
+	db_set_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupCondition, m_bShowPopupIfValueChanged);
 
 	if (nullptr != m_pPopupSettings) {
-		db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupColourMode, static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
-		db_set_dw(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupBkColour, m_pPopupSettings->GetColourBk());
-		db_set_dw(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupTextColour, m_pPopupSettings->GetColourText());
-		db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupDelayMode, static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
-		db_set_w(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupDelayTimeout, m_pPopupSettings->GetDelayTimeout());
-		db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupHistoryFlag, m_pPopupSettings->GetHistoryFlag());
+		db_set_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupColourMode, static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
+		db_set_dw(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupBkColour, m_pPopupSettings->GetColourBk());
+		db_set_dw(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupTextColour, m_pPopupSettings->GetColourText());
+		db_set_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupDelayMode, static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
+		db_set_w(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupDelayTimeout, m_pPopupSettings->GetDelayTimeout());
+		db_set_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupHistoryFlag, m_pPopupSettings->GetHistoryFlag());
 	}
 }
 
@@ -805,12 +805,12 @@ void CAdvProviderSettings::SetShowPopupIfValueChangedFlag(bool val)
 CPopupSettings* CAdvProviderSettings::GetPopupSettingsPtr()const
 {
 	if (nullptr == m_pPopupSettings)
-		m_pPopupSettings = new CPopupSettings(m_pQuotesProvider);
+		m_pPopupSettings = new CPopupSettings(m_pCurrencyRatesProvider);
 
 	return m_pPopupSettings;
 }
 
-CPopupSettings::CPopupSettings(const IQuotesProvider* pQuotesProvider)
+CPopupSettings::CPopupSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider)
 	: m_modeColour(colourDefault),
 	m_modeDelay(delayFromPopup),
 	m_rgbBkg(GetDefColourBk()),
@@ -819,8 +819,8 @@ CPopupSettings::CPopupSettings(const IQuotesProvider* pQuotesProvider)
 	m_bUseHistory(false)
 
 {
-	CQuotesProviderVisitorDbSettings visitor;
-	pQuotesProvider->Accept(visitor);
+	CCurrencyRatesProviderVisitorDbSettings visitor;
+	pCurrencyRatesProvider->Accept(visitor);
 
 	assert(visitor.m_pszDbPopupColourMode);
 	assert(visitor.m_pszDbPopupBkColour);
@@ -829,19 +829,19 @@ CPopupSettings::CPopupSettings(const IQuotesProvider* pQuotesProvider)
 	assert(visitor.m_pszDbPopupDelayTimeout);
 	assert(visitor.m_pszDbPopupHistoryFlag);
 
-	BYTE m = db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupColourMode, static_cast<BYTE>(m_modeColour));
+	BYTE m = db_get_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupColourMode, static_cast<BYTE>(m_modeColour));
 	if (m >= colourDefault && m <= colourUserDefined)
 		m_modeColour = static_cast<EColourMode>(m);
 
-	m_rgbBkg = db_get_dw(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupBkColour, m_rgbBkg);
-	m_rgbText = db_get_dw(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupTextColour, m_rgbText);
+	m_rgbBkg = db_get_dw(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupBkColour, m_rgbBkg);
+	m_rgbText = db_get_dw(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupTextColour, m_rgbText);
 
-	m = db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupDelayMode, static_cast<BYTE>(m_modeDelay));
+	m = db_get_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupDelayMode, static_cast<BYTE>(m_modeDelay));
 	if (m >= delayFromPopup && m <= delayPermanent) {
 		m_modeDelay = static_cast<EDelayMode>(m);
 	}
-	m_wDelay = db_get_w(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupDelayTimeout, m_wDelay);
-	m_bUseHistory = (1 == db_get_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupHistoryFlag, m_bUseHistory));
+	m_wDelay = db_get_w(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupDelayTimeout, m_wDelay);
+	m_bUseHistory = (1 == db_get_b(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupHistoryFlag, m_bUseHistory));
 }
 
 /*static */
@@ -858,30 +858,30 @@ COLORREF CPopupSettings::GetDefColourText()
 
 void CPopupSettings::InitForContact(MCONTACT hContact)
 {
-	BYTE m = db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
+	BYTE m = db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
 	if (m >= CPopupSettings::colourDefault && m <= CPopupSettings::colourUserDefined) {
 		m_modeColour = static_cast<CPopupSettings::EColourMode>(m);
 	}
 
-	m_rgbBkg = db_get_dw(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_COLOUR_BK, m_rgbBkg);
-	m_rgbText = db_get_dw(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_COLOUR_TEXT, m_rgbText);
+	m_rgbBkg = db_get_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
+	m_rgbText = db_get_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT, m_rgbText);
 
-	m = db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
+	m = db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
 	if (m >= CPopupSettings::delayFromPopup && m <= CPopupSettings::delayPermanent) {
 		m_modeDelay = static_cast<CPopupSettings::EDelayMode>(m);
 	}
-	m_wDelay = db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_DELAY_TIMEOUT, m_wDelay);
-	m_bUseHistory = 1 == db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_HISTORY_FLAG, m_bUseHistory);
+	m_wDelay = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_DELAY_TIMEOUT, m_wDelay);
+	m_bUseHistory = 1 == db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
 }
 
 void CPopupSettings::SaveForContact(MCONTACT hContact)const
 {
-	db_set_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
-	db_set_dw(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_COLOUR_BK, m_rgbBkg);
-	db_set_dw(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_COLOUR_TEXT, m_rgbText);
-	db_set_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
-	db_set_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_DELAY_TIMEOUT, m_wDelay);
-	db_set_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_HISTORY_FLAG, m_bUseHistory);
+	db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
+	db_set_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
+	db_set_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT, m_rgbText);
+	db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
+	db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_DELAY_TIMEOUT, m_wDelay);
+	db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
 }
 
 CPopupSettings::EColourMode CPopupSettings::GetColourMode()const
@@ -967,17 +967,17 @@ static void replace_invalid_char(tstring::value_type& rChar, tstring::value_type
 	}
 }
 
-tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsQuoteSymbol, int nFlags)
+tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsCurrencyRateSymbol, int nFlags)
 {
 	tstring sPath = rsLogFilePattern;
-	if (nFlags&glfnResolveQuoteName) {
-		assert(false == rsQuoteSymbol.empty());
+	if (nFlags&glfnResolveCurrencyRateName) {
+		assert(false == rsCurrencyRateSymbol.empty());
 
-		tstring::size_type n = sPath.find(g_pszVariableQuoteName);
+		tstring::size_type n = sPath.find(g_pszVariableCurrencyRateName);
 		if (tstring::npos != n) {
-			tstring s = rsQuoteSymbol;
+			tstring s = rsCurrencyRateSymbol;
 			std::for_each(s.begin(), s.end(), boost::bind(replace_invalid_char, _1, '_'));
-			sPath.replace(n, mir_wstrlen(g_pszVariableQuoteName), s.c_str());
+			sPath.replace(n, mir_wstrlen(g_pszVariableCurrencyRateName), s.c_str());
 		}
 	}
 
@@ -996,18 +996,18 @@ tstring GetContactLogFileName(MCONTACT hContact)
 {
 	tstring result;
 
-	const CQuotesProviders::TQuotesProviderPtr& pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
+	const CCurrencyRatesProviders::TCurrencyRatesProviderPtr& pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact);
 	if (pProvider) {
 		tstring sPattern;
-		bool bUseContactSpecific = (db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
+		bool bUseContactSpecific = (db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 		if (bUseContactSpecific)
-			sPattern = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE);
+			sPattern = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
 		else {
 			CAdvProviderSettings global_settings(pProvider.get());
 			sPattern = global_settings.GetLogFileName();
 		}
 
-		result = GenerateLogFileName(sPattern, Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL));
+		result = GenerateLogFileName(sPattern, CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL));
 	}
 
 	return result;
@@ -1015,9 +1015,9 @@ tstring GetContactLogFileName(MCONTACT hContact)
 
 tstring GetContactName(MCONTACT hContact)
 {
-	tstring sDescription = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_DESCRIPTION);
+	tstring sDescription = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_DESCRIPTION);
 	if (sDescription.empty())
-		sDescription = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
+		sDescription = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 
 	return sDescription;
 }

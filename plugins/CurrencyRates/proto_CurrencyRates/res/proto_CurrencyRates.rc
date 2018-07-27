@@ -90,7 +90,7 @@ BEGIN
             VALUE "CompanyName", "Dioksin"
             VALUE "FileDescription", "CurrencyRates protocol icons"
             VALUE "FileVersion", "0, 0, 0, 1"
-            VALUE "InternalName", "proto_Quotes"
+            VALUE "InternalName", "proto_CurrencyRates"
             VALUE "LegalCopyright", "Do not worry!"
             VALUE "OriginalFilename", "proto_CurrencyRates.dll"
             VALUE "ProductName", "Miranda NG"

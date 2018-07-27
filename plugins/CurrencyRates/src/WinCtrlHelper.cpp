@@ -6,14 +6,14 @@ static INT_PTR CALLBACK VariableListDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPAR
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		{
-			const IQuotesProvider* pProvider = reinterpret_cast<const IQuotesProvider*>(lp);
-			CQuotesProviderVisitorFormatSpecificator visitor;
+			const ICurrencyRatesProvider* pProvider = reinterpret_cast<const ICurrencyRatesProvider*>(lp);
+			CCurrencyRatesProviderVisitorFormatSpecificator visitor;
 			pProvider->Accept(visitor);
 
 			tostringstream o;
-			const CQuotesProviderVisitorFormatSpecificator::TFormatSpecificators& raSpec = visitor.GetSpecificators();
+			const CCurrencyRatesProviderVisitorFormatSpecificator::TFormatSpecificators& raSpec = visitor.GetSpecificators();
 			std::for_each(raSpec.begin(), raSpec.end(),
-				[&o](const CQuotesProviderVisitorFormatSpecificator::CFormatSpecificator& spec)
+				[&o](const CCurrencyRatesProviderVisitorFormatSpecificator::CFormatSpecificator& spec)
 			{
 				o << spec.m_sSymbol << '\t' << spec.m_sDesc << L"\r\n";
 			});
@@ -30,7 +30,7 @@ static INT_PTR CALLBACK VariableListDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPAR
 	return FALSE;
 }
 
-void show_variable_list(HWND hwndParent, const IQuotesProvider* pProvider)
+void show_variable_list(HWND hwndParent, const ICurrencyRatesProvider* pProvider)
 {
 	::DialogBoxParam(g_plugin.getInst(),
 		MAKEINTRESOURCE(IDD_DIALOG_VARIABLE_LIST),

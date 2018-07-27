@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace QuotesChart
+namespace CurrencyRatesChart
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace QuotesChart
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMirandaQuotesChart());
+            Application.Run(new FormMirandaCurrencyRatesChart());
         }
     }
 }

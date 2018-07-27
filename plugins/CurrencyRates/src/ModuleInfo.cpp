@@ -42,9 +42,9 @@ void CModuleInfo::OnMirandaShutdown()
 	}
 }
 
-CModuleInfo::TQuotesProvidersPtr CModuleInfo::GetQuoteProvidersPtr()
+CModuleInfo::TCurrencyRatesProvidersPtr CModuleInfo::GetCurrencyRateProvidersPtr()
 {
-	static TQuotesProvidersPtr pProviders(new CQuotesProviders);
+	static TCurrencyRatesProvidersPtr pProviders(new CCurrencyRatesProviders);
 	return pProviders;
 }
 
@@ -84,13 +84,13 @@ bool CModuleInfo::Verify()
 		return false;
 
 	if (!GetXMLEnginePtr()) {
-		Quotes_MessageBox(nullptr, TranslateT("Miranda could not load Quotes plugin. XML parser is missing."), MB_OK | MB_ICONERROR);
+		CurrencyRates_MessageBox(nullptr, TranslateT("Miranda could not load CurrencyRates plugin. XML parser is missing."), MB_OK | MB_ICONERROR);
 		return false;
 	}
 
 	if (!g_pHTMLEngine && (false == CHTMLParserMS::IsInstalled())) {
-		Quotes_MessageBox(nullptr,
-			TranslateT("Miranda could not load Quotes plugin. Microsoft HTML parser is missing."),
+		CurrencyRates_MessageBox(nullptr,
+			TranslateT("Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing."),
 			MB_YESNO | MB_ICONQUESTION);
 		return false;
 	}

@@ -1,19 +1,19 @@
 #include "StdAfx.h"
-#include "QuotesProviderCurrencyConverter.h"
+#include "CurrencyRatesProviderCurrencyConverter.h"
 
 #define WINDOW_PREFIX "CurrenyConverter_"
 
-#define DB_STR_CC_QUOTE_FROM_ID "CurrencyConverter_FromID"
-#define DB_STR_CC_QUOTE_TO_ID "CurrencyConverter_ToID"
+#define DB_STR_CC_CURRENCYRATE_FROM_ID "CurrencyConverter_FromID"
+#define DB_STR_CC_CURRENCYRATE_TO_ID "CurrencyConverter_ToID"
 #define DB_STR_CC_AMOUNT "CurrencyConverter_Amount"
 
-static CQuotesProviderCurrencyConverter* get_currency_converter_provider()
+static CCurrencyRatesProviderCurrencyConverter* get_currency_converter_provider()
 {
-	CModuleInfo::TQuotesProvidersPtr pProviders = CModuleInfo::GetQuoteProvidersPtr();
-	const CQuotesProviders::TQuotesProviders& rapQuotesProviders = pProviders->GetProviders();
-	for (CQuotesProviders::TQuotesProviders::const_iterator i = rapQuotesProviders.begin(); i != rapQuotesProviders.end(); ++i) {
-		const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
-		if (auto p = dynamic_cast<CQuotesProviderCurrencyConverter*>(pProvider.get()))
+	CModuleInfo::TCurrencyRatesProvidersPtr pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
+	const CCurrencyRatesProviders::TCurrencyRatesProviders& rapCurrencyRatesProviders = pProviders->GetProviders();
+	for (CCurrencyRatesProviders::TCurrencyRatesProviders::const_iterator i = rapCurrencyRatesProviders.begin(); i != rapCurrencyRatesProviders.end(); ++i) {
+		const CCurrencyRatesProviders::TCurrencyRatesProviderPtr& pProvider = *i;
+		if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider.get()))
 		{
 			return p;
 		}
@@ -23,24 +23,24 @@ static CQuotesProviderCurrencyConverter* get_currency_converter_provider()
 	return nullptr;
 }
 
-CQuotesProviderBase::CQuoteSection get_quotes(const CQuotesProviderCurrencyConverter* pProvider = nullptr)
+CCurrencyRatesProviderBase::CCurrencyRateSection get_currencyrates(const CCurrencyRatesProviderCurrencyConverter* pProvider = nullptr)
 {
 	if (nullptr == pProvider)
 		pProvider = get_currency_converter_provider();
 
 	if (pProvider) {
-		const auto& rQuotes = pProvider->GetQuotes();
-		if (rQuotes.GetSectionCount() > 0)
-			return rQuotes.GetSection(0);
+		const auto& rCurrencyRates = pProvider->GetCurrencyRates();
+		if (rCurrencyRates.GetSectionCount() > 0)
+			return rCurrencyRates.GetSection(0);
 	}
 
-	return CQuotesProviderBase::CQuoteSection();
+	return CCurrencyRatesProviderBase::CCurrencyRateSection();
 }
 
-inline tstring make_quote_name(const CQuotesProviderBase::CQuote& rQuote)
+inline tstring make_currencyrate_name(const CCurrencyRatesProviderBase::CCurrencyRate& rCurrencyRate)
 {
-	const tstring& rsDesc = rQuote.GetName();
-	return((false == rsDesc.empty()) ? rsDesc : rQuote.GetSymbol());
+	const tstring& rsDesc = rCurrencyRate.GetName();
+	return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
 }
 
 inline void update_convert_button(HWND hDlg)
@@ -91,49 +91,49 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			assert(hWL);
 			WindowList_Add(hWL, hDlg);
 
-			Window_SetIcon_IcoLib(hDlg, Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER));
+			Window_SetIcon_IcoLib(hDlg, CurrencyRates_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER));
 
 			HWND hcbxFrom = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_FROM);
 			HWND hcbxTo = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_INTO);
 
-			tstring sFromQuoteID = Quotes_DBGetStringT(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_FROM_ID);
-			tstring sToQuoteID = Quotes_DBGetStringT(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_TO_ID);
+			tstring sFromCurrencyRateID = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_FROM_ID);
+			tstring sToCurrencyRateID = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_TO_ID);
 
 			const auto pProvider = get_currency_converter_provider();
-			const auto& rSection = get_quotes(pProvider);
-			auto cQuotes = rSection.GetQuoteCount();
-			for (auto i = 0u; i < cQuotes; ++i) {
-				const auto& rQuote = rSection.GetQuote(i);
-				tstring sName = make_quote_name(rQuote);
+			const auto& rSection = get_currencyrates(pProvider);
+			auto cCurrencyRates = rSection.GetCurrencyRateCount();
+			for (auto i = 0u; i < cCurrencyRates; ++i) {
+				const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
+				tstring sName = make_currencyrate_name(rCurrencyRate);
 				LPCTSTR pszName = sName.c_str();
 				LRESULT nFrom = ::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
 				LRESULT nTo = ::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
 
-				if (0 == mir_wstrcmpi(rQuote.GetID().c_str(), sFromQuoteID.c_str())) {
+				if (0 == mir_wstrcmpi(rCurrencyRate.GetID().c_str(), sFromCurrencyRateID.c_str())) {
 					::SendMessage(hcbxFrom, CB_SETCURSEL, nFrom, 0);
 				}
 
-				if (0 == mir_wstrcmpi(rQuote.GetID().c_str(), sToQuoteID.c_str())) {
+				if (0 == mir_wstrcmpi(rCurrencyRate.GetID().c_str(), sToCurrencyRateID.c_str())) {
 					::SendMessage(hcbxTo, CB_SETCURSEL, nTo, 0);
 				}
 			}
 
 			double dAmount = 1.0;
-			Quotes_DBReadDouble(NULL, QUOTES_MODULE_NAME, DB_STR_CC_AMOUNT, dAmount);
+			CurrencyRates_DBReadDouble(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_AMOUNT, dAmount);
 			::SetDlgItemText(hDlg, IDC_EDIT_VALUE, double2str(dAmount).c_str());
 
-			const IQuotesProvider::CProviderInfo& pi = pProvider->GetInfo();
+			const ICurrencyRatesProvider::CProviderInfo& pi = pProvider->GetInfo();
 			tostringstream o;
 			o << TranslateT("Info provided by") << L" <a href=\"" << pi.m_sURL << L"\">" << pi.m_sName << L"</a>";
 
 			::SetDlgItemText(hDlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
 
-			::SendDlgItemMessage(hDlg, IDC_BUTTON_SWAP, BM_SETIMAGE, IMAGE_ICON, LPARAM(Quotes_LoadIconEx(IDI_ICON_SWAP)));
+			::SendDlgItemMessage(hDlg, IDC_BUTTON_SWAP, BM_SETIMAGE, IMAGE_ICON, LPARAM(CurrencyRates_LoadIconEx(IDI_ICON_SWAP)));
 
 			update_convert_button(hDlg);
 			update_swap_button(hDlg);
 
-			Utils_RestoreWindowPositionNoSize(hDlg, NULL, QUOTES_PROTOCOL_NAME, WINDOW_PREFIX);
+			Utils_RestoreWindowPositionNoSize(hDlg, NULL, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX);
 			::ShowWindow(hDlg, SW_SHOW);
 		}
 		return TRUE;
@@ -143,7 +143,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, false);
 			assert(hWL);
 			WindowList_Remove(hWL, hDlg);
-			Utils_SaveWindowPosition(hDlg, NULL, QUOTES_PROTOCOL_NAME, WINDOW_PREFIX);
+			Utils_SaveWindowPosition(hDlg, NULL, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX);
 			EndDialog(hDlg, 0);
 		}
 		return TRUE;
@@ -190,19 +190,19 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 
 				double dAmount = 1.0;
 				if ((true == str2double(sText, dAmount)) && (dAmount > 0.0)) {
-					Quotes_DBWriteDouble(NULL, QUOTES_MODULE_NAME, DB_STR_CC_AMOUNT, dAmount);
+					CurrencyRates_DBWriteDouble(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_AMOUNT, dAmount);
 
 					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
 					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
-						const auto& rSection = get_quotes();
-						size_t cQuotes = rSection.GetQuoteCount();
-						if ((nFrom < cQuotes) && (nTo < cQuotes)) {
-							auto from = rSection.GetQuote(nFrom);
-							auto to = rSection.GetQuote(nTo);
+						const auto& rSection = get_currencyrates();
+						size_t cCurrencyRates = rSection.GetCurrencyRateCount();
+						if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) {
+							auto from = rSection.GetCurrencyRate(nFrom);
+							auto to = rSection.GetCurrencyRate(nTo);
 
-							db_set_ws(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_FROM_ID, from.GetID().c_str());
-							db_set_ws(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_TO_ID, to.GetID().c_str());
+							db_set_ws(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_FROM_ID, from.GetID().c_str());
+							db_set_ws(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_TO_ID, to.GetID().c_str());
 
 							const auto pProvider = get_currency_converter_provider();
 							assert(pProvider);
@@ -221,7 +221,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 								}
 
 								if (false == sError.empty())
-									sResult = quotes_a2t(sError.c_str());//A2T(sError.c_str());
+									sResult = currencyrates_a2t(sError.c_str());//A2T(sError.c_str());
 
 								SetDlgItemText(hDlg, IDC_EDIT_RESULT, sResult.c_str());
 							}
@@ -229,7 +229,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 					}
 				}
 				else {
-					Quotes_MessageBox(hDlg, TranslateT("Enter positive number."), MB_OK | MB_ICONERROR);
+					CurrencyRates_MessageBox(hDlg, TranslateT("Enter positive number."), MB_OK | MB_ICONERROR);
 					prepare_edit_ctrl_for_error(GetDlgItem(hDlg, IDC_EDIT_VALUE));
 				}
 			}
@@ -252,7 +252,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 	return (FALSE);
 }
 
-INT_PTR QuotesMenu_CurrencyConverter(WPARAM, LPARAM)
+INT_PTR CurrencyRatesMenu_CurrencyConverter(WPARAM, LPARAM)
 {
 	MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, true);
 	HWND hWnd = WindowList_Find(hWL, NULL);

@@ -30,7 +30,7 @@ IDI_ICON_MAIN           ICON                    "main.ico"
 
 IDI_ICON_SECTION        ICON                    "Section.ico"
 
-IDI_ICON_QUOTE          ICON                    "quote.ico"
+IDI_ICON_CURRENCYRATE          ICON                    "currencyrate.ico"
 
 IDI_ICON_UP             ICON                    "up.ico"
 
@@ -40,11 +40,11 @@ IDI_ICON_CURRENCY_CONVERTER ICON                    "CurrencyConverter.ico"
 
 IDI_ICON_REFRESH        ICON                    "Refresh.ico"
 
-IDI_ICON_EXPORT         ICON                    "Export quotes.ico"
+IDI_ICON_EXPORT         ICON                    "Export currencyrates.ico"
 
 IDI_ICON_SWAP           ICON                    "swap.ico"
 
-IDI_ICON_IMPORT         ICON                    "Import quotes.ico"
+IDI_ICON_IMPORT         ICON                    "Import currencyrates.ico"
 
 IDI_ICON_NOTCHANGED     ICON                    "notchanged.ico"
 
@@ -111,7 +111,7 @@ BEGIN
     LTEXT           "&Select File:",IDC_STATIC_SELECT_FILE,50,113,49,8
     EDITTEXT        IDC_EDIT_FILE_NAME,101,111,137,12,ES_AUTOHSCROLL
     PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,241,111,65,12
-    LTEXT           "Variables Allowed: %miranda_userdata%,%quotename%",IDC_STATIC,50,126,257,8,WS_DISABLED
+    LTEXT           "Variables Allowed: %miranda_userdata%,%currencyratename%",IDC_STATIC,50,126,257,8,WS_DISABLED
     LTEXT           "F&ormat:",IDC_STATIC_LOG_FILE_FORMAT,50,142,47,8
     EDITTEXT        IDC_EDIT_LOG_FILE_FORMAT,101,140,137,12,ES_AUTOHSCROLL
     PUSHBUTTON      "V&ariables...",IDC_BUTTON_LOG_FILE_DESCRIPTION,241,140,65,12
@@ -165,7 +165,7 @@ BEGIN
     LTEXT           "&Select File:",IDC_STATIC_SELECT_FILE,30,101,49,8
     EDITTEXT        IDC_EDIT_FILE_NAME,81,99,137,12,ES_AUTOHSCROLL
     PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,221,99,65,12
-    LTEXT           "Variables Allowed: %miranda_userdata%,%quotename%",IDC_STATIC,30,115,257,8,WS_DISABLED
+    LTEXT           "Variables Allowed: %miranda_userdata%,%currencyratename%",IDC_STATIC,30,115,257,8,WS_DISABLED
     LTEXT           "F&ormat:",IDC_STATIC_LOG_FILE_FORMAT,30,131,47,8
     EDITTEXT        IDC_EDIT_LOG_FILE_FORMAT,81,129,137,12,ES_AUTOHSCROLL
     PUSHBUTTON      "V&ariables...",IDC_BUTTON_LOG_FILE_DESCRIPTION,221,129,65,12
@@ -208,11 +208,11 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,167,139,50,14
 END
 
-IDD_DIALOG_QUOTE_INFO DIALOGEX 0, 0, 222, 132
+IDD_DIALOG_CURRENCYRATE_INFO DIALOGEX 0, 0, 222, 132
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CTEXT           "",IDC_STATIC_QUOTE_NAME,7,7,208,8
+    CTEXT           "",IDC_STATIC_CURRENCYRATE_NAME,7,7,208,8
     CONTROL         "",IDC_SYSLINK_PROVIDER,"SysLink",WS_TABSTOP,7,110,208,14
     LTEXT           "Current Rate:",IDC_STATIC,21,62,72,8
     EDITTEXT        IDC_EDIT_RATE,97,60,61,12,ES_AUTOHSCROLL | ES_READONLY
@@ -249,12 +249,12 @@ BEGIN
     PUSHBUTTON      "&Advanced Settings...",IDC_BUTTON_ADVANCED_SETTINGS,102,211,110,14
 END
 
-IDD_DIALOG_QUOTE_INFO_1 DIALOGEX 0, 0, 222, 143
+IDD_DIALOG_CURRENCYRATE_INFO_1 DIALOGEX 0, 0, 222, 143
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Quote\\Rate Info"
+CAPTION "CurrencyRate\\Rate Info"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CTEXT           "",IDC_STATIC_QUOTE_NAME,7,7,208,8
+    CTEXT           "",IDC_STATIC_CURRENCYRATE_NAME,7,7,208,8
     CONTROL         "",IDC_SYSLINK_PROVIDER,"SysLink",WS_TABSTOP,7,98,208,14
     LTEXT           "Current Rate:",IDC_STATIC,15,57,81,8
     EDITTEXT        IDC_EDIT_RATE,108,55,61,12,ES_AUTOHSCROLL | ES_READONLY
@@ -314,7 +314,7 @@ BEGIN
         BOTTOMMARGIN, 153
     END
 
-    IDD_DIALOG_QUOTE_INFO, DIALOG
+    IDD_DIALOG_CURRENCYRATE_INFO, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 215
@@ -331,7 +331,7 @@ BEGIN
         BOTTOMMARGIN, 225
     END
 
-    IDD_DIALOG_QUOTE_INFO_1, DIALOG
+    IDD_DIALOG_CURRENCYRATE_INFO_1, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 215

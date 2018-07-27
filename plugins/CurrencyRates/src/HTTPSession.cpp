@@ -34,8 +34,8 @@ public:
 
 		NETLIBUSER nlu = {};
 		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
-		nlu.szSettingsModule = QUOTES_PROTOCOL_NAME;
-		nlu.szDescriptiveName.w = TranslateT("Quotes HTTP connections");
+		nlu.szSettingsModule = CURRENCYRATES_PROTOCOL_NAME;
+		nlu.szDescriptiveName.w = TranslateT("CurrencyRates HTTP connections");
 		g_hNetLib = Netlib_RegisterUser(&nlu);
 		return (nullptr != g_hNetLib);
 	}
@@ -46,7 +46,7 @@ public:
 	{
 		m_aURL.clear();
 
-		std::string s = quotes_t2a(rsURL.c_str());
+		std::string s = currencyrates_t2a(rsURL.c_str());
 		const char* psz = s.c_str();
 		m_aURL.insert(m_aURL.begin(), psz, psz + mir_strlen(psz) + 1);
 		return true;
@@ -102,7 +102,7 @@ public:
 				else {
 					// 						USES_CONVERSION;
 					// 						LPCTSTR p = A2CT(pResult);
-					rsResponce = quotes_a2t(pResult);//p;
+					rsResponce = currencyrates_a2t(pResult);//p;
 				}
 
 				bResult = true;

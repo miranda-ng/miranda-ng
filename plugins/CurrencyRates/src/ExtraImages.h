@@ -11,6 +11,6 @@ enum EImageIndex
 
 bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex);
 
-void Quotes_InitExtraIcons(void);
+void CurrencyRates_InitExtraIcons(void);
 
 #endif //__9d0dac0c_12e4_46ce_809a_db6dc7d6f269_ExtraImages_h__

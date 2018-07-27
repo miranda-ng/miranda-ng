@@ -1,19 +1,19 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Code\miranda-ng-from-github\plugins\Quotes\res\Forex.rc
+// Used by C:\Code\miranda-ng-from-github\plugins\CurrencyRates\res\Forex.rc
 //
 #define IDI_ICON_MAIN                   102
-#define IDD_DIALOG_QUOTE_INFO           102
+#define IDD_DIALOG_CURRENCYRATE_INFO           102
 #define IDD_DIALOG_OPT_GOOGLE           103
 #define IDI_ICON_SECTION                110
-#define IDI_ICON_QUOTE                  111
+#define IDI_ICON_CURRENCYRATE                  111
 #define IDI_ICON_UP                     113
 #define IDI_ICON_DOWN                   114
 #define IDD_CONTACT_SETTINGS            115
 #define IDI_ICON_NOTCHANGED             116
 #define IDD_CURRENCY_CONVERTER          116
 #define IDI_ICON_CURRENCY_CONVERTER     117
-#define IDD_DIALOG_QUOTE_INFO_1         118
+#define IDD_DIALOG_CURRENCYRATE_INFO_1         118
 #define IDI_ICON_REFRESH                118
 #define IDI_ICON_IMPORT                 119
 #define IDI_ICON_EXPORT                 120
@@ -26,10 +26,10 @@
 #define IDC_EDIT_REFRESH_RATE           1002
 #define IDC_SPIN_REFRESH_RATE           1003
 #define IDC_COMBO_REFRESH_RATE          1004
-#define IDC_STATIC_QUOTE_NAME           1008
+#define IDC_STATIC_CURRENCYRATE_NAME           1008
 #define IDC_SYSLINK_PROVIDER            1009
 #define IDC_STATIC_CHART                1010
-#define IDC_STATIC_QUOTE_CHART          1010
+#define IDC_STATIC_CURRENCYRATE_CHART          1010
 #define IDC_COMBO_CONVERT_FROM          1011
 #define IDC_COMBO_CONVERT_INTO          1012
 #define IDC_BUTTON_ADD                  1013

@@ -1,15 +1,15 @@
-#ifndef __97cd432a_1119_4803_a96f_0abc1cc2653f_QuotesProviderVisitorDbSettings_h__
-#define __97cd432a_1119_4803_a96f_0abc1cc2653f_QuotesProviderVisitorDbSettings_h__
+#ifndef __97cd432a_1119_4803_a96f_0abc1cc2653f_CurrencyRatesProviderVisitorDbSettings_h__
+#define __97cd432a_1119_4803_a96f_0abc1cc2653f_CurrencyRatesProviderVisitorDbSettings_h__
 
-class CQuotesProviderVisitorDbSettings : public CQuotesProviderVisitor
+class CCurrencyRatesProviderVisitorDbSettings : public CCurrencyRatesProviderVisitor
 {
 public:
-	CQuotesProviderVisitorDbSettings();
-	~CQuotesProviderVisitorDbSettings();
+	CCurrencyRatesProviderVisitorDbSettings();
+	~CCurrencyRatesProviderVisitorDbSettings();
 
 private:
-	virtual void Visit(const CQuotesProviderBase& rProvider)override;
-	virtual void Visit(const CQuotesProviderCurrencyConverter& rProvider)override;
+	virtual void Visit(const CCurrencyRatesProviderBase& rProvider)override;
+	virtual void Visit(const CCurrencyRatesProviderCurrencyConverter& rProvider)override;
 public:
 	LPCSTR m_pszDbRefreshRateType;
 	LPCSTR m_pszDbRefreshRateValue;
@@ -41,4 +41,4 @@ public:
 	LPCSTR m_pszDbPopupHistoryFlag;
 };
 
-#endif //__97cd432a_1119_4803_a96f_0abc1cc2653f_QuotesProviderVisitorDbSettings_h__
+#endif //__97cd432a_1119_4803_a96f_0abc1cc2653f_CurrencyRatesProviderVisitorDbSettings_h__

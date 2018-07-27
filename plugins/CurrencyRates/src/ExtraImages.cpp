@@ -2,9 +2,9 @@
 
 static HANDLE hExtraIcon;
 
-void Quotes_InitExtraIcons()
+void CurrencyRates_InitExtraIcons()
 {
-	hExtraIcon = ExtraIcon_RegisterIcolib(ICON_STR_QUOTE, QUOTES_PROTOCOL_NAME, QUOTES_PROTOCOL_NAME "_" ICON_STR_MAIN);
+	hExtraIcon = ExtraIcon_RegisterIcolib(ICON_STR_CURRENCYRATE, CURRENCYRATES_PROTOCOL_NAME, CURRENCYRATES_PROTOCOL_NAME "_" ICON_STR_MAIN);
 }
 
 bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex)
@@ -15,13 +15,13 @@ bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex)
 	HANDLE hIcolib;
 	switch (nIndex) {
 	case eiUp:
-		hIcolib = Quotes_GetIconHandle(IDI_ICON_UP);
+		hIcolib = CurrencyRates_GetIconHandle(IDI_ICON_UP);
 		break;
 	case eiDown:
-		hIcolib = Quotes_GetIconHandle(IDI_ICON_DOWN);
+		hIcolib = CurrencyRates_GetIconHandle(IDI_ICON_DOWN);
 		break;
 	case eiNotChanged:
-		hIcolib = Quotes_GetIconHandle(IDI_ICON_NOTCHANGED);
+		hIcolib = CurrencyRates_GetIconHandle(IDI_ICON_NOTCHANGED);
 		break;
 	default:
 		hIcolib = nullptr;

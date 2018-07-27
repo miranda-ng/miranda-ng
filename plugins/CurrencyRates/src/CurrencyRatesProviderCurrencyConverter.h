@@ -6,24 +6,24 @@
 #define DB_STR_TO_DESCRIPTION "ToDesc"
 
 
-class CQuotesProviderCurrencyConverter : public CQuotesProviderBase
+class CCurrencyRatesProviderCurrencyConverter : public CCurrencyRatesProviderBase
 {
 public:
-	using TRateInfo = std::pair<CQuote, CQuote>;
+	using TRateInfo = std::pair<CCurrencyRate, CCurrencyRate>;
 
 public:
-	CQuotesProviderCurrencyConverter();
-	~CQuotesProviderCurrencyConverter();
+	CCurrencyRatesProviderCurrencyConverter();
+	~CCurrencyRatesProviderCurrencyConverter();
 
-	double Convert(double dAmount, const CQuote& from, const CQuote& to)const;
+	double Convert(double dAmount, const CCurrencyRate& from, const CCurrencyRate& to)const;
 	size_t GetWatchedRateCount()const;
 	bool GetWatchedRateInfo(size_t nIndex, TRateInfo& rRateInfo);
 	bool WatchForRate(const TRateInfo& ri, bool bWatch);
 	MCONTACT GetContactByID(const tstring& rsFromID, const tstring& rsToID)const;
 
 private:
-	virtual void Accept(CQuotesProviderVisitor& visitor)const override;
+	virtual void Accept(CCurrencyRatesProviderVisitor& visitor)const override;
 	virtual void ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE& odp)override;
-	virtual void RefreshQuotes(TContracts& anContacts)override;
+	virtual void RefreshCurrencyRates(TContracts& anContacts)override;
 };
 

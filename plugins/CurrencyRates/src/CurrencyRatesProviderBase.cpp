@@ -3,11 +3,11 @@
 extern bool g_bAutoUpdate;
 extern HANDLE g_hEventWorkThreadStop;
 
-struct CQuotesProviderBase::CXMLFileInfo
+struct CCurrencyRatesProviderBase::CXMLFileInfo
 {
 	CXMLFileInfo() : m_qs(L"Unknown") {}
-	IQuotesProvider::CProviderInfo m_pi;
-	CQuotesProviderBase::CQuoteSection m_qs;
+	ICurrencyRatesProvider::CProviderInfo m_pi;
+	CCurrencyRatesProviderBase::CCurrencyRateSection m_qs;
 	tstring m_sURL;
 };
 
@@ -16,7 +16,7 @@ inline tstring get_ini_file_name(LPCTSTR pszFileName)
 	return CreateFilePath(pszFileName);
 }
 
-bool parse_quote(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuote& q)
+bool parse_currencyrate(const IXMLNode::TXMLNodePtr& pTop, CCurrencyRatesProviderBase::CCurrencyRate& q)
 {
 	tstring sSymbol;
 	tstring sDescription;
@@ -41,14 +41,14 @@ bool parse_quote(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuote&
 		}
 	}
 
-	q = CQuotesProviderBase::CQuote(sID, TranslateW(sSymbol.c_str()), TranslateW(sDescription.c_str()));
+	q = CCurrencyRatesProviderBase::CCurrencyRate(sID, TranslateW(sSymbol.c_str()), TranslateW(sDescription.c_str()));
 	return true;
 }
 
-bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuoteSection& qs)
+bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CCurrencyRatesProviderBase::CCurrencyRateSection& qs)
 {
-	CQuotesProviderBase::CQuoteSection::TSections aSections;
-	CQuotesProviderBase::CQuoteSection::TQuotes aQuotes;
+	CCurrencyRatesProviderBase::CCurrencyRateSection::TSections aSections;
+	CCurrencyRatesProviderBase::CCurrencyRateSection::TCurrencyRates aCurrencyRates;
 	tstring sSectionName;
 
 	size_t cChild = pTop->GetChildCount();
@@ -56,14 +56,14 @@ bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuot
 		IXMLNode::TXMLNodePtr pNode = pTop->GetChildNode(i);
 		tstring sName = pNode->GetName();
 		if (0 == mir_wstrcmpi(L"section", sName.c_str())) {
-			CQuotesProviderBase::CQuoteSection qs1;
+			CCurrencyRatesProviderBase::CCurrencyRateSection qs1;
 			if (true == parse_section(pNode, qs1))
 				aSections.push_back(qs1);
 		}
-		else if (0 == mir_wstrcmpi(L"quote", sName.c_str())) {
-			CQuotesProviderBase::CQuote q;
-			if (true == parse_quote(pNode, q))
-				aQuotes.push_back(q);
+		else if (0 == mir_wstrcmpi(L"currencyrate", sName.c_str())) {
+			CCurrencyRatesProviderBase::CCurrencyRate q;
+			if (true == parse_currencyrate(pNode, q))
+				aCurrencyRates.push_back(q);
 		}
 		else if (0 == mir_wstrcmpi(L"name", sName.c_str())) {
 			sSectionName = pNode->GetText();
@@ -72,7 +72,7 @@ bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuot
 		}
 	}
 
-	qs = CQuotesProviderBase::CQuoteSection(TranslateW(sSectionName.c_str()), aSections, aQuotes);
+	qs = CCurrencyRatesProviderBase::CCurrencyRateSection(TranslateW(sSectionName.c_str()), aSections, aCurrencyRates);
 	return true;
 }
 
@@ -96,10 +96,10 @@ IXMLNode::TXMLNodePtr find_provider(const IXMLNode::TXMLNodePtr& pRoot)
 	return pProvider;
 }
 
-CQuotesProviderBase::CXMLFileInfo parse_ini_file(const tstring& rsXMLFile, bool& rbSucceded)
+CCurrencyRatesProviderBase::CXMLFileInfo parse_ini_file(const tstring& rsXMLFile, bool& rbSucceded)
 {
-	CQuotesProviderBase::CXMLFileInfo res;
-	CQuotesProviderBase::CQuoteSection::TSections aSections;
+	CCurrencyRatesProviderBase::CXMLFileInfo res;
+	CCurrencyRatesProviderBase::CCurrencyRateSection::TSections aSections;
 
 	const CModuleInfo::TXMLEnginePtr& pXMLEngine = CModuleInfo::GetXMLEnginePtr();
 	IXMLNode::TXMLNodePtr pRoot = pXMLEngine->LoadFile(rsXMLFile);
@@ -112,7 +112,7 @@ CQuotesProviderBase::CXMLFileInfo parse_ini_file(const tstring& rsXMLFile, bool&
 				IXMLNode::TXMLNodePtr pNode = pProvider->GetChildNode(i);
 				tstring sName = pNode->GetName();
 				if (0 == mir_wstrcmpi(L"section", sName.c_str())) {
-					CQuotesProviderBase::CQuoteSection qs;
+					CCurrencyRatesProviderBase::CCurrencyRateSection qs;
 					if (true == parse_section(pNode, qs))
 						aSections.push_back(qs);
 				}
@@ -126,35 +126,35 @@ CQuotesProviderBase::CXMLFileInfo parse_ini_file(const tstring& rsXMLFile, bool&
 		}
 	}
 
-	res.m_qs = CQuotesProviderBase::CQuoteSection(res.m_pi.m_sName, aSections);
+	res.m_qs = CCurrencyRatesProviderBase::CCurrencyRateSection(res.m_pi.m_sName, aSections);
 	return res;
 }
 
-CQuotesProviderBase::CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSucceded)
+CCurrencyRatesProviderBase::CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSucceded)
 {
 	rbSucceded = false;
 	tstring sIniFile = get_ini_file_name(pszFileName);
 	return parse_ini_file(sIniFile, rbSucceded);
 }
 
-CQuotesProviderBase::CQuotesProviderBase()
+CCurrencyRatesProviderBase::CCurrencyRatesProviderBase()
 	: m_hEventSettingsChanged(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_hEventRefreshContact(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_bRefreshInProgress(false)
 {
 }
 
-CQuotesProviderBase::~CQuotesProviderBase()
+CCurrencyRatesProviderBase::~CCurrencyRatesProviderBase()
 {
 	::CloseHandle(m_hEventSettingsChanged);
 	::CloseHandle(m_hEventRefreshContact);
 }
 
-bool CQuotesProviderBase::Init()
+bool CCurrencyRatesProviderBase::Init()
 {
 	bool bSucceded = m_pXMLInfo != nullptr;
 	if (!m_pXMLInfo) {
-		CQuotesProviderVisitorDbSettings visitor;
+		CCurrencyRatesProviderVisitorDbSettings visitor;
 		Accept(visitor);
 		assert(visitor.m_pszXMLIniFileName);
 
@@ -164,11 +164,11 @@ bool CQuotesProviderBase::Init()
 	return bSucceded;
 }
 
-CQuotesProviderBase::CXMLFileInfo* CQuotesProviderBase::GetXMLFileInfo()const
+CCurrencyRatesProviderBase::CXMLFileInfo* CCurrencyRatesProviderBase::GetXMLFileInfo()const
 {
 	// 	if(!m_pXMLInfo)
 	// 	{
-	// 		CQuotesProviderVisitorDbSettings visitor;
+	// 		CCurrencyRatesProviderVisitorDbSettings visitor;
 	// 		Accept(visitor);
 	// 		assert(visitor.m_pszXMLIniFileName);
 	// 		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(visitor.m_pszXMLIniFileName)));
@@ -177,27 +177,27 @@ CQuotesProviderBase::CXMLFileInfo* CQuotesProviderBase::GetXMLFileInfo()const
 	return m_pXMLInfo.get();
 }
 
-const CQuotesProviderBase::CProviderInfo& CQuotesProviderBase::GetInfo()const
+const CCurrencyRatesProviderBase::CProviderInfo& CCurrencyRatesProviderBase::GetInfo()const
 {
 	return GetXMLFileInfo()->m_pi;
 }
 
-const CQuotesProviderBase::CQuoteSection& CQuotesProviderBase::GetQuotes()const
+const CCurrencyRatesProviderBase::CCurrencyRateSection& CCurrencyRatesProviderBase::GetCurrencyRates()const
 {
 	return GetXMLFileInfo()->m_qs;
 }
 
-const tstring& CQuotesProviderBase::GetURL()const
+const tstring& CCurrencyRatesProviderBase::GetURL()const
 {
 	return GetXMLFileInfo()->m_sURL;
 }
 
-bool CQuotesProviderBase::IsOnline()
+bool CCurrencyRatesProviderBase::IsOnline()
 {
 	return /*g_bAutoUpdate*/true;
 }
 
-void CQuotesProviderBase::AddContact(MCONTACT hContact)
+void CCurrencyRatesProviderBase::AddContact(MCONTACT hContact)
 {
 	// 	CCritSection cs(m_cs);
 	assert(m_aContacts.end() == std::find(m_aContacts.begin(), m_aContacts.end(), hContact));
@@ -205,7 +205,7 @@ void CQuotesProviderBase::AddContact(MCONTACT hContact)
 	m_aContacts.push_back(hContact);
 }
 
-void CQuotesProviderBase::DeleteContact(MCONTACT hContact)
+void CCurrencyRatesProviderBase::DeleteContact(MCONTACT hContact)
 {
 	mir_cslock lck(m_cs);
 
@@ -214,15 +214,15 @@ void CQuotesProviderBase::DeleteContact(MCONTACT hContact)
 		m_aContacts.erase(i);
 }
 
-void CQuotesProviderBase::SetContactStatus(MCONTACT hContact, int nNewStatus)
+void CCurrencyRatesProviderBase::SetContactStatus(MCONTACT hContact, int nNewStatus)
 {
-	int nStatus = db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_STATUS, ID_STATUS_OFFLINE);
+	int nStatus = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_STATUS, ID_STATUS_OFFLINE);
 	if (nNewStatus != nStatus) {
-		db_set_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_STATUS, nNewStatus);
+		db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_STATUS, nNewStatus);
 
 		if (ID_STATUS_ONLINE != nNewStatus) {
 			db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
-			tstring sSymbol = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
+			tstring sSymbol = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 			if (false == sSymbol.empty())
 				db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, sSymbol.c_str());
 
@@ -255,7 +255,7 @@ public:
 public:
 	CTendency() : m_nComparison(NonValid) {}
 
-	bool Parse(const IQuotesProvider* pProvider, const tstring& rsFrmt, MCONTACT hContact)
+	bool Parse(const ICurrencyRatesProvider* pProvider, const tstring& rsFrmt, MCONTACT hContact)
 	{
 		m_abValueFlags[0] = false;
 		m_abValueFlags[1] = false;
@@ -277,7 +277,7 @@ public:
 				if (i != rsFrmt.end()) {
 					wchar_t t = *i;
 					++i;
-					CQuotesProviderVisitorTendency visitor(hContact, t);
+					CCurrencyRatesProviderVisitorTendency visitor(hContact, t);
 					pProvider->Accept(visitor);
 					if (false == visitor.IsValid()) {
 						bValid = false;
@@ -367,7 +367,7 @@ private:
 	EComparison m_nComparison;
 };
 
-tstring format_rate(const IQuotesProvider *pProvider, MCONTACT hContact, const tstring &rsFrmt)
+tstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, const tstring &rsFrmt)
 {
 	tstring sResult;
 
@@ -411,7 +411,7 @@ tstring format_rate(const IQuotesProvider *pProvider, MCONTACT hContact, const t
 					else chr = *i;
 				}
 
-				CQuotesProviderVisitorFormater visitor(hContact, chr, nWidth);
+				CCurrencyRatesProviderVisitorFormater visitor(hContact, chr, nWidth);
 				pProvider->Accept(visitor);
 				const tstring& s = visitor.GetResult();
 				sResult += s;
@@ -425,12 +425,12 @@ tstring format_rate(const IQuotesProvider *pProvider, MCONTACT hContact, const t
 	return sResult;
 }
 
-void log_to_file(const IQuotesProvider* pProvider,
+void log_to_file(const ICurrencyRatesProvider* pProvider,
 	MCONTACT hContact,
 	const tstring& rsLogFileName,
 	const tstring& rsFormat)
 {
-	std::string sPath = quotes_t2a(rsLogFileName.c_str());
+	std::string sPath = currencyrates_t2a(rsLogFileName.c_str());
 
 	std::string::size_type n = sPath.find_last_of("\\/");
 	if (std::string::npos != n)
@@ -448,7 +448,7 @@ void log_to_file(const IQuotesProvider* pProvider,
 	}
 }
 
-void log_to_history(const IQuotesProvider* pProvider,
+void log_to_history(const ICurrencyRatesProvider* pProvider,
 	MCONTACT hContact,
 	time_t nTime,
 	const tstring& rsFormat)
@@ -457,7 +457,7 @@ void log_to_history(const IQuotesProvider* pProvider,
 	T2Utf psz(s.c_str());
 
 	DBEVENTINFO dbei = {};
-	dbei.szModule = QUOTES_PROTOCOL_NAME;
+	dbei.szModule = CURRENCYRATES_MODULE_NAME;
 	dbei.timestamp = static_cast<DWORD>(nTime);
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
@@ -482,7 +482,7 @@ bool do_set_contact_extra_icon(MCONTACT hContact, const CTendency& tendency)
 	return false;
 }
 
-bool show_popup(const IQuotesProvider* pProvider,
+bool show_popup(const ICurrencyRatesProvider* pProvider,
 	MCONTACT hContact,
 	const CTendency& tendency,
 	const tstring& rsFormat,
@@ -498,14 +498,14 @@ bool show_popup(const IQuotesProvider* pProvider,
 	if (tendency.IsValid()) {
 		CTendency::EResult nComparison = tendency.Compare();
 		if (CTendency::NotChanged == nComparison)
-			ppd.lchIcon = Quotes_LoadIconEx(IDI_ICON_NOTCHANGED);
+			ppd.lchIcon = CurrencyRates_LoadIconEx(IDI_ICON_NOTCHANGED);
 		else if (CTendency::Up == nComparison)
-			ppd.lchIcon = Quotes_LoadIconEx(IDI_ICON_UP);
+			ppd.lchIcon = CurrencyRates_LoadIconEx(IDI_ICON_UP);
 		else if (CTendency::Down == nComparison)
-			ppd.lchIcon = Quotes_LoadIconEx(IDI_ICON_DOWN);
+			ppd.lchIcon = CurrencyRates_LoadIconEx(IDI_ICON_DOWN);
 	}
 
-	CQuotesProviderVisitorFormater visitor(hContact, 's', 0);
+	CCurrencyRatesProviderVisitorFormater visitor(hContact, 's', 0);
 	pProvider->Accept(visitor);
 	const tstring& sTitle = visitor.GetResult();
 	mir_wstrncpy(ppd.lptzContactName, sTitle.c_str(), MAX_CONTACTNAME);
@@ -545,20 +545,20 @@ bool show_popup(const IQuotesProvider* pProvider,
 	return (0 == CallService(MS_POPUP_ADDPOPUPT, reinterpret_cast<WPARAM>(&ppd), lp));
 }
 
-void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol/* = ""*/)
+void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol/* = ""*/)
 {
 	time_t nTime = ::time(0);
 
 	if (false == rsSymbol.empty())
-		db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsSymbol.c_str());
+		db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL, rsSymbol.c_str());
 
 	double dPrev = 0.0;
-	bool bValidPrev = Quotes_DBReadDouble(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_CURR_VALUE, dPrev);
+	bool bValidPrev = CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, dPrev);
 	if (true == bValidPrev)
-		Quotes_DBWriteDouble(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_PREV_VALUE, dPrev);
+		CurrencyRates_DBWriteDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PREV_VALUE, dPrev);
 
-	Quotes_DBWriteDouble(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_CURR_VALUE, dRate);
-	db_set_dw(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FETCH_TIME, nTime);
+	CurrencyRates_DBWriteDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate);
+	db_set_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FETCH_TIME, nTime);
 
 	tstring sSymbol = rsSymbol;
 
@@ -570,7 +570,7 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 	}
 	else {
 		if (true == sSymbol.empty())
-			sSymbol = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
+			sSymbol = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 
 		oNick << std::setfill(L' ') << std::setw(10) << std::left << sSymbol << std::setw(6) << std::right << dRate;
 	}
@@ -587,37 +587,37 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 	else
 		db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
 
-	bool bUseContactSpecific = (db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
+	bool bUseContactSpecific = (db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 
 	CAdvProviderSettings global_settings(this);
 
 	WORD dwMode = (bUseContactSpecific)
-		? db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG, static_cast<WORD>(lmDisabled))
+		? db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG, static_cast<WORD>(lmDisabled))
 		: global_settings.GetLogMode();
 	if (dwMode&lmExternalFile) {
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
-			? (db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE_CONDITION, 1) > 0)
+			? (db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, 1) > 0)
 			: global_settings.GetLogOnlyChangedFlag();
 		if (true == bOnlyIfChanged) {
 			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate, dPrev)));
 		}
 		if (true == bAdd) {
 			tstring sLogFileName = (bUseContactSpecific)
-				? Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE, global_settings.GetLogFileName().c_str())
+				? CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE, global_settings.GetLogFileName().c_str())
 				: global_settings.GetLogFileName();
 
 			if (true == sSymbol.empty()) {
-				sSymbol = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
+				sSymbol = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 			}
 
 			sLogFileName = GenerateLogFileName(sLogFileName, sSymbol);
 
 			tstring sFormat = global_settings.GetLogFormat();
 			if (bUseContactSpecific) {
-				CQuotesProviderVisitorDbSettings visitor;
+				CCurrencyRatesProviderVisitorDbSettings visitor;
 				Accept(visitor);
-				sFormat = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_LOG_FILE, visitor.m_pszDefLogFileFormat);
+				sFormat = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, visitor.m_pszDefLogFileFormat);
 			}
 
 			log_to_file(this, hContact, sLogFileName, sFormat);
@@ -626,7 +626,7 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 	if (dwMode&lmInternalHistory) {
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
-			? (db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_HISTORY_CONDITION, 1) > 0)
+			? (db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_HISTORY_CONDITION, 1) > 0)
 			: global_settings.GetHistoryOnlyChangedFlag();
 
 		if (true == bOnlyIfChanged) {
@@ -634,7 +634,7 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 		}
 		if (true == bAdd) {
 			tstring sFormat = (bUseContactSpecific)
-				? Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
+				? CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
 				: global_settings.GetHistoryFormat();
 
 			log_to_history(this, hContact, nTime, sFormat);
@@ -643,12 +643,12 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 
 	if (dwMode&lmPopup) {
 		bool bOnlyIfChanged = (bUseContactSpecific)
-			? (1 == db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_CONDITION, 1) > 0)
+			? (1 == db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_CONDITION, 1) > 0)
 			: global_settings.GetShowPopupIfValueChangedFlag();
 		if ((false == bOnlyIfChanged)
 			|| ((true == bOnlyIfChanged) && (true == bValidPrev) && (false == IsWithinAccuracy(dRate, dPrev)))) {
 			tstring sFormat = (bUseContactSpecific)
-				? Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
+				? CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
 				: global_settings.GetPopupFormat();
 
 			CPopupSettings ps = *(global_settings.GetPopupSettingsPtr());
@@ -660,14 +660,14 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 	SetContactStatus(hContact, ID_STATUS_ONLINE);
 }
 
-MCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
+MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const tstring& rsName)
 {
 	MCONTACT hContact = db_add_contact();
 	if (hContact) {
-		if (0 == Proto_AddToContact(hContact, QUOTES_PROTOCOL_NAME)) {
+		if (0 == Proto_AddToContact(hContact, CURRENCYRATES_PROTOCOL_NAME)) {
 			tstring sProvName = GetInfo().m_sName;
-			db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_PROVIDER, sProvName.c_str());
-			db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsName.c_str());
+			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER, sProvName.c_str());
+			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL, rsName.c_str());
 			db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
 
 			mir_cslock lck(m_cs);
@@ -682,7 +682,7 @@ MCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 	return hContact;
 }
 
-DWORD get_refresh_timeout_miliseconds(const CQuotesProviderVisitorDbSettings& visitor)
+DWORD get_refresh_timeout_miliseconds(const CCurrencyRatesProviderVisitorDbSettings& visitor)
 {
 	if (!g_bAutoUpdate)
 		return INFINITE;
@@ -690,11 +690,11 @@ DWORD get_refresh_timeout_miliseconds(const CQuotesProviderVisitorDbSettings& vi
 	assert(visitor.m_pszDbRefreshRateType);
 	assert(visitor.m_pszDbRefreshRateValue);
 
-	int nRefreshRateType = db_get_w(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbRefreshRateType, RRT_MINUTES);
+	int nRefreshRateType = db_get_w(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateType, RRT_MINUTES);
 	if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 		nRefreshRateType = RRT_MINUTES;
 
-	DWORD nTimeout = db_get_w(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, 1);
+	DWORD nTimeout = db_get_w(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, 1);
 	switch (nRefreshRateType) {
 	default:
 	case RRT_SECONDS:
@@ -730,15 +730,15 @@ private:
 	bool m_b;
 };
 
-void CQuotesProviderBase::Run()
+void CCurrencyRatesProviderBase::Run()
 {
-	CQuotesProviderVisitorDbSettings visitor;
+	CCurrencyRatesProviderVisitorDbSettings visitor;
 	Accept(visitor);
 
 	DWORD nTimeout = get_refresh_timeout_miliseconds(visitor);
-	m_sContactListFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
-	m_sStatusMsgFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
-	m_sTendencyFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
+	m_sContactListFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
+	m_sStatusMsgFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
+	m_sTendencyFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
 
 	enum
 	{
@@ -763,7 +763,7 @@ void CQuotesProviderBase::Run()
 
 	if (g_bAutoUpdate) {
 		CBoolGuard bg(m_bRefreshInProgress);
-		RefreshQuotes(anContacts);
+		RefreshCurrencyRates(anContacts);
 	}
 
 	while (false == bGoToBed) {
@@ -788,9 +788,9 @@ void CQuotesProviderBase::Run()
 
 		case WAIT_OBJECT_0 + SETTINGS_CHANGED:
 			nTimeout = get_refresh_timeout_miliseconds(visitor);
-			m_sContactListFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
-			m_sStatusMsgFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
-			m_sTendencyFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
+			m_sContactListFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
+			m_sStatusMsgFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
+			m_sTendencyFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
 			{
 				mir_cslock lck(m_cs);
 				anContacts = m_aContacts;
@@ -811,7 +811,7 @@ void CQuotesProviderBase::Run()
 
 				{
 					CBoolGuard bg(m_bRefreshInProgress);
-					RefreshQuotes(anContacts);
+					RefreshCurrencyRates(anContacts);
 				}
 			}
 			break;
@@ -823,7 +823,7 @@ void CQuotesProviderBase::Run()
 			}
 			{
 				CBoolGuard bg(m_bRefreshInProgress);
-				RefreshQuotes(anContacts);
+				RefreshCurrencyRates(anContacts);
 			}
 			break;
 
@@ -835,7 +835,7 @@ void CQuotesProviderBase::Run()
 	OnEndRun();
 }
 
-void CQuotesProviderBase::OnEndRun()
+void CCurrencyRatesProviderBase::OnEndRun()
 {
 	TContracts anContacts;
 	{
@@ -848,18 +848,18 @@ void CQuotesProviderBase::OnEndRun()
 	std::for_each(anContacts.begin(), anContacts.end(), boost::bind(&SetContactStatus, _1, ID_STATUS_OFFLINE));
 }
 
-void CQuotesProviderBase::Accept(CQuotesProviderVisitor &visitor)const
+void CCurrencyRatesProviderBase::Accept(CCurrencyRatesProviderVisitor &visitor)const
 {
 	visitor.Visit(*this);
 }
 
-void CQuotesProviderBase::RefreshSettings()
+void CCurrencyRatesProviderBase::RefreshSettings()
 {
 	BOOL b = ::SetEvent(m_hEventSettingsChanged);
 	assert(b && "Failed to set event");
 }
 
-void CQuotesProviderBase::RefreshAllContacts()
+void CCurrencyRatesProviderBase::RefreshAllContacts()
 {
 	{// for CCritSection
 		mir_cslock lck(m_cs);
@@ -871,7 +871,7 @@ void CQuotesProviderBase::RefreshAllContacts()
 	assert(b && "Failed to set event");
 }
 
-void CQuotesProviderBase::RefreshContact(MCONTACT hContact)
+void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
 {
 	{// for CCritSection
 		mir_cslock lck(m_cs);

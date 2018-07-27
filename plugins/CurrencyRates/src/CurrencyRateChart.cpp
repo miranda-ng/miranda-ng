@@ -54,7 +54,7 @@ namespace
 
 }
 
-INT_PTR QuotesMenu_Chart(WPARAM wp, LPARAM /*lp*/)
+INT_PTR CurrencyRatesMenu_Chart(WPARAM wp, LPARAM /*lp*/)
 {
 #ifdef _UNICODE
 	MCONTACT hContact = static_cast<MCONTACT>(wp);
@@ -63,7 +63,7 @@ INT_PTR QuotesMenu_Chart(WPARAM wp, LPARAM /*lp*/)
 
 	auto sLogFileName = GetContactLogFileName(hContact);
 
-	if(auto hWnd = ::FindWindow(nullptr,_T("Miranda Quotes Chart")))
+	if(auto hWnd = ::FindWindow(nullptr,_T("Miranda CurrencyRates Chart")))
 	{
 		COPYDATASTRUCT copydata_struct;
 		copydata_struct.cbData = static_cast<DWORD>(sLogFileName.size()*sizeof(TCHAR));
@@ -82,7 +82,7 @@ INT_PTR QuotesMenu_Chart(WPARAM wp, LPARAM /*lp*/)
 		si.wShowWindow	= SW_SHOWNORMAL;
 		ZeroMemory(&pi, sizeof(pi));
 
-		auto sCmdLine = CreateFilePath(_T("QuotesChart.exe"));
+		auto sCmdLine = CreateFilePath(_T("CurrencyRatesChart.exe"));
 		sCmdLine += _T(" \"");
 		sCmdLine += sLogFileName;
 		sCmdLine += _T("\"");

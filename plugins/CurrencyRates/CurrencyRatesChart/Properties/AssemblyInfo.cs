@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QuotesChart")]
-[assembly: AssemblyDescription("Chart Application for Miranda Quotes plugin")]
+[assembly: AssemblyTitle("CurrencyRatesChart")]
+[assembly: AssemblyDescription("Chart Application for Miranda CurrencyRates plugin")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dioksin")]
 [assembly: AssemblyProduct("Miranda")]

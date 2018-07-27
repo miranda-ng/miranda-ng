@@ -9,11 +9,11 @@ using System.Windows.Forms;
 using Microsoft.VisualBasic.FileIO;
 using System.Runtime.InteropServices;
 
-namespace QuotesChart
+namespace CurrencyRatesChart
 {
-    public partial class FormMirandaQuotesChart : Form
+    public partial class FormMirandaCurrencyRatesChart : Form
     {
-        public FormMirandaQuotesChart()
+        public FormMirandaCurrencyRatesChart()
         {
             InitializeComponent();
         }
@@ -33,8 +33,8 @@ namespace QuotesChart
         {
             if (dateFrom.Value < dateTo.Value)
             {
-                chartQuotes.ChartAreas[0].AxisX.Minimum = dateFrom.Value.ToOADate();
-                chartQuotes.Invalidate();
+                chartCurrencyRates.ChartAreas[0].AxisX.Minimum = dateFrom.Value.ToOADate();
+                chartCurrencyRates.Invalidate();
             }
         }
 
@@ -42,8 +42,8 @@ namespace QuotesChart
         {
             if (dateTo.Value > dateFrom.Value)
             {
-                chartQuotes.ChartAreas[0].AxisX.Maximum = dateTo.Value.ToOADate();
-                chartQuotes.Invalidate();
+                chartCurrencyRates.ChartAreas[0].AxisX.Maximum = dateTo.Value.ToOADate();
+                chartCurrencyRates.Invalidate();
             }
         }
 
@@ -97,10 +97,10 @@ namespace QuotesChart
 
                         if (series == null)
                         {
-                            if (chartQuotes.Series.FindByName(name) == null)
+                            if (chartCurrencyRates.Series.FindByName(name) == null)
                             {
-                                chartQuotes.Series.Add(name);
-                                series = chartQuotes.Series[name];
+                                chartCurrencyRates.Series.Add(name);
+                                series = chartCurrencyRates.Series[name];
                                 series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
                             }
                             else
@@ -141,8 +141,8 @@ namespace QuotesChart
 
             if (dateMin.HasValue && dateMax.HasValue)
             {
-                chartQuotes.ChartAreas[0].AxisX.Minimum = dateMin.Value.ToOADate();
-                chartQuotes.ChartAreas[0].AxisX.Maximum = dateMax.Value.ToOADate();
+                chartCurrencyRates.ChartAreas[0].AxisX.Minimum = dateMin.Value.ToOADate();
+                chartCurrencyRates.ChartAreas[0].AxisX.Maximum = dateMax.Value.ToOADate();
 
                 dateFrom.Value = dateMin.Value;
                 dateTo.Value = dateMax.Value;

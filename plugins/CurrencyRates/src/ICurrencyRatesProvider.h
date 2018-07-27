@@ -1,11 +1,11 @@
 #pragma once
 
-#ifndef __ac71e133_786c_41a7_ab07_625b76ff2a8c_QuotesProvider_h__
-#define __ac71e133_786c_41a7_ab07_625b76ff2a8c_QuotesProvider_h__
+#ifndef __ac71e133_786c_41a7_ab07_625b76ff2a8c_CurrencyRatesProvider_h__
+#define __ac71e133_786c_41a7_ab07_625b76ff2a8c_CurrencyRatesProvider_h__
 
-class CQuotesProviderVisitor;
+class CCurrencyRatesProviderVisitor;
 
-class IQuotesProvider : private boost::noncopyable
+class ICurrencyRatesProvider : private boost::noncopyable
 {
 public:
 	struct CProviderInfo
@@ -16,8 +16,8 @@ public:
 	};
 
 public:
-	IQuotesProvider() {}
-	virtual ~IQuotesProvider() {}
+	ICurrencyRatesProvider() {}
+	virtual ~ICurrencyRatesProvider() {}
 
 	virtual bool Init() = 0;
 	virtual const CProviderInfo& GetInfo()const = 0;
@@ -33,7 +33,7 @@ public:
 
 	virtual void Run() = 0;
 
-	virtual void Accept(CQuotesProviderVisitor& visitor)const = 0;
+	virtual void Accept(CCurrencyRatesProviderVisitor& visitor)const = 0;
 };
 
-#endif //__ac71e133_786c_41a7_ab07_625b76ff2a8c_QuotesProvider_h__
+#endif //__ac71e133_786c_41a7_ab07_625b76ff2a8c_CurrencyRatesProvider_h__

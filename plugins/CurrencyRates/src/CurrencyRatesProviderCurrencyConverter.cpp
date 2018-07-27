@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "QuotesProviderCurrencyConverter.h"
+#include "CurrencyRatesProviderCurrencyConverter.h"
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\json_parser.hpp>
 
@@ -14,8 +14,8 @@ namespace
 
 	tstring build_url(MCONTACT hContact, const tstring& rsURL)
 	{
-		tstring sFrom = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_ID);
-		tstring sTo = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_ID);
+		tstring sFrom = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+		tstring sTo = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
 		return build_url(rsURL, sFrom, sTo);
 	}
 
@@ -24,7 +24,7 @@ namespace
 		try
 		{
 			boost::property_tree::ptree pt;
-			std::istringstream i_stream(quotes_t2a(rsJSON.c_str()));
+			std::istringstream i_stream(currencyrates_t2a(rsJSON.c_str()));
 
 			boost::property_tree::read_json(i_stream, pt);
 			if (!pt.empty())
@@ -45,18 +45,18 @@ namespace
 		return false;
 	}
 
-	using TWatchedRates =  std::vector<CQuotesProviderCurrencyConverter::TRateInfo>;
+	using TWatchedRates =  std::vector<CCurrencyRatesProviderCurrencyConverter::TRateInfo>;
 	TWatchedRates g_aWatchedRates;
 
 	INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		auto  get_provider = []()->CQuotesProviderCurrencyConverter*
+		auto  get_provider = []()->CCurrencyRatesProviderCurrencyConverter*
 		{
-			auto pProviders = CModuleInfo::GetQuoteProvidersPtr();
-			const auto& rapQuotesProviders = pProviders->GetProviders();
-			for (auto i = rapQuotesProviders.begin(); i != rapQuotesProviders.end(); ++i) {
+			auto pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
+			const auto& rapCurrencyRatesProviders = pProviders->GetProviders();
+			for (auto i = rapCurrencyRatesProviders.begin(); i != rapCurrencyRatesProviders.end(); ++i) {
 				const auto& pProvider = *i;
-				if (auto p = dynamic_cast<CQuotesProviderCurrencyConverter*>(pProvider.get()))
+				if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider.get()))
 				{
 					return p;
 				}
@@ -66,10 +66,10 @@ namespace
 			return nullptr;
 		};
 
-		auto make_quote_name = [](const CQuotesProviderBase::CQuote& rQuote)->tstring
+		auto make_currencyrate_name = [](const CCurrencyRatesProviderBase::CCurrencyRate& rCurrencyRate)->tstring
 		{
-			const tstring& rsDesc = rQuote.GetName();
-			return((false == rsDesc.empty()) ? rsDesc : rQuote.GetSymbol());
+			const tstring& rsDesc = rCurrencyRate.GetName();
+			return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
 		};
 
 		auto make_contact_name = [](const tstring& rsSymbolFrom, const tstring& rsSymbolTo)->tstring
@@ -80,7 +80,7 @@ namespace
 		};
 
 
-		auto make_rate_name = [make_contact_name](const CQuotesProviderCurrencyConverter::TRateInfo& ri)->tstring
+		auto make_rate_name = [make_contact_name](const CCurrencyRatesProviderCurrencyConverter::TRateInfo& ri)->tstring
 		{
 			if ((false == ri.first.GetName().empty()) && (false == ri.second.GetName().empty()))
 				return make_contact_name(ri.first.GetName(), ri.second.GetName());
@@ -106,7 +106,7 @@ namespace
 					TWatchedRates aRemove;
 					size_t cWatchedRates = pProvider->GetWatchedRateCount();
 					for (size_t i = 0; i < cWatchedRates; ++i) {
-						CQuotesProviderCurrencyConverter::TRateInfo ri;
+						CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
 						if (true == pProvider->GetWatchedRateInfo(i, ri)) {
 							auto it = std::find_if(aTemp.begin(), aTemp.end(), [&ri](const auto& other)->bool 
 							{
@@ -140,18 +140,18 @@ namespace
 				HWND hcbxFrom = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_FROM);
 				HWND hcbxTo = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_INTO);
 
-				CQuotesProviderBase::CQuoteSection rSection;
-				const auto& rQuotes = pProvider->GetQuotes();
-				if (rQuotes.GetSectionCount() > 0)
+				CCurrencyRatesProviderBase::CCurrencyRateSection rSection;
+				const auto& rCurrencyRates = pProvider->GetCurrencyRates();
+				if (rCurrencyRates.GetSectionCount() > 0)
 				{
-					rSection = rQuotes.GetSection(0);
+					rSection = rCurrencyRates.GetSection(0);
 				}
 
-				auto cQuotes = rSection.GetQuoteCount();
-				for (auto i = 0u; i < cQuotes; ++i) 
+				auto cCurrencyRates = rSection.GetCurrencyRateCount();
+				for (auto i = 0u; i < cCurrencyRates; ++i) 
 				{
-					const auto& rQuote = rSection.GetQuote(i);
-					tstring sName = make_quote_name(rQuote);
+					const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
+					tstring sName = make_currencyrate_name(rCurrencyRate);
 					LPCTSTR pszName = sName.c_str();
 					::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
 					::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
@@ -160,7 +160,7 @@ namespace
 				auto cWatchedRates = pProvider->GetWatchedRateCount();
 				for (auto i = 0u; i < cWatchedRates; ++i) 
 				{
-					CQuotesProviderCurrencyConverter::TRateInfo ri;
+					CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
 					if (true == pProvider->GetWatchedRateInfo(i, ri)) 
 					{
 						g_aWatchedRates.push_back(ri);
@@ -207,19 +207,19 @@ namespace
 					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) 
 					{
-						CQuotesProviderBase::CQuoteSection rSection;
-						const auto& rQuotes = pProvider->GetQuotes();
-						if (rQuotes.GetSectionCount() > 0)
+						CCurrencyRatesProviderBase::CCurrencyRateSection rSection;
+						const auto& rCurrencyRates = pProvider->GetCurrencyRates();
+						if (rCurrencyRates.GetSectionCount() > 0)
 						{
-							rSection = rQuotes.GetSection(0);
+							rSection = rCurrencyRates.GetSection(0);
 						}
 
-						auto cQuotes = rSection.GetQuoteCount();
-						if ((nFrom < cQuotes) && (nTo < cQuotes)) 
+						auto cCurrencyRates = rSection.GetCurrencyRateCount();
+						if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) 
 						{
-							CQuotesProviderCurrencyConverter::TRateInfo ri;
-							ri.first = rSection.GetQuote(nFrom);
-							ri.second = rSection.GetQuote(nTo);
+							CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
+							ri.first = rSection.GetCurrencyRate(nFrom);
+							ri.second = rSection.GetCurrencyRate(nTo);
 
 							g_aWatchedRates.push_back(ri);
 
@@ -261,22 +261,22 @@ namespace
 }
 
 
-CQuotesProviderCurrencyConverter::CQuotesProviderCurrencyConverter()
+CCurrencyRatesProviderCurrencyConverter::CCurrencyRatesProviderCurrencyConverter()
 {
 }
 
 
-CQuotesProviderCurrencyConverter::~CQuotesProviderCurrencyConverter()
+CCurrencyRatesProviderCurrencyConverter::~CCurrencyRatesProviderCurrencyConverter()
 {
 }
 
-void CQuotesProviderCurrencyConverter::Accept(CQuotesProviderVisitor& visitor)const
+void CCurrencyRatesProviderCurrencyConverter::Accept(CCurrencyRatesProviderVisitor& visitor)const
 {
-	CQuotesProviderBase::Accept(visitor);
+	CCurrencyRatesProviderBase::Accept(visitor);
 	visitor.Visit(*this);
 }
 
-void CQuotesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE& odp)
+void CCurrencyRatesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE& odp)
 {
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_OPT_GOOGLE);
 	odp.pfnDlgProc = OptDlgProc;
@@ -284,7 +284,7 @@ void CQuotesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTIONSDIALOG
 	g_plugin.addOptions(wp, &odp);
 }
 
-void CQuotesProviderCurrencyConverter::RefreshQuotes(TContracts& anContacts)
+void CCurrencyRatesProviderCurrencyConverter::RefreshCurrencyRates(TContracts& anContacts)
 {
 	CHTTPSession http;
 	tstring sURL = GetURL();
@@ -308,7 +308,7 @@ void CQuotesProviderCurrencyConverter::RefreshQuotes(TContracts& anContacts)
 	}
 }
 
-double CQuotesProviderCurrencyConverter::Convert(double dAmount, const CQuote& from, const CQuote& to)const
+double CCurrencyRatesProviderCurrencyConverter::Convert(double dAmount, const CCurrencyRate& from, const CCurrencyRate& to)const
 {
 	tstring sFullURL = build_url(GetURL(), from.GetID(), to.GetID());
 
@@ -331,22 +331,22 @@ double CQuotesProviderCurrencyConverter::Convert(double dAmount, const CQuote& f
 	return 0.0;
 }
 
-size_t CQuotesProviderCurrencyConverter::GetWatchedRateCount()const
+size_t CCurrencyRatesProviderCurrencyConverter::GetWatchedRateCount()const
 {
 	return m_aContacts.size();
 }
 
-bool CQuotesProviderCurrencyConverter::GetWatchedRateInfo(size_t nIndex, TRateInfo& rRateInfo)
+bool CCurrencyRatesProviderCurrencyConverter::GetWatchedRateInfo(size_t nIndex, TRateInfo& rRateInfo)
 {
 	if(nIndex < m_aContacts.size()) {
 		MCONTACT hContact = m_aContacts[nIndex];
-		tstring sSymbolFrom = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_ID);
-		tstring sSymbolTo = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_ID);
-		tstring sDescFrom = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_DESCRIPTION);
-		tstring sDescTo = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_DESCRIPTION);
+		tstring sSymbolFrom = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+		tstring sSymbolTo = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+		tstring sDescFrom = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
+		tstring sDescTo = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
 
-		rRateInfo.first = CQuote(sSymbolFrom, sSymbolFrom, sDescFrom);
-		rRateInfo.second = CQuote(sSymbolTo, sSymbolTo, sDescTo);
+		rRateInfo.first = CCurrencyRate(sSymbolFrom, sSymbolFrom, sDescFrom);
+		rRateInfo.second = CCurrencyRate(sSymbolTo, sSymbolTo, sDescTo);
 		return true;
 	}
 	else {
@@ -354,12 +354,12 @@ bool CQuotesProviderCurrencyConverter::GetWatchedRateInfo(size_t nIndex, TRateIn
 	}
 }
 
-bool CQuotesProviderCurrencyConverter::WatchForRate(const TRateInfo& ri, bool bWatch)
+bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo& ri, bool bWatch)
 {
 	auto i = std::find_if(m_aContacts.begin(), m_aContacts.end(), [&ri](auto hContact)->bool
 	{
-		tstring sFrom = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_ID);
-		tstring sTo = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_ID);
+		tstring sFrom = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+		tstring sTo = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
 		return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), sFrom.c_str()))
 			&& (0 == mir_wstrcmpi(ri.second.GetID().c_str(), sTo.c_str())));
 	});
@@ -378,15 +378,15 @@ bool CQuotesProviderCurrencyConverter::WatchForRate(const TRateInfo& ri, bool bW
 		MCONTACT hContact = CreateNewContact(sName);
 		if (hContact) 
 		{
-			db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_ID, ri.first.GetID().c_str());
-			db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_ID, ri.second.GetID().c_str());
+			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID, ri.first.GetID().c_str());
+			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID, ri.second.GetID().c_str());
 			if (false == ri.first.GetName().empty()) 
 			{
-				db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_DESCRIPTION, ri.first.GetName().c_str());
+				db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION, ri.first.GetName().c_str());
 			}
 			if (false == ri.second.GetName().empty()) 
 			{
-				db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_DESCRIPTION, ri.second.GetName().c_str());
+				db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION, ri.second.GetName().c_str());
 			}
 
 			return true;
@@ -407,14 +407,14 @@ bool CQuotesProviderCurrencyConverter::WatchForRate(const TRateInfo& ri, bool bW
 	return false;
 }
 
-MCONTACT CQuotesProviderCurrencyConverter::GetContactByID(const tstring& rsFromID, const tstring& rsToID)const
+MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const tstring& rsFromID, const tstring& rsToID)const
 {
 	mir_cslock lck(m_cs);
 
 	auto i = std::find_if(m_aContacts.begin(), m_aContacts.end(), [rsFromID, rsToID](MCONTACT hContact)->bool
 	{
-		tstring sFrom = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_FROM_ID);
-		tstring sTo = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_TO_ID);
+		tstring sFrom = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+		tstring sTo = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
 		return ((0 == mir_wstrcmpi(rsFromID.c_str(), sFrom.c_str())) && (0 == mir_wstrcmpi(rsToID.c_str(), sTo.c_str())));
 
 	});

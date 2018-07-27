@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QuotesChart.Properties {
+namespace CurrencyRatesChart.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

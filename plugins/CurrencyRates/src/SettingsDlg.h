@@ -1,7 +1,7 @@
 #ifndef __E211E4D9_383C_43BE_A787_7EF1D585B90D_SettingsDlg_h__
 #define __E211E4D9_383C_43BE_A787_7EF1D585B90D_SettingsDlg_h__
 
-class IQuotesProvider;
+class ICurrencyRatesProvider;
 
 class CPopupSettings
 {
@@ -20,7 +20,7 @@ public:
 	};
 
 public:
-	CPopupSettings(const IQuotesProvider* pQuotesProvider);
+	CPopupSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider);
 
 	static COLORREF GetDefColourBk();
 	static COLORREF GetDefColourText();
@@ -59,12 +59,12 @@ private:
 class CAdvProviderSettings
 {
 public:
-	CAdvProviderSettings(const IQuotesProvider* pQuotesProvider);
+	CAdvProviderSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider);
 	~CAdvProviderSettings();
 
 	void SaveToDb()const;
 
-	const IQuotesProvider* GetProviderPtr()const;
+	const ICurrencyRatesProvider* GetProviderPtr()const;
 
 	WORD GetLogMode()const;
 	void SetLogMode(WORD wMode);
@@ -89,7 +89,7 @@ public:
 	CPopupSettings* GetPopupSettingsPtr()const;
 
 private:
-	const IQuotesProvider* m_pQuotesProvider;
+	const ICurrencyRatesProvider* m_pCurrencyRatesProvider;
 	WORD m_wLogMode;
 	tstring m_sFormatHistory;
 	bool m_bIsOnlyChangedHistory;
@@ -106,11 +106,11 @@ bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings* pAdvSettings);
 
 enum
 {
-	glfnResolveQuoteName = 0x0001,
+	glfnResolveCurrencyRateName = 0x0001,
 	glfnResolveUserProfile = 0x0002,
-	glfnResolveAll = glfnResolveQuoteName | glfnResolveUserProfile,
+	glfnResolveAll = glfnResolveCurrencyRateName | glfnResolveUserProfile,
 };
-tstring GenerateLogFileName(const tstring& rsLogFilePattern, const tstring& rsQuoteSymbol, int nFlags = glfnResolveAll);
+tstring GenerateLogFileName(const tstring& rsLogFilePattern, const tstring& rsCurrencyRateSymbol, int nFlags = glfnResolveAll);
 tstring GetContactLogFileName(MCONTACT hContact);
 tstring GetContactName(MCONTACT hContact);
 

@@ -1,20 +1,20 @@
 #include "StdAfx.h"
 
-CQuotesProviderVisitorFormatSpecificator::CQuotesProviderVisitorFormatSpecificator()
+CCurrencyRatesProviderVisitorFormatSpecificator::CCurrencyRatesProviderVisitorFormatSpecificator()
 {
 }
 
-CQuotesProviderVisitorFormatSpecificator::~CQuotesProviderVisitorFormatSpecificator()
+CCurrencyRatesProviderVisitorFormatSpecificator::~CCurrencyRatesProviderVisitorFormatSpecificator()
 {
 }
 
-void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderDukasCopy&/* rProvider*/)
+void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderDukasCopy&/* rProvider*/)
 {
-	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("Quote Symbol")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%d", TranslateT("Quote Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("CurrencyRate Symbol")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%d", TranslateT("CurrencyRate Name")));
 }
 
-void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderBase&/* rProvider*/)
+void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderBase&/* rProvider*/)
 {
 	m_aSpecificators.push_back(CFormatSpecificator(L"%S", TranslateT("Source of Information")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%r", TranslateT("Rate Value")));
@@ -27,24 +27,24 @@ void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderBase&/
 	m_aSpecificators.push_back(CFormatSpecificator(L"\\\\", TranslateT("Left slash (\\)")));
 }
 
-void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderGoogleFinance&/* rProvider*/)
+void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderGoogleFinance&/* rProvider*/)
 {
-	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("Quote Symbol")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%n", TranslateT("Quote Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("CurrencyRate Symbol")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%n", TranslateT("CurrencyRate Name")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%o", TranslateT("Open Price")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%d", TranslateT("Percent Change to After Hours")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%y", TranslateT("Percent Change to Yesterday Close")));
 }
 
-const CQuotesProviderVisitorFormatSpecificator::TFormatSpecificators& CQuotesProviderVisitorFormatSpecificator::GetSpecificators()const
+const CCurrencyRatesProviderVisitorFormatSpecificator::TFormatSpecificators& CCurrencyRatesProviderVisitorFormatSpecificator::GetSpecificators()const
 {
 	return m_aSpecificators;
 }
 
-void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderYahoo&)
+void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderYahoo&)
 {
-	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("Quote Symbol")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%n", TranslateT("Quote Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("CurrencyRate Symbol")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%n", TranslateT("CurrencyRate Name")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%o", TranslateT("Open Price")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%h", TranslateT("Day's High")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%g", TranslateT("Day's Low")));
@@ -52,7 +52,7 @@ void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderYahoo&
 	m_aSpecificators.push_back(CFormatSpecificator(L"%c", TranslateT("Change")));
 }
 
-void CQuotesProviderVisitorFormatSpecificator::Visit(const CQuotesProviderCurrencyConverter&)
+void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderCurrencyConverter&)
 {
 	m_aSpecificators.push_back(CFormatSpecificator(L"%F", TranslateT("From Currency Full Name")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%f", TranslateT("From Currency Short Name")));
