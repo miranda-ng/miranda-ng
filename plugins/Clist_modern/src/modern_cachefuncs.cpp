@@ -283,7 +283,6 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	if (!noAwayMsg && !noXstatus &&  xstatus_has_priority && pdnce->hContact && pdnce->szProto) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "XStatusName", &dbv)) {
-			//mir_wstrncpy(text, dbv.pszVal, text_size);
 			CopySkipUnprintableChars(text, dbv.pwszVal, text_size - 1);
 			db_free(&dbv);
 
@@ -479,18 +478,18 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "Nick", &dbv)) {
 			wchar_t nick[_countof(contact->szText)];
-			mir_wstrncpy(nick, dbv.pwszVal, _countof(contact->szText));
+			wcsncpy_s(nick, dbv.pwszVal, _TRUNCATE);
 			db_free(&dbv);
 
 			// They are the same -> use the name to keep the case
 			if (mir_wstrcmpi(name, nick) == 0)
-				mir_wstrncpy(contact->szText, name, _countof(contact->szText));
+				wcsncpy_s(contact->szText, name, _TRUNCATE);
 			else // Append then
 				mir_snwprintf(contact->szText, L"%s - %s", name, nick);
 		}
-		else mir_wstrncpy(contact->szText, name, _countof(contact->szText));
+		else wcsncpy_s(contact->szText, name, _TRUNCATE);
 	}
-	else mir_wstrncpy(contact->szText, name, _countof(contact->szText));
+	else wcsncpy_s(contact->szText, name, _TRUNCATE);
 
 	if (!dat->bForceInDialog)
 		contact->ssText.ReplaceSmileys(dat, pdnce, contact->szText, dat->first_line_draw_smileys);

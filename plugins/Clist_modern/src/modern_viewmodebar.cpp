@@ -1254,7 +1254,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		mir_snprintf(szSetting, "%c%s_PF", 246, Name);
 		if (!db_get_s(0, CLVM_MODULE, szSetting, &dbv)) {
 			if (mir_strlen(dbv.pszVal) >= 2) {
-				mir_strncpy(g_CluiData.protoFilter, dbv.pszVal, _countof(g_CluiData.protoFilter));
+				strncpy_s(g_CluiData.protoFilter, dbv.pszVal, _TRUNCATE);
 				g_CluiData.protoFilter[_countof(g_CluiData.protoFilter) - 1] = 0;
 				g_CluiData.bFilterEffective |= CLVM_FILTER_PROTOS;
 			}
@@ -1263,8 +1263,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		mir_snprintf(szSetting, "%c%s_GF", 246, Name);
 		if (!db_get_ws(0, CLVM_MODULE, szSetting, &dbv)) {
 			if (mir_wstrlen(dbv.pwszVal) >= 2) {
-				mir_wstrncpy(g_CluiData.groupFilter, dbv.pwszVal, _countof(g_CluiData.groupFilter));
-				g_CluiData.groupFilter[_countof(g_CluiData.groupFilter) - 1] = 0;
+				wcsncpy_s(g_CluiData.groupFilter, dbv.pwszVal, _TRUNCATE);
 				g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
 			}
 			mir_free(dbv.pwszVal);
@@ -1286,7 +1285,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		if (g_CluiData.filterFlags & CLVM_AUTOCLEAR) {
 			mir_snprintf(szSetting, "%c%s_OPT", 246, Name);
 			DWORD timerexpire = LOWORD(db_get_dw(0, CLVM_MODULE, szSetting, 0));
-			mir_strncpy(g_CluiData.old_viewmode, g_CluiData.current_viewmode, _countof(g_CluiData.old_viewmode));
+			strncpy_s(g_CluiData.old_viewmode, g_CluiData.current_viewmode, _TRUNCATE);
 			g_CluiData.old_viewmode[255] = 0;
 			CLUI_SafeSetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, nullptr);
 		}
@@ -1294,7 +1293,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 			mir_snprintf(szSetting, "%c_LastMode", 246);
 			db_set_s(0, CLVM_MODULE, szSetting, Name);
 		}
-		mir_strncpy(g_CluiData.current_viewmode, Name, _countof(g_CluiData.current_viewmode));
+		strncpy_s(g_CluiData.current_viewmode, Name, _TRUNCATE);
 		g_CluiData.current_viewmode[255] = 0;
 
 		if (g_CluiData.filterFlags & CLVM_USELASTMSG) {

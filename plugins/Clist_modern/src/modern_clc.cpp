@@ -262,20 +262,26 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const wchar_
 	return -1;
 }
 
-static BOOL clcItemNotHiddenOffline(ClcGroup *group, ClcContact *contact)
+static bool clcItemNotHiddenOffline(ClcGroup *group, ClcContact *contact)
 {
-	if (g_CluiData.bFilterEffective) return FALSE;
+	if (g_CluiData.bFilterEffective)
+		return false;
 
-	if (!contact) return FALSE;
+	if (!contact)
+		return false;
 
-	if (contact->pce->m_bNoHiddenOffline) return TRUE;
+	if (contact->pce->m_bNoHiddenOffline)
+		return true;
 
-	if (!group) return FALSE;
-	if (group->hideOffline) return FALSE;
+	if (!group)
+		return false;
+	if (group->hideOffline)
+		return false;
 
-	if (CLCItems_IsShowOfflineGroup(group)) return TRUE;
+	if (CLCItems_IsShowOfflineGroup(group))
+		return true;
 
-	return FALSE;
+	return false;
 }
 
 static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1222,7 +1228,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 						if (sourceGrName)
 							mir_snwprintf(newName, L"%s\\%s", sourceGrName, shortGroup);
 						else
-							mir_wstrncpy(newName, shortGroup, _countof(newName));
+							wcsncpy_s(newName, shortGroup, _TRUNCATE);
 					}
 					mir_free(groupName);
 					mir_free(sourceGrName);
@@ -1339,7 +1345,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	bool isVisiblebyFilter = (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus);
 	bool ifVisibleByClui = !Clist_IsHiddenMode(dat, status);
-	bool isVisible = (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) ? TRUE : ifVisibleByClui;
+	bool isVisible = (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) ? true : ifVisibleByClui;
 	bool isIconChanged = Clist_GetContactIcon(wParam) != LOWORD(lParam);
 
 	int shouldShow = isVisiblebyFilter && (isVisible || isIconChanged);

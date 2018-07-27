@@ -3422,7 +3422,7 @@ static void ske_AddParseSkinFont(char * szFontID, char * szDefineString)
 	logfont.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
 	char buf[255];
-	mir_strncpy(logfont.lfFaceName, GetParamN(szDefineString, buf, sizeof(buf), 0, ',', TRUE), _countof(logfont.lfFaceName));
+	strncpy_s(logfont.lfFaceName, GetParamN(szDefineString, buf, sizeof(buf), 0, ',', TRUE), _TRUNCATE);
 	logfont.lfHeight = atoi(GetParamN(szDefineString, buf, sizeof(buf), 1, ',', TRUE));
 	if (logfont.lfHeight < 0) {
 		HDC hdc = CreateCompatibleDC(nullptr);

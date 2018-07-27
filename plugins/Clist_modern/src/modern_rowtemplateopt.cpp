@@ -58,7 +58,7 @@ void rowOptShowSettings(HWND hwnd)
 	TreeView_GetItem(GetDlgItem(hwnd, IDC_ROWTREE), &tvi);
 	cell = (pROWCELL)tvi.lParam;
 
-	if (!tvi.hItem)  {
+	if (!tvi.hItem) {
 		EnableWindow(GetDlgItem(hwnd, IDC_CONTTYPE), 0);
 		EnableWindow(GetDlgItem(hwnd, IDC_VALIGN), 0);
 		EnableWindow(GetDlgItem(hwnd, IDC_HALIGN), 0);
@@ -241,23 +241,19 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 
 	tvpi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
-	if (prev)
-	{
+	if (prev) {
 		tvpi.hItem = prev;
 		TreeView_GetItem(htree, &tvpi);
 		((pROWCELL)tvpi.lParam)->next = ((pROWCELL)tvi.lParam)->next;
 	}
-	else
-	{
-		if (prnt)
-		{
+	else {
+		if (prnt) {
 			tvpi.hItem = prnt;
 			TreeView_GetItem(htree, &tvpi);
 			((pROWCELL)tvpi.lParam)->child = ((pROWCELL)tvi.lParam)->next;
 			prev = prnt;
 		}
-		else
-		{
+		else {
 
 			tvpi.lParam = 0;
 			rowOptTmplRoot = (pROWCELL)tvpi.lParam;
@@ -280,13 +276,11 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	// Change icon at parent item
 	if (!prnt || (prnt != prev)) return;
 
-	if (TreeView_GetChild(htree, prnt))
-	{
+	if (TreeView_GetChild(htree, prnt)) {
 		tvpi.iImage = 1;
 		tvpi.iSelectedImage = 0;
 	}
-	else
-	{
+	else {
 		tvpi.iImage = 2;
 		tvpi.iSelectedImage = 2;
 	}
@@ -297,27 +291,23 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 {
 	HWND htree = GetDlgItem(hwndDlg, IDC_ROWTREE);
-	pROWCELL  cell;
-	TVITEM    tvi = { 0 };
+	pROWCELL cell;
+	TVITEM tvi = { 0 };
 	if (hti == nullptr) hti = TreeView_GetRoot(htree);
-	while (hti)
-	{
+	while (hti) {
 		tvi.hItem = hti;
-		tvi.mask = TVIF_HANDLE;//|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_TEXT;
+		tvi.mask = TVIF_HANDLE;
 		TreeView_GetItem(htree, &tvi);
 		cell = (pROWCELL)tvi.lParam;
-		if (cell)
-		{
+		if (cell) {
 			wchar_t buf[200] = { 0 };
-			if (!cell->child)
-			{
+			if (!cell->child) {
 				if (cell->type == 0)
 					mir_snwprintf(buf, TranslateT("Empty %s cell"), cell->cont == TC_COL ? TranslateT("column") : TranslateT("line"));
 				else
 					mir_wstrncpy(buf, TranslateW(types[cell->type]), _countof(buf));
 			}
-			else
-			{
+			else {
 				if (cell->type == 0)
 					mir_wstrncpy(buf, (cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines")), _countof(buf));
 				else
@@ -340,13 +330,12 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	HWND htree = GetDlgItem(hwndDlg, IDC_ROWTREE);
+
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		int hbuf = 0, seq = 0;
-		HWND htree = GetDlgItem(hwndDlg, IDC_ROWTREE);
-
 		TranslateDialogDefault(hwndDlg);
+
 		rowOptTmplStr = db_get_sa(0, "ModernData", "RowTemplate");
 		if (!rowOptTmplStr)
 			rowOptTmplStr = mir_strdup("<TR />");
@@ -359,110 +348,103 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_SETCURSEL, 0, 0);
-
-		wchar_t *h_alignment[] = { L"left", L"hCenter", L"right" };
-		for (auto &it : h_alignment) {
-			int item = SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
-			SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETITEMDATA, item, 0);
-		}
-		SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETCURSEL, 0, 0);
-
-		wchar_t *v_alignment[] = { L"top", L"vCenter", L"bottom" };
-		for (auto &it : v_alignment) {
-			int item = SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
-			SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETITEMDATA, item, 0);
-		}
-		SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETCURSEL, 0, 0);
-
-		rowDeleteTree(rowOptTmplRoot);
-		rowOptTmplRoot = nullptr;
-		rowParse(rowOptTmplRoot, rowOptTmplRoot, rowOptTmplStr, hbuf, seq, rowOptTA);
-		seq = 0;
-		memset(rowOptTA, 0, sizeof(rowOptTA));
-		rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &seq);
-
-		rowOptFillRowTree(htree);
-		RefreshTree(hwndDlg, nullptr);
-		TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_ROWTREE), TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_ROWTREE)));
-		rowOptShowSettings(hwndDlg);
-	}
-	return TRUE;
-
-	case WM_COMMAND:
-	{
-		HWND htree = GetDlgItem(hwndDlg, IDC_ROWTREE);
-		pROWCELL  cell;
-		TVITEM    tvi = { 0 };
-		HTREEITEM hti = TreeView_GetSelection(htree);
-
-
-		tvi.hItem = hti;
-		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-		TreeView_GetItem(htree, &tvi);
-		cell = (pROWCELL)tvi.lParam;
-
-		switch (LOWORD(wParam)) {
-		case IDC_CONTTYPE:
-			if (HIWORD(wParam) == CBN_SELENDOK) {
-				int index = SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_GETCURSEL, 0, 0);
-				cell->type = index;
-				RefreshTree(hwndDlg, nullptr);
+		{
+			wchar_t *h_alignment[] = { L"left", L"hCenter", L"right" };
+			for (auto &it : h_alignment) {
+				int item = SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
+				SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETITEMDATA, item, 0);
 			}
+			SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETCURSEL, 0, 0);
 
-		case IDC_VALIGN:
-			if (HIWORD(wParam) == CBN_SELENDOK) {
-				switch (SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_GETCURSEL, 0, 0)) {
-				case 0:
-					cell->valign = TC_TOP;
-					break;
-				case 1:
-					cell->valign = TC_VCENTER;
-					break;
-				case 2:
-					cell->valign = TC_BOTTOM;
-					break;
-				}
-				RefreshTree(hwndDlg, nullptr);
+			wchar_t *v_alignment[] = { L"top", L"vCenter", L"bottom" };
+			for (auto &it : v_alignment) {
+				int item = SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
+				SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETITEMDATA, item, 0);
 			}
+			SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETCURSEL, 0, 0);
 
-		case IDC_HALIGN:
-			if (HIWORD(wParam) == CBN_SELENDOK) {
-				switch (SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_GETCURSEL, 0, 0)) {
-				case 0:
-					cell->halign = TC_LEFT;
-					break;
-				case 1:
-					cell->halign = TC_HCENTER;
-					break;
-				case 2:
-					cell->halign = TC_RIGHT;
-					break;
-				}
-				RefreshTree(hwndDlg, nullptr);
-			}
-		}
+			rowDeleteTree(rowOptTmplRoot);
+			rowOptTmplRoot = nullptr;
 
-		if (HIWORD(wParam) == BN_CLICKED) {
-			if (lParam == (LPARAM)GetDlgItem(hwndDlg, IDC_ADDCONTAINER))
-				// Adding new container
-			{
-				rowOptAddContainer(htree, hti);
-			}
-			else if (lParam == (LPARAM)GetDlgItem(hwndDlg, IDC_DELCONTAINER))
-				// Deleting container
-			{
-				rowOptDelContainer(htree, hti);
-			}
-			else if (lParam == (LPARAM)GetDlgItem(hwndDlg, IDC_CONTUP))
-				// Moving container to up
-			{
-				RedrawWindow(htree, &da, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
-			}
+			int hbuf = 0, seq = 0;
+			rowParse(rowOptTmplRoot, rowOptTmplRoot, rowOptTmplStr, hbuf, seq, rowOptTA);
+			seq = 0;
+			memset(rowOptTA, 0, sizeof(rowOptTA));
+			rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &seq);
+
+			rowOptFillRowTree(htree);
 			RefreshTree(hwndDlg, nullptr);
-			RedrawWindow(GetParent(hwndDlg), nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+			TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_ROWTREE), TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_ROWTREE)));
+			rowOptShowSettings(hwndDlg);
 		}
 		return TRUE;
-	}
+
+	case WM_COMMAND:
+		{
+			HTREEITEM hti = TreeView_GetSelection(htree);
+
+			TVITEM tvi = { 0 };
+			tvi.hItem = hti;
+			tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			TreeView_GetItem(htree, &tvi);
+			pROWCELL cell = (pROWCELL)tvi.lParam;
+
+			switch (LOWORD(wParam)) {
+			case IDC_CONTTYPE:
+				if (HIWORD(wParam) == CBN_SELENDOK) {
+					int index = SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_GETCURSEL, 0, 0);
+					cell->type = index;
+					RefreshTree(hwndDlg, nullptr);
+				}
+
+			case IDC_VALIGN:
+				if (HIWORD(wParam) == CBN_SELENDOK) {
+					switch (SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_GETCURSEL, 0, 0)) {
+					case 0:
+						cell->valign = TC_TOP;
+						break;
+					case 1:
+						cell->valign = TC_VCENTER;
+						break;
+					case 2:
+						cell->valign = TC_BOTTOM;
+						break;
+					}
+					RefreshTree(hwndDlg, nullptr);
+				}
+
+			case IDC_HALIGN:
+				if (HIWORD(wParam) == CBN_SELENDOK) {
+					switch (SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_GETCURSEL, 0, 0)) {
+					case 0:
+						cell->halign = TC_LEFT;
+						break;
+					case 1:
+						cell->halign = TC_HCENTER;
+						break;
+					case 2:
+						cell->halign = TC_RIGHT;
+						break;
+					}
+					RefreshTree(hwndDlg, nullptr);
+				}
+			}
+
+			if (HIWORD(wParam) == BN_CLICKED) {
+				if (lParam == (LPARAM)GetDlgItem(hwndDlg, IDC_ADDCONTAINER)) // Adding new container
+					rowOptAddContainer(htree, hti);
+
+				else if (lParam == (LPARAM)GetDlgItem(hwndDlg, IDC_DELCONTAINER)) // Deleting container
+					rowOptDelContainer(htree, hti);
+
+				else if (lParam == (LPARAM)GetDlgItem(hwndDlg, IDC_CONTUP)) // Moving container to up
+					RedrawWindow(htree, &da, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+
+				RefreshTree(hwndDlg, nullptr);
+				RedrawWindow(GetParent(hwndDlg), nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+			}
+			return TRUE;
+		}
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
@@ -475,14 +457,11 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		case 0: // Apply or Ok button is pressed
 			return FALSE; // Temporary
-			break;
 		}
 		return TRUE;
 
 	case WM_PAINT:
 		if (rowOptTmplRoot) {
-			int i = 0;
-
 			// Drawning row template at properties page
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwndDlg, &ps);
@@ -492,6 +471,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			curItem.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 			TreeView_GetItem(GetDlgItem(hwndDlg, IDC_ROWTREE), &curItem);
 
+			int i = 0;
 			while (rowOptTA[i]) {
 				switch (rowOptTA[i]->type) {
 				case TC_AVATAR:

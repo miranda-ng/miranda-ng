@@ -641,9 +641,9 @@ void CLUI_ChangeWindowMode()
 	wchar_t titleText[255] = { 0 };
 	DBVARIANT dbv;
 	if (db_get_ws(0, "CList", "TitleText", &dbv))
-		mir_wstrncpy(titleText, _A2W(MIRANDANAME), _countof(titleText));
+		wcsncpy_s(titleText, _A2W(MIRANDANAME), _TRUNCATE);
 	else {
-		mir_wstrncpy(titleText, dbv.pwszVal, _countof(titleText));
+		wcsncpy(titleText, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	SetWindowText(g_clistApi.hwndContactList, titleText);
@@ -925,7 +925,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	}
 
 	// third try global
-	mir_wstrncpy(szFullPath, L"proto_conn.dll", _countof(szFullPath));
+	wcsncpy_s(szFullPath, L"proto_conn.dll", _TRUNCATE);
 	if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 		return hIcon;
 

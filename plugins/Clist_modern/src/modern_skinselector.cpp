@@ -560,6 +560,6 @@ int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMas
 	rq.hDC = hdc;
 	rq.rcDestRect = *rcSize;
 	rq.rcClipRect = *rcClip;
-	mir_strncpy(rq.szObjectID, "Masked draw", _countof(rq.szObjectID));
+	strncpy_s(rq.szObjectID, "Masked draw", _TRUNCATE);
 	return ske_Service_DrawGlyph((WPARAM)&rq, (LPARAM)ModernMask);
 }

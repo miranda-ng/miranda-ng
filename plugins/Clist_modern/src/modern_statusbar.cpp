@@ -346,7 +346,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						p.tszProtoXStatus = mir_wstrdup(str);
 				}
 
-				if ((p.xStatusMode & 3)) {
+				if (p.xStatusMode & 3) {
 					if (p.iProtoStatus > ID_STATUS_OFFLINE) {
 						if (ProtoServiceExists(p.szAccountName, PS_GETCUSTOMSTATUSICON))
 							p.extraIcon = (HICON)CallProtoService(p.szAccountName, PS_GETCUSTOMSTATUSICON, 0, 0);
@@ -758,15 +758,24 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				BOOL bCtrl = (GetKeyState(VK_CONTROL) & 0x8000);
 
 				if (msg == WM_LBUTTONDOWN && bCtrl) {
+					char protoF[_countof(g_CluiData.protoFilter)];
+					mir_snprintf(protoF, "%s|", p->szAccountName);
+
 					if (g_CluiData.bFilterEffective != CLVM_FILTER_PROTOS || !bShift) {
 						ApplyViewMode("");
-						mir_snprintf(g_CluiData.protoFilter, "%s|", p->szAccountName);
-						g_CluiData.bFilterEffective = CLVM_FILTER_PROTOS;
+
+						// if a user clicks on the same proto again, disable filter
+						if (!mir_strcmp(protoF, g_CluiData.protoFilter)) {
+							g_CluiData.protoFilter[0] = 0;
+							g_CluiData.bFilterEffective = 0;
+						}
+						else {
+							mir_snprintf(g_CluiData.protoFilter, "%s|", p->szAccountName);
+							g_CluiData.bFilterEffective = CLVM_FILTER_PROTOS;
+						}
 					}
 					else {
-						char protoF[sizeof(g_CluiData.protoFilter)];
-						mir_snprintf(protoF, "%s|", p->szAccountName);
-						char *pos = strstri(g_CluiData.protoFilter, p->szAccountName);
+						char *pos = strstri(g_CluiData.protoFilter, protoF);
 						if (pos) {
 							// remove filter
 							size_t len = mir_strlen(protoF);
@@ -778,15 +787,15 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 								g_CluiData.bFilterEffective = CLVM_FILTER_PROTOS;
 						}
 						else {
-							//add filter
-							mir_snprintf(g_CluiData.protoFilter, "%s%s", g_CluiData.protoFilter, protoF);
+							// add filter
+							strncat_s(g_CluiData.protoFilter, protoF, _TRUNCATE);
 							g_CluiData.bFilterEffective = CLVM_FILTER_PROTOS;
 						}
 					}
 
 					if (g_CluiData.bFilterEffective == CLVM_FILTER_PROTOS) {
-						char filterName[sizeof(g_CluiData.protoFilter)] = { 0 };
-						filterName[0] = (char)13;
+						CMStringA szFilterName;
+						szFilterName.AppendChar(13);
 
 						int protoCount;
 						PROTOACCOUNT **accs;
@@ -802,15 +811,14 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							mir_snprintf(protoF, "%s|", accs[k]->szModuleName);
 							if (strstri(g_CluiData.protoFilter, protoF)) {
 								if (!first)
-									mir_strncat(filterName, "; ", _countof(filterName) - mir_strlen(filterName));
-								mir_strncat(filterName, T2Utf(accs[k]->tszAccountName), _countof(filterName) - mir_strlen(filterName));
+									szFilterName.Append("; ");
+								szFilterName.Append(T2Utf(accs[k]->tszAccountName));
 								first = false;
 							}
 						}
 
-						SaveViewMode(filterName, L"", g_CluiData.protoFilter, 0, -1, 0, 0, 0, 0);
-
-						ApplyViewMode(filterName);
+						SaveViewMode(szFilterName, L"", g_CluiData.protoFilter, 0, -1, 0, 0, 0, 0);
+						ApplyViewMode(szFilterName);
 					}
 					Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 					cliInvalidateRect(hwnd, nullptr, FALSE);

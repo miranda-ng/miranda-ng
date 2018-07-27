@@ -564,7 +564,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 		ptrW tszLineText(db_get_wsa(0, "CList", "SecondLineText"));
 		if (tszLineText)
-			mir_wstrncpy(dat->secondLine.text, tszLineText, _countof(dat->secondLine.text));
+			wcsncpy_s(dat->secondLine.text, tszLineText, _TRUNCATE);
 		else
 			dat->secondLine.text[0] = '\0';
 
@@ -584,7 +584,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 		ptrW tszLineText(db_get_wsa(0, "CList", "ThirdLineText"));
 		if (tszLineText)
-			mir_wstrncpy(dat->thirdLine.text, tszLineText, _countof(dat->thirdLine.text));
+			wcsncpy_s(dat->thirdLine.text, tszLineText, _TRUNCATE);
 		else
 			dat->thirdLine.text[0] = '\0';
 
