@@ -643,7 +643,7 @@ void CLUI_ChangeWindowMode()
 	if (db_get_ws(0, "CList", "TitleText", &dbv))
 		wcsncpy_s(titleText, _A2W(MIRANDANAME), _TRUNCATE);
 	else {
-		wcsncpy(titleText, dbv.pwszVal, _TRUNCATE);
+		wcsncpy_s(titleText, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	SetWindowText(g_clistApi.hwndContactList, titleText);
