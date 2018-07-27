@@ -82,14 +82,14 @@ public:
 
 	void onRestore(CCtrlButton*)
 	{
-		g_plugin.delSetting(g_sets.Answer.GetDBSettingName());
+		g_plugin.delSetting(g_sets.AuthRepl.GetDBSettingName());
 		g_plugin.delSetting(g_sets.Question.GetDBSettingName());
 		g_plugin.delSetting(g_sets.Congratulation.GetDBSettingName());
 
 		edtQuestion.SetText(g_sets.getQuestion());
-		edtAnswer.SetText(g_sets.Answer);
+		edtAnswer.SetText(g_sets.Answer.Default());
 		edtCongrat.SetText(g_sets.getCongrats());
-		edtReply.SetText(g_sets.AuthRepl.Default());
+		edtReply.SetText(g_sets.getReply());
 		edtDivider.SetText(g_sets.AnswSplitString.Default());
 		
 		NotifyChange();

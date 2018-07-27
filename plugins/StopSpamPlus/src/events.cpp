@@ -28,15 +28,13 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 		//and if I don't sent message to this contact
 		if (db_get_b(hcntct, "CList", "NotOnList", 0) && !db_get_b(hcntct, MODULENAME, answeredSetting, 0) && !IsExistMyMessage(hcntct)) {
 			if (!g_sets.HandleAuthReq) {
-				char *buf = mir_utf8encodeW(variables_parse(g_sets.AuthRepl, hcntct).c_str());
+				char *buf = mir_utf8encodeW(variables_parse(g_sets.getReply(), hcntct).c_str());
 				ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 			}
 
 			// ...send message
-			char *AuthRepl = mir_u2a(variables_parse(g_sets.AuthRepl, hcntct).c_str());
-			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)AuthRepl);
-			mir_free(AuthRepl);
+			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_sets.getReply(), hcntct).c_str()));
 
 			db_set_b(hcntct, "CList", "NotOnList", 1);
 			db_set_b(hcntct, "CList", "Hidden", 1);
