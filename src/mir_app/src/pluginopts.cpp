@@ -39,6 +39,18 @@ struct PluginListItemData
 	int        flags, stdPlugin;
 	wchar_t   *author, *description, *copyright, *homepage;
 	MUUID      uuid;
+
+	void importIds(const MUUID *pIds)
+	{
+		const MUUID *piface = pIds;
+		for (int i = 0; piface[i] != miid_last; i++) {
+			int idx = getDefaultPluginIdx(piface[i]);
+			if (idx != -1) {
+				stdPlugin |= (1 << idx);
+				break;
+			}
+		}
+	}
 };
 
 static wchar_t* sttUtf8auto(const char *src)
@@ -84,7 +96,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 			FreeLibrary(h);
 			return true;
 		}
-		
+
 		bNeedsFree = true;
 	}
 	else ppb = &GetPluginByInstance(hInst);
@@ -94,14 +106,15 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	dat->flags = ppb->getInfo().flags;
 
 	dat->stdPlugin = 0;
-	if (pIds != nullptr) {
-		MUUID *piface = pIds;
-		for (int i = 0; piface[i] != miid_last; i++) {
-			int idx = getDefaultPluginIdx(piface[i]);
-			if (idx != -1) {
-				dat->stdPlugin |= (1 << idx);
-				break;
-			}
+	if (pIds != nullptr)
+		dat->importIds(pIds);
+	else {
+		typedef MUUID* (__cdecl * Miranda_Plugin_Interfaces)(void);
+		Miranda_Plugin_Interfaces pFunc = (Miranda_Plugin_Interfaces)GetProcAddress(ppb->getInst(), "MirandaPluginInterfaces");
+		if (pFunc) {
+			MUUID* pPascalIds = pFunc();
+			if (pPascalIds != nullptr)
+				dat->importIds(pPascalIds);
 		}
 	}
 
@@ -250,6 +263,7 @@ class CPluginOptDlg : public CDlgBase
 
 	CMStringW m_szFilter;
 
+	HANDLE m_hEvent1, m_hEvent2;
 	bool needRestart = false;
 	CMStringA szUrl;
 
@@ -322,6 +336,9 @@ public:
 			m_plugList.SetColumnWidth(2, max);
 
 		m_plugList.SortItems(SortPlugins, (LPARAM)m_hwnd);
+
+		m_hEvent1 = HookEventMessage(ME_SYSTEM_MODULELOAD, m_hwnd, WM_USER + 1);
+		m_hEvent2 = HookEventMessage(ME_SYSTEM_MODULEUNLOAD, m_hwnd, WM_USER + 2);
 		return true;
 	}
 
@@ -349,10 +366,8 @@ public:
 					if (iState == 0x2000) {
 						// enabling plugin
 						if (lvi.iImage == 3 || lvi.iImage == 5) {
-							if (lvi.iImage == 3 && LoadPluginDynamically(dat)) {
-								lvi.iImage = 2;
-								m_plugList.SetItem(&lvi);
-							}
+							if (lvi.iImage == 3)
+								LoadPluginDynamically(dat);
 							else {
 								bufRestart.AppendFormat(L" - %s\n", buf);
 								needRestart = true;
@@ -362,10 +377,8 @@ public:
 					else {
 						// disabling plugin
 						if (lvi.iImage == 2 || lvi.iImage == 4) {
-							if (lvi.iImage == 2 && UnloadPluginDynamically(dat)) {
-								lvi.iImage = 3;
-								m_plugList.SetItem(&lvi);
-							}
+							if (lvi.iImage == 2)
+								UnloadPluginDynamically(dat);
 							else {
 								bufRestart.AppendFormat(L" - %s\n", buf);
 								needRestart = true;
@@ -391,20 +404,40 @@ public:
 
 	void OnDestroy() override
 	{
+		UnhookEvent(m_hEvent1);
+		UnhookEvent(m_hEvent2);
+
 		arPluginList.destroy();
 
 		LVITEM lvi;
 		lvi.mask = LVIF_PARAM;
-		lvi.iItem = 0;
-		while (m_plugList.GetItem(&lvi)) {
+		for (lvi.iItem = 0; m_plugList.GetItem(&lvi); lvi.iItem++) {
 			PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
 			mir_free(dat->author);
 			mir_free(dat->copyright);
 			mir_free(dat->description);
 			mir_free(dat->homepage);
 			mir_free(dat);
-			lvi.iItem++;
 		}
+	}
+
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (uMsg == WM_USER + 1 || uMsg == WM_USER + 2) {
+			LVITEM lvi;
+			lvi.mask = LVIF_PARAM | LVIF_IMAGE;
+			lvi.iSubItem = 0;
+			for (lvi.iItem = 0; m_plugList.GetItem(&lvi); lvi.iItem++) {
+				PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
+				if (dat->hInst == (HINSTANCE)lParam) {
+					lvi.iImage = uMsg - WM_USER + 1;
+					m_plugList.SetItem(&lvi);
+					break;
+				}
+			}
+		}
+
+		return CDlgBase::DlgProc(uMsg, wParam, lParam);
 	}
 
 	void list_OnClick(CCtrlListView::TEventInfo *evt)
@@ -423,22 +456,12 @@ public:
 			lvi.iItem = hi.iItem;
 			lvi.iSubItem = 0;
 			if (m_plugList.GetItem(&lvi)) {
-				lvi.mask = LVIF_IMAGE;
 				PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
-				if (lvi.iImage == 3) {
-					// load plugin
-					if (LoadPluginDynamically(dat)) {
-						lvi.iImage = 2;
-						m_plugList.SetItem(&lvi);
-					}
-				}
-				else if (lvi.iImage == 2) {
-					// unload plugin
-					if (UnloadPluginDynamically(dat)) {
-						lvi.iImage = 3;
-						m_plugList.SetItem(&lvi);
-					}
-				}
+				if (lvi.iImage == 3)
+					LoadPluginDynamically(dat); // load plugin
+				else if (lvi.iImage == 2)
+					UnloadPluginDynamically(dat); // unload plugin
+
 				LoadStdPlugins();
 			}
 		}
@@ -504,20 +527,16 @@ public:
 			// find all another standard plugins by mask and disable them
 			if ((hdr->uNewState == 0x2000) && dat->stdPlugin != 0) {
 				for (int iRow = 0; iRow != -1; iRow = m_plugList.GetNextItem(iRow, LVNI_ALL)) {
-					if (iRow != hdr->iItem) { // skip the plugin we're standing on
-						LVITEM dt;
-						dt.mask = LVIF_PARAM;
-						dt.iItem = iRow;
-						if (m_plugList.GetItem(&dt)) {
-							PluginListItemData *dat2 = (PluginListItemData*)dt.lParam;
-							if (dat2->stdPlugin & dat->stdPlugin) {// mask differs
-								// the lParam is unset, so when the check is unset the clist block doesnt trigger
-								int iSave = dat2->stdPlugin;
-								dat2->stdPlugin = 0;
-								m_plugList.SetItemState(iRow, 0x1000, LVIS_STATEIMAGEMASK);
-								dat2->stdPlugin = iSave;
-							}
-						}
+					if (iRow == hdr->iItem)  // skip the plugin we're standing on
+						continue;
+
+					LVITEM dt;
+					dt.mask = LVIF_PARAM;
+					dt.iItem = iRow;
+					if (m_plugList.GetItem(&dt)) {
+						PluginListItemData *dat2 = (PluginListItemData*)dt.lParam;
+						if (dat2->stdPlugin & dat->stdPlugin)
+							m_plugList.SetItemState(iRow, 0x1000, LVIS_STATEIMAGEMASK);
 					}
 				}
 			}
