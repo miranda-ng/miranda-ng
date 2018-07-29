@@ -1,6 +1,6 @@
 #pragma once
 
-class CMLuaEnvironment : public CMPluginBase
+class CMLuaEnvironment : public CMPluginBase, public MZeroedObject
 {
 private:
 	CMPluginBase *m_plugin;
