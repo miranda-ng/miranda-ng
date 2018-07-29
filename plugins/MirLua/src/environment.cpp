@@ -4,9 +4,13 @@
 
 extern PLUGININFOEX pluginInfoEx;
 
+EXTERN_C MIR_APP_DLL(void) RegisterPlugin(CMPluginBase *pPlugin);
+
 CMLuaEnvironment::CMLuaEnvironment(lua_State *L) :
 	CMPluginBase(nullptr, pluginInfoEx), L(L)
 {
+	m_hInst = (HINSTANCE)this;
+	::RegisterPlugin(this);
 }
 
 int CMLuaEnvironment::Unload()

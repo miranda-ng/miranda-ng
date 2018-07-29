@@ -123,7 +123,7 @@ static int mlua__rand(lua_State *L)
 	return 1;
 }
 
-static wchar_t* translate(lua_State *L, const wchar_t *format, const wchar_t *extra, MCONTACT hContact = NULL)
+static wchar_t* translate(lua_State *L, const wchar_t *format, const wchar_t* /*extra*/, MCONTACT /*hContact*/ = NULL)
 {
 	std::wregex regex(L"\\?([a-z_0-9]+)\\(");
 	std::wstring query = std::regex_replace(format, regex, L"_v$1(");
