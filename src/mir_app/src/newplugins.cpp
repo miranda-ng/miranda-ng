@@ -250,6 +250,7 @@ void Plugin_Uninit(pluginEntry *p)
 	if (p == plugin_crshdmp)
 		plugin_crshdmp = nullptr;
 
+	servicePlugins.remove(p);
 	pluginList.remove(p);
 	mir_free(p);
 }
