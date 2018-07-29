@@ -318,7 +318,7 @@ struct ClcData : public ClcDataBase
 	BYTE bCompactMode;
 
 	__forceinline int getRowHeight(int iRow) const
-	{ return (row_variable_height) ? row_heights[iRow] : rowHeight;
+	{ return (row_heights && row_variable_height) ? row_heights[iRow] : rowHeight;
 	}
 };
 
