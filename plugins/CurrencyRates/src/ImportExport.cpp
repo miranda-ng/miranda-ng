@@ -328,8 +328,6 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 							dbs.value.type = DBVT_WCHAR;
 							if (set_contact_settings(hContact, dbs))
 								++cCreatedRecords;
-
-							mir_free(dbs.value.pwszVal);
 						}
 						else if (0 == mir_wstrcmpi(g_pszXmlTypeBlob, sType.c_str())) {
 							size_t bufLen;
