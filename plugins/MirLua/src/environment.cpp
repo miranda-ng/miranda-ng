@@ -154,27 +154,22 @@ wchar_t* CMLuaEnvironment::Error()
 	return error;
 }
 
-wchar_t* CMLuaEnvironment::Call()
+int CMLuaEnvironment::Call()
 {
 	CreateEnvironmentTable();
-	luaM_pcall(L, 0, 1);
-
-	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
-	lua_pop(L, 1);
-
-	return result;
+	return lua_pcall(L, 0, 1, 0);
 }
 
-wchar_t* CMLuaEnvironment::Eval(const wchar_t *script)
+int CMLuaEnvironment::Eval(const wchar_t *script)
 {
-	if (luaL_loadstring(L, T2Utf(script)))
-		return Error();
+	if (int res = luaL_loadstring(L, T2Utf(script)))
+		return res;
 	return Call();
 }
 
-wchar_t* CMLuaEnvironment::Exec(const wchar_t *path)
+int CMLuaEnvironment::Exec(const wchar_t *path)
 {
-	if (luaL_loadfile(L, T2Utf(path)))
-		return Error();
+	if (int res = luaL_loadfile(L, T2Utf(path)))
+		return res;
 	return Call();
 }

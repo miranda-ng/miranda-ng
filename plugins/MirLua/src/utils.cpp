@@ -91,8 +91,8 @@ int luaM_getenv(lua_State *L)
 
 bool luaM_toboolean(lua_State *L, int idx)
 {
-	if (lua_isnumber(L, idx))
-		return lua_tonumber(L, idx) > 0;
+	if (lua_isinteger(L, idx))
+		return lua_tointeger(L, idx) > 0;
 	return lua_toboolean(L, idx) > 0;
 }
 

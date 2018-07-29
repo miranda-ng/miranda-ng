@@ -29,7 +29,7 @@ public:
 	HANDLE CreateServiceFunction(const char *name, int ref);
 	void DestroyServiceFunction(HANDLE hService);
 
-	wchar_t* Call();
-	wchar_t* Eval(const wchar_t *script);
-	wchar_t* Exec(const wchar_t *path);
+	int Call();
+	int Eval(const wchar_t *script);
+	int Exec(const wchar_t *path);
 };

@@ -172,7 +172,9 @@ INT_PTR CMPlugin::Call(WPARAM wParam, LPARAM lParam)
 	lua_pushcfunction(L, mlua_call);
 
 	CMLuaEnvironment env(L);
-	wchar_t *result = env.Call();
+	env.Call();
+	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
+	lua_pop(L, 1);
 	env.Unload();
 
 	return (INT_PTR)result;
@@ -183,7 +185,9 @@ INT_PTR CMPlugin::Eval(WPARAM, LPARAM lParam)
 	const wchar_t *script = (const wchar_t*)lParam;
 
 	CMLuaEnvironment env(L);
-	wchar_t *result = env.Eval(script);
+	env.Eval(script);
+	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
+	lua_pop(L, 1);
 	env.Unload();
 
 	return (INT_PTR)result;
@@ -194,7 +198,9 @@ INT_PTR CMPlugin::Exec(WPARAM, LPARAM lParam)
 	const wchar_t *path = (const wchar_t*)lParam;
 
 	CMLuaEnvironment env(L);
-	wchar_t *result = env.Exec(path);
+	env.Exec(path);
+	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
+	lua_pop(L, 1);
 	env.Unload();
 
 	return (INT_PTR)result;
