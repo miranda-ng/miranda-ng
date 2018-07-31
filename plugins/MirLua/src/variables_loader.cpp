@@ -12,7 +12,6 @@ static int mlua__and(lua_State *L)
 	if (nargs < 1)
 		luaL_error(L, "bad count of arguments");
 
-	int res = 0;
 	for (int i = 1; i <= nargs; i++) {
 		bool res = luaM_toboolean(L, i);
 		if (res == false) {
@@ -221,7 +220,8 @@ static luaL_Reg varsApi[] =
 	{ "_vmul", mlua__mul },
 	{ "_vmuldiv", mlua__muldiv },
 	{ "_vnum", mlua__num },
-	{ "_vrand", mlua__rand }
+	{ "_vrand", mlua__rand },
+	{ nullptr, nullptr }
 };
 
 static wchar_t* translate(lua_State *L, const wchar_t *format, const wchar_t* /*extra*/, MCONTACT /*hContact*/ = NULL)
@@ -287,9 +287,9 @@ static int CompareTokens(const TOKENREGISTER *p1, const TOKENREGISTER *p2)
 
 LIST<TOKENREGISTER> tokens(10, CompareTokens);
 
-static INT_PTR RegisterToken(void *obj, WPARAM, LPARAM lParam)
+static INT_PTR RegisterToken(void*, WPARAM, LPARAM lParam)
 {
-	lua_State *L = (lua_State*)obj;
+	// lua_State *L = (lua_State*)obj;
 	TOKENREGISTER *tr = (TOKENREGISTER*)lParam;
 
 	if (tr == nullptr || tr->szTokenString.w == nullptr || tr->cbSize <= 0)
