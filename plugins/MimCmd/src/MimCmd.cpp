@@ -19,8 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-
-#pragma comment(lib, "delayimp.lib")
+#include "..\..\build\appstub\appstub.cpp"
 
 wchar_t* GetProgramName(wchar_t *programName, size_t size)
 {

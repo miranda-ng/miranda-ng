@@ -23,8 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-
-#pragma comment(lib, "delayimp.lib")
+#include "..\..\build\appstub\appstub.cpp"
 
 typedef int (WINAPI *pfnMain)(LPTSTR);
 
@@ -36,30 +35,8 @@ const wchar_t wszRuntimeUrl[] = L"https://download.visualstudio.microsoft.com/do
 
 const wchar_t wszQuestion[] = L"Miranda NG needs the Visual Studio runtime library, but it cannot be loaded. Do you want to load it from Inernet?";
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
+int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPTSTR cmdLine, int)
 {
-	wchar_t wszPath[MAX_PATH];
-	GetModuleFileNameW(hInstance, wszPath, _countof(wszPath));
-
-	// if current dir isn't set
-	for (int i = lstrlenW(wszPath); i >= 0; i--)
-		if (wszPath[i] == '\\') {
-			wszPath[i] = 0;
-			break;
-		}
-
-	SetCurrentDirectoryW(wszPath);
-
-	lstrcatW(wszPath, L"\\libs");
-	SetDllDirectoryW(wszPath);
-
-	#ifdef _DEBUG
-		lstrcatW(wszPath, L"\\ucrtbased.dll");
-	#else
-		lstrcatW(wszPath, L"\\ucrtbase.dll");
-	#endif
-	LoadLibraryW(wszPath);
-
 	int retVal;
 	HINSTANCE hMirApp = LoadLibraryW(L"mir_app.mir");
 	if (hMirApp == nullptr) {
