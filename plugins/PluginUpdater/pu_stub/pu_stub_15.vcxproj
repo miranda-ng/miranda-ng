@@ -127,7 +127,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <DelayLoadDLLs>ucrtbase.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;vcruntime140.DLL</DelayLoadDLLs>
+      <DelayLoadDLLs>ucrtbase.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;api-ms-win-crt-string-l1-1-0.dll;vcruntime140.DLL</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,7 +144,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <DelayLoadDLLs>ucrtbase.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;vcruntime140.DLL</DelayLoadDLLs>
+      <DelayLoadDLLs>ucrtbase.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;api-ms-win-crt-string-l1-1-0.dll;vcruntime140.DLL</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
