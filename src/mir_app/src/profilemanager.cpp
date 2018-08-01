@@ -279,11 +279,15 @@ class CChooseProfileDlg : public CDlgBase
 		DATABASELINK *dblink;
 		switch (touchDatabase(tszFullPath, &dblink)) {
 		case ERROR_SUCCESS:
-			item.iImage = bFileLocked;
+			item.iImage = 0;
 			break;
 
 		case EGROKPRF_OBSOLETE:
 			item.iImage = 2;
+			break;
+
+		case EGROKPRF_CANTREAD:
+			item.iImage = (bFileLocked) ? 1 : 3;
 			break;
 
 		default:
@@ -298,13 +302,12 @@ class CChooseProfileDlg : public CDlgBase
 
 		list.SetItemText(iItem, 2, sizeBuf);
 
-		if (dblink != nullptr) {
-			if (bFileLocked) // file locked
-				list.SetItemText(iItem, 1, TranslateT("<In use>"));
-			else
-				list.SetItemText(iItem, 1, TranslateW(dblink->szFullName));
-		}
-		else list.SetItemText(iItem, 1, TranslateT("<Unknown format>"));
+		if (dblink != nullptr)
+			list.SetItemText(iItem, 1, TranslateW(dblink->szFullName));
+		else if (bFileLocked) // file locked
+			list.SetItemText(iItem, 1, TranslateT("<In use>"));
+		else
+			list.SetItemText(iItem, 1, TranslateT("<Unknown format>"));
 
 		return TRUE;
 	}
