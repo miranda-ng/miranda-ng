@@ -90,7 +90,8 @@ Source code is available at: https://github.com/miranda-ng/miranda-ng/
 Miranda NG is released under the terms of the GNU General Public License. See
 "LICENSE" for more details.
 
-Miranda NG is copyright 2000-2018 by the people listed in contributors.txt.
+Miranda IM is copyright 2000-2012 by the people listed in contributors.txt.
+Miranda NG is copyright 2012-2018 by the people listed in contributors.txt.
 
 The plugins included with this release are copyrighted by their authors. See the
 documentation for each plugin for more information.
