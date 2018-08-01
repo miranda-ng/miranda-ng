@@ -464,24 +464,18 @@ MirfoxData::initializeMirfoxData()
 /*static*/ bool
 MirfoxData::shouldProtoBeActiveByName(std::string protoName)
 {
-	if (
-			boost::iequals("MetaContacts", protoName)
-		||	boost::iequals("ExchangeRates", protoName)
-		||	boost::iequals("mTV", protoName)
-		||	boost::iequals("Quotes", protoName)
+	if (  boost::iequals("MetaContacts", protoName)
+		||	boost::iequals("CurrencyRates", protoName)
 		||	boost::iequals("Weather", protoName)
 		||	boost::iequals("GmailMNotifier", protoName)
-		||	boost::iequals("RSSNews", protoName)
+		||	boost::iequals("NewsAggregator", protoName)
 		||	boost::iequals("PING", protoName)
-		||	boost::iequals("WorldTime", protoName)
 		||	boost::iequals("NIM_Contact", protoName)
 		||	boost::iequals("POP3", protoName)
 		||	boost::iequals("webview", protoName)
 		||	boost::iequals("YAMN", protoName)
-		||	boost::iequals("lotusnotify", protoName)
-		||	boost::iequals("webinfo", protoName)
-		||	boost::iequals("infofromweb", protoName)
-	){
+		||	boost::iequals("lotusnotify", protoName))
+	{
 		return false;
 	}
 
