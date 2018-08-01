@@ -18,7 +18,7 @@ Leonid Yuriev aka ly
 
 Sound pack is developed by Andre Louis aka onj
 
-People that previously used to develop Miranda IM/NG Project:
+People that used to develop Miranda IM/NG Project:
 
 Robert Pösel aka Robyer
 Alexey Koulakov aka Awkward

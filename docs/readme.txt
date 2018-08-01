@@ -47,11 +47,11 @@ b) Update to the latest alpha version.
    fixed it. You will find the "Nightly alpha builds" in the "Development"
    section of our website.
 c) Check the list of known bugs.
-   The official buglist is available at:
+   The official bug list is available at:
    https://github.com/miranda-ng/miranda-ng/issues
    Look here before you submit a new report, don't submit a new report if
    it has already been reported.
-d) Submit a bugreport.
+d) Submit a bug report.
 
 
 4. Compatibility issues
@@ -90,7 +90,7 @@ Source code is available at: https://github.com/miranda-ng/miranda-ng/
 Miranda NG is released under the terms of the GNU General Public License. See
 "LICENSE" for more details.
 
-Miranda NG is copyright 2000-2012 by the people listed in contributors.txt.
+Miranda NG is copyright 2000-2018 by the people listed in contributors.txt.
 
 The plugins included with this release are copyrighted by their authors. See the
 documentation for each plugin for more information.
