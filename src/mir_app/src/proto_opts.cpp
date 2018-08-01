@@ -820,7 +820,7 @@ bool CAccountFormDlg::OnInitDialog()
 {
 	int cnt = 0;
 	for (auto &it : g_arProtos)
-		if (it->type == PROTOTYPE_PROTOWITHACCS) {
+		if (it->type == PROTOTYPE_PROTOWITHACCS && it->hInst != nullptr) {
 			m_prototype.AddStringA(it->szName);
 			++cnt;
 		}
