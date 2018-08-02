@@ -275,7 +275,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	odp.pfnDlgProc = IcqDlgProc;
 	odp.position = -1900000000;
-	odp.szTab.w = LPGENW("Info");
+	odp.szTab.w = LPGENW("Details");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQ);
 	g_plugin.addUserInfo(wParam, &odp);
 
