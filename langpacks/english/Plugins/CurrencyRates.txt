@@ -56,7 +56,7 @@
 [&Status Message:]
 [&Tendency:]
 [&Advanced Settings...]
-[CurrencyRate\\Rate Info]
+[Rate Info]
 ;file \plugins\CurrencyRates\src\Chart.h
 [There is nothing to show]
 ;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
@@ -70,13 +70,13 @@
 [Info provided by]
 [Enter positive number.]
 ;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
-[CurrencyRate]
+[Currency Rate]
 ;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
 [Error occurred during HTML parsing.]
 [Error occurred during site access.]
 ;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
-[CurrencyRate Symbol]
-[CurrencyRate Name]
+[Currency Rate Symbol]
+[Currency Rate Name]
 [Source of Information]
 [Rate Value]
 [Previous Rate Value]
@@ -121,10 +121,10 @@
 [CurrencyRates HTTP connections]
 ;file \plugins\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
-[CurrencyRate/Rate up]
-[CurrencyRate/Rate down]
-[CurrencyRate/Rate not changed]
-[CurrencyRate Section]
+[Currency Rate/Rate up]
+[Currency Rate/Rate down]
+[Currency Rate/Rate not changed]
+[Currency Rate Section]
 [Export]
 [Swap button]
 [Import]

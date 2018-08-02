@@ -10,8 +10,8 @@ CCurrencyRatesProviderVisitorFormatSpecificator::~CCurrencyRatesProviderVisitorF
 
 void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderDukasCopy&/* rProvider*/)
 {
-	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("CurrencyRate Symbol")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%d", TranslateT("CurrencyRate Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("Currency Rate Symbol")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%d", TranslateT("Currency Rate Name")));
 }
 
 void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderBase&/* rProvider*/)
@@ -29,8 +29,8 @@ void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRates
 
 void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderGoogleFinance&/* rProvider*/)
 {
-	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("CurrencyRate Symbol")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%n", TranslateT("CurrencyRate Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("Currency Rate Symbol")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%n", TranslateT("Currency Rate Name")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%o", TranslateT("Open Price")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%d", TranslateT("Percent Change to After Hours")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%y", TranslateT("Percent Change to Yesterday Close")));
@@ -43,8 +43,8 @@ const CCurrencyRatesProviderVisitorFormatSpecificator::TFormatSpecificators& CCu
 
 void CCurrencyRatesProviderVisitorFormatSpecificator::Visit(const CCurrencyRatesProviderYahoo&)
 {
-	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("CurrencyRate Symbol")));
-	m_aSpecificators.push_back(CFormatSpecificator(L"%n", TranslateT("CurrencyRate Name")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%s", TranslateT("Currency Rate Symbol")));
+	m_aSpecificators.push_back(CFormatSpecificator(L"%n", TranslateT("Currency Rate Name")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%o", TranslateT("Open Price")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%h", TranslateT("Day's High")));
 	m_aSpecificators.push_back(CFormatSpecificator(L"%g", TranslateT("Day's Low")));

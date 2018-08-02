@@ -8,7 +8,7 @@ extern HGENMENU g_hMenuChart;
 #endif
 extern HGENMENU g_hMenuRefresh, g_hMenuRoot;
 
-#define WINDOW_PREFIX_INFO "CurrencyRate Info"
+#define WINDOW_PREFIX_INFO "Currency Rate Info"
 
 MCONTACT g_hContact;
 
@@ -111,7 +111,7 @@ int CurrencyRatesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM lp)
 	odp.pfnDlgProc = CurrencyRateInfoDlgProc;
 	odp.position = -2000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_CURRENCYRATE_INFO);
-	odp.szTitle.a = LPGEN("CurrencyRate");
+	odp.szTitle.a = LPGEN("Currency Rate");
 	g_plugin.addUserInfo(wp, &odp);
 	return 0;
 }
