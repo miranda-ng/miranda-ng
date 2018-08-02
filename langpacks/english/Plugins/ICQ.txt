@@ -934,6 +934,6 @@
 [ScreenName:]
 [<not specified>]
 [Member since:]
-[%s Details]
+[Details]
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]

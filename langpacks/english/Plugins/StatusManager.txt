@@ -201,4 +201,3 @@
 [Pressed toolbar icon]
 [Released toolbar icon]
 [Toolbar]
-[StartupStatus]
