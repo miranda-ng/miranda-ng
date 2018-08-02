@@ -81,13 +81,21 @@ struct MWaitableObject
 	MWaitableObject(MWaitableStub pFunc, HANDLE hEvent) :
 		m_bOwnsEvent(false),
 		m_hEvent(hEvent),
-		m_pFunc(pFunc)
+		m_pFunc(pFunc),
+		m_pInfo(INVALID_HANDLE_VALUE)
 	{
 		if (hEvent == nullptr) {
 			m_hEvent = CreateEvent(nullptr, TRUE, TRUE, nullptr);
 			m_bOwnsEvent = true;
 		}
 	}
+
+	MWaitableObject(MWaitableStubEx pFunc, void *pInfo) :
+		m_bOwnsEvent(true),
+		m_hEvent(CreateEvent(nullptr, TRUE, TRUE, nullptr)),
+		m_pFuncEx(pFunc),
+		m_pInfo(pInfo)
+	{}
 
 	~MWaitableObject()
 	{	
@@ -96,7 +104,12 @@ struct MWaitableObject
 	}
 
 	HANDLE m_hEvent;
-	MWaitableStub m_pFunc;
+	union {
+		MWaitableStub m_pFunc;
+		MWaitableStubEx m_pFuncEx;
+	};
+	void *m_pInfo;
+
 	bool m_bOwnsEvent;
 };
 
@@ -105,6 +118,11 @@ static OBJLIST<MWaitableObject> arWaitableObjects(1, HandleKeySortT);
 MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent)
 {
 	arWaitableObjects.insert(new MWaitableObject(pFunc, hEvent));
+}
+
+MIR_APP_DLL(void) Miranda_WaitOnHandleEx(MWaitableStubEx pFunc, void *pInfo)
+{
+	arWaitableObjects.insert(new MWaitableObject(pFunc, pInfo));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -337,7 +355,11 @@ int WINAPI mir_main(LPTSTR cmdLine)
 			DWORD rc = myWait();
 			if (rc < WAIT_OBJECT_0 + arWaitableObjects.getCount()) {
 				auto &pWait = arWaitableObjects[rc - WAIT_OBJECT_0];
-				(*pWait.m_pFunc)();
+				if (pWait.m_pInfo == INVALID_HANDLE_VALUE)
+					(*pWait.m_pFunc)();
+				else
+					(*pWait.m_pFuncEx)(pWait.m_pInfo);
+
 				if (pWait.m_bOwnsEvent)
 					arWaitableObjects.remove(&pWait);
 			}
