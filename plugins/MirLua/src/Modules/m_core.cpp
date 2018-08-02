@@ -194,6 +194,36 @@ static int core_DestroyServiceFunction(lua_State *L)
 
 /***********************************************/
 
+struct WainOnHandleParam
+{
+	lua_State *L;
+	int ref;
+};
+
+static void __stdcall OnWaitHandle(void *obj)
+{
+	WainOnHandleParam *param = (WainOnHandleParam*)obj;
+	lua_rawgeti(param->L, LUA_REGISTRYINDEX, param->ref);
+	luaM_pcall(param->L, 0, 0);
+	luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
+	delete param;
+}
+
+static int core_WaitOnHandle(lua_State *L)
+{
+	luaL_checktype(L, 1, LUA_TFUNCTION);
+
+	lua_pushvalue(L, 1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	WainOnHandleParam *param = new WainOnHandleParam { L, ref };
+	Miranda_WaitOnHandleEx(OnWaitHandle, param);
+
+	return 0;
+}
+
+/***********************************************/
+
 static int core_IsPluginLoaded(lua_State *L)
 {
 	const char *value = lua_tostring(L, 1);
@@ -327,6 +357,8 @@ luaL_Reg coreApi[] =
 
 	{ "ServiceExists", core_ServiceExists },
 	{ "CallService", core_CallService },
+
+	{ "WaitOnHandle", core_WaitOnHandle },
 
 	{ "IsPluginLoaded", core_IsPluginLoaded },
 
