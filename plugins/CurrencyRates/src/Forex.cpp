@@ -63,7 +63,7 @@ void InitMenu()
 {
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Currency rates"), 0, CurrencyRates_GetIconHandle(IDI_ICON_MAIN));
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Currency Rates"), 0, CurrencyRates_GetIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "B474F556-22B6-42A1-A91E-22FE4F671388");
 
 	SET_UID(mi, 0x9de6716, 0x3591, 0x48c4, 0x9f, 0x64, 0x1b, 0xfd, 0xc6, 0xd1, 0x34, 0x97);
@@ -109,7 +109,7 @@ void InitMenu()
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CurrencyRates_PrebuildContactMenu);
 
-	g_hMenuRoot = mi.root = g_plugin.addRootMenu(MO_CONTACT, LPGENW("Currency rates"), 0, CurrencyRates_GetIconHandle(IDI_ICON_MAIN));
+	g_hMenuRoot = mi.root = g_plugin.addRootMenu(MO_CONTACT, LPGENW("Currency Rates"), 0, CurrencyRates_GetIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "C259BE01-642C-461E-997D-0E756B2A3AD6");
 
 	SET_UID(mi, 0xb9812194, 0x3235, 0x4e76, 0xa3, 0xa4, 0x73, 0x32, 0x96, 0x1c, 0x1c, 0xf4);

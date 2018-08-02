@@ -4,9 +4,9 @@ static IconItem iconList[] =
 {
 	{ LPGEN("Protocol icon"),           ICON_STR_MAIN,         IDI_ICON_MAIN               },
 	{ LPGEN("Auto Update Disabled"),   "auto_update_disabled", IDI_ICON_DISABLED           },
-	{ LPGEN("Currency Rate/Rate up"),          "currencyrate_up",             IDI_ICON_UP                 },
-	{ LPGEN("Currency Rate/Rate down"),        "currencyrate_down",           IDI_ICON_DOWN               },
-	{ LPGEN("Currency Rate/Rate not changed"), "currencyrate_not_changed",    IDI_ICON_NOTCHANGED         },
+	{ LPGEN("Currency Rate up"),          "currencyrate_up",             IDI_ICON_UP                 },
+	{ LPGEN("Currency Rate down"),        "currencyrate_down",           IDI_ICON_DOWN               },
+	{ LPGEN("Currency Rate not changed"), "currencyrate_not_changed",    IDI_ICON_NOTCHANGED         },
 	{ LPGEN("Currency Rate Section"),          "currencyrate_section",        IDI_ICON_SECTION            },
 	{ LPGEN("Currency Rate"),                   ICON_STR_CURRENCYRATE,        IDI_ICON_CURRENCYRATE              },
 	{ LPGEN("Currency Converter"),     "currency_converter",   IDI_ICON_CURRENCY_CONVERTER },
