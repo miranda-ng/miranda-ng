@@ -60,7 +60,7 @@ struct MC_MsgHeader
 
 #pragma pack(pop)
 
-class CDbxMc : public MDatabaseCommon, public MZeroedObject
+class CDbxMc : public MDatabaseReadonly, public MZeroedObject
 {
 	HANDLE m_hFile = INVALID_HANDLE_VALUE;
 
@@ -125,8 +125,6 @@ public:
 		return memcmp(&m_hdr.signature, HEADER_STR, 2) ? EGROKPRF_UNKHEADER : EGROKPRF_NOERROR;
 	}
 
-	STDMETHODIMP_(BOOL) IsRelational(void) override { return FALSE; }
-
 	// mcontacts format always store history for one contact only
 	STDMETHODIMP_(LONG) GetContactCount(void) override
 	{
@@ -168,19 +166,6 @@ public:
 		return 0;
 	}
 
-	STDMETHODIMP_(void) SetCacheSafetyMode(BOOL) override {};
-
-	STDMETHODIMP_(LONG) DeleteContact(MCONTACT) override { return 1; }
-	STDMETHODIMP_(MCONTACT) AddContact(void) override { return 0; }
-	STDMETHODIMP_(BOOL) IsDbContact(MCONTACT contactID) override { return contactID == 1; }
-	STDMETHODIMP_(LONG) GetContactSize(void) override { return sizeof(DBCachedContact); }
-
-	STDMETHODIMP_(MEVENT) AddEvent(MCONTACT, DBEVENTINFO*) override { return 0; }
-	STDMETHODIMP_(BOOL) DeleteEvent(MCONTACT, MEVENT) override { return 1; }
-	STDMETHODIMP_(LONG) GetBlobSize(MEVENT) override { return 0; }
-	STDMETHODIMP_(BOOL) MarkEventRead(MCONTACT, MEVENT) override { return 1; }
-	STDMETHODIMP_(MCONTACT) GetEventContact(MEVENT) override { return 0; }
-	
 	STDMETHODIMP_(MEVENT) FindFirstEvent(MCONTACT) override
 	{
 		m_curr = m_events.begin();
@@ -210,18 +195,6 @@ public:
 		--m_curr;
 		return *m_curr;
 	}
-
-	STDMETHODIMP_(MEVENT) FindFirstUnreadEvent(MCONTACT) override { return 0; }
-
-	STDMETHODIMP_(BOOL) EnumModuleNames(DBMODULEENUMPROC, void *) override { return 0; }
-
-	STDMETHODIMP_(BOOL) GetContactSettingWorker(MCONTACT, LPCSTR, LPCSTR, DBVARIANT*, int) override { return 1; }
-	STDMETHODIMP_(BOOL) WriteContactSetting(MCONTACT, DBCONTACTWRITESETTING*) override { return 1; }
-	STDMETHODIMP_(BOOL) DeleteContactSetting(MCONTACT, LPCSTR, LPCSTR) override { return 1; }
-	STDMETHODIMP_(BOOL) EnumContactSettings(MCONTACT, DBSETTINGENUMPROC, const char*, void*) override { return 1; }
-
-	STDMETHODIMP_(BOOL) MetaMergeHistory(DBCachedContact*, DBCachedContact*) override { return 1; }
-	STDMETHODIMP_(BOOL) MetaSplitHistory(DBCachedContact*, DBCachedContact*) override { return 1; }
 };
 
 static int mc_grokHeader(const wchar_t *profile)

@@ -441,12 +441,10 @@ Skin_PlaySoundFile @463
 Clist_SetStatusMode @464
 ??0CProtoIntDlgBase@@QEAA@$$QEAV0@@Z @465 NONAME
 ??0MDatabaseCommon@@QEAA@XZ @466 NONAME
-??0MDatabaseCommon@@QEAA@AEBV0@@Z @468 NONAME
 ??0MIDatabase@@QEAA@$$QEAU0@@Z @469 NONAME
 ??0MIDatabase@@QEAA@AEBU0@@Z @470 NONAME
 ??0MIDatabase@@QEAA@XZ @471 NONAME
 ??1MDatabaseCommon@@UEAA@XZ @472 NONAME
-??4MDatabaseCommon@@QEAAAEAV0@AEBV0@@Z @476 NONAME
 ??4MIDatabase@@QEAAAEAU0@$$QEAU0@@Z @477 NONAME
 ??4MIDatabase@@QEAAAEAU0@AEBU0@@Z @478 NONAME
 ??_7MDatabaseCommon@@6B@ @480 NONAME
@@ -630,3 +628,23 @@ Netlib_SetUserSettingsByName @659
 ?addFrame@CMPluginBase@@QEAAHPEBUCLISTFrame@@@Z @661 NONAME
 Menu_SetVisible @662
 Miranda_WaitOnHandleEx @663
+??1MDatabaseReadonly@@UEAA@XZ @664 NONAME
+?AddContact@MDatabaseReadonly@@UEAAIXZ @665 NONAME
+?AddEvent@MDatabaseReadonly@@UEAAIIPEAUDBEVENTINFO@@@Z @666 NONAME
+?DeleteContact@MDatabaseReadonly@@UEAAJI@Z @667 NONAME
+?DeleteContactSetting@MDatabaseReadonly@@UEAAHIPEBD0@Z @668 NONAME
+?DeleteEvent@MDatabaseReadonly@@UEAAHII@Z @669 NONAME
+?EnumContactSettings@MDatabaseReadonly@@UEAAHIP6AHPEBDPEAX@Z01@Z @670 NONAME
+?EnumModuleNames@MDatabaseReadonly@@UEAAHP6AHPEBDPEAX@Z1@Z @671 NONAME
+?FindFirstUnreadEvent@MDatabaseReadonly@@UEAAII@Z @672 NONAME
+?GetBlobSize@MDatabaseReadonly@@UEAAJI@Z @673 NONAME
+?GetContactSettingWorker@MDatabaseReadonly@@UEAAHIPEBD0PEAUDBVARIANT@@H@Z @674 NONAME
+?GetContactSize@MDatabaseReadonly@@UEAAJXZ @675 NONAME
+?GetEventContact@MDatabaseReadonly@@UEAAII@Z @676 NONAME
+?IsDbContact@MDatabaseReadonly@@UEAAHI@Z @677 NONAME
+?IsRelational@MDatabaseReadonly@@UEAAHXZ @678 NONAME
+?MarkEventRead@MDatabaseReadonly@@UEAAHII@Z @679 NONAME
+?MetaMergeHistory@MDatabaseReadonly@@UEAAHPEAUDBCachedContact@@0@Z @680 NONAME
+?MetaSplitHistory@MDatabaseReadonly@@UEAAHPEAUDBCachedContact@@0@Z @681 NONAME
+?SetCacheSafetyMode@MDatabaseReadonly@@UEAAXH@Z @682 NONAME
+?WriteContactSetting@MDatabaseReadonly@@UEAAHIPEAUDBCONTACTWRITESETTING@@@Z @683 NONAME
