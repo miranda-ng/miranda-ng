@@ -400,77 +400,6 @@ static int OnShutdown(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// @name	AddProtocolPages()
-// @desc	is called by Miranda if user selects to display the userinfo dialog
-// @param	odp			- optiondialogpage structure to use
-// @param	wParam		- the propertysheet init structure to pass
-// @param	pszProto	- the protocol name to prepend as item name (can be NULL)
-
-static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProto = nullptr)
-{
-	wchar_t szTitle[MAX_PATH];
-	const BYTE ofs = (pszProto) ? mir_snwprintf(szTitle, L"%S\\", pszProto) : 0;
-
-	odp.szTitle.w = szTitle;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_GENERAL);
-	odp.position = 0x8000000;
-	odp.pfnDlgProc = PSPProcGeneral;
-	odp.dwInitParam = ICONINDEX(IDI_TREE_GENERAL);
-	mir_wstrncpy(szTitle + ofs, LPGENW("General"), _countof(szTitle) - ofs);
-	AddPage(wParam, (LPARAM)&odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
-	odp.position = 0x8000001;
-	odp.pfnDlgProc = PSPProcContactHome;
-	odp.dwInitParam = ICONINDEX(IDI_TREE_ADDRESS);
-	mir_wstrncpy(szTitle + ofs, LPGENW("General") L"\\" LPGENW("Contact (private)"), _countof(szTitle) - ofs);
-	AddPage(wParam, (LPARAM)&odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
-	odp.position = 0x8000002;
-	odp.pfnDlgProc = PSPProcOrigin;
-	odp.dwInitParam = ICONINDEX(IDI_TREE_ADVANCED);
-	mir_wstrncpy(szTitle + ofs, LPGENW("General") L"\\" LPGENW("Origin"), _countof(szTitle) - ofs);
-	AddPage(wParam, (LPARAM)&odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
-	odp.position = 0x8000003;
-	odp.pfnDlgProc = PSPProcAnniversary;
-	odp.dwInitParam = ICONINDEX(IDI_BIRTHDAY);
-	mir_wstrncpy(szTitle + ofs, LPGENW("General") L"\\" LPGENW("Anniversaries"), _countof(szTitle) - ofs);
-	AddPage(wParam, (LPARAM)&odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
-	odp.position = 0x8000004;
-	odp.pfnDlgProc = PSPProcCompany;
-	odp.dwInitParam = ICONINDEX(IDI_TREE_COMPANY);
-	mir_wstrncpy(szTitle + ofs, LPGENW("Work"), _countof(szTitle) - ofs);
-	AddPage(wParam, (LPARAM)&odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
-	odp.position = 0x8000005;
-	odp.pfnDlgProc = PSPProcContactWork;
-	odp.dwInitParam = ICONINDEX(IDI_TREE_ADDRESS);
-	mir_wstrncpy(szTitle + ofs, LPGENW("Work") L"\\" LPGENW("Contact (work)"), _countof(szTitle) - ofs);
-	AddPage(wParam, (LPARAM)&odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
-	odp.position = 0x8000006;
-	odp.pfnDlgProc = PSPProcAbout;
-	odp.dwInitParam = ICONINDEX(IDI_TREE_ABOUT);
-	mir_wstrncpy(szTitle + ofs, LPGENW("About"), _countof(szTitle) - ofs);
-	AddPage(wParam, (LPARAM)&odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_PROFILE);
-	odp.position = 0x8000007;
-	odp.pfnDlgProc = PSPProcContactProfile;
-	odp.dwInitParam = ICONINDEX(IDI_TREE_PROFILE);
-	mir_wstrncpy(szTitle + ofs, LPGENW("About") L"\\" LPGENW("Profile"), _countof(szTitle) - ofs);
-	AddPage(wParam, (LPARAM)&odp);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // @name	InitDetails
 // @desc	is called by Miranda if user selects to display the userinfo dialog
 // @param	wParam		- the propertysheet init structure to pass
@@ -490,11 +419,65 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 			if (lParam) {
 				// ignore common pages for weather contacts
 				if (!pPsh->_pszProto || _stricmp(pPsh->_pszProto, "weather")) {
-					AddProtocolPages(odp, wParam);
+					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_GENERAL);
+					odp.position = 0x8000000;
+					odp.pfnDlgProc = PSPProcGeneral;
+					odp.dwInitParam = ICONINDEX(IDI_TREE_GENERAL);
+					odp.szTitle.w = LPGENW("General");
+					AddPage(wParam, (LPARAM)&odp);
+
+					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
+					odp.position = 0x8000001;
+					odp.pfnDlgProc = PSPProcContactHome;
+					odp.dwInitParam = ICONINDEX(IDI_TREE_ADDRESS);
+					odp.szTitle.w = LPGENW("General") L"\\" LPGENW("Contact (private)");
+					AddPage(wParam, (LPARAM)&odp);
+
+					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
+					odp.position = 0x8000002;
+					odp.pfnDlgProc = PSPProcOrigin;
+					odp.dwInitParam = ICONINDEX(IDI_TREE_ADVANCED);
+					odp.szTitle.w = LPGENW("General") L"\\" LPGENW("Origin");
+					AddPage(wParam, (LPARAM)&odp);
+
+					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
+					odp.position = 0x8000003;
+					odp.pfnDlgProc = PSPProcAnniversary;
+					odp.dwInitParam = ICONINDEX(IDI_BIRTHDAY);
+					odp.szTitle.w = LPGENW("General") L"\\" LPGENW("Anniversaries");
+					AddPage(wParam, (LPARAM)&odp);
+
+					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
+					odp.position = 0x8000004;
+					odp.pfnDlgProc = PSPProcCompany;
+					odp.dwInitParam = ICONINDEX(IDI_TREE_COMPANY);
+					odp.szTitle.w = LPGENW("Work");
+					AddPage(wParam, (LPARAM)&odp);
+
+					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
+					odp.position = 0x8000005;
+					odp.pfnDlgProc = PSPProcContactWork;
+					odp.dwInitParam = ICONINDEX(IDI_TREE_ADDRESS);
+					odp.szTitle.w = LPGENW("Work") L"\\" LPGENW("Contact (work)");
+					AddPage(wParam, (LPARAM)&odp);
+
+					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
+					odp.position = 0x8000006;
+					odp.pfnDlgProc = PSPProcAbout;
+					odp.dwInitParam = ICONINDEX(IDI_TREE_ABOUT);
+					odp.szTitle.w = LPGENW("About");
+					AddPage(wParam, (LPARAM)&odp);
+
+					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_PROFILE);
+					odp.position = 0x8000007;
+					odp.pfnDlgProc = PSPProcContactProfile;
+					odp.dwInitParam = ICONINDEX(IDI_TREE_PROFILE);
+					odp.szTitle.w = LPGENW("About") L"\\" LPGENW("Profile");
+					AddPage(wParam, (LPARAM)&odp);
+
 					odp.szTitle.w = LPGENW("About") L"\\" LPGENW("Notes");
 				}
-				else
-					odp.szTitle.w = LPGENW("Notes");
+				else odp.szTitle.w = LPGENW("Notes");
 
 				odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
 				odp.position = 0x8000008;
