@@ -894,13 +894,13 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 void __cdecl ConsoleThread(void*)
 {
+	CoInitialize(nullptr);
+
+	HWND hwnd = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
+	if (!hwnd)
+		return;
+
 	MSG msg;
-	HWND hwnd;
-
-	hwnd = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
-
-	if (!hwnd) return;
-
 	while (GetMessage(&msg, nullptr, 0, 0) > 0) {
 		switch (msg.message) {
 		case HM_DUMP:
