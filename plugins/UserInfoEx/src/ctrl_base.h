@@ -27,20 +27,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  ***********************************************************************************************************/
 
 // control flags
-#define CTRLF_CHANGED	 1
-#define CTRLF_HASPROTO	2
-#define CTRLF_HASCUSTOM 4
-#define CTRLF_HASMETA	 8
-
-#define CTRLF_FIRST		16 // first free flag for derived controls
+#define CTRLF_CHANGED    1
+#define CTRLF_HASPROTO   2
+#define CTRLF_HASCUSTOM  4
+#define CTRLF_HASMETA    8
+#define CTRLF_FIRST     16 // first free flag for derived controls
 
 // control types
-#define CTRL_ERROR					0
-#define CTRL_EDIT					 1
-#define CTRL_COMBOBOX_STAT	2
-#define CTRL_DATEPICKER		 3
-#define CTRL_LIST_PROFILE	 4
-#define CTRL_LIST_ITEM			7
+#define CTRL_ERROR         0
+#define CTRL_EDIT          1
+#define CTRL_COMBOBOX_STAT 2
+#define CTRL_DATEPICKER    3
+#define CTRL_LIST_PROFILE  4
+#define CTRL_LIST_ITEM     7
 
 typedef struct TCtrlInfo {
 	BYTE	nType;
@@ -48,8 +47,8 @@ typedef struct TCtrlInfo {
 } CTRL, *LPCTRL;
 
 // for compatibility with old styled controls
-void							Ctrl_InitTextColours();
-INT_PTR CALLBACK	Ctrl_SetTextColour(HDC hdc, WORD wFlags);
+void             Ctrl_InitTextColours();
+INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, WORD wFlags);
 
 /***********************************************************************************************************
  * CBaseCtrl declaration
@@ -64,18 +63,6 @@ union CCtrlFlags
 		bool	hasProto : 1;
 		bool	hasCustom : 1;
 		bool	hasMeta : 1;
-		bool	bit_04 : 1;
-		bool	bit_05 : 1;
-		bool	bit_06 : 1;
-		bool	bit_07 : 1;
-		bool	bit_08 : 1;
-		bool	bit_09 : 1;
-		bool	bit_10 : 1;
-		bool	bit_11 : 1;
-		bool	bit_12 : 1;
-		bool	bit_13 : 1;
-		bool	bit_14 : 1;
-		bool	bit_15 : 1;
 	} B;
 };
 
