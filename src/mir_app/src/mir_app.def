@@ -648,3 +648,5 @@ Miranda_WaitOnHandleEx @663
 ?MetaSplitHistory@MDatabaseReadonly@@UAGHPAUDBCachedContact@@0@Z @681 NONAME
 ?SetCacheSafetyMode@MDatabaseReadonly@@UAGXH@Z @682 NONAME
 ?WriteContactSetting@MDatabaseReadonly@@UAGHIPAUDBCONTACTWRITESETTING@@@Z @683 NONAME
+??0MDatabaseReadonly@@QAE@XZ @684 NONAME
+??_7MDatabaseReadonly@@6B@ @685 NONAME
