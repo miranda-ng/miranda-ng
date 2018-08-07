@@ -3,6 +3,8 @@
 CMPlugin g_plugin;
 MWindowList hWindowList;
 
+static HGENMENU g_hMenuItem;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -23,19 +25,6 @@ CMPlugin::CMPlugin() :
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// MainInit
-
-int MainInit(WPARAM, LPARAM)
-{
-	CMenuItem mi(&g_plugin);
-	SET_UID(mi, 0x719c1596, 0xb0fd, 0x4c74, 0xb7, 0xe4, 0xeb, 0x22, 0xf4, 0x99, 0xd7, 0x68);
-	mi.position = 10;
-	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POUNCE));
-	mi.name.a = LPGEN("&Buddy Pounce");
-	mi.pszService = "BuddyPounce/MenuCommand";
-	Menu_AddContactMenuItem(&mi);
-	return 0;
-}
 
 int MsgAck(WPARAM, LPARAM lParam)
 {
@@ -71,6 +60,12 @@ int MsgAck(WPARAM, LPARAM lParam)
 			WindowList_Remove(hWindowList, (HWND)ack->hProcess);
 		}
 	}
+	return 0;
+}
+
+int PrebuildContactMenu(WPARAM hContact, LPARAM)
+{
+	Menu_ShowItem(g_hMenuItem, (CallProtoService(GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1) & PF1_IM) != 0);
 	return 0;
 }
 
@@ -194,8 +189,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	wchar_t* message = (wchar_t*)lParam;
 	DBVARIANT dbv;
-	if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv))
-	{
+	if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv)) {
 		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_wstrlen(dbv.pwszVal) + mir_wstrlen(message) + 1);
 		if (!newPounce) return 1;
 		mir_wstrcpy(newPounce, dbv.pwszVal);
@@ -213,12 +207,19 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 
 int CMPlugin::Load()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UserOnlineSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, BuddyPounceOptInit);
 	HookEvent(ME_PROTO_ACK, MsgAck);
 
-	CreateServiceFunction("BuddyPounce/MenuCommand", BuddyPounceMenuCommand);
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0x719c1596, 0xb0fd, 0x4c74, 0xb7, 0xe4, 0xeb, 0x22, 0xf4, 0x99, 0xd7, 0x68);
+	mi.position = 10;
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POUNCE));
+	mi.name.a = LPGEN("&Buddy Pounce");
+	mi.pszService = "BuddyPounce/MenuCommand";
+	g_hMenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, BuddyPounceMenuCommand);
 
 	hWindowList = WindowList_Create();
 

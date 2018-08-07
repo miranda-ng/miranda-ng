@@ -83,6 +83,9 @@ INT_PTR CSteamProto::OpenBlockListCommand(WPARAM, LPARAM)
 
 int CSteamProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
+	for (auto &it : contactMenuItems)
+		Menu_ShowItem(it, false);
+
 	if (!hContact)
 		return 0;
 
@@ -110,7 +113,7 @@ int CSteamProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	for (int i = 0; i < CMI_MAX; i++)
 		Menu_ShowItem(CSteamProto::contactMenuItems[i], false);
 
-	CSteamProto* ppro = CMPlugin::getInstance((MCONTACT)hContact);
+	CSteamProto *ppro = CMPlugin::getInstance((MCONTACT)hContact);
 	return (ppro) ? ppro->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
