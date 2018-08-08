@@ -1,0 +1,175 @@
+/*
+
+Import plugin for Miranda NG
+
+Copyright (c) 2012-18 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+*/
+
+#include "stdafx.h"
+
+#include <m_json.h>
+
+static int mc_makeDatabase(const wchar_t*)
+{
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// JSON text driver, read-only
+
+class CDbxJson : public MDatabaseReadonly, public MZeroedObject
+{
+	JSONNode *m_root = nullptr;
+	LIST<JSONNode> m_events;
+
+public:
+	CDbxJson() :
+		m_events(100)
+	{}
+
+	~CDbxJson()
+	{
+		if (m_root != nullptr)
+			json_delete(m_root);
+	}
+
+	void Load()
+	{
+		// json operates with the only contact with pseudo id=1
+		m_cache->AddContactToCache(1);
+	}
+
+	int Open(const wchar_t *profile)
+	{
+		HANDLE hFile = CreateFile(profile, GENERIC_READ, 0, 0, OPEN_ALWAYS, 0, 0);
+		if (hFile == INVALID_HANDLE_VALUE)
+			return EGROKPRF_CANTREAD;
+
+		DWORD dwSize = GetFileSize(hFile, nullptr), dwRead;
+		ptrA szFile((char*)mir_alloc(dwSize + 1));
+		BOOL r = ReadFile(hFile, szFile, dwSize, &dwRead, nullptr);
+		CloseHandle(hFile);
+		if (!r)
+			return EGROKPRF_CANTREAD;
+
+		szFile[dwSize] = 0;
+		if ((m_root = json_parse(szFile)) == nullptr)
+			return EGROKPRF_DAMAGED;
+
+		for (auto &it : m_root->at("history"))
+			m_events.insert(&it);
+
+		return EGROKPRF_NOERROR;
+	}
+
+	// mcontacts format always store history for one contact only
+	STDMETHODIMP_(LONG) GetContactCount(void) override
+	{
+		return 1;
+	}
+
+	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
+	{
+		return m_events.getCount();
+	}
+
+	STDMETHODIMP_(BOOL) GetEvent(MEVENT iEvent, DBEVENTINFO *dbei) override
+	{
+		JSONNode *node = m_events[iEvent - 1];
+		if (node == nullptr)
+			return 0;
+
+		dbei->eventType = (*node)["eventType"].as_int();
+		dbei->timestamp = (*node)["timeStamp"].as_int();
+
+		dbei->flags = 0;
+		std::string szFlags = (*node)["flags"].as_string();
+		for (auto &c : szFlags)
+			switch (c) {
+			case 'm': dbei->flags |= DBEF_SENT; break;
+			case 'r': dbei->flags |= DBEF_READ; break;
+			}
+
+		std::string szBody = (*node)["body"].as_string();
+		if (!szBody.empty()) {
+			dbei->flags |= DBEF_UTF;
+			dbei->cbBlob = (DWORD)szBody.size();
+			dbei->pBlob = (PBYTE)mir_alloc(szBody.size() + 1);
+			strcpy((char*)dbei->pBlob, szBody.c_str());
+		}
+
+		return 0;
+	}
+
+	STDMETHODIMP_(MEVENT) FindFirstEvent(MCONTACT) override
+	{
+		return 1;
+	}
+
+	STDMETHODIMP_(MEVENT) FindNextEvent(MCONTACT, MEVENT iEvent) override
+	{
+		if (iEvent >= m_events.getCount())
+			return 0;
+
+		return iEvent+1;
+	}
+
+	STDMETHODIMP_(MEVENT) FindLastEvent(MCONTACT) override
+	{
+		int numEvents = m_events.getCount();
+		return numEvents ? numEvents-1 : 0;
+	}
+
+	STDMETHODIMP_(MEVENT) FindPrevEvent(MCONTACT, MEVENT iEvent) override
+	{
+		if (iEvent <= 1)
+			return 0;
+
+		return iEvent-1;
+	}
+};
+
+static int mc_grokHeader(const wchar_t *profile)
+{
+	return CDbxJson().Open(profile);
+}
+
+static MDatabaseCommon* mc_load(const wchar_t *profile, BOOL)
+{
+	std::auto_ptr<CDbxJson> db(new CDbxJson());
+	if (db->Open(profile))
+		return nullptr;
+
+	db->Load();
+	return db.release();
+}
+
+static DATABASELINK dblink =
+{
+	0,
+	"mcontacts",
+	L"mContacts file driver",
+	mc_makeDatabase,
+	mc_grokHeader,
+	mc_load
+};
+
+void RegisterJson()
+{
+	RegisterDatabasePlugin(&dblink);
+}

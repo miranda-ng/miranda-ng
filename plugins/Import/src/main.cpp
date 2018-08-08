@@ -178,5 +178,6 @@ int CMPlugin::Load()
 
 	RegisterDbrw();
 	RegisterMContacts();
+	RegisterJson();
 	return 0;
 }

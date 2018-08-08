@@ -105,3 +105,4 @@ HANDLE GetIconHandle(int iIconId);
 void   RegisterIcons(void);
 
 void RegisterMContacts();
+void RegisterJson();
