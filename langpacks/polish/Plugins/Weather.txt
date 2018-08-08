@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -398,7 +398,7 @@ Błąd HTTP %i
 Błąd podczas odczytywania danych: %s
 ;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
-Połączenie HTTP
+Połączenie HTTP Weather
 ;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
 Ikona protokołu

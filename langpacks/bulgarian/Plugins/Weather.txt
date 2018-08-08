@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -346,7 +346,6 @@ HTTP грешка: Gateway timeout (504)
 Автообновяването е изключено
 [Condition Changed]
 Промяна на метеорологичните условия
-
 [Alert Issued]
 
 ;file \plugins\Weather\src\weather_addstn.cpp

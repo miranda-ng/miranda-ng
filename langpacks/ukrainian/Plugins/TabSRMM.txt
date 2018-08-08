@@ -724,9 +724,9 @@ BBCode ([b][i][u])
 &Файл
 [Save message log as...]
 Зберегти історію як...
-[Close message session\tCtrl-W]
+[Close message session\tCtrl+W]
 Закрити сеанс\tCtrl+W
-[Close container\tAlt-F4]
+[Close container\tAlt+F4]
 Закрити контейнер\tAlt+F4
 [&View]
 &Вигляд
@@ -1469,7 +1469,7 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 немає UID
 [UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача з вибраного.
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Ви знаходитесь в режимі редагування нотаток про користувача. Натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень.
 [Selection copied to clipboard]
 Виділений текст скопійований у буфер
@@ -2012,7 +2012,7 @@ TabSRMM: %s
 Важлива інформація про версію|Тестове попередження
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 Перевірка версії набору значків|Встановлений набір значків застарів і може бути несумісний з плагіном TabSRMM версії 3.\n\n\\b1Встановлений набір може спричинити відсутність або неправильне відображення значків.\\b0
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редагування нотаток про користувача|Ви знаходитесь в режимі редагування нотаток про користувача Натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень.
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Компонент відсутній|Набір значків не знайдено. Будь ласка, встановіть його в директорію значків за замовчанням.\n\nНа даний момент значки недоступні.

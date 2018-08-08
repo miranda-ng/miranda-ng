@@ -21,7 +21,6 @@
 [Close popup]
 [Do nothing]
 [Clear pack updates folder]
-[Pack Updater HTTP connection]
 [URL for checking updates not found.]
 [Downloading version info...]
 [Name of Update's file is not supported.]

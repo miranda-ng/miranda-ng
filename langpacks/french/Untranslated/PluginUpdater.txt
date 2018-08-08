@@ -26,4 +26,3 @@
 [Change platform to 64-bit]
 [Update completed]
 [Update failed]
-[Plugin Updater HTTP connections]

@@ -60,4 +60,4 @@
 [Feed]
 [Contact deleting]
 [Enable/disable auto update]
-[NewsAggregator HTTP connection]
+[NewsAggregator HTTP connections]

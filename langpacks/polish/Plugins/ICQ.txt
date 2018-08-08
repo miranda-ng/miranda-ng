@@ -1833,8 +1833,8 @@ Nazwa:
 <nieokreślone>
 [Member since:]
 Członek od:
-[%s Details]
-%s Detale
+[Details]
+Detale
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <niepoprawny>

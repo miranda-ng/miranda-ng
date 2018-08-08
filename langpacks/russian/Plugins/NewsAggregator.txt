@@ -160,5 +160,5 @@ URL страницы с комментариями к новости.
 [Enable/disable auto update]
 Вкл/Выкл автообновление
 ;file \plugins\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connection]
-HTTP подключение каналов новостей
+[NewsAggregator HTTP connections]
+HTTP-подключения каналов новостей

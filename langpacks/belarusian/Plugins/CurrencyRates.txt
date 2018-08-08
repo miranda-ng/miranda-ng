@@ -1,0 +1,262 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.1.0.101
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates.]
+Дадатак адлюстроўвае курсы валют.
+;file \plugins\CurrencyRates\res\Forex.rc
+[Variable List]
+Спіс зменных
+[Edit Settings]
+Змяніць налады
+[Use contact specific settings]
+Уласныя налады ў кантакту
+[Log]
+Лог
+[Use &Internal History]
+Выкарыстоўваць унутраную гісторыю
+[&Format:]
+&Фармат:
+[&Variables...]
+&Зменныя...
+[&Add to History only if Value Changed]
+Дадаваць у гісторыю, толькі калі змянілася значэнне
+[Use &External File]
+Выкарыстоўваць &вонкавы файл
+[&Select File:]
+&Шлях да файла:
+[&Browse...]
+&Агляд...
+[Variables Allowed: %miranda_userdata%,%currencyratename%]
+Падтрымоўваныя зменныя: %miranda_userdata%,%currencyratename%
+[F&ormat:]
+Фармат:
+[V&ariables...]
+Зменныя...
+[Add to &Log only if Value Changed]
+Дадаваць у файл, толькі калі змянілася значэнне
+[Show &Popup Window]
+Паказваць усплывальнае вакно
+[Show Popup Window Only if Value &Changed]
+Паказваць усплывальнае вакно толькі, калі змянілася значэнне
+[Cancel]
+Скасаваць
+[Popup settings...]
+Налады успл. вокнаў...
+[Currency Converter]
+Канвертар валют
+[&to:]
+у:
+[&Swap]
+Памяняць
+[Convert]
+Канвертаваць
+[Info provided by <a href="http://www.google.com">Google</a>]
+Інфармацыя з <a href="http://www.google.com">Google</a>
+[Close]
+Зачыніць
+[Popup Window Settings]
+Налады ўсплывальных вокнаў
+[Colors]
+Колеры
+[Use default colors]
+Колеры па змаўчанні
+[Use user-defined colors]
+Наладзіць колеры
+[Background color]
+Колер фону
+[Text color]
+Колер тэксту
+[Delay]
+Затрымка
+[From popup plugin]
+Па змаўчанні
+[Custom]
+Наладзіць
+[Permanent]
+Пастаянна
+[Do not add to popup's history]
+Не запісваць у гісторыю вакон
+[Preview]
+Прагляд
+[Current Rate:]
+Бягучае значэнне:
+[Rate Fetch Time:]
+Час абнаўлення:
+[Previous Rate:]
+Папярэдняе значэнне:
+[&Convert:]
+З:
+[&Add]
+&Дадаць
+[&Watched currency rates:]
+&Адсочваныя курсы валют:
+[&Remove]
+Выдаліць
+[&Refresh Rates Every:]
+&Абнаўляць курсы кожныя:
+[&Display in Contact List as:]
+&Паказваць у спісе як:
+[&Status Message:]
+&Паведамленне статусу:
+[&Tendency:]
+&Тэндэнцыя:
+[&Advanced Settings...]
+Дадатковыя налады...
+[Rate Info]
+Курс валюты
+;file \plugins\CurrencyRates\src\Chart.h
+[There is nothing to show]
+
+;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+[Seconds]
+Секунд
+[Minutes]
+Хвілін
+[Hours]
+Гадзін
+[Enter integer value between 1 and 60.]
+
+[Enter integer value between 1 and 24.]
+
+[Enter text to display in contact list.]
+
+;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+[Info provided by]
+Інфармацыя прадстаўлена
+[Enter positive number.]
+Увядзіце станоўчую лічбу.
+;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+[Currency Rate]
+Курс валюты
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+Памылка падчас парсінгу HTML.
+[Error occurred during site access.]
+Памылка пры доступе да сайта.
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
+[Currency Symbol]
+Знак валюты
+[Currency Name]
+Назва валюты
+[Source of Information]
+Крыніца інфармацыі
+[Rate Value]
+Бягучае значэнне каціроўкі/курсу
+[Previous Rate Value]
+Папярэдняе значэнне каціроўкі/курсу
+[Fetch Time]
+Час абнаўлення
+[Fetch Date]
+Дата абнаўлення
+[Fetch Time and Date]
+Дата і час абнаўлення
+[Percentage Character (%)]
+Знак %
+[Tabulation]
+Табуляцыя
+[Left slash (\\)]
+Знак \\
+[Open Price]
+Кошт на адкрыццё
+[Percent Change to After Hours]
+Адсотак змен за апошнюю гадзіну
+[Percent Change to Yesterday Close]
+Адсотак змен з учорашняга зачынення
+[Day's High]
+Максімальнае значэнне за дзень
+[Day's Low]
+Мінімальнае значэнне за дзень
+[Previous Close]
+Значэнне на папярэдняе зачыненне
+[Change]
+Змена
+[From Currency Full Name]
+Поўная назва зыходнай валюты
+[From Currency Short Name]
+Кароткая назва зыходнай валюты
+[Into Currency Full Name]
+Поўная назва мэтавай валюты
+[Into Currency Short Name]
+Кароткая назва мэтавай валюты
+[Short notation for "%f/%i"]
+Кароткае пазначэнне "%f/%i"
+;file \plugins\CurrencyRates\src\Forex.cpp
+[Auto Update Enabled]
+Аўтаабнаўленне ўключана
+[Auto Update Disabled]
+Аўтаабнаўленне выключана
+[Currency Rates]
+Курсы валют
+[Enable/Disable Auto Update]
+
+[Refresh All Rates]
+Абнавіць усе курсы валют
+[Currency Converter...]
+Канвертар валют...
+[Export All Currency Rates]
+
+[Import All Currency Rates]
+
+[Refresh]
+Абнавіць
+[Open Log File...]
+Адкрыць файл гісторыі...
+[Chart...]
+Дыяграма...
+[Edit Settings...]
+Налады...
+[Enable/Disable Currency Rates Auto Update]
+
+[Currency Rates Auto Update Enabled]
+
+[Currency Rates Auto Update Disabled]
+
+[Network]
+Сеціва
+;file \plugins\CurrencyRates\src\HTTPSession.cpp
+[CurrencyRates HTTP connections]
+HTTP далучэнне CurrencyRates
+;file \plugins\CurrencyRates\src\IconLib.cpp
+[Protocol icon]
+Абразок конту
+[Currency Rate up]
+Значэнне вырасла
+[Currency Rate down]
+Значэнне звалілася
+[Currency Rate not changed]
+Значэнне не змянілася
+[Currency Rate Section]
+
+[Export]
+Экспарт
+[Swap button]
+Памяняць месцамі
+[Import]
+Імпарт
+;file \plugins\CurrencyRates\src\ImportExport.cpp
+[XML File (*.xml)]
+Файл XML(*.xml)
+[All files (*.*)]
+Усе файлы (*.*)
+;file \plugins\CurrencyRates\src\ModuleInfo.cpp
+[Miranda could not load CurrencyRates plugin. XML parser is missing.]
+
+[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
+
+;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Лог (*.txt,*.log)
+[Enter integer value]
+Увядзіце цэлае значэнне
+[Enter log file name.]
+Увядзіце назву для лога.
+[Enter log file format.]
+Увядзіце фармат лога.
+[Enter history format.]
+Увязіце фармат гісторыі.
+[Enter popup window format.]
+Увядзіце фармат вакна.

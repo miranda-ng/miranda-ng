@@ -342,7 +342,7 @@ Filtername existiert
 [Event already exists]
 Ereignis existiert bereits
 [Browse WinSCP file]
-Win-SCP-Verlaufsdatei auswählen
+WinSCP-Verlaufsdatei auswählen
 [Save WinSCP log file]
 WinSCP-Verlaufsdatei speichern
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]

@@ -2390,6 +2390,7 @@ Editar
 
 ;file \src\mir_app\src\meta_options.cpp
 [Metacontacts]
+
 ;file \src\mir_app\src\meta_services.cpp
 [No online contacts found.]
 

@@ -165,8 +165,6 @@ UTF8 в новых файлах
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 
-[Database: Attempt to get wrong type of value, string]
-
 [(Unknown Contact)]
 (Неизвестный контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]

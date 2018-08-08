@@ -1022,7 +1022,7 @@ Wählen Sie die Extraicons aus, welche in der Kontaktliste angezeigt werden soll
 [*only the first %d icons will be shown]
 Hinweis: Nur die ersten %d Icons werden angezeigt!
 [You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)]
-Wählen Sie mehrere Elemente mit gedrückter Umschalt- oder Strg-Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
+Wählen Sie mehrere Elemente mit gedrückter Umschalt- oder Strg+Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
 [Add to existing metacontact]
 Zu Metakontakt hinzufügen
 [Please select a metacontact:]

@@ -1,0 +1,262 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.1.0.101
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates.]
+Zobrazuje kurzy měn.
+;file \plugins\CurrencyRates\res\Forex.rc
+[Variable List]
+Seznam proměnných
+[Edit Settings]
+Upravit nastavení...
+[Use contact specific settings]
+Použít nastavení pro každý kontakt zvlášť
+[Log]
+Záznam
+[Use &Internal History]
+Použít &interní historii
+[&Format:]
+&Formát:
+[&Variables...]
+&Proměnné...
+[&Add to History only if Value Changed]
+Přid&at do historie pouze pokud se hodnota změní
+[Use &External File]
+Použít &externí soubor
+[&Select File:]
+Zvolte &soubor:
+[&Browse...]
+&Procházet...
+[Variables Allowed: %miranda_userdata%,%currencyratename%]
+Dostupné proměnné: %miranda_userdata%, %currencyratename%
+[F&ormat:]
+F&ormát:
+[V&ariables...]
+P&roměnné...
+[Add to &Log only if Value Changed]
+Přidat do &záznamu pouze pokud se hodnota změní
+[Show &Popup Window]
+Zobrazit &oznámení
+[Show Popup Window Only if Value &Changed]
+Zo&brazit oznámení pouze pokud se hodnota změní
+[Cancel]
+Zrušit
+[Popup settings...]
+Nastavení oznámení...
+[Currency Converter]
+Převod měn
+[&to:]
+&na:
+[&Swap]
+&Prohodit
+[Convert]
+Nahradit
+[Info provided by <a href="http://www.google.com">Google</a>]
+Informace poskytuje <a href="http://www.google.com">Google</a>
+[Close]
+Zavřít
+[Popup Window Settings]
+Nastavení oznámení
+[Colors]
+Barvy
+[Use default colors]
+Použít výchozí barvy
+[Use user-defined colors]
+Použít vlastní barvy
+[Background color]
+Barva pozadí
+[Text color]
+Barva textu
+[Delay]
+Prodleva
+[From popup plugin]
+Globální nastavení
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[Do not add to popup's history]
+
+[Preview]
+Náhled
+[Current Rate:]
+
+[Rate Fetch Time:]
+
+[Previous Rate:]
+
+[&Convert:]
+
+[&Add]
+Přid&at
+[&Watched currency rates:]
+
+[&Remove]
+Odst&ranit
+[&Refresh Rates Every:]
+
+[&Display in Contact List as:]
+&Zobrazit v seznamu kontaktů jako:
+[&Status Message:]
+Zpráva &stavu
+[&Tendency:]
+
+[&Advanced Settings...]
+Pokročilé nastavení...
+[Rate Info]
+
+;file \plugins\CurrencyRates\src\Chart.h
+[There is nothing to show]
+
+;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+[Seconds]
+sekund
+[Minutes]
+minut
+[Hours]
+hodin
+[Enter integer value between 1 and 60.]
+Zadejte číselnou hodnotu mezi 1 a 60.
+[Enter integer value between 1 and 24.]
+Zadejte číselnou hodnotu mezi 1 a 24.
+[Enter text to display in contact list.]
+Zadejte text pro zobrazení v seznamu kontaktů.
+;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+[Info provided by]
+Informace poskytuje
+[Enter positive number.]
+
+;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+[Currency Rate]
+
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+
+[Error occurred during site access.]
+
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
+[Currency Symbol]
+
+[Currency Name]
+
+[Source of Information]
+
+[Rate Value]
+
+[Previous Rate Value]
+
+[Fetch Time]
+
+[Fetch Date]
+
+[Fetch Time and Date]
+
+[Percentage Character (%)]
+
+[Tabulation]
+
+[Left slash (\\)]
+
+[Open Price]
+
+[Percent Change to After Hours]
+
+[Percent Change to Yesterday Close]
+
+[Day's High]
+
+[Day's Low]
+
+[Previous Close]
+
+[Change]
+Změnit
+[From Currency Full Name]
+
+[From Currency Short Name]
+
+[Into Currency Full Name]
+
+[Into Currency Short Name]
+
+[Short notation for "%f/%i"]
+
+;file \plugins\CurrencyRates\src\Forex.cpp
+[Auto Update Enabled]
+Deaktivovat automatickou aktualizaci
+[Auto Update Disabled]
+Aktivovat automatickou aktualizaci
+[Currency Rates]
+Kurzy měn
+[Enable/Disable Auto Update]
+Povolit/zakázat automatickou aktualizaci
+[Refresh All Rates]
+
+[Currency Converter...]
+Převod měn...
+[Export All Currency Rates]
+
+[Import All Currency Rates]
+
+[Refresh]
+Aktualizovat
+[Open Log File...]
+Otevřít záznamový soubor...
+[Chart...]
+Graf...
+[Edit Settings...]
+Upravit nastavení...
+[Enable/Disable Currency Rates Auto Update]
+
+[Currency Rates Auto Update Enabled]
+
+[Currency Rates Auto Update Disabled]
+
+[Network]
+Sítě
+;file \plugins\CurrencyRates\src\HTTPSession.cpp
+[CurrencyRates HTTP connections]
+CurrencyRates - spojení pomocí protokolu HTTP
+;file \plugins\CurrencyRates\src\IconLib.cpp
+[Protocol icon]
+Ikona protokolu
+[Currency Rate up]
+
+[Currency Rate down]
+
+[Currency Rate not changed]
+
+[Currency Rate Section]
+
+[Export]
+Exportovat
+[Swap button]
+
+[Import]
+Importovat
+;file \plugins\CurrencyRates\src\ImportExport.cpp
+[XML File (*.xml)]
+XML soubory (*.xml)
+[All files (*.*)]
+Všechny soubory (*.*)
+;file \plugins\CurrencyRates\src\ModuleInfo.cpp
+[Miranda could not load CurrencyRates plugin. XML parser is missing.]
+Miranda nemůže načíst doplněk CurrencyRates. XML parser nebyl nalezen.
+[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
+Miranda nemůže načíst doplněk CurrencyRates. Microsoft HTML parser nebyl nalezen.
+;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Záznamové soubory (*.txt,*.log)
+[Enter integer value]
+Zadejte číselnou hodnotu
+[Enter log file name.]
+Zadejte název záznamového souboru.
+[Enter log file format.]
+Zadejte formát záznamového souboru.
+[Enter history format.]
+Zadejte formát historie.
+[Enter popup window format.]
+Zadejte formát oznámení.

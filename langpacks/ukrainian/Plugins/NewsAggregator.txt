@@ -160,5 +160,5 @@ URL сторінки з коментарями до новини.
 [Enable/disable auto update]
 Увімк./вимк. автооновлення
 ;file \plugins\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connection]
+[NewsAggregator HTTP connections]
 HTTP-з'єднання NewsAggregator

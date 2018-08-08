@@ -160,5 +160,5 @@
 [Enable/disable auto update]
 
 ;file \plugins\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connection]
+[NewsAggregator HTTP connections]
 

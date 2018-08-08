@@ -50,4 +50,3 @@
 [Enter message format]
 [Contact deleting]
 [Enable/disable auto update]
-[NewsAggregator HTTP connection]

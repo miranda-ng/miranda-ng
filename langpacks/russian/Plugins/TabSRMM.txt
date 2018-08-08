@@ -141,7 +141,7 @@
 [Input history size]
 Размер истории ввода
 [entries]
-пунктов
+записей
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
 Настройки, отмеченные (*), вступят в силу только после перезапуска Miranda NG.
 [More about advanced tweaks]
@@ -724,9 +724,9 @@ BBCode ([b][i][u])
 &Файл
 [Save message log as...]
 Сохранить историю как...
-[Close message session\tCtrl-W]
+[Close message session\tCtrl+W]
 Закрыть беседу\tCtrl+W
-[Close container\tAlt-F4]
+[Close container\tAlt+F4]
 Закрыть контейнер\tAlt+F4
 [&View]
 &Вид
@@ -1469,8 +1469,8 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 нет UID
 [UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Shift+клик -> копировать в буфер)\nКлик - информация о пользователе\nСтрелка вниз - добавление/удаление пользователя из избранного.
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячие клавиши (по умолчанию: Alt-N), чтобы сохранить заметки и вернуться в нормальный режим сообщений
+[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
+Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячие клавиши (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим сообщений
 [Selection copied to clipboard]
 Выделенный текст скопирован в буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -2012,7 +2012,7 @@ TabSRMM: %s
 Важная информация о версии|Тестовое предупреждение
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 Проверка версии набора значков|Установленный набор значков устарел и может быть несовместим с плагином TabSRMM версии 3.\n\n\\b1Установленный набор может вызвать отсутствие или неправильное отображение значков.\\b0
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редактирование заметок о пользователе|Вы находитесь в режиме редактирования заметок о пользователе, нажмите на кнопку ещё раз или используйте горячую клавишу (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим набора сообщений
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Недостающий компонент|Набор значков не найден. Пожалуйста, установите его в директорию значков по умолчанию.\n\nНа данный момент значки недоступны

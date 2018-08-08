@@ -289,6 +289,8 @@ Wyślij automatycznie
 Przejdź
 [Condition]
 Forma
+[NOP]
+NIC
 [Math]
 Math
 [> greater]
@@ -317,6 +319,10 @@ kończy się na
 NIE
 [Operation]
 Operacja
+[BREAK]
+PRZERWA
+[JUMP]
+SKOCZ
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
 [Process script after]
@@ -851,9 +857,3 @@ Dodano nowy kontakt do bazy danych
 Usuwanie kontaktu
 [Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]
 Wyświetla modalne okno dialogowe zawierające ikonę systemową, zestaw przycisków oraz krótki komunikat stosowny do aplikacji taki jak informacja o statusie lub błędzie.
-[NOP]
-NIC
-[BREAK]
-PRZERWA
-[JUMP]
-SKOCZ

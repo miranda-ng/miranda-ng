@@ -1,0 +1,262 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.1.0.101
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates.]
+Позволяет наблюдать за изменениями курсов валют.
+;file \plugins\CurrencyRates\res\Forex.rc
+[Variable List]
+Переменные
+[Edit Settings]
+Изменить настройки
+[Use contact specific settings]
+Собственные настройки у контакта
+[Log]
+Журнал
+[Use &Internal History]
+Использовать &внутреннюю историю
+[&Format:]
+&Формат:
+[&Variables...]
+&Переменные...
+[&Add to History only if Value Changed]
+&Добавлять в историю, только если изменилось значение
+[Use &External File]
+Использовать &внешний файл
+[&Select File:]
+&Путь к файлу:
+[&Browse...]
+&Обзор...
+[Variables Allowed: %miranda_userdata%,%currencyratename%]
+Поддерживаемые переменные: %miranda_userdata%,%currencyratename%
+[F&ormat:]
+Ф&ормат:
+[V&ariables...]
+П&еременные...
+[Add to &Log only if Value Changed]
+Добавлять в &файл, только если изменилось значение
+[Show &Popup Window]
+Показывать &всплывающее окно
+[Show Popup Window Only if Value &Changed]
+Показывать всплывающее окно, только если &изменилось значение
+[Cancel]
+Отмена
+[Popup settings...]
+Настройки вспл. окон...
+[Currency Converter]
+Конвертер валют
+[&to:]
+&в:
+[&Swap]
+&Обменять
+[Convert]
+Конвертировать
+[Info provided by <a href="http://www.google.com">Google</a>]
+Источник: <a href="http://www.google.com">Google</a>
+[Close]
+Закрыть
+[Popup Window Settings]
+Настройки всплывающих окон
+[Colors]
+Цвета
+[Use default colors]
+Цвета по умолчанию
+[Use user-defined colors]
+Настроить цвета
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Delay]
+Задержка
+[From popup plugin]
+Из плагина вспл. окон
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Do not add to popup's history]
+Не добавлять в историю всплывающих окон
+[Preview]
+Тест
+[Current Rate:]
+Текущее значение:
+[Rate Fetch Time:]
+Время обновления:
+[Previous Rate:]
+Предыдущее значение:
+[&Convert:]
+&Из:
+[&Add]
+&Добавить
+[&Watched currency rates:]
+&Отслеживаемые курсы валют:
+[&Remove]
+&Очистить
+[&Refresh Rates Every:]
+&Обновлять курсы каждые:
+[&Display in Contact List as:]
+&Показывать в списке как:
+[&Status Message:]
+&Сообщение статуса:
+[&Tendency:]
+&Тенденция:
+[&Advanced Settings...]
+&Дополнительные настройки...
+[Rate Info]
+Курсы валют
+;file \plugins\CurrencyRates\src\Chart.h
+[There is nothing to show]
+Нечего показывать
+;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+[Seconds]
+секунд
+[Minutes]
+минут(ы)
+[Hours]
+часов
+[Enter integer value between 1 and 60.]
+Введите целое число между 1 и 60.
+[Enter integer value between 1 and 24.]
+Введите целое число между 1 и 24.
+[Enter text to display in contact list.]
+Введите текст для отображения в списке контактов.
+;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+[Info provided by]
+Информация предоставлена
+[Enter positive number.]
+Введите положительное число.
+;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+[Currency Rate]
+Курс валюты
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+Ошибка в процессе обработки HTML.
+[Error occurred during site access.]
+Ошибка при доступе к сайту.
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
+[Currency Symbol]
+Символ валюты
+[Currency Name]
+Название валюты
+[Source of Information]
+Источник информации
+[Rate Value]
+Текущее значение котировки/курса
+[Previous Rate Value]
+Предыдущее значение котировки/курса
+[Fetch Time]
+Время обновления
+[Fetch Date]
+Дата обновления
+[Fetch Time and Date]
+Дата и время обновления
+[Percentage Character (%)]
+Символ %
+[Tabulation]
+Табуляция
+[Left slash (\\)]
+Символ \\
+[Open Price]
+Цена на открытие
+[Percent Change to After Hours]
+Процент изменений за последний час
+[Percent Change to Yesterday Close]
+Процент изменений со вчерашнего закрытия
+[Day's High]
+Максимальное значение за день
+[Day's Low]
+Минимальное значение за день
+[Previous Close]
+Значение на предыдущее закрытие
+[Change]
+Изменение
+[From Currency Full Name]
+Полное название исходной валюты
+[From Currency Short Name]
+Краткое название исходной валюты
+[Into Currency Full Name]
+Полное название целевой валюты
+[Into Currency Short Name]
+Краткое название целевой валюты
+[Short notation for "%f/%i"]
+Краткое обозначение "%f/%i"
+;file \plugins\CurrencyRates\src\Forex.cpp
+[Auto Update Enabled]
+Автоматическое обновление включено
+[Auto Update Disabled]
+Автоматическое обновление отключено
+[Currency Rates]
+Курсы валют
+[Enable/Disable Auto Update]
+Вкл/Выкл автообновление
+[Refresh All Rates]
+Обновить все курсы валют
+[Currency Converter...]
+Конвертер валют...
+[Export All Currency Rates]
+Экспортировать все курсы валют
+[Import All Currency Rates]
+Импортировать все курсы валют
+[Refresh]
+Обновить
+[Open Log File...]
+Открыть файл истории...
+[Chart...]
+Диаграмма...
+[Edit Settings...]
+Настройки...
+[Enable/Disable Currency Rates Auto Update]
+Вкл/Выкл автообновление курсов валют
+[Currency Rates Auto Update Enabled]
+Автообновление курсов валют включено
+[Currency Rates Auto Update Disabled]
+Автообновление курсов валют выключено
+[Network]
+Сеть
+;file \plugins\CurrencyRates\src\HTTPSession.cpp
+[CurrencyRates HTTP connections]
+HTTP-подключения CurrencyRates
+;file \plugins\CurrencyRates\src\IconLib.cpp
+[Protocol icon]
+Значок протокола
+[Currency Rate up]
+Курс вырос	
+[Currency Rate down]
+Курс упал
+[Currency Rate not changed]
+Курс не изменился
+[Currency Rate Section]
+Раздел курсов
+[Export]
+Экспорт
+[Swap button]
+Поменять местами
+[Import]
+Импорт
+;file \plugins\CurrencyRates\src\ImportExport.cpp
+[XML File (*.xml)]
+Файл XML (*.xml)
+[All files (*.*)]
+Все файлы (*.*)
+;file \plugins\CurrencyRates\src\ModuleInfo.cpp
+[Miranda could not load CurrencyRates plugin. XML parser is missing.]
+Не удалось загрузить плагин CurrencyRates. Отсутствует парсер XML.
+[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
+Не удалось загрузить плагин CurrencyRates. Отсутствует парсер Microsoft HTML.
+;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Журналы (*.txt,*.log)
+[Enter integer value]
+Введите целочисленное значение
+[Enter log file name.]
+Введите имя лог-файла.
+[Enter log file format.]
+Введите формат лог-файла.
+[Enter history format.]
+Введите формат истории.
+[Enter popup window format.]
+Введите формат всплывающего окна.

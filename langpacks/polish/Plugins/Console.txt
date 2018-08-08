@@ -36,7 +36,7 @@ Pokaż konsolę
 [Scrolling (Ctrl+Q)]
 Przewijanie (Ctrl+Q)
 [Pause logging (Ctrl+P)]
-Wstrzymaj zapis (ctrl+p)
+Wstrzymaj zapis (Ctrl+p)
 [Save log to file (Ctrl+S)]
 Zapisz dziennik do pliku (Ctrl+S)
 [Copy selected log (Ctrl+C)]

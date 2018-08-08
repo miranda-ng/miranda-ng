@@ -104,4 +104,4 @@ Miranda NG была завершена аварийно. Отчёт сохран
 [Cannot upload Version Info. Host unreachable.]
 Нельзя загрузить информацию о версиях. Хост недоступен
 [Crash Dumper HTTP connections]
-HTTP подключения Crash Dumper
+HTTP-подключения Crash Dumper

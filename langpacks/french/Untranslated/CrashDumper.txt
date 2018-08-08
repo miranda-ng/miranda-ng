@@ -33,4 +33,3 @@
 [Cannot upload Version Info. Daily upload limit exceeded]
 [Cannot upload Version Info. Unknown error]
 [Cannot upload Version Info. Host unreachable.]
-[Crash Dumper HTTP connections]

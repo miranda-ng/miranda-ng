@@ -160,5 +160,5 @@ ID навіны.
 [Enable/disable auto update]
 
 ;file \plugins\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connection]
-HTTP далучэнне каналаў навін
+[NewsAggregator HTTP connections]
+HTTP далучэнне NewsAggregator

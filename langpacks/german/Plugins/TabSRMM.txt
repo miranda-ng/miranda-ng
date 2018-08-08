@@ -724,10 +724,10 @@ Nachricht in Zwischenablage kopieren
 &Datei
 [Save message log as...]
 Verlauf speichern als...
-[Close message session\tCtrl-W]
-Sitzung schließen\tStrg-W
-[Close container\tAlt-F4]
-Container schließen\tAlt-F4
+[Close message session\tCtrl+W]
+Sitzung schließen\tStrg+W
+[Close container\tAlt+F4]
+Container schließen\tAlt+F4
 [&View]
 &Ansicht
 [Show menu bar]
@@ -1248,7 +1248,7 @@ Ben&utzer
 [&Room]
 &Raum
 [Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
-Klänge sind %s. Klick schaltet Status um, Umschalt-Klick überträgt Status auf alle Container
+Klänge sind %s. Klick schaltet Status um, Umschalt+Klick überträgt Status auf alle Container
 [disabled]
 deaktiviert
 [enabled]
@@ -1469,7 +1469,7 @@ UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetai
 Keine UID
 [UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick für Benutzerdetails\nKlick auf das Auswahlfeld, um die Kontakteinstellung des Favoriten zu ändern.
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
 [Selection copied to clipboard]
 Auswahl in die Zwischenablage kopiert
@@ -2012,7 +2012,7 @@ TabSRMM-Nachricht (%s)
 Wichtige Release Informationen|Eine Testnachricht
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 Icon-Pack-Versionsprüfung|Das installierte Icon-Pack ist veraltet und könnte mit TabSRMM Version 3 inkompatibel sein.\n\n\\b1Fehlende oder deplatzierte Symbole sind mögliche Auswirkungen des derzeit installierten Icon-Packs.\\b0
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Editiere Benutzernachricht|Sie sind dabei, die Benutzernachricht zu editieren. Klicken Sie erneut auf den Button oder benutzen Sie den Hotkey (Standard: Alt+N), um die Nachrichten zu speichern und um zum normalen Nachrichtenmodus zurückzukehren.
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Fehlende Komponenten|Das Icon-Pack fehlt. Bitte installieren Sie es in den Standard-"Icons"-Ordner.\n\nKeine Icons sind vorhanden.

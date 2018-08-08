@@ -165,8 +165,6 @@ Wtyczka eksportu wiadomości Mirandy NG
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 Brak grupy
-[Database: Attempt to get wrong type of value, string]
-Baza danych: próba pobrania złego typu wartości, ciąg
 [(Unknown Contact)]
 (Nieznany kontakt)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]

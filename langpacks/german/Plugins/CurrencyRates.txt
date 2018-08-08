@@ -1,0 +1,262 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.1.0.101
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates.]
+Zeigt Wechselraten.
+;file \plugins\CurrencyRates\res\Forex.rc
+[Variable List]
+Variablenliste
+[Edit Settings]
+Einstellungen bearbeiten
+[Use contact specific settings]
+Kontaktspezifische Einstellungen verwenden
+[Log]
+Verlauf
+[Use &Internal History]
+&Internen Verlauf verwenden
+[&Format:]
+&Format:
+[&Variables...]
+&Variablen...
+[&Add to History only if Value Changed]
+Nur zum Verl&auf hinzufügen, falls der Wert sich ändert
+[Use &External File]
+&Externe Datei verwenden
+[&Select File:]
+Datei au&swählen:
+[&Browse...]
+&Durchsuchen...
+[Variables Allowed: %miranda_userdata%,%currencyratename%]
+Erlaubte Variablen: %miranda_userdata%,%currencyratename%
+[F&ormat:]
+F&ormat:
+[V&ariables...]
+V&ariablen....
+[Add to &Log only if Value Changed]
+Nur dem &Log hinzufügen, falls der Wert sich ändert
+[Show &Popup Window]
+&Popupfenster anzeigen
+[Show Popup Window Only if Value &Changed]
+Popupfenster nur anzeigen, falls der Wert sich ändert
+[Cancel]
+Abbrechen
+[Popup settings...]
+Popup-Einstellungen...
+[Currency Converter]
+Währungsumrechner
+[&to:]
+zu:
+[&Swap]
+Tau&sche
+[Convert]
+Umrechnen
+[Info provided by <a href="http://www.google.com">Google</a>]
+Info bereitgestellt durch <a href="http://www.google.com">Google</a>
+[Close]
+Schließen
+[Popup Window Settings]
+Popup-Fenstereinstellungen
+[Colors]
+Farben
+[Use default colors]
+Standardfarben verwenden
+[Use user-defined colors]
+Benutzerdefinierte Farben verwenden
+[Background color]
+Hintergrundfarbe
+[Text color]
+Textfarbe
+[Delay]
+Verzögerung
+[From popup plugin]
+Vom Popup-Plugin
+[Custom]
+Benutzerdef.
+[Permanent]
+Dauerhaft
+[Do not add to popup's history]
+Nicht zum Popup-Verlauf hinzufügen
+[Preview]
+Vorschau
+[Current Rate:]
+Aktuelle Rate:
+[Rate Fetch Time:]
+Abrufzeit der Rate:
+[Previous Rate:]
+Vorherige Rate:
+[&Convert:]
+&Umrechnen:
+[&Add]
+Hinzufügen
+[&Watched currency rates:]
+Beobachtete &Währungsraten:
+[&Remove]
+Entfe&rnen
+[&Refresh Rates Every:]
+&Raten aktualisieren alle:
+[&Display in Contact List as:]
+In &Kontaktliste anzeigen als:
+[&Status Message:]
+&Statusnachricht:
+[&Tendency:]
+&Tendenz:
+[&Advanced Settings...]
+Erweiterte &Einstellungen...
+[Rate Info]
+Rate Info
+;file \plugins\CurrencyRates\src\Chart.h
+[There is nothing to show]
+Es ist nichts anzuzeigen
+;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+[Seconds]
+Sekunden
+[Minutes]
+Minuten
+[Hours]
+Stunden
+[Enter integer value between 1 and 60.]
+Geben Sie einen ganzzahligen Wert zwischen 1 und 60 ein.
+[Enter integer value between 1 and 24.]
+Geben Sie einen ganzzahligen Wert zwischen 1 und 24 ein.
+[Enter text to display in contact list.]
+Geben sie einen Text für die Kontaktliste ein.
+;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+[Info provided by]
+Informationen bereitgestellt von
+[Enter positive number.]
+Geben Sie eine positive Zahl ein.
+;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+[Currency Rate]
+
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+Fehler während des HTML-Parsens.
+[Error occurred during site access.]
+Fehler während des Seitenzugriffs.
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
+[Currency Symbol]
+
+[Currency Name]
+
+[Source of Information]
+Quelle der Information
+[Rate Value]
+Ratenwerte
+[Previous Rate Value]
+Vorheriger Ratenwert
+[Fetch Time]
+Abrufszeit
+[Fetch Date]
+Abrufsdatum
+[Fetch Time and Date]
+Abrufszeit und -datum
+[Percentage Character (%)]
+Prozentzeichen (%)
+[Tabulation]
+Tabulator
+[Left slash (\\)]
+Linker Schrägstrich (\\)
+[Open Price]
+Offener Preis
+[Percent Change to After Hours]
+Prozentuale Änderung nach Stunden
+[Percent Change to Yesterday Close]
+Prozentuale Änderung nach gestrigem Schluss
+[Day's High]
+Tageshoch
+[Day's Low]
+Tagestief
+[Previous Close]
+Vorheriger Schluss
+[Change]
+Änderung
+[From Currency Full Name]
+Voller Name der Ausgangswährung
+[From Currency Short Name]
+Kurzer Name der Ausgangswährung
+[Into Currency Full Name]
+Voller Name der Zielwährung
+[Into Currency Short Name]
+Kurzer Name der Zielwährung
+[Short notation for "%f/%i"]
+Kurze Notation für "%f/%i"
+;file \plugins\CurrencyRates\src\Forex.cpp
+[Auto Update Enabled]
+Autom. Aktualisierung aktiviert
+[Auto Update Disabled]
+Autom. Aktualisierung deaktiviert
+[Currency Rates]
+Wechselraten
+[Enable/Disable Auto Update]
+Auto-Update de-/aktivieren
+[Refresh All Rates]
+Alle Raten aktualisieren
+[Currency Converter...]
+Währungsumrechner...
+[Export All Currency Rates]
+
+[Import All Currency Rates]
+
+[Refresh]
+Aktualisieren
+[Open Log File...]
+Logdatei öffnen...
+[Chart...]
+Chart...
+[Edit Settings...]
+Einstellungen bearbeiten...
+[Enable/Disable Currency Rates Auto Update]
+
+[Currency Rates Auto Update Enabled]
+
+[Currency Rates Auto Update Disabled]
+
+[Network]
+Netzwerk
+;file \plugins\CurrencyRates\src\HTTPSession.cpp
+[CurrencyRates HTTP connections]
+Currency-Rates-HTTP-Verbindungen
+;file \plugins\CurrencyRates\src\IconLib.cpp
+[Protocol icon]
+Protokollicon
+[Currency Rate up]
+
+[Currency Rate down]
+
+[Currency Rate not changed]
+
+[Currency Rate Section]
+
+[Export]
+Exportieren
+[Swap button]
+Buttons vertauschen
+[Import]
+Importieren
+;file \plugins\CurrencyRates\src\ImportExport.cpp
+[XML File (*.xml)]
+XML-Datei (*.xml)
+[All files (*.*)]
+Alle Dateien (*.*)
+;file \plugins\CurrencyRates\src\ModuleInfo.cpp
+[Miranda could not load CurrencyRates plugin. XML parser is missing.]
+Miranda NG konnte das CurrencyRates-Plugin nicht laden. Der XML-Parser fehlt.
+[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
+Miranda NG konnte das CurrencyRates-Plugin nicht laden. Der Microsoft-HTML-Parser fehlt.
+;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Logdateien (*.txt,*.log)
+[Enter integer value]
+Ganzzahligen Wert eingeben
+[Enter log file name.]
+Namen der Logdatei eingeben.
+[Enter log file format.]
+Format der Logdatei eingeben.
+[Enter history format.]
+Verlaufsformat eingeben.
+[Enter popup window format.]
+Pupupfensterformat eingeben.

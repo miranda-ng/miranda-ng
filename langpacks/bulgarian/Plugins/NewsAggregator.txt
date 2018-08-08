@@ -160,5 +160,5 @@ URL адрес на страницата за коментари към нови
 [Enable/disable auto update]
 Вкл / Изкл на автоматично обновяване
 ;file \plugins\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connection]
+[NewsAggregator HTTP connections]
 HTTP връзки на NewsAggregator

@@ -1,0 +1,262 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.1.0.101
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates.]
+Umożliwia monitorowanie zmian kursów walutowych.
+;file \plugins\CurrencyRates\res\Forex.rc
+[Variable List]
+Lista zmiennych
+[Edit Settings]
+Edytuj ustawienia
+[Use contact specific settings]
+Użyj specyficznych ustawień kontaktu
+[Log]
+Dziennik
+[Use &Internal History]
+Użyj &wewnętrznej historii
+[&Format:]
+&Format:
+[&Variables...]
+&Zmienne...
+[&Add to History only if Value Changed]
+&Dodaj do historii tylko, jeśli wartość się zmieniła
+[Use &External File]
+Użyj pliku &zewnętrznego
+[&Select File:]
+&Zaznacz plik:
+[&Browse...]
+&Przeglądaj...
+[Variables Allowed: %miranda_userdata%,%currencyratename%]
+Dozwolone zmienne: %miranda_userdata%, %currencyratename%
+[F&ormat:]
+F&ormat
+[V&ariables...]
+Z&mienne...
+[Add to &Log only if Value Changed]
+Dodaj do &dziennika tylko, jeśli wartość się zmieniła
+[Show &Popup Window]
+Pokaż okno &popup
+[Show Popup Window Only if Value &Changed]
+Pokaż popup tylko, jeśli wartość się &zmieniła
+[Cancel]
+Anuluj
+[Popup settings...]
+Ustawienia popup...
+[Currency Converter]
+Przelicznik walut
+[&to:]
+&do:
+[&Swap]
+&Zamień
+[Convert]
+Konwertuj
+[Info provided by <a href="http://www.google.com">Google</a>]
+Informacje dostarczone przez <a href="http://www.google.com">Google</a>
+[Close]
+Zamknij
+[Popup Window Settings]
+Ustawienia popupa
+[Colors]
+Kolory
+[Use default colors]
+Użyj domyślnych kolorów
+[Use user-defined colors]
+Użyj kolorów zdefiniowanych przez użytkownika
+[Background color]
+Kolor tła
+[Text color]
+Kolor tekstu
+[Delay]
+Wyświetlaj
+[From popup plugin]
+Z wtyczki popup
+[Custom]
+Niestandardowe
+[Permanent]
+Stałe
+[Do not add to popup's history]
+Nie dodawaj popupów do historii
+[Preview]
+Podgląd
+[Current Rate:]
+Aktualna ocena:
+[Rate Fetch Time:]
+Czas pobierania wskaźnika:
+[Previous Rate:]
+Poprzedni wskaźnik:
+[&Convert:]
+&Konwertuj:
+[&Add]
+&Dodaj
+[&Watched currency rates:]
+&Obserwowane wskaźniki walutowe:
+[&Remove]
+&Usuń
+[&Refresh Rates Every:]
+&Odświeżaj wskaźniki co:
+[&Display in Contact List as:]
+&Wyświetlaj na liście jako:
+[&Status Message:]
+&Opis:
+[&Tendency:]
+&Tendencja:
+[&Advanced Settings...]
+&Zaawansowane ustawienia...
+[Rate Info]
+
+;file \plugins\CurrencyRates\src\Chart.h
+[There is nothing to show]
+Nie ma co pokazać
+;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+[Seconds]
+Sekund
+[Minutes]
+Minut
+[Hours]
+Godzin
+[Enter integer value between 1 and 60.]
+Wprowadź wartość liczbową pomiędzy 1, a 60.
+[Enter integer value between 1 and 24.]
+Wprowadź wartość liczbową pomiędzy 1, a 24.
+[Enter text to display in contact list.]
+Wprowadź tekst do wyświetlenia na liście kontaktów.
+;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+[Info provided by]
+Informacje dostarczone przez
+[Enter positive number.]
+Wprowadź liczbę dodatnią.
+;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+[Currency Rate]
+
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+Wystąpił błąd podczas przetwarzania HTML.
+[Error occurred during site access.]
+Wystąpił błąd podczas uzyskiwania dostępu do strony.
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
+[Currency Symbol]
+
+[Currency Name]
+
+[Source of Information]
+Źródło informacji
+[Rate Value]
+Wartość wskaźnika
+[Previous Rate Value]
+Poprzednia wartość wskaźnika
+[Fetch Time]
+Czas pobrania
+[Fetch Date]
+Data pobrania
+[Fetch Time and Date]
+Data i czas pobrania
+[Percentage Character (%)]
+Znak procenta (%)
+[Tabulation]
+Tabulacja
+[Left slash (\\)]
+Lewy ukośnik (\\)
+[Open Price]
+Cena otwarta
+[Percent Change to After Hours]
+Zmiana procentowa na po godzinach
+[Percent Change to Yesterday Close]
+Zmiana procentowa w stosunku do wczorajszego zamknięcia
+[Day's High]
+Najwyższa wartość dzienna
+[Day's Low]
+Najniższa wartość dzienna
+[Previous Close]
+Poprzednie zamknięcie
+[Change]
+Zmień
+[From Currency Full Name]
+Z waluty pełna nazwa
+[From Currency Short Name]
+Z waluty skrót
+[Into Currency Full Name]
+Na walutę pełna nazwa
+[Into Currency Short Name]
+Na walutę skrót
+[Short notation for "%f/%i"]
+Skrócona notacja dla "%f/%i"
+;file \plugins\CurrencyRates\src\Forex.cpp
+[Auto Update Enabled]
+Auto-aktualizacja włączona
+[Auto Update Disabled]
+Auto-aktualizacja wyłączona
+[Currency Rates]
+
+[Enable/Disable Auto Update]
+Włącz/Wyłącz autoaktualizację
+[Refresh All Rates]
+
+[Currency Converter...]
+Przelicznik walut...
+[Export All Currency Rates]
+
+[Import All Currency Rates]
+
+[Refresh]
+Odśwież
+[Open Log File...]
+Otwórz plik dziennika...
+[Chart...]
+Notowanie...
+[Edit Settings...]
+Edytuj ustawienia...
+[Enable/Disable Currency Rates Auto Update]
+
+[Currency Rates Auto Update Enabled]
+
+[Currency Rates Auto Update Disabled]
+
+[Network]
+Protokoły
+;file \plugins\CurrencyRates\src\HTTPSession.cpp
+[CurrencyRates HTTP connections]
+Połączenie HTTP CurrencyRates
+;file \plugins\CurrencyRates\src\IconLib.cpp
+[Protocol icon]
+Ikona protokołu
+[Currency Rate up]
+
+[Currency Rate down]
+
+[Currency Rate not changed]
+
+[Currency Rate Section]
+
+[Export]
+Eksportuj
+[Swap button]
+Przycisk zamiany
+[Import]
+Importuj
+;file \plugins\CurrencyRates\src\ImportExport.cpp
+[XML File (*.xml)]
+Plik XML (*.xml)
+[All files (*.*)]
+Wszystkie pliki (*.*)
+;file \plugins\CurrencyRates\src\ModuleInfo.cpp
+[Miranda could not load CurrencyRates plugin. XML parser is missing.]
+Miranda nie mogła załadować wtyczki CurrencyRates. Brak parsera XML.
+[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
+Miranda nie mogła załadować wtyczki CurrencyRates. Brak parsera Microsoft HTML.
+;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Pliki logu (*.txt, *.log)
+[Enter integer value]
+Wprowadź wartość liczbową
+[Enter log file name.]
+Wpisz nazwę pliku dziennika.
+[Enter log file format.]
+Wpisz format pliku dziennika.
+[Enter history format.]
+Wprowadź format historii.
+[Enter popup window format.]
+Wprowadź format popupa.

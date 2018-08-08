@@ -123,7 +123,7 @@ Chyba
 [Paste from file]
 
 [Paste It HTTP connections]
-
+Paste It - spojení pomocí protokolu HTTP
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 

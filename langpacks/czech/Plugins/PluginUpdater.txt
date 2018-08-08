@@ -193,7 +193,7 @@ Aktualizace selhala
 [Plugin info]
 Informace
 [Plugin Updater HTTP connections]
-HTTP spojení pro aktualizátor
+Plugin Updater - spojení pomocí protokolu HTTP
 [An error occurred while checking for new updates.]
 Nastala chyba při zjišťování aktualizací.
 ;file \plugins\PluginUpdater\src\Compat\compat.h

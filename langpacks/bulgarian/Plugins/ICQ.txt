@@ -1833,8 +1833,8 @@ ICQ фаталност
 <неуточнено>
 [Member since:]
 Член от:
-[%s Details]
-Подробности в %s
+[Details]
+Подробности
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <невалидно>

@@ -621,4 +621,4 @@
 [ (DC Established)]
 [ScreenName:]
 [Member since:]
-[%s Details]
+[Details]

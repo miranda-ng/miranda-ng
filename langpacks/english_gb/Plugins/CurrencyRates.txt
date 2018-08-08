@@ -1,0 +1,17 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.1.0.101
+;  Authors: Dioksin
+;============================================================
+[Colors]
+Colours
+[Use default colors]
+Use default colours
+[Use user-defined colors]
+Use user-defined colours
+[Background color]
+Background colour
+[Text color]
+Text colour

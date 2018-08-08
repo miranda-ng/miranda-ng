@@ -724,10 +724,10 @@ Mаксимална ширина за лента с бутони
 Файл
 [Save message log as...]
 Запис на дневника за съобщения като...
-[Close message session\tCtrl-W]
-Затваряне на разговора\tCtrl-W
-[Close container\tAlt-F4]
-Затваряне на контейнера\tAlt-F4
+[Close message session\tCtrl+W]
+Затваряне на разговора\tCtrl+W
+[Close container\tAlt+F4]
+Затваряне на контейнера\tAlt+F4
 [&View]
 Изглед
 [Show menu bar]
@@ -1469,7 +1469,7 @@ UID: %s (Shift+Ляв бутон = копиране в клипборда)\nЛя
 Няма UID
 [UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редактирате бележките за потребителя.\nЗа запаметяване на промените и връщане към нормалния режим\nза писане/изпращане на съобщения натиснете отново бутона\nили клавишната комбинация, обикновено: Alt+N
 [Selection copied to clipboard]
 Маркираното бе копирано в клипборда
@@ -2012,7 +2012,7 @@ TabSRMM съобщение (%s)
 Важни бележки за изданието|Съобщение за тест
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редактиране на бележки за потребител|Редактирате бележките за потребителя. За запаметяване на промените и връщане към нормалния режим за писане/изпращане на съобщения натиснете отново бутона или клавишната комбинация, обикновено: Alt+N
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 

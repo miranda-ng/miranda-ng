@@ -60,7 +60,6 @@
 [Additional]
 [Miranda NG (Message Export Plugin)]
 [No_Group]
-[Database: Attempt to get wrong type of value, string]
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 [\nError: ]

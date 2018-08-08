@@ -1,4 +1,7 @@
 [Use MMI]
+[NOP]
+[BREAK]
+[JUMP]
 [will never return the user's custom name]
 [will return Unicode instead of AnsiChar]
 [will not use the cache]

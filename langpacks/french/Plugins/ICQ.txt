@@ -1833,8 +1833,8 @@ Nom affiché :
 <non spécifié>
 [Member since:]
 Inscrit depuis :
-[%s Details]
-%s détails
+[Details]
+Détails
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <invalide>

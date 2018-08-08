@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.3
+;  Version: 0.4.0.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -398,7 +398,7 @@ INI файл погоды для этой станции не найден (20)
 Ошибка при получении данных: %s
 ;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
-HTTP подключение Weather
+HTTP-подключения Weather
 ;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
 Значок протокола

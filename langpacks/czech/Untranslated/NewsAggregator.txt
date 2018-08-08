@@ -20,4 +20,3 @@
 [Enter Feed name]
 [Enter message format]
 [Contact deleting]
-[NewsAggregator HTTP connection]

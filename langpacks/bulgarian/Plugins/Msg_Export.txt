@@ -165,8 +165,6 @@ Miranda NG (приставка Message Export)
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 Без–Група
-[Database: Attempt to get wrong type of value, string]
-
 [(Unknown Contact)]
 (Непознат контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]

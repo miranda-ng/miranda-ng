@@ -193,7 +193,7 @@ Montrer la liste complète des plugins
 [Plugin info]
 Informations sur le plugin
 [Plugin Updater HTTP connections]
-
+Connexions HTTP de Plugin Updater
 [An error occurred while checking for new updates.]
 Une erreur est survenue lors de la vérification des mises à jour.
 ;file \plugins\PluginUpdater\src\Compat\compat.h

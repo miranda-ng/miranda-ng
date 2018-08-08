@@ -11,7 +11,6 @@
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 [Clear pack updates folder]
-[Pack Updater HTTP connection]
 [URL for checking updates not found.]
 [Name of Update's file is not supported.]
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]

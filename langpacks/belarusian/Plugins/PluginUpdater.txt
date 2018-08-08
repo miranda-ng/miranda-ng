@@ -193,7 +193,7 @@
 [Plugin info]
 Пра плагін
 [Plugin Updater HTTP connections]
-HTTP падлучэння Plugin Updater
+HTTP далучэнне Plugin Updater
 [An error occurred while checking for new updates.]
 Пры праверцы абнаўленняў адбылася памылка.
 ;file \plugins\PluginUpdater\src\Compat\compat.h

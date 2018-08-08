@@ -289,6 +289,8 @@ Autosend
 Sprung
 [Condition]
 Bedingung
+[NOP]
+
 [Math]
 Mathe
 [> greater]
@@ -317,6 +319,10 @@ endet mit
 Nicht
 [Operation]
 Vorgang
+[BREAK]
+Abbruch
+[JUMP]
+Sprung
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
 [Process script after]

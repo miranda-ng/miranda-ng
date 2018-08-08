@@ -1833,8 +1833,8 @@ ScreenName:
 <nicht angegeben>
 [Member since:]
 Mitglied seit:
-[%s Details]
-%s Details
+[Details]
+Details
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <ungültig>

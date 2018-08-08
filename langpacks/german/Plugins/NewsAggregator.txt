@@ -160,5 +160,5 @@ Avatare
 [Enable/disable auto update]
 Auto-Update de-/aktivieren
 ;file \plugins\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connection]
+[NewsAggregator HTTP connections]
 News-Aggregator-HTTP-Verbindung

@@ -70,4 +70,4 @@
 [Network]
 [Avatars]
 [Enable/disable auto update]
-[NewsAggregator HTTP connection]
+[NewsAggregator HTTP connections]

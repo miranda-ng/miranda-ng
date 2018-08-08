@@ -724,9 +724,9 @@ isključen
 
 [Save message log as...]
 
-[Close message session\tCtrl-W]
+[Close message session\tCtrl+W]
 
-[Close container\tAlt-F4]
+[Close container\tAlt+F4]
 
 [&View]
 
@@ -1469,7 +1469,7 @@ drugo
 
 [UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 
 [Selection copied to clipboard]
 
@@ -2012,7 +2012,7 @@ ikona područja obavijesti
 
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 

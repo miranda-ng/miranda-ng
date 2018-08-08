@@ -104,4 +104,4 @@ Copier l'URL vers le presse-papier
 [Cannot upload Version Info. Host unreachable.]
 
 [Crash Dumper HTTP connections]
-
+Connexions HTTP de Crash Dumper

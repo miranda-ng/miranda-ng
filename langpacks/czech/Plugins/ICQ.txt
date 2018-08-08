@@ -1833,8 +1833,8 @@ Jméno:
 <neurčeno>
 [Member since:]
 Účet založen:
-[%s Details]
-%s Informace
+[Details]
+Informace
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <neplatný>

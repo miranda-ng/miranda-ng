@@ -342,7 +342,7 @@ Dat (мКантакты)
 [Event already exists]
 Падзея ўжо існуе
 [Browse WinSCP file]
-Абярыце файл Win-SCP
+Абярыце файл WinSCP
 [Save WinSCP log file]
 Захаваць файл гісторыі WinSCP
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]

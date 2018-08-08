@@ -10,7 +10,6 @@
 [Failed to Allocate buffer space]
 [Miranda NG (Message Export Plugin)]
 [No_Group]
-[Database: Attempt to get wrong type of value, string]
 [Failed to UTF8 byte order code to file :\n]
 [      History for\r\n]
 [User      : %User%\r\n]

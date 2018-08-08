@@ -724,10 +724,10 @@ Skopiuj wiadomość do schowka
 &Plik
 [Save message log as...]
 Zapisz dziennik wiadomości jako...
-[Close message session\tCtrl-W]
-Zamknij sesję rozmowy\tctrl+w
-[Close container\tAlt-F4]
-Zamknij kontener\talt+f4
+[Close message session\tCtrl+W]
+Zamknij sesję rozmowy\tCtrl+W
+[Close container\tAlt+F4]
+Zamknij kontener\tAlt+F4
 [&View]
 &Widok
 [Show menu bar]
@@ -1469,8 +1469,8 @@ UID: %s (kliknięcie Shift -> kopiuj do schowka)\nKliknij, by pokazać dane uży
 Brak UID
 [UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (kliknięcie Shift -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by zmienić status tego kontaktu jako ulubionego.
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-Edytujesz notatki o użytkowniku. Użyj przycisku ponownie lub naciśnij skrót klawiszowy (domyślnie: alt+n), aby zapisać notatki i powrócić do normalnego trybu wiadomości
+[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
+Edytujesz notatki o użytkowniku. Użyj przycisku ponownie lub naciśnij skrót klawiszowy (domyślnie: Alt+N), aby zapisać notatki i powrócić do normalnego trybu wiadomości
 [Selection copied to clipboard]
 Zaznaczenie skopiowano do schowka
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -2012,8 +2012,8 @@ Wiadomość TabSRMM (%s)
 Ważne informacje o wydaniu|Ostrzeżenie testowe
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 Sprawdzanie wersji ikon|Zainstalowane ikony nie są aktualne i mogą być niekompatybilne z TabSRMM w wersji 3.\n\n\\b1Możliwe problemy z obecnie zainstalowanymi ikonami, to brakujące lub źle przyporządkowane ikony\\b0
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-Edycja notatek kontaktu|Kliknij przycisk ponownie lub użyj skrótu klawiszowego (domyślnie: Alt-N) aby zapisać informacje i powrócić do normalnego trybu wiadomości.
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
+Edycja notatek kontaktu|Kliknij przycisk ponownie lub użyj skrótu klawiszowego (domyślnie: Alt+N) aby zapisać informacje i powrócić do normalnego trybu wiadomości.
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Brakujący komponent|Brakuje ikon. Zainstaluj je w domyślnym folderze ikon.\n\nŻadne ikony nie będą dostępne.
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]

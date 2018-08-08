@@ -160,5 +160,5 @@ Awatary
 [Enable/disable auto update]
 Włącz/Wyłącz autoaktualizacje
 ;file \plugins\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connection]
+[NewsAggregator HTTP connections]
 Połączenie HTTP NewsAggregator

@@ -1,0 +1,262 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.1.0.101
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates.]
+Дозволяє спостерігати за змінами курсів валют.
+;file \plugins\CurrencyRates\res\Forex.rc
+[Variable List]
+Змінні
+[Edit Settings]
+Редагувати
+[Use contact specific settings]
+Власні налаштування контакту
+[Log]
+Журнал
+[Use &Internal History]
+Використовувати внутрішню історію
+[&Format:]
+&Формат:
+[&Variables...]
+&Змінні...
+[&Add to History only if Value Changed]
+&Додавати в історію тільки якщо змінилося значення
+[Use &External File]
+Використовувати &зовнішній файл
+[&Select File:]
+&Шлях до файлу:
+[&Browse...]
+&Огляд...
+[Variables Allowed: %miranda_userdata%,%currencyratename%]
+Підтримуються змінні: %miranda_userdata%,%currencyratename%
+[F&ormat:]
+Ф&ормат:
+[V&ariables...]
+З&мінні...
+[Add to &Log only if Value Changed]
+Додавати файл тільки якщо змінилося значення
+[Show &Popup Window]
+Показувати &спливаюче вікно
+[Show Popup Window Only if Value &Changed]
+Показувати спливаюче вікно тільки якщо змінилося значення
+[Cancel]
+Скасувати
+[Popup settings...]
+Налаштування сплив. вікон...
+[Currency Converter]
+Конвертер валют
+[&to:]
+&у:
+[&Swap]
+&Обміняти
+[Convert]
+Конвертувати
+[Info provided by <a href="http://www.google.com">Google</a>]
+Інформація надана <a href="http://www.google.com">Google</a>
+[Close]
+Закрити
+[Popup Window Settings]
+Налаштування спливаючих вікон
+[Colors]
+Кольори
+[Use default colors]
+За замовчанням
+[Use user-defined colors]
+Вказати кольори
+[Background color]
+Колір фону
+[Text color]
+Колір тексту
+[Delay]
+Затримка
+[From popup plugin]
+З плагіна сплив. вікон
+[Custom]
+Налаштувати
+[Permanent]
+Постійно
+[Do not add to popup's history]
+Не додавати в історію сплив. вікон
+[Preview]
+Тест
+[Current Rate:]
+Поточне значення:
+[Rate Fetch Time:]
+Час оновлення:
+[Previous Rate:]
+Попереднє значення:
+[&Convert:]
+З:
+[&Add]
+&Додати
+[&Watched currency rates:]
+&Відслідковані курси валют:
+[&Remove]
+&Очистити
+[&Refresh Rates Every:]
+&Оновлювати курси кожні:
+[&Display in Contact List as:]
+&Показувати в списку як:
+[&Status Message:]
+&Повідомлення статусу:
+[&Tendency:]
+&Тенденція:
+[&Advanced Settings...]
+&Додаткові параметри...
+[Rate Info]
+Інформація про курс валют
+;file \plugins\CurrencyRates\src\Chart.h
+[There is nothing to show]
+Немає даних для показу
+;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+[Seconds]
+секунд
+[Minutes]
+хвилин
+[Hours]
+годин
+[Enter integer value between 1 and 60.]
+Введіть ціле число від 1 до 60.
+[Enter integer value between 1 and 24.]
+Введіть ціле число від 1 до 24.
+[Enter text to display in contact list.]
+
+;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+[Info provided by]
+Інформація надана
+[Enter positive number.]
+Додатнє число.
+;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+[Currency Rate]
+Курс валюти
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+Помилка під час аналізу html.
+[Error occurred during site access.]
+Помилка при доступі до сайту.
+;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
+[Currency Symbol]
+Символ валюти
+[Currency Name]
+Назва валюти
+[Source of Information]
+Джерело інформації
+[Rate Value]
+Поточне значення котування/курсу
+[Previous Rate Value]
+Попереднє значення котування/курсу
+[Fetch Time]
+Час оновлення
+[Fetch Date]
+Дата поновлення
+[Fetch Time and Date]
+Дата і час оновлення
+[Percentage Character (%)]
+Символ %
+[Tabulation]
+Табуляція
+[Left slash (\\)]
+Символ \\
+[Open Price]
+Ціна на відкриття
+[Percent Change to After Hours]
+Відсоток змін за останній час
+[Percent Change to Yesterday Close]
+Відсоток змін з учорашнього закриття
+[Day's High]
+Максимальне значення за день
+[Day's Low]
+Мінімальне значення за день
+[Previous Close]
+Значення на попереднє закриття
+[Change]
+Зміна
+[From Currency Full Name]
+Повна назва вихідної валюти
+[From Currency Short Name]
+Коротка назва вихідної валюти
+[Into Currency Full Name]
+Повна назва цільової валюти
+[Into Currency Short Name]
+Коротка назва цільової валюти
+[Short notation for "%f/%i"]
+Коротке позначення "%f/%i"
+;file \plugins\CurrencyRates\src\Forex.cpp
+[Auto Update Enabled]
+Автооновлення увімкнено
+[Auto Update Disabled]
+Автооновлення вимкнено
+[Currency Rates]
+Курси валют
+[Enable/Disable Auto Update]
+Увімк./вимк. автооновлення
+[Refresh All Rates]
+Оновити всі курси валют
+[Currency Converter...]
+Конвертер валют...
+[Export All Currency Rates]
+
+[Import All Currency Rates]
+
+[Refresh]
+Оновити
+[Open Log File...]
+Відкрити файл історії...
+[Chart...]
+Діаграма...
+[Edit Settings...]
+Налаштування...
+[Enable/Disable Currency Rates Auto Update]
+
+[Currency Rates Auto Update Enabled]
+
+[Currency Rates Auto Update Disabled]
+
+[Network]
+Мережа
+;file \plugins\CurrencyRates\src\HTTPSession.cpp
+[CurrencyRates HTTP connections]
+HTTP-з'єднання CurrencyRates
+;file \plugins\CurrencyRates\src\IconLib.cpp
+[Protocol icon]
+Значок протоколу
+[Currency Rate up]
+Значення зросло
+[Currency Rate down]
+Значення впало
+[Currency Rate not changed]
+Значення не змінилося
+[Currency Rate Section]
+
+[Export]
+Експорт
+[Swap button]
+Поміняти місцями
+[Import]
+Імпорт
+;file \plugins\CurrencyRates\src\ImportExport.cpp
+[XML File (*.xml)]
+Файл XML (*.xml)
+[All files (*.*)]
+Усі файли (*.*)
+;file \plugins\CurrencyRates\src\ModuleInfo.cpp
+[Miranda could not load CurrencyRates plugin. XML parser is missing.]
+Не вдалося завантажити плагін CurrencyRates. Відсутній парсер XML.
+[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
+Не вдалося завантажити плагін CurrencyRates. Відсутній парсер Microsoft HTML.
+;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Журнали (*.txt,*.log)
+[Enter integer value]
+
+[Enter log file name.]
+
+[Enter log file format.]
+
+[Enter history format.]
+
+[Enter popup window format.]
+

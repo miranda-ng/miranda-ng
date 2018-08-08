@@ -1833,8 +1833,8 @@ xСтатус ICQ
 <не указано>
 [Member since:]
 Участник с:
-[%s Details]
-%s Детали
+[Details]
+Подробности
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <неверно>

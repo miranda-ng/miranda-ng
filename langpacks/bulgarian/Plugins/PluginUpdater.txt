@@ -193,7 +193,7 @@ Plugin Updater
 [Plugin info]
 Инф. за приставката
 [Plugin Updater HTTP connections]
-HTTP връзки на приставката Plugin Updater
+HTTP връзки на Plugin Updater
 [An error occurred while checking for new updates.]
 Възникна грешка при проверката за актуализации.
 ;file \plugins\PluginUpdater\src\Compat\compat.h
