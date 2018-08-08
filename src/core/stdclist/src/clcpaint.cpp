@@ -230,7 +230,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			int iImage = -1;
 			int selected = index == dat->selection && (dat->bShowSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || GetFocus() == hwnd) && cc->type != CLCIT_DIVIDER;
 			int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && cc->type != CLCIT_DIVIDER && dat->iHotTrack == index;
-			SIZE textSize, countsSize, spaceSize;
+			SIZE textSize, countsSize = {}, spaceSize = {};
 			int width, checkboxWidth;
 
 			// alternating grey
