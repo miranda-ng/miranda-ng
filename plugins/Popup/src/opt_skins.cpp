@@ -488,6 +488,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					db_set_b(NULL, MODULENAME, "DropShadow", PopupOptions.DropShadow);
 					db_set_b(NULL, MODULENAME, "EnableShadowRegion", PopupOptions.EnableFreeformShadows);
 					db_set_b(NULL, MODULENAME, "EnableAeroGlass", PopupOptions.EnableAeroGlass);
+					db_set_b(NULL, MODULENAME, "UseWinColors", PopupOptions.UseWinColors);
 					db_set_b(NULL, MODULENAME, "UseMText", PopupOptions.UseMText);
 				}// end PSN_APPLY:
 				return TRUE;
