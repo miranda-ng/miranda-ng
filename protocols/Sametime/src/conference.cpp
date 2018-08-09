@@ -456,7 +456,7 @@ void CSametimeProto::InitConferenceMenu()
 	mi.name.w = LPGENW("Start conference");
 	mi.pszService = MS_SAMETIME_MENUCREATECHAT;
 	mi.hIcolibItem = GetIconHandle(IDI_ICON_INVITE);
-	hCreateChatMenuItem = Menu_AddContactMenuItem(&mi);
+	hCreateChatMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSametimeProto::PrebuildContactMenu);
 }
