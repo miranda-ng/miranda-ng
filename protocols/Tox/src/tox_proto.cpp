@@ -2,8 +2,9 @@
 
 CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CToxProto>(protoName, userName),
-	m_toxThread(nullptr), isTerminated(false),
-	hCheckingThread(nullptr), hPollingThread(nullptr),
+	m_toxThread(nullptr),
+	hCheckingThread(nullptr),
+	hPollingThread(nullptr),
 	hMessageProcess(1)
 {
 	InitNetlib();
@@ -163,16 +164,19 @@ int CToxProto::SetStatus(int iNewStatus)
 
 	// logout
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		isTerminated = true;
-		SetEvent(hTerminateEvent);
+		if (m_toxThread != nullptr) {
+			m_toxThread->Terminate();
+			SetEvent(hTerminateEvent);
+		}
 
-		if (!Miranda_IsTerminated())
+		if (!Miranda_IsTerminated()) {
 			setAllContactStatuses(ID_STATUS_OFFLINE);
 
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		UpdateStatusMenu(NULL, NULL);
+			UpdateStatusMenu(NULL, NULL);
+		}
 
 		return 0;
 	}
@@ -182,7 +186,6 @@ int CToxProto::SetStatus(int iNewStatus)
 
 	// login
 	if (old_status == ID_STATUS_OFFLINE && !IsOnline()) {
-		isTerminated = false;
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 

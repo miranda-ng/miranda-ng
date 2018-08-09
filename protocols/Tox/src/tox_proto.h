@@ -68,7 +68,6 @@ private:
 	CTransferList transfers;
 	ULONG hMessageProcess;
 
-	bool isTerminated;
 	HANDLE hConnectingThread;
 	HANDLE hCheckingThread;
 	HANDLE hPollingThread;

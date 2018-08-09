@@ -5,10 +5,11 @@ class CToxThread
 {
 private:
 	Tox *tox;
+	bool isTerminated;
 
 public:
 	CToxThread(Tox_Options *options, TOX_ERR_NEW *error = nullptr)
-		: tox(nullptr)
+		: tox(nullptr), isTerminated(false)
 	{
 		tox = tox_new(options, error);
 	}
@@ -26,6 +27,16 @@ public:
 	Tox* Tox()
 	{
 		return tox;
+	}
+
+	bool IsTerminated()
+	{
+		return isTerminated;
+	}
+
+	void Terminate()
+	{
+		isTerminated = true;
 	}
 };
 

@@ -61,13 +61,13 @@ void CToxProto::CheckingThread(void *arg)
 
 	debugLogA(__FUNCTION__": entering");
 
-	Tox *tox = (Tox*)arg;
+	CToxThread *thread = (CToxThread*)arg;
 	int retriesCount = getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
-	while (!isTerminated) {
+	while (!thread->IsTerminated()) {
 		if (m_iStatus < ID_STATUS_ONLINE)
-			TryConnect(tox);
+			TryConnect(thread->Tox());
 		else
-			CheckConnection(tox, retriesCount);
+			CheckConnection(thread->Tox(), retriesCount);
 
 		WaitForSingleObject(hTerminateEvent, TOX_CHECKING_INTERVAL);
 	}
@@ -106,9 +106,9 @@ void CToxProto::PollingThread(void*)
 	m_toxThread = &toxThread;
 	InitToxCore(toxThread.Tox());
 	BootstrapNodes(toxThread.Tox());
-	hCheckingThread = ForkThreadEx(&CToxProto::CheckingThread, toxThread.Tox(), nullptr);
+	hCheckingThread = ForkThreadEx(&CToxProto::CheckingThread, &toxThread, nullptr);
 
-	while (!isTerminated) {
+	while (!toxThread.IsTerminated()) {
 		tox_iterate(toxThread.Tox(), this);
 		uint32_t interval = tox_iteration_interval(toxThread.Tox());
 		interval = interval 
