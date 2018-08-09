@@ -8,8 +8,6 @@ void CSteamProto::OnModulesLoaded()
 	HookProtoEvent(ME_IDLE_CHANGED, &CSteamProto::OnIdleChanged);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSteamProto::OnPreCreateMessage);
 
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSteamProto::PrebuildContactMenu);
-
 	// Register custom db event
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;

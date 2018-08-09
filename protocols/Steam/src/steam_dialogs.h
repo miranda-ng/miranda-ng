@@ -79,7 +79,7 @@ private:
 	char m_captchaText[7];
 
 	uint8_t *m_captchaImage;
-	int m_captchaImageSize;
+	size_t m_captchaImageSize;
 
 	CCtrlEdit m_text;
 	CCtrlButton m_ok;
@@ -92,7 +92,7 @@ protected:
 	void OnOk(CCtrlButton*);
 
 public:
-	CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, int captchaImageSize);
+	CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, size_t captchaImageSize);
 	~CSteamCaptchaDialog();
 
 	const char *GetCaptchaText();

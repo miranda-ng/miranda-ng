@@ -118,7 +118,7 @@ const char* CSteamTwoFactorDialog::GetTwoFactorCode()
 
 /////////////////////////////////////////////////////////////////////////////////
 
-CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, int captchaImageSize)
+CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, size_t captchaImageSize)
 	: CSteamDlgBase(proto, IDD_CAPTCHA),
 	m_ok(this, IDOK), m_text(this, IDC_TEXT),
 	m_captchaImage(nullptr)
@@ -163,7 +163,7 @@ bool CSteamCaptchaDialog::OnClose()
 INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_PAINT) {
-		FIMEMORY *stream = FreeImage_OpenMemory(m_captchaImage, m_captchaImageSize);
+		FIMEMORY *stream = FreeImage_OpenMemory(m_captchaImage, (DWORD)m_captchaImageSize);
 		FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(stream, 0);
 		FIBITMAP *bitmap = FreeImage_LoadFromMemory(fif, stream, 0);
 		FreeImage_CloseMemory(stream);
