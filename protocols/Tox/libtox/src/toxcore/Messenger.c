@@ -505,7 +505,7 @@ int m_send_message_generic(Messenger *m, int32_t friendnumber, uint8_t type, con
     }
 
     if (length >= MAX_CRYPTO_DATA_SIZE) {
-        LOGGER_ERROR(m->log, "Message length %d is too large", friendnumber);
+        LOGGER_ERROR(m->log, "Message length %u is too large", length);
         return -2;
     }
 
@@ -840,11 +840,6 @@ static void set_friend_userstatus(const Messenger *m, int32_t friendnumber, uint
 static void set_friend_typing(const Messenger *m, int32_t friendnumber, uint8_t is_typing)
 {
     m->friendlist[friendnumber].is_typing = is_typing;
-}
-
-void m_callback_log(Messenger *m, logger_cb *function, void *context, void *userdata)
-{
-    logger_callback_log(m->log, function, context, userdata);
 }
 
 /* Set the function that will be executed when a friend request is received. */
@@ -1985,7 +1980,7 @@ Messenger *new_messenger(Messenger_Options *options, unsigned int *error)
         return nullptr;
     }
 
-    logger_callback_log(m->log, options->log_callback, m, options->log_user_data);
+    logger_callback_log(m->log, options->log_callback, options->log_context, options->log_user_data);
 
     unsigned int net_err = 0;
 
@@ -2631,10 +2626,11 @@ void do_messenger(Messenger *m, void *userdata)
 
         for (client = 0; client < LCLIENT_LIST; ++client) {
             const Client_data *cptr = dht_get_close_client(m->dht, client);
-            const IPPTsPng *assoc = nullptr;
-            uint32_t a;
+            const IPPTsPng *const assocs[] = { &cptr->assoc4, &cptr->assoc4, nullptr };
 
-            for (a = 0, assoc = &cptr->assoc4; a < 2; ++a, assoc = &cptr->assoc6) {
+            for (const IPPTsPng * const *it = assocs; *it; ++it) {
+                const IPPTsPng *const assoc = *it;
+
                 if (ip_isset(&assoc->ip_port.ip)) {
                     last_pinged = m->lastdump - assoc->last_pinged;
 
