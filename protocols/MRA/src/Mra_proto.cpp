@@ -1545,7 +1545,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 		break;
 
 	default:
-		_CrtDbgBreak();
+		debugLogA("Uknown packet type: %d", pmaHeader->msg);
 		break;
 	}
 	return true;
