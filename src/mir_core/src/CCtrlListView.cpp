@@ -34,27 +34,31 @@ BOOL CCtrlListView::OnNotify(int, NMHDR *pnmh)
 	TEventInfo evt = { this, pnmh };
 
 	switch (pnmh->code) {
-		case NM_CLICK:              OnClick(&evt);             return TRUE;
-		case NM_DBLCLK:             OnDoubleClick(&evt);       return TRUE;
-		case LVN_BEGINDRAG:         OnBeginDrag(&evt);         return TRUE;
-		case LVN_BEGINLABELEDIT:    OnBeginLabelEdit(&evt);    return TRUE;
-		case LVN_BEGINRDRAG:        OnBeginRDrag(&evt);        return TRUE;
-		case LVN_BEGINSCROLL:       OnBeginScroll(&evt);       return TRUE;
-		case LVN_COLUMNCLICK:       OnColumnClick(&evt);       return TRUE;
-		case LVN_DELETEALLITEMS:    OnDeleteAllItems(&evt);    return TRUE;
-		case LVN_DELETEITEM:        OnDeleteItem(&evt);        return TRUE;
-		case LVN_ENDLABELEDIT:      OnEndLabelEdit(&evt);      return TRUE;
-		case LVN_ENDSCROLL:         OnEndScroll(&evt);         return TRUE;
-		case LVN_GETDISPINFO:       OnGetDispInfo(&evt);       return TRUE;
-		case LVN_GETINFOTIP:        OnGetInfoTip(&evt);        return TRUE;
-		case LVN_HOTTRACK:          OnHotTrack(&evt);          return TRUE;
-		case LVN_INSERTITEM:        OnInsertItem(&evt);        return TRUE;
-		case LVN_ITEMACTIVATE:      OnItemActivate(&evt);      return TRUE;
-		case LVN_ITEMCHANGED:       OnItemChanged(&evt);       return TRUE;
-		case LVN_ITEMCHANGING:      OnItemChanging(&evt);      return TRUE;
-		case LVN_KEYDOWN:           OnKeyDown(&evt);           return TRUE;
-		case LVN_MARQUEEBEGIN:      OnMarqueeBegin(&evt);      return TRUE;
-		case LVN_SETDISPINFO:       OnSetDispInfo(&evt);       return TRUE;
+	case NM_CLICK:              OnClick(&evt);             return TRUE;
+	case NM_DBLCLK:             OnDoubleClick(&evt);       return TRUE;
+	case LVN_BEGINDRAG:         OnBeginDrag(&evt);         return TRUE;
+	case LVN_BEGINLABELEDIT:    OnBeginLabelEdit(&evt);    return TRUE;
+	case LVN_BEGINRDRAG:        OnBeginRDrag(&evt);        return TRUE;
+	case LVN_BEGINSCROLL:       OnBeginScroll(&evt);       return TRUE;
+	case LVN_COLUMNCLICK:       OnColumnClick(&evt);       return TRUE;
+	case LVN_DELETEALLITEMS:    OnDeleteAllItems(&evt);    return TRUE;
+	case LVN_DELETEITEM:        OnDeleteItem(&evt);        return TRUE;
+	case LVN_ENDLABELEDIT:      OnEndLabelEdit(&evt);      return TRUE;
+	case LVN_ENDSCROLL:         OnEndScroll(&evt);         return TRUE;
+	case LVN_GETDISPINFO:       OnGetDispInfo(&evt);       return TRUE;
+	case LVN_GETINFOTIP:        OnGetInfoTip(&evt);        return TRUE;
+	case LVN_HOTTRACK:          OnHotTrack(&evt);          return TRUE;
+	case LVN_INSERTITEM:        OnInsertItem(&evt);        return TRUE;
+	case LVN_ITEMACTIVATE:      OnItemActivate(&evt);      return TRUE;
+	case LVN_ITEMCHANGING:      OnItemChanging(&evt);      return TRUE;
+	case LVN_KEYDOWN:           OnKeyDown(&evt);           return TRUE;
+	case LVN_MARQUEEBEGIN:      OnMarqueeBegin(&evt);      return TRUE;
+	case LVN_SETDISPINFO:       OnSetDispInfo(&evt);       return TRUE;
+
+	case LVN_ITEMCHANGED:
+		NotifyChange();
+		OnItemChanged(&evt);
+		return TRUE;
 	}
 
 	return FALSE;
