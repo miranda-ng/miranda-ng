@@ -26,25 +26,25 @@ const wchar_t *pszDbPathError = L".";
 const wchar_t cBadCharReplace = '_';
 
 // sTimeFormat 
-tstring sTimeFormat;
+wstring sTimeFormat;
 
 // path from options dialog
-tstring sExportDir;
+wstring sExportDir;
 
 // The default filename. Used if no other file name is specifyed in DB.
-tstring sDefaultFile;
+wstring sDefaultFile;
 
 // path used then %dbpath% is used in export file path
-tstring sDBPath = pszDbPathError;
+wstring sDBPath = pszDbPathError;
 
 // path to miranda exe file used when to avoid relative paths
-tstring sMirandaPath = pszDbPathError;
+wstring sMirandaPath = pszDbPathError;
 
 // Used to store the width of the user name for a file.
 // if a file contains events from many users the one user name
 // may be shorter. so to make all event have the same first
 // column width this map contains the largest user name
-map<tstring, string::size_type, less<tstring> > clFileTo1ColWidth;
+map<wstring, string::size_type, less<wstring> > clFileTo1ColWidth;
 
 // default line width
 int nMaxLineWidth = 80;
@@ -96,35 +96,6 @@ bool bIsUtf8Header(BYTE * pucByteOrder)
 }
 
 /////////////////////////////////////////////////////////////////////
-// Member Function : ShowDebugInfo
-// Type            : Global
-// Parameters      : None
-// Returns         : void
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 021228, 28 December 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-void ShowDebugInfo()
-{
-	tstring sDebug = L"Debug information\r\nsDBPath :";
-	sDebug += sDBPath;
-	sDebug += L"\r\nsMirandaPath :";
-	sDebug += sMirandaPath;
-	sDebug += L"\r\nsDefaultFile :";
-	sDebug += sDefaultFile;
-
-	sDebug += L"\r\nGetFilePathFromUser(NULL) :";
-	sDebug += GetFilePathFromUser(NULL);
-
-	MessageBox(nullptr, sDebug.c_str(), MSG_BOX_TITEL, MB_OK);
-}
-
-
-/////////////////////////////////////////////////////////////////////
 // Member Function : nGetFormatCount
 // Type            : Global
 // Parameters      : pszToCheck - ?
@@ -163,7 +134,7 @@ int nGetFormatCount(const wchar_t *pszToCheck)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-tstring sGetErrorString(DWORD dwError)
+wstring sGetErrorString(DWORD dwError)
 {
 	LPVOID lpMsgBuf;
 	FormatMessage(
@@ -177,7 +148,7 @@ tstring sGetErrorString(DWORD dwError)
 	// Process any inserts in lpMsgBuf.
 	// ...
 	// Display the string.
-	tstring ret = (LPCTSTR)lpMsgBuf;
+	wstring ret = (LPCTSTR)lpMsgBuf;
 	ReplaceAll(ret, L"\r", L" ");
 	ReplaceAll(ret, L"\n", L" ");
 	ReplaceAll(ret, L"  ", L" ");
@@ -187,14 +158,14 @@ tstring sGetErrorString(DWORD dwError)
 	return ret;
 }
 
-tstring sGetErrorString()
+wstring sGetErrorString()
 {
 	return sGetErrorString(GetLastError());
 }
 
 void DisplayLastError(const wchar_t *pszError)
 {
-	tstring sError = pszError;
+	wstring sError = pszError;
 	DWORD error = GetLastError();
 
 	wchar_t szTemp[50];
@@ -205,7 +176,7 @@ void DisplayLastError(const wchar_t *pszError)
 }
 
 /////////////////////////////////////////////////////////////////////
-// Member Function : _DBGetString
+// Member Function : _DBGetStringW
 // Type            : Global
 // Parameters      : hContact  - ?
 //                   szModule  - ?
@@ -220,9 +191,9 @@ void DisplayLastError(const wchar_t *pszError)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-tstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *pszError)
+wstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *pszError)
 {
-	tstring ret;
+	wstring ret;
 	DBVARIANT dbv = { 0 };
 	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
 		ret = (wchar_t*)dbv.pszVal;
@@ -261,7 +232,7 @@ string _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSett
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceAll(tstring &sSrc, const wchar_t *pszReplace, const tstring &sNew)
+void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wstring &sNew)
 {
 	string::size_type nCur = 0;
 	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
@@ -270,9 +241,9 @@ void ReplaceAll(tstring &sSrc, const wchar_t *pszReplace, const tstring &sNew)
 	}
 }
 
-void ReplaceAll(tstring &sSrc, const wchar_t *pszReplace, const wchar_t *pszNew)
+void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wchar_t *pszNew)
 {
-	tstring sNew = pszNew;
+	wstring sNew = pszNew;
 	ReplaceAll(sSrc, pszReplace, sNew);
 }
 
@@ -289,7 +260,7 @@ void ReplaceAll(tstring &sSrc, const wchar_t *pszReplace, const wchar_t *pszNew)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-bool bCreatePathToFile(tstring sFilePath)
+bool bCreatePathToFile(wstring sFilePath)
 {
 	string::size_type nPos = sFilePath.rfind('\\');
 	if (nPos != string::npos) {
@@ -480,7 +451,7 @@ bool bReadMirandaDirAndPath()
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceDBPath(tstring &sRet)
+void ReplaceDBPath(wstring &sRet)
 {
 	ReplaceAll(sRet, L"%dbpath%", sDBPath);
 	// Try to firure out if it is a relative path ( ..\..\MsgExport\ )
@@ -507,21 +478,21 @@ void ReplaceDBPath(tstring &sRet)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-tstring GetFilePathFromUser(MCONTACT hContact)
+wstring GetFilePathFromUser(MCONTACT hContact)
 {
-	tstring sFilePath = sExportDir + _DBGetString(hContact, MODULENAME, "FileName", sDefaultFile.c_str());
+	wstring sFilePath = sExportDir + _DBGetStringW(hContact, MODULENAME, "FileName", sDefaultFile.c_str());
 
 	bool bNickUsed = sFilePath.find(L"%nick%") != string::npos;
 
 	ReplaceDefines(hContact, sFilePath);
 
-	tstring sNoDBPath = sFilePath;
+	wstring sNoDBPath = sFilePath;
 
 	ReplaceTimeVariables(sFilePath);
 	ReplaceDBPath(sFilePath);
 
 	// Previous file name check to see if it has changed !!
-	tstring sPrevFileName = _DBGetString(hContact, MODULENAME, "PrevFileName", L"");
+	wstring sPrevFileName = _DBGetStringW(hContact, MODULENAME, "PrevFileName", L"");
 	if (sNoDBPath != sPrevFileName) {
 		if (!sPrevFileName.empty()) {
 			ReplaceDBPath(sPrevFileName);
@@ -552,7 +523,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 					bool bTryRename;
 
 					if (enRenameAction != eDAAutomatic) {
-						tstring sRemoteUser = Clist_GetContactDisplayName(hContact);
+						wstring sRemoteUser = Clist_GetContactDisplayName(hContact);
 						mir_snwprintf(szTemp,
 							TranslateT("File name for the user \"%s\" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?"),
 							sRemoteUser.c_str(),
@@ -606,9 +577,9 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-tstring FileNickFromHandle(MCONTACT hContact)
+wstring FileNickFromHandle(MCONTACT hContact)
 {
-	tstring ret = Clist_GetContactDisplayName(hContact);
+	wstring ret = Clist_GetContactDisplayName(hContact);
 	string::size_type nCur = 0;
 	while ((nCur = ret.find_first_of(L":\\", nCur)) != ret.npos)
 		ret[nCur] = cBadCharReplace;
@@ -631,9 +602,9 @@ tstring FileNickFromHandle(MCONTACT hContact)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceAllNoColon(tstring &sSrc, const wchar_t *pszReplace, tstring &sNew)
+void ReplaceAllNoColon(wstring &sSrc, const wchar_t *pszReplace, wstring &sNew)
 {
-	tstring::size_type nCur = 0;
+	wstring::size_type nCur = 0;
 	while ((nCur = sNew.find_first_of(':', nCur)) != sNew.npos)
 		sNew[nCur] = cBadCharReplace;
 	ReplaceAll(sSrc, pszReplace, sNew);
@@ -653,7 +624,7 @@ void ReplaceAllNoColon(tstring &sSrc, const wchar_t *pszReplace, tstring &sNew)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
+void ReplaceDefines(MCONTACT hContact, wstring & sTarget)
 {
 	if (sTarget.find(L"%nick%") != string::npos)
 		ReplaceAll(sTarget, L"%nick%", FileNickFromHandle(hContact));
@@ -667,7 +638,7 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 		string sProto = _DBGetStringA(hContact, "Protocol", "p", "");
 		if (bUINUsed || (bIdentifierUsed && sProto == "ICQ")) {
 			DWORD dwUIN = db_get_dw(hContact, sProto.c_str(), "UIN", 0);
-			tstring sReplaceUin;
+			wstring sReplaceUin;
 			if (dwUIN) {
 				wchar_t sTmp[20];
 				mir_snwprintf(sTmp, L"%d", dwUIN);
@@ -684,9 +655,9 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 		}
 
 		if (bEMailUsed || (bIdentifierUsed && sProto == "MSN")) {
-			tstring sEMail = _DBGetString(hContact, sProto.c_str(), "e-mail", L"");
+			wstring sEMail = _DBGetStringW(hContact, sProto.c_str(), "e-mail", L"");
 			if (sEMail.empty()) {
-				sEMail = _DBGetString(hContact, "MSN", "e-mail", L"");
+				sEMail = _DBGetStringW(hContact, "MSN", "e-mail", L"");
 				if (sEMail.empty()) {
 					// We can't finde the E-mail address we will use the the nick
 					sEMail = FileNickFromHandle(hContact);
@@ -701,7 +672,7 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 		}
 
 		if (bIdentifierUsed && sProto == "Jabber") {
-			tstring sReplace = _DBGetString(hContact, "Jabber", "jid", L"");
+			wstring sReplace = _DBGetStringW(hContact, "Jabber", "jid", L"");
 			if (sReplace.empty()) {
 				sReplace = FileNickFromHandle(hContact);
 			}
@@ -710,7 +681,7 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 		}
 
 		if (bProtoUsed) {
-			tstring tmp = _DBGetString(hContact, "Protocol", "p", L"");
+			wstring tmp = _DBGetStringW(hContact, "Protocol", "p", L"");
 			ReplaceAllNoColon(sTarget, L"%protocol%", tmp);
 		}
 
@@ -719,7 +690,7 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 	}
 
 	if (sTarget.find(L"%group%") != string::npos) {
-		tstring sGroup = _DBGetString(hContact, "CList", "Group", L"");
+		wstring sGroup = _DBGetStringW(hContact, "CList", "Group", L"");
 		ReplaceAllNoColon(sTarget, L"%group%", sGroup);
 	}
 
@@ -743,7 +714,7 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceTimeVariables(tstring &sRet)
+void ReplaceTimeVariables(wstring &sRet)
 {
 	if (sRet.find(L"%year%") != string::npos ||
 		sRet.find(L"%month%") != string::npos ||
@@ -779,7 +750,7 @@ void UpdateFileToColWidth()
 	clFileTo1ColWidth.clear();
 
 	for (auto &hContact : Contacts()) {
-		tstring sNick = Clist_GetContactDisplayName(hContact);
+		wstring sNick = Clist_GetContactDisplayName(hContact);
 		string::size_type &rnValue = clFileTo1ColWidth[GetFilePathFromUser(hContact)];
 		if (rnValue < sNick.size())
 			rnValue = sNick.size();
@@ -801,9 +772,9 @@ void UpdateFileToColWidth()
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO * dbei)
+void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO *dbei)
 {
-	tstring sError = TranslateW(pszError);
+	wstring sError = TranslateW(pszError);
 	sError += sFilePath;
 	sError += TranslateT("\nError: ");
 	sError += sGetErrorString();
@@ -870,10 +841,10 @@ void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
+bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
 {
-	tstring sLocalUser;
-	tstring sRemoteUser;
+	wstring sLocalUser;
+	wstring sRemoteUser;
 	string::size_type nFirstColumnWidth;
 
 	if (bUseLessAndGreaterInExport) {
@@ -921,7 +892,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 					return false;
 				}
 			}
-			tstring output = L"------------------------------------------------\r\n"
+			wstring output = L"------------------------------------------------\r\n"
 				LPGENW("      History for\r\n")
 				LPGENW("User      : %User%\r\n")
 				LPGENW("Protocol  : %Proto%\r\n")
@@ -944,10 +915,10 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 			ReplaceAll(output, L"%User%", sRemoteUser);
 
 			string sProto = _DBGetStringA(hContact, "Protocol", "p", "");
-			ReplaceAll(output, L"%Proto%", _DBGetString(hContact, "Protocol", "p", L""));
+			ReplaceAll(output, L"%Proto%", _DBGetStringW(hContact, "Protocol", "p", L""));
 
 			for (int nCur = 0; nCur < 9; nCur++)
-				ReplaceAll(output, pszReplaceList[nCur], _DBGetString(hContact, sProto.c_str(), pszReplaceListA[nCur], L""));
+				ReplaceAll(output, pszReplaceList[nCur], _DBGetStringW(hContact, sProto.c_str(), pszReplaceListA[nCur], L""));
 
 			ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, sProto.c_str()));
 			if (id != NULL)
@@ -1182,7 +1153,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-HANDLE openCreateFile(tstring sFilePath)
+HANDLE openCreateFile(wstring sFilePath)
 {
 	GetLastError();// Clear last error !!
 
@@ -1218,7 +1189,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 	
 	// Open/create file for writing
-	tstring sFilePath = GetFilePathFromUser(hContact);
+	wstring sFilePath = GetFilePathFromUser(hContact);
 	HANDLE hFile = openCreateFile(sFilePath);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, nullptr);
@@ -1234,7 +1205,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, tstring sFilePath, bool bAppendOnly)
+bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, wstring sFilePath, bool bAppendOnly)
 {
 	DBEVENTINFO dbei = {};
 	int nSize = db_event_getBlobSize(hDbEvent);
@@ -1383,7 +1354,7 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 	if (enDeleteAction == eDANothing)
 		return 0;
 
-	tstring sFilePath = GetFilePathFromUser(hContact);
+	wstring sFilePath = GetFilePathFromUser(hContact);
 
 	// Test if there is another user using this file
 	for (auto &hOtherContact : Contacts())

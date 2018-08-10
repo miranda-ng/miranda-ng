@@ -95,16 +95,14 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 		return mir_wstrcmpi(Clist_GetContactDisplayName(lParam1), Clist_GetContactDisplayName(lParam2));
 
 	if (lParamSort == 2)
-		return _DBGetString((MCONTACT)lParam1, "Protocol", "p", L"").compare(_DBGetString((MCONTACT)lParam2, "Protocol", "p", L""));
+		return mir_strcmp(GetContactProto((MCONTACT)lParam1), GetContactProto((MCONTACT)lParam2));
 
 	if (lParamSort == 3) {
-		DWORD dwUin1 = db_get_dw((MCONTACT)lParam1, _DBGetStringA((MCONTACT)lParam1, "Protocol", "p", "").c_str(), "UIN", 0);
-		DWORD dwUin2 = db_get_dw((MCONTACT)lParam2, _DBGetStringA((MCONTACT)lParam2, "Protocol", "p", "").c_str(), "UIN", 0);
+		DWORD dwUin1 = db_get_dw((MCONTACT)lParam1, GetContactProto((MCONTACT)lParam1), "UIN", 0);
+		DWORD dwUin2 = db_get_dw((MCONTACT)lParam2, GetContactProto((MCONTACT)lParam2), "UIN", 0);
 		if (dwUin1 == dwUin2)
 			return 0;
-		if (dwUin1 > dwUin2)
-			return -1;
-		return 1;
+		return (dwUin1 > dwUin2) ? -1 : 1;
 	}
 	return 0;
 }
@@ -154,7 +152,7 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 	SetWindowText(hStatus, TranslateT("Reading database information (Phase 1 of 2)"));
 
 	// map with list to stored all DB history before it is exported 
-	map<tstring, list< CLDBEvent >, less<tstring> > AllEvents;
+	map<wstring, list< CLDBEvent >, less<wstring> > AllEvents;
 	{
 		// reading from the database !!! 
 		int nCur = 0;
@@ -190,7 +188,7 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 	SendMessage(hProg, PBM_SETPOS, 0, 0);
 
 	// time to write to files !!!
-	map<tstring, list< CLDBEvent >, less<tstring> >::iterator FileIterator;
+	map<wstring, list< CLDBEvent >, less<wstring> >::iterator FileIterator;
 
 	int nCur = 0;
 	for (FileIterator = AllEvents.begin(); FileIterator != AllEvents.end(); ++FileIterator) {
@@ -329,7 +327,7 @@ void SetToDefault(HWND hParent)
 		if (!ListView_GetItem(hMapUser, &sItem))
 			continue;
 
-		tstring sFileName = szTemp;
+		wstring sFileName = szTemp;
 		ReplaceDefines((MCONTACT)sItem.lParam, sFileName);
 		ReplaceTimeVariables(sFileName);
 
@@ -516,7 +514,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 		}
 		
 		if (nShortestMatch != 0xFFFF) {
-			tstring sFileName;
+			wstring sFileName;
 			szSearch[0] = 0;
 			ListView_GetItemText(hMapUser, nCur, 0, szSearch, _countof(szSearch));
 			bool bPriHasFileName = szSearch[0] != 0;
@@ -622,7 +620,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			}
 			{
 				int nUser = 0;
-				tstring sTmp;
+				wstring sTmp;
 				LVITEM sItem = { 0 };
 				for (auto &hContact : Contacts()) {
 					PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
@@ -635,7 +633,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sItem.iImage = db_get_b(hContact, MODULENAME, "EnableLog", 1);
 					sItem.lParam = hContact;
 
-					sTmp = _DBGetString(hContact, MODULENAME, "FileName", L"");
+					sTmp = _DBGetStringW(hContact, MODULENAME, "FileName", L"");
 					sItem.pszText = (wchar_t*)sTmp.c_str();
 					ListView_InsertItem(hMapUser, &sItem);
 
@@ -1012,57 +1010,6 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 }
 
 /////////////////////////////////////////////////////////////////////
-// Member Function : bApplyChanges2
-// Type            : Global
-// Parameters      : hwndDlg - ?
-// Returns         : Returns true if 
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 050429, 29 april 2005
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-BOOL bApplyChanges2(HWND hwndDlg)
-{
-	if (IsDlgButtonChecked(hwndDlg, IDC_FC_PROMPT) == BST_CHECKED)
-		enRenameAction = eDAPromptUser;
-	else if (IsDlgButtonChecked(hwndDlg, IDC_FC_RENAME) == BST_CHECKED)
-		enRenameAction = eDAAutomatic;
-	else if (IsDlgButtonChecked(hwndDlg, IDC_FC_NOTHING) == BST_CHECKED)
-		enRenameAction = eDANothing;
-
-	if (IsDlgButtonChecked(hwndDlg, IDC_FD_PROMPT) == BST_CHECKED)
-		enDeleteAction = eDAPromptUser;
-	else if (IsDlgButtonChecked(hwndDlg, IDC_FD_DELETE) == BST_CHECKED)
-		enDeleteAction = eDAAutomatic;
-	else if (IsDlgButtonChecked(hwndDlg, IDC_FD_NOTHING) == BST_CHECKED)
-		enDeleteAction = eDANothing;
-
-	char szTemp[500];
-	strncpy_s(szTemp, "DisableProt_", _TRUNCATE);
-
-	HWND hMapUser = GetDlgItem(hwndDlg, IDC_EXPORT_PROTOS);
-	int nCount = ListView_GetItemCount(hMapUser);
-	for (int nCur = 0; nCur < nCount; nCur++) {
-		LVITEMA sItem = { 0 };
-		sItem.iItem = nCur;
-		sItem.mask = LVIF_TEXT | LVIF_IMAGE;
-		sItem.pszText = &szTemp[12];
-		sItem.cchTextMax = (_countof(szTemp) - 15);
-		if (::SendMessage(hMapUser, LVM_GETITEMA, 0, (LPARAM)&sItem)) {
-			if (sItem.iImage)
-				db_unset(NULL, MODULENAME, szTemp); // default is Enabled !!
-			else
-				db_set_b(NULL, MODULENAME, szTemp, 0);
-		}
-	}
-	SaveSettings();
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////
 // Member Function : DlgProcMsgExportOpts2
 // Type            : Global
 // Parameters      : hwndDlg - ?
@@ -1078,135 +1025,137 @@ BOOL bApplyChanges2(HWND hwndDlg)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CAdvancedOptDlg : public CDlgBase
 {
-	static BOOL bWindowTextSet = FALSE;
+	CCtrlButton btnDebug;	
+	CCtrlListView listProtos;
+	CCtrlCheck chkFcPrompt, chkFcRename, chkFcNothing;
+	CCtrlCheck chkFdPrompt, chkFdDelete, chkFdNothing;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		bWindowTextSet = FALSE;
-
-		switch (enRenameAction) {
-		case eDAPromptUser:
-			CheckDlgButton(hwndDlg, IDC_FC_PROMPT, BST_CHECKED);
-			break;
-		case eDAAutomatic:
-			CheckDlgButton(hwndDlg, IDC_FC_RENAME, BST_CHECKED);
-			break;
-		case eDANothing:
-			CheckDlgButton(hwndDlg, IDC_FC_NOTHING, BST_CHECKED);
-			break;
-		}
-		switch (enDeleteAction) {
-		case eDAPromptUser:
-			CheckDlgButton(hwndDlg, IDC_FD_PROMPT, BST_CHECKED);
-			break;
-		case eDAAutomatic:
-			CheckDlgButton(hwndDlg, IDC_FD_DELETE, BST_CHECKED);
-			break;
-		case eDANothing:
-			CheckDlgButton(hwndDlg, IDC_FD_NOTHING, BST_CHECKED);
-			break;
-		}
-
-		RECT rListSize;
-		{
-			HWND hMapUser = GetDlgItem(hwndDlg, IDC_EXPORT_PROTOS);
-			int nColumnWidth = 100;
-			if (GetWindowRect(hMapUser, &rListSize)) {
-				nColumnWidth = (rListSize.right - rListSize.left - GetSystemMetrics(SM_CXVSCROLL) - 5);
-				if (nColumnWidth < 10)
-					nColumnWidth = 10;
-			}
-
-			// header setup !!
-			LVCOLUMN cCol = { 0 };
-			cCol.mask = LVCF_TEXT | LVCF_WIDTH;
-			cCol.cx = nColumnWidth;
-			cCol.pszText = TranslateT("Export Protocols");
-			ListView_InsertColumn(hMapUser, 0, &cCol);
-
-			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR4 | ILC_MASK, 2, 2);
-			ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_NOTICK));
-			ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_TICK));
-			ListView_SetImageList(hMapUser, hIml, LVSIL_SMALL);
-
-			LVITEMA sItem = { 0 };
-			sItem.mask = LVIF_TEXT | LVIF_IMAGE;
-			char szTemp[500];
-
-			for (auto &pa : Accounts()) {
-				mir_snprintf(szTemp, "DisableProt_%s", pa->szModuleName);
-				sItem.pszText = pa->szModuleName;
-				sItem.iImage = db_get_b(NULL, MODULENAME, szTemp, 1);
-				::SendMessage(hMapUser, LVM_INSERTITEMA, 0, (LPARAM)&sItem);
-				sItem.iItem++;
-			}
-		}
-		bWindowTextSet = TRUE;
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_FC_PROMPT:
-		case IDC_FC_RENAME:
-		case IDC_FC_NOTHING:
-		case IDC_FD_PROMPT:
-		case IDC_FD_DELETE:
-		case IDC_FD_NOTHING:
-			if (!bWindowTextSet)
-				return TRUE;
-
-			if (HIWORD(wParam) == BN_CLICKED) {
-				bUnaplyedChanges = TRUE;
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}
-			return TRUE;
-	
-		case IDC_DEBUG_INFO:
-			ShowDebugInfo();
-			return TRUE;
-		}
-		break;
-
-	case WM_NOTIFY:
-		NMHDR *p = ((LPNMHDR)lParam);
-		if (p->idFrom == IDC_EXPORT_PROTOS) {
-			if (p->code == NM_CLICK) {
-				LVHITTESTINFO hti;
-				hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
-				ListView_SubItemHitTest(p->hwndFrom, &hti);
-				if (hti.flags != LVHT_ONITEMICON)
-					break;
-
-				LVITEM lvi;
-				lvi.mask = LVIF_IMAGE;
-				lvi.iItem = hti.iItem;
-				lvi.iSubItem = 0;
-				ListView_GetItem(p->hwndFrom, &lvi);
-				lvi.iImage ^= 1;
-				ListView_SetItem(p->hwndFrom, &lvi);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			}
-			break;
-		}
-
-		switch (p->code) {
-		case PSN_APPLY:
-			bApplyChanges2(hwndDlg);
-			return TRUE;
-
-		case HDN_ITEMCLICK:
-			return FALSE;
-		}
-		break;
+public:
+	CAdvancedOptDlg() :
+		CDlgBase(g_plugin, IDD_OPT_MSGEXPORT2),
+		btnDebug(this, IDC_DEBUG_INFO),
+		chkFcPrompt(this, IDC_FC_PROMPT),
+		chkFcRename(this, IDC_FC_RENAME),
+		chkFcNothing(this, IDC_FC_NOTHING),
+		chkFdPrompt(this, IDC_FD_PROMPT),
+		chkFdDelete(this, IDC_FD_DELETE),
+		chkFdNothing(this, IDC_FD_NOTHING),
+		listProtos(this, IDC_EXPORT_PROTOS)
+	{
 	}
 
-	return FALSE;
-}
+	bool OnInitDialog() override
+	{
+		switch (enRenameAction) {
+		case eDAPromptUser:
+			chkFcPrompt.SetState(true);
+			break;
+		case eDAAutomatic:
+			chkFcRename.SetState(true);
+			break;
+		case eDANothing:
+			chkFcNothing.SetState(true);
+			break;
+		}
+		
+		switch (enDeleteAction) {
+		case eDAPromptUser:
+			chkFdPrompt.SetState(true);
+			break;
+		case eDAAutomatic:
+			chkFdDelete.SetState(true);
+			break;
+		case eDANothing:
+			chkFdNothing.SetState(true);
+			break;
+		}
 
+		int nColumnWidth = 100;
+
+		RECT rListSize;
+		if (GetWindowRect(listProtos.GetHwnd(), &rListSize)) {
+			nColumnWidth = (rListSize.right - rListSize.left - GetSystemMetrics(SM_CXVSCROLL) - 5);
+			if (nColumnWidth < 10)
+				nColumnWidth = 10;
+		}
+
+		listProtos.SetExtendedListViewStyle(LVS_EX_CHECKBOXES);
+
+		// header setup !!
+		LVCOLUMN cCol = { 0 };
+		cCol.mask = LVCF_TEXT | LVCF_WIDTH;
+		cCol.cx = nColumnWidth;
+		cCol.pszText = TranslateT("Export Protocols");
+		listProtos.InsertColumn(0, &cCol);
+
+		LVITEMW sItem = { 0 };
+		sItem.mask = LVIF_TEXT | LVIF_PARAM;
+		char szTemp[500];
+
+		for (auto &pa : Accounts()) {
+			mir_snprintf(szTemp, "DisableProt_%s", pa->szModuleName);
+			sItem.pszText = pa->tszAccountName;
+			sItem.lParam = (LPARAM)pa->szModuleName;
+			listProtos.InsertItem(&sItem);
+
+			listProtos.SetCheckState(sItem.iItem, db_get_b(NULL, MODULENAME, szTemp, 1));
+
+			sItem.iItem++;
+		}
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (chkFcPrompt.GetState())
+			enRenameAction = eDAPromptUser;
+		else if (chkFcRename.GetState() == BST_CHECKED)
+			enRenameAction = eDAAutomatic;
+		else if (chkFcNothing.GetState() == BST_CHECKED)
+			enRenameAction = eDANothing;
+
+		if (chkFdPrompt.GetState() == BST_CHECKED)
+			enDeleteAction = eDAPromptUser;
+		else if (chkFdDelete.GetState() == BST_CHECKED)
+			enDeleteAction = eDAAutomatic;
+		else if (chkFdNothing.GetState() == BST_CHECKED)
+			enDeleteAction = eDANothing;
+
+		int nCount = listProtos.GetItemCount();
+		for (int nCur = 0; nCur < nCount; nCur++) {
+			LVITEM sItem = { 0 };
+			sItem.iItem = nCur;
+			sItem.mask = LVIF_PARAM;
+			if (listProtos.GetItem(&sItem)) {
+				char szTemp[200];
+				mir_snprintf(szTemp, "DisableProt_%s", (char*)sItem.lParam);
+				if (listProtos.GetCheckState(nCur))
+					db_unset(NULL, MODULENAME, szTemp); // default is Enabled !!
+				else
+					db_set_b(NULL, MODULENAME, szTemp, 0);
+			}
+		}
+		SaveSettings();
+		return true;
+	}
+
+	void onClick_Debug(CCtrlButton*)
+	{
+		wstring sDebug = L"Debug information\r\nsDBPath :";
+		sDebug += sDBPath;
+		sDebug += L"\r\nsMirandaPath :";
+		sDebug += sMirandaPath;
+		sDebug += L"\r\nsDefaultFile :";
+		sDebug += sDefaultFile;
+
+		sDebug += L"\r\nGetFilePathFromUser(NULL) :";
+		sDebug += GetFilePathFromUser(NULL);
+
+		MessageBox(nullptr, sDebug.c_str(), MSG_BOX_TITEL, MB_OK);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////
 // Member Function : OptionsInitialize
@@ -1236,10 +1185,11 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.pfnDlgProc = DlgProcMsgExportOpts;
 	g_plugin.addOptions(wParam, &odp);
 
+	odp.pfnDlgProc = 0;
+	odp.pszTemplate = 0;
 	odp.position = 100000001;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT2);
 	odp.szTab.w = LPGENW("Additional");
-	odp.pfnDlgProc = DlgProcMsgExportOpts2;
+	odp.pDialog = new CAdvancedOptDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

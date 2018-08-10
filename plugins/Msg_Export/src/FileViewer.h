@@ -27,7 +27,7 @@ bool bShowFileViewer(MCONTACT hContact);
 bool bUseInternalViewer(bool bNew);
 bool bUseInternalViewer();
 
-extern tstring sFileViewerPrg;
+extern wstring sFileViewerPrg;
 
 #endif
 

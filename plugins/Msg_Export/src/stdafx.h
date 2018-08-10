@@ -41,6 +41,7 @@ using namespace std;
 #include <m_icq.h>
 #include <m_skin.h>
 #include <win2k.h>
+#include <m_gui.h>
 
 #include "utils.h"
 #include "options.h"
@@ -63,5 +64,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 extern MWindowList hInternalWindowList;
+extern wstring sDBPath, sMirandaPath;
 
 #endif

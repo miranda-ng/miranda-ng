@@ -32,7 +32,7 @@ static UINT UM_FIND_CMD = RegisterWindowMessage(FINDMSGSTRING);
 bool bUseIntViewer = true;
 
 // External program used to view files
-tstring sFileViewerPrg;
+wstring sFileViewerPrg;
 
 // handle to the RichEditDll. We need to load this dll to use a RichEdit.
 HMODULE hRichEditDll = nullptr;
@@ -104,7 +104,7 @@ public:
 	HWND hWnd;
 
 	MCONTACT hContact;
-	tstring sPath;
+	wstring sPath;
 
 	HWND hFindDlg;
 	FINDREPLACE fr;
@@ -258,7 +258,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 		}
 		dwCurrent += nWriteHeader((char*)pbBuff, cb);
 
-		tstring sMyNick = ptrW(GetMyOwnNick(hContact));
+		wstring sMyNick = ptrW(GetMyOwnNick(hContact));
 
 		nNickLen = WideCharToMultiByte(bUtf8File ? CP_UTF8 : CP_ACP, 0, sMyNick.c_str(), (int)sMyNick.length(), szMyNick, sizeof(szMyNick), NULL, NULL);
 	}
@@ -449,7 +449,7 @@ void UpdateFileViews(const wchar_t *pszFile)
 
 bool bOpenExternaly(MCONTACT hContact)
 {
-	tstring sPath = GetFilePathFromUser(hContact);
+	wstring sPath = GetFilePathFromUser(hContact);
 
 	if (sFileViewerPrg.empty())
 	{
@@ -462,7 +462,7 @@ bool bOpenExternaly(MCONTACT hContact)
 		ShellExecuteEx(&st);
 		return true;
 	}
-	tstring sTmp = sFileViewerPrg;
+	wstring sTmp = sFileViewerPrg;
 	sTmp += L" \"";
 	sTmp += sPath;
 	sTmp += '\"';
@@ -908,7 +908,7 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL)
 	ncf.dwMask = CFM_BOLD | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_UNDERLINE;
 	ncf.dwEffects = db_get_dw(NULL, MODULENAME, szFileViewDB "TEffects", 0);
 	ncf.yHeight = db_get_dw(NULL, MODULENAME, szFileViewDB "THeight", 165);
-	wcsncpy_s(ncf.szFaceName, _DBGetString(NULL, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
+	wcsncpy_s(ncf.szFaceName, _DBGetStringW(NULL, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
 
 	if (!bUseSyntaxHL) {
 		ncf.dwMask |= CFM_COLOR;
@@ -983,7 +983,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			wchar_t szTitle[200];
 			if (GetWindowText(hwndDlg, szFormat, _countof(szFormat))) {
 				const wchar_t *pszNick = Clist_GetContactDisplayName(pclDlg->hContact);
-				tstring sPath = pclDlg->sPath;
+				wstring sPath = pclDlg->sPath;
 				string::size_type n = sPath.find_last_of('\\');
 				if (n != sPath.npos)
 					sPath.erase(0, n + 1);
@@ -1036,7 +1036,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
 			lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
 
-			wcsncpy_s(lf.lfFaceName, _DBGetString(NULL, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
+			wcsncpy_s(lf.lfFaceName, _DBGetStringW(NULL, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
 			CHOOSEFONT cf = { 0 };
 			cf.lStructSize = sizeof(cf);
 			cf.hwndOwner = hwndDlg;
@@ -1101,7 +1101,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			return TRUE;
 		}
 		if ((wParam & 0xFFF0) == ID_FV_SAVE_AS_RTF) {
-			tstring sFile = pclDlg->sPath;
+			wstring sFile = pclDlg->sPath;
 			sFile += L".rtf";
 			HANDLE hFile = CreateFile(sFile.c_str(), GENERIC_WRITE,
 				FILE_SHARE_READ, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -1122,7 +1122,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				return TRUE;
 			}
 			CloseHandle(hFile);
-			tstring sReport = TranslateT("History was saved successfully in file\r\n");
+			wstring sReport = TranslateT("History was saved successfully in file\r\n");
 			sReport += sFile;
 			MessageBox(nullptr, sReport.c_str(), MSG_BOX_TITEL, MB_OK);
 			return TRUE;

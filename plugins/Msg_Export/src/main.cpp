@@ -145,12 +145,12 @@ int CMPlugin::Load()
 	if (nMaxLineWidth > 0 && nMaxLineWidth < 5)
 		nMaxLineWidth = 5;
 
-	sExportDir = _DBGetString(NULL, MODULENAME, "ExportDir", L"%dbpath%\\MsgExport\\");
-	sDefaultFile = _DBGetString(NULL, MODULENAME, "DefaultFile", L"%nick%.txt");
+	sExportDir = _DBGetStringW(NULL, MODULENAME, "ExportDir", L"%dbpath%\\MsgExport\\");
+	sDefaultFile = _DBGetStringW(NULL, MODULENAME, "DefaultFile", L"%nick%.txt");
 
-	sTimeFormat = _DBGetString(NULL, MODULENAME, "TimeFormat", L"d s");
+	sTimeFormat = _DBGetStringW(NULL, MODULENAME, "TimeFormat", L"d s");
 
-	sFileViewerPrg = _DBGetString(NULL, MODULENAME, "FileViewerPrg", L"");
+	sFileViewerPrg = _DBGetStringW(NULL, MODULENAME, "FileViewerPrg", L"");
 	bUseInternalViewer(db_get_b(NULL, MODULENAME, "UseInternalViewer", bUseInternalViewer()) != 0);
 
 	bReplaceHistory = db_get_b(NULL, MODULENAME, "ReplaceHistory", bReplaceHistory) != 0;
