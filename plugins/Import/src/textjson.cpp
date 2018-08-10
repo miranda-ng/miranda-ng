@@ -95,7 +95,25 @@ public:
 			return 0;
 
 		dbei->eventType = (*node)["eventType"].as_int();
-		dbei->timestamp = (*node)["timeStamp"].as_int();
+
+		dbei->timestamp = 0;
+		std::string szTime = (*node)["time"].as_string();
+		if (!szTime.empty()) {
+			char c;
+			struct tm st = {};
+			int res = sscanf(szTime.c_str(), "%4d%c%2d%c%2d %2d:%2d:%2d", &st.tm_year, &c, &st.tm_mon, &c, &st.tm_mday, &st.tm_hour, &st.tm_min, &st.tm_sec);
+			if (res == 8) {
+				st.tm_mon--;
+				st.tm_mday--;
+				st.tm_year -= 1900;
+				time_t tm = mktime(&st);
+				if (tm != -1)
+					dbei->timestamp = tm;
+			}
+		}
+		
+		if (dbei->timestamp == 0)
+			dbei->timestamp = (*node)["timeStamp"].as_int();
 
 		dbei->flags = 0;
 		std::string szFlags = (*node)["flags"].as_string();
