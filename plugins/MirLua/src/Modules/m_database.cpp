@@ -416,7 +416,7 @@ static int db_DeleteModule(lua_State *L)
 	return 1;
 }
 
-static int SettingsEnumProc(const char* szSetting, void *lParam)
+static int SettingsEnumProc(const char *szSetting, void *lParam)
 {
 	if (szSetting ) {
 		LIST<char>* p = (LIST<char>*)lParam;
@@ -496,6 +496,9 @@ static int db_WriteSetting(lua_State *L)
 		case LUA_TBOOLEAN:
 			dbv.type = DBVT_BYTE;
 			break;
+		case LUA_TINTEGER:
+			dbv.type = DBVT_WORD;
+			break;
 		case LUA_TNUMBER:
 			dbv.type = DBVT_DWORD;
 			break;
@@ -517,10 +520,10 @@ static int db_WriteSetting(lua_State *L)
 	case DBVT_BYTE:
 		dbv.bVal = lua_isboolean(L, 4)
 			? lua_toboolean(L, 4)
-			: luaL_checknumber(L, 4);
+			: luaL_checkinteger(L, 4);
 		break;
 	case DBVT_WORD:
-		dbv.wVal = luaL_checknumber(L, 4);
+		dbv.wVal = luaL_checkinteger(L, 4);
 		break;
 	case DBVT_DWORD:
 		dbv.dVal = luaL_checknumber(L, 4);
@@ -546,8 +549,7 @@ static int db_WriteSetting(lua_State *L)
 		break;
 	}
 	default:
-		lua_pushboolean(L, false);
-		return 1;
+		luaL_argerror(L, 4, luaL_typename(L, 4));
 	}
 
 	INT_PTR res = db_set(hContact, szModule, szSetting, &dbv);
