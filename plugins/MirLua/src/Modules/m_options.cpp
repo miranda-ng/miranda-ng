@@ -116,10 +116,23 @@ int opt_OpenPage(lua_State *L)
 	return 0;
 }
 
+int opt_Open(lua_State *L)
+{
+	ptrW group(mir_utf8decodeW(luaL_checkstring(L, 1)));
+	ptrW page(mir_utf8decodeW(lua_tostring(L, 2)));
+	ptrW tab(mir_utf8decodeW(lua_tostring(L, 3)));
+
+	g_plugin.openOptions(group, page, tab);
+
+	return 0;
+}
+
 static luaL_Reg optionsApi[] =
 {
 	{ "AddPage", opt_AddPage },
 	{ "OpenPage", opt_OpenPage },
+
+	{ "Open", opt_Open },
 
 	{ nullptr, nullptr }
 };
