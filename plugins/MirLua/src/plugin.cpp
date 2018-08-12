@@ -62,7 +62,6 @@ void CMPlugin::LoadLua()
 	CMLuaFunctionLoader::Load(L);
 	CMLuaModuleLoader::Load(L);
 	CMLuaVariablesLoader::Load(L);
-	LoadLuaScripts();
 }
 
 void CMPlugin::UnloadLua()
@@ -114,6 +113,8 @@ int CMPlugin::OnModulesLoaded(WPARAM, LPARAM)
 {
 	g_hCLibsFolder = FoldersRegisterCustomPathT(MODULENAME, "CLibsFolder", MIRLUA_PATHT, TranslateT("C libs folder"));
 	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULENAME, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
+
+	LoadLuaScripts();
 
 	HookPluginEvent(ME_OPT_INITIALISE, &CMPlugin::OnOptionsInit);
 
