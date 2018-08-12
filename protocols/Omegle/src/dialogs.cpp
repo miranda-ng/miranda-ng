@@ -48,22 +48,17 @@ static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* sz
 	wchar_t tstr[250 + 1];
 
 	GetDlgItemText(hwnd, idCtrl, tstr, _countof(tstr));
-	if (tstr[0] != '\0') {
+	if (tstr[0] != '\0')
 		db_set_ws(NULL, ppro->m_szModuleName, szSetting, tstr);
-	}
-	else {
+	else
 		db_unset(NULL, ppro->m_szModuleName, szSetting);
-	}
 }
-
 
 INT_PTR CALLBACK OmegleAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	OmegleProto *proto;
 
-	switch (message)
-	{
-
+	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 
@@ -86,35 +81,33 @@ INT_PTR CALLBACK OmegleAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
 		LoadDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 		LoadDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
 		LoadDBCheckState(proto, hwnd, IDC_MEET_COMMON, OMEGLE_KEY_MEET_COMMON);
-
 		return TRUE;
 
 	case WM_COMMAND:
-		switch (LOWORD(wparam))
-		{
+		switch (LOWORD(wparam)) {
 		case IDC_LANGUAGE:
 		case IDC_SERVER:
-			if (HIWORD(wparam) == CBN_SELCHANGE) {
+			if (HIWORD(wparam) == CBN_SELCHANGE)
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			} break;
+			break;
+		
 		case IDC_NAME:
 		case IDC_INTERESTS:
-			if (HIWORD(wparam) != EN_CHANGE || (HWND)lparam != GetFocus()) {
+			if (HIWORD(wparam) != EN_CHANGE || (HWND)lparam != GetFocus())
 				return TRUE;
-			}
-			else {
-				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			} break;
+
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			break;
+		
 		case IDC_MEET_COMMON:
-			if (HIWORD(wparam) == BN_CLICKED) {
+			if (HIWORD(wparam) == BN_CLICKED)
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			} break;
+			break;
 		}
 		break;
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
-		{
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
 			proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 			db_set_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
@@ -123,11 +116,9 @@ INT_PTR CALLBACK OmegleAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
 			StoreDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 			StoreDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
 			StoreDBCheckState(proto, hwnd, IDC_MEET_COMMON, OMEGLE_KEY_MEET_COMMON);
-
 			return TRUE;
 		}
 		break;
-
 	}
 	return FALSE;
 }
@@ -136,11 +127,8 @@ INT_PTR CALLBACK OmegleOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
 {
 	OmegleProto *proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-	switch (message)
-	{
-
+	switch (message) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<OmegleProto*>(lparam);
@@ -174,28 +162,25 @@ INT_PTR CALLBACK OmegleOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
 		LoadDBCheckState(proto, hwnd, IDC_REUSE_QUESTIONS, OMEGLE_KEY_REUSE_QUESTION);
 		LoadDBCheckState(proto, hwnd, IDC_SERVER_INFO, OMEGLE_KEY_SERVER_INFO);
 		LoadDBCheckState(proto, hwnd, IDC_AUTO_CONNECT, OMEGLE_KEY_AUTO_CONNECT);
+		return TRUE;
 
-	} return TRUE;
-
-	case WM_COMMAND: {
-
-		switch (LOWORD(wparam))
-		{
+	case WM_COMMAND:
+		switch (LOWORD(wparam)) {
 		case IDC_SERVER:
 		case IDC_LANGUAGE:
-			if (HIWORD(wparam) == CBN_SELCHANGE) {
+			if (HIWORD(wparam) == CBN_SELCHANGE)
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			} break;
+			break;
+		
 		case IDC_NAME:
 		case IDC_INTERESTS:
 		case IDC_HI_MESSAGE:
 		case IDC_ASL_MESSAGE:
-			if (HIWORD(wparam) != EN_CHANGE || (HWND)lparam != GetFocus()) {
+			if (HIWORD(wparam) != EN_CHANGE || (HWND)lparam != GetFocus())
 				return TRUE;
-			}
-			else {
-				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			} break;
+
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			break;
 		case IDC_MEET_COMMON:
 		case IDC_HI_ENABLED:
 		case IDC_NOCLEAR:
@@ -203,16 +188,14 @@ INT_PTR CALLBACK OmegleOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
 		case IDC_REUSE_QUESTIONS:
 		case IDC_SERVER_INFO:
 		case IDC_AUTO_CONNECT:
-			if (HIWORD(wparam) == BN_CLICKED) {
+			if (HIWORD(wparam) == BN_CLICKED)
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			} break;
+			break;
 		}
-
-	} break;
+		break;
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
-		{
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
 			proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 			db_set_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
@@ -230,11 +213,9 @@ INT_PTR CALLBACK OmegleOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
 			StoreDBCheckState(proto, hwnd, IDC_REUSE_QUESTIONS, OMEGLE_KEY_REUSE_QUESTION);
 			StoreDBCheckState(proto, hwnd, IDC_SERVER_INFO, OMEGLE_KEY_SERVER_INFO);
 			StoreDBCheckState(proto, hwnd, IDC_AUTO_CONNECT, OMEGLE_KEY_AUTO_CONNECT);
-
 			return TRUE;
 		}
 		break;
-
 	}
 
 	return FALSE;

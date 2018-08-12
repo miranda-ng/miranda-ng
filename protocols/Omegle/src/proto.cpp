@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 OmegleProto::OmegleProto(const char* proto_name, const wchar_t* username) :
-PROTO<OmegleProto>(proto_name, username)
+	PROTO<OmegleProto>(proto_name, username)
 {
 	this->facy.parent = this;
 
@@ -113,20 +113,17 @@ int OmegleProto::SetStatus(int new_status)
 
 	m_iDesiredStatus = new_status;
 
-	if (new_status == m_iStatus) {
+	if (new_status == m_iStatus)
 		return 0;
-	}
 
-	if (m_iStatus == ID_STATUS_CONNECTING && new_status != ID_STATUS_OFFLINE) {
+	if (m_iStatus == ID_STATUS_CONNECTING && new_status != ID_STATUS_OFFLINE)
 		return 0;
-	}
 
-	if (new_status == ID_STATUS_OFFLINE) {
+	if (new_status == ID_STATUS_OFFLINE)
 		ForkThread(&OmegleProto::SignOff, this);
-	}
-	else {
+	else
 		ForkThread(&OmegleProto::SignOn, this);
-	}
+
 	return 0;
 }
 

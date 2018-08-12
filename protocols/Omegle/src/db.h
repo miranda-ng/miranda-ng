@@ -25,20 +25,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // DB macros
 #define getU8String( setting, dest )        db_get_utf( NULL, m_szModuleName, setting, dest )
 #define setU8String( setting, value )       db_set_utf( NULL, m_szModuleName, setting, value )
-// DB settings
-#define OMEGLE_KEY_TIMEOUTS_LIMIT	"TimeoutsLimit" // [HIDDEN]
 
-#define OMEGLE_KEY_ASL				"MessageAsl"
-#define OMEGLE_KEY_HI				"MessageHi"
-#define OMEGLE_KEY_HI_ENABLED		"MessageHiEnabled"
-#define OMEGLE_KEY_NAME				"Nick"
-#define OMEGLE_KEY_DONT_STOP		"DontStop"
-#define OMEGLE_KEY_NO_CLEAR			"NoClear"
-#define OMEGLE_KEY_MEET_COMMON		"MeetCommon"
-#define OMEGLE_KEY_INTERESTS		"Interests"
-#define OMEGLE_KEY_REUSE_QUESTION	"ReuseQuestion"
-#define OMEGLE_KEY_SERVER			"Server"
-#define OMEGLE_KEY_LANGUAGE         "Language"
-#define OMEGLE_KEY_SERVER_INFO		"GetServerInfo"
-#define OMEGLE_KEY_LAST_QUESTION	"LastQuestion"
-#define OMEGLE_KEY_AUTO_CONNECT		"AutoConnect"
+// DB settings
+#define OMEGLE_KEY_TIMEOUTS_LIMIT "TimeoutsLimit" // [HIDDEN]
+
+#define OMEGLE_KEY_ASL            "MessageAsl"
+#define OMEGLE_KEY_HI             "MessageHi"
+#define OMEGLE_KEY_HI_ENABLED     "MessageHiEnabled"
+#define OMEGLE_KEY_NAME           "Nick"
+#define OMEGLE_KEY_DONT_STOP      "DontStop"
+#define OMEGLE_KEY_NO_CLEAR       "NoClear"
+#define OMEGLE_KEY_MEET_COMMON    "MeetCommon"
+#define OMEGLE_KEY_INTERESTS      "Interests"
+#define OMEGLE_KEY_REUSE_QUESTION "ReuseQuestion"
+#define OMEGLE_KEY_SERVER         "Server"
+#define OMEGLE_KEY_LANGUAGE       "Language"
+#define OMEGLE_KEY_SERVER_INFO    "GetServerInfo"
+#define OMEGLE_KEY_LAST_QUESTION  "LastQuestion"
+#define OMEGLE_KEY_AUTO_CONNECT   "AutoConnect"
