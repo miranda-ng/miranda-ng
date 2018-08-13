@@ -905,30 +905,9 @@ bool facebook_client::channel()
 			// Update msgs_recv number for every "msg" type we receive (during fullRefresh/reload responses it stays the same)
 			this->chat_msgs_recv_++;
 		}
-		else if (type == "fullReload") {
-			// At fullReload we force our seq number to received value (there may have been some error or something)
+
+		if (!seq.empty())
 			this->chat_sequence_num_ = seq;
-		}
-
-		// Check if it's different from our old one (which means we should increment our old one)
-		if (seq != this->chat_sequence_num_) {
-			// Facebook now often return much bigger number which results in skipping few data requests, so we increment it manually
-			// Bigger skips (when there is some problem or something) are handled when fullreload/refresh response type
-			int iseq = 0;
-			if (utils::conversion::from_string<int>(iseq, this->chat_sequence_num_, std::dec)) {
-				// Increment and convert it back to string
-				iseq++;
-				std::string newSeq = utils::conversion::to_string(&iseq, UTILS_CONV_SIGNED_NUMBER);
-
-				// Check if we have different seq than the one from Facebook
-				if (newSeq != seq) {
-					parent->debugLogA("!!! Use self incremented sequence number: %s (instead of: %s)", newSeq.c_str(), seq.c_str());
-					seq = newSeq;
-				}
-			}
-		}
-
-		this->chat_sequence_num_ = seq;
 	}
 	else // No type? This shouldn't happen unless there is a big API change.
 		return handle_error("channel");
