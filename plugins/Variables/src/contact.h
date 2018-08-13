@@ -1,20 +1,20 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #pragma once
@@ -59,7 +59,7 @@
 #define STR_COHOMEPAGE  L"cohomepage"
 
 #define STR_ACCOUNT     L"account"
-#define STR_PROTOCOL	L"protocol"
+#define STR_PROTOCOL    L"protocol"
 #define STR_STATUS      L"status"
 #define STR_INTERNALIP  L"intip"
 #define STR_EXTERNALIP  L"extip"
@@ -69,12 +69,12 @@
 #define CCNF_ACCOUNT    51 // CUSTOM, returns contact's account name (0.8.0+)
 #define CCNF_PROTOCOL   50 // CUSTOM, returns the contact's protocol (human-readable)
 #define CCNF_STATUS     49 // CUSTOM, returns status mode description
-#define CCNF_INTERNALIP 48	// CUSTOM, returns the contact's internal IP
-#define CCNF_EXTERNALIP 47	// CUSTOM, returns the contact's external IP
+#define CCNF_INTERNALIP 48    // CUSTOM, returns the contact's internal IP
+#define CCNF_EXTERNALIP 47    // CUSTOM, returns the contact's external IP
 #define CCNF_GROUP      46 // CUSTOM, returns group name
 #define CCNF_PROTOID    45 // CUSTOM, returns protocol ID instead of name
 
-#define PROTOID_HANDLE	"_HANDLE_"
+#define PROTOID_HANDLE  "_HANDLE_"
 
 // Possible flags:
 #define CI_PROTOID      0x00000001  // The contact in the string is encoded
@@ -91,11 +91,11 @@
                                     // (contact details).
 #define CI_UNIQUEID     0x00000040  // Search unique ids of the contac, e.g.
                                     // UIN.
-#define CI_ALLFLAGS		0x7FFFFFFF  // All possible combinations of previous flags
+#define CI_ALLFLAGS     0x7FFFFFFF  // All possible combinations of previous flags
 
-#define CI_CNFINFO	   0x40000000  // Searches one of the CNF_* flags (set
+#define CI_CNFINFO      0x40000000  // Searches one of the CNF_* flags (set
                                     // flags to CI_CNFINFO|CNF_X), only one
                                     // CNF_ type possible
 #define CI_NEEDCOUNT    0x80000000  // returns contacts count
 
-wchar_t *encodeContactToString(MCONTACT hContact);
+wchar_t* encodeContactToString(MCONTACT hContact);

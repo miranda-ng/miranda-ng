@@ -48,7 +48,7 @@ static int addToVariablesRegister(wchar_t *szName, wchar_t *szText)
 	return 0;
 }
 
-static wchar_t *searchVariableRegister(wchar_t *szName)
+static wchar_t* searchVariableRegister(wchar_t *szName)
 {
 	if ((szName == nullptr) || (mir_wstrlen(szName) <= 0))
 		return nullptr;
@@ -61,7 +61,7 @@ static wchar_t *searchVariableRegister(wchar_t *szName)
 	return nullptr;
 }
 
-static wchar_t *parsePut(ARGUMENTSINFO *ai)
+static wchar_t* parsePut(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -77,7 +77,7 @@ static wchar_t *parsePut(ARGUMENTSINFO *ai)
 	return formatString(&fi);
 }
 
-static wchar_t *parsePuts(ARGUMENTSINFO *ai)
+static wchar_t* parsePuts(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -88,7 +88,7 @@ static wchar_t *parsePuts(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseGet(ARGUMENTSINFO *ai)
+static wchar_t* parseGet(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;

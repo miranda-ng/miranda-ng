@@ -1,25 +1,25 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
 
-static wchar_t *parseAdd(ARGUMENTSINFO *ai)
+static wchar_t* parseAdd(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return nullptr;
@@ -31,7 +31,7 @@ static wchar_t *parseAdd(ARGUMENTSINFO *ai)
 	return itot(result);
 }
 
-static wchar_t *parseDiv(ARGUMENTSINFO *ai)
+static wchar_t* parseDiv(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -44,7 +44,7 @@ static wchar_t *parseDiv(ARGUMENTSINFO *ai)
 	return itot(val1 / val2);
 }
 
-static wchar_t *parseHex(ARGUMENTSINFO *ai)
+static wchar_t* parseHex(ARGUMENTSINFO *ai)
 {
 	unsigned int i;
 	wchar_t szVal[34];
@@ -69,7 +69,7 @@ static wchar_t *parseHex(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseMod(ARGUMENTSINFO *ai)
+static wchar_t* parseMod(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -82,7 +82,7 @@ static wchar_t *parseMod(ARGUMENTSINFO *ai)
 	return itot(val1 % val2);
 }
 
-static wchar_t *parseMul(ARGUMENTSINFO *ai)
+static wchar_t* parseMul(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return nullptr;
@@ -94,7 +94,7 @@ static wchar_t *parseMul(ARGUMENTSINFO *ai)
 	return itot(result);
 }
 
-static wchar_t *parseMuldiv(ARGUMENTSINFO *ai)
+static wchar_t* parseMuldiv(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
 		return nullptr;
@@ -105,7 +105,7 @@ static wchar_t *parseMuldiv(ARGUMENTSINFO *ai)
 	return itot((ttoi(ai->argv.w[1])*ttoi(ai->argv.w[2])) / ttoi(ai->argv.w[3]));
 }
 
-static wchar_t *parseMin(ARGUMENTSINFO *ai)
+static wchar_t* parseMin(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
 		return nullptr;
@@ -117,7 +117,7 @@ static wchar_t *parseMin(ARGUMENTSINFO *ai)
 	return itot(minVal);
 }
 
-static wchar_t *parseMax(ARGUMENTSINFO *ai)
+static wchar_t* parseMax(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
 		return nullptr;
@@ -129,7 +129,7 @@ static wchar_t *parseMax(ARGUMENTSINFO *ai)
 	return itot(maxVal);
 }
 
-static wchar_t *parseNum(ARGUMENTSINFO *ai)
+static wchar_t* parseNum(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -158,12 +158,12 @@ static wchar_t *parseNum(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseRand(ARGUMENTSINFO *)
+static wchar_t* parseRand(ARGUMENTSINFO *)
 {
 	return itot(rand());
 }
 
-static wchar_t *parseSub(ARGUMENTSINFO *ai)
+static wchar_t* parseSub(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return nullptr;

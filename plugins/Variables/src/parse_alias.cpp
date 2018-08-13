@@ -1,20 +1,20 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
@@ -43,7 +43,7 @@ static ALIASREGISTER* searchAliasRegister(wchar_t *szAlias)
 	return nullptr;
 }
 
-static wchar_t *replaceArguments(wchar_t *res, wchar_t *tArg, wchar_t *rArg)
+static wchar_t* replaceArguments(wchar_t *res, wchar_t *tArg, wchar_t *rArg)
 {
 	if (mir_wstrlen(tArg) == 0)
 		return res;
@@ -57,11 +57,11 @@ static wchar_t *replaceArguments(wchar_t *res, wchar_t *tArg, wchar_t *rArg)
 
 			if (((signed int)mir_wstrlen(tArg) == (ecur - cur)) && (!wcsncmp(tArg, res + cur, mir_wstrlen(tArg)))) {
 				if (mir_wstrlen(rArg) > mir_wstrlen(tArg)) {
-					res = (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + (mir_wstrlen(rArg) - mir_wstrlen(tArg)) + 1)*sizeof(wchar_t));
+					res = (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + (mir_wstrlen(rArg) - mir_wstrlen(tArg)) + 1) * sizeof(wchar_t));
 					if (res == nullptr)
 						return nullptr;
 				}
-				memmove(res + ecur + (mir_wstrlen(rArg) - mir_wstrlen(tArg)), res + ecur, (mir_wstrlen(res + ecur) + 1)*sizeof(wchar_t));
+				memmove(res + ecur + (mir_wstrlen(rArg) - mir_wstrlen(tArg)), res + ecur, (mir_wstrlen(res + ecur) + 1) * sizeof(wchar_t));
 				wcsncpy(res + cur, rArg, mir_wstrlen(rArg));
 			}
 		}
@@ -71,7 +71,7 @@ static wchar_t *replaceArguments(wchar_t *res, wchar_t *tArg, wchar_t *rArg)
 	return res;
 }
 
-static wchar_t *parseTranslateAlias(ARGUMENTSINFO *ai)
+static wchar_t* parseTranslateAlias(ARGUMENTSINFO *ai)
 {
 	ALIASREGISTER *areg = searchAliasRegister(ai->argv.w[0]);
 	if (areg == nullptr || areg->argc != ai->argc - 1)
@@ -87,7 +87,7 @@ static wchar_t *parseTranslateAlias(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static int addToAliasRegister(wchar_t *szAlias, unsigned int argc, wchar_t** argv, wchar_t *szTranslation)
+static int addToAliasRegister(wchar_t *szAlias, unsigned int argc, wchar_t **argv, wchar_t *szTranslation)
 {
 	if (szAlias == nullptr || szTranslation == nullptr || mir_wstrlen(szAlias) == 0)
 		return -1;
@@ -135,7 +135,7 @@ static int addToAliasRegister(wchar_t *szAlias, unsigned int argc, wchar_t** arg
 	return 0;
 }
 
-static wchar_t *parseAddAlias(ARGUMENTSINFO *ai)
+static wchar_t* parseAddAlias(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -155,9 +155,9 @@ static wchar_t *parseAddAlias(ARGUMENTSINFO *ai)
 	wchar_t *szArgs = nullptr;
 	for (int i = 0; i < argv.getCount(); i++) {
 		if (i == 0)
-			szArgs = (wchar_t*)mir_calloc((mir_wstrlen(argv[i]) + 2)*sizeof(wchar_t));
+			szArgs = (wchar_t*)mir_calloc((mir_wstrlen(argv[i]) + 2) * sizeof(wchar_t));
 		else
-			szArgs = (wchar_t*)mir_realloc(szArgs, (mir_wstrlen(szArgs) + mir_wstrlen(argv[i]) + 2)*sizeof(wchar_t));
+			szArgs = (wchar_t*)mir_realloc(szArgs, (mir_wstrlen(szArgs) + mir_wstrlen(argv[i]) + 2) * sizeof(wchar_t));
 
 		mir_wstrcat(szArgs, argv[i]);
 		if (i != argv.getCount() - 1)

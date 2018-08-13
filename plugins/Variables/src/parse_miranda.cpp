@@ -1,20 +1,20 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
@@ -234,7 +234,7 @@ static wchar_t* parseLastSeenDate(ARGUMENTSINFO *ai)
 	lsTime.wMonth = db_get_w(hContact, szModule, "Month", 0);
 
 	int len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, nullptr, 0);
-	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
+	wchar_t *res = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
 	if (res == nullptr)
 		return nullptr;
 
@@ -277,7 +277,7 @@ static wchar_t* parseLastSeenTime(ARGUMENTSINFO *ai)
 	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 
 	int len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, nullptr, 0);
-	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
+	wchar_t *res = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
 	if (res == nullptr)
 		return nullptr;
 
@@ -514,8 +514,7 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 				flags &= ~DBE_LAST;
 			}
 		}
-	}
-	while ((!bEventOk) && (hDbEvent != NULL));
+	} while ((!bEventOk) && (hDbEvent != NULL));
 
 	return hDbEvent;
 }
@@ -599,7 +598,7 @@ static wchar_t* parseVersionString(ARGUMENTSINFO *ai)
 	return mir_a2u(versionString);
 }
 
-static wchar_t *parseContactNameString(ARGUMENTSINFO *ai)
+static wchar_t* parseContactNameString(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1 || ai->fi->hContact == NULL)
 		return nullptr;
@@ -609,7 +608,7 @@ static wchar_t *parseContactNameString(ARGUMENTSINFO *ai)
 	return (ret == nullptr) ? nullptr : mir_wstrdup(ret);
 }
 
-static wchar_t *parseMirDateString(ARGUMENTSINFO *ai)
+static wchar_t* parseMirDateString(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -620,7 +619,7 @@ static wchar_t *parseMirDateString(ARGUMENTSINFO *ai)
 	return mir_wstrdup(TimeZone_ToStringT(time(0), L"d s", ret, _countof(ret)));
 }
 
-static wchar_t *parseMirandaCoreVar(ARGUMENTSINFO *ai)
+static wchar_t* parseMirandaCoreVar(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -632,7 +631,7 @@ static wchar_t *parseMirandaCoreVar(ARGUMENTSINFO *ai)
 	return Utils_ReplaceVarsW(corevar);
 }
 
-static wchar_t *parseMirSrvExists(ARGUMENTSINFO *ai)
+static wchar_t* parseMirSrvExists(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;

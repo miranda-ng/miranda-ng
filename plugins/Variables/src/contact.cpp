@@ -1,20 +1,20 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
@@ -26,7 +26,7 @@ struct _tagType
 }
 static builtinCnfs[] =
 {
-	{ CNF_FIRSTNAME,   STR_FIRSTNAME  }, 
+	{ CNF_FIRSTNAME,   STR_FIRSTNAME  },
 	{ CNF_LASTNAME,    STR_LASTNAME   },
 	{ CNF_NICK,        STR_NICK       },
 	{ CNF_CUSTOMNICK,  STR_CUSTOMNICK },
@@ -79,7 +79,7 @@ struct CONTACTCE
 	DWORD    flags;
 	wchar_t* tszContact;
 	MCONTACT hContact;
-}; 
+};
 
 static int SortContactCache(const CONTACTCE *p1, const CONTACTCE *p2)
 {
@@ -222,7 +222,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
-		
+
 		// nick (not exact)
 		if ((dwFlags & CI_NICK) && !bMatch) {
 			ptrW szFind(getContactInfoT(CNF_NICK, hContact));
@@ -243,7 +243,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
-		
+
 		// lastname (exact)
 		if ((dwFlags & CI_LASTNAME) && !bMatch) {
 			ptrW szFind(getContactInfoT(CNF_LASTNAME, hContact));
@@ -322,15 +322,14 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 	for (auto &it : arContactCache) {
 		if (hContact != it->hContact && (it->flags & CI_CNFINFO) == 0)
 			continue;
-		
+
 		if ((isNick && (it->flags & CI_NICK)) ||
 			(isFirstName && (it->flags & CI_FIRSTNAME)) ||
 			(isLastName && (it->flags & CI_LASTNAME)) ||
 			(isEmail && (it->flags & CI_EMAIL)) ||
 			(isMyHandle && (it->flags & CI_LISTNAME)) ||
 			(it->flags & CI_CNFINFO) != 0 || // lazy; always invalidate CNF info cache entries
-			(isUid && (it->flags & CI_UNIQUEID))) 
-		{
+			(isUid && (it->flags & CI_UNIQUEID))) {
 			/* remove from cache */
 			mir_free(it->tszContact);
 			arContactCache.remove(arContactCache.indexOf(&it));

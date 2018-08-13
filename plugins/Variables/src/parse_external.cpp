@@ -1,25 +1,25 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
 
-static wchar_t *getFullWinampTitleText()
+static wchar_t* getFullWinampTitleText()
 {
 	HWND hwndWinamp = FindWindow(L"STUDIO", nullptr);
 	if (hwndWinamp == nullptr)
@@ -37,7 +37,7 @@ static wchar_t *getFullWinampTitleText()
 		mir_free(szWinText);
 		return nullptr;
 	}
-	wchar_t *szTitle = (wchar_t*)mir_alloc((2 * mir_wstrlen(szWinText) + 1)*sizeof(wchar_t));
+	wchar_t *szTitle = (wchar_t*)mir_alloc((2 * mir_wstrlen(szWinText) + 1) * sizeof(wchar_t));
 	if (szTitle == nullptr) {
 		mir_free(szWinText);
 		return nullptr;
@@ -49,7 +49,7 @@ static wchar_t *getFullWinampTitleText()
 	return szTitle;
 }
 
-static wchar_t *parseWinampSong(ARGUMENTSINFO *ai)
+static wchar_t* parseWinampSong(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -75,7 +75,7 @@ static wchar_t *parseWinampSong(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseWinampState(ARGUMENTSINFO *ai)
+static wchar_t* parseWinampState(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;

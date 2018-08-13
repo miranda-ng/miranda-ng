@@ -1,25 +1,25 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
 
-static wchar_t *parseAnd(ARGUMENTSINFO *ai)
+static wchar_t* parseAnd(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return nullptr;
@@ -39,7 +39,7 @@ static wchar_t *parseAnd(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseFalse(ARGUMENTSINFO *ai)
+static wchar_t* parseFalse(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -48,7 +48,7 @@ static wchar_t *parseFalse(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseIf(ARGUMENTSINFO *ai)
+static wchar_t* parseIf(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
 		return nullptr;
@@ -62,7 +62,7 @@ static wchar_t *parseIf(ARGUMENTSINFO *ai)
 	return mir_wstrdup((fi.eCount == 0) ? ai->argv.w[2] : ai->argv.w[3]);
 }
 
-static wchar_t *parseIf2(ARGUMENTSINFO *ai)
+static wchar_t* parseIf2(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -79,7 +79,7 @@ static wchar_t *parseIf2(ARGUMENTSINFO *ai)
 	return mir_wstrdup(ai->argv.w[2]);
 }
 
-static wchar_t *parseIf3(ARGUMENTSINFO *ai)
+static wchar_t* parseIf3(ARGUMENTSINFO *ai)
 {
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -96,7 +96,7 @@ static wchar_t *parseIf3(ARGUMENTSINFO *ai)
 	return nullptr;
 }
 
-static wchar_t *parseIfequal(ARGUMENTSINFO *ai)
+static wchar_t* parseIfequal(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return nullptr;
@@ -116,7 +116,7 @@ static wchar_t *parseIfequal(ARGUMENTSINFO *ai)
 	return mir_wstrdup(ai->argv.w[4]);
 }
 
-static wchar_t *parseIfgreater(ARGUMENTSINFO *ai)
+static wchar_t* parseIfgreater(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return nullptr;
@@ -136,7 +136,7 @@ static wchar_t *parseIfgreater(ARGUMENTSINFO *ai)
 	return mir_wstrdup(ai->argv.w[4]);
 }
 
-static wchar_t *parseIflonger(ARGUMENTSINFO *ai)
+static wchar_t* parseIflonger(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return nullptr;
@@ -161,7 +161,7 @@ static wchar_t *parseIflonger(ARGUMENTSINFO *ai)
   ?for(init, cond, incr, show)
 
   */
-static wchar_t *parseFor(ARGUMENTSINFO *ai)
+static wchar_t* parseFor(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return nullptr;
@@ -186,7 +186,7 @@ static wchar_t *parseFor(ARGUMENTSINFO *ai)
 					return nullptr;
 				}
 			}
-			else res = (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + mir_wstrlen(parsed) + 1)*sizeof(wchar_t));
+			else res = (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + mir_wstrlen(parsed) + 1) * sizeof(wchar_t));
 
 			mir_wstrcat(res, parsed);
 			mir_free(parsed);
@@ -201,7 +201,7 @@ static wchar_t *parseFor(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseEqual(ARGUMENTSINFO *ai)
+static wchar_t* parseEqual(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -212,7 +212,7 @@ static wchar_t *parseEqual(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseGreater(ARGUMENTSINFO *ai)
+static wchar_t* parseGreater(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -223,7 +223,7 @@ static wchar_t *parseGreater(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseLonger(ARGUMENTSINFO *ai)
+static wchar_t* parseLonger(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -234,7 +234,7 @@ static wchar_t *parseLonger(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseNot(ARGUMENTSINFO *ai)
+static wchar_t* parseNot(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2) {
 		return nullptr;
@@ -251,7 +251,7 @@ static wchar_t *parseNot(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseOr(ARGUMENTSINFO *ai)
+static wchar_t* parseOr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
 		return nullptr;
@@ -271,12 +271,12 @@ static wchar_t *parseOr(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseTrue(ARGUMENTSINFO *ai)
+static wchar_t* parseTrue(ARGUMENTSINFO *ai)
 {
 	return (ai->argc != 1) ? nullptr : mir_wstrdup(L"");
 }
 
-static wchar_t *parseXor(ARGUMENTSINFO *ai)
+static wchar_t* parseXor(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;

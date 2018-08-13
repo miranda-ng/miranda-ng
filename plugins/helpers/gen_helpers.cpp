@@ -20,39 +20,36 @@
 #include "commonheaders.h"
 #include "gen_helpers.h"
 
-wchar_t *Hlp_GetProtocolName(const char *proto) {
-
+wchar_t* Hlp_GetProtocolName(const char *proto)
+{
 	char protoname[256];
 	if ((!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
 		return nullptr;
 
 	return mir_a2u(protoname);
-
 }
 
-wchar_t *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
-
+wchar_t* Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem)
+{
 	int len = SendDlgItemMessage(hwndDlg, nIDDlgItem, WM_GETTEXTLENGTH, 0, 0);
 	if (len < 0)
 		return nullptr;
 
-	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
+	wchar_t *res = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
 	memset(res, 0, ((len + 1) * sizeof(wchar_t)));
 	GetDlgItemText(hwndDlg, nIDDlgItem, res, len + 1);
-
 	return res;
 }
 
-wchar_t *Hlp_GetWindowText(HWND hwndDlg)
+wchar_t* Hlp_GetWindowText(HWND hwndDlg)
 {
 	int len = GetWindowTextLength(hwndDlg);
 	if (len < 0)
 		return nullptr;
 
-	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
+	wchar_t *res = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
 	memset(res, 0, ((len + 1) * sizeof(wchar_t)));
 	GetWindowText(hwndDlg, res, len + 1);
-
 	return res;
 }
 
@@ -60,7 +57,7 @@ wchar_t *Hlp_GetWindowText(HWND hwndDlg)
  * Modified from Miranda CList, clistsettings.c
  **/
 
-// Logging
+ // Logging
 static int WriteToDebugLogA(const char *szMsg)
 {
 	return Netlib_Log(nullptr, szMsg);
@@ -68,10 +65,9 @@ static int WriteToDebugLogA(const char *szMsg)
 
 int AddDebugLogMessageA(const char* fmt, ...)
 {
-	int res;
 	char szText[MAX_DEBUG], szFinal[MAX_DEBUG];
-	va_list va;
 
+	va_list va;
 	va_start(va, fmt);
 	mir_vsnprintf(szText, _countof(szText), fmt, va);
 	va_end(va);
@@ -80,19 +76,14 @@ int AddDebugLogMessageA(const char* fmt, ...)
 #else
 	strncpy(szFinal, szText, _countof(szFinal));
 #endif
-	res = WriteToDebugLogA(szFinal);
-
-	return res;
+	return WriteToDebugLogA(szFinal);
 }
 
 int AddDebugLogMessage(const wchar_t* fmt, ...)
 {
-
-	int res;
 	wchar_t tszText[MAX_DEBUG], tszFinal[MAX_DEBUG];
-	char *szFinal;
-	va_list va;
 
+	va_list va;
 	va_start(va, fmt);
 	mir_vsnwprintf(tszText, _countof(tszText), fmt, va);
 	va_end(va);
@@ -102,13 +93,7 @@ int AddDebugLogMessage(const wchar_t* fmt, ...)
 	wcsncpy(tszFinal, tszText, _countof(tszFinal));
 #endif
 
-
-	szFinal = mir_u2a(tszFinal);
-
-	res = WriteToDebugLogA(szFinal);
-	mir_free(szFinal);
-
-	return res;
+	return WriteToDebugLogA(_T2A(tszFinal));
 }
 
 int ttoi(wchar_t *string)

@@ -1,20 +1,20 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
@@ -212,7 +212,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 }
 
 // dialog box for the tokens
-static wchar_t *getTokenCategory(TOKENREGISTEREX *tr) {
+static wchar_t* getTokenCategory(TOKENREGISTEREX *tr) {
 	if (tr == nullptr) {
 		return nullptr;
 	}
@@ -239,7 +239,7 @@ static wchar_t *getTokenCategory(TOKENREGISTEREX *tr) {
 
 }
 
-static wchar_t *getHelpDescription(TOKENREGISTEREX *tr)
+static wchar_t* getHelpDescription(TOKENREGISTEREX *tr)
 {
 	if (tr == nullptr)
 		return nullptr;
@@ -261,7 +261,7 @@ static wchar_t *getHelpDescription(TOKENREGISTEREX *tr)
 
 }
 
-static wchar_t *getTokenDescription(TOKENREGISTEREX *tr)
+static wchar_t* getTokenDescription(TOKENREGISTEREX *tr)
 {
 	if (tr == nullptr)
 		return nullptr;

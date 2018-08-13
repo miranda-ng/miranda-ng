@@ -1,25 +1,25 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
 
-static wchar_t *parseCaps(ARGUMENTSINFO *ai)
+static wchar_t* parseCaps(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -44,7 +44,7 @@ static wchar_t *parseCaps(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseCaps2(ARGUMENTSINFO *ai)
+static wchar_t* parseCaps2(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -64,13 +64,13 @@ static wchar_t *parseCaps2(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseCrlf(ARGUMENTSINFO *ai)
+static wchar_t* parseCrlf(ARGUMENTSINFO *ai)
 {
 	ai->flags |= AIF_DONTPARSE;
 	return mir_wstrdup(L"\r\n");
 }
 
-static wchar_t *parseEolToCrlf(ARGUMENTSINFO *ai)
+static wchar_t* parseEolToCrlf(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -95,7 +95,7 @@ static wchar_t *parseEolToCrlf(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseFixeol(ARGUMENTSINFO *ai)
+static wchar_t* parseFixeol(ARGUMENTSINFO *ai)
 {
 	wchar_t *szReplacement;
 	if (ai->argc == 2)
@@ -123,7 +123,7 @@ static wchar_t *parseFixeol(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseFixeol2(ARGUMENTSINFO *ai)
+static wchar_t* parseFixeol2(ARGUMENTSINFO *ai)
 {
 	wchar_t *szReplacement;
 	switch (ai->argc) {
@@ -155,7 +155,7 @@ static wchar_t *parseFixeol2(ARGUMENTSINFO *ai)
 	return (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + 1)*sizeof(wchar_t));
 }
 
-static wchar_t *parseInsert(ARGUMENTSINFO *ai)
+static wchar_t* parseInsert(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
 		return nullptr;
@@ -175,7 +175,7 @@ static wchar_t *parseInsert(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseLeft(ARGUMENTSINFO *ai)
+static wchar_t* parseLeft(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -194,7 +194,7 @@ static wchar_t *parseLeft(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseLen(ARGUMENTSINFO *ai)
+static wchar_t* parseLen(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -202,7 +202,7 @@ static wchar_t *parseLen(ARGUMENTSINFO *ai)
 	return itot((int)mir_wstrlen(ai->argv.w[1]));
 }
 
-static wchar_t *parseLineCount(ARGUMENTSINFO *ai)
+static wchar_t* parseLineCount(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -223,7 +223,7 @@ static wchar_t *parseLineCount(ARGUMENTSINFO *ai)
 	return itot(count);
 }
 
-static wchar_t *parseLower(ARGUMENTSINFO *ai)
+static wchar_t* parseLower(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -235,7 +235,7 @@ static wchar_t *parseLower(ARGUMENTSINFO *ai)
 	return CharLower(res);
 }
 
-static wchar_t *parseLongest(ARGUMENTSINFO *ai)
+static wchar_t* parseLongest(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
 		return nullptr;
@@ -248,7 +248,7 @@ static wchar_t *parseLongest(ARGUMENTSINFO *ai)
 	return mir_wstrdup(ai->argv.w[iLong]);
 }
 
-static wchar_t *parseNoOp(ARGUMENTSINFO *ai)
+static wchar_t* parseNoOp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -256,7 +256,7 @@ static wchar_t *parseNoOp(ARGUMENTSINFO *ai)
 	return mir_wstrdup(ai->argv.w[1]);
 }
 
-static wchar_t *parsePad(ARGUMENTSINFO *ai)
+static wchar_t* parsePad(ARGUMENTSINFO *ai)
 {
 	wchar_t padchar;
 	switch (ai->argc) {
@@ -283,7 +283,7 @@ static wchar_t *parsePad(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parsePadright(ARGUMENTSINFO *ai)
+static wchar_t* parsePadright(ARGUMENTSINFO *ai)
 {
 	wchar_t padchar;
 	switch (ai->argc) {
@@ -310,7 +310,7 @@ static wchar_t *parsePadright(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parsePadcut(ARGUMENTSINFO *ai)
+static wchar_t* parsePadcut(ARGUMENTSINFO *ai)
 {
 	wchar_t padchar;
 	switch (ai->argc) {
@@ -339,7 +339,7 @@ static wchar_t *parsePadcut(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parsePadcutright(ARGUMENTSINFO *ai)
+static wchar_t* parsePadcutright(ARGUMENTSINFO *ai)
 {
 	wchar_t padchar;
 	switch (ai->argc) {
@@ -368,7 +368,7 @@ static wchar_t *parsePadcutright(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseRepeat(ARGUMENTSINFO *ai)
+static wchar_t* parseRepeat(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -388,7 +388,7 @@ static wchar_t *parseRepeat(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseReplace(ARGUMENTSINFO *ai)
+static wchar_t* parseReplace(ARGUMENTSINFO *ai)
 {
 	if ((ai->argc < 4) || (ai->argc % 2 != 0))
 		return nullptr;
@@ -419,7 +419,7 @@ static wchar_t *parseReplace(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseRight(ARGUMENTSINFO *ai)
+static wchar_t* parseRight(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -441,7 +441,7 @@ static wchar_t *parseRight(ARGUMENTSINFO *ai)
 /*
 	string, display size, scroll amount
 	*/
-static wchar_t *parseScroll(ARGUMENTSINFO *ai)
+static wchar_t* parseScroll(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
 		return nullptr;
@@ -468,7 +468,7 @@ static wchar_t *parseScroll(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseShortest(ARGUMENTSINFO *ai)
+static wchar_t* parseShortest(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
 		return nullptr;
@@ -481,7 +481,7 @@ static wchar_t *parseShortest(ARGUMENTSINFO *ai)
 	return mir_wstrdup(ai->argv.w[iShort]);
 }
 
-static wchar_t *parseStrchr(ARGUMENTSINFO *ai)
+static wchar_t* parseStrchr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -493,7 +493,7 @@ static wchar_t *parseStrchr(ARGUMENTSINFO *ai)
 	return itot(c - ai->argv.w[1] + 1);
 }
 
-static wchar_t *parseStrcmp(ARGUMENTSINFO *ai)
+static wchar_t* parseStrcmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -504,7 +504,7 @@ static wchar_t *parseStrcmp(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseStrmcmp(ARGUMENTSINFO *ai)
+static wchar_t* parseStrmcmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return nullptr;
@@ -520,7 +520,7 @@ static wchar_t *parseStrmcmp(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseStrncmp(ARGUMENTSINFO *ai)
+static wchar_t* parseStrncmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
 		return nullptr;
@@ -535,7 +535,7 @@ static wchar_t *parseStrncmp(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseStricmp(ARGUMENTSINFO *ai)
+static wchar_t* parseStricmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -546,7 +546,7 @@ static wchar_t *parseStricmp(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseStrnicmp(ARGUMENTSINFO *ai)
+static wchar_t* parseStrnicmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
 		return nullptr;
@@ -561,7 +561,7 @@ static wchar_t *parseStrnicmp(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseStrrchr(ARGUMENTSINFO *ai)
+static wchar_t* parseStrrchr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -573,7 +573,7 @@ static wchar_t *parseStrrchr(ARGUMENTSINFO *ai)
 	return itot(c - ai->argv.w[1] + 1);
 }
 
-static wchar_t *parseStrstr(ARGUMENTSINFO *ai)
+static wchar_t* parseStrstr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -585,7 +585,7 @@ static wchar_t *parseStrstr(ARGUMENTSINFO *ai)
 	return itot(c - ai->argv.w[1] + 1);
 }
 
-static wchar_t *parseSubstr(ARGUMENTSINFO *ai)
+static wchar_t* parseSubstr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return nullptr;
@@ -605,7 +605,7 @@ static wchar_t *parseSubstr(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseSelect(ARGUMENTSINFO *ai)
+static wchar_t* parseSelect(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
 		return nullptr;
@@ -617,7 +617,7 @@ static wchar_t *parseSelect(ARGUMENTSINFO *ai)
 	return mir_wstrdup(ai->argv.w[n + 1]);
 }
 
-static wchar_t *parseSwitch(ARGUMENTSINFO *ai)
+static wchar_t* parseSwitch(ARGUMENTSINFO *ai)
 {
 	if (ai->argc % 2 != 0)
 		return nullptr;
@@ -629,7 +629,7 @@ static wchar_t *parseSwitch(ARGUMENTSINFO *ai)
 	return nullptr;
 }
 
-static wchar_t *parseTrim(ARGUMENTSINFO *ai)
+static wchar_t* parseTrim(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -655,7 +655,7 @@ static wchar_t *parseTrim(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseTab(ARGUMENTSINFO *ai)
+static wchar_t* parseTab(ARGUMENTSINFO *ai)
 {
 	int count = 1;
 	if ((ai->argc == 2) && (mir_wstrlen(ai->argv.w[1]) > 0))
@@ -676,7 +676,7 @@ static wchar_t *parseTab(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseUpper(ARGUMENTSINFO *ai)
+static wchar_t* parseUpper(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -688,7 +688,7 @@ static wchar_t *parseUpper(ARGUMENTSINFO *ai)
 	return CharUpper(res);
 }
 
-static wchar_t *getNthWord(wchar_t *szString, int w)
+static wchar_t* getNthWord(wchar_t *szString, int w)
 {
 	if (szString == nullptr)
 		return nullptr;
@@ -725,7 +725,7 @@ static wchar_t *getNthWord(wchar_t *szString, int w)
 	return res;
 }
 
-static wchar_t *parseWord(ARGUMENTSINFO *ai)
+static wchar_t* parseWord(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3 || ai->argc > 4)
 		return nullptr;
@@ -763,7 +763,7 @@ static wchar_t *parseWord(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseExtratext(ARGUMENTSINFO *ai)
+static wchar_t* parseExtratext(ARGUMENTSINFO *ai)
 {
 	if (ai->argc > 1)
 		return nullptr;

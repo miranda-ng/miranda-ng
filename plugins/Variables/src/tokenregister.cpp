@@ -37,17 +37,10 @@ static LIST<TokenRegisterEntry> tokens(100, CompareTokens);
 
 static mir_cs csRegister;
 
-unsigned long int hashlittle(void *key, size_t length, unsigned long int initval);
-
-static DWORD NameHashFunction(wchar_t *tszStr)
-{
-	return (DWORD)hashlittle(tszStr, mir_wstrlen(tszStr)*sizeof(wchar_t), 0);
-}
-
 static TokenRegisterEntry* FindTokenRegisterByName(wchar_t *name)
 {
 	TokenRegisterEntry temp;
-	temp.nameHash = NameHashFunction(name);
+	temp.nameHash = mir_hashstrW(name);
 	return tokens.find(&temp);
 }
 
@@ -106,12 +99,12 @@ INT_PTR registerToken(WPARAM, LPARAM lParam)
 
 	if (newVr->flags & TRF_TCHAR) {
 		deRegisterToken(newVr->szTokenString.w);
-		hash = NameHashFunction(newVr->szTokenString.w);
+		hash = mir_hashstrW(newVr->szTokenString.w);
 	}
 	else {
 		wchar_t *wtoken = mir_a2u(newVr->szTokenString.a);
 		deRegisterToken(wtoken);
-		hash = NameHashFunction(wtoken);
+		hash = mir_hashstrW(wtoken);
 		mir_free(wtoken);
 	}
 

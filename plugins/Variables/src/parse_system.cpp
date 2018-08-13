@@ -1,25 +1,25 @@
 /*
-    Variables Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	Variables Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
 
-static wchar_t *parseComputerName(ARGUMENTSINFO *ai)
+static wchar_t* parseComputerName(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -40,80 +40,74 @@ static wchar_t *parseComputerName(ARGUMENTSINFO *ai)
 #include <pdh.h>
 #include <pdhmsg.h>
 
-static wchar_t *parseCpuLoad(ARGUMENTSINFO *ai)
+static wchar_t* parseCpuLoad(ARGUMENTSINFO *ai)
 {
 
 	HQUERY hQuery;
 	PDH_FMT_COUNTERVALUE cValue;
 	HCOUNTER hCounter;
-	wchar_t *szCounter, szVal[32];
+	wchar_t szVal[32];
 
 	if (ai->argc != 2)
 		return nullptr;
 
+	ptrW szCounter;
 	if (mir_wstrlen(ai->argv.w[1]) == 0)
 		szCounter = mir_wstrdup(L"\\Processor(_Total)\\% Processor Time");
 	else {
 		int size = (int)mir_wstrlen(ai->argv.w[1]) + 32;
 		szCounter = (wchar_t *)mir_alloc(size * sizeof(wchar_t));
-		if (szCounter == nullptr)
-			return nullptr;
-
 		mir_snwprintf(szCounter, size, L"\\Process(%s)\\%% Processor Time", ai->argv.w[1]);
 	}
+
 	PDH_STATUS pdhStatus = PdhValidatePath(szCounter);
-	if (pdhStatus != ERROR_SUCCESS) {
-		mir_free(szCounter);
+	if (pdhStatus != ERROR_SUCCESS)
 		return nullptr;
-	}
+
 	pdhStatus = PdhOpenQuery(nullptr, 0, &hQuery);
-	if (pdhStatus != ERROR_SUCCESS) {
-		mir_free(szCounter);
+	if (pdhStatus != ERROR_SUCCESS)
 		return nullptr;
-	}
+
 	pdhStatus = PdhAddCounter(hQuery, szCounter, 0, &hCounter);
 	if (pdhStatus != ERROR_SUCCESS) {
-		mir_free(szCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return nullptr;
 	}
+
 	pdhStatus = PdhCollectQueryData(hQuery);
 	if (pdhStatus != ERROR_SUCCESS) {
-		mir_free(szCounter);
 		PdhRemoveCounter(hCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return nullptr;
 	}
+
 	Sleep(100);
 	pdhStatus = PdhCollectQueryData(hQuery);
 	if (pdhStatus != ERROR_SUCCESS) {
-		mir_free(szCounter);
 		PdhRemoveCounter(hCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return nullptr;
 	}
+
 	pdhStatus = PdhGetFormattedCounterValue(hCounter, PDH_FMT_DOUBLE, (LPDWORD)nullptr, &cValue);
 	if (pdhStatus != ERROR_SUCCESS) {
-		mir_free(szCounter);
 		PdhRemoveCounter(hCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return nullptr;
 	}
-	if (cValue.CStatus != ERROR_SUCCESS) {
-		mir_free(szCounter);
-		PdhRemoveCounter(hCounter);
-		pdhStatus = PdhCloseQuery(hQuery);
-		return nullptr;
-	}
-	mir_snwprintf(szVal, L"%.0f", cValue.doubleValue);
-	//PdhRemoveCounter(*hCounter);
-	PdhCloseQuery(hQuery);
-	mir_free(szCounter);
 
+	if (cValue.CStatus != ERROR_SUCCESS) {
+		PdhRemoveCounter(hCounter);
+		pdhStatus = PdhCloseQuery(hQuery);
+		return nullptr;
+	}
+
+	mir_snwprintf(szVal, L"%.0f", cValue.doubleValue);
+	PdhCloseQuery(hQuery);
 	return mir_wstrdup(szVal);
 }
 
-static wchar_t *parseCurrentDate(ARGUMENTSINFO *ai)
+static wchar_t* parseCurrentDate(ARGUMENTSINFO *ai)
 {
 	wchar_t *szFormat;
 	if (ai->argc == 1 || (ai->argc > 1 && mir_wstrlen(ai->argv.w[1]) == 0))
@@ -134,7 +128,7 @@ static wchar_t *parseCurrentDate(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseCurrentTime(ARGUMENTSINFO *ai)
+static wchar_t* parseCurrentTime(ARGUMENTSINFO *ai)
 {
 	wchar_t *szFormat;
 	if (ai->argc == 1 || (ai->argc > 1) && (mir_wstrlen(ai->argv.w[1]) == 0))
@@ -155,7 +149,7 @@ static wchar_t *parseCurrentTime(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseDirectory(ARGUMENTSINFO *ai)
+static wchar_t* parseDirectory(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2 || ai->argc > 3)
 		return nullptr;
@@ -191,7 +185,7 @@ static wchar_t *parseDirectory(ARGUMENTSINFO *ai)
 	path, depth
 	returns complete path up to "path depth - depth"
 	*/
-static wchar_t *parseDirectory2(ARGUMENTSINFO *ai)
+static wchar_t* parseDirectory2(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2 || ai->argc > 3)
 		return nullptr;
@@ -264,7 +258,7 @@ static int getTime(wchar_t *szTime, struct tm *date)
 	return 0;
 }
 
-static wchar_t *parseDiffTime(ARGUMENTSINFO *ai)
+static wchar_t* parseDiffTime(ARGUMENTSINFO *ai)
 {
 	struct tm t0, t1;
 	wchar_t szTime[32];
@@ -287,7 +281,7 @@ static wchar_t *parseDiffTime(ARGUMENTSINFO *ai)
 	return mir_wstrdup(szTime);
 }
 
-static wchar_t *parseDirExists(ARGUMENTSINFO *ai)
+static wchar_t* parseDirExists(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -301,7 +295,7 @@ static wchar_t *parseDirExists(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseEnvironmentVariable(ARGUMENTSINFO *ai)
+static wchar_t* parseEnvironmentVariable(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -322,7 +316,7 @@ static wchar_t *parseEnvironmentVariable(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseFileExists(ARGUMENTSINFO *ai)
+static wchar_t* parseFileExists(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -336,7 +330,7 @@ static wchar_t *parseFileExists(ARGUMENTSINFO *ai)
 	return mir_wstrdup(L"");
 }
 
-static wchar_t *parseFindWindow(ARGUMENTSINFO *ai)
+static wchar_t* parseFindWindow(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -359,7 +353,7 @@ static wchar_t *parseFindWindow(ARGUMENTSINFO *ai)
 // 2 = filter
 // 3 = sperator
 // 4 = [f]iles, [d]irs
-static wchar_t *parseListDir(ARGUMENTSINFO *ai)
+static wchar_t* parseListDir(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
 		return nullptr;
@@ -430,7 +424,7 @@ static BOOL CALLBACK MyProcessEnumerator(DWORD, WORD, char *szProcess, LPARAM lP
 	return TRUE;
 }
 
-static wchar_t *parseProcessRunning(ARGUMENTSINFO *ai)
+static wchar_t* parseProcessRunning(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return nullptr;
@@ -447,7 +441,7 @@ static wchar_t *parseProcessRunning(ARGUMENTSINFO *ai)
 }
 #endif
 
-static wchar_t *parseRegistryValue(ARGUMENTSINFO *ai)
+static wchar_t* parseRegistryValue(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -519,7 +513,7 @@ static int TsToSystemTime(SYSTEMTIME *sysTime, time_t timestamp)
 	return 0;
 }
 
-static wchar_t *parseTimestamp2Date(ARGUMENTSINFO *ai)
+static wchar_t* parseTimestamp2Date(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
 		return nullptr;
@@ -551,7 +545,7 @@ static wchar_t *parseTimestamp2Date(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseTimestamp2Time(ARGUMENTSINFO *ai)
+static wchar_t* parseTimestamp2Time(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
 		return nullptr;
@@ -583,7 +577,7 @@ static wchar_t *parseTimestamp2Time(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static wchar_t *parseTextFile(ARGUMENTSINFO *ai)
+static wchar_t* parseTextFile(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return nullptr;
@@ -787,7 +781,7 @@ static wchar_t *parseTextFile(ARGUMENTSINFO *ai)
 	return nullptr;
 }
 
-static wchar_t *parseUpTime(ARGUMENTSINFO *ai)
+static wchar_t* parseUpTime(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -825,7 +819,7 @@ static wchar_t *parseUpTime(ARGUMENTSINFO *ai)
 	return mir_wstrdup(szVal);
 }
 
-static wchar_t *parseUserName(ARGUMENTSINFO *ai)
+static wchar_t* parseUserName(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -845,7 +839,7 @@ static wchar_t *parseUserName(ARGUMENTSINFO *ai)
 }
 
 // clipboard support
-static wchar_t *parseClipboard(ARGUMENTSINFO *ai)
+static wchar_t* parseClipboard(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
