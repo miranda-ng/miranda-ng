@@ -49,29 +49,22 @@ map<wstring, string::size_type, less<wstring> > clFileTo1ColWidth;
 // default line width
 int nMaxLineWidth = 80;
 
-const wchar_t *pszReplaceList[] =
+struct
 {
-	L"%FirstName%",
-	L"%LastName%",
-	L"%e-mail%",
-	L"%Nick%",
-	L"%City%",
-	L"%State%",
-	L"%Phone%",
-	L"%Homepage%",
-	L"%About%"
-};
-const char *pszReplaceListA[] =
+	const wchar_t *pField;
+	const char *pSetting;
+}
+static replaceList[] =
 {
-	"FirstName",
-	"LastName",
-	"e-mail",
-	"Nick",
-	"City",
-	"State",
-	"Phone",
-	"Homepage",
-	"About"
+	{ L"%FirstName%", "FirstName" },
+	{ L"%LastName%",  "LastName"  },
+	{ L"%e-mail%",    "e-mail"    },
+	{ L"%Nick%",      "Nick"      },
+	{ L"%City%",      "City"      },
+	{ L"%State%",     "State"     },
+	{ L"%Phone%",     "Phone"     },
+	{ L"%Homepage%",  "Homepage"  },
+	{ L"%About%",     "About"     }
 };
 
 // Alowes this plugin to replace the history function of miranda !!
@@ -756,8 +749,8 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 			string sProto = _DBGetStringA(hContact, "Protocol", "p", "");
 			ReplaceAll(output, L"%Proto%", _DBGetStringW(hContact, "Protocol", "p", L""));
 
-			for (int nCur = 0; nCur < 9; nCur++)
-				ReplaceAll(output, pszReplaceList[nCur], _DBGetStringW(hContact, sProto.c_str(), pszReplaceListA[nCur], L""));
+			for (auto &it : replaceList)
+				ReplaceAll(output, it.pField, _DBGetStringW(hContact, sProto.c_str(), it.pSetting, L""));
 
 			ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, sProto.c_str()));
 			if (id != NULL)
