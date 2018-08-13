@@ -59,11 +59,10 @@ CMPlugin::CMPlugin() :
 
 static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM /*lParam*/)
 {
-	if (bUseInternalViewer()) {
+	if (g_bUseIntViewer)
 		bShowFileViewer(wParam);
-		return 0;
-	}
-	bOpenExternaly(wParam);
+	else
+		bOpenExternaly(wParam);
 	return 0;
 }
 
@@ -151,7 +150,7 @@ int CMPlugin::Load()
 	g_sTimeFormat = _DBGetStringW(NULL, MODULENAME, "TimeFormat", L"d s");
 
 	sFileViewerPrg = _DBGetStringW(NULL, MODULENAME, "FileViewerPrg", L"");
-	bUseInternalViewer(getBool("UseInternalViewer", bUseInternalViewer()));
+	g_bUseIntViewer = getBool("UseInternalViewer", true);
 
 	g_bUseJson = getBool("UseJson", false);
 	g_bAppendNewLine = getBool("AppendNewLine", true);

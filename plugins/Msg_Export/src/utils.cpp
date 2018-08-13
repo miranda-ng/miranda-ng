@@ -101,13 +101,6 @@ bool bIsUtf8Header(BYTE * pucByteOrder)
 // Type            : Global
 // Parameters      : pszToCheck - ?
 // Returns         : int
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 030107, 07 January 2003
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 int nGetFormatCount(const wchar_t *pszToCheck)
 {
@@ -127,13 +120,6 @@ int nGetFormatCount(const wchar_t *pszToCheck)
 // Type            : Global
 // Parameters      : dwError - ?
 // Returns         : string
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 021012, 12 October 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 wstring sGetErrorString(DWORD dwError)
 {
@@ -186,11 +172,6 @@ void DisplayLastError(const wchar_t *pszError)
 // Returns         : string
 // Description     : Reads a string from the database 
 //                   Just like those in database.h
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 wstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *pszError)
 {
@@ -227,11 +208,6 @@ string _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSett
 // Returns         : void
 // Description     : will replace all acurances of a string with another string
 //                   used to replace %user%, and other user 
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wstring &sNew)
 {
@@ -249,60 +225,14 @@ void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wchar_t *pszNew)
 }
 
 /////////////////////////////////////////////////////////////////////
-// Member Function : bCreatePathToFile
-// Type            : Global
-// Parameters      : sFilePath - File name to create path to ( file name may be empty ( i.e. c:\Folder\ )
-// Returns         : Returns true if the path is created or already exists 
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020525, 25 May 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-bool bCreatePathToFile(wstring sFilePath)
-{
-	string::size_type nPos = sFilePath.rfind('\\');
-	if (nPos != string::npos) {
-		if (nPos + 1 < sFilePath.size())
-			sFilePath.erase(nPos + 1);
-	}
-	else // cant find
-		return false;
-
-	// create directory
-	if (!CreateDirectory(sFilePath.c_str(), nullptr)) {
-		DWORD dwE = GetLastError();
-		if (dwE == 183) // Cannot create a file when that file already exists. 
-			return true;
-
-		if (!bCreatePathToFile(sFilePath.substr(0, nPos)))
-			return false;
-
-		// try again 
-		if (!CreateDirectory(sFilePath.c_str(), nullptr))
-			return false;
-	}
-	return true;
-}
-
-/////////////////////////////////////////////////////////////////////
 // Member Function : bWriteToFile
 // Type            : Global
 // Parameters      : hFile  - ?
 //                   pszSrc - in UTF8 or ANSII
 //                   nLen   - ?
 // Returns         : Returns true if all the data was written to the file
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020629, 29 June 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
-bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
+static bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
 {
 	if (nLen < 0)
 		nLen = (int)mir_strlen(pszSrc);
@@ -319,13 +249,6 @@ bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
 //                   pszSrc    - ?
 //                   bUtf8File - ?
 // Returns         : Returns true if 
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 060130, 30 januar 2006
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 static bool bWriteTextToFile(HANDLE hFile, const wchar_t *pszSrc, bool bUtf8File, int nLen = -1)
 {
@@ -341,8 +264,7 @@ static bool bWriteTextToFile(HANDLE hFile, const wchar_t *pszSrc, bool bUtf8File
 		return bWriteToFile(hFile, pszAstr, -1);
 	}
 
-	T2Utf pszUtf8(pszSrc);
-	return bWriteToFile(hFile, pszUtf8, -1);
+	return bWriteToFile(hFile, T2Utf(pszSrc), -1);
 }
 
 
@@ -357,8 +279,7 @@ static bool bWriteTextToFile(HANDLE hFile, const char *pszSrc, bool bUtf8File, i
 		pszSrc = tmp;
 	}
 
-	ptrA pszUtf8(mir_utf8encode(pszSrc));
-	return bWriteToFile(hFile, pszUtf8, -1);
+	return bWriteToFile(hFile, ptrA(mir_utf8encode(pszSrc)), -1);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -367,13 +288,6 @@ static bool bWriteTextToFile(HANDLE hFile, const char *pszSrc, bool bUtf8File, i
 // Parameters      : hFile   - ?
 //                   nIndent - ?
 // Returns         : Returns true if all the data was written to the file
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020629, 29 June 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 const char szNewLineIndent[] = "\r\n                                                                                                   ";
 bool bWriteNewLine(HANDLE hFile, DWORD dwIndent)
@@ -390,14 +304,6 @@ bool bWriteNewLine(HANDLE hFile, DWORD dwIndent)
 // Parameters      : hFile - ?
 //                         - ?
 //                   nSize - ?
-// Returns         : void
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 021203, 03 December 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 bool bWriteHexToFile(HANDLE hFile, void * pData, int nSize)
 {
@@ -418,11 +324,6 @@ bool bWriteHexToFile(HANDLE hFile, void * pData, int nSize)
 // Returns         : void
 // Description     : Used to set the internal path.
 //                   Handles the reading from the mirandaboot.ini to get the %dbpath%
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 bool bReadMirandaDirAndPath()
 {
@@ -443,14 +344,6 @@ bool bReadMirandaDirAndPath()
 // Member Function : ReplaceDBPath
 // Type            : Global
 // Parameters      : sRet - ?
-// Returns         : void
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 021020, 20 October 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 void ReplaceDBPath(wstring &sRet)
 {
@@ -471,13 +364,6 @@ void ReplaceDBPath(wstring &sRet)
 // Type            : Global
 // Parameters      : hContact - Handle to user
 // Returns         : string contaning the compleate file name and path
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 wstring GetFilePathFromUser(MCONTACT hContact)
 {
@@ -498,7 +384,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 		if (!sPrevFileName.empty()) {
 			ReplaceDBPath(sPrevFileName);
 
-			// Here we will try to avoide the (Unknown Contact) in cases where the protocol for 
+			// Here we will try to avoid the (Unknown Contact) in cases where the protocol for 
 			// this user has been removed.
 			if (bNickUsed && (wcsstr(Clist_GetContactDisplayName(hContact), LPGENW("(Unknown Contact)")) != nullptr))
 				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown Contact)
@@ -540,7 +426,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 						if (!MoveFile(sPrevFileName.c_str(), sFilePath.c_str())) {
 							// this might be because the new path isent created 
 							// so we will try to create it 
-							bCreatePathToFile(sFilePath);
+							CreateDirectoryTreeW(sFilePath.c_str());
 
 							while (!MoveFile(sPrevFileName.c_str(), sFilePath.c_str())) {
 								mir_snwprintf(szTemp,
@@ -565,18 +451,12 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 	return sFilePath;
 }
 
-
 /////////////////////////////////////////////////////////////////////
 // Member Function : FileNickFromHandle
 // Type            : Global
 // Parameters      : hContact - ?
 // Returns         : string
 // Description     : Replaceses invalid file name chars
-// References      : -
-// Remarks         : -
-// Created         : 030107, 07 January 2003
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 wstring FileNickFromHandle(MCONTACT hContact)
 {
@@ -596,12 +476,6 @@ wstring FileNickFromHandle(MCONTACT hContact)
 //                   sNew       - ?
 // Returns         : void
 // Description     : Removes any ':' in the new string
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 040205, 05 februar 2004
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 void ReplaceAllNoColon(wstring &sSrc, const wchar_t *pszReplace, wstring &sNew)
 {
@@ -617,13 +491,6 @@ void ReplaceAllNoColon(wstring &sSrc, const wchar_t *pszReplace, wstring &sNew)
 // Parameters      : hContact - Handle to user
 //                   sTarget  - String with either %user% or %UIN%, to replace in
 // Returns         : void
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020525, 25 May 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 void ReplaceDefines(MCONTACT hContact, wstring & sTarget)
 {
@@ -706,14 +573,6 @@ void ReplaceDefines(MCONTACT hContact, wstring & sTarget)
 // Member Function : ReplaceTimeVariables
 // Type            : Global
 // Parameters      : sRet - ?
-// Returns         : void
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 040219, 19 februar 2004
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 void ReplaceTimeVariables(wstring &sRet)
 {
@@ -739,12 +598,6 @@ void ReplaceTimeVariables(wstring &sRet)
 // Parameters      : None
 // Returns         : void
 // Description     : updates clFileTo1ColWidth,
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 void UpdateFileToColWidth()
 {
@@ -764,14 +617,6 @@ void UpdateFileToColWidth()
 // Parameters      : pszError - ?
 //                   sFile    - ?
 //                   dbei     - ?
-// Returns         : void
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 021203, 03 December 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO *dbei)
 {
@@ -834,13 +679,6 @@ void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO
 //                   sFilePath - path to file
 //                   dbei      - Event to export
 // Returns         : false on serious error, when file should be closed to not lost/overwrite any data
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 050429, 29 april 2005
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
 {
@@ -987,7 +825,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 				int nLen = (int)mir_strlen(pszData);
 				if ((pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob) {
 					if (bWriteTextToFile(hFile, pszType, bWriteUTF8Format) &&
-						bWriteIndentedToFile(hFile, nIndent, pszData, bWriteUTF8Format)) {
+						bWriteIndentedToFile(hFile, nIndent, _A2T(pszData), bWriteUTF8Format)) {
 						pszData += nLen + 1;
 						if ((pszData - (char *)dbei.pBlob) >= (int)dbei.cbBlob) {
 							bWriteOk = true;
@@ -997,7 +835,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 							if ((pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob) {
 								if (bWriteNewLine(hFile, nIndent) &&
 									bWriteTextToFile(hFile, LPGENW("Description: "), bWriteUTF8Format) &&
-									bWriteIndentedToFile(hFile, nIndent, pszData, bWriteUTF8Format)) {
+									bWriteIndentedToFile(hFile, nIndent, _A2T(pszData), bWriteUTF8Format)) {
 									bWriteOk = true;
 								}
 							}
@@ -1056,7 +894,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 							if (*pszCurBlobPos) {
 								if (!bWriteNewLine(hFile, nIndent) ||
 									!bWriteTextToFile(hFile, TranslateW(pszTypes[i]), bWriteUTF8Format) ||
-									!bWriteIndentedToFile(hFile, nIndent, pszCurBlobPos, bWriteUTF8Format)) {
+									!bWriteIndentedToFile(hFile, nIndent, _A2T(pszCurBlobPos), bWriteUTF8Format)) {
 									break;
 								}
 								pszCurBlobPos += mir_strlen(pszCurBlobPos);
@@ -1112,14 +950,14 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 				else bWriteTextToFile(hFile, LPGENW("No from address"), bWriteUTF8Format);
 
 				if (!bWriteNewLine(hFile, nIndent) ||
-					!bWriteIndentedToFile(hFile, nIndent, pszStr, bWriteUTF8Format)) {
+					!bWriteIndentedToFile(hFile, nIndent, _A2T(pszStr), bWriteUTF8Format)) {
 					DisplayErrorDialog(LPGENW("Failed to write EmailExpress to the file :\n"), sFilePath, &dbei);
 				}
 			}
 			break;
 
 		case ICQEVENTTYPE_SMS:
-			if (!bWriteIndentedToFile(hFile, nIndent, (const char*)dbei.pBlob, bWriteUTF8Format))
+			if (!bWriteIndentedToFile(hFile, nIndent, _A2T((const char*)dbei.pBlob), bWriteUTF8Format))
 				DisplayErrorDialog(LPGENW("Failed to write SMS to the file :\n"), sFilePath, &dbei);
 			break;
 
@@ -1148,23 +986,17 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 // Returns         : int
 // Description     : Called when an event is added to the DB
 //                   Or from the Export All funktion
-// References      : -
-// Remarks         : -
-// Created         : 020422, 22 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 HANDLE openCreateFile(wstring sFilePath)
 {
-	GetLastError();// Clear last error !!
+	SetLastError(0);
 
 	HANDLE hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		// this might be because the path isent created 
 		// so we will try to create it 
-		if (bCreatePathToFile(sFilePath)) {
+		if (!CreateDirectoryTreeW(sFilePath.c_str()))
 			hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-		}
 	}
 
 	return hFile;
@@ -1215,7 +1047,7 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, wstring sFil
 		dbei.pBlob = (PBYTE)malloc(dbei.cbBlob + 2);
 		dbei.pBlob[dbei.cbBlob] = 0;
 		dbei.pBlob[dbei.cbBlob + 1] = 0;
-		// Double null terminate, this shut pervent most errors 
+		// Double null terminate, this should prevent most errors 
 		// where the blob received has an invalid format
 	}
 
@@ -1229,22 +1061,6 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, wstring sFil
 	return result;
 }
 
-#ifdef _UNICODE
-bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const char *pszSrc, bool bUtf8File)
-{
-	int nLen = (int)mir_strlen(pszSrc);
-	wchar_t * pszWstr = new wchar_t[nLen + 1];
-	bool bRet = false;
-	if (MultiByteToWideChar(CP_ACP, 0, pszSrc, nLen, pszWstr, nLen) == nLen) {
-		pszWstr[nLen] = NULL;
-		bRet = bWriteIndentedToFile(hFile, nIndent, pszWstr, bUtf8File);
-	}
-	delete[] pszWstr;
-
-	return bRet;
-}
-#endif
-
 /////////////////////////////////////////////////////////////////////
 // Member Function : bWriteIndentedToFile
 // Type            : Global
@@ -1252,13 +1068,6 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const char *pszSrc, bool bU
 //                   nIndent - ?
 //                   pszSrc  - 
 // Returns         : Returns true if 
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020629, 29 June 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
 bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool bUtf8File)
 {
@@ -1337,17 +1146,9 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool
 //                   lparam - 0
 // Returns         : int
 // Description     : Called when an contact is about to be deleted
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 021222, 22 December 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
 
-int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
+int nContactDeleted(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wparam;
-
 	HWND hInternalWindow = WindowList_Find(hInternalWindowList, hContact);
 	if (hInternalWindow)
 		CloseWindow(hInternalWindow);

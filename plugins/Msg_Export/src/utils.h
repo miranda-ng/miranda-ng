@@ -71,9 +71,6 @@ wstring GetFilePathFromUser(MCONTACT hContact);
 void ReplaceDefines(MCONTACT hContact, wstring & sTarget);
 void ReplaceTimeVariables(wstring &sRet);
 
-bool bCreatePathToFile(wstring sFilePath);
-
-bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const char *pszSrc, bool bUtf8File);
 bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool bUtf8File);
 bool bWriteNewLine(HANDLE hFile, DWORD dwIndent);
 bool bIsUtf8Header(BYTE * pucByteOrder);

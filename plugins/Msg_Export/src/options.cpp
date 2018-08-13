@@ -273,7 +273,7 @@ public:
 		cmbFileViewer.AddString(L"C:\\WinNT\\Notepad.exe");
 		cmbFileViewer.AddString(L"C:\\Program Files\\Notepad++\\notepad++.exe");
 
-		CheckDlgButton(m_hwnd, IDC_USE_INTERNAL_VIEWER, bUseInternalViewer() ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_USE_INTERNAL_VIEWER, g_bUseIntViewer ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY, g_bReplaceHistory ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_APPEND_NEWLINE, g_bAppendNewLine ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_USE_UTF8_IN_NEW_FILES, g_bUseUtf8InNewFiles ? BST_CHECKED : BST_UNCHECKED);
@@ -312,7 +312,7 @@ public:
 		g_plugin.setWString("FileViewerPrg", sFileViewerPrg.c_str());
 
 		bUseInternalViewer(IsDlgButtonChecked(m_hwnd, IDC_USE_INTERNAL_VIEWER) == BST_CHECKED);
-		g_plugin.setByte("UseInternalViewer", bUseInternalViewer());
+		g_plugin.setByte("UseInternalViewer", g_bUseIntViewer);
 
 		bool bNewRp = IsDlgButtonChecked(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY) == BST_CHECKED;
 		if (g_bReplaceHistory != bNewRp) {
