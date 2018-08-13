@@ -25,20 +25,20 @@ const wchar_t *pszDbPathError = L".";
 // Replacement for chareteres not alowed in file names.
 const wchar_t cBadCharReplace = '_';
 
-// sTimeFormat 
-wstring sTimeFormat;
+// g_sTimeFormat 
+wstring g_sTimeFormat;
 
 // path from options dialog
-wstring sExportDir;
+wstring g_sExportDir;
 
 // The default filename. Used if no other file name is specifyed in DB.
-wstring sDefaultFile;
+wstring g_sDefaultFile;
 
 // path used then %dbpath% is used in export file path
-wstring sDBPath = pszDbPathError;
+wstring g_sDBPath = pszDbPathError;
 
 // path to miranda exe file used when to avoid relative paths
-wstring sMirandaPath = pszDbPathError;
+wstring g_sMirandaPath = pszDbPathError;
 
 // Used to store the width of the user name for a file.
 // if a file contains events from many users the one user name
@@ -75,19 +75,20 @@ const char *pszReplaceListA[] =
 };
 
 // Alowes this plugin to replace the history function of miranda !!
-bool bReplaceHistory = false;
+bool g_bReplaceHistory;
 
 // This enum define the actions which MsgExport must take when a File is renamed
-ENDialogAction enRenameAction = eDAPromptUser;
+ENDialogAction g_enRenameAction;
 
 // This enum define the actions which MsgExport must take when a user is delete
-ENDialogAction enDeleteAction = eDAPromptUser;
+ENDialogAction g_enDeleteAction;
 
 // If true MsgExport will use << and >> insted of the nick in the exported format
-bool bUseLessAndGreaterInExport = false;
+bool g_bUseLessAndGreaterInExport;
 
-bool bAppendNewLine = true;
-bool bUseUtf8InNewFiles = true;
+bool g_bAppendNewLine;
+bool g_bUseUtf8InNewFiles;
+bool g_bUseJson;
 
 const char szUtf8ByteOrderHeader[] = "\xEF\xBB\xBF";
 bool bIsUtf8Header(BYTE * pucByteOrder)
@@ -428,13 +429,13 @@ bool bReadMirandaDirAndPath()
 	wchar_t szDBPath[MAX_PATH], tmp[MAX_PATH];
 	wcsncpy_s(szDBPath, pszDbPathError, _TRUNCATE);
 	PathToAbsoluteW(L"miranda32.exe", tmp);
-	sMirandaPath = tmp;
-	sMirandaPath.erase(sMirandaPath.find_last_of(L"\\"));
+	g_sMirandaPath = tmp;
+	g_sMirandaPath.erase(g_sMirandaPath.find_last_of(L"\\"));
 	Profile_GetPathW(MAX_PATH, szDBPath);
-	sDBPath = szDBPath;
+	g_sDBPath = szDBPath;
 	Profile_GetNameW(MAX_PATH, szDBPath);
-	sDBPath.append(L"\\").append(szDBPath);
-	sDBPath.erase(sDBPath.size() - 4);
+	g_sDBPath.append(L"\\").append(szDBPath);
+	g_sDBPath.erase(g_sDBPath.size() - 4);
 	return true;
 }
 
@@ -453,14 +454,14 @@ bool bReadMirandaDirAndPath()
 
 void ReplaceDBPath(wstring &sRet)
 {
-	ReplaceAll(sRet, L"%dbpath%", sDBPath);
+	ReplaceAll(sRet, L"%dbpath%", g_sDBPath);
 	// Try to firure out if it is a relative path ( ..\..\MsgExport\ )
 	if (sRet.size() <= 2 || !(sRet[1] == ':' ||
 		(sRet[0] == '\\' && sRet[1] == '\\'))) {
 		// Relative path
 		// we will prepend the mirande exe path to avoid problems 
 		// if the current directory changes ( User receives a file )
-		sRet = sMirandaPath + sRet;
+		sRet = g_sMirandaPath + sRet;
 	}
 }
 
@@ -480,7 +481,7 @@ void ReplaceDBPath(wstring &sRet)
 
 wstring GetFilePathFromUser(MCONTACT hContact)
 {
-	wstring sFilePath = sExportDir + _DBGetStringW(hContact, MODULENAME, "FileName", sDefaultFile.c_str());
+	wstring sFilePath = g_sExportDir + _DBGetStringW(hContact, MODULENAME, "FileName", g_sDefaultFile.c_str());
 
 	bool bNickUsed = sFilePath.find(L"%nick%") != string::npos;
 
@@ -503,7 +504,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown Contact)
 
 			// file name has changed
-			if (enRenameAction != eDANothing) {
+			if (g_enRenameAction != eDANothing) {
 
 				// we can not use FILE_SHARE_DELETE because this is not supported by 
 				// win 98 / ME 
@@ -522,7 +523,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 					// ask user ?
 					bool bTryRename;
 
-					if (enRenameAction != eDAAutomatic) {
+					if (g_enRenameAction != eDAAutomatic) {
 						wstring sRemoteUser = Clist_GetContactDisplayName(hContact);
 						mir_snwprintf(szTemp,
 							TranslateT("File name for the user \"%s\" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?"),
@@ -847,7 +848,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 	wstring sRemoteUser;
 	string::size_type nFirstColumnWidth;
 
-	if (bUseLessAndGreaterInExport) {
+	if (g_bUseLessAndGreaterInExport) {
 		sLocalUser = L"<<";
 		sRemoteUser = L">>";
 		nFirstColumnWidth = 4;
@@ -864,7 +865,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 	bool bWriteUTF8Format = false;
 
 	if (bAppendOnly) {
-		bWriteUTF8Format = bUseUtf8InNewFiles;
+		bWriteUTF8Format = g_bUseUtf8InNewFiles;
 	}
 	else {
 		DWORD dwHighSize = 0;
@@ -885,7 +886,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 			}
 		}
 		else {
-			bWriteUTF8Format = bUseUtf8InNewFiles;
+			bWriteUTF8Format = g_bUseUtf8InNewFiles;
 			if (bWriteUTF8Format) {
 				if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1)) {
 					DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file :\n"), sFilePath, nullptr);
@@ -941,7 +942,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 	// Get time stamp 
 	int nIndent = mir_snwprintf(szTemp, L"%-*s", nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
-	TimeZone_ToStringT(dbei.timestamp, sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
+	TimeZone_ToStringT(dbei.timestamp, g_sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
 
 	nIndent = (int)mir_wstrlen(szTemp);
 	szTemp[nIndent++] = ' ';
@@ -1134,7 +1135,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 		bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);
 	}
 
-	bWriteToFile(hFile, bAppendNewLine ? "\r\n\r\n" : "\r\n");
+	bWriteToFile(hFile, g_bAppendNewLine ? "\r\n\r\n" : "\r\n");
 	UpdateFileViews(sFilePath.c_str());
 	return true;
 }
@@ -1351,7 +1352,7 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 	if (hInternalWindow)
 		CloseWindow(hInternalWindow);
 
-	if (enDeleteAction == eDANothing)
+	if (g_enDeleteAction == eDANothing)
 		return 0;
 
 	wstring sFilePath = GetFilePathFromUser(hContact);
@@ -1377,7 +1378,7 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 		mir_snwprintf(szTemp, L"%s\r\n%s",
 			TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
 
-		if (enDeleteAction == eDAAutomatic ||
+		if (g_enDeleteAction == eDAAutomatic ||
 			MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES) {
 			if (!DeleteFile(sFilePath.c_str())) {
 				mir_snwprintf(szTemp,
@@ -1390,37 +1391,6 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 		}
 	}
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : SaveSettings
-// Type            : Global
-// Parameters      : None
-// Returns         : void
-// Description     : Save Settings
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020429, 29 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-void SaveSettings()
-{
-	db_set_w(NULL, MODULENAME, "MaxLineWidth", (WORD)nMaxLineWidth);
-	db_set_ws(NULL, MODULENAME, "ExportDir", sExportDir.c_str());
-	db_set_ws(NULL, MODULENAME, "DefaultFile", sDefaultFile.c_str());
-	db_set_ws(NULL, MODULENAME, "TimeFormat", sTimeFormat.c_str());
-
-	db_set_ws(NULL, MODULENAME, "FileViewerPrg", sFileViewerPrg.c_str());
-	db_set_b(NULL, MODULENAME, "UseInternalViewer", bUseInternalViewer());
-	db_set_b(NULL, MODULENAME, "ReplaceHistory", bReplaceHistory);
-	db_set_b(NULL, MODULENAME, "AppendNewLine", bAppendNewLine);
-	db_set_b(NULL, MODULENAME, "UseUtf8InNewFiles", bUseUtf8InNewFiles);
-	db_set_b(NULL, MODULENAME, "UseLessAndGreaterInExport", bUseLessAndGreaterInExport);
-
-	db_set_b(NULL, MODULENAME, "RenameAction", (BYTE)enRenameAction);
-	db_set_b(NULL, MODULENAME, "DeleteAction", (BYTE)enDeleteAction);
 }
 
 /////////////////////////////////////////////////////////////////////

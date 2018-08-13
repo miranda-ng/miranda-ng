@@ -64,6 +64,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 extern MWindowList hInternalWindowList;
-extern wstring sDBPath, sMirandaPath;
+extern wstring g_sDBPath, g_sMirandaPath;
 
 #endif

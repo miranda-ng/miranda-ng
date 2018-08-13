@@ -110,7 +110,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
-	if (!bReplaceHistory) {
+	if (!g_bReplaceHistory) {
 		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
 		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
@@ -141,28 +141,29 @@ int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
-	nMaxLineWidth = db_get_w(NULL, MODULENAME, "MaxLineWidth", nMaxLineWidth);
+	nMaxLineWidth = getWord("MaxLineWidth", nMaxLineWidth);
 	if (nMaxLineWidth > 0 && nMaxLineWidth < 5)
 		nMaxLineWidth = 5;
 
-	sExportDir = _DBGetStringW(NULL, MODULENAME, "ExportDir", L"%dbpath%\\MsgExport\\");
-	sDefaultFile = _DBGetStringW(NULL, MODULENAME, "DefaultFile", L"%nick%.txt");
+	g_sExportDir = _DBGetStringW(NULL, MODULENAME, "ExportDir", L"%dbpath%\\MsgExport\\");
+	g_sDefaultFile = _DBGetStringW(NULL, MODULENAME, "DefaultFile", L"%nick%.txt");
 
-	sTimeFormat = _DBGetStringW(NULL, MODULENAME, "TimeFormat", L"d s");
+	g_sTimeFormat = _DBGetStringW(NULL, MODULENAME, "TimeFormat", L"d s");
 
 	sFileViewerPrg = _DBGetStringW(NULL, MODULENAME, "FileViewerPrg", L"");
-	bUseInternalViewer(db_get_b(NULL, MODULENAME, "UseInternalViewer", bUseInternalViewer()) != 0);
+	bUseInternalViewer(getBool("UseInternalViewer", bUseInternalViewer()));
 
-	bReplaceHistory = db_get_b(NULL, MODULENAME, "ReplaceHistory", bReplaceHistory) != 0;
-	bAppendNewLine = db_get_b(NULL, MODULENAME, "AppendNewLine", bAppendNewLine) != 0;
-	bUseUtf8InNewFiles = db_get_b(NULL, MODULENAME, "UseUtf8InNewFiles", bUseUtf8InNewFiles) != 0;
-	bUseLessAndGreaterInExport = db_get_b(NULL, MODULENAME, "UseLessAndGreaterInExport", bUseLessAndGreaterInExport) != 0;
+	g_bUseJson = getBool("UseJson", false);
+	g_bAppendNewLine = getBool("AppendNewLine", true);
+	g_bReplaceHistory = getBool("ReplaceHistory", false);
+	g_bUseUtf8InNewFiles = getBool("UseUtf8InNewFiles", g_bUseUtf8InNewFiles);
+	g_bUseLessAndGreaterInExport = getBool("UseLessAndGreaterInExport", false);
 
-	enRenameAction = (ENDialogAction)db_get_b(NULL, MODULENAME, "RenameAction", enRenameAction);
-	enDeleteAction = (ENDialogAction)db_get_b(NULL, MODULENAME, "DeleteAction", enDeleteAction);
+	g_enRenameAction = (ENDialogAction)getByte("RenameAction", eDAPromptUser);
+	g_enDeleteAction = (ENDialogAction)getByte("DeleteAction", eDAPromptUser);
 
 	HANDLE hServiceFunc = nullptr;
-	if (bReplaceHistory)
+	if (g_bReplaceHistory)
 		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
 
 	if (!hServiceFunc)

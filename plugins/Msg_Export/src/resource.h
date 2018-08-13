@@ -1,16 +1,17 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by w:\miranda-ng\plugins\Msg_Export\res\resource.rc
 //
 #define IDI_EXPORT_MESSAGE              108
 #define IDD_EXPORT_ALL_DLG              110
 #define IDR_MSG_EXPORT                  114
 #define IDD_FILE_VIEWER                 116
 #define IDR_FV_EDIT                     117
+#define IDD_OPT_MSGEXPORT               121
+#define IDD_OPT_CONTACTS                122
 #define IDD_OPT_MSGEXPORT2              123
 #define IDI_NOTICK                      205
 #define IDI_TICK                        206
-#define IDD_OPT_MSGEXPORT               999
 #define IDC_EXPORTALL                   1001
 #define IDC_EXPORT_DIR                  1002
 #define IDC_MAX_CLOUMN_WIDTH            1003
@@ -41,6 +42,8 @@
 #define IDC_FD_NOTHING                  1072
 #define IDC_EXPORT_PROTOS               1073
 #define IDC_USE_UTF8_IN_NEW_FILES       1074
+#define IDC_USE_UTF8_IN_NEW_FILES2      1075
+#define IDC_USE_JSON                    1075
 #define ID_EXPORTSELECTED               40002
 #define ID_EDIT_COPY                    40003
 #define ID_SET_TO_DEFAULT               40004
@@ -50,7 +53,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        124
+#define _APS_NEXT_RESOURCE_VALUE        126
 #define _APS_NEXT_COMMAND_VALUE         40006
 #define _APS_NEXT_CONTROL_VALUE         1075
 #define _APS_NEXT_SYMED_VALUE           101

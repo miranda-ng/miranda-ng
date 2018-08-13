@@ -27,28 +27,26 @@ enum ENDialogAction
 	eDANothing
 };
 
-extern ENDialogAction enRenameAction;
-extern ENDialogAction enDeleteAction;
+extern ENDialogAction g_enRenameAction;
+extern ENDialogAction g_enDeleteAction;
 
 extern int nMaxLineWidth;
-extern wstring sExportDir;
-extern wstring sDefaultFile;
-extern wstring sTimeFormat;
+extern wstring g_sExportDir;
+extern wstring g_sDefaultFile;
+extern wstring g_sTimeFormat;
 extern map<wstring, string::size_type, less<wstring> > clFileTo1ColWidth;
 
-extern bool bAppendNewLine;
-extern bool bUseUtf8InNewFiles;
-extern bool bUseLessAndGreaterInExport;
+extern bool g_bAppendNewLine;
+extern bool g_bUseJson;
+extern bool g_bUseUtf8InNewFiles;
+extern bool g_bUseLessAndGreaterInExport;
 
-extern bool bReplaceHistory;
+extern bool g_bReplaceHistory;
 
 wstring sGetErrorString(DWORD dwError);
 wstring sGetErrorString();
 void DisplayLastError(const wchar_t *pszError);
 void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO *dbei);
-
-void SaveSettings();
-void ShowDebugInfo();
 
 bool bIsExportEnabled(MCONTACT hContact);
 HANDLE openCreateFile(wstring sFilePath);

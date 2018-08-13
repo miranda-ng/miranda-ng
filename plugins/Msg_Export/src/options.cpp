@@ -139,10 +139,7 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 	{
 		// reading from the database !!! 
 		int nCur = 0;
-		list< MCONTACT >::const_iterator iterator;
-		for (iterator = data->contacts.begin(); iterator != data->contacts.end(); ++iterator) {
-			MCONTACT hContact = (*iterator);
-
+		for (auto &hContact : data->contacts) {
 			// Check if we should ignore this contact/protocol
 			if (!bIsExportEnabled(hContact))
 				continue;
@@ -157,9 +154,9 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 
 			SendMessage(hProg, PBM_SETPOS, nCur, 0);
 			RedrawWindow(hDlg, nullptr, nullptr, RDW_ALLCHILDREN | RDW_UPDATENOW);
-
 			nCur++;
 		}
+
 		// Free the list of contacts
 		data->contacts.clear();
 		delete data;
@@ -171,16 +168,14 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 	SendMessage(hProg, PBM_SETPOS, 0, 0);
 
 	// time to write to files !!!
-	map<wstring, list< CLDBEvent >, less<wstring> >::iterator FileIterator;
-
 	int nCur = 0;
-	for (FileIterator = AllEvents.begin(); FileIterator != AllEvents.end(); ++FileIterator) {
-		(FileIterator->second).sort(); // Sort is preformed here !!
+	for (auto &F : AllEvents) {
+		F.second.sort(); // Sort is preformed here !!
 		// events with same time will not be swaped, they will 
 		// remain in there original order
 
 		// Open/create file for writing
-		wstring sFilePath = FileIterator->first;
+		wstring sFilePath = F.first;
 		HANDLE hFile = openCreateFile(sFilePath);
 		if (hFile == INVALID_HANDLE_VALUE) {
 			DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, nullptr);
@@ -190,10 +185,9 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 		// At first write we need to have this false (to write file header, etc.), for each next write to same file use true
 		bool bAppendOnly = false;
 
-		list< CLDBEvent >::const_iterator iterator;
-		for (iterator = FileIterator->second.begin(); iterator != FileIterator->second.end(); ++iterator) {
-			MEVENT hDbEvent = (*iterator).hDbEvent;
-			MCONTACT hContact = (*iterator).hUser;
+		for (auto &E : F.second) {
+			MEVENT hDbEvent = E.hDbEvent;
+			MCONTACT hContact = E.hUser;
 			if (!bExportEvent(hContact, hDbEvent, hFile, sFilePath, bAppendOnly))
 				break; // serious error, we should close the file and don't continue with it
 
@@ -216,40 +210,231 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 
 class CBasicOptDlg : public CDlgBase
 {
-	CCtrlButton btnExportAll, btnExportSel, btnUserDetails, btnAutoFileName, btnClearAll, btnSetDefault;
-	CCtrlButton btnBrowseDir, btnBrowseFile;
-	CCtrlListView listUsers;
 	CCtrlHyperlink urlHelp;
-
-	bool bUnapplyedChanges = false;
+	CCtrlButton btnBrowseDir, btnBrowseFile;
+	CCtrlCombo cmbExportDir, cmbDefaultFile, cmbTimeFormat, cmbFileViewer;
 
 public:
 	CBasicOptDlg() :
 		CDlgBase(g_plugin, IDD_OPT_MSGEXPORT),
 		urlHelp(this, IDC_OPEN_HELP, "https://miranda-ng.org/p/Msg_Export/"),
+		btnBrowseDir(this, IDC_EXPORT_DIR_BROWSE),
+		btnBrowseFile(this, IDC_FILE_VIEWER_BROWSE),
+		cmbExportDir(this, IDC_EXPORT_DIR),
+		cmbTimeFormat(this, IDC_EXPORT_TIMEFORMAT),
+		cmbFileViewer(this, IDC_FILE_VIEWER),
+		cmbDefaultFile(this, IDC_DEFAULT_FILE)
+	{
+		btnBrowseDir.OnClick = Callback(this, &CBasicOptDlg::onClick_BrowseDir);
+		btnBrowseFile.OnClick = Callback(this, &CBasicOptDlg::onClick_BrowseFile);
+	}
+
+	bool OnInitDialog() override
+	{
+		SetDlgItemInt(m_hwnd, IDC_MAX_CLOUMN_WIDTH, nMaxLineWidth, TRUE);
+
+		// Export dir
+		cmbExportDir.SetText(g_sExportDir.c_str());
+		
+		cmbExportDir.AddString(L"%dbpath%\\MsgExport\\");
+		cmbExportDir.AddString(L"C:\\Backup\\MsgExport\\");
+		cmbExportDir.AddString(L"%dbpath%\\MsgExport\\%group% - ");
+		cmbExportDir.AddString(L"%dbpath%\\MsgExport\\%group%\\");
+
+		// default file
+		cmbDefaultFile.SetText(g_sDefaultFile.c_str());
+		
+		cmbDefaultFile.AddString(L"%nick%.txt");
+		cmbDefaultFile.AddString(L"%UIN%.txt");
+		cmbDefaultFile.AddString(L"%group%.txt");
+		cmbDefaultFile.AddString(L"%e-mail%.txt");
+		cmbDefaultFile.AddString(L"%identifier%.txt");
+		cmbDefaultFile.AddString(L"%year%-%month%-%day%.txt");
+		cmbDefaultFile.AddString(L"%group%\\%nick%.txt");
+		cmbDefaultFile.AddString(L"%group%\\%UIN%.txt");
+		cmbDefaultFile.AddString(L"%group%\\%identifier%.txt");
+		cmbDefaultFile.AddString(L"%protocol%\\%nick%.txt");
+		cmbDefaultFile.AddString(L"History.txt");
+
+		// time format
+		cmbTimeFormat.SetText(g_sTimeFormat.c_str());
+		
+		cmbTimeFormat.AddString(L"d t");
+		cmbTimeFormat.AddString(L"d s");
+		cmbTimeFormat.AddString(L"d m");
+		cmbTimeFormat.AddString(L"D s");
+		cmbTimeFormat.AddString(L"D m :");
+
+		// File viewer
+		cmbFileViewer.SetText(sFileViewerPrg.c_str());
+
+		cmbFileViewer.AddString(L"");
+		cmbFileViewer.AddString(L"C:\\Windows\\Notepad.exe");
+		cmbFileViewer.AddString(L"C:\\WinNT\\Notepad.exe");
+		cmbFileViewer.AddString(L"C:\\Program Files\\Notepad++\\notepad++.exe");
+
+		CheckDlgButton(m_hwnd, IDC_USE_INTERNAL_VIEWER, bUseInternalViewer() ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY, g_bReplaceHistory ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_APPEND_NEWLINE, g_bAppendNewLine ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_USE_UTF8_IN_NEW_FILES, g_bUseUtf8InNewFiles ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_USE_LESS_AND_GREATER_IN_EXPORT, g_bUseLessAndGreaterInExport ? BST_CHECKED : BST_UNCHECKED);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		BOOL bTrans;
+		wchar_t szTemp[500];
+
+		int nTmp = GetDlgItemInt(m_hwnd, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE);
+		if (!bTrans || (nTmp > 0 && nTmp < 5)) {
+			mir_snwprintf(szTemp, TranslateT("Max line width must be at least %d. Or use 0 for no limit."), 5);
+			MessageBox(m_hwnd, szTemp, MSG_BOX_TITEL, MB_OK);
+			return false;
+		}
+		else nMaxLineWidth = nTmp;
+		g_plugin.setWord("MaxLineWidth", (WORD)nMaxLineWidth);
+
+		cmbTimeFormat.GetText(szTemp, _countof(szTemp));
+		g_sTimeFormat = szTemp;
+		g_plugin.setWString("TimeFormat", g_sTimeFormat.c_str());
+
+		cmbExportDir.GetText(szTemp, _countof(szTemp));
+		g_sExportDir = szTemp;
+		g_plugin.setWString("ExportDir", g_sExportDir.c_str());
+
+		cmbDefaultFile.GetText(szTemp, _countof(szTemp));
+		g_sDefaultFile = szTemp;
+		g_plugin.setWString("DefaultFile", g_sDefaultFile.c_str());
+
+		cmbFileViewer.GetText(szTemp, _countof(szTemp));
+		sFileViewerPrg = szTemp;
+		g_plugin.setWString("FileViewerPrg", sFileViewerPrg.c_str());
+
+		bUseInternalViewer(IsDlgButtonChecked(m_hwnd, IDC_USE_INTERNAL_VIEWER) == BST_CHECKED);
+		g_plugin.setByte("UseInternalViewer", bUseInternalViewer());
+
+		bool bNewRp = IsDlgButtonChecked(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY) == BST_CHECKED;
+		if (g_bReplaceHistory != bNewRp) {
+			g_bReplaceHistory = bNewRp;
+			MessageBox(m_hwnd, TranslateT("You need to restart Miranda to change the history function"), MSG_BOX_TITEL, MB_OK);
+		}
+		g_plugin.setByte("ReplaceHistory", g_bReplaceHistory);
+
+		g_bUseJson = IsDlgButtonChecked(m_hwnd, IDC_USE_JSON) == BST_CHECKED;
+		g_plugin.setByte("UseJson", g_bUseJson);
+
+		g_bAppendNewLine = IsDlgButtonChecked(m_hwnd, IDC_APPEND_NEWLINE) == BST_CHECKED;
+		g_plugin.setByte("AppendNewLine", g_bAppendNewLine);
+
+		g_bUseUtf8InNewFiles = IsDlgButtonChecked(m_hwnd, IDC_USE_UTF8_IN_NEW_FILES) == BST_CHECKED;
+		g_plugin.setByte("UseUtf8InNewFiles", g_bUseUtf8InNewFiles);
+
+		g_bUseLessAndGreaterInExport = IsDlgButtonChecked(m_hwnd, IDC_USE_LESS_AND_GREATER_IN_EXPORT) == BST_CHECKED;
+		g_plugin.setByte("UseLessAndGreaterInExport", g_bUseLessAndGreaterInExport);
+		return true;
+	}
+
+	void onClick_BrowseFile(CCtrlButton*)
+	{
+		wchar_t szFile[260];       // buffer for file name
+		cmbFileViewer.GetText(szFile, _countof(szFile));
+
+		wchar_t buf[MAX_PATH];
+		mir_snwprintf(buf, L"%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c", TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
+
+		OPENFILENAME ofn = {};       // common dialog box structure
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = m_hwnd;
+		ofn.lpstrFile = szFile;
+		ofn.nMaxFile = _countof(szFile);
+		ofn.lpstrFilter = buf;
+		ofn.nFilterIndex = 1;
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		// Display the Open dialog box. 
+		if (GetOpenFileName(&ofn)) {
+			SetDlgItemText(m_hwnd, IDC_FILE_VIEWER, szFile);
+			NotifyChange();
+		}
+	}
+
+	void onClick_BrowseDir(CCtrlButton*)
+	{
+		// Get the shells allocator
+		LPMALLOC pMalloc;
+		if (FAILED(SHGetMalloc(&pMalloc))) { // we need to use this to support old Windows versions 
+			MessageBox(m_hwnd, TranslateT("Failed to get the shells allocator!"), MSG_BOX_TITEL, MB_OK);
+			return;
+		}
+
+		// Allocate the Dest Dir buffer to receive browse info
+		wchar_t *lpDestDir = (wchar_t *)pMalloc->Alloc(MAX_PATH + 100);
+		if (!lpDestDir) {
+			pMalloc->Release();
+			MessageBox(m_hwnd, TranslateT("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
+			return;
+		}
+
+		BROWSEINFO sBrowseInfo;
+		sBrowseInfo.hwndOwner = m_hwnd;
+		sBrowseInfo.pidlRoot = nullptr;
+		sBrowseInfo.pszDisplayName = lpDestDir;
+		sBrowseInfo.lpszTitle = TranslateT("Select Destination Directory");
+		sBrowseInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX;
+		sBrowseInfo.lpfn = nullptr;
+		sBrowseInfo.lParam = 0;
+		sBrowseInfo.iImage = 0;
+
+		LPITEMIDLIST psItemIDList = SHBrowseForFolder(&sBrowseInfo);
+		if (psItemIDList) {
+			SHGetPathFromIDList(psItemIDList, lpDestDir);
+			size_t n = mir_wstrlen(lpDestDir);
+			if (n > 0 && lpDestDir[n] != '\\') {
+				lpDestDir[n] = '\\';
+				lpDestDir[n + 1] = 0;
+			}
+			cmbExportDir.SetText(lpDestDir);
+			NotifyChange();
+
+			// Clean up
+			pMalloc->Free(psItemIDList);
+		}
+		pMalloc->Free(lpDestDir);
+		pMalloc->Release();
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CContactsOptDlg - class of advanced options
+
+class CContactsOptDlg : public CDlgBase
+{
+	CCtrlButton btnExportAll, btnExportSel, btnUserDetails, btnAutoFileName, btnClearAll, btnSetDefault;
+	CCtrlListView listUsers;
+
+public:
+	CContactsOptDlg() :
+		CDlgBase(g_plugin, IDD_OPT_CONTACTS),
 		listUsers(this, IDC_MAP_USER_LIST),
 		btnClearAll(this, IDC_CLEAR_ALL),
 		btnExportAll(this, IDC_EXPORTALL),
 		btnExportSel(this, ID_EXPORTSELECTED),
-		btnBrowseDir(this, IDC_EXPORT_DIR_BROWSE),
-		btnBrowseFile(this, IDC_FILE_VIEWER_BROWSE),
 		btnSetDefault(this, ID_SET_TO_DEFAULT),
 		btnUserDetails(this, ID_USERLIST_USERDETAILS),
 		btnAutoFileName(this, IDC_AUTO_FILENAME)
 	{
-		listUsers.OnKeyDown = Callback(this, &CBasicOptDlg::list_KeyDown);
-		listUsers.OnBuildMenu = Callback(this, &CBasicOptDlg::list_OnMenu);
-		listUsers.OnColumnClick = Callback(this, &CBasicOptDlg::list_ColumnClick);
-		listUsers.OnDoubleClick = Callback(this, &CBasicOptDlg::list_DoubleClick);
-		listUsers.OnEndLabelEdit = Callback(this, &CBasicOptDlg::list_LabelEdit);
+		listUsers.OnKeyDown = Callback(this, &CContactsOptDlg::list_KeyDown);
+		listUsers.OnBuildMenu = Callback(this, &CContactsOptDlg::list_OnMenu);
+		listUsers.OnColumnClick = Callback(this, &CContactsOptDlg::list_ColumnClick);
+		listUsers.OnDoubleClick = Callback(this, &CContactsOptDlg::list_DoubleClick);
+		listUsers.OnEndLabelEdit = Callback(this, &CContactsOptDlg::list_LabelEdit);
 
-		btnClearAll.OnClick = Callback(this, &CBasicOptDlg::onClick_ClearAll);
-		btnExportAll.OnClick = btnExportSel.OnClick = Callback(this, &CBasicOptDlg::onClick_Export);
-		btnBrowseDir.OnClick = Callback(this, &CBasicOptDlg::onClick_BrowseDir);
-		btnBrowseFile.OnClick = Callback(this, &CBasicOptDlg::onClick_BrowseFile);
-		btnSetDefault.OnClick = Callback(this, &CBasicOptDlg::onClick_SetDefault);
-		btnUserDetails.OnClick = Callback(this, &CBasicOptDlg::onClick_Details);
-		btnAutoFileName.OnClick = Callback(this, &CBasicOptDlg::onClick_AutoFileName);
+		btnClearAll.OnClick = Callback(this, &CContactsOptDlg::onClick_ClearAll);
+		btnExportAll.OnClick = btnExportSel.OnClick = Callback(this, &CContactsOptDlg::onClick_Export);
+		btnSetDefault.OnClick = Callback(this, &CContactsOptDlg::onClick_SetDefault);
+		btnUserDetails.OnClick = Callback(this, &CContactsOptDlg::onClick_Details);
+		btnAutoFileName.OnClick = Callback(this, &CContactsOptDlg::onClick_AutoFileName);
 	}
 
 	bool OnInitDialog() override
@@ -329,95 +514,14 @@ public:
 		sItem.state = LVIS_FOCUSED;
 		sItem.stateMask = LVIS_FOCUSED;
 		listUsers.SetItem(&sItem);
-
-		SetDlgItemInt(m_hwnd, IDC_MAX_CLOUMN_WIDTH, nMaxLineWidth, TRUE);
-
-		// Export dir
-		SetDlgItemText(m_hwnd, IDC_EXPORT_DIR, sExportDir.c_str());
-		HWND hComboBox = GetDlgItem(m_hwnd, IDC_EXPORT_DIR);
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%dbpath%\\MsgExport\\");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\Backup\\MsgExport\\");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%dbpath%\\MsgExport\\%group% - ");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%dbpath%\\MsgExport\\%group%\\");
-
-		// default file
-		SetDlgItemText(m_hwnd, IDC_DEFAULT_FILE, sDefaultFile.c_str());
-		hComboBox = GetDlgItem(m_hwnd, IDC_DEFAULT_FILE);
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%nick%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%UIN%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%group%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%e-mail%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%identifier%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%year%-%month%-%day%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%group%\\%nick%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%group%\\%UIN%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%group%\\%identifier%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"%protocol%\\%nick%.txt");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"History.txt");
-
-		// time format
-		SetDlgItemText(m_hwnd, IDC_EXPORT_TIMEFORMAT, sTimeFormat.c_str());
-		hComboBox = GetDlgItem(m_hwnd, IDC_EXPORT_TIMEFORMAT);
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"d t");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"d s");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"d m");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"D s");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"D m :");
-
-		// File viewer
-		SetDlgItemText(m_hwnd, IDC_FILE_VIEWER, sFileViewerPrg.c_str());
-		hComboBox = GetDlgItem(m_hwnd, IDC_FILE_VIEWER);
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\Windows\\Notepad.exe");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\WinNT\\Notepad.exe");
-		SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)L"C:\\Program Files\\Notepad++\\notepad++.exe");
-
-		CheckDlgButton(m_hwnd, IDC_USE_INTERNAL_VIEWER, bUseInternalViewer() ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY, bReplaceHistory ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_APPEND_NEWLINE, bAppendNewLine ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_USE_UTF8_IN_NEW_FILES, bUseUtf8InNewFiles ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_USE_LESS_AND_GREATER_IN_EXPORT, bUseLessAndGreaterInExport ? BST_CHECKED : BST_UNCHECKED);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		BOOL bTrans;
+		int nCount = listUsers.GetItemCount();
 		wchar_t szTemp[500];
 
-		int nTmp = GetDlgItemInt(m_hwnd, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE);
-		if (!bTrans || (nTmp > 0 && nTmp < 5)) {
-			mir_snwprintf(szTemp, TranslateT("Max line width must be at least %d. Or use 0 for no limit."), 5);
-			MessageBox(m_hwnd, szTemp, MSG_BOX_TITEL, MB_OK);
-			return false;
-		}
-		else nMaxLineWidth = nTmp;
-
-		GetDlgItemText(m_hwnd, IDC_EXPORT_TIMEFORMAT, szTemp, _countof(szTemp));
-		sTimeFormat = szTemp;
-
-		GetDlgItemText(m_hwnd, IDC_EXPORT_DIR, szTemp, _countof(szTemp));
-		sExportDir = szTemp;
-
-		GetDlgItemText(m_hwnd, IDC_DEFAULT_FILE, szTemp, _countof(szTemp));
-		sDefaultFile = szTemp;
-
-		GetDlgItemText(m_hwnd, IDC_FILE_VIEWER, szTemp, _countof(szTemp));
-		sFileViewerPrg = szTemp;
-
-		bUseInternalViewer(IsDlgButtonChecked(m_hwnd, IDC_USE_INTERNAL_VIEWER) == BST_CHECKED);
-
-		bool bNewRp = IsDlgButtonChecked(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY) == BST_CHECKED;
-		if (bReplaceHistory != bNewRp) {
-			bReplaceHistory = bNewRp;
-			MessageBox(m_hwnd, TranslateT("You need to restart Miranda to change the history function"), MSG_BOX_TITEL, MB_OK);
-		}
-
-		bAppendNewLine = IsDlgButtonChecked(m_hwnd, IDC_APPEND_NEWLINE) == BST_CHECKED;
-		bUseUtf8InNewFiles = IsDlgButtonChecked(m_hwnd, IDC_USE_UTF8_IN_NEW_FILES) == BST_CHECKED;
-		bUseLessAndGreaterInExport = IsDlgButtonChecked(m_hwnd, IDC_USE_LESS_AND_GREATER_IN_EXPORT) == BST_CHECKED;
-
-		int nCount = listUsers.GetItemCount();
 		for (int nCur = 0; nCur < nCount; nCur++) {
 			LVITEM sItem = { 0 };
 			sItem.iItem = nCur;
@@ -440,29 +544,11 @@ public:
 		}
 		UpdateFileToColWidth();
 
-		SaveSettings();
-
-		bUnapplyedChanges = false;
 		return true;
-	}
-
-	void OnChange() override
-	{
-		bUnapplyedChanges = true;
 	}
 
 	void onClick_Export(CCtrlButton *pButton)
 	{
-		if (bUnapplyedChanges) {
-			DWORD res = MessageBox(m_hwnd, TranslateT("You have not applied the changes, do you wish to apply them first?"), MSG_BOX_TITEL, MB_YESNOCANCEL);
-			if (res == IDCANCEL)
-				return;
-
-			if (res == IDYES)
-				if (!OnApply())
-					return;
-		}
-
 		bool bOnlySelected = pButton->GetCtrlId() != IDC_EXPORTALL;
 		int nTotalContacts = listUsers.GetItemCount();
 
@@ -517,9 +603,6 @@ public:
 
 	void onClick_AutoFileName(CCtrlButton*)
 	{
-		wchar_t szDefaultFile[500];
-		GetDlgItemText(m_hwnd, IDC_DEFAULT_FILE, szDefaultFile, _countof(szDefaultFile));
-
 		LVITEM sItem = { 0 };
 
 		int nCount = listUsers.GetItemCount();
@@ -572,7 +655,7 @@ public:
 					sFileName = szSearch;
 
 				if (sFileName.empty()) {
-					sFileName = szDefaultFile;
+					sFileName = g_sDefaultFile;
 					ReplaceDefines(hStortest, sFileName);
 					ReplaceTimeVariables(sFileName);
 				}
@@ -636,76 +719,6 @@ public:
 		}
 	}
 
-	void onClick_BrowseFile(CCtrlButton*)
-	{
-		wchar_t szFile[260];       // buffer for file name
-		GetDlgItemText(m_hwnd, IDC_FILE_VIEWER, szFile, _countof(szFile));
-
-		wchar_t buf[MAX_PATH];
-		mir_snwprintf(buf, L"%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c", TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
-		{
-			OPENFILENAME ofn = {};       // common dialog box structure
-			ofn.lStructSize = sizeof(OPENFILENAME);
-			ofn.hwndOwner = m_hwnd;
-			ofn.lpstrFile = szFile;
-			ofn.nMaxFile = _countof(szFile);
-			ofn.lpstrFilter = buf;
-			ofn.nFilterIndex = 1;
-			ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-			// Display the Open dialog box. 
-			if (GetOpenFileName(&ofn)) {
-				SetDlgItemText(m_hwnd, IDC_FILE_VIEWER, szFile);
-				NotifyChange();
-			}
-		}
-	}
-
-	void onClick_BrowseDir(CCtrlButton*)
-	{
-		// Get the shells allocator
-		LPMALLOC pMalloc;
-		if (FAILED(SHGetMalloc(&pMalloc))) { // we need to use this to support old Windows versions 
-			MessageBox(m_hwnd, TranslateT("Failed to get the shells allocator!"), MSG_BOX_TITEL, MB_OK);
-			return;
-		}
-
-		// Allocate the Dest Dir buffer to receive browse info
-		wchar_t *lpDestDir = (wchar_t *)pMalloc->Alloc(MAX_PATH + 100);
-		if (!lpDestDir) {
-			pMalloc->Release();
-			MessageBox(m_hwnd, TranslateT("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
-			return;
-		}
-
-		BROWSEINFO sBrowseInfo;
-		sBrowseInfo.hwndOwner = m_hwnd;
-		sBrowseInfo.pidlRoot = nullptr;
-		sBrowseInfo.pszDisplayName = lpDestDir;
-		sBrowseInfo.lpszTitle = TranslateT("Select Destination Directory");
-		sBrowseInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX;
-		sBrowseInfo.lpfn = nullptr;
-		sBrowseInfo.lParam = 0;
-		sBrowseInfo.iImage = 0;
-
-		LPITEMIDLIST psItemIDList = SHBrowseForFolder(&sBrowseInfo);
-		if (psItemIDList) {
-			SHGetPathFromIDList(psItemIDList, lpDestDir);
-			size_t n = mir_wstrlen(lpDestDir);
-			if (n > 0 && lpDestDir[n] != '\\') {
-				lpDestDir[n] = '\\';
-				lpDestDir[n + 1] = 0;
-			}
-			SetDlgItemText(m_hwnd, IDC_EXPORT_DIR, lpDestDir);
-			NotifyChange();
-
-			// Clean up
-			pMalloc->Free(psItemIDList);
-		}
-		pMalloc->Free(lpDestDir);
-		pMalloc->Release();
-	}
-
 	void list_OnMenu(CCtrlBase*)
 	{
 		HMENU hMainMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MSG_EXPORT));
@@ -757,7 +770,7 @@ public:
 	void list_ColumnClick(CCtrlListView::TEventInfo *evt)
 	{
 		listUsers.SortItems(CompareFunc, evt->nmlv->iSubItem);
-	}		
+	}
 
 	void list_DoubleClick(CCtrlListView::TEventInfo *evt)
 	{
@@ -783,6 +796,7 @@ public:
 		}
 	}
 };
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CAdvancedOptDlg - class of advanced options
@@ -810,7 +824,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		switch (enRenameAction) {
+		switch (g_enRenameAction) {
 		case eDAPromptUser:
 			chkFcPrompt.SetState(true);
 			break;
@@ -822,7 +836,7 @@ public:
 			break;
 		}
 		
-		switch (enDeleteAction) {
+		switch (g_enDeleteAction) {
 		case eDAPromptUser:
 			chkFdPrompt.SetState(true);
 			break;
@@ -872,18 +886,20 @@ public:
 	bool OnApply() override
 	{
 		if (chkFcPrompt.GetState())
-			enRenameAction = eDAPromptUser;
+			g_enRenameAction = eDAPromptUser;
 		else if (chkFcRename.GetState() == BST_CHECKED)
-			enRenameAction = eDAAutomatic;
+			g_enRenameAction = eDAAutomatic;
 		else if (chkFcNothing.GetState() == BST_CHECKED)
-			enRenameAction = eDANothing;
+			g_enRenameAction = eDANothing;
+		db_set_b(NULL, MODULENAME, "RenameAction", (BYTE)g_enRenameAction);
 
 		if (chkFdPrompt.GetState() == BST_CHECKED)
-			enDeleteAction = eDAPromptUser;
+			g_enDeleteAction = eDAPromptUser;
 		else if (chkFdDelete.GetState() == BST_CHECKED)
-			enDeleteAction = eDAAutomatic;
+			g_enDeleteAction = eDAAutomatic;
 		else if (chkFdNothing.GetState() == BST_CHECKED)
-			enDeleteAction = eDANothing;
+			g_enDeleteAction = eDANothing;
+		db_set_b(NULL, MODULENAME, "DeleteAction", (BYTE)g_enDeleteAction);
 
 		int nCount = listProtos.GetItemCount();
 		for (int nCur = 0; nCur < nCount; nCur++) {
@@ -899,18 +915,17 @@ public:
 					db_set_b(NULL, MODULENAME, szTemp, 0);
 			}
 		}
-		SaveSettings();
 		return true;
 	}
 
 	void onClick_Debug(CCtrlButton*)
 	{
 		wstring sDebug = L"Debug information\r\nsDBPath :";
-		sDebug += sDBPath;
+		sDebug += g_sDBPath;
 		sDebug += L"\r\nsMirandaPath :";
-		sDebug += sMirandaPath;
+		sDebug += g_sMirandaPath;
 		sDebug += L"\r\nsDefaultFile :";
-		sDebug += sDefaultFile;
+		sDebug += g_sDefaultFile;
 
 		sDebug += L"\r\nGetFilePathFromUser(NULL) :";
 		sDebug += GetFilePathFromUser(NULL);
@@ -936,16 +951,21 @@ public:
 int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.position = 100000000;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("Message export");
 	odp.szGroup.w = LPGENW("History");
 
+	odp.position = 100000000;
 	odp.szTab.w = LPGENW("General");
 	odp.pDialog = new CBasicOptDlg();
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.position = 100000001;
+	odp.szTab.w = LPGENW("Contacts");
+	odp.pDialog = new CContactsOptDlg();
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.position = 100000002;
 	odp.szTab.w = LPGENW("Additional");
 	odp.pDialog = new CAdvancedOptDlg();
 	g_plugin.addOptions(wParam, &odp);
