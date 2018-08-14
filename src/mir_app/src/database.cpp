@@ -410,18 +410,17 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 // enumerate all database plugins
 static int tryCreateDatabase(const wchar_t *ptszProfile)
 {
-	wchar_t *tszProfile = NEWWSTR_ALLOCA(ptszProfile);
-	CreatePathToFileW(tszProfile);
+	CreatePathToFileW(ptszProfile);
 
 	for (auto &p : arDbPlugins) {
-		int err = p->makeDatabase(tszProfile);
+		int err = p->makeDatabase(ptszProfile);
 		if (err == ERROR_SUCCESS) {
 			g_bDbCreated = true;
-			MDatabaseCommon *pDb = p->Load(tszProfile, FALSE);
+			MDatabaseCommon *pDb = p->Load(ptszProfile, FALSE);
 			if (pDb == nullptr) // driver was found but smth went wrong
 				return EGROKPRF_CANTREAD;
 
-			fillProfileName(tszProfile);
+			fillProfileName(ptszProfile);
 			currDblink = p;
 			db_setCurrent(currDb = pDb);
 			return 0;

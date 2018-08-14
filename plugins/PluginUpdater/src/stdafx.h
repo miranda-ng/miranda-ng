@@ -249,6 +249,6 @@ int SafeCreateDirectory(const wchar_t *ptszDirName);
 int SafeCopyFile(const wchar_t *ptszSrc, const wchar_t *ptszDst);
 int SafeMoveFile(const wchar_t *ptszSrc, const wchar_t *ptszDst);
 int SafeDeleteFile(const wchar_t *ptszSrc);
-int SafeCreateFilePath(wchar_t *pFolder);
+int SafeCreateFilePath(const wchar_t *pFolder);
 
 char *StrToLower(char *str);

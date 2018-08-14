@@ -1053,7 +1053,7 @@ HANDLE openCreateFile(wstring sFilePath)
 	if (hFile == INVALID_HANDLE_VALUE) {
 		// this might be because the path isent created 
 		// so we will try to create it 
-		if (!CreateDirectoryTreeW(sFilePath.c_str()))
+		if (!CreatePathToFileW(sFilePath.c_str()))
 			hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	}
 

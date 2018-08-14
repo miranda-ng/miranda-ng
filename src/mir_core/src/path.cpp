@@ -81,18 +81,18 @@ MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char *base)
 	return GetFullPathNameA(buf, _countof(buf), pOut, nullptr);
 }
 
-MIR_CORE_DLL(void) CreatePathToFile(char *szFilePath)
+MIR_CORE_DLL(int) CreatePathToFile(const char *szFilePath)
 {
 	if (szFilePath == nullptr)
-		return;
+		return ERROR_INVALID_PARAMETER;
 
-	char *pszLastBackslash = strrchr(szFilePath, '\\');
-	if (pszLastBackslash == nullptr)
-		return;
+	char *buf = NEWSTR_ALLOCA(szFilePath);
+	char *p = strrchr(buf, '\\');
+	if (p == nullptr)
+		return 0;
 
-	*pszLastBackslash = '\0';
-	CreateDirectoryTree(szFilePath);
-	*pszLastBackslash = '\\';
+	*p = '\0';
+	return CreateDirectoryTree(buf);
 }
 
 MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
@@ -171,18 +171,18 @@ MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR *b
 	return GetFullPathName(buf, MAX_PATH, pOut, nullptr);
 }
 
-MIR_CORE_DLL(void) CreatePathToFileW(WCHAR *wszFilePath)
+MIR_CORE_DLL(int) CreatePathToFileW(const wchar_t *wszFilePath)
 {
 	if (wszFilePath == nullptr)
-		return;
+		return ERROR_INVALID_PARAMETER;
 
-	WCHAR *pszLastBackslash = wcsrchr(wszFilePath, '\\');
-	if (pszLastBackslash == nullptr)
-		return;
+	wchar_t *buf = NEWWSTR_ALLOCA(wszFilePath);
+	wchar_t *p = wcsrchr(buf, '\\');
+	if (p == nullptr)
+		return 0;
 
-	*pszLastBackslash = '\0';
-	CreateDirectoryTreeW(wszFilePath);
-	*pszLastBackslash = '\\';
+	*p = '\0';
+	return CreateDirectoryTreeW(buf);
 }
 
 MIR_CORE_DLL(int) CreateDirectoryTreeW(const WCHAR *szDir)

@@ -28,7 +28,7 @@ void log(const wchar_t *tszFormat, ...)
 	#endif
 }
 
-int CreateDirectoryTreeW(const WCHAR* szDir)
+int CreateDirectoryTreeW(const wchar_t* szDir)
 {
 	wchar_t szTestDir[MAX_PATH];
 	lstrcpynW(szTestDir, szDir, MAX_PATH);
@@ -37,7 +37,7 @@ int CreateDirectoryTreeW(const WCHAR* szDir)
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
-	WCHAR *pszLastBackslash = wcsrchr(szTestDir, '\\');
+	wchar_t *pszLastBackslash = wcsrchr(szTestDir, '\\');
 	if (pszLastBackslash == nullptr)
 		return 0;
 
@@ -47,9 +47,9 @@ int CreateDirectoryTreeW(const WCHAR* szDir)
 	return (CreateDirectoryW(szTestDir, nullptr) == 0) ? GetLastError() : 0;
 }
 
-void CreatePathToFileW(WCHAR* wszFilePath)
+void CreatePathToFileW(wchar_t *wszFilePath)
 {
-	WCHAR* pszLastBackslash = wcsrchr(wszFilePath, '\\');
+	wchar_t* pszLastBackslash = wcsrchr(wszFilePath, '\\');
 	if (pszLastBackslash == nullptr)
 		return;
 

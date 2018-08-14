@@ -291,8 +291,8 @@ EXTERN_C MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *pwszDir);
 // Creates all subdirectories required to create a file with the file name given
 // Returns 0 on success or an error code otherwise
 
-EXTERN_C MIR_CORE_DLL(void) CreatePathToFile(char *wszFilePath);
-EXTERN_C MIR_CORE_DLL(void) CreatePathToFileW(wchar_t *wszFilePath);
+EXTERN_C MIR_CORE_DLL(int) CreatePathToFile(const char *wszFilePath);
+EXTERN_C MIR_CORE_DLL(int) CreatePathToFileW(const wchar_t *wszFilePath);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Checks if a file name is absolute or not

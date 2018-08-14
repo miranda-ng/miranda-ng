@@ -583,7 +583,7 @@ int SafeCreateDirectory(const wchar_t *pFolder)
 	return TransactPipe(4, pFolder, nullptr);
 }
 
-int SafeCreateFilePath(wchar_t *pFolder)
+int SafeCreateFilePath(const wchar_t *pFolder)
 {
 	if (hPipe == nullptr) {
 		CreatePathToFileW(pFolder);

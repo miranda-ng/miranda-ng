@@ -82,13 +82,16 @@ class CCreateProfileDlg : public CDlgBase
 	CCtrlButton &m_btnOk;
 	PROFILEMANAGERDATA *m_pd;
 
-	int CreateProfile(wchar_t *profile, DATABASELINK *link)
+	int CreateProfile(const wchar_t *profile, DATABASELINK *link)
 	{
 		wchar_t buf[256];
 		int err = 0;
+		
 		// check if the file already exists
-		wchar_t *file = wcsrchr(profile, '\\');
-		if (file) file++;
+		const wchar_t *file = wcsrchr(profile, '\\');
+		if (file)
+			file++;
+		
 		if (_waccess(profile, 0) == 0) {
 			// file already exists!
 			mir_snwprintf(buf,
