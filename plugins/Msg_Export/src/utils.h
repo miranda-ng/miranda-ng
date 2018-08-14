@@ -58,10 +58,6 @@ int nContactDeleted(WPARAM wparam, LPARAM lparam);
 wchar_t* GetMyOwnNick(MCONTACT hContact);
 
 wstring __inline _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *pszError);
-string __inline _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSetting, const char *pszError);
-
-void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wstring &sNew);
-void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wchar_t *pszNew);
 
 void UpdateFileToColWidth();
 

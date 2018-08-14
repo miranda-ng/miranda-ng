@@ -49,24 +49,6 @@ map<wstring, string::size_type, less<wstring> > clFileTo1ColWidth;
 // default line width
 int nMaxLineWidth = 80;
 
-struct
-{
-	const wchar_t *pField;
-	const char *pSetting;
-}
-static replaceList[] =
-{
-	{ L"%FirstName%", "FirstName" },
-	{ L"%LastName%",  "LastName"  },
-	{ L"%e-mail%",    "e-mail"    },
-	{ L"%Nick%",      "Nick"      },
-	{ L"%City%",      "City"      },
-	{ L"%State%",     "State"     },
-	{ L"%Phone%",     "Phone"     },
-	{ L"%Homepage%",  "Homepage"  },
-	{ L"%About%",     "About"     }
-};
-
 // Alowes this plugin to replace the history function of miranda !!
 bool g_bReplaceHistory;
 
@@ -106,6 +88,62 @@ int nGetFormatCount(const wchar_t *pszToCheck)
 			nCount++;
 	}
 	return nCount;
+}
+
+/////////////////////////////////////////////////////////////////////
+// Member Function : _DBGetStringW
+// Type            : Global
+// Parameters      : hContact  - ?
+//                   szModule  - ?
+//                   szSetting - ?
+//                   pszError  - ?
+// Returns         : string
+// Description     : Reads a string from the database 
+//                   Just like those in database.h
+
+wstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *pszError)
+{
+	DBVARIANT dbv = { 0 };
+	if (db_get_ws(hContact, szModule, szSetting, &dbv))
+		return pszError;
+
+	wstring ret = dbv.pwszVal;
+	db_free(&dbv);
+	return ret;
+}
+
+/////////////////////////////////////////////////////////////////////
+// Member Function : ReplaceAll
+// Type            : Global
+// Parameters      : sSrc       - string to replace in
+//                   pszReplace - what to replace
+//                   sNew       - the string to insert insted of pszReplace
+// Returns         : void
+// Description     : will replace all acurances of a string with another string
+//                   used to replace %user%, and other user 
+
+static void ReplaceAll(string &sSrc, const char *pszReplace, const string &sNew)
+{
+	string::size_type nCur = 0;
+	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
+		sSrc.replace(nCur, mir_strlen(pszReplace), sNew);
+		nCur += sNew.size();
+	}
+}
+
+static void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wstring &sNew)
+{
+	string::size_type nCur = 0;
+	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
+		sSrc.replace(nCur, mir_wstrlen(pszReplace), sNew);
+		nCur += sNew.size();
+	}
+}
+
+static void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wchar_t *pszNew)
+{
+	wstring sNew = pszNew;
+	ReplaceAll(sSrc, pszReplace, sNew);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -153,68 +191,6 @@ void DisplayLastError(const wchar_t *pszError)
 	sError += szTemp;
 	sError += sGetErrorString(error);
 	MessageBox(nullptr, sError.c_str(), MSG_BOX_TITEL, MB_OK);
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : _DBGetStringW
-// Type            : Global
-// Parameters      : hContact  - ?
-//                   szModule  - ?
-//                   szSetting - ?
-//                   pszError  - ?
-// Returns         : string
-// Description     : Reads a string from the database 
-//                   Just like those in database.h
-
-wstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *pszError)
-{
-	wstring ret;
-	DBVARIANT dbv = { 0 };
-	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
-		ret = (wchar_t*)dbv.pszVal;
-		db_free(&dbv);
-	}
-	else ret = pszError;
-	
-	return ret;
-}
-
-string _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSetting, const char *pszError)
-{
-	string ret;
-	DBVARIANT dbv = { 0 };
-	if (!db_get_s(hContact, szModule, szSetting, &dbv)) {
-		ret = dbv.pszVal;
-		db_free(&dbv);
-	}
-	else ret = pszError;
-	
-	return ret;
-}
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : ReplaceAll
-// Type            : Global
-// Parameters      : sSrc       - string to replace in
-//                   pszReplace - what to replace
-//                   sNew       - the string to insert insted of pszReplace
-// Returns         : void
-// Description     : will replace all acurances of a string with another string
-//                   used to replace %user%, and other user 
-
-void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wstring &sNew)
-{
-	string::size_type nCur = 0;
-	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
-		sSrc.replace(nCur, mir_wstrlen(pszReplace), sNew);
-		nCur += sNew.size();
-	}
-}
-
-void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wchar_t *pszNew)
-{
-	wstring sNew = pszNew;
-	ReplaceAll(sSrc, pszReplace, sNew);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -496,9 +472,9 @@ void ReplaceDefines(MCONTACT hContact, wstring & sTarget)
 	bool bIdentifierUsed = sTarget.find(L"%identifier%") != string::npos;
 
 	if (bUINUsed || bEMailUsed || bProtoUsed || bIdentifierUsed) {
-		string sProto = _DBGetStringA(hContact, "Protocol", "p", "");
-		if (bUINUsed || (bIdentifierUsed && sProto == "ICQ")) {
-			DWORD dwUIN = db_get_dw(hContact, sProto.c_str(), "UIN", 0);
+		const char *szProto = GetContactProto(hContact);
+		if (bUINUsed || (bIdentifierUsed && !mir_strcmp(szProto, "ICQ"))) {
+			DWORD dwUIN = db_get_dw(hContact, szProto, "UIN", 0);
 			wstring sReplaceUin;
 			if (dwUIN) {
 				wchar_t sTmp[20];
@@ -509,14 +485,14 @@ void ReplaceDefines(MCONTACT hContact, wstring & sTarget)
 
 			if (bUINUsed)
 				ReplaceAll(sTarget, L"%UIN%", sReplaceUin);
-			if (bIdentifierUsed && sProto == "ICQ") {
+			if (bIdentifierUsed && !mir_strcmp(szProto, "ICQ")) {
 				bIdentifierUsed = false;
 				ReplaceAll(sTarget, L"%identifier%", sReplaceUin);
 			}
 		}
 
-		if (bEMailUsed || (bIdentifierUsed && sProto == "MSN")) {
-			wstring sEMail = _DBGetStringW(hContact, sProto.c_str(), "e-mail", L"");
+		if (bEMailUsed || (bIdentifierUsed && !mir_strcmp(szProto, "MSN"))) {
+			wstring sEMail = _DBGetStringW(hContact, szProto, "e-mail", L"");
 			if (sEMail.empty()) {
 				sEMail = _DBGetStringW(hContact, "MSN", "e-mail", L"");
 				if (sEMail.empty()) {
@@ -526,13 +502,13 @@ void ReplaceDefines(MCONTACT hContact, wstring & sTarget)
 			}
 			if (bEMailUsed)
 				ReplaceAllNoColon(sTarget, L"%e-mail%", sEMail);
-			if (bIdentifierUsed && sProto == "MSN") {
+			if (bIdentifierUsed && !mir_strcmp(szProto, "MSN")) {
 				bIdentifierUsed = false;
 				ReplaceAllNoColon(sTarget, L"%identifier%", sEMail);
 			}
 		}
 
-		if (bIdentifierUsed && sProto == "Jabber") {
+		if (bIdentifierUsed && !mir_strcmp(szProto, "Jabber")) {
 			wstring sReplace = _DBGetStringW(hContact, "Jabber", "jid", L"");
 			if (sReplace.empty()) {
 				sReplace = FileNickFromHandle(hContact);
@@ -673,7 +649,22 @@ void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO
 //                   dbei      - Event to export
 // Returns         : false on serious error, when file should be closed to not lost/overwrite any data
 
-bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
+const char *pSettings[] =
+{
+	"FirstName",
+	"LastName",
+	"e-mail",
+	"Nick",
+	"Age",
+	"Gender",
+	"City",
+	"State",
+	"Phone",
+	"Homepage",
+	"About"
+};
+
+static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
 {
 	wstring sLocalUser;
 	wstring sRemoteUser;
@@ -697,77 +688,148 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 
 	if (bAppendOnly) {
 		bWriteUTF8Format = g_bUseUtf8InNewFiles;
+
+		if (g_bUseJson) {
+			SetFilePointer(hFile, -3, nullptr, FILE_END);
+			bWriteToFile(hFile, ",", 1);
+		}
 	}
 	else {
 		DWORD dwHighSize = 0;
 		DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
-
 		if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
 			DWORD dwDataRead = 0;
 			BYTE ucByteOrder[3];
 			if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
 				bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
 
-			DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
+			DWORD dwPtr = SetFilePointer(hFile, g_bUseJson ? -3 : 0, nullptr, FILE_END);
 			if (dwPtr == INVALID_SET_FILE_POINTER) {
 				// we need to aborte mission here because if we continue we risk 
 				// overwriting old log.
 				DisplayErrorDialog(LPGENW("Failed to move to the end of the file :\n"), sFilePath, nullptr);
 				return false;
 			}
+
+			if (g_bUseJson)
+				bWriteToFile(hFile, ",", 1);		
 		}
 		else {
-			bWriteUTF8Format = g_bUseUtf8InNewFiles;
-			if (bWriteUTF8Format) {
-				if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1)) {
-					DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file :\n"), sFilePath, nullptr);
+			const char *szProto = GetContactProto(hContact);
+
+			if (g_bUseJson) {
+				JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
+				pInfo.set_name("info");
+				pInfo.push_back(JSONNode("user", T2Utf(sRemoteUser.c_str())));
+				pInfo.push_back(JSONNode("proto", szProto));
+
+				ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+				if (id != NULL)
+					pInfo.push_back(JSONNode("uin", T2Utf(id)));
+
+				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
+				if (szTemp[0]) {
+					szTemp[1] = 0;
+					pInfo.push_back(JSONNode("gender", T2Utf(szTemp)));
+				}
+
+				int age = db_get_w(hContact, szProto, "Age", 0);
+				if (age != 0)
+					pInfo.push_back(JSONNode("gender", age));
+
+				for (auto &it : pSettings) {
+					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
+					if (!szValue.empty())
+						pInfo.push_back(JSONNode(it, T2Utf(szValue.c_str())));
+				}
+				pRoot.push_back(pInfo);
+
+				pHist.set_name("history");
+				pRoot.push_back(pHist);
+
+				std::string output = pRoot.write_formatted();
+				if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size())) {
+					DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, nullptr);
+					return false;
+				}
+
+				SetFilePointer(hFile, -3, nullptr, FILE_CURRENT);
+			}
+			else {
+				bWriteUTF8Format = g_bUseUtf8InNewFiles;
+				if (bWriteUTF8Format) {
+					if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1)) {
+						DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file :\n"), sFilePath, nullptr);
+						return false;
+					}
+				}
+
+				CMStringW output = L"------------------------------------------------\r\n";
+				output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
+
+				// This is written this way because I expect this will become a string the user may set 
+				// in the options dialog.
+				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
+				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("Protocol"), _A2T(szProto));
+
+				ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+				if (id != NULL)
+					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("UIN"), id);
+
+				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
+				if (szTemp[0]) {
+					szTemp[1] = 0;
+					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("Gender"), szTemp);
+				}
+
+				int age = db_get_w(hContact, szProto, "Age", 0);
+				if (age != 0)
+					output.AppendFormat(L"%-10s: %d\r\n", TranslateT("Age"), age);
+
+				for (auto &it : pSettings) {
+					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
+					if (!szValue.empty()) {
+						mir_snwprintf(szTemp, L"%-10S: %s\r\n", it, szValue.c_str());
+						output += szTemp;
+					}
+				}
+
+				output += L"------------------------------------------------\r\n";
+
+				if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength())) {
+					DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, nullptr);
 					return false;
 				}
 			}
-			wstring output = L"------------------------------------------------\r\n"
-				LPGENW("      History for\r\n")
-				LPGENW("User      : %User%\r\n")
-				LPGENW("Protocol  : %Proto%\r\n")
-				LPGENW("UIN       : %UIN%\r\n")
-				LPGENW("FirstName : %FirstName%\r\n")
-				LPGENW("LastName  : %LastName%\r\n")
-				LPGENW("Age       : %Age%\r\n")
-				LPGENW("Gender    : %Gender%\r\n")
-				LPGENW("e-mail    : %e-mail%\r\n")
-				LPGENW("Nick      : %Nick%\r\n")
-				LPGENW("City      : %City%\r\n")
-				LPGENW("State     : %State%\r\n")
-				LPGENW("Phone     : %Phone%\r\n")
-				LPGENW("Homepage  : %Homepage%\r\n")
-				LPGENW("- About -\r\n%About%\r\n")
-				L"------------------------------------------------\r\n";
-
-			// This is written this way because I expect this will become a string the user may set 
-			// in the options dialog.
-			ReplaceAll(output, L"%User%", sRemoteUser);
-
-			string sProto = _DBGetStringA(hContact, "Protocol", "p", "");
-			ReplaceAll(output, L"%Proto%", _DBGetStringW(hContact, "Protocol", "p", L""));
-
-			for (auto &it : replaceList)
-				ReplaceAll(output, it.pField, _DBGetStringW(hContact, sProto.c_str(), it.pSetting, L""));
-
-			ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, sProto.c_str()));
-			if (id != NULL)
-				ReplaceAll(output, L"%UIN%", id);
-
-			mir_snwprintf(szTemp, L"%d", db_get_w(hContact, sProto.c_str(), "Age", 0));
-			ReplaceAll(output, L"%Age%", szTemp);
-
-			szTemp[0] = (wchar_t)db_get_b(hContact, sProto.c_str(), "Gender", 0);
-			szTemp[1] = 0;
-			ReplaceAll(output, L"%Gender%", szTemp);
-
-			if (!bWriteTextToFile(hFile, output.data(), bWriteUTF8Format, (int)output.size())) {
-				DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, nullptr);
-				return false;
-			}
 		}
+	}
+
+	if (g_bUseJson) {
+		JSONNode pRoot;
+		pRoot.push_back(JSONNode("type", dbei.eventType));
+		pRoot.push_back(JSONNode("timeStamp", dbei.timestamp));
+
+		std::string flags;
+		if (dbei.flags & DBEF_SENT)
+			flags += "m";
+		if (dbei.flags & DBEF_READ)
+			flags += "r";
+		pRoot.push_back(JSONNode("flags", flags));
+
+		ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+		if (msg)
+			pRoot.push_back(JSONNode("body", T2Utf(msg)));
+
+		std::string output = pRoot.write_formatted();
+		ReplaceAll(output, "\t", "\t\t");
+		ReplaceAll(output, "}", "\t}");
+		output += "\n]}";
+
+		if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size())) {
+			DisplayErrorDialog(LPGENW("Failed to write message to the file :\n"), sFilePath, &dbei);
+			return false;
+		}
+		return true;
 	}
 
 	// Get time stamp 
@@ -982,6 +1044,9 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVE
 
 HANDLE openCreateFile(wstring sFilePath)
 {
+	if (g_bUseJson)
+		sFilePath += L".json";
+
 	SetLastError(0);
 
 	HANDLE hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);

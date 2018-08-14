@@ -273,6 +273,7 @@ public:
 		cmbFileViewer.AddString(L"C:\\WinNT\\Notepad.exe");
 		cmbFileViewer.AddString(L"C:\\Program Files\\Notepad++\\notepad++.exe");
 
+		CheckDlgButton(m_hwnd, IDC_USE_JSON, g_bUseJson ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_USE_INTERNAL_VIEWER, g_bUseIntViewer ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_REPLACE_MIRANDA_HISTORY, g_bReplaceHistory ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_APPEND_NEWLINE, g_bAppendNewLine ? BST_CHECKED : BST_UNCHECKED);
