@@ -232,7 +232,7 @@ MIR_CORE_DLL(int) db_get_static_utf(MCONTACT hContact, const char *szModule, con
 	return currDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
 }
 
-MIR_CORE_DLL(int) db_get_wstatic(MCONTACT hContact, const char *szModule, const char *szSetting, WCHAR *pDest, int cbDest)
+MIR_CORE_DLL(int) db_get_wstatic(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *pDest, int cbDest)
 {
 	if (currDb == nullptr)
 		return 1;
@@ -306,7 +306,7 @@ MIR_CORE_DLL(INT_PTR) db_set_s(MCONTACT hContact, const char *szModule, const ch
 	return currDb->WriteContactSetting(hContact, &cws);
 }
 
-MIR_CORE_DLL(INT_PTR) db_set_ws(MCONTACT hContact, const char *szModule, const char *szSetting, const WCHAR *val)
+MIR_CORE_DLL(INT_PTR) db_set_ws(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *val)
 {
 	if (currDb == nullptr) return 1;
 
@@ -314,7 +314,7 @@ MIR_CORE_DLL(INT_PTR) db_set_ws(MCONTACT hContact, const char *szModule, const c
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_WCHAR;
-	cws.value.pwszVal = (WCHAR*)(val == nullptr ? L"" : val);
+	cws.value.pwszVal = (wchar_t*)(val == nullptr ? L"" : val);
 	return currDb->WriteContactSetting(hContact, &cws);
 }
 

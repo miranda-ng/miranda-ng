@@ -107,12 +107,10 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const wchar_t *ptszDescr
 	}
 
 	FILE *fp = _wfopen(ptszFile, L"ab");
-	if (fp == nullptr) {
-		wchar_t tszPath[MAX_PATH];
-		wcsncpy_s(tszPath, ptszFile, _TRUNCATE);
-		CreatePathToFileW(tszPath);
-	}
-	else fclose(fp);
+	if (fp == nullptr)
+		CreatePathToFileW(ptszFile);
+	else
+		fclose(fp);
 
 	DeleteFile(ptszFile);
 	arLoggers.insert(result);
@@ -161,7 +159,7 @@ MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...)
 	return 0;
 }
 
-MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...)
+MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const wchar_t *format, ...)
 {
 	Logger *p = prepareLogger(hLogger);
 	if (p == nullptr)
@@ -204,7 +202,7 @@ MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list arg
 	return 0;
 }
 
-MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const WCHAR *format, va_list args)
+MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const wchar_t *format, va_list args)
 {
 	Logger *p = prepareLogger(hLogger);
 	if (p == nullptr)

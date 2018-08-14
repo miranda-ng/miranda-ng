@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 static char  szMirandaPath[MAX_PATH];
-static WCHAR szMirandaPathW[MAX_PATH];
+static wchar_t szMirandaPathW[MAX_PATH];
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -119,7 +119,7 @@ MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(int) PathIsAbsoluteW(const WCHAR *path)
+MIR_CORE_DLL(int) PathIsAbsoluteW(const wchar_t *path)
 {
 	if (path && wcslen(path) > 2)
 		if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
@@ -127,7 +127,7 @@ MIR_CORE_DLL(int) PathIsAbsoluteW(const WCHAR *path)
 	return 0;
 }
 
-MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR *pBase)
+MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t *pBase)
 {
 	if (!pSrc || !pSrc[0] || wcslen(pSrc) > MAX_PATH)
 		return 0;
@@ -147,14 +147,14 @@ MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR *p
 	return (int)wcslen(pOut);
 }
 
-MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR *base)
+MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t *base)
 {
 	if (!pSrc || !pSrc[0] || wcslen(pSrc) > MAX_PATH) {
 		*pOut = 0;
 		return 0;
 	}
 
-	WCHAR buf[MAX_PATH];
+	wchar_t buf[MAX_PATH];
 	if (pSrc[0] < ' ')
 		return mir_snwprintf(pOut, MAX_PATH, L"%s", pSrc);
 
@@ -185,19 +185,19 @@ MIR_CORE_DLL(int) CreatePathToFileW(const wchar_t *wszFilePath)
 	return CreateDirectoryTreeW(buf);
 }
 
-MIR_CORE_DLL(int) CreateDirectoryTreeW(const WCHAR *szDir)
+MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *szDir)
 {
 	if (szDir == nullptr)
 		return 1;
 
-	WCHAR szTestDir[MAX_PATH];
+	wchar_t szTestDir[MAX_PATH];
 	mir_wstrncpy(szTestDir, szDir, _countof(szTestDir));
 
 	DWORD dwAttributes = GetFileAttributesW(szTestDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
-	WCHAR *pszLastBackslash = wcsrchr(szTestDir, '\\');
+	wchar_t *pszLastBackslash = wcsrchr(szTestDir, '\\');
 	if (pszLastBackslash == nullptr)
 		return 0;
 
@@ -215,7 +215,7 @@ int InitPathUtils(void)
 		p[1] = 0;
 
 	GetModuleFileNameW(nullptr, szMirandaPathW, _countof(szMirandaPathW));
-	WCHAR *tp = wcsrchr(szMirandaPathW, '\\');
+	wchar_t *tp = wcsrchr(szMirandaPathW, '\\');
 	if (tp)
 		tp[1] = 0;
 	return 0;

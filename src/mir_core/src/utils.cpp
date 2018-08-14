@@ -32,7 +32,7 @@ MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src)
 	return dest = (src != nullptr) ? mir_strdup(src) : nullptr;
 }
 
-MIR_CORE_DLL(WCHAR*) replaceStrW(WCHAR* &dest, const WCHAR *src)
+MIR_CORE_DLL(wchar_t*) replaceStrW(wchar_t* &dest, const wchar_t *src)
 {
 	if (dest != nullptr)
 		mir_free(dest);
@@ -57,12 +57,12 @@ MIR_CORE_DLL(char*) rtrim(char *str)
 	return str;
 }
 
-MIR_CORE_DLL(WCHAR*) rtrimw(WCHAR *str)
+MIR_CORE_DLL(wchar_t*) rtrimw(wchar_t *str)
 {
 	if (str == nullptr)
 		return nullptr;
 
-	WCHAR *p = wcschr(str, 0);
+	wchar_t *p = wcschr(str, 0);
 	while (--p >= str) {
 		switch (*p) {
 		case ' ': case '\t': case '\n': case '\r':
@@ -91,18 +91,18 @@ MIR_CORE_DLL(char*) ltrim(char *str)
 	}
 }
 
-MIR_CORE_DLL(WCHAR*) ltrimw(WCHAR *str)
+MIR_CORE_DLL(wchar_t*) ltrimw(wchar_t *str)
 {
 	if (str == nullptr)
 		return nullptr;
 
-	WCHAR *p = str;
+	wchar_t *p = str;
 	for (;;) {
 		switch (*p) {
 		case ' ': case '\t': case '\n': case '\r':
 			++p; break;
 		default:
-			memmove(str, p, sizeof(WCHAR)*(wcslen(p) + 1));
+			memmove(str, p, sizeof(wchar_t)*(wcslen(p) + 1));
 			return str;
 		}
 	}
@@ -124,12 +124,12 @@ MIR_CORE_DLL(char*) ltrimp(char *str)
 	}
 }
 
-MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str)
+MIR_CORE_DLL(wchar_t*) ltrimpw(wchar_t *str)
 {
 	if (str == nullptr)
 		return nullptr;
 
-	WCHAR *p = str;
+	wchar_t *p = str;
 	for (;;) {
 		switch (*p) {
 		case ' ': case '\t': case '\n': case '\r':
@@ -185,12 +185,12 @@ MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask)
 	}
 }
 
-MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask)
+MIR_CORE_DLL(int) wildcmpw(const wchar_t *name, const wchar_t *mask)
 {
 	if (name == nullptr || mask == nullptr)
 		return false;
 
-	const WCHAR* last = nullptr;
+	const wchar_t* last = nullptr;
 	for (;; mask++, name++) {
 		if (*mask != '?' && *mask != *name) break;
 		if (*name == '\0') return ((BOOL)!*mask);
@@ -229,12 +229,12 @@ MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask)
 	}
 }
 
-MIR_CORE_DLL(int) wildcmpiw(const WCHAR *name, const WCHAR *mask)
+MIR_CORE_DLL(int) wildcmpiw(const wchar_t *name, const wchar_t *mask)
 {
 	if (name == nullptr || mask == nullptr)
 		return false;
 
-	const WCHAR* last = nullptr;
+	const wchar_t* last = nullptr;
 	for (;; mask++, name++) {
 		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
 		if (*name == '\0') return ((BOOL)!*mask);
@@ -268,10 +268,10 @@ MIR_CORE_DLL(char*) bin2hex(const void *pData, size_t len, char *dest)
 	return dest;
 }
 
-MIR_CORE_DLL(WCHAR*) bin2hexW(const void *pData, size_t len, WCHAR *dest)
+MIR_CORE_DLL(wchar_t*) bin2hexW(const void *pData, size_t len, wchar_t *dest)
 {
 	const BYTE *p = (const BYTE*)pData;
-	WCHAR *d = dest;
+	wchar_t *d = dest;
 
 	for (size_t i = 0; i < len; i++, p++) {
 		*d++ = szHexTable[*p >> 4];

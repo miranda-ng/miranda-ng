@@ -526,9 +526,9 @@ MIR_CORE_DLL(char*) TranslateA_LP(const char *str, HPLUGIN pPlugin)
 	return (char*)LangPackTranslateString(GetMuid(pPlugin), str, FALSE);
 }
 
-MIR_CORE_DLL(WCHAR*) TranslateW_LP(const WCHAR *str, HPLUGIN pPlugin)
+MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, HPLUGIN pPlugin)
 {
-	return (WCHAR*)LangPackTranslateString(GetMuid(pPlugin), (LPCSTR)str, TRUE);
+	return (wchar_t*)LangPackTranslateString(GetMuid(pPlugin), (LPCSTR)str, TRUE);
 }
 
 MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, HPLUGIN pPlugin)

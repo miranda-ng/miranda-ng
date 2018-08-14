@@ -155,12 +155,12 @@ MIR_CORE_DLL(char*) mir_strdup(const char *str)
 	return p;
 }
 
-MIR_CORE_DLL(WCHAR*) mir_wstrdup(const WCHAR *str)
+MIR_CORE_DLL(wchar_t*) mir_wstrdup(const wchar_t *str)
 {
 	if (str == nullptr)
 		return nullptr;
 
-	WCHAR *p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(wcslen(str)+1));
+	wchar_t *p = (wchar_t*)mir_alloc(sizeof(wchar_t)*(wcslen(str)+1));
 	if (p)
 		wcscpy(p, str);
 	return p;
@@ -181,14 +181,14 @@ MIR_CORE_DLL(char*) mir_strndup(const char *str, size_t len)
 	return p;
 }
 
-MIR_CORE_DLL(WCHAR*) mir_wstrndup(const WCHAR *str, size_t len)
+MIR_CORE_DLL(wchar_t*) mir_wstrndup(const wchar_t *str, size_t len)
 {
 	if (str == nullptr || len == 0)
 		return nullptr;
 
-	WCHAR *p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(len+1));
+	wchar_t *p = (wchar_t*)mir_alloc(sizeof(wchar_t)*(len+1));
 	if (p) {
-		memcpy(p, str, sizeof(WCHAR)*len);
+		memcpy(p, str, sizeof(wchar_t)*len);
 		p[len] = 0;
 	}
 	return p;
@@ -208,7 +208,7 @@ MIR_CORE_DLL(int) mir_snprintf(char *buffer, size_t count, const char* fmt, ...)
 
 /******************************************************************************/
 
-MIR_CORE_DLL(int) mir_snwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, ...)
+MIR_CORE_DLL(int) mir_snwprintf(wchar_t *buffer, size_t count, const wchar_t* fmt, ...)
 {
 	va_list va;
 	va_start(va, fmt);
@@ -229,7 +229,7 @@ MIR_CORE_DLL(int) mir_vsnprintf(char *buffer, size_t count, const char* fmt, va_
 
 /******************************************************************************/
 
-MIR_CORE_DLL(int) mir_vsnwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, va_list va)
+MIR_CORE_DLL(int) mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t* fmt, va_list va)
 {
 	int len = _vsntprintf(buffer, count-1, fmt, va);
 	buffer[count-1] = 0;

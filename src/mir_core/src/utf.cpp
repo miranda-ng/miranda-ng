@@ -103,7 +103,7 @@ int Ucs2toUtf8(const wchar_t *src, int srclen, char *dst, int dstlen)
 	int len;
 
 	for (len = dstlen; srclen; srclen--, src++) {
-		WCHAR ch = *src;
+		wchar_t ch = *src;
 		unsigned int val;
 
 		if (ch < 0x80) { /* 0x00-0x7f: 1 byte */
