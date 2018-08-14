@@ -720,17 +720,17 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 			if (g_bUseJson) {
 				JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
 				pInfo.set_name("info");
-				pInfo.push_back(JSONNode("user", T2Utf(sRemoteUser.c_str())));
+				pInfo.push_back(JSONNode("user", T2Utf(sRemoteUser.c_str()).get()));
 				pInfo.push_back(JSONNode("proto", szProto));
 
 				ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
 				if (id != NULL)
-					pInfo.push_back(JSONNode("uin", T2Utf(id)));
+					pInfo.push_back(JSONNode("uin", T2Utf(id).get()));
 
 				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
 				if (szTemp[0]) {
 					szTemp[1] = 0;
-					pInfo.push_back(JSONNode("gender", T2Utf(szTemp)));
+					pInfo.push_back(JSONNode("gender", T2Utf(szTemp).get()));
 				}
 
 				int age = db_get_w(hContact, szProto, "Age", 0);
@@ -740,7 +740,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				for (auto &it : pSettings) {
 					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
 					if (!szValue.empty())
-						pInfo.push_back(JSONNode(it, T2Utf(szValue.c_str())));
+						pInfo.push_back(JSONNode(it, T2Utf(szValue.c_str()).get()));
 				}
 				pRoot.push_back(pInfo);
 
@@ -818,7 +818,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 		ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
 		if (msg)
-			pRoot.push_back(JSONNode("body", T2Utf(msg)));
+			pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
 
 		std::string output = pRoot.write_formatted();
 		ReplaceAll(output, "\t", "\t\t");
