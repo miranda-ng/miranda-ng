@@ -514,6 +514,7 @@ typedef MDBX_ID2 *MDBX_ID2L;
 
 #define MDBX_PNL_DB_MAX (MDBX_PNL_DB_SIZE - 1)
 #define MDBX_PNL_UM_MAX (MDBX_PNL_UM_SIZE - 1)
+#define MDBX_PNL_MAX (MAX_PAGENO / 4)
 
 #define MDBX_PNL_SIZEOF(pl) (((pl)[0] + 1) * sizeof(pgno_t))
 #define MDBX_PNL_IS_ZERO(pl) ((pl)[0] == 0)
@@ -759,8 +760,8 @@ struct MDBX_env {
   MDBX_PNL me_free_pgs;
   /* ID2L of pages written during a write txn. Length MDBX_PNL_UM_SIZE. */
   MDBX_ID2L me_dirtylist;
-  /* Max number of freelist items that can fit in a single overflow page */
-  unsigned me_maxfree_1pg;
+  /* Number of freelist items that can fit in a single overflow page */
+  unsigned me_maxgc_ov1page;
   /* Max size of a node on a page */
   unsigned me_nodemax;
   unsigned me_maxkey_limit;   /* max size of a key */
