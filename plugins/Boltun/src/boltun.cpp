@@ -41,7 +41,8 @@ static HGENMENU hMenuItemAutoChat, hMenuItemNotToChat, hMenuItemStartChatting;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfoEx = {
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -51,7 +52,7 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {488C5C84-56DA-434F-96F1-B18900DEF760}
-{ 0x488c5c84, 0x56da, 0x434f,{ 0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60 } }
+	{ 0x488c5c84, 0x56da, 0x434f,{ 0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60 }}
 };
 
 CMPlugin::CMPlugin() :
@@ -491,13 +492,16 @@ static INT_PTR ContactClickStartChatting(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-static int MessagePrebuild(WPARAM hContact, LPARAM)
+static int OnContactMenuPrebuild(WPARAM hContact, LPARAM)
 {
-	if (!blInit || (db_get_b(hContact, "CList", "NotOnList", 0) == 1)) {
-		Menu_EnableItem(hMenuItemAutoChat, false);
-		Menu_EnableItem(hMenuItemNotToChat, false);
-	}
-	else {
+	INT_PTR flags = CallProtoService(GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1);
+
+	bool bEnable = blInit && !db_get_b(hContact, "CList", "NotOnList", 0) && (flags & PF1_IM) != 0;
+	Menu_ShowItem(hMenuItemAutoChat, bEnable);
+	Menu_ShowItem(hMenuItemNotToChat, bEnable);
+	Menu_ShowItem(hMenuItemStartChatting, bEnable);
+
+	if (bEnable) {
 		if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE))
 			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
 		else
@@ -520,34 +524,32 @@ int CMPlugin::Load()
 	HookEvent(ME_OPT_INITIALISE, MessageOptInit);
 	/*initialize miranda hooks and services*/
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MessagePrebuild);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuPrebuild);
 
 	CreateServiceFunction(SERV_CONTACT_AUTO_CHAT, ContactClickAutoChat);
 	CreateServiceFunction(SERV_CONTACT_NOT_TO_CHAT, ContactClickNotToChat);
 	CreateServiceFunction(SERV_CONTACT_START_CHATTING, ContactClickStartChatting);
-	{
-		CMenuItem mi(&g_plugin);
 
-		SET_UID(mi, 0xea31f628, 0x1445, 0x4b62, 0x98, 0x19, 0xce, 0x15, 0x81, 0x49, 0xa, 0xbd);
-		mi.position = -50010002; //TODO: check the warning
-		mi.name.a = BOLTUN_AUTO_CHAT;
-		mi.pszService = SERV_CONTACT_AUTO_CHAT;
-		hMenuItemAutoChat = Menu_AddContactMenuItem(&mi);
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0xea31f628, 0x1445, 0x4b62, 0x98, 0x19, 0xce, 0x15, 0x81, 0x49, 0xa, 0xbd);
+	mi.position = -50010002; //TODO: check the warning
+	mi.name.a = BOLTUN_AUTO_CHAT;
+	mi.pszService = SERV_CONTACT_AUTO_CHAT;
+	hMenuItemAutoChat = Menu_AddContactMenuItem(&mi);
 
-		SET_UID(mi, 0x726af984, 0x988c, 0x4d5d, 0x97, 0x30, 0xdc, 0x46, 0x55, 0x76, 0x1, 0x73);
-		mi.position = -50010001; //TODO: check the warning
-		mi.name.a = BOLTUN_NOT_TO_CHAT;
-		mi.pszService = SERV_CONTACT_NOT_TO_CHAT;
-		hMenuItemNotToChat = Menu_AddContactMenuItem(&mi);
+	SET_UID(mi, 0x726af984, 0x988c, 0x4d5d, 0x97, 0x30, 0xdc, 0x46, 0x55, 0x76, 0x1, 0x73);
+	mi.position = -50010001; //TODO: check the warning
+	mi.name.a = BOLTUN_NOT_TO_CHAT;
+	mi.pszService = SERV_CONTACT_NOT_TO_CHAT;
+	hMenuItemNotToChat = Menu_AddContactMenuItem(&mi);
 
-		SET_UID(mi, 0x9e0117f3, 0xb7df, 0x4f1b, 0xae, 0xec, 0xc4, 0x72, 0x59, 0x72, 0xc8, 0x58);
-		mi.flags = CMIF_NOTOFFLINE;
-		mi.position = -50010000; //TODO: check the warning
-		mi.hIcolibItem = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_RECVMSG));
-		mi.name.a = BOLTUN_START_CHATTING;
-		mi.pszService = SERV_CONTACT_START_CHATTING;
-		hMenuItemStartChatting = Menu_AddContactMenuItem(&mi);
-	}
+	SET_UID(mi, 0x9e0117f3, 0xb7df, 0x4f1b, 0xae, 0xec, 0xc4, 0x72, 0x59, 0x72, 0xc8, 0x58);
+	mi.flags = CMIF_NOTOFFLINE;
+	mi.position = -50010000; //TODO: check the warning
+	mi.hIcolibItem = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_RECVMSG));
+	mi.name.a = BOLTUN_START_CHATTING;
+	mi.pszService = SERV_CONTACT_START_CHATTING;
+	hMenuItemStartChatting = Menu_AddContactMenuItem(&mi);
 
 	int line;
 	blInit = LoadMind(Config.MindFileName, line);
@@ -565,21 +567,9 @@ int CMPlugin::Unload()
 {
 	if (pTimer)
 		KillTimer(nullptr, pTimer);
-	if (blInit) {
-		#if 0 //No need to save, we don't have studying algorithm
-		if (Config.MindFileName && !SaveMind(Config.MindFileName)) {
-			//This causes errors with development core when calling MessageBox.
-			//It seems that it's now a Boltun problem.
-			//So in case of saving error we will remain silent
-			#if 0
-			wchar_t path[MAX_PATH];
-			mir_snwprintf(path, TranslateW(FAILED_TO_SAVE_BASE), (const wchar_t*)Config.MindFileName);
-			wchar_t* err = TranslateW(BOLTUN_ERROR);
-			MessageBox(NULL, path, err, MB_ICONERROR | MB_TASKMODAL | MB_OK); */
-				#endif
-		}
-		#endif
+
+	if (blInit)
 		delete bot;
-	}
+
 	return 0;
 }
