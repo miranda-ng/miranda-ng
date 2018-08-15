@@ -70,8 +70,8 @@ extern "C"
 ///////////////////////////////////////////////////////////////////////////////
 // command line support
 
-MIR_CORE_DLL(void)    CmdLine_Parse(LPTSTR ptszCmdLine);
-MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(LPCTSTR ptszParameter);
+MIR_CORE_DLL(void)           CmdLine_Parse(const wchar_t *ptszCmdLine);
+MIR_CORE_DLL(const wchar_t*) CmdLine_GetOption(const wchar_t *ptszParameter);
 
 ///////////////////////////////////////////////////////////////////////////////
 // database functions
@@ -139,8 +139,8 @@ MIR_CORE_DLL(int)     CallFunctionAsync(void (__stdcall *func)(void *), void *ar
 MIR_CORE_DLL(void)    KillModuleServices(HINSTANCE hInst);
 MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
-MIR_APP_DLL(int)      ProtoServiceExists(LPCSTR szModule, const char *szService);
-MIR_APP_DLL(INT_PTR)  CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam = 0, LPARAM lParam = 0);
+MIR_APP_DLL(int)      ProtoServiceExists(const char *szModule, const char *szService);
+MIR_APP_DLL(INT_PTR)  CallProtoService(const char *szModule, const char *szService, WPARAM wParam = 0, LPARAM lParam = 0);
 
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions
@@ -315,7 +315,7 @@ MIR_CORE_DLL(int)    mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t
 
 struct PROTO_INTERFACE;
 
-MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(LPCSTR szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 // avatar support functions
 

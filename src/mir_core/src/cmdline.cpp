@@ -27,11 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CmdLineParam
 {
-	__inline CmdLineParam(LPCTSTR _name, LPCTSTR _value) :
+	__inline CmdLineParam(const wchar_t *_name, const wchar_t *_value) :
 		name(_name), value(_value)
 		{}
 
-	LPCTSTR name, value;
+	const wchar_t *name, *value;
 };
 
 static int CompareParams(const CmdLineParam *p1, const CmdLineParam *p2)
@@ -41,11 +41,11 @@ static int CompareParams(const CmdLineParam *p1, const CmdLineParam *p2)
 
 static OBJLIST<CmdLineParam> arParams(5, CompareParams);
 
-MIR_CORE_DLL(void) CmdLine_Parse(LPTSTR ptszCmdLine)
+MIR_CORE_DLL(void) CmdLine_Parse(const wchar_t *ptszCmdLine)
 {
 	bool bPrevSpace = true;
-	for (LPTSTR p = ptszCmdLine; *p; p++) {
-		if ( *p == ' ' || *p == '\t') {
+	for (wchar_t *p = NEWWSTR_ALLOCA(ptszCmdLine); *p; p++) {
+		if (*p == ' ' || *p == '\t') {
 			*p = 0;
 			bPrevSpace = true;
 			continue;
@@ -59,12 +59,12 @@ MIR_CORE_DLL(void) CmdLine_Parse(LPTSTR ptszCmdLine)
 		}
 		else continue;  // skip a text that isn't an option
 
-		wchar_t *pOptionName = p+1;
+		wchar_t *pOptionName = p + 1;
 		if ((p = wcspbrk(pOptionName, L" \t=:")) == nullptr) { // no more text in string
 			arParams.insert(new CmdLineParam(pOptionName, L""));
 			break;
 		}
-		
+
 		if (*p == ' ' || *p == '\t') {
 			arParams.insert(new CmdLineParam(pOptionName, L""));
 			p--; // the cycle will wipe this space automatically
@@ -81,7 +81,7 @@ MIR_CORE_DLL(void) CmdLine_Parse(LPTSTR ptszCmdLine)
 	}
 }
 
-MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(const wchar_t* ptszParameter)
+MIR_CORE_DLL(const wchar_t*) CmdLine_GetOption(const wchar_t* ptszParameter)
 {
 	CmdLineParam tmp(ptszParameter, nullptr);
 	int idx = arParams.getIndex(&tmp);
