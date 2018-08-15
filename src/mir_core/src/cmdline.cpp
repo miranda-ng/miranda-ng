@@ -28,10 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct CmdLineParam
 {
 	__inline CmdLineParam(const wchar_t *_name, const wchar_t *_value) :
-		name(_name), value(_value)
+		name(mir_wstrdup(_name)), value(mir_wstrdup(_value))
 		{}
 
-	const wchar_t *name, *value;
+	ptrW name, value;
 };
 
 static int CompareParams(const CmdLineParam *p1, const CmdLineParam *p2)
@@ -85,5 +85,5 @@ MIR_CORE_DLL(const wchar_t*) CmdLine_GetOption(const wchar_t* ptszParameter)
 {
 	CmdLineParam tmp(ptszParameter, nullptr);
 	int idx = arParams.getIndex(&tmp);
-	return (idx == -1) ? nullptr : arParams[idx].value;
+	return (idx == -1) ? nullptr : arParams[idx].value.get();
 }
