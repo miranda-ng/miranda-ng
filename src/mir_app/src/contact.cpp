@@ -27,19 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hGroupChangeEvent;
 
-static int GetContactStatus(MCONTACT hContact)
-{
-	char *szProto = GetContactProto(hContact);
-	if (szProto == nullptr)
-		return ID_STATUS_OFFLINE;
-	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-}
-
 MIR_APP_DLL(void) Clist_LoadContactTree(void)
 {
 	int hideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (auto &hContact : Contacts()) {
-		int status = GetContactStatus(hContact);
+		int status = Contact_GetStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
 			Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact));
 	}
