@@ -977,7 +977,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 				continue;
 
 			// check for duplicate entries
-			if ((g_iImportOptions & IOPT_COMPLETE) != IOPT_COMPLETE && IsDuplicateEvent(hDst, dbei)) {
+			if ((g_iImportOptions & IOPT_CHECKDUPS) != 0 && IsDuplicateEvent(hDst, dbei)) {
 				nDupes++;
 				continue;
 			}

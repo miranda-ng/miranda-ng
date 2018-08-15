@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\miranda-ng\plugins\Import\res\resource.rc
+// Used by w:\miranda-ng\plugins\Import\res\resource.rc
 //
 #define IDC_BACK                        3
 #define IDD_WIZARD                      101
@@ -10,6 +10,7 @@
 #define IDD_WIZARDINTRO                 107
 #define IDD_FINISHED                    108
 #define IDD_MIRABILISDB                 109
+#define IDD_IMPORT_CONTACT              109
 #define IDD_MIRANDADB                   110
 #define IDD_PROGRESS                    111
 #define IDD_ADVOPTIONS                  112
@@ -48,15 +49,17 @@
 #define IDC_URL                         1039
 #define IDC_FILE                        1040
 #define IDC_FT                          1040
+#define IDC_OPEN_FILE                   1042
+#define IDC_CHECK_DUPS                  1043
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        106
+#define _APS_NEXT_RESOURCE_VALUE        111
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1041
+#define _APS_NEXT_CONTROL_VALUE         1044
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -48,6 +48,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IOPT_SYS_SETTINGS  0x00004000
 #define IOPT_COMPLETE      0x00007FFE
 
+#define IOPT_CHECKDUPS     0x00010000
+
 struct MImportOptions
 {
 	const wchar_t *pwszFileName;

@@ -97,7 +97,7 @@ static INT_PTR ServiceMode(WPARAM, LPARAM)
 
 	ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
 	if (!_waccess(wszFullName, 0)) {
-		g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE;
+		g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE + IOPT_CHECKDUPS;
 		wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
 
 		WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
@@ -125,22 +125,12 @@ static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 
 static INT_PTR ImportContact(WPARAM hContact, LPARAM)
 {
-	CMStringW text(FORMAT, L"%s (*.dat,*.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c", TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
-
-	OPENFILENAME ofn = { 0 };
-	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	ofn.lpstrFilter = text;
-	ofn.lpstrDefExt = L"dat";
-	ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_DONTADDTORECENT;
-	ofn.lpstrFile = importFile;
-	ofn.nMaxFile = _countof(importFile);
-	if (!GetOpenFileName(&ofn)) {
-		importFile[0] = 0;
+	CContactImportDlg dlg(hContact);
+	if (!dlg.DoModal())
 		return 0;
-	}
 
 	g_hImportContact = hContact;
-	g_iImportOptions = IOPT_HISTORY;
+	g_iImportOptions = IOPT_HISTORY + dlg.getFlags();
 
 	WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
 	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));

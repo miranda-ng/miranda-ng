@@ -43,6 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_db_int.h>
 #include <m_metacontacts.h>
 #include <m_import.h>
+#include <m_gui.h>
 
 #include "version.h"
 #include "resource.h"
@@ -108,3 +109,25 @@ void   RegisterIcons(void);
 
 void RegisterMContacts();
 void RegisterJson();
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CContactImportDlg : public CDlgBase
+{
+	MCONTACT m_hContact;
+	int m_flags;
+
+	CCtrlButton m_btnOpenFile, m_btnOk;
+	CCtrlEdit edtFileName;
+
+public:
+	CContactImportDlg(MCONTACT hContact);
+
+	int getFlags() const { return m_flags; }
+
+	bool OnInitDialog() override;
+	bool OnApply() override;
+
+	void onClick_Ok(CCtrlButton*);
+	void onClick_OpenFile(CCtrlButton*);
+};

@@ -182,13 +182,13 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wPara
 
 		case IDOK:
 			if (IsDlgButtonChecked(hwndDlg, IDC_RADIO_COMPLETE)) {
-				g_iImportOptions = INT32_MAX;
+				g_iImportOptions = IOPT_ADDUNKNOWN | IOPT_COMPLETE | IOPT_CHECKDUPS;
 				PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 				break;
 			}
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_RADIO_ALL)) {
-				g_iImportOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_GROUPS | IOPT_CONTACTS;
+				g_iImportOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_GROUPS | IOPT_CONTACTS | IOPT_CHECKDUPS;
 				PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 				break;
 			}
