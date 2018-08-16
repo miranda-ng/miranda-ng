@@ -182,7 +182,7 @@ const VERSION_MINOR                = 2;
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-const VERSION_PATCH                = 5;
+const VERSION_PATCH                = 6;
 
 /**
  * A macro to check at preprocessing time whether the client code is compatible
@@ -342,6 +342,9 @@ const MAX_HOSTNAME_LENGTH         = 255;
 
 /**
  * Represents the possible statuses a client can have.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 enum class USER_STATUS {
   /**
@@ -364,6 +367,9 @@ enum class USER_STATUS {
 /**
  * Represents message types for ${tox.friend.send.message} and conference
  * messages.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 enum class MESSAGE_TYPE {
   /**
@@ -387,6 +393,9 @@ enum class MESSAGE_TYPE {
 
 /**
  * Type of proxy used to connect to TCP relays.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 enum class PROXY_TYPE {
   /**
@@ -405,6 +414,9 @@ enum class PROXY_TYPE {
 
 /**
  * Type of savedata to create the Tox instance from.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 enum class SAVEDATA_TYPE {
   /**
@@ -424,6 +436,9 @@ enum class SAVEDATA_TYPE {
 
 /**
  * Severity level of log messages.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 enum class LOG_LEVEL {
   /**
@@ -813,6 +828,9 @@ bool add_tcp_relay(string host, uint16_t port, const uint8_t[PUBLIC_KEY_SIZE] pu
 
 /**
  * Protocols that can be used to connect to the network or friends.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 enum class CONNECTION {
   /**
@@ -2104,6 +2122,9 @@ namespace conference {
 
   /**
    * Conference types for the ${event invite} event.
+   *
+   * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+   *   Camel_Snake_Case versions, instead.
    */
   enum class TYPE {
     /**
@@ -2132,6 +2153,18 @@ namespace conference {
      * @param length The length of the cookie.
      */
     typedef void(uint32_t friend_number, TYPE type, const uint8_t[length] cookie);
+  }
+
+
+  /**
+   * This event is triggered when the client successfully connects to a
+   * conference after joining it with the $join function.
+   */
+  event connected const {
+    /**
+     * @param conference_number The conference number of the conference to which we have connected.
+     */
+    typedef void(uint32_t conference_number);
   }
 
 
@@ -2291,6 +2324,10 @@ namespace conference {
 
   /**
    * Invites a friend to a conference.
+   *
+   * We must be connected to the conference, meaning that the conference has not
+   * been deleted, and either we created the conference with the $new function,
+   * or a `${event connected}` event has occurred for the conference.
    *
    * @param friend_number The friend number of the friend we want to invite.
    * @param conference_number The conference number of the conference we want to invite the friend to.

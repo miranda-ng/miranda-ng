@@ -74,6 +74,7 @@ tox_version_patch
 tox_add_tcp_relay
 tox_bootstrap
 tox_callback_conference_invite
+tox_callback_conference_connected
 tox_callback_conference_message
 tox_callback_conference_peer_list_changed
 tox_callback_conference_peer_name

@@ -183,7 +183,7 @@ uint32_t tox_version_minor(void);
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-#define TOX_VERSION_PATCH              5
+#define TOX_VERSION_PATCH              6
 
 uint32_t tox_version_patch(void);
 
@@ -374,6 +374,9 @@ uint32_t tox_max_hostname_length(void);
 
 /**
  * Represents the possible statuses a client can have.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 typedef enum TOX_USER_STATUS {
 
@@ -400,6 +403,9 @@ typedef enum TOX_USER_STATUS {
 /**
  * Represents message types for tox_friend_send_message and conference
  * messages.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 typedef enum TOX_MESSAGE_TYPE {
 
@@ -428,6 +434,9 @@ typedef enum TOX_MESSAGE_TYPE {
 
 /**
  * Type of proxy used to connect to TCP relays.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 typedef enum TOX_PROXY_TYPE {
 
@@ -451,6 +460,9 @@ typedef enum TOX_PROXY_TYPE {
 
 /**
  * Type of savedata to create the Tox instance from.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 typedef enum TOX_SAVEDATA_TYPE {
 
@@ -474,6 +486,9 @@ typedef enum TOX_SAVEDATA_TYPE {
 
 /**
  * Severity level of log messages.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 typedef enum TOX_LOG_LEVEL {
 
@@ -972,6 +987,9 @@ bool tox_add_tcp_relay(Tox *tox, const char *host, uint16_t port, const uint8_t 
 
 /**
  * Protocols that can be used to connect to the network or friends.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 typedef enum TOX_CONNECTION {
 
@@ -2379,6 +2397,9 @@ void tox_callback_file_recv_chunk(Tox *tox, tox_file_recv_chunk_cb *callback);
 
 /**
  * Conference types for the conference_invite event.
+ *
+ * @deprecated All UPPER_CASE enum type names are deprecated. Use the
+ *   Camel_Snake_Case versions, instead.
  */
 typedef enum TOX_CONFERENCE_TYPE {
 
@@ -2415,6 +2436,20 @@ typedef void tox_conference_invite_cb(Tox *tox, uint32_t friend_number, TOX_CONF
  * This event is triggered when the client is invited to join a conference.
  */
 void tox_callback_conference_invite(Tox *tox, tox_conference_invite_cb *callback);
+
+/**
+ * @param conference_number The conference number of the conference to which we have connected.
+ */
+typedef void tox_conference_connected_cb(Tox *tox, uint32_t conference_number, void *user_data);
+
+
+/**
+ * Set the callback for the `conference_connected` event. Pass NULL to unset.
+ *
+ * This event is triggered when the client successfully connects to a
+ * conference after joining it with the tox_conference_join function.
+ */
+void tox_callback_conference_connected(Tox *tox, tox_conference_connected_cb *callback);
 
 /**
  * @param conference_number The conference number of the conference the message is intended for.
@@ -2623,6 +2658,10 @@ typedef enum TOX_ERR_CONFERENCE_INVITE {
 
 /**
  * Invites a friend to a conference.
+ *
+ * We must be connected to the conference, meaning that the conference has not
+ * been deleted, and either we created the conference with the tox_conference_new function,
+ * or a `conference_connected` event has occurred for the conference.
  *
  * @param friend_number The friend number of the friend we want to invite.
  * @param conference_number The conference number of the conference we want to invite the friend to.
