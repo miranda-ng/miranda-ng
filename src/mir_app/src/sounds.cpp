@@ -112,6 +112,8 @@ public:
 		btnPreview.OnClick = Callback(this, &CSoundOptionsDlg::onClick_Preview);
 
 		chkSounds.OnChange = Callback(this, &CSoundOptionsDlg::onChange_Sounds);
+
+		m_tree.OnSelChanged = Callback(this, &CSoundOptionsDlg::onChanged_Tree);
 	}
 
 	bool OnInitDialog() override
