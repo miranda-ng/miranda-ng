@@ -111,7 +111,22 @@ public:
 					dbei->timestamp = tm;
 			}
 		}
-		
+		else {
+			szTime = (*node)["isotime"].as_string();
+			if (!szTime.empty()) {
+				struct tm st = {};
+				int res = sscanf(szTime.c_str(), "%4d-%2d-%2dT%2d:%2d:%2dZ", &st.tm_year, &st.tm_mon, &st.tm_mday, &st.tm_hour, &st.tm_min, &st.tm_sec);
+				if (res == 6) {
+					st.tm_mon--;
+					st.tm_mday--;
+					st.tm_year -= 1900;
+					time_t tm = mktime(&st);
+					if (tm != -1)
+						dbei->timestamp = tm;
+				}
+			}
+		}
+
 		if (dbei->timestamp == 0)
 			dbei->timestamp = (*node)["timeStamp"].as_int();
 

@@ -306,6 +306,9 @@ MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR sz
 	if (tz == nullptr && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
 		return 1;
 
+	if (tz == nullptr)
+		tz = &myInfo.myTZ;
+
 	SYSTEMTIME st;
 	if (TimeZone_GetTimeZoneTime(tz, &st))
 		return 1;

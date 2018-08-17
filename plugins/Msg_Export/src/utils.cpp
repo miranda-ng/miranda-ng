@@ -811,7 +811,9 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 	if (g_bUseJson) {
 		JSONNode pRoot;
 		pRoot.push_back(JSONNode("type", dbei.eventType));
-		pRoot.push_back(JSONNode("timeStamp", dbei.timestamp));
+
+		TimeZone_PrintTimeStamp(0, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+		pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
 
 		std::string flags;
 		if (dbei.flags & DBEF_SENT)
