@@ -716,6 +716,10 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 		}
 		else {
 			const char *szProto = GetContactProto(hContact);
+			if (szProto == nullptr) {
+				Netlib_Logf(0, MODULENAME ": cannot write message for a contact %d without protocol", hContact);
+				return false;
+			}
 
 			if (g_bUseJson) {
 				JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
