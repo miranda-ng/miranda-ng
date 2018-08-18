@@ -255,6 +255,12 @@ static int getProfile1(wchar_t *szProfile, size_t cch, wchar_t *profiledir, BOOL
 					continue;
 
 				switch (touchDatabase(newProfile, nullptr)) {
+				case EGROKPRF_CANTREAD:
+					// profile might be locked by another Miranda
+					if (!Profile_CheckOpened(newProfile))
+						break;
+					__fallthrough;
+
 				case 0:
 				case EGROKPRF_OBSOLETE:
 					if (++found == 1 && bNoDefaultProfile)
