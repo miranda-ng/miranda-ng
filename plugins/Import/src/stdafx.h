@@ -115,7 +115,7 @@ void RegisterJson();
 class CContactImportDlg : public CDlgBase
 {
 	MCONTACT m_hContact;
-	int m_flags;
+	int m_flags = 0;
 
 	CCtrlButton m_btnOpenFile, m_btnOk;
 	CCtrlEdit edtFileName;
