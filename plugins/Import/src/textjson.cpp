@@ -118,7 +118,7 @@ public:
 				if (res == 6) {
 					st.tm_mon--;
 					st.tm_year -= 1900;
-					time_t tm = mktime(&st);
+					time_t tm = _mkgmtime(&st);
 					if (tm != -1)
 						dbei->timestamp = tm;
 				}

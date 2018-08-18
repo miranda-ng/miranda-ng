@@ -812,7 +812,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 		JSONNode pRoot;
 		pRoot.push_back(JSONNode("type", dbei.eventType));
 
-		TimeZone_PrintTimeStamp(0, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
 		pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
 
 		std::string flags;
