@@ -139,8 +139,8 @@ public:
 		std::string szBody = (*node)["body"].as_string();
 		if (!szBody.empty()) {
 			dbei->flags |= DBEF_UTF;
-			dbei->cbBlob = (DWORD)szBody.size();
-			dbei->pBlob = (PBYTE)mir_alloc(szBody.size() + 1);
+			dbei->cbBlob = (DWORD)szBody.size()+1;
+			dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob);
 			strcpy((char*)dbei->pBlob, szBody.c_str());
 		}
 
