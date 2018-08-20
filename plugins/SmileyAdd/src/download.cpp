@@ -161,20 +161,35 @@ void __cdecl SmileyDownloadThread(void*)
 
 bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 {
-	MRegexp16 urlsplit(L".*/(.*)");
-	urlsplit.match(url);
+	BYTE hash[MIR_SHA1_HASH_SIZE];
+	mir_sha1_hash((BYTE*)url.c_str(), url.GetLength() * sizeof(wchar_t), hash);
+	wchar_t wszHash[MIR_SHA1_HASH_SIZE * 2 + 1];
+	bin2hexW(hash, sizeof(hash), wszHash);
 
 	CMStringW filename;
 	filename.AppendFormat(L"%s\\%s\\", cachepath, packstr.c_str());
 	int pathpos = filename.GetLength();
-	filename += urlsplit.getGroup(1);
 
-	bool needext = filename.Find('.') == -1;
-	if (needext)
+	MRegexp16 urlsplit(L".*/(.*)");
+	urlsplit.match(url);
+	CMStringW urlFileName = urlsplit.getGroup(1);
+
+	int iExtIdx = urlFileName.ReverseFind('.');
+	if (iExtIdx != -1) {
+		CMStringW wszExt = urlFileName.Mid(iExtIdx);
+		if (ProtoGetAvatarFormat(wszExt) == PA_FORMAT_UNKNOWN)
+			iExtIdx = -1;
+		else
+			filename += urlFileName;
+	}
+
+	if (iExtIdx == -1) {
+		filename += wszHash;
 		filename += L".*";
+	}
 
 	_wfinddata_t c_file;
-	INT_PTR hFile = _wfindfirst((wchar_t*)filename.c_str(), &c_file);
+	INT_PTR hFile = _wfindfirst(filename, &c_file);
 	if (hFile > -1) {
 		_findclose(hFile);
 		filename.Truncate(pathpos);
@@ -182,11 +197,15 @@ bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 		url = filename;
 		return false;
 	}
-	if (needext)
-		filename.Truncate(filename.GetLength() - 1);
+
+	if (iExtIdx == -1) {
+		filename.Truncate(pathpos);
+		filename += wszHash;
+		filename += L".";
+	}
 
 	WaitForSingleObject(g_hDlMutex, 3000);
-	dlQueue.insert(new QueueElem(url, filename, needext));
+	dlQueue.insert(new QueueElem(url, filename, iExtIdx == -1));
 	ReleaseMutex(g_hDlMutex);
 
 	if (!threadRunning) {
