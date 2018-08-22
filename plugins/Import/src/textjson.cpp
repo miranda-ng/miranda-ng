@@ -32,20 +32,31 @@ static int mc_makeDatabase(const wchar_t*)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JSON text driver, read-only
 
+static int CompareModules(const char *p1, const char *p2)
+{
+	return mir_strcmp(p1, p2);
+}
+
 class CDbxJson : public MDatabaseReadonly, public MZeroedObject
 {
 	JSONNode *m_root = nullptr;
 	LIST<JSONNode> m_events;
+	LIST<char> m_modules;
+	std::string m_proto;
 
 public:
 	CDbxJson() :
-		m_events(100)
+		m_events(100),
+		m_modules(10, CompareModules)
 	{}
 
 	~CDbxJson()
 	{
 		if (m_root != nullptr)
 			json_delete(m_root);
+
+		for (auto &it : m_modules)
+			mir_free(it);
 	}
 
 	void Load()
@@ -70,6 +81,8 @@ public:
 		szFile[dwSize] = 0;
 		if ((m_root = json_parse(szFile)) == nullptr)
 			return EGROKPRF_DAMAGED;
+
+		m_proto = (*m_root)["info"]["proto"].as_string();
 
 		for (auto &it : m_root->at("history"))
 			m_events.insert(&it);
@@ -135,6 +148,16 @@ public:
 			case 'm': dbei->flags |= DBEF_SENT; break;
 			case 'r': dbei->flags |= DBEF_READ; break;
 			}
+
+		std::string szModule = (*node)["module"].as_string();
+		if (!szModule.empty())
+			szModule = m_proto;
+			
+		dbei->szModule = m_modules.find((char*)szModule.c_str());
+		if (dbei->szModule == nullptr) {
+			dbei->szModule = mir_strdup(szModule.c_str());
+			m_modules.insert(dbei->szModule);
+		}			
 
 		std::string szBody = (*node)["body"].as_string();
 		if (!szBody.empty()) {

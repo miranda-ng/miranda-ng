@@ -686,6 +686,12 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 	wchar_t szTemp[500];
 	bool bWriteUTF8Format = false;
 
+	const char *szProto = GetContactProto(hContact);
+	if (szProto == nullptr) {
+		Netlib_Logf(0, MODULENAME ": cannot write message for a contact %d without protocol", hContact);
+		return false;
+	}
+
 	if (bAppendOnly) {
 		bWriteUTF8Format = g_bUseUtf8InNewFiles;
 
@@ -715,12 +721,6 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				bWriteToFile(hFile, ",", 1);		
 		}
 		else {
-			const char *szProto = GetContactProto(hContact);
-			if (szProto == nullptr) {
-				Netlib_Logf(0, MODULENAME ": cannot write message for a contact %d without protocol", hContact);
-				return false;
-			}
-
 			if (g_bUseJson) {
 				JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
 				pInfo.set_name("info");
@@ -811,6 +811,8 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 	if (g_bUseJson) {
 		JSONNode pRoot;
 		pRoot.push_back(JSONNode("type", dbei.eventType));
+		if (mir_strcmp(dbei.szModule, szProto))
+			pRoot.push_back(JSONNode("module", dbei.szModule));
 
 		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
 		pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
@@ -1117,6 +1119,9 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, wstring sFil
 
 	bool result = true;
 	if (!db_event_get(hDbEvent, &dbei)) {
+		if (db_mc_isMeta(hContact))
+			hContact = db_event_getContact(hDbEvent);
+
 		// Write the event
 		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei, bAppendOnly);
 	}
