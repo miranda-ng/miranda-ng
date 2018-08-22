@@ -42,7 +42,6 @@ class CDbxJson : public MDatabaseReadonly, public MZeroedObject
 	JSONNode *m_root = nullptr;
 	LIST<JSONNode> m_events;
 	LIST<char> m_modules;
-	std::string m_proto;
 
 public:
 	CDbxJson() :
@@ -81,8 +80,6 @@ public:
 		szFile[dwSize] = 0;
 		if ((m_root = json_parse(szFile)) == nullptr)
 			return EGROKPRF_DAMAGED;
-
-		m_proto = (*m_root)["info"]["proto"].as_string();
 
 		for (auto &it : m_root->at("history"))
 			m_events.insert(&it);
@@ -150,14 +147,13 @@ public:
 			}
 
 		std::string szModule = (*node)["module"].as_string();
-		if (!szModule.empty())
-			szModule = m_proto;
-			
-		dbei->szModule = m_modules.find((char*)szModule.c_str());
-		if (dbei->szModule == nullptr) {
-			dbei->szModule = mir_strdup(szModule.c_str());
-			m_modules.insert(dbei->szModule);
-		}			
+		if (!szModule.empty()) {
+			dbei->szModule = m_modules.find((char*)szModule.c_str());
+			if (dbei->szModule == nullptr) {
+				dbei->szModule = mir_strdup(szModule.c_str());
+				m_modules.insert(dbei->szModule);
+			}
+		}
 
 		std::string szBody = (*node)["body"].as_string();
 		if (!szBody.empty()) {

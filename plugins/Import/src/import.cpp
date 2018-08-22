@@ -877,6 +877,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 	MCONTACT hDst;
 	bool bIsMeta = false;
 	bool bIsRelational = srcDb->IsRelational() != 0;
+	char *szProto = nullptr;
 
 	// Is it contact's history import?
 	if (hContact) {
@@ -903,6 +904,10 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			nSkippedContacts++;
 			return;
 		}
+
+		cc = dstDb->getCache()->GetCachedContact(hDst);
+		if (cc != nullptr)
+			szProto = cc->szProto;
 	}
 	else hDst = NULL;
 
@@ -924,6 +929,9 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 		bool bSkipThis = false;
 		if (!srcDb->GetEvent(hEvent, &dbei)) {
+			if (dbei.szModule == nullptr)
+				dbei.szModule = szProto;
+
 			// check protocols during system history import
 			if (hDst == NULL) {
 				bSkipAll = true;
