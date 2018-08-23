@@ -51,9 +51,12 @@ int ConnectToMiranda()
 	SetEnvironmentVariable(L"PATH", ptszVal);
 	delete[] ptszVal;
 
-	wchar_t pluginPath[1024];
+	wchar_t pluginPath[1024] = {0};
 	GetMirandaFolder(pluginPath, _countof(pluginPath));
-	mir_wstrcat(pluginPath, L"\\plugins\\cmdline.dll");
+	if(pluginPath[0])
+		mir_wstrcat(pluginPath, L"\\plugins\\cmdline.dll");
+	else
+		mir_wstrcat(pluginPath, L"plugins\\cmdline.dll");
 
 	ListCommands = nullptr;
 
