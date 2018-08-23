@@ -54,29 +54,6 @@ void ShowVersion()
 
 int wmain(int argc, wchar_t *argv[])
 {
-	wchar_t wszPath[MAX_PATH];
-	wcsncpy_s(wszPath, argv[0], _TRUNCATE);
-
-	// if current dir isn't set
-	for (int i = lstrlenW(wszPath); i >= 0; i--)
-		if (wszPath[i] == '\\') {
-			wszPath[i] = 0;
-			break;
-		}
-
-	SetCurrentDirectoryW(wszPath);
-
-	lstrcatW(wszPath, L"\\libs");
-	SetDllDirectoryW(wszPath);
-
-#ifdef _DEBUG
-	lstrcatW(wszPath, L"\\ucrtbased.dll");
-#else
-	lstrcatW(wszPath, L"\\ucrtbase.dll");
-#endif
-	LoadLibraryW(wszPath);
-
-	////////////////////////////////////////////////////////////////////////////////////////
 	_setmode(_fileno(stdout), _O_U16TEXT);
 	if (argc == 2 && !wcscmp(argv[1], L"-v")) {
 		ShowVersion();
