@@ -104,7 +104,7 @@ public:
 		if (node == nullptr)
 			return 0;
 
-		dbei->eventType = (*node)["eventType"].as_int();
+		dbei->eventType = (*node)["type"].as_int();
 
 		dbei->timestamp = 0;
 		std::string szTime = (*node)["time"].as_string();
