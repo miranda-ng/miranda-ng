@@ -829,8 +829,6 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 			pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
 
 		std::string output = pRoot.write_formatted();
-		ReplaceAll(output, "\t", "\t\t");
-		ReplaceAll(output, "}", "\t}");
 		output += "\n]}";
 
 		if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size())) {
