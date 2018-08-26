@@ -33,7 +33,7 @@ void NetlibInit()
 {
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = TranslateT("NewsAggregator HTTP connection");
+	nlu.szDescriptiveName.w = TranslateT("NewsAggregator HTTP connections");
 	nlu.szSettingsModule = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
