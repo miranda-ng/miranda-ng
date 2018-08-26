@@ -43,11 +43,6 @@ bool parse_option(int argc, char *const argv[], int &narg, const char *option,
 
   if (narg + 1 < argc && strncmp("--", argv[narg + 1], 2) != 0) {
     *value = argv[narg + 1];
-    if (strcmp(*value, "default") == 0) {
-      if (!default_value)
-        failure("Option '--%s' doen't accept default value\n", option);
-      *value = default_value;
-    }
     ++narg;
     return true;
   }
@@ -62,15 +57,9 @@ bool parse_option(int argc, char *const argv[], int &narg, const char *option,
 
 bool parse_option(int argc, char *const argv[], int &narg, const char *option,
                   std::string &value, bool allow_empty) {
-  return parse_option(argc, argv, narg, option, value, allow_empty,
-                      allow_empty ? "" : nullptr);
-}
-
-bool parse_option(int argc, char *const argv[], int &narg, const char *option,
-                  std::string &value, bool allow_empty,
-                  const char *default_value) {
   const char *value_cstr;
-  if (!parse_option(argc, argv, narg, option, &value_cstr, default_value))
+  if (!parse_option(argc, argv, narg, option, &value_cstr,
+                    allow_empty ? "" : nullptr))
     return false;
 
   if (!allow_empty && strlen(value_cstr) == 0)
@@ -86,7 +75,7 @@ bool parse_option(int argc, char *const argv[], int &narg, const char *option,
   if (!parse_option(argc, argv, narg, option, &list))
     return false;
 
-  unsigned clear = 0;
+  mask = 0;
   while (*list) {
     if (*list == ',' || *list == ' ' || *list == '\t') {
       ++list;
@@ -94,21 +83,14 @@ bool parse_option(int argc, char *const argv[], int &narg, const char *option,
     }
 
     const char *const comma = strchr(list, ',');
-    const bool strikethrough = *list == '-' || *list == '~';
-    if (strikethrough || *list == '+')
-      ++list;
-    else
-      mask = clear;
     const size_t len = (comma) ? comma - list : strlen(list);
     const option_verb *scan = verbs;
-
     while (true) {
       if (!scan->verb)
         failure("Unknown verb '%.*s', for option '==%s'\n", (int)len, list,
                 option);
       if (strlen(scan->verb) == len && strncmp(list, scan->verb, len) == 0) {
-        mask = strikethrough ? mask & ~scan->mask : mask | scan->mask;
-        clear = strikethrough ? clear & ~scan->mask : clear | scan->mask;
+        mask |= scan->mask;
         list += len;
         break;
       }
@@ -121,36 +103,15 @@ bool parse_option(int argc, char *const argv[], int &narg, const char *option,
 
 bool parse_option(int argc, char *const argv[], int &narg, const char *option,
                   uint64_t &value, const scale_mode scale,
-                  const uint64_t minval, const uint64_t maxval,
-                  const uint64_t default_value) {
+                  const uint64_t minval, const uint64_t maxval) {
 
   const char *value_cstr;
   if (!parse_option(argc, argv, narg, option, &value_cstr))
     return false;
 
-  if (default_value && strcmp(value_cstr, "default") == 0) {
-    value = default_value;
-    return true;
-  }
-
-  if (strcmp(value_cstr, "min") == 0 || strcmp(value_cstr, "minimal") == 0) {
-    value = minval;
-    return true;
-  }
-
-  if (strcmp(value_cstr, "max") == 0 || strcmp(value_cstr, "maximal") == 0) {
-    value = maxval;
-    return true;
-  }
-
   char *suffix = nullptr;
   errno = 0;
-  unsigned long long raw = strtoull(value_cstr, &suffix, 0);
-  if ((suffix && *suffix) || errno) {
-    suffix = nullptr;
-    errno = 0;
-    raw = strtoull(value_cstr, &suffix, 10);
-  }
+  unsigned long raw = strtoul(value_cstr, &suffix, 0);
   if (errno)
     failure("Option '--%s' expects a numeric value (%s)\n", option,
             test_strerror(errno));
@@ -206,58 +167,28 @@ bool parse_option(int argc, char *const argv[], int &narg, const char *option,
 
 bool parse_option(int argc, char *const argv[], int &narg, const char *option,
                   unsigned &value, const scale_mode scale,
-                  const unsigned minval, const unsigned maxval,
-                  const unsigned default_value) {
+                  const unsigned minval, const unsigned maxval) {
 
   uint64_t huge;
-  if (!parse_option(argc, argv, narg, option, huge, scale, minval, maxval,
-                    default_value))
+  if (!parse_option(argc, argv, narg, option, huge, scale, minval, maxval))
     return false;
   value = (unsigned)huge;
   return true;
 }
 
 bool parse_option(int argc, char *const argv[], int &narg, const char *option,
-                  uint8_t &value, const uint8_t minval, const uint8_t maxval,
-                  const uint8_t default_value) {
+                  uint8_t &value, const uint8_t minval, const uint8_t maxval) {
 
   uint64_t huge;
-  if (!parse_option(argc, argv, narg, option, huge, no_scale, minval, maxval,
-                    default_value))
+  if (!parse_option(argc, argv, narg, option, huge, no_scale, minval, maxval))
     return false;
   value = (uint8_t)huge;
   return true;
 }
 
 bool parse_option(int argc, char *const argv[], int &narg, const char *option,
-                  int64_t &value, const int64_t minval, const int64_t maxval,
-                  const int64_t default_value) {
-  uint64_t proxy = (uint64_t)value;
-  if (parse_option(argc, argv, narg, option, proxy, config::binary,
-                   (uint64_t)minval, (uint64_t)maxval,
-                   (uint64_t)default_value)) {
-    value = (int64_t)proxy;
-    return true;
-  }
-  return false;
-}
-
-bool parse_option(int argc, char *const argv[], int &narg, const char *option,
-                  int32_t &value, const int32_t minval, const int32_t maxval,
-                  const int32_t default_value) {
-  uint64_t proxy = (uint64_t)value;
-  if (parse_option(argc, argv, narg, option, proxy, config::binary,
-                   (uint64_t)minval, (uint64_t)maxval,
-                   (uint64_t)default_value)) {
-    value = (int32_t)proxy;
-    return true;
-  }
-  return false;
-}
-
-bool parse_option(int argc, char *const argv[], int &narg, const char *option,
                   bool &value) {
-  const char *value_cstr = nullptr;
+  const char *value_cstr = NULL;
   if (!parse_option(argc, argv, narg, option, &value_cstr, "yes")) {
     const char *current = argv[narg];
     if (strncmp(current, "--no-", 5) == 0 && strcmp(current + 5, option) == 0) {
@@ -357,12 +288,8 @@ void dump(const char *title) {
                                               : i->params.pathname_log.c_str());
     }
 
-    log_info("database: %s, size %" PRIuPTR "[%" PRIiPTR "..%" PRIiPTR
-             ", %i %i, %i]\n",
-             i->params.pathname_db.c_str(), i->params.size_now,
-             i->params.size_lower, i->params.size_upper,
-             i->params.shrink_threshold, i->params.growth_step,
-             i->params.pagesize);
+    log_info("database: %s, size %" PRIu64 "\n", i->params.pathname_db.c_str(),
+             i->params.size);
 
     dump_verbs("mode", i->params.mode_flags, mode_bits);
     dump_verbs("table", i->params.table_flags, table_bits);

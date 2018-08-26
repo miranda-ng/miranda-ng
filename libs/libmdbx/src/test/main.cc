@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2017-2018 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -35,13 +35,7 @@ void actor_params::set_defaults(const std::string &tmpdir) {
   mode_flags = MDBX_NOSUBDIR | MDBX_WRITEMAP | MDBX_MAPASYNC | MDBX_NORDAHEAD |
                MDBX_NOMEMINIT | MDBX_COALESCE | MDBX_LIFORECLAIM;
   table_flags = MDBX_DUPSORT;
-
-  size_lower = -1;
-  size_now = 1024 * 1024 * 4;
-  size_upper = -1;
-  shrink_threshold = -1;
-  growth_step = -1;
-  pagesize = -1;
+  size = 1024 * 1024 * 4;
 
   keygen.seed = 1;
   keygen.keycase = kc_random;
@@ -156,34 +150,8 @@ int main(int argc, char *const argv[]) {
     if (config::parse_option(argc, argv, narg, "table", params.table_flags,
                              config::table_bits))
       continue;
-
-    if (config::parse_option(argc, argv, narg, "pagesize", params.pagesize,
-                             mdbx_limits_pgsize_min(),
-                             mdbx_limits_pgsize_max()))
-      continue;
-    if (config::parse_option(argc, argv, narg, "size-lower", params.size_lower,
-                             mdbx_limits_dbsize_min(params.pagesize),
-                             mdbx_limits_dbsize_max(params.pagesize)))
-      continue;
-    if (config::parse_option(argc, argv, narg, "size", params.size_now,
-                             mdbx_limits_dbsize_min(params.pagesize),
-                             mdbx_limits_dbsize_max(params.pagesize)))
-      continue;
-    if (config::parse_option(argc, argv, narg, "size-upper", params.size_upper,
-                             mdbx_limits_dbsize_min(params.pagesize),
-                             mdbx_limits_dbsize_max(params.pagesize)))
-      continue;
-    if (config::parse_option(
-            argc, argv, narg, "shrink-threshold", params.shrink_threshold, 0,
-            (int)std::min((intptr_t)INT_MAX,
-                          mdbx_limits_dbsize_max(params.pagesize) -
-                              mdbx_limits_dbsize_min(params.pagesize))))
-      continue;
-    if (config::parse_option(
-            argc, argv, narg, "growth-step", params.growth_step, 0,
-            (int)std::min((intptr_t)INT_MAX,
-                          mdbx_limits_dbsize_max(params.pagesize) -
-                              mdbx_limits_dbsize_min(params.pagesize))))
+    if (config::parse_option(argc, argv, narg, "size", params.size,
+                             config::binary, 4096 * 4))
       continue;
 
     if (config::parse_option(argc, argv, narg, "keygen.width",
@@ -220,33 +188,20 @@ int main(int argc, char *const argv[]) {
                              config::duration, 1))
       continue;
     if (config::parse_option(argc, argv, narg, "keylen.min", params.keylen_min,
-                             config::no_scale, 0, UINT8_MAX)) {
-      if (params.keylen_max < params.keylen_min)
-        params.keylen_max = params.keylen_min;
+                             config::no_scale, 0, params.keylen_max))
       continue;
-    }
     if (config::parse_option(argc, argv, narg, "keylen.max", params.keylen_max,
-                             config::no_scale, 0,
-                             std::min((unsigned)mdbx_limits_keysize_max(0),
-                                      (unsigned)UINT16_MAX))) {
-      if (params.keylen_min > params.keylen_max)
-        params.keylen_min = params.keylen_max;
+                             config::no_scale, params.keylen_min,
+                             mdbx_get_maxkeysize(0)))
       continue;
-    }
     if (config::parse_option(argc, argv, narg, "datalen.min",
                              params.datalen_min, config::no_scale, 0,
-                             UINT8_MAX)) {
-      if (params.datalen_max < params.datalen_min)
-        params.datalen_max = params.datalen_min;
+                             params.datalen_max))
       continue;
-    }
     if (config::parse_option(argc, argv, narg, "datalen.max",
-                             params.datalen_max, config::no_scale, 0,
-                             std::min((int)UINT16_MAX, MDBX_MAXDATASIZE))) {
-      if (params.datalen_min > params.datalen_max)
-        params.datalen_min = params.datalen_max;
+                             params.datalen_max, config::no_scale,
+                             params.datalen_min, MDBX_MAXDATASIZE))
       continue;
-    }
     if (config::parse_option(argc, argv, narg, "batch.read", params.batch_read,
                              config::no_scale, 1))
       continue;

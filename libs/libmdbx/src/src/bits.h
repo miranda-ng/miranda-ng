@@ -508,7 +508,12 @@ typedef MDBX_ID2 *MDBX_ID2L;
 
 /* PNL sizes - likely should be even bigger
  * limiting factors: sizeof(pgno_t), thread stack size */
-#define MDBX_LIST_MAX ((1 << 24) - 1)
+#define MDBX_PNL_LOGN 16 /* DB_SIZE is 2^16, UM_SIZE is 2^17 */
+#define MDBX_PNL_DB_SIZE (1 << MDBX_PNL_LOGN)
+#define MDBX_PNL_UM_SIZE (1 << (MDBX_PNL_LOGN + 1))
+
+#define MDBX_PNL_DB_MAX (MDBX_PNL_DB_SIZE - 1)
+#define MDBX_PNL_UM_MAX (MDBX_PNL_UM_SIZE - 1)
 
 #define MDBX_PNL_SIZEOF(pl) (((pl)[0] + 1) * sizeof(pgno_t))
 #define MDBX_PNL_IS_ZERO(pl) ((pl)[0] == 0)
@@ -752,10 +757,10 @@ struct MDBX_env {
   MDBX_page *me_dpages; /* list of malloc'd blocks for re-use */
                         /* PNL of pages that became unused in a write txn */
   MDBX_PNL me_free_pgs;
-  /* ID2L of pages written during a write txn. Length MDBX_LIST_MAX. */
+  /* ID2L of pages written during a write txn. Length MDBX_PNL_UM_SIZE. */
   MDBX_ID2L me_dirtylist;
-  /* Number of freelist items that can fit in a single overflow page */
-  unsigned me_maxgc_ov1page;
+  /* Max number of freelist items that can fit in a single overflow page */
+  unsigned me_maxfree_1pg;
   /* Max size of a node on a page */
   unsigned me_nodemax;
   unsigned me_maxkey_limit;   /* max size of a key */
