@@ -57,7 +57,7 @@ BEGIN
     PUSHBUTTON      "Select &none",IDC_SELNONE,175,218,60,14,NOT WS_TABSTOP
 END
 
-IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 301, 237
+IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 301, 251
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -75,15 +75,17 @@ BEGIN
     CONTROL         "Silent mode",IDC_SILENTMODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,267,10
     CONTROL         "Backup database before update (requires Db_autobackups plugin)",IDC_BACKUP,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,11,86,272,10
-    GROUPBOX        "Files source",IDC_STATIC,2,104,285,106
+    GROUPBOX        "Files source",IDC_STATIC,2,104,285,121
     CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,117,267,10
-    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,132,267,10
+    CONTROL         "Stable version with debug symbols",IDC_STABLE_SYMBOLS,
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,132,267,10
+    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,147,267,10
     CONTROL         "Development version with debug symbols",IDC_TRUNK_SYMBOLS,
-                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,147,267,10
-    CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,162,267,10
-    EDITTEXT        IDC_CUSTOMURL,12,176,267,16,ES_AUTOHSCROLL | WS_DISABLED
-    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,214,267,15,NOT WS_VISIBLE
-    CONTROL         "Change platform to 32-bit",IDC_CHANGE_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,197,212,10
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,162,267,10
+    CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,177,267,10
+    EDITTEXT        IDC_CUSTOMURL,12,190,267,16,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "Change platform to 32-bit",IDC_CHANGE_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,211,212,10
+    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,228,267,15,NOT WS_VISIBLE
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 174
@@ -184,7 +186,7 @@ BEGIN
         VERTGUIDE, 11
         VERTGUIDE, 278
         VERTGUIDE, 286
-        BOTTOMMARGIN, 229
+        BOTTOMMARGIN, 243
     END
 
     IDD_POPUP, DIALOG

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by d:\Miranda_orig\plugins\PluginUpdater\res\Resource.rc
+// Used by D:\Miranda NG Git_orig_commit\miranda-ng\plugins\PluginUpdater\res\Resource.rc
 //
 #define IDD_UPDATE                      101
 #define IDD_OPT_UPDATENOTIFY            102
@@ -50,6 +50,7 @@
 #define IDC_SILENTMODE                  1047
 #define IDC_NEEDRESTARTLABEL            1048
 #define IDC_BACKUP                      1049
+#define IDC_STABLE_SYMBOLS              1050
 #define IDC_CHANGE_PLATFORM             1052
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072

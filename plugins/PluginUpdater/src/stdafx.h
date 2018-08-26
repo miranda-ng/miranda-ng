@@ -101,6 +101,7 @@ extern struct PlugOptions
 #define DEFAULT_UPDATE_URL                L"https://miranda-ng.org/distr/stable/x%d"
 #define DEFAULT_UPDATE_URL_TRUNK          L"https://miranda-ng.org/distr/x%d"
 #define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  L"https://miranda-ng.org/distr/pdb_x%d"
+#define DEFAULT_UPDATE_URL_STABLE_SYMBOLS L"https://miranda-ng.org/distr/stable/pdb_x%d"
 
 
 #define FILENAME_X64 L"miranda64.exe"
@@ -128,7 +129,8 @@ extern struct PlugOptions
 #define UPDATE_MODE_STABLE			1
 #define UPDATE_MODE_TRUNK			2
 #define UPDATE_MODE_TRUNK_SYMBOLS	3
-#define UPDATE_MODE_MAX_VALUE		3 // when adding new mode, increment this number
+#define UPDATE_MODE_STABLE_SYMBOLS	4
+#define UPDATE_MODE_MAX_VALUE		4 // when adding new mode, increment this number
 
 #define DB_SETTING_UPDATE_MODE		"UpdateMode"
 #define DB_SETTING_UPDATE_URL		"UpdateURL"

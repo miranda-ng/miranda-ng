@@ -125,6 +125,11 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
 				CheckDlgButton(hwndDlg, IDC_STABLE, BST_CHECKED);
 				break;
+			case UPDATE_MODE_STABLE_SYMBOLS:
+				mir_snwprintf(defurl, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, GetBits(hwndDlg));
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
+				CheckDlgButton(hwndDlg, IDC_STABLE_SYMBOLS, BST_CHECKED);
+				break;
 			case UPDATE_MODE_TRUNK:
 				mir_snwprintf(defurl, DEFAULT_UPDATE_URL_TRUNK, GetBits(hwndDlg));
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
@@ -203,6 +208,14 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
+		case IDC_STABLE_SYMBOLS:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), TRUE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
+			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, GetBits(hwndDlg));
+			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
 		case IDC_CUSTOM:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
@@ -229,6 +242,10 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_CHANGE_PLATFORM:
 			if (IsDlgButtonChecked(hwndDlg, IDC_STABLE)) {
 				mir_snwprintf(defurl, DEFAULT_UPDATE_URL, GetBits(hwndDlg));
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
+			}
+			else if (IsDlgButtonChecked(hwndDlg, IDC_STABLE_SYMBOLS)) {
+				mir_snwprintf(defurl, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, GetBits(hwndDlg));
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, defurl);
 			}
 			else if (IsDlgButtonChecked(hwndDlg, IDC_TRUNK)) {
@@ -272,6 +289,14 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					if (!opts.bChangePlatform)
 						opts.bForceRedownload = 0;
 					db_unset(NULL, MODULENAME, DB_SETTING_REDOWNLOAD);
+				}
+				else if (IsDlgButtonChecked(hwndDlg, IDC_STABLE_SYMBOLS)) {
+					// Only set ForceRedownload if the previous UpdateMode was different
+					// to redownload all plugin with pdb files
+					if (db_get_b(NULL, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE) != UPDATE_MODE_STABLE_SYMBOLS) {
+						db_set_b(NULL, MODULENAME, DB_SETTING_REDOWNLOAD, opts.bForceRedownload = 1);
+						db_set_b(NULL, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE_SYMBOLS);
+					}
 				}
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK)) {
 					db_set_b(NULL, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
