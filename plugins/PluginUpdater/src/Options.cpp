@@ -58,6 +58,9 @@ wchar_t* GetDefaultUrl()
 	case UPDATE_MODE_STABLE:
 		mir_snwprintf(url, DEFAULT_UPDATE_URL, opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_wstrdup(url);
+	case UPDATE_MODE_STABLE_SYMBOLS:
+		mir_snwprintf(url, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
+		return mir_wstrdup(url);
 	case UPDATE_MODE_TRUNK:
 		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK, opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_wstrdup(url);
