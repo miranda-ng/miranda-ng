@@ -489,13 +489,9 @@ int LoadProtocolsModule(void)
 
 void UnloadProtocolsModule()
 {
-	if (!bModuleInitialized) return;
+	if (!bModuleInitialized)
+		return;
 
-	for (auto &p : g_arProtos) {
-		mir_free(p->szUniqueId);
-		mir_free(p->szName);
-		mir_free(p);
-	}
 	g_arProtos.destroy();
 
 	if (hAckEvent) {
