@@ -275,18 +275,6 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 		KillModuleServices(hInst);
 	}
 
-	KillModuleMenus(ppb);
-	KillModuleFonts(ppb);
-	KillModuleColours(ppb);
-	KillModuleEffects(ppb);
-	KillModuleIcons(ppb);
-	KillModuleHotkeys(ppb);
-	KillModuleSounds(ppb);
-	KillModuleExtraIcons(ppb);
-	KillModuleSrmmIcons(ppb);
-	KillModuleToolbarIcons(ppb);
-	KillModuleOptions(ppb);
-
 	NotifyFastHook(hevUnloadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 
 	// mark default plugins to be loaded

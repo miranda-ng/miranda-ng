@@ -121,6 +121,20 @@ CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
 
 CMPluginBase::~CMPluginBase()
 {
+	if (!g_bMirandaTerminated) {
+		KillModuleMenus(this);
+		KillModuleFonts(this);
+		KillModuleColours(this);
+		KillModuleEffects(this);
+		KillModuleIcons(this);
+		KillModuleHotkeys(this);
+		KillModuleSounds(this);
+		KillModuleExtraIcons(this);
+		KillModuleSrmmIcons(this);
+		KillModuleToolbarIcons(this);
+		KillModuleOptions(this);
+	}
+
 	if (m_hLogger) {
 		mir_closeLog(m_hLogger);
 		m_hLogger = nullptr;
