@@ -240,6 +240,8 @@ void Plugin_Uninit(pluginEntry *p)
 		HINSTANCE hInst = p->m_pPlugin->getInst();
 
 		// we need to kill all resources which belong to that DLL before calling FreeLibrary
+		KillModuleAccounts(hInst);
+		KillModuleSubclassing(hInst);
 		KillModuleEventHooks(hInst);
 		KillModuleServices(hInst);
 

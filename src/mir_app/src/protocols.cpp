@@ -106,8 +106,7 @@ MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(int type, const char *szNa
 	bool bTryActivate = false;
 	MBaseProto *pd = Proto_GetProto(szName);
 	if (pd == nullptr) {
-		pd = (MBaseProto*)mir_calloc(sizeof(MBaseProto));
-		pd->szName = mir_strdup(szName);
+		pd = new MBaseProto(szName);
 		g_arProtos.insert(pd);
 	}
 	else bTryActivate = true;
@@ -158,17 +157,17 @@ MIR_APP_DLL(const char*) Proto_GetUniqueId(const char *szModuleName)
 	if (szModuleName == nullptr)
 		return nullptr;
 
-	MBaseProto tmp;
+	const char *szProto;
 	PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
 	if (pa != nullptr) {
 		if (pa->szUniqueId != nullptr)
 			return pa->szUniqueId;
 
-		tmp.szName = pa->szProtoName;
+		szProto = pa->szProtoName;
 	}
-	else tmp.szName = (char*)szModuleName;
+	else szProto = szModuleName;
 
-	MBaseProto *pd = g_arProtos.find(&tmp);
+	MBaseProto *pd = g_arProtos.find((MBaseProto*)&szProto);
 	return (pd != nullptr) ? pd->szUniqueId : nullptr;
 }
 

@@ -401,6 +401,8 @@ void KillModuleAccounts(HINSTANCE hInst)
 				DeactivateAccount(pa, DAF_DYNAMIC);
 			}
 		}
+
+		g_arProtos.remove(g_arProtos.indexOf(&pd));
 	}
 }
 

@@ -290,9 +290,7 @@ void CMPluginBase::SetUniqueId(const char *pszUniqueId)
 	if (pszUniqueId == nullptr)
 		return;
 
-	MBaseProto tmp;
-	tmp.szName = (char*)m_szModuleName;
-	MBaseProto *pd = g_arProtos.find(&tmp);
+	MBaseProto *pd = g_arProtos.find((MBaseProto*)&m_szModuleName);
 	if (pd != nullptr)
 		pd->szUniqueId = mir_strdup(pszUniqueId);
 }

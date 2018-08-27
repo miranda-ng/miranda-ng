@@ -28,7 +28,7 @@ static int CompareProtos(const MBaseProto *p1, const MBaseProto *p2)
 	return strcmp(p1->szName, p2->szName);
 }
 
-LIST<MBaseProto> g_arProtos(10, CompareProtos);
+OBJLIST<MBaseProto> g_arProtos(10, CompareProtos);
 
 extern HANDLE hAckEvent;
 

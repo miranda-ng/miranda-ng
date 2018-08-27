@@ -141,8 +141,19 @@ extern MStatus g_statuses[MAX_STATUS_COUNT];
 
 extern LIST<PROTOACCOUNT> accounts;
 
-struct MBaseProto : public PROTOCOLDESCRIPTOR
+struct MBaseProto : public PROTOCOLDESCRIPTOR, public MZeroedObject
 {
+	MBaseProto(const char *_proto)
+	{
+		this->szName = mir_strdup(_proto);
+	}
+
+	~MBaseProto()
+	{
+		mir_free(szName);
+		mir_free(szUniqueId);
+	}
+
 	pfnInitProto fnInit;
 	pfnUninitProto fnUninit;
 
@@ -150,7 +161,8 @@ struct MBaseProto : public PROTOCOLDESCRIPTOR
 	char *szUniqueId;  // name of the unique setting that identifies a contact
 };
 
-extern LIST<MBaseProto> g_arProtos, g_arFilters;
+extern OBJLIST<MBaseProto> g_arProtos;
+extern LIST<MBaseProto> g_arFilters;
 
 INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 
