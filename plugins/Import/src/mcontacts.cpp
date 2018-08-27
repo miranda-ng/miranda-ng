@@ -44,7 +44,7 @@ struct MC_FileHeader
 	uint32_t dataSize;
 };
 
-struct MC_MsgHeader
+struct MC_MsgHeader32
 {
 	uint32_t cbSize;    // size of the structure in bytes
 	uint32_t szModule;  // pointer to name of the module that 'owns' this
@@ -56,6 +56,20 @@ struct MC_MsgHeader
 	uint32_t eventType; // module-defined event type field
 	uint32_t cbBlob;    // size of pBlob in bytes
 	uint32_t pBlob;     // pointer to buffer containing module-defined event data
+};
+
+struct MC_MsgHeader64
+{
+	uint64_t cbSize;    // size of the structure in bytes
+	uint64_t szModule;  // pointer to name of the module that 'owns' this
+							  // event, ie the one that is in control of the data format
+	uint32_t timestamp; // seconds since 00:00, 01/01/1970. Gives us times until
+							  // 2106 unless you use the standard C library which is
+							  // signed and can only do until 2038. In GMT.
+	uint32_t flags;	  // the omnipresent flags
+	uint32_t eventType; // module-defined event type field
+	uint32_t cbBlob;    // size of pBlob in bytes
+	uint64_t pBlob;     // pointer to buffer containing module-defined event data
 };
 
 #pragma pack(pop)
@@ -97,17 +111,29 @@ public:
 		// mcontacts operates with the only contact with pseudo id=1
 		m_cache->AddContactToCache(1);
 
-		MC_MsgHeader hdr;
-		for (uint32_t pos = 0; pos < m_hdr.dataSize; pos += sizeof(hdr)) {
-			DWORD dwPos = SetFilePointer(m_hFile, 0, 0, FILE_CURRENT), dwRead;
-			BOOL r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
-			if (!r || dwRead < sizeof(hdr))
+		uint32_t pos = 0;
+		while (pos < m_hdr.dataSize) {
+			DWORD dwPos = SetFilePointer(m_hFile, 0, 0, FILE_CURRENT), dwRead, dwSize;
+			BOOL r = ReadFile(m_hFile, &dwSize, sizeof(dwSize), &dwRead, 0);
+			if (!r || dwRead < sizeof(dwSize))
 				return;
-			if (hdr.cbSize < sizeof(hdr))
+			if (dwSize != sizeof(MC_MsgHeader32) && dwSize != sizeof(MC_MsgHeader64))
 				return;
 
 			m_events.push_back(dwPos);
-			SetFilePointer(m_hFile, hdr.cbSize - sizeof(hdr) + hdr.cbBlob, 0, FILE_CURRENT);
+			SetFilePointer(m_hFile, -4, 0, FILE_CURRENT);
+
+			if (dwSize == sizeof(MC_MsgHeader32)) {
+				MC_MsgHeader32 hdr;
+				r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
+				SetFilePointer(m_hFile, hdr.cbBlob, 0, FILE_CURRENT);
+			}
+			else {
+				MC_MsgHeader64 hdr;
+				r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
+				SetFilePointer(m_hFile, hdr.cbBlob, 0, FILE_CURRENT);
+			}
+			pos += dwSize;
 		}
 	}
 
@@ -141,26 +167,46 @@ public:
 		if (INVALID_SET_FILE_POINTER == SetFilePointer(m_hFile, dwOffset, 0, FILE_BEGIN))
 			return 0;
 
-		DWORD dwRead;
-		MC_MsgHeader hdr;
-		BOOL r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, nullptr);
-		if (!r || dwRead < sizeof(hdr) || hdr.cbSize < sizeof(hdr))
+		DWORD dwRead, dwSize;
+		BOOL r = ReadFile(m_hFile, &dwSize, sizeof(dwSize), &dwRead, nullptr);
+		if (!r || dwRead != sizeof(dwSize))
 			return 0;
 
-		dbei->eventType = hdr.eventType;
-		dbei->cbBlob = hdr.cbBlob;
-		dbei->flags = hdr.flags;
-		dbei->timestamp = hdr.timestamp;
+		SetFilePointer(m_hFile, -4, 0, FILE_CURRENT);
 
-		if (hdr.cbBlob) {
-			dbei->pBlob = (PBYTE)mir_alloc(hdr.cbBlob + 1);
-			if (!ReadFile(m_hFile, dbei->pBlob, hdr.cbBlob, &dwRead, 0) || dwRead != hdr.cbBlob) {
+		if (dwSize == sizeof(MC_MsgHeader32)) {
+			MC_MsgHeader32 hdr;
+			r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
+			if (!r || dwRead != sizeof(hdr))
+				return 0;
+
+			dbei->eventType = hdr.eventType;
+			dbei->cbBlob = hdr.cbBlob;
+			dbei->flags = hdr.flags;
+			dbei->timestamp = hdr.timestamp;
+		}
+		else if (dwSize == sizeof(MC_MsgHeader64)) {
+			MC_MsgHeader64 hdr;
+			r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
+			if (!r || dwRead != sizeof(hdr))
+				return 0;
+
+			dbei->eventType = hdr.eventType;
+			dbei->cbBlob = hdr.cbBlob;
+			dbei->flags = hdr.flags;
+			dbei->timestamp = hdr.timestamp;
+		}
+		else return 0;
+
+		if (dbei->cbBlob) {
+			dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob + 1);
+			if (!ReadFile(m_hFile, dbei->pBlob, dbei->cbBlob, &dwRead, 0) || dwRead != dbei->cbBlob) {
 				mir_free(dbei->pBlob);
 				dbei->pBlob = 0;
 				return 0;
 			}
 
-			dbei->pBlob[hdr.cbBlob] = 0;
+			dbei->pBlob[dbei->cbBlob] = 0;
 		}
 
 		return 0;
