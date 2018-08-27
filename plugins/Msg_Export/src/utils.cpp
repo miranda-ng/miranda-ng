@@ -704,7 +704,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 			if (dwPtr == INVALID_SET_FILE_POINTER) {
 				// we need to aborte mission here because if we continue we risk 
 				// overwriting old log.
-				DisplayErrorDialog(LPGENW("Failed to move to the end of the file :\n"), sFilePath, nullptr);
+				DisplayErrorDialog(LPGENW("Failed to move to the end of the file:\n"), sFilePath, nullptr);
 				return false;
 			}
 
@@ -744,7 +744,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 				std::string output = pRoot.write_formatted();
 				if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size())) {
-					DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, nullptr);
+					DisplayErrorDialog(LPGENW("Failed to write user details to file:\n"), sFilePath, nullptr);
 					return false;
 				}
 
@@ -754,7 +754,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				bWriteUTF8Format = g_bUseUtf8InNewFiles;
 				if (bWriteUTF8Format) {
 					if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1)) {
-						DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file :\n"), sFilePath, nullptr);
+						DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file:\n"), sFilePath, nullptr);
 						return false;
 					}
 				}
@@ -792,7 +792,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				output += L"------------------------------------------------\r\n";
 
 				if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength())) {
-					DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, nullptr);
+					DisplayErrorDialog(LPGENW("Failed to write user details to file:\n"), sFilePath, nullptr);
 					return false;
 				}
 			}
@@ -823,7 +823,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 		output += "\n]}";
 
 		if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size())) {
-			DisplayErrorDialog(LPGENW("Failed to write message to the file :\n"), sFilePath, &dbei);
+			DisplayErrorDialog(LPGENW("Failed to write message to the file:\n"), sFilePath, &dbei);
 			return false;
 		}
 		return true;
@@ -839,7 +839,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 	// Write first part of line with name and timestamp
 	if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, nIndent)) {
-		DisplayErrorDialog(LPGENW("Failed to write timestamp and username to file :\n"), sFilePath, &dbei);
+		DisplayErrorDialog(LPGENW("Failed to write timestamp and username to file:\n"), sFilePath, &dbei);
 		return false;
 	}
 
@@ -851,7 +851,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 			{
 				wchar_t *msg = DbEvent_GetTextW(&dbei, CP_ACP);
 				if (!bWriteIndentedToFile(hFile, nIndent, msg, bWriteUTF8Format)) {
-					DisplayErrorDialog(LPGENW("Failed to write message to the file :\n"), sFilePath, &dbei);
+					DisplayErrorDialog(LPGENW("Failed to write message to the file:\n"), sFilePath, &dbei);
 				}
 				mir_free(msg);
 			}
@@ -896,7 +896,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				}
 
 				if (!bWriteOk)
-					DisplayErrorDialog(LPGENW("Failed to write URL/File to the file :\n"), sFilePath, &dbei);
+					DisplayErrorDialog(LPGENW("Failed to write URL/File to the file:\n"), sFilePath, &dbei);
 			}
 			break;
 
@@ -913,7 +913,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				if (dbei.cbBlob < 8 || dbei.cbBlob > 5000) {
 					int n = mir_snwprintf(szTemp, TranslateT("Invalid Database event received. Type %d, size %d"), dbei.eventType, dbei.cbBlob);
 					if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
-						DisplayErrorDialog(LPGENW("Failed to write Invalid Database event the file :\n"), sFilePath, &dbei);
+						DisplayErrorDialog(LPGENW("Failed to write Invalid Database event the file:\n"), sFilePath, &dbei);
 					break;
 				}
 
@@ -958,7 +958,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				}
 
 				if (!bWriteOk)
-					DisplayErrorDialog(LPGENW("Failed to write AUTHREQUEST or ADDED to the file :\n"), sFilePath, &dbei);
+					DisplayErrorDialog(LPGENW("Failed to write AUTHREQUEST or ADDED to the file:\n"), sFilePath, &dbei);
 			}
 			break;
 
@@ -1003,20 +1003,20 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 				if (!bWriteNewLine(hFile, nIndent) ||
 					!bWriteIndentedToFile(hFile, nIndent, _A2T(pszStr), bWriteUTF8Format)) {
-					DisplayErrorDialog(LPGENW("Failed to write EmailExpress to the file :\n"), sFilePath, &dbei);
+					DisplayErrorDialog(LPGENW("Failed to write EmailExpress to the file:\n"), sFilePath, &dbei);
 				}
 			}
 			break;
 
 		case ICQEVENTTYPE_SMS:
 			if (!bWriteIndentedToFile(hFile, nIndent, _A2T((const char*)dbei.pBlob), bWriteUTF8Format))
-				DisplayErrorDialog(LPGENW("Failed to write SMS to the file :\n"), sFilePath, &dbei);
+				DisplayErrorDialog(LPGENW("Failed to write SMS to the file:\n"), sFilePath, &dbei);
 			break;
 
 		default:
 			int n = mir_snwprintf(szTemp, TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
 			if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
-				DisplayErrorDialog(LPGENW("Failed to write Unknown event to the file :\n"), sFilePath, &dbei);
+				DisplayErrorDialog(LPGENW("Failed to write Unknown event to the file:\n"), sFilePath, &dbei);
 			break;
 		}
 	}
@@ -1080,7 +1080,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	wstring sFilePath = GetFilePathFromUser(hContact);
 	HANDLE hFile = openCreateFile(sFilePath);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, nullptr);
+		DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
 		return 0;
 	}
 
