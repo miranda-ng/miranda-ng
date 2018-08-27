@@ -122,15 +122,6 @@ wstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSet
 // Description     : will replace all acurances of a string with another string
 //                   used to replace %user%, and other user 
 
-static void ReplaceAll(string &sSrc, const char *pszReplace, const string &sNew)
-{
-	string::size_type nCur = 0;
-	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
-		sSrc.replace(nCur, mir_strlen(pszReplace), sNew);
-		nCur += sNew.size();
-	}
-}
-
 static void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wstring &sNew)
 {
 	string::size_type nCur = 0;
@@ -651,17 +642,17 @@ void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO
 
 const char *pSettings[] =
 {
-	"FirstName",
-	"LastName",
-	"e-mail",
-	"Nick",
-	"Age",
-	"Gender",
-	"City",
-	"State",
-	"Phone",
-	"Homepage",
-	"About"
+	LPGEN("FirstName"),
+	LPGEN("LastName"),
+	LPGEN("e-mail"),
+	LPGEN("Nick"),
+	LPGEN("Age"),
+	LPGEN("Gender"),
+	LPGEN("City"),
+	LPGEN("State"),
+	LPGEN("Phone"),
+	LPGEN("Homepage"),
+	LPGEN("About")
 };
 
 static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
