@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.2
+;  Version: 0.3.2.3
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -136,7 +136,7 @@
 [Message failed to send to %s]
 Ошибка отправки сообщения для %s
 ;file \plugins\BuddyPounce\src\main.cpp
-[&Buddy Pounce]
-&Отложенное сообщение
 [Message sessions]
 Беседы
+[&Buddy Pounce]
+&Отложенное сообщение

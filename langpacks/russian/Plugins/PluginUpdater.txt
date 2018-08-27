@@ -42,16 +42,18 @@
 Источник обновления
 [Stable version]
 Стабильная версия
+[Stable version with debug symbols]
+Стабильная версия c отладочными символами
 [Development version (less stable)]
 Версия в разработке (менее стабильна)
 [Development version with debug symbols]
 Версия в разработке c отладочными символами
 [Custom version]
 Заданная пользователем версия
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
 [Change platform to 32-bit]
 Перейти на 32-битную версию
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
 [Notifications]
 Уведомления
 [Restart]

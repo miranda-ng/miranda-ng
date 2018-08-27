@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -37,6 +37,10 @@
 [Your interests (separated by commas):]
 Ваши интересы (через запятую):
 ;file \protocols\Omegle\src\chat.cpp
+[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
+Есть три разных режима чата:\n1) Стандартный режим\t - Вы с незнакомцем общаетесь один на один\n2) Режим вопросов\t - Вы задаёте вопрос двум незнакомцам и смотрите, как они его обсуждают (Вы не можете присоединиться к беседе, только наблюдаете)\n3) Режим шпиона\t - Вы и незнакомец обсуждаете вопрос ещё одного незнакомца (Он не может присоединиться к вашей беседе, только наблюдает)\n\nНаберите '/commands' для вывода списка команд.
+[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+Доступные команды:\n/help\t - показать информацию о режимах чата\n/new\t - запуск стандартного режима\n/ask <вопрос> - запуск режима вопросов с указанным вопросом\n/ask\t - запуск режима вопросов с вашим последним вопросом\n/spy\t - запуск режима шпиона\n/quit\t - отключится от незнакомца или остановить подключение\n/asl\t - отправить предварительно настроенное сообщение ASL\n\nПримечание: подключаться к другому незнакомцу можно без отключения от текущего.
 [Server]
 Сервер
 [Last question is empty.]
@@ -45,10 +49,6 @@
 Ваш вопрос слишком короткий.
 [Your '/asl' setting is empty.]
 Ваша настройка '/asl' пустая.
-[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-Есть три разных режима чата:\n1) Стандартный режим\t - Вы с незнакомцем общаетесь один на один\n2) Режим вопросов\t - Вы задаёте вопрос двум незнакомцам и смотрите, как они его обсуждают (Вы не можете присоединиться к беседе, только наблюдаете)\n3) Режим шпиона\t - Вы и незнакомец обсуждаете вопрос ещё одного незнакомца (Он не может присоединиться к вашей беседе, только наблюдает)\n\nНаберите '/commands' для вывода списка команд.
-[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-Доступные команды:\n/help\t - показать информацию о режимах чата\n/new\t - запуск стандартного режима\n/ask <вопрос> - запуск режима вопросов с указанным вопросом\n/ask\t - запуск режима вопросов с вашим последним вопросом\n/spy\t - запуск режима шпиона\n/quit\t - отключится от незнакомца или остановить подключение\n/asl\t - отправить предварительно настроенное сообщение ASL\n\nПримечание: подключаться к другому незнакомцу можно без отключения от текущего.
 [Unknown command. Send '/commands' for list.]
 Неизвестная команда. Наберите '/commands' для вывода списка команд.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]

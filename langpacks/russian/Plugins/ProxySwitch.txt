@@ -44,7 +44,7 @@
 Введите список IP-адресов, разделённых точкой с запятой (;). Допустимые форматы:\n\tIP/бит\t(10.0.0.1/24)\t\tIP/маска\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)
 [Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The plugin checks the IP addresses in the following way:]
 Любая запись в списке "Использовать прокси" может предваряться восклицательным знаком (!), чтобы увеличить её приоритет. Записи с некорректным синтаксисом игнорируются. Плагин проверяет IP-адреса следующим образом:
-[\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or any at all addresses found]
+[\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or no address found]
 \t1) Использовать прокси, если любой интерфейс имеет приоритетный адрес из списка "Использовать прокси"\n\t2) Не использовать прокси, если любой интерфейс имеет адрес из списка "Прямое соединение"\n\t3) Использовать прокси, если любой интерфейс имеет адрес из списка "Использовать прокси"\n\t4) Ничего не делать, если адрес неизвестен или для него нет правил 
 [Cancel]
 Отмена

@@ -2,18 +2,34 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.1
+;  Version: 3.1.2.2
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 Экспорт сообщений, ссылок или принятых файлов в текстовый файл.
 ;file \plugins\Msg_Export\res\resource.rc
+[Export directory]
+Каталог экспорта
 [Browse]
 Обзор
+[Default file]
+Имя файла
+[File viewer]
+Просмотр файлов
 [Use internal viewer]
 Внутр. просмотр
 [Replace Miranda history]
 Заменить историю
+[Export format]
+Формат экспорта
+[Max column width]
+Макс. ширина строки
+[Note: 0 = no limit]
+Примечание:  0 = без ограничений
+[Time format]
+Формат времени
+[Use JSON format for export]
+Экспортировать в формат JSON
 [Use UTF8 in new files]
 UTF8 в новых файлах
 [Append extra new line]
@@ -28,20 +44,6 @@ UTF8 в новых файлах
 Справка
 [Export all history]
 Экспорт истории
-[Export directory]
-Каталог экспорта
-[Max column width]
-Макс. ширина строки
-[Note: 0 = no limit]
-
-[Time format]
-Формат времени
-[Export format]
-Формат экспорта
-[Default file]
-Имя файла
-[File viewer]
-Просмотр файлов
 [Exporting old messages]
 Экспорт старых сообщений
 [History file for %s (%s format %s)]
@@ -121,24 +123,10 @@ UTF8 в новых файлах
 Шаг 2: Сортировка и запись информации в базу данных
 [Failed to open or create file :\n]
 Не удалось открыть или создать файл :\n
-[No contacts found to export]
-Нет контактов для экспорта
-[Failed to export at least one contact]
-Не удалось экспортировать как минимум 1 контакт
 [Max line width must be at least %d. Or use 0 for no limit.]
 
 [You need to restart Miranda to change the history function]
 Изменения функции истории вступят в силу после перезапуска программы
-[File]
-Файл
-[Nick]
-Ник
-[Proto]
-Протокол
-[UIN]
-Номер
-[You have not applied the changes, do you wish to apply them first?]
-Есть несохранённые изменения, применить?
 [Executable files]
 Исполняемые файлы
 [All files]
@@ -149,6 +137,18 @@ UTF8 в новых файлах
 
 [Select Destination Directory]
 Выбрать папку для записи
+[File]
+Файл
+[Nick]
+Псевдоним
+[Proto]
+Протокол
+[UIN]
+Номер
+[No contacts found to export]
+Нет контактов для экспорта
+[Failed to export at least one contact]
+Не удалось экспортировать как минимум 1 контакт
 [Export Protocols]
 Экспорт протоколов
 [Message export]
@@ -157,6 +157,8 @@ UTF8 в новых файлах
 История
 [General]
 Общее
+[Contacts]
+Контакты
 [Additional]
 Дополнительно
 ;file \plugins\Msg_Export\src\stdafx.h
@@ -179,54 +181,50 @@ UTF8 в новых файлах
 Сохранить отладочную информацию?
 [All\0*.*\0Text\0*.TXT\0\0]
 Все файлы\0*.*\0Текстовые файлы\0*.txt\0\0
-[Failed to move to the end of the file :\n]
+[FirstName]
+Имя
+[LastName]
+Фамилия
+[e-mail]
+Почта
+[Age]
+Возраст
+[Gender]
+Пол
+[City]
+Город
+[State]
+Штат
+[Phone]
+Телефон
+[Homepage]
+Сайт
+[About]
+
+[Failed to move to the end of the file:\n]
 Не удалось перейти к концу файла:\n
-[Failed to UTF8 byte order code to file :\n]
+[Failed to write user details to file:\n]
 
-[      History for\r\n]
+[Failed to UTF8 byte order code to file:\n]
 
-[User      : %User%\r\n]
+[      History for]
+      История переписки с
+[User]
+Контакт
+[Protocol]
+Протокол
+[Failed to write message to the file:\n]
 
-[Protocol  : %Proto%\r\n]
-
-[UIN       : %UIN%\r\n]
-
-[FirstName : %FirstName%\r\n]
-
-[LastName  : %LastName%\r\n]
-
-[Age       : %Age%\r\n]
-
-[Gender    : %Gender%\r\n]
-
-[e-mail    : %e-mail%\r\n]
-
-[Nick      : %Nick%\r\n]
-
-[City      : %City%\r\n]
-
-[State     : %State%\r\n]
-
-[Phone     : %Phone%\r\n]
-
-[Homepage  : %Homepage%\r\n]
-
-[- About -\r\n%About%\r\n]
-
-[Failed to write user details to file :\n]
-
-[Failed to write timestamp and username to file :\n]
-
-[Failed to write message to the file :\n]
-Не удалось записать сообщение в файл:\n
+[Failed to write timestamp and username to file:\n]
+Не удалось записать время и имя пользователя в файл:\n
 [URL: ]
 URL:\s
 [File: ]
 Файл:\s
 [Description: ]
 Описание:\s
-[Failed to write URL/File to the file :\n]
-Не удалось записать передачу файла или URL в файл:\n
+[Failed to write URL/File to the file:\n]
+Не удалось записать URL/файл в файл:\n
 [Nick      :]
 Псевдоним :
 [FirstName :]
@@ -234,35 +232,37 @@ URL:\s
 [LastName  :]
 Фамилия   :
 [e-mail    :]
-
+Почта     :
 [Reason    :]
 Причина   :
 [Invalid Database event received. Type %d, size %d]
 Получено некорректное событие базы. Тип %d, размер %d
-[Failed to write Invalid Database event the file :\n]
+[Failed to write Invalid Database event the file:\n]
 
 [The following user made an authorization request:]
 Следующий пользователь запросил авторизацию:
 [The following user added you to their contact list:]
 Пользователь добавил вас в свой список контактов:
 [UIN       :]
-
-[Failed to write AUTHREQUEST or ADDED to the file :\n]
-
+Номер     :
+[Failed to write AUTHREQUEST or ADDED to the file:\n]
+Не удалось записать AUTHREQUEST или ADDED в файл:\n
 [EmailExpress from:]
 EmailExpress от:
 [WebPager from:]
 WebPager от:
 [No from address]
 без адреса
-[Failed to write EmailExpress to the file :\n]
+[Failed to write EmailExpress to the file:\n]
 Не удалось записать EmailExpress в файл:\n
-[Failed to write SMS to the file :\n]
+[Failed to write SMS to the file:\n]
 Не удалось записать SMS в файл:\n
 [Unknown event type %d, size %d]
 Неизвестный тип события %d, размер %d
-[Failed to write Unknown event to the file :\n]
+[Failed to write Unknown event to the file:\n]
 Не удалось записать неизвестное событие в файл :\n
+[Failed to open or create file:\n]
+Не удалось открыть или создать файл:\n
 [User has been deleted. Do you want to delete the file?]
 Контакт удалён. Хотите удалить файл?
 [Failed to delete the file]

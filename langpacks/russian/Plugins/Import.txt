@@ -82,6 +82,10 @@ Miranda нашла следующие профили. Выберите проф�
 Другое
 [Choose appropriate accounts for import]
 Поиск соответствующих учётных записей
+[Enter file name for import:]
+Импортируемый файл:
+[Check duplicates]
+Проверить дубликаты
 ;file \plugins\Import\src\import.cpp
 [<New account>]
 <Новая учётная запись>
@@ -158,17 +162,22 @@ Miranda нашла следующие профили. Выберите проф�
 ;file \plugins\Import\src\main.cpp
 [&Import...]
 &Импорт...
-[Miranda NG database]
-База данных Miranda NG
-[All Files]
-Все файлы
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Данный файл не существует. Проверьте имя файла.
 [Miranda Import]
 Импорт Miranda NG
+[Miranda NG database]
+База данных Miranda NG
+[All Files]
+Все файлы
 [You cannot import your current profile into itself]
 Невозможно импортировать текущий профиль в самого себя
+;file \plugins\Import\src\ui.cpp
+[Import history for]
+Импортировать историю для
+[JSON file]
+Файл JSON
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Пропуск дубликата группы %s
