@@ -80,7 +80,8 @@ int CMPlugin::Load()
 	mi.pszService = MS_PU_SHOWLIST;
 	Menu_AddMainMenuItem(&mi);
 
-	InitOptions();
+	// initialize options
+	HookEvent(ME_OPT_INITIALISE, OptInit);
 
 	// Add hotkey
 	HOTKEYDESC hkd = {};

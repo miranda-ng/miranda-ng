@@ -529,7 +529,7 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-static int OptInit(WPARAM wParam, LPARAM)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
@@ -548,9 +548,4 @@ static int OptInit(WPARAM wParam, LPARAM)
 		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
-}
-
-void InitOptions()
-{
-	HookEvent(ME_OPT_INITIALISE, OptInit);
 }

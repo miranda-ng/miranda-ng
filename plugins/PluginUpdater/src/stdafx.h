@@ -143,11 +143,11 @@ extern struct PlugOptions
 #define DB_MODULE_FILES				MODULENAME "Files"
 #define DB_MODULE_NEW_FILES         MODULENAME "NewFiles"
 
-#define MAX_RETRIES			3
+#define MAX_RETRIES   3
 
-#define IDINFO				3
-#define IDDOWNLOAD			4
-#define IDDOWNLOADALL		5
+#define IDINFO        3
+#define IDDOWNLOAD    4
+#define IDDOWNLOADALL 5
 
 using namespace std;
 
@@ -169,6 +169,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 void UninitCheck(void);
 void UninitListNew(void);
+
+int OptInit(WPARAM, LPARAM);
 
 class AutoHandle : private MNonCopyable
 {
@@ -216,7 +218,6 @@ void  InitNetlib();
 void  InitIcoLib();
 void  InitServices();
 void  InitEvents();
-void  InitOptions();
 void  InitListNew();
 void  InitCheck();
 void  CreateTimer();
@@ -253,4 +254,4 @@ int SafeMoveFile(const wchar_t *ptszSrc, const wchar_t *ptszDst);
 int SafeDeleteFile(const wchar_t *ptszSrc);
 int SafeCreateFilePath(const wchar_t *pFolder);
 
-char *StrToLower(char *str);
+char* StrToLower(char *str);
