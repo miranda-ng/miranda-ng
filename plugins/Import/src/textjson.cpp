@@ -157,10 +157,25 @@ public:
 
 		std::string szBody = (*node)["body"].as_string();
 		if (!szBody.empty()) {
+			int offset;
+			switch (dbei->eventType) {
+			case EVENTTYPE_ADDED:
+			case EVENTTYPE_FILE:
+				offset = sizeof(DWORD);
+				break;
+			
+			case EVENTTYPE_AUTHREQUEST:
+				offset = sizeof(DWORD)*2;
+				break;
+
+			default:
+				offset = 0;
+			}
+
 			dbei->flags |= DBEF_UTF;
-			dbei->cbBlob = (DWORD)szBody.size()+1;
-			dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob);
-			strcpy((char*)dbei->pBlob, szBody.c_str());
+			dbei->cbBlob = (DWORD)szBody.size() + offset + 2;
+			dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob);
+			strcpy((char*)dbei->pBlob + offset, szBody.c_str());
 		}
 
 		return 0;
@@ -173,7 +188,7 @@ public:
 
 	STDMETHODIMP_(MEVENT) FindNextEvent(MCONTACT, MEVENT iEvent) override
 	{
-		if (iEvent >= m_events.getCount())
+		if ((int)iEvent >= m_events.getCount())
 			return 0;
 
 		return iEvent+1;
