@@ -289,11 +289,13 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				mir_forkthread(InitTimer, (void*)1);
 
+				bool bNoSymbols = false;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STABLE)) {
 					db_set_b(NULL, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
 					if (!opts.bChangePlatform)
 						opts.bForceRedownload = 0;
 					db_unset(NULL, MODULENAME, DB_SETTING_REDOWNLOAD);
+					bNoSymbols = true;
 				}
 				else if (IsDlgButtonChecked(hwndDlg, IDC_STABLE_SYMBOLS)) {
 					// Only set ForceRedownload if the previous UpdateMode was different
@@ -308,6 +310,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					if (!opts.bChangePlatform)
 						opts.bForceRedownload = 0;
 					db_unset(NULL, MODULENAME, DB_SETTING_REDOWNLOAD);
+					bNoSymbols = true;
 				}
 				else if (IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
 					// Only set ForceRedownload if the previous UpdateMode was different
@@ -331,6 +334,22 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					db_set_b(NULL, MODULENAME, DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 1);
 				}
 				else db_set_b(NULL, MODULENAME, DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 0);
+
+				// if user selected update channel without symbols, remove PDBs
+				if (bNoSymbols) {
+					CMStringW wszPath(VARSW(L"%miranda_path%"));
+					wszPath.AppendChar('\\');
+
+					WIN32_FIND_DATA ffd;
+					HANDLE hFind = FindFirstFile(wszPath + L"*.pdb", &ffd);
+					if (hFind != INVALID_HANDLE_VALUE) {
+						do {
+							DeleteFileW(wszPath + ffd.cFileName);
+						}
+							while (FindNextFile(hFind, &ffd) != 0);
+					}
+					FindClose(hFind);
+				}
 
 				// if user tried to change the channel, run the update dialog immediately
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM)))
