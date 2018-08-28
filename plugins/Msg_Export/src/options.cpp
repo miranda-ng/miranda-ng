@@ -210,14 +210,12 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 
 class CBasicOptDlg : public CDlgBase
 {
-	CCtrlHyperlink urlHelp;
 	CCtrlButton btnBrowseDir, btnBrowseFile;
 	CCtrlCombo cmbExportDir, cmbDefaultFile, cmbTimeFormat, cmbFileViewer;
 
 public:
 	CBasicOptDlg() :
 		CDlgBase(g_plugin, IDD_OPT_MSGEXPORT),
-		urlHelp(this, IDC_OPEN_HELP, "https://miranda-ng.org/p/Msg_Export/"),
 		btnBrowseDir(this, IDC_EXPORT_DIR_BROWSE),
 		btnBrowseFile(this, IDC_FILE_VIEWER_BROWSE),
 		cmbExportDir(this, IDC_EXPORT_DIR),
@@ -413,10 +411,12 @@ class CContactsOptDlg : public CDlgBase
 {
 	CCtrlButton btnExportAll, btnExportSel, btnUserDetails, btnAutoFileName, btnClearAll, btnSetDefault;
 	CCtrlListView listUsers;
+	CCtrlHyperlink urlHelp;
 
 public:
 	CContactsOptDlg() :
 		CDlgBase(g_plugin, IDD_OPT_CONTACTS),
+		urlHelp(this, IDC_OPEN_HELP, "https://miranda-ng.org/p/Msg_Export/"),
 		listUsers(this, IDC_MAP_USER_LIST),
 		btnClearAll(this, IDC_CLEAR_ALL),
 		btnExportAll(this, IDC_EXPORTALL),
