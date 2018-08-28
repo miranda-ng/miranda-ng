@@ -17,15 +17,15 @@
 [File viewer]
 Просмотр файлов
 [Use internal viewer]
-Внутр. просмотр
+Внутренний просмотрщик
 [Replace Miranda history]
 Заменить историю
 [Export format]
 Формат экспорта
 [Max column width]
-Макс. ширина строки
+Максимальная ширина строки
 [Note: 0 = no limit]
-Примечание:  0 = без ограничений
+0 = неограниченная
 [Time format]
 Формат времени
 [Use JSON format for export]
@@ -33,7 +33,7 @@
 [Use UTF8 in new files]
 UTF8 в новых файлах
 [Append extra new line]
-Доп. перевод строки
+Дополнительный перевод строки
 [Use << and >>]
 Знаки << и >>
 [Auto filename]
