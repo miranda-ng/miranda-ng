@@ -91,17 +91,19 @@ static int OnExit(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR ServiceMode(WPARAM, LPARAM)
+static INT_PTR ServiceMode(WPARAM wParam, LPARAM)
 {
 	g_bServiceMode = true;
 
-	ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
-	if (!_waccess(wszFullName, 0)) {
-		g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE + IOPT_CHECKDUPS;
-		wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
+	if (wParam == 1) {
+		ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
+		if (!_waccess(wszFullName, 0)) {
+			g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE + IOPT_CHECKDUPS;
+			wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
 
-		WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
-		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+			WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
+			DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+		}
 		return SERVICE_CONTINUE;
 	}
 

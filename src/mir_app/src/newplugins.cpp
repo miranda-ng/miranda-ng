@@ -578,6 +578,8 @@ int UnloadPlugin(wchar_t* buf, int bufLen)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service plugins functions
 
+static WPARAM g_srvWParam = 0, g_srvLParam = 0;
+
 int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
@@ -589,7 +591,7 @@ int LaunchServicePlugin(pluginEntry *p)
 		p->bLoaded = true;
 	}
 
-	INT_PTR res = CallService(MS_SERVICEMODE_LAUNCH, 0, 0);
+	INT_PTR res = CallService(MS_SERVICEMODE_LAUNCH, g_srvWParam, g_srvLParam);
 	if (res != CALLSERVICE_NOTFOUND)
 		return res;
 
@@ -598,7 +600,7 @@ int LaunchServicePlugin(pluginEntry *p)
 	return SERVICE_FAILED;
 }
 
-MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName)
+MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName, WPARAM wParam, LPARAM lParam)
 {
 	size_t cbLen = mir_wstrlen(wszPluginName);
 	if (cbLen == 0)
@@ -607,6 +609,8 @@ MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName)
 	for (auto &p : servicePlugins) {
 		if (!wcsnicmp(p->pluginname, wszPluginName, cbLen)) {
 			plugin_service = p;
+			g_srvWParam = wParam;
+			g_srvLParam = lParam;
 			return 0;
 		}
 	}

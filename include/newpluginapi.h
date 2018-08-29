@@ -56,7 +56,7 @@ __forceinline bool operator!=(const MUUID &p1, const MUUID &p2)
 
 MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int langId);
 MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid);
-MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName);
+MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName, WPARAM = 0, LPARAM = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Used to define the end of the MirandaPluginInterface list
