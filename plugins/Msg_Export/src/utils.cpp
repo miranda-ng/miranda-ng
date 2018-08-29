@@ -143,7 +143,7 @@ static void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wchar_t *
 // Parameters      : dwError - ?
 // Returns         : string
 
-wstring sGetErrorString(DWORD dwError)
+CMStringW sGetErrorString(DWORD dwError)
 {
 	LPVOID lpMsgBuf;
 	FormatMessage(
@@ -157,31 +157,32 @@ wstring sGetErrorString(DWORD dwError)
 	// Process any inserts in lpMsgBuf.
 	// ...
 	// Display the string.
-	wstring ret = (LPCTSTR)lpMsgBuf;
-	ReplaceAll(ret, L"\r", L" ");
-	ReplaceAll(ret, L"\n", L" ");
-	ReplaceAll(ret, L"  ", L" ");
+	CMStringW ret((LPCTSTR)lpMsgBuf);
+	ret.Replace(L"\r", L" ");
+	ret.Replace(L"\n", L" ");
+	ret.Replace(L"  ", L" ");
 
 	// Free the buffer.
 	LocalFree(lpMsgBuf);
 	return ret;
 }
 
-wstring sGetErrorString()
+CMStringW sGetErrorString()
 {
 	return sGetErrorString(GetLastError());
 }
 
-void DisplayLastError(const wchar_t *pszError)
+void LogLastError(const wchar_t *pszError)
 {
-	wstring sError = pszError;
 	DWORD error = GetLastError();
 
+	CMStringW sError = pszError;
+
 	wchar_t szTemp[50];
-	mir_snwprintf(szTemp, L"\r\nErrorCode: %d\r\n", error);
+	mir_snwprintf(szTemp, L"MsgExport error\r\nErrorCode: %d\r\n", error);
 	sError += szTemp;
 	sError += sGetErrorString(error);
-	MessageBox(nullptr, sError.c_str(), MSG_BOX_TITEL, MB_OK);
+	Netlib_LogW(nullptr, sError.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -354,14 +355,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 
 				// we can not use FILE_SHARE_DELETE because this is not supported by 
 				// win 98 / ME 
-				HANDLE hPrevFile = CreateFile(sPrevFileName.c_str(),
-					GENERIC_READ,
-					FILE_SHARE_READ | FILE_SHARE_WRITE,
-					nullptr,
-					OPEN_EXISTING,
-					FILE_ATTRIBUTE_NORMAL,
-					nullptr);
-
+				HANDLE hPrevFile = CreateFile(sPrevFileName.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 				if (hPrevFile != INVALID_HANDLE_VALUE) {
 					CloseHandle(hPrevFile);
 					wchar_t szTemp[500];
@@ -378,9 +372,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 							sFilePath.c_str());
 						bTryRename = MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES;
 					}
-					else
-						bTryRename = true;
-
+					else bTryRename = true;
 
 					if (bTryRename) {
 						if (!MoveFile(sPrevFileName.c_str(), sFilePath.c_str())) {
@@ -1245,7 +1237,7 @@ int nContactDeleted(WPARAM hContact, LPARAM)
 					TranslateT("Failed to delete the file"),
 					sFilePath.c_str());
 
-				DisplayLastError(szTemp);
+				LogLastError(szTemp);
 			}
 		}
 	}

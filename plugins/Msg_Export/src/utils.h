@@ -43,9 +43,7 @@ extern bool g_bUseLessAndGreaterInExport;
 
 extern bool g_bReplaceHistory;
 
-wstring sGetErrorString(DWORD dwError);
-wstring sGetErrorString();
-void DisplayLastError(const wchar_t *pszError);
+void LogLastError(const wchar_t *pszError);
 void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO *dbei);
 
 bool bIsExportEnabled(MCONTACT hContact);

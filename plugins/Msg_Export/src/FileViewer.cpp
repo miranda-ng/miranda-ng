@@ -395,18 +395,9 @@ bool bOpenExternaly(MCONTACT hContact)
 	sStartupInfo.lpTitle = (wchar_t*)sFileViewerPrg.c_str();
 	PROCESS_INFORMATION stProcesses = {};
 
-	if (!CreateProcess(nullptr,
-		(wchar_t*)sTmp.c_str(),
-		nullptr,
-		nullptr,
-		FALSE,
-		CREATE_DEFAULT_ERROR_MODE | CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP,
-		nullptr,
-		nullptr,
-		&sStartupInfo,
-		&stProcesses)) {
-		DisplayLastError(LPGENW("Failed to execute external file view"));
-	}
+	if (!CreateProcess(nullptr, (wchar_t*)sTmp.c_str(), 0, 0, FALSE, CREATE_DEFAULT_ERROR_MODE | CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP, 0, 0, &sStartupInfo, &stProcesses))
+		LogLastError(L"Failed to execute external file view");
+
 	return true;
 }
 
@@ -433,7 +424,7 @@ bool bUseInternalViewer(bool bNew)
 	if (g_bUseIntViewer && !hRichEditDll) {
 		hRichEditDll = LoadLibraryA("Msftedit.dll");
 		if (!hRichEditDll) {
-			DisplayLastError(LPGENW("Failed to load Rich Edit (Msftedit.dll)"));
+			LogLastError(L"Failed to load Rich Edit (Msftedit.dll)");
 			return false;
 		}
 	}
@@ -939,7 +930,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 					FILE_SHARE_READ, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 				if (hFile == INVALID_HANDLE_VALUE) {
-					DisplayLastError(LPGENW("Failed to create file"));
+					LogLastError(L"Failed to create file");
 					return TRUE;
 				}
 
@@ -949,7 +940,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				eds.pfnCallback = RichEditStreamSaveFile;
 				LRESULT nWriteOk = SendMessage(hRichEdit, EM_STREAMOUT, (WPARAM)SF_RTF, (LPARAM)&eds);
 				if (nWriteOk <= 0 || eds.dwError != 0) {
-					DisplayLastError(TranslateT("Failed to save file"));
+					LogLastError(L"Failed to save file");
 					CloseHandle(hFile);
 					return TRUE;
 				}
@@ -1034,7 +1025,7 @@ bool bShowFileViewer(MCONTACT hContact)
 		ShowWindow(pcl->hWnd, SW_SHOWNORMAL);
 		return true;
 	}
-	DisplayLastError(LPGENW("Failed to create history dialog"));
+
 	delete pcl;
 	return false;
 }
