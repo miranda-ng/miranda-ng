@@ -1,6 +1,6 @@
 @echo off
 
-if "%1" == "64" (set tp=64)
+if "%1" == "64" (set tp=64) else (set tp=)
 
 pushd ..\plugins
 
