@@ -1,29 +1,29 @@
 @echo off
 
-if "%1" == "64" (set tp=64) else (set tp=)
+if "%1" == "64" (set fpcpl=64) else (set fpcpl=)
 
 pushd ..\plugins
 
 pushd Actman
-call make.bat fpc%tp% 15
+call make.bat fpc%fpcpl% 15
 if errorlevel 1 goto :Error
 popd
 
 pushd mRadio
-call make.bat fpc%tp% 15
+call make.bat fpc%fpcpl% 15
 if errorlevel 1 goto :Error
 popd
 
 pushd QuickSearch
-call make.bat fpc%tp% 15
+call make.bat fpc%fpcpl% 15
 if errorlevel 1 goto :Error
 popd
 
 pushd Watrack
-call make.bat fpc%tp% 15
+call make.bat fpc%fpcpl% 15
 if errorlevel 1 goto :Error
 cd icons
-call makeicons.bat fpc%tp% 15
+call makeicons.bat fpc%fpcpl% 15
 if errorlevel 1 goto :Error
 popd
 
