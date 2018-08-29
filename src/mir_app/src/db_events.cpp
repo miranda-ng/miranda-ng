@@ -166,12 +166,17 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 		char *buf = LPSTR(dbei->pBlob) + sizeof(DWORD);
 		ptrW tszFileName(getEventString(dbei, buf));
 		ptrW tszDescription(getEventString(dbei, buf));
-		ptrW &ptszText = (mir_wstrlen(tszDescription) == 0) ? tszFileName : tszDescription;
+		CMStringW wszText(tszFileName);
+		if (mir_wstrlen(tszDescription) > 0) {
+			wszText.Append(L": ");
+			wszText.Append(tszDescription);
+		}
+		
 		switch (datatype) {
 		case DBVT_WCHAR:
-			return (INT_PTR)ptszText.detach();
+			return (INT_PTR)wszText.Detach();
 		case DBVT_ASCIIZ:
-			return (INT_PTR)mir_u2a(ptszText);
+			return (INT_PTR)mir_u2a(wszText);
 		}
 		return 0;
 	}
