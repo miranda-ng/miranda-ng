@@ -784,7 +784,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				for (auto &it : pSettings) {
 					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
 					if (!szValue.empty()) {
-						mir_snwprintf(szTemp, L"%-10S: %s\r\n", it, szValue.c_str());
+						mir_snwprintf(szTemp, L"%-10s: %s\r\n", TranslateW(_A2T(it)), szValue.c_str());
 						output += szTemp;
 					}
 				}
