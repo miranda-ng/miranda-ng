@@ -693,12 +693,8 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
 
 			DWORD dwPtr = SetFilePointer(hFile, g_bUseJson ? -3 : 0, nullptr, FILE_END);
-			if (dwPtr == INVALID_SET_FILE_POINTER) {
-				// we need to aborte mission here because if we continue we risk 
-				// overwriting old log.
-				DisplayErrorDialog(LPGENW("Failed to move to the end of the file:\n"), sFilePath, nullptr);
+			if (dwPtr == INVALID_SET_FILE_POINTER)
 				return false;
-			}
 
 			if (g_bUseJson)
 				bWriteToFile(hFile, ",", 1);		
@@ -735,21 +731,16 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				pRoot.push_back(pHist);
 
 				std::string output = pRoot.write_formatted();
-				if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size())) {
-					DisplayErrorDialog(LPGENW("Failed to write user details to file:\n"), sFilePath, nullptr);
+				if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size()))
 					return false;
-				}
 
 				SetFilePointer(hFile, -3, nullptr, FILE_CURRENT);
 			}
 			else {
 				bWriteUTF8Format = g_bUseUtf8InNewFiles;
-				if (bWriteUTF8Format) {
-					if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1)) {
-						DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file:\n"), sFilePath, nullptr);
+				if (bWriteUTF8Format)
+					if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
 						return false;
-					}
-				}
 
 				CMStringW output = L"------------------------------------------------\r\n";
 				output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
@@ -783,10 +774,8 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 				output += L"------------------------------------------------\r\n";
 
-				if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength())) {
-					DisplayErrorDialog(LPGENW("Failed to write user details to file:\n"), sFilePath, nullptr);
+				if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
 					return false;
-				}
 			}
 		}
 	}
@@ -814,10 +803,9 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 		std::string output = pRoot.write_formatted();
 		output += "\n]}";
 
-		if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size())) {
-			DisplayErrorDialog(LPGENW("Failed to write message to the file:\n"), sFilePath, &dbei);
+		if (!bWriteTextToFile(hFile, output.c_str(), false, (int)output.size()))
 			return false;
-		}
+
 		return true;
 	}
 
@@ -830,23 +818,15 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 	szTemp[nIndent++] = ' ';
 
 	// Write first part of line with name and timestamp
-	if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, nIndent)) {
-		DisplayErrorDialog(LPGENW("Failed to write timestamp and username to file:\n"), sFilePath, &dbei);
+	if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, nIndent))
 		return false;
-	}
 
 	if (dbei.pBlob != nullptr && dbei.cbBlob >= 2) {
 		dbei.pBlob[dbei.cbBlob] = 0;
 
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
-			{
-				wchar_t *msg = DbEvent_GetTextW(&dbei, CP_ACP);
-				if (!bWriteIndentedToFile(hFile, nIndent, msg, bWriteUTF8Format)) {
-					DisplayErrorDialog(LPGENW("Failed to write message to the file:\n"), sFilePath, &dbei);
-				}
-				mir_free(msg);
-			}
+			bWriteIndentedToFile(hFile, nIndent, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), bWriteUTF8Format);
 			break;
 
 		case EVENTTYPE_URL:
@@ -864,31 +844,22 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 					pszData = (char *)(dbei.pBlob + sizeof(DWORD));
 				}
 
-				bool bWriteOk = false;
-
 				int nLen = (int)mir_strlen(pszData);
 				if ((pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob) {
 					if (bWriteTextToFile(hFile, pszType, bWriteUTF8Format) &&
 						bWriteIndentedToFile(hFile, nIndent, _A2T(pszData), bWriteUTF8Format)) {
 						pszData += nLen + 1;
-						if ((pszData - (char *)dbei.pBlob) >= (int)dbei.cbBlob) {
-							bWriteOk = true;
-						}
-						else {
+						if ((pszData - (char *)dbei.pBlob) < (int)dbei.cbBlob) {
 							nLen = (int)mir_strlen(pszData);
 							if ((pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob) {
 								if (bWriteNewLine(hFile, nIndent) &&
 									bWriteTextToFile(hFile, LPGENW("Description: "), bWriteUTF8Format) &&
 									bWriteIndentedToFile(hFile, nIndent, _A2T(pszData), bWriteUTF8Format)) {
-									bWriteOk = true;
 								}
 							}
 						}
 					}
 				}
-
-				if (!bWriteOk)
-					DisplayErrorDialog(LPGENW("Failed to write URL/File to the file:\n"), sFilePath, &dbei);
 			}
 			break;
 
@@ -904,12 +875,9 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 				if (dbei.cbBlob < 8 || dbei.cbBlob > 5000) {
 					int n = mir_snwprintf(szTemp, TranslateT("Invalid Database event received. Type %d, size %d"), dbei.eventType, dbei.cbBlob);
-					if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
-						DisplayErrorDialog(LPGENW("Failed to write Invalid Database event the file:\n"), sFilePath, &dbei);
+					bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);
 					break;
 				}
-
-				bool bWriteOk = false;
 
 				int nStringCount;
 				const wchar_t *pszTitle;
@@ -945,12 +913,8 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 							}
 							pszCurBlobPos++;
 						}
-						bWriteOk = true;
 					}
 				}
-
-				if (!bWriteOk)
-					DisplayErrorDialog(LPGENW("Failed to write AUTHREQUEST or ADDED to the file:\n"), sFilePath, &dbei);
 			}
 			break;
 
@@ -993,22 +957,18 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				}
 				else bWriteTextToFile(hFile, LPGENW("No from address"), bWriteUTF8Format);
 
-				if (!bWriteNewLine(hFile, nIndent) ||
-					!bWriteIndentedToFile(hFile, nIndent, _A2T(pszStr), bWriteUTF8Format)) {
-					DisplayErrorDialog(LPGENW("Failed to write EmailExpress to the file:\n"), sFilePath, &dbei);
-				}
+				bWriteNewLine(hFile, nIndent);
+				bWriteIndentedToFile(hFile, nIndent, _A2T(pszStr), bWriteUTF8Format);
 			}
 			break;
 
 		case ICQEVENTTYPE_SMS:
-			if (!bWriteIndentedToFile(hFile, nIndent, _A2T((const char*)dbei.pBlob), bWriteUTF8Format))
-				DisplayErrorDialog(LPGENW("Failed to write SMS to the file:\n"), sFilePath, &dbei);
+			bWriteIndentedToFile(hFile, nIndent, _A2T((const char*)dbei.pBlob), bWriteUTF8Format);
 			break;
 
 		default:
 			int n = mir_snwprintf(szTemp, TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
-			if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
-				DisplayErrorDialog(LPGENW("Failed to write Unknown event to the file:\n"), sFilePath, &dbei);
+			bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);
 			break;
 		}
 	}
@@ -1214,29 +1174,16 @@ int nContactDeleted(WPARAM hContact, LPARAM)
 			return 0; // we found another contact abort mission :-)
 
 	// Test to see if there is a file to delete
-	HANDLE hPrevFile = CreateFile(sFilePath.c_str(),
-		GENERIC_READ,
-		FILE_SHARE_READ | FILE_SHARE_WRITE,
-		nullptr,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		nullptr);
-
+	HANDLE hPrevFile = CreateFile(sFilePath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	if (hPrevFile != INVALID_HANDLE_VALUE) {
 		CloseHandle(hPrevFile);
 
 		wchar_t szTemp[500];
-		mir_snwprintf(szTemp, L"%s\r\n%s",
-			TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
+		mir_snwprintf(szTemp, L"%s\r\n%s", TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
 
-		if (g_enDeleteAction == eDAAutomatic ||
-			MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES) {
+		if (g_enDeleteAction == eDAAutomatic || MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES) {
 			if (!DeleteFile(sFilePath.c_str())) {
-				mir_snwprintf(szTemp,
-					L"%s\r\n%s",
-					TranslateT("Failed to delete the file"),
-					sFilePath.c_str());
-
+				mir_snwprintf(szTemp, L"%s\r\n%s", TranslateT("Failed to delete the file"), sFilePath.c_str());
 				LogLastError(szTemp);
 			}
 		}

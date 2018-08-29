@@ -362,16 +362,13 @@ public:
 	{
 		// Get the shells allocator
 		LPMALLOC pMalloc;
-		if (FAILED(SHGetMalloc(&pMalloc))) { // we need to use this to support old Windows versions 
-			MessageBox(m_hwnd, TranslateT("Failed to get the shells allocator!"), MSG_BOX_TITEL, MB_OK);
+		if (FAILED(SHGetMalloc(&pMalloc)))
 			return;
-		}
 
 		// Allocate the Dest Dir buffer to receive browse info
 		wchar_t *lpDestDir = (wchar_t *)pMalloc->Alloc(MAX_PATH + 100);
 		if (!lpDestDir) {
 			pMalloc->Release();
-			MessageBox(m_hwnd, TranslateT("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
 			return;
 		}
 
@@ -576,10 +573,8 @@ public:
 					continue;
 
 			sItem.iItem = nCur;
-			if (!listUsers.GetItem(&sItem)) {
-				MessageBox(m_hwnd, TranslateT("Failed to export at least one contact"), MSG_BOX_TITEL, MB_OK);
+			if (!listUsers.GetItem(&sItem))
 				continue;
-			}
 
 			MCONTACT hContact = (MCONTACT)sItem.lParam;
 			data->contacts.push_back(hContact);

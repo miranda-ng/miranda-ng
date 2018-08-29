@@ -190,10 +190,8 @@ int CLStreamRTFInfo::nWriteHeader(char *pszTarget, int nLen)
 		GetRValue(cMyText), GetGValue(cMyText), GetBValue(cMyText),
 		GetRValue(cYourText), GetGValue(cYourText), GetBValue(cYourText));
 
-	if (nSrcLen > nLen) {
-		MessageBox(nullptr, TranslateT("Failed to write to the Rich Edit the buffer was to small."), MSG_BOX_TITEL, MB_OK);
+	if (nSrcLen > nLen)
 		return 0; // target buffer to small
-	}
 
 	memcpy(pszTarget, szRtfHeader, nSrcLen);
 	bHeaderWriten = true;
@@ -215,10 +213,8 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 	if (bTailWriten)
 		return 0;
 
-	if (nOptimalReadLen < 500) {
-		MessageBox(nullptr, TranslateT("Error: Optimal buffer size decreased to a too low size!"), MSG_BOX_TITEL, MB_OK);
+	if (nOptimalReadLen < 500)
 		return 0;
-	}
 
 	DWORD dwRead;
 	DWORD dwToRead = nOptimalReadLen;
@@ -467,27 +463,19 @@ DWORD CALLBACK RichEditStreamSaveFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb
 //                   hContact - ?
 // Returns         : Returns true if
 
-bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
+bool bLoadFile(HWND hwndDlg, CLHistoryDlg *pclDlg)
 {
 	DWORD dwStart = GetTickCount();
 
 	HWND hRichEdit = GetDlgItem(hwndDlg, IDC_RICHEDIT);
-	if (!hRichEdit) {
-		MessageBox(hwndDlg, TranslateT("Failed to get handle to Rich Edit!"), MSG_BOX_TITEL, MB_OK);
+	if (!hRichEdit)
 		return false;
-	}
 
-	HANDLE hFile = CreateFile(pclDlg->sPath.c_str(), GENERIC_READ,
-		FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
-		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	HANDLE hFile = CreateFile(pclDlg->sPath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		int nDBCount = db_event_count(pclDlg->hContact);
 		wchar_t szTmp[1500];
-
-		if (nDBCount == -1)
-			mir_snwprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
-		else
-			mir_snwprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount);
+		CMStringW wszMsg(FORMAT, TranslateT("Miranda database contains %d events"), db_event_count(pclDlg->hContact));
+		mir_snwprintf(szTmp, L"%s\r\n%s\r\n\r\n%s", pclDlg->sPath.c_str(), wszMsg.c_str());
 
 		SETTEXTEX stText = { 0 };
 		stText.codepage = 1200;
