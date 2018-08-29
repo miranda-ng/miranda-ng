@@ -821,6 +821,7 @@ public:
 		chkFdNothing(this, IDC_FD_NOTHING),
 		listProtos(this, IDC_EXPORT_PROTOS)
 	{
+		btnDebug.OnClick = Callback(this, &CAdvancedOptDlg::onClick_Debug);
 	}
 
 	bool OnInitDialog() override
