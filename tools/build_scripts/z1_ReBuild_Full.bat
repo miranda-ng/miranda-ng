@@ -35,7 +35,7 @@ if "%comp%"=="bin15" (
 MsBuild.exe "mir_full.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\full%tp%.log;errorsonly;warningsonly;summary
 MsBuild.exe "mir_icons.sln" /m /t:Rebuild /p:Configuration=Release;Platform="%ptr%" /fileLogger /fileLoggerParameters:LogFile=Logs\icons%tp%.log;errorsonly;warningsonly;summary
 
-call pascal%tp%.bat
+call pascal.bat %tp%
 
 pushd ..\plugins\HistoryPlusPlus
 call make.bat %tp%
@@ -91,12 +91,6 @@ copy /V /Y ..\plugins\Actman\services.ini "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\Boltun\src\Engine\boltun.mindw "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\Watrack\player.ini "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\RemovePersonalSettings\docs\RemovePersonalSettings.ini "Release%tp%\"
-
-if /i '%tp%' == '32' (
-  md "Release32\Plugins\Importtxt"
-  copy /V /Y ..\plugins\ImportTXT\importtxt\*.ini "Release32\Plugins\Importtxt\"
-  copy /V /Y %SourceDir%\tools\build_scripts\redist\pcre3.dll "Release32\Libs"
-)
 
 rem xcopy /S /V /Y "..\delphi\%tp%" "Release%tp%"
 xcopy /S /V /Y "..\pre-symbols\%comp%\%tp%" "Symbols%tp%"

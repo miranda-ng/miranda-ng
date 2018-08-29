@@ -66,7 +66,6 @@ Plugins\iehistory.dll
 Plugins\ieview.dll
 Plugins\ignorestate.dll
 Plugins\import.dll
-Plugins\importtxt.dll
 Plugins\irc.dll
 Plugins\jabber.dll
 Plugins\keyboardnotify.dll
