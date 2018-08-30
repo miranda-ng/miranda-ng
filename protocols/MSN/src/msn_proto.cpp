@@ -101,7 +101,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 	char path[MAX_PATH];
 	if (db_get_static(NULL, m_szModuleName, "LoginServer", path, sizeof(path)) == 0 &&
 		(mir_strcmp(path, MSN_DEFAULT_LOGIN_SERVER) == 0 ||
-		mir_strcmp(path, MSN_DEFAULT_GATEWAY) == 0))
+			mir_strcmp(path, MSN_DEFAULT_GATEWAY) == 0))
 		delSetting("LoginServer");
 
 	if (MyOptions.SlowSend) {
@@ -196,7 +196,9 @@ void CMsnProto::OnModulesLoaded()
 	InitPopups();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // OnPreShutdown - prepare a global Miranda shutdown
+
 void CMsnProto::OnShutdown()
 {
 	g_bTerminated = true;
@@ -207,7 +209,9 @@ void CMsnProto::OnShutdown()
 	Popup_UnregisterClass(hPopupNotify);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnAddToList - adds contact to the server list
+
 MCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD flags)
 {
 	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, flags & PALF_TEMPORARY);
@@ -264,7 +268,9 @@ int CMsnProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
+
 int CMsnProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	if (msnLoggedIn) {
@@ -287,7 +293,9 @@ int CMsnProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnAuthAllow - called after successful authorization
+
 int CMsnProto::Authorize(MEVENT hDbEvent)
 {
 	if (!msnLoggedIn)
@@ -320,7 +328,9 @@ int CMsnProto::Authorize(MEVENT hDbEvent)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnAuthDeny - called after unsuccessful authorization
+
 int CMsnProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
 	if (!msnLoggedIn)
@@ -343,7 +353,8 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	DB_AUTH_BLOB blob(dbei.pBlob);
 
 	MsnContact* msc = Lists_Get(blob.get_email());
-	if (msc == nullptr) return 0;
+	if (msc == nullptr)
+		return 0;
 
 	MSN_AddUser(NULL, blob.get_email(), msc->netId, LIST_PL + LIST_REMOVE);
 	MSN_AddUser(NULL, blob.get_email(), msc->netId, LIST_BL);
@@ -359,7 +370,9 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnBasicSearch - search contacts by e-mail
+
 void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 {
 	const wchar_t* emailT = (wchar_t*)arg;
@@ -379,18 +392,18 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 		case 0:
 		case 2:
 		case 3:
-		{
-			PROTOSEARCHRESULT psr = { 0 };
-			psr.cbSize = sizeof(psr);
-			psr.flags = PSR_UNICODE;
-			psr.id.w = (wchar_t*)emailT;
-			psr.nick.w = (wchar_t*)emailT;
-			psr.email.w = (wchar_t*)emailT;
+			{
+				PROTOSEARCHRESULT psr = {};
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_UNICODE;
+				psr.id.w = (wchar_t*)emailT;
+				psr.nick.w = (wchar_t*)emailT;
+				psr.email.w = (wchar_t*)emailT;
 
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&psr);
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
-		}
-		break;
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&psr);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+			}
+			break;
 
 		case 1:
 			if (strstr(email, "@yahoo.com") == nullptr)
@@ -404,7 +417,6 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 	}
 	mir_free(arg);
 }
-
 
 HANDLE CMsnProto::SearchBasic(const wchar_t* id)
 {
@@ -421,10 +433,12 @@ HANDLE CMsnProto::SearchByEmail(const wchar_t* email)
 	return SearchBasic(email);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // stolen from netlibhttp.cpp
+
 static void MyNetlibConnFromUrl(const char* szUrl, NETLIBOPENCONNECTION &nloc)
 {
-	bool secur =_strnicmp(szUrl, "https", 5) == 0;
+	bool secur = _strnicmp(szUrl, "https", 5) == 0;
 	const char* phost = strstr(szUrl, "://");
 
 	char* szHost = mir_strdup(phost ? phost + 3 : szUrl);
@@ -439,7 +453,7 @@ static void MyNetlibConnFromUrl(const char* szUrl, NETLIBOPENCONNECTION &nloc)
 	char* pcolon = strrchr(szHost, ':');
 	if (pcolon) {
 		*pcolon = '\0';
-		nloc.wPort = (WORD)strtol(pcolon+1, nullptr, 10);
+		nloc.wPort = (WORD)strtol(pcolon + 1, nullptr, 10);
 	}
 	else nloc.wPort = secur ? 443 : 80;
 	nloc.flags = (secur ? NLOCF_SSL : 0);
@@ -465,7 +479,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	if (ft->tType == SERVER_HTTP) {
 		const char *pszSkypeToken;
 
-		if (ft->fileId != -1 && (pszSkypeToken=authSkypeToken.Token())) {
+		if (ft->fileId != -1 && (pszSkypeToken = authSkypeToken.Token())) {
 			NETLIBHTTPHEADER nlbhHeaders[3] = {};
 			NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
 			char szRange[32];
@@ -486,29 +500,30 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 			nlhr.szUrl = ft->szInvcookie;
 			nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 
-			NETLIBOPENCONNECTION nloc = { 0 };
+			NETLIBOPENCONNECTION nloc = {};
 			MyNetlibConnFromUrl(nlhr.szUrl, nloc);
 			nloc.flags |= NLOCF_HTTP;
 			if (nloc.flags & NLOCF_SSL)
 				nlhr.flags |= NLHRF_SSL;
-			
+
 			HNETLIBCONN nlc = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 			if (nlc && Netlib_SendHttpRequest(nlc, &nlhr) != SOCKET_ERROR && (nlhrReply = Netlib_RecvHttpHeaders(nlc))) {
 				if (nlhrReply->resultCode == 200 || nlhrReply->resultCode == 206) {
+					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
+
 					INT_PTR dw;
 					char buf[1024];
-
-					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
 					while (!ft->bCanceled && ft->std.currentFileProgress < ft->std.currentFileSize &&
-						(dw = Netlib_Recv(nlc, buf, sizeof(buf), MSG_NODUMP))>0 && dw!=SOCKET_ERROR) 
+						(dw = Netlib_Recv(nlc, buf, sizeof(buf), MSG_NODUMP)) > 0 && dw != SOCKET_ERROR)
 					{
 						_write(ft->fileId, buf, dw);
 						ft->std.totalProgress += dw;
 						ft->std.currentFileProgress += dw;
 						ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 					}
-					if (ft->std.currentFileProgress == ft->std.currentFileSize) ft->std.currentFileNumber++;
 
+					if (ft->std.currentFileProgress == ft->std.currentFileSize)
+						ft->std.currentFileNumber++;
 				}
 				Netlib_FreeHttpRequest(nlhrReply);
 			}
@@ -521,7 +536,9 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileAllow - starts the file transfer
+
 HANDLE CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
@@ -542,17 +559,21 @@ HANDLE CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 	return ft;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileCancel - cancels the active file transfer
+
 int CMsnProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
-
 	if (ft->tType == SERVER_HTTP)
 		ft->bCanceled = true;
+
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileDeny - rejects the file transfer request
+
 int CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t* /*szReason*/)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
@@ -562,54 +583,53 @@ int CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t* /*szReason*/)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileResume - renames a file
+
 int CMsnProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
 	if (ft->tType == SERVER_HTTP) {
 		switch (*action) {
-			case FILERESUME_SKIP:
-				ft->close();
-				ft->bCanceled = true;
-				break;
-			case FILERESUME_RENAME:
-				replaceStrW(ft->std.szCurrentFile.w, *szFilename);
-				break;
-			case FILERESUME_OVERWRITE:
-				ft->std.currentFileProgress = 0;
-				break;
-			case FILERESUME_RESUME:
-				{
-					struct _stati64 statbuf;
-					_wstat64(ft->std.szCurrentFile.w, &statbuf);
-					ft->std.currentFileProgress = statbuf.st_size;
-				}
-				break;
+		case FILERESUME_SKIP:
+			ft->close();
+			ft->bCanceled = true;
+			break;
+		case FILERESUME_RENAME:
+			replaceStrW(ft->std.szCurrentFile.w, *szFilename);
+			break;
+		case FILERESUME_OVERWRITE:
+			ft->std.currentFileProgress = 0;
+			break;
+		case FILERESUME_RESUME:
+			struct _stati64 statbuf;
+			_wstat64(ft->std.szCurrentFile.w, &statbuf);
+			ft->std.currentFileProgress = statbuf.st_size;
+			break;
 		}
 		SetEvent(ft->hResumeEvt);
 	}
 	return 0;
 }
 
-typedef struct AwayMsgInfo_tag
+/////////////////////////////////////////////////////////////////////////////////////////
+// MsnGetAwayMsg - reads the current status message for a user
+
+struct AwayMsgInfo
 {
 	INT_PTR id;
 	MCONTACT hContact;
-} AwayMsgInfo;
+};
 
-// MsnGetAwayMsg - reads the current status message for a user
 void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 {
 	Sleep(150);
 
 	AwayMsgInfo *inf = (AwayMsgInfo*)arg;
-	DBVARIANT dbv;
-	if (!db_get_ws(inf->hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.pwszVal);
-		db_free(&dbv);
-	}
-	else ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, 0);
+
+	ptrW wszStatus(db_get_wsa(inf->hContact, "CList", "StatusMsg"));
+	ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, wszStatus);
 
 	mir_free(inf);
 }
@@ -624,14 +644,15 @@ HANDLE CMsnProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)inf->id;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnGetCaps - obtain the protocol capabilities
+
 INT_PTR CMsnProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH |
-			PF1_ADDSEARCHRES | PF1_CHAT | PF1_CONTACT | 
-			/*PF1_FILESEND |*/ PF1_FILERECV | PF1_URLRECV | PF1_VISLIST | PF1_MODEMSG;
+		return PF1_IM | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_CHAT | PF1_CONTACT | 
+			PF1_FILERECV | PF1_URLRECV | PF1_VISLIST | PF1_MODEMSG;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
@@ -658,15 +679,15 @@ INT_PTR CMsnProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnRecvMessage - creates a database event from the message been received
+
 int CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	char tEmail[MSN_MAX_EMAIL_LEN];
-	if (!db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail))
-			|| !db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail))) {
+	if (!db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)) || !db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail)))
 		if (Lists_IsInList(LIST_FL, tEmail) && db_get_b(hContact, "MetaContacts", "IsSubcontact", 0) == 0)
 			db_unset(hContact, "CList", "Hidden");
-	}
 
 	return CSuper::RecvMsg(hContact, pre);
 }
@@ -675,8 +696,7 @@ int CMsnProto::GetInfo(MCONTACT hContact, int)
 {
 	if (MyOptions.netId == NETID_SKYPE) {
 		char tEmail[MSN_MAX_EMAIL_LEN];
-		if (db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail))
-				&& db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail)))
+		if (db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)) && db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail)))
 			return 0;
 
 		MSN_SKYABGetProfile(tEmail);
@@ -715,7 +735,7 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 
 struct TFakeAckParams
 {
-	inline TFakeAckParams(MCONTACT p2, long p3, const char* p4, CMsnProto *p5, int p6=ACKTYPE_MESSAGE) :
+	inline TFakeAckParams(MCONTACT p2, long p3, const char* p4, CMsnProto *p5, int p6 = ACKTYPE_MESSAGE) :
 		hContact(p2),
 		id(p3),
 		msg(p4),
@@ -742,7 +762,9 @@ void CMsnProto::MsnFakeAck(void* arg)
 	delete tParam;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendMessage - sends the message to a server
+
 int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 {
 	const char *errMsg = nullptr;
@@ -825,7 +847,9 @@ int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	return seq;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendContacts - sends contacts to a certain user
+
 int CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
 {
 	if (!msnLoggedIn)
@@ -849,7 +873,9 @@ int CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hCo
 	return seq;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnSetAwayMsg - sets the current status message for a user
+
 int CMsnProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	char** msgptr = GetStatusMsgLoc(status);
@@ -878,7 +904,9 @@ int CMsnProto::SetAwayMsg(int status, const wchar_t* msg)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnSetStatus - set the plugin's connection status
+
 int CMsnProto::SetStatus(int iNewStatus)
 {
 	if (m_iDesiredStatus == iNewStatus) return 0;
@@ -924,7 +952,9 @@ int CMsnProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // MsnUserIsTyping - notify another contact that we're typing a message
+
 int CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (!msnLoggedIn) return 0;
@@ -941,7 +971,9 @@ int CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 //	MsnSetApparentMode - controls contact visibility
+
 int CMsnProto::SetApparentMode(MCONTACT hContact, int mode)
 {
 	if (mode && mode != ID_STATUS_OFFLINE)

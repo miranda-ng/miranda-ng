@@ -94,6 +94,7 @@ void __cdecl CMsnProto::msn_refreshOAuthThread(void *param)
 		MSN_SendATH((ThreadData*)param);
 	}
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN server thread - read and process commands from a server
 
@@ -385,6 +386,11 @@ void ThreadData::applyGatewayData(HNETLIBCONN hConn, bool isPoll)
 	nlhpi.szHttpPostUrl = szHttpPostUrl;
 	nlhpi.combinePackets = 5;
 	Netlib_SetHttpProxyInfo(hConn, &nlhpi);
+}
+
+MCONTACT ThreadData::getContactHandle(void)
+{
+	return mJoinedContactsWLID.getCount() ? proto->MSN_HContactFromEmail(mJoinedContactsWLID[0]) : NULL;
 }
 
 void ThreadData::getGatewayUrl(char* dest, int destlen, bool isPoll)

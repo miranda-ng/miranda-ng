@@ -56,10 +56,9 @@ void CMsnProto::MSN_SetMirVer(MCONTACT hContact, MsnPlace *place)
 	setByte(hContact, "StdMirVer", 1);
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN_ReceiveMessage - receives message or a file from the server
-/////////////////////////////////////////////////////////////////////////////////////////
+
 void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* params)
 {
 	union
@@ -431,19 +430,23 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				ft->tType = SERVER_HTTP;
 				ft->p2p_appID = MSN_APPID_FILE;
 				mir_free(ft->std.szCurrentFile.w);
-				if (!((originalName = ezxml_child(xmli, "OriginalName")) && (pszFile = (char*)ezxml_attr(originalName, "v")))) {
-					if ((originalName = ezxml_child(xmli, "meta"))) {
-						char *p;
+				if (!((originalName = ezxml_child(xmli, "OriginalName")) && (pszFile = (char*)ezxml_attr(originalName, "v"))))
+					if ((originalName = ezxml_child(xmli, "meta")))
 						pszFile = (char*)ezxml_attr(originalName, "originalName");
-						if ((p = strrchr(pszFile, '\\')) || (p = strrchr(pszFile, '/'))) pszFile = p + 1;
-					}
-				}
+
 				if (!pszFile || !*pszFile) {
-					if ((originalName = ezxml_child(xmli, "meta")) && (pszFile = (char*)ezxml_attr(originalName, "type"))) {
-						if (!mir_strcmp(pszFile, "photo")) pszFile = "IMG00001.JPG";
-					}
-					if (!pszFile || !*pszFile) pszFile = "file";
+					if ((originalName = ezxml_child(xmli, "meta")) && (pszFile = (char*)ezxml_attr(originalName, "type")))
+						if (!mir_strcmp(pszFile, "photo"))
+							pszFile = "IMG00001.JPG";
+					
+					if (!pszFile || !*pszFile)
+						pszFile = "file";
 				}
+
+				char *p;
+				if ((p = strrchr(pszFile, '\\')) || (p = strrchr(pszFile, '/')))
+					pszFile = p + 1;
+
 				ft->std.szCurrentFile.w = mir_utf8decodeW(pszFile);
 				ft->std.totalBytes = ft->std.currentFileSize = fileSize;
 				ft->std.totalFiles = 1;
@@ -537,7 +540,6 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN_HandleCommands - process commands from the server
-/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *userNick, const char *objid, char *cmdstring)
 {
