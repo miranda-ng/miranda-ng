@@ -122,29 +122,26 @@ __forceinline LRESULT _dlgReturn(HWND hWnd, LRESULT result)
 // implements a warning dialog with a "do not show this again" check
 // box
 
-class CWarning {
-
-public:
-	/*
-	 * the warning IDs
-	 */
-	enum {
-		WARN_RELNOTES = 0,
-		WARN_ICONPACK_VERSION = 1,
-		WARN_EDITUSERNOTES = 2,
-		WARN_ICONPACKMISSING = 3,
-		WARN_AEROPEEK_SKIN = 4,
-		WARN_SENDFILE = 5,
-		WARN_HPP_APICHECK = 6,
-		WARN_NO_SENDLATER = 7,
-		WARN_CLOSEWINDOW = 8,
-		WARN_OPTION_CLOSE = 9,
-		WARN_THEME_OVERWRITE = 10,
-		WARN_LAST = 11
+struct CWarning
+{
+	// warning IDs
+	enum
+	{
+		WARN_EDITUSERNOTES = 0,
+		WARN_ICONPACKMISSING,
+		WARN_AEROPEEK_SKIN,
+		WARN_SENDFILE,
+		WARN_HPP_APICHECK,
+		WARN_NO_SENDLATER,
+		WARN_CLOSEWINDOW,
+		WARN_OPTION_CLOSE,
+		WARN_THEME_OVERWRITE,
+		WARN_LAST
 	};
 
 	// the flags(low word is reserved for default windows flags like MB_OK etc.
-	enum {
+	enum
+	{
 		CWF_UNTRANSLATED = 0x00010000, // do not translate the msg (useful for some error messages)
 		CWF_NOALLOWHIDE = 0x00020000  // critical message, hide the "do not show this again" check box
 	};

@@ -391,7 +391,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			if (sendLater->isAvail())
 				m_sendMode ^= SMODE_SENDLATER;
 			else
-				CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart."));
+				CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION);
 			break;
 		case ID_SENDMENU_SENDWITHOUTTIMEOUTS:
 			m_sendMode ^= SMODE_NOACK;
@@ -762,7 +762,7 @@ void CTabBaseDlg::DM_UpdateLastMessage() const
 HWND CTabBaseDlg::DM_CreateClist()
 {
 	if (!sendLater->isAvail()) {
-		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart."));
+		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION);
 		m_sendMode &= ~SMODE_MULTIPLE;
 		return nullptr;
 	}

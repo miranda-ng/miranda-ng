@@ -273,7 +273,7 @@ void CSendLater::processContacts()
 // @return 	0 on failure, 1 otherwise
 int CSendLater::addJob(const char *szSetting, void *lParam)
 {
-	MCONTACT	hContact = (MCONTACT)lParam;
+	MCONTACT	hContact = (UINT_PTR)lParam;
 	DBVARIANT dbv = { 0 };
 	char *szOrig_Utf = nullptr;
 

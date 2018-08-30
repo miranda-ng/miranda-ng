@@ -1527,8 +1527,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 					SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
 				RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
-			else
-				CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart."));
+			else CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION);
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_TOGGLERTL:
 			m_dwFlags ^= MWF_LOG_RTL;

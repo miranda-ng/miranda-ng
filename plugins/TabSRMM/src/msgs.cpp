@@ -843,8 +843,6 @@ static int GetIconPackVersion(HMODULE hDLL)
 	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 5.0__"))
 		version = 5;
 
-	if (version < 5)
-		CWarning::show(CWarning::WARN_ICONPACK_VERSION, MB_OK | MB_ICONERROR);
 	return version;
 }
 
