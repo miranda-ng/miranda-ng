@@ -2,24 +2,24 @@
 
 bool CToxProto::IsOnline()
 {
-	return m_toxThread && m_iStatus >= ID_STATUS_ONLINE;
+	return m_tox && m_iStatus >= ID_STATUS_ONLINE;
 }
 
-void CToxProto::TryConnect(Tox *tox)
+void CToxProto::TryConnect()
 {
-	TOX_CONNECTION connectionStatus = tox_self_get_connection_status(tox);
+	TOX_CONNECTION connectionStatus = tox_self_get_connection_status(m_tox);
 	if (connectionStatus != TOX_CONNECTION_NONE) {
 		debugLogA(__FUNCTION__": successfuly connected to DHT");
 
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-		tox_self_set_status(tox, MirandaToToxStatus(m_iStatus));
+		tox_self_set_status(m_tox, MirandaToToxStatus(m_iStatus));
 
 		debugLogA(__FUNCTION__": changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
 
 		UpdateStatusMenu(NULL, NULL);
 
-		LoadFriendList(tox);
+		LoadFriendList(m_tox);
 		return;
 	}
 
@@ -32,97 +32,50 @@ void CToxProto::TryConnect(Tox *tox)
 	}
 }
 
-void CToxProto::CheckConnection(Tox *tox, int &retriesCount)
+void CToxProto::CheckConnection()
 {
 	int maxReconnectRetries = getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
-	TOX_CONNECTION connectionStatus = tox_self_get_connection_status(tox);
+
+	TOX_CONNECTION connectionStatus = tox_self_get_connection_status(m_tox);
 	if (connectionStatus != TOX_CONNECTION_NONE) {
-		if (retriesCount < maxReconnectRetries) {
+		if (m_retriesCount < maxReconnectRetries) {
 			debugLogA(__FUNCTION__": restored connection with DHT");
-			retriesCount = maxReconnectRetries;
+			m_retriesCount = maxReconnectRetries;
 		}
-	}
-	else {
-		if (retriesCount == maxReconnectRetries) {
-			retriesCount--;
-			debugLogA(__FUNCTION__": lost connection with DHT");
-		}
-		else if (!(--retriesCount)) {
-			debugLogA(__FUNCTION__": disconnected from DHT");
-			SetStatus(ID_STATUS_OFFLINE);
-			return;
-		}
-	}
-}
-
-void CToxProto::CheckingThread(void *arg)
-{
-	Thread_SetName(MODULE ": CheckingThread");
-
-	debugLogA(__FUNCTION__": entering");
-
-	CToxThread *thread = (CToxThread*)arg;
-	int retriesCount = getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
-	while (!thread->IsTerminated()) {
-		if (m_iStatus < ID_STATUS_ONLINE)
-			TryConnect(thread->Tox());
-		else
-			CheckConnection(thread->Tox(), retriesCount);
-
-		WaitForSingleObject(hTerminateEvent, TOX_CHECKING_INTERVAL);
-	}
-
-	hCheckingThread = nullptr;
-
-	debugLogA(__FUNCTION__": leaving");
-}
-
-void CToxProto::PollingThread(void*)
-{
-	Thread_SetName(MODULE ": PollingThread");
-
-	debugLogA(__FUNCTION__": entering");
-
-	Tox_Options *options = GetToxOptions();
-	if (!options) {
-		SetStatus(ID_STATUS_OFFLINE);
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr);
-		debugLogA(__FUNCTION__": leaving");
 		return;
 	}
 
-	TOX_ERR_NEW error;
-	CToxThread toxThread(options, &error);
-	if (error != TOX_ERR_NEW_OK) {
-		SetStatus(ID_STATUS_OFFLINE);
-		debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
-		ShowNotification(TranslateT("Unable to initialize Tox core"), ToxErrorToString(error), MB_ICONERROR);
-		tox_options_free(options);
-		debugLogA(__FUNCTION__": leaving");
+	if (m_retriesCount == maxReconnectRetries) {
+		m_retriesCount--;
+		debugLogA(__FUNCTION__": lost connection with DHT");
 		return;
 	}
-	tox_options_free(options);
 
-	m_toxThread = &toxThread;
-	InitToxCore(toxThread.Tox());
-	BootstrapNodes(toxThread.Tox());
-	hCheckingThread = ForkThreadEx(&CToxProto::CheckingThread, &toxThread, nullptr);
-
-	while (!toxThread.IsTerminated()) {
-		tox_iterate(toxThread.Tox(), this);
-		uint32_t interval = tox_iteration_interval(toxThread.Tox());
-		interval = interval 
-			? interval
-			: TOX_DEFAULT_INTERVAL;
-		WaitForSingleObject(hTerminateEvent, interval);
+	if (!(--m_retriesCount)) {
+		debugLogA(__FUNCTION__": disconnected from DHT");
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
 	}
+}
 
-	SetEvent(hTerminateEvent);
-	WaitForSingleObject(hCheckingThread, TOX_CHECKING_INTERVAL);
+void CToxProto::OnToxCheck(void *arg, BYTE)
+{
+	CToxProto *proto = (CToxProto*)arg;
 
-	UninitToxCore(toxThread.Tox());
-	m_toxThread = nullptr;
-	hPollingThread = nullptr;
+	int retriesCount = proto->getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
+	if (proto->m_iStatus < ID_STATUS_ONLINE)
+		proto->TryConnect();
+	else
+		proto->CheckConnection();
+}
 
-	debugLogA(__FUNCTION__": leaving");
+void CToxProto::OnToxPoll(void *arg, BYTE)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	tox_iterate(proto->m_tox, arg);
+	/*uint32_t interval = tox_iteration_interval(proto->m_tox);
+	interval = interval
+		? interval
+		: TOX_DEFAULT_INTERVAL;*/
 }

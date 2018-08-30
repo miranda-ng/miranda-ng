@@ -77,7 +77,7 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 			debugLogA(__FUNCTION__": send avatar to friend (%d)", friendNumber);
 
 			TOX_ERR_FILE_SEND error;
-			uint32_t fileNumber = tox_file_send(m_toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, nullptr, 0, &error);
+			uint32_t fileNumber = tox_file_send(m_tox, friendNumber, TOX_FILE_KIND_AVATAR, length, hash, nullptr, 0, &error);
 			if (error != TOX_ERR_FILE_SEND_OK) {
 				mir_free(data);
 				debugLogA(__FUNCTION__": failed to set new avatar (%d)", error);
@@ -173,7 +173,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			debugLogA(__FUNCTION__": unset avatar for friend (%d)", friendNumber);
 
 			TOX_ERR_FILE_SEND error;
-			tox_file_send(m_toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, nullptr, nullptr, 0, &error);
+			tox_file_send(m_tox, friendNumber, TOX_FILE_KIND_AVATAR, 0, nullptr, nullptr, 0, &error);
 			if (error != TOX_ERR_FILE_SEND_OK) {
 				debugLogA(__FUNCTION__": failed to unset avatar (%d)", error);
 				return 0;

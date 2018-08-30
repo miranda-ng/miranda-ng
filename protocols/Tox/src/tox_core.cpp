@@ -50,6 +50,9 @@ void CToxProto::InitToxCore(Tox *tox)
 {
 	debugLogA(__FUNCTION__": initializing tox core");
 
+	if (tox == nullptr)
+		return;
+
 	tox_callback_friend_request(tox, OnFriendRequest);
 	tox_callback_friend_message(tox, OnFriendMessage);
 	tox_callback_friend_read_receipt(tox, OnReadReceipt);
@@ -70,25 +73,27 @@ void CToxProto::InitToxCore(Tox *tox)
 	ToxHexAddress address(data);
 	setString(TOX_SETTINGS_ID, address);
 
-	TOX_ERR_SET_INFO error;
+	TOX_ERR_SET_INFO setInfoError;
 
 	/*uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 	tox_self_get_name(toxThread->Tox(), nick);
 	setWString("Nick", ptrW(mir_utf8decodeW((char*)nick)));*/
 
 	ptrA nick(mir_utf8encodeW(ptrW(getWStringA("Nick"))));
-	tox_self_set_name(tox, (uint8_t*)(char*)nick, mir_strlen(nick), &error);
-	if (error != TOX_ERR_SET_INFO_OK)
-		debugLogA(__FUNCTION__": failed to set self name (%d)", error);
+	tox_self_set_name(tox, (uint8_t*)(char*)nick, mir_strlen(nick), &setInfoError);
+	if (setInfoError != TOX_ERR_SET_INFO_OK)
+		debugLogA(__FUNCTION__": failed to set self name (%d)", setInfoError);
 
 	/*uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
 	tox_self_get_status_message(toxThread->Tox(), statusMessage);
 	setWString("StatusMsg", ptrW(mir_utf8decodeW((char*)statusMessage)));*/
 
 	ptrA statusMessage(mir_utf8encodeW(ptrW(getWStringA("StatusMsg"))));
-	tox_self_set_status_message(tox, (uint8_t*)(char*)statusMessage, mir_strlen(statusMessage), &error);
-	if (error != TOX_ERR_SET_INFO_OK)
-		debugLogA(__FUNCTION__": failed to set self status message (%d)", error);
+	tox_self_set_status_message(tox, (uint8_t*)(char*)statusMessage, mir_strlen(statusMessage), &setInfoError);
+	if (setInfoError != TOX_ERR_SET_INFO_OK)
+		debugLogA(__FUNCTION__": failed to set self status message (%d)", setInfoError);
+
+	BootstrapNodes(tox);
 }
 
 void CToxProto::UninitToxCore(Tox *tox)
@@ -101,12 +106,6 @@ void CToxProto::OnToxLog(Tox*, TOX_LOG_LEVEL level, const char *file, uint32_t l
 {
 	CToxProto *proto = (CToxProto*)user_data;
 
-#ifdef _DEBUG
-	if (level < TOX_LOG_LEVEL_INFO)
-#else
-	if (level < TOX_LOG_LEVEL_ERROR)
-#endif
-		return;
-
-	proto->debugLogA("TOXCORE: %s at %s(...) in %s:%u", message, func, file, line);
+	if (level == TOX_LOG_LEVEL_ERROR)
+		proto->debugLogA("TOXCORE: %s at %s(...) in %s:%u", message, func, file, line);
 }

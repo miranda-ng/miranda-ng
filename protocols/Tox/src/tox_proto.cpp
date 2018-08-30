@@ -2,9 +2,10 @@
 
 CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CToxProto>(protoName, userName),
-	m_toxThread(nullptr),
-	hCheckingThread(nullptr),
-	hPollingThread(nullptr),
+	m_tox(nullptr),
+	m_hTimerQueue(nullptr),
+	m_hPollingTimer(nullptr),
+	m_hCheckingTimer(nullptr),
 	hMessageProcess(1)
 {
 	InitNetlib();
@@ -37,11 +38,12 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::OnPrebuildContactMenu);
 	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CToxProto::OnAccountRenamed);
 
-	hTerminateEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	m_hTimerQueue = CreateTimerQueue();
 }
 
 CToxProto::~CToxProto()
 {
+	DeleteTimerQueue(m_hTimerQueue);
 	UninitNetlib();
 }
 
@@ -112,7 +114,7 @@ int CToxProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 
 HANDLE CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath)
 {
-	return OnFileAllow(m_toxThread->Tox(), hContact, hTransfer, tszPath);
+	return OnFileAllow(m_tox, hContact, hTransfer, tszPath);
 }
 
 int CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
@@ -127,7 +129,7 @@ int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*)
 
 int CToxProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
 {
-	return OnFileResume(m_toxThread->Tox(), hTransfer, action, szFilename);
+	return OnFileResume(m_tox, hTransfer, action, szFilename);
 }
 
 HWND CToxProto::SearchAdvanced(HWND owner)
@@ -147,7 +149,7 @@ int CToxProto::SendMsg(MCONTACT hContact, int, const char *msg)
 
 HANDLE CToxProto::SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles)
 {
-	return OnSendFile(m_toxThread->Tox(), hContact, msg, ppszFiles);
+	return OnSendFile(m_tox, hContact, msg, ppszFiles);
 }
 
 int CToxProto::SetStatus(int iNewStatus)
@@ -164,9 +166,19 @@ int CToxProto::SetStatus(int iNewStatus)
 
 	// logout
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		if (m_toxThread != nullptr) {
+		/*if (m_toxThread != nullptr) {
 			m_toxThread->Terminate();
 			SetEvent(hTerminateEvent);
+		}*/
+
+		DeleteTimerQueueTimer(m_hTimerQueue, m_hCheckingTimer, nullptr);
+		DeleteTimerQueueTimer(m_hTimerQueue, m_hPollingTimer, nullptr);
+		m_hPollingTimer = nullptr;
+		m_hCheckingTimer = nullptr;
+		if (m_tox) {
+			UninitToxCore(m_tox);
+			tox_kill(m_tox);
+			m_tox = nullptr;
 		}
 
 		if (!Miranda_IsTerminated()) {
@@ -189,13 +201,30 @@ int CToxProto::SetStatus(int iNewStatus)
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, nullptr, nullptr);
+		m_retriesCount = getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES);
+
+		Tox_Options *options = GetToxOptions();
+
+		TOX_ERR_NEW error;
+		m_tox = tox_new(options, &error);
+		tox_options_free(options);
+		if (error != TOX_ERR_NEW_OK) {
+			debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
+			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr);
+			ShowNotification(TranslateT("Unable to initialize tox core"), ToxErrorToString(error), MB_ICONERROR);
+			return 0;
+		}
+
+		InitToxCore(m_tox);
+		CreateTimerQueueTimer(&m_hPollingTimer, m_hTimerQueue, &CToxProto::OnToxPoll, this, TOX_DEFAULT_INTERVAL, TOX_DEFAULT_INTERVAL, WT_EXECUTEINPERSISTENTTHREAD);
+		CreateTimerQueueTimer(&m_hCheckingTimer, m_hTimerQueue, &CToxProto::OnToxCheck, this, TOX_CHECKING_INTERVAL, TOX_CHECKING_INTERVAL, WT_EXECUTEINPERSISTENTTHREAD);
 		return 0;
 	}
 	
 	// change status
 	m_iStatus = iNewStatus;
-	tox_self_set_status(m_toxThread->Tox(), MirandaToToxStatus(iNewStatus));
+	tox_self_set_status(m_tox, MirandaToToxStatus(iNewStatus));
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	
 	return 0;
@@ -216,7 +245,7 @@ int CToxProto::SetAwayMsg(int, const wchar_t *msg)
 	if (IsOnline()) {
 		T2Utf statusMessage(msg);
 		TOX_ERR_SET_INFO error;
-		if (!tox_self_set_status_message(m_toxThread->Tox(), (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
+		if (!tox_self_set_status_message(m_tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
 			debugLogA(__FUNCTION__": failed to set status status message %s (%d)", msg, error);
 	}
 

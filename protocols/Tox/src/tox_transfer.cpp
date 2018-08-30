@@ -167,7 +167,7 @@ void CToxProto::OnDataReceiving(Tox *tox, uint32_t friendNumber, uint32_t fileNu
 
 	if (fwrite(data, sizeof(uint8_t), length, transfer->hFile) != length) {
 		proto->debugLogA(__FUNCTION__": failed write to file (%d)", fileNumber);
-		tox_file_control(proto->m_toxThread->Tox(), friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
+		tox_file_control(proto->m_tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		proto->transfers.Remove(transfer);
 		return;
@@ -330,7 +330,7 @@ void CToxProto::OnFileSendData(Tox *tox, uint32_t friendNumber, uint32_t fileNum
 	}
 
 	TOX_ERR_FILE_SEND_CHUNK error;
-	if (!tox_file_send_chunk(proto->m_toxThread->Tox(), friendNumber, fileNumber, position, data, length, &error)) {
+	if (!tox_file_send_chunk(proto->m_tox, friendNumber, fileNumber, position, data, length, &error)) {
 		if (error == TOX_ERR_FILE_SEND_CHUNK_FRIEND_NOT_CONNECTED)
 			return;
 		proto->debugLogA(__FUNCTION__": failed to send file chunk (%d) to %s (%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, error);
@@ -350,7 +350,7 @@ int CToxProto::CancelTransfer(MCONTACT, HANDLE hTransfer)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 	debugLogA(__FUNCTION__": transfer (%d) is canceled", transfer->fileNumber);
-	tox_file_control(m_toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
+	tox_file_control(m_tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
 	transfers.Remove(transfer);
 
 	return 0;
@@ -362,13 +362,13 @@ void CToxProto::PauseOutgoingTransfers(uint32_t friendNumber)
 		// only for sending
 		FileTransferParam *transfer = transfers.GetAt(i);
 		if (transfer->friendNumber == friendNumber && transfer->GetDirection() == 0) {
-			ToxHexAddress pubKey = GetContactPublicKey(m_toxThread->Tox(), friendNumber);
+			ToxHexAddress pubKey = GetContactPublicKey(m_tox, friendNumber);
 
 			debugLogA(__FUNCTION__": sending ask to pause the transfer of file (%d) to %s (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 			TOX_ERR_FILE_CONTROL error;
-			if (!tox_file_control(m_toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_PAUSE, &error)) {
+			if (!tox_file_control(m_tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_PAUSE, &error)) {
 				debugLogA(__FUNCTION__": failed to pause the transfer (%d) to %s (%d) cause(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
-				tox_file_control(m_toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
+				tox_file_control(m_tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
 			}
 		}
 	}
@@ -380,11 +380,11 @@ void CToxProto::ResumeIncomingTransfers(uint32_t friendNumber)
 		// only for receiving
 		FileTransferParam *transfer = transfers.GetAt(i);
 		if (transfer->friendNumber == friendNumber && transfer->GetDirection() == 1) {
-			ToxHexAddress pubKey = GetContactPublicKey(m_toxThread->Tox(), friendNumber);
+			ToxHexAddress pubKey = GetContactPublicKey(m_tox, friendNumber);
 
 			debugLogA(__FUNCTION__": sending ask to resume the transfer of file (%d) from %s (%d) cause (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 			TOX_ERR_FILE_CONTROL error;
-			if (!tox_file_control(m_toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error)) {
+			if (!tox_file_control(m_tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error)) {
 				debugLogA(__FUNCTION__": failed to resume the transfer (%d) from %s (%d) cause (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
 				CancelTransfer(NULL, transfer);
 			}
