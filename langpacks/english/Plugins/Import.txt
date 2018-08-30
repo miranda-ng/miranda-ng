@@ -44,6 +44,8 @@
 [File Transfers]
 [Other]
 [Choose appropriate accounts for import]
+[Enter file name for import:]
+[Check duplicates]
 ;file \plugins\Import\src\import.cpp
 [<New account>]
 [Old account]
@@ -83,12 +85,15 @@
 [Skipped %d duplicates and %d filtered events.]
 ;file \plugins\Import\src\main.cpp
 [&Import...]
-[Miranda NG database]
-[All Files]
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 [Miranda Import]
+[Miranda NG database]
+[All Files]
 [You cannot import your current profile into itself]
+;file \plugins\Import\src\ui.cpp
+[Import history for]
+[JSON file]
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 [Import...]
