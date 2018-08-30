@@ -22,7 +22,7 @@
 const wchar_t *pszGroupError = LPGENW("No_Group");
 const wchar_t *pszDbPathError = L".";
 
-// Replacement for chareteres not alowed in file names.
+// Replacement for characters not allowed in file names.
 const wchar_t cBadCharReplace = '_';
 
 // g_sTimeFormat 
@@ -31,7 +31,7 @@ wstring g_sTimeFormat;
 // path from options dialog
 wstring g_sExportDir;
 
-// The default filename. Used if no other file name is specifyed in DB.
+// The default filename. Used if no other file name is specified in DB.
 wstring g_sDefaultFile;
 
 // path used then %dbpath% is used in export file path
@@ -49,7 +49,7 @@ map<wstring, string::size_type, less<wstring> > clFileTo1ColWidth;
 // default line width
 int nMaxLineWidth = 80;
 
-// Alowes this plugin to replace the history function of miranda !!
+// Allow this plugin to replace the history function of miranda !!
 bool g_bReplaceHistory;
 
 // This enum define the actions which MsgExport must take when a File is renamed
@@ -58,7 +58,7 @@ ENDialogAction g_enRenameAction;
 // This enum define the actions which MsgExport must take when a user is delete
 ENDialogAction g_enDeleteAction;
 
-// If true MsgExport will use << and >> insted of the nick in the exported format
+// If true MsgExport will use << and >> instead of the nick in the exported format
 bool g_bUseLessAndGreaterInExport;
 
 bool g_bAppendNewLine;
@@ -117,9 +117,9 @@ wstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSet
 // Type            : Global
 // Parameters      : sSrc       - string to replace in
 //                   pszReplace - what to replace
-//                   sNew       - the string to insert insted of pszReplace
+//                   sNew       - the string to insert instead of pszReplace
 // Returns         : void
-// Description     : will replace all acurances of a string with another string
+// Description     : will replace all occurrences of a string with another string
 //                   used to replace %user%, and other user 
 
 static void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wstring &sNew)
@@ -309,7 +309,7 @@ bool bReadMirandaDirAndPath()
 void ReplaceDBPath(wstring &sRet)
 {
 	ReplaceAll(sRet, L"%dbpath%", g_sDBPath);
-	// Try to firure out if it is a relative path ( ..\..\MsgExport\ )
+	// Try to figure out if it is a relative path ( ..\..\MsgExport\ )
 	if (sRet.size() <= 2 || !(sRet[1] == ':' ||
 		(sRet[0] == '\\' && sRet[1] == '\\'))) {
 		// Relative path
@@ -324,7 +324,7 @@ void ReplaceDBPath(wstring &sRet)
 // Member Function : GetFilePathFromUser
 // Type            : Global
 // Parameters      : hContact - Handle to user
-// Returns         : string contaning the compleate file name and path
+// Returns         : string containing the complete file name and path
 
 wstring GetFilePathFromUser(MCONTACT hContact)
 {
@@ -376,7 +376,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 
 					if (bTryRename) {
 						if (!MoveFile(sPrevFileName.c_str(), sFilePath.c_str())) {
-							// this might be because the new path isent created 
+							// this might be because the new path isn't created 
 							// so we will try to create it 
 							CreateDirectoryTreeW(sFilePath.c_str());
 
@@ -408,7 +408,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 // Type            : Global
 // Parameters      : hContact - ?
 // Returns         : string
-// Description     : Replaceses invalid file name chars
+// Description     : Replaces invalid file name chars
 
 wstring FileNickFromHandle(MCONTACT hContact)
 {
@@ -479,7 +479,7 @@ void ReplaceDefines(MCONTACT hContact, wstring & sTarget)
 			if (sEMail.empty()) {
 				sEMail = _DBGetStringW(hContact, "MSN", "e-mail", L"");
 				if (sEMail.empty()) {
-					// We can't finde the E-mail address we will use the the nick
+					// We can't find the E-mail address we will use the the nick
 					sEMail = FileNickFromHandle(hContact);
 				}
 			}

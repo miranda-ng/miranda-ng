@@ -178,7 +178,7 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 		wstring sFilePath = F.first;
 		HANDLE hFile = openCreateFile(sFilePath);
 		if (hFile == INVALID_HANDLE_VALUE) {
-			DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, nullptr);
+			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath, nullptr);
 			continue;
 		}
 
