@@ -173,7 +173,7 @@ void CluiProtocolStatusChanged(int, const char*)
 		char *szMaxProto = nullptr;
 		wStatus = Clist_GetGeneralizedStatus(&szMaxProto);
 		iIcon = IconFromStatusMode(szMaxProto, wStatus, 0);
-		g_maxStatus = (int)wStatus;
+		g_maxStatus = wStatus;
 	}
 
 	/*

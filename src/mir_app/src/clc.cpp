@@ -136,13 +136,14 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type == ACKTYPE_STATUS) {
 		if (ack->result == ACKRESULT_SUCCESS) {
 			PROTOACCOUNT *pa = Proto_GetAccount(ack->szModule);
-			if (pa) {
+			if (pa)
 				pa->iRealStatus = ack->lParam;
-				Clist_TrayIconUpdateBase(ack->szModule);
-			}
 		}
-
+		
 		g_clistApi.pfnCluiProtocolStatusChanged(lParam, ack->szModule);
+
+		if (ack->result == ACKRESULT_SUCCESS)
+			Clist_TrayIconUpdateBase(ack->szModule);
 
 		if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 			// if we're going offline, kill all contacts scheduled for deletion
