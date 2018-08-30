@@ -289,8 +289,6 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 					// we can't read more data from the file because the we
 					// might just move the problem. if file contains \n\n\n\n\n ...
 					LONG lExtraRead = (n + 1) - dwRead;
-					if (lExtraRead >= 0)
-						MessageBox(nullptr, TranslateT("Internal error! (lExtraRead >= 0)"), MSG_BOX_TITEL, MB_OK);
 					SetFilePointer(hFile, lExtraRead, nullptr, FILE_CURRENT);
 					bCheckFirstForNick = true;
 					return dwCurrent;
