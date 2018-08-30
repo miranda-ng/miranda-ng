@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.2
+;  Version: 3.1.2.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -46,8 +46,8 @@ UTF8 в новых файлах
 Экспорт истории
 [Exporting old messages]
 Экспорт старых сообщений
-[History file for %s (%s format %s)]
-Файл истории для %s (%s формат %s)
+[History file for %s (%s, format %s)]
+Файл истории для %s (%s, формат %s)
 [&Find...]
 &Найти...
 [&External]
@@ -77,22 +77,10 @@ UTF8 в новых файлах
 [Copy]
 Копировать
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the Rich Edit the buffer was to small.]
-
-[Error: Optimal buffer size decreased to a too low size!]
-Ошибка: Оптимальный размер буфера уменьшился до чересчур малого значения!
 [Internal error! (lExtraRead >= 0)]
 Внутренняя ошибка! (lExtraRead >= 0)
-[Failed to execute external file view]
-
-[Failed to load Rich Edit (Msftedit.dll)]
-Не удалось загрузить Rich Edit (Msftedit.dll)
-[Failed to get handle to Rich Edit!]
-
-[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
-
-[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
-Не удалось открыть файл\r\n%s\r\n\r\nСобытий в базе: %d
+[Miranda database contains %d events]
+Событий в базе: %d
 [With scroll to bottom %d\n]
 
 [Search string was not found!]
@@ -105,14 +93,8 @@ UTF8 в новых файлах
 Шрифт...
 [Syntax highlight]
 Подсветка синтаксиса
-[Failed to create file]
-Ошибка создания файла
-[Failed to save file]
-Ошибка сохранения файла
 [History was saved successfully in file\r\n]
 История успешно сохранена в файл\r\n
-[Failed to create history dialog]
-
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Эк&спортированная история
@@ -121,8 +103,8 @@ UTF8 в новых файлах
 Шаг 1: Чтение базы данных
 [Sorting and writing database information (Phase 2 of 2)]
 Шаг 2: Сортировка и запись информации в базу данных
-[Failed to open or create file :\n]
-Не удалось открыть или создать файл :\n
+[Failed to open or create file:\n]
+Не удалось открыть или создать файл:\n
 [Max line width must be at least %d. Or use 0 for no limit.]
 
 [You need to restart Miranda to change the history function]
@@ -131,10 +113,6 @@ UTF8 в новых файлах
 Исполняемые файлы
 [All files]
 Все файлы
-[Failed to get the shells allocator!]
-
-[Failed to Allocate buffer space]
-
 [Select Destination Directory]
 Выбрать папку для записи
 [File]
@@ -147,8 +125,6 @@ UTF8 в новых файлах
 Номер
 [No contacts found to export]
 Нет контактов для экспорта
-[Failed to export at least one contact]
-Не удалось экспортировать как минимум 1 контакт
 [Export Protocols]
 Экспорт протоколов
 [Message export]
@@ -200,31 +176,19 @@ UTF8 в новых файлах
 [Homepage]
 Сайт
 [About]
-
-[Failed to move to the end of the file:\n]
-Не удалось перейти к концу файла:\n
-[Failed to write user details to file:\n]
-
-[Failed to UTF8 byte order code to file:\n]
-
+Информация
 [      History for]
       История переписки с
 [User]
 Контакт
 [Protocol]
 Протокол
-[Failed to write message to the file:\n]
-
-[Failed to write timestamp and username to file:\n]
-Не удалось записать время и имя пользователя в файл:\n
 [URL: ]
 URL:\s
 [File: ]
 Файл:\s
 [Description: ]
 Описание:\s
-[Failed to write URL/File to the file:\n]
-Не удалось записать URL/файл в файл:\n
 [Nick      :]
 Псевдоним :
 [FirstName :]
@@ -237,32 +201,20 @@ URL:\s
 Причина   :
 [Invalid Database event received. Type %d, size %d]
 Получено некорректное событие базы. Тип %d, размер %d
-[Failed to write Invalid Database event the file:\n]
-
 [The following user made an authorization request:]
 Следующий пользователь запросил авторизацию:
 [The following user added you to their contact list:]
 Пользователь добавил вас в свой список контактов:
 [UIN       :]
 Номер     :
-[Failed to write AUTHREQUEST or ADDED to the file:\n]
-Не удалось записать AUTHREQUEST или ADDED в файл:\n
 [EmailExpress from:]
 EmailExpress от:
 [WebPager from:]
 WebPager от:
 [No from address]
 без адреса
-[Failed to write EmailExpress to the file:\n]
-Не удалось записать EmailExpress в файл:\n
-[Failed to write SMS to the file:\n]
-Не удалось записать SMS в файл:\n
 [Unknown event type %d, size %d]
 Неизвестный тип события %d, размер %d
-[Failed to write Unknown event to the file:\n]
-Не удалось записать неизвестное событие в файл :\n
-[Failed to open or create file:\n]
-Не удалось открыть или создать файл:\n
 [User has been deleted. Do you want to delete the file?]
 Контакт удалён. Хотите удалить файл?
 [Failed to delete the file]

@@ -1,4 +1,4 @@
-;============================================================
+﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
 ;  Version: 0.95.9
@@ -629,9 +629,9 @@ Acerca de:
 [My notes:]
 Mis notas:
 [Street:]
-Calle
+Calle:
 [City:]
-Ciudad
+Ciudad:
 [State:]
 Estado:
 [Postal code:]

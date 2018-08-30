@@ -2,17 +2,33 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.1
+;  Version: 3.1.2.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 Изнася всяко съобщение, URL адрес или файл, който получите като текстови файл.
 ;file \plugins\Msg_Export\res\resource.rc
+[Export directory]
+Изнасяне в следната директория
 [Browse]
+Преглед
+[Default file]
+Стандартен файл
+[File viewer]
 Преглед
 [Use internal viewer]
 
 [Replace Miranda history]
+
+[Export format]
+Формат
+[Max column width]
+Макс. ширина
+[Note: 0 = no limit]
+
+[Time format]
+Час (формат)
+[Use JSON format for export]
 
 [Use UTF8 in new files]
 UTF8 за нови файлове
@@ -28,23 +44,9 @@ UTF8 за нови файлове
 Помощ
 [Export all history]
 Износ на история
-[Export directory]
-Изнасяне в следната директория
-[Max column width]
-Макс. ширина
-[Note: 0 = no limit]
-
-[Time format]
-Час (формат)
-[Export format]
-Формат
-[Default file]
-Стандартен файл
-[File viewer]
-Преглед
 [Exporting old messages]
 Изнасяне на стари съобщения
-[History file for %s (%s format %s)]
+[History file for %s (%s, format %s)]
 
 [&Find...]
 Търсене...
@@ -75,21 +77,9 @@ UTF8 за нови файлове
 [Copy]
 Копиране
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the Rich Edit the buffer was to small.]
-
-[Error: Optimal buffer size decreased to a too low size!]
-
 [Internal error! (lExtraRead >= 0)]
 
-[Failed to execute external file view]
-
-[Failed to load Rich Edit (Msftedit.dll)]
-
-[Failed to get handle to Rich Edit!]
-
-[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
-
-[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+[Miranda database contains %d events]
 
 [With scroll to bottom %d\n]
 
@@ -103,14 +93,8 @@ UTF8 за нови файлове
 Шрифт...
 [Syntax highlight]
 
-[Failed to create file]
-Грешка при създаването на файла
-[Failed to save file]
-Записването на файла се провали
 [History was saved successfully in file\r\n]
 Историята е успешно записана във файла\r\n
-[Failed to create history dialog]
-
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Отваряне на изнесената история
@@ -119,16 +103,18 @@ UTF8 за нови файлове
 Четене на информацията от базата данни (Фаза 1 от 2)
 [Sorting and writing database information (Phase 2 of 2)]
 Сортиране и записване на информацията от базата данни (Фаза 2 от 2)
-[Failed to open or create file :\n]
-Отварянето на създадения файл се провали :\n
-[No contacts found to export]
-Не са открити контакти за изнасяне
-[Failed to export at least one contact]
-Изнасянето на поне един контакт се провали
+[Failed to open or create file:\n]
+Отварянето на създадения файл се провали:\n
 [Max line width must be at least %d. Or use 0 for no limit.]
 
 [You need to restart Miranda to change the history function]
 Необходимо е рестартиране на Miranda за промяна на функцията
+[Executable files]
+Изпълними файлове
+[All files]
+Всички файлове
+[Select Destination Directory]
+Изберете директория
 [File]
 Файл
 [Nick]
@@ -137,18 +123,8 @@ UTF8 за нови файлове
 Протокол
 [UIN]
 UIN
-[You have not applied the changes, do you wish to apply them first?]
-Промените не са приложени. Желаете ли да бъдат приложени сега?
-[Executable files]
-Изпълними файлове
-[All files]
-Всички файлове
-[Failed to get the shells allocator!]
-
-[Failed to Allocate buffer space]
-
-[Select Destination Directory]
-Изберете директория
+[No contacts found to export]
+Не са открити контакти за изнасяне
 [Export Protocols]
 Протоколи за изнасяне
 [Message export]
@@ -157,6 +133,8 @@ UIN
 История
 [General]
 Основни
+[Contacts]
+Контакти
 [Additional]
 Допълнителни
 ;file \plugins\Msg_Export\src\stdafx.h
@@ -179,54 +157,38 @@ Miranda NG (приставка Message Export)
 Да бъде ли записана дебъг информацията?
 [All\0*.*\0Text\0*.TXT\0\0]
 Всички\0*.*\0Текст\0*.TXT\0\0
-[Failed to move to the end of the file :\n]
-
-[Failed to UTF8 byte order code to file :\n]
-
-[      History for\r\n]
-							История за\r\n
-[User      : %User%\r\n]
-Потребител : %User%\r\n
-[Protocol  : %Proto%\r\n]
-Протокол   : %Proto%\r\n
-[UIN       : %UIN%\r\n]
-UIN        : %UIN%\r\n
-[FirstName : %FirstName%\r\n]
-Име        : %FirstName%\r\n
-[LastName  : %LastName%\r\n]
-Фамилия    : %LastName%\r\n
-[Age       : %Age%\r\n]
-Възраст    : %Age%\r\n
-[Gender    : %Gender%\r\n]
-Пол        : %Gender%\r\n
-[e-mail    : %e-mail%\r\n]
-Имейл      : %e-mail%\r\n
-[Nick      : %Nick%\r\n]
-Прякор     : %Nick%\r\n
-[City      : %City%\r\n]
-Град       : %City%\r\n
-[State     : %State%\r\n]
-Област     : %State%\r\n
-[Phone     : %Phone%\r\n]
-Телефон    : %Phone%\r\n
-[Homepage  : %Homepage%\r\n]
-Страница   : %Homepage%\r\n
-[- About -\r\n%About%\r\n]
-- Относно -\r\n%About%\r\n
-[Failed to write user details to file :\n]
-
-[Failed to write timestamp and username to file :\n]
-
-[Failed to write message to the file :\n]
-
+[FirstName]
+Име
+[LastName]
+Фамилия
+[e-mail]
+Имейл
+[Age]
+Възраст
+[Gender]
+Пол
+[City]
+Град
+[State]
+Област
+[Phone]
+Телефон
+[Homepage]
+Домашна страница
+[About]
+Относно
+[      History for]
+							История за
+[User]
+Потребител
+[Protocol]
+Протокол
 [URL: ]
 URL:
 [File: ]
 Файл:
 [Description: ]
 Описание:
-[Failed to write URL/File to the file :\n]
-
 [Nick      :]
 Прякор     :
 [FirstName :]
@@ -239,30 +201,20 @@ URL:
 Причина    :
 [Invalid Database event received. Type %d, size %d]
 
-[Failed to write Invalid Database event the file :\n]
-
 [The following user made an authorization request:]
 Следният потребител изпрати молба за упълномощаване:
 [The following user added you to their contact list:]
 Следният потребител Ви добави към списъка си контакти:
 [UIN       :]
 UIN        :
-[Failed to write AUTHREQUEST or ADDED to the file :\n]
-
 [EmailExpress from:]
 EmailExpress от:
 [WebPager from:]
 WebPager от:
 [No from address]
 
-[Failed to write EmailExpress to the file :\n]
-
-[Failed to write SMS to the file :\n]
-
 [Unknown event type %d, size %d]
 Неизвестен тип събитие %d, размер %d
-[Failed to write Unknown event to the file :\n]
-Записването на неизвестно събитие във файл се провали :\n
 [User has been deleted. Do you want to delete the file?]
 Изтрит е потребител. Да бъде ли изтрит и файла?
 [Failed to delete the file]

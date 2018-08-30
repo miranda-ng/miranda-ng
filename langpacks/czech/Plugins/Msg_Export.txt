@@ -2,18 +2,34 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.1
+;  Version: 3.1.2.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 
 ;file \plugins\Msg_Export\res\resource.rc
+[Export directory]
+Složka pro export
 [Browse]
 Procházet
+[Default file]
+Soubor
+[File viewer]
+Prohlížeč souborů
 [Use internal viewer]
 Interní prohlížeč
 [Replace Miranda history]
 Nahradit historii Mirandy
+[Export format]
+Výstupní formát
+[Max column width]
+Šířka sloupce
+[Note: 0 = no limit]
+Pozn.: 0 = bez limitu
+[Time format]
+Datum, čas
+[Use JSON format for export]
+
 [Use UTF8 in new files]
 
 [Append extra new line]
@@ -28,23 +44,9 @@ Odstranit vše
 Nápověda
 [Export all history]
 Exportovat vše
-[Export directory]
-Složka pro export
-[Max column width]
-Šířka sloupce
-[Note: 0 = no limit]
-Pozn.: 0 = bez limitu
-[Time format]
-Datum, čas
-[Export format]
-Výstupní formát
-[Default file]
-Soubor
-[File viewer]
-Prohlížeč souborů
 [Exporting old messages]
 Export starých zpráv
-[History file for %s (%s format %s)]
+[History file for %s (%s, format %s)]
 
 [&Find...]
 &Najít...
@@ -75,21 +77,9 @@ Výchozí název souboru
 [Copy]
 Zkopírovat
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the Rich Edit the buffer was to small.]
-
-[Error: Optimal buffer size decreased to a too low size!]
-
 [Internal error! (lExtraRead >= 0)]
 
-[Failed to execute external file view]
-
-[Failed to load Rich Edit (Msftedit.dll)]
-
-[Failed to get handle to Rich Edit!]
-
-[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
-
-[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+[Miranda database contains %d events]
 
 [With scroll to bottom %d\n]
 
@@ -103,13 +93,7 @@ Barva...
 Písmo...
 [Syntax highlight]
 Zvýraznění klíčových slov
-[Failed to create file]
-Chyba při vytváření souboru
-[Failed to save file]
-
 [History was saved successfully in file\r\n]
-
-[Failed to create history dialog]
 
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
@@ -119,16 +103,18 @@ Otevřít vye&xportovanou historii
 
 [Sorting and writing database information (Phase 2 of 2)]
 Třídění a zápis do databáze (fáze č.2)
-[Failed to open or create file :\n]
+[Failed to open or create file:\n]
 Chyba při otevírání nebo vytváření souboru:\n
-[No contacts found to export]
-Nenalezeny žádné kontakty
-[Failed to export at least one contact]
-Chyba při exportu; nenalezeny žádné kontakty.
 [Max line width must be at least %d. Or use 0 for no limit.]
 Šířka sloupce musí být nejméně %d znaků. Nebo 0 pro bez limitu.
 [You need to restart Miranda to change the history function]
 Nahrazení historie vyžaduje restart Mirandy.
+[Executable files]
+Spustitelné soubory
+[All files]
+Všechny soubory
+[Select Destination Directory]
+Vyberte cílovou složku
 [File]
 Soubor
 [Nick]
@@ -137,18 +123,8 @@ Přezdívka
 Protokol
 [UIN]
 UIN
-[You have not applied the changes, do you wish to apply them first?]
-Některé ze změn nebyly potvrzeny. Chcete je potvrdit?
-[Executable files]
-Spustitelné soubory
-[All files]
-Všechny soubory
-[Failed to get the shells allocator!]
-
-[Failed to Allocate buffer space]
-
-[Select Destination Directory]
-Vyberte cílovou složku
+[No contacts found to export]
+Nenalezeny žádné kontakty
 [Export Protocols]
 
 [Message export]
@@ -157,6 +133,8 @@ Export zpráv
 Historie
 [General]
 Obecné
+[Contacts]
+Kontakty
 [Additional]
 
 ;file \plugins\Msg_Export\src\stdafx.h
@@ -179,54 +157,38 @@ Chyba při přejmenování souboru.\n\nPůvodní název:\t%s\nNový název:\t%s\
 
 [All\0*.*\0Text\0*.TXT\0\0]
 
-[Failed to move to the end of the file :\n]
-Chyba při přesunu na konec souboru\n
-[Failed to UTF8 byte order code to file :\n]
+[FirstName]
+Jméno
+[LastName]
+Příjmení
+[e-mail]
+E-mail
+[Age]
+Věk
+[Gender]
+Pohlaví
+[City]
+Město
+[State]
+Stát
+[Phone]
+Telefon
+[Homepage]
+Dom. stránka
+[About]
+Informace
+[      History for]
 
-[      History for\r\n]
-
-[User      : %User%\r\n]
-
-[Protocol  : %Proto%\r\n]
-
-[UIN       : %UIN%\r\n]
-
-[FirstName : %FirstName%\r\n]
-
-[LastName  : %LastName%\r\n]
-
-[Age       : %Age%\r\n]
-
-[Gender    : %Gender%\r\n]
-
-[e-mail    : %e-mail%\r\n]
-
-[Nick      : %Nick%\r\n]
-
-[City      : %City%\r\n]
-
-[State     : %State%\r\n]
-
-[Phone     : %Phone%\r\n]
-
-[Homepage  : %Homepage%\r\n]
-
-[- About -\r\n%About%\r\n]
-
-[Failed to write user details to file :\n]
-
-[Failed to write timestamp and username to file :\n]
-
-[Failed to write message to the file :\n]
-Chyba při zápisu zprávy do souboru:\n
+[User]
+Uživatel
+[Protocol]
+Protokol
 [URL: ]
 Adresa:\s
 [File: ]
 Soubor:\s
 [Description: ]
 Popis:\s
-[Failed to write URL/File to the file :\n]
-Chyba při zápisu adresy nebo souboru do souboru:\n
 [Nick      :]
 Přezdívka :
 [FirstName :]
@@ -239,29 +201,19 @@ E-mail    :
 Důvod     :
 [Invalid Database event received. Type %d, size %d]
 
-[Failed to write Invalid Database event the file :\n]
-
 [The following user made an authorization request:]
 Tento uživatel vás požádal o autorizaci:
 [The following user added you to their contact list:]
 Uživatel, který si vás přidal mezi kontakty:
 [UIN       :]
-
-[Failed to write AUTHREQUEST or ADDED to the file :\n]
-
+UIN       :
 [EmailExpress from:]
 EmailExpress od:
 [WebPager from:]
 WebPager od:
 [No from address]
 Adresa nespecifikována
-[Failed to write EmailExpress to the file :\n]
-Chyba při zápisu položky EmailExpress do souboru:\n
-[Failed to write SMS to the file :\n]
-Chyba při zápisu položky SMS do souboru:\n
 [Unknown event type %d, size %d]
-
-[Failed to write Unknown event to the file :\n]
 
 [User has been deleted. Do you want to delete the file?]
 

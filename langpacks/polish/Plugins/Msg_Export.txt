@@ -2,18 +2,34 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.1
+;  Version: 3.1.2.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 Eksportuje każdą wiadomość, link lub plik jaki otrzymasz do pliku tekstowego.
 ;file \plugins\Msg_Export\res\resource.rc
+[Export directory]
+Folder eksportu
 [Browse]
 Przeglądaj
+[Default file]
+Domyślny plik
+[File viewer]
+Przeglądarka plików
 [Use internal viewer]
 Wewnętrzna przeglądarka
 [Replace Miranda history]
 Zastąp domyślną przeglądarkę
+[Export format]
+Format eksportu
+[Max column width]
+Szerokość
+[Note: 0 = no limit]
+Notka: 0 = bez limitu
+[Time format]
+Format czasu
+[Use JSON format for export]
+
 [Use UTF8 in new files]
 UTF8 dla nowych wiadomości
 [Append extra new line]
@@ -28,24 +44,10 @@ Wyczyść wszystko
 Pomoc
 [Export all history]
 Eksportuj wszystko
-[Export directory]
-Folder eksportu
-[Max column width]
-Szerokość
-[Note: 0 = no limit]
-Notka: 0 = bez limitu
-[Time format]
-Format czasu
-[Export format]
-Format eksportu
-[Default file]
-Domyślny plik
-[File viewer]
-Przeglądarka plików
 [Exporting old messages]
 Eksportowanie starych wiadomości
-[History file for %s (%s format %s)]
-Historia użytkownika %s (%s format %s)
+[History file for %s (%s, format %s)]
+Historia użytkownika %s (%s, format %s)
 [&Find...]
 &Szukaj...
 [&External]
@@ -75,22 +77,10 @@ Ustaw domyślną nazwę pliku
 [Copy]
 Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the Rich Edit the buffer was to small.]
-Nie udało się zapisać do pola edycji z formatowaniem, zbyt mały bufor.
-[Error: Optimal buffer size decreased to a too low size!]
-Błąd: optymalny rozmiar bufora został zmniejszony do zbyt małej wartości!
 [Internal error! (lExtraRead >= 0)]
 Błąd wewnętrzny! (lExtraRead >= 0)
-[Failed to execute external file view]
-Nie udało się wykonać zewnętrznego widoku pliku
-[Failed to load Rich Edit (Msftedit.dll)]
-Nie udało się załadować pola edycji z formatowaniem (Msftedit.dll)
-[Failed to get handle to Rich Edit!]
-Nie udało się otrzymać identyfikatora do pola edycji z formatowaniem!
-[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
-Nie udało się otworzyć pliku\r\n%s\r\n\r\nIdentyfikator kontaktu jest nieprawidłowy
-[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
-Nie udało się otworzyć pliku\r\n%s\r\n\r\nBaza danych Mirandy zawiera %d zdarzeń
+[Miranda database contains %d events]
+Baza danych Mirandy zawiera %d zdarzeń
 [With scroll to bottom %d\n]
 Z przewijaniem w dół %d\n
 [Search string was not found!]
@@ -103,14 +93,8 @@ Kolor...
 Czcionki...
 [Syntax highlight]
 Wyróżnienie składni
-[Failed to create file]
-Nie udało się utworzyć pliku
-[Failed to save file]
-Błąd zapisywania pliku
 [History was saved successfully in file\r\n]
 Historia zapisana pomyślnie w pliku\r\n
-[Failed to create history dialog]
-Nie udało się utworzyć okna historii
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Otwórz e&ksportowaną historię
@@ -119,16 +103,18 @@ Otwórz e&ksportowaną historię
 Odczyt informacji z bazy danych (etap 1 z 2)
 [Sorting and writing database information (Phase 2 of 2)]
 Sortowanie i zapisywanie informacji z profilu ( Etap 2 z 2 )
-[Failed to open or create file :\n]
-Błąd otwierania lub tworzenia pliku :\n
-[No contacts found to export]
-Nie znaleziono kontaktów do eksportu
-[Failed to export at least one contact]
-Nie udało się eksportować co najmniej jednego kontaktu
+[Failed to open or create file:\n]
+Błąd otwierania lub tworzenia pliku:\n
 [Max line width must be at least %d. Or use 0 for no limit.]
 Maksymalna szerokość linii musi być co najmniej %d. 0 dla braku limitu.
 [You need to restart Miranda to change the history function]
 Musisz zrestartować Mirandę aby zmienić funkcję historii
+[Executable files]
+Pliki wykonywalne
+[All files]
+Wszystkie pliki
+[Select Destination Directory]
+Wybierz folder docelowy
 [File]
 Plik
 [Nick]
@@ -137,18 +123,8 @@ Nick
 Protokół
 [UIN]
 UIN
-[You have not applied the changes, do you wish to apply them first?]
-Masz niezapisane zmiany, czy chcesz je teraz zapisać?
-[Executable files]
-Pliki wykonywalne
-[All files]
-Wszystkie pliki
-[Failed to get the shells allocator!]
-Nie udało się pobrać alokatora powłok!
-[Failed to Allocate buffer space]
-Nie można przydzielić miejsca w buforze
-[Select Destination Directory]
-Wybierz folder docelowy
+[No contacts found to export]
+Nie znaleziono kontaktów do eksportu
 [Export Protocols]
 Eksportuj protokoły
 [Message export]
@@ -157,6 +133,8 @@ Eksport wiadomości
 Historia
 [General]
 Ogólne
+[Contacts]
+Kontakty
 [Additional]
 Dodatkowe
 ;file \plugins\Msg_Export\src\stdafx.h
@@ -179,54 +157,38 @@ Nie można zmienić nazwy pliku\n\nz:\t%s\nna:\t%s\n\nBłąd: %s
 Czy chcesz zapisać informacje debugowania?
 [All\0*.*\0Text\0*.TXT\0\0]
 Wszystkie\0*.*\0Tekstowe\0*.TXT\0\0
-[Failed to move to the end of the file :\n]
-Nie udało się przenieść do końca pliku"\n
-[Failed to UTF8 byte order code to file :\n]
-Nie udało się zakodować bajtów UTF-8 do pliku:\n
-[      History for\r\n]
-      Historia dla\r\n
-[User      : %User%\r\n]
-Użytkownik      : %User%\r\n
-[Protocol  : %Proto%\r\n]
-Protokół  : %Proto%\r\n
-[UIN       : %UIN%\r\n]
-UIN       : %UIN%\r\n
-[FirstName : %FirstName%\r\n]
-Imię : %FirstName%\r\n
-[LastName  : %LastName%\r\n]
-Nazwisko  : %LastName%\r\n
-[Age       : %Age%\r\n]
-Wiek       : %Age%\r\n
-[Gender    : %Gender%\r\n]
-Płeć    : %Gender%\r\n
-[e-mail    : %e-mail%\r\n]
-E-mail    : %e-mail%\r\n
-[Nick      : %Nick%\r\n]
-Nick      : %Nick%\r\n
-[City      : %City%\r\n]
-Miasto      : %City%\r\n
-[State     : %State%\r\n]
-Stan     : %State%\r\n
-[Phone     : %Phone%\r\n]
-Telefon     : %Phone%\r\n
-[Homepage  : %Homepage%\r\n]
-Strona domowa  : %Homepage%\r\n
-[- About -\r\n%About%\r\n]
--O kontakcie-\r\n%About%\r\n
-[Failed to write user details to file :\n]
-Nie udało się zapisać danych kontaktu do pliku:\n
-[Failed to write timestamp and username to file :\n]
-Nie udało się zapisać daty i nazwy użytkownika do pliku:\n
-[Failed to write message to the file :\n]
-Nie udało się zapisać wiadomości do pliku:\n
+[FirstName]
+Imię
+[LastName]
+Nazwisko
+[e-mail]
+E-mail
+[Age]
+Wiek
+[Gender]
+Płeć
+[City]
+Miasto
+[State]
+Stan
+[Phone]
+Telefon
+[Homepage]
+WWW
+[About]
+O kontakcie
+[      History for]
+      Historia dla
+[User]
+Użytkownik
+[Protocol]
+Protokół
 [URL: ]
 Link:\s
 [File: ]
 Plik:\s
 [Description: ]
 Opis:\s
-[Failed to write URL/File to the file :\n]
-Nie udało się zapisać Linku/Pliku do pliku:\n
 [Nick      :]
 Nick      :
 [FirstName :]
@@ -239,30 +201,20 @@ E-mail    :
 Powód    :
 [Invalid Database event received. Type %d, size %d]
 Otrzymano nieprawidłowe zdarzenie. Typ %d, rozmiar %d
-[Failed to write Invalid Database event the file :\n]
-Nie udało się zapisać nieprawidłowego zdarzenia do pliku:\n
 [The following user made an authorization request:]
 Następujący użytkownik wysłał prośbę o autoryzację:
 [The following user added you to their contact list:]
 Następujący użytkownik dodał cię do swojej listy kontaktów:
 [UIN       :]
 UIN       :
-[Failed to write AUTHREQUEST or ADDED to the file :\n]
-Nie udało się zapisać pytania o autoryzację lub dodania użytkownika do pliku:\n
 [EmailExpress from:]
 E-mail z:
 [WebPager from:]
 Link z:
 [No from address]
 Nie z adresu
-[Failed to write EmailExpress to the file :\n]
-Nie udało się zapisać e-maila do pliku:\n
-[Failed to write SMS to the file :\n]
-Nie można zapisać wiadomości SMS do pliku:\n
 [Unknown event type %d, size %d]
 Zdarzenie nieznanego typu %d, rozmiar %d
-[Failed to write Unknown event to the file :\n]
-Nie udało się zapisać nieznanego zdarzenia do pliku:\n
 [User has been deleted. Do you want to delete the file?]
 Użytkownik został usunięty. Czy chcesz usunąć plik?
 [Failed to delete the file]

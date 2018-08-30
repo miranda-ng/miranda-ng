@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -37,6 +37,10 @@ Treffe neue Fremde mit gemeinsamen Interessen
 [Your interests (separated by commas):]
 Ihre Interessen (durch Komma trennen):
 ;file \protocols\Omegle\src\chat.cpp
+[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
+Es gibt drei verschiedene Chat-Modus:\n1) Standard-Modus\t- Sie chatten privat mit einem zufällig ausgewählten Fremden\n2) Frage-Modus\t- Sie können zwei Fremden eine Frage stellen und deren Diskussion beobachten (Sie können selbst nichts schreiben, nur zusehen)\n3) Spion-Modus\t- Sie können mit einem Fremden über eine Frage eines dritten Fremden diskutieren (er kann nichts schreiben, nur zusehen)
+[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+Sie können verschiedene Befehle verwenden:\n/help\t- Informationen über die verfügbaren Chat-Modus anzeigen\n/new\t- Standard-Modus starten\n/ask <Frage>\t- Frage-Modus mit Ihrer Frage starten\n/ask\t\t- Frage-Modus mit Ihrer letzten Frage starten\n/spy\t\t- Spion-Modus starten\n/quit\t- Vom aktuellen Fremden trennen, bzw die Verbindung abbrechen\n/asl\t\t- Senden Sie Ihre vordefinierte ASL-Nachricht\n\nHinweis: Sie können sich mit einem neuen Fremden verbinden ohne sich vom aktuellen zu trennen.
 [Server]
 Server
 [Last question is empty.]
@@ -45,10 +49,6 @@ Letzte Frage ist leer.
 Ihre Frage ist zu kurz.
 [Your '/asl' setting is empty.]
 Ihre '/asl'-Einstellungen sind leer.
-[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-Es gibt drei verschiedene Chat-Modus:\n1) Standard-Modus\t- Sie chatten privat mit einem zufällig ausgewählten Fremden\n2) Frage-Modus\t- Sie können zwei Fremden eine Frage stellen und deren Diskussion beobachten (Sie können selbst nichts schreiben, nur zusehen)\n3) Spion-Modus\t- Sie können mit einem Fremden über eine Frage eines dritten Fremden diskutieren (er kann nichts schreiben, nur zusehen)
-[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-Sie können verschiedene Befehle verwenden:\n/help\t- Informationen über die verfügbaren Chat-Modus anzeigen\n/new\t- Standard-Modus starten\n/ask <Frage>\t- Frage-Modus mit Ihrer Frage starten\n/ask\t\t- Frage-Modus mit Ihrer letzten Frage starten\n/spy\t\t- Spion-Modus starten\n/quit\t- Vom aktuellen Fremden trennen, bzw die Verbindung abbrechen\n/asl\t\t- Senden Sie Ihre vordefinierte ASL-Nachricht\n\nHinweis: Sie können sich mit einem neuen Fremden verbinden ohne sich vom aktuellen zu trennen.
 [Unknown command. Send '/commands' for list.]
 Unbekannter Befehl. Benutzen Sie '/commands' für eine Übersicht.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]

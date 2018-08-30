@@ -2,17 +2,33 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.1
+;  Version: 3.1.2.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 
 ;file \plugins\Msg_Export\res\resource.rc
+[Export directory]
+
 [Browse]
+
+[Default file]
+
+[File viewer]
 
 [Use internal viewer]
 
 [Replace Miranda history]
+
+[Export format]
+
+[Max column width]
+
+[Note: 0 = no limit]
+
+[Time format]
+
+[Use JSON format for export]
 
 [Use UTF8 in new files]
 
@@ -28,23 +44,9 @@
 Pomoć
 [Export all history]
 
-[Export directory]
-
-[Max column width]
-
-[Note: 0 = no limit]
-
-[Time format]
-
-[Export format]
-
-[Default file]
-
-[File viewer]
-
 [Exporting old messages]
 
-[History file for %s (%s format %s)]
+[History file for %s (%s, format %s)]
 
 [&Find...]
 
@@ -75,21 +77,9 @@ Detalji o &Korisniku
 [Copy]
 kopiraj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the Rich Edit the buffer was to small.]
-
-[Error: Optimal buffer size decreased to a too low size!]
-
 [Internal error! (lExtraRead >= 0)]
 
-[Failed to execute external file view]
-
-[Failed to load Rich Edit (Msftedit.dll)]
-
-[Failed to get handle to Rich Edit!]
-
-[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
-
-[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+[Miranda database contains %d events]
 
 [With scroll to bottom %d\n]
 
@@ -103,13 +93,7 @@ kopiraj
 
 [Syntax highlight]
 
-[Failed to create file]
-
-[Failed to save file]
-
 [History was saved successfully in file\r\n]
-
-[Failed to create history dialog]
 
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
@@ -119,15 +103,17 @@ kopiraj
 
 [Sorting and writing database information (Phase 2 of 2)]
 
-[Failed to open or create file :\n]
-
-[No contacts found to export]
-
-[Failed to export at least one contact]
+[Failed to open or create file:\n]
 
 [Max line width must be at least %d. Or use 0 for no limit.]
 
 [You need to restart Miranda to change the history function]
+
+[Executable files]
+
+[All files]
+sve datoteke
+[Select Destination Directory]
 
 [File]
 
@@ -137,17 +123,7 @@ kopiraj
 
 [UIN]
 
-[You have not applied the changes, do you wish to apply them first?]
-
-[Executable files]
-
-[All files]
-sve datoteke
-[Failed to get the shells allocator!]
-
-[Failed to Allocate buffer space]
-
-[Select Destination Directory]
+[No contacts found to export]
 
 [Export Protocols]
 
@@ -156,6 +132,8 @@ sve datoteke
 [History]
 Povijest
 [General]
+
+[Contacts]
 
 [Additional]
 
@@ -179,53 +157,37 @@ Povijest
 
 [All\0*.*\0Text\0*.TXT\0\0]
 
-[Failed to move to the end of the file :\n]
+[FirstName]
 
-[Failed to UTF8 byte order code to file :\n]
+[LastName]
 
-[      History for\r\n]
+[e-mail]
 
-[User      : %User%\r\n]
+[Age]
 
-[Protocol  : %Proto%\r\n]
+[Gender]
 
-[UIN       : %UIN%\r\n]
+[City]
 
-[FirstName : %FirstName%\r\n]
+[State]
 
-[LastName  : %LastName%\r\n]
+[Phone]
 
-[Age       : %Age%\r\n]
+[Homepage]
 
-[Gender    : %Gender%\r\n]
+[About]
 
-[e-mail    : %e-mail%\r\n]
+[      History for]
 
-[Nick      : %Nick%\r\n]
+[User]
 
-[City      : %City%\r\n]
-
-[State     : %State%\r\n]
-
-[Phone     : %Phone%\r\n]
-
-[Homepage  : %Homepage%\r\n]
-
-[- About -\r\n%About%\r\n]
-
-[Failed to write user details to file :\n]
-
-[Failed to write timestamp and username to file :\n]
-
-[Failed to write message to the file :\n]
+[Protocol]
 
 [URL: ]
 
 [File: ]
 
 [Description: ]
-
-[Failed to write URL/File to the file :\n]
 
 [Nick      :]
 
@@ -239,15 +201,11 @@ Povijest
 
 [Invalid Database event received. Type %d, size %d]
 
-[Failed to write Invalid Database event the file :\n]
-
 [The following user made an authorization request:]
 
 [The following user added you to their contact list:]
 
 [UIN       :]
-
-[Failed to write AUTHREQUEST or ADDED to the file :\n]
 
 [EmailExpress from:]
 
@@ -255,13 +213,7 @@ Povijest
 
 [No from address]
 
-[Failed to write EmailExpress to the file :\n]
-
-[Failed to write SMS to the file :\n]
-
 [Unknown event type %d, size %d]
-
-[Failed to write Unknown event to the file :\n]
 
 [User has been deleted. Do you want to delete the file?]
 

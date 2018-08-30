@@ -82,6 +82,10 @@ Transfery plików
 Inne
 [Choose appropriate accounts for import]
 Wybierz odpowiednie konta, by dokonać importowania
+[Enter file name for import:]
+
+[Check duplicates]
+
 ;file \plugins\Import\src\import.cpp
 [<New account>]
 <Nowe konto>
@@ -158,17 +162,22 @@ Pominięto %d duplikatów i %d przefiltrowanych zdarzeń.
 ;file \plugins\Import\src\main.cpp
 [&Import...]
 &Importuj...
-[Miranda NG database]
-Profil Mirandy NG
-[All Files]
-Wszystkie pliki
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Dany plik nie istnieje. Sprawdź czy wpisałeś poprawnie jego nazwę.
 [Miranda Import]
 Import Mirandy
+[Miranda NG database]
+Profil Mirandy NG
+[All Files]
+Wszystkie pliki
 [You cannot import your current profile into itself]
 Nie możesz zaimportować obecnego profilu do niego samego
+;file \plugins\Import\src\ui.cpp
+[Import history for]
+
+[JSON file]
+
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Pomijanie zduplikowanej grupy %s.

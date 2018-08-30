@@ -82,6 +82,10 @@
 Інше
 [Choose appropriate accounts for import]
 Пошук відповідних облікових записів
+[Enter file name for import:]
+
+[Check duplicates]
+
 ;file \plugins\Import\src\import.cpp
 [<New account>]
 <Новий обліковий запис>
@@ -158,16 +162,21 @@
 ;file \plugins\Import\src\main.cpp
 [&Import...]
 &Імпорт...
-[Miranda NG database]
-База даних Miranda NG
-[All Files]
-Усі файли
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Даний файл не існує. Перевірте ім'я файлу.
 [Miranda Import]
 Імпорт Miranda NG
+[Miranda NG database]
+База даних Miranda NG
+[All Files]
+Усі файли
 [You cannot import your current profile into itself]
+
+;file \plugins\Import\src\ui.cpp
+[Import history for]
+
+[JSON file]
 
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]

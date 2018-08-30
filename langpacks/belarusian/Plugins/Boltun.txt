@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Boltun.dll
 ;  Plugin: Boltun
-;  Version: 0.0.3.0
+;  Version: 0.0.3.1
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
 [Boltun, the chat bot in the russian language.]

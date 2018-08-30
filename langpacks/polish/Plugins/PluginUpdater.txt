@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -42,16 +42,18 @@ Rób kopię bazy danych przed aktualizacją (wymaga wtyczki Db_autobackups)
 Źródło plików
 [Stable version]
 Wersja stabilna
+[Stable version with debug symbols]
+Wersja stabilna z symbolami debugowania
 [Development version (less stable)]
 Wersja rozwojowa (mniej stabilna)
 [Development version with debug symbols]
 Wersja rozwojowa z symbolami debugowania
 [Custom version]
 Niestandardowa wersja
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirandę, aby zainstalować pobrane aktualizacje.
 [Change platform to 32-bit]
 Zmień platformę na 32-bit
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirandę, aby zainstalować pobrane aktualizacje.
 [Notifications]
 Powiadomienia
 [Restart]

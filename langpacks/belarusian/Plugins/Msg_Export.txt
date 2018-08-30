@@ -2,18 +2,34 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.1
+;  Version: 3.1.2.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 Экспарт паведамленняў, спасылак і прынятых файлаў у тэкставы файл.
 ;file \plugins\Msg_Export\res\resource.rc
+[Export directory]
+Каталог экспарту
 [Browse]
 Агляд
+[Default file]
+Імя файла
+[File viewer]
+Прагляд файлаў
 [Use internal viewer]
 Унутраны прагляд
 [Replace Miranda history]
 Замяніць гісторыю
+[Export format]
+Фармат экспарту
+[Max column width]
+Макс. шырыня радка
+[Note: 0 = no limit]
+Нататка: 0=неабмежавана
+[Time format]
+Фармат часу
+[Use JSON format for export]
+
 [Use UTF8 in new files]
 UTF8 у новых файлах
 [Append extra new line]
@@ -28,24 +44,10 @@ UTF8 у новых файлах
 Даведка
 [Export all history]
 Экспарт гісторыі
-[Export directory]
-Каталог экспарту
-[Max column width]
-Макс. шырыня радка
-[Note: 0 = no limit]
-Нататка: 0=неабмежавана
-[Time format]
-Фармат часу
-[Export format]
-Фармат экспарту
-[Default file]
-Імя файла
-[File viewer]
-Прагляд файлаў
 [Exporting old messages]
 Экспарт старых паведамленняў
-[History file for %s (%s format %s)]
-Файл гісторыі для %s (%s фармат %s)
+[History file for %s (%s, format %s)]
+Файл гісторыі для %s (%s, фармат %s)
 [&Find...]
 &Знайсці
 [&External]
@@ -75,21 +77,9 @@ UTF8 у новых файлах
 [Copy]
 Капіяваць
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the Rich Edit the buffer was to small.]
-Не атрымалася запісаць у Rich Edit.
-[Error: Optimal buffer size decreased to a too low size!]
-
 [Internal error! (lExtraRead >= 0)]
 
-[Failed to execute external file view]
-
-[Failed to load Rich Edit (Msftedit.dll)]
-
-[Failed to get handle to Rich Edit!]
-
-[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
-
-[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+[Miranda database contains %d events]
 
 [With scroll to bottom %d\n]
 
@@ -103,13 +93,7 @@ UTF8 у новых файлах
 Шрыфт
 [Syntax highlight]
 Падсвятленне сінтаксісу
-[Failed to create file]
-Памылка стварэння файла
-[Failed to save file]
-
 [History was saved successfully in file\r\n]
-
-[Failed to create history dialog]
 
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
@@ -119,16 +103,18 @@ UTF8 у новых файлах
 
 [Sorting and writing database information (Phase 2 of 2)]
 Крок 2: Сартаванне і запіс інфармацыі
-[Failed to open or create file :\n]
-Не атрымалася адкрыць ці стварыць файл :\n
-[No contacts found to export]
-Няма кантактаў для экспарту
-[Failed to export at least one contact]
-Не атрымалася экспартаваць прынамсі 1 кантакт
+[Failed to open or create file:\n]
+Не атрымалася адкрыць ці стварыць файл:\n
 [Max line width must be at least %d. Or use 0 for no limit.]
 
 [You need to restart Miranda to change the history function]
 Змены функцыі гісторыі адбудуцца пасля перазапуску
+[Executable files]
+Прыкладанні
+[All files]
+Усе файлы
+[Select Destination Directory]
+Абраць тэчку для запісу
 [File]
 Файл
 [Nick]
@@ -137,18 +123,8 @@ UTF8 у новых файлах
 Пратакол
 [UIN]
 Нумар
-[You have not applied the changes, do you wish to apply them first?]
-Ёсць незахаваныя змены, ужыць?
-[Executable files]
-Прыкладанні
-[All files]
-Усе файлы
-[Failed to get the shells allocator!]
-
-[Failed to Allocate buffer space]
-
-[Select Destination Directory]
-Абраць тэчку для запісу
+[No contacts found to export]
+Няма кантактаў для экспарту
 [Export Protocols]
 Экспарт пратаколаў
 [Message export]
@@ -157,6 +133,8 @@ UTF8 у новых файлах
 Гісторыя
 [General]
 Агульнае
+[Contacts]
+Кантакты
 [Additional]
 Дадаткова
 ;file \plugins\Msg_Export\src\stdafx.h
@@ -179,54 +157,38 @@ Miranda NG (Плагін экспарту паведамленняў)
 
 [All\0*.*\0Text\0*.TXT\0\0]
 
-[Failed to move to the end of the file :\n]
-Не атрымалася перайсці да канца файла:\n
-[Failed to UTF8 byte order code to file :\n]
-
-[      History for\r\n]
-     Гісторыя для\r\n
-[User      : %User%\r\n]
-Кантакт  : %User%\r\n
-[Protocol  : %Proto%\r\n]
-Пратакол    : %Proto%\r\n
-[UIN       : %UIN%\r\n]
-Нумар    : %UIN%\r\n
-[FirstName : %FirstName%\r\n]
-Імя         : %FirstName%\r\n
-[LastName  : %LastName%\r\n]
-Прозвішча: %LastName%\r\n
-[Age       : %Age%\r\n]
-Узрост   : %Age%\r\n
-[Gender    : %Gender%\r\n]
-Род   : %Gender%\r\n
-[e-mail    : %e-mail%\r\n]
-пошта   : %e-mail%\r\n
-[Nick      : %Nick%\r\n]
-Мянушка : %Nick%\r\n
-[City      : %City%\r\n]
-Горад      : %City%\r\n
-[State     : %State%\r\n]
-
-[Phone     : %Phone%\r\n]
-Тэлефон  : %Phone%\r\n
-[Homepage  : %Homepage%\r\n]
-Сайт : %Homepage%\r\n
-[- About -\r\n%About%\r\n]
-
-[Failed to write user details to file :\n]
-Не атрымалася запісаць дадзеныя кантакта ў файл:
-[Failed to write timestamp and username to file :\n]
-Не атрымалася запісаць час і імя кантакта ў файл:
-[Failed to write message to the file :\n]
-Не атрымалася запісаць паведамленне ў файл:\n
+[FirstName]
+Імя
+[LastName]
+Прозвішча
+[e-mail]
+Пошта
+[Age]
+Узрост
+[Gender]
+Род
+[City]
+Горад 
+[State]
+Штат
+[Phone]
+Тэлефон
+[Homepage]
+Сайт
+[About]
+Інфармацыя
+[      History for]
+     Гісторыя для
+[User]
+Кантакт
+[Protocol]
+Пратакол
 [URL: ]
 URL:\s
 [File: ]
 Файл:\s
 [Description: ]
 Апісанне:\s
-[Failed to write URL/File to the file :\n]
-Не атрымалася запісаць перадачу файла ці URL у файл:\n
 [Nick      :]
 Мянушка    :
 [FirstName :]
@@ -234,35 +196,25 @@ URL:\s
 [LastName  :]
 Прозвішча   :
 [e-mail    :]
-e-mail    :
+Пошта     :
 [Reason    :]
 Чыннік   :
 [Invalid Database event received. Type %d, size %d]
 Няслушная падзея базы. Тып %d, памер %d
-[Failed to write Invalid Database event the file :\n]
-Не атрымалася запісаць няслушную падзею з базы ў файл:
 [The following user made an authorization request:]
 Наступны кантакт запытаў аўтарызацыю:
 [The following user added you to their contact list:]
 Кантакт дадаў вас у свой спіс кантактаў:
 [UIN       :]
-Імя       :
-[Failed to write AUTHREQUEST or ADDED to the file :\n]
-Не атрымалася запісаць запрос аўтарызацыі ці даданне у файл:
+Нумар     :
 [EmailExpress from:]
 EmailExpress ад:
 [WebPager from:]
 WebPager ад:
 [No from address]
-без адрасу
-[Failed to write EmailExpress to the file :\n]
-Не атрымалася запісаць EmailExpress у файл:\n
-[Failed to write SMS to the file :\n]
-Не атрымалася запісаць SMS у файл:\n
+Без адрасу
 [Unknown event type %d, size %d]
 Невядомы тып падзеі %d, памер %d
-[Failed to write Unknown event to the file :\n]
-Не атрымалася запісаць невядомую падзею ў файл:
 [User has been deleted. Do you want to delete the file?]
 Кантакт выдалены. Хочаце выдаліць файл?
 [Failed to delete the file]

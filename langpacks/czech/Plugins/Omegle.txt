@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -37,6 +37,10 @@ Hledat cizince se společnými zájmy
 [Your interests (separated by commas):]
 Vaše zájmy (oddělené čárkami):
 ;file \protocols\Omegle\src\chat.cpp
+[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
+Existují tři různé režimy použití:\n1) Klasický režim\t - Píšete si soukromě s náhodným cizincem\n2) Režim otázek\t - Zeptáte se dvou cizinců na otázku a sledujete jak o ní diskutují (nemůžete nic psát, pouze sledovat)\n3) Špiónský mód\t - Vy a cizinec dostanete otázku k diskuzi od dalšího cizince (nemůže nic psát, pouze sledovat)\n\nOdešlete zprávu '/commands' pro dostupné příkazy.
+[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+Můžete využít několik příkazů:\n/help\t - zobrazí informace o režimech komunikace\n/new\t - spustí klasický režim\n/ask <otázka> - spustí režim otázek s vaší otázkou\n/ask\t - spustí režim otázek s vaší poslední položenou otázkou\n/spy\t - spustí špiónský mód\n/quit\t - odpojí se od cizince nebo přeruší připojování\n/asl\t - odešle vaši předdefinovanou zprávu\n\nPozn.: Pro přepojení k jinému cizinci se nemusíte nejdříve odpojovat.
 [Server]
 Server
 [Last question is empty.]
@@ -45,10 +49,6 @@ Poslední otázka je prázdná.
 Vaše otázka je příliš krátká.
 [Your '/asl' setting is empty.]
 Nemáte nastavenou '/asl' zprávu.
-[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-Existují tři různé režimy použití:\n1) Klasický režim\t - Píšete si soukromě s náhodným cizincem\n2) Režim otázek\t - Zeptáte se dvou cizinců na otázku a sledujete jak o ní diskutují (nemůžete nic psát, pouze sledovat)\n3) Špiónský mód\t - Vy a cizinec dostanete otázku k diskuzi od dalšího cizince (nemůže nic psát, pouze sledovat)\n\nOdešlete zprávu '/commands' pro dostupné příkazy.
-[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-Můžete využít několik příkazů:\n/help\t - zobrazí informace o režimech komunikace\n/new\t - spustí klasický režim\n/ask <otázka> - spustí režim otázek s vaší otázkou\n/ask\t - spustí režim otázek s vaší poslední položenou otázkou\n/spy\t - spustí špiónský mód\n/quit\t - odpojí se od cizince nebo přeruší připojování\n/asl\t - odešle vaši předdefinovanou zprávu\n\nPozn.: Pro přepojení k jinému cizinci se nemusíte nejdříve odpojovat.
 [Unknown command. Send '/commands' for list.]
 Neznámý příkaz. Odešlete zprávu '/commands' pro dostupné příkazy.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]

@@ -2,18 +2,34 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.1
+;  Version: 3.1.2.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 
 ;file \plugins\Msg_Export\res\resource.rc
+[Export directory]
+Répertoire d'exportation
 [Browse]
 
+[Default file]
+Fichier
+[File viewer]
+Visionneur
 [Use internal viewer]
 Visionneur interne
 [Replace Miranda history]
 Remplace l'historique Miranda
+[Export format]
+Format d'exportation
+[Max column width]
+Largeur colonne maxi
+[Note: 0 = no limit]
+NOTE : 0=sans limite
+[Time format]
+Format heure
+[Use JSON format for export]
+
 [Use UTF8 in new files]
 Utiliser l'UTF8
 [Append extra new line]
@@ -28,24 +44,10 @@ Tout effacer
 Aide
 [Export all history]
 Tout exporter
-[Export directory]
-Répertoire d'exportation
-[Max column width]
-Largeur colonne maxi
-[Note: 0 = no limit]
-NOTE : 0=sans limite
-[Time format]
-Format heure
-[Export format]
-Format d'exportation
-[Default file]
-Fichier
-[File viewer]
-Visionneur
 [Exporting old messages]
 Exportation des anciens messages
-[History file for %s (%s format %s)]
-Fichier d'historique de %s (%s format %s)
+[History file for %s (%s, format %s)]
+Fichier d'historique de %s (%s, format %s)
 [&Find...]
 &Chercher...
 [&External]
@@ -75,21 +77,9 @@ Remettre le nom de fichier par défaut
 [Copy]
 Copier
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the Rich Edit the buffer was to small.]
-
-[Error: Optimal buffer size decreased to a too low size!]
-
 [Internal error! (lExtraRead >= 0)]
 
-[Failed to execute external file view]
-
-[Failed to load Rich Edit (Msftedit.dll)]
-
-[Failed to get handle to Rich Edit!]
-
-[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
-
-[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+[Miranda database contains %d events]
 
 [With scroll to bottom %d\n]
 
@@ -103,13 +93,7 @@ Couleur...
 Police...
 [Syntax highlight]
 Surligner un contact
-[Failed to create file]
-Échec de la création du fichier
-[Failed to save file]
-
 [History was saved successfully in file\r\n]
-
-[Failed to create history dialog]
 
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
@@ -119,16 +103,18 @@ Ouvrir l'historique &exporté
 
 [Sorting and writing database information (Phase 2 of 2)]
 Sortie et écriture des infos de la basse de données ( étape 2/2 )
-[Failed to open or create file :\n]
+[Failed to open or create file:\n]
 Échec d'ouverture ou de création du fichier :\n
-[No contacts found to export]
-Pas de contacts à exporter trouvés
-[Failed to export at least one contact]
-N'a pas exporté un seul contact
 [Max line width must be at least %d. Or use 0 for no limit.]
 
 [You need to restart Miranda to change the history function]
 Vous devez relancer Miranda pour changer la gestion de l'historique
+[Executable files]
+Fichiers exécutables
+[All files]
+Tous les fichiers
+[Select Destination Directory]
+Choix du répertoire de destination
 [File]
 Fichier
 [Nick]
@@ -137,18 +123,8 @@ Pseudo
 
 [UIN]
 
-[You have not applied the changes, do you wish to apply them first?]
-Vous avez restauré les changements, voulez-vous d'abord les enregistrer?
-[Executable files]
-Fichiers exécutables
-[All files]
-Tous les fichiers
-[Failed to get the shells allocator!]
-
-[Failed to Allocate buffer space]
-
-[Select Destination Directory]
-Choix du répertoire de destination
+[No contacts found to export]
+Pas de contacts à exporter trouvés
 [Export Protocols]
 Exporter les protocoles
 [Message export]
@@ -157,6 +133,8 @@ Message Export
 Historique
 [General]
 Général
+[Contacts]
+Contacts
 [Additional]
 
 ;file \plugins\Msg_Export\src\stdafx.h
@@ -179,54 +157,38 @@ Général
 
 [All\0*.*\0Text\0*.TXT\0\0]
 
-[Failed to move to the end of the file :\n]
-Échec de mise en fin de fichier :\n
-[Failed to UTF8 byte order code to file :\n]
+[FirstName]
+Prénom
+[LastName]
+Nom
+[e-mail]
+Courriel
+[Age]
 
-[      History for\r\n]
+[Gender]
+Sexe
+[City]
+Ville
+[State]
+État
+[Phone]
+Téléphone
+[Homepage]
+Page web
+[About]
+À propos
+[      History for]
 
-[User      : %User%\r\n]
-Contact   : %User%\r\n
-[Protocol  : %Proto%\r\n]
-Protocole : %Proto%\r\n
-[UIN       : %UIN%\r\n]
-
-[FirstName : %FirstName%\r\n]
-Nom       : %FirstName%\r\n
-[LastName  : %LastName%\r\n]
-prénom    : %LastName%\r\n
-[Age       : %Age%\r\n]
-
-[Gender    : %Gender%\r\n]
-Sexe      : %Gender%\r\n
-[e-mail    : %e-mail%\r\n]
-
-[Nick      : %Nick%\r\n]
-
-[City      : %City%\r\n]
-Ville     : %City%\r\n
-[State     : %State%\r\n]
-État      : %State%\r\n
-[Phone     : %Phone%\r\n]
-Téléphone : %Phone%\r\n
-[Homepage  : %Homepage%\r\n]
-Page web  : %Homepage%\r\n
-[- About -\r\n%About%\r\n]
-- À propos -\r\n%About%\r\n
-[Failed to write user details to file :\n]
-
-[Failed to write timestamp and username to file :\n]
-
-[Failed to write message to the file :\n]
-Échec d'écriture du message dans le fichier :\n
+[User]
+Utilisateur
+[Protocol]
+Protocole
 [URL: ]
 Lien :\s
 [File: ]
 Fichier :\s
 [Description: ]
 Description :\s
-[Failed to write URL/File to the file :\n]
-Échec d'écriture du lien/fichier dans le fichier :\n
 [Nick      :]
 Pseudo    :
 [FirstName :]
@@ -234,20 +196,16 @@ Prénom    :
 [LastName  :]
 Nom       :
 [e-mail    :]
-
+Courriel  :
 [Reason    :]
 Motif     :
 [Invalid Database event received. Type %d, size %d]
 Évènement de base de données reçu invalide. Type %d, taille %d
-[Failed to write Invalid Database event the file :\n]
-
 [The following user made an authorization request:]
 Le contact suivant vous fait une demande d'autorisation :
 [The following user added you to their contact list:]
 Le contact suivant vous a ajouté à sa liste :
 [UIN       :]
-
-[Failed to write AUTHREQUEST or ADDED to the file :\n]
 
 [EmailExpress from:]
 EmailExpress de :
@@ -255,13 +213,7 @@ EmailExpress de :
 
 [No from address]
 
-[Failed to write EmailExpress to the file :\n]
-Échec d'écriture de l'EmailExpress dans le fichier :\n
-[Failed to write SMS to the file :\n]
-Échec d'écriture du SMS dans le fichier :\n
 [Unknown event type %d, size %d]
-
-[Failed to write Unknown event to the file :\n]
 
 [User has been deleted. Do you want to delete the file?]
 

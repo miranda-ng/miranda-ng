@@ -59,7 +59,7 @@ Nachricht
 [Account:]
 Konto:
 [Away mode]
-
+Abwesend Modus
 [Set]
 Setze
 [when full-screen mode is active]
