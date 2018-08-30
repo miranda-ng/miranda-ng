@@ -8,24 +8,6 @@
 type
   HGENMENU = THANDLE;
 
-const
-  {
-    wParam : new_status
-    lParam : 0
-    Affect : Sent when the user acks to change their status, see notes
-    Notes  : Also sent due to a MS_CLIST_SETSTATUSMODE
-  }
-  ME_CLIST_STATUSMODECHANGE:PAnsiChar = 'CList/StatusModeChange';
-
-  {
-    wParam : 0
-    lParam : 0
-    Affect : Get the current status mode, see notes
-    Notes  : This is the status, as set by the user, not any protocol specific status
-             all protocol modules will attempt to conform to this setting at ALL times.
-  }
-  MS_CLIST_GETSTATUSMODE:PAnsiChar = 'CList/GetStatusMode';
-
 function Clist_SetStatusMode(status:int) : int; stdcall; external AppDll;
 
 function Menu_BuildContactMenu(hContact:TMCONTACT) : HMENU; stdcall; external AppDll;

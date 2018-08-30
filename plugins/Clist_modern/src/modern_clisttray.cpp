@@ -80,7 +80,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 {
 	g_szConnectingProto = nullptr;
 
-	int curstatus = 0;
+	int curstatus = ID_STATUS_OFFLINE;
 	int connectingCount = 0;
 	g_bMultiConnectionMode = false;
 
@@ -99,7 +99,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 			curstatus = it->iRealStatus;
 	}
 
-	return curstatus ? curstatus : ID_STATUS_OFFLINE;
+	return curstatus;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
