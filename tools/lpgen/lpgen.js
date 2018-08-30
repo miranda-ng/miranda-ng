@@ -133,7 +133,6 @@ sln_stream.Close();
 // remove following lines comments to add Pascal plugins processing.
 // project_files.push(trunkPath+"\\plugins\\Actman\\actman.dpr");
 // project_files.push(trunkPath+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
-// project_files.push(trunkPath+"\\plugins\\ImportTXT\\importtxt.dpr");
 // project_files.push(trunkPath+"\\plugins\\QuickSearch\\quicksearch.dpr");
 // project_files.push(trunkPath+"\\plugins\\Watrack\\watrack.dpr");
 // project_files.push(trunkPath+"\\plugins\\mRadio\\mradio.dpr");
