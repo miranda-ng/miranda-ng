@@ -133,6 +133,13 @@ object
 	y 3
 end
 
+#clock
+object
+	type clock
+	x window.width-4-clock.width
+	y 4
+end
+
 # popup title
 object
 	type title
@@ -157,11 +164,4 @@ object
 	x 25>(avatar.width+4+4)
 	y title.height+4+4
 	w window.width-(25>(avatar.width+4+4))-4
-end
-
-#clock
-object
-	type clock
-	x window.width-4-clock.width
-	y 4
 end
