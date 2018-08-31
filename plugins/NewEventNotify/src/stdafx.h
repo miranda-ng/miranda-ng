@@ -1,25 +1,25 @@
 /*
-  Name: NewEventNotify - Plugin for Miranda IM
-  File: neweventnotify.h - Main Header File
-  Version: 0.2.2.2
-  Description: Notifies you about some events
-  Author: icebreaker, <icebreaker@newmail.net>
-  Date: 18.07.02 13:59 / Update: 16.09.02 17:45
-  Copyright: (C) 2002 Starzinger Michael
+	Name: NewEventNotify - Plugin for Miranda IM
+	File: neweventnotify.h - Main Header File
+	Version: 0.2.2.2
+	Description: Notifies you about some events
+	Author: icebreaker, <icebreaker@newmail.net>
+	Date: 18.07.02 13:59 / Update: 16.09.02 17:45
+	Copyright: (C) 2002 Starzinger Michael
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #pragma once
@@ -153,10 +153,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMPlugin();
 
 	int Load() override;
-};
 
-struct PLUGIN_OPTIONS
-{
+	void OptionsRead(void);
+	void OptionsWrite(void);
+
 	BOOL bDisable;
 	BOOL bPreview;
 	BOOL bMenuitem;
@@ -187,11 +187,11 @@ struct PLUGIN_OPTIONS
 	BOOL bShowDate;
 	BOOL bShowTime;
 	BOOL bShowHeaders;
-	BYTE iNumberMsg;
 	BOOL bShowON;
 	BOOL bHideSend;
 	BOOL bNoRSS;
 	BOOL bReadCheck;
+	BYTE iNumberMsg;
 };
 
 struct EVENT_DATA_EX
@@ -206,7 +206,6 @@ struct PLUGIN_DATA
 {
 	UINT eventType;
 	MCONTACT hContact;
-	PLUGIN_OPTIONS* pluginOptions;
 	HWND hWnd;
 	struct EVENT_DATA_EX* firstEventData;
 	struct EVENT_DATA_EX* firstShowEventData;
@@ -219,12 +218,11 @@ struct PLUGIN_DATA
 //---------------------------
 //---External Procedure Definitions
 
-int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, UINT eventType);
+int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType);
 int PopupUpdate(MCONTACT hContact, MEVENT hEvent);
-int PopupPreview(PLUGIN_OPTIONS* pluginOptions);
-int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata);
-int OptionsInit(PLUGIN_OPTIONS* pluginOptions);
-int OptionsAdd(HINSTANCE hInst, WPARAM addInfo);
+int PopupPreview();
+int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata);
+int OptionsAdd(WPARAM addInfo, LPARAM);
 int Opt_DisableNEN(BOOL Status);
 int MenuitemInit(BOOL bStatus);
 int MenuitemUpdate(BOOL bStatus);

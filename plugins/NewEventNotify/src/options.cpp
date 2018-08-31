@@ -24,86 +24,83 @@
 
 #include "stdafx.h"
 
-PLUGIN_OPTIONS* options;
 BOOL bWmNotify;
 
-int OptionsRead(void)
+void CMPlugin::OptionsRead(void)
 {
-	options->bDisable = db_get_b(NULL, MODULENAME, OPT_DISABLE, FALSE);
-	options->bPreview = db_get_b(NULL, MODULENAME, OPT_PREVIEW, TRUE);
-	options->bMenuitem = db_get_b(NULL, MODULENAME, OPT_MENUITEM, FALSE);
-	options->bDefaultColorMsg = db_get_b(NULL, MODULENAME, OPT_COLDEFAULT_MESSAGE, FALSE);
-	options->bDefaultColorUrl = db_get_b(NULL, MODULENAME, OPT_COLDEFAULT_URL, FALSE);
-	options->bDefaultColorFile = db_get_b(NULL, MODULENAME, OPT_COLDEFAULT_FILE, FALSE);
-	options->bDefaultColorOthers = db_get_b(NULL, MODULENAME, OPT_COLDEFAULT_OTHERS, FALSE);
-	options->colBackMsg = (COLORREF)db_get_dw(NULL, MODULENAME, OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
-	options->colTextMsg = (COLORREF)db_get_dw(NULL, MODULENAME, OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
-	options->colBackUrl = (COLORREF)db_get_dw(NULL, MODULENAME, OPT_COLBACK_URL, DEFAULT_COLBACK);
-	options->colTextUrl = (COLORREF)db_get_dw(NULL, MODULENAME, OPT_COLTEXT_URL, DEFAULT_COLTEXT);
-	options->colBackFile = (COLORREF)db_get_dw(NULL, MODULENAME, OPT_COLBACK_FILE, DEFAULT_COLBACK);
-	options->colTextFile = (COLORREF)db_get_dw(NULL, MODULENAME, OPT_COLTEXT_FILE, DEFAULT_COLTEXT);
-	options->colBackOthers = (COLORREF)db_get_dw(NULL, MODULENAME, OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
-	options->colTextOthers = (COLORREF)db_get_dw(NULL, MODULENAME, OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
-	options->maskNotify = (UINT)db_get_b(NULL, MODULENAME, OPT_MASKNOTIFY, DEFAULT_MASKNOTIFY);
-	options->maskActL = (UINT)db_get_b(NULL, MODULENAME, OPT_MASKACTL, DEFAULT_MASKACTL);
-	options->maskActR = (UINT)db_get_b(NULL, MODULENAME, OPT_MASKACTR, DEFAULT_MASKACTR);
-	options->maskActTE = (UINT)db_get_b(NULL, MODULENAME, OPT_MASKACTTE, DEFAULT_MASKACTE);
-	options->bMsgWindowCheck = db_get_b(NULL, MODULENAME, OPT_MSGWINDOWCHECK, TRUE);
-	options->bMsgReplyWindow = db_get_b(NULL, MODULENAME, OPT_MSGREPLYWINDOW, FALSE);
-	options->bMergePopup = db_get_b(NULL, MODULENAME, OPT_MERGEPOPUP, TRUE);
-	options->iDelayMsg = (int)db_get_dw(NULL, MODULENAME, OPT_DELAY_MESSAGE, DEFAULT_DELAY);
-	options->iDelayUrl = (int)db_get_dw(NULL, MODULENAME, OPT_DELAY_URL, DEFAULT_DELAY);
-	options->iDelayFile = (int)db_get_dw(NULL, MODULENAME, OPT_DELAY_FILE, DEFAULT_DELAY);
-	options->iDelayOthers = (int)db_get_dw(NULL, MODULENAME, OPT_DELAY_OTHERS, DEFAULT_DELAY);
-	options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	options->bShowDate = db_get_b(NULL, MODULENAME, OPT_SHOW_DATE, TRUE);
-	options->bShowTime = db_get_b(NULL, MODULENAME, OPT_SHOW_TIME, TRUE);
-	options->bShowHeaders = db_get_b(NULL, MODULENAME, OPT_SHOW_HEADERS, TRUE);
-	options->iNumberMsg = (BYTE)db_get_b(NULL, MODULENAME, OPT_NUMBER_MSG, TRUE);
-	options->bShowON = db_get_b(NULL, MODULENAME, OPT_SHOW_ON, TRUE);
-	options->bHideSend = db_get_b(NULL, MODULENAME, OPT_HIDESEND, TRUE);
-	options->bNoRSS = db_get_b(NULL, MODULENAME, OPT_NORSS, FALSE);
-	options->bReadCheck = db_get_b(NULL, MODULENAME, OPT_READCHECK, FALSE);
-	return 0;
+	bDisable = getByte(OPT_DISABLE, FALSE);
+	bPreview = getByte(OPT_PREVIEW, TRUE);
+	bMenuitem = getByte(OPT_MENUITEM, FALSE);
+	bDefaultColorMsg = getByte(OPT_COLDEFAULT_MESSAGE, FALSE);
+	bDefaultColorUrl = getByte(OPT_COLDEFAULT_URL, FALSE);
+	bDefaultColorFile = getByte(OPT_COLDEFAULT_FILE, FALSE);
+	bDefaultColorOthers = getByte(OPT_COLDEFAULT_OTHERS, FALSE);
+	colBackMsg = getDword(OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
+	colTextMsg = getDword(OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
+	colBackUrl = getDword(OPT_COLBACK_URL, DEFAULT_COLBACK);
+	colTextUrl = getDword(OPT_COLTEXT_URL, DEFAULT_COLTEXT);
+	colBackFile = getDword(OPT_COLBACK_FILE, DEFAULT_COLBACK);
+	colTextFile = getDword(OPT_COLTEXT_FILE, DEFAULT_COLTEXT);
+	colBackOthers = getDword(OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
+	colTextOthers = getDword(OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
+	maskNotify = getByte(OPT_MASKNOTIFY, DEFAULT_MASKNOTIFY);
+	maskActL = getByte(OPT_MASKACTL, DEFAULT_MASKACTL);
+	maskActR = getByte(OPT_MASKACTR, DEFAULT_MASKACTR);
+	maskActTE = getByte(OPT_MASKACTTE, DEFAULT_MASKACTE);
+	bMsgWindowCheck = getByte(OPT_MSGWINDOWCHECK, TRUE);
+	bMsgReplyWindow = getByte(OPT_MSGREPLYWINDOW, FALSE);
+	bMergePopup = getByte(OPT_MERGEPOPUP, TRUE);
+	iDelayMsg = getDword(OPT_DELAY_MESSAGE, DEFAULT_DELAY);
+	iDelayUrl = getDword(OPT_DELAY_URL, DEFAULT_DELAY);
+	iDelayFile = getDword(OPT_DELAY_FILE, DEFAULT_DELAY);
+	iDelayOthers = getDword(OPT_DELAY_OTHERS, DEFAULT_DELAY);
+	iDelayDefault = DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
+	bShowDate = getByte(OPT_SHOW_DATE, TRUE);
+	bShowTime = getByte(OPT_SHOW_TIME, TRUE);
+	bShowHeaders = getByte(OPT_SHOW_HEADERS, TRUE);
+	iNumberMsg = getByte(OPT_NUMBER_MSG, TRUE);
+	bShowON = getByte(OPT_SHOW_ON, TRUE);
+	bHideSend = getByte(OPT_HIDESEND, TRUE);
+	bNoRSS = getByte(OPT_NORSS, FALSE);
+	bReadCheck = getByte(OPT_READCHECK, FALSE);
 }
 
-int OptionsWrite(void)
+void CMPlugin::OptionsWrite(void)
 {
-	db_set_b(NULL, MODULENAME, OPT_DISABLE, options->bDisable);
-	db_set_b(NULL, MODULENAME, OPT_PREVIEW, options->bPreview);
-	db_set_b(NULL, MODULENAME, OPT_MENUITEM, options->bMenuitem);
-	db_set_b(NULL, MODULENAME, OPT_COLDEFAULT_MESSAGE, options->bDefaultColorMsg);
-	db_set_b(NULL, MODULENAME, OPT_COLDEFAULT_URL, options->bDefaultColorUrl);
-	db_set_b(NULL, MODULENAME, OPT_COLDEFAULT_FILE, options->bDefaultColorFile);
-	db_set_b(NULL, MODULENAME, OPT_COLDEFAULT_OTHERS, options->bDefaultColorOthers);
-	db_set_dw(NULL, MODULENAME, OPT_COLBACK_MESSAGE, (DWORD)options->colBackMsg);
-	db_set_dw(NULL, MODULENAME, OPT_COLTEXT_MESSAGE, (DWORD)options->colTextMsg);
-	db_set_dw(NULL, MODULENAME, OPT_COLBACK_URL, (DWORD)options->colBackUrl);
-	db_set_dw(NULL, MODULENAME, OPT_COLTEXT_URL, (DWORD)options->colTextUrl);
-	db_set_dw(NULL, MODULENAME, OPT_COLBACK_FILE, (DWORD)options->colBackFile);
-	db_set_dw(NULL, MODULENAME, OPT_COLTEXT_FILE, (DWORD)options->colTextFile);
-	db_set_dw(NULL, MODULENAME, OPT_COLBACK_OTHERS, (DWORD)options->colBackOthers);
-	db_set_dw(NULL, MODULENAME, OPT_COLTEXT_OTHERS, (DWORD)options->colTextOthers);
-	db_set_b(NULL, MODULENAME, OPT_MASKNOTIFY, (BYTE)options->maskNotify);
-	db_set_b(NULL, MODULENAME, OPT_MASKACTL, (BYTE)options->maskActL);
-	db_set_b(NULL, MODULENAME, OPT_MASKACTR, (BYTE)options->maskActR);
-	db_set_b(NULL, MODULENAME, OPT_MASKACTTE, (BYTE)options->maskActTE);
-	db_set_b(NULL, MODULENAME, OPT_MSGWINDOWCHECK, options->bMsgWindowCheck);
-	db_set_b(NULL, MODULENAME, OPT_MSGREPLYWINDOW, options->bMsgReplyWindow);
-	db_set_b(NULL, MODULENAME, OPT_MERGEPOPUP, options->bMergePopup);
-	db_set_dw(NULL, MODULENAME, OPT_DELAY_MESSAGE, (DWORD)options->iDelayMsg);
-	db_set_dw(NULL, MODULENAME, OPT_DELAY_URL, (DWORD)options->iDelayUrl);
-	db_set_dw(NULL, MODULENAME, OPT_DELAY_FILE, (DWORD)options->iDelayFile);
-	db_set_dw(NULL, MODULENAME, OPT_DELAY_OTHERS, (DWORD)options->iDelayOthers);
-	db_set_b(NULL, MODULENAME, OPT_SHOW_DATE, options->bShowDate);
-	db_set_b(NULL, MODULENAME, OPT_SHOW_TIME, options->bShowTime);
-	db_set_b(NULL, MODULENAME, OPT_SHOW_HEADERS, options->bShowHeaders);
-	db_set_b(NULL, MODULENAME, OPT_NUMBER_MSG, (BYTE)options->iNumberMsg);
-	db_set_b(NULL, MODULENAME, OPT_SHOW_ON, options->bShowON);
-	db_set_b(NULL, MODULENAME, OPT_HIDESEND, options->bHideSend);
-	db_set_b(NULL, MODULENAME, OPT_NORSS, options->bNoRSS);
-	db_set_b(NULL, MODULENAME, OPT_READCHECK, options->bReadCheck);
-	return 0;
+	setByte(OPT_DISABLE, bDisable);
+	setByte(OPT_PREVIEW, bPreview);
+	setByte(OPT_MENUITEM, bMenuitem);
+	setByte(OPT_COLDEFAULT_MESSAGE, bDefaultColorMsg);
+	setByte(OPT_COLDEFAULT_URL, bDefaultColorUrl);
+	setByte(OPT_COLDEFAULT_FILE, bDefaultColorFile);
+	setByte(OPT_COLDEFAULT_OTHERS, bDefaultColorOthers);
+	setDword(OPT_COLBACK_MESSAGE, colBackMsg);
+	setDword(OPT_COLTEXT_MESSAGE, colTextMsg);
+	setDword(OPT_COLBACK_URL, colBackUrl);
+	setDword(OPT_COLTEXT_URL, colTextUrl);
+	setDword(OPT_COLBACK_FILE, colBackFile);
+	setDword(OPT_COLTEXT_FILE, colTextFile);
+	setDword(OPT_COLBACK_OTHERS, colBackOthers);
+	setDword(OPT_COLTEXT_OTHERS, colTextOthers);
+	setByte(OPT_MASKNOTIFY, (BYTE)maskNotify);
+	setByte(OPT_MASKACTL, (BYTE)maskActL);
+	setByte(OPT_MASKACTR, (BYTE)maskActR);
+	setByte(OPT_MASKACTTE, (BYTE)maskActTE);
+	setByte(OPT_MSGWINDOWCHECK, bMsgWindowCheck);
+	setByte(OPT_MSGREPLYWINDOW, bMsgReplyWindow);
+	setByte(OPT_MERGEPOPUP, bMergePopup);
+	setDword(OPT_DELAY_MESSAGE, iDelayMsg);
+	setDword(OPT_DELAY_URL, iDelayUrl);
+	setDword(OPT_DELAY_FILE, iDelayFile);
+	setDword(OPT_DELAY_OTHERS, iDelayOthers);
+	setByte(OPT_SHOW_DATE, bShowDate);
+	setByte(OPT_SHOW_TIME, bShowTime);
+	setByte(OPT_SHOW_HEADERS, bShowHeaders);
+	setByte(OPT_NUMBER_MSG, (BYTE)iNumberMsg);
+	setByte(OPT_SHOW_ON, bShowON);
+	setByte(OPT_HIDESEND, bHideSend);
+	setByte(OPT_NORSS, bNoRSS);
+	setByte(OPT_READCHECK, bReadCheck);
 }
 
 static void SetCheckBoxState(HWND hWnd, int iCtrl, BOOL bState)
@@ -119,28 +116,28 @@ static void EnableDlgItem(HWND hWnd, int iCtrl, BOOL bEnable)
 static void UpdateOptionsDlgItemsState(HWND hWnd)
 {
 	//disable color picker when using default colors
-	EnableDlgItem(hWnd, IDC_COLBACK_MESSAGE, !options->bDefaultColorMsg);
-	EnableDlgItem(hWnd, IDC_COLTEXT_MESSAGE, !options->bDefaultColorMsg);
-	EnableDlgItem(hWnd, IDC_COLBACK_URL, !options->bDefaultColorUrl);
-	EnableDlgItem(hWnd, IDC_COLTEXT_URL, !options->bDefaultColorUrl);
-	EnableDlgItem(hWnd, IDC_COLBACK_FILE, !options->bDefaultColorFile);
-	EnableDlgItem(hWnd, IDC_COLTEXT_FILE, !options->bDefaultColorFile);
-	EnableDlgItem(hWnd, IDC_COLBACK_OTHERS, !options->bDefaultColorOthers);
-	EnableDlgItem(hWnd, IDC_COLTEXT_OTHERS, !options->bDefaultColorOthers);
+	EnableDlgItem(hWnd, IDC_COLBACK_MESSAGE, !g_plugin.bDefaultColorMsg);
+	EnableDlgItem(hWnd, IDC_COLTEXT_MESSAGE, !g_plugin.bDefaultColorMsg);
+	EnableDlgItem(hWnd, IDC_COLBACK_URL, !g_plugin.bDefaultColorUrl);
+	EnableDlgItem(hWnd, IDC_COLTEXT_URL, !g_plugin.bDefaultColorUrl);
+	EnableDlgItem(hWnd, IDC_COLBACK_FILE, !g_plugin.bDefaultColorFile);
+	EnableDlgItem(hWnd, IDC_COLTEXT_FILE, !g_plugin.bDefaultColorFile);
+	EnableDlgItem(hWnd, IDC_COLBACK_OTHERS, !g_plugin.bDefaultColorOthers);
+	EnableDlgItem(hWnd, IDC_COLTEXT_OTHERS, !g_plugin.bDefaultColorOthers);
 	//disable merge messages options when is not using
-	EnableDlgItem(hWnd, IDC_CHKSHOWDATE, options->bMergePopup);
-	EnableDlgItem(hWnd, IDC_CHKSHOWTIME, options->bMergePopup);
-	EnableDlgItem(hWnd, IDC_CHKSHOWHEADERS, options->bMergePopup);
-	EnableDlgItem(hWnd, IDC_CMDEDITHEADERS, options->bMergePopup && options->bShowHeaders);
-	EnableDlgItem(hWnd, IDC_NUMBERMSG, options->bMergePopup);
-	EnableDlgItem(hWnd, IDC_LBNUMBERMSG, options->bMergePopup);
-	EnableDlgItem(hWnd, IDC_RDNEW, options->bMergePopup && options->iNumberMsg);
-	EnableDlgItem(hWnd, IDC_RDOLD, options->bMergePopup && options->iNumberMsg);
+	EnableDlgItem(hWnd, IDC_CHKSHOWDATE, g_plugin.bMergePopup);
+	EnableDlgItem(hWnd, IDC_CHKSHOWTIME, g_plugin.bMergePopup);
+	EnableDlgItem(hWnd, IDC_CHKSHOWHEADERS, g_plugin.bMergePopup);
+	EnableDlgItem(hWnd, IDC_CMDEDITHEADERS, g_plugin.bMergePopup && g_plugin.bShowHeaders);
+	EnableDlgItem(hWnd, IDC_NUMBERMSG, g_plugin.bMergePopup);
+	EnableDlgItem(hWnd, IDC_LBNUMBERMSG, g_plugin.bMergePopup);
+	EnableDlgItem(hWnd, IDC_RDNEW, g_plugin.bMergePopup && g_plugin.iNumberMsg);
+	EnableDlgItem(hWnd, IDC_RDOLD, g_plugin.bMergePopup && g_plugin.iNumberMsg);
 	//disable delay textbox when infinite is checked
-	EnableDlgItem(hWnd, IDC_DELAY_MESSAGE, options->iDelayMsg != -1);
-	EnableDlgItem(hWnd, IDC_DELAY_URL, options->iDelayUrl != -1);
-	EnableDlgItem(hWnd, IDC_DELAY_FILE, options->iDelayFile != -1);
-	EnableDlgItem(hWnd, IDC_DELAY_OTHERS, options->iDelayOthers != -1);
+	EnableDlgItem(hWnd, IDC_DELAY_MESSAGE, g_plugin.iDelayMsg != -1);
+	EnableDlgItem(hWnd, IDC_DELAY_URL, g_plugin.iDelayUrl != -1);
+	EnableDlgItem(hWnd, IDC_DELAY_FILE, g_plugin.iDelayFile != -1);
+	EnableDlgItem(hWnd, IDC_DELAY_OTHERS, g_plugin.iDelayOthers != -1);
 }
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -150,54 +147,54 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 		TranslateDialogDefault(hWnd);
 		//make dialog represent the current options
 		bWmNotify = TRUE;
-		SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, options->colBackMsg);
-		SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, options->colTextMsg);
-		SendDlgItemMessage(hWnd, IDC_COLBACK_URL, CPM_SETCOLOUR, 0, options->colBackUrl);
-		SendDlgItemMessage(hWnd, IDC_COLTEXT_URL, CPM_SETCOLOUR, 0, options->colTextUrl);
-		SendDlgItemMessage(hWnd, IDC_COLBACK_FILE, CPM_SETCOLOUR, 0, options->colBackFile);
-		SendDlgItemMessage(hWnd, IDC_COLTEXT_FILE, CPM_SETCOLOUR, 0, options->colTextFile);
-		SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_SETCOLOUR, 0, options->colBackOthers);
-		SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_SETCOLOUR, 0, options->colTextOthers);
-		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_MESSAGE, options->bDefaultColorMsg);
-		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_URL, options->bDefaultColorUrl);
-		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_FILE, options->bDefaultColorFile);
-		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_OTHERS, options->bDefaultColorOthers);
-		SetCheckBoxState(hWnd, IDC_CHKMENUITEM, options->bMenuitem);
-		SetCheckBoxState(hWnd, IDC_CHKDISABLE, options->bDisable);
-		SetCheckBoxState(hWnd, IDC_CHKPREVIEW, options->bPreview);
-		SetCheckBoxState(hWnd, IDC_CHKMERGEPOPUP, options->bMergePopup);
-		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_MESSAGE, options->maskNotify & MASK_MESSAGE);
-		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_URL, options->maskNotify & MASK_URL);
-		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_FILE, options->maskNotify & MASK_FILE);
-		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_OTHER, options->maskNotify & MASK_OTHER);
-		SetCheckBoxState(hWnd, IDC_CHKACTL_DISMISS, options->maskActL & MASK_DISMISS);
-		SetCheckBoxState(hWnd, IDC_CHKACTL_OPEN, options->maskActL & MASK_OPEN);
-		SetCheckBoxState(hWnd, IDC_CHKACTL_REMOVE, options->maskActL & MASK_REMOVE);
-		SetCheckBoxState(hWnd, IDC_CHKACTR_DISMISS, options->maskActR & MASK_DISMISS);
-		SetCheckBoxState(hWnd, IDC_CHKACTR_OPEN, options->maskActR & MASK_OPEN);
-		SetCheckBoxState(hWnd, IDC_CHKACTR_REMOVE, options->maskActR & MASK_REMOVE);
-		SetCheckBoxState(hWnd, IDC_CHKACTTE_DISMISS, options->maskActTE & MASK_DISMISS);
-		SetCheckBoxState(hWnd, IDC_CHKACTTE_OPEN, options->maskActTE & MASK_OPEN);
-		SetCheckBoxState(hWnd, IDC_CHKACTTE_REMOVE, options->maskActTE & MASK_REMOVE);
-		SetCheckBoxState(hWnd, IDC_CHKWINDOWCHECK, options->bMsgWindowCheck);
-		SetCheckBoxState(hWnd, IDC_CHKREPLYWINDOW, options->bMsgReplyWindow);
-		SetCheckBoxState(hWnd, IDC_CHKSHOWDATE, options->bShowDate);
-		SetCheckBoxState(hWnd, IDC_CHKSHOWTIME, options->bShowTime);
-		SetCheckBoxState(hWnd, IDC_CHKSHOWHEADERS, options->bShowHeaders);
-		SetCheckBoxState(hWnd, IDC_RDNEW, !options->bShowON);
-		SetCheckBoxState(hWnd, IDC_RDOLD, options->bShowON);
-		SetCheckBoxState(hWnd, IDC_CHKHIDESEND, options->bHideSend);
-		SetCheckBoxState(hWnd, IDC_SUPRESSRSS, options->bNoRSS);
-		SetCheckBoxState(hWnd, IDC_READCHECK, options->bReadCheck);
-		SetCheckBoxState(hWnd, IDC_CHKINFINITE_MESSAGE, options->iDelayMsg == -1);
-		SetCheckBoxState(hWnd, IDC_CHKINFINITE_URL, options->iDelayUrl == -1);
-		SetCheckBoxState(hWnd, IDC_CHKINFINITE_FILE, options->iDelayFile == -1);
-		SetCheckBoxState(hWnd, IDC_CHKINFINITE_OTHERS, options->iDelayOthers == -1);
-		SetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, options->iDelayMsg != -1 ? options->iDelayMsg : 0, TRUE);
-		SetDlgItemInt(hWnd, IDC_DELAY_URL, options->iDelayUrl != -1 ? options->iDelayUrl : 0, TRUE);
-		SetDlgItemInt(hWnd, IDC_DELAY_FILE, options->iDelayFile != -1 ? options->iDelayFile : 0, TRUE);
-		SetDlgItemInt(hWnd, IDC_DELAY_OTHERS, options->iDelayOthers != -1 ? options->iDelayOthers : 0, TRUE);
-		SetDlgItemInt(hWnd, IDC_NUMBERMSG, options->iNumberMsg, FALSE);
+		SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, g_plugin.colBackMsg);
+		SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, g_plugin.colTextMsg);
+		SendDlgItemMessage(hWnd, IDC_COLBACK_URL, CPM_SETCOLOUR, 0, g_plugin.colBackUrl);
+		SendDlgItemMessage(hWnd, IDC_COLTEXT_URL, CPM_SETCOLOUR, 0, g_plugin.colTextUrl);
+		SendDlgItemMessage(hWnd, IDC_COLBACK_FILE, CPM_SETCOLOUR, 0, g_plugin.colBackFile);
+		SendDlgItemMessage(hWnd, IDC_COLTEXT_FILE, CPM_SETCOLOUR, 0, g_plugin.colTextFile);
+		SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_SETCOLOUR, 0, g_plugin.colBackOthers);
+		SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_SETCOLOUR, 0, g_plugin.colTextOthers);
+		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_MESSAGE, g_plugin.bDefaultColorMsg);
+		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_URL, g_plugin.bDefaultColorUrl);
+		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_FILE, g_plugin.bDefaultColorFile);
+		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_OTHERS, g_plugin.bDefaultColorOthers);
+		SetCheckBoxState(hWnd, IDC_CHKMENUITEM, g_plugin.bMenuitem);
+		SetCheckBoxState(hWnd, IDC_CHKDISABLE, g_plugin.bDisable);
+		SetCheckBoxState(hWnd, IDC_CHKPREVIEW, g_plugin.bPreview);
+		SetCheckBoxState(hWnd, IDC_CHKMERGEPOPUP, g_plugin.bMergePopup);
+		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_MESSAGE, g_plugin.maskNotify & MASK_MESSAGE);
+		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_URL, g_plugin.maskNotify & MASK_URL);
+		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_FILE, g_plugin.maskNotify & MASK_FILE);
+		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_OTHER, g_plugin.maskNotify & MASK_OTHER);
+		SetCheckBoxState(hWnd, IDC_CHKACTL_DISMISS, g_plugin.maskActL & MASK_DISMISS);
+		SetCheckBoxState(hWnd, IDC_CHKACTL_OPEN, g_plugin.maskActL & MASK_OPEN);
+		SetCheckBoxState(hWnd, IDC_CHKACTL_REMOVE, g_plugin.maskActL & MASK_REMOVE);
+		SetCheckBoxState(hWnd, IDC_CHKACTR_DISMISS, g_plugin.maskActR & MASK_DISMISS);
+		SetCheckBoxState(hWnd, IDC_CHKACTR_OPEN, g_plugin.maskActR & MASK_OPEN);
+		SetCheckBoxState(hWnd, IDC_CHKACTR_REMOVE, g_plugin.maskActR & MASK_REMOVE);
+		SetCheckBoxState(hWnd, IDC_CHKACTTE_DISMISS, g_plugin.maskActTE & MASK_DISMISS);
+		SetCheckBoxState(hWnd, IDC_CHKACTTE_OPEN, g_plugin.maskActTE & MASK_OPEN);
+		SetCheckBoxState(hWnd, IDC_CHKACTTE_REMOVE, g_plugin.maskActTE & MASK_REMOVE);
+		SetCheckBoxState(hWnd, IDC_CHKWINDOWCHECK, g_plugin.bMsgWindowCheck);
+		SetCheckBoxState(hWnd, IDC_CHKREPLYWINDOW, g_plugin.bMsgReplyWindow);
+		SetCheckBoxState(hWnd, IDC_CHKSHOWDATE, g_plugin.bShowDate);
+		SetCheckBoxState(hWnd, IDC_CHKSHOWTIME, g_plugin.bShowTime);
+		SetCheckBoxState(hWnd, IDC_CHKSHOWHEADERS, g_plugin.bShowHeaders);
+		SetCheckBoxState(hWnd, IDC_RDNEW, !g_plugin.bShowON);
+		SetCheckBoxState(hWnd, IDC_RDOLD, g_plugin.bShowON);
+		SetCheckBoxState(hWnd, IDC_CHKHIDESEND, g_plugin.bHideSend);
+		SetCheckBoxState(hWnd, IDC_SUPRESSRSS, g_plugin.bNoRSS);
+		SetCheckBoxState(hWnd, IDC_READCHECK, g_plugin.bReadCheck);
+		SetCheckBoxState(hWnd, IDC_CHKINFINITE_MESSAGE, g_plugin.iDelayMsg == -1);
+		SetCheckBoxState(hWnd, IDC_CHKINFINITE_URL, g_plugin.iDelayUrl == -1);
+		SetCheckBoxState(hWnd, IDC_CHKINFINITE_FILE, g_plugin.iDelayFile == -1);
+		SetCheckBoxState(hWnd, IDC_CHKINFINITE_OTHERS, g_plugin.iDelayOthers == -1);
+		SetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, g_plugin.iDelayMsg != -1 ? g_plugin.iDelayMsg : 0, TRUE);
+		SetDlgItemInt(hWnd, IDC_DELAY_URL, g_plugin.iDelayUrl != -1 ? g_plugin.iDelayUrl : 0, TRUE);
+		SetDlgItemInt(hWnd, IDC_DELAY_FILE, g_plugin.iDelayFile != -1 ? g_plugin.iDelayFile : 0, TRUE);
+		SetDlgItemInt(hWnd, IDC_DELAY_OTHERS, g_plugin.iDelayOthers != -1 ? g_plugin.iDelayOthers : 0, TRUE);
+		SetDlgItemInt(hWnd, IDC_NUMBERMSG, g_plugin.iNumberMsg, FALSE);
 		//update items' states 
 		UpdateOptionsDlgItemsState(hWnd);
 		bWmNotify = FALSE;
@@ -207,60 +204,60 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 		if (!bWmNotify) {
 			switch (LOWORD(wParam)) {
 			case IDC_PREVIEW:
-				PopupPreview(options);
+				PopupPreview();
 				break;
 			default:
 				//update options
-				options->maskNotify = (IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_MESSAGE) ? MASK_MESSAGE : 0) |
+				g_plugin.maskNotify = (IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_MESSAGE) ? MASK_MESSAGE : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_URL) ? MASK_URL : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_FILE) ? MASK_FILE : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_OTHER) ? MASK_OTHER : 0);
-				options->maskActL = (IsDlgButtonChecked(hWnd, IDC_CHKACTL_DISMISS) ? MASK_DISMISS : 0) |
+				g_plugin.maskActL = (IsDlgButtonChecked(hWnd, IDC_CHKACTL_DISMISS) ? MASK_DISMISS : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKACTL_OPEN) ? MASK_OPEN : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKACTL_REMOVE) ? MASK_REMOVE : 0);
-				options->maskActR = (IsDlgButtonChecked(hWnd, IDC_CHKACTR_DISMISS) ? MASK_DISMISS : 0) |
+				g_plugin.maskActR = (IsDlgButtonChecked(hWnd, IDC_CHKACTR_DISMISS) ? MASK_DISMISS : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKACTR_OPEN) ? MASK_OPEN : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKACTR_REMOVE) ? MASK_REMOVE : 0);
-				options->maskActTE = (IsDlgButtonChecked(hWnd, IDC_CHKACTTE_DISMISS) ? MASK_DISMISS : 0) |
+				g_plugin.maskActTE = (IsDlgButtonChecked(hWnd, IDC_CHKACTTE_DISMISS) ? MASK_DISMISS : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKACTTE_OPEN) ? MASK_OPEN : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKACTTE_REMOVE) ? MASK_REMOVE : 0);
-				options->bDefaultColorMsg = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MESSAGE);
-				options->bDefaultColorUrl = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_URL);
-				options->bDefaultColorFile = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_FILE);
-				options->bDefaultColorOthers = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_OTHERS);
-				options->bMenuitem = IsDlgButtonChecked(hWnd, IDC_CHKMENUITEM);
-				options->bDisable = IsDlgButtonChecked(hWnd, IDC_CHKDISABLE);
-				options->bPreview = IsDlgButtonChecked(hWnd, IDC_CHKPREVIEW);
-				options->iDelayMsg = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
-				options->iDelayUrl = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_URL) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_URL, nullptr, FALSE);
-				options->iDelayFile = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_FILE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_FILE, nullptr, FALSE);
-				options->iDelayOthers = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_OTHERS) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_OTHERS, nullptr, FALSE);
-				options->bMergePopup = IsDlgButtonChecked(hWnd, IDC_CHKMERGEPOPUP);
-				options->bMsgWindowCheck = IsDlgButtonChecked(hWnd, IDC_CHKWINDOWCHECK);
-				options->bMsgReplyWindow = IsDlgButtonChecked(hWnd, IDC_CHKREPLYWINDOW);
-				options->bShowDate = IsDlgButtonChecked(hWnd, IDC_CHKSHOWDATE);
-				options->bShowTime = IsDlgButtonChecked(hWnd, IDC_CHKSHOWTIME);
-				options->bShowHeaders = IsDlgButtonChecked(hWnd, IDC_CHKSHOWHEADERS);
-				options->bShowON = IsDlgButtonChecked(hWnd, IDC_RDOLD);
-				options->bShowON = BST_UNCHECKED == IsDlgButtonChecked(hWnd, IDC_RDNEW);
-				options->bHideSend = IsDlgButtonChecked(hWnd, IDC_CHKHIDESEND);
-				options->iNumberMsg = GetDlgItemInt(hWnd, IDC_NUMBERMSG, nullptr, FALSE);
-				options->bNoRSS = IsDlgButtonChecked(hWnd, IDC_SUPRESSRSS);
-				options->bReadCheck = IsDlgButtonChecked(hWnd, IDC_READCHECK);
+				g_plugin.bDefaultColorMsg = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MESSAGE);
+				g_plugin.bDefaultColorUrl = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_URL);
+				g_plugin.bDefaultColorFile = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_FILE);
+				g_plugin.bDefaultColorOthers = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_OTHERS);
+				g_plugin.bMenuitem = IsDlgButtonChecked(hWnd, IDC_CHKMENUITEM);
+				g_plugin.bDisable = IsDlgButtonChecked(hWnd, IDC_CHKDISABLE);
+				g_plugin.bPreview = IsDlgButtonChecked(hWnd, IDC_CHKPREVIEW);
+				g_plugin.iDelayMsg = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
+				g_plugin.iDelayUrl = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_URL) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_URL, nullptr, FALSE);
+				g_plugin.iDelayFile = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_FILE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_FILE, nullptr, FALSE);
+				g_plugin.iDelayOthers = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_OTHERS) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_OTHERS, nullptr, FALSE);
+				g_plugin.bMergePopup = IsDlgButtonChecked(hWnd, IDC_CHKMERGEPOPUP);
+				g_plugin.bMsgWindowCheck = IsDlgButtonChecked(hWnd, IDC_CHKWINDOWCHECK);
+				g_plugin.bMsgReplyWindow = IsDlgButtonChecked(hWnd, IDC_CHKREPLYWINDOW);
+				g_plugin.bShowDate = IsDlgButtonChecked(hWnd, IDC_CHKSHOWDATE);
+				g_plugin.bShowTime = IsDlgButtonChecked(hWnd, IDC_CHKSHOWTIME);
+				g_plugin.bShowHeaders = IsDlgButtonChecked(hWnd, IDC_CHKSHOWHEADERS);
+				g_plugin.bShowON = IsDlgButtonChecked(hWnd, IDC_RDOLD);
+				g_plugin.bShowON = BST_UNCHECKED == IsDlgButtonChecked(hWnd, IDC_RDNEW);
+				g_plugin.bHideSend = IsDlgButtonChecked(hWnd, IDC_CHKHIDESEND);
+				g_plugin.iNumberMsg = GetDlgItemInt(hWnd, IDC_NUMBERMSG, nullptr, FALSE);
+				g_plugin.bNoRSS = IsDlgButtonChecked(hWnd, IDC_SUPRESSRSS);
+				g_plugin.bReadCheck = IsDlgButtonChecked(hWnd, IDC_READCHECK);
 				//update items' states
 				UpdateOptionsDlgItemsState(hWnd);
 				if (HIWORD(wParam) == CPN_COLOURCHANGED) {
-					options->colBackMsg = SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_GETCOLOUR, 0, 0);
-					options->colTextMsg = SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_GETCOLOUR, 0, 0);
-					options->colBackUrl = SendDlgItemMessage(hWnd, IDC_COLBACK_URL, CPM_GETCOLOUR, 0, 0);
-					options->colTextUrl = SendDlgItemMessage(hWnd, IDC_COLTEXT_URL, CPM_GETCOLOUR, 0, 0);
-					options->colBackFile = SendDlgItemMessage(hWnd, IDC_COLBACK_FILE, CPM_GETCOLOUR, 0, 0);
-					options->colTextFile = SendDlgItemMessage(hWnd, IDC_COLTEXT_FILE, CPM_GETCOLOUR, 0, 0);
-					options->colBackOthers = SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_GETCOLOUR, 0, 0);
-					options->colTextOthers = SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_GETCOLOUR, 0, 0);
+					g_plugin.colBackMsg = SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_GETCOLOUR, 0, 0);
+					g_plugin.colTextMsg = SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_GETCOLOUR, 0, 0);
+					g_plugin.colBackUrl = SendDlgItemMessage(hWnd, IDC_COLBACK_URL, CPM_GETCOLOUR, 0, 0);
+					g_plugin.colTextUrl = SendDlgItemMessage(hWnd, IDC_COLTEXT_URL, CPM_GETCOLOUR, 0, 0);
+					g_plugin.colBackFile = SendDlgItemMessage(hWnd, IDC_COLBACK_FILE, CPM_GETCOLOUR, 0, 0);
+					g_plugin.colTextFile = SendDlgItemMessage(hWnd, IDC_COLTEXT_FILE, CPM_GETCOLOUR, 0, 0);
+					g_plugin.colBackOthers = SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_GETCOLOUR, 0, 0);
+					g_plugin.colTextOthers = SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_GETCOLOUR, 0, 0);
 				}
 				//send changes to mi
-				MenuitemUpdate(!options->bDisable);
+				MenuitemUpdate(!g_plugin.bDisable);
 				//enable "Apply" button
 				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
 				break;
@@ -271,14 +268,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			OptionsWrite();
+			g_plugin.OptionsWrite();
 			break;
 
 		case PSN_RESET:
-			OptionsRead();
+			g_plugin.OptionsRead();
 
 			//maybe something changed with the mi
-			MenuitemUpdate(!options->bDisable);
+			MenuitemUpdate(!g_plugin.bDisable);
 			break;
 		}
 		break;
@@ -286,7 +283,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 	return FALSE;
 }
 
-int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
+int OptionsAdd(WPARAM addInfo, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = {};
@@ -301,16 +298,9 @@ int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 	return 0;
 }
 
-int OptionsInit(PLUGIN_OPTIONS* pluginOptions)
-{
-	options = pluginOptions;
-	OptionsRead();
-	return 0;
-}
-
 int Opt_DisableNEN(BOOL Status)
 {
-	options->bDisable = Status;
-	OptionsWrite(); // JK: really necessary to write everything here ????
+	g_plugin.bDisable = Status;
+	g_plugin.OptionsWrite(); // JK: really necessary to write everything here ????
 	return 0;
 }

@@ -1,32 +1,30 @@
 /*
-  Name: NewEventNotify - Plugin for Miranda IM
-  File: main.c - Main DLL procedures
-  Version: 0.2.2.2
-  Description: Notifies you about some events
-  Author: jokusoftware, <jokusoftware@miranda-im.org>
-  Date: 18.07.02 13:59 / Update: 22.10.07 19:56
-  Copyright: (C) 2002 Starzinger Michael
+	Name: NewEventNotify - Plugin for Miranda IM
+	File: main.c - Main DLL procedures
+	Version: 0.2.2.2
+	Description: Notifies you about some events
+	Author: jokusoftware, <jokusoftware@miranda-im.org>
+	Date: 18.07.02 13:59 / Update: 22.10.07 19:56
+	Copyright: (C) 2002 Starzinger Michael
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
 
 extern PLUGIN_DATA* PopupList[20];
-
-PLUGIN_OPTIONS pluginOptions;
 
 //---------------------------
 //---Some global variables for the plugin
@@ -63,7 +61,7 @@ CMPlugin::CMPlugin() :
 int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 {
 	//are popups currently enabled?
-	if (pluginOptions.bDisable)
+	if (g_plugin.bDisable)
 		return 0;
 
 	//get DBEVENTINFO without pBlob
@@ -81,13 +79,13 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 
 	//if event was allready read don't show it
-	if (pluginOptions.bReadCheck && (dbe.flags & DBEF_READ))
+	if (g_plugin.bReadCheck && (dbe.flags & DBEF_READ))
 		return 0;
 
 	//is it an event sent by the user? -> don't show
 	if (dbe.flags & DBEF_SENT) {
 		// JK, only message event, do not influence others
-		if (pluginOptions.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1) {
+		if (g_plugin.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1) {
 			PLUGIN_DATA *pdata = PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
 			PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
 		}		
@@ -96,14 +94,14 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 	// which status do we have, are we allowed to post popups?
 	// UNDER CONSTRUCTION!!!
 	CallService(MS_CLIST_GETSTATUSMODE, 0, 0); /// TODO: JK: ????
-	if (dbe.eventType == EVENTTYPE_MESSAGE && (pluginOptions.bMsgWindowCheck && hContact && CheckMsgWnd(hContact)))
+	if (dbe.eventType == EVENTTYPE_MESSAGE && (g_plugin.bMsgWindowCheck && hContact && CheckMsgWnd(hContact)))
 		return 0;
 
 	//is another popup for this contact already present? -> merge message popups if enabled
-	if (dbe.eventType == EVENTTYPE_MESSAGE && (pluginOptions.bMergePopup && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1))
+	if (dbe.eventType == EVENTTYPE_MESSAGE && (g_plugin.bMergePopup && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1))
 		PopupUpdate(hContact, hDbEvent);
 	else
-		PopupShow(&pluginOptions, hContact, hDbEvent, (UINT)dbe.eventType);
+		PopupShow(hContact, hDbEvent, (UINT)dbe.eventType);
 
 	return 0;
 }
@@ -116,15 +114,8 @@ int HookedInit(WPARAM, LPARAM)
 	if (ServiceExists("PluginSweeper/Add"))
 		CallService("PluginSweeper/Add", (WPARAM)MODULENAME, (LPARAM)MODULENAME);
 
-	if (pluginOptions.bMenuitem)
-		MenuitemInit(!pluginOptions.bDisable);
-	return 0;
-}
-
-//---Called when an options dialog has to be created
-int HookedOptions(WPARAM wParam, LPARAM)
-{
-	OptionsAdd(g_plugin.getInst(), wParam);
+	if (g_plugin.bMenuitem)
+		MenuitemInit(!g_plugin.bDisable);
 	return 0;
 }
 
@@ -133,9 +124,9 @@ int HookedOptions(WPARAM wParam, LPARAM)
 int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
-	HookEvent(ME_OPT_INITIALISE, HookedOptions);
+	HookEvent(ME_OPT_INITIALISE, OptionsAdd);
 
-	OptionsInit(&pluginOptions);
+	g_plugin.OptionsRead();
 	return 0;
 }
 

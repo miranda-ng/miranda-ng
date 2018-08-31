@@ -32,7 +32,7 @@ static INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
 	bNotify = !bNotify;
 	MenuitemUpdate(bNotify);
 
-	//write changes to options->bDisable and into database
+	// write changes to options->bDisable and into database
 	Opt_DisableNEN(!bNotify);
 	return 0;
 }

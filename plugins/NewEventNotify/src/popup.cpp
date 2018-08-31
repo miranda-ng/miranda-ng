@@ -1,25 +1,25 @@
 /*
-  Name: NewEventNotify - Plugin for Miranda IM
-  File: popup.c - Displays a popup using the popup-plugin by hrk
-  Version: 2.2.3
-  Description: Notifies you about some events
-  Author: icebreaker, <icebreaker@newmail.net>
-  Date: 21.07.02 15:46 / Update: 16.09.02 17:45
-  Copyright: (C) 2002 Starzinger Michael
+	Name: NewEventNotify - Plugin for Miranda IM
+	File: popup.c - Displays a popup using the popup-plugin by hrk
+	Version: 2.2.3
+	Description: Notifies you about some events
+	Author: icebreaker, <icebreaker@newmail.net>
+	Date: 21.07.02 15:46 / Update: 16.09.02 17:45
+	Copyright: (C) 2002 Starzinger Michael
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
@@ -32,7 +32,7 @@ PLUGIN_DATA* PopupList[MAX_POPUPS];
 
 int NumberPopupData(MCONTACT hContact, int eventType)
 {
-	for (int n=0; n < MAX_POPUPS; n++) {
+	for (int n = 0; n < MAX_POPUPS; n++) {
 		if (!PopupList[n] && !hContact && eventType == -1)
 			return n;
 
@@ -44,8 +44,8 @@ int NumberPopupData(MCONTACT hContact, int eventType)
 
 static int FindPopupData(PLUGIN_DATA* pdata)
 {
-	for (int n=0; n < MAX_POPUPS; n++)
-		if (PopupList[n] == pdata) 
+	for (int n = 0; n < MAX_POPUPS; n++)
+		if (PopupList[n] == pdata)
 			return n;
 
 	return -1;
@@ -65,7 +65,7 @@ static void FreePopupEventData(PLUGIN_DATA* pdata)
 			mir_free(eventData);
 			eventData = nullptr;
 		}
-	}		
+	}
 	pdata->lastEventData = pdata->firstEventData = pdata->firstShowEventData = nullptr;
 	// remove from popup list if present
 	if (FindPopupData(pdata) != -1)
@@ -77,7 +77,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 	if (mask & MASK_OPEN) {
 		if (pdata) {
 			// do MS_MSG_SENDMESSAGE instead if wanted to reply and not read!
-			if (pdata->pluginOptions->bMsgReplyWindow && pdata->eventType == EVENTTYPE_MESSAGE)
+			if (g_plugin.bMsgReplyWindow && pdata->eventType == EVENTTYPE_MESSAGE)
 				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pdata->hContact, 0); // JK, use core (since 0.3.3+)
 			else {
 				EVENT_DATA_EX *eventData = pdata->firstEventData;
@@ -105,9 +105,9 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 			pdata->iLock = 1;
 			while (eventData) {
 				g_clistApi.pfnRemoveEvent(pdata->hContact, eventData->hEvent);
-				db_event_markRead(pdata->hContact, eventData->hEvent);			
+				db_event_markRead(pdata->hContact, eventData->hEvent);
 				eventData = eventData->next;
-			}		
+			}
 			FreePopupEventData(pdata);
 		}
 	}
@@ -129,10 +129,10 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 	switch (message) {
 	case WM_COMMAND:
-		PopupAct(hWnd, pdata->pluginOptions->maskActL, pdata);
+		PopupAct(hWnd, g_plugin.maskActL, pdata);
 		break;
 	case WM_CONTEXTMENU:
-		PopupAct(hWnd, pdata->pluginOptions->maskActR, pdata);
+		PopupAct(hWnd, g_plugin.maskActR, pdata);
 		break;
 	case UM_FREEPLUGINDATA:
 		PopupCount--;
@@ -144,14 +144,12 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		break;
 	case WM_MOUSEWHEEL:
 		if ((short)HIWORD(wParam) > 0 && pdata->firstShowEventData->prev &&
-			(pdata->pluginOptions->bShowON || pdata->firstShowEventData->number >= pdata->pluginOptions->iNumberMsg))
-		{
+			(g_plugin.bShowON || pdata->firstShowEventData->number >= g_plugin.iNumberMsg)) {
 			pdata->firstShowEventData = pdata->firstShowEventData->prev;
 			PopupUpdate(pdata->hContact, NULL);
 		}
-		if ((short)HIWORD(wParam) < 0 && pdata->firstShowEventData->next && 
-			(!pdata->pluginOptions->bShowON || pdata->countEvent - pdata->firstShowEventData->number >= pdata->pluginOptions->iNumberMsg))
-		{
+		if ((short)HIWORD(wParam) < 0 && pdata->firstShowEventData->next &&
+			(!g_plugin.bShowON || pdata->countEvent - pdata->firstShowEventData->number >= g_plugin.iNumberMsg)) {
 			pdata->firstShowEventData = pdata->firstShowEventData->next;
 			PopupUpdate(pdata->hContact, NULL);
 		}
@@ -162,7 +160,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_TIMER:
 		if (wParam != TIMER_TO_ACTION)
 			break;
-		PopupAct(hWnd, pdata->pluginOptions->maskActTE, pdata);
+		PopupAct(hWnd, g_plugin.maskActTE, pdata);
 		break;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
@@ -172,9 +170,9 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 {
 	wchar_t *comment1 = nullptr;
 	wchar_t *comment2 = nullptr;
-	char  *commentFix = nullptr;
+	char *commentFix = nullptr;
 
-	//now get text
+	// now get text
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		if (dbei->pBlob) {
@@ -182,7 +180,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 				// utf-8 in blob
 				comment1 = mir_utf8decodeW((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob)+1)*(sizeof(wchar_t)+1)) {
+			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob) + 1)*(sizeof(wchar_t) + 1)) {
 				// wchar in blob (the old hack)
 				comment1 = mir_wstrdup((wchar_t*)dbei->pBlob);
 			}
@@ -211,9 +209,9 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		commentFix = POPUP_COMMENT_FILE;
 		break;
 
-	//blob format is:
-	//ASCIIZ    nick
-	//ASCIIZ    UID
+		// blob format is:
+		// ASCIIZ    nick
+		// ASCIIZ    UID
 	case EVENTTYPE_CONTACTS:
 		if (dbei->pBlob) {
 			// count contacts in event
@@ -237,13 +235,13 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		commentFix = POPUP_COMMENT_CONTACTS;
 		break;
 
-	//blob format is:
-	//DWORD     numeric uin (ICQ only afaik)
-	//DWORD     HANDLE to contact
-	//ASCIIZ    nick (or text UID)
-	//ASCIIZ    first name
-	//ASCIIZ    last name
-	//ASCIIZ    email (or YID)
+		// blob format is:
+		// DWORD     numeric uin (ICQ only afaik)
+		// DWORD     HANDLE to contact
+		// ASCIIZ    nick (or text UID)
+		// ASCIIZ    first name
+		// ASCIIZ    last name
+		// ASCIIZ    email (or YID)
 	case EVENTTYPE_ADDED:
 		if (dbei->pBlob) {
 			char szUin[16];
@@ -300,33 +298,33 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		commentFix = POPUP_COMMENT_AUTH;
 		break;
 
-	//blob format is:
-	//ASCIIZ    text, usually "Sender IP: xxx.xxx.xxx.xxx\r\n%s"
-	//ASCIIZ    from name
-	//ASCIIZ    from e-mail
+		// blob format is:
+		// ASCIIZ    text, usually "Sender IP: xxx.xxx.xxx.xxx\r\n%s"
+		// ASCIIZ    from name
+		// ASCIIZ    from e-mail
 	case ICQEVENTTYPE_WEBPAGER:
 		if (dbei->pBlob) comment1 = mir_a2u((const char *)dbei->pBlob);
 		commentFix = POPUP_COMMENT_WEBPAGER;
 		break;
 
-	//blob format is:
-	//ASCIIZ    text, usually of the form "Subject: %s\r\n%s"
-	//ASCIIZ    from name
-	//ASCIIZ    from e-mail
+		// blob format is:
+		// ASCIIZ    text, usually of the form "Subject: %s\r\n%s"
+		// ASCIIZ    from name
+		// ASCIIZ    from e-mail
 	case ICQEVENTTYPE_EMAILEXPRESS:
 		if (dbei->pBlob) comment1 = mir_a2u((const char *)dbei->pBlob);
 		commentFix = POPUP_COMMENT_EMAILEXP;
 		break;
 
-	//blob format is:
-	//ASCIIZ    text, usually of the form "SMS From: +XXXXXXXX\r\nTEXT"
+		// blob format is:
+		// ASCIIZ    text, usually of the form "SMS From: +XXXXXXXX\r\nTEXT"
 	case ICQEVENTTYPE_SMS:
 		if (dbei->pBlob) {
 			if (dbei->flags & DBEF_UTF) {
 				// utf-8 in blob
 				comment1 = mir_utf8decodeW((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob)+1)*(sizeof(wchar_t)+1)) {
+			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob) + 1)*(sizeof(wchar_t) + 1)) {
 				// wchar in blob (the old hack)
 				comment1 = mir_wstrdup((wchar_t*)dbei->pBlob);
 			}
@@ -335,15 +333,15 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		commentFix = POPUP_COMMENT_SMS;
 		break;
 
-	//blob format is:
-	//ASCIIZ    text, usually of the form "SMS Confirmation From: +XXXXXXXXXXXX\r\nSMS was sent succesfully"
+		// blob format is:
+		// ASCIIZ text, usually of the form "SMS Confirmation From: +XXXXXXXXXXXX\r\nSMS was sent succesfully"
 	case ICQEVENTTYPE_SMSCONFIRMATION:
 		if (dbei->pBlob) {
 			if (dbei->flags & DBEF_UTF) {
 				// utf-8 in blob
 				comment1 = mir_utf8decodeW((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob)+1)*(sizeof(wchar_t)+1)) {
+			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob) + 1)*(sizeof(wchar_t) + 1)) {
 				// wchar in blob (the old hack)
 				comment1 = mir_wstrdup((wchar_t*)dbei->pBlob);
 			}
@@ -372,66 +370,66 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 	}
 	mir_free(comment1);
 	mir_free(comment2);
-	return TranslateW( mir_a2u(commentFix));
+	return TranslateW(mir_a2u(commentFix));
 }
 
-int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, UINT eventType)
+int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 {
-	wchar_t* sampleEvent;
+	wchar_t *sampleEvent;
 	long iSeconds;
 
-	//there has to be a maximum number of popups shown at the same time
+	// there has to be a maximum number of popups shown at the same time
 	if (PopupCount >= MAX_POPUPS)
 		return 2;
 
-	//check if we should report this kind of event
-	//get the prefered icon as well
-	//CHANGE: iSeconds is -1 because I use my timer to hide popup
+	// check if we should report this kind of event
+	// get the prefered icon as well
+	// CHANGE: iSeconds is -1 because I use my timer to hide popup
 	POPUPDATAW pudw;
-	pudw.iSeconds = -1; 
+	pudw.iSeconds = -1;
 
 	switch (eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (!(pluginOptions->maskNotify & MASK_MESSAGE)) return 1;
+		if (!(g_plugin.maskNotify & MASK_MESSAGE)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		pudw.colorBack = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colBackMsg;
-		pudw.colorText = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colTextMsg;
-		iSeconds = pluginOptions->iDelayMsg;
+		pudw.colorBack = g_plugin.bDefaultColorMsg ? 0 : g_plugin.colBackMsg;
+		pudw.colorText = g_plugin.bDefaultColorMsg ? 0 : g_plugin.colTextMsg;
+		iSeconds = g_plugin.iDelayMsg;
 		sampleEvent = TranslateT("This is a sample message event :-)");
 		break;
 
 	case EVENTTYPE_URL:
-		if (!(pluginOptions->maskNotify & MASK_URL)) return 1;
+		if (!(g_plugin.maskNotify & MASK_URL)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_URL);
-		pudw.colorBack = pluginOptions->bDefaultColorUrl ? 0 : pluginOptions->colBackUrl;
-		pudw.colorText = pluginOptions->bDefaultColorUrl ? 0 : pluginOptions->colTextUrl;
-		iSeconds = pluginOptions->iDelayUrl;
+		pudw.colorBack = g_plugin.bDefaultColorUrl ? 0 : g_plugin.colBackUrl;
+		pudw.colorText = g_plugin.bDefaultColorUrl ? 0 : g_plugin.colTextUrl;
+		iSeconds = g_plugin.iDelayUrl;
 		sampleEvent = TranslateT("This is a sample URL event ;-)");
 		break;
 
 	case EVENTTYPE_FILE:
-		if (!(pluginOptions->maskNotify & MASK_FILE)) return 1;
+		if (!(g_plugin.maskNotify & MASK_FILE)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		pudw.colorBack = pluginOptions->bDefaultColorFile ? 0 : pluginOptions->colBackFile;
-		pudw.colorText = pluginOptions->bDefaultColorFile ? 0 : pluginOptions->colTextFile;
-		iSeconds = pluginOptions->iDelayFile;
+		pudw.colorBack = g_plugin.bDefaultColorFile ? 0 : g_plugin.colBackFile;
+		pudw.colorText = g_plugin.bDefaultColorFile ? 0 : g_plugin.colTextFile;
+		iSeconds = g_plugin.iDelayFile;
 		sampleEvent = TranslateT("This is a sample file event :-D");
 		break;
 
 	default:
-		if (!(pluginOptions->maskNotify & MASK_OTHER)) return 1;
+		if (!(g_plugin.maskNotify & MASK_OTHER)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-		pudw.colorBack = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colBackOthers;
-		pudw.colorText = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colTextOthers;
-		iSeconds = pluginOptions->iDelayOthers;
+		pudw.colorBack = g_plugin.bDefaultColorOthers ? 0 : g_plugin.colBackOthers;
+		pudw.colorText = g_plugin.bDefaultColorOthers ? 0 : g_plugin.colTextOthers;
+		iSeconds = g_plugin.iDelayOthers;
 		sampleEvent = TranslateT("This is a sample other event ;-D");
 		break;
 	}
 
-	//get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
+	// get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
 	DBEVENTINFO dbe = {};
 	if (hEvent) {
-		if ((pluginOptions->bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST)) {
+		if ((g_plugin.bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST)) {
 			dbe.cbBlob = db_event_getBlobSize(hEvent);
 			dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
 		}
@@ -452,10 +450,9 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)mir_alloc(sizeof(PLUGIN_DATA));
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;
-	pdata->pluginOptions = pluginOptions;
 	pdata->countEvent = 1;
 	pdata->iLock = 0;
-	pdata->iSeconds = (iSeconds > 0) ? iSeconds : pluginOptions->iDelayDefault;
+	pdata->iSeconds = (iSeconds > 0) ? iSeconds : g_plugin.iDelayDefault;
 	pdata->firstEventData = pdata->firstShowEventData = pdata->lastEventData = eventData;
 
 	// finally create the popup
@@ -506,23 +503,23 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		pdata->lastEventData->hEvent = hEvent;
 		pdata->lastEventData->number = pdata->lastEventData->prev->number + 1;
 		pdata->lastEventData->next = nullptr;
-		if (!pdata->pluginOptions->bShowON && pdata->countEvent > pdata->pluginOptions->iNumberMsg && pdata->pluginOptions->iNumberMsg)
+		if (!g_plugin.bShowON && pdata->countEvent > g_plugin.iNumberMsg && g_plugin.iNumberMsg)
 			pdata->firstShowEventData = pdata->firstShowEventData->next;
-		//re-init timer delay
+		// re-init timer delay
 		KillTimer(pdata->hWnd, TIMER_TO_ACTION);
 		SetTimer(pdata->hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, nullptr);
 	}
 
-	wchar_t lpzText[MAX_SECONDLINE*2] = L"\0\0";
-	if (pdata->pluginOptions->bShowHeaders)
+	wchar_t lpzText[MAX_SECONDLINE * 2] = L"\0\0";
+	if (g_plugin.bShowHeaders)
 		mir_snwprintf(lpzText, TranslateT("[b]Number of new message(s): %d[/b]\n"), pdata->countEvent);
 
-	int doReverse = pdata->pluginOptions->bShowON;
+	int doReverse = g_plugin.bShowON;
 
 	if ((pdata->firstShowEventData != pdata->firstEventData && doReverse) || (pdata->firstShowEventData != pdata->lastEventData && !doReverse))
 		mir_snwprintf(lpzText, L"%s...\n", lpzText);
 
-	//take the active event as starting one
+	// take the active event as starting one
 	EVENT_DATA_EX *eventData = pdata->firstShowEventData;
 
 	int iEvent = 0;
@@ -531,11 +528,11 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 			eventData = (doReverse) ? eventData->next : eventData->prev;
 		iEvent++;
 
-		//get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
+		// get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
 		DBEVENTINFO dbe = {};
 		dbe.pBlob = nullptr;
 		dbe.cbBlob = 0;
-		if (pdata->pluginOptions->bPreview && eventData->hEvent) {
+		if (g_plugin.bPreview && eventData->hEvent) {
 			dbe.cbBlob = db_event_getBlobSize(eventData->hEvent);
 			dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
 		}
@@ -543,12 +540,12 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		if (eventData->hEvent)
 			db_event_get(eventData->hEvent, &dbe);
 
-		if (pdata->pluginOptions->bShowDate || pdata->pluginOptions->bShowTime) {
+		if (g_plugin.bShowDate || g_plugin.bShowTime) {
 			wchar_t timestamp[MAX_DATASIZE];
 			wchar_t formatTime[MAX_DATASIZE];
-			if (pdata->pluginOptions->bShowDate)
+			if (g_plugin.bShowDate)
 				wcsncpy(formatTime, L"%Y.%m.%d", _countof(formatTime));
-			else if (pdata->pluginOptions->bShowTime)
+			else if (g_plugin.bShowTime)
 				mir_wstrncat(formatTime, L" %H:%M", _countof(formatTime) - mir_wstrlen(formatTime));
 			time_t localTime = dbe.timestamp;
 			wcsftime(timestamp, _countof(timestamp), formatTime, localtime(&localTime));
@@ -559,14 +556,14 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		wchar_t* szEventPreview = GetEventPreview(&dbe);
 		mir_snwprintf(lpzText, L"%s%s", lpzText, szEventPreview);
 		mir_free(szEventPreview);
-		
+
 		if (dbe.pBlob)
 			mir_free(dbe.pBlob);
 		if (doReverse) {
-			if ((iEvent >= pdata->pluginOptions->iNumberMsg && pdata->pluginOptions->iNumberMsg) || !eventData->next)
+			if ((iEvent >= g_plugin.iNumberMsg && g_plugin.iNumberMsg) || !eventData->next)
 				break;
 		}
-		else if ((iEvent >= pdata->pluginOptions->iNumberMsg && pdata->pluginOptions->iNumberMsg) || !eventData->prev)
+		else if ((iEvent >= g_plugin.iNumberMsg && g_plugin.iNumberMsg) || !eventData->prev)
 			break;
 
 		mir_snwprintf(lpzText, L"%s\n", lpzText);
@@ -579,11 +576,11 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 	return 0;
 }
 
-int PopupPreview(PLUGIN_OPTIONS* pluginOptions)
+int PopupPreview()
 {
-	PopupShow(pluginOptions, NULL, NULL, EVENTTYPE_MESSAGE);
-	PopupShow(pluginOptions, NULL, NULL, EVENTTYPE_URL);
-	PopupShow(pluginOptions, NULL, NULL, EVENTTYPE_FILE);
-	PopupShow(pluginOptions, NULL, NULL, -1);
+	PopupShow(0, 0, EVENTTYPE_MESSAGE);
+	PopupShow(0, 0, EVENTTYPE_URL);
+	PopupShow(0, 0, EVENTTYPE_FILE);
+	PopupShow(0, 0, -1);
 	return 0;
 }
