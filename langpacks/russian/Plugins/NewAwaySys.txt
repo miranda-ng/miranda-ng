@@ -303,7 +303,7 @@
 [Use the default setting]
 Использовать по умолчанию
 [NewAwaySys: Incoming status message request]
-NewAwaySys: Входящий запрос статусного сообщения
+NewAwaySys: входящий запрос статусного сообщения
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Вы изменили несколько деревьев сразу.\r\nХотите сохранить изменения в "
