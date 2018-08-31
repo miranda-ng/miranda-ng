@@ -500,7 +500,7 @@
 [To]
 [From]
 [Both]
-[Errors]
+[errors]
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 [Send note to %s]

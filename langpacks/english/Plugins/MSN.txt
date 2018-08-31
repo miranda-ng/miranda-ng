@@ -101,8 +101,8 @@
 [Setup Live &Alerts]
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
-[Notify]
-[Error]
+[Notifications]
+[Errors]
 [MSN Protocol]
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
@@ -129,7 +129,6 @@
 [Account]
 [Connection]
 [Server list]
-[Notifications]
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 [Live Alert]
