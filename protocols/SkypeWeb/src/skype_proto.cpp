@@ -51,8 +51,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 		CreateDirectoryTreeW(m_tszAvatarFolder.c_str());
 
 	//sounds
-	g_plugin.addSound("skype_inc_call", L"SkypeWeb", LPGENW("Incoming call sound"));
-	g_plugin.addSound("skype_call_canceled", L"SkypeWeb", LPGENW("Incoming call canceled sound"));
+	g_plugin.addSound("skype_inc_call", L"SkypeWeb", LPGENW("Incoming call"));
+	g_plugin.addSound("skype_call_canceled", L"SkypeWeb", LPGENW("Incoming call canceled"));
 
 	SkypeSetTimer();
 
