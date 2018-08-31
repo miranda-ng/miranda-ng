@@ -532,7 +532,7 @@ bool CChatRoomDlg::OnInitDialog()
 	m_pPanel.loadHeight();
 
 	if (PluginConfig.g_hMenuTrayUnread != nullptr && m_hContact != 0 && m_szProto != nullptr)
-		UpdateTrayMenu(nullptr, m_wStatus, m_szProto, m_wszStatus, m_hContact, FALSE);
+		UpdateTrayMenu(nullptr, m_wStatus, m_szProto, m_wszStatus, m_hContact, 0);
 
 	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
 

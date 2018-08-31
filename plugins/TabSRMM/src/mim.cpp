@@ -501,13 +501,15 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		}
 	}
 
+nowindowcreate:
 	// for tray support, we add the event to the tray menu. otherwise we send it back to
 	// the contact list for flashing
-nowindowcreate:
 	if (!(dbei.flags & DBEF_READ)) {
 		UpdateTrayMenu(nullptr, 0, dbei.szModule, nullptr, hContact, 1);
+
 		if (!nen_options.bTraySupport) {
-			wchar_t toolTip[256], *contactName;
+			wchar_t toolTip[256];
+			mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
 
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;
@@ -515,8 +517,6 @@ nowindowcreate:
 			cle.flags = CLEF_UNICODE;
 			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = MS_MSG_READMESSAGE;
-			contactName = Clist_GetContactDisplayName(hContact);
-			mir_snwprintf(toolTip, TranslateT("Message from %s"), contactName);
 			cle.szTooltip.w = toolTip;
 			g_clistApi.pfnAddEvent(&cle);
 		}

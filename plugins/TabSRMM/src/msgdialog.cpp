@@ -750,8 +750,7 @@ bool CSrmmWindow::OnInitDialog()
 	m_log.SendMsg(EM_SETLANGOPTIONS, 0, m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOFONTSIZEADJUST);
 
 	// add us to the tray list (if it exists)
-	if (PluginConfig.g_hMenuTrayUnread != nullptr && m_hContact != 0 && m_szProto != nullptr)
-		UpdateTrayMenu(nullptr, m_wStatus, m_szProto, m_wszStatus, m_hContact, FALSE);
+	UpdateTrayMenu(nullptr, m_wStatus, m_szProto, m_wszStatus, m_hContact, 0);
 
 	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 	m_log.SendMsg(EM_EXLIMITTEXT, 0, 0x80000000);
