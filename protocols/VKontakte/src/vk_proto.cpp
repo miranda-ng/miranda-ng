@@ -424,7 +424,7 @@ void CVkProto::InitPopups(void)
 	ppc.iSeconds = 60;
 	m_hPopupClassError = Popup_RegisterClass(&ppc);
 
-	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notification"));
+	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.pwszDescription = desc;
 	ppc.pszName = name;

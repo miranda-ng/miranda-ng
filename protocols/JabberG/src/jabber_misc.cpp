@@ -405,7 +405,7 @@ void CJabberProto::SetContactOfflineStatus(MCONTACT hContact)
 void CJabberProto::InitPopups(void)
 {
 	wchar_t desc[256];
-	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
+	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("errors"));
 
 	char name[256];
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");

@@ -811,7 +811,7 @@ void CMsnProto::InitPopups(void)
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notify"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notify");
 	hPopupNotify = Popup_RegisterClass(&ppc);
 
@@ -820,7 +820,7 @@ void CMsnProto::InitPopups(void)
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
 
-	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Error"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	hPopupError = Popup_RegisterClass(&ppc);
 }
