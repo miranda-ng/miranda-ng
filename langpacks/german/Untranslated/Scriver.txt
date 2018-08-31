@@ -1,4 +1,0 @@
-[Send message on:]
-[Double 'Enter']
-[Ctrl+Enter]
-[Shift+Enter]

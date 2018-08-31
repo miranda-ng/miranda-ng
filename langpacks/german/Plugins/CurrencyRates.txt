@@ -49,7 +49,7 @@ Popup-Einstellungen...
 [Currency Converter]
 Währungsumrechner
 [&to:]
-zu:
+&zu:
 [&Swap]
 Tau&sche
 [Convert]
@@ -83,21 +83,21 @@ Nicht zum Popup-Verlauf hinzufügen
 [Preview]
 Vorschau
 [Current Rate:]
-Aktuelle Rate:
+Aktueller Kurs:
 [Rate Fetch Time:]
-Abrufzeit der Rate:
+Abrufzeit des Kurses:
 [Previous Rate:]
-Vorherige Rate:
+Vorheriger Kurs:
 [&Convert:]
 &Umrechnen:
 [&Add]
 Hinzufügen
 [&Watched currency rates:]
-Beobachtete &Währungsraten:
+Beobachtete &Währungskurse:
 [&Remove]
 Entfe&rnen
 [&Refresh Rates Every:]
-&Raten aktualisieren alle:
+Ku&rse aktualisieren alle:
 [&Display in Contact List as:]
 In &Kontaktliste anzeigen als:
 [&Status Message:]
@@ -107,7 +107,7 @@ In &Kontaktliste anzeigen als:
 [&Advanced Settings...]
 Erweiterte &Einstellungen...
 [Rate Info]
-Rate Info
+Kursinfo
 ;file \plugins\CurrencyRates\src\Chart.h
 [There is nothing to show]
 Es ist nichts anzuzeigen
@@ -131,7 +131,7 @@ Informationen bereitgestellt von
 Geben Sie eine positive Zahl ein.
 ;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
 [Currency Rate]
-
+Währungskurs
 ;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
 [Error occurred during HTML parsing.]
 Fehler während des HTML-Parsens.
@@ -139,9 +139,9 @@ Fehler während des HTML-Parsens.
 Fehler während des Seitenzugriffs.
 ;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
 [Currency Symbol]
-
+Währungssymbol
 [Currency Name]
-
+Währungsname
 [Source of Information]
 Quelle der Information
 [Rate Value]
@@ -190,17 +190,17 @@ Autom. Aktualisierung aktiviert
 [Auto Update Disabled]
 Autom. Aktualisierung deaktiviert
 [Currency Rates]
-Wechselraten
+Währungskurse
 [Enable/Disable Auto Update]
 Auto-Update de-/aktivieren
 [Refresh All Rates]
-Alle Raten aktualisieren
+Alle Kurse aktualisieren
 [Currency Converter...]
 Währungsumrechner...
 [Export All Currency Rates]
-
+Alle Währungskurse exportieren
 [Import All Currency Rates]
-
+Alle Währungskurse importieren
 [Refresh]
 Aktualisieren
 [Open Log File...]
@@ -210,11 +210,11 @@ Chart...
 [Edit Settings...]
 Einstellungen bearbeiten...
 [Enable/Disable Currency Rates Auto Update]
-
+Autom. Aktualisierung Währungskurs (de)aktivieren
 [Currency Rates Auto Update Enabled]
-
+Autom. Aktualisierung Währungskurs aktiviert
 [Currency Rates Auto Update Disabled]
-
+Autom. Aktualisierung Währungskurs deaktiviert
 [Network]
 Netzwerk
 ;file \plugins\CurrencyRates\src\HTTPSession.cpp
@@ -224,13 +224,13 @@ Currency-Rates-HTTP-Verbindungen
 [Protocol icon]
 Protokollicon
 [Currency Rate up]
-
+Währungskurs Auf
 [Currency Rate down]
-
+Währungskurs Ab
 [Currency Rate not changed]
-
+Währungskurs Unverändert
 [Currency Rate Section]
-
+Währungskurs-Bereich
 [Export]
 Exportieren
 [Swap button]

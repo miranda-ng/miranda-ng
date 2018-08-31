@@ -9,23 +9,23 @@
 Beobachtet Änderungen der IP-Adresse, zeigt Popups an und passt die Proxy-Einstellungen von Miranda, Internet Explorer und Firefox an.
 ;file \plugins\ProxySwitch\res\resource.rc
 [Network addresses]
-
+Netzwerkadressen
 [Direct connection]
-
+Direkte Verbindung
 [Use proxy]
-Proxy benutzen
+Proxy verwenden
 [General]
 Allgemein
 [Manage Miranda NG proxy]
-
+Miranda-NG-Proxy verwalten
 [Manage Internet Explorer proxy]
-
+Internet-Explorer-Proxy verwalten
 [Manage Firefox proxy]
-
+Firefox-Proxy verwalten
 [Reconnect if IP address changes]
-
+Bei Änderungen der IP-Adresse wiederverbinden
 [Hide interfaces]
-
+Interfaces verbergen
 [Popup options]
 Einstellungen für Popups
 [Enable popups]
@@ -37,45 +37,45 @@ Hintergrundfarbe
 [Use default popup colors]
 Standardfarben benutzen
 [Show proxy status on change]
-
+Proxystatus bei Änderungen anzeigen
 [Restart of Miranda NG is required.]
-
+Neustart von Miranda NG ist notwendig.
 [Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tIP/bits\t(10.0.0.1/24)\t\tIP/mask\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)]
-
+Geben Sie eine durch Semikolon (;) getrennte Liste von IP-Netzwerkadressen in einem der folgenden Formate an:\n\tIP/Bits\t(10.0.0.1/24)\t\tIP/Maske\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)
 [Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The plugin checks the IP addresses in the following way:]
-
+Jedem Eintrag in der "Proxy verwenden"-Liste kann ein Ausrufezeichen (!) vorangestellt werden um seine Priorität zu erhöhen. Einträge mit ungültiger Syntax werden ignoriert. Das Plugin prüft die IP-Adressen wie folgt:
 [\t1) Use proxy if any interface has prioritized 'Use proxy' address\n\t2) Don't use proxy if any interface has 'Direct connection' address\n\t3) Use proxy if any interface has 'Use proxy' address\n\t4) Do nothing if unknown or no address found]
-
+\t1) Proxy verwenden falls ein Interface eine priorisierte "Proxy verwenden"-Adresse hat.\n\t2) Keinen Proxy verwenden falls ein Interface eine "Direkte Verbindung"-Adresse hat.\n\t3) Proxy verwenden falls ein Interface eine "Proxy verwenden"-Adresse hat.\n\t4) Nichts machen falls unbekannt oder keine IP-Adresse gefunden wurde.
 [Cancel]
 Abbrechen
 ;file \plugins\ProxySwitch\src\ip.cpp
 [Proxy]
-
+Proxy
 [Direct]
-
+Direkt
 [disconnected]
-Verbindung getrennt
+getrennt
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
-
+Aktuelle IP-Adresse
 [Enable &IP change notification]
-
+Benachrichtigungen bei &IP-Änderungen aktivieren
 [Disable &IP change notification]
-
+Benachrichtigungen bei &IP-Änderungen deaktivieren
 [Show my &IP addresses]
-
+Meine &IP-Adressen anzeigen
 [Proxy settings && interfaces]
-
+Proxy-Einstellungen && Interfaces
 [Disable proxy]
-
+Proxy deaktivieren
 [Enable proxy]
-
+Proxy aktivieren
 [Popups]
 Popups
 [IP change notification]
-
+Benachrichtigung über IP-Änderungen
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]
 Dienste
 [ProxySwitch]
-
+ProxySwitch

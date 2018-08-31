@@ -69,13 +69,13 @@ wenn der Bildschirmschoner startet
 [when workstation is locked]
 wenn der Computer gesperrt wird
 [when terminal session is disconnected]
-
+wenn Terminalsitzung getrennt wird
 [after]
 nach
 [minutes of inactivity]
 Minuten der Inaktivität
 [After away]
-
+Nach Abwesenheit
 [minutes of level 1 mode]
 Minuten im Level-1-Modus
 [only set when inactive]
@@ -87,7 +87,7 @@ Status nach Rückkehr zurücksetzen
 [Confirm resetting status]
 Zurücksetzen des Status bestätigen
 [Enter idle mode]
-
+Untätigkeitsmodus betreten
 [Only set if current status is]
 Nur setzen bei akt. Status
 [Command line]

@@ -1,6 +1,0 @@
-[Use JSON format for export]
-[Miranda database contains %d events]
-[With scroll to bottom %d\n]
-[Max line width must be at least %d. Or use 0 for no limit.]
-[No_Group]
-[No_Nick]

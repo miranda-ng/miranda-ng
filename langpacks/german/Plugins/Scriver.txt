@@ -31,7 +31,7 @@ Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [seconds]
 Sekunden
 [Send message on:]
-
+Nachricht senden mit:
 [Tabs]
 Tabs
 [Enable tabs]
@@ -717,11 +717,11 @@ Am Telefon
 [Enter]
 Enter
 [Double 'Enter']
-
+Doppel-'Eingabe'
 [Ctrl+Enter]
-
+Strg+Eingabe
 [Shift+Enter]
-
+Umschalt+Eingabe
 [** New contacts **]
 ** Neue Kontakte **
 [** Unknown contacts **]

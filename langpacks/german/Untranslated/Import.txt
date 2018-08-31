@@ -1,4 +1,0 @@
-[Enter file name for import:]
-[Check duplicates]
-[Import history for]
-[JSON file]

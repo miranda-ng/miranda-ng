@@ -9,35 +9,35 @@
 Exportiert jede Nachricht, URL oder Datei, die Sie empfangen, in einen Textdatei.
 ;file \plugins\Msg_Export\res\resource.rc
 [Export directory]
-Export-Verzeichniss
+Export-Verzeichnis
 [Browse]
 Durchsuchen
 [Default file]
-Dateiname
+Standard-Dateiname
 [File viewer]
 Dateibetrachter
 [Use internal viewer]
-Interner Betrachter
+Internen Betrachter verwenden
 [Replace Miranda history]
-Ersetze Miranda-History
+Miranda-Verlauf ersetzen
 [Export format]
 Exportformat
 [Max column width]
-Max Spaltenbreite
+Max. Spaltenbreite
 [Note: 0 = no limit]
 Hinweis: 0 = unbegrenzt
 [Time format]
 Zeitformat
 [Use JSON format for export]
-
+JSON-Format zum Export verwenden
 [Use UTF8 in new files]
-Benutze UTF8 in neuen Dateien
+UTF8 in neuen Dateien verwenden
 [Append extra new line]
-Füge neue Extralinie an
+Leere Zeile einfügen
 [Use << and >>]
 Verw. << und >>
 [Auto filename]
-Auto Dateiname
+Autom. Dateiname
 [Clear all]
 Alles löschen
 [Help]
@@ -73,14 +73,12 @@ Kontaktprofil
 [Export selected]
 Auswahl expotieren
 [Set to default filename]
-Setze Standard-Dateiname
+Standard-Dateinamen setzen
 [Copy]
 Kopieren
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
-
-[With scroll to bottom %d\n]
-
+Miranda-Datenbank enthält %d Ereignisse
 [Search string was not found!]
 Suchpfad wurde nicht gefunden!
 [Save as RTF]
@@ -90,12 +88,12 @@ Farbe...
 [Font...]
 Schrift...
 [Syntax highlight]
-Syntaxhöhepunkt
+Syntaxhervorhebung
 [History was saved successfully in file\r\n]
-Verlauf wurde erfolgreich gespeichert in Datei\n
+Verlauf wurde erfolgreich gespeichert in Datei\r\n
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
-Öffne exportierte History
+&Exportierten Verlauf öffnen
 ;file \plugins\Msg_Export\src\options.cpp
 [Reading database information (Phase 1 of 2)]
 Lese Datenbankinformationen (Phase 1 von 2)
@@ -104,9 +102,9 @@ Sortiere und schreibe Datenbankinformationen (Phase 2 von 2)
 [Failed to open or create file:\n]
 Konnte Datei nicht öffnen bzw. anlegen:\n
 [Max line width must be at least %d. Or use 0 for no limit.]
-
+Maximale Spaltenbreite muss mindestens %d sein. Verwenden Sie 0 für keine Begrenzung.
 [You need to restart Miranda to change the history function]
-Miranda muss zum ändern der History-Funktionen neu gestartet werden
+Miranda muss zum Ändern der Verlauf-Funktionen neu gestartet werden
 [Executable files]
 Ausführbare Dateien
 [All files]
@@ -140,7 +138,7 @@ Zusätzlich
 Miranda NG (Message Export Plugin)
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
-
+Keine_Gruppe
 [(Unknown Contact)]
 (Unbekannter Kontakt)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
@@ -218,4 +216,4 @@ Benutzer wurde gelöscht. Möchten Sie die Datei löschen?
 [Failed to delete the file]
 Datei konnte nicht gelöscht werden
 [No_Nick]
-
+Kein_Nickname

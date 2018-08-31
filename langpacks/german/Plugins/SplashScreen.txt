@@ -37,7 +37,7 @@ Ausblenden:
 [Preview...]
 Vorschau...
 [Download more splash screens]
-
+Weitere Splash-Screens herunterladen
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Grafikdateien
