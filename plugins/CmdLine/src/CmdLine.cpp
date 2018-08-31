@@ -46,7 +46,7 @@ CMPlugin::CMPlugin() :
 int CMPlugin::Load()
 {
 	if (InitServer())
-		MessageBox(nullptr, TranslateT("Could not initialize CmdLine plugin property"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(nullptr, TranslateT("Could not initialize CmdLine plugin properly"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
 
 	HookEvents();
 	return 0;
