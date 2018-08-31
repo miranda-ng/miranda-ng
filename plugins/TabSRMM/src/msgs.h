@@ -782,7 +782,6 @@ struct TIconDescW
 #define DM_SETICON               (TM_USER+68)
 #define DM_CHECKQUEUEFORCLOSE    (TM_USER+70)
 #define DM_CHECKAUTOHIDE         (TM_USER+71)
-#define DM_SETPARENTDIALOG       (TM_USER+72)
 #define DM_HANDLECLISTEVENT      (TM_USER+73)
 #define DM_TRAYICONNOTIFY        (TM_USER+74)
 #define DM_REMOVECLISTEVENT      (TM_USER+75)

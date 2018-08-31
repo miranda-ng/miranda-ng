@@ -1077,8 +1077,7 @@ public:
 
 	void onClick_Setup(CCtrlButton*)
 	{
-		HWND hwndNew = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), m_hwnd, DlgProcSetupStatusModes, M.GetDword("autopopupmask", -1));
-		SendMessage(hwndNew, DM_SETPARENTDIALOG, 0, (LPARAM)m_hwnd);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), m_hwnd, DlgProcSetupStatusModes, M.GetDword("autopopupmask", -1));
 	}
 
 	void onChange_Cut(CCtrlCheck*)
@@ -1298,6 +1297,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	if (PluginConfig.g_bPopupAvail)
 		TN_OptionsInitialize(wParam, lParam);
 
+	// message sessions' options
 	OPTIONSDIALOGPAGE odpnew = {};
 	odpnew.position = 910000000;
 	odpnew.flags = ODPF_BOLDGROUPS;
@@ -1328,29 +1328,25 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odpnew.pDialog = new COptTypingDlg();
 	g_plugin.addOptions(wParam, &odpnew);
 
+	// skin options
 	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = 910000000;
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
-		odp.szTitle.a = LPGEN("Event notifications");
-		odp.szGroup.a = LPGEN("Popups");
-		odp.pfnDlgProc = DlgProcPopupOpts;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szGroup.a = LPGEN("Skins");
+	odp.szTitle.a = LPGEN("Message window");
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.szTitle.a = LPGEN("Message window");
 	odp.szTab.a = LPGEN("Load and apply");
 	odp.pfnDlgProc = DlgProcSkinOpts;
-	odp.szGroup.a = LPGEN("Skins");
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
 	odp.szTab.a = LPGEN("Window layout tweaks");
 	odp.pfnDlgProc = DlgProcTabConfig;
 	g_plugin.addOptions(wParam, &odp);
+
+	// popup options
+	Popup_Options(wParam);
 
 	// group chats
 	Chat_Options(wParam);
@@ -1477,7 +1473,6 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 {
 	DWORD dwStatusMask = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	static DWORD dwNewStatusMask = 0;
-	static HWND hwndParent = nullptr;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -1499,10 +1494,6 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		ShowWindow(hwndDlg, SW_SHOWNORMAL);
 		return TRUE;
 
-	case DM_SETPARENTDIALOG:
-		hwndParent = (HWND)lParam;
-		break;
-
 	case DM_GETSTATUSMASK:
 		if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYS))
 			dwNewStatusMask = -1;
@@ -1516,13 +1507,14 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
+			SendMessage(hwndDlg, DM_GETSTATUSMASK, 0, 0);
+			SendMessage(GetParent(hwndDlg), DM_STATUSMASKSET, 0, (LPARAM)dwNewStatusMask);
+			__fallthrough;
+
 		case IDCANCEL:
-			if (LOWORD(wParam) == IDOK) {
-				SendMessage(hwndDlg, DM_GETSTATUSMASK, 0, 0);
-				SendMessage(hwndParent, DM_STATUSMASKSET, 0, (LPARAM)dwNewStatusMask);
-			}
 			DestroyWindow(hwndDlg);
 			break;
+
 		case IDC_ALWAYS:
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 				Utils::enableDlgControl(hwndDlg, i, !IsDlgButtonChecked(hwndDlg, IDC_ALWAYS));

@@ -234,6 +234,7 @@ int  LoadSendRecvMessageModule(void);
 int  SplitmsgShutdown(void);
 int  Chat_Load(), Chat_Unload();
 void Chat_Options(WPARAM);
+void Popup_Options(WPARAM);
 void FreeLogFonts();
 
 INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam);
@@ -251,7 +252,6 @@ void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags);
 BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM wParam, LPARAM lParam);
 
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
