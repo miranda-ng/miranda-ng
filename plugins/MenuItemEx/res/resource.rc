@@ -61,7 +61,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Shown menu items",IDC_STATIC,7,7,266,173
     CONTROL         "Visibility",IDC_VIS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,18,136,10
-    CONTROL         "Show alpha icons",IDC_SHOWALPHAICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,18,105,10
+    CONTROL         "Show alpha icons",IDC_SHOWALPHAICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,18,116,10
     CONTROL         "Hide from list",IDC_HIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,30,136,10
     CONTROL         "Ignore",IDC_IGNORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,42,136,10
     CONTROL         "Copy to Account (Ctrl+click for move to Account)",IDC_PROTOS,
@@ -72,13 +72,13 @@ BEGIN
     CONTROL         "Copy IP",IDC_COPYIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,102,136,10
     CONTROL         "Copy MirVer",IDC_COPYMIRVER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,114,136,10
     CONTROL         "Copy Status Message",IDC_STATUSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,126,136,10
-    CONTROL         "Add item name",IDC_SMNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,126,105,10
+    CONTROL         "Add item name",IDC_SMNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,126,116,10
     CONTROL         "Copy ID",IDC_COPYID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,138,136,10
-    CONTROL         "Add protocol name",IDC_COPYIDNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,138,105,10
+    CONTROL         "Add protocol name",IDC_COPYIDNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,138,116,10
     CONTROL         "Show ID in menu item",IDC_SHOWID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,150,127,10
-    CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,150,105,10
+    CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,150,116,10
     LTEXT           "* Use Ctrl+click to see popup with the copied text",IDC_HINT1,16,164,251,11
-    CONTROL         "Hide contact on 'Ignore all'",IDC_IGNOREHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,42,105,10
+    CONTROL         "Hide contact on 'Ignore all'",IDC_IGNOREHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,42,116,10
 END
 
 
