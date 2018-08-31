@@ -1,3 +1,2 @@
-[Could not initialize CmdLine plugin property]
 [Issued a quit and wait command.]
 [blob:N/A]

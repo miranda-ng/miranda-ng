@@ -290,7 +290,7 @@ UTF16+сигнатура
 [Condition]
 Условия
 [NOP]
-
+NOP
 [Math]
 Математическое
 [> greater]
@@ -319,10 +319,9 @@ UTF16+сигнатура
 НЕ
 [Operation]
 Операция
-[BREAK]
-
+[BREAK][BREAK
 [JUMP]
-
+JUMP
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - выделенная (и заменённая) часть\r\n^e - заменено пустой строкой\r\n^v - вставить текст из буфера обмена\r\n^t - заменено табуляцией\r\n^l - заменено последним результатом, как юникод\r\n^h - заменено последним результатом, как шестнадцатеричное\r\n^f(имя[,str])\r\n     вставить строку из текстового файла.\r\n     содержимое внутри скобок не должно содержать пробелы
 [Process script after]
@@ -590,7 +589,7 @@ UTF16+сигнатура
 [Opens or activate database editor]
 Открывает или активирует редактор базы
 [Opens or activate user search dialog]
-
+Открывает или активирует окно поиска контакта
 [displays File Transfer window]
 Показывает окно передачи файлов
 [on Desktop]
@@ -646,7 +645,7 @@ wParam содержит имя станции в кодировке Ansi
 [wParam is Unicode station name]
 wParam содержит имя станции в кодировке Unicode
 [Starting or stopping radio station]
-
+Запускает или останавливает воспроизведение радио
 [Stop cycle]
 Останавливает цикл
 [Start cycle]
@@ -720,7 +719,7 @@ wParam в ANSI
 [struct]
 структура
 [Returns the received files folder for a contact]
-
+Возвращает каталог с принятыми от контакта файлами
 [Open contact received file directory]
 Открывает папку с принятым от контакта файлом
 [Send file to contact.]

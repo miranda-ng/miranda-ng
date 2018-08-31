@@ -77,8 +77,6 @@ UTF8 в новых файлах
 [Copy]
 Копировать
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Internal error! (lExtraRead >= 0)]
-Внутренняя ошибка! (lExtraRead >= 0)
 [Miranda database contains %d events]
 Событий в базе: %d
 [With scroll to bottom %d\n]

@@ -39,7 +39,7 @@ Notifications :
 [Credits]
 
 [About]
-
+À propos
 [Device:]
 
 [If the screensaver is active:]

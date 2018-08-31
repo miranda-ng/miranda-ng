@@ -280,7 +280,7 @@ E-mails non-lus
 [Jabber activity]
 
 [Gender]
-
+Sexe
 [Country flag]
 
 [Client]
@@ -340,7 +340,7 @@ Compte :
 [Gender:]
 Sexe :
 [Homepage]
-
+Page web
 [Homepage:]
 Page web :
 [Identifier]

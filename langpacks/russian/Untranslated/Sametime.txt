@@ -4,7 +4,6 @@
 [Token expired]
 [Already subscribed]
 [Not subscribed]
-[Encryption too low]
 [Channel redirected]
 [Incorrect entry]
 [Not enough buffers memory]

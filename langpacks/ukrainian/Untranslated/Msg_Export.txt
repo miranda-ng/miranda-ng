@@ -1,5 +1,4 @@
 [Use JSON format for export]
-[Internal error! (lExtraRead >= 0)]
 [Miranda database contains %d events]
 [With scroll to bottom %d\n]
 [History was saved successfully in file\r\n]

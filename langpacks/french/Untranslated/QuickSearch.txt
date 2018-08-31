@@ -5,7 +5,6 @@
 [Tool Window Style]
 [Save search pattern]
 [Auto Close mode]
-[Gender]
 [UserID]
 [Container]
 [Client ID]

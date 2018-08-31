@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.11
+;  Version: 3.5.0.12
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1281,8 +1281,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Файл RTF
 [No status message]
 Няма паведамлення статусу
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart.]
-Праблема канфігурацыі|Аўтаматычная адпраўка адключана. \\b1Адпраўка з затрымкай\\b0 і \\b1мультыадпраўка\\b0 залежаць ад яе.\n\nВы павінны ўключыць яе \\b1"Налады -> Гутаркі -> Дадатковыя налады"\\b0. Пасля змены гэтай опцыі, патрабуецца перазапуск.
 [You cannot edit user notes when there are unsent messages]
 Вы не можаце правіць нататкі, калі ёсць не адпраўненныя паведамленні
 [%s is typing a message...]
@@ -2007,13 +2005,9 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Налады гутарак для %s
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
-tabSRMM: %s
-[Important release notes|A test warning message]
-Важная інфармацыя аб выпуску|Увага тэставае
-[Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
-Праверка версіі набору значкоў|Усталяваны набор значкоў састарэлы і можа быць несумяшчальны з плагінам TabSRMM версіі 3.\n\n \\b1 Адсутныя ці недарэчныя значкі могуць выклікаць праблемы з усталяваным наборам.\\b0
+TabSRMM: %s
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Рэдагаванне нататак пра карыстача|Вы знаходзіцеся ў рэжыме рэдагавання нататак пра карыстача, націсніце на кнопку яшчэ раз ці выкарыстоўвайце гарачую клавішу (па змаўчанні: Alt+N), каб захаваць нататкі і вярнуцца ў звычайны рэжым набору паведамленняў
+Рэдагаванне нататак пра карыстача|Вы рэдагуеце нататкі пра кантакт. Націсніце на кнопку яшчэ раз ці скарыстайце гарачыя клавішы (па змаўчанні: Alt+N), каб захаваць нататкі і вярнуцца ў нармальны рэжым паведамленняў
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Адсутны кампанент|Набор абразкоў не знойдзены. Калі ласка, усталюйце яго ў дырэкторыю значкоў па змаўчанні.\n\nНа дадзены момант абразкі недасяжныя
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
@@ -2022,6 +2016,8 @@ tabSRMM: %s
 Праблема перадачы файла|Няўдалая перасылка малюнка.\n\nМагчымыя прычыны: перадача файлаў не падтрымліваецца, кантакт не далучаны, вы знаходзіцеся ў стаусе "Нябачны" і кантакт, якому адсылаецца файл не ў спісе бачных.
 [Settings problem|The option \\b1 History -> Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Праблема з наладамі|Опцыя \\b1 "Гісторыя -> Імітаваць API IEView"\\b0  актыўная і плагін History++ актыўны. Гэта можа выклікаць праблемы, пры выкарыстанні IEView у якасці лога паведамленняў.\n\nТрэба скарэктаваць налады (неабходны перазапуск)?
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart.]
+Праблема канфігурацыі|Аўтаматычная адпраўка адключана. \\b1Адпраўка з затрымкай\\b0 і \\b1мультыадпраўка\\b0 залежаць ад яе.\n\nВы павінны ўключыць яе \\b1"Налады -> Гутаркі -> Дадатковыя налады"\\b0. Пасля змены гэтай опцыі, патрабуецца перазапуск.
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
 Зачыненне вакна|Вы збіраецеся зачыніць вакно з некалькімі ўкладкамі.\n\nПарацягнуць?
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]

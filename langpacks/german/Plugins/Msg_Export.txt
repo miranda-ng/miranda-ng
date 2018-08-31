@@ -77,8 +77,6 @@ Setze Standard-Dateiname
 [Copy]
 Kopieren
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Internal error! (lExtraRead >= 0)]
-Interner Fehler! (lExtraRead >= 0)
 [Miranda database contains %d events]
 
 [With scroll to bottom %d\n]

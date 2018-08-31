@@ -230,7 +230,7 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 [Your details has been uploaded to the public directory.]
 
 [You have to be logged in before you can change your details.]
-
+Вы должны войти в систему, прежде чем сможете изменить свои данные.
 [Network]
 Сеть
 [General]
@@ -246,7 +246,7 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
-
+HTTP ошибка памяти
 [HTTP failed connecting]
 HTTP ошибка подключения
 [HTTP failed resolving]

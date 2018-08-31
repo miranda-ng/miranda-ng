@@ -277,13 +277,13 @@ Icônes d'accès rapide
 [Replace the following default icons:]
 Remplacer les icônes par défaut suivants :
 [Homepage]
-
+Page web
 [Phone]
 Téléphone
 [E-mail]
 Courriel
 [Gender]
-
+Sexe
 [Misc]
 
 [Show 'Restart' menu item]
@@ -473,7 +473,7 @@ Travail
 [Contact (work)]
 Contact (professionnel)
 [About]
-
+À propos
 [Profile]
 Profil
 [Notes]

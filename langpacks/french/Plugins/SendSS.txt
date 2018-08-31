@@ -41,7 +41,7 @@ Ré-ouvrir
 [&Capture]
 Capturer
 [About]
-
+À propos
 [Copyright]
 
 [&Close]

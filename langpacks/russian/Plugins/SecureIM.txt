@@ -284,15 +284,15 @@ Keyrings отключены!
 [Delete RSA Key]
 Удалить ключ RSA
 [SecureIM mode (Native)]
-Шифрование (по умолчанию)
+SecureIM (по умолчанию)
 [SecureIM mode (PGP)]
-Шифрование (PGP)
+SecureIM (PGP)
 [SecureIM mode (GPG)]
-Шифрование (GPG)
+SecureIM (GPG)
 [SecureIM mode (RSA/AES)]
-Шифрование (RSA/AES)
+SecureIM (RSA/AES)
 [SecureIM mode (RSA)]
-Шифрование (RSA)
+SecureIM (RSA)
 [SecureIM status (disabled)]
 SecureIM (выключен)
 [SecureIM status (enabled)]
@@ -314,7 +314,7 @@ SecureIM: получено зашифрованное сообщение:\n
 [Error while decoding RSA message]
 Ошибка при расшифровке RSA сообщения
 [Session closed on timeout]
-Сессия закрыта по таймауту
+Сессия закрыта по истечению времени
 [Session closed by other side when status "disabled"]
 Сессия закрыта другой стороной, статус "отключён"
 [Session closed on error: %02x]
@@ -370,7 +370,7 @@ SecureIM: получено зашифрованное сообщение:\n
 Режим RSA/AES
 ;file \plugins\SecureIM\src\main.cpp
 [SecureIM]
-Шифрование
+SecureIM
 [Icons]
 Значки
 [Incoming Secure Message]
@@ -409,10 +409,10 @@ SecureIM: получено зашифрованное сообщение:\n
 Всплывающее окно сообщения
 ;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
-Шифрование (по умолчанию)
+SecureIM(по умолчанию)
 [SecureIM [PGP]]
-Шифрование (PGP)
+SecureIM (PGP)
 [SecureIM [GPG]]
-Шифрование (GPG)
+SecureIM (GPG)
 [SecureIM [RSA/AES]]
-Шифрование (RSA/AES)
+SecureIM (RSA/AES)

@@ -196,9 +196,9 @@ ID и версия клиента
 [Encryption not initialized]
 Шифрование не инициализировано
 [Encryption too low]
-
+Слишком слабое шифрование
 [Invalid encrypted data]
-Неверные данные шифрования
+Неверные зашифрованные данные
 [No common encryption method]
 Нет совместимого метода шифрования
 [Channel destroyed]

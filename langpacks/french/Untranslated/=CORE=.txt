@@ -77,7 +77,6 @@
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
 [This change is not known to be safe.]
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-[Homepage]
 [Phone/SMS]
 [Chat activity]
 [Ctrl+Search add contact]

@@ -81,7 +81,7 @@
 [Pause]
 Пауза
 [File Manager]
-
+Файловый менеджер
 [Server:]
 Сервер:
 [User info]
@@ -113,7 +113,7 @@
 [File with the same name already exists on the server.]
 На сервере уже существует файл с таким именем.
 [How to proceed?]
-
+Что сделать?
 [Copy URL]
 Копировать ссылку
 [Close dialog after upload finishes]

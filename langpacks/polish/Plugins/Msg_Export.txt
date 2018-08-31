@@ -77,8 +77,6 @@ Ustaw domyślną nazwę pliku
 [Copy]
 Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Internal error! (lExtraRead >= 0)]
-Błąd wewnętrzny! (lExtraRead >= 0)
 [Miranda database contains %d events]
 Baza danych Mirandy zawiera %d zdarzeń
 [With scroll to bottom %d\n]

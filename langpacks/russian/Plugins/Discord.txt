@@ -77,7 +77,7 @@
 [%s server connection]
 %s подключение к серверу
 [%s gateway connection]
-
+%s подключение к шлюзу
 [User ID]
 ID пользователя
 [Protocol is offline or user isn't authorized yet]

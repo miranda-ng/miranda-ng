@@ -307,15 +307,15 @@ URL:
 
 ;file \plugins\WebView\src\webview_opts.cpp
 [No whitespace removal]
-
+Не удалять пробелы
 [Minimal level of whitespace removal]
-
+Минимальный уровень удаления пробелов
 [Medium level of whitespace removal]
-
+Средний уровень удаления пробелов
 [Large level of whitespace removal]
-
+Высокий уровень удаления пробелов
 [Remove all whitespace]
-
+Удалять все пробелы
 [Popup plugin]
 Вспл. окна
 [Use OSD plugin]

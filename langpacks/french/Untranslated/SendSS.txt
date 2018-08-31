@@ -4,7 +4,6 @@
 [Take a screenshot and send it to a contact]
 [&Format:]
 [Open editor before sending]
-[About]
 [Copyright]
 [Indirect capture]
 [Target tool]

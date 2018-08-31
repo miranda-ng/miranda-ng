@@ -2118,7 +2118,7 @@ Ce changement est connu pour être potentiellement dangereux.
 
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
-
+Page web
 [Phone/SMS]
 
 [Chat activity]

@@ -10,7 +10,6 @@
 [Show seconds in timestamps]
 [Use transition effects when changing screens]
 [Credits]
-[About]
 [Device:]
 [If the screensaver is active:]
 [Lock the screen]

@@ -329,7 +329,7 @@ ID пользователя
 [*** encrypted ***]
 *** зашифровано ***
 [*** buggy resident ***]
-
+*** ошибочная резидентная ***
 ;file \plugins\DbEditorPP\src\settingsdlg.cpp
 [Unknown DBVariant type!]
 Неизвестный тип DBVariant!
@@ -339,6 +339,6 @@ ID пользователя
 Новая настройка (%s)
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [*** resident ***]
-
+*** резидентная ***
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Изменена настройка базы: \nмодуль: "%s", настройка: "%s"\nновое значение (%s): "%s"

@@ -8,8 +8,6 @@
 [Creates detailed, colorful and highly customizable statistics using your message history.]
 Создаёт подробную, разноцветную и настраиваемую статистику вашей истории сообщений.
 ;file \plugins\HistoryStats\res\resource.rc
-[Band]
-
 [HistoryStats - Working...]
 HistoryStats - Работаю...
 [Cancel]
@@ -879,11 +877,11 @@ HistoryStats поддерживает некоторые плагины. Наж�
 [Configure statistics...]
 Настроить статистику...
 [You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?]
-
+Вы собираетесь скопировать всю историю #{source_name} (#{source_proto}) в #{target_name} (#{target_proto}). После этого история цели будет содержать записи из обеих историй. Операцию невозможно отменить. Будьте осторожны! Это достаточно масштабная операция, которая может повредить вашу базу данных. Убедитесь, что сделали резервную копию этой базы.\r\n\r\nВы уверены, что хотите продолжить?
 [HistoryStats - Confirm]
 HistoryStats - Подтверждение
 [Successfully read #{success} events of which #{fail_add} couldn't be added to the target history. #{fail} events couldn't be read from the source history.]
-
+Успешно прочитанных событий: #{success}. Из них #{fail_add} не удалось добавить в историю цели. Из исходной истории не удалось прочитать #{fail} событий.
 [HistoryStats - Information]
 HistoryStats - Информация
 [Exclude from statistics]

@@ -5,7 +5,6 @@
 [Use << and >>]
 [History file for %s (%s, format %s)]
 [&External]
-[Internal error! (lExtraRead >= 0)]
 [Miranda database contains %d events]
 [With scroll to bottom %d\n]
 [Syntax highlight]

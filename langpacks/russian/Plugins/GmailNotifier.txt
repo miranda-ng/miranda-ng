@@ -69,7 +69,7 @@
 [Gmail: New thread(s)]
 Gmail: Новая почта
 [Gmail Notifier connection]
-
+Подключение Gmail Notifier
 [&Check all Gmail inboxes]
 Проверить все ящики Gmail
 [&Check Gmail inbox]
