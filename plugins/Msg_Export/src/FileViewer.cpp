@@ -532,7 +532,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg *pclDlg)
 	if (!bScrollToBottom)
 		SendMessage(hRichEdit, EM_SETSCROLLPOS, 0, (LPARAM)&ptOldPos);
 
-	mir_snwprintf(szTmp, TranslateT("With scroll to bottom %d\n"), GetTickCount() - dwStart);
+	mir_snwprintf(szTmp, L"With scroll to bottom %d\n", GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 	return true;
 }
