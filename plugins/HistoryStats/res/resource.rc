@@ -233,7 +233,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Band",IDC_BAND,"HistoryStatsBand",WS_TABSTOP,0,0,315,35
+    CONTROL         "",IDC_BAND,"HistoryStatsBand",WS_TABSTOP,0,0,315,35
     CTEXT           "",IDC_MESSAGE,10,45,294,95,SS_NOPREFIX | NOT WS_VISIBLE,
                     WS_EX_TRANSPARENT
 END
@@ -330,7 +330,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Band",IDC_BAND,"HistoryStatsBand",WS_TABSTOP,0,5,95,20
+    CONTROL         "",IDC_BAND,"HistoryStatsBand",WS_TABSTOP,0,5,95,20
     CONTROL         "",IDC_COLUMNS,"HistoryStatsOptions",WS_TABSTOP | 0x1,0,
                     30,95,180
     CONTROL         "",IDC_OPTIONS,"HistoryStatsOptions",WS_TABSTOP,100,5,
