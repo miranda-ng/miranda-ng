@@ -23,7 +23,7 @@
 [Disable main menu items]
 Откл. пункты главного меню
 [Load page on window open]
-
+Загр. страницу при открытии окна
 [Update data on startup]
 Обновлять данные при запуске
 [Only update window on alert]
@@ -149,21 +149,21 @@ URL:
 [Use Windows colors]
 Цвета Windows
 [Use same colors as data window]
-
+Цвета как у окна с данными
 [Background]
 Фон
 [Text]
 Текст
 [Left click action]
-
+Левая кнопка мыши
 [Open data display window]
-
+Открыть окно с данными
 [Open web page]
-
+Открыть веб-страницу
 [Dismiss popup]
 Закрыть
 [Right click action]
-
+Правая кнопка мыши
 [Log]
 Журнал
 [&Copy]
