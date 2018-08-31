@@ -35,7 +35,7 @@ CContactImportDlg::CContactImportDlg(MCONTACT hContact) :
 
 bool CContactImportDlg::OnInitDialog()
 {
-	CMStringW wszTitle(FORMAT, L"%s %s", TranslateT("Import history for"), Clist_GetContactDisplayName(m_hContact));
+	CMStringW wszTitle(FORMAT, TranslateT("Import history for %s"), Clist_GetContactDisplayName(m_hContact));
 	SetWindowTextW(m_hwnd, wszTitle);
 	return true;
 }
