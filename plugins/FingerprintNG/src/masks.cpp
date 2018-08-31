@@ -512,15 +512,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_MRA_unknown", L"|Mail.ru Agent*|MRA client", LPGENW("Mail.Ru (unknown client)"), IDI_MAIL_RU_UNKNOWN, MRA_CASE },
 
 	//#########################################################################################################################################################################
-	//#################################   YAHOO   #############################################################################################################################
-	//#########################################################################################################################################################################
-	{ "client_YahGoMobile", L"|Yahoo*Go*|Yahoo*Mobile*", L"Yahoo! Go Mobile", IDI_YAHOO_GO_MOBILE, YAHOO_CASE, TRUE },
-	{ "client_PingBox", L"*Yahoo*PingBox*", L"Yahoo PingBox", IDI_YAHOO_PINGBOX, YAHOO_CASE, TRUE },
-	{ "client_YahooWeb", L"*Yahoo*Web*Messenger", L"Yahoo Web Messenger", IDI_YAHOO_WEB, YAHOO_CASE, TRUE },
-	{ "client_libyahoo2", L"*libyahoo*", L"libyahoo2", IDI_LIBYAHOO2, YAHOO_CASE, TRUE },
-	{ "client_Yahoo", L"*Yahoo*", L"Yahoo Messenger", IDI_YAHOO, YAHOO_CASE },
-
-	//#########################################################################################################################################################################
 	//#################################   WEATHER   ###########################################################################################################################
 	//#########################################################################################################################################################################
 	{ "client_accu", L"*accuweather*", L"AccuWeather", IDI_ACCU, WEATHER_CASE, TRUE },
@@ -676,7 +667,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_Jabber_overlay", L"|^jabber*|Miranda*Jabber*|py*jabb*", LPGENW("Jabber overlay"), IDI_JABBER_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_MSN_overlay", L"|^MSN*|*Miranda*MSN*", LPGENW("MSN overlay"), IDI_MSN_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_QQ_overlay", L"|Miranda*QQ*|MIM*QQ*", LPGENW("QQ overlay"), IDI_QQ_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_Yahoo_overlay", L"|^Yahoo*|*yahoo*", LPGENW("Yahoo overlay"), IDI_YAHOO_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_MRA_overlay", L"|^MRA*|^Mail.ru*"
 							L"|*MRA*|*Mail.ru*IM*|Mrim*"
 							L"|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*|ICQ client", LPGENW("Mail.Ru Agent overlay"), IDI_MAILRU_OVERLAY, OVERLAYS_PROTO_CASE },
@@ -692,10 +682,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_ICQ6_over", L"ICQ*6*", LPGENW("ICQ v6.x overlay"), IDI_ICQ6_OVERLAY, ICQ_CASE },
 	{ "client_ICQ7_over", L"ICQ*7*", LPGENW("ICQ v7.x overlay"), IDI_ICQ7_OVERLAY, ICQ_CASE },
 	{ "client_ICQ8_over", L"ICQ*8*", LPGENW("ICQ v8.x overlay"), IDI_ICQ8_OVERLAY, ICQ_CASE },
-
-	{ "client_Yahoo_11", L"*Yahoo 11*", LPGENW("Yahoo v11.x overlay"), IDI_YAHOO11_OVERLAY, YAHOO_CASE },
-	{ "client_Yahoo_10", L"*Yahoo 10*", LPGENW("Yahoo v10.x overlay"), IDI_YAHOO10_OVERLAY, YAHOO_CASE },
-	{ "client_Yahoo_9", L"*Yahoo 9*", LPGENW("Yahoo v9.x overlay"), IDI_YAHOO9_OVERLAY, YAHOO_CASE },
 
 	{ "client_GG_11", L"|Gadu-Gadu*11*|GG*11*", LPGENW("Gadu-Gadu v11 client"), IDI_GG11_OVERLAY, GG_CASE },
 	{ "client_GG_10", L"|Gadu-Gadu*10*|GG*10", LPGENW("Gadu-Gadu v10 client"), IDI_GG10_OVERLAY, GG_CASE },

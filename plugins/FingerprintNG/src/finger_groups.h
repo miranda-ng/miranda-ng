@@ -63,11 +63,6 @@ case WEATHER_CASE:
 		return LPGENW("Client icons") L"/" LPGENW("Weather clients");
 	break;
 
-case YAHOO_CASE:
-	if (db_get_b(NULL, MODULENAME, "GroupYahoo", 1))
-		return LPGENW("Client icons") L"/" LPGENW("Yahoo clients");
-	break;
-
 case FACEBOOK_CASE:
 	if (db_get_b(NULL, MODULENAME, "GroupFacebook", 1))
 		return LPGENW("Client icons") L"/" LPGENW("Facebook clients");

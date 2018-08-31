@@ -63,7 +63,6 @@
 #define IDI_MAILRU_OVERLAY              85
 #define IDI_MSN_OVERLAY                 86
 #define IDI_QQ_OVERLAY                  87
-#define IDI_YAHOO_OVERLAY               89
 #define IDI_VK_OVERLAY                  90
 #define IDI_SKYPE_OVERLAY               91
 #define IDI_SECUREIM_OVERLAY            95
@@ -454,18 +453,6 @@
 #define IDI_YWEATHER                    811
 #define IDI_METEONOVOSTI                812
 #define IDI_NOAA                        813
-#define IDI_LIBYAHOO2                   821
-#define IDI_YAHOO_PINGBOX               822
-#define IDI_YAHOO                       823
-#define IDI_YAHOO_WEB                   828
-#define IDI_YAHOO_GO_MOBILE             829
-#define IDI_YAHOO5_OVERLAY              831
-#define IDI_YAHOO6_OVERLAY              832
-#define IDI_YAHOO7_OVERLAY              833
-#define IDI_YAHOO8_OVERLAY              834
-#define IDI_YAHOO9_OVERLAY              835
-#define IDI_YAHOO10_OVERLAY             836
-#define IDI_YAHOO11_OVERLAY             837
 #define IDI_ADIUM                       1000
 #define IDI_AGILE                       1001
 #define IDI_APPOLO                      1002
@@ -588,7 +575,6 @@
 #define IDC_GROUP_QQ                    10037
 #define IDC_GROUP_RSS                   10038
 #define IDC_GROUP_WEATHER               10040
-#define IDC_GROUP_YAHOO                 10041
 #define IDC_GROUP_FACEBOOK              10042
 #define IDC_GROUP_VK                    10043
 #define IDC_GROUP_OTHER_PROTOS          10044
