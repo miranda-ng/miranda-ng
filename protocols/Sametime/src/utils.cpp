@@ -41,7 +41,7 @@ void CSametimeProto::RegisterPopups()
 	puc.pszName = szName;
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
-	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notification"));
+	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	puc.hIcon = CopyIcon(LoadIconEx("notify", FALSE));
 	ReleaseIconEx("notify", FALSE);
 	puc.iSeconds = 8;
@@ -50,7 +50,7 @@ void CSametimeProto::RegisterPopups()
 	hPopupNotify = Popup_RegisterClass(&puc);
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
-	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Error"));
+	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Errors"));
 	puc.hIcon = CopyIcon(LoadIconEx("error", FALSE));
 	ReleaseIconEx("error", FALSE);
 	puc.iSeconds = 10;
