@@ -212,7 +212,7 @@ int CToxProto::SetStatus(int iNewStatus)
 			debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr);
-			ShowNotification(TranslateT("Unable to initialize tox core"), ToxErrorToString(error), MB_ICONERROR);
+			ShowNotification(TranslateT("Unable to initialize Tox core"), ToxErrorToString(error), MB_ICONERROR);
 			return 0;
 		}
 
