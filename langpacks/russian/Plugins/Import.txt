@@ -174,8 +174,8 @@ Miranda нашла следующие профили. Выберите проф�
 [You cannot import your current profile into itself]
 Невозможно импортировать текущий профиль в самого себя
 ;file \plugins\Import\src\ui.cpp
-[Import history for]
-Импортировать историю для
+[Import history for %s]
+Импортировать историю для %s
 [JSON file]
 Файл JSON
 ;file \plugins\Import\src\utils.cpp

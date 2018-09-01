@@ -79,8 +79,6 @@ Copier
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
-[With scroll to bottom %d\n]
-
 [Search string was not found!]
 Ligne recherchée non trouvée!
 [Save as RTF]

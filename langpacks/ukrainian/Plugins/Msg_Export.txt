@@ -79,8 +79,6 @@ UTF8 у нових файлах
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
-[With scroll to bottom %d\n]
-
 [Search string was not found!]
 Рядок не знайдено!
 [Save as RTF]

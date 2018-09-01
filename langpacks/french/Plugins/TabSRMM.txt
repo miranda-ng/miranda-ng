@@ -1276,6 +1276,8 @@ Fichier reçu
 Nouveaux messages :\s
 [Unknown module or contact]
 
+[Event notifications]
+
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 
@@ -1616,8 +1618,6 @@ Conteneurs
 Historique récent
 [Typing notify]
 Notification de frappe
-[Event notifications]
-
 [Message window]
 Fenêtre de message
 [Load and apply]

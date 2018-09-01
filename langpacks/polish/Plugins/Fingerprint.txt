@@ -28,6 +28,8 @@ Nakładka Unicode
 Nakładki bezpieczeństwa
 [Select protocols]
 Zaznacz protokoły
+[Facebook clients]
+Klienty Facebooka
 [Gadu-Gadu clients]
 Klienty Gadu-Gadu
 [ICQ clients]
@@ -44,14 +46,10 @@ Klienty MSN
 Klienty QQ
 [RSS clients]
 Klienty RSS
-[Weather clients]
-Klienty Pogodowe
-[Yahoo clients]
-Klienty Yahoo
-[Facebook clients]
-Klienty Facebooka
 [VKontakte clients]
 Klienty VKontakte
+[Weather clients]
+Klienty Pogodowe
 [Multi-protocol clients]
 Multikomunikatory
 [Other (rare) protocols]
@@ -131,8 +129,6 @@ Nakładka Jabber
 Nakładka MSN
 [QQ overlay]
 Nakładka QQ
-[Yahoo overlay]
-Nakładka Yahoo
 [Mail.Ru Agent overlay]
 Nakładka MRA
 [VK overlay]
@@ -151,12 +147,6 @@ Nakładka ICQ v6.x
 Nakładka ICQ v7.x
 [ICQ v8.x overlay]
 Nakładka ICQ v8.x
-[Yahoo v11.x overlay]
-Nakładka Yahoo v11.x
-[Yahoo v10.x overlay]
-Nakładka Yahoo v10.x
-[Yahoo v9.x overlay]
-Nakładka Yahoo x9.x
 [Gadu-Gadu v11 client]
 Klient Gadu-Gadu v11
 [Gadu-Gadu v10 client]

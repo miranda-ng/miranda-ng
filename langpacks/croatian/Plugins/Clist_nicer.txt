@@ -128,8 +128,6 @@ sortiranje liste kontakata
 
 [Hide as offline]
 
-[Tree hide offline]
-
 [Right align contacts]
 
 [Avatars]
@@ -257,8 +255,6 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 [Hide vertical scroll bar]
 
 [Gray out entire list when:]
-
-[Tree gray out]
 
 [Contact list background]
 

@@ -28,6 +28,8 @@
 
 [Select protocols]
 
+[Facebook clients]
+
 [Gadu-Gadu clients]
 
 [ICQ clients]
@@ -44,13 +46,9 @@
 
 [RSS clients]
 
-[Weather clients]
-
-[Yahoo clients]
-
-[Facebook clients]
-
 [VKontakte clients]
+
+[Weather clients]
 
 [Multi-protocol clients]
 
@@ -131,8 +129,6 @@ Protocole
 
 [QQ overlay]
 
-[Yahoo overlay]
-
 [Mail.Ru Agent overlay]
 
 [VK overlay]
@@ -150,12 +146,6 @@ Protocole
 [ICQ v7.x overlay]
 
 [ICQ v8.x overlay]
-
-[Yahoo v11.x overlay]
-
-[Yahoo v10.x overlay]
-
-[Yahoo v9.x overlay]
 
 [Gadu-Gadu v11 client]
 

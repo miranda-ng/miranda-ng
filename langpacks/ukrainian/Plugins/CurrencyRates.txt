@@ -198,9 +198,9 @@
 [Currency Converter...]
 Конвертер валют...
 [Export All Currency Rates]
-
+Експорт усіх курсів валют
 [Import All Currency Rates]
-
+Імпорт усіх курсів валют
 [Refresh]
 Оновити
 [Open Log File...]
@@ -210,11 +210,11 @@
 [Edit Settings...]
 Налаштування...
 [Enable/Disable Currency Rates Auto Update]
-
+Увімк./вимк. автооновлення курсів валют
 [Currency Rates Auto Update Enabled]
-
+Автооновлення курсів валют увімкнено
 [Currency Rates Auto Update Disabled]
-
+Автооновлення курсів валют вимкнено
 [Network]
 Мережа
 ;file \plugins\CurrencyRates\src\HTTPSession.cpp
@@ -230,7 +230,7 @@ HTTP-з'єднання CurrencyRates
 [Currency Rate not changed]
 Значення не змінилося
 [Currency Rate Section]
-
+Розділ курсів валют
 [Export]
 Експорт
 [Swap button]

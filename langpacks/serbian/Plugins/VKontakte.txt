@@ -539,7 +539,7 @@ Mreža
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 
-[VKontakte newsfeed & notification event]
+[Newsfeed & notification event]
 
 [Mark messages as read]
 
@@ -567,7 +567,7 @@ Mreža
 
 [Errors]
 
-[Notification]
+[Notifications]
 
 [VK user activate/deactivate action]
 

@@ -539,8 +539,8 @@ Protokół VKontakte
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Połączenie %s
-[VKontakte newsfeed & notification event]
-Zdarzenie powiadomień kanału aktualności VKontakte
+[Newsfeed & notification event]
+Zdarzenie powiadomień kanału aktualności
 [Mark messages as read]
 Oznacz wiadomości jako przeczytane
 [Send message to user's wall]
@@ -567,8 +567,8 @@ z ostatnich 90 dni
 wszystko
 [Errors]
 Błędy
-[Notification]
-Powiadomienie
+[Notifications]
+Powiadomienia
 [VK user activate/deactivate action]
 
 [User %s added as friend]

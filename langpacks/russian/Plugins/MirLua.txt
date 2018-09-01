@@ -19,9 +19,9 @@
 [Popup on obsolete methods]
 Показать всплывающее окно при вызове устаревших методов
 [Auto evaluation]
-
+Автоматическое вычисление
 [Evaluate]
-
+Вычислить
 ;file \plugins\MirLua\src\icons.cpp
 [Script]
 Скрипт

@@ -539,7 +539,7 @@
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
-[VKontakte newsfeed & notification event]
+[Newsfeed & notification event]
 
 [Mark messages as read]
 Пазначыць павеламленні прачытанымі
@@ -567,8 +567,8 @@
 
 [Errors]
 Памылкі
-[Notification]
-Абвестка
+[Notifications]
+
 [VK user activate/deactivate action]
 
 [User %s added as friend]

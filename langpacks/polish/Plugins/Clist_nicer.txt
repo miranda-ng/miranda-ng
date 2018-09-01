@@ -128,8 +128,6 @@ Przenieś zdarzenia na górę listy lub grupy
 Nie oddzielaj rozłączonych kontaktów
 [Hide as offline]
 Ukryj jako rozłączone:
-[Tree hide offline]
-Drzewo ukryj rozłączonych
 [Right align contacts]
 Wyrównanie do prawej
 [Avatars]
@@ -258,8 +256,6 @@ ms
 Ukryj pionowy pasek przewijania
 [Gray out entire list when:]
 Przyciemnij całą listę kiedy:
-[Tree gray out]
-Drzewo wyszarzone
 [Contact list background]
 Tło listy kontaktów
 [Use Windows colors]

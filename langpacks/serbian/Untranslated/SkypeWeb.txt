@@ -74,7 +74,6 @@
 [Notifications]
 [Errors]
 [Calls]
-[Incoming call sound]
-[Incoming call canceled sound]
+[Incoming call canceled]
 [Skypename]
 [Incoming call from %s]

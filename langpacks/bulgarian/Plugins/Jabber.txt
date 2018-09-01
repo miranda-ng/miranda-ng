@@ -974,8 +974,8 @@ Jabber източник
 От
 [Both]
 И двамата
-[Errors]
-Грешки
+[errors]
+грешки
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Входяща бележка от %s

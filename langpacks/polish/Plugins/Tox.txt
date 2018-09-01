@@ -85,9 +85,6 @@ Potwierdź hasło:
 Folder profili
 [Tox link protocol]
 Powiązanie protokołu Tox
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-Nie można uruchomić rdzenia Tox
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -165,6 +162,8 @@ Stare hasło nie jest prawidłowe
 Nie możesz dodać siebie samego do swojej listy kontaktów
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów
+[Unable to initialize Tox core]
+Nie można uruchomić rdzenia Tox
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Zapytanie

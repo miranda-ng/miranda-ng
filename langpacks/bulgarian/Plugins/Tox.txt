@@ -85,9 +85,6 @@ IPv6 адрес (незадължително)
 Папка на профилите
 [Tox link protocol]
 Протокол за Tox връзки
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Икона на протокола
@@ -165,6 +162,8 @@ Tox профил
 Не може да добавите себе си в списъка с контакти
 [Contact already in your contact list]
 Контактът вече присъства в списъка ви с контакти
+[Unable to initialize Tox core]
+
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Търсене

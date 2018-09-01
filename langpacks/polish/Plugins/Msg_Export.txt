@@ -79,8 +79,6 @@ Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 Baza danych Mirandy zawiera %d zdarzeń
-[With scroll to bottom %d\n]
-Z przewijaniem w dół %d\n
 [Search string was not found!]
 Szukana fraza nie została znaleziona!
 [Save as RTF]

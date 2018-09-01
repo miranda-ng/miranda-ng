@@ -128,8 +128,6 @@ ms
 Без отделяне на контактите "Извън линия"
 [Hide as offline]
 
-[Tree hide offline]
-
 [Right align contacts]
 Подреждане на контактите отдясно
 [Avatars]
@@ -258,8 +256,6 @@ ms
 Без вертикална лента за придвижване
 [Gray out entire list when:]
 Посивяване на списъка, когато:
-[Tree gray out]
-
 [Contact list background]
 Фон на списъка с контакти
 [Use Windows colors]

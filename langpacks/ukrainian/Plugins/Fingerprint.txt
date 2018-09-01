@@ -28,6 +28,8 @@
 Оверлеї шифрування
 [Select protocols]
 Протоколи
+[Facebook clients]
+Клієнти Facebook
 [Gadu-Gadu clients]
 Клієнти Gadu-Gadu
 [ICQ clients]
@@ -44,14 +46,10 @@
 Клієнти QQ
 [RSS clients]
 Клієнти RSS
-[Weather clients]
-Клієнти погоди
-[Yahoo clients]
-Клієнти Yahoo
-[Facebook clients]
-Клієнти Facebook
 [VKontakte clients]
 Клієнти ВКонтакті
+[Weather clients]
+Клієнти погоди
 [Multi-protocol clients]
 Мультипротокольні клієнти
 [Other (rare) protocols]
@@ -131,8 +129,6 @@ TM 2008 і вище
 Оверлей MSN
 [QQ overlay]
 Оверлей QQ
-[Yahoo overlay]
-Оверлей Yahoo
 [Mail.Ru Agent overlay]
 Оверлей Mail.Ru Agent
 [VK overlay]
@@ -151,12 +147,6 @@ TM 2008 і вище
 Оверлей ICQ v7.x
 [ICQ v8.x overlay]
 Оверлей ICQ v8.x
-[Yahoo v11.x overlay]
-Оверлей Yahoo v11.x
-[Yahoo v10.x overlay]
-Оверлей Yahoo v10.x
-[Yahoo v9.x overlay]
-Оверлей Yahoo v9.x
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клієнт
 [Gadu-Gadu v10 client]

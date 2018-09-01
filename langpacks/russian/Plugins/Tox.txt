@@ -85,9 +85,6 @@ IPv6 адрес (необязательно)
 Папка профилей
 [Tox link protocol]
 Протокол Tox
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-Невозможно инициализировать ядро Tox
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Значок протокола
@@ -165,6 +162,8 @@ IPv6 адрес (необязательно)
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов
+[Unable to initialize Tox core]
+Невозможно инициализировать ядро Tox
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запрос

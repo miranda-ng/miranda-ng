@@ -8,8 +8,6 @@
 [Creates detailed, colorful and highly customizable statistics using your message history.]
 
 ;file \plugins\HistoryStats\res\resource.rc
-[Band]
-
 [HistoryStats - Working...]
 
 [Cancel]

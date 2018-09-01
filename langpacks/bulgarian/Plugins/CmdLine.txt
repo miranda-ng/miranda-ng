@@ -8,7 +8,7 @@
 [This plugin lets you control Miranda from the command line.]
 Приставката позволява контролирането на Miranda от командния ред.
 ;file \plugins\CmdLine\src\CmdLine.cpp
-[Could not initialize CmdLine plugin property]
+[Could not initialize CmdLine plugin properly]
 Приставката CmdLine не може да бъде инициализирана коректно
 [Error]
 Грешка

@@ -174,7 +174,7 @@ Wszystkie pliki
 [You cannot import your current profile into itself]
 Nie możesz zaimportować obecnego profilu do niego samego
 ;file \plugins\Import\src\ui.cpp
-[Import history for]
+[Import history for %s]
 
 [JSON file]
 

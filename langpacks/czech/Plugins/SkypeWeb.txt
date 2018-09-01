@@ -184,10 +184,8 @@ Chyby
 [Calls]
 Hovory
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[Incoming call sound]
-Zvuk příchozího hovoru
-[Incoming call canceled sound]
-Zvuk zrušení příchozího hovoru
+[Incoming call canceled]
+
 [Skypename]
 Skype jméno
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp

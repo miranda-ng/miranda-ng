@@ -128,8 +128,6 @@ Sortiranje spiska kontakata
 
 [Hide as offline]
 
-[Tree hide offline]
-
 [Right align contacts]
 
 [Avatars]
@@ -258,8 +256,6 @@ milisekunde
 Ne prikazivati vertikalni skrol
 [Gray out entire list when:]
 Prigušiti ceo spisak kada:
-[Tree gray out]
-
 [Contact list background]
 Pozadina spiska kontakata
 [Use Windows colors]

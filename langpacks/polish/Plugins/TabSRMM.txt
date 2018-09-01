@@ -1276,6 +1276,8 @@ Nieznane zdarzenie
 Nowych wiadomości:\s
 [Unknown module or contact]
 Nieznany moduł lub kontakt
+[Event notifications]
+Zdarzenia
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Plik pola edycji z formatowaniem
@@ -1616,8 +1618,6 @@ Kontenery
 Dziennik wiadomości
 [Typing notify]
 Pisanie
-[Event notifications]
-Zdarzenia
 [Message window]
 Okno rozmowy
 [Load and apply]

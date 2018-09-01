@@ -128,8 +128,6 @@
 Не адлучаць адключаныя кантакты
 [Hide as offline]
 Хаваць як адключаных
-[Tree hide offline]
-
 [Right align contacts]
 Выраўняць па правым краі
 [Avatars]
@@ -258,8 +256,6 @@
 Схаваць паласу прагорткі
 [Gray out entire list when:]
 Зрабіць шэрым, калі:
-[Tree gray out]
-
 [Contact list background]
 Фон спісу
 [Use Windows colors]

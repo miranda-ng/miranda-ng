@@ -187,9 +187,9 @@ Detalji o &Korisniku
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 
-[Notify]
+[Notifications]
 
-[Error]
+[Errors]
 
 [MSN Protocol]
 
@@ -241,8 +241,6 @@ lista kontakata
 [Connection]
 
 [Server list]
-
-[Notifications]
 
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]

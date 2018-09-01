@@ -1276,6 +1276,8 @@ Neznámá událost
 Nové zprávy:\s
 [Unknown module or contact]
 Neznámý modul nebo uživatel
+[Event notifications]
+Oznámení události
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Rich Edit soubor
@@ -1616,8 +1618,6 @@ Kontejnery
 Záznam komunikace
 [Typing notify]
 Psaní zprávy
-[Event notifications]
-Oznámení události
 [Message window]
 Komunikační okno
 [Load and apply]

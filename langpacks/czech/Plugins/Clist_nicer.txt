@@ -128,8 +128,6 @@ Posunovat události v seznamu nahoru
 Neoddělovat kontakty ve stavu offline
 [Hide as offline]
 Skrýt jako offline
-[Tree hide offline]
-Skrýt offline stromu
 [Right align contacts]
 Zarovnat kontakt vpravo
 [Avatars]
@@ -258,8 +256,6 @@ ms
 Skrýt svislý posuvník
 [Gray out entire list when:]
 Zešednout seznam v případě:
-[Tree gray out]
-Zešednutí stromu
 [Contact list background]
 Pozadí seznamu kontaktů
 [Use Windows colors]

@@ -539,8 +539,8 @@ VKontakte-Protokoll
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s Serververbindung
-[VKontakte newsfeed & notification event]
-VKontakte Newsfeed- und Benachrichtigungsereignis
+[Newsfeed & notification event]
+Newsfeed- und Benachrichtigungsereignis
 [Mark messages as read]
 Nachrichten als gelesen markieren
 [Send message to user's wall]
@@ -567,7 +567,7 @@ Die letzten 90 Tage
 Für immer
 [Errors]
 Fehler
-[Notification]
+[Notifications]
 Benachrichtigung
 [VK user activate/deactivate action]
 VK-Benutzer wurde aktiviert/deaktiviert

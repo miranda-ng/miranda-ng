@@ -1276,6 +1276,8 @@ Unbekanntes Ereignis
 Neue Nachrichten:\s
 [Unknown module or contact]
 Unbekanntes Modul oder Kontakt
+[Event notifications]
+Ereignisbenachrichtigungen
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Rich-Edit-Datei
@@ -1616,8 +1618,6 @@ Container
 Nachrichtenverlauf
 [Typing notify]
 Tippbenachrichtigungen
-[Event notifications]
-Ereignisbenachrichtigungen
 [Message window]
 Nachrichtenfenster
 [Load and apply]

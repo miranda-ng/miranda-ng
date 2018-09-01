@@ -29,7 +29,6 @@
 [Export selected]
 [Set to default filename]
 [Miranda database contains %d events]
-[With scroll to bottom %d\n]
 [Search string was not found!]
 [Save as RTF]
 [Color...]

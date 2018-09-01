@@ -6,7 +6,6 @@
 [History file for %s (%s, format %s)]
 [&External]
 [Miranda database contains %d events]
-[With scroll to bottom %d\n]
 [Syntax highlight]
 [Max line width must be at least %d. Or use 0 for no limit.]
 [Message export]

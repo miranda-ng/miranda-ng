@@ -1276,6 +1276,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Новыя паведамленні:\s
 [Unknown module or contact]
 Невядомы плагін ці кантакт
+[Event notifications]
+Абвесткі
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Файл RTF
@@ -1616,8 +1618,6 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Лог
 [Typing notify]
 Набірае тэкст
-[Event notifications]
-Абвесткі
 [Message window]
 Гутарка
 [Load and apply]

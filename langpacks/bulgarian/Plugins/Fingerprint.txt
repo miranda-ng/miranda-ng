@@ -28,6 +28,8 @@ Miranda клиенти
 за сигурност
 [Select protocols]
 Изберете протоколи
+[Facebook clients]
+Facebook клиенти
 [Gadu-Gadu clients]
 Gadu-Gadu клиенти
 [ICQ clients]
@@ -44,14 +46,10 @@ MSN клиенти
 QQ клиенти
 [RSS clients]
 RSS клиенти
-[Weather clients]
-Weather клиенти
-[Yahoo clients]
-Yahoo клиенти
-[Facebook clients]
-Facebook клиенти
 [VKontakte clients]
 VKontakte клиенти
+[Weather clients]
+Weather клиенти
 [Multi-protocol clients]
 Мултипротоколни клиенти
 [Other (rare) protocols]
@@ -131,8 +129,6 @@ Jabber
 MSN
 [QQ overlay]
 QQ
-[Yahoo overlay]
-Yahoo
 [Mail.Ru Agent overlay]
 Mail.Ru Agent
 [VK overlay]
@@ -151,12 +147,6 @@ ICQ v6.x
 ICQ v7.x
 [ICQ v8.x overlay]
 ICQ v8.x
-[Yahoo v11.x overlay]
-Yahoo v11.x
-[Yahoo v10.x overlay]
-Yahoo v10.x
-[Yahoo v9.x overlay]
-Yahoo v9.x
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клиент
 [Gadu-Gadu v10 client]

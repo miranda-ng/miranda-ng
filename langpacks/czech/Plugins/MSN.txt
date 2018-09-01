@@ -187,10 +187,10 @@ N&astavit upozornění
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Vlastní smajlíky
-[Notify]
-Oznámení
-[Error]
-Chyba
+[Notifications]
+Upozornění
+[Errors]
+Chyby
 [MSN Protocol]
 Protokol MSN
 ;file \protocols\MSN\src\msn_opts.cpp
@@ -242,8 +242,6 @@ Sítě
 Spojení
 [Server list]
 Seznamy
-[Notifications]
-Upozornění
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Nová pošta (Live)

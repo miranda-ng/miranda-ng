@@ -187,10 +187,10 @@ Hotmail от %s
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 
-[Notify]
-Уведомяване
-[Error]
-Грешка
+[Notifications]
+Уведомявания
+[Errors]
+Грешки
 [MSN Protocol]
 MSN протокол
 ;file \protocols\MSN\src\msn_opts.cpp
@@ -242,8 +242,6 @@ IP информацията е налична само след вписване
 Връзка
 [Server list]
 Списък на сървъра
-[Notifications]
-Уведомявания
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live поща

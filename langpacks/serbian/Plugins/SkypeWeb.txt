@@ -184,9 +184,7 @@ Mreža
 [Calls]
 
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[Incoming call sound]
-
-[Incoming call canceled sound]
+[Incoming call canceled]
 
 [Skypename]
 

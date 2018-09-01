@@ -190,17 +190,17 @@ Popup настройки...
 [Auto Update Disabled]
 Автообновяването е изключено
 [Currency Rates]
-
+Валутни курсове
 [Enable/Disable Auto Update]
 Вкл / Изкл на автоматично обновяване
 [Refresh All Rates]
-
+Обновяване на всички курсове
 [Currency Converter...]
 Конвертиране на валута...
 [Export All Currency Rates]
-
+Изнасяне на всички курсове
 [Import All Currency Rates]
-
+Внасяне на всички курсове
 [Refresh]
 Обновяване
 [Open Log File...]

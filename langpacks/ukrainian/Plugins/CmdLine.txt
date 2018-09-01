@@ -8,8 +8,8 @@
 [This plugin lets you control Miranda from the command line.]
 Дозволяє керувати Miranda через командний рядок.
 ;file \plugins\CmdLine\src\CmdLine.cpp
-[Could not initialize CmdLine plugin property]
-Не вдалося ініціалізувати власності CmdLine
+[Could not initialize CmdLine plugin properly]
+
 [Error]
 Помилка
 ;file \plugins\CmdLine\src\mimcmd_data.h

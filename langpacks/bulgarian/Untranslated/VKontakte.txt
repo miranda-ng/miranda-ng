@@ -210,7 +210,7 @@
 [on typing]
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
 [VKontakte protocol]
-[VKontakte newsfeed & notification event]
+[Newsfeed & notification event]
 [Send message to user's wall]
 [Add as friend]
 [Delete from friend list]

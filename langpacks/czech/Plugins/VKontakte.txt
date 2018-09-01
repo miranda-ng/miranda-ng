@@ -539,7 +539,7 @@ Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní 
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s - spojení se serverem
-[VKontakte newsfeed & notification event]
+[Newsfeed & notification event]
 
 [Mark messages as read]
 
@@ -567,8 +567,8 @@ Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní 
 
 [Errors]
 Chyby
-[Notification]
-Oznámení
+[Notifications]
+Upozornění
 [VK user activate/deactivate action]
 
 [User %s added as friend]

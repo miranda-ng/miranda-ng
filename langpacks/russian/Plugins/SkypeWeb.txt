@@ -184,10 +184,8 @@ URI объект
 [Calls]
 Звонки
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[Incoming call sound]
-Звук входящего звонка
-[Incoming call canceled sound]
-Звук отмены входящего звонка
+[Incoming call canceled]
+Отмена входящего звонка
 [Skypename]
 Логин Skype
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp

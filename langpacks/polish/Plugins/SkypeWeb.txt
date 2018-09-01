@@ -184,10 +184,8 @@ Błędy
 [Calls]
 Rozmowy
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[Incoming call sound]
-Dźwięk rozmowy przychodzącej
-[Incoming call canceled sound]
-Dźwięk anulowania rozmowy przychodzącej
+[Incoming call canceled]
+
 [Skypename]
 Nazwa Skype
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp

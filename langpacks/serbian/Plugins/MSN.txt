@@ -187,10 +187,10 @@ Detalji &korisnika
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 
-[Notify]
+[Notifications]
 
-[Error]
-Greška
+[Errors]
+
 [MSN Protocol]
 
 ;file \protocols\MSN\src\msn_opts.cpp
@@ -241,8 +241,6 @@ Mreža
 [Connection]
 
 [Server list]
-
-[Notifications]
 
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]

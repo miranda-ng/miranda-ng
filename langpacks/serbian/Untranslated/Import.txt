@@ -71,7 +71,7 @@
 [Miranda Import]
 [Miranda NG database]
 [You cannot import your current profile into itself]
-[Import history for]
+[Import history for %s]
 [JSON file]
 [Skipping duplicate group %s.]
 [Import...]

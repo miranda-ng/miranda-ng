@@ -48,6 +48,5 @@
 [Network error!]
 [Enter confirmation code]
 [Calls]
-[Incoming call sound]
-[Incoming call canceled sound]
+[Incoming call canceled]
 [Skypename]

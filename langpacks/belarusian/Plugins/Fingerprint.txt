@@ -28,6 +28,8 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Адбітак шыфравання
 [Select protocols]
 Пратаколы
+[Facebook clients]
+Кліенты Facebook
 [Gadu-Gadu clients]
 Кліенты Gadu-Gadu
 [ICQ clients]
@@ -44,14 +46,10 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Кліенты QQ
 [RSS clients]
 Кліенты RSS
+[VKontakte clients]
+Кліенты VKontakte
 [Weather clients]
 Кліенты надвор'я
-[Yahoo clients]
-Кліенты Yahoo
-[Facebook clients]
-
-[VKontakte clients]
-
 [Multi-protocol clients]
 Мульты-пратакольныя кліенты
 [Other (rare) protocols]
@@ -131,8 +129,6 @@ Jabber
 MSN
 [QQ overlay]
 QQ
-[Yahoo overlay]
-Yahoo
 [Mail.Ru Agent overlay]
 Mail.Ru Agent
 [VK overlay]
@@ -150,12 +146,6 @@ Mail.Ru Agent
 [ICQ v7.x overlay]
 
 [ICQ v8.x overlay]
-
-[Yahoo v11.x overlay]
-
-[Yahoo v10.x overlay]
-
-[Yahoo v9.x overlay]
 
 [Gadu-Gadu v11 client]
 

@@ -174,7 +174,7 @@ Všechny soubory
 [You cannot import your current profile into itself]
 
 ;file \plugins\Import\src\ui.cpp
-[Import history for]
+[Import history for %s]
 
 [JSON file]
 

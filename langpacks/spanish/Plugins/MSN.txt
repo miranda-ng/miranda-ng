@@ -187,10 +187,10 @@ Añadir
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 
-[Notify]
-Notificar
-[Error]
-Error
+[Notifications]
+Notificaciones
+[Errors]
+Errores
 [MSN Protocol]
 
 ;file \protocols\MSN\src\msn_opts.cpp
@@ -242,8 +242,6 @@ Cuenta
 Conexión
 [Server list]
 
-[Notifications]
-Notificaciones
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 

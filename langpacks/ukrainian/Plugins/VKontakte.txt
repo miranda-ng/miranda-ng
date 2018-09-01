@@ -539,8 +539,8 @@ ID отримувача помилковий або невідомий
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 З'єднання з сервером %s
-[VKontakte newsfeed & notification event]
-Новини і сповіщення ВКонтакті
+[Newsfeed & notification event]
+Новини і сповіщення
 [Mark messages as read]
 Позначити повідомлення як прочитані
 [Send message to user's wall]
@@ -567,7 +567,7 @@ ID отримувача помилковий або невідомий
 з самого початку
 [Errors]
 Помилки
-[Notification]
+[Notifications]
 Сповіщення
 [VK user activate/deactivate action]
 

@@ -24,7 +24,6 @@
 [You cannot send when you are offline.]
 [Enter confirmation code]
 [Calls]
-[Incoming call sound]
-[Incoming call canceled sound]
+[Incoming call canceled]
 [Skypename]
 [Incoming call from %s]

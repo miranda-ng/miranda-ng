@@ -1,8 +1,6 @@
 [No expand/collapse icon]
 [Inner row vertical padding]
-[Tree hide offline]
 [Client margins]
-[Tree gray out]
 [Sticky contacts]
 [Editing view mode]
 [Download more skins]

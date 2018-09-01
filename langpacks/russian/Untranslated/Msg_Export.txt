@@ -1,4 +1,3 @@
-[With scroll to bottom %d\n]
 [Max line width must be at least %d. Or use 0 for no limit.]
 [Miranda NG (Message Export Plugin)]
 [No_Group]

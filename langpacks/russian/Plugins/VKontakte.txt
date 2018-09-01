@@ -539,8 +539,8 @@ ID получателя ошибочен или неизвестен
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Подключение к серверу %s
-[VKontakte newsfeed & notification event]
-Новости и уведомления ВКонтакте
+[Newsfeed & notification event]
+Новости и уведомления
 [Mark messages as read]
 Пометить сообщения прочитанными
 [Send message to user's wall]
@@ -567,8 +567,8 @@ ID получателя ошибочен или неизвестен
 с самого начала
 [Errors]
 Ошибки
-[Notification]
-Уведомление
+[Notifications]
+Уведомления
 [VK user activate/deactivate action]
 Действие активации/деактивации пользователя ВКонтакте
 [User %s added as friend]

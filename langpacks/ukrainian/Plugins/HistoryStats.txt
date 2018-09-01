@@ -8,8 +8,6 @@
 [Creates detailed, colorful and highly customizable statistics using your message history.]
 Створює докладну статистику на основі вашої історії повідомлень.
 ;file \plugins\HistoryStats\res\resource.rc
-[Band]
-
 [HistoryStats - Working...]
 HistoryStats - Обробка...
 [Cancel]

@@ -187,10 +187,10 @@ Hotmail de %s
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 
-[Notify]
-
-[Error]
-Erreur
+[Notifications]
+Notifications
+[Errors]
+Erreurs
 [MSN Protocol]
 Protocole MSN
 ;file \protocols\MSN\src\msn_opts.cpp
@@ -242,8 +242,6 @@ Compte
 
 [Server list]
 Liste côté serveur
-[Notifications]
-Notifications
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 

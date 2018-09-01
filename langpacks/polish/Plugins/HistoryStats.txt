@@ -8,8 +8,6 @@
 [Creates detailed, colorful and highly customizable statistics using your message history.]
 Tworzy szczegółowe, kolorowe i wysoce konfigurowalne statystyki przy użyciu historii wiadomości.
 ;file \plugins\HistoryStats\res\resource.rc
-[Band]
-Zespół
 [HistoryStats - Working...]
 HistoryStats - działa...
 [Cancel]

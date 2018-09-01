@@ -187,10 +187,10 @@ MSN уведомление
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Смайлы
-[Notify]
-Уведомление
-[Error]
-Ошибка
+[Notifications]
+Уведомления
+[Errors]
+Ошибки
 [MSN Protocol]
 Протокол MSN
 ;file \protocols\MSN\src\msn_opts.cpp
@@ -242,8 +242,6 @@ MSN уведомление
 Подключение
 [Server list]
 Список на сервере
-[Notifications]
-Уведомления
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Почта

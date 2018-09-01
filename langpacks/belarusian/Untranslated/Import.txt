@@ -15,5 +15,5 @@
 [Skipping contact, account %S cannot be mapped.]
 [Error mapping accounts, exiting.]
 [You cannot import your current profile into itself]
-[Import history for]
+[Import history for %s]
 [JSON file]

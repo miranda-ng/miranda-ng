@@ -974,8 +974,8 @@ Jabber ошибка
 От
 [Both]
 в обе стороны
-[Errors]
-Ошибки
+[errors]
+ошибки
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Входящая заметка от %s

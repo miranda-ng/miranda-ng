@@ -60,7 +60,6 @@
 [Enter confirmation code]
 [%s connection]
 [Calls]
-[Incoming call sound]
-[Incoming call canceled sound]
+[Incoming call canceled]
 [Skypename]
 [Incoming call from %s]

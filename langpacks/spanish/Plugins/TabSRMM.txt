@@ -1276,6 +1276,8 @@ Archivo entrante
 
 [Unknown module or contact]
 
+[Event notifications]
+Notificaciones de eventos
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 
@@ -1616,8 +1618,6 @@ General
 Registro de mensaje
 [Typing notify]
 Notificación de escritura
-[Event notifications]
-Notificaciones de eventos
 [Message window]
 
 [Load and apply]

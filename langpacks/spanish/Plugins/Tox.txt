@@ -85,9 +85,6 @@ Puerto
 
 [Tox link protocol]
 
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 
@@ -164,6 +161,8 @@ Cuenta
 [You cannot add yourself to your contact list]
 
 [Contact already in your contact list]
+
+[Unable to initialize Tox core]
 
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]

@@ -974,8 +974,8 @@ Do
 Od
 [Both]
 Oboje
-[Errors]
-Chyby
+[errors]
+chyby
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Příchozí poznámka: %s

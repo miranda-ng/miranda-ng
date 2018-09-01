@@ -85,9 +85,6 @@
 
 [Tox link protocol]
 Спасылка Tox
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Абразок пратаколу
@@ -165,6 +162,8 @@
 
 [Contact already in your contact list]
 Кантакт ужо ў вашым спісе
+[Unable to initialize Tox core]
+
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Запыт

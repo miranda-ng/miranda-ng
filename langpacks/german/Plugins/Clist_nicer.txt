@@ -128,8 +128,6 @@ Ereignisse in Liste oder Gruppe nach oben schieben
 Offlinekontakte nicht trennen
 [Hide as offline]
 Als 'offline' verstecken
-[Tree hide offline]
-Auswahl 'Offline verstecken'
 [Right align contacts]
 Kontakte rechtsbündig
 [Avatars]
@@ -258,8 +256,6 @@ Millisekunden
 Vertikale Bildlaufleiste ausblenden
 [Gray out entire list when:]
 Liste grau färben, wenn:
-[Tree gray out]
-Auswahl 'Ausgrauen'
 [Contact list background]
 Hintergrund der Kontaktliste
 [Use Windows colors]

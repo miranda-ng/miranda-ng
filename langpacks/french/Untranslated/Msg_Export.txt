@@ -4,7 +4,6 @@
 [Do nothing]
 [Debug]
 [Miranda database contains %d events]
-[With scroll to bottom %d\n]
 [Save as RTF]
 [History was saved successfully in file\r\n]
 [Reading database information (Phase 1 of 2)]

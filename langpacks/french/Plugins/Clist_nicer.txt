@@ -128,8 +128,6 @@ Déplacer les évènements au début de la liste/groupe
 Ne pas séparer les contacts hors ligne
 [Hide as offline]
 Considérer hors ligne
-[Tree hide offline]
-
 [Right align contacts]
 Contacts sur la droite
 [Avatars]
@@ -258,8 +256,6 @@ millisecondes
 Cacher l'ascenseur vertical
 [Gray out entire list when:]
 Griser toute la liste quand :
-[Tree gray out]
-
 [Contact list background]
 Arrière-plan de la liste
 [Use Windows colors]

@@ -187,9 +187,9 @@ Live &Alerts einstellen
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Custom Smileys
-[Notify]
-Benachrichtigung
-[Error]
+[Notifications]
+Benachrichtigungen
+[Errors]
 Fehler
 [MSN Protocol]
 MSN-Protokoll
@@ -242,8 +242,6 @@ Konto
 Verbindung
 [Server list]
 Serverliste
-[Notifications]
-Benachrichtigungen
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live Mail

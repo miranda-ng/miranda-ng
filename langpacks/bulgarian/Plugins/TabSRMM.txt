@@ -1276,6 +1276,8 @@ TabSRMM предупреждение
 Нови съобщения:\s
 [Unknown module or contact]
 Непознат модул/контакт
+[Event notifications]
+Уведомявания за събития
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 
@@ -1616,8 +1618,6 @@ Latin I
 Дневник за съобщения
 [Typing notify]
 Уведомяване при писане
-[Event notifications]
-Уведомявания за събития
 [Message window]
 Прозорец за съобщения
 [Load and apply]

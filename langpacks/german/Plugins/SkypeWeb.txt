@@ -184,10 +184,8 @@ Fehler
 [Calls]
 Aufrufe
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[Incoming call sound]
-Eingehender-Anruf-Klang
-[Incoming call canceled sound]
-Eingehender-Anruf-Abgebrochen-Klang
+[Incoming call canceled]
+
 [Skypename]
 Skypename
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp

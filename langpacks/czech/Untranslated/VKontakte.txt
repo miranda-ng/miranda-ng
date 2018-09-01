@@ -178,7 +178,7 @@
 [for last 1 day]
 [for last 3 days]
 [VKontakte protocol]
-[VKontakte newsfeed & notification event]
+[Newsfeed & notification event]
 [Mark messages as read]
 [Send message to user's wall]
 [Add as friend]

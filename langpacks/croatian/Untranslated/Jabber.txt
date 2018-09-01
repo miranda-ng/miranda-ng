@@ -468,7 +468,7 @@
 [To]
 [From]
 [Both]
-[Errors]
+[errors]
 [Incoming note from %s]
 [Send note to %s]
 [From: %s]

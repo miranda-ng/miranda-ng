@@ -85,9 +85,6 @@ Nové heslo znovu:
 Složka s profily
 [Tox link protocol]
 Odkaz protokolu Tox
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-Nelze inicializovat jádro Tox
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokolu
@@ -165,6 +162,8 @@ Nelze dešifrovat profil Tox
 Nemůžete přidat sami sebe do vašeho seznamu kontaktů
 [Contact already in your contact list]
 Kontakt je již ve vašem seznamu
+[Unable to initialize Tox core]
+Nelze inicializovat jádro Tox
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Dotaz

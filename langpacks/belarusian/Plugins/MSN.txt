@@ -187,10 +187,10 @@
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Свае смайлы
-[Notify]
-Абвестка
-[Error]
-Памылка
+[Notifications]
+Абвесткі
+[Errors]
+Памылкі
 [MSN Protocol]
 Пратакол MSN
 ;file \protocols\MSN\src\msn_opts.cpp
@@ -242,8 +242,6 @@
 Далучэнне
 [Server list]
 Спіс на серверы
-[Notifications]
-Абвесткі
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Пошта Live

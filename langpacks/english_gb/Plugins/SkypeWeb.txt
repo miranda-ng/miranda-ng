@@ -7,5 +7,3 @@
 ;============================================================
 [Automatic messages synchronization]
 Automatic messages synchronisation
-[Incoming call canceled sound]
-Incoming call cancelled sound

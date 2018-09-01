@@ -11,8 +11,6 @@ Centre group names horizontally
 Centred when possible
 [Gray out entire list when:]
 Grey out entire list when:
-[Tree gray out]
-Tree grey out
 [Use Windows colors]
 Use Windows colours
 [Protocol skins override status text colors]

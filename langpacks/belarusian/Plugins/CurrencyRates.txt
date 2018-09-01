@@ -192,7 +192,7 @@
 [Currency Rates]
 Курсы валют
 [Enable/Disable Auto Update]
-
+Уключыць/выключыць аўтаабнаўленне
 [Refresh All Rates]
 Абнавіць усе курсы валют
 [Currency Converter...]

@@ -1276,6 +1276,8 @@ Dolazna datoteka
 
 [Unknown module or contact]
 
+[Event notifications]
+
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 
@@ -1616,8 +1618,6 @@ Uopšteno
 Log poruke
 [Typing notify]
 Obaveštenja o kucanju
-[Event notifications]
-
 [Message window]
 
 [Load and apply]
