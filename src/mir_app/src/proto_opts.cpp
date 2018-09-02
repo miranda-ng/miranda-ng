@@ -466,7 +466,7 @@ public:
 		WriteDbAccounts();
 		NotifyEventHooks(hAccListChanged, PRAC_CHECKED, (LPARAM)pa);
 		UpdateAccountInfo();
-		RedrawWindow(m_accList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+		SelectItem(m_accList.GetCurSel());
 	}
 
 	void OnOk(CCtrlButton*)
