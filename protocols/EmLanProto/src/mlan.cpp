@@ -515,7 +515,7 @@ void CMLan::SendMessageExt(TDataHolder* hold)
 		TPacket pak;
 		memset(&pak, 0, sizeof(pak));
 		u_long addr = db_get_dw(hold->hContact, PROTONAME, "ipaddr", 0);
-		pak.strMessage = hold->msg;
+		pak.strMessage = mir_utf8decode(hold->msg, 0);
 		pak.idMessage = hold->id;
 		if (hold->op == LEXT_SENDURL)
 			pak.flIsUrl = true;
