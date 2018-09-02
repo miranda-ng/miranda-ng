@@ -285,7 +285,7 @@ static void AddEventToBuffer(CMStringA &buf, LOGSTREAMDATA *streamData)
 
 wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time)
 {
-	static wchar_t szTime[30];
+	static wchar_t szTime[100];
 	if (!wcsftime(szTime, _countof(szTime)-1, pszStamp, localtime(&time)))
 		wcsncpy_s(szTime, TranslateT("<invalid>"), _TRUNCATE);
 	return szTime;
@@ -343,10 +343,10 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 		//insert timestamp
 		if (g_Settings->bShowTime) {
-			wchar_t szTimeStamp[30], szOldTimeStamp[30];
+			wchar_t szTimeStamp[100], szOldTimeStamp[100];
 
-			mir_wstrncpy(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
-			mir_wstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, si->LastTime), 30);
+			wcsncpy_s(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), _TRUNCATE);
+			wcsncpy_s(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, si->LastTime), _TRUNCATE);
 			if (!g_Settings->bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 				si->LastTime = lin->time;
 				Log_AppendRTF(streamData, TRUE, buf, L"%s", szTimeStamp);
