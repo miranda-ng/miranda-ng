@@ -203,7 +203,7 @@ void CMLan::SendPacketExt(TPacket& pak, u_long addr)
 	delete[] buf;
 }
 
-MCONTACT CMLan::FindContact(in_addr addr, const char* nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status)
+MCONTACT CMLan::FindContact(in_addr addr, const char *nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status)
 {
 	for (auto &res : Contacts(PROTONAME)) {
 		u_long caddr = db_get_dw(res, PROTONAME, "ipaddr", -1);
@@ -397,7 +397,7 @@ INT_PTR CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT *psr)
 
 	bool TempAdd = flags&PALF_TEMPORARY;
 
-	MCONTACT contact = FindContact(addr, psr->nick.a, true, !TempAdd, !TempAdd, psr->stat);
+	MCONTACT contact = FindContact(addr, _T2A(psr->nick.w), true, !TempAdd, !TempAdd, psr->stat);
 	if (contact != NULL) {
 		db_set_w(contact, PROTONAME, "Status", psr->stat);
 		db_set_w(contact, PROTONAME, "RemoteVersion", psr->ver);

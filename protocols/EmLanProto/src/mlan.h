@@ -78,6 +78,7 @@ protected:
 	virtual void OnRecvPacket(u_char* mes, int len, in_addr from);
 	virtual void OnInTCPConnection(u_long addr, SOCKET in_socket);
 	virtual void OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParameter);
+
 private:
 	struct TContact
 	{
@@ -85,11 +86,11 @@ private:
 		u_int m_status;
 		int m_time;
 		u_long m_ver;
-		char* m_nick;
-		TContact* m_prev;
+		char *m_nick;
+		TContact *m_prev;
 	};
 	u_int m_mirStatus;
-	TContact* m_pRootContact;
+	TContact *m_pRootContact;
 	HANDLE m_hCheckThread;
 
 	wchar_t m_name[MAX_HOSTNAME_LEN];
@@ -99,7 +100,7 @@ private:
 	mir_cs m_csAccessAwayMes;
 
 	void RequestStatus(bool answer = false, u_long m_addr = INADDR_BROADCAST);
-	MCONTACT FindContact(in_addr addr, const char* nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status = ID_STATUS_ONLINE);
+	MCONTACT FindContact(in_addr addr, const char *nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status = ID_STATUS_ONLINE);
 	void DeleteCache();
 
 	void StartChecking();
