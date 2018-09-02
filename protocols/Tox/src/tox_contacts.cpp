@@ -85,6 +85,8 @@ MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char
 
 	if (mir_strlen(nick))
 		setWString(hContact, "Nick", ptrW(mir_utf8decodeW(nick)));
+	else
+		setWString(hContact, "Nick", _A2T(address));
 
 	if (mir_strlen(dnsId))
 		setWString(hContact, TOX_SETTINGS_DNS, ptrW(mir_utf8decodeW(dnsId)));
