@@ -903,7 +903,7 @@ static int OnPreshutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_plugin.registerIconW(_A2W(MODULE), g_iconList);
+	g_plugin.registerIconW(LPGENW("Floating contacts"), g_iconList, MODULE);
 	LoadMenus();
 	InitOptions();
 
