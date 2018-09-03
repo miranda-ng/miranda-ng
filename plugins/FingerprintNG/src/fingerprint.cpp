@@ -32,7 +32,7 @@ static int CompareFI(const FOUNDINFO *p1, const FOUNDINFO *p2)
 	return p1->iOverlay - p2->iOverlay;
 }
 
-static OBJLIST<FOUNDINFO> arFI(50, NumericKeySortT);
+static OBJLIST<FOUNDINFO> arFI(50, CompareFI);
 
 static LIST<void> arMonitoredWindows(3, PtrKeySortT);
 
