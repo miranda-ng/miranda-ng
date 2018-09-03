@@ -917,7 +917,8 @@ void FacebookProto::InitPopups()
 	char name[256];
 	wchar_t desc[256];
 
-	POPUPCLASS ppc = { sizeof(ppc) };
+	POPUPCLASS ppc = {};
+	ppc.cbSize = sizeof(ppc);
 	ppc.flags = PCF_UNICODE;
 	ppc.PluginWindowProc = PopupDlgProc;
 	ppc.lParam = APF_RETURN_HWND;
@@ -930,27 +931,22 @@ void FacebookProto::InitPopups()
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
 	ppc.colorBack = RGB(191, 0, 0); // red
 	ppc.colorText = RGB(255, 255, 255); // white
-	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Newsfeeds
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Wall posts"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
-	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
-	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Notifications
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
-	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("notification"));
 	ppc.colorBack = RGB(59, 89, 152); // Facebook's blue
 	ppc.colorText = RGB(255, 255, 255); // white
-	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Others
@@ -959,7 +955,6 @@ void FacebookProto::InitPopups()
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
-	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Friendship changes
@@ -968,7 +963,6 @@ void FacebookProto::InitPopups()
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("friendship"));
 	ppc.colorBack = RGB(47, 71, 122); // Facebook's darker blue
 	ppc.colorText = RGB(255, 255, 255); // white
-	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Ticker
@@ -977,7 +971,6 @@ void FacebookProto::InitPopups()
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
-	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// On this day (memories)
@@ -986,7 +979,6 @@ void FacebookProto::InitPopups()
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("memories"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
-	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 }
 

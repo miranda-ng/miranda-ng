@@ -801,27 +801,26 @@ void CMsnProto::InitPopups(void)
 	ppc.pszName = name;
 	ppc.pszDescription.w = desc;
 
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Hotmail");
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Hotmail"));
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Hotmail"));
-	mir_snprintf(name, "%s_%s", m_szModuleName, "Hotmail");
 	hPopupHotmail = Popup_RegisterClass(&ppc);
 
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Notify");
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
-	mir_snprintf(name, "%s_%s", m_szModuleName, "Notify");
 	hPopupNotify = Popup_RegisterClass(&ppc);
 
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
 	ppc.hIcon = (HICON)LoadImage(nullptr, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
 	ppc.colorBack = RGB(191, 0, 0); //Red
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
-
-	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
-	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	hPopupError = Popup_RegisterClass(&ppc);
 }
 

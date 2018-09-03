@@ -82,21 +82,21 @@ void GaduProto::initpopups()
 	puc.pszName = szName;
 	puc.pszDescription.w = szDescr;
 
+	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
+	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	puc.colorBack = RGB(173, 206, 247);
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	puc.hIcon = CopyIcon(LoadIconEx("main", FALSE));
 	ReleaseIconEx("main", FALSE);
 	puc.iSeconds = 4;
-	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
-	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
 	hPopupNotify = Popup_RegisterClass(&puc);
 
+	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
+	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Errors"));
 	puc.colorBack = RGB(191, 0, 0); // Red
 	puc.colorText = RGB(255, 245, 225); // Yellow
 	puc.iSeconds = 60;
 	puc.hIcon = (HICON)LoadImage(nullptr, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
-	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Errors"));
-	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
 	hPopupError = Popup_RegisterClass(&puc);
 }
 

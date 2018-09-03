@@ -417,7 +417,7 @@ void CVkProto::InitPopups(void)
 	ppc.PluginWindowProc = PopupDlgProc;
 	ppc.lParam = APF_RETURN_HWND;
 
-	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	ppc.hIcon = Skin_LoadIcon(SKINICON_ERROR);
 	ppc.colorBack = RGB(191, 0, 0);     // Red
@@ -425,7 +425,7 @@ void CVkProto::InitPopups(void)
 	ppc.iSeconds = 60;
 	m_hPopupClassError = Popup_RegisterClass(&ppc);
 
-	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notifications"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
 	ppc.colorBack = RGB(190, 225, 255); // Blue

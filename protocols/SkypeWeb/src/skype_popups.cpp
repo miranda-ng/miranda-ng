@@ -10,7 +10,7 @@ void CSkypeProto::InitPopups()
 	ppc.pszName = name;
 	ppc.pszDescription.w = desc;
 
-	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notifications"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.hIcon = GetIcon(IDI_NOTIFY);
 	ppc.colorBack = RGB(255, 255, 255);
@@ -18,7 +18,7 @@ void CSkypeProto::InitPopups()
 	ppc.iSeconds = 5;
 	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
 
-	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	ppc.hIcon = GetIcon(IDI_ERRORICON);
 	ppc.colorBack = RGB(255, 255, 255);
@@ -26,7 +26,7 @@ void CSkypeProto::InitPopups()
 	ppc.iSeconds = -1;
 	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
 
-	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Calls"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Calls"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Call");
 	ppc.hIcon = GetIcon(IDI_CALL);
 	ppc.colorBack = RGB(255, 255, 255);
