@@ -461,16 +461,8 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 	ofn.lpTemplateName = MAKEINTRESOURCE(IDD_NEW_SHARE_PROPERTIES);
 	ofn.lpfnHook = ShareNewFileDialogHook;
 	ofn.lCustData = (LPARAM)pstNewShare;
-
-	if (!GetOpenFileName(&ofn)) {
-		DWORD dwError = CommDlgExtendedError();
-		if (dwError) {
-			char szTemp[200];
-			mir_snprintf(szTemp, "Failed to create File Open dialog the error returned was %d", dwError);
-			MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_OK);
-		}
+	if (!GetOpenFileName(&ofn))
 		return false;
-	}
 
 	if (strchr(pstNewShare->pszSrvPath, '"')) {
 		// multiple files selected
@@ -909,21 +901,15 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 			if (sItem.iItem != -1) {
 				if (ListView_GetItem(hShareList, &sItem)) {
 					string sLink = sCreateLink(sItem.pszText);
-					if (sLink.size() <= 0) {
-						MessageBox(hwndDlg, Translate("Selected link size is 0"), MSG_BOX_TITEL, MB_OK);
+					if (sLink.size() <= 0)
 						return TRUE;
-					}
 
 					if (LOWORD(wParam) == ID_SHARELIST_COPYLINK) {
-						if (!OpenClipboard(hwndDlg)) {
-							MessageBox(hwndDlg, Translate("Failed to get access to clipboard"), MSG_BOX_TITEL, MB_OK);
+						if (!OpenClipboard(hwndDlg))
 							return TRUE;
-						}
 
-						if (!EmptyClipboard()) {
-							MessageBox(hwndDlg, Translate("Failed to get close the clipboard"), MSG_BOX_TITEL, MB_OK);
+						if (!EmptyClipboard())
 							return TRUE;
-						}
 
 						HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, sLink.size() + 1);
 						// Lock the handle and copy the text to the buffer.
@@ -932,18 +918,12 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 						GlobalUnlock(hglbCopy);
 
 						// Place the handle on the clipboard.
-
-						HANDLE hMyData = SetClipboardData(CF_TEXT, hglbCopy);
-						if (!hMyData)
-							MessageBox(hwndDlg, Translate("Failed to set clipboard data"), MSG_BOX_TITEL, MB_OK);
-
+						SetClipboardData(CF_TEXT, hglbCopy);
 						CloseClipboard();
 					}
 					else Utils_OpenUrl(sLink.c_str());
 				}
-				else MessageBox(hwndDlg, Translate("ListView_GetItem failed"), MSG_BOX_TITEL, MB_OK);
 			}
-			else MessageBox(hwndDlg, Translate("No share selected"), MSG_BOX_TITEL, MB_OK);
 
 			return TRUE;
 		}
@@ -1476,8 +1456,6 @@ void InitGuiElements()
 	}
 
 	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
-	if (!hEventOptionsInitialize)
-		MessageBox(nullptr, "Failed to HookEvent ME_OPT_INITIALISE", MSG_BOX_TITEL, MB_OK);
 
 	bShowPopups = db_get_b(NULL, MODULENAME, "ShowPopups", bShowPopups) != 0;
 }
