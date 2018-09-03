@@ -524,8 +524,8 @@ void g_IconsInit()
 {
 	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber"), sharedIconList1, GLOBAL_SETTING_PREFIX);
 	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs"), sharedIconList2, GLOBAL_SETTING_PREFIX);
-	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Dialogs") "/" LPGEN("Discovery"), sharedIconList3, GLOBAL_SETTING_PREFIX);
-	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Dialogs") "/" LPGEN("Privacy"), sharedIconList4, GLOBAL_SETTING_PREFIX);
+	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs") "/" LPGEN("Discovery"), sharedIconList3, GLOBAL_SETTING_PREFIX);
+	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs") "/" LPGEN("Privacy"), sharedIconList4, GLOBAL_SETTING_PREFIX);
 }
 
 HANDLE g_GetIconHandle(int iconId)
