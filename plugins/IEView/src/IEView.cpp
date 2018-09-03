@@ -250,13 +250,10 @@ IEView::IEView(HWND _parent, HTMLBuilder *_builder, int x, int y, int cx, int cy
 			pOleObject->SetClientSite(this);
 			pOleObject->DoVerb(OLEIVERB_INPLACEACTIVATE, &msg, this, 0, this->parent, &rcClient);
 		}
-		else MessageBox(nullptr, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 
 		CComPtr<IOleInPlaceObject> pOleInPlace;
 		if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleInPlace)))
 			pOleInPlace->GetWindow(&hwnd);
-		else
-			MessageBox(nullptr, TranslateT("IID_IOleInPlaceObject failed."), TranslateT("RESULT"), MB_OK);
 
 		setBorder();
 		CComPtr<IConnectionPointContainer> pCPContainer;
@@ -268,8 +265,7 @@ IEView::IEView(HWND _parent, HTMLBuilder *_builder, int x, int y, int cx, int cy
 				// Step 3: Advise the connection point that you
 				// want to sink its events.
 				sink = new IEViewSink(this);
-				if (FAILED(m_pConnectionPoint->Advise(sink, &m_dwCookie)))
-					MessageBox(nullptr, TranslateT("Failed to Advise"), TranslateT("C++ Event Sink"), MB_OK);
+				m_pConnectionPoint->Advise(sink, &m_dwCookie);
 			}
 		}
 		setMainWndProc((WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)IEViewWindowProcedure));
@@ -304,8 +300,6 @@ IEView::~IEView()
 	CComPtr<IOleObject> pOleObject;
 	if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleObject)))
 		pOleObject->SetClientSite(nullptr);
-	else
-		MessageBox(nullptr, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 
 	if (builder != nullptr) {
 		delete builder;
