@@ -914,19 +914,19 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
  */
 void FacebookProto::InitPopups()
 {
+	char name[256];
+	wchar_t desc[256];
+
 	POPUPCLASS ppc = { sizeof(ppc) };
-	ppc.flags = PCF_TCHAR;
+	ppc.flags = PCF_UNICODE;
 	ppc.PluginWindowProc = PopupDlgProc;
 	ppc.lParam = APF_RETURN_HWND;
-
-	wchar_t desc[256];
-	char name[256];
+	ppc.pszName = name;
+	ppc.pszDescription.w = desc;
 
 	// Client
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Client errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
-	ppc.pwszDescription = desc;
-	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
 	ppc.colorBack = RGB(191, 0, 0); // red
 	ppc.colorText = RGB(255, 255, 255); // white
@@ -936,7 +936,6 @@ void FacebookProto::InitPopups()
 	// Newsfeeds
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Wall posts"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
-	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
@@ -947,7 +946,6 @@ void FacebookProto::InitPopups()
 	// Notifications
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
-	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("notification"));
 	ppc.colorBack = RGB(59, 89, 152); // Facebook's blue
@@ -958,8 +956,6 @@ void FacebookProto::InitPopups()
 	// Others
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Other events"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Other");
-	ppc.pwszDescription = desc;
-	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
@@ -969,8 +965,6 @@ void FacebookProto::InitPopups()
 	// Friendship changes
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Friendship events"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Friendship");
-	ppc.pwszDescription = desc;
-	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("friendship"));
 	ppc.colorBack = RGB(47, 71, 122); // Facebook's darker blue
 	ppc.colorText = RGB(255, 255, 255); // white
@@ -980,8 +974,6 @@ void FacebookProto::InitPopups()
 	// Ticker
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Real-time friends activity"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
-	ppc.pwszDescription = desc;
-	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
@@ -991,8 +983,6 @@ void FacebookProto::InitPopups()
 	// On this day (memories)
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Memories"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Memories");
-	ppc.pwszDescription = desc;
-	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("memories"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black

@@ -73,7 +73,7 @@ void FreePopupClass(POPUPTREEDATA *ptd)
 {
 	if (ptd->typ == 2) {
 		mir_free(ptd->pupClass.pszName);
-		mir_free(ptd->pupClass.pszDescription);
+		mir_free(ptd->pupClass.pszDescription.w);
 	}
 	mir_free(ptd->pszTreeRoot);
 	mir_free(ptd->pszDescription);

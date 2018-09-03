@@ -332,9 +332,9 @@ static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 
 	pc->pszName = mir_strdup(pc->pszName);
 	if (pc->flags & PCF_UNICODE)
-		pc->pwszDescription = mir_wstrdup(pc->pwszDescription);
+		pc->pszDescription.w = mir_wstrdup(pc->pszDescription.w);
 	else
-		pc->pszDescription = mir_strdup(pc->pszDescription);
+		pc->pszDescription.a = mir_strdup(pc->pszDescription.a);
 	
 	char setting[256];
 	mir_snprintf(setting, "%s/Timeout", pc->pszName);
@@ -352,7 +352,7 @@ static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 static void FreePopupClass(POPUPCLASS *pc)
 {
 	mir_free(pc->pszName);
-	mir_free(pc->pszDescription);
+	mir_free(pc->pszDescription.w);
 	mir_free(pc);
 }
 

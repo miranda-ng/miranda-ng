@@ -78,9 +78,9 @@ void GaduProto::initpopups()
 	POPUPCLASS puc = { 0 };
 	puc.cbSize = sizeof(puc);
 	puc.PluginWindowProc = PopupWindowProc;
-	puc.flags = PCF_TCHAR;
-	puc.pwszDescription = szDescr;
+	puc.flags = PCF_UNICODE;
 	puc.pszName = szName;
+	puc.pszDescription.w = szDescr;
 
 	puc.colorBack = RGB(173, 206, 247);
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);

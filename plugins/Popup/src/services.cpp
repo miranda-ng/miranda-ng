@@ -368,12 +368,12 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	ptd->pszTreeRoot = mir_a2u(pc->pszName);
 	ptd->pupClass.pszName = mir_strdup(pc->pszName);
 	if (pc->flags & PCF_UNICODE) {
-		ptd->pupClass.pwszDescription = mir_wstrdup(pc->pwszDescription);
-		ptd->pszDescription = mir_wstrdup(pc->pwszDescription);
+		ptd->pupClass.pszDescription.w = mir_wstrdup(pc->pszDescription.w);
+		ptd->pszDescription = mir_wstrdup(pc->pszDescription.w);
 	}
 	else {
-		ptd->pupClass.pszDescription = mir_strdup(pc->pszDescription);
-		ptd->pszDescription = mir_a2u(pc->pszDescription);
+		ptd->pupClass.pszDescription.a = mir_strdup(pc->pszDescription.a);
+		ptd->pszDescription = mir_a2u(pc->pszDescription.a);
 	}
 	LoadClassSettings(ptd, PU_MODULCLASS);
 

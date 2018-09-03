@@ -312,10 +312,10 @@ void InitUtils()
 	hIconDisabled = IcoLib_GetIcon("ping_disabled");
 
 	POPUPCLASS test = { sizeof(test) };
-	test.flags = PCF_TCHAR;
+	test.flags = PCF_UNICODE;
 	test.hIcon = hIconResponding;
 	test.iSeconds = -1;
-	test.pwszDescription = TranslateT("Ping");
+	test.pszDescription.w = TranslateT("Ping");
 	test.pszName = "pingpopups";
 	test.PluginWindowProc = NullWindowProc;
 	if (hPopupClass = Popup_RegisterClass(&test))

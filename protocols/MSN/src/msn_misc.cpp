@@ -795,11 +795,11 @@ void CMsnProto::InitPopups(void)
 	char name[256];
 
 	POPUPCLASS ppc = { sizeof(ppc) };
-	ppc.flags = PCF_TCHAR;
+	ppc.flags = PCF_UNICODE;
 	ppc.PluginWindowProc = NullWindowProc;
 	ppc.hIcon = LoadIconEx("main");
-	ppc.pwszDescription = desc;
 	ppc.pszName = name;
+	ppc.pszDescription.w = desc;
 
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);

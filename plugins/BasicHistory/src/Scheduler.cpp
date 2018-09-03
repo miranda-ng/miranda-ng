@@ -71,10 +71,10 @@ void InitScheduler()
 	bPopupsEnabled = ServiceExists(MS_POPUP_ADDPOPUPT) || ServiceExists(MS_POPUP_ADDPOPUPCLASS);
 
 	POPUPCLASS test = { sizeof(test) };
-	test.flags = PCF_TCHAR;
+	test.flags = PCF_UNICODE;
 	test.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
 	test.iSeconds = 10;
-	test.pwszDescription = TranslateT("History task");
+	test.pszDescription.w = TranslateT("History task");
 	test.pszName = MODULENAME;
 	if (hPopupClass = Popup_RegisterClass(&test))
 		HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);

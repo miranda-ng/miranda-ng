@@ -411,9 +411,9 @@ void CJabberProto::InitPopups(void)
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 
 	POPUPCLASS ppc = { sizeof(ppc) };
-	ppc.flags = PCF_TCHAR;
-	ppc.pwszDescription = desc;
+	ppc.flags = PCF_UNICODE;
 	ppc.pszName = name;
+	ppc.pszDescription.w = desc;
 	ppc.hIcon = LoadIconEx("main");
 	ppc.colorBack = RGB(191, 0, 0); //Red
 	ppc.colorText = RGB(255, 245, 225); //Yellow

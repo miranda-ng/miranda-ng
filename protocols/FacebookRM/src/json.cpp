@@ -546,10 +546,10 @@ const char* FacebookProto::ParseIcon(const std::string &url)
 			mir_snprintf(name, "%s_%s%d", m_szModuleName, "Reaction", idx);
 
 			POPUPCLASS ppc = { sizeof(ppc) };
-			ppc.flags = PCF_TCHAR;
+			ppc.flags = PCF_UNICODE;
 			ppc.PluginWindowProc = PopupDlgProc;
 			ppc.lParam = APF_RETURN_HWND;
-			ppc.pwszDescription = desc;
+			ppc.pszDescription.w = desc;
 			ppc.pszName = name;
 			ppc.hIcon = hIcon;
 			ppc.colorBack = RGB(59, 89, 152); // Facebook's blue

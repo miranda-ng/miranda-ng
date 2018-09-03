@@ -134,7 +134,7 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 	{
 		ToastData *td = nullptr;
 
-		if (it->second->iFlags & PCF_TCHAR)
+		if (it->second->iFlags & PCF_UNICODE)
 		{
 			td = new ToastData(ppc->hContact, ppc->pwszTitle, ppc->pwszText, it->second->hIcon);
 		}

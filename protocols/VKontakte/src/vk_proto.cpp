@@ -409,28 +409,27 @@ void CVkProto::InitPopups(void)
 {
 	wchar_t desc[256];
 	char name[256];
+
 	POPUPCLASS ppc = { sizeof(ppc) };
-	ppc.flags = PCF_TCHAR;
+	ppc.flags = PCF_UNICODE;
+	ppc.pszName = name;
+	ppc.pszDescription.w = desc;
 	ppc.PluginWindowProc = PopupDlgProc;
 	ppc.lParam = APF_RETURN_HWND;
 
 	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
-	ppc.pwszDescription = desc;
-	ppc.pszName = name;
 	ppc.hIcon = Skin_LoadIcon(SKINICON_ERROR);
-	ppc.colorBack = RGB(191, 0, 0); //Red
-	ppc.colorText = RGB(255, 245, 225); //Yellow
+	ppc.colorBack = RGB(191, 0, 0);     // Red
+	ppc.colorText = RGB(255, 245, 225); // Yellow
 	ppc.iSeconds = 60;
 	m_hPopupClassError = Popup_RegisterClass(&ppc);
 
 	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
-	ppc.pwszDescription = desc;
-	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
-	ppc.colorBack = RGB(190, 225, 255); //Blue
-	ppc.colorText = RGB(255, 255, 255); //White
+	ppc.colorBack = RGB(190, 225, 255); // Blue
+	ppc.colorText = RGB(255, 255, 255); // White
 	ppc.iSeconds = 4;
 	m_hPopupClassNotification = Popup_RegisterClass(&ppc);
 }

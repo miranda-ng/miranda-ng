@@ -95,10 +95,10 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	//init popup classes
 	POPUPCLASS puc = { 0 };
 	puc.cbSize = sizeof(puc);
-	puc.flags = PCF_TCHAR;
+	puc.flags = PCF_UNICODE;
 
 	puc.pszName = "MirFox_Notify";
-	puc.pwszDescription = TranslateT("MirFox/Notification");
+	puc.pszDescription.w = TranslateT("MirFox/Notification");
 	puc.colorBack = RGB(173, 206, 247); //light blue
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	puc.iSeconds = 3;
@@ -106,7 +106,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	hPopupNotify = Popup_RegisterClass(&puc);
 
 	puc.pszName = "MirFox_Error";
-	puc.pwszDescription = TranslateT("MirFox/Error");
+	puc.pszDescription.w = TranslateT("MirFox/Error");
 	puc.colorBack = RGB(255, 128, 128); //light red
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	puc.iSeconds = 20;

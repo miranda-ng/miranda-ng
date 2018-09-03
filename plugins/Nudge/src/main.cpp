@@ -222,9 +222,8 @@ static int OnShutdown(WPARAM, LPARAM)
 void LoadPopupClass()
 {
 	POPUPCLASS ppc = { sizeof(ppc) };
-	ppc.flags = PCF_TCHAR;
 	ppc.pszName = "Nudge";
-	ppc.pwszDescription = LPGENW("Show Nudge");
+	ppc.pszDescription.a = LPGEN("Show Nudge");
 	ppc.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	ppc.colorBack = NULL;
 	ppc.colorText = NULL;

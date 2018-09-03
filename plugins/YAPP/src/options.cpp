@@ -361,9 +361,9 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			for (int i = 0; i < arNewClasses.getCount(); i++) {
 				POPUPCLASS *pc = arNewClasses[i];
 				if (pc->flags & PCF_UNICODE)
-					index = SendDlgItemMessageW(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pwszDescription);
+					index = SendDlgItemMessageW(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pszDescription.w);
 				else
-					index = SendDlgItemMessageA(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pszDescription);
+					index = SendDlgItemMessageA(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pszDescription.a);
 
 				SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_SETITEMDATA, index, i);
 			}

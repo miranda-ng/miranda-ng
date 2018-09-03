@@ -631,15 +631,14 @@ returns: 0 = popup allowed, 1 = popup filtered out
 
 //------------- Class API ----------------//
 
-typedef struct {
+#define PCF_UNICODE  0x0001
+
+struct POPUPCLASS
+{
 	int cbSize;
-	int flags;
+	int flags;      // PCF_* constants
 	char *pszName;
-	union {
-		char *pszDescription;
-		wchar_t *pwszDescription;
-		wchar_t *ptszDescription;
-	};
+	MAllStrings pszDescription;
 
 	HICON hIcon;
 
@@ -650,15 +649,7 @@ typedef struct {
 
 	int iSeconds;
 	LPARAM lParam; //APF_RETURN_HWND, APF_CUSTOM_POPUP  ... as above
-} POPUPCLASS;
-
-#define PCF_UNICODE			0x0001
-
-#ifdef _UNICODE
-#define PCF_TCHAR			PCF_UNICODE
-#else
-#define PCF_TCHAR			0
-#endif
+};
 
 // wParam = 0
 // lParam = (POPUPCLASS *)&pc

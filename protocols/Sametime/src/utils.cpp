@@ -36,9 +36,9 @@ void CSametimeProto::RegisterPopups()
 
 	POPUPCLASS puc = { sizeof(puc) };
 	puc.PluginWindowProc = PopupWindowProc;
-	puc.flags = PCF_TCHAR;
-	puc.pwszDescription = szDescr;
+	puc.flags = PCF_UNICODE;
 	puc.pszName = szName;
+	puc.pszDescription.w = szDescr;
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
 	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
