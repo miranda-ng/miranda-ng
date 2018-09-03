@@ -989,7 +989,7 @@ public:
 	CHighlighOptionDlg() :
 		CChatBaseOptionDlg(IDD_OPTIONS4),
 		edtNick(this, IDC_HIGHLIGHTNICKPATTERN),
-		edtText(this, IDC_HIGHLIGHTNICKPATTERN),
+		edtText(this, IDC_HIGHLIGHTTEXTPATTERN),
 		chkNick(this, IDC_HIGHLIGHTNICKENABLE),
 		chkText(this, IDC_HIGHLIGHTTEXTENABLE)
 	{
