@@ -46,15 +46,16 @@ TwitterProto::TwitterProto(const char *proto_name, const wchar_t *username) :
 	mir_snprintf(text, "%s/Tweet", m_szModuleName);
 
 	HOTKEYDESC hkd = {};
+	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = text;
 	hkd.pszService = text;
-	hkd.szSection.a = m_szModuleName; // Section title; TODO: use username?
-	hkd.szDescription.a = "Send Tweet";
+	hkd.szSection.w = m_tszUserName;
+	hkd.szDescription.w = LPGENW("Send Tweet");
 	g_plugin.addHotkey(&hkd);
 
 	// set Tokens and stuff
 
-	//mirandas keys
+	// mirandas keys
 	ConsumerKey = OAUTH_CONSUMER_KEY;
 	ConsumerSecret = OAUTH_CONSUMER_SECRET;
 
@@ -71,7 +72,7 @@ TwitterProto::~TwitterProto()
 		Netlib_CloseHandle(hAvatarNetlib_);
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR TwitterProto::GetCaps(int type, MCONTACT)
 {
@@ -93,7 +94,7 @@ INT_PTR TwitterProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct send_direct
 {
@@ -134,7 +135,7 @@ int TwitterProto::SendMsg(MCONTACT hContact, int, const char *msg)
 	return seq;
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int TwitterProto::SetStatus(int new_status)
 {
@@ -175,7 +176,7 @@ int TwitterProto::SetStatus(int new_status)
 	return 0;
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR TwitterProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
@@ -215,7 +216,7 @@ INT_PTR TwitterProto::VisitHomepage(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
@@ -369,8 +370,10 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 		MessageBox(nullptr, popup.lptzText, popup.lptzContactName, 0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // TODO: the more I think about it, the more I think all twit.* methods should
 // be in MessageLoop
+
 void TwitterProto::SendTweetWorker(void *p)
 {
 	if (p == nullptr)
