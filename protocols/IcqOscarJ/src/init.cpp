@@ -93,7 +93,7 @@ int CMPlugin::Load()
 
 	hExtraXStatus = ExtraIcon_RegisterIcolib("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
 
-	g_plugin.registerIcon("ICQ", iconList);
+	g_plugin.registerIcon("Protocols/ICQ", iconList);
 
 	g_MenuInit();
 	return 0;

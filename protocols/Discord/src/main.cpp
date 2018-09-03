@@ -60,7 +60,7 @@ int CMPlugin::Load()
 {
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 
-	g_plugin.registerIcon("Discord", g_iconList);
+	g_plugin.registerIcon("Protocols/Discord", g_iconList);
 	return 0;
 }
 
