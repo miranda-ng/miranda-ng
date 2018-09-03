@@ -1701,13 +1701,13 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 		}
 		debugLogW(L"%s (%s) online, set contact status to %s", nick, from, Clist_GetStatusModeDescription(status, 0));
 
-		HXML xNode;
 		if (m_bEnableAvatars) {
+			HXML xNode;
 			bool bHasAvatar = false, bRemovedAvatar = false;
 
 			debugLogA("Avatar enabled");
 			for (int i = 1; (xNode = XmlGetNthChild(node, L"x", i)) != nullptr; i++) {
-				if (!mir_wstrcmp(XmlGetAttrValue(xNode, L"xmlns"), L"jabber:x:avatar")) {
+				if (!bHasAvatar && !mir_wstrcmp(XmlGetAttrValue(xNode, L"xmlns"), L"jabber:x:avatar")) {
 					const wchar_t *ptszHash = XmlGetText(XmlGetChild(xNode, "hash"));
 					if (ptszHash != nullptr) {
 						delSetting(hContact, "AvatarXVcard");
@@ -1722,26 +1722,35 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 					}
 					else bRemovedAvatar = true;
 				}
-			}
-			if (!bHasAvatar) { //no jabber:x:avatar. try vcard-temp:x:update
-				debugLogA("Not hasXAvatar");
-				for (int i = 1; (xNode = XmlGetNthChild(node, L"x", i)) != nullptr; i++) {
-					if (!mir_wstrcmp(XmlGetAttrValue(xNode, L"xmlns"), L"vcard-temp:x:update")) {
-						if ((xNode = XmlGetChild(xNode, "photo")) != nullptr) {
-							const wchar_t *txt = XmlGetText(xNode);
-							if (txt != nullptr && txt[0] != 0) {
-								setByte(hContact, "AvatarXVcard", 1);
-								debugLogA("AvatarXVcard set");
-								setWString(hContact, "AvatarHash", txt);
-								bHasAvatar = true;
-								ptrW saved(getWStringA(hContact, "AvatarSaved"));
-								if (saved == nullptr || mir_wstrcmp(saved, txt)) {
-									debugLogA("Avatar was changed. Using vcard-temp:x:update");
-									ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
-								}
+				else if (!mir_wstrcmp(XmlGetAttrValue(xNode, L"xmlns"), L"vcard-temp:x:update")) {
+					HXML xPhoto = XmlGetChild(xNode, "photo");
+					if (xPhoto && !bHasAvatar) {
+						const wchar_t *txt = XmlGetText(xPhoto);
+						if (mir_wstrlen(txt)) {
+							setByte(hContact, "AvatarXVcard", 1);
+							debugLogA("AvatarXVcard set");
+							setWString(hContact, "AvatarHash", txt);
+							bHasAvatar = true;
+							ptrW saved(getWStringA(hContact, "AvatarSaved"));
+							if (saved == nullptr || mir_wstrcmp(saved, txt)) {
+								debugLogA("Avatar was changed. Using vcard-temp:x:update");
+								ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 							}
-							else bRemovedAvatar = true;
-			}	}	}	}
+						}
+						else bRemovedAvatar = true;
+					}
+
+					const wchar_t *txt = xmlGetAttrValue(xNode, L"vcard");
+					if (mir_wstrlen(txt)) {
+						ptrW saved(getWStringA(hContact, "VCardHash"));
+						if (saved == nullptr || mir_wstrcmp(saved, txt)) {
+							debugLogA("Vcard was changed, let's read it");
+							setWString(hContact, "VCardHash", txt);
+							SendGetVcard(from);
+						}
+					}
+				}
+			}
 
 			if (!bHasAvatar && bRemovedAvatar) {
 				debugLogA("Has no avatar");
@@ -1750,7 +1759,9 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 				if (ptrW(getWStringA(hContact, "AvatarSaved")) != nullptr) {
 					delSetting(hContact, "AvatarSaved");
 					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
-		}	}	}
+				}
+			}
+		}
 		return;
 	}
 

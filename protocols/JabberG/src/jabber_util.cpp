@@ -452,9 +452,13 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 	if (m_bEnableAvatars) {
 		HXML x = p << XCHILDNS(L"x", L"vcard-temp:x:update");
 
-		ptrA hashValue(getStringA("AvatarHash"));
+		ptrW vcardHash(getWStringA("VCardHash"));
+		if (vcardHash != nullptr)
+			x << XATTR(L"vcard", vcardHash);
+
+		ptrW hashValue(getWStringA("AvatarHash"));
 		if (hashValue != nullptr) // XEP-0153: vCard-Based Avatars
-			x << XCHILD(L"photo", _A2T(hashValue));
+			x << XCHILD(L"photo", hashValue);
 		else
 			x << XCHILD(L"photo");
 	}
