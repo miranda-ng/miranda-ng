@@ -688,7 +688,7 @@ HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer)
 		return INVALID_HANDLE_VALUE;
 
 	// MAX: 256 + 64 + 64 + 64 + 64
-	FOUNDINFO tmp = { base, ((overlay & 0x3F) << 18) | ((overlay2 & 0x3F) << 12) | ((overlay3 & 0x3F) << 6) | (overlay4 & 0x3F) };
+	FOUNDINFO tmp = { base, ((overlay & 0xFF) << 18) | ((overlay2 & 0x3F) << 12) | ((overlay3 & 0x3F) << 6) | (overlay4 & 0x3F) };
 	auto *F = arFI.find(&tmp);
 	if (F != nullptr)
 		return F->hRegisteredImage;
