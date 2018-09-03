@@ -45,12 +45,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "version.h"
 #include "resource.h"
 
-typedef struct {
+struct RGBA
+{
 	BYTE	b;
 	BYTE	g;
 	BYTE	r;
 	BYTE	a;
-} RGBA;
+};
 
 struct KN_FP_MASK
 {
@@ -65,41 +66,37 @@ struct KN_FP_MASK
 	LPTSTR	szMaskUpper;
 };
 
-typedef struct _foundInfo
+struct FOUNDINFO
 {
-	DWORD	dwArray;
+	int      iBase, iOverlay;
 	HANDLE	hRegisteredImage;
-} FOUNDINFO;
+};
 
-#define MIRANDA_CASE				3001	//	Miranda clients
-#define MIRANDA_VERSION_CASE		3002	//	Miranda version overlays
-#define MIRANDA_PACKS_CASE			3003	//	Miranda packs overlays
+#define MIRANDA_CASE             3001  // Miranda clients
+#define MIRANDA_VERSION_CASE     3002  // Miranda version overlays
+#define MIRANDA_PACKS_CASE       3003  // Miranda packs overlays
 
-#define MULTI_CASE					3004	//	multi-protocol clients
-#define GG_CASE						3006	//	Gadu-Gadu clients
-#define ICQ_CASE					3008	//	ICQ clients
-#define IRC_CASE					3009	//	IRC clients
-#define JABBER_CASE					3010	//	Jabber clients
-#define MRA_CASE					3011	//	Mail.Ru Agent clients
-#define MSN_CASE					3012	//	MSN clients
-#define QQ_CASE						3013	//	QQ clients (+ versions)
-#define RSS_CASE					3014	//	RSS clients
-#define WEATHER_CASE				3016	//	Weather clients
-#define FACEBOOK_CASE               3018    //  Facebook clients
-#define VK_CASE                     3019    //  VK clients
+#define MULTI_CASE               3004  // multi-protocol clients
+#define GG_CASE                  3006  // Gadu-Gadu clients
+#define ICQ_CASE                 3008  // ICQ clients
+#define IRC_CASE                 3009  // IRC clients
+#define JABBER_CASE              3010  // Jabber clients
+#define MRA_CASE                 3011  // Mail.Ru Agent clients
+#define MSN_CASE                 3012  // MSN clients
+#define QQ_CASE                  3013  // QQ clients (+ versions)
+#define RSS_CASE                 3014  // RSS clients
+#define WEATHER_CASE             3016  // Weather clients
+#define FACEBOOK_CASE            3018  // acebook clients
+#define VK_CASE                  3019  // K clients
 
-#define OTHER_PROTOS_CASE			3020	//	other protocols
-#define OTHERS_CASE					3021	//	other icons
+#define OTHER_PROTOS_CASE        3020  // other protocols
+#define OTHERS_CASE              3021  // other icons
 
-#define OVERLAYS_RESOURCE_CASE		3022	//	resource overlays
-#define OVERLAYS_PLATFORM_CASE		3023	//	platforms overlays
-#define OVERLAYS_PROTO_CASE			3024	//	protocols overlays
-#define OVERLAYS_UNICODE_CASE		3025	//	unicode overlay
-#define OVERLAYS_SECURITY_CASE		3026	//	security overlays
-
-/*
-#define OVERLAYS_RESOURCE_ALT_CASE	24		//	alternative (old style) overlays
-*/
+#define OVERLAYS_RESOURCE_CASE   3022  // resource overlays
+#define OVERLAYS_PLATFORM_CASE   3023  // platforms overlays
+#define OVERLAYS_PROTO_CASE      3024  // protocols overlays
+#define OVERLAYS_UNICODE_CASE    3025  // unicode overlay
+#define OVERLAYS_SECURITY_CASE   3026  // security overlays
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
 #define SAFE_FREE(p)		{if (PtrIsValid(p)){free((VOID*)p);(p)=NULL;}}
@@ -131,12 +128,9 @@ HBITMAP __inline CreateBitmap32(int cx, int cy);
 HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits);
 HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer);
 
-BOOL __fastcall WildCompareW(LPWSTR name, LPWSTR mask);
+BOOL __fastcall WildCompare(LPWSTR name, LPWSTR mask);
 
 void RegisterIcons();
-
-#define WildCompare		WildCompareW
-#define GetIconsIndexes	GetIconsIndexesW
 
 extern HANDLE hHeap;
 

@@ -25,8 +25,14 @@ static wchar_t g_szSkinLib[MAX_PATH];
 static HANDLE hExtraIcon = nullptr;
 static HANDLE hFolderChanged = nullptr, hIconFolder = nullptr;
 
-static FOUNDINFO* fiList = nullptr;
-static int nFICount = 0;
+static int CompareFI(const FOUNDINFO *p1, const FOUNDINFO *p2)
+{
+	if (p1->iBase != p2->iBase)
+		return p1->iBase - p2->iBase;
+	return p1->iOverlay - p2->iOverlay;
+}
+
+static OBJLIST<FOUNDINFO> arFI(50, NumericKeySortT);
 
 static LIST<void> arMonitoredWindows(3, PtrKeySortT);
 
@@ -180,7 +186,7 @@ int OnExtraIconClick(WPARAM wParam, LPARAM, LPARAM)
 
 
 /*
-*	WildCompareW
+*	WildCompare
 *	Compare 'name' string with 'mask' strings.
 *	Masks can contain '*' or '?' wild symbols
 *	Asterics '*' symbol covers 'empty' symbol too e.g WildCompare("Tst","T*st*"), returns TRUE
@@ -202,7 +208,7 @@ int OnExtraIconClick(WPARAM wParam, LPARAM, LPARAM)
 *		IF Mask match - comparing stops as TRUE
 *		IF Mask does not not match comparing continue
 */
-BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
+BOOL __fastcall WildCompare(LPWSTR wszName, LPWSTR wszMask)
 {
 	if (wszMask == nullptr)
 		return NULL;
@@ -237,7 +243,7 @@ BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 	return FALSE;
 }
 
-static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
+static void MatchMasks(wchar_t* szMirVer, int *base, int *overlay, int *overlay2, int *overlay3, int *overlay4)
 {
 	int i = 0, j = -1, k = -1, n = -1, m = -1;
 
@@ -246,7 +252,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 		if (p.hIcolibItem == nullptr)
 			continue;
 
-		if (!WildCompareW(szMirVer, p.szMaskUpper))
+		if (!WildCompare(szMirVer, p.szMaskUpper))
 			continue;
 
 		if (p.iIconIndex != IDI_NOTFOUND && p.iIconIndex != IDI_UNKNOWN && p.iIconIndex != IDI_UNDETECTED) {
@@ -281,7 +287,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 			if (p.hIcolibItem == nullptr)
 				continue;
 
-			if (WildCompareW(szMirVer, p.szMaskUpper))
+			if (WildCompare(szMirVer, p.szMaskUpper))
 				break;
 		}
 
@@ -290,7 +296,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 			if (p.hIcolibItem == nullptr)
 				continue;
 
-			if (WildCompareW(szMirVer, p.szMaskUpper))
+			if (WildCompare(szMirVer, p.szMaskUpper))
 				break;
 		}
 
@@ -299,7 +305,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 			if (p.hIcolibItem == nullptr)
 				continue;
 
-			if (WildCompareW(szMirVer, p.szMaskUpper))
+			if (WildCompare(szMirVer, p.szMaskUpper))
 				break;
 		}
 	}
@@ -311,35 +317,13 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 	*overlay4 = (m < DEFAULT_KN_FP_OVERLAYS4_COUNT) ? m : -1;
 }
 
-/*	GetIconsIndexesA
+/*	GetIconsIndexes
 *	Retrieves Icons indexes by Mirver
 */
 
-void __fastcall GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
+void __fastcall GetIconsIndexes(LPWSTR wszMirVer, int *base, int *overlay, int *overlay2, int *overlay3, int *overlay4)
 {
-	if (mir_strcmp(szMirVer, "?") == 0) {
-		*base = UNKNOWN_MASK_NUMBER;
-		*overlay = -1;
-		*overlay2 = -1;
-		*overlay3 = -1;
-		*overlay4 = -1;
-		return;
-	}
-
-	LPTSTR tszMirVerUp = mir_a2u(szMirVer);
-	wcsupr(tszMirVerUp);
-	MatchMasks(tszMirVerUp, base, overlay, overlay2, overlay3, overlay4);
-	mir_free(tszMirVerUp);
-}
-
-/*	GetIconsIndexesW
-*	Retrieves Icons indexes by Mirver
-*/
-
-void __fastcall GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
-{
-	if (mir_wstrcmp(wszMirVer, L"?") == 0)
-	{
+	if (mir_wstrcmp(wszMirVer, L"?") == 0) {
 		*base = UNKNOWN_MASK_NUMBER;
 		*overlay = -1;
 		*overlay2 = -1;
@@ -358,7 +342,7 @@ void __fastcall GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay, 
 * returns hIcon of joined icon by given indexes
 */
 
-HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2, short overlay3, short overlay4)
+HICON __fastcall CreateIconFromIndexes(int base, int overlay, int overlay2, int overlay3, int overlay4)
 {
 	HICON hIcon = nullptr;	// returned HICON
 	HICON hTmp = nullptr;
@@ -698,48 +682,34 @@ HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop)
 
 HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer)
 {
-	short base, overlay, overlay2, overlay3, overlay4;
+	int base, overlay, overlay2, overlay3, overlay4;
 	GetIconsIndexes(szMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
-	if (base == -1 || nFICount == 0xFFFF)
+	if (base == -1)
 		return INVALID_HANDLE_VALUE;
 
 	// MAX: 256 + 64 + 64 + 64 + 64
-	DWORD val = (base << 24) | ((overlay & 0x3F) << 18) | ((overlay2 & 0x3F) << 12) | ((overlay3 & 0x3F) << 6) | (overlay4 & 0x3F);
+	FOUNDINFO tmp = { base, ((overlay & 0x3F) << 18) | ((overlay2 & 0x3F) << 12) | ((overlay3 & 0x3F) << 6) | (overlay4 & 0x3F) };
+	auto *F = arFI.find(&tmp);
+	if (F != nullptr)
+		return F->hRegisteredImage;
 
-	int i;
-	HANDLE hFoundImage = INVALID_HANDLE_VALUE;
-	for (i = 0; i < nFICount; i++) {
-		if (fiList[i].dwArray == val) {
-			hFoundImage = fiList[i].hRegisteredImage;
-			break;
-		}
+	// not found - then add
+	F = new FOUNDINFO(tmp);
+	HICON hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
+	if (hIcon != nullptr) {
+		F->hRegisteredImage = ExtraIcon_AddIcon(hIcon);
+		DestroyIcon(hIcon);
 	}
+	else F->hRegisteredImage = INVALID_HANDLE_VALUE;
+	
+	arFI.insert(F);
 
-	if (hFoundImage == INVALID_HANDLE_VALUE && i == nFICount) { //not found - then add
-		HICON hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
-
-		fiList = (FOUNDINFO*)mir_realloc(fiList, sizeof(FOUNDINFO) * (nFICount + 1));
-		fiList[nFICount].dwArray = val;
-
-		if (hIcon != nullptr) {
-			hFoundImage = ExtraIcon_AddIcon(hIcon);
-			fiList[nFICount].hRegisteredImage = hFoundImage;
-			DestroyIcon(hIcon);
-		}
-		else fiList[nFICount].hRegisteredImage = INVALID_HANDLE_VALUE;
-
-		nFICount++;
-	}
-
-	return hFoundImage;
+	return F->hRegisteredImage;
 }
 
 VOID ClearFI()
 {
-	if (fiList != nullptr)
-		mir_free(fiList);
-	fiList = nullptr;
-	nFICount = 0;
+	arFI.destroy();
 }
 
 /****************************************************************************************
@@ -756,8 +726,8 @@ static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM)
 	if (wszMirVer == nullptr)
 		return 0;
 
-	short base, overlay, overlay2, overlay3, overlay4;
-	GetIconsIndexesW(wszMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
+	int base, overlay, overlay2, overlay3, overlay4;
+	GetIconsIndexes(wszMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
 
 	HICON hIcon = nullptr;			// returned HICON
 	if (base != -1)
@@ -785,7 +755,7 @@ static INT_PTR ServiceGetClientDescrW(WPARAM wParam, LPARAM)
 		return (INT_PTR)def_kn_fp_mask[UNKNOWN_MASK_NUMBER].szClientDescription;
 
 	for (int index = 0; index < DEFAULT_KN_FP_MASK_COUNT; index++)
-		if (WildCompareW(wszMirVerUp, def_kn_fp_mask[index].szMaskUpper))
+		if (WildCompare(wszMirVerUp, def_kn_fp_mask[index].szMaskUpper))
 			return (INT_PTR)def_kn_fp_mask[index].szClientDescription;
 
 	return NULL;
