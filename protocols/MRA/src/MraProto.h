@@ -1,14 +1,14 @@
 #pragma once
 
 #define SCBIFSI_LOCK_CHANGES_EVENTS	1
-#define SCBIF_ID			1
-#define SCBIF_GROUP_ID			2
-#define SCBIF_FLAG			4
-#define SCBIF_SERVER_FLAG		8
-#define SCBIF_STATUS			16
-#define SCBIF_EMAIL			32
-#define SCBIF_NICK			64
-#define SCBIF_PHONES			128
+#define SCBIF_ID          1
+#define SCBIF_GROUP_ID    2
+#define SCBIF_FLAG        4
+#define SCBIF_SERVER_FLAG 8
+#define SCBIF_STATUS      16
+#define SCBIF_EMAIL       32
+#define SCBIF_NICK        64
+#define SCBIF_PHONES      128
 
 #define MAIN_MENU_ITEMS_COUNT		12
 #define CONTACT_MENU_ITEMS_COUNT	10
@@ -48,7 +48,7 @@ struct CMraProto : public PROTO<CMraProto>
 	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
 	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason) override;
 
-	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	INT_PTR  GetCaps(int type, MCONTACT hContact) override;
 	int      GetInfo(MCONTACT hContact, int infoType) override;
 
 	HANDLE   SearchBasic(const wchar_t* id) override;
