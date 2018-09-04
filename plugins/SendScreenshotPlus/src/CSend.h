@@ -31,22 +31,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define SS_AUTOSEND				1
-#define SS_DELETEAFTERSSEND		2
+#define SS_AUTOSEND              1
+#define SS_DELETEAFTERSSEND      2
 
-#define SS_DLG_AUTOSEND				1		//Button_Enable(GetDlgItem(Owner, ID_chkEmulateClick),	TRUE);
-#define SS_DLG_DELETEAFTERSSEND		2		//Button_Enable(GetDlgItem(Owner, ID_chkDeleteAfterSend),	TRUE);
-#define SS_DLG_DESCRIPTION			4		//Button_Enable(GetDlgItem(Owner, ID_chkDesc),			TRUE);
+#define SS_DLG_AUTOSEND          1 // Button_Enable(GetDlgItem(Owner, ID_chkEmulateClick), TRUE);
+#define SS_DLG_DELETEAFTERSSEND  2 // Button_Enable(GetDlgItem(Owner, ID_chkDeleteAfterSend), TRUE);
+#define SS_DLG_DESCRIPTION       4 // Button_Enable(GetDlgItem(Owner, ID_chkDesc), TRUE);
 
-#define GC_RESULT_SUCCESS			200
-#define GC_RESULT_WRONGVER			201
-#define GC_RESULT_ERROR				202
-#define GC_RESULT_NOSESSION			209
+#define GC_RESULT_SUCCESS        200
+#define GC_RESULT_WRONGVER       201
+#define GC_RESULT_ERROR          202
+#define GC_RESULT_NOSESSION      209
 
-const wchar_t SS_ERR_INIT[]			=LPGENW("Unable to initiate %s.");
-const wchar_t SS_ERR_MAPI[]			=LPGENW("MAPI error (%i):\n%s.");
-const wchar_t SS_ERR_RESPONSE[]		=LPGENW("Unknown response from %s (%i)");
-const wchar_t SS_ERR_NORESPONSE[]		=LPGENW("Got no response from %s (%i)");
+const wchar_t SS_ERR_INIT[] = LPGENW("Unable to initiate %s.");
+const wchar_t SS_ERR_MAPI[] = LPGENW("MAPI error (%i):\n%s.");
+const wchar_t SS_ERR_RESPONSE[] = LPGENW("Unknown response from %s (%i)");
+const wchar_t SS_ERR_NORESPONSE[] = LPGENW("Got no response from %s (%i)");
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -78,21 +78,21 @@ protected:
 	CMStringA   m_URL;
 	CMStringA   m_URLthumb;
 	static int  OnSend(void *obj, WPARAM wParam, LPARAM lParam);
-	wchar_t*    m_pszSendTyp;      //hold string for error mess
-	char*       m_pszProto;         //Contact Proto Modul
-	MCONTACT    m_hContact;         //Contact handle
-	BYTE        m_EnableItem;      //hold flag for send type
-	BYTE        m_ChatRoom;         //is Contact chatroom
+	wchar_t*    m_pszSendTyp;      // hold string for error mess
+	char*       m_pszProto;        // Contact Proto Module
+	MCONTACT    m_hContact;        // Contact handle
+	BYTE        m_EnableItem;      // hold flag for send type
+	BYTE        m_ChatRoom;        // is Contact chatroom
 				   
 	void        Error(LPCTSTR pszFormat, ...);
 	void        svcSendFileExit();
 	void        svcSendMsgExit(const char* szMessage);
 	void        Exit(unsigned int Result);
 				   
-	DWORD       m_cbEventMsg;                  //sizeof EventMsg(T) buffer
-	CMStringA   m_szEventMsg;                  //EventMsg char*
-	HANDLE      m_hSend;                     //protocol send handle
-	HANDLE      m_hOnSend;                     //HookEventObj on ME_PROTO_ACK
+	DWORD       m_cbEventMsg;      // sizeof EventMsg(T) buffer
+	CMStringA   m_szEventMsg;      // EventMsg char*
+	HANDLE      m_hSend;           // protocol send handle
+	HANDLE      m_hOnSend;         // HookEventObj on ME_PROTO_ACK
 				   
 	MSGBOX      m_box;
 	wchar_t*    m_ErrorMsg;
@@ -129,12 +129,12 @@ protected:
 		int flags;
 	};
 
-	static const char* GetHTMLContent(char* str, const char* startTag, const char* endTag); /// changes "str", can be successfully used only once
+	static const char* GetHTMLContent(char* str, const char* startTag, const char* endTag); // changes "str", can be successfully used only once
 	static int GetJSONString(const char* json, size_t jsonlen, const char* variable, char* value, size_t valuesize);
 	static int GetJSONInteger(const char* json, size_t jsonlen, const char* variable,int defvalue);
 	static bool GetJSONBool(const char* json, size_t jsonlen, const char* variable);
-	void HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr); /// use to free data inside "nlhr" created by HTTPFormCreate
-	int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum); /// returns "0" on success, Exit() will be called on failure (stop processing)
+	void HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr); // use to free data inside "nlhr" created by HTTPFormCreate
+	int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum); // returns "0" on success, Exit() will be called on failure (stop processing)
 };
 
 #endif

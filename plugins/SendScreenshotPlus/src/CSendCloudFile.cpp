@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 CSendCloudFile::CSendCloudFile(HWND Owner, MCONTACT hContact, bool bAsync, const char *service)
 	: CSend(Owner, hContact, bAsync), m_service(service)
 {
-	/// @todo : re-enable SS_DLG_DELETEAFTERSSEND with full implemention of Dropbox upload with progress, msg and sounds
+	// @todo : re-enable SS_DLG_DELETEAFTERSSEND with full implemention of Dropbox upload with progress, msg and sounds
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp = TranslateT("CloudFile transfer");
 }
@@ -54,7 +54,7 @@ int CSendCloudFile::Send()
 
 void CSendCloudFile::SendThread()
 {
-	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
+	// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
 
 	CFUPLOADDATA ud = { m_service, m_pszFile, L"SendSS" };
 	CFUPLOADRESULT ur = { };

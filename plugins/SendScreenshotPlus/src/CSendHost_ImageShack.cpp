@@ -45,7 +45,7 @@ CSendHost_ImageShack::~CSendHost_ImageShack()
 
 int CSendHost_ImageShack::Send()
 {
-	if (!g_hNetlibUser) { /// check Netlib
+	if (!g_hNetlibUser) { // check Netlib
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
@@ -53,9 +53,9 @@ int CSendHost_ImageShack::Send()
 	memset(&m_nlhr, 0, sizeof(m_nlhr));
 	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
-		//{ "Referer", HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php") },
+		// { "Referer", HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php") },
 		{ "fileupload", HTTPFORM_FILE(tmp) },
-		//{ "rembar", "yes" },// no info bar on thumb
+		// { "rembar", "yes" },// no info bar on thumb
 		{ "public", "no" },
 		{ "key", HTTPFORM_8BIT(DEVKEY_IMAGESHACK) },
 	};
@@ -63,7 +63,7 @@ int CSendHost_ImageShack::Send()
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
-	/// start upload thread
+	// start upload thread
 	if (m_bAsync) {
 		mir_forkthread(&CSendHost_ImageShack::SendThreadWrapper, this);
 		return 0;
@@ -74,12 +74,12 @@ int CSendHost_ImageShack::Send()
 
 void CSendHost_ImageShack::SendThread()
 {
-	/// send DATA and wait for m_nlreply
+	// send DATA and wait for m_nlreply
 	NETLIBHTTPREQUEST* reply = Netlib_HttpTransaction(g_hNetlibUser, &m_nlhr);
 	HTTPFormDestroy(&m_nlhr);
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->dataLength) {
-			reply->pData[reply->dataLength - 1] = '\0';/// make sure its null terminated
+			reply->pData[reply->dataLength - 1] = '\0'; // make sure its null terminated
 			const char* url = nullptr;
 			url = GetHTMLContent(reply->pData, "<image_link>", "</image_link>");
 			if (url && *url) {
@@ -91,20 +91,20 @@ void CSendHost_ImageShack::SendThread()
 				else 
 					m_URLthumb.Empty();
 
+				svcSendMsgExit(url);
 				Netlib_FreeHttpRequest(reply);
-				svcSendMsgExit(url); return;
+				return;
 			}
-			else {/// check error mess from server
-				url = GetHTMLContent(reply->pData, "<error ", "</error>");
-				wchar_t* err = nullptr;
-				if (url) err = mir_a2u(url);
-				if (!err || !*err) {/// fallback to server response mess
-					mir_free(err);
-					err = mir_a2u(reply->pData);
-				}
-				Error(L"%s", err);
+
+			url = GetHTMLContent(reply->pData, "<error ", "</error>");
+			wchar_t* err = nullptr;
+			if (url) err = mir_a2u(url);
+			if (!err || !*err) { // fallback to server response mess
 				mir_free(err);
+				err = mir_a2u(reply->pData);
 			}
+			Error(L"%s", err);
+			mir_free(err);
 		}
 		else Error(SS_ERR_RESPONSE, m_pszSendTyp, reply->resultCode);
 

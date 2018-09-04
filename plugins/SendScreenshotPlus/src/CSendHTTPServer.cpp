@@ -73,7 +73,7 @@ int CSendHTTPServer::Send()
 	m_fsi.nMaxDownloads = -1;					// -1 = infinite
 	m_fsi.pszRealPath = m_fsi_pszRealPath;
 
-	//start Send thread
+	// start Send thread
 	mir_forkthread(&CSendHTTPServer::SendThreadWrapper, this);
 	return 0;
 }
@@ -83,17 +83,17 @@ void CSendHTTPServer::SendThread()
 	INT_PTR ret;
 
 	if (ServiceExists(MS_HTTP_GET_LINK)) {
-		//patched plugin version
+		// patched plugin version
 		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 		if (!ret) {
 			m_URL = ptrA((char*)CallService(MS_HTTP_GET_LINK, (WPARAM)m_fsi.pszSrvPath, 0));
 		}
 	}
 	else {
-		//original plugin
+		// original plugin
 		m_fsi.dwOptions = OPT_SEND_LINK;
 
-		//send DATA and wait for reply
+		// send DATA and wait for reply
 		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 	}
 
@@ -102,7 +102,7 @@ void CSendHTTPServer::SendThread()
 		Exit(ret); return;
 	}
 
-	//Share the file by HTTP Server plugin, SendSS does not own the file anymore = auto-delete won't work
+	// Share the file by HTTP Server plugin, SendSS does not own the file anymore = auto-delete won't work
 	m_bDeleteAfterSend = false;
 
 	if (m_URL && *m_URL) {

@@ -64,7 +64,7 @@ int CSendFTPFile::Send()
 	m_pszFileName = (char*)mir_realloc(m_pszFileName, size);
 	m_pszFileName[size - 1] = NULL;
 
-	//start Send thread
+	// start Send thread
 	mir_forkthread(&CSendFTPFile::SendThreadWrapper, this);
 	return 0;
 }
@@ -78,7 +78,7 @@ void CSendFTPFile::SendThread()
 		Exit(ret); return;
 	}
 
-	//Can't delete the file since FTP File plugin will use it
+	// Can't delete the file since FTP File plugin will use it
 	m_bDeleteAfterSend = false;
 
 	if (m_URL && *m_URL) {/// @fixme : m_URL never set

@@ -66,18 +66,18 @@ int CSendEmail::Send()
 	m_FriendlyName = mir_u2a(ptrW(Contact_GetInfo(CNF_DISPLAY, m_hContact, m_pszProto)));
 	m_Subject = mir_u2a(m_pszFileDesc);
 
-	//SendByEmail(m_pszFileA, "", m_FriendlyName, m_Email, m_Subject);
+	// SendByEmail(m_pszFileA, "", m_FriendlyName, m_Email, m_Subject);
 
-	//start Send thread
+	// start Send thread
 	mir_forkthread(&CSendEmail::SendThreadWrapper, this);
 	return 0;
 }
 
 void CSendEmail::SendThread()
 {
-	//This code based on SentTo.exe application.
-	//The default mail client for Simple MAPI or MAPI calls is defined by the
-	//HKLM\Software\Clients\Mail::(default) registry value.
+	// This code based on SentTo.exe application.
+	// The default mail client for Simple MAPI or MAPI calls is defined by the
+	// HKLM\Software\Clients\Mail::(default) registry value.
 
 	MapiFileDesc arrfileDesc[1];
 
@@ -87,7 +87,7 @@ void CSendEmail::SendThread()
 
 	HINSTANCE hMAPILib = ::LoadLibrary(L"MAPI32.DLL");
 	if (hMAPILib == nullptr) {
-		//return -1;
+		// return -1;
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
 	}
@@ -95,7 +95,7 @@ void CSendEmail::SendThread()
 	lpMAPISendMail = (MAPIFUNC)GetProcAddress(hMAPILib, "MAPISendMail");
 	if (lpMAPISendMail == nullptr) {
 		::FreeLibrary(hMAPILib);
-		//return -2;
+		// return -2;
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
 	}
@@ -111,8 +111,8 @@ void CSendEmail::SendThread()
 
 	Msg.nFileCount = 1;
 	Msg.lpFiles = arrfileDesc;
-	Msg.lpszNoteText = "";							//body
-	Msg.lpszSubject = m_Subject;					//subject
+	Msg.lpszNoteText = "";							// body
+	Msg.lpszSubject = m_Subject;					// subject
 
 	Msg.nRecipCount = 1;
 	MapiRecipDesc recip;
@@ -120,13 +120,13 @@ void CSendEmail::SendThread()
 	recip.ulRecipClass = MAPI_TO;
 
 	if (m_FriendlyName && m_FriendlyName[0] != NULL) {
-		recip.lpszName = m_FriendlyName;			//friendly name set to contact's name
+		recip.lpszName = m_FriendlyName;			// friendly name set to contact's name
 	}
 	else {
-		recip.lpszName = m_Email;					//friendly name set to contact's email
+		recip.lpszName = m_Email;					// friendly name set to contact's email
 	}
 
-	recip.lpszAddress = m_Email;					//email
+	recip.lpszAddress = m_Email;					// email
 	recip.ulEIDSize = 0;
 	recip.lpEntryID = nullptr;
 	Msg.lpRecips = &recip;
@@ -138,7 +138,7 @@ void CSendEmail::SendThread()
 		wchar_t* err;
 		switch (res) {
 		case SUCCESS_SUCCESS:
-			//The call succeeded and the message was sent.
+			// The call succeeded and the message was sent.
 			Exit(ACKRESULT_SUCCESS); return;
 			// No message was sent
 		case MAPI_E_AMBIGUOUS_RECIPIENT:

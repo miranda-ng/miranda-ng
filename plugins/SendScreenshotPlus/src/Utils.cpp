@@ -53,7 +53,7 @@ static BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC, LPRECT, LPARAM 
 	monitors->info = (MONITORINFOEX*)mir_realloc(monitors->info, sizeof(MONITORINFOEX)*monitors->count);
 	monitors->info[monitors->count - 1].cbSize = sizeof(MONITORINFOEX);
 	if (!GetMonitorInfo(hMonitor, (LPMONITORINFO)(monitors->info + monitors->count - 1)))
-		return FALSE;	// stop enumeration if error
+		return FALSE; // stop enumeration if error
 
 	return TRUE;
 }
@@ -83,14 +83,16 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 {
 	FIBITMAP* dib;
 	HWND hForegroundWin;
-	RECT rect;//cropping rect
+	RECT rect; // cropping rect
 
 	if (!hCapture || !IsWindow(hCapture))
 		return nullptr;
-	hForegroundWin = GetForegroundWindow();	// old foreground window
-	SetForegroundWindow(hCapture);			// force target foreground
-	BringWindowToTop(hCapture);				// bring it to top as well
-	/// redraw window to prevent runtime artifacts in picture
+	
+	hForegroundWin = GetForegroundWindow(); // old foreground window
+	SetForegroundWindow(hCapture); // force target foreground
+	BringWindowToTop(hCapture); // bring it to top as well
+	
+	// redraw window to prevent runtime artifacts in picture
 	UpdateWindow(hCapture);
 
 	HWND hParent = GetAncestor(hCapture, GA_PARENT);
@@ -115,29 +117,34 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 		HDC hDCsrc;
 		GetWindowRect(hCapture, &rect);
 		if (hParent)
-			hDCsrc = GetDC(hCapture);//hCapture is part of a window, capture that
+			hDCsrc = GetDC(hCapture); // hCapture is part of a window, capture that
 		else
-			hDCsrc = GetWindowDC(hCapture);//entire window w/ title bar
+			hDCsrc = GetWindowDC(hCapture); // entire window w/ title bar
 		rect.right = ABS(rect.right - rect.left);
 		rect.bottom = ABS(rect.bottom - rect.top);
 		rect.left = rect.top = 0;
 		// capture window and get FIBITMAP
 		dib = CreateDIBFromDC(hDCsrc, &rect, hCapture);
 		ReleaseDC(hCapture, hDCsrc);
-		if (bClientArea) {//we could capture directly, but doing so breaks GetWindowRgn() and also includes artifacts...
+
+		// we could capture directly, but doing so breaks GetWindowRgn() and also includes artifacts...
+		if (bClientArea) {
 			GetWindowRect(hCapture, &rect);
 			RECT rectCA; GetClientRect(hCapture, &rectCA);
 			ClientToScreen(hCapture, (POINT*)&rectCA);
 			rectCA.left = ABS(rectCA.left - rect.left);
 			rectCA.top = ABS(rectCA.top - rect.top);
 			rectCA.right += rectCA.left; rectCA.bottom += rectCA.top;
-			/// crop the window to ClientArea
+			
+			// crop the window to ClientArea
 			FIBITMAP* dibClient = FreeImage_Copy(dib, rectCA.left, rectCA.top, rectCA.right, rectCA.bottom);
 			FreeImage_Unload(dib);
 			dib = dibClient;
 		}
 	}
-	if (hForegroundWin) {//restore previous foreground window
+	
+	// restore previous foreground window
+	if (hForegroundWin) {
 		SetForegroundWindow(hForegroundWin);
 		BringWindowToTop(hForegroundWin);
 	}
@@ -149,7 +156,7 @@ FIBITMAP* CaptureMonitor(const wchar_t* szDevice, const RECT* cropRect/*=NULL*/)
 	HDC hScrDC;
 	RECT rect;
 	
-	/// get screen resolution
+	// get screen resolution
 	if (!szDevice) {
 		hScrDC = CreateDC(L"DISPLAY", nullptr, nullptr, nullptr);
 		rect.left = GetSystemMetrics(SM_XVIRTUALSCREEN);
@@ -187,7 +194,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 		hScrDC = GetDC(hCapture);
 	HDC hMemDC = CreateCompatibleDC(hScrDC);
 	// create a bitmap compatible with the screen DC
-	HBITMAP hBitmap = CreateCompatibleBitmap(hScrDC, width, height);//width,height
+	HBITMAP hBitmap = CreateCompatibleBitmap(hScrDC, width, height);
 	// select new bitmap into memory DC
 	SelectObject(hMemDC, hBitmap);
 
@@ -203,8 +210,8 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	// we have to create our own new alpha channel.
 	bool bFixAlpha = true;
 	bool bInvert = false;
-	HBRUSH hBr = CreateSolidBrush(RGB(255, 255, 255));//Create a SolidBrush object for non transparent area
-	HBITMAP hMask = CreateBitmap(width, height, 1, 1, nullptr);// Create monochrome (1 bit) B+W mask bitmap.
+	HBRUSH hBr = CreateSolidBrush(RGB(255, 255, 255)); // Create a SolidBrush object for non transparent area
+	HBITMAP hMask = CreateBitmap(width, height, 1, 1, nullptr); // Create monochrome (1 bit) B+W mask bitmap.
 	HDC hMaskDC = CreateCompatibleDC(nullptr);
 	SelectBitmap(hMaskDC, hMask);
 	HRGN hRgn = CreateRectRgn(0, 0, 0, 0);
@@ -234,7 +241,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 		}
 	}
 	else {
-		if (!hCapture) SetRectRgn(hRgn, 0, 0, width, height);//client area only, no transparency
+		if (!hCapture) SetRectRgn(hRgn, 0, 0, width, height); // client area only, no transparency
 		FillRgn(hMaskDC, hRgn, hBr);
 	}
 	DeleteObject(hRgn);
@@ -250,6 +257,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	DeleteDC(hMaskDC);
 	DeleteObject(hMask);
 	DeleteObject(hBr);
+	
 	// clean up
 	DeleteDC(hMemDC);
 	DeleteObject(hBitmap);
@@ -369,8 +377,8 @@ void SaveGIF(HBITMAP hBmp, const wchar_t *szFilename)
 
 void SaveTIF(HBITMAP hBmp, const wchar_t *szFilename)
 {
-	//http://www.codeproject.com/Messages/1406708/How-to-reduce-the-size-of-an-Image-using-GDIplus.aspx
-	ULONG_PTR						gdiplusToken;
+	// http://www.codeproject.com/Messages/1406708/How-to-reduce-the-size-of-an-Image-using-GDIplus.aspx
+	ULONG_PTR gdiplusToken;
 	Gdiplus::GdiplusStartupInput	gdiplusStartupInput;
 	Gdiplus::Status stat;
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);

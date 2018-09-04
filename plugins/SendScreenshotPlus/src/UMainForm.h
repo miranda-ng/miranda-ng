@@ -59,9 +59,9 @@ struct UPLOAD_INFO
 struct TAB_INFO
 {
 	TCITEMHEADER tcih;
-	HWND hwndMain;		//main window
-	HWND hwndTab;		//tab control
-	HWND hwndTabPage;	//current child dialog box
+	HWND hwndMain;		// main window
+	HWND hwndTab;		// tab control
+	HWND hwndTabPage;	// current child dialog box
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -74,12 +74,12 @@ public:
 	TfrmMain();
 	~TfrmMain();
 
-	BYTE		m_opt_tabCapture;			//capure tab page
-	BYTE		m_opt_cboxDesktop;			//TRadioButton *rbtnDesktop;
-	BYTE		m_opt_chkTimed;				//TCheckBox *chkTimed;
-	BYTE		m_opt_cboxSendBy;			//TComboBox *cboxSendBy;
-	BYTE		m_opt_btnDesc;				//TCheckBox *chkDesc;
-	BYTE		m_opt_chkEditor;			//TCheckBox *chkEditor;
+	BYTE		m_opt_tabCapture;  // capture tab page
+	BYTE		m_opt_cboxDesktop; // TRadioButton *rbtnDesktop;
+	BYTE		m_opt_chkTimed;    // TCheckBox *chkTimed;
+	BYTE		m_opt_cboxSendBy;  // TComboBox *cboxSendBy;
+	BYTE		m_opt_btnDesc;     // TCheckBox *chkDesc;
+	BYTE		m_opt_chkEditor;   // TCheckBox *chkEditor;
 	bool		m_bOnExitSave;
 
 	static void Unload();
@@ -98,7 +98,7 @@ private:
 	HWND		m_hTargetHighlighter;
 	wchar_t*		m_FDestFolder;
 	wchar_t*		m_pszFile;
-	FIBITMAP*	m_Screenshot;//Graphics::TBitmap *Screenshot;
+	FIBITMAP*	m_Screenshot;
 	RGBQUAD		m_AlphaColor;
 	CSend*		m_cSend;
 
@@ -112,21 +112,21 @@ private:
 	static void edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl);
 
 protected:
-	MONITORINFOEX*	m_Monitors;
-	size_t			m_MonitorCount;
-	RECT			m_VirtualScreen;
+	MONITORINFOEX* m_Monitors;
+	size_t         m_MonitorCount;
+	RECT           m_VirtualScreen;
 
-	BYTE			m_opt_chkOpenAgain;			//TCheckBox *chkOpenAgain;
-	BYTE			m_opt_chkIndirectCapture;	//TCheckBox *chkIndirectCapture;
-	BYTE			m_opt_chkClientArea;		//TCheckBox *chkClientArea;
-	BYTE			m_opt_edtQuality;			//TLabeledEdit *edtQuality;
-	bool			m_opt_btnDeleteAfterSend;	//TCheckBox *chkDeleteAfterSend;
-	BYTE			m_opt_cboxFormat;			//TComboBox *cboxFormat;
-	BYTE			m_opt_edtTimed;				//TLabeledEdit *edtTimed;
-	bool			m_bCapture;					//is capture active
-	HWND			m_hwndTab;					//TabControl handle
-	HWND			m_hwndTabPage;				//TabControl activ page handle
-	HIMAGELIST		m_himlTab;					//TabControl imagelist
+	BYTE           m_opt_chkOpenAgain;        // TCheckBox *chkOpenAgain;
+	BYTE           m_opt_chkIndirectCapture;  // TCheckBox *chkIndirectCapture;
+	BYTE           m_opt_chkClientArea;       // TCheckBox *chkClientArea;
+	BYTE           m_opt_edtQuality;          // TLabeledEdit *edtQuality;
+	bool           m_opt_btnDeleteAfterSend;  // TCheckBox *chkDeleteAfterSend;
+	BYTE           m_opt_cboxFormat;          // TComboBox *cboxFormat;
+	BYTE           m_opt_edtTimed;            // TLabeledEdit *edtTimed;
+	bool           m_bCapture;                // is capture active
+	HWND           m_hwndTab;                 // TabControl handle
+	HWND           m_hwndTabPage;             // TabControl activ page handle
+	HIMAGELIST     m_himlTab;                 // TabControl imagelist
 
 	typedef std::map<HWND, TfrmMain *> CHandleMapping;
 	static CHandleMapping _HandleMapping;

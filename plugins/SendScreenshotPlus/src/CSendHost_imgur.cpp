@@ -30,7 +30,7 @@ CSendHost_Imgur::~CSendHost_Imgur()
 
 int CSendHost_Imgur::Send()
 {
-	if (!g_hNetlibUser) { /// check Netlib
+	if (!g_hNetlibUser) { // check Netlib
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
@@ -40,15 +40,13 @@ int CSendHost_Imgur::Send()
 	HTTPFormData frm[] = {
 		{ "Authorization", HTTPFORM_HEADER("Client-ID 2a7303d78abe041") },
 		{ "image", HTTPFORM_FILE(tmp) },
-		//		{"name",""},// filename (detected if multipart / form-data)
-		//		{"title",""},
-		//		{"description",""},
 	};
-	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, "https://api.imgur.com/3/image", frm, sizeof(frm) / sizeof(HTTPFormData));
+
+	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, "https://api.imgur.com/3/image", frm, _countof(frm));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
-	/// start upload thread
+	// start upload thread
 	if (m_bAsync) {
 		mir_forkthread(&CSendHost_Imgur::SendThread, this);
 		return 0;
@@ -60,7 +58,7 @@ int CSendHost_Imgur::Send()
 void CSendHost_Imgur::SendThread(void* obj)
 {
 	CSendHost_Imgur* self = (CSendHost_Imgur*)obj;
-	/// send DATA and wait for m_nlreply
+	// send DATA and wait for m_nlreply
 	NETLIBHTTPREQUEST* reply = Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr);
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if (reply) {

@@ -40,7 +40,7 @@ typedef struct TMBCtrl
 	BYTE		bFocus;
 
 	int			stateId;		// button state
-	int			defbutton;		// default button
+	int			defbutton;	// default button
 	int			pbState;
 	wchar_t		cHot;
 } BTNCTRL, *LPBTNCTRL;
@@ -656,7 +656,7 @@ void CtrlButtonUnloadModule()
 	UnregisterClass(UINFOBUTTONCLASS, g_plugin.getInst());
 }
 
-void CtrlButtonLoadModule()/// @fixme : compatibility with UInfoEx is everything but perfect... we get a huge problem if UInfoEx is unloaded...
+void CtrlButtonLoadModule() // @fixme : compatibility with UInfoEx is everything but perfect... we get a huge problem if UInfoEx is unloaded...
 {
 	if (ServiceExists("UserInfo/vCard/Export")) return;
 	WNDCLASSEX wc;

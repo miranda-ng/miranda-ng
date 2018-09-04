@@ -39,10 +39,8 @@ CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 	m_pszFileDesc(nullptr),
 	m_pszSendTyp(nullptr),
 	m_pszProto(nullptr),
-	//	m_hContact(hContact), // initialized below
 	m_EnableItem(0),
 	m_ChatRoom(0),
-	//	m_PFflag(0),
 	m_cbEventMsg(0),
 	m_hSend(nullptr),
 	m_hOnSend(nullptr),
@@ -200,6 +198,7 @@ void CSend::svcSendMsgExit(const char* szMessage)
 			m_pszFileDesc = mir_a2u(szMessage);
 		Exit(CSEND_DIALOG); return;
 	}
+
 	if (m_ChatRoom) {
 		CMStringW tmp(szMessage);
 		if (m_pszFileDesc) {
@@ -232,12 +231,14 @@ void CSend::svcSendMsgExit(const char* szMessage)
 			m_szEventMsg.Append(_T2A(m_pszFileDesc));
 			m_cbEventMsg = m_szEventMsg.GetLength() + 1;
 		}
-		//create a HookEventObj on ME_PROTO_ACK
-		if (!m_hOnSend) {
+
+		// create a HookEventObj on ME_PROTO_ACK
+		if (!m_hOnSend)
 			m_hOnSend = HookEventObj(ME_PROTO_ACK, OnSend, this);
-		}
-		//start PSS_MESSAGE service
+
+		// start PSS_MESSAGE service
 		m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_MESSAGE, NULL, ptrA(mir_utf8encode(m_szEventMsg)));
+		
 		// check we actually got an ft handle back from the protocol
 		if (!m_hSend) {
 			Unhook();
@@ -249,12 +250,13 @@ void CSend::svcSendMsgExit(const char* szMessage)
 
 void CSend::svcSendFileExit()
 {
-	//szMessage should be encoded as the File followed by the description, the
-	//separator being a single nul (\0). If there is no description, do not forget
-	//to end the File with two nuls.
+	// szMessage should be encoded as the File followed by the description, the
+	// separator being a single nul (\0). If there is no description, do not forget
+	// to end the File with two nuls.
 	if (m_bSilent) {
 		Exit(ACKRESULT_SUCCESS); return;
 	}
+	
 	if (!m_hContact) {
 		Error(LPGENW("%s requires a valid contact!"), m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
@@ -269,7 +271,7 @@ void CSend::svcSendFileExit()
 	
 	m_cbEventMsg = m_szEventMsg.GetLength() + 1;
 
-	//create a HookEventObj on ME_PROTO_ACK
+	// Сreate a HookEventObj on ME_PROTO_ACK
 	if (!m_hOnSend) {
 		m_hOnSend = HookEventObj(ME_PROTO_ACK, OnSend, this);
 	}
@@ -301,15 +303,15 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 		return 0;
 
 	switch (ack->result) {
-	case ACKRESULT_INITIALISING:	//SetFtStatus(hwndDlg, LPGENW("Initialising..."), FTS_TEXT); break;
-	case ACKRESULT_CONNECTING:		//SetFtStatus(hwndDlg, LPGENW("Connecting..."), FTS_TEXT); break;
-	case ACKRESULT_CONNECTPROXY:	//SetFtStatus(hwndDlg, LPGENW("Connecting to proxy..."), FTS_TEXT); break;
-	case ACKRESULT_LISTENING:		//SetFtStatus(hwndDlg, LPGENW("Waiting for connection..."), FTS_TEXT); break;
-	case ACKRESULT_CONNECTED:		//SetFtStatus(hwndDlg, LPGENW("Connected"), FTS_TEXT); break;
-	case ACKRESULT_SENTREQUEST:		//SetFtStatus(hwndDlg, LPGENW("Decision sent"), FTS_TEXT); break;
-	case ACKRESULT_NEXTFILE:		//SetFtStatus(hwndDlg, LPGENW("Moving to next file..."), FTS_TEXT);
-	case ACKRESULT_FILERESUME:		//
-	case ACKRESULT_DATA:			//transfer is on progress
+	case ACKRESULT_INITIALISING: // SetFtStatus(hwndDlg, LPGENW("Initialising..."), FTS_TEXT); break;
+	case ACKRESULT_CONNECTING:   // SetFtStatus(hwndDlg, LPGENW("Connecting..."), FTS_TEXT); break;
+	case ACKRESULT_CONNECTPROXY: // SetFtStatus(hwndDlg, LPGENW("Connecting to proxy..."), FTS_TEXT); break;
+	case ACKRESULT_LISTENING:    // SetFtStatus(hwndDlg, LPGENW("Waiting for connection..."), FTS_TEXT); break;
+	case ACKRESULT_CONNECTED:    // SetFtStatus(hwndDlg, LPGENW("Connected"), FTS_TEXT); break;
+	case ACKRESULT_SENTREQUEST:  // SetFtStatus(hwndDlg, LPGENW("Decision sent"), FTS_TEXT); break;
+	case ACKRESULT_NEXTFILE:     // SetFtStatus(hwndDlg, LPGENW("Moving to next file..."), FTS_TEXT);
+	case ACKRESULT_FILERESUME:
+	case ACKRESULT_DATA:         // transfer is on progress
 		break;
 	case ACKRESULT_DENIED:
 		self->Unhook();
@@ -318,9 +320,9 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 	case ACKRESULT_FAILED:
 		self->Unhook();
 		self->Exit(ack->result);
-		//type=ACKTYPE_MESSAGE, result=success/failure, (char*)lParam=error message or NULL.
-		//type=ACKTYPE_URL, result=success/failure, (char*)lParam=error message or NULL.
-		//type=ACKTYPE_FILE, result=ACKRESULT_FAILED then lParam=(LPARAM)(const char*)szReason
+		// type=ACKTYPE_MESSAGE, result=success/failure, (char*)lParam=error message or NULL.
+		// type=ACKTYPE_URL, result=success/failure, (char*)lParam=error message or NULL.
+		// type=ACKTYPE_FILE, result=ACKRESULT_FAILED then lParam=(LPARAM)(const char*)szReason
 		break;
 	case ACKRESULT_SUCCESS:
 		self->Unhook();
@@ -406,7 +408,7 @@ void CSend::Exit(unsigned int Result)
 			MsgBoxService(NULL, (LPARAM)&m_box);
 			err = false;
 			break;
-		case GC_RESULT_WRONGVER:	//.You appear to be using the wrong version of GC API.
+		case GC_RESULT_WRONGVER:	// You appear to be using the wrong version of GC API.
 			Error(L"%s (%i):\nYou appear to be using the wrong version of GC API", TranslateT("GCHAT error"), Result);
 			break;
 		case GC_RESULT_ERROR:		// An internal GC error occurred.
@@ -429,7 +431,7 @@ void CSend::Exit(unsigned int Result)
 		DeleteFile(m_pszFile), m_pszFile = nullptr;
 	}
 	if (m_bAsync)
-		delete this;/// deletes derived class since destructor is virtual (which also auto-calls base dtor)
+		delete this; // deletes derived class since destructor is virtual (which also auto-calls base dtor)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -498,7 +500,7 @@ int JSON_Get_(const char* json, size_t jsonlen, const char* variable, const char
 	char* tmp;
 	const char* c;
 	const char* jsonend = json + jsonlen;
-	/// get needle
+	// get needle
 	if (!jsonlen || *json != '{')
 		return 0;
 	for (tmp = needle, c = *variable == '[' ? variable + 1 : variable; *c != '[' && *c != ']'; ++c) {
@@ -507,12 +509,12 @@ int JSON_Get_(const char* json, size_t jsonlen, const char* variable, const char
 		if (tmp < needle + sizeof(needle) - 1) *tmp++ = *c;
 	}
 	*tmp = '\0';
-	/// get child needle (if any)
+	// get child needle (if any)
 	if (*c == ']') ++c;
 	if (c == jsonend)
 		return 0;
 	needlechild = c;
-	/// parse JSON
+	// parse JSON
 	for (c = json + 1; c < jsonend && (*c == '"' || *c == '\'');) {
 		for (++c, tmp = var; c < jsonend && (*c != '"' && *c != '\''); ++c)
 			if (tmp < var + sizeof(var) - 1) *tmp++ = *c;

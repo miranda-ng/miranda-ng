@@ -20,7 +20,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-/// SendSS compatibility:
+// SendSS compatibility:
 #include "stdafx.h"
 #define ghInst g_plugin.getInst()
 #define myGlobals g_myGlobals
@@ -35,7 +35,7 @@ HICON Skin_GetIcon_SendSS(unsigned short id)
 	return GetIconBtn(id);
 }
 #define IcoLib_GetIcon Skin_GetIcon_SendSS
-/// original UserInfoEx codebase (almost):
+// original UserInfoEx codebase (almost):
 
 typedef struct _MSGPOPUPDATA
 {
@@ -300,9 +300,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					MoveCtrl(hDlg, TXT_MESSAGE, -mpt.x - icoWidth, -mpt.y - InfoBarHeight, needX, needY);
 					MoveCtrl(hDlg, STATIC_LINE2, -mpt.x, -mpt.y + needY - InfoBarHeight, needX, 0);
 
-					//
 					// Do pushbutton positioning
-					//
 					RECT rcOk, rcAll, rcNone, rcCancel;
 
 					// get button rectangles
@@ -412,7 +410,6 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						SetDlgItemText(hDlg, IDOK, LPGENW("Yes"));
 						retAll = IDALL;
 						SetDlgItemText(hDlg, IDALL, LPGENW("All"));
-						//retNon = IDNONE;
 						SetDlgItemText(hDlg, IDNONE, LPGENW("None"));
 						retCancel = IDNO;
 						SetDlgItemText(hDlg, IDCANCEL, LPGENW("No"));
@@ -504,7 +501,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 		if (pmpd) {
 			POPUPDATAT_V2 pd = { 0 };
 			pd.cbSize = sizeof(pd);
-			pd.lchContact = NULL; //(HANDLE)wParam;
+			pd.lchContact = NULL; // (HANDLE)wParam;
 			// icon
 			pd.lchIcon = MsgLoadIcon(pMsgBox);
 			mir_wstrncpy(pd.lptzContactName, pMsgBox->ptszTitle, _countof(pd.lptzContactName));

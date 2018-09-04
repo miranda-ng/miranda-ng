@@ -2,10 +2,10 @@
 //
 #include "..\src\resource.h"
 
-#define MBS_DEFBUTTON		0x00001000L			// default button
-#define MBS_PUSHBUTTON		0x00002000L			// toggle button
-#define MBS_FLAT			0x00004000L			// flat button
-#define MBS_DOWNARROW		0x00008000L			// has arrow on the right
+#define MBS_DEFBUTTON		0x00001000L // default button
+#define MBS_PUSHBUTTON		0x00002000L // toggle button
+#define MBS_FLAT           0x00004000L // flat button
+#define MBS_DOWNARROW		0x00008000L // has arrow on the right
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////

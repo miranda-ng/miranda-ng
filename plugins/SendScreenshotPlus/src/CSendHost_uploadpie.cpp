@@ -32,7 +32,7 @@ static const char kHostURL[] = "https://uploadpie.com/";
 
 int CSendHost_UploadPie::Send()
 {
-	if (!g_hNetlibUser) { /// check Netlib
+	if (!g_hNetlibUser) { // check Netlib
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
@@ -40,22 +40,18 @@ int CSendHost_UploadPie::Send()
 	memset(&m_nlhr, 0, sizeof(m_nlhr));
 	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
-		{ "MAX_FILE_SIZE", HTTPFORM_INT(3145728) },// ??
-		{ "upload", HTTPFORM_INT(1) },// ??
+		{ "MAX_FILE_SIZE", HTTPFORM_INT(3145728) },
+		{ "upload", HTTPFORM_INT(1) },
 		{ "uploadedfile", HTTPFORM_FILE(tmp) },
-		{ "expire", HTTPFORM_INT(m_expire) },// 30m
-		//{ "expire", HTTPFORM_INT(2) },// 1h
-		//{ "expire", HTTPFORM_INT(3) },// 6h
-		//{ "expire", HTTPFORM_INT(4) },// 1d
-		//{ "expire", HTTPFORM_INT(5) },// 1w
-		//{ "x", HTTPFORM_INT(130) },// relative X coordinate of "BAKE FILE" button (unused?)
-		//{ "y", HTTPFORM_INT(17) },// relative Y coordinate of "BAKE FILE" button (unused?)
+		{ "expire", HTTPFORM_INT(m_expire) },
 	};
-	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, kHostURL, frm, sizeof(frm) / sizeof(HTTPFormData));
+
+	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, kHostURL, frm, _countof(frm));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
-	/// start upload thread
+	
+	// start upload thread
 	if (m_bAsync) {
 		mir_forkthread(&CSendHost_UploadPie::SendThread, this);
 		return 0;
@@ -67,12 +63,12 @@ int CSendHost_UploadPie::Send()
 void CSendHost_UploadPie::SendThread(void* obj)
 {
 	CSendHost_UploadPie* self = (CSendHost_UploadPie*)obj;
-	/// send DATA and wait for m_nlreply
+	// send DATA and wait for m_nlreply
 	NETLIBHTTPREQUEST* reply = Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr);
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->dataLength) {
-			reply->pData[reply->dataLength - 1] = '\0';/// make sure its null terminated
+			reply->pData[reply->dataLength - 1] = '\0'; // make sure its null terminated
 			char* url = reply->pData;
 			do {
 				char* pos;
@@ -93,7 +89,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 				Netlib_FreeHttpRequest(reply);
 				self->svcSendMsgExit(url); return;
 			}
-			else {/// check error mess from server
+			else { // check error mess from server
 				const char* err = GetHTMLContent(reply->pData, "<p id=\"error\"", "</p>");
 				wchar_t* werr;
 				if (err) werr = mir_a2u(err);

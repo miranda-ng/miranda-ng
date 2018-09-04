@@ -232,14 +232,17 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	g_myGlobals.PluginHTTPExist = ServiceExists(MS_HTTP_ACCEPT_CONNECTIONS);
 	g_myGlobals.PluginFTPExist = ServiceExists(MS_FTPFILE_UPLOAD);
 	g_myGlobals.PluginCloudFileExist = ServiceExists(MS_CLOUDFILE_UPLOAD);
+	
 	// Netlib register
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	nlu.szDescriptiveName.w = TranslateT("SendSS HTTP connections");
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;			//|NUF_NOHTTPSOPTION;
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
+	
 	// load my button class / or use UInfoEx
 	CtrlButtonLoadModule();
+	
 	// Folders plugin support
 	m_hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
 		PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\Screenshots");
@@ -248,9 +251,11 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 
 int hook_SystemPreShutdown(WPARAM, LPARAM)
 {
-	TfrmMain::Unload();// "
+	TfrmMain::Unload();
+	
 	// Netlib unregister
 	Netlib_CloseHandle(g_hNetlibUser);
+	
 	// uninitialize classes
 	CtrlButtonUnloadModule();
 	return 0;
@@ -265,18 +270,43 @@ int hook_PrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+static int TabsrmmButtonsInit(WPARAM, LPARAM)
+{
+	// SRMM toolbar button
+	BBButton bbd = {};
+	bbd.pszModuleName = MODULENAME;
+	bbd.dwButtonID = 1;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	bbd.dwDefPos = 201;
+	bbd.hIcon = GetIconHandle(ICO_MAINXS);
+	Srmm_AddButton(&bbd, &g_plugin);
+	return 0;
+}
+
+static int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
+{
+	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
+	if (!mir_strcmp(cbcd->pszModule, MODULENAME) && cbcd->dwButtonId == 1)
+		CallService(MS_SENDSS_OPENDIALOG, hContact, 0);
+
+	return 0;
+}
+
 int CMPlugin::Load()
 {
-	/// hook events
+	// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, hook_PrebuildContactMenu);
-	
-	/// icons
+
+	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
+
+	// icons
 	g_plugin.registerIcon(MODULENAME, ICONS, MODULENAME);
 	g_plugin.registerIcon(MODULENAME "/" LPGEN("Buttons"), ICONS_BTN, MODULENAME);
 	
-	/// services
+	// services
 	#define srv_reg(name) CreateServiceFunction(MODULENAME "/" #name, service_##name);
 	srv_reg(OpenCaptureDialog);
 	srv_reg(SendDesktop);
@@ -306,7 +336,7 @@ int CMPlugin::Load()
 	mi.position = 1000001;
 	g_hMenu2 = Menu_AddContactMenuItem(&mi);
 
-	/// hotkey's
+	// hotkey's
 	HOTKEYDESC hkd = {};
 	hkd.pszName = "Open SendSS+";
 	hkd.szDescription.w = LPGENW("Open SendSS+");
@@ -316,8 +346,8 @@ int CMPlugin::Load()
 	hkd.dwFlags = HKD_UNICODE;
 	g_plugin.addHotkey(&hkd);
 
-	/// register highlighter window class
-	HBRUSH brush = CreateSolidBrush(0x0000FF00);//owned by class
+	// register highlighter window class
+	HBRUSH brush = CreateSolidBrush(0x0000FF00); // owned by class
 	WNDCLASS wndclass = { CS_HREDRAW | CS_VREDRAW, DefWindowProc, 0, 0, g_plugin.getInst(), nullptr, nullptr, brush, nullptr, L"SendSSHighlighter" };
 	g_clsTargetHighlighter = RegisterClass(&wndclass);
 	return 0;

@@ -39,37 +39,26 @@ For valid icon values use one of the following MB_ICON_...
 Funktion returns: IDOK, IDYES, IDALL, IDNO or IDCANCEL
 */
 
-/*
- Defined in winuser.h
- ********************
-
-#define MB_OK					0x00000000L
-#define MB_OKCANCEL				0x00000001L
-#define MB_ABORTRETRYIGNORE		0x00000002L
-#define MB_YESNOCANCEL			0x00000003L
-#define MB_YESNO				0x00000004L
-#define MB_RETRYCANCEL			0x00000005L
-*/
-#define MB_YESALLNO				0x00000007L
-#define MB_TYPE(p)				((p)&MB_TYPEMASK)
+#define MB_YESALLNO       0x00000007L
+#define MB_TYPE(p)        ((p)&MB_TYPEMASK)
 
 /*
 valid predefined icon values
 */
-#define MB_ICON_NONE			0x00000000L //	 0 - no icon
-#define MB_ICON_ERROR			0x00000010L //	16 - error icon
-#define MB_ICON_QUESTION		0x00000020L //	32 - question mark
-#define MB_ICON_WARNING			0x00000030L //	48 - warning
-#define MB_ICON_INFO			0x00000040L //	64 - info
-#define MB_ICON_OTHER			0x00000080L // 240 - use icon _MSGBOX->hiMsg
-#define MB_ICON_INDEX(p)		(((p)&MB_ICONMASK)>>4)
+#define MB_ICON_NONE      0x00000000L //	 0 - no icon
+#define MB_ICON_ERROR     0x00000010L //	16 - error icon
+#define MB_ICON_QUESTION  0x00000020L //	32 - question mark
+#define MB_ICON_WARNING   0x00000030L //	48 - warning
+#define MB_ICON_INFO      0x00000040L //	64 - info
+#define MB_ICON_OTHER     0x00000080L // 240 - use icon _MSGBOX->hiMsg
+#define MB_ICON_INDEX(p)  (((p)&MB_ICONMASK)>>4)
 
 /*
 flags
 */
-#define MB_INFOBAR				0x00000100L
-#define MB_NOPOPUP				0x00000200L
-#define MB_CUSTOMCOLOR			0x00000300L
+#define MB_INFOBAR        0x00000100L
+#define MB_NOPOPUP        0x00000200L
+#define MB_CUSTOMCOLOR    0x00000300L
 
 typedef struct _MSGBOX
 {
