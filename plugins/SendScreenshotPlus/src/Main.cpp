@@ -31,7 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 
 CMPlugin g_plugin;
+HGENMENU g_hMenu1, g_hMenu2;
 
+ATOM g_clsTargetHighlighter = 0;
 MGLOBAL g_myGlobals;
 HNETLIBUSER g_hNetlibUser;
 
@@ -88,11 +90,6 @@ wchar_t* GetCustomPath()
 	}
 	return pszPath;
 }
-/// services
-static HANDLE m_hOpenCaptureDialog = nullptr;
-static HANDLE m_hSendDesktop = nullptr;
-static HANDLE m_hEditBitmap = nullptr;
-static HANDLE m_hSend2ImageShack = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Callback function of service for contact menu and main menu
@@ -259,23 +256,28 @@ int hook_SystemPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-ATOM g_clsTargetHighlighter = 0;
+int hook_PrebuildContactMenu(WPARAM hContact, LPARAM)
+{
+	INT_PTR flags = CallProtoService(GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1, 0);
+	bool bEnabled = (flags != CALLSERVICE_NOTFOUND) && (flags & PF1_FILE) != 0;
+	Menu_ShowItem(g_hMenu1, bEnabled);
+	Menu_ShowItem(g_hMenu2, bEnabled);
+	return 0;
+}
 
 int CMPlugin::Load()
 {
 	/// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, hook_PrebuildContactMenu);
 	
 	/// icons
 	g_plugin.registerIcon(MODULENAME, ICONS, MODULENAME);
 	g_plugin.registerIcon(MODULENAME "/" LPGEN("Buttons"), ICONS_BTN, MODULENAME);
 	
 	/// services
-#define srv_reg(name) do{\
-		m_h##name=CreateServiceFunction(MODULENAME "/" #name, service_##name);\
-		if(!m_h##name) MessageBoxA(NULL,Translate("Could not register Miranda service."),MODULENAME "/" #name,MB_OK|MB_ICONERROR|MB_APPLMODAL);\
-		}while(0)
+	#define srv_reg(name) CreateServiceFunction(MODULENAME "/" #name, service_##name);
 	srv_reg(OpenCaptureDialog);
 	srv_reg(SendDesktop);
 	srv_reg(EditBitmap);
@@ -296,13 +298,13 @@ int CMPlugin::Load()
 	mi.name.w = LPGENW("Send screenshot");
 	mi.pszService = MS_SENDSS_OPENDIALOG;
 	mi.position = 1000000;
-	Menu_AddContactMenuItem(&mi);
+	g_hMenu1 = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x8d5b0d9a, 0x68d4, 0x4594, 0x9f, 0x41, 0x0, 0x64, 0x20, 0xe7, 0xf8, 0x9f);
 	mi.name.w = LPGENW("Send desktop screenshot");
 	mi.pszService = MS_SENDSS_SENDDESKTOP;
 	mi.position = 1000001;
-	Menu_AddContactMenuItem(&mi);
+	g_hMenu2 = Menu_AddContactMenuItem(&mi);
 
 	/// hotkey's
 	HOTKEYDESC hkd = {};
