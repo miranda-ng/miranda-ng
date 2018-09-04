@@ -974,8 +974,8 @@ Jabber Рэсурс
 Ад
 [Both]
 у абодва бакі
-[errors]
-памылкі
+[Errors]
+Памылкі
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Уваходная нататка ад %s

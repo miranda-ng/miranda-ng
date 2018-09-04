@@ -110,18 +110,6 @@ HTTP-сервер Miranda NG
 Завершено
 [Speed]
 Скорость
-[Selected link size is 0]
-Выбрана ссылка на файл нулевого размера
-[Failed to get access to clipboard]
-Не удалось получить доступ к буферу обмена
-[Failed to get close the clipboard]
-
-[Failed to set clipboard data]
-
-[ListView_GetItem failed]
-
-[No share selected]
-Папка не выбрана
 [Current IP Address: ]
 Текущиий IP-адрес:\s
 [Current Address: ]
@@ -144,20 +132,6 @@ HTTP Новый общий файл
 [Share removed]
 Общее удалено
 ;file \plugins\HTTPServer\src\main.cpp
-[Failed to open or create log file]
-Не удалось открыть или создать файл журнала
-[Failed to move to the end of the log file]
-
-[Failed to write some part of the log file]
-
-[Failed to open or create file ]
-Не удалось открыть или создать файл\s
-[Failed to write xml header to file ]
-
-[Failed to write xml data to file ]
-
-[Failed to write xml tail to file ]
-
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 Не удалось выполнить привязку к порту %s\r\nВероятно, это вызвано тем, что этот порт уже используется другой программой или службой
 [Disable HTTP server]

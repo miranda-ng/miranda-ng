@@ -19,8 +19,8 @@
 [Select your name]
 Выберите имя
 ;file \protocols\EmLanProto\src\amdproto.cpp
-[User name or '*']
-Имя пользователя или '*'
+[User name, IP address or '*']
+Имя пользователя, IP-адрес или '*'
 [E-mage LAN protocol]
 Протокол E-mage LAN
 [Network]

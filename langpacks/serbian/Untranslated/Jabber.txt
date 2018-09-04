@@ -428,7 +428,7 @@
 [Status Message]
 [From]
 [Both]
-[errors]
+[Errors]
 [Incoming note from %s]
 [Send note to %s]
 [From: %s]

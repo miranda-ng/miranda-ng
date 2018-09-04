@@ -19,8 +19,8 @@ Ihr Name
 [Select your name]
 Wählen Sie Ihren Namen
 ;file \protocols\EmLanProto\src\amdproto.cpp
-[User name or '*']
-Benutzername oder '*'
+[User name, IP address or '*']
+Benutzername, IP-Adresse oder '*'
 [E-mage LAN protocol]
 E-Mage LAN Protokoll
 [Network]

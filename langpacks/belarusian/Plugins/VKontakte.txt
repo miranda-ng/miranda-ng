@@ -568,7 +568,7 @@
 [Errors]
 Памылкі
 [Notifications]
-
+Абвесткі
 [VK user activate/deactivate action]
 
 [User %s added as friend]

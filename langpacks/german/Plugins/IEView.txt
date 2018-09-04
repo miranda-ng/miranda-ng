@@ -84,17 +84,6 @@ URL empfangen
  fragte Autorisierung an
 [ was added.]
  wurde hinzugefügt.
-;file \plugins\IEView\src\IEView.cpp
-[IID_IOleObject failed.]
-
-[RESULT]
-Ergebnis
-[IID_IOleInPlaceObject failed.]
-
-[Failed to Advise]
-
-[C++ Event Sink]
-
 ;file \plugins\IEView\src\ieview_main.cpp
 [RTL On]
 RTL an

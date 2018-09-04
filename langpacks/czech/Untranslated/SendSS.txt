@@ -31,7 +31,6 @@
 [Could not create main dialog.]
 [SendSS]
 [Screenshots]
-[Could not register Miranda service.]
 [Take a screenshot]
 [SendScreenshot - Error]
 [Capture]

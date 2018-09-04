@@ -394,10 +394,10 @@ HTTP невідома помилка
 [Password was sent to your e-mail.]
 Пароль надіслано на ваш E-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
-[Notify]
+[Notifications]
 Сповіщення
-[Error]
-Помилка
+[Errors]
+Помилки
 ;file \protocols\Gadu-Gadu\src\services.cpp
 [Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 Не вдалося видалити старий аватар перед оновленням. Помилка: %d: %s\n%s

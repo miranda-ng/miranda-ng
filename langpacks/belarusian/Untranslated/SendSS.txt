@@ -27,7 +27,6 @@
 [BBCode]
 [BBCode link]
 [Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-[Could not register Miranda service.]
 [Upload Pie (30m)]
 [Upload Pie (1d)]
 [Upload Pie (1w)]

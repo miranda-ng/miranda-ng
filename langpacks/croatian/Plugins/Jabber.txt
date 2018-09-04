@@ -974,7 +974,7 @@ Statusne ikone
 
 [Both]
 
-[errors]
+[Errors]
 
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]

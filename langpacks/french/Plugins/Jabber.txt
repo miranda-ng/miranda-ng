@@ -974,8 +974,8 @@ Vers
 De
 [Both]
 les 2
-[errors]
-erreurs
+[Errors]
+Erreurs
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 

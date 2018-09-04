@@ -974,7 +974,7 @@ An
 Von
 [Both]
 Beides
-[errors]
+[Errors]
 Fehler
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]

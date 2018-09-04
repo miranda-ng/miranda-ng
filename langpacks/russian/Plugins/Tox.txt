@@ -53,7 +53,7 @@ Tox ID:
 [Set password]
 Установить пароль
 [If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
-При вводе в поле поиска адреса Tox (76 шестнадцатеричных символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи toxme.io.
+При вводе в поле поиска адреса Tox (семьдесят шесть шестнадцатеричных символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи toxme.io.
 [DNS name:]
 DNS имя:
 [Enter password]

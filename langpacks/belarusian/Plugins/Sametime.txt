@@ -130,6 +130,10 @@
 [False]
 
 ;file \protocols\Sametime\src\utils.cpp
+[Notifications]
+Абвесткі
+[Errors]
+Памылкі
 [%s\n\nSametime error %S\n%s]
 
 ;file \protocols\Sametime\src\meanwhile\src\error.c

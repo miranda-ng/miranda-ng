@@ -974,8 +974,8 @@ xHTML-формат повідомлень чату
 Від
 [Both]
 Обидві
-[errors]
-помилки
+[Errors]
+Помилки
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Вхідна нотатка від %s

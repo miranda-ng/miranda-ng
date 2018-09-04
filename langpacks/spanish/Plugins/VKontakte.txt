@@ -568,7 +568,7 @@ Cuenta
 [Errors]
 Errores
 [Notifications]
-
+Notificaciones
 [VK user activate/deactivate action]
 
 [User %s added as friend]

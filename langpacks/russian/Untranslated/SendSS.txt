@@ -14,5 +14,4 @@
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 [Edit on]
 [BBCode link]
-[Could not register Miranda service.]
 [Fill description textbox.]

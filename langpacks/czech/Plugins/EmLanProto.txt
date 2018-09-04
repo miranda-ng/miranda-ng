@@ -19,8 +19,8 @@ Vaše jméno
 [Select your name]
 Zvolit vaše jméno
 ;file \protocols\EmLanProto\src\amdproto.cpp
-[User name or '*']
-Jméno nebo '*'
+[User name, IP address or '*']
+Jméno, IP adresa nebo '*'
 [E-mage LAN protocol]
 E-mage LAN protokol
 [Network]

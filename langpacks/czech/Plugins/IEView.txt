@@ -84,17 +84,6 @@ Přijatý odkaz
  žádá o autorizaci
 [ was added.]
  byl přidán
-;file \plugins\IEView\src\IEView.cpp
-[IID_IOleObject failed.]
-Selhání IID_IOleObject.
-[RESULT]
-VÝSLEDEK
-[IID_IOleInPlaceObject failed.]
-Selhání IID_IOleInPlaceObject.
-[Failed to Advise]
-Selhání sdělení
-[C++ Event Sink]
-Potopení C++ události
 ;file \plugins\IEView\src\ieview_main.cpp
 [RTL On]
 

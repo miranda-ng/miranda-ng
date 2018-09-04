@@ -130,6 +130,10 @@ Nom
 [False]
 
 ;file \protocols\Sametime\src\utils.cpp
+[Notifications]
+Notifications
+[Errors]
+Erreurs
 [%s\n\nSametime error %S\n%s]
 
 ;file \protocols\Sametime\src\meanwhile\src\error.c

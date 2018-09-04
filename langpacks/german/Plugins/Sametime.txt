@@ -130,6 +130,10 @@ Ja
 [False]
 Nein
 ;file \protocols\Sametime\src\utils.cpp
+[Notifications]
+Benachrichtigung
+[Errors]
+Fehler
 [%s\n\nSametime error %S\n%s]
 %s\n\nSametime-Fehler %S\n%s
 ;file \protocols\Sametime\src\meanwhile\src\error.c

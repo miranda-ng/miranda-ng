@@ -974,7 +974,7 @@ Do
 Od
 [Both]
 Obydwa
-[errors]
+[Errors]
 Błędy
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]

@@ -110,18 +110,6 @@ Agent
 Zakończone
 [Speed]
 Prędkość
-[Selected link size is 0]
-Wybrany rozmiar linka to 0
-[Failed to get access to clipboard]
-Nie udało się uzyskać dostępu do schowka
-[Failed to get close the clipboard]
-Nie udało się zamknąć schowka
-[Failed to set clipboard data]
-Nie udało się ustawić danych schowka
-[ListView_GetItem failed]
-Błąd ListView_GetItem
-[No share selected]
-Nie wybrano udziału
 [Current IP Address: ]
 Aktualny adres IP:\s
 [Current Address: ]
@@ -144,20 +132,6 @@ HTTP udostępnij plik
 [Share removed]
 Usunięto udział
 ;file \plugins\HTTPServer\src\main.cpp
-[Failed to open or create log file]
-Błąd otwierania lub tworzenia pliku dziennika
-[Failed to move to the end of the log file]
-Nie udało się przejść do końca pliku loga
-[Failed to write some part of the log file]
-Nie udało się zapisać pewnej części pliku loga
-[Failed to open or create file ]
-Błąd otwierania lub tworzenia pliku\s
-[Failed to write xml header to file ]
-Nie udało się zapisać nagłówka XML do pliku\s
-[Failed to write xml data to file ]
-Nie udało się zapisać danych XML do pliku\s
-[Failed to write xml tail to file ]
-Nie udało się zapisać znaku XML do pliku\s
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 Nie udało się połączyć do portu %s\r\nPrawdopodobnie inny program lub usługa używa tego portu.
 [Disable HTTP server]

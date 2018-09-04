@@ -84,17 +84,6 @@ Otrzymany link
  poprosił(a) o autoryzację
 [ was added.]
  został dodany.
-;file \plugins\IEView\src\IEView.cpp
-[IID_IOleObject failed.]
-IID_IOleObject nie powiódł się.
-[RESULT]
-WYNIK
-[IID_IOleInPlaceObject failed.]
-IID_IOleInPlaceObject nie powiódł się.
-[Failed to Advise]
-Nie udało się doradzić
-[C++ Event Sink]
-Zamarcie zdarzenia C++
 ;file \plugins\IEView\src\ieview_main.cpp
 [RTL On]
 RTL wł.

@@ -130,6 +130,10 @@ ID и версия клиента
 [False]
 Ложь
 ;file \protocols\Sametime\src\utils.cpp
+[Notifications]
+Уведомления
+[Errors]
+Ошибки
 [%s\n\nSametime error %S\n%s]
 %s\n\nОшибка Sametime %S\n%s
 ;file \protocols\Sametime\src\meanwhile\src\error.c

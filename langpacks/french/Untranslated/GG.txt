@@ -50,7 +50,6 @@
 [List cannot be exported because of error:\n\t%s (Error: %d)]
 [Gadu-Gadu account chooser]
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
-[Notify]
 [Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 [Cannot remove old avatar file. ERROR: %d: %s\n%s]
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]

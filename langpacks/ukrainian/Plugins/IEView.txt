@@ -84,17 +84,6 @@
  запитав(ла) авторизацію
 [ was added.]
  додано до списку.
-;file \plugins\IEView\src\IEView.cpp
-[IID_IOleObject failed.]
-
-[RESULT]
-Результат
-[IID_IOleInPlaceObject failed.]
-
-[Failed to Advise]
-
-[C++ Event Sink]
-
 ;file \plugins\IEView\src\ieview_main.cpp
 [RTL On]
 

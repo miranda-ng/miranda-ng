@@ -130,6 +130,10 @@ ZAP
 [False]
 VYP
 ;file \protocols\Sametime\src\utils.cpp
+[Notifications]
+Upozornění
+[Errors]
+Chyby
 [%s\n\nSametime error %S\n%s]
 
 ;file \protocols\Sametime\src\meanwhile\src\error.c

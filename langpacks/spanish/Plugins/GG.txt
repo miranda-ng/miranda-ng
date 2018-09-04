@@ -394,10 +394,10 @@ Ignorar
 [Password was sent to your e-mail.]
 
 ;file \protocols\Gadu-Gadu\src\popups.cpp
-[Notify]
-Notificar
-[Error]
-Error
+[Notifications]
+Notificaciones
+[Errors]
+Errores
 ;file \protocols\Gadu-Gadu\src\services.cpp
 [Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 

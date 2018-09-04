@@ -130,6 +130,10 @@ Prawda
 [False]
 Fałsz
 ;file \protocols\Sametime\src\utils.cpp
+[Notifications]
+Powiadomienia
+[Errors]
+Błędy
 [%s\n\nSametime error %S\n%s]
 %s\n\nBłąd Sametime %S\n%s
 ;file \protocols\Sametime\src\meanwhile\src\error.c

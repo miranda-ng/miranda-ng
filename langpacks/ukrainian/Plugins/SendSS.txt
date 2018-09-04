@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.10.1
+;  Version: 0.9.0.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -208,8 +208,6 @@ HTTP-з'єднання SendSS
 Знімки екрану
 [Buttons]
 Кнопки
-[Could not register Miranda service.]
-Неможливо зареєструвати службу.
 [Take a screenshot]
 Зробити скріншот
 [Send screenshot]
@@ -221,9 +219,6 @@ HTTP-з'єднання SendSS
 ;file \plugins\SendScreenshotPlus\src\stdafx.h
 [SendScreenshot - Error]
 Помилка SendSS
-;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
-[Credits]
-Автори
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перетягніть приціл на потрібне вікно.
@@ -255,8 +250,6 @@ Upload Pie (30 хв)
 Upload Pie (1 дн)
 [Upload Pie (1w)]
 Upload Pie (1 тижд)
-[Information]
-Інформація
 [Fill description textbox.]
 Заповніть опис у текстовому полі.
 [Delete after send]

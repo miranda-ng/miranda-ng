@@ -179,7 +179,6 @@
 [for last 30 days]
 [for last 90 days]
 [for all time]
-[Notifications]
 [VK user activate/deactivate action]
 [User %s added as friend]
 [You cannot add yourself as friend]
