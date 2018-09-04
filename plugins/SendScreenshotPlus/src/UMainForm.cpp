@@ -158,9 +158,6 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 	case WM_TIMER:
 		wnd->second->wmTimer(wParam, lParam);
 		break;
-	case UM_CLOSING:
-		wnd->second->UMClosing(wParam, lParam);
-		break;
 	case UM_EVENT:
 		wnd->second->UMevent(wParam, lParam);
 		break;
@@ -334,13 +331,6 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 	/// init footer options
 	CheckDlgButton(m_hWnd, ID_chkOpenAgain, m_opt_chkOpenAgain ? BST_CHECKED : BST_UNCHECKED);
 
-	if (hCtrl = GetDlgItem(m_hWnd, ID_btnAbout)) {
-		SendDlgItemMessage(m_hWnd, ID_btnAbout, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Information"), MBBF_TCHAR);
-		HICON hIcon = GetIconBtn(ICO_BTN_HELP);
-		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(hCtrl, hIcon ? L"" : L"?");
-	}
-
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnExplore)) {
 		SendDlgItemMessage(m_hWnd, ID_btnExplore, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Folder"), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(ICO_BTN_FOLDER);
@@ -412,9 +402,6 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 			if (m_opt_tabCapture != 0) break;
 			m_hLastWin = nullptr;
 			SetTimer(m_hWnd, ID_imgTarget, BUTTON_POLLDELAY, nullptr);
-			break;
-		case ID_btnAbout:
-			TfrmMain::btnAboutClick();
 			break;
 		case ID_btnExplore:
 			TfrmMain::btnExploreClick();
@@ -654,22 +641,6 @@ void TfrmMain::wmNotify(WPARAM, LPARAM lParam)
 	}
 }
 
-//UM_CLOSING:
-void TfrmMain::UMClosing(WPARAM wParam, LPARAM lParam)
-{
-	HWND hWnd = (HWND)wParam;
-	switch (lParam) {
-	case IDD_UAboutForm:
-		btnAboutOnCloseWindow(hWnd);
-		break;
-	case IDD_UEditForm:
-		;
-		break;
-	default:
-		break;
-	}
-}
-
 //UM_EVENT:
 void TfrmMain::UMevent(WPARAM, LPARAM lParam)
 {
@@ -714,7 +685,6 @@ TfrmMain::TfrmMain()
 
 	m_hWnd = nullptr;
 	m_hContact = NULL;
-	m_bFormAbout = false;
 	m_hTargetWindow = m_hLastWin = nullptr;
 	m_hTargetHighlighter = nullptr;
 	m_FDestFolder = m_pszFile = nullptr;
@@ -893,7 +863,7 @@ void TfrmMain::cboxSendByChange(void *param)
 		m_cSend = new CSendHost_ImageShack(m_hWnd, m_hContact, true);
 		break;
 	case SS_UPLOADPIE:		//"Upload Pie"
-		m_cSend = new CSendHost_UploadPie(m_hWnd, m_hContact, true, (int)param);
+		m_cSend = new CSendHost_UploadPie(m_hWnd, m_hContact, true, (INT_PTR)param);
 		break;
 	case SS_IMGUR:
 		m_cSend = new CSendHost_Imgur(m_hWnd, m_hContact, true);
@@ -915,25 +885,6 @@ void TfrmMain::cboxSendByChange(void *param)
 	hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESCON : ICO_BTN_DESC);
 	SendDlgItemMessage(m_hWnd, ID_chkDesc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : nullptr));
 	Button_Enable(GetDlgItem(m_hWnd, ID_chkDesc), bState);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void TfrmMain::btnAboutClick()
-{
-	if (m_bFormAbout) return;
-
-	TfrmAbout *frmAbout = new TfrmAbout(m_hWnd);
-	frmAbout->Show();
-	m_bFormAbout = true;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Edit window call this event before it closes
-
-void TfrmMain::btnAboutOnCloseWindow(HWND)
-{
-	m_bFormAbout = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

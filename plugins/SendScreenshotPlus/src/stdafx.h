@@ -91,7 +91,6 @@ using namespace std;
 #include "CSendHost_imgur.h"
 #include "DevKey.h"
 #include "UMainForm.h"
-#include "UAboutForm.h"
 #include "Utils.h"
 
 #define UM_CLOSING	WM_USER+1

@@ -27,7 +27,6 @@
 #define IDD_MSGBOX                      110
 #define IDD_MSGBOXDUMMI                 111
 #define IDR_LICENSE                     120
-#define IDR_CREDIT                      121
 #define IDI_MAIN                        190
 #define IDI_TARGET                      191
 #define IDI_MONITOR                     192
@@ -89,7 +88,6 @@
 #define ID_chkTimed                     1708
 #define ID_chkOpenAgain                 1710
 #define IDC_HEADERBAR                   1734
-#define ID_btnAbout                     2001
 #define ID_btnExplore                   2002
 #define ID_chkDesc                      2003
 #define ID_chkDeleteAfterSend           2004

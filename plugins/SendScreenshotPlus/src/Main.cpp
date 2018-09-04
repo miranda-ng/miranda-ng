@@ -251,7 +251,6 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 
 int hook_SystemPreShutdown(WPARAM, LPARAM)
 {
-	TfrmAbout::Unload();//crashes if done from "Unload" because of dependencies
 	TfrmMain::Unload();// "
 	// Netlib unregister
 	Netlib_CloseHandle(g_hNetlibUser);

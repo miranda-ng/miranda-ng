@@ -94,7 +94,6 @@ public:
 private:
 	HWND		m_hWnd;
 	MCONTACT	m_hContact;
-	bool		m_bFormAbout;
 	HWND		m_hTargetWindow, m_hLastWin;
 	HWND		m_hTargetHighlighter;
 	wchar_t*		m_FDestFolder;
@@ -104,9 +103,6 @@ private:
 	CSend*		m_cSend;
 
 	void chkTimedClick();
-	void imgTargetMouseUp();
-	void btnAboutClick();
-	void btnAboutOnCloseWindow(HWND hWnd);
 	void btnExploreClick();
 	void LoadOptions(void);
 	void SaveOptions(void);
@@ -143,7 +139,6 @@ protected:
 	void wmTimer(WPARAM wParam, LPARAM lParam);
 
 	void UMevent(WPARAM wParam, LPARAM lParam);
-	void UMClosing(WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR CALLBACK DlgProc_CaptureTabPage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
