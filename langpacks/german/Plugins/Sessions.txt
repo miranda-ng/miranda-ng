@@ -38,7 +38,7 @@ Fragen
 Aktuelle Sitzung speichern
 [Save only last]
 Speichere nur die letzte
-[Sessions]
+[sessions]
 Sitzungen
 [Misc]
 Diverses
@@ -77,6 +77,8 @@ Abbrechen
 [Save your current session?]
 Aktuelle Sitzung speichern?
 ;file \plugins\Sessions\Src\Main.cpp
+[Sessions]
+Sitzungen
 [Favorite Session]
 Sitzungsfavorit
 [Not favorite Session]

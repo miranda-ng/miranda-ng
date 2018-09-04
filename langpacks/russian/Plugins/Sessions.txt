@@ -38,7 +38,7 @@
 Сохранять текущую сессию
 [Save only last]
 Сохр. последние
-[Sessions]
+[sessions]
 сессий
 [Misc]
 Прочее
@@ -77,6 +77,8 @@
 [Save your current session?]
 Сохранить текущую сессию?
 ;file \plugins\Sessions\Src\Main.cpp
+[Sessions]
+Сессии
 [Favorite Session]
 Избранная сессия
 [Not favorite Session]

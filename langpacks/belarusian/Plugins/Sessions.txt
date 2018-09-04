@@ -38,8 +38,8 @@
 Захоўваць бягучую сесію
 [Save only last]
 Захаваць толькі апошнюю
-[Sessions]
-Сесіі
+[sessions]
+сесіі
 [Misc]
 Іншае
 [Exclude hidden contacts from session on exit]
@@ -77,6 +77,8 @@
 [Save your current session?]
 Захаваць бягучую сесію?
 ;file \plugins\Sessions\Src\Main.cpp
+[Sessions]
+Сесіі
 [Favorite Session]
 Абраная сесія
 [Not favorite Session]

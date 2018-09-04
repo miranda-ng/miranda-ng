@@ -22,7 +22,7 @@
 [Ask]
 [Save Current Session]
 [Save only last]
-[Sessions]
+[sessions]
 [Misc]
 [Exclude hidden contacts from session on exit]
 [Warn, when some of LastSession contacts are hidden]
@@ -42,6 +42,7 @@
 [Cancel]
 [Save your current session?]
 ;file \plugins\Sessions\Src\Main.cpp
+[Sessions]
 [Favorite Session]
 [Not favorite Session]
 [Load Session]

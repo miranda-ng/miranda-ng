@@ -38,8 +38,8 @@ Pytaj
 Zapisz aktualną sesję
 [Save only last]
 Zapisz tylko ostatnią
-[Sessions]
-Sesje
+[sessions]
+sesje
 [Misc]
 Inne
 [Exclude hidden contacts from session on exit]
@@ -77,6 +77,8 @@ Anuluj
 [Save your current session?]
 Zapisać obecną sesję?
 ;file \plugins\Sessions\Src\Main.cpp
+[Sessions]
+Sesje
 [Favorite Session]
 Ulubione sesje
 [Not favorite Session]

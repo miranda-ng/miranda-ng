@@ -38,7 +38,7 @@ ms
 
 [Save only last]
 
-[Sessions]
+[sessions]
 
 [Misc]
 Разни
@@ -77,6 +77,8 @@ ms
 [Save your current session?]
 
 ;file \plugins\Sessions\Src\Main.cpp
+[Sessions]
+
 [Favorite Session]
 
 [Not favorite Session]

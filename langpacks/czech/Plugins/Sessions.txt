@@ -38,8 +38,8 @@ Zeptat se
 Uložit aktuální relaci
 [Save only last]
 Uložit pouze poslední
-[Sessions]
-Relace
+[sessions]
+relace
 [Misc]
 Různé
 [Exclude hidden contacts from session on exit]
@@ -77,6 +77,8 @@ Zrušit
 [Save your current session?]
 Uložit vaši aktuální relaci?
 ;file \plugins\Sessions\Src\Main.cpp
+[Sessions]
+Relace
 [Favorite Session]
 Oblíbená relace
 [Not favorite Session]
