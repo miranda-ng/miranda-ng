@@ -512,6 +512,9 @@ void Meta_GetSubNick(MCONTACT hMeta, int i, CMStringW &tszDest)
 	case DBVT_ASCIIZ:
 		tszDest = dbv.pszVal;
 		break;
+	case DBVT_WCHAR:
+		tszDest = dbv.pwszVal;
+		break;
 	case DBVT_BYTE:
 		tszDest.Format(L"%d", dbv.bVal);
 		break;
