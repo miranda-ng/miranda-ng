@@ -256,7 +256,8 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 
 void CSteamProto::ContactIsFriend(MCONTACT hContact)
 {
-	debugLogA("Contact %d added to a friends list");
+	debugLogA("Contact %d added to a friends list", hContact);
+
 	delSetting(hContact, "AuthAsked");
 	delSetting(hContact, "Auth");
 	delSetting(hContact, "Grant");
