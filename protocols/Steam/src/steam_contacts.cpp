@@ -256,6 +256,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 
 void CSteamProto::ContactIsFriend(MCONTACT hContact)
 {
+	debugLogA("Contact %d added to a friends list");
 	delSetting(hContact, "AuthAsked");
 	delSetting(hContact, "Auth");
 	delSetting(hContact, "Grant");
@@ -265,10 +266,8 @@ void CSteamProto::ContactIsFriend(MCONTACT hContact)
 	if (getDword(hContact, "DeletedTS", 0) && !getByte(hContact, "Auth", 0)) {
 		delSetting(hContact, "DeletedTS");
 
-		ptrW nick(getWStringA(hContact, "Nick"));
 		wchar_t message[MAX_PATH];
-		mir_snwprintf(message, MAX_PATH, TranslateT("%s is back in your contact list"), nick);
-
+		mir_snwprintf(message, MAX_PATH, TranslateT("%s is back in your contact list"), Clist_GetContactDisplayName(hContact));
 		ShowNotification(message);
 	}
 }
@@ -364,8 +363,10 @@ MCONTACT CSteamProto::AddContact(const char *steamId, const wchar_t *nick, bool 
 	// update info
 	//UpdateContact(hContact, contact);
 
-	if (isTemporary)
+	if (isTemporary) {
+		debugLogA("Contact %d added as a temporary one");
 		db_set_b(hContact, "CList", "NotOnList", 1);
+	}
 
 	setByte(hContact, "Auth", 1);
 	//setByte(hContact, "Grant", 1);
