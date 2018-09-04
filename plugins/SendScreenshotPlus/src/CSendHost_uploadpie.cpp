@@ -89,7 +89,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 			} while (url);
 			
 			if (url) {
-				mir_free(self->m_URL), self->m_URL = mir_strdup(url);
+				self->m_URL = url;
 				Netlib_FreeHttpRequest(reply);
 				self->svcSendMsgExit(url); return;
 			}

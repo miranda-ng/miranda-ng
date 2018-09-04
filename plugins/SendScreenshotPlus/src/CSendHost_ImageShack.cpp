@@ -83,18 +83,13 @@ void CSendHost_ImageShack::SendThread()
 			const char* url = nullptr;
 			url = GetHTMLContent(reply->pData, "<image_link>", "</image_link>");
 			if (url && *url) {
-				mir_free(m_URL), m_URL = mir_strdup(url);
-				mir_free(m_URLthumb), m_URLthumb = mir_strdup(m_URL);
-				size_t extlen;
-				char* pos = strrchr(m_URLthumb, '.');
-				if (pos && (extlen = mir_strlen(pos))>2) {
-					char* tmp = mir_strdup(pos);
-					memcpy(pos, ".th", 3);
-					memcpy(pos + 3, tmp, extlen - 3);
-					mir_stradd(m_URLthumb, tmp + extlen - 3);
-					mir_free(tmp);
-				}
-				else mir_freeAndNil(m_URLthumb);
+				m_URLthumb = m_URL = url;
+
+				int idx = m_URLthumb.ReverseFind('.');
+				if (idx != -1 && m_URLthumb.GetLength() - idx > 2)
+					m_URLthumb.Insert(idx + 1, "th");
+				else 
+					m_URLthumb.Empty();
 
 				Netlib_FreeHttpRequest(reply);
 				svcSendMsgExit(url); return;

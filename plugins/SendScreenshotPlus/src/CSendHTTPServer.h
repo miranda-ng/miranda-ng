@@ -39,8 +39,8 @@ public:
 	int Send() override;
 
 protected:
-	char*  m_pszFileName;
-	char* m_fsi_pszSrvPath;
+	char* m_pszFileName;
+	CMStringA m_fsi_pszSrvPath;
 	char* m_fsi_pszRealPath;
 
 	STFileShareInfo m_fsi;

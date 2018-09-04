@@ -50,87 +50,91 @@ const wchar_t SS_ERR_NORESPONSE[]		=LPGENW("Got no response from %s (%i)");
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CSend {
-	public:
-		CSend(HWND Owner, MCONTACT hContact, bool bAsync, bool bSilent=false); // oder (TfrmMain & Owner)
-		virtual ~CSend();
+class CSend
+{
+public:
+	CSend(HWND Owner, MCONTACT hContact, bool bAsync, bool bSilent=false); // oder (TfrmMain & Owner)
+	virtual ~CSend();
 
-		virtual int Send() = 0; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
-		int SendSilent() {m_bAsync=m_bSilent=true; return Send();};
+	virtual int Send() = 0; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
+	int         SendSilent() { m_bAsync = m_bSilent = true; return Send(); }
 		
-		void SetFile(const wchar_t* file) { replaceStrW(m_pszFile, file); }
-		void SetFile(const char* file) { mir_free(m_pszFile), m_pszFile=mir_a2u(file); }
-		void SetDescription(const wchar_t* descr){ replaceStrW(m_pszFileDesc, descr); }
-		void SetContact(MCONTACT hContact);
-		char* GetURL(){return m_URL;};
-		char* GetURLthumbnail(){return m_URLthumb;};
-		BYTE GetEnableItem() {return m_EnableItem;};
-		wchar_t* GetErrorMsg() {return m_ErrorMsg;};
+	void        SetFile(const wchar_t* file) { replaceStrW(m_pszFile, file); }
+	void        SetFile(const char* file) { mir_free(m_pszFile), m_pszFile=mir_a2u(file); }
+	void        SetDescription(const wchar_t* descr){ replaceStrW(m_pszFileDesc, descr); }
+	void        SetContact(MCONTACT hContact);
+	const char* GetURL() { return m_URL; }
+	const char* GetURLthumbnail() {return m_URLthumb; }
+	BYTE        GetEnableItem() {return m_EnableItem;};
+	wchar_t*    GetErrorMsg() {return m_ErrorMsg;};
 
-		bool			m_bDeleteAfterSend;
-	protected:
-		bool			m_bAsync;
-		bool			m_bSilent;
-		wchar_t*			m_pszFile;
-		wchar_t*			m_pszFileDesc;
-		char*			m_URL;
-		char*			m_URLthumb;
-		static int OnSend(void *obj, WPARAM wParam, LPARAM lParam);
-		wchar_t*			m_pszSendTyp;		//hold string for error mess
-		char*			m_pszProto;			//Contact Proto Modul
-		MCONTACT		m_hContact;			//Contact handle
-		BYTE			m_EnableItem;		//hold flag for send type
-		BYTE			m_ChatRoom;			//is Contact chatroom
+	bool        m_bDeleteAfterSend;
 
-		bool hasCap(unsigned int Flag);
-//		unsigned int	m_PFflag;
+protected:
+	bool        m_bAsync;
+	bool        m_bSilent;
+	wchar_t*    m_pszFile;
+	wchar_t*    m_pszFileDesc;
+	CMStringA   m_URL;
+	CMStringA   m_URLthumb;
+	static int  OnSend(void *obj, WPARAM wParam, LPARAM lParam);
+	wchar_t*    m_pszSendTyp;      //hold string for error mess
+	char*       m_pszProto;         //Contact Proto Modul
+	MCONTACT    m_hContact;         //Contact handle
+	BYTE        m_EnableItem;      //hold flag for send type
+	BYTE        m_ChatRoom;         //is Contact chatroom
+				   
+	void        Error(LPCTSTR pszFormat, ...);
+	void        svcSendFileExit();
+	void        svcSendMsgExit(const char* szMessage);
+	void        Exit(unsigned int Result);
+				   
+	DWORD       m_cbEventMsg;                  //sizeof EventMsg(T) buffer
+	CMStringA   m_szEventMsg;                  //EventMsg char*
+	HANDLE      m_hSend;                     //protocol send handle
+	HANDLE      m_hOnSend;                     //HookEventObj on ME_PROTO_ACK
+				   
+	MSGBOX      m_box;
+	wchar_t*    m_ErrorMsg;
+	wchar_t*    m_ErrorTitle;
+      
+	void Unhook(){if(m_hOnSend) {UnhookEvent(m_hOnSend);m_hOnSend = nullptr;}}
+	void DB_EventAdd(WORD EventType);
+      
+	static INT_PTR CALLBACK ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
+      
+	/// HTTP upload helper stuff
+	enum HTTPFormFlags
+	{
+		HTTPFF_HEADER = 0x80,
+		HTTPFF_TEXT   = 0x00,
+		HTTPFF_8BIT   = 0x01,
+		HTTPFF_FILE   = 0x02,
+		HTTPFF_INT    = 0x04,
+	};
+	
+	#define HTTPFORM_HEADER(str) str,HTTPFF_HEADER
+	#define HTTPFORM_TEXT(str) str,HTTPFF_TEXT
+	#define HTTPFORM_8BIT(str) str,HTTPFF_8BIT
+	#define HTTPFORM_FILE(str) str,HTTPFF_FILE
+	#define HTTPFORM_INT(int) (const char*)(int),HTTPFF_INT
 
-		void Error(LPCTSTR pszFormat, ...);
-		void svcSendFileExit();
-		void svcSendMsgExit(const char* szMessage);
-		void Exit(unsigned int Result);
-
-		DWORD			m_cbEventMsg;						//sizeof EventMsg(T) buffer
-		char*			m_szEventMsg;						//EventMsg char*
-		HANDLE			m_hSend;							//protocol send handle
-		HANDLE			m_hOnSend;							//HookEventObj on ME_PROTO_ACK
-
-		MSGBOX			m_box;
-		wchar_t*			m_ErrorMsg;
-		wchar_t*			m_ErrorTitle;
-		
-		void Unhook(){if(m_hOnSend) {UnhookEvent(m_hOnSend);m_hOnSend = nullptr;}}
-		void DB_EventAdd(WORD EventType);
-		
-		static INT_PTR CALLBACK ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
-		
-		/// HTTP upload helper stuff
-		enum HTTPFormFlags{
-			HTTPFF_HEADER=0x80,
-			HTTPFF_TEXT	=0x00,
-			HTTPFF_8BIT	=0x01,
-			HTTPFF_FILE	=0x02,
-			HTTPFF_INT	=0x04,
+	struct HTTPFormData
+	{
+		const char *name;
+		union{
+			const char* value_str;
+			intptr_t value_int;
 		};
-		#define HTTPFORM_HEADER(str) str,HTTPFF_HEADER
-		#define HTTPFORM_TEXT(str) str,HTTPFF_TEXT
-		#define HTTPFORM_8BIT(str) str,HTTPFF_8BIT
-		#define HTTPFORM_FILE(str) str,HTTPFF_FILE
-		#define HTTPFORM_INT(int) (const char*)(int),HTTPFF_INT
-		struct HTTPFormData{
-			const char* name;
-			union{
-				const char* value_str;
-				intptr_t value_int;
-			};
-			int flags;
-		};
-		static const char* GetHTMLContent(char* str, const char* startTag, const char* endTag); /// changes "str", can be successfully used only once
-		static int GetJSONString(const char* json, size_t jsonlen, const char* variable, char* value, size_t valuesize);
-		static int GetJSONInteger(const char* json, size_t jsonlen, const char* variable,int defvalue);
-		static bool GetJSONBool(const char* json, size_t jsonlen, const char* variable);
-		void HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr); /// use to free data inside "nlhr" created by HTTPFormCreate
-		int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum); /// returns "0" on success, Exit() will be called on failure (stop processing)
+		int flags;
+	};
+
+	static const char* GetHTMLContent(char* str, const char* startTag, const char* endTag); /// changes "str", can be successfully used only once
+	static int GetJSONString(const char* json, size_t jsonlen, const char* variable, char* value, size_t valuesize);
+	static int GetJSONInteger(const char* json, size_t jsonlen, const char* variable,int defvalue);
+	static bool GetJSONBool(const char* json, size_t jsonlen, const char* variable);
+	void HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr); /// use to free data inside "nlhr" created by HTTPFormCreate
+	int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum); /// returns "0" on success, Exit() will be called on failure (stop processing)
 };
 
 #endif

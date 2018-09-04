@@ -37,8 +37,6 @@ CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 	m_bSilent(bSilent),
 	m_pszFile(nullptr),
 	m_pszFileDesc(nullptr),
-	m_URL(nullptr),
-	m_URLthumb(nullptr),
 	m_pszSendTyp(nullptr),
 	m_pszProto(nullptr),
 	//	m_hContact(hContact), // initialized below
@@ -46,7 +44,6 @@ CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 	m_ChatRoom(0),
 	//	m_PFflag(0),
 	m_cbEventMsg(0),
-	m_szEventMsg(nullptr),
 	m_hSend(nullptr),
 	m_hOnSend(nullptr),
 	m_ErrorMsg(nullptr),
@@ -59,9 +56,6 @@ CSend::~CSend()
 {
 	mir_free(m_pszFile);
 	mir_free(m_pszFileDesc);
-	mir_free(m_URL);
-	mir_free(m_URLthumb);
-	mir_free(m_szEventMsg);
 	mir_free(m_ErrorMsg);
 	mir_free(m_ErrorTitle);
 	if (m_hOnSend) UnhookEvent(m_hOnSend);
@@ -75,10 +69,6 @@ void CSend::SetContact(MCONTACT hContact)
 	if (hContact) {
 		m_pszProto = GetContactProto(hContact);
 		m_ChatRoom = db_get_b(hContact, m_pszProto, "ChatRoom", 0);
-		/*
-		m_PFflag = hasCap(PF1_URLSEND);
-		m_PFflag = hasCap(PF1_CHAT);
-		m_PFflag = hasCap(PF1_IMSEND);// */
 	}
 }
 
@@ -236,17 +226,11 @@ void CSend::svcSendMsgExit(const char* szMessage)
 		Exit(res); return;
 	}
 	else {
-		mir_freeAndNil(m_szEventMsg);
-		m_cbEventMsg = (DWORD)mir_strlen(szMessage) + 1;
-		m_szEventMsg = (char*)mir_realloc(m_szEventMsg, (sizeof(char) * m_cbEventMsg));
-		memset(m_szEventMsg, 0, (sizeof(char) * m_cbEventMsg));
-		mir_strcpy(m_szEventMsg, szMessage);
+		m_szEventMsg = szMessage;
 		if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
-			char *temp = mir_u2a(m_pszFileDesc);
-			mir_stradd(m_szEventMsg, "\r\n");
-			mir_stradd(m_szEventMsg, temp);
-			m_cbEventMsg = (DWORD)mir_strlen(m_szEventMsg) + 1;
-			mir_free(temp);
+			m_szEventMsg.Append("\r\n");
+			m_szEventMsg.Append(_T2A(m_pszFileDesc));
+			m_cbEventMsg = m_szEventMsg.GetLength() + 1;
 		}
 		//create a HookEventObj on ME_PROTO_ACK
 		if (!m_hOnSend) {
@@ -275,21 +259,15 @@ void CSend::svcSendFileExit()
 		Error(LPGENW("%s requires a valid contact!"), m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
 	}
-	mir_freeAndNil(m_szEventMsg);
-	char* szFile = mir_u2a(m_pszFile);
-	m_cbEventMsg = (DWORD)mir_strlen(szFile) + 2;
-	m_szEventMsg = (char*)mir_realloc(m_szEventMsg, (sizeof(char) * m_cbEventMsg));
-	memset(m_szEventMsg, 0, (sizeof(char) * m_cbEventMsg));
-	mir_strcpy(m_szEventMsg, szFile);
+	
+	m_szEventMsg = _T2A(m_pszFile);
+
 	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
-		char* temp = mir_u2a(m_pszFileDesc);
-		m_cbEventMsg += (DWORD)mir_strlen(temp);
-		m_szEventMsg = (char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
-		mir_strcpy(m_szEventMsg + mir_strlen(szFile) + 1, temp);
-		m_szEventMsg[m_cbEventMsg - 1] = 0;
-		mir_free(temp);
+		m_szEventMsg.AppendChar(0);
+		m_szEventMsg.Append(_T2A(m_pszFileDesc));
 	}
-	mir_free(szFile);
+	
+	m_cbEventMsg = m_szEventMsg.GetLength() + 1;
 
 	//create a HookEventObj on ME_PROTO_ACK
 	if (!m_hOnSend) {
@@ -319,12 +297,8 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 {
 	CSend* self = (CSend*)obj;
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack->hProcess != self->m_hSend) return 0;
-	/*	if(dat->waitingForAcceptance) {
-			SetTimer(hwndDlg,1,1000,NULL);
-			dat->waitingForAcceptance=0;
-			}
-			*/
+	if (ack->hProcess != self->m_hSend)
+		return 0;
 
 	switch (ack->result) {
 	case ACKRESULT_INITIALISING:	//SetFtStatus(hwndDlg, LPGENW("Initialising..."), FTS_TEXT); break;
@@ -360,8 +334,7 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 			self->DB_EventAdd((WORD)EVENTTYPE_URL);
 			break;
 		case ACKTYPE_FILE:
-			self->m_szEventMsg = (char*)mir_realloc(self->m_szEventMsg, sizeof(DWORD) + self->m_cbEventMsg);
-			memmove(self->m_szEventMsg + sizeof(DWORD), self->m_szEventMsg, self->m_cbEventMsg);
+			self->m_szEventMsg.Insert(0, "aaaa");
 			self->m_cbEventMsg += sizeof(DWORD);
 			self->DB_EventAdd((WORD)EVENTTYPE_FILE);
 			break;
@@ -381,7 +354,7 @@ void CSend::DB_EventAdd(WORD EventType)
 	dbei.timestamp = time(0);
 	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob = m_cbEventMsg;
-	dbei.pBlob = (PBYTE)m_szEventMsg;
+	dbei.pBlob = (PBYTE)m_szEventMsg.GetString();
 	db_event_add(m_hContact, &dbei);
 }
 
