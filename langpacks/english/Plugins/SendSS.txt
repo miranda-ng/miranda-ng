@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.10.1
+;  Version: 0.9.0.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -113,15 +113,12 @@
 [SendSS]
 [Screenshots]
 [Buttons]
-[Could not register Miranda service.]
 [Take a screenshot]
 [Send screenshot]
 [Send desktop screenshot]
 [Open SendSS+]
 ;file \plugins\SendScreenshotPlus\src\stdafx.h
 [SendScreenshot - Error]
-;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
-[Credits]
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 [Send screenshot to %s]
@@ -138,7 +135,6 @@
 [Upload Pie (30m)]
 [Upload Pie (1d)]
 [Upload Pie (1w)]
-[Information]
 [Fill description textbox.]
 [Delete after send]
 [Capture]

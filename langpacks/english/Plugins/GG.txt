@@ -207,8 +207,8 @@
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 [Password was sent to your e-mail.]
 ;file \protocols\Gadu-Gadu\src\popups.cpp
-[Notify]
-[Error]
+[Notifications]
+[Errors]
 ;file \protocols\Gadu-Gadu\src\services.cpp
 [Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 [Cannot remove old avatar file. ERROR: %d: %s\n%s]
