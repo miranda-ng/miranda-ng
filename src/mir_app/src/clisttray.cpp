@@ -555,9 +555,10 @@ MIR_APP_DLL(void) Clist_TrayIconIconsChanged()
 {
 	initcheck;
 	mir_cslock lck(trayLockCS);
-
-	Clist_TrayIconDestroy(g_clistApi.hwndContactList);
-	g_clistApi.pfnTrayIconInit(g_clistApi.hwndContactList);
+	if (g_clistApi.hwndContactList != nullptr) {
+		Clist_TrayIconDestroy(g_clistApi.hwndContactList);
+		g_clistApi.pfnTrayIconInit(g_clistApi.hwndContactList);
+	}
 }
 
 static UINT_PTR autoHideTimerId;
