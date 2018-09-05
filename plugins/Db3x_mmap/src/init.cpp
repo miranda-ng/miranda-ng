@@ -93,13 +93,15 @@ static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 		CMStringW wszBackupName(profile);
 		wszBackupName.Append(L".bak");
 		if (!MoveFileW(profile, wszBackupName)) {
-			Netlib_LogfW(nullptr, L"Cannot move old profile '%s' to '%s': error %d", profile, wszBackupName.c_str(), GetLastError());
+			DWORD dwError = GetLastError();
+			CMStringW wszError(FORMAT, TranslateT("Cannot move old profile '%s' to '%s': error %d"), profile, wszBackupName.c_str(), dwError);
+			MessageBoxW(nullptr, wszError, L"Miranda NG", MB_ICONERROR | MB_OK);
 			return nullptr;
 		}
 
 		if ((errorCode = pLink->makeDatabase(profile)) != 0) {
-			Netlib_LogfW(nullptr, L"Database creation '%s' failed with error code %d", profile, errorCode);
-LBL_Error: 
+			MessageBoxW(nullptr, CMStringW(FORMAT, TranslateT("Attempt to create database '%s' failed with error code %d"), profile, errorCode), L"Miranda NG", MB_ICONERROR | MB_OK);
+LBL_Error:
 			DeleteFileW(profile);
 			MoveFileW(wszBackupName, profile);
 			return nullptr;
