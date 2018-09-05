@@ -66,6 +66,10 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Для открытия этой базы требуется плагин dbx_mdbx. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
 [To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
 Для открытия этой базы требуется плагин Import. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
+[Cannot move old profile '%s' to '%s': error %d]
+Не удалось переместить старый профиль '%s'в '%s': ошибка %d
+[Attempt to create database '%s' failed with error code %d]
+Неудачная попытка создать базу '%s', код ошибки: %d
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Логотип
