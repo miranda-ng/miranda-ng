@@ -12,4 +12,5 @@ set Errors=..\z_Errors64.txt
 set NoErrors=..\z_No_Errors64.txt
 set CompressIt=%SourceDir%\tools\7-zip\7z.exe
 set ZipIt=%SourceDir%\tools\7-zip\7z.exe a -r -tzip
+set ISCC="%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe"
 set WinSCP=%SourceDir%\tools\WinSCP\WinSCP.com
