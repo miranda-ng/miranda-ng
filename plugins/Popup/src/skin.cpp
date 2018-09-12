@@ -331,14 +331,20 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 
 		case ST_CLOCK:
 			if (head && head->myBmp) {
-				szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
-				szNew.cy = head->myBmp->getHeight();
-				for (wchar_t *p = wnd->getTime(); *p; p++) {
-					if (*p == ':')
-						szNew.cx += head->clocksize[CLOCK_SEPARATOR];
-					else if ((*p >= '0') && (*p <= '9'))
-						szNew.cx += head->clocksize[CLOCK_DIGITS + *p - '0'];
+				wchar_t *p = wnd->getTime();
+				if (*p != 0) {
+					szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
+					szNew.cy = head->myBmp->getHeight();
+					while (*p) {
+						if (*p == ':')
+							szNew.cx += head->clocksize[CLOCK_SEPARATOR];
+						else if ((*p >= '0') && (*p <= '9'))
+							szNew.cx += head->clocksize[CLOCK_DIGITS + *p - '0'];
+						p++;
+					}
 				}
+				else szNew.cx = szNew.cy = 0;
+
 				wnd->getArgs()->add("clock.width", szNew.cx);
 				wnd->getArgs()->add("clock.height", szNew.cy);
 			}
