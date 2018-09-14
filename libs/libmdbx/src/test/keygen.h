@@ -44,7 +44,7 @@ namespace keygen {
  *  - абсолютное значение ключей или разность между отдельными значениями;
  *
  * Соответственно, в общих чертах, схема генерации следующая:
- *  - вводится плоская одномерная "координата" uint64_t;
+ *  - вводится плоская одномерная "координата" serial (uint64_t);
  *  - генерация специфических паттернов (последовательностей)
  *    реализуется посредством соответствующих преобразований "координат", при
  *    этом все подобные преобразования выполняются только над "координатой";
@@ -74,7 +74,7 @@ typedef uint64_t serial_t;
 enum : serial_t {
   serial_minwith = 8,
   serial_maxwith = sizeof(serial_t) * 8,
-  serial_allones = ~(serial_t)0
+  serial_allones = ~(serial_t)0u
 };
 
 struct result {
@@ -85,6 +85,10 @@ struct result {
     uint32_t u32;
     uint64_t u64;
   };
+
+  std::string as_string() const {
+    return std::string((const char *)value.iov_base, value.iov_len);
+  }
 };
 
 //-----------------------------------------------------------------------------
@@ -119,7 +123,5 @@ public:
 
   bool increment(serial_t &serial, int delta);
 };
-
-size_t length(serial_t serial);
 
 } /* namespace keygen */

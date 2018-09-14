@@ -120,6 +120,12 @@
 /* *INDENT-ON* */
 /* clang-format on */
 
+#if UINTPTR_MAX > 0xffffFFFFul || ULONG_MAX > 0xffffFFFFul
+#define MDBX_WORDBITS 64
+#else
+#define MDBX_WORDBITS 32
+#endif /* MDBX_WORDBITS */
+
 /*----------------------------------------------------------------------------*/
 /* Basic constants and types */
 
@@ -163,7 +169,7 @@
  * size up to 2^44 bytes, in case of 4K pages. */
 typedef uint32_t pgno_t;
 #define PRIaPGNO PRIu32
-#define MAX_PAGENO ((pgno_t)UINT64_C(0xffffFFFFffff))
+#define MAX_PAGENO UINT32_C(0x7FFFffff)
 #define MIN_PAGENO NUM_METAS
 
 /* A transaction ID. */
@@ -392,11 +398,13 @@ typedef struct MDBX_page {
 #else
 #define MAX_MAPSIZE32 UINT32_C(0x7ff80000)
 #endif
-#define MAX_MAPSIZE64                                                          \
-  ((sizeof(pgno_t) > 4) ? UINT64_C(0x7fffFFFFfff80000)                         \
-                        : MAX_PAGENO * (uint64_t)MAX_PAGESIZE)
+#define MAX_MAPSIZE64 (MAX_PAGENO * (uint64_t)MAX_PAGESIZE)
 
-#define MAX_MAPSIZE ((sizeof(size_t) < 8) ? MAX_MAPSIZE32 : MAX_MAPSIZE64)
+#if MDBX_WORDBITS >= 64
+#define MAX_MAPSIZE MAX_MAPSIZE64
+#else
+#define MAX_MAPSIZE MAX_MAPSIZE32
+#endif /* MDBX_WORDBITS */
 
 /* The header for the reader table (a memory-mapped lock file). */
 typedef struct MDBX_lockinfo {
@@ -473,6 +481,10 @@ typedef struct MDBX_lockinfo {
 #define MDBX_LOCK_MAGIC ((MDBX_MAGIC << 8) + MDBX_LOCK_VERSION)
 #define MDBX_LOCK_DEBUG ((MDBX_MAGIC << 8) + 255)
 
+#ifndef MDBX_ASSUME_MALLOC_OVERHEAD
+#define MDBX_ASSUME_MALLOC_OVERHEAD (sizeof(void *) * 2u)
+#endif /* MDBX_ASSUME_MALLOC_OVERHEAD */
+
 /*----------------------------------------------------------------------------*/
 /* Two kind lists of pages (aka PNL) */
 
@@ -494,35 +506,46 @@ typedef pgno_t *MDBX_PNL;
 /* List of txnid, only for MDBX_env.mt_lifo_reclaimed */
 typedef txnid_t *MDBX_TXL;
 
-/* An ID2 is an ID/pointer pair. */
-typedef struct MDBX_ID2 {
-  pgno_t mid; /* The ID */
-  void *mptr; /* The pointer */
-} MDBX_ID2;
+/* An Dirty-Page list item is an pgno/pointer pair. */
+typedef union MDBX_DP {
+  struct {
+    pgno_t pgno;
+    void *ptr;
+  };
+  struct {
+    pgno_t unused;
+    unsigned length;
+  };
+} MDBX_DP;
 
-/* An ID2L is an ID2 List, a sorted array of ID2s.
- * The first element's mid member is a count of how many actual
- * elements are in the array. The mptr member of the first element is
- * unused. The array is sorted in ascending order by mid. */
-typedef MDBX_ID2 *MDBX_ID2L;
+/* An DPL (dirty-page list) is a sorted array of MDBX_DPs.
+ * The first element's length member is a count of how many actual
+ * elements are in the array. */
+typedef MDBX_DP *MDBX_DPL;
 
-/* PNL sizes - likely should be even bigger
- * limiting factors: sizeof(pgno_t), thread stack size */
-#define MDBX_PNL_LOGN 16 /* DB_SIZE is 2^16, UM_SIZE is 2^17 */
-#define MDBX_PNL_DB_SIZE (1 << MDBX_PNL_LOGN)
-#define MDBX_PNL_UM_SIZE (1 << (MDBX_PNL_LOGN + 1))
+/* PNL sizes - likely should be even bigger */
+#define MDBX_PNL_GRANULATE 1024
+#define MDBX_PNL_INITIAL                                                       \
+  (MDBX_PNL_GRANULATE - 2 - MDBX_ASSUME_MALLOC_OVERHEAD / sizeof(pgno_t))
+#define MDBX_PNL_MAX                                                           \
+  ((1u << 24) - 2 - MDBX_ASSUME_MALLOC_OVERHEAD / sizeof(pgno_t))
+#define MDBX_DPL_TXNFULL (MDBX_PNL_MAX / 4)
 
-#define MDBX_PNL_DB_MAX (MDBX_PNL_DB_SIZE - 1)
-#define MDBX_PNL_UM_MAX (MDBX_PNL_UM_SIZE - 1)
+#define MDBX_TXL_GRANULATE 32
+#define MDBX_TXL_INITIAL                                                       \
+  (MDBX_TXL_GRANULATE - 2 - MDBX_ASSUME_MALLOC_OVERHEAD / sizeof(txnid_t))
+#define MDBX_TXL_MAX                                                           \
+  ((1u << 17) - 2 - MDBX_ASSUME_MALLOC_OVERHEAD / sizeof(txnid_t))
 
-#define MDBX_PNL_SIZEOF(pl) (((pl)[0] + 1) * sizeof(pgno_t))
-#define MDBX_PNL_IS_ZERO(pl) ((pl)[0] == 0)
-#define MDBX_PNL_CPY(dst, src) (memcpy(dst, src, MDBX_PNL_SIZEOF(src)))
-#define MDBX_PNL_FIRST(pl) ((pl)[1])
-#define MDBX_PNL_LAST(pl) ((pl)[(pl)[0]])
-
-/* Current max length of an mdbx_pnl_alloc()ed PNL */
 #define MDBX_PNL_ALLOCLEN(pl) ((pl)[-1])
+#define MDBX_PNL_SIZE(pl) ((pl)[0])
+#define MDBX_PNL_FIRST(pl) ((pl)[1])
+#define MDBX_PNL_LAST(pl) ((pl)[MDBX_PNL_SIZE(pl)])
+#define MDBX_PNL_BEGIN(pl) (&(pl)[1])
+#define MDBX_PNL_END(pl) (&(pl)[MDBX_PNL_SIZE(pl) + 1])
+
+#define MDBX_PNL_SIZEOF(pl) ((MDBX_PNL_SIZE(pl) + 1) * sizeof(pgno_t))
+#define MDBX_PNL_IS_EMPTY(pl) (MDBX_PNL_SIZE(pl) == 0)
 
 /*----------------------------------------------------------------------------*/
 /* Internal structures */
@@ -566,7 +589,7 @@ struct MDBX_txn {
   MDBX_PNL mt_spill_pages;
   union {
     /* For write txns: Modified pages. Sorted when not MDBX_WRITEMAP. */
-    MDBX_ID2L mt_rw_dirtylist;
+    MDBX_DPL mt_rw_dirtylist;
     /* For read txns: This thread/txn's reader table slot, or NULL. */
     MDBX_reader *mt_ro_reader;
   };
@@ -664,8 +687,9 @@ struct MDBX_cursor {
 #define C_EOF 0x02                /* No more data */
 #define C_SUB 0x04                /* Cursor is a sub-cursor */
 #define C_DEL 0x08                /* last op was a cursor_del */
-#define C_UNTRACK 0x40            /* Un-track cursor when closing */
-#define C_RECLAIMING 0x80         /* FreeDB lookup is prohibited */
+#define C_UNTRACK 0x10            /* Un-track cursor when closing */
+#define C_RECLAIMING 0x20         /* FreeDB lookup is prohibited */
+#define C_GCFREEZE 0x40           /* me_reclaimed_pglist must not be updated */
   unsigned mc_flags;              /* see mdbx_cursor */
   MDBX_page *mc_pg[CURSOR_STACK]; /* stack of pushed pages */
   indx_t mc_ki[CURSOR_STACK];     /* stack of page indices */
@@ -685,6 +709,11 @@ typedef struct MDBX_xcursor {
   /* The mt_dbflag for this Dup DB */
   uint8_t mx_dbflag;
 } MDBX_xcursor;
+
+typedef struct MDBX_cursor_couple {
+  MDBX_cursor outer;
+  MDBX_xcursor inner;
+} MDBX_cursor_couple;
 
 /* Check if there is an inited xcursor, so XCURSOR_REFRESH() is proper */
 #define XCURSOR_INITED(mc)                                                     \
@@ -757,10 +786,10 @@ struct MDBX_env {
   MDBX_page *me_dpages; /* list of malloc'd blocks for re-use */
                         /* PNL of pages that became unused in a write txn */
   MDBX_PNL me_free_pgs;
-  /* ID2L of pages written during a write txn. Length MDBX_PNL_UM_SIZE. */
-  MDBX_ID2L me_dirtylist;
-  /* Max number of freelist items that can fit in a single overflow page */
-  unsigned me_maxfree_1pg;
+  /* MDBX_DP of pages written during a write txn. Length MDBX_DPL_TXNFULL. */
+  MDBX_DPL me_dirtylist;
+  /* Number of freelist items that can fit in a single overflow page */
+  unsigned me_maxgc_ov1page;
   /* Max size of a node on a page */
   unsigned me_nodemax;
   unsigned me_maxkey_limit;   /* max size of a key */
@@ -1031,7 +1060,7 @@ static __inline unsigned mdbx_log2(size_t value) {
 #define NUMKEYS(p) ((unsigned)(p)->mp_lower >> 1)
 
 /* The amount of space remaining in the page */
-#define SIZELEFT(p) (indx_t)((p)->mp_upper - (p)->mp_lower)
+#define SIZELEFT(p) ((indx_t)((p)->mp_upper - (p)->mp_lower))
 
 /* The percentage of space used in the page, in tenths of a percent. */
 #define PAGEFILL(env, p)                                                       \
@@ -1042,15 +1071,19 @@ static __inline unsigned mdbx_log2(size_t value) {
 #define FILL_THRESHOLD 256
 
 /* Test if a page is a leaf page */
-#define IS_LEAF(p) F_ISSET((p)->mp_flags, P_LEAF)
+#define IS_LEAF(p) (((p)->mp_flags & P_LEAF) != 0)
 /* Test if a page is a LEAF2 page */
-#define IS_LEAF2(p) F_ISSET((p)->mp_flags, P_LEAF2)
+#define IS_LEAF2(p) unlikely(((p)->mp_flags & P_LEAF2) != 0)
 /* Test if a page is a branch page */
-#define IS_BRANCH(p) F_ISSET((p)->mp_flags, P_BRANCH)
+#define IS_BRANCH(p) (((p)->mp_flags & P_BRANCH) != 0)
 /* Test if a page is an overflow page */
-#define IS_OVERFLOW(p) unlikely(F_ISSET((p)->mp_flags, P_OVERFLOW))
+#define IS_OVERFLOW(p) unlikely(((p)->mp_flags & P_OVERFLOW) != 0)
 /* Test if a page is a sub page */
-#define IS_SUBP(p) F_ISSET((p)->mp_flags, P_SUBP)
+#define IS_SUBP(p) (((p)->mp_flags & P_SUBP) != 0)
+/* Test if a page is dirty */
+#define IS_DIRTY(p) (((p)->mp_flags & P_DIRTY) != 0)
+
+#define PAGETYPE(p) ((p)->mp_flags & (P_BRANCH | P_LEAF | P_LEAF2 | P_OVERFLOW))
 
 /* The number of overflow pages needed to store the given size. */
 #define OVPAGES(env, size) (bytes2pgno(env, PAGEHDRSZ - 1 + (size)) + 1)
@@ -1270,3 +1303,26 @@ static __inline size_t pgno_align2os_bytes(const MDBX_env *env, pgno_t pgno) {
 static __inline pgno_t pgno_align2os_pgno(const MDBX_env *env, pgno_t pgno) {
   return bytes2pgno(env, pgno_align2os_bytes(env, pgno));
 }
+
+/* Do not spill pages to disk if txn is getting full, may fail instead */
+#define MDBX_NOSPILL 0x8000
+
+/* Perform act while tracking temporary cursor mn */
+#define WITH_CURSOR_TRACKING(mn, act)                                          \
+  do {                                                                         \
+    mdbx_cassert(&(mn),                                                        \
+                 mn.mc_txn->mt_cursors != NULL /* must be not rdonly txt */);  \
+    MDBX_cursor mc_dummy, *tracked,                                            \
+        **tp = &(mn).mc_txn->mt_cursors[mn.mc_dbi];                            \
+    if ((mn).mc_flags & C_SUB) {                                               \
+      mc_dummy.mc_flags = C_INITIALIZED;                                       \
+      mc_dummy.mc_xcursor = (MDBX_xcursor *)&(mn);                             \
+      tracked = &mc_dummy;                                                     \
+    } else {                                                                   \
+      tracked = &(mn);                                                         \
+    }                                                                          \
+    tracked->mc_next = *tp;                                                    \
+    *tp = tracked;                                                             \
+    { act; }                                                                   \
+    *tp = tracked->mc_next;                                                    \
+  } while (0)

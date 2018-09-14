@@ -493,7 +493,7 @@ typedef struct MDBX_envinfo {
     uint64_t lower;   /* lower limit for datafile size */
     uint64_t upper;   /* upper limit for datafile size */
     uint64_t current; /* current datafile size */
-    uint64_t shrink;  /* shrink theshold for datafile */
+    uint64_t shrink;  /* shrink threshold for datafile */
     uint64_t grow;    /* growth step for datafile */
   } mi_geo;
   uint64_t mi_mapsize;             /* Size of the data memory map */
@@ -924,7 +924,6 @@ LIBMDBX_API int mdbx_env_set_maxdbs(MDBX_env *env, MDBX_dbi dbs);
  *
  * Returns The maximum size of a key we can write. */
 LIBMDBX_API int mdbx_env_get_maxkeysize(MDBX_env *env);
-LIBMDBX_API int mdbx_get_maxkeysize(size_t pagesize);
 
 /* Set application information associated with the MDBX_env.
  *
@@ -1654,10 +1653,22 @@ typedef void MDBX_debug_func(int type, const char *function, int line,
 
 LIBMDBX_API int mdbx_setup_debug(int flags, MDBX_debug_func *logger);
 
-typedef int MDBX_pgvisitor_func(uint64_t pgno, unsigned pgnumber, void *ctx,
-                                const char *dbi, const char *type,
-                                size_t nentries, size_t payload_bytes,
-                                size_t header_bytes, size_t unused_bytes);
+typedef enum {
+  MDBX_page_void,
+  MDBX_page_meta,
+  MDBX_page_large,
+  MDBX_page_branch,
+  MDBX_page_leaf,
+  MDBX_page_dupfixed_leaf,
+  MDBX_subpage_leaf,
+  MDBX_subpage_dupfixed_leaf
+} MDBX_page_type_t;
+
+typedef int MDBX_pgvisitor_func(uint64_t pgno, unsigned number, void *ctx,
+                                int deep, const char *dbi, size_t page_size,
+                                MDBX_page_type_t type, size_t nentries,
+                                size_t payload_bytes, size_t header_bytes,
+                                size_t unused_bytes);
 LIBMDBX_API int mdbx_env_pgwalk(MDBX_txn *txn, MDBX_pgvisitor_func *visitor,
                                 void *ctx);
 
@@ -1696,6 +1707,13 @@ LIBMDBX_API int mdbx_is_dirty(const MDBX_txn *txn, const void *ptr);
 
 LIBMDBX_API int mdbx_dbi_sequence(MDBX_txn *txn, MDBX_dbi dbi, uint64_t *result,
                                   uint64_t increment);
+
+LIBMDBX_API int mdbx_limits_pgsize_min(void);
+LIBMDBX_API int mdbx_limits_pgsize_max(void);
+LIBMDBX_API intptr_t mdbx_limits_dbsize_min(intptr_t pagesize);
+LIBMDBX_API intptr_t mdbx_limits_dbsize_max(intptr_t pagesize);
+LIBMDBX_API intptr_t mdbx_limits_keysize_max(intptr_t pagesize);
+LIBMDBX_API intptr_t mdbx_limits_txnsize_max(intptr_t pagesize);
 
 /*----------------------------------------------------------------------------*/
 /* attribute support functions for Nexenta */

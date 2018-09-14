@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2017-2018 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -35,25 +35,31 @@ void actor_params::set_defaults(const std::string &tmpdir) {
   mode_flags = MDBX_NOSUBDIR | MDBX_WRITEMAP | MDBX_MAPASYNC | MDBX_NORDAHEAD |
                MDBX_NOMEMINIT | MDBX_COALESCE | MDBX_LIFORECLAIM;
   table_flags = MDBX_DUPSORT;
-  size = 1024 * 1024 * 4;
+
+  size_lower = -1;
+  size_now = 1024 * 1024 * ((table_flags & MDBX_DUPSORT) ? 4 : 256);
+  size_upper = -1;
+  shrink_threshold = -1;
+  growth_step = -1;
+  pagesize = -1;
 
   keygen.seed = 1;
   keygen.keycase = kc_random;
-  keygen.width = 32;
-  keygen.mesh = 32;
+  keygen.width = (table_flags & MDBX_DUPSORT) ? 32 : 64;
+  keygen.mesh = keygen.width;
   keygen.split = keygen.width / 2;
-  keygen.rotate = 0;
-  keygen.offset = 0;
+  keygen.rotate = 3;
+  keygen.offset = 41;
 
   test_duration = 0;
   test_nops = 1000;
   nrepeat = 1;
   nthreads = 1;
 
-  keylen_min = 0;
-  keylen_max = 42;
-  datalen_min = 0;
-  datalen_max = 256;
+  keylen_min = mdbx_keylen_min();
+  keylen_max = mdbx_keylen_max();
+  datalen_min = mdbx_datalen_min();
+  datalen_max = std::min(mdbx_datalen_max(), 256u * 1024 + 42);
 
   batch_read = 4;
   batch_write = 4;
@@ -150,8 +156,45 @@ int main(int argc, char *const argv[]) {
     if (config::parse_option(argc, argv, narg, "table", params.table_flags,
                              config::table_bits))
       continue;
-    if (config::parse_option(argc, argv, narg, "size", params.size,
-                             config::binary, 4096 * 4))
+
+    if (config::parse_option(argc, argv, narg, "pagesize", params.pagesize,
+                             mdbx_limits_pgsize_min(),
+                             mdbx_limits_pgsize_max())) {
+      const unsigned keylen_max = params.mdbx_keylen_max();
+      if (params.keylen_min > keylen_max)
+        params.keylen_min = keylen_max;
+      if (params.keylen_max > keylen_max)
+        params.keylen_max = keylen_max;
+      const unsigned datalen_max = params.mdbx_datalen_max();
+      if (params.datalen_min > datalen_max)
+        params.datalen_min = datalen_max;
+      if (params.datalen_max > datalen_max)
+        params.datalen_max = datalen_max;
+      continue;
+    }
+    if (config::parse_option(argc, argv, narg, "size-lower", params.size_lower,
+                             mdbx_limits_dbsize_min(params.pagesize),
+                             mdbx_limits_dbsize_max(params.pagesize)))
+      continue;
+    if (config::parse_option(argc, argv, narg, "size", params.size_now,
+                             mdbx_limits_dbsize_min(params.pagesize),
+                             mdbx_limits_dbsize_max(params.pagesize)))
+      continue;
+    if (config::parse_option(argc, argv, narg, "size-upper", params.size_upper,
+                             mdbx_limits_dbsize_min(params.pagesize),
+                             mdbx_limits_dbsize_max(params.pagesize)))
+      continue;
+    if (config::parse_option(
+            argc, argv, narg, "shrink-threshold", params.shrink_threshold, 0,
+            (int)std::min((intptr_t)INT_MAX,
+                          mdbx_limits_dbsize_max(params.pagesize) -
+                              mdbx_limits_dbsize_min(params.pagesize))))
+      continue;
+    if (config::parse_option(
+            argc, argv, narg, "growth-step", params.growth_step, 0,
+            (int)std::min((intptr_t)INT_MAX,
+                          mdbx_limits_dbsize_max(params.pagesize) -
+                              mdbx_limits_dbsize_min(params.pagesize))))
       continue;
 
     if (config::parse_option(argc, argv, narg, "keygen.width",
@@ -188,20 +231,39 @@ int main(int argc, char *const argv[]) {
                              config::duration, 1))
       continue;
     if (config::parse_option(argc, argv, narg, "keylen.min", params.keylen_min,
-                             config::no_scale, 0, params.keylen_max))
+                             config::no_scale, params.mdbx_keylen_min(),
+                             params.mdbx_keylen_max())) {
+      if ((params.table_flags & MDBX_INTEGERKEY) ||
+          params.keylen_max < params.keylen_min)
+        params.keylen_max = params.keylen_min;
       continue;
+    }
     if (config::parse_option(argc, argv, narg, "keylen.max", params.keylen_max,
-                             config::no_scale, params.keylen_min,
-                             mdbx_get_maxkeysize(0)))
+                             config::no_scale, params.mdbx_keylen_min(),
+                             params.mdbx_keylen_max())) {
+      if ((params.table_flags & MDBX_INTEGERKEY) ||
+          params.keylen_min > params.keylen_max)
+        params.keylen_min = params.keylen_max;
       continue;
+    }
     if (config::parse_option(argc, argv, narg, "datalen.min",
-                             params.datalen_min, config::no_scale, 0,
-                             params.datalen_max))
+                             params.datalen_min, config::no_scale,
+                             params.mdbx_datalen_min(),
+                             params.mdbx_datalen_max())) {
+      if ((params.table_flags & MDBX_DUPFIXED) ||
+          params.datalen_max < params.datalen_min)
+        params.datalen_max = params.datalen_min;
       continue;
+    }
     if (config::parse_option(argc, argv, narg, "datalen.max",
                              params.datalen_max, config::no_scale,
-                             params.datalen_min, MDBX_MAXDATASIZE))
+                             params.mdbx_datalen_min(),
+                             params.mdbx_datalen_max())) {
+      if ((params.table_flags & MDBX_DUPFIXED) ||
+          params.datalen_min > params.datalen_max)
+        params.datalen_min = params.datalen_max;
       continue;
+    }
     if (config::parse_option(argc, argv, narg, "batch.read", params.batch_read,
                              config::no_scale, 1))
       continue;
