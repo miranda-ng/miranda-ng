@@ -54,8 +54,6 @@ struct MButtonCtrl
 				bSendOnDown; // sends BN_CLICKED on WM_LBUTTONDOWN
 
 	pfnPainterFunc fnPainter; // custom button painter
-
-	IAccPropServices* pAccPropServices;
 };
 
 #endif // M_BUTTON_INT_H__

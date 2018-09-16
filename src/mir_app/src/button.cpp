@@ -64,15 +64,6 @@ static void LoadTheme(MButtonCtrl *ctl)
 	ctl->bIsThemed = true;
 }
 
-static void SetHwndPropInt(MButtonCtrl* bct, DWORD idObject, DWORD idChild, MSAAPROPID idProp, int val)
-{
-	if (bct->pAccPropServices == nullptr) return;
-	VARIANT var;
-	var.vt = VT_I4;
-	var.lVal = val;
-	bct->pAccPropServices->SetHwndProp(bct->hwnd, idObject, idChild, idProp, var);
-}
-
 static int TBStateConvert2Flat(int state)
 {
 	switch(state) {
@@ -253,12 +244,6 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 		LoadTheme(bct);
 
-		// Annotating the Role of this object to be PushButton
-		if (SUCCEEDED(CoCreateInstance(CLSID_AccPropServices, nullptr, CLSCTX_SERVER, IID_IAccPropServices, (void**)&bct->pAccPropServices)))
-			SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_PUSHBUTTON);
-		else
-			bct->pAccPropServices = nullptr;
-
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)bct);
 		if (((CREATESTRUCT *)lParam)->lpszName)
 			SetWindowText(hwnd, ((CREATESTRUCT*)lParam)->lpszName);
@@ -266,10 +251,6 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 
 	case WM_DESTROY:
 		if (bct) {
-			if (bct->pAccPropServices) {
-				bct->pAccPropServices->Release();
-				bct->pAccPropServices = nullptr;
-			}
 			if (bct->hwndToolTips) {
 				TOOLINFO ti = {0};
 				ti.cbSize = sizeof(ti);
@@ -486,10 +467,6 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 				ti.lpszText = mir_wstrdup(TranslateW((WCHAR*)wParam));
 			else
 				ti.lpszText = Langpack_PcharToTchar((char*)wParam);
-
-			if (bct->pAccPropServices)
-				bct->pAccPropServices->SetHwndPropStr(bct->hwnd, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_DESCRIPTION, ti.lpszText);
-
 			SendMessage(bct->hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			mir_free(ti.lpszText);
 		}
