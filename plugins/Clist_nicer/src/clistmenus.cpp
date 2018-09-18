@@ -91,7 +91,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed by status message"));
 
 			if (cfg::clcdat) {
-				Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr);
+				Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact);
 				if (contact && contact->type != CLCIT_CONTACT) {
 					DestroyWindow(hWnd);
 					return FALSE;
@@ -198,7 +198,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					DWORD dwFlags = db_get_dw(hContact, "CList", "CLN_Flags", 0), dwXMask = 0;
 					LRESULT  checked = 0;
 
-					Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr);
+					Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact);
 					if (iSel != CB_ERR) {
 						dwFlags &= ~(ECF_FORCEAVATAR | ECF_HIDEAVATAR);
 
@@ -285,7 +285,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_USER + 120:	// set visibility status
 		{
 			ClcContact *contact = nullptr;
-			if (Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
+			if (Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact)) {
 				if (contact) {
 					WORD wApparentMode = db_get_w(contact->hContact, contact->pce->szProto, "ApparentMode", 0);
 
@@ -299,8 +299,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_USER + 130:	// update apparent mode
 		{
 			ClcContact *contact = nullptr;
-
-			if (Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
+			if (Clist_FindItem(g_clistApi.hwndContactTree, cfg::clcdat, hContact, &contact)) {
 				if (contact) {
 					WORD wApparentMode = 0;
 

@@ -260,7 +260,7 @@ EXTERN_C MIR_APP_DLL(void)      Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hI
 EXTERN_C MIR_APP_DLL(void)      Clist_EndRename(ClcData *dat, int save);
 EXTERN_C MIR_APP_DLL(void)      Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
 EXTERN_C MIR_APP_DLL(int)       Clist_EventsProcessTrayDoubleClick(int index);
-EXTERN_C MIR_APP_DLL(bool)      Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+EXTERN_C MIR_APP_DLL(bool)      Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup = 0, int *isVisible = 0);
 EXTERN_C MIR_APP_DLL(DWORD)     Clist_GetDefaultExStyle(void);
 EXTERN_C MIR_APP_DLL(void)      Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 EXTERN_C MIR_APP_DLL(int)       Clist_GetGeneralizedStatus(char **szProto = nullptr);

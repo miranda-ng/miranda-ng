@@ -375,7 +375,7 @@ MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hContact2)
 	ClcData *dat = (ClcData*)GetWindowLongPtr(g_clistApi.hwndContactTree, 0);
 	if (dat != nullptr) {
 		ClcContact *p1, *p2;
-		if (Clist_FindItem(g_clistApi.hwndContactTree, dat, hContact1, &p1, nullptr, nullptr) && Clist_FindItem(g_clistApi.hwndContactTree, dat, hContact2, &p2, nullptr, nullptr))
+		if (Clist_FindItem(g_clistApi.hwndContactTree, dat, hContact1, &p1) && Clist_FindItem(g_clistApi.hwndContactTree, dat, hContact2, &p2))
 			return g_clistApi.pfnCompareContacts(p1, p2);
 	}
 

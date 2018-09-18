@@ -304,7 +304,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 
 	ClcGroup *group;
 	ClcContact *contact;
-	if (!Clist_FindItem(hwnd, dat, hItem, &contact, &group, nullptr)) {
+	if (!Clist_FindItem(hwnd, dat, hItem, &contact, &group)) {
 		DBVARIANT dbv;
 		int i, nameOffset;
 		if (!IsHContactContact(hItem))
@@ -582,7 +582,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 
 		if (hSelItem) {
 			ClcGroup *selgroup;
-			if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, nullptr))
+			if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup))
 				dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 		}
 
@@ -703,7 +703,7 @@ MIR_APP_DLL(void) Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			group = &dat->list;
 		else {
 			ClcContact *contact;
-			if (!Clist_FindItem(hwnd, dat, it->parentId | HCONTACT_ISGROUP, &contact, nullptr, nullptr))
+			if (!Clist_FindItem(hwnd, dat, it->parentId | HCONTACT_ISGROUP, &contact))
 				continue;
 			group = contact->group;
 		}
