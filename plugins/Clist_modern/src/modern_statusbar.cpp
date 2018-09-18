@@ -807,7 +807,6 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							if (k < 0 || k >= protoCount)
 								continue;
 
-							char protoF[sizeof(g_CluiData.protoFilter)];
 							mir_snprintf(protoF, "%s|", accs[k]->szModuleName);
 							if (strstri(g_CluiData.protoFilter, protoF)) {
 								if (!first)

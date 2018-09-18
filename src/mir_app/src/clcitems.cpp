@@ -122,6 +122,8 @@ void fnFreeContact(ClcContact* p)
 		FreeGroup(p->group);
 		delete p->group; p->group = nullptr;
 	}
+	
+	mir_free(p);
 }
 
 void FreeGroup(ClcGroup *group)
@@ -129,10 +131,9 @@ void FreeGroup(ClcGroup *group)
 	if (!group)
 		return;
 
-	for (auto &it : group->cl) {
+	for (auto &it : group->cl)
 		g_clistApi.pfnFreeContact(it);
-		mir_free(it);
-	}
+
 	group->cl.destroy();
 }
 
@@ -286,7 +287,6 @@ MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, Clc
 	}
 
 	g_clistApi.pfnFreeContact(group->cl[iContact]);
-	mir_free(group->cl[iContact]);
 	group->cl.remove(iContact);
 
 	if ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) && group->cl.getCount() == 0 && group->parent != nullptr)
@@ -305,32 +305,30 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	ClcGroup *group;
 	ClcContact *contact;
 	if (!Clist_FindItem(hwnd, dat, hItem, &contact, &group)) {
-		DBVARIANT dbv;
-		int i, nameOffset;
 		if (!IsHContactContact(hItem))
 			return;
-		if (db_get_ws(hItem, "CList", "Group", &dbv))
+		
+		ptrW wszGroup(db_get_wsa(hItem, "CList", "Group"));
+		if (wszGroup == nullptr)
 			return;
 
-		//decrease member counts of all parent groups too
+		// decrease member counts of all parent groups too
 		group = &dat->list;
-		nameOffset = 0;
-		for (i = 0;; i++) {
+		int nameOffset = 0;
+		for (int i = 0;; i++) {
 			if (group->scanIndex == group->cl.getCount())
 				break;
 
 			ClcContact *cc = group->cl[i];
 			if (cc->type == CLCIT_GROUP) {
 				size_t len = mir_wstrlen(cc->szText);
-				if (!wcsncmp(cc->szText, dbv.pwszVal + nameOffset, len) &&
-					(dbv.pwszVal[nameOffset + len] == '\\' || dbv.pwszVal[nameOffset + len] == '\0')) {
+				if (!wcsncmp(cc->szText, wszGroup.get() + nameOffset, len) && (wszGroup[nameOffset + len] == '\\' || wszGroup[nameOffset + len] == '\0')) {
 					group->totalMembers--;
-					if (dbv.pwszVal[nameOffset + len] == '\0')
+					if (wszGroup[nameOffset + len] == '\0')
 						break;
 				}
 			}
 		}
-		mir_free(dbv.pwszVal);
 	}
 	else Clist_RemoveItemFromGroup(hwnd, group, contact, 1);
 }
