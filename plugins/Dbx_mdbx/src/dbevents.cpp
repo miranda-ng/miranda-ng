@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-STDMETHODIMP_(LONG) CDbxMDBX::GetEventCount(MCONTACT contactID)
+LONG CDbxMDBX::GetEventCount(MCONTACT contactID)
 {
 	if (!contactID)
 		return m_ccDummy.dbc.dwEventCount;
@@ -34,7 +34,7 @@ STDMETHODIMP_(LONG) CDbxMDBX::GetEventCount(MCONTACT contactID)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
+MEVENT CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 0;
 	if (dbei->timestamp == 0) return 0;
@@ -145,7 +145,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
+BOOL CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc = (contactID != 0) ? m_cache->GetCachedContact(contactID) : &m_ccDummy, *cc2 = nullptr;
 	if (cc == nullptr || cc->dbc.dwEventCount == 0)
@@ -230,7 +230,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(LONG) CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
+LONG CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
 {
 	txn_ptr_ro txn(m_txn_ro);
 
@@ -242,7 +242,7 @@ STDMETHODIMP_(LONG) CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(BOOL) CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
+BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == nullptr) {
@@ -310,7 +310,7 @@ void CDbxMDBX::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSo
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(BOOL) CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
+BOOL CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 {
 	if (hDbEvent == 0) return -1;
 
@@ -355,9 +355,48 @@ STDMETHODIMP_(BOOL) CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	return wRetVal;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MEVENT CDbxMDBX::GetEventById(LPCSTR szModule, LPCSTR szId)
+{
+	if (szModule == nullptr || szId == nullptr)
+		return 0;
+	
+	DBEventIdKey keyId;
+	keyId.iModuleId = GetModuleID(szModule);
+	strncpy_s(keyId.szEventId, szId, _TRUNCATE);
+
+	MDBX_val key = { &keyId, sizeof(MEVENT) + strlen(keyId.szEventId) + 1 }, data;
+	txn_ptr_ro txn(m_txn_ro);
+	if (mdbx_get(txn, m_dbEventIds, &key, &data) != MDBX_SUCCESS)
+		return 0;
+
+	return *(MEVENT*)data.iov_base;
+}
+
+BOOL CDbxMDBX::SetEventId(LPCSTR szModule, MEVENT hDbEvent, LPCSTR szId)
+{
+	if (szModule == nullptr || szId == nullptr || !hDbEvent)
+		return 1;
+
+	DBEventIdKey keyId;
+	keyId.iModuleId = GetModuleID(szModule);
+	strncpy_s(keyId.szEventId, szId, _TRUNCATE);
+
+	txn_ptr trnlck(StartTran());
+	MDBX_val key = { &keyId, sizeof(MEVENT) + strlen(keyId.szEventId) + 1 }, data = { &hDbEvent, sizeof(hDbEvent) };
+	if (mdbx_put(trnlck, m_dbEventIds, &key, &data, 0) != MDBX_SUCCESS)
+		return 1;
+	if (trnlck.commit() != MDBX_SUCCESS)
+		return 1;
+
+	return 0;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(MCONTACT) CDbxMDBX::GetEventContact(MEVENT hDbEvent)
+MCONTACT CDbxMDBX::GetEventContact(MEVENT hDbEvent)
 {
 	if (hDbEvent == 0)
 		return INVALID_CONTACT_ID;
@@ -373,7 +412,7 @@ STDMETHODIMP_(MCONTACT) CDbxMDBX::GetEventContact(MEVENT hDbEvent)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(MEVENT) CDbxMDBX::FindFirstEvent(MCONTACT contactID)
+MEVENT CDbxMDBX::FindFirstEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
 	if (contactID != 0) {
@@ -399,7 +438,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindFirstEvent(MCONTACT contactID)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(MEVENT) CDbxMDBX::FindFirstUnreadEvent(MCONTACT contactID)
+MEVENT CDbxMDBX::FindFirstUnreadEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	return (cc == nullptr) ? 0 : cc->dbc.evFirstUnread;
@@ -407,7 +446,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindFirstUnreadEvent(MCONTACT contactID)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(MEVENT) CDbxMDBX::FindLastEvent(MCONTACT contactID)
+MEVENT CDbxMDBX::FindLastEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
 	if (contactID != 0) {
@@ -439,7 +478,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindLastEvent(MCONTACT contactID)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(MEVENT) CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
+MEVENT CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc;
 	if (contactID != 0) {
@@ -478,7 +517,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEven
 
 ///////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(MEVENT) CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
+MEVENT CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc;
 	if (contactID != 0) {

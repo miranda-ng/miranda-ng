@@ -650,3 +650,5 @@ Miranda_WaitOnHandleEx @663
 ?WriteContactSetting@MDatabaseReadonly@@UAGHIPAUDBCONTACTWRITESETTING@@@Z @683 NONAME
 ??0MDatabaseReadonly@@QAE@XZ @684 NONAME
 ??_7MDatabaseReadonly@@6B@ @685 NONAME
+?GetEventById@MDatabaseReadonly@@UAGIPBD0@Z @686 NONAME
+?SetEventId@MDatabaseReadonly@@UAGHPBDI0@Z @687 NONAME

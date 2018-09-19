@@ -128,6 +128,9 @@ interface MIR_APP_EXPORT MIDatabase
 
 	STDMETHOD_(BOOL, Compact)(void) PURE;
 	STDMETHOD_(BOOL, Backup)(LPCWSTR) PURE;
+
+	STDMETHOD_(MEVENT, GetEventById)(LPCSTR szModule, LPCSTR szId) PURE;
+	STDMETHOD_(BOOL, SetEventId)(LPCSTR szModule, MEVENT, LPCSTR szId) PURE;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -219,6 +222,10 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP_(BOOL) MetaMergeHistory(DBCachedContact*, DBCachedContact*) override;
 	STDMETHODIMP_(BOOL) MetaSplitHistory(DBCachedContact*, DBCachedContact*) override;
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	STDMETHODIMP_(MEVENT) GetEventById(LPCSTR szModule, LPCSTR szId) override;
+	STDMETHODIMP_(BOOL) SetEventId(LPCSTR szModule, MEVENT, LPCSTR szId) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

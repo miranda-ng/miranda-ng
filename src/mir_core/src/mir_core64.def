@@ -1065,3 +1065,5 @@ CallObjectEventHook @1259
 ?CreateLink@CDlgBase@@IEAAXAEAVCCtrlData@@PEBDPEA_W@Z @1263 NONAME
 ?CheckRowCount@CCtrlPages@@AEAAXXZ @1264 NONAME
 ?VerifyControls@CDlgBase@@AEAA_NP8CCtrlBase@@EAA_NXZ@Z @1265 NONAME
+db_event_getById @1266
+db_event_setId @1267

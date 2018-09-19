@@ -229,7 +229,7 @@ int CDbxMDBX::PrepareCheck()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
+void CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 {
 	m_safetyMode = bIsSet != 0;
 	DBFlush(true);

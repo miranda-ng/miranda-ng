@@ -524,3 +524,15 @@ int CDb3Mmap::WipeContactHistory(DBContact *dbc)
 	dbc->eventCount = 0; dbc->ofsFirstEvent = dbc->ofsLastEvent = dbc->ofsFirstUnread = dbc->tsFirstUnread = 0;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MEVENT CDb3Mmap::GetEventById(LPCSTR, LPCSTR)
+{
+	return 0;
+}
+
+BOOL CDb3Mmap::SetEventId(LPCSTR, MEVENT, LPCSTR)
+{
+	return FALSE;
+}

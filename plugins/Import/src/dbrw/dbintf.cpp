@@ -83,3 +83,13 @@ STDMETHODIMP_(BOOL) CDbxSQLite::MetaSplitHistory(DBCachedContact*, DBCachedConta
 {
 	return FALSE;
 }
+
+STDMETHODIMP_(MEVENT) CDbxSQLite::GetEventById(LPCSTR, LPCSTR)
+{
+	return 0;
+}
+
+STDMETHODIMP_(BOOL) CDbxSQLite::SetEventId(LPCSTR, MEVENT, LPCSTR)
+{
+	return FALSE;
+}

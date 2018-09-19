@@ -392,6 +392,18 @@ Events in a chain are sorted chronologically automatically
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
 
+/*
+Retrieves a handle to the event identified by its module and unique identifier
+*/
+
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId);
+
+/*
+Sets an identifier for an event identified by its module and handle
+*/
+
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_setId(const char *szModule, MEVENT hDbEvent, const char *szId);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database settings
 

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-STDMETHODIMP_(LONG) CDbxMDBX::GetContactCount(void)
+LONG CDbxMDBX::GetContactCount(void)
 {
 	MDBX_stat st;
 	txn_ptr_ro trnlck(m_txn_ro);
@@ -31,12 +31,12 @@ STDMETHODIMP_(LONG) CDbxMDBX::GetContactCount(void)
 	return st.ms_entries;
 }
 
-STDMETHODIMP_(LONG) CDbxMDBX::GetContactSize(void)
+LONG CDbxMDBX::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
 }
 
-STDMETHODIMP_(LONG) CDbxMDBX::DeleteContact(MCONTACT contactID)
+LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 {
 	if (contactID == 0) // global contact cannot be removed
 		return 1;
@@ -84,7 +84,7 @@ STDMETHODIMP_(LONG) CDbxMDBX::DeleteContact(MCONTACT contactID)
 	return 0;
 }
 
-STDMETHODIMP_(MCONTACT) CDbxMDBX::AddContact()
+MCONTACT CDbxMDBX::AddContact()
 {
 	MCONTACT dwContactId = InterlockedIncrement(&m_maxContactId);
 

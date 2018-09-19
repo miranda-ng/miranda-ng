@@ -67,7 +67,7 @@ char* CDbxMDBX::GetModuleName(uint32_t dwId)
 	return it != m_Modules.end() ? const_cast<char*>(it->second.c_str()) : nullptr;
 }
 
-STDMETHODIMP_(BOOL) CDbxMDBX::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
+BOOL CDbxMDBX::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for (auto it = m_Modules.begin(); it != m_Modules.end(); ++it)
 		if (int ret = pFunc(it->second.c_str(), pParam))

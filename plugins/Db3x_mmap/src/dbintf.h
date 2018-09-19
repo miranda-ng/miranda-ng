@@ -208,37 +208,40 @@ struct CDb3Mmap : public MDatabaseCommon, public MZeroedObject
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:
-	STDMETHODIMP_(BOOL)     IsRelational(void) { return FALSE; }
-	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
+	STDMETHODIMP_(BOOL)     IsRelational(void) override { return FALSE; }
+	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL) override;
 
-	STDMETHODIMP_(LONG)     GetContactCount(void);
-	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID);
-	STDMETHODIMP_(MCONTACT) AddContact(void);
-	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
-	STDMETHODIMP_(LONG)     GetContactSize(void);
+	STDMETHODIMP_(LONG)     GetContactCount(void) override;
+	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID) override;
+	STDMETHODIMP_(MCONTACT) AddContact(void) override;
+	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID) override;
+	STDMETHODIMP_(LONG)     GetContactSize(void) override;
 
-	STDMETHODIMP_(LONG)     GetEventCount(MCONTACT contactID);
-	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, DBEVENTINFO *dbe);
-	STDMETHODIMP_(BOOL)     DeleteEvent(MCONTACT contactID, MEVENT hDbEvent);
-	STDMETHODIMP_(LONG)     GetBlobSize(MEVENT hDbEvent);
-	STDMETHODIMP_(BOOL)     GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbe);
-	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, MEVENT hDbEvent);
-	STDMETHODIMP_(MCONTACT) GetEventContact(MEVENT hDbEvent);
-	STDMETHODIMP_(MEVENT)   FindFirstEvent(MCONTACT contactID);
-	STDMETHODIMP_(MEVENT)   FindFirstUnreadEvent(MCONTACT contactID);
-	STDMETHODIMP_(MEVENT)   FindLastEvent(MCONTACT contactID);
-	STDMETHODIMP_(MEVENT)   FindNextEvent(MCONTACT contactID, MEVENT hDbEvent);
-	STDMETHODIMP_(MEVENT)   FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent);
+	STDMETHODIMP_(LONG)     GetEventCount(MCONTACT contactID) override;
+	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, DBEVENTINFO *dbe) override;
+	STDMETHODIMP_(BOOL)     DeleteEvent(MCONTACT contactID, MEVENT hDbEvent) override;
+	STDMETHODIMP_(LONG)     GetBlobSize(MEVENT hDbEvent) override;
+	STDMETHODIMP_(BOOL)     GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbe) override;
+	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, MEVENT hDbEvent) override;
+	STDMETHODIMP_(MCONTACT) GetEventContact(MEVENT hDbEvent) override;
+	STDMETHODIMP_(MEVENT)   FindFirstEvent(MCONTACT contactID) override;
+	STDMETHODIMP_(MEVENT)   FindFirstUnreadEvent(MCONTACT contactID) override;
+	STDMETHODIMP_(MEVENT)   FindLastEvent(MCONTACT contactID) override;
+	STDMETHODIMP_(MEVENT)   FindNextEvent(MCONTACT contactID, MEVENT hDbEvent) override;
+	STDMETHODIMP_(MEVENT)   FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent) override;
 
-	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam);
+	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam) override;
 
-	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
-	STDMETHODIMP_(BOOL)     WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws);
-	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
-	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param);
+	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) override;
+	STDMETHODIMP_(BOOL)     WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws) override;
+	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting) override;
+	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param) override;
 
-	STDMETHODIMP_(BOOL)     MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
-	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
+	STDMETHODIMP_(BOOL)     MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub) override;
+	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub) override;
+
+	STDMETHODIMP_(MEVENT)   GetEventById(LPCSTR szModule, LPCSTR szId) override;
+	STDMETHODIMP_(BOOL)     SetEventId(LPCSTR szModule, MEVENT, LPCSTR szId) override;
 
 protected:
 	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName);
