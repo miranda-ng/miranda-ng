@@ -39,30 +39,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <pshpack1.h>
 
-#define DBHEADER_VERSION MAKELONG(1, 4)
-
+#define DBHEADER_VERSION    MAKELONG(1, 4)
 #define DBHEADER_SIGNATURE  0x40DECADEu
 struct DBHeader
 {
 	uint32_t dwSignature;
-	uint32_t dwVersion;			// database format version
+	uint32_t dwVersion;      // database format version
 };
 
 struct DBContact
 {
-	uint32_t dwEventCount;       // number of events in the chain for this contact
+	uint32_t dwEventCount;   // number of events in the chain for this contact
 	MEVENT   evFirstUnread;
 	uint64_t tsFirstUnread;
 };
 
 struct DBEvent
 {
-	MCONTACT contactID;     // a contact this event belongs to
+	MCONTACT contactID;      // a contact this event belongs to
 	uint32_t iModuleId;	    // offset to a DBModuleName struct of the name of
-	uint64_t timestamp;        // seconds since 00:00:00 01/01/1970
-	uint32_t flags;            // see m_database.h, db/event/add
-	uint16_t wEventType;       // module-defined event type
-	uint16_t cbBlob;           // number of bytes in the blob
+	uint64_t timestamp;      // seconds since 00:00:00 01/01/1970
+	uint32_t flags;          // see m_database.h, db/event/add
+	uint16_t wEventType;     // module-defined event type
+	uint16_t cbBlob;         // number of bytes in the blob
 
 	bool __forceinline markedRead() const
 	{
@@ -76,7 +75,15 @@ struct DBEventSortingKey
 	MEVENT hEvent;
 	uint64_t ts;
 
-	static int Compare(const MDBX_val* a, const MDBX_val* b);
+	static int Compare(const MDBX_val*, const MDBX_val*);
+};
+
+struct DBEventIdKey
+{
+	uint32_t iModuleId;	    // offset to a DBModuleName struct of the name of
+	char     szEventId[256]; // string id
+
+	static int Compare(const MDBX_val*, const MDBX_val*);
 };
 
 struct DBSettingKey
@@ -186,8 +193,8 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	////////////////////////////////////////////////////////////////////////////
 	// events
 
-	MDBX_dbi	    m_dbEvents, m_dbEventsSort;
-	MDBX_cursor *m_curEvents, *m_curEventsSort;
+	MDBX_dbi	    m_dbEvents, m_dbEventsSort, m_dbEventIds;
+	MDBX_cursor *m_curEvents, *m_curEventsSort, *m_curEventIds;
 	MEVENT       m_dwMaxEventId;
 
 	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;

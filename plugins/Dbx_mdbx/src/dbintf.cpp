@@ -84,6 +84,7 @@ int CDbxMDBX::Load()
 		mdbx_dbi_open(trnlck, "modules", defFlags | MDBX_INTEGERKEY, &m_dbModules);
 		mdbx_dbi_open(trnlck, "events", defFlags | MDBX_INTEGERKEY, &m_dbEvents);
 
+		mdbx_dbi_open_ex(trnlck, "eventids", defFlags, &m_dbEventIds, DBEventIdKey::Compare, nullptr);
 		mdbx_dbi_open_ex(trnlck, "eventsrt", defFlags, &m_dbEventsSort, DBEventSortingKey::Compare, nullptr);
 		mdbx_dbi_open_ex(trnlck, "settings", defFlags, &m_dbSettings, DBSettingKey::Compare, nullptr);
 
@@ -115,6 +116,7 @@ int CDbxMDBX::Load()
 
 	mdbx_txn_begin(m_env, nullptr, MDBX_RDONLY, &m_txn_ro);
 	mdbx_cursor_open(m_txn_ro, m_dbEvents, &m_curEvents);
+	mdbx_cursor_open(m_txn_ro, m_dbEventIds, &m_curEventIds);
 	mdbx_cursor_open(m_txn_ro, m_dbEventsSort, &m_curEventsSort);
 	mdbx_cursor_open(m_txn_ro, m_dbSettings, &m_curSettings);
 	mdbx_cursor_open(m_txn_ro, m_dbModules, &m_curModules);

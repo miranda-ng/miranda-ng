@@ -25,10 +25,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CMP_UINT(x, y) { if ((x) != (y)) return (x) < (y) ? -1 : 1; }
 
+int DBEventIdKey::Compare(const MDBX_val *ax, const MDBX_val *bx)
+{
+	const DBEventIdKey *a = (DBEventIdKey*)ax->iov_base;
+	const DBEventIdKey *b = (DBEventIdKey*)bx->iov_base;
+	CMP_UINT(a->iModuleId, b->iModuleId);
+	return strcmp(a->szEventId, b->szEventId);
+}
+
 int DBEventSortingKey::Compare(const MDBX_val *ax, const MDBX_val *bx)
 {
-	const DBEventSortingKey *a = (DBEventSortingKey *)ax->iov_base;
-	const DBEventSortingKey *b = (DBEventSortingKey *)bx->iov_base;
+	const DBEventSortingKey *a = (DBEventSortingKey*)ax->iov_base;
+	const DBEventSortingKey *b = (DBEventSortingKey*)bx->iov_base;
 
 	CMP_UINT(a->hContact, b->hContact);
 	CMP_UINT(a->ts, b->ts);
@@ -38,8 +46,8 @@ int DBEventSortingKey::Compare(const MDBX_val *ax, const MDBX_val *bx)
 
 int DBSettingKey::Compare(const MDBX_val *ax, const MDBX_val *bx)
 {
-	const DBSettingKey *a = (DBSettingKey *)ax->iov_base;
-	const DBSettingKey *b = (DBSettingKey *)bx->iov_base;
+	const DBSettingKey *a = (DBSettingKey*)ax->iov_base;
+	const DBSettingKey *b = (DBSettingKey*)bx->iov_base;
 
 	CMP_UINT(a->hContact, b->hContact);
 	CMP_UINT(a->dwModuleId, b->dwModuleId);
