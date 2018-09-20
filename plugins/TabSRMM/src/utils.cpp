@@ -1049,6 +1049,7 @@ int _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...)
 //  Entries that do not use the LPGENW() macro are NOT TRANSLATABLE, so don't bother translating them.
 
 static wchar_t* warnings[] = {
+	nullptr, nullptr,
 	LPGENW("Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode"),  /* WARN_EDITUSERNOTES */
 	LPGENW("Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available"),		/* WARN_ICONPACKMISSING */
 	LPGENW("Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature."),	/* WARN_AEROPEEKSKIN */
