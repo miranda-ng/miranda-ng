@@ -22,16 +22,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 // incoming message flow
 int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, const char *szMessageId, time_t timestamp, int emoteOffset, bool isRead)
 {
-	PROTORECVEVENT recv = { 0 };
+	PROTORECVEVENT recv = {};
 	recv.timestamp = timestamp;
 	recv.szMessage = mir_strdup(szContent);
 	recv.lParam = emoteOffset;
-	recv.pCustomData = (void*)mir_strdup(szMessageId);
-	recv.cbCustomDataSize = (DWORD)mir_strlen(szMessageId);
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
 
-	return ProtoChainRecvMsg(hContact, &recv);
+	MEVENT hDbEvent = ProtoChainRecvMsg(hContact, &recv);
+	if (hDbEvent)
+		db_event_setId(m_szModuleName, hDbEvent, szMessageId);
+	
+	return hDbEvent;
 }
 
 /* MESSAGE SENDING */

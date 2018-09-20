@@ -809,10 +809,10 @@ HANDLE CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName,
 
 MEVENT CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 {
-	T2Utf szResUtf((const wchar_t *)evt->lParam);
-	evt->pCustomData = (char*)szResUtf;
-	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
-	return CSuper::RecvMsg(hContact, evt);
+	MEVENT hDbEvent = CSuper::RecvMsg(hContact, evt);
+	if (hDbEvent != 0 && evt->lParam)
+		db_event_setId(m_szModuleName, hDbEvent, T2Utf((const wchar_t *)evt->lParam));
+	return hDbEvent;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

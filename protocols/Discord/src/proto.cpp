@@ -355,10 +355,11 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 
 MEVENT CDiscordProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 {
-	T2Utf szResUtf((const wchar_t*)evt->lParam);
-	evt->pCustomData = (char*)szResUtf;
-	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
-	return CSuper::RecvMsg(hContact, evt);
+	MEVENT hDbEvent = CSuper::RecvMsg(hContact, evt);
+	if (hDbEvent && evt->lParam)
+		db_event_setId(m_szModuleName, hDbEvent, T2Utf((const wchar_t*)evt->lParam));
+	
+	return hDbEvent;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

@@ -293,9 +293,9 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		recv.timestamp = datetime;
 		recv.szMessage = pszBody;
 		recv.lParam = isOut;
-		recv.pCustomData = szMid;
-		recv.cbCustomDataSize = (int)mir_strlen(szMid);
-		ProtoChainRecvMsg(hContact, &recv);
+		MEVENT hDbEvent = ProtoChainRecvMsg(hContact, &recv);
+		if (hDbEvent)
+			db_event_setId(m_szModuleName, hDbEvent, szMid);
 
 		if (isRead && isOut && datetime > tLastReadMessageTime)
 			tLastReadMessageTime = datetime;

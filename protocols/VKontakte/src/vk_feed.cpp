@@ -57,9 +57,6 @@ void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = vkNewsItem.tDate;
 	recv.szMessage = pszBody;
-	recv.lParam = 0;
-	recv.pCustomData = nullptr;
-	recv.cbCustomDataSize = 0;
 
 	if (m_vkOptions.bUseNonStandardNotifications) {
 		recv.flags = PREF_CREATEREAD;

@@ -509,14 +509,6 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (PBYTE)pre->szMessage;
 
-	if (pre->cbCustomDataSize != 0) {
-		pszBlob = (PBYTE)mir_alloc(dbei.cbBlob + pre->cbCustomDataSize);
-		memcpy(pszBlob, dbei.pBlob, dbei.cbBlob);
-		memcpy((PBYTE)pszBlob + dbei.cbBlob, pre->pCustomData, pre->cbCustomDataSize);
-		dbei.pBlob = pszBlob;
-		dbei.cbBlob += pre->cbCustomDataSize;
-	}
-
 	if (pre->flags & PREF_CREATEREAD)
 		dbei.flags |= DBEF_READ;
 	if (pre->flags & PREF_SENT)

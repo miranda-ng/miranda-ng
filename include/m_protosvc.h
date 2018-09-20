@@ -774,8 +774,6 @@ struct PROTORECVEVENT
 	DWORD  timestamp;   // unix time
 	char  *szMessage;   // message body in utf8
 	LPARAM lParam;      // extra space for the network level protocol module
-	void  *pCustomData;
-	DWORD  cbCustomDataSize;
 };
 
 #define PREF_CREATEREAD   1     // create the database event with the 'read' flag set
