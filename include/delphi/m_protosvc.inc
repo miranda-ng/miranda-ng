@@ -227,8 +227,6 @@ type
     timestamp       : dword;
     szMessage       : TChar;
     lParam          : LPARAM;
-    pCustomData     : pointer;
-    cbCustomDataSize: dword;
   end;
 
   PPROTORECVFILE = ^TPROTORECVFILE;
