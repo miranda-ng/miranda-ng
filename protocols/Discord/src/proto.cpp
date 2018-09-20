@@ -353,7 +353,7 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int CDiscordProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
+MEVENT CDiscordProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 {
 	T2Utf szResUtf((const wchar_t*)evt->lParam);
 	evt->pCustomData = (char*)szResUtf;

@@ -199,7 +199,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return ProtoCallService(m_szModuleName, PSR_FILE, 0, (LPARAM)&ccs);
 	}
 
-	int RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt) override
+	MEVENT RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)evt };
 		INT_PTR res = ProtoCallService(m_szModuleName, PSR_MESSAGE, 0, (LPARAM)&ccs);

@@ -682,7 +682,7 @@ INT_PTR CMsnProto::GetCaps(int type, MCONTACT)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnRecvMessage - creates a database event from the message been received
 
-int CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
+MEVENT CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (!db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)) || !db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail)))

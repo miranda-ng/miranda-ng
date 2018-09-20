@@ -273,7 +273,7 @@ public:
 	int AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
 	int AuthRequest(MCONTACT hContact, const wchar_t*) override;
 
-	int RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt) override;
+	MEVENT RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt) override;
 	int SendMsg(MCONTACT hContact, int flags, const char* pszSrc) override;
 
 	HANDLE SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;

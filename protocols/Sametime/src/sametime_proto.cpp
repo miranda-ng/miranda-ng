@@ -186,7 +186,7 @@ int CSametimeProto::RecvFile(MCONTACT hContact, PROTORECVFILE* pre)
 	return CSuper::RecvFile(hContact, pre);
 }
 
-int CSametimeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
+MEVENT CSametimeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	debugLogW(L"CSametimeProto::RecvMsg() hContact=[%x]", hContact);
 

@@ -868,7 +868,7 @@ int CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
+MEVENT CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	size_t cbBlob = mir_strlen(pre->szMessage) + 1;
 	ICQAddRecvEvent(hContact, EVENTTYPE_MESSAGE, pre, cbBlob, (PBYTE)pre->szMessage, DBEF_UTF);

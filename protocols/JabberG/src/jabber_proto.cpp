@@ -807,7 +807,7 @@ HANDLE CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName,
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
+MEVENT CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 {
 	T2Utf szResUtf((const wchar_t *)evt->lParam);
 	evt->pCustomData = (char*)szResUtf;

@@ -77,7 +77,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
 	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;
-	int      RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
+	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;

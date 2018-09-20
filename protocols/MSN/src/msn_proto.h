@@ -51,7 +51,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	HANDLE   SearchBasic(const wchar_t* id) override;
 	HANDLE   SearchByEmail(const wchar_t* email) override;
 
-	int      RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
+	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;
 
 	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;

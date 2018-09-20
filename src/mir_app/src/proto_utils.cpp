@@ -493,7 +493,7 @@ int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *pcre)
 	return CallService(MS_PROTO_RECVFILET, 0, (LPARAM)&ccs);
 }
 
-int PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
+MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	if (pre->szMessage == nullptr)
 		return 0;

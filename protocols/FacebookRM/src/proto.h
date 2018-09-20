@@ -116,7 +116,7 @@ public:
 	HANDLE   SearchByEmail(const wchar_t* email) override;
 	HANDLE   SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName) override;
 				 
-	int      RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
+	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
 				 
 	int      SetStatus(int iNewStatus) override;

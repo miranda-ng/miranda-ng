@@ -96,7 +96,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HWND     SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	int      RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
+	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
