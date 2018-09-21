@@ -100,12 +100,12 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	CVkSendMsgParam *param = (CVkSendMsgParam *)pReq->pUserInfo;
 
 	debugLogA("CVkProto::OnSendMessage %d", reply->resultCode);
+	UINT mid = 0;
 	if (reply->resultCode == 200) {
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
 			debugLogA("CVkProto::OnSendMessage jnResponse %d", jnResponse.as_int());
-			UINT mid;
 			switch (jnResponse.type()) {
 			case JSON_NUMBER:
 				mid = jnResponse.as_int();
@@ -134,13 +134,16 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		}
 	}
 
+	char szMid[40];
+	_itoa(mid, szMid, 10);
+
 	if (param->pFUP) {
 		ProtoBroadcastAck(param->hContact, ACKTYPE_FILE, iResult, (HANDLE)(param->pFUP));
 		if (!pReq->bNeedsRestart || m_bTerminated)
 			delete param->pFUP;
 	}
 	else if (m_vkOptions.bServerDelivery)
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, (HANDLE)(param->iMsgID));
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, (HANDLE)(param->iMsgID), (LPARAM)szMid);
 
 	if (!pReq->bNeedsRestart || m_bTerminated) {
 		delete param;
