@@ -1539,39 +1539,25 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	db_event_add(hContact, &dbei);
 }
 
-MEVENT CVkProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, UINT &timestamp, CMStringW &msg)
+MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStringW &msg)
 {
 	if (messageId == nullptr)
 		return 0;
 
-	size_t messageIdLength = mir_strlen(messageId);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, messageId);
+	if (!hDbEvent)
+		return 0;
 
-	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
-		DBEVENTINFO dbei = {};
-		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+	DBEVENTINFO dbei = {};
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+	mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
+	dbei.pBlob = blob;
+	db_event_get(hDbEvent, &dbei);
 
-		if (dbei.cbBlob < messageIdLength)
-			continue;
+	msg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));
+	timestamp = dbei.timestamp;
 
-		mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-		dbei.pBlob = blob;
-		db_event_get(hDbEvent, &dbei);
-
-		size_t cbLen = mir_strlen((char*)dbei.pBlob);
-		if ((dbei.eventType != EVENTTYPE_MESSAGE) || (cbLen + messageIdLength + 1 > dbei.cbBlob))
-			continue;
-
-		if (memcmp(&dbei.pBlob[cbLen + 1], messageId, messageIdLength) == 0) {
-			msg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));
-			timestamp = dbei.timestamp;
-			return hDbEvent;
-		}
-
-		if (dbei.timestamp < timestamp)
-			break;
-	}
-
-	return 0;
+	return hDbEvent;
 }
 
 int CVkProto::DeleteContact(MCONTACT hContact)

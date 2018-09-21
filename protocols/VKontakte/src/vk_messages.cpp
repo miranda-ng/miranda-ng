@@ -323,7 +323,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				wszBody;
 
 			CMStringW wszOldMsg;
-			MEVENT hDbEvent = GetMessageFromDb(hContact, szMid, datetime, wszOldMsg);
+			MEVENT hDbEvent = GetMessageFromDb(szMid, datetime, wszOldMsg);
 			if (hDbEvent) {
 				wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
 					wszOldMsg;

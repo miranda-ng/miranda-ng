@@ -65,7 +65,7 @@ struct CVkProto : public PROTO<CVkProto>
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
-	
+
 	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
@@ -358,7 +358,7 @@ private:
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
-	MEVENT GetMessageFromDb(MCONTACT hContact, const char * messageId, UINT &timestamp, CMStringW &msg);
+	MEVENT GetMessageFromDb(const char * messageId, UINT &timestamp, CMStringW &msg);
 	int DeleteContact(MCONTACT hContact);
 	void InitQueue();
 	void UninitQueue();
