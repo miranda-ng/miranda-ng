@@ -210,11 +210,6 @@ private:
 
 	int m_iLoadHistoryTask;
 
-	LIST<void>
-		m_sendIds,
-		m_editedIds,
-		m_incIds;
-
 	OBJLIST<CVkChatInfo> m_chats;
 	OBJLIST<CVKChatContactTypingParam> m_ChatsTyping;
 	OBJLIST<CVkCookie> m_cookies;
@@ -361,6 +356,7 @@ private:
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
 	MEVENT GetMessageFromDb(const char * messageId, UINT &timestamp, CMStringW &msg);
 	int DeleteContact(MCONTACT hContact);
+	bool IsMessageExist(UINT MsgId);
 	void InitQueue();
 	void UninitQueue();
 	void ExecuteRequest(AsyncHttpRequest*);

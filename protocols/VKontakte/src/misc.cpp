@@ -1565,3 +1565,11 @@ int CVkProto::DeleteContact(MCONTACT hContact)
 	setByte(hContact, "SilentDelete", 1);
 	return db_delete_contact(hContact);
 }
+
+bool CVkProto::IsMessageExist(UINT MsgId)
+{
+	char szMid[40];
+	_itoa(MsgId, szMid, 10);
+
+	return (db_event_getById(m_szModuleName, szMid) != 0);
+}

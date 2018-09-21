@@ -121,9 +121,6 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				mid = 0;
 			}
 
-			if (param->iMsgID != -1)
-				m_sendIds.insert((HANDLE)mid);
-
 			if (mid > getDword(param->hContact, "lastmsgid"))
 				setDword(param->hContact, "lastmsgid", mid);
 
@@ -315,22 +312,17 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - datetime < 60 * m_vkOptions.iInvisibleInterval)
 			SetInvisible(hContact);
 
-		bool bEdited = CheckMid(m_editedIds, mid);
+		time_t update_time = (time_t)jnMsg["update_time"].as_int();
+		bool bEdited = (update_time != 0);
+
 		if (bEdited) {
-			time_t update_time = (time_t)jnMsg["update_time"].as_int();
-			CMStringW wszEditTime;
-
-			if (update_time) {
-				wchar_t ttime[64];
-				_locale_t locale = _create_locale(LC_ALL, "");
-				_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&update_time), locale);
-				_free_locale(locale);
-
-				wszEditTime.Format(TranslateT("Edited message (updated %s):\n"), ttime);
-			}
+			wchar_t ttime[64];
+			_locale_t locale = _create_locale(LC_ALL, "");
+			_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&update_time), locale);
+			_free_locale(locale);
 
 			wszBody = SetBBCString(
-				wszEditTime.IsEmpty() ? TranslateT("Edited message:\n") : wszEditTime,
+				CMStringW(FORMAT, TranslateT("Edited message (updated %s):\n"), ttime),
 				m_vkOptions.BBCForAttachments(), vkbbcB) +
 				wszBody;
 
@@ -351,13 +343,11 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", mid, datetime, isOut, isRead, uid);
 
-		if (!CheckMid(m_sendIds, mid)) {
+		if (!IsMessageExist(mid) || bEdited) {
 			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
 			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))
 				setDword(hContact, "lastmsgid", mid);
-			if (!isOut)
-				m_incIds.insert((HANDLE)mid);
 		}
 		else if (m_vkOptions.bLoadSentAttachments && !wszAttachmentDescr.IsEmpty() && isOut) {
 			T2Utf pszAttach(wszAttachmentDescr);

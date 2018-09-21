@@ -78,7 +78,6 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 	debugLogA("CVkProto::PollUpdates");
 	CMStringA mids;
 	int msgid, uid, flags, platform;
-	bool bNonEdited = true;
 	MCONTACT hContact;
 
 	for (auto &it : jnUpdates) {
@@ -92,7 +91,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			uid = jnChild[3].as_int();
 			hContact = FindUser(uid);
 
-			if (hContact != 0 && (flags & VKFLAG_MSGUNREAD) && !CheckMid(m_incIds, msgid)) {
+			if (hContact != 0 && (flags & VKFLAG_MSGUNREAD) && !IsMessageExist(msgid)) {
 				setDword(hContact, "LastMsgReadTime", time(0));
 				if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
 					MessageReadData data(time(0), MRD_TYPE_READTIME);
@@ -108,24 +107,22 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			break;
 
 		case VKPOLL_MSG_EDITED:
-			bNonEdited = false;
+			msgid = jnChild[1].as_int();
+			if (!mids.IsEmpty())
+				mids.AppendChar(',');
+			mids.AppendFormat("%d", msgid);
+			break;
 
 		case VKPOLL_MSG_ADDED: // new message
 			msgid = jnChild[1].as_int();
-
-			// skip outgoing messages sent from a client
+				// skip outgoing messages sent from a client
 			flags = jnChild[2].as_int();
-			if (bNonEdited && (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT) && !m_vkOptions.bSendVKLinksAsAttachments && CheckMid(m_sendIds, msgid)))
+			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT) && !m_vkOptions.bSendVKLinksAsAttachments && IsMessageExist(msgid))
 				break;
 
 			if (!mids.IsEmpty())
 				mids.AppendChar(',');
 			mids.AppendFormat("%d", msgid);
-
-			if(!bNonEdited)
-				m_editedIds.insert((HANDLE)msgid);
-
-			bNonEdited = true;
 			break;
 
 		case VKPOLL_READ_ALL_OUT:
