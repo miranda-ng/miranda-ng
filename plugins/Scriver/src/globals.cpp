@@ -156,7 +156,9 @@ static int ackevent(WPARAM, LPARAM lParam)
 	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
 
 	item->sendBuffer = (char *)dbei.pBlob;
-	db_event_add(hContact, &dbei);
+	MEVENT hNewEvent = db_event_add(hContact, &dbei);
+	if (hNewEvent && pAck->lParam)
+		db_event_setId(dbei.szModule, hNewEvent, (char *)pAck->lParam);
 
 	if (item->hwndErrorDlg != nullptr)
 		DestroyWindow(item->hwndErrorDlg);

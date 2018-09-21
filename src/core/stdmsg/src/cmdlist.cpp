@@ -77,14 +77,14 @@ TMsgQueue* msgQueue_find(MCONTACT hContact, int id)
 	return nullptr;
 }
 
-void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *szErr)
+void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *lParam)
 {
 	TMsgQueue *p = msgQueue_find(hContact, id);
 	if (p == nullptr)
 		return;
 
 	if (!success) {
-		MessageFailureProcess(p, szErr);
+		MessageFailureProcess(p, lParam);
 		return;
 	}
 
@@ -97,7 +97,9 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *sz
 	dbei.pBlob = (PBYTE)p->szMsg;
 
 	MessageWindowEvent evt = { id, hContact, &dbei };
-	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
+	MEVENT hNewEvent = NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
+	if (hNewEvent && lParam)
+		db_event_setId(dbei.szModule, hNewEvent, lParam);
 
 	p->szMsg = (char*)dbei.pBlob;
 

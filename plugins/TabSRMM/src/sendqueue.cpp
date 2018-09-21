@@ -481,6 +481,8 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 
 	job.szSendBuffer = (char*)dbei.pBlob;
 	MEVENT hNewEvent = db_event_add(job.hContact, &dbei);
+	if (hNewEvent && ack->lParam)
+		db_event_setId(dbei.szModule, hNewEvent, (char*)ack->lParam);
 
 	if (m_pContainer)
 		if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
