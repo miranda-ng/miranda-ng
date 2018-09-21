@@ -188,9 +188,11 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 				MEVENT &hDbEvent = lstEvents[i];
 				MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 				int rc = mdbx_get(txnro, m_dbEvents, &key, &data);
-				/* FIXME: throw an exception */
-				assert(rc == MDBX_SUCCESS);
-				(void)rc;
+				if (rc != MDBX_SUCCESS) {
+					if (rc != MDBX_NOTFOUND)
+						assert(rc == MDBX_SUCCESS);
+					continue;
+				}
 
 				const DBEvent *dbEvent = (const DBEvent*)data.iov_base;
 				const BYTE    *pBlob = (BYTE*)(dbEvent + 1);
