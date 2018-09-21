@@ -444,7 +444,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 			if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 				Skin_PlaySound("SendError");
 
-			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), _A2T((char *)ack->lParam));
+			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), (wchar_t*)ack->lParam));
 			job.iStatus = SQ_ERROR;
 			KillTimer(dat->GetHwnd(), TIMERID_MSGSEND + iFound);
 			if (!(dat->m_dwFlags & MWF_ERRORSTATE))

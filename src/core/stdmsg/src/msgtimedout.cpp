@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct ErrorDlgParam
 {
-	const char *szMsg;
+	const wchar_t *szMsg;
 	TMsgQueue *item;
 };
 
@@ -44,7 +44,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if (!param->szMsg || !param->szMsg[0])
 				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occurred."));
 			else
-				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ptrW(Langpack_PcharToTchar(param->szMsg)));
+				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, param->szMsg);
 
 			SetDlgItemText(hwndDlg, IDC_MSGTEXT, ptrW(mir_utf8decodeW(item->szMsg)));
 
@@ -81,7 +81,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	return FALSE;
 }
 
-void MessageFailureProcess(TMsgQueue *item, const char* err)
+void MessageFailureProcess(TMsgQueue *item, const wchar_t *err)
 {
 	MCONTACT hContact = db_mc_tryMeta(item->hContact);
 

@@ -34,12 +34,9 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 	if (item == nullptr)
 		item = ListGetItemPtr(LIST_CHATROOM, pInfo->GetFrom());
 	if (item != nullptr) { // yes, it is
-		wchar_t *szErrText = JabberErrorMsg(pInfo->GetChildNode());
-		if (id != -1) {
-			char *errText = mir_u2a(szErrText);
-			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)errText);
-			mir_free(errText);
-		}
+		ptrW szErrText(JabberErrorMsg(pInfo->GetChildNode()));
+		if (id != -1)
+			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, szErrText);
 		else {
 			wchar_t buf[512];
 			HXML bodyNode = XmlGetChild(node, "body");
@@ -50,7 +47,6 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 
 			MsgPopup(0, buf, TranslateT("Jabber Error"));
 		}
-		mir_free(szErrText);
 	}
 	return TRUE;
 }

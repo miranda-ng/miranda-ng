@@ -371,14 +371,14 @@ HANDLE CMraProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFile
 int CMraProto::SendMsg(MCONTACT hContact, int, const char *lpszMessage)
 {
 	if (!m_bLoggedIn) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)"You cannot send when you are offline.");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("You cannot send when you are offline."));
 		return 0;
 	}
 
 	DWORD dwFlags = 0;
 	CMStringW wszMessage(ptrW(mir_utf8decodeW(lpszMessage)));
 	if (wszMessage.IsEmpty()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)"Cant allocate buffer for convert to unicode.");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("Cant allocate buffer for convert to unicode."));
 		return 0;
 	}
 

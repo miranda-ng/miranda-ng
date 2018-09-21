@@ -48,7 +48,7 @@ struct SendMessageParam
 int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 {
 	if (!IsOnline()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send when you are offline."));
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)TranslateT("You cannot send when you are offline."));
 		return 0;
 	}
 
@@ -105,12 +105,10 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 				}
 			}
 
-			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)strError.c_str());
+			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, _A2T(strError.c_str()));
 		}
 	}
-	else {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)(Translate("Network error!")));
-	}
+	else ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)TranslateT("Network error!"));
 }
 
 // preparing message/action to writing into db

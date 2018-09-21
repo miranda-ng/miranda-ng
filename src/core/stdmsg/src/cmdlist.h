@@ -32,7 +32,7 @@ struct TMsgQueue
 };
 
 void msgQueue_add(MCONTACT hContact, int id, char *szMsg, int flags);
-void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* szErr);
+void msgQueue_processack(MCONTACT hContact, int id, BOOL success, LPARAM szErr);
 void msgQueue_destroy(void);
 
 #endif

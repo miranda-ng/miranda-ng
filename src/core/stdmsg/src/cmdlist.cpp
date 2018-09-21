@@ -25,7 +25,7 @@ static LIST<TMsgQueue> msgQueue(5, NumericKeySortT);
 static mir_cs csMsgQueue;
 static UINT_PTR timerId;
 
-void MessageFailureProcess(TMsgQueue *item, const char* err);
+void MessageFailureProcess(TMsgQueue *item, const wchar_t *err);
 
 static VOID CALLBACK MsgTimer(HWND, UINT, UINT_PTR, DWORD dwTime)
 {
@@ -41,7 +41,7 @@ static VOID CALLBACK MsgTimer(HWND, UINT, UINT_PTR, DWORD dwTime)
 	}
 
 	for (auto &it : arTimedOut)
-		MessageFailureProcess(it, LPGEN("The message send timed out."));
+		MessageFailureProcess(it, TranslateT("The message send timed out."));
 }
 
 void msgQueue_add(MCONTACT hContact, int id, char *szMsg, int flags)
@@ -77,14 +77,14 @@ TMsgQueue* msgQueue_find(MCONTACT hContact, int id)
 	return nullptr;
 }
 
-void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *lParam)
+void msgQueue_processack(MCONTACT hContact, int id, BOOL success, LPARAM lParam)
 {
 	TMsgQueue *p = msgQueue_find(hContact, id);
 	if (p == nullptr)
 		return;
 
 	if (!success) {
-		MessageFailureProcess(p, lParam);
+		MessageFailureProcess(p, (wchar_t*)lParam);
 		return;
 	}
 
@@ -99,7 +99,7 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *lP
 	MessageWindowEvent evt = { id, hContact, &dbei };
 	MEVENT hNewEvent = NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
 	if (hNewEvent && lParam)
-		db_event_setId(dbei.szModule, hNewEvent, lParam);
+		db_event_setId(dbei.szModule, hNewEvent, (char*)lParam);
 
 	p->szMsg = (char*)dbei.pBlob;
 

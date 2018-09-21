@@ -27,9 +27,10 @@ void CDummyProto::SendMsgAck(void *p)
 	Sleep(100);
 
 	if (getByte(DUMMY_KEY_ALLOW_SENDING, 0))
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid);
 	else
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)Translate("This Dummy account has disabled sending messages. Enable it in account options."));
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, 
+			(LPARAM)TranslateT("This Dummy account has disabled sending messages. Enable it in account options."));
 
 	delete data;
 }

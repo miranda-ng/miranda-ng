@@ -134,7 +134,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 			if (hwndSender != nullptr) {
 				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
 
-				CErrorDlg *pDlg = new CErrorDlg(_A2T((char *)pAck->lParam), hwndSender, item);
+				CErrorDlg *pDlg = new CErrorDlg((wchar_t*)pAck->lParam, hwndSender, item);
 				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)pDlg);
 			}
 			else RemoveSendQueueItem(item);

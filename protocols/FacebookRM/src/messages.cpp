@@ -39,9 +39,9 @@ void FacebookProto::SendMsgWorker(void *p)
 	ptrA id(getStringA(data->hContact, FACEBOOK_KEY_ID));
 
 	if (!isOnline())
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)TranslateT("You cannot send messages when you are offline."));
 	else if (id == nullptr)
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, 0);
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid);
 	else {
 		int tries = getByte(FACEBOOK_KEY_SEND_MESSAGE_TRIES, 1);
 		tries = min(max(tries, 1), 5);
@@ -52,12 +52,12 @@ void FacebookProto::SendMsgWorker(void *p)
 			result = facy.send_message(data->msgid, data->hContact, data->msg, &error_text);
 
 		if (result == SEND_MESSAGE_OK) {
-			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
+			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid);
 
 			// Remove from "readers" list and clear statusbar
 			facy.erase_reader(data->hContact);
 		}
-		else ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)error_text.c_str());
+		else ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)_A2T(error_text.c_str()));
 	}
 
 	delete data;

@@ -85,7 +85,7 @@ void CToxProto::SendMessageAsync(void *arg)
 
 	int32_t friendNumber = GetToxFriendNumber(param->hContact);
 	if (friendNumber == UINT32_MAX)
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, (LPARAM)_T2A(ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_FOUND)));
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, (LPARAM)ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_FOUND));
 
 	size_t msgLen = mir_strlen(param->message);
 	uint8_t *msg = (uint8_t*)param->message;
@@ -99,7 +99,7 @@ void CToxProto::SendMessageAsync(void *arg)
 	int messageNumber = tox_friend_send_message(m_tox, friendNumber, type, msg, msgLen, &sendError);
 	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK) {
 		debugLogA(__FUNCTION__": failed to send message for %d (%d)", friendNumber, sendError);
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, (LPARAM)_T2A(ToxErrorToString(sendError)));
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, (LPARAM)ToxErrorToString(sendError));
 	}
 	uint64_t messageId = (((int64_t)friendNumber) << 32) | ((int64_t)messageNumber);
 	messages[messageId] = param->hMessage;
@@ -111,7 +111,7 @@ void CToxProto::SendMessageAsync(void *arg)
 int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 {
 	if (!IsOnline()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)Translate("You cannot send when you are offline."));
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("You cannot send when you are offline."));
 		return 0;
 	}
 
