@@ -145,7 +145,7 @@ static void __cdecl BasicSearchTimerProc(LPVOID)
 		result = IDSearch(sttSID, sttSearchId);
 
 	// broadcast the search result
-	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId, 0);
+	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
 
 	// exit the search
 	sttSearchId = -1;
@@ -175,7 +175,7 @@ static void __cdecl NameSearchTimerProc(LPVOID)
 			NameSearch(name1, sttSearchId);	// search nickname field
 
 	// broadcast the result
-	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId, 0);
+	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
 
 	// exit the search
 	sttSearchId = -1;

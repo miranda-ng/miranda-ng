@@ -106,7 +106,7 @@ INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM)
 static void __cdecl AckThreadProc(HANDLE param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(WEATHERPROTONAME, (DWORD_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(WEATHERPROTONAME, (DWORD_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
 }
 
 // nothing to do here because weather proto do not need to retrieve contact info form network
@@ -163,9 +163,9 @@ void AvatarDownloaded(MCONTACT hContact)
 	ai.hContact = hContact;
 
 	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&ai) == GAIR_SUCCESS)
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
+		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 	else
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
+		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
 }
 
 static void __cdecl WeatherGetAwayMsgThread(void *arg)
@@ -178,7 +178,7 @@ static void __cdecl WeatherGetAwayMsgThread(void *arg)
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pwszVal);
 		db_free(&dbv);
 	}
-	else ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	else ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1);
 }
 
 static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)

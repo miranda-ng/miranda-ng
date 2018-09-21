@@ -369,7 +369,7 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 
 	// initialize the netlib request
 	if (!APISkypeComRequest(&nlhr, headers)) {
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch);
 		return false;
 	}
 
@@ -390,7 +390,7 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT root(nlhrReply->pData);
 			if (root == nullptr) {
-				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
+				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch);
 				return false;
 			}
 
@@ -410,7 +410,7 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, hSearch, (LPARAM)&psr);
 			}
 			json_free(items);
-			ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
+			ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch);
 			bRet = true;
 		}
 		Netlib_FreeHttpRequest(nlhrReply);

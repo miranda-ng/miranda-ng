@@ -517,7 +517,7 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 			psr.email.w = szEmailT;
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, msnSearchId, (LPARAM)&psr);
 		}
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, msnSearchId, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, msnSearchId);
 
 		msnSearchId = nullptr;
 	}
@@ -627,7 +627,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 			delSetting(hContact, "PictContext");
 			delSetting(hContact, "PictSavedContext");
 
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
 		}
 	}
 	else if (lastStatus == ID_STATUS_OFFLINE)

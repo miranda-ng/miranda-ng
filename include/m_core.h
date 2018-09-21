@@ -315,7 +315,7 @@ MIR_CORE_DLL(int)    mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t
 
 struct PROTO_INTERFACE;
 
-MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam = 0);
 
 // avatar support functions
 

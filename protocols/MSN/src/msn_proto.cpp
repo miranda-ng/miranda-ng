@@ -380,7 +380,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 
 	if (Lists_IsInList(LIST_FL, email)) {
 		MSN_ShowPopup(emailT, TranslateT("Contact already in your contact list"), MSN_ALLOW_MSGBOX, nullptr);
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg);
 		mir_free(arg);
 		return;
 	}
@@ -401,17 +401,17 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 				psr.email.w = (wchar_t*)emailT;
 
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&psr);
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg);
 			}
 			break;
 
 		case 1:
 			if (strstr(email, "@yahoo.com") == nullptr)
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg);
 			break;
 
 		default:
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg);
 			break;
 		}
 	}
@@ -474,7 +474,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 
 	ft->create();
 
-	ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+	ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft);
 
 	if (ft->tType == SERVER_HTTP) {
 		const char *pszSkypeToken;
@@ -509,7 +509,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 			HNETLIBCONN nlc = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 			if (nlc && Netlib_SendHttpRequest(nlc, &nlhr) != SOCKET_ERROR && (nlhrReply = Netlib_RecvHttpHeaders(nlc))) {
 				if (nlhrReply->resultCode == 200 || nlhrReply->resultCode == 206) {
-					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
+					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft);
 
 					INT_PTR dw;
 					char buf[1024];

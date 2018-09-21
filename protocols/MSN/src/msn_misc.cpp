@@ -915,7 +915,7 @@ filetransfer::~filetransfer(void)
 	if (!bCompleted && p2p_appID == MSN_APPID_FILE) {
 		std.pszFiles.w = nullptr;
 		std.totalFiles = 0;
-		proto->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this, 0);
+		proto->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this);
 	}
 
 	mir_free(p2p_branch);
@@ -945,7 +945,7 @@ void filetransfer::complete(void)
 	close();
 
 	bCompleted = true;
-	proto->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this, 0);
+	proto->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this);
 }
 
 int filetransfer::create(void)
