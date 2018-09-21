@@ -17,6 +17,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+MEVENT CVkProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
+{
+	MEVENT hDbEvent = CSuper::RecvMsg(hContact, evt);
+	if (hDbEvent && evt->lParam)
+		db_event_setId(m_szModuleName, hDbEvent, (char*)evt->lParam);
+
+	return hDbEvent;
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::SendMsgAck(void *param)
@@ -334,15 +343,14 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		T2Utf pszBody(wszBody);
 		recv.timestamp = bEdited ? datetime : (m_vkOptions.bUseLocalTime ? time(0) : datetime);
 		recv.szMessage = pszBody;
-		recv.lParam = isOut;
+		recv.lParam = (LPARAM)szMid;
 		Sleep(100);
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", mid, datetime, isOut, isRead, uid);
 
-		MEVENT hDbEvent = 0;
 		if (!CheckMid(m_sendIds, mid)) {
 			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
-			hDbEvent = ProtoChainRecvMsg(hContact, &recv);
+			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))
 				setDword(hContact, "lastmsgid", mid);
 			if (!isOut)
@@ -352,10 +360,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			T2Utf pszAttach(wszAttachmentDescr);
 			recv.timestamp = time(0); // only local time
 			recv.szMessage = pszAttach;
-			hDbEvent = ProtoChainRecvMsg(hContact, &recv);
+			ProtoChainRecvMsg(hContact, &recv);
 		}
-		if (hDbEvent)
-			db_event_setId(m_szModuleName, hDbEvent, szMid);
 	}
 
 	if (!mids.IsEmpty())
