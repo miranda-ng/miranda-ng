@@ -91,7 +91,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			uid = jnChild[3].as_int();
 			hContact = FindUser(uid);
 
-			if (hContact != 0 && (flags & VKFLAG_MSGUNREAD) && !IsMessageExist(msgid)) {
+			if (hContact != 0 && (flags & VKFLAG_MSGUNREAD) && !IsMessageExist(msgid, vkIN)) {
 				setDword(hContact, "LastMsgReadTime", time(0));
 				if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
 					MessageReadData data(time(0), MRD_TYPE_READTIME);
@@ -117,7 +117,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			msgid = jnChild[1].as_int();
 				// skip outgoing messages sent from a client
 			flags = jnChild[2].as_int();
-			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT) && !m_vkOptions.bSendVKLinksAsAttachments && IsMessageExist(msgid))
+			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT) && !m_vkOptions.bSendVKLinksAsAttachments && IsMessageExist(msgid, vkOUT))
 				break;
 
 			if (!mids.IsEmpty())

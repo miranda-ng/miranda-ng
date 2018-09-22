@@ -327,7 +327,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				wszBody;
 
 			CMStringW wszOldMsg;
-			MEVENT hDbEvent = GetMessageFromDb(szMid, datetime, wszOldMsg);
+			MEVENT hDbEvent = GetMessageFromDb(mid, datetime, wszOldMsg);
 			if (hDbEvent) {
 				wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
 					wszOldMsg;
@@ -343,7 +343,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", mid, datetime, isOut, isRead, uid);
 
-		if (!IsMessageExist(mid) || bEdited) {
+		if (!IsMessageExist(mid, vkOUT) || bEdited) {
 			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
 			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))

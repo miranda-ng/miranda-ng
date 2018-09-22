@@ -1539,6 +1539,14 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	db_event_add(hContact, &dbei);
 }
 
+
+MEVENT CVkProto::GetMessageFromDb(UINT iMsgId, UINT &timestamp, CMStringW &msg)
+{
+	char szMid[40];
+	_itoa(iMsgId, szMid, 10);
+	return GetMessageFromDb(szMid, timestamp, msg);
+}
+
 MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStringW &msg)
 {
 	if (messageId == nullptr)
@@ -1566,10 +1574,22 @@ int CVkProto::DeleteContact(MCONTACT hContact)
 	return db_delete_contact(hContact);
 }
 
-bool CVkProto::IsMessageExist(UINT MsgId)
+bool CVkProto::IsMessageExist(UINT iMsgId, VKMesType vkType)
 {
 	char szMid[40];
-	_itoa(MsgId, szMid, 10);
+	_itoa(iMsgId, szMid, 10);
 
-	return (db_event_getById(m_szModuleName, szMid) != 0);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMid);
+
+	if (!hDbEvent)
+		return false;
+
+	if (vkType == vkALL)
+		return true;
+
+	DBEVENTINFO dbei = {};
+	if(db_event_get(hDbEvent, &dbei))
+		return false;
+
+	return ((vkType == vkOUT) == (bool)(dbei.flags & DBEF_SENT));
 }

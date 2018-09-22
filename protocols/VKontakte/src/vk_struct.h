@@ -344,3 +344,5 @@ struct CVKDeactivateEvent {
 };
 
 enum VKContactType : BYTE { vkContactNormal, vkContactSelf, vkContactMUCUser };
+enum VKMesType : BYTE { vkALL, vkIN, vkOUT };
+
