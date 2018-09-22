@@ -20,8 +20,8 @@ enum {
 };
 
 static char *evt_stmts[SQL_EVT_STMT_NUM] = {
-	"select count(1) from events limit 1;",
-	"insert into events values (null, ?, ?, ?, ?, ?, ?, ?);",
+	"select count(1) from events where contactid = ? limit 1;",
+	"insert into events(contactid, module, timestamp, type, flags, size, blob) values (?, ?, ?, ?, ?, ?, ?);",
 	"delete from events where id = ?;",
 	"select size from events where id = ? limit 1;",
 	"select module, timestamp, flags, type, size, blob from events where id = ? limit 1;",
@@ -132,6 +132,9 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 
 LONG CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 {
+	if (hDbEvent == 0)
+		return -1;
+
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_BLOBSIZE];
 	sqlite3_bind_int(stmt, 1, hDbEvent);
