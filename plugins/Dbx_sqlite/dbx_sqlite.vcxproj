@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\sqlite3\sqlite3.vcxproj">
+      <Project>{0c02e395-e73f-47e3-8b95-b7924c0c7a6a}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>Dbx_sqlite</ProjectName>
+    <ProjectGuid>{B3494FED-FB8C-43F4-B341-F26A3460203B}</ProjectGuid>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\sqlite3\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>
