@@ -28,7 +28,7 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select flags from events where id = ? limit 1;",
 	"update events set flag = ? where id = ?;",
 	"select contactid from events where id = ? limit 1;",
-	"select id from events where contactid = ? order by id limit 1;",
+	"select min(id) from events where contactid = ? limit 1;",
 	"select flags, id from events where contactid = ? order by id;",
 	"select max(id) from events where contactid = ? limit 1;",
 	"select id from events where contactid = ? and id > ? order by id limit 1;",
@@ -55,8 +55,13 @@ LONG CDbxSQLite::GetEventCount(MCONTACT hContact)
 {
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_COUNT];
+	sqlite3_bind_int64(stmt, 1, hContact);
 	int rc = sqlite3_step(stmt);
-	int count = sqlite3_column_int(stmt, 0);
+	if (rc != SQLITE_ROW) {
+		sqlite3_reset(stmt);
+		return 0;
+	}
+	LONG count = sqlite3_column_int64(stmt, 0);
 	sqlite3_reset(stmt);
 	return count;
 }
@@ -94,7 +99,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		hDbEvent = sqlite3_last_insert_rowid(m_db);
 	}
 
-	bool neednotify;
+	bool neednotify = false;
 	if (!(dbei->flags & (DBEF_READ | DBEF_SENT)))
 		neednotify = true;
 	//else neednotify = m_safetyMode;
@@ -139,7 +144,7 @@ LONG CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_BLOBSIZE];
 	sqlite3_bind_int(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
-	if (rc != SQLITE_DONE) {
+	if (rc != SQLITE_ROW) {
 		sqlite3_reset(stmt);
 		return -1;
 	}
@@ -173,8 +178,14 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->timestamp = sqlite3_column_int64(stmt, 1);
 	dbei->eventType = sqlite3_column_int(stmt, 2);
 	dbei->flags = sqlite3_column_int64(stmt, 3);
-	dbei->cbBlob = sqlite3_column_int64(stmt, 4);
-	dbei->pBlob = (BYTE*)sqlite3_column_blob(stmt, 5);
+
+	DWORD cbBlob = sqlite3_column_int64(stmt, 4);
+	int bytesToCopy = (dbei->cbBlob < cbBlob) ? dbei->cbBlob : cbBlob;
+	dbei->cbBlob = cbBlob;
+	if (bytesToCopy && dbei->pBlob) {
+		BYTE *data = (BYTE*)sqlite3_column_blob(stmt, 5);
+		memcpy(dbei->pBlob, data, dbei->cbBlob);
+	}
 	sqlite3_reset(stmt);
 	return 0;
 }
@@ -342,7 +353,7 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 		return 0;
 	}
 	hDbEvent = sqlite3_column_int64(stmt, 0);
-	sqlite3_finalize(stmt);
+	sqlite3_reset(stmt);
 	return hDbEvent;
 }
 

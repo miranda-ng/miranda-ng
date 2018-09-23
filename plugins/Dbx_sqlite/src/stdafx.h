@@ -12,6 +12,7 @@
 #include <m_system.h>
 #include <m_database.h>
 #include <m_db_int.h>
+#include <m_metacontacts.h>
 
 #include "dbintf.h"
 #include "resource.h"

@@ -22,9 +22,9 @@ CDbxSQLite::~CDbxSQLite()
 	DestroyHookableEvent(hEventMarkedRead);
 	DestroyHookableEvent(hSettingChangeEvent);
 
-	InitContacts();
-	InitEvents();
-	InitSettings();
+	UninitEvents();
+	UninitContacts();
+	UninitSettings();
 
 	if (m_db) {
 		sqlite3_close(m_db);
@@ -101,9 +101,9 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 	sqlite3_exec(database, "commit;", nullptr, nullptr, nullptr);
 
 	CDbxSQLite *db = new CDbxSQLite(database);
+	db->InitSettings();
 	db->InitContacts();
 	db->InitEvents();
-	db->InitSettings();
 	return db;
 }
 
