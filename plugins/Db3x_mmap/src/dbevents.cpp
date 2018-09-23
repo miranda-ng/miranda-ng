@@ -23,14 +23,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-STDMETHODIMP_(LONG) CDb3Mmap::GetEventCount(MCONTACT contactID)
+LONG CDb3Mmap::GetEventCount(MCONTACT contactID)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBContact *dbc = (DBContact*)DBRead(GetContactOffset(contactID), nullptr);
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? -1 : dbc->eventCount;
 }
 
-STDMETHODIMP_(MEVENT) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
+MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 0;
 	if (dbei->timestamp == 0) return 0;
@@ -162,7 +162,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	return (MEVENT)ofsNew;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
+BOOL CDb3Mmap::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc;
 	if (contactID) {
@@ -257,14 +257,19 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	return 0;
 }
 
-STDMETHODIMP_(LONG) CDb3Mmap::GetBlobSize(MEVENT hDbEvent)
+BOOL CDb3Mmap::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbe)
+{
+	return 1;
+}
+
+LONG CDb3Mmap::GetBlobSize(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, 0);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? -1 : dbe->cbBlob;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
+BOOL CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == nullptr) {
@@ -306,7 +311,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
+BOOL CDb3Mmap::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc;
 	if (contactID) {
@@ -356,14 +361,14 @@ STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	return ret;
 }
 
-STDMETHODIMP_(MCONTACT) CDb3Mmap::GetEventContact(MEVENT hDbEvent)
+MCONTACT CDb3Mmap::GetEventContact(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, INVALID_CONTACT_ID);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? INVALID_CONTACT_ID : dbe->contactID;
 }
 
-STDMETHODIMP_(MEVENT) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
+MEVENT CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
 	DWORD ofsContact = GetContactOffset(contactID, &cc);
@@ -392,7 +397,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 	return 0;
 }
 
-STDMETHODIMP_(MEVENT) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
+MEVENT CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
 	DWORD ofsContact = GetContactOffset(contactID, &cc);
@@ -421,7 +426,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 	return 0;
 }
 
-STDMETHODIMP_(MEVENT) CDb3Mmap::FindLastEvent(MCONTACT contactID)
+MEVENT CDb3Mmap::FindLastEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
 	DWORD ofsContact = GetContactOffset(contactID, &cc);
@@ -450,7 +455,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::FindLastEvent(MCONTACT contactID)
 	return 0;
 }
 
-STDMETHODIMP_(MEVENT) CDb3Mmap::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
+MEVENT CDb3Mmap::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : nullptr;
 
@@ -472,7 +477,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::FindNextEvent(MCONTACT contactID, MEVENT hDbEven
 	return 0;
 }
 
-STDMETHODIMP_(MEVENT) CDb3Mmap::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
+MEVENT CDb3Mmap::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : nullptr;
 

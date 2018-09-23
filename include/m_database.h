@@ -1,26 +1,24 @@
-/*
-
-Miranda NG: the free IM client for Microsoft* Windows*
-
-Copyright (c) 2012-18 Miranda NG team (https://miranda-ng.org)
-Copyright (c) 2000-08 Miranda ICQ/IM project,
-all portions of this codebase are copyrighted to the people
-listed in contributors.txt.
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+// 
+// Copyright (c) 2012-18 Miranda NG team (https://miranda-ng.org)
+// Copyright (c) 2000-08 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+// 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef M_DATABASE_H__
 #define M_DATABASE_H__ 1
@@ -198,13 +196,11 @@ EXTERN_C MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database contacts
 
-/*
-Gets the handle of the first contact in the database. This handle can be used
-with loads of functions. It does not need to be closed.
-You can specify szProto to find only its contacts
-Returns a handle to the first contact in the db on success, or NULL if there
-are no contacts in the db.
-*/
+// Gets the handle of the first contact in the database. This handle can be used
+// with loads of functions. It does not need to be closed.
+// You can specify szProto to find only its contacts
+// Returns a handle to the first contact in the db on success, or NULL if there
+// are no contacts in the db.
 
 #if defined(__cplusplus)
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto = nullptr);
@@ -212,13 +208,11 @@ EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto = nullptr);
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto);
 #endif
 
-/*
-Gets the handle of the next contact after hContact in the database. This handle
-can be used with loads of functions. It does not need to be closed.
-You can specify szProto to find only its contacts
-Returns a handle to the contact after hContact in the db on success or NULL if
-hContact was the last contact in the db or hContact was invalid.
-*/
+// Gets the handle of the next contact after hContact in the database. This handle
+// can be used with loads of functions. It does not need to be closed.
+// You can specify szProto to find only its contacts
+// Returns a handle to the contact after hContact in the db on success or NULL if
+// hContact was the last contact in the db or hContact was invalid.
 
 #if defined(__cplusplus)
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto = nullptr);
@@ -260,20 +254,18 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database events
 
-/*
-Adds a new event to a contact's event list
-Returns a handle to the newly added event, or NULL on failure
-Triggers a db/event/added event just before it returns.
-Events are sorted chronologically as they are entered, so you cannot guarantee
-that the new hEvent is the last event in the chain, however if a new event is
-added that has a timestamp less than 90 seconds *before* the event that should
-be after it, it will be added afterwards, to allow for protocols that only
-store times to the nearest minute, and slight delays in transports.
-There are a few predefined eventTypes below for easier compatibility, but
-modules are free to define their own, beginning at 2000
-DBEVENTINFO.timestamp is in GMT, as returned by time(). There are services
-db/time/x below with useful stuff for dealing with it.
-*/
+// Adds a new event to a contact's event list
+// Returns a handle to the newly added event, or NULL on failure
+// Triggers a db/event/added event just before it returns.
+// Events are sorted chronologically as they are entered, so you cannot guarantee
+// that the new hEvent is the last event in the chain, however if a new event is
+// added that has a timestamp less than 90 seconds *before* the event that should
+// be after it, it will be added afterwards, to allow for protocols that only
+// store times to the nearest minute, and slight delays in transports.
+// There are a few predefined eventTypes below for easier compatibility, but
+// modules are free to define their own, beginning at 2000
+// DBEVENTINFO.timestamp is in GMT, as returned by time(). There are services
+// db/time/x below with useful stuff for dealing with it.
 
 #define EVENTTYPE_MESSAGE         0
 #define EVENTTYPE_URL             1
@@ -284,123 +276,99 @@ db/time/x below with useful stuff for dealing with it.
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei);
 
-/*
-Gets the number of events in the chain belonging to a contact in the database.
-Returns the number of events in the chain owned by hContact or -1 if hContact
-is invalid. They can be retrieved using the db_event_first/last() services.
-*/
+// Gets the number of events in the chain belonging to a contact in the database.
+// Returns the number of events in the chain owned by hContact or -1 if hContact
+// is invalid. They can be retrieved using the db_event_first/last() services.
 
 EXTERN_C MIR_CORE_DLL(int) db_event_count(MCONTACT hContact);
 
-/*
-Removes a single event from the database
-hDbEvent should have been returned by db_event_add/first/last/next/prev()
-Returns 0 on success, or nonzero if hDbEvent was invalid
-Triggers a db/event/deleted event just *before* the event is deleted
-*/
+// Removes a single event from the database
+// hDbEvent should have been returned by db_event_add/first/last/next/prev()
+// Returns 0 on success, or nonzero if hDbEvent was invalid
+// Triggers a db/event/deleted event just *before* the event is deleted
 
 EXTERN_C MIR_CORE_DLL(int) db_event_delete(MCONTACT hContact, MEVENT hDbEvent);
 
-/*
-Retrieves a handle to the first event in the chain for hContact
-Returns the handle, or NULL if hContact is invalid or has no events
-Events in a chain are sorted chronologically automatically
-*/
+// Edits an event in the database
+// Returns 0 on success, or nonzero on error
+
+EXTERN_C MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei);
+
+// Retrieves a handle to the first event in the chain for hContact
+// Returns the handle, or NULL if hContact is invalid or has no events
+// Events in a chain are sorted chronologically automatically
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact);
 
-/*
-Retrieves a handle to the first unread event in the chain for hContact
-Returns the handle, or NULL if hContact is invalid or all its events have been
-read
-
-Events in a chain are sorted chronologically automatically, but this does not
-necessarily mean that all events after the first unread are unread too. They
-should be checked individually with db_event_next() and db_event_get()
-This service is designed for startup, reloading all the events that remained
-unread from last time
-*/
+// Retrieves a handle to the first unread event in the chain for hContact
+// Returns the handle, or NULL if hContact is invalid or all its events have been read
+//
+// Events in a chain are sorted chronologically automatically, but this does not
+// necessarily mean that all events after the first unread are unread too. They
+// should be checked individually with db_event_next() and db_event_get()
+// This service is designed for startup, reloading all the events that remained
+// unread from last time 
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_firstUnread(MCONTACT hContact);
 
-/*
-Retrieves all the information stored in hDbEvent
-hDbEvent should have been returned by db_event_add/first/last/next/prev()
-Returns 0 on success or nonzero if hDbEvent is invalid
-Don't forget to set dbe.cbSize, dbe.pBlob and dbe.cbBlob before calling this
-service
-The correct value dbe.cbBlob can be got using db/event/getblobsize
-If successful, all the fields of dbe are filled. dbe.cbBlob is set to the
-actual number of bytes retrieved and put in dbe.pBlob
-If dbe.cbBlob is too small, dbe.pBlob is filled up to the size of dbe.cbBlob
-and then dbe.cbBlob is set to the required size of data to go in dbe.pBlob
-On return, dbe.szModule is a pointer to the database module's own internal list
-of modules. Look but don't touch.
-*/
+// Retrieves all the information stored in hDbEvent
+// hDbEvent should have been returned by db_event_add/first/last/next/prev()
+// Returns 0 on success or nonzero if hDbEvent is invalid
+// Don't forget to set dbe.cbSize, dbe.pBlob and dbe.cbBlob before calling this function
+// The correct value dbe.cbBlob can be got using db_event_getBlobSize
+// If successful, all the fields of dbe are filled. dbe.cbBlob is set to the
+// actual number of bytes retrieved and put in dbe.pBlob
+// If dbe.cbBlob is too small, dbe.pBlob is filled up to the size of dbe.cbBlob
+// and then dbe.cbBlob is set to the required size of data to go in dbe.pBlob
+// On return, dbe.szModule is a pointer to the database module's own internal list
+// of modules. Look but don't touch. 
 
 EXTERN_C MIR_CORE_DLL(int) db_event_get(MEVENT hDbEvent, DBEVENTINFO *dbei);
 
-/*
-Retrieves the space in bytes required to store the blob in hDbEvent
-hDbEvent should have been returned by db_event_add/first/last/next/prev()
-Returns the space required in bytes, or -1 if hDbEvent is invalid
-*/
+// Retrieves the space in bytes required to store the blob in hDbEvent
+// hDbEvent should have been returned by db_event_add/first/last/next/prev()
+// Returns the space required in bytes, or -1 if hDbEvent is invalid
 
 EXTERN_C MIR_CORE_DLL(int) db_event_getBlobSize(MEVENT hDbEvent);
 
-/*
-Retrieves a handle to the contact that owns hDbEvent.
-hDbEvent should have been returned by db_event_add/first/last/next/prev()
-NULL is a valid return value, meaning, as usual, the user.
-Returns INVALID_CONTACT_ID if hDbEvent is invalid, or the handle to the contact on success
-*/
+// Retrieves a handle to the contact that owns hDbEvent.
+// hDbEvent should have been returned by db_event_add/first/last/next/prev()
+// NULL is a valid return value, meaning, as usual, the user.
+// Returns INVALID_CONTACT_ID if hDbEvent is invalid, or the handle to the contact on success
 
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_event_getContact(MEVENT hDbEvent);
 
-/*
-Retrieves a handle to the last event in the chain for hContact
-Returns the handle, or NULL if hContact is invalid or has no events
-Events in a chain are sorted chronologically automatically
-*/
+// Retrieves a handle to the last event in the chain for hContact
+// Returns the handle, or NULL if hContact is invalid or has no events
+// Events in a chain are sorted chronologically automatically
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_last(MCONTACT hContact);
 
-/*
-Changes the flags for an event to mark it as read.
-hDbEvent should have been returned by db_event_add/first/last/next/prev()
-Returns the entire flag DWORD for the event after the change, or -1 if hDbEvent
-is invalid.
-This is the one database write operation that does not trigger an event.
-Modules should not save flags states for any length of time.
-*/
+// Changes the flags for an event to mark it as read.
+// hDbEvent should have been returned by db_event_add/first/last/next/prev()
+// Returns the entire flag DWORD for the event after the change, or -1 if hDbEvent is invalid.
+// This is the one database write operation that does not trigger an event.
+// Modules should not save flags states for any length of time.
 
 EXTERN_C MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent);
 
-/*
-Retrieves a handle to the next event in a chain after hDbEvent
-Returns the handle, or NULL if hDbEvent is invalid or is the last event
-Events in a chain are sorted chronologically automatically
-*/
+// Retrieves a handle to the next event in a chain after hDbEvent
+// Returns the handle, or NULL if hDbEvent is invalid or is the last event
+// Events in a chain are sorted chronologically automatically
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_next(MCONTACT hContact, MEVENT hDbEvent);
 
-/*
-Retrieves a handle to the previous event in a chain before hDbEvent
-Returns the handle, or NULL if hDbEvent is invalid or is the first event
-Events in a chain are sorted chronologically automatically
-*/
+// Retrieves a handle to the previous event in a chain before hDbEvent
+// Returns the handle, or NULL if hDbEvent is invalid or is the first event
+// Events in a chain are sorted chronologically automatically
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
 
-/*
-Retrieves a handle to the event identified by its module and unique identifier
-*/
+// Retrieves a handle to the event identified by its module and unique identifier
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId);
 
-/*
-Sets an identifier for an event identified by its module and handle
-*/
+// Sets an identifier for an event identified by its module and handle
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_setId(const char *szModule, MEVENT hDbEvent, const char *szId);
 
@@ -583,92 +551,96 @@ EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database events
 
-/* DB/Event/Added event
-Called when a new event has been added to the event chain for a contact
-  wParam = (MCONTACT)hContact
-  lParam = (LPARAM)(HANDLE)hDbEvent
-hDbEvent is a valid handle to the event. hContact is a valid handle to the
-contact to which hDbEvent refers.
-Since events are sorted chronologically, you cannot guarantee that hDbEvent is
-at any particular position in the chain.
-*/
+///////////////////////////////////////////////////////////////////////////////////////// 
+// DB/Event/Added event
+// Called when a new event has been added to the event chain for a contact
+//   wParam = (MCONTACT)hContact
+//   lParam = (LPARAM)(HANDLE)hDbEvent
+// hDbEvent is a valid handle to the event. hContact is a valid handle to the
+// contact to which hDbEvent refers.
+// Since events are sorted chronologically, you cannot guarantee that hDbEvent is
+// at any particular position in the chain.
+
 #define ME_DB_EVENT_ADDED  "DB/Event/Added"
 
-/* DB/Event/FilterAdd (NOTE: Added during 0.3.3+ development!)
-Called **before** a new event is made of a DBEVENTINFO structure, this
-hook is not SAFE unless you know what you're doing with it, the arguments
-are passed as-is (with errors, pointer problems, if any) from any arguments
-passed to db_event_add.
+/////////////////////////////////////////////////////////////////////////////////////////
+// DB/Event/FilterAdd (NOTE: Added during 0.3.3+ development!)
+// Called **before** a new event is made of a DBEVENTINFO structure, this
+// hook is not SAFE unless you know what you're doing with it, the arguments
+// are passed as-is (with errors, pointer problems, if any) from any arguments
+// passed to db_event_add.
 
-The point of this hook is to stop any unwanted database events, to stop
-an event being added, return 1, to allow the event to pass through return
-0.
-  wParam = (MCONTACT)hContact
-  lParam = (LPARAM)&DBEVENTINFO
+// The point of this hook is to stop any unwanted database events, to stop
+// an event being added, return 1, to allow the event to pass through return 0.
+//   wParam = (MCONTACT)hContact
+//   lParam = (LPARAM)&DBEVENTINFO
+// 
+// Any changed made to the said DBEVENTINFO are also passed along to the database,
+// therefore it is possible to shape the data, however DO NOT DO THIS.
 
-Any changed made to the said DBEVENTINFO are also passed along to the database,
-therefore it is possible to shape the data, however DO NOT DO THIS.
-*/
 #define ME_DB_EVENT_FILTER_ADD "DB/Event/FilterAdd"
 
-/* DB/Event/Marked/Read event
-Called when an event is marked read
-wParam = (MCONTACT)hContact
-lParam = (LPARAM)(HANDLE)hDbEvent
-hDbEvent is a valid handle to the event.
-hContact is a valid handle to the contact to which hDbEvent refers, and will
-remain valid.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// DB/Event/Marked/Read event
+// Called when an event is marked read
+//   wParam = (MCONTACT)hContact
+//   lParam = (LPARAM)(HANDLE)hDbEvent
+// hDbEvent is a valid handle to the event.
+// hContact is a valid handle to the contact to which hDbEvent refers, and will remain valid.
+
 #define ME_DB_EVENT_MARKED_READ "DB/Event/Marked/Read"
 
-/* DB/Event/Deleted event
-Called when an event is about to be deleted from the event chain for a contact
-  wParam = (MCONTACT)hContact
-  lParam = (LPARAM)(HANDLE)hDbEvent
-hDbEvent is a valid handle to the event which is about to be deleted, but it
-won't be once your hook has returned.
-hContact is a valid handle to the contact to which hDbEvent refers, and will
-remain valid.
-Returning nonzero from your hook will not stop the deletion, but it will, as
-usual, stop other hooks from being called.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// DB/Event/Deleted event
+// Called when an event is about to be deleted from the event chain for a contact
+//   wParam = (MCONTACT)hContact
+//   lParam = (LPARAM)(HANDLE)hDbEvent
+// hDbEvent is a valid handle to the event which is about to be deleted, but it
+// won't be once your hook has returned.
+// hContact is a valid handle to the contact to which hDbEvent refers, and will
+// remain valid.
+// Returning nonzero from your hook will not stop the deletion, but it will, as
+// usual, stop other hooks from being called.
+
 #define ME_DB_EVENT_DELETED  "DB/Event/Deleted"
 
-/* DB/Contact/Added event
-Called when a new contact has been added to the database
-  wParam = (MCONTACT)hContact
-  lParam = 0
-hContact is a valid handle to the new contact.
-Contacts are initially created without any settings, so if you hook this event
-you will almost certainly also want to hook db/contact/settingchanged as well.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// DB/Contact/Added event
+// Called when a new contact has been added to the database
+//   wParam = (MCONTACT)hContact
+//   lParam = 0
+// hContact is a valid handle to the new contact.
+// Contacts are initially created without any settings, so if you hook this event
+// you will almost certainly also want to hook db/contact/settingchanged as well.
+
 #define ME_DB_CONTACT_ADDED  "DB/Contact/Added"
 
-/* DB/Contact/Deleted event
-Called when an contact is about to be deleted
-  wParam = (MCONTACT)hContact
-  lParam = 0
-hContact is a valid handle to the contact which is about to be deleted, but it
-won't be once your hook has returned.
-Returning nonzero from your hook will not stop the deletion, but it will, as
-usual, stop other hooks from being called.
-Deleting a contact invalidates all events in its chain.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// DB/Contact/Deleted event
+// Called when an contact is about to be deleted
+//   wParam = (MCONTACT)hContact
+//   lParam = 0
+// hContact is a valid handle to the contact which is about to be deleted, but it
+// won't be once your hook has returned.
+// Returning nonzero from your hook will not stop the deletion, but it will, as
+// usual, stop other hooks from being called.
+// Deleting a contact invalidates all events in its chain.
+
 #define ME_DB_CONTACT_DELETED  "DB/Contact/Deleted"
 
-/* DB/Contact/SettingChanged event
-Called when a contact has had one of its settings changed
-  wParam = (MCONTACT)hContact
-  lParam = (LPARAM)(DBCONTACTWRITESETTING*)&dbcws
-hContact is a valid handle to the contact that has changed.
-This event will be triggered many times rapidly when a whole bunch of values
-are set.
-Modules which hook this should be aware of this fact and quickly return if they
-are not interested in the value that has been changed.
-Careful not to get into infinite loops with this event.
-The structure dbcws is the same one as is passed to the original service, so
-don't change any of the members.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// DB/Contact/SettingChanged event
+// Called when a contact has had one of its settings changed
+//   wParam = (MCONTACT)hContact
+//   lParam = (LPARAM)(DBCONTACTWRITESETTING*)&dbcws
+// hContact is a valid handle to the contact that has changed.
+// This event will be triggered many times rapidly when a whole bunch of values are set.
+// Modules which hook this should be aware of this fact and quickly return if they
+// are not interested in the value that has been changed.
+// Careful not to get into infinite loops with this event.
+// The structure dbcws is the same one as is passed to the original service, so
+// don't change any of the members.
+
 #define ME_DB_CONTACT_SETTINGCHANGED  "DB/Contact/SettingChanged"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -676,7 +648,7 @@ don't change any of the members.
 
 #ifndef DB_NOHELPERFUNCTIONS
 
-/* inlined range tolerate versions */
+///////////////////////////////////////////////////////////////////////////////////////// inlined range tolerate versions */
 
 __inline BYTE DBGetContactSettingRangedByte(MCONTACT hContact, const char *szModule, const char *szSetting, BYTE errorValue, BYTE minValue, BYTE maxValue)
 {
@@ -701,7 +673,7 @@ __inline DWORD DBGetContactSettingRangedDword(MCONTACT hContact, const char *szM
 /////////////////////////////////////////////////////////////////////////////////////////
 // Helper to process the auth req body
 
-/* blob is: 0(DWORD), hContact(DWORD), nick(UTF8), firstName(UTF8), lastName(UTF8), email(UTF8), reason(UTF8) */
+///////////////////////////////////////////////////////////////////////////////////////// blob is: 0(DWORD), hContact(DWORD), nick(UTF8), firstName(UTF8), lastName(UTF8), email(UTF8), reason(UTF8) */
 
 #pragma warning(disable : 4251)
 

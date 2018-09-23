@@ -44,6 +44,11 @@ STDMETHODIMP_(BOOL) CDbxSQLite::DeleteEvent(MCONTACT, MEVENT)
 	return FALSE;
 }
 
+BOOL CDbxSQLite::EditEvent(MCONTACT, MEVENT, DBEVENTINFO*)
+{
+	return 1;
+}
+
 STDMETHODIMP_(LONG) CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 {
 	mir_cslock lock(m_csDbAccess);

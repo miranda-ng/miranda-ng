@@ -230,6 +230,13 @@ BOOL CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbe)
+{
+	return 1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 LONG CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
 {
 	txn_ptr_ro txn(m_txn_ro);

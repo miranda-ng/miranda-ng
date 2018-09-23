@@ -76,6 +76,11 @@ BOOL MDatabaseReadonly::DeleteEvent(MCONTACT, MEVENT)
 	return 1;
 }
 
+BOOL MDatabaseReadonly::EditEvent(MCONTACT, MEVENT, DBEVENTINFO*)
+{
+	return 1;
+}
+
 LONG MDatabaseReadonly::GetBlobSize(MEVENT)
 {
 	return 0;

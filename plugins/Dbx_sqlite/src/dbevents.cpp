@@ -135,6 +135,11 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 	return 0;
 }
 
+BOOL CDbxSQLite::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbe)
+{
+	return 1; // not supported
+}
+
 LONG CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 {
 	if (hDbEvent == 0)

@@ -361,6 +361,11 @@ MIR_CORE_DLL(int) db_event_delete(MCONTACT hContact, MEVENT hDbEvent)
 	return (currDb == nullptr) ? 0 : currDb->DeleteEvent(hContact, hDbEvent);
 }
 
+MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei)
+{
+	return (currDb == nullptr) ? 0 : currDb->EditEvent(hContact, hDbEvent, dbei);
+}
+
 MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact)
 {
 	return (currDb == nullptr) ? 0 : currDb->FindFirstEvent(hContact);

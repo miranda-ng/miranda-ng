@@ -1067,3 +1067,4 @@ CallObjectEventHook @1259
 ?VerifyControls@CDlgBase@@AAE_NP8CCtrlBase@@AE_NXZ@Z @1265 NONAME
 db_event_getById @1266
 db_event_setId @1267
+db_event_edit @1268
