@@ -39,106 +39,9 @@ MEVENT CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	if (dbei == nullptr) return 0;
 	if (dbei->timestamp == 0) return 0;
 
-	DBEvent dbe;
-	dbe.contactID = contactID; // store native or subcontact's id
-	dbe.iModuleId = GetModuleID(dbei->szModule);
-
-	MCONTACT contactNotifyID = contactID;
-	DBCachedContact *cc, *ccSub = nullptr;
-	if (contactID != 0) {
-		if ((cc = m_cache->GetCachedContact(contactID)) == nullptr)
-			return 0;
-
-		if (cc->IsSub()) {
-			ccSub = cc;
-			if ((cc = m_cache->GetCachedContact(cc->parentID)) == nullptr)
-				return 0;
-
-			// set default sub to the event's source
-			if (!(dbei->flags & DBEF_SENT))
-				db_mc_setDefault(cc->contactID, contactID, false);
-			contactID = cc->contactID; // and add an event to a metahistory
-			if (db_mc_isEnabled())
-				contactNotifyID = contactID;
-		}
-	}
-	else cc = &m_ccDummy;
-
-	if (m_safetyMode)
-		if (NotifyEventHooks(hEventFilterAddedEvent, contactNotifyID, (LPARAM)dbei))
-			return 0;
-
-	dbe.timestamp = dbei->timestamp;
-	dbe.flags = dbei->flags;
-	dbe.wEventType = dbei->eventType;
-	dbe.cbBlob = dbei->cbBlob;
-	BYTE *pBlob = dbei->pBlob;
-
-	mir_ptr<BYTE> pCryptBlob;
-	if (m_bEncrypted) {
-		size_t len;
-		BYTE *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
-		if (pResult != nullptr) {
-			pCryptBlob = pBlob = pResult;
-			dbe.cbBlob = (uint16_t)len;
-			dbe.flags |= DBEF_ENCRYPTED;
-		}
-	}
-
 	MEVENT dwEventId = InterlockedIncrement(&m_dwMaxEventId);
-	{
-		BYTE *recBuf = (BYTE*)_alloca(sizeof(DBEvent) + dbe.cbBlob);
-		DBEvent *pNewEvent = (DBEvent*)recBuf;
-		*pNewEvent = dbe;
-		memcpy(pNewEvent + 1, pBlob, dbe.cbBlob);
-
-		txn_ptr trnlck(StartTran());
-		MDBX_val key = { &dwEventId, sizeof(MEVENT) }, data = { recBuf, sizeof(DBEvent) + dbe.cbBlob };
-		if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
-			return 0;
-
-		// add a sorting key
-		DBEventSortingKey key2 = { contactID, dwEventId, dbe.timestamp };
-		key.iov_len = sizeof(key2); key.iov_base = &key2;
-		data.iov_len = 1; data.iov_base = (char*)("");
-		if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
-			return 0;
-
-		cc->Advance(dwEventId, dbe);
-		if (contactID != 0) {
-			MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
-			if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
-				return 0;
-
-			// insert an event into a sub's history too
-			if (ccSub != nullptr) {
-				key2.hContact = ccSub->contactID;
-				if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
-					return 0;
-
-				ccSub->Advance(dwEventId, dbe);
-				datac.iov_base = &ccSub->dbc;
-				keyc.iov_base = &ccSub->contactID;
-				if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
-					return 0;
-			}
-		}
-		else {
-			uint32_t keyVal = 2;
-			MDBX_val keyc = { &keyVal, sizeof(keyVal) }, datac = { &m_ccDummy.dbc, sizeof(m_ccDummy.dbc) };
-			if (mdbx_put(trnlck, m_dbGlobal, &keyc, &datac, 0) != MDBX_SUCCESS)
-				return 0;
-		}
-
-		if (trnlck.commit() != MDBX_SUCCESS)
-			return 0;
-	}
-
-	DBFlush();
-
-	// Notify only in safe mode or on really new events
-	if (m_safetyMode)
-		NotifyEventHooks(hEventAddedEvent, contactNotifyID, dwEventId);
+	if (ERROR_SUCCESS != EditEvent(contactID, dwEventId, dbei))
+		return 0;
 
 	return dwEventId;
 }
@@ -230,9 +133,112 @@ BOOL CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbe)
+BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
-	return 1;
+	if (dbei == nullptr) return 1;
+	if (dbei->timestamp == 0) return 1;
+
+	DBEvent dbe;
+	dbe.contactID = contactID; // store native or subcontact's id
+	dbe.iModuleId = GetModuleID(dbei->szModule);
+
+	MCONTACT contactNotifyID = contactID;
+	DBCachedContact *cc, *ccSub = nullptr;
+	if (contactID != 0) {
+		if ((cc = m_cache->GetCachedContact(contactID)) == nullptr)
+			return 2;
+
+		if (cc->IsSub()) {
+			ccSub = cc;
+			if ((cc = m_cache->GetCachedContact(cc->parentID)) == nullptr)
+				return 2;
+
+			// set default sub to the event's source
+			if (!(dbei->flags & DBEF_SENT))
+				db_mc_setDefault(cc->contactID, contactID, false);
+			contactID = cc->contactID; // and add an event to a metahistory
+			if (db_mc_isEnabled())
+				contactNotifyID = contactID;
+		}
+	}
+	else cc = &m_ccDummy;
+
+	if (m_safetyMode)
+		if (NotifyEventHooks(hEventFilterAddedEvent, contactNotifyID, (LPARAM)dbei))
+			return 3;
+
+	dbe.timestamp = dbei->timestamp;
+	dbe.flags = dbei->flags;
+	dbe.wEventType = dbei->eventType;
+	dbe.cbBlob = dbei->cbBlob;
+	BYTE *pBlob = dbei->pBlob;
+
+	mir_ptr<BYTE> pCryptBlob;
+	if (m_bEncrypted) {
+		size_t len;
+		BYTE *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
+		if (pResult != nullptr) {
+			pCryptBlob = pBlob = pResult;
+			dbe.cbBlob = (uint16_t)len;
+			dbe.flags |= DBEF_ENCRYPTED;
+		}
+	}
+
+	{
+		BYTE *recBuf = (BYTE*)_alloca(sizeof(DBEvent) + dbe.cbBlob);
+		DBEvent *pNewEvent = (DBEvent*)recBuf;
+		*pNewEvent = dbe;
+		memcpy(pNewEvent + 1, pBlob, dbe.cbBlob);
+
+		txn_ptr trnlck(StartTran());
+		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data = { recBuf, sizeof(DBEvent) + dbe.cbBlob };
+		if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
+			return 4;
+
+		// add a sorting key
+		DBEventSortingKey key2 = { contactID, hDbEvent, dbe.timestamp };
+		key.iov_len = sizeof(key2); key.iov_base = &key2;
+		data.iov_len = 1; data.iov_base = (char*)("");
+		if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
+			return 4;
+
+		cc->Advance(hDbEvent, dbe);
+		if (contactID != 0) {
+			MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
+			if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
+				return 4;
+
+			// insert an event into a sub's history too
+			if (ccSub != nullptr) {
+				key2.hContact = ccSub->contactID;
+				if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
+					return 4;
+
+				ccSub->Advance(hDbEvent, dbe);
+				datac.iov_base = &ccSub->dbc;
+				keyc.iov_base = &ccSub->contactID;
+				if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
+					return 4;
+			}
+		}
+		else {
+			uint32_t keyVal = 2;
+			MDBX_val keyc = { &keyVal, sizeof(keyVal) }, datac = { &m_ccDummy.dbc, sizeof(m_ccDummy.dbc) };
+			if (mdbx_put(trnlck, m_dbGlobal, &keyc, &datac, 0) != MDBX_SUCCESS)
+				return 4;
+		}
+
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 4;
+	}
+
+	DBFlush();
+
+	// Notify only in safe mode or on really new events
+	if (m_safetyMode)
+		NotifyEventHooks(hEventAddedEvent, contactNotifyID, hDbEvent);
+
+	return ERROR_SUCCESS;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
