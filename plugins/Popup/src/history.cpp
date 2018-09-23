@@ -127,8 +127,10 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 		{
 			oldWidth = 0;
 			HWND hwndList = GetDlgItem(hwnd, IDC_POPUP_LIST);
-			for (auto &it : arPopupHistory)
+			for (auto &it : arPopupHistory) {
+				(void)(it);
 				ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, L""), 0);
+			}
 
 			Window_SetIcon_IcoLib(hwnd, GetIconHandle(IDI_HISTORY));
 
