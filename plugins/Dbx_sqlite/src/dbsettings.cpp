@@ -88,19 +88,32 @@ BOOL CDbxSQLite::EnumModuleNames(DBMODULEENUMPROC pFunc, void *param)
 	return result;
 }
 
+static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
+{
+	if (!strcmp(szModule, META_PROTO))
+		return strcmp(szSetting, "IsSubcontact") && strcmp(szSetting, "ParentMetaID");
+
+	if (!strcmp(szModule, "Ignore"))
+		return false;
+
+	return true;
+}
+
 BOOL CDbxSQLite::GetContactSettingWorker(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
 {
 	if (szSetting == nullptr || szModule == nullptr)
 		return 1;
 
+	DBCachedContact *cc = nullptr;
 	if (hContact) {
-		DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+		cc = m_cache->GetCachedContact(hContact);
 		if (cc == nullptr)
 			return 1;
 	}
 
 	mir_cslock lock(m_csDbAccess);
 
+LBL_Seek:
 	char *cachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, mir_strlen(szModule), mir_strlen(szSetting));
 	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, cachedSettingName, 0);
 	if (pCachedValue != nullptr) {
@@ -142,6 +155,12 @@ BOOL CDbxSQLite::GetContactSettingWorker(MCONTACT hContact, LPCSTR szModule, LPC
 	int rc = sqlite3_step(stmt);
 	if (rc != SQLITE_ROW) {
 		sqlite3_reset(stmt);
+		if (rc == SQLITE_DONE && cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
+			if (hContact = db_mc_getDefault(hContact)) {
+				if (szModule = GetContactProto(hContact))
+					goto LBL_Seek;
+			}
+		}
 		return 1;
 	}
 	dbv->type = (int)sqlite3_column_int(stmt, 0);
