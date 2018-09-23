@@ -150,6 +150,7 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 		return res;
 	}
 
+	bool EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbe, bool bNew);
 	void FillContacts(void);
 	int  PrepareCheck(void);
 	void TouchFile(void);
@@ -197,7 +198,7 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	MDBX_cursor *m_curEvents, *m_curEventsSort, *m_curEventIds;
 	MEVENT       m_dwMaxEventId;
 
-	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
+	HANDLE   hEventAddedEvent, hEventEditedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
 
 	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
 

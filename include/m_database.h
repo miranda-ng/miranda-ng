@@ -563,6 +563,16 @@ EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *
 
 #define ME_DB_EVENT_ADDED  "DB/Event/Added"
 
+///////////////////////////////////////////////////////////////////////////////////////// 
+// DB/Event/Edited event
+// Called when the existing event was changed
+//   wParam = (MCONTACT)hContact
+//   lParam = (LPARAM)(HANDLE)hDbEvent
+// hDbEvent is a valid handle to the event. hContact is a valid handle to the
+// contact to which hDbEvent refers.
+
+#define ME_DB_EVENT_EDITED "DB/Event/Edited"
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // DB/Event/FilterAdd (NOTE: Added during 0.3.3+ development!)
 // Called **before** a new event is made of a DBEVENTINFO structure, this

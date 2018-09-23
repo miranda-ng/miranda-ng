@@ -40,7 +40,7 @@ MEVENT CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	if (dbei->timestamp == 0) return 0;
 
 	MEVENT dwEventId = InterlockedIncrement(&m_dwMaxEventId);
-	if (ERROR_SUCCESS != EditEvent(contactID, dwEventId, dbei))
+	if (!EditEvent(contactID, dwEventId, dbei, true))
 		return 0;
 
 	return dwEventId;
@@ -138,6 +138,11 @@ BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei)
 	if (dbei == nullptr) return 1;
 	if (dbei->timestamp == 0) return 1;
 
+	return EditEvent(contactID, hDbEvent, dbei, false);
+}
+
+bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei, bool bNew)
+{
 	DBEvent dbe;
 	dbe.contactID = contactID; // store native or subcontact's id
 	dbe.iModuleId = GetModuleID(dbei->szModule);
@@ -146,12 +151,12 @@ BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei)
 	DBCachedContact *cc, *ccSub = nullptr;
 	if (contactID != 0) {
 		if ((cc = m_cache->GetCachedContact(contactID)) == nullptr)
-			return 2;
+			return false;
 
 		if (cc->IsSub()) {
 			ccSub = cc;
 			if ((cc = m_cache->GetCachedContact(cc->parentID)) == nullptr)
-				return 2;
+				return false;
 
 			// set default sub to the event's source
 			if (!(dbei->flags & DBEF_SENT))
@@ -163,9 +168,9 @@ BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 	else cc = &m_ccDummy;
 
-	if (m_safetyMode)
+	if (bNew && m_safetyMode)
 		if (NotifyEventHooks(hEventFilterAddedEvent, contactNotifyID, (LPARAM)dbei))
-			return 3;
+			return false;
 
 	dbe.timestamp = dbei->timestamp;
 	dbe.flags = dbei->flags;
@@ -193,52 +198,52 @@ BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei)
 		txn_ptr trnlck(StartTran());
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data = { recBuf, sizeof(DBEvent) + dbe.cbBlob };
 		if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
-			return 4;
+			return false;
 
 		// add a sorting key
 		DBEventSortingKey key2 = { contactID, hDbEvent, dbe.timestamp };
 		key.iov_len = sizeof(key2); key.iov_base = &key2;
 		data.iov_len = 1; data.iov_base = (char*)("");
 		if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
-			return 4;
+			return false;
 
 		cc->Advance(hDbEvent, dbe);
 		if (contactID != 0) {
 			MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
 			if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
-				return 4;
+				return false;
 
 			// insert an event into a sub's history too
 			if (ccSub != nullptr) {
 				key2.hContact = ccSub->contactID;
 				if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
-					return 4;
+					return false;
 
 				ccSub->Advance(hDbEvent, dbe);
 				datac.iov_base = &ccSub->dbc;
 				keyc.iov_base = &ccSub->contactID;
 				if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
-					return 4;
+					return false;
 			}
 		}
 		else {
 			uint32_t keyVal = 2;
 			MDBX_val keyc = { &keyVal, sizeof(keyVal) }, datac = { &m_ccDummy.dbc, sizeof(m_ccDummy.dbc) };
 			if (mdbx_put(trnlck, m_dbGlobal, &keyc, &datac, 0) != MDBX_SUCCESS)
-				return 4;
+				return false;
 		}
 
 		if (trnlck.commit() != MDBX_SUCCESS)
-			return 4;
+			return false;
 	}
 
 	DBFlush();
 
 	// Notify only in safe mode or on really new events
 	if (m_safetyMode)
-		NotifyEventHooks(hEventAddedEvent, contactNotifyID, hDbEvent);
+		NotifyEventHooks(bNew ? hEventAddedEvent : hEventEditedEvent, contactNotifyID, hDbEvent);
 
-	return ERROR_SUCCESS;
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

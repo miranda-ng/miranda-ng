@@ -142,6 +142,7 @@ int CDbxMDBX::Load()
 		hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
 
 		hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
+		hEventEditedEvent = CreateHookableEvent(ME_DB_EVENT_EDITED);
 		hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
 		hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 	}
