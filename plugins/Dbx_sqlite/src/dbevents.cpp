@@ -24,7 +24,7 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"insert into events(contactid, module, timestamp, type, flags, size, blob) values (?, ?, ?, ?, ?, ?, ?);",
 	"delete from events where id = ?;",
 	"select size from events where id = ? limit 1;",
-	"select module, timestamp, flags, type, size, blob from events where id = ? limit 1;",
+	"select module, timestamp, type, flags, size, blob from events where id = ? limit 1;",
 	"select flags from events where id = ? limit 1;",
 	"update events set flag = ? where id = ?;",
 	"select contactid from events where id = ? limit 1;",
