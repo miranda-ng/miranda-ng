@@ -6,6 +6,7 @@ CDbxSQLite::CDbxSQLite(sqlite3 *database)
 	hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
 	hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
 	hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
+	hEventEditedEvent = CreateHookableEvent(ME_DB_EVENT_EDITED);
 	hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
 	hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 	hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
@@ -17,6 +18,7 @@ CDbxSQLite::~CDbxSQLite()
 	DestroyHookableEvent(hContactAddedEvent);
 	DestroyHookableEvent(hContactDeletedEvent);
 	DestroyHookableEvent(hEventAddedEvent);
+	DestroyHookableEvent(hEventEditedEvent);
 	DestroyHookableEvent(hEventDeletedEvent);
 	DestroyHookableEvent(hEventFilterAddedEvent);
 	DestroyHookableEvent(hEventMarkedRead);

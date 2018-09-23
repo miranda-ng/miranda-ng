@@ -8,6 +8,7 @@ private:
 	HANDLE hContactAddedEvent;
 	HANDLE hContactDeletedEvent;
 	HANDLE hEventAddedEvent;
+	HANDLE hEventEditedEvent;
 	HANDLE hEventDeletedEvent;
 	HANDLE hEventFilterAddedEvent;
 	HANDLE hEventMarkedRead;

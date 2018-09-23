@@ -4,6 +4,7 @@ enum {
 	SQL_EVT_STMT_COUNT = 0,
 	SQL_EVT_STMT_ADD,
 	SQL_EVT_STMT_DELETE,
+	SQL_EVT_STMT_EDIT,
 	SQL_EVT_STMT_BLOBSIZE,
 	SQL_EVT_STMT_GET,
 	SQL_EVT_STMT_GETFLAGS,
@@ -23,6 +24,7 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select count(1) from events where contactid = ? limit 1;",
 	"insert into events(contactid, module, timestamp, type, flags, size, blob) values (?, ?, ?, ?, ?, ?, ?);",
 	"delete from events where id = ?;",
+	"update events set module = ?, timestamp = ?, type = ?, flags = ?, size = ?, blob = ? where id = ?;",
 	"select size from events where id = ? limit 1;",
 	"select module, timestamp, type, flags, size, blob from events where id = ? limit 1;",
 	"select flags from events where id = ? limit 1;",
@@ -135,9 +137,32 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 	return 0;
 }
 
-BOOL CDbxSQLite::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbe)
+BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
-	return 1; // not supported
+	if (dbei == nullptr)
+		return 1;
+
+	if (dbei->timestamp == 0)
+		return 1;
+
+	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	if (cc == nullptr)
+		return 1;
+
+	mir_cslock lock(m_csDbAccess);
+	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_EDIT];
+	sqlite3_bind_text(stmt, 1, dbei->szModule, mir_strlen(dbei->szModule), nullptr);
+	sqlite3_bind_int64(stmt, 2, dbei->timestamp);
+	sqlite3_bind_int(stmt, 3, dbei->eventType);
+	sqlite3_bind_int64(stmt, 4, dbei->flags);
+	sqlite3_bind_int64(stmt, 5, dbei->cbBlob);
+	sqlite3_bind_blob(stmt, 6, dbei->pBlob, dbei->cbBlob, nullptr);
+	sqlite3_bind_int64(stmt, 7, hDbEvent);
+	int rc = sqlite3_step(stmt);
+	if (rc == SQLITE_DONE)
+		NotifyEventHooks(hEventEditedEvent, hContact, (LPARAM)hDbEvent);
+	sqlite3_reset(stmt);
+	return (rc != SQLITE_DONE);
 }
 
 LONG CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
