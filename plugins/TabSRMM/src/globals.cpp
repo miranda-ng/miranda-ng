@@ -320,6 +320,10 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_DB_EVENT_ADDED, CMimAPI::DispatchNewEvent);
 	HookEvent(ME_DB_EVENT_ADDED, CMimAPI::MessageEventAdded);
+
+	HookEvent(ME_DB_EVENT_EDITED, CMimAPI::DispatchNewEvent);
+	HookEvent(ME_DB_EVENT_EDITED, CMimAPI::MessageEventAdded);
+
 	HookEvent(ME_FONT_RELOAD, ::FontServiceFontsChanged);
 	HookEvent(ME_TTB_MODULELOADED, TopToolbarLoaded);
 
