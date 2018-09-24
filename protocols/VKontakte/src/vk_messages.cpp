@@ -288,6 +288,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			mids.Append(szMid);
 		}
 
+		bool bUseServerReadFlag = m_vkOptions.bSyncReadMessageStatusFromServer ? true : !m_vkOptions.bMesAsUnread;
+
 		if (chat_id != 0) {
 			debugLogA("CVkProto::OnReceiveMessages chat_id != 0");
 			CMStringW action_chat = jnMsg["action"].as_mstring();
@@ -302,15 +304,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			}
 			continue;
 		}
-
-		PROTORECVEVENT recv = { 0 };
-		bool bUseServerReadFlag = m_vkOptions.bSyncReadMessageStatusFromServer ? true : !m_vkOptions.bMesAsUnread;
-		if (isRead && bUseServerReadFlag)
-			recv.flags |= PREF_CREATEREAD;
-		if (isOut)
-			recv.flags |= PREF_SENT;
-		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - datetime < 60 * m_vkOptions.iInvisibleInterval)
-			SetInvisible(hContact);
 
 		time_t update_time = (time_t)jnMsg["update_time"].as_int();
 		bool bEdited = (update_time != 0);
@@ -327,24 +320,47 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				wszBody;
 
 			CMStringW wszOldMsg;
-			MEVENT hDbEvent = GetMessageFromDb(mid, datetime, wszOldMsg);
+			DBEVENTINFO dbei = {};
+			MEVENT hDbEvent = GetMessageFromDb(mid, datetime, wszOldMsg, dbei);
 			if (hDbEvent) {
 				wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
 					wszOldMsg;
-				db_event_delete(hContact, hDbEvent);
+
+				if (isRead && bUseServerReadFlag)
+					dbei.flags |= DBEF_READ;
+				else
+					dbei.flags &= ~DBEF_READ;
+
+				T2Utf pszBody(wszBody);
+				dbei.cbBlob = mir_strlen(pszBody) + 1;
+				dbei.pBlob = pszBody;
+
+				debugLogA("CVkProto::OnReceiveMessages edited mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", mid, datetime, isOut, isRead, uid);
+
+				db_event_edit(hContact, hDbEvent, &dbei);
+				continue;
 			}
 		}
+
+		PROTORECVEVENT recv = { 0 };
+
+		if (isRead && bUseServerReadFlag)
+			recv.flags |= PREF_CREATEREAD;
+		if (isOut)
+			recv.flags |= PREF_SENT;
+		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - datetime < 60 * m_vkOptions.iInvisibleInterval)
+			SetInvisible(hContact);
 
 		T2Utf pszBody(wszBody);
 		recv.timestamp = bEdited ? datetime : (m_vkOptions.bUseLocalTime ? time(0) : datetime);
 		recv.szMessage = pszBody;
-		recv.lParam = (LPARAM)szMid;
 		Sleep(100);
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", mid, datetime, isOut, isRead, uid);
 
 		if (!IsMessageExist(mid, vkOUT) || bEdited) {
 			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
+			recv.lParam = (LPARAM)szMid;
 			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))
 				setDword(hContact, "lastmsgid", mid);

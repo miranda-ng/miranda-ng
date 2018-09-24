@@ -1540,14 +1540,14 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 }
 
 
-MEVENT CVkProto::GetMessageFromDb(UINT iMsgId, UINT &timestamp, CMStringW &msg)
+MEVENT CVkProto::GetMessageFromDb(UINT iMsgId, UINT &timestamp, CMStringW &msg, DBEVENTINFO& dbei)
 {
 	char szMid[40];
 	_itoa(iMsgId, szMid, 10);
-	return GetMessageFromDb(szMid, timestamp, msg);
+	return GetMessageFromDb(szMid, timestamp, msg, dbei);
 }
 
-MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStringW &msg)
+MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStringW &msg, DBEVENTINFO& dbei)
 {
 	if (messageId == nullptr)
 		return 0;
@@ -1556,7 +1556,6 @@ MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStri
 	if (!hDbEvent)
 		return 0;
 
-	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
 	dbei.pBlob = blob;
