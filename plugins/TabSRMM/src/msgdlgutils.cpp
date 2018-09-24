@@ -316,7 +316,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 			SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 0);
 			return 1;
 		case ID_TABMENU_CLOSETAB:
-			SendMessage(m_hwnd, WM_CLOSE, 1, 0);
+			PostMessage(m_hwnd, WM_CLOSE, 1, 0);
 			return 1;
 		case ID_TABMENU_SAVETABPOSITION:
 			db_set_dw(m_hContact, SRMSGMOD_T, "tabindex", m_iTabID * 100);

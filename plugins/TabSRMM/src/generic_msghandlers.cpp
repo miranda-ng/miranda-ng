@@ -227,7 +227,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		return FALSE;
 
 	case IDC_CLOSE:
-		SendMessage(m_hwnd, WM_CLOSE, 1, 0);
+		PostMessage(m_hwnd, WM_CLOSE, 1, 0);
 		break;
 
 	case IDC_NAME:
