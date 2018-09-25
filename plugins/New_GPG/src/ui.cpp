@@ -14,7 +14,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -106,62 +105,62 @@ CDlgChangePasswdMsgBox::CDlgChangePasswdMsgBox() :
 void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 {
 	//TODO: show some prgress
-	{
-		if (mir_wstrcmp(edit_NEW_PASSWD1.GetText(), edit_NEW_PASSWD2.GetText())) {
-			MessageBox(m_hwnd, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
-			return;
-		}
-		std::string old_pass, new_pass;
-		//			wchar_t buf[256] = { 0 };
-		new_pass = toUTF8(edit_NEW_PASSWD1.GetText());
-		old_pass = toUTF8(edit_OLD_PASSWD.GetText());
-		bool old_pass_match = false;
-		wchar_t *pass = UniGetContactSettingUtf(NULL, MODULENAME, "szKeyPassword", L"");
-		if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
-			old_pass_match = true;
-		mir_free(pass);
-
-		if (!old_pass_match) {
-			if (globals.key_id_global[0]) {
-				string dbsetting = "szKey_";
-				dbsetting += toUTF8(globals.key_id_global);
-				dbsetting += "_Password";
-				pass = UniGetContactSettingUtf(NULL, MODULENAME, dbsetting.c_str(), L"");
-				if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
-					old_pass_match = true;
-				mir_free(pass);
-			}
-		}
-
-		if (!old_pass_match)
-			if (MessageBox(m_hwnd, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
-				return;
-
-		std::vector<std::wstring> cmd;
-		string output;
-		DWORD exitcode;
-		cmd.push_back(L"--edit-key");
-		cmd.push_back(globals.key_id_global);
-		cmd.push_back(L"passwd");
-		gpg_execution_params_pass params(cmd, old_pass, new_pass);
-		pxResult result;
-		params.out = &output;
-		params.code = &exitcode;
-		params.result = &result;
-		boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
-		if (!gpg_thread.timed_join(boost::posix_time::minutes(10))) {
-			gpg_thread.~thread();
-			if (params.child)
-				boost::process::terminate(*(params.child));
-			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
-			this->Close();
-			return;
-		}
-		if (result == pxNotFound)
-			return;
+	if (mir_wstrcmp(edit_NEW_PASSWD1.GetText(), edit_NEW_PASSWD2.GetText())) {
+		MessageBox(m_hwnd, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
+		return;
 	}
-	this->Close();
+	std::string old_pass, new_pass;
+	//			wchar_t buf[256] = { 0 };
+	new_pass = toUTF8(edit_NEW_PASSWD1.GetText());
+	old_pass = toUTF8(edit_OLD_PASSWD.GetText());
+	bool old_pass_match = false;
+	wchar_t *pass = UniGetContactSettingUtf(NULL, MODULENAME, "szKeyPassword", L"");
+	if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
+		old_pass_match = true;
+	mir_free(pass);
+
+	if (!old_pass_match) {
+		if (globals.key_id_global[0]) {
+			string dbsetting = "szKey_";
+			dbsetting += toUTF8(globals.key_id_global);
+			dbsetting += "_Password";
+			pass = UniGetContactSettingUtf(NULL, MODULENAME, dbsetting.c_str(), L"");
+			if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
+				old_pass_match = true;
+			mir_free(pass);
+		}
+	}
+
+	if (!old_pass_match)
+		if (MessageBox(m_hwnd, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
+			return;
+
+	string output;
+	DWORD exitcode;
+	pxResult result;
+
+	std::vector<std::wstring> cmd;
+	cmd.push_back(L"--edit-key");
+	cmd.push_back(globals.key_id_global);
+	cmd.push_back(L"passwd");
+	
+	gpg_execution_params_pass *params = new gpg_execution_params_pass(cmd, old_pass, new_pass);
+	params->out = &output;
+	params->code = &exitcode;
+	params->result = &result;
+	
+	HANDLE hThread = mir_forkthread(&pxEexcute_passwd_change_thread, params);
+	if (WaitForSingleObject(hThread, 600000) != WAIT_OBJECT_0) {
+		if (params->child)
+			boost::process::terminate(*(params->child));
+		if (globals.bDebugLog)
+			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
+		this->Close();
+		return;
+	}
+	
+	if (result != pxNotFound)
+		this->Close();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -342,29 +341,30 @@ void CDlgFirstRun::onClick_CHANGE_PASSWD(CCtrlButton*)
 		return;
 	list_KEY_LIST.GetItemText(i, 0, globals.key_id_global, _countof(globals.key_id_global));
 
-	//temporary code follows
-	std::vector<std::wstring> cmd;
+	// temporary code follows
 	std::string old_pass, new_pass;
 	string output;
 	DWORD exitcode;
+	pxResult result;
+
+	std::vector<std::wstring> cmd;
 	cmd.push_back(L"--edit-key");
 	cmd.push_back(globals.key_id_global);
 	cmd.push_back(L"passwd");
-	gpg_execution_params_pass params(cmd, old_pass, new_pass);
-	pxResult result;
-	params.out = &output;
-	params.code = &exitcode;
-	params.result = &result;
-	boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
-	if (!gpg_thread.timed_join(boost::posix_time::minutes(10))) {
-		gpg_thread.~thread();
-		if (params.child)
-			boost::process::terminate(*(params.child));
+	
+	gpg_execution_params_pass *params = new gpg_execution_params_pass(cmd, old_pass, new_pass);
+	params->out = &output;
+	params->code = &exitcode;
+	params->result = &result;
+	
+	HANDLE hThread = mir_forkthread(pxEexcute_passwd_change_thread, params);
+	if (WaitForSingleObject(hThread, 600000) != WAIT_OBJECT_0) {
+		if (params->child)
+			boost::process::terminate(*(params->child));
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
 		this->Close();
 	}
-
 }
 
 void CDlgFirstRun::onClick_GENERATE_RANDOM(CCtrlButton*)
@@ -876,7 +876,7 @@ void CDlgGpgBinOpts::onClick_SET_BIN_PATH(CCtrlButton*)
 
 void CDlgGpgBinOpts::onClick_SET_HOME_DIR(CCtrlButton*)
 {
-	GetFolderPath(L"Set home directory", "szHomePath");
+	GetFolderPath(L"Set home directory");
 	CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"")));
 	edit_HOME_DIR.SetText(tmp);
 	wchar_t mir_path[MAX_PATH];
@@ -1330,7 +1330,7 @@ void CDlgLoadExistingKey::onClick_OK(CCtrlButton*)
 	while ((s = out.find("\r", s)) != string::npos) {
 		out.erase(s, 1);
 	}
-	
+
 	std::string::size_type p1 = 0, p2 = 0;
 	p1 = out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
 	if (p1 != std::string::npos) {

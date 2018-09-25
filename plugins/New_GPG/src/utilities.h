@@ -21,9 +21,7 @@ wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModu
 char* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, char* szDef);
 void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t *szExtDesc);
 wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, bool save_file = false);
-void GetFolderPath(wchar_t *WindowTittle, char *szSetting);
-
-void storeOutput(HANDLE ahandle, string *output);
+void GetFolderPath(wchar_t *WindowTittle);
 
 void setSrmmIcon(MCONTACT);
 void setClistIcon(MCONTACT);

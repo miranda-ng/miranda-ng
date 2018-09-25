@@ -21,13 +21,13 @@
 
 #define _SCL_SECURE_NO_WARNINGS
 
-//windows
+// windows
 #include <windows.h>
 #include <shlobj.h>
 #include <io.h>
 #include <shlwapi.h>
 
-//c++
+// c++
 #include <map>
 using std::map;
 #include <list>
@@ -39,22 +39,17 @@ using std::wstring;
 using std::wfstream;
 using std::fstream;
 
-//boost
-#include <boost/thread/thread.hpp>
-#include <boost/thread/mutex.hpp>
+// boost
 #include <boost/nondet_random.hpp>
 #include <boost/random/variate_generator.hpp>
 #include <boost/random/uniform_int.hpp>
 #include <boost/date_time.hpp>
 #include <boost/iostreams/stream.hpp>
 
-//boost process
+// boost process
 #include <boost/process.hpp>
 
-//utf8cpp
-#include <utf8.h>
-
-//miranda
+// miranda
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_options.h>
@@ -81,7 +76,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 };
 
-//internal
+// internal
 #include "resource.h"
 #include "version.h"
 #include "constants.h"

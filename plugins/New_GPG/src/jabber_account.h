@@ -22,22 +22,24 @@ public:
 	void setAccountNumber(int Number);
 	void setJabberInterface(IJabberInterface *JIf);
 	void setSendHandler(HJHANDLER hHandler);
-	void setPrescenseHandler(HJHANDLER hHandler);
+	void setPresenceHandler(HJHANDLER hHandler);
 	void setMessageHandler(HJHANDLER hHandler);
 
-	wchar_t *getAccountName();
+	wchar_t* getAccountName();
 	int getAccountNumber();
-	IJabberInterface *getJabberInterface();
+	IJabberInterface* getJabberInterface();
 	HJHANDLER getSendHandler();
-	HJHANDLER getPrescenseHandler();
+	HJHANDLER getPresenceHandler();
 	HJHANDLER getMessageHandler();
-	~JabberAccount();
+
 	JabberAccount();
+	~JabberAccount();
+
 private:
-	wchar_t *AccountName;
-	int AccountNumber;
-	IJabberInterface *JabberInterface;
-	HJHANDLER hSendHandler, hPrescenseHandler, hMessageHandler;
+	wchar_t *AccountName = nullptr;
+	int AccountNumber = -1;
+	IJabberInterface *JabberInterface = nullptr;
+	HJHANDLER hSendHandler = INVALID_HANDLE_VALUE, hPresenceHandler = INVALID_HANDLE_VALUE, hMessageHandler = INVALID_HANDLE_VALUE;
 };
 
 #endif
