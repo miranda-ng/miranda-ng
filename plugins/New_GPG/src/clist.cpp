@@ -18,13 +18,13 @@
 
 void RefreshContactListIcons(void);
 
-int onExtraImageListRebuilding(WPARAM, LPARAM) 
+int onExtraImageListRebuilding(WPARAM, LPARAM)
 {
 	RefreshContactListIcons();
 	return 0;
 }
 
-int onExtraImageApplying(WPARAM wParam, LPARAM) 
+int onExtraImageApplying(WPARAM wParam, LPARAM)
 {
 	setClistIcon(wParam);
 	return 0;

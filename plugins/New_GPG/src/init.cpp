@@ -16,7 +16,7 @@
 
 #include "stdafx.h"
 
-//global variables
+// global variables
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -36,17 +36,20 @@ PLUGININFOEX pluginInfoEx = {
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR LoadKey(WPARAM w, LPARAM l);
-INT_PTR ToggleEncryption(WPARAM w, LPARAM l);
-INT_PTR SendKey(WPARAM w, LPARAM l);
-INT_PTR ExportGpGKeys(WPARAM w, LPARAM l);
-INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
+INT_PTR LoadKey(WPARAM, LPARAM);
+INT_PTR SendKey(WPARAM, LPARAM);
+INT_PTR ExportGpGKeys(WPARAM, LPARAM);
+INT_PTR ImportGpGKeys(WPARAM, LPARAM);
+INT_PTR ToggleEncryption(WPARAM, LPARAM);
+
+int onExtraImageApplying(WPARAM, LPARAM);
 int onExtraImageListRebuilding(WPARAM, LPARAM);
-int onExtraImageApplying(WPARAM wParam, LPARAM);
+
 void InitIconLib();
 
 void init_vars()
@@ -85,22 +88,23 @@ void init_vars()
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	int GpgOptInit(WPARAM wParam,LPARAM lParam);
-	int OnPreBuildContactMenu(WPARAM w, LPARAM l);
-	INT_PTR RecvMsgSvc(WPARAM w, LPARAM l);
-	INT_PTR SendMsgSvc(WPARAM w, LPARAM l);
-	int HookSendMsg(WPARAM w, LPARAM l);
-//	int TestHook(WPARAM w, LPARAM l);
-	int GetJabberInterface(WPARAM w, LPARAM l);
-	int onWindowEvent(WPARAM wParam, LPARAM lParam);
-	int onIconPressed(WPARAM wParam, LPARAM lParam);
-	int onProtoAck(WPARAM, LPARAM);
+	int GpgOptInit(WPARAM, LPARAM);
+	int OnPreBuildContactMenu(WPARAM, LPARAM);
+
+	INT_PTR RecvMsgSvc(WPARAM, LPARAM);
+	INT_PTR SendMsgSvc(WPARAM, LPARAM);
 	INT_PTR onSendFile(WPARAM, LPARAM);
+
+	int HookSendMsg(WPARAM, LPARAM);
+	int GetJabberInterface(WPARAM, LPARAM);
+	int onProtoAck(WPARAM, LPARAM);
+	int onWindowEvent(WPARAM, LPARAM);
+	int onIconPressed(WPARAM, LPARAM);
 
 	void InitCheck();
 	void FirstRun();
 	FirstRun();
-	if(!db_get_b(NULL, MODULENAME, "FirstRun", 1))
+	if (!db_get_b(NULL, MODULENAME, "FirstRun", 1))
 		InitCheck();
 
 	StatusIconData sid = {};
@@ -116,12 +120,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	sid.szTooltip = LPGEN("GPG Turn on encryption");
 	Srmm_AddIcon(&sid, &g_plugin);
 
-	if(globals.bJabberAPI)
-		GetJabberInterface(0,0);
+	if (globals.bJabberAPI)
+		GetJabberInterface(0, 0);
 
 	HookEvent(ME_OPT_INITIALISE, GpgOptInit);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, HookSendMsg);
-	if(globals.bJabberAPI)
+	if (globals.bJabberAPI)
 		HookEvent(ME_PROTO_ACCLISTCHANGED, GetJabberInterface);
 
 	HookEvent(ME_PROTO_ACK, onProtoAck);
@@ -132,10 +136,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MSG_ICONPRESSED, onIconPressed);
 
 	Proto_RegisterModule(PROTOTYPE_ENCRYPTION, MODULENAME);
-	
+
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, RecvMsgSvc);
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, SendMsgSvc);
-	CreateProtoServiceFunction(MODULENAME, PSS_FILE,    onSendFile);
+	CreateProtoServiceFunction(MODULENAME, PSS_FILE, onSendFile);
 	clean_temp_dir();
 	return 0;
 }
@@ -145,11 +149,11 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	init_vars();
-	CreateServiceFunction("/LoadPubKey",LoadKey);
-	CreateServiceFunction("/ToggleEncryption",ToggleEncryption);
-	CreateServiceFunction("/SendKey",SendKey);
-	CreateServiceFunction("/ExportGPGKeys",ExportGpGKeys);
-	CreateServiceFunction("/ImportGPGKeys",ImportGpGKeys);
+	CreateServiceFunction("/LoadPubKey", LoadKey);
+	CreateServiceFunction("/ToggleEncryption", ToggleEncryption);
+	CreateServiceFunction("/SendKey", SendKey);
+	CreateServiceFunction("/ExportGPGKeys", ExportGpGKeys);
+	CreateServiceFunction("/ImportGPGKeys", ImportGpGKeys);
 
 	CMenuItem mi(&g_plugin);
 
@@ -200,17 +204,15 @@ int CMPlugin::Load()
 extern list<wstring> transfers;
 int CMPlugin::Unload()
 {
-	if(!transfers.empty())
-	{
-		for(auto p : transfers)
-			if(!p.empty())
-				boost::filesystem::remove(p);
-	}
+	for (auto p : transfers)
+		if (!p.empty())
+			boost::filesystem::remove(p);
+
 	mir_free(globals.inopentag);
 	mir_free(globals.inclosetag);
 	mir_free(globals.outopentag);
 	mir_free(globals.outclosetag);
-	if(globals.password)
+	if (globals.password)
 		mir_free(globals.password);
 	clean_temp_dir();
 	return 0;

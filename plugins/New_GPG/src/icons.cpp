@@ -16,7 +16,6 @@
 
 #include "stdafx.h"
 
-
 static IconItem iconList[] =
 {
 	{ "Secured", "secured", IDI_SECURED },
@@ -39,14 +38,14 @@ void setClistIcon(MCONTACT hContact)
 	MCONTACT hMC = db_mc_tryMeta(hContact);
 	const char *szIconId = (enabled) ? "secured" : nullptr;
 	ExtraIcon_SetIconByName(globals.g_hCLIcon, hContact, szIconId);
-	if(hMC != hContact)
+	if (hMC != hContact)
 		ExtraIcon_SetIconByName(globals.g_hCLIcon, hMC, szIconId);
 }
 
 void setSrmmIcon(MCONTACT h)
 {
 	MCONTACT hContact = db_mc_isMeta(h) ? metaGetMostOnline(h) : h;
-	bool enabled = isContactSecured(hContact);	
+	bool enabled = isContactSecured(hContact);
 	MCONTACT hMC = db_mc_tryMeta(hContact);
 
 	StatusIconData sid = {};
@@ -55,18 +54,18 @@ void setSrmmIcon(MCONTACT h)
 	sid.dwId = 1;
 	sid.flags = enabled ? 0 : MBF_HIDDEN;
 	Srmm_ModifyIcon(hContact, &sid);
-	if(hMC != hContact)
+	if (hMC != hContact)
 		Srmm_ModifyIcon(hMC, &sid);
 
 	sid.hIcon = IcoLib_GetIcon("unsecured");
 	sid.dwId = 2;
 	sid.flags = enabled ? MBF_HIDDEN : 0;
 	Srmm_ModifyIcon(hContact, &sid);
-	if(hMC != hContact)
+	if (hMC != hContact)
 		Srmm_ModifyIcon(hMC, &sid);
 }
 
-void RefreshContactListIcons() 
+void RefreshContactListIcons()
 {
 	for (auto &hContact : Contacts())
 		setClistIcon(hContact);

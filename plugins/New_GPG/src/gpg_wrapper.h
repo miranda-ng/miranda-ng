@@ -69,6 +69,6 @@ struct gpg_execution_params_pass
 
 void pxEexcute_thread(gpg_execution_params &params);
 bool gpg_launcher(gpg_execution_params &params, boost::posix_time::time_duration t = boost::posix_time::seconds(10));
-void pxEexcute_passwd_change_thread(void *param);
+void __cdecl pxEexcute_passwd_change_thread(void *param);
 
 #endif

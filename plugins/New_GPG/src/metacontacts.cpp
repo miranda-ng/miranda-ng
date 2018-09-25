@@ -16,14 +16,14 @@
 
 #include "stdafx.h"
 
-bool metaIsDefaultSubContact(MCONTACT hContact) 
+bool metaIsDefaultSubContact(MCONTACT hContact)
 {
 	return db_mc_getDefault(db_mc_getMeta(hContact)) == hContact;
 }
 
-MCONTACT metaGetMostOnline(MCONTACT hContact) 
+MCONTACT metaGetMostOnline(MCONTACT hContact)
 {
-	if(db_mc_isMeta(hContact))
+	if (db_mc_isMeta(hContact))
 		return db_mc_getMostOnline(hContact);
 	return NULL;
 }

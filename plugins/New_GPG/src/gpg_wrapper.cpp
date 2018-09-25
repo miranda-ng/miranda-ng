@@ -15,22 +15,18 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
-//thx gpg module from Harald Treder, Zakhar V. Bardymov
-
 
 pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD aexitcode, pxResult *result, boost::process::child *_child)
 {
-	if(!globals.gpg_valid)
+	if (!globals.gpg_valid)
 		return pxNotConfigured;
 
-	
 	wchar_t *bin_path = UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"");
 	{
-		if(!boost::filesystem::exists(bin_path))
-		{
+		if (!boost::filesystem::exists(bin_path)) {
 			mir_free(bin_path);
-			if(globals.bDebugLog)
-				globals.debuglog<<std::string(time_str()+": GPG executable not found");
+			if (globals.bDebugLog)
+				globals.debuglog << std::string(time_str() + ": GPG executable not found");
 			*result = pxNotFound;
 			return pxNotFound;
 		}
@@ -40,7 +36,6 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	using namespace boost::process::initializers;
 	using namespace boost::iostreams;
 
-
 	std::vector<std::wstring> argv;
 	std::vector<std::wstring> env;
 	env.push_back(L"LANGUAGE=en@quot");
@@ -48,7 +43,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	env.push_back(L"LANG=C");
 	argv.push_back(bin_path);
 	wchar_t *home_dir = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
-	if(mir_wstrlen(home_dir)) //this check are required for first run gpg binary validation
+	if (mir_wstrlen(home_dir)) //this check are required for first run gpg binary validation
 	{
 		argv.push_back(L"--homedir");
 		argv.push_back(home_dir);
@@ -59,18 +54,15 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	argv.push_back(L"-z9");
 	argv.insert(argv.end(), aargv.begin(), aargv.end());
 
-	if(globals.bDebugLog)
-	{
+	if (globals.bDebugLog) {
 		std::wstring args;
-		for(unsigned int i = 0; i < argv.size(); ++i)
-		{
+		for (unsigned int i = 0; i < argv.size(); ++i) {
 			args += argv[i];
 			args += L" ";
 		}
-		args.erase(args.size()-1, 1);
-		globals.debuglog<<std::string(time_str()+": gpg in: "+toUTF8(args));
+		args.erase(args.size() - 1, 1);
+		globals.debuglog << std::string(time_str() + ": gpg in: " + toUTF8(args));
 	}
-
 
 	pipe pout = create_pipe();
 	pipe perr = create_pipe();
@@ -79,107 +71,97 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		file_descriptor_sink sout(pout.sink, close_handle);
 		file_descriptor_sink serr(perr.sink, close_handle);
 
-		wchar_t *mir_path = new wchar_t [MAX_PATH];
+		wchar_t *mir_path = new wchar_t[MAX_PATH];
 		PathToAbsoluteW(L"\\", mir_path);
 
 		c = new child(execute(set_args(argv), bind_stdout(sout), bind_stderr(serr), close_stdin(),/*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(mir_path)));
 		_child = c;
 
-		delete [] mir_path;
+		delete[] mir_path;
 	}
-
 
 	file_descriptor_source source(pout.source, close_handle);
 
 	stream<file_descriptor_source> is(source);
 
-	try{
+	try {
 		std::string s;
-		while(std::getline(is, s))
-		{
+		while (std::getline(is, s)) {
 			aoutput->append(s);
 			aoutput->append("\n");
 		}
 	}
-	catch(const std::exception &e)
-	{
-		if(globals.bDebugLog)
-			globals.debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
+	catch (const std::exception &e) {
+		if (globals.bDebugLog)
+			globals.debuglog << std::string(time_str() + ": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
 	}
 
 	file_descriptor_source source2(perr.source, close_handle);
 
 	stream<file_descriptor_source> is2(source2);
 
-	try{
+	try {
 		std::string s;
-		while(std::getline(is2, s))
-		{
+		while (std::getline(is2, s)) {
 			aoutput->append(s);
 			aoutput->append("\n");
 		}
 	}
-	catch(const std::exception &e)
-	{
-		if(globals.bDebugLog)
-			globals.debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
+	catch (const std::exception &e) {
+		if (globals.bDebugLog)
+			globals.debuglog << std::string(time_str() + ": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
 	}
 
 	fix_line_term(*aoutput);
 
-	if(globals.bDebugLog)
-		globals.debuglog<<std::string(time_str()+": gpg out: "+*aoutput);
+	if (globals.bDebugLog)
+		globals.debuglog << std::string(time_str() + ": gpg out: " + *aoutput);
 
 	auto ec = wait_for_exit(*c);
 	delete c;
 	*aexitcode = ec;
 	_child = nullptr;
 
-
-	if(*aexitcode)
-	{
-		if(globals.bDebugLog)
-			globals.debuglog<<std::string(time_str()+": warning: wrong gpg exit status, gpg output: "+*aoutput);
+	if (*aexitcode) {
+		if (globals.bDebugLog)
+			globals.debuglog << std::string(time_str() + ": warning: wrong gpg exit status, gpg output: " + *aoutput);
 		return pxSuccessExitCodeInvalid;
 	}
-
 
 	return pxSuccess;
 }
 
-void pxEexcute_thread(gpg_execution_params &params)
+void pxEexcute_thread(gpg_execution_params *params)
 {
-	pxExecute(params.aargv, params.out, params.code, params.result, params.child);
+	pxExecute(params->aargv, params->out, params->code, params->result, params->child);
+	delete params;
 }
 
 bool gpg_launcher(gpg_execution_params &params, boost::posix_time::time_duration t)
 {
 	bool ret = true;
-	boost::thread *gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, params));
-	if(!gpg_thread->timed_join(t))
-	{
+	HANDLE hThread = mir_forkThread<gpg_execution_params>(pxEexcute_thread, new gpg_execution_params(params));
+	if (WaitForSingleObject(hThread, t.total_milliseconds()) == WAIT_TIMEOUT) {
 		ret = false;
-		delete gpg_thread;
-		if(params.child)
+		if (params.child)
 			boost::process::terminate(*(params.child));
-		if(globals.bDebugLog)
-			globals.debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+		if (globals.bDebugLog)
+			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
 	}
 	return ret;
 }
 
 pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *result, boost::process::child *_child)
 {
-	if(!globals.gpg_valid)
+	if (!globals.gpg_valid)
 		return pxNotConfigured;
 
 	wchar_t *bin_path = UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"");
 	{
-		if(!boost::filesystem::exists(bin_path))
-		{
+		if (!boost::filesystem::exists(bin_path)) {
 			mir_free(bin_path);
-			if(globals.bDebugLog)
-				globals.debuglog<<std::string(time_str()+": GPG executable not found");
+			if (globals.bDebugLog)
+				globals.debuglog << std::string(time_str() + ": GPG executable not found");
 			*result = pxNotFound;
 			return pxNotFound;
 		}
@@ -265,7 +247,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 //	boost::process::pistream &_stdout = proc.get_stdout();
 	boost::process::postream &_stdin = proc.get_stdin();
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(50));
+	::Sleep(50);
 
 	std::string buf; */
 
@@ -276,7 +258,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 		*aoutput += buf;
 		if(aoutput->find("Enter passphrase") != std::string::npos)
 			break;
-		boost::this_thread::sleep(boost::posix_time::milliseconds(50));
+		::Sleep(50);
 		std::getline(_stdout, buf);
 	}
 	*aoutput += buf; */
@@ -289,7 +271,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 		*aoutput += buf;
 		if(aoutput->find("Enter the new passphrase for this secret key.") != std::string::npos)
 			break;
-		boost::this_thread::sleep(boost::posix_time::milliseconds(50));
+		::Sleep(50);
 		std::getline(_stdout, buf);
 	}
 
@@ -304,7 +286,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 		*aoutput += buf;
 		if(aoutput->find("Repeat passphrase") != std::string::npos)
 			break;
-		boost::this_thread::sleep(boost::posix_time::milliseconds(50));
+		::Sleep(50);
 		std::getline(_stdout, buf);
 	}
 	*aoutput += buf; */
@@ -317,7 +299,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 		*aoutput += buf;
 		if(aoutput->find("Command") != std::string::npos)
 			break;
-		boost::this_thread::sleep(boost::posix_time::milliseconds(50));
+		::Sleep(50);
 		std::getline(_stdout, buf);
 	}
 	*aoutput += buf; */
@@ -330,7 +312,6 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 
 	return pxSuccess;
 }
-
 
 void pxEexcute_passwd_change_thread(void *param)
 {

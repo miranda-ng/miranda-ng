@@ -14,66 +14,57 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-
-
 #include "stdafx.h"
 
-void ShowStatusIcon(MCONTACT hContact);
 void setSrmmIcon(MCONTACT hContact);
 
 int __cdecl onWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
-	if(mwd->uType == MSG_WINDOW_EVT_OPEN || mwd->uType == MSG_WINDOW_EVT_OPENING) 
+	if (mwd->uType == MSG_WINDOW_EVT_OPEN || mwd->uType == MSG_WINDOW_EVT_OPENING)
 		setSrmmIcon(mwd->hContact);
 	return 0;
 }
-
 
 int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	MCONTACT hMeta = NULL;
-	if(db_mc_isMeta(hContact))
-	{
+	if (db_mc_isMeta(hContact)) {
 		hMeta = hContact;
 		hContact = metaGetMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 	}
-	else if(db_mc_isSub(hContact))
+	else if (db_mc_isSub(hContact))
 		hMeta = db_mc_getMeta(hContact);
+
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if(mir_strcmp(sicd->szModule, MODULENAME)) 
+	if (mir_strcmp(sicd->szModule, MODULENAME))
 		return 0; // not our event
-	
+
 	BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-	if(enc)
-	{
+	if (enc) {
 		db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
-		hMeta?db_set_b(hMeta, MODULENAME, "GPGEncryption", 0):0;
+		hMeta ? db_set_b(hMeta, MODULENAME, "GPGEncryption", 0) : 0;
 		setSrmmIcon(hContact);
 		setClistIcon(hContact);
 	}
-	else if(!enc)
-	{
-		if(!isContactHaveKey(hContact))
-		{
+	else if (!enc) {
+		if (!isContactHaveKey(hContact)) {
 			void ShowLoadPublicKeyDialog(bool = false);
 			globals.item_num = 0;		 //black magic here
 			globals.user_data[1] = hContact;
 			ShowLoadPublicKeyDialog();
 		}
-		else
-		{
+		else {
 			db_set_b(hContact, MODULENAME, "GPGEncryption", 1);
-			hMeta?db_set_b(hMeta, MODULENAME, "GPGEncryption", 1):0;
+			hMeta ? db_set_b(hMeta, MODULENAME, "GPGEncryption", 1) : 0;
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 			return 0;
 		}
-		if(isContactHaveKey(hContact))
-		{
+		if (isContactHaveKey(hContact)) {
 			db_set_b(hContact, MODULENAME, "GPGEncryption", 1);
-			hMeta?db_set_b(hMeta, MODULENAME, "GPGEncryption", 1):0;
+			hMeta ? db_set_b(hMeta, MODULENAME, "GPGEncryption", 1) : 0;
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 		}

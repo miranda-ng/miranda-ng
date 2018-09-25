@@ -27,10 +27,10 @@ public:
 	~logtofile();
 	logtofile();
 private:
-	fstream log;
+	fstream  log;
 	wchar_t *path;
-	boost::mutex log_mutex;
-	bool _bDebugLog;
+	bool    _bDebugLog;
+	mir_cs   csLock;
 };
 
 #endif

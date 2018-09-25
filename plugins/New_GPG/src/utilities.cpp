@@ -14,13 +14,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-
 #include "stdafx.h"
+
+#include "utf8.h"
 
 void ShowExportKeysDlg();
 void ShowLoadPublicKeyDialog(bool = false);
 
-wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule, const char* szSetting, wchar_t* szDef)
+wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *szDef)
 {
 	DBVARIANT dbv = { DBVT_DELETED };
 	wchar_t* szRes = nullptr;
@@ -35,7 +36,7 @@ wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModu
 	return szRes;
 }
 
-char* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule, const char* szSetting, char* szDef)
+char* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule, const char *szSetting, char *szDef)
 {
 	DBVARIANT dbv = { DBVT_DELETED };
 	char* szRes = nullptr;
@@ -76,7 +77,7 @@ void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t
 	db_set_ws(0, MODULENAME, szSetting, str);
 }
 
-wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, bool save_file)
+wchar_t* GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, bool save_file)
 {
 	wchar_t *str = new wchar_t[MAX_PATH + 2];
 	OPENFILENAME ofn = { 0 };
@@ -111,7 +112,7 @@ wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, 
 	return str;
 }
 
-void GetFolderPath(wchar_t *WindowTittle, char*)
+void GetFolderPath(wchar_t *WindowTittle)
 {
 	BROWSEINFO pbi = {};
 	pbi.lpszTitle = WindowTittle;
@@ -179,8 +180,8 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 		HistoryLog(hContact, db_event(szMessage, 0, 0, DBEF_SENT));
 		db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
 	}
-	else
-		mir_free(szMessage);
+	else mir_free(szMessage);
+
 	return 0;
 }
 
@@ -495,15 +496,12 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 		else {
 			wchar_t *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", L"");
 			if (jid[0]) {
-				for(auto p : globals.Accounts)
-				{
+				for (auto p : globals.Accounts) {
 					wchar_t *caps = p->getJabberInterface()->GetResourceFeatures(jid);
-					if (caps) 
-					{
+					if (caps) {
 						supported_proto = true;
 						wstring str;
-						for (int i = 0;; i++)
-						{
+						for (int i = 0;; i++) {
 							str.push_back(caps[i]);
 							if (caps[i] == '\0')
 								if (caps[i + 1] == '\0')
@@ -595,7 +593,7 @@ int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, DWORD data)
 int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, options later
 {
 	void AddHandlers();
-	
+
 	list <JabberAccount*>::iterator p;
 	globals.Accounts.clear();
 	globals.Accounts.push_back(new JabberAccount);
@@ -638,7 +636,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 				if (!isContactSecured(hContact))
 					break;
 		}
-		
+
 		if (str == nullptr)
 			continue;
 
@@ -663,8 +661,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			wstring::size_type p2 = data.find(L"-----END PGP MESSAGE-----");
 			wstring data2 = data.substr(p1, p2 - p1 - 2);
 			strip_line_term(data2);
-			if(globals.bDebugLog)
-				globals.debuglog<<std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + toUTF8(data2) + "\n\n\t to outgoing xml");
+			if (globals.bDebugLog)
+				globals.debuglog << std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + toUTF8(data2) + "\n\n\t to outgoing xml");
 			HXML encrypted_data = xmlAddChild(node, L"x", data2.c_str());
 			xmlAddAttr(encrypted_data, L"xmlns", L"jabber:x:encrypted");
 			break;
@@ -806,7 +804,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 	return FALSE;
 }
 
-static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface*, HXML node, void*)
+static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, HXML node, void*)
 {
 	HXML local_node = node;
 	for (int n = 0; n <= xmlGetChildCount(node); n++) {
@@ -890,8 +888,7 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface*, HXML node, void*)
 								if (p1 != string::npos && p2 != string::npos) {
 									MCONTACT hContact = NULL;
 									{
-										for(auto p : globals.Accounts)
-										{
+										for (auto p : globals.Accounts) {
 											/*if (!p)
 												break;*/
 											hContact = p->getJabberInterface()->ContactFromJID(xmlGetAttrValue(node, L"from"));
@@ -919,16 +916,15 @@ static JABBER_HANDLER_FUNC MessageHandler(IJabberInterface*, HXML, void*)
 
 void AddHandlers()
 {
-	for(auto p : globals.Accounts)
-	{
+	for (auto p : globals.Accounts) {
 		/*if (p)
 			break;*/
 		if (p->getSendHandler() == INVALID_HANDLE_VALUE)
 			p->setSendHandler(p->getJabberInterface()->AddSendHandler((JABBER_HANDLER_FUNC)SendHandler));
-		if (p->getPrescenseHandler() == INVALID_HANDLE_VALUE)
-			p->setPrescenseHandler(p->getJabberInterface()->AddPresenceHandler((JABBER_HANDLER_FUNC)PrescenseHandler));
-		//		if((*p)->getMessageHandler() == INVALID_HANDLE_VALUE)
-		//			(*p)->setMessageHandler((*p)->getJabberInterface()->AddMessageHandler((JABBER_HANDLER_FUNC)MessageHandler, JABBER_MESSAGE_TYPE_ANY ,NULL,NULL));
+		
+		if (p->getPresenceHandler() == INVALID_HANDLE_VALUE)
+			p->setPresenceHandler(p->getJabberInterface()->AddPresenceHandler((JABBER_HANDLER_FUNC)PresenceHandler));
+
 		if (globals.bAutoExchange) {
 			p->getJabberInterface()->RegisterFeature(L"GPG_Key_Auto_Exchange:0", L"Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
 			p->getJabberInterface()->AddFeatures(L"GPG_Key_Auto_Exchange:0\0\0");
@@ -1187,15 +1183,16 @@ void send_encrypted_msgs_thread(void *param)
 	while (true) {
 		//char *key = UniGetContactSettingUtf(hContact, MODULENAME, "GPGPubKey", "");
 		while (!isContactSecured(hContact))
-			boost::this_thread::sleep(boost::posix_time::seconds(1));
+			Sleep(1000);
+		
 		if (!globals.hcontact_data[hContact].msgs_to_send.empty()) {
-			boost::this_thread::sleep(boost::posix_time::seconds(1));
+			Sleep(1000);
 			list<string>::iterator end = globals.hcontact_data[hContact].msgs_to_send.end();
 			extern std::list<HANDLE> sent_msgs;
 			for (list<string>::iterator p = globals.hcontact_data[hContact].msgs_to_send.begin(); p != end; ++p) {
 				sent_msgs.push_back((HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)p->c_str()));
 				HistoryLog(hContact, db_event((char*)p->c_str(), 0, 0, DBEF_SENT));
-				boost::this_thread::sleep(boost::posix_time::seconds(1));
+				Sleep(1000);
 			}
 			globals.hcontact_data[hContact].msgs_to_send.clear();
 			return;
@@ -1512,19 +1509,19 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 							acc = pa->szModuleName;
 					}
 					break;
-	
+
 				case DBVT_BLOB:
 					//TODO
 					db_free(&dbv);
 					break;
-				
+
 				case DBVT_WCHAR:
 					//TODO
 					db_free(&dbv);
 					break;
 				}
 			}
-			
+
 			if (acc.length()) {
 				const char *uid = Proto_GetUniqueId(acc.c_str());
 				for (auto &hContact : Contacts(acc.c_str())) {
@@ -1908,105 +1905,102 @@ bool gpg_use_new_random_key(char *account_name, wchar_t *gpg_bin_path, wchar_t *
 {
 	if (gpg_bin_path && gpg_home_dir)
 		gpg_save_paths(gpg_bin_path, gpg_home_dir);
+	
+	wstring path;
 	{
-		wstring path;
-		{
-			// generating key file
-			wchar_t *tmp = nullptr;
-			if (gpg_home_dir)
-				tmp = gpg_home_dir;
-			else
-				tmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
-			path = tmp;
-			if (!gpg_home_dir)
-				mir_free(tmp);
-			path.append(L"\\new_key");
-			wfstream f(path.c_str(), std::ios::out);
-			if (!f.is_open()) {
-				MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
-				return false;
-			}
-			f << "Key-Type: RSA";
-			f << "\n";
-			f << "Key-Length: 4096";
-			f << "\n";
-			f << "Subkey-Type: RSA";
-			f << "\n";
-			f << "Name-Real: ";
-			f << get_random(6).c_str();
-			f << "\n";
-			f << "Name-Email: ";
-			f << get_random(5).c_str();
-			f << "@";
-			f << get_random(5).c_str();
-			f << ".";
-			f << get_random(3).c_str();
-			f << "\n";
-			f.close();
+		// generating key file
+		wchar_t *tmp = nullptr;
+		if (gpg_home_dir)
+			tmp = gpg_home_dir;
+		else
+			tmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+		path = tmp;
+		if (!gpg_home_dir)
+			mir_free(tmp);
+		path.append(L"\\new_key");
+		wfstream f(path.c_str(), std::ios::out);
+		if (!f.is_open()) {
+			MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+			return false;
 		}
-		{	// gpg execution
-			DWORD code;
-			string out;
-			std::vector<wstring> cmd;
-			cmd.push_back(L"--batch");
-			cmd.push_back(L"--yes");
-			cmd.push_back(L"--gen-key");
-			cmd.push_back(path);
-			gpg_execution_params params(cmd);
-			pxResult result;
-			params.out = &out;
-			params.code = &code;
-			params.result = &result;
-			if (!gpg_launcher(params, boost::posix_time::minutes(10)))
-				return false;
-			if (result == pxNotFound)
-				return false;
+		f << "Key-Type: RSA";
+		f << "\n";
+		f << "Key-Length: 4096";
+		f << "\n";
+		f << "Subkey-Type: RSA";
+		f << "\n";
+		f << "Name-Real: ";
+		f << get_random(6).c_str();
+		f << "\n";
+		f << "Name-Email: ";
+		f << get_random(5).c_str();
+		f << "@";
+		f << get_random(5).c_str();
+		f << ".";
+		f << get_random(3).c_str();
+		f << "\n";
+		f.close();
+	}
+	{	// gpg execution
+		DWORD code;
+		string out;
+		std::vector<wstring> cmd;
+		cmd.push_back(L"--batch");
+		cmd.push_back(L"--yes");
+		cmd.push_back(L"--gen-key");
+		cmd.push_back(path);
+		gpg_execution_params params(cmd);
+		pxResult result;
+		params.out = &out;
+		params.code = &code;
+		params.result = &result;
+		if (!gpg_launcher(params, boost::posix_time::minutes(10)))
+			return false;
+		if (result == pxNotFound)
+			return false;
 
-			boost::filesystem::remove(path);
-			string::size_type p1 = 0;
-			if ((p1 = out.find("key ")) != string::npos)
-				path = toUTF16(out.substr(p1 + 4, 8));
-			else
-				path.clear();
+		boost::filesystem::remove(path);
+		string::size_type p1 = 0;
+		if ((p1 = out.find("key ")) != string::npos)
+			path = toUTF16(out.substr(p1 + 4, 8));
+		else
+			path.clear();
+	}
+
+	if (!path.empty()) {
+		string out;
+		DWORD code;
+		std::vector<wstring> cmd;
+		cmd.push_back(L"--batch");
+		cmd.push_back(L"-a");
+		cmd.push_back(L"--export");
+		cmd.push_back(path);
+		gpg_execution_params params(cmd);
+		pxResult result;
+		params.out = &out;
+		params.code = &code;
+		params.result = &result;
+		if (!gpg_launcher(params))
+			return false;
+
+		if (result == pxNotFound)
+			return false;
+
+		string::size_type s = 0;
+		while ((s = out.find("\r", s)) != string::npos)
+			out.erase(s, 1);
+
+		if (!mir_strcmp(account_name, Translate("Default"))) {
+			db_set_s(NULL, MODULENAME, "GPGPubKey", out.c_str());
+			db_set_ws(NULL, MODULENAME, "KeyID", path.c_str());
 		}
-		if (!path.empty()) {
-			string out;
-			DWORD code;
-			std::vector<wstring> cmd;
-			cmd.push_back(L"--batch");
-			cmd.push_back(L"-a");
-			cmd.push_back(L"--export");
-			cmd.push_back(path);
-			gpg_execution_params params(cmd);
-			pxResult result;
-			params.out = &out;
-			params.code = &code;
-			params.result = &result;
-			if (!gpg_launcher(params)) {
-				return false;
-			}
-			if (result == pxNotFound)
-				return false;
-			string::size_type s = 0;
-			while ((s = out.find("\r", s)) != string::npos) {
-				out.erase(s, 1);
-			}
-			{
-				if (!mir_strcmp(account_name, Translate("Default")))
-				{
-					db_set_s(NULL, MODULENAME, "GPGPubKey", out.c_str());
-					db_set_ws(NULL, MODULENAME, "KeyID", path.c_str());
-				}
-				else
-				{
-					std::string acc_str = account_name;
-					acc_str += "_GPGPubKey";
-					db_set_s(NULL, MODULENAME, acc_str.c_str(), out.c_str());
-					acc_str = account_name;
-					acc_str += "_KeyID";
-					db_set_ws(NULL, MODULENAME, acc_str.c_str(), path.c_str());
-				}
-			}
+		else {
+			std::string acc_str = account_name;
+			acc_str += "_GPGPubKey";
+			db_set_s(NULL, MODULENAME, acc_str.c_str(), out.c_str());
+			acc_str = account_name;
+			acc_str += "_KeyID";
+			db_set_ws(NULL, MODULENAME, acc_str.c_str(), path.c_str());
 		}
 	}
 	return true;

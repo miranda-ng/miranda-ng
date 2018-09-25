@@ -454,7 +454,7 @@ public:
 
 	void onClick_SET_HOME_DIR(CCtrlButton*)
 	{
-		GetFolderPath(TranslateT("Set home directory"), "szHomePath");
+		GetFolderPath(TranslateT("Set home directory"));
 		CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"")));
 		edit_HOME_DIR.SetText(tmp);
 		wchar_t mir_path[MAX_PATH];

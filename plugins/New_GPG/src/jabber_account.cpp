@@ -20,47 +20,55 @@ void JabberAccount::setAccountName(wchar_t *Name)
 {
 	AccountName = Name;
 }
+
 void JabberAccount::setAccountNumber(int Number)
 {
 	AccountNumber = Number;
 }
+
 void JabberAccount::setJabberInterface(IJabberInterface *JIf)
 {
 	JabberInterface = JIf;
 }
+
 void JabberAccount::setSendHandler(HJHANDLER hHandler)
 {
 	hSendHandler = hHandler;
 }
-void JabberAccount::setPrescenseHandler(HJHANDLER hHandler)
+
+void JabberAccount::setPresenceHandler(HJHANDLER hHandler)
 {
-	hPrescenseHandler = hHandler;
+	hPresenceHandler = hHandler;
 }
+
 void JabberAccount::setMessageHandler(HJHANDLER hHandler)
 {
 	hMessageHandler = hHandler;
 }
 
-
-wchar_t *JabberAccount::getAccountName()
+wchar_t* JabberAccount::getAccountName()
 {
 	return AccountName;
 }
+
 int JabberAccount::getAccountNumber()
 {
 	return AccountNumber;
 }
-IJabberInterface *JabberAccount::getJabberInterface()
+
+IJabberInterface* JabberAccount::getJabberInterface()
 {
 	return JabberInterface;
 }
+
 HJHANDLER JabberAccount::getSendHandler()
 {
 	return hSendHandler;
 }
-HJHANDLER JabberAccount::getPrescenseHandler()
+
+HJHANDLER JabberAccount::getPresenceHandler()
 {
-	return hPrescenseHandler;
+	return hPresenceHandler;
 }
 
 HJHANDLER JabberAccount::getMessageHandler()
@@ -68,18 +76,11 @@ HJHANDLER JabberAccount::getMessageHandler()
 	return hMessageHandler;
 }
 
-
 JabberAccount::JabberAccount()
 {
-	AccountName = nullptr;
-	hSendHandler = INVALID_HANDLE_VALUE;
-	hPrescenseHandler = INVALID_HANDLE_VALUE;
-	hMessageHandler = INVALID_HANDLE_VALUE;
-	AccountNumber = -1;
-	JabberInterface = nullptr;
 }
+
 JabberAccount::~JabberAccount()
 {
-	if(AccountName)
-		mir_free(AccountName);
+	mir_free(AccountName);
 }

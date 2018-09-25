@@ -18,7 +18,6 @@
 
 #pragma comment(lib, "shlwapi.lib")
 
-
 void FirstRun()
 {
 	if (!db_get_b(NULL, MODULENAME, "FirstRun", 1))
@@ -120,8 +119,7 @@ void InitCheck()
 					question += Translate(" for account ");
 					question += toUTF8(pa->tszAccountName);
 					question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
-					if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
-					{
+					if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES) {
 						CDlgFirstRun *d = new CDlgFirstRun;
 						d->DoModal();
 					}
@@ -161,8 +159,7 @@ void InitCheck()
 						question += Translate(" for account ");
 						question += toUTF8(pa->tszAccountName);
 						question += Translate(" expired and will not work.\nDo you want to set another key?");
-						if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
-						{
+						if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES) {
 							CDlgFirstRun *d = new CDlgFirstRun;
 							d->DoModal();
 						}
@@ -180,8 +177,7 @@ void InitCheck()
 		char *key = UniGetContactSettingUtf(NULL, MODULENAME, "GPGPubKey", "");
 		if (!db_get_b(NULL, MODULENAME, "FirstRun", 1) && (!keyid[0] || !key[0])) {
 			question = Translate("You didn't set a private key.\nWould you like to set it now?");
-			if (MessageBoxA(nullptr, question.c_str(), Translate("Own private key warning"), MB_YESNO) == IDYES)
-			{
+			if (MessageBoxA(nullptr, question.c_str(), Translate("Own private key warning"), MB_YESNO) == IDYES) {
 				CDlgFirstRun *d = new CDlgFirstRun;
 				d->DoModal();
 			}
@@ -189,8 +185,7 @@ void InitCheck()
 		if ((p = out.find(keyid)) == string::npos) {
 			question += keyid;
 			question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
-			if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
-			{
+			if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES) {
 				CDlgFirstRun *d = new CDlgFirstRun;
 				d->DoModal();
 			}
@@ -228,8 +223,7 @@ void InitCheck()
 			if (expired) {
 				question += keyid;
 				question += Translate(" expired and will not work.\nDo you want to set another key?");
-				if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
-				{
+				if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES) {
 					CDlgFirstRun *d = new CDlgFirstRun;
 					d->DoModal();
 				}
