@@ -10,7 +10,7 @@ enum {
 static char *ctc_stmts[SQL_CTC_STMT_NUM] = {
 	"select count(1) from contacts limit 1;",
 	"insert into contacts values (null);",
-	"delete from events where contactid = ?; delete from settings where contactid = ?; delete from contacts where id = ?;"
+	"delete from contacts where id = ?;"
 };
 
 static sqlite3_stmt *ctc_stmts_prep[SQL_CTC_STMT_NUM] = { 0 };

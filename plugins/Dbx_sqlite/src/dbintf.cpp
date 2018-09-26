@@ -44,9 +44,9 @@ int CDbxSQLite::Create(const wchar_t *profile)
 		return 1;
 
 	sqlite3_exec(database, "create table contacts (id integer not null primary key);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table events (id integer not null primary key, contactid integer not null, module varchar(255) not null, timestamp integer not null, type integer not null, flags integer not null, size integer not null, blob any, serverid varchar(64));", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create index idx_events1 on events(id, contactid);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create index idx_events2 on events(module, serverid);", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table events (id integer not null primary key, module varchar(255) not null, timestamp integer not null, type integer not null, flags integer not null, size integer not null, blob any, serverid varchar(64));", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create index idx_events on events(module, serverid);", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table contact_events (contactid integer not null, eventid integer not null, primary key(contactid, eventid)) without rowid;", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "create table settings (contactid integer not null, module varchar(255) not null, setting varchar(255) not null, type integer not null, value any, primary key(contactid, module, setting)) without rowid;", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "create index idx_settings on settings(contactid, module, setting);", nullptr, nullptr, nullptr);
 
@@ -100,6 +100,8 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 	sqlite3_exec(database, "begin transaction;", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "pragma locking_mode = EXCLUSIVE;", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "pragma synchronous = NORMAL;", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "pragma foreign_keys = OFF;", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "pragma journal_mode = OFF;", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "commit;", nullptr, nullptr, nullptr);
 
 	CDbxSQLite *db = new CDbxSQLite(database);
@@ -143,14 +145,4 @@ BOOL CDbxSQLite::IsRelational()
 
 void CDbxSQLite::SetCacheSafetyMode(BOOL)
 {
-}
-
-BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
-{
-	return 0;
-}
-
-BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
-{
-	return 0;
 }
