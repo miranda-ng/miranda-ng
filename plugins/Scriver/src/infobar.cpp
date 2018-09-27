@@ -84,8 +84,10 @@ void CSrmmWindow::RefreshInfobar()
 	SETTEXTEX st;
 	if (szXStatusMsg && *szXStatusMsg)
 		mir_snwprintf(szText, L"%s (%s)", TranslateW(szXStatusName), szXStatusMsg);
-	else
+	else if (szXStatusName && *szXStatusName)
 		wcsncpy_s(szText, TranslateW(szXStatusName), _TRUNCATE);
+	else
+		szText[0] = 0;
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
 	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)Clist_GetContactDisplayName(m_hContact));
