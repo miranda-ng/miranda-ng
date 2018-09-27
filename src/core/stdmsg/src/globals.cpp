@@ -158,6 +158,7 @@ void InitGlobals()
 		g_dat.bSendOnCtrlEnter = true;
 
 	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
+	HookEvent(ME_DB_EVENT_EDITED, dbaddedevent);
 	HookEvent(ME_PROTO_ACK, ackevent);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);

@@ -631,6 +631,7 @@ int OnLoadModule(void)
 
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
+	HookEvent(ME_DB_EVENT_EDITED, MessageEventAdded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, MessageSettingChanged);
 	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
