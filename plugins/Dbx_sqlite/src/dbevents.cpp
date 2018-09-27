@@ -61,6 +61,13 @@ void CDbxSQLite::UninitEvents()
 
 LONG CDbxSQLite::GetEventCount(MCONTACT hContact)
 {
+	DBCachedContact *cc = (hContact)
+		? m_cache->GetCachedContact(hContact)
+		: &m_system;
+
+	if (cc->count)
+		return cc->count;
+
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_COUNT];
 	sqlite3_bind_int64(stmt, 1, hContact);
@@ -69,9 +76,9 @@ LONG CDbxSQLite::GetEventCount(MCONTACT hContact)
 		sqlite3_reset(stmt);
 		return 0;
 	}
-	LONG count = sqlite3_column_int64(stmt, 0);
+	cc->count = sqlite3_column_int64(stmt, 0);
 	sqlite3_reset(stmt);
-	return count;
+	return cc->count;
 }
 
 MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
@@ -82,7 +89,9 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 	if (dbei->timestamp == 0)
 		return 0;
 
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact)
+		? m_cache->GetCachedContact(hContact)
+		: &m_system;
 	if (cc == nullptr)
 		return 0;
 
@@ -121,6 +130,11 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		}
 
 		sqlite3_exec(m_db, "commit;", nullptr, nullptr, nullptr);
+
+		cc->count++;
+		cc->first = cc->last = 0;
+		if (!(dbei->flags & (DBEF_READ | DBEF_SENT)))
+			cc->unread = 0;
 	}
 
 	bool neednotify = false;
@@ -140,7 +154,9 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return 1;
 
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact)
+		? m_cache->GetCachedContact(hContact)
+		: &m_system;
 	if (cc == nullptr)
 		return 1;
 
@@ -153,6 +169,11 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return 1;
+
+		if (cc->count > 0)
+			cc->count--;
+
+		cc->first = cc->unread = cc->last = 0;
 	}
 
 	NotifyEventHooks(hEventDeletedEvent, hContact, (LPARAM)hDbEvent);
@@ -168,7 +189,9 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei
 	if (dbei->timestamp == 0)
 		return 1;
 
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact)
+		? m_cache->GetCachedContact(hContact)
+		: &m_system;
 	if (cc == nullptr)
 		return 1;
 
@@ -182,8 +205,10 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei
 	sqlite3_bind_blob(stmt, 6, dbei->pBlob, dbei->cbBlob, nullptr);
 	sqlite3_bind_int64(stmt, 7, hDbEvent);
 	int rc = sqlite3_step(stmt);
-	if (rc == SQLITE_DONE)
+	if (rc == SQLITE_DONE) {
+		cc->first = cc->unread = cc->last = 0;
 		NotifyEventHooks(hEventEditedEvent, hContact, (LPARAM)hDbEvent);
+	}
 	sqlite3_reset(stmt);
 	return (rc != SQLITE_DONE);
 }
@@ -248,7 +273,9 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return -1;
 
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact)
+		? m_cache->GetCachedContact(hContact)
+		: &m_system;
 	if (cc == nullptr)
 		return -1;
 
@@ -279,6 +306,8 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 			sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return -1;
+		if (cc->unread = hDbEvent)
+			cc->unread = 0;
 	}
 
 	NotifyEventHooks(hEventMarkedRead, hContact, (LPARAM)hDbEvent);
@@ -306,9 +335,14 @@ MCONTACT CDbxSQLite::GetEventContact(MEVENT hDbEvent)
 
 MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact)
+		? m_cache->GetCachedContact(hContact)
+		: &m_system;
 	if (cc == nullptr)
 		return 0;
+
+	if (cc->first)
+		return cc->first;
 
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_FINDFIRST];
@@ -318,16 +352,21 @@ MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 		sqlite3_reset(stmt);
 		return 0;
 	}
-	MEVENT hDbEvent = sqlite3_column_int64(stmt, 0);
+	cc->first = sqlite3_column_int64(stmt, 0);
 	sqlite3_reset(stmt);
-	return hDbEvent;
+	return cc->first;
 }
 
 MEVENT CDbxSQLite::FindFirstUnreadEvent(MCONTACT hContact)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact)
+		? m_cache->GetCachedContact(hContact)
+		: &m_system;
 	if (cc == nullptr)
 		return 0;
+
+	if (cc->unread)
+		return cc->unread;
 
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_FINDFIRSTUNREAD];
@@ -337,16 +376,21 @@ MEVENT CDbxSQLite::FindFirstUnreadEvent(MCONTACT hContact)
 		sqlite3_reset(stmt);
 		return 0;
 	}
-	MEVENT hDbEvent = sqlite3_column_int64(stmt, 0);
+	cc->unread = sqlite3_column_int64(stmt, 0);
 	sqlite3_reset(stmt);
-	return hDbEvent;
+	return cc->unread;
 }
 
 MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact)
+		? m_cache->GetCachedContact(hContact)
+		: &m_system;
 	if (cc == nullptr)
 		return 0;
+
+	if (cc->last)
+		return cc->last;
 
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_FINDLAST];
@@ -356,9 +400,9 @@ MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)
 		sqlite3_reset(stmt);
 		return 0;
 	}
-	MEVENT hDbEvent = sqlite3_column_int64(stmt, 0);
+	cc->last = sqlite3_column_int64(stmt, 0);
 	sqlite3_reset(stmt);
-	return hDbEvent;
+	return cc->last;
 }
 
 MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
@@ -440,7 +484,6 @@ BOOL CDbxSQLite::SetEventId(LPCSTR, MEVENT hDbEvent, LPCSTR szId)
 	return (rc != SQLITE_DONE);
 }
 
-
 BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	mir_cslock lock(m_csDbAccess);
@@ -449,6 +492,7 @@ BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSu
 	sqlite3_bind_int64(stmt, 2, ccSub->contactID);
 	int rc = sqlite3_step(stmt);
 	sqlite3_reset(stmt);
+	ccMeta->first = ccMeta->unread = ccMeta->last = 0;
 	return (rc != SQLITE_DONE);
 }
 
@@ -460,5 +504,6 @@ BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSu
 	sqlite3_bind_int64(stmt, 2, ccSub->contactID);
 	int rc = sqlite3_step(stmt);
 	sqlite3_reset(stmt);
+	ccMeta->first = ccMeta->unread = ccMeta->last = 0;
 	return (rc != SQLITE_DONE);
 }

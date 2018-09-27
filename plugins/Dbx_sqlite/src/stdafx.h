@@ -11,7 +11,6 @@
 #include <m_core.h>
 #include <m_system.h>
 #include <m_database.h>
-#include <m_db_int.h>
 #include <m_protocols.h>
 #include <m_metacontacts.h>
 

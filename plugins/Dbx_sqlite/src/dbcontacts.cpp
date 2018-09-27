@@ -24,10 +24,13 @@ void CDbxSQLite::InitContacts()
 	//m_cache->AddContactToCache(0);
 
 	sqlite3_stmt *stmt = nullptr;
-	sqlite3_prepare_v2(m_db, "select id from contacts;", -1, &stmt, nullptr);
+	sqlite3_prepare_v2(m_db, "select contact_events.contactid, count(eventid) from contact_events join contacts on contacts.id = contact_events.contactid group by contact_events.contactid;", -1, &stmt, nullptr);
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
 		MCONTACT hContact = sqlite3_column_int64(stmt, 0);
-		DBCachedContact *cc = m_cache->AddContactToCache(hContact);
+		DBCachedContact *cc = (hContact)
+			? m_cache->AddContactToCache(hContact)
+			: &m_system;
+		cc->count = sqlite3_column_int64(stmt, 1);
 
 		DBVARIANT dbv = { DBVT_DWORD };
 		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;

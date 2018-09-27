@@ -1,5 +1,19 @@
 #pragma once
 
+#define OWN_CACHED_CONTACT
+
+#include <m_db_int.h>
+
+struct DBCachedContact : public DBCachedContactBase
+{
+	uint32_t count;
+	MEVENT   first;
+	MEVENT   unread;
+	MEVENT   last;
+
+	DBCachedContact() { count = first = unread = last = 0; }
+};
+
 struct CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 {
 private:
@@ -13,6 +27,8 @@ private:
 	HANDLE hEventFilterAddedEvent;
 	HANDLE hEventMarkedRead;
 	HANDLE hSettingChangeEvent;
+
+	DBCachedContact m_system;
 
 	CDbxSQLite(sqlite3 *database);
 
