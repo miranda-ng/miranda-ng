@@ -88,16 +88,18 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
-	DBEVENTINFO dbei = {};
-	db_event_get(hDbEvent, &dbei);
-	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
-		return 0;
 
 	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd == nullptr)
 		hwnd = Srmm_FindWindow(hContact = db_event_getContact(hDbEvent));
 	if (hwnd)
 		SendMessage(hwnd, HM_DBEVENTADDED, hContact, lParam);
+
+	DBEVENTINFO dbei = {};
+	db_event_get(hDbEvent, &dbei);
+
+	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
+		return 0;
 
 	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(&dbei))
 		return 0;
