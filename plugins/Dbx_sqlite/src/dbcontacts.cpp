@@ -55,7 +55,7 @@ LONG CDbxSQLite::GetContactCount()
 {
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = ctc_stmts_prep[SQL_CTC_STMT_COUNT];
-	int rc = sqlite3_step(stmt);
+	sqlite3_step(stmt);
 	int count = sqlite3_column_int(stmt, 0);
 	sqlite3_reset(stmt);
 	return count;
@@ -75,6 +75,8 @@ MCONTACT CDbxSQLite::AddContact()
 	}
 
 	DBCachedContact *cc = m_cache->AddContactToCache(hContact);
+	if (cc == nullptr)
+		return INVALID_CONTACT_ID;
 	NotifyEventHooks(hContactAddedEvent, hContact);
 
 	return hContact;

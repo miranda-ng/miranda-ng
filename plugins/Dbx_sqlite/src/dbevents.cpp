@@ -26,22 +26,22 @@ enum {
 static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select count(1) from contact_events where contactid = ? limit 1;",
 	"insert into events(module, timestamp, type, flags, size, blob) values (?, ?, ?, ?, ?, ?);",
-	"insert into contact_events(contactid, eventid) values (?, ?);",
-	"delete from events where id = ?; delete from contact_events where contactid = ? and eventid = ?;",
+	"insert into contact_events(contactid, eventid, timestamp) values (?, ?, ?);",
+	"delete from contact_events where contactid = ?1 and eventid = ?2; delete from events where id = ?2;",
 	"update events set module = ?, timestamp = ?, type = ?, flags = ?, size = ?, blob = ? where id = ?;",
 	"select size from events where id = ? limit 1;",
 	"select module, timestamp, type, flags, size, blob from events where id = ? limit 1;",
 	"select flags from events where id = ? limit 1;",
 	"update events set flag = ? where id = ?;",
 	"select contactid from contact_events where eventid = ? limit 1;",
-	"select min(id) from contact_events where contactid = ? limit 1;",
-	"select flags, id from events where contactid = ? order by id;",
-	"select max(eventid) from contact_events where contactid = ? limit 1;",
-	"select eventid from contact_events where contactid = ? and eventid > ? order by eventid limit 1;",
-	"select eventid from contact_events where contactid = ? and eventid < ? order by eventid desc limit 1;",
+	"select eventid from contact_events where contactid = ? order by timestamp, eventid limit 1;",
+	"select events.id from events join contact_events on contact_events.eventid = events.id where contact_events.contactid = ? and (events.flags & (4 | 2)) = 0 order by events.timestamp, events.id limit 1;",
+	"select eventid from contact_events where contactid = ? order by timestamp desc, eventid desc limit 1;",
+	"select eventid from contact_events where contactid = ?1 and eventid <> ?2 and timestamp > (select timestamp from contact_events where contactid = ?1 and eventid = ?2 limit 1) order by timestamp, eventid limit 1;",
+	"select eventid from contact_events where contactid = ? and eventid <> ? and timestamp < (select timestamp from contact_events where contactid = ?1 and eventid = ?2 limit 1) order by timestamp desc, eventid desc limit 1;",
 	"select id from events where module = ? and serverid = ? limit 1;",
 	"update events set serverid = ? where id = ?;",
-	"insert into contact_events(contactid, eventid) select ?, eventid from contact_events where contactid = ?;",
+	"insert into contact_events(contactid, eventid, timestamp) select ?1, eventid, timestamp from contact_events where contactid = ?2 order by timestamp, eventid;",
 	"delete from contact_events where contactid = ? and eventid in (select eventid from contact_events where contactid = ?);",
 };
 
@@ -91,6 +91,8 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 
 	MEVENT hDbEvent = 0;
 	{
+		sqlite3_exec(m_db, "begin transaction;", nullptr, nullptr, nullptr);
+
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_ADDEVENT];
 		sqlite3_bind_text(stmt, 1, dbei->szModule, mir_strlen(dbei->szModule), nullptr);
@@ -101,17 +103,24 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		sqlite3_bind_blob(stmt, 6, dbei->pBlob, dbei->cbBlob, nullptr);
 		int rc = sqlite3_step(stmt);
 		sqlite3_reset(stmt);
-		if (rc != SQLITE_DONE)
+		if (rc != SQLITE_DONE) {
+			sqlite3_exec(m_db, "rollback;", nullptr, nullptr, nullptr);
 			return 0;
+		}
 		hDbEvent = sqlite3_last_insert_rowid(m_db);
 
 		stmt = evt_stmts_prep[SQL_EVT_STMT_ADDCONTACTEVENT];
 		sqlite3_bind_int64(stmt, 1, hContact);
 		sqlite3_bind_int64(stmt, 2, hDbEvent);
+		sqlite3_bind_int64(stmt, 3, dbei->timestamp);
 		rc = sqlite3_step(stmt);
 		sqlite3_reset(stmt);
-		if (rc != SQLITE_DONE)
+		if (rc != SQLITE_DONE) {
+			sqlite3_exec(m_db, "rollback;", nullptr, nullptr, nullptr);
 			return 0;
+		}
+
+		sqlite3_exec(m_db, "commit;", nullptr, nullptr, nullptr);
 	}
 
 	bool neednotify = false;
@@ -138,9 +147,8 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 	{
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_DELETE];
-		sqlite3_bind_int64(stmt, 1, hDbEvent);
-		sqlite3_bind_int64(stmt, 2, hContact);
-		sqlite3_bind_int64(stmt, 3, hDbEvent);
+		sqlite3_bind_int64(stmt, 1, hContact);
+		sqlite3_bind_int64(stmt, 2, hDbEvent);
 		int rc = sqlite3_step(stmt);
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
@@ -324,17 +332,14 @@ MEVENT CDbxSQLite::FindFirstUnreadEvent(MCONTACT hContact)
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_FINDFIRSTUNREAD];
 	sqlite3_bind_int64(stmt, 1, hContact);
-	while (sqlite3_step(stmt) == SQLITE_ROW) {
-		DWORD flags = sqlite3_column_int64(stmt, 0);
-		if (!(flags & (DBEF_READ | DBEF_SENT))) {
-			MEVENT hDbEvent = sqlite3_column_int64(stmt, 1);
-			sqlite3_reset(stmt);
-			return hDbEvent;
-			break;
-		}
+	int rc = sqlite3_step(stmt);
+	if (rc != SQLITE_ROW) {
+		sqlite3_reset(stmt);
+		return 0;
 	}
+	MEVENT hDbEvent = sqlite3_column_int64(stmt, 0);
 	sqlite3_reset(stmt);
-	return 0;
+	return hDbEvent;
 }
 
 MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)

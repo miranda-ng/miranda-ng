@@ -46,7 +46,7 @@ int CDbxSQLite::Create(const wchar_t *profile)
 	sqlite3_exec(database, "create table contacts (id integer not null primary key);", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "create table events (id integer not null primary key, module varchar(255) not null, timestamp integer not null, type integer not null, flags integer not null, size integer not null, blob any, serverid varchar(64));", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "create index idx_events on events(module, serverid);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table contact_events (contactid integer not null, eventid integer not null, primary key(contactid, eventid)) without rowid;", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table contact_events (contactid integer not null, eventid integer not null, timestamp integer not null, primary key(contactid, eventid)) without rowid;", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "create table settings (contactid integer not null, module varchar(255) not null, setting varchar(255) not null, type integer not null, value any, primary key(contactid, module, setting)) without rowid;", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "create index idx_settings on settings(contactid, module, setting);", nullptr, nullptr, nullptr);
 
@@ -140,7 +140,7 @@ BOOL CDbxSQLite::Backup(const wchar_t *profile)
 
 BOOL CDbxSQLite::IsRelational()
 {
-	return 0;
+	return TRUE;
 }
 
 void CDbxSQLite::SetCacheSafetyMode(BOOL)
