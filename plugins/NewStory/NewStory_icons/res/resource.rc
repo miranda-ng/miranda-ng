@@ -1,0 +1,97 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Unknown language: 0x22, 0x1 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
+#ifdef _WIN32
+LANGUAGE 0x22, 0x1
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+1                       ICON    DISCARDABLE     "icons\\01 newstory.ico"
+2                       ICON    DISCARDABLE     "icons\\02 userinfo.ico"
+3                       ICON    DISCARDABLE     "icons\\03 usermenu.ico"
+4                       ICON    DISCARDABLE     "icons\\04 search.ico"
+5                       ICON    DISCARDABLE     "icons\\05 options.ico"
+6                       ICON    DISCARDABLE     "icons\\06 filter.ico"
+7                       ICON    DISCARDABLE     "icons\\07 export.ico"
+8                       ICON    DISCARDABLE     "icons\\09 copy.ico"
+9                       ICON    DISCARDABLE     "icons\\10 sendmsg.ico"
+10                      ICON    DISCARDABLE     "icons\\11 close.ico"
+11                      ICON    DISCARDABLE     "icons\\12 msgin.ico"
+12                      ICON    DISCARDABLE     "icons\\13 msgout.ico"
+13                      ICON    DISCARDABLE     "icons\\14 signin.ico"
+14                      ICON    DISCARDABLE     "icons\\16 file.ico"
+15                      ICON    DISCARDABLE     "icons\\17 url.ico"
+16                      ICON    DISCARDABLE     "icons\\18 unknown.ico"
+17                      ICON    DISCARDABLE     "icons\\19 findprev.ico"
+18                      ICON    DISCARDABLE     "icons\\20 findnext.ico"
+19                      ICON    DISCARDABLE     "icons\\nopassword.ico"
+20                      ICON    DISCARDABLE     "icons\\password.ico"
+21                      ICON    DISCARDABLE     "icons\\Calendar.ico"
+23                      ICON    DISCARDABLE     "icons\\reset.ico"
+24                      ICON    DISCARDABLE     "icons\\reload.ico"
+25                      ICON    DISCARDABLE     "icons\\vars.ico"
+22                      ICON    DISCARDABLE     "icons\\folder.ico"
+26                      ICON    DISCARDABLE     "icons\\save pass.ico"
+#endif    // Unknown language: 0x22, 0x1 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
