@@ -19,7 +19,7 @@ struct VFArgs
 	DBEVENTINFO *event;
 };
 */
-typedef void (* VarFunc)(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
+typedef void (* VarFunc)(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
 
 struct TemplateInfo
 {

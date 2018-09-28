@@ -6,18 +6,18 @@ __forceinline TCHAR *TplGetVar(TemplateVars *vars, char id);
 __forceinline void TplSetVar(TemplateVars *vars, char id, TCHAR *v, bool d);
 int TplMeasureVars(TemplateVars *vars, TCHAR *str);
 
-void vfGlobal(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfContact(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfSystem(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfEvent(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfMessage(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfFile(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfUrl(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfSign(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfAuth(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfAdded(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfDeleted(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
-void vfOther(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item);
+void vfGlobal(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfContact(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfSystem(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfEvent(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfMessage(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfFile(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfUrl(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfSign(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfAuth(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfAdded(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfDeleted(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+void vfOther(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
 
 TemplateInfo templates[TPL_COUNT] = 
 {
@@ -107,7 +107,7 @@ void SaveTemplates()
 			db_set_ws(0, MODULENAME, templates[i].setting, templates[i].value);
 }
 
-TCHAR *TplFormatStringEx(int tpl, TCHAR *sztpl, HANDLE hContact, HistoryArray::ItemData *item)
+TCHAR *TplFormatStringEx(int tpl, TCHAR *sztpl, MCONTACT hContact, HistoryArray::ItemData *item)
 {
 	if ((tpl < 0) || (tpl >= TPL_COUNT) || !sztpl)
 		return _tcsdup(_T(""));
@@ -145,7 +145,7 @@ TCHAR *TplFormatStringEx(int tpl, TCHAR *sztpl, HANDLE hContact, HistoryArray::I
 	return buf;
 }
 
-TCHAR *TplFormatString(int tpl, HANDLE hContact, HistoryArray::ItemData *item)
+TCHAR *TplFormatString(int tpl, MCONTACT hContact, HistoryArray::ItemData *item)
 {
 	if ((tpl < 0) || (tpl >= TPL_COUNT))
 		return _tcsdup(_T(""));
@@ -252,30 +252,30 @@ void vfGlobal(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemD
 	TplSetVar(vars, 'M', buf, false);
 }
 
-void vfContact(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfContact(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item)
 {
 // %N: buddy's nick (not for messages)
-	DWORD a = GCDNF_TCHAR;
-	TplSetVar(vars, 'N', (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), false);
+	wchar_t *buff = Clist_GetContactDisplayName(hContact, 0);
+	TplSetVar(vars, 'N', buff, false);
 
 // %c: event count
 	TCHAR *buf = new TCHAR[20];
-	wsprintf(buf, _T("%d"), CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)hContact, 0));
+	wsprintf(buf, _T("%d"), db_event_count(hContact));
 	TplSetVar(vars, 'c', buf, false);
 }
 
-void vfSystem(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfSystem(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item)
 {
 // %N: buddy's nick (not for messages)
 	TplSetVar(vars, 'N', /*TranslateTS*/_T("System Event"), false);
 
 // %c: event count
 	TCHAR *buf = new TCHAR[20];
-	wsprintf(buf, _T("%d"), CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)hContact, 0));
+	wsprintf(buf, _T("%d"), db_event_count(hContact));
 	TplSetVar(vars, 'c', buf, false);
 }
 
-void vfEvent(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfEvent(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item)
 {
 	HICON hIcon;
 	TCHAR *s;
@@ -283,7 +283,8 @@ void vfEvent(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemDa
 //  %U: UIN (contextual, own uin for sent, buddys UIN for received messages)
 
 //  %N: Nickname
-	TplSetVar(vars, 'N', (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, item->dbe.flags&DBEF_SENT ? 0 : (WPARAM)item->hContact, GCDNF_TCHAR), false);
+	wchar_t *buff = Clist_GetContactDisplayName(item->dbe.flags&DBEF_SENT ? 0 : (WPARAM)item->hContact, 0);
+	TplSetVar(vars, 'N', buff, false);
 
 //  %I: Icon
 	switch (item->dbe.eventType)
@@ -384,7 +385,7 @@ void vfEvent(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemDa
 //  %w: day of week (Sunday, Monday.. translateable)
 	buf = (TCHAR *)calloc(25, sizeof(TCHAR));
 	_tcsftime(buf, 25, _T("%A"), localtime((time_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'w', TranslateTS(buf), false);
+	TplSetVar(vars, 'w', TranslateW(buf), false);
 
 //  %p: AM/PM symbol
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
@@ -394,7 +395,7 @@ void vfEvent(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemDa
 //  %O: Name of month, translateable
 	buf = (TCHAR *)calloc(25, sizeof(TCHAR));
 	_tcsftime(buf, 25, _T("%B"), localtime((time_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'O', TranslateTS(buf), false);
+	TplSetVar(vars, 'O', TranslateW(buf), false);
 }
 
 void vfMessage(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
@@ -464,7 +465,7 @@ BOOL CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			HTREEITEM hGroup = 0;
 			HTREEITEM hFirst = 0;
 
-			HIMAGELIST himgTree = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),(IsWinVerXPPlus()?ILC_COLOR32:ILC_COLOR16)|ILC_MASK,1,1);
+			HIMAGELIST himgTree = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK,1,1);
 			TreeView_SetImageList(GetDlgItem(hwnd, IDC_TEMPLATES), himgTree, TVSIL_NORMAL);
 
 			ImageList_AddIcon(himgTree, icons[ICO_TPLGROUP].hIcon);
@@ -538,12 +539,12 @@ BOOL CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					GetWindowText(GetDlgItem(hwnd, IDC_EDITTEMPLATE), templates[CurrentTemplate].tmpValue, length);
 
 					HistoryArray::ItemData item;
-					item.hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					item.hContact = db_find_first();
 					while (item.hContact && !item.hEvent)
 					{
-						item.hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)item.hContact, 0);
+						item.hEvent = db_event_first(item.hContact);
 						if (!item.hEvent)
-							item.hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)item.hContact, 0);
+							item.hContact = db_find_next(item.hContact);
 					}
 					if (item.hContact && item.hEvent)
 					{

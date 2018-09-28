@@ -34,8 +34,8 @@ public:
 	{
 		BYTE flags;
 
-		HANDLE hContact;
-		HANDLE hEvent;
+		MCONTACT hContact;
+		MEVENT hEvent;
 
 		bool dbeOk;
 		DBEVENTINFO dbe;
