@@ -316,7 +316,8 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	CMStringW wszMessageId = pRoot["id"].as_mstring();
 	CMStringW wszUserId = pRoot["author"]["id"].as_mstring();
 	SnowFlake userId = _wtoi64(wszUserId);
-	CDiscordMessage msg(_wtoi64(wszMessageId), userId);
+	SnowFlake msgId = _wtoi64(wszMessageId);
+	CDiscordMessage msg(msgId, userId);
 
 	// try to find a sender by his channel
 	SnowFlake channelId = ::getId(pRoot["channel_id"]);
@@ -350,9 +351,12 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 
 			debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
 			ptrA buf(mir_utf8encodeW(wszText));
+			char szMsgId[100];
+			_i64toa_s(msgId, szMsgId, _countof(szMsgId), 10);
+
 			recv.timestamp = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
 			recv.szMessage = buf;
-			recv.lParam = (LPARAM)wszMessageId.c_str();
+			recv.szMsgId = szMsgId;
 			ProtoChainRecvMsg(pUser->hContact, &recv);
 		}
 		else {

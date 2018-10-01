@@ -292,7 +292,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		recv.timestamp = datetime;
 		recv.szMessage = pszBody;
-		recv.lParam = (LPARAM)szMid;
+		recv.szMsgId = szMid;
 		ProtoChainRecvMsg(hContact, &recv);
 
 		if (isRead && isOut && datetime > tLastReadMessageTime)

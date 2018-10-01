@@ -26,14 +26,11 @@ int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, cons
 	recv.timestamp = timestamp;
 	recv.szMessage = mir_strdup(szContent);
 	recv.lParam = emoteOffset;
+	recv.szMsgId = szMessageId;
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
 
-	MEVENT hDbEvent = ProtoChainRecvMsg(hContact, &recv);
-	if (hDbEvent)
-		db_event_setId(m_szModuleName, hDbEvent, szMessageId);
-	
-	return hDbEvent;
+	return ProtoChainRecvMsg(hContact, &recv);
 }
 
 /* MESSAGE SENDING */

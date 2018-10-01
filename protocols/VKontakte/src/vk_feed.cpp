@@ -54,7 +54,7 @@ void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
 	MCONTACT hContact = FindUser(VK_FEED_USER, true);
 	T2Utf pszBody(vkNewsItem.wszText);
 
-	PROTORECVEVENT recv = { 0 };
+	PROTORECVEVENT recv = {};
 	recv.timestamp = vkNewsItem.tDate;
 	recv.szMessage = pszBody;
 

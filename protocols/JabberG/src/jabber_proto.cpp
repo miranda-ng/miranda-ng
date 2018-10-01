@@ -805,17 +805,6 @@ HANDLE CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// RecvMsg
-
-MEVENT CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
-{
-	MEVENT hDbEvent = CSuper::RecvMsg(hContact, evt);
-	if (hDbEvent != 0 && evt->lParam)
-		db_event_setId(m_szModuleName, hDbEvent, T2Utf((const wchar_t *)evt->lParam));
-	return hDbEvent;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
 int CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)

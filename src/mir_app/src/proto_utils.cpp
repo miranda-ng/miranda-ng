@@ -514,6 +514,20 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	if (pre->flags & PREF_SENT)
 		dbei.flags |= DBEF_SENT;
 
+	// if it's possible to find an existing event by its id, do that
+	if ((GetCaps(PFLAGNUM_4) & PF4_SERVERMSGID) && pre->szMsgId != nullptr) {
+		MEVENT hDbEvent = db_event_getById(m_szModuleName, pre->szMsgId);
+		if (hDbEvent == 0) {
+			hDbEvent = db_event_add(hContact, &dbei);
+			if (hDbEvent)
+				db_event_setId(m_szModuleName, hDbEvent, pre->szMsgId);
+		}
+		else db_event_edit(hContact, hDbEvent, &dbei);
+
+		return hDbEvent;
+	}
+
+	// event is new? add it
 	return (INT_PTR)db_event_add(hContact, &dbei);
 }
 

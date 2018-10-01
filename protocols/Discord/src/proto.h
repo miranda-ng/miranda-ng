@@ -265,16 +265,15 @@ public:
 	HWND CreateExtendedSearchUI(HWND owner) override;
 	HWND SearchAdvanced(HWND owner) override;
 
-	HANDLE SearchBasic(const wchar_t* id) override;
-	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+	HANDLE SearchBasic(const wchar_t *id) override;
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	
-	int AuthRecv(MCONTACT, PROTORECVEVENT* pre) override;
+	int AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
 	int Authorize(MEVENT hDbEvent) override;
 	int AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
 	int AuthRequest(MCONTACT hContact, const wchar_t*) override;
 
-	MEVENT RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt) override;
-	int SendMsg(MCONTACT hContact, int flags, const char* pszSrc) override;
+	int SendMsg(MCONTACT hContact, int flags, const char *pszSrc) override;
 
 	HANDLE SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 

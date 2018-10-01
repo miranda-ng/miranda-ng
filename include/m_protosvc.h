@@ -149,6 +149,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PF4_GROUPCHATFILES   0x00000800 // protocol supports sending files to group chats
 #define PF4_SINGLEFILEONLY   0x00001000 // protocol supports sending files one by one only
 #define PF4_READNOTIFY       0x00002000 // protocol supports receiving notify of message reading
+#define PF4_SERVERMSGID      0x00004000 // protocol uses server message ids
 
 #define PFLAG_UNIQUEIDTEXT          100 // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 #define PFLAG_MAXCONTACTSPERPACKET  200 // returns the maximum number of contacts which can be sent in a single PSS_CONTACTS, lParam = (LPARAM)hContact.
@@ -770,10 +771,12 @@ struct PROTOFILERESUME
 
 struct PROTORECVEVENT
 {
-	DWORD  flags;
-	DWORD  timestamp;   // unix time
-	char  *szMessage;   // message body in utf8
-	LPARAM lParam;      // extra space for the network level protocol module
+	DWORD       flags;
+	DWORD       timestamp;  // unix time
+	char       *szMessage;  // message body in utf8
+	LPARAM      lParam;     // extra space for the network level protocol module
+	const char *szMsgId;    // server message id, optional, should be NULL otherwise
+	                        // ignored for protocols without PF4_SERVERMSGID in GetCaps()
 };
 
 #define PREF_CREATEREAD   1     // create the database event with the 'read' flag set

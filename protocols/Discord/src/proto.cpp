@@ -145,7 +145,7 @@ INT_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_LONGAWAY | PF2_HEAVYDND | PF2_INVISIBLE;
 	case PFLAGNUM_4:
-		return PF4_FORCEADDED | PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_SUPPORTIDLE | PF4_AVATARS | PF4_IMSENDOFFLINE;
+		return PF4_FORCEADDED | PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_SUPPORTIDLE | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_SERVERMSGID;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("User ID");
 	}
@@ -348,18 +348,6 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	arUsers.insert(pUser);
 
 	return hContact;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvMsg
-
-MEVENT CDiscordProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
-{
-	MEVENT hDbEvent = CSuper::RecvMsg(hContact, evt);
-	if (hDbEvent && evt->lParam)
-		db_event_setId(m_szModuleName, hDbEvent, T2Utf((const wchar_t*)evt->lParam));
-	
-	return hDbEvent;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

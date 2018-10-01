@@ -17,15 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-MEVENT CVkProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
-{
-	MEVENT hDbEvent = CSuper::RecvMsg(hContact, evt);
-	if (hDbEvent && evt->lParam)
-		db_event_setId(m_szModuleName, hDbEvent, (char*)evt->lParam);
-
-	return hDbEvent;
-}
-
 //////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::SendMsgAck(void *param)
@@ -342,7 +333,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			}
 		}
 
-		PROTORECVEVENT recv = { 0 };
+		PROTORECVEVENT recv = {};
 
 		if (isRead && bUseServerReadFlag)
 			recv.flags |= PREF_CREATEREAD;
@@ -360,7 +351,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		if (!IsMessageExist(mid, vkOUT) || bEdited) {
 			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
-			recv.lParam = (LPARAM)szMid;
+			recv.szMsgId = szMid;
 			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))
 				setDword(hContact, "lastmsgid", mid);

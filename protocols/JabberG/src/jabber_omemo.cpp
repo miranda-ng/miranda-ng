@@ -1875,11 +1875,9 @@ bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	if (m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
 		msgTime = now;
 
-	pResourceStatus pFromResource(ResourceInfoFromJID(jid));
-	PROTORECVEVENT recv = { 0 };
+	PROTORECVEVENT recv = {};
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = mir_strdup(out);
-	recv.lParam = (LPARAM)((pFromResource != nullptr && m_bEnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
 	ProtoChainRecvMsg(hContact, &recv);
 	mir_free(out);
 	return true;

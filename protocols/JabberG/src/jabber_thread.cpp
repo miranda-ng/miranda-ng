@@ -1496,7 +1496,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	if (m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
 		msgTime = now;
 
-	PROTORECVEVENT recv = { 0 };
+	PROTORECVEVENT recv = {};
 	if (carbon) {
 		recv.flags |= PREF_CREATEREAD;
 		if (carbonSent)
@@ -1504,7 +1504,6 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	}
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = buf;
-	recv.lParam = (LPARAM)((pFromResource != nullptr && m_bEnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
 	ProtoChainRecvMsg(hContact, &recv);
 }
 
