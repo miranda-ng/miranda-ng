@@ -21,6 +21,7 @@ UINT_PTR CVkProto::m_timer;
 mir_cs CVkProto::m_csTimer;
 
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
+char sz2FA[] = "https://m.vk.com/login?act=authcheck";
 static char VK_TOKEN_BEG[] = "access_token=";
 static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
 static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
@@ -177,6 +178,8 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 					ApplyCookies(pRedirectReq);
 					m_prevUrl = pRedirectReq->m_szUrl;
 				}
+				if (!_strnicmp(pszLocation, sz2FA, sizeof(sz2FA) - 1))
+					pRedirectReq->m_szUrl = sz2FA;
 				pRedirectReq->m_bApiReq = false;
 				pRedirectReq->bIsMainConn = true;
 				Push(pRedirectReq);
