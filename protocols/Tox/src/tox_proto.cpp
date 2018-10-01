@@ -89,7 +89,7 @@ MCONTACT CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
 		return NULL;
 	}
-	return AddContact(psr->id.a, psr->nick.a, psr->email.a, flags & PALF_TEMPORARY);
+	return AddContact(psr->id.a, psr->nick.w, psr->email.w, flags & PALF_TEMPORARY);
 }
 
 int CToxProto::Authorize(MEVENT hDbEvent)

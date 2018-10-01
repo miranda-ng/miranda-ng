@@ -72,7 +72,7 @@ ToxHexAddress CToxProto::GetContactPublicKey(const Tox *tox, const int friendNum
 	return pubKey;
 }
 
-MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char *dnsId, bool isTemporary)
+MCONTACT CToxProto::AddContact(const char *address, const wchar_t *nick, const wchar_t *dnsId, bool isTemporary)
 {
 	MCONTACT hContact = GetContact(address);
 	if (hContact)
@@ -83,21 +83,22 @@ MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char
 
 	setString(hContact, TOX_SETTINGS_ID, address);
 
-	if (mir_strlen(nick))
-		setWString(hContact, "Nick", ptrW(mir_utf8decodeW(nick)));
+	if (mir_wstrlen(nick))
+		setWString(hContact, "Nick", nick);
 	else
 		setWString(hContact, "Nick", _A2T(address));
 
-	if (mir_strlen(dnsId))
-		setWString(hContact, TOX_SETTINGS_DNS, ptrW(mir_utf8decodeW(dnsId)));
+	if (mir_wstrlen(dnsId))
+		setWString(hContact, TOX_SETTINGS_DNS, dnsId);
 
-	if (m_defaultGroup)
-		db_set_ws(hContact, "CList", "Group", m_defaultGroup);
+	if (!isTemporary) {
+		if (m_defaultGroup)
+			db_set_ws(hContact, "CList", "Group", m_defaultGroup);
 
-	setByte(hContact, "Auth", 1);
-	setByte(hContact, "Grant", 1);
-
-	if (isTemporary)
+		setByte(hContact, "Auth", 1);
+		setByte(hContact, "Grant", 1);
+	}
+	else
 		db_set_b(hContact, "CList", "NotOnList", 1);
 
 	return hContact;

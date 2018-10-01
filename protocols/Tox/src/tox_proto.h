@@ -153,7 +153,7 @@ private:
 
 	ToxHexAddress GetContactPublicKey(const Tox *tox, const int friendNumber);
 
-	MCONTACT AddContact(const char *address, const char *nick = nullptr, const char *dnsId = nullptr, bool isTemporary = false);
+	MCONTACT AddContact(const char *address, const wchar_t *nick = nullptr, const wchar_t *dnsId = nullptr, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
