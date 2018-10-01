@@ -528,7 +528,7 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 	switch (argc) {
 	case 2:
 		{
-			CallService("CloseAction", 0, 0);
+			CallServiceSync("CloseAction", 0, 0);
 
 			// try another quit method
 			PostMessage(g_clistApi.hwndContactList, WM_COMMAND, ID_ICQ_EXIT, 0);
