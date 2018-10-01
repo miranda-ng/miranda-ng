@@ -386,46 +386,40 @@ void Set2StateReply(PReply reply, int state, int failure, wchar_t *successTrue, 
 
 void HandlePopupsCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 {
+	int state, failure;
+
 	switch (argc) {
 	case 2:
-		{
-			int state = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
-			Set2StateReply(reply, state, 0, LPGENW("Popups are currently enabled."), L"", LPGENW("Popups are currently disabled."), L"");
-			return;
-		}
+		state = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
+		Set2StateReply(reply, state, 0, LPGENW("Popups are currently enabled."), L"", LPGENW("Popups are currently disabled."), L"");
+		break;
 
 	case 3:
-		{
-			int failure;
-			int state = 0;
+		switch (Get2StateValue(argv[2])) {
+		case STATE_ON:
+			failure = CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
+			state = TRUE;
+			break;
 
-			switch (Get2StateValue(argv[2])) {
-			case STATE_ON:
-				failure = CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
-				state = TRUE;
-				break;
+		case STATE_OFF:
+			failure = CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
+			state = FALSE;
+			break;
 
-			case STATE_OFF:
-				failure = CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
-				state = FALSE;
-				break;
+		case STATE_TOGGLE:
+			state = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
+			failure = CallService(MS_POPUP_QUERY, (state) ? PUQS_DISABLEPOPUPS : PUQS_ENABLEPOPUPS, 0);
+			state = !state;
+			break;
 
-			case STATE_TOGGLE:
-				state = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
-				failure = CallService(MS_POPUP_QUERY, (state) ? PUQS_DISABLEPOPUPS : PUQS_ENABLEPOPUPS, 0);
-				state = !state;
-				break;
-
-			default:
-				HandleUnknownParameter(command, argv[2], reply);
-				return;
-			}
-
-			Set2StateReply(reply, state, failure, LPGENW("Popups were enabled successfully."), LPGENW("Popups could not be enabled."),
-				LPGENW("Popups were disabled successfully."), LPGENW("Popups could not be disabled."));
-
+		default:
+			HandleUnknownParameter(command, argv[2], reply);
 			return;
 		}
+
+		Set2StateReply(reply, state, failure, LPGENW("Popups were enabled successfully."), LPGENW("Popups could not be enabled."),
+			LPGENW("Popups were disabled successfully."), LPGENW("Popups could not be disabled."));
+		break;
 
 	default:
 		HandleWrongParametersCount(command, reply);
@@ -434,44 +428,39 @@ void HandlePopupsCommand(PCommand command, TArgument *argv, int argc, PReply rep
 
 void HandleSoundsCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 {
+	int state;
+
 	switch (argc) {
 	case 2:
-		{
-			int state = db_get_b(NULL, "Skin", "UseSound", 1);
-			Set2StateReply(reply, state, 0, LPGENW("Sounds are currently enabled."), L"", LPGENW("Sounds are currently disabled."), L"");
-			return;
-		}
+		state = db_get_b(NULL, "Skin", "UseSound", 1);
+		Set2StateReply(reply, state, 0, LPGENW("Sounds are currently enabled."), L"", LPGENW("Sounds are currently disabled."), L"");
+		break;
 
 	case 3:
-		{
-			int state = 0;
+		switch (Get2StateValue(argv[2])) {
+		case STATE_ON:
+			db_set_b(NULL, "Skin", "UseSound", 1);
+			state = TRUE;
+			break;
 
-			switch (Get2StateValue(argv[2])) {
-			case STATE_ON:
-				db_set_b(NULL, "Skin", "UseSound", 1);
-				state = TRUE;
-				break;
+		case STATE_OFF:
+			db_set_b(NULL, "Skin", "UseSound", 0);
+			state = FALSE;
+			break;
 
-			case STATE_OFF:
-				db_set_b(NULL, "Skin", "UseSound", 0);
-				state = FALSE;
-				break;
+		case STATE_TOGGLE:
+			state = db_get_b(NULL, "Skin", "UseSound", 1);
+			state = 1 - state;
+			db_set_b(NULL, "Skin", "UseSound", state);
+			break;
 
-			case STATE_TOGGLE:
-				state = db_get_b(NULL, "Skin", "UseSound", 1);
-				state = 1 - state;
-				db_set_b(NULL, "Skin", "UseSound", state);
-				break;
-
-			default:
-				HandleUnknownParameter(command, argv[2], reply);
-				return;
-			}
-
-			Set2StateReply(reply, state, 0, LPGENW("Sounds were enabled successfully."), L"", LPGENW("Sounds were disabled successfully."), L"");
-
+		default:
+			HandleUnknownParameter(command, argv[2], reply);
 			return;
 		}
+
+		Set2StateReply(reply, state, 0, LPGENW("Sounds were enabled successfully."), L"", LPGENW("Sounds were disabled successfully."), L"");
+		break;
 
 	default:
 		HandleWrongParametersCount(command, reply);
@@ -480,43 +469,38 @@ void HandleSoundsCommand(PCommand command, TArgument *argv, int argc, PReply rep
 
 void HandleClistCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 {
+	int state;
+
 	switch (argc) {
 	case 2:
-		{
-			int state = IsWindowVisible(g_clistApi.hwndContactList);
-			Set2StateReply(reply, state, 0, LPGENW("Contact list is currently shown."), L"", LPGENW("Contact list is currently hidden."), L"");
-
-			return;
-		}
+		state = IsWindowVisible(g_clistApi.hwndContactList);
+		Set2StateReply(reply, state, 0, LPGENW("Contact list is currently shown."), L"", LPGENW("Contact list is currently hidden."), L"");
+		break;
 
 	case 3:
-		{
-			int state = 0;
+		switch (Get2StateValue(argv[2])) {
+		case STATE_ON:
+			ShowWindow(g_clistApi.hwndContactList, SW_SHOW);
+			state = TRUE;
+			break;
 
-			switch (Get2StateValue(argv[2])) {
-			case STATE_ON:
-				ShowWindow(g_clistApi.hwndContactList, SW_SHOW);
-				state = TRUE;
-				break;
+		case STATE_OFF:
+			ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
+			state = FALSE;
+			break;
 
-			case STATE_OFF:
-				ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
-				state = FALSE;
-				break;
+		case STATE_TOGGLE:
+			state = !IsWindowVisible(g_clistApi.hwndContactList);
+			ShowWindow(g_clistApi.hwndContactList, (state) ? SW_SHOW : SW_HIDE);
+			break;
 
-			case STATE_TOGGLE:
-				state = !IsWindowVisible(g_clistApi.hwndContactList);
-				ShowWindow(g_clistApi.hwndContactList, (state) ? SW_SHOW : SW_HIDE);
-				break;
-
-			default:
-				HandleUnknownParameter(command, argv[2], reply);
-				return;
-			}
-
-			Set2StateReply(reply, state, 0, LPGENW("Contact list was shown successfully."), L"", LPGENW("Contact list was hidden successfully."), L"");
+		default:
+			HandleUnknownParameter(command, argv[2], reply);
 			return;
 		}
+
+		Set2StateReply(reply, state, 0, LPGENW("Contact list was shown successfully."), L"", LPGENW("Contact list was hidden successfully."), L"");
+		break;
 
 	default:
 		HandleWrongParametersCount(command, reply);
@@ -527,44 +511,39 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 {
 	switch (argc) {
 	case 2:
-		{
+		CallServiceSync("CloseAction", 0, 0);
+
+		// try another quit method
+		PostMessage(g_clistApi.hwndContactList, WM_COMMAND, ID_ICQ_EXIT, 0);
+
+		reply->code = MIMRES_SUCCESS;
+		mir_snwprintf(reply->message, TranslateT("Issued a quit command."));
+		break;
+
+	case 3:
+		wchar_t lower[128];
+		wcsncpy_s(lower, argv[2], _countof(lower));
+		_wcslwr(lower);
+
+		if (mir_wstrcmp(lower, L"wait") == 0) {
 			CallServiceSync("CloseAction", 0, 0);
 
 			// try another quit method
 			PostMessage(g_clistApi.hwndContactList, WM_COMMAND, ID_ICQ_EXIT, 0);
 
 			reply->code = MIMRES_SUCCESS;
-			mir_snwprintf(reply->message, TranslateT("Issued a quit command."));
-			break;
-		}
+			mir_snwprintf(reply->message, TranslateT("Issued a quit and wait command."));
 
-	case 3:
-		{
-			wchar_t lower[128];
-			wcsncpy_s(lower, argv[2], _countof(lower));
-			_wcslwr(lower);
+			SetEvent(heServerBufferFull);
 
-			if (mir_wstrcmp(lower, L"wait") == 0) {
-				CallService("CloseAction", 0, 0);
+			bWaitForUnload = 1;
 
-				//try another quit method
-				PostMessage(g_clistApi.hwndContactList, WM_COMMAND, ID_ICQ_EXIT, 0);
-
-				reply->code = MIMRES_SUCCESS;
-				mir_snwprintf(reply->message, TranslateT("Issued a quit and wait command."));
-
-				SetEvent(heServerBufferFull);
-
-				bWaitForUnload = 1;
-
-				while (bWaitForUnload) {
-					Sleep(250); //wait for Miranda to quit.
-				}
+			while (bWaitForUnload) {
+				Sleep(250); //wait for Miranda to quit.
 			}
-			else HandleUnknownParameter(command, argv[2], reply);
-
-			break;
 		}
+		else HandleUnknownParameter(command, argv[2], reply);
+		break;
 
 	default:
 		HandleWrongParametersCount(command, reply);
@@ -575,25 +554,22 @@ void HandleExchangeCommand(PCommand command, TArgument *argv, int argc, PReply r
 {
 	switch (argc) {
 	case 3:
-		{
-			wchar_t lower[128];
-			wcsncpy_s(lower, argv[2], _countof(lower));
-			_wcslwr(lower);
-			if (mir_wstrcmp(lower, L"check") == 0) {
-				INT_PTR ret = CallService(MS_EXCHANGE_CHECKEMAIL, 0, 0);
-				if (ret != CALLSERVICE_NOTFOUND) {
-					reply->code = MIMRES_SUCCESS;
-					mir_snwprintf(reply->message, TranslateT("Issued check email command to Exchange plugin."));
-				}
-				else {
-					reply->code = MIMRES_FAILURE;
-					mir_snwprintf(reply->message, TranslateT("Exchange plugin is not running."));
-				}
+		wchar_t lower[128];
+		wcsncpy_s(lower, argv[2], _countof(lower));
+		_wcslwr(lower);
+		if (mir_wstrcmp(lower, L"check") == 0) {
+			INT_PTR ret = CallService(MS_EXCHANGE_CHECKEMAIL, 0, 0);
+			if (ret != CALLSERVICE_NOTFOUND) {
+				reply->code = MIMRES_SUCCESS;
+				mir_snwprintf(reply->message, TranslateT("Issued check email command to Exchange plugin."));
 			}
-			else HandleUnknownParameter(command, argv[2], reply);
-
-			return;
+			else {
+				reply->code = MIMRES_FAILURE;
+				mir_snwprintf(reply->message, TranslateT("Exchange plugin is not running."));
+			}
 		}
+		else HandleUnknownParameter(command, argv[2], reply);
+		break;
 
 	default:
 		HandleWrongParametersCount(command, reply);
@@ -604,28 +580,23 @@ void HandleYAMNCommand(PCommand command, TArgument *argv, int argc, PReply reply
 {
 	switch (argc) {
 	case 3:
-		{
-			wchar_t lower[128];
-			wcsncpy_s(lower, argv[2], _countof(lower));
-			_wcslwr(lower);
-			if (mir_wstrcmp(lower, L"check") == 0) {
-				if (ServiceExists(MS_YAMN_FORCECHECK)) {
-					CallService(MS_YAMN_FORCECHECK, 0, 0);
+		wchar_t lower[128];
+		wcsncpy_s(lower, argv[2], _countof(lower));
+		_wcslwr(lower);
+		if (mir_wstrcmp(lower, L"check") == 0) {
+			if (ServiceExists(MS_YAMN_FORCECHECK)) {
+				CallService(MS_YAMN_FORCECHECK, 0, 0);
 
-					reply->code = MIMRES_SUCCESS;
-					mir_snwprintf(reply->message, TranslateT("Issued check email command to YAMN plugin."));
-				}
-				else {
-					reply->code = MIMRES_FAILURE;
-					mir_snwprintf(reply->message, TranslateT("YAMN plugin is not running."));
-				}
+				reply->code = MIMRES_SUCCESS;
+				mir_snwprintf(reply->message, TranslateT("Issued check email command to YAMN plugin."));
 			}
 			else {
-				HandleUnknownParameter(command, argv[2], reply);
+				reply->code = MIMRES_FAILURE;
+				mir_snwprintf(reply->message, TranslateT("YAMN plugin is not running."));
 			}
-
-			return;
 		}
+		else HandleUnknownParameter(command, argv[2], reply);
+		break;
 
 	default:
 		HandleWrongParametersCount(command, reply);
