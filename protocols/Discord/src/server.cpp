@@ -105,13 +105,18 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 			else
 				dbei.flags &= ~DBEF_READ;
 
-			CMStringA szBody(ptrA(mir_utf8encodeW(wszText)));
-			szBody.AppendFormat("%c%lld", 0, msgid);
-
+			ptrA szBody(mir_utf8encodeW(wszText));
 			dbei.timestamp = dwTimeStamp;
-			dbei.pBlob = (PBYTE)szBody.GetBuffer();
-			dbei.cbBlob = szBody.GetLength();
-			db_event_add(pUser->hContact, &dbei);
+			dbei.pBlob = (PBYTE)szBody.get();
+			dbei.cbBlob = (DWORD)mir_strlen(szBody);
+
+			char szMsgId[100];
+			_i64toa_s(msgid, szMsgId, _countof(szMsgId), 10);
+			MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
+			if (hDbEvent != 0)
+				db_event_edit(pUser->hContact, hDbEvent, &dbei);
+			else
+				db_event_add(pUser->hContact, &dbei);
 		}
 		else {
 			ParseSpecialChars(si, wszText);
