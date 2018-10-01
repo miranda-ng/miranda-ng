@@ -1,8 +1,9 @@
 #include "../stdafx.h"
 
-#define MT_PROTOCOLDESCRIPTOR "PROTOCOLDESCRIPTOR"
+constexpr auto MT_PROTOCOLDESCRIPTOR = "PROTOCOLDESCRIPTOR";
 
 HANDLE hRecvMessage = nullptr;
+HANDLE hSendMessage = nullptr;
 
 static int lua_GetProtocol(lua_State *L)
 {
@@ -85,6 +86,22 @@ static int lua_ChainRecv(lua_State *L)
 	LPARAM lParam = (LPARAM)luaM_tomparam(L, 4);
 
 	INT_PTR res = ProtoChainRecv(hContact, service, wParam, lParam);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_BroadcastAck(lua_State *L)
+{
+	const char *szModule = luaL_checkstring(L, 1);
+	MCONTACT hContact = luaL_checknumber(L, 2);
+	int type = luaL_checkinteger(L, 3);
+	int result = luaL_checkinteger(L, 4);
+	luaL_checktype(L, 5, LUA_TLIGHTUSERDATA);
+	HANDLE hProcess = (HANDLE)lua_touserdata(L, 5);
+	LPARAM lParam = (LPARAM)luaM_tomparam(L, 6);
+	
+	INT_PTR res = ProtoBroadcastAck(szModule, hContact, type, result, hProcess, lParam);
 	lua_pushinteger(L, res);
 
 	return 1;
@@ -207,9 +224,17 @@ static int lua_CallService(lua_State *L)
 INT_PTR FilterRecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	int res = NotifyEventHooks(hRecvMessage, wParam, lParam);
-	if (res) return res;
-	Proto_ChainRecv(wParam, (CCSDATA*)lParam);
-	return 0;
+	if (res)
+		return res;
+	return Proto_ChainRecv(wParam, (CCSDATA*)lParam);
+}
+
+INT_PTR FilterSendMessage(WPARAM wParam, LPARAM lParam)
+{
+	int res = NotifyEventHooks(hSendMessage, wParam, lParam);
+	if (res)
+		return res;
+	return Proto_ChainSend(wParam, (CCSDATA*)lParam);
 }
 
 /***********************************************/
@@ -221,6 +246,8 @@ static luaL_Reg protocolsApi[] =
 
 	{ "CallSendChain", lua_ChainSend },
 	{ "CallReceiveChain", lua_ChainRecv },
+
+	{ "BroadcastAck", lua_BroadcastAck },
 
 	{ "GetAccount", lua_GetAccount },
 	{ "Accounts", lua_Accounts },
@@ -235,7 +262,10 @@ static luaL_Reg protocolsApi[] =
 LUAMOD_API int luaopen_m_protocols(lua_State *L)
 {
 	hRecvMessage = CreateHookableEvent(MODULENAME PSR_MESSAGE);
+	hSendMessage = CreateHookableEvent(MODULENAME PSS_MESSAGE);
+
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, FilterRecvMessage);
+	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, FilterSendMessage);
 
 	luaL_newlib(L, protocolsApi);
 
@@ -266,7 +296,8 @@ LUAMOD_API int luaopen_m_protocols(lua_State *L)
 		.Field(&CCSDATA::hContact, "hContact", LUA_TINTEGER)
 		.Field(&CCSDATA::szProtoService, "Service", LUA_TSTRINGA)
 		.Field(&CCSDATA::wParam, "wParam", LUA_TLIGHTUSERDATA)
-		.Field(&CCSDATA::lParam, "lParam", LUA_TLIGHTUSERDATA);
+		.Field(&CCSDATA::lParam, "lParam", LUA_TLIGHTUSERDATA)
+		.Field(&CCSDATA::lParam, "Message", LUA_TSTRING);
 	
 	MT<PROTORECVEVENT>(L, "PROTORECVEVENT")
 		.Field(&PROTORECVEVENT::timestamp, "Timestamp", LUA_TINTEGER)
