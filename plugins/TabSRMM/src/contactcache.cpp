@@ -545,20 +545,12 @@ size_t CContactCache::getMaxMessageLength()
 	if (szProto) {
 		m_nMax = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, hContact);
 		if (m_nMax) {
-			if (M.GetByte("autosplit", 0)) {
-				if (m_dat)
-					::SendDlgItemMessage(m_dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
-			}
-			else {
-				if (m_dat)
-					::SendDlgItemMessage(m_dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_EXLIMITTEXT, 0, (LPARAM)m_nMax);
-			}
+			if (M.GetByte("autosplit", 0))
+				m_dat->LimitMessageText(20000);
+			else
+				m_dat->LimitMessageText(m_nMax);
 		}
-		else {
-			if (m_dat)
-				::SendDlgItemMessage(m_dat->GetHwnd(), IDC_SRMM_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
-			m_nMax = 20000;
-		}
+		else m_dat->LimitMessageText(m_nMax = 20000);
 	}
 	return m_nMax;
 }

@@ -140,7 +140,7 @@ bool CSrmmWindow::OnInitDialog()
 	if (m_hContact && m_szProto) {
 		int nMax = CallProtoService(m_szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, m_hContact);
 		if (nMax)
-			m_message.SendMsg(EM_LIMITTEXT, nMax, 0);
+			m_message.SendMsg(EM_EXLIMITTEXT, 0, nMax);
 
 		// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
 		m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);

@@ -1639,11 +1639,6 @@ void CTabBaseDlg::DetermineMinHeight()
 	m_pContainer->uChildMinHeight = height;
 }
 
-bool CTabBaseDlg::IsAutoSplitEnabled() const
-{
-	return (m_pContainer->dwFlags & CNT_AUTOSPLITTER) && !(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE);
-}
-
 LONG CTabBaseDlg::GetDefaultMinimumInputHeight() const
 {
 	LONG height = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
@@ -1652,6 +1647,17 @@ LONG CTabBaseDlg::GetDefaultMinimumInputHeight() const
 		height += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM + SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP - 2);
 
 	return height;
+}
+
+bool CTabBaseDlg::IsAutoSplitEnabled() const
+{
+	return (m_pContainer->dwFlags & CNT_AUTOSPLITTER) && !(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE);
+}
+
+void CTabBaseDlg::LimitMessageText(int iLen)
+{
+	if (this != nullptr)
+		m_message.SendMsg(EM_EXLIMITTEXT, 0, iLen);
 }
 
 static LIST<wchar_t> vTempFilenames(5);

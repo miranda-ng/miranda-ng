@@ -438,6 +438,7 @@ public:
 	void  HandlePasteAndSend();
 	HICON IconFromAvatar() const;
 	void  KbdState(bool &isShift, bool &isControl, bool &isAlt);
+	void  LimitMessageText(int iLen);
 	int   LoadLocalFlags();
 	void  LoadSplitter();
 	int   MustPlaySound() const;
