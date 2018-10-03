@@ -343,6 +343,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			T2Utf pszAttach(wszAttachmentDescr);
 			recv.timestamp = time(0); // only local time
 			recv.szMessage = pszAttach;
+			recv.szMsgId = strcat(szMid, "_");
 			ProtoChainRecvMsg(hContact, &recv);
 		}
 	}

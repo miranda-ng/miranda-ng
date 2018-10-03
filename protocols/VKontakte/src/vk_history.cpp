@@ -104,21 +104,23 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 
 	time_t tTime = time(0) - 60 * 60 * 24 * NDay;
 
-	MEVENT hDBEvent = db_event_first(hContact);
-	while (hDBEvent) {
-		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
-		DBEVENTINFO dbei = {};
-		db_event_get(hDBEvent, &dbei);
-		if (dbei.timestamp > tTime && dbei.eventType != VK_USER_DEACTIVATE_ACTION)
-			db_event_delete(hContact, hDBEvent);
-		hDBEvent = hDBEventNext;
-	}
+	if (NDay > 3) {
+		MEVENT hDBEvent = db_event_first(hContact);
+		while (hDBEvent) {
+			MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
+			DBEVENTINFO dbei = {};
+			db_event_get(hDBEvent, &dbei);
+			if (dbei.timestamp > tTime && dbei.eventType != VK_USER_DEACTIVATE_ACTION)
+				db_event_delete(hContact, hDBEvent);
+			hDBEvent = hDBEventNext;
+		}
 
-	{
-		mir_cslock lck(m_csLoadHistoryTask);
-		m_iLoadHistoryTask++;
-		if (NDay > 3)
+		{
+			mir_cslock lck(m_csLoadHistoryTask);
+			m_iLoadHistoryTask++;
 			m_bNotifyForEndLoadingHistory = true;
+		}
+
 	}
 
 	setDword(hContact, "oldlastmsgid", getDword(hContact, "lastmsgid", -1));
@@ -294,6 +296,10 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		recv.szMessage = pszBody;
 		recv.szMsgId = szMid;
 		ProtoChainRecvMsg(hContact, &recv);
+
+		MEVENT hDbEvent = db_event_getById(m_szModuleName, strcat(szMid, "_"));
+		if (hDbEvent)
+			db_event_delete(hContact, hDbEvent);
 
 		if (isRead && isOut && datetime > tLastReadMessageTime)
 			tLastReadMessageTime = datetime;
