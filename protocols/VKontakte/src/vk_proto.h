@@ -353,8 +353,8 @@ private:
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
-	MEVENT GetMessageFromDb(UINT iMsgId, UINT& timestamp, CMStringW& msg, DBEVENTINFO& dbei);
-	MEVENT GetMessageFromDb(const char * messageId, UINT &timestamp, CMStringW &msg, DBEVENTINFO& dbei);
+	MEVENT GetMessageFromDb(UINT iMsgId, UINT& timestamp, CMStringW& msg);
+	MEVENT GetMessageFromDb(const char * messageId, UINT &timestamp, CMStringW &msg);
 	int DeleteContact(MCONTACT hContact);
 	bool IsMessageExist(UINT iMsgId, VKMesType vkType = vkALL);
 	void InitQueue();

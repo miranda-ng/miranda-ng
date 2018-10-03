@@ -311,26 +311,9 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				wszBody;
 
 			CMStringW wszOldMsg;
-			DBEVENTINFO dbei = {};
-			MEVENT hDbEvent = GetMessageFromDb(mid, datetime, wszOldMsg, dbei);
-			if (hDbEvent) {
+			if (GetMessageFromDb(mid, datetime, wszOldMsg))
 				wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
 					wszOldMsg;
-
-				if (isRead && bUseServerReadFlag)
-					dbei.flags |= DBEF_READ;
-				else
-					dbei.flags &= ~DBEF_READ;
-
-				T2Utf pszBody(wszBody);
-				dbei.cbBlob = mir_strlen(pszBody) + 1;
-				dbei.pBlob = pszBody;
-
-				debugLogA("CVkProto::OnReceiveMessages edited mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", mid, datetime, isOut, isRead, uid);
-
-				db_event_edit(hContact, hDbEvent, &dbei);
-				continue;
-			}
 		}
 
 		PROTORECVEVENT recv = {};
