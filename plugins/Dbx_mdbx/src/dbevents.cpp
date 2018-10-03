@@ -138,6 +138,16 @@ BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei)
 	if (dbei == nullptr) return 1;
 	if (dbei->timestamp == 0) return 1;
 
+	{
+		txn_ptr_ro txn(m_txn_ro);
+		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
+		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+			return 1;
+		
+		DBEvent *dbe = (DBEvent*)data.iov_base;
+		dbei->timestamp = dbe->timestamp;
+	}
+
 	return EditEvent(contactID, hDbEvent, dbei, false);
 }
 
