@@ -294,7 +294,7 @@ void CDbxMDBX::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSo
 
 	MDBX_val key = { &key2, sizeof(key2) }, data;
 
-	for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
+	for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_KEY); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
 		const DBEvent *dbe = (const DBEvent*)data.iov_base;
 		if (dbe->contactID != cc->contactID)
 			break;
@@ -465,7 +465,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEven
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	if (mdbx_cursor_get(cursor, &key, &data, MDBX_SET) != MDBX_SUCCESS)
+	if (mdbx_cursor_get(cursor, &key, nullptr, MDBX_SET) != MDBX_SUCCESS)
 		return cc->t_evLast = 0;
 
 	if (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) != MDBX_SUCCESS)
@@ -506,7 +506,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEven
 	MDBX_val key = { &keyVal, sizeof(keyVal) };
 
 	cursor_ptr_ro cursor(m_curEventsSort);
-	if (mdbx_cursor_get(cursor, &key, &data, MDBX_SET) != MDBX_SUCCESS)
+	if (mdbx_cursor_get(cursor, &key, nullptr, MDBX_SET) != MDBX_SUCCESS)
 		return cc->t_evLast = 0;
 
 	if (mdbx_cursor_get(cursor, &key, &data, MDBX_PREV) != MDBX_SUCCESS)

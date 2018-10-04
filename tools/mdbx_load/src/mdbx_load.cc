@@ -13,6 +13,8 @@
  * top-level directory of the distribution or, alternatively, at
  * <http://www.OpenLDAP.org/license.html>. */
 
+#include "stdafx.h"
+
 #ifdef _MSC_VER
 #if _MSC_VER > 1800
 #pragma warning(disable : 4464) /* relative include path contains '..' */
@@ -20,11 +22,11 @@
 #pragma warning(disable : 4996) /* The POSIX name is deprecated... */
 #endif                          /* _MSC_VER (warnings) */
 
-#include "../bits.h"
 #include <ctype.h>
 
 #if defined(_WIN32) || defined(_WIN64)
-#include "wingetopt.h"
+#include "../../libs/libmdbx/src/src/tools/wingetopt.h"
+#include "../../libs/libmdbx/src/src/tools/wingetopt.c"
 
 static volatile BOOL user_break;
 static BOOL WINAPI ConsoleBreakHandlerRoutine(DWORD dwCtrlType) {
@@ -80,22 +82,22 @@ static void readhdr(void) {
   char *ptr;
 
   dbi_flags = 0;
-  while (fgets(dbuf.iov_base, (int)dbuf.iov_len, stdin) != NULL) {
+  while (fgets((char *)dbuf.iov_base, (int)dbuf.iov_len, stdin) != NULL) {
     lineno++;
-    if (!strncmp(dbuf.iov_base, "db_pagesize=", STRLENOF("db_pagesize=")) ||
-        !strncmp(dbuf.iov_base, "duplicates=", STRLENOF("duplicates="))) {
+    if (!strncmp((char *)dbuf.iov_base, "db_pagesize=", STRLENOF("db_pagesize=")) ||
+        !strncmp((char *)dbuf.iov_base, "duplicates=", STRLENOF("duplicates="))) {
       /* LY: silently ignore information fields. */
       continue;
-    } else if (!strncmp(dbuf.iov_base, "VERSION=", STRLENOF("VERSION="))) {
+    } else if (!strncmp((char *)dbuf.iov_base, "VERSION=", STRLENOF("VERSION="))) {
       version = atoi((char *)dbuf.iov_base + STRLENOF("VERSION="));
       if (version > 3) {
         fprintf(stderr, "%s: line %" PRIiSIZE ": unsupported VERSION %d\n",
                 prog, lineno, version);
         exit(EXIT_FAILURE);
       }
-    } else if (!strncmp(dbuf.iov_base, "HEADER=END", STRLENOF("HEADER=END"))) {
+    } else if (!strncmp((char *)dbuf.iov_base, "HEADER=END", STRLENOF("HEADER=END"))) {
       break;
-    } else if (!strncmp(dbuf.iov_base, "format=", STRLENOF("format="))) {
+    } else if (!strncmp((char *)dbuf.iov_base, "format=", STRLENOF("format="))) {
       if (!strncmp((char *)dbuf.iov_base + STRLENOF("FORMAT="), "print",
                    STRLENOF("print")))
         mode |= PRINT;
@@ -105,23 +107,23 @@ static void readhdr(void) {
                 lineno, (char *)dbuf.iov_base + STRLENOF("FORMAT="));
         exit(EXIT_FAILURE);
       }
-    } else if (!strncmp(dbuf.iov_base, "database=", STRLENOF("database="))) {
-      ptr = memchr(dbuf.iov_base, '\n', dbuf.iov_len);
+    } else if (!strncmp((char *)dbuf.iov_base, "database=", STRLENOF("database="))) {
+      ptr = (char *)memchr(dbuf.iov_base, '\n', dbuf.iov_len);
       if (ptr)
         *ptr = '\0';
       if (subname)
         free(subname);
       subname = strdup((char *)dbuf.iov_base + STRLENOF("database="));
-    } else if (!strncmp(dbuf.iov_base, "type=", STRLENOF("type="))) {
+    } else if (!strncmp((char *)dbuf.iov_base, "type=", STRLENOF("type="))) {
       if (strncmp((char *)dbuf.iov_base + STRLENOF("type="), "btree",
                   STRLENOF("btree"))) {
         fprintf(stderr, "%s: line %" PRIiSIZE ": unsupported type %s\n", prog,
                 lineno, (char *)dbuf.iov_base + STRLENOF("type="));
         exit(EXIT_FAILURE);
       }
-    } else if (!strncmp(dbuf.iov_base, "mapaddr=", STRLENOF("mapaddr="))) {
+    } else if (!strncmp((char *)dbuf.iov_base, "mapaddr=", STRLENOF("mapaddr="))) {
       int i;
-      ptr = memchr(dbuf.iov_base, '\n', dbuf.iov_len);
+      ptr = (char *)memchr(dbuf.iov_base, '\n', dbuf.iov_len);
       if (ptr)
         *ptr = '\0';
       void *unused;
@@ -131,9 +133,9 @@ static void readhdr(void) {
                 lineno, (char *)dbuf.iov_base + STRLENOF("mapaddr="));
         exit(EXIT_FAILURE);
       }
-    } else if (!strncmp(dbuf.iov_base, "mapsize=", STRLENOF("mapsize="))) {
+    } else if (!strncmp((char *)dbuf.iov_base, "mapsize=", STRLENOF("mapsize="))) {
       int i;
-      ptr = memchr(dbuf.iov_base, '\n', dbuf.iov_len);
+      ptr = (char *)memchr(dbuf.iov_base, '\n', dbuf.iov_len);
       if (ptr)
         *ptr = '\0';
       i = sscanf((char *)dbuf.iov_base + STRLENOF("mapsize="), "%" PRIu64,
@@ -143,10 +145,9 @@ static void readhdr(void) {
                 lineno, (char *)dbuf.iov_base + STRLENOF("mapsize="));
         exit(EXIT_FAILURE);
       }
-    } else if (!strncmp(dbuf.iov_base,
-                        "maxreaders=", STRLENOF("maxreaders="))) {
+    } else if (!strncmp((char *)dbuf.iov_base, "maxreaders=", STRLENOF("maxreaders="))) {
       int i;
-      ptr = memchr(dbuf.iov_base, '\n', dbuf.iov_len);
+      ptr = (char *)memchr(dbuf.iov_base, '\n', dbuf.iov_len);
       if (ptr)
         *ptr = '\0';
       i = sscanf((char *)dbuf.iov_base + STRLENOF("maxreaders="), "%u",
@@ -159,7 +160,7 @@ static void readhdr(void) {
     } else {
       int i;
       for (i = 0; dbflags[i].bit; i++) {
-        if (!strncmp(dbuf.iov_base, dbflags[i].name, dbflags[i].len) &&
+        if (!strncmp((char *)dbuf.iov_base, dbflags[i].name, dbflags[i].len) &&
             ((char *)dbuf.iov_base)[dbflags[i].len] == '=') {
           if (((char *)dbuf.iov_base)[dbflags[i].len + 1] == '1')
             dbi_flags |= dbflags[i].bit;
@@ -167,7 +168,7 @@ static void readhdr(void) {
         }
       }
       if (!dbflags[i].bit) {
-        ptr = memchr(dbuf.iov_base, '=', dbuf.iov_len);
+        ptr = (char *)memchr(dbuf.iov_base, '=', dbuf.iov_len);
         if (!ptr) {
           fprintf(stderr, "%s: line %" PRIiSIZE ": unexpected format\n", prog,
                   lineno);
@@ -214,24 +215,24 @@ static int readline(MDBX_val *out, MDBX_val *buf) {
     }
     if (c != ' ') {
       lineno++;
-      if (fgets(buf->iov_base, (int)buf->iov_len, stdin) == NULL) {
+      if (fgets((char *)buf->iov_base, (int)buf->iov_len, stdin) == NULL) {
       badend:
         Eof = 1;
         badend();
         return EOF;
       }
-      if (c == 'D' && !strncmp(buf->iov_base, "ATA=END", STRLENOF("ATA=END")))
+      if (c == 'D' && !strncmp((char *)buf->iov_base, "ATA=END", STRLENOF("ATA=END")))
         return EOF;
       goto badend;
     }
   }
-  if (fgets(buf->iov_base, (int)buf->iov_len, stdin) == NULL) {
+  if (fgets((char *)buf->iov_base, (int)buf->iov_len, stdin) == NULL) {
     Eof = 1;
     return EOF;
   }
   lineno++;
 
-  c1 = buf->iov_base;
+  c1 = (BYTE *)buf->iov_base;
   len = strlen((char *)c1);
   l2 = len;
 
@@ -244,7 +245,7 @@ static int readline(MDBX_val *out, MDBX_val *buf) {
               prog, lineno);
       return EOF;
     }
-    c1 = buf->iov_base;
+    c1 = (BYTE *)buf->iov_base;
     c1 += l2;
     if (fgets((char *)c1, (int)buf->iov_len + 1, stdin) == NULL) {
       Eof = 1;
@@ -255,7 +256,7 @@ static int readline(MDBX_val *out, MDBX_val *buf) {
     len = strlen((char *)c1);
     l2 += len;
   }
-  c1 = c2 = buf->iov_base;
+  c1 = c2 = (BYTE*)buf->iov_base;
   len = l2;
   c1[--len] = '\0';
   end = c1 + len;
@@ -297,7 +298,7 @@ static int readline(MDBX_val *out, MDBX_val *buf) {
       c2 += 2;
     }
   }
-  c2 = out->iov_base = buf->iov_base;
+  c2 = (BYTE*)(out->iov_base = buf->iov_base);
   out->iov_len = c1 - c2;
 
   return 0;
@@ -334,8 +335,7 @@ int main(int argc, char *argv[]) {
   while ((i = getopt(argc, argv, "f:ns:NTV")) != EOF) {
     switch (i) {
     case 'V':
-      printf("%s (%s, build %s)\n", mdbx_version.git.describe,
-             mdbx_version.git.datetime, mdbx_build.datetime);
+      // printf("%s (%s, build %s)\n", mdbx_version.git.describe, mdbx_version.git.datetime, mdbx_build.datetime);
       exit(EXIT_SUCCESS);
       break;
     case 'f':
@@ -436,7 +436,14 @@ int main(int argc, char *argv[]) {
       goto env_close;
     }
 
-    rc = mdbx_dbi_open(txn, subname, dbi_flags | MDBX_CREATE, &dbi);
+	 if (!stricmp(subname, "eventids"))
+		rc = mdbx_dbi_open_ex(txn, subname, dbi_flags | MDBX_CREATE, &dbi, &DBEventIdKey::Compare, nullptr);
+	 else if (!stricmp(subname, "eventsrt"))
+		rc = mdbx_dbi_open_ex(txn, subname, dbi_flags | MDBX_CREATE, &dbi, &DBEventSortingKey::Compare, nullptr);
+	 else if (!stricmp(subname, "settings"))
+		rc = mdbx_dbi_open_ex(txn, subname, dbi_flags | MDBX_CREATE, &dbi, &DBSettingKey::Compare, nullptr);
+	 else
+	   rc = mdbx_dbi_open(txn, subname, dbi_flags | MDBX_CREATE, &dbi);
     if (rc) {
       fprintf(stderr, "mdbx_open failed, error %d %s\n", rc, mdbx_strerror(rc));
       goto txn_abort;

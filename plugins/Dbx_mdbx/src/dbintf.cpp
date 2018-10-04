@@ -237,11 +237,11 @@ STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 
 static void assert_func(const MDBX_env*, const char *msg, const char *function, unsigned line)
 {
-/*	Netlib_Logf(nullptr, "MDBX: assertion failed (%s, %d): %s", function, line, msg);
+	Netlib_Logf(nullptr, "MDBX: assertion failed (%s, %d): %s", function, line, msg);
 
 	#if defined(_DEBUG)
 		_wassert(_A2T(msg), _A2T(function), line);
-	#endif */
+	#endif
 }
 
 int CDbxMDBX::Map()

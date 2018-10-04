@@ -91,9 +91,14 @@ bool hex2data(const char *hex_begin, const char *hex_end, void *ptr,
   return true;
 }
 
+bool is_samedata(const MDBX_val *a, const MDBX_val *b) {
+  return a->iov_len == b->iov_len &&
+         memcmp(a->iov_base, b->iov_base, a->iov_len) == 0;
+}
+
 //-----------------------------------------------------------------------------
 
-/* TODO: replace my 'libmera' fomr t1ha. */
+/* TODO: replace my 'libmera' from t1ha. */
 uint64_t entropy_ticks(void) {
 #if defined(EMSCRIPTEN)
   return (uint64_t)emscripten_get_now();

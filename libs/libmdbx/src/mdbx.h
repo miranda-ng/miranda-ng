@@ -369,17 +369,17 @@ typedef enum MDBX_cursor_op {
   MDBX_GET_BOTH,       /* MDBX_DUPSORT-only: Position at key/data pair. */
   MDBX_GET_BOTH_RANGE, /* MDBX_DUPSORT-only: position at key, nearest data. */
   MDBX_GET_CURRENT,    /* Return key/data at current cursor position */
-  MDBX_GET_MULTIPLE,   /* MDBX_DUPFIXED-only: Return key and up to a page of
-                        * duplicate data items from current cursor position.
-                        * Move cursor to prepare for MDBX_NEXT_MULTIPLE.*/
+  MDBX_GET_MULTIPLE,   /* MDBX_DUPFIXED-only: Return up to a page of duplicate
+                        * data items from current cursor position.
+                        * Move cursor to prepare for MDBX_NEXT_MULTIPLE. */
   MDBX_LAST,           /* Position at last key/data item */
   MDBX_LAST_DUP,       /* MDBX_DUPSORT-only: Position at last data item
                         * of current key. */
   MDBX_NEXT,           /* Position at next data item */
   MDBX_NEXT_DUP,       /* MDBX_DUPSORT-only: Position at next data item
                         * of current key. */
-  MDBX_NEXT_MULTIPLE,  /* MDBX_DUPFIXED-only: Return key and up to a page of
-                        * duplicate data items from next cursor position.
+  MDBX_NEXT_MULTIPLE,  /* MDBX_DUPFIXED-only: Return up to a page of duplicate
+                        * data items from next cursor position.
                         * Move cursor to prepare for MDBX_NEXT_MULTIPLE. */
   MDBX_NEXT_NODUP,     /* Position at first data item of next key */
   MDBX_PREV,           /* Position at previous data item */
@@ -391,7 +391,7 @@ typedef enum MDBX_cursor_op {
   MDBX_SET_RANGE,      /* Position at first key greater than or equal to
                         * specified key. */
   MDBX_PREV_MULTIPLE   /* MDBX_DUPFIXED-only: Position at previous page and
-                        * return key and up to a page of duplicate data items. */
+                        * return up to a page of duplicate data items. */
 } MDBX_cursor_op;
 
 /* Return Codes
@@ -493,7 +493,7 @@ typedef struct MDBX_envinfo {
     uint64_t lower;   /* lower limit for datafile size */
     uint64_t upper;   /* upper limit for datafile size */
     uint64_t current; /* current datafile size */
-    uint64_t shrink;  /* shrink theshold for datafile */
+    uint64_t shrink;  /* shrink threshold for datafile */
     uint64_t grow;    /* growth step for datafile */
   } mi_geo;
   uint64_t mi_mapsize;             /* Size of the data memory map */
@@ -924,7 +924,6 @@ LIBMDBX_API int mdbx_env_set_maxdbs(MDBX_env *env, MDBX_dbi dbs);
  *
  * Returns The maximum size of a key we can write. */
 LIBMDBX_API int mdbx_env_get_maxkeysize(MDBX_env *env);
-LIBMDBX_API int mdbx_get_maxkeysize(size_t pagesize);
 
 /* Set application information associated with the MDBX_env.
  *
@@ -990,7 +989,7 @@ LIBMDBX_API int mdbx_env_set_assert(MDBX_env *env, MDBX_assert_func *func);
  * Returns A non-zero error value on failure and 0 on success, some
  * possible errors are:
  *  - MDBX_PANIC         - a fatal error occurred earlier and the environment
- *                        must be shut down.
+ *                         must be shut down.
  *  - MDBX_MAP_RESIZED   - another process wrote data beyond this MDBX_env's
  *                         mapsize and this environment's map must be resized
  *                         as well. See mdbx_env_set_mapsize().
@@ -1252,6 +1251,8 @@ LIBMDBX_API int mdbx_drop(MDBX_txn *txn, MDBX_dbi dbi, int del);
  *  - MDBX_EINVAL   - an invalid parameter was specified. */
 LIBMDBX_API int mdbx_get(MDBX_txn *txn, MDBX_dbi dbi, MDBX_val *key,
                          MDBX_val *data);
+LIBMDBX_API int mdbx_get2(MDBX_txn *txn, MDBX_dbi dbi, MDBX_val *key,
+                          MDBX_val *data);
 
 /* Store items into a database.
  *
@@ -1485,6 +1486,9 @@ LIBMDBX_API int mdbx_cursor_put(MDBX_cursor *cursor, MDBX_val *key,
 /* Delete current key/data pair
  *
  * This function deletes the key/data pair to which the cursor refers.
+ * This does not invalidate the cursor, so operations such as MDBX_NEXT
+ * can still be used on it. Both MDBX_NEXT and MDBX_GET_CURRENT will return
+ * the same record after this operation.
  *
  * [in] cursor  A cursor handle returned by mdbx_cursor_open()
  * [in] flags   Options for this operation. This parameter must be set to 0
@@ -1654,10 +1658,22 @@ typedef void MDBX_debug_func(int type, const char *function, int line,
 
 LIBMDBX_API int mdbx_setup_debug(int flags, MDBX_debug_func *logger);
 
-typedef int MDBX_pgvisitor_func(uint64_t pgno, unsigned pgnumber, void *ctx,
-                                const char *dbi, const char *type,
-                                size_t nentries, size_t payload_bytes,
-                                size_t header_bytes, size_t unused_bytes);
+typedef enum {
+  MDBX_page_void,
+  MDBX_page_meta,
+  MDBX_page_large,
+  MDBX_page_branch,
+  MDBX_page_leaf,
+  MDBX_page_dupfixed_leaf,
+  MDBX_subpage_leaf,
+  MDBX_subpage_dupfixed_leaf
+} MDBX_page_type_t;
+
+typedef int MDBX_pgvisitor_func(uint64_t pgno, unsigned number, void *ctx,
+                                int deep, const char *dbi, size_t page_size,
+                                MDBX_page_type_t type, size_t nentries,
+                                size_t payload_bytes, size_t header_bytes,
+                                size_t unused_bytes);
 LIBMDBX_API int mdbx_env_pgwalk(MDBX_txn *txn, MDBX_pgvisitor_func *visitor,
                                 void *ctx);
 
@@ -1696,6 +1712,13 @@ LIBMDBX_API int mdbx_is_dirty(const MDBX_txn *txn, const void *ptr);
 
 LIBMDBX_API int mdbx_dbi_sequence(MDBX_txn *txn, MDBX_dbi dbi, uint64_t *result,
                                   uint64_t increment);
+
+LIBMDBX_API int mdbx_limits_pgsize_min(void);
+LIBMDBX_API int mdbx_limits_pgsize_max(void);
+LIBMDBX_API intptr_t mdbx_limits_dbsize_min(intptr_t pagesize);
+LIBMDBX_API intptr_t mdbx_limits_dbsize_max(intptr_t pagesize);
+LIBMDBX_API intptr_t mdbx_limits_keysize_max(intptr_t pagesize);
+LIBMDBX_API intptr_t mdbx_limits_txnsize_max(intptr_t pagesize);
 
 /*----------------------------------------------------------------------------*/
 /* attribute support functions for Nexenta */
