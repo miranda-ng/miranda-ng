@@ -317,7 +317,7 @@ int main(int argc, char *argv[]) {
   MDBX_cursor *mc = NULL;
   MDBX_dbi dbi;
   char *envname = NULL;
-  int envflags = 0, putflags = 0;
+  int envflags = MDBX_EXCLUSIVE, putflags = 0;
 
   prog = argv[0];
 

@@ -81,6 +81,7 @@ md "Release%tp%\Plugins\BASS"
 md "Release%tp%\Plugins\CurrencyRates"
 md "Release%tp%\Plugins\Weather"
 
+copy /V /Y ..\tools\build_scripts\fixme.cmd "Release%tp%\"
 copy /V /Y ..\plugins\FavContacts\gadget\favcontacts.gadget "Release%tp%\Gadgets\"
 copy /V /Y ..\plugins\Nudge\docs\Sounds\*.wav "Release%tp%\Sounds\"
 copy /V /Y ..\plugins\ListeningTo\listeningto\*.dll "Release%tp%\Plugins\Listeningto\"

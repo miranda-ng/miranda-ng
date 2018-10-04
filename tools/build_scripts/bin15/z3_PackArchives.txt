@@ -41,6 +41,7 @@ Libs\api-ms-win-crt-utility-l1-1-0.dll
 Libs\msvcp140.dll
 Libs\ucrtbase.dll
 Libs\vcruntime140.dll
+fixme.cmd
 mirandaboot.ini
 mdbx_load.exe
 mdbx_dump.exe
