@@ -6,7 +6,7 @@ if "%1" == "" (
   pushd %~dp0Profiles
 
   for /D %%i in (*) do (
-    if exist %~dp0Profiles\%%i\%%i.dat (
+    if exist "%~dp0Profiles\%%i\%%i.dat" (
       set ProfileName=%%i
       set /A ProfileCount=%ProfileCount%+1
     )
@@ -15,7 +15,7 @@ if "%1" == "" (
   popd
 
 ) else (
-  if not exist %~dp0Profiles\%1\%1.dat (
+  if not exist "%~dp0Profiles\%1\%1.dat" (
     echo Wrong profile name specified: %1
     goto :eof
   )
