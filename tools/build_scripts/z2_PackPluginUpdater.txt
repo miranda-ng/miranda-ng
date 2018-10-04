@@ -60,6 +60,8 @@ Plugins\Dummy.dll
 Plugins\Import.dll
 Icons\Proto_Dummy.dll
 Icons\Proto_MetaContacts.dll
+mdbx_load.exe
+mdbx_dump.exe
 Libs\FreeImage.mir
 Libs\mir_app.mir
 Libs\mir_core.mir
