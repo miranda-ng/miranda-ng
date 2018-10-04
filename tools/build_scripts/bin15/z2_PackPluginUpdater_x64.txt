@@ -1,4 +1,6 @@
 hashes.txt
+mdbx_dump.exe
+mdbx_load.exe
 miranda64.exe
 pu_stub.exe
 sendlog.exe

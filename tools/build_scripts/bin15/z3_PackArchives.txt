@@ -42,6 +42,8 @@ Libs\msvcp140.dll
 Libs\ucrtbase.dll
 Libs\vcruntime140.dll
 mirandaboot.ini
+mdbx_load.exe
+mdbx_dump.exe
 pu_stub.exe
 Core\StdAutoAway.dll
 Core\StdAway.dll
