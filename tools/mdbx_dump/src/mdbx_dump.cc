@@ -251,7 +251,7 @@ int main(int argc, char *argv[]) {
     mdbx_env_set_maxdbs(env, 2);
   }
 
-  rc = mdbx_env_open(env, envname, envflags | MDBX_RDONLY, 0664);
+  rc = mdbx_env_open(env, envname, envflags | MDBX_EXCLUSIVE | MDBX_RDONLY, 0664);
   if (rc) {
     fprintf(stderr, "mdbx_env_open failed, error %d %s\n", rc,
             mdbx_strerror(rc));
@@ -323,8 +323,12 @@ int main(int argc, char *argv[]) {
   } else {
     rc = dumpit(txn, dbi, subname);
   }
-  if (rc && rc != MDBX_NOTFOUND)
-    fprintf(stderr, "%s: %s: %s\n", prog, envname, mdbx_strerror(rc));
+  if (rc) {
+	 if (rc != MDBX_NOTFOUND)
+		fprintf(stderr, "%s: %s: %s\n", prog, envname, mdbx_strerror(rc));
+	 else
+	   rc = 0;
+  }
 
   mdbx_dbi_close(env, dbi);
 txn_abort:
