@@ -22,16 +22,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include <win2k.h>
 
-static const CIrcProto* pZero = nullptr;
+static const CIrcProto *pZero = nullptr;
 
-void CIrcProto::ReadSettings(TDbSetting* sets, int count)
+void CIrcProto::ReadSettings(TDbSetting *sets, int count)
 {
-	BYTE* base = (BYTE*)this;
+	BYTE *base = (BYTE *)this;
 
 	DBVARIANT dbv;
 	for (int i = 0; i < count; i++) {
-		TDbSetting* p = &sets[i];
-		BYTE* ptr = base + p->offset;
+		TDbSetting *p = &sets[i];
+		BYTE *ptr = base + p->offset;
 		switch (p->type) {
 		case DBVT_BYTE:
 			*(BYTE*)ptr = getByte(p->name, p->defValue);
@@ -63,8 +63,8 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 			if (!getWString(p->name, &dbv)) {
 				if (p->size != -1) {
 					size_t len = min(p->size - 1, mir_wstrlen(dbv.pwszVal));
-					memcpy(ptr, dbv.pszVal, len*sizeof(wchar_t));
-					*(wchar_t*)&ptr[len*sizeof(wchar_t)] = 0;
+					memcpy(ptr, dbv.pszVal, len * sizeof(wchar_t));
+					*(wchar_t*)&ptr[len * sizeof(wchar_t)] = 0;
 				}
 				else *(wchar_t**)ptr = mir_wstrdup(dbv.pwszVal);
 				db_free(&dbv);
@@ -79,15 +79,17 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 				else *(wchar_t**)ptr = mir_wstrdup(p->defStr);
 			}
 			break;
-}	}	}
+		}
+	}
+}
 
-void CIrcProto::WriteSettings( TDbSetting* sets, int count )
+void CIrcProto::WriteSettings(TDbSetting *sets, int count)
 {
-	BYTE* base = (BYTE*)this;
+	BYTE *base = (BYTE*)this;
 
 	for (int i = 0; i < count; i++) {
-		TDbSetting* p = &sets[i];
-		BYTE* ptr = base + p->offset;
+		TDbSetting *p = &sets[i];
+		BYTE *ptr = base + p->offset;
 		switch (p->type) {
 		case DBVT_BYTE:   setByte(p->name, *(BYTE*)ptr);       break;
 		case DBVT_WORD:   setWord(p->name, *(WORD*)ptr);       break;
@@ -106,20 +108,22 @@ void CIrcProto::WriteSettings( TDbSetting* sets, int count )
 			else
 				setWString(p->name, (wchar_t*)ptr);
 			break;
-}	}	}
+		}
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int sttServerEnum( const char* szSetting, void*)
+static int sttServerEnum(const char* szSetting, void*)
 {
 	DBVARIANT dbv;
 	if (db_get_s(NULL, SERVERSMODULE, szSetting, &dbv))
 		return 0;
 
-	SERVER_INFO* pData = new SERVER_INFO;
+	SERVER_INFO *pData = new SERVER_INFO;
 	pData->m_name = mir_strdup(szSetting);
 
-	char* p1 = strchr(dbv.pszVal, ':') + 1;
+	char *p1 = strchr(dbv.pszVal, ':') + 1;
 	pData->m_iSSL = 0;
 	if (!_strnicmp(p1, "SSL", 3)) {
 		p1 += 3;
@@ -129,7 +133,8 @@ static int sttServerEnum( const char* szSetting, void*)
 			pData->m_iSSL = 2;
 		p1++;
 	}
-	char* p2 = strchr(p1, ':');
+	
+	char *p2 = strchr(p1, ':');
 	pData->m_address = (char*)mir_alloc(p2 - p1 + 1);
 	mir_strncpy(pData->m_address, p1, p2 - p1 + 1);
 
@@ -137,7 +142,7 @@ static int sttServerEnum( const char* szSetting, void*)
 	while (*p2 != 'G' && *p2 != '-')
 		p2++;
 
-	char* buf = (char*)alloca(p2 - p1 + 1);
+	char *buf = (char*)alloca(p2 - p1 + 1);
 	mir_strncpy(buf, p1, p2 - p1 + 1);
 	pData->m_portStart = atoi(buf);
 
@@ -248,16 +253,16 @@ struct { UINT cpId; wchar_t *cpName; } static cpTable[] =
 	{	 1361, LPGENW("Korean (Johab)") }
 };
 
-static CCtrlCombo* sttCombo;
+static CCtrlCombo *sttCombo;
 
 static BOOL CALLBACK sttLangAddCallback(wchar_t *str)
 {
 	UINT cp = _wtoi(str);
 	CPINFOEX cpinfo;
 	if (GetCPInfoEx(cp, 0, &cpinfo)) {
-		wchar_t* b = wcschr(cpinfo.CodePageName, '(');
+		wchar_t *b = wcschr(cpinfo.CodePageName, '(');
 		if (b) {
-			wchar_t* e = wcsrchr(cpinfo.CodePageName, ')');
+			wchar_t *e = wcsrchr(cpinfo.CodePageName, ')');
 			if (e) {
 				*e = 0;
 				sttCombo->AddString(b + 1, cp);
@@ -277,14 +282,14 @@ static int sttRequiredFields[] = { IDC_ADD_SERVER, IDC_ADD_ADDRESS, IDC_ADD_PORT
 
 struct CServerDlg : public CProtoDlgBase<CIrcProto>
 {
-	CConnectPrefsDlg* m_owner;
+	CConnectPrefsDlg *m_owner;
 	int m_action;
 
 	CCtrlButton m_OK;
 	CCtrlEdit m_server, m_address, m_port, m_port2;
 	CCtrlCombo m_groupCombo;
 
-	CServerDlg(CIrcProto* _pro, CConnectPrefsDlg* _owner, int _action)
+	CServerDlg(CIrcProto *_pro, CConnectPrefsDlg *_owner, int _action)
 		: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDSERVER),
 		m_owner(_owner),
 		m_action(_action),
@@ -304,14 +309,14 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 	{
 		int i = m_owner->m_serverCombo.GetCount();
 		for (int index = 0; index < i; index++) {
-			SERVER_INFO* pData = (SERVER_INFO*)m_owner->m_serverCombo.GetItemData(index);
+			SERVER_INFO *pData = (SERVER_INFO*)m_owner->m_serverCombo.GetItemData(index);
 			if (m_groupCombo.FindStringA(pData->m_group, -1, true) == CB_ERR)
 				m_groupCombo.AddStringA(pData->m_group);
 		}
 
 		if (m_action == 2) {
 			int j = m_owner->m_serverCombo.GetCurSel();
-			SERVER_INFO* pData = (SERVER_INFO*)m_owner->m_serverCombo.GetItemData(j);
+			SERVER_INFO *pData = (SERVER_INFO*)m_owner->m_serverCombo.GetItemData(j);
 			m_address.SetTextA(pData->m_address);
 			m_groupCombo.SetTextA(pData->m_group);
 			m_port.SetInt(pData->m_portStart);
@@ -388,7 +393,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		m_owner->OnServerCombo(nullptr);
 
 		m_owner->m_serverlistModified = true;
-		Close();
+		::PostMessage(m_hwnd, WM_CLOSE, 0, 0);
 	}
 };
 
@@ -401,13 +406,13 @@ static TDbSetting ConnectSettings[] =
 	{ FIELD_OFFSET(CIrcProto, m_identSystem), "IdentSystem", DBVT_WCHAR, _countof(pZero->m_identSystem) },
 	{ FIELD_OFFSET(CIrcProto, m_identPort), "IdentPort", DBVT_WCHAR, _countof(pZero->m_identPort) },
 
-	{ FIELD_OFFSET(CIrcProto, m_serverName ), "ServerName", DBVT_ASCIIZ, _countof(pZero->m_serverName) },
-	{ FIELD_OFFSET(CIrcProto, m_portStart ), "PortStart", DBVT_ASCIIZ, _countof(pZero->m_portStart) },
-	{ FIELD_OFFSET(CIrcProto, m_portEnd ), "PortEnd", DBVT_ASCIIZ, _countof(pZero->m_portEnd ) },
-	{ FIELD_OFFSET(CIrcProto, m_password ), "Password", DBVT_ASCIIZ, _countof(pZero->m_password ) },
-	{ FIELD_OFFSET(CIrcProto, m_joinOnInvite ), "JoinOnInvite", DBVT_BYTE },
-	{ FIELD_OFFSET(CIrcProto, m_network ), "Network", DBVT_ASCIIZ, _countof(pZero->m_network ) },
-	{ FIELD_OFFSET(CIrcProto, m_iSSL ), "UseSSL", DBVT_BYTE },
+	{ FIELD_OFFSET(CIrcProto, m_serverName), "ServerName", DBVT_ASCIIZ, _countof(pZero->m_serverName) },
+	{ FIELD_OFFSET(CIrcProto, m_portStart), "PortStart", DBVT_ASCIIZ, _countof(pZero->m_portStart) },
+	{ FIELD_OFFSET(CIrcProto, m_portEnd), "PortEnd", DBVT_ASCIIZ, _countof(pZero->m_portEnd) },
+	{ FIELD_OFFSET(CIrcProto, m_password), "Password", DBVT_ASCIIZ, _countof(pZero->m_password) },
+	{ FIELD_OFFSET(CIrcProto, m_joinOnInvite), "JoinOnInvite", DBVT_BYTE },
+	{ FIELD_OFFSET(CIrcProto, m_network), "Network", DBVT_ASCIIZ, _countof(pZero->m_network) },
+	{ FIELD_OFFSET(CIrcProto, m_iSSL), "UseSSL", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_onlineNotificationTime) , "OnlineNotificationTime", DBVT_WORD, 0, 30 },
 	{ FIELD_OFFSET(CIrcProto, m_onlineNotificationLimit) , "OnlineNotificationLimit", DBVT_WORD, 0, 50 },
 	{ FIELD_OFFSET(CIrcProto, m_channelAwayNotification), "ChannelAwayNotification", DBVT_BYTE, 0, 1 },
@@ -564,7 +569,7 @@ bool CConnectPrefsDlg::OnInitDialog()
 void CConnectPrefsDlg::OnServerCombo(CCtrlData*)
 {
 	int i = m_serverCombo.GetCurSel();
-	SERVER_INFO* pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
+	SERVER_INFO *pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
 	if (pData && (INT_PTR)pData != CB_ERR) {
 		m_server.SetTextA(pData->m_address);
 		m_port.SetInt(pData->m_portStart);
@@ -588,7 +593,7 @@ void CConnectPrefsDlg::OnAddServer(CCtrlButton*)
 	m_add.Disable();
 	m_edit.Disable();
 	m_del.Disable();
-	CServerDlg* dlg = new CServerDlg(m_proto, this, 1);
+	CServerDlg *dlg = new CServerDlg(m_proto, this, 1);
 	dlg->Show();
 }
 
@@ -976,8 +981,8 @@ static LRESULT CALLBACK EditSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	return mir_callNextSubclass(hwndDlg, EditSubclassProc, msg, wParam, lParam);
 }
 
-COtherPrefsDlg::COtherPrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_OTHER),
+COtherPrefsDlg::COtherPrefsDlg(CIrcProto *_pro) :
+	CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_OTHER),
 	m_url(this, IDC_CUSTOM),
 	m_performCombo(this, IDC_PERFORMCOMBO),
 	m_codepage(this, IDC_CODEPAGE),
@@ -1025,7 +1030,7 @@ bool COtherPrefsDlg::OnInitDialog()
 			break;
 		}
 	}
-	
+
 	if (m_proto->m_codepage == CP_UTF8)
 		m_autodetect.Disable();
 
@@ -1051,7 +1056,7 @@ bool COtherPrefsDlg::OnInitDialog()
 void COtherPrefsDlg::OnPerformCombo(CCtrlData*)
 {
 	int i = m_performCombo.GetCurSel();
-	PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
+	PERFORM_INFO *pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
 	if (pPerf == nullptr)
 		m_pertormEdit.SetTextA("");
 	else
@@ -1089,14 +1094,14 @@ void COtherPrefsDlg::OnPerform(CCtrlData*)
 
 void COtherPrefsDlg::OnAdd(CCtrlButton*)
 {
-	wchar_t* temp = m_pertormEdit.GetText();
+	wchar_t *temp = m_pertormEdit.GetText();
 
 	if (my_strstri(temp, L"/away"))
 		MessageBox(nullptr, TranslateT("The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically."), TranslateT("IRC Error"), MB_OK);
 	else {
 		int i = m_performCombo.GetCurSel();
 		if (i != CB_ERR) {
-			PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
+			PERFORM_INFO *pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
 			if (pPerf != nullptr)
 				pPerf->mText = temp;
 
@@ -1111,7 +1116,7 @@ void COtherPrefsDlg::OnDelete(CCtrlButton*)
 {
 	int i = m_performCombo.GetCurSel();
 	if (i != CB_ERR) {
-		PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
+		PERFORM_INFO *pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
 		if (pPerf != nullptr) {
 			pPerf->mText = L"";
 			m_pertormEdit.SetTextA("");
@@ -1128,7 +1133,7 @@ void COtherPrefsDlg::OnDestroy()
 	int i = m_performCombo.GetCount();
 	if (i != CB_ERR && i != 0) {
 		for (int index = 0; index < i; index++) {
-			PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(index);
+			PERFORM_INFO *pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(index);
 			if ((INT_PTR)pPerf != CB_ERR && pPerf != nullptr)
 				delete pPerf;
 		}
@@ -1155,7 +1160,7 @@ bool COtherPrefsDlg::OnApply()
 	if (m_performlistModified) {
 		int count = m_performCombo.GetCount();
 		for (int i = 0; i < count; i++) {
-			PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
+			PERFORM_INFO *pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
 			if ((INT_PTR)pPerf == CB_ERR)
 				continue;
 
@@ -1174,7 +1179,7 @@ void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 	CMStringA sSetting = CMStringA("PERFORM:") + szValueName;
 	sSetting.MakeUpper();
 
-	PERFORM_INFO* pPref;
+	PERFORM_INFO *pPref;
 	DBVARIANT dbv;
 	if (!m_proto->getWString(sSetting.c_str(), &dbv)) {
 		pPref = new PERFORM_INFO(sSetting.c_str(), dbv.pwszVal);
@@ -1264,7 +1269,7 @@ static TDbSetting IgnoreSettings[] =
 
 static int CALLBACK IgnoreListSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	CIgnorePrefsDlg* hwndDlg = (CIgnorePrefsDlg*)lParamSort;
+	CIgnorePrefsDlg *hwndDlg = (CIgnorePrefsDlg*)lParamSort;
 	if (!hwndDlg->GetHwnd())
 		return 1;
 
@@ -1385,7 +1390,7 @@ void CIrcProto::RewriteIgnoreSettings(void)
 	for (i = 0; i < m_ignoreItems.getCount(); i++) {
 		mir_snprintf(settingName, "IGNORE:%d", i);
 
-		CIrcIgnoreItem& C = m_ignoreItems[i];
+		CIrcIgnoreItem &C = m_ignoreItems[i];
 		setWString(settingName, (C.mask + L" " + C.flags + L" " + C.network).c_str());
 	}
 }
@@ -1435,7 +1440,7 @@ bool CIgnorePrefsDlg::OnInitDialog()
 		lvC.iSubItem = index;
 		lvC.cx = COLUMNS_SIZES[index];
 
-		wchar_t* text = nullptr;
+		wchar_t *text = nullptr;
 		switch (index) {
 		case 0: text = TranslateT("Ignore mask"); break;
 		case 1: text = TranslateT("Flags"); break;
@@ -1799,16 +1804,16 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 	void OnChangeCombo(CCtrlCombo*)
 	{
 		int i = m_serverCombo.GetCurSel();
-		SERVER_INFO* pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
+		SERVER_INFO *pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
 		if (pData && (INT_PTR)pData != CB_ERR) {
 			m_server.SetTextA(pData->m_address);
 			m_port.SetInt(pData->m_portStart);
 			m_port2.SetInt(pData->m_portEnd);
 			m_pass.SetTextA("");
 			switch (pData->m_iSSL) {
-				case 0:  m_ssl.SetTextA("Off");  break;
-				case 1:  m_ssl.SetTextA("Auto"); break;
-				case 2:  m_ssl.SetTextA("On");   break;
+			case 0:  m_ssl.SetTextA("Off");  break;
+			case 1:  m_ssl.SetTextA("Auto"); break;
+			case 2:  m_ssl.SetTextA("On");   break;
 			}
 		}
 	}
@@ -1826,19 +1831,19 @@ INT_PTR CIrcProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 
 static void sttImportIni(const wchar_t* szIniFile)
 {
-	FILE* serverFile = _wfopen(szIniFile, L"r");
+	FILE *serverFile = _wfopen(szIniFile, L"r");
 	if (serverFile == nullptr)
 		return;
 
 	char buf1[500], buf2[200];
 	while (fgets(buf1, sizeof(buf1), serverFile)) {
-		char* p = strchr(buf1, '=');
+		char *p = strchr(buf1, '=');
 		if (!p)
 			continue;
 
 		p++;
 		rtrim(p);
-		char* p1 = strstr(p, "SERVER:");
+		char *p1 = strstr(p, "SERVER:");
 		if (!p1)
 			continue;
 
@@ -1862,7 +1867,7 @@ void InitServers()
 		wchar_t *szIniFile = Utils_ReplaceVarsW(L"%temp%\\default_servers.ini");
 		FILE *serverFile = _wfopen(szIniFile, L"a");
 		if (serverFile) {
-			char* pszSvrs = (char*)LockResource(LoadResource(g_plugin.getInst(), FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SERVERS), L"TEXT")));
+			char *pszSvrs = (char*)LockResource(LoadResource(g_plugin.getInst(), FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SERVERS), L"TEXT")));
 			if (pszSvrs)
 				fwrite(pszSvrs, 1, mir_strlen(pszSvrs) + 1, serverFile);
 			fclose(serverFile);
