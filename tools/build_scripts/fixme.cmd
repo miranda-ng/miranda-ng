@@ -1,4 +1,4 @@
-@echo on
+@echo off
 
 set ProfileDir=%~dp0Profiles
 
@@ -9,14 +9,11 @@ for /F "tokens=1,2 delims== " %%a in ('findstr "ProfileDir=" mirandaboot.ini') d
 echo Using profile directory %ProfileDir%
 
 if "%1" == "" (
-  set /A ProfileCount=0
-
-  pushd %ProfileDir%
+  pushd "%ProfileDir%"
 
   for /D %%i in (*) do (
     if exist "%ProfileDir%\%%i\%%i.dat" (
       set ProfileName=%%i
-      set /A ProfileCount=%ProfileCount%+1
     )
   )
 
