@@ -1,14 +1,3 @@
-struct MyIconDesriptor
-{
-	DWORD dwIndex;
-
-	LPSTR szId;
-	LPSTR szGroup;
-	LPSTR szTitle;
-
-	HICON hIcon;
-};
-
 enum
 {
 	ICO_NEWSTORY,	// 0
@@ -40,8 +29,10 @@ enum
 	ICO_COUNT		// 26
 };
 
-extern MyIconDesriptor icons[];
-extern int iconCount;
+//extern IconItem icons[];
+//extern int iconCount;
 
-void InitIcons(MyIconDesriptor *icons, LPSTR szFilename, int count);
-void RefreshIcons(MyIconDesriptor *icons, int count);
+HICON GetIcon(int iconId);
+
+void InitIcons(LPSTR szFilename, int count);
+void RefreshIcons(IconItem *icons, int count);

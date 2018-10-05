@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 struct CalendarToolData
 {
@@ -87,5 +87,5 @@ time_t CalendarTool_Show(HWND hwnd, int x, int y)
 
 //	HWND hwndTool = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CALENDARTOOL), 0, CalendarToolDlgProc, (LPARAM)data);
 //	ShowWindow(hwndTool, SW_SHOWNORMAL);
-	return DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CALENDARTOOL), 0, CalendarToolDlgProc, (LPARAM)data);
+	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), 0, CalendarToolDlgProc, (LPARAM)data);
 }

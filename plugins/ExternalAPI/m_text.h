@@ -204,7 +204,7 @@ __inline HANDLE MTextCreateW(HANDLE userHandle, WCHAR *text)
 #define MS_TEXT_CREATEEX "MText/CreateEx"
 
 #ifndef MTEXT_NOHELPERS
-__inline HANDLE MTextCreateEx(HANDLE userHandle, HANDLE hContact, void *text, DWORD flags)
+__inline HANDLE MTextCreateEx(HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags)
 {
 	#ifdef __cplusplus
 		MTEXTCREATE textCreate;

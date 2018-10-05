@@ -11,27 +11,27 @@ for the date picker:
         break;
 */
 
-#include "headers.h"
+#include "stdafx.h"
 
-HANDLE hNewstoryWindows = 0;
+MWindowList hNewstoryWindows = 0;
 
 int evtEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(hNewstoryWindows, (HANDLE)wParam);
+	HWND hwnd = WindowList_Find(hNewstoryWindows, (UINT_PTR)wParam);
 	SendMessage(hwnd, UM_ADDEVENT, wParam, lParam);
 	return 0;
 }
 
 int evtEventDeleted(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(hNewstoryWindows, (HANDLE)wParam);
+	HWND hwnd = WindowList_Find(hNewstoryWindows, (UINT_PTR)wParam);
 	SendMessage(hwnd, UM_REMOVEEVENT, wParam, lParam);
 	return 0;
 }
 
 void InitHistory()
 {
-	hNewstoryWindows = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hNewstoryWindows = WindowList_Create();
 
 	HookEvent(ME_DB_EVENT_ADDED, evtEventAdded);
 	HookEvent(ME_DB_EVENT_DELETED, evtEventDeleted);
@@ -90,7 +90,7 @@ struct WindowData
 	WORD showFlags;
 	bool gonnaRedraw;
 	bool isContactHistory;
-	HANDLE hContact;
+	MCONTACT hContact;
 	int lastYear, lastMonth, lastDay;
 	HTREEITEM hLastYear, hLastMonth, hLastDay;
 	bool disableTimeTreeChange;
@@ -406,7 +406,7 @@ bool ExportHistoryDialog(HANDLE hContact, HWND hwndHistory)
 
 int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CallSnappingWindowProc(hwnd, msg, wParam, lParam);
+	//CallSnappingWindowProc(hwnd, msg, wParam, lParam);
 
 	WindowData *data = (WindowData *)GetWindowLong(hwnd, GWL_USERDATA);
 
@@ -422,9 +422,9 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_INITDIALOG:
 		{
 			data = new WindowData;
-			data->hContact = (HANDLE)lParam;
+			data->hContact = (MCONTACT)lParam;
 			data->disableTimeTreeChange = false;
-			data->showFlags = DBGetContactSettingWord(data->hContact, MODULENAME, "showFlags", 0x7f);
+			data->showFlags = db_get_w(data->hContact, MODULENAME, "showFlags", 0x7f);
 			data->lastYear = data->lastMonth = data->lastDay = -1;
 			data->hLastYear = data->hLastMonth = data->hLastDay = 0;
 
@@ -447,7 +447,7 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			data->hwndBtnFindPrev = GetDlgItem(hwnd, IDC_FINDPREV);
 			data->hwndBtnFindNext = GetDlgItem(hwnd, IDC_FINDNEXT);
 			data->hwndSearchText = GetDlgItem(hwnd, IDC_SEARCHTEXT);
-			data->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwnd, NULL, hInst, NULL);
+			data->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwnd, NULL, g_plugin.getInst(), NULL);
 			SendMessage(data->hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
 			// filterbar
@@ -513,8 +513,8 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			
 			SetWindowLong(hwnd, GWL_USERDATA, (LONG)data);
 
-			data->hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_POPUPS));
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)data->hMenu, 0);
+			data->hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
+			//CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)data->hMenu, 0);
 			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_INCOMING,
 				data->showFlags&HIST_SHOW_IN ? MF_CHECKED : MF_UNCHECKED);
 			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_OUTGOING,
@@ -569,13 +569,13 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			WindowList_Add(hNewstoryWindows, hwnd, data->hContact);
 
-			if (data->hContact && (data->hContact != INVALID_HANDLE_VALUE))
+			if (data->hContact && (data->hContact != INVALID_CONTACT_ID))
 			{
 				TCHAR *title = TplFormatString(TPL_TITLE, data->hContact, 0);
 				SetWindowText(hwnd, title);
 				free(title);
 			} else
-			if (data->hContact == INVALID_HANDLE_VALUE)
+			if (data->hContact == INVALID_CONTACT_ID)
 			{
 				SetWindowText(hwnd, TranslateT("Newstory Search Results"));
 			} else
@@ -583,7 +583,7 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				SetWindowText(hwnd, TranslateT("System Newstory"));
 			}
 
-			if (data->hContact != INVALID_HANDLE_VALUE)
+			if (data->hContact != INVALID_CONTACT_ID)
 			{
 //				ShowWindow(GetDlgItem(hwnd, IDC_TIMETREE), SW_HIDE);
 //				ShowWindow(GetDlgItem(hwnd, IDC_ITEMS), SW_HIDE);
@@ -595,11 +595,13 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hwnd, UM_UPDATEICONS, 0, 0);
 			SetFocus(GetDlgItem(hwnd, IDC_ITEMS2));
 
-			RECT rc;
-			rc.left = (int)DBGetContactSettingDword(data->hContact, MODULENAME, "left", 0);
-			rc.top = (int)DBGetContactSettingDword(data->hContact, MODULENAME, "top", 0);
-			rc.right = (int)DBGetContactSettingDword(data->hContact, MODULENAME, "right", 0);
-			rc.bottom = (int)DBGetContactSettingDword(data->hContact, MODULENAME, "bottom", 0);
+			RECT rc
+			{
+				db_get_dw(data->hContact, MODULENAME, "left"),
+				db_get_dw(data->hContact, MODULENAME, "top"),
+				db_get_dw(data->hContact, MODULENAME, "right"),
+				db_get_dw(data->hContact, MODULENAME, "bottom")
+			};
 			if ((rc.left-rc.right) && (rc.top-rc.bottom))
 				MoveWindow(hwnd, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, TRUE);
 	
@@ -618,40 +620,40 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case UM_UPDATEICONS:
 		{
-			SendMessage(hwnd, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)icons[ICO_NEWSTORY].hIcon);
+			SendMessage(hwnd, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)GetIcon(ICO_NEWSTORY));
 
-			SendMessage(GetDlgItem(hwnd, IDC_SEARCHICON), STM_SETICON, (WPARAM)icons[ICO_SEARCH].hIcon, 0);
+			SendMessage(GetDlgItem(hwnd, IDC_SEARCHICON), STM_SETICON, (WPARAM)GetIcon(ICO_SEARCH), 0);
 
-			SendMessage(GetDlgItem(hwnd, IDC_USERINFO),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_USERINFO].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_MESSAGE),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_SENDMSG].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_USERMENU),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_USERMENU].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_COPY),		 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_COPY].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_LOGOPTIONS),BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_OPTIONS].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_FILTER),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_FILTER].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_DATEPOPUP), BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_CALENDAR].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_SEARCH),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_SEARCH].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_EXPORT),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_EXPORT].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_CLOSE),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_CLOSE].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_FINDPREV),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_FINDPREV].hIcon);
-			SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_FINDNEXT].hIcon);
+			SendMessage(GetDlgItem(hwnd, IDC_USERINFO),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_USERINFO));
+			SendMessage(GetDlgItem(hwnd, IDC_MESSAGE),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_SENDMSG));
+			SendMessage(GetDlgItem(hwnd, IDC_USERMENU),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_USERMENU));
+			SendMessage(GetDlgItem(hwnd, IDC_COPY),		 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_COPY));
+			SendMessage(GetDlgItem(hwnd, IDC_LOGOPTIONS),BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_OPTIONS));
+			SendMessage(GetDlgItem(hwnd, IDC_FILTER),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_FILTER));
+			SendMessage(GetDlgItem(hwnd, IDC_DATEPOPUP), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_CALENDAR));
+			SendMessage(GetDlgItem(hwnd, IDC_SEARCH),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_SEARCH));
+			SendMessage(GetDlgItem(hwnd, IDC_EXPORT),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_EXPORT));
+			SendMessage(GetDlgItem(hwnd, IDC_CLOSE),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_CLOSE));
+			SendMessage(GetDlgItem(hwnd, IDC_FINDPREV),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_FINDPREV));
+			SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_FINDNEXT));
 
-			SendMessage(data->ibMessages.hwndIco, STM_SETICON, (LPARAM)icons[ICO_SENDMSG].hIcon, 0);
-			SendMessage(data->ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_MSGIN].hIcon);
-			SendMessage(data->ibMessages.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_MSGOUT].hIcon);
-			SendMessage(data->ibFiles.hwndIco, STM_SETICON, (LPARAM)icons[ICO_FILE].hIcon, 0);
-			SendMessage(data->ibFiles.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_MSGIN].hIcon);
-			SendMessage(data->ibFiles.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_MSGOUT].hIcon);
-			SendMessage(data->ibUrls.hwndIco, STM_SETICON, (LPARAM)icons[ICO_URL].hIcon, 0);
-			SendMessage(data->ibUrls.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_MSGIN].hIcon);
-			SendMessage(data->ibUrls.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_MSGOUT].hIcon);
-			SendMessage(data->ibTotal.hwndIco, STM_SETICON, (LPARAM)icons[ICO_UNKNOWN].hIcon, 0);
-			SendMessage(data->ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_MSGIN].hIcon);
-			SendMessage(data->ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_MSGOUT].hIcon);
+			SendMessage(data->ibMessages.hwndIco, STM_SETICON, (LPARAM)GetIcon(ICO_SENDMSG), 0);
+			SendMessage(data->ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGIN));
+			SendMessage(data->ibMessages.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGOUT));
+			SendMessage(data->ibFiles.hwndIco, STM_SETICON, (LPARAM)GetIcon(ICO_FILE), 0);
+			SendMessage(data->ibFiles.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGIN));
+			SendMessage(data->ibFiles.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGOUT));
+			SendMessage(data->ibUrls.hwndIco, STM_SETICON, (LPARAM)GetIcon(ICO_URL), 0);
+			SendMessage(data->ibUrls.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGIN));
+			SendMessage(data->ibUrls.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGOUT));
+			SendMessage(data->ibTotal.hwndIco, STM_SETICON, (LPARAM)GetIcon(ICO_UNKNOWN), 0);
+			SendMessage(data->ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGIN));
+			SendMessage(data->ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGOUT));
 
 			if (CheckPassword(data->hContact, ""))
-				SendMessage(GetDlgItem(hwnd, IDC_SECURITY),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_NOPASSWORD].hIcon);
+				SendMessage(GetDlgItem(hwnd, IDC_SECURITY),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_NOPASSWORD));
 			else
-				SendMessage(GetDlgItem(hwnd, IDC_SECURITY),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)icons[ICO_PASSWORD].hIcon);
+				SendMessage(GetDlgItem(hwnd, IDC_SECURITY),	 BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_PASSWORD));
 			
 			break;
 		}
@@ -690,7 +692,7 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			lpmis = (LPMEASUREITEMSTRUCT) lParam; 
 
 			if (lpmis->CtlType == ODT_MENU)
-				return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+				return Menu_MeasureItem(lParam);
 
 			lpmis->itemHeight = 25;
 			return TRUE; 
@@ -718,13 +720,13 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			WindowList_Remove(hNewstoryWindows, hwnd);
 
-			DBWriteContactSettingWord(data->hContact, MODULENAME, "showFlags", data->showFlags);
+			db_set_dw(data->hContact, MODULENAME, "showFlags", data->showFlags);
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
-			DBWriteContactSettingDword(data->hContact, MODULENAME, "left", rc.left);
-			DBWriteContactSettingDword(data->hContact, MODULENAME, "top", rc.top);
-			DBWriteContactSettingDword(data->hContact, MODULENAME, "right", rc.right);
-			DBWriteContactSettingDword(data->hContact, MODULENAME, "bottom", rc.bottom);
+			db_set_dw(data->hContact, MODULENAME, "left", rc.left);
+			db_set_dw(data->hContact, MODULENAME, "top", rc.top);
+			db_set_dw(data->hContact, MODULENAME, "right", rc.right);
+			db_set_dw(data->hContact, MODULENAME, "bottom", rc.bottom);
 
 //			CLCombo_Cleanup(GetDlgItem(hwnd, IDC_USERLIST));
 
@@ -740,7 +742,7 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			lpdis = (LPDRAWITEMSTRUCT) lParam;
 
 			if (lpdis->CtlType == ODT_MENU)
-				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+				return Menu_DrawItem(lParam);
 
 			if (lpdis->itemID == -1)
 				return FALSE;
@@ -783,8 +785,8 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case WM_COMMAND:
 		{
-			if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) data->hContact))
-                return TRUE;
+			//if (Menu_ProcessCommand(MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) data->hContact))
+            //    return TRUE;
 			switch(LOWORD(wParam))
 			{
 				case IDCANCEL:
@@ -812,7 +814,7 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				case IDC_USERMENU:
 				{
 					RECT rc;
-					HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)data->hContact, 0);
+					HMENU hMenu = Menu_BuildContactMenu(data->hContact);
 					GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 					TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwnd, NULL);
 					DestroyMenu(hMenu);
@@ -838,31 +840,19 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						case ID_LOGOPTIONS_OPTIONS:
 						{
 							OptShowPage = 0;
-							OPENOPTIONSDIALOG ood;
-							ood.cbSize = sizeof(ood);
-							ood.pszGroup = 0;
-							ood.pszPage = "Newstory";
-							CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+							g_plugin.openOptions(nullptr, L"Newstory");
 							break;
 						}
 						case ID_LOGOPTIONS_TEMPLATES:
 						{
 							OptShowPage = 1;
-							OPENOPTIONSDIALOG ood;
-							ood.cbSize = sizeof(ood);
-							ood.pszGroup = 0;
-							ood.pszPage = "Newstory";
-							CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+							g_plugin.openOptions(nullptr, L"Newstory");
 							break;
 						}
 						case ID_LOGOPTIONS_PASSWORDS:
 						{
 							OptShowPage = 2;
-							OPENOPTIONSDIALOG ood;
-							ood.cbSize = sizeof(ood);
-							ood.pszGroup = 0;
-							ood.pszPage = "Newstory";
-							CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+							g_plugin.openOptions(nullptr, L"Newstory");
 							break;
 						}
 					}
@@ -1043,15 +1033,15 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int svcShowNewstory(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd = (HWND)WindowList_Find(hNewstoryWindows, (HANDLE)wParam);
+	HWND hwnd = (HWND)WindowList_Find(hNewstoryWindows, (MCONTACT)wParam);
 	if (hwnd && IsWindow(hwnd))
 	{
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 		SetFocus(hwnd);
 	} else
-	if (AskPassword((HANDLE)wParam))
+	if (AskPassword((MCONTACT)wParam))
 	{
-		HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, wParam);
+		HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, wParam);
 		ShowWindow(hwnd, SW_SHOWNORMAL);
 	}
 	return 0;
@@ -1067,7 +1057,7 @@ int svcShowSystemNewstory(WPARAM wParam, LPARAM lParam)
 	} else
 	if (AskPassword(0))
 	{
-		HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, 0);
+		HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, 0);
 		ShowWindow(hwnd, SW_SHOWNORMAL);
 	}
 	return 0;

@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -12,7 +12,7 @@ void InitNewstoryControl()
 	wndclass.lpfnWndProc = NewstoryListWndProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = sizeof(void *);
-	wndclass.hInstance = hInst;
+	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hIcon = NULL;
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = NULL;
@@ -122,7 +122,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case WM_USER:
 		{
-			data->items.addHistory((HANDLE)wParam);
+			data->items.addHistory((MCONTACT)wParam);
 			RecalcScrollBar(hwnd, data);
 			data->scrollTopItem = data->items.getCount();
 			FixScrollPosition(hwnd, data);
@@ -807,7 +807,7 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 			}
 
 			TCHAR *text = TplFormatString(tpl, item->hContact, item);
-			data->hwndEditBox = CreateWindow(_T("EDIT"), text, WS_CHILD|WS_BORDER|ES_READONLY|ES_MULTILINE|ES_AUTOVSCROLL, 0, top, rc.right-rc.left, itemHeight, hwnd, NULL, hInst, NULL);
+			data->hwndEditBox = CreateWindow(_T("EDIT"), text, WS_CHILD|WS_BORDER|ES_READONLY|ES_MULTILINE|ES_AUTOVSCROLL, 0, top, rc.right-rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
 			OldEditWndProc = (WNDPROC)SetWindowLong(data->hwndEditBox, GWL_WNDPROC, (LONG)HistoryEditWndProc);
 			SendMessage(data->hwndEditBox, WM_SETFONT, (WPARAM)fonts[fontid].hfnt, 0);
 			SendMessage(data->hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);

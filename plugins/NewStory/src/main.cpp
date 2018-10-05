@@ -17,7 +17,8 @@ CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfoEx = {
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -42,36 +43,33 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHIST
 
 int evtModulesLoaded(WPARAM, LPARAM)
 {
-	InitIcons(icons, "plugins\\newstory_icons.dll", iconCount);
+	InitIcons("icons\\newstory_icons.dll", 0);
 	InitFonts();
 	InitNewstoryControl();
 	InitHistory();
 	InitOptions();
 	LoadTemplates();
 
-	CLISTMENUITEM mi;
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
-	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-	mi.pszName = "User Newstory";
-	mi.popupPosition = 1999990000;
-	mi.hIcon = icons[ICO_NEWSTORY].hIcon;
-	CallService(MS_CLIST_ADDCONTACTMENUITEM, (WPARAM)0, (LPARAM)&mi);
+	CMenuItem mi(&g_plugin);
+	mi.flags = CMIF_UNICODE;
 
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
+	mi.name.w = L"User Newstory";
+	mi.position = 1999990000;
+	mi.hIcon = GetIcon(ICO_NEWSTORY);
+	Menu_AddContactMenuItem(&mi);
+
 	mi.pszService = "Newstory/System";
-	mi.pszName = "System Newstory";
-	mi.popupPosition = 1999990000;
-	mi.hIcon = icons[ICO_NEWSTORY].hIcon;
-	CallService(MS_CLIST_ADDMAINMENUITEM, (WPARAM)0, (LPARAM)&mi);
+	mi.name.w = L"System Newstory";
+	mi.position = 1999990000;
+	mi.hIcon = GetIcon(ICO_NEWSTORY);
+	Menu_AddMainMenuItem(&mi);
 
 	return 0;
 }
 
 int CMPlugin::Load()
 {
-
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, svcShowNewstory);
 	CreateServiceFunction("Newstory/System", svcShowSystemNewstory);
 

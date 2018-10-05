@@ -2,83 +2,67 @@
 
 struct PasswordData
 {
-	HANDLE hContact;
+	MCONTACT hContact;
 	int attempt;
 };
 
-bool CheckPassword(HANDLE hContact, char *password)
+bool CheckPassword(MCONTACT hContact, char *password)
 {
-	md5_state_t ms;
-	md5_byte_t digest[16];
-	md5_init(&ms);
-	md5_append(&ms, (const unsigned char *)password, lstrlenA(password));
-	md5_finish(&ms, digest);
+	mir_md5_state_t ms;
+	BYTE digest[16];
+	mir_md5_init(&ms);
+	mir_md5_append(&ms, (const unsigned char *)password, lstrlenA(password));
+	mir_md5_finish(&ms, digest);
 
 	DBVARIANT dbv;
-	DBCONTACTGETSETTING dbcgs;
-	dbcgs.szModule = MODULENAME;
-	dbcgs.szSetting = "password";
-	dbcgs.pValue = &dbv;
-	CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
-	if (dbv.type != DBVT_BLOB)
-	{
-		CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+	db_get(hContact, MODULENAME, "password", &dbv);
+	if (dbv.type != DBVT_BLOB) {
+		db_free(&dbv);
 		return true;
-	} else
-	{
-		if (dbv.cpbVal != 16)
-		{
-			CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+	}
+	else {
+		if (dbv.cpbVal != 16) {
+			db_free(&dbv);
 			return false;
 		}
-		for (int i = 0; i < 16; i++)
-			if (dbv.pbVal[i] != digest[i])
-			{
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+		for (int i = 0; i < 16; i++) {
+			if (dbv.pbVal[i] != digest[i]) {
+				db_free(&dbv);
 				return false;
 			}
+		}
 	
-		CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+		db_free(&dbv);
 		return true;
 	}
 }
 
-void SetPassword(HANDLE hContact, char *password)
+void SetPassword(MCONTACT hContact, char *password)
 {
-	if (!password || !*password)
-	{
-		DBCONTACTGETSETTING dbcgs;
-		dbcgs.szModule = MODULENAME;
-		dbcgs.szSetting = "password";
-		CallService(MS_DB_CONTACT_DELETESETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
+	if (!password || !*password) {
+		db_unset(hContact, MODULENAME, "password");
 		return;
 	}
 
-	md5_state_t ms;
-	md5_byte_t digest[16];
-	md5_init(&ms);
-	md5_append(&ms, (const unsigned char *)password, lstrlenA(password));
-	md5_finish(&ms, digest);
+	mir_md5_state_t ms;
+	BYTE digest[16];
+	mir_md5_init(&ms);
+	mir_md5_append(&ms, (const unsigned char *)password, lstrlenA(password));
+	mir_md5_finish(&ms, digest);
 
-	DBCONTACTWRITESETTING dbcws;
-	dbcws.szModule = MODULENAME;
-	dbcws.szSetting = "password";
-	dbcws.value.type = DBVT_BLOB;
-	dbcws.value.cpbVal = 16;
-	dbcws.value.pbVal = (PBYTE)digest;
-	CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&dbcws);
+	db_set_blob(hContact, MODULENAME, "password", (PBYTE)digest, 16);
 }
 
 int CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PasswordData *data = (PasswordData *)GetWindowLong(hwnd, GWL_USERDATA);
-	switch (msg)
+	switch (msg) 
 	{
 		case WM_INITDIALOG:
 		{
 			data = new PasswordData;
 			data->attempt = 0;
-			data->hContact = (HANDLE)lParam;
+			data->hContact = (MCONTACT)lParam;
 			SetWindowLong(hwnd, GWL_USERDATA, (LONG)data);
 
 			RECT rc, rcMe;
@@ -148,22 +132,17 @@ int CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-bool AskPassword(HANDLE hContact)
+bool AskPassword(MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	DBCONTACTGETSETTING dbcgs;
-	dbcgs.szModule = MODULENAME;
-	dbcgs.szSetting = "password";
-	dbcgs.pValue = &dbv;
-	CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
-	if (dbv.type != DBVT_BLOB)
-	{
-		CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+	db_get(hContact, MODULENAME, "password", &dbv);
+	if (dbv.type != DBVT_BLOB) {
+		db_free(&dbv);
 		return true;
 	}
-	CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+	db_free(&dbv);
 	
-	if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PASSWORD), 0, PasswordDlgProc, (LPARAM)hContact))
+	if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PASSWORD), 0, PasswordDlgProc, (LPARAM)hContact))
 		return true;
 	return false;
 }
@@ -171,12 +150,12 @@ bool AskPassword(HANDLE hContact)
 
 int CALLBACK ChangePasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)GetWindowLong(hwnd, GWL_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLong(hwnd, GWL_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
-			hContact = (HANDLE)lParam;
+			hContact = (MCONTACT)lParam;
 			SetWindowLong(hwnd, GWL_USERDATA, (LONG)hContact);
 
 //			RECT rc, rcMe;
@@ -254,5 +233,5 @@ int CALLBACK ChangePasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 void ChangePassword(HWND hwnd, HANDLE hContact)
 {
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHANGEPASSWORD), hwnd, ChangePasswordDlgProc, (LPARAM)hContact);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHANGEPASSWORD), hwnd, ChangePasswordDlgProc, (LPARAM)hContact);
 }

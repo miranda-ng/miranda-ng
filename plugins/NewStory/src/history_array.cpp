@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 void CacheThreadFunc(void *arg);
 
@@ -8,23 +8,21 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 	if (mode == ELM_NOTHING)
 		return true;
 
-	if ((mode == ELM_INFO) && (!dbeOk || !dbe.cbSize))
+	if ((mode == ELM_INFO) && !dbeOk)
 	{
 		dbeOk = true;
-		dbe.cbSize = sizeof(dbe);
 		dbe.cbBlob = 0;
 		dbe.pBlob = 0;
-		CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
+		db_event_get(hEvent, &dbe);
 		return true;
 	}
 
 	if ((mode == ELM_DATA) && (!dbeOk || !dbe.cbBlob))
 	{
 		dbeOk = true;
-		dbe.cbSize = sizeof(dbe);
-		dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
+		dbe.cbBlob = db_event_getBlobSize(hEvent);
 		dbe.pBlob = (PBYTE)calloc(dbe.cbBlob+1, 1);
-		CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
+		db_event_get(hEvent, &dbe);
 
 		int aLength = 0;
 		atext = 0;
@@ -170,27 +168,27 @@ void HistoryArray::clear()
 	preIndex = 0;
 }
 
-bool HistoryArray::addHistory(HANDLE hContact, EventLoadMode mode)
+bool HistoryArray::addHistory(MCONTACT hContact, EventLoadMode mode)
 {
-	int count = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)hContact, 0);
+	int count = db_event_count(hContact);
 	allocateBlock(count);
 
 	int i = 0;
-	HANDLE hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+	MEVENT hEvent = db_event_first(hContact);
 	while (hEvent)
 	{
 		tail->items[i].hContact = hContact;
 		tail->items[i].hEvent = hEvent;
 
 		++i;
-		hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hEvent, 0);
+		hEvent = db_event_next(hEvent, 0);
 	}
 	char buf[666];
 
 	return true;
 }
 
-bool HistoryArray::addEvent(HANDLE hContact, HANDLE hEvent, EventLoadMode mode)
+bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, EventLoadMode mode)
 {
 	allocateBlock(1);
 	tail->items[0].hContact = hContact;

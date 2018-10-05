@@ -194,8 +194,8 @@ public:
 	~HistoryArray();
 
 	void clear();
-	bool addHistory(HANDLE hContact, EventLoadMode mode = ELM_NOTHING);
-	bool addEvent(HANDLE hContact, HANDLE hEvent, EventLoadMode mode = ELM_NOTHING);
+	bool addHistory(MCONTACT hContact, EventLoadMode mode = ELM_NOTHING);
+	bool addEvent(MCONTACT hContact, MEVENT hEvent, EventLoadMode mode = ELM_NOTHING);
 
 //	bool preloadEvents(int count = 10);
 

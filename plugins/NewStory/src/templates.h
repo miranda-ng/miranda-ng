@@ -68,8 +68,8 @@ extern TemplateInfo templates[TPL_COUNT];
 void LoadTemplates();
 void SaveTemplates();
 
-TCHAR *TplFormatString(int tpl, HANDLE hContact, HistoryArray::ItemData *args);
-TCHAR *TplFormatStringEx(int tpl, TCHAR *sztpl, HANDLE hContact, HistoryArray::ItemData *args);
+TCHAR *TplFormatString(int tpl, MCONTACT hContact, HistoryArray::ItemData *args);
+TCHAR *TplFormatStringEx(int tpl, TCHAR *sztpl, MCONTACT hContact, HistoryArray::ItemData *args);
 
 BOOL CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

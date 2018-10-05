@@ -29,7 +29,7 @@ enum
 	UM_JUMP2TIME
 };
 
-extern HANDLE hNewstoryWindows;
+extern MWindowList hNewstoryWindows;
 
 void InitHistory();
 void FreeHistory();
