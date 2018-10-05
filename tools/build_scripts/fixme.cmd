@@ -12,7 +12,7 @@ if "%1" == "" (
   pushd "%ProfileDir%"
 
   for /D %%i in (*) do (
-    if exist "%ProfileDir%\%%i\%%i.dat" (
+    if exist ".\%%i\%%i.dat" (
       set ProfileName=%%i
     )
   )
