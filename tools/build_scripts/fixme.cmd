@@ -1,12 +1,20 @@
-@echo off
+@echo on
+
+set ProfileDir=%~dp0Profiles
+
+for /F "tokens=1,2 delims== " %%a in ('findstr "ProfileDir=" mirandaboot.ini') do (
+  set ProfileDir=%%b
+)
+
+echo Using profile directory %ProfileDir%
 
 if "%1" == "" (
   set /A ProfileCount=0
 
-  pushd %~dp0Profiles
+  pushd %ProfileDir%
 
   for /D %%i in (*) do (
-    if exist "%~dp0Profiles\%%i\%%i.dat" (
+    if exist "%ProfileDir%\%%i\%%i.dat" (
       set ProfileName=%%i
       set /A ProfileCount=%ProfileCount%+1
     )
@@ -15,7 +23,7 @@ if "%1" == "" (
   popd
 
 ) else (
-  if not exist "%~dp0Profiles\%1\%1.dat" (
+  if not exist "%ProfileDir%\%1\%1.dat" (
     echo Wrong profile name specified: %1
     goto :eof
   )
@@ -25,7 +33,7 @@ if "%1" == "" (
 
 echo Backing up %ProfileName%...
 
-set FullProfileName=.\Profiles\%ProfileName%\%ProfileName%.dat
+set FullProfileName=%ProfileDir%\%ProfileName%\%ProfileName%.dat
 set TmpFileName=%TEMP%\%ProfileName%.tmp
 
 del "%TmpFileName%" > nul
