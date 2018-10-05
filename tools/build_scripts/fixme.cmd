@@ -12,12 +12,15 @@ if "%1" == "" (
   pushd "%ProfileDir%"
 
   for /D %%i in (*) do (
-    if exist ".\%%i\%%i.dat" (
-      set ProfileName=%%i
-    )
+    if exist "%%i\%%i.dat" set ProfileName=%%i
   )
 
   popd
+
+  if "%ProfileName%" == "" (
+     echo No default profile found, exiting
+     goto :eof
+  )
 
 ) else (
   if not exist "%ProfileDir%\%1\%1.dat" (
