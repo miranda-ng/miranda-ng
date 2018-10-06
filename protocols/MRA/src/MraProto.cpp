@@ -378,7 +378,7 @@ int CMraProto::SendMsg(MCONTACT hContact, int, const char *lpszMessage)
 	DWORD dwFlags = 0;
 	CMStringW wszMessage(ptrW(mir_utf8decodeW(lpszMessage)));
 	if (wszMessage.IsEmpty()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("Cant allocate buffer for convert to unicode."));
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("Can't allocate buffer for convert to Unicode."));
 		return 0;
 	}
 
