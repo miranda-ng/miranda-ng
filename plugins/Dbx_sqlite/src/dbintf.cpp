@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
 CDbxSQLite::CDbxSQLite(sqlite3 *database)
-	: m_db(database)
+	: m_db(database),
+	m_safetyMode(true)
 {
 	hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
 	hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
@@ -34,7 +35,6 @@ CDbxSQLite::~CDbxSQLite()
 	}
 }
 
-
 int CDbxSQLite::Create(const wchar_t *profile)
 {
 	sqlite3 *database = nullptr;
@@ -43,12 +43,13 @@ int CDbxSQLite::Create(const wchar_t *profile)
 	if (rc != SQLITE_OK)
 		return 1;
 
-	sqlite3_exec(database, "create table contacts (id integer not null primary key);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table events (id integer not null primary key, module varchar(255) not null, timestamp integer not null, type integer not null, flags integer not null, size integer not null, blob any, serverid varchar(64));", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create index idx_events on events(module, serverid);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table contact_events (contactid integer not null, eventid integer not null, timestamp integer not null, primary key(contactid, eventid)) without rowid;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table settings (contactid integer not null, module varchar(255) not null, setting varchar(255) not null, type integer not null, value any, primary key(contactid, module, setting)) without rowid;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create index idx_settings on settings(contactid, module, setting);", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table contacts (id integer not null primary key autoincrement);", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table events (id integer not null primary key autoincrement, timestamp integer not null, type integer not null, flags integer not null, size integer not null, data blob, module varchar(255) not null, server_id varchar(64));", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create index idx_events_module_serverid on events(module, server_id);", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table contact_events (contact_id integer not null, event_id integer not null, timestamp integer not null, primary key(contact_id, event_id)) without rowid;", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create index idx_contact_events_eventid on contact_events(event_id);", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table settings (contact_id integer not null, module varchar(255) not null, setting varchar(255) not null, type integer not null, value any, primary key(contact_id, module, setting)) without rowid;", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create index idx_settings_module on settings(module);", nullptr, nullptr, nullptr);
 
 	sqlite3_close(database);
 
@@ -143,6 +144,7 @@ BOOL CDbxSQLite::IsRelational()
 	return TRUE;
 }
 
-void CDbxSQLite::SetCacheSafetyMode(BOOL)
+void CDbxSQLite::SetCacheSafetyMode(BOOL value)
 {
+	m_safetyMode = value != FALSE;
 }

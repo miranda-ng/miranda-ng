@@ -30,6 +30,8 @@ private:
 
 	DBCachedContact m_system;
 
+	bool m_safetyMode;
+
 	CDbxSQLite(sqlite3 *database);
 
 	void InitContacts();

@@ -20,12 +20,10 @@ void CDbxSQLite::InitContacts()
 	for (size_t i = 0; i < SQL_CTC_STMT_NUM; i++)
 		sqlite3_prepare_v3(m_db, ctc_stmts[i], -1, SQLITE_PREPARE_PERSISTENT, &ctc_stmts_prep[i], nullptr);
 
-	// add global contact
-	//m_cache->AddContactToCache(0);
-
 	sqlite3_stmt *stmt = nullptr;
-	sqlite3_prepare_v2(m_db, "select contact_events.contactid, count(eventid) from contact_events join contacts on contacts.id = contact_events.contactid group by contact_events.contactid;", -1, &stmt, nullptr);
-	while (sqlite3_step(stmt) == SQLITE_ROW) {
+	sqlite3_prepare_v2(m_db, "select contacts.id, count(event_id) from contacts left join contact_events on contact_events.contact_id = contacts.id group by contacts.id;", -1, &stmt, nullptr);
+	int rc = 0;
+	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
 		MCONTACT hContact = sqlite3_column_int64(stmt, 0);
 		DBCachedContact *cc = (hContact)
 			? m_cache->AddContactToCache(hContact)
@@ -45,6 +43,7 @@ void CDbxSQLite::InitContacts()
 		cc->nDefault = (0 != GetContactSetting(cc->contactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
 		cc->parentID = (0 != GetContactSetting(cc->contactID, META_PROTO, "ParentMeta", &dbv)) ? 0 : dbv.dVal;
 	}
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	sqlite3_finalize(stmt);
 }
 
@@ -58,7 +57,8 @@ LONG CDbxSQLite::GetContactCount()
 {
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = ctc_stmts_prep[SQL_CTC_STMT_COUNT];
-	sqlite3_step(stmt);
+	int rc = sqlite3_step(stmt);
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	int count = sqlite3_column_int(stmt, 0);
 	sqlite3_reset(stmt);
 	return count;
@@ -71,6 +71,7 @@ MCONTACT CDbxSQLite::AddContact()
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = ctc_stmts_prep[SQL_CTC_STMT_ADD];
 		int rc = sqlite3_step(stmt);
+		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return INVALID_CONTACT_ID;
@@ -96,6 +97,7 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 		sqlite3_stmt *stmt = ctc_stmts_prep[SQL_CTC_STMT_DELETE];
 		sqlite3_bind_int64(stmt, 1, hContact);
 		int rc = sqlite3_step(stmt);
+		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return 1;

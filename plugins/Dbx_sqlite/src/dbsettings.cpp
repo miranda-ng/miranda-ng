@@ -11,10 +11,10 @@ enum {
 
 static char *settings_stmts[SQL_SET_STMT_NUM] = {
 	"select distinct module from settings;",
-	"select type, value from settings where contactid = ? and module = ? and setting = ? limit 1;",
-	"replace into settings(contactid, module, setting, type, value) values (?, ?, ?, ?, ?);",
-	"delete from settings where contactid = ? and module = ? and setting = ?;",
-	"select setting from settings where contactid = ? and module = ?;"
+	"select type, value from settings where contact_id = ? and module = ? and setting = ? limit 1;",
+	"replace into settings(contact_id, module, setting, type, value) values (?, ?, ?, ?, ?);",
+	"delete from settings where contact_id = ? and module = ? and setting = ?;",
+	"select setting from settings where contact_id = ? and module = ?;"
 };
 
 static sqlite3_stmt *settings_stmts_prep[SQL_SET_STMT_NUM] = { 0 };
@@ -23,43 +23,6 @@ void CDbxSQLite::InitSettings()
 {
 	for (size_t i = 0; i < SQL_SET_STMT_NUM; i++)
 		sqlite3_prepare_v3(m_db, settings_stmts[i], -1, SQLITE_PREPARE_PERSISTENT, &settings_stmts_prep[i], nullptr);
-	/*DBVARIANT dbv = {};
-	sqlite3_stmt *stmt = nullptr;
-	sqlite3_prepare_v2(m_db, "select contactid, module, setting, type, value from settings", -1, &stmt, nullptr);
-	while (sqlite3_step(stmt) == SQLITE_ROW) {
-		MCONTACT hContact = sqlite3_column_int64(stmt, 0);
-		const char *module = (const char*)sqlite3_column_text(stmt, 1);
-		const char *setting = (const char*)sqlite3_column_text(stmt, 2);
-		dbv.type = sqlite3_column_int(stmt, 3);
-		switch (dbv.type) {
-		case DBVT_BYTE:
-			dbv.bVal = sqlite3_column_int(stmt, 4);
-			break;
-		case DBVT_WORD:
-			dbv.wVal = sqlite3_column_int(stmt, 4);
-			break;
-		case DBVT_DWORD:
-			dbv.dVal = sqlite3_column_int64(stmt, 4);
-			break;
-		case DBVT_ASCIIZ:
-		{
-			char *utf8 = mir_strdup((const char*)sqlite3_column_text(stmt, 4));
-			dbv.pszVal = mir_utf8decode(utf8, nullptr);
-			break;
-		}
-		case DBVT_UTF8:
-			dbv.pszVal = mir_strdup((const char*)sqlite3_column_text(stmt, 4));
-			break;
-		case DBVT_BLOB:
-			continue;
-		}
-		char *cachedSettingName = m_cache->GetCachedSetting(module, setting, mir_strlen(module), mir_strlen(setting));
-		DBVARIANT *cachedValue = m_cache->GetCachedValuePtr(hContact, cachedSettingName, 1);
-		m_cache->SetCachedVariant(&dbv, cachedValue);
-		if(dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-			mir_free(dbv.pszVal);
-	}
-	sqlite3_finalize(stmt);*/
 }
 
 void CDbxSQLite::UninitSettings()
@@ -73,10 +36,12 @@ BOOL CDbxSQLite::EnumModuleNames(DBMODULEENUMPROC pFunc, void *param)
 	LIST<char> modules(100);
 	{
 		sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_ENUM];
-		while (sqlite3_step(stmt) == SQLITE_ROW) {
+		int rc = 0;
+		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
 			const char *value = (const char*)sqlite3_column_text(stmt, 0);
 			modules.insert(mir_strdup(value));
 		}
+		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
 	}
 
@@ -153,6 +118,7 @@ LBL_Seek:
 	sqlite3_bind_text(stmt, 2, szModule, mir_strlen(szModule), nullptr);
 	sqlite3_bind_text(stmt, 3, szSetting, mir_strlen(szSetting), nullptr);
 	int rc = sqlite3_step(stmt);
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
 		sqlite3_reset(stmt);
 		if (rc == SQLITE_DONE && cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
@@ -307,6 +273,7 @@ BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *d
 		break;
 	}
 	int rc = sqlite3_step(stmt);
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	sqlite3_reset(stmt);
 	if (rc != SQLITE_DONE)
 		return 1;
@@ -338,6 +305,7 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 		sqlite3_bind_text(stmt, 2, szModule, mir_strlen(szModule), nullptr);
 		sqlite3_bind_text(stmt, 3, szSetting, mir_strlen(szSetting), nullptr);
 		int rc = sqlite3_step(stmt);
+		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return 1;
@@ -371,10 +339,12 @@ BOOL CDbxSQLite::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnu
 		sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_ENUMMODULE];
 		sqlite3_bind_int64(stmt, 1, hContact);
 		sqlite3_bind_text(stmt, 2, szModule, mir_strlen(szModule), nullptr);
-		while (sqlite3_step(stmt) == SQLITE_ROW) {
+		int rc = 0;
+		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
 			const char *value = (const char*)sqlite3_column_text(stmt, 0);
 			settings.insert(mir_strdup(value));
 		}
+		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
 	}
 

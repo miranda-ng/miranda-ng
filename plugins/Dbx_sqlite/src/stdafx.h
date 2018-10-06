@@ -7,6 +7,7 @@
 
 #include <newpluginapi.h>
 #include <win2k.h>
+#include <assert.h>
 
 #include <m_core.h>
 #include <m_system.h>
