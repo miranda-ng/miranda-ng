@@ -79,6 +79,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 	CMStringA mids;
 	int msgid, uid, flags, platform;
 	MCONTACT hContact;
+	UINT datetime = 0;
+	CMStringW wszMsg;
 
 	for (auto &it : jnUpdates) {
 		const JSONNode &jnChild = it.as_array();
@@ -90,6 +92,12 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			flags = jnChild[2].as_int();
 			uid = jnChild[3].as_int();
 			hContact = FindUser(uid);
+
+			if (hContact != 0 && (flags & VKFLAG_MSGDELETED)) {
+				if (!mids.IsEmpty())
+					mids.AppendChar(',');
+				mids.AppendFormat("%d", msgid);
+			}
 
 			if (hContact != 0 && (flags & VKFLAG_MSGUNREAD) && !IsMessageExist(msgid, vkIN)) {
 				setDword(hContact, "LastMsgReadTime", time(0));
@@ -103,6 +111,43 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 					SetInvisible(hContact);
 				if (m_vkOptions.bSyncReadMessageStatusFromServer)
 					MarkDialogAsRead(hContact);
+			}
+			break;
+
+		case VKPOLL_MSG_ADDFLAGS:
+			if (jnChild.size() < 4)
+				break;
+			msgid = jnChild[1].as_int();
+			flags = jnChild[2].as_int();
+			uid = jnChild[3].as_int();
+			hContact = FindUser(uid);
+
+			if (hContact != 0 && (flags & VKFLAG_MSGDELETED) && IsMessageExist(msgid, vkALL) && GetMessageFromDb(msgid, datetime, wszMsg)) {
+				wchar_t ttime[64];
+				time_t delete_time = time(0);
+				_locale_t locale = _create_locale(LC_ALL, "");
+				_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&delete_time), locale);
+				_free_locale(locale);
+
+				wszMsg = SetBBCString(
+					CMStringW(FORMAT, TranslateT("This message has been deleted by sender in %s:\n"), ttime),
+						m_vkOptions.BBCForAttachments(), vkbbcB) +
+					wszMsg;
+
+				PROTORECVEVENT recv = {};
+				if (uid == m_myUserId)
+					recv.flags |= PREF_SENT;
+				else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - datetime < 60 * m_vkOptions.iInvisibleInterval)
+					SetInvisible(hContact);
+
+				char szMid[40];
+				_itoa(msgid, szMid, 10);
+
+				T2Utf pszMsg(wszMsg);
+				recv.timestamp = datetime;
+				recv.szMessage = pszMsg;
+				recv.szMsgId = szMid;
+				ProtoChainRecvMsg(hContact, &recv);
 			}
 			break;
 
