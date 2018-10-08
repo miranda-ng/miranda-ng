@@ -187,7 +187,7 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 			for (size_t i = 0; i < portion; i++) {
 				MEVENT &hDbEvent = lstEvents[i];
 				MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-				int rc = mdbx_get(txnro, m_dbEvents, &key, &data);
+				int rc = mdbx_get(trnlck, m_dbEvents, &key, &data);
 				if (rc != MDBX_SUCCESS) {
 					if (rc != MDBX_NOTFOUND)
 						assert(rc == MDBX_SUCCESS);
