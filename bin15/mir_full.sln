@@ -453,6 +453,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_dump", "..\tools\mdbx_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_load", "..\tools\mdbx_load\mdbx_load.vcxproj", "{63BA600E-86BF-4502-9EF0-8C090292E161}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_sqlite", "..\plugins\Dbx_sqlite\dbx_sqlite.vcxproj", "{B3494FED-FB8C-43F4-B341-F26A3460203B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2035,6 +2037,14 @@ Global
 		{63BA600E-86BF-4502-9EF0-8C090292E161}.Release|Win32.Build.0 = Release|Win32
 		{63BA600E-86BF-4502-9EF0-8C090292E161}.Release|x64.ActiveCfg = Release|x64
 		{63BA600E-86BF-4502-9EF0-8C090292E161}.Release|x64.Build.0 = Release|x64
+		{B3494FED-FB8C-43F4-B341-F26A3460203B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B3494FED-FB8C-43F4-B341-F26A3460203B}.Debug|Win32.Build.0 = Debug|Win32
+		{B3494FED-FB8C-43F4-B341-F26A3460203B}.Debug|x64.ActiveCfg = Debug|x64
+		{B3494FED-FB8C-43F4-B341-F26A3460203B}.Debug|x64.Build.0 = Debug|x64
+		{B3494FED-FB8C-43F4-B341-F26A3460203B}.Release|Win32.ActiveCfg = Release|Win32
+		{B3494FED-FB8C-43F4-B341-F26A3460203B}.Release|Win32.Build.0 = Release|Win32
+		{B3494FED-FB8C-43F4-B341-F26A3460203B}.Release|x64.ActiveCfg = Release|x64
+		{B3494FED-FB8C-43F4-B341-F26A3460203B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2163,6 +2173,7 @@ Global
 		{6D19209B-ECE7-4B9C-941C-0AA2B484F199} = {37EDFBEA-8446-4BF3-9F2E-655908CDFB62}
 		{EE383404-7976-4E87-BD13-A9B7B47C0C10} = {F13387B0-1C74-48EC-9AEC-65E3B9DE29E4}
 		{63BA600E-86BF-4502-9EF0-8C090292E161} = {F13387B0-1C74-48EC-9AEC-65E3B9DE29E4}
+		{B3494FED-FB8C-43F4-B341-F26A3460203B} = {F13387B0-1C74-48EC-9AEC-65E3B9DE29E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}

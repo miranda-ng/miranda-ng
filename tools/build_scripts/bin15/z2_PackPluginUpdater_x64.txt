@@ -43,6 +43,7 @@ Plugins\cyrtranslit.dll
 Plugins\dbeditorpp.dll
 Plugins\dbx_mmap.dll
 Plugins\dbx_mdbx.dll
+Plugins\dbx_sqlite.dll
 Plugins\db_autobackups.dll
 Plugins\discord.dll
 Plugins\dummy.dll
