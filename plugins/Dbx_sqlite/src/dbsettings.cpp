@@ -13,7 +13,7 @@ static char *settings_stmts[SQL_SET_STMT_NUM] = {
 	"select distinct module from settings;",
 	"select type, value from settings where contact_id = ? and module = ? and setting = ? limit 1;",
 	"replace into settings(contact_id, module, setting, type, value) values (?, ?, ?, ?, ?);",
-	"delete from settings where contact_id = ? and module = ? and setting = ?;",
+	"delete from settings where contact_id = ? and module = ? and setting = ?;select changes()",
 	"select setting from settings where contact_id = ? and module = ?;"
 };
 
@@ -306,14 +306,15 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 		sqlite3_bind_text(stmt, 3, szSetting, mir_strlen(szSetting), nullptr);
 		int rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+		auto deleted = sqlite3_column_int64(stmt, 0);
 		sqlite3_reset(stmt);
-		if (rc != SQLITE_DONE)
+		if (rc != SQLITE_ROW || deleted == 0)
 			return 1;
 	}
 	m_cache->GetCachedValuePtr(hContact, szCachedSettingName, -1);
 
 	// notify
-	DBCONTACTWRITESETTING dbcws = { };
+	DBCONTACTWRITESETTING dbcws = { 0 };
 	dbcws.szModule = szModule;
 	dbcws.szSetting = szSetting;
 	dbcws.value.type = DBVT_DELETED;
