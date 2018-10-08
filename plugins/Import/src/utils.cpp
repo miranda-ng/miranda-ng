@@ -48,14 +48,6 @@ int CreateGroup(const wchar_t *group, MCONTACT hContact)
 	return 1;
 }
 
-static bool IsEqualEvent(const DBEVENTINFO &ev1, const DBEVENTINFO &ev2)
-{
-	return (ev1.timestamp == ev2.timestamp &&
-		ev1.eventType == ev2.eventType &&
-		ev1.cbBlob == ev2.cbBlob &&
-		(ev1.flags & DBEF_SENT) == (ev2.flags & DBEF_SENT));
-}
-
 // Returns TRUE if the event already exist in the database
 bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 {
@@ -109,7 +101,7 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 		db_event_get(hPreviousDbEvent, &dbeiExisting);
 
-		if (IsEqualEvent(dbei, dbeiExisting))
+		if (dbei == dbeiExisting)
 			return TRUE;
 
 		// find event with another timestamp
@@ -146,7 +138,7 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			}
 
 			// Compare event with import candidate
-			if (IsEqualEvent(dbei, dbeiExisting)) {
+			if (dbei == dbeiExisting) {
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
@@ -171,7 +163,7 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			}
 
 			// Compare event with import candidate
-			if (IsEqualEvent(dbei, dbeiExisting)) {
+			if (dbei == dbeiExisting) {
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;

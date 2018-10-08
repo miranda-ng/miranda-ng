@@ -139,7 +139,7 @@ EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC
 
 #define DBVTF_VARIABLELENGTH  0x80
 
-typedef struct
+struct DBVARIANT
 {
 	BYTE type;
 	union {
@@ -158,7 +158,7 @@ typedef struct
 			BYTE *pbVal;
 		};
 	};
-} DBVARIANT;
+};
 
 #define DBEF_SENT       2  // this event was sent by the user. If not set this event was received.
 #define DBEF_READ       4  // event has been read by the user. It does not need to be processed any more except for history.
@@ -166,12 +166,12 @@ typedef struct
 #define DBEF_UTF       16  // event contains a text in utf-8
 #define DBEF_ENCRYPTED 32  // event is encrypted (never reported outside a driver)
 
-typedef struct
+struct DBEVENTINFO
 {
 	char *szModule;         // pointer to name of the module that 'owns' this event
 	DWORD timestamp;        // seconds since 00:00, 01/01/1970. Gives us times until 2106 
-	                        // unless you use the standard C library which is
-	                        // signed and can only do until 2038. In GMT.
+									// unless you use the standard C library which is
+									// signed and can only do until 2038. In GMT.
 	DWORD flags;            // the omnipresent flags
 	WORD  eventType;        // module-defined event type field
 	DWORD cbBlob;           // size of pBlob in bytes
@@ -188,8 +188,12 @@ typedef struct
 		return (flags & DBEF_UTF) ? mir_utf8decodeW(str) : mir_a2u(str);
 	}
 
-#endif
-} DBEVENTINFO;
+	bool __forceinline operator==(const DBEVENTINFO &e)
+	{
+		return (timestamp == e.timestamp && eventType == e.eventType && cbBlob == e.cbBlob && (flags & DBEF_SENT) == (e.flags & DBEF_SENT));
+	}
+	#endif
+};
 
 EXTERN_C MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
 
