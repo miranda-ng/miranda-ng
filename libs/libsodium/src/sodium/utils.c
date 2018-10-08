@@ -110,6 +110,8 @@ sodium_memzero(void *const pnt, const size_t len)
     }
 #elif defined(HAVE_EXPLICIT_BZERO)
     explicit_bzero(pnt, len);
+#elif defined(HAVE_EXPLICIT_MEMSET)
+    explicit_memset(pnt, 0, len);
 #elif HAVE_WEAK_SYMBOLS
     memset(pnt, 0, len);
     _sodium_dummy_symbol_to_prevent_memzero_lto(pnt, len);
@@ -695,7 +697,8 @@ sodium_pad(size_t *padded_buflen_p, unsigned char *buf,
     }
     mask = 0U;
     for (i = 0; i < blocksize; i++) {
-        barrier_mask = (unsigned char) (((i ^ xpadlen) - 1U) >> 8);
+        barrier_mask = (unsigned char) (((i ^ xpadlen) - 1U)
+           >> ((sizeof(size_t) - 1) * CHAR_BIT));
         tail[-i] = (tail[-i] & mask) | (0x80 & barrier_mask);
         mask |= barrier_mask;
     }
