@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LAN_DISCOVERY_H
-#define LAN_DISCOVERY_H
+#ifndef C_TOXCORE_TOXCORE_LAN_DISCOVERY_H
+#define C_TOXCORE_TOXCORE_LAN_DISCOVERY_H
 
 #include "DHT.h"
 
@@ -64,11 +64,10 @@ void lan_discovery_kill(DHT *dht);
 bool ip_is_local(IP ip);
 
 /**
- * checks if a given IP isn't routable
+ * Checks if a given IP isn't routable.
  *
- *  return 0 if ip is a LAN ip.
- *  return -1 if it is not.
+ * @return true if ip is a LAN ip, false if it is not.
  */
-int32_t ip_is_lan(IP ip);
+bool ip_is_lan(IP ip);
 
 #endif

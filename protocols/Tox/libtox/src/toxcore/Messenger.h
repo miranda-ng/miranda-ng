@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -22,13 +22,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef MESSENGER_H
-#define MESSENGER_H
+#ifndef C_TOXCORE_TOXCORE_MESSENGER_H
+#define C_TOXCORE_TOXCORE_MESSENGER_H
 
 #include "friend_connection.h"
 #include "friend_requests.h"
 #include "logger.h"
 #include "net_crypto.h"
+#include "state.h"
 
 #define MAX_NAME_LENGTH 128
 /* TODO(irungentoo): this must depend on other variable. */
@@ -50,6 +51,36 @@ typedef enum Message_Type {
     MESSAGE_ACTION
 } Message_Type;
 
+typedef struct Messenger Messenger;
+
+// Returns the size of the data
+typedef uint32_t m_state_size_cb(const Messenger *m);
+
+// Returns the new pointer to data
+typedef uint8_t *m_state_save_cb(const Messenger *m, uint8_t *data);
+
+// Returns if there were any erros during loading
+typedef State_Load_Status m_state_load_cb(Messenger *m, const uint8_t *data, uint32_t length);
+
+typedef enum Messenger_State_Type {
+    MESSENGER_STATE_TYPE_NOSPAMKEYS    = 1,
+    MESSENGER_STATE_TYPE_DHT           = 2,
+    MESSENGER_STATE_TYPE_FRIENDS       = 3,
+    MESSENGER_STATE_TYPE_NAME          = 4,
+    MESSENGER_STATE_TYPE_STATUSMESSAGE = 5,
+    MESSENGER_STATE_TYPE_STATUS        = 6,
+    MESSENGER_STATE_TYPE_TCP_RELAY     = 10,
+    MESSENGER_STATE_TYPE_PATH_NODE     = 11,
+    MESSENGER_STATE_TYPE_END           = 255,
+} Messenger_State_Type;
+
+typedef struct Messenger_State_Plugin {
+    Messenger_State_Type type;
+    m_state_size_cb *size;
+    m_state_save_cb *save;
+    m_state_load_cb *load;
+} Messenger_State_Plugin;
+
 typedef struct Messenger_Options {
     bool ipv6enabled;
     bool udp_disabled;
@@ -63,6 +94,9 @@ typedef struct Messenger_Options {
     logger_cb *log_callback;
     void *log_context;
     void *log_user_data;
+
+    Messenger_State_Plugin *state_plugins;
+    uint8_t state_plugins_length;
 } Messenger_Options;
 
 
@@ -156,8 +190,6 @@ typedef enum Filekind {
 } Filekind;
 
 
-typedef struct Messenger Messenger;
-
 typedef void m_self_connection_status_cb(Messenger *m, unsigned int connection_status, void *user_data);
 typedef void m_friend_status_cb(Messenger *m, uint32_t friend_number, unsigned int status, void *user_data);
 typedef void m_friend_connection_status_cb(Messenger *m, uint32_t friend_number, unsigned int connection_status,
@@ -233,6 +265,7 @@ typedef struct Friend {
 
 struct Messenger {
     Logger *log;
+    Mono_Time *mono_time;
 
     Networking_Core *net;
     Net_Crypto *net_crypto;
@@ -259,7 +292,7 @@ struct Messenger {
 
     time_t lastdump;
 
-    uint8_t has_added_relays; // If the first connection has occurred in do_messenger
+    bool has_added_relays; // If the first connection has occurred in do_messenger
     Node_format loaded_relays[NUM_SAVED_TCP_RELAYS]; // Relays loaded from config
 
     m_friend_message_cb *friend_message;
@@ -738,7 +771,7 @@ typedef enum Messenger_Error {
  *
  *  if error is not NULL it will be set to one of the values in the enum above.
  */
-Messenger *new_messenger(Messenger_Options *options, unsigned int *error);
+Messenger *new_messenger(Mono_Time *mono_time, Messenger_Options *options, unsigned int *error);
 
 /* Run this before closing shop
  * Free all datastructures.
@@ -756,6 +789,14 @@ void do_messenger(Messenger *m, void *userdata);
 uint32_t messenger_run_interval(const Messenger *m);
 
 /* SAVING AND LOADING FUNCTIONS: */
+
+/* Registers a state plugin for saving, loadding, and getting the size of a section of the save
+ *
+ * returns true on success
+ * returns false on error
+ */
+bool m_register_state_plugin(Messenger *m, Messenger_State_Type type, m_state_size_cb size_callback,
+                             m_state_load_cb load_callback, m_state_save_cb save_callback);
 
 /* return size of the messenger data (for saving). */
 uint32_t messenger_size(const Messenger *m);

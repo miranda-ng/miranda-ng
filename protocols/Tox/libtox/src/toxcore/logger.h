@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TOXLOGGER_H
-#define TOXLOGGER_H
+#ifndef C_TOXCORE_TOXCORE_LOGGER_H
+#define C_TOXCORE_TOXCORE_LOGGER_H
 
 #include <stdint.h>
 
@@ -32,6 +32,7 @@
 #define MIN_LOGGER_LEVEL LOGGER_LEVEL_INFO
 #endif
 
+// NOTE: Don't forget to update build system files after modifying the enum.
 typedef enum Logger_Level {
     LOGGER_LEVEL_TRACE,
     LOGGER_LEVEL_DEBUG,
@@ -90,4 +91,4 @@ void logger_write(
 #define LOGGER_WARNING(log, ...) LOGGER_WRITE(log, LOGGER_LEVEL_WARNING, __VA_ARGS__)
 #define LOGGER_ERROR(log, ...)   LOGGER_WRITE(log, LOGGER_LEVEL_ERROR  , __VA_ARGS__)
 
-#endif /* TOXLOGGER_H */
+#endif // C_TOXCORE_TOXCORE_LOGGER_H

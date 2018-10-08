@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -22,8 +22,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TOX_H
-#define TOX_H
+#ifndef C_TOXCORE_TOXCORE_TOX_H
+#define C_TOXCORE_TOXCORE_TOX_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -182,7 +182,7 @@ const VERSION_MINOR                = 2;
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-const VERSION_PATCH                = 6;
+const VERSION_PATCH                = 8;
 
 /**
  * A macro to check at preprocessing time whether the client code is compatible
@@ -2772,5 +2772,5 @@ typedef TOX_CONNECTION Tox_Connection;
 typedef TOX_FILE_CONTROL Tox_File_Control;
 typedef TOX_CONFERENCE_TYPE Tox_Conference_Type;
 
-#endif
+#endif // C_TOXCORE_TOXCORE_TOX_H
 %}

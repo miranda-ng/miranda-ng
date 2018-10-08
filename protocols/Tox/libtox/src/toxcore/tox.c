@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -38,6 +38,7 @@
 #include "Messenger.h"
 #include "group.h"
 #include "logger.h"
+#include "mono_time.h"
 
 #include "../toxencryptsave/defines.h"
 
@@ -77,6 +78,8 @@
 
 struct Tox {
     Messenger *m;
+    Mono_Time *mono_time;
+
     tox_self_connection_status_cb *self_connection_status_callback;
     tox_friend_name_cb *friend_name_callback;
     tox_friend_status_message_cb *friend_status_message_callback;
@@ -452,13 +455,22 @@ Tox *tox_new(const struct Tox_Options *options, Tox_Err_New *error)
         m_options.proxy_info.ip_port.port = net_htons(tox_options_get_proxy_port(opts));
     }
 
+    tox->mono_time = mono_time_new();
+
+    if (tox->mono_time == nullptr) {
+        SET_ERROR_PARAMETER(error, TOX_ERR_NEW_MALLOC);
+        tox_options_free(default_options);
+        free(tox);
+        return nullptr;
+    }
+
     unsigned int m_error;
-    Messenger *const m = new_messenger(&m_options, &m_error);
+    Messenger *const m = new_messenger(tox->mono_time, &m_options, &m_error);
     tox->m = m;
 
     // TODO(iphydf): Clarify this code, check for NULL before new_groupchats, so
     // new_groupchats can assume m is non-NULL.
-    if (!new_groupchats(m)) {
+    if (!new_groupchats(tox->mono_time, m)) {
         kill_messenger(m);
 
         if (m_error == MESSENGER_ERROR_PORT) {
@@ -469,6 +481,7 @@ Tox *tox_new(const struct Tox_Options *options, Tox_Err_New *error)
             SET_ERROR_PARAMETER(error, TOX_ERR_NEW_MALLOC);
         }
 
+        mono_time_free(tox->mono_time);
         tox_options_free(default_options);
         free(tox);
         return nullptr;
@@ -517,8 +530,10 @@ void tox_kill(Tox *tox)
     }
 
     Messenger *m = tox->m;
+    assert(m->msi_packet == nullptr && "Attempted to kill tox while toxav is still alive");
     kill_groupchats(m->conferences_object);
     kill_messenger(m);
+    mono_time_free(tox->mono_time);
     free(tox);
 }
 
@@ -653,6 +668,8 @@ uint32_t tox_iteration_interval(const Tox *tox)
 
 void tox_iterate(Tox *tox, void *user_data)
 {
+    mono_time_update(tox->mono_time);
+
     Messenger *m = tox->m;
     struct Tox_Userdata tox_data = { tox, user_data };
     do_messenger(m, &tox_data);
@@ -997,7 +1014,7 @@ bool tox_friend_get_status_message(const Tox *tox, uint32_t friend_number, uint8
 {
     if (!status_message) {
         SET_ERROR_PARAMETER(error, TOX_ERR_FRIEND_QUERY_NULL);
-        return 0;
+        return false;
     }
 
     const Messenger *const m = tox->m;
@@ -1005,14 +1022,14 @@ bool tox_friend_get_status_message(const Tox *tox, uint32_t friend_number, uint8
 
     if (size == -1) {
         SET_ERROR_PARAMETER(error, TOX_ERR_FRIEND_QUERY_FRIEND_NOT_FOUND);
-        return 0;
+        return false;
     }
 
     const int ret = m_copy_statusmessage(m, friend_number, status_message, size);
     assert(ret == size && "concurrency problem: friend status message changed");
 
     SET_ERROR_PARAMETER(error, TOX_ERR_FRIEND_QUERY_OK);
-    return 1;
+    return ret == size;
 }
 
 void tox_callback_friend_status_message(Tox *tox, tox_friend_status_message_cb *callback)

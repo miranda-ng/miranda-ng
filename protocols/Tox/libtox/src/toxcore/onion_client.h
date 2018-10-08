@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -22,8 +22,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ONION_CLIENT_H
-#define ONION_CLIENT_H
+#ifndef C_TOXCORE_TOXCORE_ONION_CLIENT_H
+#define C_TOXCORE_TOXCORE_ONION_CLIENT_H
 
 #include "net_crypto.h"
 #include "onion_announce.h"
@@ -188,7 +188,7 @@ void oniondata_registerhandler(Onion_Client *onion_c, uint8_t byte, oniondata_ha
 
 void do_onion_client(Onion_Client *onion_c);
 
-Onion_Client *new_onion_client(Net_Crypto *c);
+Onion_Client *new_onion_client(Mono_Time *mono_time, Net_Crypto *c);
 
 void kill_onion_client(Onion_Client *onion_c);
 

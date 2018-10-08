@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2015 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TCP_CONNECTION_H
-#define TCP_CONNECTION_H
+#ifndef C_TOXCORE_TOXCORE_TCP_CONNECTION_H
+#define C_TOXCORE_TOXCORE_TCP_CONNECTION_H
 
 #include "TCP_client.h"
 
@@ -219,7 +219,7 @@ uint32_t tcp_copy_connected_relays(TCP_Connections *tcp_c, Node_format *tcp_rela
  *
  * Returns NULL on failure.
  */
-TCP_Connections *new_tcp_connections(const uint8_t *secret_key, TCP_Proxy_Info *proxy_info);
+TCP_Connections *new_tcp_connections(Mono_Time *mono_time, const uint8_t *secret_key, TCP_Proxy_Info *proxy_info);
 
 void do_tcp_connections(TCP_Connections *tcp_c, void *userdata);
 void kill_tcp_connections(TCP_Connections *tcp_c);

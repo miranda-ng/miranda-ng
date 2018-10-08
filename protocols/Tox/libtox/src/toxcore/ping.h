@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  * Copyright © 2013 plutooo
  *
@@ -23,8 +23,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef PING_H
-#define PING_H
+#ifndef C_TOXCORE_TOXCORE_PING_H
+#define C_TOXCORE_TOXCORE_PING_H
 
 #include "DHT.h"
 #include "network.h"
@@ -41,12 +41,17 @@ typedef struct IP_Port IP_Port;
 typedef struct DHT DHT;
 #endif /* DHT_DEFINED */
 
+#ifndef MONO_TIME_DEFINED
+#define MONO_TIME_DEFINED
+typedef struct Mono_Time Mono_Time;
+#endif /* MONO_TIME_DEFINED */
+
 #ifndef PING_DEFINED
 #define PING_DEFINED
 typedef struct Ping Ping;
 #endif /* PING_DEFINED */
 
-Ping *ping_new(DHT *dht);
+Ping *ping_new(const struct Mono_Time *mono_time, DHT *dht);
 
 void ping_kill(Ping *ping);
 
@@ -66,4 +71,4 @@ void ping_iterate(Ping *ping);
 
 int32_t ping_send_request(Ping *ping, struct IP_Port ipp, const uint8_t *public_key);
 
-#endif /* PING_H */
+#endif // C_TOXCORE_TOXCORE_PING_H

@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2014 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -419,17 +419,6 @@ static bool client_add_priority(TCP_Client_Connection *con, const uint8_t *packe
     return 1;
 }
 
-static void wipe_priority_list(TCP_Client_Connection *con)
-{
-    TCP_Priority_List *p = con->priority_queue_start;
-
-    while (p) {
-        TCP_Priority_List *pp = p;
-        p = p->next;
-        free(pp);
-    }
-}
-
 /* return 1 on success.
  * return 0 if could not send packet.
  * return -1 on failure (connection must be killed).
@@ -688,8 +677,8 @@ void onion_response_handler(TCP_Client_Connection *con, tcp_onion_response_cb *o
 
 /* Create new TCP connection to ip_port/public_key
  */
-TCP_Client_Connection *new_TCP_connection(IP_Port ip_port, const uint8_t *public_key, const uint8_t *self_public_key,
-        const uint8_t *self_secret_key, TCP_Proxy_Info *proxy_info)
+TCP_Client_Connection *new_TCP_connection(const Mono_Time *mono_time, IP_Port ip_port, const uint8_t *public_key,
+        const uint8_t *self_public_key, const uint8_t *self_secret_key, TCP_Proxy_Info *proxy_info)
 {
     if (networking_at_startup() != 0) {
         return nullptr;
@@ -765,7 +754,7 @@ TCP_Client_Connection *new_TCP_connection(IP_Port ip_port, const uint8_t *public
             break;
     }
 
-    temp->kill_at = unix_time() + TCP_CONNECTION_TIMEOUT;
+    temp->kill_at = mono_time_get(mono_time) + TCP_CONNECTION_TIMEOUT;
 
     return temp;
 }
@@ -949,13 +938,13 @@ static bool tcp_process_packet(TCP_Client_Connection *conn, void *userdata)
     return true;
 }
 
-static int do_confirmed_TCP(TCP_Client_Connection *conn, void *userdata)
+static int do_confirmed_TCP(TCP_Client_Connection *conn, const Mono_Time *mono_time, void *userdata)
 {
     client_send_pending_data(conn);
     tcp_send_ping_response(conn);
     tcp_send_ping_request(conn);
 
-    if (is_timeout(conn->last_pinged, TCP_PING_FREQUENCY)) {
+    if (mono_time_is_timeout(mono_time, conn->last_pinged, TCP_PING_FREQUENCY)) {
         uint64_t ping_id = random_u64();
 
         if (!ping_id) {
@@ -965,10 +954,10 @@ static int do_confirmed_TCP(TCP_Client_Connection *conn, void *userdata)
         conn->ping_request_id = ping_id;
         conn->ping_id = ping_id;
         tcp_send_ping_request(conn);
-        conn->last_pinged = unix_time();
+        conn->last_pinged = mono_time_get(mono_time);
     }
 
-    if (conn->ping_id && is_timeout(conn->last_pinged, TCP_PING_TIMEOUT)) {
+    if (conn->ping_id && mono_time_is_timeout(mono_time, conn->last_pinged, TCP_PING_TIMEOUT)) {
         conn->status = TCP_CLIENT_DISCONNECTED;
         return 0;
     }
@@ -983,10 +972,8 @@ static int do_confirmed_TCP(TCP_Client_Connection *conn, void *userdata)
 
 /* Run the TCP connection
  */
-void do_TCP_connection(TCP_Client_Connection *tcp_connection, void *userdata)
+void do_TCP_connection(Mono_Time *mono_time, TCP_Client_Connection *tcp_connection, void *userdata)
 {
-    unix_time_update();
-
     if (tcp_connection->status == TCP_CLIENT_DISCONNECTED) {
         return;
     }
@@ -1061,10 +1048,10 @@ void do_TCP_connection(TCP_Client_Connection *tcp_connection, void *userdata)
     }
 
     if (tcp_connection->status == TCP_CLIENT_CONFIRMED) {
-        do_confirmed_TCP(tcp_connection, userdata);
+        do_confirmed_TCP(tcp_connection, mono_time, userdata);
     }
 
-    if (tcp_connection->kill_at <= unix_time()) {
+    if (tcp_connection->kill_at <= mono_time_get(mono_time)) {
         tcp_connection->status = TCP_CLIENT_DISCONNECTED;
     }
 }
@@ -1077,7 +1064,7 @@ void kill_TCP_connection(TCP_Client_Connection *tcp_connection)
         return;
     }
 
-    wipe_priority_list(tcp_connection);
+    wipe_priority_list(tcp_connection->priority_queue_start);
     kill_sock(tcp_connection->sock);
     crypto_memzero(tcp_connection, sizeof(TCP_Client_Connection));
     free(tcp_connection);

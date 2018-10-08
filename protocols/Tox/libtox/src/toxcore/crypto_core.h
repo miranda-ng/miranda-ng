@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef CRYPTO_CORE_H
-#define CRYPTO_CORE_H
+#ifndef C_TOXCORE_TOXCORE_CRYPTO_CORE_H
+#define C_TOXCORE_TOXCORE_CRYPTO_CORE_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -202,7 +202,7 @@ int32_t decrypt_data(const uint8_t *public_key, const uint8_t *secret_key, const
 /**
  * Fast encrypt/decrypt operations. Use if this is not a one-time communication.
  * encrypt_precompute does the shared-key generation once so it does not have
- * to be preformed on every encrypt/decrypt.
+ * to be performed on every encrypt/decrypt.
  */
 int32_t encrypt_precompute(const uint8_t *public_key, const uint8_t *secret_key, uint8_t *shared_key);
 
@@ -249,4 +249,4 @@ void new_symmetric_key(uint8_t *key);
 }  // extern "C"
 #endif
 
-#endif /* CRYPTO_CORE_H */
+#endif // C_TOXCORE_TOXCORE_CRYPTO_CORE_H

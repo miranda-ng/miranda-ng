@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  * Copyright © 2013 plutooo
  *
@@ -23,8 +23,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef C_TOXCORE_TOXCORE_UTIL_H
+#define C_TOXCORE_TOXCORE_UTIL_H
 
 #include <pthread.h>
 #include <stdbool.h>
@@ -55,4 +55,4 @@ uint64_t min_u64(uint64_t a, uint64_t b);
 }  // extern "C"
 #endif
 
-#endif /* UTIL_H */
+#endif // C_TOXCORE_TOXCORE_UTIL_H

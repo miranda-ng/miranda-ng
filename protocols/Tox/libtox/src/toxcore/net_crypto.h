@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef NET_CRYPTO_H
-#define NET_CRYPTO_H
+#ifndef C_TOXCORE_TOXCORE_NET_CRYPTO_H
+#define C_TOXCORE_TOXCORE_NET_CRYPTO_H
 
 #include "DHT.h"
 #include "LAN_discovery.h"
@@ -58,9 +58,9 @@
 
 /** Messages. **/
 
-#define PACKET_ID_PADDING 0 /* Denotes padding */
-#define PACKET_ID_REQUEST 1 /* Used to request unreceived packets */
-#define PACKET_ID_KILL    2 /* Used to kill connection */
+#define PACKET_ID_PADDING 0 // Denotes padding
+#define PACKET_ID_REQUEST 1 // Used to request unreceived packets
+#define PACKET_ID_KILL    2 // Used to kill connection
 
 #define PACKET_ID_ONLINE 24
 #define PACKET_ID_OFFLINE 25
@@ -69,8 +69,8 @@
 #define PACKET_ID_USERSTATUS 50
 #define PACKET_ID_TYPING 51
 #define PACKET_ID_MESSAGE 64
-#define PACKET_ID_ACTION 65 /* PACKET_ID_MESSAGE + MESSAGE_ACTION */
-#define PACKET_ID_MSI 69    /* Used by AV to setup calls and etc */
+#define PACKET_ID_ACTION 65 // PACKET_ID_MESSAGE + MESSAGE_ACTION
+#define PACKET_ID_MSI 69    // Used by AV to setup calls and etc
 #define PACKET_ID_FILE_SENDREQUEST 80
 #define PACKET_ID_FILE_CONTROL 81
 #define PACKET_ID_FILE_DATA 82
@@ -78,6 +78,7 @@
 #define PACKET_ID_ONLINE_PACKET 97
 #define PACKET_ID_DIRECT_CONFERENCE 98
 #define PACKET_ID_MESSAGE_CONFERENCE 99
+#define PACKET_ID_REJOIN_CONFERENCE 100
 #define PACKET_ID_LOSSY_CONFERENCE 199
 
 /*** Crypto connections. ***/
@@ -91,7 +92,7 @@ typedef enum Crypto_Conn_State {
 } Crypto_Conn_State;
 
 /* Maximum size of receiving and sending packet buffers. */
-#define CRYPTO_PACKET_BUFFER_SIZE 32768 /* Must be a power of 2 */
+#define CRYPTO_PACKET_BUFFER_SIZE 32768 // Must be a power of 2
 
 /* Minimum packet rate per second. */
 #define CRYPTO_PACKET_MIN_RATE 4.0
@@ -120,7 +121,8 @@ typedef enum Crypto_Conn_State {
 #define MAX_TCP_CONNECTIONS 64
 #define MAX_TCP_RELAYS_PEER 4
 
-#define CRYPTO_MAX_PADDING 8 /* All packets will be padded a number of bytes based on this number. */
+/* All packets will be padded a number of bytes based on this number. */
+#define CRYPTO_MAX_PADDING 8
 
 /* Base current transfer speed on last CONGESTION_QUEUE_ARRAY_SIZE number of points taken
    at the dT defined in net_crypto.c */
@@ -343,7 +345,7 @@ void load_secret_key(Net_Crypto *c, const uint8_t *sk);
 /* Create new instance of Net_Crypto.
  *  Sets all the global connection variables to their default values.
  */
-Net_Crypto *new_net_crypto(const Logger *log, DHT *dht, TCP_Proxy_Info *proxy_info);
+Net_Crypto *new_net_crypto(const Logger *log, Mono_Time *mono_time, DHT *dht, TCP_Proxy_Info *proxy_info);
 
 /* return the optimal interval in ms for running do_net_crypto.
  */

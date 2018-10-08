@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2014 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef FRIEND_REQUESTS_H
-#define FRIEND_REQUESTS_H
+#ifndef C_TOXCORE_TOXCORE_FRIEND_REQUESTS_H
+#define C_TOXCORE_TOXCORE_FRIEND_REQUESTS_H
 
 #include "friend_connection.h"
 

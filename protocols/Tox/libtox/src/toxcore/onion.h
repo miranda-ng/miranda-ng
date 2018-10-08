@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,15 +21,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ONION_H
-#define ONION_H
+#ifndef C_TOXCORE_TOXCORE_ONION_H
+#define C_TOXCORE_TOXCORE_ONION_H
 
 #include "DHT.h"
+#include "mono_time.h"
 
 typedef int onion_recv_1_cb(void *object, IP_Port dest, const uint8_t *data, uint16_t length);
 
 typedef struct Onion {
-    DHT     *dht;
+    Mono_Time *mono_time;
+    DHT *dht;
     Networking_Core *net;
     uint8_t secret_symmetric_key[CRYPTO_SYMMETRIC_KEY_SIZE];
     uint64_t timestamp;
@@ -83,7 +85,7 @@ typedef struct Onion_Path {
  *
  * Create a new onion path out of nodes (nodes is a list of ONION_PATH_LENGTH nodes)
  *
- * new_path must be an empty memory location of atleast Onion_Path size.
+ * new_path must be an empty memory location of at least Onion_Path size.
  *
  * return -1 on failure.
  * return 0 on success.
@@ -158,7 +160,7 @@ int onion_send_1(const Onion *onion, const uint8_t *plain, uint16_t len, IP_Port
  */
 void set_callback_handle_recv_1(Onion *onion, onion_recv_1_cb *function, void *object);
 
-Onion *new_onion(DHT *dht);
+Onion *new_onion(Mono_Time *mono_time, DHT *dht);
 
 void kill_onion(Onion *onion);
 

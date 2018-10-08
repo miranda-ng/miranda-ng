@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2014 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef GROUP_H
-#define GROUP_H
+#ifndef C_TOXCORE_TOXCORE_GROUP_H
+#define C_TOXCORE_TOXCORE_GROUP_H
 
 #include "Messenger.h"
 
@@ -49,12 +49,13 @@ typedef struct Message_Info {
 typedef struct Group_Peer {
     uint8_t     real_pk[CRYPTO_PUBLIC_KEY_SIZE];
     uint8_t     temp_pk[CRYPTO_PUBLIC_KEY_SIZE];
+    bool        temp_pk_updated;
 
-    uint64_t    last_recv;
+    uint64_t    last_active;
 
     Message_Info
     last_message_infos[MAX_LAST_MESSAGE_INFOS]; /* received messages, strictly decreasing in message_number */
-    uint8_t         num_last_message_infos;
+    uint8_t     num_last_message_infos;
 
     uint8_t     nick[MAX_NAME_LENGTH];
     uint8_t     nick_len;
@@ -79,11 +80,18 @@ typedef enum Groupchat_Close_Type {
     GROUPCHAT_CLOSE_ONLINE
 } Groupchat_Close_Type;
 
+/* Connection is to one of the closest DESIRED_CLOSE_CONNECTIONS peers */
+#define GROUPCHAT_CLOSE_REASON_CLOSEST     (1 << 0)
+
+/* Connection is to a peer we are introducing to the conference */
+#define GROUPCHAT_CLOSE_REASON_INTRODUCING (1 << 1)
+
+/* Connection is to a peer who is introducing us to the conference */
+#define GROUPCHAT_CLOSE_REASON_INTRODUCER  (1 << 2)
+
 typedef struct Groupchat_Close {
     uint8_t type; /* GROUPCHAT_CLOSE_* */
-    bool closest; /* connected to peer because it is one of our closest peers */
-    bool introducer; /* connected to peer because it introduced us to the group */
-    bool introduced; /* connected to peer because we introduced it to the group */
+    uint8_t reasons; /* bit field with flags GROUPCHAT_CLOSE_REASON_* */
     uint32_t number;
     uint16_t group_number;
 } Groupchat_Close;
@@ -101,8 +109,14 @@ typedef void group_on_delete_cb(void *object, uint32_t conference_number);
 typedef struct Group_c {
     uint8_t status;
 
+    bool need_send_name;
+    bool title_fresh;
+
     Group_Peer *group;
     uint32_t numpeers;
+
+    Group_Peer *frozen;
+    uint32_t numfrozen;
 
     /* TODO(zugz) rename close to something more accurate - "connected"? */
     Groupchat_Close close[MAX_GROUP_CONNECTIONS];
@@ -123,7 +137,7 @@ typedef struct Group_c {
 
     uint64_t last_sent_ping;
 
-    int number_joined; /* friendcon_id of person that invited us to the chat. (-1 means none) */
+    uint32_t num_introducer_connections;
 
     void *object;
 
@@ -172,6 +186,8 @@ typedef struct Group_Lossy_Handler {
 } Group_Lossy_Handler;
 
 typedef struct Group_Chats {
+    const Mono_Time *mono_time;
+
     Messenger *m;
     Friend_Connections *fr_c;
 
@@ -433,7 +449,7 @@ int callback_groupchat_peer_delete(Group_Chats *g_c, uint32_t groupnumber, peer_
 int callback_groupchat_delete(Group_Chats *g_c, uint32_t groupnumber, group_on_delete_cb *function);
 
 /* Create new groupchat instance. */
-Group_Chats *new_groupchats(Messenger *m);
+Group_Chats *new_groupchats(Mono_Time *mono_time, Messenger *m);
 
 /* main groupchats loop. */
 void do_groupchats(Group_Chats *g_c, void *userdata);

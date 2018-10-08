@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright © 2016-2017 The TokTok team.
+ * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2014 Tox project.
  *
  * This file is part of Tox, the free peer to peer instant messenger.
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TCP_CLIENT_H
-#define TCP_CLIENT_H
+#ifndef C_TOXCORE_TOXCORE_TCP_CLIENT_H
+#define C_TOXCORE_TOXCORE_TCP_CLIENT_H
 
 #include "TCP_server.h"
 #include "crypto_core.h"
@@ -64,12 +64,12 @@ void tcp_con_set_custom_uint(TCP_Client_Connection *con, uint32_t value);
 
 /* Create new TCP connection to ip_port/public_key
  */
-TCP_Client_Connection *new_TCP_connection(IP_Port ip_port, const uint8_t *public_key, const uint8_t *self_public_key,
-        const uint8_t *self_secret_key, TCP_Proxy_Info *proxy_info);
+TCP_Client_Connection *new_TCP_connection(const Mono_Time *mono_time, IP_Port ip_port, const uint8_t *public_key,
+        const uint8_t *self_public_key, const uint8_t *self_secret_key, TCP_Proxy_Info *proxy_info);
 
 /* Run the TCP connection
  */
-void do_TCP_connection(TCP_Client_Connection *tcp_connection, void *userdata);
+void do_TCP_connection(Mono_Time *mono_time, TCP_Client_Connection *tcp_connection, void *userdata);
 
 /* Kill the TCP connection
  */
