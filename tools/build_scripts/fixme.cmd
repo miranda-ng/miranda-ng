@@ -17,7 +17,7 @@ if "%1" == "" (
 
   popd
 
-  if "%ProfileName%" == "" (
+  if "!ProfileName!" == "" (
      echo No default profile found, exiting
      goto :eof
   )
