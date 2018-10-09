@@ -6,6 +6,7 @@ enum {
 	SQL_SET_STMT_REPLACE,
 	SQL_SET_STMT_DELETE,
 	SQL_SET_STMT_ENUMMODULE,
+	SQL_SET_STMT_CHANGES,
 	SQL_SET_STMT_NUM
 };
 
@@ -13,8 +14,9 @@ static char *settings_stmts[SQL_SET_STMT_NUM] = {
 	"select distinct module from settings;",
 	"select type, value from settings where contact_id = ? and module = ? and setting = ? limit 1;",
 	"replace into settings(contact_id, module, setting, type, value) values (?, ?, ?, ?, ?);",
-	"delete from settings where contact_id = ? and module = ? and setting = ?;select changes()",
-	"select setting from settings where contact_id = ? and module = ?;"
+	"delete from settings where contact_id = ? and module = ? and setting = ?;",
+	"select setting from settings where contact_id = ? and module = ?;",
+	"select changes() from settings;"
 };
 
 static sqlite3_stmt *settings_stmts_prep[SQL_SET_STMT_NUM] = { 0 };
@@ -305,10 +307,14 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 		sqlite3_bind_text(stmt, 2, szModule, mir_strlen(szModule), nullptr);
 		sqlite3_bind_text(stmt, 3, szSetting, mir_strlen(szSetting), nullptr);
 		int rc = sqlite3_step(stmt);
-		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-		auto deleted = sqlite3_column_int64(stmt, 0);
+		assert(rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
-		if (rc != SQLITE_ROW || deleted == 0)
+		stmt = settings_stmts_prep[SQL_SET_STMT_CHANGES];
+		rc = sqlite3_step(stmt);
+		assert(rc == SQLITE_ROW);
+		int deleted = sqlite3_column_int(stmt, 0);
+		sqlite3_reset(stmt);
+		if (deleted == 0)
 			return 1;
 	}
 	m_cache->GetCachedValuePtr(hContact, szCachedSettingName, -1);
