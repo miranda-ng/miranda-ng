@@ -811,6 +811,14 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 			hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
 		break;
 
+	case DBVT_WCHAR:
+		pszUniqueID = NEWWSTR_ALLOCA(dbv.pwszVal);
+		if (bIsChat)
+			hDst = HContactFromChatID(szDstModuleName, pszUniqueID);
+		else
+			hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
+		break;
+
 	default:
 		hDst = INVALID_CONTACT_ID;
 		pszUniqueID = nullptr;
