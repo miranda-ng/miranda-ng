@@ -12,11 +12,11 @@ if "%Revision%" == "" (set Revision=0)
 REM Fix trailing 'M', when the working copy contains modifications
 if "%Revision:~-1%" == "M" (set Revision=%Revision:~0,-1%)
 
-for /F "tokens=1,2,3 delims= " %%i in (build.no.stable) do call :WriteVer %%i %%j %%k %Revision% %Hash%
+for /F "tokens=1,2,3,4 delims= " %%i in (build.no.stable) do call :WriteVer %%i %%j %%k %Revision% %Hash% %%l
 goto :eof
 
 :WriteVer
-echo %1.%2.%3.%4.%5
+echo %1.%2.%3.%4.%5.%6
 if "%OldVer%" == "%1,%2,%3,%4" (goto :eof)
 
 for /f "delims=/ tokens=1-3" %%a in ("%DATE:~4%") do (
@@ -27,13 +27,19 @@ for /f "delims=/ tokens=1-3" %%a in ("%DATE:~4%") do (
 
 copy m_version.h.in "%TempFileName%"
 
+if "%6" == "" (
+  set FullVersion=%1.%2.%3
+) else (
+  set FullVersion=%1.%2.%3.%6
+)
+
 echo #define MIRANDA_VERSION_COREVERSION %1,%2,%3,0                                >> "%TempFileName%"
 echo #define MIRANDA_VERSION_FILEVERSION %1,%2,%3,%4                               >> "%TempFileName%"
 echo #define MIRANDA_VERSION_STRING      "%1.%2.%3.%4"                             >> "%TempFileName%"
-echo #define MIRANDA_VERSION_DISPLAY     "%1.%2.%3 build #%4 (%5)"                 >> "%TempFileName%"
+echo #define MIRANDA_VERSION_DISPLAY     "%FullVersion% build #%4 (%5)"            >> "%TempFileName%"
 echo #define MIRANDA_VERSION_DWORD       MIRANDA_MAKE_VERSION(%1, %2, %3, %4)      >> "%TempFileName%"
 echo #define MIRANDA_VERSION_CORE        MIRANDA_MAKE_VERSION(%1, %2, %3, 0)       >> "%TempFileName%"
-echo #define MIRANDA_VERSION_CORE_STRING "%1.%2.%3"                                >> "%TempFileName%"
+echo #define MIRANDA_VERSION_CORE_STRING "%FullVersion%"                           >> "%TempFileName%"
 echo.                                                                              >> "%TempFileName%"
 echo #endif // M_VERSION_H__                                                       >> "%TempFileName%"
 
