@@ -322,6 +322,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		if (isRead && bUseServerReadFlag)
 			recv.flags |= PREF_CREATEREAD;
+
 		if (isOut)
 			recv.flags |= PREF_SENT;
 		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - datetime < 60 * m_vkOptions.iInvisibleInterval)
@@ -330,12 +331,11 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		T2Utf pszBody(wszBody);
 		recv.timestamp = bEdited ? datetime : (m_vkOptions.bUseLocalTime ? time(0) : datetime);
 		recv.szMessage = pszBody;
-		Sleep(100);
 
-		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", mid, datetime, isOut, isRead, uid);
+		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d, Edited = %d", mid, datetime, isOut, isRead, uid, (int)bEdited);
 
 		if (!IsMessageExist(mid, vkALL) || bEdited) {
-			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
+			debugLogA("CVkProto::OnReceiveMessages new or edited message");
 			recv.szMsgId = szMid;
 			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))
@@ -349,6 +349,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 			if (wszBodyNoAttachments != wszOldMsg)
 				continue;
+
+			debugLogA("CVkProto::OnReceiveMessages add attachments");
 
 			T2Utf pszAttach(wszAttachmentDescr);
 			recv.timestamp = isOut ? time(0) : datetime;
