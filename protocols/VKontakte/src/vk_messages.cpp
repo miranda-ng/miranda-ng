@@ -253,6 +253,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			wszBody += wszFwdMessages;
 		}
 
+		CMStringW wszBodyNoAttachments = wszBody;
+
 		CMStringW wszAttachmentDescr;
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
@@ -332,16 +334,24 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		debugLogA("CVkProto::OnReceiveMessages mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", mid, datetime, isOut, isRead, uid);
 
-		if (!IsMessageExist(mid, vkOUT) || bEdited) {
+		if (!IsMessageExist(mid, vkALL) || bEdited) {
 			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
 			recv.szMsgId = szMid;
 			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))
 				setDword(hContact, "lastmsgid", mid);
 		}
-		else if (m_vkOptions.bLoadSentAttachments && !wszAttachmentDescr.IsEmpty() && isOut) {
+		else if (m_vkOptions.bLoadSentAttachments && !wszAttachmentDescr.IsEmpty()) {
+			CMStringW wszOldMsg;
+
+			if (GetMessageFromDb(mid, datetime, wszOldMsg) && (wszOldMsg == wszBody))
+				continue;
+
+			if (wszBodyNoAttachments != wszOldMsg)
+				continue;
+
 			T2Utf pszAttach(wszAttachmentDescr);
-			recv.timestamp = time(0); // only local time
+			recv.timestamp = isOut ? time(0) : datetime;
 			recv.szMessage = pszAttach;
 			recv.szMsgId = strcat(szMid, "_");
 			ProtoChainRecvMsg(hContact, &recv);
