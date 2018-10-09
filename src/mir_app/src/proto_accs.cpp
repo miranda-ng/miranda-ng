@@ -118,38 +118,10 @@ void LoadDbAccounts(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct enumDB_ProtoProcParam
-{
-	int  arrlen;
-	char **pszSettingName;
-};
-
-static int enumDB_ProtoProc(const char* szSetting, void *lParam)
-{
-	if (szSetting) {
-		enumDB_ProtoProcParam* p = (enumDB_ProtoProcParam*)lParam;
-
-		p->arrlen++;
-		p->pszSettingName = (char**)mir_realloc(p->pszSettingName, p->arrlen*sizeof(char*));
-		p->pszSettingName[p->arrlen - 1] = mir_strdup(szSetting);
-	}
-	return 0;
-}
-
 void WriteDbAccounts()
 {
 	// enum all old settings to delete
-	enumDB_ProtoProcParam param = { 0, nullptr };
-	db_enum_settings(0, enumDB_ProtoProc, "Protocols", &param);
-
-	// delete all settings
-	if (param.arrlen) {
-		for (int i = 0; i < param.arrlen; i++) {
-			db_unset(0, "Protocols", param.pszSettingName[i]);
-			mir_free(param.pszSettingName[i]);
-		}
-		mir_free(param.pszSettingName);
-	}
+	db_delete_module(0, "Protocols");
 
 	// write new data
 	for (int i = 0; i < accounts.getCount(); i++) {
@@ -172,7 +144,6 @@ void WriteDbAccounts()
 		db_set_ws(0, "Protocols", buf, pa->tszAccountName);
 	}
 
-	db_unset(0, "Protocols", "ProtoCount");
 	db_set_dw(0, "Protocols", "ProtoCount", accounts.getCount());
 	db_set_dw(0, "Protocols", "PrVer", 4);
 }
