@@ -51,10 +51,26 @@ void CDbxSQLite::InitEvents()
 {
 	for (size_t i = 0; i < SQL_EVT_STMT_NUM; i++)
 		sqlite3_prepare_v3(m_db, evt_stmts[i], -1, SQLITE_PREPARE_PERSISTENT, &evt_stmts_prep[i], nullptr);
+
+	sqlite3_stmt *stmt = nullptr;
+	sqlite3_prepare_v2(m_db, "select distinct module from events;", -1, &stmt, nullptr);
+	int rc = 0;
+	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+		const char *module = (char*)sqlite3_column_text(stmt, 0);
+		if (mir_strlen(module) > 0)
+			m_modules.insert(mir_strdup(module));
+	}
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+	sqlite3_finalize(stmt);
 }
 
 void CDbxSQLite::UninitEvents()
 {
+	for (auto module : m_modules.rev_iter()) {
+		m_modules.removeItem(&module);
+		mir_free(module);
+	}
+
 	for (size_t i = 0; i < SQL_EVT_STMT_NUM; i++)
 		sqlite3_finalize(evt_stmts_prep[i]);
 }
@@ -131,7 +147,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		sqlite3_bind_int64(stmt, 5, dbei->cbBlob);
 		sqlite3_bind_blob(stmt, 6, dbei->pBlob, dbei->cbBlob, nullptr);
 		int rc = sqlite3_step(stmt);
-		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+		assert(rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE) {
 			sqlite3_exec(m_db, "rollback;", nullptr, nullptr, nullptr);
@@ -286,7 +302,12 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		sqlite3_reset(stmt);
 		return 1;
 	}
-	dbei->szModule = (char*)sqlite3_column_text(stmt, 0);
+
+	char *module = (char*)sqlite3_column_text(stmt, 0);
+	dbei->szModule = m_modules.find(module);
+	if (dbei->szModule == nullptr)
+		return 1;
+
 	dbei->timestamp = sqlite3_column_int64(stmt, 1);
 	dbei->eventType = sqlite3_column_int(stmt, 2);
 	dbei->flags = sqlite3_column_int64(stmt, 3);

@@ -2,7 +2,8 @@
 
 CDbxSQLite::CDbxSQLite(sqlite3 *database)
 	: m_db(database),
-	m_safetyMode(true)
+	m_safetyMode(true),
+	m_modules(1, strcmp)
 {
 }
 

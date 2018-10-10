@@ -28,6 +28,7 @@ private:
 	void InitContacts();
 	void UninitContacts();
 
+	LIST<char> m_modules;
 	void InitEvents();
 	void UninitEvents();
 
