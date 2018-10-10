@@ -653,3 +653,11 @@ Miranda_WaitOnHandleEx @663
 ?GetEventById@MDatabaseReadonly@@UAGIPBD0@Z @686 NONAME
 ?SetEventId@MDatabaseReadonly@@UAGHPBDI0@Z @687 NONAME
 ?EditEvent@MDatabaseReadonly@@UAGHIIPAUDBEVENTINFO@@@Z @688 NONAME
+g_hevContactAdded @689 NONAME
+g_hevContactDeleted @690 NONAME
+g_hevEventAdded @691 NONAME
+g_hevEventDeleted @692 NONAME
+g_hevEventEdited @693 NONAME
+g_hevEventFiltered @694 NONAME
+g_hevMarkedRead @695 NONAME
+g_hevSettingChanged @696 NONAME

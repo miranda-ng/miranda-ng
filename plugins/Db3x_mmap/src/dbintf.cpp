@@ -90,15 +90,6 @@ CDb3Mmap::~CDb3Mmap()
 	if (m_hDbFile != INVALID_HANDLE_VALUE)
 		CloseHandle(m_hDbFile);
 
-	DestroyHookableEvent(hContactDeletedEvent);
-	DestroyHookableEvent(hContactAddedEvent);
-	DestroyHookableEvent(hSettingChangeEvent);
-	DestroyHookableEvent(hEventMarkedRead);
-
-	DestroyHookableEvent(hEventAddedEvent);
-	DestroyHookableEvent(hEventDeletedEvent);
-	DestroyHookableEvent(hEventFilterAddedEvent);
-
 	mir_free(m_tszProfileName);
 
 	free(m_pNull);
@@ -133,16 +124,6 @@ int CDb3Mmap::Load(bool bSkipInit)
 		if (!m_bReadOnly) {
 			if (m_dbHeader.version < DB_095_1_VERSION)
 				return EGROKPRF_CANTREAD;
-
-			// retrieve the event handles
-			hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
-			hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
-			hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-			hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
-
-			hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-			hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
-			hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 		}
 
 		FillContacts();

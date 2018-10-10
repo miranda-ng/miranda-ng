@@ -329,7 +329,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 		if (bIsResident) {
 			lck.unlock();
 			log2(" set resident as %s (%p)", printVariant(&dbcwWork.value), pCachedValue);
-			NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwWork);
+			NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwWork);
 			return 0;
 		}
 	}
@@ -437,7 +437,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 				DBFlush(1);
 				lck.unlock();
 				// notify
-				NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwNotif);
+				NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
 				return 0;
 			}
 		}
@@ -537,7 +537,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 	lck.unlock();
 
 	// notify
-	NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwNotif);
+	NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
 	return 0;
 }
 
@@ -627,7 +627,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 	dbcws.szModule = szModule;
 	dbcws.szSetting = szSetting;
 	dbcws.value.type = DBVT_DELETED;
-	NotifyEventHooks(hSettingChangeEvent, saveContact, (LPARAM)&dbcws);
+	NotifyEventHooks(g_hevSettingChanged, saveContact, (LPARAM)&dbcws);
 	return 0;
 }
 

@@ -55,7 +55,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	log0("del contact");
 
 	// call notifier while outside mutex
-	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
+	NotifyEventHooks(g_hevEventDeleted, contactID, 0);
 
 	// get back in
 	lck.lock();
@@ -136,7 +136,7 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::AddContact()
 	DBCachedContact *cc = m_cache->AddContactToCache(dbc.dwContactID);
 	cc->dwOfsContact = ofsNew;
 
-	NotifyEventHooks(hContactAddedEvent, dbc.dwContactID, 0);
+	NotifyEventHooks(g_hevEventAdded, dbc.dwContactID, 0);
 	return dbc.dwContactID;
 }
 

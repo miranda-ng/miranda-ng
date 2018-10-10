@@ -240,10 +240,10 @@ void CDb3Mmap::SetPassword(const wchar_t *ptszPassword)
 
 void CDb3Mmap::ToggleEncryption()
 {
-	HANDLE hSave1 = hSettingChangeEvent;    hSettingChangeEvent = nullptr;
-	HANDLE hSave2 = hEventAddedEvent;       hEventAddedEvent = nullptr;
-	HANDLE hSave3 = hEventDeletedEvent;     hEventDeletedEvent = nullptr;
-	HANDLE hSave4 = hEventFilterAddedEvent; hEventFilterAddedEvent = nullptr;
+	HANDLE hSave1 = g_hevSettingChanged;    g_hevSettingChanged = nullptr;
+	HANDLE hSave2 = g_hevEventAdded;       g_hevEventAdded = nullptr;
+	HANDLE hSave3 = g_hevEventDeleted;     g_hevEventDeleted = nullptr;
+	HANDLE hSave4 = g_hevEventFiltered; g_hevEventFiltered = nullptr;
 
 	mir_cslock lck(m_csDbAccess);
 	ToggleSettingsEncryption(0);
@@ -261,10 +261,10 @@ void CDb3Mmap::ToggleEncryption()
 	dbcws.value.bVal = m_bEncrypted;
 	WriteContactSetting(0, &dbcws);
 
-	hSettingChangeEvent = hSave1;
-	hEventAddedEvent = hSave2;
-	hEventDeletedEvent = hSave3;
-	hEventFilterAddedEvent = hSave4;
+	g_hevSettingChanged = hSave1;
+	g_hevEventAdded = hSave2;
+	g_hevEventDeleted = hSave3;
+	g_hevEventFiltered = hSave4;
 }
 
 void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)

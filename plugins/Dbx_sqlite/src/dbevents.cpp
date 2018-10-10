@@ -115,7 +115,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		return 0;
 
 	if (m_safetyMode)
-		if (NotifyEventHooks(hEventFilterAddedEvent, hNotifyContact, (LPARAM)dbei))
+		if (NotifyEventHooks(g_hevEventFiltered, hNotifyContact, (LPARAM)dbei))
 			return 0;
 
 	MEVENT hDbEvent = 0;
@@ -174,7 +174,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 	}
 
 	if (m_safetyMode)
-		NotifyEventHooks(hEventAddedEvent, hNotifyContact, (LPARAM)hDbEvent);
+		NotifyEventHooks(g_hevEventAdded, hNotifyContact, (LPARAM)hDbEvent);
 
 	return hDbEvent;
 }
@@ -207,7 +207,7 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 		cc->first = cc->unread = cc->last = 0;
 	}
 
-	NotifyEventHooks(hEventDeletedEvent, hContact, (LPARAM)hDbEvent);
+	NotifyEventHooks(g_hevEventDeleted, hContact, (LPARAM)hDbEvent);
 
 	return 0;
 }
@@ -239,7 +239,7 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc == SQLITE_DONE) {
 		cc->first = cc->unread = cc->last = 0;
-		NotifyEventHooks(hEventEditedEvent, hContact, (LPARAM)hDbEvent);
+		NotifyEventHooks(g_hevEventEdited, hContact, (LPARAM)hDbEvent);
 	}
 	sqlite3_reset(stmt);
 	return (rc != SQLITE_DONE);
@@ -346,7 +346,7 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 			cc->unread = 0;
 	}
 
-	NotifyEventHooks(hEventMarkedRead, hContact, (LPARAM)hDbEvent);
+	NotifyEventHooks(g_hevMarkedRead, hContact, (LPARAM)hDbEvent);
 
 	return flags;
 }

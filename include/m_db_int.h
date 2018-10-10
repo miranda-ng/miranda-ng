@@ -284,12 +284,25 @@ struct DATABASELINK
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// global database event handles
+
+EXTERN_C MIR_APP_EXPORT HANDLE 
+	g_hevContactDeleted,   // ME_DB_CONTACT_DELETED
+	g_hevContactAdded, 	  // ME_DB_CONTACT_ADDED
+	g_hevSettingChanged,   // ME_DB_CONTACT_SETTINGCHANGED
+	g_hevMarkedRead,       // ME_DB_EVENT_MARKED_READ
+	g_hevEventAdded,		  // ME_DB_EVENT_ADDED
+	g_hevEventEdited, 	  // ME_DB_EVENT_EDITED
+	g_hevEventDeleted,     // ME_DB_EVENT_DELETED
+	g_hevEventFiltered;    // ME_DB_EVENT_FILTER_ADD
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // cache access function
 
 EXTERN_C MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Database list's functions
+// database list's functions
 
 EXTERN_C MIR_CORE_DLL(MDatabaseCommon*) db_get_current(void);
 EXTERN_C MIR_CORE_DLL(void) db_setCurrent(MDatabaseCommon *_db);

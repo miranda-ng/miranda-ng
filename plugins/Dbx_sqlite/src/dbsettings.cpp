@@ -246,7 +246,7 @@ BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *d
 		}
 		if (isResident) {
 			lock.unlock();
-			NotifyEventHooks(hSettingChangeEvent, hContact, (LPARAM)&dbcwWork);
+			NotifyEventHooks(g_hevSettingChanged, hContact, (LPARAM)&dbcwWork);
 			return 0;
 		}
 	}
@@ -282,7 +282,7 @@ BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *d
 
 	lock.unlock();
 
-	NotifyEventHooks(hSettingChangeEvent, hContact, (LPARAM)&dbcwNotif);
+	NotifyEventHooks(g_hevSettingChanged, hContact, (LPARAM)&dbcwNotif);
 
 	return 0;
 }
@@ -324,7 +324,7 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 	dbcws.szModule = szModule;
 	dbcws.szSetting = szSetting;
 	dbcws.value.type = DBVT_DELETED;
-	NotifyEventHooks(hSettingChangeEvent, hContact, (LPARAM)&dbcws);
+	NotifyEventHooks(g_hevSettingChanged, hContact, (LPARAM)&dbcws);
 
 	return 0;
 }

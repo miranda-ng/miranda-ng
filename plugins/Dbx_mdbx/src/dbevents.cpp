@@ -127,7 +127,7 @@ BOOL CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	}
 
 	DBFlush();
-	NotifyEventHooks(hEventDeletedEvent, contactID, hDbEvent);
+	NotifyEventHooks(g_hevEventDeleted, contactID, hDbEvent);
 	return 0;
 }
 
@@ -179,7 +179,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei,
 	else cc = &m_ccDummy;
 
 	if (bNew && m_safetyMode)
-		if (NotifyEventHooks(hEventFilterAddedEvent, contactNotifyID, (LPARAM)dbei))
+		if (NotifyEventHooks(g_hevEventFiltered, contactNotifyID, (LPARAM)dbei))
 			return false;
 
 	dbe.timestamp = dbei->timestamp;
@@ -251,7 +251,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei,
 
 	// Notify only in safe mode or on really new events
 	if (m_safetyMode)
-		NotifyEventHooks(bNew ? hEventAddedEvent : hEventEditedEvent, contactNotifyID, hDbEvent);
+		NotifyEventHooks(bNew ? g_hevEventAdded : g_hevEventEdited, contactNotifyID, hDbEvent);
 
 	return true;
 }
@@ -379,7 +379,7 @@ BOOL CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	}
 
 	DBFlush();
-	NotifyEventHooks(hEventMarkedRead, contactID, (LPARAM)hDbEvent);
+	NotifyEventHooks(g_hevMarkedRead, contactID, (LPARAM)hDbEvent);
 	return wRetVal;
 }
 

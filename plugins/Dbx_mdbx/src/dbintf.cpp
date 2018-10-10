@@ -57,14 +57,14 @@ CDbxMDBX::~CDbxMDBX()
 	if (m_crypto)
 		m_crypto->destroy();
 
-	DestroyHookableEvent(hContactDeletedEvent);
-	DestroyHookableEvent(hContactAddedEvent);
-	DestroyHookableEvent(hSettingChangeEvent);
-	DestroyHookableEvent(hEventMarkedRead);
+	DestroyHookableEvent(g_hevEventDeleted);
+	DestroyHookableEvent(g_hevEventAdded);
+	DestroyHookableEvent(g_hevSettingChanged);
+	DestroyHookableEvent(g_hevMarkedRead);
 
-	DestroyHookableEvent(hEventAddedEvent);
-	DestroyHookableEvent(hEventDeletedEvent);
-	DestroyHookableEvent(hEventFilterAddedEvent);
+	DestroyHookableEvent(g_hevEventAdded);
+	DestroyHookableEvent(g_hevEventDeleted);
+	DestroyHookableEvent(g_hevEventFiltered);
 
 	mir_free(m_tszProfileName);
 }
@@ -132,20 +132,6 @@ int CDbxMDBX::Load()
 
 	if (InitModules()) return EGROKPRF_DAMAGED;
 	if (InitCrypt())   return EGROKPRF_DAMAGED;
-
-	// everything is ok, go on
-	if (!m_bReadOnly) {
-		// retrieve the event handles
-		hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
-		hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
-		hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-		hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
-
-		hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-		hEventEditedEvent = CreateHookableEvent(ME_DB_EVENT_EDITED);
-		hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
-		hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
-	}
 
 	FillContacts();
 

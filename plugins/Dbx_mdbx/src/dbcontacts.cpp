@@ -41,7 +41,7 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 	if (contactID == 0) // global contact cannot be removed
 		return 1;
 
-	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
+	NotifyEventHooks(g_hevEventDeleted, contactID, 0);
 	{
 		OBJLIST<EventItem> events(50);
 		GatherContactHistory(contactID, events);
@@ -102,7 +102,7 @@ MCONTACT CDbxMDBX::AddContact()
 
 	DBFlush();
 
-	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
+	NotifyEventHooks(g_hevEventAdded, dwContactId, 0);
 	return dwContactId;
 }
 

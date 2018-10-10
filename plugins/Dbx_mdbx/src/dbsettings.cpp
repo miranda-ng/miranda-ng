@@ -284,7 +284,7 @@ LBL_WriteString:
 		}
 		if (szCachedSettingName[-1] != 0) {
 			lck.unlock();
-			NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwWork);
+			NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwWork);
 			return 0;
 		}
 	}
@@ -350,7 +350,7 @@ LBL_WriteString:
 	lck.unlock();
 
 	DBFlush();
-	NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwNotif);
+	NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
 	return 0;
 }
 
@@ -390,7 +390,7 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 	dbcws.szModule = szModule;
 	dbcws.szSetting = szSetting;
 	dbcws.value.type = DBVT_DELETED;
-	NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcws);
+	NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcws);
 	return 0;
 }
 

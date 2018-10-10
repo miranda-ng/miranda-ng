@@ -19,15 +19,6 @@ struct CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 private:
 	sqlite3 *m_db;
 
-	HANDLE hContactAddedEvent;
-	HANDLE hContactDeletedEvent;
-	HANDLE hEventAddedEvent;
-	HANDLE hEventEditedEvent;
-	HANDLE hEventDeletedEvent;
-	HANDLE hEventFilterAddedEvent;
-	HANDLE hEventMarkedRead;
-	HANDLE hSettingChangeEvent;
-
 	DBCachedContact m_system;
 
 	bool m_safetyMode;

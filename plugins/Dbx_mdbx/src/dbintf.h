@@ -167,8 +167,6 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 
 	MDBX_dbi m_dbGlobal;
 	DBHeader m_header;
-	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
-
 	HWND     m_hwndTimer; // for flushing database
 
 	DBCachedContact m_ccDummy; // dummy contact to serve a cache item for MCONTACT = 0
@@ -197,8 +195,6 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	MDBX_dbi	    m_dbEvents, m_dbEventsSort, m_dbEventIds;
 	MDBX_cursor *m_curEvents, *m_curEventsSort, *m_curEventIds;
 	MEVENT       m_dwMaxEventId;
-
-	HANDLE   hEventAddedEvent, hEventEditedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
 
 	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
 

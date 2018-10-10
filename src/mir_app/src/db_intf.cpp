@@ -57,16 +57,27 @@ MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_EXPORT HANDLE
+	g_hevContactDeleted,   // ME_DB_CONTACT_DELETED
+	g_hevContactAdded, 	  // ME_DB_CONTACT_ADDED
+	g_hevSettingChanged,   // ME_DB_CONTACT_SETTINGCHANGED
+	g_hevMarkedRead,       // ME_DB_EVENT_MARKED_READ
+	g_hevEventAdded,		  // ME_DB_EVENT_ADDED
+	g_hevEventEdited, 	  // ME_DB_EVENT_EDITED
+	g_hevEventDeleted,     // ME_DB_EVENT_DELETED
+	g_hevEventFiltered;
+
 int LoadDbintfModule()
 {
 	// create events once, they will be inherited by all database plugins
-	CreateHookableEvent(ME_DB_CONTACT_DELETED);
-	CreateHookableEvent(ME_DB_CONTACT_ADDED);
-	CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-	CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
+	g_hevContactDeleted = CreateHookableEvent(ME_DB_CONTACT_DELETED);
+	g_hevContactAdded   = CreateHookableEvent(ME_DB_CONTACT_ADDED);
+	g_hevSettingChanged = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+	g_hevMarkedRead     = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
 
-	CreateHookableEvent(ME_DB_EVENT_ADDED);
-	CreateHookableEvent(ME_DB_EVENT_DELETED);
-	CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+	g_hevEventAdded = CreateHookableEvent(ME_DB_EVENT_ADDED);
+	g_hevEventEdited = CreateHookableEvent(ME_DB_EVENT_EDITED);
+	g_hevEventDeleted = CreateHookableEvent(ME_DB_EVENT_DELETED);
+	g_hevEventFiltered = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 	return 0;
 }
