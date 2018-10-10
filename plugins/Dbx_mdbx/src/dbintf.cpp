@@ -57,15 +57,6 @@ CDbxMDBX::~CDbxMDBX()
 	if (m_crypto)
 		m_crypto->destroy();
 
-	DestroyHookableEvent(g_hevEventDeleted);
-	DestroyHookableEvent(g_hevEventAdded);
-	DestroyHookableEvent(g_hevSettingChanged);
-	DestroyHookableEvent(g_hevMarkedRead);
-
-	DestroyHookableEvent(g_hevEventAdded);
-	DestroyHookableEvent(g_hevEventDeleted);
-	DestroyHookableEvent(g_hevEventFiltered);
-
 	mir_free(m_tszProfileName);
 }
 

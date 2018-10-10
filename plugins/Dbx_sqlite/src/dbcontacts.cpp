@@ -81,8 +81,8 @@ MCONTACT CDbxSQLite::AddContact()
 	DBCachedContact *cc = m_cache->AddContactToCache(hContact);
 	if (cc == nullptr)
 		return INVALID_CONTACT_ID;
-	NotifyEventHooks(g_hevEventAdded, hContact);
 
+	NotifyEventHooks(g_hevContactAdded, hContact);
 	return hContact;
 }
 
@@ -104,7 +104,7 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 	}
 
 	m_cache->FreeCachedContact(hContact);
-	NotifyEventHooks(g_hevEventDeleted, hContact);
+	NotifyEventHooks(g_hevContactDeleted, hContact);
 
 	return 0;
 }
