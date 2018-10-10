@@ -73,7 +73,7 @@ public:
 
 DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
 {
-	debugLogA("Sending message: flags %08x, to '%S', message '%S'\n", dwFlags, szEmail.c_str(), lpwszMessage.c_str());
+	debugLogA("Sending message: flags %08x, to '%s', message '%S'\n", dwFlags, szEmail.c_str(), lpwszMessage.c_str());
 
 	DWORD dwRet = 0;
 	LPSTR lpszMessageConverted = (LPSTR)lpwszMessage.GetString();
