@@ -1610,7 +1610,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					size_t dwCompressedSize;
 					mir_ptr<BYTE> lpbCompressed((LPBYTE)mir_base64_decode(plpsRFTText, &dwCompressedSize));
 					DWORD dwRTFDataSize = (DWORD)dwRFTBuffSize;
-					if (uncompress(lpbRTFData, &dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
+					if (uncompress(lpbRTFData, &dwRTFDataSize, lpbCompressed, (uLong)dwCompressedSize) == Z_OK) {
 						BinBuffer buf(lpbRTFData, dwRTFDataSize);
 
 						CMStringA lpsRTFString, lpsBackColour, szString;
