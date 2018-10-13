@@ -59,6 +59,11 @@ HMENU g_hMenu = nullptr;
 
 GlobalLogSettings g_Settings;
 
+static MODULEINFO* MM_CreateModule()
+{
+	return new MODULEINFO();
+}
+
 static void OnDestroyModule(MODULEINFO *mi)
 {
 	if (mi->hOnlineIcon)
@@ -231,6 +236,7 @@ void Load_ChatModule()
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Chat module"), FONTMODE_USE, &g_plugin };
 	Chat_CustomizeApi(&data);
 
+	g_chatApi.MM_CreateModule = MM_CreateModule;
 	g_chatApi.OnCreateModule = OnCreateModule;
 	g_chatApi.OnDestroyModule = OnDestroyModule;
 	g_chatApi.OnReplaceSession = OnReplaceSession;

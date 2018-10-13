@@ -98,9 +98,8 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	CMStringW wszChannelName = pGuild->wszName + L"#" + pch["name"].as_mstring();
 
 	// filter our all channels but the text ones
-	if (pch["type"].as_int() != 0) {
+	if (pch["type"].as_int() != 0)
 		return nullptr;
-	}
 
 	CMStringW wszTopic = pch["topic"].as_mstring();
 
@@ -139,18 +138,34 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
 	if (oldMsgId != 0 && pUser->lastMsg.id > oldMsgId)
 		RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId, 99);
-
-	for (auto &it : pGuild->arChatUsers)
-		AddUserToChannel(*pUser, *it);
-
 	return pUser;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::AddUserToChannel(const CDiscordUser &pChannel, const CDiscordGuildMember &pUser)
+void CDiscordProto::AddGuildUser(SnowFlake guildId, const CDiscordGuildMember &pUser)
 {
-	GCEVENT gce = { m_szModuleName, pChannel.wszUsername, GC_EVENT_JOIN };
+	const CDiscordUser *pChannel = nullptr;
+	for (auto &it : arUsers)
+		if (it->guildId == guildId) {
+			pChannel = it;
+			break;
+		}
+
+	if (pChannel == nullptr)
+		return;
+
+	int flags = GC_SSE_ONLYLISTED;
+	switch (pUser.iStatus) {
+	case ID_STATUS_ONLINE: case ID_STATUS_NA: case ID_STATUS_DND:
+		flags += GC_SSE_ONLINE;
+		break;
+
+	default:
+		return;
+	}
+
+	GCEVENT gce = { m_szModuleName, pChannel->wszUsername, GC_EVENT_JOIN };
 	gce.time = time(0);
 	gce.dwFlags = GCEF_SILENT;
 
@@ -163,15 +178,7 @@ void CDiscordProto::AddUserToChannel(const CDiscordUser &pChannel, const CDiscor
 	gce.ptszNick = pUser.wszNick;
 	Chat_Event(&gce);
 
-	int flags = GC_SSE_ONLYLISTED;
-	switch (pUser.iStatus) {
-	case ID_STATUS_ONLINE: case ID_STATUS_NA: case ID_STATUS_DND:
-		flags += GC_SSE_ONLINE;
-		break;
-	default:
-		flags += GC_SSE_OFFLINE;
-	}
-	Chat_SetStatusEx(m_szModuleName, pChannel.wszUsername, flags, wszUserId);
+	Chat_SetStatusEx(m_szModuleName, pChannel->wszUsername, flags, wszUserId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -222,10 +229,6 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 			gm->iStatus = StrToStatus(s["status"].as_mstring());
 	}
 
-	for (auto &pm : newMembers) {
-		for (auto &pUser : arUsers) {
-			if (pUser->guildId == pGuild->id)
-				AddUserToChannel(*pUser, *pm);
-		}
-	}
+	for (auto &pm : newMembers)
+		AddGuildUser(pGuild->id, *pm);
 }

@@ -88,15 +88,10 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 		}
 	}
 	else {
-		CDiscordGuild *pGuild = FindGuild(guildId);
-		if (pGuild == nullptr)
-			return;
-
 		// group channel for a guild
-		CDiscordUser *pUser = ProcessGuildChannel(pGuild, pRoot);
-		if (pUser != nullptr)
-			for (auto &it : pGuild->arChatUsers)
-				AddUserToChannel(*pUser, *it);
+		CDiscordGuild *pGuild = FindGuild(guildId);
+		if (pGuild)
+			ProcessGuildChannel(pGuild, pRoot);
 	}
 }
 
@@ -254,7 +249,7 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 		CMStringW wszOldNick;
 		SESSION_INFO *si = g_chatApi.SM_FindSession(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
-			USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, wszUserId);
+			USERINFO *ui = g_chatApi.UM_FindUser(si, wszUserId);
 			if (ui != nullptr)
 				wszOldNick = ui->pszNick;
 		}
@@ -382,9 +377,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 					pm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
 				pGuild->arChatUsers.insert(pm);
 
-				for (auto &it : arUsers)
-					if (it->guildId == pGuild->id)
-						AddUserToChannel(*it, *pm);
+				AddGuildUser(pGuild->id, *pm);
 			}
 
 			ParseSpecialChars(si, wszText);

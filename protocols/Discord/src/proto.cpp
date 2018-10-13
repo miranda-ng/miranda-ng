@@ -108,7 +108,7 @@ void CDiscordProto::OnModulesLoaded()
 	}
 
 	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_SHAREDUSERS;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);

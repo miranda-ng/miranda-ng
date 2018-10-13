@@ -117,7 +117,7 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 
 BOOL SM_ReconfigureFilters();
 
-int UM_CompareItem(USERINFO *u1, const wchar_t* pszNick, WORD wStatus);
+int UM_CompareItem(const USERINFO *u1, const USERINFO *u2);
 
 // tools.c
 BOOL     DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);

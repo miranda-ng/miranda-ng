@@ -294,7 +294,7 @@ wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time)
 char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	SESSION_INFO *si = streamData->si;
-	MODULEINFO *mi = g_chatApi.MM_FindModule(si->pszModule);
+	MODULEINFO *mi = si->pMI;
 
 	// guesstimate amount of memory for the RTF
 	CMStringA buf;

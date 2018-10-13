@@ -66,16 +66,13 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	if (si) {
 		m_hContact = si->hContact;
 
-		MODULEINFO *mi = g_chatApi.MM_FindModule(si->pszModule);
-		if (mi != nullptr) {
-			if (mi->bColor) {
-				m_iFG = 4;
-				m_bFGSet = true;
-			}
-			if (mi->bBkgColor) {
-				m_iBG = 2;
-				m_bBGSet = true;
-			}
+		if (si->pMI->bColor) {
+			m_iFG = 4;
+			m_bFGSet = true;
+		}
+		if (si->pMI->bBkgColor) {
+			m_iBG = 2;
+			m_bBGSet = true;
 		}
 	}
 }
@@ -578,8 +575,10 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			if (dc == nullptr)
 				break;
 
+			int nUsers = m_si->getUserList().getCount();
+
 			int index = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-			if (index == LB_ERR || m_si->nUsersInNicklist <= 0)
+			if (index == LB_ERR || nUsers <= 0)
 				break;
 
 			int height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
@@ -588,7 +587,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 
 			GetClientRect(m_nickList.GetHwnd(), &rc);
 
-			int items = m_si->nUsersInNicklist - index;
+			int items = nUsers - index;
 			if (rc.bottom - rc.top > items * height) {
 				rc.top = items * height;
 				FillRect(dc, &rc, g_chatApi.hListBkgBrush);
@@ -851,12 +850,10 @@ void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	if (m_si != nullptr) {
-		MODULEINFO *pInfo = g_chatApi.MM_FindModule(m_si->pszModule);
-		if (pInfo)
-			ShellExecute(m_hwnd, nullptr, g_chatApi.GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
-	}
-	else CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
+	if (m_si != nullptr)
+		ShellExecute(m_hwnd, nullptr, g_chatApi.GetChatLogsFilename(m_si, 0), nullptr, nullptr, SW_SHOW);
+	else
+		CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
 }
 
 void CSrmmBaseDialog::onClick_ChanMgr(CCtrlButton *pButton)
@@ -873,7 +870,7 @@ void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 	ScreenToClient(pList->GetHwnd(), &hti.pt);
 
 	int item = LOWORD(pList->SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-	USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si->pUsers, item);
+	USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, item);
 	if (ui == nullptr)
 		return;
 
@@ -975,11 +972,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
 	m_message.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
-	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
-	if (mi == nullptr)
-		return;
-
-	if (mi->bColor) {
+	if (m_si->pMI->bColor) {
 		bool bState = m_btnColor.IsPushed();
 		if (!bState && cf.crTextColor != m_clrInputFG)
 			m_btnColor.Push(true);
@@ -987,7 +980,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 			m_btnColor.Push(false);
 	}
 
-	if (mi->bBkgColor) {
+	if (m_si->pMI->bBkgColor) {
 		bool bState = m_btnBkColor.IsPushed();
 		if (!bState && cf.crBackColor != m_clrInputBG)
 			m_btnBkColor.Push(true);
@@ -995,7 +988,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 			m_btnBkColor.Push(false);
 	}
 
-	if (mi->bBold) {
+	if (m_si->pMI->bBold) {
 		bool bState = m_btnBold.IsPushed();
 		UINT u2 = cf.dwEffects & CFE_BOLD;
 		if (!bState && u2 != 0)
@@ -1004,7 +997,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 			m_btnBold.Push(false);
 	}
 
-	if (mi->bItalics) {
+	if (m_si->pMI->bItalics) {
 		bool bState = m_btnItalic.IsPushed();
 		UINT u2 = cf.dwEffects & CFE_ITALIC;
 		if (!bState && u2 != 0)
@@ -1013,7 +1006,7 @@ void CSrmmBaseDialog::RefreshButtonStatus(void)
 			m_btnItalic.Push(false);
 	}
 
-	if (mi->bUnderline) {
+	if (m_si->pMI->bUnderline) {
 		bool bState = m_btnUnderline.IsPushed();
 		UINT u2 = cf.dwEffects & CFE_UNDERLINE;
 		if (!bState && u2 != 0)

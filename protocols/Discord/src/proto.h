@@ -196,6 +196,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	OBJLIST<CDiscordUser> arUsers;
 	OBJLIST<SnowFlake> arOwnMessages;
+
 	CDiscordUser* FindUser(SnowFlake id);
 	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
 	CDiscordUser* FindUserByChannel(SnowFlake channelId);
@@ -226,7 +227,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	}
 
 	void ProcessGuild(const JSONNode&);
-	void AddUserToChannel(const CDiscordUser &pChannel, const CDiscordGuildMember &pUser);
+	void AddGuildUser(SnowFlake guildId, const CDiscordGuildMember &pUser);
 	void ParseGuildContents(CDiscordGuild *guild, const JSONNode &);
 	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode&);
 	void ProcessRole(CDiscordGuild *guild, const JSONNode&);

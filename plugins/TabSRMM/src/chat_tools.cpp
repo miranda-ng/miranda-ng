@@ -534,7 +534,7 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 	if (iNickIndex)
 		*iNickIndex = 0;
 
-	for (USERINFO *ui = si->pUsers; ui; ui = ui->next) {
+	for (auto &ui : si->getUserList()) {
 		if (!mir_wstrcmp(ui->pszNick, ptszNick)) {
 			STATUSINFO *ti = g_chatApi.TM_FindStatus(si->pStatuses, g_chatApi.TM_WordToString(si->pStatuses, ui->Status));
 			if (ti) {

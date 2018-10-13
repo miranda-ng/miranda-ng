@@ -661,3 +661,8 @@ g_hevEventEdited @693 NONAME
 g_hevEventFiltered @694 NONAME
 g_hevMarkedRead @695 NONAME
 g_hevSettingChanged @696 NONAME
+??0GCModuleInfoBase@@QAE@XZ @697 NONAME
+??0GCSessionInfoBase@@QAE@XZ @698 NONAME
+??1GCModuleInfoBase@@QAE@XZ @699 NONAME
+??1GCSessionInfoBase@@QAE@XZ @700 NONAME
+?getUserList@GCSessionInfoBase@@QAEAAU?$OBJLIST@UUSERINFO@@@@XZ @701 NONAME

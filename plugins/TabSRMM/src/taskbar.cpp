@@ -840,39 +840,37 @@ void CThumbMUC::renderContent()
 	if (si == nullptr)
 		return;
 
-	const MODULEINFO *mi = g_chatApi.MM_FindModule(si->pszModule);
-	if (mi) {
-		wchar_t szTemp[250];
-		if (m_dat->m_dwUnread) {
-			mir_snwprintf(szTemp, TranslateT("%d unread"), m_dat->m_dwUnread);
-			CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-			m_rcIcon.top += m_sz.cy;
+	const MODULEINFO *mi = si->pMI;
+	wchar_t szTemp[250];
+	if (m_dat->m_dwUnread) {
+		mir_snwprintf(szTemp, TranslateT("%d unread"), m_dat->m_dwUnread);
+		CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+		m_rcIcon.top += m_sz.cy;
+	}
+	if (si->iType != GCW_SERVER) {
+		wchar_t* _p = nullptr;
+		if (si->ptszStatusbarText)
+			_p = wcschr(si->ptszStatusbarText, ']');
+		if (_p) {
+			_p++;
+			wchar_t	_t = *_p;
+			*_p = 0;
+			mir_snwprintf(szTemp, TranslateT("Chat room %s"), si->ptszStatusbarText);
+			*_p = _t;
 		}
-		if (si->iType != GCW_SERVER) {
-			wchar_t* _p = nullptr;
-			if (si->ptszStatusbarText)
-				_p = wcschr(si->ptszStatusbarText, ']');
-			if (_p) {
-				_p++;
-				wchar_t	_t = *_p;
-				*_p = 0;
-				mir_snwprintf(szTemp, TranslateT("Chat room %s"), si->ptszStatusbarText);
-				*_p = _t;
-			}
-			else
-				mir_snwprintf(szTemp, TranslateT("Chat room %s"), L"");
-			CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+		else
+			mir_snwprintf(szTemp, TranslateT("Chat room %s"), L"");
+		CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+		m_rcIcon.top += m_sz.cy;
+		mir_snwprintf(szTemp, TranslateT("%d user(s)"), si->getUserList().getCount());
+		CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+	}
+	else {
+		mir_snwprintf(szTemp, TranslateT("Server window"));
+		CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
+		if (mi->tszIdleMsg[0] && mir_wstrlen(mi->tszIdleMsg) > 2) {
 			m_rcIcon.top += m_sz.cy;
-			mir_snwprintf(szTemp, TranslateT("%d user(s)"), si->nUsersInNicklist);
-			CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-		}
-		else {
-			mir_snwprintf(szTemp, TranslateT("Server window"));
-			CSkin::RenderText(m_hdc, m_dat->m_hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-			if (mi->tszIdleMsg[0] && mir_wstrlen(mi->tszIdleMsg) > 2) {
-				m_rcIcon.top += m_sz.cy;
-				CSkin::RenderText(m_hdc, m_dat->m_hTheme, &mi->tszIdleMsg[2], &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-			}
+			CSkin::RenderText(m_hdc, m_dat->m_hTheme, &mi->tszIdleMsg[2], &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
 		}
 	}
 
@@ -887,7 +885,6 @@ void CThumbMUC::renderContent()
 			szStatusMsg = TranslateT("no topic set.");
 	}
 	else if (mi) {
-		wchar_t szTemp[250];
 		mir_snwprintf(szTemp, TranslateT("%s on %s%s"), m_dat->m_wszMyNickname, mi->ptszModDispName, L"");
 		szStatusMsg = szTemp;
 	}

@@ -44,29 +44,26 @@ static int sttCompareNicknames(const wchar_t *s1, const wchar_t *s2)
 	return mir_wstrcmpi(s1, s2);
 }
 
-int UM_CompareItem(USERINFO *u1, const wchar_t* pszNick, WORD wStatus)
+int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)
 {
 	WORD dw1 = u1->Status;
-	WORD dw2 = wStatus;
+	WORD dw2 = u2->Status;
 
 	for (int i = 0; i < 8; i++) {
 		if ((dw1 & 1) && !(dw2 & 1))
 			return -1;
 		if ((dw2 & 1) && !(dw1 & 1))
 			return 1;
-		if ((dw1 & 1) && (dw2 & 1)) {
-			if (g_Settings.bAlternativeSorting)
-				return sttCompareNicknames(u1->pszNick, pszNick);
-			else
-				return mir_wstrcmp(u1->pszNick, pszNick);
-		}
+		if ((dw1 & 1) && (dw2 & 1))
+			break;
+	
 		dw1 = dw1 >> 1;
 		dw2 = dw2 >> 1;
 	}
 
 	if (g_Settings.bAlternativeSorting)
-		return sttCompareNicknames(u1->pszNick, pszNick);
-	return mir_wstrcmp(u1->pszNick, pszNick);
+		return sttCompareNicknames(u1->pszNick, u2->pszNick);
+	return mir_wstrcmp(u1->pszNick, u2->pszNick);
 }
 
 //---------------------------------------------------

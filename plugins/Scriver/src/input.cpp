@@ -116,7 +116,6 @@ bool CScriverWindow::CheckSend()
 {
 	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
 	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
-	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
 
 	if (!isShift && !isCtrl && g_dat.sendMode == SEND_ON_ENTER) {
 		PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);

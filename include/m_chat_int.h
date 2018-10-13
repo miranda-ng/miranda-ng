@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CHAT_INT_H__
 #define M_CHAT_INT_H__ 1
 
-#pragma warning(disable:4512)
+#pragma warning(disable:4512 4275)
 
 #include <time.h>
 
@@ -83,17 +83,31 @@ struct LOGSTREAMDATA;
 
 class CChatRoomDlg;
 
-struct GCModuleInfoBase
+struct USERINFO : public MZeroedObject, public MNonCopyable
 {
+	wchar_t* pszNick;
+	wchar_t* pszUID;
+	WORD     Status;
+	int      iStatusEx;
+	WORD     ContactStatus;
+};
+
+struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyable
+{
+	GCModuleInfoBase();
+	~GCModuleInfoBase();
+
 	char     *pszModule;
 	wchar_t  *ptszModDispName;
 	char     *pszHeader;
 	
 	bool      bBold, bItalics, bUnderline;
 	bool      bColor, bBkgColor;
-	bool      bChanMgr, bAckMsg;
+	bool      bChanMgr, bAckMsg, bSharedUsers;
 	
 	int       iMaxText;
+
+	OBJLIST<USERINFO> arUsers;  // for shared list of users
 };
 
 struct COMMANDINFO
@@ -131,18 +145,11 @@ struct STATUSINFO
 	STATUSINFO *next;
 };
 
-struct USERINFO
+struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopyable
 {
-	wchar_t* pszNick;
-	wchar_t* pszUID;
-	WORD     Status;
-	int      iStatusEx;
-	WORD     ContactStatus;
-	USERINFO *next;
-};
+	GCSessionInfoBase();
+	~GCSessionInfoBase();
 
-struct GCSessionInfoBase
-{
 	MCONTACT    hContact;
 
 	bool        bInitDone;
@@ -156,7 +163,6 @@ struct GCSessionInfoBase
 	wchar_t*    ptszTopic;
 
 	int         iType;
-	int         nUsersInNicklist;
 	int         iEventCount;
 	int         iStatusCount;
 
@@ -171,10 +177,19 @@ struct GCSessionInfoBase
 	CChatRoomDlg *pDlg;
 	COMMANDINFO *lpCommands, *lpCurrentCommand;
 	LOGINFO *pLog, *pLogEnd;
-	USERINFO *pUsers, *pMe;
+	USERINFO *pMe;
 	STATUSINFO *pStatuses;
+	MODULEINFO *pMI;
+
+	OBJLIST<USERINFO> arUsers;
 
 	wchar_t pszLogFileName[MAX_PATH];
+
+	__forceinline OBJLIST<USERINFO>& getUserList()
+	{	
+		GCModuleInfoBase *mi = (GCModuleInfoBase*)pMI;
+		return (mi->bSharedUsers) ? mi->arUsers : arUsers;
+	}
 };
 
 struct GCLogStreamDataBase
@@ -260,6 +275,7 @@ struct CHAT_MANAGER
 	void          (*SetActiveSession)(SESSION_INFO *si);
 	SESSION_INFO* (*GetActiveSession)(void);
 
+	SESSION_INFO* (*SM_CreateSession)(void);
 	SESSION_INFO* (*SM_FindSession)(const wchar_t *pszID, const char *pszModule);
 	HICON         (*SM_GetStatusIcon)(SESSION_INFO *si, USERINFO * ui);
 	BOOL          (*SM_PostMessage)(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -272,7 +288,7 @@ struct CHAT_MANAGER
 	USERINFO*     (*SM_GetUserFromIndex)(const wchar_t *pszID, const char *pszModule, int index);
 	void          (*SM_InvalidateLogDirectories)(void);
 
-	MODULEINFO*   (*MM_AddModule)(const char *pszModule);
+	MODULEINFO*   (*MM_CreateModule)(void);
 	MODULEINFO*   (*MM_FindModule)(const char *pszModule);
 	void          (*MM_FontsChanged)(void);
 	void          (*MM_IconsChanged)(void);
@@ -282,18 +298,15 @@ struct CHAT_MANAGER
 	wchar_t*      (*TM_WordToString)(STATUSINFO *pStatusList, WORD Status);
 	BOOL          (*TM_RemoveAll)(STATUSINFO** pStatusList);
 
-	BOOL          (*UM_SetStatusEx)(USERINFO *pUserList, const wchar_t* pszText, int onlyMe);
-	USERINFO*     (*UM_AddUser)(STATUSINFO *pStatusList, USERINFO **pUserList, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus);
-	USERINFO*     (*UM_SortUser)(USERINFO **ppUserList, const wchar_t *pszUID);
-	USERINFO*     (*UM_FindUser)(USERINFO *pUserList, const wchar_t *pszUID);
-	USERINFO*     (*UM_FindUserFromIndex)(USERINFO *pUserList, int index);
-	USERINFO*     (*UM_GiveStatus)(USERINFO *pUserList, const wchar_t *pszUID, WORD status);
-	USERINFO*     (*UM_SetContactStatus)(USERINFO *pUserList, const wchar_t *pszUID, WORD status);
-	USERINFO*     (*UM_TakeStatus)(USERINFO *pUserList, const wchar_t *pszUID, WORD status);
-	wchar_t*      (*UM_FindUserAutoComplete)(USERINFO *pUserList, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
-	BOOL          (*UM_RemoveUser)(USERINFO **pUserList, const wchar_t *pszUID);
-	BOOL          (*UM_RemoveAll)(USERINFO **ppUserList);
-	int           (*UM_CompareItem)(USERINFO *u1, const wchar_t *pszNick, WORD wStatus);
+	int           (*UM_CompareItem)(const USERINFO *u1, const USERINFO *u2);
+	USERINFO*     (*UM_AddUser)(STATUSINFO *pStatusList, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus);
+	USERINFO*     (*UM_FindUser)(SESSION_INFO *si, const wchar_t *pszUID);
+	USERINFO*     (*UM_FindUserFromIndex)(SESSION_INFO *si, int index);
+	USERINFO*     (*UM_GiveStatus)(SESSION_INFO *si, const wchar_t *pszUID, WORD status);
+	USERINFO*     (*UM_SetContactStatus)(SESSION_INFO *si, const wchar_t *pszUID, WORD status);
+	USERINFO*     (*UM_TakeStatus)(SESSION_INFO *si, const wchar_t *pszUID, WORD status);
+	wchar_t*      (*UM_FindUserAutoComplete)(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
+	BOOL          (*UM_RemoveUser)(SESSION_INFO *si, const wchar_t *pszUID);
 
 	LOGINFO*      (*LM_AddEvent)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd);
 	BOOL          (*LM_TrimLog)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd, int iCount);

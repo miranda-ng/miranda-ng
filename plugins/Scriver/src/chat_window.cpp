@@ -83,7 +83,7 @@ LBL_SkipEnd:
 		if (m_pLastSession != nullptr)
 			pszName = m_pLastSession->ptszName;
 	}
-	else pszName = g_chatApi.UM_FindUserAutoComplete(m_si->pUsers, m_wszSearchQuery, m_wszSearchResult);
+	else pszName = g_chatApi.UM_FindUserAutoComplete(m_si, m_wszSearchQuery, m_wszSearchResult);
 
 	mir_free(pszText);
 	replaceStrW(m_wszSearchResult, nullptr);
@@ -116,9 +116,9 @@ void CChatRoomDlg::FixTabIcons()
 	HICON hIcon;
 	if (!(m_si->wState & GC_EVENT_HIGHLIGHT)) {
 		if (m_si->wState & STATE_TALK)
-			hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? g_chatApi.MM_FindModule(m_si->pszModule)->hOnlineTalkIcon : g_chatApi.MM_FindModule(m_si->pszModule)->hOfflineTalkIcon;
+			hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->hOnlineTalkIcon : m_si->pMI->hOfflineTalkIcon;
 		else
-			hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? g_chatApi.MM_FindModule(m_si->pszModule)->hOnlineIcon : g_chatApi.MM_FindModule(m_si->pszModule)->hOfflineIcon;
+			hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
 	}
 	else hIcon = g_dat.hMsgIcon;
 
@@ -157,7 +157,7 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 		m_btnNickList.Enable(true);
 		m_btnFilter.Enable(true);
 		if (m_si->iType == GCW_CHATROOM)
-			m_btnChannelMgr.Enable(g_chatApi.MM_FindModule(m_si->pszModule)->bChanMgr);
+			m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
 	}
 
 	int toolbarTopY = bToolbar ? h - m_pParent->iSplitterY - toolbarHeight : h - m_pParent->iSplitterY;
@@ -310,10 +310,6 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
-	if (mi == nullptr)
-		return;
-
 	char *pszRtf = m_message.GetRichTextRtf();
 	if (pszRtf == nullptr)
 		return;
@@ -332,7 +328,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	ptszText.Trim();
 	ptszText.Replace(L"%", L"%%");
 
-	if (mi->bAckMsg) {
+	if (m_si->pMI->bAckMsg) {
 		EnableWindow(m_message.GetHwnd(), FALSE);
 		m_message.SendMsg(EM_SETREADONLY, TRUE, 0);
 	}
@@ -437,17 +433,14 @@ void CChatRoomDlg::UpdateNickList()
 {
 	m_nickList.SendMsg(WM_SETREDRAW, FALSE, 0);
 	m_nickList.SendMsg(LB_RESETCONTENT, 0, 0);
-	for (int index = 0; index < m_si->nUsersInNicklist; index++) {
-		USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
-		if (ui) {
-			char szIndicator = SM_GetStatusIndicator(m_si, ui);
-			if (szIndicator > '\0') {
-				static wchar_t ptszBuf[128];
-				mir_snwprintf(ptszBuf, L"%c%s", szIndicator, ui->pszNick);
-				m_nickList.SendMsg(LB_ADDSTRING, 0, (LPARAM)ptszBuf);
-			}
-			else m_nickList.SendMsg(LB_ADDSTRING, 0, (LPARAM)ui->pszNick);
+	for (auto &ui : m_si->getUserList()) {
+		char szIndicator = SM_GetStatusIndicator(m_si, ui);
+		if (szIndicator > '\0') {
+			static wchar_t ptszBuf[128];
+			mir_snwprintf(ptszBuf, L"%c%s", szIndicator, ui->pszNick);
+			m_nickList.SendMsg(LB_ADDSTRING, 0, (LPARAM)ptszBuf);
 		}
+		else m_nickList.SendMsg(LB_ADDSTRING, 0, (LPARAM)ui->pszNick);
 	}
 	m_nickList.SendMsg(WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
@@ -459,18 +452,14 @@ void CChatRoomDlg::UpdateOptions()
 {
 	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_bNicklistEnabled ? "chat_nicklist" : "chat_nicklist2"));
 	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(m_bFilterEnabled ? "chat_filter" : "chat_filter2"));
-	{
-		MODULEINFO *pInfo = g_chatApi.MM_FindModule(m_si->pszModule);
-		if (pInfo) {
-			m_btnBold.Enable(pInfo->bBold);
-			m_btnItalic.Enable(pInfo->bItalics);
-			m_btnUnderline.Enable(pInfo->bUnderline);
-			m_btnColor.Enable(pInfo->bColor);
-			m_btnBkColor.Enable(pInfo->bBkgColor);
-			if (m_si->iType == GCW_CHATROOM)
-				m_btnChannelMgr.Enable(pInfo->bChanMgr);
-		}
-	}
+
+	m_btnBold.Enable(m_si->pMI->bBold);
+	m_btnItalic.Enable(m_si->pMI->bItalics);
+	m_btnUnderline.Enable(m_si->pMI->bUnderline);
+	m_btnColor.Enable(m_si->pMI->bColor);
+	m_btnBkColor.Enable(m_si->pMI->bBkgColor);
+	if (m_si->iType == GCW_CHATROOM)
+		m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
 
 	UpdateStatusBar();
 	UpdateTitle();
@@ -511,14 +500,13 @@ void CChatRoomDlg::UpdateOptions()
 
 void CChatRoomDlg::UpdateStatusBar()
 {
-	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
 	wchar_t szTemp[512];
-	mir_snwprintf(szTemp, L"%s : %s", mi->ptszModDispName, m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L"");
+	mir_snwprintf(szTemp, L"%s : %s", m_si->pMI->ptszModDispName, m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L"");
 
 	StatusBarData sbd;
 	sbd.iItem = 0;
 	sbd.iFlags = SBDF_TEXT | SBDF_ICON;
-	sbd.hIcon = m_si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
+	sbd.hIcon = m_si->wStatus == ID_STATUS_ONLINE ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
 	sbd.pszText = szTemp;
 	SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
 
@@ -534,24 +522,23 @@ void CChatRoomDlg::UpdateStatusBar()
 
 void CChatRoomDlg::UpdateTitle()
 {
-	MODULEINFO *mi = g_chatApi.MM_FindModule(m_si->pszModule);
-
 	TitleBarData tbd = {};
-	tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
-	tbd.hIconBig = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIconBig : mi->hOfflineIconBig;
+	tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
+	tbd.hIconBig = (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->hOnlineIconBig : m_si->pMI->hOfflineIconBig;
 	tbd.hIconNot = (m_si->wState & (GC_EVENT_HIGHLIGHT | STATE_TALK)) ? GetCachedIcon("chat_overlay") : nullptr;
 
+	int nUsers = m_si->getUserList().getCount();
 	wchar_t szTemp[512];
 	switch (m_si->iType) {
 	case GCW_CHATROOM:
 		mir_snwprintf(szTemp,
-			(m_si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
-			m_si->ptszName, m_si->nUsersInNicklist);
+			(nUsers == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
+			m_si->ptszName, nUsers);
 		break;
 	case GCW_PRIVMESS:
 		mir_snwprintf(szTemp,
-			(m_si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
-			m_si->ptszName, m_si->nUsersInNicklist);
+			(nUsers == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
+			m_si->ptszName, nUsers);
 		break;
 	case GCW_SERVER:
 		mir_snwprintf(szTemp, L"%s: Server", m_si->ptszName);
@@ -845,7 +832,7 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 			// string we have
 			int iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
 			for (int i = 0; i < iItems; i++) {
-				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si->pUsers, i);
+				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i);
 				if (ui) {
 					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
 						m_nickList.SendMsg(LB_SETCURSEL, i, 0);

@@ -142,7 +142,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *gci)
 	if (gci->Flags & GCF_DATA)     gci->pItemData = si->pItemData;
 	if (gci->Flags & GCF_HCONTACT) gci->hContact = si->hContact;
 	if (gci->Flags & GCF_TYPE)     gci->iType = si->iType;
-	if (gci->Flags & GCF_COUNT)    gci->iCount = si->nUsersInNicklist;
+	if (gci->Flags & GCF_COUNT)    gci->iCount = si->getUserList().getCount();
 	if (gci->Flags & GCF_USERS)    gci->pszUsers = SM_GetUsers(si);
 	if (gci->Flags & GCF_ID)       gci->pszID = si->ptszID;
 	if (gci->Flags & GCF_NAME)     gci->pszName = si->ptszName;
@@ -158,7 +158,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 		return GC_ERROR;
 
 	mir_cslock lck(csChat);
-	MODULEINFO *mi = g_chatApi.MM_AddModule(gcr->pszModule);
+	MODULEINFO *mi = MM_AddModule(gcr->pszModule);
 	if (mi == nullptr)
 		return GC_ERROR;
 
@@ -170,6 +170,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 	mi->bBkgColor = (gcr->dwFlags & GC_BKGCOLOR) != 0;
 	mi->bAckMsg = (gcr->dwFlags & GC_ACKMSG) != 0;
 	mi->bChanMgr = (gcr->dwFlags & GC_CHANMGR) != 0;
+	mi->bSharedUsers = (gcr->dwFlags & GC_SHAREDUSERS) != 0;
 	mi->iMaxText = gcr->iMaxText;
 	mi->pszHeader = g_chatApi.Log_CreateRtfHeader();
 
@@ -195,12 +196,11 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 	// try to restart a session first
 	SESSION_INFO *si = SM_FindSession(ptszID, pszModule);
 	if (si != nullptr) {
-		g_chatApi.UM_RemoveAll(&si->pUsers);
+		UM_RemoveAll(si);
 		g_chatApi.TM_RemoveAll(&si->pStatuses);
 		lck.unlock();
 
 		si->iStatusCount = 0;
-		si->nUsersInNicklist = 0;
 		si->pMe = nullptr;
 
 		if (g_chatApi.OnReplaceSession)
@@ -209,9 +209,10 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 	}
 
 	// create a new session
-	si = (SESSION_INFO*)mir_calloc(g_cbSession);
+	si = g_chatApi.SM_CreateSession();
 	si->ptszID = mir_wstrdup(ptszID);
 	si->pszModule = mir_strdup(pszModule);
+	si->pMI = mi;
 
 	g_chatApi.arSessions.insert(si);
 	lck.unlock();
@@ -369,11 +370,10 @@ static void AddUser(GCEVENT *gce)
 
 	WORD status = TM_StringToWord(si->pStatuses, gce->ptszStatus);
 
-	USERINFO *ui = g_chatApi.UM_AddUser(si->pStatuses, &si->pUsers, gce->ptszUID, gce->ptszNick, status);
+	USERINFO *ui = g_chatApi.UM_AddUser(si->pStatuses, si, gce->ptszUID, gce->ptszNick, status);
 	if (ui == nullptr)
 		return;
 
-	si->nUsersInNicklist++;
 	if (g_chatApi.OnAddUser)
 		g_chatApi.OnAddUser(si, ui);
 
@@ -398,7 +398,7 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 		if (!si->bInitDone || mir_strcmpi(si->pszModule, gce->pszModule))
 			continue;
 
-		if (!g_chatApi.UM_FindUser(si->pUsers, gce->ptszUID))
+		if (!g_chatApi.UM_FindUser(si, gce->ptszUID))
 			continue;
 
 		if (g_chatApi.OnEventBroadcast)
@@ -533,7 +533,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 
 		if (si && (si->bInitDone || gce->iType == GC_EVENT_TOPIC || (gce->iType == GC_EVENT_JOIN && gce->bIsMe))) {
 			if (gce->ptszNick == nullptr && gce->ptszUID != nullptr) {
-				USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
+				USERINFO *ui = g_chatApi.UM_FindUser(si, gce->ptszUID);
 				if (ui != nullptr)
 					gce->ptszNick = ui->pszNick;
 			}
@@ -625,7 +625,7 @@ MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, c
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
-		USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, wszOldId);
+		USERINFO *ui = g_chatApi.UM_FindUser(si, wszOldId);
 		if (ui)
 			replaceStrW(ui->pszUID, wszNewId);
 		if (wszId)
@@ -691,7 +691,7 @@ MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, in
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
-		g_chatApi.UM_SetStatusEx(si->pUsers, wszText, flags);
+		UM_SetStatusEx(si, wszText, flags);
 		if (si->pDlg)
 			RedrawWindow(GetDlgItem(si->pDlg->GetHwnd(), IDC_LIST), nullptr, nullptr, RDW_INVALIDATE);
 		if (wszId)

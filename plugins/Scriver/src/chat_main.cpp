@@ -80,6 +80,11 @@ static void OnDestroyModule(MODULEINFO *mi)
 	if (mi->hOfflineTalkIcon) DestroyIcon(mi->hOfflineTalkIcon);
 }
 
+static MODULEINFO* MM_CreateModule()
+{
+	return new MODULEINFO();
+}
+
 static void OnCreateModule(MODULEINFO *mi)
 {
 	HIMAGELIST hList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
@@ -130,6 +135,7 @@ int Chat_Load()
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP, &g_plugin };
 	Chat_CustomizeApi(&data);
 
+	g_chatApi.MM_CreateModule = MM_CreateModule;
 	g_chatApi.OnCreateModule = OnCreateModule;
 	g_chatApi.OnDestroyModule = OnDestroyModule;
 	g_chatApi.OnLoadSettings = OnLoadSettings;

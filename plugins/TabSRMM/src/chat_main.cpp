@@ -209,6 +209,16 @@ static void stubShowRoom(SESSION_INFO *si)
 	ShowRoom(nullptr, si);
 }
 
+static MODULEINFO* MM_CreateModule()
+{
+	return new MODULEINFO();
+}
+
+static SESSION_INFO* SM_CreateSession()
+{
+	return new SESSION_INFO();
+}
+
 // load the module
 int Chat_Load()
 {
@@ -218,11 +228,13 @@ int Chat_Load()
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message sessions") L"/" LPGENW("Group chats"), FONTMODE_ALTER, &g_plugin };
 	Chat_CustomizeApi(&data);
 	
+	g_chatApi.MM_CreateModule = MM_CreateModule;
 	g_chatApi.OnCreateModule = OnCreateModule;
 	g_chatApi.OnNewUser = OnNewUser;
 
 	g_chatApi.OnSetTopic = OnSetTopic;
 
+	g_chatApi.SM_CreateSession = SM_CreateSession;
 	g_chatApi.OnCreateSession = OnCreateSession;
 	g_chatApi.OnReplaceSession = OnReplaceSession;
 

@@ -26,6 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define WINDOWS_COMMANDS_MAX 30
 
+static int CompareUser(const USERINFO *u1, const USERINFO *u2)
+{
+	return g_chatApi.UM_CompareItem(u1, u2);
+}
+
 static int compareSessions(const SESSION_INFO *p1, const SESSION_INFO *p2)
 {
 	int res = mir_strcmpi(p1->pszModule, p2->pszModule);
@@ -74,6 +79,18 @@ static SESSION_INFO* GetActiveSession(void)
 //	Session Manager functions
 //	Keeps track of all sessions and its windows
 
+GCSessionInfoBase::GCSessionInfoBase() :
+	arUsers(10, CompareUser)
+{}
+
+GCSessionInfoBase::~GCSessionInfoBase()
+{}
+
+static SESSION_INFO* SM_CreateSession(void)
+{
+	return new SESSION_INFO();
+}
+
 static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 {
 	if (g_clistApi.pfnGetEvent(si->hContact, 0))
@@ -98,12 +115,11 @@ static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 		db_unset(si->hContact, "CList", "StatusMsg");
 	}
 
-	g_chatApi.UM_RemoveAll(&si->pUsers);
+	UM_RemoveAll(si);
 	g_chatApi.TM_RemoveAll(&si->pStatuses);
 	g_chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
 
 	si->iStatusCount = 0;
-	si->nUsersInNicklist = 0;
 
 	mir_free(si->pszModule);
 	mir_free(si->ptszID);
@@ -118,7 +134,7 @@ static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 		si->lpCommands = pNext;
 	}
 
-	mir_free(si);
+	delete si;
 }
 
 int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeContact)
@@ -172,9 +188,9 @@ BOOL SM_SetOffline(const char *pszModule, SESSION_INFO *si)
 		return TRUE;
 	}
 
-	g_chatApi.UM_RemoveAll(&si->pUsers);
+	UM_RemoveAll(si);
 	si->pMe = nullptr;
-	si->nUsersInNicklist = 0;
+
 	if (si->iType != GCW_SERVER)
 		si->bInitDone = false;
 	if (g_chatApi.OnOfflineSession)
@@ -222,19 +238,6 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	return TRUE;
 }
 
-BOOL SM_MoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID)
-{
-	if (!pszUID)
-		return FALSE;
-
-	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
-	if (si == nullptr)
-		return FALSE;
-
-	g_chatApi.UM_SortUser(&si->pUsers, pszUID);
-	return TRUE;
-}
-
 BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID)
 {
 	if (!pszModule || !pszUID)
@@ -244,15 +247,14 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 		if ((pszID && mir_wstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
-		USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, pszUID);
+		USERINFO *ui = g_chatApi.UM_FindUser(si, pszUID);
 		if (ui) {
-			si->nUsersInNicklist--;
 			if (g_chatApi.OnRemoveUser)
 				g_chatApi.OnRemoveUser(si, ui);
 
 			if (si->pMe == ui)
 				si->pMe = nullptr;
-			g_chatApi.UM_RemoveUser(&si->pUsers, pszUID);
+			g_chatApi.UM_RemoveUser(si, pszUID);
 
 			if (si->pDlg)
 				si->pDlg->UpdateNickList();
@@ -268,7 +270,7 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 static USERINFO* SM_GetUserFromIndex(const wchar_t *pszID, const char *pszModule, int index)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
-	return (si == nullptr) ? nullptr : g_chatApi.UM_FindUserFromIndex(si->pUsers, index);
+	return (si == nullptr) ? nullptr : g_chatApi.UM_FindUserFromIndex(si, index);
 }
 
 BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus)
@@ -277,9 +279,9 @@ BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (si == nullptr)
 		return FALSE;
 	
-	USERINFO *ui = g_chatApi.UM_GiveStatus(si->pUsers, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = g_chatApi.UM_GiveStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
-		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
+		UM_SortUser(si, ui->pszUID);
 		if (si->pDlg)
 			si->pDlg->UpdateNickList();
 	}
@@ -292,9 +294,9 @@ BOOL SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wcha
 	if (si == nullptr)
 		return FALSE;
 
-	USERINFO *ui = g_chatApi.UM_SetContactStatus(si->pUsers, pszUID, wStatus);
+	USERINFO *ui = g_chatApi.UM_SetContactStatus(si, pszUID, wStatus);
 	if (ui) {
-		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
+		UM_SortUser(si, ui->pszUID);
 		if (si->pDlg)
 			si->pDlg->UpdateNickList();
 	}
@@ -307,9 +309,9 @@ BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (si == nullptr)
 		return FALSE;
 
-	USERINFO *ui = g_chatApi.UM_TakeStatus(si->pUsers, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = g_chatApi.UM_TakeStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
-		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
+		UM_SortUser(si, ui->pszUID);
 		if (si->pDlg)
 			si->pDlg->UpdateNickList();
 	}
@@ -366,10 +368,10 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 
 	for (auto &si : g_arSessions) {
 		if ((!pszID || !mir_wstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
-			USERINFO *ui = g_chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
+			USERINFO *ui = g_chatApi.UM_FindUser(si, gce->ptszUID);
 			if (ui) {
 				replaceStrW(ui->pszNick, gce->ptszText);
-				SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
+				UM_SortUser(si, ui->pszUID);
 				if (si->pDlg)
 					si->pDlg->UpdateNickList();
 				if (g_chatApi.OnChangeNick)
@@ -485,7 +487,6 @@ SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem)
 		}
 	}
 	return nullptr;
-
 }
 
 char* SM_GetUsers(SESSION_INFO *si)
@@ -493,31 +494,12 @@ char* SM_GetUsers(SESSION_INFO *si)
 	if (si == nullptr)
 		return nullptr;
 
-	USERINFO *utemp = nullptr;
-	for (auto &p : g_arSessions) {
-		if (si == p) {
-			if ((utemp = p->pUsers) == nullptr)
-				return nullptr;
+	CMStringA res;
+	
+	for (auto &it : si->getUserList())
+		res.AppendFormat("%S ", it->pszNick);
 
-			break;
-		}
-	}
-	if (utemp == nullptr)
-		return nullptr;
-
-	char *p = nullptr;
-	size_t alloced = 0;
-	do {
-		size_t pLen = mir_strlen(p), nameLen = mir_wstrlen(utemp->pszUID);
-		if (pLen + nameLen + 2 > alloced)
-			p = (char*)mir_realloc(p, alloced += 4096);
-
-		WideCharToMultiByte(CP_ACP, 0, utemp->pszUID, -1, p + pLen, (int)nameLen + 1, nullptr, nullptr);
-		mir_strcpy(p + pLen + nameLen, " ");
-		utemp = utemp->next;
-	}
-		while (utemp != nullptr);
-	return p;
+	return res.Detach();
 }
 
 static void SM_InvalidateLogDirectories()
@@ -530,7 +512,14 @@ static void SM_InvalidateLogDirectories()
 //	Module Manager functions
 //	Necessary to keep track of all modules that has registered with the plugin
 
-static MODULEINFO* MM_AddModule(const char *pszModule)
+GCModuleInfoBase::GCModuleInfoBase() :
+	arUsers(1, CompareUser)
+{}
+
+GCModuleInfoBase::~GCModuleInfoBase()
+{}
+
+MODULEINFO* MM_AddModule(const char *pszModule)
 {
 	if (pszModule == nullptr)
 		return nullptr;
@@ -538,13 +527,18 @@ static MODULEINFO* MM_AddModule(const char *pszModule)
 	if (g_chatApi.MM_FindModule(pszModule))
 		return nullptr;
 
-	MODULEINFO *node = (MODULEINFO*)mir_calloc(g_cbModuleInfo);
+	MODULEINFO *node = g_chatApi.MM_CreateModule();
 	replaceStr(node->pszModule, pszModule);
 	if (g_chatApi.OnCreateModule)
 		g_chatApi.OnCreateModule(node);
 
 	g_arModules.insert(node);
 	return node;
+}
+
+static MODULEINFO* MM_CreateModule()
+{
+	return new MODULEINFO();
 }
 
 static void MM_IconsChanged()
@@ -567,7 +561,9 @@ static MODULEINFO* MM_FindModule(const char *pszModule)
 	if (!pszModule)
 		return nullptr;
 
-	return g_arModules.find((MODULEINFO*)&pszModule);
+	MODULEINFO *tmp = (MODULEINFO*)_alloca(sizeof(MODULEINFO));
+	tmp->pszModule = (char*)pszModule;
+	return g_arModules.find(tmp);
 }
 
 static BOOL MM_RemoveAll(void)
@@ -579,7 +575,7 @@ static BOOL MM_RemoveAll(void)
 		mir_free(mi->pszModule);
 		mir_free(mi->ptszModDispName);
 		mir_free(mi->pszHeader);
-		mir_free(mi);
+		delete mi;
 	}
 	return TRUE;
 }
@@ -677,10 +673,48 @@ static BOOL TM_RemoveAll(STATUSINFO **ppStatusList)
 // User manager functions
 // Necessary to keep track of the users in a window nicklist
 
-static int UM_CompareItem(USERINFO *u1, const wchar_t *pszNick, WORD wStatus)
+static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID)
+{
+	if (!si || !pszUID)
+		return nullptr;
+
+	for (auto &ui : si->getUserList())
+		if (!mir_wstrcmpi(ui->pszUID, pszUID))
+			return ui;
+
+	return nullptr;
+}
+
+static int compareStub(const void *p1, const void *p2)
+{
+	return CompareUser(*(USERINFO**)p1, *(USERINFO**)p2);
+}
+
+bool UM_SortUser(SESSION_INFO *si, const wchar_t *pszUID)
+{
+	if (!UM_FindUser(si, pszUID))
+		return false;
+
+	qsort(si->arUsers.getArray(), si->arUsers.getCount(), sizeof(void*), compareStub);
+	return true;
+}
+
+USERINFO* UM_AddUser(STATUSINFO *pStatusList, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus)
+{
+	if (pStatusList == nullptr || si == nullptr || pszNick == nullptr)
+		return nullptr;
+
+	USERINFO *node = new USERINFO();
+	replaceStrW(node->pszUID, pszUID);
+	node->Status = wStatus;
+	si->getUserList().insert(node);
+	return node;
+}
+
+static int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)
 {
 	WORD dw1 = u1->Status;
-	WORD dw2 = wStatus;
+	WORD dw2 = u2->Status;
 
 	for (int i = 0; i < 8; i++) {
 		if ((dw1 & 1) && !(dw2 & 1))
@@ -688,112 +722,21 @@ static int UM_CompareItem(USERINFO *u1, const wchar_t *pszNick, WORD wStatus)
 		if ((dw2 & 1) && !(dw1 & 1))
 			return 1;
 		if ((dw1 & 1) && (dw2 & 1))
-			return mir_wstrcmpi(u1->pszNick, pszNick);
+			break;
 
 		dw1 = dw1 >> 1;
 		dw2 = dw2 >> 1;
 	}
-	return mir_wstrcmpi(u1->pszNick, pszNick);
+	return mir_wstrcmpi(u1->pszNick, u2->pszNick);
 }
 
-static USERINFO* UM_SortUser(USERINFO **ppUserList, const wchar_t *pszUID)
+static USERINFO* UM_FindUserFromIndex(SESSION_INFO *si, int index)
 {
-	USERINFO *ui = *ppUserList, *pLast = nullptr;
-	if (!ui || !pszUID)
-		return nullptr;
-
-	while (ui && mir_wstrcmpi(ui->pszUID, pszUID)) {
-		pLast = ui;
-		ui = ui->next;
-	}
-
-	if (ui == nullptr)
-		return nullptr;
-	
-	USERINFO *node = ui;
-	if (pLast)
-		pLast->next = ui->next;
-	else
-		*ppUserList = ui->next;
-	ui = *ppUserList;
-
-	pLast = nullptr;
-
-	while (ui && g_chatApi.UM_CompareItem(ui, node->pszNick, node->Status) <= 0) {
-		pLast = ui;
-		ui = ui->next;
-	}
-
-	if (*ppUserList == nullptr) { // list is empty
-		*ppUserList = node;
-		node->next = nullptr;
-	}
-	else {
-		if (pLast) {
-			node->next = ui;
-			pLast->next = node;
-		}
-		else {
-			node->next = *ppUserList;
-			*ppUserList = node;
-		}
-	}
-
-	return node;
-}
-
-USERINFO* UM_AddUser(STATUSINFO *pStatusList, USERINFO **ppUserList, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus)
-{
-	if (pStatusList == nullptr || ppUserList == nullptr || pszNick == nullptr)
-		return nullptr;
-
-	USERINFO *ui = *ppUserList, *pLast = nullptr;
-	while (ui && g_chatApi.UM_CompareItem(ui, pszNick, wStatus) <= 0) {
-		pLast = ui;
-		ui = ui->next;
-	}
-
-	//	if (!UM_FindUser(*ppUserList, pszUI, wStatus)
-	USERINFO *node = (USERINFO*)mir_calloc(sizeof(USERINFO));
-	replaceStrW(node->pszUID, pszUID);
-
-	if (*ppUserList == nullptr) { // list is empty
-		*ppUserList = node;
-		node->next = nullptr;
-	}
-	else {
-		if (pLast) {
-			node->next = ui;
-			pLast->next = node;
-		}
-		else {
-			node->next = *ppUserList;
-			*ppUserList = node;
-		}
-	}
-
-	return node;
-}
-
-static USERINFO* UM_FindUser(USERINFO *pUserList, const wchar_t *pszUID)
-{
-	if (!pUserList || !pszUID)
-		return nullptr;
-
-	for (USERINFO *ui = pUserList; ui != nullptr; ui = ui->next)
-		if (!mir_wstrcmpi(ui->pszUID, pszUID))
-			return ui;
-
-	return nullptr;
-}
-
-static USERINFO* UM_FindUserFromIndex(USERINFO *pUserList, int index)
-{
-	if (!pUserList)
+	if (!si)
 		return nullptr;
 
 	int i = 0;
-	for (USERINFO *ui = pUserList; ui != nullptr; ui = ui->next) {
+	for (auto &ui : si->getUserList()) {
 		if (i == index)
 			return ui;
 		i++;
@@ -801,9 +744,9 @@ static USERINFO* UM_FindUserFromIndex(USERINFO *pUserList, int index)
 	return nullptr;
 }
 
-static USERINFO* UM_GiveStatus(USERINFO *pUserList, const wchar_t *pszUID, WORD status)
+static USERINFO* UM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, WORD status)
 {
-	USERINFO *ui = UM_FindUser(pUserList, pszUID);
+	USERINFO *ui = UM_FindUser(si, pszUID);
 	if (ui == nullptr)
 		return nullptr;
 
@@ -811,9 +754,9 @@ static USERINFO* UM_GiveStatus(USERINFO *pUserList, const wchar_t *pszUID, WORD 
 	return ui;
 }
 
-static USERINFO* UM_SetContactStatus(USERINFO *pUserList, const wchar_t *pszUID, WORD status)
+static USERINFO* UM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, WORD status)
 {
-	USERINFO *ui = UM_FindUser(pUserList, pszUID);
+	USERINFO *ui = UM_FindUser(si, pszUID);
 	if (ui == nullptr)
 		return nullptr;
 	
@@ -821,12 +764,21 @@ static USERINFO* UM_SetContactStatus(USERINFO *pUserList, const wchar_t *pszUID,
 	return ui;
 }
 
-static BOOL UM_SetStatusEx(USERINFO *pUserList, const wchar_t* pszText, int flags)
+BOOL UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags)
 {
 	int bOnlyMe = (flags & GC_SSE_ONLYLISTED) != 0, bSetStatus = (flags & GC_SSE_ONLINE) != 0;
 	char cDelimiter = (flags & GC_SSE_TABDELIMITED) ? '\t' : ' ';
 
-	for (USERINFO *ui = pUserList; ui != nullptr; ui = ui->next) {
+	if (bOnlyMe) {
+		USERINFO *ui = UM_FindUser(si, pszText);
+		if (ui == nullptr)
+			return FALSE;
+
+		ui->iStatusEx = (bSetStatus) ? 1 : 0;
+		return TRUE;
+	}
+
+	for (auto &ui : si->getUserList()) {
 		if (!bOnlyMe)
 			ui->iStatusEx = 0;
 
@@ -845,9 +797,9 @@ static BOOL UM_SetStatusEx(USERINFO *pUserList, const wchar_t* pszText, int flag
 	return TRUE;
 }
 
-static USERINFO* UM_TakeStatus(USERINFO *pUserList, const wchar_t *pszUID, WORD status)
+static USERINFO* UM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, WORD status)
 {
-	USERINFO *ui = UM_FindUser(pUserList, pszUID);
+	USERINFO *ui = UM_FindUser(si, pszUID);
 	if (ui == nullptr)
 		return nullptr;
 
@@ -855,13 +807,13 @@ static USERINFO* UM_TakeStatus(USERINFO *pUserList, const wchar_t *pszUID, WORD 
 	return ui;
 }
 
-static wchar_t* UM_FindUserAutoComplete(USERINFO *pUserList, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
+static wchar_t* UM_FindUserAutoComplete(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
 {
-	if (!pUserList || !pszOriginal || !pszCurrent)
+	if (!si || !pszOriginal || !pszCurrent)
 		return nullptr;
 
 	wchar_t *pszName = nullptr;
-	for (USERINFO *ui = pUserList; ui != nullptr; ui = ui->next)
+	for (auto &ui : si->getUserList())
 		if (ui->pszNick && my_strstri(ui->pszNick, pszOriginal) == ui->pszNick)
 			if (mir_wstrcmpi(ui->pszNick, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(ui->pszNick, pszName) < 0))
 				pszName = ui->pszNick;
@@ -869,42 +821,36 @@ static wchar_t* UM_FindUserAutoComplete(USERINFO *pUserList, const wchar_t* pszO
 	return pszName;
 }
 
-static BOOL UM_RemoveUser(USERINFO **ppUserList, const wchar_t *pszUID)
+static BOOL UM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 {
-	if (!ppUserList || !pszUID)
+	if (!si || !pszUID)
 		return FALSE;
 
-	USERINFO *ui = *ppUserList, *pLast = nullptr;
-	while (ui != nullptr) {
+	auto &arUsers = si->getUserList();
+	for (auto &ui : arUsers) {
 		if (!mir_wstrcmpi(ui->pszUID, pszUID)) {
-			if (pLast == nullptr)
-				*ppUserList = ui->next;
-			else
-				pLast->next = ui->next;
 			mir_free(ui->pszNick);
 			mir_free(ui->pszUID);
-			mir_free(ui);
+			arUsers.remove(arUsers.indexOf(&ui));
 			return TRUE;
 		}
-		pLast = ui;
-		ui = ui->next;
 	}
 	return FALSE;
 }
 
-static BOOL UM_RemoveAll(USERINFO **ppUserList)
+BOOL UM_RemoveAll(SESSION_INFO *si)
 {
-	if (!ppUserList)
+	if (!si)
 		return FALSE;
 
-	while (*ppUserList != nullptr) {
-		USERINFO *pLast = ppUserList[0]->next;
-		mir_free(ppUserList[0]->pszUID);
-		mir_free(ppUserList[0]->pszNick);
-		mir_free(*ppUserList);
-		*ppUserList = pLast;
+	if (!si->pMI->bSharedUsers) {
+		auto &arUsers = si->getUserList();
+		for (auto &ui : arUsers) {
+			mir_free(ui->pszUID);
+			mir_free(ui->pszNick);
+		}
+		arUsers.destroy();
 	}
-	*ppUserList = nullptr;
 	return TRUE;
 }
 
@@ -983,7 +929,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 		mir_cslock lck(csChat);
 
 		for (auto &p : g_arSessions) {
-			SESSION_INFO *p1 = (SESSION_INFO*)mir_realloc(p, pInit->cbSession);
+			SESSION_INFO *p1 = (SESSION_INFO*)realloc(p, pInit->cbSession);
 			memset(PBYTE(p1) + sizeof(GCSessionInfoBase), 0, pInit->cbSession - sizeof(GCSessionInfoBase));
 			if (p1 != p) { // realloc could change a pointer, reinsert a structure
 				g_arSessions.remove(p);
@@ -995,7 +941,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 		mir_cslock lck(csChat);
 
 		for (auto &mi : g_arModules) {
-			MODULEINFO *p1 = (MODULEINFO*)mir_realloc(mi, pInit->cbModuleInfo);
+			MODULEINFO *p1 = (MODULEINFO*)realloc(mi, pInit->cbModuleInfo);
 			memset(PBYTE(p1) + sizeof(GCModuleInfoBase), 0, pInit->cbModuleInfo - sizeof(GCModuleInfoBase));
 			if (p1 != mi) { // realloc could change a pointer, reinsert a structure
 				g_arModules.remove(mi);
@@ -1013,6 +959,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 
 	g_chatApi.SetActiveSession = SetActiveSession;
 	g_chatApi.GetActiveSession = GetActiveSession;
+	g_chatApi.SM_CreateSession = SM_CreateSession;
 	g_chatApi.SM_FindSession = SM_FindSession;
 	g_chatApi.SM_GetStatusIcon = SM_GetStatusIcon;
 	g_chatApi.SM_BroadcastMessage = SM_BroadcastMessage;
@@ -1024,7 +971,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 	g_chatApi.SM_GetUserFromIndex = SM_GetUserFromIndex;
 	g_chatApi.SM_InvalidateLogDirectories = SM_InvalidateLogDirectories;
 
-	g_chatApi.MM_AddModule = MM_AddModule;
+	g_chatApi.MM_CreateModule = MM_CreateModule;
 	g_chatApi.MM_FindModule = MM_FindModule;
 	g_chatApi.MM_FontsChanged = MM_FontsChanged;
 	g_chatApi.MM_IconsChanged = MM_IconsChanged;
@@ -1034,9 +981,8 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 	g_chatApi.TM_WordToString = TM_WordToString;
 	g_chatApi.TM_RemoveAll = TM_RemoveAll;
 
-	g_chatApi.UM_SetStatusEx = UM_SetStatusEx;
 	g_chatApi.UM_AddUser = UM_AddUser;
-	g_chatApi.UM_SortUser = UM_SortUser;
+	g_chatApi.UM_CompareItem = UM_CompareItem;
 	g_chatApi.UM_FindUser = UM_FindUser;
 	g_chatApi.UM_FindUserFromIndex = UM_FindUserFromIndex;
 	g_chatApi.UM_GiveStatus = UM_GiveStatus;
@@ -1044,8 +990,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 	g_chatApi.UM_TakeStatus = UM_TakeStatus;
 	g_chatApi.UM_FindUserAutoComplete = UM_FindUserAutoComplete;
 	g_chatApi.UM_RemoveUser = UM_RemoveUser;
-	g_chatApi.UM_RemoveAll = UM_RemoveAll;
-	g_chatApi.UM_CompareItem = UM_CompareItem;
 
 	g_chatApi.LM_AddEvent = LM_AddEvent;
 	g_chatApi.LM_TrimLog = LM_TrimLog;

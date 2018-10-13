@@ -78,7 +78,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, wchar_t 
 	int lineLen, textCharsCount = 0;
 	wchar_t* line = (wchar_t*)_alloca(8001 * sizeof(wchar_t));
 	wchar_t* d;
-	MODULEINFO *mi = g_chatApi.MM_FindModule(streamData->si->pszModule);
+	MODULEINFO *mi = streamData->si->pMI;
 
 	va_start(va, fmt);
 	lineLen = mir_vsnwprintf(line, 8000, fmt, va);
@@ -697,8 +697,8 @@ char* Log_CreateRtfHeader(void)
 char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	LOGINFO *lin = streamData->lin;
-	MODULEINFO *mi = g_chatApi.MM_FindModule(streamData->si->pszModule);
 	SESSION_INFO *si = streamData->si;
+	MODULEINFO *mi = si->pMI;
 
 	// ### RTF HEADER
 
