@@ -108,7 +108,7 @@ void CDiscordProto::OnModulesLoaded()
 	}
 
 	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_SHAREDUSERS;
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
@@ -169,7 +169,7 @@ int CDiscordProto::SetStatus(int iNewStatus)
 			ShutdownSession();
 		}
 		m_iStatus = m_iDesiredStatus;
-		setAllContactStatuses(ID_STATUS_OFFLINE, true);
+		setAllContactStatuses(ID_STATUS_OFFLINE, false);
 
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}

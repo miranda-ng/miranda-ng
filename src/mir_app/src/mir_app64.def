@@ -666,3 +666,4 @@ g_hevSettingChanged @696 NONAME
 ??1GCModuleInfoBase@@QEAA@XZ @699 NONAME
 ??1GCSessionInfoBase@@QEAA@XZ @700 NONAME
 ?getUserList@GCSessionInfoBase@@QEAAAEAU?$OBJLIST@UUSERINFO@@@@XZ @701 NONAME
+?getMe@GCSessionInfoBase@@QEBAPEAUUSERINFO@@XZ @702 NONAME

@@ -112,6 +112,7 @@ struct CDiscordGuild : public MZeroedObject
 	CMStringW wszName;
 	MCONTACT hContact;
 
+	GCSessionInfoBase *pParentSi;
 	OBJLIST<CDiscordGuildMember> arChatUsers;
 	OBJLIST<CDiscordRole> arRoles; // guild roles
 };
@@ -227,7 +228,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	}
 
 	void ProcessGuild(const JSONNode&);
-	void AddGuildUser(SnowFlake guildId, const CDiscordGuildMember &pUser);
+	void AddGuildUser(CDiscordGuild *guild, const CDiscordGuildMember &pUser);
 	void ParseGuildContents(CDiscordGuild *guild, const JSONNode &);
 	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode&);
 	void ProcessRole(CDiscordGuild *guild, const JSONNode&);

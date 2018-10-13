@@ -512,8 +512,7 @@ static void SM_InvalidateLogDirectories()
 //	Module Manager functions
 //	Necessary to keep track of all modules that has registered with the plugin
 
-GCModuleInfoBase::GCModuleInfoBase() :
-	arUsers(1, CompareUser)
+GCModuleInfoBase::GCModuleInfoBase()
 {}
 
 GCModuleInfoBase::~GCModuleInfoBase()
@@ -843,13 +842,12 @@ BOOL UM_RemoveAll(SESSION_INFO *si)
 	if (!si)
 		return FALSE;
 
-	if (!si->pMI->bSharedUsers) {
-		auto &arUsers = si->getUserList();
-		for (auto &ui : arUsers) {
+	if (!si->pParent) {
+		for (auto &ui : si->arUsers) {
 			mir_free(ui->pszUID);
 			mir_free(ui->pszNick);
 		}
-		arUsers.destroy();
+		si->arUsers.destroy();
 	}
 	return TRUE;
 }

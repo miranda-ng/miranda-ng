@@ -76,7 +76,12 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	GCSessionInfoBase *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->wszName, pGuild->wszName, pGuild);
 	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
 	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);
-	
+	BuildStatusList(pGuild, pGuild->wszName);
+
+	for (auto &it : pGuild->arChatUsers)
+		AddGuildUser(pGuild, *it);
+
+	pGuild->pParentSi = si;
 	pGuild->hContact = si->hContact;
 	setId(si->hContact, DB_KEY_CHANNELID, guildId);
 
@@ -104,6 +109,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	CMStringW wszTopic = pch["topic"].as_mstring();
 
 	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszChannelName);
+	si->pParent = pGuild->pParentSi;
 	BuildStatusList(pGuild, wszChannelId);
 
 	Chat_Control(m_szModuleName, wszChannelId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
@@ -143,18 +149,8 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::AddGuildUser(SnowFlake guildId, const CDiscordGuildMember &pUser)
+void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMember &pUser)
 {
-	const CDiscordUser *pChannel = nullptr;
-	for (auto &it : arUsers)
-		if (it->guildId == guildId) {
-			pChannel = it;
-			break;
-		}
-
-	if (pChannel == nullptr)
-		return;
-
 	int flags = GC_SSE_ONLYLISTED;
 	switch (pUser.iStatus) {
 	case ID_STATUS_ONLINE: case ID_STATUS_NA: case ID_STATUS_DND:
@@ -165,7 +161,7 @@ void CDiscordProto::AddGuildUser(SnowFlake guildId, const CDiscordGuildMember &p
 		return;
 	}
 
-	GCEVENT gce = { m_szModuleName, pChannel->wszUsername, GC_EVENT_JOIN };
+	GCEVENT gce = { m_szModuleName, pGuild->pParentSi->ptszID, GC_EVENT_JOIN };
 	gce.time = time(0);
 	gce.dwFlags = GCEF_SILENT;
 
@@ -178,7 +174,7 @@ void CDiscordProto::AddGuildUser(SnowFlake guildId, const CDiscordGuildMember &p
 	gce.ptszNick = pUser.wszNick;
 	Chat_Event(&gce);
 
-	Chat_SetStatusEx(m_szModuleName, pChannel->wszUsername, flags, wszUserId);
+	Chat_SetStatusEx(m_szModuleName, pGuild->pParentSi->ptszID, flags, wszUserId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -230,5 +226,5 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 	}
 
 	for (auto &pm : newMembers)
-		AddGuildUser(pGuild->id, *pm);
+		AddGuildUser(pGuild, *pm);
 }

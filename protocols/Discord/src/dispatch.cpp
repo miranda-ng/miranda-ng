@@ -377,7 +377,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 					pm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
 				pGuild->arChatUsers.insert(pm);
 
-				AddGuildUser(pGuild->id, *pm);
+				AddGuildUser(pGuild, *pm);
 			}
 
 			ParseSpecialChars(si, wszText);

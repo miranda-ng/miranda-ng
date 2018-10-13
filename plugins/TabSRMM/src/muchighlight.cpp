@@ -118,13 +118,13 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 		return false;
 
 	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != nullptr) {
-		wchar_t	*p = g_chatApi.RemoveFormatting(pgce->ptszText);
+		wchar_t *p = g_chatApi.RemoveFormatting(pgce->ptszText);
 		p = NEWWSTR_ALLOCA(p);
 		if (p == nullptr)
 			return false;
 		CharLower(p);
 
-		wchar_t	*tszMe = ((psi && psi->pMe) ? NEWWSTR_ALLOCA(psi->pMe->pszNick) : nullptr);
+		wchar_t *tszMe = (psi && psi->getMe()) ? NEWWSTR_ALLOCA(psi->getMe()->pszNick) : nullptr;
 		if (tszMe)
 			CharLower(tszMe);
 

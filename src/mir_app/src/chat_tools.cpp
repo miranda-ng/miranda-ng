@@ -360,10 +360,14 @@ static wchar_t szTrimString[] = L":,.!?;\'>)";
 
 bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (!g_Settings->bHighlightEnabled || !g_Settings->pszHighlightWords || !gce || !si || !si->pMe)
+	if (!g_Settings->bHighlightEnabled || !g_Settings->pszHighlightWords || !gce || !si)
 		return FALSE;
 
 	if (gce->ptszText == nullptr)
+		return FALSE;
+
+	USERINFO *pMe = si->getMe();
+	if (pMe == nullptr)
 		return FALSE;
 
 	wchar_t *buf = RemoveFormatting(NEWWSTR_ALLOCA(gce->ptszText));
@@ -378,7 +382,7 @@ bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 
 		// replace %m with the users nickname
 		if (tszToken == L"%m")
-			tszToken = si->pMe->pszNick;
+			tszToken = pMe->pszNick;
 
 		if (tszToken.Find('*') == -1)
 			tszToken = '*' + tszToken + '*';

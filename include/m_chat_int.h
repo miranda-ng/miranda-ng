@@ -103,11 +103,9 @@ struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyab
 	
 	bool      bBold, bItalics, bUnderline;
 	bool      bColor, bBkgColor;
-	bool      bChanMgr, bAckMsg, bSharedUsers;
+	bool      bChanMgr, bAckMsg;
 	
 	int       iMaxText;
-
-	OBJLIST<USERINFO> arUsers;  // for shared list of users
 };
 
 struct COMMANDINFO
@@ -180,15 +178,18 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 	USERINFO *pMe;
 	STATUSINFO *pStatuses;
 	MODULEINFO *pMI;
+	GCSessionInfoBase *pParent;
 
 	OBJLIST<USERINFO> arUsers;
 
 	wchar_t pszLogFileName[MAX_PATH];
 
+	__forceinline USERINFO* getMe() const 
+	{	return (pParent != nullptr) ? pParent->pMe : pMe;
+	}
+
 	__forceinline OBJLIST<USERINFO>& getUserList()
-	{	
-		GCModuleInfoBase *mi = (GCModuleInfoBase*)pMI;
-		return (mi->bSharedUsers) ? mi->arUsers : arUsers;
+	{	return (pParent != nullptr) ? pParent->arUsers : arUsers;
 	}
 };
 
