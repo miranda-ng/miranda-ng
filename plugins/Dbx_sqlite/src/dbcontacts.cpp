@@ -21,14 +21,14 @@ void CDbxSQLite::InitContacts()
 		sqlite3_prepare_v3(m_db, ctc_stmts[i], -1, SQLITE_PREPARE_PERSISTENT, &ctc_stmts_prep[i], nullptr);
 
 	sqlite3_stmt *stmt = nullptr;
-	sqlite3_prepare_v2(m_db, "select contacts.id, count(event_id) from contacts left join contact_events on contact_events.contact_id = contacts.id group by contacts.id;", -1, &stmt, nullptr);
+	sqlite3_prepare_v2(m_db, "select contacts.id, count(events.id) from contacts left join events on events.contact_id = contacts.id group by contacts.id;", -1, &stmt, nullptr);
 	int rc = 0;
 	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
 		MCONTACT hContact = sqlite3_column_int64(stmt, 0);
 		DBCachedContact *cc = (hContact)
 			? m_cache->AddContactToCache(hContact)
 			: &m_system;
-		cc->count = sqlite3_column_int64(stmt, 1);
+		cc->m_count = sqlite3_column_int64(stmt, 1);
 
 		DBVARIANT dbv = { DBVT_DWORD };
 		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
@@ -118,4 +118,84 @@ BOOL CDbxSQLite::IsDbContact(MCONTACT hContact)
 LONG CDbxSQLite::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
+}
+
+/////////////////////////////////////
+
+bool DBCachedContact::HasCount() const
+{
+	return m_count > -1;
+}
+
+void DBCachedContact::AddEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread)
+{
+	m_count = HasCount()
+		? m_count + 1
+		: 1;
+	if (m_firstTimestamp > timestamp) {
+		m_first = hDbEvent;
+		m_firstTimestamp = timestamp;
+	}
+	if (unread && m_unreadTimestamp > timestamp) {
+		m_unread = hDbEvent;
+		m_unreadTimestamp = timestamp;
+	}
+	if (m_lastTimestamp <= timestamp) {
+		m_last = hDbEvent;
+		m_lastTimestamp = timestamp;
+	}
+}
+
+void DBCachedContact::EditEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread)
+{
+	if (m_first = hDbEvent && m_firstTimestamp != timestamp) {
+		m_first = 0;
+		m_firstTimestamp = 0;
+	}
+	else if (m_firstTimestamp > timestamp) {
+		m_first = hDbEvent;
+		m_firstTimestamp = timestamp;
+	}
+	if (m_unread = hDbEvent && (!unread || m_unreadTimestamp != timestamp)) {
+		m_unread = 0;
+		m_unreadTimestamp = 0;
+	}
+	else if (unread && m_unreadTimestamp > timestamp) {
+		m_unread = hDbEvent;
+		m_unreadTimestamp = timestamp;
+	}
+	if (m_last = hDbEvent && m_lastTimestamp != timestamp) {
+		m_last = 0;
+		m_lastTimestamp = 0;
+	}
+	else if (m_lastTimestamp <= timestamp) {
+		m_last = hDbEvent;
+		m_lastTimestamp = timestamp;
+	}
+}
+
+void DBCachedContact::DeleteEvent(MEVENT hDbEvent)
+{
+	if (m_count > 0)
+		m_count--;
+	if (m_first == hDbEvent) {
+		m_first = 0;
+		m_firstTimestamp = 0;
+	}
+	if (m_unread == hDbEvent) {
+		m_unread = 0;
+		m_unreadTimestamp = 0;
+	}
+	if (m_last == hDbEvent) {
+		m_last = 0;
+		m_lastTimestamp = 0;
+	}
+}
+
+void DBCachedContact::MarkRead(MEVENT hDbEvent)
+{
+	if (m_unread == hDbEvent) {
+		m_unread = 0;
+		m_unreadTimestamp = 0;
+	}
 }

@@ -28,11 +28,10 @@ int CDbxSQLite::Create(const wchar_t *profile)
 		return 1;
 
 	sqlite3_exec(database, "create table contacts (id integer not null primary key autoincrement);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table events (id integer not null primary key autoincrement, timestamp integer not null, type integer not null, flags integer not null, size integer not null, data blob, module varchar(255) not null, server_id varchar(64));", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table events (id integer not null primary key autoincrement, contact_id integer not null, module text not null, timestamp integer not null, type integer not null, flags integer not null, size integer not null, data blob, server_id text);", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create index idx_events_contactid_timestamp on events(contact_id, timestamp);", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "create index idx_events_module_serverid on events(module, server_id);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table contact_events (contact_id integer not null, event_id integer not null, timestamp integer not null, primary key(contact_id, event_id)) without rowid;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create index idx_contact_events_eventid on contact_events(event_id);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table settings (contact_id integer not null, module varchar(255) not null, setting varchar(255) not null, type integer not null, value any, primary key(contact_id, module, setting)) without rowid;", nullptr, nullptr, nullptr);
+	sqlite3_exec(database, "create table settings (contact_id integer not null, module text not null, setting text not null, type integer not null, value any, primary key(contact_id, module, setting)) without rowid;", nullptr, nullptr, nullptr);
 	sqlite3_exec(database, "create index idx_settings_module on settings(module);", nullptr, nullptr, nullptr);
 
 	sqlite3_close(database);
@@ -130,5 +129,10 @@ BOOL CDbxSQLite::IsRelational()
 
 void CDbxSQLite::SetCacheSafetyMode(BOOL value)
 {
+	// hack to increase import speed
+	if (!value)
+		sqlite3_exec(m_db, "pragma synchronous = OFF;", nullptr, nullptr, nullptr);
+	else
+		sqlite3_exec(m_db, "pragma synchronous = NORMAL;", nullptr, nullptr, nullptr);
 	m_safetyMode = value != FALSE;
 }
