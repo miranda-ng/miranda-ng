@@ -158,7 +158,7 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 		break;
 
 	default:
-		return;
+		flags += GC_SSE_OFFLINE;
 	}
 
 	GCEVENT gce = { m_szModuleName, pGuild->pParentSi->ptszID, GC_EVENT_JOIN };
@@ -181,7 +181,7 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 
 void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pRoot)
 {
-	LIST<CDiscordGuildMember> newMembers(10);
+	LIST<CDiscordGuildMember> newMembers(100);
 
 	// store all guild members
 	const JSONNode &pMembers = pRoot["members"];
