@@ -140,10 +140,6 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 	setId(pUser->hContact, DB_KEY_ID, channelId);
 	setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
-
-	SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
-	if (oldMsgId != 0 && pUser->lastMsg.id > oldMsgId)
-		RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId, 99);
 	return pUser;
 }
 
@@ -227,4 +223,14 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 
 	for (auto &pm : newMembers)
 		AddGuildUser(pGuild, *pm);
+
+	// retrieve missing histories
+	for (auto &it : arUsers) {
+		if (it->bIsPrivate || it->guildId != pGuild->id)
+			continue;
+
+		SnowFlake oldMsgId = getId(it->hContact, DB_KEY_LASTMSGID);
+		if (oldMsgId != 0 && it->lastMsg.id > oldMsgId)
+			RetrieveHistory(it->hContact, MSG_AFTER, oldMsgId, 99);
+	}
 }
