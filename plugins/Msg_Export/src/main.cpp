@@ -106,6 +106,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	UpdateFileToColWidth();
 
 	HookEvent(ME_DB_EVENT_ADDED, nExportEvent);
+	HookEvent(ME_DB_EVENT_EDITED, nExportEvent);
 	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
