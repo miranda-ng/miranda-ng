@@ -27,13 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int code_page = CP_ACP;
 HANDLE hFontReloadEvent, hColourReloadEvent;
-extern HWND hwndFontOptions;
 
-static void notifyOptions()
-{
-	if (hwndFontOptions)
-		SetTimer(hwndFontOptions, 1, 100, nullptr);
-}
+void notifyOptions();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -315,19 +310,6 @@ static INT_PTR ReloadFonts(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(void) KillModuleFonts(HPLUGIN pPlugin)
-{
-	auto T = font_id_list.rev_iter();
-	for (auto &it : T) {
-		if (it->pPlugin == pPlugin) {
-			font_id_list.remove(T.indexOf(&it));
-			notifyOptions();
-		}
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // RegisterColour service
 
 void UpdateColourSettings(ColourIDW *colour_id, COLORREF *colour)
@@ -390,19 +372,6 @@ static INT_PTR ReloadColours(WPARAM, LPARAM)
 {
 	NotifyEventHooks(hColourReloadEvent, 0, 0);
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(void) KillModuleColours(HPLUGIN pPlugin)
-{
-	auto T = colour_id_list.rev_iter();
-	for (auto &it : T) {
-		if (it->pPlugin == pPlugin) {
-			colour_id_list.remove(T.indexOf(&it));
-			notifyOptions();
-		}
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -476,16 +445,6 @@ EXTERN_C MIR_APP_DLL(int) Effect_GetW(const wchar_t *wszGroup, const wchar_t *ws
 MIR_APP_DLL(int) Effect_Get(const char *szGroup, const char *szName, FONTEFFECT *pEffect)
 {
 	return sttGetEffectWorker(_A2T(szGroup), _A2T(szName), pEffect);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(void) KillModuleEffects(HPLUGIN pPlugin)
-{
-	auto T = colour_id_list.rev_iter();
-	for (auto &it : T)
-		if (it->pPlugin == pPlugin)
-			effect_id_list.remove(T.indexOf(&it));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

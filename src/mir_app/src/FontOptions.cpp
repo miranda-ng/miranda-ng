@@ -75,6 +75,67 @@ static int sttCompareEffect(const EffectInternal* p1, const EffectInternal* p2)
 
 OBJLIST<EffectInternal> effect_id_list(10, sttCompareEffect), effect_id_list_w2(10, sttCompareEffect), effect_id_list_w3(10, sttCompareEffect);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void notifyOptions()
+{
+	if (hwndFontOptions)
+		SetTimer(hwndFontOptions, 1, 100, nullptr);
+}
+
+MIR_APP_DLL(void) KillModuleFonts(HPLUGIN pPlugin)
+{
+	for (auto &it : font_id_list.rev_iter())
+		if (it->pPlugin == pPlugin) {
+			font_id_list.remove(font_id_list.indexOf(&it));
+			notifyOptions();
+		}
+
+	for (auto &it : font_id_list_w2.rev_iter())
+		if (it->pPlugin == pPlugin)
+			font_id_list_w2.remove(font_id_list_w2.indexOf(&it));
+
+	for (auto &it : font_id_list_w3.rev_iter())
+		if (it->pPlugin == pPlugin)
+			font_id_list_w3.remove(font_id_list_w3.indexOf(&it));
+}
+
+MIR_APP_DLL(void) KillModuleColours(HPLUGIN pPlugin)
+{
+	for (auto &it : colour_id_list.rev_iter())
+		if (it->pPlugin == pPlugin) {
+			colour_id_list.remove(colour_id_list.indexOf(&it));
+			notifyOptions();
+		}
+
+	for (auto &it : colour_id_list_w2.rev_iter())
+		if (it->pPlugin == pPlugin)
+			colour_id_list_w2.remove(colour_id_list_w2.indexOf(&it));
+
+	for (auto &it : colour_id_list_w3.rev_iter())
+		if (it->pPlugin == pPlugin)
+			colour_id_list_w3.remove(colour_id_list_w3.indexOf(&it));
+}
+
+MIR_APP_DLL(void) KillModuleEffects(HPLUGIN pPlugin)
+{
+	for (auto &it : effect_id_list.rev_iter())
+		if (it->pPlugin == pPlugin) {
+			effect_id_list.remove(effect_id_list.indexOf(&it));
+			notifyOptions();
+		}
+
+	for (auto &it : effect_id_list_w2.rev_iter())
+		if (it->pPlugin == pPlugin)
+			effect_id_list_w2.remove(effect_id_list_w2.indexOf(&it));
+
+	for (auto &it : effect_id_list_w3.rev_iter())
+		if (it->pPlugin == pPlugin)
+			effect_id_list_w3.remove(effect_id_list_w3.indexOf(&it));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct DrawTextWithEffectParam
 {
 	int cbSize;
@@ -1195,18 +1256,3 @@ int OptInit(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static FontInternal* sttFindFont(OBJLIST<FontInternal> &fonts, char *module, char *setting)
-{
-	for (auto &F : fonts)
-		if (!mir_strcmp(F->dbSettingsGroup, module) && !mir_strcmp(F->setting, setting))
-			return F;
-
-	return nullptr;
-}
-
-static FontInternal fntHeader, fntGeneral, fntSmall;
-
-INT_PTR CALLBACK DlgPluginOpt(HWND, UINT, WPARAM, LPARAM);
