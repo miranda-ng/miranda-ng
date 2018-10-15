@@ -188,7 +188,7 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 	void          *pItemData)  // Set user defined data for this session. Retrieve it by using the Chat_GetUserInfo() call
 {
 	mir_cslockfull lck(csChat);
-	MODULEINFO *mi = g_chatApi.MM_FindModule(pszModule);
+	MODULEINFO *mi = MM_FindModule(pszModule);
 	if (mi == nullptr)
 		return nullptr;
 

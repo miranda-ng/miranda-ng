@@ -50,14 +50,6 @@ LIST<MODULEINFO> g_arModules(5, compareModules);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CHAT_MANAGER::CHAT_MANAGER() :
-	arSessions(g_arSessions)
-{}
-
-MIR_APP_EXPORT CHAT_MANAGER g_chatApi;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static void SetActiveSession(SESSION_INFO *si)
 {
 	if (si) {
@@ -523,7 +515,7 @@ MODULEINFO* MM_AddModule(const char *pszModule)
 	if (pszModule == nullptr)
 		return nullptr;
 
-	if (g_chatApi.MM_FindModule(pszModule))
+	if (MM_FindModule(pszModule))
 		return nullptr;
 
 	MODULEINFO *node = g_chatApi.MM_CreateModule();
@@ -555,7 +547,7 @@ static void MM_FontsChanged()
 		mi->pszHeader = g_chatApi.Log_CreateRtfHeader();
 }
 
-static MODULEINFO* MM_FindModule(const char *pszModule)
+MODULEINFO* MM_FindModule(const char *pszModule)
 {
 	if (!pszModule)
 		return nullptr;
@@ -955,70 +947,77 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 	g_iFontMode = pInit->iFontMode;
 	g_pChatPlugin = pInit->pPlugin;
 
-	g_chatApi.SetActiveSession = SetActiveSession;
-	g_chatApi.GetActiveSession = GetActiveSession;
-	g_chatApi.SM_CreateSession = SM_CreateSession;
-	g_chatApi.SM_FindSession = SM_FindSession;
-	g_chatApi.SM_GetStatusIcon = SM_GetStatusIcon;
-	g_chatApi.SM_BroadcastMessage = SM_BroadcastMessage;
-	g_chatApi.SM_AddCommand = SM_AddCommand;
-	g_chatApi.SM_GetPrevCommand = SM_GetPrevCommand;
-	g_chatApi.SM_GetNextCommand = SM_GetNextCommand;
-	g_chatApi.SM_GetCount = SM_GetCount;
-	g_chatApi.SM_FindSessionByIndex = SM_FindSessionByIndex;
-	g_chatApi.SM_GetUserFromIndex = SM_GetUserFromIndex;
-	g_chatApi.SM_InvalidateLogDirectories = SM_InvalidateLogDirectories;
-
-	g_chatApi.MM_CreateModule = MM_CreateModule;
-	g_chatApi.MM_FindModule = MM_FindModule;
-	g_chatApi.MM_FontsChanged = MM_FontsChanged;
-	g_chatApi.MM_IconsChanged = MM_IconsChanged;
-	g_chatApi.MM_RemoveAll = MM_RemoveAll;
-
-	g_chatApi.TM_FindStatus = TM_FindStatus;
-	g_chatApi.TM_WordToString = TM_WordToString;
-	g_chatApi.TM_RemoveAll = TM_RemoveAll;
-
-	g_chatApi.UM_AddUser = UM_AddUser;
-	g_chatApi.UM_CompareItem = UM_CompareItem;
-	g_chatApi.UM_FindUser = UM_FindUser;
-	g_chatApi.UM_FindUserFromIndex = UM_FindUserFromIndex;
-	g_chatApi.UM_GiveStatus = UM_GiveStatus;
-	g_chatApi.UM_SetContactStatus = UM_SetContactStatus;
-	g_chatApi.UM_TakeStatus = UM_TakeStatus;
-	g_chatApi.UM_FindUserAutoComplete = UM_FindUserAutoComplete;
-	g_chatApi.UM_RemoveUser = UM_RemoveUser;
-
-	g_chatApi.LM_AddEvent = LM_AddEvent;
-	g_chatApi.LM_TrimLog = LM_TrimLog;
-	g_chatApi.LM_RemoveAll = LM_RemoveAll;
-
-	g_chatApi.SetOffline = SetOffline;
-	g_chatApi.SetAllOffline = SetAllOffline;
-	g_chatApi.AddEvent = AddEvent;
-	g_chatApi.FindRoom = FindRoom;
-	g_chatApi.DoRtfToTags = DoRtfToTags;
-
-	g_chatApi.Log_CreateRTF = Log_CreateRTF;
-	g_chatApi.Log_CreateRtfHeader = Log_CreateRtfHeader;
-	g_chatApi.LoadMsgDlgFont = LoadMsgDlgFont;
-	g_chatApi.MakeTimeStamp = MakeTimeStamp;
-
-	g_chatApi.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
-	g_chatApi.DoTrayIcon = DoTrayIcon;
-	g_chatApi.DoPopup = DoPopup;
-	g_chatApi.ShowPopup = ShowPopup;
-	g_chatApi.LogToFile = LogToFile;
-	g_chatApi.GetChatLogsFilename = GetChatLogsFilename;
-	g_chatApi.Log_SetStyle = Log_SetStyle;
-
-	g_chatApi.IsHighlighted = IsHighlighted;
-	g_chatApi.RemoveFormatting = RemoveFormatting;
-	g_chatApi.ReloadSettings = LoadGlobalSettings;
-
-	g_chatApi.pLogIconBmpBits = pLogIconBmpBits;
-
 	RegisterFonts();
 	OptionsInit();
 	return &g_chatApi;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CHAT_MANAGER::CHAT_MANAGER() :
+	arSessions(g_arSessions)
+{
+	SetActiveSession = ::SetActiveSession;
+	GetActiveSession = ::GetActiveSession;
+	SM_CreateSession = ::SM_CreateSession;
+	SM_FindSession = ::SM_FindSession;
+	SM_GetStatusIcon = ::SM_GetStatusIcon;
+	SM_BroadcastMessage = ::SM_BroadcastMessage;
+	SM_AddCommand = ::SM_AddCommand;
+	SM_GetPrevCommand = ::SM_GetPrevCommand;
+	SM_GetNextCommand = ::SM_GetNextCommand;
+	SM_GetCount = ::SM_GetCount;
+	SM_FindSessionByIndex = ::SM_FindSessionByIndex;
+	SM_GetUserFromIndex = ::SM_GetUserFromIndex;
+	SM_InvalidateLogDirectories = ::SM_InvalidateLogDirectories;
+
+	MM_CreateModule = ::MM_CreateModule;
+	MM_FontsChanged = ::MM_FontsChanged;
+	MM_IconsChanged = ::MM_IconsChanged;
+	MM_RemoveAll = ::MM_RemoveAll;
+
+	TM_FindStatus = ::TM_FindStatus;
+	TM_WordToString = ::TM_WordToString;
+	TM_RemoveAll = ::TM_RemoveAll;
+
+	UM_AddUser = ::UM_AddUser;
+	UM_CompareItem = ::UM_CompareItem;
+	UM_FindUser = ::UM_FindUser;
+	UM_FindUserFromIndex = ::UM_FindUserFromIndex;
+	UM_GiveStatus = ::UM_GiveStatus;
+	UM_SetContactStatus = ::UM_SetContactStatus;
+	UM_TakeStatus = ::UM_TakeStatus;
+	UM_FindUserAutoComplete = ::UM_FindUserAutoComplete;
+	UM_RemoveUser = ::UM_RemoveUser;
+
+	LM_AddEvent = ::LM_AddEvent;
+	LM_TrimLog = ::LM_TrimLog;
+	LM_RemoveAll = ::LM_RemoveAll;
+
+	SetOffline = ::SetOffline;
+	SetAllOffline = ::SetAllOffline;
+	AddEvent = ::AddEvent;
+	FindRoom = ::FindRoom;
+	DoRtfToTags = ::DoRtfToTags;
+
+	Log_CreateRTF = ::Log_CreateRTF;
+	Log_CreateRtfHeader = ::Log_CreateRtfHeader;
+	LoadMsgDlgFont = ::LoadMsgDlgFont;
+	MakeTimeStamp = ::MakeTimeStamp;
+
+	DoSoundsFlashPopupTrayStuff = ::DoSoundsFlashPopupTrayStuff;
+	DoTrayIcon = ::DoTrayIcon;
+	DoPopup = ::DoPopup;
+	ShowPopup = ::ShowPopup;
+	LogToFile = ::LogToFile;
+	GetChatLogsFilename = ::GetChatLogsFilename;
+	Log_SetStyle = ::Log_SetStyle;
+
+	IsHighlighted = ::IsHighlighted;
+	RemoveFormatting = ::RemoveFormatting;
+	ReloadSettings = ::LoadGlobalSettings;
+
+	pLogIconBmpBits = ::pLogIconBmpBits;
+}
+
+MIR_APP_EXPORT CHAT_MANAGER g_chatApi;

@@ -412,15 +412,17 @@ char* Log_CreateRtfHeader()
 	// set tabs and indents
 	int iIndent = 0;
 
-	if (g_Settings->dwIconFlags) {
-		iIndent += (14 * 1440) / g_chatApi.logPixelSX;
-		buf.AppendFormat("\\tx%u", iIndent);
-	}
-	if (g_Settings->bShowTime) {
-		int iSize = (g_Settings->LogTextIndent * 1440) / g_chatApi.logPixelSX;
-		buf.AppendFormat("\\tx%u", iIndent + iSize);
-		if (g_Settings->bLogIndentEnabled)
-			iIndent += iSize;
+	if (g_Settings) {
+		if (g_Settings->dwIconFlags) {
+			iIndent += (14 * 1440) / g_chatApi.logPixelSX;
+			buf.AppendFormat("\\tx%u", iIndent);
+		}
+		if (g_Settings->bShowTime) {
+			int iSize = (g_Settings->LogTextIndent * 1440) / g_chatApi.logPixelSX;
+			buf.AppendFormat("\\tx%u", iIndent + iSize);
+			if (g_Settings->bLogIndentEnabled)
+				iIndent += iSize;
+		}
 	}
 
 	buf.AppendFormat("\\fi-%u\\li%u", iIndent, iIndent);

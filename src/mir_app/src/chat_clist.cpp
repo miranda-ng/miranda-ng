@@ -85,7 +85,7 @@ BOOL SetAllOffline(BOOL, const char *pszModule)
 {
 	for (auto &hContact : Contacts(pszModule)) {
 		char *szProto = GetContactProto(hContact);
-		if (!g_chatApi.MM_FindModule(szProto))
+		if (!MM_FindModule(szProto))
 			continue;
 		int i = db_get_b(hContact, szProto, "ChatRoom", 0);
 		if (i != 0) {
@@ -103,7 +103,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
-	if (g_chatApi.MM_FindModule(szProto) == nullptr)
+	if (MM_FindModule(szProto) == nullptr)
 		return 0;
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 		return 0;

@@ -63,6 +63,7 @@ char*         Log_SetStyle(int style);
 
 // chat_manager.cpp
 MODULEINFO*   MM_AddModule(const char *pszModule);
+MODULEINFO*   MM_FindModule(const char *pszModule);
 
 BOOL          SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool bIsHighlighted);
 BOOL          SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce);

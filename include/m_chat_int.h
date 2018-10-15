@@ -290,7 +290,6 @@ struct CHAT_MANAGER
 	void          (*SM_InvalidateLogDirectories)(void);
 
 	MODULEINFO*   (*MM_CreateModule)(void);
-	MODULEINFO*   (*MM_FindModule)(const char *pszModule);
 	void          (*MM_FontsChanged)(void);
 	void          (*MM_IconsChanged)(void);
 	BOOL          (*MM_RemoveAll)(void);
