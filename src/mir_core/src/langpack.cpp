@@ -147,7 +147,13 @@ static const MUUID* GetMuid(HPLUGIN pPlugin)
 	if (!pPlugin)
 		return nullptr;
 
-	return &pPlugin->getInfo().uuid;
+	__try {
+		return &pPlugin->getInfo().uuid;
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		return nullptr;
+	}
 }
 
 static int SortLangPackHashesProc(LangPackEntry *arg1, LangPackEntry *arg2)
