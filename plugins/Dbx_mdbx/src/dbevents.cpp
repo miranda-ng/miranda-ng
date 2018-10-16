@@ -143,12 +143,12 @@ BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei)
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
 			return 1;
-		
+
 		DBEvent *dbe = (DBEvent*)data.iov_base;
 		dbei->timestamp = dbe->timestamp;
 	}
 
-	return EditEvent(contactID, hDbEvent, dbei, false);
+	return !EditEvent(contactID, hDbEvent, dbei, false);
 }
 
 bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbei, bool bNew)
