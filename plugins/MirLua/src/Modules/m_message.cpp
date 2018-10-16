@@ -11,7 +11,7 @@ static int message_Paste(lua_State *L)
 	if (res)
 		return 1;
 
-	HWND hEdit = GetDlgItem(mwd.hwndWindow, 1002 /*IDC_MESSAGE*/);
+	HWND hEdit = GetDlgItem(mwd.hwndWindow, 3012 /*IDC_MESSAGE*/);
 	if (!hEdit) hEdit = GetDlgItem(mwd.hwndWindow, 1009 /*IDC_CHATMESSAGE*/);
 
 	SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)text);

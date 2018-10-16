@@ -128,6 +128,7 @@ LUAMOD_API int luaopen_m_srmm(lua_State *L)
 	MT<CustomButtonClickData>(L, "CustomButtonClickData")
 		.Field(&CustomButtonClickData::pszModule, "Module", LUA_TSTRINGA)
 		.Field(&CustomButtonClickData::dwButtonId, "ButtonId", LUA_TINTEGER)
+		.Field(&CustomButtonClickData::hwndFrom, "hWnd", LUA_TLIGHTUSERDATA)
 		.Field(&CustomButtonClickData::hContact, "hContact", LUA_TINTEGER)
 		.Field(&CustomButtonClickData::flags, "Flags", LUA_TINTEGER);
 

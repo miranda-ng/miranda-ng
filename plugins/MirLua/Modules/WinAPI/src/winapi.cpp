@@ -1,12 +1,27 @@
 #include "stdafx.h"
 
+static HWND luaM_tohwnd(lua_State *L, int idx)
+{
+	return (HWND)lua_touserdata(L, idx);
+}
+
+static HWND luaM_checkhwnd(lua_State *L, int idx)
+{
+	HWND hwnd = luaM_tohwnd(L, idx);
+	if (hwnd == nullptr)
+		luaL_argerror(L, idx, "value expected");
+	return hwnd;
+}
+
+/***********************************************/
+
 EXTERN_C WINUSERAPI int WINAPI MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds);
 
 #define MB_TIMEDOUT 32000
 
 static int lua_MessageBox(lua_State *L)
 {
-	HWND hwnd = (HWND)lua_touserdata(L, 1);
+	HWND hwnd = (HWND)luaM_tohwnd(L, 1);
 	ptrA text(mir_utf8decodeA(lua_tostring(L, 2)));
 	ptrA caption(mir_utf8decodeA(lua_tostring(L, 3)));
 	UINT flags = lua_tointeger(L, 4);
@@ -321,53 +336,59 @@ static int global_FindWindow(lua_State *L)
 {
 	const char *cname = luaL_checkstring(L, 1);
 	const char *wname = luaL_checkstring(L, 2);
-	lua_pushnumber(L, (intptr_t)FindWindowA(cname[0] ? cname : nullptr, wname[0] ? wname : nullptr));
-	return(1);
+
+	HWND hwnd = FindWindowA(cname[0] ? cname : nullptr, wname[0] ? wname : nullptr);
+	lua_pushlightuserdata(L, hwnd);
+
+	return 1;
 }
 
 static int global_FindWindowEx(lua_State *L) 
 {
-	const HWND parent = (HWND)(intptr_t)luaL_checknumber(L, 1);
-	const HWND childaft = (HWND)(intptr_t)luaL_checknumber(L, 2);
+	const HWND parent = (HWND)luaM_tohwnd(L, 1);
+	const HWND childAfter = (HWND)luaM_tohwnd(L, 2);
 	const char *cname = luaL_checkstring(L, 3);
 	const char *wname = luaL_checkstring(L, 4);
 
-	long lrc = (long)FindWindowExA(parent, childaft,
-		cname[0] ? cname : nullptr,
-		wname[0] ? wname : nullptr);
+	HWND hwnd = FindWindowExA(parent, childAfter, cname[0] ? cname : nullptr, wname[0] ? wname : nullptr);
+	lua_pushlightuserdata(L, hwnd);
 
-	lua_pushnumber(L, lrc);
-
-	return(1);
-}
-
-static int global_SetWindowText(lua_State *L) 
-{
-	const HWND hwnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
-	const char *text = luaL_checkstring(L, 2);
-	lua_pushboolean(L, SetWindowTextA(hwnd, text));
-	return(1);
-}
-
-static int global_SetFocus(lua_State *L) 
-{
-	const HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
-	lua_pushinteger(L, (intptr_t)SetFocus(hWnd));
 	return 1;
 }
 
 // Lua:  returns nil when error occurred
-static int global_GetWindowText(lua_State *L) 
+static int global_GetWindowText(lua_State *L)
 {
-	const HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
-	char buf[2048] = { 0 };
+	const HWND hwnd = (HWND)luaM_checkhwnd(L, 1);
 
-	int rc = GetWindowTextA(hWnd, buf, sizeof(buf));
+	wchar_t buf[2048] = { 0 };
+	int res = GetWindowTextW(hwnd, buf, sizeof(buf));
 
-	if (rc > 0 || GetLastError() == ERROR_SUCCESS)
-		lua_pushstring(L, buf);
+	if (res > 0 || GetLastError() == ERROR_SUCCESS)
+		lua_pushstring(L, T2Utf(buf));
 	else
 		lua_pushnil(L);
+
+	return 1;
+}
+
+static int global_SetWindowText(lua_State *L) 
+{
+	const HWND hwnd = (HWND)luaM_checkhwnd(L, 1);
+	const ptrW text(mir_utf8decodeW(luaL_checkstring(L, 2)));
+
+	BOOL res = SetWindowText(hwnd, text);
+	lua_pushboolean(L, res);
+
+	return 1;
+}
+
+static int global_SetFocus(lua_State *L) 
+{
+	const HWND hwnd = (HWND)luaM_checkhwnd(L, 1);
+
+	HWND res = SetFocus(hwnd);
+	lua_pushlightuserdata(L, res);
 
 	return 1;
 }
@@ -376,41 +397,60 @@ static int global_GetWindowText(lua_State *L)
 //         or
 //       returns nil when error occurred
 static int global_GetWindowRect(lua_State *L) {
-	const HWND hwnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
+	const HWND hwnd = (HWND)luaM_checkhwnd(L, 1);
+	
 	RECT rect;
+	BOOL res = GetWindowRect(hwnd, &rect);
 
-	BOOL rc = GetWindowRect(hwnd, &rect);
-
-	if (!rc) {
+	if (!res) {
 		lua_pushnil(L);
-		return(1);
+		return 1;
 	}
-	else {
-		lua_pushinteger(L, rect.left);
-		lua_pushinteger(L, rect.top);
-		lua_pushinteger(L, rect.right);
-		lua_pushinteger(L, rect.bottom);
-		return(4);
-	}
+
+	lua_pushinteger(L, rect.left);
+	lua_pushinteger(L, rect.top);
+	lua_pushinteger(L, rect.right);
+	lua_pushinteger(L, rect.bottom);
+
+	return 4;
 }
 
-static int global_SetForegroundWindow(lua_State *L) 
+static int global_GetDlgItem(lua_State *L)
 {
-	HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
-	lua_pushboolean(L, SetForegroundWindow(hWnd));
-	return(1);
+	const HWND hwnd = (HWND)luaM_checkhwnd(L, 1);
+	const int itemId = luaL_checkinteger(L, 2);
+
+	HWND res = GetDlgItem(hwnd, itemId);
+	if (!res) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	lua_pushlightuserdata(L, res);
+
+	return 1;
+}
+
+static int global_SetForegroundWindow(lua_State *L)
+{
+	HWND hwnd = (HWND)luaM_checkhwnd(L, 1);
+
+	BOOL res = SetForegroundWindow(hwnd);
+	lua_pushboolean(L, res);
+
+	return 1;
 }
 
 static int global_PostMessage(lua_State *L) 
 {
-	HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
+	HWND hWnd = (HWND)luaM_tohwnd(L, 1);
 	UINT msg = (UINT)luaL_checknumber(L, 2);
 	WPARAM wparam = (WPARAM)luaL_checknumber(L, 3);
 	LPARAM lparam = (LPARAM)luaL_checknumber(L, 4);
 
 	lua_pushboolean(L, PostMessage(hWnd, msg, wparam, lparam));
 
-	return(1);
+	return 1;
 }
 
 static int global_PostThreadMessage(lua_State *L) 
@@ -422,92 +462,73 @@ static int global_PostThreadMessage(lua_State *L)
 
 	lua_pushboolean(L, PostThreadMessage(tid, msg, wparam, lparam));
 
-	return(1);
+	return 1;
 }
 
 static int global_GetMessage(lua_State *L) 
 {
-	MSG msg;
-	HWND hWnd = (HWND)(intptr_t)luaL_optinteger(L, 1, 0);
+	HWND hWnd = (HWND)luaM_tohwnd(L, 1);
 	UINT mfmin = (UINT)luaL_optinteger(L, 2, 0);
 	UINT mfmax = (UINT)luaL_optinteger(L, 3, 0);
 
-	BOOL rc = GetMessage(&msg, hWnd, mfmin, mfmax);
-	lua_pushboolean(L, rc);
-	if (rc) 
-	{
-		lua_pushnumber(L, (intptr_t)msg.hwnd);
-		lua_pushnumber(L, msg.message);
-		lua_pushnumber(L, msg.wParam);
-		lua_pushnumber(L, msg.lParam);
-		lua_pushnumber(L, msg.time);
-		lua_pushnumber(L, msg.pt.x);
-		lua_pushnumber(L, msg.pt.y);
-	}
-	else 
-	{
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-	}
+	MSG msg;
+	BOOL res = GetMessage(&msg, hWnd, mfmin, mfmax);
+	lua_pushboolean(L, res);
 
-	return(8);
+	if (!res)
+		return 1;
+
+	lua_pushnumber(L, (intptr_t)msg.hwnd);
+	lua_pushnumber(L, msg.message);
+	lua_pushnumber(L, msg.wParam);
+	lua_pushnumber(L, msg.lParam);
+	lua_pushnumber(L, msg.time);
+	lua_pushnumber(L, msg.pt.x);
+	lua_pushnumber(L, msg.pt.y);
+
+	return 8;
 }
 
 static int global_PeekMessage(lua_State *L) 
 {
-	MSG msg;
-	BOOL rc;
-	HWND hWnd = (HWND)(intptr_t)luaL_optinteger(L, 1, 0);
+	HWND hWnd = (HWND)luaM_tohwnd(L, 1);
 	UINT mfmin = (UINT)luaL_optinteger(L, 2, 0);
 	UINT mfmax = (UINT)luaL_optinteger(L, 3, 0);
 	UINT rmmsg = (UINT)luaL_optinteger(L, 4, PM_NOREMOVE);
 
-	rc = PeekMessage(&msg, hWnd, mfmin, mfmax, rmmsg);
+	MSG msg;
+	BOOL res = PeekMessage(&msg, hWnd, mfmin, mfmax, rmmsg);
+	lua_pushboolean(L, res);
 
-	lua_pushboolean(L, rc);
-	if (rc) 
-	{
-		lua_pushnumber(L, (long)msg.hwnd);
-		lua_pushnumber(L, msg.message);
-		lua_pushnumber(L, msg.wParam);
-		lua_pushnumber(L, msg.lParam);
-		lua_pushnumber(L, msg.time);
-		lua_pushnumber(L, msg.pt.x);
-		lua_pushnumber(L, msg.pt.y);
-	}
-	else 
-	{
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-	}
+	if (!res)
+		return 1;
 
-	return(8);
+	lua_pushnumber(L, (long)msg.hwnd);
+	lua_pushnumber(L, msg.message);
+	lua_pushnumber(L, msg.wParam);
+	lua_pushnumber(L, msg.lParam);
+	lua_pushnumber(L, msg.time);
+	lua_pushnumber(L, msg.pt.x);
+	lua_pushnumber(L, msg.pt.y);
+
+	return 8;
 }
 
-static int global_ReplyMessage(lua_State *L) 
+static int global_ReplyMessage(lua_State *L)
 {
 	LRESULT result = (LRESULT)luaL_checknumber(L, 1);
-	lua_pushboolean(L, ReplyMessage(result));
 
-	return(1);
+	BOOL res = ReplyMessage(result);
+	lua_pushboolean(L, res);
+
+	return 1;
 }
 
-static int global_DispatchMessage(lua_State *L) {
+static int global_DispatchMessage(lua_State *L)
+{
 	MSG msg;
-	LRESULT rc;
-	HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
 
-	msg.hwnd = hWnd;
+	msg.hwnd = (HWND)luaM_checkhwnd(L, 1);
 	msg.message = (UINT)luaL_checknumber(L, 2);
 	msg.wParam = (WPARAM)luaL_checknumber(L, 3);
 	msg.lParam = (LPARAM)luaL_checknumber(L, 4);
@@ -515,19 +536,20 @@ static int global_DispatchMessage(lua_State *L) {
 	msg.pt.x = (LONG)luaL_checknumber(L, 6);
 	msg.pt.y = (LONG)luaL_checknumber(L, 7);
 
-	rc = DispatchMessage(&msg);
+	LRESULT res = DispatchMessage(&msg);
+	lua_pushnumber(L, res);
 
-	lua_pushnumber(L, rc);
-
-	return(1);
+	return 1;
 }
 
 static int global_SetTopmost(lua_State *L) 
 {
-	HWND hWnd = (HWND)(intptr_t)luaL_checknumber(L, 1);
-	lua_pushnumber(L, SetWindowPos((HWND)hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE));
+	HWND hWnd = (HWND)luaM_checkhwnd(L, 1);
 
-	return(1);
+	BOOL res = SetWindowPos((HWND)hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	lua_pushnumber(L, res);
+
+	return 1;
 }
 
 /****if* luaw32/global_GetLastError
@@ -1551,68 +1573,77 @@ static int global_IsRunning(lua_State *L) {
 
 static int global_GetWindowThreadProcessId(lua_State *L) 
 {
-	HWND h = (HWND)(intptr_t)luaL_checknumber(L, 1);
-	DWORD tid, pid;
-
-	tid = GetWindowThreadProcessId(h, &pid);
+	HWND hwnd = (HWND)luaM_checkhwnd(L, 1);
+	
+	DWORD pid;
+	DWORD tid = GetWindowThreadProcessId(hwnd, &pid);
 	lua_pushnumber(L, tid);
 	lua_pushnumber(L, pid);
+
 	return 2;
 }
 
-static int global_OpenSCManager(lua_State *L) 
+static int global_OpenSCManager(lua_State *L)
 {
-	lua_pushnumber(L, (intptr_t)OpenSCManager(nullptr, nullptr, SC_MANAGER_ALL_ACCESS));
+	SC_HANDLE res = OpenSCManager(nullptr, nullptr, SC_MANAGER_ALL_ACCESS);
+
+	lua_pushlightuserdata(L, res);
+
 	return 1;
 }
 
-static int global_OpenService(lua_State *L) {
-	SC_HANDLE h;
-	SC_HANDLE scm = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+static int global_OpenService(lua_State *L)
+{
+	SC_HANDLE scm = (SC_HANDLE)lua_touserdata(L, 1);
 	const char *sname = luaL_checkstring(L, 2);
 
-	h = OpenServiceA(scm, sname, SERVICE_ALL_ACCESS);
-	lua_pushnumber(L, (intptr_t)h);
+	SC_HANDLE res = OpenServiceA(scm, sname, SERVICE_ALL_ACCESS);
+	lua_pushlightuserdata(L, res);
 
 	return 1;
 }
 
-static int global_CloseServiceHandle(lua_State *L) {
-	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
-	lua_pushboolean(L, CloseServiceHandle(h));
+static int global_CloseServiceHandle(lua_State *L)
+{
+	SC_HANDLE scm = (SC_HANDLE)lua_touserdata(L, 1);
+
+	BOOL res = CloseServiceHandle(scm);
+	lua_pushboolean(L, res);
+
 	return 1;
 }
 
-static int global_QueryServiceStatus(lua_State *L) {
+static int global_QueryServiceStatus(lua_State *L)
+{
+	SC_HANDLE scm = (SC_HANDLE)lua_touserdata(L, 1);
+	
 	SERVICE_STATUS ss;
-	BOOL brc;
-	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	BOOL res = QueryServiceStatus(scm, &ss);
+	lua_pushboolean(L, res);
 
-	brc = QueryServiceStatus(h, &ss);
-	lua_pushboolean(L, brc);
-	if (brc) 
-	{
-		lua_pushnumber(L, (ss.dwServiceType));
-		lua_pushnumber(L, (ss.dwCurrentState));
-		lua_pushnumber(L, (ss.dwControlsAccepted));
-		lua_pushnumber(L, (ss.dwWin32ExitCode));
-		lua_pushnumber(L, (ss.dwServiceSpecificExitCode));
-		lua_pushnumber(L, (ss.dwCheckPoint));
-		lua_pushnumber(L, (ss.dwWaitHint));
-		return 8;
-	}
-	else
+	if (!res)
 		return 1;
+
+	lua_pushnumber(L, (ss.dwServiceType));
+	lua_pushnumber(L, (ss.dwCurrentState));
+	lua_pushnumber(L, (ss.dwControlsAccepted));
+	lua_pushnumber(L, (ss.dwWin32ExitCode));
+	lua_pushnumber(L, (ss.dwServiceSpecificExitCode));
+	lua_pushnumber(L, (ss.dwCheckPoint));
+	lua_pushnumber(L, (ss.dwWaitHint));
+
+	return 8;
 }
 
-static int global_QueryServiceConfig(lua_State *L) {
+static int global_QueryServiceConfig(lua_State *L)
+{
 	union {
 		QUERY_SERVICE_CONFIGA sc;
 		char buf[4096];
 	} storage;
 	BOOL brc;
 	DWORD needed = 0, errcode = 0;
-	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	SC_HANDLE h = (SC_HANDLE)lua_touserdata(L, 1);
 
 	brc = QueryServiceConfig(h, (LPQUERY_SERVICE_CONFIG)&storage, sizeof(storage), &needed);
 	if (!brc) {
@@ -1635,10 +1666,11 @@ static int global_QueryServiceConfig(lua_State *L) {
 	}
 }
 
-static int global_ControlService(lua_State *L) {
+static int global_ControlService(lua_State *L)
+{
 	SERVICE_STATUS ss;
 	BOOL brc;
-	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	SC_HANDLE h = (SC_HANDLE)lua_touserdata(L, 1);
 	DWORD c = (DWORD)luaL_checknumber(L, 2);
 
 	brc = ControlService(h, c, &ss);
@@ -1647,22 +1679,22 @@ static int global_ControlService(lua_State *L) {
 	return 1;
 }
 
-static int global_DeleteService(lua_State *L) 
+static int global_DeleteService(lua_State *L)
 {
-	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	SC_HANDLE h = (SC_HANDLE)lua_touserdata(L, 1);
 	lua_pushboolean(L, DeleteService(h));
 	return 1;
 }
 
-static int global_StartService(lua_State *L) 
+static int global_StartService(lua_State *L)
 {
-	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
+	SC_HANDLE h = (SC_HANDLE)lua_touserdata(L, 1);
 	lua_pushboolean(L, StartService(h, 0, nullptr));
 
 	return 1;
 }
 
-static int global_mciSendString(lua_State *L) 
+static int global_mciSendString(lua_State *L)
 {
 	const char *cmd = luaL_checkstring(L, 1);  // only one string parameter is used
 	DWORD lrc = mciSendStringA(cmd, nullptr, 0, nullptr);
@@ -1670,13 +1702,14 @@ static int global_mciSendString(lua_State *L)
 	return(1);
 }
 
-static int global_MessageBeep(lua_State *L) {
+static int global_MessageBeep(lua_State *L)
+{
 	const UINT uType = luaL_checkinteger(L, 1);
 	lua_pushboolean(L, MessageBeep(uType));
 	return 1;
 }
 
-static int global_Beep(lua_State *L) 
+static int global_Beep(lua_State *L)
 {
 	const DWORD dwFreq = luaL_checkinteger(L, 1);
 	const DWORD dwDuration = luaL_checkinteger(L, 2);
@@ -1688,13 +1721,13 @@ static int global_CoInitialize(lua_State *L)
 {
 	HRESULT lrc = CoInitialize(nullptr);
 	lua_pushinteger(L, lrc);
-	return(1);
+	return 1;
 }
 
 static int global_CoUninitialize(lua_State *) 
 {
 	CoUninitialize();
-	return(0);
+	return 0;
 }
 
 static int global_GetCurrentProcessId(lua_State *L)
@@ -1914,6 +1947,7 @@ static luaL_Reg winApi[] =
 	{ "SetWindowText", global_SetWindowText },
 	{ "GetWindowRect", global_GetWindowRect },
 	{ "SetForegroundWindow", global_SetForegroundWindow },
+	{ "GetDlgItem", global_GetDlgItem },
 	{ "PostMessage", global_PostMessage },
 	{ "PostThreadMessage", global_PostThreadMessage },
 	{ "GetMessage", global_GetMessage },
