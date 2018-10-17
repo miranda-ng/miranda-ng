@@ -240,7 +240,7 @@ void __cdecl CIrcProto::ResolveIPThread(void *di)
 	Thread_SetName("IRC: ResolveIPThread");
 	IPRESOLVE* ipr = (IPRESOLVE *)di;
 	{
-		mir_cslock lock(m_resolve);
+		mir_cslock lock(m_csResolve);
 
 		if (ipr != nullptr && (ipr->iType == IP_AUTO && mir_strlen(m_myHost) == 0 || ipr->iType == IP_MANUAL)) {
 			hostent* myhost = gethostbyname(ipr->sAddr);
@@ -1447,21 +1447,22 @@ bool CIrcProto::OnIrc_TOPIC(const CIrcMessage *pmsg)
 	return true;
 }
 
-static void __stdcall sttShowDlgList(void* param)
+static INT_PTR __stdcall sttShowDlgList(void* param)
 {
 	CIrcProto *ppro = (CIrcProto*)param;
+	
+	mir_cslock lck(ppro->m_csList);
 	if (ppro->m_listDlg == nullptr) {
 		ppro->m_listDlg = new CListDlg(ppro);
 		ppro->m_listDlg->Show();
 	}
-	SetEvent(ppro->m_evWndCreate);
+	return 0;
 }
 
 bool CIrcProto::OnIrc_LISTSTART(const CIrcMessage *pmsg)
 {
 	if (pmsg->m_bIncoming) {
-		CallFunctionAsync(sttShowDlgList, this);
-		WaitForSingleObject(m_evWndCreate, INFINITE);
+		CallFunctionSync(sttShowDlgList, this);
 		m_channelNumber = 0;
 	}
 
@@ -1471,81 +1472,92 @@ bool CIrcProto::OnIrc_LISTSTART(const CIrcMessage *pmsg)
 
 bool CIrcProto::OnIrc_LIST(const CIrcMessage *pmsg)
 {
-	if (pmsg->m_bIncoming == 1 && m_listDlg && pmsg->parameters.getCount() > 2) {
-		m_channelNumber++;
-		LVITEM lvItem;
-		HWND hListView = GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW);
-		lvItem.iItem = ListView_GetItemCount(hListView);
-		lvItem.mask = LVIF_TEXT | LVIF_PARAM;
-		lvItem.iSubItem = 0;
-		lvItem.pszText = pmsg->parameters[1].GetBuffer();
-		lvItem.lParam = lvItem.iItem;
-		lvItem.iItem = ListView_InsertItem(hListView, &lvItem);
-		lvItem.mask = LVIF_TEXT;
-		lvItem.iSubItem = 1;
-		lvItem.pszText = pmsg->parameters[pmsg->parameters.getCount() - 2].GetBuffer();
-		ListView_SetItem(hListView, &lvItem);
+	if (!pmsg->m_bIncoming || pmsg->parameters.getCount() <= 2)
+		return true;
 
-		wchar_t* temp = mir_wstrdup(pmsg->parameters[pmsg->parameters.getCount() - 1]);
-		wchar_t* find = wcsstr(temp, L"[+");
-		wchar_t* find2 = wcsstr(temp, L"]");
-		wchar_t* save = temp;
-		if (find == temp && find2 != nullptr && find + 8 >= find2) {
-			temp = wcsstr(temp, L"]");
-			if (mir_wstrlen(temp) > 1) {
-				temp++;
-				temp[0] = 0;
-				lvItem.iSubItem = 2;
-				lvItem.pszText = save;
-				ListView_SetItem(hListView, &lvItem);
-				temp[0] = ' ';
-				temp++;
-			}
-			else temp = save;
+	mir_cslockfull lck(m_csList);
+	if (!m_listDlg)
+		return true;
+		
+	m_channelNumber++;
+
+	HWND hListView = GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW);
+	HWND hStatusWnd = m_listDlg->m_status.GetHwnd();
+	lck.unlock();
+
+	LVITEM lvItem;
+	lvItem.iItem = ListView_GetItemCount(hListView);
+	lvItem.mask = LVIF_TEXT | LVIF_PARAM;
+	lvItem.iSubItem = 0;
+	lvItem.pszText = pmsg->parameters[1].GetBuffer();
+	lvItem.lParam = lvItem.iItem;
+	lvItem.iItem = ListView_InsertItem(hListView, &lvItem);
+	lvItem.mask = LVIF_TEXT;
+	lvItem.iSubItem = 1;
+	lvItem.pszText = pmsg->parameters[pmsg->parameters.getCount() - 2].GetBuffer();
+	ListView_SetItem(hListView, &lvItem);
+
+	wchar_t* temp = mir_wstrdup(pmsg->parameters[pmsg->parameters.getCount() - 1]);
+	wchar_t* find = wcsstr(temp, L"[+");
+	wchar_t* find2 = wcsstr(temp, L"]");
+	wchar_t* save = temp;
+	if (find == temp && find2 != nullptr && find + 8 >= find2) {
+		temp = wcsstr(temp, L"]");
+		if (mir_wstrlen(temp) > 1) {
+			temp++;
+			temp[0] = 0;
+			lvItem.iSubItem = 2;
+			lvItem.pszText = save;
+			ListView_SetItem(hListView, &lvItem);
+			temp[0] = ' ';
+			temp++;
 		}
-
-		lvItem.iSubItem = 3;
-		CMStringW S = DoColorCodes(temp, TRUE, FALSE);
-		lvItem.pszText = S.GetBuffer();
-		ListView_SetItem(hListView, &lvItem);
-		temp = save;
-		mir_free(temp);
-
-		int percent = 100;
-		if (m_noOfChannels > 0)
-			percent = (int)(m_channelNumber * 100) / m_noOfChannels;
-
-		wchar_t text[100];
-		if (percent < 100)
-			mir_snwprintf(text, TranslateT("Downloading list (%u%%) - %u channels"), percent, m_channelNumber);
-		else
-			mir_snwprintf(text, TranslateT("Downloading list - %u channels"), m_channelNumber);
-		m_listDlg->m_status.SetText(text);
+		else temp = save;
 	}
 
+	lvItem.iSubItem = 3;
+	CMStringW S = DoColorCodes(temp, TRUE, FALSE);
+	lvItem.pszText = S.GetBuffer();
+	ListView_SetItem(hListView, &lvItem);
+	temp = save;
+	mir_free(temp);
+
+	int percent = 100;
+	if (m_noOfChannels > 0)
+		percent = (int)(m_channelNumber * 100) / m_noOfChannels;
+
+	wchar_t text[100];
+	if (percent < 100)
+		mir_snwprintf(text, TranslateT("Downloading list (%u%%) - %u channels"), percent, m_channelNumber);
+	else
+		mir_snwprintf(text, TranslateT("Downloading list - %u channels"), m_channelNumber);
+	SetWindowText(hStatusWnd, text);
 	return true;
 }
 
 bool CIrcProto::OnIrc_LISTEND(const CIrcMessage *pmsg)
 {
-	if (pmsg->m_bIncoming && m_listDlg) {
-		EnableWindow(GetDlgItem(m_listDlg->GetHwnd(), IDC_JOIN), true);
-		ListView_SetSelectionMark(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 0);
-		ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 1, LVSCW_AUTOSIZE);
-		ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 2, LVSCW_AUTOSIZE);
-		ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 3, LVSCW_AUTOSIZE);
-		m_listDlg->UpdateList();
+	if (pmsg->m_bIncoming) {
+		mir_cslock lck(m_csList);
+		if (m_listDlg) {
+			EnableWindow(GetDlgItem(m_listDlg->GetHwnd(), IDC_JOIN), true);
+			ListView_SetSelectionMark(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 0);
+			ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 1, LVSCW_AUTOSIZE);
+			ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 2, LVSCW_AUTOSIZE);
+			ListView_SetColumnWidth(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW), 3, LVSCW_AUTOSIZE);
+			m_listDlg->UpdateList();
 
-		wchar_t text[100];
-		mir_snwprintf(text, TranslateT("Done: %u channels"), m_channelNumber);
-		int percent = 100;
-		if (m_noOfChannels > 0)
-			percent = (int)(m_channelNumber * 100) / m_noOfChannels;
-		if (percent < 70) {
-			mir_wstrcat(text, L" ");
-			mir_wstrcat(text, TranslateT("(probably truncated by server)"));
+			wchar_t text[100];
+			mir_snwprintf(text, TranslateT("Done: %u channels"), m_channelNumber);
+			int percent = 100;
+			if (m_noOfChannels > 0)
+				percent = (int)(m_channelNumber * 100) / m_noOfChannels;
+			if (percent < 70) {
+				mir_wstrcat(text, L" ");
+				mir_wstrcat(text, TranslateT("(probably truncated by server)"));
+			}
+			SetDlgItemText(m_listDlg->GetHwnd(), IDC_TEXT, text);
 		}
-		SetDlgItemText(m_listDlg->GetHwnd(), IDC_TEXT, text);
 	}
 	ShowMessage(pmsg);
 	return true;
@@ -1603,7 +1615,7 @@ bool CIrcProto::OnIrc_BANLISTEND(const CIrcMessage *pmsg)
 	return true;
 }
 
-static void __stdcall sttShowWhoisWnd(void* param)
+static INT_PTR __stdcall sttShowWhoisWnd(void* param)
 {
 	CIrcMessage* pmsg = (CIrcMessage*)param;
 	CIrcProto *ppro = (CIrcProto*)pmsg->m_proto;
@@ -1611,18 +1623,16 @@ static void __stdcall sttShowWhoisWnd(void* param)
 		ppro->m_whoisDlg = new CWhoisDlg(ppro);
 		ppro->m_whoisDlg->Show();
 	}
-	SetEvent(ppro->m_evWndCreate);
 
 	ppro->m_whoisDlg->ShowMessage(pmsg);
-	delete pmsg;
+	return 0;
 }
 
 bool CIrcProto::OnIrc_WHOIS_NAME(const CIrcMessage *pmsg)
 {
-	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 5 && m_manualWhoisCount > 0) {
-		CallFunctionAsync(sttShowWhoisWnd, new CIrcMessage(*pmsg));
-		WaitForSingleObject(m_evWndCreate, INFINITE);
-	}
+	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 5 && m_manualWhoisCount > 0)
+		CallFunctionSync(sttShowWhoisWnd, (void*)pmsg);
+
 	ShowMessage(pmsg);
 	return true;
 }
@@ -1766,7 +1776,7 @@ bool CIrcProto::OnIrc_WHOIS_NO_USER(const CIrcMessage *pmsg)
 	return true;
 }
 
-static void __stdcall sttShowNickWnd(void* param)
+static INT_PTR __stdcall sttShowNickWnd(void* param)
 {
 	CIrcMessage* pmsg = (CIrcMessage*)param;
 	CIrcProto *ppro = pmsg->m_proto;
@@ -1774,12 +1784,12 @@ static void __stdcall sttShowNickWnd(void* param)
 		ppro->m_nickDlg = new CNickDlg(ppro);
 		ppro->m_nickDlg->Show();
 	}
-	SetEvent(ppro->m_evWndCreate);
+
 	SetDlgItemText(ppro->m_nickDlg->GetHwnd(), IDC_CAPTION, TranslateT("Change nickname"));
 	SetDlgItemText(ppro->m_nickDlg->GetHwnd(), IDC_TEXT, pmsg->parameters.getCount() > 2 ? pmsg->parameters[2] : L"");
 	ppro->m_nickDlg->m_Enick.SetText(pmsg->parameters[1]);
 	ppro->m_nickDlg->m_Enick.SendMsg(CB_SETEDITSEL, 0, MAKELPARAM(0, -1));
-	delete pmsg;
+	return 0;
 }
 
 bool CIrcProto::OnIrc_NICK_ERR(const CIrcMessage *pmsg)
@@ -1791,10 +1801,7 @@ bool CIrcProto::OnIrc_NICK_ERR(const CIrcMessage *pmsg)
 			if (IsConnected())
 				SendIrcMessage(m);
 		}
-		else {
-			CallFunctionAsync(sttShowNickWnd, new CIrcMessage(*pmsg));
-			WaitForSingleObject(m_evWndCreate, INFINITE);
-		}
+		else CallFunctionSync(sttShowNickWnd, (void*)pmsg);
 	}
 
 	ShowMessage(pmsg);

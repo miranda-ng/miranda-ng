@@ -458,7 +458,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 	GCHOOK *gch = (GCHOOK*)lParam;
 	CMStringW S = L"";
 
-	mir_cslock lock(m_gchook);
+	mir_cslock lock(m_csGcHook);
 
 	// handle the hook
 	if (gch) {
@@ -839,7 +839,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 
 void CIrcProto::OnShutdown()
 {
-	mir_cslock lock(cs);
+	mir_cslock lock(m_csSession);
 
 	if (m_perform && IsConnected())
 		if (DoPerform("Event: Disconnect"))
@@ -944,7 +944,7 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_CONNECTING);
 		Sleep(100);
 		{
-			mir_cslock lock(cs);
+			mir_cslock lock(m_csSession);
 			Connect(si);
 		}
 		if (IsConnected()) {
@@ -969,10 +969,9 @@ void __cdecl CIrcProto::DisconnectServerThread(void*)
 {
 	Thread_SetName("IRC: DisconnectServer");
 
-	mir_cslock lck(cs);
+	mir_cslock lck(m_csSession);
 	if (IsConnected())
 		Disconnect();
-	return;
 }
 
 void CIrcProto::ConnectToServer(void)

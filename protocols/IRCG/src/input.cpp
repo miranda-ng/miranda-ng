@@ -477,9 +477,12 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 	}
 
 	if (command == L"/list") {
-		if (m_listDlg == nullptr) {
-			m_listDlg = new CListDlg(this);
-			m_listDlg->Show();
+		{
+			mir_cslock lck(m_csList);
+			if (m_listDlg == nullptr) {
+				m_listDlg = new CListDlg(this);
+				m_listDlg->Show();
+			}
 		}
 		SetActiveWindow(m_listDlg->GetHwnd());
 		int minutes = (int)m_noOfChannels / 4000;

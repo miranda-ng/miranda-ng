@@ -405,8 +405,12 @@ void CListDlg::OnDestroy()
 	if (m_timer)
 		::KillTimer(m_hwnd, m_timer);
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "channelList_");
+
+	mir_cslock lck(m_proto->m_csList);
 	m_proto->m_listDlg = nullptr;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct ListViewSortParam
 {

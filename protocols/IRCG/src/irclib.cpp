@@ -270,7 +270,6 @@ void CIrcProto::Disconnect(void)
 		Netlib_Shutdown(con);
 
 	m_info.Reset();
-	return;
 }
 
 void CIrcProto::Notify(const CIrcMessage* pmsg)
@@ -340,7 +339,6 @@ void CIrcProto::InsertIncomingEvent(wchar_t* pszRaw)
 {
 	CIrcMessage msg(this, pszRaw, true);
 	Notify(&msg);
-	return;
 }
 
 void CIrcProto::createMessageFromPchar(const char* p)

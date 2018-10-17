@@ -39,8 +39,6 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 	vUserhostReasons(10),
 	vWhoInProgress(10)
 {
-	m_evWndCreate = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
-
 	CreateProtoService(PS_GETMYAWAYMSG, &CIrcProto::GetMyAwayMsg);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CIrcProto::SvcCreateAccMgrUI);
@@ -157,7 +155,6 @@ CIrcProto::~CIrcProto()
 
 	mir_free(m_alias);
 
-	CloseHandle(m_evWndCreate);
 	KillChatTimer(OnlineNotifTimer);
 	KillChatTimer(OnlineNotifTimer3);
 }

@@ -165,10 +165,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	OBJLIST<CMStringW> vUserhostReasons;
 	OBJLIST<CMStringW> vWhoInProgress;
 
-	mir_cs   cs;
-	mir_cs   m_gchook;
-	mir_cs   m_resolve;
-	HANDLE   m_evWndCreate;
+	mir_cs   m_csSession, m_csGcHook, m_csResolve, m_csList;
 
 	CMStringW m_statusMessage;
 	int      m_iTempCheckTime;
