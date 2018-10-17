@@ -146,7 +146,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 			if (!(dbei->flags & DBEF_SENT))
 				db_mc_setDefault(cc->contactID, hContact, false);
 			if (db_mc_isEnabled())
-				hNotifyContact = hContact;
+				hNotifyContact = cc->contactID; // and add an event to a metahistory
 		}
 	}
 	else cc = &m_system;
