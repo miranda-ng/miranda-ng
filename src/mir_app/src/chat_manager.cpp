@@ -159,12 +159,12 @@ SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule)
 	if (!pszID || !pszModule)
 		return nullptr;
 
-	SESSION_INFO tmp;
-	tmp.pszModule = (char*)pszModule;
-	tmp.ptszID = (wchar_t*)pszID;
+	SESSION_INFO *tmp = (SESSION_INFO*)alloca(sizeof(SESSION_INFO));
+	tmp->pszModule = (char*)pszModule;
+	tmp->ptszID = (wchar_t*)pszID;
 
 	mir_cslock lck(csChat);
-	return g_arSessions.find(&tmp);
+	return g_arSessions.find(tmp);
 }
 
 BOOL SM_SetOffline(const char *pszModule, SESSION_INFO *si)
