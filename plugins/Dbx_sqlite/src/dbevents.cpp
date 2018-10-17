@@ -319,7 +319,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->cbBlob = cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
 		BYTE *data = (BYTE*)sqlite3_column_blob(stmt, 5);
-		memcpy(dbei->pBlob, data, dbei->cbBlob);
+		memcpy(dbei->pBlob, data, bytesToCopy);
 	}
 	sqlite3_reset(stmt);
 	return 0;
