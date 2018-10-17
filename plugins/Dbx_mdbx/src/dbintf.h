@@ -187,7 +187,7 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 
 	MCONTACT m_maxContactId;
 
-	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
+	void     GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &items);
 
 	////////////////////////////////////////////////////////////////////////////
 	// events
@@ -271,6 +271,8 @@ public:
 
 	STDMETHODIMP_(BOOL)     MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub) override;
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub) override;
+	STDMETHODIMP_(BOOL)     MetaRemoveSubHistory(DBCachedContact *ccSub) override;
+
 
 	STDMETHODIMP_(BOOL)     Compact();
 	STDMETHODIMP_(BOOL)     Backup(const wchar_t*);

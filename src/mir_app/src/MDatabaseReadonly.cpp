@@ -135,6 +135,11 @@ BOOL MDatabaseReadonly::MetaSplitHistory(DBCachedContact*, DBCachedContact*)
 	return 1;
 }
 
+BOOL MDatabaseReadonly::MetaRemoveSubHistory(DBCachedContact*)
+{
+	return 1;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MEVENT MDatabaseReadonly::GetEventById(LPCSTR, LPCSTR)

@@ -195,6 +195,11 @@ BOOL MDatabaseCommon::MetaSetDefault(DBCachedContact *cc)
 	return WriteContactSetting(cc->contactID, &cws);
 }
 
+BOOL MDatabaseCommon::MetaRemoveSubHistory(DBCachedContact*)
+{
+	return 1;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Getting settings
 

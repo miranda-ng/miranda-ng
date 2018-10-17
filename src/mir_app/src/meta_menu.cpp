@@ -87,7 +87,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Removes a sub from a metacontact
 
-void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateInfo)
+void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateInfo, bool bDeleteSub)
 {
 	if (ccMeta == nullptr)
 		return;
@@ -134,10 +134,14 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	if (ccSub != nullptr) {
-		ccSub->parentID = 0;
 		currDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
 
-		currDb->MetaSplitHistory(ccMeta, ccSub);
+		if (bDeleteSub)
+			currDb->MetaRemoveSubHistory(ccSub);
+		else {
+			currDb->MetaSplitHistory(ccMeta, ccSub);
+			ccSub->parentID = 0;
+		}
 	}
 
 	// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)

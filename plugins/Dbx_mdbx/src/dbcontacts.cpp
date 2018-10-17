@@ -42,6 +42,8 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 		return 1;
 
 	NotifyEventHooks(g_hevContactDeleted, contactID, 0);
+
+	// remove events owned by contact
 	{
 		OBJLIST<EventItem> events(50);
 		GatherContactHistory(contactID, events);
@@ -50,6 +52,8 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 			events.remove(0);
 		}
 	}
+
+	// remove all contact's settings
 	{
 		MDBX_val key, data;
 		DBSettingKey keyS = { contactID, 0, 0 };
@@ -66,9 +70,11 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 			mdbx_cursor_del(cursor, 0);
 		}
 
-		trnlck.commit();
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
 	}
 
+	// finally remove the contact itself
 	MDBX_val key = { &contactID, sizeof(MCONTACT) };
 	{
 		txn_ptr trnlck(StartTran());
@@ -114,7 +120,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::IsDbContact(MCONTACT contactID)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDbxMDBX::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
+void CDbxMDBX::GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &list)
 {
 	DBEventSortingKey keyVal = { hContact, 0, 0 };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
@@ -133,23 +139,21 @@ void CDbxMDBX::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 
 BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	LIST<EventItem> list(1000);
+	OBJLIST<EventItem> list(1000);
 	GatherContactHistory(ccSub->contactID, list);
 
 	for (auto &EI : list) {
-		{
-			txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(StartTran());
 
-			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
-			MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
-			if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
-				return 1;
+		DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
+		MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
+		if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
+			return 1;
 
-			if (trnlck.commit() != MDBX_SUCCESS)
-				return 1;
-		}
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
+
 		ccMeta->dbc.dwEventCount++;
-		delete EI;
 	}
 
 	MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
@@ -167,21 +171,19 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	LIST<EventItem> list(1000);
+	OBJLIST<EventItem> list(1000);
 	GatherContactHistory(ccSub->contactID, list);
 
 	for (auto &EI : list) {
-		{
-			txn_ptr trnlck(StartTran());
-			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
-			MDBX_val key = { &insVal, sizeof(insVal) };
-			if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
-				return 1;
-			if (trnlck.commit() != MDBX_SUCCESS)
-				return 1;
-		}
+		txn_ptr trnlck(StartTran());
+		DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
+		MDBX_val key = { &insVal, sizeof(insVal) };
+		if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
+			return 1;
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
+
 		ccMeta->dbc.dwEventCount--;
-		delete EI;
 	}
 
 	txn_ptr trnlck(StartTran());
@@ -191,6 +193,40 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	if (trnlck.commit() != MDBX_SUCCESS)
 		return 1;
 	
+	DBFlush();
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+BOOL CDbxMDBX::MetaRemoveSubHistory(DBCachedContact *ccSub)
+{
+	OBJLIST<EventItem> list(1000);
+	GatherContactHistory(ccSub->contactID, list);
+
+	for (auto &EI : list) {
+		txn_ptr trnlck(StartTran());
+		{
+			MDBX_val key = { &EI->eventId, sizeof(MEVENT) }, data;
+			if (mdbx_get(trnlck, m_dbEvents, &key, &data) == MDBX_SUCCESS) {
+				DBEvent *pEvent = (DBEvent*)data.iov_base;
+				pEvent->contactID = ccSub->parentID;
+				if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
+					return 1;
+			}
+		}
+
+		DBEventSortingKey sortKey = { ccSub->contactID, EI->eventId, EI->ts };
+		{
+			MDBX_val key = { &sortKey, sizeof(sortKey) };
+			if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
+				return 1;
+		}
+		
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
+	}
+
 	DBFlush();
 	return 0;
 }

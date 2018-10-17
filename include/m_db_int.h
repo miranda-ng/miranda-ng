@@ -126,6 +126,7 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(BOOL, MetaSetDefault)(DBCachedContact*) PURE;
 	STDMETHOD_(BOOL, MetaMergeHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
 	STDMETHOD_(BOOL, MetaSplitHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
+	STDMETHOD_(BOOL, MetaRemoveSubHistory)(DBCachedContact *ccSub) PURE;
 
 	STDMETHOD_(BOOL, Compact)(void) PURE;
 	STDMETHOD_(BOOL, Backup)(LPCWSTR) PURE;
@@ -163,25 +164,26 @@ public:
 
 	__forceinline MIDatabaseCache* getCache() const { return m_cache; }
 
-	STDMETHODIMP_(BOOL) DeleteModule(MCONTACT contactID, LPCSTR szModule);
+	STDMETHODIMP_(BOOL) DeleteModule(MCONTACT contactID, LPCSTR szModule) override;
 
-	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = nullptr);
-	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto = nullptr);
+	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = nullptr) override;
+	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto = nullptr) override;
 
-	STDMETHODIMP_(BOOL) MetaDetouchSub(DBCachedContact *cc, int nSub);
-	STDMETHODIMP_(BOOL) MetaSetDefault(DBCachedContact *cc);
+	STDMETHODIMP_(BOOL) MetaDetouchSub(DBCachedContact *cc, int nSub) override;
+	STDMETHODIMP_(BOOL) MetaSetDefault(DBCachedContact *cc) override;
+	STDMETHODIMP_(BOOL) MetaRemoveSubHistory(DBCachedContact *ccSub) override;
 
-	STDMETHODIMP_(BOOL) IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
-	STDMETHODIMP_(BOOL) GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL) GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL) GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL) IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting) override;
+	STDMETHODIMP_(BOOL) GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
+	STDMETHODIMP_(BOOL) GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
+	STDMETHODIMP_(BOOL) GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
 	STDMETHODIMP_(BOOL) FreeVariant(DBVARIANT *dbv);
 	
-	STDMETHODIMP_(BOOL) EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
-	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName);
+	STDMETHODIMP_(BOOL) EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam) override;
+	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName) override;
 	
-	STDMETHODIMP_(BOOL) Compact(void);
-	STDMETHODIMP_(BOOL) Backup(LPCWSTR);
+	STDMETHODIMP_(BOOL) Compact(void) override;
+	STDMETHODIMP_(BOOL) Backup(LPCWSTR) override;
 };
 
 #pragma warning(pop)
@@ -224,6 +226,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP_(BOOL) MetaMergeHistory(DBCachedContact*, DBCachedContact*) override;
 	STDMETHODIMP_(BOOL) MetaSplitHistory(DBCachedContact*, DBCachedContact*) override;
+	STDMETHODIMP_(BOOL) MetaRemoveSubHistory(DBCachedContact*) override;
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP_(MEVENT) GetEventById(LPCSTR szModule, LPCSTR szId) override;

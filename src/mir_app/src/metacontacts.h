@@ -46,7 +46,7 @@ INT_PTR Meta_Default(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam);
 int  Meta_ModifyMenu(WPARAM wParam,LPARAM lParam);
 BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default);
-void Meta_RemoveContactNumber(DBCachedContact *cc, int number, bool bUpdateInfo);
+void Meta_RemoveContactNumber(DBCachedContact *cc, int number, bool bUpdateInfo, bool bDeleteSub = false);
 int  Meta_SetNick(char *proto);
 int  Meta_HideLinkedContacts(void);
 int  Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact);

@@ -457,7 +457,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 	if (cc->IsSub()) {
 		DBCachedContact *ccMeta = CheckMeta(cc->parentID);
 		if (ccMeta) {
-			Meta_RemoveContactNumber(ccMeta, Meta_GetContactNumber(ccMeta, hContact), true);
+			Meta_RemoveContactNumber(ccMeta, Meta_GetContactNumber(ccMeta, hContact), true, true);
 			NotifyEventHooks(hSubcontactsChanged, ccMeta->contactID, 0);
 
 			// no more subs? remove the meta itself
