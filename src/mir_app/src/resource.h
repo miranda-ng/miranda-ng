@@ -544,9 +544,9 @@
 #define IDC_ADDCHECK                    1742
 #define IDC_GETMOREPLUGINS              1744
 #define IDC_DISABLEMENUICONS            1745
-#define IDC_COMBO1                      1746
-#define IDC_LANGUAGES                   1746
-#define IDC_GENMENU_MODULE              1747
+#define IDC_SM_ENABLED                  1746
+#define IDC_LANGUAGES                   1747
+#define IDC_GENMENU_MODULE              1748
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889

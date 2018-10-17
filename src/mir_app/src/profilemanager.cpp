@@ -574,6 +574,7 @@ class CProfileManager : public CDlgBase
 
 	CCtrlPages  m_tab;
 	CCtrlButton m_btnOk;
+	CCtrlCheck  m_chkSmEnabled;
 	CCtrlCombo  m_servicePlugs;
 	CCtrlBase   m_warning;
 
@@ -583,10 +584,12 @@ public:
 		m_btnOk(this, IDOK),
 		m_pd(_pd),
 		m_tab(this, IDC_TABS),
+		m_warning(this, IDC_SM_LABEL),
 		m_servicePlugs(this, IDC_SM_COMBO),
-		m_warning(this, IDC_SM_LABEL)
+		m_chkSmEnabled(this, IDC_SM_ENABLED)
 	{
 		m_btnOk.OnClick = Callback(this, &CProfileManager::onOk);
+		m_chkSmEnabled.OnChange = Callback(this, &CProfileManager::onChanged);
 
 		m_tab.AddPage(LPGENW("My profiles"), nullptr, new CChooseProfileDlg(m_btnOk, m_pd));
 		m_tab.AddPage(LPGENW("New profile"), nullptr, new CCreateProfileDlg(m_btnOk, m_pd));
@@ -604,27 +607,30 @@ public:
 		// service mode combobox
 		if (servicePlugins.getCount() == 0) {
 			ShowWindow(m_warning.GetHwnd(), FALSE);
+			ShowWindow(m_chkSmEnabled.GetHwnd(), FALSE);
 			ShowWindow(m_servicePlugs.GetHwnd(), FALSE);
 		}
 		else {
-			m_servicePlugs.AddStringA("", -1);
-			m_servicePlugs.SetCurSel(0);
-
 			for (int i = 0; i < servicePlugins.getCount(); i++) {
 				pluginEntry *p = servicePlugins[i];
 				m_servicePlugs.AddString(TranslateW(p->pluginname), i);
 			}
+
+			m_servicePlugs.Disable();
+			m_servicePlugs.SetCurSel(0);
 		}
 		return true;
 	}
 
 	void OnDestroy()
 	{
-		LRESULT curSel = m_servicePlugs.GetCurSel();
-		if (curSel != -1) {
-			int idx = m_servicePlugs.GetItemData(curSel);
-			if (idx != -1)
-				plugin_service = servicePlugins[idx];
+		if (m_chkSmEnabled.GetState()) {
+			LRESULT curSel = m_servicePlugs.GetCurSel();
+			if (curSel != -1) {
+				int idx = m_servicePlugs.GetItemData(curSel);
+				if (idx != -1)
+					plugin_service = servicePlugins[idx];
+			}
 		}
 
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
@@ -634,6 +640,11 @@ public:
 	void onOk(CCtrlButton*)
 	{
 		EndDialog(m_hwnd, 1);
+	}
+
+	void onChanged(CCtrlCheck*)
+	{
+		m_servicePlugs.Enable(m_chkSmEnabled.GetState());
 	}
 };
 

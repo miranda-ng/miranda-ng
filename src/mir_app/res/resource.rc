@@ -82,7 +82,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Contact display options",IDC_STATIC,7,7,299,228
     CTEXT           "Instead of displaying contacts by their nickname,\ndrag to choose another order:",IDC_STATIC,64,39,181,32
-    CONTROL         "Tree1",IDC_NAMEORDER,"SysTreeView32",TVS_NOHSCROLL | TVS_NOTOOLTIPS | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,65,78,182,93
+    CONTROL         "Tree1",IDC_NAMEORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_FULLROWSELECT | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,65,78,182,93
 END
 
 IDD_PROFILEMANAGER DIALOGEX 0, 0, 219, 211
@@ -94,7 +94,7 @@ BEGIN
     CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_HOTTRACK,2,31,215,137
     PUSHBUTTON      "&Run",IDOK,169,195,48,14
     PUSHBUTTON      "&Exit",IDCANCEL,112,195,48,14
-    RTEXT           "Start in service mode with",IDC_SM_LABEL,10,178,106,10
+    CONTROL         "Start in service mode with",IDC_SM_ENABLED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,176,107,12
     COMBOBOX        IDC_SM_COMBO,118,176,98,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
@@ -370,15 +370,15 @@ BEGIN
 END
 
 IDD_PROFILE_SELECTION DIALOGEX 0, 0, 208, 122
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | DS_CONTROL
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "List1",IDC_PROFILELIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,0,3,207,117
+    CONTROL         "List1",IDC_PROFILELIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,0,3,207,117
 END
 
 IDD_PROFILE_NEW DIALOGEX 0, 0, 208, 122
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | DS_CONTROL
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Please complete the following form to create a new user profile",IDC_STATIC,4,3,205,16
@@ -605,7 +605,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Select the extra icons to be shown in the contact list:",IDC_STATIC,1,9,274,13
-    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_NOHSCROLL | TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,1,24,274,160
+    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | TVS_FULLROWSELECT | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,1,24,274,160
     LTEXT           "*only the first %d icons will be shown",IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
     LTEXT           "You can group/ungroup icons by selecting them (Ctrl+left click) and using the popup menu (right click)",IDC_STATIC,1,208,274,20
 END
@@ -710,7 +710,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_TOOLBARTREE,"SysTreeView32",TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | TVS_NOHSCROLL | TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_HSCROLL | WS_TABSTOP,1,4,301,171,WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_TOOLBARTREE,"SysTreeView32",TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | TVS_CHECKBOXES | TVS_FULLROWSELECT | TVS_NOHSCROLL | WS_HSCROLL | WS_TABSTOP,1,4,301,171,WS_EX_CLIENTEDGE
     PUSHBUTTON      "Reset",IDC_BBRESET,250,211,53,15
     CONTROL         "Show in IM chats",IDC_IMCHECK,"Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,4,181,127,12
     CONTROL         "Show in chat rooms",IDC_CHATCHECK,"Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,4,196,127,12
@@ -803,6 +803,10 @@ BEGIN
         BOTTOMMARGIN, 235
     END
 
+    IDD_PROFILEMANAGER, DIALOG
+    BEGIN
+    END
+
     IDD_FINDADD, DIALOG
     BEGIN
         LEFTMARGIN, 5
@@ -874,16 +878,6 @@ BEGIN
         VERTGUIDE, 273
         TOPMARGIN, 4
         BOTTOMMARGIN, 236
-    END
-
-    IDD_OPT_ICONS, DIALOG
-    BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 253
-        VERTGUIDE, 12
-        VERTGUIDE, 200
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 189
     END
 
     IDD_OPT_IGNORE, DIALOG
@@ -1092,6 +1086,12 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXT
+//
+
 IDR_CREDITS             TEXT                    "../../docs/contributors.txt"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1298,26 +1298,28 @@ BEGIN
     END
 END
 
-IDR_CLISTMENU MENU 
-BEGIN 
-	POPUP "&Main menu" 
-	BEGIN 
-		MENUITEM SEPARATOR 
-		MENUITEM "E&xit",                       ID_ICQ_EXIT 
-	END 
-	POPUP "&Status" 
-	BEGIN 
-		MENUITEM "&Offline\tCtrl+0",            ID_STATUS_OFFLINE, CHECKED 
-		MENUITEM "On&line\tCtrl+1",             ID_STATUS_ONLINE 
-		MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY 
-		MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA 
-		MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED 
-		MENUITEM "&Do not disturb\tCtrl+5",     ID_STATUS_DND 
-		MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT 
-		MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE 
-		MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE 
-		MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH 
-	END 
+IDR_CLISTMENU MENU
+BEGIN
+    POPUP "&Main menu"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_ICQ_EXIT
+    END
+    POPUP "&Status"
+    BEGIN
+        MENUITEM "&Offline\tCtrl+0",            ID_STATUS_OFFLINE, CHECKED
+        MENUITEM "On&line\tCtrl+1",             ID_STATUS_ONLINE
+        MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY
+        MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA
+        MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED
+        MENUITEM "&Do not disturb\tCtrl+5",     ID_STATUS_DND
+        MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT
+        MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE
+        MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
+        MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
+    END
+END
+
 END
 
 #endif    // English (United States) resources
