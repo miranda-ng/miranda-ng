@@ -249,22 +249,14 @@ void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpR
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
-	MCONTACT hContact = (UINT_PTR)pReq->pUserInfo;
-
-	bool bSucceeded = true;
-	if (pReply->resultCode != 200 && pReply->resultCode != 204)
-		bSucceeded = false;
-
 	JSONNode root = JSONNode::parse(pReply->pData);
 	if (root) {
 		CDiscordUser *pUser = FindUserByChannel(::getId(root["channel_id"]));
 		if (pUser != nullptr)
 			pUser->lastMsg = CDiscordMessage(::getId(root["id"]), ::getId(root["author"]["id"]));
 	}
-
-	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, bSucceeded ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)pReq->m_iReqNum, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

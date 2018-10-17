@@ -322,14 +322,18 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 		return;
 	}
 
+	char szMsgId[100];
+	_i64toa_s(msgId, szMsgId, _countof(szMsgId), 10);
+
 	// restore partially received updated message
 	if (pUser->lastMsg.id == msg.id)
 		msg = pUser->lastMsg;
 
-	SnowFlake nonce = ::getId(pRoot["nonce"]);
-	SnowFlake *p = arOwnMessages.find(&nonce);
+	COwnMessage ownMsg(::getId(pRoot["nonce"]), 0);
+	COwnMessage *p = arOwnMessages.find(&ownMsg);
 	if (p != nullptr) { // own message? skip it
-		debugLogA("skipping own message with nonce=%lld, id=%lld", nonce, msg.id);
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)p->reqId, (LPARAM)szMsgId);
+		debugLogA("skipping own message with nonce=%lld, id=%lld", ownMsg.nonce, msg.id);
 	}
 	else {
 		CMStringW wszText = PrepareMessageText(pRoot);
@@ -346,8 +350,6 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 
 			debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
 			ptrA buf(mir_utf8encodeW(wszText));
-			char szMsgId[100];
-			_i64toa_s(msgId, szMsgId, _countof(szMsgId), 10);
 
 			recv.timestamp = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
 			recv.szMessage = buf;

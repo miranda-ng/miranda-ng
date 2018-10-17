@@ -55,6 +55,17 @@ struct CDiscordMessage
 	{}
 };
 
+struct COwnMessage
+{
+	SnowFlake nonce;
+	int reqId;
+
+	COwnMessage(SnowFlake _id, int _reqId) :
+		nonce(_id),
+		reqId(_reqId)
+	{}
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 enum CDiscordHistoryOp
@@ -196,7 +207,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	LIST<CDiscordUser> arMarkReadQueue;
 
 	OBJLIST<CDiscordUser> arUsers;
-	OBJLIST<SnowFlake> arOwnMessages;
+	OBJLIST<COwnMessage> arOwnMessages;
 
 	CDiscordUser* FindUser(SnowFlake id);
 	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
