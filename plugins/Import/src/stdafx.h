@@ -115,6 +115,7 @@ public:
 	void OnNext() override;
 	
 	void OnTimer(CTimer*);
+	void OnContextMenu(CCtrlBase*);
 
 	void AddMessage(const wchar_t *pMsg);
 	void SetProgress(int);

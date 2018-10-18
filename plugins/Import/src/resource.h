@@ -14,7 +14,8 @@
 #define IDD_MIRANDADB                   110
 #define IDD_PROGRESS                    111
 #define IDD_ADVOPTIONS                  112
-#define IDI_IMPORT                      177
+#define IDR_LIST                        113
+#define IDI_IMPORT                      114
 #define IDC_DONTLOADPLUGIN              1001
 #define IDC_MIRANDA                     1002
 #define IDC_OTHER                       1005
@@ -51,14 +52,15 @@
 #define IDC_FT                          1040
 #define IDC_OPEN_FILE                   1042
 #define IDC_CHECK_DUPS                  1043
+#define IDM_COPY                        40001
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        111
-#define _APS_NEXT_COMMAND_VALUE         40001
+#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_COMMAND_VALUE         40002
 #define _APS_NEXT_CONTROL_VALUE         1044
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

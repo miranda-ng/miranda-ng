@@ -33,6 +33,8 @@ CProgressPageDlg::CProgressPageDlg() :
 	m_list(this, IDC_STATUS),
 	m_timer(this, 1)
 {
+	m_list.OnBuildMenu = Callback(this, &CProgressPageDlg::OnContextMenu);
+
 	m_timer.OnEvent = Callback(this, &CProgressPageDlg::OnTimer);
 }
 
@@ -55,6 +57,43 @@ void CProgressPageDlg::OnDestroy()
 void CProgressPageDlg::OnNext()
 {
 	PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CFinishedPageDlg());
+}
+
+void CProgressPageDlg::OnContextMenu(CCtrlBase*)
+{
+	POINT pt;
+	::GetCursorPos(&pt);
+	
+	HMENU hMenu = ::LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_LIST));
+	switch (::TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
+	case IDM_COPY:
+		CMStringW wszText;
+		int nLines = m_list.GetCount();
+		for (int i = 0; i < nLines; i++) {
+			ptrW wszLine(m_list.GetItemText(i));
+			if (wszLine) {
+				wszText.Append(wszLine);
+				wszText.Append(L"\r\n");
+			}
+		}
+		if (wszText.IsEmpty())
+			break;
+
+		if (::OpenClipboard(m_hwnd)) {
+			size_t i = sizeof(wchar_t) * (wszText.GetLength() + 1);
+
+			::EmptyClipboard();
+			HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
+
+			memcpy((void*)::GlobalLock(hData), wszText, i);
+			::GlobalUnlock(hData);
+			::SetClipboardData(CF_UNICODETEXT, hData);
+			::CloseClipboard();
+		}
+		break;
+	}
+
+	::DestroyMenu(hMenu);
 }
 
 void CProgressPageDlg::OnTimer(CTimer*)
