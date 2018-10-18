@@ -69,29 +69,115 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 // Keys
 #define IMP_KEY_FR     "FirstRun"         // First run
 
-#define WIZM_GOTOPAGE       (WM_USER+10)  // wParam=resource id, lParam=dlgproc
+#define WIZM_GOTOPAGE       (WM_USER+10)  // wParam=0, lParam=page class
 #define WIZM_DISABLEBUTTON  (WM_USER+11)  // wParam=0:back, 1:next, 2:cancel
 #define WIZM_SETCANCELTEXT  (WM_USER+12)  // lParam=(char*)newText
 #define WIZM_ENABLEBUTTON   (WM_USER+13)  // wParam=0:back, 1:next, 2:cancel
 
 #define PROGM_SETPROGRESS   (WM_USER+10)  // wParam=0..100
 #define PROGM_ADDMESSAGE    (WM_USER+11)  // lParam=(char*)szText
+#define PROGM_START         (WM_USER+100)
 
-void AddMessage(const wchar_t* fmt, ...);
-
-struct WizardDlgParam
+class CWizardPageDlg : public CDlgBase
 {
-	WPARAM wParam;
-	LPARAM lParam;
+	CCtrlButton btnOk, btnCancel;
+
+protected:
+	virtual void OnNext() PURE;
+	virtual void OnCancel();
+
+public:
+	CWizardPageDlg(int dlgId);
+
+	void onClick_Ok(CCtrlButton*) { OnNext(); }
+	void onClick_Cancel(CCtrlButton*) { OnCancel(); }
 };
 
-INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK MirandaPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+void AddMessage(const wchar_t* fmt, ...);
+LRESULT RunWizard(CWizardPageDlg*, bool bModal);
+
+class CIntroPageDlg : public CWizardPageDlg
+{
+public:
+	CIntroPageDlg();
+
+	bool OnInitDialog() override;
+	void OnNext() override;
+};
+
+class CProgressPageDlg : public CWizardPageDlg
+{
+public:
+	CProgressPageDlg();
+
+	bool OnInitDialog() override;
+	void OnNext() override;
+	INT_PTR DlgProc(UINT, WPARAM, LPARAM) override;
+};
+
+class CMirandaPageDlg : public CWizardPageDlg
+{
+	void SearchForLists(const wchar_t *mirandaPath, const wchar_t *mirandaProf);
+
+	CCtrlButton btnBack, btnOther;
+	CCtrlListBox list;
+
+public:
+	CMirandaPageDlg();
+
+	bool OnInitDialog() override;
+	void OnDestroy() override;
+	void OnNext() override;
+	
+	void onClick_Back(CCtrlButton*);
+	void onClick_Other(CCtrlButton*);
+
+	void onSelChanged_list(CCtrlListBox*);
+};
+
+class CMirandaOptionsPageDlg : public CWizardPageDlg
+{
+	CCtrlButton btnBack;
+
+public:
+	CMirandaOptionsPageDlg();
+
+	bool OnInitDialog() override;
+	void OnNext() override;
+
+	void onClick_Back(CCtrlButton*);
+};
+
+class CMirandaAdvOptionsPageDlg : public CWizardPageDlg
+{
+	CCtrlButton btnBack;
+	CCtrlCheck chkSince, chkAll, chkOutgoing, chkIncoming, chkMsg, chkUrl, chkFT, chkOther;
+
+public:
+	CMirandaAdvOptionsPageDlg();
+
+	bool OnInitDialog() override;
+	void OnNext() override;
+
+	void onClick_Back(CCtrlButton*);
+
+	void onChange_Since(CCtrlCheck*);
+	void onChange_All(CCtrlCheck*);
+	void onChange_Msg(CCtrlCheck*);
+	void onChange_Url(CCtrlCheck*);
+	void onChange_FT(CCtrlCheck*);
+	void onChange_Other(CCtrlCheck*);
+};
+
+class CFinishedPageDlg : public CWizardPageDlg
+{
+public:
+	CFinishedPageDlg();
+
+	bool OnInitDialog() override;
+	void OnNext() override;
+	void OnCancel() override;
+};
 
 bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 

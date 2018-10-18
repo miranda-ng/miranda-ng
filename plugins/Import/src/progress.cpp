@@ -22,53 +22,51 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define PROGM_START   (WM_USER+100)
-
 void MirandaImport(HWND);
 
-INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		SendMessage(GetParent(hdlg), WIZM_DISABLEBUTTON, 0, 0);
-		SendMessage(GetParent(hdlg), WIZM_DISABLEBUTTON, 1, 0);
-		SendMessage(GetParent(hdlg), WIZM_DISABLEBUTTON, 2, 0);
-		SendDlgItemMessage(hdlg, IDC_PROGRESS, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
-		PostMessage(hdlg, PROGM_START, 0, 0);
-		return TRUE;
+CProgressPageDlg::CProgressPageDlg() :
+	CWizardPageDlg(IDD_PROGRESS)
+{}
 
+bool CProgressPageDlg::OnInitDialog()
+{
+	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 0, 0);
+	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 1, 0);
+	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 2, 0);
+	SendDlgItemMessage(m_hwnd, IDC_PROGRESS, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
+	PostMessage(m_hwnd, PROGM_START, 0, 0);
+	return true;
+}
+
+void CProgressPageDlg::OnNext()
+{
+	PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CFinishedPageDlg());
+}
+
+INT_PTR CProgressPageDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
 	case PROGM_SETPROGRESS:
-		SendDlgItemMessage(hdlg, IDC_PROGRESS, PBM_SETPOS, wParam, 0);
+		SendDlgItemMessage(m_hwnd, IDC_PROGRESS, PBM_SETPOS, wParam, 0);
 		break;
 
 	case PROGM_ADDMESSAGE:
 		{
-			int i = SendDlgItemMessage(hdlg, IDC_STATUS, LB_ADDSTRING, 0, lParam);
-			SendDlgItemMessage(hdlg, IDC_STATUS, LB_SETTOPINDEX, i, 0);
+			int i = SendDlgItemMessage(m_hwnd, IDC_STATUS, LB_ADDSTRING, 0, lParam);
+			SendDlgItemMessage(m_hwnd, IDC_STATUS, LB_SETTOPINDEX, i, 0);
 		}
 		break;
 
 	case PROGM_START:
-		MirandaImport(hdlg);
+		MirandaImport(m_hwnd);
 		if (g_bServiceMode && !g_bSendQuit)
 			DestroyWindow(g_hwndWizard);
 		else {
-			SendMessage(GetParent(hdlg), WIZM_ENABLEBUTTON, 1, 0);
-			SendMessage(GetParent(hdlg), WIZM_ENABLEBUTTON, 2, 0);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_FINISHED, (LPARAM)FinishedPageProc);
-			break;
-		case IDCANCEL:
-			PostMessage(GetParent(hdlg), WM_CLOSE, 0, 0);
-			break;
+			SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 1, 0);
+			SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 2, 0);
 		}
 		break;
 	}
-	return FALSE;
+
+	return CWizardPageDlg::DlgProc(uMsg, wParam, lParam);
 }

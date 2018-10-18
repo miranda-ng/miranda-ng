@@ -22,153 +22,183 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Intro wizard page
+
+CIntroPageDlg::CIntroPageDlg() :
+	CWizardPageDlg(IDD_WIZARDINTRO)
+{}
+
+bool CIntroPageDlg::OnInitDialog()
 {
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		SendMessage(GetParent(hdlg), WIZM_DISABLEBUTTON, 0, 0);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_MIRANDADB, (LPARAM)MirandaPageProc);
-			break;
-
-		case IDCANCEL:
-			PostMessage(GetParent(hdlg), WM_CLOSE, 0, 0);
-			break;
-		}
-	}
-
-	return FALSE;
+	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 0, 0);
+	return true;
 }
 
-INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM)
+void CIntroPageDlg::OnNext()
 {
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		SendMessage(GetParent(hdlg), WIZM_DISABLEBUTTON, 0, 0);
-		SendMessage(GetParent(hdlg), WIZM_SETCANCELTEXT, 0, (LPARAM)TranslateT("Finish"));
-		CheckDlgButton(hdlg, IDC_DONTLOADPLUGIN, BST_UNCHECKED);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_MIRANDADB, (LPARAM)MirandaPageProc);
-			break;
-
-		case IDCANCEL:
-			if (IsDlgButtonChecked(hdlg, IDC_DONTLOADPLUGIN)) {
-				char sModuleFileName[MAX_PATH];
-				GetModuleFileNameA(g_plugin.getInst(), sModuleFileName, sizeof(sModuleFileName));
-				char *pszFileName = strrchr(sModuleFileName, '\\');
-				if (pszFileName == nullptr)
-					pszFileName = sModuleFileName;
-				else
-					pszFileName++;
-
-				// We must lower case here because if a DLL is loaded in two
-				// processes, its file name from GetModuleFileName in one process may
-				// differ in case from its file name in the other process. This will
-				// prevent the plugin from disabling/enabling correctly (this fix relies
-				// on the plugin loader to ignore case)
-				CharLowerA(pszFileName);
-				db_set_b(NULL, "PluginDisable", pszFileName, 1);
-			}
-			PostMessage(GetParent(hdlg), WM_CLOSE, 0, 0);
-			break;
-		}
-		break;
-	}
-
-	return FALSE;
+	PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CMirandaPageDlg());
 }
 
-INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Final wizard page
+
+CFinishedPageDlg::CFinishedPageDlg() :
+	CWizardPageDlg(IDD_FINISHED)
+{}
+
+bool CFinishedPageDlg::OnInitDialog()
 {
-	static HWND hwndPage = nullptr;
-	bool bFirstLaunch = hwndPage == nullptr;
+	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 0, 0);
+	SendMessage(m_hwndParent, WIZM_SETCANCELTEXT, 0, (LPARAM)TranslateT("Finish"));
+	CheckDlgButton(m_hwnd, IDC_DONTLOADPLUGIN, BST_UNCHECKED);
+	return true;
+}
 
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		Window_SetIcon_IcoLib(hdlg, GetIconHandle(IDI_IMPORT));
-		g_hwndWizard = hdlg;
-		{
-			WizardDlgParam *param = (WizardDlgParam*)lParam;
-			if (param)
-				PostMessage(hdlg, WIZM_GOTOPAGE, param->wParam, param->lParam);
-		}
-		return TRUE;
+void CFinishedPageDlg::OnNext()
+{
+	PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CMirandaPageDlg());
+}
 
-	case WIZM_GOTOPAGE:
+void CFinishedPageDlg::OnCancel()
+{
+	if (IsDlgButtonChecked(m_hwnd, IDC_DONTLOADPLUGIN))
+		db_set_b(NULL, "PluginDisable", "import", 1);
+
+	CWizardPageDlg::OnCancel();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CWizardPageDlg::CWizardPageDlg(int iDlgId) :
+	CDlgBase(g_plugin, iDlgId),
+	btnOk(this, IDOK),
+	btnCancel(this, IDCANCEL)
+{
+	m_autoClose = 0; // disable built-in IDOK & IDCANCEL handlers;
+
+	btnOk.OnClick = Callback(this, &CWizardPageDlg::onClick_Ok);
+	btnCancel.OnClick = Callback(this, &CWizardPageDlg::onClick_Cancel);
+}
+
+void CWizardPageDlg::OnCancel()
+{
+	PostMessage(m_hwndParent, WM_CLOSE, 0, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CWizardDlg : public CDlgBase
+{
+	CWizardPageDlg *m_pFirstPage;
+	HWND hwndPage = nullptr;
+
+public:
+	CWizardDlg(CWizardPageDlg *pPage) :
+		CDlgBase(g_plugin, IDD_WIZARD),
+		m_pFirstPage(pPage)
+	{
+		m_autoClose = CLOSE_ON_CANCEL;
+	}
+
+	bool OnInitDialog() override
+	{
+		Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_IMPORT));
+		g_hwndWizard = m_hwnd;
+
+		if (m_pFirstPage)
+			PostMessage(m_hwnd, WIZM_GOTOPAGE, 0, (LPARAM)m_pFirstPage);
+		return true;
+	}
+
+	bool OnClose() override
+	{
 		if (hwndPage)
 			DestroyWindow(hwndPage);
-		EnableWindow(GetDlgItem(hdlg, IDC_BACK), TRUE);
-		EnableWindow(GetDlgItem(hdlg, IDOK), TRUE);
-		EnableWindow(GetDlgItem(hdlg, IDCANCEL), TRUE);
-		SetDlgItemText(hdlg, IDCANCEL, TranslateT("Cancel"));
-		hwndPage = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(wParam), hdlg, (DLGPROC)lParam);
-		SetWindowPos(hwndPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-		ShowWindow(hwndPage, SW_SHOW);
-		if (bFirstLaunch)
-			ShowWindow(hdlg, SW_SHOW);
-		break;
+		return true;
+	}
 
-	case WIZM_DISABLEBUTTON:
-		switch (wParam) {
-		case 0:
-			EnableWindow(GetDlgItem(hdlg, IDC_BACK), FALSE);
-			break;
-
-		case 1:
-			EnableWindow(GetDlgItem(hdlg, IDOK), FALSE);
-			break;
-
-		case 2:
-			EnableWindow(GetDlgItem(hdlg, IDCANCEL), FALSE);
-			break;
-		}
-		break;
-
-	case WIZM_ENABLEBUTTON:
-		switch (wParam) {
-		case 0:
-			EnableWindow(GetDlgItem(hdlg, IDC_BACK), TRUE);
-			break;
-
-		case 1:
-			EnableWindow(GetDlgItem(hdlg, IDOK), TRUE);
-			break;
-
-		case 2:
-			EnableWindow(GetDlgItem(hdlg, IDCANCEL), TRUE);
-			break;
-		}
-		break;
-
-	case WIZM_SETCANCELTEXT:
-		SetDlgItemText(hdlg, IDCANCEL, (wchar_t*)lParam);
-		break;
-
-	case WM_COMMAND:
-		SendMessage(hwndPage, WM_COMMAND, wParam, lParam);
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndPage);
-		DestroyWindow(hdlg);
-		break;
-
-	case WM_DESTROY:
-		g_hwndWizard = hwndPage = nullptr;
+	void OnDestroy() override
+	{
+		g_hwndWizard = nullptr;
 		if (g_bSendQuit)
 			PostQuitMessage(0);
 	}
 
-	return FALSE;
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	{
+		bool bFirstLaunch = hwndPage == nullptr;
+
+		switch (uMsg) {
+		case WIZM_GOTOPAGE:
+			if (hwndPage)
+				DestroyWindow(hwndPage);
+			EnableWindow(GetDlgItem(m_hwnd, IDC_BACK), TRUE);
+			EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
+			EnableWindow(GetDlgItem(m_hwnd, IDCANCEL), TRUE);
+			SetDlgItemText(m_hwnd, IDCANCEL, TranslateT("Cancel"));
+			{
+				CWizardPageDlg *pPage = (CWizardPageDlg*)lParam;
+				pPage->SetParent(m_hwnd);
+				pPage->Show();
+				hwndPage = pPage->GetHwnd();
+			}
+			SetWindowPos(hwndPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			if (bFirstLaunch)
+				ShowWindow(m_hwnd, SW_SHOW);
+			break;
+
+		case WIZM_DISABLEBUTTON:
+			switch (wParam) {
+			case 0:
+				EnableWindow(GetDlgItem(m_hwnd, IDC_BACK), FALSE);
+				break;
+
+			case 1:
+				EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
+				break;
+
+			case 2:
+				EnableWindow(GetDlgItem(m_hwnd, IDCANCEL), FALSE);
+				break;
+			}
+			break;
+
+		case WIZM_ENABLEBUTTON:
+			switch (wParam) {
+			case 0:
+				EnableWindow(GetDlgItem(m_hwnd, IDC_BACK), TRUE);
+				break;
+
+			case 1:
+				EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
+				break;
+
+			case 2:
+				EnableWindow(GetDlgItem(m_hwnd, IDCANCEL), TRUE);
+				break;
+			}
+			break;
+
+		case WIZM_SETCANCELTEXT:
+			SetDlgItemText(m_hwnd, IDCANCEL, (wchar_t*)lParam);
+			break;
+
+		case WM_COMMAND:
+			SendMessage(hwndPage, WM_COMMAND, wParam, lParam);
+			break;
+		}
+
+		return CDlgBase::DlgProc(uMsg, wParam, lParam);
+	}
+};
+
+LRESULT RunWizard(CWizardPageDlg *pPage, bool bModal)
+{
+	if (bModal)
+		return CWizardDlg(pPage).DoModal();
+
+	CWizardDlg *pDlg = new CWizardDlg(pPage);
+	pDlg->Show();
+	return 0;
 }

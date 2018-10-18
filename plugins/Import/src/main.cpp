@@ -100,17 +100,14 @@ static INT_PTR ServiceMode(WPARAM wParam, LPARAM)
 		if (!_waccess(wszFullName, 0)) {
 			g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE + IOPT_CHECKDUPS;
 			wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
-
-			WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
-			DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+			RunWizard(new CProgressPageDlg(), true);
 		}
 		return SERVICE_CONTINUE;
 	}
 
 	g_bSendQuit = true;
 
-	WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
+	RunWizard(new CIntroPageDlg(), false);
 	return SERVICE_ONLYDB;
 }
 
@@ -120,9 +117,7 @@ static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 	wcsncpy_s(importFile, MAX_PATH, opts->pwszFileName, _TRUNCATE);
 	g_iImportOptions = opts->dwFlags;
 	g_hImportContact = 0;
-
-	WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
-	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+	return RunWizard(new CProgressPageDlg(), true);
 }
 
 static INT_PTR ImportContact(WPARAM hContact, LPARAM)
@@ -133,9 +128,7 @@ static INT_PTR ImportContact(WPARAM hContact, LPARAM)
 
 	g_hImportContact = hContact;
 	g_iImportOptions = IOPT_HISTORY + dlg.getFlags();
-
-	WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
-	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+	return RunWizard(new CProgressPageDlg(), true);
 }
 
 static INT_PTR ImportCommand(WPARAM, LPARAM)
@@ -144,10 +137,7 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 		SetForegroundWindow(g_hwndWizard);
 		SetFocus(g_hwndWizard);
 	}
-	else {
-		WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
-	}
+	else RunWizard(new CIntroPageDlg(), false);
 
 	return 0;
 }
