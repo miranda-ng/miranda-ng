@@ -139,6 +139,43 @@ BEGIN
     CONTROL         "",IDC_LIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,4,4,304,124
 END
 
+IDD_IMPORT_CONTACT DIALOGEX 0, 0, 361, 76
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,247,55,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,304,55,50,14
+    EDITTEXT        IDC_FILENAME,7,23,321,15,ES_AUTOHSCROLL
+    LTEXT           "Enter file name for import:",IDC_STATIC,8,10,322,8
+    PUSHBUTTON      "...",IDC_OPEN_FILE,332,23,21,15,0,WS_EX_STATICEDGE
+    CONTROL         "Check duplicates",IDC_CHECK_DUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,44,316,9
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_LIST MENU
+BEGIN
+    POPUP "Context1"
+    BEGIN
+        MENUITEM "Copy",                        IDM_COPY
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_IMPORT              ICON                    "import.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -224,47 +261,7 @@ BEGIN
         TOPMARGIN, 4
         BOTTOMMARGIN, 146
     END
-END
-#endif    // APSTUDIO_INVOKED
 
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_IMPORT_CONTACT DIALOGEX 0, 0, 361, 76
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_APPWINDOW
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,247,55,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,304,55,50,14
-    EDITTEXT        IDC_FILENAME,7,23,321,15,ES_AUTOHSCROLL
-    LTEXT           "Enter file name for import:",IDC_STATIC,8,10,322,8
-    PUSHBUTTON      "...",IDC_OPEN_FILE,332,23,21,15,0,WS_EX_STATICEDGE
-    CONTROL         "Check duplicates",IDC_CHECK_DUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,44,316,9
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
     IDD_IMPORT_CONTACT, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -275,41 +272,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_IMPORT_CONTACT AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_LIST MENU
-BEGIN
-	POPUP "Context1"
-	BEGIN
-		MENUITEM "Copy", IDM_COPY
-	END
-END
-
-#endif    // Russian (Russia) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United Kingdom) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
-#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -336,17 +298,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_IMPORT              ICON                    "import.ico"
-
-#endif    // English (United Kingdom) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 
