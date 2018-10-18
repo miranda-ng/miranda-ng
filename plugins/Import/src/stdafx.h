@@ -74,10 +74,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define WIZM_SETCANCELTEXT  (WM_USER+12)  // lParam=(char*)newText
 #define WIZM_ENABLEBUTTON   (WM_USER+13)  // wParam=0:back, 1:next, 2:cancel
 
-#define PROGM_SETPROGRESS   (WM_USER+10)  // wParam=0..100
-#define PROGM_ADDMESSAGE    (WM_USER+11)  // lParam=(char*)szText
-#define PROGM_START         (WM_USER+100)
-
 class CWizardPageDlg : public CDlgBase
 {
 	CCtrlButton btnOk, btnCancel;
@@ -93,8 +89,9 @@ public:
 	void onClick_Cancel(CCtrlButton*) { OnCancel(); }
 };
 
-void AddMessage(const wchar_t* fmt, ...);
+void    AddMessage(const wchar_t* fmt, ...);
 LRESULT RunWizard(CWizardPageDlg*, bool bModal);
+void    SetProgress(int);
 
 class CIntroPageDlg : public CWizardPageDlg
 {
@@ -107,12 +104,20 @@ public:
 
 class CProgressPageDlg : public CWizardPageDlg
 {
+	CCtrlListBox m_list;
+	CTimer m_timer;
+
 public:
 	CProgressPageDlg();
 
 	bool OnInitDialog() override;
+	void OnDestroy() override;
 	void OnNext() override;
-	INT_PTR DlgProc(UINT, WPARAM, LPARAM) override;
+	
+	void OnTimer(CTimer*);
+
+	void AddMessage(const wchar_t *pMsg);
+	void SetProgress(int);
 };
 
 class CMirandaPageDlg : public CWizardPageDlg
@@ -120,7 +125,7 @@ class CMirandaPageDlg : public CWizardPageDlg
 	void SearchForLists(const wchar_t *mirandaPath, const wchar_t *mirandaProf);
 
 	CCtrlButton btnBack, btnOther;
-	CCtrlListBox list;
+	CCtrlListBox m_list;
 
 public:
 	CMirandaPageDlg();

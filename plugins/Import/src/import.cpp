@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define SetProgress(n)  SendMessage(hdlgProgress,PROGM_SETPROGRESS,n,0)
-
 struct AccountMap
 {
 	AccountMap(const char *_src, int _origIdx, const wchar_t *_srcName) :
@@ -73,21 +71,8 @@ static LIST<DBCachedContact> arMetas(10);
 /////////////////////////////////////////////////////////////////////////////////////////
 // local data
 
-static HWND hdlgProgress;
 static DWORD nDupes, nContactsCount, nMessagesCount, nGroupsCount, nSkippedEvents, nSkippedContacts;
 static MDatabaseCommon *srcDb, *dstDb;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void AddMessage(const wchar_t* fmt, ...)
-{
-	va_list args;
-	wchar_t msgBuf[4096];
-	va_start(args, fmt);
-	mir_vsnwprintf(msgBuf, TranslateW(fmt), args);
-
-	SendMessage(hdlgProgress, PROGM_ADDMESSAGE, 0, (LPARAM)msgBuf);
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1035,10 +1020,8 @@ static int CompareModules(const char *p1, const char *p2)
 	return mir_strcmpi(p1, p2);
 }
 
-void MirandaImport(HWND hdlg)
+void MirandaImport()
 {
-	hdlgProgress = hdlg;
-
 	if ((dstDb = (MDatabaseCommon*)db_get_current()) == nullptr) {
 		AddMessage(LPGENW("Error retrieving current profile, exiting."));
 		return;

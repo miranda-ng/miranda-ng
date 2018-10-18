@@ -22,20 +22,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-void MirandaImport(HWND);
+#define PROGM_START (WM_USER+100)
+
+static CProgressPageDlg *pDlg;
+
+void MirandaImport(void);
 
 CProgressPageDlg::CProgressPageDlg() :
-	CWizardPageDlg(IDD_PROGRESS)
-{}
+	CWizardPageDlg(IDD_PROGRESS),
+	m_list(this, IDC_STATUS),
+	m_timer(this, 1)
+{
+	m_timer.OnEvent = Callback(this, &CProgressPageDlg::OnTimer);
+}
 
 bool CProgressPageDlg::OnInitDialog()
 {
+	pDlg = this;
 	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 0, 0);
 	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 1, 0);
 	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 2, 0);
 	SendDlgItemMessage(m_hwnd, IDC_PROGRESS, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
-	PostMessage(m_hwnd, PROGM_START, 0, 0);
+	m_timer.Start(50);
 	return true;
+}
+
+void CProgressPageDlg::OnDestroy()
+{
+	pDlg = nullptr;
 }
 
 void CProgressPageDlg::OnNext()
@@ -43,30 +57,45 @@ void CProgressPageDlg::OnNext()
 	PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CFinishedPageDlg());
 }
 
-INT_PTR CProgressPageDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+void CProgressPageDlg::OnTimer(CTimer*)
 {
-	switch (uMsg) {
-	case PROGM_SETPROGRESS:
-		SendDlgItemMessage(m_hwnd, IDC_PROGRESS, PBM_SETPOS, wParam, 0);
-		break;
+	m_timer.Stop();
 
-	case PROGM_ADDMESSAGE:
-		{
-			int i = SendDlgItemMessage(m_hwnd, IDC_STATUS, LB_ADDSTRING, 0, lParam);
-			SendDlgItemMessage(m_hwnd, IDC_STATUS, LB_SETTOPINDEX, i, 0);
-		}
-		break;
-
-	case PROGM_START:
-		MirandaImport(m_hwnd);
-		if (g_bServiceMode && !g_bSendQuit)
-			DestroyWindow(g_hwndWizard);
-		else {
-			SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 1, 0);
-			SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 2, 0);
-		}
-		break;
+	MirandaImport();
+	if (g_bServiceMode && !g_bSendQuit)
+		DestroyWindow(g_hwndWizard);
+	else {
+		SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 1, 0);
+		SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 2, 0);
 	}
-
-	return CWizardPageDlg::DlgProc(uMsg, wParam, lParam);
 }
+
+void CProgressPageDlg::AddMessage(const wchar_t *pMsg)
+{
+	m_list.SendMsg(LB_SETTOPINDEX, m_list.AddString(pMsg, 0), 0);
+}
+
+void CProgressPageDlg::SetProgress(int n)
+{
+	SendDlgItemMessage(m_hwnd, IDC_PROGRESS, PBM_SETPOS, n, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void AddMessage(const wchar_t *fmt, ...)
+{
+	va_list args;
+	wchar_t msgBuf[4096];
+	va_start(args, fmt);
+	mir_vsnwprintf(msgBuf, TranslateW(fmt), args);
+
+	if (pDlg)
+		pDlg->AddMessage(msgBuf);
+}
+
+void SetProgress(int n)
+{
+	if (pDlg)
+		pDlg->SetProgress(n);
+}
+

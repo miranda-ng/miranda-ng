@@ -31,11 +31,11 @@ wchar_t importFile[MAX_PATH];
 
 CMirandaPageDlg::CMirandaPageDlg() :
 	CWizardPageDlg(IDD_MIRANDADB),
-	list(this, IDC_LIST),
+	m_list(this, IDC_LIST),
 	btnBack(this, IDC_BACK),
 	btnOther(this, IDC_OTHER)
 {
-	list.OnSelChange = Callback(this, &CMirandaPageDlg::onSelChanged_list);
+	m_list.OnSelChange = Callback(this, &CMirandaPageDlg::onSelChanged_list);
 
 	btnBack.OnClick = Callback(this, &CMirandaPageDlg::onClick_Back);
 	btnOther.OnClick = Callback(this, &CMirandaPageDlg::onClick_Other);
@@ -110,16 +110,16 @@ void CMirandaPageDlg::onClick_Other(CCtrlButton*)
 		}
 
 		SetDlgItemText(m_hwnd, IDC_FILENAME, str);
-		list.SetCurSel(-1);
+		m_list.SetCurSel(-1);
 		SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 1, 0);
 	}
 }
 
 void CMirandaPageDlg::onSelChanged_list(CCtrlListBox*)
 {
-	int sel = list.GetCurSel();
+	int sel = m_list.GetCurSel();
 	if (sel != -1) {
-		SetDlgItemText(m_hwnd, IDC_FILENAME, (wchar_t*)list.GetItemData(sel));
+		SetDlgItemText(m_hwnd, IDC_FILENAME, (wchar_t*)m_list.GetItemData(sel));
 		SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 1, 0);
 	}
 }
@@ -148,7 +148,7 @@ void CMirandaPageDlg::SearchForLists(const wchar_t *mirandaPath, const wchar_t *
 		mir_snwprintf(buf, L"%s\\%s\\%s.dat", mirandaPath, fd.cFileName, fd.cFileName);
 		if (_waccess(buf, 0) == 0) {
 			mir_snwprintf(profile, L"%s.dat", fd.cFileName);
-			list.AddString(profile, (LPARAM)mir_wstrdup(buf));
+			m_list.AddString(profile, (LPARAM)mir_wstrdup(buf));
 		}
 	} while (FindNextFile(hFind, &fd));
 
